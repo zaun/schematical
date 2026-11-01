@@ -28,7 +28,7 @@ The same as plan-07-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-07-C complete | `ls planning/plan-07-C-* 2>/dev/null` → no output | NOT MET (2026-11-01) |
+| plan-07-C complete | `ls planning/plan-07-C-* 2>/dev/null` → no output | MET (2026-11-01: `ls planning/plan-07-C-*` → no matches; archived in e745682) |
 
 ## 1. Goal
 
@@ -82,14 +82,18 @@ behavior-neutral (see Non-goals).
 
 ### Phase 1 — OR and NOR devices
 
-- [ ] Run plan-07-C §4 on the 12 OR and 14 NOR devices (80 entries).
-- [ ] Regenerate `parts.txt`.
+- [x] Run plan-07-C §4 on the 12 OR and 14 NOR devices (80 entries).
+- [x] Regenerate `parts.txt`.
 
 Acceptance: every OR and NOR part has a range, and no other field changed.
   Check: the plan-07-C Phase 1 script with `in ('OR','NOR')` → `0`;
   `git diff --quiet backend/tests/golden/traces.txt` → exit 0;
   `git diff -U0 backend/tests/golden/parts.txt | grep '^+[^+]' | grep -vc '|vcc='`
   → `0` (est. 1 min).
+  Result (2026-11-01): script → `0`; traces `git diff --quiet` → exit 0
+  (`trace_check` exit 0); `… | grep -vc '|vcc='` → `0`, and the 855 changed
+  lines differ only by `|vcc=` (`855 855 True`). `verify.py` → `434 parts
+  checked, 0 mismatches` (OR), `421 parts checked, 0 mismatches` (NOR).
 Commit: —
 
 ### Phase 2 — XOR and XNOR devices
@@ -117,6 +121,21 @@ Commit: —
 See plan-07-A § Decisions and plan-07-C § Decisions.
 
 ## Corrections
+
+- **Run the same way as plan-07-C** (see its Corrections): research agents
+  per batch (OR; NOR; XOR + XNOR together with the JK flip-flops) wrote
+  `/tmp/p07/data/{or,nor,xor-jk}.json`; `/tmp/p07s/apply.py` applied them;
+  `/tmp/p07s/verify.py` compared every listed value with the readings.
+- **The OR batch wrote `inputMax` 5.5 on the LVC 1G/2G entries**, where VI
+  max equals VCC max. The apply step drops an `inputMax` that is not above
+  the `vcc` max (plan-07-C Decisions), so those entries carry no
+  `inputMax`, like the other batches. The listed value is the same
+  (`in=` = the `vcc` max either way), e.g. SN74LVC1G32DBVR
+  `vcc=1650-5500,in=5500`.
+- **74_02 LVC is a 13–13 tie** (SN74LVC02A 1.65–3.6 vs SN54/5962/-Q1/-EP
+  2–3.6): the entry takes the SN74 range (plan-07-C tie rule).
+- **CD4070B/4077B** (`cd4070b` p.4) print only "Supply Voltage Range
+  (Typical) 3V to 18V", used as [3, 18].
 
 ## Summary
 

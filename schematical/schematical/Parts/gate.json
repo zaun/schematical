@@ -357,6 +357,7 @@
       "function": "NOR",
       "description": "Quad 2-input NOR gate",
       "drawer": ["Logic"],
+      "note": "SN74AC02PWRQ1, SN74AC02WBQARQ1: VCC 1.5-6 V (sn74ac02 p.4) | 5962-9760401QCA, 5962-9760401QDA, SNJ54LVC02AJ, SNJ54LVC02AW, 5962-9760401Q2A, SNJ54LVC02AFK: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc02a p.4) | SN74LVC02AMPWREP, V62/06660-01XE: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc02a-ep p.2) | SN74LVC02AQDRG4Q1, SN74LVC02AQDRQ1, SN74LVC02AQPWRG4Q1, SN74LVC02AQPWRQ1, SN74LVC02AWBQARQ1: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc02a-q1 p.4) | SN54LS02J, SNJ54LS02J, SNJ54LS02W, SNJ54LS02FK: VCC 4.5-5.5 V (sn74ls02 p.4) | SN74S02D, SN74S02N: VCC 4.75-5.25 V (sn74ls02 p.5)",
       "pinouts": {
         "p14": [
           {"number":1,"name":"1Y","role":"output"},
@@ -404,21 +405,21 @@
         {"op":"nor","inputs":["4A","4B"],"output":"4Y"}
       ],
       "timing": {
-        "HC": {"rise":9,"fall":9,"note": "Typical at 4.5 V and 25 C (50 pF load)."},
-        "HCT": {"rise":11,"fall":11,"note": "Typical at 4.5 V and 25 C (50 pF load)."},
-        "HCS": {"rise":7,"fall":7,"note": "Typical at 4.5 V and 25 C, SN74HCS02."},
-        "AC": {"rise":5.4,"fall":5.1,"note": "Typical at 5 V and 25 C (50 pF load)."},
-        "ACT": {"rise":5.8,"fall":4.2,"note": "Typical at 5 V and 25 C (50 pF load)."},
-        "AHC": {"rise":5.1,"fall":5.1,"note": "Typical at 5 V and 25 C (50 pF load)."},
-        "AHCT": {"rise":3.4,"fall":4.5,"note": "Typical at 5 V and 25 C (50 pF load)."},
-        "LV": {"rise":7.6,"fall":7.6,"note": "Typical at 3.3 V and 25 C (50 pF load), SN74LV02A."},
-        "LVC": {"rise":3.6,"fall":3.6,"note": "Typical at 3.3 V and 25 C (50 pF load), SN74LVC02A."},
-        "AUC": {"rise":0.9,"fall":0.9,"note": "Typical at 1.8 V and 25 C (15 pF load), SN74AUC02."},
-        "LS": {"rise":10,"fall":10,"note": "Typical at 5 V and 25 C (15 pF load)."},
-        "ALS": {"rise":12,"fall":10,"note": "Maximum at 5 V over the recommended temperature range."},
-        "AS": {"rise":4.5,"fall":4.5,"note": "Maximum at 5 V over the recommended temperature range."},
-        "S": {"rise":3.5,"fall":3.5,"note": "Typical at 5 V and 25 C (15 pF load), SN74S02."},
-        "F": {"rise":4,"fall":2.8,"note": "Typical at 5 V and 25 C (50 pF load)."}
+        "HC": {"rise":9,"fall":9,"vcc":[2,6],"note": "Typical at 4.5 V and 25 C (50 pF load). VCC 2-6 V (sn74hc02 p.4)"},
+        "HCT": {"rise":11,"fall":11,"vcc":[4.5,5.5],"note": "Typical at 4.5 V and 25 C (50 pF load). VCC 4.5-5.5 V (sn74hct02 p.4)"},
+        "HCS": {"rise":7,"fall":7,"vcc":[2,6],"note": "Typical at 4.5 V and 25 C, SN74HCS02. VCC 2-6 V (sn74hcs02 p.4)"},
+        "AC": {"rise":5.4,"fall":5.1,"vcc":[1.5,5.5],"note": "Typical at 5 V and 25 C (50 pF load). VCC 1.5-5.5 V (cd74ac02 p.4)"},
+        "ACT": {"rise":5.8,"fall":4.2,"vcc":[4.5,5.5],"note": "Typical at 5 V and 25 C (50 pF load). VCC 4.5-5.5 V (cd74act02 p.2)"},
+        "AHC": {"rise":5.1,"fall":5.1,"vcc":[2,5.5],"note": "Typical at 5 V and 25 C (50 pF load). VCC 2-5.5 V (sn74ahc02 p.4)"},
+        "AHCT": {"rise":3.4,"fall":4.5,"vcc":[4.5,5.5],"note": "Typical at 5 V and 25 C (50 pF load). VCC 4.5-5.5 V (sn74ahct02 p.4)"},
+        "LV": {"rise":7.6,"fall":7.6,"vcc":[2,5.5],"note": "Typical at 3.3 V and 25 C (50 pF load), SN74LV02A. VCC 2-5.5 V (sn74lv02a p.5)"},
+        "LVC": {"rise":3.6,"fall":3.6,"vcc":[1.65,3.6],"inputMax":5.5,"note": "Typical at 3.3 V and 25 C (50 pF load), SN74LVC02A. VCC 1.65-3.6 V, inputs to 5.5 V (sn74lvc02a p.4)"},
+        "AUC": {"rise":0.9,"fall":0.9,"vcc":[0.8,2.7],"inputMax":3.6,"note": "Typical at 1.8 V and 25 C (15 pF load), SN74AUC02. VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc02 p.2)"},
+        "LS": {"rise":10,"fall":10,"vcc":[4.75,5.25],"note": "Typical at 5 V and 25 C (15 pF load). VCC 4.75-5.25 V (sn74ls02 p.4)"},
+        "ALS": {"rise":12,"fall":10,"vcc":[4.5,5.5],"note": "Maximum at 5 V over the recommended temperature range. VCC 4.5-5.5 V (sn74als02 p.2)"},
+        "AS": {"rise":4.5,"fall":4.5,"vcc":[4.5,5.5],"note": "Maximum at 5 V over the recommended temperature range. VCC 4.5-5.5 V (sn74als02 p.3)"},
+        "S": {"rise":3.5,"fall":3.5,"vcc":[4.5,5.5],"note": "Typical at 5 V and 25 C (15 pF load), SN74S02. VCC 4.5-5.5 V (sn74ls02 p.5)"},
+        "F": {"rise":4,"fall":2.8,"vcc":[4.5,5.5],"note": "Typical at 5 V and 25 C (50 pF load). VCC 4.5-5.5 V (sn74f02 p.2)"}
       },
       "parts": [
         {"name":"5962-8404101VCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military"]},
@@ -486,8 +487,8 @@
         {"name":"CD74AC02M","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC","flags":["obsolete"]},
         {"name":"CD74AC02M96","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC"},
         {"name":"CD74AC02PWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC"},
-        {"name":"SN74AC02PWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC","flags":["automotive"]},
-        {"name":"SN74AC02WBQARQ1","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"AC","flags":["automotive"]},
+        {"name":"SN74AC02PWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
+        {"name":"SN74AC02WBQARQ1","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
         {"name":"CD54ACT02F3A","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"ACT","flags":["military"]},
         {"name":"CD74ACT02BQAR","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"ACT"},
         {"name":"CD74ACT02E","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"ACT"},
@@ -543,32 +544,32 @@
         {"name":"SN74LV02APWT","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV","flags":["obsolete"]},
         {"name":"SN74LV02ARGYR","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"LV"},
         {"name":"SN74LV02ARGYRG4","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"LV"},
-        {"name":"5962-9760401QCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LVC","flags":["military"]},
-        {"name":"5962-9760401QDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LVC","flags":["military"]},
+        {"name":"5962-9760401QCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LVC","flags":["military"],"vcc":[2,3.6]},
+        {"name":"5962-9760401QDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LVC","flags":["military"],"vcc":[2,3.6]},
         {"name":"SN74LVC02ABQAR","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"LVC"},
         {"name":"SN74LVC02AD","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC"},
         {"name":"SN74LVC02ADBR","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"LVC"},
         {"name":"SN74LVC02ADR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC"},
         {"name":"SN74LVC02ADRG4","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC"},
-        {"name":"SN74LVC02AMPWREP","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["enhanced"]},
+        {"name":"SN74LVC02AMPWREP","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["enhanced"],"vcc":[2,3.6]},
         {"name":"SN74LVC02ANSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LVC"},
         {"name":"SN74LVC02APW","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
         {"name":"SN74LVC02APWE4","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
         {"name":"SN74LVC02APWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
         {"name":"SN74LVC02APWR1G4","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
         {"name":"SN74LVC02APWT","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
-        {"name":"SN74LVC02AQDRG4Q1","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC","flags":["automotive"]},
-        {"name":"SN74LVC02AQDRQ1","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC","flags":["automotive"]},
-        {"name":"SN74LVC02AQPWRG4Q1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["automotive"]},
-        {"name":"SN74LVC02AQPWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["automotive"]},
+        {"name":"SN74LVC02AQDRG4Q1","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
+        {"name":"SN74LVC02AQDRQ1","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
+        {"name":"SN74LVC02AQPWRG4Q1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
+        {"name":"SN74LVC02AQPWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
         {"name":"SN74LVC02ARGYR","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"LVC"},
         {"name":"SN74LVC02ARGYRG4","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"LVC"},
-        {"name":"SN74LVC02AWBQARQ1","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"LVC","flags":["automotive"]},
-        {"name":"SNJ54LVC02AJ","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LVC","flags":["military"]},
-        {"name":"SNJ54LVC02AW","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LVC","flags":["military"]},
-        {"name":"V62/06660-01XE","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["enhanced"]},
+        {"name":"SN74LVC02AWBQARQ1","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
+        {"name":"SNJ54LVC02AJ","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LVC","flags":["military"],"vcc":[2,3.6]},
+        {"name":"SNJ54LVC02AW","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LVC","flags":["military"],"vcc":[2,3.6]},
+        {"name":"V62/06660-01XE","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["enhanced"],"vcc":[2,3.6]},
         {"name":"SN74AUC02RGYR","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"AUC"},
-        {"name":"SN54LS02J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"]},
+        {"name":"SN54LS02J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
         {"name":"SN74LS02D","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS","flags":["obsolete"]},
         {"name":"SN74LS02DR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
         {"name":"SN74LS02DRE4","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
@@ -576,8 +577,8 @@
         {"name":"SN74LS02NE4","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
         {"name":"SN74LS02NSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LS"},
         {"name":"SN74LS02NSRG4","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LS"},
-        {"name":"SNJ54LS02J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"]},
-        {"name":"SNJ54LS02W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"]},
+        {"name":"SNJ54LS02J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS02W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
         {"name":"5962-8684401DA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"ALS","flags":["military"]},
         {"name":"SN54ALS02AJ","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"ALS","flags":["military"]},
         {"name":"SN74ALS02AD","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ALS","flags":["obsolete"]},
@@ -592,8 +593,8 @@
         {"name":"SN74AS02NSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"AS"},
         {"name":"SNJ54AS02J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"AS","flags":["military"]},
         {"name":"SN54S02J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"S","flags":["military"]},
-        {"name":"SN74S02D","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"S"},
-        {"name":"SN74S02N","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"S"},
+        {"name":"SN74S02D","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"S","vcc":[4.75,5.25]},
+        {"name":"SN74S02N","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"S","vcc":[4.75,5.25]},
         {"name":"SNJ54S02J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"S","flags":["military"]},
         {"name":"5962-9757801QCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"F","flags":["military"]},
         {"name":"5962-9757801QDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"F","flags":["military"]},
@@ -617,9 +618,9 @@
         {"name":"SNJ54AHC02FK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"AHC","flags":["military"]},
         {"name":"5962-9757101Q2A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"AHCT","flags":["military"]},
         {"name":"SNJ54AHCT02FK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"AHCT","flags":["military"]},
-        {"name":"5962-9760401Q2A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LVC","flags":["military"]},
-        {"name":"SNJ54LVC02AFK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LVC","flags":["military"]},
-        {"name":"SNJ54LS02FK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military"]},
+        {"name":"5962-9760401Q2A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LVC","flags":["military"],"vcc":[2,3.6]},
+        {"name":"SNJ54LVC02AFK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LVC","flags":["military"],"vcc":[2,3.6]},
+        {"name":"SNJ54LS02FK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
         {"name":"5962-86844012A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
         {"name":"SNJ54ALS02AFK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
         {"name":"SNJ54AS02FK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"AS","flags":["military"]},
@@ -993,6 +994,7 @@
       "function": "OR",
       "description": "Quad 2-input OR gate",
       "drawer": ["Logic"],
+      "note": "CD54AC32F3A, CD74AC32E, CD74AC32EE4, CD74AC32M, CD74AC32M96, CD74AC32M96G4: VCC 1.5-5.5 V (cd74ac32 p.4) | SN74AC32PWRQ1, SN74AC32WBQARQ1: VCC 1.5-6 V (sn74ac32-q1 p.4) | SN74LVC32ABQAR, SN74LVC32AD, SN74LVC32ADBR, SN74LVC32ADBRG4, SN74LVC32ADR, SN74LVC32ADRE4, SN74LVC32ADT, SN74LVC32ANSR, SN74LVC32APW, SN74LVC32APWE4, SN74LVC32APWG4, SN74LVC32APWR, SN74LVC32APWRE4, SN74LVC32APWRG3, SN74LVC32APWRG4, SN74LVC32APWT, SN74LVC32ARGYR, SN74LVC32ARGYRG4: VCC 1.65-3.6 V, inputs to 5.5 V (sn74lvc32a p.5 (SN74LVC32A table)) | SN54LS32J, SNJ54LS32J, SNJ54LS32W, SNJ54LS32FK: VCC 4.5-5.5 V (sn74ls32 p.4 (SN54LS32 column)) | SN54S32J, SNJ54S32J, SNJ54S32W: VCC 4.5-5.5 V (sn74ls32 p.5 (SN54S32 column))",
       "pinouts": {
         "p14": [
           {"number":1,"name":"1A","role":"input"},
@@ -1040,22 +1042,22 @@
         {"op":"or","inputs":["4A","4B"],"output":"4Y"}
       ],
       "timing": {
-        "HC": {"rise":10,"fall":10,"note": "Typical at 4.5 V and 25 C (50 pF load)."},
-        "HCT": {"rise":15,"fall":15,"note": "Typical at 4.5 V and 25 C (50 pF load)."},
-        "HCS": {"rise":7,"fall":7,"note": "Typical at 4.5 V and 25 C (50 pF load), SN74HCS32."},
-        "AC": {"rise":5.5,"fall":5,"note": "Typical at 5 V and 25 C."},
-        "ACT": {"rise":6.5,"fall":6.5,"note": "Typical at 5 V and 25 C."},
-        "AHC": {"rise":5.3,"fall":5.3,"note": "Typical at 5 V and 25 C (50 pF load)."},
-        "AHCT": {"rise":5.5,"fall":5.5,"note": "Typical at 5 V and 25 C (50 pF load)."},
-        "LV": {"rise":6.9,"fall":6.9,"note": "Typical at 3.3 V and 25 C (50 pF load), SN74LV32A."},
-        "LVC": {"rise":2.5,"fall":2.5,"note": "Typical at 3.3 V and 25 C (50 pF load), SN74LVC32A."},
-        "ALVC": {"rise":2.8,"fall":2.8,"note": "Max at 3.3 V, -40 to 85 C (SN74ALVC32 gives no typical)."},
-        "AUC": {"rise":1,"fall":1,"note": "Typical at 1.8 V and 25 C (15 pF load), SN74AUC32."},
-        "LS": {"rise":14,"fall":14,"note": "Typical at 5 V and 25 C (15 pF load)."},
-        "ALS": {"rise":14,"fall":12,"note": "Maximum at 5 V over the recommended temperature range."},
-        "AS": {"rise":5.8,"fall":5.8,"note": "Maximum at 5 V over the recommended temperature range."},
-        "S": {"rise":4,"fall":4,"note": "Typical at 5 V and 25 C (15 pF load)."},
-        "F": {"rise":3.8,"fall":3.6,"note": "Typical at 5 V and 25 C."}
+        "HC": {"rise":10,"fall":10,"vcc":[2,6],"note": "Typical at 4.5 V and 25 C (50 pF load). VCC 2-6 V (sn74hc32 p.4 (SN54HC32/SN74HC32 one column; cd74hc32 p.4 same))"},
+        "HCT": {"rise":15,"fall":15,"vcc":[4.5,5.5],"note": "Typical at 4.5 V and 25 C (50 pF load). VCC 4.5-5.5 V (sn74hct32 p.4 (SN54/SN74 columns same; cd74hct32 p.4 same))"},
+        "HCS": {"rise":7,"fall":7,"vcc":[2,6],"note": "Typical at 4.5 V and 25 C (50 pF load), SN74HCS32. VCC 2-6 V (sn74hcs32 p.4 (sn74hcs32-q1 p.4 same))"},
+        "AC": {"rise":5.5,"fall":5,"vcc":[2,6],"note": "Typical at 5 V and 25 C. VCC 2-6 V (sn74ac32 p.5 (SN54AC32/SN74AC32 columns; sn74ac32-ep p.2 same))"},
+        "ACT": {"rise":6.5,"fall":6.5,"vcc":[4.5,5.5],"note": "Typical at 5 V and 25 C. VCC 4.5-5.5 V (sn74act32 p.5 (cd74act32 p.4, sn74act32-q1 p.4 same))"},
+        "AHC": {"rise":5.3,"fall":5.3,"vcc":[2,5.5],"note": "Typical at 5 V and 25 C (50 pF load). VCC 2-5.5 V (sn74ahc32 p.5 (VI max 5.5 = VCC max, no inputMax; -ep p.3, q-q1 p.5 same))"},
+        "AHCT": {"rise":5.5,"fall":5.5,"vcc":[4.5,5.5],"note": "Typical at 5 V and 25 C (50 pF load). VCC 4.5-5.5 V (sn74ahct32 p.4 (VI max 5.5 = VCC max, no inputMax; -ep p.2, -q1 p.4 same))"},
+        "LV": {"rise":6.9,"fall":6.9,"vcc":[2,5.5],"note": "Typical at 3.3 V and 25 C (50 pF load), SN74LV32A. VCC 2-5.5 V (sn74lv32a p.5 (VI max 5.5 = VCC max, no inputMax; -ep p.3, -q1 p.4 same))"},
+        "LVC": {"rise":2.5,"fall":2.5,"vcc":[2,3.6],"inputMax":5.5,"note": "Typical at 3.3 V and 25 C (50 pF load), SN74LVC32A. VCC 2-3.6 V, inputs to 5.5 V (sn74lvc32a p.5 (SN54LVC32A table; sn74lvc32a-ep p.2, sn74lvc32a-q1 p.4 same))"},
+        "ALVC": {"rise":2.8,"fall":2.8,"vcc":[1.65,3.6],"note": "Max at 3.3 V, -40 to 85 C (SN74ALVC32 gives no typical). VCC 1.65-3.6 V (sn74alvc32 p.2 (VI max 3.6 = VCC max, no inputMax))"},
+        "AUC": {"rise":1,"fall":1,"vcc":[0.8,2.7],"inputMax":3.6,"note": "Typical at 1.8 V and 25 C (15 pF load), SN74AUC32. VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc32 p.2)"},
+        "LS": {"rise":14,"fall":14,"vcc":[4.75,5.25],"note": "Typical at 5 V and 25 C (15 pF load). VCC 4.75-5.25 V (sn74ls32 p.4 (SN74LS32 column))"},
+        "ALS": {"rise":14,"fall":12,"vcc":[4.5,5.5],"note": "Maximum at 5 V over the recommended temperature range. VCC 4.5-5.5 V (sn74als32 p.2 (SN54ALS32/SN74ALS32 columns same))"},
+        "AS": {"rise":5.8,"fall":5.8,"vcc":[4.5,5.5],"note": "Maximum at 5 V over the recommended temperature range. VCC 4.5-5.5 V (sn74als32 p.3 (SN54AS32/SN74AS32 columns same))"},
+        "S": {"rise":4,"fall":4,"vcc":[4.75,5.25],"note": "Typical at 5 V and 25 C (15 pF load). VCC 4.75-5.25 V (sn74ls32 p.5 (SN74S32 column))"},
+        "F": {"rise":3.8,"fall":3.6,"vcc":[4.5,5.5],"note": "Typical at 5 V and 25 C. VCC 4.5-5.5 V (sn74f32 p.2 (SN54F32/SN74F32 columns same))"}
       },
       "parts": [
         {"name":"5962-8404501VCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military"]},
@@ -1114,12 +1116,12 @@
         {"name":"SN74HCS32QPWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"HCS","flags":["automotive"]},
         {"name":"5962-8761401CA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"AC","flags":["military"]},
         {"name":"5962-8761401DA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"AC","flags":["military"]},
-        {"name":"CD54AC32F3A","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"AC","flags":["military"]},
-        {"name":"CD74AC32E","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"AC"},
-        {"name":"CD74AC32EE4","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"AC"},
-        {"name":"CD74AC32M","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC","flags":["obsolete"]},
-        {"name":"CD74AC32M96","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC"},
-        {"name":"CD74AC32M96G4","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC"},
+        {"name":"CD54AC32F3A","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"AC","flags":["military"],"vcc":[1.5,5.5]},
+        {"name":"CD74AC32E","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"AC","vcc":[1.5,5.5]},
+        {"name":"CD74AC32EE4","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"AC","vcc":[1.5,5.5]},
+        {"name":"CD74AC32M","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC","flags":["obsolete"],"vcc":[1.5,5.5]},
+        {"name":"CD74AC32M96","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC","vcc":[1.5,5.5]},
+        {"name":"CD74AC32M96G4","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC","vcc":[1.5,5.5]},
         {"name":"SN74AC32BQAR","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"AC"},
         {"name":"SN74AC32D","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC","flags":["obsolete"]},
         {"name":"SN74AC32DBR","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"AC"},
@@ -1130,8 +1132,8 @@
         {"name":"SN74AC32PW","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC","flags":["obsolete"]},
         {"name":"SN74AC32PWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC"},
         {"name":"SN74AC32PWRG4","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC"},
-        {"name":"SN74AC32PWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC","flags":["automotive"]},
-        {"name":"SN74AC32WBQARQ1","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"AC","flags":["automotive"]},
+        {"name":"SN74AC32PWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
+        {"name":"SN74AC32WBQARQ1","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
         {"name":"SNJ54AC32J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"AC","flags":["military"]},
         {"name":"SNJ54AC32W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"AC","flags":["military"]},
         {"name":"V62/04616-01XE","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC","flags":["enhanced"]},
@@ -1216,32 +1218,32 @@
         {"name":"V62/04693-02XE","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV","flags":["enhanced"]},
         {"name":"5962-9761801QCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LVC","flags":["military"]},
         {"name":"5962-9761801QDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LVC","flags":["military"]},
-        {"name":"SN74LVC32ABQAR","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"LVC"},
-        {"name":"SN74LVC32AD","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC"},
-        {"name":"SN74LVC32ADBR","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"LVC"},
-        {"name":"SN74LVC32ADBRG4","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"LVC"},
-        {"name":"SN74LVC32ADR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC"},
-        {"name":"SN74LVC32ADRE4","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC"},
-        {"name":"SN74LVC32ADT","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC"},
+        {"name":"SN74LVC32ABQAR","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"LVC","vcc":[1.65,3.6]},
+        {"name":"SN74LVC32AD","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC","vcc":[1.65,3.6]},
+        {"name":"SN74LVC32ADBR","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"LVC","vcc":[1.65,3.6]},
+        {"name":"SN74LVC32ADBRG4","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"LVC","vcc":[1.65,3.6]},
+        {"name":"SN74LVC32ADR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC","vcc":[1.65,3.6]},
+        {"name":"SN74LVC32ADRE4","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC","vcc":[1.65,3.6]},
+        {"name":"SN74LVC32ADT","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC","vcc":[1.65,3.6]},
         {"name":"SN74LVC32AMDREP","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC","flags":["enhanced"]},
         {"name":"SN74LVC32AMPWREP","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["enhanced"]},
         {"name":"SN74LVC32AMPWREPG4","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["enhanced"]},
-        {"name":"SN74LVC32ANSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LVC"},
-        {"name":"SN74LVC32APW","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
-        {"name":"SN74LVC32APWE4","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
-        {"name":"SN74LVC32APWG4","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
-        {"name":"SN74LVC32APWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
-        {"name":"SN74LVC32APWRE4","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
-        {"name":"SN74LVC32APWRG3","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
-        {"name":"SN74LVC32APWRG4","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
-        {"name":"SN74LVC32APWT","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
+        {"name":"SN74LVC32ANSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LVC","vcc":[1.65,3.6]},
+        {"name":"SN74LVC32APW","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","vcc":[1.65,3.6]},
+        {"name":"SN74LVC32APWE4","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","vcc":[1.65,3.6]},
+        {"name":"SN74LVC32APWG4","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","vcc":[1.65,3.6]},
+        {"name":"SN74LVC32APWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","vcc":[1.65,3.6]},
+        {"name":"SN74LVC32APWRE4","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","vcc":[1.65,3.6]},
+        {"name":"SN74LVC32APWRG3","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","vcc":[1.65,3.6]},
+        {"name":"SN74LVC32APWRG4","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","vcc":[1.65,3.6]},
+        {"name":"SN74LVC32APWT","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","vcc":[1.65,3.6]},
         {"name":"SN74LVC32AQDREP","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC","flags":["enhanced"]},
         {"name":"SN74LVC32AQDRQ1","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC","flags":["automotive"]},
         {"name":"SN74LVC32AQPWREP","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["enhanced"]},
         {"name":"SN74LVC32AQPWRG4Q1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["automotive"]},
         {"name":"SN74LVC32AQPWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["automotive"]},
-        {"name":"SN74LVC32ARGYR","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"LVC"},
-        {"name":"SN74LVC32ARGYRG4","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"LVC"},
+        {"name":"SN74LVC32ARGYR","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"LVC","vcc":[1.65,3.6]},
+        {"name":"SN74LVC32ARGYRG4","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"LVC","vcc":[1.65,3.6]},
         {"name":"SN74LVC32AWBQARQ1","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"LVC","flags":["automotive"]},
         {"name":"SNJ54LVC32AJ","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LVC","flags":["military"]},
         {"name":"SNJ54LVC32AW","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LVC","flags":["military"]},
@@ -1259,7 +1261,7 @@
         {"name":"SN74ALVC32PWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"ALVC"},
         {"name":"SN74ALVC32PWR1G4","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"ALVC"},
         {"name":"SN74AUC32RGYR","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"AUC"},
-        {"name":"SN54LS32J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"]},
+        {"name":"SN54LS32J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
         {"name":"SN74LS32D","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS","flags":["obsolete"]},
         {"name":"SN74LS32DBR","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"LS"},
         {"name":"SN74LS32DR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
@@ -1269,8 +1271,8 @@
         {"name":"SN74LS32NE4","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
         {"name":"SN74LS32NSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LS"},
         {"name":"SN74LS32NSRG4","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LS"},
-        {"name":"SNJ54LS32J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"]},
-        {"name":"SNJ54LS32W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"]},
+        {"name":"SNJ54LS32J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS32W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
         {"name":"5962-8683601DA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"ALS","flags":["military"]},
         {"name":"SN54ALS32J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"ALS","flags":["military"]},
         {"name":"SN74ALS32D","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ALS","flags":["obsolete"]},
@@ -1287,12 +1289,12 @@
         {"name":"SN74AS32N","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"AS"},
         {"name":"SN74AS32NSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"AS"},
         {"name":"SNJ54AS32J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"AS","flags":["military"]},
-        {"name":"SN54S32J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"S","flags":["military"]},
+        {"name":"SN54S32J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"S","flags":["military"],"vcc":[4.5,5.5]},
         {"name":"SN74S32D","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"S","flags":["obsolete"]},
         {"name":"SN74S32DR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"S"},
         {"name":"SN74S32N","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"S"},
-        {"name":"SNJ54S32J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"S","flags":["military"]},
-        {"name":"SNJ54S32W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"S","flags":["military"]},
+        {"name":"SNJ54S32J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"S","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54S32W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"S","flags":["military"],"vcc":[4.5,5.5]},
         {"name":"5962-9758801QCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"F","flags":["military"]},
         {"name":"5962-9758801QDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"F","flags":["military"]},
         {"name":"SN54F32J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"F","flags":["military"]},
@@ -1317,7 +1319,7 @@
         {"name":"SNJ54AHCT32FK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"AHCT","flags":["military"]},
         {"name":"5962-9761801Q2A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LVC","flags":["military"]},
         {"name":"SNJ54LVC32AFK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LVC","flags":["military"]},
-        {"name":"SNJ54LS32FK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military"]},
+        {"name":"SNJ54LS32FK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
         {"name":"5962-86836012A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
         {"name":"SNJ54ALS32FK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
         {"name":"5962-9756001Q2A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"AS","flags":["military"]},
@@ -1666,7 +1668,7 @@
         {"op":"nor","inputs":["E","F"],"output":"L"},
         {"op":"nor","inputs":["G","H"],"output":"M"}
       ],
-      "timing": {"C":{"rise":125,"fall":125}},
+      "timing": {"C":{"rise":125,"fall":125,"vcc":[3,18],"note": "VCC 3-18 V (cd4001b p.2)"}},
       "parts": [
         {"name":"CD4001BE","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
         {"name":"CD4001BEE4","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
@@ -1847,7 +1849,7 @@
         {"op":"or","inputs":["E","F"],"output":"L"},
         {"op":"or","inputs":["G","H"],"output":"M"}
       ],
-      "timing": {"C":{"rise":125,"fall":125}},
+      "timing": {"C":{"rise":125,"fall":125,"vcc":[3,18],"note": "VCC 3-18 V (cd4071b p.1 (scan; Recommended Operating Conditions, supply-voltage range 3-18 V))"}},
       "parts": [
         {"name":"CD4071BE","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
         {"name":"CD4071BEE4","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
@@ -2420,7 +2422,7 @@
       "function": "NOR",
       "description": "Triple 3-input NOR gate",
       "drawer": ["Logic"],
-      "note": "Pinout from sn74hc27 p.3 (D, DB, N, NS, J, W); sn74lv27a p.3 (D, NS, PW, DGV, DB); sn74hcs27 p.3 (PW); sn74as27 p.1; sn74f27 p.1; sn74ls27 p.1 (J or W, D or N); packages D, DB, DGV, J, N, NS, PW, W. | lccc20: Pinout from sn74hc27 p.3 FK column; sn74as27 p.1; sn74f27 p.1; sn74ls27 p.1; packages FK.",
+      "note": "Pinout from sn74hc27 p.3 (D, DB, N, NS, J, W); sn74lv27a p.3 (D, NS, PW, DGV, DB); sn74hcs27 p.3 (PW); sn74as27 p.1; sn74f27 p.1; sn74ls27 p.1 (J or W, D or N); packages D, DB, DGV, J, N, NS, PW, W. | lccc20: Pinout from sn74hc27 p.3 FK column; sn74as27 p.1; sn74f27 p.1; sn74ls27 p.1; packages FK. | SN74LS27D, SN74LS27DR, SN74LS27N, SN74LS27NSR: VCC 4.75-5.25 V (sn74ls27 p.4)",
       "pinouts": {
         "p14": [
           {"number":1,"name":"1A","role":"input"},
@@ -2467,14 +2469,14 @@
         {"op":"nor","inputs":["3A","3B","3C"],"output":"3Y"}
       ],
       "timing": {
-        "ALS": {"rise":15,"fall":9,"note": "sn74as27 max at 4.5 V to 5.5 V, 50 pF"},
-        "AS": {"rise":5.5,"fall":4.5,"note": "sn74as27 max at 4.5 V to 5.5 V, 50 pF"},
-        "F": {"rise":3.1,"fall":2.1,"note": "sn74f27 typ at 5 V, 50 pF"},
-        "HC": {"rise":10,"fall":10,"note": "sn74hc27 typ at 4.5 V, 50 pF"},
-        "HCS": {"rise":7,"fall":7,"note": "sn74hcs27 typ at 4.5 V, 50 pF"},
-        "HCT": {"rise":23,"fall":23,"note": "cd74hct27 max at 4.5 V, 50 pF"},
-        "LS": {"rise":10,"fall":10,"note": "sn74ls27 typ at 5 V, 15 pF"},
-        "LV": {"rise":6.9,"fall":6.9,"note": "sn74lv27a typ at 3.3 V ± 0.3 V, 50 pF"}
+        "ALS": {"rise":15,"fall":9,"vcc":[4.5,5.5],"note": "sn74as27 max at 4.5 V to 5.5 V, 50 pF. VCC 4.5-5.5 V (sn74as27 p.2)"},
+        "AS": {"rise":5.5,"fall":4.5,"vcc":[4.5,5.5],"note": "sn74as27 max at 4.5 V to 5.5 V, 50 pF. VCC 4.5-5.5 V (sn74as27 p.3)"},
+        "F": {"rise":3.1,"fall":2.1,"vcc":[4.5,5.5],"note": "sn74f27 typ at 5 V, 50 pF. VCC 4.5-5.5 V (sn74f27 p.2)"},
+        "HC": {"rise":10,"fall":10,"vcc":[2,6],"note": "sn74hc27 typ at 4.5 V, 50 pF. VCC 2-6 V (sn74hc27 p.4)"},
+        "HCS": {"rise":7,"fall":7,"vcc":[2,6],"note": "sn74hcs27 typ at 4.5 V, 50 pF. VCC 2-6 V (sn74hcs27 p.4)"},
+        "HCT": {"rise":23,"fall":23,"vcc":[4.5,5.5],"note": "cd74hct27 max at 4.5 V, 50 pF. VCC 4.5-5.5 V (cd74hct27 p.4)"},
+        "LS": {"rise":10,"fall":10,"vcc":[4.5,5.5],"note": "sn74ls27 typ at 5 V, 15 pF. VCC 4.5-5.5 V (sn74ls27 p.4)"},
+        "LV": {"rise":6.9,"fall":6.9,"vcc":[2,5.5],"note": "sn74lv27a typ at 3.3 V ± 0.3 V, 50 pF. VCC 2-5.5 V (sn74lv27a p.4)"}
       },
       "parts": [
         {"name":"5962-8683801DA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"ALS","flags":["military"]},
@@ -2527,10 +2529,10 @@
         {"name":"M38510/30302BCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"]},
         {"name":"M38510/30302BDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"]},
         {"name":"SN54LS27J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"]},
-        {"name":"SN74LS27D","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS","flags":["obsolete"]},
-        {"name":"SN74LS27DR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
-        {"name":"SN74LS27N","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
-        {"name":"SN74LS27NSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LS"},
+        {"name":"SN74LS27D","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS","flags":["obsolete"],"vcc":[4.75,5.25]},
+        {"name":"SN74LS27DR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS","vcc":[4.75,5.25]},
+        {"name":"SN74LS27N","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS","vcc":[4.75,5.25]},
+        {"name":"SN74LS27NSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LS","vcc":[4.75,5.25]},
         {"name":"SNJ54LS27J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"]},
         {"name":"SNJ54LS27W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"]},
         {"name":"SN74LV27AD","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LV","flags":["obsolete"]},
@@ -3087,7 +3089,7 @@
         {"op":"nor","inputs":["1A","1B","1C","1D"],"output":"1Y"},
         {"op":"nor","inputs":["2A","2B","2C","2D"],"output":"2Y"}
       ],
-      "timing": {"HC":{"rise":12,"fall":12,"note": "sn54hc4002 typ at 4.5 V, 50 pF"}},
+      "timing": {"HC":{"rise":12,"fall":12,"vcc":[2,6],"note": "sn54hc4002 typ at 4.5 V, 50 pF. VCC 2-6 V (sn54hc4002 p.2)"}},
       "parts": [
         {"name":"8404401CA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military"]},
         {"name":"CD54HC4002F3A","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military"]},
@@ -3157,9 +3159,9 @@
         {"op":"or","inputs":["3A","3B","3C"],"output":"3Y"}
       ],
       "timing": {
-        "HC": {"rise":20,"fall":20,"note": "cd74hc4075 max at 4.5 V, 50 pF"},
-        "HCS": {"rise":6,"fall":6,"note": "sn74hcs4075-q1 typ at 4.5 V, 50 pF"},
-        "HCT": {"rise":24,"fall":24,"note": "cd74hct4075 max at 4.5 V, 50 pF"}
+        "HC": {"rise":20,"fall":20,"vcc":[2,6],"note": "cd74hc4075 max at 4.5 V, 50 pF. VCC 2-6 V (cd74hc4075 p.4)"},
+        "HCS": {"rise":6,"fall":6,"vcc":[2,6],"note": "sn74hcs4075-q1 typ at 4.5 V, 50 pF. VCC 2-6 V (sn74hcs4075 p.4 (sn74hcs4075-q1 p.4 same))"},
+        "HCT": {"rise":24,"fall":24,"vcc":[4.5,5.5],"note": "cd74hct4075 max at 4.5 V, 50 pF. VCC 4.5-5.5 V (cd74hct4075 p.4)"}
       },
       "parts": [
         {"name":"5962-8772201CA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military"]},
@@ -3367,11 +3369,11 @@
       },
       "gates": [{"op":"nor","inputs":["A","B"],"output":"Y"}],
       "timing": {
-        "AHC": {"rise":5.1,"fall":5.1,"note": "sn74ahc1g02 typ at 5 V, 50 pF"},
-        "AHCT": {"rise":3.4,"fall":4.5,"note": "sn74ahct1g02 typ at 5 V, 50 pF"},
-        "AUC": {"rise":1,"fall":1,"note": "sn74auc1g02 typ at 1.8 V, 15 pF"},
-        "AUP": {"rise":3.4,"fall":3.4,"note": "sn74aup1g02 typ at 3.3 V, 15 pF"},
-        "LVC": {"rise":4.5,"fall":4.5,"note": "sn74lvc1g02 max at 3.3 V, 50 pF"}
+        "AHC": {"rise":5.1,"fall":5.1,"vcc":[2,5.5],"note": "sn74ahc1g02 typ at 5 V, 50 pF. VCC 2-5.5 V (sn74ahc1g02 p.4)"},
+        "AHCT": {"rise":3.4,"fall":4.5,"vcc":[4.5,5.5],"note": "sn74ahct1g02 typ at 5 V, 50 pF. VCC 4.5-5.5 V (sn74ahct1g02 p.4)"},
+        "AUC": {"rise":1,"fall":1,"vcc":[0.8,2.7],"inputMax":3.6,"note": "sn74auc1g02 typ at 1.8 V, 15 pF. VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc1g02 p.3)"},
+        "AUP": {"rise":3.4,"fall":3.4,"vcc":[0.8,3.6],"note": "sn74aup1g02 typ at 3.3 V, 15 pF. VCC 0.8-3.6 V (sn74aup1g02 p.5)"},
+        "LVC": {"rise":4.5,"fall":4.5,"vcc":[1.65,5.5],"note": "sn74lvc1g02 max at 3.3 V, 50 pF. VCC 1.65-5.5 V (sn74lvc1g02 p.4)"}
       },
       "parts": [
         {"name":"SN74AHC1G02DBVR","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"AHC"},
@@ -3437,8 +3439,8 @@
       },
       "gates": [{"op":"nor","inputs":["A","B"],"output":"Y"}],
       "timing": {
-        "AUP": {"rise":3.4,"fall":3.4,"note": "sn74aup1g02 typ at 3.3 V, 15 pF"},
-        "LVC": {"rise":4.5,"fall":4.5,"note": "sn74lvc1g02 max at 3.3 V, 50 pF"}
+        "AUP": {"rise":3.4,"fall":3.4,"vcc":[0.8,3.6],"note": "sn74aup1g02 typ at 3.3 V, 15 pF. VCC 0.8-3.6 V (sn74aup1g02 p.5)"},
+        "LVC": {"rise":4.5,"fall":4.5,"vcc":[1.65,5.5],"note": "sn74lvc1g02 max at 3.3 V, 50 pF. VCC 1.65-5.5 V (sn74lvc1g02 p.4)"}
       },
       "parts": [
         {"name":"SN74AUP1G02DPWR","package":"X2SON","pinout":"p5","footprint":"X2SON-5-DPW","family":"AUP"},
@@ -3471,8 +3473,8 @@
       },
       "gates": [{"op":"nor","inputs":["A","B"],"output":"Y"}],
       "timing": {
-        "AUP": {"rise":3.4,"fall":3.4,"note": "sn74aup1g02 typ at 3.3 V, 15 pF"},
-        "LVC": {"rise":4.5,"fall":4.5,"note": "sn74lvc1g02 max at 3.3 V, 50 pF"}
+        "AUP": {"rise":3.4,"fall":3.4,"vcc":[0.8,3.6],"note": "sn74aup1g02 typ at 3.3 V, 15 pF. VCC 0.8-3.6 V (sn74aup1g02 p.5)"},
+        "LVC": {"rise":4.5,"fall":4.5,"vcc":[1.65,5.5],"note": "sn74lvc1g02 max at 3.3 V, 50 pF. VCC 1.65-5.5 V (sn74lvc1g02 p.4)"}
       },
       "parts": [
         {"name":"SN74AUP1G02DRY2","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"AUP"},
@@ -3685,11 +3687,11 @@
       },
       "gates": [{"op":"or","inputs":["A","B"],"output":"Y"}],
       "timing": {
-        "AHC": {"rise":5.3,"fall":5.3,"note": "sn74ahc1g32 typ at 5 V, 50 pF"},
-        "AHCT": {"rise":5.5,"fall":5.5,"note": "sn74ahct1g32 typ at 5 V, 50 pF"},
-        "AUC": {"rise":0.9,"fall":0.9,"note": "sn74auc1g32 typ at 1.8 V, 15 pF"},
-        "AUP": {"rise":3.4,"fall":3.4,"note": "sn74aup1g32 typ at 3.3 V, 15 pF"},
-        "LVC": {"rise":4.5,"fall":4.5,"note": "sn74lvc1g32 max at 3.3 V, 50 pF"}
+        "AHC": {"rise":5.3,"fall":5.3,"vcc":[2,5.5],"note": "sn74ahc1g32 typ at 5 V, 50 pF. VCC 2-5.5 V (sn74ahc1g32 p.4 (VI max 5.5 = VCC max, no inputMax; -q1 p.4 same))"},
+        "AHCT": {"rise":5.5,"fall":5.5,"vcc":[4.5,5.5],"note": "sn74ahct1g32 typ at 5 V, 50 pF. VCC 4.5-5.5 V (sn74ahct1g32 p.4 (VI max 5.5 = VCC max, no inputMax; -q1 p.4 same))"},
+        "AUC": {"rise":0.9,"fall":0.9,"vcc":[0.8,2.7],"inputMax":3.6,"note": "sn74auc1g32 typ at 1.8 V, 15 pF. VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc1g32 p.4)"},
+        "AUP": {"rise":3.4,"fall":3.4,"vcc":[0.8,3.6],"note": "sn74aup1g32 typ at 3.3 V, 15 pF. VCC 0.8-3.6 V (sn74aup1g32 p.4 (VI max 3.6 = VCC max, no inputMax))"},
+        "LVC": {"rise":4.5,"fall":4.5,"vcc":[1.65,5.5],"note": "sn74lvc1g32 max at 3.3 V, 50 pF. VCC 1.65-5.5 V (sn74lvc1g32 p.6 (VI max 5.5; -ep p.3, -q1 p.5 same))"}
       },
       "parts": [
         {"name":"SN74AHC1G32DBVR","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"AHC"},
@@ -3776,8 +3778,8 @@
       },
       "gates": [{"op":"or","inputs":["A","B"],"output":"Y"}],
       "timing": {
-        "AUP": {"rise":3.4,"fall":3.4,"note": "sn74aup1g32 typ at 3.3 V, 15 pF"},
-        "LVC": {"rise":4.5,"fall":4.5,"note": "sn74lvc1g32 max at 3.3 V, 50 pF"}
+        "AUP": {"rise":3.4,"fall":3.4,"vcc":[0.8,3.6],"note": "sn74aup1g32 typ at 3.3 V, 15 pF. VCC 0.8-3.6 V (sn74aup1g32 p.4 (VI max 3.6 = VCC max, no inputMax))"},
+        "LVC": {"rise":4.5,"fall":4.5,"vcc":[1.65,5.5],"note": "sn74lvc1g32 max at 3.3 V, 50 pF. VCC 1.65-5.5 V (sn74lvc1g32 p.6 (VI max 5.5; -ep p.3, -q1 p.5 same))"}
       },
       "parts": [
         {"name":"SN74AUP1G32DPWR","package":"X2SON","pinout":"p5","footprint":"X2SON-5-DPW","family":"AUP"},
@@ -3810,8 +3812,8 @@
       },
       "gates": [{"op":"or","inputs":["A","B"],"output":"Y"}],
       "timing": {
-        "AUP": {"rise":3.4,"fall":3.4,"note": "sn74aup1g32 typ at 3.3 V, 15 pF"},
-        "LVC": {"rise":4.5,"fall":4.5,"note": "sn74lvc1g32 max at 3.3 V, 50 pF"}
+        "AUP": {"rise":3.4,"fall":3.4,"vcc":[0.8,3.6],"note": "sn74aup1g32 typ at 3.3 V, 15 pF. VCC 0.8-3.6 V (sn74aup1g32 p.4 (VI max 3.6 = VCC max, no inputMax))"},
+        "LVC": {"rise":4.5,"fall":4.5,"vcc":[1.65,5.5],"note": "sn74lvc1g32 max at 3.3 V, 50 pF. VCC 1.65-5.5 V (sn74lvc1g32 p.6 (VI max 5.5; -ep p.3, -q1 p.5 same))"}
       },
       "parts": [
         {"name":"SN74AUP1G32DRY2","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"AUP"},
@@ -4015,9 +4017,9 @@
         {"op":"nor","inputs":["2A","2B"],"output":"2Y"}
       ],
       "timing": {
-        "AUC": {"rise":1,"fall":1,"note": "sn74auc2g02 typ at 1.8 V, 15 pF"},
-        "AUP": {"rise":3.4,"fall":3.4,"note": "sn74aup2g02 typ at 3.3 V, 15 pF"},
-        "LVC": {"rise":4.9,"fall":4.9,"note": "sn74lvc2g02 max at 3.3 V, 50 pF"}
+        "AUC": {"rise":1,"fall":1,"vcc":[0.8,2.7],"inputMax":3.6,"note": "sn74auc2g02 typ at 1.8 V, 15 pF. VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc2g02 p.3)"},
+        "AUP": {"rise":3.4,"fall":3.4,"vcc":[0.8,3.6],"note": "sn74aup2g02 typ at 3.3 V, 15 pF. VCC 0.8-3.6 V (sn74aup2g02 p.4)"},
+        "LVC": {"rise":4.9,"fall":4.9,"vcc":[1.65,5.5],"note": "sn74lvc2g02 max at 3.3 V, 50 pF. VCC 1.65-5.5 V (sn74lvc2g02 p.5)"}
       },
       "parts": [
         {"name":"SN74AUC2G02DCTR","package":"SSOP","pinout":"p8","footprint":"SSOP-8","family":"AUC"},
@@ -4058,7 +4060,7 @@
         {"op":"nor","inputs":["1A","1B"],"output":"1Y"},
         {"op":"nor","inputs":["2A","2B"],"output":"2Y"}
       ],
-      "timing": {"AUP":{"rise":3.4,"fall":3.4,"note": "sn74aup2g02 typ at 3.3 V, 15 pF"}},
+      "timing": {"AUP":{"rise":3.4,"fall":3.4,"vcc":[0.8,3.6],"note": "sn74aup2g02 typ at 3.3 V, 15 pF. VCC 0.8-3.6 V (sn74aup2g02 p.4)"}},
       "parts": [
         {"name":"SN74AUP2G02RSER","package":"UQFN","pinout":"p8","footprint":"UQFN-8","family":"AUP"}
       ]
@@ -4185,9 +4187,9 @@
         {"op":"or","inputs":["2A","2B"],"output":"2Y"}
       ],
       "timing": {
-        "AUC": {"rise":1,"fall":1,"note": "sn74auc2g32 typ at 1.8 V, 15 pF"},
-        "AUP": {"rise":3.4,"fall":3.4,"note": "sn74aup2g32 typ at 3.3 V, 15 pF"},
-        "LVC": {"rise":3.8,"fall":3.8,"note": "sn74lvc2g32 max at 3.3 V, 50 pF"}
+        "AUC": {"rise":1,"fall":1,"vcc":[0.8,2.7],"inputMax":3.6,"note": "sn74auc2g32 typ at 1.8 V, 15 pF. VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc2g32 p.3)"},
+        "AUP": {"rise":3.4,"fall":3.4,"vcc":[0.8,3.6],"note": "sn74aup2g32 typ at 3.3 V, 15 pF. VCC 0.8-3.6 V (sn74aup2g32 p.4 (VI max 3.6 = VCC max, no inputMax))"},
+        "LVC": {"rise":3.8,"fall":3.8,"vcc":[1.65,5.5],"note": "sn74lvc2g32 max at 3.3 V, 50 pF. VCC 1.65-5.5 V (sn74lvc2g32 p.5 (VI max 5.5; -ep p.3, -q1 p.3 same))"}
       },
       "parts": [
         {"name":"SN74AUC2G32DCTR","package":"SSOP","pinout":"p8","footprint":"SSOP-8","family":"AUC"},
@@ -4231,7 +4233,7 @@
         {"op":"or","inputs":["1A","1B"],"output":"1Y"},
         {"op":"or","inputs":["2A","2B"],"output":"2Y"}
       ],
-      "timing": {"AUP":{"rise":3.4,"fall":3.4,"note": "sn74aup2g32 typ at 3.3 V, 15 pF"}},
+      "timing": {"AUP":{"rise":3.4,"fall":3.4,"vcc":[0.8,3.6],"note": "sn74aup2g32 typ at 3.3 V, 15 pF. VCC 0.8-3.6 V (sn74aup2g32 p.4 (VI max 3.6 = VCC max, no inputMax))"}},
       "parts": [
         {"name":"SN74AUP2G32RSER","package":"UQFN","pinout":"p8","footprint":"UQFN-8","family":"AUP"}
       ]
@@ -4388,7 +4390,7 @@
         ]
       },
       "gates": [{"op":"nor","inputs":["A","B","C"],"output":"Y"}],
-      "timing": {"LVC":{"rise":5.4,"fall":5.4,"note": "sn74lvc1g27 max at 3.3 V, 50 pF"}},
+      "timing": {"LVC":{"rise":5.4,"fall":5.4,"vcc":[1.65,5.5],"note": "sn74lvc1g27 max at 3.3 V, 50 pF. VCC 1.65-5.5 V (sn74lvc1g27 p.3)"}},
       "parts": [
         {"name":"SN74LVC1G27DBVR","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"LVC"},
         {"name":"SN74LVC1G27DCKR","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"LVC"},
@@ -4425,7 +4427,7 @@
         ]
       },
       "gates": [{"op":"or","inputs":["A","B","C"],"output":"Y"}],
-      "timing": {"LVC":{"rise":4.8,"fall":4.8,"note": "sn74lvc1g332 max at 3.3 V, 50 pF"}},
+      "timing": {"LVC":{"rise":4.8,"fall":4.8,"vcc":[1.65,5.5],"note": "sn74lvc1g332 max at 3.3 V, 50 pF. VCC 1.65-5.5 V (sn74lvc1g332 p.3 (VI max 5.5))"}},
       "parts": [
         {"name":"74LVC1G332DBVRG4","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"LVC","flags":["military"]},
         {"name":"74LVC1G332DCKRE4","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"LVC","flags":["military"]},
@@ -4519,7 +4521,7 @@
         ]
       },
       "gates": [{"op":"nor","inputs":["A","B"],"output":"Y"}],
-      "timing": {"LV":{"rise":5,"fall":5,"note": "sn74lv1t02 typ at 3.3 V, 30 pF"}},
+      "timing": {"LV":{"rise":5,"fall":5,"vcc":[1.6,5.5],"note": "sn74lv1t02 typ at 3.3 V, 30 pF. VCC 1.6-5.5 V (sn74lv1t02 p.6)"}},
       "parts": [
         {"name":"SN74LV1T02DBVR","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LV"},
         {"name":"SN74LV1T02DBVRG4","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LV"},
@@ -4571,7 +4573,7 @@
         ]
       },
       "gates": [{"op":"or","inputs":["A","B"],"output":"Y"}],
-      "timing": {"LV":{"rise":5,"fall":5,"note": "sn74lv1t32 typ at 3.3 V, 30 pF"}},
+      "timing": {"LV":{"rise":5,"fall":5,"vcc":[1.6,5.5],"note": "sn74lv1t32 typ at 3.3 V, 30 pF. VCC 1.6-5.5 V (sn74lv1t32 p.6 (VI max 5.5 = VCC max, no inputMax; -q1 p.4 same))"}},
       "parts": [
         {"name":"SN74LV1T32DBVR","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LV"},
         {"name":"SN74LV1T32DBVRG4","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LV"},
@@ -4635,7 +4637,7 @@
         {"op":"nor","inputs":["A","B","C","D"],"output":"J"},
         {"op":"nor","inputs":["E","F","G","H"],"output":"K"}
       ],
-      "timing": {"C":{"rise":125,"fall":125,"note": "cd4001b typ at 5 V, 50 pF"}},
+      "timing": {"C":{"rise":125,"fall":125,"vcc":[3,18],"note": "cd4001b typ at 5 V, 50 pF. VCC 3-18 V (cd4001b p.2)"}},
       "parts": [
         {"name":"CD4002BE","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
         {"name":"CD4002BF","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"C"},
@@ -4760,7 +4762,7 @@
         {"op":"nor","inputs":["D","E","F"],"output":"K"},
         {"op":"nor","inputs":["G","H","I"],"output":"L"}
       ],
-      "timing": {"C":{"rise":125,"fall":125,"note": "cd4001b typ at 5 V, 50 pF"}},
+      "timing": {"C":{"rise":125,"fall":125,"vcc":[3,18],"note": "cd4001b typ at 5 V, 50 pF. VCC 3-18 V (cd4001b p.2)"}},
       "parts": [
         {"name":"CD4025BE","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
         {"name":"CD4025BEE4","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
@@ -4844,7 +4846,7 @@
         {"op":"or","inputs":["A","B","C","D"],"output":"J"},
         {"op":"or","inputs":["E","F","G","H"],"output":"K"}
       ],
-      "timing": {"C":{"rise":125,"fall":125,"note": "cd4071b typ at 5 V, 50 pF"}},
+      "timing": {"C":{"rise":125,"fall":125,"vcc":[3,18],"note": "cd4071b typ at 5 V, 50 pF. VCC 3-18 V (cd4071b p.1 (scan; Recommended Operating Conditions, supply-voltage range 3-18 V))"}},
       "parts": [
         {"name":"CD4072BE","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
         {"name":"CD4072BF","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"C"},
@@ -4929,7 +4931,7 @@
         {"op":"or","inputs":["D","E","F"],"output":"K"},
         {"op":"or","inputs":["G","H","I"],"output":"L"}
       ],
-      "timing": {"C":{"rise":125,"fall":125,"note": "cd4071b typ at 5 V, 50 pF"}},
+      "timing": {"C":{"rise":125,"fall":125,"vcc":[3,18],"note": "cd4071b typ at 5 V, 50 pF. VCC 3-18 V (cd4071b p.1 (scan; Recommended Operating Conditions, supply-voltage range 3-18 V))"}},
       "parts": [
         {"name":"CD4075BE","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
         {"name":"CD4075BEE4","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
@@ -4972,7 +4974,7 @@
         {"op":"or","inputs":["A","B","C","D","E","F","G","H"],"output":"K"}
       ],
       "units": 1,
-      "timing": {"C":{"rise":150,"fall":150,"note": "cd4078b typ at 5 V, 50 pF"}},
+      "timing": {"C":{"rise":150,"fall":150,"vcc":[3,18],"note": "cd4078b typ at 5 V, 50 pF. VCC 3-18 V (cd4078b p.1)"}},
       "parts": [
         {"name":"7704402CA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"C","flags":["military"]},
         {"name":"CD4078BE","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
