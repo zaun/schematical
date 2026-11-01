@@ -252,8 +252,11 @@ Commit: —
 
 ### Phase 2 — Inertial fix, RED test first
 
-- [ ] `backend/tests/engine_test.c` + `logic_test(engine_test)`; commit-local
+- [x] `backend/tests/engine_test.c` + `logic_test(engine_test)`; commit-local
       run shows case 1 failing with 115000 (RED), cases 2–3 passing.
+      `/tmp/logic-p05/engine_test` → `1Y = 1 at 115000 ps` / `FAIL: A up at
+      100 ns, B up at 105 ns…`, `PASS: a 5 ns pulse…`, `PASS: A up at 100 ns
+      alone…`, `1 failure(s)`.
 - [ ] `sim.c`: §4.1.
 - [ ] Regenerate: `/tmp/logic-p05/trace_check --print > backend/tests/golden/traces.txt`.
 - [ ] Check the diff is the predicted one (acceptance), and spot-check
@@ -288,6 +291,11 @@ Commit: —
   2026-11-01 (§3 rejected alternatives).
 
 ## Corrections
+
+- §4.4: `engine_test` cannot load `gate.json` alone "as `basicsim/main.c`
+  does" — parts now name footprints, and `load_parts` rejects them without
+  `footprints.json` (`unknown footprint "CDIP-14"`). The test loads
+  `footprints.json` first.
 
 ## Summary
 
