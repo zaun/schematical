@@ -14,6 +14,10 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     static let currentVersion = 2
     static let fileExtension = "schematical"
 
+    /// Parts removed from the library, and the part each one opens as. A file
+    /// that names one opens with the replacement, and is saved with its name.
+    static let renamedParts = ["VCC": "5V"]
+
     /// The file type, declared in the app's Info.plist (`UTExportedTypeDeclarations`).
     static let contentType = UTType(exportedAs: "jgz.schematical.schematic", conformingTo: .json)
 
@@ -325,7 +329,8 @@ extension SchematicFile {
         var unknown: [String] = []
         for part in parts {
             try claim(part.id)
-            guard let catalogPart = catalog.part(named: part.partNumber) else {
+            let name = Self.renamedParts[part.partNumber] ?? part.partNumber
+            guard let catalogPart = catalog.part(named: name) else {
                 unknown.append(part.partNumber)
                 continue
             }

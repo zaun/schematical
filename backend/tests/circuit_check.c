@@ -49,7 +49,7 @@ static int light(Circuit *c, size_t index) {
 /* VCC on the anode (pin 2), GND on the cathode (pin 1): lit after one step. */
 static void check_lit_led(void) {
     Circuit *c = circuit_create(library);
-    size_t vcc = part(c, "VCC");
+    size_t vcc = part(c, "5V");
     size_t gnd = part(c, "GND");
     size_t led = part(c, "LED-RED-0603");
     size_t n0 = net(c);
@@ -67,7 +67,7 @@ static void check_lit_led(void) {
 /* The anode is left unconnected, so it reads Z and the LED stays dark. */
 static void check_dark_led(void) {
     Circuit *c = circuit_create(library);
-    size_t vcc = part(c, "VCC");
+    size_t vcc = part(c, "5V");
     size_t gnd = part(c, "GND");
     size_t led = part(c, "LED-GREEN-0603");
     size_t n0 = net(c);
@@ -85,7 +85,7 @@ static void check_dark_led(void) {
 /* VCC and GND both drive net 0. */
 static void check_short(void) {
     Circuit *c = circuit_create(library);
-    size_t vcc = part(c, "VCC");
+    size_t vcc = part(c, "5V");
     size_t gnd = part(c, "GND");
     size_t n0 = net(c);
     size_t shorted = 99;
@@ -159,7 +159,7 @@ static void check_oscillator_blinks(void) {
  */
 static void check_switch(void) {
     Circuit *c = circuit_create(library);
-    size_t vcc = part(c, "VCC");
+    size_t vcc = part(c, "5V");
     size_t sw = part(c, "TE-GDS0404");
     size_t led = part(c, "LED-RED-0603");
     size_t gnd = part(c, "GND");
@@ -205,7 +205,7 @@ static void check_switch(void) {
 /* AS6C62256 DIP: CE# (20) and WE# (27) to VCC, VSS (14) to GND, VCC (28) to VCC. */
 static void check_memory(void) {
     Circuit *c = circuit_create(library);
-    size_t vcc = part(c, "VCC");
+    size_t vcc = part(c, "5V");
     size_t gnd = part(c, "GND");
     size_t ram = part(c, "AS6C62256-55PCN");
     size_t n0 = net(c);
@@ -309,7 +309,7 @@ static void check_ball_led(void) {
     expect(load_parts(library, text, "ball.json", &error) == 0, "a ball-pinout LED loads");
     free(error);
     c = circuit_create(library);
-    vcc = part(c, "VCC");
+    vcc = part(c, "5V");
     gnd = part(c, "GND");
     led = part(c, "LED-BALL-BGA");
     n0 = net(c);
@@ -341,7 +341,7 @@ static void check_building_errors(void) {
                strstr(circuit_error(c), "no pin given") != NULL,
            "a NULL pin is rejected");
     expect(circuit_start(c) == 0, "the circuit starts");
-    expect(circuit_add_part(c, "VCC", &index) == -1 &&
+    expect(circuit_add_part(c, "5V", &index) == -1 &&
                strstr(circuit_error(c), "circuit already started") != NULL,
            "adding a part after start is rejected");
     expect(circuit_add_net(c, &index) == -1, "adding a net after start is rejected");

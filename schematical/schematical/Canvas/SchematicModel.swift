@@ -54,7 +54,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
     /// The supply placed by this tool, if it places one.
     var supplyName: String? {
         switch self {
-        case .vcc: "VCC"
+        case .vcc: "5V"
         case .ground: "GND"
         default: nil
         }

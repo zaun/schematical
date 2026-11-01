@@ -4009,4 +4009,3 @@ V62/07631-01XE|gate|VSSOP|Logic|AND|LVC|enhanced|units=2|1:1A:input:default,2:1B
 V62/07637-01XE|gate|VSSOP|Logic|NOR|LVC|enhanced|units=2|1:1A:input:default,2:1B:input:default,3:2Y:output:default,4:GND:ground:default,5:2A:input:default,6:2B:input:default,7:1Y:output:default,8:VCC:power:default|footprint=VSSOP-8|vcc=1650-5500,in=5500
 V62/08617-01XE|dff|VSSOP|Logic|D flip-flop|LVC|enhanced|units=1|1:CLK:input:default,2:D:input:default,3:QBAR:output:default,4:GND:ground:default,5:Q:output:default,6:CLR:input:default,7:PRE:input:default,8:VCC:power:default|footprint=VSSOP-8|vcc=1650-5500,in=5500
 V62/09621-01XE|gate|SC-70|Logic|AND|LVC|enhanced|units=1|1:A:input:default,2:GND:ground:default,3:B:input:default,4:Y:output:default,5:VCC:power:default,6:C:input:default|footprint=SC70-6|vcc=1650-5500,in=5500
-VCC|supply|||VCC|||level=1 mv=5000|1:VCC:power:default

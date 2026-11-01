@@ -4,21 +4,6 @@
   "kind": "supply",
   "devices": [
     {
-      "id": "VCC",
-      "function": "VCC",
-      "description": "Supply, 5 V, drives logic 1",
-      "drawer": [],
-      "pinouts": {
-        "pin": [
-          {"number":1,"name":"VCC","role":"power"}
-        ]
-      },
-      "volts": 5,
-      "parts": [
-        {"name":"VCC","package":"","pinout":"pin"}
-      ]
-    },
-    {
       "id": "GND",
       "function": "GND",
       "description": "Ground, drives logic 0",

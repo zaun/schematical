@@ -80,7 +80,7 @@ the same bytes. Readers must not depend on key order.
 }
 ```
 
-Every part with a footprint (all but VCC and GND) also stores where its
+Every part with a footprint (all but the supplies) also stores where its
 footprint sits on the PCB:
 
 ```json
@@ -110,11 +110,11 @@ An EEPROM can name the file loaded into it when the simulation starts:
 |--------------|---------|-------------------------------------------------------------------------|
 | `id`         | UUID    | Unique within the file.                                                 |
 | `reference`  | string  | Label shown on the PCB and in memory window titles, such as `U1`: 1 to 8 letters then a number of 1 or more. New parts get `U<n>`; the PCB sidebar renames them (letters uppercased; a reference another part has is refused). |
-| `partNumber` | string  | A part name from the part library (`schematical/schematical/Parts/*.json`): a logic part, memory (SRAM, EEPROM), switch, LED, 7-segment display, oscillator, or the supplies `VCC` and `GND`. |
+| `partNumber` | string  | A part name from the part library (`schematical/schematical/Parts/*.json`): a logic part, memory (SRAM, EEPROM), switch, LED, 7-segment display, oscillator, or a supply: `5V`, `3V3`, `2V5`, `1V8`, `1V2`, `12V` or `GND`. `VCC` (a supply removed from the library) opens as `5V`, and is saved as `5V`. |
 | `x`, `y`     | number  | Top-left corner of the part body.                                       |
-| `flipped`    | boolean | Pins on the opposite sides. Ignored for VCC and GND.                    |
+| `flipped`    | boolean | Pins on the opposite sides. Ignored for the supplies.                   |
 | `switches`   | array of booleans | DIP switches only, optional: whether each position is ON, position 1 first. Missing positions are OFF; extra entries are ignored. Left out for other parts. |
-| `pcb`        | object  | Optional. The footprint on the PCB: `x`, `y` (numbers, mm) are the footprint's centre, `rotation` (integer) is 0, 90, 180 or 270 degrees clockwise. `origin` (string, default `"topLeft"`) is the footprint's origin point (see [Coordinates](#coordinates)): `"center"`, `"topLeft"`, `"centerLeft"`, `"bottomLeft"` (of the bounding box as rotated) or `"pad1Center"` (the centre of the pad of the part's first pin). `outline` (the body outline, default `"document"`), `pin1` (the pin-1 dot, default `"silkscreen"`) and `reference` (the reference text, default `"silkscreen"`) say where each mark is drawn: `"hidden"`, `"document"` or `"silkscreen"`. The four strings are always written; a missing one takes its default. Written for every part with a footprint; left out for VCC and GND, and ignored on a part without a footprint. A part with a footprint and no `pcb` (older files) is placed automatically when the file is opened: after the stored ones, in file order, each to the right of everything already placed. |
+| `pcb`        | object  | Optional. The footprint on the PCB: `x`, `y` (numbers, mm) are the footprint's centre, `rotation` (integer) is 0, 90, 180 or 270 degrees clockwise. `origin` (string, default `"topLeft"`) is the footprint's origin point (see [Coordinates](#coordinates)): `"center"`, `"topLeft"`, `"centerLeft"`, `"bottomLeft"` (of the bounding box as rotated) or `"pad1Center"` (the centre of the pad of the part's first pin). `outline` (the body outline, default `"document"`), `pin1` (the pin-1 dot, default `"silkscreen"`) and `reference` (the reference text, default `"silkscreen"`) say where each mark is drawn: `"hidden"`, `"document"` or `"silkscreen"`. The four strings are always written; a missing one takes its default. Written for every part with a footprint; left out for the supplies, and ignored on a part without a footprint. A part with a footprint and no `pcb` (older files) is placed automatically when the file is opened: after the stored ones, in file order, each to the right of everything already placed. |
 | `memoryFile` | object  | EEPROMs only, optional: the file (raw binary, or Intel HEX for `.hex`/`.ihx`/`.ihex`) loaded into the chip at every start; without it the chip starts erased (every byte FF). `path` (string) is the file's path relative to the schematic's folder (`../roms/boot.bin`), or absolute for a schematic that had never been saved. `bookmark` (base64 string, optional) is an app-scoped security bookmark; on the Mac that wrote it, it is tried first, so the sandboxed app can read the file after a restart, and `path` is the fallback. Ignored on other parts. |
 
 ## Board
@@ -238,10 +238,13 @@ files as "saved by a newer version of Schematical".
 - Renaming, removing or changing the meaning of a field: bump `version`, and keep
   reading older versions by converting them on open.
 - The app refuses files with a newer `version` rather than guessing.
+- A part removed from the library may map to its replacement on open
+  (`VCC` → `5V`, `SchematicFile.renamedParts`), without a version bump: the
+  `partNumber` still names a library part, and saving writes the new name.
 
 ## Example
 
-A red LED between VCC and GND:
+A red LED between a 5 V supply and GND:
 
 ```json
 {
@@ -249,7 +252,7 @@ A red LED between VCC and GND:
   "version": 2,
   "nextReference": 4,
   "parts": [
-    { "id": "11111111-1111-1111-1111-111111111111", "reference": "U1", "partNumber": "VCC", "x": 100, "y": 40, "flipped": false },
+    { "id": "11111111-1111-1111-1111-111111111111", "reference": "U1", "partNumber": "5V", "x": 100, "y": 40, "flipped": false },
     { "id": "22222222-2222-2222-2222-222222222222", "reference": "U2", "partNumber": "LED-RED-0603", "x": 200, "y": 100, "flipped": false,
       "pcb": { "x": 0, "y": 0, "rotation": 0, "origin": "topLeft",
                "outline": "document", "pin1": "silkscreen", "reference": "silkscreen" } },

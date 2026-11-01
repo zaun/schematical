@@ -109,7 +109,7 @@ static void check_contacts(void) {
     Bench bench;
 
     /* VCC on net 0. OFF: net 1 floats. ON: it follows. OFF again: floats. */
-    if (!bench_open(&bench) || add_supply(bench.sim, "VCC", bench.nets[0]) == NULL ||
+    if (!bench_open(&bench) || add_supply(bench.sim, "5V", bench.nets[0]) == NULL ||
         !sim_start(bench.sim) || !sim_run_until(bench.sim, 1000)) {
         expect(0, "switch bench setup");
     } else {
@@ -149,7 +149,7 @@ static void check_contacts(void) {
     sim_destroy(bench.sim);
 
     /* VCC on net 0 and GND on net 2, joined by turning ON positions 1 and 2. */
-    if (!bench_open(&bench) || add_supply(bench.sim, "VCC", bench.nets[0]) == NULL ||
+    if (!bench_open(&bench) || add_supply(bench.sim, "5V", bench.nets[0]) == NULL ||
         add_supply(bench.sim, "GND", bench.nets[2]) == NULL ||
         !sim_start(bench.sim) || !sim_run_until(bench.sim, 1000)) {
         expect(0, "short bench setup");
@@ -172,7 +172,7 @@ static void check_contacts(void) {
 
         if (loop == NULL || !sim_connect(bench.sim, bench.nets[3], loop, 0) ||
             !sim_connect(bench.sim, bench.nets[0], loop, 3) ||
-            add_supply(bench.sim, "VCC", bench.nets[3]) == NULL) {
+            add_supply(bench.sim, "5V", bench.nets[3]) == NULL) {
             expect(0, "loop bench wiring");
         } else {
             set_position(bench.sim, bench.sw, 1, 1);

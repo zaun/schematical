@@ -40,9 +40,9 @@ The same as plan-07-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-07-F complete | `ls planning/plan-07-F-* 2>/dev/null` → no output | NOT MET (2026-11-01) |
-| plan-06 complete (it reworks the same toolbar) | `ls planning/plan-06-* 2>/dev/null` → no output | NOT MET (2026-11-01; in progress) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p07-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | (run when starting) |
+| plan-07-F complete | `ls planning/plan-07-F-* 2>/dev/null` → no output | MET (2026-11-01: no matches; archived in 2996204) |
+| plan-06 complete (it reworks the same toolbar) | `ls planning/plan-06-* 2>/dev/null` → no output | MET (2026-11-01: no matches; plan-06-A–D are in `planning/completed/`) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p07-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01, after plan-07-F: `** BUILD SUCCEEDED **`, 0 errors) |
 
 If plan-06 is not complete, this sub-plan cannot start. Full stop. Line
 numbers below are from before plan-06. Re-find each named symbol; the
@@ -298,7 +298,7 @@ enum VoltageCheck {
 
 ### Phase 1 — `VCC` → `5V` in library, tests and files
 
-- [ ] §4.1, and §4.5, with the doc edits.
+- [x] §4.1, and §4.5, with the doc edits.
 
 Acceptance:
 
@@ -309,6 +309,13 @@ Acceptance:
   `git diff -U0 backend/tests/golden | grep -c '^[-+][^-+]'` → 2, the two
   `-VCC|` lines. Then build the app and run harness case 1 (§ Validation)
   (est. 5 min).
+  Result (2026-11-01): `ctest` → `100% tests passed, 0 tests failed out of
+  12`; golden diff → `2`: `-VCC|supply|||VCC|||level=1 mv=5000|…` and
+  `-VCC	1df7bc25f3ed7621`. `xcodebuild … build` → `** BUILD SUCCEEDED **`;
+  harness `1` → `case 1 ok (supplies: 5V, GND, GND)` (and the re-encoded
+  file names `5V`, not `VCC`). The remaining `"VCC"` strings in
+  `backend/tests/*.c` are the three net/pin names (`display7_test.c:55`,
+  `eeprom_test.c:56`, `engine_test.c:121`).
 Commit: —
 
 ### Phase 2 — Voltage check in the editor
@@ -389,6 +396,27 @@ Author decisions:
   (B) is the second guard.
 
 ## Corrections
+
+- **The backend test references to the `VCC` part were not the plan's 18
+  at the plan's lines when G started.** plan-07-F had already moved two of
+  them: `circuit_check.c`'s oscillator test powers a 1.8 V LMK6 part and
+  uses `1V8`, and `sim_bench.c` runs on `3V3` (plan-07-F Corrections). The
+  other 16 became `"5V"`: `circuit_check.c` 7, `display7_test.c` 2,
+  `switch_test.c` 3, `library_check.c` 4. `voltage_test.c` (new in B) also
+  named `VCC` once; it now uses two `5V` parts.
+- **`library_check.c`'s four references are to its own inline `VCC_DEVICE`
+  fixture**, not the library's part. The fixture is renamed to `5V` (id,
+  function, part name) so they match, and the two duplicate-name cases that
+  build on it (`duplicate part in one file`, `check_duplicate_across_calls`)
+  and the duplicate-id case now name `5V`.
+- **Added task: the VCC tool kept working between phases.** Removing the
+  `VCC` part in Phase 1 left `SchematicTool.supplyName` pointing at a part
+  that no longer exists, so Phase 1 points `.vcc` at `5V` until Phase 3's
+  voltage menu.
+- **The harness entry file is `h.swift`, not `main.swift`**: swiftc treats
+  a file named `main.swift` as top-level code, which can't hold the
+  `@main` type the harness uses (plan-06's was `a.swift`). The Phase 2
+  check's `MAIN=…/main.swift` is `MAIN=/tmp/p07/harness/h.swift`.
 
 ## Summary
 

@@ -54,7 +54,7 @@ static int glow_of(const char *display, const unsigned (*wires)[2], size_t wire_
     Sim *sim = sim_create();
     SimNet *nets[2] = {sim_add_net(sim, "VCC"), sim_add_net(sim, "GND")};
     SimInstance *part = add(sim, display);
-    SimInstance *vcc = add(sim, "VCC");
+    SimInstance *vcc = add(sim, "5V");
     SimInstance *gnd = with_gnd ? add(sim, "GND") : NULL;
     size_t i;
     int ok = part != NULL && vcc != NULL && (gnd != NULL || !with_gnd) &&
@@ -138,7 +138,7 @@ static void check_persistence(void) {
     SimNet *ground = sim_add_net(sim, "GND");
     SimInstance *display = add(sim, "LTS-4301JR");
     SimInstance *sw = add(sim, "TE-GDS0204");
-    SimInstance *vcc = add(sim, "VCC");
+    SimInstance *vcc = add(sim, "5V");
     SimInstance *gnd = add(sim, "GND");
     char lights[16];
     int ok = display && sw && vcc && gnd &&

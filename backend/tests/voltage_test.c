@@ -240,7 +240,7 @@ static void check_supplies(void) {
 
     memset(&n, 0, sizeof n);
     a = add(&n, "5V");
-    b = add(&n, "VCC");
+    b = add(&n, "5V");
     shared = net(&n);
     wire(&n, a, "1", shared);
     wire(&n, b, "1", shared);

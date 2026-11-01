@@ -108,9 +108,9 @@ static int load(PartLibrary *library, const char *text, char **error) {
 #define TAIL "]}"
 
 #define VCC_DEVICE \
-    "{'id':'VCC','function':'VCC','description':'d','drawer':[]," \
+    "{'id':'5V','function':'5V','description':'d','drawer':[]," \
     "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'volts':5," \
-    "'parts':[{'name':'VCC','package':'','pinout':'pin'}]}"
+    "'parts':[{'name':'5V','package':'','pinout':'pin'}]}"
 #define GND_DEVICE \
     "{'id':'GND','function':'GND','description':'d','drawer':[],'note':'n'," \
     "'pinouts':{'pin':[{'number':1,'name':'GND','role':'ground','group':'default'}]},'volts':0," \
@@ -125,7 +125,7 @@ static void check_valid_supply(void) {
     CHECK(load(library, HEAD("supply") VCC_DEVICE "," GND_DEVICE TAIL, &error) == 0);
     CHECK(error == NULL);
     CHECK(part_library_count(library) == 2);
-    vcc = part_library_find(library, "VCC");
+    vcc = part_library_find(library, "5V");
     gnd = part_library_find(library, "GND");
     CHECK(vcc != NULL && gnd != NULL);
     CHECK(part_library_find(library, "NOPE") == NULL);
@@ -133,7 +133,7 @@ static void check_valid_supply(void) {
         CHECK(vcc->kind == PART_SUPPLY && vcc->supply != NULL && vcc->supply->level == 1 &&
               vcc->supply->mv == 5000 && vcc->vcc == NULL);
         CHECK(gnd->supply->level == 0 && gnd->supply->mv == 0);
-        CHECK(strcmp(vcc->function, "VCC") == 0 && vcc->drawer_count == 0);
+        CHECK(strcmp(vcc->function, "5V") == 0 && vcc->drawer_count == 0);
         CHECK(vcc->pin_count == 1 && strcmp(vcc->pins[0].designator, "1") == 0 && vcc->pins[0].role == PIN_POWER);
         CHECK(strcmp(vcc->pins[0].group, "default") == 0);
         CHECK(gnd->flags == (PART_OBSOLETE | PART_MILITARY) && vcc->flags == 0);
@@ -174,17 +174,17 @@ static void check_duplicate_across_calls(void) {
 
     CHECK(load(library, HEAD("supply") VCC_DEVICE TAIL, &error) == 0);
     CHECK(part_library_count(library) == 1);
-    /* The second file repeats VCC (another device id), after a good GND. */
+    /* The second file repeats 5V (another device id), after a good GND. */
     CHECK(load(library,
                HEAD("supply") GND_DEVICE ","
-               "{'id':'VCC2','function':'VCC','description':'d','drawer':[],"
+               "{'id':'5V-2','function':'5V','description':'d','drawer':[],"
                "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'volts':5,"
-               "'parts':[{'name':'VCC','package':'','pinout':'pin'}]}" TAIL,
+               "'parts':[{'name':'5V','package':'','pinout':'pin'}]}" TAIL,
                &error) == -1);
-    CHECK(error != NULL && strstr(error, "duplicate part name \"VCC\"") != NULL);
+    CHECK(error != NULL && strstr(error, "duplicate part name \"5V\"") != NULL);
     printf("ok   duplicate across calls: %s\n", error != NULL ? error : "(none)");
     CHECK(part_library_count(library) == 1);
-    CHECK(part_library_find(library, "VCC") != NULL);
+    CHECK(part_library_find(library, "5V") != NULL);
     CHECK(part_library_find(library, "GND") == NULL);
     free(error);
     error = NULL;
@@ -253,12 +253,12 @@ static void check_supply_cases(void) {
                 "devices[0] (led-red): pinouts.dip4: no pin named \"A\"");
     expect_fail("duplicate part in one file",
                 HEAD("supply") VCC_DEVICE ","
-                "{'id':'VCC2','function':'VCC','description':'d','drawer':[],"
+                "{'id':'5V-2','function':'5V','description':'d','drawer':[],"
                 "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'volts':5,"
-                "'parts':[{'name':'VCC','package':'','pinout':'pin'}]}" TAIL,
-                "duplicate part name \"VCC\"");
+                "'parts':[{'name':'5V','package':'','pinout':'pin'}]}" TAIL,
+                "duplicate part name \"5V\"");
     expect_fail("duplicate device id", HEAD("supply") VCC_DEVICE "," VCC_DEVICE TAIL,
-                "duplicate device id \"VCC\"");
+                "duplicate device id \"5V\"");
     expect_fail("bad flag",
                 HEAD("supply")
                 "{'id':'VCC','function':'VCC','description':'d','drawer':[],"
@@ -968,7 +968,7 @@ static void check_part_footprints(void) {
     CHECK(load(library, HEAD("supply") VCC_DEVICE TAIL, &error) == 0);
     part = part_library_find(library, "LED-FP");
     CHECK(part != NULL && part->footprint == part_library_find_footprint(library, "CHIP-2"));
-    part = part_library_find(library, "VCC");
+    part = part_library_find(library, "5V");
     CHECK(part != NULL && part->footprint == NULL);
     free(error);
     part_library_destroy(library);
