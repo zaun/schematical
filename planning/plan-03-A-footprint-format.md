@@ -441,18 +441,18 @@ catalog; nothing else changed.
   Check: `git diff -U0 backend/tests/golden/parts.txt | grep -c '^+[^+]'` → 55, and every `+` line starts `LED-` (est. seconds). — 2026-11-01: 55; non-`LED-` `+` lines 0, non-`LED-` `-` lines 0.
   Check: `git diff --exit-code backend/tests/golden/traces.txt` → no diff (est. seconds). — 2026-11-01: exit 0, no output.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 3 min). — 2026-11-01: `** BUILD SUCCEEDED **`.
-Commit: —
+Commit: c4172c9
 
 ### Phase 3 — Docs
 
-- [ ] `docs/parts-format.md`: a `## Footprints` section (§4.1–4.2, the styles
+- [x] `docs/parts-format.md`: a `## Footprints` section (§4.1–4.2, the styles
       with a small diagram of slot order, the `"footprint"` part key, the
       loading order) and `footprint` in the Parts key table.
-- [ ] `docs/backend.md`: `load_footprints` in "Using it", `footprints.c` in
+- [x] `docs/backend.md`: `load_footprints` in "Using it", `footprints.c` in
       Layout, `footprint_check` and `footprints.txt` in Tests.
 
 Acceptance: the docs describe every key the loader accepts.
-  Check: `grep -c 'perSide\|"slots"\|"balls"\|"centre"\|"explicit"\|pin1Shape\|"footprint"' docs/parts-format.md` → ≥ 7, and `grep -c 'load_footprints\|footprint_check' docs/backend.md` → ≥ 2 (est. seconds).
+  Check: `grep -c 'perSide\|"slots"\|"balls"\|"centre"\|"explicit"\|pin1Shape\|"footprint"' docs/parts-format.md` → ≥ 7, and `grep -c 'load_footprints\|footprint_check' docs/backend.md` → ≥ 2 (est. seconds). — 2026-11-01: 14 and 4.
 Commit: —
 
 ## Validation Plan

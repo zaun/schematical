@@ -16,7 +16,11 @@ oscillator, supply) is described in a JSON part file in
 | `oscillator.json` | `oscillator` |
 | `supply.json` | `supply` |
 
-The backend loads each file with `load_parts()` (`backend/include/parts.h`).
+Beside them, `footprints.json` holds the land patterns parts name with
+`"footprint"` (see [Footprints](#footprints)). It is loaded first, with
+`load_footprints()`.
+
+The backend loads each part file with `load_parts()` (`backend/include/parts.h`).
 The loader checks everything below; a file that breaks any rule is rejected
 as a whole, with a message that names the place, for example:
 
@@ -146,6 +150,7 @@ oscillator's `enablePin` is a pin designator; see below.)
 | `"package"` | package name as shown, e.g. `"DIP"`, `"TSSOP"`, `"2520 VSON"`; may be empty (supplies) |
 | `"pinout"` | the name of one of the device's pinouts |
 | `"flags"` | optional, any of `obsolete`, `military`, `automotive`, `enhanced` |
+| `"footprint"` | optional; the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)) |
 
 Every other key belongs to the kind.
 
@@ -173,6 +178,155 @@ Flags:
   are unique within a kind.
 - A failed `load_parts` adds nothing from that file; parts from earlier files
   stay.
+
+## Footprints
+
+`Parts/footprints.json` holds every land pattern, by name; a part names
+one with `"footprint": "<id>"`. The loader expands each footprint into a
+flat list of pads, so the app only draws rectangles and ellipses.
+
+```json
+{
+  "format": "schematical-footprints",
+  "version": 1,
+  "footprints": [
+    {
+      "id": "SOIC-14",
+      "description": "14-pin SOIC, 3.9 mm body, 1.27 mm pitch",
+      "note": "TI D0014A example board layout (sn74hc00.pdf p.24)",
+      "style": "dual",
+      "pins": 14,
+      "body": {"width": 3.9, "height": 8.65},
+      "pitch": 1.27,
+      "span": 5.4,
+      "pad": {"width": 1.55, "height": 0.6, "shape": "rect"}
+    }
+  ]
+}
+```
+
+The file allows only `format` (`"schematical-footprints"`), `version`
+(`1`) and `footprints`.
+
+**Units and axes.** Millimetres, JSON numbers. A footprint's origin is the
+centre of its body; x grows right, y grows down. Pin 1 is at the top of the
+left side. Pads are axis-aligned.
+
+### Common keys
+
+| Key | Value |
+|---|---|
+| `"id"` | unique name, `A-Z`, `0-9`, `.`, `-` |
+| `"description"` | one line for people |
+| `"note"` | optional provenance (drawing code, file, page); ignored |
+| `"style"` | `"dual"`, `"quad"`, `"grid"` or `"explicit"` |
+| `"pins"` | number of designated pads (1–1000). `dual`, `quad` and `explicit` pads are `"1"`…`"<pins>"`; `grid` pads are ball names |
+| `"body"` | `{"width", "height"}` > 0, optional `"round": true` (drawn as an ellipse) |
+| `"pad"` | `{"width", "height", "shape"}`, sizes > 0, shape `"rect"` or `"round"` (an ellipse; a circle when width = height). Not on `explicit` |
+| `"drill"` | optional, default 0 (surface mount); a through-hole diameter, smaller than both pad sides. Not on `explicit` |
+| `"pin1Shape"` | optional, `dual`/`quad` only: pin 1's pad shape (through-hole parts use `"rect"` to mark pin 1) |
+| `"centre"` | optional, `dual`/`quad` only: one pad at the origin, `{"width", "height", "shape"}` — an exposed pad, or the middle terminal of an X2SON-5 |
+| `"slots"` | optional, `dual`/`quad` only: `slots[i]` = the slot (1-based) pin i+1 sits on; `0` = the pin is the `centre` pad. Default: pin n on slot n |
+
+`slots` has exactly `pins` entries; non-zero values are distinct and no
+larger than the slot count; at most one `0`, and only with `centre`. A slot
+no pin names gets no pad. A `centre` no pin names is an unnumbered pad
+(designator `NULL`), listed last.
+
+### `dual` — two columns
+
+DIP, SOIC, SOP, SSOP, TSSOP, SOJ, TSOP, SOT-23, SC-70, SON, chip LEDs.
+
+| Key | Value |
+|---|---|
+| `"pitch"` | > 0, pad-centre distance along a column |
+| `"span"` | > 0, centre-to-centre distance between the two columns |
+| `"perSide"` | optional, ≥ 1, default `pins / 2`; required when `pins` is odd |
+
+Slot count = 2 × perSide. Slots run counter-clockwise: down the left
+column, then up the right one. Without `slots`, `pins` must fit.
+
+```
+ 1 ▯   ▯ 6        SOT-23-5: perSide 3, slots [1,2,3,4,6]
+ 2 ▯   ▯ 5        pins 1-3 on slots 1-3, pin 4 on slot 4,
+ 3 ▯   ▯ 4        pin 5 on slot 6; slot 5 has no pad
+```
+
+```
+slot s ≤ P:  x = −span/2,  y = (s − 1 − (P−1)/2) · pitch
+slot s > P:  x = +span/2,  y = ((2P − s) − (P−1)/2) · pitch
+```
+
+### `quad` — four sides
+
+LCCC, QFN.
+
+| Key | Value |
+|---|---|
+| `"sides"` | `[left, bottom, right, top]` slot counts, whole numbers, at least one slot in total |
+| `"pitch"` | > 0 |
+| `"spanX"` | > 0, centre distance of the left and right columns |
+| `"spanY"` | > 0, centre distance of the top and bottom rows |
+
+Slots run counter-clockwise: left side top→bottom, bottom left→right, right
+bottom→top, top right→left; each side's pads are centred on it. Left and
+right pads are `pad.width × pad.height`; top and bottom pads are turned
+(`pad.height × pad.width`).
+
+```
+      16 15 14 13           sides [4,4,4,4]: slot numbers,
+   1 ▯          ▯ 12        left 1-4, bottom 5-8,
+   2 ▯          ▯ 11        right 9-12, top 13-16
+   3 ▯          ▯ 10
+   4 ▯          ▯ 9
+       5  6  7  8
+```
+
+### `grid` — ball grid
+
+BGA, DSBGA. `slots`, `centre` and `pin1Shape` are not allowed.
+
+| Key | Value |
+|---|---|
+| `"rows"` | 1–20 |
+| `"columns"` | 1–30 |
+| `"pitch"` | > 0 |
+| `"balls"` | the populated ball names, `pins` of them, any order |
+
+Rows are letters A, B, C, … skipping I, O, Q, S, X, Z (row A at the top);
+columns are 1…`columns` (column 1 at the left), as on a top-view land
+pattern. Each ball must be a ball name inside the grid, used once. A pad's
+designator is its ball name — the same name the part's ball pinout uses —
+so a grid needs no pin mapping. Pads are listed row by row.
+
+```
+column c, row index r (A = 0):  x = (c − 1 − (columns−1)/2) · pitch
+                                y = (r − (rows−1)/2) · pitch
+```
+
+### `explicit` — literal pads
+
+For land patterns the parametric styles cannot express (mixed pad sizes).
+`"pads"` is a non-empty array of `{"pin", "x", "y", "width", "height",
+"shape"}` plus optional `"drill"`, in the coordinates above. Every pin
+1…`pins` appears exactly once; `"pin": 0` is an unnumbered pad (any
+number of them). `pad`, `drill`, `slots`, `centre` and `pin1Shape` are not
+allowed at the footprint level.
+
+### The `"footprint"` part key
+
+- The footprint must already be loaded: `load_footprints` runs before any
+  `load_parts` (the app and the tests load `footprints.json` first; a
+  missing `footprints.json` is an error).
+- The footprint's `pins` must equal the pinout's pin count, and every pin's
+  designator (`"14"`, `"A1"`) must have a pad of that designator. Pins are
+  matched to pads by designator, never by position.
+- A part with `absent` pins keeps their pads in the footprint; the app does
+  not draw a pad for an absent pin.
+
+No other key is allowed anywhere in the file, and a key appearing twice is
+an error. Messages name the place, e.g.
+`footprints.json: footprints[4] (SOT23-5): slots: slot 7 is beyond 6 slots`.
 
 ## Kinds
 

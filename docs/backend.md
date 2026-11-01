@@ -18,10 +18,15 @@ kind; the format is in [parts-format.md](parts-format.md).
 #include "parts.h"
 #include "circuit.h"
 
-/* 1. Load the part files (the app reads its bundle resources; tests use
-      tests/support/read_file.c). Each call takes one file's text. */
+/* 1. Load footprints.json, then the part files (the app reads its bundle
+      resources; tests use tests/support/read_file.c). Each call takes one
+      file's text. */
 PartLibrary *library = part_library_create();
 char *error = NULL;
+if (load_footprints(library, footprints_json_text, "footprints.json", &error) != 0) {
+    fprintf(stderr, "%s\n", error);
+    free(error);
+}
 if (load_parts(library, gate_json_text, "gate.json", &error) != 0) {
     fprintf(stderr, "%s\n", error);   /* e.g. gate.json: devices[3] (74_00): ... */
     free(error);
@@ -29,7 +34,8 @@ if (load_parts(library, gate_json_text, "gate.json", &error) != 0) {
 
 /* 2. Read a part's facts. */
 const Part *part = part_library_find(library, "SN74HC00N");
-/* part->kind == PART_GATE, part->logic->family == "HC", part->pins[...] */
+/* part->kind == PART_GATE, part->logic->family == "HC", part->pins[...],
+   part->footprint->pads[...] (mm, designator matches part->pins[i].designator) */
 
 /* 3. Build and run a circuit. Pins are named by designator ("1", "A1"). */
 Circuit *c = circuit_create(library);
@@ -74,8 +80,10 @@ backend/
   include/                 public API: parts.h, circuit.h
   src/
     engine/                sim.c sim.h net.c net.h (the event engine)
-    library/               library.c (load_parts), kinds.c (KINDS[]),
-                           kind.h + kind_util.c (the kind interface)
+    library/               library.c (load_parts, load_footprints), kinds.c
+                           (KINDS[]), kind.h + kind_util.c (the kind
+                           interface), footprints.c + footprint.h (parse,
+                           check and expand footprints.json)
     models/                one file per kind: gate.c dff.c jkff.c sram.c
                            switch.c led.c display7.c oscillator.c supply.c,
                            and lights.c (on-time tracking for lights)
@@ -123,5 +131,13 @@ drawer work from the kind table and the `Part` structs.
   /tmp/logic-build/trace_check --print > backend/tests/golden/traces.txt
   git diff --stat backend/tests/golden
   ```
+- `footprint_check` — every footprint in `footprints.json`, expanded to
+  pads, against `tests/golden/footprints.txt` (one line per footprint:
+  `id|pins=N|body=WxH|pads=<designator>:x,y,wxh,shape[,d<drill>];…`, `-`
+  for an unnumbered pad), and every footprint used by some part. After an
+  intended change: `/tmp/logic-build/footprint_check --print >
+  backend/tests/golden/footprints.txt`, then hand-check the changed lines
+  against the drawing. Listing lines in `parts.txt` end in
+  `|footprint=<id>` for parts that name one.
 - `switch_test`, `sram_test`, `display7_test` — model benches.
 - `circuit_check` — the circuit API.
