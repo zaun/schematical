@@ -361,7 +361,7 @@ Acceptance: harness case 6 passes, and the app shows the menu.
   and a 3V3 supply placed with the menu, a Line drag between their pins
   refused (no wire) with the orange overlay `Can't connect: 3.3 V (U2) and
   5 V (U1) supplies on one net.`
-Commit: — (screenshots: /tmp/p07/shots/toolbar-voltage-menu.png,
+Commit: a2d9122 (screenshots: /tmp/p07/shots/toolbar-voltage-menu.png,
 /tmp/p07/shots/refused-wire.png)
 
 ## Validation Plan
