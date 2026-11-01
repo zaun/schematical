@@ -213,7 +213,7 @@ Commit: 6ecac1f
 Acceptance: only the 43 DSBGA lines change, and traces are unchanged.
   Check: `ctest --test-dir /tmp/logic-bga` (after rebuild and regeneration) → `100% tests passed`; `git diff --numstat backend/tests/golden` → `43	43	backend/tests/golden/parts.txt` only (relative to Phase 1's commit); `git diff -U0 backend/tests/golden/parts.txt | grep '^+[A-Z0-9]' | grep -vc '|DSBGA|'` → `0`; `git diff -U0 backend/tests/golden/parts.txt | grep -c ':DNU:nc:'` → `4`; the §4.2 spot checks (est. 1 min).
   Result (2026-11-01): gate 19 devices / 119 ball pins / 35 parts, dff 6 / 38 / 8; `100% tests passed, 0 tests failed out of 7`; numstat `43	43	backend/tests/golden/parts.txt`; non-DSBGA `+` lines → `0`; `:DNU:nc:` → `4`; `trace_check --print` `cmp`-equal to the pre-plan `traces.txt`; listing lines: 1G00 `A1:A,B1:B,C1:GND,C2:Y,A2:VCC`, 1G80 `A1:D,B1:CLK,C1:GND,C2:QBAR,A2:VCC`, 1G10 `A1:A,B1:GND,C1:B,C2:Y,B2:VCC,A2:C`, 1G374 `A1:CLK,B1:GND,C1:D,C2:Q,B2:VCC,A2:OE`, 1G74 `A1:CLK,B1:D,C1:QBAR,D1:GND,D2:Q,C2:CLR,B2:PRE,A2:VCC`. Datasheet cross-check: `pdftotext` of sn74aup1g00 p.5 (YFP B2 = DNU) and sn74aup1g74 p.3 (A1 CLK … A2 VCC) agree.
-Commit: —
+Commit: 35cfc18
 
 ## Validation Plan
 
@@ -237,6 +237,25 @@ Commit: —
     is `main` before plan-02-A, so this covers all of plan-02;
   - the `xcodebuild` (est. 30 s) and the runtime proof (est. 10 min).
 
+## Final gate (run 2026-11-01, plan-02 overall)
+
+- `cmake -S backend -B /tmp/logic-bga-final && cmake --build /tmp/logic-bga-final -j8 && ctest --test-dir /tmp/logic-bga-final`
+  → `100% tests passed, 0 tests failed out of 7`; `listing_check | tail -1` → `3817 parts compared, 0 skipped`.
+- `git diff 6861e27 -- backend/tests/golden/traces.txt | wc -c` → `0`.
+- `xcodebuild … build` → `** BUILD SUCCEEDED **`.
+- Runtime proof, headless with the plan-02-A harness (locked session; see
+  plan-02-A Corrections), now with a `--place` mode that uses the app's
+  drawer-drop and Line-mode calls (`placeChip`, `lineAnchor` at each pin tip,
+  `connect`):
+  1. Placed `AS6C1008-55BIN`: 36 labels, the ball names A1 … H6 with C3 (NC)
+     and without the unpopulated C2 C5 D2–D5 E2–E5 F2 F5; placed
+     `SN74LVC1G00YZPR`: `A2 A1 B1 C2 C1`.
+  2. Wired VCC pin 1 to the gate's `A2`, saved `/tmp/plan02c.schematical`:
+     the wire's pins are `["1","A2"]`.
+  3. A hand-written version 1 file wiring `SN74AUC1G00YZPR` pin 4 to an LED
+     anode opens with `wire U1.C2:Y -> U2.2:A`; Play → `running: true error: none`;
+     re-saved as version 2 with `["C2","2"]`.
+
 ## Decisions
 
 - All 12 SRAM TFBGA and 25 DSBGA devices get datasheet ball names. Decided by the owner, 2026-10-31. (§4)
@@ -254,6 +273,9 @@ Commit: —
   parts.txt at line 1" and left an empty golden. Fixed in the tests: both read
   the goldens only after the `--print` branch. The documented command now
   works as written (verified: regenerated `parts.txt` → `100% tests passed`).
+
+- Runtime proof driven headlessly (locked session); same harness and reason
+  as plan-02-A's Corrections.
 
 ## Summary
 
