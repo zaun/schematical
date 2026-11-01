@@ -29,6 +29,7 @@ struct ChipDrawerView: View {
         let groups = catalog.groups(matching: activeFilter)
 
         VStack(spacing: 0) {
+            searchField
             filterBar
 
             List {
@@ -62,7 +63,6 @@ struct ChipDrawerView: View {
                 }
             }
         }
-        .searchable(text: $filter.query, prompt: "Search parts")
         .safeAreaInset(edge: .bottom) {
             statusFooter
         }
@@ -79,6 +79,31 @@ struct ChipDrawerView: View {
             showAutomotive: showAutomotive
         )
         return active
+    }
+
+    /// Always-visible search field at the top of the drawer.
+    private var searchField: some View {
+        HStack(spacing: 6) {
+            Image(systemName: "magnifyingglass")
+                .foregroundStyle(.secondary)
+            TextField("Search parts", text: $filter.query)
+                .textFieldStyle(.plain)
+            if !filter.query.isEmpty {
+                Button {
+                    filter.query = ""
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+                .help("Clear search")
+            }
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 5)
+        .background(.quaternary.opacity(0.6), in: RoundedRectangle(cornerRadius: 6))
+        .padding(.horizontal, 12)
+        .padding(.top, 8)
     }
 
     private var filterBar: some View {
