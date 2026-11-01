@@ -163,7 +163,7 @@ texts drag and rotate.
   (snapped); rotate → 90; press on empty board → both selections nil
   and a pan (each `true`) (est. 3 min).
   Check: plan-06-A `xcodebuild` → `** BUILD SUCCEEDED **` (est. 1 min).
-Commit: —
+Commit: e1762d3
 
 ### Phase 2 — Text panel and delete
 
@@ -185,7 +185,7 @@ Acceptance: the panel edits every text property; delete removes the text.
   save/reopen of the pre-delete state keeps every value (`true`) (est.
   10 min: one window run covers the panel; nothing smaller renders it).
   Check: plan-06-A `xcodebuild` → `** BUILD SUCCEEDED **` (est. 1 min).
-Commit: —
+Commit: e1762d3
 
 ## Validation Plan
 
@@ -200,6 +200,18 @@ Commit: —
   the `xcodebuild` (est. 1 min) + every harness mode of plan-06-A…D
   (est. 25 min: the window captures are the only end-to-end proof of the UI
   and each takes a few minutes).
+- Results (2026-11-01, at e1762d3): `ctest` → `100% tests passed, 0 tests
+  failed out of 11`; `xcodebuild` → `** BUILD SUCCEEDED **`;
+  `/tmp/p06/allmodes.sh` re-ran every mode of A…D on the final code:
+  `baseline` diff empty, `origins`/`texts`/`tools` all `true`, `rename` as
+  in A, `roundtrip` `snapshots equal: true` and `cmp` equal, `bad` 14 ×
+  `message true unchanged true`, `lengths` as in C, `window-b1` running
+  true → false (no Run/Stop on PCB) → false with Run, `window-c2` and
+  `window-d` every line `true`, `render-b` pixel (0.361, 0.161, 0.502).
+  `c1-schematic.png` no longer byte-matches the before-capture because the
+  harness window now reports itself key (Corrections 1), so the title bar
+  and the drawer's search field draw active; by eye the toolbar, tools,
+  drawer and "Parts Drawer" toggle are unchanged.
 
 ## Decisions
 
