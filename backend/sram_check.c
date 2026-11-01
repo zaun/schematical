@@ -485,6 +485,12 @@ static void check_catalog(void) {
            "catalog lists SRAMs in the Memory category");
     expect(json != NULL && strstr(json, "\"name\":\"AS7C34098A-10JCN\",\"package\":\"SOJ\",\"family\":\"10 ns\"") != NULL,
            "catalog gives an SRAM's package and speed grade");
+    expect(json != NULL && strstr(json, "\"name\":\"A14\",\"role\":\"input\",\"group\":\"address\"") != NULL,
+           "SRAM address pins are in the address pin group");
+    expect(json != NULL && strstr(json, "\"name\":\"WE#\",\"role\":\"input\",\"group\":\"default\"") != NULL,
+           "other SRAM pins are in the default pin group");
+    expect(json != NULL && strstr(json, "\"name\":\"1A\",\"role\":\"input\",\"group\":\"default\"") != NULL,
+           "logic chip pins without a group are in the default pin group");
     free(json);
 }
 

@@ -970,8 +970,21 @@ size_t sram_inspect(
 #define SRAM_ROLE_GND PIN_ROLE_GROUND
 #define SRAM_ROLE_NC PIN_ROLE_NO_CONNECT
 
+/* Pin groups on the schematic block: the address bus is drawn together. */
+#define SRAM_GROUP_A "address"
+#define SRAM_GROUP_DQ NULL
+#define SRAM_GROUP_CE_N NULL
+#define SRAM_GROUP_CE NULL
+#define SRAM_GROUP_OE_N NULL
+#define SRAM_GROUP_WE_N NULL
+#define SRAM_GROUP_BE_N NULL
+#define SRAM_GROUP_VCC NULL
+#define SRAM_GROUP_GND NULL
+#define SRAM_GROUP_NC NULL
+
 #define SRAM_PIN_ENTRY(number, name, function, index) {number, SRAM_FN_##function, index},
-#define SRAM_CHIP_PIN(number, name, function, index) {number, name, SRAM_ROLE_##function},
+#define SRAM_CHIP_PIN(number, name, function, index) \
+    {number, name, SRAM_ROLE_##function, SRAM_GROUP_##function},
 #define SRAM_PART_ENTRY(name, grade, package, flags) {name, &grade, package},
 #define SRAM_PART_NAME(name, grade, package, flags) name,
 #define SRAM_PART_FLAGS(name, grade, package, flags) flags,

@@ -16,10 +16,10 @@ const ChipDefinition *catalog_definition_at(size_t index);
  *              "parts":[{"name":..,"package":..,"family":..,"obsolete":bool,
  *                        (for SRAMs, "family" is the speed grade, e.g. "55 ns")
  *                        "military":bool,"automotive":bool,"enhanced":bool}],
- *              "pins":[{"number":..,"name":..,"role":..}]}],
+ *              "pins":[{"number":..,"name":..,"role":..,"group":..}]}],
  *    "leds":[{"name":..,"color":..,"package":..,
- *             "pins":[{"number":..,"name":..,"role":..}]}],
- *    "supplies":[{"name":..,"pins":[{"number":..,"name":..,"role":..}]}]}
+ *             "pins":[{"number":..,"name":..,"role":..,"group":..}]}],
+ *    "supplies":[{"name":..,"pins":[{"number":..,"name":..,"role":..,"group":..}]}]}
  * Only part numbers the backend can actually simulate are written.
  */
 void catalog_write_json(FILE *out);

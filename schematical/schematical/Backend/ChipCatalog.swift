@@ -14,11 +14,34 @@ nonisolated enum PinRole: String, Codable, Hashable, Sendable {
 }
 
 nonisolated struct ChipPin: Codable, Hashable, Sendable, Identifiable {
+    /// The group a pin is in when the backend names none.
+    static let defaultGroup = "default"
+
     let number: Int
     let name: String
     let role: PinRole
+    /// Pins in one group are drawn together on the block, such as an SRAM's
+    /// address pins. Most pins are in the default group.
+    let group: String
 
     var id: Int { number }
+
+    var isInDefaultGroup: Bool { group == Self.defaultGroup }
+
+    init(number: Int, name: String, role: PinRole, group: String = ChipPin.defaultGroup) {
+        self.number = number
+        self.name = name
+        self.role = role
+        self.group = group
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        number = try container.decode(Int.self, forKey: .number)
+        name = try container.decode(String.self, forKey: .name)
+        role = try container.decode(PinRole.self, forKey: .role)
+        group = try container.decodeIfPresent(String.self, forKey: .group) ?? Self.defaultGroup
+    }
 }
 
 /// One orderable part number, with the package and family the model reports for it.

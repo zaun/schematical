@@ -102,6 +102,15 @@ static const char *role_name(PinRole role) {
     return "noConnect";
 }
 
+static void write_json_string(FILE *out, const char *text);
+
+/* Ends a pin object: its role and group. */
+static void write_pin_tail(FILE *out, const ChipPin *pin) {
+    fprintf(out, ",\"role\":\"%s\",\"group\":", role_name(pin->role));
+    write_json_string(out, pin->group != NULL ? pin->group : CHIP_PIN_GROUP_DEFAULT);
+    fputc('}', out);
+}
+
 static void write_json_string(FILE *out, const char *text) {
     const unsigned char *p = (const unsigned char *)text;
 
@@ -239,7 +248,7 @@ static void write_chip(FILE *out, const ChipDefinition *chip) {
         }
         fprintf(out, "{\"number\":%u,\"name\":", pin->number);
         write_json_string(out, pin->name);
-        fprintf(out, ",\"role\":\"%s\"}", role_name(pin->role));
+        write_pin_tail(out, pin);
     }
     fputs("]}", out);
 }
@@ -277,7 +286,7 @@ static void write_oscillator(FILE *out, size_t index) {
         }
         fprintf(out, "{\"number\":%u,\"name\":", pins[i].number);
         write_json_string(out, pins[i].name);
-        fprintf(out, ",\"role\":\"%s\"}", role_name(pins[i].role));
+        write_pin_tail(out, &pins[i]);
     }
     fputs("]}", out);
 }
@@ -308,7 +317,7 @@ static void write_led(FILE *out, size_t index) {
         }
         fprintf(out, "{\"number\":%u,\"name\":", pin->number);
         write_json_string(out, pin->name);
-        fprintf(out, ",\"role\":\"%s\"}", role_name(pin->role));
+        write_pin_tail(out, pin);
     }
     fputs("]}", out);
 }
@@ -350,7 +359,8 @@ void catalog_write_json(FILE *out) {
         write_json_string(out, supply_part_name_at(i));
         fprintf(out, ",\"pins\":[{\"number\":%u,\"name\":", pin->number);
         write_json_string(out, pin->name);
-        fprintf(out, ",\"role\":\"%s\"}]}", role_name(pin->role));
+        write_pin_tail(out, pin);
+        fputs("]}", out);
     }
     fputs("],\"oscillators\":{\"category\":\"Oscillator\",\"groups\":[", out);
     for (i = 0; i < osc_group_count(); i++) {

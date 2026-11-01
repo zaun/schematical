@@ -20,10 +20,18 @@ typedef enum {
     PIN_ROLE_NO_CONNECT
 } PinRole;
 
+/*
+ * Pins in the same group are drawn together on the schematic block, e.g. an
+ * SRAM's address pins. NULL means the "default" group, which every pin table
+ * written before groups existed uses by leaving the field out.
+ */
+#define CHIP_PIN_GROUP_DEFAULT "default"
+
 typedef struct {
     unsigned number;   /* package pin number, 1-based */
     const char *name;  /* datasheet pin name, e.g. "1A" or "VCC" */
     PinRole role;
+    const char *group; /* pin group, NULL = CHIP_PIN_GROUP_DEFAULT */
 } ChipPin;
 
 /*

@@ -215,13 +215,14 @@ nonisolated struct ChipLayout: Hashable {
         let outputs = pins(.output, .inOut)
         let ground = pins(.ground)
 
-        let left = Self.stack([power, inputs, unused])
-        let rightTop = outputs.count + (ground.isEmpty ? 0 : 1 + ground.count)
+        let left = Self.stack(Self.grouped(power) + Self.grouped(inputs) + Self.grouped(unused))
+        let outputRows = Self.stack(Self.grouped(outputs))
+        let rightTop = outputRows.count + (ground.isEmpty ? 0 : 1 + ground.count)
         let rowCount = max(left.count, rightTop, 1)
 
         let leftRows: [ChipPin?] = left + [ChipPin?](repeating: nil, count: rowCount - left.count)
         var rightRows = [ChipPin?](repeating: nil, count: rowCount)
-        for (index, pin) in outputs.enumerated() {
+        for (index, pin) in outputRows.enumerated() {
             rightRows[index] = pin
         }
         for (index, pin) in ground.enumerated() {
@@ -245,6 +246,26 @@ nonisolated struct ChipLayout: Hashable {
             width: Self.bodyWidth,
             height: Self.headerHeight + Self.pitch * CGFloat(rowCount)
         )
+    }
+
+    /// Splits pins (already in pin-number order) by pin group: the default
+    /// group first, in pin-number order, then each named group in the order its
+    /// first pin appears. A named group is a bus such as A0..A18, so its pins
+    /// are in name order (A2 before A10). With only default pins this is the
+    /// input unchanged, so blocks without groups lay out as before.
+    private static func grouped(_ pins: [ChipPin]) -> [[ChipPin]] {
+        var groups: [[ChipPin]] = [pins.filter(\.isInDefaultGroup)]
+        var names: [String] = []
+        for pin in pins where !pin.isInDefaultGroup && !names.contains(pin.group) {
+            names.append(pin.group)
+        }
+        for name in names {
+            groups.append(
+                pins.filter { $0.group == name }
+                    .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+            )
+        }
+        return groups
     }
 
     /// Joins non-empty groups top to bottom, with one empty row between groups.
