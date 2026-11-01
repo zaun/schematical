@@ -15,6 +15,12 @@ struct ContentView: View {
     @State private var isDrawerShown = true
     @State private var simulation: SimulationController
     @State private var file: SchematicFileController
+    /// Identifies this window to the memory windows it opens.
+    @State private var sessionID = UUID()
+    @Environment(\.openWindow) private var openWindow
+    @Environment(\.dismissWindow) private var dismissWindow
+    /// Memory windows opened from this window, closed along with it.
+    @State private var memoryWindows: Set<MemoryWindowTarget> = []
 
     init() {
         let catalog = ChipCatalogStore()
@@ -38,7 +44,12 @@ struct ContentView: View {
             document: document,
             viewport: viewport,
             tool: tool,
-            simulation: simulation
+            simulation: simulation,
+            onOpenMemory: { chipID in
+                let target = MemoryWindowTarget(sessionID: sessionID, chipID: chipID)
+                memoryWindows.insert(target)
+                openWindow(id: "memory", value: target)
+            }
         ) {
             // Placing a part from the drawer returns to the Pointer tool.
             tool = .pointer
@@ -111,6 +122,15 @@ struct ContentView: View {
                 }
             }
             .task { catalog.load() }
+            .onAppear {
+                SchematicSessions.shared.register(sessionID, document: document, simulation: simulation)
+            }
+            .onDisappear {
+                for target in memoryWindows {
+                    dismissWindow(id: "memory", value: target)
+                }
+                memoryWindows = []
+            }
             .focusedSceneValue(\.schematicFile, file)
             .background(WindowReader { file.window = $0 })
             .navigationTitle(file.displayName)

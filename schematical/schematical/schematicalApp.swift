@@ -38,6 +38,17 @@ struct schematicalApp: App {
             SchematicFileCommands()
         }
 
+        // One window per memory part, opened by double-clicking it.
+        WindowGroup("Memory", id: "memory", for: MemoryWindowTarget.self) { $target in
+            if let target {
+                MemoryWindowView(target: target)
+            }
+        }
+        .defaultSize(width: 760, height: 560)
+        // A memory window belongs to a schematic window and its running
+        // simulation, so it is not reopened at launch.
+        .restorationBehavior(.disabled)
+
         Settings {
             PreferencesView()
         }

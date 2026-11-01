@@ -96,6 +96,18 @@ enum NetlistBuilder {
     }
 }
 
+/// A memory part's size: its word count and word width in bits.
+struct MemorySize: Equatable {
+    let words: Int
+    let bits: Int
+}
+
+/// One memory word. `known` has a 1 for every bit that is defined; the others are X.
+struct MemoryWord: Equatable {
+    let value: UInt32
+    let known: UInt32
+}
+
 /// Owns one running simulation. Play mode starts it, Stop frees it.
 @MainActor
 @Observable
@@ -116,6 +128,9 @@ final class SimulationController {
     private var netValues: [Character] = []
     private var shortedNets: Set<Int> = []
     private(set) var litChips: Set<UUID> = []
+    /// Goes up after every read of the simulator's state, so views that show
+    /// memory contents know to read them again.
+    private(set) var stateVersion = 0
 
     func toggle(document: SchematicDocument) {
         if isRunning {
@@ -219,6 +234,30 @@ final class SimulationController {
         netValues = values
         shortedNets = shorted
         litChips = lit
+        stateVersion &+= 1
+    }
+
+    // MARK: Memory
+
+    /// Size of a memory part in the running simulation, or nil when the part is
+    /// not a memory or the simulation is not running.
+    func memorySize(of chipID: UUID) -> MemorySize? {
+        guard let handle, let part = netlist?.chipIDs.firstIndex(of: chipID) else { return nil }
+        var words: UInt32 = 0
+        var bits: UInt32 = 0
+        guard netlist_sim_memory_size(handle, part, &words, &bits) != 0 else { return nil }
+        return MemorySize(words: Int(words), bits: Int(bits))
+    }
+
+    /// Words of a memory part, from `start`. Fewer than `count` at the end of
+    /// the memory; empty when the simulation is not running.
+    func readMemory(of chipID: UUID, start: Int, count: Int) -> [MemoryWord] {
+        guard let handle, let part = netlist?.chipIDs.firstIndex(of: chipID),
+              start >= 0, count > 0, start <= Int(UInt32.max) else { return [] }
+        var values = [UInt32](repeating: 0, count: count)
+        var known = [UInt32](repeating: 0, count: count)
+        let read = netlist_sim_inspect_memory(handle, part, UInt32(start), count, &values, &known)
+        return (0..<read).map { MemoryWord(value: values[$0], known: known[$0]) }
     }
 
     /// Color for a wire in play mode. Outside play mode, the normal color.

@@ -21,6 +21,8 @@ struct SchematicCanvasView: View {
     /// The simulation. While it runs (play mode), the canvas only pans.
     let simulation: SimulationController
     private var isRunning: Bool { simulation.isRunning }
+    /// Called with a memory part's id when it is double-clicked, to show its contents.
+    var onOpenMemory: (UUID) -> Void = { _ in }
     /// Called after a part dragged from the drawer is placed on the canvas.
     var onPartPlaced: () -> Void = {}
 
@@ -83,8 +85,16 @@ struct SchematicCanvasView: View {
             }
             .simultaneousGesture(
                 SpatialTapGesture(count: 2).onEnded { value in
-                    guard tool == .pointer, !isRunning else { return }
-                    document.insertNode(at: viewport.world(value.location), tolerance: lineTolerance)
+                    guard tool == .pointer else { return }
+                    let point = viewport.world(value.location)
+                    // Double-clicking a memory part opens its memory view, in
+                    // play mode too, which is when it has contents to show.
+                    if let chip = document.chip(at: point), chip.chip.category == memoryCategory {
+                        onOpenMemory(chip.id)
+                        return
+                    }
+                    guard !isRunning else { return }
+                    document.insertNode(at: point, tolerance: lineTolerance)
                 }
             )
             .dropDestination(for: ChipPartDragItem.self) { items, location in
