@@ -29,8 +29,8 @@ The same as plan-07-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-07-B complete | `ls planning/plan-07-B-* 2>/dev/null` → no output | NOT MET (2026-11-01) |
-| `pdftotext` available | `which pdftotext` → `/Users/justinzaun/local/brew/bin/pdftotext` | MET (2026-11-01) |
+| plan-07-B complete | `ls planning/plan-07-B-* 2>/dev/null` → no output | MET (2026-11-01: `ls planning/plan-07-B-*` → no matches; archived in c40f79e) |
+| `pdftotext` available | `which pdftotext` → `/Users/justinzaun/local/brew/bin/pdftotext` | MET (2026-11-01, re-run: same path) |
 
 ## 1. Goal
 
@@ -152,14 +152,20 @@ The measured splits (AC, LVC, LS) show it would be wrong.
 
 ### Phase 1 — AND devices
 
-- [ ] Run §4 on the 13 AND devices (54 entries) in `gate.json`.
-- [ ] Regenerate `parts.txt` (`docs/backend.md` § Tests).
+- [x] Run §4 on the 13 AND devices (54 entries) in `gate.json`.
+- [x] Regenerate `parts.txt` (`docs/backend.md` § Tests).
 
 Acceptance: every AND part has `vcc`, and nothing else changed.
   Check: `python3 -I -c "import json;g=json.load(open('schematical/schematical/Parts/gate.json'))['devices'];print(sum(1 for d in g if d['function']=='AND' for p in d['parts'] if 'vcc' not in p and 'vcc' not in d['timing'][p['family']]))"`
   → `0`, and `git diff --quiet backend/tests/golden/traces.txt` → exit 0, and
   `git diff -U0 backend/tests/golden/parts.txt | grep '^+[^+]' | grep -vc '|vcc='`
   → `0` (est. 1 min).
+  Result (2026-11-01): script → `0`; `git diff --quiet …/traces.txt` → exit
+  0 (`trace_check` exit 0); `… | grep -vc '|vcc='` → `0` of 653 added lines,
+  and the 653 `-` lines equal the `+` lines with `|vcc=` removed (python
+  compare → `653 653 True`). `/tmp/p07s/verify.py` (every part's listed
+  value against the datasheet readings) → `285 parts checked, 0
+  mismatches` (74_08) and `368 parts checked, 0 mismatches` (the other 12).
 Commit: —
 
 ### Phase 2 — NAND devices
@@ -195,6 +201,36 @@ See plan-07-A § Decisions. Author decisions in this sub-plan:
   MAX.
 
 ## Corrections
+
+- **How §4 was run.** Steps 2–3 (read each sheet's ROC table, match every
+  part name to its column/sheet, including SMD/V62 numbers through the
+  ordering addendum, and read the scans from page images) were done by
+  research agents, one per batch (74_00; 74_08; the other AND; the other
+  NAND), each writing its readings to `/tmp/p07/data/<batch>.json` with a
+  stem and page per value. Steps 3–4 (majority entry value, part
+  overrides, entry and device notes) were applied by
+  `/tmp/p07s/apply.py`, which edits the file's text in place. Every part's
+  listed value was then compared with the readings (`/tmp/p07s/verify.py`),
+  and the unusual readings were re-checked against the sheet text by hand
+  (SN74LVC11A 1.1–3.6, `sn74lvc11a` line 196; CD74AC08 1.5–5.5,
+  `cd74ac08` line 137; SN74AC00-Q1 1.5–6, `sn74ac00-q1` line 170).
+- **Measured values that differ from §2's family table** (the sheets win):
+  - SN74LVC11A (2024 sheet SCLS993A) and its -Q1 are **1.1–3.6** V, inputs
+    5.5, not 1.65–3.6.
+  - The AC -Q1 sheets (SN74AC00-Q1, SN74AC10-Q1) are **1.5–6** V.
+  - The LVC -Q1/-EP sheets and the SN54/5962 LVC parts are 2–3.6; only the
+    plain SN74LVC…A parts are 1.65–3.6.
+  - AHC, AHCT, LV-A, LV1T, LVC 1G/2G, AUP and ALVC print a fixed VI max that
+    **equals** their VCC max (5.5 or 3.6), so by the Decisions rule they get
+    no `inputMax`; their input limit is the VCC max, the same number.
+  - S parts share the `sn74ls…` sheets' SN54/SN74 columns (4.5–5.5 /
+    4.75–5.25), like LS.
+- **Ties** (equal SN54 and SN74 part counts in one entry): the entry takes
+  the SN74 range and the SN54 parts override it (e.g. 74_20 S).
+- **Entry notes** carry the plan's `VCC <min>-<max> V (<stem> p.<n>)`,
+  with `, inputs to <x> V` added when there is an `inputMax`, and
+  sometimes a cross-reference to the sheets that agree. Device notes list
+  overrides grouped by value: `| <part>, <part>: VCC … (<stem> p.<n>)`.
 
 ## Summary
 
