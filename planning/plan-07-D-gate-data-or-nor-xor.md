@@ -94,18 +94,26 @@ Acceptance: every OR and NOR part has a range, and no other field changed.
   (`trace_check` exit 0); `… | grep -vc '|vcc='` → `0`, and the 855 changed
   lines differ only by `|vcc=` (`855 855 True`). `verify.py` → `434 parts
   checked, 0 mismatches` (OR), `421 parts checked, 0 mismatches` (NOR).
-Commit: —
+Commit: b0ae96b
 
 ### Phase 2 — XOR and XNOR devices
 
-- [ ] Run plan-07-C §4 on the 7 XOR and 2 XNOR devices (28 entries,
+- [x] Run plan-07-C §4 on the 7 XOR and 2 XNOR devices (28 entries,
       including the 4 split entries).
-- [ ] Regenerate `parts.txt`.
+- [x] Regenerate `parts.txt`.
 
 Acceptance: every gate part has a range, and the spot values match.
   Check: the script over all gate devices → `0`; then
   `grep -E '^(SN74HC02N|SN74LS86AN|SN74LVC1G32DBVR)\|' backend/tests/golden/parts.txt | grep -o 'vcc=.*'`
   → the Outcome values (est. 1 min).
+  Result (2026-11-01): script over all gate devices → `0` of `2552` parts;
+  grep → `SN74HC02N vcc=2000-6000,in=6000`, `SN74LS86AN
+  vcc=4750-5250,in=5250`, `SN74LVC1G32DBVR vcc=1650-5500,in=5500` (= the
+  Outcome). Split entries carry `vcc` at their top level (e.g. 74_86 `"LS":
+  {"otherLow":…,"otherHigh":…,"vcc":[4.75,5.25],…}`). traces unchanged
+  (exit 0); 293 changed lines, only `|vcc=` added (`293 293 True`);
+  `verify.py` → `293 parts checked, 0 mismatches`. Final gate: `ctest` →
+  `100% tests passed, 0 tests failed out of 12`.
 Commit: —
 
 ## Validation Plan
