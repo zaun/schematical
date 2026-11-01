@@ -93,7 +93,7 @@ int main(int argc, char **argv) {
     size_t compared = 0;
     size_t skipped = 0;
     size_t failures = 0;
-    size_t per_kind[PART_SUPPLY + 1] = {0};
+    size_t per_kind[PART_EEPROM + 1] = {0};
 
     if (load_parts_dir(library, PARTS_DIR) != 0) {
         return 1;
@@ -160,7 +160,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    for (i = 0; i <= PART_SUPPLY; i++) {
+    for (i = 0; i <= PART_EEPROM; i++) {
         if (per_kind[i] > 0) {
             printf("  %s %zu\n", listing_kind_name((PartKind)i), per_kind[i]);
         }

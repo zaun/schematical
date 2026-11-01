@@ -1,7 +1,7 @@
 # Part file format
 
-Every orderable part (gate, flip-flop, SRAM, switch, LED, 7-segment display,
-oscillator, supply) is described in a JSON part file in
+Every orderable part (gate, flip-flop, SRAM, EEPROM, switch, LED, 7-segment
+display, oscillator, supply) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -10,6 +10,7 @@ oscillator, supply) is described in a JSON part file in
 | `dff.json` | `dff` |
 | `jkff.json` | `jkff` |
 | `sram.json` | `sram` |
+| `eeprom.json` | `eeprom` |
 | `switch.json` | `switch` |
 | `led.json` | `led` |
 | `7seg.json` | `7seg` |
@@ -525,6 +526,76 @@ is checked and a violation stores X.
 
 Part key: `"grade"`, a key of `grades`. `PartSram`: `words` = 2^len(address),
 `bits` = len(data), `access_ps` = the grade's `taa`, `grade`.
+
+### `eeprom`
+
+Parallel EEPROMs (byte-wide, page-write; `backend/src/models/eeprom.c`).
+Every instance has its own storage, erased (every byte FF) at power-up.
+The controls are active low; an undriven (Z) control reads inactive, X
+unknown.
+
+- **Reads** use the SRAM read window with no low-Z delay: with CE# and OE#
+  low and WE# high the outputs drive X, then data at the latest of
+  address + tACC, CE# + tCE and OE# + tOE; old data holds tOH after an
+  address change; X for tDF after the read ends, then high-Z.
+- **Loads.** A load runs while CE# and WE# are low and OE# is high. The
+  address is latched when it starts, the data when it ends. A load stores X
+  when the pulse is shorter than tWP, the address is set up less than tAS
+  before it or changes within tAH after it starts, the data is set up less
+  than tDS before it ends, OE# went high less than tOES before it, or (after
+  the first load of a window) it starts less than tWPH after the last one
+  ended. Data or OE# changing within tDH / tOEH after the end also stores X.
+- **Window and write cycle.** Loads that each start within tBLC of the last
+  one's end form one window. tBLC after the last load the write cycle
+  starts and runs for tWC; then the loaded bytes are stored all at once. The
+  window's page is its first data byte's address with the low
+  log2(`pageSize`) bits cleared; a data byte in another page makes every
+  loaded byte of the first page X (and writes nothing in the other page).
+  The same byte loaded twice keeps the later value.
+- **During the write cycle** loads are ignored, and a read returns DATA#
+  polling: I/O7 = the complement of bit 7 of the last byte loaded, I/O6 =
+  the toggle bit (0 on the first read of the cycle, flipping on each read
+  after it), I/O0–I/O5 X.
+- **Software data protection.** With A and B the two `commandAddresses`, a
+  window that starts with `A/AA, B/55, A/A0` turns protection on at the end
+  of its cycle; one that starts with `A/AA, B/55, A/80, A/AA, B/55, A/20`
+  turns it off (only when `protection` is `"off"`). The rest of such a
+  window is data; command bytes are never data, and loads that match part
+  of a sequence and then differ are data. While protection is on, a window
+  that starts with neither sequence writes nothing, but its cycle still
+  runs. Protection is off at power-up for `"off"` and always on for
+  `"always"`.
+- **Unknown write enable.** CE#, WE# or OE# making a load X stores X at the
+  address (every word matching its known bits when some are X), as part of
+  the window.
+
+Not modeled: the 12 V chip erase and device-ID modes, the power-on write
+inhibit, the write-pulse noise filter.
+
+```json
+"address": ["A0", "A1", "…", "A14"],
+"data": ["I/O0", "I/O1", "I/O2", "I/O3", "I/O4", "I/O5", "I/O6", "I/O7"],
+"chipEnable": "CE#", "outputEnable": "OE#", "writeEnable": "WE#",
+"pageSize": 64,
+"commandAddresses": ["5555", "2AAA"],
+"protection": "off",
+"grades": {"15": {"tacc": 150, "tce": 150, "toe": 70, "tdf": 50, "tah": 50, "twp": 100,
+                  "tds": 50, "twph": 50, "tblc": 150000, "twc": 10000000, "note": "…"}}
+```
+
+| Key | Value |
+|---|---|
+| `"address"` | pin names; `address[i]` is address bit i (1–24) |
+| `"data"` | exactly 8 pin names; `data[i]` is data bit i |
+| `"chipEnable"`, `"outputEnable"`, `"writeEnable"` | one pin name each: CE#, OE#, WE# (active low) |
+| `"pageSize"` | bytes per page: a power of two from 1 to 2^len(address) |
+| `"commandAddresses"` | two hex strings (`[0-9A-F]+`), each below 2^len(address): the SDP addresses A and B |
+| `"protection"` | `"off"` (SDP starts off; can be turned on and off) or `"always"` (always on; no disable) |
+| `"grades"` | speed grade → timing in ns: `tacc tce toe tdf toh tas tah tcs tch twp twph tds tdh toes toeh tblc twc` (a missing name is 0; `tblc` and `twc` must be more than 0) and an optional `note`. `tcs` and `tch` are read but not checked (zero on every part) |
+
+Part key: `"grade"`, a key of `grades`. `PartEeprom`: `words` =
+2^len(address), `bits` = 8, `access_ps` = the grade's `tacc`, `grade`,
+`page_bytes` = `pageSize`, `write_cycle_ps` = the grade's `twc`.
 
 ### `7seg`
 

@@ -469,27 +469,34 @@ Acceptance: the 12 files are the census's files; the 4 EOL sheets are
 recorded.
   Check: `cd datasheets/eeprom && shasum -a 256 *.pdf` → the 12 hashes of §4.1 (est. seconds).
   Check: `grep -c 'Memory → EEPROM' datasheets/obsolete-not-included.md` → 4 (est. seconds).
-Commit: —
+Commit: 6460d2a
 
 ### Phase 2 — `eeprom` kind and model
 
 The kind loads and simulates; no part file uses it yet, so every golden is
 unchanged.
 
-- [ ] `backend/include/parts.h`: `PART_EEPROM`, `PartEeprom`, `Part.eeprom` (§5.2).
-- [ ] `backend/src/models/eeprom.c`: `PartKindOps EEPROM_KIND` (device keys
+- [x] `backend/include/parts.h`: `PART_EEPROM`, `PartEeprom`, `Part.eeprom` (§5.2).
+- [x] `backend/src/models/eeprom.c`: `PartKindOps EEPROM_KIND` (device keys
       §5.1, part key `grade`, load/bind/part) and `EEPROM_MODEL` (§5.3).
-- [ ] `backend/src/library/kinds.c`: `&EEPROM_KIND`;
+      (`eeprom_test` → 41 PASS, `0 failure(s)`)
+- [x] `backend/src/library/kinds.c`: `&EEPROM_KIND`;
       `backend/CMakeLists.txt`: `src/models/eeprom.c`, `logic_test(eeprom_test)`.
-- [ ] `backend/tests/support/listing.c`: `eeprom` name and details (§5.2).
-- [ ] `backend/tests/library_check.c`: the §5.4 cases.
-- [ ] `backend/tests/eeprom_test.c`: cases 1–9 on the inline fixture.
-- [ ] `docs/parts-format.md`: `eeprom.json` in the file table, the
+- [x] (added) `backend/tests/trace_check.c`: its per-kind counter array was
+      sized `PART_SUPPLY + 1`; now `PART_EEPROM + 1` (see Corrections).
+- [x] `backend/tests/support/listing.c`: `eeprom` name and details (§5.2).
+- [x] `backend/tests/library_check.c`: the §5.4 cases (valid fixture + 9
+      rejections, all `ok`; adds a `T26` fixture footprint).
+- [x] `backend/tests/eeprom_test.c`: cases 1–9 on the inline fixture.
+- [x] `docs/parts-format.md`: `eeprom.json` in the file table, the
       `### eeprom` section (§5.1, the behavior of §5.3 in prose like `sram`);
       `docs/backend.md`: `eeprom.c` in Layout, `eeprom_test` in Tests.
 
 Acceptance: every model rule of §5.3 holds at its datasheet time on the
-fixture; nothing else moves.
+fixture; nothing else moves. **Met:** `ctest -R 'eeprom_test|library_check'`
+→ 2 of 2; `ctest -R 'listing_check|trace_check|footprint_check'` → 3 of 3,
+and the golden diff exits 0; `xcodebuild … build` → `** BUILD SUCCEEDED **`
+(build dir `/tmp/logic-wt-p04`, see Corrections).
   Check: `cmake -S backend -B /tmp/logic-plan04 && cmake --build /tmp/logic-plan04 -j8 && ctest --test-dir /tmp/logic-plan04 -R 'eeprom_test|library_check' --output-on-failure` → 2 of 2 pass (est. 20 s).
   Check: `ctest --test-dir /tmp/logic-plan04 -R 'listing_check|trace_check|footprint_check'` → 3 of 3 pass, and `git diff --exit-code backend/tests/golden` (est. 15 s).
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p04a-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 1 min; the app compiles `backend/src` and imports `parts.h`).
@@ -571,6 +578,32 @@ codes are not; no reel code is invented where a sheet prints none
   `SimulationEngine` (background thread); `SimulationController.build` and
   the build-then-`circuit_start` order that plan-04-C hooks into are kept,
   with `start(document:)` now calling `start(netlist:)`.
+
+- 2026-11-01 (work): every `/tmp/logic-plan04` build dir in the checks is
+  the main checkout's CMake cache; from the plan worktree CMake refuses it
+  ("source does not match"). The checks ran with `-B /tmp/logic-wt-p04`
+  instead — same commands otherwise.
+- 2026-11-01 (work): the gate measured 9 ctests before plan-04 (plan-05-B's
+  `engine_test`), so A ends at 10, as the earlier correction says.
+- 2026-11-01 (Phase 2): §2 said no code depends on `PartKind` numbers; one
+  does. `trace_check.c` sized its per-kind counter array `PART_SUPPLY + 1`
+  and looped `i <= PART_SUPPLY`, which would have overrun on `PART_EEPROM`.
+  Both now use `PART_EEPROM` (task added to Phase 2).
+- 2026-11-01 (Phase 2): §5.3 "Page" said the window's page is the *first
+  load's* page. With SDP that is wrong: the command loads at 5555/2AAA come
+  first, so every protected write would read as "mixed". The page is the
+  first *data* load's page (command bytes are never data). Implemented and
+  documented that way; tested in case 8 (prefix + byte at 0600 writes).
+- 2026-11-01 (Phase 2): §5.1 lists `tcs` and `tch`, but §5.3 gives no rule
+  for them (they are 0 on every grade). The loader reads them; the model
+  does not check them. Documented in `parts-format.md`.
+- 2026-11-01 (Phase 2): §5.3 does not say what happens to a load whose
+  address has unknown bits (with WE# known); the model treats it like the
+  X-write-enable rule (every matching word X, as part of the window). Also
+  unspecified, and chosen: X-write entries obey the window's protection
+  rule (a protected window without a prefix writes nothing, X included); a
+  tDH/tOEH violation on a command byte turns the whole partial or finished
+  sequence back into data with that byte X.
 
 ## Summary
 

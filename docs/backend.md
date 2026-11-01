@@ -93,7 +93,8 @@ backend/
                            interface), footprints.c + footprint.h (parse,
                            check and expand footprints.json)
     models/                one file per kind: gate.c dff.c jkff.c sram.c
-                           switch.c led.c display7.c oscillator.c supply.c,
+                           eeprom.c switch.c led.c display7.c oscillator.c
+                           supply.c,
                            and lights.c (on-time tracking for lights)
     circuit.c
     third_party/cjson/     cJSON v1.7.18
@@ -148,6 +149,9 @@ drawer work from the kind table and the `Part` structs.
   against the drawing. Listing lines in `parts.txt` end in
   `|footprint=<id>` for parts that name one.
 - `switch_test`, `sram_test`, `display7_test` — model benches.
+- `eeprom_test` — the EEPROM model's read window, page loads, write cycle,
+  DATA# polling and toggle bit, timing violations and software data
+  protection (an inline fixture device, then real parts).
 - `engine_test` — engine timing with a real gate (SN74HC32N): an output
   edge that is already pending is kept, a too-short pulse is swallowed.
 - `circuit_check` — the circuit API.

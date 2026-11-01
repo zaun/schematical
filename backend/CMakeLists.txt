@@ -23,6 +23,7 @@ add_library(logic STATIC
     src/models/supply.c
     src/models/led.c
     src/models/oscillator.c
+    src/models/eeprom.c
     src/third_party/cjson/cJSON.c
 )
 target_include_directories(logic
@@ -75,6 +76,7 @@ logic_test(display7_test)
 logic_test(circuit_check)
 logic_test(footprint_check)
 logic_test(engine_test)
+logic_test(eeprom_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.

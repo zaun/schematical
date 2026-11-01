@@ -14,6 +14,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_7SEG: return "7seg";
         case PART_OSCILLATOR: return "oscillator";
         case PART_SUPPLY: return "supply";
+        case PART_EEPROM: return "eeprom";
     }
     return "?";
 }
@@ -84,6 +85,12 @@ static void print_details(FILE *out, const Part *part) {
         }
         case PART_SUPPLY:
             fprintf(out, "level=%d", part->supply->level);
+            break;
+        case PART_EEPROM:
+            fprintf(out, "words=%u bits=%u access_ps=%llu page=%u twc_ps=%llu",
+                    (unsigned)part->eeprom->words, part->eeprom->bits,
+                    (unsigned long long)part->eeprom->access_ps, part->eeprom->page_bytes,
+                    (unsigned long long)part->eeprom->write_cycle_ps);
             break;
     }
 }

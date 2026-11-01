@@ -47,7 +47,7 @@ static char *json(const char *text) {
     "{'format':'schematical-footprints','version':1,'footprints':[" \
     FIXTURE_DUAL("T1", "1", ",'perSide':1") "," FIXTURE_DUAL("T2", "2", "") "," \
     FIXTURE_DUAL("T4", "4", "") "," FIXTURE_DUAL("T5", "5", ",'perSide':3") "," \
-    FIXTURE_DUAL("T6", "6", "") "," \
+    FIXTURE_DUAL("T6", "6", "") "," FIXTURE_DUAL("T26", "26", "") "," \
     "{'id':'BGA2','description':'d','style':'grid','pins':2,'rows':2,'columns':2,'pitch':0.5," \
     "'balls':['A1','B2'],'body':{'width':1,'height':1},'pad':{'width':0.2,'height':0.2,'shape':'round'}}," \
     "{'id':'BGA4','description':'d','style':'grid','pins':4,'rows':2,'columns':2,'pitch':0.5," \
@@ -427,6 +427,72 @@ static void check_sram_cases(void) {
 
     expect_fail("sram grade missing from grades", SRAM_DEVICE("70"),
                 "parts[0] (M1): grade \"70\" is not in \"grades\"");
+}
+
+/* A 32K x 8 EEPROM (15 address bits, 26 pins) with the given keys. */
+#define EE_ADDR(N, P) "{'number':" #P ",'name':'A" #N "','role':'input','group':'address'},"
+#define EE_DATA(N, P) "{'number':" #P ",'name':'D" #N "','role':'inout'},"
+#define EEPROM_DEVICE(DATA, PAGE, COMMANDS, PROTECTION, GRADE, PART_GRADE) \
+    HEAD("eeprom") "{'id':'E','function':'32 KB','description':'d','drawer':['Memory','EEPROM']," \
+    "'pinouts':{'p26':[" \
+    EE_ADDR(0, 1) EE_ADDR(1, 2) EE_ADDR(2, 3) EE_ADDR(3, 4) EE_ADDR(4, 5) EE_ADDR(5, 6) \
+    EE_ADDR(6, 7) EE_ADDR(7, 8) EE_ADDR(8, 9) EE_ADDR(9, 10) EE_ADDR(10, 11) EE_ADDR(11, 12) \
+    EE_ADDR(12, 13) EE_ADDR(13, 14) EE_ADDR(14, 15) \
+    EE_DATA(0, 16) EE_DATA(1, 17) EE_DATA(2, 18) EE_DATA(3, 19) EE_DATA(4, 20) EE_DATA(5, 21) \
+    EE_DATA(6, 22) EE_DATA(7, 23) \
+    "{'number':24,'name':'CE#','role':'input'},{'number':25,'name':'OE#','role':'input'}," \
+    "{'number':26,'name':'WE#','role':'input'}]}," \
+    "'address':['A0','A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12','A13','A14']," \
+    "'data':[" DATA "],'chipEnable':'CE#','outputEnable':'OE#','writeEnable':'WE#'," \
+    "'pageSize':" PAGE ",'commandAddresses':" COMMANDS ",'protection':'" PROTECTION "'," \
+    "'grades':{'15':" GRADE "}," \
+    "'parts':[{'name':'E1','package':'DIP','pinout':'p26','footprint':'T26','grade':'" PART_GRADE "'}]}" TAIL
+#define EE_DATA8 "'D0','D1','D2','D3','D4','D5','D6','D7'"
+#define EE_CMDS "['5555','2AAA']"
+#define EE_GRADE "{'tacc':150,'tce':150,'toe':70,'twp':100,'tblc':150000,'twc':10000000,'note':'n'}"
+
+static void check_eeprom_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, EEPROM_DEVICE(EE_DATA8, "64", EE_CMDS, "off", EE_GRADE, "15"), &error) == 0);
+    part = part_library_find(library, "E1");
+    CHECK(part != NULL && part->kind == PART_EEPROM && part->eeprom != NULL &&
+          part->eeprom->words == 32768 && part->eeprom->bits == 8 &&
+          part->eeprom->access_ps == 150000 && strcmp(part->eeprom->grade, "15") == 0 &&
+          part->eeprom->page_bytes == 64 && part->eeprom->write_cycle_ps == 10000000000ull);
+    CHECK(part != NULL && part->sram == NULL);
+    printf("ok   valid eeprom file%s%s\n", error != NULL ? ": " : "", error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("eeprom data count 7",
+                EEPROM_DEVICE("'D0','D1','D2','D3','D4','D5','D6'", "64", EE_CMDS, "off", EE_GRADE, "15"),
+                "devices[0] (E): \"data\" needs exactly 8 pin names");
+    expect_fail("eeprom pageSize 48", EEPROM_DEVICE(EE_DATA8, "48", EE_CMDS, "off", EE_GRADE, "15"),
+                "devices[0] (E): \"pageSize\" must be a power of two");
+    expect_fail("eeprom pageSize twice the words",
+                EEPROM_DEVICE(EE_DATA8, "65536", EE_CMDS, "off", EE_GRADE, "15"),
+                "\"pageSize\" 65536 is more than the 32768 words");
+    expect_fail("eeprom command address past the end",
+                EEPROM_DEVICE(EE_DATA8, "64", "['8000','2AAA']", "off", EE_GRADE, "15"),
+                "commandAddresses[0] \"8000\" is past the last address (7FFF)");
+    expect_fail("eeprom command address not hex",
+                EEPROM_DEVICE(EE_DATA8, "64", "['55G5','2AAA']", "off", EE_GRADE, "15"),
+                "commandAddresses[0] \"55G5\" is not a hex address");
+    expect_fail("eeprom protection sometimes",
+                EEPROM_DEVICE(EE_DATA8, "64", EE_CMDS, "sometimes", EE_GRADE, "15"),
+                "\"protection\" must be \"off\" or \"always\"");
+    expect_fail("eeprom twc 0",
+                EEPROM_DEVICE(EE_DATA8, "64", EE_CMDS, "off", "{'tacc':150,'tblc':150000,'twc':0}", "15"),
+                "grades.15: \"twc\" must be more than 0");
+    expect_fail("eeprom unknown timing name",
+                EEPROM_DEVICE(EE_DATA8, "64", EE_CMDS, "off", "{'tacc':150,'trc':150,'tblc':1,'twc':1}", "15"),
+                "grades.15: unknown key \"trc\"");
+    expect_fail("eeprom grade missing from grades",
+                EEPROM_DEVICE(EE_DATA8, "64", EE_CMDS, "off", EE_GRADE, "70"),
+                "parts[0] (E1): grade \"70\" is not in \"grades\"");
 }
 
 #define DISPLAY_DEVICE(COMMON2, SEGMENT_SIDE) \
@@ -933,6 +999,7 @@ int main(void) {
     check_ball_cases();
     check_display_cases();
     check_sram_cases();
+    check_eeprom_cases();
     check_switch_cases();
     check_flipflop_cases();
     check_gate_cases();
