@@ -45,7 +45,7 @@ See plan-04-A §Prerequisites, plus:
 | plan-04-B complete | `ls planning/completed/plan-04-B-memory-load.md` → exists | MET (2026-11-01: archived after B's final gate, 41f140c) |
 | Load API present | `grep -n '^int circuit_memory_load\|^int memory_image_parse' backend/include/*.h` → one line each (anchored: the header comments mention both too) | MET (2026-11-01: `circuit.h:65`, `memory_image.h:29`) |
 | App builds signed and sandboxed | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p04-signed-dd build` → `** BUILD SUCCEEDED **`; `codesign -d --entitlements - /tmp/p04-signed-dd/Build/Products/Debug/schematical.app` lists `com.apple.security.app-sandbox` and `com.apple.security.files.user-selected.read-write` | MET (2026-11-01 at start of work: `** BUILD SUCCEEDED **`; entitlements list app-sandbox and files.user-selected.read-write) |
-| The desktop session is unlocked (sandbox proof, Validation step 6, needs a real window and open panel) | `ioreg -n Root -d1 \| grep -o '"CGSSessionScreenIsLocked"=[A-Za-z]*'` → `"CGSSessionScreenIsLocked"=No` (or no output) | MET at plan start (2026-11-01: no output); NOT MET when C began, at the final gate, and on the re-check after it (2026-11-01: `"CGSSessionScreenIsLocked"=Yes` each time). Needed only for Validation 6 |
+| The desktop session is unlocked (sandbox proof, Validation step 6, needs a real window and open panel) | `ioreg -n Root -d1 \| grep -o '"CGSSessionScreenIsLocked"=[A-Za-z]*'` → `"CGSSessionScreenIsLocked"=No` (or no output) | MET at plan start (2026-11-01: no output); NOT MET from when C began until 09:37 HST (`=Yes`), then MET (`wait_unlock.sh` → `UNLOCKED Sun Nov 1 09:37:03 HST 2026`); Validation 6 ran then. Needed only for Validation 6 |
 
 Everything below is written against the world where these hold.
 
@@ -373,13 +373,20 @@ Clear disabled, live grid `00 01 …`, footer without "Contents at start"),
 `4-sram-stopped.png` (SRAM unchanged: "Simulation Not Running").
   Check: the Phase 1 `xcodebuild` → `** BUILD SUCCEEDED **` (est. 1 min).
   Check: `/tmp/p04/harness/run window` → the four PNGs of Validation 2 (est. seconds).
-- [ ] Validation 6 (sandbox): in the signed build `/tmp/p04-signed-dd`,
+- [x] Validation 6 (sandbox): in the signed build `/tmp/p04-signed-dd`,
       on the desktop: open `eeprom.schematical`, double-click U3, Choose…
       `boot.bin`, Run → live grid `00 01 …`; Stop; Save; quit; relaunch;
       Open the saved file; Run → the same bytes; screenshots to
-      `/tmp/p04-proof/sandbox-*.png`. Blocked 2026-11-01: the desktop session
-      is locked (Prerequisites row 4: `CGSSessionScreenIsLocked=Yes`); the
-      open panel's sandbox grant needs a person at an unlocked desktop.
+      `/tmp/p04-proof/sandbox-*.png`. (Done 2026-11-01 09:37–09:40 HST
+      once the desktop unlocked; driven with System Events and posted
+      CGEvent clicks. File › Open → `eeprom.schematical`; double-click U3 →
+      "U3 · AT28C256-15PU"; Choose… → `boot.bin` in the sandbox open panel →
+      preview `00 01 … FF` (`sandbox-3-chosen.png`); Run → I/O nets 0, live
+      grid `00 01 … FF`, Choose…/Clear disabled (`sandbox-4/5`); Stop; Save
+      (toolbar) → `jq` `{"path":"boot.bin","bookmark":860 chars}`; quit;
+      relaunch; Open; Run → live grid `00 01 … FF` again
+      (`sandbox-8-relaunch-running.png`). Found the File menu had no Save;
+      fixed in 8c2aff4, see Corrections.)
 
 Commit: 08e165b
 
@@ -476,6 +483,17 @@ choices for this letter:
   grouping, "32,768 words × 8 bits (32 KB)", as the SRAM footer already
   does (`Text` interpolation of an `Int`); §Validation 2's "32768" was the
   same text without the separator.
+- 2026-11-01 (Validation 6): the app's File menu showed only New, Open…
+  and Close; `CommandGroup(replacing: .saveItem)` never appeared, so ⌘S and
+  Save did nothing (Save worked only from the toolbar button). It predates
+  plan-04 (unchanged code) and was found while saving here. Fixed in
+  8c2aff4: Save and Save As… sit in the `after: .newItem` group beside
+  Open…; checked in the signed build: the menu lists `Save, Save As…`, and
+  ⌘S wrote `memoryFile` (`"path":"boot.bin"`, 860-char bookmark).
+- 2026-11-01 (Validation 6): "driven with the `run` skill" was done with
+  `osascript` (System Events: menus, Go-to-folder in the panels) and a
+  small CGEvent click tool for the canvas double-click and buttons; the
+  open panel's sandbox grant is the real powerbox one.
 - 2026-11-01: the ctest count after plan-04 is 11 (plan-05's `engine_test`
   came first), not 10; the final gate below says 11.
 
