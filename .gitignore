@@ -1,8 +1,9 @@
 .DS_Store
 **/.DS_Store
 
-# Per-user Xcode UI state
+# Per-user Xcode state (UI state, scheme management, breakpoints)
 *.xcuserstate
+xcuserdata/
 
 # Scratch files
 tmp/
