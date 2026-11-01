@@ -182,12 +182,14 @@ static void cd_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t pi
  * Each definition gets its own SimComponentType, because the model callbacks
  * receive only the configuration and need the gate data from their definition.
  */
-#define CD_ENTRY(name, package) {name, package},
-#define CD_NAME(name, package) name,
+#define CD_ENTRY(name, package, flags) {name, package},
+#define CD_NAME(name, package, flags) name,
+#define CD_FLAGS(name, package, flags) flags,
 
 #define CD_DEFINE(NAME, ID, FUNCTION, DESCRIPTION, OP, DELAY_PS)                 \
     static const CdPart NAME##_PARTS[] = { NAME##_PARTS_LIST(CD_ENTRY) };         \
     static const char *const NAME##_NAMES[] = { NAME##_PARTS_LIST(CD_NAME) };     \
+    static const unsigned NAME##_FLAGS[] = { NAME##_PARTS_LIST(CD_FLAGS) };       \
     static const CdData NAME##_DATA = {                                           \
         OP, DELAY_PS, NAME##_PARTS, sizeof(NAME##_PARTS) / sizeof(NAME##_PARTS[0]) \
     };                                                                            \
@@ -213,7 +215,7 @@ static void cd_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t pi
     const ChipDefinition NAME##_DEFINITION = {                                    \
         ID, FUNCTION, DESCRIPTION, "Logic",                                       \
         NAME##_NAMES, sizeof(NAME##_NAMES) / sizeof(NAME##_NAMES[0]),             \
-        CD_PINS, CD_PIN_COUNT, NAME##_lookup, 4                                   \
+        CD_PINS, CD_PIN_COUNT, NAME##_lookup, 4, NAME##_FLAGS                     \
     };
 
 #define CD4001B_PARTS_LIST CD4001B_PARTS
