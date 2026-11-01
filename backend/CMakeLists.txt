@@ -12,6 +12,10 @@ add_library(logic_backend STATIC
     74_02.c
     74_86.c
     74_266.c
+    ff-d.c
+    led.c
+    supply.c
+    catalog_validate.c
 )
 
 target_include_directories(logic_backend

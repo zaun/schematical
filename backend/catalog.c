@@ -9,6 +9,9 @@
 #include "74_32.h"
 #include "74_86.h"
 #include "74_266.h"
+#include "ff-d.h"
+#include "led.h"
+#include "supply.h"
 
 static const ChipDefinition *const DEFINITIONS[] = {
     &SN74_00_DEFINITION,
@@ -17,6 +20,20 @@ static const ChipDefinition *const DEFINITIONS[] = {
     &SN74_32_DEFINITION,
     &SN74_86_DEFINITION,
     &SN74_266_DEFINITION,
+    &FF_74_72_DEFINITION,
+    &FF_74_74_DEFINITION,
+    &FF_74_174_DEFINITION,
+    &FF_74_175_DEFINITION,
+    &FF_74_273_DEFINITION,
+    &FF_74_374_DEFINITION,
+    &FF_74_574_DEFINITION,
+    &FF_4013B_DEFINITION,
+    &FF_40175B_DEFINITION,
+    &FF_1G74_DEFINITION,
+    &FF_1G79_DEFINITION,
+    &FF_1G175_DEFINITION,
+    &FF_1G374_DEFINITION,
+    &FF_2G79_DEFINITION,
 };
 
 size_t catalog_definition_count(void) {
@@ -83,6 +100,9 @@ static const char *package_name(PackageType package) {
         case PACKAGE_TYPE_LCCC: return "LCCC";
         case PACKAGE_TYPE_WQFN: return "WQFN";
         case PACKAGE_TYPE_VQFN: return "VQFN";
+        case PACKAGE_TYPE_VSSOP: return "VSSOP";
+        case PACKAGE_TYPE_SOT23: return "SOT-23";
+        case PACKAGE_TYPE_SC70: return "SC-70";
     }
     return "unknown";
 }
@@ -102,6 +122,11 @@ static const char *family_name(LogicFamily family) {
         case LOGIC_FAMILY_S: return "S";
         case LOGIC_FAMILY_C: return "C";
         case LOGIC_FAMILY_H: return "H";
+        case LOGIC_FAMILY_HCS: return "HCS";
+        case LOGIC_FAMILY_LV: return "LV";
+        case LOGIC_FAMILY_LVC: return "LVC";
+        case LOGIC_FAMILY_AUP: return "AUP";
+        case LOGIC_FAMILY_AUC: return "AUC";
     }
     return "unknown";
 }
@@ -152,6 +177,37 @@ static void write_chip(FILE *out, const ChipDefinition *chip) {
     fputs("]}", out);
 }
 
+static void write_led(FILE *out, size_t index) {
+    LedConfig config;
+    size_t count;
+    size_t i;
+
+    if (led_part_config_at(index, &config) != 0) {
+        return;
+    }
+    count = led_pin_count(config.package);
+
+    fputs("{\"name\":", out);
+    write_json_string(out, led_part_name_at(index));
+    fputs(",\"color\":", out);
+    write_json_string(out, led_color_label(config.color));
+    fputs(",\"package\":", out);
+    write_json_string(out, led_package_label(config.package));
+
+    fputs(",\"pins\":[", out);
+    for (i = 0; i < count; i++) {
+        const ChipPin *pin = &led_pins(config.package)[i];
+
+        if (i > 0) {
+            fputc(',', out);
+        }
+        fprintf(out, "{\"number\":%u,\"name\":", pin->number);
+        write_json_string(out, pin->name);
+        fprintf(out, ",\"role\":\"%s\"}", role_name(pin->role));
+    }
+    fputs("]}", out);
+}
+
 void catalog_write_json(FILE *out) {
     size_t i;
 
@@ -161,6 +217,35 @@ void catalog_write_json(FILE *out) {
             fputc(',', out);
         }
         write_chip(out, DEFINITIONS[i]);
+    }
+
+    /* Generic LEDs: one entry per orderable color and package. */
+    fputs("],\"leds\":[", out);
+    for (i = 0; i < led_part_count(); i++) {
+        if (i > 0) {
+            fputc(',', out);
+        }
+        write_led(out, i);
+    }
+
+    /* Constant sources: VCC (always 1) and GND (sink to 0). */
+    fputs("],\"supplies\":[", out);
+    for (i = 0; i < supply_part_count(); i++) {
+        SupplyConfig config;
+        const ChipPin *pin;
+
+        if (supply_part_config_at(i, &config) != 0) {
+            continue;
+        }
+        pin = &supply_pins(config.kind)[0];
+        if (i > 0) {
+            fputc(',', out);
+        }
+        fputs("{\"name\":", out);
+        write_json_string(out, supply_part_name_at(i));
+        fprintf(out, ",\"pins\":[{\"number\":%u,\"name\":", pin->number);
+        write_json_string(out, pin->name);
+        fprintf(out, ",\"role\":\"%s\"}]}", role_name(pin->role));
     }
     fputs("]}\n", out);
 }

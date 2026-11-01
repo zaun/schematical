@@ -13,7 +13,10 @@ const ChipDefinition *catalog_definition_at(size_t index);
 /*
  * Writes the catalog as JSON:
  *   {"chips":[{"id":..,"function":..,"description":..,
- *              "partNumbers":[..],"pins":[{"number":..,"name":..,"role":..}]}]}
+ *              "parts":[..],"pins":[{"number":..,"name":..,"role":..}]}],
+ *    "leds":[{"name":..,"color":..,"package":..,
+ *             "pins":[{"number":..,"name":..,"role":..}]}],
+ *    "supplies":[{"name":..,"pins":[{"number":..,"name":..,"role":..}]}]}
  * Only part numbers the backend can actually simulate are written.
  */
 void catalog_write_json(FILE *out);

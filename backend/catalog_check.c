@@ -1,111 +1,91 @@
 /*
- * Checks every chip definition against the models:
- *   - the pin table numbers 1..pin_count exactly once,
- *   - every listed part number resolves and creates a model instance whose
- *     pin count matches the definition's pin table.
- *
- * A part number whose family/package combination the model does not support
- * aborts inside the model, so each part is checked in a child process.
+ * Runs catalog_validate() and prints the errors for every item that has any.
+ * Also checks that VCC shorted to GND blows up the simulation, which spans two
+ * items and so is not part of the per-item report.
  */
 
 #include <stdio.h>
-#include <sys/wait.h>
-#include <unistd.h>
+#include <string.h>
 
-#include "catalog.h"
+#include "catalog_validate.h"
+#include "sim.h"
+#include "supply.h"
 
-static int check_pin_table(const ChipDefinition *chip) {
-    size_t number;
-    int ok = 1;
+static size_t check_short_circuit(void) {
+    SupplyConfig vcc_config = {SUPPLY_VCC};
+    SupplyConfig gnd_config = {SUPPLY_GND};
+    const SimComponentType *vcc = supply_lookup("VCC", &vcc_config);
+    const SimComponentType *gnd = supply_lookup("GND", &gnd_config);
+    size_t failures = 0;
 
-    for (number = 1; number <= chip->pin_count; number++) {
-        size_t i;
-        size_t matches = 0;
+    /* Shorted: both sources on one net. The run must stop with smoke. */
+    {
+        Sim *sim = sim_create();
+        SimNet *net = sim_add_net(sim, "SHORT");
+        SimInstance *v = sim_add_instance(sim, vcc, "V1", &vcc_config);
+        SimInstance *g = sim_add_instance(sim, gnd, "G1", &gnd_config);
+        int ok = sim && net && v && g && sim_connect(sim, net, v, 0) &&
+                 sim_connect(sim, net, g, 0) && sim_start(sim);
+        int run = ok ? sim_run_until(sim, 1000) : 1;
 
-        for (i = 0; i < chip->pin_count; i++) {
-            if (chip->pins[i].number == number) {
-                matches++;
-            }
+        /* The sim API returns 1 on success and 0 on failure. */
+        if (run != 0 || sim_error(sim) == NULL ||
+            strncmp(sim_error(sim), "smoke:", 6) != 0 ||
+            sim_shorted_net(sim) != net) {
+            fprintf(stderr, "FAIL short: VCC on GND did not blow up\n");
+            failures++;
         }
-        if (matches != 1) {
-            fprintf(stderr, "FAIL %s: pin %zu appears %zu times\n",
-                    chip->id, number, matches);
-            ok = 0;
-        }
-    }
-
-    return ok;
-}
-
-static int check_part(const ChipDefinition *chip, const char *part_number) {
-    pid_t pid = fork();
-    int status = 0;
-
-    if (pid < 0) {
-        perror("fork");
-        return 0;
-    }
-
-    if (pid == 0) {
-        SimLogicConfig config;
-        const SimComponentType *type = chip->lookup(part_number, &config);
-        Sim *sim;
-        SimInstance *instance;
-
-        if (type == NULL) {
-            _exit(2);
-        }
-        if (type->pin_count(&config) != chip->pin_count) {
-            _exit(3);
-        }
-
-        sim = sim_create();
-        if (sim == NULL) {
-            _exit(4);
-        }
-        instance = sim_add_instance(sim, type, "U1", &config);
         sim_destroy(sim);
-        _exit(instance != NULL ? 0 : 5);
     }
 
-    if (waitpid(pid, &status, 0) < 0) {
-        perror("waitpid");
-        return 0;
-    }
-    if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
-        return 1;
+    /* Not shorted: each source on its own net. The run must succeed. */
+    {
+        Sim *sim = sim_create();
+        SimNet *a = sim_add_net(sim, "A");
+        SimNet *b = sim_add_net(sim, "B");
+        SimInstance *v = sim_add_instance(sim, vcc, "V1", &vcc_config);
+        SimInstance *g = sim_add_instance(sim, gnd, "G1", &gnd_config);
+        int ok = sim && a && b && v && g && sim_connect(sim, a, v, 0) &&
+                 sim_connect(sim, b, g, 0) && sim_start(sim);
+        int run = ok ? sim_run_until(sim, 1000) : 0;
+
+        if (run != 1 || sim_shorted_net(sim) != NULL) {
+            fprintf(stderr, "FAIL separate VCC and GND nets blew up\n");
+            failures++;
+        }
+        sim_destroy(sim);
     }
 
-    if (WIFSIGNALED(status)) {
-        fprintf(stderr, "FAIL %s %s: model rejected the configuration (signal %d)\n",
-                chip->id, part_number, WTERMSIG(status));
-    } else {
-        fprintf(stderr, "FAIL %s %s: exit status %d\n",
-                chip->id, part_number, WEXITSTATUS(status));
-    }
-    return 0;
+    return failures;
 }
 
 int main(void) {
-    size_t parts = 0;
-    size_t failures = 0;
+    CatalogErrorReport report = catalog_validate();
+    size_t total_errors = catalog_report_error_total(&report);
+    size_t items_with_errors = 0;
+    size_t short_failures;
     size_t i;
+    size_t j;
 
-    for (i = 0; i < catalog_definition_count(); i++) {
-        const ChipDefinition *chip = catalog_definition_at(i);
-        size_t j;
+    for (i = 0; i < report.item_count; i++) {
+        const CatalogItemErrors *item = &report.items[i];
 
-        if (!check_pin_table(chip)) {
-            failures++;
+        if (item->error_count == 0) {
+            continue;
         }
-        for (j = 0; j < chip->part_number_count; j++) {
-            parts++;
-            if (!check_part(chip, chip->part_numbers[j])) {
-                failures++;
-            }
+        items_with_errors++;
+        printf("%s:\n", item->item);
+        for (j = 0; j < item->error_count; j++) {
+            printf("  - %s\n", item->errors[j]);
         }
     }
 
-    printf("%zu part numbers checked, %zu failures\n", parts, failures);
-    return failures == 0 ? 0 : 1;
+    short_failures = check_short_circuit();
+    total_errors += short_failures;
+
+    printf("%zu items checked, %zu with errors, %zu total errors\n",
+           report.item_count, items_with_errors, total_errors);
+
+    catalog_report_free(&report);
+    return total_errors == 0 ? 0 : 1;
 }
