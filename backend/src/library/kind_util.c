@@ -189,6 +189,19 @@ int kind_uint(KindContext *ctx, const cJSON *object, const char *key, uint64_t m
     return 0;
 }
 
+int kind_number(KindContext *ctx, const cJSON *object, const char *key, double *out) {
+    const cJSON *item = kind_member(ctx, object, key, 1);
+
+    if (item == NULL) {
+        return -1;
+    }
+    if (!cJSON_IsNumber(item)) {
+        return kind_error(ctx, "\"%s\" must be a number", key);
+    }
+    *out = item->valuedouble;
+    return 0;
+}
+
 int kind_bool(KindContext *ctx, const cJSON *object, const char *key, int *out) {
     const cJSON *item = kind_member(ctx, object, key, 1);
 
@@ -287,6 +300,30 @@ size_t kind_pins(KindContext *ctx, const PartPin *pins, size_t pin_count, const 
         kind_error(ctx, "no pin named \"%s\"", name);
     }
     return found;
+}
+
+static const char ROW_LETTERS[] = "ABCDEFGHJKLMNPRTUVWY";
+
+int kind_ball_row(char c) {
+    const char *at = c != '\0' ? strchr(ROW_LETTERS, c) : NULL;
+
+    return at != NULL ? (int)(at - ROW_LETTERS) : -1;
+}
+
+int kind_is_ball_name(const char *text) {
+    size_t letters = 0;
+    size_t digits = 0;
+
+    while (letters < 2 && kind_ball_row(text[letters]) >= 0) {
+        letters++;
+    }
+    if (letters == 0 || text[letters] < '1' || text[letters] > '9') {
+        return 0;
+    }
+    while (text[letters + digits] >= '0' && text[letters + digits] <= '9') {
+        digits++;
+    }
+    return digits <= 2 && text[letters + digits] == '\0';
 }
 
 static const char *const LOGIC_FAMILIES[] = {

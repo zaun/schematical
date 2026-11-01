@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "cJSON.h"
+#include "footprint.h"
 #include "kind.h"
 #include "library_internal.h"
 
@@ -116,6 +117,9 @@ struct PartLibrary {
     size_t capacity;
     NameSet names;       /* part names */
     NameSet devices;     /* "<kind>/<device id>" */
+    const PartFootprint **footprints;
+    size_t footprint_count;
+    NameSet footprint_ids;
     ArenaChunk *arenas;
 };
 
@@ -137,6 +141,8 @@ void part_library_destroy(PartLibrary *library) {
         return;
     }
     free(library->parts);
+    free(library->footprints);
+    name_set_free(&library->footprint_ids);
     name_set_free(&library->names);
     name_set_free(&library->devices);
     free_chunks(library->arenas);
@@ -158,13 +164,28 @@ const Part *part_library_find(const PartLibrary *library, const char *name) {
     return name_set_get(&library->names, name);
 }
 
+size_t part_library_footprint_count(const PartLibrary *library) {
+    return library != NULL ? library->footprint_count : 0;
+}
+
+const PartFootprint *part_library_footprint_at(const PartLibrary *library, size_t index) {
+    return library != NULL && index < library->footprint_count ? library->footprints[index] : NULL;
+}
+
+const PartFootprint *part_library_find_footprint(const PartLibrary *library, const char *id) {
+    if (library == NULL || id == NULL) {
+        return NULL;
+    }
+    return name_set_get(&library->footprint_ids, id);
+}
+
 /* ---- Loading -------------------------------------------------------------- */
 
 static const char *const FILE_KEYS[] = {"format", "version", "kind", "devices", NULL};
 static const char *const DEVICE_KEYS[] = {
     "id", "function", "description", "drawer", "note", "pinouts", "parts", NULL
 };
-static const char *const PART_KEYS[] = {"name", "package", "pinout", "flags", NULL};
+static const char *const PART_KEYS[] = {"name", "package", "pinout", "flags", "footprint", NULL};
 static const char *const PIN_KEYS[] = {"number", "ball", "name", "role", "group", NULL};
 
 static const char *const ROLE_NAMES[] = {
@@ -201,28 +222,6 @@ static int file_add_part(FileParts *file, const Part *part) {
     }
     file->parts[file->count++] = part;
     return 0;
-}
-
-/* JEDEC JEP95 row letters: no I, O, Q, S, X or Z. */
-static int is_row_letter(char c) {
-    return c != '\0' && strchr("ABCDEFGHJKLMNPRTUVWY", c) != NULL;
-}
-
-/* 1-2 row letters, then a column of 1-99 with no leading zero, e.g. "A1", "AB12". */
-static int is_ball_name(const char *text) {
-    size_t letters = 0;
-    size_t digits = 0;
-
-    while (letters < 2 && is_row_letter(text[letters])) {
-        letters++;
-    }
-    if (letters == 0 || text[letters] < '1' || text[letters] > '9') {
-        return 0;
-    }
-    while (text[letters + digits] >= '0' && text[letters + digits] <= '9') {
-        digits++;
-    }
-    return digits <= 2 && text[letters + digits] == '\0';
 }
 
 static int load_pinout(KindContext *ctx, const cJSON *json, Pinout *out) {
@@ -284,7 +283,7 @@ static int load_pinout(KindContext *ctx, const cJSON *json, Pinout *out) {
             if (kind_string(ctx, pin_json, "ball", &pin->designator) != 0) {
                 return -1;
             }
-            if (!is_ball_name(pin->designator)) {
+            if (!kind_is_ball_name(pin->designator)) {
                 return kind_error(ctx, "\"%s\" is not a ball name", pin->designator);
             }
             for (other = 0; other < n; other++) {
@@ -355,6 +354,41 @@ static int load_flags(KindContext *ctx, const cJSON *part_json, unsigned *flags)
     return 0;
 }
 
+/* Resolves "footprint" and checks that every pin has a pad of its designator. */
+static int load_part_footprint(KindContext *ctx, const PartLibrary *library, const cJSON *part_json,
+                               const char *pinout_name, Part *part) {
+    const PartFootprint *footprint;
+    const char *id;
+    size_t i, j;
+
+    if (kind_string(ctx, part_json, "footprint", &id) != 0) {
+        return -1;
+    }
+    footprint = part_library_find_footprint(library, id);
+    if (footprint == NULL) {
+        return kind_error(ctx, "unknown footprint \"%s\"", id);
+    }
+    if (footprint->pins != part->pin_count) {
+        return kind_error(ctx, "footprint \"%s\" has %u pads, pinout \"%s\" has %zu pins", id,
+                          footprint->pins, pinout_name, part->pin_count);
+    }
+    for (i = 0; i < part->pin_count; i++) {
+        for (j = 0; j < footprint->pad_count; j++) {
+            const char *designator = footprint->pads[j].designator;
+
+            if (designator != NULL && strcmp(designator, part->pins[i].designator) == 0) {
+                break;
+            }
+        }
+        if (j == footprint->pad_count) {
+            return kind_error(ctx, "pin \"%s\" has no pad in footprint \"%s\"",
+                              part->pins[i].designator, id);
+        }
+    }
+    part->footprint = footprint;
+    return 0;
+}
+
 static int load_part(KindContext *ctx, PartLibrary *library, FileParts *file,
                      const PartKindOps *ops, const cJSON *part_json, const void *device,
                      const Part *common, const Pinout *pinouts, size_t pinout_count) {
@@ -395,6 +429,10 @@ static int load_part(KindContext *ctx, PartLibrary *library, FileParts *file,
     }
     part->pins = pinouts[p].pins;
     part->pin_count = pinouts[p].pin_count;
+    if (cJSON_GetObjectItemCaseSensitive(part_json, "footprint") != NULL &&
+        load_part_footprint(ctx, library, part_json, pinout_name, part) != 0) {
+        return -1;
+    }
     internal->ops = ops;
     internal->device = device;
     internal->bound = pinouts[p].bound;
@@ -589,6 +627,88 @@ static char *copy_message(const char *text) {
     return copy;
 }
 
+/* Hands a loaded file's arena to the library. */
+static void adopt_arena(PartLibrary *library, KindContext *ctx) {
+    ArenaChunk *last = ctx->arena;
+
+    if (last != NULL) {
+        while (last->next != NULL) {
+            last = last->next;
+        }
+        last->next = library->arenas;
+        library->arenas = ctx->arena;
+        ctx->arena = NULL;
+    }
+}
+
+/* Sets *error (or frees the message) the way load_parts and load_footprints report. */
+static void report(KindContext *ctx, int result, char **error) {
+    if (result != 0 && error != NULL) {
+        *error = ctx->error != NULL ? ctx->error : copy_message("out of memory");
+    } else {
+        free(ctx->error);
+    }
+}
+
+int load_footprints(PartLibrary *library, const char *json, const char *source, char **error) {
+    KindContext ctx;
+    FootprintList file = {0};
+    cJSON *root;
+    int result = -1;
+
+    if (error != NULL) {
+        *error = NULL;
+    }
+    if (library == NULL || json == NULL) {
+        if (error != NULL) {
+            *error = copy_message("load_footprints: no library or text");
+        }
+        return -1;
+    }
+    memset(&ctx, 0, sizeof ctx);
+    ctx.source = source != NULL ? source : "footprints";
+
+    root = cJSON_ParseWithLength(json, strlen(json));
+    if (root == NULL) {
+        const char *where = cJSON_GetErrorPtr();
+
+        kind_error(&ctx, "invalid JSON at byte %ld", where != NULL ? (long)(where - json) : -1L);
+    } else if (footprint_read_file(&ctx, root, library, &file) == 0 && !kind_failed(&ctx)) {
+        size_t needed = library->footprint_count + file.count;
+        const PartFootprint **all = malloc((needed > 0 ? needed : 1) * sizeof(*all));
+        NameSet ids = {0};
+        size_t i;
+        int ok = all != NULL && name_set_merge(&ids, &library->footprint_ids) == 0;
+
+        for (i = 0; ok && i < file.count; i++) {
+            ok = name_set_add(&ids, file.items[i]->id, file.items[i]) == 0;
+        }
+        if (!ok) {
+            free(all);
+            name_set_free(&ids);
+            kind_error(&ctx, "out of memory");
+        } else {
+            if (library->footprint_count > 0) {
+                memcpy(all, library->footprints, library->footprint_count * sizeof(*all));
+            }
+            memcpy(all + library->footprint_count, file.items, file.count * sizeof(*all));
+            free(library->footprints);
+            name_set_free(&library->footprint_ids);
+            library->footprints = all;
+            library->footprint_count = needed;
+            library->footprint_ids = ids;
+            adopt_arena(library, &ctx);
+            result = 0;
+        }
+    }
+
+    cJSON_Delete(root);
+    free(file.items);
+    free_chunks(ctx.arena);
+    report(&ctx, result, error);
+    return result;
+}
+
 int load_parts(PartLibrary *library, const char *json, const char *source, char **error) {
     KindContext ctx;
     FileParts file = {0};
@@ -645,22 +765,13 @@ int load_parts(PartLibrary *library, const char *json, const char *source, char 
                 name_set_free(&devices);
                 kind_error(&ctx, "out of memory");
             } else {
-                ArenaChunk *last = ctx.arena;
-
                 name_set_free(&library->names);
                 name_set_free(&library->devices);
                 library->names = names;
                 library->devices = devices;
                 memcpy(library->parts + library->count, file.parts, file.count * sizeof(*file.parts));
                 library->count += file.count;
-                if (last != NULL) {
-                    while (last->next != NULL) {
-                        last = last->next;
-                    }
-                    last->next = library->arenas;
-                    library->arenas = ctx.arena;
-                    ctx.arena = NULL;
-                }
+                adopt_arena(library, &ctx);
                 result = 0;
             }
         }
@@ -671,14 +782,6 @@ int load_parts(PartLibrary *library, const char *json, const char *source, char 
     name_set_free(&file.names);
     name_set_free(&file.devices);
     free_chunks(ctx.arena);
-    if (result != 0) {
-        if (error != NULL) {
-            *error = ctx.error != NULL ? ctx.error : copy_message("out of memory");
-        } else {
-            free(ctx.error);
-        }
-    } else {
-        free(ctx.error);
-    }
+    report(&ctx, result, error);
     return result;
 }

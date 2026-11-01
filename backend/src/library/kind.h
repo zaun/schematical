@@ -99,6 +99,8 @@ const cJSON *kind_member(KindContext *ctx, const cJSON *object, const char *key,
 int kind_string(KindContext *ctx, const cJSON *object, const char *key, const char **out);
 int kind_uint(KindContext *ctx, const cJSON *object, const char *key, uint64_t max,
               uint64_t *out);
+/* A JSON number (any value; callers check the range). */
+int kind_number(KindContext *ctx, const cJSON *object, const char *key, double *out);
 int kind_bool(KindContext *ctx, const cJSON *object, const char *key, int *out);
 /* An array of strings; *out is arena memory. */
 int kind_names(KindContext *ctx, const cJSON *object, const char *key,
@@ -114,6 +116,13 @@ int kind_pin(KindContext *ctx, const PartPin *pins, size_t pin_count, const char
 /* Every pin with this name, in pin order; 0 (error set) when there is none. */
 size_t kind_pins(KindContext *ctx, const PartPin *pins, size_t pin_count, const char *name,
                  size_t *out, size_t cap);
+
+/* JEDEC JEP95 ball name: 1-2 row letters (no I, O, Q, S, X, Z), then a
+   column of 1-99 with no leading zero, e.g. "A1", "AB12". */
+int kind_is_ball_name(const char *text);
+
+/* Index of a JEP95 row letter (A = 0, B = 1, ... skipping I O Q S X Z), or -1. */
+int kind_ball_row(char c);
 
 /* The library's spelling of a logic family name, or NULL (error set). */
 const char *kind_logic_family(KindContext *ctx, const char *text);

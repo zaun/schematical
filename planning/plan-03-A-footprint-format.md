@@ -380,20 +380,22 @@ is set.
 
 Adds the format and the loader; no part file uses it, so nothing else changes.
 
-- [ ] `backend/include/parts.h`: `PadShape`, `FootprintPad`, `PartFootprint`,
+- [x] `backend/include/parts.h`: `PadShape`, `FootprintPad`, `PartFootprint`,
       `Part.footprint` (last field before `internal`), the four functions (§4.3).
-- [ ] `backend/src/library/kind.h`, `kind_util.c`: `kind_number(ctx, json, key,
+- [x] `backend/src/library/kind.h`, `kind_util.c`: `kind_number(ctx, json, key,
       double *out)` (rejects non-numbers; message names the key).
-- [ ] Move plan-02-A's `static int is_ball_name(const char *)` from
+- [x] Move plan-02-A's `static int is_ball_name(const char *)` from
       `library.c` to `kind_util.c` (declared in `kind.h`) so `footprints.c`
-      checks grid ball names with the same rule.
-- [ ] `backend/src/library/footprints.c`: parse, check (§4.4), expand (§4.2
+      checks grid ball names with the same rule. (Exported as `kind_is_ball_name`, plus
+      `kind_ball_row` for the grid row index.)
+- [x] `backend/src/library/footprints.c`: parse, check (§4.4), expand (§4.2
       formulas) into the arena; register in the library's footprint set/array.
-      Add to `backend/CMakeLists.txt`.
-- [ ] `backend/src/library/library.c`: `"footprint"` in `PART_KEYS`; resolve in
+      Add to `backend/CMakeLists.txt`. (Internal header `footprint.h`:
+      `footprint_read_file`; `library.c` owns registration.)
+- [x] `backend/src/library/library.c`: `"footprint"` in `PART_KEYS`; resolve in
       `load_part`; pin-count check; the library struct gains the footprint
       set/array, freed in `part_library_destroy`.
-- [ ] `backend/tests/library_check.c`: one accepted footprint per style with its
+- [x] `backend/tests/library_check.c`: one accepted footprint per style with its
       expanded pads asserted (a `dual` 14-pin, a `dual` with `slots` [1,2,3,4,6],
       a `quad` 20-pin with slots and an unnumbered `centre`, a `dual` 5-pin with slots [1,2,0,3,4] and a `centre`, an `explicit` 4-pin with mixed pad sizes, a `grid` 2×3), plus one case per
       rule in §4.4.
@@ -401,8 +403,8 @@ Adds the format and the loader; no part file uses it, so nothing else changes.
 Acceptance: the new loader accepts all four styles with exact pad positions
 and rejects every §4.4 case with a message naming the place; existing part
 files load unchanged.
-  Check: `cmake --build /tmp/logic-plan03 -j8 && ctest --test-dir /tmp/logic-plan03 -R library_check --output-on-failure` → passes (est. 1 min).
-  Check: `ctest --test-dir /tmp/logic-plan03 -R 'listing_check|trace_check'` → both pass, `3817 parts compared` (est. 1 min).
+  Check: `cmake --build /tmp/logic-plan03 -j8 && ctest --test-dir /tmp/logic-plan03 -R library_check --output-on-failure` → passes (est. 1 min). — 2026-11-01: `100% tests passed, 0 tests failed out of 1`; 106 `ok` lines incl. 6 style expansions, 48 footprint rejections, 5 part rejections; ASan+UBSan build `library_check: all passed`.
+  Check: `ctest --test-dir /tmp/logic-plan03 -R 'listing_check|trace_check'` → both pass, `3817 parts compared` (est. 1 min). — 2026-11-01: both Passed, `3817 parts compared, 0 skipped` each.
 Commit: —
 
 ### Phase 2 — `footprints.json`, LED footprints, loaders, goldens
@@ -478,6 +480,14 @@ Commit: —
   owner, 2026-10-31 (plan-03-D).
 
 ## Corrections
+
+- 2026-11-01 (Phase 1): §4.2 lists `pin1Shape` as a common key but a grid
+  has no pin "1"; the loader rejects `pin1Shape` on `grid` (as it does
+  `slots`/`centre`), with a `library_check` case. Also added rules the
+  design implied but did not list: `perSide` ≥ 1, `sides` must be four
+  whole numbers with at least one slot, `rows`/`columns` ≥ 1, pad shape
+  must be rect/round, an explicit pad's `pin` must be 0…`pins`. Each has a
+  `library_check` case.
 
 ## Summary
 

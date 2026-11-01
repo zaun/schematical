@@ -57,6 +57,28 @@ typedef struct { const char *family; uint64_t min_hz, max_hz, default_hz;
                  const char *enable_pin; /* the pin's designator, NULL = none */ } PartOscillator;
 typedef struct { int level; } PartSupply;
 
+/* ---- Footprints (Parts/footprints.json, docs/parts-format.md) ----------- */
+
+typedef enum { PAD_RECT, PAD_ROUND } PadShape;
+
+/* One land: millimetres, origin = body centre, x right, y down. */
+typedef struct {
+    const char *designator;  /* "14" or "A1", matching PartPin.designator; NULL = unnumbered centre pad */
+    double x, y;             /* centre */
+    double width, height;
+    double drill;            /* 0 = surface mount */
+    PadShape shape;
+} FootprintPad;
+
+/* A footprint, expanded to a flat pad list by the loader. */
+typedef struct {
+    const char *id, *description;
+    unsigned pins;                      /* designated pads */
+    double body_width, body_height;
+    int body_round;
+    const FootprintPad *pads; size_t pad_count;   /* "1"…"N" order (grid: row-major), unnumbered last */
+} PartFootprint;
+
 typedef struct Part {
     PartKind kind;
     const char *name, *package, *function, *description;
@@ -70,6 +92,7 @@ typedef struct Part {
     const PartDisplay *display;
     const PartOscillator *oscillator;
     const PartSupply *supply;
+    const PartFootprint *footprint;    /* NULL = none (supplies) */
     const void *internal;              /* model data; not for the app */
 } Part;
 
@@ -80,6 +103,17 @@ void part_library_destroy(PartLibrary *library);
    *error (free it) on failure, with nothing from that file added. `source`
    names the file in messages, e.g. "gate.json". */
 int load_parts(PartLibrary *library, const char *json, const char *source, char **error);
+
+/*
+ * Parses a footprints file (format "schematical-footprints"). Same contract
+ * as load_parts. Load it before any part file that names its footprints;
+ * ids are unique across calls.
+ */
+int load_footprints(PartLibrary *library, const char *json, const char *source, char **error);
+
+size_t part_library_footprint_count(const PartLibrary *library);
+const PartFootprint *part_library_footprint_at(const PartLibrary *library, size_t index);
+const PartFootprint *part_library_find_footprint(const PartLibrary *library, const char *id);
 
 size_t part_library_count(const PartLibrary *library);
 const Part *part_library_at(const PartLibrary *library, size_t index);

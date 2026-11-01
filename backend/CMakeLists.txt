@@ -12,6 +12,7 @@ add_library(logic STATIC
     src/library/library.c
     src/library/kinds.c
     src/library/kind_util.c
+    src/library/footprints.c
     src/models/lights.c
     src/models/gate.c
     src/models/dff.c
