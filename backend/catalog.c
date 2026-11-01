@@ -10,15 +10,22 @@
 #include "74_86.h"
 #include "74_266.h"
 #include "ff-d.h"
+#include "cd4000.h"
 #include "led.h"
+#include "osc.h"
 #include "supply.h"
 
 static const ChipDefinition *const DEFINITIONS[] = {
     &SN74_00_DEFINITION,
+    &SN74_00_FK_DEFINITION,
     &SN74_02_DEFINITION,
+    &SN74_02_FK_DEFINITION,
     &SN74_08_DEFINITION,
+    &SN74_08_FK_DEFINITION,
     &SN74_32_DEFINITION,
+    &SN74_32_FK_DEFINITION,
     &SN74_86_DEFINITION,
+    &SN74_86_FK_DEFINITION,
     &SN74_266_DEFINITION,
     &FF_74_72_DEFINITION,
     &FF_74_74_DEFINITION,
@@ -34,6 +41,23 @@ static const ChipDefinition *const DEFINITIONS[] = {
     &FF_1G175_DEFINITION,
     &FF_1G374_DEFINITION,
     &FF_2G79_DEFINITION,
+    &FF_74_74_FK_DEFINITION,
+    &FF_74_174_FK_DEFINITION,
+    &FF_74_175_FK_DEFINITION,
+    &FF_1G79_SON_DEFINITION,
+    &FF_1G80_DEFINITION,
+    &FF_1G80_SON_DEFINITION,
+    &FF_2G80_DEFINITION,
+    &FF_2G80_RSE_DEFINITION,
+    &FF_2G74_DEFINITION,
+    &CD4001B_DEFINITION,
+    &CD4011B_DEFINITION,
+    &CD4030B_DEFINITION,
+    &CD4070B_DEFINITION,
+    &CD4071B_DEFINITION,
+    &CD4077B_DEFINITION,
+    &CD4081B_DEFINITION,
+    &CD4093B_DEFINITION,
 };
 
 size_t catalog_definition_count(void) {
@@ -183,6 +207,44 @@ static void write_chip(FILE *out, const ChipDefinition *chip) {
     fputs("]}", out);
 }
 
+static void write_oscillator(FILE *out, size_t index) {
+    OscConfig config;
+    const ChipPin *pins;
+    size_t count;
+    size_t i;
+
+    if (osc_part_config_at(index, &config) != 0) {
+        return;
+    }
+    pins = osc_pins(config.family, config.package);
+    count = osc_pin_count(config.family, config.package);
+
+    fputs("{\"name\":", out);
+    write_json_string(out, osc_part_name_at(index));
+    fputs(",\"family\":", out);
+    write_json_string(out, osc_family_label(config.family));
+    fputs(",\"package\":", out);
+    write_json_string(out, osc_package_label(config.package));
+    fprintf(out, ",\"minHz\":%llu,\"maxHz\":%llu,\"defaultHz\":%llu",
+            (unsigned long long)osc_part_min_hz(index),
+            (unsigned long long)osc_part_max_hz(index),
+            (unsigned long long)config.frequency_hz);
+    if (config.enable_pin >= 0) {
+        fprintf(out, ",\"enablePin\":%u", pins[config.enable_pin].number);
+    }
+
+    fputs(",\"pins\":[", out);
+    for (i = 0; i < count; i++) {
+        if (i > 0) {
+            fputc(',', out);
+        }
+        fprintf(out, "{\"number\":%u,\"name\":", pins[i].number);
+        write_json_string(out, pins[i].name);
+        fprintf(out, ",\"role\":\"%s\"}", role_name(pins[i].role));
+    }
+    fputs("]}", out);
+}
+
 static void write_led(FILE *out, size_t index) {
     LedConfig config;
     size_t count;
@@ -253,7 +315,30 @@ void catalog_write_json(FILE *out) {
         write_json_string(out, pin->name);
         fprintf(out, ",\"role\":\"%s\"}]}", role_name(pin->role));
     }
-    fputs("]}\n", out);
+    fputs("],\"oscillators\":{\"category\":\"Oscillator\",\"groups\":[", out);
+    for (i = 0; i < osc_group_count(); i++) {
+        size_t p;
+        bool first = true;
+
+        if (i > 0) {
+            fputc(',', out);
+        }
+        fputs("{\"range\":", out);
+        write_json_string(out, osc_group_label(i));
+        fputs(",\"parts\":[", out);
+        for (p = 0; p < osc_part_count(); p++) {
+            if (!osc_part_in_group(p, i)) {
+                continue;
+            }
+            if (!first) {
+                fputc(',', out);
+            }
+            write_oscillator(out, p);
+            first = false;
+        }
+        fputs("]}", out);
+    }
+    fputs("]}}\n", out);
 }
 
 char *catalog_json_copy(void) {

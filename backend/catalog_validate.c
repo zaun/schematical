@@ -9,6 +9,7 @@
 
 #include "catalog.h"
 #include "led.h"
+#include "osc.h"
 #include "sim.h"
 #include "supply.h"
 
@@ -360,6 +361,136 @@ static void validate_supplies(ReportBuilder *builder) {
     }
 }
 
+/* ---- Oscillators -------------------------------------------------------- */
+
+static void expect_level(CatalogItemErrors *item, const char *label,
+                         LogicValue got, LogicValue want) {
+    if (got != want) {
+        add_error(item, "%s reads %s, expected %s", label, value_name(got), value_name(want));
+    }
+}
+
+/*
+ * Runs the clock and checks the outputs. Output 1 should be high at 1.5 half
+ * periods and low at 2.5; a complementary output 2 should be the reverse. Then,
+ * if there is an enable pin, a LOW on it (from a GND source) should put the
+ * outputs in high impedance.
+ */
+static void check_osc_outputs(CatalogItemErrors *item, const SimComponentType *type,
+                              const OscConfig *config, const ChipPin *pins, size_t pin_count) {
+    size_t outs[2] = {0, 0};
+    size_t n = 0;
+    size_t i;
+    SimTime half;
+
+    for (i = 0; i < pin_count && n < 2; i++) {
+        if (pins[i].role == PIN_ROLE_OUTPUT) {
+            outs[n++] = i;
+        }
+    }
+    if (n == 0) {
+        add_error(item, "no output pin");
+        return;
+    }
+
+    half = (1000000000000ULL + config->frequency_hz) / (2 * config->frequency_hz);
+
+    {
+        Sim *sim = sim_create();
+        SimNet *a = sim_add_net(sim, "CLK");
+        SimNet *b = n == 2 ? sim_add_net(sim, "CLKN") : NULL;
+        SimInstance *x = sim_add_instance(sim, type, "X1", config);
+        /* The sim API returns 1 on success and 0 on failure. */
+        int ok = sim && a && x && sim_connect(sim, a, x, outs[0]) &&
+                 (n < 2 || (b && sim_connect(sim, b, x, outs[1]))) && sim_start(sim);
+
+        if (!ok || sim_run_until(sim, half + half / 2) == 0) {
+            add_error(item, "clock simulation setup or run failed");
+            sim_destroy(sim);
+            return;
+        }
+        expect_level(item, "output", sim_read_pin(sim, x, outs[0]), LOGIC_1);
+        if (n == 2) {
+            expect_level(item, "complement output", sim_read_pin(sim, x, outs[1]), LOGIC_0);
+        }
+
+        if (sim_run_until(sim, 2 * half + half / 2) == 0) {
+            add_error(item, "clock simulation run failed");
+            sim_destroy(sim);
+            return;
+        }
+        expect_level(item, "output after one half period", sim_read_pin(sim, x, outs[0]), LOGIC_0);
+        if (n == 2) {
+            expect_level(item, "complement after one half period",
+                         sim_read_pin(sim, x, outs[1]), LOGIC_1);
+        }
+        sim_destroy(sim);
+    }
+
+    if (config->enable_pin >= 0) {
+        SupplyConfig gnd_config = {SUPPLY_GND};
+        const SimComponentType *gnd = supply_lookup("GND", &gnd_config);
+        Sim *sim = sim_create();
+        SimNet *clk = sim_add_net(sim, "CLK");
+        SimNet *clkn = n == 2 ? sim_add_net(sim, "CLKN") : NULL;
+        SimNet *en = sim_add_net(sim, "OE");
+        SimInstance *x = sim_add_instance(sim, type, "X1", config);
+        SimInstance *g = sim_add_instance(sim, gnd, "G1", &gnd_config);
+        int ok = sim && clk && en && x && g && sim_connect(sim, clk, x, outs[0]) &&
+                 (n < 2 || (clkn && sim_connect(sim, clkn, x, outs[1]))) &&
+                 sim_connect(sim, en, x, (size_t)config->enable_pin) &&
+                 sim_connect(sim, en, g, 0) && sim_start(sim);
+
+        if (!ok || sim_run_until(sim, half + half / 2) == 0) {
+            add_error(item, "enable simulation setup or run failed");
+        } else {
+            expect_level(item, "output with enable LOW", sim_read_pin(sim, x, outs[0]), LOGIC_Z);
+            if (n == 2) {
+                expect_level(item, "complement with enable LOW",
+                             sim_read_pin(sim, x, outs[1]), LOGIC_Z);
+            }
+        }
+        sim_destroy(sim);
+    }
+}
+
+static void validate_oscillators(ReportBuilder *builder) {
+    size_t i;
+
+    for (i = 0; i < osc_part_count(); i++) {
+        const char *name = osc_part_name_at(i);
+        OscConfig config;
+        const SimComponentType *type;
+        const ChipPin *pins;
+        size_t pin_count;
+        CatalogItemErrors *item;
+
+        item = begin_item(builder, name);
+        if (osc_part_config_at(i, &config) != 0 ||
+            (type = osc_lookup(name, &config)) == NULL) {
+            add_error(item, "does not resolve to a model");
+            continue;
+        }
+
+        pins = osc_pins(config.family, config.package);
+        pin_count = osc_pin_count(config.family, config.package);
+        check_pin_table(item, pins, pin_count);
+
+        if (config.frequency_hz < osc_part_min_hz(i) ||
+            config.frequency_hz > osc_part_max_hz(i)) {
+            add_error(item, "default frequency %llu Hz is outside the datasheet range",
+                      (unsigned long long)config.frequency_hz);
+            continue;
+        }
+        if (type->pin_count(&config) != pin_count) {
+            add_error(item, "model pin count does not match the pin table");
+            continue;
+        }
+
+        check_osc_outputs(item, type, &config, pins, pin_count);
+    }
+}
+
 /* ---- Public API --------------------------------------------------------- */
 
 CatalogErrorReport catalog_validate(void) {
@@ -369,6 +500,7 @@ CatalogErrorReport catalog_validate(void) {
     validate_chips(&builder);
     validate_leds(&builder);
     validate_supplies(&builder);
+    validate_oscillators(&builder);
 
     report.items = builder.items;
     report.item_count = builder.count;
