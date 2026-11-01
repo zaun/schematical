@@ -69,12 +69,13 @@ Everything below is written against the world where these hold.
 
 - `ls datasheets/eeprom/*.pdf | wc -l` → 12, each matching the SHA-256 of
   §4.1; `datasheets/obsolete-not-included.md` has the 4 rows of §4.1.
-- `grep -c '"name"' schematical/schematical/Parts/eeprom.json` → 174.
+- `grep -c '"pinout":' schematical/schematical/Parts/eeprom.json` → 174
+  (one per part line; see Corrections).
 - `wc -l < backend/tests/golden/parts.txt` → 3991 (3817 + 174),
   `traces.txt` → 3991, `footprints.txt` → 136 (126 + 10); the diff against
   today's goldens is only added lines.
-- `ctest` → `100% tests passed, 0 tests failed out of 9` (8 today +
-  `eeprom_test`).
+- `ctest` → `100% tests passed, 0 tests failed out of 10` (9 at the start,
+  after plan-05, + `eeprom_test`).
 
 ### Non-goals (explicit constraints)
 
@@ -500,26 +501,39 @@ and the golden diff exits 0; `xcodebuild … build` → `** BUILD SUCCEEDED **`
   Check: `cmake -S backend -B /tmp/logic-plan04 && cmake --build /tmp/logic-plan04 -j8 && ctest --test-dir /tmp/logic-plan04 -R 'eeprom_test|library_check' --output-on-failure` → 2 of 2 pass (est. 20 s).
   Check: `ctest --test-dir /tmp/logic-plan04 -R 'listing_check|trace_check|footprint_check'` → 3 of 3 pass, and `git diff --exit-code backend/tests/golden` (est. 15 s).
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p04a-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 1 min; the app compiles `backend/src` and imports `parts.h`).
-Commit: —
+Commit: 348c690
 
 ### Phase 3 — Footprints, parts, goldens (largest blast radius last)
 
-- [ ] `footprints.json`: the 10 footprints of §4.3, each with a `note`
-      naming drawing, file and page.
-- [ ] `schematical/schematical/Parts/eeprom.json`: the 12 devices of §4.2,
+- [x] `footprints.json`: the 10 footprints of §4.3, each with a `note`
+      naming drawing, file and page. (Every value re-derived from the
+      rendered drawings: SOIC-28W C04-2052A C 9.40 / 2.00 × 0.60; PLCC-32
+      C04-2023 C1 .425, C2 .524, .100 × .026; 28D6, 32D6, 28F, 32F,
+      FP32.435, 32L/32L1, 28U, 30U by R2/R4/R5 — all equal §4.3.)
+- [x] `schematical/schematical/Parts/eeprom.json`: the 12 devices of §4.2,
       pinouts of Appendix B, the 174 parts of Appendix A (package name,
       pinout, footprint, grade, `"flags": ["military"]` on the 98 military
-      / space parts).
-- [ ] Regenerate `parts.txt`, `traces.txt`, `footprints.txt` with
+      / space parts). (Generated from §4.2 / Appendices A–B; every name
+      checked against the sheets' ordering tables, the TSOP-28, TSOP-32,
+      PLCC-1M and 12DK flatpack maps against the pin tables;
+      `grep -c '"pinout":'` → 174, `grep -c '"flags":\["military"\]'` → 98.)
+- [x] Regenerate `parts.txt`, `traces.txt`, `footprints.txt` with
       `--print`; hand-check every new `footprints.txt` line against its
       drawing (pitch, span, pad size, pin 1 position, PGA pin positions).
-- [ ] `eeprom_test`: cases 10–13 on real parts.
+      (`wc -l` → 3991 / 3991 / 136; removed lines → 0. Pin 1 top-left on
+      the duals, top centre (0, −6.655 / −6.5 / −6.35) on PLCC/LCCC/PGA;
+      PLCC 4/5/13/14/20/21/29/30 at the side ends counter-clockwise; PGA
+      4, 12, 14, 15, 18, 19, 22, 26 on the §2 grid.)
+- [x] `eeprom_test`: cases 10–13 on real parts. (14 PASS; `0 failure(s)`)
 
 Acceptance: 174 parts load with footprints; goldens grow only by the new
 lines.
-  Check: `grep -c '"name"' schematical/schematical/Parts/eeprom.json` → 174; `grep -c 'military' schematical/schematical/Parts/eeprom.json` → 98 (est. seconds).
+  Check: `grep -c '"pinout":' schematical/schematical/Parts/eeprom.json` → 174; `grep -c '"flags":\["military"\]' schematical/schematical/Parts/eeprom.json` → 98 (est. seconds). (Corrected from `'"name"'` / `'military'`, which also count pin lines and descriptions: 992 / 106.)
   Check: `wc -l < backend/tests/golden/parts.txt` → 3991, `traces.txt` 3991, `footprints.txt` 136; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (est. seconds).
-  Check: `cmake --build /tmp/logic-plan04 -j8 && ctest --test-dir /tmp/logic-plan04 --output-on-failure` → `100% tests passed, 0 tests failed out of 9` (est. 1 min; the whole backend suite, because every golden and loader test reads `Parts/`).
+  Check: `cmake --build /tmp/logic-plan04 -j8 && ctest --test-dir /tmp/logic-plan04 --output-on-failure` → `100% tests passed, 0 tests failed out of 10` (est. 1 min; the whole backend suite, because every golden and loader test reads `Parts/`).
+
+**Met:** 174 / 98 with the corrected greps; goldens 3991 / 3991 / 136 with
+0 removed lines; `ctest` → `100% tests passed, 0 tests failed out of 10`.
 Commit: —
 
 ## Validation Plan
@@ -529,13 +543,14 @@ Commit: —
   with the new lines).
 - Coverage check: `eeprom.c` is in `add_library(logic …)`; every §5.3 rule
   has an `eeprom_test` case (the list in §5.4 maps one to one).
-- Runtime proof: `/tmp/logic-plan04/listing_check --print | grep -c ' eeprom '`
-  → 174; the app build (Phase 2 check) loads `eeprom.json` through the
+- Runtime proof: `/tmp/logic-plan04/listing_check --print | grep -c '|eeprom|'`
+  → 174 (measured 174; the listing separates fields with `|`, so the
+  original `' eeprom '` pattern matched nothing); the app build (Phase 2 check) loads `eeprom.json` through the
   bundle (`BackendCatalog.load` scans `Parts/*.json`). The full app proof
   is plan-04-C's.
 - Doc sync: `docs/parts-format.md`, `docs/backend.md`,
   `datasheets/obsolete-not-included.md`.
-- Final gate (once, after Phase 3): `rm -rf /tmp/logic-land-p04a && cmake -S backend -B /tmp/logic-land-p04a && cmake --build /tmp/logic-land-p04a -j8 && ctest --test-dir /tmp/logic-land-p04a` → `100% tests passed, 0 tests failed out of 9` (est. 1 min); the Phase 2 `xcodebuild` (est. 1 min).
+- Final gate (once, after Phase 3): `rm -rf /tmp/logic-land-p04a && cmake -S backend -B /tmp/logic-land-p04a && cmake --build /tmp/logic-land-p04a -j8 && ctest --test-dir /tmp/logic-land-p04a` → `100% tests passed, 0 tests failed out of 10` (est. 1 min); the Phase 2 `xcodebuild` (est. 1 min).
 
 ## Decisions
 
@@ -604,6 +619,21 @@ codes are not; no reel code is invented where a sheet prints none
   rule (a protected window without a prefix writes nothing, X included); a
   tDH/tOEH violation on a command byte turns the whole partial or finished
   sequence back into data with that byte X.
+- 2026-11-01 (Phase 3): the count checks `grep -c '"name"' eeprom.json` →
+  174 and `grep -c 'military'` → 98 cannot hold for a part file written
+  like `sram.json` (one pin per line, every pin has `"name"`; descriptions
+  say "military"): they measure 992 and 106. Replaced by
+  `grep -c '"pinout":'` (one per part line) → 174 and
+  `grep -c '"flags":\["military"\]'` → 98, here and in plan-04-B's gate.
+  The runtime-proof `grep -c ' eeprom '` matched 0 lines (the listing is
+  `|`-separated); now `grep -c '|eeprom|'` → 174.
+- 2026-11-01 (Phase 3): `AT28C010-military.pdf`'s ordering table prints the
+  two 250 ns codes as `AT28C010-12DM/883` / `-12FM/883` (SMD 5962-38267 01,
+  tACC column 250). Appendix A's `-25DM/883`, `-25FM/883` reading is kept and
+  recorded in the device note.
+- 2026-11-01 (Phase 3): `AT28C010-12DK.pdf` does have an "AC Read
+  Characteristics" heading (p.7), but under it only waveforms, no table:
+  the §4.2 choice (military `-12` values) stands.
 
 ## Summary
 

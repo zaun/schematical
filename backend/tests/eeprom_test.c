@@ -545,6 +545,105 @@ static void check_unknown_we(void) {
     bench_close(&b);
 }
 
+/* ---- 10. Fast write (F): tWC 3 ms ----------------------------------------- */
+
+static void check_fast_write(void) {
+    Bench b;
+    SimTime end;
+
+    bench_open(&b, "AT28C256F-15JU");
+    expect(b.part->eeprom->write_cycle_ps == MS(3), "10: AT28C256F-15JU has tWC = 3 ms");
+    set_pin(&b, "CE#", LOGIC_0);
+    end = load_byte(&b, NS(1000), 0x4321, 0xC3);
+    run_to(&b, end + TBLC + MS(3) - 1);
+    expect(word_is(&b, 0x4321, 0xFF), "10: not committed before tBLC + 3 ms");
+    run_to(&b, end + TBLC + MS(3));
+    expect(word_is(&b, 0x4321, 0xC3), "10: committed at tBLC + 3 ms, not 10 ms");
+    bench_close(&b);
+}
+
+/* ---- 11. Protection always on (AT28BV256) -------------------------------- */
+
+/* A load meeting the BV/LV times (tWP 200 ns): 220 ns pulse; 400 ns per load. */
+static SimTime load_slow(Bench *bench, SimTime t, uint32_t address, uint8_t value) {
+    return load_timed(bench, t, address, value, NS(220), NS(120));
+}
+
+static void check_always_protected(void) {
+    Bench b;
+    static const uint8_t DISABLE[6] = {0xAA, 0x55, 0x80, 0xAA, 0x55, 0x20};
+    SimTime end;
+    SimTime t;
+    int i;
+
+    bench_open(&b, "AT28BV256-20JU");
+    set_pin(&b, "CE#", LOGIC_0);
+    end = load_slow(&b, NS(1000), 0x0100, 0x5A);
+    run_to(&b, end + TBLC + TWC);
+    expect(word_is(&b, 0x0100, 0xFF), "11: AT28BV256: an unprotected write from power-up writes nothing");
+
+    t = end + TBLC + TWC + US(1);
+    for (i = 0; i < 6; i++) {
+        end = load_slow(&b, t + NS(400) * (SimTime)i, (i == 1 || i == 4) ? 0x2AAA : 0x5555, DISABLE[i]);
+    }
+    run_to(&b, end + TBLC + TWC);
+    end = load_slow(&b, end + TBLC + TWC + US(1), 0x0101, 0x66);
+    run_to(&b, end + TBLC + TWC);
+    expect(word_is(&b, 0x0101, 0xFF), "11: the disable sequence leaves it protected");
+
+    t = end + TBLC + TWC + US(1);
+    load_slow(&b, t, 0x5555, 0xAA);
+    load_slow(&b, t + NS(400), 0x2AAA, 0x55);
+    load_slow(&b, t + NS(800), 0x5555, 0xA0);
+    end = load_slow(&b, t + NS(1200), 0x0102, 0x77);
+    run_to(&b, end + TBLC + TWC);
+    expect(word_is(&b, 0x0102, 0x77), "11: a protected write (prefix + byte) is written");
+    bench_close(&b);
+}
+
+/* ---- 12. 64K command addresses (1555 / 0AAA) ----------------------------- */
+
+static void check_64k_commands(void) {
+    Bench b;
+    SimTime end;
+
+    bench_open(&b, "AT28C64B-15PU");
+    expect(b.address_bits == 13, "12: AT28C64B-15PU has 13 address bits");
+    set_pin(&b, "CE#", LOGIC_0);
+    load_enable(&b, NS(1000), 0x1555, 0x0AAA);
+    end = load_byte(&b, NS(1900), 0x0040, 0x12);
+    run_to(&b, end + TBLC + TWC);
+    expect(word_is(&b, 0x0040, 0x12), "12: the byte after the 1555/0AAA prefix is written");
+    expect(word_is(&b, 0x1555, 0xFF), "12: the prefix bytes are not data");
+    end = load_byte(&b, end + TBLC + TWC + US(1), 0x0041, 0x34);
+    run_to(&b, end + TBLC + TWC);
+    expect(word_is(&b, 0x0041, 0xFF), "12: protection is on: a following unprotected byte is not written");
+    bench_close(&b);
+}
+
+/* ---- 13. Memory hooks ------------------------------------------------------- */
+
+static void check_memory_hooks(void) {
+    Bench b;
+    const SimComponentType *type;
+    uint32_t words = 0;
+    unsigned bits = 0;
+    uint32_t values[4] = {0, 0, 0, 0};
+    uint32_t known[4] = {0, 0, 0, 0};
+
+    bench_open(&b, "AT28C010-12JU");
+    type = sim_instance_type(b.chip);
+    expect(type->memory_size(sim_instance_state(b.chip), &words, &bits) && words == 131072 && bits == 8,
+           "13: AT28C010-12JU memory_size is 131072 x 8");
+    expect(type->memory_read(sim_instance_state(b.chip), 131070, 4, values, known) == 2,
+           "13: memory_read clips at the end of memory");
+    expect(values[0] == 0xFF && known[0] == 0xFF && values[1] == 0xFF && known[1] == 0xFF,
+           "13: power-up words are FF");
+    expect(type->memory_read(sim_instance_state(b.chip), 131072, 1, values, known) == 0,
+           "13: memory_read past the end reads nothing");
+    bench_close(&b);
+}
+
 int main(void) {
     library = part_library_create();
     if (load_parts_dir(library, PARTS_DIR) != 0 || load_fixture() != 0) {
@@ -559,6 +658,10 @@ int main(void) {
     check_mixed_page();
     check_sdp();
     check_unknown_we();
+    check_fast_write();
+    check_always_protected();
+    check_64k_commands();
+    check_memory_hooks();
     part_library_destroy(library);
     printf("%d failure(s)\n", failures);
     return failures == 0 ? 0 : 1;
