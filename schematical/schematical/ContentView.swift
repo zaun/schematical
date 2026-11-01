@@ -46,7 +46,9 @@ struct ContentView: View {
             .inspector(isPresented: $isDrawerShown) {
                 ChipDrawerView(catalog: catalog)
                     .disabled(simulation.isRunning)
-                    .inspectorColumnWidth(min: 220, ideal: 260, max: 360)
+                    // macOS opens an inspector at its minimum width and ignores
+                    // `ideal`, so the minimum is the width it should open at.
+                    .inspectorColumnWidth(min: 250, ideal: 250, max: 500)
             }
             .toolbar {
                 ToolbarItemGroup(placement: .navigation) {
