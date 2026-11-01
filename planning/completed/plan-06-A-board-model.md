@@ -466,7 +466,7 @@ every bad value gives its message and leaves the document unchanged.
   ```json block of the file with `json.loads` → no error (est. 1 min).
   Check: the §Prerequisites `xcodebuild` → `** BUILD SUCCEEDED **` (est.
   1 min).
-Commit: —
+Commit: 602db34
 
 ## Validation Plan
 
