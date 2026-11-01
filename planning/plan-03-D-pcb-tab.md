@@ -253,18 +253,18 @@ Placements exist and are saved; nothing draws them yet.
 Acceptance: placements round-trip and old files gain placements on open.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 3 min). — 2026-11-01: `** BUILD SUCCEEDED **`.
   Check: launch the Debug build (run skill), open `test.schematical`, Save As `/tmp/p03d.schematical`; `python3 -I -c 'import json;d=json.load(open("/tmp/p03d.schematical"));print(sorted((p["partNumber"],"pcb" in p) for p in d["parts"]))'` → `GND False`, `LED-AMBER-0603 True`, `OSC-SIT1534-1508 True`, `VCC False` (est. 3 min). — 2026-11-01, headless (screen locked; Corrections): `[('GND', False), ('GND', False), ('LED-AMBER-0603', True), ('OSC-SIT1534-1508', True), ('VCC', False)]` (the file has two GNDs); the version 1 file was auto-placed (U2 at (0, 0), U3 at (3.81, 0)); reopening the saved file and saving again gives the same `pcb` values (`round trip pcb equal: True`).
-Commit: —
+Commit: 3690977
 
 ### Phase 2 — PCB view and tabs
 
-- [ ] `Canvas/PCBCanvasView.swift` (§4.4).
-- [ ] `ContentView.swift`: `EditorPage`, page picker, `boardViewport`, body
+- [x] `Canvas/PCBCanvasView.swift` (§4.4). (Grid dots 2.5 points, `Color(white: 0.42)`: at 1.5 points they barely showed in the render.)
+- [x] `ContentView.swift`: `EditorPage`, page picker, `boardViewport`, body
       switch, drawer binding, Rotate button, zoom target (§4.5).
 
 Acceptance: the PCB tab draws, selects, moves and rotates footprints; the
 Schematic tab is unchanged.
-  Check: the Phase 1 `xcodebuild` → `** BUILD SUCCEEDED **` (est. 3 min).
-  Check: runtime proof below, steps 1–5 (est. 10 min).
+  Check: the Phase 1 `xcodebuild` → `** BUILD SUCCEEDED **` (est. 3 min). — 2026-11-01: `** BUILD SUCCEEDED **`.
+  Check: runtime proof below, steps 1–5 (est. 10 min). — 2026-11-01, headless; results under "Runtime proof (run 2026-11-01)".
 Commit: —
 
 ## Validation Plan
@@ -288,6 +288,33 @@ Commit: —
      90, 180 or 270." and the canvas is unchanged.
 - Doc sync: `docs/file-format.md`.
 - Final gate (plan-03, once, after this phase): `cmake -S backend -B /tmp/logic-final && cmake --build /tmp/logic-final -j8 && ctest --test-dir /tmp/logic-final` (est. 1 min) + the `xcodebuild` (est. 3 min) + the runtime proof (est. 10 min).
+
+## Runtime proof (run 2026-11-01)
+
+Headless (Corrections), PNGs in `/tmp/p03d-proof/`. The window captures host
+the real `ContentView` in an offscreen `NSWindow` and snapshot its frame
+view (toolbar included); the steps drive the document calls the gestures
+make, and render `PCBCanvasView`/`SchematicCanvasView` with `ImageRenderer`.
+
+1. `0-before-schematic-window.png` (taken at 3690977, before Phase 2) and
+   `1-after-schematic-window.png`: same toolbar tools, canvas and drawer
+   ("3,815 parts from backend"), plus the new Schematic | PCB picker.
+2. `2-pcb-window.png`: PCB page with the drawer, drawer toggle and tool
+   picker gone, Rotate shown (disabled, nothing selected), zoom controls
+   kept. `2-pcb.png` with `test.schematical`: U2 (OSC-SIT-1508) at
+   (0, 0) and U3 (LED-0603) at (3.81, 0), no VCC/GND.
+3. A press on the LED's centre selects it (`true`); moved by (+3.0, +2.2) →
+   snapped (6.985, 1.905). Oscillator rotated once: pad 1 (−0.205, −0.5) →
+   centre (0.5, −0.205), body 1.54 × 0.84, pin-1 mark (−0.774, −1.124) →
+   (1.124, −0.774); twice: pad 1 at (0.205, 0.5), mark (0.774, 1.124)
+   (`3-moved-rotated.png`).
+4. SN74HC00N placed: `U7 [PDIP-14] pcb (15.24, 8.89)` — right of the
+   others with a 2.54 mm gap, top edges aligned; pad 1 square (`rect`,
+   drill 0.8) at the top left (`4-dip-added.png`). Erased on the schematic
+   → `footprints: ["U2", "U3"]`.
+5. Saved and reopened: `round trip equal: true`. The LED's rotation edited
+   to 45 → `U3 has PCB rotation 45; it must be 0, 90, 180 or 270.`, and
+   `canvas unchanged after failed open: true`.
 
 ## Decisions
 

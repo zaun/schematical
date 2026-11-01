@@ -7,10 +7,28 @@
 
 import SwiftUI
 
+/// The window's two pages: the schematic editor and the PCB.
+enum EditorPage: String, CaseIterable, Identifiable {
+    case schematic
+    case pcb
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .schematic: "Schematic"
+        case .pcb: "PCB"
+        }
+    }
+}
+
 struct ContentView: View {
     @State private var catalog: PartCatalogStore
     @State private var document: SchematicDocument
     @State private var viewport = CanvasViewport()
+    /// The PCB page's own pan and zoom.
+    @State private var boardViewport = CanvasViewport()
+    @State private var page = EditorPage.schematic
     @State private var tool: SchematicTool = .pointer
     @State private var isDrawerShown = true
     @State private var simulation: SimulationController
@@ -38,23 +56,52 @@ struct ContentView: View {
         ))
     }
 
-    var body: some View {
-        SchematicCanvasView(
-            catalog: catalog,
-            document: document,
-            viewport: viewport,
-            tool: tool,
-            simulation: simulation,
-            onOpenMemory: { chipID in
-                let target = MemoryWindowTarget(sessionID: sessionID, chipID: chipID)
-                memoryWindows.insert(target)
-                openWindow(id: "memory", value: target)
+    /// The zoom controls act on the page being shown.
+    private var activeViewport: CanvasViewport {
+        page == .schematic ? viewport : boardViewport
+    }
+
+    /// The drawer shows only on the Schematic page; hiding it there is remembered.
+    private var drawerBinding: Binding<Bool> {
+        Binding(
+            get: { isDrawerShown && page == .schematic },
+            set: { isDrawerShown = $0 }
+        )
+    }
+
+    /// The selected part, when it has a footprint to rotate.
+    private var canRotate: Bool {
+        guard !simulation.isRunning, let id = document.selectedChipID else { return false }
+        return document.chips.first { $0.id == id }?.board != nil
+    }
+
+    @ViewBuilder
+    private var pageContent: some View {
+        switch page {
+        case .schematic:
+            SchematicCanvasView(
+                catalog: catalog,
+                document: document,
+                viewport: viewport,
+                tool: tool,
+                simulation: simulation,
+                onOpenMemory: { chipID in
+                    let target = MemoryWindowTarget(sessionID: sessionID, chipID: chipID)
+                    memoryWindows.insert(target)
+                    openWindow(id: "memory", value: target)
+                }
+            ) {
+                // Placing a part from the drawer returns to the Pointer tool.
+                tool = .pointer
             }
-        ) {
-            // Placing a part from the drawer returns to the Pointer tool.
-            tool = .pointer
+        case .pcb:
+            PCBCanvasView(document: document, viewport: boardViewport, simulation: simulation)
         }
-            .inspector(isPresented: $isDrawerShown) {
+    }
+
+    var body: some View {
+        pageContent
+            .inspector(isPresented: drawerBinding) {
                 ChipDrawerView(catalog: catalog)
                     .disabled(simulation.isRunning)
                     // macOS opens an inspector at its minimum width and ignores
@@ -84,30 +131,58 @@ struct ContentView: View {
                     .help(simulation.isRunning ? "Stop the simulation (⌘R)" : "Run the simulation (⌘R)")
                 }
 
-                ToolbarItem(placement: .principal) {
-                    Picker("Tool", selection: $tool) {
-                        ForEach(SchematicTool.allCases) { tool in
-                            Label(tool.title, systemImage: tool.symbol)
-                                .help(tool.title)
-                                .tag(tool)
+                ToolbarItemGroup(placement: .principal) {
+                    Picker("Page", selection: $page) {
+                        ForEach(EditorPage.allCases) { page in
+                            Text(page.title).tag(page)
                         }
                     }
                     .pickerStyle(.segmented)
-                    .labelStyle(.iconOnly)
                     .labelsHidden()
-                    .disabled(simulation.isRunning)
+                    .help("Show the schematic or the PCB")
+
+                    if page == .schematic {
+                        Picker("Tool", selection: $tool) {
+                            ForEach(SchematicTool.allCases) { tool in
+                                Label(tool.title, systemImage: tool.symbol)
+                                    .help(tool.title)
+                                    .tag(tool)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .labelStyle(.iconOnly)
+                        .labelsHidden()
+                        .disabled(simulation.isRunning)
+                    }
+                }
+
+                if page == .pcb {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button {
+                            if let id = document.selectedChipID {
+                                document.rotateFootprint(id)
+                            }
+                        } label: {
+                            Label("Rotate", systemImage: "rotate.right")
+                        }
+                        .keyboardShortcut("r", modifiers: [.command, .option])
+                        .help("Rotate the selected footprint 90° (⌥⌘R)")
+                        .disabled(!canRotate)
+                    }
                 }
 
                 ToolbarItemGroup(placement: .primaryAction) {
                     zoomControls
                 }
 
-                ToolbarItem(placement: .primaryAction) {
-                    Toggle(isOn: $isDrawerShown) {
-                        Label("Parts Drawer", systemImage: "sidebar.trailing")
+                if page == .schematic {
+                    ToolbarItem(placement: .primaryAction) {
+                        Toggle(isOn: $isDrawerShown) {
+                            Label("Parts Drawer", systemImage: "sidebar.trailing")
+                        }
+                        .toggleStyle(.button)
+                        .help("Show or hide the parts drawer")
                     }
-                    .toggleStyle(.button)
-                    .help("Show or hide the parts drawer")
                 }
             }
             .overlay(alignment: .bottom) {
@@ -157,7 +232,7 @@ struct ContentView: View {
     @ViewBuilder
     private var zoomControls: some View {
         Button {
-            viewport.zoomOut()
+            activeViewport.zoomOut()
         } label: {
             Label("Zoom Out", systemImage: "minus.magnifyingglass")
         }
@@ -167,22 +242,22 @@ struct ContentView: View {
         Menu {
             ForEach(CanvasViewport.zoomLevels, id: \.self) { level in
                 Button("\(Int((level * 100).rounded()))%") {
-                    viewport.setZoom(level)
+                    activeViewport.setZoom(level)
                 }
             }
             Divider()
             Button("Actual Size") {
-                viewport.setZoom(1)
+                activeViewport.setZoom(1)
             }
             .keyboardShortcut("0", modifiers: .command)
         } label: {
-            Text("\(Int((viewport.zoom * 100).rounded()))%")
+            Text("\(Int((activeViewport.zoom * 100).rounded()))%")
                 .monospacedDigit()
         }
         .help("Zoom level")
 
         Button {
-            viewport.zoomIn()
+            activeViewport.zoomIn()
         } label: {
             Label("Zoom In", systemImage: "plus.magnifyingglass")
         }
