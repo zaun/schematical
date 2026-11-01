@@ -132,12 +132,12 @@ struct ContentView: View {
     var body: some View {
         pageContent
             .inspector(isPresented: inspectorBinding) {
-                Group {
-                    switch page {
-                    case .schematic:
-                        ChipDrawerView(catalog: catalog)
-                            .disabled(simulation.isRunning)
-                    case .pcb:
+                ZStack {
+                    // Kept in the tree on the PCB page too, so the parts
+                    // library keeps its search, filters and open groups.
+                    SchematicSidebarView(catalog: catalog, document: document, simulation: simulation,
+                                         isActive: page == .schematic)
+                    if page == .pcb {
                         PCBSidebarView(document: document)
                     }
                 }

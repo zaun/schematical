@@ -741,6 +741,8 @@ final class SchematicDocument {
     // MARK: Chips
 
     /// Places a block with its centre under `point`, snapped to the grid.
+    /// The new part is not selected, so the parts library stays open for
+    /// the next drop.
     func placeChip(part: CatalogPart, symbol: PartSymbol, centeredAt point: CGPoint) {
         let layout = ChipLayout(part: part, symbol: symbol)
         let origin = SchematicGrid.snap(
@@ -762,7 +764,6 @@ final class SchematicDocument {
         )
         nextReference = number + 1
         chips.append(placed)
-        selectedChipID = placed.id
     }
 
     /// Renames a part to `prefix` (uppercased) plus `number`. Returns why it

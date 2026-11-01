@@ -272,13 +272,16 @@ every kind.
   `hertz(32768) = 32.768 kHz true`; `hertz(110_000_000) = 110 MHz true`;
   `size(32768, 8) = 32768 × 8 (32 KB) true`. `xcodebuild` → `** BUILD
   SUCCEEDED **`.
-Commit: —
+Commit: c5df266
 
 ### Phase 2 — Schematic sidebar and placing
 
-- [ ] `Drawer/SchematicSidebarView.swift` (new): §4.3.
-- [ ] `ContentView.swift`: Schematic inspector uses it (§4.3).
-- [ ] `Canvas/SchematicModel.swift`: §4.4.
+- [x] `Drawer/SchematicSidebarView.swift` (new): §4.3, plus the hidden
+      drawer `.disabled` (Corrections 4) and `isActive` (Corrections 5).
+- [x] `ContentView.swift`: Schematic inspector uses it (§4.3), kept in the
+      tree on the PCB page (Corrections 5).
+- [x] `Canvas/SchematicModel.swift`: §4.4. — `grep -c 'selectedChipID =
+      placed' …/SchematicModel.swift` → 0.
 
 Acceptance: §Outcome.
   Check: harness `window-07` (plan-06-C's offscreen-window method), open
@@ -295,6 +298,21 @@ Acceptance: §Outcome.
   Check: `grep -c 'selectedChipID = placed' schematical/schematical/Canvas/SchematicModel.swift`
   → 0 (est. 1 s).
   Check: §Prerequisites `xcodebuild` → `** BUILD SUCCEEDED **` (est. 1 min).
+  Result: `harness window-07 <repo>` → `nothing selected: true library
+  fields: [""] panel shown: false` (`s-library.png`); `search 74HC00 rows 2;
+  NAND opened -> rows 14: true` (`s-library-open.png`); `LED selected; panel
+  shown: true fields: ["74HC00", "U", "3"] search disabled: true`, `shows
+  LED-0603 footprint: true`, `s-led.png` shows U3 / LED-AMBER-0603 / Amber
+  LED, fields U 3, Details Kind LED, Function LED, Package 0603, Footprint
+  `LED-0603 — 0603 chip LED (1.5 x 0.75 mm)`, Pins 2, Color Amber; `rename D
+  1 -> reference D1: true`; `pcb sidebar shows D1: true` (`s-pcb.png`
+  header D1, fields D 1); `library back: panel shown: false search text
+  74HC00: true rows 14 same group open: true` (`s-library-back.png`: NAND
+  open, 12 parts); `placeChip SN74HC00N: placed true selectedChipID nil:
+  true library shown: true`. `grep -c 'selectedChipID = placed'` → 0.
+  `xcodebuild` → `** BUILD SUCCEEDED **`. Phase 1's PCB check re-run after
+  Corrections 5: `cmp pcb-before.png pcb-after2.png` exit 0, `cmp
+  pcb-dup-before.png pcb-dup-after2.png` exit 0.
 Commit: —
 
 ## Validation Plan
@@ -353,6 +371,34 @@ Commit: —
    a `VStack(alignment: .leading, spacing: 4)` with `.textSelection`, and
    `FootprintPanel` nests it in its own same-spaced `VStack` with the
    footprint caption — the PCB capture is byte-identical (Phase 1 result).
+4. **The hidden drawer could still take keyboard focus**: opacity 0 and
+   `allowsHitTesting(false)` keep the search field in the AppKit tree
+   (`window-07`: fields `["74HC00", "U", "3"]` with the panel shown), so Tab
+   could land on an invisible field. The drawer is also `.disabled` while
+   hidden; `disabled` keeps `@State`, so nothing resets (`search
+   disabled: true`, and the text and group survive).
+5. **§4.3 missed the page switch**: the inspector's `switch page` removes
+   the Schematic sidebar while the PCB page shows, which resets the drawer.
+   The §Outcome / Phase 2 check visits the PCB page between selecting and
+   clearing, and the first `window-07` run measured it: `library back: …
+   search text : false rows 22 same group open: false` (search empty,
+   groups back to default). Fix: `ContentView` keeps `SchematicSidebarView`
+   in the inspector on both pages (`isActive: page == .schematic`) with
+   `PCBSidebarView` on top on the PCB page; inactive, the drawer is hidden
+   and disabled and the part panel is not built (so it is rebuilt on return
+   and its fields re-read the reference — no stale copy of the reference
+   fields). After: `search text 74HC00: true rows 14 same group open:
+   true`. The PCB captures stay byte-identical.
+6. **Driving the window** (as plan-06-C Corrections 3): synthesized clicks
+   don't reach the schematic canvas's `DragGesture` in the offscreen
+   window (first run: `click on empty canvas -> selection cleared: false`),
+   so `window-07` clears the selection as the canvas's empty-click does,
+   `selectedChipID = nil` (canvas code unchanged by this plan). A plain
+   mouse-down on the drawer's outline view hung the harness (event-tracking
+   loop), so the NAND group is opened with `NSOutlineView.expandItem` on
+   its row, as its chevron does. Grouped-Form labels expose no
+   accessibility text here, so "panel shown" is measured as the sidebar
+   having the Prefix/Number fields after the kept search field.
 
 ## Summary
 
