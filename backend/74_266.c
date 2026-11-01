@@ -50,7 +50,7 @@ typedef struct {
     PackageType package;
 } PartEntry;
 
-#define PART(name, family, package) {name, family, package},
+#define PART(name, family, package, flags) {name, family, package},
 static const PartEntry PARTS[] = {
 #include "74_266_parts.inc"
 };
@@ -260,8 +260,13 @@ const SimComponentType *sn74_266_lookup(
 
 /* ---- Catalog definition ------------------------------------------------- */
 
-#define PART(name, family, package) name,
+#define PART(name, family, package, flags) name,
 static const char *const SN74_266_PART_NUMBERS[] = {
+#include "74_266_parts.inc"
+};
+#undef PART
+#define PART(name, family, package, flags) flags,
+static const unsigned SN74_266_PART_FLAGS[] = {
 #include "74_266_parts.inc"
 };
 #undef PART
@@ -294,4 +299,5 @@ const ChipDefinition SN74_266_DEFINITION = {
     sizeof(SN74_266_PINS) / sizeof(SN74_266_PINS[0]),
     sn74_266_lookup,
     4,
+    SN74_266_PART_FLAGS,
 };
