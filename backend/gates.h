@@ -2,7 +2,7 @@
 #define GATES_H
 
 /*
- * Non-quad logic gates, generated from the TI datasheets in datasheets/:
+ * Non-quad logic gates, generated from the TI datasheets in datasheets/gate-<function>/ (gate-and, gate-nand, gate-or, gate-nor, gate-xor):
  * single and dual little-logic parts (1G, 2G, LV1T), triple 3-input (10, 11, 27,
  * 4075), dual 4-input (20, 21, 4002), 8- and 13-input (30, 133), and the CD4000
  * multi-input parts (4002B, 4012B, 4023B, 4025B, 4068B, 4072B, 4073B, 4075B,

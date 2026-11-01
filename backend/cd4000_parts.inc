@@ -1,6 +1,6 @@
 /*
  * Orderable part numbers for the CD4000-series quad 2-input gates, generated
- * from the TI datasheets in datasheets/cd4000/ (orderable information tables).
+ * from the TI datasheets in datasheets/gate-<function>/ (orderable information tables).
  * Every row except the .A/.B duplicates, obsolete parts included.
  * Format: X(name, package, flags); flags are PART_FLAG_* (chip_definition.h).
  */

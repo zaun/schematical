@@ -1,6 +1,6 @@
 /*
  * Orderable part numbers for the 74x00, generated from the TI datasheets in
- * datasheets/74_00/ (Mechanical, Packaging, and Orderable Information tables).
+ * datasheets/gate-nand/ (Mechanical, Packaging, and Orderable Information tables).
  * Every row except the .A/.B duplicates, obsolete parts included. Military
  * numbers take their family from the part marking, or from the datasheet when
  * it covers only one family.

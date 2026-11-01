@@ -4,7 +4,7 @@
 /*
  * CD4000-series CMOS quad 2-input gates. Every definition shares one engine
  * (cd4000.c) and one 14-pin layout, read from the TI datasheets in
- * datasheets/cd4000/:
+ * datasheets/ (gate-nand, gate-nor, gate-and, gate-or, gate-xor folders):
  *
  * | Pin | Signal | Pin | Signal |
  * |-----|--------|-----|--------|
