@@ -1,0 +1,189 @@
+# Part file format
+
+Every orderable part (gate, flip-flop, SRAM, switch, LED, 7-segment display,
+oscillator, supply) is described in a JSON part file in
+`schematical/schematical/Parts/`, one file per kind:
+
+| File | Kind |
+|---|---|
+| `gate.json` | `gate` |
+| `dff.json` | `dff` |
+| `jkff.json` | `jkff` |
+| `sram.json` | `sram` |
+| `switch.json` | `switch` |
+| `led.json` | `led` |
+| `7seg.json` | `7seg` |
+| `oscillator.json` | `oscillator` |
+| `supply.json` | `supply` |
+
+The backend loads each file with `load_parts()` (`backend/include/parts.h`).
+The loader checks everything below; a file that breaks any rule is rejected
+as a whole, with a message that names the place, for example:
+
+```
+gate.json: devices[3] (74_00): parts[12] (SN74HC00N): unknown family "HX"
+```
+
+## The file
+
+```json
+{
+  "format": "schematical-parts",
+  "version": 1,
+  "kind": "gate",
+  "devices": [ ... ]
+}
+```
+
+| Key | Value |
+|---|---|
+| `"format"` | always `"schematical-parts"` |
+| `"version"` | always `1` |
+| `"kind"` | one of the kinds in the table above |
+| `"devices"` | array of devices |
+
+No other key is allowed.
+
+## Devices
+
+A device is one chip design: its pinouts, its behavior, and the orderable
+parts that share them.
+
+```json
+{
+  "id": "74_00",
+  "function": "NAND",
+  "description": "Quad 2-input NAND gate",
+  "drawer": ["Logic"],
+  "note": "optional provenance text",
+  "pinouts": { "p14": [ ... ], "lccc20": [ ... ] },
+  "...kind keys...": "...",
+  "parts": [ ... ]
+}
+```
+
+| Key | Value |
+|---|---|
+| `"id"` | identifier, unique among the devices of the kind |
+| `"function"` | the parts-drawer leaf, e.g. `"NAND"`, `"32 KB"`, `"LED"` |
+| `"description"` | one line for people, e.g. `"Quad 2-input NAND gate"` |
+| `"drawer"` | the parts-drawer path above the function: 0–2 strings, e.g. `["Memory", "SRAM"]`. `[]` means the parts are never listed in the drawer (VCC, GND). Presentation only. |
+| `"note"` | optional; provenance (datasheet, table). The loader ignores it. |
+| `"pinouts"` | object: pinout name → array of pins (below); at least one |
+| `"parts"` | array of parts |
+
+**Every other key belongs to the kind** (see the kind sections below), and
+each kind rejects keys it does not know.
+
+## Pinouts and pins
+
+A pinout is an array of pins numbered exactly 1..N in order.
+
+```json
+{"number": 1, "name": "1A", "role": "input"}
+{"number": 9, "name": "A0", "role": "input", "group": "address"}
+```
+
+| Key | Value |
+|---|---|
+| `"number"` | the package pin number; the array must be 1, 2, … N |
+| `"name"` | datasheet pin name |
+| `"role"` | `input`, `output`, `inout`, `power`, `ground`, `nc` (no connect) or `absent` (a numbered position with no lead; never drawn, nothing can be wired to it) |
+| `"group"` | optional, default `"default"`; pins in one group are drawn together (e.g. `"address"`) |
+
+**Kind keys refer to pins by name, never by number**, so one device can carry
+several pinouts (DIP and LCCC, DIP and sTSOP). Every name a kind key uses must
+exist in every pinout of the device. A name used by several pins means all of
+them, in pin-number order; kinds that need exactly one pin reject such names.
+(One exception, a part key: an oscillator's `enablePin` is a pin number; see
+below.)
+
+## Parts
+
+```json
+{"name": "SN74HC00N", "package": "DIP", "pinout": "p14", "family": "HC", "flags": ["obsolete"]}
+```
+
+| Key | Value |
+|---|---|
+| `"name"` | the orderable part number; unique across the whole library (all files) |
+| `"package"` | package name as shown, e.g. `"DIP"`, `"TSSOP"`, `"2520 VSON"`; may be empty (supplies) |
+| `"pinout"` | the name of one of the device's pinouts |
+| `"flags"` | optional, any of `obsolete`, `military`, `automotive`, `enhanced` |
+
+Every other key belongs to the kind.
+
+Flags:
+
+- `obsolete`: the datasheet's ordering table lists the part as Obsolete.
+- `military`: SN54/SNJ54/SNV54/CD54 names, 5962- and (J)M38510/ numbers, SMD
+  drawing numbers, CD4000 …F3A parts.
+- `automotive`: AEC-Q100 qualified (-Q1) parts.
+- `enhanced`: Enhanced Product (-EP) parts, V62/ numbers.
+
+## Values
+
+- **Times** are nanoseconds (JSON numbers, fractions allowed). The loader
+  converts them to the engine's picoseconds with `llround(ns * 1000)`.
+- **Logic families** (`family` on gate, dff and jkff parts) must be one of:
+  HC, LS, ACT, HCT, F, AC, AHCT, ALS, AS, AHC, S, C, H, HCS, LV, LVC, AUP,
+  AUC, ALVC, TTL.
+- **`note`** is allowed on a device and on any timing entry; it is ignored.
+
+## Loading rules
+
+- A key appearing twice in one object is an error.
+- Part names are unique across the whole library (across files); device ids
+  are unique within a kind.
+- A failed `load_parts` adds nothing from that file; parts from earlier files
+  stay.
+
+## Kinds
+
+### `supply`
+
+Constant sources. Device key:
+
+| Key | Value |
+|---|---|
+| `"level"` | `1` (drives its pin to 1, strong) or `0` (drives 0, strong) |
+
+The device has one pinout with one pin. Parts carry no kind keys.
+
+```json
+{"id": "VCC", "function": "VCC", "description": "Supply, logic 1", "drawer": [],
+ "pinouts": {"pin": [{"number": 1, "name": "VCC", "role": "power"}]},
+ "level": 1,
+ "parts": [{"name": "VCC", "package": "", "pinout": "pin"}]}
+```
+
+### `led`
+
+A single LED. It lights while its anode reads 1 and its cathode reads 0;
+`PartLed` and the lights hook report it (on at any time during the last
+step). Device keys:
+
+| Key | Value |
+|---|---|
+| `"color"` | shown color, e.g. `"Red"` |
+| `"anode"` | pin name of the anode (exactly one pin) |
+| `"cathode"` | pin name of the cathode (exactly one pin) |
+
+Parts carry no kind keys.
+
+### `oscillator`
+
+A clock source; the primary output toggles every half period. Device keys:
+
+| Key | Value |
+|---|---|
+| `"family"` | oscillator family as shown, e.g. `"LMK6C"` (not a logic family) |
+| `"minHz"`, `"maxHz"` | the frequency range the family can produce |
+| `"outputs"` | `[primary]` or `[primary, complement]`, pin names (one pin each) |
+
+Part keys:
+
+| Key | Value |
+|---|---|
+| `"defaultHz"` | the part's frequency, from `minHz` to `maxHz` |
+| `"enablePin"` | optional; the **pin number** (in the part's pinout) of the output-enable / standby pin. A LOW there puts every output in high impedance; HIGH or not connected keeps the clock running. A number, not a name, because the LMK6D/H/P function pins 1 and 2 share the name `OE/ST/NC`. |

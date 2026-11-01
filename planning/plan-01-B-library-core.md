@@ -30,8 +30,8 @@ See plan-01-A §Prerequisites (on `main`, clean tree, tools present), plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-01-A complete | `ls planning/completed/plan-01-A-parts-baseline.md` → exists | NOT MET |
-| Goldens present | `wc -l backend/tests/golden/parts.txt backend/tests/golden/traces.txt` → 3817 each | NOT MET |
+| plan-01-A complete | `ls planning/completed/plan-01-A-parts-baseline.md` → exists | MET (2026-10-31: exists, 951e6fc) |
+| Goldens present | `wc -l backend/tests/golden/parts.txt backend/tests/golden/traces.txt` → 3817 each | MET (2026-10-31: 3817 each) |
 
 ## 1. Goal
 
@@ -202,14 +202,16 @@ size_t (*memory_read)(const void *state, uint32_t start, size_t count,
 
 ### Phase 1 — cJSON and the format doc
 
-- [ ] Vendor cJSON v1.7.18 (`cJSON.c`, `cJSON.h`, `LICENSE`) into
-      `backend/src/third_party/cjson/`, unmodified.
-- [ ] `docs/parts-format.md`: the format of plan-01-A §3.2 (common keys,
+- [x] Vendor cJSON v1.7.18 (`cJSON.c`, `cJSON.h`, `LICENSE`) into
+      `backend/src/third_party/cjson/`, unmodified (fetched from the
+      `v1.7.18` tag; `CJSON_VERSION_PATCH 18`).
+- [x] `docs/parts-format.md`: the format of plan-01-A §3.2 (common keys,
       pin rules, flags, times, notes, uniqueness, failure atomicity) with the
       three kinds of this sub-plan; C, D, E add theirs.
 
 Acceptance: cJSON compiles inside `logic`; the doc covers every common key.
   Check: `grep -c 'cJSON_ParseWithLength' backend/src/third_party/cjson/cJSON.h` → ≥1; `grep -E '"(format|version|kind|devices|id|function|description|drawer|note|pinouts|parts|name|package|pinout|flags)"' -o docs/parts-format.md | sort -u | wc -l` → 15 (est. seconds).
+  Result: `2`; `15`; `cc -std=c11 -c cJSON.c` compiles (and inside `logic` from Phase 2).
 Commit: —
 
 ### Phase 2 — `parts.h`, loader, kind table
@@ -258,7 +260,16 @@ See plan-01-A §Decisions. Nothing new.
 
 ## Corrections
 
-(empty)
+- plan-01-A's last commit (archive + Phase 3) is 951e6fc.
+- §3.4/§3.5 oscillator `enablePin`: a pin **number**, not a name. The
+  LMK6D/H/P pinout has two pins named `OE/ST/NC` (`osc.c:LMK6_DIFF_PINS`,
+  pins 1 and 2), so a name cannot pick pin 1 (`kind_pin` rejects shared
+  names, plan-01-A §3.2). It is a part key and a part names exactly one
+  pinout, so a number is unambiguous. Measured: every old oscillator with an
+  enable pin uses index 0 = pin 1 (`grep` of `osc_parts.inc` → 91 rows `0`,
+  2 rows `-1`). Documented in `docs/parts-format.md`.
+- Supplies have no package in the old backend; their `package` is `""`
+  (allowed; the golden lines have an empty package field).
 
 ## Summary
 
