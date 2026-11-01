@@ -265,7 +265,7 @@ Acceptance: the PCB tab draws, selects, moves and rotates footprints; the
 Schematic tab is unchanged.
   Check: the Phase 1 `xcodebuild` → `** BUILD SUCCEEDED **` (est. 3 min). — 2026-11-01: `** BUILD SUCCEEDED **`.
   Check: runtime proof below, steps 1–5 (est. 10 min). — 2026-11-01, headless; results under "Runtime proof (run 2026-11-01)".
-Commit: —
+Commit: 1c34a4d
 
 ## Validation Plan
 
@@ -315,6 +315,16 @@ make, and render `PCBCanvasView`/`SchematicCanvasView` with `ImageRenderer`.
 5. Saved and reopened: `round trip equal: true`. The LED's rotation edited
    to 45 → `U3 has PCB rotation 45; it must be 0, 90, 180 or 270.`, and
    `canvas unchanged after failed open: true`.
+
+## Final gate (run 2026-11-01, plan-03 overall)
+
+- `rm -rf /tmp/logic-land-p03 && cmake -S backend -B /tmp/logic-land-p03 && cmake --build /tmp/logic-land-p03 -j8 && ctest --test-dir /tmp/logic-land-p03`
+  → `100% tests passed, 0 tests failed out of 8` (fresh directory; the
+  plan's `/tmp/logic-final` holds a stale plan-01 cache).
+- `xcodebuild … build` at 1c34a4d's sources → `** BUILD SUCCEEDED **`.
+- Runtime proof: above.
+- `main` had not moved (merge base = `main` = 50659e1), so no re-run after
+  a merge from `main`. No Rust in this repo, so no `cargo fmt` pass.
 
 ## Decisions
 
