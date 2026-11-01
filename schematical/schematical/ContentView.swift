@@ -31,6 +31,8 @@ struct ContentView: View {
     @State private var page = EditorPage.schematic
     @State private var tool: SchematicTool = .pointer
     @State private var isDrawerShown = true
+    /// The PCB page's inspector (board, footprint or text settings).
+    @State private var isPCBSidebarShown = true
     @State private var simulation: SimulationController
     @State private var file: SchematicFileController
     /// Identifies this window to the memory windows it opens.
@@ -73,11 +75,18 @@ struct ContentView: View {
         page == .schematic ? viewport : boardViewport
     }
 
-    /// The drawer shows only on the Schematic page; hiding it there is remembered.
-    private var drawerBinding: Binding<Bool> {
+    /// One inspector column: the parts drawer on the Schematic page, the PCB
+    /// sidebar on the PCB page. Each page remembers whether it is shown.
+    private var inspectorBinding: Binding<Bool> {
         Binding(
-            get: { isDrawerShown && page == .schematic },
-            set: { isDrawerShown = $0 }
+            get: { page == .schematic ? isDrawerShown : isPCBSidebarShown },
+            set: { shown in
+                if page == .schematic {
+                    isDrawerShown = shown
+                } else {
+                    isPCBSidebarShown = shown
+                }
+            }
         )
     }
 
@@ -114,12 +123,19 @@ struct ContentView: View {
 
     var body: some View {
         pageContent
-            .inspector(isPresented: drawerBinding) {
-                ChipDrawerView(catalog: catalog)
-                    .disabled(simulation.isRunning)
-                    // macOS opens an inspector at its minimum width and ignores
-                    // `ideal`, so the minimum is the width it should open at.
-                    .inspectorColumnWidth(min: 270, ideal: 270, max: 500)
+            .inspector(isPresented: inspectorBinding) {
+                Group {
+                    switch page {
+                    case .schematic:
+                        ChipDrawerView(catalog: catalog)
+                            .disabled(simulation.isRunning)
+                    case .pcb:
+                        PCBSidebarView(document: document)
+                    }
+                }
+                // macOS opens an inspector at its minimum width and ignores
+                // `ideal`, so the minimum is the width it should open at.
+                .inspectorColumnWidth(min: 270, ideal: 270, max: 500)
             }
             .toolbar {
                 ToolbarItemGroup(placement: .navigation) {
@@ -208,13 +224,19 @@ struct ContentView: View {
                     zoomControls
                 }
 
-                if page == .schematic {
-                    ToolbarItem(placement: .primaryAction) {
+                ToolbarItem(placement: .primaryAction) {
+                    if page == .schematic {
                         Toggle(isOn: $isDrawerShown) {
                             Label("Parts Drawer", systemImage: "sidebar.trailing")
                         }
                         .toggleStyle(.button)
                         .help("Show or hide the parts drawer")
+                    } else {
+                        Toggle(isOn: $isPCBSidebarShown) {
+                            Label("Inspector", systemImage: "sidebar.trailing")
+                        }
+                        .toggleStyle(.button)
+                        .help("Show or hide the inspector")
                     }
                 }
             }

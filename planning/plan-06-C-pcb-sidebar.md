@@ -36,7 +36,7 @@ See plan-06-A §Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-06-B complete | `ls planning/completed/plan-06-B-board-drawing.md` → exists | NOT MET (2026-11-01) |
+| plan-06-B complete | `ls planning/completed/plan-06-B-board-drawing.md` → exists | MET (2026-11-01, aee8240) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue and before you stop; if you stop,
@@ -164,10 +164,19 @@ Double?` so the harness can drive it.
 
 ### Phase 1 — Inspector slot and board panel
 
-- [ ] `ContentView.swift`: §4.1.
-- [ ] `Canvas/LengthField.swift` (new): §4.3.
-- [ ] `Canvas/PCBSidebarView.swift` (new): units switch, panel choice,
-      board panel (§4.2).
+- [x] `ContentView.swift`: §4.1. `harness window-c1`: PCB toolbar ends
+      `… Zoom In, Inspector`, Schematic toolbar ends `… Zoom In, Parts
+      Drawer`; `c1-schematic.png` `cmp` with `c1-schematic-before.png`
+      (taken at aee8240, before any plan-06-C change) → identical.
+- [x] `Canvas/LengthField.swift` (new): §4.3, with `commit` returning the
+      length the document kept (Corrections 1) and outside changes shown
+      unless the user is mid-typing (Corrections 2). `harness lengths`:
+      `4`, `0.64`, `0.025`, `100`, `101.6`, `76.19999999999999` (76.2 to
+      float precision), `12.5`, `nil`.
+- [x] `Canvas/PCBSidebarView.swift` (new): units switch, panel choice,
+      board panel (§4.2). `c1-board.png`: Units mm|in, Width 100, Height
+      80, Layers "2 layers", seven swatches with green ringed, "Green";
+      `xcodebuild` → `** BUILD SUCCEEDED **`.
 
 Acceptance: the PCB page shows the sidebar with the board panel; the
 Schematic page is unchanged.
@@ -187,7 +196,19 @@ Commit: —
 
 ### Phase 2 — Footprint panel
 
-- [ ] `Canvas/PCBSidebarView.swift`: footprint panel (§4.2).
+- [x] `Canvas/PCBSidebarView.swift`: footprint panel (§4.2). `harness
+      window-c2` (types into the real fields, picks from the real menus and
+      segments, Corrections 3): `c2-led.png` U3 / LED-AMBER-0603 / Amber LED
+      / `LED-0603 — 0603 chip LED (1.5 x 0.75 mm)`, fields U 3, origin Top
+      Left, X 2.54, Y -0.64, 0°, marks Document/Silkscreen/Silkscreen;
+      `rename d 1 -> reference D1: true`; oscillator to D 1 → `c2-dup.png`
+      red "D1 is already used by another part.", fields back `U`, `2`,
+      `reference kept U2: true`; `origin center: true`; X 10 → `origin x =
+      10.16: true`; Pad 1 Center → `X/Y show pad 1: true` (9.56, 0); `pin1
+      hidden: true`; units in → X `0.4` (`c2-inches.png`); `reopen: D1 true
+      origin center true pin1 hidden true units in true`; board 4 layers,
+      Blue swatch, 4 × 3 in → `101.6 × 76.19999999999999 mm, 4 layers,
+      blue: true` (`c2-board.png`). `xcodebuild` → `** BUILD SUCCEEDED **`.
 
 Acceptance: the footprint panel edits reference, origin, position and marks.
   Check: harness `window-c2`: open `test.schematical`, select the LED →
@@ -215,6 +236,8 @@ Commit: —
 - Doc sync: none (format unchanged since A).
 - Final gate (once): the `xcodebuild` (est. 1 min) + `lengths`,
   `window-c1`, `window-c2` (est. 15 min). Backend untouched.
+- Results (2026-11-01): as ticked above; one commit carries both phases
+  (Phase 1 and 2 share `PCBSidebarView.swift`).
 
 ## Decisions
 
@@ -231,6 +254,24 @@ Commit: —
   to 3.
 
 ## Corrections
+
+1. §4.3's `commit: (Double) -> Void` can't show a clamped value that equals
+   the old one (board 1000 mm, type 5000 → document keeps 1000, so
+   `millimetres` doesn't change and the field kept "5000"). `commit` now
+   returns the length the document kept, and the field shows that.
+2. §4.3's "refreshes when … the field is not focused" left a field stale:
+   after Return the field keeps focus, so switching units left X at
+   `10.16` (mm) while Y showed `-0.025` (in) — `window-c2` first run. The
+   field now refreshes unless its text differs from what it last showed
+   (the user is typing), and focus loss without an edit commits nothing
+   (otherwise the rounded display value, e.g. `-0.64` for −0.635, would be
+   committed and could move a part).
+3. Driving the window: a grouped `Form` gives `TextField`s no placeholder
+   and SwiftUI builds a menu `Picker`'s items only while the menu is open,
+   so the harness names sidebar fields by order and opens each pop-up with
+   `performClick`, picking the item from a timer during menu tracking; the
+   swatch is clicked with a synthesized mouse event. The duplicate message
+   is checked in `c2-dup.png` (SwiftUI `Text` exposes no AppKit view).
 
 ## Summary
 
