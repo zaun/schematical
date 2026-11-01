@@ -185,7 +185,7 @@ Acceptance: every AND and NAND part has `vcc`, and the spot values match.
   (`751 751 True`); `verify.py` → `276 … 0 mismatches` (74_00), `475 … 0
   mismatches` (the other 16). Final gate: `ctest` → `100% tests passed, 0
   tests failed out of 12`.
-Commit: —
+Commit: 1690558
 
 ## Validation Plan
 
