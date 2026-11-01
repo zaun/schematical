@@ -249,7 +249,59 @@ static void check_supply_cases(void) {
                 "pin name \"OUT\" is used by 2 pins; one is needed");
 }
 
+/* A gate device; GATES and TIMING and the second pinout's pin 2 name vary. */
+#define GATE_DEVICE(GATES, TIMING, PIN2, FAMILY) \
+    "{'id':'g','function':'NAND','description':'d','drawer':['Logic']," \
+    "'pinouts':{'p4':[{'number':1,'name':'A','role':'input'},{'number':2,'name':'B','role':'input'}," \
+    "{'number':3,'name':'C','role':'input'},{'number':4,'name':'Y','role':'output'}]," \
+    "'p5':[{'number':1,'name':'NC','role':'nc'},{'number':2,'name':'" PIN2 "','role':'input'}," \
+    "{'number':3,'name':'B','role':'input'},{'number':4,'name':'C','role':'input'},{'number':5,'name':'Y','role':'output'}]}," \
+    "'gates':" GATES ",'timing':" TIMING "," \
+    "'parts':[{'name':'G1','package':'DIP','pinout':'p4','family':'" FAMILY "'}," \
+    "{'name':'G2','package':'LCCC','pinout':'p5','family':'" FAMILY "'}]}"
+
+static void check_gate_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library,
+               HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
+                                        "{'HC':{'rise':9,'fall':4.5,'note':'n'}}", "A", "HC") TAIL,
+               &error) == 0);
+    part = part_library_find(library, "G2");
+    CHECK(part != NULL && part->kind == PART_GATE && part->logic != NULL &&
+          strcmp(part->logic->family, "HC") == 0 && part->logic->units == 1);
+    printf("ok   valid gate file with two pinouts%s%s\n", error != NULL ? ": " : "",
+           error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("gate otherLow on a 3-input device",
+                HEAD("gate") GATE_DEVICE("[{'op':'xor','inputs':['A','B','C'],'output':'Y'}]",
+                                         "{'HC':{'otherLow':{'rise':1,'fall':1},'otherHigh':{'rise':2,'fall':2}}}",
+                                         "A", "HC") TAIL,
+                "otherLow/otherHigh timing needs every gate to have exactly 2 inputs");
+    expect_fail("gate family missing from timing",
+                HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
+                                         "{'HC':{'rise':9,'fall':9}}", "A", "LS") TAIL,
+                "parts[0] (G1): family \"LS\" has no timing entry");
+    expect_fail("gate input absent from the second pinout",
+                HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
+                                         "{'HC':{'rise':9,'fall':9}}", "AA", "HC") TAIL,
+                "pinouts.p5: gates[0]: no pin named \"A\"");
+    expect_fail("gate op nandd",
+                HEAD("gate") GATE_DEVICE("[{'op':'nandd','inputs':['A','B','C'],'output':'Y'}]",
+                                         "{'HC':{'rise':9,'fall':9}}", "A", "HC") TAIL,
+                "gates[0]: unknown op \"nandd\"");
+    expect_fail("gate unknown family",
+                HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
+                                         "{'HX':{'rise':9,'fall':9}}", "A", "HC") TAIL,
+                "timing.HX: unknown family \"HX\"");
+}
+
 int main(void) {
+    check_gate_cases();
     check_valid_supply();
     check_valid_led();
     check_duplicate_across_calls();

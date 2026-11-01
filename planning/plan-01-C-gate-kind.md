@@ -25,7 +25,7 @@ See plan-01-A §Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-01-B complete | `ls planning/completed/plan-01-B-library-core.md` → exists | NOT MET |
+| plan-01-B complete | `ls planning/completed/plan-01-B-library-core.md` → exists | MET (2026-10-31: exists, eddebf1) |
 
 ## 1. Goal
 
@@ -137,13 +137,17 @@ One translation unit per old file (`export_gate_7400.c` includes `74_00.c`,
 
 ### Phase 1 — Gate model and kind
 
-- [ ] `src/models/gate.c` (§3.1, §3.2); add `&GATE_KIND` to `KINDS[]`.
-- [ ] `tests/library_check.c`: gate cases — `otherLow` on a 3-input device
+- [x] `src/models/gate.c` (§3.1, §3.2); add `&GATE_KIND` to `KINDS[]`.
+      Device key `units` added (optional, default = number of gates); see
+      Corrections.
+- [x] `tests/library_check.c`: gate cases — `otherLow` on a 3-input device
       rejected; `family` missing from `timing` rejected; gate input naming a
-      pin absent from the second pinout rejected; `op` `"nandd"` rejected.
+      pin absent from the second pinout rejected; `op` `"nandd"` rejected
+      (+ a valid two-pinout gate file, and an unknown family key).
 
 Acceptance: the loader takes valid gate files and rejects the four bad ones.
   Check: `ctest --test-dir /tmp/logic-build -R library_check --output-on-failure` → passed (est. 1 min).
+  Result: `library_check: all passed` (all four gate cases print their path-style message).
 Commit: —
 
 ### Phase 2 — Export `gate.json`
@@ -176,7 +180,13 @@ See plan-01-A §Decisions. Nothing new.
 
 ## Corrections
 
-(empty)
+- plan-01-B's last commit (archive + Phase 3) is eddebf1.
+- §3.1: `PartLogic.units` cannot always be the number of `gates`. The old
+  `gate_count` of CD4068B and CD4078B is 1 ("8-input NAND/AND gate") while
+  their layouts have 2 gate entries (complementary outputs J and K from the
+  same 8 inputs; `gates_defs.inc:2550-2553`). Added an optional device key
+  `units` (default: the number of gates); the exporter writes it only when
+  the old `gate_count` differs from the layout's gate count.
 
 ## Summary
 

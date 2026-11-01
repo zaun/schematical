@@ -87,6 +87,7 @@ add_library(logic STATIC
     src/library/kinds.c
     src/library/kind_util.c
     src/models/lights.c
+    src/models/gate.c
     src/models/supply.c
     src/models/led.c
     src/models/oscillator.c

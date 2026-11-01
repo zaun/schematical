@@ -2,12 +2,14 @@
 
 #include "kind.h"
 
+extern const PartKindOps GATE_KIND;
 extern const PartKindOps SUPPLY_KIND;
 extern const PartKindOps LED_KIND;
 extern const PartKindOps OSCILLATOR_KIND;
 
 /* One line per kind. Adding a kind: docs/backend.md, "Adding a kind". */
 const PartKindOps *const KINDS[] = {
+    &GATE_KIND,
     &SUPPLY_KIND,
     &LED_KIND,
     &OSCILLATOR_KIND,
