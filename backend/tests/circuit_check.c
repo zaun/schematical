@@ -12,6 +12,7 @@
 #include "circuit.h"
 #include "parts.h"
 #include "read_file.h"
+#include "voltage_fixture.h"
 
 static int failures;
 static PartLibrary *library;
@@ -381,9 +382,98 @@ static void check_changes_and_light_time(void) {
     circuit_destroy(c);
 }
 
+/* 5V on the 0.8-2.7 V fixture part's VCC: refused at start, with the text
+   and the problem; 3V3 on the 2-6 V fixture part starts and runs. */
+static void check_voltage_start(void) {
+    Circuit *c = circuit_create(library);
+    size_t s = part(c, "5V");
+    size_t auc = part(c, "VFX-AUC1G00");
+    size_t n0 = net(c);
+    VoltageProblem problem;
+
+    circuit_connect(c, s, "1", n0);
+    circuit_connect(c, auc, "5", n0);
+    expect(circuit_start(c) == -1, "5V on a 0.8-2.7 V part's VCC is refused at start");
+    expect(circuit_error(c) != NULL &&
+               strcmp(circuit_error(c),
+                      "voltage: 5 V on pin 5 (VCC) of VFX-AUC1G00; it needs 0.8-2.7 V") == 0,
+           "the start refusal names the pin and the range");
+    expect(circuit_voltage_problem(c, &problem) == 1 && problem.kind == VOLTAGE_POWER_RANGE &&
+               problem.part == auc && problem.net == n0 && problem.mv == 5000,
+           "circuit_voltage_problem returns the POWER_RANGE problem");
+    expect(circuit_advance(c, 1000) == 0, "a refused circuit does not run");
+    circuit_destroy(c);
+
+    c = circuit_create(library);
+    s = part(c, "3V3");
+    {
+        size_t hc = part(c, "VFX-HC1G00");
+        size_t gnd = part(c, "GND");
+        size_t n1;
+
+        n0 = net(c);
+        n1 = net(c);
+        circuit_connect(c, s, "1", n0);
+        circuit_connect(c, hc, "5", n0);
+        circuit_connect(c, hc, "1", n0);
+        circuit_connect(c, hc, "2", n0);
+        circuit_connect(c, gnd, "1", n1);
+        circuit_connect(c, hc, "3", n1);
+        expect(circuit_start(c) == 0 && circuit_advance(c, 1000) == 1,
+               "3V3 on a 2-6 V part starts and runs");
+        expect(circuit_voltage_problem(c, &problem) == 0, "a running circuit has no voltage problem");
+    }
+    circuit_destroy(c);
+}
+
+/* A running circuit: a switch closes and joins a 3V3 net to a 5V net. */
+static void check_voltage_switch(void) {
+    Circuit *c = circuit_create(library);
+    size_t low = part(c, "3V3");
+    size_t high = part(c, "5V");
+    size_t sw = part(c, "VFX-SW2");
+    size_t a = net(c);
+    size_t b = net(c);
+    VoltageProblem problem;
+
+    circuit_connect(c, low, "1", a);
+    circuit_connect(c, high, "1", b);
+    circuit_connect(c, sw, "1", a);   /* 1A */
+    circuit_connect(c, sw, "4", b);   /* 1B */
+    expect(circuit_start(c) == 0 && circuit_advance(c, 1000) == 1,
+           "3V3 and 5V on two nets run while the switch is open");
+    expect(circuit_set_switch(c, sw, 1, 1) == 0, "the contact closes");
+    expect(circuit_advance(c, 1000) == 0, "closing 3V3 onto 5V stops the run");
+    expect(circuit_error(c) != NULL && strncmp(circuit_error(c), "voltage:", 8) == 0 &&
+               strcmp(circuit_error(c), "voltage: 3.3 V and 5 V supplies on one net (3V3, 5V)") == 0,
+           "the stop is a voltage error");
+    expect(circuit_voltage_problem(c, &problem) == 1 && problem.kind == VOLTAGE_SUPPLY_CLASH,
+           "circuit_voltage_problem returns the CLASH");
+    expect(circuit_advance(c, 1000) == 0, "advance stays stopped");
+    circuit_destroy(c);
+
+    /* Closed before start: the start check sees it. */
+    c = circuit_create(library);
+    low = part(c, "3V3");
+    high = part(c, "5V");
+    sw = part(c, "VFX-SW2");
+    a = net(c);
+    b = net(c);
+    circuit_connect(c, low, "1", a);
+    circuit_connect(c, high, "1", b);
+    circuit_connect(c, sw, "1", a);
+    circuit_connect(c, sw, "4", b);
+    circuit_set_switch(c, sw, 1, 1);
+    expect(circuit_start(c) == -1, "a contact closed before start is checked at start");
+    circuit_set_switch(c, sw, 1, 0);
+    expect(circuit_start(c) == 0 && circuit_voltage_problem(c, NULL) == 0,
+           "opened again, the circuit starts");
+    circuit_destroy(c);
+}
+
 int main(void) {
     library = part_library_create();
-    if (load_parts_dir(library, PARTS_DIR) != 0) {
+    if (load_parts_dir(library, PARTS_DIR) != 0 || load_voltage_fixture(library) != 0) {
         return 1;
     }
     check_lit_led();
@@ -397,6 +487,8 @@ int main(void) {
     check_building_errors();
     check_ball_led();
     check_changes_and_light_time();
+    check_voltage_start();
+    check_voltage_switch();
     part_library_destroy(library);
     printf("%d failure(s)\n", failures);
     return failures == 0 ? 0 : 1;

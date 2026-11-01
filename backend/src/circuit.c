@@ -8,6 +8,7 @@
 #include "kind.h"
 #include "net.h"
 #include "sim.h"
+#include "voltage.h"
 
 struct Circuit {
     const PartLibrary *library;
@@ -24,6 +25,16 @@ struct Circuit {
     SimTime step_start;
     char error[256];
     int has_error;
+    /* For the voltage check (plan-07-B): every connection, the closed contacts. */
+    VoltageConnection *connections;
+    size_t connection_count;
+    size_t connection_capacity;
+    VoltageContact *closed;
+    size_t closed_count;
+    size_t closed_capacity;
+    int voltage_stopped;      /* a closing switch failed the check during a run */
+    int has_problem;
+    VoltageProblem problem;   /* the first problem, when has_problem */
 };
 
 static int fail(Circuit *circuit, const char *format, ...) {
@@ -88,6 +99,8 @@ void circuit_destroy(Circuit *circuit) {
     free(circuit->parts);
     free(circuit->instances);
     free(circuit->nets);
+    free(circuit->connections);
+    free(circuit->closed);
     free(circuit);
 }
 
@@ -195,10 +208,68 @@ int circuit_connect(Circuit *circuit, size_t part, const char *pin, size_t net) 
     if (net >= circuit->net_count) {
         return fail(circuit, "no net %zu", net);
     }
+    if (grow((void **)&circuit->connections, &circuit->connection_capacity,
+             circuit->connection_count, sizeof(*circuit->connections)) != 0) {
+        return fail(circuit, "out of memory");
+    }
     if (!sim_connect(circuit->sim, circuit->nets[net], circuit->instances[part], i)) {
         engine_failed(circuit);
         return fail(circuit, "cannot connect pin %s of part %zu", pin, part);
     }
+    circuit->connections[circuit->connection_count].part = part;
+    circuit->connections[circuit->connection_count].pin = i;
+    circuit->connections[circuit->connection_count].net = net;
+    circuit->connection_count++;
+    return 0;
+}
+
+/*
+ * Runs the voltage check over the circuit as it is. On a problem: the first
+ * one is stored, circuit_error is its text, and the result is 1.
+ */
+static int voltage_failed(Circuit *circuit) {
+    VoltageProblem first;
+    size_t count = voltage_check((const Part *const *)circuit->parts, circuit->part_count,
+                                 circuit->net_count, circuit->connections,
+                                 circuit->connection_count, circuit->closed,
+                                 circuit->closed_count, &first, 1);
+
+    if (count == 0) {
+        return 0;
+    }
+    circuit->problem = first;
+    circuit->has_problem = 1;
+    voltage_describe((const Part *const *)circuit->parts, &first, circuit->error,
+                     sizeof circuit->error);
+    circuit->has_error = 1;
+    return 1;
+}
+
+/* Adds or removes a closed contact; 0, or -1 when out of memory. */
+static int record_contact(Circuit *circuit, size_t part, unsigned position, int on) {
+    size_t i;
+
+    for (i = 0; i < circuit->closed_count; i++) {
+        if (circuit->closed[i].part == part && circuit->closed[i].position == position) {
+            break;
+        }
+    }
+    if (!on) {
+        if (i < circuit->closed_count) {
+            circuit->closed[i] = circuit->closed[--circuit->closed_count];
+        }
+        return 0;
+    }
+    if (i < circuit->closed_count) {
+        return 0;
+    }
+    if (grow((void **)&circuit->closed, &circuit->closed_capacity, circuit->closed_count,
+             sizeof(*circuit->closed)) != 0) {
+        return -1;
+    }
+    circuit->closed[circuit->closed_count].part = part;
+    circuit->closed[circuit->closed_count].position = position;
+    circuit->closed_count++;
     return 0;
 }
 
@@ -217,11 +288,23 @@ int circuit_set_switch(Circuit *circuit, size_t part, unsigned position, int on)
     if (!type->set_switch(circuit->sim, instance, sim_instance_state(instance), position, on)) {
         return fail(circuit, "%s has no position %u", circuit->parts[part]->name, position);
     }
+    if (record_contact(circuit, part, position, on) != 0) {
+        return fail(circuit, "out of memory");
+    }
+    /* A contact closing during a run that fails the check stops the run, like
+       a short; the contact itself is still applied. */
+    if (circuit->started && on && !circuit->voltage_stopped && voltage_failed(circuit)) {
+        circuit->voltage_stopped = 1;
+    }
     return 0;
 }
 
 int circuit_start(Circuit *circuit) {
     if (check_building(circuit) != 0) {
+        return -1;
+    }
+    circuit->has_problem = 0;
+    if (voltage_failed(circuit)) {
         return -1;
     }
     circuit->started = 1;
@@ -239,6 +322,9 @@ int circuit_advance(Circuit *circuit, uint64_t picoseconds) {
         fail(circuit, "circuit not started");
         return 0;
     }
+    if (circuit->voltage_stopped) {
+        return 0;
+    }
     if (sim_error(circuit->sim) != NULL) {
         engine_failed(circuit);
         return 0;
@@ -252,6 +338,16 @@ int circuit_advance(Circuit *circuit, uint64_t picoseconds) {
     if (!sim_run_until(circuit->sim, now + picoseconds)) {
         engine_failed(circuit);
         return 0;
+    }
+    return 1;
+}
+
+int circuit_voltage_problem(const Circuit *circuit, VoltageProblem *out) {
+    if (circuit == NULL || !circuit->has_problem) {
+        return 0;
+    }
+    if (out != NULL) {
+        *out = circuit->problem;
     }
     return 1;
 }

@@ -70,6 +70,26 @@ Notes:
   before `circuit_start`; `circuit_set_switch` works before and after.
 - `circuit_advance` returns 0 once the run has stopped (a short circuit is
   `"smoke: ..."`, and `circuit_shorted_net` names the net).
+- **Voltages** (`voltage.h`, plan-07). The simulation is logic-only; a
+  separate static check, `voltage_check`, works out each net's voltage from
+  its supplies (`PartSupply.mv`), the outputs of powered parts and what an
+  LED carries from anode to cathode, and reports every power pin outside
+  its part's `vcc` range, input above its part's input max, switch contact
+  above its rating, and two different non-zero supplies on one net.
+  `voltage_describe` gives the text, e.g. `voltage: 5 V on pin 14 (VCC) of
+  SN74AUC00PWR; it needs 0.8-2.7 V`. It takes plain arrays (parts,
+  pin→net connections, closed contacts), so the app runs it on a candidate
+  netlist to refuse an edit.
+  - `circuit_start` runs it first and refuses a circuit with a problem
+    (-1, `circuit_error` = the text; building calls stay usable).
+  - A switch that closes during a run and makes the circuit fail stops the
+    run like a short: `circuit_advance` returns 0 and `circuit_error` is the
+    text (the contact is still applied).
+  - `circuit_voltage_problem` returns the first problem (net, part, pin,
+    voltages) after either refusal.
+  - A supply and GND on one net is still a short (`smoke:`), not a voltage
+    problem; a net with no known voltage, and a part with no `vcc` data,
+    are not checked.
 - Lights (`circuit_part_lights`) are LEDs (one light) and 7-segment
   displays (`PartDisplay.leds` order); a light counts as on if it was on at
   any time during the last `circuit_advance`, so multiplexed digits show.
@@ -93,7 +113,8 @@ Notes:
 
 ```
 backend/
-  include/                 public API: parts.h, circuit.h, memory_image.h
+  include/                 public API: parts.h, circuit.h, voltage.h,
+                           memory_image.h
   src/
     engine/                sim.c sim.h net.c net.h (the event engine)
     library/               library.c (load_parts, load_footprints), kinds.c
@@ -103,8 +124,11 @@ backend/
     models/                one file per kind: gate.c dff.c jkff.c sram.c
                            eeprom.c switch.c led.c display7.c oscillator.c
                            supply.c,
-                           and lights.c (on-time tracking for lights)
+                           and lights.c (on-time tracking for lights);
+                           model_pins.h (LED, switch and open-drain pin
+                           facts for the voltage check)
     circuit.c
+    voltage.c              the voltage check (voltage.h)
     memory_image.c         load files (binary, Intel HEX) to memory images
     third_party/cjson/     cJSON v1.7.18
   tests/                   CTest programs; golden/ holds the regression
@@ -163,7 +187,13 @@ drawer work from the kind table and the `Part` structs.
   protection (an inline fixture device, then real parts).
 - `engine_test` — engine timing with a real gate (SN74HC32N): an output
   edge that is already pending is kept, a too-short pulse is swallowed.
-- `circuit_check` — the circuit API.
+- `circuit_check` — the circuit API, including the voltage refusal at
+  start and the running switch stop (fixture parts from
+  `tests/support/voltage_fixture.h`).
+- `voltage_test` — `voltage_check` and `voltage_describe`, one case per
+  rule (supplies, power range, input max, driven and carried voltages,
+  open-drain, closed contacts, switch rating, ordering), on the fixture
+  parts and the real supplies.
 - `memory_image_test` — the load-file parser: format by file name, raw
   binary, every Intel HEX rule and message.
 

@@ -255,12 +255,12 @@ Acceptance: every case passes.
   passed`, exit 0 (e.g. "PASS: 5V on the 0.8-2.7 V part's VCC is
   POWER_RANGE" with text `voltage: 5 V on pin 5 (VCC) of VFX-AUC1G00; it
   needs 0.8-2.7 V`).
-Commit: —
+Commit: 5e0149b
 
 ### Phase 2 — Circuit integration
 
-- [ ] `circuit.c` / `circuit.h`: §4.4.
-- [ ] `circuit_check.c`: load the fixture devices of `voltage_test` (moved
+- [x] `circuit.c` / `circuit.h`: §4.4.
+- [x] `circuit_check.c`: load the fixture devices of `voltage_test` (moved
       to `tests/support/voltage_fixture.h` as one inline JSON string) with
       `load_parts` into the test library next to the real files, so B does
       not depend on part data from C–F. New `check_voltage_start` (5V on the
@@ -271,13 +271,20 @@ Commit: —
       a 5V net → `circuit_advance` returns 0, error starts `voltage:`,
       `circuit_voltage_problem` = CLASH); `check_short` unchanged and still
       passing.
-- [ ] `docs/backend.md`: § Using it notes (`voltage.h`, the start refusal,
+- [x] `docs/backend.md`: § Using it notes (`voltage.h`, the start refusal,
       the switch stop, `circuit_voltage_problem`); § Layout (`voltage.c`);
       § Tests (`voltage_test`).
 
 Acceptance: the new circuit cases pass; every other test unchanged.
   Check: `cmake --build /tmp/p07 -j8 && ctest --test-dir /tmp/p07` → 12/12
   pass, and `git diff --quiet backend/tests/golden` → exit 0 (est. 1 min).
+  Result (2026-11-01): `ctest --test-dir /tmp/p07` → `100% tests passed, 0
+  tests failed out of 12`; `git diff --quiet backend/tests/golden` → exit
+  0. `circuit_check` → `0 failure(s)`, including "PASS: 5V on a 0.8-2.7 V
+  part's VCC is refused at start", "PASS: the start refusal names the pin
+  and the range", "PASS: closing 3V3 onto 5V stops the run", "PASS: the
+  stop is a voltage error", "PASS: circuit_voltage_problem returns the
+  CLASH", and `check_short`'s three PASS lines unchanged.
 Commit: —
 
 ## Validation Plan

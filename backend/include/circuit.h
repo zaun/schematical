@@ -23,6 +23,7 @@
 #include <stdint.h>
 
 #include "parts.h"
+#include "voltage.h"
 
 typedef struct Circuit Circuit;
 typedef enum { CIRCUIT_0, CIRCUIT_1, CIRCUIT_X, CIRCUIT_Z } CircuitValue;
@@ -37,11 +38,19 @@ int circuit_add_net(Circuit *circuit, size_t *index);
 /* pin is the pin's designator, e.g. "1" or "A1". */
 int circuit_connect(Circuit *circuit, size_t part, const char *pin, size_t net);
 
-/* Switches: position is 1-based; works before and after start. */
+/* Switches: position is 1-based; works before and after start. During a run,
+   a contact that closes and makes the circuit fail the voltage check
+   (voltage.h) stops the run: circuit_advance returns 0 from then on and
+   circuit_error is the "voltage: …" text. */
 int circuit_set_switch(Circuit *circuit, size_t part, unsigned position, int on);
 
+/* Runs the voltage check first: a circuit with a voltage problem does not
+   start (-1, circuit_error "voltage: …"); building calls stay usable. */
 int circuit_start(Circuit *circuit);
 int circuit_advance(Circuit *circuit, uint64_t picoseconds);  /* 0 once stopped */
+/* 1 and the first problem when circuit_start or a closing switch failed the
+   voltage check; else 0. */
+int circuit_voltage_problem(const Circuit *circuit, VoltageProblem *out);
 uint64_t circuit_time(const Circuit *circuit);
 
 CircuitValue circuit_net_value(const Circuit *circuit, size_t net);
