@@ -126,13 +126,13 @@ Acceptance: every dff and jkff part has a range, and nothing else changed.
   `672 parts checked, 0 mismatches` (dff), `186 parts checked, 0
   mismatches` (jkff). Spot: `SN74HC74N vcc=2000-6000,in=6000`,
   `SN74LS112AN vcc=4750-5250,in=5250`.
-Commit: —
+Commit: e5a50d9
 
 ### Phase 2 — SRAM and EEPROM
 
-- [ ] Run §4 (and plan-07-C §4 steps 2–4) on the 21 SRAM and 12 EEPROM
+- [x] Run §4 (and plan-07-C §4 steps 2–4) on the 21 SRAM and 12 EEPROM
       devices (68 grades).
-- [ ] Regenerate `parts.txt`.
+- [x] Regenerate `parts.txt`.
 
 Acceptance: every part of the four kinds has a range, and the spot values
 match.
@@ -140,6 +140,15 @@ match.
   `grep -E '^(SN74HC74N|SN74LS112AN|AS6C62256-55PCN|AT28C256-15JU)\|' backend/tests/golden/parts.txt | grep -o 'vcc=.*'`
   → the Outcome values. One `AT28BV256` part → `vcc=2700-3600,in=3600`
   (est. 1 min).
+  Result (2026-11-01): script over the four files → `0 1204`; grep →
+  `AS6C62256-55PCN vcc=2700-5500,in=5500`, `AT28C256-15JU
+  vcc=4500-5500,in=5500`, `SN74HC74N vcc=2000-6000,in=6000`, `SN74LS112AN
+  vcc=4750-5250,in=5250` (= the Outcome); `AT28BV256-20JU
+  vcc=2700-3600,in=3600`; AT28LV010 ("3.3V ± 10%", `AT28LV010` line 295)
+  → `vcc=2970-3630,in=3630`. traces unchanged (exit 0); 346 changed lines,
+  only `|vcc=` added (`346 346 True`); `verify.py` → `172 … 0 mismatches`
+  (sram), `174 … 0 mismatches` (eeprom). Final gate: `ctest` → `100% tests
+  passed, 0 tests failed out of 12`.
 Commit: —
 
 ## Validation Plan
@@ -165,6 +174,17 @@ See plan-07-A § Decisions and plan-07-C § Decisions. Author decision: a
   SN74LS73A parts override to 4.75–5.25. 74_112 LS is a 4–4 tie: the entry
   takes the SN74 range (plan-07-C tie rule).
 - **TTL family (5476, 54107)**: only SN54/SNJ54/SMD parts exist; 4.5–5.5.
+- **No memory device has several supply options**: every grade of a
+  device shares one range, so there are no part overrides and no letter
+  rules. §4's "several supply options" rule went unused.
+- **No memory part has an `inputMax`**: the AS6C/AS7C sheets print VIH max
+  as VCC + 0.3 / + 0.5, and the AT28 sheets print no VIH max.
+- **Several AS6C/AS7C sheets have no table titled "Recommended Operating
+  Conditions"**; the Supply Voltage VCC MIN/MAX row of their DC
+  characteristics table was used (it agrees with each sheet's feature
+  line). AS7C31024B/31026B/34098A are 3.0–3.6 V (`AS7C31024B` line 174).
+- **AT28 E/F variants** take their sheet's "5V ± 10%" column; the -MIL
+  sheets also say 5V ± 10%.
 
 ## Summary
 
