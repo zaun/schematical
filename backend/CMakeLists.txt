@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(logic_backend LANGUAGES C)
+project(logic LANGUAGES C)
 
 # ---- The backend: event engine, part library, models, circuit API --------
 # The app compiles the same files (backend/src) through an Xcode

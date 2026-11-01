@@ -36,7 +36,7 @@ static void count_kind(const char **kinds, size_t *counts, size_t *n, const char
     counts[(*n)++] = 1;
 }
 
-int main(void) {
+int main(int argc, char **argv) {
     PartLibrary *library = part_library_create();
     GoldenPart *golden;
     size_t golden_count = golden_read(GOLDEN_DIR, &golden);
@@ -64,6 +64,13 @@ int main(void) {
         lines[i].line = listing_line(part);
     }
     qsort(lines, count, sizeof(*lines), by_name);
+    /* --print: the current listing, to regenerate tests/golden/parts.txt. */
+    if (argc == 2 && strcmp(argv[1], "--print") == 0) {
+        for (i = 0; i < count; i++) {
+            printf("%s\n", lines[i].line);
+        }
+        return 0;
+    }
 
     i = 0;
     while (i < count || g < golden_count) {

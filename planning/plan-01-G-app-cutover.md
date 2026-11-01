@@ -219,11 +219,19 @@ Acceptance: only the new layout remains and everything still builds and passes.
   Check: the Phase 1 `xcodebuild` command → `** BUILD SUCCEEDED **` (est. 3 min).
   Result: `CMakeLists.txt include src tests`; `100% tests passed, 0 tests failed out of 7`;
   `** BUILD SUCCEEDED **`.
-Commit: —
+Commit: 46f1afe
 
 ### Phase 3 — Docs and archive
 
-- [ ] §3.4 doc edits.
+- [x] §3.4 doc edits (`AGENTS.md` Datasheets, `docs/file-format.md` lines 12
+      and 74, `docs/backend.md` layout re-checked against `ls backend/src`).
+- [x] (added) `listing_check --print` / `trace_check --print`: with the old
+      backend gone, nothing could regenerate the goldens, so adding a part
+      (which `AGENTS.md` now describes) would fail `listing_check` with no
+      way forward. Both print the current lines; verified `--print | diff -q
+      - golden` → identical for both files. Documented in `docs/backend.md`.
+- [x] (added) Stale names: CMake project `logic_backend` → `logic`; the LED
+      model comment no longer names `netlist_sim.c`.
 - [ ] Move `planning/plan-01-G-app-cutover.md` to `planning/completed/`.
 
 Acceptance: no doc names a removed symbol.

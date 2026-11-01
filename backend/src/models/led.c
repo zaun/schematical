@@ -1,6 +1,6 @@
 /*
  * led: a single LED. Passive: it drives nothing. It is lit while its anode
- * reads 1 and its cathode reads 0 (the rule netlist_sim.c used), tracked
+ * reads 1 and its cathode reads 0 (the old netlist simulator's rule), tracked
  * with lights.c so the app sees "on at any time during the last step".
  */
 

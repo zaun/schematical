@@ -115,6 +115,13 @@ drawer work from the kind table and the `Part` structs.
 - `listing_check`, `trace_check` — every part's facts and a hash of its
   simulated behavior against `tests/golden/` (recorded from the original C
   tables before the move to JSON). A change to a part file that changes
-  behavior shows up here; regenerate the golden only for an intended change.
+  facts or behavior, or adds a part, shows up here. For an intended change,
+  regenerate the goldens and review the diff:
+
+  ```
+  /tmp/logic-build/listing_check --print > backend/tests/golden/parts.txt
+  /tmp/logic-build/trace_check --print > backend/tests/golden/traces.txt
+  git diff --stat backend/tests/golden
+  ```
 - `switch_test`, `sram_test`, `display7_test` — model benches.
 - `circuit_check` — the circuit API.

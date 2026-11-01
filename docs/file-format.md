@@ -9,8 +9,9 @@ Code: `schematical/schematical/Document/SchematicFile.swift` (the format) and
 ## Design rules
 
 - **Parts are stored by part number only.** Pins, pin roles, symbol and layout
-  come from the backend catalog when the file is opened. Files stay small, and
-  fixes to a part's model apply to existing files.
+  come from the part library (`schematical/schematical/Parts/*.json`) when the
+  file is opened. Files stay small, and fixes to a part's model apply to
+  existing files.
 - **Connections are explicit.** A wire end names a part and pin number, or a
   junction. Connectivity never depends on two coordinates touching.
 - **IDs are stable.** Every part, junction and wire has a UUID that is kept
@@ -71,7 +72,7 @@ A DIP switch also stores its positions:
 |--------------|---------|-------------------------------------------------------------------------|
 | `id`         | UUID    | Unique within the file.                                                 |
 | `reference`  | string  | Label shown on the canvas, such as `U1`.                                |
-| `partNumber` | string  | A part name from the backend catalog: a logic part, memory (SRAM), switch, LED, 7-segment display, oscillator, or the supplies `VCC` and `GND`. |
+| `partNumber` | string  | A part name from the part library (`schematical/schematical/Parts/*.json`): a logic part, memory (SRAM), switch, LED, 7-segment display, oscillator, or the supplies `VCC` and `GND`. |
 | `x`, `y`     | number  | Top-left corner of the part body.                                       |
 | `flipped`    | boolean | Pins on the opposite sides. Ignored for VCC and GND.                    |
 | `switches`   | array of booleans | DIP switches only, optional: whether each position is ON, position 1 first. Missing positions are OFF; extra entries are ignored. Left out for other parts. |

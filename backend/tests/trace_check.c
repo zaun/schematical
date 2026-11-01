@@ -115,6 +115,13 @@ int main(int argc, char **argv) {
         parts[i] = part_library_at(library, i);
     }
     qsort(parts, count, sizeof(*parts), by_name);
+    /* --print: the current hashes, to regenerate tests/golden/traces.txt. */
+    if (argc == 2 && strcmp(argv[1], "--print") == 0) {
+        for (i = 0; i < count; i++) {
+            printf("%s\t%016llx\n", parts[i]->name, (unsigned long long)trace_part(parts[i], NULL));
+        }
+        return 0;
+    }
 
     i = 0;
     while (i < count || g < golden_count) {

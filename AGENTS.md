@@ -16,4 +16,9 @@
   delete the PDF and record it in `datasheets/obsolete-not-included.md` (PDF
   name, plus the family / category / group it would have gone into).
 - If only some parts are obsolete, add them all and flag the obsolete ones
-  with `PART_FLAG_OBSOLETE`.
+  with `"flags": ["obsolete"]` in the kind's
+  `schematical/schematical/Parts/<kind>.json`.
+- New parts are added by editing those part files (format:
+  `docs/parts-format.md`). Run the backend tests afterwards; a part whose
+  facts or behavior change on purpose needs its line regenerated in
+  `backend/tests/golden/` (see `docs/backend.md`).
