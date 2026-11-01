@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include "kind.h"
+#include "model_pins.h"
 
 static const char *const DEVICE_KEYS[] = {"actuator", "contacts", "ratedVolts", NULL};
 
@@ -97,6 +98,21 @@ static void *switch_bind_pinout(KindContext *ctx, const void *raw, const PartPin
         kind_pop(ctx);
     }
     return bound;
+}
+
+int switch_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b) {
+    const SwitchPins *pins;
+
+    if (part == NULL || part->kind != PART_SWITCH) {
+        return 0;
+    }
+    pins = part_internal(part)->bound;
+    if (position < 1 || position > pins->positions) {
+        return 0;
+    }
+    *a = pins->pins[position - 1][0];
+    *b = pins->pins[position - 1][1];
+    return 1;
 }
 
 static int switch_load_part(KindContext *ctx, const void *device, const void *bound,

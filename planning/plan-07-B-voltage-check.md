@@ -32,7 +32,7 @@ The same as plan-07-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-07-A complete | `ls planning/plan-07-A-* 2>/dev/null` → no output (archived to `planning/completed/`) | NOT MET (2026-11-01) |
+| plan-07-A complete | `ls planning/plan-07-A-* 2>/dev/null` → no output (archived to `planning/completed/`) | MET (2026-11-01: `ls planning/plan-07-A-*` → no matches; archived in 577a290) |
 
 ## 1. Goal
 
@@ -231,11 +231,11 @@ Volts print as `%g` of `mv / 1000.0`; pins as `pin <designator> (<name>)`.
 
 Pure function, no callers: safe alone.
 
-- [ ] `model_pins.h` + the three accessors in `led.c`, `switch.c`, `gate.c`;
+- [x] `model_pins.h` + the three accessors in `led.c`, `switch.c`, `gate.c`;
       `PartLogic` untouched.
-- [ ] `include/voltage.h`, `src/voltage.c` (§4.1–4.3); `CMakeLists.txt` adds
+- [x] `include/voltage.h`, `src/voltage.c` (§4.1–4.3); `CMakeLists.txt` adds
       `src/voltage.c` to the library and `tests/voltage_test.c` as a ctest.
-- [ ] `tests/voltage_test.c`, inline fixture library (plan-07-A keys; one
+- [x] `tests/voltage_test.c`, inline fixture library (plan-07-A keys; one
       gate device with `vcc [2,6]`, one with `vcc [0.8,2.7], inputMax 3.6`,
       an open-drain gate, a switch rated 5, an LED, supplies 5V/3V3/GND).
       One case per rule: in-range power OK; 5 V power on 0.8–2.7 → POWER_RANGE
@@ -251,6 +251,10 @@ Pure function, no callers: safe alone.
 
 Acceptance: every case passes.
   Check: `cmake --build /tmp/p07 -j8 && /tmp/p07/voltage_test` → exit 0 (est. 1 min).
+  Result (2026-11-01): `voltage_test` → 24 × `PASS`, `voltage_test: all
+  passed`, exit 0 (e.g. "PASS: 5V on the 0.8-2.7 V part's VCC is
+  POWER_RANGE" with text `voltage: 5 V on pin 5 (VCC) of VFX-AUC1G00; it
+  needs 0.8-2.7 V`).
 Commit: —
 
 ### Phase 2 — Circuit integration
@@ -304,6 +308,23 @@ Owner decisions: plan-07-A § Decisions. Author decisions here:
   candidate netlist without building a circuit.
 
 ## Corrections
+
+- **The fixture lives in `tests/support/voltage_fixture.h` from Phase 1**,
+  not moved there in Phase 2, and it is **two** inline part files, not one
+  JSON string: a part file holds one kind, and the fixture needs a gate file
+  (HC-like `VFX-HC1G00`, AUC-like `VFX-AUC1G00`, open-drain `VFX-OD1G00`)
+  and a switch file (`VFX-SW2`, rated 5 V). The LED and the supplies are the
+  real `LED-RED-0603`, `5V`, `3V3`, `1V8`, `12V`, `GND` (plan-07-A added the
+  supplies), loaded with `load_parts_dir`, so the fixture uses real
+  footprint ids (`SOT23-5`, `SW-DIP-4`).
+- **The `vcc == NULL` case copies a loaded `Part` and clears `vcc`** instead
+  of a fixture device with no `vcc`: plan-07-F makes `vcc` required, which
+  would make such a fixture device fail to load. Two cases: not checked,
+  and not a source.
+- **Added cases** beyond the list: 3V3 on a 3.6 V-tolerant input is fine;
+  the CLASH text names the lower voltage first whatever the part order; two
+  equal supplies agree; a closed contact carries 12 V to its other rated
+  pin; an LED carries anode → cathode only; `cap` smaller than the count.
 
 ## Summary
 

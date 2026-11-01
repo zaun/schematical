@@ -8,6 +8,7 @@
 
 #include "kind.h"
 #include "lights.h"
+#include "model_pins.h"
 
 static const char *const DEVICE_KEYS[] = {"color", "anode", "cathode", NULL};
 
@@ -53,6 +54,18 @@ static int led_load_part(KindContext *ctx, const void *device, const void *bound
     (void)json;
     out->led = &((const LedDevice *)device)->led;
     return 0;
+}
+
+int led_pins(const Part *part, size_t *anode, size_t *cathode) {
+    const LedPins *pins;
+
+    if (part == NULL || part->kind != PART_LED) {
+        return 0;
+    }
+    pins = part_internal(part)->bound;
+    *anode = pins->anode;
+    *cathode = pins->cathode;
+    return 1;
 }
 
 /* ---- Model --------------------------------------------------------------- */

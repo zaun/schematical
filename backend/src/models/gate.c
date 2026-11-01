@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include "kind.h"
+#include "model_pins.h"
 
 #define GATE_MAX_INPUTS 13
 
@@ -291,6 +292,13 @@ static int gate_load_part(KindContext *ctx, const void *raw, const void *bound,
         }
     }
     return kind_error(ctx, "family \"%s\" has no timing entry", family);
+}
+
+int gate_open_drain(const Part *part) {
+    if (part == NULL || part->kind != PART_GATE) {
+        return 0;
+    }
+    return ((const GateDevice *)part_internal(part)->device)->open_drain;
 }
 
 /* ---- Model --------------------------------------------------------------- */

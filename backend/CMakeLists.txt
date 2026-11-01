@@ -10,6 +10,7 @@ add_library(logic STATIC
     src/engine/net.c
     src/circuit.c
     src/memory_image.c
+    src/voltage.c
     src/library/library.c
     src/library/kinds.c
     src/library/kind_util.c
@@ -79,6 +80,7 @@ logic_test(footprint_check)
 logic_test(engine_test)
 logic_test(eeprom_test)
 logic_test(memory_image_test)
+logic_test(voltage_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.
