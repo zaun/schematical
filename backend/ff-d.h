@@ -18,8 +18,14 @@
  * Timing is one rise/fall pair per family. Values are the datasheet typical
  * or, where only max is given, the max, at the condition noted in ff-d.c.
  *
- * Not included: CD74 and CD54 names, RGY/BGA/QFN parts with a different pin
- * numbering from the table below, the 16-bit LVC16374A, and Q1/EP variants.
+ * Part lists come from the orderable tables of the datasheets in
+ * datasheets/ff-d/: every row except the .A/.B duplicates, obsolete parts kept.
+ * Military numbers take their family from the part marking, or from the
+ * datasheet when it covers one family.
+ *
+ * Not included: the 16-bit LVC16374A; SN74AUP1G80YFPR (6-ball DSBGA); and
+ * JM38510/M38510 numbers in datasheets that cover two families, where the
+ * datasheet does not say which family a number belongs to.
  */
 
 #include "chip_definition.h"
@@ -55,5 +61,24 @@ extern const ChipDefinition FF_1G175_DEFINITION;
 extern const ChipDefinition FF_1G374_DEFINITION;
 /* 8-pin dual D flip-flop, no PRE or CLR. */
 extern const ChipDefinition FF_2G79_DEFINITION;
+
+/* Alternate packages of the parts above. */
+/* Dual positive-edge-triggered D flip-flop with preset and clear, 20-pin LCCC (FK). */
+extern const ChipDefinition FF_74_74_FK_DEFINITION;
+/* Hex positive-edge-triggered D flip-flop with common clear, 20-pin LCCC (FK). */
+extern const ChipDefinition FF_74_174_FK_DEFINITION;
+/* Quad positive-edge-triggered D flip-flop with common clear, 20-pin LCCC (FK). */
+extern const ChipDefinition FF_74_175_FK_DEFINITION;
+/* Single positive-edge-triggered D flip-flop, 6-pin SON (DRY, DSF). */
+extern const ChipDefinition FF_1G79_SON_DEFINITION;
+
+/* 5-pin single D flip-flop, inverted output (1G80), and its 6-pin SON. */
+extern const ChipDefinition FF_1G80_DEFINITION;
+extern const ChipDefinition FF_1G80_SON_DEFINITION;
+/* 8-pin dual D flip-flop, inverted outputs (2G80), and its UQFN (RSE) pinout. */
+extern const ChipDefinition FF_2G80_DEFINITION;
+extern const ChipDefinition FF_2G80_RSE_DEFINITION;
+/* 8-pin single D flip-flop with PRE and CLR, 1G74 pinout (SN74LVC2G74). */
+extern const ChipDefinition FF_2G74_DEFINITION;
 
 #endif
