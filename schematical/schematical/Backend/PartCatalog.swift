@@ -439,6 +439,9 @@ struct DrawerFilter: Equatable {
     /// Digits and digit height. Only narrow 7-segment displays.
     var displayDigits: Int?
     var displaySize: String?
+    /// Supply rail in millivolts. Keeps parts whose supply range covers it and
+    /// switches rated for at least it; LEDs and displays have no supply and stay.
+    var voltageMV: UInt32?
     /// Which flagged parts to list. Set from the user's preferences.
     var visibility = PartVisibility()
 }
@@ -570,6 +573,17 @@ final class PartCatalogStore {
         sortedNames(entries.compactMap(\.display).map(\.size))
     }
 
+    /// The VCC tool's rails (`SupplyChoice`) that at least one listed part
+    /// runs at, in menu order, with their voltage in millivolts.
+    var voltageChoices: [(name: String, mv: UInt32)] {
+        SupplyChoice.names.compactMap { name in
+            guard case let .supply(_, mv)? = partsByName[name]?.details, mv > 0,
+                  entries.contains(where: { $0.vcc.map { $0.minMV...$0.maxMV ~= mv } ?? false })
+            else { return nil }
+            return (name, mv)
+        }
+    }
+
     /// Any part by name, listed or not (VCC and GND are not listed).
     func part(named name: String) -> CatalogPart? {
         partsByName[name]
@@ -599,6 +613,14 @@ final class PartCatalogStore {
             }
             if part.kind == PART_SWITCH, let count = filter.switchPositions, part.count != count {
                 return false
+            }
+            if let mv = filter.voltageMV {
+                if let vcc = part.vcc, !(vcc.minMV...vcc.maxMV ~= mv) {
+                    return false
+                }
+                if case let .dipSwitch(_, _, ratedMV) = part.details, ratedMV > 0, ratedMV < mv {
+                    return false
+                }
             }
             if let color = filter.color, let partColor = part.color, partColor != color {
                 return false

@@ -34,7 +34,12 @@ struct ChipDrawerView: View {
         let groups = catalog.groups(matching: activeFilter)
 
         VStack(spacing: 0) {
-            searchField
+            HStack(spacing: 8) {
+                searchField
+                voltageMenu
+            }
+            .padding(.horizontal, 12)
+            .padding(.top, 8)
             filterBar
 
             List {
@@ -118,8 +123,30 @@ struct ChipDrawerView: View {
         .padding(.horizontal, 8)
         .padding(.vertical, 5)
         .background(.quaternary.opacity(0.6), in: RoundedRectangle(cornerRadius: 6))
-        .padding(.horizontal, 12)
-        .padding(.top, 8)
+    }
+
+    /// Supply voltage next to the search field: lists only parts that run at
+    /// that rail (see `DrawerFilter.voltageMV`).
+    private var voltageMenu: some View {
+        let choices = catalog.voltageChoices
+        let selected = choices.first { $0.mv == filter.voltageMV }?.name
+        return Menu {
+            Button("All voltages") {
+                filter.voltageMV = nil
+            }
+            Divider()
+            ForEach(choices, id: \.name) { choice in
+                Button(choice.name) {
+                    filter.voltageMV = choice.mv
+                }
+            }
+        } label: {
+            Text(selected ?? "All")
+                .font(.caption)
+        }
+        .menuStyle(.borderlessButton)
+        .fixedSize()
+        .help("Show only parts that run at this supply voltage")
     }
 
     private var filterBar: some View {
