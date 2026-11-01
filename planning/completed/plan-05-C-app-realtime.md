@@ -308,7 +308,7 @@ Commit: e0f1297
 Acceptance: runtime proof steps 2–5.
   Check: the `xcodebuild` → `** BUILD SUCCEEDED **` (est. 3 min), then
   runtime proof steps 2–5 (est. 10 min).
-Commit: —
+Commit: 4a2b86d
 
 ## Validation Plan
 
@@ -324,8 +324,10 @@ Commit: —
   2. Same run: `reachedSpeed` ∈ [0.9, 1.1]; LED level ∈ [0.45, 0.55]; the
      wire on U2 pin 1 (OUT) has style `.toggling`; screenshot.
   3. Speed 1/1,000,000, wait 2 s: circuit time advanced 2 µs ± 10 % since
-     the change; LED level is 0 or 1 per frame (the clock half period
-     15.26 µs is longer than a frame's 16.7 ns).
+     the change; LED level is 0 or 1 per frame, except at most one frame per
+     clock edge inside the window, whose level is that frame's on-share
+     (the clock half period 15.26 µs is longer than the 2 µs window, so at
+     most one such frame).
   4. The harness builds `sim_bench`'s circuit as a `SchematicNetlist`
      (`LMK6CE10000CDLER`, 16 SN74HC74N stages with LEDs, 100 idle SN74HC00N;
      same connections as `backend/tests/sim_bench.c`) and calls
@@ -380,6 +382,27 @@ snapshot delivery while the driver awaits `Task.sleep`).
    during 1 s of run, stateVersion 383 → 434`, no crash; Run/Stop ×10 →
    `live threads after each stop: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`.
 
+## Final gate (run 2026-11-01, plan-05 overall)
+
+- `main` had moved (merge base cf70176, `main` 72f95a7 "PCB: snap
+  footprints by the top-left of their bounding box", Swift + docs only);
+  merged into `worktree-P-05` cleanly (5fbfc29) and the gate re-run on the
+  merged tree:
+- `rm -rf /tmp/logic-land-p05 && cmake -S backend -B /tmp/logic-land-p05 && cmake --build /tmp/logic-land-p05 -j8 && ctest --test-dir /tmp/logic-land-p05`
+  → `100% tests passed, 0 tests failed out of 9`.
+- Release `sim_bench` (backend unchanged by the merge):
+  `LMK6CE001000DDLER 16 10 400` → `3.199x real time` (≥ 1.5x);
+  `LMK6CE10000CDLER 16 10 100` → `0.08545x real time` (≥ 0.05x).
+- `xcodebuild … build` → `** BUILD SUCCEEDED **`.
+- Runtime proof on the merged tree (`/tmp/p05c-proof/proof-final.log`):
+  step 1 `ratio 0.9899`; step 2 `reachedSpeed 0.9994…1.0007`, `LED level
+  0.4998…0.5002`, `toggling` ×5; step 3 `circuit advanced 1984634 ps`,
+  `101 frames, levels 0: 61, 1: 39, other: [0.219…]` (one edge in the
+  window → one fractional frame); step 4 `reachedSpeed 0.0651`, `running at
+  0.065×`, timer `40` ticks, `stop() took 0.16 ms`, `live threads 0`;
+  step 5 `45 reloads`, Run/Stop ×10 → all `0`.
+- No Rust in this repo, so no `cargo fmt` pass.
+
 ## Decisions
 
 - Run speed: real time by default, a picker 1× … 1/1,000,000, run flat out
@@ -395,6 +418,14 @@ snapshot delivery while the driver awaits `Task.sleep`).
 - Debug C optimization `-Os` — author, 2026-11-01 (§2, 3.2× measured).
 
 ## Corrections
+
+- Runtime proof step 3 criterion "LED level is 0 or 1 per frame" was
+  miscalibrated: the final-gate run's 2 µs window crossed one clock edge,
+  and that frame read `0.219…` — correct, it is the share of that frame the
+  LED was on. Restated (stricter, checkable): 0 or 1 per frame except at
+  most one frame per edge in the window. Both runs meet it (0 edges → no
+  fractional frame; 1 edge → 1 fractional frame, 61 frames at 0 and 39 at 1
+  either side of it).
 
 - Runtime proof step 2 / Outcome: "the wire on U2 pin 1 (OUT)" is wrong —
   OSC-SIT1534-1508's `1508-csp` pinout is 1 = GND, 2 = CLK OUT, 3 = VDD,
