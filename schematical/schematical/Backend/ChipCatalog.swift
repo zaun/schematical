@@ -185,6 +185,9 @@ let familyCategory = "Logic"
 /// The category generic LEDs are listed under in the drawer.
 let ledCategory = "Indicators"
 
+/// The category switches are listed under. Its count is positions per switch.
+let switchCategory = "Switch"
+
 struct DrawerFilter: Equatable {
     var query = ""
     var category: String?
@@ -192,6 +195,8 @@ struct DrawerFilter: Equatable {
     var family: String?
     /// Gates per package (the sidebar's count). Like `family`, only narrows logic parts.
     var gateCount: Int?
+    /// Positions per switch (the sidebar's count). Only narrows switches.
+    var switchPositions: Int?
     /// Which flagged parts to list. Set from the user's preferences.
     var visibility = PartVisibility()
 }
@@ -241,6 +246,9 @@ final class ChipCatalogStore {
     struct SubcategoryGroup: Identifiable, Hashable {
         let subcategory: String
         let functions: [FunctionGroup]
+        /// Parts listed straight under the subcategory, with no function level.
+        /// Used for switches, whose function is only the vendor's series.
+        var parts: [PartEntry] = []
 
         var id: String { subcategory }
     }
@@ -285,7 +293,8 @@ final class ChipCatalogStore {
         return Array(Set(names)).sorted { $0.localizedStandardCompare($1) == .orderedAscending }
     }
 
-    /// Gate counts present in one category, ascending.
+    /// Counts present in one category, ascending: gates per package for logic
+    /// chips, positions for switches.
     func gateCounts(in category: String) -> [Int] {
         let counts = entries
             .filter { $0.chip.category == category && $0.chip.gateCount > 0 }
@@ -336,6 +345,10 @@ final class ChipCatalogStore {
                entry.chip.gateCount != count {
                 return false
             }
+            if let count = filter.switchPositions, entry.chip.category == switchCategory,
+               entry.chip.gateCount != count {
+                return false
+            }
             let fields = [entry.part.name, entry.chip.function, entry.chip.description,
                           entry.chip.category, entry.chip.subcategory ?? ""]
             return needle.isEmpty || fields.contains { $0.localizedStandardContains(needle) }
@@ -351,13 +364,26 @@ final class ChipCatalogStore {
                 )
                 let subcategories = bySubcategory
                     .sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
-                    .map { SubcategoryGroup(subcategory: $0.key, functions: Self.functionGroups($0.value)) }
+                    .map { subcategory, entries in
+                        category == switchCategory
+                            ? SubcategoryGroup(subcategory: subcategory, functions: [], parts: Self.switchParts(entries))
+                            : SubcategoryGroup(subcategory: subcategory, functions: Self.functionGroups(entries))
+                    }
                 return CategoryGroup(
                     category: category,
                     subcategories: subcategories,
                     functions: Self.functionGroups(categoryEntries.filter { $0.chip.subcategory == nil })
                 )
             }
+    }
+
+    /// Switches by position count, then by name.
+    private static func switchParts(_ entries: [PartEntry]) -> [PartEntry] {
+        entries.sorted {
+            $0.chip.gateCount != $1.chip.gateCount
+                ? $0.chip.gateCount < $1.chip.gateCount
+                : $0.part.name.localizedStandardCompare($1.part.name) == .orderedAscending
+        }
     }
 
     /// Entries grouped by readable function, functions and parts in natural order

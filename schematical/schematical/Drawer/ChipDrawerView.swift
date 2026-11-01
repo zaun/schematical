@@ -13,8 +13,10 @@ nonisolated struct ChipPartDragItem: Codable, Hashable, Sendable, Transferable {
 
 /// Right-hand drawer. Parts are grouped by category, then by readable function.
 /// Chips with a subcategory get a level in between (Memory → SRAM → 32 KB).
+/// Switches skip the function level: their parts sit right under DIP.
 /// The top bar filters by category and package. The family and gate-count menus
-/// sit in the Logic category header because they only apply to logic chips.
+/// sit in the Logic category header because they only apply to logic chips; the
+/// Switch header has its own count menu, for positions per switch.
 struct ChipDrawerView: View {
     let catalog: ChipCatalogStore
 
@@ -44,6 +46,9 @@ struct ChipDrawerView: View {
                             DisclosureGroup(isExpanded: expansion(for: key, defaultOpen: false)) {
                                 ForEach(subcategory.functions) { function in
                                     functionGroup(function, path: "\(category.category)/\(subcategory.subcategory)")
+                                }
+                                ForEach(subcategory.parts) { entry in
+                                    partRow(entry)
                                 }
                             } label: {
                                 Text(subcategory.subcategory)
@@ -149,7 +154,9 @@ struct ChipDrawerView: View {
             Spacer()
             if category == familyCategory {
                 familyMenu(for: category)
-                countMenu(for: category)
+                countMenu(for: category, selection: $filter.gateCount, unit: "gate")
+            } else if category == switchCategory {
+                countMenu(for: category, selection: $filter.switchPositions, unit: "position")
             }
         }
     }
@@ -173,27 +180,28 @@ struct ChipDrawerView: View {
         .fixedSize()
     }
 
-    private func countMenu(for category: String) -> some View {
-        Menu {
+    /// Menu of the counts in a category. `unit` names one of what is counted,
+    /// such as "gate" ("4 gates") or "position" ("8 positions").
+    private func countMenu(for category: String, selection: Binding<Int?>, unit: String) -> some View {
+        func label(_ count: Int) -> String {
+            count == 1 ? "1 \(unit)" : "\(count) \(unit)s"
+        }
+        return Menu {
             Button("All counts") {
-                filter.gateCount = nil
+                selection.wrappedValue = nil
             }
             Divider()
             ForEach(catalog.gateCounts(in: category), id: \.self) { count in
-                Button(gateCountLabel(count)) {
-                    filter.gateCount = count
+                Button(label(count)) {
+                    selection.wrappedValue = count
                 }
             }
         } label: {
-            Text(filter.gateCount.map(gateCountLabel) ?? "All counts")
+            Text(selection.wrappedValue.map(label) ?? "All counts")
                 .font(.caption)
         }
         .menuStyle(.borderlessButton)
         .fixedSize()
-    }
-
-    private func gateCountLabel(_ count: Int) -> String {
-        count == 1 ? "1 gate" : "\(count) gates"
     }
 
     // MARK: Rows
