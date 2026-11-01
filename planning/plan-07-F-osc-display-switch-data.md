@@ -38,7 +38,7 @@ The same as plan-07-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-07-E complete | `ls planning/plan-07-E-* 2>/dev/null` → no output | NOT MET (2026-11-01) |
+| plan-07-E complete | `ls planning/plan-07-E-* 2>/dev/null` → no output | MET (2026-11-01: no matches; archived in 1a4e3fb) |
 
 ## 1. Goal
 
@@ -116,17 +116,17 @@ intent. Part behavior stays neutral, so `traces.txt` does not change.
 
 ### Phase 1 — Data
 
-- [ ] `oscillator.json`:
+- [x] `oscillator.json`:
   - device `vcc` from each PDF;
   - LMK6 1.8 V parts get `"vcc": [1.7, 1.9]` (the letter rule goes in the
     device note);
   - the Geyer part gets `"vcc": [1.71, 1.89]`.
-- [ ] `7seg.json`: `vf` on each device, from its PDF's "Forward Voltage Per
+- [x] `7seg.json`: `vf` on each device, from its PDF's "Forward Voltage Per
       Segment". When no MIN is printed, min = TYP. Scans are read from the
       page image.
-- [ ] `switch.json`: `ratedVolts` on each device, from its family's
+- [x] `switch.json`: `ratedVolts` on each device, from its family's
       switching rating.
-- [ ] Regenerate `parts.txt`.
+- [x] Regenerate `parts.txt`.
 
 Acceptance: every oscillator part has `vcc`, every 7-seg line has `vf=`,
 and every switch line has `rated=`. The spot values match.
@@ -138,6 +138,11 @@ and every switch line has `rated=`. The spot values match.
   `vf=2000-2600` and `rated=24000`;
   `git diff --quiet backend/tests/golden/traces.txt` → exit 0
   (est. 1 min).
+  Result (2026-11-01): `108`, `49`, `36`; `LTC-4727JR … vf=2000-2600`,
+  `TE-GDS0204 … rated=24000`; LMK6 1.8 V part `LMK6CE001000DDLER
+  vcc=1700-1900,in=1900`; traces `git diff --quiet` → exit 0 (`trace_check`
+  exit 0). `/tmp/p07s/verify_misc.py` (every oscillator, 7-seg and switch
+  line against the readings) → `193 parts checked, 0 mismatches`.
 Commit: —
 
 ### Phase 2 — Required keys
@@ -186,6 +191,34 @@ datasheet prints no minimum. Author decisions:
 - The required-key flip lands last, behind a zero census.
 
 ## Corrections
+
+- **Run the same way as plan-07-C** (see its Corrections): one research
+  agent wrote `/tmp/p07/data/misc.json`; `/tmp/p07s/apply.py` applied it
+  (device-level `vcc`/`vf`/`ratedVolts` before `"parts"`, provenance
+  appended to the device note) and `/tmp/p07s/verify_misc.py` compared
+  every listed value with the readings.
+- **The LMK6 letter rule** (lmk6c pp.3–4): the voltage letter is the
+  character just before the package code `DLE`/`DLF` (5th from the end).
+  LMK6C: `C` = 2.5–3.3 V, `D` = 1.8 V; LMK6D/H/P: `A` = 2.5–3.3 V, `B` =
+  1.8 V (`lmk6c` lines 141, 198). 23 parts are the 1.8 V option and carry
+  `"vcc": [1.7, 1.9]`; the rule is in each LMK6 device note.
+- **The Geyer 1.8 V part** is `12.94761` under device `kxo-v99-2`, whose
+  series range is [1.2, 3.6]; the part carries [1.71, 1.89].
+- **Other oscillator ranges**: SiT1534 [1.2, 3.63] (the sheet's wider
+  −10…70 °C row; −55…85 °C is 1.5–3.63); OM-7605/OM-0100/ASZKDV/ASH5KW
+  [1.6, 5.5]; OV-7604 [1.2, 5.5]; NJU6366A–D [2.0, 5.5]. No oscillator
+  sheet gives a fixed input max above VDD, so no `inputMax`.
+- **7-seg VF**: no sheet prints a minimum, so min = typ everywhere (the
+  owner's rule). The LTD-6000 scan gives the red column (LTD-67x0R) [1.7,
+  2.0] and the others [2.1, 2.8]; LTD-6910HR has its own newer sheet
+  ([2.0, 2.6]). LTD-2601WC prints a max only at 5 mA ([1.7, 2.4]).
+- **Switch rating: "the lower of the two ratings" is wrong for ADE/ADF.**
+  Their switching rating is 100 mA @ 24 VDC and their non-switching
+  (carry) rating is 1 A @ 5 VDC, so the switching voltage is the higher
+  one there. The Decisions rule "a switch takes its switching rating" is
+  what was applied: all 27 devices are 24 V (GDS family 25 mA @ 24 VDC,
+  `ENG_DS_8-1773450-9` line 165). A 1 A carry rating is a current limit,
+  which the voltage check does not model.
 
 ## Summary
 

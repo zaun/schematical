@@ -8,6 +8,7 @@
       "function": "GDS",
       "description": "GDS low-profile DIP switch, 2 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.4 (GDS: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p4": [
           {"number":1,"name":"1A","role":"inout"},
@@ -21,6 +22,7 @@
         ["1A","1B"],
         ["2A","2B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDS0204","package":"DIP","pinout":"p4","footprint":"SW-DIP-4"},
         {"name":"TE-GDS02S04","package":"SMD","pinout":"p4","footprint":"SW-SMD-4"}
@@ -31,6 +33,7 @@
       "function": "GDS",
       "description": "GDS low-profile DIP switch, 4 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.4 (GDS: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p8": [
           {"number":1,"name":"1A","role":"inout"},
@@ -50,6 +53,7 @@
         ["3A","3B"],
         ["4A","4B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDS0404","package":"DIP","pinout":"p8","footprint":"SW-DIP-8"},
         {"name":"TE-GDS04S04","package":"SMD","pinout":"p8","footprint":"SW-SMD-8"}
@@ -60,6 +64,7 @@
       "function": "GDS",
       "description": "GDS low-profile DIP switch, 6 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.4 (GDS: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p12": [
           {"number":1,"name":"1A","role":"inout"},
@@ -85,6 +90,7 @@
         ["5A","5B"],
         ["6A","6B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDS0604","package":"DIP","pinout":"p12","footprint":"SW-DIP-12"},
         {"name":"TE-GDS06S04","package":"SMD","pinout":"p12","footprint":"SW-SMD-12"}
@@ -95,6 +101,7 @@
       "function": "GDS",
       "description": "GDS low-profile DIP switch, 8 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.4 (GDS: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p16": [
           {"number":1,"name":"1A","role":"inout"},
@@ -126,6 +133,7 @@
         ["7A","7B"],
         ["8A","8B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDS0804","package":"DIP","pinout":"p16","footprint":"SW-DIP-16"},
         {"name":"TE-GDS08S04","package":"SMD","pinout":"p16","footprint":"SW-SMD-16"}
@@ -136,6 +144,7 @@
       "function": "GDS",
       "description": "GDS low-profile DIP switch, 10 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.4 (GDS: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p20": [
           {"number":1,"name":"1A","role":"inout"},
@@ -173,6 +182,7 @@
         ["9A","9B"],
         ["10A","10B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDS1004","package":"DIP","pinout":"p20","footprint":"SW-DIP-20"},
         {"name":"TE-GDS10S04","package":"SMD","pinout":"p20","footprint":"SW-SMD-20"}
@@ -183,6 +193,7 @@
       "function": "GDP",
       "description": "GDP piano DIP switch, 2 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.6 (GDP: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p4": [
           {"number":1,"name":"1A","role":"inout"},
@@ -196,6 +207,7 @@
         ["1A","1B"],
         ["2A","2B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDP0204","package":"DIP","pinout":"p4","footprint":"SW-DIP-4"}
       ]
@@ -205,6 +217,7 @@
       "function": "GDP",
       "description": "GDP piano DIP switch, 4 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.6 (GDP: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p8": [
           {"number":1,"name":"1A","role":"inout"},
@@ -224,6 +237,7 @@
         ["3A","3B"],
         ["4A","4B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDP0404","package":"DIP","pinout":"p8","footprint":"SW-DIP-8"}
       ]
@@ -233,6 +247,7 @@
       "function": "GDP",
       "description": "GDP piano DIP switch, 6 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.6 (GDP: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p12": [
           {"number":1,"name":"1A","role":"inout"},
@@ -258,6 +273,7 @@
         ["5A","5B"],
         ["6A","6B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDP0604","package":"DIP","pinout":"p12","footprint":"SW-DIP-12"}
       ]
@@ -267,6 +283,7 @@
       "function": "GDP",
       "description": "GDP piano DIP switch, 8 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.6 (GDP: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p16": [
           {"number":1,"name":"1A","role":"inout"},
@@ -298,6 +315,7 @@
         ["7A","7B"],
         ["8A","8B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDP0804","package":"DIP","pinout":"p16","footprint":"SW-DIP-16"}
       ]
@@ -307,6 +325,7 @@
       "function": "GDP",
       "description": "GDP piano DIP switch, 10 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.6 (GDP: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p20": [
           {"number":1,"name":"1A","role":"inout"},
@@ -344,6 +363,7 @@
         ["9A","9B"],
         ["10A","10B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDP1004","package":"DIP","pinout":"p20","footprint":"SW-DIP-20"}
       ]
@@ -353,6 +373,7 @@
       "function": "GDR",
       "description": "GDR recessed-rocker DIP switch, 4 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.8 (GDR: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p8": [
           {"number":1,"name":"1A","role":"inout"},
@@ -372,6 +393,7 @@
         ["3A","3B"],
         ["4A","4B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDR0404","package":"DIP","pinout":"p8","footprint":"SW-DIP-8"},
         {"name":"TE-GDR04S04","package":"SMD","pinout":"p8","footprint":"SW-SMD-8"}
@@ -382,6 +404,7 @@
       "function": "GDR",
       "description": "GDR recessed-rocker DIP switch, 8 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.8 (GDR: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p16": [
           {"number":1,"name":"1A","role":"inout"},
@@ -413,6 +436,7 @@
         ["7A","7B"],
         ["8A","8B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDR0804","package":"DIP","pinout":"p16","footprint":"SW-DIP-16"},
         {"name":"TE-GDR08S04","package":"SMD","pinout":"p16","footprint":"SW-SMD-16"}
@@ -423,6 +447,7 @@
       "function": "GDH",
       "description": "GDH half-pitch DIP switch, 2 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.10 (GDH: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p4": [
           {"number":1,"name":"1A","role":"inout"},
@@ -436,6 +461,7 @@
         ["1A","1B"],
         ["2A","2B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDH02S04","package":"SMD","pinout":"p4","footprint":"SW-GDH-4"}
       ]
@@ -445,6 +471,7 @@
       "function": "GDH",
       "description": "GDH half-pitch DIP switch, 4 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.10 (GDH: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p8": [
           {"number":1,"name":"1A","role":"inout"},
@@ -464,6 +491,7 @@
         ["3A","3B"],
         ["4A","4B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDH04S04","package":"SMD","pinout":"p8","footprint":"SW-GDH-8"}
       ]
@@ -473,6 +501,7 @@
       "function": "GDH",
       "description": "GDH half-pitch DIP switch, 8 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.10 (GDH: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p16": [
           {"number":1,"name":"1A","role":"inout"},
@@ -504,6 +533,7 @@
         ["7A","7B"],
         ["8A","8B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDH08S04","package":"SMD","pinout":"p16","footprint":"SW-GDH-16"}
       ]
@@ -513,6 +543,7 @@
       "function": "GDHL",
       "description": "GDHL ultra-low-profile half-pitch DIP switch, 4 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.12 (GDHL: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p8": [
           {"number":1,"name":"1A","role":"inout"},
@@ -532,6 +563,7 @@
         ["3A","3B"],
         ["4A","4B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDHL04S","package":"SMD","pinout":"p8","footprint":"SW-GDHL-8"}
       ]
@@ -541,6 +573,7 @@
       "function": "GDHL",
       "description": "GDHL ultra-low-profile half-pitch DIP switch, 8 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.12 (GDHL: switching 25 mA @ 24 VDC; non-switching 100 mA @ 50 VDC); ENG_CS_1308111-1 p.2 (25 mA @ 24 Vdc))",
       "pinouts": {
         "p16": [
           {"number":1,"name":"1A","role":"inout"},
@@ -572,6 +605,7 @@
         ["7A","7B"],
         ["8A","8B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-GDHL08S","package":"SMD","pinout":"p16","footprint":"SW-GDHL-16"}
       ]
@@ -581,6 +615,7 @@
       "function": "ADE",
       "description": "ADE extended-actuator DIP switch, 2 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.14/16 (ADE: switching (max) 100 mA @ 24 VDC; non-switching (max) 1 A @ 5 VDC); ENG_CS_1308111-1 p.3 (100 mA @ 24 Vdc))",
       "pinouts": {
         "p4": [
           {"number":1,"name":"1A","role":"inout"},
@@ -594,6 +629,7 @@
         ["1A","1B"],
         ["2A","2B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-ADE0204","package":"DIP","pinout":"p4","footprint":"SW-DIP-4"}
       ]
@@ -603,6 +639,7 @@
       "function": "ADE",
       "description": "ADE extended-actuator DIP switch, 4 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.14/16 (ADE: switching (max) 100 mA @ 24 VDC; non-switching (max) 1 A @ 5 VDC); ENG_CS_1308111-1 p.3 (100 mA @ 24 Vdc))",
       "pinouts": {
         "p8": [
           {"number":1,"name":"1A","role":"inout"},
@@ -622,6 +659,7 @@
         ["3A","3B"],
         ["4A","4B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-ADE0404","package":"DIP","pinout":"p8","footprint":"SW-DIP-8"},
         {"name":"TE-ADE04S04","package":"SMD","pinout":"p8","footprint":"SW-SMD-8"}
@@ -632,6 +670,7 @@
       "function": "ADE",
       "description": "ADE extended-actuator DIP switch, 6 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.14/16 (ADE: switching (max) 100 mA @ 24 VDC; non-switching (max) 1 A @ 5 VDC); ENG_CS_1308111-1 p.3 (100 mA @ 24 Vdc))",
       "pinouts": {
         "p12": [
           {"number":1,"name":"1A","role":"inout"},
@@ -657,6 +696,7 @@
         ["5A","5B"],
         ["6A","6B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-ADE0604","package":"DIP","pinout":"p12","footprint":"SW-DIP-12"}
       ]
@@ -666,6 +706,7 @@
       "function": "ADE",
       "description": "ADE extended-actuator DIP switch, 8 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.14/16 (ADE: switching (max) 100 mA @ 24 VDC; non-switching (max) 1 A @ 5 VDC); ENG_CS_1308111-1 p.3 (100 mA @ 24 Vdc))",
       "pinouts": {
         "p16": [
           {"number":1,"name":"1A","role":"inout"},
@@ -697,6 +738,7 @@
         ["7A","7B"],
         ["8A","8B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-ADE0804","package":"DIP","pinout":"p16","footprint":"SW-DIP-16"},
         {"name":"TE-ADE08S04","package":"SMD","pinout":"p16","footprint":"SW-SMD-16"}
@@ -707,6 +749,7 @@
       "function": "ADE",
       "description": "ADE extended-actuator DIP switch, 10 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.14/16 (ADE: switching (max) 100 mA @ 24 VDC; non-switching (max) 1 A @ 5 VDC); ENG_CS_1308111-1 p.3 (100 mA @ 24 Vdc))",
       "pinouts": {
         "p20": [
           {"number":1,"name":"1A","role":"inout"},
@@ -744,6 +787,7 @@
         ["9A","9B"],
         ["10A","10B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-ADE1004","package":"DIP","pinout":"p20","footprint":"SW-DIP-20"}
       ]
@@ -753,6 +797,7 @@
       "function": "ADF",
       "description": "ADF flush-actuator DIP switch, 2 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.19/21 (ADF: switching (max) 100 mA @ 24 VDC; non-switching (max) 1 A @ 5 VDC); ENG_CS_1308111-1 p.3 (100 mA @ 24 Vdc))",
       "pinouts": {
         "p4": [
           {"number":1,"name":"1A","role":"inout"},
@@ -766,6 +811,7 @@
         ["1A","1B"],
         ["2A","2B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-ADF0204","package":"DIP","pinout":"p4","footprint":"SW-DIP-4"}
       ]
@@ -775,6 +821,7 @@
       "function": "ADF",
       "description": "ADF flush-actuator DIP switch, 4 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.19/21 (ADF: switching (max) 100 mA @ 24 VDC; non-switching (max) 1 A @ 5 VDC); ENG_CS_1308111-1 p.3 (100 mA @ 24 Vdc))",
       "pinouts": {
         "p8": [
           {"number":1,"name":"1A","role":"inout"},
@@ -794,6 +841,7 @@
         ["3A","3B"],
         ["4A","4B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-ADF0404","package":"DIP","pinout":"p8","footprint":"SW-DIP-8"}
       ]
@@ -803,6 +851,7 @@
       "function": "ADF",
       "description": "ADF flush-actuator DIP switch, 6 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.19/21 (ADF: switching (max) 100 mA @ 24 VDC; non-switching (max) 1 A @ 5 VDC); ENG_CS_1308111-1 p.3 (100 mA @ 24 Vdc))",
       "pinouts": {
         "p12": [
           {"number":1,"name":"1A","role":"inout"},
@@ -828,6 +877,7 @@
         ["5A","5B"],
         ["6A","6B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-ADF0604","package":"DIP","pinout":"p12","footprint":"SW-DIP-12"}
       ]
@@ -837,6 +887,7 @@
       "function": "ADF",
       "description": "ADF flush-actuator DIP switch, 8 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.19/21 (ADF: switching (max) 100 mA @ 24 VDC; non-switching (max) 1 A @ 5 VDC); ENG_CS_1308111-1 p.3 (100 mA @ 24 Vdc))",
       "pinouts": {
         "p16": [
           {"number":1,"name":"1A","role":"inout"},
@@ -868,6 +919,7 @@
         ["7A","7B"],
         ["8A","8B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-ADF0804","package":"DIP","pinout":"p16","footprint":"SW-DIP-16"}
       ]
@@ -877,6 +929,7 @@
       "function": "ADF",
       "description": "ADF flush-actuator DIP switch, 10 positions",
       "drawer": ["Switch","DIP"],
+      "note": "Switching rating 24 VDC (ENG_DS_8-1773450-9 p.19/21 (ADF: switching (max) 100 mA @ 24 VDC; non-switching (max) 1 A @ 5 VDC); ENG_CS_1308111-1 p.3 (100 mA @ 24 Vdc))",
       "pinouts": {
         "p20": [
           {"number":1,"name":"1A","role":"inout"},
@@ -914,6 +967,7 @@
         ["9A","9B"],
         ["10A","10B"]
       ],
+      "ratedVolts": 24,
       "parts": [
         {"name":"TE-ADF1004","package":"DIP","pinout":"p20","footprint":"SW-DIP-20"}
       ]

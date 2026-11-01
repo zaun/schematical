@@ -8,6 +8,7 @@
       "function": "Under 1 MHz",
       "description": "SiT1534 oscillator, Under 1 MHz",
       "drawer": ["Oscillator"],
+      "note": "VCC 1.2-3.63 V (SiT1534-datasheet p.1 (Operating Supply Voltage 1.2-3.63 V at TA -10..70 C; 1.5-3.63 V at -55..85 C))",
       "pinouts": {
         "2012": [
           {"number":1,"name":"NC","role":"nc"},
@@ -26,6 +27,7 @@
       "minHz": 1,
       "maxHz": 32768,
       "outputs": ["CLK OUT"],
+      "vcc": [1.2, 3.63],
       "parts": [
         {"name":"OSC-SIT1534-2012","package":"2012","pinout":"2012","footprint":"OSC-SIT-2012","defaultHz":32768},
         {"name":"OSC-SIT1534-1508","package":"1508 CSP","pinout":"1508-csp","footprint":"OSC-SIT-1508","defaultHz":32768}
@@ -36,6 +38,7 @@
       "function": "1 MHz to 10 MHz",
       "description": "LMK6C oscillator, 1 MHz to 10 MHz",
       "drawer": ["Oscillator"],
+      "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6CE001000DDLER, LMK6CE001000DDLFR: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'D' = 1.8V per p.4)",
       "pinouts": {
         "3225-vson": [
           {"number":1,"name":"OE/ST/NC","role":"input"},
@@ -54,9 +57,10 @@
       "minHz": 1000000,
       "maxHz": 200000000,
       "outputs": ["OUT"],
+      "vcc": [2.37, 3.5],
       "parts": [
-        {"name":"LMK6CE001000DDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":1000000,"enablePin":1},
-        {"name":"LMK6CE001000DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":1000000,"enablePin":1},
+        {"name":"LMK6CE001000DDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":1000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE001000DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":1000000,"enablePin":1,"vcc":[1.7,1.9]},
         {"name":"LMK6CE001200CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":1200000,"enablePin":1},
         {"name":"LMK6CE008000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":8000000,"enablePin":1}
       ]
@@ -66,6 +70,7 @@
       "function": "10 MHz to 100 MHz",
       "description": "LMK6C oscillator, 10 MHz to 100 MHz",
       "drawer": ["Oscillator"],
+      "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6CA026214DDLFR, LMK6CA032768DDLFR, LMK6CE02500DDLER, LMK6CE02500DDLFR, LMK6CE033333DDLFR, LMK6CE04800DDLFR, LMK6CE050000DDLFR, LMK6CE05000DDLER, LMK6CE05000DDLFR, LMK6CE07425DDLFR: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'D' = 1.8V per p.4)",
       "pinouts": {
         "2520-vson": [
           {"number":1,"name":"OE/ST/NC","role":"input"},
@@ -84,9 +89,10 @@
       "minHz": 1000000,
       "maxHz": 200000000,
       "outputs": ["OUT"],
+      "vcc": [2.37, 3.5],
       "parts": [
-        {"name":"LMK6CA026214DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":26214000,"enablePin":1},
-        {"name":"LMK6CA032768DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":32768000,"enablePin":1},
+        {"name":"LMK6CA026214DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":26214000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CA032768DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":32768000,"enablePin":1,"vcc":[1.7,1.9]},
         {"name":"LMK6CA048000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":48000000,"enablePin":1},
         {"name":"LMK6CE012288CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":12288000,"enablePin":1},
         {"name":"LMK6CE016000CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":16000000,"enablePin":1},
@@ -98,28 +104,28 @@
         {"name":"LMK6CE024576CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":24576000,"enablePin":1},
         {"name":"LMK6CE02500CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":25000000,"enablePin":1},
         {"name":"LMK6CE02500CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":25000000,"enablePin":1},
-        {"name":"LMK6CE02500DDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":25000000,"enablePin":1},
-        {"name":"LMK6CE02500DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":25000000,"enablePin":1},
+        {"name":"LMK6CE02500DDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":25000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE02500DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":25000000,"enablePin":1,"vcc":[1.7,1.9]},
         {"name":"LMK6CE027000CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":27000000,"enablePin":1},
         {"name":"LMK6CE027000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":27000000,"enablePin":1},
         {"name":"LMK6CE028125CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":28125000,"enablePin":1},
         {"name":"LMK6CE030000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":30000000,"enablePin":1},
-        {"name":"LMK6CE033333DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":33333000,"enablePin":1},
+        {"name":"LMK6CE033333DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":33333000,"enablePin":1,"vcc":[1.7,1.9]},
         {"name":"LMK6CE03333ACDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":33333333,"enablePin":1},
         {"name":"LMK6CE03333CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":33330000,"enablePin":1},
         {"name":"LMK6CE033550CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":33550000,"enablePin":1},
         {"name":"LMK6CE04000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":40000000,"enablePin":1},
         {"name":"LMK6CE048000CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":48000000,"enablePin":1},
         {"name":"LMK6CE048000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":48000000,"enablePin":1},
-        {"name":"LMK6CE04800DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":48000000,"enablePin":1},
+        {"name":"LMK6CE04800DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":48000000,"enablePin":1,"vcc":[1.7,1.9]},
         {"name":"LMK6CE049152CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":49152000,"enablePin":1},
-        {"name":"LMK6CE050000DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":50000000,"enablePin":1},
+        {"name":"LMK6CE050000DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":50000000,"enablePin":1,"vcc":[1.7,1.9]},
         {"name":"LMK6CE05000CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":50000000,"enablePin":1},
         {"name":"LMK6CE05000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":50000000,"enablePin":1},
-        {"name":"LMK6CE05000DDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":50000000,"enablePin":1},
-        {"name":"LMK6CE05000DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":50000000,"enablePin":1},
+        {"name":"LMK6CE05000DDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":50000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE05000DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":50000000,"enablePin":1,"vcc":[1.7,1.9]},
         {"name":"LMK6CE066666CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":66666000,"enablePin":1},
-        {"name":"LMK6CE07425DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":74250000,"enablePin":1}
+        {"name":"LMK6CE07425DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":74250000,"enablePin":1,"vcc":[1.7,1.9]}
       ]
     },
     {
@@ -127,6 +133,7 @@
       "function": "100 MHz and up",
       "description": "LMK6C oscillator, 100 MHz and up",
       "drawer": ["Oscillator"],
+      "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6CE10000DDLER, LMK6CE10000DDLFR, LMK6CE10800DDLFR, LMK6CE125000DDLER, LMK6CE15625DDLFR: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'D' = 1.8V per p.4)",
       "pinouts": {
         "3225-vson": [
           {"number":1,"name":"OE/ST/NC","role":"input"},
@@ -145,15 +152,16 @@
       "minHz": 1000000,
       "maxHz": 200000000,
       "outputs": ["OUT"],
+      "vcc": [2.37, 3.5],
       "parts": [
         {"name":"LMK6CE10000CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":100000000,"enablePin":1},
         {"name":"LMK6CE10000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":100000000,"enablePin":1},
-        {"name":"LMK6CE10000DDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":100000000,"enablePin":1},
-        {"name":"LMK6CE10000DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":100000000,"enablePin":1},
-        {"name":"LMK6CE10800DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":108000000,"enablePin":1},
-        {"name":"LMK6CE125000DDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":125000000,"enablePin":1},
+        {"name":"LMK6CE10000DDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":100000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE10000DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":100000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE10800DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":108000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE125000DDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":125000000,"enablePin":1,"vcc":[1.7,1.9]},
         {"name":"LMK6CE12500CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":125000000,"enablePin":1},
-        {"name":"LMK6CE15625DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":156250000,"enablePin":1}
+        {"name":"LMK6CE15625DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":156250000,"enablePin":1,"vcc":[1.7,1.9]}
       ]
     },
     {
@@ -161,6 +169,7 @@
       "function": "10 MHz to 100 MHz",
       "description": "LMK6D oscillator, 10 MHz to 100 MHz",
       "drawer": ["Oscillator"],
+      "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4).",
       "pinouts": {
         "2520-vson": [
           {"number":1,"name":"OE/ST/NC","role":"input"},
@@ -183,6 +192,7 @@
       "minHz": 1000000,
       "maxHz": 400000000,
       "outputs": ["OUTP","OUTN"],
+      "vcc": [2.37, 3.5],
       "parts": [
         {"name":"LMK6DA02500ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":25000000,"enablePin":1},
         {"name":"LMK6DA05184ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":51840000,"enablePin":1},
@@ -195,6 +205,7 @@
       "function": "100 MHz and up",
       "description": "LMK6D oscillator, 100 MHz and up",
       "drawer": ["Oscillator"],
+      "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6DE156250BDLER, LMK6DE400000BDLER: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'B' = 1.8V per p.3)",
       "pinouts": {
         "3225-vson": [
           {"number":1,"name":"OE/ST/NC","role":"input"},
@@ -217,6 +228,7 @@
       "minHz": 1000000,
       "maxHz": 400000000,
       "outputs": ["OUTP","OUTN"],
+      "vcc": [2.37, 3.5],
       "parts": [
         {"name":"LMK6DA10000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":100000000,"enablePin":1},
         {"name":"LMK6DA10000ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":100000000,"enablePin":1},
@@ -234,10 +246,10 @@
         {"name":"LMK6DA31250ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":312500000,"enablePin":1},
         {"name":"LMK6DA40000ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":400000000,"enablePin":1},
         {"name":"LMK6DE133330ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":133330000,"enablePin":1},
-        {"name":"LMK6DE156250BDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":156250000,"enablePin":1},
+        {"name":"LMK6DE156250BDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":156250000,"enablePin":1,"vcc":[1.7,1.9]},
         {"name":"LMK6DE260000ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":260000000,"enablePin":1},
         {"name":"LMK6DE322265ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":322265000,"enablePin":1},
-        {"name":"LMK6DE400000BDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":400000000,"enablePin":1}
+        {"name":"LMK6DE400000BDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":400000000,"enablePin":1,"vcc":[1.7,1.9]}
       ]
     },
     {
@@ -245,6 +257,7 @@
       "function": "10 MHz to 100 MHz",
       "description": "LMK6H oscillator, 10 MHz to 100 MHz",
       "drawer": ["Oscillator"],
+      "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4).",
       "pinouts": {
         "3225-vson": [
           {"number":1,"name":"OE/ST/NC","role":"input"},
@@ -259,6 +272,7 @@
       "minHz": 1000000,
       "maxHz": 400000000,
       "outputs": ["OUTP","OUTN"],
+      "vcc": [2.37, 3.5],
       "parts": [
         {"name":"LMK6HE025000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":25000000,"enablePin":1}
       ]
@@ -268,6 +282,7 @@
       "function": "100 MHz and up",
       "description": "LMK6H oscillator, 100 MHz and up",
       "drawer": ["Oscillator"],
+      "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6HA10000BDLFR, LMK6HE156250BDLFR, LMK6HE400000BDLER: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'B' = 1.8V per p.3)",
       "pinouts": {
         "3225-vson": [
           {"number":1,"name":"OE/ST/NC","role":"input"},
@@ -290,16 +305,17 @@
       "minHz": 1000000,
       "maxHz": 400000000,
       "outputs": ["OUTP","OUTN"],
+      "vcc": [2.37, 3.5],
       "parts": [
         {"name":"LMK6HA10000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":100000000,"enablePin":1},
         {"name":"LMK6HA10000ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":100000000,"enablePin":1},
-        {"name":"LMK6HA10000BDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6HA10000BDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":100000000,"enablePin":1,"vcc":[1.7,1.9]},
         {"name":"LMK6HA15625ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":156250000,"enablePin":1},
         {"name":"LMK6HA40000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":400000000,"enablePin":1},
         {"name":"LMK6HE100000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":100000000,"enablePin":1},
         {"name":"LMK6HE156250ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":156250000,"enablePin":1},
-        {"name":"LMK6HE156250BDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":156250000,"enablePin":1},
-        {"name":"LMK6HE400000BDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":400000000,"enablePin":1},
+        {"name":"LMK6HE156250BDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":156250000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6HE400000BDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":400000000,"enablePin":1,"vcc":[1.7,1.9]},
         {"name":"LMK6HE40000ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":400000000,"enablePin":1}
       ]
     },
@@ -308,6 +324,7 @@
       "function": "10 MHz to 100 MHz",
       "description": "LMK6P oscillator, 10 MHz to 100 MHz",
       "drawer": ["Oscillator"],
+      "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6PE025000BDLFR: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'B' = 1.8V per p.3)",
       "pinouts": {
         "3225-vson": [
           {"number":1,"name":"OE/ST/NC","role":"input"},
@@ -330,9 +347,10 @@
       "minHz": 1000000,
       "maxHz": 400000000,
       "outputs": ["OUTP","OUTN"],
+      "vcc": [2.37, 3.5],
       "parts": [
         {"name":"LMK6PE025000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":25000000,"enablePin":1},
-        {"name":"LMK6PE025000BDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":25000000,"enablePin":1},
+        {"name":"LMK6PE025000BDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":25000000,"enablePin":1,"vcc":[1.7,1.9]},
         {"name":"LMK6PE050000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":50000000,"enablePin":1}
       ]
     },
@@ -341,6 +359,7 @@
       "function": "100 MHz and up",
       "description": "LMK6P oscillator, 100 MHz and up",
       "drawer": ["Oscillator"],
+      "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4).",
       "pinouts": {
         "3225-vson": [
           {"number":1,"name":"OE/ST/NC","role":"input"},
@@ -363,6 +382,7 @@
       "minHz": 1000000,
       "maxHz": 400000000,
       "outputs": ["OUTP","OUTN"],
+      "vcc": [2.37, 3.5],
       "parts": [
         {"name":"LMK6PA15625ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":156250000,"enablePin":1},
         {"name":"LMK6PA15625ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":156250000,"enablePin":1},
@@ -377,7 +397,7 @@
       "function": "Under 1 MHz",
       "description": "OM-7605 oscillator, Under 1 MHz",
       "drawer": ["Oscillator"],
-      "note": "Micro Crystal osc/OM-7605-C8.pdf, osc/OM-7605-C9.pdf; TA = -40..+85 C, TB = -40..+125 C",
+      "note": "Micro Crystal osc/OM-7605-C8.pdf, osc/OM-7605-C9.pdf; TA = -40..+85 C, TB = -40..+125 C. VCC 1.6-5.5 V (OM-7605-C8 p.2 / OM-7605-C9 p.2 (Supply voltage VDD 1.6 - 5.5 V))",
       "pinouts": {
         "c8": [
           {"number":1,"name":"CLKOUT","role":"output"},
@@ -396,6 +416,7 @@
       "minHz": 32768,
       "maxHz": 32768,
       "outputs": ["CLKOUT"],
+      "vcc": [1.6, 5.5],
       "parts": [
         {"name":"OM-7605-C8-32.768KHZ-20PPM-TA-QC","package":"2012 SON-4","pinout":"c8","footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3},
         {"name":"OM-7605-C8-32.768KHZ-20PPM-TB-QC","package":"2012 SON-4","pinout":"c8","footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3},
@@ -408,7 +429,7 @@
       "function": "Under 1 MHz",
       "description": "OM-0100 oscillator, Under 1 MHz",
       "drawer": ["Oscillator"],
-      "note": "Micro Crystal osc/OM-0100-C8.pdf",
+      "note": "Micro Crystal osc/OM-0100-C8.pdf. VCC 1.6-5.5 V (OM-0100-C8 p.2 (Supply voltage VDD 1.6 - 5.5 V))",
       "pinouts": {
         "c8": [
           {"number":1,"name":"CLKOUT","role":"output"},
@@ -421,6 +442,7 @@
       "minHz": 100000,
       "maxHz": 100000,
       "outputs": ["CLKOUT"],
+      "vcc": [1.6, 5.5],
       "parts": [
         {"name":"OM-0100-C8-100.00KHZ-20PPM-TA-QC","package":"2012 SON-4","pinout":"c8","footprint":"OSC-2012-4","defaultHz":100000,"enablePin":3}
       ]
@@ -430,7 +452,7 @@
       "function": "Under 1 MHz",
       "description": "OV-7604 oscillator, Under 1 MHz",
       "drawer": ["Oscillator"],
-      "note": "Micro Crystal osc/OV-7604-C7.pdf; TA = -40..+85 C, TB = -40..+125 C",
+      "note": "Micro Crystal osc/OV-7604-C7.pdf; TA = -40..+85 C, TB = -40..+125 C. VCC 1.2-5.5 V (OV-7604-C7 p.2 (Supply voltage VDD 1.2 - 5.5 V))",
       "pinouts": {
         "c7": [
           {"number":1,"name":"CLKOUT","role":"output"},
@@ -443,6 +465,7 @@
       "minHz": 32768,
       "maxHz": 32768,
       "outputs": ["CLKOUT"],
+      "vcc": [1.2, 5.5],
       "parts": [
         {"name":"OV-7604-C7-32.768KHZ-20PPM-TA-QC","package":"3215 SON-4","pinout":"c7","footprint":"OSC-3215-4","defaultHz":32768,"enablePin":3},
         {"name":"OV-7604-C7-32.768KHZ-20PPM-TB-QC","package":"3215 SON-4","pinout":"c7","footprint":"OSC-3215-4","defaultHz":32768,"enablePin":3}
@@ -453,7 +476,7 @@
       "function": "Under 1 MHz",
       "description": "ASZKDV oscillator, Under 1 MHz",
       "drawer": ["Oscillator"],
-      "note": "Abracon osc/ASZKDV.pdf; L = -40..+85 C, H = -40..+125 C; -T = 1000/reel",
+      "note": "Abracon osc/ASZKDV.pdf; L = -40..+85 C, H = -40..+125 C; -T = 1000/reel. VCC 1.6-5.5 V (ASZKDV p.1 (Supply Voltage Range Vdd +1.6 .. +5.5 V))",
       "pinouts": {
         "2012": [
           {"number":1,"name":"OUT","role":"output"},
@@ -466,6 +489,7 @@
       "minHz": 32768,
       "maxHz": 32768,
       "outputs": ["OUT"],
+      "vcc": [1.6, 5.5],
       "parts": [
         {"name":"ASZKDV-32.768KHZ-L-T","package":"2012 SON-4","pinout":"2012","footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3},
         {"name":"ASZKDV-32.768KHZ-H-T","package":"2012 SON-4","pinout":"2012","footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3}
@@ -476,7 +500,7 @@
       "function": "Under 1 MHz",
       "description": "ASH5KW oscillator, Under 1 MHz",
       "drawer": ["Oscillator"],
-      "note": "Abracon osc/ASH5KW.pdf; L = -40..+85 C; -T = 1000/reel",
+      "note": "Abracon osc/ASH5KW.pdf; L = -40..+85 C; -T = 1000/reel. VCC 1.6-5.5 V (ASH5KW p.1 (Supply Voltage VDD 1.6 .. 5.5 V))",
       "pinouts": {
         "1610": [
           {"number":1,"name":"OUT","role":"output"},
@@ -489,6 +513,7 @@
       "minHz": 32768,
       "maxHz": 32768,
       "outputs": ["OUT"],
+      "vcc": [1.6, 5.5],
       "parts": [
         {"name":"ASH5KW-32.768KHZ-L-T","package":"1610 SON-4","pinout":"1610","footprint":"OSC-1610-4","defaultHz":32768,"enablePin":3}
       ]
@@ -498,7 +523,7 @@
       "function": "10 MHz to 100 MHz",
       "description": "KXO-V99 oscillator, 10 MHz to 100 MHz",
       "drawer": ["Oscillator"],
-      "note": "Geyer osc/12.94761.pdf (KXO-V99 range 0.5 to 200 MHz; 12.94761 = 40.0 MHz, 1.8 V)",
+      "note": "Geyer osc/12.94761.pdf (KXO-V99 range 0.5 to 200 MHz; 12.94761 = 40.0 MHz, 1.8 V). VCC 1.2-3.6 V (12.94761 p.1 (KXO-V99 series supply range +1.2 V ~ +3.6 V)) | 12.94761: VCC 1.71-1.89 V (12.94761 p.1 (supply voltage VDD +1.8 V DC +/-5 %))",
       "pinouts": {
         "5032": [
           {"number":1,"name":"OE","role":"input"},
@@ -511,8 +536,9 @@
       "minHz": 500000,
       "maxHz": 200000000,
       "outputs": ["OUT"],
+      "vcc": [1.2, 3.6],
       "parts": [
-        {"name":"12.94761","package":"5032 SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":40000000,"enablePin":1}
+        {"name":"12.94761","package":"5032 SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":40000000,"enablePin":1,"vcc":[1.71,1.89]}
       ]
     },
     {
@@ -520,7 +546,7 @@
       "function": "10 MHz to 100 MHz",
       "description": "NJU6366A crystal oscillator IC (f0/1), 10 MHz to 100 MHz",
       "drawer": ["Oscillator"],
-      "note": "Nisshinbo osc/NJU6366 Series.pdf; drives an external crystal on XT (f0 10 to 50 MHz per the Nisshinbo oscillator IC list); version A outputs f0/1; defaultHz assumes the datasheet test crystal f0 = 16 MHz; bare-chip NJU6366AC-C not listed (no package)",
+      "note": "Nisshinbo osc/NJU6366 Series.pdf; drives an external crystal on XT (f0 10 to 50 MHz per the Nisshinbo oscillator IC list); version A outputs f0/1; defaultHz assumes the datasheet test crystal f0 = 16 MHz; bare-chip NJU6366AC-C not listed (no package). VCC 2-5.5 V (NJU6366 Series p.3 (Operating Voltage VDD 2.0 .. 5.5 V))",
       "pinouts": {
         "sot23-6": [
           {"number":1,"name":"FOUT","role":"output"},
@@ -535,6 +561,7 @@
       "minHz": 10000000,
       "maxHz": 50000000,
       "outputs": ["FOUT"],
+      "vcc": [2, 5.5],
       "parts": [
         {"name":"NJU6366AF1-TE1","package":"SOT-23-6","pinout":"sot23-6","footprint":"SOT23-6","defaultHz":16000000,"enablePin":4}
       ]
@@ -544,7 +571,7 @@
       "function": "1 MHz to 10 MHz",
       "description": "NJU6366B crystal oscillator IC (f0/2), 1 MHz to 10 MHz",
       "drawer": ["Oscillator"],
-      "note": "Nisshinbo osc/NJU6366 Series.pdf; drives an external crystal on XT (f0 10 to 50 MHz per the Nisshinbo oscillator IC list); version B outputs f0/2; defaultHz assumes the datasheet test crystal f0 = 16 MHz; bare-chip NJU6366BC-C not listed (no package)",
+      "note": "Nisshinbo osc/NJU6366 Series.pdf; drives an external crystal on XT (f0 10 to 50 MHz per the Nisshinbo oscillator IC list); version B outputs f0/2; defaultHz assumes the datasheet test crystal f0 = 16 MHz; bare-chip NJU6366BC-C not listed (no package). VCC 2-5.5 V (NJU6366 Series p.3 (Operating Voltage VDD 2.0 .. 5.5 V))",
       "pinouts": {
         "sot23-6": [
           {"number":1,"name":"FOUT","role":"output"},
@@ -559,6 +586,7 @@
       "minHz": 5000000,
       "maxHz": 25000000,
       "outputs": ["FOUT"],
+      "vcc": [2, 5.5],
       "parts": [
         {"name":"NJU6366BF1-TE1","package":"SOT-23-6","pinout":"sot23-6","footprint":"SOT23-6","defaultHz":8000000,"enablePin":4}
       ]
@@ -568,7 +596,7 @@
       "function": "1 MHz to 10 MHz",
       "description": "NJU6366C crystal oscillator IC (f0/4), 1 MHz to 10 MHz",
       "drawer": ["Oscillator"],
-      "note": "Nisshinbo osc/NJU6366 Series.pdf; drives an external crystal on XT (f0 10 to 50 MHz per the Nisshinbo oscillator IC list); version C outputs f0/4; defaultHz assumes the datasheet test crystal f0 = 16 MHz; bare-chip NJU6366CC-C not listed (no package)",
+      "note": "Nisshinbo osc/NJU6366 Series.pdf; drives an external crystal on XT (f0 10 to 50 MHz per the Nisshinbo oscillator IC list); version C outputs f0/4; defaultHz assumes the datasheet test crystal f0 = 16 MHz; bare-chip NJU6366CC-C not listed (no package). VCC 2-5.5 V (NJU6366 Series p.3 (Operating Voltage VDD 2.0 .. 5.5 V))",
       "pinouts": {
         "sot23-6": [
           {"number":1,"name":"FOUT","role":"output"},
@@ -583,6 +611,7 @@
       "minHz": 2500000,
       "maxHz": 12500000,
       "outputs": ["FOUT"],
+      "vcc": [2, 5.5],
       "parts": [
         {"name":"NJU6366CF1-TE1","package":"SOT-23-6","pinout":"sot23-6","footprint":"SOT23-6","defaultHz":4000000,"enablePin":4}
       ]
@@ -592,7 +621,7 @@
       "function": "1 MHz to 10 MHz",
       "description": "NJU6366D crystal oscillator IC (f0/8), 1 MHz to 10 MHz",
       "drawer": ["Oscillator"],
-      "note": "Nisshinbo osc/NJU6366 Series.pdf; drives an external crystal on XT (f0 10 to 50 MHz per the Nisshinbo oscillator IC list); version D outputs f0/8; defaultHz assumes the datasheet test crystal f0 = 16 MHz; bare-chip NJU6366DC-C not listed (no package)",
+      "note": "Nisshinbo osc/NJU6366 Series.pdf; drives an external crystal on XT (f0 10 to 50 MHz per the Nisshinbo oscillator IC list); version D outputs f0/8; defaultHz assumes the datasheet test crystal f0 = 16 MHz; bare-chip NJU6366DC-C not listed (no package). VCC 2-5.5 V (NJU6366 Series p.3 (Operating Voltage VDD 2.0 .. 5.5 V))",
       "pinouts": {
         "sot23-6": [
           {"number":1,"name":"FOUT","role":"output"},
@@ -607,6 +636,7 @@
       "minHz": 1250000,
       "maxHz": 6250000,
       "outputs": ["FOUT"],
+      "vcc": [2, 5.5],
       "parts": [
         {"name":"NJU6366DF1-TE1","package":"SOT-23-6","pinout":"sot23-6","footprint":"SOT23-6","defaultHz":2000000,"enablePin":4}
       ]
