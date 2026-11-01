@@ -218,7 +218,7 @@ Acceptance: renders match §Outcome.
   (est. 1 min).
   Check: plan-06-A §Prerequisites `xcodebuild` → `** BUILD SUCCEEDED **`
   (est. 1 min).
-Commit: —
+Commit: 55d7838
 
 ## Validation Plan
 
