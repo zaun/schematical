@@ -187,12 +187,22 @@ simulation controls; the Schematic toolbar is unchanged.
   → 0 (est. 1 s).
   Check: plan-06-A §Prerequisites `xcodebuild` → `** BUILD SUCCEEDED **`
   (est. 1 min).
-Commit: —
+Commit: 285c403
 
 ### Phase 2 — Board, marks and texts
 
-- [ ] `Canvas/BoardColors.swift` (new): §4.1.
-- [ ] `Canvas/PCBCanvasView.swift`: §4.2 steps 1–5.
+- [x] `Canvas/BoardColors.swift` (new): §4.1. `harness render-b`: pixel at
+      board (40, 25) mm in `b-purple.png` → sRGB (0.361, 0.161, 0.502); in
+      `b-green.png` → (0.071, 0.361, 0.169).
+- [x] `Canvas/PCBCanvasView.swift`: §4.2 steps 1–5 (selection boxes drawn
+      after texts, so on top). Inspected `b-purple.png`: purple board, white
+      edge, dark canvas outside; U3 (LED) no outline, gray pin-1 dot; U2/U3
+      references white; "REV A" white; the 90° document text gray, reading
+      top to bottom. `b-white.png`: references and "REV A" black, the 90°
+      text in a blue box that fits it. `b-green.png` (`test.schematical`):
+      gray outline, white pin-1 dots and references on green. `b-*-fit.png`
+      (zoom 0.35) show the whole 120.5 × 60 board. `xcodebuild` → `** BUILD
+      SUCCEEDED **`.
 
 Acceptance: renders match §Outcome.
   Check: plan-06-A § Harness, mode `render-b`: open
@@ -222,6 +232,8 @@ Commit: —
 - Doc sync: none (no format change).
 - Final gate (once): the `xcodebuild` (est. 1 min) + `window-b1` and the
   renders (est. 10 min). Backend untouched.
+- Results (2026-11-01): `xcodebuild` → `** BUILD SUCCEEDED **`;
+  `window-b1`, `render-b` as ticked above.
 
 ## Decisions
 
@@ -242,6 +254,15 @@ Commit: —
   size.
 
 ## Corrections
+
+2. The colour check sampled "the pixel at the board's centre", but at zoom 1
+   a 900 × 600 render shows only 45 × 30 mm, so the centre of the 120.5 × 60
+   board, (60.25, 30) mm, is off-image. Sampled board (40, 25) mm at zoom 1
+   (clear of parts and texts), and the true centre in a zoom-0.35 render
+   (`b-purple-fit.png`): both (0.361, 0.161, 0.502). The PNG is tagged
+   sRGB; the bytes are read as they are (converting `colorAt` to `.sRGB`
+   gave a wrong (0.440, 0.242, 0.575) — a harness bug, raw bytes
+   `[92, 41, 128]`).
 
 1. Phase 1's window check needs to reach the window's document and
    simulation, which `ContentView` keeps in private `@State`. Added the

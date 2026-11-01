@@ -21,7 +21,6 @@ struct PCBCanvasView: View {
     }
 
     static let background = Color(white: 0.13)
-    static let outline = Color(white: 0.85)
     static let copper = Color(red: 0.80, green: 0.62, blue: 0.30)
 
     /// Screen points per board millimetre.
@@ -58,18 +57,27 @@ struct PCBCanvasView: View {
         // Everything below is in board mm.
         context.translateBy(x: viewport.offset.width, y: viewport.offset.height)
         context.scaleBy(x: scale, y: scale)
+        let board = document.board
+        let colour = board.color
+
+        // The board, under the grid so the dots show on it.
+        let boardRect = CGRect(x: 0, y: 0, width: board.width, height: board.height)
+        context.fill(Path(boardRect), with: .color(colour.fill))
+        context.stroke(Path(boardRect), with: .color(colour.silkscreen), lineWidth: 0.2)
         drawGrid(in: context, size: size)
 
         for chip in document.chips {
-            guard let body = chip.boardBody else { continue }
-            let outline = Path { path in
-                if body.round {
-                    path.addEllipse(in: body.rect)
-                } else {
-                    path.addRect(body.rect)
+            guard let body = chip.boardBody, let placement = chip.board else { continue }
+            if let ink = placement.outline.color(on: colour) {
+                let outline = Path { path in
+                    if body.round {
+                        path.addEllipse(in: body.rect)
+                    } else {
+                        path.addRect(body.rect)
+                    }
                 }
+                context.stroke(outline, with: .color(ink), lineWidth: 0.15)
             }
-            context.stroke(outline, with: .color(Self.outline), lineWidth: 0.15)
 
             for pad in chip.boardPads {
                 let shape = Path { path in
@@ -83,27 +91,49 @@ struct PCBCanvasView: View {
                 if pad.drill > 0 {
                     let d = pad.drill
                     let hole = CGRect(x: pad.rect.midX - d / 2, y: pad.rect.midY - d / 2, width: d, height: d)
+                    // You see through a drill hole to the canvas.
                     context.fill(Path(ellipseIn: hole), with: .color(Self.background))
                 }
             }
 
-            if let mark = chip.pin1Mark {
+            if let mark = chip.pin1Mark, let ink = placement.pin1.color(on: colour) {
                 context.fill(Path(ellipseIn: CGRect(x: mark.x - 0.2, y: mark.y - 0.2, width: 0.4, height: 0.4)),
-                             with: .color(Self.outline))
+                             with: .color(ink))
             }
 
             // Reference: 1 mm tall, but never under 8 points on screen.
-            let height = max(1, 8 / scale)
-            let text = Text(chip.reference)
-                .font(.system(size: height, weight: .medium))
-                .foregroundStyle(Self.outline)
-            context.draw(text, at: CGPoint(x: body.rect.midX, y: body.rect.midY), anchor: .center)
-
-            if chip.id == document.selectedChipID, let bounds = chip.boardBounds {
-                let margin = 3 / scale
-                context.stroke(Path(bounds.insetBy(dx: -margin, dy: -margin)),
-                               with: .color(.accentColor), lineWidth: 2 / scale)
+            if let ink = placement.reference.color(on: colour) {
+                let height = max(1, 8 / scale)
+                let text = Text(chip.reference)
+                    .font(.system(size: height, weight: .medium))
+                    .foregroundStyle(ink)
+                context.draw(text, at: CGPoint(x: body.rect.midX, y: body.rect.midY), anchor: .center)
             }
+        }
+
+        // Texts: laid out at the reference font size, scaled to the board
+        // (see BoardTextGeometry), turned about their anchor.
+        for text in document.texts {
+            context.drawLayer { layer in
+                layer.translateBy(x: text.anchor.x, y: text.anchor.y)
+                layer.rotate(by: .degrees(Double(text.rotation)))
+                layer.scaleBy(x: text.drawScale, y: text.drawScale)
+                layer.draw(Text(text.text).font(Font(text.font)).foregroundStyle(text.layer.color(on: colour)),
+                           at: .zero, anchor: .topLeading)
+            }
+        }
+
+        // Selection boxes, on top of everything.
+        let margin = 3 / scale
+        var selected: CGRect?
+        if let id = document.selectedChipID {
+            selected = document.chips.first { $0.id == id }?.boardBounds
+        } else if let id = document.selectedTextID {
+            selected = document.texts.first { $0.id == id }?.boardRect
+        }
+        if let selected {
+            context.stroke(Path(selected.insetBy(dx: -margin, dy: -margin)),
+                           with: .color(.accentColor), lineWidth: 2 / scale)
         }
     }
 
