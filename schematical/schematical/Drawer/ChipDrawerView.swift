@@ -18,8 +18,9 @@ struct ChipDrawerView: View {
     let catalog: ChipCatalogStore
 
     @State private var filter = DrawerFilter()
-    /// Collapsed categories and functions, as keys from `categoryKey` and `functionKey`.
-    @State private var collapsed: Set<String> = []
+    /// Keys whose open state the user has changed from its default, as keys from
+    /// `categoryKey` and `functionKey`. Categories default open; functions default closed.
+    @State private var toggled: Set<String> = []
 
     var body: some View {
         let groups = catalog.groups(matching: filter)
@@ -29,10 +30,15 @@ struct ChipDrawerView: View {
 
             List {
                 ForEach(groups) { category in
-                    DisclosureGroup(isExpanded: expansion(for: categoryKey(category.category))) {
+                    DisclosureGroup(
+                        isExpanded: expansion(for: categoryKey(category.category), defaultOpen: true)
+                    ) {
                         ForEach(category.functions) { function in
                             DisclosureGroup(
-                                isExpanded: expansion(for: functionKey(category.category, function.function))
+                                isExpanded: expansion(
+                                    for: functionKey(category.category, function.function),
+                                    defaultOpen: false
+                                )
                             ) {
                                 ForEach(function.parts) { entry in
                                     partRow(entry)
@@ -120,7 +126,7 @@ struct ChipDrawerView: View {
 
     private func partRow(_ entry: ChipCatalogStore.PartEntry) -> some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text("\(entry.part.name) | \(entry.chip.gateCount)")
+            Text(entry.chip.gateCount > 0 ? "\(entry.part.name) | \(entry.chip.gateCount)" : entry.part.name)
                 .font(.system(.body, design: .monospaced))
             Text(subtitle(for: entry))
                 .font(.caption)
@@ -145,14 +151,14 @@ struct ChipDrawerView: View {
         "function:\(category)/\(function)"
     }
 
-    private func expansion(for key: String) -> Binding<Bool> {
+    private func expansion(for key: String, defaultOpen: Bool) -> Binding<Bool> {
         Binding(
-            get: { !collapsed.contains(key) },
+            get: { toggled.contains(key) ? !defaultOpen : defaultOpen },
             set: { isExpanded in
-                if isExpanded {
-                    collapsed.remove(key)
+                if isExpanded == defaultOpen {
+                    toggled.remove(key)
                 } else {
-                    collapsed.insert(key)
+                    toggled.insert(key)
                 }
             }
         )

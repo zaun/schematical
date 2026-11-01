@@ -41,8 +41,29 @@ nonisolated struct ChipDefinition: Codable, Hashable, Sendable, Identifiable {
     let pins: [ChipPin]
 }
 
+/// One generic LED, as the backend reports it. `color` and `package` are labels
+/// such as "Red" and "0603". Pins are 1 = cathode (K) and 2 = anode (A).
+nonisolated struct LedDefinition: Codable, Hashable, Sendable, Identifiable {
+    let name: String
+    let color: String
+    let package: String
+    let pins: [ChipPin]
+
+    var id: String { name }
+}
+
+/// A constant source, VCC or GND, as the backend reports it. Each has one pin.
+nonisolated struct SupplyDefinition: Codable, Hashable, Sendable, Identifiable {
+    let name: String
+    let pins: [ChipPin]
+
+    var id: String { name }
+}
+
 nonisolated struct ChipCatalog: Codable, Hashable, Sendable {
     let chips: [ChipDefinition]
+    let leds: [LedDefinition]
+    let supplies: [SupplyDefinition]
 }
 
 /// Reads the catalog from the statically linked backend (`catalog_json_copy`).
@@ -83,6 +104,9 @@ nonisolated enum BackendCatalog {
 /// The category whose parts have families. The backend names it; the app only
 /// needs to know which one owns the family filter.
 let familyCategory = "Logic"
+
+/// The category generic LEDs are listed under in the drawer.
+let ledCategory = "Indicators"
 
 struct DrawerFilter: Equatable {
     var query = ""
@@ -126,11 +150,16 @@ final class ChipCatalogStore {
         var id: String { category }
     }
 
+    /// Logic chips from the backend, followed by one entry per LED. LEDs are
+    /// shaped like chips so the drawer lists them the same way.
     private(set) var chips: [ChipDefinition] = []
     private(set) var loadState: LoadState = .notLoaded
 
     private var entries: [PartEntry] = []
     private var chipByPartNumber: [String: ChipDefinition] = [:]
+    private var ledPartNumbers: Set<String> = []
+    /// VCC and GND, kept out of the drawer. They are placed from the toolbar.
+    private var supplyChips: [String: ChipDefinition] = [:]
 
     var partCount: Int { entries.count }
 
@@ -152,6 +181,19 @@ final class ChipCatalogStore {
 
     func chip(forPartNumber partNumber: String) -> ChipDefinition? {
         chipByPartNumber[partNumber]
+    }
+
+    /// How a part is drawn on the canvas.
+    func symbol(forPartNumber partNumber: String) -> PartSymbol {
+        if let supply = supplyChips[partNumber] {
+            return supply.pins.first?.role == .ground ? .ground : .vcc
+        }
+        return ledPartNumbers.contains(partNumber) ? .diode : .block
+    }
+
+    /// A VCC or GND source by its part name, for placing on the canvas.
+    func supplyChip(named name: String) -> ChipDefinition? {
+        supplyChips[name]
     }
 
     /// Parts grouped by category, then by readable function (AND, NAND, ...),
@@ -195,15 +237,21 @@ final class ChipCatalogStore {
 
     func load() {
         do {
-            apply(try BackendCatalog.load().chips)
+            apply(try BackendCatalog.load())
             loadState = .loaded
         } catch {
             loadState = .failed(error.localizedDescription)
         }
     }
 
-    private func apply(_ newChips: [ChipDefinition]) {
+    private func apply(_ catalog: ChipCatalog) {
+        let ledChips = catalog.leds.map(Self.chip(forLED:))
+        let newChips = catalog.chips + ledChips
         chips = newChips
+        ledPartNumbers = Set(catalog.leds.map(\.name))
+        supplyChips = Dictionary(uniqueKeysWithValues: catalog.supplies.map { supply in
+            (supply.name, Self.chip(forSupply: supply))
+        })
 
         var newEntries: [PartEntry] = []
         var newIndex: [String: ChipDefinition] = [:]
@@ -215,5 +263,32 @@ final class ChipCatalogStore {
         }
         entries = newEntries
         chipByPartNumber = newIndex
+    }
+
+    /// A supply as a one-pin "chip". It is never listed in the drawer.
+    private static func chip(forSupply supply: SupplyDefinition) -> ChipDefinition {
+        ChipDefinition(
+            id: supply.name,
+            function: supply.name,
+            description: "Constant source: \(supply.name)",
+            category: "Power",
+            gateCount: 0,
+            parts: [],
+            pins: supply.pins
+        )
+    }
+
+    /// An LED as a one-part "chip": function "LED", the colour as its family
+    /// label, and no gates.
+    private static func chip(forLED led: LedDefinition) -> ChipDefinition {
+        ChipDefinition(
+            id: led.name,
+            function: "LED",
+            description: "\(led.color) LED, \(led.package) package",
+            category: ledCategory,
+            gateCount: 0,
+            parts: [ChipPart(name: led.name, package: led.package, family: led.color)],
+            pins: led.pins
+        )
     }
 }
