@@ -92,6 +92,25 @@ nonisolated struct Footprint: Hashable, Sendable {
         case round
     }
 
+    /// Corners of a rect pad, as seen on the board (y down). The raw values
+    /// are the backend's `PAD_CORNER_*` bits.
+    struct Corners: OptionSet, Hashable, Sendable {
+        let rawValue: Int
+        static let topLeft = Corners(rawValue: 1)
+        static let topRight = Corners(rawValue: 2)
+        static let bottomRight = Corners(rawValue: 4)
+        static let bottomLeft = Corners(rawValue: 8)
+
+        /// The same corners after a clockwise turn of `degrees` (a multiple
+        /// of 90): each 90° moves top-left to top-right, and so on round.
+        func rotated(by degrees: Int) -> Corners {
+            let steps = ((degrees / 90) % 4 + 4) % 4
+            var bits = rawValue & 0xF
+            for _ in 0..<steps { bits = ((bits << 1) | (bits >> 3)) & 0xF }
+            return Corners(rawValue: bits)
+        }
+    }
+
     struct Pad: Hashable, Sendable {
         /// The pin this pad belongs to (`ChipPin.designator`); nil for an
         /// unnumbered centre pad.
@@ -101,6 +120,11 @@ nonisolated struct Footprint: Hashable, Sendable {
         /// Hole diameter; 0 = surface mount.
         let drill: Double
         let shape: PadShape
+        /// Rect pads only: every corner rounded by this radius; 0 = square.
+        let radius: Double
+        /// Rect pads only: `corners` cut at 45°, this far along each edge.
+        let chamfer: Double
+        let corners: Corners
     }
 
     let id: String
@@ -276,7 +300,10 @@ extension Footprint {
                        centre: CGPoint(x: pad.x, y: pad.y),
                        size: CGSize(width: pad.width, height: pad.height),
                        drill: pad.drill,
-                       shape: pad.shape == PAD_ROUND ? .round : .rect)
+                       shape: pad.shape == PAD_ROUND ? .round : .rect,
+                       radius: pad.radius,
+                       chamfer: pad.chamfer,
+                       corners: Corners(rawValue: Int(pad.corners)))
         }
     }
 }

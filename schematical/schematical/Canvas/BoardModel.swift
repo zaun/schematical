@@ -78,6 +78,10 @@ nonisolated struct PlacedPad: Hashable {
     let rect: CGRect
     let drill: Double
     let shape: Footprint.PadShape
+    let radius: Double
+    let chamfer: Double
+    /// Already turned with the placement.
+    let corners: Footprint.Corners
 }
 
 // MARK: - A placed part's footprint
@@ -93,7 +97,8 @@ extension PlacedChip {
             if let designator = pad.designator, hidden.contains(designator) { return nil }
             return PlacedPad(designator: pad.designator,
                              rect: board.board(centre: pad.centre, size: pad.size),
-                             drill: pad.drill, shape: pad.shape)
+                             drill: pad.drill, shape: pad.shape, radius: pad.radius,
+                             chamfer: pad.chamfer, corners: pad.corners.rotated(by: board.rotation))
         }
     }
 

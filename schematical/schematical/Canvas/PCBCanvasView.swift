@@ -29,6 +29,27 @@ struct PCBCanvasView: View {
     static let background = Color(white: 0.13)
     static let copper = Color(red: 0.80, green: 0.62, blue: 0.30)
 
+    /// A pad's copper: an ellipse, a rectangle, a rectangle with rounded
+    /// corners, or one with some corners cut at 45°.
+    static func outline(of pad: PlacedPad) -> Path {
+        let r = pad.rect
+        if pad.shape == .round { return Path(ellipseIn: r) }
+        if pad.radius > 0 { return Path(roundedRect: r, cornerRadius: pad.radius) }
+        guard pad.chamfer > 0, !pad.corners.isEmpty else { return Path(r) }
+        let c = pad.chamfer
+        // Clockwise from the top-left; a cut corner becomes two points.
+        let corners: [(Footprint.Corners, CGPoint, CGPoint, CGPoint)] = [
+            (.topLeft, CGPoint(x: r.minX, y: r.minY), CGPoint(x: r.minX, y: r.minY + c), CGPoint(x: r.minX + c, y: r.minY)),
+            (.topRight, CGPoint(x: r.maxX, y: r.minY), CGPoint(x: r.maxX - c, y: r.minY), CGPoint(x: r.maxX, y: r.minY + c)),
+            (.bottomRight, CGPoint(x: r.maxX, y: r.maxY), CGPoint(x: r.maxX, y: r.maxY - c), CGPoint(x: r.maxX - c, y: r.maxY)),
+            (.bottomLeft, CGPoint(x: r.minX, y: r.maxY), CGPoint(x: r.minX + c, y: r.maxY), CGPoint(x: r.minX, y: r.maxY - c)),
+        ]
+        let points = corners.flatMap { corner, square, before, after in
+            pad.corners.contains(corner) ? [before, after] : [square]
+        }
+        return Path { path in path.addLines(points); path.closeSubpath() }
+    }
+
     /// Screen points per board millimetre.
     private var scale: CGFloat { viewport.zoom * BoardScale.pointsPerMM }
 
@@ -86,14 +107,7 @@ struct PCBCanvasView: View {
             }
 
             for pad in chip.boardPads {
-                let shape = Path { path in
-                    if pad.shape == .round {
-                        path.addEllipse(in: pad.rect)
-                    } else {
-                        path.addRect(pad.rect)
-                    }
-                }
-                context.fill(shape, with: .color(Self.copper))
+                context.fill(Self.outline(of: pad), with: .color(Self.copper))
                 if pad.drill > 0 {
                     let d = pad.drill
                     let hole = CGRect(x: pad.rect.midX - d / 2, y: pad.rect.midY - d / 2, width: d, height: d)
