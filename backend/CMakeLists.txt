@@ -114,6 +114,15 @@ add_executable(export_parts
     tools/export/export_supply.c
     tools/export/export_led.c
     tools/export/export_osc.c
+    tools/export/export_gate.c
+    tools/export/export_gate_7400.c
+    tools/export/export_gate_7402.c
+    tools/export/export_gate_7408.c
+    tools/export/export_gate_7432.c
+    tools/export/export_gate_7486.c
+    tools/export/export_gate_74266.c
+    tools/export/export_gate_cd.c
+    tools/export/export_gate_gt.c
     sim.c
     net.c
     src/third_party/cjson/cJSON.c

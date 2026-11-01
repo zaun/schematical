@@ -8,6 +8,7 @@
 #include <string.h>
 
 #include "export.h"
+#include "export_gate.h"
 
 typedef struct {
     const char *kind;
@@ -18,6 +19,7 @@ static const Exporter EXPORTERS[] = {
     {"supply", export_supply},
     {"led", export_led},
     {"oscillator", export_osc},
+    {"gate", export_gate},
 };
 
 int main(int argc, char **argv) {

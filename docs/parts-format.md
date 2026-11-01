@@ -187,3 +187,42 @@ Part keys:
 |---|---|
 | `"defaultHz"` | the part's frequency, from `minHz` to `maxHz` |
 | `"enablePin"` | optional; the **pin number** (in the part's pinout) of the output-enable / standby pin. A LOW there puts every output in high impedance; HIGH or not connected keeps the clock running. A number, not a name, because the LMK6D/H/P function pins 1 and 2 share the name `OE/ST/NC`. |
+
+### `gate`
+
+Combinational gates: every 74xx/CD4000 gate part. Each gate computes its op
+over its inputs (X for unknown inputs unless a controlling value decides:
+a 0 into AND/NAND, a 1 into OR/NOR) and drives its output strong after the
+rise delay for 1, the fall delay for 0, or the longer of the two for X. A
+newer drive cancels one still pending (inertial delay), so pulses shorter
+than the delay are filtered out.
+
+```json
+"gates": [{"op": "nand", "inputs": ["1A", "1B"], "output": "1Y"}],
+"output": "push-pull",
+"units": 1,
+"timing": {
+  "HC": {"rise": 9, "fall": 9, "note": "Typical at 4.5 V, 50 pF"},
+  "LS": {"otherLow": {"rise": 12, "fall": 10}, "otherHigh": {"rise": 20, "fall": 13}}
+}
+```
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"gates"` | array of gates: `op` (`and`, `nand`, `or`, `nor`, `xor` = odd parity, `xnor` = even parity), `inputs` (1–13 pin names), `output` (a pin name). Each name must be exactly one pin in every pinout. |
+| `"output"` | optional: `push-pull` (default) or `open-drain` (a 1 releases the pin to Z after the rise delay; an external pull-up takes it high; 74x266) |
+| `"units"` | optional: gates per package as shown in the drawer (`PartLogic.units`); default the number of `gates`. Differs only where one gate has two outputs (CD4068B: NAND and AND of the same 8 inputs, 1 unit). |
+| `"timing"` | object: logic family → `{rise, fall}` (ns), or `{otherLow: {rise, fall}, otherHigh: {rise, fall}}` |
+
+`otherLow`/`otherHigh` (74x86): the delays depend on the input that did not
+change — 0 picks `otherLow`, 1 picks `otherHigh`, and X (also at start, when
+no edge has happened yet) takes the longer of each delay. Allowed only when
+every gate has exactly 2 inputs.
+
+Part key:
+
+| Key | Value |
+|---|---|
+| `"family"` | the part's logic family; must be a key of `timing` |

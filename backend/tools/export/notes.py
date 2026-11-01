@@ -12,6 +12,11 @@ has no comment. Comment sources (all in backend/, plan-01-B section 3.6):
   3. A `/* c */` line directly above a declaration of NAME:
      `static const <type> NAME...` or `#define NAME(...)`   -> key NAME/
   4. `/* ---- NAME: text ---- */` section headers            -> key NAME/
+  5. `def:<id>/<FAMILY>` and `def:<id>/`: an old definition id, resolved
+     through its GT_DEFINE / FF_DEFINE_CHIP line (exporters only know ids)
+
+A note may hold several " | "-separated "[prefix]@key" segments (a merged
+device's base and LCCC pinout notes); segments without a comment are dropped.
 
 The JSON file is rewritten in place; only note lines change. Exits non-zero
 when a placeholder names a key no rule produced (a typo in an exporter), so
@@ -95,32 +100,83 @@ def harvest():
     return notes, known
 
 
+def resolve_definitions(notes, known):
+    """5. "def:<id>/<FAMILY>" and "def:<id>/" keys: an old definition id,
+    resolved through its GT_DEFINE / FF_DEFINE_CHIP invocation to the
+    FAMILIES table (timing rows) or the gates / pins / layout table above
+    which the "Pinout from" comment sits (device note)."""
+    pattern = re.compile(r'(GT_DEFINE|FF_DEFINE_CHIP)\(\s*(\w+),\s*"([^"]+)",\s*"[^"]*",\s*'
+                         r'"(?:[^"\\]|\\.)*",\s*(\w+),\s*(\w+),\s*(\w+),', re.S)
+    for path in sorted(glob.glob(os.path.join(BACKEND, '*.c')) + glob.glob(os.path.join(BACKEND, '*.inc'))):
+        text = open(path, encoding='utf-8').read()
+        for m in pattern.finditer(text):
+            _, name, ident, layout, pins, families = m.groups()
+            for key in list(known):
+                if key.startswith(families + '/') and key != families + '/':
+                    fam = key.split('/', 1)[1]
+                    alias = 'def:%s/%s' % (ident, fam)
+                    known.add(alias)
+                    if key in notes:
+                        notes[alias] = notes[key]
+            alias = 'def:%s/' % ident
+            known.add(alias)
+            candidates = []
+            lm = re.search(r'static const \w+ %s = \{\s*\w+,\s*(\w+)' % re.escape(layout), text)
+            if lm:
+                candidates.append(lm.group(1))
+            candidates += [pins, layout, name]
+            for c in candidates:
+                if c + '/' in notes:
+                    notes[alias] = notes[c + '/']
+                    break
+
+
+def resolve(note, notes, known):
+    """A note value is one or more " | "-separated segments, each "[prefix]@key".
+    Returns (text or None, unknown keys)."""
+    parts = []
+    unknown = []
+    for segment in note.split(' | '):
+        m = re.match(r'(.*?)@(\S+)$', segment)
+        if not m:
+            parts.append(segment)
+            continue
+        prefix, key = m.groups()
+        if key in notes:
+            parts.append(prefix + notes[key])
+        elif key not in known:
+            unknown.append(key)
+    return (' | '.join(parts) if parts else None), unknown
+
+
 def main():
     notes, known = harvest()
+    resolve_definitions(notes, known)
     status = 0
     for path in sys.argv[1:]:
         out = []
         replaced = removed = 0
         for line in open(path, encoding='utf-8').read().split('\n'):
-            m = re.search(r'"note":\s*"@([^"]*)"', line)
+            m = re.search(r'"note":\s*"((?:[^"\\]|\\.)*@(?:[^"\\]|\\.)*)"', line)
             if m:
-                key = m.group(1)
-                if key in notes:
-                    line = line.replace(m.group(0), '"note": ' + json.dumps(notes[key], ensure_ascii=False))
+                text, unknown = resolve(json.loads('"%s"' % m.group(1)), notes, known)
+                for key in unknown:
+                    print('%s: unknown note key %s' % (path, key), file=sys.stderr)
+                    status = 1
+                if text is not None:
+                    line = line.replace(m.group(0), '"note": ' + json.dumps(text, ensure_ascii=False))
                     replaced += 1
-                elif key in known:
-                    # no comment: drop the key (inline `, "note": ...` or a whole line)
-                    new = re.sub(r',\s*"note":\s*"@[^"]*"', '', line)
+                else:
+                    # no comment: drop the key (inline `,"note":...` or a whole line)
+                    token = re.escape(m.group(0))
+                    new = re.sub(r',\s*' + token, '', line)
                     if new == line:
-                        new = re.sub(r'"note":\s*"@[^"]*",?\s*', '', line)
+                        new = re.sub(token + r',?\s*', '', line)
                         if not new.strip():
                             removed += 1
                             continue
                     line = new
                     removed += 1
-                else:
-                    print('%s: unknown note key %s' % (path, key), file=sys.stderr)
-                    status = 1
             out.append(line)
         open(path, 'w', encoding='utf-8').write('\n'.join(out))
         print('%s: %d notes, %d removed' % (path, replaced, removed))

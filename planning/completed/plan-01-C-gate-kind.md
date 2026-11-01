@@ -148,20 +148,29 @@ One translation unit per old file (`export_gate_7400.c` includes `74_00.c`,
 Acceptance: the loader takes valid gate files and rejects the four bad ones.
   Check: `ctest --test-dir /tmp/logic-build -R library_check --output-on-failure` → passed (est. 1 min).
   Result: `library_check: all passed` (all four gate cases print their path-style message).
-Commit: —
+Commit: ae58880
 
 ### Phase 2 — Export `gate.json`
 
-- [ ] `tools/export/export_gate_*.c` (§3.3) for 74_00, 74_02, 74_08, 74_32,
-      74_86, 74_266, gates, cd4000.
-- [ ] Generate `schematical/schematical/Parts/gate.json`; run `notes.py` on it.
-- [ ] `docs/parts-format.md`: gate section.
-- [ ] Move `planning/plan-01-C-gate-kind.md` to `planning/completed/` once every phase's `Commit:` is filled.
+- [x] `tools/export/export_gate_*.c` (§3.3) for 74_00, 74_02, 74_08, 74_32,
+      74_86, 74_266, gates, cd4000; shared builder `export_gate.c`/`.h` and
+      the hand-file template `export_gate_hand.inc`. Each part's gates and
+      timing come from the old model's own `lookup` + `create` (its real
+      runtime state), not from re-reading the tables.
+- [x] Generate `schematical/schematical/Parts/gate.json`; run `notes.py` on it
+      (`264 notes, 10 removed`, exit 0). 65 devices: all 14 `_FK`
+      definitions merged as `lccc20` pinouts (none differed).
+- [x] `docs/parts-format.md`: gate section.
+- [x] Move `planning/plan-01-C-gate-kind.md` to `planning/completed/` once every phase's `Commit:` is filled.
 
 Acceptance: every gate part matches both goldens.
   Check: `ctest --test-dir /tmp/logic-build -R 'listing_check|trace_check' --output-on-failure` → passed, `2702 parts compared` (est. 1 min).
   Check: `grep -c '"@' schematical/schematical/Parts/gate.json` → `0` (no unreplaced note placeholder) (est. seconds).
-Commit: —
+  Result: both passed, each `gate 2552, supply 2, led 55, oscillator 93`,
+  `2702 parts compared, 1115 skipped`; `grep -c '"@'` → `0`. Runtime proof:
+  `trace_check --verbose SN74HC266N` output pins 3/4/10/11 → only `0` (90) and `Z` (88), never `1`.
+  Full `ctest` → `100% tests passed, 0 tests failed out of 10`.
+Commit: this phase's commit is the one that moved this file to `planning/completed/` (hash in plan-01-D's Corrections).
 
 ## Validation Plan
 
@@ -186,7 +195,20 @@ See plan-01-A §Decisions. Nothing new.
   their layouts have 2 gate entries (complementary outputs J and K from the
   same 8 inputs; `gates_defs.inc:2550-2553`). Added an optional device key
   `units` (default: the number of gates); the exporter writes it only when
-  the old `gate_count` differs from the layout's gate count.
+  the old `gate_count` differs from the layout's gate count. Measured after
+  export: exactly `4068B` and `4078B` carry `units`.
+- §3.3 notes: the exporters only know a definition's id, not its C table
+  names, so gates.c timing/device placeholders are `@def:<id>/<FAMILY>` and
+  `@def:<id>/`; `notes.py` (rule 5) resolves the id through the
+  `GT_DEFINE(NAME, "ID", …, LAYOUT, PINS, FAMILIES, …)` line to
+  `FAMILIES/<FAMILY>` and to the gates table above which the "Pinout from"
+  comment sits. A merged `_FK` device keeps both pinout notes as
+  `"<base> | lccc20: <fk>"`. CD4000 has no timing comments
+  (`grep -c '/\*' cd4000_parts.inc` rows carry none), so its devices get no
+  notes.
+- §3.3 merge rule, made precise: an `_FK` merges when gates (by name),
+  output mode and `units` are equal and every family both define has the
+  same timing (an FK-only family is added to the base). All 14 merged.
 
 ## Summary
 
