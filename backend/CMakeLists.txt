@@ -77,3 +77,25 @@ add_test(NAME baseline_listing
 add_test(NAME baseline_traces
     COMMAND sh -c "\"$1\" | diff - \"$2\"" sh $<TARGET_FILE:old_trace>
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/golden/traces.txt)
+
+# ---- plan-01: the part library (new backend) -------------------------------
+# Builds next to logic_backend until plan-01-G removes the old files.
+add_library(logic STATIC
+    sim.c
+    net.c
+    src/library/library.c
+    src/library/kinds.c
+    src/library/kind_util.c
+    src/third_party/cjson/cJSON.c
+)
+target_include_directories(logic
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/library
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/third_party/cjson
+)
+target_compile_features(logic PUBLIC c_std_11)
+target_link_libraries(logic PUBLIC m)

@@ -1,0 +1,83 @@
+#ifndef PARTS_H
+#define PARTS_H
+
+/*
+ * The part library: every orderable part, loaded from the JSON part files
+ * (schematical/schematical/Parts/<kind>.json, format in docs/parts-format.md).
+ *
+ *     PartLibrary *library = part_library_create();
+ *     char *error = NULL;
+ *     if (load_parts(library, json_text, "gate.json", &error) != 0) {
+ *         ... show error; free(error);
+ *     }
+ *     const Part *part = part_library_find(library, "SN74HC00N");
+ *
+ * Everything a Part points to is owned by the library and lives until
+ * part_library_destroy.
+ */
+
+#include <stddef.h>
+#include <stdint.h>
+
+typedef struct PartLibrary PartLibrary;
+
+typedef enum {
+    PART_GATE, PART_DFF, PART_JKFF, PART_SRAM, PART_SWITCH,
+    PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY
+} PartKind;
+
+typedef enum {
+    PIN_INPUT, PIN_OUTPUT, PIN_INOUT, PIN_POWER, PIN_GROUND, PIN_NC, PIN_ABSENT
+} PinRole;
+
+enum { PART_OBSOLETE = 1u << 0, PART_MILITARY = 1u << 1,
+       PART_AUTOMOTIVE = 1u << 2, PART_ENHANCED = 1u << 3 };
+
+typedef struct { unsigned number; const char *name; PinRole role; const char *group; } PartPin;
+
+/* Exactly one of these is set on a Part, matching its kind. */
+typedef struct { const char *family; unsigned units; } PartLogic;         /* gate, dff, jkff */
+typedef struct { uint32_t words; unsigned bits; uint64_t access_ps; const char *grade; } PartSram;
+typedef struct { unsigned positions; const char *actuator; } PartSwitch;
+typedef struct { const char *color; } PartLed;
+typedef struct { unsigned digit; const char *segment; } PartDisplayLed;  /* digit 0 = colon/dot */
+typedef struct {
+    unsigned digits; int common_anode; unsigned colon_after, dot_after;
+    const char *color, *size, *chip;
+    const PartDisplayLed *leds; size_t led_count;
+    const unsigned *segment_pins; size_t segment_pin_count;
+    const unsigned *common_pins; size_t common_pin_count;
+} PartDisplay;
+typedef struct { const char *family; uint64_t min_hz, max_hz, default_hz;
+                 unsigned enable_pin; /* pin number, 0 = none */ } PartOscillator;
+typedef struct { int level; } PartSupply;
+
+typedef struct Part {
+    PartKind kind;
+    const char *name, *package, *function, *description;
+    const char *const *drawer; size_t drawer_count;
+    unsigned flags;
+    const PartPin *pins; size_t pin_count;
+    const PartLogic *logic;
+    const PartSram *sram;
+    const PartSwitch *dip_switch;
+    const PartLed *led;
+    const PartDisplay *display;
+    const PartOscillator *oscillator;
+    const PartSupply *supply;
+    const void *internal;              /* model data; not for the app */
+} Part;
+
+PartLibrary *part_library_create(void);
+void part_library_destroy(PartLibrary *library);
+
+/* Parses one part file's text. 0 on success; -1 and a malloc'd message in
+   *error (free it) on failure, with nothing from that file added. `source`
+   names the file in messages, e.g. "gate.json". */
+int load_parts(PartLibrary *library, const char *json, const char *source, char **error);
+
+size_t part_library_count(const PartLibrary *library);
+const Part *part_library_at(const PartLibrary *library, size_t index);
+const Part *part_library_find(const PartLibrary *library, const char *name);
+
+#endif

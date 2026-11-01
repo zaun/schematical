@@ -112,6 +112,29 @@ typedef struct {
         void *state,
         uint32_t timer_id
     );
+
+    /*
+     * Optional hooks for the part library's models. All may be NULL.
+     *
+     * lights: writes 1 per light (LED, display segment) that is on now or
+     * was on at any time at or after `since`, else 0; at most cap values.
+     * Returns the number of lights.
+     */
+    size_t (*lights)(const Sim *sim, const SimInstance *instance, const void *state,
+                     SimTime since, unsigned char *out, size_t cap);
+
+    /* Switches: turns a position (1-based) on or off. 1 on success, 0 if out of range. */
+    int (*set_switch)(Sim *sim, SimInstance *instance, void *state, size_t position, int on);
+
+    /* Memories: word count and width. 1 on success. */
+    int (*memory_size)(const void *state, uint32_t *words, unsigned *bits);
+
+    /*
+     * Memories: copies count words from start; values gets the bits, known a
+     * 1 per defined bit. Either may be NULL. Returns the number copied.
+     */
+    size_t (*memory_read)(const void *state, uint32_t start, size_t count,
+                          uint32_t *values, uint32_t *known);
 } SimComponentType;
 
 /* All times are in picoseconds. */

@@ -212,18 +212,23 @@ size_t (*memory_read)(const void *state, uint32_t start, size_t count,
 Acceptance: cJSON compiles inside `logic`; the doc covers every common key.
   Check: `grep -c 'cJSON_ParseWithLength' backend/src/third_party/cjson/cJSON.h` → ≥1; `grep -E '"(format|version|kind|devices|id|function|description|drawer|note|pinouts|parts|name|package|pinout|flags)"' -o docs/parts-format.md | sort -u | wc -l` → 15 (est. seconds).
   Result: `2`; `15`; `cc -std=c11 -c cJSON.c` compiles (and inside `logic` from Phase 2).
-Commit: —
+Commit: df2936d
 
 ### Phase 2 — `parts.h`, loader, kind table
 
-- [ ] `backend/include/parts.h` exactly as plan-01-A §3.3.
-- [ ] `src/library/library.c`, `kind.h`, `kind_util.c`, `kinds.c` (§3.2);
-      `KINDS[]` is empty until Phase 3.
-- [ ] `backend/sim.h`: the four hooks (§3.3).
-- [ ] `backend/CMakeLists.txt`: the `logic` library.
+- [x] `backend/include/parts.h` exactly as plan-01-A §3.3.
+- [x] `src/library/library.c`, `kind.h`, `kind_util.c`, `kinds.c` (§3.2);
+      `KINDS[]` is empty until Phase 3. Added `library_internal.h` (the
+      `KindContext`/arena struct shared by `library.c` and `kind_util.c`)
+      and, in `kind.h`, `PartInternal` (what `Part.internal` points to:
+      ops, device, bound pinout, per-part data) with `kind_model()` (needed
+      by `trace_check` here; plan-01-F reuses it).
+- [x] `backend/sim.h`: the four hooks (§3.3).
+- [x] `backend/CMakeLists.txt`: the `logic` library.
 
 Acceptance: the old backend still builds and passes; `logic` builds.
   Check: `cmake --build /tmp/logic-build -j8 && ctest --test-dir /tmp/logic-build -R 'baseline|catalog_check|netlist_check' --output-on-failure` → all pass (est. 2 min).
+  Result: build with no errors or warnings; `100% tests passed, 0 tests failed out of 4`.
 Commit: —
 
 ### Phase 3 — supply, LED, oscillator kinds and their JSON
