@@ -427,14 +427,26 @@ pivot on their point; renaming refuses bad and duplicate references.
   printed `true`) (est. 1 min).
   Check: the §Prerequisites `xcodebuild` → `** BUILD SUCCEEDED **` (est.
   1 min).
-Commit: —
+Commit: 0208faf
 
 ### Phase 3 — File format and docs
 
-- [ ] `Document/SchematicFile.swift`: `Board`, `Board.Text`, new
+- [x] `Document/SchematicFile.swift`: `Board`, `Board.Text`, new
       `Placement` keys, write, read with defaults, `badPCB` checks, text IDs
-      in `claim`, `nextReference` by `U<n>` (§4.4).
-- [ ] `docs/file-format.md`: the §4.4 edits.
+      in `claim`, `nextReference` by `U<n>` (§4.4); plus `.sortedKeys`
+      (Corrections 3) and open-keeps-placements-with-an-origin (Corrections
+      4). `harness roundtrip`: defaults `100.0 80.0 2 green mm texts 0`, all
+      placements default `true`, `snapshots equal: true`, `cmp` exit 0,
+      `nextReference after U12/R40/UX7: 13`; `harness bad`: 13 values (the 10
+      of §4.4 plus height, pin1, reference) `message true unchanged true`, a
+      text with a part's id → `The schematic uses the ID … more than once.`
+      (`true`, `true`).
+- [x] `docs/file-format.md`: the §4.4 edits (§ Coordinates origin note,
+      § Top level `board` + key order, § Parts `pcb`/`reference` rows and
+      examples, new § Board, § Validation `badPCB` list, § Example `board`).
+      `grep -c '"board"\|origin\|badPCB\|not valid' docs/file-format.md` →
+      15; last ```json block → `example parses`; `xcodebuild` → `** BUILD
+      SUCCEEDED **`.
 
 Acceptance: every new value round-trips; older files open with defaults;
 every bad value gives its message and leaves the document unchanged.
@@ -473,6 +485,11 @@ Commit: —
   cmake --build /tmp/logic-p06a -j8 && ctest --test-dir /tmp/logic-p06a`
   (est. 1 min; nothing in `backend/` changes, so it must still pass) + the
   `xcodebuild` (est. 1 min) + the harness modes (est. 5 min).
+- Results (2026-11-01): `ctest` → `100% tests passed, 0 tests failed out of
+  11`; `xcodebuild` → `** BUILD SUCCEEDED **`; harness modes as ticked
+  above; `harness render` → `/tmp/p06/a-pcb.png`, `cmp` with
+  `a-pcb-before.png` → identical; `harness renderfile … rt.schematical` →
+  `a-pcb-rt.png` drawn as before (no UI change yet).
 
 ## Decisions
 
@@ -514,6 +531,21 @@ Commit: —
 2. Harness entry point: a file not named `main.swift` cannot hold top-level
    code, so `a.swift` uses `@main struct Harness`; the `MAIN=` build line is
    unchanged.
+3. **The app wrote JSON keys in random order** (`JSONEncoder` without
+   `.sortedKeys`), so the Phase 3 check "save, reopen, save → `cmp` exit 0"
+   could never pass: first run, `cmp` → `differ: char 6, line 2` (`"junctions"`
+   vs `"version"` first). `encoded()` now adds `.sortedKeys`; files stay
+   valid for every build (key order is not read). After: `cmp` exit 0.
+4. **§4.2 and §4.4 contradicted each other**: `setFootprintOrigin` does not
+   move or re-snap (owner/author decision), but §4.4 snapped every footprint
+   by its stored origin on open, so a footprint whose origin was changed
+   jumped on reopen: `harness roundtrip` LED centre (3.49, −0.135) saved →
+   (3.175, 0) after reopen (`diff rt.schematical rt2.schematical`). Fix: on
+   open, a placement **without** `origin` (older files) is snapped by its
+   top-left exactly as before; a placement **with** `origin` (written by this
+   build, which only produces states it chose) is kept as saved. Old files
+   behave as today (`harness baseline` still diffs empty); the round trip is
+   byte-equal. `docs/file-format.md` § Coordinates says so.
 
 ## Summary
 

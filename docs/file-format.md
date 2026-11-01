@@ -24,10 +24,17 @@ Code: `schematical/schematical/Document/SchematicFile.swift` (the format) and
 All positions are in canvas units. The grid spacing is 10 units, and y grows
 downward. Part origins are snapped to the grid when a file is opened.
 
-PCB placements (`pcb`, below) are in board millimetres instead: the
-footprint's centre (the middle of its body), y down. When a file is opened
-the footprint is shifted so the top-left of its bounding box (body plus pads,
-as rotated) sits on the 0.635 mm (25 mil) grid.
+PCB placements (`pcb`, below) and the `board` object are in board
+millimetres instead, y down. A placement's `x`/`y` is always the footprint's
+centre (the middle of its body). Each footprint also has an **origin point**
+(`pcb.origin`): a corner or middle of its bounding box (body plus pads, as
+rotated), or the centre of pad 1. The app snaps the origin point to the
+0.635 mm (25 mil) grid when a footprint is moved or rotated, and rotates
+about it. Changing the origin does not move the footprint, so a saved origin
+point can be off the grid; opening keeps such a placement as saved. A
+placement with no `origin` (files from before it existed) is shifted on open
+so the top-left of its bounding box sits on the grid. Board texts are snapped
+to the grid on open.
 
 ## Top level
 
@@ -38,7 +45,8 @@ as rotated) sits on the 0.635 mm (25 mil) grid.
   "nextReference": 4,
   "parts": [ ... ],
   "junctions": [ ... ],
-  "wires": [ ... ]
+  "wires": [ ... ],
+  "board": { ... }
 }
 ```
 
@@ -46,13 +54,18 @@ as rotated) sits on the 0.635 mm (25 mil) grid.
 |-----------------|---------|----------------------------------------------------------------------|
 | `format`        | string  | Always `"schematical"`. Other values are rejected.                    |
 | `version`       | integer | Format version. Files newer than the app supports are rejected.      |
-| `nextReference` | integer | Number for the next placed part's reference (`U` + number).          |
+| `nextReference` | integer | Lowest number tried for the next placed part's reference (`U` + number); the first `U<n>` no part uses is taken. |
 | `parts`         | array   | Placed parts, in drawing order (later parts draw on top).            |
 | `junctions`     | array   | Points where wires branch.                                           |
 | `wires`         | array   | Wires between pins and junctions.                                    |
+| `board`         | object  | Optional. The PCB's settings and texts ([Board](#board)). Written by every build that has it; a file without it opens with the defaults. |
 
 On open, `nextReference` is raised if needed so that it is higher than every
-existing `U<n>` reference.
+existing `U<n>` reference (references with other prefixes, such as `R3`, do
+not count).
+
+The app writes keys in sorted order, so saving the same schematic twice gives
+the same bytes. Readers must not depend on key order.
 
 ## Parts
 
@@ -73,7 +86,8 @@ footprint sits on the PCB:
 ```json
 { "id": "...", "reference": "U2", "partNumber": "LED-AMBER-0603",
   "x": 200, "y": 100, "flipped": false,
-  "pcb": { "x": 5.08, "y": 0, "rotation": 90 } }
+  "pcb": { "x": 5.08, "y": 0, "rotation": 90, "origin": "topLeft",
+           "outline": "document", "pin1": "silkscreen", "reference": "silkscreen" } }
 ```
 
 A DIP switch also stores its positions:
@@ -95,13 +109,40 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | Field        | Type    | Meaning                                                                 |
 |--------------|---------|-------------------------------------------------------------------------|
 | `id`         | UUID    | Unique within the file.                                                 |
-| `reference`  | string  | Label shown on the canvas, such as `U1`.                                |
+| `reference`  | string  | Label shown on the PCB and in memory window titles, such as `U1`: 1 to 8 letters then a number of 1 or more. New parts get `U<n>`; the PCB sidebar renames them (letters uppercased; a reference another part has is refused). |
 | `partNumber` | string  | A part name from the part library (`schematical/schematical/Parts/*.json`): a logic part, memory (SRAM, EEPROM), switch, LED, 7-segment display, oscillator, or the supplies `VCC` and `GND`. |
 | `x`, `y`     | number  | Top-left corner of the part body.                                       |
 | `flipped`    | boolean | Pins on the opposite sides. Ignored for VCC and GND.                    |
 | `switches`   | array of booleans | DIP switches only, optional: whether each position is ON, position 1 first. Missing positions are OFF; extra entries are ignored. Left out for other parts. |
-| `pcb`        | object  | Optional. The footprint on the PCB: `x`, `y` (numbers, mm) are the footprint's centre, `rotation` (integer) is 0, 90, 180 or 270 degrees clockwise. Written for every part with a footprint; left out for VCC and GND, and ignored on a part without a footprint. A part with a footprint and no `pcb` (older files) is placed automatically when the file is opened: after the stored ones, in file order, each to the right of everything already placed. |
+| `pcb`        | object  | Optional. The footprint on the PCB: `x`, `y` (numbers, mm) are the footprint's centre, `rotation` (integer) is 0, 90, 180 or 270 degrees clockwise. `origin` (string, default `"topLeft"`) is the footprint's origin point (see [Coordinates](#coordinates)): `"center"`, `"topLeft"`, `"centerLeft"`, `"bottomLeft"` (of the bounding box as rotated) or `"pad1Center"` (the centre of the pad of the part's first pin). `outline` (the body outline, default `"document"`), `pin1` (the pin-1 dot, default `"silkscreen"`) and `reference` (the reference text, default `"silkscreen"`) say where each mark is drawn: `"hidden"`, `"document"` or `"silkscreen"`. The four strings are always written; a missing one takes its default. Written for every part with a footprint; left out for VCC and GND, and ignored on a part without a footprint. A part with a footprint and no `pcb` (older files) is placed automatically when the file is opened: after the stored ones, in file order, each to the right of everything already placed. |
 | `memoryFile` | object  | EEPROMs only, optional: the file (raw binary, or Intel HEX for `.hex`/`.ihx`/`.ihex`) loaded into the chip at every start; without it the chip starts erased (every byte FF). `path` (string) is the file's path relative to the schematic's folder (`../roms/boot.bin`), or absolute for a schematic that had never been saved. `bookmark` (base64 string, optional) is an app-scoped security bookmark; on the Mac that wrote it, it is tried first, so the sandboxed app can read the file after a restart, and `path` is the fallback. Ignored on other parts. |
+
+## Board
+
+```json
+"board": { "width": 100, "height": 80, "layers": 2, "color": "green", "units": "mm",
+  "texts": [ { "id": "...", "text": "REV A", "x": 5.08, "y": 2.54,
+               "size": 50, "layer": "silkscreen", "rotation": 0 } ] }
+```
+
+| Field    | Type    | Meaning                                                                |
+|----------|---------|------------------------------------------------------------------------|
+| `width`, `height` | number | The board rectangle from (0, 0), in mm, each 1 to 1000. Default 100 × 80. |
+| `layers` | integer | Copper layers: 1, 2, 4 or 6. Default 2. Stored only; the PCB page draws the top side. |
+| `color`  | string  | The board colour: `"green"` (default), `"black"`, `"red"`, `"blue"`, `"yellow"`, `"white"` or `"purple"`. |
+| `units`  | string  | The units the PCB sidebar shows lengths in: `"mm"` (default) or `"in"`. Lengths in the file are always mm. |
+| `texts`  | array   | Free texts on the board, in drawing order. Default none.              |
+
+A missing key takes its default. A text:
+
+| Field      | Type    | Meaning                                                              |
+|------------|---------|----------------------------------------------------------------------|
+| `id`       | UUID    | Unique within the file, across parts, junctions, wires and texts.    |
+| `text`     | string  | The words; may hold line breaks (`\n`). Never empty.                 |
+| `x`, `y`   | number  | mm: the text's top-left at rotation 0, which it rotates about. Snapped to the 0.635 mm grid on open. |
+| `size`     | integer | Font size in mil (1/1000 inch), 10 to 1000. Default 50.             |
+| `layer`    | string  | `"silkscreen"` (default) or `"document"`.                           |
+| `rotation` | integer | 0 (default), 90, 180 or 270 degrees clockwise.                      |
 
 ## Junctions
 
@@ -148,14 +189,28 @@ Opening fails, and the canvas is left unchanged, if:
 
 - `format` is missing or not `"schematical"`, or `version` is newer than the app supports;
 - the JSON doesn't match this structure;
-- an ID is used more than once across parts, junctions and wires;
+- an ID is used more than once across parts, junctions, wires and board texts;
 - a `partNumber` is not in the catalog (the error lists every missing one);
 - a wire end names a part or junction that isn't in the file, or a pin the
   part's symbol doesn't draw (for example the no-connect pins of a 4-pin LED);
 - the pins don't match the version: a version 1 file with a string `"pin"`, or a
   version 2 file with an integer `"pin"`. A file uses one or the other;
 - a part with a footprint has a `pcb.rotation` other than 0, 90, 180 or 270
-  ("U2 has PCB rotation 45; it must be 0, 90, 180 or 270.").
+  ("U2 has PCB rotation 45; it must be 0, 90, 180 or 270.");
+- a board setting, footprint origin or mark, or board text is not valid. The
+  message is "The PCB settings are not valid: <detail>.", where the detail is
+  one of:
+  - `board width 0 must be 1 to 1000 mm` (same for `height`);
+  - `board layers 3 must be 1, 2, 4 or 6`;
+  - `board color "pink" must be green, black, red, blue, yellow, white or purple`;
+  - `board units "cm" must be mm or in`;
+  - `U2 origin "middle" must be center, topLeft, centerLeft, bottomLeft or pad1Center`;
+  - `U2 outline "on" must be hidden, document or silkscreen` (same for
+    `pin1` and `reference`);
+  - `text <id> size 5 must be 10 to 1000 mil`;
+  - `text <id> layer "x" must be document or silkscreen`;
+  - `text <id> rotation 45 must be 0, 90, 180 or 270`;
+  - `text <id> is empty`.
 
 A missing or unreadable EEPROM load file (`memoryFile`) does not fail Open:
 the memory window shows the problem, and Run stops with it
@@ -196,7 +251,8 @@ A red LED between VCC and GND:
   "parts": [
     { "id": "11111111-1111-1111-1111-111111111111", "reference": "U1", "partNumber": "VCC", "x": 100, "y": 40, "flipped": false },
     { "id": "22222222-2222-2222-2222-222222222222", "reference": "U2", "partNumber": "LED-RED-0603", "x": 200, "y": 100, "flipped": false,
-      "pcb": { "x": 0, "y": 0, "rotation": 0 } },
+      "pcb": { "x": 0, "y": 0, "rotation": 0, "origin": "topLeft",
+               "outline": "document", "pin1": "silkscreen", "reference": "silkscreen" } },
     { "id": "33333333-3333-3333-3333-333333333333", "reference": "U3", "partNumber": "GND", "x": 300, "y": 180, "flipped": false }
   ],
   "junctions": [],
@@ -213,7 +269,14 @@ A red LED between VCC and GND:
       "to": { "part": "33333333-3333-3333-3333-333333333333", "pin": "1" },
       "bends": [ { "x": 320, "y": 120 } ]
     }
-  ]
+  ],
+  "board": {
+    "width": 50, "height": 30, "layers": 2, "color": "green", "units": "mm",
+    "texts": [
+      { "id": "66666666-6666-6666-6666-666666666666", "text": "LED", "x": 5.08, "y": 2.54,
+        "size": 50, "layer": "silkscreen", "rotation": 0 }
+    ]
+  }
 }
 ```
 

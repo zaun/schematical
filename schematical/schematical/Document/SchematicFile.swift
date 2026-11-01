@@ -61,11 +61,41 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     }
 
     /// A footprint's centre in board millimetres (y down) and its clockwise
-    /// rotation: 0, 90, 180 or 270.
+    /// rotation: 0, 90, 180 or 270. Then its origin point and where its marks
+    /// are drawn, as the raw values of `FootprintOrigin` and `MarkLayer`;
+    /// missing (older files) means the defaults.
     struct Placement: Codable, Equatable, Sendable {
         var x: Double
         var y: Double
         var rotation: Int
+        var origin: String? = nil
+        var outline: String? = nil
+        var pin1: String? = nil
+        var reference: String? = nil
+    }
+
+    /// The PCB: size in mm, copper layers, colour and sidebar units (raw
+    /// values of `BoardColor` and `BoardUnits`), and free texts. Missing keys
+    /// mean the defaults of `BoardSettings`.
+    struct Board: Codable, Equatable, Sendable {
+        var width: Double? = nil
+        var height: Double? = nil
+        var layers: Int? = nil
+        var color: String? = nil
+        var units: String? = nil
+        var texts: [Text]? = nil
+
+        /// A board text: top-left at rotation 0 (`x`, `y`, mm), font size in
+        /// mil, layer (`TextLayer` raw value) and clockwise rotation.
+        struct Text: Codable, Equatable, Sendable {
+            var id: UUID
+            var text: String
+            var x: Double
+            var y: Double
+            var size: Int? = nil
+            var layer: String? = nil
+            var rotation: Int? = nil
+        }
     }
 
     struct Junction: Codable, Equatable, Sendable {
@@ -133,6 +163,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     var parts: [Part]
     var junctions: [Junction]
     var wires: [Wire]
+    /// The PCB's settings and texts. Always written; files from before it
+    /// open with the defaults.
+    var board: Board? = nil
 }
 
 // MARK: - Errors
@@ -147,6 +180,9 @@ nonisolated enum SchematicFileError: LocalizedError {
     case missingPin(wire: UUID, reference: String, pin: String)
     case missingJunction(wire: UUID, junction: UUID)
     case badRotation(reference: String, rotation: Int)
+    /// A board setting, footprint origin or mark, or board text that isn't
+    /// valid; the detail names it.
+    case badPCB(String)
 
     var errorDescription: String? {
         switch self {
@@ -168,6 +204,8 @@ nonisolated enum SchematicFileError: LocalizedError {
             "Wire \(wire.uuidString) ends at junction \(junction.uuidString), which is not in the file."
         case let .badRotation(reference, rotation):
             "\(reference) has PCB rotation \(rotation); it must be 0, 90, 180 or 270."
+        case let .badPCB(detail):
+            "The PCB settings are not valid: \(detail)."
         }
     }
 }
@@ -193,7 +231,9 @@ extension SchematicFile {
                 flipped: chip.isFlipped,
                 switches: chip.switchesOn.isEmpty ? nil : chip.switchesOn,
                 pcb: chip.board.map {
-                    Placement(x: $0.centre.x, y: $0.centre.y, rotation: $0.rotation)
+                    Placement(x: $0.centre.x, y: $0.centre.y, rotation: $0.rotation,
+                              origin: $0.origin.rawValue, outline: $0.outline.rawValue,
+                              pin1: $0.pin1.rawValue, reference: $0.reference.rawValue)
                 },
                 memoryFile: chip.memoryFile.map {
                     MemoryFileEntry(path: MemoryFileAccess.path(of: $0.url, schematic: fileURL),
@@ -210,6 +250,18 @@ extension SchematicFile {
                 bends: wire.interior.map { Point(x: $0.x, y: $0.y) }
             )
         }
+        let settings = document.board
+        board = Board(
+            width: settings.width,
+            height: settings.height,
+            layers: settings.layers,
+            color: settings.color.rawValue,
+            units: settings.units.rawValue,
+            texts: document.texts.map { text in
+                Board.Text(id: text.id, text: text.text, x: text.anchor.x, y: text.anchor.y,
+                           size: text.size, layer: text.layer.rawValue, rotation: text.rotation)
+            }
+        )
     }
 
     static func decode(_ data: Data) throws -> SchematicFile {
@@ -251,7 +303,8 @@ extension SchematicFile {
 
     func encoded() throws -> Data {
         let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .withoutEscapingSlashes]
+        // Sorted keys, so saving the same schematic twice writes the same bytes.
+        encoder.outputFormatting = [.prettyPrinted, .withoutEscapingSlashes, .sortedKeys]
         return try encoder.encode(self)
     }
 
@@ -265,6 +318,8 @@ extension SchematicFile {
         func claim(_ id: UUID) throws {
             guard seen.insert(id).inserted else { throw SchematicFileError.duplicateID(id) }
         }
+
+        let settings = try boardSettings()
 
         var chips: [PlacedChip] = []
         var unknown: [String] = []
@@ -281,9 +336,14 @@ extension SchematicFile {
                 guard BoardPlacement.rotations.contains(pcb.rotation) else {
                     throw SchematicFileError.badRotation(reference: part.reference, rotation: pcb.rotation)
                 }
-                board = BoardLayout.snapped(
-                    BoardPlacement(centre: CGPoint(x: pcb.x, y: pcb.y), rotation: pcb.rotation),
-                    footprint: footprint, pad1: catalogPart.firstPinDesignator)
+                // A placement from an older file (no origin) is snapped by its
+                // top-left, as those builds did. One with an origin is kept as
+                // saved: changing the origin doesn't move a footprint, so its
+                // origin point may be off the grid, and opening must not move it.
+                let stored = try placement(pcb, reference: part.reference)
+                board = pcb.origin == nil
+                    ? BoardLayout.snapped(stored, footprint: footprint, pad1: catalogPart.firstPinDesignator)
+                    : stored
             }
             // A load file counts only on an EEPROM.
             var memoryFile: MemoryFile?
@@ -362,17 +422,109 @@ extension SchematicFile {
             ))
         }
 
-        // Never hand out a reference that's already used, even if the stored
-        // counter is behind.
-        let highest = chips.compactMap { Int($0.reference.dropFirst()) }.max() ?? 0
+        var texts: [BoardText] = []
+        for text in board?.texts ?? [] {
+            try claim(text.id)
+            texts.append(try boardText(text))
+        }
+
+        // Never hand out a U<n> reference that's already used, even if the
+        // stored counter is behind.
+        let highest = chips.map { ReferenceParts($0.reference) }
+            .filter { $0.prefix == "U" }
+            .compactMap(\.number)
+            .max() ?? 0
         document.replaceContents(
             chips: chips,
             wires: placedWires,
             junctions: placedJunctions,
             nextReference: max(nextReference, highest + 1),
-            board: BoardSettings(),
-            texts: []
+            board: settings,
+            texts: texts
         )
+    }
+
+    // MARK: PCB values
+
+    /// The board's settings, with defaults for missing keys.
+    private func boardSettings() throws -> BoardSettings {
+        var settings = BoardSettings()
+        guard let board else { return settings }
+        func size(_ value: Double?, _ name: String) throws -> Double? {
+            guard let value else { return nil }
+            guard BoardSettings.sizeRange.contains(value) else {
+                throw SchematicFileError.badPCB("board \(name) \(Self.number(value)) must be 1 to 1000 mm")
+            }
+            return value
+        }
+        settings.width = try size(board.width, "width") ?? settings.width
+        settings.height = try size(board.height, "height") ?? settings.height
+        if let layers = board.layers {
+            guard BoardSettings.layerCounts.contains(layers) else {
+                throw SchematicFileError.badPCB("board layers \(layers) must be 1, 2, 4 or 6")
+            }
+            settings.layers = layers
+        }
+        settings.color = try Self.value(board.color, of: BoardColor.self, "board color", default: settings.color)
+        settings.units = try Self.value(board.units, of: BoardUnits.self, "board units", default: settings.units)
+        return settings
+    }
+
+    /// A stored footprint placement, with defaults for missing keys.
+    private func placement(_ pcb: Placement, reference: String) throws -> BoardPlacement {
+        var placement = BoardPlacement(centre: CGPoint(x: pcb.x, y: pcb.y), rotation: pcb.rotation)
+        placement.origin = try Self.value(pcb.origin, of: FootprintOrigin.self, "\(reference) origin",
+                                          default: placement.origin)
+        placement.outline = try Self.value(pcb.outline, of: MarkLayer.self, "\(reference) outline",
+                                           default: placement.outline)
+        placement.pin1 = try Self.value(pcb.pin1, of: MarkLayer.self, "\(reference) pin1", default: placement.pin1)
+        placement.reference = try Self.value(pcb.reference, of: MarkLayer.self, "\(reference) reference",
+                                             default: placement.reference)
+        return placement
+    }
+
+    /// A stored board text, with defaults for missing keys. Its anchor is
+    /// snapped to the grid.
+    private func boardText(_ text: Board.Text) throws -> BoardText {
+        let name = "text \(text.id.uuidString)"
+        guard !text.text.isEmpty else {
+            throw SchematicFileError.badPCB("\(name) is empty")
+        }
+        var result = BoardText(id: text.id, text: text.text, anchor: BoardGrid.snap(CGPoint(x: text.x, y: text.y)),
+                               size: BoardText.defaultSize)
+        if let size = text.size {
+            guard BoardText.sizeRange.contains(size) else {
+                throw SchematicFileError.badPCB("\(name) size \(size) must be 10 to 1000 mil")
+            }
+            result.size = size
+        }
+        result.layer = try Self.value(text.layer, of: TextLayer.self, "\(name) layer", default: result.layer)
+        if let rotation = text.rotation {
+            guard BoardPlacement.rotations.contains(rotation) else {
+                throw SchematicFileError.badPCB("\(name) rotation \(rotation) must be 0, 90, 180 or 270")
+            }
+            result.rotation = rotation
+        }
+        return result
+    }
+
+    /// The case whose raw value is `raw`, `fallback` when there is none, or
+    /// a `badPCB` error listing the allowed values.
+    private static func value<Choice: RawRepresentable & CaseIterable>(
+        _ raw: String?, of type: Choice.Type, _ name: String, default fallback: Choice
+    ) throws -> Choice where Choice.RawValue == String {
+        guard let raw else { return fallback }
+        if let value = Choice(rawValue: raw) { return value }
+        let names = Choice.allCases.map(\.rawValue)
+        let list = names.count == 2
+            ? "\(names[0]) or \(names[1])"
+            : names.dropLast().joined(separator: ", ") + " or " + names.last!
+        throw SchematicFileError.badPCB("\(name) \"\(raw)\" must be \(list)")
+    }
+
+    /// A number as written in a message: 0 or 1000.5, not 0.0.
+    private static func number(_ value: Double) -> String {
+        value == value.rounded() && abs(value) < 1e15 ? String(Int(value)) : String(value)
     }
 }
 
