@@ -391,7 +391,8 @@ struct SchematicCanvasView: View {
         switch interaction {
         case let .connecting(from, _)?:
             if let target = lineAnchor(at: viewport.world(value.location)), target != from {
-                document.connect(from, target)
+                // A refused wire changes nothing; document.editorMessage says why.
+                _ = document.connect(from, target)
             }
         case let .moveChip(id, _)?:
             if isClick(value) {
@@ -415,7 +416,8 @@ struct SchematicCanvasView: View {
     }
 
     /// Flips the switch position whose lever is under `point`, in the
-    /// document and, in play mode, in the running simulation.
+    /// document and, in play mode, in the running simulation. A position the
+    /// document refuses to turn ON never reaches the simulation.
     private func toggleSwitchLever(at point: CGPoint) {
         guard let chip = document.chip(at: point),
               let position = chip.switchPosition(at: point),

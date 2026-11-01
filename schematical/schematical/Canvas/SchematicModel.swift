@@ -703,6 +703,19 @@ final class SchematicDocument {
     /// Lowest number tried for the next part's reference ("U" plus a number).
     private(set) var nextReference = 1
 
+    /// Why the last wire or switch edit was refused (a voltage out of range),
+    /// or nil. Cleared by the next accepted one; the window clears it after a
+    /// few seconds.
+    var editorMessage: String?
+
+    /// The part library, for the voltage check. With none, no edit is
+    /// refused.
+    private let library: PartLibraryHandle?
+
+    init(library: PartLibraryHandle? = nil) {
+        self.library = library
+    }
+
     /// Replaces everything on the canvas, for example with a file that was
     /// just opened. Clears the selection.
     func replaceContents(chips: [PlacedChip], wires: [Wire], junctions: [Junction], nextReference: Int,
@@ -715,6 +728,7 @@ final class SchematicDocument {
         self.texts = texts
         selectedChipID = nil
         selectedTextID = nil
+        editorMessage = nil
     }
 
     // MARK: Chips
@@ -913,9 +927,6 @@ final class SchematicDocument {
         chips.last { $0.boardBounds?.contains(point) ?? false }
     }
 
-    /// Flips a switch position (1-based) between ON and OFF. Returns the new
-    /// state, or nil when the part is not a switch or has no such position.
-    @discardableResult
     /// Sets or clears an EEPROM's load file. Does nothing for other parts.
     /// The memory window calls it only while the simulation is stopped.
     func setMemoryFile(_ id: UUID, _ file: MemoryFile?) {
@@ -924,9 +935,23 @@ final class SchematicDocument {
         chips[index].memoryFile = file
     }
 
+    /// Flips a switch position (1-based) between ON and OFF. Returns the new
+    /// state, or nil when the part is not a switch or has no such position,
+    /// or when turning it ON would put a voltage out of range on a part (the
+    /// switch stays OFF and `editorMessage` says why).
+    @discardableResult
     func toggleSwitch(_ id: UUID, position: Int) -> Bool? {
         guard let index = chips.firstIndex(where: { $0.id == id }),
               chips[index].switchesOn.indices.contains(position - 1) else { return nil }
+        if !chips[index].switchesOn[position - 1], let library {
+            var candidate = chips
+            candidate[index].switchesOn[position - 1] = true
+            if let issue = VoltageCheck.firstNew(before: chips, wires, after: candidate, wires, library: library) {
+                editorMessage = VoltageCheck.message(issue, chips: chips, edit: .turnOn)
+                return nil
+            }
+        }
+        editorMessage = nil
         chips[index].switchesOn[position - 1].toggle()
         return chips[index].switchesOn[position - 1]
     }
@@ -1021,19 +1046,52 @@ final class SchematicDocument {
     /// Connects two anchors with an orthogonal route. A grid point on an existing
     /// wire becomes a junction: that wire is split there and the new wire branches
     /// from it.
-    func connect(_ start: LineAnchor, _ end: LineAnchor) {
+    ///
+    /// Refused, with nothing changed, when the wire would put a voltage out of
+    /// range on a part (a problem the drawing doesn't already have). Returns
+    /// why, which is also `editorMessage`; nil otherwise.
+    func connect(_ start: LineAnchor, _ end: LineAnchor) -> String? {
         guard start != end,
               let a = anchorTip(start), let b = anchorTip(end), a != b else {
-            return
+            return nil
         }
+
+        // The check runs on stand-in ends before anything changes: resolving a
+        // point on a wire for real splits that wire.
+        if let library, let standInStart = standIn(for: start), let standInEnd = standIn(for: end) {
+            let candidate = wires + [Wire(start: standInStart, end: standInEnd, interior: [])]
+            if let issue = VoltageCheck.firstNew(before: chips, wires, after: chips, candidate, library: library) {
+                editorMessage = VoltageCheck.message(issue, chips: chips, edit: .connect)
+                return editorMessage
+            }
+        }
+        editorMessage = nil
 
         // Resolve the start first, so a split for it is in place before the end is looked up.
         guard let from = endpoint(for: start), let to = endpoint(for: end),
               let fromTip = endTip(from), let toTip = endTip(to) else {
-            return
+            return nil
         }
         let route = OrthogonalRoute.route(from: fromTip, to: toTip)
         wires.append(Wire(start: from, end: to, interior: Array(route.dropFirst().dropLast())))
+        return nil
+    }
+
+    /// A wire end in the same net as the end `anchor` would get, without
+    /// changing anything: a point on a wire stands in as that wire's start.
+    private func standIn(for anchor: LineAnchor) -> WireEnd? {
+        switch anchor {
+        case let .pin(ref):
+            return .pin(ref)
+        case let .point(point):
+            if let existing = junctions.first(where: { $0.point == point }) {
+                return .junction(existing.id)
+            }
+            if let wire = wire(at: point) {
+                return wire.start
+            }
+            return .junction(UUID())
+        }
     }
 
     /// The wire end for an anchor. Creates a junction when the anchor is a point on a wire.
@@ -1046,18 +1104,32 @@ final class SchematicDocument {
         }
     }
 
+    /// The wire passing through `point`, if any. Changes nothing.
+    func wire(at point: CGPoint) -> Wire? {
+        wireHit(at: point)?.wire
+    }
+
+    /// The wire passing through `point`, and the segment it's on.
+    private func wireHit(at point: CGPoint) -> (wire: Wire, index: Int)? {
+        guard let hit = segmentHit(at: point, tolerance: 0.5),
+              let wire = wires.first(where: { $0.id == hit.wire }) else {
+            return nil
+        }
+        return (wire, hit.index)
+    }
+
     /// The junction at `point`, creating one if an existing wire passes through it.
     /// The wire is split into two wires that meet at the junction.
     private func junction(at point: CGPoint) -> UUID? {
         if let existing = junctions.first(where: { $0.point == point }) {
             return existing.id
         }
-        guard let hit = segmentHit(at: point, tolerance: 0.5),
-              let index = wires.firstIndex(where: { $0.id == hit.wire }) else {
+        guard let hit = wireHit(at: point),
+              let index = wires.firstIndex(where: { $0.id == hit.wire.id }) else {
             return nil
         }
 
-        var path = self.path(forWire: hit.wire)
+        var path = self.path(forWire: hit.wire.id)
         if !path.contains(point) {
             path.insert(point, at: hit.index + 1)
         }

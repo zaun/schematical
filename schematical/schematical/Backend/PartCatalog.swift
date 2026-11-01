@@ -129,7 +129,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case led(color: String)
         case display(DisplayInfo)
         case oscillator(family: String, minHz: UInt64, maxHz: UInt64, defaultHz: UInt64, enablePin: String?)
-        case supply(level: Int)
+        /// `mv`: the supply's voltage in millivolts (0 for ground).
+        case supply(level: Int, mv: UInt32)
     }
 
     let name: String
@@ -314,9 +315,9 @@ extension CatalogPart {
                                   defaultHz: osc.default_hz,
                                   enablePin: osc.enable_pin.map { String(cString: $0) })
         } else if let supply = part.supply?.pointee {
-            details = .supply(level: Int(supply.level))
+            details = .supply(level: Int(supply.level), mv: supply.mv)
         } else {
-            details = .supply(level: 0)
+            details = .supply(level: 0, mv: 0)
         }
     }
 }
@@ -435,7 +436,7 @@ func symbol(for part: CatalogPart) -> PartSymbol {
     case PART_7SEG: return .sevenSegment
     case PART_OSCILLATOR: return .oscillator
     case PART_SUPPLY:
-        if case let .supply(level) = part.details, level == 0 { return .ground }
+        if case let .supply(level, _) = part.details, level == 0 { return .ground }
         return .vcc
     default: return .block
     }

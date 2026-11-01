@@ -57,7 +57,7 @@ struct ContentView: View {
 
     init() {
         let catalog = PartCatalogStore()
-        let document = SchematicDocument()
+        let document = SchematicDocument(library: catalog.library)
         let simulation = SimulationController(library: catalog.library)
         _catalog = State(initialValue: catalog)
         _document = State(initialValue: document)

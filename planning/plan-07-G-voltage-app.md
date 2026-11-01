@@ -316,18 +316,29 @@ Acceptance:
   file names `5V`, not `VCC`). The remaining `"VCC"` strings in
   `backend/tests/*.c` are the three net/pin names (`display7_test.c:55`,
   `eeprom_test.c:56`, `engine_test.c:121`).
-Commit: —
+Commit: 4790eb5
 
 ### Phase 2 — Voltage check in the editor
 
-- [ ] Bridging header, `VoltageCheck.swift` (§4.2).
-- [ ] `wire(at:)`, `connect` and `toggleSwitch` refusal, `editorMessage`
+- [x] Bridging header, `VoltageCheck.swift` (§4.2).
+- [x] `wire(at:)`, `connect` and `toggleSwitch` refusal, `editorMessage`
       (§4.3). Update the caller at `SchematicCanvasView.swift:392-395`.
+- [x] Added task: `CatalogPart.Details.supply` gains `mv` here, not in
+      Phase 3 — the clash message names the lower supply first, which needs
+      each supply's voltage.
 
 Acceptance: harness cases 2–5 pass.
   Check: `MAIN=/tmp/p07/harness/main.swift sh /tmp/p07/harness/build.sh $PWD /tmp/p07/out /tmp/p07-dd/Build/Products/Debug/schematical.app && /tmp/p07/out/H.app/Contents/MacOS/harness`
   → `cases 2-5 ok` (est. 5 min, including the Debug build the harness
   copies).
+  Result (2026-11-01): `xcodebuild … build` → `** BUILD SUCCEEDED **`;
+  `MAIN=/tmp/p07/harness/h.swift sh …/build.sh … && …/harness 2-5` →
+  `case 2 ok: Can't connect: 5 V on U2 pin 14 (VCC). SN74AUC00RGYR needs
+  0.8–2.7 V. (also refused on a point of a wire, with no split)`, `case 3
+  ok`, `case 4 ok`, `case 5 ok: Can't turn on: 1.8 V (U2) and 5 V (U1)
+  supplies on one net.`, `cases 2-5 ok`. Case 2 also connects 5V to a grid
+  point on an existing wire of the AUC VCC net: refused with the same wires
+  and no junction (the split `endpoint(for:)` would make never happens).
 Commit: —
 
 ### Phase 3 — Toolbar, overlay, red net, drawer labels
