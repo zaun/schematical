@@ -91,7 +91,7 @@ static void check_valid_supply(void) {
         CHECK(vcc->kind == PART_SUPPLY && vcc->supply != NULL && vcc->supply->level == 1);
         CHECK(gnd->supply->level == 0);
         CHECK(strcmp(vcc->function, "VCC") == 0 && vcc->drawer_count == 0);
-        CHECK(vcc->pin_count == 1 && vcc->pins[0].number == 1 && vcc->pins[0].role == PIN_POWER);
+        CHECK(vcc->pin_count == 1 && strcmp(vcc->pins[0].designator, "1") == 0 && vcc->pins[0].role == PIN_POWER);
         CHECK(strcmp(vcc->pins[0].group, "default") == 0);
         CHECK(gnd->flags == (PART_OBSOLETE | PART_MILITARY) && vcc->flags == 0);
         CHECK(vcc->logic == NULL && vcc->led == NULL && vcc->oscillator == NULL);
@@ -406,8 +406,8 @@ static void check_display_cases(void) {
     part = part_library_find(library, "LTS-X");
     CHECK(part != NULL && part->display != NULL && part->display->led_count == 2 &&
           part->display->leds[1].digit == 0 && strcmp(part->display->leds[1].segment, "L1") == 0 &&
-          part->display->segment_pin_count == 1 && part->display->segment_pins[0] == 1 &&
-          part->display->common_pin_count == 2 && part->display->common_pins[1] == 3 &&
+          part->display->segment_pin_count == 1 && part->display->segment_pins[0] == 0 &&
+          part->display->common_pin_count == 2 && part->display->common_pins[1] == 2 &&
           part->pins[3].role == PIN_ABSENT);
     printf("ok   valid 7seg file%s%s\n", error != NULL ? ": " : "", error != NULL ? error : "");
     free(error);
@@ -419,7 +419,92 @@ static void check_display_cases(void) {
                 "segmentSide[1]: \"CC\" is not a segment pin");
 }
 
+/* An LED with a numbered and a ball pinout; BGA_PINS is the ball pinout's pins. */
+#define BALL_LED(BGA_PINS) \
+    HEAD("led") "{'id':'led-ball','function':'LED','description':'d','drawer':[]," \
+    "'pinouts':{'dip2':[{'number':1,'name':'K','role':'input'},{'number':2,'name':'A','role':'input'}]," \
+    "'bga':[" BGA_PINS "]},'color':'Red','anode':'A','cathode':'K'," \
+    "'parts':[{'name':'LED-BALL-DIP','package':'DIP','pinout':'dip2'}," \
+    "{'name':'LED-BALL-BGA','package':'BGA','pinout':'bga'}]}" TAIL
+#define BALL_LED_PINS "{'ball':'A1','name':'K','role':'input'},{'ball':'B2','name':'A','role':'input'}"
+
+/* An oscillator with a ball pinout; ENABLE is the part's enablePin value. */
+#define BALL_OSC(ENABLE) \
+    HEAD("oscillator") "{'id':'o','function':'f','description':'d','drawer':[]," \
+    "'pinouts':{'bga':[{'ball':'A1','name':'OUT','role':'output'},{'ball':'A2','name':'OE','role':'input'}," \
+    "{'ball':'B1','name':'GND','role':'ground'},{'ball':'B2','name':'VDD','role':'power'}]}," \
+    "'family':'X','minHz':10,'maxHz':20,'outputs':['OUT']," \
+    "'parts':[{'name':'O1','package':'BGA','pinout':'bga','defaultHz':15,'enablePin':" ENABLE "}]}" TAIL
+
+static void check_ball_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+    size_t i;
+
+    CHECK(load(library, BALL_LED(BALL_LED_PINS), &error) == 0);
+    part = part_library_find(library, "LED-BALL-BGA");
+    CHECK(part != NULL && part->pin_count == 2 && strcmp(part->pins[0].designator, "A1") == 0 &&
+          strcmp(part->pins[1].designator, "B2") == 0 && strcmp(part->pins[1].name, "A") == 0 &&
+          part->led != NULL && part_internal(part)->bound != NULL);
+    part = part_library_find(library, "LED-BALL-DIP");
+    CHECK(part != NULL && strcmp(part->pins[1].designator, "2") == 0);
+    printf("ok   ball pinout beside a numbered one%s%s\n", error != NULL ? ": " : "",
+           error != NULL ? error : "");
+    free(error);
+    error = NULL;
+    part_library_destroy(library);
+
+    library = part_library_create();
+    CHECK(load(library, BALL_OSC("'A2'"), &error) == 0);
+    part = part_library_find(library, "O1");
+    CHECK(part != NULL && part->oscillator != NULL && part->oscillator->enable_pin != NULL);
+    for (i = 0; part != NULL && i < part->pin_count; i++) {
+        if (strcmp(part->pins[i].designator, "A2") == 0) {
+            CHECK(part->oscillator->enable_pin == part->pins[i].designator);
+        }
+    }
+    printf("ok   ball oscillator with enablePin \"A2\"%s%s\n", error != NULL ? ": " : "",
+           error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("ball pin with both keys",
+                BALL_LED("{'ball':'A1','number':1,'name':'K','role':'input'},"
+                         "{'ball':'B2','name':'A','role':'input'}"),
+                "pinouts.bga: pin 1: a pin has \"number\" or \"ball\", not both");
+    expect_fail("ball pinout pin with neither key",
+                BALL_LED("{'ball':'A1','name':'K','role':'input'},{'name':'A','role':'input'}"),
+                "pinouts.bga: pin 2: a pin needs \"number\" or \"ball\"");
+    expect_fail("ball and number mixed in one pinout",
+                BALL_LED("{'ball':'A1','name':'K','role':'input'},{'number':2,'name':'A','role':'input'}"),
+                "pin 2: every pin of a pinout uses \"number\", or every pin uses \"ball\"");
+    expect_fail("ball row I",
+                BALL_LED("{'ball':'I1','name':'K','role':'input'},{'ball':'B2','name':'A','role':'input'}"),
+                "\"I1\" is not a ball name");
+    expect_fail("ball column 0",
+                BALL_LED("{'ball':'A0','name':'K','role':'input'},{'ball':'B2','name':'A','role':'input'}"),
+                "\"A0\" is not a ball name");
+    expect_fail("ball column with a leading zero",
+                BALL_LED("{'ball':'A01','name':'K','role':'input'},{'ball':'B2','name':'A','role':'input'}"),
+                "\"A01\" is not a ball name");
+    expect_fail("ball row of three letters",
+                BALL_LED("{'ball':'AAA1','name':'K','role':'input'},{'ball':'B2','name':'A','role':'input'}"),
+                "\"AAA1\" is not a ball name");
+    expect_fail("ball used twice",
+                BALL_LED("{'ball':'A1','name':'K','role':'input'},{'ball':'A1','name':'A','role':'input'}"),
+                "pin 2: ball \"A1\" is used twice");
+    expect_fail("absent ball in a ball pinout",
+                BALL_LED(BALL_LED_PINS ",{'ball':'C3','name':'NP','role':'absent'}"),
+                "pin 3: a ball pinout lists only real balls; leave \"absent\" positions out");
+    expect_fail("ball oscillator enablePin Z9", BALL_OSC("'Z9'"),
+                "\"enablePin\" Z9 is not a pin of pinout \"bga\"");
+    expect_fail("ball oscillator enablePin true", BALL_OSC("true"),
+                "\"enablePin\" must be a pin number or a ball name");
+}
+
 int main(void) {
+    check_ball_cases();
     check_display_cases();
     check_sram_cases();
     check_switch_cases();

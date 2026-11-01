@@ -45,9 +45,9 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-01 complete (all letters archived) | `ls planning/plan-01-* 2>/dev/null` → no output | MET (2026-10-31) |
-| Backend tests green on `main` | `cmake -S backend -B /tmp/logic-bga && cmake --build /tmp/logic-bga -j8 && ctest --test-dir /tmp/logic-bga` → `100% tests passed, 0 tests failed out of 7` | MET (2026-10-31, 18.9 s) |
-| App builds on `main` | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-bga-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-10-31, clean build 29 s) |
+| plan-01 complete (all letters archived) | `ls planning/plan-01-* 2>/dev/null` → no output | MET (2026-11-01, `zsh: no matches found`) |
+| Backend tests green on `main` | `cmake -S backend -B /tmp/logic-bga && cmake --build /tmp/logic-bga -j8 && ctest --test-dir /tmp/logic-bga` → `100% tests passed, 0 tests failed out of 7` | MET (2026-11-01, worktree P-02, 18.9 s) |
+| App builds on `main` | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-bga-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01, worktree P-02) |
 
 Everything below is written for the world where these hold.
 
@@ -325,22 +325,23 @@ The C library changes alone, with the tests updated in the same commit. The
 app is not built in this phase; it is fixed in Phase 2 and the two land
 back to back.
 
-- [ ] `backend/include/parts.h`: `PartPin.designator` (§4.1), `PartDisplay.segment_pins/common_pins` as `const size_t *` (§4.2), `PartOscillator.enable_pin` as `const char *` (§4.3); fix the `PIN_ABSENT` comment.
-- [ ] `backend/src/library/library.c`: `PIN_KEYS` + `"ball"`; `load_pinout` style, ball-name, duplicate and absent rules with the §4.1 messages; designator for numbered pins.
-- [ ] `backend/src/models/display7.c:expand_side`: store indices.
-- [ ] `backend/src/models/oscillator.c`: `enablePin` integer-or-string by designator (§4.3); `osc_create` index by pointer equality.
-- [ ] `backend/include/circuit.h`, `backend/src/circuit.c`: `circuit_connect(…, const char *pin, …)` (§4.4).
-- [ ] `backend/tests/support/listing.c`: print designators (§4.5).
-- [ ] `backend/tests/circuit_check.c`: the 29 calls take string literals (`1` → `"1"`); line 129 keeps `const char *out = osc_part->pins[i].designator`; line 245's "past the end" case uses `"99"`; add `circuit_connect(c, display, NULL, n0) == -1` ("a NULL pin is rejected").
-- [ ] `backend/tests/sram_test.c:58`: return `i`. `backend/tests/library_check.c:94`: `strcmp(vcc->pins[0].designator, "1") == 0`; lines 409-410: `segment_pins[0] == 0`, `common_pins[1] == 2`.
-- [ ] `backend/tests/library_check.c` new cases (inline JSON, as the existing ones):
+- [x] `backend/include/parts.h`: `PartPin.designator` (§4.1), `PartDisplay.segment_pins/common_pins` as `const size_t *` (§4.2), `PartOscillator.enable_pin` as `const char *` (§4.3); fix the `PIN_ABSENT` comment.
+- [x] `backend/src/library/library.c`: `PIN_KEYS` + `"ball"`; `load_pinout` style, ball-name, duplicate and absent rules with the §4.1 messages; designator for numbered pins.
+- [x] `backend/src/models/display7.c:expand_side`: store indices.
+- [x] `backend/src/models/oscillator.c`: `enablePin` integer-or-string by designator (§4.3); `osc_create` index by pointer equality.
+- [x] `backend/include/circuit.h`, `backend/src/circuit.c`: `circuit_connect(…, const char *pin, …)` (§4.4).
+- [x] `backend/tests/support/listing.c`: print designators (§4.5).
+- [x] `backend/tests/circuit_check.c`: the 29 calls take string literals (`1` → `"1"`); line 129 keeps `const char *out = osc_part->pins[i].designator`; line 245's "past the end" case uses `"99"`; add `circuit_connect(c, display, NULL, n0) == -1` ("a NULL pin is rejected").
+- [x] `backend/tests/sram_test.c:58`: return `i`. `backend/tests/library_check.c:94`: `strcmp(vcc->pins[0].designator, "1") == 0`; lines 409-410: `segment_pins[0] == 0`, `common_pins[1] == 2`.
+- [x] `backend/tests/library_check.c` new cases (inline JSON, as the existing ones):
   - accepted: an LED device with a numbered `dip2` and a ball `bga` pinout (`{"ball":"A1","name":"K",…},{"ball":"B2","name":"A",…}`). The ball part has `pins[1].designator` `"B2"` and loads with anode/cathode bound.
   - accepted: an oscillator with a ball pinout and `"enablePin":"A2"`. `enable_pin` equals `pins[i].designator` for the `A2` pin.
   - rejected, one `expect_fail` each, matching the message: both keys; neither key; mixed style; `"I1"`; `"A0"`; `"A01"`; `"AAA1"`; duplicate `"A1"`; `absent` in a ball pinout; `"enablePin":"Z9"`; `"enablePin":true`.
-- [ ] `backend/tests/circuit_check.c` new case: the accepted LED ball part from an inline library, connected `"A1"`/`"B2"` between GND and VCC, lights up. Also `circuit_connect(c, led, "C3", n) == -1` with `has no pin C3`.
+- [x] `backend/tests/circuit_check.c` new case (`check_ball_led`, PASS ×4 incl. `a ball LED with VCC on B2 and GND on A1 is lit`): the accepted LED ball part from an inline library, connected `"A1"`/`"B2"` between GND and VCC, lights up. Also `circuit_connect(c, led, "C3", n) == -1` with `has no pin C3`.
 
 Acceptance: the whole backend suite passes **with `backend/tests/golden/` untouched**, and the new ball cases run.
   Check: `cmake --build /tmp/logic-bga -j8 && ctest --test-dir /tmp/logic-bga && git diff --quiet backend/tests/golden && echo goldens-untouched` → `100% tests passed, 0 tests failed out of 7` and `goldens-untouched`; `/tmp/logic-bga/library_check | grep -ci ball` → ≥ 1 `ok` line per new case (est. 30 s).
+  Result (2026-11-01): `100% tests passed, 0 tests failed out of 7`, `goldens-untouched`; `library_check | grep -i ball` → 13 `ok` lines (2 accepted + 11 rejected cases); `circuit_check` → `PASS: a NULL pin is rejected`, `0 failure(s)`.
 Commit: —
 
 ### Phase 2 — The app on pin index and designator

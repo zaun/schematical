@@ -26,11 +26,12 @@ static const char *role_name(PinRole role) {
     return (size_t)role < sizeof NAMES / sizeof NAMES[0] ? NAMES[role] : "?";
 }
 
-static void print_numbers(FILE *out, const unsigned *numbers, size_t count) {
+/* Prints the designators of the pins at these indices. */
+static void print_numbers(FILE *out, const PartPin *pins, const size_t *indices, size_t count) {
     size_t i;
 
     for (i = 0; i < count; i++) {
-        fprintf(out, i > 0 ? ",%u" : "%u", numbers[i]);
+        fprintf(out, i > 0 ? ",%s" : "%s", pins[indices[i]].designator);
     }
 }
 
@@ -63,9 +64,9 @@ static void print_details(FILE *out, const Part *part) {
                 fprintf(out, "%s%u:%s", i > 0 ? "," : "", d->leds[i].digit, d->leds[i].segment);
             }
             fputs(" segmentPins=", out);
-            print_numbers(out, d->segment_pins, d->segment_pin_count);
+            print_numbers(out, part->pins, d->segment_pins, d->segment_pin_count);
             fputs(" commonPins=", out);
-            print_numbers(out, d->common_pins, d->common_pin_count);
+            print_numbers(out, part->pins, d->common_pins, d->common_pin_count);
             break;
         }
         case PART_OSCILLATOR: {
@@ -74,8 +75,8 @@ static void print_details(FILE *out, const Part *part) {
             fprintf(out, "family=%s minHz=%llu maxHz=%llu defaultHz=%llu enablePin=", o->family,
                     (unsigned long long)o->min_hz, (unsigned long long)o->max_hz,
                     (unsigned long long)o->default_hz);
-            if (o->enable_pin != 0) {
-                fprintf(out, "%u", o->enable_pin);
+            if (o->enable_pin != NULL) {
+                fputs(o->enable_pin, out);
             } else {
                 fputs("none", out);
             }
@@ -116,7 +117,7 @@ char *listing_line(const Part *part) {
     for (i = 0; i < part->pin_count; i++) {
         const PartPin *pin = &part->pins[i];
 
-        fprintf(out, "%s%u:%s:%s:%s", i > 0 ? "," : "", pin->number, pin->name,
+        fprintf(out, "%s%s:%s:%s:%s", i > 0 ? "," : "", pin->designator, pin->name,
                 role_name(pin->role), pin->group);
     }
     fclose(out);

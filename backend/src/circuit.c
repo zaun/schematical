@@ -170,25 +170,34 @@ static int check_part(Circuit *circuit, size_t part) {
     return 0;
 }
 
-int circuit_connect(Circuit *circuit, size_t part, unsigned pin_number, size_t net) {
+int circuit_connect(Circuit *circuit, size_t part, const char *pin, size_t net) {
     const Part *info;
+    size_t i;
 
     if (check_building(circuit) != 0 || check_part(circuit, part) != 0) {
         return -1;
     }
-    info = circuit->parts[part];
-    if (pin_number < 1 || pin_number > info->pin_count) {
-        return fail(circuit, "%s has no pin %u", info->name, pin_number);
+    if (pin == NULL) {
+        return fail(circuit, "no pin given");
     }
-    if (info->pins[pin_number - 1].role == PIN_ABSENT) {
-        return fail(circuit, "pin %u of %s has no lead", pin_number, info->name);
+    info = circuit->parts[part];
+    for (i = 0; i < info->pin_count; i++) {
+        if (strcmp(info->pins[i].designator, pin) == 0) {
+            break;
+        }
+    }
+    if (i == info->pin_count) {
+        return fail(circuit, "%s has no pin %s", info->name, pin);
+    }
+    if (info->pins[i].role == PIN_ABSENT) {
+        return fail(circuit, "pin %s of %s has no lead", pin, info->name);
     }
     if (net >= circuit->net_count) {
         return fail(circuit, "no net %zu", net);
     }
-    if (!sim_connect(circuit->sim, circuit->nets[net], circuit->instances[part], pin_number - 1)) {
+    if (!sim_connect(circuit->sim, circuit->nets[net], circuit->instances[part], i)) {
         engine_failed(circuit);
-        return fail(circuit, "cannot connect pin %u of part %zu", pin_number, part);
+        return fail(circuit, "cannot connect pin %s of part %zu", pin, part);
     }
     return 0;
 }

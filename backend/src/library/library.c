@@ -165,7 +165,7 @@ static const char *const DEVICE_KEYS[] = {
     "id", "function", "description", "drawer", "note", "pinouts", "parts", NULL
 };
 static const char *const PART_KEYS[] = {"name", "package", "pinout", "flags", NULL};
-static const char *const PIN_KEYS[] = {"number", "name", "role", "group", NULL};
+static const char *const PIN_KEYS[] = {"number", "ball", "name", "role", "group", NULL};
 
 static const char *const ROLE_NAMES[] = {
     "input", "output", "inout", "power", "ground", "nc", "absent"
@@ -203,10 +203,33 @@ static int file_add_part(FileParts *file, const Part *part) {
     return 0;
 }
 
+/* JEDEC JEP95 row letters: no I, O, Q, S, X or Z. */
+static int is_row_letter(char c) {
+    return c != '\0' && strchr("ABCDEFGHJKLMNPRTUVWY", c) != NULL;
+}
+
+/* 1-2 row letters, then a column of 1-99 with no leading zero, e.g. "A1", "AB12". */
+static int is_ball_name(const char *text) {
+    size_t letters = 0;
+    size_t digits = 0;
+
+    while (letters < 2 && is_row_letter(text[letters])) {
+        letters++;
+    }
+    if (letters == 0 || text[letters] < '1' || text[letters] > '9') {
+        return 0;
+    }
+    while (text[letters + digits] >= '0' && text[letters + digits] <= '9') {
+        digits++;
+    }
+    return digits <= 2 && text[letters + digits] == '\0';
+}
+
 static int load_pinout(KindContext *ctx, const cJSON *json, Pinout *out) {
     const cJSON *pin_json;
     PartPin *pins;
     size_t n = 0;
+    int balls = 0;
 
     if (!cJSON_IsArray(json) || cJSON_GetArraySize(json) == 0) {
         return kind_error(ctx, "a pinout must be a non-empty array of pins");
@@ -218,21 +241,62 @@ static int load_pinout(KindContext *ctx, const cJSON *json, Pinout *out) {
     cJSON_ArrayForEach(pin_json, json) {
         PartPin *pin = &pins[n];
         const char *role;
-        uint64_t number;
+        int has_number, has_ball;
         size_t r;
 
         kind_push(ctx, "pin %zu", n + 1);
-        if (kind_check_keys(ctx, pin_json, PIN_KEYS, NULL) != 0 ||
-            kind_uint(ctx, pin_json, "number", 1000000, &number) != 0 ||
-            kind_string(ctx, pin_json, "name", &pin->name) != 0 ||
+        if (kind_check_keys(ctx, pin_json, PIN_KEYS, NULL) != 0) {
+            return -1;
+        }
+        has_number = cJSON_GetObjectItemCaseSensitive(pin_json, "number") != NULL;
+        has_ball = cJSON_GetObjectItemCaseSensitive(pin_json, "ball") != NULL;
+        if (has_number && has_ball) {
+            return kind_error(ctx, "a pin has \"number\" or \"ball\", not both");
+        }
+        if (!has_number && !has_ball) {
+            return kind_error(ctx, "a pin needs \"number\" or \"ball\"");
+        }
+        if (n == 0) {
+            balls = has_ball;
+        } else if (balls != has_ball) {
+            return kind_error(ctx, "every pin of a pinout uses \"number\", "
+                                   "or every pin uses \"ball\"");
+        }
+        if (has_number) {
+            uint64_t number;
+            char text[24];
+
+            if (kind_uint(ctx, pin_json, "number", 1000000, &number) != 0) {
+                return -1;
+            }
+            if (number != n + 1) {
+                return kind_error(ctx, "pin numbers must be 1..N in order (found %llu)",
+                                  (unsigned long long)number);
+            }
+            snprintf(text, sizeof text, "%llu", (unsigned long long)number);
+            pin->designator = kind_strdup(ctx, text);
+            if (pin->designator == NULL) {
+                return -1;
+            }
+        } else {
+            size_t other;
+
+            if (kind_string(ctx, pin_json, "ball", &pin->designator) != 0) {
+                return -1;
+            }
+            if (!is_ball_name(pin->designator)) {
+                return kind_error(ctx, "\"%s\" is not a ball name", pin->designator);
+            }
+            for (other = 0; other < n; other++) {
+                if (strcmp(pins[other].designator, pin->designator) == 0) {
+                    return kind_error(ctx, "ball \"%s\" is used twice", pin->designator);
+                }
+            }
+        }
+        if (kind_string(ctx, pin_json, "name", &pin->name) != 0 ||
             kind_string(ctx, pin_json, "role", &role) != 0) {
             return -1;
         }
-        if (number != n + 1) {
-            return kind_error(ctx, "pin numbers must be 1..N in order (found %llu)",
-                              (unsigned long long)number);
-        }
-        pin->number = (unsigned)number;
         for (r = 0; r < sizeof ROLE_NAMES / sizeof ROLE_NAMES[0]; r++) {
             if (strcmp(role, ROLE_NAMES[r]) == 0) {
                 break;
@@ -242,6 +306,10 @@ static int load_pinout(KindContext *ctx, const cJSON *json, Pinout *out) {
             return kind_error(ctx, "unknown role \"%s\"", role);
         }
         pin->role = (PinRole)r;
+        if (balls && pin->role == PIN_ABSENT) {
+            return kind_error(ctx, "a ball pinout lists only real balls; "
+                                   "leave \"absent\" positions out");
+        }
         if (cJSON_GetObjectItemCaseSensitive(pin_json, "group") != NULL) {
             if (kind_string(ctx, pin_json, "group", &pin->group) != 0) {
                 return -1;

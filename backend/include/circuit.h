@@ -9,8 +9,8 @@
  *     circuit_add_part(c, "VCC", &vcc);
  *     circuit_add_part(c, "LED-RED-0603", &led);
  *     circuit_add_net(c, &net);
- *     circuit_connect(c, vcc, 1, net);      // pin numbers are 1-based
- *     circuit_connect(c, led, 2, net);      // the LED's anode
+ *     circuit_connect(c, vcc, "1", net);    // pins are named by designator
+ *     circuit_connect(c, led, "2", net);    // the LED's anode
  *     circuit_start(c);
  *     circuit_advance(c, 1000000);          // 1 us
  *
@@ -34,7 +34,8 @@ const char *circuit_error(const Circuit *circuit);      /* NULL when none */
 /* Building: 0 on success, -1 with circuit_error set. Before circuit_start. */
 int circuit_add_part(Circuit *circuit, const char *part_name, size_t *index);
 int circuit_add_net(Circuit *circuit, size_t *index);
-int circuit_connect(Circuit *circuit, size_t part, unsigned pin_number, size_t net);
+/* pin is the pin's designator, e.g. "1" or "A1". */
+int circuit_connect(Circuit *circuit, size_t part, const char *pin, size_t net);
 
 /* Switches: position is 1-based; works before and after start. */
 int circuit_set_switch(Circuit *circuit, size_t part, unsigned position, int on);

@@ -26,6 +26,7 @@ typedef enum {
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY
 } PartKind;
 
+/* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
 typedef enum {
     PIN_INPUT, PIN_OUTPUT, PIN_INOUT, PIN_POWER, PIN_GROUND, PIN_NC, PIN_ABSENT
 } PinRole;
@@ -33,7 +34,11 @@ typedef enum {
 enum { PART_OBSOLETE = 1u << 0, PART_MILITARY = 1u << 1,
        PART_AUTOMOTIVE = 1u << 2, PART_ENHANCED = 1u << 3 };
 
-typedef struct { unsigned number; const char *name; PinRole role; const char *group; } PartPin;
+/* A pin's position in Part.pins is its engine pin index. */
+typedef struct {
+    const char *designator;  /* the package's label: "14" (numbered) or "A1" (ball) */
+    const char *name; PinRole role; const char *group;
+} PartPin;
 
 /* Exactly one of these is set on a Part, matching its kind. */
 typedef struct { const char *family; unsigned units; } PartLogic;         /* gate, dff, jkff */
@@ -45,11 +50,11 @@ typedef struct {
     unsigned digits; int common_anode; unsigned colon_after, dot_after;
     const char *color, *size, *chip;
     const PartDisplayLed *leds; size_t led_count;
-    const unsigned *segment_pins; size_t segment_pin_count;
-    const unsigned *common_pins; size_t common_pin_count;
+    const size_t *segment_pins; size_t segment_pin_count;  /* indices into Part.pins */
+    const size_t *common_pins; size_t common_pin_count;    /* indices into Part.pins */
 } PartDisplay;
 typedef struct { const char *family; uint64_t min_hz, max_hz, default_hz;
-                 unsigned enable_pin; /* pin number, 0 = none */ } PartOscillator;
+                 const char *enable_pin; /* the pin's designator, NULL = none */ } PartOscillator;
 typedef struct { int level; } PartSupply;
 
 typedef struct Part {

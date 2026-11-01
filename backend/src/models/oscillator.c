@@ -6,6 +6,7 @@
  * picoseconds.
  */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -70,6 +71,7 @@ static int osc_load_part(KindContext *ctx, const void *raw, const void *bound,
                          const cJSON *json, Part *out) {
     const OscDevice *device = raw;
     PartOscillator *info = kind_alloc(ctx, sizeof(*info));
+    const cJSON *item;
 
     (void)bound;
     if (info == NULL || kind_uint(ctx, json, "defaultHz", UINT64_MAX, &info->default_hz) != 0) {
@@ -79,16 +81,34 @@ static int osc_load_part(KindContext *ctx, const void *raw, const void *bound,
         return kind_error(ctx, "defaultHz %llu is outside minHz..maxHz",
                           (unsigned long long)info->default_hz);
     }
-    if (cJSON_GetObjectItemCaseSensitive(json, "enablePin") != NULL) {
-        uint64_t number;
+    item = cJSON_GetObjectItemCaseSensitive(json, "enablePin");
+    if (item != NULL) {
+        /* A pin number (numbered pinouts) or the designator as written (ball pinouts). */
+        char text[24];
+        const char *designator = NULL;
+        const cJSON *pinout = cJSON_GetObjectItemCaseSensitive(json, "pinout");
+        size_t i;
 
-        if (kind_uint(ctx, json, "enablePin", out->pin_count, &number) != 0) {
-            return -1;
+        if (cJSON_IsString(item)) {
+            designator = item->valuestring;
+        } else if (cJSON_IsNumber(item) && item->valuedouble >= 0 &&
+                   item->valuedouble < 1e15 &&
+                   item->valuedouble == (double)(unsigned long long)item->valuedouble) {
+            snprintf(text, sizeof text, "%llu", (unsigned long long)item->valuedouble);
+            designator = text;
+        } else {
+            return kind_error(ctx, "\"enablePin\" must be a pin number or a ball name");
         }
-        if (number == 0) {
-            return kind_error(ctx, "\"enablePin\" is a pin number from 1");
+        for (i = 0; i < out->pin_count; i++) {
+            if (strcmp(out->pins[i].designator, designator) == 0) {
+                info->enable_pin = out->pins[i].designator;
+                break;
+            }
         }
-        info->enable_pin = (unsigned)number;
+        if (info->enable_pin == NULL) {
+            return kind_error(ctx, "\"enablePin\" %s is not a pin of pinout \"%s\"", designator,
+                              cJSON_IsString(pinout) ? pinout->valuestring : "");
+        }
     }
     info->family = device->family;
     info->min_hz = device->min_hz;
@@ -116,6 +136,7 @@ static void *osc_create(const void *config) {
     const OscPins *pins = part_internal(part)->bound;
     uint64_t hz = part->oscillator->default_hz;
     OscState *state;
+    size_t i;
 
     if (hz == 0) {
         return NULL;
@@ -127,7 +148,12 @@ static void *osc_create(const void *config) {
     state->half_period = (1000000000000ULL + hz) / (2 * hz);
     state->out_pin = pins->out_pin;
     state->comp_pin = pins->comp_pin;
-    state->enable_pin = part->oscillator->enable_pin > 0 ? (int)part->oscillator->enable_pin - 1 : -1;
+    state->enable_pin = -1;
+    for (i = 0; i < part->pin_count; i++) {
+        if (part->pins[i].designator == part->oscillator->enable_pin) {
+            state->enable_pin = (int)i;
+        }
+    }
     state->level = LOGIC_0;
     return state;
 }

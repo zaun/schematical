@@ -55,7 +55,7 @@ static size_t pin_named(const Bench *bench, const char *name) {
 
     for (i = 0; i < bench->part->pin_count; i++) {
         if (strcmp(bench->part->pins[i].name, name) == 0) {
-            return bench->part->pins[i].number - 1;
+            return i;
         }
     }
     fprintf(stderr, "no pin %s on %s\n", name, bench->part->name);

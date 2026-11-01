@@ -54,10 +54,10 @@ static void check_lit_led(void) {
     size_t n0 = net(c);
     size_t n1 = net(c);
 
-    circuit_connect(c, vcc, 1, n0);
-    circuit_connect(c, gnd, 1, n1);
-    circuit_connect(c, led, 2, n0);
-    circuit_connect(c, led, 1, n1);
+    circuit_connect(c, vcc, "1", n0);
+    circuit_connect(c, gnd, "1", n1);
+    circuit_connect(c, led, "2", n0);
+    circuit_connect(c, led, "1", n1);
     expect(circuit_start(c) == 0 && circuit_advance(c, 1000) == 1, "LED circuit runs");
     expect(light(c, led) == 1, "LED with anode high and cathode low is lit");
     circuit_destroy(c);
@@ -72,9 +72,9 @@ static void check_dark_led(void) {
     size_t n0 = net(c);
     size_t n1 = net(c);
 
-    circuit_connect(c, vcc, 1, n0);
-    circuit_connect(c, gnd, 1, n1);
-    circuit_connect(c, led, 1, n1);
+    circuit_connect(c, vcc, "1", n0);
+    circuit_connect(c, gnd, "1", n1);
+    circuit_connect(c, led, "1", n1);
     circuit_start(c);
     circuit_advance(c, 1000);
     expect(light(c, led) == 0, "LED with an unconnected anode is dark");
@@ -89,8 +89,8 @@ static void check_short(void) {
     size_t n0 = net(c);
     size_t shorted = 99;
 
-    circuit_connect(c, vcc, 1, n0);
-    circuit_connect(c, gnd, 1, n0);
+    circuit_connect(c, vcc, "1", n0);
+    circuit_connect(c, gnd, "1", n0);
     circuit_start(c);
     expect(circuit_advance(c, 1000) == 0, "a short stops the run");
     expect(circuit_error(c) != NULL && strncmp(circuit_error(c), "smoke:", 6) == 0,
@@ -119,21 +119,21 @@ static void check_oscillator_blinks(void) {
     size_t led = part(c, "LED-RED-0603");
     size_t n0 = net(c);
     size_t n1 = net(c);
-    unsigned out = 0;
+    const char *out = NULL;
     size_t i;
     int last = -1;
     int transitions = 0;
 
     for (i = 0; osc_part != NULL && i < osc_part->pin_count; i++) {
         if (osc_part->pins[i].role == PIN_OUTPUT) {
-            out = osc_part->pins[i].number;
+            out = osc_part->pins[i].designator;
             break;
         }
     }
     circuit_connect(c, osc, out, n0);
-    circuit_connect(c, gnd, 1, n1);
-    circuit_connect(c, led, 2, n0);
-    circuit_connect(c, led, 1, n1);
+    circuit_connect(c, gnd, "1", n1);
+    circuit_connect(c, led, "2", n0);
+    circuit_connect(c, led, "1", n1);
     circuit_start(c);
     /* About 1 ms of simulated time, in 1 us steps. */
     for (i = 0; i < 1000; i++) {
@@ -167,12 +167,12 @@ static void check_switch(void) {
     size_t n2 = net(c);
     Circuit *small;
 
-    circuit_connect(c, vcc, 1, n0);
-    circuit_connect(c, sw, 2, n0);
-    circuit_connect(c, sw, 7, n1);
-    circuit_connect(c, led, 2, n1);
-    circuit_connect(c, led, 1, n2);
-    circuit_connect(c, gnd, 1, n2);
+    circuit_connect(c, vcc, "1", n0);
+    circuit_connect(c, sw, "2", n0);
+    circuit_connect(c, sw, "7", n1);
+    circuit_connect(c, led, "2", n1);
+    circuit_connect(c, led, "1", n2);
+    circuit_connect(c, gnd, "1", n2);
     expect(circuit_set_switch(c, sw, 2, 1) == 0, "a switch position turns ON before start");
     expect(circuit_start(c) == 0 && circuit_advance(c, 1000) == 1, "switch circuit runs");
     expect(circuit_net_value(c, n1) == CIRCUIT_1 && light(c, led) == 1,
@@ -214,12 +214,12 @@ static void check_memory(void) {
     uint32_t words = 0;
     unsigned bits = 0;
 
-    circuit_connect(c, vcc, 1, n0);
-    circuit_connect(c, gnd, 1, n1);
-    circuit_connect(c, ram, 20, n0);
-    circuit_connect(c, ram, 27, n0);
-    circuit_connect(c, ram, 14, n1);
-    circuit_connect(c, ram, 28, n0);
+    circuit_connect(c, vcc, "1", n0);
+    circuit_connect(c, gnd, "1", n1);
+    circuit_connect(c, ram, "20", n0);
+    circuit_connect(c, ram, "27", n0);
+    circuit_connect(c, ram, "14", n1);
+    circuit_connect(c, ram, "28", n0);
     expect(circuit_start(c) == 0 && circuit_advance(c, 1000000) == 1, "circuit with an SRAM runs");
     expect(circuit_memory_size(c, ram, &words, &bits) && words == 32768 && bits == 8,
            "circuit_memory_size reports 32768 x 8");
@@ -233,23 +233,59 @@ static void check_memory(void) {
     circuit_destroy(c);
 }
 
+/* A ball-pinout LED from an inline part file: "B2" (anode) on VCC, "A1" on GND lights it. */
+static void check_ball_led(void) {
+    static const char *const text =
+        "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"led\",\"devices\":["
+        "{\"id\":\"led-ball\",\"function\":\"LED\",\"description\":\"d\",\"drawer\":[],"
+        "\"pinouts\":{\"bga\":[{\"ball\":\"A1\",\"name\":\"K\",\"role\":\"input\"},"
+        "{\"ball\":\"B2\",\"name\":\"A\",\"role\":\"input\"}]},"
+        "\"color\":\"Red\",\"anode\":\"A\",\"cathode\":\"K\","
+        "\"parts\":[{\"name\":\"LED-BALL-BGA\",\"package\":\"BGA\",\"pinout\":\"bga\"}]}]}";
+    char *error = NULL;
+    Circuit *c;
+    size_t vcc, gnd, led, n0, n1;
+
+    expect(load_parts(library, text, "ball.json", &error) == 0, "a ball-pinout LED loads");
+    free(error);
+    c = circuit_create(library);
+    vcc = part(c, "VCC");
+    gnd = part(c, "GND");
+    led = part(c, "LED-BALL-BGA");
+    n0 = net(c);
+    n1 = net(c);
+    expect(circuit_connect(c, led, "C3", n0) == -1 && circuit_error(c) != NULL &&
+               strstr(circuit_error(c), "has no pin C3") != NULL,
+           "an unknown ball is rejected");
+    expect(circuit_connect(c, vcc, "1", n0) == 0 && circuit_connect(c, gnd, "1", n1) == 0 &&
+               circuit_connect(c, led, "B2", n0) == 0 && circuit_connect(c, led, "A1", n1) == 0,
+           "a ball LED connects by ball name");
+    circuit_start(c);
+    circuit_advance(c, 1000000);
+    expect(light(c, led) == 1, "a ball LED with VCC on B2 and GND on A1 is lit");
+    circuit_destroy(c);
+}
+
 static void check_building_errors(void) {
     Circuit *c = circuit_create(library);
     size_t display = part(c, "LTC-4727JR");
     size_t n0 = net(c);
     size_t index;
 
-    expect(circuit_connect(c, display, 10, n0) == -1 && circuit_error(c) != NULL &&
+    expect(circuit_connect(c, display, "10", n0) == -1 && circuit_error(c) != NULL &&
                strstr(circuit_error(c), "pin 10 of LTC-4727JR has no lead") != NULL,
            "connecting an absent pin is rejected");
-    expect(circuit_connect(c, display, 99, n0) == -1, "a pin number past the end is rejected");
-    expect(circuit_connect(c, display, 1, 5) == -1, "a missing net is rejected");
+    expect(circuit_connect(c, display, "99", n0) == -1, "a pin number past the end is rejected");
+    expect(circuit_connect(c, display, "1", 5) == -1, "a missing net is rejected");
+    expect(circuit_connect(c, display, NULL, n0) == -1 &&
+               strstr(circuit_error(c), "no pin given") != NULL,
+           "a NULL pin is rejected");
     expect(circuit_start(c) == 0, "the circuit starts");
     expect(circuit_add_part(c, "VCC", &index) == -1 &&
                strstr(circuit_error(c), "circuit already started") != NULL,
            "adding a part after start is rejected");
     expect(circuit_add_net(c, &index) == -1, "adding a net after start is rejected");
-    expect(circuit_connect(c, display, 1, n0) == -1, "connecting after start is rejected");
+    expect(circuit_connect(c, display, "1", n0) == -1, "connecting after start is rejected");
     circuit_destroy(c);
 }
 
@@ -266,6 +302,7 @@ int main(void) {
     check_switch();
     check_memory();
     check_building_errors();
+    check_ball_led();
     part_library_destroy(library);
     printf("%d failure(s)\n", failures);
     return failures == 0 ? 0 : 1;

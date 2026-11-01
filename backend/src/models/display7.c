@@ -248,15 +248,15 @@ static void *display_load_device(KindContext *ctx, const cJSON *json) {
     return device;
 }
 
-/* Expands side names to pin numbers; every name must be a pin of the right kind. */
-static unsigned *expand_side(KindContext *ctx, const char *key, const char *const *names,
+/* Expands side names to pin indices; every name must be a pin of the right kind. */
+static size_t *expand_side(KindContext *ctx, const char *key, const char *const *names,
                              size_t name_count, int commons, const DisplayDevice *device,
                              const PartPin *pins, size_t pin_count, size_t *count) {
-    unsigned *numbers = kind_alloc(ctx, pin_count * sizeof(*numbers) + 1);
+    size_t *indices_out = kind_alloc(ctx, pin_count * sizeof(*indices_out) + 1);
     size_t n = 0;
     size_t i;
 
-    if (numbers == NULL) {
+    if (indices_out == NULL) {
         return NULL;
     }
     for (i = 0; i < name_count; i++) {
@@ -282,12 +282,12 @@ static unsigned *expand_side(KindContext *ctx, const char *key, const char *cons
             return NULL;
         }
         for (j = 0; j < found && n < pin_count; j++) {
-            numbers[n++] = pins[indices[j]].number;
+            indices_out[n++] = indices[j];
         }
         kind_pop(ctx);
     }
     *count = n;
-    return numbers;
+    return indices_out;
 }
 
 static int pin_is(const PartPin *pin, const char *name) {
