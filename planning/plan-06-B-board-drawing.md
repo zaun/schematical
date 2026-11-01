@@ -34,7 +34,7 @@ See plan-06-A §Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-06-A complete | `ls planning/completed/plan-06-A-board-model.md` → exists | NOT MET (2026-11-01) |
+| plan-06-A complete | `ls planning/completed/plan-06-A-board-model.md` → exists | MET (2026-11-01, 9d707ad) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue and before you stop; if you stop,
@@ -160,8 +160,18 @@ for hidden); `TextLayer.color(on:)`.
 
 ### Phase 1 — Simulation off the PCB page
 
-- [ ] `ContentView.swift`: §4.0 toolbar, banner, `onChange`, `canRotate`.
-- [ ] `Canvas/PCBCanvasView.swift`: drop `simulation` / `isRunning` (§4.0).
+- [x] `ContentView.swift`: §4.0 toolbar, banner, `onChange`, `canRotate`.
+      `harness window-b1`: `schematic: running true` (toolbar … `Stop` …),
+      `pcb: running false` (toolbar `Open`, `Save`, `Rotate`, zoom — no
+      Run/Stop, one hosting item fewer: the speed menu), `back: running false`
+      (`Run`); `b1-schematic.png`, `b1-pcb.png`, `b1-back.png`.
+- [x] `Canvas/PCBCanvasView.swift`: drop `simulation` / `isRunning` (§4.0).
+      `grep -c 'isRunning\|simulation' …/PCBCanvasView.swift` → 0;
+      `xcodebuild` → `** BUILD SUCCEEDED **`.
+- [x] Test affordance (added): `SchematicSessions.allSessions` (read-only),
+      so the harness reaches a live window's document and simulation; the
+      page is switched through the toolbar's own `NSSegmentedControl` and Run
+      through its toolbar item (Corrections 1).
 
 Acceptance: switching to PCB stops the simulation; the PCB toolbar has no
 simulation controls; the Schematic toolbar is unchanged.
@@ -232,6 +242,13 @@ Commit: —
   size.
 
 ## Corrections
+
+1. Phase 1's window check needs to reach the window's document and
+   simulation, which `ContentView` keeps in private `@State`. Added the
+   read-only `SchematicSessions.allSessions` (`Memory/MemoryWindow.swift`);
+   the harness hosts `ContentView` in an `NSHostingController` with
+   `sceneBridgingOptions = [.toolbars, .title]` so the toolbar is real, and
+   presses the toolbar's own controls.
 
 ## Summary
 

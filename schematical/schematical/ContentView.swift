@@ -81,9 +81,10 @@ struct ContentView: View {
         )
     }
 
-    /// The selected part, when it has a footprint to rotate.
+    /// The selected part, when it has a footprint to rotate. Rotate is only on
+    /// the PCB page, where the simulation never runs.
     private var canRotate: Bool {
-        guard !simulation.isRunning, let id = document.selectedChipID else { return false }
+        guard let id = document.selectedChipID else { return false }
         return document.chips.first { $0.id == id }?.board != nil
     }
 
@@ -107,7 +108,7 @@ struct ContentView: View {
                 tool = .pointer
             }
         case .pcb:
-            PCBCanvasView(document: document, viewport: boardViewport, simulation: simulation)
+            PCBCanvasView(document: document, viewport: boardViewport)
         }
     }
 
@@ -125,38 +126,42 @@ struct ContentView: View {
                     fileControls
                 }
 
-                ToolbarItem(placement: .navigation) {
-                    Button {
-                        if !simulation.isRunning {
-                            // Play mode starts with the Pointer tool and nothing selected.
-                            tool = .pointer
-                            document.selectedChipID = nil
+                // The simulation belongs to the Schematic page: the PCB page has
+                // no Run/Stop (so no ⌘R), speed menu or reached speed.
+                if page == .schematic {
+                    ToolbarItem(placement: .navigation) {
+                        Button {
+                            if !simulation.isRunning {
+                                // Play mode starts with the Pointer tool and nothing selected.
+                                tool = .pointer
+                                document.selectedChipID = nil
+                            }
+                            simulation.toggle(document: document)
+                        } label: {
+                            Label(
+                                simulation.isRunning ? "Stop" : "Run",
+                                systemImage: simulation.isRunning ? "stop.fill" : "play.fill"
+                            )
                         }
-                        simulation.toggle(document: document)
-                    } label: {
-                        Label(
-                            simulation.isRunning ? "Stop" : "Run",
-                            systemImage: simulation.isRunning ? "stop.fill" : "play.fill"
-                        )
+                        .keyboardShortcut("r", modifiers: .command)
+                        .help(simulation.isRunning ? "Stop the simulation (⌘R)" : "Run the simulation (⌘R)")
                     }
-                    .keyboardShortcut("r", modifiers: .command)
-                    .help(simulation.isRunning ? "Stop the simulation (⌘R)" : "Run the simulation (⌘R)")
-                }
 
-                ToolbarItem(placement: .navigation) {
-                    Menu(speedLabel) {
-                        ForEach(Self.speeds, id: \.value) { choice in
-                            Button(choice.label) {
-                                simulationSpeed = choice.value
-                                simulation.setSpeed(choice.value)
+                    ToolbarItem(placement: .navigation) {
+                        Menu(speedLabel) {
+                            ForEach(Self.speeds, id: \.value) { choice in
+                                Button(choice.label) {
+                                    simulationSpeed = choice.value
+                                    simulation.setSpeed(choice.value)
+                                }
                             }
                         }
+                        .help("Simulation speed: circuit time per real time")
                     }
-                    .help("Simulation speed: circuit time per real time")
-                }
 
-                ToolbarItem(placement: .navigation) {
-                    ReachedSpeedLabel(simulation: simulation)
+                    ToolbarItem(placement: .navigation) {
+                        ReachedSpeedLabel(simulation: simulation)
+                    }
                 }
 
                 ToolbarItemGroup(placement: .principal) {
@@ -214,7 +219,7 @@ struct ContentView: View {
                 }
             }
             .overlay(alignment: .bottom) {
-                if let message = simulation.errorMessage {
+                if page == .schematic, let message = simulation.errorMessage {
                     Label("Simulation stopped: \(message)", systemImage: "exclamationmark.triangle.fill")
                         .font(.callout)
                         .padding(.horizontal, 14)
@@ -222,6 +227,13 @@ struct ContentView: View {
                         .background(.red.opacity(0.85), in: Capsule())
                         .foregroundStyle(.white)
                         .padding(.bottom, 16)
+                }
+            }
+            .onChange(of: page) { _, newPage in
+                // The simulation never runs on the PCB page. Coming back to
+                // the Schematic does not restart it.
+                if newPage == .pcb {
+                    simulation.stop()
                 }
             }
             .task { catalog.load() }

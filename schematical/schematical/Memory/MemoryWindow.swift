@@ -37,6 +37,15 @@ final class SchematicSessions {
         entries[id] = Entry(document: document, simulation: simulation)
     }
 
+    /// Every open window's document and simulation. Used by the headless
+    /// harness that drives a window in the plan proofs.
+    var allSessions: [(document: SchematicDocument, simulation: SimulationController)] {
+        entries.values.compactMap { entry in
+            guard let document = entry.document, let simulation = entry.simulation else { return nil }
+            return (document, simulation)
+        }
+    }
+
     func session(_ id: UUID) -> (document: SchematicDocument, simulation: SimulationController)? {
         guard let entry = entries[id], let document = entry.document,
               let simulation = entry.simulation else { return nil }

@@ -4,16 +4,14 @@ import SwiftUI
 /// drill holes, body outline, pin-1 mark and reference, on a 0.635 mm grid.
 ///
 /// Press on a footprint to select it and drag to move it (snapped to the
-/// grid); press on empty space to clear the selection and pan. While the
-/// simulation runs, every drag pans and nothing is selected or moved.
+/// grid); press on empty space to clear the selection and pan. Nothing runs
+/// while this page shows (`ContentView` stops a run when switching to it).
 ///
 /// Board positions are millimetres; the view draws `BoardScale.pointsPerMM`
 /// world units per mm and the viewport maps world units to the screen.
 struct PCBCanvasView: View {
     let document: SchematicDocument
     let viewport: CanvasViewport
-    let simulation: SimulationController
-    private var isRunning: Bool { simulation.isRunning }
 
     @State private var interaction: Interaction?
 
@@ -134,14 +132,12 @@ struct PCBCanvasView: View {
 
     private func handleChanged(_ value: DragGesture.Value) {
         if interaction == nil {
-            if !isRunning, let hit = document.footprint(at: board(value.startLocation)),
+            if let hit = document.footprint(at: board(value.startLocation)),
                let placement = hit.board {
                 document.selectedChipID = hit.id
                 interaction = .move(id: hit.id, startCentre: placement.centre)
             } else {
-                if !isRunning {
-                    document.selectedChipID = nil
-                }
+                document.selectedChipID = nil
                 interaction = .pan(startOffset: viewport.offset)
             }
         }
