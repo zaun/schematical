@@ -23,9 +23,10 @@
  * inputs (about 0.9 V of hysteresis at 5 V); the logic model treats it as a
  * plain NAND.
  *
- * Not included: the multiple-input gates that share these datasheets (CD4002B,
- * CD4012B, CD4023B, CD4025B, CD4072B, CD4073B, CD4075B, CD4082B), and JM38510
- * numbers whose datasheet rows do not name the device.
+ * The multiple-input gates that share these datasheets (CD4002B, CD4012B,
+ * CD4023B, CD4025B, CD4072B, CD4073B, CD4075B, CD4082B) and CD4068B/CD4078B are
+ * in gates.c. JM38510 numbers whose datasheet rows do not name the device are
+ * not included.
  */
 
 #include "chip_definition.h"

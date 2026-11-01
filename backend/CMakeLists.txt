@@ -19,6 +19,7 @@ add_library(logic_backend STATIC
     osc.c
     netlist_sim.c
     cd4000.c
+    gates.c
 )
 
 target_include_directories(logic_backend

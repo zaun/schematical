@@ -11,6 +11,7 @@
 #include "74_266.h"
 #include "ff-d.h"
 #include "cd4000.h"
+#include "gates.h"
 #include "led.h"
 #include "osc.h"
 #include "supply.h"
@@ -58,6 +59,7 @@ static const ChipDefinition *const DEFINITIONS[] = {
     &CD4077B_DEFINITION,
     &CD4081B_DEFINITION,
     &CD4093B_DEFINITION,
+#include "gates_catalog.inc"
 };
 
 size_t catalog_definition_count(void) {
