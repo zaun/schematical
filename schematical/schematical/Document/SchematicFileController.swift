@@ -199,9 +199,12 @@ struct SchematicFileCommands: Commands {
             }
             .keyboardShortcut("o", modifiers: .command)
             .disabled(file == nil)
-        }
 
-        CommandGroup(replacing: .saveItem) {
+            // Here rather than in a `.saveItem` group: the File menu of a
+            // WindowGroup app never showed that group (only New, Open… and
+            // Close appeared, and ⌘S did nothing).
+            Divider()
+
             Button("Save") {
                 Task { await file?.save() }
             }
