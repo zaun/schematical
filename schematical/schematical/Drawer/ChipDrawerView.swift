@@ -12,6 +12,7 @@ nonisolated struct ChipPartDragItem: Codable, Hashable, Sendable, Transferable {
 }
 
 /// Right-hand drawer. Parts are grouped by category, then by readable function.
+/// Chips with a subcategory get a level in between (Memory → SRAM → 32 KB).
 /// The top bar filters by category and package. The family and gate-count menus
 /// sit in the Logic category header because they only apply to logic chips.
 struct ChipDrawerView: View {
@@ -22,7 +23,8 @@ struct ChipDrawerView: View {
     @AppStorage(PreferenceKey.showMilitaryParts) private var showMilitary = false
     @AppStorage(PreferenceKey.showAutomotiveParts) private var showAutomotive = false
     /// Keys whose open state the user has changed from its default, as keys from
-    /// `categoryKey` and `functionKey`. Categories default open; functions default closed.
+    /// `categoryKey`, `subcategoryKey` and `functionKey`. Categories default open;
+    /// subcategories and functions default closed.
     @State private var toggled: Set<String> = []
 
     var body: some View {
@@ -37,25 +39,24 @@ struct ChipDrawerView: View {
                     DisclosureGroup(
                         isExpanded: expansion(for: categoryKey(category.category), defaultOpen: true)
                     ) {
-                        ForEach(category.functions) { function in
-                            DisclosureGroup(
-                                isExpanded: expansion(
-                                    for: functionKey(category.category, function.function),
-                                    defaultOpen: false
-                                )
-                            ) {
-                                ForEach(function.parts) { entry in
-                                    partRow(entry)
+                        ForEach(category.subcategories) { subcategory in
+                            let key = subcategoryKey(category.category, subcategory.subcategory)
+                            DisclosureGroup(isExpanded: expansion(for: key, defaultOpen: false)) {
+                                ForEach(subcategory.functions) { function in
+                                    functionGroup(function, path: "\(category.category)/\(subcategory.subcategory)")
                                 }
                             } label: {
-                                Text(function.function)
-                                    .font(.body.weight(.medium))
+                                Text(subcategory.subcategory)
+                                    .font(.body.weight(.semibold))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .contentShape(Rectangle())
                                     .onTapGesture {
-                                        toggle(functionKey(category.category, function.function), defaultOpen: false)
+                                        toggle(key, defaultOpen: false)
                                     }
                             }
+                        }
+                        ForEach(category.functions) { function in
+                            functionGroup(function, path: category.category)
                         }
                     } label: {
                         // Menus in the header keep their own clicks; the rest toggles the group.
@@ -197,6 +198,26 @@ struct ChipDrawerView: View {
 
     // MARK: Rows
 
+    /// A function's parts, closed by default. `path` is the category, plus the
+    /// subcategory when there is one, so equal function names in different
+    /// groups open and close separately.
+    private func functionGroup(_ function: ChipCatalogStore.FunctionGroup, path: String) -> some View {
+        let key = functionKey(path, function.function)
+        return DisclosureGroup(isExpanded: expansion(for: key, defaultOpen: false)) {
+            ForEach(function.parts) { entry in
+                partRow(entry)
+            }
+        } label: {
+            Text(function.function)
+                .font(.body.weight(.medium))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    toggle(key, defaultOpen: false)
+                }
+        }
+    }
+
     private func partRow(_ entry: ChipCatalogStore.PartEntry) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack {
@@ -226,8 +247,13 @@ struct ChipDrawerView: View {
         "category:\(category)"
     }
 
-    private func functionKey(_ category: String, _ function: String) -> String {
-        "function:\(category)/\(function)"
+    private func subcategoryKey(_ category: String, _ subcategory: String) -> String {
+        "subcategory:\(category)/\(subcategory)"
+    }
+
+    /// `path` is the category, or "category/subcategory".
+    private func functionKey(_ path: String, _ function: String) -> String {
+        "function:\(path)/\(function)"
     }
 
     /// Opens or closes a group when its label is clicked, like its chevron.

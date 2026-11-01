@@ -64,6 +64,12 @@ typedef struct {
     );
     size_t gate_count;               /* logic gates per package, e.g. 4 for a quad gate */
     const unsigned *part_flags;      /* PART_FLAG_* per part number, same order; NULL = none */
+    /*
+     * Optional level between category and function in the parts drawer, e.g.
+     * "SRAM" for Memory -> SRAM -> 32 KB. NULL for chips listed directly
+     * under their category.
+     */
+    const char *subcategory;
 } ChipDefinition;
 
 #endif

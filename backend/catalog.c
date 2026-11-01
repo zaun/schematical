@@ -205,6 +205,10 @@ static void write_chip(FILE *out, const ChipDefinition *chip) {
     fputs(",\"category\":", out);
     write_json_string(out, chip->category);
     fprintf(out, ",\"gateCount\":%zu", chip->gate_count);
+    if (chip->subcategory != NULL) {
+        fputs(",\"subcategory\":", out);
+        write_json_string(out, chip->subcategory);
+    }
 
     fputs(",\"parts\":[", out);
     for (i = 0; i < chip->part_number_count; i++) {

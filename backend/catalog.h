@@ -12,7 +12,8 @@ const ChipDefinition *catalog_definition_at(size_t index);
 
 /*
  * Writes the catalog as JSON:
- *   {"chips":[{"id":..,"function":..,"description":..,
+ *   {"chips":[{"id":..,"function":..,"description":..,"category":..,
+ *              "subcategory":.. (only when set, e.g. "SRAM"),
  *              "parts":[{"name":..,"package":..,"family":..,"obsolete":bool,
  *                        (for SRAMs, "family" is the speed grade, e.g. "55 ns")
  *                        "military":bool,"automotive":bool,"enhanced":bool}],

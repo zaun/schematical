@@ -88,6 +88,9 @@ nonisolated struct ChipDefinition: Codable, Hashable, Sendable, Identifiable {
     let gateCount: Int
     let parts: [ChipPart]
     let pins: [ChipPin]
+    /// Optional level between category and function in the drawer, such as
+    /// "SRAM" for Memory → SRAM → 32 KB. Nil for most chips.
+    var subcategory: String? = nil
 }
 
 /// One generic LED, as the backend reports it. `color` and `package` are labels
@@ -235,8 +238,18 @@ final class ChipCatalogStore {
         var id: String { function }
     }
 
+    struct SubcategoryGroup: Identifiable, Hashable {
+        let subcategory: String
+        let functions: [FunctionGroup]
+
+        var id: String { subcategory }
+    }
+
     struct CategoryGroup: Identifiable, Hashable {
         let category: String
+        /// Chips with a subcategory, grouped under it (Memory → SRAM → ...).
+        let subcategories: [SubcategoryGroup]
+        /// Chips without one, listed directly under the category.
         let functions: [FunctionGroup]
 
         var id: String { category }
@@ -323,26 +336,42 @@ final class ChipCatalogStore {
                entry.chip.gateCount != count {
                 return false
             }
-            return needle.isEmpty || [entry.part.name, entry.chip.function, entry.chip.description, entry.chip.category]
-                .contains { $0.localizedStandardContains(needle) }
+            let fields = [entry.part.name, entry.chip.function, entry.chip.description,
+                          entry.chip.category, entry.chip.subcategory ?? ""]
+            return needle.isEmpty || fields.contains { $0.localizedStandardContains(needle) }
         }
 
         let byCategory = Dictionary(grouping: matches, by: { $0.chip.category })
         return byCategory
             .sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
             .map { category, categoryEntries in
-                let byFunction = Dictionary(grouping: categoryEntries, by: { $0.chip.function })
-                let functions = byFunction
+                let bySubcategory = Dictionary(
+                    grouping: categoryEntries.filter { $0.chip.subcategory != nil },
+                    by: { $0.chip.subcategory ?? "" }
+                )
+                let subcategories = bySubcategory
                     .sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
-                    .map { function, parts in
-                        FunctionGroup(
-                            function: function,
-                            parts: parts.sorted {
-                                $0.part.name.localizedStandardCompare($1.part.name) == .orderedAscending
-                            }
-                        )
+                    .map { SubcategoryGroup(subcategory: $0.key, functions: Self.functionGroups($0.value)) }
+                return CategoryGroup(
+                    category: category,
+                    subcategories: subcategories,
+                    functions: Self.functionGroups(categoryEntries.filter { $0.chip.subcategory == nil })
+                )
+            }
+    }
+
+    /// Entries grouped by readable function, functions and parts in natural order
+    /// ("8 KB" before "32 KB").
+    private static func functionGroups(_ entries: [PartEntry]) -> [FunctionGroup] {
+        Dictionary(grouping: entries, by: { $0.chip.function })
+            .sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
+            .map { function, parts in
+                FunctionGroup(
+                    function: function,
+                    parts: parts.sorted {
+                        $0.part.name.localizedStandardCompare($1.part.name) == .orderedAscending
                     }
-                return CategoryGroup(category: category, functions: functions)
+                )
             }
     }
 

@@ -1015,7 +1015,7 @@ size_t sram_inspect(
         ID, SIZE, DESCRIPTION, "Memory", \
         NAME##_NAMES, SRAM_COUNT(NAME##_NAMES), \
         NAME##_CHIP_PINS, SRAM_COUNT(NAME##_CHIP_PINS), \
-        NAME##_lookup, 0, NAME##_FLAGS \
+        NAME##_lookup, 0, NAME##_FLAGS, "SRAM" \
     };
 
 #include "sram_parts.inc"

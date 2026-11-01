@@ -483,6 +483,10 @@ static void check_catalog(void) {
 
     expect(json != NULL && strstr(json, "\"category\":\"Memory\"") != NULL,
            "catalog lists SRAMs in the Memory category");
+    expect(json != NULL && strstr(json, "\"category\":\"Memory\",\"gateCount\":0,\"subcategory\":\"SRAM\"") != NULL,
+           "SRAMs are in the SRAM subcategory");
+    expect(json != NULL && strstr(json, "\"category\":\"Logic\",\"gateCount\":4,\"subcategory\"") == NULL,
+           "logic chips have no subcategory");
     expect(json != NULL && strstr(json, "\"name\":\"AS7C34098A-10JCN\",\"package\":\"SOJ\",\"family\":\"10 ns\"") != NULL,
            "catalog gives an SRAM's package and speed grade");
     expect(json != NULL && strstr(json, "\"name\":\"A14\",\"role\":\"input\",\"group\":\"address\"") != NULL,
