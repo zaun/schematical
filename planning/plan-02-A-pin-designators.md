@@ -359,17 +359,18 @@ same bytes.
 Acceptance: the app builds, and no Swift pin-number identity remains.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-bga-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 30 s; a clean build measured 29 s); `grep -rnE 'pin\.number|ref\.number|key\.number|byNumber|let number: Int' schematical/schematical --include='*.swift'` (22 matches on `main`) → no matches (est. seconds).
   Result (2026-11-01): `** BUILD SUCCEEDED **`; the grep → no matches (rc=1).
-Commit: —
+Commit: ff34e48
 
 ### Phase 3 — Docs
 
-- [ ] `docs/parts-format.md` "Pinouts and pins": numbered vs ball pinouts. Cover the `"ball"` key, the ball-name rule, ball order = position (list new devices row-major), no `absent` in ball pinouts, a ball example, and kind keys still by name.
-- [ ] `docs/parts-format.md` `oscillator`: `enablePin` is the pin's designator, a number for numbered pinouts or a ball name.
-- [ ] `docs/parts-format.md` `7seg`: `PartDisplay.segment_pins`/`common_pins` are pin indices.
-- [ ] `docs/backend.md`: the example uses `circuit_connect(c, vcc, "1", anode)` etc.; the note "Pin numbers are 1-based" becomes "pins are named by designator (`"1"`, `"A1"`)".
+- [x] `docs/parts-format.md` "Pinouts and pins": numbered vs ball pinouts. Cover the `"ball"` key, the ball-name rule, ball order = position (list new devices row-major), no `absent` in ball pinouts, a ball example, and kind keys still by name.
+- [x] `docs/parts-format.md` `oscillator`: `enablePin` is the pin's designator, a number for numbered pinouts or a ball name.
+- [x] `docs/parts-format.md` `7seg`: `PartDisplay.segment_pins`/`common_pins` are pin indices.
+- [x] `docs/backend.md`: the example uses `circuit_connect(c, vcc, "1", anode)` etc.; the note "Pin numbers are 1-based" becomes "pins are named by designator (`"1"`, `"A1"`)".
 
 Acceptance: the docs describe the new API and keys, with no stale number wording.
   Check: `grep -nE 'circuit_connect\(c, [a-z]+, [0-9]' docs/backend.md backend/include/circuit.h; grep -n '"ball"' docs/parts-format.md | head -1` → no matches from the first grep; a line from the second (est. seconds).
+  Result (2026-11-01): first grep → no matches (rc=1); second → `88:- **Ball** (BGA, CSP grids): each pin has \`"ball"\`…`.
 Commit: —
 
 ## Validation Plan

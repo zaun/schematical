@@ -77,26 +77,62 @@ each kind rejects keys it does not know.
 
 ## Pinouts and pins
 
-A pinout is an array of pins numbered exactly 1..N in order.
+A pinout is an array of pins. Each pin has a **designator**, the package's
+own label for it, and a **position**, its place in the array (from 0), which
+is the pin's index in the simulation. A pinout is one of two styles; every
+pin of a pinout uses the same style.
+
+- **Numbered** (DIP, SOIC, SOT, QFN, LCCC, …): each pin has `"number"`, and
+  the array is exactly 1, 2, … N in order. The designator is the number
+  (`"14"`).
+- **Ball** (BGA, CSP grids): each pin has `"ball"`, the ball name as the
+  datasheet prints it (`"A1"`, `"H6"`). The designator is the ball name.
 
 ```json
 {"number": 1, "name": "1A", "role": "input"}
 {"number": 9, "name": "A0", "role": "input", "group": "address"}
+{"ball": "C3", "name": "NC", "role": "nc"}
 ```
 
 | Key | Value |
 |---|---|
-| `"number"` | the package pin number; the array must be 1, 2, … N |
+| `"number"` | numbered pinouts: the package pin number; the array must be 1, 2, … N |
+| `"ball"` | ball pinouts: the ball name, used once per pinout |
 | `"name"` | datasheet pin name |
 | `"role"` | `input`, `output`, `inout`, `power`, `ground`, `nc` (no connect) or `absent` (a numbered position with no lead; never drawn, nothing can be wired to it) |
 | `"group"` | optional, default `"default"`; pins in one group are drawn together (e.g. `"address"`) |
 
-**Kind keys refer to pins by name, never by number**, so one device can carry
-several pinouts (DIP and LCCC, DIP and sTSOP). Every name a kind key uses must
-exist in every pinout of the device. A name used by several pins means all of
-them, in pin-number order; kinds that need exactly one pin reject such names.
-(One exception, a part key: an oscillator's `enablePin` is a pin number; see
-below.)
+A pin has `"number"` or `"ball"`, never both. Ball pinouts:
+
+- **Ball names** are 1–2 row letters from `ABCDEFGHJKLMNPRTUVWY` (JEDEC JEP95
+  rows: no I, O, Q, S, X or Z), then a column 1–99 with no leading zero:
+  `A1`, `H6`, `R9`, `AB12`.
+- **Order is free, and it is the position.** List the balls of a new device
+  row-major (A1, A2, …, B1, …). A device that also has a numbered pinout may
+  list its balls in that pinout's order instead, so both draw alike. Once a
+  part ships, never reorder its balls: positions are what saved schematics
+  and traces depend on.
+- **No `absent`**: list only real balls and leave unpopulated grid positions
+  out.
+
+A ball pinout, the 5-ball DSBGA of a single gate, in the order of its SOT-23 pins:
+
+```json
+"dsbga": [
+  {"ball": "A1", "name": "A", "role": "input"},
+  {"ball": "B1", "name": "B", "role": "input"},
+  {"ball": "C1", "name": "GND", "role": "ground"},
+  {"ball": "C2", "name": "Y", "role": "output"},
+  {"ball": "A2", "name": "VCC", "role": "power"}
+]
+```
+
+**Kind keys refer to pins by name, never by number or ball**, so one device
+can carry several pinouts (DIP and LCCC, DIP and sTSOP, SOT-23 and DSBGA).
+Every name a kind key uses must exist in every pinout of the device. A name
+used by several pins means all of them, in pinout order; kinds that need
+exactly one pin reject such names. (One exception, a part key: an
+oscillator's `enablePin` is a pin designator; see below.)
 
 ## Parts
 
@@ -186,7 +222,7 @@ Part keys:
 | Key | Value |
 |---|---|
 | `"defaultHz"` | the part's frequency, from `minHz` to `maxHz` |
-| `"enablePin"` | optional; the **pin number** (in the part's pinout) of the output-enable / standby pin. A LOW there puts every output in high impedance; HIGH or not connected keeps the clock running. A number, not a name, because the LMK6D/H/P function pins 1 and 2 share the name `OE/ST/NC`. |
+| `"enablePin"` | optional; the **designator** (in the part's pinout) of the output-enable / standby pin: a number for numbered pinouts (`2`), a ball name string for ball pinouts (`"A2"`). A LOW there puts every output in high impedance; HIGH or not connected keeps the clock running. A designator, not a name, because the LMK6D/H/P function pins 1 and 2 share the name `OE/ST/NC`. `PartOscillator.enable_pin` points at that pin's `PartPin.designator` (NULL = none). |
 
 ### `gate`
 
@@ -354,7 +390,7 @@ any time during the last step", so a multiplexed digit counts as lit.
 | `"leds"` | every LED in display (and lights) order: `digit` (1…, or 0 = the colon/dot group) and `segment` (`A`–`G`, `DP`, `LDP`, `HJ`, `L1`–`L3`) |
 | `"segmentPins"` | segment pin name → `digit` (0 = shared by every digit, multiplexed) and the `segments` it drives |
 | `"commonPins"` | common pin name → its digit, or `"extras"` for the colon/dot common. A name used by several pins means all of them. |
-| `"segmentSide"`, `"commonSide"` | drawing order of the symbol's two sides, by name; a shared name expands to its pins in number order (`PartDisplay.segment_pins`/`common_pins`) |
+| `"segmentSide"`, `"commonSide"` | drawing order of the symbol's two sides, by name; a shared name expands to its pins in pinout order. `PartDisplay.segment_pins`/`common_pins` hold these pins' indices into `Part.pins`. |
 
 An LED's segment pin is the first pin (in pin order) in `segmentPins` that
 drives its segment for its digit (or every digit); its commons are the

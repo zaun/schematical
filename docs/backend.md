@@ -31,7 +31,7 @@ if (load_parts(library, gate_json_text, "gate.json", &error) != 0) {
 const Part *part = part_library_find(library, "SN74HC00N");
 /* part->kind == PART_GATE, part->logic->family == "HC", part->pins[...] */
 
-/* 3. Build and run a circuit. Pin numbers are 1-based. */
+/* 3. Build and run a circuit. Pins are named by designator ("1", "A1"). */
 Circuit *c = circuit_create(library);
 size_t vcc, gnd, led, anode, cathode;
 circuit_add_part(c, "VCC", &vcc);
@@ -39,10 +39,10 @@ circuit_add_part(c, "GND", &gnd);
 circuit_add_part(c, "LED-RED-0603", &led);
 circuit_add_net(c, &anode);
 circuit_add_net(c, &cathode);
-circuit_connect(c, vcc, 1, anode);
-circuit_connect(c, led, 2, anode);      /* LED pin 2 = A */
-circuit_connect(c, led, 1, cathode);    /* LED pin 1 = K */
-circuit_connect(c, gnd, 1, cathode);
+circuit_connect(c, vcc, "1", anode);
+circuit_connect(c, led, "2", anode);    /* LED pin 2 = A */
+circuit_connect(c, led, "1", cathode);  /* LED pin 1 = K */
+circuit_connect(c, gnd, "1", cathode);
 circuit_start(c);
 circuit_advance(c, 1000000);            /* 1 us, in picoseconds */
 
