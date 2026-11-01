@@ -186,7 +186,7 @@ listing is unchanged.
   fixture-carrying tests. `sim_bench LMK6CE001200CDLFR 4 0.1 10` → exit 0;
   `sim_bench LMK6CE001000DDLER 4 0.1 10` → `sim_bench: voltage: 3.3 V on
   pin 4 (VDD) of LMK6CE001000DDLER; it needs 1.7-1.9 V`, exit 1.
-Commit: —
+Commit: f304a8b
 
 ## Validation Plan
 
