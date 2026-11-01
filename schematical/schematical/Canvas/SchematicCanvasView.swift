@@ -18,6 +18,8 @@ struct SchematicCanvasView: View {
     let document: SchematicDocument
     let viewport: CanvasViewport
     let tool: SchematicTool
+    /// Called after a part dragged from the drawer is placed on the canvas.
+    var onPartPlaced: () -> Void = {}
 
     @State private var interaction: Interaction?
     @State private var isDropTargeted = false
@@ -85,6 +87,7 @@ struct SchematicCanvasView: View {
                     symbol: catalog.symbol(forPartNumber: item.partNumber),
                     centeredAt: viewport.world(location)
                 )
+                onPartPlaced()
                 return true
             } isTargeted: { isDropTargeted = $0 }
             .overlay {

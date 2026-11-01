@@ -15,7 +15,10 @@ struct ContentView: View {
     @State private var isDrawerShown = true
 
     var body: some View {
-        SchematicCanvasView(catalog: catalog, document: document, viewport: viewport, tool: tool)
+        SchematicCanvasView(catalog: catalog, document: document, viewport: viewport, tool: tool) {
+            // Placing a part from the drawer returns to the Pointer tool.
+            tool = .pointer
+        }
             .inspector(isPresented: $isDrawerShown) {
                 ChipDrawerView(catalog: catalog)
                     .inspectorColumnWidth(min: 220, ideal: 260, max: 360)
