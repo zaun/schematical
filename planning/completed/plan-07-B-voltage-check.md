@@ -285,7 +285,7 @@ Acceptance: the new circuit cases pass; every other test unchanged.
   and the range", "PASS: closing 3V3 onto 5V stops the run", "PASS: the
   stop is a voltage error", "PASS: circuit_voltage_problem returns the
   CLASH", and `check_short`'s three PASS lines unchanged.
-Commit: —
+Commit: dcf92ea (app build with voltage.c: `** BUILD SUCCEEDED **`)
 
 ## Validation Plan
 
