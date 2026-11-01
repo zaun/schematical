@@ -59,7 +59,8 @@ typedef enum {
     LOGIC_FAMILY_LVC,
     LOGIC_FAMILY_AUP,
     LOGIC_FAMILY_AUC,
-    LOGIC_FAMILY_ALVC
+    LOGIC_FAMILY_ALVC,
+    LOGIC_FAMILY_TTL    /* standard TTL (5476, 54107) */
 } LogicFamily;
 
 typedef struct {

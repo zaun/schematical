@@ -17,6 +17,7 @@
 		00000000A0B0C0E000000008 /* 74_86.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D000000008 /* 74_86.c */; };
 		00000000A0B0C0E000000009 /* 74_266.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D000000009 /* 74_266.c */; };
 		00000000A0B0C0E0000000A1 /* ff-d.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000A1 /* ff-d.c */; };
+		00000000A0B0C0E0000000D1 /* ff-jk.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000D1 /* ff-jk.c */; };
 		00000000A0B0C0E0000000A3 /* led.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000A3 /* led.c */; };
 		00000000A0B0C0E0000000A5 /* supply.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000A5 /* supply.c */; };
 		00000000A0B0C0E0000000A7 /* osc.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000A7 /* osc.c */; };
@@ -49,6 +50,8 @@
 		00000000A0B0C0D000000013 /* 74_266.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = 74_266.h; sourceTree = "<group>"; };
 		00000000A0B0C0D0000000A1 /* ff-d.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "ff-d.c"; sourceTree = "<group>"; };
 		00000000A0B0C0D0000000A2 /* ff-d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ff-d.h"; sourceTree = "<group>"; };
+		00000000A0B0C0D0000000D1 /* ff-jk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "ff-jk.c"; sourceTree = "<group>"; };
+		00000000A0B0C0D0000000D2 /* ff-jk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ff-jk.h"; sourceTree = "<group>"; };
 		00000000A0B0C0D0000000A3 /* led.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = led.c; sourceTree = "<group>"; };
 		00000000A0B0C0D0000000A4 /* led.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = led.h; sourceTree = "<group>"; };
 		00000000A0B0C0D0000000A5 /* supply.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = supply.c; sourceTree = "<group>"; };
@@ -113,6 +116,7 @@
 				00000000A0B0C0D000000008 /* 74_86.c */,
 				00000000A0B0C0D000000009 /* 74_266.c */,
 				00000000A0B0C0D0000000A1 /* ff-d.c */,
+				00000000A0B0C0D0000000D1 /* ff-jk.c */,
 				00000000A0B0C0D0000000A3 /* led.c */,
 				00000000A0B0C0D0000000A5 /* supply.c */,
 				00000000A0B0C0D0000000A7 /* osc.c */,
@@ -131,6 +135,7 @@
 				00000000A0B0C0D000000012 /* 74_86.h */,
 				00000000A0B0C0D000000013 /* 74_266.h */,
 				00000000A0B0C0D0000000A2 /* ff-d.h */,
+				00000000A0B0C0D0000000D2 /* ff-jk.h */,
 				00000000A0B0C0D0000000A4 /* led.h */,
 				00000000A0B0C0D0000000A6 /* supply.h */,
 				00000000A0B0C0D0000000A8 /* osc.h */,
@@ -226,6 +231,7 @@
 				00000000A0B0C0E000000008 /* 74_86.c in Sources */,
 				00000000A0B0C0E000000009 /* 74_266.c in Sources */,
 				00000000A0B0C0E0000000A1 /* ff-d.c in Sources */,
+				00000000A0B0C0E0000000D1 /* ff-jk.c in Sources */,
 				00000000A0B0C0E0000000A3 /* led.c in Sources */,
 				00000000A0B0C0E0000000A5 /* supply.c in Sources */,
 				00000000A0B0C0E0000000A7 /* osc.c in Sources */,

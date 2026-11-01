@@ -13,6 +13,7 @@ add_library(logic_backend STATIC
     74_86.c
     74_266.c
     ff-d.c
+    ff-jk.c
     led.c
     supply.c
     catalog_validate.c

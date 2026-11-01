@@ -10,6 +10,7 @@
 #include "74_86.h"
 #include "74_266.h"
 #include "ff-d.h"
+#include "ff-jk.h"
 #include "cd4000.h"
 #include "gates.h"
 #include "led.h"
@@ -51,6 +52,14 @@ static const ChipDefinition *const DEFINITIONS[] = {
     &FF_2G80_DEFINITION,
     &FF_2G80_RSE_DEFINITION,
     &FF_2G74_DEFINITION,
+    &FF_74_73_DEFINITION,
+    &FF_74_76_DEFINITION,
+    &FF_74_107_DEFINITION,
+    &FF_74_109_DEFINITION,
+    &FF_74_112_DEFINITION,
+    &FF_4027B_DEFINITION,
+    &FF_74_109_FK_DEFINITION,
+    &FF_74_112_FK_DEFINITION,
     &CD4001B_DEFINITION,
     &CD4011B_DEFINITION,
     &CD4030B_DEFINITION,
@@ -159,6 +168,7 @@ static const char *family_name(LogicFamily family) {
         case LOGIC_FAMILY_AUP: return "AUP";
         case LOGIC_FAMILY_AUC: return "AUC";
         case LOGIC_FAMILY_ALVC: return "ALVC";
+        case LOGIC_FAMILY_TTL: return "TTL";
     }
     return "unknown";
 }
