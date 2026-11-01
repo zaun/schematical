@@ -74,3 +74,10 @@ logic_test(sram_test)
 logic_test(display7_test)
 logic_test(circuit_check)
 logic_test(footprint_check)
+
+# Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
+# flaky. Build Release to get meaningful numbers.
+add_executable(sim_bench tests/sim_bench.c)
+target_link_libraries(sim_bench PRIVATE logic_test_support)
+target_compile_definitions(sim_bench PRIVATE
+    PARTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../schematical/schematical/Parts")

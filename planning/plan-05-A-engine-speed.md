@@ -316,11 +316,12 @@ Build it with `-DCMAKE_BUILD_TYPE=Release`; numbers in this plan are Release.
 
 Adds the measuring stick; no engine change, so it lands alone safely.
 
-- [ ] `backend/tests/sim_bench.c` as §4.4.
-- [ ] `backend/CMakeLists.txt`: `add_executable(sim_bench tests/sim_bench.c)`,
+- [x] `backend/tests/sim_bench.c` as §4.4. Speed printed with `%.4g`
+      (`%.4f` showed the 100 MHz baseline as `0.0000x`).
+- [x] `backend/CMakeLists.txt`: `add_executable(sim_bench tests/sim_bench.c)`,
       linked to `logic_test_support`, with the same `PARTS_DIR` definition as
       `logic_test` — no `add_test`.
-- [ ] Record the baseline in this plan under "Bench results" (both commands
+- [x] Record the baseline in this plan under "Bench results" (both commands
       in the acceptance line).
 
 Acceptance: the bench builds and reproduces the §2 baseline order of
@@ -368,6 +369,15 @@ Commit: —
 ## Bench results
 
 (Filled in by Phases 1 and 3: command, line printed, date.)
+
+Phase 1 baseline (old engine, Release, 2026-11-01), the Phase 1 Check:
+
+- `sim_bench LMK6CE001000DDLER 16 2 400` →
+  `osc=LMK6CE001000DDLER stages=16 extra_chips=400 sim=2.000ms wall=3.235s  => 0.0006183x real time`
+- `sim_bench LMK6CE10000CDLER 16 1 100` →
+  `osc=LMK6CE10000CDLER stages=16 extra_chips=100 sim=1.000ms wall=25.164s  => 3.974e-05x real time`
+
+Both within the acceptance bounds (≤ 0.01x, ≤ 0.001x).
 
 ## Validation Plan
 
