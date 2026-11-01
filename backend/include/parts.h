@@ -43,7 +43,8 @@ typedef struct {
 /* Exactly one of these is set on a Part, matching its kind. */
 typedef struct { const char *family; unsigned units; } PartLogic;         /* gate, dff, jkff */
 typedef struct { uint32_t words; unsigned bits; uint64_t access_ps; const char *grade; } PartSram;
-typedef struct { unsigned positions; const char *actuator; } PartSwitch;
+/* rated_mv: the switching voltage rating; 0 = not given (until plan-07-F). */
+typedef struct { unsigned positions; const char *actuator; uint32_t rated_mv; } PartSwitch;
 typedef struct { const char *color; } PartLed;
 typedef struct { unsigned digit; const char *segment; } PartDisplayLed;  /* digit 0 = colon/dot */
 typedef struct {
@@ -52,10 +53,15 @@ typedef struct {
     const PartDisplayLed *leds; size_t led_count;
     const size_t *segment_pins; size_t segment_pin_count;  /* indices into Part.pins */
     const size_t *common_pins; size_t common_pin_count;    /* indices into Part.pins */
+    uint32_t vf_min_mv, vf_max_mv;   /* segment forward voltage; 0 = not given (until plan-07-F) */
 } PartDisplay;
 typedef struct { const char *family; uint64_t min_hz, max_hz, default_hz;
                  const char *enable_pin; /* the pin's designator, NULL = none */ } PartOscillator;
-typedef struct { int level; } PartSupply;
+/* mv: the supply's voltage; level = mv > 0 (drives logic 1, else 0). */
+typedef struct { int level; uint32_t mv; } PartSupply;
+/* The recommended supply range (millivolts) and the highest voltage an input
+   takes: input_max_mv = the part's "inputMax", or max_mv when it has none. */
+typedef struct { uint32_t min_mv, max_mv, input_max_mv; } PartVoltage;
 /* page_bytes: the page-load size; write_cycle_ps: tWC, the internal write time. */
 typedef struct { uint32_t words; unsigned bits; uint64_t access_ps; const char *grade;
                  unsigned page_bytes; uint64_t write_cycle_ps; } PartEeprom;
@@ -95,6 +101,9 @@ typedef struct Part {
     const PartDisplay *display;
     const PartOscillator *oscillator;
     const PartSupply *supply;
+    const PartVoltage *vcc;            /* recommended supply range; NULL = none (supplies, LEDs,
+                                          7-seg, switches; and, until plan-07-F, parts whose
+                                          data is not filled in) */
     const PartEeprom *eeprom;
     const PartFootprint *footprint;    /* NULL = none (supplies) */
     const void *internal;              /* model data; not for the app */

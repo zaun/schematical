@@ -261,6 +261,101 @@ int kind_ns(KindContext *ctx, const cJSON *value, const char *what, uint64_t *ps
     return 0;
 }
 
+#define VOLTS_MAX 30.0
+
+static int volts_value(const cJSON *item, double max_v, uint32_t *mv) {
+    if (!cJSON_IsNumber(item) || !(item->valuedouble >= 0) || item->valuedouble > max_v) {
+        return 0;
+    }
+    *mv = (uint32_t)llround(item->valuedouble * 1000.0);
+    return 1;
+}
+
+int kind_volts(KindContext *ctx, const cJSON *object, const char *key, double max_v,
+               uint32_t *mv) {
+    const cJSON *item = kind_member(ctx, object, key, 1);
+
+    if (item == NULL) {
+        return -1;
+    }
+    if (!volts_value(item, max_v, mv)) {
+        return kind_error(ctx, "\"%s\" must be from 0 to %g", key, max_v);
+    }
+    return 0;
+}
+
+int kind_volt_range(KindContext *ctx, const cJSON *object, const char *key, double max_v,
+                    int strict, uint32_t *min_mv, uint32_t *max_mv) {
+    const cJSON *item = kind_member(ctx, object, key, 1);
+
+    if (item == NULL) {
+        return -1;
+    }
+    if (!cJSON_IsArray(item) || cJSON_GetArraySize(item) != 2) {
+        return kind_error(ctx, "\"%s\" must be [min, max] in volts", key);
+    }
+    if (!volts_value(cJSON_GetArrayItem(item, 0), max_v, min_mv) ||
+        !volts_value(cJSON_GetArrayItem(item, 1), max_v, max_mv)) {
+        return kind_error(ctx, "\"%s\": each value must be from 0 to %g", key, max_v);
+    }
+    if (*min_mv == 0) {
+        return kind_error(ctx, "\"%s\": min must be above 0", key);
+    }
+    if (strict ? *min_mv >= *max_mv : *min_mv > *max_mv) {
+        return kind_error(ctx, "\"%s\": min must be %s max", key,
+                          strict ? "below" : "at most");
+    }
+    return 0;
+}
+
+/* A resolved voltage, plus whether its input max was given (not derived). */
+typedef struct {
+    PartVoltage voltage;   /* first: kind_voltage hands out &voltage */
+    int input_given;
+} Voltage;
+
+int kind_voltage(KindContext *ctx, const cJSON *json, const PartVoltage *base,
+                 const PartVoltage **out) {
+    const Voltage *from = (const Voltage *)base;
+    int has_vcc = cJSON_GetObjectItemCaseSensitive(json, "vcc") != NULL;
+    int has_input = cJSON_GetObjectItemCaseSensitive(json, "inputMax") != NULL;
+    Voltage *v;
+
+    if (!has_vcc && !has_input) {
+        *out = base;
+        return 0;
+    }
+    v = kind_alloc(ctx, sizeof(*v));
+    if (v == NULL) {
+        return -1;
+    }
+    if (from != NULL) {
+        *v = *from;
+    }
+    if (has_vcc && kind_volt_range(ctx, json, "vcc", VOLTS_MAX, 1, &v->voltage.min_mv,
+                                   &v->voltage.max_mv) != 0) {
+        return -1;
+    }
+    if (has_input) {
+        if (kind_volts(ctx, json, "inputMax", VOLTS_MAX, &v->voltage.input_max_mv) != 0) {
+            return -1;
+        }
+        v->input_given = 1;
+    }
+    if (from == NULL && !has_vcc) {
+        return kind_error(ctx, "\"inputMax\" without \"vcc\"");
+    }
+    if (!v->input_given) {
+        v->voltage.input_max_mv = v->voltage.max_mv;
+    }
+    if (v->voltage.input_max_mv < v->voltage.max_mv) {
+        return kind_error(ctx, "\"inputMax\" %g is below the \"vcc\" max %g",
+                          v->voltage.input_max_mv / 1000.0, v->voltage.max_mv / 1000.0);
+    }
+    *out = &v->voltage;
+    return 0;
+}
+
 int kind_pin(KindContext *ctx, const PartPin *pins, size_t pin_count, const char *name,
              size_t *index) {
     size_t i;

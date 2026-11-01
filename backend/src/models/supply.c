@@ -1,11 +1,12 @@
 /*
- * supply: constant sources. VCC drives its one pin to 1, GND to 0, both
- * strong, for the whole run (ported from backend/supply.c).
+ * supply: constant sources. A supply of more than 0 V drives its one pin to
+ * 1, GND (0 V) to 0, both strong, for the whole run (ported from
+ * backend/supply.c). The voltage itself is only for the voltage check.
  */
 
 #include "kind.h"
 
-static const char *const DEVICE_KEYS[] = {"level", NULL};
+static const char *const DEVICE_KEYS[] = {"volts", NULL};
 
 typedef struct {
     PartSupply supply;
@@ -13,12 +14,10 @@ typedef struct {
 
 static void *supply_load_device(KindContext *ctx, const cJSON *json) {
     SupplyDevice *device = kind_alloc(ctx, sizeof(*device));
-    uint64_t level;
-
-    if (device == NULL || kind_uint(ctx, json, "level", 1, &level) != 0) {
+    if (device == NULL || kind_volts(ctx, json, "volts", 30, &device->supply.mv) != 0) {
         return NULL;
     }
-    device->supply.level = (int)level;
+    device->supply.level = device->supply.mv > 0;
     return device;
 }
 

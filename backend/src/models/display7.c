@@ -21,7 +21,7 @@
 
 static const char *const DEVICE_KEYS[] = {
     "digits", "commonAnode", "colonAfter", "dotAfter", "color", "size", "chip", "leds",
-    "segmentPins", "commonPins", "segmentSide", "commonSide", NULL
+    "segmentPins", "commonPins", "segmentSide", "commonSide", "vf", NULL
 };
 
 static const char *const SEGMENTS[] = {
@@ -241,6 +241,11 @@ static void *display_load_device(KindContext *ctx, const cJSON *json) {
         load_common_pins(ctx, json, device) != 0 ||
         kind_names(ctx, json, "segmentSide", &device->segment_side, &device->segment_side_count) != 0 ||
         kind_names(ctx, json, "commonSide", &device->common_side, &device->common_side_count) != 0) {
+        return NULL;
+    }
+    /* vf: segment forward voltage [min, max]; optional until plan-07-F. */
+    if (cJSON_GetObjectItemCaseSensitive(json, "vf") != NULL &&
+        kind_volt_range(ctx, json, "vf", 10, 0, &d->vf_min_mv, &d->vf_max_mv) != 0) {
         return NULL;
     }
     d->leds = device->display_leds;

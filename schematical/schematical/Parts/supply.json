@@ -13,7 +13,7 @@
           {"number":1,"name":"VCC","role":"power"}
         ]
       },
-      "level": 1,
+      "volts": 5,
       "parts": [
         {"name":"VCC","package":"","pinout":"pin"}
       ]
@@ -28,7 +28,7 @@
           {"number":1,"name":"GND","role":"ground"}
         ]
       },
-      "level": 0,
+      "volts": 0,
       "parts": [
         {"name":"GND","package":"","pinout":"pin"}
       ]

@@ -22,7 +22,7 @@
 static const char *const DEVICE_KEYS[] = {
     "units", "outputEnable", "presetActiveHigh", "clearActiveHigh", "clockEdge", "timing", NULL
 };
-static const char *const PART_KEYS[] = {"family", NULL};
+static const char *const PART_KEYS[] = {"family", "vcc", "inputMax", NULL};
 
 typedef struct {
     const char *d, *clk, *pre, *clr, *q, *qn;   /* NULL = no pin */
@@ -33,6 +33,7 @@ typedef struct {
     SimTime fall_delay;
     int clr_wins;
     PartLogic logic;
+    const PartVoltage *vcc;   /* the entry's "vcc"/"inputMax"; NULL = none */
 } DffTiming;
 
 typedef struct {
@@ -87,7 +88,8 @@ static int load_edge(KindContext *ctx, const cJSON *json, int *negative) {
 
 static void *dff_load_device(KindContext *ctx, const cJSON *json) {
     static const char *const UNIT_KEYS[] = {"d", "clk", "pre", "clr", "q", "qn", NULL};
-    static const char *const TIMING_KEYS[] = {"rise", "fall", "clearWins", "note", NULL};
+    static const char *const TIMING_KEYS[] = {"rise", "fall", "clearWins", "note", "vcc",
+                                              "inputMax", NULL};
     DffDevice *device = kind_alloc(ctx, sizeof(*device));
     const cJSON *units = kind_member(ctx, json, "units", 1);
     const cJSON *timing = kind_member(ctx, json, "timing", 1);
@@ -160,6 +162,9 @@ static void *dff_load_device(KindContext *ctx, const cJSON *json) {
             kind_error(ctx, "\"note\" must be a string");
             return NULL;
         }
+        if (kind_voltage(ctx, item, NULL, &entry->vcc) != 0) {
+            return NULL;
+        }
         entry->logic.family = device->families[n];
         entry->logic.units = (unsigned)device->unit_count;
         kind_pop(ctx);
@@ -222,7 +227,7 @@ static int dff_load_part(KindContext *ctx, const void *raw, const void *bound,
         if (strcmp(device->families[i], family) == 0) {
             out->logic = &device->timings[i].logic;
             kind_set_part_data(out, &device->timings[i]);
-            return 0;
+            return kind_voltage(ctx, json, device->timings[i].vcc, &out->vcc);
         }
     }
     return kind_error(ctx, "family \"%s\" has no timing entry", family);

@@ -860,17 +860,18 @@ static const char *const DEVICE_KEYS[] = {
     "address", "data", "chipEnable", "outputEnable", "writeEnable", "pageSize",
     "commandAddresses", "protection", "grades", NULL
 };
-static const char *const PART_KEYS[] = {"grade", NULL};
+static const char *const PART_KEYS[] = {"grade", "vcc", "inputMax", NULL};
 
 /* The timing names, in EepromTiming order. */
 static const char *const TIMING_NAMES[] = {
     "tacc", "tce", "toe", "tdf", "toh", "tas", "tah", "tcs", "tch", "twp", "twph", "tds", "tdh",
-    "toes", "toeh", "tblc", "twc", "note", NULL
+    "toes", "toeh", "tblc", "twc", "note", "vcc", "inputMax", NULL
 };
 
 typedef struct {
     EepromTiming timing;
     PartEeprom info;
+    const PartVoltage *vcc;   /* the grade's "vcc"/"inputMax"; NULL = none */
 } EepromGrade;
 
 typedef struct {
@@ -1055,7 +1056,8 @@ static void *eeprom_load_device(KindContext *ctx, const cJSON *json) {
         }
         kind_push(ctx, "grades.%s", item->string);
         device->grade_names[n] = kind_strdup(ctx, item->string);
-        if (device->grade_names[n] == NULL || load_grade(ctx, item, &grade->timing) != 0) {
+        if (device->grade_names[n] == NULL || load_grade(ctx, item, &grade->timing) != 0 ||
+            kind_voltage(ctx, item, NULL, &grade->vcc) != 0) {
             return NULL;
         }
         kind_pop(ctx);
@@ -1125,7 +1127,7 @@ static int eeprom_load_part(KindContext *ctx, const void *raw, const void *bound
         if (strcmp(device->grade_names[i], grade) == 0) {
             out->eeprom = &device->grades[i].info;
             kind_set_part_data(out, &device->grades[i]);
-            return 0;
+            return kind_voltage(ctx, json, device->grades[i].vcc, &out->vcc);
         }
     }
     return kind_error(ctx, "grade \"%s\" is not in \"grades\"", grade);

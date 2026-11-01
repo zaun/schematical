@@ -12,8 +12,9 @@
 
 #include "kind.h"
 
-static const char *const DEVICE_KEYS[] = {"family", "minHz", "maxHz", "outputs", NULL};
-static const char *const PART_KEYS[] = {"defaultHz", "enablePin", NULL};
+static const char *const DEVICE_KEYS[] = {"family", "minHz", "maxHz", "outputs", "vcc",
+                                             "inputMax", NULL};
+static const char *const PART_KEYS[] = {"defaultHz", "enablePin", "vcc", "inputMax", NULL};
 
 typedef struct {
     const char *family;
@@ -21,6 +22,7 @@ typedef struct {
     uint64_t max_hz;
     const char *const *outputs;
     size_t output_count;
+    const PartVoltage *vcc;   /* the device's "vcc"/"inputMax"; NULL = none */
 } OscDevice;
 
 typedef struct {
@@ -34,7 +36,8 @@ static void *osc_load_device(KindContext *ctx, const cJSON *json) {
     if (device == NULL || kind_string(ctx, json, "family", &device->family) != 0 ||
         kind_uint(ctx, json, "minHz", UINT64_MAX, &device->min_hz) != 0 ||
         kind_uint(ctx, json, "maxHz", UINT64_MAX, &device->max_hz) != 0 ||
-        kind_names(ctx, json, "outputs", &device->outputs, &device->output_count) != 0) {
+        kind_names(ctx, json, "outputs", &device->outputs, &device->output_count) != 0 ||
+        kind_voltage(ctx, json, NULL, &device->vcc) != 0) {
         return NULL;
     }
     if (device->min_hz == 0 || device->min_hz > device->max_hz) {
@@ -114,7 +117,7 @@ static int osc_load_part(KindContext *ctx, const void *raw, const void *bound,
     info->min_hz = device->min_hz;
     info->max_hz = device->max_hz;
     out->oscillator = info;
-    return 0;
+    return kind_voltage(ctx, json, device->vcc, &out->vcc);
 }
 
 /* ---- Model --------------------------------------------------------------- */

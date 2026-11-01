@@ -109,6 +109,27 @@ int kind_names(KindContext *ctx, const cJSON *object, const char *key,
 /* A time in nanoseconds (a JSON number), as picoseconds: llround(ns * 1000). */
 int kind_ns(KindContext *ctx, const cJSON *value, const char *what, uint64_t *ps);
 
+/* ---- Voltages (volts in JSON, millivolts in C; docs/parts-format.md) ---- */
+
+/* A number of volts from 0 to max_v, as millivolts: llround(v * 1000). */
+int kind_volts(KindContext *ctx, const cJSON *object, const char *key, double max_v,
+               uint32_t *mv);
+
+/* A [min, max] pair of volts, 0 < min, max <= max_v; min < max when strict,
+   else min <= max. */
+int kind_volt_range(KindContext *ctx, const cJSON *object, const char *key, double max_v,
+                    int strict, uint32_t *min_mv, uint32_t *max_mv);
+
+/*
+ * Reads optional "vcc" and "inputMax" from json (plan-07-A section 4.2). On
+ * return *out is the resolved voltage (base merged with json's keys), base
+ * itself when json has neither key, or NULL when neither has a range. json's
+ * "vcc" replaces base's range and its "inputMax" replaces base's; an input
+ * max given at neither level follows the range's max. -1 on error.
+ */
+int kind_voltage(KindContext *ctx, const cJSON *json, const PartVoltage *base,
+                 const PartVoltage **out);
+
 /* The one pin with this name; an error when there is none or several. */
 int kind_pin(KindContext *ctx, const PartPin *pins, size_t pin_count, const char *name,
              size_t *index);

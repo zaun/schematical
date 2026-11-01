@@ -741,18 +741,19 @@ static const char *const DEVICE_KEYS[] = {
     "address", "data", "chipEnable", "chipEnableHigh", "outputEnable", "writeEnable",
     "byteEnable", "grades", NULL
 };
-static const char *const PART_KEYS[] = {"grade", NULL};
+static const char *const PART_KEYS[] = {"grade", "vcc", "inputMax", NULL};
 
 /* The 24 timing names, in SramTiming order. */
 static const char *const TIMING_NAMES[] = {
     "trc", "taa", "tace", "toe", "tba", "toh", "tclz", "tolz", "tblz", "tchz", "tohz", "tbhz",
     "twc", "taw", "tcw", "tbw", "tas", "twp", "twpOeLow", "twr", "tdw", "tdh", "twhz", "tow",
-    "note", NULL
+    "note", "vcc", "inputMax", NULL
 };
 
 typedef struct {
     SramTiming timing;
     PartSram info;
+    const PartVoltage *vcc;   /* the grade's "vcc"/"inputMax"; NULL = none */
 } SramGrade;
 
 typedef struct {
@@ -863,7 +864,8 @@ static void *sram_load_device(KindContext *ctx, const cJSON *json) {
         }
         kind_push(ctx, "grades.%s", item->string);
         device->grade_names[n] = kind_strdup(ctx, item->string);
-        if (device->grade_names[n] == NULL || load_grade(ctx, item, &grade->timing) != 0) {
+        if (device->grade_names[n] == NULL || load_grade(ctx, item, &grade->timing) != 0 ||
+            kind_voltage(ctx, item, NULL, &grade->vcc) != 0) {
             return NULL;
         }
         kind_pop(ctx);
@@ -923,7 +925,7 @@ static int sram_load_part(KindContext *ctx, const void *raw, const void *bound,
         if (strcmp(device->grade_names[i], grade) == 0) {
             out->sram = &device->grades[i].info;
             kind_set_part_data(out, &device->grades[i]);
-            return 0;
+            return kind_voltage(ctx, json, device->grades[i].vcc, &out->vcc);
         }
     }
     return kind_error(ctx, "grade \"%s\" is not in \"grades\"", grade);

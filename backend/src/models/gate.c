@@ -25,7 +25,7 @@
 #define GATE_MAX_INPUTS 13
 
 static const char *const DEVICE_KEYS[] = {"gates", "output", "timing", "units", NULL};
-static const char *const PART_KEYS[] = {"family", NULL};
+static const char *const PART_KEYS[] = {"family", "vcc", "inputMax", NULL};
 
 typedef enum { OP_AND, OP_NAND, OP_OR, OP_NOR, OP_XOR, OP_XNOR } GateOp;
 
@@ -42,6 +42,7 @@ typedef struct {
     Delays other_low;
     Delays other_high;
     PartLogic logic;      /* family + units, shared by the parts of this family */
+    const PartVoltage *vcc;   /* the entry's "vcc"/"inputMax"; NULL = none */
 } GateTiming;
 
 typedef struct {
@@ -72,11 +73,15 @@ typedef struct {
     size_t gate_count;
 } GateBound;
 
-static int load_delays(KindContext *ctx, const cJSON *json, Delays *out) {
+static const char *const VOLTAGE_KEYS[] = {"vcc", "inputMax", NULL};
+
+/* extra: keys also allowed (the entry's voltage keys), or NULL. */
+static int load_delays(KindContext *ctx, const cJSON *json, const char *const *extra,
+                       Delays *out) {
     static const char *const KEYS[] = {"rise", "fall", "note", NULL};
     const cJSON *note = cJSON_GetObjectItemCaseSensitive(json, "note");
 
-    if (kind_check_keys(ctx, json, KEYS, NULL) != 0 ||
+    if (kind_check_keys(ctx, json, KEYS, extra) != 0 ||
         kind_ns(ctx, cJSON_GetObjectItemCaseSensitive(json, "rise"), "rise", &out->rise) != 0 ||
         kind_ns(ctx, cJSON_GetObjectItemCaseSensitive(json, "fall"), "fall", &out->fall) != 0) {
         return -1;
@@ -88,30 +93,36 @@ static int load_delays(KindContext *ctx, const cJSON *json, Delays *out) {
 }
 
 static int load_timing(KindContext *ctx, const cJSON *json, int two_inputs, GateTiming *out) {
-    static const char *const SPLIT_KEYS[] = {"otherLow", "otherHigh", "note", NULL};
+    static const char *const SPLIT_KEYS[] = {"otherLow", "otherHigh", "note", "vcc", "inputMax",
+                                             NULL};
     const cJSON *low = cJSON_GetObjectItemCaseSensitive(json, "otherLow");
 
     if (!cJSON_IsObject(json)) {
         return kind_error(ctx, "a timing entry must be an object");
     }
     if (low == NULL) {
-        return load_delays(ctx, json, &out->both);
+        return load_delays(ctx, json, VOLTAGE_KEYS, &out->both) != 0 ||
+                       kind_voltage(ctx, json, NULL, &out->vcc) != 0
+                   ? -1
+                   : 0;
     }
     if (!two_inputs) {
         return kind_error(ctx, "otherLow/otherHigh timing needs every gate to have exactly 2 inputs");
     }
     if (kind_check_keys(ctx, json, SPLIT_KEYS, NULL) != 0 ||
-        kind_member(ctx, json, "otherHigh", 1) == NULL) {
+        kind_member(ctx, json, "otherHigh", 1) == NULL ||
+        kind_voltage(ctx, json, NULL, &out->vcc) != 0) {
         return -1;
     }
     out->split = 1;
     kind_push(ctx, "otherLow");
-    if (load_delays(ctx, low, &out->other_low) != 0) {
+    if (load_delays(ctx, low, NULL, &out->other_low) != 0) {
         return -1;
     }
     kind_pop(ctx);
     kind_push(ctx, "otherHigh");
-    if (load_delays(ctx, cJSON_GetObjectItemCaseSensitive(json, "otherHigh"), &out->other_high) != 0) {
+    if (load_delays(ctx, cJSON_GetObjectItemCaseSensitive(json, "otherHigh"), NULL,
+                    &out->other_high) != 0) {
         return -1;
     }
     kind_pop(ctx);
@@ -276,7 +287,7 @@ static int gate_load_part(KindContext *ctx, const void *raw, const void *bound,
         if (strcmp(device->families[i], family) == 0) {
             out->logic = &device->timings[i].logic;
             kind_set_part_data(out, &device->timings[i]);
-            return 0;
+            return kind_voltage(ctx, json, device->timings[i].vcc, &out->vcc);
         }
     }
     return kind_error(ctx, "family \"%s\" has no timing entry", family);

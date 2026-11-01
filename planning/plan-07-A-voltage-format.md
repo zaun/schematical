@@ -52,7 +52,7 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend builds and all tests pass on `main` | `cmake -S backend -B /tmp/p07 && cmake --build /tmp/p07 -j8 && ctest --test-dir /tmp/p07` → `100% tests passed, 0 tests failed out of 11` | MET (2026-11-01, 3.03 s) |
+| Backend builds and all tests pass on `main` | `cmake -S backend -B /tmp/p07 && cmake --build /tmp/p07 -j8 && ctest --test-dir /tmp/p07` → `100% tests passed, 0 tests failed out of 11` | MET (2026-11-01, re-run in worktree-P-07: 11/11, 2.88 s) |
 
 Sub-plans A–F have no other prerequisite. Sub-plan G has one more (plan-06
 complete), stated in G.
@@ -302,24 +302,25 @@ as its `id`.
 
 The loader and structs, with no data change except the supply key.
 
-- [ ] `parts.h`: §4.3 structs and fields.
-- [ ] `kind.h` / `kind_util.c`: `kind_voltage` (§4.2), plus a local
+- [x] `parts.h`: §4.3 structs and fields.
+- [x] `kind.h` / `kind_util.c`: `kind_voltage` (§4.2), plus a local
       range-checked volts reader `kind_volts(ctx, json, key, max_v, &mv)`,
-      built on `kind_number`.
-- [ ] gate.c: add `"vcc"` and `"inputMax"` to `KEYS` and `SPLIT_KEYS`, and
+      built on `kind_number`. (Also `kind_volt_range` for `vcc`/`vf`; see
+      Corrections.)
+- [x] gate.c: add `"vcc"` and `"inputMax"` to `KEYS` and `SPLIT_KEYS`, and
       `{"family","vcc","inputMax"}` to the part keys. The timing entry struct
       holds a `const PartVoltage *`. `load_part` calls `kind_voltage` with
       the entry's value as base and sets `out->vcc`.
-- [ ] dff.c, jkff.c: the same, through their `TIMING_KEYS` and part keys.
-- [ ] sram.c, eeprom.c: append `"vcc"` and `"inputMax"` after `"note"` in
+- [x] dff.c, jkff.c: the same, through their `TIMING_KEYS` and part keys.
+- [x] sram.c, eeprom.c: append `"vcc"` and `"inputMax"` after `"note"` in
       `TIMING_NAMES`. Grades hold a `const PartVoltage *`. Add the part keys
       `{"grade","vcc","inputMax"}`.
-- [ ] oscillator.c: device keys and part keys gain `"vcc"` and `"inputMax"`.
-- [ ] display7.c: optional device key `"vf"`. switch.c: optional device key
+- [x] oscillator.c: device keys and part keys gain `"vcc"` and `"inputMax"`.
+- [x] display7.c: optional device key `"vf"`. switch.c: optional device key
       `"ratedVolts"`.
-- [ ] supply.c: `"volts"` replaces `"level"`, and `level = mv > 0`.
+- [x] supply.c: `"volts"` replaces `"level"`, and `level = mv > 0`.
       `supply.json`: `"level": 1` → `"volts": 5`, `"level": 0` → `"volts": 0`.
-- [ ] `library_check.c`: change the 12 `'level':1/0` fixtures to
+- [x] `library_check.c`: change the 12 `'level':1/0` fixtures to
       `'volts':5/0`. Add rejection cases:
   - `vcc` not an array of 2;
   - min ≥ max;
@@ -342,6 +343,12 @@ Acceptance: every new library_check case passes. The library still loads
 every part file.
   Check: `cmake --build /tmp/p07 -j8 && /tmp/p07/library_check` → exit 0
   (est. 1 min).
+  Result (2026-11-01): `library_check` → `library_check: all passed`, exit 0
+  (14 new voltage cases print `ok`, among them "entry vcc inherited by two
+  parts", "part vcc override keeps the entry inputMax", "sram grade with
+  vcc, inputMax and timings", "unknown key next to vcc in a grade:
+  … grades.55: unknown key \"vccMax\""); `ctest --test-dir /tmp/p07` →
+  `100% tests passed, 0 tests failed out of 11` (real part files load).
 Commit: —
 
 ### Phase 2 — Listing fields and the six supplies
@@ -415,6 +422,25 @@ Decided by the author:
   of its two ratings.
 
 ## Corrections
+
+- **The 12 `'level'` fixtures are 11 `'level':1/0` fixtures plus the
+  `'level':2` rejection case** (`a1_tests.py` counted 10 × `'level':1,` and
+  1 × `'level':0,`). The rejection case became the two `volts` −1 / 31 cases.
+- **§4.2 "keeping the entry's `inputMax`" needs to know whether the input max
+  was given or derived.** `PartVoltage` stores only the resolved value, so
+  `kind_util.c` allocates a private `{PartVoltage voltage; int input_given;}`
+  and hands out `&voltage`. Without it, an entry `inputMax` equal to its
+  `vcc` max would be lost on a part range override. The public struct is as
+  §4.3 says.
+- **Added task: `kind_volt_range`.** `vcc` (strict min < max, ≤ 30) and `vf`
+  (min ≤ max, ≤ 10) share one `[min, max]` reader next to `kind_volts`.
+- **Gate `load_delays` takes an extra-keys list.** Without it, `vcc` would
+  be accepted inside `otherLow`/`otherHigh` (both go through
+  `load_delays`). A `library_check` case ("vcc inside otherLow") rejects it.
+- **Rule 4 (`inputMax` without `vcc`) also fires at the entry/grade/device
+  level**, not only for a part: an entry with `inputMax` and no `vcc` is
+  rejected ("entry inputMax without vcc" case). §4.1 says `inputMax` is
+  checked against the resolved max, which needs a range to exist.
 
 ## Summary
 
