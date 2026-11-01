@@ -114,7 +114,7 @@ Acceptance: every gate part has a range, and the spot values match.
   (exit 0); 293 changed lines, only `|vcc=` added (`293 293 True`);
   `verify.py` → `293 parts checked, 0 mismatches`. Final gate: `ctest` →
   `100% tests passed, 0 tests failed out of 12`.
-Commit: —
+Commit: c4d8e3c
 
 ## Validation Plan
 
