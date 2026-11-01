@@ -239,11 +239,12 @@ extension SchematicFile {
                 guard let chip = chipsByID[partID] else {
                     throw SchematicFileError.missingPart(wire: wire, part: partID)
                 }
-                // Only pins the symbol draws can take a wire.
-                guard chip.layout.slots.contains(where: { $0.pin.number == number }) else {
+                // Version 1 pin n is the part's n-th pin in its pinout. Only
+                // pins the symbol draws can take a wire.
+                guard chip.layout.slots.contains(where: { $0.pin.index == number - 1 }) else {
                     throw SchematicFileError.missingPin(wire: wire, reference: chip.reference, pin: number)
                 }
-                return .pin(PinRef(chipID: partID, number: number))
+                return .pin(PinRef(chipID: partID, index: number - 1))
             case let .junction(id):
                 guard junctionIDs.contains(id) else {
                     throw SchematicFileError.missingJunction(wire: wire, junction: id)
@@ -283,7 +284,7 @@ private extension SchematicFile.End {
     init(_ end: WireEnd) {
         switch end {
         case let .pin(ref):
-            self = .pin(part: ref.chipID, number: ref.number)
+            self = .pin(part: ref.chipID, number: ref.index + 1)
         case let .junction(id):
             self = .junction(id)
         }

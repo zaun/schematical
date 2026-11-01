@@ -121,7 +121,7 @@ nonisolated struct ChipLayout: Hashable {
         /// Horizontal centre of a top or bottom pin inside the body.
         var centerX: CGFloat = 0
 
-        var id: Int { pin.number }
+        var id: Int { pin.index }
     }
 
     /// Height of one pin row. Two grid cells, so every pin lands on the grid.
@@ -129,7 +129,7 @@ nonisolated struct ChipLayout: Hashable {
     static let headerHeight: CGFloat = 30
     static let bodyWidth: CGFloat = 120
     static let stubLength: CGFloat = 10
-    /// Room on each side of the body for pin numbers.
+    /// Room on each side of the body for pin labels.
     static let labelMargin: CGFloat = 30
 
     /// Diode symbol: the anode and cathode leads sit on this row, and the body
@@ -190,11 +190,11 @@ nonisolated struct ChipLayout: Hashable {
     /// the backend gives. No-connect pins are not drawn.
     private static func sevenSegment(_ pins: [ChipPin], display: DisplayInfo?) -> ChipLayout {
         guard let display else { return ChipLayout(pins: pins) }
-        let byNumber = Dictionary(pins.map { ($0.number, $0) }, uniquingKeysWith: { first, _ in first })
+        let byIndex = Dictionary(pins.map { ($0.index, $0) }, uniquingKeysWith: { first, _ in first })
         // Segment pins, then (after a gap) any no-connect leads; commons on the right.
-        let unused = pins.filter { $0.role == .noConnect }.sorted { $0.number < $1.number }
-        let left = stack([display.segmentPins.compactMap { byNumber[$0] }, unused])
-        let right = display.commonPins.compactMap { byNumber[$0] }
+        let unused = pins.filter { $0.role == .noConnect }.sorted { $0.index < $1.index }
+        let left = stack([display.segmentPins.compactMap { byIndex[$0] }, unused])
+        let right = display.commonPins.compactMap { byIndex[$0] }
         // At least enough rows for the digit face.
         let faceRows = Int(((sevenSegmentDigitSize.height + 16) / pitch).rounded(.up))
         let rows = max(left.count, right.count, faceRows)
@@ -215,19 +215,19 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
-    /// One row per switch position, top to bottom. Position k joins pin k
-    /// (left) and pin 2N + 1 - k (right), as in switch.h, so both of a
+    /// One row per switch position, top to bottom. Position k joins the pins
+    /// at index k - 1 (left) and 2N - k (right), as in switch.h, so both of a
     /// position's pins sit on its row.
     private static func dipSwitch(_ pins: [ChipPin]) -> ChipLayout {
         let positions = pins.count / 2
-        let byNumber = Dictionary(pins.map { ($0.number, $0) }, uniquingKeysWith: { first, _ in first })
+        let byIndex = Dictionary(pins.map { ($0.index, $0) }, uniquingKeysWith: { first, _ in first })
         var slots: [PinSlot] = []
         for position in 1...max(positions, 1) {
             let y = centerY(forRow: position - 1)
-            if let left = byNumber[position] {
+            if let left = byIndex[position - 1] {
                 slots.append(PinSlot(pin: left, side: .left, centerY: y))
             }
-            if let right = byNumber[2 * positions + 1 - position] {
+            if let right = byIndex[2 * positions - position] {
                 slots.append(PinSlot(pin: right, side: .right, centerY: y))
             }
         }
@@ -297,9 +297,9 @@ nonisolated struct ChipLayout: Hashable {
     }
 
     init(pins allPins: [ChipPin]) {
-        func byNumber(_ a: ChipPin, _ b: ChipPin) -> Bool { a.number < b.number }
+        func byIndex(_ a: ChipPin, _ b: ChipPin) -> Bool { a.index < b.index }
         func pins(_ roles: ChipPinRole...) -> [ChipPin] {
-            allPins.filter { roles.contains($0.role) }.sorted(by: byNumber)
+            allPins.filter { roles.contains($0.role) }.sorted(by: byIndex)
         }
 
         let power = pins(.power)
@@ -341,8 +341,8 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
-    /// Splits pins (already in pin-number order) by pin group: the default
-    /// group first, in pin-number order, then each named group in the order its
+    /// Splits pins (already in pinout order) by pin group: the default
+    /// group first, in pinout order, then each named group in the order its
     /// first pin appears. A named group is a bus such as A0..A18, so its pins
     /// are in name order (A2 before A10). With only default pins this is the
     /// input unchanged, so blocks without groups lay out as before.
@@ -481,7 +481,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
 /// A pin on a placed chip.
 struct PinRef: Hashable {
     let chipID: UUID
-    let number: Int
+    /// The pin's position in its part's pinout (`ChipPin.index`).
+    let index: Int
 }
 
 /// One end of a wire: a pin on a placed part, or a junction where wires meet.
@@ -728,7 +729,7 @@ final class SchematicDocument {
     /// Where a wire leaves or enters a pin: the end of its pin stub.
     func pinTip(_ ref: PinRef) -> CGPoint? {
         guard let chip = chips.first(where: { $0.id == ref.chipID }),
-              let slot = chip.layout.slots.first(where: { $0.pin.number == ref.number }) else {
+              let slot = chip.layout.slots.first(where: { $0.pin.index == ref.index }) else {
             return nil
         }
         return chip.tip(of: slot)
@@ -738,7 +739,7 @@ final class SchematicDocument {
     var pinTips: [CGPoint] {
         chips.flatMap { chip in
             chip.layout.slots.compactMap { slot in
-                pinTip(PinRef(chipID: chip.id, number: slot.pin.number))
+                pinTip(PinRef(chipID: chip.id, index: slot.pin.index))
             }
         }
     }
@@ -747,7 +748,7 @@ final class SchematicDocument {
     func pin(at point: CGPoint, radius: CGFloat = 8) -> PinRef? {
         for chip in chips.reversed() {
             for slot in chip.layout.slots {
-                let ref = PinRef(chipID: chip.id, number: slot.pin.number)
+                let ref = PinRef(chipID: chip.id, index: slot.pin.index)
                 if let tip = pinTip(ref), Self.distance(from: point, to: tip) <= radius {
                     return ref
                 }

@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Draws one placed chip: a box with the part number in the header, the
 /// readable function in the middle, pin stubs and pin names on the left
-/// (inputs, power) and right (outputs, ground), and pin numbers outside the box.
+/// (inputs, power) and right (outputs, ground), and pin designators outside the box.
 ///
 /// The view's frame includes `ChipLayout.labelMargin` on each side. The body's
 /// top-left corner sits at `chip.origin`, so the parent offsets by that margin.
@@ -69,7 +69,7 @@ struct ChipBlockView: View {
                 context.stroke(pinStub, with: .color(outline), lineWidth: 1.5)
 
                 context.draw(
-                    Text("\(slot.pin.number)")
+                    Text(slot.pin.designator)
                         .font(.system(size: 9))
                         .foregroundStyle(.secondary),
                     at: CGPoint(x: isLeft ? tipX - 3 : tipX + 3, y: y),

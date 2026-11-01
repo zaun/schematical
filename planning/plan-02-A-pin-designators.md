@@ -342,22 +342,23 @@ back to back.
 Acceptance: the whole backend suite passes **with `backend/tests/golden/` untouched**, and the new ball cases run.
   Check: `cmake --build /tmp/logic-bga -j8 && ctest --test-dir /tmp/logic-bga && git diff --quiet backend/tests/golden && echo goldens-untouched` → `100% tests passed, 0 tests failed out of 7` and `goldens-untouched`; `/tmp/logic-bga/library_check | grep -ci ball` → ≥ 1 `ok` line per new case (est. 30 s).
   Result (2026-11-01): `100% tests passed, 0 tests failed out of 7`, `goldens-untouched`; `library_check | grep -i ball` → 13 `ok` lines (2 accepted + 11 rejected cases); `circuit_check` → `PASS: a NULL pin is rejected`, `0 failure(s)`.
-Commit: —
+Commit: 7e142d2
 
 ### Phase 2 — The app on pin index and designator
 
 The app builds against Phase 1's headers. The file stays version 1 with the
 same bytes.
 
-- [ ] `Backend/PartCatalog.swift`: `ChipPin.index`/`designator`, `DisplayInfo` indices, `enablePin: String?` (§4.6).
-- [ ] `Canvas/SchematicModel.swift`: `PinSlot.id`, `PinRef.index`, layout sorting and lookups, 7-segment and DIP switch by index, pin hit-testing (§4.6).
-- [ ] `Canvas/ChipBlockView.swift:72`, `Canvas/SevenSegmentSymbolView.swift:59`, `Canvas/DipSwitchSymbolView.swift:57`: draw `slot.pin.designator`.
-- [ ] `Document/SchematicFile.swift`: v1 `"pin": n` ↔ `index n - 1` (§4.6).
-- [ ] `Simulation/Simulation.swift`: connections carry the designator; `circuit_connect` with it.
-- [ ] Remove the stale wording "pin number (1-based)" in `Simulation.swift:21` and "Pin numbers for the left…" in `PartCatalog.swift:74`.
+- [x] `Backend/PartCatalog.swift`: `ChipPin.index`/`designator`, `DisplayInfo` indices, `enablePin: String?` (§4.6).
+- [x] `Canvas/SchematicModel.swift`: `PinSlot.id`, `PinRef.index`, layout sorting and lookups, 7-segment and DIP switch by index, pin hit-testing (§4.6).
+- [x] `Canvas/ChipBlockView.swift:72`, `Canvas/SevenSegmentSymbolView.swift:59`, `Canvas/DipSwitchSymbolView.swift:57`: draw `slot.pin.designator`.
+- [x] `Document/SchematicFile.swift`: v1 `"pin": n` ↔ `index n - 1` (§4.6).
+- [x] `Simulation/Simulation.swift`: connections carry the designator; `circuit_connect` with it.
+- [x] Remove the stale wording "pin number (1-based)" in `Simulation.swift:21` and "Pin numbers for the left…" in `PartCatalog.swift:74`.
 
 Acceptance: the app builds, and no Swift pin-number identity remains.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-bga-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 30 s; a clean build measured 29 s); `grep -rnE 'pin\.number|ref\.number|key\.number|byNumber|let number: Int' schematical/schematical --include='*.swift'` (22 matches on `main`) → no matches (est. seconds).
+  Result (2026-11-01): `** BUILD SUCCEEDED **`; the grep → no matches (rc=1).
 Commit: —
 
 ### Phase 3 — Docs

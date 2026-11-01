@@ -35,14 +35,17 @@ nonisolated struct ChipPin: Hashable, Sendable, Identifiable {
     /// The group a pin is in unless the part file names another.
     static let defaultGroup = "default"
 
-    let number: Int
+    /// Position in the part's pinout, from 0; the backend's pin index.
+    let index: Int
+    /// The package's label for the pin: "14" on a DIP, "A1" on a BGA.
+    let designator: String
     let name: String
     let role: ChipPinRole
     /// Pins in one group are drawn together on the block, such as an SRAM's
     /// address pins. Most pins are in the default group.
     let group: String
 
-    var id: Int { number }
+    var id: Int { index }
 
     var isInDefaultGroup: Bool { group == Self.defaultGroup }
 
@@ -71,7 +74,8 @@ nonisolated struct DisplayInfo: Hashable, Sendable {
     let chip: String
     /// In the order the simulation reports their lights.
     let leds: [LED]
-    /// Pin numbers for the left (segments) and right (commons) sides, top to bottom.
+    /// Pin indices (into `CatalogPart.pins`) for the left (segments) and right
+    /// (commons) sides, top to bottom.
     let segmentPins: [Int]
     let commonPins: [Int]
 }
@@ -92,7 +96,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case dipSwitch(positions: Int, actuator: String)
         case led(color: String)
         case display(DisplayInfo)
-        case oscillator(family: String, minHz: UInt64, maxHz: UInt64, defaultHz: UInt64, enablePin: Int?)
+        case oscillator(family: String, minHz: UInt64, maxHz: UInt64, defaultHz: UInt64, enablePin: String?)
         case supply(level: Int)
     }
 
@@ -181,9 +185,9 @@ nonisolated private func pinRole(_ role: PinRole) -> ChipPinRole {
     }
 }
 
-nonisolated private func numbers(_ pointer: UnsafePointer<UInt32>?, _ count: Int) -> [Int] {
+nonisolated private func indices(_ pointer: UnsafePointer<Int>?, _ count: Int) -> [Int] {
     guard let pointer else { return [] }
-    return (0..<count).map { Int(pointer[$0]) }
+    return (0..<count).map { pointer[$0] }
 }
 
 extension CatalogPart {
@@ -203,7 +207,7 @@ extension CatalogPart {
         )
         pins = (0..<part.pin_count).compactMap { index in
             guard let pin = part.pins?[index] else { return nil }
-            return ChipPin(number: Int(pin.number), name: string(pin.name),
+            return ChipPin(index: index, designator: string(pin.designator), name: string(pin.name),
                            role: pinRole(pin.role), group: string(pin.group))
         }
 
@@ -230,13 +234,13 @@ extension CatalogPart {
                 size: string(display.size),
                 chip: string(display.chip),
                 leds: leds,
-                segmentPins: numbers(display.segment_pins, display.segment_pin_count),
-                commonPins: numbers(display.common_pins, display.common_pin_count)
+                segmentPins: indices(display.segment_pins, display.segment_pin_count),
+                commonPins: indices(display.common_pins, display.common_pin_count)
             ))
         } else if let osc = part.oscillator?.pointee {
             details = .oscillator(family: string(osc.family), minHz: osc.min_hz, maxHz: osc.max_hz,
                                   defaultHz: osc.default_hz,
-                                  enablePin: osc.enable_pin == 0 ? nil : Int(osc.enable_pin))
+                                  enablePin: osc.enable_pin.map { String(cString: $0) })
         } else if let supply = part.supply?.pointee {
             details = .supply(level: Int(supply.level))
         } else {

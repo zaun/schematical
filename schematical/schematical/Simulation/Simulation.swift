@@ -18,8 +18,8 @@ struct SchematicNetlist {
     let partNames: [String]
     /// Number of nets.
     let netCount: Int
-    /// Each connected pin, once: part index, pin number (1-based), net index.
-    let connections: [(part: Int, pin: Int, net: Int)]
+    /// Each connected pin, once: part index, pin designator ("1", "A1"), net index.
+    let connections: [(part: Int, pin: String, net: Int)]
     /// Switch positions (1-based) that start ON, per part index.
     let switchesOn: [(part: Int, position: Int)]
     /// Chip for each part index.
@@ -86,10 +86,11 @@ enum NetlistBuilder {
             }
         }
 
-        var connections: [(part: Int, pin: Int, net: Int)] = []
-        for (ref, net) in pinNets.sorted(by: { ($0.key.number, $0.key.chipID.uuidString) < ($1.key.number, $1.key.chipID.uuidString) }) {
-            guard let part = partIndexByChip[ref.chipID] else { continue }
-            connections.append((part: part, pin: ref.number, net: net))
+        var connections: [(part: Int, pin: String, net: Int)] = []
+        for (ref, net) in pinNets.sorted(by: { ($0.key.index, $0.key.chipID.uuidString) < ($1.key.index, $1.key.chipID.uuidString) }) {
+            guard let part = partIndexByChip[ref.chipID],
+                  chips[part].part.pins.indices.contains(ref.index) else { continue }
+            connections.append((part: part, pin: chips[part].part.pins[ref.index].designator, net: net))
         }
         // Switch positions that start ON. The rest start OFF.
         var switchesOn: [(part: Int, position: Int)] = []
@@ -203,7 +204,7 @@ final class SimulationController {
             if circuit_add_net(circuit, &index) != 0 { return false }
         }
         for connection in netlist.connections {
-            if circuit_connect(circuit, connection.part, UInt32(connection.pin), connection.net) != 0 {
+            if circuit_connect(circuit, connection.part, connection.pin, connection.net) != 0 {
                 return false
             }
         }

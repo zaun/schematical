@@ -42,7 +42,7 @@ struct DipSwitchSymbolView: View {
                 anchor: .center
             )
 
-            // Pin stubs and pin numbers outside the box, as on a block.
+            // Pin stubs and pin designators outside the box, as on a block.
             for slot in layout.slots {
                 let isLeft = slot.side == .left
                 let edgeX = isLeft ? box.minX : box.maxX
@@ -54,7 +54,7 @@ struct DipSwitchSymbolView: View {
                 context.stroke(pinStub, with: .color(outline), lineWidth: 1.5)
 
                 context.draw(
-                    Text("\(slot.pin.number)")
+                    Text(slot.pin.designator)
                         .font(.system(size: 9))
                         .foregroundStyle(.secondary),
                     at: CGPoint(x: isLeft ? tipX - 3 : tipX + 3, y: slot.centerY),

@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Draws one placed 7-segment display: a box with the part number in the
 /// header, segment pins on the left and common pins on the right (names
-/// inside the box, numbers outside), and the digits on a dark face in the
+/// inside the box, designators outside), and the digits on a dark face in the
 /// middle. Each LED the part has is drawn dim, or in the display's color while
 /// it glows in play mode. Colon dots (L1, L2) and the raised dot (L3) sit
 /// between digits, where the datasheet puts them.
@@ -56,7 +56,7 @@ struct SevenSegmentSymbolView: View {
                 context.stroke(pinStub, with: .color(outline), lineWidth: 1.5)
 
                 context.draw(
-                    Text("\(slot.pin.number)")
+                    Text(slot.pin.designator)
                         .font(.system(size: 9))
                         .foregroundStyle(.secondary),
                     at: CGPoint(x: isLeft ? tipX - 3 : tipX + 3, y: slot.centerY),
