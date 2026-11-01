@@ -127,16 +127,20 @@ example (load files, build a circuit, advance, read nets/lights), and the
 Acceptance: every scenario in §3.2 passes.
   Check: `ctest --test-dir /tmp/logic-build -R circuit_check --output-on-failure` → passed (est. 1 min).
   Result: `circuit_check` → 36 PASS, `0 failure(s)`; ctest passed.
-Commit: —
+Commit: b57ae8a
 
 ### Phase 2 — basicsim
 
-- [ ] `basicsim/main.c`, `basicsim/CMakeLists.txt` (§3.3).
-- [ ] Move `planning/plan-01-F-circuit-api.md` to `planning/completed/` once every phase's `Commit:` is filled.
+- [x] `basicsim/main.c`, `basicsim/CMakeLists.txt` (§3.3) (also adds the
+      cJSON include dir, which `kind.h` needs).
+- [x] Move `planning/plan-01-F-circuit-api.md` to `planning/completed/` once every phase's `Commit:` is filled.
 
 Acceptance: same output, exit 0.
   Check: `cmake -S basicsim -B /tmp/basicsim && cmake --build /tmp/basicsim -j8 && /tmp/basicsim/basicsim` → the four lines in §2, exit 0 (est. 1 min).
-Commit: —
+  Result: `10 ns: AND = X, NAND = Z` / `28 ns: AND = 1, NAND = 0` /
+  `50 ns: AND = 0, NAND = 0` / `55 ns: AND = 0, NAND = 1`, `exit 0` — identical
+  to the old build (`/tmp/basicsim-old/basicsim`, run the same session).
+Commit: this phase's commit is the one that moved this file to `planning/completed/` (hash in plan-01-G's Corrections).
 
 ## Validation Plan
 

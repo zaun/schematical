@@ -1,9 +1,51 @@
 #include "net.h"
 #include "sim.h"
-#include "74_00.h"
-#include "74_08.h"
+#include "kind.h"
+#include "parts.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+
+/* Reads gate.json from the app's part files and loads it into a library. */
+static PartLibrary *load_gates(void) {
+    const char *path = PARTS_DIR "/gate.json";
+    PartLibrary *library = part_library_create();
+    FILE *file = fopen(path, "rb");
+    char *text = NULL;
+    char *error = NULL;
+    long length;
+
+    if (library == NULL || file == NULL) {
+        fprintf(stderr, "Could not open %s\n", path);
+        goto fail;
+    }
+    fseek(file, 0, SEEK_END);
+    length = ftell(file);
+    fseek(file, 0, SEEK_SET);
+    text = malloc((size_t)length + 1);
+    if (text == NULL || fread(text, 1, (size_t)length, file) != (size_t)length) {
+        fprintf(stderr, "Could not read %s\n", path);
+        goto fail;
+    }
+    text[length] = '\0';
+    fclose(file);
+    file = NULL;
+    if (load_parts(library, text, "gate.json", &error) != 0) {
+        fprintf(stderr, "%s\n", error);
+        free(error);
+        goto fail;
+    }
+    free(text);
+    return library;
+
+fail:
+    if (file != NULL) {
+        fclose(file);
+    }
+    free(text);
+    part_library_destroy(library);
+    return NULL;
+}
 
 static size_t source_pin_count(const void *config) {
     (void)config;
@@ -79,26 +121,30 @@ int main(void) {
     SimNet *b;
     SimNet *and_out;
     SimNet *nand_out;
-    Sn74_08Config and_config;
-    Sn74_00Config nand_config;
+    PartLibrary *library = load_gates();
+    const Part *and_part;
+    const Part *nand_part;
     size_t i;
     int result = 1;
 
-    if (sim == NULL) {
+    if (sim == NULL || library == NULL) {
         fprintf(stderr, "Could not create simulation\n");
         return 1;
     }
 
     source = sim_add_instance(sim, &SOURCE_TYPE, "inputs", NULL);
 
-    and_type = sn74_08_lookup("SN74LS08N", &and_config);
+    /* The gates come from the part library; the source stays engine-level. */
+    and_part = part_library_find(library, "SN74LS08N");
+    and_type = and_part != NULL ? kind_model(and_part) : NULL;
     and_chip = and_type != NULL
-        ? sim_add_instance(sim, and_type, "U1", &and_config)
+        ? sim_add_instance(sim, and_type, "U1", and_part)
         : NULL;
 
-    nand_type = sn74_00_lookup("SN74LS00N", &nand_config);
+    nand_part = part_library_find(library, "SN74LS00N");
+    nand_type = nand_part != NULL ? kind_model(nand_part) : NULL;
     nand_chip = nand_type != NULL
-        ? sim_add_instance(sim, nand_type, "U2", &nand_config)
+        ? sim_add_instance(sim, nand_type, "U2", nand_part)
         : NULL;
 
     a = sim_add_net(sim, "A");
@@ -113,12 +159,13 @@ int main(void) {
 
     if (!sim_connect(sim, a, source, 0) ||
         !sim_connect(sim, b, source, 1) ||
-        !sim_connect(sim, a, and_chip, SN74_08_PIN(1)) ||
-        !sim_connect(sim, b, and_chip, SN74_08_PIN(2)) ||
-        !sim_connect(sim, and_out, and_chip, SN74_08_PIN(3)) ||
-        !sim_connect(sim, a, nand_chip, SN74_00_PIN(1)) ||
-        !sim_connect(sim, b, nand_chip, SN74_00_PIN(2)) ||
-        !sim_connect(sim, nand_out, nand_chip, SN74_00_PIN(3))) {
+        /* Pin indices are 0-based: pins 1A, 1B, 1Y of each gate. */
+        !sim_connect(sim, a, and_chip, 0) ||
+        !sim_connect(sim, b, and_chip, 1) ||
+        !sim_connect(sim, and_out, and_chip, 2) ||
+        !sim_connect(sim, a, nand_chip, 0) ||
+        !sim_connect(sim, b, nand_chip, 1) ||
+        !sim_connect(sim, nand_out, nand_chip, 2)) {
         goto cleanup;
     }
 
@@ -148,6 +195,7 @@ int main(void) {
                     logic_char(checkpoint->and_value),
                     logic_char(checkpoint->nand_value));
             sim_destroy(sim);
+            part_library_destroy(library);
             return 1;
         }
     }
@@ -161,5 +209,6 @@ cleanup:
     }
 
     sim_destroy(sim);
+    part_library_destroy(library);
     return result;
 }
