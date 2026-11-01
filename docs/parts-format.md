@@ -226,3 +226,46 @@ Part key:
 | Key | Value |
 |---|---|
 | `"family"` | the part's logic family; must be a key of `timing` |
+
+### `dff`
+
+D flip-flops. Each unit captures D on its clock edge while PRE and CLR are
+inactive; PRE/CLR act at once. An undriven (Z) PRE/CLR reads as inactive,
+X as unknown. Power-on state is Q = 0, QN = 1. Edges follow Verilog
+posedge/negedge: any move into 1 (or 0) from another value, including from
+X or Z. Outputs are driven strong, inertially: fall delay for 0, rise delay
+for 1 (and Z), the longer for X.
+
+```json
+"units": [{"d": "1D", "clk": "1CLK", "pre": "1PRE", "clr": "1CLR", "q": "1Q", "qn": "1QN"}],
+"outputEnable": "OE",
+"presetActiveHigh": false,
+"clearActiveHigh": false,
+"clockEdge": "rising",
+"timing": {"HC": {"rise": 20, "fall": 20, "clearWins": false, "note": "…"}}
+```
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"units"` | 1–8 flip-flops: `d` and `clk` required; `pre`, `clr`, `q`, `qn` optional (absent = no such pin). Units may share pins (a common clock or clear). |
+| `"outputEnable"` | optional, active-low output enable: 1 puts Q/QN in Z, X makes them X |
+| `"presetActiveHigh"`, `"clearActiveHigh"` | `true` when PRE / CLR is asserted high |
+| `"clockEdge"` | `"rising"` or `"falling"` |
+| `"timing"` | logic family → `{rise, fall, clearWins}`; `clearWins` true: PRE and CLR both asserted give Q = 0, QN = 1; false: Q = QN = 1 |
+
+Part key: `"family"`, a key of `timing`. `PartLogic.units` is the number of
+units.
+
+### `jkff`
+
+JK flip-flops. On its clock edge (PRE and CLR inactive) a unit sets (J),
+resets (K), holds or toggles (both). An unknown J or K gives X unless every
+level it could have leads to the same Q. PRE/CLR as for `dff`; both
+asserted give Q = QN = 1.
+
+Device keys: as `dff`, except `"units"` (1–2) take `j`, `k`, `clk`
+(required) and `pre`, `clr`, `q`, `qn` (optional); there is no
+`outputEnable`; `"kInverted"` (bool) means the K input is K-bar (74x109);
+timing entries are `{rise, fall}`. Part key: `"family"`.

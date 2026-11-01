@@ -9,6 +9,7 @@
 
 #include "export.h"
 #include "export_gate.h"
+#include "export_ff.h"
 
 typedef struct {
     const char *kind;
@@ -20,6 +21,8 @@ static const Exporter EXPORTERS[] = {
     {"led", export_led},
     {"oscillator", export_osc},
     {"gate", export_gate},
+    {"dff", export_dff},
+    {"jkff", export_jkff},
 };
 
 int main(int argc, char **argv) {

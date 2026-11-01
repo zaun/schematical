@@ -24,7 +24,7 @@ See plan-01-A §Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-01-C complete | `ls planning/completed/plan-01-C-gate-kind.md` → exists | NOT MET |
+| plan-01-C complete | `ls planning/completed/plan-01-C-gate-kind.md` → exists | MET (2026-10-31: exists, 0d9845b) |
 
 ## 1. Goal
 
@@ -134,13 +134,23 @@ position's contact with `sim_set_contact`; no other behavior (as today).
 
 ### Phase 1 — Flip-flops
 
-- [ ] `src/models/dff.c`, `src/models/jkff.c`; add both kinds to `KINDS[]`.
-- [ ] `tools/export/export_dff.c`, `export_jkff.c`; generate `dff.json`,
-      `jkff.json`; run `notes.py` on both.
-- [ ] `library_check` dff/jkff cases (§3.5); `docs/parts-format.md` sections.
+- [x] `src/models/dff.c`, `src/models/jkff.c`; add both kinds to `KINDS[]`.
+- [x] `tools/export/export_dff.c`, `export_jkff.c` (+ shared `export_ff.c`/`.h`
+      and template `export_ff.inc`; layout and timing come from each part's
+      own `lookup` + `create`); generate `dff.json` (20 devices; 74_74,
+      74_174, 74_175 merged their `_FK`), `jkff.json` (6 devices; 74_109,
+      74_112 merged); `notes.py` on both (`10 notes, 57 removed`; `27 notes,
+      6 removed`; `grep -c '"@'` → 0 each).
+- [x] `library_check` dff/jkff cases (§3.5) (+ a valid dff file, and a jkff
+      timing entry with `clearWins` rejected); `docs/parts-format.md` sections.
 
 Acceptance: 858 flip-flop parts match both goldens.
   Check: `ctest --test-dir /tmp/logic-build -R 'library_check|listing_check|trace_check' --output-on-failure` → passed, `3560 parts compared` (est. 1 min).
+  Result: `100% tests passed, 0 tests failed out of 3`; both parity checks
+  `gate 2552, dff 672, jkff 186, supply 2, led 55, oscillator 93`, `3560 parts compared, 257 skipped`.
+  Runtime proof: `trace_check --verbose CD74HC73E` → `1000 pin 1 -> 0` (1CLK falls)
+  then `13000 pin 12 -> 0`, `13000 pin 13 -> 1` (Q/QN 13 ns later); the rising
+  edge at `150493` changes nothing.
 Commit: —
 
 ### Phase 2 — Switches
@@ -172,7 +182,15 @@ See plan-01-A §Decisions. Nothing new.
 
 ## Corrections
 
-(empty)
+- plan-01-C's last commit (archive + Phase 2) is 0d9845b.
+- §3.4 merge rule, made precise as in plan-01-C: an `_FK` merges when every
+  kind key (units, polarity, edge, `kInverted`/`outputEnable`) is equal and
+  every family both define has the same timing. All 5 `_FK` definitions
+  merged; `_SON`/`_RSE` layouts stay separate devices (plan-01-C §3.3 merges
+  only `_FK`).
+- Old `gate_count` equals the unit count for all 31 flip-flop definitions
+  (the exporter checks it and would stop otherwise), so `PartLogic.units` =
+  number of units needs no override here.
 
 ## Summary
 

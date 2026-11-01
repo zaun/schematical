@@ -88,6 +88,8 @@ add_library(logic STATIC
     src/library/kind_util.c
     src/models/lights.c
     src/models/gate.c
+    src/models/dff.c
+    src/models/jkff.c
     src/models/supply.c
     src/models/led.c
     src/models/oscillator.c
@@ -123,6 +125,9 @@ add_executable(export_parts
     tools/export/export_gate_74266.c
     tools/export/export_gate_cd.c
     tools/export/export_gate_gt.c
+    tools/export/export_ff.c
+    tools/export/export_dff.c
+    tools/export/export_jkff.c
     sim.c
     net.c
     src/third_party/cjson/cJSON.c

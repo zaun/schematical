@@ -300,7 +300,57 @@ static void check_gate_cases(void) {
                 "timing.HX: unknown family \"HX\"");
 }
 
+#define FF_PINS \
+    "'pinouts':{'p6':[{'number':1,'name':'D','role':'input'},{'number':2,'name':'CLK','role':'input'}," \
+    "{'number':3,'name':'Q','role':'output'},{'number':4,'name':'QN','role':'output'}," \
+    "{'number':5,'name':'GND','role':'ground'},{'number':6,'name':'VCC','role':'power'}]},"
+
+static void check_flipflop_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library,
+               HEAD("dff") "{'id':'d','function':'D flip-flop','description':'d','drawer':['Logic']," FF_PINS
+               "'units':[{'d':'D','clk':'CLK','q':'Q','qn':'QN'}],'presetActiveHigh':false,"
+               "'clearActiveHigh':false,'clockEdge':'rising',"
+               "'timing':{'HC':{'rise':20,'fall':18,'clearWins':false}},"
+               "'parts':[{'name':'D1','package':'DIP','pinout':'p6','family':'HC'}]}" TAIL,
+               &error) == 0);
+    part = part_library_find(library, "D1");
+    CHECK(part != NULL && part->kind == PART_DFF && part->logic->units == 1);
+    printf("ok   valid dff file%s%s\n", error != NULL ? ": " : "", error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("dff unit naming a missing pin",
+                HEAD("dff") "{'id':'d','function':'D flip-flop','description':'d','drawer':[]," FF_PINS
+                "'units':[{'d':'D','clk':'CLK','pre':'PRE','q':'Q','qn':'QN'}],'presetActiveHigh':false,"
+                "'clearActiveHigh':false,'clockEdge':'rising',"
+                "'timing':{'HC':{'rise':20,'fall':18,'clearWins':false}},'parts':[]}" TAIL,
+                "pinouts.p6: units[0]: no pin named \"PRE\"");
+    expect_fail("dff clockEdge up",
+                HEAD("dff") "{'id':'d','function':'D flip-flop','description':'d','drawer':[]," FF_PINS
+                "'units':[{'d':'D','clk':'CLK','q':'Q','qn':'QN'}],'presetActiveHigh':false,"
+                "'clearActiveHigh':false,'clockEdge':'up',"
+                "'timing':{'HC':{'rise':20,'fall':18,'clearWins':false}},'parts':[]}" TAIL,
+                "\"clockEdge\" must be \"rising\" or \"falling\", not \"up\"");
+    expect_fail("jkff with 3 units",
+                HEAD("jkff") "{'id':'j','function':'JK flip-flop','description':'d','drawer':[]," FF_PINS
+                "'units':[{'j':'D','k':'D','clk':'CLK'},{'j':'D','k':'D','clk':'CLK'},{'j':'D','k':'D','clk':'CLK'}],"
+                "'kInverted':false,'presetActiveHigh':false,'clearActiveHigh':false,'clockEdge':'falling',"
+                "'timing':{'HC':{'rise':20,'fall':18}},'parts':[]}" TAIL,
+                "\"units\" must be an array of 1 to 2 units");
+    expect_fail("jkff timing with clearWins",
+                HEAD("jkff") "{'id':'j','function':'JK flip-flop','description':'d','drawer':[]," FF_PINS
+                "'units':[{'j':'D','k':'D','clk':'CLK'}],"
+                "'kInverted':false,'presetActiveHigh':false,'clearActiveHigh':false,'clockEdge':'falling',"
+                "'timing':{'HC':{'rise':20,'fall':18,'clearWins':true}},'parts':[]}" TAIL,
+                "timing.HC: unknown key \"clearWins\"");
+}
+
 int main(void) {
+    check_flipflop_cases();
     check_gate_cases();
     check_valid_supply();
     check_valid_led();
