@@ -164,6 +164,8 @@ struct DrawerFilter: Equatable {
     var category: String?
     var package: String?
     var family: String?
+    /// Gates per package (the sidebar's count). Like `family`, only narrows logic parts.
+    var gateCount: Int?
     /// Which flagged parts to list. Set from the user's preferences.
     var visibility = PartVisibility()
 }
@@ -247,6 +249,14 @@ final class ChipCatalogStore {
         return Array(Set(names)).sorted { $0.localizedStandardCompare($1) == .orderedAscending }
     }
 
+    /// Gate counts present in one category, ascending.
+    func gateCounts(in category: String) -> [Int] {
+        let counts = entries
+            .filter { $0.chip.category == category && $0.chip.gateCount > 0 }
+            .map(\.chip.gateCount)
+        return Array(Set(counts)).sorted()
+    }
+
     func chip(forPartNumber partNumber: String) -> ChipDefinition? {
         chipByPartNumber[partNumber]
     }
@@ -284,6 +294,10 @@ final class ChipCatalogStore {
             }
             if let family = filter.family, entry.chip.category == familyCategory,
                entry.part.family != family {
+                return false
+            }
+            if let count = filter.gateCount, entry.chip.category == familyCategory,
+               entry.chip.gateCount != count {
                 return false
             }
             return needle.isEmpty || [entry.part.name, entry.chip.function, entry.chip.description, entry.chip.category]

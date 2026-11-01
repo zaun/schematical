@@ -12,8 +12,8 @@ nonisolated struct ChipPartDragItem: Codable, Hashable, Sendable, Transferable {
 }
 
 /// Right-hand drawer. Parts are grouped by category, then by readable function.
-/// The top bar filters by category and package. The family menu sits in the
-/// Logic category header because families only apply to logic chips.
+/// The top bar filters by category and package. The family and gate-count menus
+/// sit in the Logic category header because they only apply to logic chips.
 struct ChipDrawerView: View {
     let catalog: ChipCatalogStore
 
@@ -113,6 +113,7 @@ struct ChipDrawerView: View {
             Spacer()
             if category == familyCategory {
                 familyMenu(for: category)
+                countMenu(for: category)
             }
         }
     }
@@ -134,6 +135,29 @@ struct ChipDrawerView: View {
         }
         .menuStyle(.borderlessButton)
         .fixedSize()
+    }
+
+    private func countMenu(for category: String) -> some View {
+        Menu {
+            Button("All counts") {
+                filter.gateCount = nil
+            }
+            Divider()
+            ForEach(catalog.gateCounts(in: category), id: \.self) { count in
+                Button(gateCountLabel(count)) {
+                    filter.gateCount = count
+                }
+            }
+        } label: {
+            Text(filter.gateCount.map(gateCountLabel) ?? "All counts")
+                .font(.caption)
+        }
+        .menuStyle(.borderlessButton)
+        .fixedSize()
+    }
+
+    private func gateCountLabel(_ count: Int) -> String {
+        count == 1 ? "1 gate" : "\(count) gates"
     }
 
     // MARK: Rows
