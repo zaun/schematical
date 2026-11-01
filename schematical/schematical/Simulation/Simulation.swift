@@ -4,7 +4,8 @@
 //
 //  Connects the schematic to the backend simulator (circuit.h). The circuit
 //  is built from the wires, one simulation runs while the circuit is in play
-//  mode, and its state is read back after every step for the canvas to draw.
+//  mode on its own thread (SimulationEngine), and the snapshot it publishes
+//  each frame becomes what the canvas draws.
 //
 
 import Foundation
@@ -112,13 +113,13 @@ enum NetlistBuilder {
 }
 
 /// A memory part's size: its word count and word width in bits.
-struct MemorySize: Equatable {
+nonisolated struct MemorySize: Equatable, Sendable {
     let words: Int
     let bits: Int
 }
 
 /// One memory word. `known` has a 1 for every bit that is defined; the others are X.
-struct MemoryWord: Equatable {
+nonisolated struct MemoryWord: Equatable, Sendable {
     let value: UInt32
     let known: UInt32
 }
@@ -127,28 +128,29 @@ struct MemoryWord: Equatable {
 @MainActor
 @Observable
 final class SimulationController {
-    /// Simulated time per timer tick, in picoseconds. 10 us per 16 ms tick.
-    static let picosecondsPerTick: UInt64 = 10_000_000
-    static let tickInterval: Duration = .milliseconds(16)
-
     /// True while in play mode, including after the simulation has stopped with
     /// an error. Stop leaves play mode.
     private(set) var isRunning = false
     /// Why the simulation stopped, if it did.
     private(set) var errorMessage: String?
+    /// Circuit time of the last snapshot, picoseconds.
+    private(set) var circuitTime: UInt64 = 0
 
     /// The part library circuits are built from. It outlives every circuit.
     private let library: PartLibraryHandle
     private var netlist: SchematicNetlist?
-    private var circuit: OpaquePointer?
-    private var task: Task<Void, Never>?
+    private var engine: SimulationEngine?
+    /// Counts engines started, so a snapshot from a stopped one is ignored.
+    private var generation = 0
     private var netValues: [CircuitValue] = []
     private var shortedNets: Set<Int> = []
     /// LEDs (one light) and 7-segment displays (one per LED, in display
-    /// order): whether each light was on during the last step.
+    /// order): whether each light was on during the last frame.
     private(set) var lights: [UUID: [Bool]] = [:]
-    /// Goes up after every read of the simulator's state, so views that show
-    /// memory contents know to read them again.
+    /// The previous snapshot's light on-times, to see which grew.
+    private var previousLightTimes: [Int: [UInt64]]?
+    /// Goes up after every snapshot, so views that show memory contents know
+    /// to read them again.
     private(set) var stateVersion = 0
 
     init(library: PartLibraryHandle) {
@@ -164,10 +166,14 @@ final class SimulationController {
     }
 
     func start(document: SchematicDocument) {
+        start(netlist: NetlistBuilder.build(chips: document.chips, wires: document.wires))
+    }
+
+    /// Builds the circuit and starts it on the simulation thread.
+    func start(netlist built: SchematicNetlist) {
         stop()
         errorMessage = nil
 
-        let built = NetlistBuilder.build(chips: document.chips, wires: document.wires)
         guard let opened = circuit_create(library.pointer) else {
             errorMessage = "The simulation could not start."
             return
@@ -179,18 +185,24 @@ final class SimulationController {
             return
         }
 
-        netlist = built
-        circuit = opened
-        isRunning = true
-        refresh()
-
-        task = Task { [weak self] in
-            while !Task.isCancelled {
-                guard let self else { return }
-                if !self.step() { return }
-                try? await Task.sleep(for: Self.tickInterval)
-            }
+        // Parts with lights, found once: they are the ones the engine reads.
+        let lightParts = built.partNames.indices.filter {
+            circuit_part_light_time(opened, $0, nil, 0) > 0
         }
+
+        generation += 1
+        let current = generation
+        let engine = SimulationEngine(
+            circuit: opened, netCount: built.netCount, lightParts: lightParts, speed: 1,
+            publish: { [weak self] snapshot in
+                Task { @MainActor in self?.apply(snapshot, generation: current) }
+            }
+        )
+        netlist = built
+        self.engine = engine
+        isRunning = true
+        apply(engine.snapshotNow(), generation: current)
+        engine.start()
     }
 
     /// Adds the parts, nets and connections, sets the switches, and starts.
@@ -215,52 +227,38 @@ final class SimulationController {
     }
 
     func stop() {
-        task?.cancel()
-        task = nil
-        if let circuit {
-            circuit_destroy(circuit)
-        }
-        circuit = nil
+        engine?.stopAndWait()
+        engine = nil
         netlist = nil
         isRunning = false
         netValues = []
         shortedNets = []
         lights = [:]
+        previousLightTimes = nil
+        circuitTime = 0
     }
 
-    /// Advances the simulation one tick. Returns false when it has stopped.
-    private func step() -> Bool {
-        guard let circuit else { return false }
-        let ok = circuit_advance(circuit, Self.picosecondsPerTick) != 0
-        refresh()
-        return ok && errorMessage == nil
-    }
+    /// Turns a snapshot from the simulation thread into what the canvas draws.
+    private func apply(_ snapshot: SimulationSnapshot, generation snapshotGeneration: Int) {
+        guard snapshotGeneration == generation, engine != nil, let netlist else { return }
 
-    /// Reads the simulator's state into the observable properties.
-    private func refresh() {
-        guard let circuit, let netlist else { return }
-
-        netValues = (0..<netlist.netCount).map { circuit_net_value(circuit, $0) }
-
-        var shorted: Set<Int> = []
-        var net = 0
-        if circuit_shorted_net(circuit, &net) != 0 {
-            shorted.insert(net)
-        }
-        shortedNets = shorted
+        netValues = snapshot.netValues
+        shortedNets = snapshot.shortedNet.map { [$0] } ?? []
+        circuitTime = snapshot.circuitTime
 
         var newLights: [UUID: [Bool]] = [:]
-        var buffer = [UInt8](repeating: 0, count: 64)
-        for (index, chipID) in netlist.chipIDs.enumerated() {
-            let count = circuit_part_lights(circuit, index, &buffer, buffer.count)
-            if count > 0 {
-                newLights[chipID] = buffer.prefix(min(count, buffer.count)).map { $0 != 0 }
+        for (part, times) in snapshot.lightTimes where part < netlist.chipIDs.count {
+            let before = previousLightTimes?[part]
+            newLights[netlist.chipIDs[part]] = times.indices.map { i in
+                guard let before, i < before.count else { return false }
+                return times[i] > before[i]
             }
         }
         lights = newLights
+        previousLightTimes = snapshot.lightTimes
 
-        if let error = circuit_error(circuit) {
-            errorMessage = String(cString: error)
+        if let error = snapshot.error {
+            errorMessage = error
         }
         stateVersion &+= 1
     }
@@ -268,10 +266,10 @@ final class SimulationController {
     // MARK: Switches
 
     /// Turns a switch position (1-based) ON or OFF in the running simulation.
-    /// It takes effect on the next tick. Does nothing when not running.
+    /// It takes effect on the next step. Does nothing when not running.
     func setSwitch(_ chipID: UUID, position: Int, on: Bool) {
-        guard let circuit, let part = netlist?.chipIDs.firstIndex(of: chipID), position > 0 else { return }
-        circuit_set_switch(circuit, part, UInt32(position), on ? 1 : 0)
+        guard let engine, let part = netlist?.chipIDs.firstIndex(of: chipID), position > 0 else { return }
+        engine.setSwitch(part: part, position: position, on: on)
     }
 
     // MARK: Memory
@@ -279,22 +277,15 @@ final class SimulationController {
     /// Size of a memory part in the running simulation, or nil when the part is
     /// not a memory or the simulation is not running.
     func memorySize(of chipID: UUID) -> MemorySize? {
-        guard let circuit, let part = netlist?.chipIDs.firstIndex(of: chipID) else { return nil }
-        var words: UInt32 = 0
-        var bits: UInt32 = 0
-        guard circuit_memory_size(circuit, part, &words, &bits) != 0 else { return nil }
-        return MemorySize(words: Int(words), bits: Int(bits))
+        guard let engine, let part = netlist?.chipIDs.firstIndex(of: chipID) else { return nil }
+        return engine.memorySize(part: part)
     }
 
     /// Words of a memory part, from `start`. Fewer than `count` at the end of
     /// the memory; empty when the simulation is not running.
     func readMemory(of chipID: UUID, start: Int, count: Int) -> [MemoryWord] {
-        guard let circuit, let part = netlist?.chipIDs.firstIndex(of: chipID),
-              start >= 0, count > 0, start <= Int(UInt32.max) else { return [] }
-        var values = [UInt32](repeating: 0, count: count)
-        var known = [UInt32](repeating: 0, count: count)
-        let read = circuit_memory_read(circuit, part, UInt32(start), count, &values, &known)
-        return (0..<read).map { MemoryWord(value: values[$0], known: known[$0]) }
+        guard let engine, let part = netlist?.chipIDs.firstIndex(of: chipID) else { return [] }
+        return engine.readMemory(part: part, start: start, count: count)
     }
 
     /// Color for a wire in play mode. Outside play mode, the normal color.

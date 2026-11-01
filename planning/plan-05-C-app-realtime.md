@@ -35,9 +35,9 @@ The plan-05 gate is in plan-05-A § Prerequisites. C adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-05-B complete | `ls planning/plan-05-B-* 2>/dev/null` → no output; `ls planning/completed/plan-05-B-accuracy-readback.md` → exists | NOT MET (2026-11-01) |
-| New read-backs exist | `grep -c 'circuit_net_changes\|circuit_part_light_time' backend/include/circuit.h` → 2 | NOT MET (2026-11-01) |
-| App builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-p05-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01, at 5aa1fee, 33 s) |
+| plan-05-B complete | `ls planning/plan-05-B-* 2>/dev/null` → no output; `ls planning/completed/plan-05-B-accuracy-readback.md` → exists | MET (2026-11-01, worktree-P-05 at 90b1fe0) |
+| New read-backs exist | `grep -c 'circuit_net_changes\|circuit_part_light_time' backend/include/circuit.h` → 2 | MET (2026-11-01, → 2) |
+| App builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-p05-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01, at cf70176 before any plan-05 edit) |
 
 Everything below is written against the world where these hold.
 
@@ -270,13 +270,19 @@ under the lock.
 Same drawing as today (bool lights from levels > 0, wire colors from
 values), but real-time and off the main thread.
 
-- [ ] `project.pbxproj`: §4.4.
-- [ ] `Simulation/SimulationEngine.swift`: §4.1.
-- [ ] `Simulation.swift`: §4.2 except `wireStyle` and light levels (keep
+- [x] `project.pbxproj`: §4.4 (line 181, project-level Debug → `GCC_OPTIMIZATION_LEVEL = s;`).
+- [x] `Simulation/SimulationEngine.swift`: §4.1. The frame sleep waits on a
+      semaphore that `stopAndWait` signals, so Stop doesn't wait out a frame.
+- [x] `Simulation.swift`: §4.2 except `wireStyle` and light levels (keep
       `lights: [UUID: [Bool]]` from on-time growth > 0 for this phase);
-      `speed` fixed at 1.
-- [ ] `MemoryWindow.swift`: no edits; it uses the same controller methods,
+      `speed` fixed at 1. Also: `circuitTime` (observable, for the proof),
+      a `generation` counter so a snapshot queued by a stopped engine is
+      ignored, and `MemorySize`/`MemoryWord` made `nonisolated … Sendable`
+      (the engine builds them off the main actor).
+- [x] `MemoryWindow.swift`: no edits; it uses the same controller methods,
       now forwarded to the engine.
+- [x] Check: `xcodebuild … build` → `** BUILD SUCCEEDED **`; runtime proof
+      step 1 → see "Runtime proof (run 2026-11-01)".
 
 Acceptance: app builds; at speed 1 the proof circuit's circuit time tracks
 wall time.
@@ -330,6 +336,21 @@ Commit: —
   → `100% tests passed, 0 tests failed out of 9` (est. 1 min);
   Release `sim_bench` both cases at their plan-05-A thresholds (est. 15 s);
   the `xcodebuild` (est. 3 min); the runtime proof (est. 15 min).
+
+## Runtime proof (run 2026-11-01)
+
+Headless, like plan-03-D (Corrections): `/tmp/p05c/harness/build.sh`
+compiles the app's Swift sources (all but `schematicalApp.swift`), the
+backend C at `-Os` (the new Debug setting) and `/tmp/p05c/harness/main.swift`
+into a CLI inside a copy of the Debug `.app`. It drives the real
+`SimulationController` and `SimulationEngine` (real thread, real main-actor
+snapshot delivery while the driver awaits `Task.sleep`).
+
+1. `harness step1 test.schematical` → `running: true error: none`,
+   `step1: wall 2.1042 s, circuit time 2.0923 s ratio 0.9944` (2 s ± 10 %);
+   the process ran to the end, so the `dispatchPrecondition(.notOnQueue(.main))`
+   at the `circuit_advance` call site never fired; `stateVersion 107`
+   (snapshots applied); live threads `1` before `stop()`, `0` after.
 
 ## Decisions
 
