@@ -3,3 +3,6 @@
 
 # Per-user Xcode UI state
 *.xcuserstate
+
+# Scratch files
+tmp/
