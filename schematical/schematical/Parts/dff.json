@@ -1019,6 +1019,7 @@
       "function": "D flip-flop",
       "description": "Single positive-edge-triggered D flip-flop with preset and clear",
       "drawer": ["Logic"],
+      "note": "DSBGA balls: sn74aup1g74 p.3.",
       "pinouts": {
         "p8": [
           {"number":1,"name":"CLK","role":"input"},
@@ -1029,6 +1030,16 @@
           {"number":6,"name":"CLR","role":"input"},
           {"number":7,"name":"PRE","role":"input"},
           {"number":8,"name":"VCC","role":"power"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"CLK","role":"input"},
+          {"ball":"B1","name":"D","role":"input"},
+          {"ball":"C1","name":"QBAR","role":"output"},
+          {"ball":"D1","name":"GND","role":"ground"},
+          {"ball":"D2","name":"Q","role":"output"},
+          {"ball":"C2","name":"CLR","role":"input"},
+          {"ball":"B2","name":"PRE","role":"input"},
+          {"ball":"A2","name":"VCC","role":"power"}
         ]
       },
       "units": [{"d":"D","clk":"CLK","pre":"PRE","clr":"CLR","q":"Q","qn":"QBAR"}],
@@ -1049,13 +1060,13 @@
         {"name":"SN74AUC1G74DCURE4","package":"VSSOP","pinout":"p8","family":"AUC"},
         {"name":"SN74AUC1G74DCURG4","package":"VSSOP","pinout":"p8","family":"AUC"},
         {"name":"SN74AUC1G74RSER","package":"UQFN","pinout":"p8","family":"AUC"},
-        {"name":"SN74AUC1G74YZPR","package":"DSBGA","pinout":"p8","family":"AUC"},
+        {"name":"SN74AUC1G74YZPR","package":"DSBGA","pinout":"dsbga","family":"AUC"},
         {"name":"SN74AUP1G74DCUR","package":"VSSOP","pinout":"p8","family":"AUP"},
         {"name":"SN74AUP1G74DCURG4","package":"VSSOP","pinout":"p8","family":"AUP"},
         {"name":"SN74AUP1G74DQER","package":"X2SON","pinout":"p8","family":"AUP"},
         {"name":"SN74AUP1G74RSER","package":"UQFN","pinout":"p8","family":"AUP"},
-        {"name":"SN74AUP1G74YFPR","package":"DSBGA","pinout":"p8","family":"AUP"},
-        {"name":"SN74AUP1G74YZPR","package":"DSBGA","pinout":"p8","family":"AUP"},
+        {"name":"SN74AUP1G74YFPR","package":"DSBGA","pinout":"dsbga","family":"AUP"},
+        {"name":"SN74AUP1G74YZPR","package":"DSBGA","pinout":"dsbga","family":"AUP"},
         {"name":"SN74LVC1G74DCTR","package":"SSOP","pinout":"p8","family":"LVC"},
         {"name":"SN74LVC1G74DCUR","package":"VSSOP","pinout":"p8","family":"LVC"},
         {"name":"SN74LVC1G74DCURG4","package":"VSSOP","pinout":"p8","family":"LVC"},
@@ -1073,6 +1084,7 @@
       "function": "D flip-flop",
       "description": "Single positive-edge-triggered D flip-flop",
       "drawer": ["Logic"],
+      "note": "DSBGA balls: sn74lvc1g79 p.3.",
       "pinouts": {
         "p5": [
           {"number":1,"name":"D","role":"input"},
@@ -1080,6 +1092,13 @@
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"Q","role":"output"},
           {"number":5,"name":"VCC","role":"power"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"D","role":"input"},
+          {"ball":"B1","name":"CLK","role":"input"},
+          {"ball":"C1","name":"GND","role":"ground"},
+          {"ball":"C2","name":"Q","role":"output"},
+          {"ball":"A2","name":"VCC","role":"power"}
         ]
       },
       "units": [{"d":"D","clk":"CLK","q":"Q"}],
@@ -1112,7 +1131,7 @@
         {"name":"SN74LVC1G79DRLR","package":"SOT-5X3","pinout":"p5","family":"LVC"},
         {"name":"SN74LVC1G79QDCKRQ1","package":"SC-70","pinout":"p5","family":"LVC","flags":["automotive"]},
         {"name":"SN74LVC1G79QDCKTQ1","package":"SC-70","pinout":"p5","family":"LVC","flags":["automotive"]},
-        {"name":"SN74LVC1G79YZPR","package":"DSBGA","pinout":"p5","family":"LVC"}
+        {"name":"SN74LVC1G79YZPR","package":"DSBGA","pinout":"dsbga","family":"LVC"}
       ]
     },
     {
@@ -1120,6 +1139,7 @@
       "function": "D flip-flop",
       "description": "Single positive-edge-triggered D flip-flop with clear",
       "drawer": ["Logic"],
+      "note": "DSBGA balls: sn74lvc1g175 p.3.",
       "pinouts": {
         "p6": [
           {"number":1,"name":"CLK","role":"input"},
@@ -1128,6 +1148,14 @@
           {"number":4,"name":"Q","role":"output"},
           {"number":5,"name":"VCC","role":"power"},
           {"number":6,"name":"CLR","role":"input"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"CLK","role":"input"},
+          {"ball":"B1","name":"GND","role":"ground"},
+          {"ball":"C1","name":"D","role":"input"},
+          {"ball":"C2","name":"Q","role":"output"},
+          {"ball":"B2","name":"VCC","role":"power"},
+          {"ball":"A2","name":"CLR","role":"input"}
         ]
       },
       "units": [{"d":"D","clk":"CLK","clr":"CLR","q":"Q"}],
@@ -1144,7 +1172,7 @@
         {"name":"SN74LVC1G175DCKR","package":"SC-70","pinout":"p6","family":"LVC"},
         {"name":"SN74LVC1G175DCKT","package":"SC-70","pinout":"p6","family":"LVC"},
         {"name":"SN74LVC1G175DRYR","package":"SON","pinout":"p6","family":"LVC"},
-        {"name":"SN74LVC1G175YZPR","package":"DSBGA","pinout":"p6","family":"LVC"},
+        {"name":"SN74LVC1G175YZPR","package":"DSBGA","pinout":"dsbga","family":"LVC"},
         {"name":"74LVC1G175DBVRE4","package":"SOT-23","pinout":"p6","family":"LVC","flags":["military"]},
         {"name":"74LVC1G175DBVRG4","package":"SOT-23","pinout":"p6","family":"LVC","flags":["military"]},
         {"name":"74LVC1G175DCKRG4","package":"SC-70","pinout":"p6","family":"LVC","flags":["military"]},
@@ -1159,6 +1187,7 @@
       "function": "D flip-flop",
       "description": "Single positive-edge-triggered D flip-flop with 3-state output",
       "drawer": ["Logic"],
+      "note": "DSBGA balls: sn74lvc1g374 p.1.",
       "pinouts": {
         "p6": [
           {"number":1,"name":"CLK","role":"input"},
@@ -1167,6 +1196,14 @@
           {"number":4,"name":"Q","role":"output"},
           {"number":5,"name":"VCC","role":"power"},
           {"number":6,"name":"OE","role":"input"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"CLK","role":"input"},
+          {"ball":"B1","name":"GND","role":"ground"},
+          {"ball":"C1","name":"D","role":"input"},
+          {"ball":"C2","name":"Q","role":"output"},
+          {"ball":"B2","name":"VCC","role":"power"},
+          {"ball":"A2","name":"OE","role":"input"}
         ]
       },
       "units": [{"d":"D","clk":"CLK","q":"Q"}],
@@ -1180,7 +1217,7 @@
         {"name":"SN74LVC1G374DCK","package":"SC-70","pinout":"p6","family":"LVC"},
         {"name":"SN74LVC1G374DBVR","package":"SOT-23","pinout":"p6","family":"LVC"},
         {"name":"SN74LVC1G374DCKR","package":"SC-70","pinout":"p6","family":"LVC"},
-        {"name":"SN74LVC1G374YZPR","package":"DSBGA","pinout":"p6","family":"LVC"},
+        {"name":"SN74LVC1G374YZPR","package":"DSBGA","pinout":"dsbga","family":"LVC"},
         {"name":"74LVC1G374DCKRG4","package":"SC-70","pinout":"p6","family":"LVC","flags":["military"]}
       ]
     },
@@ -1248,6 +1285,7 @@
       "function": "D flip-flop",
       "description": "Single positive-edge-triggered D flip-flop, inverted output",
       "drawer": ["Logic"],
+      "note": "DSBGA balls: sces221t p.3.",
       "pinouts": {
         "p5": [
           {"number":1,"name":"D","role":"input"},
@@ -1255,6 +1293,13 @@
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"QBAR","role":"output"},
           {"number":5,"name":"VCC","role":"power"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"D","role":"input"},
+          {"ball":"B1","name":"CLK","role":"input"},
+          {"ball":"C1","name":"GND","role":"ground"},
+          {"ball":"C2","name":"QBAR","role":"output"},
+          {"ball":"A2","name":"VCC","role":"power"}
         ]
       },
       "units": [{"d":"D","clk":"CLK","qn":"QBAR"}],
@@ -1286,7 +1331,7 @@
         {"name":"SN74LVC1G80DCKT","package":"SC-70","pinout":"p5","family":"LVC"},
         {"name":"SN74LVC1G80QDCKRQ1","package":"SC-70","pinout":"p5","family":"LVC","flags":["automotive"]},
         {"name":"SN74LVC1G80QDCKTQ1","package":"SC-70","pinout":"p5","family":"LVC","flags":["automotive"]},
-        {"name":"SN74LVC1G80YZPR","package":"DSBGA","pinout":"p5","family":"LVC"}
+        {"name":"SN74LVC1G80YZPR","package":"DSBGA","pinout":"dsbga","family":"LVC"}
       ]
     },
     {
@@ -1380,6 +1425,7 @@
       "function": "D flip-flop",
       "description": "Single positive-edge-triggered D flip-flop with preset and clear (2G74)",
       "drawer": ["Logic"],
+      "note": "DSBGA balls: sn74lvc2g74 p.3.",
       "pinouts": {
         "p8": [
           {"number":1,"name":"CLK","role":"input"},
@@ -1390,6 +1436,16 @@
           {"number":6,"name":"CLR","role":"input"},
           {"number":7,"name":"PRE","role":"input"},
           {"number":8,"name":"VCC","role":"power"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"CLK","role":"input"},
+          {"ball":"B1","name":"D","role":"input"},
+          {"ball":"C1","name":"QBAR","role":"output"},
+          {"ball":"D1","name":"GND","role":"ground"},
+          {"ball":"D2","name":"Q","role":"output"},
+          {"ball":"C2","name":"CLR","role":"input"},
+          {"ball":"B2","name":"PRE","role":"input"},
+          {"ball":"A2","name":"VCC","role":"power"}
         ]
       },
       "units": [{"d":"D","clk":"CLK","pre":"PRE","clr":"CLR","q":"Q","qn":"QBAR"}],
@@ -1412,7 +1468,7 @@
         {"name":"SN74LVC2G74DCUTG4","package":"VSSOP","pinout":"p8","family":"LVC"},
         {"name":"SN74LVC2G74MDCUTEP","package":"VSSOP","pinout":"p8","family":"LVC","flags":["enhanced"]},
         {"name":"SN74LVC2G74QDCURQ1","package":"VSSOP","pinout":"p8","family":"LVC","flags":["automotive"]},
-        {"name":"SN74LVC2G74YZPR","package":"DSBGA","pinout":"p8","family":"LVC"},
+        {"name":"SN74LVC2G74YZPR","package":"DSBGA","pinout":"dsbga","family":"LVC"},
         {"name":"V62/08617-01XE","package":"VSSOP","pinout":"p8","family":"LVC","flags":["enhanced"]}
       ]
     }

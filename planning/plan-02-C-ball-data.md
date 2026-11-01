@@ -201,17 +201,18 @@ Sources (for the note text):
 Acceptance: only the 15 TFBGA lines change, and traces are unchanged.
   Check: `cmake --build /tmp/logic-bga -j8 && ctest --test-dir /tmp/logic-bga` → `100% tests passed` (after the regeneration); `git diff --numstat backend/tests/golden` → `15	15	backend/tests/golden/parts.txt` only; `git diff -U0 backend/tests/golden/parts.txt | grep '^+[A-Z]' | grep -vc '|TFBGA|'` → `0`; the §4.1 spot checks (est. 1 min).
   Result (2026-11-01): 594 pins converted (2×36 + 9×48 + 90); `100% tests passed, 0 tests failed out of 7`; numstat `15	15	backend/tests/golden/parts.txt` only; non-TFBGA `+` lines → `0`; `trace_check --print` output `cmp`-equal to `traces.txt`; spot checks `C3:NC:nc`, `A1:LB#:input`, `J1:CE2:input`, `R9:DQ17:inout`; `listing_check | tail -1` → `3817 parts compared, 0 skipped`.
-Commit: —
+Commit: 6ecac1f
 
 ### Phase 2 — DSBGA balls
 
-- [ ] `gate.json`: 19 devices get a `"dsbga"` pinout per §4.2, and their 35 DSBGA parts switch to it.
-- [ ] `dff.json`: 6 devices get a `"dsbga"` pinout per §4.2, and their 8 DSBGA parts switch to it.
-- [ ] Device notes gain the `DSBGA balls:` source (§4.2 table).
-- [ ] `backend/tests/golden/parts.txt`: regenerate as in Phase 1.
+- [x] `gate.json`: 19 devices get a `"dsbga"` pinout per §4.2, and their 35 DSBGA parts switch to it.
+- [x] `dff.json`: 6 devices get a `"dsbga"` pinout per §4.2, and their 8 DSBGA parts switch to it.
+- [x] Device notes gain the `DSBGA balls:` source (§4.2 table). The six dff devices had no `note`; each gains `"note": "DSBGA balls: <datasheet> p.<n>."`. Where §4.2 lists two sources (1G02 / 1G02_SON), 1G02 cites sn74lvc1g02 p.3 and 1G02_SON cites sn74aup1g02 p.3.
+- [x] `backend/tests/golden/parts.txt`: regenerate as in Phase 1.
 
 Acceptance: only the 43 DSBGA lines change, and traces are unchanged.
   Check: `ctest --test-dir /tmp/logic-bga` (after rebuild and regeneration) → `100% tests passed`; `git diff --numstat backend/tests/golden` → `43	43	backend/tests/golden/parts.txt` only (relative to Phase 1's commit); `git diff -U0 backend/tests/golden/parts.txt | grep '^+[A-Z0-9]' | grep -vc '|DSBGA|'` → `0`; `git diff -U0 backend/tests/golden/parts.txt | grep -c ':DNU:nc:'` → `4`; the §4.2 spot checks (est. 1 min).
+  Result (2026-11-01): gate 19 devices / 119 ball pins / 35 parts, dff 6 / 38 / 8; `100% tests passed, 0 tests failed out of 7`; numstat `43	43	backend/tests/golden/parts.txt`; non-DSBGA `+` lines → `0`; `:DNU:nc:` → `4`; `trace_check --print` `cmp`-equal to the pre-plan `traces.txt`; listing lines: 1G00 `A1:A,B1:B,C1:GND,C2:Y,A2:VCC`, 1G80 `A1:D,B1:CLK,C1:GND,C2:QBAR,A2:VCC`, 1G10 `A1:A,B1:GND,C1:B,C2:Y,B2:VCC,A2:C`, 1G374 `A1:CLK,B1:GND,C1:D,C2:Q,B2:VCC,A2:OE`, 1G74 `A1:CLK,B1:D,C1:QBAR,D1:GND,D2:Q,C2:CLR,B2:PRE,A2:VCC`. Datasheet cross-check: `pdftotext` of sn74aup1g00 p.5 (YFP B2 = DNU) and sn74aup1g74 p.3 (A1 CLK … A2 VCC) agree.
 Commit: —
 
 ## Validation Plan
