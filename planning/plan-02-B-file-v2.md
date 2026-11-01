@@ -28,7 +28,7 @@ See plan-02-A for the plan-wide prerequisites. This letter adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-02-A complete | `ls planning/completed/plan-02-A-* && ! ls planning/plan-02-A-* 2>/dev/null` → the completed path only | NOT MET (2026-10-31) |
+| plan-02-A complete | `ls planning/completed/plan-02-A-* && ! ls planning/plan-02-A-* 2>/dev/null` → the completed path only | MET (2026-11-01, `planning/completed/plan-02-A-pin-designators.md`, rc=0) |
 
 ## 1. Goal
 
@@ -131,13 +131,14 @@ the error cases.
 
 ### Phase 1 — Version 2 in the app
 
-- [ ] `Document/SchematicFile.swift`: `currentVersion = 2`; `PinKey`; `End.pin(part:pin:)` coding (§3).
-- [ ] `Document/SchematicFile.swift:decode`: reject mixed files with the two §3 messages.
-- [ ] `Document/SchematicFile.swift:apply`: resolve `.position`/`.designator` to `PinRef(index:)`; `missingPin(… pin: String)`.
-- [ ] `Document/SchematicFile.swift`: saving writes the designator of `chip.part.pins[ref.index]`; the doc comment on `SchematicFile` says version 2.
+- [x] `Document/SchematicFile.swift`: `currentVersion = 2`; `PinKey`; `End.pin(part:pin:)` coding (§3).
+- [x] `Document/SchematicFile.swift:decode`: reject mixed files with the two §3 messages.
+- [x] `Document/SchematicFile.swift:apply`: resolve `.position`/`.designator` to `PinRef(index:)`; `missingPin(… pin: String)`.
+- [x] `Document/SchematicFile.swift`: saving writes the designator of `chip.part.pins[ref.index]`; the doc comment on `SchematicFile` says version 2.
 
 Acceptance: the app builds.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-bga-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 30 s). The behavior check is the runtime proof below; no smaller check exercises the decoder, because the app has no Swift test target (`find schematical -name '*Tests*'` → none).
+  Result (2026-11-01): `** BUILD SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — Docs

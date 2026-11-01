@@ -4,13 +4,14 @@ import UniformTypeIdentifiers
 
 // MARK: - File format
 
-/// The on-disk form of a schematic, version 1. See `docs/file-format.md`.
+/// The on-disk form of a schematic, version 2. See `docs/file-format.md`.
+/// Version 1 files (pins by number) are converted when opened.
 ///
 /// Parts are stored by part number only. Pins, layout and symbol come from the
 /// backend catalog when the file is opened.
 nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     static let formatName = "schematical"
-    static let currentVersion = 1
+    static let currentVersion = 2
     static let fileExtension = "schematical"
 
     /// The file type, declared in the app's Info.plist (`UTExportedTypeDeclarations`).
@@ -51,9 +52,16 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var y: Double
     }
 
-    /// One end of a wire: `{"part": <id>, "pin": <number>}` or `{"junction": <id>}`.
+    /// How a wire end names its pin: by designator (version 2, `"A1"`), or by
+    /// number (version 1, `14`: the part's 14th pin in its pinout).
+    enum PinKey: Equatable, Sendable {
+        case designator(String)
+        case position(Int)
+    }
+
+    /// One end of a wire: `{"part": <id>, "pin": "<designator>"}` or `{"junction": <id>}`.
     enum End: Codable, Equatable, Sendable {
-        case pin(part: UUID, number: Int)
+        case pin(part: UUID, pin: PinKey)
         case junction(UUID)
 
         private enum CodingKeys: String, CodingKey {
@@ -65,17 +73,22 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             if let junction = try container.decodeIfPresent(UUID.self, forKey: .junction) {
                 self = .junction(junction)
             } else {
-                self = .pin(
-                    part: try container.decode(UUID.self, forKey: .part),
-                    number: try container.decode(Int.self, forKey: .pin)
-                )
+                let part = try container.decode(UUID.self, forKey: .part)
+                if let designator = try? container.decode(String.self, forKey: .pin) {
+                    self = .pin(part: part, pin: .designator(designator))
+                } else {
+                    self = .pin(part: part, pin: .position(try container.decode(Int.self, forKey: .pin)))
+                }
             }
         }
 
         func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
-            case let .pin(part, number):
+            case let .pin(part, .designator(designator)):
+                try container.encode(part, forKey: .part)
+                try container.encode(designator, forKey: .pin)
+            case let .pin(part, .position(number)):
                 try container.encode(part, forKey: .part)
                 try container.encode(number, forKey: .pin)
             case let .junction(id):
@@ -109,7 +122,7 @@ nonisolated enum SchematicFileError: LocalizedError {
     case duplicateID(UUID)
     case unknownParts([String])
     case missingPart(wire: UUID, part: UUID)
-    case missingPin(wire: UUID, reference: String, pin: Int)
+    case missingPin(wire: UUID, reference: String, pin: String)
     case missingJunction(wire: UUID, junction: UUID)
 
     var errorDescription: String? {
@@ -158,8 +171,8 @@ extension SchematicFile {
         wires = document.wires.map { wire in
             Wire(
                 id: wire.id,
-                from: End(wire.start),
-                to: End(wire.end),
+                from: End(wire.start, chips: document.chips),
+                to: End(wire.end, chips: document.chips),
                 bends: wire.interior.map { Point(x: $0.x, y: $0.y) }
             )
         }
@@ -180,11 +193,26 @@ extension SchematicFile {
         guard version <= currentVersion else {
             throw SchematicFileError.newerVersion(version)
         }
+        let file: SchematicFile
         do {
-            return try JSONDecoder().decode(SchematicFile.self, from: data)
+            file = try JSONDecoder().decode(SchematicFile.self, from: data)
         } catch {
             throw SchematicFileError.unreadable(error.localizedDescription)
         }
+        // One pin type per version: numbers in version 1, designators after.
+        for wire in file.wires {
+            for case let .pin(_, pin) in [wire.from, wire.to] {
+                switch (file.version, pin) {
+                case (1, .designator):
+                    throw SchematicFileError.unreadable("version 1 files name pins by number")
+                case (2..., .position):
+                    throw SchematicFileError.unreadable("version 2 files name pins by designator, such as \"A1\"")
+                default:
+                    break
+                }
+            }
+        }
+        return file
     }
 
     func encoded() throws -> Data {
@@ -235,16 +263,26 @@ extension SchematicFile {
 
         func resolve(_ end: End, wire: UUID) throws -> WireEnd {
             switch end {
-            case let .pin(partID, number):
+            case let .pin(partID, pin):
                 guard let chip = chipsByID[partID] else {
                     throw SchematicFileError.missingPart(wire: wire, part: partID)
                 }
-                // Version 1 pin n is the part's n-th pin in its pinout. Only
-                // pins the symbol draws can take a wire.
-                guard chip.layout.slots.contains(where: { $0.pin.index == number - 1 }) else {
-                    throw SchematicFileError.missingPin(wire: wire, reference: chip.reference, pin: number)
+                // Only pins the symbol draws can take a wire. Version 1 pin n
+                // is the part's n-th pin in its pinout.
+                let slot: ChipLayout.PinSlot?
+                let label: String
+                switch pin {
+                case let .designator(designator):
+                    slot = chip.layout.slots.first { $0.pin.designator == designator }
+                    label = designator
+                case let .position(number):
+                    slot = chip.layout.slots.first { $0.pin.index == number - 1 }
+                    label = "\(number)"
                 }
-                return .pin(PinRef(chipID: partID, index: number - 1))
+                guard let slot else {
+                    throw SchematicFileError.missingPin(wire: wire, reference: chip.reference, pin: label)
+                }
+                return .pin(PinRef(chipID: partID, index: slot.pin.index))
             case let .junction(id):
                 guard junctionIDs.contains(id) else {
                     throw SchematicFileError.missingJunction(wire: wire, junction: id)
@@ -281,10 +319,13 @@ typealias SchematicModelWire = Wire
 typealias SchematicModelJunction = Junction
 
 private extension SchematicFile.End {
-    init(_ end: WireEnd) {
+    /// Saves a pin by its designator, looked up on the placed chip.
+    init(_ end: WireEnd, chips: [PlacedChip]) {
         switch end {
         case let .pin(ref):
-            self = .pin(part: ref.chipID, number: ref.index + 1)
+            let pins = chips.first { $0.id == ref.chipID }?.part.pins ?? []
+            let designator = pins.indices.contains(ref.index) ? pins[ref.index].designator : "\(ref.index + 1)"
+            self = .pin(part: ref.chipID, pin: .designator(designator))
         case let .junction(id):
             self = .junction(id)
         }
