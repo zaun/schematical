@@ -54,7 +54,8 @@ Everything below is written against the world where these hold.
   the end, and for a value wider than the word.
 - `memory_image_parse()` passes every case of §4.3 in the new
   `memory_image_test` CTest.
-- `ctest` → `100% tests passed, 0 tests failed out of 10`.
+- `ctest` → `100% tests passed, 0 tests failed out of 11` (10 after
+  plan-04-A + `memory_image_test`).
 
 ### Non-goals (explicit constraints)
 
@@ -255,26 +256,30 @@ nothing else moves. **Met:** `ctest -R 'circuit_check|trace_check|listing_check'
 → 3 of 3; the golden diff exits 0 (build dir `/tmp/logic-wt-p04`).
   Check: `cmake --build /tmp/logic-plan04 -j8 && ctest --test-dir /tmp/logic-plan04 -R 'circuit_check|trace_check|listing_check' --output-on-failure` → 3 of 3 pass (est. 15 s).
   Check: `git diff --exit-code backend/tests/golden` → no diff (est. seconds).
-Commit: —
+Commit: d20b12e
 
 ### Phase 2 — Load-file parser
 
 Lands alone: pure functions with their own test.
 
-- [ ] `backend/include/memory_image.h`, `backend/src/memory_image.c`
+- [x] `backend/include/memory_image.h`, `backend/src/memory_image.c`
       (§4.3); `src/memory_image.c` in `add_library(logic …)` in
       `backend/CMakeLists.txt`.
-- [ ] `backend/tests/memory_image_test.c` + `logic_test(memory_image_test)`:
+- [x] `backend/tests/memory_image_test.c` + `logic_test(memory_image_test)`:
       `memory_image_format_for` on `a.hex`, `A.HEX`, `b.ihx`, `c.ihex`,
       `d.bin`, `e`, `f.hex.bin`; binary: empty, 3 bytes, exactly `words`,
       `words + 1`; HEX: one data record, CRLF and CR endings, blank line,
       lowercase digits, type 02 and type 04 bases, 03/05 ignored, overlap
       (later wins), and one case per message row of §4.3, each compared with
       `strcmp` to the exact text; on every failure `values` is unchanged
-      (prefilled with 0x5A, still 0x5A).
-- [ ] `docs/backend.md` (§4.4).
+      (prefilled with 0x5A, still 0x5A). (48 PASS, `0 failure(s)`; the
+      wrong-LL row is tested for each of 01, 02, 03, 04, 05.)
+- [x] `docs/backend.md` (§4.4).
 
-Acceptance: every §4.3 rule and message has a passing case.
+Acceptance: every §4.3 rule and message has a passing case. **Met:**
+`ctest -R memory_image_test` → `100% tests passed, 0 tests failed out of 1`;
+`grep -n 'memory_image' docs/backend.md` → lines 11 (header), 81 (note),
+96/108 (layout), 167 (tests).
   Check: `cmake -S backend -B /tmp/logic-plan04 && cmake --build /tmp/logic-plan04 -j8 && ctest --test-dir /tmp/logic-plan04 -R memory_image_test --output-on-failure` → passes (est. 10 s).
   Check: `grep -n 'memory_image' docs/backend.md` → the header, layout and test lines (est. seconds).
 Commit: —
@@ -288,7 +293,10 @@ Commit: —
 - Runtime proof: none beyond the tests in this sub-plan (no caller yet);
   plan-04-C's runtime proof loads a real file through the app.
 - Doc sync: `docs/backend.md`.
-- Final gate (once, after Phase 2): `rm -rf /tmp/logic-land-p04b && cmake -S backend -B /tmp/logic-land-p04b && cmake --build /tmp/logic-land-p04b -j8 && ctest --test-dir /tmp/logic-land-p04b` → `100% tests passed, 0 tests failed out of 10` (est. 1 min); `git diff --exit-code backend/tests/golden` (est. seconds).
+- Final gate (once, after Phase 2): `rm -rf /tmp/logic-land-p04b && cmake -S backend -B /tmp/logic-land-p04b && cmake --build /tmp/logic-land-p04b -j8 && ctest --test-dir /tmp/logic-land-p04b` → `100% tests passed, 0 tests failed out of 11` (est. 1 min; 11, see Corrections); `git diff --exit-code backend/tests/golden` (est. seconds).
+  **Ran (2026-11-01, after Phase 2):** `100% tests passed, 0 tests failed out of 11`
+  (2.9 s); golden diff exit 0. Coverage grep: `circuit_check.c` 8,
+  `memory_image_test.c` 9.
 
 ## Decisions
 

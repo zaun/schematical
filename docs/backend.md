@@ -1,13 +1,16 @@
 # Backend
 
 The backend is a C library: an event-driven logic simulator plus a part
-library loaded from JSON. The app (and the tests) use two public headers in
+library loaded from JSON. The app (and the tests) use three public headers in
 `backend/include/`:
 
 - `parts.h` — the part library: load the part files, look parts up, read
   their facts as C structs.
 - `circuit.h` — build a circuit from library parts, run it, read nets,
   lights and memory back.
+- `memory_image.h` — turn a load file (raw binary or Intel HEX) into a
+  memory image for `circuit_memory_load`. It takes bytes; the backend never
+  opens files.
 
 Part data lives in `schematical/schematical/Parts/<kind>.json`, one file per
 kind; the format is in [parts-format.md](parts-format.md).
@@ -70,8 +73,13 @@ Notes:
 - Lights (`circuit_part_lights`) are LEDs (one light) and 7-segment
   displays (`PartDisplay.leds` order); a light counts as on if it was on at
   any time during the last `circuit_advance`, so multiplexed digits show.
-- SRAM contents: `circuit_memory_size`, `circuit_memory_read` (a 0 bit in
-  `known` is X).
+- Memory contents (SRAM, EEPROM): `circuit_memory_size`,
+  `circuit_memory_read` (a 0 bit in `known` is X).
+- Memory load: `circuit_memory_load` writes words into an EEPROM before
+  `circuit_start` (refused after it, and on every other kind, SRAM
+  included); words it does not write stay erased (FF). Build the words with
+  `memory_image_parse` (`memory_image.h`): every rule and message is in
+  `planning/completed/plan-04-B-memory-load.md` §4.3.
 - `circuit_net_changes` counts how often a net's value has changed since
   `circuit_start`; compare two reads to see a net that toggled in between.
 - `circuit_part_light_time` gives, per light (same order as
@@ -85,7 +93,7 @@ Notes:
 
 ```
 backend/
-  include/                 public API: parts.h, circuit.h
+  include/                 public API: parts.h, circuit.h, memory_image.h
   src/
     engine/                sim.c sim.h net.c net.h (the event engine)
     library/               library.c (load_parts, load_footprints), kinds.c
@@ -97,6 +105,7 @@ backend/
                            supply.c,
                            and lights.c (on-time tracking for lights)
     circuit.c
+    memory_image.c         load files (binary, Intel HEX) to memory images
     third_party/cjson/     cJSON v1.7.18
   tests/                   CTest programs; golden/ holds the regression
                            fixtures (one listing line and one trace hash
@@ -155,6 +164,8 @@ drawer work from the kind table and the `Part` structs.
 - `engine_test` — engine timing with a real gate (SN74HC32N): an output
   edge that is already pending is kept, a too-short pulse is swallowed.
 - `circuit_check` — the circuit API.
+- `memory_image_test` — the load-file parser: format by file name, raw
+  binary, every Intel HEX rule and message.
 
 Not a ctest: `sim_bench` (`tests/sim_bench.c`) measures engine speed — a
 D flip-flop ripple counter on an oscillator plus N idle SN74HC00N chips,
