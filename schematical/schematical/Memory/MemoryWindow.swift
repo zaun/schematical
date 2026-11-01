@@ -2,9 +2,11 @@
 //  MemoryWindow.swift
 //  schematical
 //
-//  A window showing the contents of one memory part (SRAM) while the
-//  simulation runs. It shows one page of words at a time and reads the page
-//  again after every simulation step.
+//  A window showing the contents of one memory part (SRAM, EEPROM) while
+//  the simulation runs. It shows one page of words at a time and reads the
+//  page again after every simulation step. For an EEPROM it also holds the
+//  "Load file on start" setting and, while stopped, previews the contents
+//  the chip will start with.
 //
 
 import AppKit
@@ -79,6 +81,11 @@ private struct MemoryInspector: View {
     /// Simulator state version at which each word on the page last changed.
     @State private var changedAt: [Int: Int] = [:]
     @State private var addressText = ""
+    /// EEPROM, stopped: the contents the chip will start with, or why the
+    /// load file can't be used.
+    @State private var startImage: [UInt32] = []
+    @State private var loadError: String?
+    @State private var window: NSWindow?
 
     /// Simulator steps a changed word stays highlighted (about half a second).
     private static let highlightSteps = 30
@@ -102,9 +109,23 @@ private struct MemoryInspector: View {
             }
         }
         .frame(minWidth: 520, minHeight: 360)
-        .onAppear(perform: reload)
+        .background(WindowReader { window = $0 })
+        .onAppear {
+            refreshStartImage()
+            reload()
+        }
         .onChange(of: simulation.stateVersion) { reload() }
-        .onChange(of: simulation.isRunning) { reload() }
+        .onChange(of: simulation.isRunning) {
+            if !simulation.isRunning {
+                refreshStartImage()
+            }
+            changedAt = [:]
+            reload()
+        }
+        .onChange(of: chip?.memoryFile) {
+            refreshStartImage()
+            reload()
+        }
         .onChange(of: page) {
             if let size, page < 0 || page >= pageCount(size) {
                 page = min(max(page, 0), pageCount(size) - 1)
@@ -116,8 +137,47 @@ private struct MemoryInspector: View {
         }
     }
 
+    /// An EEPROM while the simulation is stopped: the window previews its
+    /// start contents instead of live ones.
+    private var showsStartContents: Bool {
+        chip?.part.kind == PART_EEPROM && !simulation.isRunning
+    }
+
     @ViewBuilder
     private func content(for chip: PlacedChip) -> some View {
+        if chip.part.kind == PART_EEPROM {
+            VStack(spacing: 0) {
+                LoadFileBar(
+                    file: chip.memoryFile,
+                    isRunning: simulation.isRunning,
+                    choose: {
+                        Task {
+                            if let file = await MemoryFileAccess.choose(attachedTo: window) {
+                                document.setMemoryFile(chipID, file)
+                            }
+                        }
+                    },
+                    clear: { document.setMemoryFile(chipID, nil) }
+                )
+                Divider()
+                if showsStartContents, let loadError {
+                    ContentUnavailableView(
+                        "Can't Load File",
+                        systemImage: "exclamationmark.triangle",
+                        description: Text(loadError + " Choose the file again.")
+                    )
+                    .frame(maxHeight: .infinity)
+                } else {
+                    pageContent(for: chip)
+                }
+            }
+        } else {
+            pageContent(for: chip)
+        }
+    }
+
+    @ViewBuilder
+    private func pageContent(for chip: PlacedChip) -> some View {
         if let size {
             VStack(spacing: 0) {
                 pageBar(size: size)
@@ -217,8 +277,9 @@ private struct MemoryInspector: View {
 
     private func footer(chip: PlacedChip, size: MemorySize) -> some View {
         let known = words.filter { $0.known == wordMask(size.bits) }.count
+        let prefix = showsStartContents ? "Contents at start · " : ""
         return HStack {
-            Text("\(size.words) words × \(size.bits) bits (\(chip.part.function))")
+            Text("\(prefix)\(size.words) words × \(size.bits) bits (\(chip.part.function))")
             Spacer()
             Text("\(known) of \(words.count) words on this page defined")
         }
@@ -236,9 +297,25 @@ private struct MemoryInspector: View {
         })
     }
 
+    /// EEPROM: parses the load file again (or all FF without one).
+    private func refreshStartImage() {
+        guard let chip, chip.part.kind == PART_EEPROM, let partSize = chip.part.memorySize else { return }
+        do {
+            startImage = try MemoryFileAccess.image(chip.memoryFile, size: partSize)
+            loadError = nil
+        } catch {
+            startImage = []
+            loadError = error.localizedDescription
+        }
+    }
+
     /// Reads the page again. State is only assigned when it changed, so the
     /// grid redraws only when the memory does.
     private func reload() {
+        if showsStartContents {
+            reloadStartContents()
+            return
+        }
         let newSize = simulation.memorySize(of: chipID)
         if newSize != size {
             size = newSize
@@ -268,11 +345,63 @@ private struct MemoryInspector: View {
         expireHighlights()
     }
 
+    /// EEPROM, stopped: the page of the start contents. No highlights.
+    private func reloadStartContents() {
+        let newSize = chip?.part.memorySize
+        if newSize != size {
+            size = newSize
+        }
+        if !changedAt.isEmpty { changedAt = [:] }
+        guard let newSize else { return }
+        if page >= pageCount(newSize) {
+            page = 0
+        }
+        let first = page * Self.pageWords
+        let last = min(first + Self.pageWords, startImage.count)
+        let fresh = first < last
+            ? startImage[first..<last].map { MemoryWord(value: $0, known: wordMask(newSize.bits)) }
+            : []
+        if fresh != words {
+            words = fresh
+        }
+    }
+
     private func expireHighlights() {
         let live = changedAt.filter { simulation.stateVersion - $0.value < Self.highlightSteps }
         if live.count != changedAt.count {
             changedAt = live
         }
+    }
+}
+
+/// An EEPROM's "Load file on start" setting. It can change only while the
+/// simulation is stopped.
+private struct LoadFileBar: View {
+    let file: MemoryFile?
+    let isRunning: Bool
+    let choose: () -> Void
+    let clear: () -> Void
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Text("Load file on start:")
+            Text(file?.name ?? "None — starts erased (FF)")
+                .foregroundStyle(file == nil ? .secondary : .primary)
+                .lineLimit(1)
+                .truncationMode(.middle)
+                .help(file?.url.path ?? "The chip starts with every byte FF")
+            Spacer()
+            Button("Choose…", action: choose)
+                .disabled(isRunning)
+                .help(isRunning ? "Stop the simulation to change the load file"
+                                : "Choose a binary or Intel HEX file to load at every start")
+            Button("Clear", action: clear)
+                .disabled(isRunning || file == nil)
+                .help(isRunning ? "Stop the simulation to change the load file"
+                                : "Start erased (every byte FF)")
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
     }
 }
 

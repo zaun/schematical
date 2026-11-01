@@ -349,19 +349,28 @@ fresh snapshot == saved file (not unsaved); path from `sub/deeper` →
 with `jq`) → `/tmp/p04-proof/moved/boot.bin`, Run reads `00 01 …`.
   Check: the Phase 1 `xcodebuild` → `** BUILD SUCCEEDED **` (est. 1 min).
   Check: `/tmp/p04/harness/run load` and `/tmp/p04/harness/run roundtrip` → Validation 3–5 outputs (est. seconds).
-Commit: —
+Commit: ce757fa
 
 ### Phase 3 — Memory window
 
 The setting row and the stopped preview.
 
-- [ ] `Memory/MemoryWindow.swift`: `LoadFileBar`, stopped preview, error
+- [x] `Memory/MemoryWindow.swift`: `LoadFileBar`, stopped preview, error
       view, footer, disabled while running (§4.6).
-- [ ] Harness command `window` rendering `MemoryWindowView` with
+- [x] Harness command `window` rendering `MemoryWindowView` with
       `ImageRenderer` stopped (no file, `boot.bin`, a bad HEX file) and
-      running (Validation 2).
+      running (Validation 2). (Rendered off-screen through `NSHostingView`
+      instead; see Corrections. Also `4-sram-stopped.png`.)
 
 Acceptance: the window shows and guards the setting as §4.6 says.
+**Met (2026-11-01):** `xcodebuild` → `** BUILD SUCCEEDED **`; `run window`
+wrote `/tmp/p04-proof/0-none.png` (row "None — starts erased (FF)", Clear
+disabled, grid all `FF`, footer "Contents at start · 32,768 words × 8 bits
+(32 KB)"), `1-boot.png` (row "boot.bin", row 0 `00 01 … 0F`, row F0
+`F0 … FF`), `2-bad.png` ("Can't Load File", "bad.hex: line 3: bad checksum
+0x69 (expected 0x68) Choose the file again."), `3-running.png` (Choose… and
+Clear disabled, live grid `00 01 …`, footer without "Contents at start"),
+`4-sram-stopped.png` (SRAM unchanged: "Simulation Not Running").
   Check: the Phase 1 `xcodebuild` → `** BUILD SUCCEEDED **` (est. 1 min).
   Check: `/tmp/p04/harness/run window` → the four PNGs of Validation 2 (est. seconds).
 Commit: —
@@ -440,6 +449,16 @@ choices for this letter:
   1 → green, X → orange, Z → `.floating`). The run lasts the harness's
   300 ms sleep at speed 1 (about 0.3 s of circuit time), not 1 µs; the
   read window settles in 150 ns either way.
+- 2026-11-01 (Phase 3): `ImageRenderer` does not run `onAppear` (the window
+  loads its page there) and draws AppKit-backed buttons and fields as
+  placeholders, so `run window` hosts `MemoryWindowView` in an off-screen
+  `NSWindow` and renders the layer tree (`CALayer.render(in:)`;
+  `cacheDisplay` skipped SwiftUI's text layers). Same view code, real
+  controls.
+- 2026-11-01 (Phase 3): the footer prints the word count with the locale's
+  grouping, "32,768 words × 8 bits (32 KB)", as the SRAM footer already
+  does (`Text` interpolation of an `Int`); §Validation 2's "32768" was the
+  same text without the separator.
 - 2026-11-01: the ctest count after plan-04 is 11 (plan-05's `engine_test`
   came first), not 10; the final gate below says 11.
 
