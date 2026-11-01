@@ -25,7 +25,7 @@ References:
   `memory_size`/`memory_read` hooks; the new hook goes after them).
 - `backend/src/models/eeprom.c` (from plan-04-A: `EepromState`, storage
   arrays `value[]`/`known[]`, created erased).
-- `planning/plan-04-A-eeprom-kind.md` §Decisions (owner decisions for all of
+- `planning/completed/plan-04-A-eeprom-kind.md` §Decisions (owner decisions for all of
   plan-04).
 
 ## Prerequisites
@@ -34,9 +34,9 @@ See plan-04-A §Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-04-A complete | `ls planning/completed/plan-04-A-eeprom-kind.md` → exists | NOT MET (2026-11-01: written, not started) |
-| EEPROM parts load | `grep -c '"pinout":' schematical/schematical/Parts/eeprom.json` → 174 (corrected from `'"name"'`, which counts pin lines too; plan-04-A Corrections) | NOT MET (2026-11-01) |
-| Backend tests green | `cmake -S backend -B /tmp/logic-plan04 && cmake --build /tmp/logic-plan04 -j8 && ctest --test-dir /tmp/logic-plan04` → `100% tests passed` (9 tests after plan-04-A) | NOT MET (2026-11-01; 8 of 8 pass before plan-04-A, 20.3 s) |
+| plan-04-A complete | `ls planning/completed/plan-04-A-eeprom-kind.md` → exists | MET (2026-11-01: archived after A's final gate, 703cbfb) |
+| EEPROM parts load | `grep -c '"pinout":' schematical/schematical/Parts/eeprom.json` → 174 (corrected from `'"name"'`, which counts pin lines too; plan-04-A Corrections) | MET (2026-11-01: 174) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-plan04 && cmake --build /tmp/logic-plan04 -j8 && ctest --test-dir /tmp/logic-plan04` → `100% tests passed` (10 tests after plan-04-A: plan-05's `engine_test` came first) | MET (2026-11-01: 10 of 10, 3.9 s, in `/tmp/logic-land-p04a`) |
 
 Everything below is written against the world where these hold.
 

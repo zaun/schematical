@@ -534,7 +534,7 @@ lines.
 
 **Met:** 174 / 98 with the corrected greps; goldens 3991 / 3991 / 136 with
 0 removed lines; `ctest` → `100% tests passed, 0 tests failed out of 10`.
-Commit: —
+Commit: 703cbfb
 
 ## Validation Plan
 
@@ -550,7 +550,8 @@ Commit: —
   is plan-04-C's.
 - Doc sync: `docs/parts-format.md`, `docs/backend.md`,
   `datasheets/obsolete-not-included.md`.
-- Final gate (once, after Phase 3): `rm -rf /tmp/logic-land-p04a && cmake -S backend -B /tmp/logic-land-p04a && cmake --build /tmp/logic-land-p04a -j8 && ctest --test-dir /tmp/logic-land-p04a` → `100% tests passed, 0 tests failed out of 10` (est. 1 min); the Phase 2 `xcodebuild` (est. 1 min).
+- Final gate (once, after Phase 3): `rm -rf /tmp/logic-land-p04a && cmake -S backend -B /tmp/logic-land-p04a && cmake --build /tmp/logic-land-p04a -j8 && ctest --test-dir /tmp/logic-land-p04a` → `100% tests passed, 0 tests failed out of 10` (est. 1 min); the Phase 2 `xcodebuild` (est. 1 min). **Ran (2026-11-01, after Phase 3):**
+  `100% tests passed, 0 tests failed out of 10` (3.9 s); `** BUILD SUCCEEDED **`.
 
 ## Decisions
 
