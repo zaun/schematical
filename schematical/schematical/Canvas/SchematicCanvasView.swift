@@ -136,8 +136,7 @@ struct SchematicCanvasView: View {
                     RoutedWire(
                         id: wire.id,
                         points: document.path(forWire: wire.id),
-                        color: simulation.wireColor(wire.id),
-                        dashed: simulation.wireIsFloating(wire.id)
+                        style: simulation.wireStyle(wire.id)
                     )
                 },
                 junctions: document.junctions.map(\.point),
@@ -159,7 +158,7 @@ struct SchematicCanvasView: View {
                             chip: chip,
                             isSelected: chip.id == document.selectedChipID,
                             isHovered: chip.id == hoveredChipID,
-                            isLit: simulation.lights[chip.id]?.first ?? false
+                            level: simulation.lights[chip.id]?.first ?? 0
                         )
                     case .vcc, .ground:
                         SupplySymbolView(
@@ -178,7 +177,7 @@ struct SchematicCanvasView: View {
                             chip: chip,
                             isSelected: chip.id == document.selectedChipID,
                             isHovered: chip.id == hoveredChipID,
-                            glow: simulation.lights[chip.id] ?? []
+                            levels: simulation.lights[chip.id] ?? []
                         )
                     }
                 }
@@ -465,10 +464,8 @@ struct ConnectionPreview {
 struct RoutedWire: Identifiable {
     let id: UUID
     let points: [CGPoint]
-    /// Net color in play mode. Normal color otherwise.
-    var color: Color = .primary
-    /// Floating net (no driver) in play mode.
-    var dashed = false
+    /// Play mode: the net's value, toggling, floating or shorted.
+    var style: WireStyle = .normal
 }
 
 /// A small circle over each pin, shown in Line mode. The connection point under
@@ -510,11 +507,20 @@ private struct WireLayer: View {
                     context.stroke(polyline(route.points), with: .color(Color.accentColor.opacity(0.35)), style: underlay)
                 }
                 let dashedStyle = StrokeStyle(lineWidth: 1.5, lineCap: .butt, lineJoin: .round, dash: [4, 3])
-                context.stroke(
-                    polyline(route.points),
-                    with: .color(route.color),
-                    style: route.dashed ? dashedStyle : solid
-                )
+                let path = polyline(route.points)
+                switch route.style {
+                case .normal:
+                    context.stroke(path, with: .color(.primary), style: solid)
+                case .value(let color):
+                    context.stroke(path, with: .color(color), style: solid)
+                case .floating:
+                    context.stroke(path, with: .color(.secondary), style: dashedStyle)
+                case .shorted:
+                    context.stroke(path, with: .color(.red), style: solid)
+                case .toggling:
+                    context.stroke(path, with: .color(.secondary), style: solid)
+                    context.stroke(path, with: .color(.green), style: dashedStyle)
+                }
             }
 
             for point in junctions {

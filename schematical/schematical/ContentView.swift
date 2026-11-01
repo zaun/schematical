@@ -39,6 +39,18 @@ struct ContentView: View {
     @Environment(\.dismissWindow) private var dismissWindow
     /// Memory windows opened from this window, closed along with it.
     @State private var memoryWindows: Set<MemoryWindowTarget> = []
+    /// Simulation speed (circuit time per wall time), an app preference.
+    @AppStorage("simulationSpeed") private var simulationSpeed = 1.0
+
+    /// The speed menu's choices: real time down to 1/1,000,000.
+    private static let speeds: [(label: String, value: Double)] = [
+        ("1×", 1), ("1/10", 1e-1), ("1/100", 1e-2), ("1/1,000", 1e-3),
+        ("1/10,000", 1e-4), ("1/100,000", 1e-5), ("1/1,000,000", 1e-6),
+    ]
+
+    private var speedLabel: String {
+        Self.speeds.first { abs($0.value - simulationSpeed) < $0.value * 1e-6 }?.label ?? "1×"
+    }
 
     init() {
         let catalog = PartCatalogStore()
@@ -131,6 +143,22 @@ struct ContentView: View {
                     .help(simulation.isRunning ? "Stop the simulation (⌘R)" : "Run the simulation (⌘R)")
                 }
 
+                ToolbarItem(placement: .navigation) {
+                    Menu(speedLabel) {
+                        ForEach(Self.speeds, id: \.value) { choice in
+                            Button(choice.label) {
+                                simulationSpeed = choice.value
+                                simulation.setSpeed(choice.value)
+                            }
+                        }
+                    }
+                    .help("Simulation speed: circuit time per real time")
+                }
+
+                ToolbarItem(placement: .navigation) {
+                    ReachedSpeedLabel(simulation: simulation)
+                }
+
                 ToolbarItemGroup(placement: .principal) {
                     Picker("Page", selection: $page) {
                         ForEach(EditorPage.allCases) { page in
@@ -199,6 +227,7 @@ struct ContentView: View {
             .task { catalog.load() }
             .onAppear {
                 SchematicSessions.shared.register(sessionID, document: document, simulation: simulation)
+                simulation.setSpeed(simulationSpeed)
             }
             .onDisappear {
                 for target in memoryWindows {
@@ -268,4 +297,34 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+}
+
+/// "running at 0.078×" while the simulation runs below 90 % of the chosen speed.
+struct ReachedSpeedLabel: View {
+    let simulation: SimulationController
+
+    /// The text shown, or nil when the simulation keeps up (or isn't running).
+    static func text(for simulation: SimulationController) -> String? {
+        guard simulation.isRunning, let reached = simulation.reachedSpeed,
+              reached < 0.9 * simulation.speed else { return nil }
+        return "running at \(formatSpeed(reached))×"
+    }
+
+    /// Two significant digits, e.g. "0.078".
+    static func formatSpeed(_ value: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.usesSignificantDigits = true
+        formatter.maximumSignificantDigits = 2
+        formatter.minimumSignificantDigits = 1
+        formatter.numberStyle = .decimal
+        return formatter.string(from: NSNumber(value: value)) ?? String(value)
+    }
+
+    var body: some View {
+        if let text = Self.text(for: simulation) {
+            Text(text)
+                .foregroundStyle(.secondary)
+                .help("The circuit is too busy to run at the chosen speed.")
+        }
+    }
 }

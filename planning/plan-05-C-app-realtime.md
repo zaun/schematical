@@ -288,15 +288,22 @@ Acceptance: app builds; at speed 1 the proof circuit's circuit time tracks
 wall time.
   Check: the `xcodebuild` in Prerequisites → `** BUILD SUCCEEDED **` (est. 3 min),
   then runtime proof step 1 (est. 5 min).
-Commit: —
+Commit: e0f1297
 
 ### Phase 2 — Speed picker, reached speed, toggling wires, brightness
 
-- [ ] `Simulation.swift`: `setSpeed`, `reachedSpeed`, `togglingNets`,
-      `wireStyle`, light levels (§4.2).
-- [ ] `SchematicCanvasView.swift`, `DiodeSymbolView.swift`,
+- [x] `Simulation.swift`: `setSpeed`, `reachedSpeed`, `togglingNets`,
+      `wireStyle`, light levels (§4.2). `setSpeed` also clears the
+      reached-speed history so the readout doesn't mix two speeds.
+- [x] `SchematicCanvasView.swift`, `DiodeSymbolView.swift`,
       `SevenSegmentSymbolView.swift`: §4.3.
-- [ ] `ContentView.swift`: speed `Menu` and reached-speed `Text` (§4.3).
+- [x] `ContentView.swift`: speed `Menu` and reached-speed `Text` (§4.3). The
+      text is a small `ReachedSpeedLabel` view (with a static `text(for:)`)
+      so the runtime proof can read and render the toolbar's own code;
+      `onAppear` pushes the stored speed into the controller.
+- [x] Check: `xcodebuild … build` → `** BUILD SUCCEEDED **` (no Swift
+      warnings in the touched files); runtime proof steps 2–5 → see
+      "Runtime proof (run 2026-11-01)".
 
 Acceptance: runtime proof steps 2–5.
   Check: the `xcodebuild` → `** BUILD SUCCEEDED **` (est. 3 min), then
@@ -351,6 +358,27 @@ snapshot delivery while the driver awaits `Task.sleep`).
    the process ran to the end, so the `dispatchPrecondition(.notOnQueue(.main))`
    at the `circuit_advance` call site never fired; `stateVersion 107`
    (snapshots applied); live threads `1` before `stop()`, `0` after.
+   Re-run in the full proof (`harness proof test.schematical /tmp/p05c-proof`,
+   log in `/tmp/p05c-proof/proof.log`): `step1: wall 2.1275 s, circuit time
+   2.114822 s, ratio 0.9940`.
+2. Same run, five reads 100 ms apart: `reachedSpeed 1.0000 / 0.9999 /
+   0.9999 / 1.0001 / 1.0001`, `LED level 0.5000 … 0.5003`, `U2 OUT wire
+   style toggling` every time (OUT is U2 pin 2, "CLK OUT"; see
+   Corrections). `2-running-1x.png`: CLK OUT wire dashed green over grey,
+   LED body and glow at half strength, VCC wire solid green.
+3. After `setSpeed(1e-6)`: `wall 2.0020 s, circuit advanced 1999784 ps
+   since the change` (2 µs ± 10 %); `102 frames, levels 0: 0, 1: 102,
+   other: []` — every frame 0 or 1 (here all 1: the 2 µs fell inside one
+   15.26 µs half period with the output high).
+4. `sim_bench`'s circuit built as a `SchematicNetlist` (`127 parts, 1235
+   nets, 1549 connections`), `start(netlist:)` at 1×: `reachedSpeed 0.0655`
+   (< 0.9); `toolbar label: running at 0.066×` (`4-reached-speed.png`);
+   `main-queue 50 ms timer fired 41 times in 2 s` (≥ 30); `stop() took
+   5.08 ms` (< 50 ms), `live threads 0`.
+5. A document with one AS6C6264-55PCN and its `MemoryWindowView` hosted in
+   a window: `memory size: 8192×8`; `44 reloads (size + 256-word page)
+   during 1 s of run, stateVersion 383 → 434`, no crash; Run/Stop ×10 →
+   `live threads after each stop: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`.
 
 ## Decisions
 
@@ -367,6 +395,27 @@ snapshot delivery while the driver awaits `Task.sleep`).
 - Debug C optimization `-Os` — author, 2026-11-01 (§2, 3.2× measured).
 
 ## Corrections
+
+- Runtime proof step 2 / Outcome: "the wire on U2 pin 1 (OUT)" is wrong —
+  OSC-SIT1534-1508's `1508-csp` pinout is 1 = GND, 2 = CLK OUT, 3 = VDD,
+  4 = GND (`oscillator.json`; harness: `U2 pins: ["1=GND", "2=CLK OUT",
+  "3=VDD", "4=GND"]`). The proof checks the wire on pin 2 (CLK OUT).
+- Runtime proof step 3: the first attempt printed `circuit advanced
+  1697225907788 ps` because the baseline was the controller's last applied
+  snapshot while the `ImageRenderer` render had blocked the main thread
+  ~1.7 s; the 1× snapshots queued meanwhile landed after the change. A
+  direct check (`setSpeed(1e-6)`, then 10 reads 200 ms apart → `reached
+  1.0000008968572878e-06 …`) showed the engine right. The proof now lets
+  queued snapshots land and takes the baseline from a snapshot after the
+  change.
+- Runtime proof, headless as plan-03-D: same harness approach (`build.sh`
+  copied to `/tmp/p05c/harness/`, backend C at `-Os` to match the new Debug
+  setting). Step 5: an offscreen capture of the hosted memory window draws
+  no SwiftUI text, and spinning the AppKit run loop inside the async driver
+  stops main-actor snapshot delivery; so the driver makes the window's
+  reload calls (`memorySize` + `readMemory` of a 256-word page) on each
+  `stateVersion` change — the trigger `MemoryInspector` uses — while the
+  window is open and the engine runs.
 
 ## Summary
 

@@ -13,8 +13,9 @@ struct SevenSegmentSymbolView: View {
     let chip: PlacedChip
     let isSelected: Bool
     let isHovered: Bool
-    /// Per LED, in `DisplayInfo.leds` order: true while it glows. Empty outside play mode.
-    var glow: [Bool] = []
+    /// Per LED, in `DisplayInfo.leds` order: brightness 0…1 (its share of the
+    /// last frame spent on). Empty outside play mode.
+    var levels: [Double] = []
 
     var body: some View {
         let layout = chip.layout
@@ -71,7 +72,7 @@ struct SevenSegmentSymbolView: View {
             }
 
             if let display = chip.part.display {
-                Self.drawFace(&context, display: display, box: box, glow: glow, light: light)
+                Self.drawFace(&context, display: display, box: box, levels: levels, light: light)
             }
         }
         .frame(width: layout.size.width + 2 * margin, height: layout.size.height)
@@ -80,7 +81,7 @@ struct SevenSegmentSymbolView: View {
     // MARK: Face
 
     private static func drawFace(_ context: inout GraphicsContext, display: DisplayInfo,
-                                 box: CGRect, glow: [Bool], light: Color) {
+                                 box: CGRect, levels: [Double], light: Color) {
         let digit = ChipLayout.sevenSegmentDigitSize
         let gap = ChipLayout.sevenSegmentDigitGap
         let faceWidth = ChipLayout.sevenSegmentFaceWidth(display)
@@ -109,8 +110,10 @@ struct SevenSegmentSymbolView: View {
         }
 
         for (index, led) in display.leds.enumerated() {
-            let isOn = index < glow.count && glow[index]
-            let color = isOn ? light : Color.white.opacity(0.1)
+            // The unlit segment, then the light over it at its brightness.
+            let level = index < levels.count ? levels[index] : 0
+            let colors = level > 0 ? [Color.white.opacity(0.1), light.opacity(level)]
+                                   : [Color.white.opacity(0.1)]
 
             if led.digit == 0 {
                 // Colon and raised dot.
@@ -120,16 +123,22 @@ struct SevenSegmentSymbolView: View {
                 case "L2": centre = CGPoint(x: gapCentre(after: display.colonAfter), y: top + digit.height * 0.7)
                 default: centre = CGPoint(x: gapCentre(after: display.dotAfter), y: top + 1)
                 }
-                context.fill(Path(ellipseIn: dot(at: centre)), with: .color(color))
+                for color in colors {
+                    context.fill(Path(ellipseIn: dot(at: centre)), with: .color(color))
+                }
                 continue
             }
 
             let x = digitX(led.digit)
             if let path = segmentPath(led.segment, x: x, y: top, size: digit) {
-                context.stroke(path, with: .color(color), style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                for color in colors {
+                    context.stroke(path, with: .color(color), style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                }
             } else if led.segment == "DP" || led.segment == "LDP" {
                 let centreX = led.segment == "DP" ? x + digit.width + 4 : x - 4
-                context.fill(Path(ellipseIn: dot(at: CGPoint(x: centreX, y: top + digit.height))), with: .color(color))
+                for color in colors {
+                    context.fill(Path(ellipseIn: dot(at: CGPoint(x: centreX, y: top + digit.height))), with: .color(color))
+                }
             }
         }
     }

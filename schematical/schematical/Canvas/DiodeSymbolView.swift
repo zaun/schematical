@@ -10,8 +10,9 @@ struct DiodeSymbolView: View {
     let chip: PlacedChip
     let isSelected: Bool
     let isHovered: Bool
-    /// Play mode: anode high and cathode low. A lit LED glows in its own color.
-    var isLit: Bool = false
+    /// Play mode: brightness 0…1, the share of the last frame the LED was on
+    /// (anode high, cathode low). A lit LED glows in its own color.
+    var level: Double = 0
 
     /// The LED's color, from the part's color (Red, Green, Blue, Amber, White,
     /// and for 7-segment displays also Yellow and Orange).
@@ -59,16 +60,19 @@ struct DiodeSymbolView: View {
             context.stroke(leads, with: .color(outline), lineWidth: lineWidth)
 
             // Diode body: anode at the base, pointing right toward the cathode.
-            if isLit {
+            if level > 0 {
                 let glow = CGRect(x: point(19, mid).x - 16, y: point(19, mid).y - 16, width: 32, height: 32)
-                context.fill(Path(ellipseIn: glow), with: .color(light.opacity(0.3)))
+                context.fill(Path(ellipseIn: glow), with: .color(light.opacity(0.3 * level)))
             }
             var triangle = Path()
             triangle.move(to: point(12, mid - 6))
             triangle.addLine(to: point(12, mid + 6))
             triangle.addLine(to: point(26, mid))
             triangle.closeSubpath()
-            context.fill(triangle, with: .color(isLit ? light : outline))
+            context.fill(triangle, with: .color(outline))
+            if level > 0 {
+                context.fill(triangle, with: .color(light.opacity(level)))
+            }
 
             var cathodeBar = Path()
             cathodeBar.move(to: point(26, mid - 6))
@@ -79,7 +83,10 @@ struct DiodeSymbolView: View {
             var arrows = Path()
             Self.addArrow(to: &arrows, from: point(22, mid - 8), to: point(30, mid - 16))
             Self.addArrow(to: &arrows, from: point(28, mid - 4), to: point(36, mid - 12))
-            context.stroke(arrows, with: .color(isLit ? light : outline), lineWidth: 1.25)
+            context.stroke(arrows, with: .color(outline), lineWidth: 1.25)
+            if level > 0 {
+                context.stroke(arrows, with: .color(light.opacity(level)), lineWidth: 1.25)
+            }
 
             context.draw(
                 Text(chip.part.function)

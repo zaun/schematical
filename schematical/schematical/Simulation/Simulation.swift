@@ -124,6 +124,19 @@ nonisolated struct MemoryWord: Equatable, Sendable {
     let known: UInt32
 }
 
+/// How a wire is drawn. In order of precedence: a shorted net beats a
+/// toggling one, which beats a floating one.
+enum WireStyle: Equatable {
+    /// Not in play mode, or a net at 0.
+    case normal
+    case shorted
+    /// Changed at least twice since the last frame: too fast to show a value.
+    case toggling
+    /// No driver.
+    case floating
+    case value(Color)
+}
+
 /// Owns one running simulation. Play mode starts it, Stop frees it.
 @MainActor
 @Observable
@@ -135,6 +148,13 @@ final class SimulationController {
     private(set) var errorMessage: String?
     /// Circuit time of the last snapshot, picoseconds.
     private(set) var circuitTime: UInt64 = 0
+    /// Circuit time per wall time, 1 = real time. An app preference, set by
+    /// the toolbar's speed menu.
+    private(set) var speed: Double = 1
+    /// Speed actually reached over the last half second while running.
+    private(set) var reachedSpeed: Double?
+    /// Nets that changed at least twice since the previous frame.
+    private(set) var togglingNets: Set<Int> = []
 
     /// The part library circuits are built from. It outlives every circuit.
     private let library: PartLibraryHandle
@@ -145,10 +165,13 @@ final class SimulationController {
     private var netValues: [CircuitValue] = []
     private var shortedNets: Set<Int> = []
     /// LEDs (one light) and 7-segment displays (one per LED, in display
-    /// order): whether each light was on during the last frame.
-    private(set) var lights: [UUID: [Bool]] = [:]
-    /// The previous snapshot's light on-times, to see which grew.
-    private var previousLightTimes: [Int: [UInt64]]?
+    /// order): brightness 0…1, the light's on-time in the last frame divided
+    /// by the frame's length.
+    private(set) var lights: [UUID: [Double]] = [:]
+    /// The previous snapshot, to measure the frame against.
+    private var previous: SimulationSnapshot?
+    /// (wall time, circuit time) of the last half second's snapshots.
+    private var speedHistory: [(wall: TimeInterval, circuit: UInt64)] = []
     /// Goes up after every snapshot, so views that show memory contents know
     /// to read them again.
     private(set) var stateVersion = 0
@@ -193,9 +216,10 @@ final class SimulationController {
         generation += 1
         let current = generation
         let engine = SimulationEngine(
-            circuit: opened, netCount: built.netCount, lightParts: lightParts, speed: 1,
+            circuit: opened, netCount: built.netCount, lightParts: lightParts, speed: speed,
             publish: { [weak self] snapshot in
-                Task { @MainActor in self?.apply(snapshot, generation: current) }
+                let owner = self
+                Task { @MainActor in owner?.apply(snapshot, generation: current) }
             }
         )
         netlist = built
@@ -234,8 +258,20 @@ final class SimulationController {
         netValues = []
         shortedNets = []
         lights = [:]
-        previousLightTimes = nil
+        previous = nil
+        speedHistory = []
+        reachedSpeed = nil
+        togglingNets = []
         circuitTime = 0
+    }
+
+    /// Sets the speed (1 = real time), for this run and the next.
+    func setSpeed(_ newSpeed: Double) {
+        guard newSpeed > 0 else { return }
+        speed = newSpeed
+        speedHistory = []
+        reachedSpeed = nil
+        engine?.setSpeed(newSpeed)
     }
 
     /// Turns a snapshot from the simulation thread into what the canvas draws.
@@ -246,16 +282,44 @@ final class SimulationController {
         shortedNets = snapshot.shortedNet.map { [$0] } ?? []
         circuitTime = snapshot.circuitTime
 
-        var newLights: [UUID: [Bool]] = [:]
+        if let previous, previous.netChanges.count == snapshot.netChanges.count {
+            var toggling: Set<Int> = []
+            for (net, count) in snapshot.netChanges.enumerated()
+            where count &- previous.netChanges[net] >= 2 {
+                toggling.insert(net)
+            }
+            togglingNets = toggling
+        } else {
+            togglingNets = []
+        }
+
+        // Brightness: on-time gained over circuit time passed. The first
+        // snapshot only sets the baseline.
+        var newLights: [UUID: [Double]] = [:]
         for (part, times) in snapshot.lightTimes where part < netlist.chipIDs.count {
-            let before = previousLightTimes?[part]
-            newLights[netlist.chipIDs[part]] = times.indices.map { i in
-                guard let before, i < before.count else { return false }
-                return times[i] > before[i]
+            let chipID = netlist.chipIDs[part]
+            guard let previous, let before = previous.lightTimes[part], before.count == times.count else {
+                newLights[chipID] = times.map { _ in 0 }
+                continue
+            }
+            guard snapshot.circuitTime > previous.circuitTime else {
+                newLights[chipID] = lights[chipID] ?? times.map { _ in 0 }
+                continue
+            }
+            let span = Double(snapshot.circuitTime - previous.circuitTime)
+            newLights[chipID] = times.indices.map { i in
+                min(1, max(0, Double(times[i] &- before[i]) / span))
             }
         }
         lights = newLights
-        previousLightTimes = snapshot.lightTimes
+        previous = snapshot
+
+        speedHistory.append((snapshot.wallTime, snapshot.circuitTime))
+        speedHistory.removeAll { snapshot.wallTime - $0.wall > 0.5 }
+        if let first = speedHistory.first, snapshot.wallTime > first.wall {
+            reachedSpeed = Double(snapshot.circuitTime &- first.circuit) / 1e12
+                / (snapshot.wallTime - first.wall)
+        }
 
         if let error = snapshot.error {
             errorMessage = error
@@ -288,22 +352,17 @@ final class SimulationController {
         return engine.readMemory(part: part, start: start, count: count)
     }
 
-    /// Color for a wire in play mode. Outside play mode, the normal color.
-    func wireColor(_ wireID: UUID) -> Color {
-        guard isRunning, let net = netlist?.netOfWire[wireID] else { return .primary }
-        if shortedNets.contains(net) { return .red }
+    /// How to draw a wire in play mode. Outside play mode, `.normal`.
+    func wireStyle(_ wireID: UUID) -> WireStyle {
+        guard isRunning, let net = netlist?.netOfWire[wireID] else { return .normal }
+        if shortedNets.contains(net) { return .shorted }
+        if togglingNets.contains(net) { return .toggling }
         switch netValue(net) {
-        case CIRCUIT_1: return .green
-        case CIRCUIT_X: return .orange
-        case CIRCUIT_Z: return .secondary
-        default: return .primary
+        case CIRCUIT_Z: return .floating
+        case CIRCUIT_1: return .value(.green)
+        case CIRCUIT_X: return .value(.orange)
+        default: return .normal
         }
-    }
-
-    /// True when a wire is floating (no driver), drawn dashed in play mode.
-    func wireIsFloating(_ wireID: UUID) -> Bool {
-        guard isRunning, let net = netlist?.netOfWire[wireID] else { return false }
-        return netValue(net) == CIRCUIT_Z
     }
 
     private func netValue(_ net: Int) -> CircuitValue {
