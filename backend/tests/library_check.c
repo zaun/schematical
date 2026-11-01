@@ -349,7 +349,18 @@ static void check_flipflop_cases(void) {
                 "timing.HC: unknown key \"clearWins\"");
 }
 
+static void check_switch_cases(void) {
+    expect_fail("switch contact naming one pin twice",
+                HEAD("switch")
+                "{'id':'s','function':'GDS','description':'d','drawer':['Switch','DIP'],"
+                "'pinouts':{'p4':[{'number':1,'name':'1A','role':'inout'},{'number':2,'name':'2A','role':'inout'},"
+                "{'number':3,'name':'2B','role':'inout'},{'number':4,'name':'1B','role':'inout'}]},"
+                "'actuator':'Low profile','contacts':[['1A','1B'],['2A','2A']],'parts':[]}" TAIL,
+                "contacts[1]: a contact joins two different pins, not \"2A\" twice");
+}
+
 int main(void) {
+    check_switch_cases();
     check_flipflop_cases();
     check_gate_cases();
     check_valid_supply();

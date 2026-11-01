@@ -46,5 +46,6 @@ const char *export_family_name(int family);     /* LogicFamily, real families on
 int export_supply(void);
 int export_led(void);
 int export_osc(void);
+int export_switch(void);
 
 #endif

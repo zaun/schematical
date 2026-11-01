@@ -90,6 +90,7 @@ add_library(logic STATIC
     src/models/gate.c
     src/models/dff.c
     src/models/jkff.c
+    src/models/switch.c
     src/models/supply.c
     src/models/led.c
     src/models/oscillator.c
@@ -128,6 +129,7 @@ add_executable(export_parts
     tools/export/export_ff.c
     tools/export/export_dff.c
     tools/export/export_jkff.c
+    tools/export/export_switch.c
     sim.c
     net.c
     src/third_party/cjson/cJSON.c
@@ -165,3 +167,5 @@ endfunction()
 logic_test(library_check)
 logic_test(listing_check)
 logic_test(trace_check)
+
+logic_test(switch_test)

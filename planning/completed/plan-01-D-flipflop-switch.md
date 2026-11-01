@@ -151,20 +151,23 @@ Acceptance: 858 flip-flop parts match both goldens.
   Runtime proof: `trace_check --verbose CD74HC73E` → `1000 pin 1 -> 0` (1CLK falls)
   then `13000 pin 12 -> 0`, `13000 pin 13 -> 1` (Q/QN 13 ns later); the rising
   edge at `150493` changes nothing.
-Commit: —
+Commit: 66db3f3
 
 ### Phase 2 — Switches
 
-- [ ] `src/models/switch.c`; add to `KINDS[]`.
-- [ ] `tools/export/export_switch.c`; generate `switch.json`.
-- [ ] `tests/switch_test.c` + CTest `switch_test`; `library_check` switch case;
-      `docs/parts-format.md` section.
-- [ ] Move `planning/plan-01-D-flipflop-switch.md` to `planning/completed/` once every phase's `Commit:` is filled.
+- [x] `src/models/switch.c`; add to `KINDS[]`.
+- [x] `tools/export/export_switch.c`; generate `switch.json` (27 devices, 36 parts).
+- [x] `tests/switch_test.c` + CTest `switch_test`; `library_check` switch case;
+      `docs/parts-format.md` section. "Position reads ON" uses
+      `sim_contact_closed` on the position's two pins (the library has no
+      read-back hook; the old `switch_position_on` was test-only).
 
 Acceptance: 36 switch parts match both goldens (the trace flips every
 position at 1.5 µs, so contacts are exercised); contact tests pass.
   Check: `ctest --test-dir /tmp/logic-build -R 'library_check|listing_check|trace_check|switch_test' --output-on-failure` → passed, `3596 parts compared` (est. 1 min).
-Commit: —
+  Result: `100% tests passed, 0 tests failed out of 4`; `switch_test: all passed`;
+  both parity checks `… switch 36`, `3596 parts compared, 221 skipped`.
+Commit: this phase's commit is the one that moved this file to `planning/completed/` (hash in plan-01-E's Corrections).
 
 ## Validation Plan
 

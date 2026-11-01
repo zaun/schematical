@@ -1,0 +1,922 @@
+{
+  "format": "schematical-parts",
+  "version": 1,
+  "kind": "switch",
+  "devices": [
+    {
+      "id": "te_gds_02",
+      "function": "GDS",
+      "description": "GDS low-profile DIP switch, 2 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p4": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"2B","role":"inout"},
+          {"number":4,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Low profile",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"]
+      ],
+      "parts": [
+        {"name":"TE-GDS0204","package":"DIP","pinout":"p4"},
+        {"name":"TE-GDS02S04","package":"SMD","pinout":"p4"}
+      ]
+    },
+    {
+      "id": "te_gds_04",
+      "function": "GDS",
+      "description": "GDS low-profile DIP switch, 4 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p8": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"4B","role":"inout"},
+          {"number":6,"name":"3B","role":"inout"},
+          {"number":7,"name":"2B","role":"inout"},
+          {"number":8,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Low profile",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"]
+      ],
+      "parts": [
+        {"name":"TE-GDS0404","package":"DIP","pinout":"p8"},
+        {"name":"TE-GDS04S04","package":"SMD","pinout":"p8"}
+      ]
+    },
+    {
+      "id": "te_gds_06",
+      "function": "GDS",
+      "description": "GDS low-profile DIP switch, 6 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p12": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"6B","role":"inout"},
+          {"number":8,"name":"5B","role":"inout"},
+          {"number":9,"name":"4B","role":"inout"},
+          {"number":10,"name":"3B","role":"inout"},
+          {"number":11,"name":"2B","role":"inout"},
+          {"number":12,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Low profile",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"]
+      ],
+      "parts": [
+        {"name":"TE-GDS0604","package":"DIP","pinout":"p12"},
+        {"name":"TE-GDS06S04","package":"SMD","pinout":"p12"}
+      ]
+    },
+    {
+      "id": "te_gds_08",
+      "function": "GDS",
+      "description": "GDS low-profile DIP switch, 8 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"7A","role":"inout"},
+          {"number":8,"name":"8A","role":"inout"},
+          {"number":9,"name":"8B","role":"inout"},
+          {"number":10,"name":"7B","role":"inout"},
+          {"number":11,"name":"6B","role":"inout"},
+          {"number":12,"name":"5B","role":"inout"},
+          {"number":13,"name":"4B","role":"inout"},
+          {"number":14,"name":"3B","role":"inout"},
+          {"number":15,"name":"2B","role":"inout"},
+          {"number":16,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Low profile",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"],
+        ["7A","7B"],
+        ["8A","8B"]
+      ],
+      "parts": [
+        {"name":"TE-GDS0804","package":"DIP","pinout":"p16"},
+        {"name":"TE-GDS08S04","package":"SMD","pinout":"p16"}
+      ]
+    },
+    {
+      "id": "te_gds_10",
+      "function": "GDS",
+      "description": "GDS low-profile DIP switch, 10 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p20": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"7A","role":"inout"},
+          {"number":8,"name":"8A","role":"inout"},
+          {"number":9,"name":"9A","role":"inout"},
+          {"number":10,"name":"10A","role":"inout"},
+          {"number":11,"name":"10B","role":"inout"},
+          {"number":12,"name":"9B","role":"inout"},
+          {"number":13,"name":"8B","role":"inout"},
+          {"number":14,"name":"7B","role":"inout"},
+          {"number":15,"name":"6B","role":"inout"},
+          {"number":16,"name":"5B","role":"inout"},
+          {"number":17,"name":"4B","role":"inout"},
+          {"number":18,"name":"3B","role":"inout"},
+          {"number":19,"name":"2B","role":"inout"},
+          {"number":20,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Low profile",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"],
+        ["7A","7B"],
+        ["8A","8B"],
+        ["9A","9B"],
+        ["10A","10B"]
+      ],
+      "parts": [
+        {"name":"TE-GDS1004","package":"DIP","pinout":"p20"},
+        {"name":"TE-GDS10S04","package":"SMD","pinout":"p20"}
+      ]
+    },
+    {
+      "id": "te_gdp_02",
+      "function": "GDP",
+      "description": "GDP piano DIP switch, 2 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p4": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"2B","role":"inout"},
+          {"number":4,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Piano actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"]
+      ],
+      "parts": [
+        {"name":"TE-GDP0204","package":"DIP","pinout":"p4"}
+      ]
+    },
+    {
+      "id": "te_gdp_04",
+      "function": "GDP",
+      "description": "GDP piano DIP switch, 4 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p8": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"4B","role":"inout"},
+          {"number":6,"name":"3B","role":"inout"},
+          {"number":7,"name":"2B","role":"inout"},
+          {"number":8,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Piano actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"]
+      ],
+      "parts": [
+        {"name":"TE-GDP0404","package":"DIP","pinout":"p8"}
+      ]
+    },
+    {
+      "id": "te_gdp_06",
+      "function": "GDP",
+      "description": "GDP piano DIP switch, 6 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p12": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"6B","role":"inout"},
+          {"number":8,"name":"5B","role":"inout"},
+          {"number":9,"name":"4B","role":"inout"},
+          {"number":10,"name":"3B","role":"inout"},
+          {"number":11,"name":"2B","role":"inout"},
+          {"number":12,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Piano actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"]
+      ],
+      "parts": [
+        {"name":"TE-GDP0604","package":"DIP","pinout":"p12"}
+      ]
+    },
+    {
+      "id": "te_gdp_08",
+      "function": "GDP",
+      "description": "GDP piano DIP switch, 8 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"7A","role":"inout"},
+          {"number":8,"name":"8A","role":"inout"},
+          {"number":9,"name":"8B","role":"inout"},
+          {"number":10,"name":"7B","role":"inout"},
+          {"number":11,"name":"6B","role":"inout"},
+          {"number":12,"name":"5B","role":"inout"},
+          {"number":13,"name":"4B","role":"inout"},
+          {"number":14,"name":"3B","role":"inout"},
+          {"number":15,"name":"2B","role":"inout"},
+          {"number":16,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Piano actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"],
+        ["7A","7B"],
+        ["8A","8B"]
+      ],
+      "parts": [
+        {"name":"TE-GDP0804","package":"DIP","pinout":"p16"}
+      ]
+    },
+    {
+      "id": "te_gdp_10",
+      "function": "GDP",
+      "description": "GDP piano DIP switch, 10 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p20": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"7A","role":"inout"},
+          {"number":8,"name":"8A","role":"inout"},
+          {"number":9,"name":"9A","role":"inout"},
+          {"number":10,"name":"10A","role":"inout"},
+          {"number":11,"name":"10B","role":"inout"},
+          {"number":12,"name":"9B","role":"inout"},
+          {"number":13,"name":"8B","role":"inout"},
+          {"number":14,"name":"7B","role":"inout"},
+          {"number":15,"name":"6B","role":"inout"},
+          {"number":16,"name":"5B","role":"inout"},
+          {"number":17,"name":"4B","role":"inout"},
+          {"number":18,"name":"3B","role":"inout"},
+          {"number":19,"name":"2B","role":"inout"},
+          {"number":20,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Piano actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"],
+        ["7A","7B"],
+        ["8A","8B"],
+        ["9A","9B"],
+        ["10A","10B"]
+      ],
+      "parts": [
+        {"name":"TE-GDP1004","package":"DIP","pinout":"p20"}
+      ]
+    },
+    {
+      "id": "te_gdr_04",
+      "function": "GDR",
+      "description": "GDR recessed-rocker DIP switch, 4 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p8": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"4B","role":"inout"},
+          {"number":6,"name":"3B","role":"inout"},
+          {"number":7,"name":"2B","role":"inout"},
+          {"number":8,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Recessed rocker",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"]
+      ],
+      "parts": [
+        {"name":"TE-GDR0404","package":"DIP","pinout":"p8"},
+        {"name":"TE-GDR04S04","package":"SMD","pinout":"p8"}
+      ]
+    },
+    {
+      "id": "te_gdr_08",
+      "function": "GDR",
+      "description": "GDR recessed-rocker DIP switch, 8 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"7A","role":"inout"},
+          {"number":8,"name":"8A","role":"inout"},
+          {"number":9,"name":"8B","role":"inout"},
+          {"number":10,"name":"7B","role":"inout"},
+          {"number":11,"name":"6B","role":"inout"},
+          {"number":12,"name":"5B","role":"inout"},
+          {"number":13,"name":"4B","role":"inout"},
+          {"number":14,"name":"3B","role":"inout"},
+          {"number":15,"name":"2B","role":"inout"},
+          {"number":16,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Recessed rocker",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"],
+        ["7A","7B"],
+        ["8A","8B"]
+      ],
+      "parts": [
+        {"name":"TE-GDR0804","package":"DIP","pinout":"p16"},
+        {"name":"TE-GDR08S04","package":"SMD","pinout":"p16"}
+      ]
+    },
+    {
+      "id": "te_gdh_02",
+      "function": "GDH",
+      "description": "GDH half-pitch DIP switch, 2 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p4": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"2B","role":"inout"},
+          {"number":4,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Half pitch",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"]
+      ],
+      "parts": [
+        {"name":"TE-GDH02S04","package":"SMD","pinout":"p4"}
+      ]
+    },
+    {
+      "id": "te_gdh_04",
+      "function": "GDH",
+      "description": "GDH half-pitch DIP switch, 4 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p8": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"4B","role":"inout"},
+          {"number":6,"name":"3B","role":"inout"},
+          {"number":7,"name":"2B","role":"inout"},
+          {"number":8,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Half pitch",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"]
+      ],
+      "parts": [
+        {"name":"TE-GDH04S04","package":"SMD","pinout":"p8"}
+      ]
+    },
+    {
+      "id": "te_gdh_08",
+      "function": "GDH",
+      "description": "GDH half-pitch DIP switch, 8 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"7A","role":"inout"},
+          {"number":8,"name":"8A","role":"inout"},
+          {"number":9,"name":"8B","role":"inout"},
+          {"number":10,"name":"7B","role":"inout"},
+          {"number":11,"name":"6B","role":"inout"},
+          {"number":12,"name":"5B","role":"inout"},
+          {"number":13,"name":"4B","role":"inout"},
+          {"number":14,"name":"3B","role":"inout"},
+          {"number":15,"name":"2B","role":"inout"},
+          {"number":16,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Half pitch",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"],
+        ["7A","7B"],
+        ["8A","8B"]
+      ],
+      "parts": [
+        {"name":"TE-GDH08S04","package":"SMD","pinout":"p16"}
+      ]
+    },
+    {
+      "id": "te_gdhl_04",
+      "function": "GDHL",
+      "description": "GDHL ultra-low-profile half-pitch DIP switch, 4 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p8": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"4B","role":"inout"},
+          {"number":6,"name":"3B","role":"inout"},
+          {"number":7,"name":"2B","role":"inout"},
+          {"number":8,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Ultra low profile",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"]
+      ],
+      "parts": [
+        {"name":"TE-GDHL04S","package":"SMD","pinout":"p8"}
+      ]
+    },
+    {
+      "id": "te_gdhl_08",
+      "function": "GDHL",
+      "description": "GDHL ultra-low-profile half-pitch DIP switch, 8 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"7A","role":"inout"},
+          {"number":8,"name":"8A","role":"inout"},
+          {"number":9,"name":"8B","role":"inout"},
+          {"number":10,"name":"7B","role":"inout"},
+          {"number":11,"name":"6B","role":"inout"},
+          {"number":12,"name":"5B","role":"inout"},
+          {"number":13,"name":"4B","role":"inout"},
+          {"number":14,"name":"3B","role":"inout"},
+          {"number":15,"name":"2B","role":"inout"},
+          {"number":16,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Ultra low profile",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"],
+        ["7A","7B"],
+        ["8A","8B"]
+      ],
+      "parts": [
+        {"name":"TE-GDHL08S","package":"SMD","pinout":"p16"}
+      ]
+    },
+    {
+      "id": "te_ade_02",
+      "function": "ADE",
+      "description": "ADE extended-actuator DIP switch, 2 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p4": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"2B","role":"inout"},
+          {"number":4,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Extended actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"]
+      ],
+      "parts": [
+        {"name":"TE-ADE0204","package":"DIP","pinout":"p4"}
+      ]
+    },
+    {
+      "id": "te_ade_04",
+      "function": "ADE",
+      "description": "ADE extended-actuator DIP switch, 4 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p8": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"4B","role":"inout"},
+          {"number":6,"name":"3B","role":"inout"},
+          {"number":7,"name":"2B","role":"inout"},
+          {"number":8,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Extended actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"]
+      ],
+      "parts": [
+        {"name":"TE-ADE0404","package":"DIP","pinout":"p8"},
+        {"name":"TE-ADE04S04","package":"SMD","pinout":"p8"}
+      ]
+    },
+    {
+      "id": "te_ade_06",
+      "function": "ADE",
+      "description": "ADE extended-actuator DIP switch, 6 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p12": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"6B","role":"inout"},
+          {"number":8,"name":"5B","role":"inout"},
+          {"number":9,"name":"4B","role":"inout"},
+          {"number":10,"name":"3B","role":"inout"},
+          {"number":11,"name":"2B","role":"inout"},
+          {"number":12,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Extended actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"]
+      ],
+      "parts": [
+        {"name":"TE-ADE0604","package":"DIP","pinout":"p12"}
+      ]
+    },
+    {
+      "id": "te_ade_08",
+      "function": "ADE",
+      "description": "ADE extended-actuator DIP switch, 8 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"7A","role":"inout"},
+          {"number":8,"name":"8A","role":"inout"},
+          {"number":9,"name":"8B","role":"inout"},
+          {"number":10,"name":"7B","role":"inout"},
+          {"number":11,"name":"6B","role":"inout"},
+          {"number":12,"name":"5B","role":"inout"},
+          {"number":13,"name":"4B","role":"inout"},
+          {"number":14,"name":"3B","role":"inout"},
+          {"number":15,"name":"2B","role":"inout"},
+          {"number":16,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Extended actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"],
+        ["7A","7B"],
+        ["8A","8B"]
+      ],
+      "parts": [
+        {"name":"TE-ADE0804","package":"DIP","pinout":"p16"},
+        {"name":"TE-ADE08S04","package":"SMD","pinout":"p16"}
+      ]
+    },
+    {
+      "id": "te_ade_10",
+      "function": "ADE",
+      "description": "ADE extended-actuator DIP switch, 10 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p20": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"7A","role":"inout"},
+          {"number":8,"name":"8A","role":"inout"},
+          {"number":9,"name":"9A","role":"inout"},
+          {"number":10,"name":"10A","role":"inout"},
+          {"number":11,"name":"10B","role":"inout"},
+          {"number":12,"name":"9B","role":"inout"},
+          {"number":13,"name":"8B","role":"inout"},
+          {"number":14,"name":"7B","role":"inout"},
+          {"number":15,"name":"6B","role":"inout"},
+          {"number":16,"name":"5B","role":"inout"},
+          {"number":17,"name":"4B","role":"inout"},
+          {"number":18,"name":"3B","role":"inout"},
+          {"number":19,"name":"2B","role":"inout"},
+          {"number":20,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Extended actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"],
+        ["7A","7B"],
+        ["8A","8B"],
+        ["9A","9B"],
+        ["10A","10B"]
+      ],
+      "parts": [
+        {"name":"TE-ADE1004","package":"DIP","pinout":"p20"}
+      ]
+    },
+    {
+      "id": "te_adf_02",
+      "function": "ADF",
+      "description": "ADF flush-actuator DIP switch, 2 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p4": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"2B","role":"inout"},
+          {"number":4,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Flush actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"]
+      ],
+      "parts": [
+        {"name":"TE-ADF0204","package":"DIP","pinout":"p4"}
+      ]
+    },
+    {
+      "id": "te_adf_04",
+      "function": "ADF",
+      "description": "ADF flush-actuator DIP switch, 4 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p8": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"4B","role":"inout"},
+          {"number":6,"name":"3B","role":"inout"},
+          {"number":7,"name":"2B","role":"inout"},
+          {"number":8,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Flush actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"]
+      ],
+      "parts": [
+        {"name":"TE-ADF0404","package":"DIP","pinout":"p8"}
+      ]
+    },
+    {
+      "id": "te_adf_06",
+      "function": "ADF",
+      "description": "ADF flush-actuator DIP switch, 6 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p12": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"6B","role":"inout"},
+          {"number":8,"name":"5B","role":"inout"},
+          {"number":9,"name":"4B","role":"inout"},
+          {"number":10,"name":"3B","role":"inout"},
+          {"number":11,"name":"2B","role":"inout"},
+          {"number":12,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Flush actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"]
+      ],
+      "parts": [
+        {"name":"TE-ADF0604","package":"DIP","pinout":"p12"}
+      ]
+    },
+    {
+      "id": "te_adf_08",
+      "function": "ADF",
+      "description": "ADF flush-actuator DIP switch, 8 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"7A","role":"inout"},
+          {"number":8,"name":"8A","role":"inout"},
+          {"number":9,"name":"8B","role":"inout"},
+          {"number":10,"name":"7B","role":"inout"},
+          {"number":11,"name":"6B","role":"inout"},
+          {"number":12,"name":"5B","role":"inout"},
+          {"number":13,"name":"4B","role":"inout"},
+          {"number":14,"name":"3B","role":"inout"},
+          {"number":15,"name":"2B","role":"inout"},
+          {"number":16,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Flush actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"],
+        ["7A","7B"],
+        ["8A","8B"]
+      ],
+      "parts": [
+        {"name":"TE-ADF0804","package":"DIP","pinout":"p16"}
+      ]
+    },
+    {
+      "id": "te_adf_10",
+      "function": "ADF",
+      "description": "ADF flush-actuator DIP switch, 10 positions",
+      "drawer": ["Switch","DIP"],
+      "pinouts": {
+        "p20": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"7A","role":"inout"},
+          {"number":8,"name":"8A","role":"inout"},
+          {"number":9,"name":"9A","role":"inout"},
+          {"number":10,"name":"10A","role":"inout"},
+          {"number":11,"name":"10B","role":"inout"},
+          {"number":12,"name":"9B","role":"inout"},
+          {"number":13,"name":"8B","role":"inout"},
+          {"number":14,"name":"7B","role":"inout"},
+          {"number":15,"name":"6B","role":"inout"},
+          {"number":16,"name":"5B","role":"inout"},
+          {"number":17,"name":"4B","role":"inout"},
+          {"number":18,"name":"3B","role":"inout"},
+          {"number":19,"name":"2B","role":"inout"},
+          {"number":20,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Flush actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"],
+        ["7A","7B"],
+        ["8A","8B"],
+        ["9A","9B"],
+        ["10A","10B"]
+      ],
+      "parts": [
+        {"name":"TE-ADF1004","package":"DIP","pinout":"p20"}
+      ]
+    }
+  ]
+}

@@ -269,3 +269,22 @@ Device keys: as `dff`, except `"units"` (1–2) take `j`, `k`, `clk`
 (required) and `pre`, `clr`, `q`, `qn` (optional); there is no
 `outputEnable`; `"kInverted"` (bool) means the K input is K-bar (74x109);
 timing entries are `{rise, fall}`. Part key: `"family"`.
+
+### `switch`
+
+DIP switches. A switch drives nothing; each position is a contact between
+two pins. While a position is ON the nets on its two pins act as one net
+(both ways; strong drivers that disagree across it short). Every position
+starts OFF; the app turns positions on and off (`circuit_set_switch`).
+
+```json
+"actuator": "Low profile",
+"contacts": [["1A", "1B"], ["2A", "2B"], ["3A", "3B"], ["4A", "4B"]]
+```
+
+| Key | Value |
+|---|---|
+| `"actuator"` | actuator style as shown, e.g. `"Piano actuator"` |
+| `"contacts"` | position 1, 2, …: `[pin name, pin name]`, two different pins (exactly one pin each) |
+
+`PartSwitch.positions` is the number of contacts. Parts carry no kind keys.
