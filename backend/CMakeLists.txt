@@ -86,6 +86,10 @@ add_library(logic STATIC
     src/library/library.c
     src/library/kinds.c
     src/library/kind_util.c
+    src/models/lights.c
+    src/models/supply.c
+    src/models/led.c
+    src/models/oscillator.c
     src/third_party/cjson/cJSON.c
 )
 target_include_directories(logic
@@ -95,7 +99,54 @@ target_include_directories(logic
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}/src/library
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/models
         ${CMAKE_CURRENT_SOURCE_DIR}/src/third_party/cjson
 )
 target_compile_features(logic PUBLIC c_std_11)
 target_link_libraries(logic PUBLIC m)
+
+# Old tables -> part JSON (plan-01-B..E). Not linked to either library: each
+# export_<kind>.c #includes one old model .c file. Deleted in plan-01-G.
+add_executable(export_parts
+    tools/export/export_main.c
+    tools/export/export_writer.c
+    tools/export/export_supply.c
+    tools/export/export_led.c
+    tools/export/export_osc.c
+    sim.c
+    net.c
+    src/third_party/cjson/cJSON.c
+)
+target_include_directories(export_parts PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/tools/export
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/third_party/cjson
+)
+target_link_libraries(export_parts PRIVATE m)
+
+# ---- plan-01: tests of the part library ------------------------------------
+add_library(logic_test_support STATIC
+    tests/support/read_file.c
+    tests/support/listing.c
+    tests/support/golden.c
+    tests/support/trace_core.c
+)
+target_include_directories(logic_test_support PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/support
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/library
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/third_party/cjson
+)
+target_link_libraries(logic_test_support PUBLIC logic)
+
+function(logic_test NAME)
+    add_executable(${NAME} tests/${NAME}.c)
+    target_link_libraries(${NAME} PRIVATE logic_test_support)
+    target_compile_definitions(${NAME} PRIVATE
+        PARTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../schematical/schematical/Parts"
+        GOLDEN_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/golden")
+    add_test(NAME ${NAME} COMMAND ${NAME})
+endfunction()
+
+logic_test(library_check)
+logic_test(listing_check)
+logic_test(trace_check)

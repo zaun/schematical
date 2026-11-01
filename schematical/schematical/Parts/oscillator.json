@@ -1,0 +1,376 @@
+{
+  "format": "schematical-parts",
+  "version": 1,
+  "kind": "oscillator",
+  "devices": [
+    {
+      "id": "sit1534-0",
+      "function": "Under 1 MHz",
+      "description": "SiT1534 oscillator, Under 1 MHz",
+      "drawer": ["Oscillator"],
+      "pinouts": {
+        "2012": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"GND","role":"ground"},
+          {"number":3,"name":"CLK OUT","role":"output"},
+          {"number":4,"name":"VDD","role":"power"}
+        ],
+        "1508-csp": [
+          {"number":1,"name":"GND","role":"ground"},
+          {"number":2,"name":"CLK OUT","role":"output"},
+          {"number":3,"name":"VDD","role":"power"},
+          {"number":4,"name":"GND","role":"ground"}
+        ]
+      },
+      "family": "SiT1534",
+      "minHz": 1,
+      "maxHz": 32768,
+      "outputs": ["CLK OUT"],
+      "parts": [
+        {"name":"OSC-SIT1534-2012","package":"2012","pinout":"2012","defaultHz":32768},
+        {"name":"OSC-SIT1534-1508","package":"1508 CSP","pinout":"1508-csp","defaultHz":32768}
+      ]
+    },
+    {
+      "id": "lmk6c-1",
+      "function": "1 MHz to 10 MHz",
+      "description": "LMK6C oscillator, 1 MHz to 10 MHz",
+      "drawer": ["Oscillator"],
+      "pinouts": {
+        "3225-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"GND","role":"ground"},
+          {"number":3,"name":"OUT","role":"output"},
+          {"number":4,"name":"VDD","role":"power"}
+        ],
+        "2520-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"GND","role":"ground"},
+          {"number":3,"name":"OUT","role":"output"},
+          {"number":4,"name":"VDD","role":"power"}
+        ]
+      },
+      "family": "LMK6C",
+      "minHz": 1000000,
+      "maxHz": 200000000,
+      "outputs": ["OUT"],
+      "parts": [
+        {"name":"LMK6CE001000DDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":1000000,"enablePin":1},
+        {"name":"LMK6CE001000DDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":1000000,"enablePin":1},
+        {"name":"LMK6CE001200CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":1200000,"enablePin":1},
+        {"name":"LMK6CE008000CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":8000000,"enablePin":1}
+      ]
+    },
+    {
+      "id": "lmk6c-2",
+      "function": "10 MHz to 100 MHz",
+      "description": "LMK6C oscillator, 10 MHz to 100 MHz",
+      "drawer": ["Oscillator"],
+      "pinouts": {
+        "2520-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"GND","role":"ground"},
+          {"number":3,"name":"OUT","role":"output"},
+          {"number":4,"name":"VDD","role":"power"}
+        ],
+        "3225-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"GND","role":"ground"},
+          {"number":3,"name":"OUT","role":"output"},
+          {"number":4,"name":"VDD","role":"power"}
+        ]
+      },
+      "family": "LMK6C",
+      "minHz": 1000000,
+      "maxHz": 200000000,
+      "outputs": ["OUT"],
+      "parts": [
+        {"name":"LMK6CA026214DDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":26214000,"enablePin":1},
+        {"name":"LMK6CA032768DDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":32768000,"enablePin":1},
+        {"name":"LMK6CA048000CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":48000000,"enablePin":1},
+        {"name":"LMK6CE012288CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":12288000,"enablePin":1},
+        {"name":"LMK6CE016000CDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":16000000,"enablePin":1},
+        {"name":"LMK6CE019200CDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":19200000,"enablePin":1},
+        {"name":"LMK6CE02000CDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":20000000,"enablePin":1},
+        {"name":"LMK6CE02000CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":20000000,"enablePin":1},
+        {"name":"LMK6CE02400CDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":24000000,"enablePin":1},
+        {"name":"LMK6CE02400CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":24000000,"enablePin":1},
+        {"name":"LMK6CE024576CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":24576000,"enablePin":1},
+        {"name":"LMK6CE02500CDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":25000000,"enablePin":1},
+        {"name":"LMK6CE02500CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":25000000,"enablePin":1},
+        {"name":"LMK6CE02500DDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":25000000,"enablePin":1},
+        {"name":"LMK6CE02500DDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":25000000,"enablePin":1},
+        {"name":"LMK6CE027000CDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":27000000,"enablePin":1},
+        {"name":"LMK6CE027000CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":27000000,"enablePin":1},
+        {"name":"LMK6CE028125CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":28125000,"enablePin":1},
+        {"name":"LMK6CE030000CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":30000000,"enablePin":1},
+        {"name":"LMK6CE033333DDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":33333000,"enablePin":1},
+        {"name":"LMK6CE03333ACDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":33333333,"enablePin":1},
+        {"name":"LMK6CE03333CDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":33330000,"enablePin":1},
+        {"name":"LMK6CE033550CDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":33550000,"enablePin":1},
+        {"name":"LMK6CE04000CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":40000000,"enablePin":1},
+        {"name":"LMK6CE048000CDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":48000000,"enablePin":1},
+        {"name":"LMK6CE048000CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":48000000,"enablePin":1},
+        {"name":"LMK6CE04800DDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":48000000,"enablePin":1},
+        {"name":"LMK6CE049152CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":49152000,"enablePin":1},
+        {"name":"LMK6CE050000DDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":50000000,"enablePin":1},
+        {"name":"LMK6CE05000CDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":50000000,"enablePin":1},
+        {"name":"LMK6CE05000CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":50000000,"enablePin":1},
+        {"name":"LMK6CE05000DDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":50000000,"enablePin":1},
+        {"name":"LMK6CE05000DDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":50000000,"enablePin":1},
+        {"name":"LMK6CE066666CDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":66666000,"enablePin":1},
+        {"name":"LMK6CE07425DDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":74250000,"enablePin":1}
+      ]
+    },
+    {
+      "id": "lmk6c-3",
+      "function": "100 MHz and up",
+      "description": "LMK6C oscillator, 100 MHz and up",
+      "drawer": ["Oscillator"],
+      "pinouts": {
+        "3225-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"GND","role":"ground"},
+          {"number":3,"name":"OUT","role":"output"},
+          {"number":4,"name":"VDD","role":"power"}
+        ],
+        "2520-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"GND","role":"ground"},
+          {"number":3,"name":"OUT","role":"output"},
+          {"number":4,"name":"VDD","role":"power"}
+        ]
+      },
+      "family": "LMK6C",
+      "minHz": 1000000,
+      "maxHz": 200000000,
+      "outputs": ["OUT"],
+      "parts": [
+        {"name":"LMK6CE10000CDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6CE10000CDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6CE10000DDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6CE10000DDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6CE10800DDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":108000000,"enablePin":1},
+        {"name":"LMK6CE125000DDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":125000000,"enablePin":1},
+        {"name":"LMK6CE12500CDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":125000000,"enablePin":1},
+        {"name":"LMK6CE15625DDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":156250000,"enablePin":1}
+      ]
+    },
+    {
+      "id": "lmk6d-2",
+      "function": "10 MHz to 100 MHz",
+      "description": "LMK6D oscillator, 10 MHz to 100 MHz",
+      "drawer": ["Oscillator"],
+      "pinouts": {
+        "2520-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"OUTP","role":"output"},
+          {"number":5,"name":"OUTN","role":"output"},
+          {"number":6,"name":"VDD","role":"power"}
+        ],
+        "3225-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"OUTP","role":"output"},
+          {"number":5,"name":"OUTN","role":"output"},
+          {"number":6,"name":"VDD","role":"power"}
+        ]
+      },
+      "family": "LMK6D",
+      "minHz": 1000000,
+      "maxHz": 400000000,
+      "outputs": ["OUTP","OUTN"],
+      "parts": [
+        {"name":"LMK6DA02500ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":25000000,"enablePin":1},
+        {"name":"LMK6DA05184ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":51840000,"enablePin":1},
+        {"name":"LMK6DE026000ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":26000000,"enablePin":1},
+        {"name":"LMK6DE050000ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":50000000,"enablePin":1}
+      ]
+    },
+    {
+      "id": "lmk6d-3",
+      "function": "100 MHz and up",
+      "description": "LMK6D oscillator, 100 MHz and up",
+      "drawer": ["Oscillator"],
+      "pinouts": {
+        "3225-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"OUTP","role":"output"},
+          {"number":5,"name":"OUTN","role":"output"},
+          {"number":6,"name":"VDD","role":"power"}
+        ],
+        "2520-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"OUTP","role":"output"},
+          {"number":5,"name":"OUTN","role":"output"},
+          {"number":6,"name":"VDD","role":"power"}
+        ]
+      },
+      "family": "LMK6D",
+      "minHz": 1000000,
+      "maxHz": 400000000,
+      "outputs": ["OUTP","OUTN"],
+      "parts": [
+        {"name":"LMK6DA10000ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6DA10000ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6DA12288ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":122880000,"enablePin":1},
+        {"name":"LMK6DA12288ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":122880000,"enablePin":1},
+        {"name":"LMK6DA125000ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":125000000,"enablePin":1},
+        {"name":"LMK6DA12500ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":125000000,"enablePin":1},
+        {"name":"LMK6DA14850ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":148500000,"enablePin":1},
+        {"name":"LMK6DA15552ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":155520000,"enablePin":1},
+        {"name":"LMK6DA15625ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":156250000,"enablePin":1},
+        {"name":"LMK6DA15625ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":156250000,"enablePin":1},
+        {"name":"LMK6DA16113AADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":161130000,"enablePin":1},
+        {"name":"LMK6DA20000ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":200000000,"enablePin":1},
+        {"name":"LMK6DA20000ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":200000000,"enablePin":1},
+        {"name":"LMK6DA31250ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":312500000,"enablePin":1},
+        {"name":"LMK6DA40000ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":400000000,"enablePin":1},
+        {"name":"LMK6DE133330ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":133330000,"enablePin":1},
+        {"name":"LMK6DE156250BDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":156250000,"enablePin":1},
+        {"name":"LMK6DE260000ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":260000000,"enablePin":1},
+        {"name":"LMK6DE322265ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":322265000,"enablePin":1},
+        {"name":"LMK6DE400000BDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":400000000,"enablePin":1}
+      ]
+    },
+    {
+      "id": "lmk6h-2",
+      "function": "10 MHz to 100 MHz",
+      "description": "LMK6H oscillator, 10 MHz to 100 MHz",
+      "drawer": ["Oscillator"],
+      "pinouts": {
+        "3225-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"OUTP","role":"output"},
+          {"number":5,"name":"OUTN","role":"output"},
+          {"number":6,"name":"VDD","role":"power"}
+        ]
+      },
+      "family": "LMK6H",
+      "minHz": 1000000,
+      "maxHz": 400000000,
+      "outputs": ["OUTP","OUTN"],
+      "parts": [
+        {"name":"LMK6HE025000ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":25000000,"enablePin":1}
+      ]
+    },
+    {
+      "id": "lmk6h-3",
+      "function": "100 MHz and up",
+      "description": "LMK6H oscillator, 100 MHz and up",
+      "drawer": ["Oscillator"],
+      "pinouts": {
+        "3225-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"OUTP","role":"output"},
+          {"number":5,"name":"OUTN","role":"output"},
+          {"number":6,"name":"VDD","role":"power"}
+        ],
+        "2520-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"OUTP","role":"output"},
+          {"number":5,"name":"OUTN","role":"output"},
+          {"number":6,"name":"VDD","role":"power"}
+        ]
+      },
+      "family": "LMK6H",
+      "minHz": 1000000,
+      "maxHz": 400000000,
+      "outputs": ["OUTP","OUTN"],
+      "parts": [
+        {"name":"LMK6HA10000ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6HA10000ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6HA10000BDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6HA15625ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":156250000,"enablePin":1},
+        {"name":"LMK6HA40000ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":400000000,"enablePin":1},
+        {"name":"LMK6HE100000ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6HE156250ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":156250000,"enablePin":1},
+        {"name":"LMK6HE156250BDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":156250000,"enablePin":1},
+        {"name":"LMK6HE400000BDLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":400000000,"enablePin":1},
+        {"name":"LMK6HE40000ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":400000000,"enablePin":1}
+      ]
+    },
+    {
+      "id": "lmk6p-2",
+      "function": "10 MHz to 100 MHz",
+      "description": "LMK6P oscillator, 10 MHz to 100 MHz",
+      "drawer": ["Oscillator"],
+      "pinouts": {
+        "3225-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"OUTP","role":"output"},
+          {"number":5,"name":"OUTN","role":"output"},
+          {"number":6,"name":"VDD","role":"power"}
+        ],
+        "2520-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"OUTP","role":"output"},
+          {"number":5,"name":"OUTN","role":"output"},
+          {"number":6,"name":"VDD","role":"power"}
+        ]
+      },
+      "family": "LMK6P",
+      "minHz": 1000000,
+      "maxHz": 400000000,
+      "outputs": ["OUTP","OUTN"],
+      "parts": [
+        {"name":"LMK6PE025000ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":25000000,"enablePin":1},
+        {"name":"LMK6PE025000BDLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":25000000,"enablePin":1},
+        {"name":"LMK6PE050000ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":50000000,"enablePin":1}
+      ]
+    },
+    {
+      "id": "lmk6p-3",
+      "function": "100 MHz and up",
+      "description": "LMK6P oscillator, 100 MHz and up",
+      "drawer": ["Oscillator"],
+      "pinouts": {
+        "3225-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"OUTP","role":"output"},
+          {"number":5,"name":"OUTN","role":"output"},
+          {"number":6,"name":"VDD","role":"power"}
+        ],
+        "2520-vson": [
+          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"OUTP","role":"output"},
+          {"number":5,"name":"OUTN","role":"output"},
+          {"number":6,"name":"VDD","role":"power"}
+        ]
+      },
+      "family": "LMK6P",
+      "minHz": 1000000,
+      "maxHz": 400000000,
+      "outputs": ["OUTP","OUTN"],
+      "parts": [
+        {"name":"LMK6PA15625ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":156250000,"enablePin":1},
+        {"name":"LMK6PA15625ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":156250000,"enablePin":1},
+        {"name":"LMK6PE100000ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6PE150000ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":150000000,"enablePin":1},
+        {"name":"LMK6PE161132ADLER","package":"3225 VSON","pinout":"3225-vson","defaultHz":161132000,"enablePin":1},
+        {"name":"LMK6PE312500ADLFR","package":"2520 VSON","pinout":"2520-vson","defaultHz":312500000,"enablePin":1}
+      ]
+    }
+  ]
+}

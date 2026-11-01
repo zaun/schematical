@@ -229,24 +229,34 @@ Commit: df2936d
 Acceptance: the old backend still builds and passes; `logic` builds.
   Check: `cmake --build /tmp/logic-build -j8 && ctest --test-dir /tmp/logic-build -R 'baseline|catalog_check|netlist_check' --output-on-failure` → all pass (est. 2 min).
   Result: build with no errors or warnings; `100% tests passed, 0 tests failed out of 4`.
-Commit: —
+Commit: 8ff7efe
 
 ### Phase 3 — supply, LED, oscillator kinds and their JSON
 
-- [ ] `src/models/lights.c`/`.h`, `supply.c`, `led.c`, `oscillator.c` (§3.4);
+- [x] `src/models/lights.c`/`.h`, `supply.c`, `led.c`, `oscillator.c` (§3.4);
       register all three in `KINDS[]`.
-- [ ] `tools/export/export_main.c`, `export_writer.c`, `export_supply.c`,
-      `export_led.c`, `export_osc.c`, `notes.py` (§3.6).
-- [ ] Generate `schematical/schematical/Parts/supply.json`, `led.json`,
-      `oscillator.json` with `export_parts`.
-- [ ] `tests/support/read_file.c`, `listing.c`; `tests/library_check.c`,
-      `tests/listing_check.c`, `tests/trace_check.c` (§3.7); CTests
-      `library_check`, `listing_check`, `trace_check`.
-- [ ] Move `planning/plan-01-B-library-core.md` to `planning/completed/` once every phase's `Commit:` is filled.
+- [x] `tools/export/export_main.c`, `export_writer.c` (+ `export.h`),
+      `export_supply.c`, `export_led.c`, `export_osc.c`, `notes.py` (§3.6).
+      `notes.py` rule 4 generalized: a `/* c */` line directly above any
+      `static const … NAME` or `#define NAME(` gives key `NAME/`, and
+      `/* ---- NAME: … ---- */` headers give `NAME/`; unknown placeholder
+      keys make it exit 1.
+- [x] Generate `schematical/schematical/Parts/supply.json`, `led.json`,
+      `oscillator.json` with `export_parts` (+ `notes.py`: 0 placeholders).
+- [x] `tests/support/read_file.c` (+ `load_parts_dir`), `listing.c`,
+      `golden.c` (added: reads both goldens for the two parity checks);
+      `tests/library_check.c`, `tests/listing_check.c`, `tests/trace_check.c`
+      (§3.7); CTests `library_check`, `listing_check`, `trace_check`.
+      `library_check` covers every §3.7 case plus unknown file key, unknown
+      role, duplicate device id, drawer depth, supply level, oscillator
+      range and shared output name.
+- [x] Move `planning/plan-01-B-library-core.md` to `planning/completed/` once every phase's `Commit:` is filled.
 
 Acceptance: 150 parts match both goldens; the loader rejects every bad case.
   Check: `ctest --test-dir /tmp/logic-build -R 'library_check|listing_check|trace_check' --output-on-failure` → 3 passed; `listing_check` prints `150 parts compared` (est. 1 min).
-Commit: —
+  Result: `100% tests passed, 0 tests failed out of 3`; `listing_check` and
+  `trace_check` → `supply 2, led 55, oscillator 93`, `150 parts compared, 3667 skipped`.
+Commit: this phase's commit is the one that moved this file to `planning/completed/` (hash in plan-01-C's Corrections).
 
 ## Validation Plan
 
@@ -275,6 +285,13 @@ See plan-01-A §Decisions. Nothing new.
   2 rows `-1`). Documented in `docs/parts-format.md`.
 - Supplies have no package in the old backend; their `package` is `""`
   (allowed; the golden lines have an empty package field).
+- Validation "runtime proof" was miscalibrated: the trace stimulus also
+  toggles the oscillator's enable pin (pin 1, role input), so the output net
+  is Z whenever enable is low and does not change "every 500 000 ps".
+  Measured instead: `trace_check --verbose LMK6CE001000DDLFR` shows the
+  output level (when enabled) is 0 before 500000 ps, 1 from 558940 (enable
+  rising inside the 500000–1000000 high half), 0 inside 1000000–1500000,
+  and `1500000 pin 3 -> 1` exactly on the half-period edge.
 
 ## Summary
 

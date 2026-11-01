@@ -1,0 +1,37 @@
+{
+  "format": "schematical-parts",
+  "version": 1,
+  "kind": "supply",
+  "devices": [
+    {
+      "id": "VCC",
+      "function": "VCC",
+      "description": "Supply, drives logic 1",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"VCC","role":"power"}
+        ]
+      },
+      "level": 1,
+      "parts": [
+        {"name":"VCC","package":"","pinout":"pin"}
+      ]
+    },
+    {
+      "id": "GND",
+      "function": "GND",
+      "description": "Ground, drives logic 0",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"GND","role":"ground"}
+        ]
+      },
+      "level": 0,
+      "parts": [
+        {"name":"GND","package":"","pinout":"pin"}
+      ]
+    }
+  ]
+}

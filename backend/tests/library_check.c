@@ -1,0 +1,264 @@
+/*
+ * library_check: load_parts accepts well-formed part files and rejects every
+ * malformed case with a path-style message, adding nothing on failure
+ * (plan-01-B section 3.7; C, D, E add their kinds' cases).
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "kind.h"
+#include "library_internal.h"
+#include "parts.h"
+
+static int failures;
+
+#define CHECK(cond)                                                       \
+    do {                                                                  \
+        if (!(cond)) {                                                    \
+            printf("%s:%d: check failed: %s\n", __FILE__, __LINE__, #cond); \
+            failures++;                                                   \
+        }                                                                 \
+    } while (0)
+
+/* Single quotes stand for double quotes, to keep the cases readable. */
+static char *json(const char *text) {
+    char *copy = malloc(strlen(text) + 1);
+    size_t i;
+
+    for (i = 0; text[i] != '\0'; i++) {
+        copy[i] = text[i] == '\'' ? '"' : text[i];
+    }
+    copy[i] = '\0';
+    return copy;
+}
+
+/* Loads text into a fresh library and expects failure with `expect` in the message. */
+static void expect_fail(const char *name, const char *text, const char *expect) {
+    PartLibrary *library = part_library_create();
+    char *source = json(text);
+    char *error = NULL;
+    int result = load_parts(library, source, "test.json", &error);
+
+    if (result != -1 || error == NULL || strstr(error, expect) == NULL ||
+        part_library_count(library) != 0) {
+        printf("FAIL %s: result %d, count %zu, error \"%s\" (wanted \"%s\")\n", name, result,
+               part_library_count(library), error != NULL ? error : "(none)", expect);
+        failures++;
+    } else {
+        printf("ok   %s: %s\n", name, error);
+    }
+    free(error);
+    free(source);
+    part_library_destroy(library);
+}
+
+static int load(PartLibrary *library, const char *text, char **error) {
+    char *source = json(text);
+    int result = load_parts(library, source, "test.json", error);
+
+    free(source);
+    return result;
+}
+
+#define HEAD(KIND) "{'format':'schematical-parts','version':1,'kind':'" KIND "','devices':["
+#define TAIL "]}"
+
+#define VCC_DEVICE \
+    "{'id':'VCC','function':'VCC','description':'d','drawer':[]," \
+    "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'level':1," \
+    "'parts':[{'name':'VCC','package':'','pinout':'pin'}]}"
+#define GND_DEVICE \
+    "{'id':'GND','function':'GND','description':'d','drawer':[],'note':'n'," \
+    "'pinouts':{'pin':[{'number':1,'name':'GND','role':'ground','group':'default'}]},'level':0," \
+    "'parts':[{'name':'GND','package':'','pinout':'pin','flags':['obsolete','military']}]}"
+
+static void check_valid_supply(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *vcc;
+    const Part *gnd;
+
+    CHECK(load(library, HEAD("supply") VCC_DEVICE "," GND_DEVICE TAIL, &error) == 0);
+    CHECK(error == NULL);
+    CHECK(part_library_count(library) == 2);
+    vcc = part_library_find(library, "VCC");
+    gnd = part_library_find(library, "GND");
+    CHECK(vcc != NULL && gnd != NULL);
+    CHECK(part_library_find(library, "NOPE") == NULL);
+    if (vcc != NULL && gnd != NULL) {
+        CHECK(vcc->kind == PART_SUPPLY && vcc->supply != NULL && vcc->supply->level == 1);
+        CHECK(gnd->supply->level == 0);
+        CHECK(strcmp(vcc->function, "VCC") == 0 && vcc->drawer_count == 0);
+        CHECK(vcc->pin_count == 1 && vcc->pins[0].number == 1 && vcc->pins[0].role == PIN_POWER);
+        CHECK(strcmp(vcc->pins[0].group, "default") == 0);
+        CHECK(gnd->flags == (PART_OBSOLETE | PART_MILITARY) && vcc->flags == 0);
+        CHECK(vcc->logic == NULL && vcc->led == NULL && vcc->oscillator == NULL);
+        CHECK(kind_model(vcc) != NULL);
+    }
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid supply file\n");
+}
+
+#define LED_DEVICE(ANODE2) \
+    "{'id':'led-red','function':'LED','description':'d','drawer':['Indicators','LED']," \
+    "'pinouts':{'two-pin':[{'number':1,'name':'K','role':'input'},{'number':2,'name':'A','role':'input'}]," \
+    "'dip4':[{'number':1,'name':'K','role':'input'},{'number':2,'name':'" ANODE2 "','role':'input'}," \
+    "{'number':3,'name':'NC','role':'nc'},{'number':4,'name':'NC','role':'nc'}]}," \
+    "'color':'Red','anode':'A','cathode':'K'," \
+    "'parts':[{'name':'LED-RED-0603','package':'0603','pinout':'two-pin'}," \
+    "{'name':'LED-RED-DIP','package':'DIP','pinout':'dip4'}]}"
+
+static void check_valid_led(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *dip;
+
+    CHECK(load(library, HEAD("led") LED_DEVICE("A") TAIL, &error) == 0);
+    dip = part_library_find(library, "LED-RED-DIP");
+    CHECK(dip != NULL && dip->pin_count == 4 && strcmp(dip->led->color, "Red") == 0);
+    CHECK(dip != NULL && dip->drawer_count == 2 && strcmp(dip->drawer[1], "LED") == 0);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid LED file with two pinouts\n");
+}
+
+static void check_duplicate_across_calls(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+
+    CHECK(load(library, HEAD("supply") VCC_DEVICE TAIL, &error) == 0);
+    CHECK(part_library_count(library) == 1);
+    /* The second file repeats VCC (another device id), after a good GND. */
+    CHECK(load(library,
+               HEAD("supply") GND_DEVICE ","
+               "{'id':'VCC2','function':'VCC','description':'d','drawer':[],"
+               "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'level':1,"
+               "'parts':[{'name':'VCC','package':'','pinout':'pin'}]}" TAIL,
+               &error) == -1);
+    CHECK(error != NULL && strstr(error, "duplicate part name \"VCC\"") != NULL);
+    printf("ok   duplicate across calls: %s\n", error != NULL ? error : "(none)");
+    CHECK(part_library_count(library) == 1);
+    CHECK(part_library_find(library, "VCC") != NULL);
+    CHECK(part_library_find(library, "GND") == NULL);
+    free(error);
+    error = NULL;
+    /* The library still takes a good file afterwards. */
+    CHECK(load(library, HEAD("supply") GND_DEVICE TAIL, &error) == 0);
+    CHECK(part_library_count(library) == 2);
+    free(error);
+    part_library_destroy(library);
+}
+
+static void check_logic_family(void) {
+    KindContext ctx;
+
+    memset(&ctx, 0, sizeof ctx);
+    ctx.source = "test.json";
+    CHECK(kind_logic_family(&ctx, "HC") != NULL && ctx.error == NULL);
+    CHECK(kind_logic_family(&ctx, "HX") == NULL && ctx.error != NULL &&
+          strstr(ctx.error, "unknown family \"HX\"") != NULL);
+    printf("ok   kind_logic_family: %s\n", ctx.error != NULL ? ctx.error : "(none)");
+    free(ctx.error);
+}
+
+static void check_supply_cases(void) {
+    expect_fail("bad JSON", HEAD("supply") VCC_DEVICE ",", "invalid JSON at byte");
+    expect_fail("wrong format",
+                "{'format':'parts','version':1,'kind':'supply','devices':[]}",
+                "\"format\" must be \"schematical-parts\"");
+    expect_fail("version 2",
+                "{'format':'schematical-parts','version':2,'kind':'supply','devices':[]}",
+                "unsupported version 2");
+    expect_fail("unknown kind", HEAD("resistor") TAIL, "unknown kind \"resistor\"");
+    expect_fail("unknown file key",
+                "{'format':'schematical-parts','version':1,'kind':'supply','devices':[],'x':1}",
+                "unknown key \"x\"");
+    expect_fail("unknown device key",
+                HEAD("supply")
+                "{'id':'VCC','function':'VCC','description':'d','drawer':[],'colour':'x',"
+                "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'level':1,"
+                "'parts':[{'name':'VCC','package':'','pinout':'pin'}]}" TAIL,
+                "devices[0]: unknown key \"colour\"");
+    expect_fail("unknown part key",
+                HEAD("supply")
+                "{'id':'VCC','function':'VCC','description':'d','drawer':[],"
+                "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'level':1,"
+                "'parts':[{'name':'VCC','package':'','pinout':'pin','family':'HC'}]}" TAIL,
+                "devices[0] (VCC): parts[0] (VCC): unknown key \"family\"");
+    expect_fail("pin numbers 1,3",
+                HEAD("led")
+                "{'id':'led-red','function':'LED','description':'d','drawer':[],"
+                "'pinouts':{'two-pin':[{'number':1,'name':'K','role':'input'},{'number':3,'name':'A','role':'input'}]},"
+                "'color':'Red','anode':'A','cathode':'K','parts':[]}" TAIL,
+                "pinouts.two-pin: pin 2: pin numbers must be 1..N in order (found 3)");
+    expect_fail("unknown role",
+                HEAD("supply")
+                "{'id':'VCC','function':'VCC','description':'d','drawer':[],"
+                "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'hidden'}]},'level':1,"
+                "'parts':[]}" TAIL,
+                "unknown role \"hidden\"");
+    expect_fail("part names a missing pinout",
+                HEAD("supply")
+                "{'id':'VCC','function':'VCC','description':'d','drawer':[],"
+                "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'level':1,"
+                "'parts':[{'name':'VCC','package':'','pinout':'dip8'}]}" TAIL,
+                "parts[0] (VCC): no pinout \"dip8\"");
+    expect_fail("LED anode missing from the second pinout", HEAD("led") LED_DEVICE("AA") TAIL,
+                "devices[0] (led-red): pinouts.dip4: no pin named \"A\"");
+    expect_fail("duplicate part in one file",
+                HEAD("supply") VCC_DEVICE ","
+                "{'id':'VCC2','function':'VCC','description':'d','drawer':[],"
+                "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'level':1,"
+                "'parts':[{'name':'VCC','package':'','pinout':'pin'}]}" TAIL,
+                "duplicate part name \"VCC\"");
+    expect_fail("duplicate device id", HEAD("supply") VCC_DEVICE "," VCC_DEVICE TAIL,
+                "duplicate device id \"VCC\"");
+    expect_fail("bad flag",
+                HEAD("supply")
+                "{'id':'VCC','function':'VCC','description':'d','drawer':[],"
+                "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'level':1,"
+                "'parts':[{'name':'VCC','package':'','pinout':'pin','flags':['vintage']}]}" TAIL,
+                "unknown flag \"vintage\"");
+    expect_fail("drawer too deep",
+                HEAD("supply")
+                "{'id':'VCC','function':'VCC','description':'d','drawer':['a','b','c'],"
+                "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'level':1,"
+                "'parts':[]}" TAIL,
+                "\"drawer\" has at most 2 levels");
+    expect_fail("supply level 2",
+                HEAD("supply")
+                "{'id':'VCC','function':'VCC','description':'d','drawer':[],"
+                "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'level':2,"
+                "'parts':[]}" TAIL,
+                "\"level\" must be a whole number from 0 to 1");
+    expect_fail("oscillator defaultHz out of range",
+                HEAD("oscillator")
+                "{'id':'o','function':'f','description':'d','drawer':[],"
+                "'pinouts':{'p':[{'number':1,'name':'OUT','role':'output'}]},"
+                "'family':'X','minHz':10,'maxHz':20,'outputs':['OUT'],"
+                "'parts':[{'name':'O1','package':'','pinout':'p','defaultHz':30}]}" TAIL,
+                "defaultHz 30 is outside minHz..maxHz");
+    expect_fail("oscillator output naming a shared pin",
+                HEAD("oscillator")
+                "{'id':'o','function':'f','description':'d','drawer':[],"
+                "'pinouts':{'p':[{'number':1,'name':'OUT','role':'output'},{'number':2,'name':'OUT','role':'output'}]},"
+                "'family':'X','minHz':10,'maxHz':20,'outputs':['OUT'],'parts':[]}" TAIL,
+                "pin name \"OUT\" is used by 2 pins; one is needed");
+}
+
+int main(void) {
+    check_valid_supply();
+    check_valid_led();
+    check_duplicate_across_calls();
+    check_logic_family();
+    check_supply_cases();
+    if (failures > 0) {
+        printf("FAIL: %d\n", failures);
+        return 1;
+    }
+    printf("library_check: all passed\n");
+    return 0;
+}
