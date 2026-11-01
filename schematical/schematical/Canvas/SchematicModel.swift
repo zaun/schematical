@@ -280,14 +280,23 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
 
     private let baseLayout: ChipLayout
 
-    init(reference: String, partNumber: String, chip: ChipDefinition, symbol: PartSymbol, origin: CGPoint) {
-        self.id = UUID()
+    init(
+        id: UUID = UUID(),
+        reference: String,
+        partNumber: String,
+        chip: ChipDefinition,
+        symbol: PartSymbol,
+        origin: CGPoint,
+        isFlipped: Bool = false
+    ) {
+        self.id = id
         self.reference = reference
         self.partNumber = partNumber
         self.chip = chip
         self.symbol = symbol
         self.baseLayout = ChipLayout(chip: chip, symbol: symbol)
         self.origin = origin
+        self.isFlipped = isFlipped
     }
 
     var layout: ChipLayout {
@@ -348,8 +357,13 @@ enum WireEnd: Hashable {
 /// A grid point where wires meet. Wires that branch from a point on another
 /// wire both end here, so the point is fixed in place.
 struct Junction: Identifiable, Hashable {
-    let id = UUID()
+    let id: UUID
     let point: CGPoint
+
+    init(id: UUID = UUID(), point: CGPoint) {
+        self.id = id
+        self.point = point
+    }
 }
 
 /// Where a line can start or end in Line mode: a pin, or a grid point that an
@@ -362,10 +376,17 @@ enum LineAnchor: Hashable {
 /// A wire joins two ends. Its route is the start tip, then the bends in
 /// `interior`, then the end tip. Every segment is horizontal or vertical.
 struct Wire: Identifiable, Hashable {
-    let id = UUID()
+    let id: UUID
     var start: WireEnd
     var end: WireEnd
     var interior: [CGPoint]
+
+    init(id: UUID = UUID(), start: WireEnd, end: WireEnd, interior: [CGPoint]) {
+        self.id = id
+        self.start = start
+        self.end = end
+        self.interior = interior
+    }
 }
 
 // MARK: - Orthogonal routing
@@ -506,7 +527,18 @@ final class SchematicDocument {
     private(set) var junctions: [Junction] = []
     var selectedChipID: UUID?
 
-    private var nextReference = 1
+    /// Number for the next part's reference ("U" plus this number).
+    private(set) var nextReference = 1
+
+    /// Replaces everything on the canvas, for example with a file that was
+    /// just opened. Clears the selection.
+    func replaceContents(chips: [PlacedChip], wires: [Wire], junctions: [Junction], nextReference: Int) {
+        self.chips = chips
+        self.wires = wires
+        self.junctions = junctions
+        self.nextReference = max(nextReference, 1)
+        selectedChipID = nil
+    }
 
     // MARK: Chips
 

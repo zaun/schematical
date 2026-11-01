@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var tool: SchematicTool = .pointer
     @State private var isDrawerShown = true
     @State private var simulation: SimulationController
+    @State private var file: SchematicFileController
 
     init() {
         let catalog = ChipCatalogStore()
@@ -22,6 +23,13 @@ struct ContentView: View {
         _catalog = State(initialValue: catalog)
         _document = State(initialValue: document)
         _simulation = State(initialValue: simulation)
+        // Opening a file stops any running simulation first, since the
+        // simulation was built from the old schematic.
+        _file = State(initialValue: SchematicFileController(
+            document: document,
+            catalog: catalog,
+            willReplaceDocument: { simulation.stop() }
+        ))
     }
 
     var body: some View {
@@ -41,6 +49,10 @@ struct ContentView: View {
                     .inspectorColumnWidth(min: 220, ideal: 260, max: 360)
             }
             .toolbar {
+                ToolbarItemGroup(placement: .navigation) {
+                    fileControls
+                }
+
                 ToolbarItem(placement: .navigation) {
                     Button {
                         simulation.toggle(document: document)
@@ -92,7 +104,27 @@ struct ContentView: View {
                 }
             }
             .task { catalog.load() }
-            .navigationTitle("Schematical")
+            .focusedSceneValue(\.schematicFile, file)
+            .background(WindowReader { file.window = $0 })
+            .navigationTitle(file.displayName)
+    }
+
+    /// Open and Save. Their keyboard shortcuts live on the File menu items.
+    @ViewBuilder
+    private var fileControls: some View {
+        Button {
+            Task { await file.open() }
+        } label: {
+            Label("Open", systemImage: "folder")
+        }
+        .help("Open a schematic (⌘O)")
+
+        Button {
+            Task { await file.save() }
+        } label: {
+            Label("Save", systemImage: "square.and.arrow.down")
+        }
+        .help("Save the schematic (⌘S)")
     }
 
     @ViewBuilder

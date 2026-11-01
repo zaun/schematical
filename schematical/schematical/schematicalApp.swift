@@ -15,6 +15,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
     }
+
+    /// Quitting asks about each window with unsaved changes first.
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        Task {
+            sender.reply(toApplicationShouldTerminate: await SchematicFileController.confirmQuit())
+        }
+        return .terminateLater
+    }
 }
 
 @main
@@ -26,5 +34,8 @@ struct schematicalApp: App {
             ContentView()
         }
         .windowToolbarStyle(.unifiedCompact(showsTitle: false))
+        .commands {
+            SchematicFileCommands()
+        }
     }
 }
