@@ -372,7 +372,7 @@ Acceptance: byte-identical behavior and the speed target.
   Check 2: `cmake --build /tmp/logic-p05-rel -j8 --target sim_bench && /tmp/logic-p05-rel/sim_bench LMK6CE001000DDLER 16 10 400 && /tmp/logic-p05-rel/sim_bench LMK6CE10000CDLER 16 10 100`
   → first ≥ 1.5x real time, second ≥ 0.05x (prototype: 2.27–3.2x and
   0.078–0.09x) (est. 10 s).
-Commit: —
+Commit: 973cfc1
 
 ## Bench results
 
