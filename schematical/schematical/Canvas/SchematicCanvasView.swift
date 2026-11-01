@@ -18,6 +18,9 @@ struct SchematicCanvasView: View {
     let document: SchematicDocument
     let viewport: CanvasViewport
     let tool: SchematicTool
+    /// The simulation. While it runs (play mode), the canvas only pans.
+    let simulation: SimulationController
+    private var isRunning: Bool { simulation.isRunning }
     /// Called after a part dragged from the drawer is placed on the canvas.
     var onPartPlaced: () -> Void = {}
 
@@ -72,12 +75,12 @@ struct SchematicCanvasView: View {
             }
             .simultaneousGesture(
                 SpatialTapGesture(count: 2).onEnded { value in
-                    guard tool == .pointer else { return }
+                    guard tool == .pointer, !isRunning else { return }
                     document.insertNode(at: viewport.world(value.location), tolerance: lineTolerance)
                 }
             )
             .dropDestination(for: ChipPartDragItem.self) { items, location in
-                guard let item = items.first,
+                guard !isRunning, let item = items.first,
                       let chip = catalog.chip(forPartNumber: item.partNumber) else {
                     return false
                 }
@@ -109,7 +112,14 @@ struct SchematicCanvasView: View {
                 .equatable()
 
             WireLayer(
-                routes: document.wires.map { RoutedWire(id: $0.id, points: document.path(forWire: $0.id)) },
+                routes: document.wires.map { wire in
+                    RoutedWire(
+                        id: wire.id,
+                        points: document.path(forWire: wire.id),
+                        color: simulation.wireColor(wire.id),
+                        dashed: simulation.wireIsFloating(wire.id)
+                    )
+                },
                 junctions: document.junctions.map(\.point),
                 hoveredWireID: hoveredWireID,
                 preview: connectionPreview
@@ -128,7 +138,8 @@ struct SchematicCanvasView: View {
                         DiodeSymbolView(
                             chip: chip,
                             isSelected: chip.id == document.selectedChipID,
-                            isHovered: chip.id == hoveredChipID
+                            isHovered: chip.id == hoveredChipID,
+                            isLit: simulation.litChips.contains(chip.id)
                         )
                     case .vcc, .ground:
                         SupplySymbolView(
@@ -206,6 +217,20 @@ struct SchematicCanvasView: View {
             width: value.translation.width / zoom,
             height: value.translation.height / zoom
         )
+
+        // Play mode: a drag anywhere pans, and nothing else can start.
+        if isRunning {
+            if interaction == nil {
+                interaction = .pan(startOffset: viewport.offset)
+            }
+            if case let .pan(startOffset)? = interaction {
+                viewport.pan(to: CGSize(
+                    width: startOffset.width + value.translation.width,
+                    height: startOffset.height + value.translation.height
+                ))
+            }
+            return
+        }
 
         switch tool {
         case .pointer:
@@ -379,6 +404,10 @@ struct ConnectionPreview {
 struct RoutedWire: Identifiable {
     let id: UUID
     let points: [CGPoint]
+    /// Net color in play mode. Normal color otherwise.
+    var color: Color = .primary
+    /// Floating net (no driver) in play mode.
+    var dashed = false
 }
 
 /// A small circle over each pin, shown in Line mode. The connection point under
@@ -419,7 +448,12 @@ private struct WireLayer: View {
                 if route.id == hoveredWireID {
                     context.stroke(polyline(route.points), with: .color(Color.accentColor.opacity(0.35)), style: underlay)
                 }
-                context.stroke(polyline(route.points), with: .color(.primary), style: solid)
+                let dashedStyle = StrokeStyle(lineWidth: 1.5, lineCap: .butt, lineJoin: .round, dash: [4, 3])
+                context.stroke(
+                    polyline(route.points),
+                    with: .color(route.color),
+                    style: route.dashed ? dashedStyle : solid
+                )
             }
 
             for point in junctions {

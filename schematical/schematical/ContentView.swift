@@ -8,22 +8,52 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var catalog = ChipCatalogStore()
-    @State private var document = SchematicDocument()
+    @State private var catalog: ChipCatalogStore
+    @State private var document: SchematicDocument
     @State private var viewport = CanvasViewport()
     @State private var tool: SchematicTool = .pointer
     @State private var isDrawerShown = true
+    @State private var simulation: SimulationController
+
+    init() {
+        let catalog = ChipCatalogStore()
+        let document = SchematicDocument()
+        let simulation = SimulationController()
+        _catalog = State(initialValue: catalog)
+        _document = State(initialValue: document)
+        _simulation = State(initialValue: simulation)
+    }
 
     var body: some View {
-        SchematicCanvasView(catalog: catalog, document: document, viewport: viewport, tool: tool) {
+        SchematicCanvasView(
+            catalog: catalog,
+            document: document,
+            viewport: viewport,
+            tool: tool,
+            simulation: simulation
+        ) {
             // Placing a part from the drawer returns to the Pointer tool.
             tool = .pointer
         }
             .inspector(isPresented: $isDrawerShown) {
                 ChipDrawerView(catalog: catalog)
+                    .disabled(simulation.isRunning)
                     .inspectorColumnWidth(min: 220, ideal: 260, max: 360)
             }
             .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    Button {
+                        simulation.toggle(document: document)
+                    } label: {
+                        Label(
+                            simulation.isRunning ? "Stop" : "Run",
+                            systemImage: simulation.isRunning ? "stop.fill" : "play.fill"
+                        )
+                    }
+                    .keyboardShortcut("r", modifiers: .command)
+                    .help(simulation.isRunning ? "Stop the simulation (⌘R)" : "Run the simulation (⌘R)")
+                }
+
                 ToolbarItem(placement: .principal) {
                     Picker("Tool", selection: $tool) {
                         ForEach(SchematicTool.allCases) { tool in
@@ -35,6 +65,7 @@ struct ContentView: View {
                     .pickerStyle(.segmented)
                     .labelStyle(.iconOnly)
                     .labelsHidden()
+                    .disabled(simulation.isRunning)
                 }
 
                 ToolbarItemGroup(placement: .primaryAction) {
@@ -47,6 +78,17 @@ struct ContentView: View {
                     }
                     .toggleStyle(.button)
                     .help("Show or hide the parts drawer")
+                }
+            }
+            .overlay(alignment: .bottom) {
+                if let message = simulation.errorMessage {
+                    Label("Simulation stopped: \(message)", systemImage: "exclamationmark.triangle.fill")
+                        .font(.callout)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 8)
+                        .background(.red.opacity(0.85), in: Capsule())
+                        .foregroundStyle(.white)
+                        .padding(.bottom, 16)
                 }
             }
             .task { catalog.load() }

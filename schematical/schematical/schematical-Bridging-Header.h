@@ -9,5 +9,6 @@
 #define SCHEMATICAL_BRIDGING_HEADER_H
 
 #include "catalog.h"
+#include "netlist_sim.h"
 
 #endif
