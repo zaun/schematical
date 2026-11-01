@@ -189,7 +189,16 @@ static void write_chip(FILE *out, const ChipDefinition *chip) {
         fputs("{\"name\":", out);
         write_json_string(out, part);
         fprintf(out, ",\"package\":\"%s\"", package_name(config.package));
-        fprintf(out, ",\"family\":\"%s\"}", family_name(config.family));
+        fprintf(out, ",\"family\":\"%s\"", family_name(config.family));
+        {
+            unsigned flags = chip->part_flags != NULL ? chip->part_flags[i] : 0;
+
+            fprintf(out, ",\"obsolete\":%s,\"military\":%s,\"automotive\":%s,\"enhanced\":%s}",
+                    (flags & PART_FLAG_OBSOLETE) ? "true" : "false",
+                    (flags & PART_FLAG_MILITARY) ? "true" : "false",
+                    (flags & PART_FLAG_AUTOMOTIVE) ? "true" : "false",
+                    (flags & PART_FLAG_ENHANCED) ? "true" : "false");
+        }
         first = false;
     }
 

@@ -13,7 +13,9 @@ const ChipDefinition *catalog_definition_at(size_t index);
 /*
  * Writes the catalog as JSON:
  *   {"chips":[{"id":..,"function":..,"description":..,
- *              "parts":[..],"pins":[{"number":..,"name":..,"role":..}]}],
+ *              "parts":[{"name":..,"package":..,"family":..,"obsolete":bool,
+ *                        "military":bool,"automotive":bool,"enhanced":bool}],
+ *              "pins":[{"number":..,"name":..,"role":..}]}],
  *    "leds":[{"name":..,"color":..,"package":..,
  *             "pins":[{"number":..,"name":..,"role":..}]}],
  *    "supplies":[{"name":..,"pins":[{"number":..,"name":..,"role":..}]}]}

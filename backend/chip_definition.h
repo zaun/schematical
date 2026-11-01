@@ -26,6 +26,21 @@ typedef struct {
     PinRole role;
 } ChipPin;
 
+/*
+ * Part flags, so the app can filter the catalog. A part can carry several.
+ *   OBSOLETE   the datasheet ordering table lists the part as Obsolete
+ *   MILITARY   SN54/SNJ54/SNV54/CD54 names, 5962- and (J)M38510/ numbers,
+ *              SMD drawing numbers (start with a digit), CD4000 ...F3A parts
+ *   AUTOMOTIVE AEC-Q100 qualified (-Q1) parts: names ending in Q1
+ *   ENHANCED   Enhanced Product (-EP) parts: names ending in EP, and V62/ numbers
+ */
+enum {
+    PART_FLAG_OBSOLETE = 1u << 0,
+    PART_FLAG_MILITARY = 1u << 1,
+    PART_FLAG_AUTOMOTIVE = 1u << 2,
+    PART_FLAG_ENHANCED = 1u << 3
+};
+
 typedef struct {
     const char *id;                  /* stable identifier, e.g. "74_00" */
     const char *function;            /* readable function, e.g. "NAND" */
@@ -40,6 +55,7 @@ typedef struct {
         SimLogicConfig *config
     );
     size_t gate_count;               /* logic gates per package, e.g. 4 for a quad gate */
+    const unsigned *part_flags;      /* PART_FLAG_* per part number, same order; NULL = none */
 } ChipDefinition;
 
 #endif
