@@ -140,8 +140,14 @@ struct ChipDrawerView: View {
 
     private func partRow(_ entry: ChipCatalogStore.PartEntry) -> some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(entry.chip.gateCount > 0 ? "\(entry.part.name) | \(entry.chip.gateCount)" : entry.part.name)
-                .font(.system(.body, design: .monospaced))
+            HStack {
+                Text(entry.part.name)
+                Spacer(minLength: 8)
+                if entry.chip.gateCount > 0 {
+                    Text("(\(entry.chip.gateCount))")
+                }
+            }
+            .font(.system(.body, design: .monospaced))
             Text(subtitle(for: entry))
                 .font(.caption)
                 .foregroundStyle(.secondary)
