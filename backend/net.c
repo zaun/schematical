@@ -80,40 +80,51 @@ int net_attach(SimNet *net, SimInstance *instance, size_t pin) {
 }
 
 void net_resolve(SimNet *net) {
+    net_resolve_group(&net, 1);
+}
+
+void net_resolve_group(SimNet *const *nets, size_t count) {
     int strongest = -1;
     LogicValue result = LOGIC_Z;
     int strong_high = 0;
     int strong_low = 0;
+    size_t n;
     size_t i;
 
-    for (i = 0; i < net->pin_count; i++) {
-        const SimNetPin *pin = &net->pins[i];
-        int strength;
+    for (n = 0; n < count; n++) {
+        const SimNet *net = nets[n];
 
-        if (pin->drive == LOGIC_Z) {
-            continue;
-        }
+        for (i = 0; i < net->pin_count; i++) {
+            const SimNetPin *pin = &net->pins[i];
+            int strength;
 
-        if (pin->strength == DRIVE_STRONG) {
-            if (pin->drive == LOGIC_1) {
-                strong_high = 1;
-            } else if (pin->drive == LOGIC_0) {
-                strong_low = 1;
+            if (pin->drive == LOGIC_Z) {
+                continue;
             }
-        }
 
-        strength = (int)pin->strength;
+            if (pin->strength == DRIVE_STRONG) {
+                if (pin->drive == LOGIC_1) {
+                    strong_high = 1;
+                } else if (pin->drive == LOGIC_0) {
+                    strong_low = 1;
+                }
+            }
 
-        if (strength > strongest) {
-            strongest = strength;
-            result = pin->drive;
-        } else if (strength == strongest && result != pin->drive) {
-            result = LOGIC_X;
+            strength = (int)pin->strength;
+
+            if (strength > strongest) {
+                strongest = strength;
+                result = pin->drive;
+            } else if (strength == strongest && result != pin->drive) {
+                result = LOGIC_X;
+            }
         }
     }
 
-    net->value = result;
-    net->shorted = strong_high && strong_low;
+    for (n = 0; n < count; n++) {
+        nets[n]->value = result;
+        nets[n]->shorted = strong_high && strong_low;
+    }
 }
 
 const char *sim_net_name(const SimNet *net) {

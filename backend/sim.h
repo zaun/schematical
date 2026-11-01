@@ -174,6 +174,32 @@ void sim_schedule_inertial_drive(
     SimTime delay
 );
 
+/*
+ * Contacts, for switches. A contact joins two pins of one instance. While it
+ * is closed, the nets on those pins act as one net: every driver on either
+ * side counts, so a value passes through in both directions, and strong
+ * drivers that disagree across it short. Chains and loops of contacts work
+ * the same way. A pin that is not connected to a net is left out.
+ *
+ * Before sim_start the state is set at once. Once running, the change takes
+ * effect at the current time, on the next sim_run_until. Contacts start open.
+ */
+void sim_set_contact(
+    Sim *sim,
+    SimInstance *instance,
+    size_t pin_a,
+    size_t pin_b,
+    int closed
+);
+
+/* Whether the contact between two pins of an instance is closed. */
+int sim_contact_closed(
+    const Sim *sim,
+    const SimInstance *instance,
+    size_t pin_a,
+    size_t pin_b
+);
+
 void sim_schedule_timer(
     Sim *sim,
     SimInstance *instance,

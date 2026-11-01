@@ -23,7 +23,8 @@ struct SimInstance {
 
 typedef enum {
     EVENT_DRIVE,
-    EVENT_TIMER
+    EVENT_TIMER,
+    EVENT_CONTACT
 } EventType;
 
 typedef struct {
@@ -34,7 +35,17 @@ typedef struct {
     LogicValue value;
     DriveStrength strength;
     uint32_t timer_id;
+    int closed;        /* EVENT_CONTACT: new state of the contact (pin, pin_b) */
+    size_t pin_b;
 } Event;
+
+/* A contact between two pins of one instance. Pins are stored lowest first. */
+typedef struct {
+    SimInstance *instance;
+    size_t pin_a;
+    size_t pin_b;
+    int closed;
+} Contact;
 
 struct Sim {
     SimTime now;
@@ -57,6 +68,11 @@ struct Sim {
     size_t rounds_at_time;
 
     const SimNet *shorted_net;
+
+    Contact *contacts;
+    size_t contact_count;
+    size_t contact_capacity;
+    size_t closed_contact_count;
 };
 
 static void set_error(Sim *sim, const char *message) {
@@ -130,6 +146,7 @@ void sim_destroy(Sim *sim) {
         net_destroy(sim->nets[i]);
     }
 
+    free(sim->contacts);
     free(sim->events);
     free(sim->nets);
     free(sim->instances);
@@ -263,6 +280,7 @@ SimNet *sim_add_net(Sim *sim, const char *name) {
         set_error(sim, "out of memory");
         return NULL;
     }
+    net->index = sim->net_count;
 
     sim->nets[sim->net_count++] = net;
     return net;
@@ -453,6 +471,224 @@ void sim_schedule_timer(
     append_event(sim, &event);
 }
 
+/* ---- Contacts ----------------------------------------------------------- */
+
+static Contact *find_contact(const Sim *sim, const SimInstance *instance,
+                             size_t pin_a, size_t pin_b) {
+    size_t i;
+
+    for (i = 0; i < sim->contact_count; i++) {
+        Contact *contact = &sim->contacts[i];
+
+        if (contact->instance == instance &&
+            contact->pin_a == pin_a && contact->pin_b == pin_b) {
+            return contact;
+        }
+    }
+    return NULL;
+}
+
+/* Sets a contact's state, adding the contact the first time it is used. */
+static void apply_contact(Sim *sim, SimInstance *instance,
+                          size_t pin_a, size_t pin_b, int closed) {
+    Contact *contact = find_contact(sim, instance, pin_a, pin_b);
+
+    if (contact == NULL) {
+        if (!closed) {
+            return; /* contacts start open */
+        }
+        if (sim->contact_count == sim->contact_capacity) {
+            Contact *grown = grow_array(sim->contacts, &sim->contact_capacity,
+                                        sizeof(*sim->contacts));
+
+            if (grown == NULL) {
+                set_error(sim, "out of memory");
+                return;
+            }
+            sim->contacts = grown;
+        }
+        contact = &sim->contacts[sim->contact_count++];
+        contact->instance = instance;
+        contact->pin_a = pin_a;
+        contact->pin_b = pin_b;
+        contact->closed = 0;
+    }
+
+    if (contact->closed != (closed != 0)) {
+        contact->closed = closed != 0;
+        if (contact->closed) {
+            sim->closed_contact_count++;
+        } else {
+            sim->closed_contact_count--;
+        }
+    }
+}
+
+void sim_set_contact(
+    Sim *sim,
+    SimInstance *instance,
+    size_t pin_a,
+    size_t pin_b,
+    int closed
+) {
+    Event event = {0};
+
+    if (sim == NULL || sim->error != NULL) {
+        return;
+    }
+
+    if (instance == NULL || instance->owner != sim ||
+        pin_a >= instance->pin_count || pin_b >= instance->pin_count ||
+        pin_a == pin_b) {
+        set_error(sim, "invalid contact");
+        return;
+    }
+
+    if (pin_a > pin_b) {
+        size_t swap = pin_a;
+        pin_a = pin_b;
+        pin_b = swap;
+    }
+
+    if (!sim->started) {
+        apply_contact(sim, instance, pin_a, pin_b, closed);
+        return;
+    }
+
+    event.type = EVENT_CONTACT;
+    event.time = sim->now;
+    event.instance = instance;
+    event.pin = pin_a;
+    event.pin_b = pin_b;
+    event.closed = closed != 0;
+    append_event(sim, &event);
+}
+
+int sim_contact_closed(
+    const Sim *sim,
+    const SimInstance *instance,
+    size_t pin_a,
+    size_t pin_b
+) {
+    const Contact *contact;
+
+    if (sim == NULL) {
+        return 0;
+    }
+    if (pin_a > pin_b) {
+        size_t swap = pin_a;
+        pin_a = pin_b;
+        pin_b = swap;
+    }
+    contact = find_contact(sim, instance, pin_a, pin_b);
+    return contact != NULL && contact->closed;
+}
+
+static size_t find_root(size_t *parent, size_t index) {
+    while (parent[index] != index) {
+        parent[index] = parent[parent[index]];
+        index = parent[index];
+    }
+    return index;
+}
+
+/*
+ * Resolves every net. Without closed contacts each net stands alone. With
+ * them, nets joined by closed contacts are grouped (union-find) and each
+ * group is resolved as one net.
+ */
+static void resolve_nets(Sim *sim) {
+    size_t *parent;
+    SimNet **group;
+    size_t i;
+
+    if (sim->closed_contact_count == 0 || sim->net_count == 0) {
+        for (i = 0; i < sim->net_count; i++) {
+            net_resolve(sim->nets[i]);
+        }
+        return;
+    }
+
+    parent = malloc(sim->net_count * sizeof(*parent));
+    group = malloc(sim->net_count * sizeof(*group));
+    if (parent == NULL || group == NULL) {
+        free(parent);
+        free(group);
+        set_error(sim, "out of memory");
+        return;
+    }
+
+    for (i = 0; i < sim->net_count; i++) {
+        parent[i] = i;
+    }
+
+    for (i = 0; i < sim->contact_count; i++) {
+        const Contact *contact = &sim->contacts[i];
+        const SimNet *a;
+        const SimNet *b;
+        size_t root_a;
+        size_t root_b;
+
+        if (!contact->closed) {
+            continue;
+        }
+        a = contact->instance->pins[contact->pin_a].net;
+        b = contact->instance->pins[contact->pin_b].net;
+        if (a == NULL || b == NULL) {
+            continue;
+        }
+        root_a = find_root(parent, a->index);
+        root_b = find_root(parent, b->index);
+        if (root_a != root_b) {
+            parent[root_a] = root_b;
+        }
+    }
+
+    /*
+     * Chain each net onto its root's list (parent[] is reused as the "next"
+     * link once roots are known), then resolve each list as one group.
+     */
+    {
+        size_t *root = malloc(sim->net_count * sizeof(*root));
+        size_t *head = malloc(sim->net_count * sizeof(*head));
+        size_t none = sim->net_count;
+
+        if (root == NULL || head == NULL) {
+            free(root);
+            free(head);
+            free(parent);
+            free(group);
+            set_error(sim, "out of memory");
+            return;
+        }
+        for (i = 0; i < sim->net_count; i++) {
+            root[i] = find_root(parent, i);
+            head[i] = none;
+        }
+        for (i = sim->net_count; i-- > 0;) {
+            parent[i] = head[root[i]];
+            head[root[i]] = i;
+        }
+        for (i = 0; i < sim->net_count; i++) {
+            size_t count = 0;
+            size_t j;
+
+            if (head[i] == none) {
+                continue;
+            }
+            for (j = head[i]; j != none; j = parent[j]) {
+                group[count++] = sim->nets[j];
+            }
+            net_resolve_group(group, count);
+        }
+        free(root);
+        free(head);
+    }
+
+    free(parent);
+    free(group);
+}
+
 int sim_start(Sim *sim) {
     size_t i;
 
@@ -467,9 +703,7 @@ int sim_start(Sim *sim) {
 
     sim->started = 1;
 
-    for (i = 0; i < sim->net_count; i++) {
-        net_resolve(sim->nets[i]);
-    }
+    resolve_nets(sim);
 
     for (i = 0; i < sim->instance_count && sim->error == NULL; i++) {
         SimInstance *instance = sim->instances[i];
@@ -532,12 +766,13 @@ static int process_round(Sim *sim, SimTime time) {
     for (i = 0; i < batch_count; i++) {
         if (batch[i].type == EVENT_DRIVE) {
             apply_drive(&batch[i]);
+        } else if (batch[i].type == EVENT_CONTACT) {
+            apply_contact(sim, batch[i].instance, batch[i].pin,
+                          batch[i].pin_b, batch[i].closed);
         }
     }
 
-    for (i = 0; i < sim->net_count; i++) {
-        net_resolve(sim->nets[i]);
-    }
+    resolve_nets(sim);
 
     /* Two strong drivers fighting (e.g. VCC tied to GND) burns the circuit. */
     for (i = 0; i < sim->net_count && sim->error == NULL; i++) {
