@@ -313,7 +313,7 @@ Acceptance: §Outcome.
   `xcodebuild` → `** BUILD SUCCEEDED **`. Phase 1's PCB check re-run after
   Corrections 5: `cmp pcb-before.png pcb-after2.png` exit 0, `cmp
   pcb-dup-before.png pcb-dup-after2.png` exit 0.
-Commit: —
+Commit: 9da03b3
 
 ## Validation Plan
 
@@ -328,6 +328,12 @@ Commit: —
   cmake --build /tmp/logic-p07 -j8 && ctest --test-dir /tmp/logic-p07`
   (est. 1 min; backend unchanged) + the `xcodebuild` (est. 1 min) + the
   harness modes (est. 15 min).
+- Results (2026-11-01, at 9da03b3, build dir `/tmp/logic-p08` per
+  Corrections 1): `ctest` → `100% tests passed, 0 tests failed out of 12`;
+  `xcodebuild` → `** BUILD SUCCEEDED **`; `facts`, `window-07`, `pcb` as
+  in the phases' Result lines. `main` had not moved (`git merge-base HEAD
+  main` = `main` = a64fb17), so no merge-in or re-run; no Rust workspace in
+  this repo, so no `cargo fmt`.
 
 ## Decisions
 
