@@ -148,7 +148,7 @@ Replaces C's placeholder when `selectedTextID` is set.
       `press on text over footprint: text selected true footprint not true
       true`; `translate 2 mm -> anchor moved 1.905: true`; `rotate -> 90:
       true`; `empty board: both nil true pan true onPlaced still 1 true`.
-- [ ] `ContentView.swift`: tool picker, `onPlaced`, Run resets the tool,
+- [x] `ContentView.swift`: tool picker, `onPlaced`, Run resets the tool,
       Rotate for texts (§4.1, §4.3). Run also clears the selected text.
       `xcodebuild` → `** BUILD SUCCEEDED **`; `d-panel.png` shows the
       toolbar's Select | Text picker (Select on).
