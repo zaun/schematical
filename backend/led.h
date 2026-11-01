@@ -8,10 +8,10 @@
  *     LED-<COLOR>-<PACKAGE>      e.g. LED-RED-0603, LED-WHITE-RADIAL
  *
  * Colors: Red, Green, Blue, Amber, White.
- * Packages: 0402, 0603, 0805, 1204, 1205, 1206, 1209, 1411, 1414, 4-DIP, Radial.
+ * Packages: 0402, 0603, 0805, 1204, 1205, 1206, 1209, 1411, 1414, DIP, Radial.
  *
  * Pins: pin 1 is the cathode (K) and pin 2 the anode (A), the usual KiCad
- * convention. 4-DIP has two extra pins (3 and 4), which are no-connect.
+ * convention. DIP has two extra pins (3 and 4), which are no-connect.
  *
  * The model is passive. It drives nothing and does not model forward voltage
  * or current. Read its anode and cathode nets to see whether it should be lit
@@ -42,7 +42,7 @@ typedef enum {
     LED_PACKAGE_1209,
     LED_PACKAGE_1411,
     LED_PACKAGE_1414,
-    LED_PACKAGE_4DIP,
+    LED_PACKAGE_DIP,
     LED_PACKAGE_RADIAL,
     LED_PACKAGE_COUNT
 } LedPackage;
@@ -54,7 +54,7 @@ typedef struct {
 
 extern const SimComponentType LED_TYPE;
 
-/* Number of pins for a package: 2, or 4 for 4-DIP. */
+/* Number of pins for a package: 2, or 4 for DIP. */
 size_t led_pin_count(LedPackage package);
 
 /* Pin table for a package. Its length equals led_pin_count(package). */

@@ -19,7 +19,7 @@
  * | 4B   | 13     | Input  | Gate 4, Input B             |
  * | VCC  | 14     | —      | Positive supply             |
  *
- * MODE_1 = SOIC, SOP, PDIP, CDIP, CFP
+ * MODE_1 = SOIC, SOP, DIP, CDIP, CFP
  */
 
 /**

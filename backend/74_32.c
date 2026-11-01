@@ -25,16 +25,6 @@ typedef struct {
     FamilyTiming timing;
 } Sn74_32State;
 
-typedef struct {
-    const char *prefix;
-    LogicFamily family;
-} FamilyPrefix;
-
-typedef struct {
-    const char *suffix;
-    PackageType package;
-} PackageSuffix;
-
 static const GatePins gates_14[] = {
     {0, 1, 2},
     {3, 4, 5},
@@ -57,114 +47,46 @@ static void unsupported(void) {
     abort();
 }
 
-static int name_matches(const char *name, const char *part_number) {
-    size_t length;
+/*
+ * Orderable part numbers from the datasheets, one entry per name. Lookup is by
+ * exact name; there is no suffix decoding and no ".A" variant.
+ */
+typedef struct {
+    const char *name;
+    LogicFamily family;
+    PackageType package;
+} PartEntry;
 
-    if (strcmp(name, part_number) == 0) {
-        return 1;
-    }
+#define PART(name, family, package) {name, family, package},
+#define PART_FK(name, family, package) {name, family, package},
+static const PartEntry PARTS[] = {
+#include "74_32_parts.inc"
+};
+#undef PART
+#undef PART_FK
 
-    length = strlen(part_number);
-    return strncmp(name, part_number, length) == 0 &&
-        strcmp(name + length, ".A") == 0;
-}
-
-static const char *family_suffix(const char *name, LogicFamily *family) {
-    static const FamilyPrefix families[] = {
-        {"SN74AC32", LOGIC_FAMILY_AC},
-        {"SN54AC32", LOGIC_FAMILY_AC},
-        {"SN74ACT32", LOGIC_FAMILY_ACT},
-        {"SN74AHC32", LOGIC_FAMILY_AHC},
-        {"SN54AHC32", LOGIC_FAMILY_AHC},
-        {"SN74AHCT32", LOGIC_FAMILY_AHCT},
-        {"SN54AHCT32", LOGIC_FAMILY_AHCT},
-        {"SN74ALS32", LOGIC_FAMILY_ALS},
-        {"SN54ALS32", LOGIC_FAMILY_ALS},
-        {"SNJ54ALS32", LOGIC_FAMILY_ALS},
-        {"SN74AS32", LOGIC_FAMILY_AS},
-        {"SN54AS32", LOGIC_FAMILY_AS},
-        {"SNJ54AS32", LOGIC_FAMILY_AS},
-        {"SN74F32", LOGIC_FAMILY_F},
-        {"SN54F32", LOGIC_FAMILY_F},
-        {"SN74HC32", LOGIC_FAMILY_HC},
-        {"SN54HC32", LOGIC_FAMILY_HC},
-        {"SN74HCT32", LOGIC_FAMILY_HCT},
-        {"SN54HCT32", LOGIC_FAMILY_HCT},
-        {"SN74LS32", LOGIC_FAMILY_LS},
-        {"SN54LS32", LOGIC_FAMILY_LS},
-        {"SN74S32", LOGIC_FAMILY_S},
-        {"SN54S32", LOGIC_FAMILY_S}
-    };
+static int part_exists(LogicFamily family, PackageType package) {
     size_t i;
 
-    for (i = 0; i < sizeof(families) / sizeof(families[0]); i++) {
-        size_t length = strlen(families[i].prefix);
-
-        if (strncmp(name, families[i].prefix, length) == 0) {
-            *family = families[i].family;
-            return name + length;
-        }
-    }
-
-    return NULL;
-}
-
-static int package_from_suffix(const char *suffix, PackageType *package) {
-    static const PackageSuffix packages[] = {
-        {"FK", PACKAGE_TYPE_LCCC},
-        {"J", PACKAGE_TYPE_CDIP},
-        {"W", PACKAGE_TYPE_CFP},
-        {"BQAR", PACKAGE_TYPE_WQFN},
-        {"BQA", PACKAGE_TYPE_WQFN},
-        {"RGYR", PACKAGE_TYPE_VQFN},
-        {"RGY", PACKAGE_TYPE_VQFN},
-        {"DGVR", PACKAGE_TYPE_TVSOP},
-        {"DGV", PACKAGE_TYPE_TVSOP},
-        {"DBR", PACKAGE_TYPE_SSOP},
-        {"DB", PACKAGE_TYPE_SSOP},
-        {"NSR", PACKAGE_TYPE_SOP},
-        {"NS", PACKAGE_TYPE_SOP},
-        {"PWRG4", PACKAGE_TYPE_TSSOP},
-        {"PWR1G4", PACKAGE_TYPE_TSSOP},
-        {"PWR", PACKAGE_TYPE_TSSOP},
-        {"PWT", PACKAGE_TYPE_TSSOP},
-        {"PW", PACKAGE_TYPE_TSSOP},
-        {"DRE4", PACKAGE_TYPE_SOIC},
-        {"DRG4", PACKAGE_TYPE_SOIC},
-        {"DRG3", PACKAGE_TYPE_SOIC},
-        {"DR", PACKAGE_TYPE_SOIC},
-        {"DT", PACKAGE_TYPE_SOIC},
-        {"D", PACKAGE_TYPE_SOIC},
-        {"NE4", PACKAGE_TYPE_PDIP},
-        {"N", PACKAGE_TYPE_PDIP}
-    };
-    size_t i;
-
-    for (i = 0; i < sizeof(packages) / sizeof(packages[0]); i++) {
-        if (name_matches(suffix, packages[i].suffix)) {
-            *package = packages[i].package;
+    for (i = 0; i < sizeof(PARTS) / sizeof(PARTS[0]); i++) {
+        if (PARTS[i].family == family && PARTS[i].package == package) {
             return 1;
         }
     }
-
     return 0;
 }
 
 static int lookup(const char *name, Sn74_32Config *config) {
-    LogicFamily family;
-    PackageType package;
-    const char *suffix;
+    size_t i;
 
-    suffix = family_suffix(name, &family);
-    if (suffix == NULL || !package_from_suffix(suffix, &package)) {
-        return 0;
+    for (i = 0; i < sizeof(PARTS) / sizeof(PARTS[0]); i++) {
+        if (strcmp(PARTS[i].name, name) == 0) {
+            config->family = PARTS[i].family;
+            config->package = PARTS[i].package;
+            return 1;
+        }
     }
-
-    *config = (Sn74_32Config){
-        .package = package,
-        .family = family
-    };
-    return 1;
+    return 0;
 }
 
 static const PackageInfo *package_info(PackageType package) {
@@ -175,7 +97,7 @@ static const PackageInfo *package_info(PackageType package) {
         case PACKAGE_TYPE_SOIC:
         case PACKAGE_TYPE_SOP:
         case PACKAGE_TYPE_SSOP:
-        case PACKAGE_TYPE_PDIP:
+        case PACKAGE_TYPE_DIP:
         case PACKAGE_TYPE_TSSOP:
         case PACKAGE_TYPE_TVSOP:
         case PACKAGE_TYPE_CDIP:
@@ -236,6 +158,26 @@ static FamilyTiming family_timing(LogicFamily family) {
             /* Typical at 5 V and 25 C (15 pF load). */
             return (FamilyTiming){4000, 4000};
 
+        case LOGIC_FAMILY_ALVC:
+            /* Max at 3.3 V, -40 to 85 C (SN74ALVC32 gives no typical). */
+            return (FamilyTiming){2800, 2800};
+
+        case LOGIC_FAMILY_AUC:
+            /* Typical at 1.8 V and 25 C (15 pF load), SN74AUC32. */
+            return (FamilyTiming){1000, 1000};
+
+        case LOGIC_FAMILY_HCS:
+            /* Typical at 4.5 V and 25 C (50 pF load), SN74HCS32. */
+            return (FamilyTiming){7000, 7000};
+
+        case LOGIC_FAMILY_LV:
+            /* Typical at 3.3 V and 25 C (50 pF load), SN74LV32A. */
+            return (FamilyTiming){6900, 6900};
+
+        case LOGIC_FAMILY_LVC:
+            /* Typical at 3.3 V and 25 C (50 pF load), SN74LVC32A. */
+            return (FamilyTiming){2500, 2500};
+
         default:
             unsupported();
             return (FamilyTiming){0, 0};
@@ -243,168 +185,13 @@ static FamilyTiming family_timing(LogicFamily family) {
 }
 
 static void validate_config(const Sn74_32Config *config) {
-    if (config == NULL) {
+    /* Only family and package pairs that some orderable part uses are valid. */
+    if (config == NULL || !part_exists(config->family, config->package)) {
         unsupported();
         return;
     }
-
-    switch (config->family) {
-        case LOGIC_FAMILY_AC:
-            switch (config->package) {
-                case PACKAGE_TYPE_LCCC:
-                case PACKAGE_TYPE_CDIP:
-                case PACKAGE_TYPE_CFP:
-                case PACKAGE_TYPE_SOIC:
-                case PACKAGE_TYPE_SSOP:
-                case PACKAGE_TYPE_TVSOP:
-                case PACKAGE_TYPE_PDIP:
-                case PACKAGE_TYPE_SOP:
-                case PACKAGE_TYPE_TSSOP:
-                    (void)package_info(config->package);
-                    break;
-
-                default:
-                    unsupported();
-            }
-            break;
-
-        case LOGIC_FAMILY_ACT:
-            switch (config->package) {
-                case PACKAGE_TYPE_WQFN:
-                case PACKAGE_TYPE_SOIC:
-                case PACKAGE_TYPE_SSOP:
-                case PACKAGE_TYPE_TVSOP:
-                case PACKAGE_TYPE_PDIP:
-                case PACKAGE_TYPE_SOP:
-                case PACKAGE_TYPE_TSSOP:
-                case PACKAGE_TYPE_VQFN:
-                    (void)package_info(config->package);
-                    break;
-
-                default:
-                    unsupported();
-            }
-            break;
-
-        case LOGIC_FAMILY_AHC:
-        case LOGIC_FAMILY_AHCT:
-            switch (config->package) {
-                case PACKAGE_TYPE_LCCC:
-                case PACKAGE_TYPE_CDIP:
-                case PACKAGE_TYPE_CFP:
-                case PACKAGE_TYPE_WQFN:
-                case PACKAGE_TYPE_SOIC:
-                case PACKAGE_TYPE_SSOP:
-                case PACKAGE_TYPE_TVSOP:
-                case PACKAGE_TYPE_PDIP:
-                case PACKAGE_TYPE_SOP:
-                case PACKAGE_TYPE_TSSOP:
-                case PACKAGE_TYPE_VQFN:
-                    (void)package_info(config->package);
-                    break;
-
-                default:
-                    unsupported();
-            }
-            break;
-
-        case LOGIC_FAMILY_ALS:
-            switch (config->package) {
-                case PACKAGE_TYPE_LCCC:
-                case PACKAGE_TYPE_CDIP:
-                case PACKAGE_TYPE_CFP:
-                case PACKAGE_TYPE_SOIC:
-                case PACKAGE_TYPE_PDIP:
-                    (void)package_info(config->package);
-                    break;
-
-                default:
-                    unsupported();
-            }
-            break;
-
-        case LOGIC_FAMILY_AS:
-            switch (config->package) {
-                case PACKAGE_TYPE_LCCC:
-                case PACKAGE_TYPE_CDIP:
-                case PACKAGE_TYPE_SOIC:
-                case PACKAGE_TYPE_PDIP:
-                    (void)package_info(config->package);
-                    break;
-
-                default:
-                    unsupported();
-            }
-            break;
-
-        case LOGIC_FAMILY_F:
-            switch (config->package) {
-                case PACKAGE_TYPE_LCCC:
-                case PACKAGE_TYPE_CDIP:
-                case PACKAGE_TYPE_CFP:
-                case PACKAGE_TYPE_SOIC:
-                case PACKAGE_TYPE_PDIP:
-                    (void)package_info(config->package);
-                    break;
-
-                default:
-                    unsupported();
-            }
-            break;
-
-        case LOGIC_FAMILY_HC:
-            switch (config->package) {
-                case PACKAGE_TYPE_LCCC:
-                case PACKAGE_TYPE_CDIP:
-                case PACKAGE_TYPE_CFP:
-                case PACKAGE_TYPE_SOIC:
-                case PACKAGE_TYPE_SSOP:
-                case PACKAGE_TYPE_PDIP:
-                case PACKAGE_TYPE_SOP:
-                case PACKAGE_TYPE_TSSOP:
-                    (void)package_info(config->package);
-                    break;
-
-                default:
-                    unsupported();
-            }
-            break;
-
-        case LOGIC_FAMILY_HCT:
-            switch (config->package) {
-                case PACKAGE_TYPE_LCCC:
-                case PACKAGE_TYPE_SOIC:
-                case PACKAGE_TYPE_SSOP:
-                case PACKAGE_TYPE_PDIP:
-                case PACKAGE_TYPE_SOP:
-                case PACKAGE_TYPE_TSSOP:
-                    (void)package_info(config->package);
-                    break;
-
-                default:
-                    unsupported();
-            }
-            break;
-
-        case LOGIC_FAMILY_LS:
-        case LOGIC_FAMILY_S:
-            switch (config->package) {
-                case PACKAGE_TYPE_LCCC:
-                case PACKAGE_TYPE_CDIP:
-                case PACKAGE_TYPE_CFP:
-                case PACKAGE_TYPE_SOIC:
-                case PACKAGE_TYPE_PDIP:
-                    (void)package_info(config->package);
-                    break;
-
-                default:
-                    unsupported();
-            }
-            break;
-
-        default:
-            unsupported();
-    }
+    (void)package_info(config->package);
+    (void)family_timing(config->family);
 }
 
 static size_t pin_count(const void *config) {
@@ -540,17 +327,14 @@ const SimComponentType *sn74_32_lookup(
 
 /* ---- Catalog definition ------------------------------------------------- */
 
+/* 14-pin packages. The 20-pin LCCC parts have their own definition below. */
+#define PART(name, family, package) name,
+#define PART_FK(name, family, package)
 static const char *const SN74_32_PART_NUMBERS[] = {
-    "SN74AC32N", "SN74AC32D",
-    "SN74ACT32N", "SN74ACT32D",
-    "SN74AHC32N", "SN74AHC32D",
-    "SN74AHCT32N", "SN74AHCT32D",
-    "SN74ALS32N", "SN74ALS32D",
-    "SN74F32N", "SN74F32D",
-    "SN74HC32N", "SN74HC32D",
-    "SN74HCT32N", "SN74HCT32D",
-    "SN74LS32N", "SN74LS32D",
+#include "74_32_parts.inc"
 };
+#undef PART
+#undef PART_FK
 
 static const ChipPin SN74_32_PINS[] = {
     {1, "1A", PIN_ROLE_INPUT},
@@ -578,6 +362,53 @@ const ChipDefinition SN74_32_DEFINITION = {
     sizeof(SN74_32_PART_NUMBERS) / sizeof(SN74_32_PART_NUMBERS[0]),
     SN74_32_PINS,
     sizeof(SN74_32_PINS) / sizeof(SN74_32_PINS[0]),
+    sn74_32_lookup,
+    4,
+};
+
+/* ---- 20-pin LCCC (FK) definition --------------------------------------- */
+
+#define PART(name, family, package)
+#define PART_FK(name, family, package) name,
+static const char *const SN74_32_FK_PART_NUMBERS[] = {
+#include "74_32_parts.inc"
+};
+#undef PART
+#undef PART_FK
+
+/* MODE_2 pinout from 74_32.h. */
+static const ChipPin SN74_32_FK_PINS[] = {
+    {1, "NC", PIN_ROLE_NO_CONNECT},
+    {2, "1A", PIN_ROLE_INPUT},
+    {3, "1B", PIN_ROLE_INPUT},
+    {4, "1Y", PIN_ROLE_OUTPUT},
+    {5, "NC", PIN_ROLE_NO_CONNECT},
+    {6, "2A", PIN_ROLE_INPUT},
+    {7, "NC", PIN_ROLE_NO_CONNECT},
+    {8, "2B", PIN_ROLE_INPUT},
+    {9, "2Y", PIN_ROLE_OUTPUT},
+    {10, "GND", PIN_ROLE_GROUND},
+    {11, "NC", PIN_ROLE_NO_CONNECT},
+    {12, "3Y", PIN_ROLE_OUTPUT},
+    {13, "3A", PIN_ROLE_INPUT},
+    {14, "3B", PIN_ROLE_INPUT},
+    {15, "NC", PIN_ROLE_NO_CONNECT},
+    {16, "4Y", PIN_ROLE_OUTPUT},
+    {17, "NC", PIN_ROLE_NO_CONNECT},
+    {18, "4A", PIN_ROLE_INPUT},
+    {19, "4B", PIN_ROLE_INPUT},
+    {20, "VCC", PIN_ROLE_POWER},
+};
+
+const ChipDefinition SN74_32_FK_DEFINITION = {
+    "74_32_FK",
+    "OR",
+    "Quad 2-input OR gate, 20-pin LCCC (FK)",
+    "Logic",
+    SN74_32_FK_PART_NUMBERS,
+    sizeof(SN74_32_FK_PART_NUMBERS) / sizeof(SN74_32_FK_PART_NUMBERS[0]),
+    SN74_32_FK_PINS,
+    sizeof(SN74_32_FK_PINS) / sizeof(SN74_32_FK_PINS[0]),
     sn74_32_lookup,
     4,
 };

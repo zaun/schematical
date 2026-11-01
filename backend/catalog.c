@@ -92,7 +92,7 @@ static const char *package_name(PackageType package) {
         case PACKAGE_TYPE_SOIC: return "SOIC";
         case PACKAGE_TYPE_SOP: return "SOP";
         case PACKAGE_TYPE_SSOP: return "SSOP";
-        case PACKAGE_TYPE_PDIP: return "PDIP";
+        case PACKAGE_TYPE_DIP: return "DIP";
         case PACKAGE_TYPE_TSSOP: return "TSSOP";
         case PACKAGE_TYPE_TVSOP: return "TVSOP";
         case PACKAGE_TYPE_CDIP: return "CDIP";
@@ -103,6 +103,11 @@ static const char *package_name(PackageType package) {
         case PACKAGE_TYPE_VSSOP: return "VSSOP";
         case PACKAGE_TYPE_SOT23: return "SOT-23";
         case PACKAGE_TYPE_SC70: return "SC-70";
+        case PACKAGE_TYPE_DSBGA: return "DSBGA";
+        case PACKAGE_TYPE_SON: return "SON";
+        case PACKAGE_TYPE_UQFN: return "UQFN";
+        case PACKAGE_TYPE_X2SON: return "X2SON";
+        case PACKAGE_TYPE_SOT5X3: return "SOT-5X3";
     }
     return "unknown";
 }
@@ -127,6 +132,7 @@ static const char *family_name(LogicFamily family) {
         case LOGIC_FAMILY_LVC: return "LVC";
         case LOGIC_FAMILY_AUP: return "AUP";
         case LOGIC_FAMILY_AUC: return "AUC";
+        case LOGIC_FAMILY_ALVC: return "ALVC";
     }
     return "unknown";
 }

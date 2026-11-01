@@ -17,12 +17,12 @@ static const ChipPin PINS_4[] = {
 };
 
 size_t led_pin_count(LedPackage package) {
-    return package == LED_PACKAGE_4DIP ? sizeof(PINS_4) / sizeof(PINS_4[0])
+    return package == LED_PACKAGE_DIP ? sizeof(PINS_4) / sizeof(PINS_4[0])
                                        : sizeof(PINS_2) / sizeof(PINS_2[0]);
 }
 
 const ChipPin *led_pins(LedPackage package) {
-    return package == LED_PACKAGE_4DIP ? PINS_4 : PINS_2;
+    return package == LED_PACKAGE_DIP ? PINS_4 : PINS_2;
 }
 
 /* ---- Labels ------------------------------------------------------------- */
@@ -33,7 +33,7 @@ static const char *const COLOR_LABELS[LED_COLOR_COUNT] = {
 
 static const char *const PACKAGE_LABELS[LED_PACKAGE_COUNT] = {
     "0402", "0603", "0805", "1204", "1205", "1206",
-    "1209", "1411", "1414", "4-DIP", "Radial",
+    "1209", "1411", "1414", "DIP", "Radial",
 };
 
 const char *led_color_label(LedColor color) {
@@ -69,7 +69,7 @@ static const LedPart PARTS[] = {
     LED_PACKAGE_ROW(1209, "1209")
     LED_PACKAGE_ROW(1411, "1411")
     LED_PACKAGE_ROW(1414, "1414")
-    LED_PACKAGE_ROW(4DIP, "4-DIP")
+    LED_PACKAGE_ROW(DIP, "DIP")
     LED_PACKAGE_ROW(RADIAL, "RADIAL")
 };
 

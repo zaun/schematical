@@ -25,16 +25,6 @@ typedef struct {
     FamilyTiming timing;
 } Sn74_266State;
 
-typedef struct {
-    const char *prefix;
-    LogicFamily family;
-} FamilyPrefix;
-
-typedef struct {
-    const char *suffix;
-    PackageType package;
-} PackageSuffix;
-
 /* 14-pin layout from the SN74HC266 pin table. */
 static const GatePins gates_14[] = {
     {0, 1, 2},
@@ -50,90 +40,58 @@ static void unsupported(void) {
     abort();
 }
 
-static int name_matches(const char *name, const char *part_number) {
-    size_t length;
+/*
+ * Orderable part numbers from the datasheets, one entry per name. Lookup is by
+ * exact name; there is no suffix decoding and no ".A" variant.
+ */
+typedef struct {
+    const char *name;
+    LogicFamily family;
+    PackageType package;
+} PartEntry;
 
-    if (strcmp(name, part_number) == 0) {
-        return 1;
-    }
+#define PART(name, family, package) {name, family, package},
+static const PartEntry PARTS[] = {
+#include "74_266_parts.inc"
+};
+#undef PART
 
-    length = strlen(part_number);
-    return strncmp(name, part_number, length) == 0 &&
-        strcmp(name + length, ".A") == 0;
-}
-
-static const char *family_suffix(const char *name, LogicFamily *family) {
-    static const FamilyPrefix families[] = {
-        {"SN74HC266", LOGIC_FAMILY_HC},
-        {"SN74LS266", LOGIC_FAMILY_LS},
-        {"SN54LS266", LOGIC_FAMILY_LS},
-        {"SNJ54LS266", LOGIC_FAMILY_LS}
-    };
+static int part_exists(LogicFamily family, PackageType package) {
     size_t i;
 
-    for (i = 0; i < sizeof(families) / sizeof(families[0]); i++) {
-        size_t length = strlen(families[i].prefix);
-
-        if (strncmp(name, families[i].prefix, length) == 0) {
-            *family = families[i].family;
-            return name + length;
-        }
-    }
-
-    return NULL;
-}
-
-static int package_from_suffix(const char *suffix, PackageType *package) {
-    static const PackageSuffix packages[] = {
-        {"J", PACKAGE_TYPE_CDIP},
-        {"W", PACKAGE_TYPE_CFP},
-        {"DRG4", PACKAGE_TYPE_SOIC},
-        {"DRE4", PACKAGE_TYPE_SOIC},
-        {"DRG3", PACKAGE_TYPE_SOIC},
-        {"DR", PACKAGE_TYPE_SOIC},
-        {"DT", PACKAGE_TYPE_SOIC},
-        {"D", PACKAGE_TYPE_SOIC},
-        {"NSR", PACKAGE_TYPE_SOP},
-        {"NS", PACKAGE_TYPE_SOP},
-        {"NE4", PACKAGE_TYPE_PDIP},
-        {"N", PACKAGE_TYPE_PDIP}
-    };
-    size_t i;
-
-    for (i = 0; i < sizeof(packages) / sizeof(packages[0]); i++) {
-        if (name_matches(suffix, packages[i].suffix)) {
-            *package = packages[i].package;
+    for (i = 0; i < sizeof(PARTS) / sizeof(PARTS[0]); i++) {
+        if (PARTS[i].family == family && PARTS[i].package == package) {
             return 1;
         }
     }
-
     return 0;
 }
 
 static int lookup(const char *name, Sn74_266Config *config) {
-    LogicFamily family;
-    PackageType package;
-    const char *suffix;
+    size_t i;
 
-    suffix = family_suffix(name, &family);
-    if (suffix == NULL || !package_from_suffix(suffix, &package)) {
-        return 0;
+    for (i = 0; i < sizeof(PARTS) / sizeof(PARTS[0]); i++) {
+        if (strcmp(PARTS[i].name, name) == 0) {
+            config->family = PARTS[i].family;
+            config->package = PARTS[i].package;
+            return 1;
+        }
     }
-
-    *config = (Sn74_266Config){
-        .package = package,
-        .family = family
-    };
-    return 1;
+    return 0;
 }
 
 static const PackageInfo *package_info(PackageType package) {
     switch (package) {
         case PACKAGE_TYPE_SOIC:
         case PACKAGE_TYPE_SOP:
-        case PACKAGE_TYPE_PDIP:
+        case PACKAGE_TYPE_SSOP:
+        case PACKAGE_TYPE_DIP:
+        case PACKAGE_TYPE_TSSOP:
+        case PACKAGE_TYPE_TVSOP:
         case PACKAGE_TYPE_CDIP:
         case PACKAGE_TYPE_CFP:
+        case PACKAGE_TYPE_WQFN:
+        case PACKAGE_TYPE_VQFN:
             return &package_14;
 
         default:
@@ -152,6 +110,10 @@ static FamilyTiming family_timing(LogicFamily family) {
             /* Typical at 5 V and 25 C (15 pF load). */
             return (FamilyTiming){18000, 18000};
 
+        case LOGIC_FAMILY_HCS:
+            /* Typical at 4.5 V and 25 C (50 pF load), SN74HCS266. */
+            return (FamilyTiming){6000, 6000};
+
         default:
             unsupported();
             return (FamilyTiming){0, 0};
@@ -159,42 +121,13 @@ static FamilyTiming family_timing(LogicFamily family) {
 }
 
 static void validate_config(const Sn74_266Config *config) {
-    if (config == NULL) {
+    /* Only family and package pairs that some orderable part uses are valid. */
+    if (config == NULL || !part_exists(config->family, config->package)) {
         unsupported();
         return;
     }
-
-    switch (config->family) {
-        case LOGIC_FAMILY_HC:
-            switch (config->package) {
-                case PACKAGE_TYPE_SOIC:
-                case PACKAGE_TYPE_SOP:
-                case PACKAGE_TYPE_PDIP:
-                    (void)package_info(config->package);
-                    break;
-
-                default:
-                    unsupported();
-            }
-            break;
-
-        case LOGIC_FAMILY_LS:
-            switch (config->package) {
-                case PACKAGE_TYPE_SOIC:
-                case PACKAGE_TYPE_PDIP:
-                case PACKAGE_TYPE_CDIP:
-                case PACKAGE_TYPE_CFP:
-                    (void)package_info(config->package);
-                    break;
-
-                default:
-                    unsupported();
-            }
-            break;
-
-        default:
-            unsupported();
-    }
+    (void)package_info(config->package);
+    (void)family_timing(config->family);
 }
 
 static size_t pin_count(const void *config) {
@@ -327,10 +260,11 @@ const SimComponentType *sn74_266_lookup(
 
 /* ---- Catalog definition ------------------------------------------------- */
 
+#define PART(name, family, package) name,
 static const char *const SN74_266_PART_NUMBERS[] = {
-    "SN74HC266N", "SN74HC266D",
-    "SN74LS266N", "SN74LS266D",
+#include "74_266_parts.inc"
 };
+#undef PART
 
 static const ChipPin SN74_266_PINS[] = {
     {1, "1A", PIN_ROLE_INPUT},

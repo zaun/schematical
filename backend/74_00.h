@@ -22,7 +22,7 @@
  * |      |        | 7, 11, |        |                     |
  * |      |        | 15, 17 |        |                     |
  *
- * MODE_1 = SOIC, SOP, SSOP, PDIP, TSSOP, TVSOP, CDIP, CFP, WQFN, VQFN
+ * MODE_1 = SOIC, SOP, SSOP, DIP, TSSOP, TVSOP, CDIP, CFP, WQFN, VQFN
  * MODE_2 = LCCC
  */
 
@@ -53,5 +53,8 @@ const SimComponentType *sn74_00_lookup(
 );
 
 extern const ChipDefinition SN74_00_DEFINITION;
+
+/* The same gate in the 20-pin LCCC (FK) package. */
+extern const ChipDefinition SN74_00_FK_DEFINITION;
 
 #endif
