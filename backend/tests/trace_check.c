@@ -85,7 +85,7 @@ static int by_name(const void *a, const void *b) {
 int main(int argc, char **argv) {
     PartLibrary *library = part_library_create();
     GoldenPart *golden;
-    size_t golden_count = golden_read(GOLDEN_DIR, &golden);
+    size_t golden_count;
     const Part **parts;
     size_t count;
     size_t i = 0;
@@ -123,6 +123,8 @@ int main(int argc, char **argv) {
         return 0;
     }
 
+    /* Read after --print, so the output can be redirected onto the golden file. */
+    golden_count = golden_read(GOLDEN_DIR, &golden);
     i = 0;
     while (i < count || g < golden_count) {
         int order;

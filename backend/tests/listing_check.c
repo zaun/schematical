@@ -39,7 +39,7 @@ static void count_kind(const char **kinds, size_t *counts, size_t *n, const char
 int main(int argc, char **argv) {
     PartLibrary *library = part_library_create();
     GoldenPart *golden;
-    size_t golden_count = golden_read(GOLDEN_DIR, &golden);
+    size_t golden_count;
     NewLine *lines;
     size_t count;
     size_t i = 0;
@@ -72,6 +72,8 @@ int main(int argc, char **argv) {
         return 0;
     }
 
+    /* Read after --print, so the output can be redirected onto the golden file. */
+    golden_count = golden_read(GOLDEN_DIR, &golden);
     i = 0;
     while (i < count || g < golden_count) {
         int order;

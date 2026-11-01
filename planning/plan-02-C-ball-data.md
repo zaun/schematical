@@ -32,7 +32,7 @@ See plan-02-A for the plan-wide prerequisites. This letter adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-02-B complete | `ls planning/completed/plan-02-B-* && ! ls planning/plan-02-B-* 2>/dev/null` → the completed path only | NOT MET (2026-10-31) |
+| plan-02-B complete | `ls planning/completed/plan-02-B-* && ! ls planning/plan-02-B-* 2>/dev/null` → the completed path only | MET (2026-11-01, `planning/completed/plan-02-B-file-v2.md`, rc=0) |
 
 ## 1. Goal
 
@@ -193,12 +193,14 @@ Sources (for the note text):
 
 ### Phase 1 — SRAM TFBGA balls
 
-- [ ] `sram.json`: the 12 pinouts get `"ball"` designators per §4.1. Rename `p48`/`p90` to `bga` in the pinouts and in their parts.
-- [ ] `sram.json`: BGA note segments name the grid (AS6C4016, AS7C34098A_BGA and AS7C351232 gain one).
-- [ ] `backend/tests/golden/parts.txt`: regenerate with `/tmp/logic-bga/listing_check --print > backend/tests/golden/parts.txt`.
+- [x] `sram.json`: the 12 pinouts get `"ball"` designators per §4.1. Rename `p48`/`p90` to `bga` in the pinouts and in their parts.
+- [x] `sram.json`: BGA note segments name the grid (AS6C4016, AS7C34098A_BGA and AS7C351232 gain one).
+- [x] (added) `backend/tests/listing_check.c`, `trace_check.c`: read the goldens after `--print`, so the documented `--print > backend/tests/golden/…` regeneration works (see Corrections).
+- [x] `backend/tests/golden/parts.txt`: regenerate with `/tmp/logic-bga/listing_check --print > backend/tests/golden/parts.txt`.
 
 Acceptance: only the 15 TFBGA lines change, and traces are unchanged.
   Check: `cmake --build /tmp/logic-bga -j8 && ctest --test-dir /tmp/logic-bga` → `100% tests passed` (after the regeneration); `git diff --numstat backend/tests/golden` → `15	15	backend/tests/golden/parts.txt` only; `git diff -U0 backend/tests/golden/parts.txt | grep '^+[A-Z]' | grep -vc '|TFBGA|'` → `0`; the §4.1 spot checks (est. 1 min).
+  Result (2026-11-01): 594 pins converted (2×36 + 9×48 + 90); `100% tests passed, 0 tests failed out of 7`; numstat `15	15	backend/tests/golden/parts.txt` only; non-TFBGA `+` lines → `0`; `trace_check --print` output `cmp`-equal to `traces.txt`; spot checks `C3:NC:nc`, `A1:LB#:input`, `J1:CE2:input`, `R9:DQ17:inout`; `listing_check | tail -1` → `3817 parts compared, 0 skipped`.
 Commit: —
 
 ### Phase 2 — DSBGA balls
@@ -242,6 +244,15 @@ Commit: —
 - Converted pinouts keep the position order of the numbered pinout they replace. Author's call: this keeps traces and version 1 files exact. (§3)
 
 ## Corrections
+
+- **The golden regeneration command truncated its own input (2026-11-01).**
+  `listing_check --print > backend/tests/golden/parts.txt` (docs/backend.md,
+  this plan) failed: the shell empties `parts.txt` before the program runs,
+  and both `listing_check` and `trace_check` called `golden_read` before
+  handling `--print`, so they exited with "traces.txt does not line up with
+  parts.txt at line 1" and left an empty golden. Fixed in the tests: both read
+  the goldens only after the `--print` branch. The documented command now
+  works as written (verified: regenerated `parts.txt` → `100% tests passed`).
 
 ## Summary
 
