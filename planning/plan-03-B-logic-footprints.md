@@ -25,8 +25,8 @@ See plan-03-A §Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-03-A complete | `ls planning/completed/plan-03-A-footprint-format.md` → exists | NOT MET (2026-10-31: A not started) |
-| Loader in place | `ctest --test-dir /tmp/logic-plan03 -R footprint_check` → passes | NOT MET (2026-10-31) |
+| plan-03-A complete | `ls planning/completed/plan-03-A-footprint-format.md` → exists | MET (2026-11-01: exists, 5239f2f) |
+| Loader in place | `ctest --test-dir /tmp/logic-plan03 -R footprint_check` → passes | MET (2026-11-01: `footprint_check … Passed`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue and before you stop; if you stop,
@@ -183,18 +183,27 @@ is unmatched; rewrites each part line by inserting
 
 PDIP, CDIP, CFP, SOIC, SOP, SSOP, TSSOP, TVSOP, VSSOP: the dual-row families.
 
-- [ ] `footprints.json`: `PDIP-14/16/20`, `CDIP-14/16/20`, `CFP-14/16/20`,
+- [x] `footprints.json`: `PDIP-14/16/20`, `CDIP-14/16/20`, `CFP-14/16/20`,
       `SOIC-14/16`, `SOIC-20W`, `SOP-14/16/20`, `SSOP-8/14/16/20`,
       `TSSOP-14/16/20`, `TVSOP-14/16/20`, `VSSOP-8`, `VSSOP-20` (27), each with
-      its drawing `note`.
-- [ ] `/tmp/p03b-assign.py` (§4.2) restricted to these ids; tag the parts.
-- [ ] Regenerate `parts.txt` and `footprints.txt`; hand-check each new
-      `footprints.txt` line's pitch, span and pad size against its drawing.
+      its drawing `note`. — added (38 footprints total); CFP uses R2 and
+      SOIC-16's body the D (R-PDSO-G16) outline (Corrections).
+- [x] `/tmp/p03b-assign.py` (§4.2) restricted to these ids; tag the parts. —
+      as `/tmp/p03/tag.py /tmp/p03/rules_b.py` with `P03_IDS` = the 27 ids:
+      `gate.json: 1861 parts tagged, 691 skipped`, `dff.json: 529 …, 143
+      skipped`, `jkff.json: 172 …, 14 skipped`; a full dry run over a copy
+      matched all 3,410 parts to the 47 ids with 0 unmatched.
+- [x] Regenerate `parts.txt` and `footprints.txt`; hand-check each new
+      `footprints.txt` line's pitch, span and pad size against its drawing. —
+      `/tmp/p03/goldcheck.py` on the 27 lines: pin 1 at x = −span/2, row
+      step = pitch, pad = the drawing's pad, pin-1 shape — all as recorded;
+      re-read D0014A, DW0020A (span 9.3), DCU0008A and J0014A (pad 1.6, hole
+      1.0) in the text myself.
 
 Acceptance: those parts carry these footprints and the geometry matches the
 drawings.
-  Check: `ctest --test-dir /tmp/logic-plan03 --output-on-failure` → all pass (est. 1 min).
-  Check: `git diff --exit-code backend/tests/golden/traces.txt` → no diff (est. seconds).
+  Check: `ctest --test-dir /tmp/logic-plan03 --output-on-failure` → all pass (est. 1 min). — 2026-11-01: `100% tests passed, 0 tests failed out of 8`.
+  Check: `git diff --exit-code backend/tests/golden/traces.txt` → no diff (est. seconds). — 2026-11-01: exit 0, no output.
 Commit: —
 
 ### Phase 2 — Small-outline, leadless and BGA (20 footprints)
@@ -234,6 +243,39 @@ the view has no DRC and no fabrication output, so nominal land patterns are
 enough, and the rules make every number reproducible from a drawing.
 
 ## Corrections
+
+- 2026-11-01: §2's drawing census is wrong for W: `grep -l W0014` matches
+  `PW0014A` (TSSOP). Every one of the 165 "W0014" hits is `PW0014A` (the
+  only W0014 strings in /tmp/p03txt are "PW0014A SCALE 2.500" and "PW0014A
+  TSSOP - 1.2 mm max height"); the same holds for W0016/W0020. TI's CFP (W)
+  drawings are the old image-only `W (R-GDFP-F14/F16/F20)` outlines (e.g.
+  `sn74hc00.pdf` p.27) with no land pattern. So CFP-14/16/20 use **R2**,
+  not R1. With the CFP's long straight leads (6.35–9.14 mm) R2 gives pads
+  ≈10 mm long whose inner ends reach the body edge (overlapping it by
+  0.05–0.15 mm on CFP-14/16). Kept as R2 gives it: no DRC, and the rule is
+  the plan's reproducible choice.
+- 2026-11-01: no `D0016` drawing exists in any logic datasheet; SOIC-16's
+  body length comes from the image-only `D (R-PDSO-G16)` outline
+  4040047-6/M (`ff-d/scls119e.pdf` p.20), 9.9 mm; pads stay D0014A's, as
+  §4.1 says.
+- 2026-11-01: CFP-20 body length: the W outline gives only 13.72 max, so the
+  nominal 13.09 comes from the datasheet's device-information table
+  (`ff-d/scls136f.pdf` p.1, "CFP (20) 13.09 mm × 6.92 mm").
+- 2026-11-01: three land patterns have mixed pad sizes, so they use the
+  `explicit` style instead of §4.1's `dual`/`quad`: SON-6-DRY (DRY0006A,
+  pin 1 pad 0.35 vs 0.3, `sn74aup1g02.pdf` p.27), X2SON-8 (DQE0008A, pin 1
+  0.6 vs 0.5, `sn74aup1g74.pdf` p.27) and UQFN-8 (RSE0008A: corner side
+  pads 0.55×0.25, middle 0.55×0.2, top/bottom 0.3×0.6, `sn74aup1g74.pdf`
+  p.33). Explicit exists for exactly this (plan-03-A §4.2).
+- 2026-11-01: VQFN-20 (RKS) and WQFN-14 (BQA) need `slots` that §4.1 left
+  out: pin 1 is on the top edge, left of the last pin. VQFN-20: `sides`
+  [8,2,8,2], `slots` [20,1…19]; WQFN-14: `sides` [5,2,5,2], `slots`
+  [14,1…13].
+- 2026-11-01: X2SON-5 centre pads are squares turned 45° on DPW0005A
+  (□0.25) and DTX0005A (□0.35); pads are axis-aligned, so both are
+  `round` of that size (§4.1 already said round for DPW).
+- 2026-11-01: SC70-6's layout pad is 0.9 × 0.4 (DCK0006A), not SC70-5's
+  0.95 × 0.4.
 
 ## Summary
 
