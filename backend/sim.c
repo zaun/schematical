@@ -55,6 +55,8 @@ struct Sim {
 
     SimTime round_time;
     size_t rounds_at_time;
+
+    const SimNet *shorted_net;
 };
 
 static void set_error(Sim *sim, const char *message) {
@@ -136,6 +138,10 @@ void sim_destroy(Sim *sim) {
 
 const char *sim_error(const Sim *sim) {
     return sim != NULL ? sim->error : "simulation is NULL";
+}
+
+const SimNet *sim_shorted_net(const Sim *sim) {
+    return sim != NULL ? sim->shorted_net : NULL;
 }
 
 SimTime sim_now(const Sim *sim) {
@@ -523,6 +529,14 @@ static int process_round(Sim *sim, SimTime time) {
 
     for (i = 0; i < sim->net_count; i++) {
         net_resolve(sim->nets[i]);
+    }
+
+    /* Two strong drivers fighting (e.g. VCC tied to GND) burns the circuit. */
+    for (i = 0; i < sim->net_count && sim->error == NULL; i++) {
+        if (sim->nets[i]->shorted) {
+            sim->shorted_net = sim->nets[i];
+            set_error(sim, "smoke: short circuit, strong drivers disagree on a net");
+        }
     }
 
     for (i = 0; i < sim->net_count && sim->error == NULL; i++) {

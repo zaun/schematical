@@ -82,6 +82,8 @@ int net_attach(SimNet *net, SimInstance *instance, size_t pin) {
 void net_resolve(SimNet *net) {
     int strongest = -1;
     LogicValue result = LOGIC_Z;
+    int strong_high = 0;
+    int strong_low = 0;
     size_t i;
 
     for (i = 0; i < net->pin_count; i++) {
@@ -90,6 +92,14 @@ void net_resolve(SimNet *net) {
 
         if (pin->drive == LOGIC_Z) {
             continue;
+        }
+
+        if (pin->strength == DRIVE_STRONG) {
+            if (pin->drive == LOGIC_1) {
+                strong_high = 1;
+            } else if (pin->drive == LOGIC_0) {
+                strong_low = 1;
+            }
         }
 
         strength = (int)pin->strength;
@@ -103,6 +113,7 @@ void net_resolve(SimNet *net) {
     }
 
     net->value = result;
+    net->shorted = strong_high && strong_low;
 }
 
 const char *sim_net_name(const SimNet *net) {

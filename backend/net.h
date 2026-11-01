@@ -17,6 +17,8 @@ struct SimNet {
     size_t pin_count;
     size_t pin_capacity;
     LogicValue value;
+    /* Set when two strong drivers on this net disagree (a 0 and a 1). */
+    int shorted;
 };
 
 const char *sim_net_name(const SimNet *net);

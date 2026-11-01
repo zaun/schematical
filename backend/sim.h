@@ -30,6 +30,9 @@ typedef enum {
     PACKAGE_TYPE_LCCC,
     PACKAGE_TYPE_WQFN,
     PACKAGE_TYPE_VQFN,
+    PACKAGE_TYPE_VSSOP,
+    PACKAGE_TYPE_SOT23,
+    PACKAGE_TYPE_SC70,
 } PackageType;
 
 typedef enum {
@@ -45,7 +48,12 @@ typedef enum {
     LOGIC_FAMILY_AHC,
     LOGIC_FAMILY_S,
     LOGIC_FAMILY_C,
-    LOGIC_FAMILY_H
+    LOGIC_FAMILY_H,
+    LOGIC_FAMILY_HCS,
+    LOGIC_FAMILY_LV,
+    LOGIC_FAMILY_LVC,
+    LOGIC_FAMILY_AUP,
+    LOGIC_FAMILY_AUC
 } LogicFamily;
 
 typedef struct {
@@ -88,6 +96,9 @@ Sim *sim_create(void);
 void sim_destroy(Sim *sim);
 
 const char *sim_error(const Sim *sim);
+
+/* The net that blew up, or NULL. Set together with the "smoke:" error. */
+const SimNet *sim_shorted_net(const Sim *sim);
 SimTime sim_now(const Sim *sim);
 
 /* The model must copy any config data it needs after this call. */
