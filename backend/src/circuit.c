@@ -273,6 +273,13 @@ CircuitValue circuit_net_value(const Circuit *circuit, size_t net) {
     return CIRCUIT_X;
 }
 
+uint64_t circuit_net_changes(const Circuit *circuit, size_t net) {
+    if (net >= circuit->net_count) {
+        return 0;
+    }
+    return sim_net_changes(circuit->nets[net]);
+}
+
 int circuit_shorted_net(const Circuit *circuit, size_t *net) {
     const SimNet *shorted = sim_shorted_net(circuit->sim);
     size_t i;
@@ -305,6 +312,21 @@ size_t circuit_part_lights(const Circuit *circuit, size_t part, unsigned char *o
     }
     return type->lights(circuit->sim, instance, sim_instance_state(instance),
                         circuit->step_start, on, cap);
+}
+
+size_t circuit_part_light_time(const Circuit *circuit, size_t part, uint64_t *on_ps, size_t cap) {
+    SimInstance *instance;
+    const SimComponentType *type;
+
+    if (part >= circuit->part_count) {
+        return 0;
+    }
+    instance = circuit->instances[part];
+    type = sim_instance_type(instance);
+    if (type->light_time == NULL) {
+        return 0;
+    }
+    return type->light_time(circuit->sim, instance, sim_instance_state(instance), on_ps, cap);
 }
 
 int circuit_memory_size(const Circuit *circuit, size_t part, uint32_t *words, unsigned *bits) {

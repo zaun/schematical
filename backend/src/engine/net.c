@@ -134,3 +134,7 @@ const char *sim_net_name(const SimNet *net) {
 LogicValue sim_net_value(const SimNet *net) {
     return net != NULL ? net->value : LOGIC_X;
 }
+
+uint64_t sim_net_changes(const SimNet *net) {
+    return net != NULL ? net->changes : 0;
+}

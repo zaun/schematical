@@ -300,6 +300,39 @@ static void check_building_errors(void) {
     circuit_destroy(c);
 }
 
+/*
+ * A 1 MHz oscillator lighting an LED for 10 us: the clock net changes 21
+ * times (Z -> 0 at t = 0, then every 500 ns) and the LED is on for 10 half
+ * periods, 5 000 000 ps.
+ */
+static void check_changes_and_light_time(void) {
+    Circuit *c = circuit_create(library);
+    size_t vcc = part(c, "VCC");
+    size_t gnd = part(c, "GND");
+    size_t osc = part(c, "LMK6CE001000DDLER");
+    size_t led = part(c, "LED-RED-0603");
+    size_t vcc_net = net(c);
+    size_t gnd_net = net(c);
+    size_t clock = net(c);
+    uint64_t on_ps[2] = { 0, 0 };
+
+    circuit_connect(c, vcc, "1", vcc_net);
+    circuit_connect(c, gnd, "1", gnd_net);
+    circuit_connect(c, osc, "4", vcc_net);
+    circuit_connect(c, osc, "2", gnd_net);
+    circuit_connect(c, osc, "3", clock);
+    circuit_connect(c, led, "2", clock);
+    circuit_connect(c, led, "1", gnd_net);
+    expect(circuit_start(c) == 0 && circuit_advance(c, 10000000) == 1,
+           "oscillator and LED run 10 us");
+    expect(circuit_net_changes(c, clock) == 21, "1 MHz clock net changed 21 times in 10 us");
+    expect(circuit_part_light_time(c, led, on_ps, 2) == 1, "LED has one light-time value");
+    expect(on_ps[0] == 5000000, "LED on for 5 000 000 ps of 10 us");
+    expect(circuit_part_light_time(c, vcc, on_ps, 2) == 0, "VCC has no lights");
+    expect(circuit_net_changes(c, 99) == 0, "net changes for a bad index is 0");
+    circuit_destroy(c);
+}
+
 int main(void) {
     library = part_library_create();
     if (load_parts_dir(library, PARTS_DIR) != 0) {
@@ -314,6 +347,7 @@ int main(void) {
     check_memory();
     check_building_errors();
     check_ball_led();
+    check_changes_and_light_time();
     part_library_destroy(library);
     printf("%d failure(s)\n", failures);
     return failures == 0 ? 0 : 1;

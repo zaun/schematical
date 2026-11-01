@@ -486,9 +486,17 @@ static size_t display_lights(const Sim *sim, const SimInstance *instance, const 
     return lights_read(state->lights, state->pins->led_count, since, out, cap);
 }
 
+static size_t display_light_time(const Sim *sim, const SimInstance *instance, const void *raw,
+                                 uint64_t *out, size_t cap) {
+    const DisplayState *state = raw;
+
+    (void)instance;
+    return lights_time(state->lights, state->pins->led_count, sim_now(sim), out, cap);
+}
+
 static const SimComponentType DISPLAY_MODEL = {
     "7seg", display_pin_count, display_create, display_destroy, display_start,
-    display_pin_changed, NULL, display_lights, NULL, NULL, NULL
+    display_pin_changed, NULL, display_lights, NULL, NULL, NULL, display_light_time
 };
 
 const PartKindOps DISPLAY7_KIND = {

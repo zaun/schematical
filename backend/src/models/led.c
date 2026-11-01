@@ -105,9 +105,15 @@ static size_t led_lights(const Sim *sim, const SimInstance *instance, const void
     return lights_read(&((const LedState *)state)->light, 1, since, out, cap);
 }
 
+static size_t led_light_time(const Sim *sim, const SimInstance *instance, const void *state,
+                             uint64_t *out, size_t cap) {
+    (void)instance;
+    return lights_time(&((const LedState *)state)->light, 1, sim_now(sim), out, cap);
+}
+
 static const SimComponentType LED_MODEL = {
     "led", led_pin_count, led_create, led_destroy, led_start, led_pin_changed, NULL,
-    led_lights, NULL, NULL, NULL
+    led_lights, NULL, NULL, NULL, led_light_time
 };
 
 const PartKindOps LED_KIND = {

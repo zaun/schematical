@@ -135,6 +135,14 @@ typedef struct {
      */
     size_t (*memory_read)(const void *state, uint32_t start, size_t count,
                           uint32_t *values, uint32_t *known);
+
+    /*
+     * light_time: writes, per light (same lights and order as `lights`),
+     * the cumulative picoseconds it has been on since start, at sim_now; at
+     * most cap values. Returns the number of lights.
+     */
+    size_t (*light_time)(const Sim *sim, const SimInstance *instance, const void *state,
+                         uint64_t *out, size_t cap);
 } SimComponentType;
 
 /* All times are in picoseconds. */

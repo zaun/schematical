@@ -45,11 +45,16 @@ int circuit_advance(Circuit *circuit, uint64_t picoseconds);  /* 0 once stopped 
 uint64_t circuit_time(const Circuit *circuit);
 
 CircuitValue circuit_net_value(const Circuit *circuit, size_t net);
+/* Times the net's value has changed since circuit_start; 0 for a bad index. */
+uint64_t circuit_net_changes(const Circuit *circuit, size_t net);
 int circuit_shorted_net(const Circuit *circuit, size_t *net);  /* 1 = a net shorted */
 
 /* LEDs (1 light) and 7-segment displays (PartDisplay.leds order): a light is
    on when it was on at any time during the last circuit_advance. */
 size_t circuit_part_lights(const Circuit *circuit, size_t part, unsigned char *on, size_t cap);
+/* Same lights and order: picoseconds each has been on since circuit_start.
+   Returns the light count (0 when the part has none). */
+size_t circuit_part_light_time(const Circuit *circuit, size_t part, uint64_t *on_ps, size_t cap);
 
 /* SRAM contents. */
 int circuit_memory_size(const Circuit *circuit, size_t part, uint32_t *words, unsigned *bits);

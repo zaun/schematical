@@ -21,10 +21,14 @@ struct SimNet {
     int shorted;
     /* Position in the simulation's net list, for grouping nets joined by contacts. */
     size_t index;
+    /* Times the value has changed since sim_start. */
+    uint64_t changes;
 };
 
 const char *sim_net_name(const SimNet *net);
 LogicValue sim_net_value(const SimNet *net);
+/* Times the net's value has changed since sim_start; 0 for NULL. */
+uint64_t sim_net_changes(const SimNet *net);
 
 /* Internal functions used by the simulation engine. */
 SimNet *net_create(Sim *owner, const char *name);

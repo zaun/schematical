@@ -38,8 +38,8 @@ The plan-05 gate is in plan-05-A § Prerequisites. B adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-05-A complete | `ls planning/plan-05-A-* 2>/dev/null` → no output; `ls planning/completed/plan-05-A-engine-speed.md` → exists | NOT MET (2026-11-01) |
-| Lazy cancel in place | `grep -n 'is_stale' backend/src/engine/sim.c` → at least one match | NOT MET (2026-11-01) |
+| plan-05-A complete | `ls planning/plan-05-A-* 2>/dev/null` → no output; `ls planning/completed/plan-05-A-engine-speed.md` → exists | MET (2026-11-01, worktree-P-05 at 37c5c75) |
+| Lazy cancel in place | `grep -n 'is_stale' backend/src/engine/sim.c` → at least one match | MET (2026-11-01, lines 450, 459) |
 
 Everything below is written against the world where these hold.
 
@@ -231,12 +231,19 @@ the pending one.
 
 No behavior change; no golden can move.
 
-- [ ] `net.h`/`sim.c`: `changes` + `sim_net_changes` (§4.2).
-- [ ] `circuit.h`/`circuit.c`: `circuit_net_changes`.
-- [ ] `lights.h`/`lights.c`: `on_total`, `changed_at`, `lights_time` (§4.3).
-- [ ] `sim.h`: `light_time` member; `led.c`, `display7.c` implement it.
-- [ ] `circuit.h`/`circuit.c`: `circuit_part_light_time`.
-- [ ] `circuit_check.c`: the §4.4 case.
+- [x] `net.h`/`sim.c`: `changes` + `sim_net_changes` (§4.2; defined in `net.c`
+      beside `sim_net_value`).
+- [x] `circuit.h`/`circuit.c`: `circuit_net_changes`.
+- [x] `lights.h`/`lights.c`: `on_total`, `changed_at`, `lights_time` (§4.3).
+- [x] `sim.h`: `light_time` member; `led.c`, `display7.c` implement it.
+- [x] `circuit.h`/`circuit.c`: `circuit_part_light_time`.
+- [x] `circuit_check.c`: the §4.4 case (`check_changes_and_light_time`) →
+      `PASS: 1 MHz clock net changed 21 times in 10 us`, `PASS: LED on for
+      5 000 000 ps of 10 us`, `PASS: net changes for a bad index is 0`.
+- [x] Check: `ctest --test-dir /tmp/logic-p05` → `100% tests passed, 0 tests
+      failed out of 8`; golden files unmodified (`status --short
+      backend/tests/golden` → empty). `basicsim` builds clean with the new
+      `SimComponentType` member.
 
 Acceptance: the new case passes and no golden moves.
   Check: `cmake --build /tmp/logic-p05 -j8 && ctest --test-dir /tmp/logic-p05` →

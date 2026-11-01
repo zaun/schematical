@@ -989,6 +989,7 @@ static int process_round(Sim *sim, SimTime time) {
         if (old_value == net->value) {
             continue;
         }
+        net->changes++;
 
         for (j = 0; j < net->pin_count && sim->error == NULL; j++) {
             SimNetPin *pin = &net->pins[j];
