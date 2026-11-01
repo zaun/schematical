@@ -118,7 +118,7 @@ struct SchematicCanvasView: View {
             ForEach(document.chips) { chip in
                 Group {
                     switch chip.symbol {
-                    case .block:
+                    case .block, .oscillator:
                         ChipBlockView(
                             chip: chip,
                             isSelected: chip.id == document.selectedChipID,

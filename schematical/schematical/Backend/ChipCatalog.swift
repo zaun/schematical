@@ -60,10 +60,35 @@ nonisolated struct SupplyDefinition: Codable, Hashable, Sendable, Identifiable {
     var id: String { name }
 }
 
+/// One orderable oscillator, as the backend reports it. `enablePin` is the
+/// 1-based pin number of the output-enable or standby pin, when the part has one.
+nonisolated struct OscillatorDefinition: Codable, Hashable, Sendable, Identifiable {
+    let name: String
+    let family: String
+    let package: String
+    let enablePin: Int?
+    let pins: [ChipPin]
+
+    var id: String { name }
+}
+
+/// Oscillators in one frequency band, as the backend groups them.
+nonisolated struct OscillatorGroup: Codable, Hashable, Sendable {
+    let range: String
+    let parts: [OscillatorDefinition]
+}
+
+/// The oscillator section of the catalog: its drawer category and its bands.
+nonisolated struct OscillatorSection: Codable, Hashable, Sendable {
+    let category: String
+    let groups: [OscillatorGroup]
+}
+
 nonisolated struct ChipCatalog: Codable, Hashable, Sendable {
     let chips: [ChipDefinition]
     let leds: [LedDefinition]
     let supplies: [SupplyDefinition]
+    let oscillators: OscillatorSection?
 }
 
 /// Reads the catalog from the statically linked backend (`catalog_json_copy`).
@@ -158,6 +183,7 @@ final class ChipCatalogStore {
     private var entries: [PartEntry] = []
     private var chipByPartNumber: [String: ChipDefinition] = [:]
     private var ledPartNumbers: Set<String> = []
+    private var oscillatorPartNumbers: Set<String> = []
     /// VCC and GND, kept out of the drawer. They are placed from the toolbar.
     private var supplyChips: [String: ChipDefinition] = [:]
 
@@ -187,6 +213,9 @@ final class ChipCatalogStore {
     func symbol(forPartNumber partNumber: String) -> PartSymbol {
         if let supply = supplyChips[partNumber] {
             return supply.pins.first?.role == .ground ? .ground : .vcc
+        }
+        if oscillatorPartNumbers.contains(partNumber) {
+            return .oscillator
         }
         return ledPartNumbers.contains(partNumber) ? .diode : .block
     }
@@ -246,9 +275,11 @@ final class ChipCatalogStore {
 
     private func apply(_ catalog: ChipCatalog) {
         let ledChips = catalog.leds.map(Self.chip(forLED:))
-        let newChips = catalog.chips + ledChips
+        let oscillatorChips = Self.chips(forOscillators: catalog.oscillators)
+        let newChips = catalog.chips + ledChips + oscillatorChips
         chips = newChips
         ledPartNumbers = Set(catalog.leds.map(\.name))
+        oscillatorPartNumbers = Set(catalog.oscillators?.groups.flatMap(\.parts).map(\.name) ?? [])
         supplyChips = Dictionary(uniqueKeysWithValues: catalog.supplies.map { supply in
             (supply.name, Self.chip(forSupply: supply))
         })
@@ -263,6 +294,25 @@ final class ChipCatalogStore {
         }
         entries = newEntries
         chipByPartNumber = newIndex
+    }
+
+    /// Each oscillator as a one-part "chip". Its function is its frequency band,
+    /// so the drawer lists oscillators under their bands.
+    private static func chips(forOscillators section: OscillatorSection?) -> [ChipDefinition] {
+        guard let section else { return [] }
+        return section.groups.flatMap { group in
+            group.parts.map { oscillator in
+                ChipDefinition(
+                    id: oscillator.name,
+                    function: group.range,
+                    description: "\(oscillator.family) oscillator, \(oscillator.package) package",
+                    category: section.category,
+                    gateCount: 0,
+                    parts: [ChipPart(name: oscillator.name, package: oscillator.package, family: oscillator.family)],
+                    pins: oscillator.pins
+                )
+            }
+        }
     }
 
     /// A supply as a one-pin "chip". It is never listed in the drawer.

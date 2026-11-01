@@ -44,13 +44,18 @@ struct ChipBlockView: View {
             )
 
             let bodyCentre = CGPoint(x: box.midX, y: (ChipLayout.headerHeight + box.maxY) / 2)
-            context.draw(
-                Text(chip.chip.function)
-                    .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(.secondary),
-                at: bodyCentre,
-                anchor: .center
-            )
+            if chip.symbol == .oscillator {
+                let radius = min(14, (box.maxY - ChipLayout.headerHeight) / 2 - 4)
+                Self.drawSineGlyph(&context, centre: bodyCentre, radius: radius, color: outline)
+            } else {
+                context.draw(
+                    Text(chip.chip.function)
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundStyle(.secondary),
+                    at: bodyCentre,
+                    anchor: .center
+                )
+            }
 
             for slot in layout.slots {
                 let isLeft = slot.side == .left
@@ -81,6 +86,30 @@ struct ChipBlockView: View {
             }
         }
         .frame(width: layout.size.width + 2 * margin, height: layout.size.height)
+    }
+
+    /// One cycle of a sine wave inside a circle: the oscillator's symbol.
+    private static func drawSineGlyph(_ context: inout GraphicsContext, centre: CGPoint, radius: CGFloat, color: Color) {
+        let circle = CGRect(x: centre.x - radius, y: centre.y - radius, width: radius * 2, height: radius * 2)
+        context.stroke(Path(ellipseIn: circle), with: .color(color.opacity(0.6)), lineWidth: 1)
+
+        let amplitude = radius * 0.45
+        let halfWidth = radius * 0.8
+        let steps = 40
+        var wave = Path()
+        for step in 0...steps {
+            let t = CGFloat(step) / CGFloat(steps)
+            let point = CGPoint(
+                x: centre.x - halfWidth + 2 * halfWidth * t,
+                y: centre.y - amplitude * sin(2 * .pi * t)
+            )
+            if step == 0 {
+                wave.move(to: point)
+            } else {
+                wave.addLine(to: point)
+            }
+        }
+        context.stroke(wave, with: .color(color), style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
     }
 
     private static func nameColor(for role: PinRole) -> Color {

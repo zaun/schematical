@@ -63,10 +63,12 @@ enum SchematicTool: String, CaseIterable, Identifiable {
 
 // MARK: - Block geometry
 
-/// How a placed part is drawn. Logic chips are boxes; LEDs use the diode symbol;
-/// VCC and GND use their own supply symbols.
+/// How a placed part is drawn. Logic chips are boxes; oscillators are boxes with
+/// a sine wave in a circle in place of the function name; LEDs use the diode
+/// symbol; VCC and GND use their own supply symbols.
 nonisolated enum PartSymbol: Hashable {
     case block
+    case oscillator
     case diode
     case vcc
     case ground
@@ -142,7 +144,7 @@ nonisolated struct ChipLayout: Hashable {
 
     init(chip: ChipDefinition, symbol: PartSymbol) {
         switch symbol {
-        case .block:
+        case .block, .oscillator:
             self = ChipLayout(chip: chip)
         case .diode:
             self = Self.diode(chip)
