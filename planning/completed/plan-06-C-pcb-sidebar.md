@@ -192,7 +192,7 @@ Schematic page is unchanged.
   Schematic → `c1-schematic.png` matches a capture taken before the change
   (drawer, "Parts Drawer" toggle) by eye (est. 5 min).
   Check: plan-06-A `xcodebuild` → `** BUILD SUCCEEDED **` (est. 1 min).
-Commit: —
+Commit: ae7e122
 
 ### Phase 2 — Footprint panel
 
@@ -224,7 +224,7 @@ Acceptance: the footprint panel edits reference, origin, position and marks.
   center, pin1 hidden, units in (each printed `true`) (est. 10 min: one run
   covers every field; no smaller check exercises the window).
   Check: plan-06-A `xcodebuild` → `** BUILD SUCCEEDED **` (est. 1 min).
-Commit: —
+Commit: ae7e122
 
 ## Validation Plan
 
