@@ -220,6 +220,13 @@ final class SimulationController {
         if !Self.build(opened, from: built, loads: loads) {
             errorMessage = circuit_error(opened).map { String(cString: $0) }
                 ?? "The simulation could not start."
+            // Refused for voltage: the problem's net is drawn like a short
+            // until the next start or stop.
+            var problem = VoltageProblem()
+            if circuit_voltage_problem(opened, &problem) == 1 {
+                netlist = built
+                shortedNets = [Int(problem.net)]
+            }
             circuit_destroy(opened)
             return
         }
@@ -376,10 +383,12 @@ final class SimulationController {
         return engine.readMemory(part: part, start: start, count: count)
     }
 
-    /// How to draw a wire in play mode. Outside play mode, `.normal`.
+    /// How to draw a wire in play mode. Outside play mode, `.normal`, except
+    /// the net of a start refused for voltage, which is `.shorted`.
     func wireStyle(_ wireID: UUID) -> WireStyle {
-        guard isRunning, let net = netlist?.netOfWire[wireID] else { return .normal }
+        guard let net = netlist?.netOfWire[wireID] else { return .normal }
         if shortedNets.contains(net) { return .shorted }
+        guard isRunning else { return .normal }
         if togglingNets.contains(net) { return .toggling }
         switch netValue(net) {
         case CIRCUIT_Z: return .floating

@@ -21,6 +21,8 @@ struct SchematicCanvasView: View {
     let document: SchematicDocument
     let viewport: CanvasViewport
     let tool: SchematicTool
+    /// The supply the VCC tool places (a `SupplyChoice` name).
+    var supplyVoltage = SupplyChoice.defaultName
     /// The simulation. While it runs (play mode), the canvas only pans.
     let simulation: SimulationController
     private var isRunning: Bool { simulation.isRunning }
@@ -325,7 +327,7 @@ struct SchematicCanvasView: View {
         case .vcc, .ground:
             // One supply per press, centred under where the press started.
             if interaction == nil,
-               let name = tool.supplyName,
+               let name = tool.supplyName(voltage: supplyVoltage),
                let part = catalog.part(named: name) {
                 document.placeChip(
                     part: part,

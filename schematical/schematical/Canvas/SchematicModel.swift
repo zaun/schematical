@@ -51,14 +51,21 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         }
     }
 
-    /// The supply placed by this tool, if it places one.
-    var supplyName: String? {
+    /// The supply placed by this tool, if it places one: `voltage` (a
+    /// `SupplyChoice` name) for VCC, GND for ground.
+    func supplyName(voltage: String) -> String? {
         switch self {
-        case .vcc: "5V"
+        case .vcc: voltage
         case .ground: "GND"
         default: nil
         }
     }
+}
+
+/// The supplies the VCC tool can place, in menu order (library part names).
+enum SupplyChoice {
+    static let names = ["5V", "3V3", "2V5", "1V8", "1V2", "12V"]
+    static let defaultName = "5V"
 }
 
 // MARK: - Block geometry
@@ -435,7 +442,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         self.memoryFile = part.kind == PART_EEPROM ? memoryFile : nil
         // A switch has one state per position, OFF unless given; others none.
         var positions = 0
-        if case let .dipSwitch(count, _) = part.details {
+        if case let .dipSwitch(count, _, _) = part.details {
             positions = count
         }
         self.switchesOn = (0..<positions).map { $0 < switchesOn.count && switchesOn[$0] }

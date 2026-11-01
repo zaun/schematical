@@ -286,9 +286,9 @@ struct ChipDrawerView: View {
 
     /// Package, then the kind's facts: family, speed grade, actuator or color;
     /// for a 7-segment display also its size and whether it is common anode
-    /// (CA) or common cathode (CC).
+    /// (CA) or common cathode (CC); last, its voltage (`voltageLabel`).
     private func subtitle(for part: CatalogPart) -> String {
-        ([part.package] + part.detailLabels)
+        ([part.package] + part.detailLabels + [part.voltageLabel].compactMap { $0 })
             .filter { !$0.isEmpty }
             .joined(separator: " · ")
     }

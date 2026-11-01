@@ -339,18 +339,30 @@ Acceptance: harness cases 2–5 pass.
   supplies on one net.`, `cases 2-5 ok`. Case 2 also connects 5V to a grid
   point on an existing wire of the AUC VCC net: refused with the same wires
   and no junction (the split `endpoint(for:)` would make never happens).
-Commit: —
+Commit: 06998e0
 
 ### Phase 3 — Toolbar, overlay, red net, drawer labels
 
-- [ ] §4.4.
+- [x] §4.4.
 
 Acceptance: harness case 6 passes, and the app shows the menu.
   Check: the harness → `case 6 ok`. Launch the Debug app, take a screenshot
   of the toolbar with the menu open, and a screenshot of a refused wire with
   its overlay. Save both under `/tmp/p07/shots/` and write their paths on
   this phase's `Commit:` line (est. 5 min).
-Commit: —
+  Result (2026-11-01): `xcodebuild … build` → `** BUILD SUCCEEDED **` (0
+  errors); harness `6` → `case 6 ok: voltage: 5 V on pin 14 (VCC) of
+  SN74AUC00RGYR; it needs 0.8-2.7 V` (not running, the problem's wire
+  `.shorted`, `.normal` again after stop); harness `labels` → `labels ok`
+  (SN74HC00D `2–6 V`, LTC-4727JR `VF 2–2.6 V`, TE-GDS0204 `24 V max`,
+  SN74LVC00AD `1.65–3.6 V`, LED and 5V none). Screenshots of the launched
+  Debug app (driven with System Events and posted mouse events): the
+  toolbar's `5V` menu open showing 5V, 3V3, 2V5, 1V8, 1V2, 12V; and a 5V
+  and a 3V3 supply placed with the menu, a Line drag between their pins
+  refused (no wire) with the orange overlay `Can't connect: 3.3 V (U2) and
+  5 V (U1) supplies on one net.`
+Commit: — (screenshots: /tmp/p07/shots/toolbar-voltage-menu.png,
+/tmp/p07/shots/refused-wire.png)
 
 ## Validation Plan
 
@@ -388,6 +400,10 @@ Commit: —
   - The harness → `cases 1-6 ok`.
 
   Est. 6 min.
+
+  Result (2026-11-01): `ctest` → `100% tests passed, 0 tests failed out of
+  12`; `xcodebuild … build` → `** BUILD SUCCEEDED **`; harness `1-6` →
+  cases 1–6 and labels ok, `cases 1-6 ok`.
 
 ## Decisions
 
@@ -428,6 +444,20 @@ Author decisions:
   a file named `main.swift` as top-level code, which can't hold the
   `@main` type the harness uses (plan-06's was `a.swift`). The Phase 2
   check's `MAIN=…/main.swift` is `MAIN=/tmp/p07/harness/h.swift`.
+- **The red net on a refused start needed `wireStyle` to work outside play
+  mode.** A refused start never sets `isRunning`, and `wireStyle` returned
+  `.normal` whenever not running. On a voltage refusal the controller now
+  keeps the netlist and marks the problem's net; `wireStyle` checks the
+  marked net before `isRunning`. `stop()` (and the next start) clears it.
+- **The refused-wire screenshot uses a supply clash** (5V and 3V3 joined),
+  because the two supplies can be placed from the toolbar alone; a chip
+  would have to be dragged from the drawer. The pin-range refusal is proven
+  by harness cases 2 and 6.
+- **`test.schematical` now has a voltage problem**: its `OSC-SIT1534-1508`
+  (1.2–3.63 V) sits on `VCC`, which opens as 5 V, so Run is refused with
+  the voltage message (harness `testfile` → `running false, error voltage: 5 V
+  on pin 3 (VDD) of OSC-SIT1534-1508; it needs 1.2-3.63 V`). The file opens (case 1), as § Non-goals requires.
+  It was not changed: it is the user's sample file.
 
 ## Summary
 

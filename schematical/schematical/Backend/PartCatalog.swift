@@ -74,6 +74,9 @@ nonisolated struct DisplayInfo: Hashable, Sendable {
     let chip: String
     /// In the order the simulation reports their lights.
     let leds: [LED]
+    /// Segment forward voltage, millivolts (shown, not checked).
+    var vfMinMV: UInt32 = 0
+    var vfMaxMV: UInt32 = 0
     /// Pin indices (into `CatalogPart.pins`) for the left (segments) and right
     /// (commons) sides, top to bottom.
     let segmentPins: [Int]
@@ -125,7 +128,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case logic(family: String, units: Int)
         case sram(words: Int, bits: Int, accessNs: Int, grade: String)
         case eeprom(words: Int, bits: Int, accessNs: Int, grade: String, pageBytes: Int, writeCycleUs: Int)
-        case dipSwitch(positions: Int, actuator: String)
+        /// `ratedMV`: the contacts' switching voltage rating.
+        case dipSwitch(positions: Int, actuator: String, ratedMV: UInt32)
         case led(color: String)
         case display(DisplayInfo)
         case oscillator(family: String, minHz: UInt64, maxHz: UInt64, defaultHz: UInt64, enablePin: String?)
@@ -145,14 +149,35 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     let flags: Flags
     let pins: [ChipPin]
     let details: Details
-    /// Nil only for parts with no package (VCC, GND).
+    /// Nil only for parts with no package (the supplies).
     let footprint: Footprint?
+    /// The recommended supply range and the highest input voltage,
+    /// millivolts. Nil for supplies, LEDs, 7-segment displays and switches.
+    let vcc: (minMV: UInt32, maxMV: UInt32, inputMaxMV: UInt32)?
 
     var id: String { name }
 
     // Names are unique across the library, so a part is its name.
     static func == (a: CatalogPart, b: CatalogPart) -> Bool { a.name == b.name }
     func hash(into hasher: inout Hasher) { hasher.combine(name) }
+
+    /// The voltage shown in the drawer: the supply range ("2–6 V") for logic,
+    /// memory and oscillators, the forward voltage ("VF 2–2.6 V") for a
+    /// 7-segment display, the rating ("24 V max") for a switch. Nil for LEDs
+    /// and supplies.
+    var voltageLabel: String? {
+        if let vcc {
+            return "\(VoltageCheck.volts(vcc.minMV))–\(VoltageCheck.volts(vcc.maxMV)) V"
+        }
+        switch details {
+        case let .display(info) where info.vfMaxMV > 0:
+            return "VF \(VoltageCheck.volts(info.vfMinMV))–\(VoltageCheck.volts(info.vfMaxMV)) V"
+        case let .dipSwitch(_, _, ratedMV) where ratedMV > 0:
+            return "\(VoltageCheck.volts(ratedMV)) V max"
+        default:
+            return nil
+        }
+    }
 
     /// Gate, D or JK flip-flop: a logic chip with a family and a unit count.
     var isLogic: Bool { kind == PART_GATE || kind == PART_DFF || kind == PART_JKFF }
@@ -193,7 +218,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     var count: Int? {
         switch details {
         case let .logic(_, units): return units
-        case let .dipSwitch(positions, _): return positions
+        case let .dipSwitch(positions, _, _): return positions
         case let .display(info): return info.digits
         default: return nil
         }
@@ -206,7 +231,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .logic(family, _): return [family]
         case let .sram(_, _, accessNs, _): return ["\(accessNs) ns"]
         case let .eeprom(_, _, accessNs, _, _, _): return ["\(accessNs) ns"]
-        case let .dipSwitch(_, actuator): return [actuator]
+        case let .dipSwitch(_, actuator, _): return [actuator]
         case let .led(color): return [color]
         case let .display(info): return [info.color, info.size, info.commonAnode ? "CA" : "CC"]
         case let .oscillator(family, _, _, _, _): return [family]
@@ -261,6 +286,7 @@ extension CatalogPart {
     /// `part.footprint`, shared by every part that uses it.
     nonisolated init(_ part: Part, footprint: Footprint?) {
         self.footprint = footprint
+        vcc = part.vcc.map { ($0.pointee.min_mv, $0.pointee.max_mv, $0.pointee.input_max_mv) }
         name = string(part.name)
         kind = part.kind
         package = string(part.package)
@@ -290,7 +316,8 @@ extension CatalogPart {
                               pageBytes: Int(eeprom.page_bytes),
                               writeCycleUs: Int(eeprom.write_cycle_ps / 1_000_000))
         } else if let dip = part.dip_switch?.pointee {
-            details = .dipSwitch(positions: Int(dip.positions), actuator: string(dip.actuator))
+            details = .dipSwitch(positions: Int(dip.positions), actuator: string(dip.actuator),
+                                 ratedMV: dip.rated_mv)
         } else if let led = part.led?.pointee {
             details = .led(color: string(led.color))
         } else if let display = part.display?.pointee {
@@ -307,6 +334,8 @@ extension CatalogPart {
                 size: string(display.size),
                 chip: string(display.chip),
                 leds: leds,
+                vfMinMV: display.vf_min_mv,
+                vfMaxMV: display.vf_max_mv,
                 segmentPins: indices(display.segment_pins, display.segment_pin_count),
                 commonPins: indices(display.common_pins, display.common_pin_count)
             ))

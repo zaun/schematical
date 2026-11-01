@@ -44,6 +44,8 @@ struct ContentView: View {
     @State private var memoryWindows: Set<MemoryWindowTarget> = []
     /// Simulation speed (circuit time per wall time), an app preference.
     @AppStorage("simulationSpeed") private var simulationSpeed = 1.0
+    /// The supply the VCC tool places (a `SupplyChoice` name), an app preference.
+    @AppStorage("supplyVoltage") private var supplyVoltage = SupplyChoice.defaultName
 
     /// The speed menu's choices: real time down to 1/1,000,000.
     private static let speeds: [(label: String, value: Double)] = [
@@ -108,6 +110,7 @@ struct ContentView: View {
                 document: document,
                 viewport: viewport,
                 tool: tool,
+                supplyVoltage: supplyVoltage,
                 simulation: simulation,
                 onOpenMemory: { chipID in
                     let target = MemoryWindowTarget(sessionID: sessionID, chipID: chipID)
@@ -210,6 +213,18 @@ struct ContentView: View {
                         .labelStyle(.iconOnly)
                         .labelsHidden()
                         .disabled(simulation.isRunning)
+
+                        // The VCC tool's supply. Picking one also picks the tool.
+                        Menu(supplyVoltage) {
+                            ForEach(SupplyChoice.names, id: \.self) { name in
+                                Button(name) {
+                                    supplyVoltage = name
+                                    tool = .vcc
+                                }
+                            }
+                        }
+                        .help("Supply voltage for the VCC tool")
+                        .disabled(simulation.isRunning)
                     } else {
                         Picker("Tool", selection: $pcbTool) {
                             ForEach(PCBTool.allCases) { tool in
@@ -270,6 +285,22 @@ struct ContentView: View {
                         .background(.red.opacity(0.85), in: Capsule())
                         .foregroundStyle(.white)
                         .padding(.bottom, 16)
+                } else if page == .schematic, let message = document.editorMessage {
+                    // A refused wire or switch: says why, then clears.
+                    Label(message, systemImage: "bolt.trianglebadge.exclamationmark")
+                        .font(.callout)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 8)
+                        .background(.orange.opacity(0.9), in: Capsule())
+                        .foregroundStyle(.white)
+                        .padding(.bottom, 16)
+                }
+            }
+            .task(id: document.editorMessage) {
+                guard document.editorMessage != nil else { return }
+                try? await Task.sleep(for: .seconds(4))
+                if !Task.isCancelled {
+                    document.editorMessage = nil
                 }
             }
             .onChange(of: page) { _, newPage in
