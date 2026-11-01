@@ -1,0 +1,149 @@
+{
+  "wires" : [
+    {
+      "to" : {
+        "part" : "6CF6515A-429B-4AEA-9BDD-098AC071B8E0",
+        "pin" : 2
+      },
+      "from" : {
+        "part" : "46E887D8-0F8A-4ED0-A1C9-F2B144AA7C17",
+        "pin" : 2
+      },
+      "bends" : [
+        {
+          "x" : 400,
+          "y" : 260
+        }
+      ],
+      "id" : "9AC7734A-092C-4BF6-A079-67410E44DE4A"
+    },
+    {
+      "to" : {
+        "part" : "46E887D8-0F8A-4ED0-A1C9-F2B144AA7C17",
+        "pin" : 3
+      },
+      "from" : {
+        "part" : "830C64C9-DA2A-4C7E-B184-334E87CF6F9C",
+        "pin" : 1
+      },
+      "bends" : [
+        {
+          "x" : 100,
+          "y" : 260
+        }
+      ],
+      "id" : "ABA3DE02-5A7F-4358-A61E-000EA837FC83"
+    },
+    {
+      "to" : {
+        "pin" : 1,
+        "part" : "2BE5E645-131A-43C7-B195-CD4B645BDC1D"
+      },
+      "from" : {
+        "pin" : 1,
+        "part" : "6CF6515A-429B-4AEA-9BDD-098AC071B8E0"
+      },
+      "bends" : [
+        {
+          "x" : 450,
+          "y" : 260
+        }
+      ],
+      "id" : "AAAF1DBD-6939-44EB-ACA3-74069FB164CE"
+    },
+    {
+      "to" : {
+        "junction" : "52B8249E-14C0-48F8-8243-D9D7EA41CA06"
+      },
+      "from" : {
+        "part" : "46E887D8-0F8A-4ED0-A1C9-F2B144AA7C17",
+        "pin" : 1
+      },
+      "bends" : [
+        {
+          "x" : 300,
+          "y" : 300
+        }
+      ],
+      "id" : "56664AED-B232-4BEA-914E-EEFA794CFC7F"
+    },
+    {
+      "to" : {
+        "pin" : 1,
+        "part" : "6BEC3C11-6E4C-4B1B-AF0F-E0255BC902C7"
+      },
+      "from" : {
+        "junction" : "52B8249E-14C0-48F8-8243-D9D7EA41CA06"
+      },
+      "bends" : [
+
+      ],
+      "id" : "FAAFAB87-1D4C-4517-8106-B23676BB1298"
+    },
+    {
+      "to" : {
+        "junction" : "52B8249E-14C0-48F8-8243-D9D7EA41CA06"
+      },
+      "from" : {
+        "pin" : 4,
+        "part" : "46E887D8-0F8A-4ED0-A1C9-F2B144AA7C17"
+      },
+      "id" : "03C6610F-30C1-47CC-84F0-FFC8136C79C7",
+      "bends" : [
+
+      ]
+    }
+  ],
+  "junctions" : [
+    {
+      "y" : 320,
+      "id" : "52B8249E-14C0-48F8-8243-D9D7EA41CA06",
+      "x" : 300
+    }
+  ],
+  "format" : "schematical",
+  "version" : 1,
+  "parts" : [
+    {
+      "reference" : "U2",
+      "partNumber" : "OSC-SIT1534-1508",
+      "flipped" : false,
+      "y" : 220,
+      "id" : "46E887D8-0F8A-4ED0-A1C9-F2B144AA7C17",
+      "x" : 150
+    },
+    {
+      "reference" : "U3",
+      "partNumber" : "LED-AMBER-0603",
+      "flipped" : false,
+      "y" : 240,
+      "id" : "6CF6515A-429B-4AEA-9BDD-098AC071B8E0",
+      "x" : 370
+    },
+    {
+      "reference" : "U4",
+      "partNumber" : "GND",
+      "flipped" : false,
+      "y" : 350,
+      "id" : "2BE5E645-131A-43C7-B195-CD4B645BDC1D",
+      "x" : 430
+    },
+    {
+      "reference" : "U5",
+      "partNumber" : "VCC",
+      "flipped" : false,
+      "y" : 110,
+      "id" : "830C64C9-DA2A-4C7E-B184-334E87CF6F9C",
+      "x" : 80
+    },
+    {
+      "reference" : "U6",
+      "partNumber" : "GND",
+      "flipped" : false,
+      "y" : 350,
+      "id" : "6BEC3C11-6E4C-4B1B-AF0F-E0255BC902C7",
+      "x" : 280
+    }
+  ],
+  "nextReference" : 7
+}
