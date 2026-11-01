@@ -44,8 +44,8 @@ See plan-04-A §Prerequisites, plus:
 |---|---|---|
 | plan-04-B complete | `ls planning/completed/plan-04-B-memory-load.md` → exists | NOT MET (2026-11-01: written, not started) |
 | Load API present | `grep -n 'circuit_memory_load\|memory_image_parse' backend/include/*.h` → one line each | NOT MET (2026-11-01) |
-| App builds signed and sandboxed | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p04-signed-dd build` → `** BUILD SUCCEEDED **`; `codesign -d --entitlements - /tmp/p04-signed-dd/Build/Products/Debug/schematical.app` lists `com.apple.security.app-sandbox` and `com.apple.security.files.user-selected.read-write` | MET (2026-11-01, 15.8 s) |
-| The desktop session is unlocked (sandbox proof, Validation step 6, needs a real window and open panel) | `ioreg -n Root -d1 \| grep -o '"CGSSessionScreenIsLocked"=[A-Za-z]*'` → `"CGSSessionScreenIsLocked"=No` (or no output) | NOT MET (2026-11-01: `=Yes`) |
+| App builds signed and sandboxed | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p04-signed-dd build` → `** BUILD SUCCEEDED **`; `codesign -d --entitlements - /tmp/p04-signed-dd/Build/Products/Debug/schematical.app` lists `com.apple.security.app-sandbox` and `com.apple.security.files.user-selected.read-write` | MET (2026-11-01 at start of work: `** BUILD SUCCEEDED **`; entitlements list app-sandbox and files.user-selected.read-write) |
+| The desktop session is unlocked (sandbox proof, Validation step 6, needs a real window and open panel) | `ioreg -n Root -d1 \| grep -o '"CGSSessionScreenIsLocked"=[A-Za-z]*'` → `"CGSSessionScreenIsLocked"=No` (or no output) | MET (2026-11-01 at start of work: no output) |
 
 Everything below is written against the world where these hold.
 

@@ -49,12 +49,12 @@ own rows.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-03 complete | `ls planning/plan-03-* 2>/dev/null` → no output; `ls planning/completed/plan-03-D-pcb-tab.md` → exists | MET (2026-11-01, 4e0613b) |
+| plan-03 complete | `ls planning/plan-03-* 2>/dev/null` → no output; `ls planning/completed/plan-03-D-pcb-tab.md` → exists | MET (2026-11-01, re-run at start of work) |
 | Footprint key required | `grep -n 'missing \\"footprint\\"' backend/src/library/library.c` → one match | MET (2026-11-01) |
-| Backend tests green | `cmake -S backend -B /tmp/logic-plan04 && cmake --build /tmp/logic-plan04 -j8 && ctest --test-dir /tmp/logic-plan04` → `100% tests passed, 0 tests failed out of 8` | MET (2026-11-01, 20.3 s) |
-| Datasheet server reachable | `curl -s -o /dev/null -w '%{http_code} %{content_type}' -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15" -L https://ww1.microchip.com/downloads/en/DeviceDoc/doc4259.pdf` → `200 application/pdf` | MET (2026-11-01) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-plan04 && cmake --build /tmp/logic-plan04 -j8 && ctest --test-dir /tmp/logic-plan04` → `100% tests passed, 0 tests failed out of 9` (8 + plan-05's `engine_test`) | MET (2026-11-01 at start: 9 of 9, 2.7 s, build dir `/tmp/logic-wt-p04`) |
+| Datasheet server reachable | `curl -s -o /dev/null -w '%{http_code} %{content_type}' -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15" -L https://ww1.microchip.com/downloads/en/DeviceDoc/doc4259.pdf` → `200 application/pdf` | MET (2026-11-01 at start: `200 application/pdf`) |
 | No `eeprom` kind yet | `ls schematical/schematical/Parts/eeprom.json backend/src/models/eeprom.c 2>/dev/null` → no output | MET (2026-11-01) |
-| plan-05 complete (owner, 2026-11-01: plan-05 lands before plan-04) | `ls planning/plan-05-* 2>/dev/null` → no output; `ls planning/completed/plan-05-C-app-realtime.md` → exists | NOT MET (2026-11-01) |
+| plan-05 complete (owner, 2026-11-01: plan-05 lands before plan-04) | `ls planning/plan-05-* 2>/dev/null` → no output; `ls planning/completed/plan-05-C-app-realtime.md` → exists | MET (2026-11-01 at start: no `plan-05-*` in `planning/`, `completed/plan-05-C-app-realtime.md` exists) |
 
 Everything below is written against the world where these hold.
 
@@ -459,10 +459,11 @@ the page buffer). No `set_switch`/`lights`.
 
 Files only; nothing loads them.
 
-- [ ] Download the 12 PDFs of §4.1 into `datasheets/eeprom/` with the given
-      names; check each SHA-256.
-- [ ] `datasheets/obsolete-not-included.md`: the 4 rows of §4.1 (their PDFs
-      are not committed).
+- [x] Download the 12 PDFs of §4.1 into `datasheets/eeprom/` with the given
+      names; check each SHA-256. (`shasum -a 256 *.pdf` → all 12 hashes of
+      §4.1; `ls *.pdf | wc -l` → 12)
+- [x] `datasheets/obsolete-not-included.md`: the 4 rows of §4.1 (their PDFs
+      are not committed). (`grep -c 'Memory → EEPROM'` → 4)
 
 Acceptance: the 12 files are the census's files; the 4 EOL sheets are
 recorded.
