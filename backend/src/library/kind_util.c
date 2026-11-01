@@ -125,7 +125,8 @@ int kind_check_keys(KindContext *ctx, const cJSON *object, const char *const *co
     for (item = object->child; item != NULL; item = item->next) {
         const cJSON *other;
 
-        if (!in_list(common, item->string) && !in_list(extra, item->string)) {
+        if ((common != NULL || extra != NULL) && !in_list(common, item->string) &&
+            !in_list(extra, item->string)) {
             return kind_error(ctx, "unknown key \"%s\"", item->string);
         }
         for (other = object->child; other != item; other = other->next) {

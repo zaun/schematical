@@ -48,5 +48,6 @@ int export_led(void);
 int export_osc(void);
 int export_switch(void);
 int export_sram(void);
+int export_7seg(void);
 
 #endif

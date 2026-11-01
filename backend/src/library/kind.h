@@ -87,7 +87,7 @@ void kind_pop(KindContext *ctx);
 
 /*
  * Rejects keys of an object that are in neither list (both NULL-terminated,
- * either may be NULL) and keys that appear twice.
+ * either may be NULL; both NULL = any key) and keys that appear twice.
  */
 int kind_check_keys(KindContext *ctx, const cJSON *object, const char *const *common,
                     const char *const *extra);

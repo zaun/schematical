@@ -92,6 +92,7 @@ add_library(logic STATIC
     src/models/jkff.c
     src/models/switch.c
     src/models/sram.c
+    src/models/display7.c
     src/models/supply.c
     src/models/led.c
     src/models/oscillator.c
@@ -132,6 +133,7 @@ add_executable(export_parts
     tools/export/export_jkff.c
     tools/export/export_switch.c
     tools/export/export_sram.c
+    tools/export/export_7seg.c
     sim.c
     net.c
     src/third_party/cjson/cJSON.c
@@ -172,3 +174,4 @@ logic_test(trace_check)
 
 logic_test(switch_test)
 logic_test(sram_test)
+logic_test(display7_test)

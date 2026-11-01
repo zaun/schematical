@@ -172,20 +172,29 @@ Acceptance: 172 SRAM parts match both goldens; the ported bench passes.
   Check: `ctest --test-dir /tmp/logic-build -R 'library_check|listing_check|trace_check|sram_test' --output-on-failure` → passed, `3768 parts compared` (est. 2 min).
   Result: `100% tests passed, 0 tests failed out of 4`; both parity checks
   `… sram 172 …`, `3768 parts compared, 49 skipped`; `sram_test` → 38 PASS, `0 failure(s)`.
-Commit: —
+Commit: 741697f
 
 ### Phase 2 — 7-segment displays; library complete
 
-- [ ] `src/models/display7.c` (§3.2); add to `KINDS[]`.
-- [ ] `tools/export/export_7seg.c`; generate `7seg.json`; `notes.py`.
-- [ ] `tests/display7_test.c` + CTest; `library_check` cases; docs section.
-- [ ] `listing_check`/`trace_check`: now that every kind is registered, fail
+- [x] `src/models/display7.c` (§3.2); add to `KINDS[]`.
+- [x] `tools/export/export_7seg.c`; generate `7seg.json`; `notes.py`
+      (`49 notes, 0 removed`, 0 placeholders). The exporter checks that every
+      side list collapses to names whose expansion is the old pin order.
+- [x] `tests/display7_test.c` + CTest; `library_check` cases (+ a valid
+      display file); docs section. `kind_check_keys` with both lists NULL
+      now means "any key, duplicates only" (used for `segmentPins` /
+      `commonPins`).
+- [x] `listing_check`/`trace_check`: now that every kind is registered, fail
       if any golden line is skipped.
-- [ ] Move `planning/plan-01-E-sram-7seg.md` to `planning/completed/` once every phase's `Commit:` is filled.
+- [x] Move `planning/plan-01-E-sram-7seg.md` to `planning/completed/` once every phase's `Commit:` is filled.
 
 Acceptance: all 3,817 parts match both goldens.
   Check: `ctest --test-dir /tmp/logic-build -R 'library_check|listing_check|trace_check|display7_test' --output-on-failure` → passed, `3817 parts compared, 0 skipped` (est. 2 min).
-Commit: —
+  Result: `100% tests passed, 0 tests failed out of 4`; both parity checks →
+  `3817 parts compared, 0 skipped`; `display7_test: all passed`. Runtime proof:
+  `trace_check --verbose LTC-4727JR` → 30 distinct light strings across the 30
+  steps. Full `ctest` → `100% tests passed, 0 tests failed out of 13`.
+Commit: this phase's commit is the one that moved this file to `planning/completed/` (hash in plan-01-F's Corrections).
 
 ## Validation Plan
 

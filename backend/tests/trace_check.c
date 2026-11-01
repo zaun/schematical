@@ -157,6 +157,11 @@ int main(int argc, char **argv) {
         }
     }
     printf("%zu parts compared, %zu skipped\n", compared, skipped);
+    /* Every kind is registered (plan-01-E), so a skipped golden line is a lost part. */
+    if (skipped > 0) {
+        printf("FAIL: %zu golden lines skipped (kind not registered)\n", skipped);
+        failures++;
+    }
     if (failures > 0) {
         printf("FAIL: %zu mismatches\n", failures);
         return 1;

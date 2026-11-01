@@ -324,3 +324,39 @@ is checked and a violation stores X.
 
 Part key: `"grade"`, a key of `grades`. `PartSram`: `words` = 2^len(address),
 `bits` = len(data), `access_ps` = the grade's `taa`, `grade`.
+
+### `7seg`
+
+LED 7-segment displays. A display is a set of LEDs, each between one
+segment pin and its digit's common pin(s). An LED is on while its anode
+reads 1 and its cathode reads 0 (common anode: the common is the anode;
+common cathode: the common is the cathode). A digit's common reads as the
+first of its common pins that is not Z; two common pins of one digit are
+joined inside the part. The display drives nothing. Lights report "on at
+any time during the last step", so a multiplexed digit counts as lit.
+
+```json
+"digits": 4, "commonAnode": false, "colonAfter": 2, "dotAfter": 0,
+"color": "Red", "size": "0.4 in", "chip": "AlInGaP Super Red",
+"leds": [{"digit": 1, "segment": "A"}],
+"segmentPins": {"A/L1": {"digit": 0, "segments": ["A", "L1"]}},
+"commonPins": {"CC1": 1, "CC L": "extras"},
+"segmentSide": ["A/L1", "B/L2"],
+"commonSide": ["CC1", "CC2", "CC L"]
+```
+
+| Key | Value |
+|---|---|
+| `"digits"` | number of digits (1–8) |
+| `"commonAnode"` | `true` for common anode, `false` for common cathode |
+| `"colonAfter"`, `"dotAfter"` | the digit the colon (L1, L2) / raised dot (L3) sits after; 0 = none |
+| `"color"`, `"size"`, `"chip"` | shown as is (`"Red"`, `"0.56 in"`, LED chip) |
+| `"leds"` | every LED in display (and lights) order: `digit` (1…, or 0 = the colon/dot group) and `segment` (`A`–`G`, `DP`, `LDP`, `HJ`, `L1`–`L3`) |
+| `"segmentPins"` | segment pin name → `digit` (0 = shared by every digit, multiplexed) and the `segments` it drives |
+| `"commonPins"` | common pin name → its digit, or `"extras"` for the colon/dot common. A name used by several pins means all of them. |
+| `"segmentSide"`, `"commonSide"` | drawing order of the symbol's two sides, by name; a shared name expands to its pins in number order (`PartDisplay.segment_pins`/`common_pins`) |
+
+An LED's segment pin is the first pin (in pin order) in `segmentPins` that
+drives its segment for its digit (or every digit); its commons are the
+first two pins of its digit in `commonPins`. Unused positions are pins with
+role `nc` (no connect) or `absent` (no lead). Parts carry no kind keys.

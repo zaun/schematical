@@ -387,7 +387,40 @@ static void check_sram_cases(void) {
                 "parts[0] (M1): grade \"70\" is not in \"grades\"");
 }
 
+#define DISPLAY_DEVICE(COMMON2, SEGMENT_SIDE) \
+    HEAD("7seg") "{'id':'LTS-X','function':'7-Segment','description':'d','drawer':['Indicators','LED 7-Seg']," \
+    "'pinouts':{'p4':[{'number':1,'name':'A','role':'input'},{'number':2,'name':'CC','role':'input'}," \
+    "{'number':3,'name':'L','role':'input'},{'number':4,'name':'NP','role':'absent'}]}," \
+    "'digits':1,'commonAnode':false,'colonAfter':0,'dotAfter':0,'color':'Red','size':'0.3 in'," \
+    "'chip':'c','leds':[{'digit':1,'segment':'A'},{'digit':0,'segment':'L1'}]," \
+    "'segmentPins':{'A':{'digit':0,'segments':['A','L1']}}," \
+    "'commonPins':{'CC':1,'L':" COMMON2 "},'segmentSide':" SEGMENT_SIDE ",'commonSide':['CC','L']," \
+    "'parts':[{'name':'LTS-X','package':'DIP','pinout':'p4'}]}" TAIL
+
+static void check_display_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, DISPLAY_DEVICE("'extras'", "['A']"), &error) == 0);
+    part = part_library_find(library, "LTS-X");
+    CHECK(part != NULL && part->display != NULL && part->display->led_count == 2 &&
+          part->display->leds[1].digit == 0 && strcmp(part->display->leds[1].segment, "L1") == 0 &&
+          part->display->segment_pin_count == 1 && part->display->segment_pins[0] == 1 &&
+          part->display->common_pin_count == 2 && part->display->common_pins[1] == 3 &&
+          part->pins[3].role == PIN_ABSENT);
+    printf("ok   valid 7seg file%s%s\n", error != NULL ? ": " : "", error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("7seg common extras misspelled", DISPLAY_DEVICE("'extra'", "['A']"),
+                "commonPins.L: a common pin is a digit from 1 to 1 or \"extras\"");
+    expect_fail("7seg segmentSide naming a non-segment pin", DISPLAY_DEVICE("'extras'", "['A','CC']"),
+                "segmentSide[1]: \"CC\" is not a segment pin");
+}
+
 int main(void) {
+    check_display_cases();
     check_sram_cases();
     check_switch_cases();
     check_flipflop_cases();
