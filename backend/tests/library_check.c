@@ -306,8 +306,8 @@ static void check_supply_cases(void) {
     "'p5':[{'number':1,'name':'NC','role':'nc'},{'number':2,'name':'" PIN2 "','role':'input'}," \
     "{'number':3,'name':'B','role':'input'},{'number':4,'name':'C','role':'input'},{'number':5,'name':'Y','role':'output'}]}," \
     "'gates':" GATES ",'timing':" TIMING "," \
-    "'parts':[{'name':'G1','package':'DIP','pinout':'p4','footprint':'T4','family':'" FAMILY "'}," \
-    "{'name':'G2','package':'LCCC','pinout':'p5','footprint':'T5','family':'" FAMILY "'}]}"
+    "'parts':[{'name':'G1','package':'DIP','pinout':'p4','footprint':'T4','family':'" FAMILY "','vcc':[2,6]}," \
+    "{'name':'G2','package':'LCCC','pinout':'p5','footprint':'T5','family':'" FAMILY "','vcc':[2,6]}]}"
 
 static void check_gate_cases(void) {
     PartLibrary *library = part_library_create();
@@ -363,7 +363,7 @@ static void check_flipflop_cases(void) {
                HEAD("dff") "{'id':'d','function':'D flip-flop','description':'d','drawer':['Logic']," FF_PINS
                "'units':[{'d':'D','clk':'CLK','q':'Q','qn':'QN'}],'presetActiveHigh':false,"
                "'clearActiveHigh':false,'clockEdge':'rising',"
-               "'timing':{'HC':{'rise':20,'fall':18,'clearWins':false}},"
+               "'timing':{'HC':{'rise':20,'fall':18,'clearWins':false,'vcc':[2,6]}},"
                "'parts':[{'name':'D1','package':'DIP','pinout':'p6','footprint':'T6','family':'HC'}]}" TAIL,
                &error) == 0);
     part = part_library_find(library, "D1");
@@ -416,7 +416,7 @@ static void check_switch_cases(void) {
     "{'number':6,'name':'VCC','role':'power'}]}," \
     "'address':['A0'],'data':['DQ0'],'chipEnable':['CE#'],'chipEnableHigh':[]," \
     "'outputEnable':'OE#','writeEnable':'WE#','byteEnable':[]," \
-    "'grades':{'55':{'trc':55,'taa':55,'twpOeLow':45,'note':'n'}}," \
+    "'grades':{'55':{'trc':55,'taa':55,'twpOeLow':45,'note':'n','vcc':[2.7,5.5]}}," \
     "'parts':[{'name':'M1','package':'DIP','pinout':'p6','footprint':'T6','grade':'" GRADE "'}]}" TAIL
 
 static void check_sram_cases(void) {
@@ -456,7 +456,7 @@ static void check_sram_cases(void) {
     "'parts':[{'name':'E1','package':'DIP','pinout':'p26','footprint':'T26','grade':'" PART_GRADE "'}]}" TAIL
 #define EE_DATA8 "'D0','D1','D2','D3','D4','D5','D6','D7'"
 #define EE_CMDS "['5555','2AAA']"
-#define EE_GRADE "{'tacc':150,'tce':150,'toe':70,'twp':100,'tblc':150000,'twc':10000000,'note':'n'}"
+#define EE_GRADE "{'tacc':150,'tce':150,'toe':70,'twp':100,'tblc':150000,'twc':10000000,'note':'n','vcc':[4.5,5.5]}"
 
 static void check_eeprom_cases(void) {
     PartLibrary *library = part_library_create();
@@ -507,7 +507,7 @@ static void check_eeprom_cases(void) {
     "'pinouts':{'p4':[{'number':1,'name':'A','role':'input'},{'number':2,'name':'CC','role':'input'}," \
     "{'number':3,'name':'L','role':'input'},{'number':4,'name':'NP','role':'absent'}]}," \
     "'digits':1,'commonAnode':false,'colonAfter':0,'dotAfter':0,'color':'Red','size':'0.3 in'," \
-    "'chip':'c','leds':[{'digit':1,'segment':'A'},{'digit':0,'segment':'L1'}]," \
+    "'chip':'c','vf':[2,2.6],'leds':[{'digit':1,'segment':'A'},{'digit':0,'segment':'L1'}]," \
     "'segmentPins':{'A':{'digit':0,'segments':['A','L1']}}," \
     "'commonPins':{'CC':1,'L':" COMMON2 "},'segmentSide':" SEGMENT_SIDE ",'commonSide':['CC','L']," \
     "'parts':[{'name':'LTS-X','package':'DIP','pinout':'p4','footprint':'T4'}]}" TAIL
@@ -548,7 +548,7 @@ static void check_display_cases(void) {
     HEAD("oscillator") "{'id':'o','function':'f','description':'d','drawer':[]," \
     "'pinouts':{'bga':[{'ball':'A1','name':'OUT','role':'output'},{'ball':'A2','name':'OE','role':'input'}," \
     "{'ball':'B1','name':'GND','role':'ground'},{'ball':'B2','name':'VDD','role':'power'}]}," \
-    "'family':'X','minHz':10,'maxHz':20,'outputs':['OUT']," \
+    "'family':'X','minHz':10,'maxHz':20,'outputs':['OUT'],'vcc':[1.6,5.5]," \
     "'parts':[{'name':'O1','package':'BGA','pinout':'bga','footprint':'BGA4','defaultHz':15,'enablePin':" ENABLE "}]}" TAIL
 
 static void check_ball_cases(void) {
@@ -1087,19 +1087,19 @@ static void check_voltage_cases(void) {
     part_library_destroy(library);
 
     library = expect_load(
-        "split entry vcc; an entry with no vcc gives NULL",
+        "split entry vcc next to a plain entry's",
         HEAD("gate") "{'id':'x','function':'XOR','description':'d','drawer':['Logic'],"
         "'pinouts':{'p3':[{'number':1,'name':'A','role':'input'},{'number':2,'name':'B','role':'input'},"
         "{'number':3,'name':'Y','role':'output'},{'number':4,'name':'VCC','role':'power'}]},"
         "'gates':[{'op':'xor','inputs':['A','B'],'output':'Y'}],"
         "'timing':{'LS':{'otherLow':{'rise':1,'fall':1},'otherHigh':{'rise':2,'fall':2},"
-        "'vcc':[4.75,5.25]},'HC':{'rise':9,'fall':9}},"
+        "'vcc':[4.75,5.25]},'HC':{'rise':9,'fall':9,'vcc':[2,6]}},"
         "'parts':[{'name':'X1','package':'DIP','pinout':'p3','footprint':'T4','family':'LS'},"
         "{'name':'X2','package':'DIP','pinout':'p3','footprint':'T4','family':'HC'}]}" TAIL);
     part = part_library_find(library, "X1");
     CHECK(part != NULL && voltage_is(part->vcc, 4750, 5250, 5250));
     part = part_library_find(library, "X2");
-    CHECK(part != NULL && part->vcc == NULL);
+    CHECK(part != NULL && voltage_is(part->vcc, 2000, 6000, 6000));
     part_library_destroy(library);
 
     library = expect_load(
@@ -1189,6 +1189,27 @@ static void check_voltage_cases(void) {
                 "unknown key \"vccMax\"");
     expect_fail("vf min > max", VDISPLAY(",'vf':[2.6,2]"), "\"vf\": min must be at most max");
     expect_fail("ratedVolts 0", VSWITCH(",'ratedVolts':0"), "\"ratedVolts\" must be above 0");
+
+    /* The keys are required (plan-07-F). */
+    expect_fail("gate part with no vcc", VGATE("{'HC':{'rise':9,'fall':9}}", "", ""),
+                "devices[0] (g): parts[0] (G1): missing \"vcc\"");
+    expect_fail("dff part with no vcc",
+                HEAD("dff") "{'id':'d','function':'D flip-flop','description':'d','drawer':[]," FF_PINS
+                "'units':[{'d':'D','clk':'CLK','q':'Q','qn':'QN'}],'presetActiveHigh':false,"
+                "'clearActiveHigh':false,'clockEdge':'rising',"
+                "'timing':{'HC':{'rise':20,'fall':18,'clearWins':false}},"
+                "'parts':[{'name':'D1','package':'DIP','pinout':'p6','footprint':'T6','family':'HC'}]}" TAIL,
+                "parts[0] (D1): missing \"vcc\"");
+    expect_fail("sram part with no vcc", VSRAM("{'trc':55,'taa':55}", ""),
+                "parts[0] (M1): missing \"vcc\"");
+    expect_fail("oscillator part with no vcc",
+                HEAD("oscillator") "{'id':'o','function':'f','description':'d','drawer':[],"
+                "'pinouts':{'p':[{'number':1,'name':'OUT','role':'output'}]},"
+                "'family':'X','minHz':10,'maxHz':20,'outputs':['OUT'],"
+                "'parts':[{'name':'O1','package':'','pinout':'p','footprint':'T1','defaultHz':15}]}" TAIL,
+                "parts[0] (O1): missing \"vcc\"");
+    expect_fail("7seg with no vf", VDISPLAY(""), "devices[0] (LTS-X): missing \"vf\"");
+    expect_fail("switch with no ratedVolts", VSWITCH(""), "devices[0] (s): missing \"ratedVolts\"");
 }
 
 int main(void) {

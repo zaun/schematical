@@ -62,15 +62,13 @@ static void *switch_load_device(KindContext *ctx, const cJSON *json) {
         n++;
     }
     device->info.positions = (unsigned)n;
-    /* ratedVolts: the switching rating; optional until plan-07-F. */
-    if (cJSON_GetObjectItemCaseSensitive(json, "ratedVolts") != NULL) {
-        if (kind_volts(ctx, json, "ratedVolts", 1000, &device->info.rated_mv) != 0) {
-            return NULL;
-        }
-        if (device->info.rated_mv == 0) {
-            kind_error(ctx, "\"ratedVolts\" must be above 0");
-            return NULL;
-        }
+    /* ratedVolts: the contacts' switching rating. */
+    if (kind_volts(ctx, json, "ratedVolts", 1000, &device->info.rated_mv) != 0) {
+        return NULL;
+    }
+    if (device->info.rated_mv == 0) {
+        kind_error(ctx, "\"ratedVolts\" must be above 0");
+        return NULL;
     }
     return device;
 }

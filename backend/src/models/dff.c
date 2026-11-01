@@ -227,7 +227,7 @@ static int dff_load_part(KindContext *ctx, const void *raw, const void *bound,
         if (strcmp(device->families[i], family) == 0) {
             out->logic = &device->timings[i].logic;
             kind_set_part_data(out, &device->timings[i]);
-            return kind_voltage(ctx, json, device->timings[i].vcc, &out->vcc);
+            return kind_part_voltage(ctx, json, device->timings[i].vcc, &out->vcc);
         }
     }
     return kind_error(ctx, "family \"%s\" has no timing entry", family);

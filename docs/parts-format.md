@@ -201,9 +201,10 @@ Resolution, per part:
 4. `Part.vcc` points at the resolved `PartVoltage` (`min_mv`, `max_mv`,
    `input_max_mv`); parts with no part-level key share their entry's.
 
-The keys are optional for now (`Part.vcc` NULL = not given); they become
-required from plan-07-F. Supplies, LEDs, 7-segment displays and switches
-never take them.
+Every gate, dff, jkff, sram, eeprom and oscillator part must resolve to a
+`vcc` range (a part with none is rejected: `missing "vcc"`). Supplies,
+LEDs, 7-segment displays and switches never take these keys; their
+`Part.vcc` is NULL.
 
 ## Loading rules
 
@@ -540,7 +541,7 @@ starts OFF; the app turns positions on and off (`circuit_set_switch`).
 |---|---|
 | `"actuator"` | actuator style as shown, e.g. `"Piano actuator"` |
 | `"contacts"` | position 1, 2, …: `[pin name, pin name]`, two different pins (exactly one pin each) |
-| `"ratedVolts"` | the contacts' **switching** voltage rating (the lower of the switching and non-switching ratings), 0 < v ≤ 1000; `PartSwitch.rated_mv`. Optional for now; required from plan-07-F. |
+| `"ratedVolts"` | the contacts' **switching** voltage rating (the "Contact rating, switching" row, not the non-switching carry rating), 0 < v ≤ 1000; `PartSwitch.rated_mv`. Required. |
 
 `PartSwitch.positions` is the number of contacts. Parts carry no kind keys.
 
@@ -680,7 +681,7 @@ any time during the last step", so a multiplexed digit counts as lit.
 | `"segmentPins"` | segment pin name → `digit` (0 = shared by every digit, multiplexed) and the `segments` it drives |
 | `"commonPins"` | common pin name → its digit, or `"extras"` for the colon/dot common. A name used by several pins means all of them. |
 | `"segmentSide"`, `"commonSide"` | drawing order of the symbol's two sides, by name; a shared name expands to its pins in pinout order. `PartDisplay.segment_pins`/`common_pins` hold these pins' indices into `Part.pins`. |
-| `"vf"` | `[min, max]` volts: the segment forward voltage (datasheet "Forward Voltage Per Segment"), 0 < min ≤ max ≤ 10; min is the datasheet minimum, or its typical value when no minimum is printed. `PartDisplay.vf_min_mv`/`vf_max_mv` (0 = not given). Shown, not checked. Optional for now; required from plan-07-F. |
+| `"vf"` | `[min, max]` volts: the segment forward voltage (datasheet "Forward Voltage Per Segment"), 0 < min ≤ max ≤ 10; min is the datasheet minimum, or its typical value when no minimum is printed. `PartDisplay.vf_min_mv`/`vf_max_mv`. Shown, not checked. Required. |
 
 An LED's segment pin is the first pin (in pin order) in `segmentPins` that
 drives its segment for its digit (or every digit); its commons are the

@@ -43,7 +43,7 @@ typedef struct {
 /* Exactly one of these is set on a Part, matching its kind. */
 typedef struct { const char *family; unsigned units; } PartLogic;         /* gate, dff, jkff */
 typedef struct { uint32_t words; unsigned bits; uint64_t access_ps; const char *grade; } PartSram;
-/* rated_mv: the switching voltage rating; 0 = not given (until plan-07-F). */
+/* rated_mv: the contacts' switching voltage rating. */
 typedef struct { unsigned positions; const char *actuator; uint32_t rated_mv; } PartSwitch;
 typedef struct { const char *color; } PartLed;
 typedef struct { unsigned digit; const char *segment; } PartDisplayLed;  /* digit 0 = colon/dot */
@@ -53,7 +53,7 @@ typedef struct {
     const PartDisplayLed *leds; size_t led_count;
     const size_t *segment_pins; size_t segment_pin_count;  /* indices into Part.pins */
     const size_t *common_pins; size_t common_pin_count;    /* indices into Part.pins */
-    uint32_t vf_min_mv, vf_max_mv;   /* segment forward voltage; 0 = not given (until plan-07-F) */
+    uint32_t vf_min_mv, vf_max_mv;   /* segment forward voltage (shown, not checked) */
 } PartDisplay;
 typedef struct { const char *family; uint64_t min_hz, max_hz, default_hz;
                  const char *enable_pin; /* the pin's designator, NULL = none */ } PartOscillator;
@@ -101,9 +101,8 @@ typedef struct Part {
     const PartDisplay *display;
     const PartOscillator *oscillator;
     const PartSupply *supply;
-    const PartVoltage *vcc;            /* recommended supply range; NULL = none (supplies, LEDs,
-                                          7-seg, switches; and, until plan-07-F, parts whose
-                                          data is not filled in) */
+    const PartVoltage *vcc;            /* recommended supply range; NULL only for supplies,
+                                          LEDs, 7-seg displays and switches */
     const PartEeprom *eeprom;
     const PartFootprint *footprint;    /* NULL = none (supplies) */
     const void *internal;              /* model data; not for the app */

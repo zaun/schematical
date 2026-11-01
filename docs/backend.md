@@ -205,5 +205,9 @@ would make ctest flaky, so it has no `add_test`.
 ```
 cmake -S backend -B /tmp/logic-rel -DCMAKE_BUILD_TYPE=Release
 cmake --build /tmp/logic-rel --target sim_bench
-/tmp/logic-rel/sim_bench LMK6CE001000DDLER 16 10 400   # <osc> <stages> <sim ms> <idle chips>
+/tmp/logic-rel/sim_bench LMK6CE001200CDLFR 16 10 400   # <osc> <stages> <sim ms> <idle chips>
 ```
+
+The bench runs on the `3V3` supply, so the oscillator must take 3.3 V
+(LMK6CE001200CDLFR is a 1.2 MHz, 2.37-3.5 V part; the 1.8 V-option
+LMK6CE001000DDLER is refused at start by the voltage check).

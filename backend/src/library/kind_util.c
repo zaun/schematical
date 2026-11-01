@@ -356,6 +356,17 @@ int kind_voltage(KindContext *ctx, const cJSON *json, const PartVoltage *base,
     return 0;
 }
 
+int kind_part_voltage(KindContext *ctx, const cJSON *json, const PartVoltage *base,
+                      const PartVoltage **out) {
+    if (kind_voltage(ctx, json, base, out) != 0) {
+        return -1;
+    }
+    if (*out == NULL) {
+        return kind_error(ctx, "missing \"vcc\"");
+    }
+    return 0;
+}
+
 int kind_pin(KindContext *ctx, const PartPin *pins, size_t pin_count, const char *name,
              size_t *index) {
     size_t i;

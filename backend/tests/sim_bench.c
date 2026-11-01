@@ -121,7 +121,9 @@ int main(int argc, char **argv) {
     vcc_net = add_net();
     gnd_net = add_net();
     clock = add_net();
-    connect(add_part("VCC"), "1", vcc_net);
+    /* 3.3 V: inside the 74HC parts' 2-6 V and a 2.5-3.3 V-option LMK6's 2.37-3.5 V
+       (circuit_start refuses a supply outside a part's range). */
+    connect(add_part("3V3"), "1", vcc_net);
     connect(add_part("GND"), "1", gnd_net);
     osc = add_part(oscillator);
     connect(osc, "4", vcc_net);

@@ -143,28 +143,49 @@ and every switch line has `rated=`. The spot values match.
   vcc=1700-1900,in=1900`; traces `git diff --quiet` → exit 0 (`trace_check`
   exit 0). `/tmp/p07s/verify_misc.py` (every oscillator, 7-seg and switch
   line against the readings) → `193 parts checked, 0 mismatches`.
-Commit: —
+Commit: 789dddd
 
 ### Phase 2 — Required keys
 
-- [ ] gate.c, dff.c, jkff.c, sram.c, eeprom.c, oscillator.c: a part whose
+- [x] gate.c, dff.c, jkff.c, sram.c, eeprom.c, oscillator.c: a part whose
       `kind_voltage` result is NULL fails with `missing "vcc"` (in the
-      part's place).
-- [ ] display7.c: `"vf"` is required. switch.c: `"ratedVolts"` is required.
-- [ ] `library_check.c`:
+      part's place). (Through one helper, `kind_part_voltage`, in
+      `kind_util.c`.)
+- [x] display7.c: `"vf"` is required. switch.c: `"ratedVolts"` is required.
+- [x] `library_check.c`:
   - Add the three rejection cases (gate part with no `vcc`, 7-seg with no
-    `vf`, switch with no `ratedVolts`).
+    `vf`, switch with no `ratedVolts`). (Also dff, sram and oscillator
+    parts with no `vcc`: six cases.)
   - Update every inline fixture of these kinds to carry the key.
-- [ ] `docs/parts-format.md`: drop "required from plan-07-F", so the keys
+- [x] `docs/parts-format.md`: drop "required from plan-07-F", so the keys
       are listed as required.
-- [ ] `parts.h` comments: `Part.vcc` NULL only for supplies, LEDs, 7-seg
+- [x] `parts.h` comments: `Part.vcc` NULL only for supplies, LEDs, 7-seg
       and switches.
+- [x] Added task: inline fixtures outside `library_check` —
+      `eeprom_test.c`'s AT28C256 fixture grades gain `'vcc':[4.5,5.5]`.
+- [x] Added task: tests whose circuits now fail the voltage check —
+      `circuit_check`'s `check_changes_and_light_time` powered the 1.8 V
+      LMK6CE001000DDLER (now 1.7–1.9 V) from the 5 V `VCC`; it now uses
+      `1V8`. `sim_bench` (not a ctest) ran a 74HC counter and that same
+      oscillator on `VCC`, which no supply can satisfy (HC needs ≥ 2 V); it
+      now runs on `3V3`, and `docs/backend.md`'s example uses the 1.2 MHz
+      2.37–3.5 V `LMK6CE001200CDLFR`.
 
 Acceptance: the new rejections fire, the full library loads, and the
 listing is unchanged.
   Check: `cmake --build /tmp/p07 -j8 && ctest --test-dir /tmp/p07` → 12/12,
   and `git diff --quiet backend/tests/golden` against Phase 1's commit
   → exit 0 (est. 1 min).
+  Result (2026-11-01): `ctest` → `100% tests passed, 0 tests failed out of
+  12`; `git diff --quiet backend/tests/golden` (worktree vs 789dddd) → exit
+  0. `library_check` prints `ok   gate part with no vcc: … parts[0] (G1):
+  missing "vcc"`, `ok   7seg with no vf: … missing "vf"`, `ok   switch with
+  no ratedVolts: … missing "ratedVolts"` (and dff/sram/oscillator). Before
+  the fixture fixes the same build loaded the whole real library
+  (`listing_check`/`trace_check` passed) and failed only the three
+  fixture-carrying tests. `sim_bench LMK6CE001200CDLFR 4 0.1 10` → exit 0;
+  `sim_bench LMK6CE001000DDLER 4 0.1 10` → `sim_bench: voltage: 3.3 V on
+  pin 4 (VDD) of LMK6CE001000DDLER; it needs 1.7-1.9 V`, exit 1.
 Commit: —
 
 ## Validation Plan
@@ -181,6 +202,8 @@ Commit: —
   `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p07-dd CODE_SIGNING_ALLOWED=NO build`
   → `** BUILD SUCCEEDED **` (est. 3 min). No Swift changes are made, but the
   app bundles these part files.
+  Result (2026-11-01): `ctest` → 12/12; `xcodebuild … build` → `** BUILD
+  SUCCEEDED **` (0 errors).
 
 ## Decisions
 

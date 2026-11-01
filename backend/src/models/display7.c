@@ -243,9 +243,8 @@ static void *display_load_device(KindContext *ctx, const cJSON *json) {
         kind_names(ctx, json, "commonSide", &device->common_side, &device->common_side_count) != 0) {
         return NULL;
     }
-    /* vf: segment forward voltage [min, max]; optional until plan-07-F. */
-    if (cJSON_GetObjectItemCaseSensitive(json, "vf") != NULL &&
-        kind_volt_range(ctx, json, "vf", 10, 0, &d->vf_min_mv, &d->vf_max_mv) != 0) {
+    /* vf: segment forward voltage [min, max]. */
+    if (kind_volt_range(ctx, json, "vf", 10, 0, &d->vf_min_mv, &d->vf_max_mv) != 0) {
         return NULL;
     }
     d->leds = device->display_leds;

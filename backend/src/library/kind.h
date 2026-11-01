@@ -130,6 +130,11 @@ int kind_volt_range(KindContext *ctx, const cJSON *object, const char *key, doub
 int kind_voltage(KindContext *ctx, const cJSON *json, const PartVoltage *base,
                  const PartVoltage **out);
 
+/* kind_voltage for a part, which must end up with a range: an error
+   (missing "vcc") when neither the part nor its base has one. */
+int kind_part_voltage(KindContext *ctx, const cJSON *json, const PartVoltage *base,
+                      const PartVoltage **out);
+
 /* The one pin with this name; an error when there is none or several. */
 int kind_pin(KindContext *ctx, const PartPin *pins, size_t pin_count, const char *name,
              size_t *index);

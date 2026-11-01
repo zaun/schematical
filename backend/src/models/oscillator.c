@@ -117,7 +117,7 @@ static int osc_load_part(KindContext *ctx, const void *raw, const void *bound,
     info->min_hz = device->min_hz;
     info->max_hz = device->max_hz;
     out->oscillator = info;
-    return kind_voltage(ctx, json, device->vcc, &out->vcc);
+    return kind_part_voltage(ctx, json, device->vcc, &out->vcc);
 }
 
 /* ---- Model --------------------------------------------------------------- */

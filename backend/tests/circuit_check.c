@@ -352,11 +352,12 @@ static void check_building_errors(void) {
 /*
  * A 1 MHz oscillator lighting an LED for 10 us: the clock net changes 21
  * times (Z -> 0 at t = 0, then every 500 ns) and the LED is on for 10 half
- * periods, 5 000 000 ps.
+ * periods, 5 000 000 ps. The oscillator is a 1.8 V-option part (1.7-1.9 V),
+ * so its supply is 1V8 (5 V would fail the voltage check).
  */
 static void check_changes_and_light_time(void) {
     Circuit *c = circuit_create(library);
-    size_t vcc = part(c, "VCC");
+    size_t vcc = part(c, "1V8");
     size_t gnd = part(c, "GND");
     size_t osc = part(c, "LMK6CE001000DDLER");
     size_t led = part(c, "LED-RED-0603");

@@ -925,7 +925,7 @@ static int sram_load_part(KindContext *ctx, const void *raw, const void *bound,
         if (strcmp(device->grade_names[i], grade) == 0) {
             out->sram = &device->grades[i].info;
             kind_set_part_data(out, &device->grades[i]);
-            return kind_voltage(ctx, json, device->grades[i].vcc, &out->vcc);
+            return kind_part_voltage(ctx, json, device->grades[i].vcc, &out->vcc);
         }
     }
     return kind_error(ctx, "grade \"%s\" is not in \"grades\"", grade);
