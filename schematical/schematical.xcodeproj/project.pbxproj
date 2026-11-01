@@ -19,6 +19,10 @@
 		00000000A0B0C0E0000000A1 /* ff-d.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000A1 /* ff-d.c */; };
 		00000000A0B0C0E0000000A3 /* led.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000A3 /* led.c */; };
 		00000000A0B0C0E0000000A5 /* supply.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000A5 /* supply.c */; };
+		00000000A0B0C0E0000000A7 /* osc.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000A7 /* osc.c */; };
+		00000000A0B0C0E0000000A9 /* catalog_validate.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000A9 /* catalog_validate.c */; };
+		00000000A0B0C0E0000000B1 /* netlist_sim.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000B1 /* netlist_sim.c */; };
+		00000000A0B0C0E0000000C1 /* cd4000.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000C1 /* cd4000.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +36,7 @@
 		00000000A0B0C0D000000008 /* 74_86.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = 74_86.c; sourceTree = "<group>"; };
 		00000000A0B0C0D000000009 /* 74_266.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = 74_266.c; sourceTree = "<group>"; };
 		00000000A0B0C0D00000000A /* sim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sim.h; sourceTree = "<group>"; };
+		00000000A0B0C0D00000000AA /* catalog_validate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = catalog_validate.h; sourceTree = "<group>"; };
 		00000000A0B0C0D00000000B /* net.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = net.h; sourceTree = "<group>"; };
 		00000000A0B0C0D00000000C /* catalog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = catalog.h; sourceTree = "<group>"; };
 		00000000A0B0C0D00000000D /* chip_definition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chip_definition.h; sourceTree = "<group>"; };
@@ -47,6 +52,12 @@
 		00000000A0B0C0D0000000A4 /* led.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = led.h; sourceTree = "<group>"; };
 		00000000A0B0C0D0000000A5 /* supply.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = supply.c; sourceTree = "<group>"; };
 		00000000A0B0C0D0000000A6 /* supply.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = supply.h; sourceTree = "<group>"; };
+		00000000A0B0C0D0000000A7 /* osc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = osc.c; sourceTree = "<group>"; };
+		00000000A0B0C0D0000000A8 /* osc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = osc.h; sourceTree = "<group>"; };
+		00000000A0B0C0D0000000A9 /* catalog_validate.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = catalog_validate.c; sourceTree = "<group>"; };
+		00000000A0B0C0D0000000B1 /* netlist_sim.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = netlist_sim.c; sourceTree = "<group>"; };
+		00000000A0B0C0D0000000C1 /* cd4000.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cd4000.c; sourceTree = "<group>"; };
+		00000000A0B0C0D0000000C2 /* cd4000.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cd4000.h; sourceTree = "<group>"; };
 		235280FF3096AF3A00135939 /* schematical.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = schematical.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -101,6 +112,10 @@
 				00000000A0B0C0D0000000A1 /* ff-d.c */,
 				00000000A0B0C0D0000000A3 /* led.c */,
 				00000000A0B0C0D0000000A5 /* supply.c */,
+				00000000A0B0C0D0000000A7 /* osc.c */,
+				00000000A0B0C0D0000000B1 /* netlist_sim.c */,
+				00000000A0B0C0D0000000C1 /* cd4000.c */,
+				00000000A0B0C0D0000000A9 /* catalog_validate.c */,
 				00000000A0B0C0D00000000A /* sim.h */,
 				00000000A0B0C0D00000000B /* net.h */,
 				00000000A0B0C0D00000000C /* catalog.h */,
@@ -114,6 +129,9 @@
 				00000000A0B0C0D0000000A2 /* ff-d.h */,
 				00000000A0B0C0D0000000A4 /* led.h */,
 				00000000A0B0C0D0000000A6 /* supply.h */,
+				00000000A0B0C0D0000000A8 /* osc.h */,
+				00000000A0B0C0D00000000AA /* catalog_validate.h */,
+				00000000A0B0C0D0000000C2 /* cd4000.h */,
 			);
 			name = backend;
 			path = ../backend;
@@ -205,6 +223,10 @@
 				00000000A0B0C0E0000000A1 /* ff-d.c in Sources */,
 				00000000A0B0C0E0000000A3 /* led.c in Sources */,
 				00000000A0B0C0E0000000A5 /* supply.c in Sources */,
+				00000000A0B0C0E0000000A7 /* osc.c in Sources */,
+				00000000A0B0C0E0000000B1 /* netlist_sim.c in Sources */,
+				00000000A0B0C0E0000000C1 /* cd4000.c in Sources */,
+				00000000A0B0C0E0000000A9 /* catalog_validate.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

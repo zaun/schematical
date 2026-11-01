@@ -16,6 +16,9 @@ add_library(logic_backend STATIC
     led.c
     supply.c
     catalog_validate.c
+    osc.c
+    netlist_sim.c
+    cd4000.c
 )
 
 target_include_directories(logic_backend
@@ -30,3 +33,7 @@ enable_testing()
 add_executable(catalog_check catalog_check.c)
 target_link_libraries(catalog_check PRIVATE logic_backend)
 add_test(NAME catalog_check COMMAND catalog_check)
+
+add_executable(netlist_check netlist_check.c)
+target_link_libraries(netlist_check PRIVATE logic_backend)
+add_test(NAME netlist_check COMMAND netlist_check)
