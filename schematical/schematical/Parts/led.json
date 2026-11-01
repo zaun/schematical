@@ -24,17 +24,17 @@
       "anode": "A",
       "cathode": "K",
       "parts": [
-        {"name":"LED-RED-0402","package":"0402","pinout":"two-pin"},
-        {"name":"LED-RED-0603","package":"0603","pinout":"two-pin"},
-        {"name":"LED-RED-0805","package":"0805","pinout":"two-pin"},
-        {"name":"LED-RED-1204","package":"1204","pinout":"two-pin"},
-        {"name":"LED-RED-1205","package":"1205","pinout":"two-pin"},
-        {"name":"LED-RED-1206","package":"1206","pinout":"two-pin"},
-        {"name":"LED-RED-1209","package":"1209","pinout":"two-pin"},
-        {"name":"LED-RED-1411","package":"1411","pinout":"two-pin"},
-        {"name":"LED-RED-1414","package":"1414","pinout":"two-pin"},
-        {"name":"LED-RED-DIP","package":"DIP","pinout":"dip4"},
-        {"name":"LED-RED-RADIAL","package":"Radial","pinout":"two-pin"}
+        {"name":"LED-RED-0402","package":"0402","pinout":"two-pin","footprint":"LED-0402"},
+        {"name":"LED-RED-0603","package":"0603","pinout":"two-pin","footprint":"LED-0603"},
+        {"name":"LED-RED-0805","package":"0805","pinout":"two-pin","footprint":"LED-0805"},
+        {"name":"LED-RED-1204","package":"1204","pinout":"two-pin","footprint":"LED-1204"},
+        {"name":"LED-RED-1205","package":"1205","pinout":"two-pin","footprint":"LED-1205"},
+        {"name":"LED-RED-1206","package":"1206","pinout":"two-pin","footprint":"LED-1206"},
+        {"name":"LED-RED-1209","package":"1209","pinout":"two-pin","footprint":"LED-1209"},
+        {"name":"LED-RED-1411","package":"1411","pinout":"two-pin","footprint":"LED-1411"},
+        {"name":"LED-RED-1414","package":"1414","pinout":"two-pin","footprint":"LED-1414"},
+        {"name":"LED-RED-DIP","package":"DIP","pinout":"dip4","footprint":"LED-DIP4"},
+        {"name":"LED-RED-RADIAL","package":"Radial","pinout":"two-pin","footprint":"LED-RADIAL-5MM"}
       ]
     },
     {
@@ -58,17 +58,17 @@
       "anode": "A",
       "cathode": "K",
       "parts": [
-        {"name":"LED-GREEN-0402","package":"0402","pinout":"two-pin"},
-        {"name":"LED-GREEN-0603","package":"0603","pinout":"two-pin"},
-        {"name":"LED-GREEN-0805","package":"0805","pinout":"two-pin"},
-        {"name":"LED-GREEN-1204","package":"1204","pinout":"two-pin"},
-        {"name":"LED-GREEN-1205","package":"1205","pinout":"two-pin"},
-        {"name":"LED-GREEN-1206","package":"1206","pinout":"two-pin"},
-        {"name":"LED-GREEN-1209","package":"1209","pinout":"two-pin"},
-        {"name":"LED-GREEN-1411","package":"1411","pinout":"two-pin"},
-        {"name":"LED-GREEN-1414","package":"1414","pinout":"two-pin"},
-        {"name":"LED-GREEN-DIP","package":"DIP","pinout":"dip4"},
-        {"name":"LED-GREEN-RADIAL","package":"Radial","pinout":"two-pin"}
+        {"name":"LED-GREEN-0402","package":"0402","pinout":"two-pin","footprint":"LED-0402"},
+        {"name":"LED-GREEN-0603","package":"0603","pinout":"two-pin","footprint":"LED-0603"},
+        {"name":"LED-GREEN-0805","package":"0805","pinout":"two-pin","footprint":"LED-0805"},
+        {"name":"LED-GREEN-1204","package":"1204","pinout":"two-pin","footprint":"LED-1204"},
+        {"name":"LED-GREEN-1205","package":"1205","pinout":"two-pin","footprint":"LED-1205"},
+        {"name":"LED-GREEN-1206","package":"1206","pinout":"two-pin","footprint":"LED-1206"},
+        {"name":"LED-GREEN-1209","package":"1209","pinout":"two-pin","footprint":"LED-1209"},
+        {"name":"LED-GREEN-1411","package":"1411","pinout":"two-pin","footprint":"LED-1411"},
+        {"name":"LED-GREEN-1414","package":"1414","pinout":"two-pin","footprint":"LED-1414"},
+        {"name":"LED-GREEN-DIP","package":"DIP","pinout":"dip4","footprint":"LED-DIP4"},
+        {"name":"LED-GREEN-RADIAL","package":"Radial","pinout":"two-pin","footprint":"LED-RADIAL-5MM"}
       ]
     },
     {
@@ -92,17 +92,17 @@
       "anode": "A",
       "cathode": "K",
       "parts": [
-        {"name":"LED-BLUE-0402","package":"0402","pinout":"two-pin"},
-        {"name":"LED-BLUE-0603","package":"0603","pinout":"two-pin"},
-        {"name":"LED-BLUE-0805","package":"0805","pinout":"two-pin"},
-        {"name":"LED-BLUE-1204","package":"1204","pinout":"two-pin"},
-        {"name":"LED-BLUE-1205","package":"1205","pinout":"two-pin"},
-        {"name":"LED-BLUE-1206","package":"1206","pinout":"two-pin"},
-        {"name":"LED-BLUE-1209","package":"1209","pinout":"two-pin"},
-        {"name":"LED-BLUE-1411","package":"1411","pinout":"two-pin"},
-        {"name":"LED-BLUE-1414","package":"1414","pinout":"two-pin"},
-        {"name":"LED-BLUE-DIP","package":"DIP","pinout":"dip4"},
-        {"name":"LED-BLUE-RADIAL","package":"Radial","pinout":"two-pin"}
+        {"name":"LED-BLUE-0402","package":"0402","pinout":"two-pin","footprint":"LED-0402"},
+        {"name":"LED-BLUE-0603","package":"0603","pinout":"two-pin","footprint":"LED-0603"},
+        {"name":"LED-BLUE-0805","package":"0805","pinout":"two-pin","footprint":"LED-0805"},
+        {"name":"LED-BLUE-1204","package":"1204","pinout":"two-pin","footprint":"LED-1204"},
+        {"name":"LED-BLUE-1205","package":"1205","pinout":"two-pin","footprint":"LED-1205"},
+        {"name":"LED-BLUE-1206","package":"1206","pinout":"two-pin","footprint":"LED-1206"},
+        {"name":"LED-BLUE-1209","package":"1209","pinout":"two-pin","footprint":"LED-1209"},
+        {"name":"LED-BLUE-1411","package":"1411","pinout":"two-pin","footprint":"LED-1411"},
+        {"name":"LED-BLUE-1414","package":"1414","pinout":"two-pin","footprint":"LED-1414"},
+        {"name":"LED-BLUE-DIP","package":"DIP","pinout":"dip4","footprint":"LED-DIP4"},
+        {"name":"LED-BLUE-RADIAL","package":"Radial","pinout":"two-pin","footprint":"LED-RADIAL-5MM"}
       ]
     },
     {
@@ -126,17 +126,17 @@
       "anode": "A",
       "cathode": "K",
       "parts": [
-        {"name":"LED-AMBER-0402","package":"0402","pinout":"two-pin"},
-        {"name":"LED-AMBER-0603","package":"0603","pinout":"two-pin"},
-        {"name":"LED-AMBER-0805","package":"0805","pinout":"two-pin"},
-        {"name":"LED-AMBER-1204","package":"1204","pinout":"two-pin"},
-        {"name":"LED-AMBER-1205","package":"1205","pinout":"two-pin"},
-        {"name":"LED-AMBER-1206","package":"1206","pinout":"two-pin"},
-        {"name":"LED-AMBER-1209","package":"1209","pinout":"two-pin"},
-        {"name":"LED-AMBER-1411","package":"1411","pinout":"two-pin"},
-        {"name":"LED-AMBER-1414","package":"1414","pinout":"two-pin"},
-        {"name":"LED-AMBER-DIP","package":"DIP","pinout":"dip4"},
-        {"name":"LED-AMBER-RADIAL","package":"Radial","pinout":"two-pin"}
+        {"name":"LED-AMBER-0402","package":"0402","pinout":"two-pin","footprint":"LED-0402"},
+        {"name":"LED-AMBER-0603","package":"0603","pinout":"two-pin","footprint":"LED-0603"},
+        {"name":"LED-AMBER-0805","package":"0805","pinout":"two-pin","footprint":"LED-0805"},
+        {"name":"LED-AMBER-1204","package":"1204","pinout":"two-pin","footprint":"LED-1204"},
+        {"name":"LED-AMBER-1205","package":"1205","pinout":"two-pin","footprint":"LED-1205"},
+        {"name":"LED-AMBER-1206","package":"1206","pinout":"two-pin","footprint":"LED-1206"},
+        {"name":"LED-AMBER-1209","package":"1209","pinout":"two-pin","footprint":"LED-1209"},
+        {"name":"LED-AMBER-1411","package":"1411","pinout":"two-pin","footprint":"LED-1411"},
+        {"name":"LED-AMBER-1414","package":"1414","pinout":"two-pin","footprint":"LED-1414"},
+        {"name":"LED-AMBER-DIP","package":"DIP","pinout":"dip4","footprint":"LED-DIP4"},
+        {"name":"LED-AMBER-RADIAL","package":"Radial","pinout":"two-pin","footprint":"LED-RADIAL-5MM"}
       ]
     },
     {
@@ -160,17 +160,17 @@
       "anode": "A",
       "cathode": "K",
       "parts": [
-        {"name":"LED-WHITE-0402","package":"0402","pinout":"two-pin"},
-        {"name":"LED-WHITE-0603","package":"0603","pinout":"two-pin"},
-        {"name":"LED-WHITE-0805","package":"0805","pinout":"two-pin"},
-        {"name":"LED-WHITE-1204","package":"1204","pinout":"two-pin"},
-        {"name":"LED-WHITE-1205","package":"1205","pinout":"two-pin"},
-        {"name":"LED-WHITE-1206","package":"1206","pinout":"two-pin"},
-        {"name":"LED-WHITE-1209","package":"1209","pinout":"two-pin"},
-        {"name":"LED-WHITE-1411","package":"1411","pinout":"two-pin"},
-        {"name":"LED-WHITE-1414","package":"1414","pinout":"two-pin"},
-        {"name":"LED-WHITE-DIP","package":"DIP","pinout":"dip4"},
-        {"name":"LED-WHITE-RADIAL","package":"Radial","pinout":"two-pin"}
+        {"name":"LED-WHITE-0402","package":"0402","pinout":"two-pin","footprint":"LED-0402"},
+        {"name":"LED-WHITE-0603","package":"0603","pinout":"two-pin","footprint":"LED-0603"},
+        {"name":"LED-WHITE-0805","package":"0805","pinout":"two-pin","footprint":"LED-0805"},
+        {"name":"LED-WHITE-1204","package":"1204","pinout":"two-pin","footprint":"LED-1204"},
+        {"name":"LED-WHITE-1205","package":"1205","pinout":"two-pin","footprint":"LED-1205"},
+        {"name":"LED-WHITE-1206","package":"1206","pinout":"two-pin","footprint":"LED-1206"},
+        {"name":"LED-WHITE-1209","package":"1209","pinout":"two-pin","footprint":"LED-1209"},
+        {"name":"LED-WHITE-1411","package":"1411","pinout":"two-pin","footprint":"LED-1411"},
+        {"name":"LED-WHITE-1414","package":"1414","pinout":"two-pin","footprint":"LED-1414"},
+        {"name":"LED-WHITE-DIP","package":"DIP","pinout":"dip4","footprint":"LED-DIP4"},
+        {"name":"LED-WHITE-RADIAL","package":"Radial","pinout":"two-pin","footprint":"LED-RADIAL-5MM"}
       ]
     }
   ]

@@ -120,6 +120,9 @@ char *listing_line(const Part *part) {
         fprintf(out, "%s%s:%s:%s:%s", i > 0 ? "," : "", pin->designator, pin->name,
                 role_name(pin->role), pin->group);
     }
+    if (part->footprint != NULL) {
+        fprintf(out, "|footprint=%s", part->footprint->id);
+    }
     fclose(out);
     return text;
 }

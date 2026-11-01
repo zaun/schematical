@@ -7,8 +7,9 @@
 char *read_file(const char *path);
 
 /*
- * Loads every *.json file in a directory (sorted by name) into the library.
- * Prints any load error to stderr and returns -1; 0 when all loaded.
+ * Loads footprints.json (required) with load_footprints, then every other
+ * *.json file in a directory (sorted by name) with load_parts. Prints any
+ * load error to stderr and returns -1; 0 when all loaded.
  */
 int load_parts_dir(PartLibrary *library, const char *dir);
 

@@ -30,6 +30,8 @@ char *read_file(const char *path) {
     return text;
 }
 
+#define FOOTPRINTS_FILE "footprints.json"
+
 static int by_name(const void *a, const void *b) {
     return strcmp(*(char *const *)a, *(char *const *)b);
 }
@@ -57,11 +59,34 @@ int load_parts_dir(PartLibrary *library, const char *dir) {
     closedir(handle);
     qsort(names, count, sizeof(names[0]), by_name);
 
+    /* Footprints first: every part file may name them. */
+    {
+        char path[4096];
+        char *text;
+        char *error = NULL;
+
+        snprintf(path, sizeof path, "%s/%s", dir, FOOTPRINTS_FILE);
+        text = read_file(path);
+        if (text == NULL) {
+            fprintf(stderr, "cannot read %s\n", path);
+            result = -1;
+        } else if (load_footprints(library, text, FOOTPRINTS_FILE, &error) != 0) {
+            fprintf(stderr, "%s\n", error);
+            free(error);
+            result = -1;
+        }
+        free(text);
+    }
+
     for (i = 0; i < count; i++) {
         char path[4096];
         char *text;
         char *error = NULL;
 
+        if (strcmp(names[i], FOOTPRINTS_FILE) == 0) {
+            free(names[i]);
+            continue;
+        }
         snprintf(path, sizeof path, "%s/%s", dir, names[i]);
         text = read_file(path);
         if (text == NULL) {

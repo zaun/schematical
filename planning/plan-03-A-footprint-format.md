@@ -405,27 +405,29 @@ and rejects every §4.4 case with a message naming the place; existing part
 files load unchanged.
   Check: `cmake --build /tmp/logic-plan03 -j8 && ctest --test-dir /tmp/logic-plan03 -R library_check --output-on-failure` → passes (est. 1 min). — 2026-11-01: `100% tests passed, 0 tests failed out of 1`; 106 `ok` lines incl. 6 style expansions, 48 footprint rejections, 5 part rejections; ASan+UBSan build `library_check: all passed`.
   Check: `ctest --test-dir /tmp/logic-plan03 -R 'listing_check|trace_check'` → both pass, `3817 parts compared` (est. 1 min). — 2026-11-01: both Passed, `3817 parts compared, 0 skipped` each.
-Commit: —
+Commit: 75c88a5
 
 ### Phase 2 — `footprints.json`, LED footprints, loaders, goldens
 
 The first real data: 11 LED footprints and the 55 LED parts.
 
-- [ ] `schematical/schematical/Parts/footprints.json`: the 11 footprints of §4.5.
-- [ ] `led.json`: add `"footprint":"<id>"` after `"pinout"` on all 55 parts
+- [x] `schematical/schematical/Parts/footprints.json`: the 11 footprints of §4.5.
+- [x] `led.json`: add `"footprint":"<id>"` after `"pinout"` on all 55 parts
       (package `0402` → `LED-0402`, …, `DIP` → `LED-DIP4`, `Radial` →
-      `LED-RADIAL-5MM`).
-- [ ] `backend/tests/support/read_file.c:load_parts_dir`: load
+      `LED-RADIAL-5MM`). — `/tmp/p03/tag.py` → `led.json: 55 parts tagged`.
+- [x] `backend/tests/support/read_file.c:load_parts_dir`: load
       `footprints.json` with `load_footprints` first; skip it in the part loop;
       fail if it is missing.
-- [ ] `backend/tests/support/listing.c`: append `|footprint=<id>`.
-- [ ] `backend/tests/footprint_check.c` + `logic_test(footprint_check)` in
+- [x] `backend/tests/support/listing.c`: append `|footprint=<id>`.
+- [x] `backend/tests/footprint_check.c` + `logic_test(footprint_check)` in
       `CMakeLists.txt`: prints/compares `footprints.txt` (`--print` regenerates);
       also fails if any loaded footprint is used by no part.
-- [ ] Regenerate `backend/tests/golden/parts.txt` (`listing_check --print`) and
+- [x] Regenerate `backend/tests/golden/parts.txt` (`listing_check --print`) and
       write `footprints.txt` (`footprint_check --print`); hand-check the 11
-      lines against §4.5 before committing.
-- [ ] `schematical/schematical/Backend/PartCatalog.swift`: `BackendCatalog.load`
+      lines against §4.5 before committing. — checked: bodies, pad sizes and
+      x = ±span/2 equal the table; RADIAL/DIP4 pin 1 rect with the table's
+      drill; DIP4 pads 1→4 counter-clockwise from top-left.
+- [x] `schematical/schematical/Backend/PartCatalog.swift`: `BackendCatalog.load`
       loads `footprints.json` via `load_footprints` first and skips it in the
       loop; `CatalogPart` gains `footprint: Footprint?` (Swift copy of
       `PartFootprint`: id, description, body `CGSize`, `bodyRound`, pads with
@@ -435,10 +437,10 @@ The first real data: 11 LED footprints and the 55 LED parts.
 
 Acceptance: LED parts carry their footprints in the C listing and in the app's
 catalog; nothing else changed.
-  Check: `ctest --test-dir /tmp/logic-plan03 --output-on-failure` → 8 tests pass (est. 1 min).
-  Check: `git diff -U0 backend/tests/golden/parts.txt | grep -c '^+[^+]'` → 55, and every `+` line starts `LED-` (est. seconds).
-  Check: `git diff --exit-code backend/tests/golden/traces.txt` → no diff (est. seconds).
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 3 min).
+  Check: `ctest --test-dir /tmp/logic-plan03 --output-on-failure` → 8 tests pass (est. 1 min). — 2026-11-01: `100% tests passed, 0 tests failed out of 8`.
+  Check: `git diff -U0 backend/tests/golden/parts.txt | grep -c '^+[^+]'` → 55, and every `+` line starts `LED-` (est. seconds). — 2026-11-01: 55; non-`LED-` `+` lines 0, non-`LED-` `-` lines 0.
+  Check: `git diff --exit-code backend/tests/golden/traces.txt` → no diff (est. seconds). — 2026-11-01: exit 0, no output.
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 3 min). — 2026-11-01: `** BUILD SUCCEEDED **`.
 Commit: —
 
 ### Phase 3 — Docs
@@ -488,6 +490,14 @@ Commit: —
   whole numbers with at least one slot, `rows`/`columns` ≥ 1, pad shape
   must be rect/round, an explicit pad's `pin` must be 0…`pins`. Each has a
   `library_check` case.
+- 2026-11-01 (Phase 2): §4.5's formula and its table disagree by 0.05 mm on
+  four spans (formula, rounded to 0.05: 0402 0.85, 0805 1.55, 1411/1414 2.65;
+  table: 0.9, 1.6, 2.7) — measured with a `python3 -I` re-computation of the
+  formula. The table is the plan's fixed decision and is what
+  `footprints.json` uses; the pads still sit ≈0.2 mm beyond the body.
+- 2026-11-01 (Phase 2): `BackendCatalog.load` now fails with "no part files"
+  when `footprints.json` is missing (the `unavailable` error), matching
+  `load_parts_dir`'s required-file rule.
 
 ## Summary
 

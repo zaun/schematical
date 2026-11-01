@@ -80,6 +80,37 @@ nonisolated struct DisplayInfo: Hashable, Sendable {
     let commonPins: [Int]
 }
 
+/// A part's land pattern, copied from the backend's `PartFootprint`. Sizes and
+/// positions are millimetres; the origin is the body centre, y grows down.
+nonisolated struct Footprint: Hashable, Sendable {
+    enum PadShape: Hashable, Sendable {
+        case rect
+        /// An ellipse; a circle when width = height.
+        case round
+    }
+
+    struct Pad: Hashable, Sendable {
+        /// The pin this pad belongs to (`ChipPin.designator`); nil for an
+        /// unnumbered centre pad.
+        let designator: String?
+        let centre: CGPoint
+        let size: CGSize
+        /// Hole diameter; 0 = surface mount.
+        let drill: Double
+        let shape: PadShape
+    }
+
+    let id: String
+    let description: String
+    let body: CGSize
+    let bodyRound: Bool
+    let pads: [Pad]
+
+    // Ids are unique across the library, so a footprint is its id.
+    static func == (a: Footprint, b: Footprint) -> Bool { a.id == b.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
+}
+
 /// One orderable part, copied from the backend's `Part` once at load.
 nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     struct Flags: Hashable, Sendable {
@@ -112,6 +143,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     let flags: Flags
     let pins: [ChipPin]
     let details: Details
+    /// Nil only for parts with no package (VCC, GND).
+    let footprint: Footprint?
 
     var id: String { name }
 
@@ -190,9 +223,29 @@ nonisolated private func indices(_ pointer: UnsafePointer<Int>?, _ count: Int) -
     return (0..<count).map { pointer[$0] }
 }
 
+extension Footprint {
+    /// Copies one footprint out of the library.
+    nonisolated init(_ footprint: PartFootprint) {
+        id = string(footprint.id)
+        description = string(footprint.description)
+        body = CGSize(width: footprint.body_width, height: footprint.body_height)
+        bodyRound = footprint.body_round != 0
+        pads = (0..<footprint.pad_count).compactMap { index in
+            guard let pad = footprint.pads?[index] else { return nil }
+            return Pad(designator: pad.designator.map { String(cString: $0) },
+                       centre: CGPoint(x: pad.x, y: pad.y),
+                       size: CGSize(width: pad.width, height: pad.height),
+                       drill: pad.drill,
+                       shape: pad.shape == PAD_ROUND ? .round : .rect)
+        }
+    }
+}
+
 extension CatalogPart {
-    /// Copies one part out of the library.
-    nonisolated init(_ part: Part) {
+    /// Copies one part out of the library. `footprint` is the Swift copy of
+    /// `part.footprint`, shared by every part that uses it.
+    nonisolated init(_ part: Part, footprint: Footprint?) {
+        self.footprint = footprint
         name = string(part.name)
         kind = part.kind
         package = string(part.package)
@@ -266,28 +319,55 @@ nonisolated enum BackendCatalog {
         }
     }
 
-    /// Every bundled JSON resource is a part file. Loaded in file-name order.
+    /// The footprint file; every other bundled JSON resource is a part file.
+    static let footprintsFile = "footprints.json"
+
+    /// Loads `footprints.json` first (part files name its footprints), then
+    /// every other bundled JSON resource as a part file, in file-name order.
     static func load(into library: PartLibraryHandle) throws -> [CatalogPart] {
         let urls = (Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: nil) ?? [])
             .sorted { $0.lastPathComponent < $1.lastPathComponent }
-        guard !urls.isEmpty else { throw LoadError.unavailable }
-        for url in urls {
-            let text: String
-            do {
-                text = try String(contentsOf: url, encoding: .utf8)
-            } catch {
-                throw LoadError.malformed("\(url.lastPathComponent): \(error.localizedDescription)")
-            }
-            var error: UnsafeMutablePointer<CChar>?
-            if load_parts(library.pointer, text, url.lastPathComponent, &error) != 0 {
-                let message = error.map { String(cString: $0) } ?? url.lastPathComponent
-                free(error)
-                throw LoadError.malformed(message)
-            }
+        guard let footprintsURL = urls.first(where: { $0.lastPathComponent == footprintsFile }) else {
+            throw LoadError.unavailable
+        }
+        try loadFile(footprintsURL, with: load_footprints, into: library)
+        for url in urls where url != footprintsURL {
+            try loadFile(url, with: load_parts, into: library)
+        }
+
+        var footprints: [String: Footprint] = [:]
+        for index in 0..<part_library_footprint_count(library.pointer) {
+            guard let footprint = part_library_footprint_at(library.pointer, index) else { continue }
+            let copy = Footprint(footprint.pointee)
+            footprints[copy.id] = copy
         }
         let count = part_library_count(library.pointer)
         return (0..<count).compactMap { index in
-            part_library_at(library.pointer, index).map { CatalogPart($0.pointee) }
+            part_library_at(library.pointer, index).map { part in
+                CatalogPart(part.pointee,
+                            footprint: part.pointee.footprint.flatMap { footprints[string($0.pointee.id)] })
+            }
+        }
+    }
+
+    /// Reads one bundled file and hands it to a backend loader.
+    private static func loadFile(
+        _ url: URL,
+        with loader: (OpaquePointer?, UnsafePointer<CChar>?, UnsafePointer<CChar>?,
+                      UnsafeMutablePointer<UnsafeMutablePointer<CChar>?>?) -> Int32,
+        into library: PartLibraryHandle
+    ) throws {
+        let text: String
+        do {
+            text = try String(contentsOf: url, encoding: .utf8)
+        } catch {
+            throw LoadError.malformed("\(url.lastPathComponent): \(error.localizedDescription)")
+        }
+        var error: UnsafeMutablePointer<CChar>?
+        if loader(library.pointer, text, url.lastPathComponent, &error) != 0 {
+            let message = error.map { String(cString: $0) } ?? url.lastPathComponent
+            free(error)
+            throw LoadError.malformed(message)
         }
     }
 }

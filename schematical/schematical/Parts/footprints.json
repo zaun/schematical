@@ -1,0 +1,17 @@
+{
+  "format": "schematical-footprints",
+  "version": 1,
+  "footprints": [
+    {"id":"LED-0402","description":"0402 chip LED (1.0 x 0.5 mm)","note":"generic; plan-03-A §4.5","style":"dual","pins":2,"perSide":1,"body":{"width":1.0,"height":0.5},"pitch":1,"span":0.9,"pad":{"width":0.55,"height":0.75,"shape":"rect"}},
+    {"id":"LED-0603","description":"0603 chip LED (1.5 x 0.75 mm)","note":"generic; plan-03-A §4.5","style":"dual","pins":2,"perSide":1,"body":{"width":1.5,"height":0.75},"pitch":1,"span":1.2,"pad":{"width":0.7,"height":1.0,"shape":"rect"}},
+    {"id":"LED-0805","description":"0805 chip LED (2.05 x 1.25 mm)","note":"generic; plan-03-A §4.5","style":"dual","pins":2,"perSide":1,"body":{"width":2.05,"height":1.25},"pitch":1,"span":1.6,"pad":{"width":0.85,"height":1.5,"shape":"rect"}},
+    {"id":"LED-1204","description":"1204 chip LED (3.05 x 1.0 mm)","note":"generic; plan-03-A §4.5","style":"dual","pins":2,"perSide":1,"body":{"width":3.05,"height":1.0},"pitch":1,"span":2.3,"pad":{"width":1.15,"height":1.25,"shape":"rect"}},
+    {"id":"LED-1205","description":"1205 chip LED (3.05 x 1.25 mm)","note":"generic; plan-03-A §4.5","style":"dual","pins":2,"perSide":1,"body":{"width":3.05,"height":1.25},"pitch":1,"span":2.3,"pad":{"width":1.15,"height":1.5,"shape":"rect"}},
+    {"id":"LED-1206","description":"1206 chip LED (3.05 x 1.5 mm)","note":"generic; plan-03-A §4.5","style":"dual","pins":2,"perSide":1,"body":{"width":3.05,"height":1.5},"pitch":1,"span":2.3,"pad":{"width":1.15,"height":1.75,"shape":"rect"}},
+    {"id":"LED-1209","description":"1209 chip LED (3.05 x 2.3 mm)","note":"generic; plan-03-A §4.5","style":"dual","pins":2,"perSide":1,"body":{"width":3.05,"height":2.3},"pitch":1,"span":2.3,"pad":{"width":1.15,"height":2.55,"shape":"rect"}},
+    {"id":"LED-1411","description":"1411 chip LED (3.55 x 2.8 mm)","note":"generic; plan-03-A §4.5","style":"dual","pins":2,"perSide":1,"body":{"width":3.55,"height":2.8},"pitch":1,"span":2.7,"pad":{"width":1.3,"height":3.05,"shape":"rect"}},
+    {"id":"LED-1414","description":"1414 chip LED (3.55 x 3.55 mm)","note":"generic; plan-03-A §4.5","style":"dual","pins":2,"perSide":1,"body":{"width":3.55,"height":3.55},"pitch":1,"span":2.7,"pad":{"width":1.3,"height":3.8,"shape":"rect"}},
+    {"id":"LED-RADIAL-5MM","description":"5 mm (T-1 3/4) radial LED, 2.54 mm lead spacing","note":"generic; plan-03-A §4.5","style":"dual","pins":2,"perSide":1,"body":{"width":5.8,"height":5.8,"round":true},"pitch":2.54,"span":2.54,"pad":{"width":1.8,"height":1.8,"shape":"round"},"drill":0.9,"pin1Shape":"rect"},
+    {"id":"LED-DIP4","description":"4-lead through-hole LED, 5.08 mm square","note":"generic; plan-03-A §4.5","style":"dual","pins":4,"perSide":2,"body":{"width":7.62,"height":7.62},"pitch":5.08,"span":5.08,"pad":{"width":1.6,"height":1.6,"shape":"round"},"drill":0.8,"pin1Shape":"rect"}
+  ]
+}
