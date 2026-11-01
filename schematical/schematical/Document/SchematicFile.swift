@@ -40,6 +40,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var x: Double
         var y: Double
         var flipped: Bool
+        /// DIP switches only: whether each position is ON, position 1 first.
+        /// Left out for other parts.
+        var switches: [Bool]? = nil
     }
 
     struct Junction: Codable, Equatable, Sendable {
@@ -147,7 +150,8 @@ extension SchematicFile {
                 partNumber: chip.partNumber,
                 x: chip.origin.x,
                 y: chip.origin.y,
-                flipped: chip.isFlipped
+                flipped: chip.isFlipped,
+                switches: chip.switchesOn.isEmpty ? nil : chip.switchesOn
             )
         }
         junctions = document.junctions.map { Junction(id: $0.id, x: $0.point.x, y: $0.point.y) }
@@ -215,7 +219,8 @@ extension SchematicFile {
                 chip: chip,
                 symbol: symbol,
                 origin: SchematicGrid.snap(CGPoint(x: part.x, y: part.y)),
-                isFlipped: part.flipped && symbol.canFlip
+                isFlipped: part.flipped && symbol.canFlip,
+                switchesOn: part.switches ?? []
             ))
         }
         if !unknown.isEmpty {

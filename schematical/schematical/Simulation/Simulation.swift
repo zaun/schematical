@@ -87,6 +87,12 @@ enum NetlistBuilder {
             guard let part = partIndexByChip[ref.chipID] else { continue }
             lines.append("pin \(part) \(ref.number) \(net)")
         }
+        // Switch positions that start ON. The rest start OFF.
+        for (index, chip) in chips.enumerated() {
+            for (position, isOn) in chip.switchesOn.enumerated() where isOn {
+                lines.append("switch \(index) \(position + 1) 1")
+            }
+        }
 
         return SchematicNetlist(
             text: lines.joined(separator: "\n") + "\n",
@@ -235,6 +241,15 @@ final class SimulationController {
         shortedNets = shorted
         litChips = lit
         stateVersion &+= 1
+    }
+
+    // MARK: Switches
+
+    /// Turns a switch position (1-based) ON or OFF in the running simulation.
+    /// It takes effect on the next tick. Does nothing when not running.
+    func setSwitch(_ chipID: UUID, position: Int, on: Bool) {
+        guard let handle, let part = netlist?.chipIDs.firstIndex(of: chipID), position > 0 else { return }
+        netlist_sim_set_switch(handle, part, position, on ? 1 : 0)
     }
 
     // MARK: Memory

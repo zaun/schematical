@@ -314,6 +314,9 @@ final class ChipCatalogStore {
         if oscillatorPartNumbers.contains(partNumber) {
             return .oscillator
         }
+        if chipByPartNumber[partNumber]?.category == switchCategory {
+            return .dipSwitch
+        }
         return ledPartNumbers.contains(partNumber) ? .diode : .block
     }
 

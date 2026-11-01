@@ -11,6 +11,9 @@ import SwiftUI
 /// - Flip: click a part to flip it left and right.
 /// - VCC and GND: click the canvas to place a supply there.
 ///
+/// Clicking a DIP switch lever flips that position, with the Pointer tool or
+/// in play mode. A press that drags moves the part (or pans) instead.
+///
 /// Parts dragged from the drawer are dropped here and centred on the drop point.
 /// The schematic is drawn in world coordinates and scaled by the viewport's zoom.
 struct SchematicCanvasView: View {
@@ -161,6 +164,12 @@ struct SchematicCanvasView: View {
                         )
                     case .vcc, .ground:
                         SupplySymbolView(
+                            chip: chip,
+                            isSelected: chip.id == document.selectedChipID,
+                            isHovered: chip.id == hoveredChipID
+                        )
+                    case .dipSwitch:
+                        DipSwitchSymbolView(
                             chip: chip,
                             isSelected: chip.id == document.selectedChipID,
                             isHovered: chip.id == hoveredChipID
@@ -381,11 +390,33 @@ struct SchematicCanvasView: View {
                 document.connect(from, target)
             }
         case let .moveChip(id, _)?:
+            if isClick(value) {
+                toggleSwitchLever(at: viewport.world(value.startLocation))
+            }
             document.settleWires(attachedTo: id)
+        case .pan?:
+            // In play mode every press starts a pan; a click flips a lever.
+            if isRunning, isClick(value) {
+                toggleSwitchLever(at: viewport.world(value.startLocation))
+            }
         default:
             break
         }
         interaction = nil
+    }
+
+    /// A press that ended about where it started, in screen points.
+    private func isClick(_ value: DragGesture.Value) -> Bool {
+        hypot(value.translation.width, value.translation.height) < 3
+    }
+
+    /// Flips the switch position whose lever is under `point`, in the
+    /// document and, in play mode, in the running simulation.
+    private func toggleSwitchLever(at point: CGPoint) {
+        guard let chip = document.chip(at: point),
+              let position = chip.switchPosition(at: point),
+              let isOn = document.toggleSwitch(chip.id, position: position) else { return }
+        simulation.setSwitch(chip.id, position: position, on: isOn)
     }
 }
 

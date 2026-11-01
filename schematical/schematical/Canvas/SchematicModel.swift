@@ -65,13 +65,15 @@ enum SchematicTool: String, CaseIterable, Identifiable {
 
 /// How a placed part is drawn. Logic chips are boxes; oscillators are boxes with
 /// a sine wave in a circle in place of the function name; LEDs use the diode
-/// symbol; VCC and GND use their own supply symbols.
+/// symbol; VCC and GND use their own supply symbols; DIP switches are boxes
+/// with one lever per position.
 nonisolated enum PartSymbol: Hashable {
     case block
     case oscillator
     case diode
     case vcc
     case ground
+    case dipSwitch
 
     /// Supplies have their pin on the top or bottom edge, so their view needs
     /// room above and below the body for the pin stub.
@@ -142,6 +144,11 @@ nonisolated struct ChipLayout: Hashable {
     static let supplyPinX: CGFloat = 20
     static let supplySize = CGSize(width: 40, height: 20)
 
+    /// DIP switch body width, and the size of each position's lever, which is
+    /// centred on its row.
+    static let switchBodyWidth: CGFloat = 100
+    static let switchLeverSize = CGSize(width: 36, height: 14)
+
     init(chip: ChipDefinition, symbol: PartSymbol) {
         switch symbol {
         case .block, .oscillator:
@@ -152,7 +159,42 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.supply(chip, side: .bottom)
         case .ground:
             self = Self.supply(chip, side: .top)
+        case .dipSwitch:
+            self = Self.dipSwitch(chip)
         }
+    }
+
+    /// One row per switch position, top to bottom. Position k joins pin k
+    /// (left) and pin 2N + 1 - k (right), as in switch.h, so both of a
+    /// position's pins sit on its row.
+    private static func dipSwitch(_ chip: ChipDefinition) -> ChipLayout {
+        let positions = chip.pins.count / 2
+        let byNumber = Dictionary(chip.pins.map { ($0.number, $0) }, uniquingKeysWith: { first, _ in first })
+        var slots: [PinSlot] = []
+        for position in 1...max(positions, 1) {
+            let y = centerY(forRow: position - 1)
+            if let left = byNumber[position] {
+                slots.append(PinSlot(pin: left, side: .left, centerY: y))
+            }
+            if let right = byNumber[2 * positions + 1 - position] {
+                slots.append(PinSlot(pin: right, side: .right, centerY: y))
+            }
+        }
+        return ChipLayout(
+            size: CGSize(width: switchBodyWidth, height: headerHeight + pitch * CGFloat(max(positions, 1))),
+            slots: slots
+        )
+    }
+
+    /// The lever of a switch position (1-based), in body coordinates.
+    static func switchLeverRect(position: Int, bodyWidth: CGFloat) -> CGRect {
+        let y = centerY(forRow: position - 1)
+        return CGRect(
+            x: (bodyWidth - switchLeverSize.width) / 2,
+            y: y - switchLeverSize.height / 2,
+            width: switchLeverSize.width,
+            height: switchLeverSize.height
+        )
     }
 
     private static func supply(_ chip: ChipDefinition, side: Side) -> ChipLayout {
@@ -298,6 +340,9 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// Flipped parts have their pins on the opposite sides. For an LED the
     /// whole symbol is also mirrored; see `DiodeSymbolView`.
     var isFlipped = false
+    /// For a DIP switch, whether each position is ON, position 1 first. Empty
+    /// for every other part.
+    var switchesOn: [Bool] = []
 
     private let baseLayout: ChipLayout
 
@@ -308,7 +353,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         chip: ChipDefinition,
         symbol: PartSymbol,
         origin: CGPoint,
-        isFlipped: Bool = false
+        isFlipped: Bool = false,
+        switchesOn: [Bool] = []
     ) {
         self.id = id
         self.reference = reference
@@ -318,6 +364,20 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         self.baseLayout = ChipLayout(chip: chip, symbol: symbol)
         self.origin = origin
         self.isFlipped = isFlipped
+        // A switch has one state per position, OFF unless given; others none.
+        let positions = symbol == .dipSwitch ? chip.pins.count / 2 : 0
+        self.switchesOn = (0..<positions).map { $0 < switchesOn.count && switchesOn[$0] }
+    }
+
+    /// The switch position (1-based) whose lever is under `point`, if any.
+    func switchPosition(at point: CGPoint) -> Int? {
+        guard symbol == .dipSwitch else { return nil }
+        let local = CGPoint(x: point.x - origin.x, y: point.y - origin.y)
+        return switchesOn.indices.map { $0 + 1 }.first { position in
+            ChipLayout.switchLeverRect(position: position, bodyWidth: layout.size.width)
+                .insetBy(dx: -4, dy: -3)
+                .contains(local)
+        }
     }
 
     var layout: ChipLayout {
@@ -597,6 +657,16 @@ final class SchematicDocument {
 
     func chip(at point: CGPoint) -> PlacedChip? {
         chips.last { $0.hitRect.contains(point) }
+    }
+
+    /// Flips a switch position (1-based) between ON and OFF. Returns the new
+    /// state, or nil when the part is not a switch or has no such position.
+    @discardableResult
+    func toggleSwitch(_ id: UUID, position: Int) -> Bool? {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              chips[index].switchesOn.indices.contains(position - 1) else { return nil }
+        chips[index].switchesOn[position - 1].toggle()
+        return chips[index].switchesOn[position - 1]
     }
 
     // MARK: Pins
