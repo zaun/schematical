@@ -27,8 +27,9 @@ See plan-03-A §Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-03-B complete | `ls planning/completed/plan-03-B-logic-footprints.md` → exists | NOT MET (2026-10-31) |
-| Logic parts tagged | `grep -c '"footprint"' schematical/schematical/Parts/{gate,dff,jkff}.json` → 2552, 672, 186 | NOT MET (2026-10-31) |
+| plan-03-B complete | `ls planning/completed/plan-03-B-logic-footprints.md` → exists | MET (2026-11-01: exists, 6ac023a) |
+| Logic parts tagged | `grep -c '"footprint"' schematical/schematical/Parts/{gate,dff,jkff}.json` → 2552, 672, 186 | MET (2026-11-01: 2552, 672, 186) |
+| Switch drawings in the repo (added 2026-11-01, see Corrections) | `pdfinfo datasheets/switch/ENG_DS_8-1773450-9_SECTION_A_DIP_SWITCHES.pdf \| grep Pages` → 44 | MET (2026-11-01: `Pages: 44`; added in this plan) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue and before you stop; if you stop,
@@ -242,6 +243,30 @@ See plan-03-A §Decisions. Author's choices recorded here: one footprint per
 7-seg datasheet (no merging of look-alike drawings); switch bodies come from the GDS/GDH/GDHL series.
 
 ## Corrections
+
+- 2026-11-01: **missing prerequisite — switch drawings.** The catalogue in
+  the repo (`ENG_CS_1308111-1_SWITCHES_CORE_PROGRAM_CATALOG_0308.pdf`) is a
+  short-form catalogue: all 30 pages rendered, no dimension drawings at all
+  (only "Dimensions (WxH)" such as GDS 6.2 × 2.7). TE's own document links
+  refuse automated download; TE's full DIP-switch catalogue 8-1773450-9
+  ("Section A DIP Switches", 44 pages, GDS A4–A5, GDH A10–A11, GDHL
+  A12–A13) was fetched from RS Components
+  (docs.rs-online.com/6995/A700000015638293.pdf) and added as
+  `datasheets/switch/ENG_DS_8-1773450-9_SECTION_A_DIP_SWITCHES.pdf`. Its
+  parts are the library's existing, active GDS/GDH/GDHL parts.
+- 2026-11-01: §4.3 says the switch catalogue has no land pattern, so SMD uses
+  R2. The 8-1773450-9 drawings do give recommended pad layouts for GDS SMD
+  (p.5 "S"), GDH (p.11) and GDHL (p.13, "RECOMMENDED PAD LAYOUT"), so all
+  ten SMD switch footprints use **R1**. The table's last column ("04 4
+  10.02mm 7.62mm") is "Dim M" (first-to-last pin along the row), not the
+  row spacing; GDS row spacing is .300 in = 7.62 mm (printed 7.60), GDH
+  .299 in (7.60).
+- 2026-11-01: §4.1 says TSOP-I `body.width` is 20 or 13.4; those are lead
+  tip-to-tip sizes. The plastic bodies are 18.4 (8×20 and 12×20) and 11.8
+  (8×13.4), from the drawings' D1.
+- 2026-11-01: §2 cites SiT1534 text lines 1170/1230 for the land patterns;
+  in a `pdftotext -layout` dump they are at lines 480 and 535 (PDF p.9 and
+  p.10).
 
 ## Summary
 
