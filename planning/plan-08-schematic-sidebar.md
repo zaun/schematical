@@ -36,8 +36,8 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-06 complete | `ls planning/completed/plan-06-{A,B,C,D}-*.md \| wc -l` → 4 | MET (2026-11-01) |
-| App builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01, at 060c69a) |
+| plan-06 complete | `ls planning/completed/plan-06-{A,B,C,D}-*.md \| wc -l` → 4 | MET (2026-11-01, re-run at a64fb17 → 4) |
+| App builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01, re-run at a64fb17 → `** BUILD SUCCEEDED **`) |
 
 Everything below is written against a tree where both hold.
 
@@ -233,11 +233,18 @@ block… The new part is not selected.").
 
 The PCB panel moves onto the shared views; facts exist with no UI yet.
 
-- [ ] Before the change: plan-06-A § Harness, plan-06-C's `window-c2`
-      capture of the LED's footprint panel → `/tmp/p07/pcb-before.png`.
-- [ ] `Canvas/PartInfoViews.swift` (new) and `Canvas/PCBSidebarView.swift`:
-      §4.1.
-- [ ] `Backend/PartFacts.swift` (new): §4.2.
+- [x] Before the change: plan-06-A § Harness, plan-06-C's `window-c2`
+      capture of the LED's footprint panel → `/tmp/p08/pcb-before.png`. —
+      `harness pcb <repo> before` (built at a64fb17, no code change):
+      `LED fields: ["U", "3", "2.54", "-0.64"]`, `captured
+      /tmp/p08/pcb-before.png` (U3 / LED-AMBER-0603 / Amber LED / LED-0603
+      caption, Reference U 3, Position, Marks); same run renames and
+      captures the duplicate message → `pcb-dup-before.png`.
+- [x] `Canvas/PartInfoViews.swift` (new) and `Canvas/PCBSidebarView.swift`:
+      §4.1. — `PartHeader` is its own leading `VStack` (Corrections 3);
+      `git diff --stat` → PCBSidebarView 2 insertions, 51 deletions.
+- [x] `Backend/PartFacts.swift` (new): §4.2, plus the voltage rows of
+      Corrections 2.
 
 Acceptance: the PCB footprint panel is unchanged; facts read right for
 every kind.
@@ -251,6 +258,20 @@ every kind.
   `110 MHz`; an SRAM with 32768 words × 8 → Size `32768 × 8 (32 KB)`
   (est. 2 min).
   Check: §Prerequisites `xcodebuild` → `** BUILD SUCCEEDED **` (est. 1 min).
+  Result: `harness pcb <repo> after` → `cmp pcb-before.png pcb-after.png`
+  exit 0 (byte-identical, stronger than by eye) and `cmp pcb-dup-before.png
+  pcb-dup-after.png` exit 0; `rename d 1 -> reference D1: true`; `dup:
+  fields ["U", "2", …] reference kept U2: true` with the red "D1 is already
+  used by another part." in `pcb-dup-after.png`. `harness facts` → `kinds:
+  10`, every row in §4.2 order (LTC-4727JR, SN74HCS72D, AT28C64B-15JU
+  `Size: 8192 × 8 (8 KB)` `Write cycle: 10 ms`, 5962-8403701VCA `Flags:
+  Military`, 5962-8515301CA, LED-RED-0402 `Color: Red`, OSC-SIT1534-2012,
+  AS6C6264-55PCN, GND `Level: Low (GND)`, TE-GDS0204, OSC-SIT1534-1508
+  `Range: 1 Hz – 32.768 kHz` `Default: 32.768 kHz`, 5V `Voltage: 5 V`);
+  `no empty value: true`; `osc Range/Default end in Hz: true`;
+  `hertz(32768) = 32.768 kHz true`; `hertz(110_000_000) = 110 MHz true`;
+  `size(32768, 8) = 32768 × 8 (32 KB) true`. `xcodebuild` → `** BUILD
+  SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — Schematic sidebar and placing
@@ -306,6 +327,32 @@ Commit: —
   the row labels and formats in §4.2.
 
 ## Corrections
+
+1. **Scratch directory**: the plan was written as plan-07 and names
+   `/tmp/p07/`, which plan-07's runs already use (`ls /tmp/p07` → its CMake
+   build and harness). This plan's harness and PNGs live in `/tmp/p08/`
+   (`/tmp/p08/harness/{build.sh,a.swift,window.swift}`; `window.swift` is
+   plan-06's `HostedWindow` driver copied unchanged plus imports, which
+   `MemberImportVisibility` needs per file). Mode names are kept.
+2. **§4.2 predates plan-07's voltage facts**: at the plan's base (060c69a)
+   `Details` had `dipSwitch(positions:actuator:)` and `supply(level:)`; now
+   (`sed -n 124,135p schematical/schematical/Backend/PartCatalog.swift`)
+   they carry `ratedMV` and `mv`, `DisplayInfo` has `vfMinMV`/`vfMaxMV`, and
+   `CatalogPart.vcc` holds the supply range and input max. These are facts
+   `CatalogPart` holds, so the panel shows them (formatted with
+   `VoltageCheck.volts`, as the drawer does), each left out when zero:
+   dipSwitch Rating "24 V max"; display Forward voltage "2–2.6 V"; supply
+   Voltage "5 V" after Level (high only); and, last for any part with
+   `vcc`, Supply range "2–6 V" and Input max "6 V". Also: the VCC part left
+   the library in plan-07-G, so the "VCC/GND tools" are now the supply
+   tools that place `5V`/`3V3`/… or `GND` (`SchematicCanvasView.swift:327`
+   `case .vcc, .ground` → `tool.supplyName(voltage:)`); the `placeChip`
+   callers are at lines 110 and 332, still 2.
+3. **§4.1 `PartHeader` as one view**: three bare `Text`s in a `Form`
+   `Section` would be three rows on the Schematic panel, so `PartHeader` is
+   a `VStack(alignment: .leading, spacing: 4)` with `.textSelection`, and
+   `FootprintPanel` nests it in its own same-spaced `VStack` with the
+   footprint caption — the PCB capture is byte-identical (Phase 1 result).
 
 ## Summary
 

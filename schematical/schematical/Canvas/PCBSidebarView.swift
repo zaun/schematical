@@ -220,28 +220,13 @@ private struct FootprintPanel: View {
     let document: SchematicDocument
     let chip: PlacedChip
 
-    @State private var prefix = ""
-    @State private var number = ""
-    @State private var referenceError: String?
-    @FocusState private var referenceFocus: ReferenceField?
-
-    private enum ReferenceField { case prefix, number }
-
     private var placement: BoardPlacement { chip.board! }
     private var units: BoardUnits { document.board.units }
 
     var body: some View {
         Section {
             VStack(alignment: .leading, spacing: 4) {
-                Text(chip.reference)
-                    .font(.title2.bold())
-                Text(chip.part.name)
-                    .font(.headline)
-                if !chip.part.description.isEmpty {
-                    Text(chip.part.description)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                }
+                PartHeader(chip: chip)
                 if let footprint = chip.part.footprint {
                     Text("\(footprint.id) — \(footprint.description)")
                         .font(.caption)
@@ -251,26 +236,7 @@ private struct FootprintPanel: View {
             .textSelection(.enabled)
         }
 
-        Section("Reference") {
-            HStack {
-                TextField("Prefix", text: $prefix)
-                    .focused($referenceFocus, equals: .prefix)
-                TextField("Number", text: $number)
-                    .focused($referenceFocus, equals: .number)
-            }
-            .labelsHidden()
-            .onSubmit(commitReference)
-            .onChange(of: referenceFocus) { old, new in
-                // Leaving the pair of fields commits; moving between them doesn't.
-                if old != nil, new == nil { commitReference() }
-            }
-            if let referenceError {
-                Text(referenceError)
-                    .font(.caption)
-                    .foregroundStyle(.red)
-            }
-        }
-        .onAppear(perform: resetReference)
+        ReferenceSection(document: document, chip: chip)
 
         Section("Position") {
             Picker("Origin", selection: Binding(
@@ -313,20 +279,5 @@ private struct FootprintPanel: View {
     private func move(to point: CGPoint) -> CGPoint {
         document.moveFootprintOrigin(chip.id, to: point)
         return document.chips.first { $0.id == chip.id }?.boardOrigin ?? point
-    }
-
-    private func commitReference() {
-        let trimmed = number.trimmingCharacters(in: .whitespaces)
-        referenceError = document.renameChip(chip.id, prefix: prefix.trimmingCharacters(in: .whitespaces),
-                                             number: Int(trimmed))
-        resetReference()
-    }
-
-    /// Puts the fields back to the part's reference as stored.
-    private func resetReference() {
-        let reference = document.chips.first { $0.id == chip.id }?.reference ?? chip.reference
-        let parts = ReferenceParts(reference)
-        prefix = parts.prefix
-        number = parts.number.map(String.init) ?? ""
     }
 }
