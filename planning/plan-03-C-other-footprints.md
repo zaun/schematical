@@ -205,17 +205,24 @@ footprint (they load a one-footprint `footprints` text first).
 Acceptance: SRAM and oscillator parts carry footprints; behavior unchanged.
   Check: `ctest --test-dir /tmp/logic-plan03 --output-on-failure` → all pass (est. 1 min). — 2026-11-01: `100% tests passed, 0 tests failed out of 8`.
   Check: `git diff --exit-code backend/tests/golden/traces.txt` (est. seconds). — 2026-11-01: exit 0, no output.
-Commit: —
+Commit: 9ec4107
 
 ### Phase 2 — Switches and 7-segment displays (42 footprints, 85 parts)
 
-- [ ] `footprints.json`: the 15 switch (§4.3) and 27 7-seg (§4.4) footprints.
-- [ ] Tag `switch.json` (36) and `7seg.json` (49).
-- [ ] Regenerate goldens; hand-check.
+- [x] `footprints.json`: the 15 switch (§4.3) and 27 7-seg (§4.4) footprints. —
+      switches from catalogue 8-1773450-9 (R5 through-hole, R1 SMD); 7-seg R5
+      from each datasheet's package drawing; parts with top/bottom pin rows
+      drawn rotated 90°; LTC-4624JR/4724JR `perSide` 8, `slots` [2…16].
+- [x] Tag `switch.json` (36) and `7seg.json` (49). — `switch.json: 36 parts
+      tagged`, `7seg.json: 49 parts tagged`, exit 0.
+- [x] Regenerate goldens; hand-check. — `goldcheck.py` on SW-DIP-4/20,
+      SW-SMD-8, SW-GDH-16, SW-GDHL-8 and the 7-seg lines: pin 1 at −span/2,
+      pitch, pads, pin 1 rect on through-hole; LTC-4624JR leaves its top-left
+      slot empty with pin 1 next (drawing's empty bottom-left position, turned).
 
 Acceptance: every non-supply part has a footprint.
-  Check: `ctest --test-dir /tmp/logic-plan03 --output-on-failure` → all pass; `wc -l < backend/tests/golden/footprints.txt` → 126 (est. 1 min).
-  Check: `python3 -I` one-off: every part in every kind file except `supply.json` has `"footprint"` → 3815 (est. seconds).
+  Check: `ctest --test-dir /tmp/logic-plan03 --output-on-failure` → all pass; `wc -l < backend/tests/golden/footprints.txt` → 126 (est. 1 min). — 2026-11-01: `100% tests passed, 0 tests failed out of 8`; 126.
+  Check: `python3 -I` one-off: every part in every kind file except `supply.json` has `"footprint"` → 3815 (est. seconds). — 2026-11-01: 3815.
 Commit: —
 
 ### Phase 3 — Required key, docs

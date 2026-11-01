@@ -22,8 +22,8 @@
         ["2A","2B"]
       ],
       "parts": [
-        {"name":"TE-GDS0204","package":"DIP","pinout":"p4"},
-        {"name":"TE-GDS02S04","package":"SMD","pinout":"p4"}
+        {"name":"TE-GDS0204","package":"DIP","pinout":"p4","footprint":"SW-DIP-4"},
+        {"name":"TE-GDS02S04","package":"SMD","pinout":"p4","footprint":"SW-SMD-4"}
       ]
     },
     {
@@ -51,8 +51,8 @@
         ["4A","4B"]
       ],
       "parts": [
-        {"name":"TE-GDS0404","package":"DIP","pinout":"p8"},
-        {"name":"TE-GDS04S04","package":"SMD","pinout":"p8"}
+        {"name":"TE-GDS0404","package":"DIP","pinout":"p8","footprint":"SW-DIP-8"},
+        {"name":"TE-GDS04S04","package":"SMD","pinout":"p8","footprint":"SW-SMD-8"}
       ]
     },
     {
@@ -86,8 +86,8 @@
         ["6A","6B"]
       ],
       "parts": [
-        {"name":"TE-GDS0604","package":"DIP","pinout":"p12"},
-        {"name":"TE-GDS06S04","package":"SMD","pinout":"p12"}
+        {"name":"TE-GDS0604","package":"DIP","pinout":"p12","footprint":"SW-DIP-12"},
+        {"name":"TE-GDS06S04","package":"SMD","pinout":"p12","footprint":"SW-SMD-12"}
       ]
     },
     {
@@ -127,8 +127,8 @@
         ["8A","8B"]
       ],
       "parts": [
-        {"name":"TE-GDS0804","package":"DIP","pinout":"p16"},
-        {"name":"TE-GDS08S04","package":"SMD","pinout":"p16"}
+        {"name":"TE-GDS0804","package":"DIP","pinout":"p16","footprint":"SW-DIP-16"},
+        {"name":"TE-GDS08S04","package":"SMD","pinout":"p16","footprint":"SW-SMD-16"}
       ]
     },
     {
@@ -174,8 +174,8 @@
         ["10A","10B"]
       ],
       "parts": [
-        {"name":"TE-GDS1004","package":"DIP","pinout":"p20"},
-        {"name":"TE-GDS10S04","package":"SMD","pinout":"p20"}
+        {"name":"TE-GDS1004","package":"DIP","pinout":"p20","footprint":"SW-DIP-20"},
+        {"name":"TE-GDS10S04","package":"SMD","pinout":"p20","footprint":"SW-SMD-20"}
       ]
     },
     {
@@ -197,7 +197,7 @@
         ["2A","2B"]
       ],
       "parts": [
-        {"name":"TE-GDP0204","package":"DIP","pinout":"p4"}
+        {"name":"TE-GDP0204","package":"DIP","pinout":"p4","footprint":"SW-DIP-4"}
       ]
     },
     {
@@ -225,7 +225,7 @@
         ["4A","4B"]
       ],
       "parts": [
-        {"name":"TE-GDP0404","package":"DIP","pinout":"p8"}
+        {"name":"TE-GDP0404","package":"DIP","pinout":"p8","footprint":"SW-DIP-8"}
       ]
     },
     {
@@ -259,7 +259,7 @@
         ["6A","6B"]
       ],
       "parts": [
-        {"name":"TE-GDP0604","package":"DIP","pinout":"p12"}
+        {"name":"TE-GDP0604","package":"DIP","pinout":"p12","footprint":"SW-DIP-12"}
       ]
     },
     {
@@ -299,7 +299,7 @@
         ["8A","8B"]
       ],
       "parts": [
-        {"name":"TE-GDP0804","package":"DIP","pinout":"p16"}
+        {"name":"TE-GDP0804","package":"DIP","pinout":"p16","footprint":"SW-DIP-16"}
       ]
     },
     {
@@ -345,7 +345,7 @@
         ["10A","10B"]
       ],
       "parts": [
-        {"name":"TE-GDP1004","package":"DIP","pinout":"p20"}
+        {"name":"TE-GDP1004","package":"DIP","pinout":"p20","footprint":"SW-DIP-20"}
       ]
     },
     {
@@ -373,8 +373,8 @@
         ["4A","4B"]
       ],
       "parts": [
-        {"name":"TE-GDR0404","package":"DIP","pinout":"p8"},
-        {"name":"TE-GDR04S04","package":"SMD","pinout":"p8"}
+        {"name":"TE-GDR0404","package":"DIP","pinout":"p8","footprint":"SW-DIP-8"},
+        {"name":"TE-GDR04S04","package":"SMD","pinout":"p8","footprint":"SW-SMD-8"}
       ]
     },
     {
@@ -414,8 +414,8 @@
         ["8A","8B"]
       ],
       "parts": [
-        {"name":"TE-GDR0804","package":"DIP","pinout":"p16"},
-        {"name":"TE-GDR08S04","package":"SMD","pinout":"p16"}
+        {"name":"TE-GDR0804","package":"DIP","pinout":"p16","footprint":"SW-DIP-16"},
+        {"name":"TE-GDR08S04","package":"SMD","pinout":"p16","footprint":"SW-SMD-16"}
       ]
     },
     {
@@ -437,7 +437,7 @@
         ["2A","2B"]
       ],
       "parts": [
-        {"name":"TE-GDH02S04","package":"SMD","pinout":"p4"}
+        {"name":"TE-GDH02S04","package":"SMD","pinout":"p4","footprint":"SW-GDH-4"}
       ]
     },
     {
@@ -465,7 +465,7 @@
         ["4A","4B"]
       ],
       "parts": [
-        {"name":"TE-GDH04S04","package":"SMD","pinout":"p8"}
+        {"name":"TE-GDH04S04","package":"SMD","pinout":"p8","footprint":"SW-GDH-8"}
       ]
     },
     {
@@ -505,7 +505,7 @@
         ["8A","8B"]
       ],
       "parts": [
-        {"name":"TE-GDH08S04","package":"SMD","pinout":"p16"}
+        {"name":"TE-GDH08S04","package":"SMD","pinout":"p16","footprint":"SW-GDH-16"}
       ]
     },
     {
@@ -533,7 +533,7 @@
         ["4A","4B"]
       ],
       "parts": [
-        {"name":"TE-GDHL04S","package":"SMD","pinout":"p8"}
+        {"name":"TE-GDHL04S","package":"SMD","pinout":"p8","footprint":"SW-GDHL-8"}
       ]
     },
     {
@@ -573,7 +573,7 @@
         ["8A","8B"]
       ],
       "parts": [
-        {"name":"TE-GDHL08S","package":"SMD","pinout":"p16"}
+        {"name":"TE-GDHL08S","package":"SMD","pinout":"p16","footprint":"SW-GDHL-16"}
       ]
     },
     {
@@ -595,7 +595,7 @@
         ["2A","2B"]
       ],
       "parts": [
-        {"name":"TE-ADE0204","package":"DIP","pinout":"p4"}
+        {"name":"TE-ADE0204","package":"DIP","pinout":"p4","footprint":"SW-DIP-4"}
       ]
     },
     {
@@ -623,8 +623,8 @@
         ["4A","4B"]
       ],
       "parts": [
-        {"name":"TE-ADE0404","package":"DIP","pinout":"p8"},
-        {"name":"TE-ADE04S04","package":"SMD","pinout":"p8"}
+        {"name":"TE-ADE0404","package":"DIP","pinout":"p8","footprint":"SW-DIP-8"},
+        {"name":"TE-ADE04S04","package":"SMD","pinout":"p8","footprint":"SW-SMD-8"}
       ]
     },
     {
@@ -658,7 +658,7 @@
         ["6A","6B"]
       ],
       "parts": [
-        {"name":"TE-ADE0604","package":"DIP","pinout":"p12"}
+        {"name":"TE-ADE0604","package":"DIP","pinout":"p12","footprint":"SW-DIP-12"}
       ]
     },
     {
@@ -698,8 +698,8 @@
         ["8A","8B"]
       ],
       "parts": [
-        {"name":"TE-ADE0804","package":"DIP","pinout":"p16"},
-        {"name":"TE-ADE08S04","package":"SMD","pinout":"p16"}
+        {"name":"TE-ADE0804","package":"DIP","pinout":"p16","footprint":"SW-DIP-16"},
+        {"name":"TE-ADE08S04","package":"SMD","pinout":"p16","footprint":"SW-SMD-16"}
       ]
     },
     {
@@ -745,7 +745,7 @@
         ["10A","10B"]
       ],
       "parts": [
-        {"name":"TE-ADE1004","package":"DIP","pinout":"p20"}
+        {"name":"TE-ADE1004","package":"DIP","pinout":"p20","footprint":"SW-DIP-20"}
       ]
     },
     {
@@ -767,7 +767,7 @@
         ["2A","2B"]
       ],
       "parts": [
-        {"name":"TE-ADF0204","package":"DIP","pinout":"p4"}
+        {"name":"TE-ADF0204","package":"DIP","pinout":"p4","footprint":"SW-DIP-4"}
       ]
     },
     {
@@ -795,7 +795,7 @@
         ["4A","4B"]
       ],
       "parts": [
-        {"name":"TE-ADF0404","package":"DIP","pinout":"p8"}
+        {"name":"TE-ADF0404","package":"DIP","pinout":"p8","footprint":"SW-DIP-8"}
       ]
     },
     {
@@ -829,7 +829,7 @@
         ["6A","6B"]
       ],
       "parts": [
-        {"name":"TE-ADF0604","package":"DIP","pinout":"p12"}
+        {"name":"TE-ADF0604","package":"DIP","pinout":"p12","footprint":"SW-DIP-12"}
       ]
     },
     {
@@ -869,7 +869,7 @@
         ["8A","8B"]
       ],
       "parts": [
-        {"name":"TE-ADF0804","package":"DIP","pinout":"p16"}
+        {"name":"TE-ADF0804","package":"DIP","pinout":"p16","footprint":"SW-DIP-16"}
       ]
     },
     {
@@ -915,7 +915,7 @@
         ["10A","10B"]
       ],
       "parts": [
-        {"name":"TE-ADF1004","package":"DIP","pinout":"p20"}
+        {"name":"TE-ADF1004","package":"DIP","pinout":"p20","footprint":"SW-DIP-20"}
       ]
     }
   ]
