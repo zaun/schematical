@@ -32,7 +32,7 @@ The same as plan-07-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-07-D complete | `ls planning/plan-07-D-* 2>/dev/null` → no output | NOT MET (2026-11-01) |
+| plan-07-D complete | `ls planning/plan-07-D-* 2>/dev/null` → no output | MET (2026-11-01: `ls planning/plan-07-D-*` → no matches; archived in aebb1ba) |
 
 ## 1. Goal
 
@@ -111,8 +111,8 @@ This work is behavior-neutral.
 
 ### Phase 1 — Flip-flops
 
-- [ ] Run plan-07-C §4 on the 20 dff and 6 jkff devices (74 entries).
-- [ ] Regenerate `parts.txt`.
+- [x] Run plan-07-C §4 on the 20 dff and 6 jkff devices (74 entries).
+- [x] Regenerate `parts.txt`.
 
 Acceptance: every dff and jkff part has a range, and nothing else changed.
   Check: a python script, like plan-07-C's, over `dff.json` and `jkff.json`
@@ -120,6 +120,12 @@ Acceptance: every dff and jkff part has a range, and nothing else changed.
   `git diff --quiet backend/tests/golden/traces.txt` → exit 0.
   `git diff -U0 backend/tests/golden/parts.txt | grep '^+[^+]' | grep -vc '|vcc='`
   → `0` (est. 1 min).
+  Result (2026-11-01): script → `0 858` (0 of 858 parts without `vcc`);
+  traces `git diff --quiet` → exit 0; `… | grep -vc '|vcc='` → `0`, and the
+  858 changed lines differ only by `|vcc=` (`858 858 True`). `verify.py` →
+  `672 parts checked, 0 mismatches` (dff), `186 parts checked, 0
+  mismatches` (jkff). Spot: `SN74HC74N vcc=2000-6000,in=6000`,
+  `SN74LS112AN vcc=4750-5250,in=5250`.
 Commit: —
 
 ### Phase 2 — SRAM and EEPROM
@@ -150,6 +156,15 @@ See plan-07-A § Decisions and plan-07-C § Decisions. Author decision: a
 ± % range is converted to min/max (§4) and rounded to the millivolt.
 
 ## Corrections
+
+- **Run the same way as plan-07-C** (see its Corrections): research agents
+  wrote `/tmp/p07/data/dff.json`, `xor-jk.json` (the jkff devices) and
+  `memory.json`; `/tmp/p07s/apply.py` applied them and
+  `/tmp/p07s/verify.py` compared every listed value with the readings.
+- **74_73 LS has an SN54 majority** (5 vs 4): the entry is 4.5–5.5 and the
+  SN74LS73A parts override to 4.75–5.25. 74_112 LS is a 4–4 tie: the entry
+  takes the SN74 range (plan-07-C tie rule).
+- **TTL family (5476, 54107)**: only SN54/SNJ54/SMD parts exist; 4.5–5.5.
 
 ## Summary
 

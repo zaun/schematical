@@ -8,6 +8,7 @@
       "function": "JK flip-flop",
       "description": "Dual negative-edge-triggered J-K flip-flop with clear",
       "drawer": ["Logic"],
+      "note": "SN74LS73AD, SN74LS73ADR, SN74LS73AN, SN74LS73ANE4: VCC 4.75-5.25 V (sn74ls73a p.5)",
       "pinouts": {
         "p14": [
           {"number":1,"name":"1CLK","role":"input"},
@@ -35,9 +36,9 @@
       "clearActiveHigh": false,
       "clockEdge": "falling",
       "timing": {
-        "HC": {"rise":13,"fall":13,"note": "CD74HC73: typical at 5 V, 25 C (15 pF)"},
-        "HCT": {"rise":38,"fall":38,"note": "CD74HCT73: max at 4.5 V, 25 C (50 pF); no typical given"},
-        "LS": {"rise":15,"fall":15,"note": "SN74LS73A: typical at 5 V, 25 C (15 pF)"}
+        "HC": {"rise":13,"fall":13,"vcc":[2,6],"note": "CD74HC73: typical at 5 V, 25 C (15 pF). VCC 2-6 V (cd74hc73 p.4)"},
+        "HCT": {"rise":38,"fall":38,"vcc":[4.5,5.5],"note": "CD74HCT73: max at 4.5 V, 25 C (50 pF); no typical given. VCC 4.5-5.5 V (cd74hc73 p.4)"},
+        "LS": {"rise":15,"fall":15,"vcc":[4.5,5.5],"note": "SN74LS73A: typical at 5 V, 25 C (15 pF). VCC 4.5-5.5 V (sn74ls73a p.5)"}
       },
       "parts": [
         {"name":"5962-8515301CA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military"]},
@@ -53,10 +54,10 @@
         {"name":"5962-9675101QCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"]},
         {"name":"5962-9675101QDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"]},
         {"name":"SN54LS73AJ","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"]},
-        {"name":"SN74LS73AD","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS","flags":["obsolete"]},
-        {"name":"SN74LS73ADR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
-        {"name":"SN74LS73AN","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
-        {"name":"SN74LS73ANE4","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
+        {"name":"SN74LS73AD","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS","flags":["obsolete"],"vcc":[4.75,5.25]},
+        {"name":"SN74LS73ADR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS","vcc":[4.75,5.25]},
+        {"name":"SN74LS73AN","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS","vcc":[4.75,5.25]},
+        {"name":"SN74LS73ANE4","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS","vcc":[4.75,5.25]},
         {"name":"SNJ54LS73AJ","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"]},
         {"name":"SNJ54LS73AW","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"]}
       ]
@@ -95,8 +96,8 @@
       "clearActiveHigh": false,
       "clockEdge": "falling",
       "timing": {
-        "TTL": {"rise":16,"fall":25,"note": "SN5476: typical at 5 V, 25 C (15 pF)"},
-        "LS": {"rise":15,"fall":15,"note": "SN54LS76A: typical at 5 V, 25 C (15 pF)"}
+        "TTL": {"rise":16,"fall":25,"vcc":[4.5,5.5],"note": "SN5476: typical at 5 V, 25 C (15 pF). VCC 4.5-5.5 V (sn54ls76a p.5)"},
+        "LS": {"rise":15,"fall":15,"vcc":[4.5,5.5],"note": "SN54LS76A: typical at 5 V, 25 C (15 pF). VCC 4.5-5.5 V (sn54ls76a p.6)"}
       },
       "parts": [
         {"name":"5962-9557501QEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military"]},
@@ -139,10 +140,10 @@
       "clearActiveHigh": false,
       "clockEdge": "falling",
       "timing": {
-        "HC": {"rise":14,"fall":14,"note": "CD74HC107: typical at 5 V, 25 C (15 pF)"},
-        "HCT": {"rise":18,"fall":18,"note": "CD74HCT107: typical at 5 V, 25 C (15 pF)"},
-        "TTL": {"rise":16,"fall":25,"note": "SN54107: typical at 5 V, 25 C (15 pF)"},
-        "LS": {"rise":15,"fall":15,"note": "SN74LS107A: typical at 5 V, 25 C (15 pF)"}
+        "HC": {"rise":14,"fall":14,"vcc":[2,6],"note": "CD74HC107: typical at 5 V, 25 C (15 pF). VCC 2-6 V (cd74hc107 p.3)"},
+        "HCT": {"rise":18,"fall":18,"vcc":[4.5,5.5],"note": "CD74HCT107: typical at 5 V, 25 C (15 pF). VCC 4.5-5.5 V (cd74hc107 p.3)"},
+        "TTL": {"rise":16,"fall":25,"vcc":[4.5,5.5],"note": "SN54107: typical at 5 V, 25 C (15 pF). VCC 4.5-5.5 V (sn74ls107a p.4)"},
+        "LS": {"rise":15,"fall":15,"vcc":[4.75,5.25],"note": "SN74LS107A: typical at 5 V, 25 C (15 pF). VCC 4.75-5.25 V (sn74ls107a p.5)"}
       },
       "parts": [
         {"name":"5962-8515401CA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military"]},
@@ -165,6 +166,7 @@
       "function": "JK flip-flop",
       "description": "Dual J-KBAR positive-edge-triggered flip-flop with preset and clear",
       "drawer": ["Logic"],
+      "note": "SN54LS109AJ, SNJ54LS109AJ, SNJ54LS109AW: VCC 4.5-5.5 V (sn74ls109a p.5)",
       "pinouts": {
         "p16": [
           {"number":1,"name":"1CLR","role":"input"},
@@ -216,14 +218,14 @@
       "clearActiveHigh": false,
       "clockEdge": "rising",
       "timing": {
-        "AC": {"rise":9.4,"fall":9.4,"note": "CD74AC109: max at 5 V, -40 to 85 C (50 pF); no typical given"},
-        "ACT": {"rise":9.4,"fall":9.4,"note": "CD74ACT109: max at 5 V, -40 to 85 C (50 pF); no typical given"},
-        "HCT": {"rise":17,"fall":17,"note": "CD74HCT109: typical at 5 V, 25 C (15 pF)"},
-        "HC": {"rise":15,"fall":15,"note": "SN74HC109: typical at 4.5 V, 25 C (50 pF)"},
-        "ALS": {"rise":16,"fall":18,"note": "SN74ALS109A: max, 0 to 70 C (50 pF); no typical given"},
-        "AS": {"rise":9,"fall":9,"note": "SN74AS109A: max, 0 to 70 C (50 pF); no typical given"},
-        "F": {"rise":4.9,"fall":5.8,"note": "SN74F109: typical at 5 V, 25 C (50 pF)"},
-        "LS": {"rise":13,"fall":25,"note": "SN74LS109A: typical at 5 V, 25 C (15 pF)"}
+        "AC": {"rise":9.4,"fall":9.4,"vcc":[1.5,5.5],"note": "CD74AC109: max at 5 V, -40 to 85 C (50 pF); no typical given. VCC 1.5-5.5 V (cd74ac109 p.4)"},
+        "ACT": {"rise":9.4,"fall":9.4,"vcc":[4.5,5.5],"note": "CD74ACT109: max at 5 V, -40 to 85 C (50 pF); no typical given. VCC 4.5-5.5 V (cd74act109 p.2)"},
+        "HCT": {"rise":17,"fall":17,"vcc":[4.5,5.5],"note": "CD74HCT109: typical at 5 V, 25 C (15 pF). VCC 4.5-5.5 V (cd74hc109 p.3)"},
+        "HC": {"rise":15,"fall":15,"vcc":[2,6],"note": "SN74HC109: typical at 4.5 V, 25 C (50 pF). VCC 2-6 V (sn74hc109 p.4)"},
+        "ALS": {"rise":16,"fall":18,"vcc":[4.5,5.5],"note": "SN74ALS109A: max, 0 to 70 C (50 pF); no typical given. VCC 4.5-5.5 V (sn74als109a p.2)"},
+        "AS": {"rise":9,"fall":9,"vcc":[4.5,5.5],"note": "SN74AS109A: max, 0 to 70 C (50 pF); no typical given. VCC 4.5-5.5 V (sn74als109a p.4)"},
+        "F": {"rise":4.9,"fall":5.8,"vcc":[4.5,5.5],"note": "SN74F109: typical at 5 V, 25 C (50 pF). VCC 4.5-5.5 V (sn74f109 p.2)"},
+        "LS": {"rise":13,"fall":25,"vcc":[4.75,5.25],"note": "SN74LS109A: typical at 5 V, 25 C (15 pF). VCC 4.75-5.25 V (sn74ls109a p.5)"}
       },
       "parts": [
         {"name":"CD54AC109F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"AC","flags":["military"]},
@@ -276,14 +278,14 @@
         {"name":"SN74HC109NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
         {"name":"SNJ54HC109J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
         {"name":"SNJ54HC109W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military"]},
-        {"name":"SN54LS109AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"]},
+        {"name":"SN54LS109AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
         {"name":"SN74LS109AD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS","flags":["obsolete"]},
         {"name":"SN74LS109ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
         {"name":"SN74LS109AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
         {"name":"SN74LS109ANE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
         {"name":"SN74LS109ANSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
-        {"name":"SNJ54LS109AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"]},
-        {"name":"SNJ54LS109AW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"]},
+        {"name":"SNJ54LS109AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS109AW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
         {"name":"84000012A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
         {"name":"SNJ54ALS109AFK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
         {"name":"5962-9758001Q2A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"F","flags":["military"]},
@@ -299,6 +301,7 @@
       "function": "JK flip-flop",
       "description": "Dual negative-edge-triggered J-K flip-flop with preset and clear",
       "drawer": ["Logic"],
+      "note": "SN54LS112AJ, SNJ54LS112AJ, SNJ54LS112AW, SNJ54LS112AFK: VCC 4.5-5.5 V (sn74ls112a p.4) | SN74S112AN: VCC 4.75-5.25 V (sn74ls112a p.6)",
       "pinouts": {
         "p16": [
           {"number":1,"name":"1CLK","role":"input"},
@@ -350,15 +353,15 @@
       "clearActiveHigh": false,
       "clockEdge": "falling",
       "timing": {
-        "AC": {"rise":9.4,"fall":9.4,"note": "CD74AC112: max at 5 V, -40 to 85 C (50 pF); no typical given"},
-        "ACT": {"rise":9.4,"fall":9.4,"note": "CD74ACT112: max at 5 V, -40 to 85 C (50 pF); no typical given"},
-        "HCT": {"rise":14,"fall":14,"note": "CD74HCT112: typical at 5 V, 25 C (15 pF)"},
-        "HC": {"rise":16,"fall":16,"note": "SN74HC112: typical at 4.5 V, 25 C (50 pF)"},
-        "ALS": {"rise":15,"fall":19,"note": "SN74ALS112A: max, 0 to 70 C (50 pF); no typical given"},
-        "F": {"rise":4.6,"fall":4.6,"note": "SN74F112: typical at 5 V, 25 C (50 pF)"},
-        "LS": {"rise":15,"fall":15,"note": "SN74LS112A: typical at 5 V, 25 C (15 pF)"},
-        "S": {"rise":4,"fall":5,"note": "SN74S112A: typical at 5 V, 25 C (15 pF)"},
-        "LVC": {"rise":3.5,"fall":3.5,"note": "SN74LVC112A: typical at 3.3 V, 25 C (50 pF)"}
+        "AC": {"rise":9.4,"fall":9.4,"vcc":[1.5,5.5],"note": "CD74AC112: max at 5 V, -40 to 85 C (50 pF); no typical given. VCC 1.5-5.5 V (cd74ac112 p.3)"},
+        "ACT": {"rise":9.4,"fall":9.4,"vcc":[4.5,5.5],"note": "CD74ACT112: max at 5 V, -40 to 85 C (50 pF); no typical given. VCC 4.5-5.5 V (cd74act112 p.2)"},
+        "HCT": {"rise":14,"fall":14,"vcc":[4.5,5.5],"note": "CD74HCT112: typical at 5 V, 25 C (15 pF). VCC 4.5-5.5 V (cd74hc112 p.4)"},
+        "HC": {"rise":16,"fall":16,"vcc":[2,6],"note": "SN74HC112: typical at 4.5 V, 25 C (50 pF). VCC 2-6 V (sn74hc112 p.3)"},
+        "ALS": {"rise":15,"fall":19,"vcc":[4.5,5.5],"note": "SN74ALS112A: max, 0 to 70 C (50 pF); no typical given. VCC 4.5-5.5 V (sn74als112a p.3)"},
+        "F": {"rise":4.6,"fall":4.6,"vcc":[4.5,5.5],"note": "SN74F112: typical at 5 V, 25 C (50 pF). VCC 4.5-5.5 V (sn74f112 p.3)"},
+        "LS": {"rise":15,"fall":15,"vcc":[4.75,5.25],"note": "SN74LS112A: typical at 5 V, 25 C (15 pF). VCC 4.75-5.25 V (sn74ls112a p.4)"},
+        "S": {"rise":4,"fall":5,"vcc":[4.5,5.5],"note": "SN74S112A: typical at 5 V, 25 C (15 pF). VCC 4.5-5.5 V (sn74ls112a p.6)"},
+        "LVC": {"rise":3.5,"fall":3.5,"vcc":[1.65,3.6],"inputMax":5.5,"note": "SN74LVC112A: typical at 3.3 V, 25 C (50 pF). VCC 1.65-3.6 V, inputs to 5.5 V (sn74lvc112a p.5)"}
       },
       "parts": [
         {"name":"CD54AC112F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"AC","flags":["military"]},
@@ -403,15 +406,15 @@
         {"name":"SN74HC112N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
         {"name":"SNJ54HC112J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
         {"name":"SNJ54HC112W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military"]},
-        {"name":"SN54LS112AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"]},
+        {"name":"SN54LS112AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
         {"name":"SN54S112J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military"]},
         {"name":"SN74LS112AD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS","flags":["obsolete"]},
         {"name":"SN74LS112ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
         {"name":"SN74LS112AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
         {"name":"SN74LS112ANSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
-        {"name":"SN74S112AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"S"},
-        {"name":"SNJ54LS112AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"]},
-        {"name":"SNJ54LS112AW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"]},
+        {"name":"SN74S112AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"S","vcc":[4.75,5.25]},
+        {"name":"SNJ54LS112AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS112AW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
         {"name":"SNJ54S112J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military"]},
         {"name":"SNJ54S112W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"S","flags":["military"]},
         {"name":"SN74LVC112AD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
@@ -428,7 +431,7 @@
         {"name":"M38510/37103B2A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
         {"name":"84088012A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military"]},
         {"name":"SNJ54HC112FK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military"]},
-        {"name":"SNJ54LS112AFK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military"]},
+        {"name":"SNJ54LS112AFK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
         {"name":"SNJ54S112FK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"S","flags":["military"]}
       ]
     },
@@ -465,7 +468,7 @@
       "presetActiveHigh": true,
       "clearActiveHigh": true,
       "clockEdge": "rising",
-      "timing": {"C":{"rise":150,"fall":150,"note": "typical at VDD 5 V, 25 C (50 pF)"}},
+      "timing": {"C":{"rise":150,"fall":150,"vcc":[3,18],"note": "typical at VDD 5 V, 25 C (50 pF). VCC 3-18 V (cd4027b p.4)"}},
       "parts": [
         {"name":"CD4027BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
         {"name":"CD4027BEE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
