@@ -27,6 +27,13 @@ typedef enum {
  */
 #define CHIP_PIN_GROUP_DEFAULT "default"
 
+/*
+ * Pin positions that have no lead ("No Pin" in a datasheet). They are listed
+ * so a package's pin numbering is complete, but the schematic never draws
+ * them, so nothing can be wired to them.
+ */
+#define CHIP_PIN_GROUP_HIDDEN "hidden"
+
 typedef struct {
     unsigned number;   /* package pin number, 1-based */
     const char *name;  /* datasheet pin name, e.g. "1A" or "VCC" */

@@ -8,6 +8,7 @@
 #include "catalog.h"
 #include "chip_definition.h"
 #include "led.h"
+#include "led7.h"
 #include "net.h"
 #include "osc.h"
 #include "sim.h"
@@ -34,6 +35,8 @@ struct NetlistSim {
     int *is_led;
     PartConfig *configs;
     size_t part_count;
+    /* Start of the last netlist_sim_advance: 7-segment LEDs ON since then glow. */
+    SimTime step_start;
 };
 
 /* ---- Part resolution ---------------------------------------------------- */
@@ -383,6 +386,7 @@ int netlist_sim_advance(NetlistSim *netlist, SimTime picoseconds) {
     if (netlist == NULL || netlist->sim == NULL) {
         return 0;
     }
+    netlist->step_start = sim_now(netlist->sim);
     return sim_run_until(netlist->sim, sim_now(netlist->sim) + picoseconds);
 }
 
@@ -410,6 +414,12 @@ char *netlist_sim_snapshot(const NetlistSim *netlist) {
             LogicValue anode = sim_read_pin(netlist->sim, part, 1);
             int lit = anode == LOGIC_1 && cathode == LOGIC_0;
             text_append(&text, "lit %zu %d\n", i, lit ? 1 : 0);
+        } else if (led7_instance_led_count(part) > 0) {
+            char glow[64];
+            size_t count = led7_instance_glow(netlist->sim, part, netlist->step_start,
+                                              glow, sizeof(glow));
+
+            text_append(&text, "glow %zu %.*s\n", i, (int)count, glow);
         }
     }
 

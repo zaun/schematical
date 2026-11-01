@@ -23,6 +23,7 @@ add_library(logic_backend STATIC
     gates.c
     sram.c
     switch.c
+    led7.c
 )
 
 target_include_directories(logic_backend
@@ -49,3 +50,7 @@ add_test(NAME sram_check COMMAND sram_check)
 add_executable(switch_check switch_check.c)
 target_link_libraries(switch_check PRIVATE logic_backend)
 add_test(NAME switch_check COMMAND switch_check)
+
+add_executable(led7_check led7_check.c)
+target_link_libraries(led7_check PRIVATE logic_backend)
+add_test(NAME led7_check COMMAND led7_check)

@@ -68,7 +68,8 @@ typedef enum {
     LOGIC_FAMILY_ALVC,
     LOGIC_FAMILY_TTL,   /* standard TTL (5476, 54107) */
     LOGIC_FAMILY_SRAM,  /* asynchronous SRAM (sram.c) */
-    LOGIC_FAMILY_SWITCH /* switch (switch.c) */
+    LOGIC_FAMILY_SWITCH,/* switch (switch.c) */
+    LOGIC_FAMILY_LED7   /* LED 7-segment display (led7.c) */
 } LogicFamily;
 
 typedef struct {

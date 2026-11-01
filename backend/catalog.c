@@ -14,6 +14,7 @@
 #include "cd4000.h"
 #include "gates.h"
 #include "led.h"
+#include "led7.h"
 #include "osc.h"
 #include "sram.h"
 #include "supply.h"
@@ -78,16 +79,20 @@ static const ChipDefinition *const DEFINITIONS[] = {
 
 #define CHIP_DEFINITION_COUNT (sizeof(DEFINITIONS) / sizeof(DEFINITIONS[0]))
 
-/* The chips above, then the switches (switch.c). */
+/* The chips above, then the switches (switch.c), then the 7-segment displays (led7.c). */
 size_t catalog_definition_count(void) {
-    return CHIP_DEFINITION_COUNT + switch_definition_count();
+    return CHIP_DEFINITION_COUNT + switch_definition_count() + led7_definition_count();
 }
 
 const ChipDefinition *catalog_definition_at(size_t index) {
     if (index < CHIP_DEFINITION_COUNT) {
         return DEFINITIONS[index];
     }
-    return switch_definition_at(index - CHIP_DEFINITION_COUNT);
+    index -= CHIP_DEFINITION_COUNT;
+    if (index < switch_definition_count()) {
+        return switch_definition_at(index);
+    }
+    return led7_definition_at(index - switch_definition_count());
 }
 
 static const char *role_name(PinRole role) {
@@ -197,8 +202,54 @@ static const char *family_name(LogicFamily family) {
         case LOGIC_FAMILY_TTL: return "TTL";
         case LOGIC_FAMILY_SRAM: return "SRAM";
         case LOGIC_FAMILY_SWITCH: return "Switch";
+        case LOGIC_FAMILY_LED7: return "LED 7-Seg";
     }
     return "unknown";
+}
+
+static void write_pin_numbers(FILE *out, const unsigned *numbers, size_t count) {
+    size_t i;
+
+    fputc('[', out);
+    for (i = 0; i < count; i++) {
+        fprintf(out, i > 0 ? ",%u" : "%u", numbers[i]);
+    }
+    fputc(']', out);
+}
+
+/* 7-segment displays: the LEDs and how to draw them. Nothing for other chips. */
+static void write_display(FILE *out, const ChipDefinition *chip) {
+    SimLogicConfig config;
+    unsigned numbers[64];
+    size_t count;
+    size_t i;
+
+    if (chip->part_number_count == 0 ||
+        chip->lookup(chip->part_numbers[0], &config) == NULL ||
+        config.family != LOGIC_FAMILY_LED7) {
+        return;
+    }
+    fprintf(out, ",\"display\":{\"digits\":%u,\"commonAnode\":%s,\"colonAfter\":%u,\"dotAfter\":%u",
+            led7_digits(&config), led7_common_anode(&config) ? "true" : "false",
+            led7_colon_after(&config), led7_dot_after(&config));
+    fputs(",\"chip\":", out);
+    write_json_string(out, led7_chip_label(&config));
+    fputs(",\"leds\":[", out);
+    for (i = 0; i < led7_led_count(&config); i++) {
+        unsigned digit;
+        Led7Segment segment;
+
+        led7_led_at(&config, i, &digit, &segment);
+        fprintf(out, "%s{\"digit\":%u,\"segment\":\"%s\"}", i > 0 ? "," : "",
+                digit == LED7_EXTRAS ? 0u : digit, led7_segment_name(segment));
+    }
+    fputs("],\"segmentPins\":", out);
+    count = led7_side_pins(&config, 0, numbers, 64);
+    write_pin_numbers(out, numbers, count);
+    fputs(",\"commonPins\":", out);
+    count = led7_side_pins(&config, 1, numbers, 64);
+    write_pin_numbers(out, numbers, count);
+    fputc('}', out);
 }
 
 static void write_chip(FILE *out, const ChipDefinition *chip) {
@@ -241,6 +292,12 @@ static void write_chip(FILE *out, const ChipDefinition *chip) {
             /* A switch's family is its actuator style, e.g. "Piano actuator". */
             fputs(",\"family\":", out);
             write_json_string(out, switch_family_label(&config));
+        } else if (config.family == LOGIC_FAMILY_LED7) {
+            /* A display's family is its color, as for single LEDs; plus its digit height. */
+            fputs(",\"family\":", out);
+            write_json_string(out, led7_color_label(&config));
+            fputs(",\"size\":", out);
+            write_json_string(out, led7_size_label(&config));
         } else {
             fprintf(out, ",\"family\":\"%s\"", family_name(config.family));
         }
@@ -256,7 +313,10 @@ static void write_chip(FILE *out, const ChipDefinition *chip) {
         first = false;
     }
 
-    fputs("],\"pins\":[", out);
+    fputs("]", out);
+    write_display(out, chip);
+
+    fputs(",\"pins\":[", out);
     for (i = 0; i < chip->pin_count; i++) {
         const ChipPin *pin = &chip->pins[i];
 

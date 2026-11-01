@@ -22,6 +22,9 @@
  *     time <picoseconds>
  *     net <index> <0|1|X|Z>
  *     lit <part index> <0|1>     LEDs only: anode high and cathode low
+ *     glow <part index> <0|1...> 7-segment displays only: one digit per LED,
+ *                                in catalog "leds" order; 1 = ON at any time
+ *                                during the last netlist_sim_advance
  *     shorted <net index>        present when two strong drivers disagree
  *     error <message>            present when the simulation has stopped
  */

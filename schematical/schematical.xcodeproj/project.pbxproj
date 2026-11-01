@@ -27,6 +27,7 @@
 		00000000A0B0C0E0000000D1 /* ff-jk.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000D1 /* ff-jk.c */; };
 		00000000A0B0C0E0000000E1 /* sram.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000E1 /* sram.c */; };
 		00000000A0B0C0E0000000F1 /* switch.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000F1 /* switch.c */; };
+		00000000A0B0C0E0000000F3 /* led7.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000F3 /* led7.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,8 @@
 		00000000A0B0C0D0000000E2 /* sram.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sram.h; sourceTree = "<group>"; };
 		00000000A0B0C0D0000000F1 /* switch.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = switch.c; sourceTree = "<group>"; };
 		00000000A0B0C0D0000000F2 /* switch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = switch.h; sourceTree = "<group>"; };
+		00000000A0B0C0D0000000F3 /* led7.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = led7.c; sourceTree = "<group>"; };
+		00000000A0B0C0D0000000F4 /* led7.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = led7.h; sourceTree = "<group>"; };
 		235280FF3096AF3A00135939 /* schematical.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = schematical.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -131,6 +134,7 @@
 				00000000A0B0C0D0000000C3 /* gates.c */,
 				00000000A0B0C0D0000000E1 /* sram.c */,
 				00000000A0B0C0D0000000F1 /* switch.c */,
+				00000000A0B0C0D0000000F3 /* led7.c */,
 				00000000A0B0C0D0000000A9 /* catalog_validate.c */,
 				00000000A0B0C0D00000000A /* sim.h */,
 				00000000A0B0C0D00000000B /* net.h */,
@@ -152,6 +156,7 @@
 				00000000A0B0C0D0000000C4 /* gates.h */,
 				00000000A0B0C0D0000000E2 /* sram.h */,
 				00000000A0B0C0D0000000F2 /* switch.h */,
+				00000000A0B0C0D0000000F4 /* led7.h */,
 			);
 			name = backend;
 			path = ../backend;
@@ -250,6 +255,7 @@
 				00000000A0B0C0E0000000C3 /* gates.c in Sources */,
 				00000000A0B0C0E0000000E1 /* sram.c in Sources */,
 				00000000A0B0C0E0000000F1 /* switch.c in Sources */,
+				00000000A0B0C0E0000000F3 /* led7.c in Sources */,
 				00000000A0B0C0E0000000A9 /* catalog_validate.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
