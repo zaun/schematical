@@ -5,7 +5,11 @@ import SwiftUI
 ///   drag a segment to shift it. Double-click a wire to add a bend there.
 ///   Drag empty space to pan.
 /// - Line: drag from one pin to another to connect them with a right-angled wire.
+///   A grid point on an existing wire can be a start or end too; it becomes a
+///   junction, so wires branch there. Only connection points are highlighted.
 /// - Eraser: click or drag over a block or wire to remove it.
+/// - Flip: click a part to flip it left and right.
+/// - VCC and GND: click the canvas to place a supply there.
 ///
 /// Parts dragged from the drawer are dropped here and centred on the drop point.
 /// The schematic is drawn in world coordinates and scaled by the viewport's zoom.
@@ -19,12 +23,14 @@ struct SchematicCanvasView: View {
     @State private var isDropTargeted = false
     @State private var hoveredChipID: UUID?
     @State private var hoveredWireID: UUID?
+    /// The connection point under the pointer in Line mode, when not drawing.
+    @State private var hoverAnchor: LineAnchor?
 
     private enum Interaction {
         case moveChip(id: UUID, startOrigin: CGPoint)
         case dragNode(wire: UUID, base: [CGPoint], index: Int)
         case dragSegment(wire: UUID, base: [CGPoint], index: Int)
-        case connecting(from: PinRef, cursor: CGPoint)
+        case connecting(from: LineAnchor, cursor: CGPoint)
         case pan(startOffset: CGSize)
         case idle
     }
@@ -59,6 +65,7 @@ struct SchematicCanvasView: View {
                 case .ended:
                     hoveredChipID = nil
                     hoveredWireID = nil
+                    hoverAnchor = nil
                 }
             }
             .simultaneousGesture(
@@ -75,6 +82,7 @@ struct SchematicCanvasView: View {
                 document.placeChip(
                     partNumber: item.partNumber,
                     chip: chip,
+                    symbol: catalog.symbol(forPartNumber: item.partNumber),
                     centeredAt: viewport.world(location)
                 )
                 return true
@@ -99,22 +107,40 @@ struct SchematicCanvasView: View {
 
             WireLayer(
                 routes: document.wires.map { RoutedWire(id: $0.id, points: document.path(forWire: $0.id)) },
+                junctions: document.junctions.map(\.point),
                 hoveredWireID: hoveredWireID,
                 preview: connectionPreview
             )
 
             ForEach(document.chips) { chip in
-                ChipBlockView(
-                    chip: chip,
-                    isSelected: chip.id == document.selectedChipID,
-                    isHovered: chip.id == hoveredChipID
-                )
-                .offset(x: chip.origin.x - ChipLayout.labelMargin, y: chip.origin.y)
+                Group {
+                    switch chip.symbol {
+                    case .block:
+                        ChipBlockView(
+                            chip: chip,
+                            isSelected: chip.id == document.selectedChipID,
+                            isHovered: chip.id == hoveredChipID
+                        )
+                    case .diode:
+                        DiodeSymbolView(
+                            chip: chip,
+                            isSelected: chip.id == document.selectedChipID,
+                            isHovered: chip.id == hoveredChipID
+                        )
+                    case .vcc, .ground:
+                        SupplySymbolView(
+                            chip: chip,
+                            isSelected: chip.id == document.selectedChipID,
+                            isHovered: chip.id == hoveredChipID
+                        )
+                    }
+                }
+                .offset(x: chip.viewOrigin.x, y: chip.viewOrigin.y)
             }
 
             PinMarkerLayer(
                 tips: tool == .line ? document.pinTips : [],
-                target: connectionPreview?.target
+                highlight: highlightPoint
             )
         }
         .scaleEffect(zoom, anchor: .topLeading)
@@ -139,14 +165,29 @@ struct SchematicCanvasView: View {
 
     private var connectionPreview: ConnectionPreview? {
         guard case let .connecting(from, cursor)? = interaction,
-              let start = document.pinTip(from) else {
+              let start = document.anchorTip(from) else {
             return nil
         }
 
-        let hoveredPin = document.pin(at: cursor, radius: pinRadius).flatMap { $0 == from ? nil : $0 }
-        let target = hoveredPin.flatMap { document.pinTip($0) }
+        let anchor = lineAnchor(at: cursor).flatMap { $0 == from ? nil : $0 }
+        let target = anchor.flatMap { document.anchorTip($0) }
         let end = target ?? SchematicGrid.snap(cursor)
         return ConnectionPreview(points: OrthogonalRoute.route(from: start, to: end), target: target)
+    }
+
+    /// The point to highlight in Line mode: where a line would land while it is
+    /// being drawn, or else the connection point under the pointer. Nothing else is
+    /// highlighted in this mode.
+    private var highlightPoint: CGPoint? {
+        guard tool == .line else { return nil }
+        if let preview = connectionPreview {
+            return preview.target
+        }
+        return hoverAnchor.flatMap { document.anchorTip($0) }
+    }
+
+    private func lineAnchor(at point: CGPoint) -> LineAnchor? {
+        document.lineAnchor(at: point, pinRadius: pinRadius, gridRadius: lineTolerance)
     }
 
     private var canvasGesture: some Gesture {
@@ -200,8 +241,8 @@ struct SchematicCanvasView: View {
 
         case .line:
             if interaction == nil {
-                if let pin = document.pin(at: start, radius: pinRadius) {
-                    interaction = .connecting(from: pin, cursor: current)
+                if let anchor = lineAnchor(at: start) {
+                    interaction = .connecting(from: anchor, cursor: current)
                 } else {
                     interaction = .idle
                 }
@@ -213,11 +254,40 @@ struct SchematicCanvasView: View {
         case .eraser:
             document.erase(at: current, tolerance: lineTolerance)
             interaction = .idle
+
+        case .flip:
+            // One flip per press: the part under where the press started.
+            if interaction == nil, let hit = document.chip(at: start) {
+                document.flipChip(hit.id)
+            }
+            interaction = .idle
+
+        case .vcc, .ground:
+            // One supply per press, centred under where the press started.
+            if interaction == nil,
+               let name = tool.supplyName,
+               let chip = catalog.supplyChip(named: name) {
+                document.placeChip(
+                    partNumber: name,
+                    chip: chip,
+                    symbol: catalog.symbol(forPartNumber: name),
+                    centeredAt: start
+                )
+            }
+            interaction = .idle
         }
     }
 
     /// Highlights the block under the pointer, or else the wire segment under it.
+    /// In Line mode, highlights only the connection point under the pointer.
     private func updateHover(at point: CGPoint) {
+        if tool == .line {
+            hoveredChipID = nil
+            hoveredWireID = nil
+            hoverAnchor = lineAnchor(at: point)
+            return
+        }
+        hoverAnchor = nil
         if let chip = document.chip(at: point) {
             hoveredChipID = chip.id
             hoveredWireID = nil
@@ -254,9 +324,8 @@ struct SchematicCanvasView: View {
     private func handleEnded(_ value: DragGesture.Value) {
         switch interaction {
         case let .connecting(from, _)?:
-            if let target = document.pin(at: viewport.world(value.location), radius: pinRadius),
-               target != from {
-                document.addWire(from: from, to: target)
+            if let target = lineAnchor(at: viewport.world(value.location)), target != from {
+                document.connect(from, target)
             }
         case let .moveChip(id, _)?:
             document.settleWires(attachedTo: id)
@@ -309,32 +378,33 @@ struct RoutedWire: Identifiable {
     let points: [CGPoint]
 }
 
-/// A small circle over each pin, shown in Line mode. The pin the wire would
-/// connect to is filled green.
+/// A small circle over each pin, shown in Line mode. The connection point under
+/// the pointer, or the one a line would land on, is filled green.
 private struct PinMarkerLayer: View {
     let tips: [CGPoint]
-    let target: CGPoint?
+    let highlight: CGPoint?
 
     var body: some View {
         Canvas { context, _ in
-            for tip in tips {
-                if tip == target {
-                    let rect = CGRect(x: tip.x - 6, y: tip.y - 6, width: 12, height: 12)
-                    context.fill(Path(ellipseIn: rect), with: .color(.green))
-                    context.stroke(Path(ellipseIn: rect), with: .color(.green.opacity(0.6)), lineWidth: 1)
-                } else {
-                    let rect = CGRect(x: tip.x - 4, y: tip.y - 4, width: 8, height: 8)
-                    context.stroke(Path(ellipseIn: rect), with: .color(.accentColor), lineWidth: 1.25)
-                }
+            for tip in tips where tip != highlight {
+                let rect = CGRect(x: tip.x - 4, y: tip.y - 4, width: 8, height: 8)
+                context.stroke(Path(ellipseIn: rect), with: .color(.accentColor), lineWidth: 1.25)
+            }
+
+            if let highlight {
+                let rect = CGRect(x: highlight.x - 6, y: highlight.y - 6, width: 12, height: 12)
+                context.fill(Path(ellipseIn: rect), with: .color(.green))
+                context.stroke(Path(ellipseIn: rect), with: .color(.green.opacity(0.6)), lineWidth: 1)
             }
         }
     }
 }
 
 /// Draws wires as orthogonal polylines, plus the route being drawn from a pin.
-/// The hovered wire gets a soft accent underlay.
+/// The hovered wire gets a soft accent underlay. Junctions get a solid dot.
 private struct WireLayer: View {
     let routes: [RoutedWire]
+    let junctions: [CGPoint]
     let hoveredWireID: UUID?
     let preview: ConnectionPreview?
 
@@ -347,6 +417,11 @@ private struct WireLayer: View {
                     context.stroke(polyline(route.points), with: .color(Color.accentColor.opacity(0.35)), style: underlay)
                 }
                 context.stroke(polyline(route.points), with: .color(.primary), style: solid)
+            }
+
+            for point in junctions {
+                let rect = CGRect(x: point.x - 2.5, y: point.y - 2.5, width: 5, height: 5)
+                context.fill(Path(ellipseIn: rect), with: .color(.primary))
             }
 
             if let preview {

@@ -23,6 +23,9 @@ enum SchematicTool: String, CaseIterable, Identifiable {
     case pointer
     case eraser
     case line
+    case flip
+    case vcc
+    case ground
 
     var id: String { rawValue }
 
@@ -31,6 +34,9 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         case .pointer: "Pointer"
         case .eraser: "Eraser"
         case .line: "Line"
+        case .flip: "Flip"
+        case .vcc: "VCC"
+        case .ground: "GND"
         }
     }
 
@@ -39,11 +45,44 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         case .pointer: "cursorarrow"
         case .eraser: "eraser"
         case .line: "line.diagonal"
+        case .flip: "arrow.left.and.right"
+        case .vcc: "bolt"
+        case .ground: "arrow.down.to.line"
+        }
+    }
+
+    /// The supply placed by this tool, if it places one.
+    var supplyName: String? {
+        switch self {
+        case .vcc: "VCC"
+        case .ground: "GND"
+        default: nil
         }
     }
 }
 
 // MARK: - Block geometry
+
+/// How a placed part is drawn. Logic chips are boxes; LEDs use the diode symbol;
+/// VCC and GND use their own supply symbols.
+nonisolated enum PartSymbol: Hashable {
+    case block
+    case diode
+    case vcc
+    case ground
+
+    /// Supplies have their pin on the top or bottom edge, so their view needs
+    /// room above and below the body for the pin stub.
+    var hasVerticalPins: Bool {
+        self == .vcc || self == .ground
+    }
+
+    /// Flip turns logic chips and LEDs left to right. VCC and GND are fixed
+    /// in place, so flipping them does nothing.
+    var canFlip: Bool {
+        !hasVerticalPins
+    }
+}
 
 /// Schematic block geometry, derived from the backend's pin roles.
 ///
@@ -55,13 +94,26 @@ nonisolated struct ChipLayout: Hashable {
     enum Side: Hashable {
         case left
         case right
+        case top
+        case bottom
+
+        var opposite: Side {
+            switch self {
+            case .left: .right
+            case .right: .left
+            case .top: .bottom
+            case .bottom: .top
+            }
+        }
     }
 
     struct PinSlot: Identifiable, Hashable {
         let pin: ChipPin
         let side: Side
-        /// Vertical centre of the pin inside the body, in body coordinates.
+        /// Vertical centre of a left or right pin inside the body, in body coordinates.
         let centerY: CGFloat
+        /// Horizontal centre of a top or bottom pin inside the body.
+        var centerX: CGFloat = 0
 
         var id: Int { pin.number }
     }
@@ -74,8 +126,80 @@ nonisolated struct ChipLayout: Hashable {
     /// Room on each side of the body for pin numbers.
     static let labelMargin: CGFloat = 30
 
+    /// Diode symbol: the anode and cathode leads sit on this row, and the body
+    /// is 40 wide. The extra height under the symbol holds its label.
+    static let diodeCentreY: CGFloat = 20
+    static let diodeSize = CGSize(width: 40, height: 50)
+
     let size: CGSize
     let slots: [PinSlot]
+
+    /// Supply symbols are 40 by 20. The single pin sits on the middle column:
+    /// VCC's on the bottom edge, GND's on the top edge. Each symbol's bar sits
+    /// on its pin's edge, so the connector from bar to pin is one stub (10px).
+    static let supplyPinX: CGFloat = 20
+    static let supplySize = CGSize(width: 40, height: 20)
+
+    init(chip: ChipDefinition, symbol: PartSymbol) {
+        switch symbol {
+        case .block:
+            self = ChipLayout(chip: chip)
+        case .diode:
+            self = Self.diode(chip)
+        case .vcc:
+            self = Self.supply(chip, side: .bottom)
+        case .ground:
+            self = Self.supply(chip, side: .top)
+        }
+    }
+
+    private static func supply(_ chip: ChipDefinition, side: Side) -> ChipLayout {
+        guard let pin = chip.pins.first else {
+            return ChipLayout(chip: chip)
+        }
+        return ChipLayout(
+            size: supplySize,
+            slots: [PinSlot(pin: pin, side: side, centerY: 0, centerX: supplyPinX)]
+        )
+    }
+
+    private init(size: CGSize, slots: [PinSlot]) {
+        self.size = size
+        self.slots = slots
+    }
+
+    /// The same body with every pin moved to the opposite side. Pin rows stay
+    /// where they are.
+    func flipped() -> ChipLayout {
+        ChipLayout(
+            size: size,
+            slots: slots.map { slot in
+                PinSlot(
+                    pin: slot.pin,
+                    side: slot.side.opposite,
+                    centerY: slot.centerY,
+                    centerX: slot.centerX
+                )
+            }
+        )
+    }
+
+    /// Anode (pin 2, "A") on the left and cathode (pin 1, "K") on the right.
+    /// Other pins, such as no-connects on a 4-DIP, are not drawn. Falls back to
+    /// the block layout if either terminal is missing.
+    private static func diode(_ chip: ChipDefinition) -> ChipLayout {
+        guard let anode = chip.pins.first(where: { $0.name == "A" }),
+              let cathode = chip.pins.first(where: { $0.name == "K" }) else {
+            return ChipLayout(chip: chip)
+        }
+        return ChipLayout(
+            size: diodeSize,
+            slots: [
+                PinSlot(pin: anode, side: .left, centerY: diodeCentreY),
+                PinSlot(pin: cathode, side: .right, centerY: diodeCentreY),
+            ]
+        )
+    }
 
     init(chip: ChipDefinition) {
         func byNumber(_ a: ChipPin, _ b: ChipPin) -> Bool { a.number < b.number }
@@ -145,17 +269,52 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     let reference: String
     let partNumber: String
     let chip: ChipDefinition
-    let layout: ChipLayout
+    let symbol: PartSymbol
     /// Top-left corner of the body. Always on the grid.
     var origin: CGPoint
+    /// Flipped parts have their pins on the opposite sides. For an LED the
+    /// whole symbol is also mirrored; see `DiodeSymbolView`.
+    var isFlipped = false
 
-    init(reference: String, partNumber: String, chip: ChipDefinition, origin: CGPoint) {
+    private let baseLayout: ChipLayout
+
+    init(reference: String, partNumber: String, chip: ChipDefinition, symbol: PartSymbol, origin: CGPoint) {
         self.id = UUID()
         self.reference = reference
         self.partNumber = partNumber
         self.chip = chip
-        self.layout = ChipLayout(chip: chip)
+        self.symbol = symbol
+        self.baseLayout = ChipLayout(chip: chip, symbol: symbol)
         self.origin = origin
+    }
+
+    var layout: ChipLayout {
+        isFlipped ? baseLayout.flipped() : baseLayout
+    }
+
+    /// Where a pin's wire leaves the body: the end of its stub.
+    func tip(of slot: ChipLayout.PinSlot) -> CGPoint {
+        let stub = ChipLayout.stubLength
+        let size = layout.size
+        switch slot.side {
+        case .left:
+            return CGPoint(x: origin.x - stub, y: origin.y + slot.centerY)
+        case .right:
+            return CGPoint(x: origin.x + size.width + stub, y: origin.y + slot.centerY)
+        case .top:
+            return CGPoint(x: origin.x + slot.centerX, y: origin.y - stub)
+        case .bottom:
+            return CGPoint(x: origin.x + slot.centerX, y: origin.y + size.height + stub)
+        }
+    }
+
+    /// Top-left corner of the view. Supplies also need room above and below
+    /// the body, so their view starts one stub higher.
+    var viewOrigin: CGPoint {
+        CGPoint(
+            x: origin.x - ChipLayout.labelMargin,
+            y: origin.y - (symbol.hasVerticalPins ? ChipLayout.stubLength : 0)
+        )
     }
 
     var bodyRect: CGRect {
@@ -163,8 +322,12 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     }
 
     /// The body plus its pin stubs, used for hit testing.
+    /// The body plus its pin stubs, used for hit testing and hover. Vertical
+    /// supplies also have stubs above and below, so those are included too.
     var hitRect: CGRect {
-        bodyRect.insetBy(dx: -ChipLayout.stubLength, dy: 0)
+        let stub = ChipLayout.stubLength
+        let verticalStub = symbol.hasVerticalPins ? stub : 0
+        return bodyRect.insetBy(dx: -stub, dy: -verticalStub)
     }
 }
 
@@ -174,12 +337,32 @@ struct PinRef: Hashable {
     let number: Int
 }
 
-/// A wire joins two pins. Its route is the pin tip, then the bends in
-/// `interior`, then the other pin tip. Every segment is horizontal or vertical.
+/// One end of a wire: a pin on a placed part, or a junction where wires meet.
+enum WireEnd: Hashable {
+    case pin(PinRef)
+    case junction(UUID)
+}
+
+/// A grid point where wires meet. Wires that branch from a point on another
+/// wire both end here, so the point is fixed in place.
+struct Junction: Identifiable, Hashable {
+    let id = UUID()
+    let point: CGPoint
+}
+
+/// Where a line can start or end in Line mode: a pin, or a grid point that an
+/// existing wire passes through.
+enum LineAnchor: Hashable {
+    case pin(PinRef)
+    case point(CGPoint)
+}
+
+/// A wire joins two ends. Its route is the start tip, then the bends in
+/// `interior`, then the end tip. Every segment is horizontal or vertical.
 struct Wire: Identifiable, Hashable {
     let id = UUID()
-    var start: PinRef
-    var end: PinRef
+    var start: WireEnd
+    var end: WireEnd
     var interior: [CGPoint]
 }
 
@@ -318,6 +501,7 @@ enum OrthogonalRoute {
 final class SchematicDocument {
     private(set) var chips: [PlacedChip] = []
     private(set) var wires: [Wire] = []
+    private(set) var junctions: [Junction] = []
     var selectedChipID: UUID?
 
     private var nextReference = 1
@@ -325,8 +509,8 @@ final class SchematicDocument {
     // MARK: Chips
 
     /// Places a block with its centre under `point`, snapped to the grid.
-    func placeChip(partNumber: String, chip: ChipDefinition, centeredAt point: CGPoint) {
-        let layout = ChipLayout(chip: chip)
+    func placeChip(partNumber: String, chip: ChipDefinition, symbol: PartSymbol, centeredAt point: CGPoint) {
+        let layout = ChipLayout(chip: chip, symbol: symbol)
         let origin = SchematicGrid.snap(
             CGPoint(x: point.x - layout.size.width / 2, y: point.y - layout.size.height / 2)
         )
@@ -334,6 +518,7 @@ final class SchematicDocument {
             reference: "U\(nextReference)",
             partNumber: partNumber,
             chip: chip,
+            symbol: symbol,
             origin: origin
         )
         nextReference += 1
@@ -344,6 +529,15 @@ final class SchematicDocument {
     func moveChip(_ id: UUID, to origin: CGPoint) {
         guard let index = chips.firstIndex(where: { $0.id == id }) else { return }
         chips[index].origin = SchematicGrid.snap(origin)
+    }
+
+    /// Swaps the side of every pin on a placed part, and re-fits the wires
+    /// attached to it.
+    func flipChip(_ id: UUID) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              chips[index].symbol.canFlip else { return }
+        chips[index].isFlipped.toggle()
+        settleWires(attachedTo: id)
     }
 
     func chip(at point: CGPoint) -> PlacedChip? {
@@ -358,11 +552,7 @@ final class SchematicDocument {
               let slot = chip.layout.slots.first(where: { $0.pin.number == ref.number }) else {
             return nil
         }
-        let stub = ChipLayout.stubLength
-        let x = slot.side == .left
-            ? chip.origin.x - stub
-            : chip.origin.x + chip.layout.size.width + stub
-        return CGPoint(x: x, y: chip.origin.y + slot.centerY)
+        return chip.tip(of: slot)
     }
 
     /// Tip position of every pin on every placed chip.
@@ -387,13 +577,48 @@ final class SchematicDocument {
         return nil
     }
 
+    /// Where a wire leaves or enters one of its ends.
+    func endTip(_ end: WireEnd) -> CGPoint? {
+        switch end {
+        case let .pin(ref):
+            return pinTip(ref)
+        case let .junction(id):
+            return junctions.first { $0.id == id }?.point
+        }
+    }
+
+    /// The point a line would start or end at.
+    func anchorTip(_ anchor: LineAnchor) -> CGPoint? {
+        switch anchor {
+        case let .pin(ref):
+            return pinTip(ref)
+        case let .point(point):
+            return point
+        }
+    }
+
+    /// What a line can start or end on near `point`: a pin if one is within
+    /// `pinRadius`, otherwise the grid point nearest `point` when an existing
+    /// wire passes through it and it is within `gridRadius`.
+    func lineAnchor(at point: CGPoint, pinRadius: CGFloat, gridRadius: CGFloat) -> LineAnchor? {
+        if let ref = pin(at: point, radius: pinRadius) {
+            return .pin(ref)
+        }
+        let grid = SchematicGrid.snap(point)
+        guard Self.distance(from: point, to: grid) <= gridRadius,
+              segmentHit(at: grid, tolerance: 0.5) != nil else {
+            return nil
+        }
+        return .point(grid)
+    }
+
     // MARK: Wires
 
-    /// Full route of a wire, from one pin tip to the other.
+    /// Full route of a wire, from one end's tip to the other.
     func path(forWire id: UUID) -> [CGPoint] {
         guard let wire = wires.first(where: { $0.id == id }),
-              let start = pinTip(wire.start),
-              let end = pinTip(wire.end) else {
+              let start = endTip(wire.start),
+              let end = endTip(wire.end) else {
             return []
         }
         // Same rules as settleWires, applied on the fly, so the wire looks the
@@ -406,18 +631,90 @@ final class SchematicDocument {
         wires.map { path(forWire: $0.id) }
     }
 
-    /// Connects two pins with an orthogonal route.
-    func addWire(from start: PinRef, to end: PinRef) {
-        guard start != end, let a = pinTip(start), let b = pinTip(end) else { return }
-        let route = OrthogonalRoute.route(from: a, to: b)
-        wires.append(Wire(start: start, end: end, interior: Array(route.dropFirst().dropLast())))
+    /// Connects two anchors with an orthogonal route. A grid point on an existing
+    /// wire becomes a junction: that wire is split there and the new wire branches
+    /// from it.
+    func connect(_ start: LineAnchor, _ end: LineAnchor) {
+        guard start != end,
+              let a = anchorTip(start), let b = anchorTip(end), a != b else {
+            return
+        }
+
+        // Resolve the start first, so a split for it is in place before the end is looked up.
+        guard let from = endpoint(for: start), let to = endpoint(for: end),
+              let fromTip = endTip(from), let toTip = endTip(to) else {
+            return
+        }
+        let route = OrthogonalRoute.route(from: fromTip, to: toTip)
+        wires.append(Wire(start: from, end: to, interior: Array(route.dropFirst().dropLast())))
+    }
+
+    /// The wire end for an anchor. Creates a junction when the anchor is a point on a wire.
+    private func endpoint(for anchor: LineAnchor) -> WireEnd? {
+        switch anchor {
+        case let .pin(ref):
+            return .pin(ref)
+        case let .point(point):
+            return junction(at: point).map { WireEnd.junction($0) }
+        }
+    }
+
+    /// The junction at `point`, creating one if an existing wire passes through it.
+    /// The wire is split into two wires that meet at the junction.
+    private func junction(at point: CGPoint) -> UUID? {
+        if let existing = junctions.first(where: { $0.point == point }) {
+            return existing.id
+        }
+        guard let hit = segmentHit(at: point, tolerance: 0.5),
+              let index = wires.firstIndex(where: { $0.id == hit.wire }) else {
+            return nil
+        }
+
+        var path = self.path(forWire: hit.wire)
+        if !path.contains(point) {
+            path.insert(point, at: hit.index + 1)
+        }
+        guard let k = path.firstIndex(of: point), k > 0, k < path.count - 1 else {
+            return nil
+        }
+
+        let created = Junction(point: point)
+        junctions.append(created)
+
+        let original = wires[index]
+        wires[index].end = .junction(created.id)
+        wires[index].interior = Array(path[1..<k])
+        wires.insert(
+            Wire(
+                start: .junction(created.id),
+                end: original.end,
+                interior: Array(path[(k + 1)..<(path.count - 1)])
+            ),
+            at: index + 1
+        )
+        return created.id
+    }
+
+    /// Whether a wire end sits on a pin of the given part.
+    private func attaches(_ end: WireEnd, to chipID: UUID) -> Bool {
+        if case let .pin(ref) = end {
+            return ref.chipID == chipID
+        }
+        return false
+    }
+
+    /// Drops junctions that no wire ends at any more.
+    private func pruneJunctions() {
+        junctions.removeAll { junction in
+            !wires.contains { $0.start == .junction(junction.id) || $0.end == .junction(junction.id) }
+        }
     }
 
     /// Called when a block is released. Re-fits the wires attached to it and
     /// stores the result, so the change stays rather than being recomputed per frame.
     func settleWires(attachedTo chipID: UUID) {
-        for index in wires.indices where wires[index].start.chipID == chipID || wires[index].end.chipID == chipID {
-            guard let start = pinTip(wires[index].start), let end = pinTip(wires[index].end) else { continue }
+        for index in wires.indices where attaches(wires[index].start, to: chipID) || attaches(wires[index].end, to: chipID) {
+            guard let start = endTip(wires[index].start), let end = endTip(wires[index].end) else { continue }
             wires[index].interior = OrthogonalRoute.settled(
                 start: start,
                 interior: wires[index].interior,
@@ -471,13 +768,16 @@ final class SchematicDocument {
     func erase(at point: CGPoint, tolerance: CGFloat = 6) {
         if let hit = chip(at: point) {
             chips.removeAll { $0.id == hit.id }
-            wires.removeAll { $0.start.chipID == hit.id || $0.end.chipID == hit.id }
+            wires.removeAll { attaches($0.start, to: hit.id) || attaches($0.end, to: hit.id) }
             if selectedChipID == hit.id {
                 selectedChipID = nil
             }
         } else if let hit = segmentHit(at: point, tolerance: tolerance) {
             wires.removeAll { $0.id == hit.wire }
+        } else {
+            return
         }
+        pruneJunctions()
     }
 
     // MARK: Geometry
