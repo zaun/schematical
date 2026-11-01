@@ -234,6 +234,54 @@ static void check_memory(void) {
 }
 
 /* A ball-pinout LED from an inline part file: "B2" (anode) on VCC, "A1" on GND lights it. */
+/* Error text matches exactly (plan-04-B section 4.1). */
+static void expect_error(Circuit *c, int result, const char *message, const char *what) {
+    const char *error = circuit_error(c);
+    int ok = result == -1 && error != NULL && strcmp(error, message) == 0;
+
+    if (!ok) {
+        printf("  got %d \"%s\", wanted \"%s\"\n", result, error != NULL ? error : "(none)", message);
+    }
+    expect(ok, what);
+}
+
+/* circuit_memory_load: before start only, EEPROMs only, in range, values that fit. */
+static void check_memory_load(void) {
+    Circuit *c = circuit_create(library);
+    size_t rom = part(c, "AT28C256-15PU");
+    size_t ram = part(c, "AS6C62256-55PCN");
+    static const uint32_t TWO[2] = {0x12, 0x34};
+    static const uint32_t THREE[3] = {1, 2, 3};
+    static const uint32_t WIDE[1] = {0x100};
+    uint32_t values[2] = {0, 0};
+    uint32_t known[2] = {0, 0};
+
+    expect(circuit_memory_load(c, rom, 0x7FFE, TWO, 2) == 0, "memory load: two words at 0x7FFE");
+    circuit_memory_read(c, rom, 0x7FFE, 2, values, known);
+    expect(values[0] == 0x12 && values[1] == 0x34 && known[0] == 0xFF && known[1] == 0xFF,
+           "memory load: read back 12 34, every bit known");
+    circuit_memory_read(c, rom, 0, 1, values, known);
+    expect(values[0] == 0xFF && known[0] == 0xFF, "memory load: word 0 still erased (FF)");
+    expect(circuit_memory_load(c, rom, 5, TWO, 0) == 0, "memory load: count 0 succeeds");
+
+    expect_error(c, circuit_memory_load(c, 99, 0, TWO, 1), "no part 99", "memory load: part 99");
+    expect_error(c, circuit_memory_load(c, ram, 0, TWO, 1),
+                 "part 1 (AS6C62256-55PCN) has no loadable memory", "memory load: an SRAM is not loadable");
+    expect_error(c, circuit_memory_load(c, rom, 0x7FFE, THREE, 3),
+                 "memory load of 3 words at 32766 is past the end of AT28C256-15PU (32768 words)",
+                 "memory load: past the end");
+    expect_error(c, circuit_memory_load(c, rom, 0x10, WIDE, 1), "word 16: 0x100 does not fit 8 bits",
+                 "memory load: a value wider than the word");
+
+    expect(circuit_start(c) == 0, "memory load: circuit starts");
+    circuit_memory_read(c, rom, 0x7FFE, 2, values, known);
+    expect(values[0] == 0x12 && values[1] == 0x34 && known[0] == 0xFF,
+           "memory load: the loaded words survive circuit_start");
+    expect_error(c, circuit_memory_load(c, rom, 0, TWO, 1), "circuit already started",
+                 "memory load: refused after start");
+    circuit_destroy(c);
+}
+
 static void check_ball_led(void) {
     /* Every part names a footprint; this one is a 2 x 2 grid holding A1 and B2. */
     static const char *const footprints =
@@ -345,6 +393,7 @@ int main(void) {
     check_oscillator_blinks();
     check_switch();
     check_memory();
+    check_memory_load();
     check_building_errors();
     check_ball_led();
     check_changes_and_light_time();

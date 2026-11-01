@@ -143,6 +143,11 @@ typedef struct {
      */
     size_t (*light_time)(const Sim *sim, const SimInstance *instance, const void *state,
                          uint64_t *out, size_t cap);
+    /*
+     * Memories: stores count words from start, every bit known. The caller
+     * has checked the range and widths. NULL = not loadable.
+     */
+    void (*memory_load)(void *state, uint32_t start, const uint32_t *values, size_t count);
 } SimComponentType;
 
 /* All times are in picoseconds. */

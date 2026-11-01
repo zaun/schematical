@@ -844,6 +844,16 @@ static size_t eeprom_memory_read(const void *raw, uint32_t start, size_t count,
     return count;
 }
 
+static void eeprom_memory_load(void *raw, uint32_t start, const uint32_t *values, size_t count) {
+    EepromState *state = raw;
+    size_t i;
+
+    for (i = 0; i < count; i++) {
+        state->value[start + i] = (uint8_t)values[i];
+        state->known[start + i] = 0xFF;
+    }
+}
+
 /* ---- Kind: devices, pinouts, parts --------------------------------------- */
 
 static const char *const DEVICE_KEYS[] = {
@@ -1189,7 +1199,7 @@ static void eeprom_destroy(void *raw) {
 
 static const SimComponentType EEPROM_MODEL = {
     "eeprom", eeprom_pin_count, eeprom_create, eeprom_destroy, eeprom_start, eeprom_pin_changed,
-    eeprom_timer, NULL, NULL, eeprom_memory_size, eeprom_memory_read, NULL
+    eeprom_timer, NULL, NULL, eeprom_memory_size, eeprom_memory_read, NULL, eeprom_memory_load
 };
 
 const PartKindOps EEPROM_KIND = {

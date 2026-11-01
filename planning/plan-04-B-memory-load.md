@@ -237,19 +237,22 @@ Messages (line numbers count from 1, blank lines included):
 
 Lands alone: a new call with no caller in the app.
 
-- [ ] `backend/src/engine/sim.h`: `memory_load` after `memory_read` (§4.2).
-- [ ] `backend/src/models/eeprom.c`: `eeprom_memory_load`; 12th
+- [x] `backend/src/engine/sim.h`: `memory_load` after `memory_read` (§4.2) —
+      as the last field, after plan-05's `light_time` (see Corrections).
+- [x] `backend/src/models/eeprom.c`: `eeprom_memory_load`; 13th
       initializer of `EEPROM_MODEL`.
-- [ ] `backend/include/circuit.h`, `backend/src/circuit.c`:
+- [x] `backend/include/circuit.h`, `backend/src/circuit.c`:
       `circuit_memory_load` (§4.1), its comment in the header's memory block.
-- [ ] `backend/tests/circuit_check.c`: `check_memory_load` — on
+- [x] `backend/tests/circuit_check.c`: `check_memory_load` — on
       `AT28C256-15PU`: load `{0x12, 0x34}` at 0x7FFE → read back
       `0x12, 0x34`, `known` 0xFF; word 0 still 0xFF; each §4.1 message
       (after start; part 99; an SRAM `AS6C62256-55PCN`; 3 words at 0x7FFE;
-      value 0x100); `count == 0` → 0.
+      value 0x100); `count == 0` → 0. (11 PASS, messages compared with
+      `strcmp`; also checks the loaded words survive `circuit_start`.)
 
 Acceptance: loads land before start and every refusal has its message;
-nothing else moves.
+nothing else moves. **Met:** `ctest -R 'circuit_check|trace_check|listing_check'`
+→ 3 of 3; the golden diff exits 0 (build dir `/tmp/logic-wt-p04`).
   Check: `cmake --build /tmp/logic-plan04 -j8 && ctest --test-dir /tmp/logic-plan04 -R 'circuit_check|trace_check|listing_check' --output-on-failure` → 3 of 3 pass (est. 15 s).
   Check: `git diff --exit-code backend/tests/golden` → no diff (est. seconds).
 Commit: —
@@ -300,6 +303,19 @@ choices for this letter:
   overlapping data takes the later record, as most programmers do.
 
 ## Corrections
+
+- 2026-11-01 (Phase 1): §2 and §4.2 say `memory_read` is the last
+  `SimComponentType` field and the new hook is the 12th initializer.
+  plan-05 had already appended `light_time` after `memory_read` (`led.c`
+  and `display7.c` set it positionally), so `memory_load` goes after
+  `light_time` as the 13th field; inserting it after `memory_read` would
+  have shifted `light_time` into the wrong slot. Initializers measured:
+  `grep -rn -A3 'SimComponentType [A-Za-z_]* = {' backend/src backend/tests
+  | grep -c SimComponentType` → 16 (plan-05 added two), all positional.
+- 2026-11-01: every `/tmp/logic-plan04` build dir in the checks ran as
+  `/tmp/logic-wt-p04` (the former is the main checkout's CMake cache; see
+  plan-04-A Corrections). The ctest total is 11 after this letter, not 10
+  (plan-05's `engine_test`).
 
 ## Summary
 

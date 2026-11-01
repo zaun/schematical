@@ -342,6 +342,41 @@ int circuit_memory_size(const Circuit *circuit, size_t part, uint32_t *words, un
                                      : 0;
 }
 
+int circuit_memory_load(Circuit *circuit, size_t part, uint32_t start,
+                        const uint32_t *values, size_t count) {
+    SimInstance *instance;
+    const SimComponentType *type;
+    void *state;
+    uint32_t words = 0;
+    unsigned bits = 0;
+    size_t i;
+
+    if (check_building(circuit) != 0 || check_part(circuit, part) != 0) {
+        return -1;
+    }
+    instance = circuit->instances[part];
+    type = sim_instance_type(instance);
+    state = sim_instance_state(instance);
+    if (type->memory_load == NULL || type->memory_size == NULL ||
+        !type->memory_size(state, &words, &bits)) {
+        return fail(circuit, "part %zu (%s) has no loadable memory", part, circuit->parts[part]->name);
+    }
+    if (count > words || start > words - count) {
+        return fail(circuit, "memory load of %zu words at %u is past the end of %s (%u words)", count,
+                    (unsigned)start, circuit->parts[part]->name, (unsigned)words);
+    }
+    for (i = 0; i < count; i++) {
+        if (bits < 32 && (values[i] >> bits) != 0) {
+            return fail(circuit, "word %u: 0x%X does not fit %u bits", (unsigned)(start + i),
+                        (unsigned)values[i], bits);
+        }
+    }
+    if (count > 0) {
+        type->memory_load(state, start, values, count);
+    }
+    return 0;
+}
+
 size_t circuit_memory_read(const Circuit *circuit, size_t part, uint32_t start, size_t count,
                            uint32_t *values, uint32_t *known) {
     SimInstance *instance;

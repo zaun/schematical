@@ -56,9 +56,13 @@ size_t circuit_part_lights(const Circuit *circuit, size_t part, unsigned char *o
    Returns the light count (0 when the part has none). */
 size_t circuit_part_light_time(const Circuit *circuit, size_t part, uint64_t *on_ps, size_t cap);
 
-/* SRAM contents. */
+/* Memory contents (SRAM, EEPROM). */
 int circuit_memory_size(const Circuit *circuit, size_t part, uint32_t *words, unsigned *bits);
 size_t circuit_memory_read(const Circuit *circuit, size_t part, uint32_t start, size_t count,
                            uint32_t *values, uint32_t *known);
+/* Memory load (EEPROM): writes count words from start, before circuit_start.
+   Each value must fit the word width. 0, or -1 with circuit_error set. */
+int circuit_memory_load(Circuit *circuit, size_t part, uint32_t start,
+                        const uint32_t *values, size_t count);
 
 #endif
