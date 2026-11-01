@@ -54,6 +54,7 @@ own rows.
 | Backend tests green | `cmake -S backend -B /tmp/logic-plan04 && cmake --build /tmp/logic-plan04 -j8 && ctest --test-dir /tmp/logic-plan04` → `100% tests passed, 0 tests failed out of 8` | MET (2026-11-01, 20.3 s) |
 | Datasheet server reachable | `curl -s -o /dev/null -w '%{http_code} %{content_type}' -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15" -L https://ww1.microchip.com/downloads/en/DeviceDoc/doc4259.pdf` → `200 application/pdf` | MET (2026-11-01) |
 | No `eeprom` kind yet | `ls schematical/schematical/Parts/eeprom.json backend/src/models/eeprom.c 2>/dev/null` → no output | MET (2026-11-01) |
+| plan-05 complete (owner, 2026-11-01: plan-05 lands before plan-04) | `ls planning/plan-05-* 2>/dev/null` → no output; `ls planning/completed/plan-05-C-app-realtime.md` → exists | NOT MET (2026-11-01) |
 
 Everything below is written against the world where these hold.
 
@@ -560,6 +561,15 @@ codes are not; no reel code is invented where a sheet prints none
 (AT28C256 industrial, AT28HC256E-70SU tube).
 
 ## Corrections
+
+- 2026-11-01 (before start): plan-05 now lands first (owner). It adds one
+  ctest (`engine_test`, plan-05-B), so every ctest count in plan-04 A/B/C
+  is one higher (A: 10, B: 11, C: 11), and plan-05-B regenerates
+  `traces.txt` (2479 changed lines) before plan-04-A adds its lines.
+  plan-05-C moves the circuit loop in `Simulation.swift` to
+  `SimulationEngine` (background thread); `SimulationController.build` and
+  the build-then-`circuit_start` order that plan-04-C hooks into are kept,
+  with `start(document:)` now calling `start(netlist:)`.
 
 ## Summary
 
