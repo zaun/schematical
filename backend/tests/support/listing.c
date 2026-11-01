@@ -50,6 +50,9 @@ static void print_details(FILE *out, const Part *part) {
         case PART_SWITCH:
             fprintf(out, "positions=%u actuator=%s", part->dip_switch->positions,
                     part->dip_switch->actuator);
+            if (part->dip_switch->rated_mv > 0) {
+                fprintf(out, " rated=%u", (unsigned)part->dip_switch->rated_mv);
+            }
             break;
         case PART_LED:
             fprintf(out, "color=%s", part->led->color);
@@ -68,6 +71,9 @@ static void print_details(FILE *out, const Part *part) {
             print_numbers(out, part->pins, d->segment_pins, d->segment_pin_count);
             fputs(" commonPins=", out);
             print_numbers(out, part->pins, d->common_pins, d->common_pin_count);
+            if (d->vf_max_mv > 0) {
+                fprintf(out, " vf=%u-%u", (unsigned)d->vf_min_mv, (unsigned)d->vf_max_mv);
+            }
             break;
         }
         case PART_OSCILLATOR: {
@@ -84,7 +90,7 @@ static void print_details(FILE *out, const Part *part) {
             break;
         }
         case PART_SUPPLY:
-            fprintf(out, "level=%d", part->supply->level);
+            fprintf(out, "level=%d mv=%u", part->supply->level, (unsigned)part->supply->mv);
             break;
         case PART_EEPROM:
             fprintf(out, "words=%u bits=%u access_ps=%llu page=%u twc_ps=%llu",
@@ -129,6 +135,10 @@ char *listing_line(const Part *part) {
     }
     if (part->footprint != NULL) {
         fprintf(out, "|footprint=%s", part->footprint->id);
+    }
+    if (part->vcc != NULL) {
+        fprintf(out, "|vcc=%u-%u,in=%u", (unsigned)part->vcc->min_mv, (unsigned)part->vcc->max_mv,
+                (unsigned)part->vcc->input_max_mv);
     }
     fclose(out);
     return text;

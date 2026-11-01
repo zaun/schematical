@@ -151,7 +151,8 @@ oscillator's `enablePin` is a pin designator; see below.)
 | `"package"` | package name as shown, e.g. `"DIP"`, `"TSSOP"`, `"2520 VSON"`; may be empty (supplies) |
 | `"pinout"` | the name of one of the device's pinouts |
 | `"flags"` | optional, any of `obsolete`, `military`, `automotive`, `enhanced` |
-| `"footprint"` | the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)). Required on every part except supplies (VCC, GND), which reject it |
+| `"footprint"` | the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)). Required on every part except supplies (`VCC`, `GND`, `5V`, …), which reject it |
+| `"vcc"`, `"inputMax"` | on gate, dff, jkff, sram, eeprom and oscillator parts only: the part's own supply range / input limit, replacing the one it inherits (see [Supply voltage](#supply-voltage-vcc-and-inputmax)) |
 
 Every other key belongs to the kind.
 
@@ -171,6 +172,38 @@ Flags:
   HC, LS, ACT, HCT, F, AC, AHCT, ALS, AS, AHC, S, C, H, HCS, LV, LVC, AUP,
   AUC, ALVC, TTL.
 - **`note`** is allowed on a device and on any timing entry; it is ignored.
+- **Voltages** are volts (JSON numbers, fractions allowed). The loader
+  converts them to millivolts (`uint32_t`) with `llround(v * 1000)`.
+
+### Supply voltage (`vcc` and `inputMax`)
+
+Chips carry their datasheet's Recommended Operating Conditions supply range,
+for the voltage check (`docs/backend.md`). The keys go on the gate, dff and
+jkff **timing entries**, the sram and eeprom **grades**, the oscillator
+**device**, and on any **part** of those kinds:
+
+| Key | Value |
+|---|---|
+| `"vcc"` | `[min, max]` volts: the recommended supply range, 0 < min < max ≤ 30 |
+| `"inputMax"` | optional: the highest voltage an input (or inout) takes when it is above `vcc` max, e.g. `5.5` for 5 V-tolerant LVC inputs; at least the resolved `vcc` max, at most 30. Without it an input takes at most the `vcc` max. |
+
+Resolution, per part:
+
+1. The base is the part's timing entry (gate, dff, jkff), grade (sram,
+   eeprom) or device (oscillator): its `vcc` and `inputMax`, each optional.
+2. The part's own `vcc` replaces the base range; its own `inputMax` replaces
+   the base input max. A part that overrides only `vcc` keeps the base's
+   `inputMax` if one was given, otherwise its input max is its own `vcc`
+   max.
+3. `inputMax` with no `vcc` at that level or below it is an error
+   (`"inputMax" without "vcc"`), and so is an `inputMax` below the resolved
+   `vcc` max.
+4. `Part.vcc` points at the resolved `PartVoltage` (`min_mv`, `max_mv`,
+   `input_max_mv`); parts with no part-level key share their entry's.
+
+The keys are optional for now (`Part.vcc` NULL = not given); they become
+required from plan-07-F. Supplies, LEDs, 7-segment displays and switches
+never take them.
 
 ## Loading rules
 
@@ -348,16 +381,30 @@ Constant sources. Device key:
 
 | Key | Value |
 |---|---|
-| `"level"` | `1` (drives its pin to 1, strong) or `0` (drives 0, strong) |
+| `"volts"` | the supply's voltage, 0 to 30. More than 0 drives its pin to 1, strong; 0 (ground) drives 0, strong. `PartSupply.mv` holds it in millivolts and `PartSupply.level` is `mv > 0`. |
 
-The device has one pinout with one pin. Parts carry no kind keys.
+The device has one pinout with one pin. Parts carry no kind keys. Each
+device's single part has the same name as its `id` and `function`.
 
 ```json
-{"id": "VCC", "function": "VCC", "description": "Supply, logic 1", "drawer": [],
+{"id": "3V3", "function": "3V3", "description": "Supply, 3.3 V, drives logic 1", "drawer": [],
  "pinouts": {"pin": [{"number": 1, "name": "VCC", "role": "power"}]},
- "level": 1,
- "parts": [{"name": "VCC", "package": "", "pinout": "pin"}]}
+ "volts": 3.3,
+ "parts": [{"name": "3V3", "package": "", "pinout": "pin"}]}
 ```
+
+The library's supplies (`supply.json`):
+
+| Part | `volts` | Pin |
+|---|---|---|
+| `VCC` | 5 | `VCC` (power) |
+| `5V` | 5 | `VCC` (power) |
+| `3V3` | 3.3 | `VCC` (power) |
+| `2V5` | 2.5 | `VCC` (power) |
+| `1V8` | 1.8 | `VCC` (power) |
+| `1V2` | 1.2 | `VCC` (power) |
+| `12V` | 12 | `VCC` (power) |
+| `GND` | 0 | `GND` (ground) |
 
 ### `led`
 
@@ -382,12 +429,14 @@ A clock source; the primary output toggles every half period. Device keys:
 | `"family"` | oscillator family as shown, e.g. `"LMK6C"` (not a logic family) |
 | `"minHz"`, `"maxHz"` | the frequency range the family can produce |
 | `"outputs"` | `[primary]` or `[primary, complement]`, pin names (one pin each) |
+| `"vcc"`, `"inputMax"` | the device's supply range (see [Supply voltage](#supply-voltage-vcc-and-inputmax)) |
 
 Part keys:
 
 | Key | Value |
 |---|---|
 | `"defaultHz"` | the part's frequency, from `minHz` to `maxHz` |
+| `"vcc"`, `"inputMax"` | optional: the part's own range, for a supply option picked by a letter in the part number (LMK6 1.8 V parts) |
 | `"enablePin"` | optional; the **designator** (in the part's pinout) of the output-enable / standby pin: a number for numbered pinouts (`2`), a ball name string for ball pinouts (`"A2"`). A LOW there puts every output in high impedance; HIGH or not connected keeps the clock running. A designator, not a name, because the LMK6D/H/P function pins 1 and 2 share the name `OE/ST/NC`. `PartOscillator.enable_pin` points at that pin's `PartPin.designator` (NULL = none). |
 
 ### `gate`
@@ -416,7 +465,7 @@ Device keys:
 | `"gates"` | array of gates: `op` (`and`, `nand`, `or`, `nor`, `xor` = odd parity, `xnor` = even parity), `inputs` (1–13 pin names), `output` (a pin name). Each name must be exactly one pin in every pinout. |
 | `"output"` | optional: `push-pull` (default) or `open-drain` (a 1 releases the pin to Z after the rise delay; an external pull-up takes it high; 74x266) |
 | `"units"` | optional: gates per package as shown in the drawer (`PartLogic.units`); default the number of `gates`. Differs only where one gate has two outputs (CD4068B: NAND and AND of the same 8 inputs, 1 unit). |
-| `"timing"` | object: logic family → `{rise, fall}` (ns), or `{otherLow: {rise, fall}, otherHigh: {rise, fall}}` |
+| `"timing"` | object: logic family → `{rise, fall}` (ns), or `{otherLow: {rise, fall}, otherHigh: {rise, fall}}`; either form also takes `vcc` and `inputMax` at its top level (not inside `otherLow`/`otherHigh`) |
 
 `otherLow`/`otherHigh` (74x86): the delays depend on the input that did not
 change — 0 picks `otherLow`, 1 picks `otherHigh`, and X (also at start, when
@@ -428,6 +477,7 @@ Part key:
 | Key | Value |
 |---|---|
 | `"family"` | the part's logic family; must be a key of `timing` |
+| `"vcc"`, `"inputMax"` | optional: the part's own range when its datasheet row differs from the entry's (SN54 vs SN74, CD vs SN) |
 
 ### `dff`
 
@@ -455,9 +505,10 @@ Device keys:
 | `"outputEnable"` | optional, active-low output enable: 1 puts Q/QN in Z, X makes them X |
 | `"presetActiveHigh"`, `"clearActiveHigh"` | `true` when PRE / CLR is asserted high |
 | `"clockEdge"` | `"rising"` or `"falling"` |
-| `"timing"` | logic family → `{rise, fall, clearWins}`; `clearWins` true: PRE and CLR both asserted give Q = 0, QN = 1; false: Q = QN = 1 |
+| `"timing"` | logic family → `{rise, fall, clearWins}`, plus `vcc` and `inputMax`; `clearWins` true: PRE and CLR both asserted give Q = 0, QN = 1; false: Q = QN = 1 |
 
-Part key: `"family"`, a key of `timing`. `PartLogic.units` is the number of
+Part keys: `"family"`, a key of `timing`, and optional `"vcc"` and
+`"inputMax"`. `PartLogic.units` is the number of
 units.
 
 ### `jkff`
@@ -470,7 +521,8 @@ asserted give Q = QN = 1.
 Device keys: as `dff`, except `"units"` (1–2) take `j`, `k`, `clk`
 (required) and `pre`, `clr`, `q`, `qn` (optional); there is no
 `outputEnable`; `"kInverted"` (bool) means the K input is K-bar (74x109);
-timing entries are `{rise, fall}`. Part key: `"family"`.
+timing entries are `{rise, fall}` plus `vcc` and `inputMax`. Part keys:
+`"family"`, and optional `"vcc"` and `"inputMax"`.
 
 ### `switch`
 
@@ -488,6 +540,7 @@ starts OFF; the app turns positions on and off (`circuit_set_switch`).
 |---|---|
 | `"actuator"` | actuator style as shown, e.g. `"Piano actuator"` |
 | `"contacts"` | position 1, 2, …: `[pin name, pin name]`, two different pins (exactly one pin each) |
+| `"ratedVolts"` | the contacts' **switching** voltage rating (the lower of the switching and non-switching ratings), 0 < v ≤ 1000; `PartSwitch.rated_mv`. Optional for now; required from plan-07-F. |
 
 `PartSwitch.positions` is the number of contacts. Parts carry no kind keys.
 
@@ -522,9 +575,9 @@ is checked and a violation stores X.
 | `"chipEnableHigh"` | active-high chip enables (0–2), may be `[]` |
 | `"outputEnable"`, `"writeEnable"` | OE#, WE# (active low) |
 | `"byteEnable"` | active-low byte enables, `byteEnable[i]` = lane i (DQ 8i … 8i+7); `[]` = the whole word is one lane |
-| `"grades"` | speed grade → timing in ns: `trc taa tace toe tba toh tclz tolz tblz tchz tohz tbhz twc taw tcw tbw tas twp twpOeLow twr tdw tdh twhz tow`; a missing name is 0 |
+| `"grades"` | speed grade → timing in ns: `trc taa tace toe tba toh tclz tolz tblz tchz tohz tbhz twc taw tcw tbw tas twp twpOeLow twr tdw tdh twhz tow`; a missing name is 0. A grade also takes `note`, `vcc` and `inputMax`. |
 
-Part key: `"grade"`, a key of `grades`. `PartSram`: `words` = 2^len(address),
+Part keys: `"grade"`, a key of `grades`, and optional `"vcc"` and `"inputMax"`. `PartSram`: `words` = 2^len(address),
 `bits` = len(data), `access_ps` = the grade's `taa`, `grade`.
 
 ### `eeprom`
@@ -591,9 +644,9 @@ inhibit, the write-pulse noise filter.
 | `"pageSize"` | bytes per page: a power of two from 1 to 2^len(address) |
 | `"commandAddresses"` | two hex strings (`[0-9A-F]+`), each below 2^len(address): the SDP addresses A and B |
 | `"protection"` | `"off"` (SDP starts off; can be turned on and off) or `"always"` (always on; no disable) |
-| `"grades"` | speed grade → timing in ns: `tacc tce toe tdf toh tas tah tcs tch twp twph tds tdh toes toeh tblc twc` (a missing name is 0; `tblc` and `twc` must be more than 0) and an optional `note`. `tcs` and `tch` are read but not checked (zero on every part) |
+| `"grades"` | speed grade → timing in ns: `tacc tce toe tdf toh tas tah tcs tch twp twph tds tdh toes toeh tblc twc` (a missing name is 0; `tblc` and `twc` must be more than 0) and an optional `note`, `vcc` and `inputMax`. `tcs` and `tch` are read but not checked (zero on every part) |
 
-Part key: `"grade"`, a key of `grades`. `PartEeprom`: `words` =
+Part keys: `"grade"`, a key of `grades`, and optional `"vcc"` and `"inputMax"`. `PartEeprom`: `words` =
 2^len(address), `bits` = 8, `access_ps` = the grade's `tacc`, `grade`,
 `page_bytes` = `pageSize`, `write_cycle_ps` = the grade's `twc`.
 
@@ -627,6 +680,7 @@ any time during the last step", so a multiplexed digit counts as lit.
 | `"segmentPins"` | segment pin name → `digit` (0 = shared by every digit, multiplexed) and the `segments` it drives |
 | `"commonPins"` | common pin name → its digit, or `"extras"` for the colon/dot common. A name used by several pins means all of them. |
 | `"segmentSide"`, `"commonSide"` | drawing order of the symbol's two sides, by name; a shared name expands to its pins in pinout order. `PartDisplay.segment_pins`/`common_pins` hold these pins' indices into `Part.pins`. |
+| `"vf"` | `[min, max]` volts: the segment forward voltage (datasheet "Forward Voltage Per Segment"), 0 < min ≤ max ≤ 10; min is the datasheet minimum, or its typical value when no minimum is printed. `PartDisplay.vf_min_mv`/`vf_max_mv` (0 = not given). Shown, not checked. Optional for now; required from plan-07-F. |
 
 An LED's segment pin is the first pin (in pin order) in `segmentPins` that
 drives its segment for its digit (or every digit); its commons are the

@@ -349,15 +349,15 @@ every part file.
   vcc, inputMax and timings", "unknown key next to vcc in a grade:
   … grades.55: unknown key \"vccMax\""); `ctest --test-dir /tmp/p07` →
   `100% tests passed, 0 tests failed out of 11` (real part files load).
-Commit: —
+Commit: 280705b
 
 ### Phase 2 — Listing fields and the six supplies
 
-- [ ] `listing.c`: §4.4 fields.
-- [ ] `supply.json`: the §4.5 devices `5V`, `3V3`, `2V5`, `1V8`, `1V2` and
+- [x] `listing.c`: §4.4 fields.
+- [x] `supply.json`: the §4.5 devices `5V`, `3V3`, `2V5`, `1V8`, `1V2` and
       `12V`, with descriptions updated for `VCC` and `GND`.
-- [ ] Regenerate both goldens (`docs/backend.md` § Tests).
-- [ ] `docs/parts-format.md`:
+- [x] Regenerate both goldens (`docs/backend.md` § Tests).
+- [x] `docs/parts-format.md`:
   - § Values: volts → mV.
   - § `supply`: `volts` replaces `level`; the table of eight supplies.
   - § Parts: the `vcc` and `inputMax` part keys.
@@ -370,6 +370,13 @@ Acceptance: the golden diffs are exactly the expected ones.
   → 10 (2 changed supply lines = 2 `-` and 2 `+`, plus 6 new `+`), and
   `git diff -U0 backend/tests/golden/traces.txt | grep -c '^[-+][^-+]'` → 6
   (est. 1 min).
+  Result (2026-11-01): parts.txt → `10` (`-GND|…|level=0|…` → `+…level=0 mv=0`,
+  `-VCC|…|level=1|…` → `+…level=1 mv=5000`, and `+12V … mv=12000`, `+1V2 …
+  mv=1200`, `+1V8`, `+2V5`, `+3V3`, `+5V`); traces.txt → `6` (the six new
+  supplies, all hash `1df7bc25f3ed7621` like VCC). `ctest` → 11/11. Outcome
+  check: with `"vcc": [2, 6]` added to `74_00`'s HC entry (temporary,
+  reverted), `listing_check --print | grep '^SN74HC00N|'` ends
+  `|footprint=PDIP-14|vcc=2000-6000,in=6000`.
 Commit: —
 
 ## Validation Plan

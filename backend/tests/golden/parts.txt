@@ -1,5 +1,10 @@
 12.94761|oscillator|5032 SMD|Oscillator|10 MHz to 100 MHz|||family=KXO-V99 minHz=500000 maxHz=200000000 defaultHz=40000000 enablePin=1|1:OE:input:default,2:GND:ground:default,3:OUT:output:default,4:VDD:power:default|footprint=OSC-5032-4
+12V|supply|||12V|||level=1 mv=12000|1:VCC:power:default
 1P1G08MDBVREPG4|gate|SOT-23|Logic|AND|LVC|military,enhanced|units=1|1:A:input:default,2:B:input:default,3:GND:ground:default,4:Y:output:default,5:VCC:power:default|footprint=SOT23-5
+1V2|supply|||1V2|||level=1 mv=1200|1:VCC:power:default
+1V8|supply|||1V8|||level=1 mv=1800|1:VCC:power:default
+2V5|supply|||2V5|||level=1 mv=2500|1:VCC:power:default
+3V3|supply|||3V3|||level=1 mv=3300|1:VCC:power:default
 5962-0051301QCA|gate|CDIP|Logic|NAND|ACT|military|units=2|1:1A:input:default,2:1B:input:default,3:NC:nc:default,4:1C:input:default,5:1D:input:default,6:1Y:output:default,7:GND:ground:default,8:2Y:output:default,9:2A:input:default,10:2B:input:default,11:NC:nc:default,12:2C:input:default,13:2D:input:default,14:VCC:power:default|footprint=CDIP-14
 5962-8403701VCA|gate|CDIP|Logic|NAND|HC|military|units=4|1:1A:input:default,2:1B:input:default,3:1Y:output:default,4:2A:input:default,5:2B:input:default,6:2Y:output:default,7:GND:ground:default,8:3Y:output:default,9:3A:input:default,10:3B:input:default,11:4Y:output:default,12:4A:input:default,13:4B:input:default,14:VCC:power:default|footprint=CDIP-14
 5962-8403701VDA|gate|CFP|Logic|NAND|HC|military|units=4|1:1A:input:default,2:1B:input:default,3:1Y:output:default,4:2A:input:default,5:2B:input:default,6:2Y:output:default,7:GND:ground:default,8:3Y:output:default,9:3A:input:default,10:3B:input:default,11:4Y:output:default,12:4A:input:default,13:4B:input:default,14:VCC:power:default|footprint=CFP-14
@@ -199,6 +204,7 @@
 5962-9761901QDA|gate|CFP|Logic|XOR|LVC|military|units=4|1:1A:input:default,2:1B:input:default,3:1Y:output:default,4:2A:input:default,5:2B:input:default,6:2Y:output:default,7:GND:ground:default,8:3Y:output:default,9:3A:input:default,10:3B:input:default,11:4Y:output:default,12:4A:input:default,13:4B:input:default,14:VCC:power:default|footprint=CFP-14
 5962-9853001QRA|dff|CDIP|Logic|D flip-flop|AHC|military|units=8|1:CLR:input:default,2:1Q:output:default,3:1D:input:default,4:2D:input:default,5:2Q:output:default,6:3Q:output:default,7:3D:input:default,8:4D:input:default,9:4Q:output:default,10:GND:ground:default,11:CLK:input:default,12:5Q:output:default,13:5D:input:default,14:6D:input:default,15:6Q:output:default,16:7Q:output:default,17:7D:input:default,18:8D:input:default,19:8Q:output:default,20:VCC:power:default|footprint=CDIP-20
 5962-9853001QSA|dff|CFP|Logic|D flip-flop|AHC|military|units=8|1:CLR:input:default,2:1Q:output:default,3:1D:input:default,4:2D:input:default,5:2Q:output:default,6:3Q:output:default,7:3D:input:default,8:4D:input:default,9:4Q:output:default,10:GND:ground:default,11:CLK:input:default,12:5Q:output:default,13:5D:input:default,14:6D:input:default,15:6Q:output:default,16:7Q:output:default,17:7D:input:default,18:8D:input:default,19:8Q:output:default,20:VCC:power:default|footprint=CFP-20
+5V|supply|||5V|||level=1 mv=5000|1:VCC:power:default
 74AHCT1G00DBVRG4|gate|SOT-23|Logic|NAND|AHCT|military|units=1|1:A:input:default,2:B:input:default,3:GND:ground:default,4:Y:output:default,5:VCC:power:default|footprint=SOT23-5
 74AHCT1G00DBVTG4|gate|SOT-23|Logic|NAND|AHCT|obsolete,military|units=1|1:A:input:default,2:B:input:default,3:GND:ground:default,4:Y:output:default,5:VCC:power:default|footprint=SOT23-5
 74AHCT1G00DCKRE4|gate|SC-70|Logic|NAND|AHCT|military|units=1|1:A:input:default,2:B:input:default,3:GND:ground:default,4:Y:output:default,5:VCC:power:default|footprint=SC70-5
@@ -1232,7 +1238,7 @@ CD74HCT86MT|gate|SOIC|Logic|XOR|HCT|obsolete|units=4|1:1A:input:default,2:1B:inp
 CLVC1G175MDCKREP|dff|SC-70|Logic|D flip-flop|LVC|enhanced|units=1|1:CLK:input:default,2:GND:ground:default,3:D:input:default,4:Q:output:default,5:VCC:power:default,6:CLR:input:default|footprint=SC70-6
 CLVC1G175MDCKREPG4|dff|SC-70|Logic|D flip-flop|LVC|enhanced|units=1|1:CLK:input:default,2:GND:ground:default,3:D:input:default,4:Q:output:default,5:VCC:power:default,6:CLR:input:default|footprint=SC70-6
 CLVC2G74QDCURG4Q1|dff|VSSOP|Logic|D flip-flop|LVC|automotive|units=1|1:CLK:input:default,2:D:input:default,3:QBAR:output:default,4:GND:ground:default,5:Q:output:default,6:CLR:input:default,7:PRE:input:default,8:VCC:power:default|footprint=VSSOP-8
-GND|supply|||GND|||level=0|1:GND:ground:default
+GND|supply|||GND|||level=0 mv=0|1:GND:ground:default
 JM38510/05151BCA|dff|CDIP|Logic|D flip-flop|C|military|units=2|1:1Q:output:default,2:1QBAR:output:default,3:1CLK:input:default,4:1RESET:input:default,5:1D:input:default,6:1SET:input:default,7:VSS:ground:default,8:2SET:input:default,9:2D:input:default,10:2RESET:input:default,11:2CLK:input:default,12:2QBAR:output:default,13:2Q:output:default,14:VDD:power:default|footprint=CDIP-14
 JM38510/05152BEA|jkff|CDIP|Logic|JK flip-flop|C|military|units=2|1:2Q:output:default,2:2QBAR:output:default,3:2CLK:input:default,4:2RESET:input:default,5:2K:input:default,6:2J:input:default,7:2SET:input:default,8:VSS:ground:default,9:1SET:input:default,10:1J:input:default,11:1K:input:default,12:1RESET:input:default,13:1CLK:input:default,14:1QBAR:output:default,15:1Q:output:default,16:VDD:power:default|footprint=CDIP-16
 JM38510/30302B2A|gate|LCCC|Logic|NOR|LS|military|units=3|1:NC:nc:default,2:1A:input:default,3:1B:input:default,4:2A:input:default,5:NC:nc:default,6:2B:input:default,7:NC:nc:default,8:2C:input:default,9:2Y:output:default,10:GND:ground:default,11:NC:nc:default,12:3Y:output:default,13:3A:input:default,14:3B:input:default,15:NC:nc:default,16:3C:input:default,17:NC:nc:default,18:1Y:output:default,19:1C:input:default,20:VCC:power:default|footprint=LCCC-20
@@ -4003,4 +4009,4 @@ V62/07631-01XE|gate|VSSOP|Logic|AND|LVC|enhanced|units=2|1:1A:input:default,2:1B
 V62/07637-01XE|gate|VSSOP|Logic|NOR|LVC|enhanced|units=2|1:1A:input:default,2:1B:input:default,3:2Y:output:default,4:GND:ground:default,5:2A:input:default,6:2B:input:default,7:1Y:output:default,8:VCC:power:default|footprint=VSSOP-8
 V62/08617-01XE|dff|VSSOP|Logic|D flip-flop|LVC|enhanced|units=1|1:CLK:input:default,2:D:input:default,3:QBAR:output:default,4:GND:ground:default,5:Q:output:default,6:CLR:input:default,7:PRE:input:default,8:VCC:power:default|footprint=VSSOP-8
 V62/09621-01XE|gate|SC-70|Logic|AND|LVC|enhanced|units=1|1:A:input:default,2:GND:ground:default,3:B:input:default,4:Y:output:default,5:VCC:power:default,6:C:input:default|footprint=SC70-6
-VCC|supply|||VCC|||level=1|1:VCC:power:default
+VCC|supply|||VCC|||level=1 mv=5000|1:VCC:power:default

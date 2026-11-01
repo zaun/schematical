@@ -6,7 +6,7 @@
     {
       "id": "VCC",
       "function": "VCC",
-      "description": "Supply, drives logic 1",
+      "description": "Supply, 5 V, drives logic 1",
       "drawer": [],
       "pinouts": {
         "pin": [
@@ -31,6 +31,96 @@
       "volts": 0,
       "parts": [
         {"name":"GND","package":"","pinout":"pin"}
+      ]
+    },
+    {
+      "id": "5V",
+      "function": "5V",
+      "description": "Supply, 5 V, drives logic 1",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"VCC","role":"power"}
+        ]
+      },
+      "volts": 5,
+      "parts": [
+        {"name":"5V","package":"","pinout":"pin"}
+      ]
+    },
+    {
+      "id": "3V3",
+      "function": "3V3",
+      "description": "Supply, 3.3 V, drives logic 1",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"VCC","role":"power"}
+        ]
+      },
+      "volts": 3.3,
+      "parts": [
+        {"name":"3V3","package":"","pinout":"pin"}
+      ]
+    },
+    {
+      "id": "2V5",
+      "function": "2V5",
+      "description": "Supply, 2.5 V, drives logic 1",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"VCC","role":"power"}
+        ]
+      },
+      "volts": 2.5,
+      "parts": [
+        {"name":"2V5","package":"","pinout":"pin"}
+      ]
+    },
+    {
+      "id": "1V8",
+      "function": "1V8",
+      "description": "Supply, 1.8 V, drives logic 1",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"VCC","role":"power"}
+        ]
+      },
+      "volts": 1.8,
+      "parts": [
+        {"name":"1V8","package":"","pinout":"pin"}
+      ]
+    },
+    {
+      "id": "1V2",
+      "function": "1V2",
+      "description": "Supply, 1.2 V, drives logic 1",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"VCC","role":"power"}
+        ]
+      },
+      "volts": 1.2,
+      "parts": [
+        {"name":"1V2","package":"","pinout":"pin"}
+      ]
+    },
+    {
+      "id": "12V",
+      "function": "12V",
+      "description": "Supply, 12 V, drives logic 1",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"VCC","role":"power"}
+        ]
+      },
+      "volts": 12,
+      "parts": [
+        {"name":"12V","package":"","pinout":"pin"}
       ]
     }
   ]
