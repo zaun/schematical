@@ -328,17 +328,19 @@ Acceptance: the bench builds and reproduces the §2 baseline order of
 magnitude.
   Check: `cmake -S backend -B /tmp/logic-p05-rel -DCMAKE_BUILD_TYPE=Release && cmake --build /tmp/logic-p05-rel -j8 --target sim_bench && /tmp/logic-p05-rel/sim_bench LMK6CE001000DDLER 16 2 400 && /tmp/logic-p05-rel/sim_bench LMK6CE10000CDLER 16 1 100`
   → two lines; first ≤ 0.01x real time, second ≤ 0.001x (est. 15 s).
-Commit: —
+Commit: fea28b7
 
 ### Phase 2 — Heap queue, lazy inertial cancel, reused batch
 
-- [ ] `sim.c`: `seq`/`gen` fields, `next_seq`, heap `append_event` and
+- [x] `sim.c`: `seq`/`gen` fields, `next_seq`, heap `append_event` and
       `heap_pop`, `is_stale`, the inertial branch of `schedule_drive`
-      replaced by `gen++` (§4.2).
-- [ ] `sim.c`: `sim_run_until` pops stale tops and reads the min from the
+      replaced by `gen++` (§4.2). Plus `drop_stale` (pop stale tops).
+- [x] `sim.c`: `sim_run_until` pops stale tops and reads the min from the
       heap top; `process_round` pops its batch from the heap into the reused
-      `sim->batch` (still resolving all nets — dirty nets are Phase 3).
-- [ ] `sim_destroy` frees `batch`.
+      `sim->batch` (`take_batch`; still resolving all nets — dirty nets are Phase 3).
+- [x] `sim_destroy` frees `batch`.
+- [x] Check run: `cmake --build /tmp/logic-p05 -j8 && ctest --test-dir /tmp/logic-p05`
+      → `100% tests passed, 0 tests failed out of 8` (no compiler warnings).
 
 Acceptance: byte-identical behavior.
   Check: `cmake --build /tmp/logic-p05 -j8 && ctest --test-dir /tmp/logic-p05` →

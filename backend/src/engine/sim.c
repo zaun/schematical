@@ -10,6 +10,7 @@
 typedef struct {
     SimNet *net;
     size_t net_pin_index;
+    uint32_t gen;      /* bumped by each inertial drive on this pin */
 } InstancePin;
 
 struct SimInstance {
@@ -37,6 +38,8 @@ typedef struct {
     uint32_t timer_id;
     int closed;        /* EVENT_CONTACT: new state of the contact (pin, pin_b) */
     size_t pin_b;
+    uint64_t seq;      /* insertion order; breaks ties between equal times */
+    uint32_t gen;      /* EVENT_DRIVE: the pin's gen when scheduled */
 } Event;
 
 /* A contact between two pins of one instance. Pins are stored lowest first. */
@@ -60,9 +63,15 @@ struct Sim {
     size_t net_count;
     size_t net_capacity;
 
+    /* Pending events: a binary min-heap ordered by (time, seq). */
     Event *events;
     size_t event_count;
     size_t event_capacity;
+    uint64_t next_seq;
+
+    /* One round's events, reused across rounds. */
+    Event *batch;
+    size_t batch_capacity;
 
     SimTime round_time;
     size_t rounds_at_time;
@@ -148,6 +157,7 @@ void sim_destroy(Sim *sim) {
 
     free(sim->contacts);
     free(sim->events);
+    free(sim->batch);
     free(sim->nets);
     free(sim->instances);
     free(sim);
@@ -338,7 +348,14 @@ LogicValue sim_read_pin(
     return net != NULL ? net->value : LOGIC_Z;
 }
 
+static int event_less(const Event *a, const Event *b) {
+    return a->time < b->time || (a->time == b->time && a->seq < b->seq);
+}
+
+/* Adds an event to the heap, stamped with the next insertion number. */
 static int append_event(Sim *sim, const Event *event) {
+    size_t child;
+
     if (sim->event_count == sim->event_capacity) {
         Event *new_events = grow_array(
             sim->events,
@@ -354,8 +371,72 @@ static int append_event(Sim *sim, const Event *event) {
         sim->events = new_events;
     }
 
-    sim->events[sim->event_count++] = *event;
+    child = sim->event_count++;
+    sim->events[child] = *event;
+    sim->events[child].seq = sim->next_seq++;
+
+    while (child > 0) {
+        size_t parent = (child - 1) / 2;
+        Event swap;
+
+        if (!event_less(&sim->events[child], &sim->events[parent])) {
+            break;
+        }
+        swap = sim->events[parent];
+        sim->events[parent] = sim->events[child];
+        sim->events[child] = swap;
+        child = parent;
+    }
     return 1;
+}
+
+/* Removes the heap's earliest event into *out. The heap must not be empty. */
+static void heap_pop(Sim *sim, Event *out) {
+    size_t parent = 0;
+
+    *out = sim->events[0];
+    sim->event_count--;
+    if (sim->event_count == 0) {
+        return;
+    }
+    sim->events[0] = sim->events[sim->event_count];
+
+    for (;;) {
+        size_t left = 2 * parent + 1;
+        size_t smallest = parent;
+        Event swap;
+
+        if (left < sim->event_count &&
+            event_less(&sim->events[left], &sim->events[smallest])) {
+            smallest = left;
+        }
+        if (left + 1 < sim->event_count &&
+            event_less(&sim->events[left + 1], &sim->events[smallest])) {
+            smallest = left + 1;
+        }
+        if (smallest == parent) {
+            break;
+        }
+        swap = sim->events[parent];
+        sim->events[parent] = sim->events[smallest];
+        sim->events[smallest] = swap;
+        parent = smallest;
+    }
+}
+
+/* A drive cancelled by a later inertial drive on the same pin. */
+static int is_stale(const Event *event) {
+    return event->type == EVENT_DRIVE &&
+           event->gen != event->instance->pins[event->pin].gen;
+}
+
+/* Drops cancelled events off the top of the heap. */
+static void drop_stale(Sim *sim) {
+    Event dropped;
+
+    while (sim->event_count > 0 && is_stale(&sim->events[0])) {
+        heap_pop(sim, &dropped);
+    }
 }
 
 static void schedule_drive(
@@ -368,8 +449,6 @@ static void schedule_drive(
     int inertial
 ) {
     Event event = {0};
-    size_t i;
-    size_t kept = 0;
 
     if (sim == NULL || sim->error != NULL) {
         return;
@@ -391,20 +470,11 @@ static void schedule_drive(
     /*
      * Inertial scheduling: a newer drive on this pin replaces any drive that
      * has not matured yet, so a pulse shorter than the delay is swallowed.
+     * Bumping the pin's gen makes every drive scheduled on it before now
+     * stale; stale events are dropped when they reach the top of the heap.
      */
     if (inertial) {
-        for (i = 0; i < sim->event_count; i++) {
-            const Event *pending = &sim->events[i];
-
-            if (pending->type == EVENT_DRIVE &&
-                pending->instance == instance && pending->pin == pin) {
-                continue;
-            }
-
-            sim->events[kept++] = *pending;
-        }
-
-        sim->event_count = kept;
+        instance->pins[pin].gen++;
     }
 
     event.type = EVENT_DRIVE;
@@ -413,6 +483,7 @@ static void schedule_drive(
     event.pin = pin;
     event.value = value;
     event.strength = strength;
+    event.gen = instance->pins[pin].gen;
 
     append_event(sim, &event);
 }
@@ -726,38 +797,51 @@ static void apply_drive(const Event *event) {
     }
 }
 
+/*
+ * Moves every pending, non-stale event at `time` into sim->batch, in
+ * insertion order. Returns 0 (error set) when the batch cannot grow.
+ */
+static int take_batch(Sim *sim, SimTime time, size_t *count) {
+    *count = 0;
+
+    for (;;) {
+        drop_stale(sim);
+        if (sim->event_count == 0 || sim->events[0].time != time) {
+            return 1;
+        }
+        if (*count == sim->batch_capacity) {
+            Event *grown = grow_array(sim->batch, &sim->batch_capacity,
+                                      sizeof(*sim->batch));
+
+            if (grown == NULL) {
+                set_error(sim, "out of memory");
+                return 0;
+            }
+            sim->batch = grown;
+        }
+        heap_pop(sim, &sim->batch[(*count)++]);
+    }
+}
+
 static int process_round(Sim *sim, SimTime time) {
     Event *batch;
     LogicValue *old_values = NULL;
     size_t batch_count = 0;
-    size_t remaining_count = 0;
     size_t i;
 
-    batch = malloc(sim->event_count * sizeof(*batch));
-    if (batch == NULL) {
-        set_error(sim, "out of memory");
+    if (!take_batch(sim, time, &batch_count)) {
         return 0;
     }
+    batch = sim->batch;
 
     if (sim->net_count > 0) {
         old_values = malloc(sim->net_count * sizeof(*old_values));
 
         if (old_values == NULL) {
-            free(batch);
             set_error(sim, "out of memory");
             return 0;
         }
     }
-
-    for (i = 0; i < sim->event_count; i++) {
-        if (sim->events[i].time == time) {
-            batch[batch_count++] = sim->events[i];
-        } else {
-            sim->events[remaining_count++] = sim->events[i];
-        }
-    }
-
-    sim->event_count = remaining_count;
 
     for (i = 0; i < sim->net_count; i++) {
         old_values[i] = sim->nets[i]->value;
@@ -822,7 +906,6 @@ static int process_round(Sim *sim, SimTime time) {
     }
 
     free(old_values);
-    free(batch);
     return sim->error == NULL;
 }
 
@@ -836,15 +919,14 @@ int sim_run_until(Sim *sim, SimTime time) {
         return 0;
     }
 
-    while (sim->event_count > 0) {
-        SimTime next_time = sim->events[0].time;
-        size_t i;
+    for (;;) {
+        SimTime next_time;
 
-        for (i = 1; i < sim->event_count; i++) {
-            if (sim->events[i].time < next_time) {
-                next_time = sim->events[i].time;
-            }
+        drop_stale(sim);
+        if (sim->event_count == 0) {
+            break;
         }
+        next_time = sim->events[0].time;
 
         if (next_time > time) {
             break;
