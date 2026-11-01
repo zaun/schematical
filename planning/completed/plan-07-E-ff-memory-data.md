@@ -149,7 +149,7 @@ match.
   only `|vcc=` added (`346 346 True`); `verify.py` → `172 … 0 mismatches`
   (sram), `174 … 0 mismatches` (eeprom). Final gate: `ctest` → `100% tests
   passed, 0 tests failed out of 12`.
-Commit: —
+Commit: 35b1f30
 
 ## Validation Plan
 
