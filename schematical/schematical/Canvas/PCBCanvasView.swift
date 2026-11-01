@@ -3,20 +3,26 @@ import SwiftUI
 /// The PCB page: every placed part that has a footprint, drawn as its pads,
 /// drill holes, body outline, pin-1 mark and reference, on a 0.635 mm grid.
 ///
-/// Press on a footprint to select it and drag to move it (snapped to the
-/// grid); press on empty space to clear the selection and pan. Nothing runs
-/// while this page shows (`ContentView` stops a run when switching to it).
+/// With the Select tool, press on a text or footprint to select it and drag
+/// to move it (snapped to the grid); press on empty space to clear the
+/// selection and pan. With the Text tool, a press places a text and goes back
+/// to Select. Nothing runs while this page shows (`ContentView` stops a run
+/// when switching to it).
 ///
 /// Board positions are millimetres; the view draws `BoardScale.pointsPerMM`
 /// world units per mm and the viewport maps world units to the screen.
 struct PCBCanvasView: View {
     let document: SchematicDocument
     let viewport: CanvasViewport
+    var tool: PCBTool = .select
+    /// Called when the Text tool has placed a text; the owner returns to Select.
+    var onPlaced: () -> Void = {}
 
     @State private var interaction: Interaction?
 
-    private enum Interaction {
+    enum Interaction: Equatable {
         case move(id: UUID, startCentre: CGPoint)
+        case moveText(id: UUID, startAnchor: CGPoint)
         case pan(startOffset: CGSize)
     }
 
@@ -40,7 +46,7 @@ struct PCBCanvasView: View {
         }
         .gesture(
             DragGesture(minimumDistance: 0)
-                .onChanged { value in handleChanged(value) }
+                .onChanged { value in handle(start: value.startLocation, translation: value.translation) }
                 .onEnded { _ in interaction = nil }
         )
     }
@@ -160,30 +166,73 @@ struct PCBCanvasView: View {
 
     // MARK: Gestures
 
-    private func handleChanged(_ value: DragGesture.Value) {
-        if interaction == nil {
-            if let hit = document.footprint(at: board(value.startLocation)),
-               let placement = hit.board {
-                document.selectedChipID = hit.id
-                interaction = .move(id: hit.id, startCentre: placement.centre)
-            } else {
-                document.selectedChipID = nil
-                interaction = .pan(startOffset: viewport.offset)
-            }
-        }
-        switch interaction {
-        case let .move(id, startCentre)?:
-            document.moveFootprint(id, to: CGPoint(
-                x: startCentre.x + value.translation.width / scale,
-                y: startCentre.y + value.translation.height / scale
-            ))
-        case let .pan(startOffset)?:
+    /// One step of a drag that started at `start` (screen points) and has
+    /// moved by `translation`. On the first step it decides what the drag
+    /// does: the Text tool places a text there (and the drag moves it); the
+    /// Select tool picks a text, else a footprint (texts draw on top), else
+    /// clears the selection and pans. Returns what the drag is doing.
+    @discardableResult
+    func handle(start: CGPoint, translation: CGSize) -> Interaction {
+        let current = interaction ?? begin(at: start)
+        interaction = current
+        let offset = CGSize(width: translation.width / scale, height: translation.height / scale)
+        switch current {
+        case let .move(id, startCentre):
+            document.moveFootprint(id, to: CGPoint(x: startCentre.x + offset.width, y: startCentre.y + offset.height))
+        case let .moveText(id, startAnchor):
+            document.moveText(id, to: CGPoint(x: startAnchor.x + offset.width, y: startAnchor.y + offset.height))
+        case let .pan(startOffset):
             viewport.pan(to: CGSize(
-                width: startOffset.width + value.translation.width,
-                height: startOffset.height + value.translation.height
+                width: startOffset.width + translation.width,
+                height: startOffset.height + translation.height
             ))
-        case nil:
-            break
+        }
+        return current
+    }
+
+    private func begin(at start: CGPoint) -> Interaction {
+        let point = board(start)
+        switch tool {
+        case .text:
+            let id = document.addText(at: point)
+            onPlaced()
+            let anchor = document.texts.first { $0.id == id }?.anchor ?? point
+            return .moveText(id: id, startAnchor: anchor)
+        case .select:
+            if let text = document.text(at: point) {
+                document.selectedTextID = text.id
+                return .moveText(id: text.id, startAnchor: text.anchor)
+            }
+            if let hit = document.footprint(at: point), let placement = hit.board {
+                document.selectedChipID = hit.id
+                return .move(id: hit.id, startCentre: placement.centre)
+            }
+            document.selectedChipID = nil
+            document.selectedTextID = nil
+            return .pan(startOffset: viewport.offset)
+        }
+    }
+}
+
+/// The PCB page's tools: Select (move footprints and texts, pan) and Text
+/// (click to place a text).
+enum PCBTool: String, CaseIterable, Identifiable {
+    case select
+    case text
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .select: "Select"
+        case .text: "Text"
+        }
+    }
+
+    var symbol: String {
+        switch self {
+        case .select: "cursorarrow"
+        case .text: "textformat"
         }
     }
 }

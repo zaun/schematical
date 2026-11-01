@@ -23,11 +23,10 @@ struct PCBSidebarView: View {
                 FootprintPanel(document: document, chip: chip)
                     // Fresh field state for each part.
                     .id(chip.id)
-            } else if document.selectedTextID != nil {
-                Section {
-                    Text("Text")
-                        .font(.title2.bold())
-                }
+            } else if let id = document.selectedTextID,
+                      let text = document.texts.first(where: { $0.id == id }) {
+                TextPanel(document: document, text: text)
+                    .id(text.id)
             } else {
                 BoardPanel(document: document)
             }
@@ -91,6 +90,126 @@ private struct BoardPanel: View {
         .buttonStyle(.plain)
         .help(colour.title)
         .accessibilityLabel(colour.title)
+    }
+}
+
+// MARK: - Text
+
+/// The selected board text: its words, layer, font size, position and
+/// rotation, and Delete.
+private struct TextPanel: View {
+    let document: SchematicDocument
+    let text: BoardText
+
+    @State private var words = ""
+    @State private var size = ""
+    @FocusState private var focus: Field?
+
+    private enum Field { case words, size }
+
+    private var units: BoardUnits { document.board.units }
+
+    var body: some View {
+        Section {
+            Text("Text")
+                .font(.title2.bold())
+            TextField("Text", text: $words, axis: .vertical)
+                .lineLimit(1...6)
+                .focused($focus, equals: .words)
+                .onSubmit(commitWords)
+        }
+
+        Section {
+            Picker("Layer", selection: Binding(
+                get: { text.layer },
+                set: { document.setTextLayer(text.id, $0) }
+            )) {
+                ForEach(TextLayer.allCases, id: \.self) { layer in
+                    Text(layer.title).tag(layer)
+                }
+            }
+            .pickerStyle(.segmented)
+            LabeledContent("Font Size") {
+                HStack(spacing: 4) {
+                    TextField("Font Size", text: $size)
+                        .labelsHidden()
+                        .multilineTextAlignment(.trailing)
+                        .focused($focus, equals: .size)
+                        .onSubmit(commitSize)
+                    Text("mil")
+                        .foregroundStyle(.secondary)
+                    Stepper("Font Size", value: Binding(
+                        get: { text.size },
+                        set: { document.setTextSize(text.id, $0); showSize() }
+                    ), in: BoardText.sizeRange, step: 5)
+                    .labelsHidden()
+                }
+            }
+        }
+
+        Section("Position") {
+            LengthField(title: "X", millimetres: text.anchor.x, units: units) {
+                move(to: CGPoint(x: $0, y: text.anchor.y)).x
+            }
+            LengthField(title: "Y", millimetres: text.anchor.y, units: units) {
+                move(to: CGPoint(x: text.anchor.x, y: $0)).y
+            }
+            Picker("Rotation", selection: Binding(
+                get: { text.rotation },
+                set: { document.setTextRotation(text.id, $0) }
+            )) {
+                ForEach(BoardPlacement.rotations, id: \.self) { rotation in
+                    Text("\(rotation)°").tag(rotation)
+                }
+            }
+            .pickerStyle(.segmented)
+        }
+
+        Section {
+            // ⌘⌫, not ⌫ alone, so it can't fire while a field is being edited.
+            Button("Delete Text", role: .destructive) {
+                document.deleteText(text.id)
+            }
+            .keyboardShortcut(.delete, modifiers: .command)
+        }
+        .onAppear {
+            words = text.text
+            showSize()
+        }
+        .onChange(of: focus) { old, _ in
+            switch old {
+            case .words?: commitWords()
+            case .size?: commitSize()
+            case nil: break
+            }
+        }
+    }
+
+    private func current() -> BoardText? {
+        document.texts.first { $0.id == text.id }
+    }
+
+    /// An empty value is refused by the document; the field shows the kept text.
+    private func commitWords() {
+        document.setText(text.id, words)
+        words = current()?.text ?? words
+    }
+
+    private func commitSize() {
+        if let value = Int(size.trimmingCharacters(in: .whitespaces)) {
+            document.setTextSize(text.id, value)
+        }
+        showSize()
+    }
+
+    private func showSize() {
+        size = String(current()?.size ?? text.size)
+    }
+
+    /// Moves the anchor (snapped) and returns where it ended up.
+    private func move(to point: CGPoint) -> CGPoint {
+        document.moveText(text.id, to: point)
+        return current()?.anchor ?? point
     }
 }
 

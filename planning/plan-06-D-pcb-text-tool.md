@@ -28,7 +28,7 @@ See plan-06-A §Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-06-C complete | `ls planning/completed/plan-06-C-pcb-sidebar.md` → exists | NOT MET (2026-11-01) |
+| plan-06-C complete | `ls planning/completed/plan-06-C-pcb-sidebar.md` → exists | MET (2026-11-01, 8bc200d) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue and before you stop; if you stop,
@@ -141,9 +141,17 @@ Replaces C's placeholder when `selectedTextID` is set.
 
 ### Phase 1 — Tools, gestures, rotate
 
-- [ ] `Canvas/PCBCanvasView.swift`: `PCBTool`, new init parameters, §4.2.
+- [x] `Canvas/PCBCanvasView.swift`: `PCBTool`, new init parameters, §4.2;
+      `handle(start:translation:)` returns the `Interaction`. `harness
+      tools`: `text tool: one text true selected true onPlaced once true
+      drag moves it true`; `press point is over the LED footprint: true`;
+      `press on text over footprint: text selected true footprint not true
+      true`; `translate 2 mm -> anchor moved 1.905: true`; `rotate -> 90:
+      true`; `empty board: both nil true pan true onPlaced still 1 true`.
 - [ ] `ContentView.swift`: tool picker, `onPlaced`, Run resets the tool,
-      Rotate for texts (§4.1, §4.3).
+      Rotate for texts (§4.1, §4.3). Run also clears the selected text.
+      `xcodebuild` → `** BUILD SUCCEEDED **`; `d-panel.png` shows the
+      toolbar's Select | Text picker (Select on).
 
 Acceptance: the Text tool places and selects a text and returns to Select;
 texts drag and rotate.
@@ -159,8 +167,14 @@ Commit: —
 
 ### Phase 2 — Text panel and delete
 
-- [ ] `Canvas/PCBSidebarView.swift`: text panel (§4.4), Delete button with
-      ⌘⌫ (§4.3).
+- [x] `Canvas/PCBSidebarView.swift`: text panel (§4.4), Delete button with
+      ⌘⌫ (§4.3). `harness window-d` (real fields, segments and a ⌘⌫ key
+      event; Corrections 1): `added: texts 1 selected true`, panel fields
+      `Text`, `50`, `10.16`, `10.16` (`d-panel.png`); after the commits
+      `text REV A true size 80 true document true rotation 90 true x 5.08
+      true` (`d-text.png`: gray "REV A" turned, in its selection box);
+      `save/reopen keeps every value: true`; ⌘⌫ → `deleted: no texts true
+      selection nil true`, board panel `100`, `80` (`d-deleted.png`).
 
 Acceptance: the panel edits every text property; delete removes the text.
   Check: harness `window-d`: offscreen window (plan-06-C's method), PCB
@@ -199,6 +213,15 @@ Commit: —
   step 5 mil.
 
 ## Corrections
+
+1. `window-d` adds its text with `document.addText` — what the Text tool's
+   press calls — instead of clicking the canvas: synthesized mouse events
+   reach SwiftUI buttons and fields in the offscreen window (the colour
+   swatch in plan-06-C) but never its `DragGesture` (Select-tool click on
+   empty canvas left the selection set, even with the window reporting
+   key). The press itself is proven in `tools`, which calls the canvas's
+   own `handle(start:translation:)`. The step reads "add a text, select
+   it", so the check is unchanged.
 
 ## Summary
 

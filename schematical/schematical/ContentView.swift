@@ -30,6 +30,7 @@ struct ContentView: View {
     @State private var boardViewport = CanvasViewport()
     @State private var page = EditorPage.schematic
     @State private var tool: SchematicTool = .pointer
+    @State private var pcbTool = PCBTool.select
     @State private var isDrawerShown = true
     /// The PCB page's inspector (board, footprint or text settings).
     @State private var isPCBSidebarShown = true
@@ -90,9 +91,10 @@ struct ContentView: View {
         )
     }
 
-    /// The selected part, when it has a footprint to rotate. Rotate is only on
-    /// the PCB page, where the simulation never runs.
+    /// A selected footprint or board text, which Rotate turns. Rotate is only
+    /// on the PCB page, where the simulation never runs.
     private var canRotate: Bool {
+        if document.selectedTextID != nil { return true }
         guard let id = document.selectedChipID else { return false }
         return document.chips.first { $0.id == id }?.board != nil
     }
@@ -117,7 +119,10 @@ struct ContentView: View {
                 tool = .pointer
             }
         case .pcb:
-            PCBCanvasView(document: document, viewport: boardViewport)
+            PCBCanvasView(document: document, viewport: boardViewport, tool: pcbTool) {
+                // Placing a text returns to the Select tool.
+                pcbTool = .select
+            }
         }
     }
 
@@ -148,9 +153,12 @@ struct ContentView: View {
                     ToolbarItem(placement: .navigation) {
                         Button {
                             if !simulation.isRunning {
-                                // Play mode starts with the Pointer tool and nothing selected.
+                                // Play mode starts with the Pointer (and PCB
+                                // Select) tool and nothing selected.
                                 tool = .pointer
+                                pcbTool = .select
                                 document.selectedChipID = nil
+                                document.selectedTextID = nil
                             }
                             simulation.toggle(document: document)
                         } label: {
@@ -202,20 +210,33 @@ struct ContentView: View {
                         .labelStyle(.iconOnly)
                         .labelsHidden()
                         .disabled(simulation.isRunning)
+                    } else {
+                        Picker("Tool", selection: $pcbTool) {
+                            ForEach(PCBTool.allCases) { tool in
+                                Label(tool.title, systemImage: tool.symbol)
+                                    .help(tool.title)
+                                    .tag(tool)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .labelStyle(.iconOnly)
+                        .labelsHidden()
                     }
                 }
 
                 if page == .pcb {
                     ToolbarItem(placement: .primaryAction) {
                         Button {
-                            if let id = document.selectedChipID {
+                            if let id = document.selectedTextID {
+                                document.rotateText(id)
+                            } else if let id = document.selectedChipID {
                                 document.rotateFootprint(id)
                             }
                         } label: {
                             Label("Rotate", systemImage: "rotate.right")
                         }
                         .keyboardShortcut("r", modifiers: [.command, .option])
-                        .help("Rotate the selected footprint 90° (⌥⌘R)")
+                        .help("Rotate the selection 90° (⌥⌘R)")
                         .disabled(!canRotate)
                     }
                 }
