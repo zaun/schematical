@@ -229,7 +229,7 @@ Acceptance: every logic part has a footprint; `footprints.txt` has 58 lines.
   Check: `ctest --test-dir /tmp/logic-plan03 --output-on-failure` → all pass (est. 1 min). — 2026-11-01: `100% tests passed, 0 tests failed out of 8`.
   Check: `grep -c '"footprint"' schematical/schematical/Parts/{gate,dff,jkff}.json` → 2552, 672, 186; `wc -l < backend/tests/golden/footprints.txt` → 58 (est. seconds). — 2026-11-01: 2552, 672, 186; 58.
   Check: a `python3 -I` one-off that strips `|footprint=…` from every line of `backend/tests/golden/parts.txt` and compares with the same strip of `git show <plan-03-A's last commit>:backend/tests/golden/parts.txt` → identical (est. seconds). — 2026-11-01, against 5239f2f: `identical 3818 3818`; `git diff --exit-code … traces.txt` exit 0.
-Commit: —
+Commit: 514a36e
 
 ## Validation Plan
 
@@ -242,6 +242,13 @@ Commit: —
   from plan-03-D. `xcodebuild` (plan-03-A Phase 2 command) → `** BUILD SUCCEEDED **`.
 - Doc sync: none (format unchanged).
 - Final gate (once): `cmake -S backend -B /tmp/logic-final && cmake --build /tmp/logic-final -j8 && ctest --test-dir /tmp/logic-final` (est. 1 min) + `xcodebuild` (est. 3 min).
+
+## Final gate (run 2026-11-01)
+
+- `cmake --build /tmp/logic-final-p03 -j8 && ctest --test-dir /tmp/logic-final-p03`
+  → `100% tests passed, 0 tests failed out of 8` (the gate's `/tmp/logic-final`
+  holds a stale plan-01 cache; see plan-03-A Corrections).
+- `xcodebuild … build` → `** BUILD SUCCEEDED **`.
 
 ## Decisions
 
