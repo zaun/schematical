@@ -311,7 +311,7 @@ its access time. **Met:** `xcodebuild` → `** BUILD SUCCEEDED **`;
 `Memory/SRAM: 172 parts`, `AS6C62256-55PCN: 55 ns`.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p04c-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 1 min).
   Check: `/tmp/p04/harness/run catalog` → `Memory/EEPROM: 174 parts`, and `AT28C256-15PU: 150 ns` (est. seconds).
-Commit: —
+Commit: e1dd565
 
 ### Phase 2 — Document, file and simulation load
 
@@ -319,22 +319,34 @@ The setting exists in the model and the file and is loaded on Run; no UI
 sets it yet (the harness does). Safe alone: files without `memoryFile` are
 unchanged.
 
-- [ ] `Canvas/SchematicModel.swift`: `MemoryFile`, `PlacedChip.memoryFile`,
+- [x] `Canvas/SchematicModel.swift`: `MemoryFile`, `PlacedChip.memoryFile`,
       `setMemoryFile` (§4.2).
-- [ ] `Document/SchematicFile.swift`: `MemoryFileEntry`,
+- [x] `Document/SchematicFile.swift`: `MemoryFileEntry`,
       `init(document:fileURL:)`, `apply(to:catalog:fileURL:)` (§4.3).
-- [ ] `Document/SchematicFileController.swift`: pass `fileURL` at the 4
+- [x] `Document/SchematicFileController.swift`: pass `fileURL` at the 4
       snapshot sites and to `apply`.
-- [ ] `schematical-Bridging-Header.h`: `#include "memory_image.h"` beside
+- [x] `schematical-Bridging-Header.h`: `#include "memory_image.h"` beside
       `parts.h` and `circuit.h` (today it includes only those two; the
       header search paths already contain `backend/include`).
-- [ ] `Memory/MemoryFileAccess.swift` (§4.4).
-- [ ] `Simulation/Simulation.swift`: load before start, error message (§4.5).
-- [ ] `docs/file-format.md` (§4.3).
-- [ ] Harness commands `load` and `roundtrip` (Validation 3–5).
+- [x] `Memory/MemoryFileAccess.swift` (§4.4).
+- [x] `Simulation/Simulation.swift`: load before start, error message (§4.5).
+- [x] `docs/file-format.md` (§4.3).
+- [x] Harness commands `load` and `roundtrip` (Validation 3–5).
 
 Acceptance: a file set on an EEPROM loads on Run, round-trips through
 Save/Open, and resolves by relative path when the bookmark is gone.
+**Met (2026-11-01):** `xcodebuild` → `** BUILD SUCCEEDED **`.
+`run load`: no file → `readMemory(0,16)` all `FF`, data nets `11111111`;
+`boot.bin` → `00 01 … 0F`, `0x1F0` → `F0 … FF`, `0x200` → `FF`, data nets
+`00000000`; `boot.hex` → the same; `bad.hex` → `running false error U3:
+bad.hex: line 3: bad checksum 0x69 (expected 0x68)`; a missing file →
+`U3: can't read missing.bin: The file “missing.bin” couldn’t be opened
+because there is no such file.` `run roundtrip`: `jq … .memoryFile.path` →
+`"boot.bin"`, other parts have no `memoryFile`; reopen →
+`/private/tmp/p04-proof/boot.bin` with its bookmark (see Corrections),
+fresh snapshot == saved file (not unsaved); path from `sub/deeper` →
+`../../boot.bin`, never saved → absolute. `run moved` (bookmark deleted
+with `jq`) → `/tmp/p04-proof/moved/boot.bin`, Run reads `00 01 …`.
   Check: the Phase 1 `xcodebuild` → `** BUILD SUCCEEDED **` (est. 1 min).
   Check: `/tmp/p04/harness/run load` and `/tmp/p04/harness/run roundtrip` → Validation 3–5 outputs (est. seconds).
 Commit: —
@@ -394,7 +406,7 @@ Commit: —
 - Doc sync: `docs/file-format.md`.
 - Final gate (plan-04 overall, once, after Phase 3):
   `rm -rf /tmp/logic-land-p04 && cmake -S backend -B /tmp/logic-land-p04 && cmake --build /tmp/logic-land-p04 -j8 && ctest --test-dir /tmp/logic-land-p04`
-  → `100% tests passed, 0 tests failed out of 10` (est. 1 min); the
+  → `100% tests passed, 0 tests failed out of 11` (est. 1 min); the
   `xcodebuild` (est. 1 min); the runtime proof (est. 20 min).
 
 ## Decisions
@@ -413,6 +425,23 @@ choices for this letter:
   first save on.
 
 ## Corrections
+
+- 2026-11-01 (Phase 2): Validation 4 expected the reopened file at
+  `/tmp/p04-proof/boot.bin`; the bookmark resolves to the real path,
+  `/private/tmp/p04-proof/boot.bin` (`/tmp` is a symlink to `/private/tmp`),
+  the same file. Path arithmetic resolves symlinks on both sides, so the
+  saved `path` is still `"boot.bin"` and the reopened document is not
+  "unsaved". The relative fallback (Validation 5) gives `/tmp/…/moved/…`
+  because it joins the stored path to the schematic's folder as given.
+- 2026-11-01 (Phase 2): Validation 3 reads the data pins through nets, but
+  §Validation's `eeprom.schematical` left I/O0–I/O7 unwired (no net). The
+  fixture wires each to its own junction, so each has a net; the harness
+  reads them through `SimulationController.wireStyle` (0 → `.normal`,
+  1 → green, X → orange, Z → `.floating`). The run lasts the harness's
+  300 ms sleep at speed 1 (about 0.3 s of circuit time), not 1 µs; the
+  read window settles in 150 ns either way.
+- 2026-11-01: the ctest count after plan-04 is 11 (plan-05's `engine_test`
+  came first), not 10; the final gate below says 11.
 
 ## Summary
 

@@ -380,6 +380,14 @@ nonisolated struct ChipLayout: Hashable {
 
 // MARK: - Placed items
 
+/// An EEPROM's load file: where it is, and the app-scoped security bookmark
+/// that lets the sandboxed app read it after a restart.
+nonisolated struct MemoryFile: Hashable, Sendable {
+    var url: URL
+    var bookmark: Data?
+    var name: String { url.lastPathComponent }
+}
+
 nonisolated struct PlacedChip: Identifiable, Hashable {
     let id: UUID
     let reference: String
@@ -397,6 +405,9 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// Where the footprint sits on the PCB. Set exactly when the part has a
     /// footprint (every part but VCC and GND).
     var board: BoardPlacement?
+    /// For an EEPROM, the file loaded into it when the simulation starts.
+    /// Nil for every other part, and for an EEPROM that starts erased.
+    var memoryFile: MemoryFile?
 
     private let baseLayout: ChipLayout
 
@@ -408,7 +419,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         origin: CGPoint,
         isFlipped: Bool = false,
         switchesOn: [Bool] = [],
-        board: BoardPlacement? = nil
+        board: BoardPlacement? = nil,
+        memoryFile: MemoryFile? = nil
     ) {
         self.id = id
         self.reference = reference
@@ -418,6 +430,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         self.origin = origin
         self.isFlipped = isFlipped
         self.board = part.footprint == nil ? nil : board
+        self.memoryFile = part.kind == PART_EEPROM ? memoryFile : nil
         // A switch has one state per position, OFF unless given; others none.
         var positions = 0
         if case let .dipSwitch(count, _) = part.details {
@@ -757,6 +770,14 @@ final class SchematicDocument {
     /// Flips a switch position (1-based) between ON and OFF. Returns the new
     /// state, or nil when the part is not a switch or has no such position.
     @discardableResult
+    /// Sets or clears an EEPROM's load file. Does nothing for other parts.
+    /// The memory window calls it only while the simulation is stopped.
+    func setMemoryFile(_ id: UUID, _ file: MemoryFile?) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              chips[index].part.kind == PART_EEPROM else { return }
+        chips[index].memoryFile = file
+    }
+
     func toggleSwitch(_ id: UUID, position: Int) -> Bool? {
         guard let index = chips.firstIndex(where: { $0.id == id }),
               chips[index].switchesOn.indices.contains(position - 1) else { return nil }

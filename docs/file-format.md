@@ -83,15 +83,25 @@ A DIP switch also stores its positions:
   "x": 80, "y": 120, "flipped": false, "switches": [true, false, false, true] }
 ```
 
+An EEPROM can name the file loaded into it when the simulation starts:
+
+```json
+{ "id": "...", "reference": "U4", "partNumber": "AT28C256-15PU",
+  "x": 300, "y": 120, "flipped": false,
+  "pcb": { "x": 20.32, "y": 0, "rotation": 0 },
+  "memoryFile": { "path": "roms/boot.bin", "bookmark": "Ym9va21hcms..." } }
+```
+
 | Field        | Type    | Meaning                                                                 |
 |--------------|---------|-------------------------------------------------------------------------|
 | `id`         | UUID    | Unique within the file.                                                 |
 | `reference`  | string  | Label shown on the canvas, such as `U1`.                                |
-| `partNumber` | string  | A part name from the part library (`schematical/schematical/Parts/*.json`): a logic part, memory (SRAM), switch, LED, 7-segment display, oscillator, or the supplies `VCC` and `GND`. |
+| `partNumber` | string  | A part name from the part library (`schematical/schematical/Parts/*.json`): a logic part, memory (SRAM, EEPROM), switch, LED, 7-segment display, oscillator, or the supplies `VCC` and `GND`. |
 | `x`, `y`     | number  | Top-left corner of the part body.                                       |
 | `flipped`    | boolean | Pins on the opposite sides. Ignored for VCC and GND.                    |
 | `switches`   | array of booleans | DIP switches only, optional: whether each position is ON, position 1 first. Missing positions are OFF; extra entries are ignored. Left out for other parts. |
 | `pcb`        | object  | Optional. The footprint on the PCB: `x`, `y` (numbers, mm) are the footprint's centre, `rotation` (integer) is 0, 90, 180 or 270 degrees clockwise. Written for every part with a footprint; left out for VCC and GND, and ignored on a part without a footprint. A part with a footprint and no `pcb` (older files) is placed automatically when the file is opened: after the stored ones, in file order, each to the right of everything already placed. |
+| `memoryFile` | object  | EEPROMs only, optional: the file (raw binary, or Intel HEX for `.hex`/`.ihx`/`.ihex`) loaded into the chip at every start; without it the chip starts erased (every byte FF). `path` (string) is the file's path relative to the schematic's folder (`../roms/boot.bin`), or absolute for a schematic that had never been saved. `bookmark` (base64 string, optional) is an app-scoped security bookmark; on the Mac that wrote it, it is tried first, so the sandboxed app can read the file after a restart, and `path` is the fallback. Ignored on other parts. |
 
 ## Junctions
 
@@ -146,6 +156,10 @@ Opening fails, and the canvas is left unchanged, if:
   version 2 file with an integer `"pin"`. A file uses one or the other;
 - a part with a footprint has a `pcb.rotation` other than 0, 90, 180 or 270
   ("U2 has PCB rotation 45; it must be 0, 90, 180 or 270.").
+
+A missing or unreadable EEPROM load file (`memoryFile`) does not fail Open:
+the memory window shows the problem, and Run stops with it
+(`"U4: can't read boot.bin: …"`).
 
 ## Version 1 files
 

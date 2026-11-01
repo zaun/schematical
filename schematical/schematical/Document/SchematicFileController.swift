@@ -48,7 +48,7 @@ final class SchematicFileController {
         self.document = document
         self.catalog = catalog
         self.willReplaceDocument = willReplaceDocument
-        self.savedSnapshot = SchematicFile(document: document)
+        self.savedSnapshot = SchematicFile(document: document, fileURL: nil)
         Self.all.add(self)
     }
 
@@ -70,7 +70,7 @@ final class SchematicFileController {
     }
 
     var hasUnsavedChanges: Bool {
-        SchematicFile(document: document) != savedSnapshot
+        SchematicFile(document: document, fileURL: fileURL) != savedSnapshot
     }
 
     // MARK: Actions
@@ -111,9 +111,10 @@ final class SchematicFileController {
         do {
             let file = try SchematicFile.decode(try Data(contentsOf: url))
             willReplaceDocument()
-            try file.apply(to: document, catalog: catalog)
+            try file.apply(to: document, catalog: catalog, fileURL: url)
             fileURL = url
-            savedSnapshot = SchematicFile(document: document)
+            // Taken after apply, so a refreshed bookmark is not a change.
+            savedSnapshot = SchematicFile(document: document, fileURL: url)
         } catch {
             present(error, title: "Couldn't open “\(url.lastPathComponent)”")
         }
@@ -122,7 +123,7 @@ final class SchematicFileController {
     // MARK: Helpers
 
     private func write(to url: URL) {
-        let snapshot = SchematicFile(document: document)
+        let snapshot = SchematicFile(document: document, fileURL: url)
         do {
             try snapshot.encoded().write(to: url, options: .atomic)
             fileURL = url

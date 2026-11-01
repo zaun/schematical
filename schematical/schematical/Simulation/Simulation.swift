@@ -188,12 +188,28 @@ final class SimulationController {
         }
     }
 
+    /// Starts the document's circuit. Each EEPROM with a load file gets the
+    /// file's contents first; a file that can't be read or parsed stops the
+    /// start with a message naming the part.
     func start(document: SchematicDocument) {
-        start(netlist: NetlistBuilder.build(chips: document.chips, wires: document.wires))
+        let netlist = NetlistBuilder.build(chips: document.chips, wires: document.wires)
+        var loads: [(part: Int, values: [UInt32])] = []
+        for (index, chip) in document.chips.enumerated() where chip.part.kind == PART_EEPROM {
+            guard let file = chip.memoryFile, let size = chip.part.memorySize else { continue }
+            do {
+                loads.append((part: index, values: try MemoryFileAccess.image(file, size: size)))
+            } catch {
+                stop()
+                errorMessage = "\(chip.reference): \(error.localizedDescription)"
+                return
+            }
+        }
+        start(netlist: netlist, loads: loads)
     }
 
-    /// Builds the circuit and starts it on the simulation thread.
-    func start(netlist built: SchematicNetlist) {
+    /// Builds the circuit and starts it on the simulation thread. `loads`
+    /// are memory contents written before the circuit starts, by part index.
+    func start(netlist built: SchematicNetlist, loads: [(part: Int, values: [UInt32])] = []) {
         stop()
         errorMessage = nil
 
@@ -201,7 +217,7 @@ final class SimulationController {
             errorMessage = "The simulation could not start."
             return
         }
-        if !Self.build(opened, from: built) {
+        if !Self.build(opened, from: built, loads: loads) {
             errorMessage = circuit_error(opened).map { String(cString: $0) }
                 ?? "The simulation could not start."
             circuit_destroy(opened)
@@ -229,8 +245,10 @@ final class SimulationController {
         engine.start()
     }
 
-    /// Adds the parts, nets and connections, sets the switches, and starts.
-    private static func build(_ circuit: OpaquePointer, from netlist: SchematicNetlist) -> Bool {
+    /// Adds the parts, nets and connections, sets the switches, loads the
+    /// memories, and starts.
+    private static func build(_ circuit: OpaquePointer, from netlist: SchematicNetlist,
+                              loads: [(part: Int, values: [UInt32])]) -> Bool {
         for name in netlist.partNames {
             var index = 0
             if circuit_add_part(circuit, name, &index) != 0 { return false }
@@ -246,6 +264,12 @@ final class SimulationController {
         }
         for item in netlist.switchesOn {
             if circuit_set_switch(circuit, item.part, UInt32(item.position), 1) != 0 { return false }
+        }
+        for load in loads {
+            let result = load.values.withUnsafeBufferPointer {
+                circuit_memory_load(circuit, load.part, 0, $0.baseAddress, $0.count)
+            }
+            if result != 0 { return false }
         }
         return circuit_start(circuit) == 0
     }

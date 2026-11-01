@@ -47,6 +47,17 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// The footprint's place on the PCB. Left out for parts without a
         /// footprint (VCC, GND).
         var pcb: Placement? = nil
+        /// EEPROMs only: the file loaded into the chip when the simulation
+        /// starts. Left out when there is none and for other parts.
+        var memoryFile: MemoryFileEntry? = nil
+    }
+
+    /// An EEPROM's load file: the path relative to the schematic's folder (or
+    /// absolute for a schematic never saved), and an app-scoped security
+    /// bookmark (base64 in JSON) that is tried first.
+    struct MemoryFileEntry: Codable, Equatable, Sendable {
+        var path: String
+        var bookmark: Data?
     }
 
     /// A footprint's centre in board millimetres (y down) and its clockwise
@@ -164,9 +175,11 @@ nonisolated enum SchematicFileError: LocalizedError {
 // MARK: - Converting to and from the document
 
 extension SchematicFile {
-    /// A snapshot of the document. The selection is not saved.
+    /// A snapshot of the document. The selection is not saved. `fileURL` is
+    /// where it will be (or was) saved: load-file paths are relative to its
+    /// folder, or absolute when it is nil.
     @MainActor
-    init(document: SchematicDocument) {
+    init(document: SchematicDocument, fileURL: URL?) {
         format = Self.formatName
         version = Self.currentVersion
         nextReference = document.nextReference
@@ -181,6 +194,10 @@ extension SchematicFile {
                 switches: chip.switchesOn.isEmpty ? nil : chip.switchesOn,
                 pcb: chip.board.map {
                     Placement(x: $0.centre.x, y: $0.centre.y, rotation: $0.rotation)
+                },
+                memoryFile: chip.memoryFile.map {
+                    MemoryFileEntry(path: MemoryFileAccess.path(of: $0.url, schematic: fileURL),
+                                    bookmark: $0.bookmark)
                 }
             )
         }
@@ -240,8 +257,10 @@ extension SchematicFile {
 
     /// Rebuilds the document's contents, looking up each part in the catalog.
     /// Throws without touching the document if anything doesn't resolve.
+    /// `fileURL` is where the file was read from; EEPROM load-file paths are
+    /// resolved against its folder. A missing load file never fails here.
     @MainActor
-    func apply(to document: SchematicDocument, catalog: PartCatalogStore) throws {
+    func apply(to document: SchematicDocument, catalog: PartCatalogStore, fileURL: URL?) throws {
         var seen = Set<UUID>()
         func claim(_ id: UUID) throws {
             guard seen.insert(id).inserted else { throw SchematicFileError.duplicateID(id) }
@@ -266,6 +285,11 @@ extension SchematicFile {
                     BoardPlacement(centre: CGPoint(x: pcb.x, y: pcb.y), rotation: pcb.rotation),
                     footprint: footprint)
             }
+            // A load file counts only on an EEPROM.
+            var memoryFile: MemoryFile?
+            if catalogPart.kind == PART_EEPROM, let entry = part.memoryFile {
+                memoryFile = MemoryFileAccess.file(path: entry.path, bookmark: entry.bookmark, schematic: fileURL)
+            }
             chips.append(PlacedChip(
                 id: part.id,
                 reference: part.reference,
@@ -274,7 +298,8 @@ extension SchematicFile {
                 origin: SchematicGrid.snap(CGPoint(x: part.x, y: part.y)),
                 isFlipped: part.flipped && partSymbol.canFlip,
                 switchesOn: part.switches ?? [],
-                board: board
+                board: board,
+                memoryFile: memoryFile
             ))
         }
         if !unknown.isEmpty {

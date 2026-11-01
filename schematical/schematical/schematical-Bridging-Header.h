@@ -3,7 +3,7 @@
 //  schematical
 //
 //  Exposes the backend (../backend/src, compiled into the app) to Swift:
-//  the part library and the circuit simulator.
+//  the part library, the circuit simulator and the load-file parser.
 //
 
 #ifndef SCHEMATICAL_BRIDGING_HEADER_H
@@ -11,5 +11,6 @@
 
 #include "parts.h"
 #include "circuit.h"
+#include "memory_image.h"
 
 #endif
