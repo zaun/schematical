@@ -57,8 +57,8 @@ typedef struct {
     PackageType package;
 } PartEntry;
 
-#define PART(name, family, package) {name, family, package},
-#define PART_FK(name, family, package) {name, family, package},
+#define PART(name, family, package, flags) {name, family, package},
+#define PART_FK(name, family, package, flags) {name, family, package},
 static const PartEntry PARTS[] = {
 #include "74_32_parts.inc"
 };
@@ -328,9 +328,16 @@ const SimComponentType *sn74_32_lookup(
 /* ---- Catalog definition ------------------------------------------------- */
 
 /* 14-pin packages. The 20-pin LCCC parts have their own definition below. */
-#define PART(name, family, package) name,
-#define PART_FK(name, family, package)
+#define PART(name, family, package, flags) name,
+#define PART_FK(name, family, package, flags)
 static const char *const SN74_32_PART_NUMBERS[] = {
+#include "74_32_parts.inc"
+};
+#undef PART
+#undef PART_FK
+#define PART(name, family, package, flags) flags,
+#define PART_FK(name, family, package, flags)
+static const unsigned SN74_32_PART_FLAGS[] = {
 #include "74_32_parts.inc"
 };
 #undef PART
@@ -364,13 +371,21 @@ const ChipDefinition SN74_32_DEFINITION = {
     sizeof(SN74_32_PINS) / sizeof(SN74_32_PINS[0]),
     sn74_32_lookup,
     4,
+    SN74_32_PART_FLAGS,
 };
 
 /* ---- 20-pin LCCC (FK) definition --------------------------------------- */
 
-#define PART(name, family, package)
-#define PART_FK(name, family, package) name,
+#define PART(name, family, package, flags)
+#define PART_FK(name, family, package, flags) name,
 static const char *const SN74_32_FK_PART_NUMBERS[] = {
+#include "74_32_parts.inc"
+};
+#undef PART
+#undef PART_FK
+#define PART(name, family, package, flags)
+#define PART_FK(name, family, package, flags) flags,
+static const unsigned SN74_32_FK_PART_FLAGS[] = {
 #include "74_32_parts.inc"
 };
 #undef PART
@@ -411,4 +426,5 @@ const ChipDefinition SN74_32_FK_DEFINITION = {
     sizeof(SN74_32_FK_PINS) / sizeof(SN74_32_FK_PINS[0]),
     sn74_32_lookup,
     4,
+    SN74_32_FK_PART_FLAGS,
 };
