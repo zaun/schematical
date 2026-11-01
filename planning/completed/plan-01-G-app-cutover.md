@@ -232,11 +232,12 @@ Commit: 46f1afe
       - golden` → identical for both files. Documented in `docs/backend.md`.
 - [x] (added) Stale names: CMake project `logic_backend` → `logic`; the LED
       model comment no longer names `netlist_sim.c`.
-- [ ] Move `planning/plan-01-G-app-cutover.md` to `planning/completed/`.
+- [x] Move `planning/plan-01-G-app-cutover.md` to `planning/completed/`.
 
 Acceptance: no doc names a removed symbol.
   Check: `grep -rnE 'PART_FLAG_OBSOLETE|catalog_json_copy|netlist_sim|backend catalog' AGENTS.md docs/` → no matches (est. seconds).
-Commit: —
+  Result: no matches (exit 1).
+Commit: 2d939e4 (docs); this file's move to `planning/completed/` is the commit after it.
 
 ## Validation Plan
 
@@ -252,6 +253,28 @@ Commit: —
 - Doc sync: `AGENTS.md`, `docs/file-format.md`, `docs/backend.md`,
   `docs/parts-format.md`.
 - Final gate (plan-01, run once): `cmake -S backend -B /tmp/logic-final && cmake --build /tmp/logic-final -j8 && ctest --test-dir /tmp/logic-final` (est. 3 min) + the Phase 1 `xcodebuild` (est. 3 min) + the runtime proof (est. 10 min).
+
+## Final gate (run 2026-10-31)
+
+- `cmake -S backend -B /tmp/logic-final && cmake --build /tmp/logic-final -j8 && ctest --test-dir /tmp/logic-final`
+  → `100% tests passed, 0 tests failed out of 7`; `listing_check`/`trace_check` → `3817 parts compared, 0 skipped`.
+- Phase 1 `xcodebuild` → `** BUILD SUCCEEDED **`.
+- Runtime proof (Debug build, driven with System Events and a posted
+  double-click; screenshots in `/tmp/proof/`):
+  - Launch: drawer footer "3,815 parts from backend" (3,817 minus the
+    unlisted VCC/GND); Indicators → LED, LED 7-Seg (count and size menus),
+    Logic (family and count menus), and the category picker lists
+    Indicators, Logic, Memory, Oscillator, Switch (`1-drawer.png`,
+    `7-categories.png`).
+  - `test.schematical` opens with VCC, GND, OSC-SIT1534-1508, LED-AMBER-0603
+    (`2-opened.png`); Play: the LED is drawn lit amber, VCC net green, no
+    error (`3-play.png`).
+  - A copy with `AS6C62256-55PCN` added (placing by file uses the same
+    `catalog.part(named:)` + `symbol(for:)` path as a drawer drop): the SRAM
+    block draws ("32 KB", address group); Play; double-click opens
+    "U9 · AS6C62256-55PCN": "32,768 words × 8 bits (32 KB)", every word
+    `XX`, "0 of 256 words on this page defined" (`5-sram-play.png`,
+    `6-memory.png`).
 
 ## Decisions
 
