@@ -377,7 +377,7 @@ Acceptance: the golden diffs are exactly the expected ones.
   check: with `"vcc": [2, 6]` added to `74_00`'s HC entry (temporary,
   reverted), `listing_check --print | grep '^SN74HC00N|'` ends
   `|footprint=PDIP-14|vcc=2000-6000,in=6000`.
-Commit: —
+Commit: 4d7132e
 
 ## Validation Plan
 
