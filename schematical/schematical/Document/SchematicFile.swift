@@ -44,6 +44,17 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// DIP switches only: whether each position is ON, position 1 first.
         /// Left out for other parts.
         var switches: [Bool]? = nil
+        /// The footprint's place on the PCB. Left out for parts without a
+        /// footprint (VCC, GND).
+        var pcb: Placement? = nil
+    }
+
+    /// A footprint's centre in board millimetres (y down) and its clockwise
+    /// rotation: 0, 90, 180 or 270.
+    struct Placement: Codable, Equatable, Sendable {
+        var x: Double
+        var y: Double
+        var rotation: Int
     }
 
     struct Junction: Codable, Equatable, Sendable {
@@ -124,6 +135,7 @@ nonisolated enum SchematicFileError: LocalizedError {
     case missingPart(wire: UUID, part: UUID)
     case missingPin(wire: UUID, reference: String, pin: String)
     case missingJunction(wire: UUID, junction: UUID)
+    case badRotation(reference: String, rotation: Int)
 
     var errorDescription: String? {
         switch self {
@@ -143,6 +155,8 @@ nonisolated enum SchematicFileError: LocalizedError {
             "Wire \(wire.uuidString) connects to pin \(pin) of \(reference), which has no such pin."
         case let .missingJunction(wire, junction):
             "Wire \(wire.uuidString) ends at junction \(junction.uuidString), which is not in the file."
+        case let .badRotation(reference, rotation):
+            "\(reference) has PCB rotation \(rotation); it must be 0, 90, 180 or 270."
         }
     }
 }
@@ -164,7 +178,10 @@ extension SchematicFile {
                 x: chip.origin.x,
                 y: chip.origin.y,
                 flipped: chip.isFlipped,
-                switches: chip.switchesOn.isEmpty ? nil : chip.switchesOn
+                switches: chip.switchesOn.isEmpty ? nil : chip.switchesOn,
+                pcb: chip.board.map {
+                    Placement(x: $0.centre.x, y: $0.centre.y, rotation: $0.rotation)
+                }
             )
         }
         junctions = document.junctions.map { Junction(id: $0.id, x: $0.point.x, y: $0.point.y) }
@@ -239,6 +256,15 @@ extension SchematicFile {
                 continue
             }
             let partSymbol = symbol(for: catalogPart)
+            // A stored placement counts only for a part with a footprint.
+            var board: BoardPlacement?
+            if let pcb = part.pcb, catalogPart.footprint != nil {
+                guard BoardPlacement.rotations.contains(pcb.rotation) else {
+                    throw SchematicFileError.badRotation(reference: part.reference, rotation: pcb.rotation)
+                }
+                board = BoardPlacement(centre: BoardGrid.snap(CGPoint(x: pcb.x, y: pcb.y)),
+                                       rotation: pcb.rotation)
+            }
             chips.append(PlacedChip(
                 id: part.id,
                 reference: part.reference,
@@ -246,11 +272,19 @@ extension SchematicFile {
                 symbol: partSymbol,
                 origin: SchematicGrid.snap(CGPoint(x: part.x, y: part.y)),
                 isFlipped: part.flipped && partSymbol.canFlip,
-                switchesOn: part.switches ?? []
+                switchesOn: part.switches ?? [],
+                board: board
             ))
         }
         if !unknown.isEmpty {
             throw SchematicFileError.unknownParts(Array(Set(unknown)).sorted())
+        }
+        // Footprints with no stored place (older files) go after the stored
+        // ones, in file order.
+        for index in chips.indices where chips[index].board == nil {
+            if let footprint = chips[index].part.footprint {
+                chips[index].board = BoardLayout.nextSpot(for: footprint, among: chips)
+            }
         }
 
         var placedJunctions: [SchematicModelJunction] = []

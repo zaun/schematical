@@ -32,8 +32,8 @@ See plan-03-A §Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-03-C complete | `ls planning/completed/plan-03-C-other-footprints.md` → exists | NOT MET (2026-10-31) |
-| Every non-supply part has a footprint | `ctest --test-dir /tmp/logic-plan03 -R library_check` passes with the required-key cases (plan-03-C Phase 3) | NOT MET (2026-10-31) |
+| plan-03-C complete | `ls planning/completed/plan-03-C-other-footprints.md` → exists | MET (2026-11-01: exists, 9f962cd) |
+| Every non-supply part has a footprint | `ctest --test-dir /tmp/logic-plan03 -R library_check` passes with the required-key cases (plan-03-C Phase 3) | MET (2026-11-01: `library_check … Passed`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue and before you stop; if you stop,
@@ -241,18 +241,18 @@ struct BoardPlacement: Hashable {
 
 Placements exist and are saved; nothing draws them yet.
 
-- [ ] `Canvas/BoardModel.swift`: `BoardScale`, `BoardGrid`, `BoardPlacement`,
+- [x] `Canvas/BoardModel.swift`: `BoardScale`, `BoardGrid`, `BoardPlacement`,
       `PlacedPad`, the rotation transform, `PlacedChip` extensions (§4.2).
-- [ ] `SchematicModel.swift`: `PlacedChip.board`; `SchematicDocument`
+- [x] `SchematicModel.swift`: `PlacedChip.board`; `SchematicDocument`
       `nextBoardSpot`, `moveFootprint`, `rotateFootprint`, `footprint(at:)`;
       `placeChip` assigns a placement.
-- [ ] `SchematicFile.swift`: `Part.pcb`, write, read, `badRotation`,
+- [x] `SchematicFile.swift`: `Part.pcb`, write, read, `badRotation`,
       auto-placement on open (§4.3).
-- [ ] `docs/file-format.md`: § Parts, example, § Validation on open (§4.3).
+- [x] `docs/file-format.md`: § Parts, example, § Validation on open (§4.3).
 
 Acceptance: placements round-trip and old files gain placements on open.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 3 min).
-  Check: launch the Debug build (run skill), open `test.schematical`, Save As `/tmp/p03d.schematical`; `python3 -I -c 'import json;d=json.load(open("/tmp/p03d.schematical"));print(sorted((p["partNumber"],"pcb" in p) for p in d["parts"]))'` → `GND False`, `LED-AMBER-0603 True`, `OSC-SIT1534-1508 True`, `VCC False` (est. 3 min).
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 3 min). — 2026-11-01: `** BUILD SUCCEEDED **`.
+  Check: launch the Debug build (run skill), open `test.schematical`, Save As `/tmp/p03d.schematical`; `python3 -I -c 'import json;d=json.load(open("/tmp/p03d.schematical"));print(sorted((p["partNumber"],"pcb" in p) for p in d["parts"]))'` → `GND False`, `LED-AMBER-0603 True`, `OSC-SIT1534-1508 True`, `VCC False` (est. 3 min). — 2026-11-01, headless (screen locked; Corrections): `[('GND', False), ('GND', False), ('LED-AMBER-0603', True), ('OSC-SIT1534-1508', True), ('VCC', False)]` (the file has two GNDs); the version 1 file was auto-placed (U2 at (0, 0), U3 at (3.81, 0)); reopening the saved file and saving again gives the same `pcb` values (`round trip pcb equal: True`).
 Commit: —
 
 ### Phase 2 — PCB view and tabs
@@ -300,6 +300,19 @@ Commit: —
   auto-placement to the right of existing footprints.
 
 ## Corrections
+
+- 2026-11-01: runtime checks run headlessly: the session is locked
+  (`CGSSessionScreenIsLocked` true), so no window can be driven or
+  screenshotted. `/tmp/p03/harness/build.sh` compiles the app's Swift
+  sources (all but `schematicalApp.swift`) and the backend into a CLI inside
+  a copy of the Debug `.app` (plan-03-A Corrections); it opens and saves
+  through `SchematicFile.decode`/`apply`/`encoded`, drives the document
+  calls the gestures make, and renders the views with `ImageRenderer`.
+- 2026-11-01: `badRotation` carries the rotation as well as the reference
+  (`badRotation(reference:rotation:)`), since §4.3's message quotes it.
+- 2026-11-01: `pin1Mark` picks the body corner nearest pin 1's pad by
+  distance (ties → top-left first), so a pin 1 on an axis (LCCC-20's
+  top-centre pin 1) still gets a defined corner.
 
 ## Summary
 

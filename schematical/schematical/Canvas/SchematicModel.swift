@@ -394,6 +394,9 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// For a DIP switch, whether each position is ON, position 1 first. Empty
     /// for every other part.
     var switchesOn: [Bool] = []
+    /// Where the footprint sits on the PCB. Set exactly when the part has a
+    /// footprint (every part but VCC and GND).
+    var board: BoardPlacement?
 
     private let baseLayout: ChipLayout
 
@@ -404,7 +407,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         symbol: PartSymbol,
         origin: CGPoint,
         isFlipped: Bool = false,
-        switchesOn: [Bool] = []
+        switchesOn: [Bool] = [],
+        board: BoardPlacement? = nil
     ) {
         self.id = id
         self.reference = reference
@@ -413,6 +417,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         self.baseLayout = ChipLayout(part: part, symbol: symbol)
         self.origin = origin
         self.isFlipped = isFlipped
+        self.board = part.footprint == nil ? nil : board
         // A switch has one state per position, OFF unless given; others none.
         var positions = 0
         if case let .dipSwitch(count, _) = part.details {
@@ -689,7 +694,8 @@ final class SchematicDocument {
             reference: "U\(nextReference)",
             part: part,
             symbol: symbol,
-            origin: origin
+            origin: origin,
+            board: part.footprint.map { BoardLayout.nextSpot(for: $0, among: chips) }
         )
         nextReference += 1
         chips.append(placed)
@@ -712,6 +718,27 @@ final class SchematicDocument {
 
     func chip(at point: CGPoint) -> PlacedChip? {
         chips.last { $0.hitRect.contains(point) }
+    }
+
+    // MARK: Footprints (PCB)
+
+    /// Moves a footprint's centre (board mm), snapped to the board grid.
+    func moveFootprint(_ id: UUID, to centre: CGPoint) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              chips[index].board != nil else { return }
+        chips[index].board?.centre = BoardGrid.snap(centre)
+    }
+
+    /// Turns a footprint 90° clockwise.
+    func rotateFootprint(_ id: UUID) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              let board = chips[index].board else { return }
+        chips[index].board?.rotation = (board.rotation + 90) % 360
+    }
+
+    /// The footprint under a board point (mm): the last one drawn there.
+    func footprint(at point: CGPoint) -> PlacedChip? {
+        chips.last { $0.boardBounds?.contains(point) ?? false }
     }
 
     /// Flips a switch position (1-based) between ON and OFF. Returns the new

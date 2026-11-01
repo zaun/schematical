@@ -24,6 +24,10 @@ Code: `schematical/schematical/Document/SchematicFile.swift` (the format) and
 All positions are in canvas units. The grid spacing is 10 units, and y grows
 downward. Part origins are snapped to the grid when a file is opened.
 
+PCB placements (`pcb`, below) are in board millimetres instead: the
+footprint's centre (the middle of its body), y down, snapped to a 0.635 mm
+(25 mil) grid when a file is opened.
+
 ## Top level
 
 ```json
@@ -62,6 +66,15 @@ existing `U<n>` reference.
 }
 ```
 
+Every part with a footprint (all but VCC and GND) also stores where its
+footprint sits on the PCB:
+
+```json
+{ "id": "...", "reference": "U2", "partNumber": "LED-AMBER-0603",
+  "x": 200, "y": 100, "flipped": false,
+  "pcb": { "x": 5.08, "y": 0, "rotation": 90 } }
+```
+
 A DIP switch also stores its positions:
 
 ```json
@@ -77,6 +90,7 @@ A DIP switch also stores its positions:
 | `x`, `y`     | number  | Top-left corner of the part body.                                       |
 | `flipped`    | boolean | Pins on the opposite sides. Ignored for VCC and GND.                    |
 | `switches`   | array of booleans | DIP switches only, optional: whether each position is ON, position 1 first. Missing positions are OFF; extra entries are ignored. Left out for other parts. |
+| `pcb`        | object  | Optional. The footprint on the PCB: `x`, `y` (numbers, mm) are the footprint's centre, `rotation` (integer) is 0, 90, 180 or 270 degrees clockwise. Written for every part with a footprint; left out for VCC and GND, and ignored on a part without a footprint. A part with a footprint and no `pcb` (older files) is placed automatically when the file is opened: after the stored ones, in file order, each to the right of everything already placed. |
 
 ## Junctions
 
@@ -128,7 +142,9 @@ Opening fails, and the canvas is left unchanged, if:
 - a wire end names a part or junction that isn't in the file, or a pin the
   part's symbol doesn't draw (for example the no-connect pins of a 4-pin LED);
 - the pins don't match the version: a version 1 file with a string `"pin"`, or a
-  version 2 file with an integer `"pin"`. A file uses one or the other.
+  version 2 file with an integer `"pin"`. A file uses one or the other;
+- a part with a footprint has a `pcb.rotation` other than 0, 90, 180 or 270
+  ("U2 has PCB rotation 45; it must be 0, 90, 180 or 270.").
 
 ## Version 1 files
 
@@ -164,7 +180,8 @@ A red LED between VCC and GND:
   "nextReference": 4,
   "parts": [
     { "id": "11111111-1111-1111-1111-111111111111", "reference": "U1", "partNumber": "VCC", "x": 100, "y": 40, "flipped": false },
-    { "id": "22222222-2222-2222-2222-222222222222", "reference": "U2", "partNumber": "LED-RED-0603", "x": 200, "y": 100, "flipped": false },
+    { "id": "22222222-2222-2222-2222-222222222222", "reference": "U2", "partNumber": "LED-RED-0603", "x": 200, "y": 100, "flipped": false,
+      "pcb": { "x": 0, "y": 0, "rotation": 0 } },
     { "id": "33333333-3333-3333-3333-333333333333", "reference": "U3", "partNumber": "GND", "x": 300, "y": 180, "flipped": false }
   ],
   "junctions": [],
