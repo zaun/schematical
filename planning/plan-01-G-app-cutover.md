@@ -200,18 +200,25 @@ Acceptance: the app builds; no old API or category string in Swift.
   Result: clean build `** BUILD SUCCEEDED **` (one warning, at
   `SchematicModel.swift:211`, present on `main` before this plan); §1 grep →
   no matches (exit 1); the app bundle's Resources hold the nine part files.
-Commit: —
+Commit: 8d41398
 
 ### Phase 2 — Delete the old backend, move the engine
 
-- [ ] §3.1 in one commit (the engine already moved in Phase 1): `git rm`
+- [x] §3.1 in one commit (the engine already moved in Phase 1): `git rm`
       the 57 old files and `backend/tools/`, drop `logic_backend` and the old
-      CTests from CMake, test include paths updated.
-- [ ] `basicsim/CMakeLists.txt` include paths for `src/engine`.
+      CTests from CMake, test include paths updated. (`ls backend | grep -vE
+      …` → 57 files before removal.) `backend/CMakeLists.txt` now holds only
+      `logic`, `logic_test_support` and the 7 tests.
+- [x] `basicsim/CMakeLists.txt` include paths for `src/engine` — moot as a
+      separate edit: `basicsim` links `logic`, whose PUBLIC include dirs
+      carry `src/engine` (`net.h`/`sim.h`); a clean `cmake -S basicsim`
+      build finds them and prints the four lines, exit 0.
 
 Acceptance: only the new layout remains and everything still builds and passes.
   Check: `ls backend` → `CMakeLists.txt include src tests`; `cmake -S backend -B /tmp/logic-build-g && cmake --build /tmp/logic-build-g -j8 && ctest --test-dir /tmp/logic-build-g` → 7 tests pass (est. 3 min).
   Check: the Phase 1 `xcodebuild` command → `** BUILD SUCCEEDED **` (est. 3 min).
+  Result: `CMakeLists.txt include src tests`; `100% tests passed, 0 tests failed out of 7`;
+  `** BUILD SUCCEEDED **`.
 Commit: —
 
 ### Phase 3 — Docs and archive
