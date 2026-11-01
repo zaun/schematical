@@ -20,7 +20,8 @@ centre; renaming a part to an existing reference is refused.
 The sub-plans, in order:
 
 - **A** (this): model and file.
-- **B**: drawing — board rectangle and colour, mark colours, marks
+- **B**: no simulation on the PCB page (switching to PCB stops it; no
+  Run/Stop controls there), then drawing — board rectangle and colour, mark colours, marks
   hidden/document/silkscreen, texts.
 - **C**: the PCB sidebar — board panel, footprint panel, units switch.
 - **D**: PCB toolbar (Select, Text), the text tool, the text panel, delete.
@@ -40,12 +41,13 @@ References:
 | Must be true | Command | Status |
 |---|---|---|
 | plan-03-D complete | `ls planning/completed/plan-03-D-pcb-tab.md` → exists | MET (2026-11-01) |
-| App builds at the start | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01, at 72f95a7) |
+| App builds at the start | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01, at 0a10cbe) |
 
-Everything below is written against a tree where both hold. plan-04 and
-plan-05 do not touch the PCB code (plan-05-C adds a control to the
-`.navigation` toolbar group, which plan-06 does not edit); they are not
-prerequisites.
+Everything below is written against a tree where both hold. plan-05 is
+complete (`planning/completed/plan-05-C-app-realtime.md` exists; its Run
+button, speed menu and reached-speed label are in `ContentView`'s
+`.navigation` group). plan-04 does not touch the PCB code; it is not a
+prerequisite.
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue and before you stop; if you stop,
@@ -66,8 +68,8 @@ prerequisites.
 
 ### Non-goals (explicit constraints)
 
-- No drawing or UI change (B, C, D). The app must look and behave as at
-  72f95a7 with a default board.
+- No drawing or UI change (B, C, D). The app must look and behave as
+  before this sub-plan with a default board.
 - File `version` stays `2`; files from this build still open in the
   previous build (it ignores the new keys); files from before open with the
   defaults below.
@@ -118,6 +120,11 @@ prerequisites.
 - Swift's `JSONDecoder` ignores unknown keys, so older builds read files
   with `board` and the new `pcb` keys — plan-03-D relied on the same rule
   for `pcb` and its runtime proof opened such files.
+- Every part with a footprint has a pad for its first pin, and no first pin
+  is `absent` — probe `/tmp/p06/pad1/main.swift` (catalog loop over
+  `part_library_at`, checking `footprint.pads` for `pins[0].designator`),
+  built with § Harness, 2026-11-01: `with pad1: 3815 without: 0 [] first
+  pin absent: 0`. So "pad 1 center" needs no fallback.
 - The app builds in 12 s incrementally (`time xcodebuild … build` →
   11.6 s total, 2026-11-01).
 
@@ -133,7 +140,7 @@ prerequisites.
 
 Correctness risk: the origin change touches every snap — move, rotate,
 place, open. With the default origin (top left) the results must equal
-72f95a7's, which the harness checks against coordinates recorded before
+today's, which the harness checks against coordinates recorded before
 the change. Byte-identity is not this plan's gate (the file gains keys);
 the gate is the harness: defaults reproduce today's positions and every
 new key round-trips.
@@ -161,7 +168,7 @@ enum BoardColor: String, CaseIterable { case green, black, red, blue, yellow, wh
 enum BoardUnits: String, CaseIterable { case mm, inch = "in" }
 enum MarkLayer: String, CaseIterable { case hidden, document, silkscreen }
 enum TextLayer: String, CaseIterable { case document, silkscreen }
-enum FootprintOrigin: String, CaseIterable { case center, topLeft, centerLeft, bottomLeft }
+enum FootprintOrigin: String, CaseIterable { case center, topLeft, centerLeft, bottomLeft, pad1Center }
 
 struct BoardSettings {
     var width: Double = 100      // mm, 1...1000
@@ -188,12 +195,16 @@ struct BoardText: Identifiable {
 
 `BoardColor` titles for the UI: "Green", "Black", "Red", "Blue", "Yellow",
 "White", "Purple". `FootprintOrigin` titles: "Center", "Top Left",
-"Center Left", "Bottom Left". `MarkLayer` titles: "Hidden", "Document",
+"Center Left", "Bottom Left", "Pad 1 Center". `MarkLayer` titles: "Hidden", "Document",
 "Silkscreen".
 
-`FootprintOrigin.point(in rect: CGRect) -> CGPoint`: center (midX, midY),
-topLeft (minX, minY), centerLeft (minX, midY), bottomLeft (minX, maxY). The
-rectangle is the footprint's bounding box as turned (`boardBounds`).
+`BoardLayout.originPoint(of placement:, footprint:, pad1:) -> CGPoint`,
+where `pad1` is the designator of the part's first pin (`part.pins[0]`, the
+pin the pin-1 mark already uses): center (midX, midY), topLeft (minX, minY),
+centerLeft (minX, midY), bottomLeft (minX, maxY) of the footprint's bounding
+box as turned (`boardBounds`); pad1Center = `placement.board(pad.centre)` of
+the pad with that designator. Every part with a footprint has that pad
+(§ Verified properties), so the function never falls back.
 
 `ReferenceParts`: `init(_ reference: String)` splits `^[A-Za-z]+[0-9]+$`
 into `prefix` and `number: Int?`; any other string → `prefix` = the whole
@@ -224,11 +235,11 @@ struct BoardPlacement: Hashable, Sendable {
 }
 ```
 
-- `BoardLayout.snapped(_:footprint:)`: the bounding box as turned →
-  `p = placement.origin.point(in: bounds)`; shift the centre by
+- `BoardLayout.snapped(_:footprint:pad1:)` (the `pad1` parameter is new;
+  every caller passes `part.pins[0].designator`):
+  `p = originPoint(of: placement, footprint:, pad1:)`; shift the centre by
   `BoardGrid.snap(p) − p` on each axis. Top left reproduces today's rule.
-- `BoardLayout.originPoint(of placement:, footprint:) -> CGPoint` — `p`
-  above, for the sidebar's X/Y.
+- `originPoint` (§4.1) is also what the sidebar's X/Y show.
 - `SchematicDocument.rotateFootprint`: keep the origin point (not the
   top-left) fixed across the turn, then snap.
 - `SchematicDocument.moveFootprintOrigin(_ id:, to point: CGPoint)`: shift
@@ -288,7 +299,7 @@ struct BoardPlacement: Hashable, Sendable {
   - `board layers 3 must be 1, 2, 4 or 6.`;
   - `board color "pink" must be green, black, red, blue, yellow, white or purple.`;
   - `board units "cm" must be mm or in.`;
-  - `U2 origin "middle" must be center, topLeft, centerLeft or bottomLeft.`;
+  - `U2 origin "middle" must be center, topLeft, centerLeft, bottomLeft or pad1Center.`;
   - `U2 outline "on" must be hidden, document or silkscreen.` (same for
     `pin1`, `reference`);
   - `text <id> size 5 must be 10 to 1000 mil.`; `text <id> layer "x" must be
@@ -354,7 +365,7 @@ default origin reproduces them.
 - [ ] Same harness, `render` mode: render `PCBCanvasView` for that document
       with `ImageRenderer` (900 × 600) to `/tmp/p06/a-pcb-before.png`.
 
-Acceptance: the baseline exists at 72f95a7's sources.
+Acceptance: the baseline exists, taken before any plan-06 code change.
   Check: `wc -l < /tmp/p06/baseline.txt` → 7 (`test.schematical` has 5
   parts — `python3 -I -c 'import json;print(len(json.load(open("test.schematical"))["parts"]))'`
   → 5 — plus the two placed; VCC/GND lines read `no placement`) (est. 5 min).
@@ -363,11 +374,12 @@ Commit: — (no repo change)
 ### Phase 2 — Types, placement and document
 
 - [ ] `Canvas/BoardSettings.swift` (new): §4.1 types, titles,
-      `FootprintOrigin.point(in:)`, `ReferenceParts`.
+      `ReferenceParts`.
 - [ ] `Canvas/BoardTextGeometry.swift` (new): `font`, `localSize`,
       `boardRect` (§4.1).
-- [ ] `Canvas/BoardModel.swift`: `BoardPlacement` fields; `snapped` by the
-      origin point; `originPoint(of:footprint:)` (§4.2).
+- [ ] `Canvas/BoardModel.swift`: `BoardPlacement` fields;
+      `originPoint(of:footprint:pad1:)` (§4.1); `snapped` by the origin
+      point with the new `pad1` parameter at every caller (§4.2).
 - [ ] `Canvas/SchematicModel.swift`: `reference` var, `board`, `texts`,
       `selectedTextID`, `renameChip`, `placeChip` reference rule, the
       footprint origin/mark setters, `moveFootprintOrigin`,
@@ -384,7 +396,8 @@ pivot on their point; renaming refuses bad and duplicate references.
   (10.1, 10.1) → its bounding-box centre on the grid
   (`abs(x/0.635 - round(x/0.635)) < 1e-9` printed `true` for both axes);
   rotated → bounding-box centre unchanged (`true`); `bottomLeft` → (minX,
-  maxY) on the grid and fixed across a rotate (`true`, `true`); changing
+  maxY) on the grid and fixed across a rotate (`true`, `true`); `pad1Center`
+  → pad 1's centre on the grid and fixed across a rotate (`true`, `true`); changing
   the origin does not move the centre (`true`) (est. 2 min).
   Check: `harness rename`: place two parts (U1, U2); rename U2 to
   (`"r"`, 3) → nil, reference `R3`; U1 to (`"R"`, 3) → `R3 is already used
@@ -437,7 +450,7 @@ Commit: —
 - Runtime proof: the app opens `/tmp/p06/rt.schematical` and shows the PCB
   page as before (no UI change yet): harness `render` mode renders
   `PCBCanvasView` with `ImageRenderer` to `/tmp/p06/a-pcb.png`, compared by
-  eye with a render at 72f95a7 (`/tmp/p06/a-pcb-before.png`, taken in
+  eye with the render taken before the change (`/tmp/p06/a-pcb-before.png`, taken in
   Phase 1).
 - Doc sync: `docs/file-format.md`.
 - Final gate (once, after Phase 3): `cmake -S backend -B /tmp/logic-p06a &&
@@ -451,7 +464,8 @@ Commit: —
   saved in the file — owner, 2026-11-01.
 - "Layers" is the copper layer count: 1, 2, 4 or 6, default 2; stored only
   (top side stays the only drawn side) — owner, 2026-11-01.
-- Origin point (center, top left, center left, bottom left) is the point
+- Origin point (center, top left, center left, bottom left, pad 1 center)
+  is the point
   that snaps to the grid, the rotation pivot, and the X/Y shown in the
   sidebar; per part, saved; default top left — owner, 2026-11-01.
 - Mark defaults: bounding box (= the body outline drawn today) Document;

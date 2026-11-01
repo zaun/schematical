@@ -48,7 +48,8 @@ See plan-06-A §Prerequisites, plus:
   button, shown by default.
 - Board panel, footprint panel and units switch as above, editing through
   plan-06-A's document methods.
-- Disabled while the simulation runs.
+- No running checks: the simulation never runs on the PCB page
+  (plan-06-B Phase 1).
 
 ### Non-goals (explicit constraints)
 
@@ -96,7 +97,7 @@ Rejected alternatives:
 - `inspectorBinding`: get `page == .schematic ? isDrawerShown :
   isPCBSidebarShown`; set writes the matching one.
 - Inspector content: `ChipDrawerView` on Schematic (as today),
-  `PCBSidebarView(document:, simulation:)` on PCB; same column width.
+  `PCBSidebarView(document:)` on PCB; same column width.
 - The toggle in `.primaryAction` shows on both pages: Schematic — "Parts
   Drawer", help "Show or hide the parts drawer" (as today); PCB —
   "Inspector", help "Show or hide the inspector", bound to
@@ -104,7 +105,7 @@ Rejected alternatives:
 
 ### 4.2 PCBSidebarView
 
-`Form { … }.formStyle(.grouped).disabled(simulation.isRunning)`.
+`Form { … }.formStyle(.grouped)`.
 
 - Top section: `Picker("Units", selection: board.units)` segmented,
   "mm" | "in".
@@ -131,8 +132,9 @@ Rejected alternatives:
   loss) calls `renameChip(prefix:number:)` with the number parsed by
   `Int`; on a message, show it in red `.caption` below and put the fields
   back to the current reference.
-- Section "Position": `Picker("Origin")` menu with the four
-  `FootprintOrigin` titles → `setFootprintOrigin`; X, Y: `LengthField`s
+- Section "Position": `Picker("Origin")` menu with the five
+  `FootprintOrigin` titles (Center, Top Left, Center Left, Bottom Left,
+  Pad 1 Center) → `setFootprintOrigin`; X, Y: `LengthField`s
   showing `BoardLayout.originPoint`, commit → `moveFootprintOrigin` (the
   result is snapped, so the field shows the snapped value); "Rotation"
   `LabeledContent` with "\(rotation)°".
@@ -195,7 +197,8 @@ Acceptance: the footprint panel edits reference, origin, position and marks.
   closures: rename (`"d"`, `"1"`) → reference `D1`; rename the oscillator
   to `D1` → the red message `D1 is already used by another part.` in
   `c2-dup.png` and its fields back to its old reference; origin Center, X
-  `10` → origin point x = 10.16 (snapped); pin 1 Hidden; units in →
+  `10` → origin point x = 10.16 (snapped); origin Pad 1 Center → X/Y show
+  pad 1's centre; pin 1 Hidden; units in →
   `c2-inches.png` shows X `0.4`; save, reopen → reference `D1`, origin
   center, pin1 hidden, units in (each printed `true`) (est. 10 min: one run
   covers every field; no smaller check exercises the window).
@@ -217,7 +220,8 @@ Commit: —
 
 - Sidebar contents: board info (size in mm/in, layers, colour) with nothing
   selected; name, reference, origin and the three mark switches with a
-  footprint selected — owner, 2026-11-01.
+  footprint selected — owner, 2026-11-01. Origin options: center, top
+  left, center left, bottom left, pad 1 center — owner, 2026-11-01.
 - Reference as two fields, prefix and number — owner, 2026-11-01.
 - One mm/in switch for every length — owner, 2026-11-01.
 - Author's choices: the sidebar uses the inspector slot, own toggle

@@ -1,10 +1,12 @@
-# plan-06-B: Board rectangle, board colour, document/silkscreen marks and texts on the PCB canvas
+# plan-06-B: No simulation on the PCB page; board rectangle, colour, marks and texts on the PCB canvas
 
 Last updated: 2026-11-01
 Effort: medium (1h–2h)
 Depends on: plan-06-A
 
-The PCB canvas draws the board: a rectangle from (0, 0) of the board's size,
+First, the simulation leaves the PCB page: switching to PCB stops a
+running simulation, and the PCB toolbar has no Run/Stop button, speed menu
+or reached-speed label. Then the PCB canvas draws the board: a rectangle from (0, 0) of the board's size,
 filled with the board colour and edged with a line; the canvas outside it
 stays dark. Each footprint's body outline, pin-1 mark and reference are
 drawn per their mark layer — not at all (Hidden), gray (Document), or in the
@@ -15,7 +17,9 @@ Outcome: open plan-06-A's `/tmp/p06/rt.schematical` (purple, 120.5 × 60
 mm, LED outline hidden, pin 1 document, two texts): the render shows a
 purple rectangle on a dark canvas, white silkscreen references, the LED
 with no outline and a gray pin-1 mark, both texts; switching the colour to
-white turns silkscreen black.
+white turns silkscreen black. And: run the simulation on the Schematic
+page, switch to PCB — it stops, and no Run/Stop, speed or reached-speed
+control is on the toolbar.
 
 References:
 
@@ -38,6 +42,10 @@ See plan-06-A §Prerequisites, plus:
 
 ## 1. Goal
 
+- Switching the page to PCB stops a running simulation
+  (`SimulationController.stop()`); the PCB toolbar shows no Run/Stop
+  button, speed menu or reached-speed label, and no "Simulation stopped"
+  error banner. The simulation therefore never runs on the PCB page.
 - Board rectangle in the board colour, 0.2 mm edge line in the silkscreen
   colour; canvas outside `Color(white: 0.13)` as today.
 - Body outline, pin-1 mark and reference each follow their `MarkLayer`.
@@ -46,12 +54,25 @@ See plan-06-A §Prerequisites, plus:
 
 ### Non-goals (explicit constraints)
 
-- No sidebar or toolbar change (C, D). Pads and drill holes look as today.
+- The Schematic page's Run/Stop, ⌘R, speed menu, reached-speed label and
+  error banner are unchanged. Coming back to Schematic does not restart the
+  simulation.
+- No sidebar (C) or PCB tool (D) change. Pads and drill holes look as today.
 - No change to hit testing of footprints, grid spacing or zoom.
 - No model or file change (A owns them).
 
 ## 2. Current State
 
+- `ContentView.toolbar` `.navigation` (after plan-05-C): file controls,
+  the Run/Stop button (⌘R; starting resets the tool and selection), the
+  speed `Menu`, `ReachedSpeedLabel` — shown on both pages. The
+  `simulation.errorMessage` banner (`.overlay(alignment: .bottom)`) shows on
+  both pages. `canRotate` is false while running.
+- `PCBCanvasView` takes `simulation` only to read `isRunning`
+  (`PCBCanvasView.swift:16`, used at `:137`, `:142`: while running every
+  drag pans and nothing is selected).
+- `SimulationController.stop()` (`Simulation/Simulation.swift:253`) stops
+  the engine and clears run state; it leaves `errorMessage` as it was.
 - `PCBCanvasView.draw` (`PCBCanvasView.swift:59`): translate/scale to board
   mm, `drawGrid`, then per chip: outline stroke 0.15 mm
   `Color(white: 0.85)`, pads in `copper`, drill holes in `background`,
@@ -64,7 +85,13 @@ See plan-06-A §Prerequisites, plus:
 
 ## 3. Design Overview
 
-One file changes, `PCBCanvasView.swift`, plus a colour table on the A
+Phase 1 (`ContentView.swift`, `PCBCanvasView.swift`) takes the simulation
+off the PCB page. Because it can no longer run there, the PCB's "while
+running" rules are removed rather than kept as dead code: `PCBCanvasView`
+loses its `simulation` parameter, and `canRotate` loses its running check.
+plan-06-C and plan-06-D are written against that (no running checks).
+
+Phase 2 changes `PCBCanvasView.swift` drawing, plus a colour table on the A
 types. Draw order: grid is drawn **after** the board rectangle so the dots
 show on it; then footprints, then texts, then selection boxes.
 
@@ -74,6 +101,21 @@ Rejected alternative: *board colour as the whole canvas background* — the
 owner chose colour inside the board rectangle only.
 
 ## 4. Detailed Design
+
+### 4.0 Simulation off the PCB page (`ContentView.swift`, `PCBCanvasView.swift`)
+
+- Wrap the Run/Stop `ToolbarItem`, the speed `Menu` item and the
+  `ReachedSpeedLabel` item in `if page == .schematic { … }`. The ⌘R
+  shortcut goes with the button, so ⌘R does nothing on the PCB page.
+- The error banner overlay shows only when `page == .schematic`.
+- `.onChange(of: page) { _, newPage in if newPage == .pcb { simulation.stop() } }`
+  (`stop()` on a stopped simulation only resets cleared state, so no
+  `isRunning` guard is needed — read: every line of `stop()` is an
+  assignment or `engine?.…`).
+- `PCBCanvasView`: drop `simulation` and `isRunning`; `handleChanged`
+  always selects/moves on a footprint hit. `ContentView` builds it as
+  `PCBCanvasView(document:viewport:)`.
+- `canRotate`: drop `!simulation.isRunning`.
 
 ### 4.1 Colours (`Canvas/BoardColors.swift`, new, `import SwiftUI`)
 
@@ -115,7 +157,28 @@ for hidden); `TextLayer.color(on:)`.
 > `- [~]` for partial; moot as `- [x] ~~text~~ — moot: <evidence>`; fill
 > `Commit:` when a phase lands. **An unticked box means NOT DONE.**
 
-### Phase 1 — Board, marks and texts
+### Phase 1 — Simulation off the PCB page
+
+- [ ] `ContentView.swift`: §4.0 toolbar, banner, `onChange`, `canRotate`.
+- [ ] `Canvas/PCBCanvasView.swift`: drop `simulation` / `isRunning` (§4.0).
+
+Acceptance: switching to PCB stops the simulation; the PCB toolbar has no
+simulation controls; the Schematic toolbar is unchanged.
+  Check: plan-06-A § Harness, mode `window-b1`: host `ContentView` in an
+  offscreen 1200 × 800 `NSWindow` (plan-03-D's method: snapshot the frame
+  view with `bitmapImageRepForCachingDisplay` + `cacheDisplay`); open
+  `test.schematical`, start the simulation on Schematic →
+  `simulation.isRunning` `true`, capture `b1-schematic.png` (Stop button,
+  speed menu present); set the page to PCB → `isRunning` `false`, capture
+  `b1-pcb.png` (no Run/Stop, no speed menu); back to Schematic →
+  `isRunning` still `false`, `b1-back.png` shows Run (est. 5 min).
+  Check: `grep -c 'isRunning\|simulation' schematical/schematical/Canvas/PCBCanvasView.swift`
+  → 0 (est. 1 s).
+  Check: plan-06-A §Prerequisites `xcodebuild` → `** BUILD SUCCEEDED **`
+  (est. 1 min).
+Commit: —
+
+### Phase 2 — Board, marks and texts
 
 - [ ] `Canvas/BoardColors.swift` (new): §4.1.
 - [ ] `Canvas/PCBCanvasView.swift`: §4.2 steps 1–5.
@@ -142,15 +205,20 @@ Commit: —
 - Coverage check: the renders exercise every `MarkLayer` value (LED
   outline hidden, LED pin 1 document, others silkscreen and the default
   document outline), both text layers, both silkscreen colours.
-- Runtime proof: the two PNGs above, plus `b-green.png` of
+- Runtime proof: Phase 1's three window captures; the two PNGs above, plus `b-green.png` of
   `test.schematical` (defaults: gray outlines, white pin-1 marks and
   references on green).
 - Doc sync: none (no format change).
-- Final gate (once): the `xcodebuild` (est. 1 min) + the renders (est.
-  5 min). Backend untouched.
+- Final gate (once): the `xcodebuild` (est. 1 min) + `window-b1` and the
+  renders (est. 10 min). Backend untouched.
 
 ## Decisions
 
+- No Run/Stop interface on the PCB page; switching to PCB stops the
+  simulation — owner, 2026-11-01. Author: the speed menu, reached-speed
+  label and error banner go with it (they belong to the simulation);
+  returning to Schematic does not restart it; the PCB's "while running"
+  rules are removed since they can no longer apply.
 - Board colour fills only the board rectangle; the edge is drawn — owner,
   2026-11-01.
 - Silkscreen white on green, black, red, blue, purple; black on white and

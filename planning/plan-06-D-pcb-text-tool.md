@@ -36,7 +36,7 @@ See plan-06-A §Prerequisites, plus:
 
 ## 1. Goal
 
-- `PCBTool` picker (Select, Text) on the PCB page, disabled while running.
+- `PCBTool` picker (Select, Text) on the PCB page.
 - Text tool places a text and returns to Select.
 - Select tool: press on a text selects and drags it (anchor snapped);
   texts are hit before footprints (they draw on top).
@@ -56,9 +56,11 @@ See plan-06-A §Prerequisites, plus:
 
 - `ContentView` `.principal`: page picker, then on Schematic the
   `SchematicTool` segmented, icon-only picker, disabled while running.
+  After plan-06-B: no simulation controls on the PCB page, and switching
+  to PCB stops the simulation, so nothing on the PCB checks `isRunning`.
   `.primaryAction` on PCB: Rotate (`rotate.right`, ⌥⌘R, `canRotate`).
 - `PCBCanvasView.handleChanged`: press on a footprint → select and move;
-  else clear selection and pan; while running every drag pans.
+  else clear selection and pan (plan-06-B removed the running rule).
 - After plan-06-A/B/C: text methods on the document, text drawing and
   selection box, `PCBSidebarView` showing a placeholder for a selected text.
 
@@ -88,13 +90,12 @@ typing.
   `PCBCanvasView.swift`.
 - `@State private var pcbTool = PCBTool.select`; on the PCB page the
   `.principal` group shows a segmented icon-only `Picker` like the
-  schematic's, disabled while running. Starting the simulation also sets
-  `pcbTool = .select` (as the Run button does for the schematic tool).
-- `PCBCanvasView(document:viewport:simulation:tool:onPlaced:)`.
+  schematic's.
+- `PCBCanvasView(document:viewport:tool:onPlaced:)`.
 
 ### 4.2 Gestures (`PCBCanvasView.handleChanged`)
 
-On the first change of a drag, not running:
+On the first change of a drag:
 
 1. Tool Text → `document.addText(at: board(startLocation))`, call
    `onPlaced` (ContentView sets Select), then treat the rest of the drag as
@@ -104,11 +105,11 @@ On the first change of a drag, not running:
    today; else clear both selections and pan.
 
 `.moveText` sets the anchor to start + translation / scale through
-`moveText` (snapped). While running: pan only, as today.
+`moveText` (snapped).
 
 ### 4.3 Rotate and delete (`ContentView.swift`)
 
-- Rotate: enabled when not running and the selected chip has a placement
+- Rotate: enabled when the selected chip has a placement
   or a text is selected; calls `rotateFootprint` or `rotateText`. Help
   "Rotate the selection 90° (⌥⌘R)".
 - Delete: in the text panel (§4.4), `Button("Delete Text", role:
@@ -151,8 +152,8 @@ texts drag and rotate.
   board point inside the board → one text, selected, `onPlaced` called
   once; tool Select, press on that text over a footprint → the text is
   selected, not the footprint; translate by 2 mm → anchor moved by 1.905
-  (snapped); rotate → 90; while running a press on the text pans and
-  selects nothing (each `true`) (est. 3 min).
+  (snapped); rotate → 90; press on empty board → both selections nil
+  and a pan (each `true`) (est. 3 min).
   Check: plan-06-A `xcodebuild` → `** BUILD SUCCEEDED **` (est. 1 min).
 Commit: —
 
@@ -176,7 +177,7 @@ Commit: —
 
 - Tests: harness modes `tools`, `window-d`.
 - Coverage check: each §4.2 branch (text tool, text hit, footprint hit,
-  pan, running) is driven in `tools`; each panel field in `window-d`.
+  pan) is driven in `tools`; each panel field in `window-d`.
 - Runtime proof: the §Outcome sequence in `window-d`, PNGs in `/tmp/p06/`.
 - Doc sync: none (format unchanged since A).
 - Final gate (plan-06 overall, once, after this phase):
