@@ -468,6 +468,18 @@ Commit: —
 - Doc sync: `docs/parts-format.md`, `docs/backend.md`.
 - Final gate (once, after Phase 3): `cmake -S backend -B /tmp/logic-final && cmake --build /tmp/logic-final -j8 && ctest --test-dir /tmp/logic-final` (est. 1 min) + the Phase 2 `xcodebuild` (est. 3 min) + the runtime proof (est. 5 min).
 
+## Final gate (run 2026-11-01)
+
+- `cmake -S backend -B /tmp/logic-final-p03 && cmake --build /tmp/logic-final-p03 -j8 && ctest --test-dir /tmp/logic-final-p03`
+  → `100% tests passed, 0 tests failed out of 8`.
+- `xcodebuild … build` (Phase 2, at c4172c9; Phase 3 is docs only) → `** BUILD SUCCEEDED **`;
+  the bundle's `Contents/Resources/` lists `footprints.json`.
+- Runtime proof, headless (screen locked; see Corrections): `harness catalog`
+  → `catalog: loaded`, `footer: 3815 parts from backend` (the drawer's
+  `Text("\(catalog.partCount) parts from backend")`), `parts with a
+  footprint: 55 distinct footprints: 11`, no `NO PAD` lines,
+  `LED-AMBER-0603: LED-0603 (1.5, 0.75) ["1@(-0.6, 0.0)", "2@(0.6, 0.0)"]`.
+
 ## Decisions
 
 - Footprint geometry lives in one shared `Parts/footprints.json`; each part
@@ -495,6 +507,16 @@ Commit: —
   table: 0.9, 1.6, 2.7) — measured with a `python3 -I` re-computation of the
   formula. The table is the plan's fixed decision and is what
   `footprints.json` uses; the pads still sit ≈0.2 mm beyond the body.
+- 2026-11-01 (final gate): `/tmp/logic-final` holds a CMake cache from the
+  old plan-01 worktree (`CMake Error: The source … does not match the source
+  …/P-01/backend/CMakeLists.txt`); the gate ran in `/tmp/logic-final-p03`.
+- 2026-11-01 (final gate): runtime proof driven headlessly. The session is
+  locked (`ioreg -n Root -d1 -a` → `CGSSessionScreenIsLocked` true), so the
+  window cannot be screenshotted. `/tmp/p03/harness/build.sh` compiles the
+  app's Swift sources (all but `schematicalApp.swift`), the backend C and a
+  `main.swift` driver into a CLI inside a copy of the Debug `.app` (the
+  plan-02-A harness approach), and calls `PartCatalogStore.load()` as the
+  app does.
 - 2026-11-01 (Phase 2): `BackendCatalog.load` now fails with "no part files"
   when `footprints.json` is missing (the `unavailable` error), matching
   `load_parts_dir`'s required-file rule.
