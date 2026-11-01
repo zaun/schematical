@@ -73,6 +73,20 @@ struct Sim {
     Event *batch;
     size_t batch_capacity;
 
+    /* Per-net round state, allocated in sim_start (net_count entries). */
+    size_t *dirty;              /* net indexes touched this round */
+    size_t dirty_count;
+    unsigned char *is_dirty;
+    LogicValue *old_values;     /* valid while a net is dirty */
+
+    /* Cached contact groups (build_groups), per net. */
+    size_t *group_parent;
+    size_t *group_root;
+    size_t *group_head;
+    size_t *group_next;
+    SimNet **group_nets;        /* scratch for net_resolve_group */
+    int groups_valid;
+
     SimTime round_time;
     size_t rounds_at_time;
 
@@ -158,6 +172,14 @@ void sim_destroy(Sim *sim) {
     free(sim->contacts);
     free(sim->events);
     free(sim->batch);
+    free(sim->dirty);
+    free(sim->is_dirty);
+    free(sim->old_values);
+    free(sim->group_parent);
+    free(sim->group_root);
+    free(sim->group_head);
+    free(sim->group_next);
+    free(sim->group_nets);
     free(sim->nets);
     free(sim->instances);
     free(sim);
@@ -664,30 +686,14 @@ static size_t find_root(size_t *parent, size_t index) {
 }
 
 /*
- * Resolves every net. Without closed contacts each net stands alone. With
- * them, nets joined by closed contacts are grouped (union-find) and each
- * group is resolved as one net.
+ * Groups nets joined by closed contacts (union-find) into the cached arrays:
+ * group_root[i] is net i's group root, and each root's members are chained
+ * from group_head[root] through group_next, in ascending net index.
  */
-static void resolve_nets(Sim *sim) {
-    size_t *parent;
-    SimNet **group;
+static void build_groups(Sim *sim) {
+    size_t *parent = sim->group_parent;
+    size_t none = sim->net_count;
     size_t i;
-
-    if (sim->closed_contact_count == 0 || sim->net_count == 0) {
-        for (i = 0; i < sim->net_count; i++) {
-            net_resolve(sim->nets[i]);
-        }
-        return;
-    }
-
-    parent = malloc(sim->net_count * sizeof(*parent));
-    group = malloc(sim->net_count * sizeof(*group));
-    if (parent == NULL || group == NULL) {
-        free(parent);
-        free(group);
-        set_error(sim, "out of memory");
-        return;
-    }
 
     for (i = 0; i < sim->net_count; i++) {
         parent[i] = i;
@@ -715,49 +721,74 @@ static void resolve_nets(Sim *sim) {
         }
     }
 
-    /*
-     * Chain each net onto its root's list (parent[] is reused as the "next"
-     * link once roots are known), then resolve each list as one group.
-     */
-    {
-        size_t *root = malloc(sim->net_count * sizeof(*root));
-        size_t *head = malloc(sim->net_count * sizeof(*head));
-        size_t none = sim->net_count;
+    for (i = 0; i < sim->net_count; i++) {
+        sim->group_root[i] = find_root(parent, i);
+        sim->group_head[i] = none;
+    }
+    for (i = sim->net_count; i-- > 0;) {
+        size_t root = sim->group_root[i];
 
-        if (root == NULL || head == NULL) {
-            free(root);
-            free(head);
-            free(parent);
-            free(group);
-            set_error(sim, "out of memory");
-            return;
-        }
-        for (i = 0; i < sim->net_count; i++) {
-            root[i] = find_root(parent, i);
-            head[i] = none;
-        }
-        for (i = sim->net_count; i-- > 0;) {
-            parent[i] = head[root[i]];
-            head[root[i]] = i;
-        }
-        for (i = 0; i < sim->net_count; i++) {
-            size_t count = 0;
-            size_t j;
+        sim->group_next[i] = sim->group_head[root];
+        sim->group_head[root] = i;
+    }
+    sim->groups_valid = 1;
+}
 
-            if (head[i] == none) {
-                continue;
-            }
-            for (j = head[i]; j != none; j = parent[j]) {
-                group[count++] = sim->nets[j];
-            }
-            net_resolve_group(group, count);
+/* Resolves the group whose root is `root` as one net. */
+static void resolve_group(Sim *sim, size_t root) {
+    size_t none = sim->net_count;
+    size_t count = 0;
+    size_t j;
+
+    for (j = sim->group_head[root]; j != none; j = sim->group_next[j]) {
+        sim->group_nets[count++] = sim->nets[j];
+    }
+    net_resolve_group(sim->group_nets, count);
+}
+
+/*
+ * Resolves every net (at start). Without closed contacts each net stands
+ * alone; with them, each group of joined nets is resolved as one net.
+ */
+static void resolve_nets(Sim *sim) {
+    size_t i;
+
+    if (sim->closed_contact_count == 0) {
+        for (i = 0; i < sim->net_count; i++) {
+            net_resolve(sim->nets[i]);
         }
-        free(root);
-        free(head);
+        return;
     }
 
-    free(parent);
-    free(group);
+    build_groups(sim);
+    for (i = 0; i < sim->net_count; i++) {
+        if (sim->group_root[i] == i) {
+            resolve_group(sim, i);
+        }
+    }
+}
+
+/* Allocates the per-net arrays a round uses. 0 (error set) on failure. */
+static int alloc_round_arrays(Sim *sim) {
+    size_t n = sim->net_count > 0 ? sim->net_count : 1;
+
+    sim->dirty = malloc(n * sizeof(*sim->dirty));
+    sim->is_dirty = calloc(n, sizeof(*sim->is_dirty));
+    sim->old_values = malloc(n * sizeof(*sim->old_values));
+    sim->group_parent = malloc(n * sizeof(*sim->group_parent));
+    sim->group_root = malloc(n * sizeof(*sim->group_root));
+    sim->group_head = malloc(n * sizeof(*sim->group_head));
+    sim->group_next = malloc(n * sizeof(*sim->group_next));
+    sim->group_nets = malloc(n * sizeof(*sim->group_nets));
+
+    if (sim->dirty == NULL || sim->is_dirty == NULL ||
+        sim->old_values == NULL || sim->group_parent == NULL ||
+        sim->group_root == NULL || sim->group_head == NULL ||
+        sim->group_next == NULL || sim->group_nets == NULL) {
+        set_error(sim, "out of memory");
+        return 0;
+    }
+    return 1;
 }
 
 int sim_start(Sim *sim) {
@@ -773,6 +804,10 @@ int sim_start(Sim *sim) {
     }
 
     sim->started = 1;
+
+    if (!alloc_round_arrays(sim)) {
+        return 0;
+    }
 
     resolve_nets(sim);
 
@@ -794,6 +829,43 @@ static void apply_drive(const Event *event) {
         SimNetPin *net_pin = &pin->net->pins[pin->net_pin_index];
         net_pin->drive = event->value;
         net_pin->strength = event->strength;
+    }
+}
+
+/* Adds net `index` to this round's dirty set, saving its value first. */
+static void mark_dirty(Sim *sim, size_t index) {
+    if (!sim->is_dirty[index]) {
+        sim->is_dirty[index] = 1;
+        sim->old_values[index] = sim->nets[index]->value;
+        sim->dirty[sim->dirty_count++] = index;
+    }
+}
+
+static int compare_index(const void *a, const void *b) {
+    size_t x = *(const size_t *)a;
+    size_t y = *(const size_t *)b;
+
+    return x < y ? -1 : x > y;
+}
+
+static void sort_dirty(Sim *sim) {
+    size_t *d = sim->dirty;
+    size_t n = sim->dirty_count;
+    size_t i;
+
+    if (n > 16) {
+        qsort(d, n, sizeof(*d), compare_index);
+        return;
+    }
+    for (i = 1; i < n; i++) {
+        size_t value = d[i];
+        size_t j = i;
+
+        while (j > 0 && d[j - 1] > value) {
+            d[j] = d[j - 1];
+            j--;
+        }
+        d[j] = value;
     }
 }
 
@@ -823,54 +895,98 @@ static int take_batch(Sim *sim, SimTime time, size_t *count) {
     }
 }
 
+/*
+ * One round at `time`: apply every event due, re-resolve only the nets those
+ * events touched (the dirty set, widened to whole contact groups), then
+ * notify pins of nets whose value changed and fire timers. Dirty nets are
+ * handled in ascending index, the order a full scan would visit them.
+ */
 static int process_round(Sim *sim, SimTime time) {
     Event *batch;
-    LogicValue *old_values = NULL;
     size_t batch_count = 0;
+    int contact_changed = 0;
     size_t i;
 
     if (!take_batch(sim, time, &batch_count)) {
         return 0;
     }
     batch = sim->batch;
-
-    if (sim->net_count > 0) {
-        old_values = malloc(sim->net_count * sizeof(*old_values));
-
-        if (old_values == NULL) {
-            set_error(sim, "out of memory");
-            return 0;
-        }
-    }
-
-    for (i = 0; i < sim->net_count; i++) {
-        old_values[i] = sim->nets[i]->value;
-    }
+    sim->dirty_count = 0;
 
     for (i = 0; i < batch_count; i++) {
         if (batch[i].type == EVENT_DRIVE) {
+            SimNet *net = batch[i].instance->pins[batch[i].pin].net;
+
+            if (net != NULL) {
+                mark_dirty(sim, net->index);
+            }
             apply_drive(&batch[i]);
         } else if (batch[i].type == EVENT_CONTACT) {
+            size_t k;
+
+            for (k = 0; k < sim->net_count; k++) {
+                mark_dirty(sim, k);
+            }
             apply_contact(sim, batch[i].instance, batch[i].pin,
                           batch[i].pin_b, batch[i].closed);
+            contact_changed = 1;
         }
     }
 
-    resolve_nets(sim);
+    if (sim->closed_contact_count == 0) {
+        for (i = 0; i < sim->dirty_count; i++) {
+            net_resolve(sim->nets[sim->dirty[i]]);
+        }
+        if (contact_changed) {
+            sim->groups_valid = 0;
+        }
+    } else {
+        size_t touched = sim->dirty_count;
+        size_t none = sim->net_count;
+
+        if (contact_changed || !sim->groups_valid) {
+            build_groups(sim);
+        }
+        for (i = 0; i < touched; i++) {
+            size_t root = sim->group_root[sim->dirty[i]];
+            size_t j;
+
+            for (j = sim->group_head[root]; j != none; j = sim->group_next[j]) {
+                mark_dirty(sim, j);
+            }
+        }
+        for (i = 0; i < sim->dirty_count; i++) {
+            size_t k = sim->dirty[i];
+
+            if (sim->group_root[k] == k) {
+                resolve_group(sim, k);
+            }
+        }
+    }
+
+    sort_dirty(sim);
 
     /* Two strong drivers fighting (e.g. VCC tied to GND) burns the circuit. */
-    for (i = 0; i < sim->net_count && sim->error == NULL; i++) {
-        if (sim->nets[i]->shorted) {
-            sim->shorted_net = sim->nets[i];
+    for (i = 0; i < sim->dirty_count && sim->error == NULL; i++) {
+        SimNet *net = sim->nets[sim->dirty[i]];
+
+        if (net->shorted) {
+            sim->shorted_net = net;
             set_error(sim, "smoke: short circuit, strong drivers disagree on a net");
         }
     }
 
-    for (i = 0; i < sim->net_count && sim->error == NULL; i++) {
-        SimNet *net = sim->nets[i];
+    for (i = 0; i < sim->dirty_count; i++) {
+        sim->is_dirty[sim->dirty[i]] = 0;
+    }
+
+    for (i = 0; i < sim->dirty_count && sim->error == NULL; i++) {
+        size_t index = sim->dirty[i];
+        SimNet *net = sim->nets[index];
+        LogicValue old_value = sim->old_values[index];
         size_t j;
 
-        if (old_values[i] == net->value) {
+        if (old_value == net->value) {
             continue;
         }
 
@@ -884,7 +1000,7 @@ static int process_round(Sim *sim, SimTime time) {
                     instance,
                     instance->state,
                     pin->pin,
-                    old_values[i],
+                    old_value,
                     net->value
                 );
             }
@@ -905,7 +1021,6 @@ static int process_round(Sim *sim, SimTime time) {
         }
     }
 
-    free(old_values);
     return sim->error == NULL;
 }
 

@@ -141,3 +141,14 @@ drawer work from the kind table and the `Part` structs.
   `|footprint=<id>` for parts that name one.
 - `switch_test`, `sram_test`, `display7_test` — model benches.
 - `circuit_check` — the circuit API.
+
+Not a ctest: `sim_bench` (`tests/sim_bench.c`) measures engine speed — a
+D flip-flop ripple counter on an oscillator plus N idle SN74HC00N chips,
+reported as a multiple of real time. Build it Release; wall-clock numbers
+would make ctest flaky, so it has no `add_test`.
+
+```
+cmake -S backend -B /tmp/logic-rel -DCMAKE_BUILD_TYPE=Release
+cmake --build /tmp/logic-rel --target sim_bench
+/tmp/logic-rel/sim_bench LMK6CE001000DDLER 16 10 400   # <osc> <stages> <sim ms> <idle chips>
+```

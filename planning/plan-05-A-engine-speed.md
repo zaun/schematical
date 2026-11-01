@@ -346,19 +346,25 @@ Acceptance: byte-identical behavior.
   Check: `cmake --build /tmp/logic-p05 -j8 && ctest --test-dir /tmp/logic-p05` →
   `100% tests passed, 0 tests failed out of 8` (est. 30 s). `trace_check` is
   the decisive one; on a mismatch see §3 gate.
-Commit: —
+Commit: 59a44f1
 
 ### Phase 3 — Dirty nets and cached contact groups
 
-- [ ] `sim.c`: per-net arrays allocated in `sim_start` (`dirty`, `is_dirty`,
+- [x] `sim.c`: per-net arrays allocated in `sim_start` (`dirty`, `is_dirty`,
       `old_values`, `group_*`, `group_nets`), freed in `sim_destroy`;
-      allocation failure sets `"out of memory"` and `sim_start` returns 0.
-- [ ] `sim.c`: round body as §4.3; `resolve_nets` stays only for
+      allocation failure sets `"out of memory"` and `sim_start` returns 0
+      (`alloc_round_arrays`).
+- [x] `sim.c`: round body as §4.3; `resolve_nets` stays only for
       `sim_start` and is rewritten to fill the cached groups (`build_groups`)
       instead of its own `malloc`s.
-- [ ] Remove the old per-round `malloc`s; `grep -n malloc backend/src/engine/sim.c`
-      shows only creation paths (`copy_string`, `sim_add_instance`, grow
-      helpers, `sim_start`).
+- [x] Remove the old per-round `malloc`s; `grep -n 'malloc\|calloc' backend/src/engine/sim.c`
+      → `copy_string`, `sim_create`, `sim_add_instance` (×2) and the 8 lines
+      of `alloc_round_arrays` (called only from `sim_start`). Grow helpers
+      use `realloc`.
+- [x] Check 1: `ctest --test-dir /tmp/logic-p05` → `100% tests passed, 0 tests failed out of 8`.
+- [x] Check 2: see "Bench results" — 2.378x and 0.06424x.
+- [x] Doc sync (Validation Plan): `docs/backend.md` § Tests describes
+      `sim_bench`, its Release build line, and that it is not a ctest.
 
 Acceptance: byte-identical behavior and the speed target.
   Check 1: `cmake --build /tmp/logic-p05 -j8 && ctest --test-dir /tmp/logic-p05` →
@@ -380,6 +386,15 @@ Phase 1 baseline (old engine, Release, 2026-11-01), the Phase 1 Check:
   `osc=LMK6CE10000CDLER stages=16 extra_chips=100 sim=1.000ms wall=25.164s  => 3.974e-05x real time`
 
 Both within the acceptance bounds (≤ 0.01x, ≤ 0.001x).
+
+Phase 3 (new engine, Release, 2026-11-01), Phase 3 Check 2:
+
+- `sim_bench LMK6CE001000DDLER 16 10 400` →
+  `osc=LMK6CE001000DDLER stages=16 extra_chips=400 sim=10.000ms wall=0.004s  => 2.378x real time`
+  (target ≥ 1.5x)
+- `sim_bench LMK6CE10000CDLER 16 10 100` →
+  `osc=LMK6CE10000CDLER stages=16 extra_chips=100 sim=10.000ms wall=0.156s  => 0.06424x real time`
+  (target ≥ 0.05x)
 
 ## Validation Plan
 
@@ -403,6 +418,14 @@ Both within the acceptance bounds (≤ 0.01x, ≤ 0.001x).
   golden diff in A always means a bug — author, 2026-11-01.
 
 ## Corrections
+
+- Phase 1: `sim_bench` prints the speed with `%.4g` instead of the scratch
+  bench's `%.4f`; `%.4f` printed the 100 MHz baseline as `0.0000x`
+  (measured: `3.974e-05x`), which hides the order of magnitude the
+  acceptance check asks for.
+- Phase 3: the `grep -n malloc` audit also needs `calloc` (`is_dirty` is
+  `calloc`ed so it starts clear); the grow helpers use `realloc`, not
+  `malloc`. Check reworded accordingly.
 
 ## Summary
 
