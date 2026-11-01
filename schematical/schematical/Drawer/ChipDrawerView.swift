@@ -18,12 +18,15 @@ struct ChipDrawerView: View {
     let catalog: ChipCatalogStore
 
     @State private var filter = DrawerFilter()
+    @AppStorage(PreferenceKey.showObsoleteParts) private var showObsolete = false
+    @AppStorage(PreferenceKey.showMilitaryParts) private var showMilitary = false
+    @AppStorage(PreferenceKey.showAutomotiveParts) private var showAutomotive = false
     /// Keys whose open state the user has changed from its default, as keys from
     /// `categoryKey` and `functionKey`. Categories default open; functions default closed.
     @State private var toggled: Set<String> = []
 
     var body: some View {
-        let groups = catalog.groups(matching: filter)
+        let groups = catalog.groups(matching: activeFilter)
 
         VStack(spacing: 0) {
             filterBar
@@ -66,6 +69,17 @@ struct ChipDrawerView: View {
     }
 
     // MARK: Filters
+
+    /// The drawer's own filter plus the part kinds allowed in Settings.
+    private var activeFilter: DrawerFilter {
+        var active = filter
+        active.visibility = PartVisibility(
+            showObsolete: showObsolete,
+            showMilitary: showMilitary,
+            showAutomotive: showAutomotive
+        )
+        return active
+    }
 
     private var filterBar: some View {
         HStack(spacing: 8) {

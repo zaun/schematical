@@ -37,5 +37,9 @@ struct schematicalApp: App {
         .commands {
             SchematicFileCommands()
         }
+
+        Settings {
+            PreferencesView()
+        }
     }
 }
