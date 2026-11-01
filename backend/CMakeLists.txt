@@ -83,6 +83,7 @@ add_test(NAME baseline_traces
 add_library(logic STATIC
     sim.c
     net.c
+    src/circuit.c
     src/library/library.c
     src/library/kinds.c
     src/library/kind_util.c
@@ -175,3 +176,4 @@ logic_test(trace_check)
 logic_test(switch_test)
 logic_test(sram_test)
 logic_test(display7_test)
+logic_test(circuit_check)

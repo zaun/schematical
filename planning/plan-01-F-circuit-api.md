@@ -26,7 +26,7 @@ See plan-01-A §Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-01-E complete | `ls planning/completed/plan-01-E-sram-7seg.md` → exists | NOT MET |
+| plan-01-E complete | `ls planning/completed/plan-01-E-sram-7seg.md` → exists | MET (2026-10-31: exists, af14eb6) |
 
 ## 1. Goal
 
@@ -114,13 +114,19 @@ example (load files, build a circuit, advance, read nets/lights), and the
 
 ### Phase 1 — `circuit.h` and its tests
 
-- [ ] `backend/include/circuit.h` (plan-01-A §3.4), `backend/src/circuit.c` (§3.1),
-      `kind_model()` in `src/library/kind.h`.
-- [ ] `tests/circuit_check.c` (§3.2) + CTest.
-- [ ] `docs/backend.md` (§3.4).
+- [x] `backend/include/circuit.h` (plan-01-A §3.4), `backend/src/circuit.c` (§3.1),
+      `kind_model()` in `src/library/kind.h` (already there since plan-01-B,
+      where `trace_check` needed it).
+- [x] `tests/circuit_check.c` (§3.2) + CTest. Every row of §3.2, plus: the
+      LED counts as lit for the step its switch opened in and dark the next
+      (the new light rule, plan-01-A §3.6 item 2), pin past the end, missing
+      net, net/connect after start, SRAM has no lights.
+- [x] `docs/backend.md` (§3.4) (layout section written for the final
+      plan-01-G layout; G re-checks it).
 
 Acceptance: every scenario in §3.2 passes.
   Check: `ctest --test-dir /tmp/logic-build -R circuit_check --output-on-failure` → passed (est. 1 min).
+  Result: `circuit_check` → 36 PASS, `0 failure(s)`; ctest passed.
 Commit: —
 
 ### Phase 2 — basicsim
@@ -147,7 +153,12 @@ See plan-01-A §Decisions. Nothing new.
 
 ## Corrections
 
-(empty)
+- plan-01-E's last commit (archive + Phase 2) is af14eb6.
+- §3.2 switch row: with the new light rule, the old "turning the switch OFF
+  puts the LED out" after one step does not hold: the contact opens at the
+  first instant of the next step, so the LED was on during that step and
+  reads lit; it reads dark one step later. `circuit_check` pins both (the
+  net itself reads Z immediately, as before).
 
 ## Summary
 
