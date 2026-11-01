@@ -605,17 +605,18 @@ Acceptance: one line per part, every kind present with today's counts.
   Check: `grep '^SN74HC00N|' backend/tests/golden/parts.txt` → `…|gate|DIP|Logic|NAND|HC||units=4|1:1A:input:default,…` (est. seconds).
   Result: `49 7seg, 672 dff, 2552 gate, 186 jkff, 55 led, 93 oscillator, 172 sram, 2 supply, 36 switch`;
   `SN74HC00N|gate|DIP|Logic|NAND|HC||units=4|1:1A:input:default,2:1B:input:default,…,14:VCC:power:default`.
-Commit: —
+Commit: f84b949
 
 ### Phase 3 — Keep the goldens honest until G
 
-- [ ] CTest `baseline_listing`: runs `old_listing` and diffs with `golden/parts.txt`.
-- [ ] CTest `baseline_traces`: runs `old_trace` and diffs with `golden/traces.txt`.
-- [ ] Move `planning/plan-01-A-parts-baseline.md` to `planning/completed/` once every phase's `Commit:` is filled.
+- [x] CTest `baseline_listing`: runs `old_listing` and diffs with `golden/parts.txt`.
+- [x] CTest `baseline_traces`: runs `old_trace` and diffs with `golden/traces.txt`.
+- [x] Move `planning/plan-01-A-parts-baseline.md` to `planning/completed/` once every phase's `Commit:` is filled.
 
 Acceptance: both pass on the unchanged old backend.
   Check: `ctest --test-dir /tmp/logic-build -R baseline --output-on-failure` → 2 tests passed (est. 1 min).
-Commit: —
+  Result: `100% tests passed, 0 tests failed out of 2` (6.8 s). Final gate: full `ctest` → `100% tests passed, 0 tests failed out of 7`.
+Commit: this phase's commit is the one that moved this file to `planning/completed/` (hash in plan-01-B's Corrections).
 
 ## Validation Plan
 

@@ -69,3 +69,11 @@ target_link_libraries(old_trace PRIVATE old_baseline)
 
 add_executable(old_listing tools/baseline/old_listing.c)
 target_link_libraries(old_listing PRIVATE old_baseline)
+
+# The old backend must keep reproducing the goldens until plan-01-G deletes it.
+add_test(NAME baseline_listing
+    COMMAND sh -c "\"$1\" | diff - \"$2\"" sh $<TARGET_FILE:old_listing>
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/golden/parts.txt)
+add_test(NAME baseline_traces
+    COMMAND sh -c "\"$1\" | diff - \"$2\"" sh $<TARGET_FILE:old_trace>
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/golden/traces.txt)
