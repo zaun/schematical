@@ -57,6 +57,11 @@ struct ContentView: View {
 
                 ToolbarItem(placement: .navigation) {
                     Button {
+                        if !simulation.isRunning {
+                            // Play mode starts with the Pointer tool and nothing selected.
+                            tool = .pointer
+                            document.selectedChipID = nil
+                        }
                         simulation.toggle(document: document)
                     } label: {
                         Label(

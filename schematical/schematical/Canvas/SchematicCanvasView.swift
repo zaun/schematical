@@ -73,6 +73,14 @@ struct SchematicCanvasView: View {
                     hoverAnchor = nil
                 }
             }
+            .onChange(of: isRunning) { _, running in
+                // Drop any highlight left from before play mode started (⌘R).
+                if running {
+                    hoveredChipID = nil
+                    hoveredWireID = nil
+                    hoverAnchor = nil
+                }
+            }
             .simultaneousGesture(
                 SpatialTapGesture(count: 2).onEnded { value in
                     guard tool == .pointer, !isRunning else { return }
@@ -308,7 +316,14 @@ struct SchematicCanvasView: View {
 
     /// Highlights the block under the pointer, or else the wire segment under it.
     /// In Line mode, highlights only the connection point under the pointer.
+    /// In play mode, nothing is highlighted.
     private func updateHover(at point: CGPoint) {
+        if isRunning {
+            hoveredChipID = nil
+            hoveredWireID = nil
+            hoverAnchor = nil
+            return
+        }
         if tool == .line {
             hoveredChipID = nil
             hoveredWireID = nil
