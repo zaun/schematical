@@ -16,6 +16,9 @@ nonisolated enum PinRole: String, Codable, Hashable, Sendable {
 nonisolated struct ChipPin: Codable, Hashable, Sendable, Identifiable {
     /// The group a pin is in when the backend names none.
     static let defaultGroup = "default"
+    /// Positions with no lead ("No Pin" in a datasheet). Never drawn, so
+    /// nothing can be wired to them.
+    static let hiddenGroup = "hidden"
 
     let number: Int
     let name: String
@@ -27,6 +30,8 @@ nonisolated struct ChipPin: Codable, Hashable, Sendable, Identifiable {
     var id: Int { number }
 
     var isInDefaultGroup: Bool { group == Self.defaultGroup }
+
+    var isHidden: Bool { group == Self.hiddenGroup }
 
     init(number: Int, name: String, role: PinRole, group: String = ChipPin.defaultGroup) {
         self.number = number
@@ -87,7 +92,7 @@ nonisolated struct ChipDefinition: Codable, Hashable, Sendable, Identifiable {
     let category: String
     let gateCount: Int
     let parts: [ChipPart]
-    let pins: [ChipPin]
+    var pins: [ChipPin]
     /// Optional level between category and function in the drawer, such as
     /// "SRAM" for Memory → SRAM → 32 KB. Nil for most chips.
     var subcategory: String? = nil

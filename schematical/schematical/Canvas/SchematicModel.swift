@@ -149,7 +149,11 @@ nonisolated struct ChipLayout: Hashable {
     static let switchBodyWidth: CGFloat = 100
     static let switchLeverSize = CGSize(width: 36, height: 14)
 
+    /// Pins in the hidden group (positions with no lead) are left out of every
+    /// symbol, so they are never drawn and can't take a wire.
     init(chip: ChipDefinition, symbol: PartSymbol) {
+        var chip = chip
+        chip.pins = chip.pins.filter { !$0.isHidden }
         switch symbol {
         case .block, .oscillator:
             self = ChipLayout(chip: chip)
