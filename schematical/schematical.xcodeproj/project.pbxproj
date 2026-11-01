@@ -6,9 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		235280FF3096AF3A00135939 /* schematical.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = schematical.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -19,7 +16,7 @@
 			path = schematical;
 			sourceTree = "<group>";
 		};
-		235281113096AF3A00135939 /* src */ = {
+		235281113096AF3A00135939 /* backend */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			name = backend;
 			path = ../backend/src;
@@ -42,7 +39,7 @@
 			isa = PBXGroup;
 			children = (
 				235281013096AF3A00135939 /* schematical */,
-				235281113096AF3A00135939 /* src */,
+				235281113096AF3A00135939 /* backend */,
 				235281003096AF3A00135939 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -72,7 +69,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				235281013096AF3A00135939 /* schematical */,
-				235281113096AF3A00135939 /* src */,
+				235281113096AF3A00135939 /* backend */,
 			);
 			name = schematical;
 			packageProductDependencies = (
