@@ -722,18 +722,31 @@ final class SchematicDocument {
 
     // MARK: Footprints (PCB)
 
-    /// Moves a footprint's centre (board mm), snapped to the board grid.
+    /// Moves a footprint's centre (board mm), then snaps the top-left of its
+    /// bounding box to the board grid.
     func moveFootprint(_ id: UUID, to centre: CGPoint) {
         guard let index = chips.firstIndex(where: { $0.id == id }),
-              chips[index].board != nil else { return }
-        chips[index].board?.centre = BoardGrid.snap(centre)
+              let board = chips[index].board,
+              let footprint = chips[index].part.footprint else { return }
+        var moved = board
+        moved.centre = centre
+        chips[index].board = BoardLayout.snapped(moved, footprint: footprint)
     }
 
-    /// Turns a footprint 90° clockwise.
+    /// Turns a footprint 90° clockwise, keeping the top-left of its bounding
+    /// box where it was.
     func rotateFootprint(_ id: UUID) {
         guard let index = chips.firstIndex(where: { $0.id == id }),
-              let board = chips[index].board else { return }
-        chips[index].board?.rotation = (board.rotation + 90) % 360
+              let board = chips[index].board,
+              let footprint = chips[index].part.footprint else { return }
+        let local = BoardLayout.localBounds(of: footprint)
+        let before = local.applying(board)
+        var turned = board
+        turned.rotation = (board.rotation + 90) % 360
+        let after = local.applying(turned)
+        turned.centre.x += before.minX - after.minX
+        turned.centre.y += before.minY - after.minY
+        chips[index].board = BoardLayout.snapped(turned, footprint: footprint)
     }
 
     /// The footprint under a board point (mm): the last one drawn there.
