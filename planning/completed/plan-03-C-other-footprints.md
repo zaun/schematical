@@ -242,7 +242,7 @@ Commit: f969d99
 Acceptance: the loader enforces the key; docs and agent rules say so.
   Check: `ctest --test-dir /tmp/logic-plan03 -R library_check --output-on-failure` → passes, including the two cases (est. 1 min). — 2026-11-01: `100% tests passed, 0 tests failed out of 1`; `ok   non-supply part without footprint: … parts[0] (LED-NF): missing "footprint"`, `ok   supply part with footprint: … parts[0] (VCC): a supply has no footprint`; full ctest 8/8.
   Check: `grep -n 'footprint' AGENTS.md docs/parts-format.md | wc -l` → ≥ 3 (est. seconds). — 2026-11-01: 27.
-Commit: —
+Commit: 16efec0
 
 ## Validation Plan
 
@@ -254,6 +254,16 @@ Commit: —
   footer still reads "3,815 parts from backend".
 - Doc sync: `docs/parts-format.md`, `AGENTS.md`.
 - Final gate (once): `cmake -S backend -B /tmp/logic-final && cmake --build /tmp/logic-final -j8 && ctest --test-dir /tmp/logic-final` (est. 1 min) + `xcodebuild` (est. 3 min).
+
+## Final gate (run 2026-11-01)
+
+- `cmake --build /tmp/logic-final-p03 -j8 && ctest --test-dir /tmp/logic-final-p03`
+  → `100% tests passed, 0 tests failed out of 8`.
+- `xcodebuild … build` → `** BUILD SUCCEEDED **`.
+- Runtime proof, headless (screen locked; plan-03-A Corrections), the app's
+  `PartCatalogStore.load()`: `catalog: loaded`, `footer: 3815 parts from
+  backend`, `parts with a footprint: 3815 distinct footprints: 126`,
+  `parts without: 2 VCC GND`, no `NO PAD` lines.
 
 ## Decisions
 
