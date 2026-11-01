@@ -92,7 +92,7 @@ struct SchematicCanvasView: View {
                     let point = viewport.world(value.location)
                     // Double-clicking a memory part opens its memory view, in
                     // play mode too, which is when it has contents to show.
-                    if let chip = document.chip(at: point), chip.part.kind == PART_SRAM {
+                    if let chip = document.chip(at: point), chip.part.isMemory {
                         onOpenMemory(chip.id)
                         return
                     }

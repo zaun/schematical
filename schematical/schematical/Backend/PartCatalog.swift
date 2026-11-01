@@ -124,6 +124,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     enum Details: Hashable, Sendable {
         case logic(family: String, units: Int)
         case sram(words: Int, bits: Int, accessNs: Int, grade: String)
+        case eeprom(words: Int, bits: Int, accessNs: Int, grade: String, pageBytes: Int, writeCycleUs: Int)
         case dipSwitch(positions: Int, actuator: String)
         case led(color: String)
         case display(DisplayInfo)
@@ -154,6 +155,18 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
 
     /// Gate, D or JK flip-flop: a logic chip with a family and a unit count.
     var isLogic: Bool { kind == PART_GATE || kind == PART_DFF || kind == PART_JKFF }
+
+    /// SRAM or EEPROM: a part with a memory window.
+    var isMemory: Bool { kind == PART_SRAM || kind == PART_EEPROM }
+
+    /// A memory's word count and width, from the part's facts.
+    var memorySize: MemorySize? {
+        switch details {
+        case let .sram(words, bits, _, _): return MemorySize(words: words, bits: bits)
+        case let .eeprom(words, bits, _, _, _, _): return MemorySize(words: words, bits: bits)
+        default: return nil
+        }
+    }
 
     var logicFamily: String? {
         if case let .logic(family, _) = details { return family }
@@ -191,6 +204,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         switch details {
         case let .logic(family, _): return [family]
         case let .sram(_, _, accessNs, _): return ["\(accessNs) ns"]
+        case let .eeprom(_, _, accessNs, _, _, _): return ["\(accessNs) ns"]
         case let .dipSwitch(_, actuator): return [actuator]
         case let .led(color): return [color]
         case let .display(info): return [info.color, info.size, info.commonAnode ? "CA" : "CC"]
@@ -269,6 +283,11 @@ extension CatalogPart {
         } else if let sram = part.sram?.pointee {
             details = .sram(words: Int(sram.words), bits: Int(sram.bits),
                             accessNs: Int(sram.access_ps / 1000), grade: string(sram.grade))
+        } else if let eeprom = part.eeprom?.pointee {
+            details = .eeprom(words: Int(eeprom.words), bits: Int(eeprom.bits),
+                              accessNs: Int(eeprom.access_ps / 1000), grade: string(eeprom.grade),
+                              pageBytes: Int(eeprom.page_bytes),
+                              writeCycleUs: Int(eeprom.write_cycle_ps / 1_000_000))
         } else if let dip = part.dip_switch?.pointee {
             details = .dipSwitch(positions: Int(dip.positions), actuator: string(dip.actuator))
         } else if let led = part.led?.pointee {

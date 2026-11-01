@@ -296,14 +296,19 @@ enum MemoryFileAccess {
 EEPROMs in the drawer and openable; the window shows "Simulation Not
 Running" for them until Phase 3. Safe alone.
 
-- [ ] `Backend/PartCatalog.swift`: `.eeprom` details, `detailLabels`,
+- [x] `Backend/PartCatalog.swift`: `.eeprom` details, `detailLabels`,
       `isMemory`, `memorySize` (§4.1).
-- [ ] `Canvas/SchematicCanvasView.swift`: double-click on `isMemory`.
-- [ ] Harness (`/tmp/p04/harness/build.sh`, the plan-03 approach): a
+- [x] `Canvas/SchematicCanvasView.swift`: double-click on `isMemory`.
+- [x] Harness (`/tmp/p04/harness/build.sh`, the plan-03 approach): a
       `catalog` command that prints the EEPROM drawer group and labels.
+      (Built against `/tmp/p04c-dd`; `run` = `/tmp/p04/harness/run`.)
 
 Acceptance: the drawer lists every EEPROM part under Memory → EEPROM with
-its access time.
+its access time. **Met:** `xcodebuild` → `** BUILD SUCCEEDED **`;
+`run catalog` → `footer: 3989 parts from backend`,
+`Memory/EEPROM: 174 parts; functions 8 KB (24), 32 KB (108), 128 KB (42)`,
+`AT28C256-15PU: 150 ns isMemory true size 32768 x 8`; SRAM still
+`Memory/SRAM: 172 parts`, `AS6C62256-55PCN: 55 ns`.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p04c-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 1 min).
   Check: `/tmp/p04/harness/run catalog` → `Memory/EEPROM: 174 parts`, and `AT28C256-15PU: 150 ns` (est. seconds).
 Commit: —
