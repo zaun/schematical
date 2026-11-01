@@ -49,7 +49,7 @@ struct ChipBlockView: View {
                 Self.drawSineGlyph(&context, centre: bodyCentre, radius: radius, color: outline)
             } else {
                 context.draw(
-                    Text(chip.chip.function)
+                    Text(chip.part.function)
                         .font(.system(size: 13, weight: .medium))
                         .foregroundStyle(.secondary),
                     at: bodyCentre,
@@ -112,7 +112,7 @@ struct ChipBlockView: View {
         context.stroke(wave, with: .color(color), style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
     }
 
-    private static func nameColor(for role: PinRole) -> Color {
+    private static func nameColor(for role: ChipPinRole) -> Color {
         switch role {
         case .power: .red
         case .ground: .blue

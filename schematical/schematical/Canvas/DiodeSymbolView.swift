@@ -13,10 +13,10 @@ struct DiodeSymbolView: View {
     /// Play mode: anode high and cathode low. A lit LED glows in its own color.
     var isLit: Bool = false
 
-    /// The LED's color, from its catalog family (Red, Green, Blue, Amber, White,
+    /// The LED's color, from the part's color (Red, Green, Blue, Amber, White,
     /// and for 7-segment displays also Yellow and Orange).
     static func lightColor(for chip: PlacedChip) -> Color {
-        let family = chip.chip.parts.first { $0.name == chip.partNumber }?.family ?? ""
+        let family = chip.part.color ?? ""
         switch family {
         case "Red": return .red
         case "Green": return .green
@@ -82,7 +82,7 @@ struct DiodeSymbolView: View {
             context.stroke(arrows, with: .color(isLit ? light : outline), lineWidth: 1.25)
 
             context.draw(
-                Text(chip.chip.function)
+                Text(chip.part.function)
                     .font(.system(size: 10, weight: .medium))
                     .foregroundStyle(.secondary),
                 at: point(width / 2, layout.size.height - 8),

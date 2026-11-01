@@ -70,7 +70,7 @@ struct SevenSegmentSymbolView: View {
                 )
             }
 
-            if let display = chip.chip.display {
+            if let display = chip.part.display {
                 Self.drawFace(&context, display: display, box: box, glow: glow, light: light)
             }
         }

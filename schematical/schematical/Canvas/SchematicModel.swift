@@ -151,24 +151,23 @@ nonisolated struct ChipLayout: Hashable {
     static let switchBodyWidth: CGFloat = 100
     static let switchLeverSize = CGSize(width: 36, height: 14)
 
-    /// Pins in the hidden group (positions with no lead) are left out of every
+    /// Absent pins (numbered positions with no lead) are left out of every
     /// symbol, so they are never drawn and can't take a wire.
-    init(chip: ChipDefinition, symbol: PartSymbol) {
-        var chip = chip
-        chip.pins = chip.pins.filter { !$0.isHidden }
+    init(part: CatalogPart, symbol: PartSymbol) {
+        let pins = part.pins.filter { !$0.isHidden }
         switch symbol {
         case .block, .oscillator:
-            self = ChipLayout(chip: chip)
+            self = ChipLayout(pins: pins)
         case .diode:
-            self = Self.diode(chip)
+            self = Self.diode(pins)
         case .vcc:
-            self = Self.supply(chip, side: .bottom)
+            self = Self.supply(pins, side: .bottom)
         case .ground:
-            self = Self.supply(chip, side: .top)
+            self = Self.supply(pins, side: .top)
         case .dipSwitch:
-            self = Self.dipSwitch(chip)
+            self = Self.dipSwitch(pins)
         case .sevenSegment:
-            self = Self.sevenSegment(chip)
+            self = Self.sevenSegment(pins, display: part.display)
         }
     }
 
@@ -189,11 +188,11 @@ nonisolated struct ChipLayout: Hashable {
 
     /// Segment pins on the left and common pins on the right, in the order
     /// the backend gives. No-connect pins are not drawn.
-    private static func sevenSegment(_ chip: ChipDefinition) -> ChipLayout {
-        guard let display = chip.display else { return ChipLayout(chip: chip) }
-        let byNumber = Dictionary(chip.pins.map { ($0.number, $0) }, uniquingKeysWith: { first, _ in first })
+    private static func sevenSegment(_ pins: [ChipPin], display: DisplayInfo?) -> ChipLayout {
+        guard let display else { return ChipLayout(pins: pins) }
+        let byNumber = Dictionary(pins.map { ($0.number, $0) }, uniquingKeysWith: { first, _ in first })
         // Segment pins, then (after a gap) any no-connect leads; commons on the right.
-        let unused = chip.pins.filter { $0.role == .noConnect }.sorted { $0.number < $1.number }
+        let unused = pins.filter { $0.role == .noConnect }.sorted { $0.number < $1.number }
         let left = stack([display.segmentPins.compactMap { byNumber[$0] }, unused])
         let right = display.commonPins.compactMap { byNumber[$0] }
         // At least enough rows for the digit face.
@@ -219,9 +218,9 @@ nonisolated struct ChipLayout: Hashable {
     /// One row per switch position, top to bottom. Position k joins pin k
     /// (left) and pin 2N + 1 - k (right), as in switch.h, so both of a
     /// position's pins sit on its row.
-    private static func dipSwitch(_ chip: ChipDefinition) -> ChipLayout {
-        let positions = chip.pins.count / 2
-        let byNumber = Dictionary(chip.pins.map { ($0.number, $0) }, uniquingKeysWith: { first, _ in first })
+    private static func dipSwitch(_ pins: [ChipPin]) -> ChipLayout {
+        let positions = pins.count / 2
+        let byNumber = Dictionary(pins.map { ($0.number, $0) }, uniquingKeysWith: { first, _ in first })
         var slots: [PinSlot] = []
         for position in 1...max(positions, 1) {
             let y = centerY(forRow: position - 1)
@@ -249,9 +248,9 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
-    private static func supply(_ chip: ChipDefinition, side: Side) -> ChipLayout {
-        guard let pin = chip.pins.first else {
-            return ChipLayout(chip: chip)
+    private static func supply(_ pins: [ChipPin], side: Side) -> ChipLayout {
+        guard let pin = pins.first else {
+            return ChipLayout(pins: pins)
         }
         return ChipLayout(
             size: supplySize,
@@ -283,10 +282,10 @@ nonisolated struct ChipLayout: Hashable {
     /// Anode (pin 2, "A") on the left and cathode (pin 1, "K") on the right.
     /// Other pins, such as no-connects on a 4-DIP, are not drawn. Falls back to
     /// the block layout if either terminal is missing.
-    private static func diode(_ chip: ChipDefinition) -> ChipLayout {
-        guard let anode = chip.pins.first(where: { $0.name == "A" }),
-              let cathode = chip.pins.first(where: { $0.name == "K" }) else {
-            return ChipLayout(chip: chip)
+    private static func diode(_ pins: [ChipPin]) -> ChipLayout {
+        guard let anode = pins.first(where: { $0.name == "A" }),
+              let cathode = pins.first(where: { $0.name == "K" }) else {
+            return ChipLayout(pins: pins)
         }
         return ChipLayout(
             size: diodeSize,
@@ -297,10 +296,10 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
-    init(chip: ChipDefinition) {
+    init(pins allPins: [ChipPin]) {
         func byNumber(_ a: ChipPin, _ b: ChipPin) -> Bool { a.number < b.number }
-        func pins(_ roles: PinRole...) -> [ChipPin] {
-            chip.pins.filter { roles.contains($0.role) }.sorted(by: byNumber)
+        func pins(_ roles: ChipPinRole...) -> [ChipPin] {
+            allPins.filter { roles.contains($0.role) }.sorted(by: byNumber)
         }
 
         let power = pins(.power)
@@ -384,8 +383,8 @@ nonisolated struct ChipLayout: Hashable {
 nonisolated struct PlacedChip: Identifiable, Hashable {
     let id: UUID
     let reference: String
-    let partNumber: String
-    let chip: ChipDefinition
+    /// The library part, copied from the backend at launch.
+    let part: CatalogPart
     let symbol: PartSymbol
     /// Top-left corner of the body. Always on the grid.
     var origin: CGPoint
@@ -401,8 +400,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     init(
         id: UUID = UUID(),
         reference: String,
-        partNumber: String,
-        chip: ChipDefinition,
+        part: CatalogPart,
         symbol: PartSymbol,
         origin: CGPoint,
         isFlipped: Bool = false,
@@ -410,16 +408,21 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     ) {
         self.id = id
         self.reference = reference
-        self.partNumber = partNumber
-        self.chip = chip
+        self.part = part
         self.symbol = symbol
-        self.baseLayout = ChipLayout(chip: chip, symbol: symbol)
+        self.baseLayout = ChipLayout(part: part, symbol: symbol)
         self.origin = origin
         self.isFlipped = isFlipped
         // A switch has one state per position, OFF unless given; others none.
-        let positions = symbol == .dipSwitch ? chip.pins.count / 2 : 0
+        var positions = 0
+        if case let .dipSwitch(count, _) = part.details {
+            positions = count
+        }
         self.switchesOn = (0..<positions).map { $0 < switchesOn.count && switchesOn[$0] }
     }
+
+    /// The orderable part number, as saved in a file.
+    var partNumber: String { part.name }
 
     /// The switch position (1-based) whose lever is under `point`, if any.
     func switchPosition(at point: CGPoint) -> Int? {
@@ -676,15 +679,14 @@ final class SchematicDocument {
     // MARK: Chips
 
     /// Places a block with its centre under `point`, snapped to the grid.
-    func placeChip(partNumber: String, chip: ChipDefinition, symbol: PartSymbol, centeredAt point: CGPoint) {
-        let layout = ChipLayout(chip: chip, symbol: symbol)
+    func placeChip(part: CatalogPart, symbol: PartSymbol, centeredAt point: CGPoint) {
+        let layout = ChipLayout(part: part, symbol: symbol)
         let origin = SchematicGrid.snap(
             CGPoint(x: point.x - layout.size.width / 2, y: point.y - layout.size.height / 2)
         )
         let placed = PlacedChip(
             reference: "U\(nextReference)",
-            partNumber: partNumber,
-            chip: chip,
+            part: part,
             symbol: symbol,
             origin: origin
         )

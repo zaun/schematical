@@ -10,9 +10,6 @@
 import AppKit
 import SwiftUI
 
-/// The category memory parts are listed under. The backend names it.
-let memoryCategory = "Memory"
-
 /// Which memory window to open: a part in one schematic window.
 nonisolated struct MemoryWindowTarget: Codable, Hashable, Sendable {
     let sessionID: UUID
@@ -221,7 +218,7 @@ private struct MemoryInspector: View {
     private func footer(chip: PlacedChip, size: MemorySize) -> some View {
         let known = words.filter { $0.known == wordMask(size.bits) }.count
         return HStack {
-            Text("\(size.words) words × \(size.bits) bits (\(chip.chip.function))")
+            Text("\(size.words) words × \(size.bits) bits (\(chip.part.function))")
             Spacer()
             Text("\(known) of \(words.count) words on this page defined")
         }

@@ -17,7 +17,7 @@ import SwiftUI
 /// Parts dragged from the drawer are dropped here and centred on the drop point.
 /// The schematic is drawn in world coordinates and scaled by the viewport's zoom.
 struct SchematicCanvasView: View {
-    let catalog: ChipCatalogStore
+    let catalog: PartCatalogStore
     let document: SchematicDocument
     let viewport: CanvasViewport
     let tool: SchematicTool
@@ -92,7 +92,7 @@ struct SchematicCanvasView: View {
                     let point = viewport.world(value.location)
                     // Double-clicking a memory part opens its memory view, in
                     // play mode too, which is when it has contents to show.
-                    if let chip = document.chip(at: point), chip.chip.category == memoryCategory {
+                    if let chip = document.chip(at: point), chip.part.kind == PART_SRAM {
                         onOpenMemory(chip.id)
                         return
                     }
@@ -102,13 +102,12 @@ struct SchematicCanvasView: View {
             )
             .dropDestination(for: ChipPartDragItem.self) { items, location in
                 guard !isRunning, let item = items.first,
-                      let chip = catalog.chip(forPartNumber: item.partNumber) else {
+                      let part = catalog.part(named: item.partNumber) else {
                     return false
                 }
                 document.placeChip(
-                    partNumber: item.partNumber,
-                    chip: chip,
-                    symbol: catalog.symbol(forPartNumber: item.partNumber),
+                    part: part,
+                    symbol: symbol(for: part),
                     centeredAt: viewport.world(location)
                 )
                 onPartPlaced()
@@ -160,7 +159,7 @@ struct SchematicCanvasView: View {
                             chip: chip,
                             isSelected: chip.id == document.selectedChipID,
                             isHovered: chip.id == hoveredChipID,
-                            isLit: simulation.litChips.contains(chip.id)
+                            isLit: simulation.lights[chip.id]?.first ?? false
                         )
                     case .vcc, .ground:
                         SupplySymbolView(
@@ -179,7 +178,7 @@ struct SchematicCanvasView: View {
                             chip: chip,
                             isSelected: chip.id == document.selectedChipID,
                             isHovered: chip.id == hoveredChipID,
-                            glow: simulation.glowingLEDs[chip.id] ?? []
+                            glow: simulation.lights[chip.id] ?? []
                         )
                     }
                 }
@@ -328,11 +327,10 @@ struct SchematicCanvasView: View {
             // One supply per press, centred under where the press started.
             if interaction == nil,
                let name = tool.supplyName,
-               let chip = catalog.supplyChip(named: name) {
+               let part = catalog.part(named: name) {
                 document.placeChip(
-                    partNumber: name,
-                    chip: chip,
-                    symbol: catalog.symbol(forPartNumber: name),
+                    part: part,
+                    symbol: symbol(for: part),
                     centeredAt: start
                 )
             }

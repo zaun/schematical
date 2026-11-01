@@ -7,72 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00000000A0B0C0E000000001 /* net.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D000000001 /* net.c */; };
-		00000000A0B0C0E000000002 /* sim.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D000000002 /* sim.c */; };
-		00000000A0B0C0E000000003 /* catalog.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D000000003 /* catalog.c */; };
-		00000000A0B0C0E000000004 /* 74_00.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D000000004 /* 74_00.c */; };
-		00000000A0B0C0E000000005 /* 74_08.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D000000005 /* 74_08.c */; };
-		00000000A0B0C0E000000006 /* 74_32.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D000000006 /* 74_32.c */; };
-		00000000A0B0C0E000000007 /* 74_02.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D000000007 /* 74_02.c */; };
-		00000000A0B0C0E000000008 /* 74_86.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D000000008 /* 74_86.c */; };
-		00000000A0B0C0E000000009 /* 74_266.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D000000009 /* 74_266.c */; };
-		00000000A0B0C0E0000000A1 /* ff-d.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000A1 /* ff-d.c */; };
-		00000000A0B0C0E0000000A3 /* led.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000A3 /* led.c */; };
-		00000000A0B0C0E0000000A5 /* supply.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000A5 /* supply.c */; };
-		00000000A0B0C0E0000000A7 /* osc.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000A7 /* osc.c */; };
-		00000000A0B0C0E0000000A9 /* catalog_validate.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000A9 /* catalog_validate.c */; };
-		00000000A0B0C0E0000000B1 /* netlist_sim.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000B1 /* netlist_sim.c */; };
-		00000000A0B0C0E0000000C1 /* cd4000.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000C1 /* cd4000.c */; };
-		00000000A0B0C0E0000000C3 /* gates.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000C3 /* gates.c */; };
-		00000000A0B0C0E0000000D1 /* ff-jk.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000D1 /* ff-jk.c */; };
-		00000000A0B0C0E0000000E1 /* sram.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000E1 /* sram.c */; };
-		00000000A0B0C0E0000000F1 /* switch.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000F1 /* switch.c */; };
-		00000000A0B0C0E0000000F3 /* led7.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000F3 /* led7.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		00000000A0B0C0D000000001 /* net.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = net.c; sourceTree = "<group>"; };
-		00000000A0B0C0D000000002 /* sim.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sim.c; sourceTree = "<group>"; };
-		00000000A0B0C0D000000003 /* catalog.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = catalog.c; sourceTree = "<group>"; };
-		00000000A0B0C0D000000004 /* 74_00.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = 74_00.c; sourceTree = "<group>"; };
-		00000000A0B0C0D000000005 /* 74_08.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = 74_08.c; sourceTree = "<group>"; };
-		00000000A0B0C0D000000006 /* 74_32.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = 74_32.c; sourceTree = "<group>"; };
-		00000000A0B0C0D000000007 /* 74_02.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = 74_02.c; sourceTree = "<group>"; };
-		00000000A0B0C0D000000008 /* 74_86.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = 74_86.c; sourceTree = "<group>"; };
-		00000000A0B0C0D000000009 /* 74_266.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = 74_266.c; sourceTree = "<group>"; };
-		00000000A0B0C0D00000000A /* sim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sim.h; sourceTree = "<group>"; };
-		00000000A0B0C0D00000000AA /* catalog_validate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = catalog_validate.h; sourceTree = "<group>"; };
-		00000000A0B0C0D00000000B /* net.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = net.h; sourceTree = "<group>"; };
-		00000000A0B0C0D00000000C /* catalog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = catalog.h; sourceTree = "<group>"; };
-		00000000A0B0C0D00000000D /* chip_definition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chip_definition.h; sourceTree = "<group>"; };
-		00000000A0B0C0D00000000E /* 74_00.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = 74_00.h; sourceTree = "<group>"; };
-		00000000A0B0C0D00000000F /* 74_08.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = 74_08.h; sourceTree = "<group>"; };
-		00000000A0B0C0D000000010 /* 74_32.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = 74_32.h; sourceTree = "<group>"; };
-		00000000A0B0C0D000000011 /* 74_02.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = 74_02.h; sourceTree = "<group>"; };
-		00000000A0B0C0D000000012 /* 74_86.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = 74_86.h; sourceTree = "<group>"; };
-		00000000A0B0C0D000000013 /* 74_266.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = 74_266.h; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000A1 /* ff-d.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "ff-d.c"; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000A2 /* ff-d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ff-d.h"; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000A3 /* led.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = led.c; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000A4 /* led.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = led.h; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000A5 /* supply.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = supply.c; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000A6 /* supply.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = supply.h; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000A7 /* osc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = osc.c; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000A8 /* osc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = osc.h; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000A9 /* catalog_validate.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = catalog_validate.c; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000B1 /* netlist_sim.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = netlist_sim.c; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000C1 /* cd4000.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cd4000.c; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000C2 /* cd4000.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cd4000.h; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000C3 /* gates.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = gates.c; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000C4 /* gates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gates.h; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000D1 /* ff-jk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "ff-jk.c"; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000D2 /* ff-jk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ff-jk.h"; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000E1 /* sram.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sram.c; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000E2 /* sram.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sram.h; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000F1 /* switch.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = switch.c; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000F2 /* switch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = switch.h; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000F3 /* led7.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = led7.c; sourceTree = "<group>"; };
-		00000000A0B0C0D0000000F4 /* led7.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = led7.h; sourceTree = "<group>"; };
 		235280FF3096AF3A00135939 /* schematical.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = schematical.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -80,6 +17,12 @@
 		235281013096AF3A00135939 /* schematical */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = schematical;
+			sourceTree = "<group>";
+		};
+		235281113096AF3A00135939 /* src */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			name = backend;
+			path = ../backend/src;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -99,7 +42,7 @@
 			isa = PBXGroup;
 			children = (
 				235281013096AF3A00135939 /* schematical */,
-				A0B0C0D0000000000000001A /* backend */,
+				235281113096AF3A00135939 /* src */,
 				235281003096AF3A00135939 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -110,56 +53,6 @@
 				235280FF3096AF3A00135939 /* schematical.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		A0B0C0D0000000000000001A /* backend */ = {
-			isa = PBXGroup;
-			children = (
-				00000000A0B0C0D000000001 /* net.c */,
-				00000000A0B0C0D000000002 /* sim.c */,
-				00000000A0B0C0D000000003 /* catalog.c */,
-				00000000A0B0C0D000000004 /* 74_00.c */,
-				00000000A0B0C0D000000005 /* 74_08.c */,
-				00000000A0B0C0D000000006 /* 74_32.c */,
-				00000000A0B0C0D000000007 /* 74_02.c */,
-				00000000A0B0C0D000000008 /* 74_86.c */,
-				00000000A0B0C0D000000009 /* 74_266.c */,
-				00000000A0B0C0D0000000A1 /* ff-d.c */,
-				00000000A0B0C0D0000000D1 /* ff-jk.c */,
-				00000000A0B0C0D0000000A3 /* led.c */,
-				00000000A0B0C0D0000000A5 /* supply.c */,
-				00000000A0B0C0D0000000A7 /* osc.c */,
-				00000000A0B0C0D0000000B1 /* netlist_sim.c */,
-				00000000A0B0C0D0000000C1 /* cd4000.c */,
-				00000000A0B0C0D0000000C3 /* gates.c */,
-				00000000A0B0C0D0000000E1 /* sram.c */,
-				00000000A0B0C0D0000000F1 /* switch.c */,
-				00000000A0B0C0D0000000F3 /* led7.c */,
-				00000000A0B0C0D0000000A9 /* catalog_validate.c */,
-				00000000A0B0C0D00000000A /* sim.h */,
-				00000000A0B0C0D00000000B /* net.h */,
-				00000000A0B0C0D00000000C /* catalog.h */,
-				00000000A0B0C0D00000000D /* chip_definition.h */,
-				00000000A0B0C0D00000000E /* 74_00.h */,
-				00000000A0B0C0D00000000F /* 74_08.h */,
-				00000000A0B0C0D000000010 /* 74_32.h */,
-				00000000A0B0C0D000000011 /* 74_02.h */,
-				00000000A0B0C0D000000012 /* 74_86.h */,
-				00000000A0B0C0D000000013 /* 74_266.h */,
-				00000000A0B0C0D0000000A2 /* ff-d.h */,
-				00000000A0B0C0D0000000D2 /* ff-jk.h */,
-				00000000A0B0C0D0000000A4 /* led.h */,
-				00000000A0B0C0D0000000A6 /* supply.h */,
-				00000000A0B0C0D0000000A8 /* osc.h */,
-				00000000A0B0C0D00000000AA /* catalog_validate.h */,
-				00000000A0B0C0D0000000C2 /* cd4000.h */,
-				00000000A0B0C0D0000000C4 /* gates.h */,
-				00000000A0B0C0D0000000E2 /* sram.h */,
-				00000000A0B0C0D0000000F2 /* switch.h */,
-				00000000A0B0C0D0000000F4 /* led7.h */,
-			);
-			name = backend;
-			path = ../backend;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,6 +72,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				235281013096AF3A00135939 /* schematical */,
+				235281113096AF3A00135939 /* src */,
 			);
 			name = schematical;
 			packageProductDependencies = (
@@ -236,27 +130,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00000000A0B0C0E000000001 /* net.c in Sources */,
-				00000000A0B0C0E000000002 /* sim.c in Sources */,
-				00000000A0B0C0E000000003 /* catalog.c in Sources */,
-				00000000A0B0C0E000000004 /* 74_00.c in Sources */,
-				00000000A0B0C0E000000005 /* 74_08.c in Sources */,
-				00000000A0B0C0E000000006 /* 74_32.c in Sources */,
-				00000000A0B0C0E000000007 /* 74_02.c in Sources */,
-				00000000A0B0C0E000000008 /* 74_86.c in Sources */,
-				00000000A0B0C0E000000009 /* 74_266.c in Sources */,
-				00000000A0B0C0E0000000A1 /* ff-d.c in Sources */,
-				00000000A0B0C0E0000000D1 /* ff-jk.c in Sources */,
-				00000000A0B0C0E0000000A3 /* led.c in Sources */,
-				00000000A0B0C0E0000000A5 /* supply.c in Sources */,
-				00000000A0B0C0E0000000A7 /* osc.c in Sources */,
-				00000000A0B0C0E0000000B1 /* netlist_sim.c in Sources */,
-				00000000A0B0C0E0000000C1 /* cd4000.c in Sources */,
-				00000000A0B0C0E0000000C3 /* gates.c in Sources */,
-				00000000A0B0C0E0000000E1 /* sram.c in Sources */,
-				00000000A0B0C0E0000000F1 /* switch.c in Sources */,
-				00000000A0B0C0E0000000F3 /* led7.c in Sources */,
-				00000000A0B0C0E0000000A9 /* catalog_validate.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,7 +270,14 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readwrite;
 				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../backend";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../backend/include",
+					"$(PROJECT_DIR)/../backend/src",
+					"$(PROJECT_DIR)/../backend/src/engine",
+					"$(PROJECT_DIR)/../backend/src/library",
+					"$(PROJECT_DIR)/../backend/src/models",
+					"$(PROJECT_DIR)/../backend/src/third_party/cjson",
+				);
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -432,7 +312,14 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readwrite;
 				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../backend";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../backend/include",
+					"$(PROJECT_DIR)/../backend/src",
+					"$(PROJECT_DIR)/../backend/src/engine",
+					"$(PROJECT_DIR)/../backend/src/library",
+					"$(PROJECT_DIR)/../backend/src/models",
+					"$(PROJECT_DIR)/../backend/src/third_party/cjson",
+				);
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (

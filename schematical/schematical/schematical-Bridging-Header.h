@@ -2,13 +2,14 @@
 //  schematical-Bridging-Header.h
 //  schematical
 //
-//  Exposes the static backend (../backend, logic_backend) to Swift.
+//  Exposes the backend (../backend/src, compiled into the app) to Swift:
+//  the part library and the circuit simulator.
 //
 
 #ifndef SCHEMATICAL_BRIDGING_HEADER_H
 #define SCHEMATICAL_BRIDGING_HEADER_H
 
-#include "catalog.h"
-#include "netlist_sim.h"
+#include "parts.h"
+#include "circuit.h"
 
 #endif

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var catalog: ChipCatalogStore
+    @State private var catalog: PartCatalogStore
     @State private var document: SchematicDocument
     @State private var viewport = CanvasViewport()
     @State private var tool: SchematicTool = .pointer
@@ -23,9 +23,9 @@ struct ContentView: View {
     @State private var memoryWindows: Set<MemoryWindowTarget> = []
 
     init() {
-        let catalog = ChipCatalogStore()
+        let catalog = PartCatalogStore()
         let document = SchematicDocument()
-        let simulation = SimulationController()
+        let simulation = SimulationController(library: catalog.library)
         _catalog = State(initialValue: catalog)
         _document = State(initialValue: document)
         _simulation = State(initialValue: simulation)

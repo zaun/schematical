@@ -35,7 +35,7 @@ final class SchematicFileController {
     }
 
     private let document: SchematicDocument
-    private let catalog: ChipCatalogStore
+    private let catalog: PartCatalogStore
     /// Called before an opened file replaces the canvas, for example to stop
     /// a running simulation.
     private let willReplaceDocument: () -> Void
@@ -44,7 +44,7 @@ final class SchematicFileController {
     /// which also counts as saved.
     private var savedSnapshot: SchematicFile
 
-    init(document: SchematicDocument, catalog: ChipCatalogStore, willReplaceDocument: @escaping () -> Void) {
+    init(document: SchematicDocument, catalog: PartCatalogStore, willReplaceDocument: @escaping () -> Void) {
         self.document = document
         self.catalog = catalog
         self.willReplaceDocument = willReplaceDocument

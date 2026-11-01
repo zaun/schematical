@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.16)
 project(logic_backend LANGUAGES C)
 
 add_library(logic_backend STATIC
-    net.c
-    sim.c
+    src/engine/net.c
+    src/engine/sim.c
     catalog.c
     74_00.c
     74_08.c
@@ -29,6 +29,7 @@ add_library(logic_backend STATIC
 target_include_directories(logic_backend
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/engine
 )
 
 target_compile_features(logic_backend PUBLIC c_std_11)
@@ -81,8 +82,8 @@ add_test(NAME baseline_traces
 # ---- plan-01: the part library (new backend) -------------------------------
 # Builds next to logic_backend until plan-01-G removes the old files.
 add_library(logic STATIC
-    sim.c
-    net.c
+    src/engine/sim.c
+    src/engine/net.c
     src/circuit.c
     src/library/library.c
     src/library/kinds.c
@@ -102,6 +103,7 @@ add_library(logic STATIC
 target_include_directories(logic
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/engine
         ${CMAKE_CURRENT_SOURCE_DIR}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -135,11 +137,12 @@ add_executable(export_parts
     tools/export/export_switch.c
     tools/export/export_sram.c
     tools/export/export_7seg.c
-    sim.c
-    net.c
+    src/engine/sim.c
+    src/engine/net.c
     src/third_party/cjson/cJSON.c
 )
 target_include_directories(export_parts PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/engine
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/tools/export
     ${CMAKE_CURRENT_SOURCE_DIR}/src/third_party/cjson

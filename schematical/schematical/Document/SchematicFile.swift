@@ -196,7 +196,7 @@ extension SchematicFile {
     /// Rebuilds the document's contents, looking up each part in the catalog.
     /// Throws without touching the document if anything doesn't resolve.
     @MainActor
-    func apply(to document: SchematicDocument, catalog: ChipCatalogStore) throws {
+    func apply(to document: SchematicDocument, catalog: PartCatalogStore) throws {
         var seen = Set<UUID>()
         func claim(_ id: UUID) throws {
             guard seen.insert(id).inserted else { throw SchematicFileError.duplicateID(id) }
@@ -206,20 +206,18 @@ extension SchematicFile {
         var unknown: [String] = []
         for part in parts {
             try claim(part.id)
-            guard let chip = catalog.chip(forPartNumber: part.partNumber)
-                    ?? catalog.supplyChip(named: part.partNumber) else {
+            guard let catalogPart = catalog.part(named: part.partNumber) else {
                 unknown.append(part.partNumber)
                 continue
             }
-            let symbol = catalog.symbol(forPartNumber: part.partNumber)
+            let partSymbol = symbol(for: catalogPart)
             chips.append(PlacedChip(
                 id: part.id,
                 reference: part.reference,
-                partNumber: part.partNumber,
-                chip: chip,
-                symbol: symbol,
+                part: catalogPart,
+                symbol: partSymbol,
                 origin: SchematicGrid.snap(CGPoint(x: part.x, y: part.y)),
-                isFlipped: part.flipped && symbol.canFlip,
+                isFlipped: part.flipped && partSymbol.canFlip,
                 switchesOn: part.switches ?? []
             ))
         }

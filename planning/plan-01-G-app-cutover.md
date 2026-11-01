@@ -34,8 +34,8 @@ See plan-01-A §Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-01-F complete | `ls planning/completed/plan-01-F-circuit-api.md` → exists | NOT MET |
-| Library complete | `ctest --test-dir /tmp/logic-build -R 'listing_check|trace_check' --output-on-failure` → `3817 parts compared, 0 skipped` | NOT MET |
+| plan-01-F complete | `ls planning/completed/plan-01-F-circuit-api.md` → exists | MET (2026-10-31: exists, e2c33d6) |
+| Library complete | `ctest --test-dir /tmp/logic-build -R 'listing_check|trace_check' --output-on-failure` → `3817 parts compared, 0 skipped` | MET (2026-10-31: both `3817 parts compared, 0 skipped`) |
 
 ## 1. Goal
 
@@ -172,22 +172,34 @@ See plan-01-A §Prerequisites, plus:
 
 ### Phase 1 — Engine move, Xcode switch, Swift on the new API
 
-- [ ] Move the engine first: `git mv backend/sim.c backend/sim.h
+- [x] Move the engine first: `git mv backend/sim.c backend/sim.h
       backend/net.c backend/net.h backend/src/engine/`; in
       `backend/CMakeLists.txt` point both `logic_backend` and `logic` at
       `src/engine/sim.c`/`net.c` and add `src/engine` to both include paths
       (the old target still builds until Phase 2). The synchronized
       `../backend/src` folder can only see the engine once it is there.
-- [ ] Xcode: add the `../backend/src` synchronized group and the header
+      (Also `export_parts`, which compiles the engine too.) After the move:
+      `ctest` → 14/14 passed, `basicsim` unchanged.
+- [x] Xcode: add the `../backend/src` synchronized group and the header
       paths (§3.2) **and** remove the `../backend` explicit group in the same
       commit: the explicit group's `sim.c`/`net.c` entries point at files
       that just moved, and the app must stop compiling the old models.
-- [ ] Bridging header (§3.2).
-- [ ] Swift changes (§3.3), deleting `Backend/ChipCatalog.swift`.
+      `grep -c A0B0C0 project.pbxproj` → 0. Header paths also include
+      `src/models`.
+- [x] Bridging header (§3.2).
+- [x] Swift changes (§3.3), deleting `Backend/ChipCatalog.swift`.
+      `Backend/PartCatalog.swift` (`PartLibraryHandle`, `CatalogPart` with
+      `Details`, `PartCatalogStore`, `symbol(for:)` by kind, filters by
+      kind); `PlacedChip.part`; drawer headers by the kinds in a category;
+      `Simulation.swift` on `circuit.h` with one `lights` map. The Swift
+      pin-role enum is `ChipPinRole` (the C `PinRole` is now imported).
 
 Acceptance: the app builds; no old API or category string in Swift.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 3 min).
   Check: the §1 `grep` → no matches (est. seconds).
+  Result: clean build `** BUILD SUCCEEDED **` (one warning, at
+  `SchematicModel.swift:211`, present on `main` before this plan); §1 grep →
+  no matches (exit 1); the app bundle's Resources hold the nine part files.
 Commit: —
 
 ### Phase 2 — Delete the old backend, move the engine
@@ -232,7 +244,15 @@ See plan-01-A §Decisions. Nothing new.
 
 ## Corrections
 
-(empty)
+- plan-01-F's last commit (archive + Phase 2) is e2c33d6.
+- §3.3: the Swift enum `PinRole` clashes with the C `PinRole` now imported
+  through the bridging header (`parts.h`), so the Swift one is
+  `ChipPinRole` (adds `absent`; `ChipPin.isHidden` = role `absent`).
+  `CatalogPart` is `Hashable` by name (names are unique), since the imported
+  `PartKind` is a C enum.
+- The synchronized `../backend/src` folder also copies
+  `third_party/cjson/LICENSE` into the app's Resources (the cJSON license
+  ships with the app; nothing else in `src/` is a resource).
 
 ## Summary
 

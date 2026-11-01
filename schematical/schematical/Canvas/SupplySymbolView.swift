@@ -58,7 +58,7 @@ struct SupplySymbolView: View {
 
             // VCC's label sits inside the body above its bar; GND's sits below its bars.
             context.draw(
-                Text(chip.chip.function)
+                Text(chip.part.function)
                     .font(.system(size: 10, weight: .semibold, design: .monospaced)),
                 at: point(20, isGround ? 18 : 8),
                 anchor: .center
