@@ -8,6 +8,9 @@
   branch instead, and say so.
 - Never tree-wide `checkout`/`reset`/`restore`/`stash`; touch+commit only
   files you changed. Itemized commits.
+- Exception: a new plan is one commit. Commit all of its files together:
+  every lettered sub-plan, plus any edits to other plans it causes. Don't
+  make one commit per sub-plan.
 
 ## Datasheets
 
