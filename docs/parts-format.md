@@ -141,7 +141,7 @@ oscillator's `enablePin` is a pin designator; see below.)
 ## Parts
 
 ```json
-{"name": "SN74HC00N", "package": "DIP", "pinout": "p14", "family": "HC", "flags": ["obsolete"]}
+{"name": "SN74HC00N", "package": "DIP", "pinout": "p14", "footprint": "PDIP-14", "family": "HC", "flags": ["obsolete"]}
 ```
 
 | Key | Value |
@@ -150,7 +150,7 @@ oscillator's `enablePin` is a pin designator; see below.)
 | `"package"` | package name as shown, e.g. `"DIP"`, `"TSSOP"`, `"2520 VSON"`; may be empty (supplies) |
 | `"pinout"` | the name of one of the device's pinouts |
 | `"flags"` | optional, any of `obsolete`, `military`, `automotive`, `enhanced` |
-| `"footprint"` | optional; the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)) |
+| `"footprint"` | the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)). Required on every part except supplies (VCC, GND), which reject it |
 
 Every other key belongs to the kind.
 
@@ -314,6 +314,17 @@ number of them). `pad`, `drill`, `slots`, `centre` and `pin1Shape` are not
 allowed at the footprint level.
 
 ### The `"footprint"` part key
+
+- Every part names one, except supplies: a non-supply part without
+  `"footprint"` is rejected (`missing "footprint"`), and so is a supply
+  with one (`a supply has no footprint`).
+- Every footprint in the library lives in `footprints.json`. A new part
+  reuses one whose land pattern matches its package drawing; otherwise add a
+  footprint from the datasheet's package drawing, using the pad rules R1–R6
+  (`planning/completed/plan-03-B-logic-footprints.md` §3: the board layout
+  if the datasheet gives one, else the outline rules), with a `note` naming
+  the drawing, file and page. `footprint_check` fails on a footprint no part
+  uses.
 
 - The footprint must already be loaded: `load_footprints` runs before any
   `load_parts` (the app and the tests load `footprints.json` first; a

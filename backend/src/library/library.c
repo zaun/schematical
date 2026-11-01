@@ -429,9 +429,14 @@ static int load_part(KindContext *ctx, PartLibrary *library, FileParts *file,
     }
     part->pins = pinouts[p].pins;
     part->pin_count = pinouts[p].pin_count;
-    if (cJSON_GetObjectItemCaseSensitive(part_json, "footprint") != NULL &&
-        load_part_footprint(ctx, library, part_json, pinout_name, part) != 0) {
-        return -1;
+    /* Every part but a supply names its footprint (checked after the kind's load_part). */
+    if (cJSON_GetObjectItemCaseSensitive(part_json, "footprint") != NULL) {
+        if (ops->kind == PART_SUPPLY) {
+            return kind_error(ctx, "a supply has no footprint");
+        }
+        if (load_part_footprint(ctx, library, part_json, pinout_name, part) != 0) {
+            return -1;
+        }
     }
     internal->ops = ops;
     internal->device = device;
@@ -439,6 +444,9 @@ static int load_part(KindContext *ctx, PartLibrary *library, FileParts *file,
     part->internal = internal;
     if (ops->load_part(ctx, device, pinouts[p].bound, part_json, part) != 0 || kind_failed(ctx)) {
         return kind_error(ctx, "invalid part");
+    }
+    if (ops->kind != PART_SUPPLY && part->footprint == NULL) {
+        return kind_error(ctx, "missing \"footprint\"");
     }
     if (name_set_add(&file->names, part->name, part) != 0 || file_add_part(file, part) != 0) {
         return kind_error(ctx, "out of memory");

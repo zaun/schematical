@@ -19,6 +19,9 @@
   with `"flags": ["obsolete"]` in the kind's
   `schematical/schematical/Parts/<kind>.json`.
 - New parts are added by editing those part files (format:
-  `docs/parts-format.md`). Run the backend tests afterwards; a part whose
+  `docs/parts-format.md`). Every new part (except a supply) also names a
+  footprint from `schematical/schematical/Parts/footprints.json`; when no
+  existing footprint matches the datasheet's package drawing, add one from
+  that drawing (rules in `docs/parts-format.md` § Footprints). Run the backend tests afterwards; a part whose
   facts or behavior change on purpose needs its line regenerated in
   `backend/tests/golden/` (see `docs/backend.md`).

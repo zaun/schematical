@@ -235,17 +235,28 @@ static void check_memory(void) {
 
 /* A ball-pinout LED from an inline part file: "B2" (anode) on VCC, "A1" on GND lights it. */
 static void check_ball_led(void) {
+    /* Every part names a footprint; this one is a 2 x 2 grid holding A1 and B2. */
+    static const char *const footprints =
+        "{\"format\":\"schematical-footprints\",\"version\":1,\"footprints\":["
+        "{\"id\":\"BALL-LED-2\",\"description\":\"d\",\"style\":\"grid\",\"pins\":2,"
+        "\"rows\":2,\"columns\":2,\"pitch\":0.5,\"balls\":[\"A1\",\"B2\"],"
+        "\"body\":{\"width\":1,\"height\":1},\"pad\":{\"width\":0.2,\"height\":0.2,\"shape\":\"round\"}}]}";
     static const char *const text =
         "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"led\",\"devices\":["
         "{\"id\":\"led-ball\",\"function\":\"LED\",\"description\":\"d\",\"drawer\":[],"
         "\"pinouts\":{\"bga\":[{\"ball\":\"A1\",\"name\":\"K\",\"role\":\"input\"},"
         "{\"ball\":\"B2\",\"name\":\"A\",\"role\":\"input\"}]},"
         "\"color\":\"Red\",\"anode\":\"A\",\"cathode\":\"K\","
-        "\"parts\":[{\"name\":\"LED-BALL-BGA\",\"package\":\"BGA\",\"pinout\":\"bga\"}]}]}";
+        "\"parts\":[{\"name\":\"LED-BALL-BGA\",\"package\":\"BGA\",\"pinout\":\"bga\","
+        "\"footprint\":\"BALL-LED-2\"}]}]}";
     char *error = NULL;
     Circuit *c;
     size_t vcc, gnd, led, n0, n1;
 
+    expect(load_footprints(library, footprints, "ball-footprints.json", &error) == 0,
+           "a ball LED footprint loads");
+    free(error);
+    error = NULL;
     expect(load_parts(library, text, "ball.json", &error) == 0, "a ball-pinout LED loads");
     free(error);
     c = circuit_create(library);

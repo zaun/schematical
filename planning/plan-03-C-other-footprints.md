@@ -223,21 +223,25 @@ Commit: 9ec4107
 Acceptance: every non-supply part has a footprint.
   Check: `ctest --test-dir /tmp/logic-plan03 --output-on-failure` → all pass; `wc -l < backend/tests/golden/footprints.txt` → 126 (est. 1 min). — 2026-11-01: `100% tests passed, 0 tests failed out of 8`; 126.
   Check: `python3 -I` one-off: every part in every kind file except `supply.json` has `"footprint"` → 3815 (est. seconds). — 2026-11-01: 3815.
-Commit: —
+Commit: f969d99
 
 ### Phase 3 — Required key, docs
 
-- [ ] `library.c`: §4.5 rules; `library_check`: the two new cases, fixtures
-      updated.
-- [ ] `docs/parts-format.md`: `footprint` is required (except supplies);
+- [x] `library.c`: §4.5 rules; `library_check`: the two new cases, fixtures
+      updated. — a supply naming a footprint is rejected before the pin
+      check; a non-supply part without one after the kind's `load_part`.
+      `library_check` loads a fixture footprint set (T1/T2/T4/T5/T6, BGA2,
+      BGA4) and its valid fixture parts name them; `circuit_check`'s inline
+      ball LED gained a footprint too (it failed 4 checks without one).
+- [x] `docs/parts-format.md`: `footprint` is required (except supplies);
       the footprint list is in `footprints.json`.
-- [ ] `AGENTS.md` § Datasheets: a new part also names a footprint from
+- [x] `AGENTS.md` § Datasheets: a new part also names a footprint from
       `footprints.json`, added from the datasheet's package drawing when no
       existing footprint matches (rules in `docs/parts-format.md`).
 
 Acceptance: the loader enforces the key; docs and agent rules say so.
-  Check: `ctest --test-dir /tmp/logic-plan03 -R library_check --output-on-failure` → passes, including the two cases (est. 1 min).
-  Check: `grep -n 'footprint' AGENTS.md docs/parts-format.md | wc -l` → ≥ 3 (est. seconds).
+  Check: `ctest --test-dir /tmp/logic-plan03 -R library_check --output-on-failure` → passes, including the two cases (est. 1 min). — 2026-11-01: `100% tests passed, 0 tests failed out of 1`; `ok   non-supply part without footprint: … parts[0] (LED-NF): missing "footprint"`, `ok   supply part with footprint: … parts[0] (VCC): a supply has no footprint`; full ctest 8/8.
+  Check: `grep -n 'footprint' AGENTS.md docs/parts-format.md | wc -l` → ≥ 3 (est. seconds). — 2026-11-01: 27.
 Commit: —
 
 ## Validation Plan
@@ -281,6 +285,9 @@ See plan-03-A §Decisions. Author's choices recorded here: one footprint per
 - 2026-11-01: §2 cites SiT1534 text lines 1170/1230 for the land patterns;
   in a `pdftotext -layout` dump they are at lines 480 and 535 (PDF p.9 and
   p.10).
+- 2026-11-01 (Phase 3): `circuit_check` also builds a part from inline
+  JSON (`check_ball_led`); with the key required it failed 4 checks
+  ("a ball-pinout LED loads" …) until its fixture named a footprint.
 
 ## Summary
 

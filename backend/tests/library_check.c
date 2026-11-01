@@ -35,12 +35,50 @@ static char *json(const char *text) {
     return copy;
 }
 
+/*
+ * Footprints the fixture parts name ("footprint" is required on every part
+ * but a supply): T<n> is an n-pin dual, BGA2 holds balls A1 B2, BGA4 the
+ * 2 x 2 grid.
+ */
+#define FIXTURE_DUAL(ID, PINS, EXTRA) \
+    "{'id':'" ID "','description':'d','style':'dual','pins':" PINS EXTRA ",'body':{'width':1,'height':1}," \
+    "'pitch':1,'span':2,'pad':{'width':0.5,'height':0.5,'shape':'rect'}}"
+#define FIXTURE_FOOTPRINTS \
+    "{'format':'schematical-footprints','version':1,'footprints':[" \
+    FIXTURE_DUAL("T1", "1", ",'perSide':1") "," FIXTURE_DUAL("T2", "2", "") "," \
+    FIXTURE_DUAL("T4", "4", "") "," FIXTURE_DUAL("T5", "5", ",'perSide':3") "," \
+    FIXTURE_DUAL("T6", "6", "") "," \
+    "{'id':'BGA2','description':'d','style':'grid','pins':2,'rows':2,'columns':2,'pitch':0.5," \
+    "'balls':['A1','B2'],'body':{'width':1,'height':1},'pad':{'width':0.2,'height':0.2,'shape':'round'}}," \
+    "{'id':'BGA4','description':'d','style':'grid','pins':4,'rows':2,'columns':2,'pitch':0.5," \
+    "'balls':['A1','A2','B1','B2'],'body':{'width':1,'height':1},'pad':{'width':0.2,'height':0.2,'shape':'round'}}]}"
+
+/* Gives a library with no footprints the fixture set. */
+static void load_fixture_footprints(PartLibrary *library) {
+    char *source;
+    char *error = NULL;
+
+    if (part_library_footprint_count(library) > 0) {
+        return;
+    }
+    source = json(FIXTURE_FOOTPRINTS);
+    if (load_footprints(library, source, "fixtures.json", &error) != 0) {
+        printf("FAIL fixture footprints: %s\n", error != NULL ? error : "(none)");
+        failures++;
+    }
+    free(error);
+    free(source);
+}
+
 /* Loads text into a fresh library and expects failure with `expect` in the message. */
 static void expect_fail(const char *name, const char *text, const char *expect) {
     PartLibrary *library = part_library_create();
     char *source = json(text);
     char *error = NULL;
-    int result = load_parts(library, source, "test.json", &error);
+    int result;
+
+    load_fixture_footprints(library);
+    result = load_parts(library, source, "test.json", &error);
 
     if (result != -1 || error == NULL || strstr(error, expect) == NULL ||
         part_library_count(library) != 0) {
@@ -57,7 +95,10 @@ static void expect_fail(const char *name, const char *text, const char *expect) 
 
 static int load(PartLibrary *library, const char *text, char **error) {
     char *source = json(text);
-    int result = load_parts(library, source, "test.json", error);
+    int result;
+
+    load_fixture_footprints(library);
+    result = load_parts(library, source, "test.json", error);
 
     free(source);
     return result;
@@ -109,8 +150,8 @@ static void check_valid_supply(void) {
     "'dip4':[{'number':1,'name':'K','role':'input'},{'number':2,'name':'" ANODE2 "','role':'input'}," \
     "{'number':3,'name':'NC','role':'nc'},{'number':4,'name':'NC','role':'nc'}]}," \
     "'color':'Red','anode':'A','cathode':'K'," \
-    "'parts':[{'name':'LED-RED-0603','package':'0603','pinout':'two-pin'}," \
-    "{'name':'LED-RED-DIP','package':'DIP','pinout':'dip4'}]}"
+    "'parts':[{'name':'LED-RED-0603','package':'0603','pinout':'two-pin','footprint':'T2'}," \
+    "{'name':'LED-RED-DIP','package':'DIP','pinout':'dip4','footprint':'T4'}]}"
 
 static void check_valid_led(void) {
     PartLibrary *library = part_library_create();
@@ -240,7 +281,7 @@ static void check_supply_cases(void) {
                 "{'id':'o','function':'f','description':'d','drawer':[],"
                 "'pinouts':{'p':[{'number':1,'name':'OUT','role':'output'}]},"
                 "'family':'X','minHz':10,'maxHz':20,'outputs':['OUT'],"
-                "'parts':[{'name':'O1','package':'','pinout':'p','defaultHz':30}]}" TAIL,
+                "'parts':[{'name':'O1','package':'','pinout':'p','footprint':'T1','defaultHz':30}]}" TAIL,
                 "defaultHz 30 is outside minHz..maxHz");
     expect_fail("oscillator output naming a shared pin",
                 HEAD("oscillator")
@@ -258,8 +299,8 @@ static void check_supply_cases(void) {
     "'p5':[{'number':1,'name':'NC','role':'nc'},{'number':2,'name':'" PIN2 "','role':'input'}," \
     "{'number':3,'name':'B','role':'input'},{'number':4,'name':'C','role':'input'},{'number':5,'name':'Y','role':'output'}]}," \
     "'gates':" GATES ",'timing':" TIMING "," \
-    "'parts':[{'name':'G1','package':'DIP','pinout':'p4','family':'" FAMILY "'}," \
-    "{'name':'G2','package':'LCCC','pinout':'p5','family':'" FAMILY "'}]}"
+    "'parts':[{'name':'G1','package':'DIP','pinout':'p4','footprint':'T4','family':'" FAMILY "'}," \
+    "{'name':'G2','package':'LCCC','pinout':'p5','footprint':'T5','family':'" FAMILY "'}]}"
 
 static void check_gate_cases(void) {
     PartLibrary *library = part_library_create();
@@ -316,7 +357,7 @@ static void check_flipflop_cases(void) {
                "'units':[{'d':'D','clk':'CLK','q':'Q','qn':'QN'}],'presetActiveHigh':false,"
                "'clearActiveHigh':false,'clockEdge':'rising',"
                "'timing':{'HC':{'rise':20,'fall':18,'clearWins':false}},"
-               "'parts':[{'name':'D1','package':'DIP','pinout':'p6','family':'HC'}]}" TAIL,
+               "'parts':[{'name':'D1','package':'DIP','pinout':'p6','footprint':'T6','family':'HC'}]}" TAIL,
                &error) == 0);
     part = part_library_find(library, "D1");
     CHECK(part != NULL && part->kind == PART_DFF && part->logic->units == 1);
@@ -369,7 +410,7 @@ static void check_switch_cases(void) {
     "'address':['A0'],'data':['DQ0'],'chipEnable':['CE#'],'chipEnableHigh':[]," \
     "'outputEnable':'OE#','writeEnable':'WE#','byteEnable':[]," \
     "'grades':{'55':{'trc':55,'taa':55,'twpOeLow':45,'note':'n'}}," \
-    "'parts':[{'name':'M1','package':'DIP','pinout':'p6','grade':'" GRADE "'}]}" TAIL
+    "'parts':[{'name':'M1','package':'DIP','pinout':'p6','footprint':'T6','grade':'" GRADE "'}]}" TAIL
 
 static void check_sram_cases(void) {
     PartLibrary *library = part_library_create();
@@ -396,7 +437,7 @@ static void check_sram_cases(void) {
     "'chip':'c','leds':[{'digit':1,'segment':'A'},{'digit':0,'segment':'L1'}]," \
     "'segmentPins':{'A':{'digit':0,'segments':['A','L1']}}," \
     "'commonPins':{'CC':1,'L':" COMMON2 "},'segmentSide':" SEGMENT_SIDE ",'commonSide':['CC','L']," \
-    "'parts':[{'name':'LTS-X','package':'DIP','pinout':'p4'}]}" TAIL
+    "'parts':[{'name':'LTS-X','package':'DIP','pinout':'p4','footprint':'T4'}]}" TAIL
 
 static void check_display_cases(void) {
     PartLibrary *library = part_library_create();
@@ -425,8 +466,8 @@ static void check_display_cases(void) {
     HEAD("led") "{'id':'led-ball','function':'LED','description':'d','drawer':[]," \
     "'pinouts':{'dip2':[{'number':1,'name':'K','role':'input'},{'number':2,'name':'A','role':'input'}]," \
     "'bga':[" BGA_PINS "]},'color':'Red','anode':'A','cathode':'K'," \
-    "'parts':[{'name':'LED-BALL-DIP','package':'DIP','pinout':'dip2'}," \
-    "{'name':'LED-BALL-BGA','package':'BGA','pinout':'bga'}]}" TAIL
+    "'parts':[{'name':'LED-BALL-DIP','package':'DIP','pinout':'dip2','footprint':'T2'}," \
+    "{'name':'LED-BALL-BGA','package':'BGA','pinout':'bga','footprint':'BGA2'}]}" TAIL
 #define BALL_LED_PINS "{'ball':'A1','name':'K','role':'input'},{'ball':'B2','name':'A','role':'input'}"
 
 /* An oscillator with a ball pinout; ENABLE is the part's enablePin value. */
@@ -435,7 +476,7 @@ static void check_display_cases(void) {
     "'pinouts':{'bga':[{'ball':'A1','name':'OUT','role':'output'},{'ball':'A2','name':'OE','role':'input'}," \
     "{'ball':'B1','name':'GND','role':'ground'},{'ball':'B2','name':'VDD','role':'power'}]}," \
     "'family':'X','minHz':10,'maxHz':20,'outputs':['OUT']," \
-    "'parts':[{'name':'O1','package':'BGA','pinout':'bga','defaultHz':15,'enablePin':" ENABLE "}]}" TAIL
+    "'parts':[{'name':'O1','package':'BGA','pinout':'bga','footprint':'BGA4','defaultHz':15,'enablePin':" ENABLE "}]}" TAIL
 
 static void check_ball_cases(void) {
     PartLibrary *library = part_library_create();
@@ -870,6 +911,19 @@ static void check_part_footprints(void) {
                      FP_LED(FP_LED_NUMBERED, "'BGA-2'"), "pin \"1\" has no pad in footprint \"BGA-2\"");
     expect_part_fail("part: footprint not a string", FP_FILE(FP_CHIP2), FP_LED(FP_LED_NUMBERED, "2"),
                      "\"footprint\" must be a string");
+
+    /* plan-03-C: the key is required on every part but a supply, which rejects it. */
+    expect_fail("non-supply part without footprint",
+                HEAD("led") "{'id':'led-nf','function':'LED','description':'d','drawer':[],"
+                "'pinouts':{'p':[" FP_LED_NUMBERED "]},'color':'Red','anode':'A','cathode':'K',"
+                "'parts':[{'name':'LED-NF','package':'X','pinout':'p'}]}" TAIL,
+                "parts[0] (LED-NF): missing \"footprint\"");
+    expect_fail("supply part with footprint",
+                HEAD("supply")
+                "{'id':'VCC','function':'VCC','description':'d','drawer':[],"
+                "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'level':1,"
+                "'parts':[{'name':'VCC','package':'','pinout':'pin','footprint':'T1'}]}" TAIL,
+                "parts[0] (VCC): a supply has no footprint");
 }
 
 int main(void) {
