@@ -8,7 +8,8 @@ nonisolated enum BoardScale {
     static let pointsPerMM: CGFloat = 20
 }
 
-/// Footprints snap to a 0.635 mm (25 mil) grid; 2.54 mm pin pitches land on it.
+/// Footprints snap to a 0.635 mm (25 mil) grid by the top-left corner of their
+/// bounding box (body plus pads, as turned), so edges of parts line up.
 nonisolated enum BoardGrid {
     static let spacing: CGFloat = 0.635
 
@@ -137,24 +138,34 @@ nonisolated enum BoardLayout {
         return bounds
     }
 
+    /// The placement moved so the top-left of the footprint's bounding box
+    /// (body plus pads, as turned) sits on the grid.
+    static func snapped(_ placement: BoardPlacement, footprint: Footprint) -> BoardPlacement {
+        let bounds = localBounds(of: footprint).applying(placement)
+        var snapped = placement
+        snapped.centre.x += BoardGrid.snap(bounds.minX) - bounds.minX
+        snapped.centre.y += BoardGrid.snap(bounds.minY) - bounds.minY
+        return snapped
+    }
+
     /// Where a newly placed footprint goes: the first at (0, 0); later ones to
     /// the right of everything already placed, 2.54 mm apart, top edges
-    /// aligned. Snapped to the grid.
+    /// aligned. Top-left snapped to the grid.
     static func nextSpot(for footprint: Footprint, among chips: [PlacedChip]) -> BoardPlacement {
         let placed = chips.compactMap(\.boardBounds)
         guard let first = placed.first else {
-            return BoardPlacement(centre: .zero, rotation: 0)
+            return snapped(BoardPlacement(centre: .zero, rotation: 0), footprint: footprint)
         }
         let union = placed.dropFirst().reduce(first) { $0.union($1) }
         let local = localBounds(of: footprint)
         let centre = CGPoint(x: union.maxX + 2.54 - local.minX, y: union.minY - local.minY)
-        return BoardPlacement(centre: BoardGrid.snap(centre), rotation: 0)
+        return snapped(BoardPlacement(centre: centre, rotation: 0), footprint: footprint)
     }
 }
 
-private extension CGRect {
+extension CGRect {
     /// This footprint-local rectangle on the board.
-    func applying(_ placement: BoardPlacement) -> CGRect {
+    nonisolated func applying(_ placement: BoardPlacement) -> CGRect {
         placement.board(centre: CGPoint(x: midX, y: midY), size: size)
     }
 }

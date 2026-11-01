@@ -25,8 +25,9 @@ All positions are in canvas units. The grid spacing is 10 units, and y grows
 downward. Part origins are snapped to the grid when a file is opened.
 
 PCB placements (`pcb`, below) are in board millimetres instead: the
-footprint's centre (the middle of its body), y down, snapped to a 0.635 mm
-(25 mil) grid when a file is opened.
+footprint's centre (the middle of its body), y down. When a file is opened
+the footprint is shifted so the top-left of its bounding box (body plus pads,
+as rotated) sits on the 0.635 mm (25 mil) grid.
 
 ## Top level
 

@@ -258,12 +258,13 @@ extension SchematicFile {
             let partSymbol = symbol(for: catalogPart)
             // A stored placement counts only for a part with a footprint.
             var board: BoardPlacement?
-            if let pcb = part.pcb, catalogPart.footprint != nil {
+            if let pcb = part.pcb, let footprint = catalogPart.footprint {
                 guard BoardPlacement.rotations.contains(pcb.rotation) else {
                     throw SchematicFileError.badRotation(reference: part.reference, rotation: pcb.rotation)
                 }
-                board = BoardPlacement(centre: BoardGrid.snap(CGPoint(x: pcb.x, y: pcb.y)),
-                                       rotation: pcb.rotation)
+                board = BoardLayout.snapped(
+                    BoardPlacement(centre: CGPoint(x: pcb.x, y: pcb.y), rotation: pcb.rotation),
+                    footprint: footprint)
             }
             chips.append(PlacedChip(
                 id: part.id,
