@@ -50,10 +50,20 @@ struct ChipDrawerView: View {
                             } label: {
                                 Text(function.function)
                                     .font(.body.weight(.medium))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        toggle(functionKey(category.category, function.function), defaultOpen: false)
+                                    }
                             }
                         }
                     } label: {
+                        // Menus in the header keep their own clicks; the rest toggles the group.
                         categoryHeader(category.category)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                toggle(categoryKey(category.category), defaultOpen: true)
+                            }
                     }
                 }
             }
@@ -218,6 +228,13 @@ struct ChipDrawerView: View {
 
     private func functionKey(_ category: String, _ function: String) -> String {
         "function:\(category)/\(function)"
+    }
+
+    /// Opens or closes a group when its label is clicked, like its chevron.
+    private func toggle(_ key: String, defaultOpen: Bool) {
+        withAnimation(.easeInOut(duration: 0.15)) {
+            expansion(for: key, defaultOpen: defaultOpen).wrappedValue.toggle()
+        }
     }
 
     private func expansion(for key: String, defaultOpen: Bool) -> Binding<Bool> {
