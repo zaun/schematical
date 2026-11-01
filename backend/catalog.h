@@ -14,8 +14,10 @@ const ChipDefinition *catalog_definition_at(size_t index);
  * Writes the catalog as JSON:
  *   {"chips":[{"id":..,"function":..,"description":..,"category":..,
  *              "subcategory":.. (only when set, e.g. "SRAM"),
+ *              ("gateCount" is the number of positions for switches)
  *              "parts":[{"name":..,"package":..,"family":..,"obsolete":bool,
- *                        (for SRAMs, "family" is the speed grade, e.g. "55 ns")
+ *                        (for SRAMs, "family" is the speed grade, e.g. "55 ns";
+                         for switches, the actuator style, e.g. "Piano actuator")
  *                        "military":bool,"automotive":bool,"enhanced":bool}],
  *              "pins":[{"number":..,"name":..,"role":..,"group":..}]}],
  *    "leds":[{"name":..,"color":..,"package":..,

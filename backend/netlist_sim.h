@@ -10,9 +10,12 @@
  *     nets <count>
  *     part <index> <part number>          e.g. "part 0 LED-RED-0603"
  *     pin <part index> <pin number> <net> pin numbers are 1-based, as on the part
+ *     switch <part index> <position> <0|1> a switch position's starting state,
+ *                                         1 = ON; positions are 1-based
  *
- * Parts must be declared before their pins. A pin that is not listed is
- * unconnected and reads as Z.
+ * Parts must be declared before their pins and switch lines. A pin that is
+ * not listed is unconnected and reads as Z. Switch positions not listed
+ * start OFF.
  *
  * Snapshot, one item per line:
  *
@@ -75,6 +78,13 @@ size_t netlist_sim_inspect_memory(
     uint32_t *values,
     uint32_t *known
 );
+
+/*
+ * Turns a switch position (1-based) ON or OFF. It takes effect at the current
+ * simulated time, on the next netlist_sim_advance. Returns 1 on success, 0
+ * when the part is not a switch or the position is out of range.
+ */
+int netlist_sim_set_switch(NetlistSim *sim, size_t part, size_t position, int on);
 
 void netlist_sim_close(NetlistSim *sim);
 

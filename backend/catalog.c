@@ -17,6 +17,7 @@
 #include "osc.h"
 #include "sram.h"
 #include "supply.h"
+#include "switch.h"
 
 static const ChipDefinition *const DEFINITIONS[] = {
     &SN74_00_DEFINITION,
@@ -75,12 +76,18 @@ static const ChipDefinition *const DEFINITIONS[] = {
 #undef SRAM_CHIP
 };
 
+#define CHIP_DEFINITION_COUNT (sizeof(DEFINITIONS) / sizeof(DEFINITIONS[0]))
+
+/* The chips above, then the switches (switch.c). */
 size_t catalog_definition_count(void) {
-    return sizeof(DEFINITIONS) / sizeof(DEFINITIONS[0]);
+    return CHIP_DEFINITION_COUNT + switch_definition_count();
 }
 
 const ChipDefinition *catalog_definition_at(size_t index) {
-    return index < catalog_definition_count() ? DEFINITIONS[index] : NULL;
+    if (index < CHIP_DEFINITION_COUNT) {
+        return DEFINITIONS[index];
+    }
+    return switch_definition_at(index - CHIP_DEFINITION_COUNT);
 }
 
 static const char *role_name(PinRole role) {
@@ -161,6 +168,7 @@ static const char *package_name(PackageType package) {
         case PACKAGE_TYPE_STSOP_I: return "sTSOP-I";
         case PACKAGE_TYPE_TSOP_II: return "TSOP-II";
         case PACKAGE_TYPE_TFBGA: return "TFBGA";
+        case PACKAGE_TYPE_SMD: return "SMD";
     }
     return "unknown";
 }
@@ -188,6 +196,7 @@ static const char *family_name(LogicFamily family) {
         case LOGIC_FAMILY_ALVC: return "ALVC";
         case LOGIC_FAMILY_TTL: return "TTL";
         case LOGIC_FAMILY_SRAM: return "SRAM";
+        case LOGIC_FAMILY_SWITCH: return "Switch";
     }
     return "unknown";
 }
@@ -228,6 +237,10 @@ static void write_chip(FILE *out, const ChipDefinition *chip) {
             /* An SRAM's family is its speed grade, the address access time. */
             fprintf(out, ",\"family\":\"%llu ns\"",
                     (unsigned long long)(sram_access_time(&config) / 1000));
+        } else if (config.family == LOGIC_FAMILY_SWITCH) {
+            /* A switch's family is its actuator style, e.g. "Piano actuator". */
+            fputs(",\"family\":", out);
+            write_json_string(out, switch_family_label(&config));
         } else {
             fprintf(out, ",\"family\":\"%s\"", family_name(config.family));
         }
@@ -334,7 +347,7 @@ void catalog_write_json(FILE *out) {
         if (i > 0) {
             fputc(',', out);
         }
-        write_chip(out, DEFINITIONS[i]);
+        write_chip(out, catalog_definition_at(i));
     }
 
     /* Generic LEDs: one entry per orderable color and package. */

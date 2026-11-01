@@ -43,6 +43,7 @@ typedef enum {
     PACKAGE_TYPE_STSOP_I,   /* small TSOP type I, 8 x 13.4 mm */
     PACKAGE_TYPE_TSOP_II,
     PACKAGE_TYPE_TFBGA,
+    PACKAGE_TYPE_SMD,       /* surface-mount switch (switch.c) */
 } PackageType;
 
 typedef enum {
@@ -66,7 +67,8 @@ typedef enum {
     LOGIC_FAMILY_AUC,
     LOGIC_FAMILY_ALVC,
     LOGIC_FAMILY_TTL,   /* standard TTL (5476, 54107) */
-    LOGIC_FAMILY_SRAM   /* asynchronous SRAM (sram.c) */
+    LOGIC_FAMILY_SRAM,  /* asynchronous SRAM (sram.c) */
+    LOGIC_FAMILY_SWITCH /* switch (switch.c) */
 } LogicFamily;
 
 typedef struct {

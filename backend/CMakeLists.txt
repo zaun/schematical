@@ -22,6 +22,7 @@ add_library(logic_backend STATIC
     cd4000.c
     gates.c
     sram.c
+    switch.c
 )
 
 target_include_directories(logic_backend
@@ -44,3 +45,7 @@ add_test(NAME netlist_check COMMAND netlist_check)
 add_executable(sram_check sram_check.c)
 target_link_libraries(sram_check PRIVATE logic_backend)
 add_test(NAME sram_check COMMAND sram_check)
+
+add_executable(switch_check switch_check.c)
+target_link_libraries(switch_check PRIVATE logic_backend)
+add_test(NAME switch_check COMMAND switch_check)

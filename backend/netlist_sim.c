@@ -13,6 +13,7 @@
 #include "sim.h"
 #include "sram.h"
 #include "supply.h"
+#include "switch.h"
 
 #define LINE_MAX_LENGTH 512
 #define PART_NUMBER_MAX_LENGTH 128
@@ -239,6 +240,22 @@ static int parse_line(NetlistSim *netlist, char *line, char **error_out) {
         return 1;
     }
 
+    if (strcmp(command, "switch") == 0) {
+        if (sscanf(line, "%*s %31s %31s %31s", a, b, c) != 3) {
+            fail_open("malformed switch line", error_out);
+            return 0;
+        }
+        if (!parse_index(a, netlist->part_count, &index) ||
+            !parse_index(b, (size_t)-1, &pin_number) ||
+            (strcmp(c, "0") != 0 && strcmp(c, "1") != 0) ||
+            !switch_set_position(netlist->sim, netlist->parts[index], pin_number,
+                                 strcmp(c, "1") == 0)) {
+            fail_open("switch line refers to an unknown switch or position", error_out);
+            return 0;
+        }
+        return 1;
+    }
+
     fail_open("unknown directive", error_out);
     return 0;
 }
@@ -449,6 +466,13 @@ size_t netlist_sim_inspect_memory(
     const SimInstance *instance = part_at(netlist, part);
 
     return instance != NULL ? sram_inspect(instance, start, count, values, known) : 0;
+}
+
+int netlist_sim_set_switch(NetlistSim *netlist, size_t part, size_t position, int on) {
+    if (netlist == NULL || part >= netlist->part_count) {
+        return 0;
+    }
+    return switch_set_position(netlist->sim, netlist->parts[part], position, on);
 }
 
 void netlist_sim_close(NetlistSim *netlist) {
