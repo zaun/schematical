@@ -66,3 +66,6 @@ target_link_libraries(old_baseline PUBLIC logic_backend)
 
 add_executable(old_trace tools/baseline/old_trace.c)
 target_link_libraries(old_trace PRIVATE old_baseline)
+
+add_executable(old_listing tools/baseline/old_listing.c)
+target_link_libraries(old_listing PRIVATE old_baseline)

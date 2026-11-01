@@ -586,18 +586,25 @@ Both link `logic_backend` and `tests/support/trace_core.c`. They live under
 
 Acceptance: 3,817 lines, deterministic, sensitive to timing.
   Check: `wc -l < backend/tests/golden/traces.txt` → `3817`; `old_trace | diff - backend/tests/golden/traces.txt` → no output (run twice) (est. under 1 min; `catalog_check`, which runs every part, takes 1.6 s today).
-  Check: the spot check above → only `SN74HC00*` lines differ (est. 3 min).
-Commit: —
+  Check: the spot check above → only the 38 HC quad-NAND (`74_00`) lines differ (corrected; est. 3 min).
+  Result: `3817`; two runs identical; spot check → 38 lines, all HC quad NAND.
+Commit: 057c317
 
 ### Phase 2 — Golden listing
 
-- [ ] `backend/tools/baseline/old_listing.c`: §4.2/§4.3.
-- [ ] `backend/CMakeLists.txt`: executable `old_listing`.
-- [ ] Generate `backend/tests/golden/parts.txt`.
+- [x] `backend/tools/baseline/old_listing.c`: §4.2/§4.3. Supplies have no
+      package in the old backend: their `package` field is empty
+      (`VCC|supply|||VCC|||level=1|1:VCC:power:default`).
+- [x] `backend/CMakeLists.txt`: executable `old_listing`.
+- [x] Generate `backend/tests/golden/parts.txt`. `wc -l` → 3817; every line
+      has 9 `|` fields; every pin entry has 4 `:` fields (no separator inside
+      a pin name).
 
 Acceptance: one line per part, every kind present with today's counts.
   Check: `cut -d'|' -f2 backend/tests/golden/parts.txt | sort | uniq -c` → gate 2552, dff 672, jkff 186, sram 172, switch 36, 7seg 49, led 55, oscillator 93, supply 2 (est. 1 min).
   Check: `grep '^SN74HC00N|' backend/tests/golden/parts.txt` → `…|gate|DIP|Logic|NAND|HC||units=4|1:1A:input:default,…` (est. seconds).
+  Result: `49 7seg, 672 dff, 2552 gate, 186 jkff, 55 led, 93 oscillator, 172 sram, 2 supply, 36 switch`;
+  `SN74HC00N|gate|DIP|Logic|NAND|HC||units=4|1:1A:input:default,2:1B:input:default,…,14:VCC:power:default`.
 Commit: —
 
 ### Phase 3 — Keep the goldens honest until G
