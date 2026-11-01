@@ -22,12 +22,38 @@ nonisolated struct ChipPin: Codable, Hashable, Sendable, Identifiable {
 }
 
 /// One orderable part number, with the package and family the model reports for it.
+/// The flags come from the backend's `PART_FLAG_*` bits. Parts the backend
+/// sends without them (and LEDs and oscillators, built in the app) count as
+/// current, commercial parts.
 nonisolated struct ChipPart: Codable, Hashable, Sendable, Identifiable {
     let name: String
     let package: String
     let family: String
+    let obsolete: Bool
+    let military: Bool
+    let automotive: Bool
 
     var id: String { name }
+
+    init(name: String, package: String, family: String,
+         obsolete: Bool = false, military: Bool = false, automotive: Bool = false) {
+        self.name = name
+        self.package = package
+        self.family = family
+        self.obsolete = obsolete
+        self.military = military
+        self.automotive = automotive
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
+        package = try container.decode(String.self, forKey: .package)
+        family = try container.decode(String.self, forKey: .family)
+        obsolete = try container.decodeIfPresent(Bool.self, forKey: .obsolete) ?? false
+        military = try container.decodeIfPresent(Bool.self, forKey: .military) ?? false
+        automotive = try container.decodeIfPresent(Bool.self, forKey: .automotive) ?? false
+    }
 }
 
 /// One chip family, exactly as the backend describes it.
@@ -138,6 +164,22 @@ struct DrawerFilter: Equatable {
     var category: String?
     var package: String?
     var family: String?
+    /// Which flagged parts to list. Set from the user's preferences.
+    var visibility = PartVisibility()
+}
+
+/// Which kinds of flagged parts the drawer lists. A part with several flags is
+/// listed only when every one of its flags is allowed.
+struct PartVisibility: Equatable {
+    var showObsolete = false
+    var showMilitary = false
+    var showAutomotive = false
+
+    func allows(_ part: ChipPart) -> Bool {
+        (showObsolete || !part.obsolete)
+            && (showMilitary || !part.military)
+            && (showAutomotive || !part.automotive)
+    }
 }
 
 // MARK: - Store
@@ -231,6 +273,9 @@ final class ChipCatalogStore {
         let needle = filter.query.trimmingCharacters(in: .whitespaces)
 
         let matches = entries.filter { entry in
+            if !filter.visibility.allows(entry.part) {
+                return false
+            }
             if let category = filter.category, entry.chip.category != category {
                 return false
             }
