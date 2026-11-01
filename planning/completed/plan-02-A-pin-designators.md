@@ -371,7 +371,7 @@ Commit: ff34e48
 Acceptance: the docs describe the new API and keys, with no stale number wording.
   Check: `grep -nE 'circuit_connect\(c, [a-z]+, [0-9]' docs/backend.md backend/include/circuit.h; grep -n '"ball"' docs/parts-format.md | head -1` → no matches from the first grep; a line from the second (est. seconds).
   Result (2026-11-01): first grep → no matches (rc=1); second → `88:- **Ball** (BGA, CSP grids): each pin has \`"ball"\`…`.
-Commit: —
+Commit: 5c5c817
 
 ## Validation Plan
 
@@ -393,6 +393,19 @@ Commit: —
   (est. 30 s), the Phase 2 `xcodebuild` (est. 30 s), and the runtime proof
   (est. 10 min).
 
+## Final gate (run 2026-11-01)
+
+- `cmake -S backend -B /tmp/logic-bga-final && cmake --build /tmp/logic-bga-final -j8 && ctest --test-dir /tmp/logic-bga-final && git diff --quiet 6861e27 -- backend/tests/golden`
+  → `100% tests passed, 0 tests failed out of 7`, `goldens-untouched`.
+- Phase 2 `xcodebuild` → `** BUILD SUCCEEDED **`.
+- Runtime proof, headless (see Corrections): `test.schematical` opens with
+  U2 `OSC-SIT1534-1508` labels `3 2 1 4`, U3 `LED-AMBER-0603` `2 1`, supplies
+  `1`, identical to the same harness built from `main`
+  (`diff main.out wt.out` → only main's extra "saved" line); the six wires
+  land on the same named pins; Play → `running: true error: none`,
+  `lights U3: [true]`; Save As `/tmp/plan02a.schematical`, then
+  `diff <(jq -S . test.schematical) <(jq -S . /tmp/plan02a.schematical)` → no output.
+
 ## Decisions
 
 - Grid packages use a new `"ball"` pin key; numbered pinouts keep `"number"` unchanged. A pinout is all-number or all-ball. Decided by the owner, 2026-10-31. This keeps churn out of the 2,750 existing pin lines (`grep -c '"number"'` over gate/dff/sram = 940+284+1526). (§4.1)
@@ -400,6 +413,24 @@ Commit: —
 - All 37 BGA devices (12 SRAM TFBGA, 25 TI DSBGA) get real ball names. Decided by the owner, 2026-10-31. That is plan-02-C. (plan-02-C)
 
 ## Corrections
+
+- **Runtime proof driven headlessly (2026-11-01).** The Mac's session was
+  locked (`CGSessionCopyCurrentDictionary` → `CGSSessionScreenIsLocked = 1`;
+  `screencapture` gave a black frame), so the GUI could not be driven. Added
+  the missing test affordance: `/tmp/harness/build.sh` compiles the app's own
+  Swift sources (all but `schematicalApp.swift`) and the backend C into a
+  CLI, placed inside a copy of the Debug `.app` so `Bundle.main` finds the
+  part files. Its `main.swift` uses the app's paths: `SchematicFile.decode` +
+  `apply(to:catalog:)` (open), `chip.layout.slots` with the exact label
+  expression the views draw (`slot.pin.designator`), `SimulationController`
+  (Play), and `SchematicFile(document:).encoded()` (Save). The same harness
+  built from `main` (label `slot.pin.number`) gives the comparison.
+- **Saved bytes are not stable run to run, on `main` too.** `encoded()` uses
+  `JSONEncoder` without `.sortedKeys`, so key order varies per save (two
+  saves of `test.schematical`, from `main` and from this branch, differ
+  byte-wise but `jq -S` equal). The plan's own check is the `jq -S` diff, which
+  passes; "the bytes the app writes do not change" in the Non-goals means the
+  same JSON values, not the same key order.
 
 ## Summary
 
