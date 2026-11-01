@@ -59,10 +59,10 @@ These are a precondition on all of plan-01, stated once here; B–G point here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| On the intended branch (`main` unless the owner chose another) | `git -C /Users/justinzaun/Development/logic branch --show-current` → `main` | MET |
-| Working tree clean before starting | `git -C /Users/justinzaun/Development/logic status --short` → empty | MET |
-| Current backend builds and its 5 tests pass | `cmake -S backend -B /tmp/logic-old && cmake --build /tmp/logic-old -j8 && ctest --test-dir /tmp/logic-old` → `100% tests passed, 0 tests failed out of 5` | MET (2026-10-31) |
-| CMake, Python 3 and Xcode present | `which cmake python3 && xcodebuild -version` → paths, `Xcode 26.3` | MET |
+| On the intended branch (`main` unless the owner chose another) | `git -C /Users/justinzaun/Development/logic branch --show-current` → `main` | MET (2026-10-31 at /follow-plan start: `main` 7cfcf15; work runs in worktree `worktree-P-01` forked from it) |
+| Working tree clean before starting | `git -C /Users/justinzaun/Development/logic status --short` → empty | MET (2026-10-31: empty) |
+| Current backend builds and its 5 tests pass | `cmake -S backend -B /tmp/logic-old && cmake --build /tmp/logic-old -j8 && ctest --test-dir /tmp/logic-old` → `100% tests passed, 0 tests failed out of 5` | MET (2026-10-31: `100% tests passed, 0 tests failed out of 5`) |
+| CMake, Python 3 and Xcode present | `which cmake python3 && xcodebuild -version` → paths, `Xcode 26.3` | MET (2026-10-31: brew cmake/python3, `Xcode 26.3`) |
 
 Everything below is written against the world where these hold.
 
@@ -568,13 +568,21 @@ Both link `logic_backend` and `tests/support/trace_core.c`. They live under
 
 ### Phase 1 — Trace harness and golden traces
 
-- [ ] `backend/tests/support/trace_core.c` + `trace_core.h`: §4.1 exactly.
-- [ ] `backend/tools/baseline/old_trace.c`: §4.3.
-- [ ] `backend/CMakeLists.txt`: executable `old_trace` (links `logic_backend`).
-- [ ] Generate `backend/tests/golden/traces.txt` with `old_trace > backend/tests/golden/traces.txt`.
-- [ ] Sensitivity spot check (not committed): change `74_00.c` HC fall delay
-      `4500`→`4600`, rebuild, rerun; the `SN74HC00*` hashes change and no
-      other part's does; revert.
+- [x] `backend/tests/support/trace_core.c` + `trace_core.h`: §4.1 exactly
+      (one FNV-1a accumulator shared by probe and light strings; integers
+      folded as 8 little-endian bytes).
+- [x] `backend/tools/baseline/old_parts.c`/`.h` (added): the old-API walk
+      shared by `old_trace` and `old_listing`.
+- [x] `backend/tools/baseline/old_trace.c`: §4.3.
+- [x] `backend/CMakeLists.txt`: executable `old_trace` (links `logic_backend`
+      through the `old_baseline` helper library).
+- [x] Generate `backend/tests/golden/traces.txt` with `old_trace > backend/tests/golden/traces.txt`.
+      `wc -l` → 3817; second run `diff -q` → identical; 0 duplicate hashes.
+- [x] Sensitivity spot check (not committed): change `74_00.c` HC fall delay
+      `9000`→`9100` (corrected, see Corrections), rebuild, rerun → 38 lines
+      differ, exactly the 38 `gate|…|NAND|HC||units=4` parts (15 `SN74HC00*`
+      + CD74HC00/SN54HC00/military numbers of the same device); reverted,
+      rerun `diff -q` → identical.
 
 Acceptance: 3,817 lines, deterministic, sensitive to timing.
   Check: `wc -l < backend/tests/golden/traces.txt` → `3817`; `old_trace | diff - backend/tests/golden/traces.txt` → no output (run twice) (est. under 1 min; `catalog_check`, which runs every part, takes 1.6 s today).
@@ -627,7 +635,14 @@ Commit: —
 
 ## Corrections
 
-(empty)
+- Phase 1 spot check: `74_00.c` has no HC `4500` delay — HC is
+  `(FamilyTiming){9000, 9000}` (`74_00.c:139`; `4500` is AC's fall and AS's
+  rise). Used HC fall `9000`→`9100`. The predicted changed set "`SN74HC00*`
+  only" was miscalibrated: the HC timing applies to every HC part of devices
+  `74_00`/`74_00_FK`, so the correct expectation is the 38 HC quad-NAND
+  parts (measured: diff of the two runs → 38 names, all
+  `gate|NAND|HC|units=4`; `awk -F'|' '$5=="NAND" && $6=="HC" && $8=="units=4"' parts.txt | wc -l` → 38).
+- Phase 1: `old_trace` takes ~6 s CPU (22 s wall) for all 3,817 parts.
 
 ## Summary
 

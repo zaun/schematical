@@ -54,3 +54,15 @@ add_test(NAME switch_check COMMAND switch_check)
 add_executable(led7_check led7_check.c)
 target_link_libraries(led7_check PRIVATE logic_backend)
 add_test(NAME led7_check COMMAND led7_check)
+
+# ---- plan-01-A baseline: goldens recorded from the old backend ------------
+# tools/baseline dies with the old backend (plan-01-G); tests/support stays.
+add_library(old_baseline STATIC
+    tools/baseline/old_parts.c
+    tests/support/trace_core.c
+)
+target_include_directories(old_baseline PUBLIC tools/baseline tests/support)
+target_link_libraries(old_baseline PUBLIC logic_backend)
+
+add_executable(old_trace tools/baseline/old_trace.c)
+target_link_libraries(old_trace PRIVATE old_baseline)
