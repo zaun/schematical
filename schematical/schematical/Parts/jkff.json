@@ -284,14 +284,14 @@
         {"name":"SN74LS109ANSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
         {"name":"SNJ54LS109AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"]},
         {"name":"SNJ54LS109AW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"]},
-        {"name":"84000012A","package":"LCCC","pinout":"lccc20","family":"ALS","flags":["military"]},
-        {"name":"SNJ54ALS109AFK","package":"LCCC","pinout":"lccc20","family":"ALS","flags":["military"]},
-        {"name":"5962-9758001Q2A","package":"LCCC","pinout":"lccc20","family":"F","flags":["military"]},
-        {"name":"JM38510/34102B2A","package":"LCCC","pinout":"lccc20","family":"F","flags":["military"]},
-        {"name":"M38510/34102B2A","package":"LCCC","pinout":"lccc20","family":"F","flags":["military"]},
-        {"name":"SNJ54F109FK","package":"LCCC","pinout":"lccc20","family":"F","flags":["military"]},
-        {"name":"84150012A","package":"LCCC","pinout":"lccc20","family":"HC","flags":["military"]},
-        {"name":"SNJ54HC109FK","package":"LCCC","pinout":"lccc20","family":"HC","flags":["military"]}
+        {"name":"84000012A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
+        {"name":"SNJ54ALS109AFK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
+        {"name":"5962-9758001Q2A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"F","flags":["military"]},
+        {"name":"JM38510/34102B2A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"F","flags":["military"]},
+        {"name":"M38510/34102B2A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"F","flags":["military"]},
+        {"name":"SNJ54F109FK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"F","flags":["military"]},
+        {"name":"84150012A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military"]},
+        {"name":"SNJ54HC109FK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military"]}
       ]
     },
     {
@@ -424,12 +424,12 @@
         {"name":"SN74LVC112APWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
         {"name":"SN74LVC112APWRG4","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
         {"name":"SN74LVC112APWT","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
-        {"name":"JM38510/37103B2A","package":"LCCC","pinout":"lccc20","family":"ALS","flags":["military"]},
-        {"name":"M38510/37103B2A","package":"LCCC","pinout":"lccc20","family":"ALS","flags":["military"]},
-        {"name":"84088012A","package":"LCCC","pinout":"lccc20","family":"HC","flags":["military"]},
-        {"name":"SNJ54HC112FK","package":"LCCC","pinout":"lccc20","family":"HC","flags":["military"]},
-        {"name":"SNJ54LS112AFK","package":"LCCC","pinout":"lccc20","family":"LS","flags":["military"]},
-        {"name":"SNJ54S112FK","package":"LCCC","pinout":"lccc20","family":"S","flags":["military"]}
+        {"name":"JM38510/37103B2A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
+        {"name":"M38510/37103B2A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
+        {"name":"84088012A","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military"]},
+        {"name":"SNJ54HC112FK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military"]},
+        {"name":"SNJ54LS112AFK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military"]},
+        {"name":"SNJ54S112FK","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"S","flags":["military"]}
       ]
     },
     {

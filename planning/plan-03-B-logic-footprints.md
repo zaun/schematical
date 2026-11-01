@@ -204,24 +204,31 @@ Acceptance: those parts carry these footprints and the geometry matches the
 drawings.
   Check: `ctest --test-dir /tmp/logic-plan03 --output-on-failure` → all pass (est. 1 min). — 2026-11-01: `100% tests passed, 0 tests failed out of 8`.
   Check: `git diff --exit-code backend/tests/golden/traces.txt` → no diff (est. seconds). — 2026-11-01: exit 0, no output.
-Commit: —
+Commit: 30c9924
 
 ### Phase 2 — Small-outline, leadless and BGA (20 footprints)
 
-- [ ] `footprints.json`: `SOT23-5/6`, `SC70-5/6`, `SOT5X3-5`, `SON-6-DRY`,
+- [x] `footprints.json`: `SOT23-5/6`, `SC70-5/6`, `SOT5X3-5`, `SON-6-DRY`,
       `SON-6-DSF`, `X2SON-5-DPW`, `X2SON-5-DTX`, `X2SON-8`, `UQFN-8`,
       `VQFN-14`, `VQFN-20`, `WQFN-14`, `LCCC-20`, `DSBGA-5-YZP`,
-      `DSBGA-6-YZP`, `DSBGA-6-YFP`, `DSBGA-8-YZP`, `DSBGA-8-YFP` (20).
-- [ ] Run `/tmp/p03b-assign.py` over all ids; it reports 0 unmatched and
-      2552 / 672 / 186 tagged.
-- [ ] Regenerate the goldens; hand-check the new lines (slot maps: pin 1 where
+      `DSBGA-6-YZP`, `DSBGA-6-YFP`, `DSBGA-8-YZP`, `DSBGA-8-YFP` (20). —
+      added; SON-6-DRY, X2SON-8 and UQFN-8 are `explicit`, VQFN-14 comes
+      from RHL0014A (Corrections).
+- [x] Run `/tmp/p03b-assign.py` over all ids; it reports 0 unmatched and
+      2552 / 672 / 186 tagged. — `gate.json: 2552 parts tagged`,
+      `dff.json: 672 parts tagged`, `jkff.json: 186 parts tagged`, exit 0.
+- [x] Regenerate the goldens; hand-check the new lines (slot maps: pin 1 where
       the drawing puts it; DSBGA ball sets equal the parts' `dsbga` pinout
-      designators from plan-02-C — the loader enforces this).
+      designators from plan-02-C — the loader enforces this). — checked:
+      SOT23-5/SC70-5/SOT5X3-5 pin 5 top-right with right-middle empty;
+      X2SON-5 pin 3 at the centre; VQFN-14/20 and WQFN-14 pin 1 on the top
+      edge left of pin N; LCCC-20 `3 2 1 20 19` across the top; DSBGA balls
+      row-major on the drawing pitch, loader-matched to every part.
 
 Acceptance: every logic part has a footprint; `footprints.txt` has 58 lines.
-  Check: `ctest --test-dir /tmp/logic-plan03 --output-on-failure` → all pass (est. 1 min).
-  Check: `grep -c '"footprint"' schematical/schematical/Parts/{gate,dff,jkff}.json` → 2552, 672, 186; `wc -l < backend/tests/golden/footprints.txt` → 58 (est. seconds).
-  Check: a `python3 -I` one-off that strips `|footprint=…` from every line of `backend/tests/golden/parts.txt` and compares with the same strip of `git show <plan-03-A's last commit>:backend/tests/golden/parts.txt` → identical (est. seconds).
+  Check: `ctest --test-dir /tmp/logic-plan03 --output-on-failure` → all pass (est. 1 min). — 2026-11-01: `100% tests passed, 0 tests failed out of 8`.
+  Check: `grep -c '"footprint"' schematical/schematical/Parts/{gate,dff,jkff}.json` → 2552, 672, 186; `wc -l < backend/tests/golden/footprints.txt` → 58 (est. seconds). — 2026-11-01: 2552, 672, 186; 58.
+  Check: a `python3 -I` one-off that strips `|footprint=…` from every line of `backend/tests/golden/parts.txt` and compares with the same strip of `git show <plan-03-A's last commit>:backend/tests/golden/parts.txt` → identical (est. seconds). — 2026-11-01, against 5239f2f: `identical 3818 3818`; `git diff --exit-code … traces.txt` exit 0.
 Commit: —
 
 ## Validation Plan
@@ -274,6 +281,15 @@ enough, and the rules make every number reproducible from a drawing.
 - 2026-11-01: X2SON-5 centre pads are squares turned 45° on DPW0005A
   (□0.25) and DTX0005A (□0.35); pads are axis-aligned, so both are
   `round` of that size (§4.1 already said round for DPW).
+- 2026-11-01: no RGY outline exists in the repo: all 20 `RGY (` hits §2
+  counted are device-table rows ("RGY (VQFN, 14) 3.50mm × 3.50mm"), and
+  every RGY datasheet (and TI's current ones, e.g. sn74lvc00a Rev. U) has
+  only the generic RGY view. VQFN-14 instead uses TI's RHL0014A
+  board layout (R1, 4228405/A, TPS54620 datasheet p.45 — "The RGY package
+  is identical to the RHL package"): pads 0.6 × 0.24, spanX = spanY = 3.3
+  (pad-centre to pad-centre, read from the rendered drawing), `sides`
+  [5,4,5,4] with pins 1/14 and 7/8 on the outer top/bottom slots (±0.75),
+  exposed pad 2.05. R1 replaces §4.1's R4 because a TI layout exists.
 - 2026-11-01: SC70-6's layout pad is 0.9 × 0.4 (DCK0006A), not SC70-5's
   0.95 × 0.4.
 
