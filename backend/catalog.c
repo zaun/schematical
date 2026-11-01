@@ -1,0 +1,179 @@
+#include "catalog.h"
+
+#include <stdbool.h>
+#include <stdio.h>
+
+#include "74_00.h"
+#include "74_02.h"
+#include "74_08.h"
+#include "74_32.h"
+#include "74_86.h"
+#include "74_266.h"
+
+static const ChipDefinition *const DEFINITIONS[] = {
+    &SN74_00_DEFINITION,
+    &SN74_02_DEFINITION,
+    &SN74_08_DEFINITION,
+    &SN74_32_DEFINITION,
+    &SN74_86_DEFINITION,
+    &SN74_266_DEFINITION,
+};
+
+size_t catalog_definition_count(void) {
+    return sizeof(DEFINITIONS) / sizeof(DEFINITIONS[0]);
+}
+
+const ChipDefinition *catalog_definition_at(size_t index) {
+    return index < catalog_definition_count() ? DEFINITIONS[index] : NULL;
+}
+
+static const char *role_name(PinRole role) {
+    switch (role) {
+        case PIN_ROLE_INPUT:
+            return "input";
+        case PIN_ROLE_OUTPUT:
+            return "output";
+        case PIN_ROLE_INOUT:
+            return "inout";
+        case PIN_ROLE_POWER:
+            return "power";
+        case PIN_ROLE_GROUND:
+            return "ground";
+        case PIN_ROLE_NO_CONNECT:
+            return "noConnect";
+    }
+
+    return "noConnect";
+}
+
+static void write_json_string(FILE *out, const char *text) {
+    const unsigned char *p = (const unsigned char *)text;
+
+    fputc('"', out);
+    for (; *p != '\0'; p++) {
+        switch (*p) {
+            case '"':
+                fputs("\\\"", out);
+                break;
+            case '\\':
+                fputs("\\\\", out);
+                break;
+            default:
+                if (*p < 0x20) {
+                    fprintf(out, "\\u%04x", *p);
+                } else {
+                    fputc(*p, out);
+                }
+        }
+    }
+    fputc('"', out);
+}
+
+/* Names as the app shows them. They come from the model's own config. */
+static const char *package_name(PackageType package) {
+    switch (package) {
+        case PACKAGE_TYPE_SOIC: return "SOIC";
+        case PACKAGE_TYPE_SOP: return "SOP";
+        case PACKAGE_TYPE_SSOP: return "SSOP";
+        case PACKAGE_TYPE_PDIP: return "PDIP";
+        case PACKAGE_TYPE_TSSOP: return "TSSOP";
+        case PACKAGE_TYPE_TVSOP: return "TVSOP";
+        case PACKAGE_TYPE_CDIP: return "CDIP";
+        case PACKAGE_TYPE_CFP: return "CFP";
+        case PACKAGE_TYPE_LCCC: return "LCCC";
+        case PACKAGE_TYPE_WQFN: return "WQFN";
+        case PACKAGE_TYPE_VQFN: return "VQFN";
+    }
+    return "unknown";
+}
+
+static const char *family_name(LogicFamily family) {
+    switch (family) {
+        case LOGIC_FAMILY_HC: return "HC";
+        case LOGIC_FAMILY_LS: return "LS";
+        case LOGIC_FAMILY_ACT: return "ACT";
+        case LOGIC_FAMILY_HCT: return "HCT";
+        case LOGIC_FAMILY_F: return "F";
+        case LOGIC_FAMILY_AC: return "AC";
+        case LOGIC_FAMILY_AHCT: return "AHCT";
+        case LOGIC_FAMILY_ALS: return "ALS";
+        case LOGIC_FAMILY_AS: return "AS";
+        case LOGIC_FAMILY_AHC: return "AHC";
+        case LOGIC_FAMILY_S: return "S";
+        case LOGIC_FAMILY_C: return "C";
+        case LOGIC_FAMILY_H: return "H";
+    }
+    return "unknown";
+}
+
+static void write_chip(FILE *out, const ChipDefinition *chip) {
+    size_t i;
+    bool first = true;
+
+    fputs("{\"id\":", out);
+    write_json_string(out, chip->id);
+    fputs(",\"function\":", out);
+    write_json_string(out, chip->function);
+    fputs(",\"description\":", out);
+    write_json_string(out, chip->description);
+    fputs(",\"category\":", out);
+    write_json_string(out, chip->category);
+    fprintf(out, ",\"gateCount\":%zu", chip->gate_count);
+
+    fputs(",\"parts\":[", out);
+    for (i = 0; i < chip->part_number_count; i++) {
+        SimLogicConfig config;
+        const char *part = chip->part_numbers[i];
+
+        if (chip->lookup(part, &config) == NULL) {
+            continue;
+        }
+        if (!first) {
+            fputc(',', out);
+        }
+        fputs("{\"name\":", out);
+        write_json_string(out, part);
+        fprintf(out, ",\"package\":\"%s\"", package_name(config.package));
+        fprintf(out, ",\"family\":\"%s\"}", family_name(config.family));
+        first = false;
+    }
+
+    fputs("],\"pins\":[", out);
+    for (i = 0; i < chip->pin_count; i++) {
+        const ChipPin *pin = &chip->pins[i];
+
+        if (i > 0) {
+            fputc(',', out);
+        }
+        fprintf(out, "{\"number\":%u,\"name\":", pin->number);
+        write_json_string(out, pin->name);
+        fprintf(out, ",\"role\":\"%s\"}", role_name(pin->role));
+    }
+    fputs("]}", out);
+}
+
+void catalog_write_json(FILE *out) {
+    size_t i;
+
+    fputs("{\"chips\":[", out);
+    for (i = 0; i < catalog_definition_count(); i++) {
+        if (i > 0) {
+            fputc(',', out);
+        }
+        write_chip(out, DEFINITIONS[i]);
+    }
+    fputs("]}\n", out);
+}
+
+char *catalog_json_copy(void) {
+    char *buffer = NULL;
+    size_t length = 0;
+    FILE *out = open_memstream(&buffer, &length);
+
+    if (out == NULL) {
+        return NULL;
+    }
+    catalog_write_json(out);
+    fclose(out);
+    return buffer;
+}
