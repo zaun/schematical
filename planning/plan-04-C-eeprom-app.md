@@ -45,7 +45,7 @@ See plan-04-A §Prerequisites, plus:
 | plan-04-B complete | `ls planning/completed/plan-04-B-memory-load.md` → exists | MET (2026-11-01: archived after B's final gate, 41f140c) |
 | Load API present | `grep -n '^int circuit_memory_load\|^int memory_image_parse' backend/include/*.h` → one line each (anchored: the header comments mention both too) | MET (2026-11-01: `circuit.h:65`, `memory_image.h:29`) |
 | App builds signed and sandboxed | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p04-signed-dd build` → `** BUILD SUCCEEDED **`; `codesign -d --entitlements - /tmp/p04-signed-dd/Build/Products/Debug/schematical.app` lists `com.apple.security.app-sandbox` and `com.apple.security.files.user-selected.read-write` | MET (2026-11-01 at start of work: `** BUILD SUCCEEDED **`; entitlements list app-sandbox and files.user-selected.read-write) |
-| The desktop session is unlocked (sandbox proof, Validation step 6, needs a real window and open panel) | `ioreg -n Root -d1 \| grep -o '"CGSSessionScreenIsLocked"=[A-Za-z]*'` → `"CGSSessionScreenIsLocked"=No` (or no output) | MET at plan start (2026-11-01: no output); `=Yes` when C began (2026-11-01). Needed only for Validation 6, re-checked there |
+| The desktop session is unlocked (sandbox proof, Validation step 6, needs a real window and open panel) | `ioreg -n Root -d1 \| grep -o '"CGSSessionScreenIsLocked"=[A-Za-z]*'` → `"CGSSessionScreenIsLocked"=No` (or no output) | MET at plan start (2026-11-01: no output); NOT MET when C began and again at the final gate (2026-11-01: `"CGSSessionScreenIsLocked"=Yes`). Needed only for Validation 6 |
 
 Everything below is written against the world where these hold.
 
@@ -373,7 +373,15 @@ Clear disabled, live grid `00 01 …`, footer without "Contents at start"),
 `4-sram-stopped.png` (SRAM unchanged: "Simulation Not Running").
   Check: the Phase 1 `xcodebuild` → `** BUILD SUCCEEDED **` (est. 1 min).
   Check: `/tmp/p04/harness/run window` → the four PNGs of Validation 2 (est. seconds).
-Commit: —
+- [ ] Validation 6 (sandbox): in the signed build `/tmp/p04-signed-dd`,
+      on the desktop: open `eeprom.schematical`, double-click U3, Choose…
+      `boot.bin`, Run → live grid `00 01 …`; Stop; Save; quit; relaunch;
+      Open the saved file; Run → the same bytes; screenshots to
+      `/tmp/p04-proof/sandbox-*.png`. Blocked 2026-11-01: the desktop session
+      is locked (Prerequisites row 4: `CGSSessionScreenIsLocked=Yes`); the
+      open panel's sandbox grant needs a person at an unlocked desktop.
+
+Commit: 08e165b
 
 ## Validation Plan
 
@@ -417,6 +425,15 @@ Commit: —
   `rm -rf /tmp/logic-land-p04 && cmake -S backend -B /tmp/logic-land-p04 && cmake --build /tmp/logic-land-p04 -j8 && ctest --test-dir /tmp/logic-land-p04`
   → `100% tests passed, 0 tests failed out of 11` (est. 1 min); the
   `xcodebuild` (est. 1 min); the runtime proof (est. 20 min).
+  **Ran (2026-11-01, after Phase 3):** `100% tests passed, 0 tests failed
+  out of 11` (2.9 s); goldens unchanged since plan-04-A; signed
+  `xcodebuild` → `** BUILD SUCCEEDED **`, entitlements app-sandbox and
+  files.user-selected.read-write; runtime proof steps 1–5 re-run on the
+  final code with the same results as the phases (`Memory/EEPROM: 174
+  parts`; `boot.bin`/`boot.hex` → `00 01 … 0F`, nets `00000000`; `bad.hex`
+  → `U3: bad.hex: line 3: bad checksum 0x69 (expected 0x68)`; round trip
+  not unsaved; moved copy → `/tmp/p04-proof/moved/boot.bin`). Step 6 not
+  run: desktop locked (Phase 3's last task).
 
 ## Decisions
 
