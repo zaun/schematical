@@ -248,7 +248,7 @@ No behavior change; no golden can move.
 Acceptance: the new case passes and no golden moves.
   Check: `cmake --build /tmp/logic-p05 -j8 && ctest --test-dir /tmp/logic-p05` →
   `100% tests passed, 0 tests failed out of 8` (est. 30 s).
-Commit: —
+Commit: 75ab160
 
 ### Phase 2 — Inertial fix, RED test first
 
@@ -276,7 +276,7 @@ predicted.
   Check 1: `ctest --test-dir /tmp/logic-p05` → `100% tests passed, 0 tests failed out of 9` (est. 30 s).
   Check 2: `git diff -U0 backend/tests/golden/traces.txt | grep -c '^+[^+]'` → `2479`, and
   `git diff --stat backend/tests/golden` → only `traces.txt` (est. 5 s).
-Commit: —
+Commit: 0faa010 (RED test: e961327)
 
 ## Validation Plan
 
