@@ -134,6 +134,8 @@ final class SimulationController {
     private var netValues: [Character] = []
     private var shortedNets: Set<Int> = []
     private(set) var litChips: Set<UUID> = []
+    /// 7-segment displays: per LED, whether it glowed during the last step.
+    private(set) var glowingLEDs: [UUID: [Bool]] = [:]
     /// Goes up after every read of the simulator's state, so views that show
     /// memory contents know to read them again.
     private(set) var stateVersion = 0
@@ -190,6 +192,7 @@ final class SimulationController {
         netValues = []
         shortedNets = []
         litChips = []
+        glowingLEDs = [:]
     }
 
     /// Advances the simulation one tick. Returns false when it has stopped.
@@ -209,6 +212,7 @@ final class SimulationController {
         var values: [Character] = []
         var shorted: Set<Int> = []
         var lit: Set<UUID> = []
+        var glowing: [UUID: [Bool]] = [:]
 
         for line in String(cString: raw).split(separator: "\n") {
             let fields = line.split(separator: " ")
@@ -226,6 +230,10 @@ final class SimulationController {
                 if fields.count == 3, let part = Int(fields[1]), part < netlist.chipIDs.count, fields[2] == "1" {
                     lit.insert(netlist.chipIDs[part])
                 }
+            case "glow":
+                if fields.count == 3, let part = Int(fields[1]), part < netlist.chipIDs.count {
+                    glowing[netlist.chipIDs[part]] = fields[2].map { $0 == "1" }
+                }
             case "shorted":
                 if fields.count == 2, let index = Int(fields[1]) {
                     shorted.insert(index)
@@ -240,6 +248,7 @@ final class SimulationController {
         netValues = values
         shortedNets = shorted
         litChips = lit
+        glowingLEDs = glowing
         stateVersion &+= 1
     }
 

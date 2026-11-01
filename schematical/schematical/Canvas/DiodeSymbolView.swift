@@ -13,14 +13,17 @@ struct DiodeSymbolView: View {
     /// Play mode: anode high and cathode low. A lit LED glows in its own color.
     var isLit: Bool = false
 
-    /// The LED's color, from its catalog family (Red, Green, Blue, Amber, White).
+    /// The LED's color, from its catalog family (Red, Green, Blue, Amber, White,
+    /// and for 7-segment displays also Yellow and Orange).
     static func lightColor(for chip: PlacedChip) -> Color {
         let family = chip.chip.parts.first { $0.name == chip.partNumber }?.family ?? ""
         switch family {
         case "Red": return .red
         case "Green": return .green
         case "Blue": return .blue
-        case "Amber": return .orange
+        case "Amber": return Color(red: 1, green: 0.7, blue: 0)
+        case "Yellow": return .yellow
+        case "Orange": return .orange
         case "White": return Color(white: 0.7)
         default: return .secondary
         }

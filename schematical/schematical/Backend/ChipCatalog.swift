@@ -60,17 +60,21 @@ nonisolated struct ChipPart: Codable, Hashable, Sendable, Identifiable {
     let obsolete: Bool
     let military: Bool
     let automotive: Bool
+    /// Digit height of a 7-segment display, such as "0.56 in". Nil for other parts.
+    let size: String?
 
     var id: String { name }
 
     init(name: String, package: String, family: String,
-         obsolete: Bool = false, military: Bool = false, automotive: Bool = false) {
+         obsolete: Bool = false, military: Bool = false, automotive: Bool = false,
+         size: String? = nil) {
         self.name = name
         self.package = package
         self.family = family
         self.obsolete = obsolete
         self.military = military
         self.automotive = automotive
+        self.size = size
     }
 
     init(from decoder: Decoder) throws {
@@ -81,7 +85,31 @@ nonisolated struct ChipPart: Codable, Hashable, Sendable, Identifiable {
         obsolete = try container.decodeIfPresent(Bool.self, forKey: .obsolete) ?? false
         military = try container.decodeIfPresent(Bool.self, forKey: .military) ?? false
         automotive = try container.decodeIfPresent(Bool.self, forKey: .automotive) ?? false
+        size = try container.decodeIfPresent(String.self, forKey: .size)
     }
+}
+
+/// How a 7-segment display is drawn and which LED is which (catalog "display").
+nonisolated struct DisplayInfo: Codable, Hashable, Sendable {
+    /// One LED: a segment of a digit (1 = leftmost), or a colon or dot LED
+    /// (digit 0; segment "L1", "L2" or "L3").
+    struct LED: Codable, Hashable, Sendable {
+        let digit: Int
+        let segment: String
+    }
+
+    let digits: Int
+    let commonAnode: Bool
+    /// Digit the colon (L1, L2) and the raised dot (L3) sit after; 0 = none.
+    let colonAfter: Int
+    let dotAfter: Int
+    /// The LED chip, such as "AlInGaP Super Red".
+    let chip: String
+    /// In the order the simulation reports them ("glow" lines).
+    let leds: [LED]
+    /// Pin numbers for the left (segments) and right (commons) sides, top to bottom.
+    let segmentPins: [Int]
+    let commonPins: [Int]
 }
 
 /// One chip family, exactly as the backend describes it.
@@ -96,6 +124,8 @@ nonisolated struct ChipDefinition: Codable, Hashable, Sendable, Identifiable {
     /// Optional level between category and function in the drawer, such as
     /// "SRAM" for Memory → SRAM → 32 KB. Nil for most chips.
     var subcategory: String? = nil
+    /// Set for 7-segment displays only.
+    var display: DisplayInfo? = nil
 }
 
 /// One generic LED, as the backend reports it. `color` and `package` are labels
@@ -187,8 +217,13 @@ nonisolated enum BackendCatalog {
 /// needs to know which one owns the family filter.
 let familyCategory = "Logic"
 
-/// The category generic LEDs are listed under in the drawer.
+/// The category generic LEDs and 7-segment displays are listed under in the
+/// drawer. It has a color filter.
 let ledCategory = "Indicators"
+
+/// The Indicators groups: single LEDs, and 7-segment displays (with count and size filters).
+let ledGroup = "LED"
+let sevenSegmentGroup = "LED 7-Seg"
 
 /// The category switches are listed under. Its count is positions per switch.
 let switchCategory = "Switch"
@@ -202,6 +237,11 @@ struct DrawerFilter: Equatable {
     var gateCount: Int?
     /// Positions per switch (the sidebar's count). Only narrows switches.
     var switchPositions: Int?
+    /// LED color ("Red", "Green", ...). Only narrows Indicators.
+    var color: String?
+    /// Digits and digit height. Only narrow 7-segment displays.
+    var displayDigits: Int?
+    var displaySize: String?
     /// Which flagged parts to list. Set from the user's preferences.
     var visibility = PartVisibility()
 }
@@ -307,6 +347,16 @@ final class ChipCatalogStore {
         return Array(Set(counts)).sorted()
     }
 
+    /// Digit counts and digit heights of the 7-segment displays.
+    var displayDigitCounts: [Int] {
+        Array(Set(entries.filter { $0.chip.subcategory == sevenSegmentGroup }.map(\.chip.gateCount))).sorted()
+    }
+
+    var displaySizes: [String] {
+        Array(Set(entries.filter { $0.chip.subcategory == sevenSegmentGroup }.compactMap(\.part.size)))
+            .sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+    }
+
     func chip(forPartNumber partNumber: String) -> ChipDefinition? {
         chipByPartNumber[partNumber]
     }
@@ -321,6 +371,9 @@ final class ChipCatalogStore {
         }
         if chipByPartNumber[partNumber]?.category == switchCategory {
             return .dipSwitch
+        }
+        if chipByPartNumber[partNumber]?.display != nil {
+            return .sevenSegment
         }
         return ledPartNumbers.contains(partNumber) ? .diode : .block
     }
@@ -357,6 +410,18 @@ final class ChipCatalogStore {
                entry.chip.gateCount != count {
                 return false
             }
+            if let color = filter.color, entry.chip.category == ledCategory,
+               entry.part.family != color {
+                return false
+            }
+            if entry.chip.subcategory == sevenSegmentGroup {
+                if let count = filter.displayDigits, entry.chip.gateCount != count {
+                    return false
+                }
+                if let size = filter.displaySize, entry.part.size != size {
+                    return false
+                }
+            }
             let fields = [entry.part.name, entry.chip.function, entry.chip.description,
                           entry.chip.category, entry.chip.subcategory ?? ""]
             return needle.isEmpty || fields.contains { $0.localizedStandardContains(needle) }
@@ -373,8 +438,8 @@ final class ChipCatalogStore {
                 let subcategories = bySubcategory
                     .sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
                     .map { subcategory, entries in
-                        category == switchCategory
-                            ? SubcategoryGroup(subcategory: subcategory, functions: [], parts: Self.switchParts(entries))
+                        Self.listsPartsDirectly(category: category)
+                            ? SubcategoryGroup(subcategory: subcategory, functions: [], parts: Self.byCountThenName(entries))
                             : SubcategoryGroup(subcategory: subcategory, functions: Self.functionGroups(entries))
                     }
                 return CategoryGroup(
@@ -385,8 +450,15 @@ final class ChipCatalogStore {
             }
     }
 
-    /// Switches by position count, then by name.
-    private static func switchParts(_ entries: [PartEntry]) -> [PartEntry] {
+    /// Categories whose groups list parts straight under them, with no
+    /// function level: switches (the function is only the vendor's series),
+    /// and Indicators (single LEDs, 7-segment displays).
+    private static func listsPartsDirectly(category: String) -> Bool {
+        category == switchCategory || category == ledCategory
+    }
+
+    /// Parts by count (positions, digits), then by name.
+    private static func byCountThenName(_ entries: [PartEntry]) -> [PartEntry] {
         entries.sorted {
             $0.chip.gateCount != $1.chip.gateCount
                 ? $0.chip.gateCount < $1.chip.gateCount
@@ -483,7 +555,8 @@ final class ChipCatalogStore {
             category: ledCategory,
             gateCount: 0,
             parts: [ChipPart(name: led.name, package: led.package, family: led.color)],
-            pins: led.pins
+            pins: led.pins,
+            subcategory: ledGroup
         )
     }
 }

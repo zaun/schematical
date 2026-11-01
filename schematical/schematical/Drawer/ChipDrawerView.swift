@@ -16,7 +16,9 @@ nonisolated struct ChipPartDragItem: Codable, Hashable, Sendable, Transferable {
 /// Switches skip the function level: their parts sit right under DIP.
 /// The top bar filters by category and package. The family and gate-count menus
 /// sit in the Logic category header because they only apply to logic chips; the
-/// Switch header has its own count menu, for positions per switch.
+/// Switch header has its own count menu, for positions per switch. The
+/// Indicators header has a color menu, and its LED 7-Seg group has digit
+/// count and size menus.
 struct ChipDrawerView: View {
     let catalog: ChipCatalogStore
 
@@ -51,9 +53,8 @@ struct ChipDrawerView: View {
                                     partRow(entry)
                                 }
                             } label: {
-                                Text(subcategory.subcategory)
-                                    .font(.body.weight(.semibold))
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                // Menus in the label keep their own clicks; the rest toggles the group.
+                                subcategoryHeader(subcategory.subcategory)
                                     .contentShape(Rectangle())
                                     .onTapGesture {
                                         toggle(key, defaultOpen: false)
@@ -157,8 +158,43 @@ struct ChipDrawerView: View {
                 countMenu(for: category, selection: $filter.gateCount, unit: "gate")
             } else if category == switchCategory {
                 countMenu(for: category, selection: $filter.switchPositions, unit: "position")
+            } else if category == ledCategory {
+                textMenu(catalog.families(in: category), selection: $filter.color, all: "All colors")
             }
         }
+    }
+
+    @ViewBuilder
+    private func subcategoryHeader(_ subcategory: String) -> some View {
+        HStack {
+            Text(subcategory)
+                .font(.body.weight(.semibold))
+            Spacer()
+            if subcategory == sevenSegmentGroup {
+                countMenu(counts: catalog.displayDigitCounts, selection: $filter.displayDigits, unit: "digit")
+                textMenu(catalog.displaySizes, selection: $filter.displaySize, all: "All sizes")
+            }
+        }
+    }
+
+    /// Menu of text values, such as colors or sizes, with an "all" choice first.
+    private func textMenu(_ values: [String], selection: Binding<String?>, all: String) -> some View {
+        Menu {
+            Button(all) {
+                selection.wrappedValue = nil
+            }
+            Divider()
+            ForEach(values, id: \.self) { value in
+                Button(value) {
+                    selection.wrappedValue = value
+                }
+            }
+        } label: {
+            Text(selection.wrappedValue ?? all)
+                .font(.caption)
+        }
+        .menuStyle(.borderlessButton)
+        .fixedSize()
     }
 
     private func familyMenu(for category: String) -> some View {
@@ -183,6 +219,10 @@ struct ChipDrawerView: View {
     /// Menu of the counts in a category. `unit` names one of what is counted,
     /// such as "gate" ("4 gates") or "position" ("8 positions").
     private func countMenu(for category: String, selection: Binding<Int?>, unit: String) -> some View {
+        countMenu(counts: catalog.gateCounts(in: category), selection: selection, unit: unit)
+    }
+
+    private func countMenu(counts: [Int], selection: Binding<Int?>, unit: String) -> some View {
         func label(_ count: Int) -> String {
             count == 1 ? "1 \(unit)" : "\(count) \(unit)s"
         }
@@ -191,7 +231,7 @@ struct ChipDrawerView: View {
                 selection.wrappedValue = nil
             }
             Divider()
-            ForEach(catalog.gateCounts(in: category), id: \.self) { count in
+            ForEach(counts, id: \.self) { count in
                 Button(label(count)) {
                     selection.wrappedValue = count
                 }
@@ -243,10 +283,20 @@ struct ChipDrawerView: View {
         .draggable(ChipPartDragItem(partNumber: entry.part.name))
     }
 
+    /// Package and family; for a 7-segment display also its size and whether
+    /// it is common anode (CA) or common cathode (CC).
     private func subtitle(for entry: ChipCatalogStore.PartEntry) -> String {
-        entry.part.family.isEmpty
-            ? entry.part.package
-            : "\(entry.part.package) · \(entry.part.family)"
+        var fields = [entry.part.package]
+        if !entry.part.family.isEmpty {
+            fields.append(entry.part.family)
+        }
+        if let size = entry.part.size {
+            fields.append(size)
+        }
+        if let display = entry.chip.display {
+            fields.append(display.commonAnode ? "CA" : "CC")
+        }
+        return fields.joined(separator: " · ")
     }
 
     // MARK: Collapsing

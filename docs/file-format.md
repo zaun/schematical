@@ -71,7 +71,7 @@ A DIP switch also stores its positions:
 |--------------|---------|-------------------------------------------------------------------------|
 | `id`         | UUID    | Unique within the file.                                                 |
 | `reference`  | string  | Label shown on the canvas, such as `U1`.                                |
-| `partNumber` | string  | A part name from the backend catalog: a logic part, memory (SRAM), switch, LED, oscillator, or the supplies `VCC` and `GND`. |
+| `partNumber` | string  | A part name from the backend catalog: a logic part, memory (SRAM), switch, LED, 7-segment display, oscillator, or the supplies `VCC` and `GND`. |
 | `x`, `y`     | number  | Top-left corner of the part body.                                       |
 | `flipped`    | boolean | Pins on the opposite sides. Ignored for VCC and GND.                    |
 | `switches`   | array of booleans | DIP switches only, optional: whether each position is ON, position 1 first. Missing positions are OFF; extra entries are ignored. Left out for other parts. |

@@ -174,6 +174,13 @@ struct SchematicCanvasView: View {
                             isSelected: chip.id == document.selectedChipID,
                             isHovered: chip.id == hoveredChipID
                         )
+                    case .sevenSegment:
+                        SevenSegmentSymbolView(
+                            chip: chip,
+                            isSelected: chip.id == document.selectedChipID,
+                            isHovered: chip.id == hoveredChipID,
+                            glow: simulation.glowingLEDs[chip.id] ?? []
+                        )
                     }
                 }
                 .offset(x: chip.viewOrigin.x, y: chip.viewOrigin.y)

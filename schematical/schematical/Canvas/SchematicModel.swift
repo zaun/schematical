@@ -66,7 +66,8 @@ enum SchematicTool: String, CaseIterable, Identifiable {
 /// How a placed part is drawn. Logic chips are boxes; oscillators are boxes with
 /// a sine wave in a circle in place of the function name; LEDs use the diode
 /// symbol; VCC and GND use their own supply symbols; DIP switches are boxes
-/// with one lever per position.
+/// with one lever per position; 7-segment displays are boxes that show their
+/// digits.
 nonisolated enum PartSymbol: Hashable {
     case block
     case oscillator
@@ -74,6 +75,7 @@ nonisolated enum PartSymbol: Hashable {
     case vcc
     case ground
     case dipSwitch
+    case sevenSegment
 
     /// Supplies have their pin on the top or bottom edge, so their view needs
     /// room above and below the body for the pin stub.
@@ -165,7 +167,53 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.supply(chip, side: .top)
         case .dipSwitch:
             self = Self.dipSwitch(chip)
+        case .sevenSegment:
+            self = Self.sevenSegment(chip)
         }
+    }
+
+    /// 7-segment display: digit size, gap between digits, and room for the
+    /// colon. The digits sit in the middle of the body, with a column for pin
+    /// names on each side (`sevenSegmentNameColumn`).
+    static let sevenSegmentDigitSize = CGSize(width: 18, height: 32)
+    static let sevenSegmentDigitGap: CGFloat = 10
+    static let sevenSegmentColonWidth: CGFloat = 8
+    static let sevenSegmentNameColumn: CGFloat = 36
+
+    /// Width of the face that shows the digits, colon included.
+    static func sevenSegmentFaceWidth(_ display: DisplayInfo) -> CGFloat {
+        let digits = CGFloat(max(display.digits, 1))
+        let colon = display.colonAfter > 0 ? sevenSegmentColonWidth : 0
+        return digits * sevenSegmentDigitSize.width + (digits + 1) * sevenSegmentDigitGap + colon
+    }
+
+    /// Segment pins on the left and common pins on the right, in the order
+    /// the backend gives. No-connect pins are not drawn.
+    private static func sevenSegment(_ chip: ChipDefinition) -> ChipLayout {
+        guard let display = chip.display else { return ChipLayout(chip: chip) }
+        let byNumber = Dictionary(chip.pins.map { ($0.number, $0) }, uniquingKeysWith: { first, _ in first })
+        // Segment pins, then (after a gap) any no-connect leads; commons on the right.
+        let unused = chip.pins.filter { $0.role == .noConnect }.sorted { $0.number < $1.number }
+        let left = stack([display.segmentPins.compactMap { byNumber[$0] }, unused])
+        let right = display.commonPins.compactMap { byNumber[$0] }
+        // At least enough rows for the digit face.
+        let faceRows = Int(((sevenSegmentDigitSize.height + 16) / pitch).rounded(.up))
+        let rows = max(left.count, right.count, faceRows)
+
+        var slots: [PinSlot] = []
+        for (row, pin) in left.enumerated() {
+            if let pin {
+                slots.append(PinSlot(pin: pin, side: .left, centerY: centerY(forRow: row)))
+            }
+        }
+        for (row, pin) in right.enumerated() {
+            slots.append(PinSlot(pin: pin, side: .right, centerY: centerY(forRow: row)))
+        }
+        let width = SchematicGrid.snap(sevenSegmentFaceWidth(display) + 2 * sevenSegmentNameColumn + 5)
+        return ChipLayout(
+            size: CGSize(width: max(width, bodyWidth), height: headerHeight + pitch * CGFloat(rows)),
+            slots: slots
+        )
     }
 
     /// One row per switch position, top to bottom. Position k joins pin k
