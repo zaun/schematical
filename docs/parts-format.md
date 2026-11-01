@@ -257,16 +257,49 @@ left side. Pads are axis-aligned.
 | `"style"` | `"dual"`, `"quad"`, `"grid"` or `"explicit"` |
 | `"pins"` | number of designated pads (1–1000). `dual`, `quad` and `explicit` pads are `"1"`…`"<pins>"`; `grid` pads are ball names |
 | `"body"` | `{"width", "height"}` > 0, optional `"round": true` (drawn as an ellipse) |
-| `"pad"` | `{"width", "height", "shape"}`, sizes > 0, shape `"rect"` or `"round"` (an ellipse; a circle when width = height). Not on `explicit` |
+| `"pad"` | `{"width", "height", "shape"}`, sizes > 0, shape `"rect"` or `"round"` (an ellipse; a circle when width = height), plus optional corner keys (below). Not on `explicit` |
 | `"drill"` | optional, default 0 (surface mount); a through-hole diameter, smaller than both pad sides. Not on `explicit` |
-| `"pin1Shape"` | optional, `dual`/`quad` only: pin 1's pad shape (through-hole parts use `"rect"` to mark pin 1) |
-| `"centre"` | optional, `dual`/`quad` only: one pad at the origin, `{"width", "height", "shape"}` — an exposed pad, or the middle terminal of an X2SON-5 |
+| `"pin1Shape"` | optional, `dual`/`quad` only: pin 1's pad shape (through-hole parts use `"rect"` to mark pin 1); pin 1 then has square corners |
+| `"centre"` | optional, `dual`/`quad` only: one pad at the origin, `{"width", "height", "shape"}` plus optional corner keys — an exposed pad, or the middle terminal of an X2SON-5 |
 | `"slots"` | optional, `dual`/`quad` only: `slots[i]` = the slot (1-based) pin i+1 sits on; `0` = the pin is the `centre` pad. Default: pin n on slot n |
 
 `slots` has exactly `pins` entries; non-zero values are distinct and no
 larger than the slot count; at most one `0`, and only with `centre`. A slot
 no pin names gets no pad. A `centre` no pin names is an unnumbered pad
 (designator `NULL`), listed last.
+
+### Rounded and cut corners
+
+A `"rect"` pad (in `pad`, `centre` or an `explicit` pad) may take one of:
+
+| Key | Value |
+|---|---|
+| `"radius"` | > 0, at most half the pad's shorter side: every corner rounded by this radius |
+| `"chamfer"` | > 0: the corners in `"corners"` cut off at 45°, this far along each edge. On every side, chamfer × (cut corners at its ends) is at most the side's length |
+| `"corners"` | with `chamfer` only: a non-empty array of distinct `"tl"`, `"tr"`, `"br"`, `"bl"` |
+
+Not both, and neither on a `"round"` pad. Corners are as seen on the board
+(top view, y down), before the part is rotated; the app turns them with
+the part.
+
+- `centre` and `explicit` pads: the corners as named.
+- `pad` of a `dual`, `quad` or `grid`: name the corners of a pad up and to
+  the left of the body centre. Every other pad gets them mirrored, so the
+  footprint is symmetric about both centre lines: a pad right of centre
+  swaps left and right (`tl` ↔ `tr`, `bl` ↔ `br`), a pad below swaps top
+  and bottom, and a pad on a centre line gets both. So `["br"]` cuts the
+  corner facing the centre on every pad. A quad's turned top and bottom
+  pads follow the same rule, by position; the corner names do not turn
+  with the pad.
+
+```json
+"pad": {"width": 0.42, "height": 0.22, "shape": "rect", "chamfer": 0.16, "corners": ["br"]},
+"centre": {"width": 0.354, "height": 0.354, "shape": "rect", "chamfer": 0.177,
+           "corners": ["tl", "tr", "br", "bl"]}
+```
+
+X2SON-5-DPW: each signal pad's inner corner is cut, and the centre land, a
+0.25 square turned 45°, is a 0.354 square cut by half on every corner.
 
 ### `dual` — two columns
 
@@ -343,7 +376,7 @@ column c, row index r (A = 0):  x = (c − 1 − (columns−1)/2) · pitch
 
 For land patterns the parametric styles cannot express (mixed pad sizes).
 `"pads"` is a non-empty array of `{"pin", "x", "y", "width", "height",
-"shape"}` plus optional `"drill"`, in the coordinates above. Every pin
+"shape"}` plus optional `"drill"` and corner keys, in the coordinates above. Every pin
 1…`pins` appears exactly once; `"pin": 0` is an unnumbered pad (any
 number of them). `pad`, `drill`, `slots`, `centre` and `pin1Shape` are not
 allowed at the footprint level.

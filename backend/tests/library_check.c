@@ -820,6 +820,116 @@ static void check_footprint_styles(void) {
     FP_FILE("{'id':'F','description':'d','style':'explicit','pins':2,'body':{'width':1,'height':1}," KEYS "}")
 #define EPAD(PIN, X) "{'pin':" PIN ",'x':" X ",'y':0,'width':0.4,'height':0.4,'shape':'rect'}"
 
+/* Checks a pad's corner keys: radius, chamfer and the PAD_CORNER_* bits. */
+static void check_corners(const PartFootprint *fp, size_t index, double radius, double chamfer,
+                          unsigned corners) {
+    const FootprintPad *pad = fp != NULL && index < fp->pad_count ? &fp->pads[index] : NULL;
+
+    if (pad == NULL || !near(pad->radius, radius) || !near(pad->chamfer, chamfer) ||
+        pad->corners != corners) {
+        printf("FAIL corners of pad %zu of %s: r%g c%g %u (wanted r%g c%g %u)\n", index,
+               fp != NULL ? fp->id : "(null)", pad != NULL ? pad->radius : -1,
+               pad != NULL ? pad->chamfer : -1, pad != NULL ? pad->corners : 0u, radius, chamfer,
+               corners);
+        failures++;
+    }
+}
+
+enum { TL = PAD_CORNER_TL, TR = PAD_CORNER_TR, BR = PAD_CORNER_BR, BL = PAD_CORNER_BL };
+
+static void check_footprint_corners(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const PartFootprint *fp;
+
+    CHECK(load_fp(library, FP_FILE(
+        /* Inner corners cut, named for the top-left pad; centre a diamond. */
+        "{'id':'CUT-5','description':'d','style':'dual','pins':5,'perSide':3,'slots':[1,2,3,0,4]," \
+        "'body':{'width':1,'height':1},'pitch':0.5,'span':1," \
+        "'pad':{'width':0.4,'height':0.2,'shape':'rect','chamfer':0.05,'corners':['br']}," \
+        "'centre':{'width':0.3,'height':0.3,'shape':'rect','chamfer':0.15,'corners':['tl','tr','br','bl']}}," \
+        /* Rounded quad pads; pin 1 keeps its plain pin1Shape. */
+        "{'id':'ROUND-Q','description':'d','style':'quad','pins':4,'sides':[1,1,1,1]," \
+        "'body':{'width':2,'height':2},'pitch':0.5,'spanX':2,'spanY':2," \
+        "'pad':{'width':0.6,'height':0.3,'shape':'rect','radius':0.15},'pin1Shape':'rect'}," \
+        "{'id':'CUT-Q','description':'d','style':'quad','pins':8,'sides':[2,2,2,2]," \
+        "'body':{'width':2,'height':2},'pitch':0.5,'spanX':2,'spanY':2," \
+        "'pad':{'width':0.6,'height':0.3,'shape':'rect','chamfer':0.1,'corners':['tl']}}," \
+        /* Explicit pads take corners as named. */
+        "{'id':'CUT-E','description':'d','style':'explicit','pins':2,'body':{'width':1,'height':1}," \
+        "'pads':[{'pin':1,'x':-0.5,'y':0,'width':0.4,'height':0.4,'shape':'rect','chamfer':0.1,'corners':['tl','bl']}," \
+        "{'pin':2,'x':0.5,'y':0,'width':0.4,'height':0.2,'shape':'rect','radius':0.1}]}"), &error) == 0);
+    CHECK(error == NULL);
+
+    fp = part_library_find_footprint(library, "CUT-5");
+    check_pad(fp, 0, "1", -0.5, -0.5, 0.4, 0.2, 0, PAD_RECT);
+    check_corners(fp, 0, 0, 0.05, BR);           /* up-left: as named */
+    check_corners(fp, 1, 0, 0.05, BR | TR);      /* on the centre line: both inner corners */
+    check_corners(fp, 2, 0, 0.05, TR);           /* down-left: top/bottom mirrored */
+    check_corners(fp, 3, 0, 0.15, TL | TR | BR | BL);   /* pin 4 = the centre, as named */
+    check_corners(fp, 4, 0, 0.05, TL);           /* pin 5 on slot 4, down-right: both mirrored */
+
+    fp = part_library_find_footprint(library, "ROUND-Q");
+    check_pad(fp, 0, "1", -1, 0, 0.6, 0.3, 0, PAD_RECT);
+    check_corners(fp, 0, 0, 0, 0);               /* pin1Shape: plain */
+    check_pad(fp, 1, "2", 0, 1, 0.3, 0.6, 0, PAD_RECT);
+    check_corners(fp, 1, 0.15, 0, 0);            /* turned, still rounded */
+
+    fp = part_library_find_footprint(library, "CUT-Q");
+    check_corners(fp, 0, 0, 0.1, TL);            /* left side, upper */
+    check_corners(fp, 1, 0, 0.1, BL);            /* left side, lower */
+    check_corners(fp, 2, 0, 0.1, BL);            /* bottom row, left (turned) */
+    check_corners(fp, 3, 0, 0.1, BR);            /* bottom row, right */
+    check_corners(fp, 6, 0, 0.1, TR);            /* top row, right */
+    check_corners(fp, 7, 0, 0.1, TL);            /* top row, left */
+
+    fp = part_library_find_footprint(library, "CUT-E");
+    check_corners(fp, 0, 0, 0.1, TL | BL);
+    check_corners(fp, 1, 0.1, 0, 0);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   rounded and cut pad corners expand as named and mirrored\n");
+
+#define CPAD(KEYS) FP_DUAL("'pins':2,'pitch':1,'span':1,'centre':{'width':0.4,'height':0.2," KEYS "}")
+    expect_fp_fail("pad corners: radius on a round pad", CPAD("'shape':'round','radius':0.05"),
+                   "centre: \"radius\" needs a \"rect\" pad");
+    expect_fp_fail("pad corners: chamfer on a round pad",
+                   CPAD("'shape':'round','chamfer':0.05,'corners':['tl']"),
+                   "centre: \"chamfer\" needs a \"rect\" pad");
+    expect_fp_fail("pad corners: both", CPAD("'shape':'rect','radius':0.05,'chamfer':0.05,'corners':['tl']"),
+                   "a pad takes \"radius\" or \"chamfer\", not both");
+    expect_fp_fail("pad corners: radius too big", CPAD("'shape':'rect','radius':0.11"),
+                   "\"radius\" 0.11 is more than half the pad's shorter side (0.1)");
+    expect_fp_fail("pad corners: radius 0", CPAD("'shape':'rect','radius':0"),
+                   "\"radius\" must be greater than 0");
+    expect_fp_fail("pad corners: chamfer past an edge", CPAD("'shape':'rect','chamfer':0.25,'corners':['tl']"),
+                   "\"chamfer\" 0.25 cuts past the left edge (0.2 long)");
+    expect_fp_fail("pad corners: cuts meet on an edge", CPAD("'shape':'rect','chamfer':0.15,'corners':['tl','bl']"),
+                   "\"chamfer\" 0.15 cuts both ends of the left edge (0.2 long)");
+    expect_fp_fail("pad corners: chamfer without corners", CPAD("'shape':'rect','chamfer':0.05"),
+                   "\"chamfer\" needs \"corners\"");
+    expect_fp_fail("pad corners: corners without chamfer", CPAD("'shape':'rect','corners':['tl']"),
+                   "\"corners\" needs \"chamfer\"");
+    expect_fp_fail("pad corners: corners with radius", CPAD("'shape':'rect','radius':0.05,'corners':['tl']"),
+                   "\"corners\" needs \"chamfer\"; \"radius\" rounds every corner");
+    expect_fp_fail("pad corners: empty corners", CPAD("'shape':'rect','chamfer':0.05,'corners':[]"),
+                   "\"corners\" must be a non-empty array of \"tl\", \"tr\", \"br\", \"bl\"");
+    expect_fp_fail("pad corners: unknown corner", CPAD("'shape':'rect','chamfer':0.05,'corners':['top']"),
+                   "\"corners\" must be a non-empty array of \"tl\", \"tr\", \"br\", \"bl\"");
+    expect_fp_fail("pad corners: corner twice", CPAD("'shape':'rect','chamfer':0.05,'corners':['tl','tl']"),
+                   "corner \"tl\" is named twice");
+#undef CPAD
+    expect_fp_fail("pad corners: mirrored onto the centre line",
+                   FP_FILE("{'id':'F','description':'d','style':'dual','body':{'width':1,'height':1},"
+                           "'pins':6,'pitch':1,'span':2,'pad':{'width':0.5,'height':0.2,'shape':'rect',"
+                           "'chamfer':0.15,'corners':['br']}}"),
+                   "pad 2 (mirrored corners): \"chamfer\" 0.15 cuts both ends of the right edge (0.2 long)");
+    expect_fp_fail("pad corners: explicit pad",
+                   FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") ",{'pin':2,'x':1,'y':0,'width':0.4,"
+                                    "'height':0.4,'shape':'round','radius':0.1}]"),
+                   "pads[1]: \"radius\" needs a \"rect\" pad");
+}
+
 static void check_footprint_cases(void) {
     expect_fp_fail("footprints: bad JSON",
                    "{'format':'schematical-footprints','version':1,'footprints':[" FP_SOT5 ",",
@@ -1214,6 +1324,7 @@ static void check_voltage_cases(void) {
 
 int main(void) {
     check_footprint_styles();
+    check_footprint_corners();
     check_footprint_cases();
     check_part_footprints();
     check_ball_cases();

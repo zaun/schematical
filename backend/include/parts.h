@@ -70,6 +70,9 @@ typedef struct { uint32_t words; unsigned bits; uint64_t access_ps; const char *
 
 typedef enum { PAD_RECT, PAD_ROUND } PadShape;
 
+/* Corners of a rect pad, as seen on the board (y down): a bit set. */
+enum { PAD_CORNER_TL = 1, PAD_CORNER_TR = 2, PAD_CORNER_BR = 4, PAD_CORNER_BL = 8 };
+
 /* One land: millimetres, origin = body centre, x right, y down. */
 typedef struct {
     const char *designator;  /* "14" or "A1", matching PartPin.designator; NULL = unnumbered centre pad */
@@ -77,6 +80,9 @@ typedef struct {
     double width, height;
     double drill;            /* 0 = surface mount */
     PadShape shape;
+    double radius;           /* rect only: every corner rounded by this radius; 0 = square */
+    double chamfer;          /* rect only: `corners` cut at 45 deg, this far along each edge; 0 = none */
+    unsigned corners;        /* PAD_CORNER_* bits the chamfer cuts */
 } FootprintPad;
 
 /* A footprint, expanded to a flat pad list by the loader. */

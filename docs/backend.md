@@ -175,7 +175,8 @@ drawer work from the kind table and the `Part` structs.
   ```
 - `footprint_check` — every footprint in `footprints.json`, expanded to
   pads, against `tests/golden/footprints.txt` (one line per footprint:
-  `id|pins=N|body=WxH|pads=<designator>:x,y,wxh,shape[,d<drill>];…`, `-`
+  `id|pins=N|body=WxH|pads=<designator>:x,y,wxh,shape[,d<drill>][,r<radius>][,c<chamfer>:<corners>];…`,
+  corners `tl+tr+br+bl` order; `-`
   for an unnumbered pad), and every footprint used by some part. After an
   intended change: `/tmp/logic-build/footprint_check --print >
   backend/tests/golden/footprints.txt`, then hand-check the changed lines

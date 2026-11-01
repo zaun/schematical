@@ -19,6 +19,8 @@
 typedef struct {
     double width, height;
     PadShape shape;
+    double radius, chamfer;
+    unsigned corners;
 } PadSpec;
 
 /* What a dual or quad footprint puts on one slot. */
@@ -37,9 +39,12 @@ static const char *const QUAD_KEYS[] = {
 };
 static const char *const GRID_KEYS[] = {"pad", "drill", "rows", "columns", "pitch", "balls", NULL};
 static const char *const EXPLICIT_KEYS[] = {"pads", NULL};
-static const char *const SIZE_KEYS[] = {"width", "height", "shape", NULL};
+static const char *const SIZE_KEYS[] = {"width", "height", "shape", "radius", "chamfer", "corners", NULL};
 static const char *const BODY_KEYS[] = {"width", "height", "round", NULL};
-static const char *const PAD_KEYS[] = {"pin", "x", "y", "width", "height", "shape", "drill", NULL};
+static const char *const PAD_KEYS[] = {
+    "pin", "x", "y", "width", "height", "shape", "drill", "radius", "chamfer", "corners", NULL
+};
+static const char *const CORNER_NAMES[] = {"tl", "tr", "br", "bl"};   /* bit 1 << index */
 
 /* Keys a style does not take, each with its own message. */
 static const char *const GRID_FORBIDDEN[] = {"slots", "centre", "pin1Shape", NULL};
@@ -76,7 +81,129 @@ static int shape(KindContext *ctx, const cJSON *object, const char *key, PadShap
     return 0;
 }
 
-/* {"width", "height", "shape"} under `key`. */
+/*
+ * Cuts must fit their edges: on each side, chamfer x (cut corners at its two
+ * ends) is at most the side's length.
+ */
+static int check_cuts(KindContext *ctx, double width, double height, double chamfer,
+                      unsigned corners) {
+    static const struct { unsigned a, b; int across; const char *name; } edges[] = {
+        {PAD_CORNER_TL, PAD_CORNER_TR, 1, "top"},
+        {PAD_CORNER_TR, PAD_CORNER_BR, 0, "right"},
+        {PAD_CORNER_BR, PAD_CORNER_BL, 1, "bottom"},
+        {PAD_CORNER_BL, PAD_CORNER_TL, 0, "left"},
+    };
+    unsigned i;
+
+    for (i = 0; i < 4; i++) {
+        double length = edges[i].across ? width : height;
+        int cuts = ((corners & edges[i].a) != 0) + ((corners & edges[i].b) != 0);
+
+        if (cuts * chamfer > length + 1e-9) {
+            return kind_error(ctx, "\"chamfer\" %g cuts %s the %s edge (%g long)", chamfer,
+                              cuts == 2 ? "both ends of" : "past", edges[i].name, length);
+        }
+    }
+    return 0;
+}
+
+/*
+ * The optional corner keys of a pad: "radius" (every corner rounded, at most
+ * half the shorter side), or "chamfer" with "corners" (the named corners cut
+ * at 45 degrees, fitting every edge). Rect pads only.
+ */
+static int corner_keys(KindContext *ctx, const cJSON *json, PadShape pad_shape, double width,
+                       double height, double *radius, double *chamfer, unsigned *corners) {
+    const cJSON *radius_json = cJSON_GetObjectItemCaseSensitive(json, "radius");
+    const cJSON *chamfer_json = cJSON_GetObjectItemCaseSensitive(json, "chamfer");
+    const cJSON *corners_json = cJSON_GetObjectItemCaseSensitive(json, "corners");
+    const cJSON *item;
+    double limit = (width < height ? width : height) / 2;
+
+    *radius = 0;
+    *chamfer = 0;
+    *corners = 0;
+    if (radius_json == NULL && chamfer_json == NULL) {
+        if (corners_json != NULL) {
+            return kind_error(ctx, "\"corners\" needs \"chamfer\"");
+        }
+        return 0;
+    }
+    if (pad_shape != PAD_RECT) {
+        return kind_error(ctx, "\"%s\" needs a \"rect\" pad",
+                          radius_json != NULL ? "radius" : "chamfer");
+    }
+    if (radius_json != NULL && chamfer_json != NULL) {
+        return kind_error(ctx, "a pad takes \"radius\" or \"chamfer\", not both");
+    }
+    if (radius_json != NULL) {
+        if (corners_json != NULL) {
+            return kind_error(ctx, "\"corners\" needs \"chamfer\"; \"radius\" rounds every corner");
+        }
+        if (positive(ctx, json, "radius", radius) != 0) {
+            return -1;
+        }
+        if (*radius > limit + 1e-9) {
+            return kind_error(ctx, "\"radius\" %g is more than half the pad's shorter side (%g)",
+                              *radius, limit);
+        }
+        return 0;
+    }
+    if (positive(ctx, json, "chamfer", chamfer) != 0) {
+        return -1;
+    }
+    if (corners_json == NULL) {
+        return kind_error(ctx, "\"chamfer\" needs \"corners\"");
+    }
+    if (!cJSON_IsArray(corners_json) || cJSON_GetArraySize(corners_json) == 0) {
+        return kind_error(ctx, "\"corners\" must be a non-empty array of \"tl\", \"tr\", \"br\", \"bl\"");
+    }
+    cJSON_ArrayForEach(item, corners_json) {
+        unsigned bit = 0;
+        unsigned i;
+
+        for (i = 0; i < 4 && cJSON_IsString(item); i++) {
+            if (strcmp(item->valuestring, CORNER_NAMES[i]) == 0) {
+                bit = 1u << i;
+            }
+        }
+        if (bit == 0) {
+            return kind_error(ctx, "\"corners\" must be a non-empty array of \"tl\", \"tr\", \"br\", \"bl\"");
+        }
+        if (*corners & bit) {
+            return kind_error(ctx, "corner \"%s\" is named twice", item->valuestring);
+        }
+        *corners |= bit;
+    }
+    return check_cuts(ctx, width, height, *chamfer, *corners);
+}
+
+/* Swaps left and right corners (tl <-> tr, bl <-> br). */
+static unsigned flip_x(unsigned corners) {
+    return ((corners & PAD_CORNER_TL) ? PAD_CORNER_TR : 0) | ((corners & PAD_CORNER_TR) ? PAD_CORNER_TL : 0) |
+           ((corners & PAD_CORNER_BR) ? PAD_CORNER_BL : 0) | ((corners & PAD_CORNER_BL) ? PAD_CORNER_BR : 0);
+}
+
+/* Swaps top and bottom corners (tl <-> bl, tr <-> br). */
+static unsigned flip_y(unsigned corners) {
+    return ((corners & PAD_CORNER_TL) ? PAD_CORNER_BL : 0) | ((corners & PAD_CORNER_BL) ? PAD_CORNER_TL : 0) |
+           ((corners & PAD_CORNER_TR) ? PAD_CORNER_BR : 0) | ((corners & PAD_CORNER_BR) ? PAD_CORNER_TR : 0);
+}
+
+/*
+ * A parametric pad's corners are named for a pad up and left of the body
+ * centre; the footprint is mirror-symmetric about both centre lines. Right of
+ * centre mirrors left/right, below mirrors top/bottom, and a pad on a centre
+ * line takes both sides.
+ */
+static unsigned mirrored_corners(unsigned corners, double x, double y) {
+    const double near = 1e-9;
+
+    corners = x > near ? flip_x(corners) : x < -near ? corners : corners | flip_x(corners);
+    return y > near ? flip_y(corners) : y < -near ? corners : corners | flip_y(corners);
+}
+
+/* {"width", "height", "shape"} and the corner keys under `key`. */
 static int pad_spec(KindContext *ctx, const cJSON *object, const char *key, PadSpec *out) {
     const cJSON *json = kind_member(ctx, object, key, 1);
 
@@ -87,10 +214,35 @@ static int pad_spec(KindContext *ctx, const cJSON *object, const char *key, PadS
     if (kind_check_keys(ctx, json, SIZE_KEYS, NULL) != 0 ||
         positive(ctx, json, "width", &out->width) != 0 ||
         positive(ctx, json, "height", &out->height) != 0 ||
-        shape(ctx, json, "shape", &out->shape) != 0) {
+        shape(ctx, json, "shape", &out->shape) != 0 ||
+        corner_keys(ctx, json, out->shape, out->width, out->height, &out->radius, &out->chamfer,
+                    &out->corners) != 0) {
         return -1;
     }
     kind_pop(ctx);
+    return 0;
+}
+
+/*
+ * Copies a spec's size, shape and corners onto a pad at (out->x, out->y). A
+ * mirrored pad on a centre line can gain corners, so its cuts are checked
+ * again.
+ */
+static int put_spec(KindContext *ctx, FootprintPad *out, const PadSpec *spec, int turned,
+                    int mirror) {
+    out->width = turned ? spec->height : spec->width;
+    out->height = turned ? spec->width : spec->height;
+    out->shape = spec->shape;
+    out->radius = spec->radius;
+    out->chamfer = spec->chamfer;
+    out->corners = mirror ? mirrored_corners(spec->corners, out->x, out->y) : spec->corners;
+    if (out->chamfer > 0 && out->corners != spec->corners) {
+        kind_push(ctx, "pad %s (mirrored corners)", out->designator != NULL ? out->designator : "-");
+        if (check_cuts(ctx, out->width, out->height, out->chamfer, out->corners) != 0) {
+            return -1;
+        }
+        kind_pop(ctx);
+    }
     return 0;
 }
 
@@ -226,27 +378,32 @@ static int emit_slotted(KindContext *ctx, const cJSON *json, PartFootprint *fp, 
             return -1;
         }
         if (pin_slot[i] == 0) {
-            out->width = centre.width;
-            out->height = centre.height;
-            out->shape = centre.shape;
+            if (put_spec(ctx, out, &centre, 0, 0) != 0) {
+                return -1;
+            }
             centre_used = 1;
         } else {
             const Slot *slot = &slots[pin_slot[i] - 1];
 
             out->x = clean(slot->x);
             out->y = clean(slot->y);
-            out->width = slot->turned ? pad.height : pad.width;
-            out->height = slot->turned ? pad.width : pad.height;
             out->drill = drill;
-            out->shape = i == 0 && has_pin1 ? pin1 : pad.shape;
+            if (i == 0 && has_pin1) {
+                /* pin1Shape is a plain shape: no rounded or cut corners. */
+                PadSpec plain = {pad.width, pad.height, pin1, 0, 0, 0};
+
+                if (put_spec(ctx, out, &plain, slot->turned, 0) != 0) {
+                    return -1;
+                }
+            } else if (put_spec(ctx, out, &pad, slot->turned, 1) != 0) {
+                return -1;
+            }
         }
     }
     if (centre_json != NULL && !centre_used) {
-        FootprintPad *out = &pads[n++];
-
-        out->width = centre.width;
-        out->height = centre.height;
-        out->shape = centre.shape;
+        if (put_spec(ctx, &pads[n++], &centre, 0, 0) != 0) {
+            return -1;
+        }
     }
     fp->pads = pads;
     fp->pad_count = n;
@@ -441,10 +598,10 @@ static int load_grid(KindContext *ctx, const cJSON *json, PartFootprint *fp) {
         pads[i].designator = balls[i].name;
         pads[i].x = clean(((double)balls[i].column - 1 - ((double)columns - 1) / 2) * pitch);
         pads[i].y = clean(((double)balls[i].row - ((double)rows - 1) / 2) * pitch);
-        pads[i].width = pad.width;
-        pads[i].height = pad.height;
         pads[i].drill = drill;
-        pads[i].shape = pad.shape;
+        if (put_spec(ctx, &pads[i], &pad, 0, 1) != 0) {
+            return -1;
+        }
     }
     fp->pads = pads;
     fp->pad_count = n;
@@ -489,7 +646,9 @@ static int load_explicit(KindContext *ctx, const cJSON *json, PartFootprint *fp)
             kind_number(ctx, item, "y", &pad->y) != 0 ||
             positive(ctx, item, "width", &pad->width) != 0 ||
             positive(ctx, item, "height", &pad->height) != 0 ||
-            shape(ctx, item, "shape", &pad->shape) != 0) {
+            shape(ctx, item, "shape", &pad->shape) != 0 ||
+            corner_keys(ctx, item, pad->shape, pad->width, pad->height, &pad->radius,
+                        &pad->chamfer, &pad->corners) != 0) {
             return -1;
         }
         if (cJSON_GetObjectItemCaseSensitive(item, "drill") != NULL &&

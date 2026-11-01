@@ -4,6 +4,9 @@
  * and every footprint must be used by at least one part.
  *
  *     footprint_check --print > tests/golden/footprints.txt   regenerates it
+ *
+ * A pad is `designator:x,y,wxh,shape[,d<drill>][,r<radius>][,c<chamfer>:<corners>]`,
+ * corners joined by '+' in tl, tr, br, bl order.
  */
 
 #include <stdio.h>
@@ -53,6 +56,24 @@ static char *footprint_line(const PartFootprint *fp) {
         if (pad->drill > 0) {
             fputs(",d", out);
             print_number(out, pad->drill);
+        }
+        if (pad->radius > 0) {
+            fputs(",r", out);
+            print_number(out, pad->radius);
+        }
+        if (pad->chamfer > 0) {
+            static const char *const names[] = {"tl", "tr", "br", "bl"};
+            const char *join = ":";
+            unsigned c;
+
+            fputs(",c", out);
+            print_number(out, pad->chamfer);
+            for (c = 0; c < 4; c++) {
+                if (pad->corners & (1u << c)) {
+                    fprintf(out, "%s%s", join, names[c]);
+                    join = "+";
+                }
+            }
         }
     }
     fclose(out);
