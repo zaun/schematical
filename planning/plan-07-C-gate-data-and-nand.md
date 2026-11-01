@@ -166,17 +166,25 @@ Acceptance: every AND part has `vcc`, and nothing else changed.
   compare → `653 653 True`). `/tmp/p07s/verify.py` (every part's listed
   value against the datasheet readings) → `285 parts checked, 0
   mismatches` (74_08) and `368 parts checked, 0 mismatches` (the other 12).
-Commit: —
+Commit: 5bb104d
 
 ### Phase 2 — NAND devices
 
-- [ ] Run §4 on the 17 NAND devices (69 entries).
-- [ ] Regenerate `parts.txt`.
+- [x] Run §4 on the 17 NAND devices (69 entries).
+- [x] Regenerate `parts.txt`.
 
 Acceptance: every AND and NAND part has `vcc`, and the spot values match.
   Check: the Phase 1 script with `in ('AND','NAND')` → `0`; then
   `grep -E '^(SN74HC00N|SN74LVC00AD|SN54LS00J|CD74AC00E)\|' backend/tests/golden/parts.txt | grep -o 'vcc=.*'`
   → the four values in the Outcome above (est. 1 min).
+  Result (2026-11-01): script → `0` (all 1404 AND/NAND parts resolve);
+  the grep → `CD74AC00E vcc=1500-5500,in=5500`, `SN54LS00J
+  vcc=4500-5500,in=5500`, `SN74HC00N vcc=2000-6000,in=6000`, `SN74LVC00AD
+  vcc=1650-3600,in=5500` (= the Outcome). traces.txt unchanged (`git diff
+  --quiet` exit 0); the 751 changed parts.txt lines differ only by `|vcc=`
+  (`751 751 True`); `verify.py` → `276 … 0 mismatches` (74_00), `475 … 0
+  mismatches` (the other 16). Final gate: `ctest` → `100% tests passed, 0
+  tests failed out of 12`.
 Commit: —
 
 ## Validation Plan
