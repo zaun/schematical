@@ -139,11 +139,11 @@ the error cases.
 Acceptance: the app builds.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-bga-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 30 s). The behavior check is the runtime proof below; no smaller check exercises the decoder, because the app has no Swift test target (`find schematical -name '*Tests*'` → none).
   Result (2026-11-01): `** BUILD SUCCEEDED **`.
-Commit: —
+Commit: cbc2f5a
 
 ### Phase 2 — Docs
 
-- [ ] `docs/file-format.md`:
+- [x] `docs/file-format.md`:
   - "describes version 2";
   - "Wires": an end is `{"part": <id>, "pin": "<designator>"}`, the pin's
     designator from the part library (`"14"`, `"A1"`);
@@ -155,6 +155,7 @@ Commit: —
 
 Acceptance: the doc describes version 2 and the conversion.
   Check: `grep -nE '"version": 1|"pin": [0-9]' docs/file-format.md` → matches only inside the "Version 1 files" section (est. seconds).
+  Result (2026-11-01): matches at lines 140–141 only, inside "## Version 1 files" (lines 133–147).
 Commit: —
 
 ## Validation Plan

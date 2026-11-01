@@ -1,7 +1,8 @@
 # Schematical file format
 
 Schematical saves a schematic as a UTF-8 JSON file with the extension
-`.schematical`. This document describes version 1.
+`.schematical`. This document describes version 2. Version 1 files are
+converted when opened (see [Version 1 files](#version-1-files)).
 
 Code: `schematical/schematical/Document/SchematicFile.swift` (the format) and
 `SchematicFileController.swift` (Save, Save As, Open).
@@ -12,7 +13,7 @@ Code: `schematical/schematical/Document/SchematicFile.swift` (the format) and
   come from the part library (`schematical/schematical/Parts/*.json`) when the
   file is opened. Files stay small, and fixes to a part's model apply to
   existing files.
-- **Connections are explicit.** A wire end names a part and pin number, or a
+- **Connections are explicit.** A wire end names a part and pin designator, or a
   junction. Connectivity never depends on two coordinates touching.
 - **IDs are stable.** Every part, junction and wire has a UUID that is kept
   across save and open.
@@ -28,7 +29,7 @@ downward. Part origins are snapped to the grid when a file is opened.
 ```json
 {
   "format": "schematical",
-  "version": 1,
+  "version": 2,
   "nextReference": 4,
   "parts": [ ... ],
   "junctions": [ ... ],
@@ -91,7 +92,7 @@ each junction. The app removes unused junctions when wires are erased.
 ```json
 {
   "id": "A41B...",
-  "from": { "part": "6F1C...", "pin": 3 },
+  "from": { "part": "6F1C...", "pin": "3" },
   "to":   { "junction": "0D9E..." },
   "bends": [ { "x": 300, "y": 150 }, { "x": 300, "y": 160 } ]
 }
@@ -106,8 +107,10 @@ each junction. The app removes unused junctions when wires are erased.
 
 An end is one of:
 
-- `{ "part": <part id>, "pin": <pin number> }`: a pin on a placed part. Pin
-  numbers are the package's 1-based numbers from the catalog.
+- `{ "part": <part id>, "pin": "<designator>" }`: a pin on a placed part.
+  The designator is the pin's label from the part library, a string: the
+  package pin number on numbered packages (`"14"`), the ball name on ball
+  grids (`"A1"`).
 - `{ "junction": <junction id> }`: a junction.
 
 The ends' own positions are not stored. They come from the part's pin layout
@@ -123,7 +126,24 @@ Opening fails, and the canvas is left unchanged, if:
 - an ID is used more than once across parts, junctions and wires;
 - a `partNumber` is not in the catalog (the error lists every missing one);
 - a wire end names a part or junction that isn't in the file, or a pin the
-  part's symbol doesn't draw (for example the no-connect pins of a 4-pin LED).
+  part's symbol doesn't draw (for example the no-connect pins of a 4-pin LED);
+- the pins don't match the version: a version 1 file with a string `"pin"`, or a
+  version 2 file with an integer `"pin"`. A file uses one or the other.
+
+## Version 1 files
+
+Version 1 is the same format except for wire ends: `"pin"` is an integer, and
+pin n is the part's n-th pin in its pinout (the order its part file lists
+them). For example:
+
+```json
+{ "format": "schematical", "version": 1, ... }
+{ "part": "6F1C...", "pin": 14 }
+```
+
+The app opens version 1 files and converts each pin to its designator, and
+saving always writes version 2. Builds from before version 2 refuse version 2
+files as "saved by a newer version of Schematical".
 
 ## Changing the format
 
@@ -140,7 +160,7 @@ A red LED between VCC and GND:
 ```json
 {
   "format": "schematical",
-  "version": 1,
+  "version": 2,
   "nextReference": 4,
   "parts": [
     { "id": "11111111-1111-1111-1111-111111111111", "reference": "U1", "partNumber": "VCC", "x": 100, "y": 40, "flipped": false },
@@ -151,14 +171,14 @@ A red LED between VCC and GND:
   "wires": [
     {
       "id": "44444444-4444-4444-4444-444444444444",
-      "from": { "part": "11111111-1111-1111-1111-111111111111", "pin": 1 },
-      "to": { "part": "22222222-2222-2222-2222-222222222222", "pin": 2 },
+      "from": { "part": "11111111-1111-1111-1111-111111111111", "pin": "1" },
+      "to": { "part": "22222222-2222-2222-2222-222222222222", "pin": "2" },
       "bends": [ { "x": 120, "y": 120 } ]
     },
     {
       "id": "55555555-5555-5555-5555-555555555555",
-      "from": { "part": "22222222-2222-2222-2222-222222222222", "pin": 1 },
-      "to": { "part": "33333333-3333-3333-3333-333333333333", "pin": 1 },
+      "from": { "part": "22222222-2222-2222-2222-222222222222", "pin": "1" },
+      "to": { "part": "33333333-3333-3333-3333-333333333333", "pin": "1" },
       "bends": [ { "x": 320, "y": 120 } ]
     }
   ]
