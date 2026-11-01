@@ -144,10 +144,11 @@ for hidden); `TextLayer.color(on:)`.
    through the hole); pin-1 mark with `pin1.color`; reference with
    `reference.color`.
 4. Texts, in `texts` order: `context.drawLayer`, translate to `anchor`,
-   rotate by `rotation` degrees, draw
+   rotate by `rotation` degrees, scale by `text.drawScale` (plan-06-A
+   Corrections 1: the font is laid out at 100 points), draw
    `Text(text).font(Font(text.font)).foregroundStyle(layer.color)` at
-   `.zero`, anchor `.topLeading`. The font is in board mm, so no minimum
-   on-screen size (unlike the reference).
+   `.zero`, anchor `.topLeading`. The text scales with the board, so no
+   minimum on-screen size (unlike the reference).
 5. Selection: the selected chip as today; the selected text's `boardRect`
    with the same 3-point margin and 2-point accent stroke.
 

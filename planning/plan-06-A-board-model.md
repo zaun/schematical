@@ -357,36 +357,52 @@ calls `load()`, and drives `SchematicDocument` / `SchematicFile` directly.
 Before any code change, record today's placements so Phase 2 can prove the
 default origin reproduces them.
 
-- [ ] `/tmp/p06/harness/a.swift` `baseline`: open `test.schematical`,
+- [x] `/tmp/p06/harness/a.swift` `baseline`: open `test.schematical`,
       place `SN74HC00N` and `LED-AMBER-0603` with `placeChip`, rotate the
       DIP once and the oscillator twice, move the LED by (+3.0, +2.2) mm;
       print every chip's reference, centre and rotation to
-      `/tmp/p06/baseline.txt`, one line per chip.
-- [ ] Same harness, `render` mode: render `PCBCanvasView` for that document
-      with `ImageRenderer` (900 × 600) to `/tmp/p06/a-pcb-before.png`.
+      `/tmp/p06/baseline.txt`, one line per chip. — taken at 5992f1c before
+      any change: `wc -l < /tmp/p06/baseline.txt` → 7 (U2 OSC (-0.215, 0.135)
+      rot 180; U3 LED (3.49, -0.135); U4–U6 `no placement`; U7 SN74HC00N
+      (16.64, 3.925) rot 90; U8 LED (22.54, 1.77)).
+- [x] Same harness, `render` mode: render `PCBCanvasView` for that document
+      with `ImageRenderer` (900 × 600) to `/tmp/p06/a-pcb-before.png`. —
+      `harness render` → `rendered /tmp/p06/a-pcb-before.png` (U2, U3, U7, U8
+      on the dark grid, U8 selected).
 
 Acceptance: the baseline exists, taken before any plan-06 code change.
   Check: `wc -l < /tmp/p06/baseline.txt` → 7 (`test.schematical` has 5
   parts — `python3 -I -c 'import json;print(len(json.load(open("test.schematical"))["parts"]))'`
   → 5 — plus the two placed; VCC/GND lines read `no placement`) (est. 5 min).
-Commit: — (no repo change)
+Commit: — (no repo change; boxes ticked in Phase 2's commit)
 
 ### Phase 2 — Types, placement and document
 
-- [ ] `Canvas/BoardSettings.swift` (new): §4.1 types, titles,
-      `ReferenceParts`.
-- [ ] `Canvas/BoardTextGeometry.swift` (new): `font`, `localSize`,
-      `boardRect` (§4.1).
-- [ ] `Canvas/BoardModel.swift`: `BoardPlacement` fields;
+- [x] `Canvas/BoardSettings.swift` (new): §4.1 types, titles,
+      `ReferenceParts` (+ `CatalogPart.firstPinDesignator`, the `pad1` every
+      caller passes).
+- [x] `Canvas/BoardTextGeometry.swift` (new): `font`, `localSize`,
+      `boardRect` (§4.1), laid out at a 100-point reference font and scaled
+      by `drawScale` (Corrections 1). `harness texts` → rect 0.455 × 0.300 mm
+      for "Text" at 10 mil.
+- [x] `Canvas/BoardModel.swift`: `BoardPlacement` fields;
       `originPoint(of:footprint:pad1:)` (§4.1); `snapped` by the origin
-      point with the new `pad1` parameter at every caller (§4.2).
-- [ ] `Canvas/SchematicModel.swift`: `reference` var, `board`, `texts`,
+      point with the new `pad1` parameter at every caller (§4.2); plus
+      `PlacedChip.boardOrigin`. `harness baseline | diff - /tmp/p06/baseline.txt`
+      → no output.
+- [x] `Canvas/SchematicModel.swift`: `reference` var, `board`, `texts`,
       `selectedTextID`, `renameChip`, `placeChip` reference rule, the
       footprint origin/mark setters, `moveFootprintOrigin`,
       `rotateFootprint` about the origin, text methods, `setBoardSize`,
-      `replaceContents` signature (§4.2, §4.3).
-- [ ] `Document/SchematicFile.swift`: pass `board: BoardSettings()` and
+      `replaceContents` signature (§4.2, §4.3). `harness origins`: every
+      line `true` (center (10.16, 10.16), bottomLeft, pad1Center on grid and
+      fixed across rotate; set origin keeps centre); `harness rename`: nil/R3,
+      `R3 is already used by another part.`, `The prefix must be 1 to 8
+      letters.`, `The number must be 1 or more.`, nil/U3, next `U4`; `harness
+      texts`: every line `true`.
+- [x] `Document/SchematicFile.swift`: pass `board: BoardSettings()` and
       `texts: []` to `replaceContents` (the file fields come in Phase 3).
+      `xcodebuild` → `** BUILD SUCCEEDED **`.
 
 Acceptance: default origin reproduces the baseline; other origins snap and
 pivot on their point; renaming refuses bad and duplicate references.
@@ -484,6 +500,20 @@ Commit: —
   unused `U<n>`.
 
 ## Corrections
+
+1. **Text geometry measured at the text's own size is wrong** (§4.1). AppKit
+   rounds line heights up to whole points, and the board draws in mm, so a
+   10-mil (0.254 mm) "Text" measured 0.56 × **1.0** mm — four times too tall
+   — and width per point varies with size (probe `/tmp/p06/fontprobe`:
+   width/size 2.196 at 1.27 pt, 2.020 at 12.7, 1.793 at 127; height 2.0 at
+   1.27 pt). Fix: `BoardText.font` is the system font at a fixed
+   `referenceSize` of 100 points and `drawScale = sizeMM / 100`; `localSize`
+   is the 100-point layout times `drawScale`. plan-06-B §4.2 step 4 draws with
+   the same font and scales the context by `drawScale`, so the hit box still
+   matches the drawing. After: 0.455 × 0.300 mm (height/size 1.18).
+2. Harness entry point: a file not named `main.swift` cannot hold top-level
+   code, so `a.swift` uses `@main struct Harness`; the `MAIN=` build line is
+   unchanged.
 
 ## Summary
 

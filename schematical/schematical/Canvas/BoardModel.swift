@@ -8,8 +8,9 @@ nonisolated enum BoardScale {
     static let pointsPerMM: CGFloat = 20
 }
 
-/// Footprints snap to a 0.635 mm (25 mil) grid by the top-left corner of their
-/// bounding box (body plus pads, as turned), so edges of parts line up.
+/// Footprints snap to a 0.635 mm (25 mil) grid by their origin point; by
+/// default the top-left corner of their bounding box (body plus pads, as
+/// turned), so edges of parts line up.
 nonisolated enum BoardGrid {
     static let spacing: CGFloat = 0.635
 
@@ -25,12 +26,18 @@ nonisolated enum BoardGrid {
 
 // MARK: - Placement
 
-/// Where a part's footprint sits on the board: its origin (the body centre),
-/// in mm, and a clockwise rotation in 90° steps. Top side only.
+/// Where a part's footprint sits on the board: its body centre, in mm, and a
+/// clockwise rotation in 90° steps. Top side only. Also the footprint's
+/// origin point (the point that snaps to the grid) and where its marks go.
 nonisolated struct BoardPlacement: Hashable, Sendable {
     var centre: CGPoint
     /// 0, 90, 180 or 270, clockwise.
     var rotation: Int
+    var origin: FootprintOrigin = .topLeft
+    /// The body outline (the "bounding box" mark).
+    var outline: MarkLayer = .document
+    var pin1: MarkLayer = .silkscreen
+    var reference: MarkLayer = .silkscreen
 
     static let rotations = [0, 90, 180, 270]
 
@@ -102,6 +109,12 @@ extension PlacedChip {
         return BoardLayout.localBounds(of: footprint).applying(board)
     }
 
+    /// The footprint's origin point on the board (see `FootprintOrigin`).
+    nonisolated var boardOrigin: CGPoint? {
+        guard let footprint = part.footprint, let board else { return nil }
+        return BoardLayout.originPoint(of: board, footprint: footprint, pad1: part.firstPinDesignator)
+    }
+
     /// Where the pin-1 mark goes: 0.5 mm outside the body corner nearest the
     /// pad of the part's first pin ("1", or "A1" on a BGA).
     nonisolated var pin1Mark: CGPoint? {
@@ -138,28 +151,53 @@ nonisolated enum BoardLayout {
         return bounds
     }
 
-    /// The placement moved so the top-left of the footprint's bounding box
-    /// (body plus pads, as turned) sits on the grid.
-    static func snapped(_ placement: BoardPlacement, footprint: Footprint) -> BoardPlacement {
+    /// The footprint's origin point on the board. Box points are of the
+    /// bounding box (body plus pads, as turned); "Pad 1 Center" is the centre
+    /// of the pad named `pad1`, the part's first pin.
+    static func originPoint(of placement: BoardPlacement, footprint: Footprint, pad1: String) -> CGPoint {
         let bounds = localBounds(of: footprint).applying(placement)
+        switch placement.origin {
+        case .center:
+            return CGPoint(x: bounds.midX, y: bounds.midY)
+        case .topLeft:
+            return CGPoint(x: bounds.minX, y: bounds.minY)
+        case .centerLeft:
+            return CGPoint(x: bounds.minX, y: bounds.midY)
+        case .bottomLeft:
+            return CGPoint(x: bounds.minX, y: bounds.maxY)
+        case .pad1Center:
+            // Every part with a footprint has a pad for its first pin (checked
+            // over the whole catalog); the body centre only stands in should a
+            // part file ever break that.
+            guard let pad = footprint.pads.first(where: { $0.designator == pad1 }) else {
+                return placement.centre
+            }
+            return placement.board(pad.centre)
+        }
+    }
+
+    /// The placement moved so its origin point sits on the grid.
+    static func snapped(_ placement: BoardPlacement, footprint: Footprint, pad1: String) -> BoardPlacement {
+        let point = originPoint(of: placement, footprint: footprint, pad1: pad1)
         var snapped = placement
-        snapped.centre.x += BoardGrid.snap(bounds.minX) - bounds.minX
-        snapped.centre.y += BoardGrid.snap(bounds.minY) - bounds.minY
+        snapped.centre.x += BoardGrid.snap(point.x) - point.x
+        snapped.centre.y += BoardGrid.snap(point.y) - point.y
         return snapped
     }
 
     /// Where a newly placed footprint goes: the first at (0, 0); later ones to
     /// the right of everything already placed, 2.54 mm apart, top edges
-    /// aligned. Top-left snapped to the grid.
+    /// aligned. Origin top left, snapped to the grid; default marks.
     static func nextSpot(for footprint: Footprint, among chips: [PlacedChip]) -> BoardPlacement {
         let placed = chips.compactMap(\.boardBounds)
+        // The top-left origin does not use pad 1, so none is named.
         guard let first = placed.first else {
-            return snapped(BoardPlacement(centre: .zero, rotation: 0), footprint: footprint)
+            return snapped(BoardPlacement(centre: .zero, rotation: 0), footprint: footprint, pad1: "")
         }
         let union = placed.dropFirst().reduce(first) { $0.union($1) }
         let local = localBounds(of: footprint)
         let centre = CGPoint(x: union.maxX + 2.54 - local.minX, y: union.minY - local.minY)
-        return snapped(BoardPlacement(centre: centre, rotation: 0), footprint: footprint)
+        return snapped(BoardPlacement(centre: centre, rotation: 0), footprint: footprint, pad1: "")
     }
 }
 

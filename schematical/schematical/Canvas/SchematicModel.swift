@@ -390,7 +390,9 @@ nonisolated struct MemoryFile: Hashable, Sendable {
 
 nonisolated struct PlacedChip: Identifiable, Hashable {
     let id: UUID
-    let reference: String
+    /// "U1", "R3": letters then a number. Changed through
+    /// `SchematicDocument.renameChip`, which keeps references unique.
+    var reference: String
     /// The library part, copied from the backend at launch.
     let part: CatalogPart
     let symbol: PartSymbol
@@ -680,19 +682,39 @@ final class SchematicDocument {
     private(set) var chips: [PlacedChip] = []
     private(set) var wires: [Wire] = []
     private(set) var junctions: [Junction] = []
-    var selectedChipID: UUID?
+    /// The selected part. Selecting one clears the selected text.
+    var selectedChipID: UUID? {
+        didSet {
+            if selectedChipID != nil, selectedTextID != nil { selectedTextID = nil }
+        }
+    }
 
-    /// Number for the next part's reference ("U" plus this number).
+    /// The PCB's size, layers, colour and units.
+    var board = BoardSettings()
+    /// Free texts on the PCB, in drawing order.
+    private(set) var texts: [BoardText] = []
+    /// The selected board text. Selecting one clears the selected part.
+    var selectedTextID: UUID? {
+        didSet {
+            if selectedTextID != nil, selectedChipID != nil { selectedChipID = nil }
+        }
+    }
+
+    /// Lowest number tried for the next part's reference ("U" plus a number).
     private(set) var nextReference = 1
 
     /// Replaces everything on the canvas, for example with a file that was
     /// just opened. Clears the selection.
-    func replaceContents(chips: [PlacedChip], wires: [Wire], junctions: [Junction], nextReference: Int) {
+    func replaceContents(chips: [PlacedChip], wires: [Wire], junctions: [Junction], nextReference: Int,
+                         board: BoardSettings, texts: [BoardText]) {
         self.chips = chips
         self.wires = wires
         self.junctions = junctions
         self.nextReference = max(nextReference, 1)
+        self.board = board
+        self.texts = texts
         selectedChipID = nil
+        selectedTextID = nil
     }
 
     // MARK: Chips
@@ -703,16 +725,40 @@ final class SchematicDocument {
         let origin = SchematicGrid.snap(
             CGPoint(x: point.x - layout.size.width / 2, y: point.y - layout.size.height / 2)
         )
+        // The first U<n> from nextReference on that no part uses, since a
+        // part may have been renamed to one.
+        let used = Set(chips.map(\.reference))
+        var number = nextReference
+        while used.contains("U\(number)") {
+            number += 1
+        }
         let placed = PlacedChip(
-            reference: "U\(nextReference)",
+            reference: "U\(number)",
             part: part,
             symbol: symbol,
             origin: origin,
             board: part.footprint.map { BoardLayout.nextSpot(for: $0, among: chips) }
         )
-        nextReference += 1
+        nextReference = number + 1
         chips.append(placed)
         selectedChipID = placed.id
+    }
+
+    /// Renames a part to `prefix` (uppercased) plus `number`. Returns why it
+    /// can't (a bad prefix or number, or a reference another part has), or
+    /// nil when it was renamed.
+    @discardableResult
+    func renameChip(_ id: UUID, prefix: String, number: Int?) -> String? {
+        if let message = ReferenceParts.validate(prefix: prefix, number: number) {
+            return message
+        }
+        guard let number, let index = chips.firstIndex(where: { $0.id == id }) else { return nil }
+        let reference = ReferenceParts.reference(prefix: prefix, number: number)
+        if chips.contains(where: { $0.id != id && $0.reference == reference }) {
+            return "\(reference) is already used by another part."
+        }
+        chips[index].reference = reference
+        return nil
     }
 
     func moveChip(_ id: UUID, to origin: CGPoint) {
@@ -735,31 +781,131 @@ final class SchematicDocument {
 
     // MARK: Footprints (PCB)
 
-    /// Moves a footprint's centre (board mm), then snaps the top-left of its
-    /// bounding box to the board grid.
+    /// Moves a footprint's centre (board mm), then snaps its origin point to
+    /// the board grid.
     func moveFootprint(_ id: UUID, to centre: CGPoint) {
         guard let index = chips.firstIndex(where: { $0.id == id }),
               let board = chips[index].board,
               let footprint = chips[index].part.footprint else { return }
         var moved = board
         moved.centre = centre
-        chips[index].board = BoardLayout.snapped(moved, footprint: footprint)
+        chips[index].board = BoardLayout.snapped(moved, footprint: footprint,
+                                                 pad1: chips[index].part.firstPinDesignator)
     }
 
-    /// Turns a footprint 90° clockwise, keeping the top-left of its bounding
-    /// box where it was.
+    /// Moves a footprint so its origin point lands on `point` (board mm),
+    /// snapped to the grid.
+    func moveFootprintOrigin(_ id: UUID, to point: CGPoint) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              let board = chips[index].board,
+              let footprint = chips[index].part.footprint else { return }
+        let pad1 = chips[index].part.firstPinDesignator
+        let current = BoardLayout.originPoint(of: board, footprint: footprint, pad1: pad1)
+        var moved = board
+        moved.centre.x += point.x - current.x
+        moved.centre.y += point.y - current.y
+        chips[index].board = BoardLayout.snapped(moved, footprint: footprint, pad1: pad1)
+    }
+
+    /// Turns a footprint 90° clockwise about its origin point, which stays
+    /// where it was.
     func rotateFootprint(_ id: UUID) {
         guard let index = chips.firstIndex(where: { $0.id == id }),
               let board = chips[index].board,
               let footprint = chips[index].part.footprint else { return }
-        let local = BoardLayout.localBounds(of: footprint)
-        let before = local.applying(board)
+        let pad1 = chips[index].part.firstPinDesignator
+        let before = BoardLayout.originPoint(of: board, footprint: footprint, pad1: pad1)
         var turned = board
         turned.rotation = (board.rotation + 90) % 360
-        let after = local.applying(turned)
-        turned.centre.x += before.minX - after.minX
-        turned.centre.y += before.minY - after.minY
-        chips[index].board = BoardLayout.snapped(turned, footprint: footprint)
+        let after = BoardLayout.originPoint(of: turned, footprint: footprint, pad1: pad1)
+        turned.centre.x += before.x - after.x
+        turned.centre.y += before.y - after.y
+        chips[index].board = BoardLayout.snapped(turned, footprint: footprint, pad1: pad1)
+    }
+
+    /// Changes which point of a footprint is its origin. The footprint stays
+    /// where it is and is not re-snapped.
+    func setFootprintOrigin(_ id: UUID, _ origin: FootprintOrigin) {
+        guard let index = chips.firstIndex(where: { $0.id == id }), chips[index].board != nil else { return }
+        chips[index].board?.origin = origin
+    }
+
+    /// Sets where a footprint's marks are drawn. A nil layer is left as it is.
+    func setFootprintMarks(_ id: UUID, outline: MarkLayer? = nil, pin1: MarkLayer? = nil,
+                           reference: MarkLayer? = nil) {
+        guard let index = chips.firstIndex(where: { $0.id == id }), chips[index].board != nil else { return }
+        if let outline { chips[index].board?.outline = outline }
+        if let pin1 { chips[index].board?.pin1 = pin1 }
+        if let reference { chips[index].board?.reference = reference }
+    }
+
+    // MARK: Board
+
+    /// Sets the board's size in mm, each side clamped to `BoardSettings.sizeRange`.
+    func setBoardSize(width: Double, height: Double) {
+        let range = BoardSettings.sizeRange
+        board.width = min(max(width, range.lowerBound), range.upperBound)
+        board.height = min(max(height, range.lowerBound), range.upperBound)
+    }
+
+    // MARK: Board texts
+
+    /// Adds a "Text" on the silkscreen with its top-left at `point` (snapped)
+    /// and selects it.
+    @discardableResult
+    func addText(at point: CGPoint) -> UUID {
+        let text = BoardText(id: UUID(), text: "Text", anchor: BoardGrid.snap(point), size: BoardText.defaultSize)
+        texts.append(text)
+        selectedTextID = text.id
+        return text.id
+    }
+
+    /// Changes a text's words. An empty string is refused and the text kept.
+    func setText(_ id: UUID, _ value: String) {
+        guard !value.isEmpty, let index = texts.firstIndex(where: { $0.id == id }) else { return }
+        texts[index].text = value
+    }
+
+    /// Sets a text's font size in mil, clamped to `BoardText.sizeRange`.
+    func setTextSize(_ id: UUID, _ size: Int) {
+        guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
+        texts[index].size = min(max(size, BoardText.sizeRange.lowerBound), BoardText.sizeRange.upperBound)
+    }
+
+    func setTextLayer(_ id: UUID, _ layer: TextLayer) {
+        guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
+        texts[index].layer = layer
+    }
+
+    /// Moves a text's anchor to `point`, snapped to the grid.
+    func moveText(_ id: UUID, to point: CGPoint) {
+        guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
+        texts[index].anchor = BoardGrid.snap(point)
+    }
+
+    /// Sets a text's rotation: 0, 90, 180 or 270. Other values are ignored.
+    func setTextRotation(_ id: UUID, _ rotation: Int) {
+        guard BoardPlacement.rotations.contains(rotation),
+              let index = texts.firstIndex(where: { $0.id == id }) else { return }
+        texts[index].rotation = rotation
+    }
+
+    /// Turns a text 90° clockwise about its anchor.
+    func rotateText(_ id: UUID) {
+        guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
+        texts[index].rotation = (texts[index].rotation + 90) % 360
+    }
+
+    func deleteText(_ id: UUID) {
+        texts.removeAll { $0.id == id }
+        if selectedTextID == id {
+            selectedTextID = nil
+        }
+    }
+
+    /// The text under a board point (mm): the last one drawn there.
+    func text(at point: CGPoint) -> BoardText? {
+        texts.last { $0.boardRect.contains(point) }
     }
 
     /// The footprint under a board point (mm): the last one drawn there.

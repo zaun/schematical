@@ -283,7 +283,7 @@ extension SchematicFile {
                 }
                 board = BoardLayout.snapped(
                     BoardPlacement(centre: CGPoint(x: pcb.x, y: pcb.y), rotation: pcb.rotation),
-                    footprint: footprint)
+                    footprint: footprint, pad1: catalogPart.firstPinDesignator)
             }
             // A load file counts only on an EEPROM.
             var memoryFile: MemoryFile?
@@ -369,7 +369,9 @@ extension SchematicFile {
             chips: chips,
             wires: placedWires,
             junctions: placedJunctions,
-            nextReference: max(nextReference, highest + 1)
+            nextReference: max(nextReference, highest + 1),
+            board: BoardSettings(),
+            texts: []
         )
     }
 }
