@@ -24,6 +24,7 @@
 		00000000A0B0C0E0000000A9 /* catalog_validate.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000A9 /* catalog_validate.c */; };
 		00000000A0B0C0E0000000B1 /* netlist_sim.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000B1 /* netlist_sim.c */; };
 		00000000A0B0C0E0000000C1 /* cd4000.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000C1 /* cd4000.c */; };
+		00000000A0B0C0E0000000E1 /* sram.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000E1 /* sram.c */; };
 		00000000A0B0C0E0000000C3 /* gates.c in Sources */ = {isa = PBXBuildFile; fileRef = 00000000A0B0C0D0000000C3 /* gates.c */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,8 @@
 		00000000A0B0C0D0000000C2 /* cd4000.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cd4000.h; sourceTree = "<group>"; };
 		00000000A0B0C0D0000000C3 /* gates.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = gates.c; sourceTree = "<group>"; };
 		00000000A0B0C0D0000000C4 /* gates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gates.h; sourceTree = "<group>"; };
+		00000000A0B0C0D0000000E1 /* sram.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sram.c; sourceTree = "<group>"; };
+		00000000A0B0C0D0000000E2 /* sram.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sram.h; sourceTree = "<group>"; };
 		235280FF3096AF3A00135939 /* schematical.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = schematical.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -123,6 +126,7 @@
 				00000000A0B0C0D0000000B1 /* netlist_sim.c */,
 				00000000A0B0C0D0000000C1 /* cd4000.c */,
 				00000000A0B0C0D0000000C3 /* gates.c */,
+				00000000A0B0C0D0000000E1 /* sram.c */,
 				00000000A0B0C0D0000000A9 /* catalog_validate.c */,
 				00000000A0B0C0D00000000A /* sim.h */,
 				00000000A0B0C0D00000000B /* net.h */,
@@ -142,6 +146,7 @@
 				00000000A0B0C0D00000000AA /* catalog_validate.h */,
 				00000000A0B0C0D0000000C2 /* cd4000.h */,
 				00000000A0B0C0D0000000C4 /* gates.h */,
+				00000000A0B0C0D0000000E2 /* sram.h */,
 			);
 			name = backend;
 			path = ../backend;
@@ -238,6 +243,7 @@
 				00000000A0B0C0E0000000B1 /* netlist_sim.c in Sources */,
 				00000000A0B0C0E0000000C1 /* cd4000.c in Sources */,
 				00000000A0B0C0E0000000C3 /* gates.c in Sources */,
+				00000000A0B0C0E0000000E1 /* sram.c in Sources */,
 				00000000A0B0C0E0000000A9 /* catalog_validate.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

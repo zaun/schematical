@@ -38,6 +38,11 @@ typedef enum {
     PACKAGE_TYPE_UQFN,
     PACKAGE_TYPE_X2SON,
     PACKAGE_TYPE_SOT5X3,
+    PACKAGE_TYPE_SOJ,
+    PACKAGE_TYPE_TSOP_I,
+    PACKAGE_TYPE_STSOP_I,   /* small TSOP type I, 8 x 13.4 mm */
+    PACKAGE_TYPE_TSOP_II,
+    PACKAGE_TYPE_TFBGA,
 } PackageType;
 
 typedef enum {
@@ -60,12 +65,20 @@ typedef enum {
     LOGIC_FAMILY_AUP,
     LOGIC_FAMILY_AUC,
     LOGIC_FAMILY_ALVC,
-    LOGIC_FAMILY_TTL    /* standard TTL (5476, 54107) */
+    LOGIC_FAMILY_TTL,   /* standard TTL (5476, 54107) */
+    LOGIC_FAMILY_SRAM   /* asynchronous SRAM (sram.c) */
 } LogicFamily;
 
 typedef struct {
     PackageType package;
     LogicFamily family;
+    /*
+     * Model data for models that need more than package and family, such as
+     * an SRAM's pinout and speed grade. Points to static tables; NULL for
+     * models that do not use it.
+     */
+    const void *model_data;
+    size_t variant;
 } SimLogicConfig;
 
 typedef struct Sim Sim;
@@ -117,6 +130,10 @@ SimInstance *sim_add_instance(
 );
 
 SimNet *sim_add_net(Sim *sim, const char *name);
+
+/* The model type and model state of an instance, so models can offer inspection. */
+const SimComponentType *sim_instance_type(const SimInstance *instance);
+void *sim_instance_state(const SimInstance *instance);
 
 int sim_connect(
     Sim *sim,

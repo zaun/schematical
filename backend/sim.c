@@ -223,6 +223,14 @@ SimInstance *sim_add_instance(
     return instance;
 }
 
+const SimComponentType *sim_instance_type(const SimInstance *instance) {
+    return instance != NULL ? instance->type : NULL;
+}
+
+void *sim_instance_state(const SimInstance *instance) {
+    return instance != NULL ? instance->state : NULL;
+}
+
 SimNet *sim_add_net(Sim *sim, const char *name) {
     SimNet *net;
 

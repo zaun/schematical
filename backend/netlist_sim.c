@@ -11,6 +11,7 @@
 #include "net.h"
 #include "osc.h"
 #include "sim.h"
+#include "sram.h"
 #include "supply.h"
 
 #define LINE_MAX_LENGTH 512
@@ -417,6 +418,37 @@ char *netlist_sim_snapshot(const NetlistSim *netlist) {
         text.data = copy_message("");
     }
     return text.data;
+}
+
+static const SimInstance *part_at(const NetlistSim *netlist, size_t part) {
+    if (netlist == NULL || part >= netlist->part_count) {
+        return NULL;
+    }
+    return netlist->parts[part];
+}
+
+int netlist_sim_memory_size(
+    const NetlistSim *netlist,
+    size_t part,
+    uint32_t *word_count,
+    unsigned *word_bits
+) {
+    const SimInstance *instance = part_at(netlist, part);
+
+    return instance != NULL && sram_instance_size(instance, word_count, word_bits);
+}
+
+size_t netlist_sim_inspect_memory(
+    const NetlistSim *netlist,
+    size_t part,
+    uint32_t start,
+    size_t count,
+    uint32_t *values,
+    uint32_t *known
+) {
+    const SimInstance *instance = part_at(netlist, part);
+
+    return instance != NULL ? sram_inspect(instance, start, count, values, known) : 0;
 }
 
 void netlist_sim_close(NetlistSim *netlist) {

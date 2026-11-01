@@ -15,6 +15,7 @@
 #include "gates.h"
 #include "led.h"
 #include "osc.h"
+#include "sram.h"
 #include "supply.h"
 
 static const ChipDefinition *const DEFINITIONS[] = {
@@ -69,6 +70,9 @@ static const ChipDefinition *const DEFINITIONS[] = {
     &CD4081B_DEFINITION,
     &CD4093B_DEFINITION,
 #include "gates_catalog.inc"
+#define SRAM_CHIP(NAME) &SRAM_##NAME##_DEFINITION,
+#include "sram_catalog.inc"
+#undef SRAM_CHIP
 };
 
 size_t catalog_definition_count(void) {
@@ -143,6 +147,11 @@ static const char *package_name(PackageType package) {
         case PACKAGE_TYPE_UQFN: return "UQFN";
         case PACKAGE_TYPE_X2SON: return "X2SON";
         case PACKAGE_TYPE_SOT5X3: return "SOT-5X3";
+        case PACKAGE_TYPE_SOJ: return "SOJ";
+        case PACKAGE_TYPE_TSOP_I: return "TSOP-I";
+        case PACKAGE_TYPE_STSOP_I: return "sTSOP-I";
+        case PACKAGE_TYPE_TSOP_II: return "TSOP-II";
+        case PACKAGE_TYPE_TFBGA: return "TFBGA";
     }
     return "unknown";
 }
@@ -169,6 +178,7 @@ static const char *family_name(LogicFamily family) {
         case LOGIC_FAMILY_AUC: return "AUC";
         case LOGIC_FAMILY_ALVC: return "ALVC";
         case LOGIC_FAMILY_TTL: return "TTL";
+        case LOGIC_FAMILY_SRAM: return "SRAM";
     }
     return "unknown";
 }
@@ -201,7 +211,13 @@ static void write_chip(FILE *out, const ChipDefinition *chip) {
         fputs("{\"name\":", out);
         write_json_string(out, part);
         fprintf(out, ",\"package\":\"%s\"", package_name(config.package));
-        fprintf(out, ",\"family\":\"%s\"", family_name(config.family));
+        if (config.family == LOGIC_FAMILY_SRAM) {
+            /* An SRAM's family is its speed grade, the address access time. */
+            fprintf(out, ",\"family\":\"%llu ns\"",
+                    (unsigned long long)(sram_access_time(&config) / 1000));
+        } else {
+            fprintf(out, ",\"family\":\"%s\"", family_name(config.family));
+        }
         {
             unsigned flags = chip->part_flags != NULL ? chip->part_flags[i] : 0;
 

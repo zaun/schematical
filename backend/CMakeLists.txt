@@ -21,6 +21,7 @@ add_library(logic_backend STATIC
     netlist_sim.c
     cd4000.c
     gates.c
+    sram.c
 )
 
 target_include_directories(logic_backend
@@ -39,3 +40,7 @@ add_test(NAME catalog_check COMMAND catalog_check)
 add_executable(netlist_check netlist_check.c)
 target_link_libraries(netlist_check PRIVATE logic_backend)
 add_test(NAME netlist_check COMMAND netlist_check)
+
+add_executable(sram_check sram_check.c)
+target_link_libraries(sram_check PRIVATE logic_backend)
+add_test(NAME sram_check COMMAND sram_check)
