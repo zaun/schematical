@@ -282,7 +282,7 @@ Acceptance: every §4.3 rule and message has a passing case. **Met:**
 96/108 (layout), 167 (tests).
   Check: `cmake -S backend -B /tmp/logic-plan04 && cmake --build /tmp/logic-plan04 -j8 && ctest --test-dir /tmp/logic-plan04 -R memory_image_test --output-on-failure` → passes (est. 10 s).
   Check: `grep -n 'memory_image' docs/backend.md` → the header, layout and test lines (est. seconds).
-Commit: —
+Commit: 41f140c
 
 ## Validation Plan
 
