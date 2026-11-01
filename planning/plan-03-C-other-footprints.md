@@ -190,14 +190,21 @@ footprint (they load a one-footprint `footprints` text first).
 
 ### Phase 1 — SRAM and oscillators (26 footprints, 265 parts)
 
-- [ ] `footprints.json`: the 20 SRAM (§4.1) and 6 oscillator (§4.2) footprints.
-- [ ] `/tmp/p03c-assign.py` for `sram.json` and `oscillator.json` (0 unmatched;
-      172 and 93 tagged).
-- [ ] Regenerate goldens; hand-check each new `footprints.txt` line.
+- [x] `footprints.json`: the 20 SRAM (§4.1) and 6 oscillator (§4.2) footprints. —
+      added (84 total); TSOP-I bodies 18.4/11.8 (Corrections).
+- [x] `/tmp/p03c-assign.py` for `sram.json` and `oscillator.json` (0 unmatched;
+      172 and 93 tagged). — as `/tmp/p03/tag.py /tmp/p03/rules_c.py`:
+      `sram.json: 172 parts tagged`, `oscillator.json: 93 parts tagged`, exit 0.
+- [x] Regenerate goldens; hand-check each new `footprints.txt` line. —
+      `/tmp/p03/goldcheck.py` on the 19 dual lines (pin 1 at −span/2, pitch,
+      pad as drawn); BGA lines row-major on the drawing pitch with the
+      unpopulated balls absent (TFBGA-36: C2 C5 D2–D5 E2–E5 F2 F5; TFBGA-90:
+      columns 4–6); SiT-2012 end pads 0.4 × 1.4 at ±0.8 with VDD/GND between;
+      SiT-1508 2 × 2 round 0.25 at ±0.205, ±0.5.
 
 Acceptance: SRAM and oscillator parts carry footprints; behavior unchanged.
-  Check: `ctest --test-dir /tmp/logic-plan03 --output-on-failure` → all pass (est. 1 min).
-  Check: `git diff --exit-code backend/tests/golden/traces.txt` (est. seconds).
+  Check: `ctest --test-dir /tmp/logic-plan03 --output-on-failure` → all pass (est. 1 min). — 2026-11-01: `100% tests passed, 0 tests failed out of 8`.
+  Check: `git diff --exit-code backend/tests/golden/traces.txt` (est. seconds). — 2026-11-01: exit 0, no output.
 Commit: —
 
 ### Phase 2 — Switches and 7-segment displays (42 footprints, 85 parts)

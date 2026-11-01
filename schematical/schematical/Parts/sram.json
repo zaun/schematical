@@ -80,12 +80,12 @@
       "byteEnable": [],
       "grades": {"55":{"trc":55,"taa":55,"tace":55,"toe":30,"toh":10,"tclz":10,"tolz":5,"tchz":20,"tohz":20,"twc":55,"taw":50,"tcw":50,"twp":45,"tdw":25,"twhz":20,"tow":5,"note": "AC characteristics, VCC = 2.7 V to 5.5 V (the only table, AS6C6264-55)."}},
       "parts": [
-        {"name":"AS6C6264-55PCN","package":"DIP","pinout":"p28","grade":"55"},
-        {"name":"AS6C6264-55PIN","package":"DIP","pinout":"p28","grade":"55"},
-        {"name":"AS6C6264-55SCN","package":"SOP","pinout":"p28","grade":"55"},
-        {"name":"AS6C6264-55SIN","package":"SOP","pinout":"p28","grade":"55"},
-        {"name":"AS6C6264-55STCN","package":"sTSOP-I","pinout":"stsop","grade":"55"},
-        {"name":"AS6C6264-55STIN","package":"sTSOP-I","pinout":"stsop","grade":"55"}
+        {"name":"AS6C6264-55PCN","package":"DIP","pinout":"p28","footprint":"PDIP-28-600","grade":"55"},
+        {"name":"AS6C6264-55PIN","package":"DIP","pinout":"p28","footprint":"PDIP-28-600","grade":"55"},
+        {"name":"AS6C6264-55SCN","package":"SOP","pinout":"p28","footprint":"SOP-28-330","grade":"55"},
+        {"name":"AS6C6264-55SIN","package":"SOP","pinout":"p28","footprint":"SOP-28-330","grade":"55"},
+        {"name":"AS6C6264-55STCN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"55"},
+        {"name":"AS6C6264-55STIN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"55"}
       ]
     },
     {
@@ -165,11 +165,11 @@
       "byteEnable": [],
       "grades": {"55":{"trc":55,"taa":55,"tace":55,"toe":30,"toh":10,"tclz":10,"tolz":5,"tchz":20,"tohz":20,"twc":55,"taw":50,"tcw":50,"twp":45,"tdw":25,"twhz":20,"tow":5,"note": "AC characteristics, VCC = 2.7 V to 5.5 V (the only table)."}},
       "parts": [
-        {"name":"AS6C62256-55PCN","package":"DIP","pinout":"p28","grade":"55"},
-        {"name":"AS6C62256-55SCN","package":"SOP","pinout":"p28","grade":"55"},
-        {"name":"AS6C62256-55SIN","package":"SOP","pinout":"p28","grade":"55"},
-        {"name":"AS6C62256-55STCN","package":"sTSOP-I","pinout":"stsop","grade":"55"},
-        {"name":"AS6C62256-55STIN","package":"sTSOP-I","pinout":"stsop","grade":"55"}
+        {"name":"AS6C62256-55PCN","package":"DIP","pinout":"p28","footprint":"PDIP-28-600","grade":"55"},
+        {"name":"AS6C62256-55SCN","package":"SOP","pinout":"p28","footprint":"SOP-28-330","grade":"55"},
+        {"name":"AS6C62256-55SIN","package":"SOP","pinout":"p28","footprint":"SOP-28-330","grade":"55"},
+        {"name":"AS6C62256-55STCN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"55"},
+        {"name":"AS6C62256-55STIN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"55"}
       ]
     },
     {
@@ -295,12 +295,12 @@
       "byteEnable": [],
       "grades": {"55":{"trc":55,"taa":55,"tace":55,"toe":30,"toh":10,"tclz":10,"tolz":5,"tchz":20,"tohz":20,"twc":55,"taw":50,"tcw":50,"twp":45,"tdw":25,"twhz":20,"tow":5,"note": "AC characteristics, VCC = 2.7 V to 5.5 V (the only table, AS6C1008-55)."}},
       "parts": [
-        {"name":"AS6C1008-55PCN","package":"DIP","pinout":"p32","grade":"55"},
-        {"name":"AS6C1008-55PIN","package":"DIP","pinout":"p32","grade":"55"},
-        {"name":"AS6C1008-55SIN","package":"SOP","pinout":"p32","grade":"55"},
-        {"name":"AS6C1008-55TIN","package":"TSOP-I","pinout":"tsop","grade":"55"},
-        {"name":"AS6C1008-55STIN","package":"sTSOP-I","pinout":"tsop","grade":"55"},
-        {"name":"AS6C1008-55BIN","package":"TFBGA","pinout":"bga","grade":"55"}
+        {"name":"AS6C1008-55PCN","package":"DIP","pinout":"p32","footprint":"PDIP-32-600","grade":"55"},
+        {"name":"AS6C1008-55PIN","package":"DIP","pinout":"p32","footprint":"PDIP-32-600","grade":"55"},
+        {"name":"AS6C1008-55SIN","package":"SOP","pinout":"p32","footprint":"SOP-32-450","grade":"55"},
+        {"name":"AS6C1008-55TIN","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-32-8X20","grade":"55"},
+        {"name":"AS6C1008-55STIN","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"55"},
+        {"name":"AS6C1008-55BIN","package":"TFBGA","pinout":"bga","footprint":"TFBGA-36-6X8","grade":"55"}
       ]
     },
     {
@@ -426,12 +426,12 @@
       "byteEnable": [],
       "grades": {"55":{"trc":55,"taa":55,"tace":55,"toe":30,"toh":10,"tclz":10,"tolz":5,"tchz":20,"tohz":20,"twc":55,"taw":50,"tcw":50,"twp":45,"tdw":25,"twhz":20,"tow":5}},
       "parts": [
-        {"name":"AS6C4008-55PCN","package":"DIP","pinout":"p32","grade":"55"},
-        {"name":"AS6C4008-55SIN","package":"SOP","pinout":"p32","grade":"55"},
-        {"name":"AS6C4008-55ZIN","package":"TSOP-II","pinout":"p32","grade":"55"},
-        {"name":"AS6C4008-55TIN","package":"TSOP-I","pinout":"tsop","grade":"55"},
-        {"name":"AS6C4008-55STIN","package":"sTSOP-I","pinout":"tsop","grade":"55"},
-        {"name":"AS6C4008-55BIN","package":"TFBGA","pinout":"bga","grade":"55"}
+        {"name":"AS6C4008-55PCN","package":"DIP","pinout":"p32","footprint":"PDIP-32-600","grade":"55"},
+        {"name":"AS6C4008-55SIN","package":"SOP","pinout":"p32","footprint":"SOP-32-450","grade":"55"},
+        {"name":"AS6C4008-55ZIN","package":"TSOP-II","pinout":"p32","footprint":"TSOP2-32-400","grade":"55"},
+        {"name":"AS6C4008-55TIN","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-32-8X20","grade":"55"},
+        {"name":"AS6C4008-55STIN","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"55"},
+        {"name":"AS6C4008-55BIN","package":"TFBGA","pinout":"bga","footprint":"TFBGA-36-6X8","grade":"55"}
       ]
     },
     {
@@ -547,8 +547,8 @@
       "byteEnable": [],
       "grades": {"55":{"trc":55,"taa":55,"tace":55,"toe":30,"toh":10,"tclz":10,"tolz":5,"tchz":20,"tohz":20,"twc":55,"taw":50,"tcw":50,"twp":45,"tdw":25,"twhz":20,"tow":5,"note": "AC electrical characteristics, AS6C8008-55, VCC = 2.7 V to 5.5 V (the only table)."}},
       "parts": [
-        {"name":"AS6C8008-55ZIN","package":"TSOP-II","pinout":"tsop2","grade":"55"},
-        {"name":"AS6C8008-55BIN","package":"TFBGA","pinout":"bga","grade":"55"}
+        {"name":"AS6C8008-55ZIN","package":"TSOP-II","pinout":"tsop2","footprint":"TSOP2-44-400","grade":"55"},
+        {"name":"AS6C8008-55BIN","package":"TFBGA","pinout":"bga","footprint":"TFBGA-48-6X8","grade":"55"}
       ]
     },
     {
@@ -664,10 +664,10 @@
       "byteEnable": [],
       "grades": {"45":{"trc":45,"taa":45,"tace":45,"toe":25,"toh":10,"tclz":10,"tolz":5,"tchz":15,"tohz":15,"twc":45,"taw":40,"tcw":40,"twp":35,"tdw":20,"twhz":15,"tow":5}},
       "parts": [
-        {"name":"AS6C1608B-45TIN","package":"TSOP-II","pinout":"tsop2","grade":"45"},
-        {"name":"AS6C1608B-45TINTR","package":"TSOP-II","pinout":"tsop2","grade":"45"},
-        {"name":"AS6C1608B-45BIN","package":"TFBGA","pinout":"bga","grade":"45"},
-        {"name":"AS6C1608B-45BINTR","package":"TFBGA","pinout":"bga","grade":"45"}
+        {"name":"AS6C1608B-45TIN","package":"TSOP-II","pinout":"tsop2","footprint":"TSOP2-44-400","grade":"45"},
+        {"name":"AS6C1608B-45TINTR","package":"TSOP-II","pinout":"tsop2","footprint":"TSOP2-44-400","grade":"45"},
+        {"name":"AS6C1608B-45BIN","package":"TFBGA","pinout":"bga","footprint":"TFBGA-48-6X8","grade":"45"},
+        {"name":"AS6C1608B-45BINTR","package":"TFBGA","pinout":"bga","footprint":"TFBGA-48-6X8","grade":"45"}
       ]
     },
     {
@@ -783,8 +783,8 @@
       "byteEnable": ["LB#","UB#"],
       "grades": {"55":{"trc":55,"taa":55,"tace":55,"toe":30,"tba":55,"toh":10,"tclz":10,"tolz":5,"tblz":10,"tchz":20,"tohz":20,"tbhz":25,"twc":55,"taw":50,"tcw":50,"tbw":50,"twp":45,"tdw":25,"twhz":20,"tow":5,"note": "AC electrical characteristics, AS6C2016-55, VCC = 2.7 V to 5.5 V (the only table)."}},
       "parts": [
-        {"name":"AS6C2016-55ZIN","package":"TSOP-II","pinout":"tsop2","grade":"55"},
-        {"name":"AS6C2016-55BIN","package":"TFBGA","pinout":"bga","grade":"55"}
+        {"name":"AS6C2016-55ZIN","package":"TSOP-II","pinout":"tsop2","footprint":"TSOP2-44-400","grade":"55"},
+        {"name":"AS6C2016-55BIN","package":"TFBGA","pinout":"bga","footprint":"TFBGA-48-6X8","grade":"55"}
       ]
     },
     {
@@ -900,8 +900,8 @@
       "byteEnable": ["LB#","UB#"],
       "grades": {"55":{"trc":55,"taa":55,"tace":55,"toe":30,"tba":55,"toh":10,"tclz":10,"tolz":5,"tblz":10,"tchz":20,"tohz":20,"tbhz":25,"twc":55,"taw":50,"tcw":50,"tbw":45,"twp":45,"tdw":25,"twhz":20,"tow":5,"note": "AC characteristics, AS6C4016-55, VCC = 2.7 V to 5.5 V (the only table)."}},
       "parts": [
-        {"name":"AS6C4016-55ZIN","package":"TSOP-II","pinout":"tsop2","grade":"55"},
-        {"name":"AS6C4016-55BIN","package":"TFBGA","pinout":"bga","grade":"55"}
+        {"name":"AS6C4016-55ZIN","package":"TSOP-II","pinout":"tsop2","footprint":"TSOP2-44-400","grade":"55"},
+        {"name":"AS6C4016-55BIN","package":"TFBGA","pinout":"bga","footprint":"TFBGA-48-6X8","grade":"55"}
       ]
     },
     {
@@ -1017,8 +1017,8 @@
       "byteEnable": ["LB#","UB#"],
       "grades": {"55":{"trc":55,"taa":55,"tace":55,"toe":30,"tba":55,"toh":10,"tclz":10,"tolz":5,"tblz":10,"tchz":20,"tohz":20,"tbhz":25,"twc":55,"taw":50,"tcw":50,"tbw":45,"twp":45,"tdw":25,"twhz":20,"tow":5,"note": "AC characteristics, AS6C8016-55, VCC = 2.7 V to 5.5 V (the only table)."}},
       "parts": [
-        {"name":"AS6C8016-55ZIN","package":"TSOP-II","pinout":"tsop2","grade":"55"},
-        {"name":"AS6C8016-55BIN","package":"TFBGA","pinout":"bga","grade":"55"}
+        {"name":"AS6C8016-55ZIN","package":"TSOP-II","pinout":"tsop2","footprint":"TSOP2-44-400","grade":"55"},
+        {"name":"AS6C8016-55BIN","package":"TFBGA","pinout":"bga","footprint":"TFBGA-48-6X8","grade":"55"}
       ]
     },
     {
@@ -1088,7 +1088,7 @@
       "byteEnable": ["LB#","UB#"],
       "grades": {"55":{"trc":55,"taa":55,"tace":55,"toe":30,"tba":55,"toh":10,"tclz":10,"tolz":5,"tblz":10,"tchz":20,"tohz":20,"tbhz":25,"twc":55,"taw":50,"tcw":50,"tbw":45,"twp":45,"tdw":25,"twhz":20,"tow":5,"note": "AC electrical characteristics, AS6C1616-55, VCC = 2.7 V to 3.6 V (the only table)."}},
       "parts": [
-        {"name":"AS6C1616-55TIN","package":"TSOP-I","pinout":"tsop","grade":"55"}
+        {"name":"AS6C1616-55TIN","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-48-12X20","grade":"55"}
       ]
     },
     {
@@ -1158,8 +1158,8 @@
       "byteEnable": ["LB#","UB#"],
       "grades": {"55":{"trc":55,"taa":55,"tace":55,"toe":30,"tba":55,"toh":10,"tclz":10,"tolz":5,"tblz":10,"tchz":20,"tohz":20,"tbhz":20,"twc":55,"taw":50,"tcw":50,"tbw":50,"twp":45,"tdw":25,"twhz":20,"tow":5,"note": "AC characteristics, AS6C6416-55BIN, VCC = 2.7 V to 3.6 V (the only table)."}},
       "parts": [
-        {"name":"AS6C6416-55BIN","package":"TFBGA","pinout":"bga","grade":"55"},
-        {"name":"AS6C6416-55BINTR","package":"TFBGA","pinout":"bga","grade":"55"}
+        {"name":"AS6C6416-55BIN","package":"TFBGA","pinout":"bga","footprint":"TFBGA-48-8X10","grade":"55"},
+        {"name":"AS6C6416-55BINTR","package":"TFBGA","pinout":"bga","footprint":"TFBGA-48-8X10","grade":"55"}
       ]
     },
     {
@@ -1244,38 +1244,38 @@
         "20": {"trc":20,"taa":20,"tace":20,"toe":8,"toh":3,"tclz":3,"tchz":5,"tohz":5,"twc":20,"taw":12,"tcw":12,"twp":12,"tdw":10,"twhz":8,"tow":3,"note": "-20: read/write cycle tables (over the operating range, VCC = 4.5-5.5 V)."}
       },
       "parts": [
-        {"name":"AS7C256A-10JC","package":"SOJ","pinout":"p28","grade":"10"},
-        {"name":"AS7C256A-10JCN","package":"SOJ","pinout":"p28","grade":"10"},
-        {"name":"AS7C256A-12JC","package":"SOJ","pinout":"p28","grade":"12"},
-        {"name":"AS7C256A-12JCN","package":"SOJ","pinout":"p28","grade":"12"},
-        {"name":"AS7C256A-15JC","package":"SOJ","pinout":"p28","grade":"15"},
-        {"name":"AS7C256A-15JCN","package":"SOJ","pinout":"p28","grade":"15"},
-        {"name":"AS7C256A-20JC","package":"SOJ","pinout":"p28","grade":"20"},
-        {"name":"AS7C256A-20JCN","package":"SOJ","pinout":"p28","grade":"20"},
-        {"name":"AS7C256A-10JI","package":"SOJ","pinout":"p28","grade":"10"},
-        {"name":"AS7C256A-10JIN","package":"SOJ","pinout":"p28","grade":"10"},
-        {"name":"AS7C256A-12JI","package":"SOJ","pinout":"p28","grade":"12"},
-        {"name":"AS7C256A-12JIN","package":"SOJ","pinout":"p28","grade":"12"},
-        {"name":"AS7C256A-15JI","package":"SOJ","pinout":"p28","grade":"15"},
-        {"name":"AS7C256A-15JIN","package":"SOJ","pinout":"p28","grade":"15"},
-        {"name":"AS7C256A-20JI","package":"SOJ","pinout":"p28","grade":"20"},
-        {"name":"AS7C256A-20JIN","package":"SOJ","pinout":"p28","grade":"20"},
-        {"name":"AS7C256A-10TC","package":"sTSOP-I","pinout":"stsop","grade":"10"},
-        {"name":"AS7C256A-10TCN","package":"sTSOP-I","pinout":"stsop","grade":"10"},
-        {"name":"AS7C256A-12TC","package":"sTSOP-I","pinout":"stsop","grade":"12"},
-        {"name":"AS7C256A-12TCN","package":"sTSOP-I","pinout":"stsop","grade":"12"},
-        {"name":"AS7C256A-15TC","package":"sTSOP-I","pinout":"stsop","grade":"15"},
-        {"name":"AS7C256A-15TCN","package":"sTSOP-I","pinout":"stsop","grade":"15"},
-        {"name":"AS7C256A-20TC","package":"sTSOP-I","pinout":"stsop","grade":"20"},
-        {"name":"AS7C256A-20TCN","package":"sTSOP-I","pinout":"stsop","grade":"20"},
-        {"name":"AS7C256A-10TI","package":"sTSOP-I","pinout":"stsop","grade":"10"},
-        {"name":"AS7C256A-10TIN","package":"sTSOP-I","pinout":"stsop","grade":"10"},
-        {"name":"AS7C256A-12TI","package":"sTSOP-I","pinout":"stsop","grade":"12"},
-        {"name":"AS7C256A-12TIN","package":"sTSOP-I","pinout":"stsop","grade":"12"},
-        {"name":"AS7C256A-15TI","package":"sTSOP-I","pinout":"stsop","grade":"15"},
-        {"name":"AS7C256A-15TIN","package":"sTSOP-I","pinout":"stsop","grade":"15"},
-        {"name":"AS7C256A-20TI","package":"sTSOP-I","pinout":"stsop","grade":"20"},
-        {"name":"AS7C256A-20TIN","package":"sTSOP-I","pinout":"stsop","grade":"20"}
+        {"name":"AS7C256A-10JC","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"10"},
+        {"name":"AS7C256A-10JCN","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"10"},
+        {"name":"AS7C256A-12JC","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"12"},
+        {"name":"AS7C256A-12JCN","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"12"},
+        {"name":"AS7C256A-15JC","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"15"},
+        {"name":"AS7C256A-15JCN","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"15"},
+        {"name":"AS7C256A-20JC","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"20"},
+        {"name":"AS7C256A-20JCN","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"20"},
+        {"name":"AS7C256A-10JI","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"10"},
+        {"name":"AS7C256A-10JIN","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"10"},
+        {"name":"AS7C256A-12JI","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"12"},
+        {"name":"AS7C256A-12JIN","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"12"},
+        {"name":"AS7C256A-15JI","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"15"},
+        {"name":"AS7C256A-15JIN","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"15"},
+        {"name":"AS7C256A-20JI","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"20"},
+        {"name":"AS7C256A-20JIN","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"20"},
+        {"name":"AS7C256A-10TC","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"10"},
+        {"name":"AS7C256A-10TCN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"10"},
+        {"name":"AS7C256A-12TC","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"12"},
+        {"name":"AS7C256A-12TCN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"12"},
+        {"name":"AS7C256A-15TC","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"15"},
+        {"name":"AS7C256A-15TCN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"15"},
+        {"name":"AS7C256A-20TC","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"20"},
+        {"name":"AS7C256A-20TCN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"20"},
+        {"name":"AS7C256A-10TI","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"10"},
+        {"name":"AS7C256A-10TIN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"10"},
+        {"name":"AS7C256A-12TI","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"12"},
+        {"name":"AS7C256A-12TIN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"12"},
+        {"name":"AS7C256A-15TI","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"15"},
+        {"name":"AS7C256A-15TIN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"15"},
+        {"name":"AS7C256A-20TI","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"20"},
+        {"name":"AS7C256A-20TIN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"20"}
       ]
     },
     {
@@ -1368,38 +1368,38 @@
         "20": {"trc":20,"taa":20,"tace":20,"toe":8,"toh":3,"tclz":3,"tchz":5,"tohz":8,"twc":20,"taw":12,"tcw":12,"twp":12,"tdw":10,"twhz":8,"tow":1,"note": "-20: read/write cycle tables (over the operating range, VCC = 3.0-3.6 V)."}
       },
       "parts": [
-        {"name":"AS7C31024B-10TJC","package":"SOJ","pinout":"p32","grade":"10"},
-        {"name":"AS7C31024B-10TJCN","package":"SOJ","pinout":"p32","grade":"10"},
-        {"name":"AS7C31024B-12TJC","package":"SOJ","pinout":"p32","grade":"12"},
-        {"name":"AS7C31024B-12TJCN","package":"SOJ","pinout":"p32","grade":"12"},
-        {"name":"AS7C31024B-15TJC","package":"SOJ","pinout":"p32","grade":"15"},
-        {"name":"AS7C31024B-15TJCN","package":"SOJ","pinout":"p32","grade":"15"},
-        {"name":"AS7C31024B-20TJC","package":"SOJ","pinout":"p32","grade":"20"},
-        {"name":"AS7C31024B-20TJCN","package":"SOJ","pinout":"p32","grade":"20"},
-        {"name":"AS7C31024B-10JC","package":"SOJ","pinout":"p32","grade":"10"},
-        {"name":"AS7C31024B-10JCN","package":"SOJ","pinout":"p32","grade":"10"},
-        {"name":"AS7C31024B-12JC","package":"SOJ","pinout":"p32","grade":"12"},
-        {"name":"AS7C31024B-12JCN","package":"SOJ","pinout":"p32","grade":"12"},
-        {"name":"AS7C31024B-15JC","package":"SOJ","pinout":"p32","grade":"15"},
-        {"name":"AS7C31024B-15JCN","package":"SOJ","pinout":"p32","grade":"15"},
-        {"name":"AS7C31024B-20JC","package":"SOJ","pinout":"p32","grade":"20"},
-        {"name":"AS7C31024B-20JCN","package":"SOJ","pinout":"p32","grade":"20"},
-        {"name":"AS7C31024B-10TC","package":"TSOP-I","pinout":"tsop","grade":"10"},
-        {"name":"AS7C31024B-10TCN","package":"TSOP-I","pinout":"tsop","grade":"10"},
-        {"name":"AS7C31024B-12TC","package":"TSOP-I","pinout":"tsop","grade":"12"},
-        {"name":"AS7C31024B-12TCN","package":"TSOP-I","pinout":"tsop","grade":"12"},
-        {"name":"AS7C31024B-15TC","package":"TSOP-I","pinout":"tsop","grade":"15"},
-        {"name":"AS7C31024B-15TCN","package":"TSOP-I","pinout":"tsop","grade":"15"},
-        {"name":"AS7C31024B-20TC","package":"TSOP-I","pinout":"tsop","grade":"20"},
-        {"name":"AS7C31024B-20TCN","package":"TSOP-I","pinout":"tsop","grade":"20"},
-        {"name":"AS7C31024B-10STC","package":"sTSOP-I","pinout":"tsop","grade":"10"},
-        {"name":"AS7C31024B-10STCN","package":"sTSOP-I","pinout":"tsop","grade":"10"},
-        {"name":"AS7C31024B-12STC","package":"sTSOP-I","pinout":"tsop","grade":"12"},
-        {"name":"AS7C31024B-12STCN","package":"sTSOP-I","pinout":"tsop","grade":"12"},
-        {"name":"AS7C31024B-15STC","package":"sTSOP-I","pinout":"tsop","grade":"15"},
-        {"name":"AS7C31024B-15STCN","package":"sTSOP-I","pinout":"tsop","grade":"15"},
-        {"name":"AS7C31024B-20STC","package":"sTSOP-I","pinout":"tsop","grade":"20"},
-        {"name":"AS7C31024B-20STCN","package":"sTSOP-I","pinout":"tsop","grade":"20"}
+        {"name":"AS7C31024B-10TJC","package":"SOJ","pinout":"p32","footprint":"SOJ-32-300","grade":"10"},
+        {"name":"AS7C31024B-10TJCN","package":"SOJ","pinout":"p32","footprint":"SOJ-32-300","grade":"10"},
+        {"name":"AS7C31024B-12TJC","package":"SOJ","pinout":"p32","footprint":"SOJ-32-300","grade":"12"},
+        {"name":"AS7C31024B-12TJCN","package":"SOJ","pinout":"p32","footprint":"SOJ-32-300","grade":"12"},
+        {"name":"AS7C31024B-15TJC","package":"SOJ","pinout":"p32","footprint":"SOJ-32-300","grade":"15"},
+        {"name":"AS7C31024B-15TJCN","package":"SOJ","pinout":"p32","footprint":"SOJ-32-300","grade":"15"},
+        {"name":"AS7C31024B-20TJC","package":"SOJ","pinout":"p32","footprint":"SOJ-32-300","grade":"20"},
+        {"name":"AS7C31024B-20TJCN","package":"SOJ","pinout":"p32","footprint":"SOJ-32-300","grade":"20"},
+        {"name":"AS7C31024B-10JC","package":"SOJ","pinout":"p32","footprint":"SOJ-32-400","grade":"10"},
+        {"name":"AS7C31024B-10JCN","package":"SOJ","pinout":"p32","footprint":"SOJ-32-400","grade":"10"},
+        {"name":"AS7C31024B-12JC","package":"SOJ","pinout":"p32","footprint":"SOJ-32-400","grade":"12"},
+        {"name":"AS7C31024B-12JCN","package":"SOJ","pinout":"p32","footprint":"SOJ-32-400","grade":"12"},
+        {"name":"AS7C31024B-15JC","package":"SOJ","pinout":"p32","footprint":"SOJ-32-400","grade":"15"},
+        {"name":"AS7C31024B-15JCN","package":"SOJ","pinout":"p32","footprint":"SOJ-32-400","grade":"15"},
+        {"name":"AS7C31024B-20JC","package":"SOJ","pinout":"p32","footprint":"SOJ-32-400","grade":"20"},
+        {"name":"AS7C31024B-20JCN","package":"SOJ","pinout":"p32","footprint":"SOJ-32-400","grade":"20"},
+        {"name":"AS7C31024B-10TC","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-32-8X20","grade":"10"},
+        {"name":"AS7C31024B-10TCN","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-32-8X20","grade":"10"},
+        {"name":"AS7C31024B-12TC","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-32-8X20","grade":"12"},
+        {"name":"AS7C31024B-12TCN","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-32-8X20","grade":"12"},
+        {"name":"AS7C31024B-15TC","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-32-8X20","grade":"15"},
+        {"name":"AS7C31024B-15TCN","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-32-8X20","grade":"15"},
+        {"name":"AS7C31024B-20TC","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-32-8X20","grade":"20"},
+        {"name":"AS7C31024B-20TCN","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-32-8X20","grade":"20"},
+        {"name":"AS7C31024B-10STC","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"10"},
+        {"name":"AS7C31024B-10STCN","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"10"},
+        {"name":"AS7C31024B-12STC","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"12"},
+        {"name":"AS7C31024B-12STCN","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"12"},
+        {"name":"AS7C31024B-15STC","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"15"},
+        {"name":"AS7C31024B-15STCN","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"15"},
+        {"name":"AS7C31024B-20STC","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"20"},
+        {"name":"AS7C31024B-20STCN","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"20"}
       ]
     },
     {
@@ -1508,22 +1508,22 @@
         "20": {"trc":20,"taa":20,"tace":20,"toe":6,"toh":3,"tclz":3,"tchz":9,"tohz":9,"twc":20,"taw":12,"tcw":12,"twp":12,"twpOeLow":20,"tdw":9,"twhz":9,"tow":3,"note": "Read/write cycle tables, -20 column, VCC = 4.5 V to 5.5 V. tWP1 (OE# high) = twp, tWP2 (OE# low) = twp_oe_low; tWZ (max) = twhz; tWR and tAH both 0"}
       },
       "parts": [
-        {"name":"AS7C4096A-10JCN","package":"SOJ","pinout":"p36","grade":"10"},
-        {"name":"AS7C4096A-10JIN","package":"SOJ","pinout":"p36","grade":"10"},
-        {"name":"AS7C4096A-12JCN","package":"SOJ","pinout":"p36","grade":"12"},
-        {"name":"AS7C4096A-12JIN","package":"SOJ","pinout":"p36","grade":"12"},
-        {"name":"AS7C4096A-15JCN","package":"SOJ","pinout":"p36","grade":"15"},
-        {"name":"AS7C4096A-15JIN","package":"SOJ","pinout":"p36","grade":"15"},
-        {"name":"AS7C4096A-20JCN","package":"SOJ","pinout":"p36","grade":"20"},
-        {"name":"AS7C4096A-20JIN","package":"SOJ","pinout":"p36","grade":"20"},
-        {"name":"AS7C4096A-10TCN","package":"TSOP-II","pinout":"tsop2","grade":"10"},
-        {"name":"AS7C4096A-10TIN","package":"TSOP-II","pinout":"tsop2","grade":"10"},
-        {"name":"AS7C4096A-12TCN","package":"TSOP-II","pinout":"tsop2","grade":"12"},
-        {"name":"AS7C4096A-12TIN","package":"TSOP-II","pinout":"tsop2","grade":"12"},
-        {"name":"AS7C4096A-15TCN","package":"TSOP-II","pinout":"tsop2","grade":"15"},
-        {"name":"AS7C4096A-15TIN","package":"TSOP-II","pinout":"tsop2","grade":"15"},
-        {"name":"AS7C4096A-20TCN","package":"TSOP-II","pinout":"tsop2","grade":"20"},
-        {"name":"AS7C4096A-20TIN","package":"TSOP-II","pinout":"tsop2","grade":"20"}
+        {"name":"AS7C4096A-10JCN","package":"SOJ","pinout":"p36","footprint":"SOJ-36-400","grade":"10"},
+        {"name":"AS7C4096A-10JIN","package":"SOJ","pinout":"p36","footprint":"SOJ-36-400","grade":"10"},
+        {"name":"AS7C4096A-12JCN","package":"SOJ","pinout":"p36","footprint":"SOJ-36-400","grade":"12"},
+        {"name":"AS7C4096A-12JIN","package":"SOJ","pinout":"p36","footprint":"SOJ-36-400","grade":"12"},
+        {"name":"AS7C4096A-15JCN","package":"SOJ","pinout":"p36","footprint":"SOJ-36-400","grade":"15"},
+        {"name":"AS7C4096A-15JIN","package":"SOJ","pinout":"p36","footprint":"SOJ-36-400","grade":"15"},
+        {"name":"AS7C4096A-20JCN","package":"SOJ","pinout":"p36","footprint":"SOJ-36-400","grade":"20"},
+        {"name":"AS7C4096A-20JIN","package":"SOJ","pinout":"p36","footprint":"SOJ-36-400","grade":"20"},
+        {"name":"AS7C4096A-10TCN","package":"TSOP-II","pinout":"tsop2","footprint":"TSOP2-44-400","grade":"10"},
+        {"name":"AS7C4096A-10TIN","package":"TSOP-II","pinout":"tsop2","footprint":"TSOP2-44-400","grade":"10"},
+        {"name":"AS7C4096A-12TCN","package":"TSOP-II","pinout":"tsop2","footprint":"TSOP2-44-400","grade":"12"},
+        {"name":"AS7C4096A-12TIN","package":"TSOP-II","pinout":"tsop2","footprint":"TSOP2-44-400","grade":"12"},
+        {"name":"AS7C4096A-15TCN","package":"TSOP-II","pinout":"tsop2","footprint":"TSOP2-44-400","grade":"15"},
+        {"name":"AS7C4096A-15TIN","package":"TSOP-II","pinout":"tsop2","footprint":"TSOP2-44-400","grade":"15"},
+        {"name":"AS7C4096A-20TCN","package":"TSOP-II","pinout":"tsop2","footprint":"TSOP2-44-400","grade":"20"},
+        {"name":"AS7C4096A-20TIN","package":"TSOP-II","pinout":"tsop2","footprint":"TSOP2-44-400","grade":"20"}
       ]
     },
     {
@@ -1594,21 +1594,21 @@
         "20": {"trc":20,"taa":20,"tace":20,"toe":8,"tba":8,"toh":3,"tclz":3,"tchz":5,"tohz":8,"tbhz":8,"twc":20,"taw":12,"tcw":12,"tbw":9,"twp":12,"tdw":10,"twhz":8,"tow":2,"note": "-20: read/write cycle tables (over the operating range, VCC = 3.0-3.6 V)."}
       },
       "parts": [
-        {"name":"AS7C31026B-10JCN","package":"SOJ","pinout":"p44","grade":"10"},
-        {"name":"AS7C31026B-12JCN","package":"SOJ","pinout":"p44","grade":"12"},
-        {"name":"AS7C31026B-15JCN","package":"SOJ","pinout":"p44","grade":"15"},
-        {"name":"AS7C31026B-20JCN","package":"SOJ","pinout":"p44","grade":"20"},
-        {"name":"AS7C31026B-10JIN","package":"SOJ","pinout":"p44","grade":"10"},
-        {"name":"AS7C31026B-12JIN","package":"SOJ","pinout":"p44","grade":"12"},
-        {"name":"AS7C31026B-15JIN","package":"SOJ","pinout":"p44","grade":"15"},
-        {"name":"AS7C31026B-20JIN","package":"SOJ","pinout":"p44","grade":"20"},
-        {"name":"AS7C31026B-10TCN","package":"TSOP-II","pinout":"p44","grade":"10","flags":["obsolete"]},
-        {"name":"AS7C31026B-12TCN","package":"TSOP-II","pinout":"p44","grade":"12"},
-        {"name":"AS7C31026B-15TCN","package":"TSOP-II","pinout":"p44","grade":"15"},
-        {"name":"AS7C31026B-20TCN","package":"TSOP-II","pinout":"p44","grade":"20"},
-        {"name":"AS7C31026B-12TIN","package":"TSOP-II","pinout":"p44","grade":"12"},
-        {"name":"AS7C31026B-15TIN","package":"TSOP-II","pinout":"p44","grade":"15"},
-        {"name":"AS7C31026B-20TIN","package":"TSOP-II","pinout":"p44","grade":"20"}
+        {"name":"AS7C31026B-10JCN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"10"},
+        {"name":"AS7C31026B-12JCN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"12"},
+        {"name":"AS7C31026B-15JCN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"15"},
+        {"name":"AS7C31026B-20JCN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"20"},
+        {"name":"AS7C31026B-10JIN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"10"},
+        {"name":"AS7C31026B-12JIN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"12"},
+        {"name":"AS7C31026B-15JIN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"15"},
+        {"name":"AS7C31026B-20JIN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"20"},
+        {"name":"AS7C31026B-10TCN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"10","flags":["obsolete"]},
+        {"name":"AS7C31026B-12TCN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"12"},
+        {"name":"AS7C31026B-15TCN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"15"},
+        {"name":"AS7C31026B-20TCN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"20"},
+        {"name":"AS7C31026B-12TIN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"12"},
+        {"name":"AS7C31026B-15TIN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"15"},
+        {"name":"AS7C31026B-20TIN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"20"}
       ]
     },
     {
@@ -1679,22 +1679,22 @@
         "20": {"trc":20,"taa":20,"tace":20,"toe":7,"tba":8,"toh":3,"tclz":3,"tchz":9,"tohz":9,"tbhz":9,"twc":20,"taw":12,"tcw":12,"tbw":12,"twp":12,"twpOeLow":20,"tdw":9,"twhz":9,"tow":3,"note": "Read/write cycle tables, -20 column, VCC = 3.0 V to 3.6 V. tWP1 (OE# high) = twp, tWP2 (OE# low) = twp_oe_low; tWZ = twhz; tWR and tAH both 0"}
       },
       "parts": [
-        {"name":"AS7C34098A-10JCN","package":"SOJ","pinout":"p44","grade":"10"},
-        {"name":"AS7C34098A-10JIN","package":"SOJ","pinout":"p44","grade":"10"},
-        {"name":"AS7C34098A-12JCN","package":"SOJ","pinout":"p44","grade":"12"},
-        {"name":"AS7C34098A-12JIN","package":"SOJ","pinout":"p44","grade":"12"},
-        {"name":"AS7C34098A-15JCN","package":"SOJ","pinout":"p44","grade":"15"},
-        {"name":"AS7C34098A-15JIN","package":"SOJ","pinout":"p44","grade":"15"},
-        {"name":"AS7C34098A-20JCN","package":"SOJ","pinout":"p44","grade":"20"},
-        {"name":"AS7C34098A-20JIN","package":"SOJ","pinout":"p44","grade":"20"},
-        {"name":"AS7C34098A-10TCN","package":"TSOP-II","pinout":"p44","grade":"10"},
-        {"name":"AS7C34098A-10TIN","package":"TSOP-II","pinout":"p44","grade":"10"},
-        {"name":"AS7C34098A-12TCN","package":"TSOP-II","pinout":"p44","grade":"12"},
-        {"name":"AS7C34098A-12TIN","package":"TSOP-II","pinout":"p44","grade":"12"},
-        {"name":"AS7C34098A-15TCN","package":"TSOP-II","pinout":"p44","grade":"15"},
-        {"name":"AS7C34098A-15TIN","package":"TSOP-II","pinout":"p44","grade":"15"},
-        {"name":"AS7C34098A-20TCN","package":"TSOP-II","pinout":"p44","grade":"20"},
-        {"name":"AS7C34098A-20TIN","package":"TSOP-II","pinout":"p44","grade":"20"}
+        {"name":"AS7C34098A-10JCN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"10"},
+        {"name":"AS7C34098A-10JIN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"10"},
+        {"name":"AS7C34098A-12JCN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"12"},
+        {"name":"AS7C34098A-12JIN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"12"},
+        {"name":"AS7C34098A-15JCN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"15"},
+        {"name":"AS7C34098A-15JIN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"15"},
+        {"name":"AS7C34098A-20JCN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"20"},
+        {"name":"AS7C34098A-20JIN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"20"},
+        {"name":"AS7C34098A-10TCN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"10"},
+        {"name":"AS7C34098A-10TIN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"10"},
+        {"name":"AS7C34098A-12TCN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"12"},
+        {"name":"AS7C34098A-12TIN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"12"},
+        {"name":"AS7C34098A-15TCN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"15"},
+        {"name":"AS7C34098A-15TIN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"15"},
+        {"name":"AS7C34098A-20TCN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"20"},
+        {"name":"AS7C34098A-20TIN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"20"}
       ]
     },
     {
@@ -1764,7 +1764,7 @@
       "byteEnable": ["LB#","UB#"],
       "grades": {"10":{"trc":10,"taa":10,"tace":10,"toe":4,"tba":5,"toh":3,"tclz":3,"tchz":5,"tohz":5,"tbhz":5,"twc":10,"taw":7,"tcw":7,"tbw":7,"twp":7,"twpOeLow":10,"tdw":5,"twhz":5,"tow":3,"note": "Read/write cycle tables, -10 column, VCC = 3.0 V to 3.6 V. tWP1 (OE# high) = twp, tWP2 (OE# low) = twp_oe_low; tWZ = twhz; tWR and tAH both 0"}},
       "parts": [
-        {"name":"AS7C34098A-10BIN","package":"TFBGA","pinout":"bga","grade":"10"}
+        {"name":"AS7C34098A-10BIN","package":"TFBGA","pinout":"bga","footprint":"MINIBGA-48","grade":"10"}
       ]
     },
     {
@@ -1835,22 +1835,22 @@
         "20": {"trc":20,"taa":20,"tace":20,"toe":6,"tba":8,"toh":3,"tclz":3,"tchz":9,"tohz":9,"tbhz":9,"twc":20,"taw":12,"tcw":12,"tbw":12,"twp":12,"twpOeLow":20,"tdw":9,"twhz":9,"tow":3,"note": "Read/write cycle tables, -20 column, VCC = 4.5 V to 5.5 V. tWP1 (OE# high) = twp, tWP2 (OE# low) = twp_oe_low; tWZ (max) = twhz; tWR and tAH both 0"}
       },
       "parts": [
-        {"name":"AS7C4098A-10JCN","package":"SOJ","pinout":"p44","grade":"10"},
-        {"name":"AS7C4098A-10JIN","package":"SOJ","pinout":"p44","grade":"10"},
-        {"name":"AS7C4098A-12JCN","package":"SOJ","pinout":"p44","grade":"12"},
-        {"name":"AS7C4098A-12JIN","package":"SOJ","pinout":"p44","grade":"12"},
-        {"name":"AS7C4098A-15JCN","package":"SOJ","pinout":"p44","grade":"15"},
-        {"name":"AS7C4098A-15JIN","package":"SOJ","pinout":"p44","grade":"15"},
-        {"name":"AS7C4098A-20JCN","package":"SOJ","pinout":"p44","grade":"20"},
-        {"name":"AS7C4098A-20JIN","package":"SOJ","pinout":"p44","grade":"20"},
-        {"name":"AS7C4098A-10TCN","package":"TSOP-II","pinout":"p44","grade":"10"},
-        {"name":"AS7C4098A-10TIN","package":"TSOP-II","pinout":"p44","grade":"10"},
-        {"name":"AS7C4098A-12TCN","package":"TSOP-II","pinout":"p44","grade":"12"},
-        {"name":"AS7C4098A-12TIN","package":"TSOP-II","pinout":"p44","grade":"12"},
-        {"name":"AS7C4098A-15TCN","package":"TSOP-II","pinout":"p44","grade":"15"},
-        {"name":"AS7C4098A-15TIN","package":"TSOP-II","pinout":"p44","grade":"15"},
-        {"name":"AS7C4098A-20TCN","package":"TSOP-II","pinout":"p44","grade":"20"},
-        {"name":"AS7C4098A-20TIN","package":"TSOP-II","pinout":"p44","grade":"20"}
+        {"name":"AS7C4098A-10JCN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"10"},
+        {"name":"AS7C4098A-10JIN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"10"},
+        {"name":"AS7C4098A-12JCN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"12"},
+        {"name":"AS7C4098A-12JIN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"12"},
+        {"name":"AS7C4098A-15JCN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"15"},
+        {"name":"AS7C4098A-15JIN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"15"},
+        {"name":"AS7C4098A-20JCN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"20"},
+        {"name":"AS7C4098A-20JIN","package":"SOJ","pinout":"p44","footprint":"SOJ-44-400","grade":"20"},
+        {"name":"AS7C4098A-10TCN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"10"},
+        {"name":"AS7C4098A-10TIN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"10"},
+        {"name":"AS7C4098A-12TCN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"12"},
+        {"name":"AS7C4098A-12TIN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"12"},
+        {"name":"AS7C4098A-15TCN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"15"},
+        {"name":"AS7C4098A-15TIN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"15"},
+        {"name":"AS7C4098A-20TCN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"20"},
+        {"name":"AS7C4098A-20TIN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"20"}
       ]
     },
     {
@@ -1966,8 +1966,8 @@
       "byteEnable": ["LB#","UB#"],
       "grades": {"10":{"trc":10,"taa":10,"tace":10,"toe":4.5,"tba":4.5,"toh":2,"tclz":2,"tchz":4,"tohz":4,"tbhz":4,"twc":10,"taw":8,"tcw":8,"tbw":8,"twp":8,"tdw":6,"twhz":4,"tow":2,"note": "AC electrical characteristics (read and write cycle tables), AS7C38098A-10, VCC = 2.7 V to 3.6 V (the only grade)"}},
       "parts": [
-        {"name":"AS7C38098A-10TIN","package":"TSOP-II","pinout":"p44","grade":"10"},
-        {"name":"AS7C38098A-10BIN","package":"TFBGA","pinout":"bga","grade":"10"}
+        {"name":"AS7C38098A-10TIN","package":"TSOP-II","pinout":"p44","footprint":"TSOP2-44-400","grade":"10"},
+        {"name":"AS7C38098A-10BIN","package":"TFBGA","pinout":"bga","footprint":"TFBGA-48-6X8","grade":"10"}
       ]
     },
     {
@@ -2087,8 +2087,8 @@
       "byteEnable": ["LB#","UB#"],
       "grades": {"10":{"trc":10,"taa":10,"tace":10,"toe":4.5,"tba":4.5,"toh":2,"tclz":2,"tchz":4,"tohz":4,"tbhz":4,"twc":10,"taw":8,"tcw":8,"tbw":8,"twp":8,"tdw":6,"twhz":4,"tow":2,"note": "-10: AC electrical characteristics, read and write cycle tables (VCC = 2.7-3.6 V, the only table)."}},
       "parts": [
-        {"name":"AS7C316098A-10TIN","package":"TSOP-I","pinout":"tsop","grade":"10"},
-        {"name":"AS7C316098A-10BIN","package":"TFBGA","pinout":"bga","grade":"10"}
+        {"name":"AS7C316098A-10TIN","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-48-12X20","grade":"10"},
+        {"name":"AS7C316098A-10BIN","package":"TFBGA","pinout":"bga","footprint":"TFBGA-48-6X8","grade":"10"}
       ]
     },
     {
@@ -2200,8 +2200,8 @@
       "byteEnable": ["B0#","B1#","B2#","B3#"],
       "grades": {"10":{"trc":10,"taa":10,"tace":10,"toe":4.5,"tba":4.5,"toh":2,"tclz":2,"tchz":4,"tohz":4,"tbhz":4,"twc":10,"taw":8,"tcw":8,"tbw":8,"twp":8,"tdw":6,"twhz":4,"tow":2,"note": "AC characteristics, AS7C351232-10BIN, VCC = 2.7 V to 3.6 V (the only table)."}},
       "parts": [
-        {"name":"AS7C351232-10BIN","package":"TFBGA","pinout":"bga","grade":"10"},
-        {"name":"AS7C351232-10BINTR","package":"TFBGA","pinout":"bga","grade":"10"}
+        {"name":"AS7C351232-10BIN","package":"TFBGA","pinout":"bga","footprint":"TFBGA-90","grade":"10"},
+        {"name":"AS7C351232-10BINTR","package":"TFBGA","pinout":"bga","footprint":"TFBGA-90","grade":"10"}
       ]
     }
   ]
