@@ -288,3 +288,39 @@ starts OFF; the app turns positions on and off (`circuit_set_switch`).
 | `"contacts"` | position 1, 2, …: `[pin name, pin name]`, two different pins (exactly one pin each) |
 
 `PartSwitch.positions` is the number of contacts. Parts carry no kind keys.
+
+### `sram`
+
+Asynchronous SRAMs. Every instance has its own storage (all X at power-on).
+The chip is selected while every `chipEnable` (active low) is low and every
+`chipEnableHigh` is high. It writes while selected with WE# low and the
+lane's byte enable low; data and address are taken at the end of the write.
+It reads while selected with OE# low, WE# high and the byte enable low. An
+undriven (Z) control reads inactive; X unknown. Read data appears inside the
+datasheet window (tCLZ/tOLZ/tBLZ/tOW … tAA/tACE/tOE/tBA … tCHZ/tOHZ/tBHZ/tWHZ,
+old data held for tOH); write timing (tWP, tCW, tBW, tAW, tAS, tDW, tDH, tWR)
+is checked and a violation stores X.
+
+```json
+"address": ["A0", "A1", "A2"],
+"data": ["DQ0", "DQ1"],
+"chipEnable": ["CE#"],
+"chipEnableHigh": ["CE2"],
+"outputEnable": "OE#",
+"writeEnable": "WE#",
+"byteEnable": ["LB#", "UB#"],
+"grades": {"55": {"trc": 55, "taa": 55, "tace": 55, "toe": 30, "note": "…"}}
+```
+
+| Key | Value |
+|---|---|
+| `"address"` | pin names; `address[i]` is address bit i (1–24) |
+| `"data"` | pin names; `data[i]` is data bit i (1–32) |
+| `"chipEnable"` | active-low chip enables (0–2) |
+| `"chipEnableHigh"` | active-high chip enables (0–2), may be `[]` |
+| `"outputEnable"`, `"writeEnable"` | OE#, WE# (active low) |
+| `"byteEnable"` | active-low byte enables, `byteEnable[i]` = lane i (DQ 8i … 8i+7); `[]` = the whole word is one lane |
+| `"grades"` | speed grade → timing in ns: `trc taa tace toe tba toh tclz tolz tblz tchz tohz tbhz twc taw tcw tbw tas twp twpOeLow twr tdw tdh twhz tow`; a missing name is 0 |
+
+Part key: `"grade"`, a key of `grades`. `PartSram`: `words` = 2^len(address),
+`bits` = len(data), `access_ps` = the grade's `taa`, `grade`.

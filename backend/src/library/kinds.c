@@ -6,6 +6,7 @@ extern const PartKindOps GATE_KIND;
 extern const PartKindOps DFF_KIND;
 extern const PartKindOps JKFF_KIND;
 extern const PartKindOps SWITCH_KIND;
+extern const PartKindOps SRAM_KIND;
 extern const PartKindOps SUPPLY_KIND;
 extern const PartKindOps LED_KIND;
 extern const PartKindOps OSCILLATOR_KIND;
@@ -16,6 +17,7 @@ const PartKindOps *const KINDS[] = {
     &DFF_KIND,
     &JKFF_KIND,
     &SWITCH_KIND,
+    &SRAM_KIND,
     &SUPPLY_KIND,
     &LED_KIND,
     &OSCILLATOR_KIND,

@@ -359,7 +359,36 @@ static void check_switch_cases(void) {
                 "contacts[1]: a contact joins two different pins, not \"2A\" twice");
 }
 
+#define SRAM_DEVICE(GRADE) \
+    HEAD("sram") "{'id':'m','function':'1 KB','description':'d','drawer':['Memory','SRAM']," \
+    "'pinouts':{'p6':[{'number':1,'name':'A0','role':'input','group':'address'}," \
+    "{'number':2,'name':'DQ0','role':'inout'},{'number':3,'name':'CE#','role':'input'}," \
+    "{'number':4,'name':'OE#','role':'input'},{'number':5,'name':'WE#','role':'input'}," \
+    "{'number':6,'name':'VCC','role':'power'}]}," \
+    "'address':['A0'],'data':['DQ0'],'chipEnable':['CE#'],'chipEnableHigh':[]," \
+    "'outputEnable':'OE#','writeEnable':'WE#','byteEnable':[]," \
+    "'grades':{'55':{'trc':55,'taa':55,'twpOeLow':45,'note':'n'}}," \
+    "'parts':[{'name':'M1','package':'DIP','pinout':'p6','grade':'" GRADE "'}]}" TAIL
+
+static void check_sram_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, SRAM_DEVICE("55"), &error) == 0);
+    part = part_library_find(library, "M1");
+    CHECK(part != NULL && part->sram != NULL && part->sram->words == 2 && part->sram->bits == 1 &&
+          part->sram->access_ps == 55000 && strcmp(part->sram->grade, "55") == 0);
+    printf("ok   valid sram file%s%s\n", error != NULL ? ": " : "", error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("sram grade missing from grades", SRAM_DEVICE("70"),
+                "parts[0] (M1): grade \"70\" is not in \"grades\"");
+}
+
 int main(void) {
+    check_sram_cases();
     check_switch_cases();
     check_flipflop_cases();
     check_gate_cases();

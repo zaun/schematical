@@ -25,7 +25,7 @@ See plan-01-A §Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-01-D complete | `ls planning/completed/plan-01-D-flipflop-switch.md` → exists | NOT MET |
+| plan-01-D complete | `ls planning/completed/plan-01-D-flipflop-switch.md` → exists | MET (2026-10-31: exists, 1dfa560) |
 
 ## 1. Goal
 
@@ -154,12 +154,24 @@ See plan-01-A §Prerequisites, plus:
 
 ### Phase 1 — SRAM
 
-- [ ] `src/models/sram.c` (§3.1); add to `KINDS[]`.
-- [ ] `tools/export/export_sram.c`; generate `sram.json`; `notes.py`.
-- [ ] `tests/sram_test.c` + CTest; `library_check` SRAM case; docs section.
+- [x] `src/models/sram.c` (§3.1); add to `KINDS[]`. The engine section
+      (`/* ---- Storage` through `sram_timer`, 565 lines) is copied verbatim
+      from the old `sram.c`; only the loader, `create` (pins from the bound
+      pinout) and the two memory hooks are new.
+- [x] `tools/export/export_sram.c`; generate `sram.json`; `notes.py`
+      (`58 notes, 2 removed`, 0 placeholders). 21 devices: every layout
+      merged except `AS7C34098A_BGA`, whose data pins are named
+      `I/O0`–`I/O15` where the TSOP's are `I/O1`–`I/O16` (kind keys differ by
+      name, so it stays its own device, id = old id).
+- [x] `tests/sram_test.c` + CTest; `library_check` SRAM case; docs section.
+      `sram_test` = the old bench (`check_as6c62256`, `check_as7c34098a`,
+      verbatim apart from `sram_instance_size` → the `memory_size` hook) plus
+      `check_memory_hooks` (size, clipping, X at power-on, past the end).
 
 Acceptance: 172 SRAM parts match both goldens; the ported bench passes.
   Check: `ctest --test-dir /tmp/logic-build -R 'library_check|listing_check|trace_check|sram_test' --output-on-failure` → passed, `3768 parts compared` (est. 2 min).
+  Result: `100% tests passed, 0 tests failed out of 4`; both parity checks
+  `… sram 172 …`, `3768 parts compared, 49 skipped`; `sram_test` → 38 PASS, `0 failure(s)`.
 Commit: —
 
 ### Phase 2 — 7-segment displays; library complete
@@ -190,7 +202,13 @@ See plan-01-A §Decisions. Nothing new.
 
 ## Corrections
 
-(empty)
+- plan-01-D's last commit (archive + Phase 2) is 1dfa560.
+- §3.3 grade names: the compiled tables do not carry the timing tables'
+  names, so `export_sram.c` includes `sram_parts.inc` a second time inside a
+  function with `SRAM_DEFINE_CHIP` redefined to record each part's grade
+  table name (`#grade`) and the chip's PINS macro name. The device note is
+  `"<chip header> | <pinout>: <PINS comment> | …"` (the `---- … ----` header
+  plus each pinout's comment line above `#define <NAME>_PINS(X)`).
 
 ## Summary
 

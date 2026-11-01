@@ -91,6 +91,7 @@ add_library(logic STATIC
     src/models/dff.c
     src/models/jkff.c
     src/models/switch.c
+    src/models/sram.c
     src/models/supply.c
     src/models/led.c
     src/models/oscillator.c
@@ -130,6 +131,7 @@ add_executable(export_parts
     tools/export/export_dff.c
     tools/export/export_jkff.c
     tools/export/export_switch.c
+    tools/export/export_sram.c
     sim.c
     net.c
     src/third_party/cjson/cJSON.c
@@ -169,3 +171,4 @@ logic_test(listing_check)
 logic_test(trace_check)
 
 logic_test(switch_test)
+logic_test(sram_test)

@@ -24,6 +24,7 @@ static const Exporter EXPORTERS[] = {
     {"dff", export_dff},
     {"jkff", export_jkff},
     {"switch", export_switch},
+    {"sram", export_sram},
 };
 
 int main(int argc, char **argv) {
