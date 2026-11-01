@@ -11,6 +11,11 @@ typedef struct {
     SimNet *net;
     size_t net_pin_index;
     uint32_t gen;      /* bumped by each inertial drive on this pin */
+    /* The inertial drive pending on this pin, if any. */
+    int has_pending;
+    SimTime pending_time;
+    LogicValue pending_value;
+    DriveStrength pending_strength;
 } InstancePin;
 
 struct SimInstance {
@@ -494,9 +499,24 @@ static void schedule_drive(
      * has not matured yet, so a pulse shorter than the delay is swallowed.
      * Bumping the pin's gen makes every drive scheduled on it before now
      * stale; stale events are dropped when they reach the top of the heap.
+     * A drive of the value already pending, no earlier than it, keeps the
+     * pending edge: the output switches when it first would have.
      */
     if (inertial) {
-        instance->pins[pin].gen++;
+        InstancePin *p = &instance->pins[pin];
+
+        if (p->has_pending && p->pending_value == value &&
+            p->pending_strength == strength &&
+            p->pending_time <= sim->now + delay) {
+            return;
+        }
+        p->gen++;
+        p->has_pending = 1;
+        p->pending_time = sim->now + delay;
+        p->pending_value = value;
+        p->pending_strength = strength;
+    } else {
+        instance->pins[pin].has_pending = 0;
     }
 
     event.type = EVENT_DRIVE;
@@ -915,8 +935,10 @@ static int process_round(Sim *sim, SimTime time) {
 
     for (i = 0; i < batch_count; i++) {
         if (batch[i].type == EVENT_DRIVE) {
-            SimNet *net = batch[i].instance->pins[batch[i].pin].net;
+            InstancePin *pin = &batch[i].instance->pins[batch[i].pin];
+            SimNet *net = pin->net;
 
+            pin->has_pending = 0;
             if (net != NULL) {
                 mark_dirty(sim, net->index);
             }

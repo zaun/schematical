@@ -72,6 +72,14 @@ Notes:
   any time during the last `circuit_advance`, so multiplexed digits show.
 - SRAM contents: `circuit_memory_size`, `circuit_memory_read` (a 0 bit in
   `known` is X).
+- `circuit_net_changes` counts how often a net's value has changed since
+  `circuit_start`; compare two reads to see a net that toggled in between.
+- `circuit_part_light_time` gives, per light (same order as
+  `circuit_part_lights`), the picoseconds it has been on since start;
+  divide the increase over a frame by the frame's length for brightness.
+- Gate and flip-flop outputs are inertial: a newer drive cancels a pending
+  one (pulses shorter than the delay vanish), except that a drive of the
+  value already pending, no earlier than it, keeps the pending edge.
 
 ## Layout
 
@@ -140,6 +148,8 @@ drawer work from the kind table and the `Part` structs.
   against the drawing. Listing lines in `parts.txt` end in
   `|footprint=<id>` for parts that name one.
 - `switch_test`, `sram_test`, `display7_test` — model benches.
+- `engine_test` — engine timing with a real gate (SN74HC32N): an output
+  edge that is already pending is kept, a too-short pulse is swallowed.
 - `circuit_check` — the circuit API.
 
 Not a ctest: `sim_bench` (`tests/sim_bench.c`) measures engine speed — a

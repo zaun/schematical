@@ -257,13 +257,19 @@ Commit: —
       `/tmp/logic-p05/engine_test` → `1Y = 1 at 115000 ps` / `FAIL: A up at
       100 ns, B up at 105 ns…`, `PASS: a 5 ns pulse…`, `PASS: A up at 100 ns
       alone…`, `1 failure(s)`.
-- [ ] `sim.c`: §4.1.
-- [ ] Regenerate: `/tmp/logic-p05/trace_check --print > backend/tests/golden/traces.txt`.
-- [ ] Check the diff is the predicted one (acceptance), and spot-check
+- [x] `sim.c`: §4.1. `engine_test` → three `PASS`, `0 failure(s)`
+      (case 1: `first 1Y high: 110000 ps`).
+- [x] Regenerate: `/tmp/logic-p05/trace_check --print > backend/tests/golden/traces.txt`.
+- [x] Check the diff is the predicted one (acceptance), and spot-check
       `trace_check --verbose SN74HC00N`: first 1Y/2Y/3Y/4Y rising edges at
-      10000 ps.
-- [ ] `docs/backend.md`: § Tests lists `engine_test`; § Using it notes the
+      10000 ps. → `10000 pin 3 -> 1`, `10000 pin 6 -> 1`, `10000 pin 8 -> 1`,
+      `10000 pin 11 -> 1`. Changed lines joined with `parts.txt` kind →
+      `Counter({'gate': 2039, 'dff': 286, 'jkff': 154})`.
+- [x] `docs/backend.md`: § Tests lists `engine_test`; § Using it notes the
       two new calls and the inertial rule in one line each.
+- [x] Check 1: `ctest --test-dir /tmp/logic-p05` → `100% tests passed, 0 tests failed out of 9`.
+- [x] Check 2: `diff -U0 backend/tests/golden/traces.txt | grep -c '^+[^+]'` → `2479`;
+      `diff --stat backend/tests/golden` → `traces.txt | 4958`, 1 file changed.
 
 Acceptance: the timing test passes and the golden diff is exactly as
 predicted.

@@ -197,7 +197,8 @@ void sim_schedule_drive(
 /*
  * Like sim_schedule_drive, but a newer drive on the same pin cancels any drive
  * still pending on it. Gate outputs use this so pulses shorter than the
- * propagation delay are filtered out.
+ * propagation delay are filtered out. A drive of the value already pending on
+ * the pin, no earlier than it, keeps the pending one.
  */
 void sim_schedule_inertial_drive(
     Sim *sim,
