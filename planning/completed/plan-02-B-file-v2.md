@@ -156,7 +156,7 @@ Commit: cbc2f5a
 Acceptance: the doc describes version 2 and the conversion.
   Check: `grep -nE '"version": 1|"pin": [0-9]' docs/file-format.md` → matches only inside the "Version 1 files" section (est. seconds).
   Result (2026-11-01): matches at lines 140–141 only, inside "## Version 1 files" (lines 133–147).
-Commit: —
+Commit: ce73947
 
 ## Validation Plan
 
@@ -183,12 +183,32 @@ Commit: —
   and the runtime proof (est. 15 min). The backend suite is untouched by this
   letter, so it is not rerun.
 
+## Final gate (run 2026-11-01)
+
+- Phase 1 `xcodebuild` → `** BUILD SUCCEEDED **`.
+- Runtime proof, headless with the plan-02-A harness (`/tmp/harness`; the
+  session was locked, see plan-02-A Corrections):
+  1. `test.schematical` (v1) opens, Save As `/tmp/plan02b.schematical`;
+     `jq -c '.version, [...pins]'` → `2` and
+     `["2","2","1","3","1","1","1","1","4"]`, the v1 file's
+     `[2,2,1,3,1,1,1,1,4]` as strings in the same places.
+  2. Reopening `/tmp/plan02b.schematical` gives the same labels, the same six
+     wires on the same named pins, Play → `running: true error: none`,
+     `lights U3: [true]` (`diff b1.out b2.out` → only the "saved" line).
+  3. Errors: `"pin" = "99"` → "…connects to pin 99 of U2, which has no such
+     pin."; v2 with `pin = 1` → "version 2 files name pins by designator, such
+     as "A1""; v1 with `pin = "1"` → "version 1 files name pins by number";
+     `version = 3` → "saved by a newer version of Schematical (file format 3)".
+
 ## Decisions
 
 - Version 2 with string pins everywhere, version 1 converted on open (pin n = n-th pin). Decided by the owner, 2026-10-31. Old builds refuse v2 cleanly. (§3)
 - No mixed files. Author's call: one meaning per version keeps the newer-version refusal honest. (§3)
 
 ## Corrections
+
+- Runtime proof driven headlessly (locked session); same harness and reason
+  as plan-02-A's Corrections.
 
 ## Summary
 
