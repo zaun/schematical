@@ -360,6 +360,16 @@ allowed at the footprint level.
   if the datasheet gives one, else the outline rules), with a `note` naming
   the drawing, file and page. `footprint_check` fails on a footprint no part
   uses.
+- **Mid-values.** Every dimension that a rule takes from a drawing (lead
+  width and length, tip-to-tip span, terminal size, ball and pin
+  diameter, body) is the mid-value (min + max) / 2 when the drawing gives
+  both a min and a max, even where plan-03-B's rule text says "max". A
+  dimension with only one bound, a BSC value or a single value is used as
+  printed. The `note` records the mid-value and its range, e.g.
+  `lead 0.46 mid (0.38-0.53)`.
+- **No overlapping pads.** If a land pattern's max-only pad sizes make
+  pads touch (PLCC-32's corner pads at Y1 = .100 in max), shorten the pads
+  and keep their centres, and say so in the `note`.
 
 - The footprint must already be loaded: `load_footprints` runs before any
   `load_parts` (the app and the tests load `footprints.json` first; a
