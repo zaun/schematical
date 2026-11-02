@@ -116,12 +116,27 @@ Commit: —
 
 ### Phase 2 — Terminal window
 
-- [~] `SimulationEngine.swift`, `Simulation.swift`, `Terminal/TerminalWindow.swift`,
+- [x] `SimulationEngine.swift`, `Simulation.swift`, `Terminal/TerminalWindow.swift`,
   `schematicalApp.swift`, `SchematicCanvasView.swift`, `ContentView.swift`:
   §3.2. Build succeeds. Written ahead of F–J (it only needs C's circuit API);
-  `** BUILD SUCCEEDED **`. Remaining: the §5 harness proof (needs TL16C550CFNR
-  from F).
-- [ ] Harness `terminal` (§5): prints and PNG as §1; the PNG is looked at.
+  `** BUILD SUCCEEDED **`; proven by the §5 harness run below.
+- [x] Harness `terminal` (§5): prints and PNG as §1; the PNG is looked at.
+  Observed (board as corrected in §5): `cpu: Running · 42539 cycles`,
+  `sent: "HELLO\r\n"`, `echo: "x"`, `rendered /tmp/p12-proof/terminal.png`.
+  The PNG shows the channel picker, the dark transcript with `HELLO` on line 1
+  and `x` on line 2, and the input field.
+- [x] (added) Fix: `serial_bus.c` stored a write cycle cut short by reset (the
+  bus disabled at MR's rise ended the cycle, which committed it). Found by
+  the §5 board: the CPU's power-up X cycles were in progress when MR rose, so
+  an X write reached the LSR factory-test bits and LSR[4:1] read X. Now a
+  cycle that ends while the bus is disabled is dropped (`serial_bus.h`: "0
+  while in reset: no cycles"). Test: `serial_test` case 1 gains "LSR after a
+  write cut short by MR": RED without the fix (`read 011XXXX0, want
+  01100000`), then `PASS`. The fix changes 60 of F's 81 `traces.txt` lines
+  (their random stimulus cuts writes short with reset); regenerated with
+  `trace_check --print`: `git diff --stat` → 60 insertions, 60 deletions, all
+  `serial` parts added by plan-12-F; `ctest` → `100% tests passed, 0 tests
+  failed out of 19`.
 
 Acceptance: §5's printed values; the PNG shows `HELLO` and `x` (about 3 min).
 Commit: —
@@ -140,8 +155,9 @@ parts:
   `TL16C550CFNR` (PLCC-44) selected at $6000–$7FFF by its three chip
   selects: CS0 ←
   A14, CS1 ← A13, CS2 (active low) ← A15; A2..A0 ← A2..A0; D7..D0 shared;
-  MR tied to GND; the active-high read and write strobes tied to GND; SIN,
-  SOUT, modem inputs and INTR unconnected.
+  MR ← NAND(RESB, RESB) on a second `SN74HC00N` (its other gates' inputs
+  to GND); a `PULLUP-5V` on RESB and one on SIN; the active-high read and
+  write strobes tied to GND; SOUT, modem inputs and INTR unconnected.
 - One `SN74HC00N`: RDBAR = NAND(PHI2, R/W) → the UART's active-low read
   strobe and the EEPROM's OE#; nRW = NAND(R/W, R/W); WRBAR = NAND(PHI2, nRW)
   → the UART's active-low write strobe; CE# = NAND(A15, A15) → the EEPROM's
@@ -214,7 +230,23 @@ drives the only app paths plan-12 adds.
 
 ## Corrections
 
-(none yet)
+- **§5 board: SIN, MR and RESB.** As first written (SIN unconnected, MR to
+  GND) the CPU went lost at its first `LDA $6005`: LSR[4:1] read X (harness
+  debug: `XMASK 1e0000 addr=6005`). Two causes, both real-board facts:
+  a floating SIN reads X (plan-12-A §3.5), so it gets a pull-up; and before
+  the CPU's first reset its bus is X, so the UART takes X writes into every
+  register, including the LSR test bits, and only MR clears that. MR now
+  follows the reset switch through a NAND used as an inverter (no inverter
+  part is in the catalog), and RESB gets a pull-up so the gate does not read
+  a floating RESB as X when the switch is open (the CPU model tolerates it;
+  the gate does not).
+- **Model bug found by §5** (fixed here, `serial_bus.c`, with a C case-1
+  check): a write cycle cut short by reset was stored. See Phase 2.
+- **PNG render.** The harness's `ImageRenderer` draws AppKit-backed views
+  (the transcript's scroll view, the input field) as placeholders; the
+  terminal PNG is rendered through an offscreen `NSHostingView` window
+  (`cacheDisplay`) instead. In that capture the `Clear` button's title is
+  not drawn (an offscreen-capture effect; the source is `Button("Clear")`).
 
 ## Summary
 

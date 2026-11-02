@@ -307,7 +307,9 @@ void serial_bus_update(SerialBus *bus, Sim *sim, SimInstance *instance,
         write = SERIAL_CYCLE_X;
     }
     if (write != bus->write) {
-        if (bus->write == SERIAL_CYCLE_ACTIVE) {
+        if (!bus->enabled) {
+            /* A cycle cut short by reset is not stored (no cycles in reset). */
+        } else if (bus->write == SERIAL_CYCLE_ACTIVE) {
             uint8_t data;
             uint8_t data_known;
 

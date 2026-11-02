@@ -498,6 +498,20 @@ static void case_reset(void) {
     run(b, NS(100));
     expect_reg(b, 1, "00000000", "IER after a second MR");
     expect_reg(b, 6, "00010000", "MSR after MR: deltas cleared, CTS still active");
+    /* A write cut short by MR is not stored: an X-data write to LSR (factory
+       test bits) in progress when MR rises leaves LSR at its reset value. */
+    set_address(b, 5);
+    set_data(b, 0, 0);
+    run(b, NS(40));
+    set(b, b->cfg->write, LOGIC_0);
+    run(b, NS(120));
+    set(b, "MR", LOGIC_1);
+    run(b, NS(6000));
+    set(b, b->cfg->write, LOGIC_1);
+    run(b, NS(100));
+    set(b, "MR", LOGIC_0);
+    run(b, NS(100));
+    expect_reg(b, 5, "01100000", "LSR after a write cut short by MR");
     case_end("1 reset values and outputs after MR");
     bench_close(b);
 }
