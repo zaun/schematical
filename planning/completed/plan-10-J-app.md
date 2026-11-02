@@ -82,7 +82,7 @@ Acceptance: the build succeeds and the grep of §1 matches. (Ran: the grep
 prints `PartCatalog.swift:210` (the `isLogic` condition, now on its own line
 of the wrapped property) and `PartFacts.swift:79-81` (the three
 `kindName` cases).)
-Commit: —
+Commit: f6bd060
 
 ## Validation Plan — plan-10 landing tier
 
@@ -98,6 +98,13 @@ the footprints and the app):
 | Part counts | `grep -c '\|latch\|' parts.txt`; `'\|counter\|'`; `'\|shift\|'` | 750, 730, 583 |
 | Datasheets | `ls datasheets/{counters,divider,latch,shifters}/*.pdf \| wc -l`; `grep -c '\.pdf' datasheets/not-included.md` | 234, 10 |
 | App | the `xcodebuild` above | `** BUILD SUCCEEDED **` |
+
+Ran 2026-11-01 at f6bd060 (worktree P-10), every gate as expected:
+`100% tests passed, 0 tests failed out of 15` (11 s, fresh `/tmp/logic-p10`);
+6108 / 6108 / 158; `git diff 1db7b45 -- backend/tests/golden` (1db7b45 =
+plan-10-A's first commit a2f6457^) → 0 removed lines, 4212 added (2097 × 2 +
+18 footprints); `|latch|` 750, `|counter|` 730, `|shift|` 583; 234 PDFs and
+10 in `not-included.md`; `** BUILD SUCCEEDED **`.
 
 Each check is the cheapest that would fail if its area were wrong: `ctest`
 runs every model test and the golden comparisons in seconds; there is no
