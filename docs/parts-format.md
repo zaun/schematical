@@ -965,7 +965,8 @@ role `nc` (no connect) or `absent` (no lead). Parts carry no kind keys.
 
 Character LCD modules: HD44780-compatible modules with the controller,
 character ROM, glass and backlight built in (plan-11). The parts drawer
-lists them under Displays → Character.
+lists them under Displays → Character. The example is the
+`NHD-0216K1Z-NSW` device (part NHD-0216K1Z-NSW-BBW-L):
 
 ```json
 "columns": 16, "rows": 2, "controller": "ST7066U", "rom": "A00",
