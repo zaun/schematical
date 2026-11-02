@@ -150,7 +150,8 @@ struct SchematicCanvasView: View {
                 },
                 junctions: document.junctions.map(\.point),
                 hoveredWireID: hoveredWireID,
-                preview: connectionPreview
+                preview: connectionPreview,
+                area: gridRect
             )
 
             ForEach(document.chips) { chip in
@@ -203,7 +204,8 @@ struct SchematicCanvasView: View {
 
             PinMarkerLayer(
                 tips: tool == .line ? document.pinTips : [],
-                highlight: highlightPoint
+                highlight: highlightPoint,
+                area: gridRect
             )
         }
         .scaleEffect(zoom, anchor: .topLeading)
@@ -487,14 +489,36 @@ struct RoutedWire: Identifiable {
     var style: WireStyle = .normal
 }
 
+private extension View {
+    /// Sizes a world-coordinate `Canvas` to `rect` (the visible world area)
+    /// and places it there. A Canvas only shows what falls inside its own frame,
+    /// so without this anything at a negative coordinate, or past the view's
+    /// size, is cut off. The Canvas must shift its drawing by `-rect.origin`.
+    func worldCanvas(_ rect: CGRect) -> some View {
+        frame(width: rect.width, height: rect.height)
+            .offset(x: rect.minX, y: rect.minY)
+    }
+}
+
+/// Moves a Canvas's drawing so world point `rect.origin` is at its top-left;
+/// pairs with `worldCanvas(_:)`.
+private extension GraphicsContext {
+    mutating func shiftToWorld(_ rect: CGRect) {
+        translateBy(x: -rect.minX, y: -rect.minY)
+    }
+}
+
 /// A small circle over each pin, shown in Line mode. The connection point under
 /// the pointer, or the one a line would land on, is filled green.
 private struct PinMarkerLayer: View {
     let tips: [CGPoint]
     let highlight: CGPoint?
+    /// The visible world area; drawing outside it is not shown.
+    let area: CGRect
 
     var body: some View {
         Canvas { context, _ in
+            context.shiftToWorld(area)
             for tip in tips where tip != highlight {
                 let rect = CGRect(x: tip.x - 4, y: tip.y - 4, width: 8, height: 8)
                 context.stroke(Path(ellipseIn: rect), with: .color(.accentColor), lineWidth: 1.25)
@@ -506,6 +530,7 @@ private struct PinMarkerLayer: View {
                 context.stroke(Path(ellipseIn: rect), with: .color(.green.opacity(0.6)), lineWidth: 1)
             }
         }
+        .worldCanvas(area)
     }
 }
 
@@ -516,9 +541,12 @@ private struct WireLayer: View {
     let junctions: [CGPoint]
     let hoveredWireID: UUID?
     let preview: ConnectionPreview?
+    /// The visible world area; drawing outside it is not shown.
+    let area: CGRect
 
     var body: some View {
         Canvas { context, _ in
+            context.shiftToWorld(area)
             let solid = StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round)
             let underlay = StrokeStyle(lineWidth: 6, lineCap: .round, lineJoin: .round)
             for route in routes {
@@ -552,6 +580,7 @@ private struct WireLayer: View {
                 context.stroke(polyline(preview.points), with: .color(.accentColor), style: dashed)
             }
         }
+        .worldCanvas(area)
     }
 
     private func polyline(_ points: [CGPoint]) -> Path {
