@@ -19,6 +19,13 @@ static const SerialModel *const MODELS[] = {
     /* plan-12-J */
     &MAX3100_MODEL,
     &MAX310X_MODEL,
+    /* plan-12-H */
+    &AY1013_MODEL,
+    &I8251_MODEL,
+    &I82510_MODEL,
+    &ACIA6551_MODEL,
+    &HS82C52_MODEL,
+    &COM78C80X_MODEL,
 };
 #define MODEL_COUNT (sizeof MODELS / sizeof MODELS[0])
 
@@ -38,11 +45,26 @@ static const char *const DEVICE_KEYS[] = {
     "optionalPins", "sprPowerUp", "dmaMode1", "lsrClearOnGood", "breakMarkTicks",
     /* max3100, max310x (plan-12-J) */
     "shutdown", "testMode", "transceiver", "variant", "reset", "interrupt", "gpio",
+    /* plan-12-H: ay1013 ("reset" above) */
+    "transmitData", "receiveData", "receiveEnable", "statusEnable", "status", "control",
+    "dataStrobe", "resetDav", "serialOut", "serialIn", "clocks", "resetClearsData",
+    "resetClearsControl", "fiveBitStops", "cpuMode",
+    /* i8251 ("bus", "clock" above) */
+    "serial",
+    /* hs82c52 */
+    "hd6406",
+    /* com78c80x ("bus", "clock", "channels", "interrupt" above) */
+    "lines",
     NULL
 };
 enum { FIRST_MODEL_KEY = 2 };
 
-static const char *const PART_KEYS[] = {"grade", "vcc", "inputMax", NULL};
+static const char *const PART_KEYS[] = {
+    "grade", "vcc", "inputMax",
+    /* plan-12-H: model part keys (ay1013, acia6551) */
+    "fiveBitStops", "resetClearsData", "ctsA",
+    NULL
+};
 
 static int in_list(const char *const *list, const char *name) {
     if (list == NULL) {
