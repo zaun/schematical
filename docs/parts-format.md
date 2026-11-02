@@ -1,6 +1,6 @@
 # Part file format
 
-Every orderable part (gate, flip-flop, latch, counter, SRAM, EEPROM, switch, LED,
+Every orderable part (gate, flip-flop, latch, counter, shift register, SRAM, EEPROM, switch, LED,
 7-segment display, oscillator, supply) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
@@ -18,6 +18,7 @@ Every orderable part (gate, flip-flop, latch, counter, SRAM, EEPROM, switch, LED
 | `supply.json` | `supply` |
 | `latch.json` | `latch` |
 | `counter.json` | `counter` |
+| `shift.json` | `shift` |
 
 Beside them, `footprints.json` holds the land patterns parts name with
 `"footprint"` (see [Footprints](#footprints)). It is loaded first, with

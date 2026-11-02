@@ -22,7 +22,7 @@ plan-10-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-10-H complete | `ls planning/completed/plan-10-H-shift-special.md` → exists | NOT MET (2026-11-01: written) |
+| plan-10-H complete | `ls planning/completed/plan-10-H-shift-special.md` → exists | MET (2026-11-01: exists, archived at 4f87fba) |
 
 ## 1. Goal
 
@@ -91,17 +91,30 @@ after F's `VQFN-16`.
 
 ### Phase 1 — `shift.json` and two footprints
 
-- [ ] Footprints (§4.2), the 36 devices and 583 parts.
-- [ ] Name/device check: `583 parts, 36 devices, names and devices match`.
-- [ ] Regenerate the goldens; added lines only; 583 / 583 / 2.
-- [ ] Spot checks, one line each here: `SN74HC595N` (16 pins, storage
+- [x] Footprints (§4.2), the 36 devices and 583 parts. (`/tmp/p10/gen_i.py`;
+  the C §1 one-liner on `shift.json` → `36 583`. `/tmp/p10/check_fp2.py`:
+  LCCC-28 28 pads, 7 per side at 1.27 mm, pads at ±5.23 = span 10.46;
+  WQFN-16 16 pads, 6 per long side at 0.5 mm, pads at ±1.15 / ±1.65 = spans
+  2.3 / 3.3, centre 1 × 2 — both as in `footprints.md`.)
+- [x] Name/device check: `583 parts, 36 devices, names and devices match`.
+  (Ran `/tmp/p10/check_names.py`: that line.)
+- [x] Regenerate the goldens; added lines only; 583 / 583 / 2. (Ran: 0
+  removed, 1168 added; 6108 / 6108 / 158; `grep -c '|shift|'` → 583.)
+- [x] Spot checks, one line each here: `SN74HC595N` (16 pins, storage
   outputs QA–QH, `vcc=2000-6000`), `SNJ54HC595FK` (`fk20`, `LCCC-20`),
   `SN74AHC595BQBR` (`WQFN-16`), `SN74LS673DW` (24 pins, `SOIC-24W`), `SNJ54LS673FK` (`fk28`,
   `LCCC-28`, `military`), `TPIC6A595NE`
   (20 pins, `PDIP-20`), `SN74LV8153PW` (two `power` pins), `CD40105BE`
-  (`C`, `vcc=3000-18000`).
+  (`C`, `vcc=3000-18000`). (Ran, from `parts.txt`: `SN74HC595N` 16 pins,
+  `PDIP-16`, `vcc=2000-6000` (storage outputs QA–QH per `shift.json`);
+  `SNJ54HC595FK` 20 pins (1 `NC`), `LCCC-20`, `military`; `SN74AHC595BQBR`
+  `WQFN-16`; `SN74LS673DW` 24 pins, `SOIC-24W`; `SNJ54LS673FK` 28 pins
+  (1 `NC`), `LCCC-28`, `military`, `vcc=4500-5500`; `TPIC6A595NE` 20 pins
+  (1 `DRAIN2`, 17 `VCC`), `PDIP-20`; `SN74LV8153PW` power pins
+  `1:VCC1`, `20:VCC2`; `CD40105BE` `C`, `vcc=3000-18000`.)
 
-Acceptance: `ctest` 15 of 15; goldens 6108 / 6108 / 158, added only.
+Acceptance: `ctest` 15 of 15; goldens 6108 / 6108 / 158, added only. (Ran:
+`100% tests passed, 0 tests failed out of 15`.)
 Commit: —
 
 ### Phase 2 — Real-part cases
@@ -123,7 +136,14 @@ Phase 1 and 2 acceptance (`ctest`, about 7 s).
 
 ## Corrections
 
-(none yet)
+- 2026-11-01, Phase 1: main timing paths follow G §4.1 per device: storage
+  devices use the storage clock → Q (595/594/596 RCLK → Q; 4094B/74_4094
+  STROBE → Q), PISO devices the shift clock → serial out (165, 166, 597,
+  598), and the TPIC parts G → DRAIN, the only drain delay their sheets
+  print (no RCK → DRAIN row). The 74_8153 entry is RESET → Y, its only
+  printed Y delay besides the Pw/2 bit-timing ones.
+- 2026-11-01, Phase 1: `docs/parts-format.md`'s file table gains
+  `shift.json`.
 
 ## Summary
 
