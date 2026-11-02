@@ -14,6 +14,7 @@
 #include "read_file.h"
 #include "voltage_fixture.h"
 #include "serial_fixture.h"
+#include "serial_fixture_classic.h"
 
 static int failures;
 static PartLibrary *library;
@@ -354,6 +355,80 @@ static void check_serial_terminal(void) {
                "send onto an RX net another part drives is refused");
         circuit_destroy(c);
     }
+}
+
+/* ---- plan-12-H: the terminal on an 8251A in synchronous mode -------------- */
+
+/* SFX-8251A-dip28 on two DIP switches with pull-ups: TE-GDS0804 1-8 =
+   D0-D7, TE-GDS0604 1 = C/D, 2 = WR; CS, RESET low, RD high. */
+static void sync_write(SerialRig *r, int cd, unsigned data) {
+    unsigned i;
+
+    for (i = 0; i < 8; i++) {
+        circuit_set_switch(r->c, r->s8, i + 1, !((data >> i) & 1u));
+    }
+    circuit_set_switch(r->c, r->s6, 1, !cd);
+    circuit_advance(r->c, 100000);
+    circuit_set_switch(r->c, r->s6, 2, 1);
+    circuit_advance(r->c, 300000);
+    circuit_set_switch(r->c, r->s6, 2, 0);
+    circuit_advance(r->c, 3000000);
+}
+
+static void check_serial_sync_8251(void) {
+    static const char *const DATA[8] = {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"};
+    SerialRig r;
+    const uint8_t ok[2] = {'O', 'K'};
+    size_t v;
+    size_t g;
+    size_t rxd;
+    unsigned i;
+
+    memset(&r, 0, sizeof r);
+    r.c = circuit_create(library);
+    r.uart = part(r.c, "SFX-8251A-dip28");
+    circuit_connect(r.c, part(r.c, "5V"), "1", v = net(r.c));
+    circuit_connect(r.c, part(r.c, "GND"), "1", g = net(r.c));
+    r.s8 = part(r.c, "TE-GDS0804");
+    r.s6 = part(r.c, "TE-GDS0604");
+    circuit_connect(r.c, r.uart, pin_named("SFX-8251A-dip28", "VCC"), v);
+    circuit_connect(r.c, r.uart, pin_named("SFX-8251A-dip28", "GND"), g);
+    circuit_connect(r.c, r.uart, pin_named("SFX-8251A-dip28", "CS"), g);
+    circuit_connect(r.c, r.uart, pin_named("SFX-8251A-dip28", "RESET"), g);
+    circuit_connect(r.c, r.uart, pin_named("SFX-8251A-dip28", "RD"), v);
+    circuit_connect(r.c, r.uart, pin_named("SFX-8251A-dip28", "CTS"), g);
+    circuit_connect(r.c, r.uart, pin_named("SFX-8251A-dip28", "DSR"), v);
+    rxd = net(r.c);
+    circuit_connect(r.c, r.uart, pin_named("SFX-8251A-dip28", "RXD"), rxd);
+    circuit_connect(r.c, part(r.c, "PULLUP-5V"), "1", rxd);
+    for (i = 0; i < 8; i++) {
+        size_t n = net(r.c);
+
+        circuit_connect(r.c, r.uart, pin_named("SFX-8251A-dip28", DATA[i]), n);
+        rig_line(&r, r.s8, i + 1, n, g);
+    }
+    for (i = 0; i < 2; i++) {
+        size_t n = net(r.c);
+
+        circuit_connect(r.c, r.uart, pin_named("SFX-8251A-dip28", i == 0 ? "CD" : "WR"), n);
+        rig_line(&r, r.s6, i + 1, n, g);
+    }
+    expect(circuit_start(r.c) == 0, "8251A rig starts");
+    circuit_advance(r.c, 1000000);
+    /* Mode 0x00: synchronous, 5 bits, double sync. */
+    sync_write(&r, 1, 0x00);
+    expect(circuit_serial_send(r.c, r.uart, 0, ok, 2) == -1 &&
+               strcmp(circuit_error(r.c), "channel 0 of part 0 is not asynchronous") == 0,
+           "send to an 8251A in synchronous mode: channel 0 of part 0 is not asynchronous");
+    /* SYNC1, SYNC2, then IR and an asynchronous mode: accepted. */
+    sync_write(&r, 1, 0x16);
+    sync_write(&r, 1, 0x16);
+    sync_write(&r, 1, 0x40);
+    sync_write(&r, 1, 0x4E);
+    sync_write(&r, 1, 0x37);
+    expect(circuit_serial_send(r.c, r.uart, 0, ok, 2) == 0,
+           "after IR and an async mode the same 8251A takes the terminal");
+    circuit_destroy(r.c);
 }
 
 static void check_unknown_part(void) {
@@ -730,7 +805,7 @@ static void check_voltage_switch(void) {
 int main(void) {
     library = part_library_create();
     if (load_parts_dir(library, PARTS_DIR) != 0 || load_voltage_fixture(library) != 0 ||
-        load_serial_fixture(library) != 0) {
+        load_serial_fixture(library) != 0 || load_serial_fixture_classic(library) != 0) {
         return 1;
     }
     check_lit_led();
@@ -738,6 +813,7 @@ int main(void) {
     check_short();
     check_pulls();
     check_serial_terminal();
+    check_serial_sync_8251();
     check_unknown_part();
     check_oscillator_blinks();
     check_switch();

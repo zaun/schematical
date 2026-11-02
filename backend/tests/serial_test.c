@@ -1474,6 +1474,114 @@ static void case_h1_ay1013(void) {
     hb_close(h);
 }
 
+/* The other pin-parallel devices on the same machine (COM2017, HD-6402):
+   their pin names, 5-bit 1.5 stops, receive, the reset rule, terminal. */
+typedef struct {
+    const char *part;
+    const char *td[8], *rd[8];
+    const char *ds, *rdav, *so, *si, *xr, *strobe, *np, *tsb, *nb1, *nb2, *eps, *rde, *swe, *dav, *eoc;
+    const char *tcp, *rcp;
+    int clears;
+} AyPins;
+
+static void case_h1_pin_parallel(void) {
+    static const AyPins DEV[2] = {
+        {"SFX-COM2017-dip40",
+         {"TD1", "TD2", "TD3", "TD4", "TD5", "TD6", "TD7", "TD8"},
+         {"RD1", "RD2", "RD3", "RD4", "RD5", "RD6", "RD7", "RD8"},
+         "TDS", "RDAR", "TSO", "RSI", "MR", "CS", "NPB", "NSB", "NDB1", "NDB2", "POE", "RDE", "SWE",
+         "RDA", "TEOC", "TCP", "RCP", 0},
+        {"SFX-HD-6402-dip40",
+         {"TBR1", "TBR2", "TBR3", "TBR4", "TBR5", "TBR6", "TBR7", "TBR8"},
+         {"RBR1", "RBR2", "RBR3", "RBR4", "RBR5", "RBR6", "RBR7", "RBR8"},
+         "TBRL", "DRR", "TRO", "RRI", "MR", "CRL", "PI", "SBS", "CLS1", "CLS2", "EPE", "RRD", "SFD",
+         "DR", "TRE", "TRC", "RRC", 0},
+    };
+    unsigned d;
+
+    case_begin();
+    for (d = 0; d < 2; d++) {
+        const AyPins *p = &DEV[d];
+        HClockPin clocks[2] = {{p->tcp, 0}, {p->rcp, 0}};
+        SimTime half = AY_HALF;
+        HBench *h = hb_open(p->part, clocks, 2, &half, 1);
+        Bench *b = &h->b;
+        char got[24];
+        char want[24];
+        char text[16];
+        char what[96];
+        SimTime t0;
+        unsigned halves;
+
+        set(b, p->xr, LOGIC_1);
+        set(b, p->rde, LOGIC_0);
+        set(b, p->swe, LOGIC_0);
+        set(b, p->rdav, LOGIC_1);
+        set(b, p->ds, LOGIC_1);
+        set(b, p->si, LOGIC_1);
+        set(b, p->np, LOGIC_1);
+        set(b, p->tsb, LOGIC_1);
+        set(b, p->nb1, LOGIC_0);
+        set(b, p->nb2, LOGIC_0);
+        set(b, p->eps, LOGIC_0);
+        set(b, p->strobe, LOGIC_1);
+        h_set_bus(b, p->td, 8, 1, 0x15);
+        run(b, NS(2000));
+        set(b, p->xr, LOGIC_0);
+        set(b, p->strobe, LOGIC_0);   /* latch 5N, 2 stops selected */
+        run(b, NS(2000));
+        h_get_bus(b, p->rd, 8, text);
+        snprintf(what, sizeof what, "%s: RD after the reset (not cleared: X)", p->part);
+        h_expect_text(text, "XXXXXXXX", what);
+        /* 5 bits with the stop select: 1.5 stops. */
+        set(b, p->ds, LOGIC_0);
+        run(b, NS(300));
+        set(b, p->ds, LOGIC_1);
+        check(h_catch(b, p->so, AY_BIT, 5, 4 * AY_BIT, got), p->part);
+        h_frame_bits(0x15, 5, 0, 0, want);
+        snprintf(what, sizeof what, "%s: 5N frame", p->part);
+        h_expect_text(got, want, what);
+        t0 = sim_now(b->sim) - 5 * AY_BIT - AY_BIT / 2;
+        h_wait(b, p->eoc, LOGIC_1, 4 * AY_BIT);
+        halves = (unsigned)((sim_now(b->sim) - t0 + AY_BIT / 4) / (AY_BIT / 2));
+        snprintf(what, sizeof what, "%s: 5-bit stop select gives 1.5 stops (%u half bits)", p->part,
+                 halves);
+        check(halves == 15, what);
+        /* 8N1, receive, terminal. */
+        set(b, p->nb1, LOGIC_1);
+        set(b, p->nb2, LOGIC_1);
+        set(b, p->tsb, LOGIC_0);
+        set(b, p->strobe, LOGIC_1);
+        run(b, NS(300));
+        set(b, p->strobe, LOGIC_0);
+        h_frame_bits(0xA6, 8, 0, 1, want);
+        h_drive_bits(b, p->si, want, AY_BIT);
+        run(b, AY_BIT);
+        expect_pin(b, p->dav, LOGIC_1, p->part);
+        h_get_bus(b, p->rd, 8, text);
+        snprintf(what, sizeof what, "%s: received 0xA6", p->part);
+        h_expect_text(text, "10100110", what);
+        set(b, p->rdav, LOGIC_0);
+        run(b, NS(600));
+        set(b, p->rdav, LOGIC_1);
+        set(b, p->si, LOGIC_Z);
+        run(b, NS(100));
+        check(h_send(b, 0, "OK") == 1, p->part);
+        h_wait(b, p->dav, LOGIC_1, 12 * AY_BIT);
+        h_get_bus(b, p->rd, 8, text);
+        snprintf(what, sizeof what, "%s: terminal O", p->part);
+        h_expect_text(text, "01001111", what);
+        h_set_bus(b, p->td, 8, 1, 'A');
+        set(b, p->ds, LOGIC_0);
+        run(b, NS(300));
+        set(b, p->ds, LOGIC_1);
+        run(b, 12 * AY_BIT);
+        h_expect_sent(b, 0, 'A', p->part);
+        hb_close(h);
+    }
+    case_end("H1 (COM2017, HD-6402): pin names, 5-bit 1.5 stops, receive, reset keeps RD, terminal");
+}
+
 /* ---- H2: COM1863 / COM8018 (ay1013 with HIACC) -------------------------------------- */
 
 static const char *const COM_TD[8] = {"TD1", "TD2", "TD3", "TD4", "TD5", "TD6", "TD7", "TD8"};
@@ -3594,6 +3702,7 @@ int main(void) {
     case_16450();
     case_terminal();
     case_h1_ay1013();
+    case_h1_pin_parallel();
     case_h2_com1863();
     case_h3_cdp1854a();
     case_h4_i8251();
