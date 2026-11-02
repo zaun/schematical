@@ -3,7 +3,8 @@
  * the devices that use them (plan-10-B section 6). Fixture devices copy the
  * real devices' pinouts and keys from the spec sections (no latch part file
  * exists before plan-10-C), with 10 ns delays; levels are checked 50 ns
- * after each step.
+ * after each step. Cases 29-34 repeat a few on real parts from latch.json
+ * (plan-10-C section 4.3), 1 us per step.
  */
 
 #include <stdio.h>
@@ -14,6 +15,7 @@
 #include "kind.h"
 #include "model_pins.h"
 #include "parts.h"
+#include "read_file.h"
 #include "sim.h"
 
 #define NS(value) ((SimTime)((value) * 1000ull))
@@ -1012,6 +1014,125 @@ static void check_16260(void) {
     bench_destroy(b);
 }
 
+/* ---- Real parts (plan-10-C section 4.3) ----------------------------------- */
+
+static PartLibrary *real_library;
+
+static Bench *open_real(const char *name) {
+    const Part *part = part_library_find(real_library, name);
+
+    if (part == NULL || part->kind != PART_LATCH) {
+        fprintf(stderr, "no latch part %s\n", name);
+        exit(1);
+    }
+    return bench_create(part);
+}
+
+/* Real parts have real delays (up to hundreds of ns): 1 us per step. */
+static void slow(Bench *b) {
+    bench_run(b, NS(1000));
+}
+
+static void check_real(void) {
+    Bench *b;
+    int ok;
+
+    b = open_real("SN74HC373N");
+    set(b, "OE", L0);
+    set(b, "LE", L1);
+    set_bus(b, "%uD", 1, 8, 0xA5);
+    slow(b);
+    ok = bus_value(b, "%uQ", 1, 8, 0xA5);
+    set(b, "LE", L0);
+    slow(b);
+    set_bus(b, "%uD", 1, 8, 0x0F);
+    slow(b);
+    ok &= bus_value(b, "%uQ", 1, 8, 0xA5);
+    set(b, "OE", L1);
+    set(b, "LE", L1);
+    slow(b);
+    ok &= bus_all(b, "%uQ", 1, 8, LZ);
+    set(b, "LE", L0);
+    set(b, "OE", L0);
+    slow(b);
+    expect(ok && bus_value(b, "%uQ", 1, 8, 0x0F),
+           "29 SN74HC373N: LE high follows D, LE low holds, OE high Z while loading");
+    bench_destroy(b);
+
+    b = open_real("SN74LVC1G373DBVR");
+    set(b, "OE", L0);
+    set(b, "LE", L1);
+    set(b, "D", L1);
+    slow(b);
+    ok = is(b, "Q", L1);
+    set(b, "LE", L0);
+    slow(b);
+    set(b, "D", L0);
+    slow(b);
+    expect(ok && is(b, "Q", L1), "30 SN74LVC1G373DBVR: transparent, then holds");
+    bench_destroy(b);
+
+    b = open_real("SN74HC259N");
+    set(b, "CLR", L0);
+    set(b, "G", L0);
+    set(b, "D", L1);
+    address(b, "S%u", 6);
+    slow(b);
+    expect(bus_value(b, "Q%u", 0, 8, 0x40), "31 SN74HC259N demux mode: addressed = D, others 0");
+    bench_destroy(b);
+
+    b = open_real("TPIC6B259N");
+    {
+        LogicValue want[8] = {LZ, LZ, LZ, L0, LZ, LZ, LZ, LZ};
+
+        set(b, "CLR", L1);
+        set(b, "G", L1);
+        set(b, "D", L1);
+        address(b, "S%u", 3);
+        slow(b);
+        set(b, "G", L0);
+        slow(b);
+        set(b, "G", L1);
+        slow(b);
+        expect(bus_is(b, "DRAIN%u", 0, 8, want),
+               "32 TPIC6B259N: stored 1 pulls DRAIN low, stored 0 releases it");
+    }
+    bench_destroy(b);
+
+    b = open_real("CD74HC4511E");
+    set(b, "LE", L0);
+    set(b, "LT", L1);
+    set(b, "BL", L1);
+    set_bus(b, "D%u", 0, 4, 7);
+    slow(b);
+    expect(segments_are(b, "1110000"), "33 CD74HC4511E: code 7 -> segments 1110000");
+    bench_destroy(b);
+
+    b = open_real("SN74ALVCH16260DL");
+    set(b, "OEA", L1);
+    set(b, "OE1B", L1);
+    set(b, "OE2B", L1);
+    set(b, "LEA1B", L0);
+    set(b, "LEA2B", L0);
+    set(b, "LE1B", L1);
+    set(b, "LE2B", L1);
+    set_bus(b, "1B%u", 1, 12, 0x5A3);
+    set_bus(b, "2B%u", 1, 12, 0x0FF);
+    slow(b);
+    set(b, "LE1B", L0);
+    set(b, "LE2B", L0);
+    slow(b);
+    set(b, "SEL", L1);
+    set(b, "OEA", L0);
+    slow(b);
+    ok = bus_value(b, "A%u", 1, 12, 0x5A3);
+    set(b, "SEL", L0);
+    slow(b);
+    expect(ok && bus_value(b, "A%u", 1, 12, 0x0FF) && bench_error(b) == NULL,
+           "34 SN74ALVCH16260DL: SEL selects the 1B latch onto A (and the 2B latch when low)");
+    bench_destroy(b);
+}
+
 /* ---- Loader and voltage --------------------------------------------------- */
 
 static void expect_error(const char *what, const char *text, const char *want) {
@@ -1105,6 +1226,13 @@ int main(void) {
     check_16260();
     check_loader();
     check_open_drain();
+    real_library = part_library_create();
+    if (real_library == NULL || load_parts_dir(real_library, PARTS_DIR) != 0) {
+        printf("FAIL: cannot load the part library\n");
+        return 1;
+    }
+    check_real();
+    part_library_destroy(real_library);
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

@@ -175,13 +175,16 @@ Commit: (with Phase 2)
 Acceptance: `ctest` 13 of 13; goldens 4795 / 4795 / 155, added only (about
 5 s). (Ran: `100% tests passed, 0 tests failed out of 13`; 4795 / 4795 / 155;
 0 removed lines.)
-Commit: —
+Commit: dfc9d48
 
 ### Phase 3 — Real-part cases
 
-- [ ] The six cases of §4.3 in `latch_test`.
+- [x] The six cases of §4.3 in `latch_test`. (Cases 29–34; the real-part
+  library is `load_parts_dir(PARTS_DIR)`; steps are 1 µs because real delays
+  reach 625 ns.)
 
-Acceptance: `latch_test` all `PASS`; `ctest` 13 of 13.
+Acceptance: `latch_test` all `PASS`; `ctest` 13 of 13. (Ran: 34 `PASS`, 0
+`FAIL`; `100% tests passed, 0 tests failed out of 13`.)
 Commit: —
 
 ## Validation Plan
