@@ -37,7 +37,8 @@ static const char *const KEYS[] = {
     "extended", "afr", "afrReset", "dlf", "autoFlow", "rtsTable", "xoffTable", "swFlow",
     "specialChar", "specialClear", "specialNeedsNoFlow", "ctsRtsClear", "sleep", "irda", "rs485",
     "prescaler", "lsrErrors", "mcrReset", "xonReset", "tcrNeedsDlab0", "dlabHidesUpper",
-    "idRegs", "timeoutDelay", "divisorZero", "printerPort", "tristate",
+    "idRegs", "timeoutDelay", "divisorZero", "printerPort", "tristate", "absentTies",
+    "optionalPins",
     NULL
 };
 static const char *const CHANNEL_KEYS[] = {
@@ -51,7 +52,7 @@ static const char *const CHANNEL_EXTRA_KEYS[] = {"select", "selectHigh", "op", "
 const ChannelPin MODEM_PIN[4] = {CH_CTS, CH_DSR, CH_RI, CH_DCD};
 
 void ns_drive(NsState *s, size_t pin, LogicValue value, SimTime delay) {
-    if (pin == SERIAL_NO_PIN || s->out[pin] == value) {
+    if (!SERIAL_REAL_PIN(pin) || s->out[pin] == value) {
         return;
     }
     s->out[pin] = value;
@@ -65,7 +66,7 @@ void ns_drive(NsState *s, size_t pin, LogicValue value, SimTime delay) {
 static void drive_baudout(NsState *s, LogicValue value, SimTime delay) {
     size_t pin = s->pins->baudout;
 
-    if (pin == SERIAL_NO_PIN || s->out[pin] == value) {
+    if (!SERIAL_REAL_PIN(pin) || s->out[pin] == value) {
         return;
     }
     s->out[pin] = value;
@@ -1402,7 +1403,7 @@ static void clock_edge(NsState *s, LogicValue level) {
         if (i == 0) {
             drive_baudout(s, baudout, t_of(s, T_BLD));
         }
-        if (s->pins->mf[i] != SERIAL_NO_PIN && ((c->afr.v >> 1) & 3u) == 1 &&
+        if (SERIAL_REAL_PIN(s->pins->mf[i]) && ((c->afr.v >> 1) & 3u) == 1 &&
             s->out[s->pins->mf[i]] != baudout) {
             s->out[s->pins->mf[i]] = baudout;
             sim_schedule_drive(s->sim, s->instance, s->pins->mf[i], s->tri ? LOGIC_Z : baudout,
@@ -1969,6 +1970,45 @@ static int load_printer_port(KindContext *ctx, const cJSON *json, NsDevice *d) {
     return 0;
 }
 
+/* "absentTies": {pin: 0 or 1} for pins a package leaves out and ties
+   inside; "optionalPins": [pin] that a package may simply leave out. */
+static int load_absent(KindContext *ctx, const cJSON *json, NsDevice *d) {
+    const cJSON *ties = cJSON_GetObjectItemCaseSensitive(json, "absentTies");
+    const cJSON *item;
+    size_t n = 0;
+
+    if (ties != NULL) {
+        char **names;
+        int *levels;
+
+        if (!cJSON_IsObject(ties)) {
+            return kind_error(ctx, "\"absentTies\" must be an object of pin: 0 or 1");
+        }
+        names = kind_alloc(ctx, ((size_t)cJSON_GetArraySize(ties) + 1) * sizeof *names);
+        levels = kind_alloc(ctx, ((size_t)cJSON_GetArraySize(ties) + 1) * sizeof *levels);
+        if (names == NULL || levels == NULL) {
+            return -1;
+        }
+        cJSON_ArrayForEach(item, ties) {
+            if (!cJSON_IsNumber(item) || (item->valuedouble != 0 && item->valuedouble != 1)) {
+                return kind_error(ctx, "\"absentTies\" must be an object of pin: 0 or 1");
+            }
+            names[n] = kind_strdup(ctx, item->string);
+            levels[n] = item->valuedouble == 1;
+            n++;
+        }
+        d->absent.tie_names = (const char *const *)names;
+        d->absent.tie_levels = levels;
+        d->absent.tie_count = n;
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "optionalPins") != NULL) {
+        if (kind_names(ctx, json, "optionalPins", &d->absent.optional, &d->absent.optional_count) != 0) {
+            return -1;
+        }
+    }
+    return 0;
+}
+
 /* The plan-12-D Phase 2 keys. */
 static int load_phase2(KindContext *ctx, const cJSON *json, NsDevice *d) {
     static const char *const EXTENDED[] = {"none", "afe", "750", "650", "752", "nsEfr", NULL};
@@ -2092,6 +2132,9 @@ static int load_phase2(KindContext *ctx, const cJSON *json, NsDevice *d) {
     d->divisor_zero = (unsigned)value;
     if (serial_optional_name(ctx, json, "tristate", &d->tri) != 0 ||
         load_printer_port(ctx, json, d) != 0) {
+        return -1;
+    }
+    if (load_absent(ctx, json, d) != 0) {
         return -1;
     }
     if (d->lpt != NULL && d->channel_pin != NULL) {
@@ -2253,6 +2296,15 @@ static void *ns_load_device(KindContext *ctx, const cJSON *json, unsigned *chann
     return d;
 }
 
+/* The device being bound: its "absentTies" / "optionalPins" (binding is one
+   device at a time). */
+static const SerialAbsent *binding_absent;
+
+static int bind_pin(KindContext *ctx, const PartPin *pins, size_t pin_count, const char *key,
+                    const char *name, size_t *out) {
+    return serial_bind_pin_absent(ctx, pins, pin_count, key, name, binding_absent, out);
+}
+
 static void *ns_bind(KindContext *ctx, const void *raw, const PartPin *pins, size_t pin_count) {
     const NsDevice *d = raw;
     NsPins *p = kind_alloc(ctx, sizeof *p);
@@ -2263,46 +2315,47 @@ static void *ns_bind(KindContext *ctx, const void *raw, const PartPin *pins, siz
     if (p == NULL) {
         return NULL;
     }
+    binding_absent = &d->absent;
     for (i = 0; i < SERIAL_BUS_DATA; i++) {
         snprintf(key, sizeof key, "bus.data[%u]", i);
-        if (serial_bind_pin(ctx, pins, pin_count, key, d->data[i], &p->bus.data[i]) != 0) {
+        if (bind_pin(ctx, pins, pin_count, key, d->data[i], &p->bus.data[i]) != 0) {
             return NULL;
         }
     }
     for (i = 0; i < d->address_count; i++) {
         snprintf(key, sizeof key, "bus.address[%u]", i);
-        if (serial_bind_pin(ctx, pins, pin_count, key, d->address[i], &p->bus.address[i]) != 0) {
+        if (bind_pin(ctx, pins, pin_count, key, d->address[i], &p->bus.address[i]) != 0) {
             return NULL;
         }
     }
     p->bus.address_count = d->address_count;
     for (i = 0; i < d->select_count; i++) {
-        if (serial_bind_pin(ctx, pins, pin_count, "bus.select", d->select[i], &p->bus.select[i]) != 0) {
+        if (bind_pin(ctx, pins, pin_count, "bus.select", d->select[i], &p->bus.select[i]) != 0) {
             return NULL;
         }
     }
     p->bus.select_count = d->select_count;
     for (i = 0; i < d->select_high_count; i++) {
-        if (serial_bind_pin(ctx, pins, pin_count, "bus.selectHigh", d->select_high[i],
+        if (bind_pin(ctx, pins, pin_count, "bus.selectHigh", d->select_high[i],
                             &p->bus.select_high[i]) != 0) {
             return NULL;
         }
     }
     p->bus.select_high_count = d->select_high_count;
-    if (serial_bind_pin(ctx, pins, pin_count, "bus.read", d->read, &p->bus.read) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "bus.readHigh", d->read_high, &p->bus.read_high) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "bus.write", d->write, &p->bus.write) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "bus.writeHigh", d->write_high, &p->bus.write_high) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "bus.addressStrobe", d->address_strobe,
+    if (bind_pin(ctx, pins, pin_count, "bus.read", d->read, &p->bus.read) != 0 ||
+        bind_pin(ctx, pins, pin_count, "bus.readHigh", d->read_high, &p->bus.read_high) != 0 ||
+        bind_pin(ctx, pins, pin_count, "bus.write", d->write, &p->bus.write) != 0 ||
+        bind_pin(ctx, pins, pin_count, "bus.writeHigh", d->write_high, &p->bus.write_high) != 0 ||
+        bind_pin(ctx, pins, pin_count, "bus.addressStrobe", d->address_strobe,
                         &p->bus.address_strobe) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "bus.driverDisable", d->driver_disable,
+        bind_pin(ctx, pins, pin_count, "bus.driverDisable", d->driver_disable,
                         &p->bus.driver_disable) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "bus.selectOut", d->select_out, &p->bus.select_out) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "bus.reset", d->reset, &p->reset) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "clock.in", d->clock_in, &p->clock_in) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "clock.out", d->clock_out, &p->clock_out) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "clock.receive", d->receive, &p->receive) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "clock.baudOut", d->baudout, &p->baudout) != 0) {
+        bind_pin(ctx, pins, pin_count, "bus.selectOut", d->select_out, &p->bus.select_out) != 0 ||
+        bind_pin(ctx, pins, pin_count, "bus.reset", d->reset, &p->reset) != 0 ||
+        bind_pin(ctx, pins, pin_count, "clock.in", d->clock_in, &p->clock_in) != 0 ||
+        bind_pin(ctx, pins, pin_count, "clock.out", d->clock_out, &p->clock_out) != 0 ||
+        bind_pin(ctx, pins, pin_count, "clock.receive", d->receive, &p->receive) != 0 ||
+        bind_pin(ctx, pins, pin_count, "clock.baudOut", d->baudout, &p->baudout) != 0) {
         return NULL;
     }
     for (i = 0; i < SERIAL_MAX_CHANNELS; i++) {
@@ -2313,32 +2366,32 @@ static void *ns_bind(KindContext *ctx, const void *raw, const PartPin *pins, siz
     for (i = 0; i < d->channel_count; i++) {
         for (k = 0; k < CH_PIN_COUNT; k++) {
             snprintf(key, sizeof key, "channels[%u].%s", i, CHANNEL_KEYS[k]);
-            if (serial_bind_pin(ctx, pins, pin_count, key, d->channel[i][k], &p->channel[i][k]) != 0) {
+            if (bind_pin(ctx, pins, pin_count, key, d->channel[i][k], &p->channel[i][k]) != 0) {
                 return NULL;
             }
         }
         for (k = 0; k < d->chan_select_count[i]; k++) {
             snprintf(key, sizeof key, "channels[%u].select", i);
-            if (serial_bind_pin(ctx, pins, pin_count, key, d->chan_select[i][k],
+            if (bind_pin(ctx, pins, pin_count, key, d->chan_select[i][k],
                                 &p->chan_select[i][k]) != 0) {
                 return NULL;
             }
         }
         for (k = 0; k < d->chan_select_high_count[i]; k++) {
             snprintf(key, sizeof key, "channels[%u].selectHigh", i);
-            if (serial_bind_pin(ctx, pins, pin_count, key, d->chan_select_high[i][k],
+            if (bind_pin(ctx, pins, pin_count, key, d->chan_select_high[i][k],
                                 &p->chan_select_high[i][k]) != 0) {
                 return NULL;
             }
         }
     }
-    if (serial_bind_pin(ctx, pins, pin_count, "channelSelect.pin", d->channel_pin,
+    if (bind_pin(ctx, pins, pin_count, "channelSelect.pin", d->channel_pin,
                         &p->channel_pin) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "dma.txrdy", d->dma_txrdy, &p->dma_txrdy) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "dma.rxrdy", d->dma_rxrdy, &p->dma_rxrdy) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "intControl", d->int_control, &p->int_control) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "clock.select", d->clock_select, &p->clock_select) != 0 ||
-        serial_bind_pin(ctx, pins, pin_count, "tristate", d->tri, &p->tri) != 0) {
+        bind_pin(ctx, pins, pin_count, "dma.txrdy", d->dma_txrdy, &p->dma_txrdy) != 0 ||
+        bind_pin(ctx, pins, pin_count, "dma.rxrdy", d->dma_rxrdy, &p->dma_rxrdy) != 0 ||
+        bind_pin(ctx, pins, pin_count, "intControl", d->int_control, &p->int_control) != 0 ||
+        bind_pin(ctx, pins, pin_count, "clock.select", d->clock_select, &p->clock_select) != 0 ||
+        bind_pin(ctx, pins, pin_count, "tristate", d->tri, &p->tri) != 0) {
         return NULL;
     }
     for (i = 0; i < SERIAL_MAX_CHANNELS; i++) {
@@ -2347,11 +2400,11 @@ static void *ns_bind(KindContext *ctx, const void *raw, const PartPin *pins, siz
     }
     for (i = 0; i < d->channel_count; i++) {
         snprintf(key, sizeof key, "channels[%u].op", i);
-        if (serial_bind_pin(ctx, pins, pin_count, key, d->op[i], &p->op[i]) != 0) {
+        if (bind_pin(ctx, pins, pin_count, key, d->op[i], &p->op[i]) != 0) {
             return NULL;
         }
         snprintf(key, sizeof key, "channels[%u].mf", i);
-        if (serial_bind_pin(ctx, pins, pin_count, key, d->mf[i], &p->mf[i]) != 0) {
+        if (bind_pin(ctx, pins, pin_count, key, d->mf[i], &p->mf[i]) != 0) {
             return NULL;
         }
     }
@@ -2370,12 +2423,12 @@ static void *ns_bind(KindContext *ctx, const void *raw, const PartPin *pins, siz
         }
         for (i = 0; i < 8; i++) {
             snprintf(key, sizeof key, "printerPort.data[%u]", i);
-            if (serial_bind_pin(ctx, pins, pin_count, key, ld->data[i], &lp->data[i]) != 0) {
+            if (bind_pin(ctx, pins, pin_count, key, ld->data[i], &lp->data[i]) != 0) {
                 return NULL;
             }
         }
         for (i = 0; i < sizeof names / sizeof names[0]; i++) {
-            if (serial_bind_pin(ctx, pins, pin_count, "printerPort", names[i], slots[i]) != 0) {
+            if (bind_pin(ctx, pins, pin_count, "printerPort", names[i], slots[i]) != 0) {
                 return NULL;
             }
         }

@@ -32,6 +32,11 @@ enum {
 };
 
 #define SERIAL_NO_PIN ((size_t)-1)
+/* A pin a package leaves out, tied inside at a fixed level ("absentTies"). */
+#define SERIAL_TIE_0 ((size_t)-2)
+#define SERIAL_TIE_1 ((size_t)-3)
+/* 1 for a pin that exists on the package (not absent, not tied). */
+#define SERIAL_REAL_PIN(p) ((p) < SERIAL_TIE_1)
 
 typedef struct {
     size_t data[SERIAL_BUS_DATA];

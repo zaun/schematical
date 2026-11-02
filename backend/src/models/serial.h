@@ -92,4 +92,19 @@ int serial_optional_name(KindContext *ctx, const cJSON *object, const char *key,
 int serial_bind_pin(KindContext *ctx, const PartPin *pins, size_t pin_count, const char *key,
                     const char *name, size_t *out);
 
+/* Pins a package may leave out: tied inside at a level, or just absent. */
+typedef struct {
+    const char *const *tie_names;
+    const int *tie_levels;
+    size_t tie_count;
+    const char *const *optional;
+    size_t optional_count;
+} SerialAbsent;
+
+/* As serial_bind_pin, but a name missing from this pinout is SERIAL_TIE_0/1
+   when `absent` ties it, SERIAL_NO_PIN when it lists it as optional, else
+   an error. */
+int serial_bind_pin_absent(KindContext *ctx, const PartPin *pins, size_t pin_count, const char *key,
+                           const char *name, const SerialAbsent *absent, size_t *out);
+
 #endif

@@ -149,6 +149,7 @@ typedef struct {
     const char *tri;               /* TL16C552 TRI pin: every output floats while high */
     const char *op[SERIAL_MAX_CHANNELS];
     const char *mf[SERIAL_MAX_CHANNELS];
+    SerialAbsent absent;           /* "absentTies", "optionalPins" */
 } NsDevice;
 
 typedef struct {

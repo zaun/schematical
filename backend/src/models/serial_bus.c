@@ -12,6 +12,9 @@ LogicValue serial_level(const Sim *sim, const SimInstance *instance, size_t pin,
     if (pin == SERIAL_NO_PIN) {
         return z_reads;
     }
+    if (pin == SERIAL_TIE_0 || pin == SERIAL_TIE_1) {
+        return pin == SERIAL_TIE_1 ? LOGIC_1 : LOGIC_0;
+    }
     value = sim_read_pin(sim, instance, pin);
     if (value == LOGIC_Z) {
         return z_reads;
@@ -150,7 +153,7 @@ static int strobe_state(const Sim *sim, const SimInstance *instance, size_t low,
 
 static void drive_pin(Sim *sim, SimInstance *instance, size_t pin, LogicValue *current,
                       LogicValue value, SimTime delay) {
-    if (pin == SERIAL_NO_PIN || *current == value) {
+    if (!SERIAL_REAL_PIN(pin) || *current == value) {
         return;
     }
     *current = value;

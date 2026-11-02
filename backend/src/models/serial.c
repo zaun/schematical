@@ -31,7 +31,8 @@ static const char *const DEVICE_KEYS[] = {
     "extended", "afr", "afrReset", "dlf", "autoFlow", "rtsTable", "xoffTable", "swFlow",
     "specialChar", "specialClear", "specialNeedsNoFlow", "ctsRtsClear", "sleep", "irda", "rs485",
     "prescaler", "lsrErrors", "mcrReset", "xonReset", "tcrNeedsDlab0", "dlabHidesUpper",
-    "idRegs", "timeoutDelay", "divisorZero", "printerPort", "tristate",
+    "idRegs", "timeoutDelay", "divisorZero", "printerPort", "tristate", "absentTies",
+    "optionalPins",
     NULL
 };
 enum { FIRST_MODEL_KEY = 2 };
@@ -72,6 +73,34 @@ int serial_bind_pin(KindContext *ctx, const PartPin *pins, size_t pin_count, con
     }
     kind_pop(ctx);
     return 0;
+}
+
+int serial_bind_pin_absent(KindContext *ctx, const PartPin *pins, size_t pin_count, const char *key,
+                           const char *name, const SerialAbsent *absent, size_t *out) {
+    size_t i;
+    int found = 0;
+
+    *out = SERIAL_NO_PIN;
+    if (name == NULL) {
+        return 0;
+    }
+    for (i = 0; i < pin_count; i++) {
+        found |= strcmp(pins[i].name, name) == 0;
+    }
+    if (!found && absent != NULL) {
+        for (i = 0; i < absent->tie_count; i++) {
+            if (strcmp(absent->tie_names[i], name) == 0) {
+                *out = absent->tie_levels[i] ? SERIAL_TIE_1 : SERIAL_TIE_0;
+                return 0;
+            }
+        }
+        for (i = 0; i < absent->optional_count; i++) {
+            if (strcmp(absent->optional[i], name) == 0) {
+                return 0;
+            }
+        }
+    }
+    return serial_bind_pin(ctx, pins, pin_count, key, name, out);
 }
 
 /* ---- Kind: devices, pinouts, parts ------------------------------------------------ */

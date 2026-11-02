@@ -28,7 +28,7 @@ static LogicValue pin_in(const NsState *s, size_t pin) {
 }
 
 static void drive_weak(NsState *s, size_t pin, LogicValue value) {
-    if (pin == SERIAL_NO_PIN || s->out[pin] == value) {
+    if (!SERIAL_REAL_PIN(pin) || s->out[pin] == value) {
         return;
     }
     s->out[pin] = value;
