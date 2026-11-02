@@ -64,7 +64,10 @@ XR16V654D…) carry `"intPin": "driven"` (plan-12-E §3.1).
 
 ### Phase 1 — Footprints and parts
 
-- [ ] Stock re-check; drops in Corrections.
+- [x] Stock re-check; drops in Corrections. Observed (`node
+  scripts/digikey.js --in-stock --list`, 2026-11-02): ST16C 34, XR16C 10,
+  XR16L 10, XR16M 19, XR16V 21, XR68M 11, SC16C6 4, SC16C7 3. All 69 G part
+  names in `parts.tsv` (30 devices) are in these lists: no drops.
 - [ ] `footprints.json` + 4; `serial.json` + 30 devices.
 - [ ] Regenerate the goldens. Check: no removed line; added `parts.txt` 69,
   `traces.txt` 69, `footprints.txt` 4.

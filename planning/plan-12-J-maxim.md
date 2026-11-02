@@ -146,8 +146,10 @@ cases), 2bfe355 (docs)
 
 ### Phase 2 — Parts
 
-- [ ] Stock re-check (`MAX3100`, `MAX3140`, `MAX3107`, `MAX3108`, `MAX3109`,
-  `MAX14830`: 6 calls); drops in Corrections.
+- [x] Stock re-check (`MAX3100`, `MAX3140`, `MAX3107`, `MAX3108`, `MAX3109`,
+  `MAX14830`: 6 calls); drops in Corrections. Observed (2026-11-02): MAX3100
+  8, MAX3140 2, MAX3107 5, MAX3108 1, MAX3109 2, MAX14830 3. All 18 J part
+  names (6 devices) are in these lists: no drops.
 - [ ] `footprints.json` + 7; `serial.json` + 6 devices; regenerate the goldens.
   Check: no removed line; added 18, 18, 7; hand-check the 7 footprint lines
   (the Maxim ones against the ADI land-pattern documents cited in

@@ -136,8 +136,10 @@ Commit: —
 ### Phase 2 — SC18IS604 and parts
 
 - [ ] `serial_sc18is604.c` (§3.3); cases I8, I9.
-- [ ] Stock re-check (`SC16IS7`, `SC18IS604`, `PI7C9X76`, `XR20M1`: 4 calls);
-  drops in Corrections.
+- [x] Stock re-check (`SC16IS7`, `SC18IS604`, `PI7C9X76`, `XR20M1`: 4 calls);
+  drops in Corrections. Observed (2026-11-02): SC16IS7 17, SC18IS604 1,
+  PI7C9X76 2, XR20M1 15. All 22 I part names (8 devices) are in these
+  lists: no drops.
 - [ ] `footprints.json` + 4; `serial.json` + 8 devices; regenerate the
   goldens. Check: no removed line; added 22, 22, 4; hand-check the 4
   footprint lines.
