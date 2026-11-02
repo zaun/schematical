@@ -430,21 +430,40 @@ fixed, and the choice round-trips through a file.
   `pcb-connector.png` (the 1×16 header, square pin 1),
   `pcb-sidebar-connector.png` (Style on Connector Only, header line
   `HDR-1X16-P2.54 — …`, X −32.01, Y −15.78).
-Commit: —
+Commit: fbe7705
 
 ### Phase 4 — Runtime proof
 
-- [ ] `/tmp/p11-demo/make_board.py` and `hello.bin` (§4.7; not committed).
-- [ ] Open `lcd-6502.schematical`, run, open the reset switch, screenshot
+- [x] `/tmp/p11-demo/make_board.py` and `hello.bin` (§4.7; not committed).
+      Ran: `python3 -I make_board.py backend/tests/golden/parts.txt` → 9 parts,
+      63 wires, 33 nets; hello.bin 32768 bytes (the corrected program of
+      plan-11-C §4.6). Harness `run netlist`: the app's netlist equals the
+      intended nets (`diff` → same).
+- [x] Open `lcd-6502.schematical`, run, open the reset switch, screenshot
       `HELLO` on the face.
-- [ ] On the PCB page: the LCD is a 1×16 header. Switch to Full Module and
+      Ran (`run board`, speed 1000): opened 9 parts / 63 wires, the LCD
+      `style connector`; reset held until 101 ms of circuit time, then
+      opened; at 173 ms the CPU is `Running · 72339 cycles`, last
+      `8029  4C 29 80  JMP $8029`, backlight 1.0, and the dot dump spells
+      HELLO. `/tmp/p11-demo/hello.png` looked at: HELLO in light dots on
+      the lit blue face. The first run failed (every dot X, CPU LOST); the
+      cause and fix are in plan-11-B and C Corrections (62adf2d).
+- [x] On the PCB page: the LCD is a 1×16 header. Switch to Full Module and
       screenshot the 80 × 36 module with both header rows and 4 holes.
       Move, rotate and change the origin once each; switch back; save,
       reopen and screenshot again.
+      Ran: header `HDR-1X16-P2.54` at open; Full Module →
+      `LCM-NHD-0216K1Z`, 36 pads (`board-module.png`: both rows, 4 holes);
+      moved (+10, +5 mm), rotated to 90°, origin → Pad 1 Center; back to
+      Connector Only with `pad 1 kept: true`; saved and reopened →
+      identical placement (`same placement after reopen: true`,
+      `board-reopened.png` the turned header, sidebar captured).
 
 Acceptance: `HELLO` on the face; both footprint styles drawn; the style
 survives move, rotate, origin change, save and reopen.
   Check: the screenshots above, attached to the commit message's description (est. 15 min).
+  Ran: as the three tasks above; the PNG paths are in the Phase 4 commit
+  message.
 Commit: —
 
 ## Validation Plan
@@ -481,6 +500,14 @@ Commit: —
 
 ## Corrections
 
+- **The §4.7 flow found a backend bug, fixed in B and C (62adf2d).** With
+  the reset switch opened by hand after a second (here at 101 ms), the
+  first run showed every dot X and the CPU LOST: the 6502 held in reset
+  pulses E X past the LCD's power-on. The fix (E X with R/W 1 is a
+  possible read; the program first sets AC) and its evidence are in the
+  plan-11-B and plan-11-C Corrections, as § Non-goals asks.
+- **§4.7 program.** `hello.bin` holds the corrected plan-11-C §4.6
+  program (JMP `$8029`, NMI/IRQ `8029`).
 - **No re-snap after a style switch (§4.4 step 4 dropped).** `snapped`
   moves the placement so its origin point is on the 0.635 mm grid. With
   the Pad 1 Center origin chosen by hand (an origin change never moves a
