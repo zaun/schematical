@@ -1089,6 +1089,57 @@ static void case_terminal(void) {
 
 #include "serial_test_d.h"
 
+/* "shipped": every fixture device equals the same device in Parts/serial.json
+   (its parts aside), so a model case cannot pass on a device that differs
+   from the one the library ships (plan-12-D section 3.3). */
+static void case_shipped(void) {
+    char path[512];
+    char *fixture_text;
+    char *shipped_text;
+    char message[160];
+    int compared = 0;
+
+    case_begin();
+    snprintf(path, sizeof path, "%s/../fixtures/serial/ns16550.json", GOLDEN_DIR);
+    fixture_text = read_file(path);
+    snprintf(path, sizeof path, "%s/serial.json", PARTS_DIR);
+    shipped_text = read_file(path);
+    check(fixture_text != NULL, "the fixture file");
+    check(shipped_text != NULL, "Parts/serial.json (shipped by plan-12-F onwards)");
+    if (fixture_text != NULL && shipped_text != NULL) {
+        cJSON *fixture = cJSON_Parse(fixture_text);
+        cJSON *shipped = cJSON_Parse(shipped_text);
+        const cJSON *dev;
+
+        cJSON_ArrayForEach(dev, cJSON_GetObjectItemCaseSensitive(fixture, "devices")) {
+            const char *id = cJSON_GetObjectItemCaseSensitive(dev, "id")->valuestring;
+            const cJSON *other;
+
+            cJSON_ArrayForEach(other, cJSON_GetObjectItemCaseSensitive(shipped, "devices")) {
+                if (strcmp(cJSON_GetObjectItemCaseSensitive(other, "id")->valuestring, id) == 0) {
+                    cJSON *a = cJSON_Duplicate(dev, 1);
+                    cJSON *b = cJSON_Duplicate(other, 1);
+
+                    cJSON_DeleteItemFromObjectCaseSensitive(a, "parts");
+                    cJSON_DeleteItemFromObjectCaseSensitive(b, "parts");
+                    snprintf(message, sizeof message, "device %s: fixture equals serial.json", id);
+                    check(cJSON_Compare(a, b, 1), message);
+                    cJSON_Delete(a);
+                    cJSON_Delete(b);
+                    compared++;
+                }
+            }
+        }
+        snprintf(message, sizeof message, "%d fixture devices found in serial.json", compared);
+        check(compared > 0, message);
+        cJSON_Delete(fixture);
+        cJSON_Delete(shipped);
+    }
+    free(fixture_text);
+    free(shipped_text);
+    case_end("shipped: the fixture devices are the shipped device objects");
+}
+
 /* D24: C's cases on the shipped PC16550D device object. */
 static void case_d24(void) {
     int before = failures;
@@ -1159,6 +1210,7 @@ int main(void) {
     case_terminal();
     run_d_cases();
     case_d24();
+    case_shipped();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

@@ -10,6 +10,8 @@ model cases can run; the shipped data replaces it when it lands.
 
 Run from the repo root:  python3 -I backend/tests/fixtures/serial/merge.py
 Writes ns16550.json and footprints_test.json beside this script.
+  merge.py --ship F,G   also writes Parts/serial.json with the devices of
+                        those data sub-plans and their real parts.
 """
 import json
 import os
@@ -125,4 +127,50 @@ def main():
     print(len(devices), 'devices,', len(fps), 'stand-in footprints')
 
 
-main()
+def group_of(dev_id, model, function):
+    """plan-12-A section 3.4: which data sub-plan ships a device."""
+    if model == 'ns16550' and function == 'UART':
+        return 'F' if dev_id.startswith(('TL16', 'NS16', 'PC16', '82C50', 'COM92')) else 'G'
+    if model in ('ay1013', 'i8251', 'i82510', 'acia6551', 'hs82c52', 'com78c80x'):
+        return 'H'
+    if model in ('max3100', 'max310x'):
+        return 'J'
+    return 'I'
+
+
+def ship(groups):
+    """Writes schematical/schematical/Parts/serial.json: every device of the
+    given groups (and the groups already shipped) with its real parts."""
+    import csv
+    repo = os.path.abspath(os.path.join(HERE, '..', '..', '..', '..'))
+    rows = list(csv.DictReader(open(os.path.join(repo, 'planning', 'plan-12-data', 'devices.tsv')),
+                               delimiter='\t'))
+    out_path = os.path.join(repo, 'schematical', 'schematical', 'Parts', 'serial.json')
+    devices = []
+    for row in rows:
+        dev_id = row['device']
+        if group_of(dev_id, row['model'], row['function']) not in groups:
+            continue
+        keys_path = os.path.join(HERE, 'keys', dev_id + '.json')
+        data_path = os.path.join(HERE, 'devices', dev_id + '.json')
+        if not (os.path.exists(keys_path) and os.path.exists(data_path)):
+            raise SystemExit('missing keys or data for ' + dev_id)
+        data = json.load(open(data_path))
+        device = {k: v for k, v in data.items() if k != 'parts'}
+        device.update(json.load(open(keys_path)))
+        device['parts'] = data['parts']
+        devices.append(device)
+    devices.sort(key=lambda d: d['id'])
+    with open(out_path, 'w') as f:
+        json.dump({'format': 'schematical-parts', 'version': 1, 'kind': 'serial',
+                   'devices': devices}, f, indent=1)
+        f.write('\n')
+    print('serial.json:', len(devices), 'devices,', sum(len(d['parts']) for d in devices), 'parts')
+
+
+if __name__ == '__main__':
+    import sys
+    if len(sys.argv) > 2 and sys.argv[1] == '--ship':
+        ship(set(sys.argv[2].split(',')))
+    else:
+        main()
