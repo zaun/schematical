@@ -2184,6 +2184,244 @@ static void case_h4_i8251(void) {
     hb_close(h);
 }
 
+/* ---- H6: CDP65C51 (acia6551) ----------------------------------------------------------- */
+
+static const char *const AC_D[8] = {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"};
+
+/* XTLI 1.8432 MHz: 542.534 ns. */
+#define AC_XHALF ((SimTime)271267)
+
+/* One PHI2 cycle on register rs: write v, or read (returns the bus as text). */
+static void ac_cycle(Bench *b, unsigned rs, int write, unsigned v, char *text) {
+    set(b, "RS0", rs & 1u ? LOGIC_1 : LOGIC_0);
+    set(b, "RS1", rs & 2u ? LOGIC_1 : LOGIC_0);
+    set(b, "RW", write ? LOGIC_0 : LOGIC_1);
+    set(b, "CS0", LOGIC_1);
+    set(b, "CS1", LOGIC_0);
+    if (write) {
+        h_set_bus(b, AC_D, 8, 1, v);
+    }
+    run(b, NS(100));
+    set(b, "PHI2", LOGIC_1);
+    run(b, NS(400));
+    if (!write && text != NULL) {
+        h_get_bus(b, AC_D, 8, text);
+    }
+    set(b, "PHI2", LOGIC_0);
+    run(b, NS(100));
+    set(b, "CS0", LOGIC_0);
+    set(b, "RW", LOGIC_1);
+    h_set_bus(b, AC_D, 8, 0, 0);
+    run(b, NS(400));
+}
+
+static void ac_expect(Bench *b, unsigned rs, const char *want, const char *what) {
+    char text[16];
+
+    ac_cycle(b, rs, 0, 0, text);
+    h_expect_text(text, want, what);
+}
+
+/* The period between two RXC rising edges (the 16x clock out). */
+static SimTime ac_rxc_period(Bench *b, SimTime limit) {
+    SimTime t0 = 0;
+    SimTime spent = 0;
+    LogicValue last = get(b, "RXC");
+    int seen = 0;
+    SimTime step = NS(20);
+
+    while (spent < limit) {
+        LogicValue now;
+
+        run(b, step);
+        spent += step;
+        now = get(b, "RXC");
+        if (last == LOGIC_0 && now == LOGIC_1) {
+            if (seen) {
+                return sim_now(b->sim) - t0;
+            }
+            seen = 1;
+            t0 = sim_now(b->sim);
+        }
+        last = now;
+    }
+    return 0;
+}
+
+static void case_h6_acia6551(void) {
+    static const HClockPin CLOCKS[1] = {{"XTLI", 0}};
+    static const uint32_t DIV[16] = {
+        0, 36864, 24576, 16768, 13696, 12288, 6144, 3072, 1536, 1024, 768, 512, 384, 256, 192, 96
+    };
+    SimTime half = AC_XHALF;
+    HBench *h = hb_open("SFX-CDP65C51-so28", CLOCKS, 1, &half, 1);
+    Bench *b = &h->b;
+    const SimTime xper = 2 * AC_XHALF;
+    const SimTime bt19200 = 96 * xper;
+    char got[24];
+    char want[24];
+    unsigned code;
+
+    case_begin();
+    set(b, "RES", LOGIC_0);
+    set(b, "CS0", LOGIC_0);
+    set(b, "CS1", LOGIC_1);
+    set(b, "PHI2", LOGIC_0);
+    set(b, "RW", LOGIC_1);
+    set(b, "RS0", LOGIC_0);
+    set(b, "RS1", LOGIC_0);
+    set(b, "RXD", LOGIC_1);
+    set(b, "CTS", LOGIC_0);
+    set(b, "DCD", LOGIC_0);
+    set(b, "DSR", LOGIC_0);
+    run(b, NS(2000));
+    set(b, "RES", LOGIC_1);
+    run(b, NS(1000));
+    ac_expect(b, 1, "00010000", "status after RES (TDRE; DCD, DSR low)");
+    ac_expect(b, 2, "00000000", "command after RES");
+    ac_expect(b, 3, "00000000", "control after RES");
+    expect_pin(b, "DTR", LOGIC_1, "DTR high after RES");
+    expect_pin(b, "RTS", LOGIC_1, "RTS high after RES");
+    expect_pin(b, "IRQ", LOGIC_Z, "IRQ released after RES");
+
+    /* The internal baud table: RXC (RCS = 1) is the 16x clock. */
+    for (code = 1; code < 16; code++) {
+        SimTime want_period = (SimTime)(DIV[code] / 16) * xper;
+        SimTime got_period;
+        char message[96];
+
+        ac_cycle(b, 3, 1, 0x10 | code, NULL);
+        got_period = ac_rxc_period(b, 3 * want_period + NS(10000));
+        snprintf(message, sizeof message, "SBR %u: 16x period %llu ps, want %llu", code,
+                 (unsigned long long)got_period, (unsigned long long)want_period);
+        check(got_period + NS(40) >= want_period && got_period <= want_period + NS(40), message);
+    }
+
+    /* 19200 8N1, TIC = 10 (RTS low, no TX interrupt), IRD = 1. */
+    ac_cycle(b, 3, 1, 0x1F, NULL);
+    ac_cycle(b, 2, 1, 0x0B, NULL);
+    expect_pin(b, "DTR", LOGIC_0, "command b0: DTR low");
+    expect_pin(b, "RTS", LOGIC_0, "TIC 10: RTS low");
+    expect_pin(b, "IRQ", LOGIC_Z, "TIC 10: no TDRE interrupt");
+    ac_cycle(b, 0, 1, 'A', NULL);
+    check(h_catch(b, "TXD", bt19200, 9, 4 * bt19200, got), "19200 frame");
+    h_frame_bits('A', 8, 0, 1, want);
+    h_expect_text(got, want, "19200 8N1 A");
+    run(b, bt19200);
+    h_expect_sent(b, 0, 'A', "A logged");
+
+    /* TDRE interrupt as a level (planner decision): TIC = 01. */
+    ac_cycle(b, 2, 1, 0x05, NULL);
+    run(b, NS(1000));
+    expect_pin(b, "IRQ", LOGIC_0, "TIC 01: IRQ while TDRE");
+    ac_expect(b, 1, "10010000", "status: IRQ, TDRE");
+    expect_pin(b, "IRQ", LOGIC_0, "TDRE interrupt recurs after the status read (level)");
+    ac_cycle(b, 2, 1, 0x0B, NULL);
+    run(b, NS(1000));
+    expect_pin(b, "IRQ", LOGIC_Z, "TIC 10 releases it");
+
+    /* Receive with the RX interrupt (IRD = 0); PE, FE, overrun. */
+    ac_cycle(b, 2, 1, 0x09, NULL);
+    h_frame_bits(0x3C, 8, 0, 1, want);
+    h_drive_bits(b, "RXD", want, bt19200);
+    run(b, bt19200);
+    expect_pin(b, "IRQ", LOGIC_0, "RDRF interrupt");
+    ac_expect(b, 1, "10011000", "status: IRQ, TDRE, RDRF");
+    expect_pin(b, "IRQ", LOGIC_Z, "the status read releases IRQ");
+    ac_expect(b, 0, "00111100", "RDR");
+    ac_expect(b, 1, "00010000", "RDRF cleared by the RDR read");
+    h_drive_bits(b, "RXD", want, bt19200);
+    run(b, bt19200);
+    h_frame_bits(0x55, 8, 0, 1, want);
+    h_drive_bits(b, "RXD", want, bt19200);
+    run(b, bt19200);
+    ac_expect(b, 1, "10011100", "status: IRQ (the second byte), overrun (the third is not taken)");
+    ac_expect(b, 0, "00111100", "RDR keeps the last valid character");
+    /* Programmed reset: OVR cleared, command b4..b0 = 0. */
+    ac_cycle(b, 1, 1, 0x00, NULL);
+    ac_expect(b, 1, "00010000", "programmed reset clears OVR");
+    ac_expect(b, 2, "00000000", "programmed reset: command b4..b0 = 0");
+    expect_pin(b, "DTR", LOGIC_1, "programmed reset: DTR high");
+    /* Even parity with a wrong parity bit; a framing error. */
+    ac_cycle(b, 2, 1, 0x6B, NULL);   /* even, parity on, TIC 10, IRD, DTR */
+    h_frame_bits(0x07, 8, 'o', 1, want);
+    h_drive_bits(b, "RXD", want, bt19200);
+    run(b, bt19200);
+    ac_expect(b, 1, "00011001", "status: RDRF, PE");
+    ac_cycle(b, 0, 0, 0, NULL);
+    h_frame_bits(0x07, 8, 'e', 0, want);
+    strcat(want, "0");
+    h_drive_bits(b, "RXD", want, bt19200);
+    run(b, 2 * bt19200);
+    ac_expect(b, 1, "00011010", "status: RDRF, FE");
+    ac_cycle(b, 0, 0, 0, NULL);
+    ac_cycle(b, 2, 1, 0x0B, NULL);
+
+    /* DCD / DSR: an interrupt on a change; the bits hold until read. */
+    ac_cycle(b, 2, 1, 0x09, NULL);
+    set(b, "DSR", LOGIC_1);
+    run(b, NS(500));
+    expect_pin(b, "IRQ", LOGIC_0, "DSR change interrupts");
+    set(b, "DSR", LOGIC_0);
+    run(b, NS(500));
+    ac_expect(b, 1, "11010010", "status: IRQ, DSR held at the changed level");
+    expect_pin(b, "IRQ", LOGIC_0, "the change back interrupts again at the read");
+    ac_expect(b, 1, "10010010", "status: DSR now low (FE of the last word)");
+    ac_expect(b, 1, "00010010", "and released");
+    ac_cycle(b, 2, 1, 0x0B, NULL);
+
+    /* Echo: TXD repeats RXD half a bit later (REM, TIC 00). */
+    ac_cycle(b, 2, 1, 0x13, NULL);
+    expect_pin(b, "RTS", LOGIC_0, "echo: RTS low");
+    set(b, "RXD", LOGIC_0);
+    run(b, bt19200 / 4);
+    expect_pin(b, "TXD", LOGIC_1, "echo: not yet (quarter bit)");
+    run(b, bt19200 / 2);
+    expect_pin(b, "TXD", LOGIC_0, "echo: after half a bit");
+    set(b, "RXD", LOGIC_1);
+    run(b, 12 * bt19200);
+    ac_cycle(b, 0, 0, 0, NULL);
+    ac_cycle(b, 2, 1, 0x0B, NULL);
+
+    /* CDP65C51 CTS: TXD marks at once; TDRE does not show in the status. */
+    ac_cycle(b, 0, 1, 0x00, NULL);
+    check(h_catch(b, "TXD", bt19200, 0, 2 * bt19200, got), "a zero byte starts");
+    set(b, "CTS", LOGIC_1);
+    run(b, NS(2000));
+    expect_pin(b, "TXD", LOGIC_1, "CTS high: TXD marks at once");
+    ac_expect(b, 1, "00000000", "CTS high: TDRE not shown");
+    set(b, "CTS", LOGIC_0);
+    run(b, 12 * bt19200);
+
+    /* Break (TIC 11): low once both registers are empty. */
+    ac_cycle(b, 2, 1, 0x0F, NULL);
+    run(b, bt19200);
+    expect_pin(b, "TXD", LOGIC_0, "TIC 11: break");
+    ac_cycle(b, 2, 1, 0x0B, NULL);
+    run(b, bt19200 / 2);
+    expect_pin(b, "TXD", LOGIC_1, "a stop bit after the break");
+
+    /* SBR 0000: XTLI is the 16x clock. */
+    ac_cycle(b, 3, 1, 0x10, NULL);
+    ac_cycle(b, 0, 1, 0x81, NULL);
+    check(h_catch(b, "TXD", 16 * xper, 9, 40 * xper, got), "16x external frame");
+    h_frame_bits(0x81, 8, 0, 1, want);
+    h_expect_text(got, want, "SBR 0000: 16 XTLI periods a bit");
+    run(b, 32 * xper);
+
+    /* Terminal at 19200. */
+    ac_cycle(b, 3, 1, 0x1F, NULL);
+    set(b, "RXD", LOGIC_Z);
+    run(b, NS(100));
+    check(h_send(b, 0, "OK") == 1, "terminal send accepted");
+    run(b, 11 * bt19200);
+    ac_expect(b, 0, "01001111", "terminal O");
+    run(b, 11 * bt19200);
+    ac_expect(b, 0, "01001011", "terminal K");
+    case_end("H6 CDP65C51: baud table at 1.8432 MHz, TDRE level IRQ, RX/errors, programmed reset, DCD/DSR, echo, CTS, break, terminal");
+    hb_close(h);
+}
+
 int main(void) {
     library = part_library_create();
     if (load_parts_dir(library, PARTS_DIR) != 0 || load_serial_fixture(library) != 0 ||
@@ -2208,6 +2446,7 @@ int main(void) {
     case_h2_com1863();
     case_h3_cdp1854a();
     case_h4_i8251();
+    case_h6_acia6551();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

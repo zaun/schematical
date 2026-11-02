@@ -228,6 +228,31 @@
     "8-19 (twc = 8 tCY at tCY 320 ns)\"}},\"parts\":[{\"name\":\"SFX-8251A-dip28\",\"package\":\"DIP\",\"pinout\":" \
     "\"dip28\",\"footprint\":\"CDIP-28-600\",\"grade\":\"C\"}]}"
 
+#define SFX_CDP65C51 \
+    "{\"id\":\"SFX-CDP65C51\",\"function\":\"UART\",\"description\":\"CMOS asynchronous communications interface" \
+    " adapter (ACIA)\",\"drawer\":[\"Interface\"],\"note\":\"cdp65c51.pdf p1-18; plan-12-data/specs/classic-b" \
+    ".md § CDP65C51\",\"pinouts\":{\"so28\":[{\"number\":1,\"name\":\"VSS\",\"role\":\"ground\"},{\"number\":2,\"name\":" \
+    "\"CS0\",\"role\":\"input\"},{\"number\":3,\"name\":\"CS1\",\"role\":\"input\"},{\"number\":4,\"name\":\"RES\",\"role\":\"" \
+    "input\"},{\"number\":5,\"name\":\"RXC\",\"role\":\"inout\"},{\"number\":6,\"name\":\"XTLI\",\"role\":\"input\"},{\"num" \
+    "ber\":7,\"name\":\"XTLO\",\"role\":\"output\"},{\"number\":8,\"name\":\"RTS\",\"role\":\"output\"},{\"number\":9,\"nam" \
+    "e\":\"CTS\",\"role\":\"input\"},{\"number\":10,\"name\":\"TXD\",\"role\":\"output\"},{\"number\":11,\"name\":\"DTR\",\"r" \
+    "ole\":\"output\"},{\"number\":12,\"name\":\"RXD\",\"role\":\"input\"},{\"number\":13,\"name\":\"RS0\",\"role\":\"input" \
+    "\"},{\"number\":14,\"name\":\"RS1\",\"role\":\"input\"},{\"number\":15,\"name\":\"VDD\",\"role\":\"power\"},{\"number\"" \
+    ":16,\"name\":\"DCD\",\"role\":\"input\"},{\"number\":17,\"name\":\"DSR\",\"role\":\"input\"},{\"number\":18,\"name\":\"" \
+    "D0\",\"role\":\"inout\"},{\"number\":19,\"name\":\"D1\",\"role\":\"inout\"},{\"number\":20,\"name\":\"D2\",\"role\":\"in" \
+    "out\"},{\"number\":21,\"name\":\"D3\",\"role\":\"inout\"},{\"number\":22,\"name\":\"D4\",\"role\":\"inout\"},{\"number" \
+    "\":23,\"name\":\"D5\",\"role\":\"inout\"},{\"number\":24,\"name\":\"D6\",\"role\":\"inout\"},{\"number\":25,\"name\":\"D" \
+    "7\",\"role\":\"inout\"},{\"number\":26,\"name\":\"IRQ\",\"role\":\"output\"},{\"number\":27,\"name\":\"PHI2\",\"role\":" \
+    "\"input\"},{\"number\":28,\"name\":\"RW\",\"role\":\"input\"}]},\"model\":\"acia6551\",\"bus\":{\"data\":[\"D0\",\"D1\"," \
+    "\"D2\",\"D3\",\"D4\",\"D5\",\"D6\",\"D7\"],\"registerSelect\":[\"RS0\",\"RS1\"],\"select\":\"CS1\",\"selectHigh\":\"CS0\"," \
+    "\"phi2\":\"PHI2\",\"readWrite\":\"RW\",\"reset\":\"RES\"},\"clock\":{\"in\":\"XTLI\",\"out\":\"XTLO\",\"receive\":\"RXC\"}" \
+    ",\"serial\":{\"tx\":\"TXD\",\"rx\":\"RXD\",\"rts\":\"RTS\",\"cts\":\"CTS\",\"dtr\":\"DTR\",\"dsr\":\"DSR\",\"dcd\":\"DCD\",\"ir" \
+    "q\":\"IRQ\"},\"grades\":{\"1\":{\"tcdr\":200,\"thr\":20,\"tdd\":500,\"tdly\":500,\"tirq\":500,\"vcc\":[3.0,6.0],\"no" \
+    "te\":\"cdp65c51.pdf p17-18 (-1, VDD 5 V)\"},\"2\":{\"tcdr\":150,\"thr\":10,\"tdd\":410,\"tdly\":410,\"tirq\":41" \
+    "0,\"vcc\":[3.0,6.0],\"note\":\"cdp65c51.pdf p17-18 (-2, VDD 5 V)\"},\"4\":{\"tcdr\":50,\"thr\":10,\"tdd\":315," \
+    "\"tdly\":315,\"tirq\":315,\"vcc\":[3.0,6.0],\"note\":\"cdp65c51.pdf p17-18 (-4, VDD 5 V)\"}},\"parts\":[{\"na" \
+    "me\":\"SFX-CDP65C51-so28\",\"package\":\"SOIC\",\"pinout\":\"so28\",\"footprint\":\"SOIC-28W\",\"grade\":\"4\"}]}"
+
 static const char SERIAL_FIXTURE_CLASSIC[] =
     "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"serial\",\"devices\":["
     SFX_AY_5_1013A ","
@@ -235,7 +260,8 @@ static const char SERIAL_FIXTURE_CLASSIC[] =
     SFX_COM1863 ","
     SFX_HD_6402 ","
     SFX_CDP1854A ","
-    SFX_8251A
+    SFX_8251A ","
+    SFX_CDP65C51
     "]}";
 
 /* Loads the classic fixture devices into a library that has footprints.json. */

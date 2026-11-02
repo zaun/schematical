@@ -19,6 +19,7 @@ static const SerialModel *const MODELS[] = {
     /* plan-12-H */
     &AY1013_MODEL,
     &I8251_MODEL,
+    &ACIA6551_MODEL,
 };
 #define MODEL_COUNT (sizeof MODELS / sizeof MODELS[0])
 
