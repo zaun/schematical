@@ -401,16 +401,24 @@ added lines only.
   Ran: `100% tests passed, 0 tests failed out of 18`; golden diff stat →
   15 insertions, 0 deletions; `grep -c '|charlcd|'` → 5; goldens 7162 /
   7162 / 200 lines.
-Commit: —
+Commit: 667d86f
 
 ### Phase 2 — Real-part and CPU board tests
 
-- [ ] `backend/tests/charlcd_test.c`: §4.5 cases.
-- [ ] `backend/tests/charlcd_test.c`: §4.6, the MPS6502 board and the
+- [x] `backend/tests/charlcd_test.c`: §4.5 cases.
+      Ran: 5 parts × HELLO PASS; exec 40 µs accepted on NSW, refused on
+      162H; NSW facts (two pads "1"). See Corrections for the text gap.
+- [x] `backend/tests/charlcd_test.c`: §4.6, the MPS6502 board and the
       W65C02S board.
+      Ran: MPS6502 board → HELLO, ddram[5] = 20, cells 0–4 = ROM, BF 0, CPU
+      RUNNING with last `JMP $8024`; W65C02S board → every dot X, BF X,
+      CPU LOST (status 1, last `BEQ $8012`). The whole test runs in 3 s.
 
 Acceptance: every part shows `HELLO`, the per-device exec times hold, the
 MPS6502 program prints `HELLO`, and the W65C02S board is caught.
+  Ran: `charlcd_test` → 97 PASS, `all passed`; full ctest →
+  `100% tests passed, 0 tests failed out of 18`; goldens unchanged since
+  667d86f; final gate app build → `** BUILD SUCCEEDED **`.
   Check: `ctest --test-dir /tmp/logic-p11 -R charlcd_test --output-on-failure` → passes (est. 1 min; the board runs 50 ms of simulated time because the LCD's 40 ms power-up wait comes first).
 Commit: —
 
@@ -448,6 +456,13 @@ Commit: —
   also counts B's own Prerequisites row, whose command text contains
   `Commit: —`, so it never reaches 0. Measured with `grep -c '^Commit: —'`
   (→ 0). The plan-11-D row has the same flaw and gets the same fix.
+- **The test's data writes are 50 µs apart, not 40.** plan-11-B case 2
+  leaves 40 µs between writes; with the helper's 2.55 µs access that is
+  42.55 µs E fall to E fall, inside the 162H and AMC1602G data time
+  (43 µs). Those modules then correctly refused every second character, so
+  "every part shows HELLO" failed on them. `text()` now waits 50 µs,
+  above every device's data time. The per-device exec check (§4.5) still
+  places its second write exactly 40 µs after the first.
 
 ## Summary
 

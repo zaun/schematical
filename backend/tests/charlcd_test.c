@@ -367,10 +367,12 @@ static void cmd(Lcd *l, uint8_t byte, SimTime gap) {
     bench_run(l->b, gap);
 }
 
+/* Data writes 50 us apart: longer than every device's data exec time
+   (37 us Newhaven, 43 us Displaytech and Orient). */
 static void text(Lcd *l, const char *s) {
     for (; *s != '\0'; s++) {
         wr(l, 1, (uint8_t)*s);
-        bench_run(l->b, US(40));
+        bench_run(l->b, US(50));
     }
 }
 
@@ -1112,6 +1114,289 @@ static void check_api(void) {
     circuit_destroy(c);
 }
 
+/* ---- plan-11-C section 4.5: the real parts ---- */
+
+static PartLibrary *real_library;
+
+static void check_real_parts(void) {
+    static const char *const NAMES[] = {
+        "NHD-0216BZ-FL-YBW", "NHD-0216K1Z-FL-YBW", "NHD-0216K1Z-NSW-BBW-L", "162H BC BW",
+        "AMC1602GR-B-Y6WFDY"
+    };
+    PartLibrary *fixture = library;
+    const Part *part;
+    size_t i;
+    unsigned pins1 = 0;
+
+    library = real_library;
+    for (i = 0; i < 5; i++) {
+        Lcd l = lcd_open(NAMES[i]);
+        LcdState st;
+        char line[160];
+
+        init8(&l);
+        clear(&l);
+        text(&l, "HELLO");
+        lcd_state(&l, &st);
+        snprintf(line, sizeof line, "C 4.5 %s: 8-bit init, HELLO in ddram[0..4], cell 0 = ROM 48",
+                 NAMES[i]);
+        expect(memcmp(st.ddram, "HELLO", 5) == 0 && cell_is_rom(&st, 0, 0, 0x48), line);
+        bench_destroy(l.b);
+    }
+    /* A second data write 40 us after the first (E fall to E fall). */
+    for (i = 0; i < 2; i++) {
+        Lcd l = lcd_open(i == 0 ? "NHD-0216K1Z-NSW-BBW-L" : "162H BC BW");
+        LcdState st;
+
+        init8(&l);
+        clear(&l);
+        wr(&l, 1, 'A');
+        bench_run(l.b, US(40) - US(2) - NS(550));
+        wr(&l, 1, 'B');
+        bench_run(l.b, US(50));
+        lcd_state(&l, &st);
+        if (i == 0) {
+            expect(st.ddram[1] == 'B', "C 4.5 exec: a data write 40 us after another is accepted on "
+                                       "NHD-0216K1Z-NSW-BBW-L (data 37 us)");
+        } else {
+            expect(st.ddram[1] == 0x20, "C 4.5 exec: and not accepted on 162H BC BW (data 43 us)");
+        }
+        bench_destroy(l.b);
+    }
+    library = fixture;
+
+    part = part_library_find(real_library, "NHD-0216K1Z-NSW-BBW-L");
+    if (part != NULL && part->footprint != NULL) {
+        for (i = 0; i < part->footprint->pad_count; i++) {
+            const char *d = part->footprint->pads[i].designator;
+
+            pins1 += d != NULL && strcmp(d, "1") == 0;
+        }
+    }
+    expect(part != NULL && part->charlcd != NULL && strcmp(part->charlcd->panel, "blue-negative") == 0 &&
+               part->charlcd->backlight_color != NULL &&
+               strcmp(part->charlcd->backlight_color, "White") == 0 && part->footprint != NULL &&
+               strcmp(part->footprint->id, "LCM-NHD-0216K1Z") == 0 &&
+               part->connector_footprint != NULL &&
+               strcmp(part->connector_footprint->id, "HDR-1X16-P2.54") == 0 && pins1 == 2,
+           "C 4.5 facts: NHD-0216K1Z-NSW-BBW-L: blue-negative, White, LCM-NHD-0216K1Z with two "
+           "pads \"1\", connector HDR-1X16-P2.54");
+}
+
+/* ---- plan-11-C section 4.6: the CPU board ---- */
+
+enum { BOARD_NETS = 64 };
+
+typedef struct {
+    Circuit *c;
+    const char *names[BOARD_NETS];
+    size_t nets[BOARD_NETS];
+    size_t count;
+    int failed;
+} Board;
+
+static size_t board_net(Board *b, const char *name) {
+    size_t i;
+
+    for (i = 0; i < b->count; i++) {
+        if (strcmp(b->names[i], name) == 0) {
+            return b->nets[i];
+        }
+    }
+    b->names[b->count] = name;
+    circuit_add_net(b->c, &b->nets[b->count]);
+    return b->nets[b->count++];
+}
+
+/* Connects every pin of `part` named `pin` to the net `net`. */
+static void board_wire(Board *b, size_t index, const char *part_name, const char *pin,
+                       const char *net) {
+    const Part *part = part_library_find(real_library, part_name);
+    size_t i, n = 0;
+
+    for (i = 0; part != NULL && i < part->pin_count; i++) {
+        if (strcmp(part->pins[i].name, pin) == 0) {
+            if (circuit_connect(b->c, index, part->pins[i].designator, board_net(b, net)) != 0) {
+                b->failed = 1;
+            }
+            n++;
+        }
+    }
+    if (n == 0) {
+        fprintf(stderr, "board: no pin %s on %s\n", pin, part_name);
+        b->failed = 1;
+    }
+}
+
+static size_t board_part(Board *b, const char *name) {
+    size_t index = 0;
+
+    if (circuit_add_part(b->c, name, &index) != 0) {
+        fprintf(stderr, "board: %s\n", circuit_error(b->c));
+        b->failed = 1;
+    }
+    return index;
+}
+
+/* The plan-11-C section 4.6 program, at EEPROM offset 0 (address 8000). */
+static const uint8_t HELLO_PROGRAM[] = {
+    0xA2, 0x00, 0xBD, 0x27, 0x80, 0xF0, 0x0B, 0x2C, 0x00, 0x40, 0x30, 0xFB, 0x8D, 0x00, 0x40,
+    0xE8, 0xD0, 0xF0, 0xA2, 0x00, 0xBD, 0x2C, 0x80, 0xF0, 0x0B, 0x2C, 0x00, 0x40, 0x30, 0xFB,
+    0x8D, 0x01, 0x40, 0xE8, 0xD0, 0xF0, 0x4C, 0x24, 0x80, 0x38, 0x0C, 0x01, 0x06, 0x00, 0x48,
+    0x45, 0x4C, 0x4C, 0x4F, 0x00
+};
+
+/* Builds and runs the board for 50 ms; wdc picks the W65C02S. */
+static void run_board(int wdc, LcdState *lcd, CpuState *cpu, int *ok) {
+    static uint32_t image[32768];
+    const char *cpu_name = wdc ? "W65C02S6TPG-14" : "MPS6502";
+    Board b;
+    size_t lcd_i, cpu_i, ee, hc00, hc11, osc, sw, p5, pg;
+    unsigned i;
+    char name[8];
+    static char addr_names[16][8], data_names[8][8];
+
+    memset(&b, 0, sizeof b);
+    b.c = circuit_create(real_library);
+    p5 = board_part(&b, "5V");
+    pg = board_part(&b, "GND");
+    osc = board_part(&b, "ECS-2100A-010");
+    cpu_i = board_part(&b, cpu_name);
+    ee = board_part(&b, "AT28C256-15PU");
+    hc00 = board_part(&b, "SN74HC00N");
+    hc11 = board_part(&b, "SN74HC11N");
+    sw = board_part(&b, "TE-GDS0204");
+    lcd_i = board_part(&b, "NHD-0216K1Z-NSW-BBW-L");
+
+    board_wire(&b, p5, "5V", "VCC", "5V");
+    board_wire(&b, pg, "GND", "GND", "GND");
+    /* Power. */
+    board_wire(&b, cpu_i, cpu_name, wdc ? "VDD" : "VCC", "5V");
+    board_wire(&b, cpu_i, cpu_name, "VSS", "GND");
+    board_wire(&b, ee, "AT28C256-15PU", "VCC", "5V");
+    board_wire(&b, ee, "AT28C256-15PU", "GND", "GND");
+    board_wire(&b, ee, "AT28C256-15PU", "WE#", "5V");
+    board_wire(&b, hc00, "SN74HC00N", "VCC", "5V");
+    board_wire(&b, hc00, "SN74HC00N", "GND", "GND");
+    board_wire(&b, hc11, "SN74HC11N", "VCC", "5V");
+    board_wire(&b, hc11, "SN74HC11N", "GND", "GND");
+    board_wire(&b, osc, "ECS-2100A-010", "+5V DC", "5V");
+    board_wire(&b, osc, "ECS-2100A-010", "GND", "GND");
+    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "VSS", "GND");
+    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "VDD", "5V");
+    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "V0", "GND");
+    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "LED+", "5V");
+    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "LED-", "GND");
+    /* Address and data. */
+    for (i = 0; i < 16; i++) {
+        snprintf(addr_names[i], sizeof addr_names[i], "A%u", i);
+        board_wire(&b, cpu_i, cpu_name, addr_names[i], addr_names[i]);
+        if (i < 15) {
+            board_wire(&b, ee, "AT28C256-15PU", addr_names[i], addr_names[i]);
+        }
+    }
+    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "RS", "A0");
+    for (i = 0; i < 8; i++) {
+        snprintf(data_names[i], sizeof data_names[i], "D%u", i);
+        board_wire(&b, cpu_i, cpu_name, data_names[i], data_names[i]);
+        snprintf(name, sizeof name, "I/O%u", i);
+        board_wire(&b, ee, "AT28C256-15PU", name, data_names[i]);
+        snprintf(name, sizeof name, "DB%u", i);
+        board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", name, data_names[i]);
+    }
+    /* Decode. */
+    board_wire(&b, hc00, "SN74HC00N", "1A", "A15");
+    board_wire(&b, hc00, "SN74HC00N", "1B", "A15");
+    board_wire(&b, hc00, "SN74HC00N", "1Y", "NA15");
+    board_wire(&b, ee, "AT28C256-15PU", "CE#", "NA15");
+    board_wire(&b, cpu_i, cpu_name, wdc ? "RWB" : "R/W", "RW");
+    board_wire(&b, hc00, "SN74HC00N", "2A", "RW");
+    board_wire(&b, hc00, "SN74HC00N", "2B", "RW");
+    board_wire(&b, hc00, "SN74HC00N", "2Y", "OE");
+    board_wire(&b, ee, "AT28C256-15PU", "OE#", "OE");
+    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "R/W", "RW");
+    board_wire(&b, hc11, "SN74HC11N", "1A", "PHI2");
+    board_wire(&b, hc11, "SN74HC11N", "1B", "A14");
+    board_wire(&b, hc11, "SN74HC11N", "1C", "NA15");
+    board_wire(&b, hc11, "SN74HC11N", "1Y", "E");
+    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "E", "E");
+    /* Clock and reset. */
+    if (wdc) {
+        board_wire(&b, osc, "ECS-2100A-010", "OUTPUT", "PHI2");
+        board_wire(&b, cpu_i, cpu_name, "PHI2", "PHI2");
+        board_wire(&b, cpu_i, cpu_name, "RESB", "RES");
+    } else {
+        board_wire(&b, osc, "ECS-2100A-010", "OUTPUT", "PHI0");
+        board_wire(&b, cpu_i, cpu_name, "PHI0IN", "PHI0");
+        board_wire(&b, cpu_i, cpu_name, "PHI2OUT", "PHI2");
+        board_wire(&b, cpu_i, cpu_name, "RES#", "RES");
+    }
+    board_wire(&b, sw, "TE-GDS0204", "1A", "RES");
+    board_wire(&b, sw, "TE-GDS0204", "1B", "GND");
+
+    for (i = 0; i < 32768; i++) {
+        image[i] = i < sizeof HELLO_PROGRAM ? HELLO_PROGRAM[i] : 0xFF;
+    }
+    image[0x7FFA] = 0x24;   /* NMI -> 8024 */
+    image[0x7FFB] = 0x80;
+    image[0x7FFC] = 0x00;   /* RESET -> 8000 */
+    image[0x7FFD] = 0x80;
+    image[0x7FFE] = 0x24;   /* IRQ -> 8024 */
+    image[0x7FFF] = 0x80;
+    *ok = !b.failed && circuit_memory_load(b.c, ee, 0, image, 32768) == 0 &&
+          circuit_set_switch(b.c, sw, 1, 1) == 0 && circuit_start(b.c) == 0;
+    if (!*ok) {
+        fprintf(stderr, "board: %s\n", circuit_error(b.c) != NULL ? circuit_error(b.c) : "build failed");
+    }
+    if (*ok) {
+        *ok = circuit_advance(b.c, US(10)) && circuit_set_switch(b.c, sw, 1, 0) == 0;
+        for (i = 0; *ok && i < 50; i++) {
+            *ok = circuit_advance(b.c, MS(1));
+        }
+        if (!*ok) {
+            fprintf(stderr, "board: %s\n", circuit_error(b.c) != NULL ? circuit_error(b.c) : "stopped");
+        }
+    }
+    memset(lcd, 0, sizeof *lcd);
+    memset(cpu, 0, sizeof *cpu);
+    if (*ok) {
+        *ok = circuit_lcd_state(b.c, lcd_i, lcd) == 0 && circuit_cpu_state(b.c, cpu_i, cpu) == 0;
+    }
+    circuit_destroy(b.c);
+}
+
+static void check_cpu_board(void) {
+    LcdState lcd;
+    CpuState cpu;
+    int ok;
+    unsigned c;
+    int cells = 1, all_x = 1, y, x;
+
+    run_board(0, &lcd, &cpu, &ok);
+    for (c = 0; c < 5; c++) {
+        cells = cells && cell_is_rom(&lcd, 0, c, (unsigned)"HELLO"[c]);
+    }
+    expect(ok && memcmp(lcd.ddram, "HELLO", 5) == 0 && lcd.ddram[5] == 0x20 && cells &&
+               lcd.busy == 0,
+           "C 4.6 MPS6502 board: HELLO in ddram[0..4], ddram[5] = 20, cells 0-4 = ROM, BF 0");
+    printf("     cpu: status %d, last \"%s\"\n", (int)cpu.status, cpu.instruction_text);
+    expect(ok && cpu.status == CPU_RUNNING && cpu.has_instruction &&
+               strcmp(cpu.instruction_text, "JMP $8024") == 0,
+           "C 4.6 MPS6502 board: the CPU is RUNNING, last instruction JMP $8024");
+
+    run_board(1, &lcd, &cpu, &ok);
+    for (y = 0; y < 16; y++) {
+        for (x = 0; x < 80; x++) {
+            all_x = all_x && lcd.dots[y][x] == LCD_DOT_X;
+        }
+    }
+    expect(ok && all_x && lcd.busy == -1,
+           "C 4.6 W65C02S board: the first STA $4000 broke the hold time: every dot X, BF X (LOST)");
+    printf("     cpu: status %d, last \"%s\"\n", (int)cpu.status, cpu.instruction_text);
+    expect(ok && cpu.status == CPU_LOST,
+           "C 4.6 W65C02S board: the CPU is LOST (its BIT $4000 read an X busy flag)");
+}
+
 /* ---- main ----------------------------------------------------------------- */
 
 int main(int argc, char **argv) {
@@ -1163,6 +1448,14 @@ int main(int argc, char **argv) {
     check_backlight();
     check_voltage();
     check_api();
+    real_library = part_library_create();
+    if (real_library == NULL || load_parts_dir(real_library, PARTS_DIR) != 0) {
+        printf("FAIL: cannot load the part library\n");
+        return 1;
+    }
+    check_real_parts();
+    check_cpu_board();
+    part_library_destroy(real_library);
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);
