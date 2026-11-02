@@ -44,9 +44,9 @@ plan-09-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-09-C complete | `ls planning/plan-09-C-* 2>/dev/null` → no output; `ls planning/completed/plan-09-C-*.md` → exists | NOT MET (2026-11-01) |
-| The system-test parts exist | `grep -c '"AT28C256-15PU"\|"AS6C62256-55PCN"\|"SN74HC00N"' schematical/schematical/Parts/{eeprom,sram,gate}.json` → 1 each | MET (2026-11-01) |
-| No footprint ids taken | `grep -c '"PDIP-40-600"\|"PLCC-44"\|"LQFP-44-10X10"' schematical/schematical/Parts/footprints.json` → 0 | MET (2026-11-01) |
+| plan-09-C complete | `ls planning/plan-09-C-* 2>/dev/null` → no output; `ls planning/completed/plan-09-C-*.md` → exists | MET (2026-11-01 at f3e6366; plan-09-A's rows re-run at 1da038c, all MET) |
+| The system-test parts exist | `grep -c '"AT28C256-15PU"\|"AS6C62256-55PCN"\|"SN74HC00N"' schematical/schematical/Parts/{eeprom,sram,gate}.json` → 1 each | MET (2026-11-01 at f3e6366: 1, 1, 1) |
+| No footprint ids taken | `grep -c '"PDIP-40-600"\|"PLCC-44"\|"LQFP-44-10X10"' schematical/schematical/Parts/footprints.json` → 0 | MET (2026-11-01 at f3e6366: 0) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue, and again
@@ -340,15 +340,24 @@ Unconnected inputs read inactive (Z).
 
 ### Phase 1 — Footprints and parts
 
-- [ ] `footprints.json`: the 3 footprints of §4.1.
-- [ ] `Parts/cpu.json`: §4.2.
-- [ ] Hand-check every pin of the `plcc44` and `lqfp44` pinouts against
+- [x] `footprints.json`: the 3 footprints of §4.1. `footprint_check` →
+      163 footprints, passes after regeneration.
+- [x] `Parts/cpu.json`: §4.2. `grep -c '"pinout":'` → 19;
+      `library_check` passes.
+- [x] Hand-check every pin of the `plcc44` and `lqfp44` pinouts against
       W65C02S p.13 and PS0178 PDF p.2, and every new `footprints.txt` line
       against its PS0072 page. Record "checked" per table in the commit
-      message.
-- [ ] Regenerate `parts.txt`, `traces.txt` and `footprints.txt`
-      (`docs/backend.md` § Tests).
-- [ ] `docs/parts-format.md`: `cpu.json` in the file table; the example
+      message. Done from the rendered pages: W65C02S p.13 (p40, plcc44),
+      MOS p.10 (p40), PS0178 PDF p.1 (p40) and p.2 (lqfp44, plcc44), PS0072
+      printed p.6/10/16 = PDF p.9/13/19 (see Corrections). The PLCC-44 line
+      puts pin 1 at (0, −8.262) top centre, pin 7 at the top of the left
+      side, 18–28 along the bottom.
+- [x] Regenerate `parts.txt`, `traces.txt` and `footprints.txt`
+      (`docs/backend.md` § Tests). The golden numstat → `3 0
+      footprints.txt`, `19 0 parts.txt`, `19 0 traces.txt`; `wc -l` → 6189
+      (P0 + 19) and 163 (F0 + 3); `grep -c '|cpu|.*obsolete' parts.txt` →
+      17.
+- [x] `docs/parts-format.md`: `cpu.json` in the file table; the example
       device in § `cpu` points at `W65C02S`.
 
 Acceptance: the library loads with the 19 parts, and the goldens grow by
@@ -385,10 +394,31 @@ Commit: —
 
 ## Decisions
 
+- **The 19 parts are added although DigiKey has none in stock.** AGENTS.md
+  gained "add only parts that are in stock" (commit 69dda95, 2026-11-01)
+  after this plan was written. Measured 2026-11-01 with
+  `node scripts/digikey.js`: the 13 Z84C00 codes are Obsolete with no stock,
+  and DigiKey lists no W65C02S or MPS6502 chips (only WDC boards). Asked the
+  owner the same day, who chose "add all 19 as planned". It extends plan-09-A's
+  obsolete exception to stock. AGENTS.md is unchanged.
+
 Owner: plan-09-A § Decisions (obsolete exception, no WDC QFP). Author:
 § Non-goals (plastic NMOS only; the PCN's 13 Z84C00 codes) and § 3.
 
 ## Corrections
+
+- **Package `"DIP"`, not `"PDIP"`** (§4.2). The library calls a plastic DIP
+  `"DIP"`: 1654 parts use `"package":"DIP"` and none `"PDIP"`. The app
+  shows the string and groups by it. The PDIP parts use `"DIP"`; `"PLCC"`
+  (38 existing parts) and `"LQFP"` (new) are as planned.
+- **PS0072 page numbers** are printed numbers. The PDF pages are +3:
+  printed p.6/10/16 = PDF p.9/13/19 (PDF p.6 is the 18-lead PDIP). The
+  footprint notes keep the printed numbers.
+- **LQFP-44 orientation.** PS0072's outline draws pin 1 at the left end
+  of the bottom row. PS0178's pin figure (PDF p.2) puts pin 1 at the top of
+  the left side. Both run counter-clockwise, and a footprint may be placed
+  rotated. The default slots (pin 1 at the top of the left side) match
+  PS0178.
 
 ## Summary
 
