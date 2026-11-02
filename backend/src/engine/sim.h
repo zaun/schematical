@@ -87,6 +87,7 @@ typedef struct {
 typedef struct Sim Sim;
 typedef struct SimInstance SimInstance;
 struct CpuState;
+struct LcdState;
 typedef struct SimNet SimNet;
 
 typedef struct {
@@ -151,6 +152,9 @@ typedef struct {
     void (*memory_load)(void *state, uint32_t start, const uint32_t *values, size_t count);
     /* Processors: fills out with the processor's state (cpu_state.h). 1 when filled. */
     int (*cpu_state)(const void *state, struct CpuState *out);
+    /* Character LCDs: fills out with the display's state (lcd_state.h) at
+       sim_now (the cursor blink phase depends on it). 1 when filled. */
+    int (*lcd_state)(const Sim *sim, const void *state, struct LcdState *out);
 } SimComponentType;
 
 /* All times are in picoseconds. */

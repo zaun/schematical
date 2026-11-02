@@ -121,6 +121,14 @@ const char *bench_error(const Bench *b) {
     return sim_error(b->sim);
 }
 
+Sim *bench_sim(Bench *b) {
+    return b->sim;
+}
+
+void *bench_state(Bench *b) {
+    return sim_instance_state(b->part);
+}
+
 void bench_destroy(Bench *b) {
     if (b != NULL) {
         sim_destroy(b->sim);

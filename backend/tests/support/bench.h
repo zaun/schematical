@@ -29,5 +29,9 @@ LogicValue bench_get(Bench *b, const char *pin_name);
 /* The sim's error, or NULL. */
 const char *bench_error(const Bench *b);
 void bench_destroy(Bench *b);
+/* The bench's simulation and the part's model state, for model hooks such
+   as SimComponentType.lcd_state. */
+Sim *bench_sim(Bench *b);
+void *bench_state(Bench *b);
 
 #endif

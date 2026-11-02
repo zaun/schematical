@@ -10,9 +10,11 @@
 #include <string.h>
 
 #include "bench.h"
+#include "circuit.h"
 #include "charlcd_font.h"
 #include "kind.h"
 #include "parts.h"
+#include "read_file.h"
 #include "sim.h"
 
 static int failures = 0;
@@ -251,6 +253,603 @@ static void print_font(void) {
     }
 }
 
+/* ---- Bus helpers (section 6) ---------------------------------------------- */
+
+#define NS(v) ((SimTime)(v) * 1000ull)
+#define US(v) ((SimTime)(v) * 1000000ull)
+#define MS(v) ((SimTime)(v) * 1000000000ull)
+
+typedef struct {
+    Bench *b;
+    const Part *part;
+    int four;            /* 4-bit mode: bytes go as two nibbles */
+    int db_low_z;        /* every 4-bit read saw DB0-3 at Z */
+} Lcd;
+
+static const char *const DB[8] = {"DB0", "DB1", "DB2", "DB3", "DB4", "DB5", "DB6", "DB7"};
+
+static Lcd lcd_open(const char *name) {
+    Lcd l;
+
+    memset(&l, 0, sizeof l);
+    l.part = part_library_find(library, name);
+    if (l.part == NULL) {
+        fprintf(stderr, "no part %s\n", name);
+        exit(1);
+    }
+    l.b = bench_create(l.part);
+    l.db_low_z = 1;
+    bench_set(l.b, "E", LOGIC_0);
+    bench_set(l.b, "RS", LOGIC_0);
+    bench_set(l.b, "R/W", LOGIC_0);
+    bench_run(l.b, 1);
+    return l;
+}
+
+static SimTime now_ps(Lcd *l) {
+    return sim_now(bench_sim(l->b));
+}
+
+static void at(Lcd *l, SimTime t) {
+    if (t > now_ps(l)) {
+        bench_run(l->b, t - now_ps(l));
+    }
+}
+
+static void lv(Lcd *l, const char *pin, int bit) {
+    bench_set(l->b, pin, bit ? LOGIC_1 : LOGIC_0);
+}
+
+/* Drives DB pins in mask with v's bits; the others are released (Z). */
+static void put_db(Lcd *l, uint8_t v, uint8_t mask) {
+    unsigned i;
+
+    for (i = 0; i < 8; i++) {
+        if ((mask >> i) & 1u) {
+            lv(l, DB[i], (v >> i) & 1u);
+        } else {
+            bench_set(l->b, DB[i], LOGIC_Z);
+        }
+    }
+}
+
+/* One write access: E high 500 ns, every setup and hold met, 2 us after. */
+static void access_write(Lcd *l, int rs, uint8_t v, uint8_t mask) {
+    lv(l, "RS", rs);
+    lv(l, "R/W", 0);
+    put_db(l, v, mask);
+    bench_run(l->b, NS(50));
+    lv(l, "E", 1);
+    bench_run(l->b, NS(500));
+    lv(l, "E", 0);
+    bench_run(l->b, US(2));
+}
+
+/* One read access; the DB values sampled just before E falls. */
+static void access_read(Lcd *l, int rs, uint8_t *v, uint8_t *k) {
+    unsigned i;
+
+    lv(l, "RS", rs);
+    lv(l, "R/W", 1);
+    put_db(l, 0, 0);
+    bench_run(l->b, NS(50));
+    lv(l, "E", 1);
+    bench_run(l->b, NS(500));
+    *v = *k = 0;
+    for (i = 0; i < 8; i++) {
+        LogicValue x = bench_get(l->b, DB[i]);
+
+        if (x == LOGIC_0 || x == LOGIC_1) {
+            *k |= (uint8_t)(1u << i);
+            *v |= (uint8_t)((x == LOGIC_1) << i);
+        }
+        if (l->four && i < 4 && x != LOGIC_Z) {
+            l->db_low_z = 0;
+        }
+    }
+    lv(l, "E", 0);
+    bench_run(l->b, US(2));
+    lv(l, "R/W", 0);
+}
+
+static void wr(Lcd *l, int rs, uint8_t byte) {
+    if (l->four) {
+        access_write(l, rs, byte & 0xF0, 0xF0);
+        access_write(l, rs, (uint8_t)(byte << 4), 0xF0);
+    } else {
+        access_write(l, rs, byte, 0xFF);
+    }
+}
+
+/* A byte write, then gap. */
+static void cmd(Lcd *l, uint8_t byte, SimTime gap) {
+    wr(l, 0, byte);
+    bench_run(l->b, gap);
+}
+
+static void text(Lcd *l, const char *s) {
+    for (; *s != '\0'; s++) {
+        wr(l, 1, (uint8_t)*s);
+        bench_run(l->b, US(40));
+    }
+}
+
+/* A read; k = known bits. In 4-bit mode two nibbles, high first. */
+static void rd(Lcd *l, int rs, uint8_t *v, uint8_t *k) {
+    if (l->four) {
+        uint8_t v1, k1, v2, k2;
+
+        access_read(l, rs, &v1, &k1);
+        access_read(l, rs, &v2, &k2);
+        *v = (uint8_t)((v1 & 0xF0) | (v2 >> 4));
+        *k = (uint8_t)((k1 & 0xF0) | (k2 >> 4));
+    } else {
+        access_read(l, rs, v, k);
+    }
+}
+
+/* AC from a BF/AC read, or -1 when BF is not a known 0 or AC is not known. */
+static int read_ac(Lcd *l) {
+    uint8_t v, k;
+
+    rd(l, 0, &v, &k);
+    return k == 0xFF && !(v & 0x80) ? v & 0x7F : -1;
+}
+
+static void lcd_state(Lcd *l, LcdState *st) {
+    kind_model(l->part)->lcd_state(bench_sim(l->b), bench_state(l->b), st);
+}
+
+/* The NHD 8-bit initialization example (PDF p.11), from 100 ms. */
+static void init8(Lcd *l) {
+    at(l, MS(100));
+    cmd(l, 0x30, MS(5));
+    cmd(l, 0x30, US(160));
+    cmd(l, 0x30, US(160));
+    cmd(l, 0x38, US(40));
+    cmd(l, 0x10, US(40));
+    cmd(l, 0x0C, US(40));
+    cmd(l, 0x06, US(40));
+}
+
+static void clear(Lcd *l) {
+    cmd(l, 0x01, MS(2));
+}
+
+/* ---- Image checks ---- */
+
+static uint8_t dot(const LcdState *st, unsigned row, unsigned column, unsigned y, unsigned x) {
+    return st->dots[row * 8 + y][column * 5 + x];
+}
+
+/* The cell shows ROM glyph `code` (rows 0-6 always; row 7 when with_row7). */
+static int cell_is_rom(const LcdState *st, unsigned row, unsigned column, unsigned code) {
+    unsigned y, x;
+
+    for (y = 0; y < 8; y++) {
+        for (x = 0; x < 5; x++) {
+            uint8_t want = CHARLCD_ROM_A00[code][y] & (0x10u >> x) ? LCD_DOT_ON : LCD_DOT_OFF;
+
+            if (dot(st, row, column, y, x) != want) {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
+
+static int cell_rows_are(const LcdState *st, unsigned row, unsigned column, const uint8_t rows[8]) {
+    unsigned y, x;
+
+    for (y = 0; y < 8; y++) {
+        for (x = 0; x < 5; x++) {
+            if (dot(st, row, column, y, x) != (rows[y] & (0x10u >> x) ? LCD_DOT_ON : LCD_DOT_OFF)) {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
+
+static int cell_all(const LcdState *st, unsigned row, unsigned column, uint8_t value) {
+    unsigned y, x;
+
+    for (y = 0; y < 8; y++) {
+        for (x = 0; x < 5; x++) {
+            if (dot(st, row, column, y, x) != value) {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
+
+static int row_all(const LcdState *st, unsigned row, unsigned columns, uint8_t value) {
+    unsigned c;
+
+    for (c = 0; c < columns; c++) {
+        if (!cell_all(st, row, c, value)) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static int image_all(const LcdState *st, uint8_t value) {
+    return row_all(st, 0, st->columns, value) && row_all(st, 1, st->columns, value);
+}
+
+/* A time at or after `from` in the middle of a blink half-period: on (even) or off. */
+static SimTime blink_time(SimTime from, int on) {
+    SimTime p = 379259259ull;
+    SimTime m = from / p + 1;
+
+    if ((m % 2 == 0) != on) {
+        m++;
+    }
+    return m * p + p / 2;
+}
+
+/* ---- Cases 1-13 ---- */
+
+static void check_power_up(void) {
+    Lcd l = lcd_open("FX-LCD");
+    LcdState st;
+    uint8_t v, k;
+    unsigned i;
+    int spaces = 1;
+
+    at(&l, MS(1));
+    wr(&l, 1, 'A');
+    rd(&l, 0, &v, &k);
+    expect((k & 0x80) && (v & 0x80), "1 power-up: at 1 ms BF = 1");
+    at(&l, MS(41));
+    rd(&l, 0, &v, &k);
+    expect(k == 0xFF && v == 0x00, "1 power-up: at 41 ms BF = 0 and AC = 0");
+    lcd_state(&l, &st);
+    for (i = 0; i < 80; i++) {
+        spaces = spaces && st.ddram[i] == 0x20 && st.ddram_known[i] == 0xFF;
+    }
+    expect(spaces, "1 power-up: the write at 1 ms was not accepted (DDRAM all 20)");
+    expect(image_all(&st, LCD_DOT_OFF), "1 power-up: display off (D = 0): every dot off");
+    bench_destroy(l.b);
+}
+
+static void check_init8(void) {
+    Lcd l = lcd_open("FX-LCD");
+    LcdState st;
+
+    init8(&l);
+    expect(read_ac(&l) == 0x67, "2 8-bit init: AC = 67 after the example (10 wraps from 00)");
+    clear(&l);
+    text(&l, "HELLO");
+    lcd_state(&l, &st);
+    expect(memcmp(st.ddram, "HELLO", 5) == 0, "2 8-bit init: ddram[0..4] = 48 45 4C 4C 4F");
+    expect(read_ac(&l) == 0x05, "2 8-bit init: AC = 05");
+    expect(cell_is_rom(&st, 0, 0, 0x48) && cell_is_rom(&st, 0, 4, 0x4F),
+           "2 8-bit init: cell 0 shows ROM 48, cell 4 ROM 4F");
+    expect(row_all(&st, 1, 16, LCD_DOT_OFF), "2 8-bit init: row 1 all off (spaces)");
+    bench_destroy(l.b);
+}
+
+static void check_init4(void) {
+    Lcd l = lcd_open("FX-LCD");
+    LcdState st;
+    uint8_t v1, k1, v2, k2;
+    int ok;
+
+    at(&l, MS(100));
+    access_write(&l, 0, 0x30, 0xF0);
+    bench_run(l.b, MS(5));
+    access_write(&l, 0, 0x30, 0xF0);
+    bench_run(l.b, US(160));
+    access_write(&l, 0, 0x30, 0xF0);
+    bench_run(l.b, US(160));
+    access_write(&l, 0, 0x20, 0xF0);
+    bench_run(l.b, US(40));
+    l.four = 1;
+    cmd(&l, 0x28, US(40));
+    cmd(&l, 0x10, US(40));
+    cmd(&l, 0x0F, US(40));
+    cmd(&l, 0x06, US(40));
+    clear(&l);
+    text(&l, "Hi");
+    access_read(&l, 0, &v1, &k1);
+    access_read(&l, 0, &v2, &k2);
+    expect((k1 & 0xF0) == 0xF0 && (v1 >> 4) == 0x0 && (k2 & 0xF0) == 0xF0 && (v2 >> 4) == 0x2,
+           "3 4-bit init: BF/AC read in two nibbles gives 0 then 2");
+    expect(l.db_low_z, "3 4-bit init: DB0-3 stay Z through every read");
+    lcd_state(&l, &st);
+    expect(memcmp(st.ddram, "Hi", 2) == 0 && cell_is_rom(&st, 0, 0, 'H') &&
+               cell_is_rom(&st, 0, 1, 'i'),
+           "3 4-bit init: \"Hi\" in ddram[0..1] and on the face");
+    at(&l, blink_time(now_ps(&l), 1));
+    lcd_state(&l, &st);
+    ok = cell_all(&st, 0, 2, LCD_DOT_ON);
+    at(&l, blink_time(now_ps(&l), 0));
+    lcd_state(&l, &st);
+    {
+        static const uint8_t CURSOR[8] = {0, 0, 0, 0, 0, 0, 0, 0x1F};
+
+        ok = ok && cell_rows_are(&st, 0, 2, CURSOR);
+    }
+    expect(ok, "3 4-bit init: 0F made cell 2 blink (all on, then the cursor line)");
+    bench_destroy(l.b);
+}
+
+static void check_busy(void) {
+    Lcd l = lcd_open("FX-LCD");
+    LcdState st;
+    uint8_t v, k;
+    SimTime fall;
+
+    init8(&l);
+    clear(&l);
+    wr(&l, 1, 'A');
+    bench_run(l.b, US(10));
+    wr(&l, 1, 'B');
+    bench_run(l.b, US(40));
+    lcd_state(&l, &st);
+    expect(st.ddram[0] == 'A' && st.ddram[1] == 0x20,
+           "4 busy: a data write 10 us after another is not accepted");
+    wr(&l, 0, 0x01);
+    fall = now_ps(&l) - US(2);
+    at(&l, fall + US(1500) - NS(50));
+    rd(&l, 0, &v, &k);
+    expect((k & 0x80) && (v & 0x80), "4 busy: Clear: BF = 1 at + 1.5 ms");
+    at(&l, fall + US(1530) - NS(50));
+    rd(&l, 0, &v, &k);
+    expect((k & 0x80) && !(v & 0x80), "4 busy: Clear: BF = 0 at + 1.53 ms");
+    bench_destroy(l.b);
+}
+
+static void check_clear_home(void) {
+    Lcd l = lcd_open("FX-LCD");
+    LcdState st;
+    unsigned i;
+    int spaces = 1;
+
+    init8(&l);
+    text(&l, "xyz");
+    cmd(&l, 0x04, US(40));   /* I/D = 0 */
+    clear(&l);
+    lcd_state(&l, &st);
+    for (i = 0; i < 80; i++) {
+        spaces = spaces && st.ddram[i] == 0x20 && st.ddram_known[i] == 0xFF;
+    }
+    expect(spaces && read_ac(&l) == 0, "5 clear: DDRAM all 20, AC 0");
+    text(&l, "AB");
+    expect(read_ac(&l) == 2, "5 clear: I/D = 1 again (two writes go right, AC 2)");
+    cmd(&l, 0x18, US(40));   /* shift the display left */
+    lcd_state(&l, &st);
+    expect(cell_is_rom(&st, 0, 0, 'B'), "5 home: after a shift, column 0 shows address 01");
+    cmd(&l, 0x02, MS(2));
+    lcd_state(&l, &st);
+    expect(cell_is_rom(&st, 0, 0, 'A') && cell_is_rom(&st, 0, 1, 'B') && st.ddram[0] == 'A' &&
+               st.ddram[1] == 'B' && read_ac(&l) == 0,
+           "5 home: shift back to 0, AC 0, DDRAM unchanged");
+    bench_destroy(l.b);
+}
+
+static void check_entry_shift(void) {
+    Lcd l = lcd_open("FX-LCD");
+    LcdState st;
+
+    init8(&l);
+    clear(&l);
+    cmd(&l, 0x04, US(40));
+    cmd(&l, 0x85, US(40));
+    text(&l, "AB");
+    lcd_state(&l, &st);
+    expect(st.ddram[5] == 'A' && st.ddram[4] == 'B' && read_ac(&l) == 0x03,
+           "6 entry mode: I/D = 0 writes go leftward (05, 04; AC 03)");
+    clear(&l);
+    cmd(&l, 0x06, US(40));
+    text(&l, "ABCD");
+    cmd(&l, 0x90, US(40));
+    cmd(&l, 0x07, US(40));
+    text(&l, "xyz");
+    lcd_state(&l, &st);
+    expect(cell_is_rom(&st, 0, 0, 'D'), "6 entry mode: S = 1, 3 writes: column 0 shows address 03");
+    bench_destroy(l.b);
+}
+
+static void check_wrap(void) {
+    Lcd l = lcd_open("FX-LCD");
+    LcdState st;
+
+    init8(&l);
+    clear(&l);
+    cmd(&l, 0xA7, US(40));
+    text(&l, "PQ");
+    lcd_state(&l, &st);
+    expect(st.ddram[39] == 'P' && st.ddram[40] == 'Q' && read_ac(&l) == 0x41,
+           "7 2-line wrap: 27 then 40 (indices 39, 40), AC 41");
+    cmd(&l, 0x80, US(40));
+    cmd(&l, 0x10, US(40));
+    expect(read_ac(&l) == 0x67, "7 2-line wrap: decrement from 00 lands at 67");
+    bench_destroy(l.b);
+}
+
+static void check_no_cell(void) {
+    Lcd l = lcd_open("FX-LCD");
+    LcdState before, after;
+    uint8_t v, k;
+
+    init8(&l);
+    clear(&l);
+    lcd_state(&l, &before);
+    cmd(&l, 0xA8, US(40));
+    text(&l, "Z");
+    lcd_state(&l, &after);
+    expect(memcmp(before.ddram, after.ddram, 80) == 0 &&
+               memcmp(before.ddram_known, after.ddram_known, 80) == 0,
+           "8 no-cell address: a write at 28 changes no cell");
+    expect(read_ac(&l) == 0x29, "8 no-cell address: AC = 29");
+    cmd(&l, 0xA8, US(40));
+    rd(&l, 1, &v, &k);
+    expect(k == 0, "8 no-cell address: a data read there drives X");
+    bench_destroy(l.b);
+}
+
+static void check_cgram(void) {
+    static const uint8_t GLYPH[8] = {0x1F, 0x11, 0x0A, 0x04, 0x0A, 0x11, 0x1F, 0x00};
+    Lcd l = lcd_open("FX-LCD");
+    LcdState st;
+    unsigned i;
+
+    init8(&l);
+    clear(&l);
+    cmd(&l, 0x40, US(40));
+    for (i = 0; i < 8; i++) {
+        wr(&l, 1, GLYPH[i]);
+        bench_run(l.b, US(40));
+    }
+    cmd(&l, 0x80, US(40));
+    wr(&l, 1, 0x00);
+    bench_run(l.b, US(40));
+    wr(&l, 1, 0x08);
+    bench_run(l.b, US(40));
+    lcd_state(&l, &st);
+    expect(cell_rows_are(&st, 0, 0, GLYPH) && cell_rows_are(&st, 0, 1, GLYPH),
+           "9 CGRAM: codes 00 and 08 both render CGRAM glyph 0");
+    cmd(&l, 0x41, US(40));
+    access_write(&l, 1, 0x0E, 0xFE);   /* row 1 = 0111X: DB0 released */
+    bench_run(l.b, US(40));
+    lcd_state(&l, &st);
+    expect(dot(&st, 0, 0, 1, 4) == LCD_DOT_X && dot(&st, 0, 0, 1, 0) == LCD_DOT_OFF &&
+               dot(&st, 0, 0, 1, 1) == LCD_DOT_ON && dot(&st, 0, 0, 0, 4) == LCD_DOT_ON,
+           "9 CGRAM: a row with an X bit renders that dot X, the rest as written");
+    bench_destroy(l.b);
+}
+
+static void check_cursor_blink(void) {
+    static const uint8_t CURSOR[8] = {0, 0, 0, 0, 0, 0, 0, 0x1F};
+    Lcd l = lcd_open("FX-LCD");
+    LcdState st;
+    int ok;
+
+    init8(&l);
+    clear(&l);
+    text(&l, "A");
+    cmd(&l, 0x0E, US(40));
+    lcd_state(&l, &st);
+    expect(cell_rows_are(&st, 0, 1, CURSOR) && cell_is_rom(&st, 0, 0, 'A'),
+           "10 cursor: C = 1: cell AC's row 7 is on");
+    cmd(&l, 0x0D, US(40));   /* C = 0, B = 1 */
+    at(&l, blink_time(now_ps(&l), 1));
+    lcd_state(&l, &st);
+    ok = cell_all(&st, 0, 1, LCD_DOT_ON) && cell_is_rom(&st, 0, 0, 'A');
+    at(&l, blink_time(now_ps(&l), 0));
+    lcd_state(&l, &st);
+    ok = ok && cell_all(&st, 0, 1, LCD_DOT_OFF);
+    expect(ok, "10 blink: B = 1: all dots on in the even phase, the glyph in the odd");
+    bench_destroy(l.b);
+}
+
+static void check_display_off(void) {
+    Lcd l = lcd_open("FX-LCD");
+    LcdState st;
+
+    init8(&l);
+    clear(&l);
+    text(&l, "A");
+    cmd(&l, 0x08, US(40));
+    lcd_state(&l, &st);
+    expect(image_all(&st, LCD_DOT_OFF) && st.ddram[0] == 'A',
+           "11 display off: every dot off, DDRAM kept");
+    bench_destroy(l.b);
+}
+
+static void check_one_line(void) {
+    Lcd l = lcd_open("FX-LCD");
+    LcdState st;
+    unsigned c;
+    int ok = 1;
+
+    at(&l, MS(100));
+    cmd(&l, 0x30, MS(5));
+    cmd(&l, 0x30, US(160));
+    cmd(&l, 0x30, US(160));
+    cmd(&l, 0x30, US(40));   /* N = 0 */
+    cmd(&l, 0x0C, US(40));
+    cmd(&l, 0x06, US(40));
+    clear(&l);
+    text(&l, "0123456789ABCDEFG");
+    lcd_state(&l, &st);
+    for (c = 0; c < 16; c++) {
+        ok = ok && cell_is_rom(&st, 0, c, (unsigned)"0123456789ABCDEF"[c]);
+    }
+    expect(ok, "12 1-line: row 0 shows 16 cells from address 00");
+    expect(row_all(&st, 1, 16, LCD_DOT_OFF), "12 1-line: row 1 off");
+    cmd(&l, 0xCF, US(40));
+    text(&l, "Z");
+    lcd_state(&l, &st);
+    expect(st.ddram[79] == 'Z' && read_ac(&l) == 0x00, "12 1-line: AC wraps 4F -> 00");
+    bench_destroy(l.b);
+}
+
+static int db_all(Lcd *l, LogicValue v) {
+    unsigned i;
+
+    for (i = 0; i < 8; i++) {
+        if (bench_get(l->b, DB[i]) != v) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static void check_read_timing(void) {
+    Lcd l = lcd_open("FX-LCD");
+
+    init8(&l);
+    clear(&l);
+    lv(&l, "RS", 0);
+    lv(&l, "R/W", 1);
+    put_db(&l, 0, 0);
+    bench_run(l.b, NS(50));
+    lv(&l, "E", 1);
+    bench_run(l.b, NS(50));
+    expect(db_all(&l, LOGIC_X), "13 read timing: DB X from E rise (at + 50 ns)");
+    bench_run(l.b, NS(60));
+    expect(db_all(&l, LOGIC_0), "13 read timing: BF/AC data from + 100 ns (00 at + 110 ns)");
+    bench_run(l.b, NS(390));
+    lv(&l, "E", 0);
+    bench_run(l.b, NS(5));
+    expect(db_all(&l, LOGIC_0), "13 read timing: data held at E fall + 5 ns");
+    bench_run(l.b, NS(10));
+    expect(db_all(&l, LOGIC_Z), "13 read timing: Z after E fall + 10 ns");
+    bench_destroy(l.b);
+}
+
+/* ---- Case 19: API ---- */
+
+static void check_api(void) {
+    PartLibrary *real = part_library_create();
+    Circuit *c;
+    LcdState st;
+    size_t index;
+
+    if (real == NULL || load_parts_dir(real, PARTS_DIR) != 0) {
+        expect(0, "19 api: load the part library");
+        return;
+    }
+    c = circuit_create(real);
+    circuit_add_part(c, "SN74HC00N", &index);
+    expect(circuit_lcd_state(c, 0, &st) == -1 && circuit_error(c) != NULL &&
+               strcmp(circuit_error(c), "part 0 is not a character LCD") == 0,
+           "19 api: circuit_lcd_state on a gate: -1, \"part 0 is not a character LCD\"");
+    circuit_destroy(c);
+    part_library_destroy(real);
+
+    c = circuit_create(library);
+    circuit_add_part(c, "FX-LCD", &index);
+    expect(circuit_lcd_state(c, 0, &st) == 0 && st.columns == 16 && st.rows == 2 && st.busy == 1,
+           "19 api: circuit_lcd_state on the LCD: 0, 16x2, busy at power-up");
+    circuit_destroy(c);
+}
+
 /* ---- main ----------------------------------------------------------------- */
 
 int main(int argc, char **argv) {
@@ -277,6 +876,20 @@ int main(int argc, char **argv) {
     }
     check_loader();
     check_rom();
+    check_power_up();
+    check_init8();
+    check_init4();
+    check_busy();
+    check_clear_home();
+    check_entry_shift();
+    check_wrap();
+    check_no_cell();
+    check_cgram();
+    check_cursor_blink();
+    check_display_off();
+    check_one_line();
+    check_read_timing();
+    check_api();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

@@ -644,19 +644,28 @@ Commit: 70ff814
 Acceptance: spot checks pass, and the sheet matches the datasheet.
   Ran: `charlcd_test` → `all passed`; sheet compared, 0 differences.
   Check: `/tmp/logic-p11/charlcd_test` → passes; `/tmp/logic-p11/charlcd_test --font` printed and compared with `/tmp/p11-font/p-10.png`, 16 rows, 0 differences recorded in the commit message (est. 20 min of looking; a dot-level transcription can only be checked by looking, and the spot checks cover only 7 glyphs).
-Commit: —
+Commit: a1425c1
 
 ### Phase 3 — Controller: bus, instructions, busy, power-up
 
-- [ ] `charlcd.c`: §4.3 (without the violation and X rules of §4.5),
+- [x] `charlcd.c`: §4.3 (without the violation and X rules of §4.5),
       §4.4, power-up; `lcd_state` hook and image (§4.7).
-- [ ] `backend/include/lcd_state.h`, `circuit.h` (`circuit_lcd_state`),
+      The §4.5 code (timing checks, X fields, LOST, resync) landed in the
+      same commit, since the field-by-field X tracking is the register
+      representation; its cases (14–16) are Phase 4 (see Corrections).
+- [x] `backend/include/lcd_state.h`, `circuit.h` (`circuit_lcd_state`),
       `circuit.c`, `engine/sim.h` (the hook) (§4.7).
-- [ ] `charlcd_test` cases 1–13 and 19.
+- [x] `charlcd_test` cases 1–13 and 19.
+      The bench gained `bench_sim` and `bench_state` so the test can call
+      the `lcd_state` hook. Ran: 41 PASS lines for cases 1–13 and 19
+      (both init examples, busy, clear/home, entry mode, wrap, no-cell,
+      CGRAM, cursor/blink, display off, 1-line, read timing, API).
 
 Acceptance: both datasheet init sequences drive the fixture to `HELLO` / `Hi`,
 and every instruction case passes.
   Check: `ctest --test-dir /tmp/logic-p11 -R charlcd_test` → passes (est. 30 s).
+  Ran: full ctest → `100% tests passed, 0 tests failed out of 18`; goldens
+  unchanged.
 Commit: —
 
 ### Phase 4 — Violations, X and LOST
@@ -718,6 +727,22 @@ Commit: —
   still carries RAM for the tests. (§4.7)
 
 ## Corrections
+
+- **E or R/W X during the power-on reset does not make the controller
+  LOST.** §4.3/§4.5 say E reading X at any time is LOST. Before the host
+  drives E (a bench at time 0, or the CPU board of plan-11-C §4.6, where E
+  comes from an HC11 whose inputs are X until the CPU clocks), E reads X.
+  LOST then would make BF X, the 6502's first `BIT $4000` would read X,
+  and the CPU would go LOST, so §4.6's HELLO could never print. The
+  internal reset ignores the bus anyway (no write is accepted while
+  BF = 1). Rule as built: E X, or an unknown access (R/W X at E rise),
+  before `exec.powerOn` only drives the bus X; after it, LOST as written.
+- **A write while BF = 1 is ignored before any LOST check.** A write with
+  RS X or a timing violation that arrives while busy is "not accepted"
+  (§4.3), so it changes nothing, rather than making the controller LOST.
+- **The §4.5 code landed with Phase 3.** Registers are stored as
+  known-or-X fields from the start, so the X rules are part of the
+  representation. Phase 4 adds cases 14–16, which exercise them.
 
 - **§5.1 "Row 7 is 0 for every glyph except FF" is false.** The table's
   E0–FF cells are 5×10 drawings; with rows 0–7 taken as drawn (the rule
