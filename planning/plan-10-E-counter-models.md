@@ -217,7 +217,7 @@ Main path: clock → out.
   passed, 0 tests failed out of 14`; `cc -Wall -Wextra -fsyntax-only` on
   `counter_div.c` and `counter.c` prints nothing.)
 
-Commit: —
+Commit: fe41e57
 
 ### Phase 2 — `divn` and `rate`
 
@@ -226,13 +226,17 @@ Commit: —
 Acceptance: `ctest` 14 of 14 (seconds). (Same run as Phase 1: the four
 models were written in one pass of `counter_div.c`; one commit, see
 Corrections.)
-Commit: —
+Commit: fe41e57
 
 ### Phase 3 — Cases
 
-- [ ] The cases of §5 in `counter_test`.
+- [x] The cases of §5 in `counter_test`. (12 more fixture devices, from
+  `/tmp/p10/counter_devs_e.py`; the 40110B fixture's timing has
+  `carryPulse` 230 and `borrowPulse` 275.)
 
-Acceptance: `counter_test` → 53 `PASS`, 0 `FAIL`; `ctest` 14 of 14.
+Acceptance: `counter_test` → 53 `PASS`, 0 `FAIL`; `ctest` 14 of 14. (Ran: 53
+`PASS`, no `FAIL`; `100% tests passed, 0 tests failed out of 14`; golden
+status empty.)
 Commit: —
 
 ## Validation Plan
@@ -260,6 +264,15 @@ Phase 3's acceptance. Landing tier: plan-10-J.
 - 2026-11-01, Phase 2: the 74_97 STRB pin is printed with an overbar, but
   its gate is S = ¬CLK·¬STRB and the function table blanks Y and Z with STRB
   high: F gives the 97 `strobe` active high (`divider.md` § 74_97).
+- 2026-11-01, Phase 3: case 44 showed the `divn` latch only caught a pulse
+  when latch enable was already 1 at the pulse's edge. The datasheet keeps
+  the output high "once an output pulse occurs" with latch enable 1, so the
+  latch now also catches a pulse when latch enable rises during it.
+- 2026-11-01, Phase 3: pin names drop the spaces of the printed names
+  (CLOCKINHIBIT, CARRYOUT, DEI/DEO, RBI/RBO, LT, TE, LE, INHIN/INHOUT,
+  SET15/SET9, 15OUT/9OUT, ENIN/ENOUT); decoded outputs keep the bare digits
+  `0`–`9` and the 4018B outputs the spec's `Q1`–`Q5` (each shows NOT its
+  stage).
 
 ## Summary
 

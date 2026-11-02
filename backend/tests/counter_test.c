@@ -4,6 +4,7 @@
  * Fixture devices copy the real devices' pinouts and keys from the spec
  * sections (no counter part file exists before plan-10-F), with 10 ns
  * delays (ripple: 5 ns per stage); levels are checked 50 ns after each step.
+ * Cases 30-53 (plan-10-E) cover the johnson, seg7, divn and rate models.
  */
 
 #include <stdio.h>
@@ -708,7 +709,181 @@ static const char FIXTURE[] =
     "tions':[{'clock':'CLK','structure':'binary','stages':12,'q':['Q1','Q2','Q3','Q4','Q5','Q"
     "6','Q7','Q8','Q9','Q10','Q11','Q12'],'reset':{'pins':['RESET'],'active':'high'}}],'timin"
     "g':{'HC':{'rise':10,'fall':10,'vcc':[2,6],'stage':5}},'parts':[{'name':'FX-4040B','packa"
-    "ge':'DIP','pinout':'p16','footprint':'FX16','family':'HC'}]}]}";
+    "ge':'DIP','pinout':'p16','footprint':'FX16','family':'HC'}]},{'id':'fx-4017B','function'"
+    ":'Divider','description':'Decade counter/divider with 10 decoded outputs','drawer':[],'p"
+    "inouts':{'p16':[{'number':1,'name':'5','role':'output'},{'number':2,'name':'1','role':'o"
+    "utput'},{'number':3,'name':'0','role':'output'},{'number':4,'name':'2','role':'output'},"
+    "{'number':5,'name':'6','role':'output'},{'number':6,'name':'7','role':'output'},{'number"
+    "':7,'name':'3','role':'output'},{'number':8,'name':'VSS','role':'ground'},{'number':9,'n"
+    "ame':'8','role':'output'},{'number':10,'name':'4','role':'output'},{'number':11,'name':'"
+    "9','role':'output'},{'number':12,'name':'CARRYOUT','role':'output'},{'number':13,'name':"
+    "'CLOCKINHIBIT','role':'input'},{'number':14,'name':'CLOCK','role':'input'},{'number':15,"
+    "'name':'RESET','role':'input'},{'number':16,'name':'VDD','role':'power'}]},'model':'john"
+    "son','stages':5,'clock':'CLOCK','clockGate':{'pin':'CLOCKINHIBIT','op':'and-not'},'reset"
+    "':{'pin':'RESET','active':'high'},'outputs':['0','1','2','3','4','5','6','7','8','9'],'c"
+    "arry':'CARRYOUT','timing':{'HC':{'rise':10,'fall':10,'vcc':[2,6]}},'parts':[{'name':'FX-"
+    "4017B','package':'DIP','pinout':'p16','footprint':'FX16','family':'HC'}]},{'id':'fx-4022"
+    "B','function':'Divider','description':'Octal counter/divider with 8 decoded outputs','dr"
+    "awer':[],'pinouts':{'p16':[{'number':1,'name':'1','role':'output'},{'number':2,'name':'0"
+    "','role':'output'},{'number':3,'name':'2','role':'output'},{'number':4,'name':'5','role'"
+    ":'output'},{'number':5,'name':'6','role':'output'},{'number':6,'name':'NC','role':'nc'},"
+    "{'number':7,'name':'3','role':'output'},{'number':8,'name':'VSS','role':'ground'},{'numb"
+    "er':9,'name':'NC','role':'nc'},{'number':10,'name':'7','role':'output'},{'number':11,'na"
+    "me':'4','role':'output'},{'number':12,'name':'CARRYOUT','role':'output'},{'number':13,'n"
+    "ame':'CLOCKINHIBIT','role':'input'},{'number':14,'name':'CLOCK','role':'input'},{'number"
+    "':15,'name':'RESET','role':'input'},{'number':16,'name':'VDD','role':'power'}]},'model':"
+    "'johnson','stages':4,'clock':'CLOCK','clockGate':{'pin':'CLOCKINHIBIT','op':'and-not'},'"
+    "reset':{'pin':'RESET','active':'high'},'outputs':['0','1','2','3','4','5','6','7'],'carr"
+    "y':'CARRYOUT','timing':{'HC':{'rise':10,'fall':10,'vcc':[2,6]}},'parts':[{'name':'FX-402"
+    "2B','package':'DIP','pinout':'p16','footprint':'FX16','family':'HC'}]},{'id':'fx-74_4017"
+    "','function':'Divider','description':'Decade counter/divider with 10 decoded outputs','d"
+    "rawer':[],'pinouts':{'p16':[{'number':1,'name':'5','role':'output'},{'number':2,'name':'"
+    "1','role':'output'},{'number':3,'name':'0','role':'output'},{'number':4,'name':'2','role"
+    "':'output'},{'number':5,'name':'6','role':'output'},{'number':6,'name':'7','role':'outpu"
+    "t'},{'number':7,'name':'3','role':'output'},{'number':8,'name':'GND','role':'ground'},{'"
+    "number':9,'name':'8','role':'output'},{'number':10,'name':'4','role':'output'},{'number'"
+    ":11,'name':'9','role':'output'},{'number':12,'name':'TC','role':'output'},{'number':13,'"
+    "name':'CE','role':'input'},{'number':14,'name':'CP','role':'input'},{'number':15,'name':"
+    "'MR','role':'input'},{'number':16,'name':'VCC','role':'power'}]},'model':'johnson','stag"
+    "es':5,'clock':'CP','clockGate':{'pin':'CE','op':'and-not'},'reset':{'pin':'MR','active':"
+    "'high'},'outputs':['0','1','2','3','4','5','6','7','8','9'],'carry':'TC','timing':{'HC':"
+    "{'rise':10,'fall':10,'vcc':[2,6]}},'parts':[{'name':'FX-74_4017','package':'DIP','pinout"
+    "':'p16','footprint':'FX16','family':'HC'}]},{'id':'fx-4018B','function':'Divider','descr"
+    "iption':'Presettable divide-by-N counter','drawer':[],'pinouts':{'p16':[{'number':1,'nam"
+    "e':'DATA','role':'input'},{'number':2,'name':'JAM1','role':'input'},{'number':3,'name':'"
+    "JAM2','role':'input'},{'number':4,'name':'Q2','role':'output'},{'number':5,'name':'Q1','"
+    "role':'output'},{'number':6,'name':'Q3','role':'output'},{'number':7,'name':'JAM3','role"
+    "':'input'},{'number':8,'name':'VSS','role':'ground'},{'number':9,'name':'JAM4','role':'i"
+    "nput'},{'number':10,'name':'PE','role':'input'},{'number':11,'name':'Q4','role':'output'"
+    "},{'number':12,'name':'JAM5','role':'input'},{'number':13,'name':'Q5','role':'output'},{"
+    "'number':14,'name':'CLOCK','role':'input'},{'number':15,'name':'RESET','role':'input'},{"
+    "'number':16,'name':'VDD','role':'power'}]},'model':'johnson','stages':5,'clock':'CLOCK',"
+    "'reset':{'pin':'RESET','active':'high'},'data':'DATA','presetEnable':{'pin':'PE','active"
+    "':'high'},'jam':['JAM1','JAM2','JAM3','JAM4','JAM5'],'qbar':['Q1','Q2','Q3','Q4','Q5'],'"
+    "timing':{'HC':{'rise':10,'fall':10,'vcc':[2,6]}},'parts':[{'name':'FX-4018B','package':'"
+    "DIP','pinout':'p16','footprint':'FX16','family':'HC'}]},{'id':'fx-4026B','function':'Cou"
+    "nter','description':'Decade counter/divider with decoded 7-segment display outputs and d"
+    "isplay enable','drawer':[],'pinouts':{'p16':[{'number':1,'name':'CLOCK','role':'input'},"
+    "{'number':2,'name':'CLOCKINHIBIT','role':'input'},{'number':3,'name':'DEI','role':'input"
+    "'},{'number':4,'name':'DEO','role':'output'},{'number':5,'name':'CARRYOUT','role':'outpu"
+    "t'},{'number':6,'name':'f','role':'output'},{'number':7,'name':'g','role':'output'},{'nu"
+    "mber':8,'name':'VSS','role':'ground'},{'number':9,'name':'d','role':'output'},{'number':"
+    "10,'name':'a','role':'output'},{'number':11,'name':'e','role':'output'},{'number':12,'na"
+    "me':'b','role':'output'},{'number':13,'name':'c','role':'output'},{'number':14,'name':'U"
+    "NGATEDC','role':'output'},{'number':15,'name':'RESET','role':'input'},{'number':16,'name"
+    "':'VDD','role':'power'}]},'model':'seg7','clock':'CLOCK','clockGate':{'pin':'CLOCKINHIBI"
+    "T','op':'and-not'},'reset':{'pin':'RESET','active':'high'},'segments':['a','b','c','d','"
+    "e','f','g'],'glyphs':['1111110','0110000','1101101','1111001','0110011','1011011','10111"
+    "11','1110000','1111111','1111011'],'carry':'CARRYOUT','displayEnable':{'in':'DEI','out':"
+    "'DEO'},'ungatedC':'UNGATEDC','timing':{'HC':{'rise':10,'fall':10,'vcc':[2,6]}},'parts':["
+    "{'name':'FX-4026B','package':'DIP','pinout':'p16','footprint':'FX16','family':'HC'}]},{'"
+    "id':'fx-4033B','function':'Counter','description':'Decade counter/divider with decoded 7"
+    "-segment display outputs and ripple blanking','drawer':[],'pinouts':{'p16':[{'number':1,"
+    "'name':'CLOCK','role':'input'},{'number':2,'name':'CLOCKINHIBIT','role':'input'},{'numbe"
+    "r':3,'name':'RBI','role':'input'},{'number':4,'name':'RBO','role':'output'},{'number':5,"
+    "'name':'CARRYOUT','role':'output'},{'number':6,'name':'f','role':'output'},{'number':7,'"
+    "name':'g','role':'output'},{'number':8,'name':'VSS','role':'ground'},{'number':9,'name':"
+    "'d','role':'output'},{'number':10,'name':'a','role':'output'},{'number':11,'name':'e','r"
+    "ole':'output'},{'number':12,'name':'b','role':'output'},{'number':13,'name':'c','role':'"
+    "output'},{'number':14,'name':'LT','role':'input'},{'number':15,'name':'RESET','role':'in"
+    "put'},{'number':16,'name':'VDD','role':'power'}]},'model':'seg7','clock':'CLOCK','clockG"
+    "ate':{'pin':'CLOCKINHIBIT','op':'and-not'},'reset':{'pin':'RESET','active':'high'},'segm"
+    "ents':['a','b','c','d','e','f','g'],'glyphs':['1111110','0110000','1101101','1111001','0"
+    "110011','1011011','1011111','1110000','1111111','1111011'],'carry':'CARRYOUT','lampTest'"
+    ":{'pin':'LT','active':'high'},'rippleBlank':{'in':'RBI','out':'RBO'},'timing':{'HC':{'ri"
+    "se':10,'fall':10,'vcc':[2,6]}},'parts':[{'name':'FX-4033B','package':'DIP','pinout':'p16"
+    "','footprint':'FX16','family':'HC'}]},{'id':'fx-40110B','function':'Counter','descriptio"
+    "n':'Decade up/down counter/latch/display driver','drawer':[],'pinouts':{'p16':[{'number'"
+    ":1,'name':'a','role':'output'},{'number':2,'name':'g','role':'output'},{'number':3,'name"
+    "':'f','role':'output'},{'number':4,'name':'TE','role':'input'},{'number':5,'name':'RESET"
+    "','role':'input'},{'number':6,'name':'LE','role':'input'},{'number':7,'name':'CLOCKDOWN'"
+    ",'role':'input'},{'number':8,'name':'VSS','role':'ground'},{'number':9,'name':'CLOCKUP',"
+    "'role':'input'},{'number':10,'name':'CARRY','role':'output'},{'number':11,'name':'BORROW"
+    "','role':'output'},{'number':12,'name':'e','role':'output'},{'number':13,'name':'d','rol"
+    "e':'output'},{'number':14,'name':'c','role':'output'},{'number':15,'name':'b','role':'ou"
+    "tput'},{'number':16,'name':'VDD','role':'power'}]},'model':'seg7','clockUp':'CLOCKUP','c"
+    "lockDown':'CLOCKDOWN','reset':{'pin':'RESET','active':'high'},'segments':['a','b','c','d"
+    "','e','f','g'],'glyphs':['1111110','0110000','1101101','1111001','0110011','1011011','10"
+    "11111','1110000','1111111','1111011'],'toggleEnable':{'pin':'TE','active':'low'},'latchE"
+    "nable':{'pin':'LE','active':'high'},'carryPulse':'CARRY','borrowPulse':'BORROW','timing'"
+    ":{'HC':{'rise':10,'fall':10,'vcc':[2,6],'carryPulse':230,'borrowPulse':275}},'parts':[{'"
+    "name':'FX-40110B','package':'DIP','pinout':'p16','footprint':'FX16','family':'HC'}]},{'i"
+    "d':'fx-4059A','function':'Divider','description':'Programmable divide-by-N counter','dra"
+    "wer':[],'pinouts':{'p24':[{'number':1,'name':'CL','role':'input'},{'number':2,'name':'L'"
+    ",'role':'input'},{'number':3,'name':'J1','role':'input'},{'number':4,'name':'J2','role':"
+    "'input'},{'number':5,'name':'J3','role':'input'},{'number':6,'name':'J4','role':'input'}"
+    ",{'number':7,'name':'J16','role':'input'},{'number':8,'name':'J15','role':'input'},{'num"
+    "ber':9,'name':'J14','role':'input'},{'number':10,'name':'J13','role':'input'},{'number':"
+    "11,'name':'Kc','role':'input'},{'number':12,'name':'VSS','role':'ground'},{'number':13,'"
+    "name':'Kb','role':'input'},{'number':14,'name':'Ka','role':'input'},{'number':15,'name':"
+    "'J12','role':'input'},{'number':16,'name':'J11','role':'input'},{'number':17,'name':'J10"
+    "','role':'input'},{'number':18,'name':'J9','role':'input'},{'number':19,'name':'J8','rol"
+    "e':'input'},{'number':20,'name':'J7','role':'input'},{'number':21,'name':'J6','role':'in"
+    "put'},{'number':22,'name':'J5','role':'input'},{'number':23,'name':'OUT','role':'output'"
+    "},{'number':24,'name':'VDD','role':'power'}]},'model':'divn','clock':'CL','jam':['J1','J"
+    "2','J3','J4','J5','J6','J7','J8','J9','J10','J11','J12','J13','J14','J15','J16'],'modes'"
+    ":['Ka','Kb','Kc'],'latchEnable':'L','output':'OUT','timing':{'HC':{'rise':10,'fall':10,'"
+    "vcc':[2,6]}},'parts':[{'name':'FX-4059A','package':'DIP','pinout':'p24','footprint':'FX2"
+    "4','family':'HC'}]},{'id':'fx-74_4059','function':'Divider','description':'Programmable "
+    "divide-by-N counter','drawer':[],'pinouts':{'p24':[{'number':1,'name':'CP','role':'input"
+    "'},{'number':2,'name':'LE','role':'input'},{'number':3,'name':'J1','role':'input'},{'num"
+    "ber':4,'name':'J2','role':'input'},{'number':5,'name':'J3','role':'input'},{'number':6,'"
+    "name':'J4','role':'input'},{'number':7,'name':'J16','role':'input'},{'number':8,'name':'"
+    "J15','role':'input'},{'number':9,'name':'J14','role':'input'},{'number':10,'name':'J13',"
+    "'role':'input'},{'number':11,'name':'Kc','role':'input'},{'number':12,'name':'GND','role"
+    "':'ground'},{'number':13,'name':'Kb','role':'input'},{'number':14,'name':'Ka','role':'in"
+    "put'},{'number':15,'name':'J12','role':'input'},{'number':16,'name':'J11','role':'input'"
+    "},{'number':17,'name':'J10','role':'input'},{'number':18,'name':'J9','role':'input'},{'n"
+    "umber':19,'name':'J8','role':'input'},{'number':20,'name':'J7','role':'input'},{'number'"
+    ":21,'name':'J6','role':'input'},{'number':22,'name':'J5','role':'input'},{'number':23,'n"
+    "ame':'Q','role':'output'},{'number':24,'name':'VCC','role':'power'}]},'model':'divn','cl"
+    "ock':'CP','jam':['J1','J2','J3','J4','J5','J6','J7','J8','J9','J10','J11','J12','J13','J"
+    "14','J15','J16'],'modes':['Ka','Kb','Kc'],'latchEnable':'LE','output':'Q','timing':{'HC'"
+    ":{'rise':10,'fall':10,'vcc':[2,6]}},'parts':[{'name':'FX-74_4059','package':'DIP','pinou"
+    "t':'p24','footprint':'FX24','family':'HC'}]},{'id':'fx-4089B','function':'Divider','desc"
+    "ription':'Binary rate multiplier','drawer':[],'pinouts':{'p16':[{'number':1,'name':'15OU"
+    "T','role':'output'},{'number':2,'name':'C','role':'input'},{'number':3,'name':'D','role'"
+    ":'input'},{'number':4,'name':'SET15','role':'input'},{'number':5,'name':'OUTBAR','role':"
+    "'output'},{'number':6,'name':'OUT','role':'output'},{'number':7,'name':'INHOUT','role':'"
+    "output'},{'number':8,'name':'VSS','role':'ground'},{'number':9,'name':'CLOCK','role':'in"
+    "put'},{'number':10,'name':'STROBE','role':'input'},{'number':11,'name':'INHIN','role':'i"
+    "nput'},{'number':12,'name':'CASCADE','role':'input'},{'number':13,'name':'CLEAR','role':"
+    "'input'},{'number':14,'name':'A','role':'input'},{'number':15,'name':'B','role':'input'}"
+    ",{'number':16,'name':'VDD','role':'power'}]},'model':'rate','variant':'binary4','clock':"
+    "'CLOCK','rate':['A','B','C','D'],'enable':{'pin':'INHIN','active':'low'},'strobe':{'pin'"
+    ":'STROBE','active':'high'},'cascade':{'pin':'CASCADE','active':'high'},'clear':{'pin':'C"
+    "LEAR','active':'high'},'set':{'pin':'SET15','active':'high'},'out':'OUT','outBar':'OUTBA"
+    "R','terminal':'15OUT','enableOut':'INHOUT','timing':{'HC':{'rise':10,'fall':10,'vcc':[2,"
+    "6]}},'parts':[{'name':'FX-4089B','package':'DIP','pinout':'p16','footprint':'FX16','fami"
+    "ly':'HC'}]},{'id':'fx-4527B','function':'Divider','description':'BCD rate multiplier','d"
+    "rawer':[],'pinouts':{'p16':[{'number':1,'name':'9OUT','role':'output'},{'number':2,'name"
+    "':'C','role':'input'},{'number':3,'name':'D','role':'input'},{'number':4,'name':'SET9','"
+    "role':'input'},{'number':5,'name':'OUTBAR','role':'output'},{'number':6,'name':'OUT','ro"
+    "le':'output'},{'number':7,'name':'INHOUT','role':'output'},{'number':8,'name':'VSS','rol"
+    "e':'ground'},{'number':9,'name':'CLOCK','role':'input'},{'number':10,'name':'STROBE','ro"
+    "le':'input'},{'number':11,'name':'INHIN','role':'input'},{'number':12,'name':'CASCADE','"
+    "role':'input'},{'number':13,'name':'CLEAR','role':'input'},{'number':14,'name':'A','role"
+    "':'input'},{'number':15,'name':'B','role':'input'},{'number':16,'name':'VDD','role':'pow"
+    "er'}]},'model':'rate','variant':'bcd','clock':'CLOCK','rate':['A','B','C','D'],'enable':"
+    "{'pin':'INHIN','active':'low'},'strobe':{'pin':'STROBE','active':'high'},'cascade':{'pin"
+    "':'CASCADE','active':'high'},'clear':{'pin':'CLEAR','active':'high'},'set':{'pin':'SET9'"
+    ",'active':'high'},'out':'OUT','outBar':'OUTBAR','terminal':'9OUT','enableOut':'INHOUT','"
+    "timing':{'HC':{'rise':10,'fall':10,'vcc':[2,6]}},'parts':[{'name':'FX-4527B','package':'"
+    "DIP','pinout':'p16','footprint':'FX16','family':'HC'}]},{'id':'fx-74_97','function':'Div"
+    "ider','description':'Synchronous 6-bit binary rate multiplier','drawer':[],'pinouts':{'p"
+    "16':[{'number':1,'name':'B1','role':'input'},{'number':2,'name':'B4','role':'input'},{'n"
+    "umber':3,'name':'B5','role':'input'},{'number':4,'name':'B0','role':'input'},{'number':5"
+    ",'name':'Z','role':'output'},{'number':6,'name':'Y','role':'output'},{'number':7,'name':"
+    "'ENOUT','role':'output'},{'number':8,'name':'GND','role':'ground'},{'number':9,'name':'C"
+    "LK','role':'input'},{'number':10,'name':'STRB','role':'input'},{'number':11,'name':'ENIN"
+    "','role':'input'},{'number':12,'name':'UNITY/CAS','role':'input'},{'number':13,'name':'C"
+    "LR','role':'input'},{'number':14,'name':'B2','role':'input'},{'number':15,'name':'B3','r"
+    "ole':'input'},{'number':16,'name':'VCC','role':'power'}]},'model':'rate','variant':'bina"
+    "ry6','clock':'CLK','rate':['B0','B1','B2','B3','B4','B5'],'enable':{'pin':'ENIN','active"
+    "':'low'},'strobe':{'pin':'STRB','active':'high'},'cascade':{'pin':'UNITY/CAS','active':'"
+    "low'},'clear':{'pin':'CLR','active':'high'},'out':'Y','outBar':'Z','enableOut':'ENOUT','"
+    "timing':{'HC':{'rise':10,'fall':10,'vcc':[2,6]}},'parts':[{'name':'FX-74_97','package':'"
+    "DIP','pinout':'p16','footprint':'FX16','family':'HC'}]}]}";
 
 /* Dual-row fixture footprints FX<n>, one per pin count above. */
 static const char FIXTURE_FOOTPRINTS[] =
@@ -1876,6 +2051,592 @@ static void check_loader(void) {
                "codeSelect with no code loads");
 }
 
+/* ---- plan-10-E: johnson ---------------------------------------------------- */
+
+/* The decoded output that is high, or -1 when none or several are. */
+static int decoded(Bench *b, unsigned n) {
+    char name[4];
+    unsigned i;
+    int which = -1;
+
+    for (i = 0; i < n; i++) {
+        snprintf(name, sizeof name, "%u", i);
+        if (bench_get(b, name) == L1) {
+            if (which >= 0) {
+                return -1;
+            }
+            which = (int)i;
+        } else if (bench_get(b, name) != L0) {
+            return -1;
+        }
+    }
+    return which;
+}
+
+static void johnson_cycle(const char *device, const char *clock, const char *gate,
+                          const char *reset, const char *carry, unsigned n, const char *what) {
+    Bench *b = open_fx(device);
+    int ok;
+    unsigned k;
+
+    set(b, gate, L0);
+    set(b, clock, L0);
+    set(b, reset, L1);
+    step(b);
+    set(b, reset, L0);
+    step(b);
+    ok = decoded(b, n) == 0 && is(b, carry, L1);
+    for (k = 1; k <= 2 * n; k++) {
+        pulse(b, clock);
+        if (decoded(b, n) != (int)(k % n) || bench_get(b, carry) != ((k % n) < n / 2 ? L1 : L0)) {
+            printf("  after %u clocks: output %d, carry %c\n", k, decoded(b, n),
+                   "01XZ"[bench_get(b, carry)]);
+            ok = 0;
+        }
+    }
+    expect(ok, what);
+    bench_destroy(b);
+}
+
+static void check_4017(void) {
+    Bench *b;
+    int ok;
+
+    johnson_cycle("4017B", "CLOCK", "CLOCKINHIBIT", "RESET", "CARRYOUT", 10,
+                  "30 4017B each output high for one clock in order 0-9; carry high for 0-4");
+
+    b = open_fx("4017B");
+    set(b, "CLOCKINHIBIT", L0);
+    set(b, "CLOCK", L0);
+    set(b, "RESET", L1);
+    step(b);
+    set(b, "RESET", L0);
+    step(b);
+    set(b, "CLOCKINHIBIT", L1);
+    step(b);
+    pulse(b, "CLOCK");
+    ok = decoded(b, 10) == 0;
+    rise(b, "CLOCK");
+    fall(b, "CLOCKINHIBIT");   /* inhibit falling with CLOCK high advances */
+    ok &= decoded(b, 10) == 1;
+    fall(b, "CLOCK");
+    expect(ok && decoded(b, 10) == 1,
+           "31 4017B INHIBIT high blocks; INHIBIT falling with CLOCK high advances");
+    pulse(b, "CLOCK");
+    pulse(b, "CLOCK");
+    ok = decoded(b, 10) == 3;
+    set(b, "RESET", L1);
+    step(b);
+    expect(ok && decoded(b, 10) == 0 && is(b, "CARRYOUT", L1), "32 4017B RESET async -> output 0 high");
+    bench_destroy(b);
+}
+
+static const char *const QBAR18[] = {"Q1", "Q2", "Q3", "Q4", "Q5"};
+
+/* The 4018B's stages Q1..Q5 (pins show NOT the stage) as bits, Q1 = bit 0; -1 if unknown. */
+static int stages_4018(Bench *b) {
+    int v = 0;
+    unsigned i;
+
+    for (i = 0; i < 5; i++) {
+        LogicValue p = bench_get(b, QBAR18[i]);
+
+        if (p != L0 && p != L1) {
+            return -1;
+        }
+        v |= (p == L0 ? 1 : 0) << i;
+    }
+    return v;
+}
+
+/* 1 when v (Q1 = bit 0) is one of the 10 states of the decade cycle. */
+static int legal_johnson5(int v) {
+    static const int LEGAL[10] = {0x00, 0x01, 0x03, 0x07, 0x0F, 0x1F, 0x1E, 0x1C, 0x18, 0x10};
+    int i;
+
+    for (i = 0; i < 10; i++) {
+        if (LEGAL[i] == v) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static const char *const JAM18[] = {"JAM1", "JAM2", "JAM3", "JAM4", "JAM5"};
+
+static void check_4018(void) {
+    static const char *const JOIN[] = {"Q5", "DATA", NULL};
+    Bench *b = open_joined("4018B", JOIN);
+    int ok = 1;
+    int seen11111 = 0;
+    unsigned k;
+    int first;
+
+    /* 33: preset an illegal state, then clock with DATA = Q5 pin (NOT stage 5). */
+    set(b, "RESET", L0);
+    set(b, "CLOCK", L0);
+    set_pins(b, JAM18, 5, 0x04);   /* stage 3 only */
+    set(b, "PE", L1);
+    step(b);
+    ok = stages_4018(b) == 0x04;
+    set(b, "PE", L0);
+    step(b);
+    for (k = 0; k < 10; k++) {
+        pulse(b, "CLOCK");
+    }
+    ok &= legal_johnson5(stages_4018(b));
+    expect(ok, "33 4018B illegal preset 00100 reaches the legal cycle within 10 clocks (anti-lock)");
+
+    /* 36a: DATA = Q5 pin: divide by 10. */
+    first = stages_4018(b);
+    ok = 1;
+    for (k = 1; k <= 10; k++) {
+        pulse(b, "CLOCK");
+        ok &= (stages_4018(b) == first) == (k == 10);
+    }
+    bench_destroy(b);
+
+    /* 36b: DATA = Q4 pin AND Q5 pin (the bench's AND): divide by 9, skipping 11111. */
+    b = open_fx("4018B");
+    set(b, "RESET", L1);
+    set(b, "PE", L0);
+    set(b, "CLOCK", L0);
+    step(b);
+    set(b, "RESET", L0);
+    step(b);
+    first = stages_4018(b);
+    for (k = 1; k <= 18; k++) {
+        LogicValue d = bench_get(b, "Q4") == L1 && bench_get(b, "Q5") == L1 ? L1 : L0;
+
+        set(b, "DATA", d);
+        step(b);
+        pulse(b, "CLOCK");
+        seen11111 |= stages_4018(b) == 0x1F;
+        if (k == 9 || k == 18) {
+            ok &= stages_4018(b) == first;
+        } else {
+            ok &= stages_4018(b) != first;
+        }
+    }
+    expect(ok && !seen11111,
+           "36 4018B DATA from Q5: divide by 10; DATA from Q4 AND Q5: divide by 9 skipping 11111");
+
+    /* 37: RESET beats PRESET ENABLE. */
+    set_pins(b, JAM18, 5, 0x1F);
+    set(b, "PE", L1);
+    set(b, "RESET", L1);
+    step(b);
+    ok = stages_4018(b) == 0;
+    set(b, "RESET", L0);
+    step(b);
+    expect(ok && stages_4018(b) == 0x1F, "37 4018B RESET beats PRESET ENABLE");
+    bench_destroy(b);
+}
+
+static void check_4022(void) {
+    johnson_cycle("4022B", "CLOCK", "CLOCKINHIBIT", "RESET", "CARRYOUT", 8,
+                  "34 4022B 8 decoded outputs; carry high for 0-3");
+}
+
+static void check_74_4017(void) {
+    Bench *b = open_fx("74_4017");
+    int ok;
+
+    set(b, "CE", L0);
+    set(b, "CP", L0);
+    set(b, "MR", L1);
+    step(b);
+    set(b, "MR", L0);
+    step(b);
+    pulse(b, "CP");
+    pulse(b, "CP");
+    ok = decoded(b, 10) == 2;
+    set(b, "CE", L1);
+    step(b);
+    pulse(b, "CP");
+    ok &= decoded(b, 10) == 2;
+    set(b, "MR", L1);
+    step(b);
+    expect(ok && decoded(b, 10) == 0 && is(b, "TC", L1), "35 74_4017 CE low counts; MR high resets");
+    bench_destroy(b);
+}
+
+/* ---- plan-10-E: seg7 ------------------------------------------------------- */
+
+static const char *const GLYPH7[10] = {"1111110", "0110000", "1101101", "1111001", "0110011",
+                                       "1011011", "1011111", "1110000", "1111111", "1111011"};
+
+static int seg7_is(Bench *b, const char *glyph) {
+    static const char *const S[7] = {"a", "b", "c", "d", "e", "f", "g"};
+    unsigned j;
+    int ok = 1;
+
+    for (j = 0; j < 7; j++) {
+        ok &= is(b, S[j], glyph[j] == '1' ? L1 : L0);
+    }
+    return ok;
+}
+
+static void check_4026(void) {
+    Bench *b = open_fx("4026B");
+    int ok;
+    unsigned k;
+
+    set(b, "CLOCKINHIBIT", L0);
+    set(b, "CLOCK", L0);
+    set(b, "DEI", L1);
+    set(b, "RESET", L1);
+    step(b);
+    set(b, "RESET", L0);
+    step(b);
+    ok = seg7_is(b, GLYPH7[0]) && is(b, "CARRYOUT", L1);
+    for (k = 1; k <= 10; k++) {
+        pulse(b, "CLOCK");
+        ok &= seg7_is(b, GLYPH7[k % 10]) && is(b, "CARRYOUT", (k % 10) <= 4 ? L1 : L0);
+    }
+    set(b, "DEI", L0);
+    step(b);
+    ok &= seg7_is(b, "0000000") && is(b, "DEO", L0) && is(b, "UNGATEDC", L1);
+    pulse(b, "CLOCK");
+    pulse(b, "CLOCK");   /* count 2: c is the only segment off */
+    expect(ok && seg7_is(b, "0000000") && is(b, "UNGATEDC", L0),
+           "38 4026B glyph per count 0-9; DEI low -> segments 0, ungated C still follows");
+    bench_destroy(b);
+}
+
+static void check_4033(void) {
+    Bench *b = open_fx("4033B");
+    int ok;
+
+    set(b, "CLOCKINHIBIT", L0);
+    set(b, "CLOCK", L0);
+    set(b, "LT", L0);
+    set(b, "RBI", L0);
+    set(b, "RESET", L1);
+    step(b);
+    set(b, "RESET", L0);
+    step(b);
+    ok = seg7_is(b, "0000000") && is(b, "RBO", L0);
+    set(b, "RBI", L1);
+    step(b);
+    ok &= seg7_is(b, GLYPH7[0]) && is(b, "RBO", L1);
+    set(b, "RBI", L0);
+    step(b);
+    pulse(b, "CLOCK");
+    ok &= seg7_is(b, GLYPH7[1]) && is(b, "RBO", L1);
+    set(b, "LT", L1);
+    step(b);
+    expect(ok && seg7_is(b, "1111111"),
+           "39 4033B RBI low at 0 -> blank and RBO low; LAMP TEST high -> all 1");
+    bench_destroy(b);
+}
+
+static void check_40110(void) {
+    Bench *b = open_fx("40110B");
+    int ok;
+    unsigned k;
+
+    set(b, "TE", L0);
+    set(b, "LE", L0);
+    set(b, "CLOCKUP", L0);
+    set(b, "CLOCKDOWN", L0);
+    set(b, "RESET", L1);
+    step(b);
+    set(b, "RESET", L0);
+    step(b);
+    ok = seg7_is(b, GLYPH7[0]) && is(b, "CARRY", L1) && is(b, "BORROW", L1);
+    for (k = 1; k <= 9; k++) {
+        pulse(b, "CLOCKUP");
+    }
+    ok &= seg7_is(b, GLYPH7[9]);
+    set(b, "CLOCKUP", L1);   /* 9 -> 0: a 230 ns CARRY pulse from 10 ns */
+    bench_run(b, NS(120));
+    ok &= is(b, "CARRY", L0) && seg7_is(b, GLYPH7[0]);
+    bench_run(b, NS(130));
+    ok &= is(b, "CARRY", L1);
+    set(b, "CLOCKUP", L0);
+    step(b);
+    set(b, "CLOCKDOWN", L1);   /* 0 -> 9: a 275 ns BORROW pulse */
+    bench_run(b, NS(270));
+    ok &= is(b, "BORROW", L0) && seg7_is(b, GLYPH7[9]);
+    bench_run(b, NS(30));
+    ok &= is(b, "BORROW", L1) && is(b, "CARRY", L1);
+    expect(ok, "40 40110B CLOCK UP and CLOCK DOWN count; 9->0 gives a 230 ns CARRY low pulse; 0->9 a "
+               "275 ns BORROW pulse");
+
+    set(b, "CLOCKDOWN", L0);
+    set(b, "LE", L1);
+    step(b);
+    pulse(b, "CLOCKUP");
+    ok = seg7_is(b, GLYPH7[9]);   /* count 0, display held at 9 */
+    set(b, "LE", L0);
+    step(b);
+    ok &= seg7_is(b, GLYPH7[0]);
+    set(b, "TE", L1);
+    step(b);
+    pulse(b, "CLOCKUP");
+    expect(ok && seg7_is(b, GLYPH7[0]),
+           "41 40110B LATCH ENABLE high holds the display while the count moves; TOGGLE ENABLE high "
+           "blocks counting");
+    bench_destroy(b);
+}
+
+/* ---- plan-10-E: divn ----------------------------------------------------------- */
+
+static const char *const J16[] = {"J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8",
+                                  "J9", "J10", "J11", "J12", "J13", "J14", "J15", "J16"};
+
+static void k_pins(Bench *b, int ka, int kb, int kc) {
+    set(b, "Ka", ka ? L1 : L0);
+    set(b, "Kb", kb ? L1 : L0);
+    set(b, "Kc", kc ? L1 : L0);
+    step(b);
+}
+
+/* Clocks n edges; records in edges[] (up to cap) the edge numbers (from 1) after which the
+   output is high in the clock's high half. Returns the number recorded. */
+static unsigned divn_pulses(Bench *b, const char *clock, const char *out, unsigned n,
+                            unsigned *edges, unsigned cap) {
+    unsigned k, count = 0;
+
+    for (k = 1; k <= n; k++) {
+        set(b, clock, L1);
+        bench_run(b, NS(100));
+        if (bench_get(b, out) == L1 && count < cap) {
+            edges[count] = k;
+            count++;
+        }
+        set(b, clock, L0);
+        bench_run(b, NS(100));
+    }
+    return count;
+}
+
+/* Master preset with the given mode pins as the release, then n edges. */
+static unsigned divn_run(Bench *b, int ka, int kb, int kc, unsigned jam, unsigned n,
+                         unsigned *edges, unsigned cap) {
+    set(b, "L", L0);
+    set(b, "CL", L0);
+    set_pins(b, J16, 16, jam);
+    k_pins(b, ka, 0, 0);
+    divn_pulses(b, "CL", "OUT", 3, edges, 0);
+    k_pins(b, ka, kb, kc);
+    return divn_pulses(b, "CL", "OUT", n, edges, cap);
+}
+
+static void check_4059(void) {
+    unsigned edges[8];
+    Bench *b = open_fx("4059A");
+    unsigned n;
+    int ok;
+
+    n = divn_run(b, 0, 0, 1, 0x0003, 12, edges, 8);   /* ÷8 mode, N = 3 */
+    ok = n == 3 && edges[0] == 4 && edges[1] == 7 && edges[2] == 10;
+    if (!ok) {
+        printf("  %u pulses, first at %u, %u, %u\n", n, n > 0 ? edges[0] : 0, n > 1 ? edges[1] : 0,
+               n > 2 ? edges[2] : 0);
+    }
+    expect(ok, "42 4059A divide-by-8 mode, N = 3: master preset, release, first pulse on the 4th edge, "
+               "then every 3rd");
+    bench_destroy(b);
+
+    /* Example A: mode 5, J1..J16 = 0011 1010 1001 0110 (J1 first) -> N = 8479. */
+    b = open_fx("4059A");
+    n = divn_run(b, 1, 0, 1, 0x0C | (0x5u << 4) | (0x9u << 8) | (0x6u << 12), 2 * 8479 + 2, edges,
+                 8);
+    ok = n == 2 && edges[1] - edges[0] == 8479;
+    if (!ok) {
+        printf("  %u pulses, at %u and %u\n", n, n > 0 ? edges[0] : 0, n > 1 ? edges[1] : 0);
+    }
+    expect(ok, "43 4059A datasheet example A: mode 5, J = 0011 1010 1001 0110 -> pulses 8479 edges "
+               "apart");
+    bench_destroy(b);
+
+    b = open_fx("4059A");
+    n = divn_run(b, 0, 0, 1, 0x0003, 4, edges, 8);
+    ok = n == 1;
+    set(b, "L", L1);
+    step(b);
+    divn_pulses(b, "CL", "OUT", 1, edges, 0);   /* edge 5 would end the pulse */
+    ok &= is(b, "OUT", L1);
+    divn_pulses(b, "CL", "OUT", 4, edges, 0);
+    ok &= is(b, "OUT", L1);
+    set(b, "L", L0);
+    step(b);
+    expect(ok && is(b, "OUT", L0), "44 4059A latch enable 1 keeps the output high after a pulse");
+    bench_destroy(b);
+
+    b = open_fx("4059A");
+    n = divn_run(b, 1, 1, 0, 0x0005 | (0x2u << 4), 2 + 25 * 3, edges, 8);   /* ÷10, N = 25 */
+    ok = n == 3 && edges[1] - edges[0] == 25 && edges[2] - edges[1] == 25;
+    if (!ok) {
+        printf("  %u pulses, at %u, %u, %u\n", n, n > 0 ? edges[0] : 0, n > 1 ? edges[1] : 0,
+               n > 2 ? edges[2] : 0);
+    }
+    expect(ok, "45 4059A divide-by-10 mode, N = 25: pulses every 25 edges");
+    bench_destroy(b);
+}
+
+/* ---- plan-10-E: rate ------------------------------------------------------------- */
+
+/* Counts the OUT pulses (out high in the clock-low half) over n clocks; *bad set when out is
+   high in a clock-high half. */
+static unsigned rate_pulses(Bench *b, const char *clock, const char *out, unsigned n, int *bad) {
+    unsigned k, count = 0;
+
+    for (k = 0; k < n; k++) {
+        set(b, clock, L1);
+        step(b);
+        if (bench_get(b, out) != L0) {
+            *bad = 1;
+        }
+        set(b, clock, L0);
+        step(b);
+        count += bench_get(b, out) == L1;
+    }
+    return count;
+}
+
+static const char *const RATE4[] = {"A", "B", "C", "D"};
+
+static Bench *open_rate(const char *device) {
+    Bench *b = open_fx(device);
+
+    set(b, "CLOCK", L0);
+    set(b, "INHIN", L0);
+    set(b, "STROBE", L0);
+    set(b, "CASCADE", L0);
+    set(b, device[2] == '8' ? "SET15" : "SET9", L0);
+    set(b, "CLEAR", L1);
+    step(b);
+    set(b, "CLEAR", L0);
+    step(b);
+    return b;
+}
+
+static void check_4089(void) {
+    Bench *b = open_rate("4089B");
+    int bad = 0;
+    unsigned n;
+    int ok;
+
+    set_pins(b, RATE4, 4, 13);
+    step(b);
+    n = rate_pulses(b, "CLOCK", "OUT", 16, &bad);
+    expect(n == 13 && !bad, "46 4089B rate 13 -> 13 OUT pulses per 16 clocks, each during clock low");
+    if (n != 13) {
+        printf("  %u pulses\n", n);
+    }
+    set(b, "STROBE", L1);
+    step(b);
+    n = rate_pulses(b, "CLOCK", "OUT", 16, &bad);
+    ok = n == 0 && is(b, "OUTBAR", L1);
+    set(b, "STROBE", L0);
+    set(b, "CASCADE", L1);
+    step(b);
+    expect(ok && is(b, "OUT", L1), "47 4089B STROBE high -> no pulses, OUTBAR high; CASCADE high -> "
+                                   "OUT high");
+    set(b, "CASCADE", L0);
+    set(b, "SET15", L1);
+    step(b);
+    ok = is(b, "15OUT", L1) && is(b, "INHOUT", L0);
+    set(b, "CLEAR", L1);
+    step(b);
+    ok &= is(b, "15OUT", L1);   /* set beats clear */
+    set(b, "SET15", L0);
+    step(b);
+    expect(ok && is(b, "15OUT", L0) && is(b, "INHOUT", L1),
+           "48 4089B SET -> count 15, \"15\" high, INHIBIT OUT low; CLEAR -> 0");
+    bench_destroy(b);
+}
+
+static void check_4527(void) {
+    static const unsigned WANT[16] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 9, 8, 9, 8, 9};
+    int ok = 1;
+    unsigned rate;
+
+    for (rate = 0; rate < 16; rate++) {
+        Bench *b = open_rate("4527B");
+        int bad = 0;
+        unsigned n;
+
+        set_pins(b, RATE4, 4, rate);
+        step(b);
+        n = rate_pulses(b, "CLOCK", "OUT", 10, &bad);
+        if (n != WANT[rate] || bad) {
+            printf("  rate %u: %u pulses per 10 (want %u)%s\n", rate, n, WANT[rate],
+                   bad ? ", one during clock high" : "");
+            ok = 0;
+        }
+        bench_destroy(b);
+    }
+    expect(ok, "49 4527B rate 8 -> 8 pulses per 10; rates 10-15 -> 8 or 9 per the truth table");
+}
+
+static const char *const RATE6[] = {"B0", "B1", "B2", "B3", "B4", "B5"};
+
+static void check_97(void) {
+    Bench *b = open_fx("74_97");
+    int bad = 0;
+    unsigned n, k;
+    int ok;
+
+    set(b, "CLK", L0);
+    set(b, "ENIN", L0);
+    set(b, "STRB", L0);
+    set(b, "UNITY/CAS", L1);
+    set(b, "CLR", L1);
+    step(b);
+    set(b, "CLR", L0);
+    set_pins(b, RATE6, 6, 40);
+    step(b);
+    n = rate_pulses(b, "CLK", "Y", 64, &bad);
+    ok = n == 40 && !bad;
+    if (n != 40) {
+        printf("  %u Y pulses per 64\n", n);
+    }
+    set(b, "UNITY/CAS", L0);
+    step(b);
+    expect(ok && is(b, "Y", L1), "50 74_97 M = 40 -> 40 Y pulses per 64 clocks; UNITY/CAS low -> Y "
+                                 "high");
+    set(b, "UNITY/CAS", L1);
+    for (k = 0; k < 63; k++) {
+        pulse(b, "CLK");
+    }
+    ok = is(b, "ENOUT", L0);
+    set(b, "ENIN", L1);
+    step(b);
+    expect(ok && is(b, "ENOUT", L1), "51 74_97 ENABLE out low at count 63 with EN low");
+    bench_destroy(b);
+}
+
+/* ---- plan-10-E: loader -------------------------------------------------------- */
+
+#define E_HEAD(PINS) \
+    "{'format':'schematical-parts','version':1,'kind':'counter','devices':[{'id':'bad'," \
+    "'function':'Counter','description':'d','drawer':[],'pinouts':{'p4':[" PINS "]},"
+#define E_PINS \
+    "{'number':1,'name':'A','role':'input'},{'number':2,'name':'B','role':'input'}," \
+    "{'number':3,'name':'C','role':'output'},{'number':4,'name':'D','role':'input'}"
+#define E_TAIL "'timing':{'HC':{'rise':1,'fall':1,'vcc':[2,6]}},'parts':[]}]}"
+
+static void check_e_loader(void) {
+    int ok = expect_error(E_HEAD(E_PINS) "'model':'divn','clock':'A','jam':['A','A','A','A','A',"
+                          "'A','A','A','A','A','A','A','A','A','A'],'modes':['A','B','D'],"
+                          "'latchEnable':'B','output':'C'," E_TAIL,
+                          "\"jam\" must have 16 names");
+
+    ok &= expect_error(E_HEAD(E_PINS) "'model':'rate','variant':'x'," E_TAIL,
+                       "\"variant\" must be \"binary4\", \"bcd\" or \"binary6\", not \"x\"");
+    expect(ok, "52 loader: divn with 15 jam pins and rate variant \"x\" are errors");
+    ok = expect_error(E_HEAD(E_PINS) "'model':'seg7','clock':'A','reset':{'pin':'B','active':'high'},"
+                      "'segments':['C','C','C','C','C','C','C'],'glyphs':['0000000','0000000',"
+                      "'0000000','0000000','0000000','0000000','0000000','0000000','0000000'],"
+                      E_TAIL,
+                      "\"glyphs\" must have 10 names");
+    expect(ok, "53 loader: seg7 with 9 glyphs is an error");
+}
+
 int main(void) {
     static const char *const Q193[] = {"QA", "QB", "QC", "QD"};
     static const char *const J14[] = {"J1", "J2", "J3", "J4"};
@@ -1917,6 +2678,18 @@ int main(void) {
     check_92();
     check_4020();
     check_loader();
+    check_4017();
+    check_4018();
+    check_4022();
+    check_74_4017();
+    check_4026();
+    check_4033();
+    check_40110();
+    check_4059();
+    check_4089();
+    check_4527();
+    check_97();
+    check_e_loader();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

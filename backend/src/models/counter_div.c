@@ -750,6 +750,8 @@ static void divn_output(Sim *sim, SimInstance *inst, DivnState *s) {
 
     if (le == 0) {
         s->latched = 0;
+    } else if (le == 1 && s->pulse == 1) {
+        s->latched = 1;   /* latch enable high during (or at) a pulse */
     }
     level = or3(s->pulse, and3(s->latched ? 1 : 0, le));
     drive(sim, inst, &s->out, level, s->h.timing);
@@ -783,9 +785,6 @@ static void divn_eval(Sim *sim, SimInstance *inst, DivnState *s, int at_start) {
         } else {
             s->count--;
             s->pulse = 0;
-        }
-        if (s->pulse == 1 && seq_read(sim, inst, b->latch) == 1) {
-            s->latched = 1;
         }
     }
     if (at_start) {
