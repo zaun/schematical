@@ -69,6 +69,7 @@
  "extended": "afe",
  "autoFlow": "afe",
  "timeoutDelay": 9,
+ "breakMarkTicks": 2,
  "absentTies": {
   "CS0": 1,
   "CS1": 1,

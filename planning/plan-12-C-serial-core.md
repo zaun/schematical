@@ -305,8 +305,9 @@ Commit: (with Phase 2)
 Acceptance: `ctest --test-dir /tmp/logic-p12` → `100% tests passed`, T0 + 1
 programs; `/tmp/logic-p12/serial_test` prints each of the 12 cases `ok`
 (about 1 min). Observed (pre-plan-11 main, T0 = 17): `100% tests passed, 0
-tests failed out of 18`; 12 + 1 `ok`. Re-run after merging plan-11.
-Commit: —
+tests failed out of 18`; 12 + 1 `ok`. Re-run after merging plan-11:
+19 programs, the C cases all `ok` (5909a84).
+Commit: 627f50d
 
 ## Validation Plan
 

@@ -68,5 +68,6 @@
  "dmaClass": "N",
  "extended": "afe",
  "autoFlow": "afe",
- "timeoutDelay": 9
+ "timeoutDelay": 9,
+ "breakMarkTicks": 2
 }

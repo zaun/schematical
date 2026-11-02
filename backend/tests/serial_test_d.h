@@ -732,6 +732,18 @@ static void case_d18_d19(const char *part, const char *name, unsigned trigger_in
     drive_named(b, "SIN1", 0x41, bt);
     run(b, bt);
     expect_pin(b, "RTS1", LOGIC_1, "the table's off level: RTS inactive");
+    /* lsrClearOnGood: a framing error, the byte read out (the LSR not read),
+       then a good byte loading clears FE without an LSR read. */
+    bus_write(b, 2, 0x06);                 /* clear the FIFOs, then FIFOs off */
+    bus_write(b, 2, 0x00);
+    bus_read(b, 5);
+    drive_bits_on(b, "SIN1", "0110000000", bt);   /* 0x03, stop 0 */
+    set(b, "SIN1", LOGIC_1);
+    run(b, bt * 3);
+    bus_read(b, 0);
+    drive_named(b, "SIN1", 0x55, bt);
+    run(b, bt);
+    check((bus_read(b, 5) & 0x1E) == 0, "a good byte loading cleared FE (NS rule)");
     case_end(name);
     bench_close(b);
 }

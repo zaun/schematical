@@ -38,7 +38,7 @@ static const char *const KEYS[] = {
     "specialChar", "specialClear", "specialNeedsNoFlow", "ctsRtsClear", "sleep", "irda", "rs485",
     "prescaler", "lsrErrors", "mcrReset", "xonReset", "tcrNeedsDlab0", "dlabHidesUpper",
     "idRegs", "timeoutDelay", "divisorZero", "printerPort", "tristate", "absentTies",
-    "optionalPins", "sprPowerUp", "dmaMode1",
+    "optionalPins", "sprPowerUp", "dmaMode1", "lsrClearOnGood", "breakMarkTicks",
     NULL
 };
 static const char *const CHANNEL_KEYS[] = {
@@ -93,6 +93,7 @@ static void update_format(NsChannel *c) {
     f.format_x = (c->lcr.k & 0x3Fu) != 0x3Fu;
     f.majority = c->owner->dev->majority;
     f.check_both_stops = c->owner->dev->stop_both;
+    f.mark_ticks = c->owner->dev->break_mark_ticks;
     f.factor = ns_ext_factor(c);
     c->format = f;
 }
@@ -634,6 +635,12 @@ static void deliver_char(NsChannel *c, const SerialRxChar *rc) {
 
     c->idle_ticks = 0;
     c->timeout = 0;
+    /* NS16C2552/2752: the LSR error bits also reset when the next valid
+       character loads into the RBR (LSR text). */
+    if (c->owner->dev->lsr_clear_on_good && !char_has_error(rc) && c->rx_count == 0) {
+        c->lsr_err &= 0x02;
+        c->lsr_err_k |= 0x1C;
+    }
     if (c->rx_count >= d) {
         /* Overrun: 16450 mode overwrites the RBR; FIFO mode drops the
            character in the shift register. */
@@ -2136,9 +2143,12 @@ static int load_phase2(KindContext *ctx, const cJSON *json, NsDevice *d) {
         return -1;
     }
     if (load_absent(ctx, json, d) != 0 ||
-        load_byte(ctx, json, "sprPowerUp", -1, &d->spr_power_up) != 0) {
+        load_byte(ctx, json, "sprPowerUp", -1, &d->spr_power_up) != 0 ||
+        load_optional_bool(ctx, json, "lsrClearOnGood", &d->lsr_clear_on_good) != 0 ||
+        load_byte(ctx, json, "breakMarkTicks", 0, &value) != 0) {
         return -1;
     }
+    d->break_mark_ticks = (unsigned)value;
     if (cJSON_GetObjectItemCaseSensitive(json, "dmaMode1") != NULL) {
         int mode1;
 

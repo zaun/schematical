@@ -258,5 +258,12 @@ that uses it, before F/G ship any part. The landing tier is plan-12-K's.
   planner entry describes the ACE's interrupt). IRQ0 is the PIA's: it is
   latched on ACK's falling edge while control bit 4 is set (Fig 9: "IRQ0 rises ≤ 35 ns after ACK falls"),
   cleared by a status read, and 3-state while disabled.
+- **Found in self-review** (keys added, each with its spec):
+  - `lsrClearOnGood` (NS16C2552/2752: LSR[4:1] "reset when the next valid
+    character is loaded into RBR"); D18/D19 check it.
+  - `breakMarkTicks: 2` (TL16C550C/D, TL16C750: "the next character is
+    accepted after SIN is marking for at least 2 RCLK samples").
+  - Compare mode 01 with EFR[5]: Xoff2 is not stored and raises both the
+    Xoff and the special-character interrupt (NS16C2552 Table 20).
 - **TL16C750E MODE pin** (IOW-only: CS is the strobe, IOW is R/W). It uses
   E's `intel-motorola` bus style when that merges; D4 covers the rest.

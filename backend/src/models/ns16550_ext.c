@@ -472,6 +472,12 @@ int ns_ext_rx_char(NsState *s, NsChannel *c, const SerialRxChar *rc) {
     if (xoff) {
         c->tx_halted = 1;
         c->iir_xoff = 1;
+        /* Compare mode 01 with the special character on: Xoff2 is a flow
+           character, not stored, and also raises the special-character
+           interrupt (NS16C2552 Table 20; XR16V564 EFR[5] text). */
+        if (d->special_char && known_bit(c->efr, 5) && rxmode == 1) {
+            c->iir_special = 1;
+        }
         return 0;
     }
     if (xon) {

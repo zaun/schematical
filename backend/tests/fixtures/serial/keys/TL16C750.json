@@ -73,5 +73,6 @@
  "intPin": "driven",
  "dmaClass": "N",
  "extended": "750",
- "autoFlow": "afe"
+ "autoFlow": "afe",
+ "breakMarkTicks": 2
 }

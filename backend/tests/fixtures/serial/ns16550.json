@@ -1044,6 +1044,7 @@
     0,
     0
    ],
+   "lsrClearOnGood": true,
    "optionalPins": [
     "TXRDY1",
     "TXRDY2",
@@ -1444,6 +1445,7 @@
     0,
     0
    ],
+   "lsrClearOnGood": true,
    "optionalPins": [
     "TXRDY1",
     "TXRDY2",
@@ -4848,6 +4850,7 @@
    "extended": "afe",
    "autoFlow": "afe",
    "timeoutDelay": 9,
+   "breakMarkTicks": 2,
    "parts": [
     {
      "name": "SFX-TL16C550C",
@@ -5161,6 +5164,7 @@
    "extended": "afe",
    "autoFlow": "afe",
    "timeoutDelay": 9,
+   "breakMarkTicks": 2,
    "absentTies": {
     "CS0": 1,
     "CS1": 1,
@@ -7333,6 +7337,7 @@
    "dmaClass": "N",
    "extended": "750",
    "autoFlow": "afe",
+   "breakMarkTicks": 2,
    "parts": [
     {
      "name": "SFX-TL16C750",

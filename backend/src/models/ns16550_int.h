@@ -152,6 +152,8 @@ typedef struct {
     SerialAbsent absent;           /* "absentTies", "optionalPins" */
     int spr_power_up;              /* "sprPowerUp": SPR at power-up; -1 = X */
     int no_dma_mode1;              /* "dmaMode1": false: FCR[3] ignored */
+    int lsr_clear_on_good;         /* "lsrClearOnGood": NS: LSR[4:1] clear on the next good byte */
+    unsigned break_mark_ticks;     /* "breakMarkTicks": mark ticks needed after a break */
 } NsDevice;
 
 typedef struct {

@@ -413,8 +413,11 @@ void serial_rx_tick(SerialRx *rx, LogicValue level, const SerialFormat *format,
             }
             break;
         case SERIAL_RX_WAIT_MARK:
-            if (level == LOGIC_1) {
+            /* TI parts need 2 RCLK samples of mark (mark_ticks) after a break. */
+            rx->marks = level == LOGIC_1 ? rx->marks + 1 : 0;
+            if (rx->marks >= (rx->format.mark_ticks != 0 ? rx->format.mark_ticks : 1)) {
                 rx->phase = SERIAL_RX_IDLE;
+                rx->marks = 0;
             }
             break;
     }

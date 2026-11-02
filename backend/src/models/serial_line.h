@@ -45,6 +45,7 @@ typedef struct {
     int majority;            /* data bits: majority of the samples at sample - 1, sample, sample + 1 */
     int check_both_stops;    /* with 2 stop bits, a 0 in either is a framing error (82C50A) */
     int format_x;            /* 1: the format itself is unknown; every bit sent is X */
+    unsigned mark_ticks;     /* after a break: ticks of mark before a new start (0 = 1) */
 } SerialFormat;
 
 /* The default 8N1 at 16x. */
@@ -160,6 +161,7 @@ typedef struct {
     int zero_known;
     SerialFormat format;     /* latched at the start bit */
     uint64_t ticks;          /* ticks seen; the timeout's clock */
+    unsigned marks;          /* ticks of mark seen while waiting after a break */
 } SerialRx;
 
 typedef struct {

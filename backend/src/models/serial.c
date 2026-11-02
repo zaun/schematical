@@ -32,7 +32,7 @@ static const char *const DEVICE_KEYS[] = {
     "specialChar", "specialClear", "specialNeedsNoFlow", "ctsRtsClear", "sleep", "irda", "rs485",
     "prescaler", "lsrErrors", "mcrReset", "xonReset", "tcrNeedsDlab0", "dlabHidesUpper",
     "idRegs", "timeoutDelay", "divisorZero", "printerPort", "tristate", "absentTies",
-    "optionalPins", "sprPowerUp", "dmaMode1",
+    "optionalPins", "sprPowerUp", "dmaMode1", "lsrClearOnGood", "breakMarkTicks",
     NULL
 };
 enum { FIRST_MODEL_KEY = 2 };
