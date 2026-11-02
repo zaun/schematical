@@ -198,9 +198,15 @@ update after them.
 
 ### Phase 2 — Parts
 
-- [ ] Stock re-check (`AY-`, `COM2017`, `COM8018`, `HD3-6402`, `CDP1854`,
+- [x] Stock re-check (`AY-`, `COM2017`, `COM8018`, `HD3-6402`, `CDP1854`,
   `CP1854`, `8251A`, `82510`, `CDP65C51`, `82C52`, `HD3-6406`, `COM78`: 12
-  calls); drops in Corrections.
+  calls); drops in Corrections. Observed (`node scripts/digikey.js
+  --in-stock --list`): COM2017 3, COM8018 2, HD3-6402 1, CDP1854 1, CP1854
+  4, 8251A 16, 82510 163, CDP65C51 3, 82C52 7, HD3-6406 1, COM78 4. `AY-`
+  returned 5346 unrelated parts without the AY UARTs, so two narrower calls
+  were added: `AY-5-1013` 4 (AY-5-1013, AY-5-1013A, AY-5-1013A-HR,
+  AY-5-1013A-HRS), `AY-3-1015` 1 (AY-3-1015D). All 29 H part names in
+  `parts.tsv` are in these lists: no drops.
 - [ ] `footprints.json` + `CDIP-40-600`, `PLCC-28`; `serial.json` + 13
   devices.
 - [ ] Regenerate the goldens. Check: no removed line; added 29, 29, 2.
