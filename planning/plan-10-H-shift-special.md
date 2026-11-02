@@ -23,7 +23,7 @@ plan-10-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-10-G complete | `ls planning/completed/plan-10-G-shift-kind.md` → exists | NOT MET (2026-11-01: written) |
+| plan-10-G complete | `ls planning/completed/plan-10-G-shift-kind.md` → exists | MET (2026-11-01: exists, archived at 39c82f5) |
 
 ## 1. Goal
 
@@ -200,17 +200,20 @@ maximum is not modeled: the voltage check has one range per part). `units`
 
 ### Phase 1 — `ls673`, `tap64`, `bus-register`
 
-- [ ] `models/shift_special.c` (listed in `backend/CMakeLists.txt`) with the
-  three models; docs.
+- [x] `models/shift_special.c` (listed in `backend/CMakeLists.txt`) with the
+  three models; docs. (`cc -Wall -Wextra -fsyntax-only` on `shift_special.c`
+  and `shift.c` prints nothing.)
 
-Acceptance: `ctest` 15 of 15 (seconds).
+Acceptance: `ctest` 15 of 15 (seconds). (Ran: `100% tests passed, 0 tests
+failed out of 15`; golden status empty.)
 Commit: —
 
 ### Phase 2 — `fifo`, `serial-in`
 
-- [ ] Both models; docs.
+- [x] Both models; docs.
 
-Acceptance: `ctest` 15 of 15.
+Acceptance: `ctest` 15 of 15. (Same run as Phase 1: all five models were
+written in one pass of `shift_special.c`; one commit, see Corrections.)
 Commit: —
 
 ### Phase 3 — Cases
@@ -233,7 +236,11 @@ Phase 3's acceptance. Landing tier: plan-10-J.
 
 ## Corrections
 
-(none yet)
+- 2026-11-01, Phases 1–2: the five models land in one commit (one file, one
+  `ctest` 15 of 15 run for both phases' identical acceptance).
+- 2026-11-01, Phase 2: an unknown (X) FIFO master reset is taken as a reset
+  (every marker empty), and an LV8153 frame whose sampled address bits are
+  unknown is ignored like a frame for another device; §4.4/§4.5 did not say.
 
 ## Summary
 

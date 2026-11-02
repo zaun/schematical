@@ -31,6 +31,7 @@ add_library(logic STATIC
     src/models/counter.c
     src/models/counter_div.c
     src/models/shift.c
+    src/models/shift_special.c
     src/third_party/cjson/cJSON.c
 )
 target_include_directories(logic

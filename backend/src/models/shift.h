@@ -46,6 +46,13 @@ struct ShiftModel {
     int (*open_drain)(const void *dev, const void *bound, size_t pin);              /* may be NULL */
 };
 
+/* The models of shift_special.c (plan-10-H); shift.c lists them in its table. */
+extern const ShiftModel LS673_MODEL;
+extern const ShiftModel TAP64_MODEL;
+extern const ShiftModel BUSREG_MODEL;
+extern const ShiftModel FIFO_MODEL;
+extern const ShiftModel SERIN_MODEL;
+
 /* ---- Shared pieces ----------------------------------------------------------- */
 
 SeqBits shift_merge(SeqBits a, SeqBits b);

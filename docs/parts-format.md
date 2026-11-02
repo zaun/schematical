@@ -1070,3 +1070,82 @@ clocks leave the storage one clock behind); a storage latch follows the
 stages while asserted. The serial-output flip-flops take their stage on the
 opposite edge. `part_pin_open_drain` is 1 for the outputs of an `open-drain`
 storage.
+
+#### Model `ls673`
+
+74LS673/674 16-bit shift registers. `units` = 1; main path clock → SER/Q15.
+
+| Key | Value |
+|---|---|
+| `"clock"` | pin; the gated clock CLK·(CS = 0) acts on its falling edge (a CS edge with the clock high is an edge too, as on the chip) |
+| `"chipSelect"`, `"readWrite"`, `"mode"` | pins CS (active low), R/W (1 = read), MODE/STRCLK |
+| `"serialIo"` | pin SER/Q15 (inout): driven with Q15 while CS = 0 and R/W = 1, else Z |
+| `"storageOutputs"` | 16 pins (74LS673): the storage register, always driven |
+| `"storageClear"` | control (74LS673): clears the storage at once, not gated by CS |
+| `"parallel"` | 16 input pins (74LS674); exactly one of `storageOutputs` / `parallel` |
+
+At a falling gated-clock edge: read with MODE 1 → Q ← storage (673) or the
+parallel pins (674); read with MODE 0 → shift, Q0 ← Q15; write → shift,
+Q0 ← the SER/Q15 pin. 673: the store clock MODE·(CS = 0)·(R/W = 0) loads the
+storage from Q on its rising edge.
+
+#### Model `tap64`
+
+CD4517B dual 64-stage register. Device key `"units"`: 1–2 objects
+`{"clock", "data", "writeEnable", "taps"}` (taps: Q16, Q32, Q48 inout, Q64
+output). 64 stages on the clock's rising edge, stage 1 ← data. Write enable 0:
+the taps drive stages 16/32/48/64. Write enable 1: every tap Z, and stages
+17/33/49 take the tap 16/32/48 pins at the edge. `units` = the number of
+units; main path clock → tap.
+
+#### Model `bus-register`
+
+CD4034B bidirectional bus register. `units` = 1; main path clock → output
+bus. Keys `"a"`, `"b"` (8 inout pins each), `"clock"` (rising), `"aEnable"`
+(AE), `"direction"` (A/B), `"parallelSerial"` (P/S), `"asyncSync"` (A/S),
+`"serialIn"` (SI). The input bus is A when A/B = 1 (the register itself when
+AE = 0: recirculation), B when A/B = 0. P/S = 0: the clock shifts SI in;
+P/S = 1, A/S = 0: the clock loads the input bus; P/S = 1, A/S = 1: the
+register follows the input bus. Output bus: A/B = 1 → B; A/B = 0 → A while
+AE = 1, else Z.
+
+#### Model `fifo`
+
+CD40105B / 74HC40105 4 × 16 FIFO. `units` = 1; main path SO → Q.
+
+| Key | Value |
+|---|---|
+| `"data"`, `"outputs"` | 4 pins each |
+| `"shiftIn"`, `"shiftOut"`, `"inputReady"`, `"outputReady"` | pins SI, SO, DIR, DOR |
+| `"reset"` | control MR, asynchronous: every position empty (data kept), DIR 1, DOR 0 |
+| `"outputEnable"` | control gating Q |
+| `"words"` | 16 |
+| `"unloadNeedsEnable"` | bool: true (40105B) — unloading is the falling edge of (SO OR outputs disabled); false (HC) — SO alone |
+| `"loadWhileHigh"` | bool: true (HC) — a word is taken when position 1 frees (or MR ends) while SI is high |
+
+Timing entries need the extra key `"fallThrough"` (ns): the ripple time
+from position 1 to 16; words move one position every fallThrough / 15. SI
+rising with position 1 empty loads it; DIR = NOT (position 1 full); DOR =
+position 16 full; Q shows position 16's word (holding the last one while DOR
+is low).
+
+#### Model `serial-in`
+
+SN74LV8153 serial-to-parallel interface. `units` = 1; main path RESET → Y.
+
+| Key | Value |
+|---|---|
+| `"data"` | pin D (idle high) |
+| `"address"` | 3 pins A0–A2 |
+| `"outputs"` | 8 pins Y0–Y7 |
+| `"outputSelect"` | pin OUTSEL: 1 push-pull (Y = bit), 0 open collector inverted (Y = 0 for a 1 bit, else Z) |
+| `"reset"` | control: clears the register and the frame decoder |
+| `"outputEnable"` | control: Y is Z while not asserted |
+| `"serialOut"` | pin SOUT: 0 for one bit period after a byte is taken |
+
+A D falling edge while idle starts a frame (t0); the next rising edge
+measures the bit period P (the two start bits); bits 2–8 (A0–A2, then the
+nibble) are sampled at t0 + (k + ½)·P. A frame whose address differs from
+the A0–A2 pins is ignored. Frames alternate first / second from reset: a
+second frame with the first's address completes the byte at its last sample
+point; with another address the pair is dropped.

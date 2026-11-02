@@ -2,7 +2,9 @@
  * shift: shift registers (plan-10-G). One kind; a device names its model
  * with "model". This file holds the kind, the dispatch and the parametric
  * "shift" model: serial and parallel inputs, mode rows, a storage register
- * or latch, extra serial-output flip-flops and shared I/O pins.
+ * or latch, extra serial-output flip-flops and shared I/O pins. The special
+ * models (ls673, tap64, bus-register, fifo, serial-in) are in
+ * shift_special.c (plan-10-H).
  *
  * Stages, storage and the input register are SeqBits (bit k = stage k+1);
  * wherever a control is unknown both outcomes are computed and merged.
@@ -1102,9 +1104,25 @@ static const ShiftModel SHIFT_MODEL = {
 
 /* ---- The kind --------------------------------------------------------------------- */
 
-static const ShiftModel *const MODELS[] = {&SHIFT_MODEL, NULL};
+static const ShiftModel *const MODELS[] = {
+    &SHIFT_MODEL, &LS673_MODEL, &TAP64_MODEL, &BUSREG_MODEL, &FIFO_MODEL, &SERIN_MODEL, NULL
+};
 
-static const char *const DEVICE_KEYS[] = {"model", "timing", "units", NULL};
+/* "model", "timing" and every model's keys (the library checks these first). */
+static const char *const DEVICE_KEYS[] = {
+    "model", "timing", "units",
+    /* ls673 */
+    "clock", "chipSelect", "readWrite", "mode", "serialIo", "storageOutputs", "storageClear",
+    "parallel",
+    /* bus-register */
+    "a", "b", "aEnable", "direction", "parallelSerial", "asyncSync", "serialIn",
+    /* fifo */
+    "data", "outputs", "shiftIn", "shiftOut", "inputReady", "outputReady", "reset",
+    "outputEnable", "words", "unloadNeedsEnable", "loadWhileHigh",
+    /* serial-in */
+    "address", "outputSelect", "serialOut",
+    NULL
+};
 static const char *const PART_KEYS[] = {"family", "vcc", "inputMax", NULL};
 
 typedef struct {
