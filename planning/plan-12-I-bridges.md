@@ -126,25 +126,42 @@ A bench I2C master and SPI master (bit-banged from the test through
 
 ### Phase 1 — Front ends and bridge options
 
-- [ ] I2C target, SPI target, pin-selected front end (§3.1); open-drain pins.
-- [ ] Bridge options (§3.2); fixtures and cases I1–I7;
+- [x] I2C target, SPI target, pin-selected front end (§3.1); open-drain pins.
+  The front ends are J's (`serial_target.c`, Corrections); I added the NXP
+  sub-address / SPI command layouts and the `ns16550` wiring
+  (`ns16550_bridge.c`), and `ns16550`'s `pin_open_drain` (IRQ, SDA, SCL).
+  `serial_test | grep '^ok   I[1-7]'` → 7 lines.
+- [x] Bridge options (§3.2); fixtures and cases I1–I7;
   `docs/parts-format.md` § `serial` gains the host styles.
+  `cmake -S backend -B /tmp/logic-p12i && cmake --build /tmp/logic-p12i -j8
+  && ctest --test-dir /tmp/logic-p12i` → "100% tests passed, 0 tests failed
+  out of 19", 0 warnings (clean build); `serial_test | grep -c '^ok'` → 67,
+  "PASS".
 
 Acceptance: I1–I7 and every earlier case `ok`; `ctest` 100% (about 1 min).
-Commit: —
+Commit: 96425c7 (models), 0986197 (fixtures), 57c9163 (cases), 256135a (docs)
 
 ### Phase 2 — SC18IS604 and parts
 
-- [ ] `serial_sc18is604.c` (§3.3); cases I8, I9.
-- [ ] Stock re-check (`SC16IS7`, `SC18IS604`, `PI7C9X76`, `XR20M1`: 4 calls);
+- [x] `serial_sc18is604.c` (§3.3); cases I8, I9.
+  `serial_test | grep '^ok   I[89]'` → "ok   I8 SC18IS604: commands
+  0x00-0x03, …" and "ok   I9 SC18IS604 -> SC16IS750: …"; ctest 100%.
+- [x] Stock re-check (`SC16IS7`, `SC18IS604`, `PI7C9X76`, `XR20M1`: 4 calls);
   drops in Corrections.
+  `source ~/.zshrc; node scripts/digikey.js --in-stock --list <family>`
+  (2026-11-01) → SC16IS7: 17 of 17 listed, all 15 `add` parts present;
+  SC18IS604: SC18IS604PWJ; PI7C9X76: PI7C9X760CZDEX, PI7C9X762Q2ZHEX;
+  XR20M1: XR20M1170IG16-F, IG24-F, IL24-F, IL24TR-F, XR20M1280IL24TR-F,
+  IL32-F. All 22 `add` parts in stock: none dropped.
 - [ ] `footprints.json` + 4; `serial.json` + 8 devices; regenerate the
   goldens. Check: no removed line; added 22, 22, 4; hand-check the 4
-  footprint lines.
+  footprint lines. (Parent's step. The 4 footprints are in the fixture
+  `backend/tests/fixtures/serial/footprints.json`; `merge.py --ship …,I`
+  writes the 8 devices.)
 
 Acceptance: `serial_test` I1–I9 `ok`; `ctest` 100%; the golden checks (about
 2 min).
-Commit: —
+Commit: 96425c7 (sc18is604), 57c9163 (I8, I9); parts, footprints, goldens: —
 
 ## Validation Plan
 
@@ -167,3 +184,99 @@ programs are the gate. The landing tier is plan-12-K's.
   API is summarized in plan-12-J's Corrections. Nothing in this plan is
   ticked: §3.1's box also covers the bridges' sub-address layouts and the
   `ns16550` wiring, which are still I's.
+- **Ran before its prerequisite.** plan-12-H has not landed
+  (`serial_test | grep -c '^ok H'` → 0); I was done on the parent
+  session's instruction on 4fd2c85 (plan-12-F). The worktree branch was at
+  cd892a7 (an ancestor of 4fd2c85); it was fast-forwarded to 4fd2c85 before
+  any work (`git merge --ff-only`, no branch created or switched).
+- **Bridge keys added** (all in `docs/parts-format.md` § `ns16550`, "I2C/SPI
+  bridges"): in the host `"bus"`: `"reset"`, `"resetActiveHigh"`,
+  `"registerBits"` (4 or 3), `"nack"` (`"full"`, `"reset"`) and
+  `"sdaTimeout"`; device keys `"interrupt"` (the open-drain IRQ), `"gpio"`
+  (`"pins"`, `"registers"`: `"sc16is"`/`"xr1280"`, `"pullUp"`,
+  `"stateReset"`), `"fastIrda"` (true or grade names), `"dlPowerUp"`,
+  `"straps"` (`"en485"`, `"enir"`), `"sleepPin"`; `"extended"` values
+  `"sc16is"`, `"sc16is-sfr"`, `"sc16is-dld"`, `"xr1280"`; timing names
+  `tdo`, `ttr`, `tvd`, `tgpio`. §3.2's `"efcr"` key is not a key: every
+  bridge has EFCR (the `sc16is*` styles; SFR on the XR20M1280).
+  sc18is604: `"bus"` (spi mode 3), `"i2c"`, `"reset"`, `"interrupt"`,
+  `"gpio"`; timing `tvq`, `ttr`, `tstart` (35 us message to START), `tsa`
+  (125 ns RESET acceptance).
+- **Fixture file.** The bridges go to `bridges.json` (merge.py), not
+  `ns16550.json` (byte-identical after the change), with one fixture part
+  per pinout and grade (`SFX-SC16IS750-hvqfn24-760` …); `case_shipped`
+  compares both files with `serial.json`.
+- **Grades.** SC16IS740 `740`; SC16IS750 `750` and `760`; SC16IS752 `752`
+  and `762` (the 760/762 are speed grades of one device, bridges.md
+  Variants); the others `I`. One grade serves both host modes: the SPI
+  table's td9–td14 (200 ns) time the IRQ/GPIO/DTR changes, I2C tVD;DAT
+  (0.6 us) is `tvd`; tsim is I2C td2 (0.2 us). SC16IS752 uses the SC16IS750
+  4 MHz SPI table (decisions.md).
+- **Fast IrDA.** `"fastIrda": ["760"]` / `["762"]`: on the SC16IS750/752
+  grades EFCR[7] is stored and the pulse stays 3/16 ("fast mode not
+  available", sc16is750 p21 note 9: the feature is absent, not undefined).
+- **SC16IS map, LCR = 0xBF, addresses 0/1:** X. The special set is "LCR[7] = 1
+  and LCR ≠ 0xBF" (bridges.md Registers), so DLL/DLH are not there at 0xBF
+  (P1, P2); 8–15 at 0xBF also X (PI7C9X's SFREN/SFR set aside).
+- **TX trigger without EFR[4].** In FIFO mode the THR interrupt follows the
+  TX trigger (FCR[5:4] reset 00 = 8 spaces) whether or not EFR[4] = 1;
+  EFR[4] only gates writing FCR[5:4] (sc16is750 p21–22, IIR Table 21
+  "spaces ≥ trigger"). XR20M1280 table A's TX trigger "1 only" is the
+  16C550's THR-empty interrupt.
+- **IER[1] re-enable:** no new THR interrupt on `sc16is`/`sc16is-sfr`
+  (sc16is750 p27 note 1; matrix A4 lists the XR20M1170's re-enable
+  interrupt as its oddity); `sc16is-dld` and `xr1280` raise it.
+- **Loopback RI/CD** come from MCR[2]/MCR[3] on every bridge (P4; the
+  PI7C9X and XR20M1170 print it; the SC16IS750 is silent).
+- **GPIO judgment calls.** IOLATCH = 1 latches a change only on inputs with
+  IOIntEna set (the latch is the interrupt mechanism); IOState of a bit with
+  no pin in the package reads the latch if it is an output, else X; the
+  GPIO pull-up (sc16is750 p10 note 2) also applies to the pins' modem
+  function (an open DSR reads inactive); PI7C9X IOState 0xFF is the output
+  latch's reset value (its inputs have no pull-up and read X); a software
+  reset written X makes the chip X until a clean reset (P2). SC16IS740:
+  IODir/IOState/IOIntEna/IOControl read X (planner decision) but an
+  IOControl write still has SRESET (p15 notes 2-3: "IOControl only has the
+  software-reset bit"). The I2C NACK on the SRESET byte is SC16IS only (the
+  PI7C9X and XR datasheets do not state it).
+- **9-bit auto address** keeps its receiver on/off state inside the chip
+  (EFCR[1] reads back as written); it starts off when EFCR[0] turns on.
+  Normal multidrop keeps address bytes while EFCR[1] = 1.
+- **RS-485 RTSCON** stays asserted while flow characters wait too.
+- **PI7C9X SFR bank readings** (TIDLE stored only: planner): ASR [5:4] = 01
+  after an Xoff, 10 while we owe an Xon, 11 after an Xon (new channel field
+  `xon_seen`), [1] Xoff sent or auto-RTS off, [0] stopped by Xoff; ISCR
+  reads the pending-and-enabled sources, bit 0 clears the latched ones
+  (THR, timeout, Xoff/special, CTS/RTS, modem deltas, OE); TRCTL[2] gates
+  the THR interrupt, TRCTL[1] the RX timeout, TRCTL[0]/[3] stored; SFR[0]
+  transmits regardless of flow control, SFR[1] drives DTR by the auto-RTS
+  rule and holds TX while DSR is inactive, SFR[3] echoes the RX pin on TX,
+  SFR[7] (crystal feedback) has no digital effect; CPR M = 0 (a ½
+  prescaler) stops the generator (P2). SFR[4] bursts auto-increment
+  (decisions.md).
+- **XR20M1170** in auto RS-485 with the FIFOs off: the THR interrupt waits
+  for the TSR to empty (bridges.md IRQ#).
+- **XR20M1280 readings:** Xoff goes out 2 character times (RX ticks) after
+  the trigger is reached, Xon at one level below; auto-RTS table D uses
+  TRG ± the SHR hysteresis; RS-485 RTS# drops (1 + SHR[3:0]) bit times
+  after the last stop bit and leads by SHR[7:4]; EN485#/ENIR# are sampled
+  at start and as each reset ends; LSR[4] stays set while RX is held low
+  after a break; EMSR[2] puts the next THR byte at the FIFO head; TRG 0
+  acts as 1; ISR[5:4] keep working with EFR[4] = 0 (the "650" legend:
+  EFR[4] latches the gated bits); the SLEEP pin holds the channel asleep
+  until released; the FCR[3] wake-up interrupt is set as the channel wakes
+  and cleared by an ISR read. DREV reads X; SLEEP high = sleep
+  (decisions.md).
+- **SC18IS604 readings:** MISO Z while CS is high, during the command byte
+  and where no output is defined (as J's front ends); an I2C command while
+  busy is ignored (P2); power-down only when idle; an X on SDA at an ACK or
+  under a sent 1 ends the transfer with I2CStat 0xFX (low bits X) and INT;
+  an unknown command that could be 0x20 makes the registers X; RESET pulses
+  shorter than `tsa` are filtered (20–125 ns is unspecified: filtered);
+  the buffer powers on X; bus free = no START since the last STOP and both
+  lines high; the timeout runs from the START attempt and covers
+  arbitration retries; SCL 50 % duty (not stated).
+- **Cases.** I1–I7 use the bench weak pull-up on SCL, SDA and IRQ (§4
+  allowed it); I8 and I9 use `PULLUP-3V3` parts. I9 sets I2CClock 7 (268
+  kHz) to shorten the run. RFD in I5 counts the PC16550D resync byte after
+  the framing error (3 bytes, RLS 1).
