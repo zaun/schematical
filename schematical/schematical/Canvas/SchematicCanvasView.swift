@@ -169,7 +169,7 @@ struct SchematicCanvasView: View {
                             isHovered: chip.id == hoveredChipID,
                             level: simulation.lights[chip.id]?.first ?? 0
                         )
-                    case .vcc, .ground:
+                    case .vcc, .ground, .pullUp, .pullDown:
                         SupplySymbolView(
                             chip: chip,
                             isSelected: chip.id == document.selectedChipID,
@@ -331,7 +331,7 @@ struct SchematicCanvasView: View {
             }
             interaction = .idle
 
-        case .vcc, .ground:
+        case .vcc, .ground, .pullUp, .pullDown:
             // One supply per press, centred under where the press started.
             if interaction == nil,
                let name = tool.supplyName(voltage: supplyVoltage),

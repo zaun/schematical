@@ -158,8 +158,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case led(color: String)
         case display(DisplayInfo)
         case oscillator(family: String, minHz: UInt64, maxHz: UInt64, defaultHz: UInt64, enablePin: String?)
-        /// `mv`: the supply's voltage in millivolts (0 for ground).
-        case supply(level: Int, mv: UInt32)
+        /// `mv`: the supply's voltage in millivolts (0 for ground); `pull`:
+        /// a pull-up or pull-down part (drives weakly).
+        case supply(level: Int, mv: UInt32, pull: Bool)
         /// A processor: its core ("6502", "65c02", "z80"), speed grade and
         /// highest clock.
         case cpu(core: String, grade: String, maxHz: UInt64)
@@ -394,11 +395,11 @@ extension CatalogPart {
                                   defaultHz: osc.default_hz,
                                   enablePin: osc.enable_pin.map { String(cString: $0) })
         } else if let supply = part.supply?.pointee {
-            details = .supply(level: Int(supply.level), mv: supply.mv)
+            details = .supply(level: Int(supply.level), mv: supply.mv, pull: supply.pull != 0)
         } else if let cpu = part.cpu?.pointee {
             details = .cpu(core: string(cpu.core), grade: string(cpu.grade), maxHz: cpu.max_hz)
         } else {
-            details = .supply(level: 0, mv: 0)
+            details = .supply(level: 0, mv: 0, pull: false)
         }
     }
 }
@@ -520,8 +521,9 @@ func symbol(for part: CatalogPart) -> PartSymbol {
     case PART_7SEG: return .sevenSegment
     case PART_OSCILLATOR: return .oscillator
     case PART_SUPPLY:
-        if case let .supply(level, _) = part.details, level == 0 { return .ground }
-        return .vcc
+        guard case let .supply(level, _, pull) = part.details else { return .vcc }
+        if pull { return level == 0 ? .pullDown : .pullUp }
+        return level == 0 ? .ground : .vcc
     default: return .block
     }
 }
@@ -629,7 +631,7 @@ final class PartCatalogStore {
     /// runs at, in menu order, with their voltage in millivolts.
     var voltageChoices: [(name: String, mv: UInt32)] {
         SupplyChoice.names.compactMap { name in
-            guard case let .supply(_, mv)? = partsByName[name]?.details, mv > 0,
+            guard case let .supply(_, mv, _)? = partsByName[name]?.details, mv > 0,
                   entries.contains(where: { $0.vcc.map { $0.minMV...$0.maxMV ~= mv } ?? false })
             else { return nil }
             return (name, mv)

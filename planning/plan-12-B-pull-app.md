@@ -25,7 +25,7 @@ plan-12-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-12-A landed | `grep -c '"PULLUP-5V"' schematical/schematical/Parts/supply.json` → 1; `grep -n 'int pull' backend/include/parts.h` → one line | NOT MET (2026-11-02) |
+| plan-12-A landed | `grep -c '"PULLUP-5V"' schematical/schematical/Parts/supply.json` → 1; `grep -n 'int pull' backend/include/parts.h` → one line | MET (2026-11-01 at da9374b: 1; `64:typedef struct { int level; uint32_t mv; int pull; } PartSupply;`) |
 
 ## 1. Goal
 
@@ -92,23 +92,29 @@ picked one-pin pulls that follow the VCC menu).
 
 ### Phase 1 — Tools and symbols
 
-- [ ] `SchematicModel.swift`, `ContentView.swift`, `PartCatalog.swift`,
+- [x] `SchematicModel.swift`, `ContentView.swift`, `PartCatalog.swift`,
   `SupplySymbolView.swift`, `SchematicCanvasView.swift`, `ChipBlockView.swift`:
   §3. `xcodebuild -project schematical/schematical.xcodeproj -scheme
   schematical -configuration Debug -derivedDataPath /tmp/p12-dd
-  CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **`.
-- [ ] Harness (`/tmp/p12/harness/build.sh`, plan-06-A § Harness) command
+  CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **`. Observed:
+  `** BUILD SUCCEEDED **`. Also changed: `PartFacts.swift`, `VoltageCheck.swift`
+  (`CatalogPart.Details.supply` gains `pull`); `ChipBlockView.swift`
+  unchanged (see Corrections).
+- [x] Harness (`/tmp/p12/harness/build.sh`, plan-06-A § Harness) command
   `pulls`: prints `SchematicTool.allCases` titles, `supplyName` for
   `.pullUp` with `3V3` and for `.pullDown`, and the catalog symbol of
   `PULLUP-5V`, `PULLDOWN`, `5V`, `GND`. Expected: `Pointer Eraser Line Flip
   VCC GND Pull-up Pull-down`; `PULLUP-3V3`; `PULLDOWN`; `pullUp pullDown vcc
-  ground`.
-- [ ] Harness command `pullproof`: builds a document with `SN74HC266N` (device `74_266`,
+  ground`. Observed: exactly those four lines.
+- [x] Harness command `pullproof`: builds a document with `SN74HC266N` (device `74_266`,
   open-drain XNOR), `PULLUP-5V` on its output and `5V`/`GND` on its power, runs
   1 µs, prints the output net value with input A = B = 0 (expected `1`, XNOR
   of equal inputs releases the pin and the pull-up wins) and renders the
   canvas to `/tmp/p12-proof/pulls.png`. The PNG is looked at: the pull-up
-  symbol shows its rail label, resistor and pin stub.
+  symbol shows its rail label, resistor and pin stub. Observed: `1Y (A = B =
+  0, pulled up) = 1`, `rendered /tmp/p12-proof/pulls.png`. The PNG was looked
+  at: the 5V label, bar, zig-zag and stub on the pull-up; 1Y's wire green. A
+  PULLDOWN on 2Y (2A = VCC, 2B = GND) draws as stub, resistor and ground bars.
 
 Acceptance: the build succeeds and the two harness commands print as above;
 the PNG is looked at (about 3 min).
@@ -128,4 +134,11 @@ tier is plan-12-K's.
 
 ## Corrections
 
-(none yet)
+- **`ChipBlockView.swift`'s color switch** (§3) is over `ChipPinRole`
+  (`nameColor(for:)`), not `PartSymbol`, so the pull cases don't belong
+  there. The only exhaustive `PartSymbol` switches are
+  `SchematicCanvasView.swift`'s view switch and `ChipLayout.init`, and both
+  have the new cases. Verified by building.
+- **`CatalogPart.Details.supply`** gains `pull: Bool`, so the facts panel
+  shows "High, weak (pull-up)". That touches every pattern on it:
+  `PartFacts.swift`, `VoltageCheck.swift`, and `PartCatalog.swift` ×3.

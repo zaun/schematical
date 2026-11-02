@@ -26,6 +26,8 @@ enum SchematicTool: String, CaseIterable, Identifiable {
     case flip
     case vcc
     case ground
+    case pullUp
+    case pullDown
 
     var id: String { rawValue }
 
@@ -37,6 +39,8 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         case .flip: "Flip"
         case .vcc: "VCC"
         case .ground: "GND"
+        case .pullUp: "Pull-up"
+        case .pullDown: "Pull-down"
         }
     }
 
@@ -48,15 +52,20 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         case .flip: "arrow.left.and.right"
         case .vcc: "bolt"
         case .ground: "arrow.down.to.line"
+        case .pullUp: "arrow.up.circle"
+        case .pullDown: "arrow.down.circle"
         }
     }
 
     /// The supply placed by this tool, if it places one: `voltage` (a
-    /// `SupplyChoice` name) for VCC, GND for ground.
+    /// `SupplyChoice` name) for VCC, GND for ground, `PULLUP-<voltage>` for
+    /// Pull-up and PULLDOWN for Pull-down.
     func supplyName(voltage: String) -> String? {
         switch self {
         case .vcc: voltage
         case .ground: "GND"
+        case .pullUp: "PULLUP-" + voltage
+        case .pullDown: "PULLDOWN"
         default: nil
         }
     }
@@ -72,7 +81,8 @@ enum SupplyChoice {
 
 /// How a placed part is drawn. Logic chips are boxes; oscillators are boxes with
 /// a sine wave in a circle in place of the function name; LEDs use the diode
-/// symbol; VCC and GND use their own supply symbols; DIP switches are boxes
+/// symbol; VCC and GND use their own supply symbols, and pull-ups and
+/// pull-downs a resistor to a rail or to ground; DIP switches are boxes
 /// with one lever per position; 7-segment displays are boxes that show their
 /// digits.
 nonisolated enum PartSymbol: Hashable {
@@ -81,17 +91,19 @@ nonisolated enum PartSymbol: Hashable {
     case diode
     case vcc
     case ground
+    case pullUp
+    case pullDown
     case dipSwitch
     case sevenSegment
 
     /// Supplies have their pin on the top or bottom edge, so their view needs
     /// room above and below the body for the pin stub.
     var hasVerticalPins: Bool {
-        self == .vcc || self == .ground
+        self == .vcc || self == .ground || self == .pullUp || self == .pullDown
     }
 
-    /// Flip turns logic chips and LEDs left to right. VCC and GND are fixed
-    /// in place, so flipping them does nothing.
+    /// Flip turns logic chips and LEDs left to right. VCC, GND and the pulls
+    /// are fixed in place, so flipping them does nothing.
     var canFlip: Bool {
         !hasVerticalPins
     }
@@ -152,6 +164,11 @@ nonisolated struct ChipLayout: Hashable {
     /// on its pin's edge, so the connector from bar to pin is one stub (10px).
     static let supplyPinX: CGFloat = 20
     static let supplySize = CGSize(width: 40, height: 20)
+    /// Pull-up and pull-down symbols are 40 by 80: the 60-tall resistor (6
+    /// grid steps) plus the rail bar and label (pull-up) or the ground bars
+    /// (pull-down). The pin is on the bottom (pull-up) or top (pull-down) edge.
+    static let pullSize = CGSize(width: 40, height: 80)
+    static let pullResistorHeight: CGFloat = 60
 
     /// DIP switch body width, and the size of each position's lever, which is
     /// centred on its row.
@@ -171,6 +188,10 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.supply(pins, side: .bottom)
         case .ground:
             self = Self.supply(pins, side: .top)
+        case .pullUp:
+            self = Self.supply(pins, side: .bottom, size: Self.pullSize)
+        case .pullDown:
+            self = Self.supply(pins, side: .top, size: Self.pullSize)
         case .dipSwitch:
             self = Self.dipSwitch(pins)
         case .sevenSegment:
@@ -255,12 +276,12 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
-    private static func supply(_ pins: [ChipPin], side: Side) -> ChipLayout {
+    private static func supply(_ pins: [ChipPin], side: Side, size: CGSize = supplySize) -> ChipLayout {
         guard let pin = pins.first else {
             return ChipLayout(pins: pins)
         }
         return ChipLayout(
-            size: supplySize,
+            size: size,
             slots: [PinSlot(pin: pin, side: side, centerY: 0, centerX: supplyPinX)]
         )
     }

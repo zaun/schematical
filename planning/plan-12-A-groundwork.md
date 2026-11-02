@@ -467,7 +467,7 @@ Commit: ece2a38
 Acceptance: `ctest --test-dir /tmp/logic-p12` → `100% tests passed`, T0
 programs (about 15 s); the golden checks above. Observed (pre-plan-11 main):
 `100% tests passed, 0 tests failed out of 17`. Re-run after merging plan-11.
-Commit: —
+Commit: da9374b
 
 ## Validation Plan
 

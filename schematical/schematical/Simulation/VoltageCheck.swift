@@ -127,7 +127,7 @@ enum VoltageCheck {
             // The lower voltage first.
             var low = (volts(issue.minMV), chip.reference)
             var high = (volts(issue.mv), other?.reference ?? "?")
-            if case let .supply(_, mv) = chip.part.details, mv == issue.mv, issue.mv != issue.minMV {
+            if case let .supply(_, mv, _) = chip.part.details, mv == issue.mv, issue.mv != issue.minMV {
                 low.1 = other?.reference ?? "?"
                 high.1 = chip.reference
             }

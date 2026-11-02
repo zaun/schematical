@@ -220,16 +220,17 @@ struct ContentView: View {
                         .labelsHidden()
                         .disabled(simulation.isRunning)
 
-                        // The VCC tool's supply. Picking one also picks the tool.
+                        // The VCC and Pull-up tools' rail. Picking one also picks
+                        // VCC, unless Pull-up is the tool.
                         Menu(supplyVoltage) {
                             ForEach(SupplyChoice.names, id: \.self) { name in
                                 Button(name) {
                                     supplyVoltage = name
-                                    tool = .vcc
+                                    tool = tool == .pullUp ? .pullUp : .vcc
                                 }
                             }
                         }
-                        .help("Supply voltage for the VCC tool")
+                        .help("Supply voltage for the VCC and Pull-up tools")
                         .disabled(simulation.isRunning)
                     } else {
                         Picker("Tool", selection: $pcbTool) {

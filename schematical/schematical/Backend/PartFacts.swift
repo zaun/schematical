@@ -55,8 +55,12 @@ nonisolated enum PartFacts {
             add("Range", "\(hertz(minHz)) – \(hertz(maxHz))")
             add("Default", hertz(defaultHz))
             add("Enable pin", enablePin ?? "None")
-        case let .supply(level, mv):
-            add("Level", level != 0 ? "High (VCC)" : "Low (GND)")
+        case let .supply(level, mv, pull):
+            if pull {
+                add("Level", level != 0 ? "High, weak (pull-up)" : "Low, weak (pull-down)")
+            } else {
+                add("Level", level != 0 ? "High (VCC)" : "Low (GND)")
+            }
             if level != 0 { add("Voltage", "\(VoltageCheck.volts(mv)) V") }
         case let .cpu(core, grade, maxHz):
             add("Core", coreName(core))
