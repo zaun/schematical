@@ -115,13 +115,20 @@ after F's `VQFN-16`.
 
 Acceptance: `ctest` 15 of 15; goldens 6108 / 6108 / 158, added only. (Ran:
 `100% tests passed, 0 tests failed out of 15`.)
-Commit: —
+Commit: 94174a1
 
 ### Phase 2 — Real-part cases
 
-- [ ] §4.3 cases in `shift_test`.
+- [x] §4.3 cases in `shift_test`. (The G/H case functions take a real part
+  through `real_part` and a longer step: 100 ns for HC/LS, 300 ns for the
+  LV8153 (RESET/OE → Y is 200 ns), 500 ns for TPIC6B595N, 2 µs for
+  CD4094BE; case 34 runs as its own function with the HC 400 ns
+  fall-through. The 74_673 and 74_8153 functions hold several cases, so the
+  real runs print cases 24–27 and 40–43.)
 
-Acceptance: `shift_test` all `PASS`; `ctest` 15 of 15.
+Acceptance: `shift_test` all `PASS`; `ctest` 15 of 15. (Ran: 58 `PASS` — 43
+fixture cases and 15 real-part lines — no `FAIL`; `100% tests passed, 0
+tests failed out of 15`.)
 Commit: —
 
 ## Validation Plan
@@ -144,6 +151,10 @@ Phase 1 and 2 acceptance (`ctest`, about 7 s).
   printed Y delay besides the Pw/2 bit-timing ones.
 - 2026-11-01, Phase 1: `docs/parts-format.md`'s file table gains
   `shift.json`.
+- 2026-11-01, Phase 2: the first real run of case 42 failed only because the
+  test read Y one 100 ns step after OUTSEL changed, under the LV8153's 200 ns
+  RESET/OE → Y delay; the LV8153 run now steps 300 ns. No model or data
+  change.
 
 ## Summary
 

@@ -4,7 +4,8 @@
  * real devices' pinouts and keys from the spec sections (no shift part file
  * exists before plan-10-I), with 10 ns delays; levels are checked 50 ns
  * after each step. Cases 24-43 (plan-10-H) cover the ls673, tap64,
- * bus-register, fifo and serial-in models.
+ * bus-register, fifo and serial-in models. The "[part]" cases (plan-10-I)
+ * re-run some on real parts from shift.json.
  */
 
 #include <stdio.h>
@@ -15,6 +16,7 @@
 #include "kind.h"
 #include "model_pins.h"
 #include "parts.h"
+#include "read_file.h"
 #include "sim.h"
 
 #define NS(value) ((SimTime)((value) * 1000ull))
@@ -22,8 +24,18 @@
 static int failures = 0;
 static PartLibrary *library;
 
+/* Real-part runs (plan-10-I section 4.3): the cases open this part from the
+   real library instead of their fixture, and step this long. */
+static PartLibrary *real_library;
+static const char *real_part;
+static SimTime step_ps = NS(50);
+
 static void expect(int ok, const char *what) {
-    printf("%s: %s\n", ok ? "PASS" : "FAIL", what);
+    if (real_part != NULL) {
+        printf("%s: [%s] %s\n", ok ? "PASS" : "FAIL", real_part, what);
+    } else {
+        printf("%s: %s\n", ok ? "PASS" : "FAIL", what);
+    }
     if (!ok) {
         failures++;
     }
@@ -661,7 +673,8 @@ static const Part *fx_part(const char *device) {
     const Part *part;
 
     snprintf(name, sizeof name, "FX-%s", device);
-    part = part_library_find(library, name);
+    part = real_part != NULL ? part_library_find(real_library, real_part)
+                             : part_library_find(library, name);
     if (part == NULL || part->kind != PART_SHIFT) {
         fprintf(stderr, "no shift part %s\n", name);
         exit(1);
@@ -674,7 +687,7 @@ static Bench *open_fx(const char *device) {
 }
 
 static void step(Bench *b) {
-    bench_run(b, NS(50));
+    bench_run(b, step_ps);
 }
 
 static void set(Bench *b, const char *pin, LogicValue v) {
@@ -1916,6 +1929,49 @@ static void check_open_drain(void) {
            "23 voltage: open drain on FX-TPIC6B595 DRAIN0 and FX-74_596 QA, not FX-74_595 QA");
 }
 
+/* ---- plan-10-I: real parts ---------------------------------------------------------- */
+
+/* Case 34 with a real part's fall-through: DOR low halfway, high after it. */
+static void check_fifo_real(void) {
+    Bench *b = open_fifo("74_40105");
+    int ok = is(b, "DIR", L1) && is(b, "DOR", L0);
+
+    set_pins(b, D4, 4, 0x9);
+    set(b, "SI", L1);
+    bench_run(b, NS(200));
+    ok &= is(b, "DOR", L0);   /* the HC fall-through is 400 ns */
+    bench_run(b, NS(500));
+    expect(ok && is(b, "DOR", L1) && pins_value(b, Q4, 4, 0x9),
+           "34 one word into an empty FIFO: DOR high and Q valid after the fall-through time");
+    bench_destroy(b);
+}
+
+static void real(const char *part, SimTime step, void (*check)(void)) {
+    real_part = part;
+    step_ps = step;
+    check();
+    real_part = NULL;
+    step_ps = NS(50);
+}
+
+static void check_real_parts(void) {
+    real_library = part_library_create();
+    if (real_library == NULL || load_parts_dir(real_library, PARTS_DIR) != 0) {
+        printf("FAIL: cannot load the part library\n");
+        failures++;
+        return;
+    }
+    real("SN74HC595N", NS(100), check_595);
+    real("SN74HC165N", NS(100), check_165);
+    real("SN74LS299N", NS(100), check_299);
+    real("TPIC6B595N", NS(500), check_tpic6b595);
+    real("CD4094BE", NS(2000), check_4094);
+    real("CD74HC40105E", NS(100), check_fifo_real);
+    real("SN74LV8153PW", NS(300), check_8153);   /* RESET/OE to Y is 200 ns */
+    real("SN74LS673DW", NS(100), check_673);
+    part_library_destroy(real_library);
+}
+
 int main(void) {
     char *error;
 
@@ -1954,6 +2010,7 @@ int main(void) {
     check_4034();
     check_fifo();
     check_8153();
+    check_real_parts();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);
