@@ -56,3 +56,18 @@
 | G | XR16V564 | `exar-d.md` § XR16V564 | 4 | lqfp64 (64), plcc68 (68), qfn48 (48) | I |
 | G | XR16V654 | `exar-d.md` § XR16V654 | 3 | lqfp64 (64), qfn48 (48) | I |
 | G | XR16V798 | `exar-d.md` § XR16V798 | 1 | qfp100 (100) | I |
+
+## Group I (plan-12-I): the I2C/SPI bridges and the SC18IS604
+
+`keys/<id>.json` and `devices/<id>.json` also hold the 8 group I devices (`devices.tsv` function `Bridge UART` or `I2C controller`): SC16IS740, SC16IS750 (grades 750, 760), SC16IS752 (752, 762), PI7C9X760, PI7C9X762, XR20M1170, XR20M1280 (model `ns16550` with the bridge keys) and SC18IS604 (model `sc18is604`), 22 parts, stock re-checked at DigiKey on 2026-11-01 (none dropped). `merge.py` writes them to `bridges.json` (not `ns16550.json`) with one fixture part per pinout and grade (`SFX-<id>-<pinout>` for the pinout's first grade, `SFX-<id>-<pinout>-<grade>` for the others). `footprints.json` gains I's 4 new footprints: QFN-24-4X4, TSSOP-28, TQFN-32-5X5-ZH, TQFN-24-4X4-ZD.
+
+| Device | Spec section | Parts | Pinouts (pins) | Grades |
+|---|---|---|---|---|
+| PI7C9X760 | `bridges.md` § PI7C9X760 | 1 | hvqfn24 (24) | I |
+| PI7C9X762 | `bridges.md` § PI7C9X762 | 1 | hvqfn32 (32) | I |
+| SC16IS740 | `bridges.md` § SC16IS750 | 3 | tssop16 (16) | 740 |
+| SC16IS750 | `bridges.md` § SC16IS750 | 3 | hvqfn24 (24) | 750, 760 |
+| SC16IS752 | `bridges.md` § SC16IS752 | 7 | hvqfn32 (32), tssop28 (28) | 752, 762 |
+| SC18IS604 | `bridges.md` § SC18IS604 | 1 | tssop16 (16) | I |
+| XR20M1170 | `bridges.md` § XR20M1170 | 4 | qfn24 (24), tssop24 (24), tssop16 (16) | I |
+| XR20M1280 | `bridges.md` § XR20M1280 | 2 | qfn24 (24), qfn32 (32) | I |

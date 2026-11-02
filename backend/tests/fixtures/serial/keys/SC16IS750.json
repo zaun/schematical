@@ -1,0 +1,108 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "i2c-spi",
+  "selectPin": "I2C/SPI",
+  "spiLevel": 0,
+  "selectSampled": "reset",
+  "spi": {
+   "cs": "CS/A0",
+   "sclk": "SCL/SCLK",
+   "mosi": "SI/A1",
+   "miso": "SO",
+   "mode": 0
+  },
+  "i2c": {
+   "scl": "SCL/SCLK",
+   "sda": "SDA",
+   "address": [
+    "CS/A0",
+    "SI/A1"
+   ],
+   "table": [
+    77,
+    76,
+    78,
+    79,
+    73,
+    72,
+    74,
+    75,
+    81,
+    80,
+    82,
+    83,
+    85,
+    84,
+    86,
+    87
+   ]
+  },
+  "reset": "RESET",
+  "resetActiveHigh": false,
+  "nack": [
+   "reset"
+  ],
+  "sdaTimeout": 25000000
+ },
+ "clock": {
+  "in": "XTAL1",
+  "out": "XTAL2"
+ },
+ "channels": [
+  {
+   "tx": "TX",
+   "rx": "RX",
+   "rts": "RTS",
+   "cts": "CTS",
+   "dsr": "GPIO4/DSR",
+   "dtr": "GPIO5/DTR",
+   "dcd": "GPIO6/CD",
+   "ri": "GPIO7/RI"
+  }
+ ],
+ "interrupt": "IRQ",
+ "gpio": {
+  "pins": [
+   "GPIO0",
+   "GPIO1",
+   "GPIO2",
+   "GPIO3",
+   "GPIO4/DSR",
+   "GPIO5/DTR",
+   "GPIO6/CD",
+   "GPIO7/RI"
+  ],
+  "registers": "sc16is",
+  "pullUp": true
+ },
+ "fifo": 64,
+ "rxTrigger": [
+  8,
+  16,
+  56,
+  60
+ ],
+ "txTrigger": [
+  8,
+  16,
+  32,
+  56
+ ],
+ "tlr": 4,
+ "lcrReset": 29,
+ "dmaMode1": false,
+ "timeout": "4ch",
+ "iirPriority": "nxpEqual",
+ "lsrErrors": "head",
+ "autoFlow": "tcr",
+ "swFlow": "tiAnd",
+ "specialChar": true,
+ "sleep": "ier4",
+ "irda": "mcr6",
+ "prescaler": "mcr7",
+ "extended": "sc16is",
+ "fastIrda": [
+  "760"
+ ]
+}

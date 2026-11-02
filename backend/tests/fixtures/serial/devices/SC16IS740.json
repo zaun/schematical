@@ -1,0 +1,142 @@
+{
+ "id": "SC16IS740",
+ "function": "Bridge UART",
+ "description": "Single UART with I2C-bus/SPI interface, 64 bytes of transmit and receive FIFOs, IrDA SIR built-in support",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "sc16is750.pdf p.1-51 (the SC16IS740: no GPIO or modem pins); plan-12-data/specs/bridges.md \u00a7 SC16IS750",
+ "pinouts": {
+  "tssop16": [
+   {
+    "number": 1,
+    "name": "VDD",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "CS/A0",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "SI/A1",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "SO",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "SCL/SCLK",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "SDA",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "I2C/SPI",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 10,
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "TX",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "RX",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "RESET",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "XTAL1",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "XTAL2",
+    "role": "output"
+   }
+  ]
+ },
+ "grades": {
+  "740": {
+   "tdo": 100,
+   "ttr": 100,
+   "tvd": 600,
+   "trint": 200,
+   "thr": 200,
+   "tir": 200,
+   "trim": 200,
+   "tsim": 200,
+   "tmdo": 200,
+   "tgpio": 200,
+   "vcc": [
+    2.3,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "sc16is750.pdf p.40-46, 3.3 V: Table 39 (SPI 4 MHz: tDO 100 ns, tTR 100 ns, td9-td14 200 ns: tgpio, tmdo, thr, tir, trim, trint), Table 37 (I2C tVD;DAT 0.6 us -> tvd; td2 modem interrupt 0.2 us -> tsim)"
+  }
+ },
+ "parts": [
+  {
+   "name": "SC16IS740IPW,112",
+   "package": "TSSOP",
+   "pinout": "tssop16",
+   "footprint": "TSSOP-16",
+   "flags": [
+    "obsolete"
+   ],
+   "grade": "740"
+  },
+  {
+   "name": "SC16IS740IPW,128",
+   "package": "TSSOP",
+   "pinout": "tssop16",
+   "footprint": "TSSOP-16",
+   "grade": "740"
+  },
+  {
+   "name": "SC16IS740IPW/Q900,",
+   "package": "TSSOP",
+   "pinout": "tssop16",
+   "footprint": "TSSOP-16",
+   "flags": [
+    "automotive"
+   ],
+   "grade": "740"
+  }
+ ]
+}

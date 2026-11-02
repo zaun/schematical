@@ -1,0 +1,410 @@
+{
+ "id": "SC16IS752",
+ "function": "Bridge UART",
+ "description": "Dual UART with I2C-bus/SPI interface, 64 bytes of transmit and receive FIFOs, IrDA SIR built-in support",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "sc16is752.pdf p.1-51 (SC16IS752 and SC16IS762); plan-12-data/specs/bridges.md \u00a7 SC16IS752",
+ "pinouts": {
+  "hvqfn32": [
+   {
+    "number": 1,
+    "name": "RXA",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "RESET",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "XTAL1",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "XTAL2",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VDD",
+    "role": "power"
+   },
+   {
+    "number": 6,
+    "name": "I2C/SPI",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "CS/A0",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "SI/A1",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "SO",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "SCL/SCLK",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "SDA",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "VDD",
+    "role": "power"
+   },
+   {
+    "number": 14,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "CTSB",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "RTSB",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "GPIO0/DSRB",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "GPIO1/DTRB",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "GPIO2/CDB",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "GPIO3/RIB",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 22,
+    "name": "TXB",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "RXB",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "GPIO4/DSRA",
+    "role": "inout"
+   },
+   {
+    "number": 25,
+    "name": "GPIO5/DTRA",
+    "role": "inout"
+   },
+   {
+    "number": 26,
+    "name": "GPIO6/CDA",
+    "role": "inout"
+   },
+   {
+    "number": 27,
+    "name": "GPIO7/RIA",
+    "role": "inout"
+   },
+   {
+    "number": 28,
+    "name": "VDD",
+    "role": "power"
+   },
+   {
+    "number": 29,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 30,
+    "name": "RTSA",
+    "role": "output"
+   },
+   {
+    "number": 31,
+    "name": "CTSA",
+    "role": "input"
+   },
+   {
+    "number": 32,
+    "name": "TXA",
+    "role": "output"
+   }
+  ],
+  "tssop28": [
+   {
+    "number": 1,
+    "name": "RTSA",
+    "role": "output"
+   },
+   {
+    "number": 2,
+    "name": "CTSA",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "TXA",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "RXA",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "RESET",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "XTAL1",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "XTAL2",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "VDD",
+    "role": "power"
+   },
+   {
+    "number": 9,
+    "name": "I2C/SPI",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "CS/A0",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "SI/A1",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "SO",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "SCL/SCLK",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "SDA",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "CTSB",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "RTSB",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "GPIO0/DSRB",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "GPIO1/DTRB",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "GPIO2/CDB",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "GPIO3/RIB",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 23,
+    "name": "TXB",
+    "role": "output"
+   },
+   {
+    "number": 24,
+    "name": "RXB",
+    "role": "input"
+   },
+   {
+    "number": 25,
+    "name": "GPIO4/DSRA",
+    "role": "inout"
+   },
+   {
+    "number": 26,
+    "name": "GPIO5/DTRA",
+    "role": "inout"
+   },
+   {
+    "number": 27,
+    "name": "GPIO6/CDA",
+    "role": "inout"
+   },
+   {
+    "number": 28,
+    "name": "GPIO7/RIA",
+    "role": "inout"
+   }
+  ]
+ },
+ "grades": {
+  "752": {
+   "tdo": 100,
+   "ttr": 100,
+   "tvd": 600,
+   "trint": 200,
+   "thr": 200,
+   "tir": 200,
+   "trim": 200,
+   "tsim": 200,
+   "tmdo": 200,
+   "tgpio": 200,
+   "vcc": [
+    2.3,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "sc16is752.pdf p.39-44 with the SC16IS750 4 MHz SPI table (decisions.md: sc16is750.pdf Table 39, tDO 100 ns, tTR 100 ns, td9-td14 200 ns); I2C Table 37 tVD;DAT 0.6 us, td2 0.2 us"
+  },
+  "762": {
+   "tdo": 20,
+   "ttr": 100,
+   "tvd": 600,
+   "trint": 200,
+   "thr": 200,
+   "tir": 200,
+   "trim": 200,
+   "tsim": 200,
+   "tmdo": 200,
+   "tgpio": 200,
+   "vcc": [
+    2.3,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "sc16is752.pdf p.41-44, 3.3 V: Table 39 (SPI 15 MHz: tDO 20 ns, tTR 100 ns, td9-td14 200 ns); I2C Table 37 tVD;DAT 0.6 us, td2 0.2 us"
+  }
+ },
+ "parts": [
+  {
+   "name": "SC16IS752IBS,128",
+   "package": "HVQFN",
+   "pinout": "hvqfn32",
+   "footprint": "HVQFN-32-5X5",
+   "grade": "752"
+  },
+  {
+   "name": "SC16IS752IBS,151",
+   "package": "HVQFN",
+   "pinout": "hvqfn32",
+   "footprint": "HVQFN-32-5X5",
+   "grade": "752"
+  },
+  {
+   "name": "SC16IS752IPW,112",
+   "package": "TSSOP",
+   "pinout": "tssop28",
+   "footprint": "TSSOP-28",
+   "flags": [
+    "obsolete"
+   ],
+   "grade": "752"
+  },
+  {
+   "name": "SC16IS752IPW,128",
+   "package": "TSSOP",
+   "pinout": "tssop28",
+   "footprint": "TSSOP-28",
+   "grade": "752"
+  },
+  {
+   "name": "SC16IS762IBS,128",
+   "package": "HVQFN",
+   "pinout": "hvqfn32",
+   "footprint": "HVQFN-32-5X5",
+   "grade": "762"
+  },
+  {
+   "name": "SC16IS762IPW,112",
+   "package": "TSSOP",
+   "pinout": "tssop28",
+   "footprint": "TSSOP-28",
+   "flags": [
+    "obsolete"
+   ],
+   "grade": "762"
+  },
+  {
+   "name": "SC16IS762IPW,128",
+   "package": "TSSOP",
+   "pinout": "tssop28",
+   "footprint": "TSSOP-28",
+   "grade": "762"
+  }
+ ]
+}
