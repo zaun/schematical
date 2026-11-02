@@ -823,6 +823,198 @@ static void check_read_timing(void) {
     bench_destroy(l.b);
 }
 
+/* ---- Cases 14-16: violations, X, LOST ---- */
+
+/* An LCD after the 8-bit init and Clear, AC 0. */
+static Lcd ready_lcd(void) {
+    Lcd l = lcd_open("FX-LCD");
+
+    init8(&l);
+    clear(&l);
+    return l;
+}
+
+/* Cell 0 became X (all 8 bits, every dot) and AC moved to 01. */
+static int cell0_lost_ac1(Lcd *l) {
+    LcdState st;
+
+    bench_run(l->b, US(40));
+    lcd_state(l, &st);
+    return st.ddram_known[0] == 0 && cell_all(&st, 0, 0, LCD_DOT_X) && read_ac(l) == 1;
+}
+
+static void check_write_violations(void) {
+    Lcd l;
+    uint8_t v, k;
+
+    l = ready_lcd();
+    lv(&l, "RS", 1);
+    put_db(&l, 'A', 0xFF);
+    bench_run(l.b, NS(50));
+    lv(&l, "E", 1);
+    bench_run(l.b, NS(100));
+    lv(&l, "E", 0);
+    bench_run(l.b, US(2));
+    expect(cell0_lost_ac1(&l), "14 violation: E high 100 ns (< tpw 140): the cell is X, AC moves");
+    bench_destroy(l.b);
+
+    l = ready_lcd();
+    lv(&l, "RS", 1);
+    put_db(&l, 'A', 0xFF);
+    bench_run(l.b, NS(50));
+    lv(&l, "E", 1);
+    bench_run(l.b, NS(480));
+    put_db(&l, 'B', 0xFF);
+    bench_run(l.b, NS(20));
+    lv(&l, "E", 0);
+    bench_run(l.b, US(2));
+    expect(cell0_lost_ac1(&l), "14 violation: data changing 20 ns before E fall (< tdsw 40): the cell is X");
+    bench_destroy(l.b);
+
+    l = ready_lcd();
+    lv(&l, "RS", 1);
+    put_db(&l, 'A', 0xFF);
+    bench_run(l.b, NS(50));
+    lv(&l, "E", 1);
+    bench_run(l.b, NS(500));
+    lv(&l, "E", 0);
+    bench_run(l.b, NS(5));
+    put_db(&l, 'B', 0xFF);
+    bench_run(l.b, US(2));
+    expect(cell0_lost_ac1(&l), "14 violation: data changing 5 ns after E fall (< th 10): the cell is X");
+    bench_destroy(l.b);
+
+    l = ready_lcd();
+    lv(&l, "RS", 1);
+    put_db(&l, 'A', 0xFF);
+    bench_run(l.b, NS(50));
+    lv(&l, "E", 1);
+    bench_run(l.b, NS(500));
+    lv(&l, "E", 0);
+    bench_run(l.b, NS(5));
+    lv(&l, "RS", 0);
+    bench_run(l.b, US(2));
+    expect(cell0_lost_ac1(&l), "14 violation: RS changing 5 ns after E fall (< tah 10): the cell is X");
+    bench_destroy(l.b);
+
+    /* E rising 1000 ns after the last rise; the last access is a read, so
+       the write is not refused as busy. */
+    l = ready_lcd();
+    lv(&l, "RS", 0);
+    lv(&l, "R/W", 1);
+    put_db(&l, 0, 0);
+    bench_run(l.b, NS(50));
+    lv(&l, "E", 1);
+    bench_run(l.b, NS(500));
+    lv(&l, "E", 0);
+    bench_run(l.b, NS(450));
+    lv(&l, "RS", 1);
+    lv(&l, "R/W", 0);
+    put_db(&l, 'A', 0xFF);
+    bench_run(l.b, NS(50));
+    lv(&l, "E", 1);
+    bench_run(l.b, NS(500));
+    lv(&l, "E", 0);
+    bench_run(l.b, US(2));
+    expect(cell0_lost_ac1(&l), "14 violation: E rising 1000 ns after the last rise (< tc 1200): the cell is X");
+    (void)v;
+    (void)k;
+    bench_destroy(l.b);
+}
+
+static void check_lost(void) {
+    Lcd l = ready_lcd();
+    LcdState st;
+    uint8_t v, k;
+
+    /* An instruction write with RS X. */
+    bench_set(l.b, "RS", LOGIC_Z);
+    lv(&l, "R/W", 0);
+    put_db(&l, 0x0F, 0xFF);
+    bench_run(l.b, NS(50));
+    lv(&l, "E", 1);
+    bench_run(l.b, NS(500));
+    lv(&l, "E", 0);
+    bench_run(l.b, US(40));
+    lcd_state(&l, &st);
+    rd(&l, 0, &v, &k);
+    expect(image_all(&st, LCD_DOT_X) && st.busy == -1 && !(k & 0x80),
+           "15 LOST: an instruction write with RS X: every dot X, BF reads X");
+    bench_run(l.b, MS(1));
+    cmd(&l, 0x30, MS(5));
+    cmd(&l, 0x30, US(160));
+    cmd(&l, 0x30, US(160));
+    cmd(&l, 0x38, US(40));
+    cmd(&l, 0x10, US(40));
+    cmd(&l, 0x0C, US(40));
+    cmd(&l, 0x06, US(40));
+    lcd_state(&l, &st);
+    expect(image_all(&st, LCD_DOT_X) && st.busy == 0,
+           "15 resync: after the init sequence BF is known; the X DDRAM cells show X");
+    clear(&l);
+    lcd_state(&l, &st);
+    expect(image_all(&st, LCD_DOT_OFF), "15 resync: after Clear every dot is off");
+    text(&l, "HELLO");
+    lcd_state(&l, &st);
+    expect(memcmp(st.ddram, "HELLO", 5) == 0 && cell_is_rom(&st, 0, 0, 'H') &&
+               cell_is_rom(&st, 0, 4, 'O'),
+           "15 resync: HELLO shows");
+    bench_destroy(l.b);
+
+    /* E reading X after the power-on reset: LOST. */
+    l = ready_lcd();
+    bench_set(l.b, "E", LOGIC_Z);
+    bench_run(l.b, US(1));
+    bench_set(l.b, "E", LOGIC_0);
+    bench_run(l.b, US(1));
+    lcd_state(&l, &st);
+    expect(st.busy == -1 && st.ddram_known[0] == 0, "15 LOST: E reading X makes every field X");
+    bench_destroy(l.b);
+
+    /* E reading X during the power-on reset is ignored (see Corrections). */
+    l = lcd_open("FX-LCD");
+    bench_set(l.b, "E", LOGIC_Z);
+    bench_run(l.b, MS(1));
+    bench_set(l.b, "E", LOGIC_0);
+    at(&l, MS(41));
+    lcd_state(&l, &st);
+    expect(st.busy == 0 && st.ddram_known[0] == 0xFF && read_ac(&l) == 0,
+           "15 power-on: E X before exec.powerOn does not make the controller LOST");
+    bench_destroy(l.b);
+}
+
+static void check_partial_x(void) {
+    static const uint8_t X_CURSOR[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+    Lcd l = ready_lcd();
+    LcdState st;
+    unsigned x;
+    int ok;
+
+    text(&l, "A");
+    access_write(&l, 0, 0x0C, 0xFD);   /* 0000 11X0: DB1 released */
+    bench_run(l.b, US(40));
+    lcd_state(&l, &st);
+    ok = cell_is_rom(&st, 0, 0, 'A') && row_all(&st, 1, 16, LCD_DOT_OFF);
+    for (x = 0; x < 5; x++) {
+        ok = ok && dot(&st, 0, 1, 7, x) == LCD_DOT_X;
+    }
+    {
+        LcdState copy = st;
+        unsigned y;
+
+        for (y = 0; y < 7; y++) {
+            for (x = 0; x < 5; x++) {
+                ok = ok && dot(&copy, 0, 1, y, x) == LCD_DOT_OFF;
+            }
+        }
+    }
+    for (x = 2; x < 16; x++) {
+        ok = ok && cell_rows_are(&st, 0, x, X_CURSOR);
+    }
+    expect(ok, "16 partial X: 0000 11X0 makes only C X: the cursor cell's row 7 is X, every other dot right");
+    bench_destroy(l.b);
+}
+
 /* ---- Case 19: API ---- */
 
 static void check_api(void) {
@@ -889,6 +1081,9 @@ int main(int argc, char **argv) {
     check_display_off();
     check_one_line();
     check_read_timing();
+    check_write_violations();
+    check_lost();
+    check_partial_x();
     check_api();
     part_library_destroy(library);
     if (failures > 0) {

@@ -666,17 +666,21 @@ and every instruction case passes.
   Check: `ctest --test-dir /tmp/logic-p11 -R charlcd_test` → passes (est. 30 s).
   Ran: full ctest → `100% tests passed, 0 tests failed out of 18`; goldens
   unchanged.
-Commit: —
+Commit: 96ce450
 
 ### Phase 4 — Violations, X and LOST
 
-- [ ] `charlcd.c`: the timing checks of §4.3 (setup, `tc`, `tpw`, `tdsw`,
-      the hold window) and §4.5.
-- [ ] `charlcd_test` cases 14–16.
+- [x] `charlcd.c`: the timing checks of §4.3 (setup, `tc`, `tpw`, `tdsw`,
+      the hold window) and §4.5. (In 96ce450, see Corrections.)
+- [x] `charlcd_test` cases 14–16.
+      Ran: 12 PASS lines: tpw, tdsw, th, tah and tc violations; LOST by RS X
+      and resync to HELLO; LOST by E X; E X during power-on ignored; the
+      partial-X instruction `0000 11X0`.
 
 Acceptance: every violation and X case gives the stated cells and dots, and
 cases 1–13 still pass.
   Check: `ctest --test-dir /tmp/logic-p11 -R charlcd_test` → passes (est. 30 s).
+  Ran: `charlcd_test` → `all passed` (cases 1–16, 19, 20).
 Commit: —
 
 ### Phase 5 — Backlight and voltage
