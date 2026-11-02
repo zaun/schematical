@@ -520,6 +520,18 @@ programs cover.
 - **Source URLs in the §4.1 records.** `plan-12-data` holds no source URLs,
   so each row names the maker's product page or site (the format the
   existing rows use).
+- **Execution order (dependency graph).** The A → … → K chain is written as
+  linear, but its code dependencies are looser. After C the model work ran
+  in parallel, in separate checkouts merged back into `worktree-P-12`:
+  - H's six classic models (Phase 1, new files; needs only C) and J's two
+    Maxim models with the I2C/SPI target front ends (J Phase 1; I §3.1's
+    front ends pulled forward because J needs them).
+  - E's Exar extensions (`ns16550_exar.c`).
+  - the 52 parallel-bus devices' part data (pinouts, parts, grades, for F/G
+    and the D/E fixtures).
+  D and K's code stayed on the main line. The data sub-plans' golden counts
+  (F → G → H Phase 2 → I → J Phase 2) still land in the written order. This
+  changes when the work runs, not what each letter delivers.
 - **Listing marker.** §4.2 says to print `|pull` after the voltage. The
   supply facts field is space-separated `key=value` inside one pipe column,
   so the marker is ` pull` inside that field (`level=1 mv=5000 pull`). A
