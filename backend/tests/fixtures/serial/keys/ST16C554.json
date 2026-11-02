@@ -1,0 +1,99 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel",
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "IOR",
+  "write": "IOW",
+  "reset": "RESET"
+ },
+ "clock": {
+  "in": "XTAL1",
+  "out": "XTAL2"
+ },
+ "channels": [
+  {
+   "tx": "TXA",
+   "rx": "RXA",
+   "int": "INTA",
+   "rts": "RTSA",
+   "dtr": "DTRA",
+   "cts": "CTSA",
+   "dsr": "DSRA",
+   "dcd": "CDA",
+   "ri": "RIA",
+   "select": [
+    "CSA"
+   ]
+  },
+  {
+   "tx": "TXB",
+   "rx": "RXB",
+   "int": "INTB",
+   "rts": "RTSB",
+   "dtr": "DTRB",
+   "cts": "CTSB",
+   "dsr": "DSRB",
+   "dcd": "CDB",
+   "ri": "RIB",
+   "select": [
+    "CSB"
+   ]
+  },
+  {
+   "tx": "TXC",
+   "rx": "RXC",
+   "int": "INTC",
+   "rts": "RTSC",
+   "dtr": "DTRC",
+   "cts": "CTSC",
+   "dsr": "DSRC",
+   "dcd": "CDC",
+   "ri": "RIC",
+   "select": [
+    "CSC"
+   ]
+  },
+  {
+   "tx": "TXD",
+   "rx": "RXD",
+   "int": "INTD",
+   "rts": "RTSD",
+   "dtr": "DTRD",
+   "cts": "CTSD",
+   "dsr": "DSRD",
+   "dcd": "CDD",
+   "ri": "RID",
+   "select": [
+    "CSD"
+   ]
+  }
+ ],
+ "fifo": 16,
+ "rxTrigger": [
+  1,
+  4,
+  8,
+  14
+ ],
+ "intPin": "out2-gated",
+ "dmaClass": "N",
+ "broadcastWrite": "multi-cs",
+ "timeout": "4w12",
+ "iirPriority": "exarTimeoutFirst",
+ "sprReset": 255
+}

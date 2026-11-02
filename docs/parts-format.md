@@ -1136,6 +1136,67 @@ independent TX/RX generators by DLD[7:6], SHR RS-485 delays, SFR (TX
 address bit, 9-bit mode, RX/TX disable, fast IR, GPIO), EMSR, FC, the GPIO
 set with its interrupt in ISR[6], SLEEP/PWRDN#, the FCR[3] wake-up
 interrupt).
+**Exar option keys (plan-12-E).** The MaxLinear/Exar ST16C, XR16C, XR16L,
+XR16M and XR16V parts (`backend/src/models/ns16550_exar.c`). As with D's keys,
+each is optional and absent keeps the behavior above.
+
+| Key | Values |
+|---|---|
+| `"bus"` | adds `"style": "intel-motorola"`: `"modePin"` (16/68: high = Intel, low = Motorola), `"rw"` (the Intel pin that is R/W in Motorola mode, 1 = read), optional `"strobe"` (the Motorola CS; default the first select), `"channelBits"` (A3, A4: the Intel select pins that pick the channel in Motorola mode), `"irq"` (the INT pin that is the open-drain IRQ in Motorola mode: low while any channel interrupts, never gated by MCR[3]) and `"irqOthers"` (`"low"` or `"z"`: the other INT pins in Motorola mode). In Motorola mode the strobe frames the cycle, a write is taken at its rising edge, and the reset pin is active low. `"address"` has 8 names (A0–A7) with `"extended": "5g"`. |
+| `"extended"` | adds `"ier5"` (ST16C1450/1550: IER[5] enables ISR[5:4] TXRDY/RXRDY status, FCR[5:4] TX trigger, MCR[7] power-down and MCR[2] to `resetOut`), `"exar650"` (LCR = 0xBF: EFR at 2, Xon1/Xon2/Xoff1/Xoff2 at 4–7; 0/1 there read X; EFR[4] write-enables IER[7:4], FCR[5:4], MCR[7:5]; with LCR[7] = 1 address 2 is DLD while EFR[4] = 1, else AFR or ISR/FCR), `"exar854"` (0xBF bank: FC (read) / TRG (write) at 0, FCTR at 1, EFR, Xon/Xoff R/W; FCTR[6] swaps SPR for FLVL (read) / EMSR (write); FCTR[2] IrDA RX invert, FCTR[3] TX interrupt at TSR empty), `"m752"` (XR16M752: the 752 bank — TCR/TLR with EFR[4] and MCR[6], FIFO Rdy at 7 with MCR[2] = 1 and MCR[4] = 0, taking priority over TLR/SPR — plus DLD), `"5g"` (XR16V798/XR16L784: the flat map below) |
+| `"triggerTables"` | `{"rx": [A, B, C, "trg"], "tx": [A, B, C, "trg"]}`: tables A–C of 4 levels each (FCR[7:6] / FCR[5:4] pick the level), table D programmable (TRG, RXTRG/TXTRG); FCTR[5:4] (854) or FCTR[7:6] (5G) pick the table for both directions. TRG 0 or above 128 makes the RX trigger X. |
+| `"fifoCounters"` | `"fcFlvl"`: FC (RX or TX count by FCTR[7]) and FLVL (EMSR[1:0]: 00/10 RX, 01 TX, 11 alternating RX, TX, … from the first read after an EMSR write) |
+| `"idRegs"` | as D; on the 5G the global DREV/DVID at 0x8C/0x8D |
+| `"dld"` | `true`: DLD — divisor + DLD[3:0]/16, and (not 5G) DLD[5:4] sampling 16×/8×/4×; XR16M752 DLD[7] IrDA (`"irda": "dld7"`) and DLD[6] RS-485 (`"rs485": "dld6"`) |
+| `"sampling"` | `"8xmode"`: the 5G 8XMODE register picks 8× per channel |
+| `"startSample"` | `7.5`: the start bit is checked 7½ clocks after its edge (ST16C450/550); `8` is the default |
+| `"autoFlow"` | adds `"exarTable"` (854/5G: RTS off at the next table level above the trigger, on at the next below; table D: off at trigger + hysteresis, on below trigger − hysteresis, from EMSR[5:4]:FCTR[1:0] or FCTR[3:0]: 0, 4, 6, 8, 8, 16, 24, 32, 40, 44, 48, 52, 12, 20, 28, 36) and `"dtrDsr"` (as `exarTable`, on DTR/DSR while MCR[2] = 1). With `"efrTable"`/`"rtsTable"` (D's keys) the Exar 650 parts use their fixed tables; RTS needs MCR[1] = 1; no auto flow in loopback unless `"autoFlowLoopback": true` (XR16L580) |
+| `"swFlow"` | adds `"exarOr"`: EFR[3:0] 1011/0111 compare either Xon (Xoff) character, 1111/0011 the pairs. Xoff goes out two character times after the RX FIFO reaches its Xoff level (XR16M752: at once), Xon at the level below; an ISR read clears the Xoff interrupt (XR16M752: only Xon); the special-character interrupt clears with the next character (XR16M752: an ISR read) |
+| `"xonAny"` | `"mcr5"`: MCR[5]: any received character resumes the transmitter |
+| `"sleep"` | adds `"ier4-exar"` (IER[4] with EFR[4]: the clock stops when nothing is pending, MSR[3:0] = 0, RX idle high, nothing to send; wakes on an RX start bit, a THR write or a modem input), `"ier4-exar-all"` (only when every channel sets IER[4]), `"global"` (5G SLEEP register, per channel). `"sleepNeedsDivisor": true` also needs a non-zero divisor; `"wakeIndicator": true` raises INT on waking with the ISR reading 0x01, cleared by the ISR read (XR16L784: an INT0 read) |
+| `"powerSave"` | `{"pin": name}`: PWRSAVE high while asleep isolates the bus (cycles ignored, D7–D0 not driven) |
+| `"irda"` | adds `"mcr6-exar"` (MCR[6], RX polarity by MCR[2]; on the 854 FCTR[2], on the 5G FCTR[4], with the receiver off while transmitting) and `"dld7"` |
+| `"rs485"` | adds `"fctr-rts"` (5G FCTR[5] on RTS), `"fctr-mcr2"` (XR16V798: on RTS, or DTR with MCR[2] = 1), with the MSR-write [7:4] turnaround of 0–15 bit times; `"dld6"` (XR16M752 RTS, released a bit after the last stop bit); `"fctr3-op1"` (XR16C864 OP1, low while transmitting). The pin goes high (OP1 low) when a byte is loaded, and the TX interrupt waits for the TSR |
+| `"prescaler"` | adds `"clksel"`: the CLKSEL pin (`"clock"`.`"select"`; absent pin = ÷1) sets ÷4 (low) or ÷1 at power-up and reset; MCR[7] still reads 0 (decisions.md P1) and an MCR[7] write overrides it |
+| `"mfPins"` | `["op2", "baudout", "rxrdy", "x"]`: the function of each AFR[2:1] code for the channels' `"mf"` pins |
+| `"afr"` | adds `"exar"`: AFR at 2 with LCR[7] = 1 (with `"dld"`, only while EFR[4] = 0): b0 concurrent write (one shared bit), b2:1 MF |
+| `"broadcastWrite"` | adds `"afr0-perChannel"` (XR16L2552: AFR[0] per channel; a write goes to both while the addressed channel's AFR[0] = 1) |
+| `"iirPriority"` | adds `"exarTimeoutFirst"`: the RX timeout above RX data |
+| `"thrIntClear"` | `"ier1Rewrite"` (ST16C1450/1550): an ISR read does not clear the TX interrupt; a THR write, or IER[1] = 0, does |
+| `"isrStatus"` | `"high"` / `"inverted"`: the ier5 ISR[4] (TXRDY) and ISR[5] (RXRDY) polarity |
+| `"resetOut"` | the RST pin (ier5): RESET OR (IER[5] AND MCR[2]), MCR[2] cut off in loopback |
+| `"divisorPowerUp"` | the DLL value at power-up (DLM 0), not changed by reset |
+| `"mcr2Enhanced"`, `"xonWriteOnly"` | XR16L580: EFR[4] also gates MCR[2]; Xon/Xoff are write-only (reads at 4–7 in the 0xBF bank are the normal registers) |
+| `"lsrBreakHold"` | LSR[4] stays set while RX is still low after the break |
+| `"statusWrite"`, `"dlabHidesStatus"` | `false`: LSR/MSR writes are ignored (XR16V654); `true`: LSR/MSR read X with LCR[7] = 1 (XR16V554) |
+| `"fstat"` | the FSRS pin: low reads FSTAT at any address (b3–0 NOT TXRDYD–A, b7–4 RXRDYD–A pins) |
+| `"dmaHost"` | `{"dack": [one per channel], "aen", "tc"}` with `"dmaClass": "X"` (XR16C864): EMSR[2]/[3] turn TXRDY/RXRDY into active-high TXDRQ/RXDRQ (TX: below the trigger until TC or full to it; RX: at the trigger or a timeout until TC or empty); DACKx low and AEN high read the RX FIFO / write the TX FIFO whatever CS and A2–A0 are; a TC pulse ends the requests of the channel whose DACK is low |
+| `"chcClock"` | the CHCCLK pin: channel C's baud generator counts it instead of XTAL1 |
+| channel `"bclk"`, `"irtx"` | the channel's 16× clock out (XR16C864), its always-IrDA-encoded TX (854/864 QFP100) |
+| `"interrupt"`, `"timer"`, `"variant5g"`, `"irdaStrap"` | 5G: the open-drain device INT#; `{"clock": TMRCK, "style": "commands" \| "bits"}`; `"xr16v798"` or `"xr16l784"`; the ENIR pin sampled into MCR[6] at power-up and reset |
+
+Part key `"intPin"` (`"driven"` or `"out2-gated"`) overrides the device's for
+one part: the D variants (ST16C554D, XR16C854D, XR16V564D, XR16V654D) bond
+INTSEL high, so their INT pins are always driven.
+
+The 5G map: A7 = 0 is channel space (A6..A4 channel on the XR16V798, A5..A4 on
+the XR16L784 with 0x40–0x7F reserved), A3..A0 the register: 0–7 the 16550 set
+(DLD at 2 with LCR[7] = 1 on the XR16V798; LSR read-only; a write to 6 is the
+MSR write: [7:4] RS-485 delay, [3] TX disable, [2] RX disable on the XR16V798),
+8 FCTR, 9 EFR, A TXCNT/TXTRG, B RXCNT/RXTRG, C XCHAR (read, clears) / XOFF1,
+D–F XOFF2/XON1/XON2 (write). MCR[3] (XR16V798) arms send-immediate: the next
+THR byte goes out ahead of the FIFO. A7 = 1 is the global block: INT0 (pending
+channels), INT1–INT3 (3-bit codes: 1 RX data/line status, 2 timeout, 3 TX,
+4 modem/flow, 7 timer on channel 0), TIMERCNTL (XR16V798 command codes 1–6,
+9–B; XR16L784 bits: interrupt, start, one-shot, TMRCK; a read clears the timer
+interrupt), TIMERLSB/MSB (a 16-bit down count, N ≥ 2, else X), 8XMODE, REGA,
+RESET (soft reset per channel), SLEEP, DREV, DVID, REGB (b0: writes to every
+channel). One open-drain INT# carries every channel and the timer. The TX
+interrupt comes twice (below the trigger, then empty); an errored byte
+interrupts as it arrives. RST# is active low. The Exar TX trigger counts bytes:
+the interrupt when the count falls below it, or at empty when it never reached
+it since the last reload.
+
 #### SPI and I2C host ports (`"bus"` styles)
 
 Serial-hosted models describe their host port with one of three `"bus"`

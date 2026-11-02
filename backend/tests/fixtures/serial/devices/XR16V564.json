@@ -196,7 +196,7 @@
     "I": {"trvd": 35, "thz": 10, "trint": 45, "thr": 45, "tmdo": 50, "tsim": 50, "trim": 50, "twxi": 45, "twrr": 45, "vcc": [2.25, 3.6], "inputMax": 5.5, "note": "xr16v564.pdf p.41-42, 3.3 V column (max); TRDV->trvd, TDD->thz, TWDO->tmdo, TMOD->tsim, TRSI (modem fig)->trim, TRRI->trint, TWRI->thr, TWT->twxi, TRR->twrr"}
   },
   "parts": [
-    {"name": "XR16V564DIV", "package": "LQFP", "pinout": "lqfp64", "footprint": "LQFP-64-10X10", "grade": "I"},
+    {"name": "XR16V564DIV", "package": "LQFP", "pinout": "lqfp64", "footprint": "LQFP-64-10X10", "grade": "I", "intPin": "driven"},
     {"name": "XR16V564IJ", "package": "PLCC", "pinout": "plcc68", "footprint": "PLCC-68", "grade": "I"},
     {"name": "XR16V564IL", "package": "QFN", "pinout": "qfn48", "footprint": "QFN-48-7X7", "grade": "I"},
     {"name": "XR16V564IV", "package": "LQFP", "pinout": "lqfp64", "footprint": "LQFP-64-10X10", "grade": "I"}

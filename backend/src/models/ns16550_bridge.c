@@ -263,7 +263,7 @@ int ns_bridge_load(KindContext *ctx, const cJSON *json, const cJSON *bus, NsDevi
     if (load_optional_name(ctx, json, "sleepPin", &b->sleep_pin) != 0) {
         return -1;
     }
-    if (d->extended < EXT_SC16IS) {
+    if (d->extended < EXT_SC16IS || d->extended > EXT_XR1280) {
         return kind_error(ctx, "an I2C/SPI bridge needs \"extended\": \"sc16is\", \"sc16is-sfr\", "
                                "\"sc16is-dld\" or \"xr1280\"");
     }

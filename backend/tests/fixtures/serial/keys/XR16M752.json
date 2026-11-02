@@ -1,0 +1,116 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel-motorola",
+  "modePin": "16/68",
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "IOR",
+  "write": "IOW",
+  "rw": "IOW",
+  "strobe": "CSA",
+  "channelBits": [
+   "CSB"
+  ],
+  "irq": "INTA",
+  "irqOthers": "z",
+  "reset": "RESET"
+ },
+ "clock": {
+  "in": "XTAL1",
+  "out": "XTAL2"
+ },
+ "channels": [
+  {
+   "tx": "TXA",
+   "rx": "RXA",
+   "int": "INTA",
+   "rts": "RTSA",
+   "dtr": "DTRA",
+   "cts": "CTSA",
+   "dsr": "DSRA",
+   "dcd": "CDA",
+   "ri": "RIA",
+   "select": [
+    "CSA"
+   ],
+   "txrdy": "TXRDYA",
+   "rxrdy": "RXRDYA",
+   "op": "OP2A"
+  },
+  {
+   "tx": "TXB",
+   "rx": "RXB",
+   "int": "INTB",
+   "rts": "RTSB",
+   "dtr": "DTRB",
+   "cts": "CTSB",
+   "dsr": "DSRB",
+   "dcd": "CDB",
+   "ri": "RIB",
+   "select": [
+    "CSB"
+   ],
+   "txrdy": "TXRDYB",
+   "rxrdy": "RXRDYB",
+   "op": "OP2B"
+  }
+ ],
+ "fifo": 64,
+ "rxTrigger": [
+  8,
+  16,
+  56,
+  60
+ ],
+ "txTrigger": [
+  8,
+  16,
+  32,
+  56
+ ],
+ "tlr": 4,
+ "lcrReset": 29,
+ "tcrReset": 15,
+ "dmaClass": "T",
+ "intPin": "out2-gated",
+ "broadcastWrite": "multi-cs",
+ "timeout": "4w12",
+ "iirPriority": "exarTimeoutFirst",
+ "lsrErrors": "head",
+ "extended": "m752",
+ "dld": true,
+ "autoFlow": "tcr",
+ "swFlow": "exarOr",
+ "specialChar": true,
+ "xonAny": "mcr5",
+ "ctsRtsClear": "msr",
+ "sleep": "ier4-exar-all",
+ "irda": "dld7",
+ "rs485": "dld6",
+ "prescaler": "mcr7",
+ "divisorPowerUp": 1,
+ "sprPowerUp": 255,
+ "xonReset": [
+  0,
+  0,
+  0,
+  0
+ ],
+ "absentTies": {
+  "16/68": 1
+ }
+}

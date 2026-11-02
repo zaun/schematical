@@ -64,6 +64,7 @@ static int dlf_condition(const NsChannel *c) {
 /* ---- Reset ------------------------------------------------------------------------ */
 
 void ns_ext_reset(NsState *s, NsChannel *c, int power_on) {
+    if (s->dev->x != NULL) { ns_x_reset(s, c, power_on); return; }   /* plan-12-E */
     const NsDevice *d = s->dev;
 
     c->efr = (Reg){0, 0xFF};
@@ -273,8 +274,10 @@ void ns_ext_peek_reg(NsChannel *c, int reg, uint8_t *v, uint8_t *k) {
 }
 
 int ns_ext_peek(NsChannel *c, unsigned address, uint8_t *v, uint8_t *k) {
-    int reg = decode_any(c, address, 0);
+    int reg;
 
+    if (c->owner->dev->x != NULL) return ns_x_peek(c, address, v, k);   /* plan-12-E */
+    reg = decode_any(c, address, 0);
     if (reg == R_CORE) {
         return 0;
     }
@@ -302,8 +305,10 @@ static void queue_flow_pair(NsChannel *c, unsigned txmode, int xon) {
 }
 
 int ns_ext_write(NsState *s, NsChannel *c, unsigned address, uint8_t v, uint8_t k, Cause *cause) {
-    int reg = decode_any(c, address, 1);
+    int reg;
 
+    if (s->dev->x != NULL) return ns_x_write(s, c, address, v, k, cause);   /* plan-12-E */
+    reg = decode_any(c, address, 1);
     *cause = CAUSE_WRITE;
     if (reg == R_CORE) {
         return 0;
@@ -369,6 +374,7 @@ void ns_ext_write_reg(NsState *s, NsChannel *c, int reg, uint8_t v, uint8_t k) {
 uint8_t ns_ext_ier_mask(const NsChannel *c) {
     uint8_t mask;
 
+    if (c->owner->dev->x != NULL) return ns_x_ier_mask(c);   /* plan-12-E */
     if (ns_bridge_ier_mask(c, &mask)) {
         return mask;   /* plan-12-I */
     }
@@ -382,6 +388,7 @@ uint8_t ns_ext_ier_mask(const NsChannel *c) {
 }
 
 uint8_t ns_ext_mcr_mask(const NsChannel *c) {
+    if (c->owner->dev->x != NULL) return ns_x_mcr_mask(c);   /* plan-12-E */
     const NsDevice *d = c->owner->dev;
     uint8_t mask;
 
@@ -399,6 +406,7 @@ uint8_t ns_ext_mcr_mask(const NsChannel *c) {
 }
 
 void ns_ext_fcr(NsChannel *c, uint8_t v, uint8_t k) {
+    if (c->owner->dev->x != NULL) { ns_x_fcr(c, v, k); return; }   /* plan-12-E */
     /* FCR[5:4]: the TX trigger, written only with EFR[4] = 1. */
     if (c->owner->dev->has_tx_trigger && enhanced(c) && (k & 0x30u) == 0x30u) {
         c->tx_trigger = (v >> 4) & 3u;
@@ -408,6 +416,7 @@ void ns_ext_fcr(NsChannel *c, uint8_t v, uint8_t k) {
 /* ---- Trigger levels ------------------------------------------------------------------ */
 
 unsigned ns_ext_rx_trigger(const NsChannel *c, unsigned fcr_level) {
+    if (c->owner->dev->x != NULL) return ns_x_rx_trigger(c, fcr_level);   /* plan-12-E */
     const NsDevice *d = c->owner->dev;
     unsigned tlr = (c->tlr.v >> 4) & 0x0Fu;
     unsigned level;
@@ -422,6 +431,7 @@ unsigned ns_ext_rx_trigger(const NsChannel *c, unsigned fcr_level) {
 }
 
 unsigned ns_ext_tx_threshold(const NsChannel *c) {
+    if (c->owner->dev->x != NULL) return ns_x_tx_threshold(c);   /* plan-12-E */
     const NsDevice *d = c->owner->dev;
     unsigned tlr = c->tlr.v & 0x0Fu;
     unsigned level;
@@ -447,6 +457,7 @@ static void resume_tx(NsChannel *c) {
 }
 
 int ns_ext_rx_char(NsState *s, NsChannel *c, const SerialRxChar *rc) {
+    if (s->dev->x != NULL) return ns_x_rx_char(s, c, rc);   /* plan-12-E */
     const NsDevice *d = s->dev;
     uint8_t mask = word_mask(c);
     uint8_t data;
@@ -588,6 +599,7 @@ static int auto_cts_enabled(const NsChannel *c) {
 }
 
 void ns_ext_levels(NsState *s, NsChannel *c) {
+    if (s->dev->x != NULL) { ns_x_levels(s, c); return; }   /* plan-12-E */
     const NsDevice *d = s->dev;
     unsigned level = c->rx_count;
     unsigned txmode = (c->efr.v >> 2) & 3u;
@@ -687,6 +699,7 @@ void ns_ext_levels(NsState *s, NsChannel *c) {
 /* ---- Flow control: transmit side ------------------------------------------------------ */
 
 int ns_ext_tx_flow(NsChannel *c, uint16_t *data) {
+    if (c->owner->dev->x != NULL) return ns_x_tx_flow(c, data);   /* plan-12-E */
     if (c->flow_out_count == 0) {
         return 0;
     }
@@ -696,6 +709,7 @@ int ns_ext_tx_flow(NsChannel *c, uint16_t *data) {
 }
 
 int ns_ext_tx_blocked(NsState *s, NsChannel *c) {
+    if (s->dev->x != NULL) return ns_x_tx_blocked(s, c);   /* plan-12-E */
     LogicValue cts;
     int bridge = ns_bridge_tx_blocked(s, c);
 
@@ -734,6 +748,7 @@ int ns_ext_tx_blocked(NsState *s, NsChannel *c) {
 /* ---- Interrupts ---------------------------------------------------------------------- */
 
 LogicValue ns_ext_xoff_source(const NsChannel *c) {
+    if (c->owner->dev->x != NULL) return ns_x_xoff_source(c);   /* plan-12-E */
     if (!bank_style(c->owner->dev)) {
         return LOGIC_0;
     }
@@ -741,6 +756,7 @@ LogicValue ns_ext_xoff_source(const NsChannel *c) {
 }
 
 LogicValue ns_ext_ctsrts_source(const NsChannel *c) {
+    if (c->owner->dev->x != NULL) return ns_x_ctsrts_source(c);   /* plan-12-E */
     if (!bank_style(c->owner->dev)) {
         return LOGIC_0;
     }
@@ -748,6 +764,7 @@ LogicValue ns_ext_ctsrts_source(const NsChannel *c) {
 }
 
 void ns_ext_iir_read(NsChannel *c, uint8_t iir) {
+    if (c->owner->dev->x != NULL) { ns_x_iir_read(c, iir); return; }   /* plan-12-E */
     const NsDevice *d = c->owner->dev;
 
     if ((iir & 0x3F) == 0x10 && d->special_clear == CLEAR_IIR) {
@@ -760,6 +777,7 @@ void ns_ext_iir_read(NsChannel *c, uint8_t iir) {
 }
 
 void ns_ext_status_read(NsChannel *c, int msr) {
+    if (c->owner->dev->x != NULL) { ns_x_status_read(c, msr); return; }   /* plan-12-E */
     const NsDevice *d = c->owner->dev;
 
     if (!msr && d->special_clear == CLEAR_LSR) {
@@ -771,6 +789,7 @@ void ns_ext_status_read(NsChannel *c, int msr) {
 }
 
 int ns_ext_cts_changed(NsChannel *c, LogicValue cts_active) {
+    if (c->owner->dev->x != NULL) return ns_x_cts_changed(c, cts_active);   /* plan-12-E */
     const NsDevice *d = c->owner->dev;
     int auto_cts = auto_cts_enabled(c);
 
@@ -787,6 +806,7 @@ int ns_ext_cts_changed(NsChannel *c, LogicValue cts_active) {
 /* ---- Pins ------------------------------------------------------------------------------ */
 
 LogicValue ns_ext_rts(const NsChannel *c, LogicValue normal) {
+    if (c->owner->dev->x != NULL) return ns_x_rts(c, normal);   /* plan-12-E */
     if (c->owner->dev->bridge != NULL) {
         /* plan-12-I: RS-485 direction control overrides MCR[1] and auto-RTS. */
         normal = auto_rts_enabled(c) && bit_of(c->mcr, 4) != LOGIC_1 ? bool3(c->rts_off) : normal;
@@ -799,6 +819,7 @@ LogicValue ns_ext_rts(const NsChannel *c, LogicValue normal) {
 }
 
 LogicValue ns_ext_dtr(const NsChannel *c, LogicValue normal) {
+    if (c->owner->dev->x != NULL) return ns_x_dtr(c, normal);   /* plan-12-E */
     if (c->owner->dev->rs485 == RS485_AFR_DTR && known_bit(c->afr, 2)) {
         return bool3(c->rs485_on);
     }
@@ -817,6 +838,7 @@ static int irda_on(const NsChannel *c) {
 }
 
 LogicValue ns_ext_tx_pin(const NsChannel *c, LogicValue normal) {
+    if (c->owner->dev->x != NULL) return ns_x_tx_pin(c, normal);   /* plan-12-E */
     unsigned f;
     unsigned at;
 
@@ -846,6 +868,7 @@ LogicValue ns_ext_tx_pin(const NsChannel *c, LogicValue normal) {
 }
 
 LogicValue ns_ext_rx_decode(NsChannel *c, LogicValue pin) {
+    if (c->owner->dev->x != NULL) return ns_x_rx_decode(c, pin);   /* plan-12-E */
     LogicValue level;
 
     /* RS-485/IrDA with RCVEN = 0 (TI AFR): the receiver is off while sending. */
@@ -869,6 +892,7 @@ LogicValue ns_ext_rx_decode(NsChannel *c, LogicValue pin) {
 }
 
 void ns_ext_pins(NsState *s, NsChannel *c, Cause cause) {
+    if (s->dev->x != NULL) { ns_x_pins(s, c, cause); return; }   /* plan-12-E */
     const NsDevice *d = s->dev;
     size_t op = s->pins->op[c->index];
     size_t mf = s->pins->mf[c->index];
@@ -909,6 +933,7 @@ void ns_ext_pins(NsState *s, NsChannel *c, Cause cause) {
 int ns_ext_prescale(NsState *s, NsChannel *c, int rising) {
     int bridge;
 
+    if (s->dev->x != NULL) return ns_x_prescale(s, c, rising);   /* plan-12-E */
     (void)s;
     if (c->asleep) {
         return 0;
@@ -930,6 +955,7 @@ int ns_ext_prescale(NsState *s, NsChannel *c, int rising) {
 }
 
 void ns_ext_load_divisor(NsChannel *c) {
+    if (c->owner->dev->x != NULL) { ns_x_load_divisor(c); return; }   /* plan-12-E */
     unsigned frac = 0;
 
     if (ns_bridge_load_divisor(c)) {
@@ -947,6 +973,7 @@ void ns_ext_load_divisor(NsChannel *c) {
 unsigned ns_ext_factor(const NsChannel *c) {
     int bridge = ns_bridge_factor(c);
 
+    if (c->owner->dev->x != NULL) return ns_x_factor(c);   /* plan-12-E */
     if (bridge > 0) {
         return (unsigned)bridge;   /* plan-12-I: DLD / PI7C9X sample rate */
     }
@@ -961,6 +988,7 @@ unsigned ns_ext_factor(const NsChannel *c) {
 void ns_ext_wake(NsChannel *c) {
     int was = c->asleep;
 
+    if (c->owner->dev->x != NULL) { ns_x_wake(c); return; }   /* plan-12-E */
     c->asleep = 0;
     if (was && c->owner->dev->bridge != NULL) {
         ns_bridge_sleep_changed(c->owner, c);   /* plan-12-I: XR20M1280 wake-up interrupt */
@@ -968,6 +996,7 @@ void ns_ext_wake(NsChannel *c) {
 }
 
 void ns_ext_sleep_check(NsState *s, NsChannel *c) {
+    if (s->dev->x != NULL) { ns_x_sleep_check(s, c); return; }   /* plan-12-E */
     const NsDevice *d = s->dev;
     int want;
     uint8_t iir;

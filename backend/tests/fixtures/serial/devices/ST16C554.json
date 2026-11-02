@@ -78,7 +78,7 @@
   },
   "parts": [
     {"name": "ST16C554CQ64-F", "package": "LQFP", "pinout": "lqfp64", "footprint": "LQFP-64-10X10", "grade": "C"},
-    {"name": "ST16C554DCQ64-F", "package": "LQFP", "pinout": "lqfp64", "footprint": "LQFP-64-10X10", "grade": "C"},
-    {"name": "ST16C554DIQ64-F", "package": "LQFP", "pinout": "lqfp64", "footprint": "LQFP-64-10X10", "grade": "I"}
+    {"name": "ST16C554DCQ64-F", "package": "LQFP", "pinout": "lqfp64", "footprint": "LQFP-64-10X10", "grade": "C", "intPin": "driven"},
+    {"name": "ST16C554DIQ64-F", "package": "LQFP", "pinout": "lqfp64", "footprint": "LQFP-64-10X10", "grade": "I", "intPin": "driven"}
   ]
 }

@@ -111,6 +111,11 @@ typedef struct {
     int captured;
     uint8_t captured_data;
     uint8_t captured_known;
+    /* plan-12-E: Motorola cycles. While `motorola` is set the select is the
+       strobe and `rw` (an input pin) picks the direction: 1 = read, 0 = write;
+       the Intel read/write strobes are ignored. X: the mode is unknown (X cycles). */
+    int motorola;
+    size_t rw;
 } SerialBus;
 
 /* A pin's level as an input: 0, 1 or X; Z reads as `z_reads`. */

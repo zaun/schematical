@@ -1,0 +1,157 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel",
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "IOR",
+  "write": "IOW",
+  "select": [
+   "CS"
+  ],
+  "reset": "RESET"
+ },
+ "clock": {
+  "in": "XTAL1",
+  "out": "XTAL2"
+ },
+ "channelSelect": {
+  "pin": "CHSEL",
+  "aIsHigh": true
+ },
+ "channels": [
+  {
+   "tx": "TXA",
+   "rx": "RXA",
+   "int": "INTA",
+   "rts": "RTSA",
+   "dtr": "DTRA",
+   "cts": "CTSA",
+   "dsr": "DSRA",
+   "dcd": "CDA",
+   "ri": "RIA",
+   "txrdy": "TXRDYA",
+   "rxrdy": "RXRDYA",
+   "mf": "MFA"
+  },
+  {
+   "tx": "TXB",
+   "rx": "RXB",
+   "int": "INTB",
+   "rts": "RTSB",
+   "dtr": "DTRB",
+   "cts": "CTSB",
+   "dsr": "DSRB",
+   "dcd": "CDB",
+   "ri": "RIB",
+   "txrdy": "TXRDYB",
+   "rxrdy": "RXRDYB",
+   "mf": "MFB"
+  }
+ ],
+ "fifo": 32,
+ "rxTrigger": [
+  8,
+  16,
+  24,
+  28
+ ],
+ "txTrigger": [
+  16,
+  8,
+  24,
+  30
+ ],
+ "dmaClass": "N",
+ "timeout": "4w12",
+ "iirPriority": "exarTimeoutFirst",
+ "sprReset": 255,
+ "extended": "exar650",
+ "dld": true,
+ "idRegs": {
+  "drev": 1,
+  "dvid": 6
+ },
+ "divisorPowerUp": 1,
+ "autoFlow": "efrTable",
+ "rtsTable": [
+  [
+   16,
+   0
+  ],
+  [
+   24,
+   8
+  ],
+  [
+   28,
+   16
+  ],
+  [
+   28,
+   24
+  ]
+ ],
+ "xoffTable": [
+  [
+   8,
+   0
+  ],
+  [
+   16,
+   8
+  ],
+  [
+   24,
+   16
+  ],
+  [
+   28,
+   24
+  ]
+ ],
+ "swFlow": "exarOr",
+ "specialChar": true,
+ "xonAny": "mcr5",
+ "ctsRtsClear": "msr",
+ "sleep": "ier4-exar-all",
+ "irda": "mcr6-exar",
+ "prescaler": "mcr7",
+ "intPin": "driven",
+ "afr": "exar",
+ "mfPins": [
+  "op2",
+  "baudout",
+  "rxrdy",
+  "x"
+ ],
+ "optionalPins": [
+  "RXRDYA",
+  "RXRDYB",
+  "DTRA",
+  "DSRA",
+  "CDA",
+  "RIA",
+  "TXRDYA",
+  "MFA",
+  "DTRB",
+  "DSRB",
+  "CDB",
+  "RIB",
+  "TXRDYB",
+  "MFB"
+ ]
+}

@@ -1,0 +1,157 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel-motorola",
+  "modePin": "16/68",
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7"
+  ],
+  "read": "IOR",
+  "write": "IOW",
+  "rw": "IOW",
+  "select": [
+   "CS"
+  ],
+  "reset": "RST",
+  "resetActiveHigh": false
+ },
+ "channels": [
+  {
+   "tx": "TX0",
+   "rx": "RX0",
+   "rts": "RTS0",
+   "dtr": "DTR0",
+   "cts": "CTS0",
+   "dsr": "DSR0",
+   "dcd": "CD0",
+   "ri": "RI0"
+  },
+  {
+   "tx": "TX1",
+   "rx": "RX1",
+   "rts": "RTS1",
+   "dtr": "DTR1",
+   "cts": "CTS1",
+   "dsr": "DSR1",
+   "dcd": "CD1",
+   "ri": "RI1"
+  },
+  {
+   "tx": "TX2",
+   "rx": "RX2",
+   "rts": "RTS2",
+   "dtr": "DTR2",
+   "cts": "CTS2",
+   "dsr": "DSR2",
+   "dcd": "CD2",
+   "ri": "RI2"
+  },
+  {
+   "tx": "TX3",
+   "rx": "RX3",
+   "rts": "RTS3",
+   "dtr": "DTR3",
+   "cts": "CTS3",
+   "dsr": "DSR3",
+   "dcd": "CD3",
+   "ri": "RI3"
+  }
+ ],
+ "clock": {
+  "in": "XTAL1",
+  "out": "XTAL2"
+ },
+ "fifo": 64,
+ "rxTrigger": [
+  1,
+  4,
+  8,
+  14
+ ],
+ "triggerTables": {
+  "rx": [
+   [
+    1,
+    4,
+    8,
+    14
+   ],
+   [
+    8,
+    16,
+    24,
+    28
+   ],
+   [
+    8,
+    16,
+    56,
+    60
+   ],
+   "trg"
+  ],
+  "tx": [
+   [
+    1,
+    1,
+    1,
+    1
+   ],
+   [
+    16,
+    8,
+    24,
+    30
+   ],
+   [
+    8,
+    16,
+    32,
+    56
+   ],
+   "trg"
+  ]
+ },
+ "dmaMode1": false,
+ "timeout": "4w12",
+ "sprReset": 255,
+ "extended": "5g",
+ "sampling": "8xmode",
+ "autoFlow": "dtrDsr",
+ "swFlow": "exarOr",
+ "specialChar": true,
+ "xonAny": "mcr5",
+ "ctsRtsClear": "msr",
+ "sleep": "global",
+ "irda": "mcr6-exar",
+ "prescaler": "mcr7",
+ "interrupt": "INT",
+ "irdaStrap": "ENIR",
+ "idRegs": {
+  "drev": 1,
+  "dvid": 36
+ },
+ "rs485": "fctr-rts",
+ "timer": {
+  "clock": "TMRCK",
+  "style": "bits"
+ },
+ "variant5g": "xr16l784"
+}

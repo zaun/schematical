@@ -38,6 +38,8 @@ void serial_bus_init(SerialBus *bus, const SerialBusPins *pins, const SerialBusT
     bus->ddis_out = LOGIC_Z;
     bus->select_out = LOGIC_Z;
     bus->enabled = 1;
+    bus->motorola = 0;
+    bus->rw = SERIAL_NO_PIN;
 }
 
 int serial_bus_has_pin(const SerialBus *bus, size_t pin) {
@@ -68,7 +70,7 @@ int serial_bus_has_pin(const SerialBus *bus, size_t pin) {
         }
     }
     return pin == p->read || pin == p->read_high || pin == p->write || pin == p->write_high ||
-           pin == p->address_strobe;
+           pin == p->address_strobe || pin == bus->rw;
 }
 
 /* AND of the select pins: 0, 1 or X (Z reads inactive). */
@@ -268,8 +270,16 @@ void serial_bus_update(SerialBus *bus, Sim *sim, SimInstance *instance,
     sel = bus->enabled ? bus->latched_select : LOGIC_0;
     drive_pin(sim, instance, p->select_out, &bus->select_out, sel, bus->timing.select_out);
 
-    rd = strobe_state(sim, instance, p->read, p->read_high);
-    wr = strobe_state(sim, instance, p->write, p->write_high);
+    if (bus->motorola) {
+        /* plan-12-E: Motorola: the select is the strobe; R/W gives the direction. */
+        LogicValue rw = bus->motorola < 0 ? LOGIC_X : serial_level(sim, instance, bus->rw, LOGIC_X);
+
+        rd = rw == LOGIC_1 ? 1 : rw == LOGIC_0 ? 0 : 3;
+        wr = rw == LOGIC_0 ? 1 : rw == LOGIC_1 ? 0 : 3;
+    } else {
+        rd = strobe_state(sim, instance, p->read, p->read_high);
+        wr = strobe_state(sim, instance, p->write, p->write_high);
+    }
 
     /* Read cycle. */
     if (sel == LOGIC_0 || rd == 0) {
@@ -344,7 +354,7 @@ void serial_bus_update(SerialBus *bus, Sim *sim, SimInstance *instance,
 void serial_bus_capture(SerialBus *bus, const Sim *sim, const SimInstance *instance) {
     const SerialBusPins *p = bus->pins;
 
-    if (bus->write == SERIAL_CYCLE_ACTIVE && !bus->captured &&
+    if (bus->write == SERIAL_CYCLE_ACTIVE && !bus->captured && !bus->motorola &&
         strobe_state(sim, instance, p->write, p->write_high) == 0) {
         read_data(bus, sim, instance, &bus->captured_data, &bus->captured_known);
         bus->captured = 1;

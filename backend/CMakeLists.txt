@@ -47,6 +47,7 @@ add_library(logic STATIC
     src/models/ns16550.c
     src/models/ns16550_ext.c
     src/models/ns16550_lpt.c
+    src/models/ns16550_exar.c
     src/models/serial_target.c
     src/models/ns16550_bridge.c
     src/models/ns16550_xr1280.c

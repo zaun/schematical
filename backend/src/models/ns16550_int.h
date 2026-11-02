@@ -37,26 +37,42 @@ enum { M_CTS, M_DSR, M_RI, M_DCD };
 
 /* ---- Device data ---------------------------------------------------------------- */
 
-typedef enum { BROADCAST_NONE, BROADCAST_MULTI_CS, BROADCAST_AFR_CONC } NsBroadcast;
+typedef enum {
+    BROADCAST_NONE, BROADCAST_MULTI_CS, BROADCAST_AFR_CONC,
+    BROADCAST_AFR0_PER_CHANNEL   /* plan-12-E */
+} NsBroadcast;
 typedef enum { DMA_PINS_NAMED, DMA_PINS_SHARED_AND, DMA_PINS_SHARED_WIRE_OR } NsDmaPins;
 typedef enum {
     INT_DRIVEN, INT_OUT2_GATED, INT_INTN, INT_INTSEL, INT_MCR5_OPEN_SOURCE
 } NsIntPin;
-typedef enum { IIR_STANDARD, IIR_NXP_EQUAL } NsIirPriority;
+typedef enum { IIR_STANDARD, IIR_NXP_EQUAL, IIR_EXAR_TIMEOUT_FIRST /* plan-12-E */ } NsIirPriority;
 
 /* plan-12-D Phase 2 options (ns16550_ext.c). */
 typedef enum {
     EXT_NONE, EXT_AFE, EXT_750, EXT_650, EXT_752, EXT_NS_EFR,
     /* plan-12-I bridges (ns16550_bridge.c, ns16550_xr1280.c) */
-    EXT_SC16IS, EXT_SC16IS_SFR, EXT_SC16IS_DLD, EXT_XR1280
+    EXT_SC16IS, EXT_SC16IS_SFR, EXT_SC16IS_DLD, EXT_XR1280,
+    /* plan-12-E (ns16550_exar.c) */
+    EXT_IER5, EXT_EXAR650, EXT_EXAR854, EXT_M752, EXT_5G
 } NsExtended;
-typedef enum { AFR_NONE, AFR_TI752, AFR_TI2552, AFR_NS } NsAfr;
-typedef enum { FLOW_NONE, FLOW_AFE, FLOW_TCR, FLOW_TABLE } NsAutoFlow;
-typedef enum { SW_NONE, SW_NXP_AND, SW_TI } NsSwFlow;
-typedef enum { SLEEP_NONE, SLEEP_IER4, SLEEP_IER4_ALL } NsSleep;
-typedef enum { IRDA_NONE, IRDA_MCR6, IRDA_AFR1 } NsIrda;
-typedef enum { RS485_NONE, RS485_AFR_DTR } NsRs485;
-typedef enum { PRESCALE_NONE, PRESCALE_MCR7, PRESCALE_MCR7_CLKSEL } NsPrescaler;
+typedef enum { AFR_NONE, AFR_TI752, AFR_TI2552, AFR_NS, AFR_EXAR /* plan-12-E */ } NsAfr;
+typedef enum {
+    FLOW_NONE, FLOW_AFE, FLOW_TCR, FLOW_TABLE,
+    FLOW_EXAR_TABLE, FLOW_DTR_DSR   /* plan-12-E */
+} NsAutoFlow;
+typedef enum { SW_NONE, SW_NXP_AND, SW_TI, SW_EXAR_OR /* plan-12-E */ } NsSwFlow;
+typedef enum {
+    SLEEP_NONE, SLEEP_IER4, SLEEP_IER4_ALL,
+    SLEEP_IER4_EXAR, SLEEP_IER4_EXAR_ALL, SLEEP_GLOBAL   /* plan-12-E */
+} NsSleep;
+typedef enum { IRDA_NONE, IRDA_MCR6, IRDA_AFR1, IRDA_MCR6_EXAR, IRDA_DLD7 /* plan-12-E */ } NsIrda;
+typedef enum {
+    RS485_NONE, RS485_AFR_DTR,
+    RS485_FCTR_RTS, RS485_FCTR_MCR2, RS485_DLD6, RS485_FCTR3_OP1   /* plan-12-E */
+} NsRs485;
+typedef enum {
+    PRESCALE_NONE, PRESCALE_MCR7, PRESCALE_MCR7_CLKSEL, PRESCALE_CLKSEL /* plan-12-E */
+} NsPrescaler;
 typedef enum { CLEAR_IIR, CLEAR_LSR, CLEAR_MSR, CLEAR_IIR_OR_MSR } NsClear;
 
 /* The printer port (ns16550_lpt.c, plan-12-D section 3.2). */
@@ -163,6 +179,7 @@ typedef struct {
     unsigned break_mark_ticks;     /* "breakMarkTicks": mark ticks needed after a break */
     /* plan-12-I: an I2C/SPI host port instead of the parallel bus (NULL: none). */
     const struct NsBridgeDevice *bridge;
+    const struct NsExarDevice *x;  /* plan-12-E: the Exar keys (ns16550_exar.c); NULL = none */
 } NsDevice;
 
 typedef struct {
@@ -180,6 +197,7 @@ typedef struct {
     const NsLptPins *lpt;
     size_t tri;
     const struct NsBridgePins *bridge;   /* plan-12-I */
+    const struct NsExarPins *xp;   /* plan-12-E */
 } NsPins;
 
 /* ---- State ------------------------------------------------------------------------ */
@@ -190,6 +208,8 @@ typedef struct {
 } Reg;
 
 typedef struct NsState NsState;
+
+#include "ns16550_exar.h"   /* plan-12-E: NsExarChannel, NsExarState */
 
 typedef struct {
     NsState *owner;
@@ -264,6 +284,7 @@ typedef struct {
     unsigned rs485_hold;           /* ticks of DTR after the last stop bit */
     unsigned prescale_count;
     int xon_seen;                  /* plan-12-I: an Xon resumed the transmitter (PI7C9X ASR) */
+    NsExarChannel xc;              /* plan-12-E */
 } NsChannel;
 
 struct NsState {
@@ -288,6 +309,7 @@ struct NsState {
     int tri;                       /* TRI is high */
     struct NsLpt *lpt;
     struct NsBridge *bridge;       /* plan-12-I: the host port's state */
+    NsExarState xs;                /* plan-12-E */
 };
 
 /* What changed, for the output delays. */
@@ -370,6 +392,14 @@ void ns_set_thre(NsChannel *c);
 void ns_clear_rx(NsChannel *c);
 void ns_clear_tx(NsChannel *c);
 int ns_rx_level(const NsChannel *c);
+/* plan-12-E: core entry points ns16550_exar.c uses. */
+LogicValue ns_int_level(const NsChannel *c);
+void ns_reg_peek(NsChannel *c, unsigned address, uint8_t *v, uint8_t *k);
+Cause ns_reg_read_done(NsChannel *c, unsigned address);
+Cause ns_reg_write(NsState *s, NsChannel *c, unsigned address, uint8_t v, uint8_t k);
+void ns_reset_channel(NsState *s, NsChannel *c);
+void ns_tx_tick(NsState *s, NsChannel *c);
+void ns_rx_tick(NsState *s, NsChannel *c);
 
 /* ns16550_ext.c: the enhanced registers and their features. */
 void ns_ext_reset(NsState *s, NsChannel *c, int power_on);
@@ -494,6 +524,73 @@ int ns_bridge_tx_fetch(NsChannel *c);
 int ns_bridge_clock(NsState *s, NsChannel *c, int rising, LogicValue level);
 int ns_bridge_sleep_check(NsState *s, NsChannel *c);
 void ns_bridge_sleep_changed(NsState *s, NsChannel *c);
+
+/* ns16550_exar.c (plan-12-E): the Exar/MaxLinear options. The ns_ext_*
+   functions hand every call for a device with Exar keys (dev->x) to their
+   ns_x_* twin; the core calls the rest directly. */
+int ns_x_load(KindContext *ctx, const cJSON *json, NsDevice *d);
+int ns_x_load_bus(KindContext *ctx, const cJSON *bus, NsDevice *d, const char *style);
+int ns_x_load_channel(KindContext *ctx, const cJSON *item, NsDevice *d, unsigned n);
+int ns_x_bind(KindContext *ctx, const NsDevice *d, const PartPin *pins, size_t pin_count,
+              NsPins *p, const SerialAbsent *absent);
+const void *ns_x_load_part(KindContext *ctx, const void *data, const cJSON *json);
+int ns_x_open_drain(const void *data, const void *pins, const void *options, size_t pin);
+void ns_x_reset(NsState *s, NsChannel *c, int power_on);
+int ns_x_peek(NsChannel *c, unsigned address, uint8_t *v, uint8_t *k);
+void ns_x_read_done(NsChannel *c, unsigned address);
+int ns_x_write(NsState *s, NsChannel *c, unsigned address, uint8_t v, uint8_t k, Cause *cause);
+uint8_t ns_x_ier_mask(const NsChannel *c);
+uint8_t ns_x_mcr_mask(const NsChannel *c);
+void ns_x_mcr_written(NsChannel *c, uint8_t mask);
+void ns_x_fcr(NsChannel *c, uint8_t v, uint8_t k);
+int ns_x_rx_char(NsState *s, NsChannel *c, const SerialRxChar *rc);
+void ns_x_levels(NsState *s, NsChannel *c);
+int ns_x_tx_flow(NsChannel *c, uint16_t *data);
+int ns_x_tx_blocked(NsState *s, NsChannel *c);
+LogicValue ns_x_xoff_source(const NsChannel *c);
+LogicValue ns_x_ctsrts_source(const NsChannel *c);
+void ns_x_iir_read(NsChannel *c, uint8_t iir);
+void ns_x_status_read(NsChannel *c, int msr);
+LogicValue ns_x_rts(const NsChannel *c, LogicValue normal);
+LogicValue ns_x_dtr(const NsChannel *c, LogicValue normal);
+LogicValue ns_x_out1(const NsChannel *c, LogicValue normal);
+LogicValue ns_x_tx_pin(const NsChannel *c, LogicValue normal);
+LogicValue ns_x_rx_decode(NsChannel *c, LogicValue pin);
+void ns_x_pins(NsState *s, NsChannel *c, Cause cause);
+int ns_x_cts_changed(NsChannel *c, LogicValue cts_active);
+int ns_x_prescale(NsState *s, NsChannel *c, int rising);
+void ns_x_load_divisor(NsChannel *c);
+unsigned ns_x_factor(const NsChannel *c);
+unsigned ns_x_start_sample(const NsChannel *c, unsigned factor);
+void ns_x_wake(NsChannel *c);
+void ns_x_sleep_check(NsState *s, NsChannel *c);
+unsigned ns_x_tx_threshold(const NsChannel *c);
+unsigned ns_x_rx_trigger(const NsChannel *c, unsigned fcr_level);
+int ns_x_thre_at_empty(NsChannel *c);
+void ns_x_sources(const NsChannel *c, LogicValue *ls, LogicValue *rda, LogicValue *thre,
+                  LogicValue *wake);
+void ns_x_iir(const NsChannel *c, uint8_t *v, uint8_t *k);
+int ns_x_int_pin(const NsState *s, const NsChannel *c, LogicValue level, LogicValue *out);
+void ns_x_dma_pins(const NsChannel *c, LogicValue *rxrdy, LogicValue *txrdy);
+void ns_x_device_pins(NsState *s, Cause cause);
+void ns_x_error_in(NsChannel *c);
+int ns_x_timeout_holds(const NsChannel *c);
+void ns_x_lsr_read(NsChannel *c);
+void ns_x_tick(NsState *s, NsChannel *c);
+int ns_x_needs_select(const NsDevice *d);
+int ns_x_select(NsState *s, unsigned address, unsigned address_known, uint32_t *units,
+                LogicValue *result);
+int ns_x_unit_peek(NsState *s, unsigned unit, unsigned address, uint8_t *v, uint8_t *k);
+int ns_x_unit_read_done(NsState *s, unsigned unit, unsigned address);
+int ns_x_unit_write(NsState *s, unsigned unit, unsigned address, uint8_t v, uint8_t k);
+int ns_x_conc(const NsState *s, unsigned unit);
+int ns_x_reset_active_high(const NsState *s);
+int ns_x_own_clock(const NsState *s, unsigned channel);
+void ns_x_clock_edge(NsState *s, int rising);
+void ns_x_clock_out(NsState *s, NsChannel *c, LogicValue baudout);
+int ns_x_is_select_pin(const NsState *s, size_t pin);
+int ns_x_pin_changed(NsState *s, size_t pin);
+void ns_x_start(NsState *s);
 
 /* ns16550_lpt.c: the printer port. */
 struct NsLpt *ns_lpt_create(const NsState *s);

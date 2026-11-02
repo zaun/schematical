@@ -1,0 +1,195 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel-motorola",
+  "modePin": "16/68",
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "IOR",
+  "write": "IOW",
+  "rw": "IOW",
+  "strobe": "CSA",
+  "channelBits": [
+   "CSB",
+   "CSC"
+  ],
+  "irq": "INTA",
+  "irqOthers": "z",
+  "reset": "RESET"
+ },
+ "fifo": 64,
+ "rxTrigger": [
+  8,
+  16,
+  56,
+  60
+ ],
+ "dmaClass": "N",
+ "dmaPins": "sharedAnd",
+ "dma": {
+  "txrdy": "TXRDY",
+  "rxrdy": "RXRDY"
+ },
+ "intPin": "intsel",
+ "intControl": "INTSEL",
+ "broadcastWrite": "multi-cs",
+ "timeout": "4w12",
+ "iirPriority": "exarTimeoutFirst",
+ "sprReset": 255,
+ "divisorPowerUp": 1,
+ "absentTies": {
+  "16/68": 1,
+  "INTSEL": 0
+ },
+ "optionalPins": [
+  "DTRA",
+  "DSRA",
+  "CDA",
+  "RIA",
+  "DTRB",
+  "DSRB",
+  "CDB",
+  "RIB",
+  "DTRC",
+  "DSRC",
+  "CDC",
+  "RIC",
+  "DTRD",
+  "DSRD",
+  "CDD",
+  "RID",
+  "TXRDY",
+  "RXRDY",
+  "CLKSEL"
+ ],
+ "clock": {
+  "in": "XTAL1",
+  "out": "XTAL2",
+  "select": "CLKSEL"
+ },
+ "channels": [
+  {
+   "tx": "TXA",
+   "rx": "RXA",
+   "int": "INTA",
+   "rts": "RTSA",
+   "dtr": "DTRA",
+   "cts": "CTSA",
+   "dsr": "DSRA",
+   "dcd": "CDA",
+   "ri": "RIA",
+   "select": [
+    "CSA"
+   ]
+  },
+  {
+   "tx": "TXB",
+   "rx": "RXB",
+   "int": "INTB",
+   "rts": "RTSB",
+   "dtr": "DTRB",
+   "cts": "CTSB",
+   "dsr": "DSRB",
+   "dcd": "CDB",
+   "ri": "RIB",
+   "select": [
+    "CSB"
+   ]
+  },
+  {
+   "tx": "TXC",
+   "rx": "RXC",
+   "int": "INTC",
+   "rts": "RTSC",
+   "dtr": "DTRC",
+   "cts": "CTSC",
+   "dsr": "DSRC",
+   "dcd": "CDC",
+   "ri": "RIC",
+   "select": [
+    "CSC"
+   ]
+  },
+  {
+   "tx": "TXD",
+   "rx": "RXD",
+   "int": "INTD",
+   "rts": "RTSD",
+   "dtr": "DTRD",
+   "cts": "CTSD",
+   "dsr": "DSRD",
+   "dcd": "CDD",
+   "ri": "RID",
+   "select": [
+    "CSD"
+   ]
+  }
+ ],
+ "txTrigger": [
+  8,
+  16,
+  32,
+  56
+ ],
+ "extended": "exar650",
+ "dld": true,
+ "autoFlow": "efrTable",
+ "rtsTable": [
+  [
+   16,
+   0
+  ],
+  [
+   56,
+   8
+  ],
+  [
+   60,
+   16
+  ],
+  [
+   60,
+   56
+  ]
+ ],
+ "xoffTable": [
+  [
+   8,
+   0
+  ],
+  [
+   16,
+   8
+  ],
+  [
+   56,
+   16
+  ],
+  [
+   60,
+   56
+  ]
+ ],
+ "swFlow": "exarOr",
+ "specialChar": true,
+ "xonAny": "mcr5",
+ "ctsRtsClear": "msr",
+ "sleep": "ier4-exar-all",
+ "irda": "mcr6",
+ "prescaler": "clksel",
+ "dlabHidesUpper": true,
+ "statusWrite": false
+}
