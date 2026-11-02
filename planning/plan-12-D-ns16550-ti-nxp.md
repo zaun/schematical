@@ -34,7 +34,7 @@ plan-12-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-12-C landed | `ls backend/src/models/ns16550.c` → exists; `/tmp/logic-p12/serial_test` → 12 `ok` | NOT MET (2026-11-02) |
+| plan-12-C landed | `ls backend/src/models/ns16550.c` → exists; `/tmp/logic-p12/serial_test` → 12 `ok` | MET (2026-11-01 at 627f50d: exists; 12 `ok` + outcome) |
 
 ## 1. Goal
 
@@ -159,10 +159,12 @@ its case):
 
 ### Phase 1 — Multi-channel, bus schemes, FIFO sizes, DMA, INT pin
 
-- [ ] Keys `channels` (>1), `channelSelect`, `broadcastWrite`, `fifo` 64/128/750,
+- [~] Keys `channels` (>1), `channelSelect`, `broadcastWrite`, `fifo` 64/128/750,
   `rxTrigger64`, `txTrigger`, `tlr`, `dmaPins`, `dmaClass`, `intPin`, reset
   and register reset keys, `iirPriority`, `lsr7Clear`, `stopCheck`,
   `statusReadDefer`, `busSync`, `majorityVote`, `timeout`, `clock.single`.
+  Implemented (8272fde: loader, decode, behavior; `ctest` 100%, 18 programs).
+  Remaining: their cases on the shipped fixtures (next task).
 - [ ] Fixtures and cases D2, D8, D9, D12–D16, D18, D20, D24.
 
 Acceptance: `serial_test` → every listed case `ok`; `ctest` 100% (about 1 min).
@@ -170,9 +172,12 @@ Commit: —
 
 ### Phase 2 — Extended banks, flow control, sleep, IrDA, RS-485, printer port
 
-- [ ] Keys `extended`, `afr`, `dlf`, `autoFlow`, `swFlow`, `specialChar`,
+- [~] Keys `extended`, `afr`, `dlf`, `autoFlow`, `swFlow`, `specialChar`,
   `sleep`, `irda`, `rs485`, `prescaler`, `printerPort`;
   `docs/parts-format.md` § `serial` gains §3.1/§3.2.
+  Implemented in `ns16550_ext.c` and `ns16550_lpt.c`, with the core hooks
+  (`ctest` 100%). Remaining: the docs, and checking every key against its
+  device case.
 - [ ] Fixtures and cases D1, D3–D7, D10, D11, D17, D19, D21–D23.
 
 Acceptance: `serial_test` → all 24 D cases and C's 12 `ok`; `ctest` 100%;

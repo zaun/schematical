@@ -28,6 +28,10 @@ static const char *const DEVICE_KEYS[] = {
     "channelSelect", "broadcastWrite", "rxTrigger64", "txTrigger", "tlr", "dmaPins", "dma",
     "intControl", "lcrReset", "sprReset", "tcrReset", "iirPriority", "lsr7Clear", "stopCheck",
     "statusReadDefer", "busSync", "majorityVote",
+    "extended", "afr", "afrReset", "dlf", "autoFlow", "rtsTable", "xoffTable", "swFlow",
+    "specialChar", "specialClear", "specialNeedsNoFlow", "ctsRtsClear", "sleep", "irda", "rs485",
+    "prescaler", "lsrErrors", "mcrReset", "xonReset", "tcrNeedsDlab0", "dlabHidesUpper",
+    "idRegs", "timeoutDelay", "divisorZero", "printerPort", "tristate",
     NULL
 };
 enum { FIRST_MODEL_KEY = 2 };

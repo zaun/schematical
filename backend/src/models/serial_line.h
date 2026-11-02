@@ -61,6 +61,11 @@ typedef struct {
     int known;               /* 0: the divisor is X (BAUDOUT X, no ticks) */
     uint32_t count;          /* rising edges since the last tick */
     LogicValue baudout;      /* the BAUDOUT level after the last edge */
+    uint32_t frac;           /* fractional divisor: frac / frac_den extra per tick */
+    uint32_t frac_den;
+    uint32_t frac_acc;
+    int extra;               /* this period is one edge longer */
+    int low2;                /* BAUDOUT low for 2 edges, high for N - 2 (N > 2) */
 } SerialBaud;
 
 /* Loads a new divisor; the counter restarts (PC16550D: "writing either

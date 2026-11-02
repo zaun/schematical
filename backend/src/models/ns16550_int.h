@@ -41,6 +41,35 @@ typedef enum {
 } NsIntPin;
 typedef enum { IIR_STANDARD, IIR_NXP_EQUAL } NsIirPriority;
 
+/* plan-12-D Phase 2 options (ns16550_ext.c). */
+typedef enum { EXT_NONE, EXT_AFE, EXT_750, EXT_650, EXT_752, EXT_NS_EFR } NsExtended;
+typedef enum { AFR_NONE, AFR_TI752, AFR_TI2552, AFR_NS } NsAfr;
+typedef enum { FLOW_NONE, FLOW_AFE, FLOW_TCR, FLOW_TABLE } NsAutoFlow;
+typedef enum { SW_NONE, SW_NXP_AND, SW_TI } NsSwFlow;
+typedef enum { SLEEP_NONE, SLEEP_IER4, SLEEP_IER4_ALL } NsSleep;
+typedef enum { IRDA_NONE, IRDA_MCR6, IRDA_AFR1 } NsIrda;
+typedef enum { RS485_NONE, RS485_AFR_DTR } NsRs485;
+typedef enum { PRESCALE_NONE, PRESCALE_MCR7, PRESCALE_MCR7_CLKSEL } NsPrescaler;
+typedef enum { CLEAR_IIR, CLEAR_LSR, CLEAR_MSR, CLEAR_IIR_OR_MSR } NsClear;
+
+/* The printer port (ns16550_lpt.c, plan-12-D section 3.2). */
+typedef enum { LPT_TI451, LPT_TI552, LPT_COM92C451 } NsLptStyle;
+typedef struct NsLptDevice {
+    NsLptStyle style;
+    const char *data[8];
+    const char *select;            /* the port's chip select, active low */
+    const char *strobe, *auto_feed, *init, *select_in;   /* open-drain outputs */
+    const char *ack, *busy, *paper_end, *slct, *error;  /* inputs */
+    const char *irq;               /* INT2 / IRQ0 */
+    const char *input_enable;      /* TL16C451/452 LPTOE */
+    const char *pemd, *enirq;      /* TL16C552 */
+} NsLptDevice;
+typedef struct NsLptPins {
+    size_t data[8];
+    size_t select, strobe, auto_feed, init, select_in, ack, busy, paper_end, slct, error, irq,
+        input_enable, pemd, enirq;
+} NsLptPins;
+
 typedef struct {
     const char *data[SERIAL_BUS_DATA];
     const char *address[SERIAL_BUS_ADDRESS];
@@ -86,6 +115,40 @@ typedef struct {
     int bus_sync;
     int majority;
     int timeout_4w12;
+    unsigned timeout_extra;        /* RCLKs added to the 4ch timeout (8 default) */
+    int baudout_low2;              /* BAUDOUT low for 2 clocks when the divisor is > 3 */
+    /* plan-12-D Phase 2 */
+    NsExtended extended;
+    NsAfr afr;
+    uint8_t afr_reset;
+    int dlf;
+    NsAutoFlow auto_flow;
+    uint8_t rts_table[4][2];       /* per RX trigger: [off at, on at] (FLOW_TABLE) */
+    uint8_t xoff_table[4][2];      /* per RX trigger: [Xoff sent at, Xon sent at] */
+    int has_xoff_table;
+    NsSwFlow sw_flow;
+    int special_char;
+    int special_needs_no_flow;     /* SC16C650B: special only with EFR[3:0] = 0 */
+    NsClear special_clear;
+    NsClear ctsrts_clear;
+    NsSleep sleep;
+    NsIrda irda;
+    NsRs485 rs485;
+    NsPrescaler prescaler;
+    const char *clock_select;      /* CLKSEL pin */
+    int lsr_head;                  /* "lsrErrors": "head": LSR[4:2] are the head byte's */
+    int mcr_reset;                 /* -1: 0x00 */
+    int xon_power[4];              /* power-up Xon1, Xon2, Xoff1, Xoff2; -1 = X */
+    int tcr_needs_dlab0;
+    int dlab_hides_upper;          /* SC16C650B: with LCR[7] = 1 only DLL, DLM, LCR */
+    int drev;                      /* "idRegs": DREV/DVID at 0/1 with DLL = DLM = 0; -1 none */
+    int dvid;
+    int xon_any_stores;            /* NS: an Xon-any character is stored */
+    const NsLptDevice *lpt;        /* "printerPort" */
+    unsigned divisor_zero;         /* COM92C451: divisor 0 divides by this (0 = stops) */
+    const char *tri;               /* TL16C552 TRI pin: every output floats while high */
+    const char *op[SERIAL_MAX_CHANNELS];
+    const char *mf[SERIAL_MAX_CHANNELS];
 } NsDevice;
 
 typedef struct {
@@ -97,6 +160,11 @@ typedef struct {
     size_t channel_pin;
     size_t dma_txrdy, dma_rxrdy;
     size_t int_control;
+    size_t clock_select;
+    size_t op[SERIAL_MAX_CHANNELS];   /* OP pins (NOT MCR[3]) */
+    size_t mf[SERIAL_MAX_CHANNELS];   /* MF pins (AFR[2:1]) */
+    const NsLptPins *lpt;
+    size_t tri;
 } NsPins;
 
 /* ---- State ------------------------------------------------------------------------ */
@@ -156,6 +224,30 @@ typedef struct {
     uint8_t delta_seen;            /* and the MSR deltas */
     int reading_status;            /* an LSR or MSR read is in progress (deferred status) */
     uint8_t shown, shown_k;        /* the byte that read shows */
+    /* plan-12-D Phase 2 (ns16550_ext.c) */
+    Reg efr, xon1, xon2, xoff1, xoff2, tcr, tlr, afr, dlf;
+    unsigned tx_trigger;           /* FCR[5:4] */
+    int thr_level_int;             /* THR interrupt by TX level (enhanced mode) */
+    int tx_halted;                 /* an Xoff came in */
+    int xoff_sent;                 /* we sent Xoff; an Xon is owed */
+    uint8_t flow_out[4];           /* flow characters waiting to go out, before data */
+    unsigned flow_out_count;
+    int seq_wait;                  /* 1: Xon1 seen, 2: Xoff1 seen (sequential pairs) */
+    SerialRxChar seq_held;
+    int iir_xoff;                  /* IIR[4]: Xoff received */
+    int iir_special;               /* IIR[4]: special character */
+    int iir_ctsrts;                /* IIR[5]: CTS/RTS low -> high */
+    int rts_off;                   /* auto-RTS has taken RTS inactive */
+    LogicValue rts_pin_last;
+    LogicValue cts_last;
+    int asleep;
+    int low_power;
+    unsigned ir_low;               /* IrDA decoder: ticks left of a decoded 0 */
+    LogicValue ir_last;
+    int rs485_on;                  /* DTR driven for RS-485 */
+    unsigned rs485_lead;           /* ticks of DTR before the start bit */
+    unsigned rs485_hold;           /* ticks of DTR after the last stop bit */
+    unsigned prescale_count;
 } NsChannel;
 
 struct NsState {
@@ -176,6 +268,9 @@ struct NsState {
     LogicValue *out;               /* per pin: the level last set to drive */
     size_t pin_count;
     int bus_dirty;                 /* "busSync": bus pins changed since the last clock edge */
+    int conc;                      /* AFR concurrent write */
+    int tri;                       /* TRI is high */
+    struct NsLpt *lpt;
 };
 
 /* What changed, for the output delays. */
@@ -246,5 +341,73 @@ static inline LogicValue or3(LogicValue a, LogicValue b) {
 static inline LogicValue bool3(int b) {
     return b ? LOGIC_1 : LOGIC_0;
 }
+
+/* ---- Shared between the model's files ---------------------------------------------- */
+
+void ns_drive(NsState *s, size_t pin, LogicValue value, SimTime delay);
+void ns_store_char(NsChannel *c, const SerialRxChar *rc);
+void ns_iir_now(const NsChannel *c, uint8_t *v, uint8_t *k);
+void ns_update_outputs(NsState *s, Cause cause);
+void ns_update_channel(NsState *s, NsChannel *c, Cause cause);
+void ns_set_thre(NsChannel *c);
+void ns_clear_rx(NsChannel *c);
+void ns_clear_tx(NsChannel *c);
+int ns_rx_level(const NsChannel *c);
+
+/* ns16550_ext.c: the enhanced registers and their features. */
+void ns_ext_reset(NsState *s, NsChannel *c, int power_on);
+/* Register access for the current LCR/EFR/MCR: 1 = handled. */
+int ns_ext_peek(NsChannel *c, unsigned address, uint8_t *v, uint8_t *k);
+int ns_ext_write(NsState *s, NsChannel *c, unsigned address, uint8_t v, uint8_t k, Cause *cause);
+/* Bits of IER, MCR and FCR a write may change now. */
+uint8_t ns_ext_ier_mask(const NsChannel *c);
+uint8_t ns_ext_mcr_mask(const NsChannel *c);
+void ns_ext_fcr(NsChannel *c, uint8_t v, uint8_t k);
+/* Received character: 1 = store it, 0 = it was a flow character. */
+int ns_ext_rx_char(NsState *s, NsChannel *c, const SerialRxChar *rc);
+/* RX FIFO level or TX state changed: auto-RTS, Xon/Xoff sending, sleep. */
+void ns_ext_levels(NsState *s, NsChannel *c);
+/* Transmit: a flow character to send first (1), or 0 = none. */
+int ns_ext_tx_flow(NsChannel *c, uint16_t *data);
+/* 1 when the transmitter may not take the next data byte now. */
+int ns_ext_tx_blocked(NsState *s, NsChannel *c);
+/* Extra interrupt sources: IIR[4] (Xoff/special) and IIR[5] (CTS/RTS). */
+LogicValue ns_ext_xoff_source(const NsChannel *c);
+LogicValue ns_ext_ctsrts_source(const NsChannel *c);
+/* An IIR read that reported code `iir` ended; an LSR/MSR read ended. */
+void ns_ext_iir_read(NsChannel *c, uint8_t iir);
+void ns_ext_status_read(NsChannel *c, int msr);
+/* Pins: RTS and DTR (overrides), TX encode, RX decode, OP/MF. */
+LogicValue ns_ext_rts(const NsChannel *c, LogicValue normal);
+LogicValue ns_ext_dtr(const NsChannel *c, LogicValue normal);
+LogicValue ns_ext_tx_pin(const NsChannel *c, LogicValue normal);
+LogicValue ns_ext_rx_decode(NsChannel *c, LogicValue pin);
+void ns_ext_pins(NsState *s, NsChannel *c, Cause cause);
+/* Modem input changed: auto-CTS interrupt; wake. 0 = suppress the delta (auto-CTS). */
+int ns_ext_cts_changed(NsChannel *c, LogicValue cts_active);
+/* Clock: 1 when this edge reaches the baud generator (prescaler; sleep). */
+int ns_ext_prescale(NsState *s, NsChannel *c, int rising);
+/* Load the divisor with DLF / prescaler; the sampling factor. */
+void ns_ext_load_divisor(NsChannel *c);
+unsigned ns_ext_factor(const NsChannel *c);
+/* Sleep: wake on activity; enter when idle. */
+void ns_ext_wake(NsChannel *c);
+void ns_ext_sleep_check(NsState *s, NsChannel *c);
+/* The TX trigger in free spaces, 0 = the THR interrupt is "empty". */
+unsigned ns_ext_tx_threshold(const NsChannel *c);
+unsigned ns_ext_rx_trigger(const NsChannel *c, unsigned fcr_level);
+/* FIFO ready register (752), and the AFR's concurrent write. */
+uint8_t ns_ext_fifo_ready(const NsState *s);
+
+/* ns16550_lpt.c: the printer port. */
+struct NsLpt *ns_lpt_create(const NsState *s);
+void ns_lpt_destroy(struct NsLpt *lpt);
+void ns_lpt_reset(NsState *s);
+int ns_lpt_selected(const NsState *s);
+void ns_lpt_peek(NsState *s, unsigned address, uint8_t *v, uint8_t *k);
+void ns_lpt_write(NsState *s, unsigned address, uint8_t v, uint8_t k);
+void ns_lpt_read_done(NsState *s, unsigned address);
+void ns_lpt_pins(NsState *s);
+int ns_lpt_has_pin(const NsState *s, size_t pin);
 
 #endif

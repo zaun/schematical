@@ -33,7 +33,11 @@ void serial_baud_load(SerialBaud *baud, uint32_t divisor, int known) {
     baud->divisor = divisor;
     baud->known = known;
     baud->count = 0;
-    baud->baudout = known && divisor != 0 ? LOGIC_1 : LOGIC_X;
+    baud->frac = 0;
+    baud->frac_acc = 0;
+    baud->extra = 0;
+    baud->baudout = known && divisor != 0 ? (baud->low2 && divisor > 2 ? LOGIC_0 : LOGIC_1)
+                                          : LOGIC_X;
 }
 
 int serial_baud_edge(SerialBaud *baud, int rising, LogicValue clock_level) {
@@ -49,10 +53,23 @@ int serial_baud_edge(SerialBaud *baud, int rising, LogicValue clock_level) {
         return 0;
     }
     baud->count++;
-    if (baud->count >= baud->divisor) {
+    if (baud->count >= baud->divisor + (baud->extra ? 1u : 0u)) {
         baud->count = 0;
+        /* Fractional divisor: spread frac / frac_den extra edges over the ticks. */
+        baud->extra = 0;
+        if (baud->frac != 0 && baud->frac_den != 0) {
+            baud->frac_acc += baud->frac;
+            if (baud->frac_acc >= baud->frac_den) {
+                baud->frac_acc -= baud->frac_den;
+                baud->extra = 1;
+            }
+        }
     }
-    baud->baudout = baud->count < (baud->divisor + 1) / 2 ? LOGIC_1 : LOGIC_0;
+    if (baud->low2 && baud->divisor > 2) {
+        baud->baudout = baud->count < 2 ? LOGIC_0 : LOGIC_1;
+    } else {
+        baud->baudout = baud->count < (baud->divisor + 1) / 2 ? LOGIC_1 : LOGIC_0;
+    }
     return baud->count == 0;
 }
 
