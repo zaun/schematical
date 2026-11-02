@@ -67,16 +67,16 @@ rows.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-09 complete (owner, 2026-11-02: plan-12 follows plan-09) | `ls planning/plan-09-* 2>/dev/null` → no output; `ls planning/completed/plan-09-E-*.md` → exists | MET (2026-11-02 at 9fb94a1) |
-| plan-11 complete (character LCD modules; plans land in creation order, §Decisions) | `ls planning/plan-11-*.md 2>/dev/null` → no output; `ls planning/completed/plan-11-D-*.md` → exists | **NOT MET** (2026-11-02 at 9fb94a1: `planning/plan-11-A…D-*.md` open) |
-| plan-10 complete | `ls planning/plan-10-*.md 2>/dev/null` → no output; `ls planning/completed/plan-10-J-app.md` → exists | MET (2026-11-02) |
-| Backend tests green | `cmake -S backend -B /tmp/logic-p12 && cmake --build /tmp/logic-p12 -j8 && ctest --test-dir /tmp/logic-p12` → `100% tests passed` | re-run at start; record the program count as **T0** (plan-11 adds programs) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt` (= `traces.txt`) and `footprints.txt` | record as **P0** and **F0** at start (plan-11 changes them) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p12-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | re-run at start |
-| No `serial` kind or pull parts yet | `ls schematical/schematical/Parts/serial.json backend/src/models/serial*.c 2>/dev/null` → no output; `grep -c PULLUP schematical/schematical/Parts/supply.json` → 0 | MET (2026-11-02) |
-| The datasheets are present | `ls datasheets/controller-*/*.pdf \| wc -l` → 107 | MET (2026-11-02 at 97e942f) |
-| The plan data is present | `awk -F'\t' '$16=="add"' planning/plan-12-data/parts.tsv \| wc -l` → 219; `tail -n +2 planning/plan-12-data/devices.tsv \| wc -l` → 79 | MET (2026-11-02) |
-| DigiKey script works (F–J re-check stock) | `node scripts/digikey.js --in-stock --list "TL16C550D" \| head -1` → a part line | MET (2026-11-02) |
+| plan-09 complete (owner, 2026-11-02: plan-12 follows plan-09) | `ls planning/plan-09-* 2>/dev/null` → no output; `ls planning/completed/plan-09-E-*.md` → exists | MET (2026-11-01 at 403651a) |
+| plan-11 complete (character LCD modules; plans land in creation order, §Decisions) | `ls planning/plan-11-*.md 2>/dev/null` → no output; `ls planning/completed/plan-11-D-*.md` → exists | **NOT MET** (2026-11-01 at 403651a: `planning/plan-11-A…D-*.md` open on main; plan-11 in progress on `worktree-P-11` at bffe730 — A done, B/C/D 42 boxes open) |
+| plan-10 complete | `ls planning/plan-10-*.md 2>/dev/null` → no output; `ls planning/completed/plan-10-J-app.md` → exists | MET (2026-11-01 at 403651a) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p12 && cmake --build /tmp/logic-p12 -j8 && ctest --test-dir /tmp/logic-p12` → `100% tests passed` | MET (2026-11-01 at 403651a: 17 programs; T0 is measured after plan-11 lands, which adds programs) |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt` (= `traces.txt`) and `footprints.txt` | measured 2026-11-01 at 403651a: parts/traces 7157, footprints 195 — not yet P0/F0 (plan-11 changes them) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p12-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01 at 403651a) |
+| No `serial` kind or pull parts yet | `ls schematical/schematical/Parts/serial.json backend/src/models/serial*.c 2>/dev/null` → no output; `grep -c PULLUP schematical/schematical/Parts/supply.json` → 0 | MET (2026-11-01 at 403651a) |
+| The datasheets are present | `ls datasheets/controller-*/*.pdf \| wc -l` → 107 | MET (2026-11-01 at 403651a) |
+| The plan data is present | `awk -F'\t' '$16=="add"' planning/plan-12-data/parts.tsv \| wc -l` → 219; `tail -n +2 planning/plan-12-data/devices.tsv \| wc -l` → 79 | MET (2026-11-01 at 403651a) |
+| DigiKey script works (F–J re-check stock) | `node scripts/digikey.js --in-stock --list "TL16C550D" \| head -1` → a part line | MET (2026-11-01 at 403651a: `TL16C550DIPFB Active`) |
 
 Everything below is written against the world where these hold.
 
