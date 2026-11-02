@@ -492,7 +492,7 @@ Commit: f14384e
 
 Acceptance: every case of §5.1 passes, and B's 6502-family cases still pass.
   Check: `ctest --test-dir /tmp/logic-p09 -R cpu_test -V | grep -c ': FAIL'` → 0, and `grep -c ': PASS'` → the number of `expect` calls the run makes (est. 1 min). Measured: 0 and 117 (86 call sites; the 6502-family ones run once per core).
-Commit: —
+Commit: f14384e (code and cases), 9d4a1d3 (docs)
 
 ## Validation Plan
 
