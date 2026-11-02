@@ -228,6 +228,29 @@
     "8-19 (twc = 8 tCY at tCY 320 ns)\"}},\"parts\":[{\"name\":\"SFX-8251A-dip28\",\"package\":\"DIP\",\"pinout\":" \
     "\"dip28\",\"footprint\":\"CDIP-28-600\",\"grade\":\"C\"}]}"
 
+#define SFX_82510 \
+    "{\"id\":\"SFX-82510\",\"function\":\"UART\",\"description\":\"Asynchronous serial controller\",\"drawer\":[\"In" \
+    "terface\"],\"note\":\"82510.pdf p2-41; plan-12-data/specs/classic-b.md § 82510\",\"pinouts\":{\"plcc28\":" \
+    "[{\"number\":1,\"name\":\"D4\",\"role\":\"inout\"},{\"number\":2,\"name\":\"D5\",\"role\":\"inout\"},{\"number\":3,\"na" \
+    "me\":\"D6\",\"role\":\"inout\"},{\"number\":4,\"name\":\"D7\",\"role\":\"inout\"},{\"number\":5,\"name\":\"INT\",\"role\"" \
+    ":\"output\"},{\"number\":6,\"name\":\"TXD\",\"role\":\"output\"},{\"number\":7,\"name\":\"VSS\",\"role\":\"ground\"},{" \
+    "\"number\":8,\"name\":\"OUT2/X2\",\"role\":\"output\"},{\"number\":9,\"name\":\"CLK/X1\",\"role\":\"input\"},{\"numbe" \
+    "r\":10,\"name\":\"RI/SCLK\",\"role\":\"input\"},{\"number\":11,\"name\":\"DSR/TA/OUT0\",\"role\":\"inout\"},{\"numbe" \
+    "r\":12,\"name\":\"DCD/ICLK/OUT1\",\"role\":\"inout\"},{\"number\":13,\"name\":\"RXD\",\"role\":\"input\"},{\"number\"" \
+    ":14,\"name\":\"CTS\",\"role\":\"input\"},{\"number\":15,\"name\":\"DTR/TB\",\"role\":\"inout\"},{\"number\":16,\"name" \
+    "\":\"RTS\",\"role\":\"inout\"},{\"number\":17,\"name\":\"RESET\",\"role\":\"input\"},{\"number\":18,\"name\":\"CS\",\"ro" \
+    "le\":\"input\"},{\"number\":19,\"name\":\"WR\",\"role\":\"input\"},{\"number\":20,\"name\":\"RD\",\"role\":\"input\"},{" \
+    "\"number\":21,\"name\":\"VCC\",\"role\":\"power\"},{\"number\":22,\"name\":\"A0\",\"role\":\"input\"},{\"number\":23,\"" \
+    "name\":\"A1\",\"role\":\"input\"},{\"number\":24,\"name\":\"A2\",\"role\":\"input\"},{\"number\":25,\"name\":\"D0\",\"ro" \
+    "le\":\"inout\"},{\"number\":26,\"name\":\"D1\",\"role\":\"inout\"},{\"number\":27,\"name\":\"D2\",\"role\":\"inout\"},{" \
+    "\"number\":28,\"name\":\"D3\",\"role\":\"inout\"}]},\"model\":\"i82510\",\"bus\":{\"data\":[\"D0\",\"D1\",\"D2\",\"D3\",\"D" \
+    "4\",\"D5\",\"D6\",\"D7\"],\"address\":[\"A0\",\"A1\",\"A2\"],\"read\":\"RD\",\"write\":\"WR\",\"select\":\"CS\",\"reset\":\"RE" \
+    "SET\"},\"clock\":{\"in\":\"CLK/X1\",\"out\":\"OUT2/X2\"},\"serial\":{\"tx\":\"TXD\",\"rx\":\"RXD\",\"int\":\"INT\",\"cts\":" \
+    "\"CTS\",\"rts\":\"RTS\",\"dtr\":\"DTR/TB\",\"ri\":\"RI/SCLK\",\"dsr\":\"DSR/TA/OUT0\",\"dcd\":\"DCD/ICLK/OUT1\"},\"grad" \
+    "es\":{\"C\":{\"trldv\":282,\"trhdz\":40,\"ttxd\":170,\"vcc\":[4.5,5.5],\"note\":\"82510.pdf p38-40 (trldv = 2 " \
+    "Tcy + 65 at an 18.432 MHz crystal, Tcy 108.5 ns)\"}},\"parts\":[{\"name\":\"SFX-82510-plcc28\",\"package" \
+    "\":\"PLCC\",\"pinout\":\"plcc28\",\"footprint\":\"LCCC-28\",\"grade\":\"C\"}]}"
+
 #define SFX_CDP65C51 \
     "{\"id\":\"SFX-CDP65C51\",\"function\":\"UART\",\"description\":\"CMOS asynchronous communications interface" \
     " adapter (ACIA)\",\"drawer\":[\"Interface\"],\"note\":\"cdp65c51.pdf p1-18; plan-12-data/specs/classic-b" \
@@ -423,6 +446,7 @@ static const char SERIAL_FIXTURE_CLASSIC[] =
     SFX_HD_6402 ","
     SFX_CDP1854A ","
     SFX_8251A ","
+    SFX_82510 ","
     SFX_CDP65C51 ","
     SFX_82C52 ","
     SFX_HD_6406 ","

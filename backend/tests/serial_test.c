@@ -2184,6 +2184,443 @@ static void case_h4_i8251(void) {
     hb_close(h);
 }
 
+/* ---- H5: 82510 (i82510) ----------------------------------------------------------------- */
+
+static const char *const I5_D[8] = {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"};
+
+/* CLK 18.432 MHz (external clock, /2: system clock 9.216 MHz). */
+#define I5_HALF ((SimTime)27127)
+#define I5_SYS (4 * I5_HALF)
+
+static void i5_addr(Bench *b, unsigned a) {
+    set(b, "A0", a & 1u ? LOGIC_1 : LOGIC_0);
+    set(b, "A1", a & 2u ? LOGIC_1 : LOGIC_0);
+    set(b, "A2", a & 4u ? LOGIC_1 : LOGIC_0);
+}
+
+static void i5_write(Bench *b, unsigned a, unsigned v) {
+    i5_addr(b, a);
+    h_set_bus(b, I5_D, 8, 1, v);
+    set(b, "CS", LOGIC_0);
+    run(b, NS(20));
+    set(b, "WR", LOGIC_0);
+    run(b, NS(300));
+    set(b, "WR", LOGIC_1);
+    run(b, NS(20));
+    set(b, "CS", LOGIC_1);
+    h_set_bus(b, I5_D, 8, 0, 0);
+    run(b, NS(300));
+}
+
+static unsigned i5_read(Bench *b, unsigned a, char *text) {
+    unsigned v;
+
+    i5_addr(b, a);
+    set(b, "CS", LOGIC_0);
+    run(b, NS(20));
+    set(b, "RD", LOGIC_0);
+    run(b, NS(320));
+    v = h_get_bus(b, I5_D, 8, text);
+    set(b, "RD", LOGIC_1);
+    run(b, NS(20));
+    set(b, "CS", LOGIC_1);
+    run(b, NS(300));
+    return v;
+}
+
+static void i5_expect(Bench *b, unsigned a, const char *want, const char *what) {
+    char text[16];
+
+    i5_read(b, a, text);
+    h_expect_text(text, want, what);
+}
+
+static void i5_bank(Bench *b, unsigned bank) {
+    i5_write(b, 2, bank << 5);
+}
+
+static HBench *i5_open(void) {
+    static const HClockPin CLOCKS[1] = {{"CLK/X1", 0}};
+    SimTime half = I5_HALF;
+    HBench *h = hb_open("SFX-82510-plcc28", CLOCKS, 1, &half, 1);
+    Bench *b = &h->b;
+
+    set(b, "RESET", LOGIC_1);
+    set(b, "CS", LOGIC_1);
+    set(b, "RD", LOGIC_1);
+    set(b, "WR", LOGIC_1);
+    set(b, "RXD", LOGIC_1);
+    set(b, "CTS", LOGIC_1);
+    set(b, "RI/SCLK", LOGIC_1);
+    set(b, "DSR/TA/OUT0", LOGIC_1);
+    set(b, "DCD/ICLK/OUT1", LOGIC_1);
+    i5_addr(b, 0);
+    run(b, NS(3000));
+    set(b, "RESET", LOGIC_0);
+    run(b, NS(1000));
+    return h;
+}
+
+static void case_h5_i82510(void) {
+    HBench *h = i5_open();
+    Bench *b = &h->b;
+    /* Wake-up path: 9.216 MHz / 2 / 5 = 921.6 kHz 16x: 57600 baud. */
+    const SimTime bt = 160 * I5_SYS;
+    char got[32];
+    char want[32];
+    char text[16];
+    unsigned i;
+
+    case_begin();
+    /* Every bank's wake-up values (Table 4). */
+    i5_expect(b, 1, "00000000", "bank 0 GER");
+    i5_expect(b, 2, "00000001", "GIR/BANK");
+    i5_expect(b, 3, "00000000", "LCR");
+    i5_expect(b, 4, "00000000", "MCR");
+    i5_expect(b, 5, "01100000", "LSR");
+    i5_expect(b, 6, "00000000", "MSR (inputs inactive)");
+    i5_expect(b, 7, "00000000", "ACR0");
+    i5_write(b, 3, 0x80);
+    i5_expect(b, 0, "00000010", "BAL");
+    i5_expect(b, 1, "00000000", "BAH");
+    i5_write(b, 3, 0x00);
+    i5_bank(b, 1);
+    i5_expect(b, 2, "00100001", "GIR with bank 1");
+    i5_expect(b, 3, "00110000", "TMST");
+    i5_expect(b, 4, "00000000", "FLR");
+    i5_expect(b, 5, "00000000", "RST");
+    i5_expect(b, 7, "00010010", "GSR (TX idle, TX FIFO at threshold)");
+    i5_bank(b, 2);
+    i5_expect(b, 0, "XXXXXXXX", "bank 2 A0 is not a register: X");
+    i5_expect(b, 1, "00000000", "FMD");
+    i5_expect(b, 3, "00000000", "TMD");
+    i5_expect(b, 4, "00001100", "IMD");
+    i5_expect(b, 5, "00000000", "ACR1");
+    i5_expect(b, 6, "00011110", "RIE");
+    i5_expect(b, 7, "00000000", "RMD");
+    i5_bank(b, 3);
+    i5_expect(b, 0, "00000000", "CLCF");
+    i5_expect(b, 1, "00000100", "BACF");
+    i5_expect(b, 3, "10000100", "BBCF");
+    i5_expect(b, 4, "11111100", "PMD");
+    i5_expect(b, 5, "00001111", "MIE");
+    i5_expect(b, 6, "00000000", "TMIE");
+    i5_expect(b, 7, "XXXXXXXX", "bank 3 A7 is not a register: X");
+    i5_bank(b, 0);
+    i5_write(b, 3, 0x80);   /* DLAB (bank 0 LCR) */
+    i5_bank(b, 3);
+    i5_expect(b, 0, "00000101", "BBL");
+    i5_expect(b, 1, "00000000", "BBH");
+    i5_bank(b, 0);
+    i5_write(b, 3, 0x00);
+
+    /* 8N1 through the 8250 path (BRGA / 2 -> BRGB / 5). */
+    i5_bank(b, 0);
+    i5_write(b, 3, 0x03);
+    i5_write(b, 0, 'A');
+    check(h_catch(b, "TXD", bt, 9, 4 * bt, got), "frame");
+    h_frame_bits('A', 8, 0, 1, want);
+    h_expect_text(got, want, "57600 8N1 through the cascaded BRGs");
+    run(b, bt);
+    h_expect_sent(b, 0, 'A', "A logged");
+    /* TX from BRGA directly (CLCF TxCS = 1): 9.216 MHz / 2 / 16. */
+    i5_bank(b, 3);
+    i5_write(b, 0, 0x10);
+    i5_bank(b, 0);
+    i5_write(b, 0, 0x5A);
+    check(h_catch(b, "TXD", 32 * I5_SYS, 9, 40 * 32 * I5_SYS, got), "BRGA frame");
+    h_frame_bits(0x5A, 8, 0, 1, want);
+    h_expect_text(got, want, "TX from BRGA: 32 system clocks a bit");
+    run(b, 64 * I5_SYS);
+    i5_bank(b, 3);
+    i5_write(b, 0, 0x00);
+    /* BRGB divisor 10 through DLAB: half the rate. */
+    i5_bank(b, 0);
+    i5_write(b, 3, 0x83);
+    i5_bank(b, 3);
+    i5_write(b, 0, 0x0A);
+    i5_bank(b, 0);
+    i5_write(b, 3, 0x03);
+    i5_write(b, 0, 0xC3);
+    check(h_catch(b, "TXD", 2 * bt, 9, 8 * bt, got), "BBL 10 frame");
+    h_frame_bits(0xC3, 8, 0, 1, want);
+    h_expect_text(got, want, "BBL = 10: 28800");
+    run(b, 2 * bt);
+    i5_write(b, 3, 0x83);
+    i5_bank(b, 3);
+    i5_write(b, 0, 0x05);
+    i5_bank(b, 0);
+    i5_write(b, 3, 0x03);
+
+    /* Receive (RX FIFO 1 deep at wake-up): RFIR, RXF, RXD. */
+    h_frame_bits(0x3C, 8, 0, 1, want);
+    h_drive_bits(b, "RXD", want, bt);
+    run(b, bt);
+    i5_expect(b, 5, "01100001", "LSR: RFIR");
+    i5_bank(b, 1);
+    i5_expect(b, 1, "01000000", "RXF: ROK");
+    i5_expect(b, 4, "00010000", "FLR: one in the RX FIFO");
+    i5_expect(b, 0, "00111100", "RXD");
+    i5_expect(b, 4, "00000000", "FLR after the read");
+    /* Four-deep FIFO (IMD.RFD = 0); a fifth character: the oldest goes, OE. */
+    i5_bank(b, 2);
+    i5_write(b, 4, 0x08);
+    for (i = 0; i < 5; i++) {
+        h_frame_bits(0x30 + i, 8, 0, 1, want);
+        h_drive_bits(b, "RXD", want, bt);
+    }
+    run(b, bt);
+    i5_bank(b, 1);
+    i5_expect(b, 4, "01000000", "FLR: four in the RX FIFO");
+    i5_expect(b, 5, "00000011", "RST: OE, RFIR");
+    i5_expect(b, 0, "00110001", "the oldest (0x30) was dropped");
+    for (i = 0; i < 3; i++) {
+        i5_read(b, 0, NULL);
+    }
+
+    /* Interrupts: the RX FIFO block (GER RFIE). */
+    i5_bank(b, 0);
+    i5_write(b, 1, 0x01);
+    h_frame_bits(0x41, 8, 0, 1, want);
+    h_drive_bits(b, "RXD", want, bt);
+    run(b, bt);
+    expect_pin(b, "INT", LOGIC_1, "RX FIFO interrupt");
+    i5_expect(b, 2, "00000100", "GIR: RX FIFO (010), pending");
+    i5_read(b, 0, NULL);
+    run(b, NS(500));
+    expect_pin(b, "INT", LOGIC_0, "reading the character services it");
+    /* The TX FIFO block and the hold state. */
+    i5_write(b, 1, 0x02);
+    run(b, NS(500));
+    expect_pin(b, "INT", LOGIC_1, "TX FIFO interrupt (0 <= threshold 0)");
+    i5_expect(b, 2, "00000010", "GIR: TX FIFO (001)");
+    run(b, NS(500));
+    expect_pin(b, "INT", LOGIC_0, "the GIR read enters the TX FIFO hold state");
+    i5_write(b, 0, 0x11);
+    run(b, 12 * bt);
+    expect_pin(b, "INT", LOGIC_1, "a write leaves the hold state: the next TX FIFO interrupt");
+    i5_write(b, 1, 0x00);
+    /* Priorities: timer over modem. A timer (BRGA in timer mode, count 20). */
+    i5_bank(b, 3);
+    i5_write(b, 0, 0x50);   /* CLCF: TX and RX from BRGB... BRGA becomes the timer */
+    i5_write(b, 0, 0x00);
+    i5_write(b, 1, 0x00);   /* BACF: BRGA in timer mode */
+    i5_write(b, 3, 0x04);   /* BBCF: BRGB from the system clock, BRG mode */
+    i5_write(b, 6, 0x01);   /* TMIE TAIE */
+    i5_bank(b, 0);
+    i5_write(b, 3, 0x83);
+    i5_write(b, 0, 20);     /* BAL: the count */
+    i5_write(b, 3, 0x03);
+    i5_write(b, 1, 0x28);   /* GER: TIE, MIE */
+    set(b, "CTS", LOGIC_0);
+    run(b, NS(500));
+    i5_expect(b, 2, "00000000", "GIR: modem (000) pending");
+    i5_bank(b, 1);
+    i5_write(b, 3, 0x31);   /* TMCR: gates open, STA */
+    run(b, 30 * I5_SYS);
+    i5_expect(b, 2, "00101010", "GIR: timer (101) over modem");
+    i5_expect(b, 3, "00110001", "TMST: TAEx");
+    i5_expect(b, 3, "00110000", "TMST read clears TAEx");
+    i5_expect(b, 6, "00010001", "MSR: CTS active, DCTS");
+    i5_expect(b, 2, "00100001", "nothing pending");
+    i5_bank(b, 3);
+    i5_write(b, 1, 0x04);   /* BACF back to BRG mode */
+    i5_write(b, 3, 0x84);   /* BBCF: BRGB from BRGA again */
+    i5_bank(b, 0);
+    i5_write(b, 3, 0x80);
+    i5_write(b, 0, 0x02);
+    i5_write(b, 3, 0x03);
+    i5_write(b, 1, 0x00);
+
+    /* Control characters: ASCII set (RMD 80H) and ACR0. */
+    i5_bank(b, 2);
+    i5_write(b, 7, 0x80);
+    i5_bank(b, 0);
+    i5_write(b, 7, 'Z');
+    h_frame_bits(0x0D, 8, 0, 1, want);
+    h_drive_bits(b, "RXD", want, bt);
+    run(b, bt);
+    i5_bank(b, 1);
+    i5_expect(b, 1, "01001000", "RXF: ROK, ACR (a control character)");
+    i5_expect(b, 5, "10000001", "RST: CRF");
+    i5_read(b, 0, NULL);
+    h_frame_bits('Z', 8, 0, 1, want);
+    h_drive_bits(b, "RXD", want, bt);
+    run(b, bt);
+    i5_expect(b, 5, "01000001", "RST: PCRF (ACR0)");
+    i5_read(b, 0, NULL);
+    /* Break: BkD with FE, a null character with BKF; BkT on the mark. The
+       null matches ACR1 = 00 (PCRF, as the p41 diagrams' RST 5CH). */
+    i5_bank(b, 2);
+    i5_write(b, 7, 0x00);
+    i5_bank(b, 1);
+    set(b, "RXD", LOGIC_0);
+    run(b, 14 * bt);
+    i5_expect(b, 1, "00001110", "RXF: ACR (ACR1 match), BKF, RFE");
+    i5_expect(b, 5, "01011001", "RST: PCRF, BkD, FE");
+    set(b, "RXD", LOGIC_1);
+    run(b, bt);
+    i5_expect(b, 5, "00100001", "RST: BkT");
+    i5_read(b, 0, NULL);
+    i5_bank(b, 0);
+
+    /* Quarter-bit stops: SBL 010 = 3/4; two characters back to back. */
+    i5_bank(b, 2);
+    i5_write(b, 3, 0x01);   /* TMD SBL1 = 1 */
+    i5_bank(b, 0);
+    i5_write(b, 3, 0x03);   /* SBL0 = 0: code 010 */
+    i5_write(b, 0, 0xFF);
+    i5_write(b, 0, 0xFF);
+    {
+        SimTime t0;
+        SimTime spent = 0;
+
+        h_wait(b, "TXD", LOGIC_0, 4 * bt);
+        t0 = sim_now(b->sim);
+        run(b, 9 * bt + bt / 4);
+        while (get(b, "TXD") != LOGIC_0 && spent < 2 * bt) {
+            run(b, NS(100));
+            spent += NS(100);
+        }
+        {
+            SimTime d = sim_now(b->sim) - t0;
+            SimTime want_d = 9 * bt + 3 * bt / 4;
+            char message[96];
+
+            snprintf(message, sizeof message, "3/4 stop: start to start %llu ps, want %llu",
+                     (unsigned long long)d, (unsigned long long)want_d);
+            check(d + NS(400) >= want_d && d <= want_d + NS(400), message);
+        }
+    }
+    run(b, 12 * bt);
+    i5_bank(b, 2);
+    i5_write(b, 3, 0x20);   /* NBCL: 9-bit characters */
+    i5_bank(b, 1);
+    i5_write(b, 1, 0x20);   /* TXF D8 */
+    i5_write(b, 0, 0x55);
+    check(h_catch(b, "TXD", bt, 10, 4 * bt, got), "9-bit frame");
+    h_expect_text(got, "01010101011", "9-bit character: D8 from TXF");
+    run(b, 2 * bt);
+    /* Software parity: LCR PM0 with TMD SPF; the bit from TXF.SP. */
+    i5_bank(b, 2);
+    i5_write(b, 3, 0x04);
+    i5_bank(b, 0);
+    i5_write(b, 3, 0x0B);
+    i5_bank(b, 1);
+    i5_write(b, 1, 0x40);
+    i5_write(b, 0, 0x01);
+    check(h_catch(b, "TXD", bt, 10, 4 * bt, got), "software parity frame");
+    h_expect_text(got, "01000000011", "software parity bit 1 from TXF.SP");
+    run(b, 2 * bt);
+    i5_bank(b, 2);
+    i5_write(b, 3, 0x00);
+    i5_bank(b, 0);
+    i5_write(b, 3, 0x03);
+
+    /* Semi-automatic handshake: RTS while enabled, TX only with CTS. */
+    i5_bank(b, 2);
+    i5_write(b, 3, 0x10);
+    run(b, NS(500));
+    expect_pin(b, "RTS", LOGIC_0, "semi-automatic: RTS asserted while enabled");
+    set(b, "CTS", LOGIC_1);
+    run(b, NS(500));
+    i5_bank(b, 0);
+    i5_write(b, 0, 0x66);
+    check(!h_catch(b, "TXD", bt, 9, 3 * bt, got), "semi-automatic: CTS inactive holds TX");
+    set(b, "CTS", LOGIC_0);
+    check(h_catch(b, "TXD", bt, 9, 3 * bt, got), "CTS active: sent");
+    run(b, 2 * bt);
+    i5_bank(b, 2);
+    i5_write(b, 3, 0x00);
+
+    /* Local loopback: TXD high, the receiver hears the transmitter. */
+    i5_bank(b, 0);
+    i5_write(b, 4, 0x10);
+    i5_write(b, 0, 0xA5);
+    run(b, bt);
+    expect_pin(b, "TXD", LOGIC_1, "local loopback: TXD held mark");
+    run(b, 11 * bt);
+    i5_expect(b, 0, "10100101", "local loopback: received");
+    /* Remote loopback (LEM): RXD straight to TXD. */
+    i5_bank(b, 2);
+    i5_write(b, 4, 0x09);
+    set(b, "RXD", LOGIC_0);
+    run(b, NS(300));
+    expect_pin(b, "TXD", LOGIC_0, "remote loopback: TXD follows RXD");
+    set(b, "RXD", LOGIC_1);
+    run(b, NS(300));
+    /* Automatic echo (LEM, LC = 0): a received character is sent back. */
+    i5_bank(b, 0);
+    i5_write(b, 4, 0x00);
+    h_frame_bits(0x4E, 8, 0, 1, want);
+    h_drive_bits(b, "RXD", want, bt);
+    check(h_catch(b, "TXD", bt, 9, 4 * bt, got), "echo frame");
+    h_expect_text(got, want, "automatic echo");
+    run(b, 2 * bt);
+    i5_bank(b, 2);
+    i5_write(b, 4, 0x08);
+    i5_bank(b, 0);
+
+    /* PMD: DSR/TA/OUT0 as OUT0 (MCR bit 5). */
+    set(b, "DSR/TA/OUT0", LOGIC_Z);
+    i5_bank(b, 3);
+    i5_write(b, 4, 0xDC);   /* DTAD = 0 (output), DTAF = 1 (OUT0) */
+    i5_bank(b, 0);
+    i5_write(b, 4, 0x20);
+    run(b, NS(300));
+    expect_pin(b, "DSR/TA/OUT0", LOGIC_0, "OUT0 from MCR bit 5");
+    i5_write(b, 4, 0x00);
+    run(b, NS(300));
+    expect_pin(b, "DSR/TA/OUT0", LOGIC_1, "OUT0 inactive");
+    i5_bank(b, 3);
+    i5_write(b, 4, 0xFC);
+    i5_bank(b, 0);
+    set(b, "DSR/TA/OUT0", LOGIC_1);
+
+    /* Manual acknowledge (IMD.IAM = 0): INT holds until ICM.INTA. */
+    i5_bank(b, 2);
+    i5_write(b, 4, 0x00);
+    i5_bank(b, 0);
+    i5_write(b, 1, 0x01);
+    h_frame_bits(0x21, 8, 0, 1, want);
+    h_drive_bits(b, "RXD", want, bt);
+    run(b, bt);
+    i5_read(b, 0, NULL);
+    run(b, NS(500));
+    expect_pin(b, "INT", LOGIC_1, "manual acknowledge: INT holds after the service");
+    i5_bank(b, 1);
+    i5_write(b, 7, 0x08);
+    run(b, NS(1000));
+    expect_pin(b, "INT", LOGIC_0, "ICM.INTA releases it");
+    /* Power down (external clock: idle); reading FLR exits. */
+    i5_write(b, 7, 0x02);
+    i5_bank(b, 1);
+    i5_write(b, 0, 0x77);
+    check(!h_catch(b, "TXD", bt, 9, 3 * bt, got), "power down: the transmitter stops");
+    i5_expect(b, 4, "XXXXXXXX", "FLR read leaves power down (data invalid)");
+    check(h_catch(b, "TXD", bt, 9, 3 * bt, got), "running again");
+    run(b, 2 * bt);
+    /* ICM.SRST: the wake-up values again. */
+    i5_write(b, 7, 0x10);
+    i5_expect(b, 2, "00000001", "SRST: bank 0, nothing pending");
+    i5_bank(b, 2);
+    i5_expect(b, 4, "00001100", "SRST: IMD wake-up value");
+    i5_bank(b, 0);
+
+    /* Terminal. */
+    i5_write(b, 3, 0x03);
+    set(b, "RXD", LOGIC_Z);
+    run(b, NS(100));
+    check(h_send(b, 0, "OK") == 1, "terminal send accepted");
+    run(b, 11 * bt);
+    i5_expect(b, 0, "01001111", "terminal O");
+    run(b, 11 * bt);
+    i5_expect(b, 0, "01001011", "terminal K");
+    (void)text;
+    case_end("H5 82510: every bank's registers, both BRGs and a timer, FIFOs, interrupt blocks and priority, hold state, control characters, break, stops, 9-bit, soft parity, handshake, loopbacks, echo, PMD, ack modes, power down, terminal");
+    hb_close(h);
+}
+
 /* ---- H6: CDP65C51 (acia6551) ----------------------------------------------------------- */
 
 static const char *const AC_D[8] = {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"};
@@ -3160,6 +3597,7 @@ int main(void) {
     case_h2_com1863();
     case_h3_cdp1854a();
     case_h4_i8251();
+    case_h5_i82510();
     case_h6_acia6551();
     case_h7_hs82c52();
     case_h8_com78c80x();

@@ -19,6 +19,7 @@ static const SerialModel *const MODELS[] = {
     /* plan-12-H */
     &AY1013_MODEL,
     &I8251_MODEL,
+    &I82510_MODEL,
     &ACIA6551_MODEL,
     &HS82C52_MODEL,
     &COM78C80X_MODEL,
