@@ -48,6 +48,12 @@ struct CounterModel {
     void (*timer)(Sim *sim, SimInstance *inst, CounterHeader *state, uint32_t id);   /* may be NULL */
 };
 
+/* The models of counter_div.c (plan-10-E); counter.c lists them in its table. */
+extern const CounterModel JOHNSON_MODEL;
+extern const CounterModel SEG7_MODEL;
+extern const CounterModel DIVN_MODEL;
+extern const CounterModel RATE_MODEL;
+
 /* ---- Shared pieces of the counter models --------------------------------- */
 
 /* Bits merge: a bit stays known only where a and b agree. */

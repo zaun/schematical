@@ -933,3 +933,94 @@ Ripple counters. Device keys `"units"` (the number shown in the drawer) and
 Priority: set > reset > clock. Timing entries need the extra key
 `"stage"` (ns): an output's delay is the entry's rise/fall plus `stage` × its
 ripple depth (binary: k for stage k from 0; div5: QC 1; div6: QD 1; else 0).
+
+#### Model `johnson`
+
+Johnson (twisted-ring) counters with decoded outputs: 4017B, 4022B,
+74HC4017, 4018B. `units` = 1; main path clock → decoded output.
+
+| Key | Value |
+|---|---|
+| `"stages"` | 4 or 5 |
+| `"clock"` | pin; the stages advance on the rising edge of the (gated) clock |
+| `"clockGate"` | optional `{"pin", "op"}` (as `sync`; 4017B CLOCK INHIBIT and 74HC4017 CE use `and-not`) |
+| `"reset"` | control, asynchronous: every stage 0 |
+| `"outputs"` | optional: 2 × stages decoded pins in count order |
+| `"carry"` | optional pin: NOT the last stage (high for the first half of the cycle) |
+| `"data"` | optional pin (4018B): stage 1's D; without it, NOT the last stage |
+| `"presetEnable"` | optional control, asynchronous (4018B): stage n takes `jam`[n] |
+| `"jam"` | pin names, one per stage (with `presetEnable`) |
+| `"qbar"` | optional: one pin per stage showing NOT the stage (4018B's outputs) |
+
+At the edge: D1 = the data pin or NOT Q_S; D2 = Q1; D3 = Q2·(Q1 + Q3) (the
+anti-lock gate, which brings every illegal state into the cycle); Dk =
+Q(k−1) for k ≥ 4. Decoded outputs (stages Q1…QS): output 0 = ¬Q1·¬QS;
+output k (1 ≤ k < S) = Qk·¬Q(k+1); output S = Q1·QS; output S+k = ¬Qk·Q(k+1).
+Priority: reset > preset enable > clock.
+
+#### Model `seg7`
+
+Decade counters 0–9 with decoded 7-segment outputs: 4026B, 4033B, 40110B.
+`units` = 1; main path clock → segment.
+
+| Key | Value |
+|---|---|
+| `"clock"` + optional `"clockGate"` | as `johnson`; or `"clockUp"` and `"clockDown"` pins (40110B: every rising edge of either counts) |
+| `"reset"` | control, asynchronous: count 0 |
+| `"segments"`, `"glyphs"` | 7 pins a…g; 10 strings of 7 `0`/`1` |
+| `"carry"` | optional pin: 1 for counts 0–4, 0 for 5–9 |
+| `"carryPulse"`, `"borrowPulse"` | optional pins (40110B): normally 1; a 0 pulse when the count steps 9 → 0 (carry) or 0 → 9 (borrow), as long as the timing entry's extra keys `carryPulse` / `borrowPulse` (ns) |
+| `"displayEnable"` | optional `{"in", "out"}` (4026B): segments forced 0 while `in` is 0; `out` = `in` |
+| `"ungatedC"` | optional pin (4026B): segment c of the count, not gated |
+| `"lampTest"` | optional control (4033B): every segment 1 |
+| `"rippleBlank"` | optional `{"in", "out"}` (4033B): count 0 and `in` = 0 → segments 0; `out` = NOT(count = 0 AND `in` = 0) |
+| `"toggleEnable"` | optional control (40110B): counting only while asserted |
+| `"latchEnable"` | optional control (40110B): while asserted the segments hold the count they showed; the counter keeps counting |
+
+Segments: lamp test > (display enable 0, or ripple blank) > glyph.
+
+#### Model `divn`
+
+Programmable divide-by-N (4059A, 74HC4059). `units` = 1; main path clock →
+output.
+
+| Key | Value |
+|---|---|
+| `"clock"` | pin (rising edge) |
+| `"jam"` | 16 pins, J1…J16 |
+| `"modes"` | 3 pins Ka, Kb, Kc |
+| `"latchEnable"` | pin |
+| `"output"` | pin |
+
+Modes (Ka Kb Kc): 111 ÷2 (first digit d1 = J1; last d5 = J2–J4), 011 ÷4
+(J1–J2; J3–J4), 101 ÷5 (J1–J3; J4), 001 ÷8 (J1–J3; J4), 110 ÷10 (J1–J4;
+none), X00 master preset; 010 is not a mode (the count goes X). d2 = J5–J8,
+d3 = J9–J12, d4 = J13–J16, binary with the lowest pin the LSB (values above 9
+are the "extended" range). N = mode × (1000·d5 + 100·d4 + 10·d3 + d2) + d1,
+at least 3. At each rising edge: master preset → jammed and held; the first
+edge after it → the extra count (C = N); else C ≤ 1 → C = N and the output is
+1 until the next edge; else C − 1 and the output 0. Latch enable 1 keeps the
+output 1 after a pulse until it returns to 0. Power-on: C = N from the pins.
+
+#### Model `rate`
+
+Rate multipliers (4089B, 4527B, 74x97). `units` = 1; main path clock → out.
+
+| Key | Value |
+|---|---|
+| `"variant"` | `"binary4"` (count 0–15), `"bcd"` (0–9), `"binary6"` (0–63) |
+| `"clock"` | pin (counts on the rising edge) |
+| `"rate"` | pins, LSB first (4 or 6) |
+| `"enable"` | control: counts while asserted |
+| `"strobe"` | control: asserted → no pulses |
+| `"cascade"` | control: asserted → `out` forced 1 |
+| `"clear"`, `"set"` | controls, asynchronous: count 0 / max; set beats clear; `set` optional |
+| `"out"`, `"outBar"` | pins |
+| `"terminal"` | optional pin: 1 while the count is at max |
+| `"enableOut"` | pin: 0 while enable is asserted and the count is at max |
+
+G = (strobe not asserted) · (clock 0) · (some rate bit set whose states
+contain the count); `outBar` = ¬G, `out` = G + cascade. States: binary, a
+rate bit j places from the MSB selects the counts whose low j+1 bits are
+2^j − 1 (the MSB: even counts); bcd: A {4}, B {2, 7}, C {1, 3, 6, 8},
+D {0–3, 5–8}.

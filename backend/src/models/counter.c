@@ -7,7 +7,7 @@
  *   ripple   ripple (asynchronous) counters: binary chains, the 74x90/92/390
  *            divide-by-2/5/6 sections
  *
- * (plan-10-E adds johnson, seg7, divn and rate in counter_div.c.)
+ *   johnson, seg7, divn, rate   counter_div.c (plan-10-E)
  *
  * Counts are SeqBits (value + known mask), so an X input makes X exactly the
  * bits it could change: wherever a control is unknown, both outcomes are
@@ -1939,10 +1939,26 @@ static const CounterModel RIPPLE_MODEL = {
 
 /* ---- The kind ------------------------------------------------------------------ */
 
-static const CounterModel *const MODELS[] = {&SYNC_MODEL, &RIPPLE_MODEL, NULL};
+static const CounterModel *const MODELS[] = {
+    &SYNC_MODEL, &RIPPLE_MODEL, &JOHNSON_MODEL, &SEG7_MODEL, &DIVN_MODEL, &RATE_MODEL, NULL
+};
 
 /* "model", "timing" and every model's keys (the library checks these first). */
-static const char *const DEVICE_KEYS[] = {"model", "timing", "units", "byteBus", "sections", NULL};
+static const char *const DEVICE_KEYS[] = {
+    "model", "timing", "units", "byteBus", "sections",
+    /* johnson */
+    "stages", "clock", "clockGate", "reset", "outputs", "carry", "data", "presetEnable", "jam",
+    "qbar",
+    /* seg7 */
+    "clockUp", "clockDown", "segments", "glyphs", "carryPulse", "borrowPulse", "displayEnable",
+    "ungatedC", "lampTest", "rippleBlank", "toggleEnable", "latchEnable",
+    /* divn */
+    "modes", "output",
+    /* rate */
+    "variant", "rate", "enable", "strobe", "cascade", "clear", "set", "out", "outBar", "terminal",
+    "enableOut",
+    NULL
+};
 static const char *const PART_KEYS[] = {"family", "vcc", "inputMax", NULL};
 
 typedef struct {

@@ -24,7 +24,7 @@ plan-10-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-10-D complete | `ls planning/completed/plan-10-D-counter-kind.md` → exists | NOT MET (2026-11-01: written) |
+| plan-10-D complete | `ls planning/completed/plan-10-D-counter-kind.md` → exists | MET (2026-11-01: exists, archived at 513ba24) |
 
 ## 1. Goal
 
@@ -212,16 +212,20 @@ Main path: clock → out.
 
 ### Phase 1 — `johnson` and `seg7`
 
-- [ ] `models/counter_div.c` (listed in `backend/CMakeLists.txt`) with both
-  models; docs. Acceptance: `ctest` 14 of 14 (seconds).
+- [x] `models/counter_div.c` (listed in `backend/CMakeLists.txt`) with both
+  models; docs. Acceptance: `ctest` 14 of 14 (seconds). (Ran: `100% tests
+  passed, 0 tests failed out of 14`; `cc -Wall -Wextra -fsyntax-only` on
+  `counter_div.c` and `counter.c` prints nothing.)
 
 Commit: —
 
 ### Phase 2 — `divn` and `rate`
 
-- [ ] Both models; docs.
+- [x] Both models; docs.
 
-Acceptance: `ctest` 14 of 14 (seconds).
+Acceptance: `ctest` 14 of 14 (seconds). (Same run as Phase 1: the four
+models were written in one pass of `counter_div.c`; one commit, see
+Corrections.)
 Commit: —
 
 ### Phase 3 — Cases
@@ -245,7 +249,17 @@ Phase 3's acceptance. Landing tier: plan-10-J.
 
 ## Corrections
 
-(none yet)
+- 2026-11-01, Phases 1–2: the four models land in one commit (one file,
+  one `ctest` 14 of 14 run for both phases' identical acceptance).
+- 2026-11-01, Phase 2: `divn` Table I has no row for Ka Kb Kc = 010; an edge
+  in that state makes C unknown and the output X (until a master preset),
+  as for unknown mode pins. At a master preset C is a placeholder: the
+  extra-count edge after the release takes N of the counting mode then
+  selected, which is what §4.3 step 2 leaves as "C unchanged" when the
+  mode does not change.
+- 2026-11-01, Phase 2: the 74_97 STRB pin is printed with an overbar, but
+  its gate is S = ¬CLK·¬STRB and the function table blanks Y and Z with STRB
+  high: F gives the 97 `strobe` active high (`divider.md` § 74_97).
 
 ## Summary
 

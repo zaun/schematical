@@ -29,6 +29,7 @@ add_library(logic STATIC
     src/models/seq.c
     src/models/latch.c
     src/models/counter.c
+    src/models/counter_div.c
     src/third_party/cjson/cJSON.c
 )
 target_include_directories(logic
