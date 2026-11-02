@@ -1,0 +1,127 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "i2c-spi",
+  "selectPin": "I2C/SPI",
+  "spiLevel": 0,
+  "selectSampled": "reset",
+  "spi": {
+   "cs": "A0/CS",
+   "sclk": "SCL",
+   "mosi": "A1/SI",
+   "miso": "SO",
+   "mode": 0
+  },
+  "i2c": {
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "A0/CS",
+    "A1/SI"
+   ],
+   "table": [
+    53,
+    52,
+    54,
+    55,
+    49,
+    48,
+    50,
+    51,
+    49,
+    48,
+    50,
+    51,
+    53,
+    52,
+    54,
+    55
+   ]
+  },
+  "reset": "RESET",
+  "resetActiveHigh": false,
+  "nack": [
+   "full"
+  ],
+  "registerBits": 3
+ },
+ "clock": {
+  "in": "XTAL1",
+  "out": "XTAL2"
+ },
+ "channels": [
+  {
+   "tx": "TX",
+   "rx": "RX",
+   "rts": "RTS",
+   "cts": "CTS",
+   "dsr": "DSR/GPIO1",
+   "dtr": "DTR/GPIO0",
+   "dcd": "CD/GPIO2",
+   "ri": "RI/GPIO3"
+  }
+ ],
+ "interrupt": "IRQ",
+ "gpio": {
+  "pins": [
+   "DTR/GPIO0",
+   "DSR/GPIO1",
+   "CD/GPIO2",
+   "RI/GPIO3",
+   "GPIO4",
+   "GPIO5",
+   "GPIO6",
+   "GPIO7"
+  ],
+  "registers": "xr1280"
+ },
+ "straps": {
+  "en485": "EN485",
+  "enir": "ENIR"
+ },
+ "sleepPin": "SLEEP/PWRDN",
+ "fifo": 128,
+ "rxTrigger": [
+  8,
+  16,
+  56,
+  60
+ ],
+ "txTrigger": [
+  8,
+  16,
+  32,
+  56
+ ],
+ "lcrReset": 0,
+ "sprReset": 255,
+ "xonReset": [
+  0,
+  0,
+  0,
+  0
+ ],
+ "dlPowerUp": [
+  1,
+  0
+ ],
+ "dmaMode1": false,
+ "timeout": "4w12",
+ "iirPriority": "nxpEqual",
+ "extended": "xr1280",
+ "autoFlow": "tcr",
+ "swFlow": "tiAnd",
+ "specialChar": true,
+ "ctsRtsClear": "msr",
+ "sleep": "ier4",
+ "irda": "mcr6",
+ "prescaler": "mcr7",
+ "fastIrda": true,
+ "optionalPins": [
+  "GPIO4",
+  "GPIO5",
+  "GPIO6",
+  "GPIO7",
+  "ENIR"
+ ]
+}

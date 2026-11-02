@@ -17,7 +17,8 @@
 /* ---- Small helpers -------------------------------------------------------------- */
 
 static int bank_style(const NsDevice *d) {
-    return d->extended == EXT_650 || d->extended == EXT_752 || d->extended == EXT_NS_EFR;
+    return d->extended == EXT_650 || d->extended == EXT_752 || d->extended == EXT_NS_EFR ||
+           d->bridge != NULL;   /* plan-12-I: the bridges' 650-style bank */
 }
 
 static int known_bit(Reg r, unsigned bit) {
@@ -111,11 +112,6 @@ void ns_ext_reset(NsState *s, NsChannel *c, int power_on) {
 }
 
 /* ---- Register decode ---------------------------------------------------------------- */
-
-typedef enum {
-    R_CORE, R_X, R_IGNORE, R_EFR, R_XON1, R_XON2, R_XOFF1, R_XOFF2, R_TCR, R_TLR, R_FIFORDY,
-    R_AFR, R_DLF, R_DREV, R_DVID
-} ExtReg;
 
 static ExtReg decode(const NsChannel *c, unsigned address, int write) {
     const NsDevice *d = c->owner->dev;
@@ -235,21 +231,28 @@ uint8_t ns_ext_fifo_ready(const NsState *s) {
     return v;
 }
 
-int ns_ext_peek(NsChannel *c, unsigned address, uint8_t *v, uint8_t *k) {
+/* The register decode of the device's style (plan-12-I: a bridge has its own). */
+static int decode_any(const NsChannel *c, unsigned address, int write) {
+    if (c->owner->dev->bridge != NULL) {
+        return ns_bridge_decode(c, address, write);
+    }
+    return (int)decode(c, address, write);
+}
+
+void ns_ext_peek_reg(NsChannel *c, int reg, uint8_t *v, uint8_t *k) {
     const NsDevice *d = c->owner->dev;
 
-    switch (decode(c, address, 0)) {
-        case R_CORE: return 0;
-        case R_X:
-        case R_IGNORE: *v = 0; *k = 0; return 1;
-        case R_EFR: *v = c->efr.v; *k = c->efr.k; return 1;
-        case R_XON1: *v = c->xon1.v; *k = c->xon1.k; return 1;
-        case R_XON2: *v = c->xon2.v; *k = c->xon2.k; return 1;
-        case R_XOFF1: *v = c->xoff1.v; *k = c->xoff1.k; return 1;
-        case R_XOFF2: *v = c->xoff2.v; *k = c->xoff2.k; return 1;
-        case R_TCR: *v = c->tcr.v; *k = c->tcr.k; return 1;
-        case R_TLR: *v = c->tlr.v; *k = c->tlr.k; return 1;
-        case R_FIFORDY: *v = ns_ext_fifo_ready(c->owner); *k = 0xFF; return 1;
+    *v = 0;
+    *k = 0;
+    switch (reg) {
+        case R_EFR: *v = c->efr.v; *k = c->efr.k; break;
+        case R_XON1: *v = c->xon1.v; *k = c->xon1.k; break;
+        case R_XON2: *v = c->xon2.v; *k = c->xon2.k; break;
+        case R_XOFF1: *v = c->xoff1.v; *k = c->xoff1.k; break;
+        case R_XOFF2: *v = c->xoff2.v; *k = c->xoff2.k; break;
+        case R_TCR: *v = c->tcr.v; *k = c->tcr.k; break;
+        case R_TLR: *v = c->tlr.v; *k = c->tlr.k; break;
+        case R_FIFORDY: *v = ns_ext_fifo_ready(c->owner); *k = 0xFF; break;
         case R_AFR:
             *v = c->afr.v;
             *k = c->afr.k;
@@ -257,12 +260,26 @@ int ns_ext_peek(NsChannel *c, unsigned address, uint8_t *v, uint8_t *k) {
                 *v &= 0x07;
                 *k |= 0xF8;
             }
-            return 1;
-        case R_DLF: *v = c->dlf.v; *k = c->dlf.k; return 1;
-        case R_DREV: *v = (uint8_t)d->drev; *k = 0xFF; return 1;
-        case R_DVID: *v = (uint8_t)d->dvid; *k = 0xFF; return 1;
+            break;
+        case R_DLF: *v = c->dlf.v; *k = c->dlf.k; break;
+        case R_DREV: *v = (uint8_t)d->drev; *k = 0xFF; break;
+        case R_DVID: *v = (uint8_t)d->dvid; *k = 0xFF; break;
+        default:
+            if (reg >= NS_REG_BRIDGE) {
+                ns_bridge_peek_reg(c, reg, v, k);
+            }
+            break;   /* R_X, R_IGNORE: X */
     }
-    return 0;
+}
+
+int ns_ext_peek(NsChannel *c, unsigned address, uint8_t *v, uint8_t *k) {
+    int reg = decode_any(c, address, 0);
+
+    if (reg == R_CORE) {
+        return 0;
+    }
+    ns_ext_peek_reg(c, reg, v, k);
+    return 1;
 }
 
 static void queue_flow(NsChannel *c, uint8_t ch) {
@@ -285,14 +302,28 @@ static void queue_flow_pair(NsChannel *c, unsigned txmode, int xon) {
 }
 
 int ns_ext_write(NsState *s, NsChannel *c, unsigned address, uint8_t v, uint8_t k, Cause *cause) {
+    int reg = decode_any(c, address, 1);
+
+    *cause = CAUSE_WRITE;
+    if (reg == R_CORE) {
+        return 0;
+    }
+    ns_ext_write_reg(s, c, reg, v, k);
+    return 1;
+}
+
+void ns_ext_write_reg(NsState *s, NsChannel *c, int reg, uint8_t v, uint8_t k) {
     const NsDevice *d = s->dev;
     unsigned i;
 
-    *cause = CAUSE_WRITE;
-    switch (decode(c, address, 1)) {
-        case R_CORE: return 0;
+    if (reg >= NS_REG_BRIDGE) {
+        ns_bridge_write_reg(s, c, reg, v, k);
+        return;
+    }
+    switch (reg) {
+        case R_CORE:
         case R_X:
-        case R_IGNORE: return 1;
+        case R_IGNORE: return;
         case R_EFR: {
             unsigned old_tx = (c->efr.v >> 2) & 3u;
 
@@ -304,18 +335,18 @@ int ns_ext_write(NsState *s, NsChannel *c, unsigned address, uint8_t v, uint8_t 
                 c->xoff_sent = 0;
             }
             ns_ext_levels(s, c);
-            return 1;
+            return;
         }
-        case R_XON1: c->xon1 = (Reg){v, k}; return 1;
-        case R_XON2: c->xon2 = (Reg){v, k}; return 1;
-        case R_XOFF1: c->xoff1 = (Reg){v, k}; return 1;
-        case R_XOFF2: c->xoff2 = (Reg){v, k}; return 1;
-        case R_TCR: c->tcr = (Reg){v, k}; ns_ext_levels(s, c); return 1;
-        case R_TLR: c->tlr = (Reg){v, k}; ns_ext_levels(s, c); return 1;
+        case R_XON1: c->xon1 = (Reg){v, k}; return;
+        case R_XON2: c->xon2 = (Reg){v, k}; return;
+        case R_XOFF1: c->xoff1 = (Reg){v, k}; return;
+        case R_XOFF2: c->xoff2 = (Reg){v, k}; return;
+        case R_TCR: c->tcr = (Reg){v, k}; ns_ext_levels(s, c); return;
+        case R_TLR: c->tlr = (Reg){v, k}; ns_ext_levels(s, c); return;
         case R_FIFORDY:
         case R_DREV:
         case R_DVID:
-            return 1;
+            return;
         case R_AFR:
             c->afr = (Reg){v, k};
             /* The concurrent-write bit is shared: either channel sets or clears it. */
@@ -325,16 +356,22 @@ int ns_ext_write(NsState *s, NsChannel *c, unsigned address, uint8_t v, uint8_t 
                     s->ch[i].afr.v = (uint8_t)((s->ch[i].afr.v & ~1u) | (v & 1u));
                 }
             }
-            return 1;
+            return;
         case R_DLF:
             c->dlf = (Reg){v, k};
             ns_ext_load_divisor(c);
-            return 1;
+            return;
+        default:
+            return;
     }
-    return 0;
 }
 
 uint8_t ns_ext_ier_mask(const NsChannel *c) {
+    uint8_t mask;
+
+    if (ns_bridge_ier_mask(c, &mask)) {
+        return mask;   /* plan-12-I */
+    }
     switch (c->owner->dev->extended) {
         case EXT_750: return 0x3F;
         case EXT_650:
@@ -346,7 +383,11 @@ uint8_t ns_ext_ier_mask(const NsChannel *c) {
 
 uint8_t ns_ext_mcr_mask(const NsChannel *c) {
     const NsDevice *d = c->owner->dev;
+    uint8_t mask;
 
+    if (ns_bridge_mcr_mask(c, &mask)) {
+        return mask;   /* plan-12-I */
+    }
     switch (d->extended) {
         case EXT_AFE:
         case EXT_750: return 0x3F;
@@ -369,7 +410,11 @@ void ns_ext_fcr(NsChannel *c, uint8_t v, uint8_t k) {
 unsigned ns_ext_rx_trigger(const NsChannel *c, unsigned fcr_level) {
     const NsDevice *d = c->owner->dev;
     unsigned tlr = (c->tlr.v >> 4) & 0x0Fu;
+    unsigned level;
 
+    if (ns_bridge_rx_trigger(c, &level)) {
+        return level;   /* plan-12-I: XR20M1280 trigger tables */
+    }
     if (d->tlr != 0 && tlr != 0) {
         return tlr * d->tlr;
     }
@@ -379,7 +424,11 @@ unsigned ns_ext_rx_trigger(const NsChannel *c, unsigned fcr_level) {
 unsigned ns_ext_tx_threshold(const NsChannel *c) {
     const NsDevice *d = c->owner->dev;
     unsigned tlr = c->tlr.v & 0x0Fu;
+    unsigned level;
 
+    if (ns_bridge_tx_threshold(c, &level)) {
+        return level;   /* plan-12-I */
+    }
     if (!c->fifo_on || !d->has_tx_trigger || !enhanced(c)) {
         return 0;
     }
@@ -394,6 +443,7 @@ unsigned ns_ext_tx_threshold(const NsChannel *c) {
 static void resume_tx(NsChannel *c) {
     c->tx_halted = 0;
     c->iir_xoff = 0;
+    c->xon_seen = 1;   /* plan-12-I: PI7C9X ASR */
 }
 
 int ns_ext_rx_char(NsState *s, NsChannel *c, const SerialRxChar *rc) {
@@ -405,7 +455,11 @@ int ns_ext_rx_char(NsState *s, NsChannel *c, const SerialRxChar *rc) {
     int sequential;
     int xon;
     int xoff;
+    int bridge = ns_bridge_rx_char(s, c, rc);
 
+    if (bridge >= 0) {
+        return bridge;   /* plan-12-I: RX disable, 9-bit multidrop */
+    }
     if (!bank_style(d)) {
         return 1;
     }
@@ -472,6 +526,7 @@ int ns_ext_rx_char(NsState *s, NsChannel *c, const SerialRxChar *rc) {
     if (xoff) {
         c->tx_halted = 1;
         c->iir_xoff = 1;
+        c->xon_seen = 0;
         /* Compare mode 01 with the special character on: Xoff2 is a flow
            character, not stored, and also raises the special-character
            interrupt (NS16C2552 Table 20; XR16V564 EFR[5] text). */
@@ -539,6 +594,10 @@ void ns_ext_levels(NsState *s, NsChannel *c) {
     unsigned m = d->tlr != 0 ? d->tlr : 4;
     int was_off = c->rts_off;
 
+    if (ns_bridge_levels(s, c)) {
+        ns_ext_sleep_check(s, c);
+        return;   /* plan-12-I: XR20M1280 flow control */
+    }
     /* Auto-RTS. */
     if (auto_rts_enabled(c)) {
         unsigned off;
@@ -568,6 +627,11 @@ void ns_ext_levels(NsState *s, NsChannel *c) {
             case FLOW_TCR:
                 off = (c->tcr.v & 0x0Fu) * m;
                 on = ((c->tcr.v >> 4) & 0x0Fu) * m;
+                /* plan-12-I (SC16IS7xx p11): TCR = 0 uses the FCR trigger. */
+                if (d->bridge != NULL && c->tcr.v == 0) {
+                    off = (unsigned)ns_rx_level(c);
+                    on = off - 1;
+                }
                 if (off != 0 && level >= off) {
                     c->rts_off = 1;
                 } else if (level <= on) {
@@ -601,6 +665,10 @@ void ns_ext_levels(NsState *s, NsChannel *c) {
         if (d->has_xoff_table) {
             halt = d->xoff_table[trigger_index(c)][0];
             resume = d->xoff_table[trigger_index(c)][1];
+        } else if (d->bridge != NULL && c->tcr.v == 0) {
+            /* plan-12-I (SC16IS7xx p12): Xoff at the FCR trigger, Xon below it. */
+            halt = (unsigned)ns_rx_level(c);
+            resume = halt - 1;
         } else {
             halt = (c->tcr.v & 0x0Fu) * m;
             resume = ((c->tcr.v >> 4) & 0x0Fu) * m;
@@ -629,7 +697,11 @@ int ns_ext_tx_flow(NsChannel *c, uint16_t *data) {
 
 int ns_ext_tx_blocked(NsState *s, NsChannel *c) {
     LogicValue cts;
+    int bridge = ns_bridge_tx_blocked(s, c);
 
+    if (bridge >= 0) {
+        return bridge;   /* plan-12-I: TX disable, auto DSR, forced transmit */
+    }
     if (c->tx_halted) {
         return 1;   /* Xoff received */
     }
@@ -715,6 +787,11 @@ int ns_ext_cts_changed(NsChannel *c, LogicValue cts_active) {
 /* ---- Pins ------------------------------------------------------------------------------ */
 
 LogicValue ns_ext_rts(const NsChannel *c, LogicValue normal) {
+    if (c->owner->dev->bridge != NULL) {
+        /* plan-12-I: RS-485 direction control overrides MCR[1] and auto-RTS. */
+        normal = auto_rts_enabled(c) && bit_of(c->mcr, 4) != LOGIC_1 ? bool3(c->rts_off) : normal;
+        return ns_bridge_rts(c, normal);
+    }
     if (auto_rts_enabled(c) && bit_of(c->mcr, 4) != LOGIC_1) {
         return bool3(c->rts_off);
     }
@@ -729,6 +806,9 @@ LogicValue ns_ext_dtr(const NsChannel *c, LogicValue normal) {
 }
 
 static int irda_on(const NsChannel *c) {
+    if (c->owner->dev->bridge != NULL && ns_bridge_irda(c)) {
+        return 1;   /* plan-12-I: XR20M1280 ENIR# strap */
+    }
     switch (c->owner->dev->irda) {
         case IRDA_MCR6: return known_bit(c->mcr, 6);
         case IRDA_AFR1: return known_bit(c->afr, 1);
@@ -740,6 +820,9 @@ LogicValue ns_ext_tx_pin(const NsChannel *c, LogicValue normal) {
     unsigned f;
     unsigned at;
 
+    if (c->owner->dev->bridge != NULL) {
+        normal = ns_bridge_tx_pin(c, normal, irda_on(c));   /* plan-12-I */
+    }
     if (!irda_on(c)) {
         return normal;
     }
@@ -756,6 +839,9 @@ LogicValue ns_ext_tx_pin(const NsChannel *c, LogicValue normal) {
     }
     f = c->line.tx.format.factor;
     at = c->line.tx.count;
+    if (c->owner->dev->bridge != NULL && ns_bridge_ir_quarter(c)) {
+        return bool3(at >= 6 * f / 16 && at < 10 * f / 16);   /* plan-12-I: IrDA 1.1, 1/4 bit */
+    }
     return bool3(at >= 7 * f / 16 && at < 10 * f / 16);
 }
 
@@ -821,9 +907,15 @@ void ns_ext_pins(NsState *s, NsChannel *c, Cause cause) {
 /* ---- Clocks ------------------------------------------------------------------------------- */
 
 int ns_ext_prescale(NsState *s, NsChannel *c, int rising) {
+    int bridge;
+
     (void)s;
     if (c->asleep) {
         return 0;
+    }
+    bridge = ns_bridge_prescale(c, rising);
+    if (bridge >= 0) {
+        return bridge;   /* plan-12-I: PI7C9X CPR M */
     }
     if (c->owner->dev->prescaler != PRESCALE_NONE && known_bit(c->mcr, 7)) {
         if (!rising) {
@@ -840,6 +932,9 @@ int ns_ext_prescale(NsState *s, NsChannel *c, int rising) {
 void ns_ext_load_divisor(NsChannel *c) {
     unsigned frac = 0;
 
+    if (ns_bridge_load_divisor(c)) {
+        return;   /* plan-12-I: DLD */
+    }
     if (c->owner->dev->dlf && enhanced(c) && c->dlf.k == 0xFF) {
         frac = c->dlf.v & 0x3Fu;
     }
@@ -850,6 +945,11 @@ void ns_ext_load_divisor(NsChannel *c) {
 }
 
 unsigned ns_ext_factor(const NsChannel *c) {
+    int bridge = ns_bridge_factor(c);
+
+    if (bridge > 0) {
+        return (unsigned)bridge;   /* plan-12-I: DLD / PI7C9X sample rate */
+    }
     if (c->owner->dev->dlf && enhanced(c) && known_bit(c->dlf, 7)) {
         return 8;
     }
@@ -859,7 +959,12 @@ unsigned ns_ext_factor(const NsChannel *c) {
 /* ---- Sleep ---------------------------------------------------------------------------------- */
 
 void ns_ext_wake(NsChannel *c) {
+    int was = c->asleep;
+
     c->asleep = 0;
+    if (was && c->owner->dev->bridge != NULL) {
+        ns_bridge_sleep_changed(c->owner, c);   /* plan-12-I: XR20M1280 wake-up interrupt */
+    }
 }
 
 void ns_ext_sleep_check(NsState *s, NsChannel *c) {
@@ -875,6 +980,10 @@ void ns_ext_sleep_check(NsState *s, NsChannel *c) {
         case EXT_650:
         case EXT_752:
         case EXT_NS_EFR:
+        case EXT_SC16IS:
+        case EXT_SC16IS_SFR:
+        case EXT_SC16IS_DLD:
+        case EXT_XR1280:
             want = d->sleep != SLEEP_NONE && enhanced(c) && known_bit(c->ier, 4);
             break;
         default:
@@ -893,6 +1002,9 @@ void ns_ext_sleep_check(NsState *s, NsChannel *c) {
     if (d->extended == EXT_NS_EFR && c->baud.divisor == 0) {
         return;
     }
+    if (d->bridge != NULL && !ns_bridge_sleep_check(s, c)) {
+        return;   /* plan-12-I: the device's own conditions */
+    }
     ns_iir_now(c, &iir, &iir_k);
     if (iir_k != 0xFF || ((iir & 1u) == 0 && (iir & 0x0E) != 0x02 && (iir & 0x0E) != 0x0C)) {
         return;
@@ -907,4 +1019,7 @@ void ns_ext_sleep_check(NsState *s, NsChannel *c) {
         }
     }
     c->asleep = 1;
+    if (d->bridge != NULL) {
+        ns_bridge_sleep_changed(s, c);
+    }
 }

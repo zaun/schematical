@@ -1,0 +1,115 @@
+{
+ "id": "SC18IS604",
+ "function": "I2C controller",
+ "description": "SPI to I2C-bus bridge",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "sc18is604.pdf p.1-19; plan-12-data/specs/bridges.md \u00a7 SC18IS604",
+ "pinouts": {
+  "tssop16": [
+   {
+    "number": 1,
+    "name": "SDA",
+    "role": "inout"
+   },
+   {
+    "number": 2,
+    "name": "SCL",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "INT",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "RESET",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "GPIO4",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "GPIO3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "GPIO2",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "CS",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "GPIO0",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "MOSI",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "SCLK",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "VDD",
+    "role": "power"
+   },
+   {
+    "number": 13,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 14,
+    "name": "MISO",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "VREFP",
+    "role": "power"
+   },
+   {
+    "number": 16,
+    "name": "GPIO1",
+    "role": "inout"
+   }
+  ]
+ },
+ "grades": {
+  "I": {
+   "tvq": 28,
+   "tstart": 35000,
+   "tsa": 125,
+   "vcc": [
+    1.71,
+    3.6
+   ],
+   "inputMax": 5.4,
+   "note": "sc18is604.pdf p.14-17, 3.0-3.6 V: tv(Q) 28 ns, td 35 us (last SCLK to the I2C START), tsa 125 ns (RESET pulse accepted); MISO float not stated (0)"
+  }
+ },
+ "parts": [
+  {
+   "name": "SC18IS604PWJ",
+   "package": "TSSOP",
+   "pinout": "tssop16",
+   "footprint": "TSSOP-16",
+   "grade": "I"
+  }
+ ]
+}

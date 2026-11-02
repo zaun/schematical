@@ -1143,33 +1143,43 @@ static int compare_shipped(const char *fixture_text, const cJSON *shipped, const
 /* "shipped": every fixture device equals the same device in Parts/serial.json
    (its parts aside), so a model case cannot pass on a device that differs
    from the one the library ships (plan-12-D section 3.3). The fixtures: the
-   ns16550 devices (ns16550.json), the classic UARTs (plan-12-H) and the
-   Maxim UARTs (plan-12-J); a fixture device not shipped yet is skipped. */
+   ns16550 devices (ns16550.json), the bridges (bridges.json, plan-12-I), the
+   classic UARTs (plan-12-H) and the Maxim UARTs (plan-12-J); a fixture device
+   not shipped yet is skipped. */
+static char *read_fixture(const char *file) {
+    char path[512];
+
+    snprintf(path, sizeof path, "%s/../fixtures/serial/%s", GOLDEN_DIR, file);
+    return read_file(path);
+}
+
 static void case_shipped(void) {
     char path[512];
-    char *fixture_text;
+    char *ns_text = read_fixture("ns16550.json");
+    char *bridge_text = read_fixture("bridges.json");
     char *shipped_text;
     char message[160];
 
     case_begin();
-    snprintf(path, sizeof path, "%s/../fixtures/serial/ns16550.json", GOLDEN_DIR);
-    fixture_text = read_file(path);
     snprintf(path, sizeof path, "%s/serial.json", PARTS_DIR);
     shipped_text = read_file(path);
-    check(fixture_text != NULL, "the fixture file");
+    check(ns_text != NULL && bridge_text != NULL, "the fixture files");
     check(shipped_text != NULL, "Parts/serial.json (shipped by plan-12-F onwards)");
-    if (fixture_text != NULL && shipped_text != NULL) {
+    if (ns_text != NULL && bridge_text != NULL && shipped_text != NULL) {
         cJSON *shipped = cJSON_Parse(shipped_text);
-        int ns = compare_shipped(fixture_text, shipped, "ns16550");
+        int ns = compare_shipped(ns_text, shipped, "ns16550");
+        int bridges = compare_shipped(bridge_text, shipped, "bridges");
         int classic = compare_shipped(SERIAL_FIXTURE_CLASSIC, shipped, "classic");
         int maxim = compare_shipped(SERIAL_FIXTURE_MAXIM, shipped, "maxim");
 
-        printf("   compared: %d ns16550, %d classic, %d maxim\n", ns, classic, maxim);
+        printf("   compared: %d ns16550, %d bridges, %d classic, %d maxim\n", ns, bridges,
+               classic, maxim);
         snprintf(message, sizeof message, "%d ns16550 fixture devices found in serial.json", ns);
         check(ns > 0, message);
         cJSON_Delete(shipped);
     }
-    free(fixture_text);
+    free(ns_text);
+    free(bridge_text);
     free(shipped_text);
     case_end("shipped: the fixture devices are the shipped device objects");
 }
@@ -5600,11 +5610,16 @@ static void case_h8_com78c80x(void) {
     hb_close(h);
 }
 
+/* ==== plan-12-I: the I2C/SPI bridges and the SC18IS604 ============================ */
+
+#include "serial_test_i.h"
+
 int main(void) {
     library = part_library_create();
     if (load_parts_dir(library, PARTS_DIR) != 0 || load_serial_fixture(library) != 0 ||
         load_new_footprints() != 0 || load_file("footprints_test.json", 1) != 0 ||
-        load_file("ns16550.json", 0) != 0 || load_serial_fixture_classic(library) != 0) {
+        load_file("ns16550.json", 0) != 0 || load_file("bridges.json", 0) != 0 ||
+        load_serial_fixture_classic(library) != 0) {
         printf("FAIL: loading parts\n");
         return 1;
     }
@@ -5641,6 +5656,7 @@ int main(void) {
     case_h6_acia6551();
     case_h7_hs82c52();
     case_h8_com78c80x();
+    run_i_cases();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

@@ -1,0 +1,24 @@
+{
+ "model": "sc18is604",
+ "bus": {
+  "style": "spi",
+  "cs": "CS",
+  "sclk": "SCLK",
+  "mosi": "MOSI",
+  "miso": "MISO",
+  "mode": 3
+ },
+ "i2c": {
+  "scl": "SCL",
+  "sda": "SDA"
+ },
+ "reset": "RESET",
+ "interrupt": "INT",
+ "gpio": [
+  "GPIO0",
+  "GPIO1",
+  "GPIO2",
+  "GPIO3",
+  "GPIO4"
+ ]
+}

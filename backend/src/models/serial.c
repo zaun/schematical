@@ -26,6 +26,8 @@ static const SerialModel *const MODELS[] = {
     &ACIA6551_MODEL,
     &HS82C52_MODEL,
     &COM78C80X_MODEL,
+    /* plan-12-I: the SPI-to-I2C bridge */
+    &SC18IS604_MODEL,
 };
 #define MODEL_COUNT (sizeof MODELS / sizeof MODELS[0])
 
@@ -55,6 +57,8 @@ static const char *const DEVICE_KEYS[] = {
     "hd6406",
     /* com78c80x ("bus", "clock", "channels", "interrupt" above) */
     "lines",
+    /* plan-12-I: the bridges (ns16550) and sc18is604 */
+    "fastIrda", "dlPowerUp", "straps", "sleepPin", "i2c",
     NULL
 };
 enum { FIRST_MODEL_KEY = 2 };

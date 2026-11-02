@@ -953,7 +953,7 @@ helpers (`serial_bus.c`).
 
 | Key | Value |
 |---|---|
-| `"model"` | `"ns16550"` (the 16450/16550 family), `"max3100"` (MAX3100, MAX3140), `"max310x"` (MAX3107, MAX3108, MAX3109, MAX14830); `"ay1013"`, `"i8251"`, `"i82510"`, `"acia6551"`, `"hs82c52"`, `"com78c80x"` (the classic UARTs, plan-12-H); more models in later plans |
+| `"model"` | `"ns16550"` (the 16450/16550 family and the I2C/SPI bridges built on it), `"max3100"` (MAX3100, MAX3140), `"max310x"` (MAX3107, MAX3108, MAX3109, MAX14830), `"sc18is604"` (the SC18IS604 SPI-to-I2C bridge); `"ay1013"`, `"i8251"`, `"i82510"`, `"acia6551"`, `"hs82c52"`, `"com78c80x"` (the classic UARTs, plan-12-H); more models in later plans |
 | `"grades"` | grade name → the model's timing names (ns; a missing name is 0), plus optional `"vcc"`, `"inputMax"`, `"note"` |
 | the model's keys | below; a key of another model is rejected (`"x" is not a key of model "y"`) |
 
@@ -1067,11 +1067,80 @@ of the family.
 | `"idRegs"` | `{"drev": byte, "dvid": byte}`: read at 0/1 with LCR[7] = 1 and DLL = DLM = 0. |
 | `"tristate"` | the TRI pin: while high every output floats (TL16C552). |
 | `"printerPort"` | `{"style": "ti451" \| "ti552" \| "com92c451", "data": [PD0…PD7], "select", "strobe", "autoFeed", "init", "selectIn", "ack", "busy", "paperEnd", "slct", "error", "irq", "inputEnable" (ti451 LPTOE), "pemd", "enirq" (ti552)}`: the PC printer port at its own chip select, A1..A0 (data, status, control). |
+
+**I2C/SPI bridges (plan-12-I).** The SC16IS740, SC16IS750/760, SC16IS752/762,
+PI7C9X760/762, XR20M1170 and XR20M1280 are an `ns16550` core behind an I2C
+or SPI target host port (`backend/src/models/ns16550_bridge.c`,
+`ns16550_xr1280.c`).
+
+```json
+"bus": {"style": "i2c-spi", "selectPin": "I2C/SPI", "spiLevel": 0, "selectSampled": "reset",
+        "spi": {"cs": "CS/A0", "sclk": "SCL/SCLK", "mosi": "SI/A1", "miso": "SO", "mode": 0},
+        "i2c": {"scl": "SCL/SCLK", "sda": "SDA", "address": ["CS/A0", "SI/A1"], "table": [76, 72, …]},
+        "reset": "RESET", "resetActiveHigh": false, "nack": ["reset"], "sdaTimeout": 25000000},
+"clock": {"in": "XTAL1", "out": "XTAL2"},
+"channels": [{"tx": "TX", "rx": "RX", "rts": "RTS", "cts": "CTS", "dsr": "GPIO4/DSR",
+              "dtr": "GPIO5/DTR", "dcd": "GPIO6/CD", "ri": "GPIO7/RI"}],
+"interrupt": "IRQ",
+"gpio": {"pins": ["GPIO0", "GPIO1", "GPIO2", "GPIO3", "GPIO4/DSR", "GPIO5/DTR", "GPIO6/CD", "GPIO7/RI"],
+         "registers": "sc16is", "pullUp": true},
+"extended": "sc16is", "fastIrda": ["760"], "fifo": 64, "lcrReset": 29, …
+```
+
+| Key | Value |
+|---|---|
+| `"bus"` | a host port style of [SPI and I2C host ports](#spi-and-i2c-host-ports-bus-styles) (SPI mode 0) instead of `"intel"`, plus `"reset"` / `"resetActiveHigh"` (as the Intel bus), `"registerBits"` (`4`: sub-address and SPI command bits [6:3]; `3`: [5:3], XR20M1280), `"nack"` (`"full"`: an I2C THR write with the TX FIFO full is NACKed and dropped; `"reset"`: the byte that sets IOControl[3] is NACKed) and `"sdaTimeout"` (ns of SDA held low that reset the I2C port: SC16IS7xx 25 ms) |
+| `"interrupt"` | the IRQ pin: open drain, active low, low while any channel's IIR shows a pending interrupt (and, XR20M1280, its GPIO or wake-up interrupt) |
+| `"extended"` | `"sc16is"` (the SC16IS7xx map), `"sc16is-sfr"` (plus the PI7C9X SFR bank), `"sc16is-dld"` (plus the XR20M1170 DLD), `"xr1280"` (the XR20M1280 map) |
+| `"gpio"` | `{"pins": [GPIO0 …], "registers": "sc16is" \| "xr1280", "pullUp": bool (inputs read Z as 1), "stateReset": byte (the output latch after reset; absent: X)}`. A GPIO pin that a channel also names as `dsr`/`dtr`/`dcd`/`ri` is that modem pin while IOControl bit 1 + channel is set (`sc16is`) or MCR[2] = 0 (`xr1280`); its MSR bit reads X while it is a GPIO. |
+| `"fastIrda"` | `true` or a list of grade names: EFCR[7] (SFR[3] on the XR20M1280) picks 1/4-bit IrDA pulses; elsewhere the bit is stored and the pulse stays 3/16 |
+| `"dlPowerUp"` | `[DLL, DLM]` at power-up (a byte or null = X); the reset leaves them |
+| `"straps"`, `"sleepPin"` | XR20M1280: `{"en485", "enir"}` (sampled as reset ends: EN485# low sets FCTR[3], ENIR# low turns IrDA on) and the SLEEP/PWRDN# pin |
+
+Timing names (ns), besides the core's: `tdo` SPI SCLK falling to SO, `ttr`
+CS high to SO float, `tvd` I2C SCL falling to SDA (data and ACK), `tgpio`
+GPIO output valid. The core's `trint`, `thr`, `tir`, `trim`, `tsim`, `tmdo`
+time the IRQ and DTR changes.
+
+Behavior. The host port: I2C sub-address byte (or SPI command byte with bit
+7 = 1 for a read) [6:3] register, [2:1] channel (reserved channels: reads X,
+writes ignored), the address from the A1/A0 ties (`"table"`); every data byte
+of one transfer goes to the same register (the FIFO bursts), except with
+PI7C9X SFR[4] = 1 (auto-increment); SO is Z during the command byte and
+writes. Registers (`sc16is`): 0-7 the 16550 set; 8 TXLVL (64 − TX count), 9
+RXLVL, 10 IODir, 11 IOState (write: the output latch; read: the pins, or the
+value IOLATCH latched), 12 IOIntEna, 13 reserved (X), 14 IOControl (bit 0
+IOLATCH, 1/2 the modem pins of channel A/B, 3 a software reset as the reset
+pin; SC16IS740: no GPIO, these read X but bit 3 still resets), 15 EFCR (0
+9-bit multidrop: an address byte is the parity bit = 1 with LCR[5:3] = 111;
+EFR[5] = 1 auto address against Xoff2; 1 RX disable; 2 TX disable; 4 RS-485
+RTS low from the THR write to the last bit; 5 inverts it; 7 fast IrDA); the
+650 bank at LCR = 0xBF; TCR/TLR at 6/7 with EFR[4] and MCR[2]; TCR = 0 uses
+the FCR trigger for auto-RTS and Xoff; with LCR[7] = 1 (not 0xBF) only DLL,
+DLH and LCR answer (and DLD at 2 with EFR[4], `sc16is-dld`: fraction
+DLD[3:0]/16, DLD[5:4] 16x/8x/4x). The TX trigger applies in FIFO mode with or
+without EFR[4]. Re-enabling IER[1] raises no THR interrupt on `sc16is` and
+`sc16is-sfr`. The GPIO change interrupt (IIR 0x30, between modem and Xoff)
+shows in channel A's IIR only: IOLATCH 0, an enabled input differs from its
+level at the last IOState read (an IODir write also clears it); IOLATCH 1,
+a change is latched until IOState is read. `sc16is-sfr` (PI7C9X): at LCR =
+0xBF, SFREN (13) = 0x5A turns address 7 into SFR, and SFR[2] = 1 maps ASR
+(2, read-only flow state), CPR (4: XIN / 2^(M − 1), M = 0 stops the
+generator; N), RFD/RLS (5, SFR[6]), TFD (6), TIDLE (8, stored only), TRCTL
+(9: [7:4] SCR, sample rate 16 − SCR + N; [2] THR interrupt enable; [1] RX
+timeout enable) and ISCR (15: the sources; bit 0 clears the latched ones);
+SFR[0] transmits regardless of flow control, SFR[1] auto DTR/DSR, SFR[3]
+echoes RX on TX. `xr1280`: see `ns16550_xr1280.c` (FCTR trigger tables A-D
+with TRG, auto-RTS hysteresis, Xoff 2 characters after the trigger,
+independent TX/RX generators by DLD[7:6], SHR RS-485 delays, SFR (TX
+address bit, 9-bit mode, RX/TX disable, fast IR, GPIO), EMSR, FC, the GPIO
+set with its interrupt in ISR[6], SLEEP/PWRDN#, the FCR[3] wake-up
+interrupt).
 #### SPI and I2C host ports (`"bus"` styles)
 
 Serial-hosted models describe their host port with one of three `"bus"`
-styles (`backend/src/models/serial_target.c`, shared with plan-12-I's
-bridges). The front end does the pin protocol; the model owns its command
+styles (`backend/src/models/serial_target.c`, shared by the Maxim models,
+the `ns16550` bridges and the `sc18is604`). The front end does the pin protocol; the model owns its command
 and sub-address bytes.
 
 ```json
@@ -1107,6 +1176,53 @@ at Z read X; CS at Z reads inactive; an X on CS or SCLK makes the rest of an
 SPI transaction X (X bits in, MISO X); an X on SCL, or on SDA while SCL is
 high, abandons an I2C transaction until the next START. SDA and SCL are
 open-drain pins for the voltage check.
+
+#### `sc18is604`
+
+The NXP SC18IS604 SPI-to-I2C bridge (`plan-12-data/specs/bridges.md` §
+SC18IS604): an SPI target (mode 3) that is a single I2C bus controller. No
+UART: it has no terminal channel.
+
+```json
+"model": "sc18is604",
+"bus": {"style": "spi", "cs": "CS", "sclk": "SCLK", "mosi": "MOSI", "miso": "MISO", "mode": 3},
+"i2c": {"scl": "SCL", "sda": "SDA"}, "reset": "RESET", "interrupt": "INT",
+"gpio": ["GPIO0", "GPIO1", "GPIO2", "GPIO3", "GPIO4"],
+"grades": {"I": {"tvq": 28, "tstart": 35000, "tsa": 125, "vcc": [1.71, 3.6], "inputMax": 5.4}}
+```
+
+| Key | Value |
+|---|---|
+| `"bus"` | `"style": "spi"`, mode 3 |
+| `"i2c"` | the controller's SCL and SDA (open drain) |
+| `"reset"` | RESET (active low; Z reads inactive) |
+| `"interrupt"` | INT (open drain, active low) |
+| `"gpio"` | GPIO0-GPIO3 (input, push-pull or open drain by IOConfig) and GPIO4 (input) |
+
+Timing names (ns): `tvq` SCLK falling to MISO, `ttr` CS high to MISO Z,
+`tstart` the end of a message (CS high) to the I2C START, `tsa` the RESET
+low time that counts as a reset (shorter pulses are filtered).
+
+Behavior: one message per CS-low frame (MSB first, or LSB first after 0x18
+0x81; 0x18 0x42 back): 0x00 N, address, N bytes (write); 0x01 N, address
+(read into the 255-byte buffer); 0x02 Nw, Nr, address+W, Nw bytes,
+address+R and 0x03 N1, N2, address 1, N1 bytes, address 2, N2 bytes (a
+repeated START between the two transfers); 0x06 (MISO gives the buffer);
+0x20 register, value and 0x21 register, dummy (MISO gives the value);
+0x30 0x5A 0xA5 deep power-down (the next CS frame wakes it and is ignored);
+0xFE the version string "SC18IS604 1.0.0\0" into the buffer. Registers:
+IOConfig (0), IOState (1, read: the pins), I2CClock (2, reset 0x19), I2CTO
+(3: [7:1] TO, [0] enable), I2CStat (4, reset 0xF0; reading it releases INT)
+and I2CAdr (5). The controller runs on the internal 15 MHz oscillator (a
+model time base): SCL = 15 MHz / (8 × I2CClock), 50 % duty (I2CClock 0
+stops it); it waits for a free bus (no START without a STOP), follows a
+target's clock stretching, loses arbitration when SDA reads 0 for its 1
+(then waits and starts again), ACKs every read byte but the last, and ends
+with I2CStat 0xF0 (done), 0xF1 (address NACK), 0xF2 (data NACK), 0xF8
+(timeout: ((I2CClock + 1) / 15 MHz) × (1 + TO) × 512) or 0xF9 (a byte count
+of 0 or more than the bytes sent), asserting INT; 0xF3 while busy. No
+internal pull-ups: put pull parts on SCL, SDA and INT. MISO is Z while CS is
+high, during the command byte and where a command defines no output.
 
 #### `max3100`
 

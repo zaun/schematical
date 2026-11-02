@@ -1,0 +1,197 @@
+{
+ "id": "SC16IS750",
+ "function": "Bridge UART",
+ "description": "Single UART with I2C-bus/SPI interface, 64 bytes of transmit and receive FIFOs, IrDA SIR built-in support",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "sc16is750.pdf p.1-51 (SC16IS750 and SC16IS760); plan-12-data/specs/bridges.md \u00a7 SC16IS750",
+ "pinouts": {
+  "hvqfn24": [
+   {
+    "number": 1,
+    "name": "RESET",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "XTAL1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "XTAL2",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "VDD",
+    "role": "power"
+   },
+   {
+    "number": 5,
+    "name": "I2C/SPI",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "CS/A0",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "SI/A1",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "SO",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "SCL/SCLK",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "SDA",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "GPIO0",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "GPIO1",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "GPIO2",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "GPIO3",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 17,
+    "name": "GPIO4/DSR",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "GPIO5/DTR",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "GPIO6/CD",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "GPIO7/RI",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "number": 22,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "TX",
+    "role": "output"
+   },
+   {
+    "number": 24,
+    "name": "RX",
+    "role": "input"
+   }
+  ]
+ },
+ "grades": {
+  "750": {
+   "tdo": 100,
+   "ttr": 100,
+   "tvd": 600,
+   "trint": 200,
+   "thr": 200,
+   "tir": 200,
+   "trim": 200,
+   "tsim": 200,
+   "tmdo": 200,
+   "tgpio": 200,
+   "vcc": [
+    2.3,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "sc16is750.pdf p.40-46, 3.3 V: Table 39 (SPI 4 MHz: tDO 100 ns, tTR 100 ns, td9-td14 200 ns: tgpio, tmdo, thr, tir, trim, trint), Table 37 (I2C tVD;DAT 0.6 us -> tvd; td2 modem interrupt 0.2 us -> tsim)"
+  },
+  "760": {
+   "tdo": 20,
+   "ttr": 100,
+   "tvd": 600,
+   "trint": 200,
+   "thr": 200,
+   "tir": 200,
+   "trim": 200,
+   "tsim": 200,
+   "tmdo": 200,
+   "tgpio": 200,
+   "vcc": [
+    2.3,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "sc16is750.pdf p.40-46, 3.3 V: Table 40 (SPI 15 MHz: tDO 20 ns, tTR 100 ns, td9-td14 200 ns), Table 37 (tVD;DAT 0.6 us, td2 0.2 us)"
+  }
+ },
+ "parts": [
+  {
+   "name": "SC16IS750IBS,128",
+   "package": "HVQFN",
+   "pinout": "hvqfn24",
+   "footprint": "QFN-24-4X4",
+   "grade": "750"
+  },
+  {
+   "name": "SC16IS750IBS,157",
+   "package": "HVQFN",
+   "pinout": "hvqfn24",
+   "footprint": "QFN-24-4X4",
+   "flags": [
+    "obsolete"
+   ],
+   "grade": "750"
+  },
+  {
+   "name": "SC16IS760IBS,128",
+   "package": "HVQFN",
+   "pinout": "hvqfn24",
+   "footprint": "QFN-24-4X4",
+   "grade": "760"
+  }
+ ]
+}

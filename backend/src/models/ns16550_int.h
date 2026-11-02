@@ -13,11 +13,14 @@
 #include <stdint.h>
 
 #include "serial.h"
+#include "serial_target.h"
 
 enum { NS_MAX_FIFO = 128 };
 
 enum {
-    T_RVD, T_HZ, T_RDD, T_BLD, T_RINT, T_HR, T_MDO, T_SIM, T_RIM, T_WXI, T_WRR, T_IR, T_CSO
+    T_RVD, T_HZ, T_RDD, T_BLD, T_RINT, T_HR, T_MDO, T_SIM, T_RIM, T_WXI, T_WRR, T_IR, T_CSO,
+    /* plan-12-I: the serial host ports and GPIO of the bridges */
+    T_DO, T_TR, T_VD, T_GPIO
 };
 
 
@@ -42,7 +45,11 @@ typedef enum {
 typedef enum { IIR_STANDARD, IIR_NXP_EQUAL } NsIirPriority;
 
 /* plan-12-D Phase 2 options (ns16550_ext.c). */
-typedef enum { EXT_NONE, EXT_AFE, EXT_750, EXT_650, EXT_752, EXT_NS_EFR } NsExtended;
+typedef enum {
+    EXT_NONE, EXT_AFE, EXT_750, EXT_650, EXT_752, EXT_NS_EFR,
+    /* plan-12-I bridges (ns16550_bridge.c, ns16550_xr1280.c) */
+    EXT_SC16IS, EXT_SC16IS_SFR, EXT_SC16IS_DLD, EXT_XR1280
+} NsExtended;
 typedef enum { AFR_NONE, AFR_TI752, AFR_TI2552, AFR_NS } NsAfr;
 typedef enum { FLOW_NONE, FLOW_AFE, FLOW_TCR, FLOW_TABLE } NsAutoFlow;
 typedef enum { SW_NONE, SW_NXP_AND, SW_TI } NsSwFlow;
@@ -154,6 +161,8 @@ typedef struct {
     int no_dma_mode1;              /* "dmaMode1": false: FCR[3] ignored */
     int lsr_clear_on_good;         /* "lsrClearOnGood": NS: LSR[4:1] clear on the next good byte */
     unsigned break_mark_ticks;     /* "breakMarkTicks": mark ticks needed after a break */
+    /* plan-12-I: an I2C/SPI host port instead of the parallel bus (NULL: none). */
+    const struct NsBridgeDevice *bridge;
 } NsDevice;
 
 typedef struct {
@@ -170,6 +179,7 @@ typedef struct {
     size_t mf[SERIAL_MAX_CHANNELS];   /* MF pins (AFR[2:1]) */
     const NsLptPins *lpt;
     size_t tri;
+    const struct NsBridgePins *bridge;   /* plan-12-I */
 } NsPins;
 
 /* ---- State ------------------------------------------------------------------------ */
@@ -253,6 +263,7 @@ typedef struct {
     unsigned rs485_lead;           /* ticks of DTR before the start bit */
     unsigned rs485_hold;           /* ticks of DTR after the last stop bit */
     unsigned prescale_count;
+    int xon_seen;                  /* plan-12-I: an Xon resumed the transmitter (PI7C9X ASR) */
 } NsChannel;
 
 struct NsState {
@@ -276,6 +287,7 @@ struct NsState {
     int conc;                      /* AFR concurrent write */
     int tri;                       /* TRI is high */
     struct NsLpt *lpt;
+    struct NsBridge *bridge;       /* plan-12-I: the host port's state */
 };
 
 /* What changed, for the output delays. */
@@ -361,6 +373,15 @@ int ns_rx_level(const NsChannel *c);
 
 /* ns16550_ext.c: the enhanced registers and their features. */
 void ns_ext_reset(NsState *s, NsChannel *c, int power_on);
+/* The registers of the enhanced banks (plan-12-I: the bridges' decode
+   names them too; codes from NS_REG_BRIDGE on are the bridge's own). */
+typedef enum {
+    R_CORE, R_X, R_IGNORE, R_EFR, R_XON1, R_XON2, R_XOFF1, R_XOFF2, R_TCR, R_TLR, R_FIFORDY,
+    R_AFR, R_DLF, R_DREV, R_DVID,
+    NS_REG_BRIDGE = 64
+} ExtReg;
+void ns_ext_peek_reg(NsChannel *c, int reg, uint8_t *v, uint8_t *k);
+void ns_ext_write_reg(NsState *s, NsChannel *c, int reg, uint8_t v, uint8_t k);
 /* Register access for the current LCR/EFR/MCR: 1 = handled. */
 int ns_ext_peek(NsChannel *c, unsigned address, uint8_t *v, uint8_t *k);
 int ns_ext_write(NsState *s, NsChannel *c, unsigned address, uint8_t v, uint8_t k, Cause *cause);
@@ -403,6 +424,76 @@ unsigned ns_ext_tx_threshold(const NsChannel *c);
 unsigned ns_ext_rx_trigger(const NsChannel *c, unsigned fcr_level);
 /* FIFO ready register (752), and the AFR's concurrent write. */
 uint8_t ns_ext_fifo_ready(const NsState *s);
+
+/* ---- plan-12-I: I2C/SPI bridges (ns16550_bridge.c, ns16550_xr1280.c) ---------- */
+
+/* Core entry points for the host port: a register access by channel and
+   address (0-15), with the core's side effects and output updates. */
+void ns_host_peek(NsState *s, unsigned ch, unsigned address, uint8_t *v, uint8_t *k);
+void ns_host_read_done(NsState *s, unsigned ch, unsigned address);
+void ns_host_write(NsState *s, unsigned ch, unsigned address, uint8_t v, uint8_t k);
+/* Every channel to its reset state, as the reset pin (software reset). */
+void ns_reset_all(NsState *s);
+/* The modem status bits re-read without deltas (a pin's function changed). */
+void ns_modem_refresh(NsState *s, NsChannel *c);
+/* The interrupt sources, pending AND enabled: line status, RX data, timeout,
+   THR, modem, Xoff/special, CTS/RTS, GPIO. */
+void ns_sources(const NsChannel *c, LogicValue out[8]);
+/* One transmit / receive tick of a channel (independent generators). */
+void ns_tx_tick(NsState *s, NsChannel *c);
+void ns_rx_tick(NsState *s, NsChannel *c);
+void ns_update_format(NsChannel *c);
+
+int ns_bridge_load(KindContext *ctx, const cJSON *json, const cJSON *bus, NsDevice *d);
+int ns_bridge_bind(KindContext *ctx, const NsDevice *d, const PartPin *pins, size_t pin_count,
+                   NsPins *p);
+int ns_bridge_open_drain(const NsDevice *d, const NsPins *p, size_t pin);
+int ns_bridge_create(NsState *s);
+void ns_bridge_destroy(NsState *s);
+void ns_bridge_start(NsState *s);
+/* The reset pin: 1 active, 0 released, X unknown. */
+void ns_bridge_reset(NsState *s, LogicValue active);
+void ns_bridge_pin(NsState *s, size_t pin);
+void ns_bridge_timer(NsState *s, uint32_t id);
+/* After a channel's outputs: the device IRQ, the GPIO and modem pins. */
+void ns_bridge_outputs(NsState *s, Cause cause);
+/* 1 when the bridge drives this pin (the core leaves it alone). */
+int ns_bridge_owns(const NsState *s, size_t pin);
+/* 0 when a modem input pin is a GPIO now (its MSR bit reads X); *z_reads:
+   what the pin reads at Z (the GPIO pins' pull-up). */
+int ns_bridge_modem_input(const NsState *s, unsigned ch, size_t pin, LogicValue *z_reads);
+/* Register decode: an ExtReg code (R_CORE: the core's register). */
+int ns_bridge_decode(const NsChannel *c, unsigned address, int write);
+void ns_bridge_peek_reg(NsChannel *c, int reg, uint8_t *v, uint8_t *k);
+void ns_bridge_write_reg(NsState *s, NsChannel *c, int reg, uint8_t v, uint8_t k);
+/* A read of a bridge register ended: 1 = handled (its cause in *cause). */
+int ns_bridge_read_done(NsChannel *c, unsigned address, Cause *cause);
+/* Hooks into the core and ext features; -1 = no say. */
+int ns_bridge_rx_char(NsState *s, NsChannel *c, const SerialRxChar *rc);
+int ns_bridge_tx_blocked(NsState *s, NsChannel *c);
+int ns_bridge_levels(NsState *s, NsChannel *c);
+LogicValue ns_bridge_rts(const NsChannel *c, LogicValue normal);
+LogicValue ns_bridge_tx_pin(const NsChannel *c, LogicValue normal, int irda);
+int ns_bridge_irda(const NsChannel *c);
+int ns_bridge_ir_quarter(const NsChannel *c);
+int ns_bridge_prescale(NsChannel *c, int rising);
+int ns_bridge_load_divisor(NsChannel *c);
+int ns_bridge_factor(const NsChannel *c);
+int ns_bridge_tx_threshold(const NsChannel *c, unsigned *out);
+int ns_bridge_rx_trigger(const NsChannel *c, unsigned *out);
+int ns_bridge_ier_mask(const NsChannel *c, uint8_t *mask);
+int ns_bridge_mcr_mask(const NsChannel *c, uint8_t *mask);
+int ns_bridge_thr_on_enable(const NsChannel *c);
+LogicValue ns_bridge_gpio_source(const NsChannel *c);
+LogicValue ns_bridge_ls_source(const NsChannel *c, LogicValue normal);
+LogicValue ns_bridge_thr_source(const NsChannel *c, LogicValue normal);
+int ns_bridge_timeout_on(const NsChannel *c);
+void ns_bridge_iir_bits(const NsChannel *c, uint8_t *v, uint8_t *k);
+void ns_bridge_thr_written(NsChannel *c, unsigned at);
+int ns_bridge_tx_fetch(NsChannel *c);
+int ns_bridge_clock(NsState *s, NsChannel *c, int rising, LogicValue level);
+int ns_bridge_sleep_check(NsState *s, NsChannel *c);
+void ns_bridge_sleep_changed(NsState *s, NsChannel *c);
 
 /* ns16550_lpt.c: the printer port. */
 struct NsLpt *ns_lpt_create(const NsState *s);

@@ -88,6 +88,8 @@ extern const SerialModel I82510_MODEL;
 extern const SerialModel ACIA6551_MODEL;
 extern const SerialModel HS82C52_MODEL;
 extern const SerialModel COM78C80X_MODEL;
+/* plan-12-I: the SC18IS604 SPI-to-I2C bridge. */
+extern const SerialModel SC18IS604_MODEL;
 
 /* The pin a channel's terminal input drives (its RX pin), or SIZE_MAX. For
    circuit_serial_send's driven-net check. */

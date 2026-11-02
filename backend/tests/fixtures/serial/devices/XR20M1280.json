@@ -1,0 +1,331 @@
+{
+ "id": "XR20M1280",
+ "function": "Bridge UART",
+ "description": "I2C/SPI UART with 128-byte FIFO and integrated level shifters",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "xr20m1280.pdf p.1-62; plan-12-data/specs/bridges.md \u00a7 XR20M1280",
+ "pinouts": {
+  "qfn24": [
+   {
+    "number": 1,
+    "name": "SO",
+    "role": "output"
+   },
+   {
+    "number": 2,
+    "name": "SDA",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "SCL",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "A1/SI",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "A0/CS",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "RESET",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "SLEEP/PWRDN",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 10,
+    "name": "VCC_BUS",
+    "role": "power"
+   },
+   {
+    "number": 11,
+    "name": "EN485",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "TX",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "RX",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "VCC_UART",
+    "role": "power"
+   },
+   {
+    "number": 17,
+    "name": "RI/GPIO3",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "CD/GPIO2",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "DSR/GPIO1",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "DTR/GPIO0",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "VCC_CORE",
+    "role": "power"
+   },
+   {
+    "number": 22,
+    "name": "XTAL1",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "XTAL2",
+    "role": "output"
+   },
+   {
+    "number": 24,
+    "name": "I2C/SPI",
+    "role": "input"
+   }
+  ],
+  "qfn32": [
+   {
+    "number": 1,
+    "name": "I2C/SPI",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "ENIR",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "SO",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "SDA",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "SCL",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "A1/SI",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "A0/CS",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "RESET",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "SLEEP/PWRDN",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "EN485",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "VCC_BUS",
+    "role": "power"
+   },
+   {
+    "number": 14,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 15,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 16,
+    "name": "VCC_GPIO",
+    "role": "power"
+   },
+   {
+    "number": 17,
+    "name": "GPIO7",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "GPIO6",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "GPIO5",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "GPIO4",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "VCC_UART",
+    "role": "power"
+   },
+   {
+    "number": 22,
+    "name": "RI/GPIO3",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "CD/GPIO2",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "DSR/GPIO1",
+    "role": "inout"
+   },
+   {
+    "number": 25,
+    "name": "DTR/GPIO0",
+    "role": "inout"
+   },
+   {
+    "number": 26,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 27,
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "number": 28,
+    "name": "TX",
+    "role": "output"
+   },
+   {
+    "number": 29,
+    "name": "RX",
+    "role": "input"
+   },
+   {
+    "number": 30,
+    "name": "VCC_CORE",
+    "role": "power"
+   },
+   {
+    "number": 31,
+    "name": "XTAL1",
+    "role": "input"
+   },
+   {
+    "number": 32,
+    "name": "XTAL2",
+    "role": "output"
+   }
+  ]
+ },
+ "grades": {
+  "I": {
+   "tdo": 100,
+   "ttr": 100,
+   "tvd": 600,
+   "trint": 200,
+   "thr": 200,
+   "tir": 200,
+   "trim": 200,
+   "tsim": 200,
+   "tmdo": 200,
+   "tgpio": 200,
+   "vcc": [
+    1.62,
+    3.63
+   ],
+   "inputMax": 5.5,
+   "note": "xr20m1280.pdf p.49-55: SPI TDO 100 ns (as printed, decisions.md), TTR 100 ns, TD9-TD14 200 ns; I2C tVD 0.6 us, TD2 0.2 us; XTAL1 is not 5 V tolerant"
+  }
+ },
+ "parts": [
+  {
+   "name": "XR20M1280IL24TR-F",
+   "package": "QFN",
+   "pinout": "qfn24",
+   "footprint": "QFN-24-4X4",
+   "grade": "I"
+  },
+  {
+   "name": "XR20M1280IL32-F",
+   "package": "QFN",
+   "pinout": "qfn32",
+   "footprint": "QFN-32-5X5",
+   "grade": "I"
+  }
+ ]
+}

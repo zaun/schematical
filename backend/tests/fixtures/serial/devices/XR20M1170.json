@@ -1,0 +1,395 @@
+{
+ "id": "XR20M1170",
+ "function": "Bridge UART",
+ "description": "I2C/SPI UART with 64-byte FIFO",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "xr20m1170.pdf p.1-60; plan-12-data/specs/bridges.md \u00a7 XR20M1170",
+ "pinouts": {
+  "qfn24": [
+   {
+    "number": 1,
+    "name": "SO",
+    "role": "output"
+   },
+   {
+    "number": 2,
+    "name": "GPIO0",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "GPIO1",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "I2C/SPI",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "RX",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "TX",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "GPIO2",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "XTAL1",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "XTAL2",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "GPIO3",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 12,
+    "name": "SDA",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "SCL",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "GPIO5/DTR",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "GPIO4/DSR",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "RESET",
+    "role": "input"
+   },
+   {
+    "number": 19,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "GPIO6/CD",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "GPIO7/RI",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 23,
+    "name": "A0/CS",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "A1/SI",
+    "role": "input"
+   }
+  ],
+  "tssop24": [
+   {
+    "number": 1,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "A0/CS",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A1/SI",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "SO",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "GPIO0",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "GPIO1",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "I2C/SPI",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "RX",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "TX",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "GPIO2",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "XTAL1",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "XTAL2",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "GPIO3",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 15,
+    "name": "SDA",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "SCL",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "GPIO5/DTR",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "GPIO4/DSR",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "RESET",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "GPIO6/CD",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "GPIO7/RI",
+    "role": "inout"
+   }
+  ],
+  "tssop16": [
+   {
+    "number": 1,
+    "name": "A0/CS",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1/SI",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "SO",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "I2C/SPI",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "RX",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "TX",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "XTAL1",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "XTAL2",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 10,
+    "name": "SDA",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "SCL",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "RESET",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "grades": {
+  "I": {
+   "tdo": 15,
+   "ttr": 100,
+   "tvd": 600,
+   "trint": 200,
+   "thr": 200,
+   "tir": 200,
+   "trim": 200,
+   "tsim": 200,
+   "tmdo": 200,
+   "tgpio": 200,
+   "vcc": [
+    1.62,
+    3.63
+   ],
+   "note": "xr20m1170.pdf p.42-48, 3.3 V: SPI TDO 15 ns, TTR 100 ns, TD9-TD14 200 ns; I2C tVD 0.6 us, TD2 0.2 us; inputs not 5 V tolerant (VIH max = VCC)"
+  }
+ },
+ "parts": [
+  {
+   "name": "XR20M1170IG16-F",
+   "package": "TSSOP",
+   "pinout": "tssop16",
+   "footprint": "TSSOP-16",
+   "grade": "I"
+  },
+  {
+   "name": "XR20M1170IG24-F",
+   "package": "TSSOP",
+   "pinout": "tssop24",
+   "footprint": "TSSOP-24",
+   "flags": [
+    "obsolete"
+   ],
+   "grade": "I"
+  },
+  {
+   "name": "XR20M1170IL24-F",
+   "package": "QFN",
+   "pinout": "qfn24",
+   "footprint": "QFN-24-4X4",
+   "flags": [
+    "obsolete"
+   ],
+   "grade": "I"
+  },
+  {
+   "name": "XR20M1170IL24TR-F",
+   "package": "QFN",
+   "pinout": "qfn24",
+   "footprint": "QFN-24-4X4",
+   "flags": [
+    "obsolete"
+   ],
+   "grade": "I"
+  }
+ ]
+}

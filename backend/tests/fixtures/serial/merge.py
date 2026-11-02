@@ -9,7 +9,11 @@ stand-in pinout of the pins its keys name, on a T<n> dual footprint, so its
 model cases can run; the shipped data replaces it when it lands.
 
 Run from the repo root:  python3 -I backend/tests/fixtures/serial/merge.py
-Writes ns16550.json and footprints_test.json beside this script.
+Writes ns16550.json and footprints_test.json beside this script, and
+bridges.json with the plan-12-I devices (the I2C/SPI bridges and the
+SC18IS604: function "Bridge UART" or "I2C controller"), whose fixture parts
+are one per pinout and grade: SFX-<ID>-<pinout> for the first grade of that
+pinout, SFX-<ID>-<pinout>-<grade> for the others.
   merge.py --ship F,G   also writes Parts/serial.json with the devices of
                         those data sub-plans and their real parts.
 """
@@ -74,28 +78,43 @@ def key_pins(keys):
     return pins
 
 
+BRIDGE_FUNCTIONS = ('Bridge UART', 'I2C controller')
+
+
+def fixture_part(dev_id, pinout, real, grade_suffix):
+    part = {'name': 'SFX-%s-%s%s' % (dev_id, pinout, grade_suffix), 'package': real['package'],
+            'pinout': pinout, 'footprint': real['footprint'], 'grade': real['grade']}
+    for k in ('vcc', 'inputMax'):
+        if k in real:
+            part[k] = real[k]
+    return part
+
+
 def main():
     devices = []
+    bridges = []
     footprints = {}
     for name in sorted(os.listdir(os.path.join(HERE, 'keys'))):
         dev_id = name[:-5]
         keys = json.load(open(os.path.join(HERE, 'keys', name)))
         data_path = os.path.join(HERE, 'devices', name)
+        bridge = False
         if os.path.exists(data_path):
             data = json.load(open(data_path))
             device = {k: v for k, v in data.items() if k != 'parts'}
+            bridge = data['function'] in BRIDGE_FUNCTIONS
             parts = []
             for pinout in data['pinouts']:
                 real = [p for p in data['parts'] if p['pinout'] == pinout]
                 if not real:
                     continue
-                part = {'name': 'SFX-%s-%s' % (dev_id, pinout), 'package': real[0]['package'],
-                        'pinout': pinout, 'footprint': real[0]['footprint'],
-                        'grade': real[0]['grade']}
-                for k in ('vcc', 'inputMax'):
-                    if k in real[0]:
-                        part[k] = real[0][k]
-                parts.append(part)
+                parts.append(fixture_part(dev_id, pinout, real[0], ''))
+                if bridge:
+                    seen = [real[0]['grade']]
+                    for p in real:
+                        if p['grade'] not in seen:
+                            seen.append(p['grade'])
+                            parts.append(fixture_part(dev_id, pinout, p, '-' + p['grade']))
             first = dict(parts[0])
             first['name'] = 'SFX-' + dev_id
             parts.insert(0, first)
@@ -113,11 +132,12 @@ def main():
         device.update(keys)
         device['id'] = 'SFX-' + dev_id   # beside the shipped device of the same id
         device['parts'] = parts
-        devices.append(device)
-    out = {'format': 'schematical-parts', 'version': 1, 'kind': 'serial', 'devices': devices}
-    with open(os.path.join(HERE, 'ns16550.json'), 'w') as f:
-        json.dump(out, f, indent=1)
-        f.write('\n')
+        (bridges if bridge else devices).append(device)
+    for file_name, group in (('ns16550.json', devices), ('bridges.json', bridges)):
+        out = {'format': 'schematical-parts', 'version': 1, 'kind': 'serial', 'devices': group}
+        with open(os.path.join(HERE, file_name), 'w') as f:
+            json.dump(out, f, indent=1)
+            f.write('\n')
     fps = [{'id': fp, 'description': 'test dual', 'style': 'dual', 'pins': n,
             'body': {'width': 10, 'height': 2 + n}, 'pitch': 1, 'span': 8,
             'pad': {'width': 0.5, 'height': 0.5, 'shape': 'rect'}}
@@ -125,7 +145,7 @@ def main():
     with open(os.path.join(HERE, 'footprints_test.json'), 'w') as f:
         json.dump({'format': 'schematical-footprints', 'version': 1, 'footprints': fps}, f, indent=1)
         f.write('\n')
-    print(len(devices), 'devices,', len(fps), 'stand-in footprints')
+    print(len(devices), 'devices,', len(bridges), 'bridge devices,', len(fps), 'stand-in footprints')
 
 
 def group_of(dev_id, model, function):
