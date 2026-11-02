@@ -378,7 +378,7 @@ Commit: c9da192
 
 Acceptance: the three boards reach their end states.
   Check: `ctest --test-dir /tmp/logic-p09 -R cpu_test -V | grep -c ': FAIL'` → 0 (est. 1 min). Measured: 0. Record (no threshold): `cmake -S backend -B /tmp/logic-rel -DCMAKE_BUILD_TYPE=Release && cmake --build /tmp/logic-rel --target cpu_bench && /tmp/logic-rel/cpu_bench 100` → `0.12x real time` (2026-11-01: 100 ms simulated in 0.843 s, 99995 cycles).
-Commit: —
+Commit: 3f08307
 
 ## Validation Plan
 
