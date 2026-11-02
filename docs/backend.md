@@ -123,8 +123,11 @@ backend/
                            check and expand footprints.json)
     models/                one file per kind: gate.c dff.c jkff.c sram.c
                            eeprom.c switch.c led.c display7.c oscillator.c
-                           supply.c,
-                           and lights.c (on-time tracking for lights);
+                           supply.c latch.c,
+                           seq.c + seq.h (helpers the sequential kinds
+                           share: timing entries, controls, X rules,
+                           outputs), and lights.c (on-time tracking for
+                           lights);
                            model_pins.h (LED, switch and open-drain pin
                            facts for the voltage check)
     circuit.c
@@ -185,6 +188,11 @@ drawer work from the kind table and the `Part` structs.
   against the drawing. Listing lines in `parts.txt` end in
   `|footprint=<id>` for parts that name one.
 - `switch_test`, `sram_test`, `display7_test` — model benches.
+- `latch_test` — the `latch` kind's five models, one case per function-table
+  row of the devices that use them (inline fixture devices copied from the
+  real ones), plus loader errors and the open-drain answer. Its bench,
+  `tests/support/bench.{h,c}`, drives any part's input pins by name and is
+  shared by the sequential kinds' tests.
 - `eeprom_test` — the EEPROM model's read window, page loads, write cycle,
   DATA# polling and toggle bit, timing violations and software data
   protection (an inline fixture device, then real parts).

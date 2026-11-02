@@ -18,6 +18,9 @@
 #include "read_file.h"
 #include "trace_core.h"
 
+/* The last PartKind (plan-10 moves it as kinds are added). */
+#define TRACE_LAST_KIND PART_LATCH
+
 static int set_switch(Sim *sim, SimInstance *instance, size_t position, int on) {
     const SimComponentType *type = sim_instance_type(instance);
 
@@ -93,7 +96,7 @@ int main(int argc, char **argv) {
     size_t compared = 0;
     size_t skipped = 0;
     size_t failures = 0;
-    size_t per_kind[PART_EEPROM + 1] = {0};
+    size_t per_kind[TRACE_LAST_KIND + 1] = {0};
 
     if (load_parts_dir(library, PARTS_DIR) != 0) {
         return 1;
@@ -160,7 +163,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    for (i = 0; i <= PART_EEPROM; i++) {
+    for (i = 0; i <= TRACE_LAST_KIND; i++) {
         if (per_kind[i] > 0) {
             printf("  %s %zu\n", listing_kind_name((PartKind)i), per_kind[i]);
         }

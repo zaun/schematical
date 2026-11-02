@@ -15,6 +15,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_OSCILLATOR: return "oscillator";
         case PART_SUPPLY: return "supply";
         case PART_EEPROM: return "eeprom";
+        case PART_LATCH: return "latch";
     }
     return "?";
 }
@@ -41,6 +42,7 @@ static void print_details(FILE *out, const Part *part) {
         case PART_GATE:
         case PART_DFF:
         case PART_JKFF:
+        case PART_LATCH:
             fprintf(out, "units=%u", part->logic->units);
             break;
         case PART_SRAM:
@@ -108,7 +110,8 @@ char *listing_line(const Part *part) {
     FILE *out = open_memstream(&text, &length);
     size_t i;
     int first = 1;
-    int logic = part->kind == PART_GATE || part->kind == PART_DFF || part->kind == PART_JKFF;
+    int logic = part->kind == PART_GATE || part->kind == PART_DFF || part->kind == PART_JKFF ||
+                part->kind == PART_LATCH;
 
     if (out == NULL) {
         return NULL;

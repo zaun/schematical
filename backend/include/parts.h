@@ -23,7 +23,7 @@ typedef struct PartLibrary PartLibrary;
 
 typedef enum {
     PART_GATE, PART_DFF, PART_JKFF, PART_SRAM, PART_SWITCH,
-    PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM
+    PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */

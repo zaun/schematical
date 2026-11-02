@@ -370,18 +370,23 @@ cases check levels 50 ns after each step.
 Acceptance: `cmake --build /tmp/logic-p10` succeeds; `cc -std=c11 -Wall -Wextra -fsyntax-only -Ibackend/include -Ibackend/src/engine -Ibackend/src/library -Ibackend/src/third_party/cjson backend/src/models/seq.c` prints nothing (the project sets no warning flags, so this is checked by hand); `ctest` 12 of 12 (seconds). (Ran: build clean; the `cc -fsyntax-only`
 line on `seq.c` printed nothing, same for `bench.c`; `100% tests passed, 0
 tests failed out of 12`.)
-Commit: —
+Commit: 712f5f3
 
 ### Phase 2 — The `latch` kind and models
 
-- [ ] `parts.h`: `PART_LATCH` after `PART_EEPROM`.
-- [ ] `models/latch.c`: kind, dispatch, the five models (§5); listed in
-  `backend/CMakeLists.txt`; `kinds.c` registration; `model_pins.h` answer.
-- [ ] Test support (§4.3).
-- [ ] `docs/parts-format.md` § `latch` (§5 key tables and behavior);
+- [x] `parts.h`: `PART_LATCH` after `PART_EEPROM`.
+- [x] `models/latch.c`: kind, dispatch, the five models (§5); listed in
+  `backend/CMakeLists.txt`; `kinds.c` registration; `model_pins.h` answer
+  (`LATCH_KIND.pin_open_drain`, plan-10-A's per-kind member). The
+  `cc -Wall -Wextra -fsyntax-only` line on `latch.c` prints nothing.
+- [x] Test support (§4.3). (`listing.c`: name, `units=`, family column;
+  `trace_check.c`: `TRACE_LAST_KIND`.)
+- [x] `docs/parts-format.md` § `latch` (§5 key tables and behavior);
   `docs/backend.md` layout and tests lists.
 
-Acceptance: `ctest` 12 of 12, golden diff empty (seconds).
+Acceptance: `ctest` 12 of 12, golden diff empty (seconds). (Ran: `100% tests
+passed, 0 tests failed out of 12`; `git status --short backend/tests/golden`
+→ no output.)
 Commit: —
 
 ### Phase 3 — `latch_test`

@@ -776,3 +776,95 @@ at a clock edge. Where a model allows both, the control also has
   changes. Open-drain outputs (`"output": "open-drain"`) drive 0 and release
   to Z for 1; the voltage check treats them as carrying no voltage.
 - **Bus hold** (ALVCH, LVCH, LVTH) is not modeled: a floating input reads X.
+
+### `latch`
+
+Level-sensitive storage: transparent D latches, addressable latches, S-R
+latches, a BCD-to-7-segment latch/decoder and a multiplexed bus latch. A
+sequential kind (above): `"model"` is one of `transparent`, `addressable`,
+`sr`, `bcd7seg`, `bus-mux`, and `timing` entries are `{rise, fall}` for the
+model's main path. Every model re-evaluates on any pin change; an unknown
+control makes X exactly the bits whose result depends on it.
+
+#### Model `transparent`
+
+Main path D → Q; `units` = the number of units.
+
+| Key | Value |
+|---|---|
+| `"units"` | 1–40 objects: `d`, `le` (required pin names), `q`, `qn`, `oe`, `pre`, `clr` (optional; at least one of `q`/`qn`). Units may share pins (a common LE or OE). |
+| `"enableActive"` | `"high"` or `"low"`: the `le` level that makes a unit transparent. Required unless `"polarity"`. |
+| `"polarity"` | optional pin name (CD4042B): a unit is transparent while its `le` level equals this pin's level. Not with `"enableActive"`. |
+| `"outputEnableActive"` | `"high"`/`"low"`: the `oe` level that enables the outputs. Required when any unit has `oe`. |
+| `"presetActive"`, `"clearActive"` | `"high"`/`"low"`; required when any unit has `pre` / `clr`. |
+| `"presetWins"` | bool; required when some unit has both: true → both asserted store 1, false → 0. |
+| `"output"` | `"push-pull"` (default) or `"open-drain"`. |
+
+Per unit: `clr`/`pre` act at once; else while transparent the stored bit
+follows D; else it holds. `q` shows the bit, `qn` its complement, both
+through the unit's `oe` (OE gates only the outputs; the latch keeps working).
+
+#### Model `addressable`
+
+Main path D → Q; `units` = the number of outputs.
+
+| Key | Value |
+|---|---|
+| `"address"` | 1–3 pin names, LSB first |
+| `"data"` | pin name |
+| `"outputs"` | 2^(address pins) pin names; `outputs[i]` is latch i |
+| `"enable"` | control: the addressed latch is transparent while it is asserted |
+| `"clear"` | optional control (asynchronous) |
+| `"output"` | `"push-pull"` (default) / `"open-drain"` |
+| `"invert"` | bool, default false: the pin shows NOT the bit (TPIC6259: DRAIN on when the bit is 1) |
+
+Per latch i: enable asserted and address = i → bit = D; else clear asserted
+→ 0; else hold. This gives the 74x259's four modes (addressable latch,
+memory, demultiplexer, clear).
+
+#### Model `sr`
+
+Main path S → Q; `units` = the number of units.
+
+| Key | Value |
+|---|---|
+| `"units"` | 1–8 objects: `s` (1–2 pin names; any asserted sets), `r`, `q` |
+| `"inputsActive"` | `"high"` / `"low"` (S and R) |
+| `"both"` | `"set"` / `"reset"`: Q while S and R are both asserted |
+| `"outputEnable"` | optional control, common to every Q (active → driven, else Z) |
+
+Set and not reset → 1; reset and not set → 0; both → per `"both"`; neither
+→ hold. Releasing S first from both-asserted gives 0, releasing R first
+gives 1 (the 74x279's gates).
+
+#### Model `bcd7seg`
+
+Main path input → segment; `units` = 1.
+
+| Key | Value |
+|---|---|
+| `"inputs"` | 4 pin names, LSB first |
+| `"latch"` | control: the code is held while asserted (74HC4511 LE active high) |
+| `"lampTest"`, `"blank"` | optional controls |
+| `"segments"` | 7 pin names, a … g |
+| `"glyphs"` | 16 strings of 7 characters `0`/`1` (segments a…g) for codes 0–15 |
+
+The stored code follows the inputs while `latch` is not asserted. Lamp test
+asserted → every segment 1; else blank asserted → every segment 0; else the
+glyph of the stored code.
+
+#### Model `bus-mux`
+
+Main path B → A; `units` = 12.
+
+| Key | Value |
+|---|---|
+| `"a"`, `"b1"`, `"b2"` | 12 pin names each (inout) |
+| `"select"` | pin name: high → A shows the 1B latch, low → the 2B latch |
+| `"latchEnables"` | `{"b1", "b2", "a1", "a2"}` → pin names (transparent while high) |
+| `"outputEnables"` | `{"a", "b1", "b2"}` → pin names (enabled while low) |
+
+Latch L1B takes pin 1Bn, L2B takes 2Bn, LA1B and LA2B take An;
+An = OEA low ? (SEL ? L1B : L2B) : Z; 1Bn = OE1B low ? LA1B : Z;
+2Bn = OE2B low ? LA2B : Z. Latches read the pin's net value (the part's own
+drive included, as in the hardware). Bus hold is not modeled.

@@ -27,6 +27,7 @@ add_library(logic STATIC
     src/models/oscillator.c
     src/models/eeprom.c
     src/models/seq.c
+    src/models/latch.c
     src/third_party/cjson/cJSON.c
 )
 target_include_directories(logic
