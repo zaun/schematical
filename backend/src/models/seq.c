@@ -134,19 +134,14 @@ int seq_active(KindContext *ctx, const cJSON *json, const char *key, int *active
     return 0;
 }
 
-int seq_control_name(KindContext *ctx, const cJSON *json, const char *key, int required,
-                     int allow_when, SeqControlName *name) {
+int seq_control_object(KindContext *ctx, const cJSON *item, int allow_when,
+                       SeqControlName *name) {
     static const char *const KEYS[] = {"pin", "active", NULL};
     static const char *const WHEN_KEYS[] = {"pin", "active", "when", NULL};
-    const cJSON *item = kind_member(ctx, json, key, required);
 
     name->pin = NULL;
     name->active_high = 0;
     name->clocked = 0;
-    if (item == NULL) {
-        return required ? -1 : 0;
-    }
-    kind_push(ctx, "%s", key);
     if (kind_check_keys(ctx, item, allow_when ? WHEN_KEYS : KEYS, NULL) != 0 ||
         kind_string(ctx, item, "pin", &name->pin) != 0 ||
         seq_active(ctx, item, "active", &name->active_high) != 0) {
@@ -163,6 +158,23 @@ int seq_control_name(KindContext *ctx, const cJSON *json, const char *key, int r
         } else if (strcmp(when, "async") != 0) {
             return kind_error(ctx, "\"when\" must be \"async\" or \"clock\", not \"%s\"", when);
         }
+    }
+    return 0;
+}
+
+int seq_control_name(KindContext *ctx, const cJSON *json, const char *key, int required,
+                     int allow_when, SeqControlName *name) {
+    const cJSON *item = kind_member(ctx, json, key, required);
+
+    name->pin = NULL;
+    name->active_high = 0;
+    name->clocked = 0;
+    if (item == NULL) {
+        return required ? -1 : 0;
+    }
+    kind_push(ctx, "%s", key);
+    if (seq_control_object(ctx, item, allow_when, name) != 0) {
+        return -1;
     }
     kind_pop(ctx);
     return 0;
@@ -229,7 +241,97 @@ int seq_bind_control(KindContext *ctx, const PartPin *pins, size_t count,
     return seq_bind(ctx, pins, count, name->pin, &control->pin);
 }
 
+int seq_clock_name(KindContext *ctx, const cJSON *json, const char *key, int required,
+                   SeqClockName *name) {
+    static const char *const KEYS[] = {"pin", "edge", NULL};
+    const cJSON *item = kind_member(ctx, json, key, required);
+    const char *edge;
+
+    name->pin = NULL;
+    name->falling = 0;
+    if (item == NULL) {
+        return required ? -1 : 0;
+    }
+    kind_push(ctx, "%s", key);
+    if (kind_check_keys(ctx, item, KEYS, NULL) != 0 ||
+        kind_string(ctx, item, "pin", &name->pin) != 0 ||
+        kind_string(ctx, item, "edge", &edge) != 0) {
+        return -1;
+    }
+    if (strcmp(edge, "falling") == 0) {
+        name->falling = 1;
+    } else if (strcmp(edge, "rising") != 0) {
+        return kind_error(ctx, "\"edge\" must be \"rising\" or \"falling\", not \"%s\"", edge);
+    }
+    kind_pop(ctx);
+    return 0;
+}
+
+int seq_bind_clock(KindContext *ctx, const PartPin *pins, size_t count, const SeqClockName *name,
+                   SeqClock *clock) {
+    clock->falling = name->falling;
+    return seq_bind(ctx, pins, count, name->pin, &clock->pin);
+}
+
+int seq_gate_name(KindContext *ctx, const cJSON *json, const char *key, SeqGateName *name) {
+    static const char *const KEYS[] = {"pin", "op", NULL};
+    const cJSON *item = cJSON_GetObjectItemCaseSensitive(json, key);
+    const char *op;
+
+    name->pin = NULL;
+    name->op = SEQ_GATE_AND_NOT;
+    if (item == NULL) {
+        return 0;
+    }
+    kind_push(ctx, "%s", key);
+    if (kind_check_keys(ctx, item, KEYS, NULL) != 0 ||
+        kind_string(ctx, item, "pin", &name->pin) != 0 ||
+        kind_string(ctx, item, "op", &op) != 0) {
+        return -1;
+    }
+    if (strcmp(op, "and-not") == 0) {
+        name->op = SEQ_GATE_AND_NOT;
+    } else if (strcmp(op, "or") == 0) {
+        name->op = SEQ_GATE_OR;
+    } else if (strcmp(op, "or-not") == 0) {
+        name->op = SEQ_GATE_OR_NOT;
+    } else {
+        return kind_error(ctx, "\"op\" must be \"and-not\", \"or\" or \"or-not\", not \"%s\"", op);
+    }
+    kind_pop(ctx);
+    return 0;
+}
+
+int seq_bind_gate(KindContext *ctx, const PartPin *pins, size_t count, const SeqGateName *name,
+                  SeqGate *gate) {
+    gate->op = name->op;
+    return seq_bind(ctx, pins, count, name->pin, &gate->pin);
+}
+
 /* ---- Running ------------------------------------------------------------- */
+
+LogicValue seq_gated_clock(LogicValue clock, LogicValue gate, SeqGateOp op) {
+    int c = seq_level(clock);
+    int g = seq_level(gate);
+
+    if (op == SEQ_GATE_AND_NOT) {
+        if (c == 0 || g == 1) {
+            return LOGIC_0;
+        }
+        return c == 1 && g == 0 ? LOGIC_1 : LOGIC_X;
+    }
+    if (op == SEQ_GATE_OR_NOT) {
+        g = g < 0 ? -1 : !g;
+    }
+    if (c == 1 || g == 1) {
+        return LOGIC_1;
+    }
+    return c == 0 && g == 0 ? LOGIC_0 : LOGIC_X;
+}
+
+int seq_clock_edge(const SeqClock *clock, LogicValue old_value, LogicValue new_value) {
+    return clock->falling ? seq_falling(old_value, new_value) : seq_rising(old_value, new_value);
+}
 
 int seq_level(LogicValue v) {
     return v == LOGIC_1 ? 1 : v == LOGIC_0 ? 0 : -1;

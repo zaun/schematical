@@ -59,6 +59,30 @@ typedef struct {
     LogicValue driven;
 } SeqOutput;
 
+/* A clock at load time: {"pin": name, "edge": "rising"|"falling"}. */
+typedef struct {
+    const char *pin;   /* NULL = no clock */
+    int falling;
+} SeqClockName;
+
+typedef struct {
+    size_t pin;
+    int falling;
+} SeqClock;
+
+/* A clock gate: the effective clock is CLK.NOT G (and-not), CLK+G (or), CLK+NOT G (or-not). */
+typedef enum { SEQ_GATE_AND_NOT, SEQ_GATE_OR, SEQ_GATE_OR_NOT } SeqGateOp;
+
+typedef struct {
+    const char *pin;   /* NULL = no gate */
+    SeqGateOp op;
+} SeqGateName;
+
+typedef struct {
+    size_t pin;
+    SeqGateOp op;
+} SeqGate;
+
 /* ---- Loading ------------------------------------------------------------ */
 
 /*
@@ -94,6 +118,10 @@ int seq_active(KindContext *ctx, const cJSON *json, const char *key, int *active
 int seq_control_name(KindContext *ctx, const cJSON *json, const char *key, int required,
                      int allow_when, SeqControlName *name);
 
+/* A control object itself (an array element). */
+int seq_control_object(KindContext *ctx, const cJSON *item, int allow_when,
+                       SeqControlName *name);
+
 /* An optional pin name: absent -> NULL. */
 int seq_optional_name(KindContext *ctx, const cJSON *json, const char *key, const char **out);
 
@@ -114,7 +142,24 @@ int seq_bind(KindContext *ctx, const PartPin *pins, size_t count, const char *na
 int seq_bind_control(KindContext *ctx, const PartPin *pins, size_t count,
                      const SeqControlName *name, SeqControl *control);
 
+/* A clock object at json[key]; absent and not required: name->pin = NULL. */
+int seq_clock_name(KindContext *ctx, const cJSON *json, const char *key, int required,
+                   SeqClockName *name);
+int seq_bind_clock(KindContext *ctx, const PartPin *pins, size_t count, const SeqClockName *name,
+                   SeqClock *clock);
+
+/* A clock gate object {"pin", "op": "and-not"|"or"|"or-not"} at json[key]; optional. */
+int seq_gate_name(KindContext *ctx, const cJSON *json, const char *key, SeqGateName *name);
+int seq_bind_gate(KindContext *ctx, const PartPin *pins, size_t count, const SeqGateName *name,
+                  SeqGate *gate);
+
 /* ---- Running ------------------------------------------------------------ */
+
+/* The effective clock of a gated clock, with X propagation (Z reads X). */
+LogicValue seq_gated_clock(LogicValue clock, LogicValue gate, SeqGateOp op);
+
+/* 1 when old -> new is the clock's active edge (seq_rising / seq_falling). */
+int seq_clock_edge(const SeqClock *clock, LogicValue old_value, LogicValue new_value);
 
 /* 1, 0, or -1 (X or Z). */
 int seq_level(LogicValue v);

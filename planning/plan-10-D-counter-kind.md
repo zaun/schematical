@@ -26,7 +26,7 @@ plan-10-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-10-C complete | `ls planning/completed/plan-10-C-latch-parts.md` → exists | NOT MET (2026-11-01: written) |
+| plan-10-C complete | `ls planning/completed/plan-10-C-latch-parts.md` → exists | MET (2026-11-01: exists, archived at 36da6ae) |
 
 ## 1. Goal
 
@@ -252,18 +252,22 @@ copied from the spec sections), bench from B §6.1. Cases:
 
 ### Phase 1 — Kind and `sync`
 
-- [ ] `parts.h` `PART_COUNTER`; `models/counter.{c,h}` kind + dispatch + `sync`
+- [x] `parts.h` `PART_COUNTER`; `models/counter.{c,h}` kind + dispatch + `sync`
   (`counter.c` listed in `backend/CMakeLists.txt`); `kinds.c`; `seq.c` additions (§4); test support (§4); docs § `counter`
-  (`sync`).
+  (`sync`). (`seq.c` also gains `seq_control_object` and `seq_clock_edge`;
+  `cc -Wall -Wextra -fsyntax-only` on `counter.c` and `seq.c` prints
+  nothing.)
 
-Acceptance: `ctest` 13 of 13; golden diff empty (seconds).
+Acceptance: `ctest` 13 of 13; golden diff empty (seconds). (Ran: `100% tests
+passed, 0 tests failed out of 13`; golden status empty.)
 Commit: —
 
 ### Phase 2 — `ripple`
 
-- [ ] The `ripple` model; docs.
+- [x] The `ripple` model; docs.
 
-Acceptance: as Phase 1.
+Acceptance: as Phase 1. (Same run as Phase 1: both models were written in
+one pass of `counter.c` and land in one commit; see Corrections.)
 Commit: —
 
 ### Phase 3 — `counter_test`
@@ -290,7 +294,25 @@ Phase 3's acceptance (about 6 s for all 14 tests). Landing tier: plan-10-J.
 
 ## Corrections
 
-(none yet)
+- 2026-11-01, Phases 1–2: `sync` and `ripple` were written together in
+  `counter.c` and land in one commit (both phases' acceptance is the same
+  `ctest` 13 of 13, no golden change, measured once).
+- 2026-11-01, Phase 1: §5.1.1 puts the register clocks in step 3, after the
+  count update; case 13 ("tied clocks → register one behind") needs the
+  register to take the count from before the counter's edge. The register
+  and input register therefore act first in each evaluation, the output
+  register from the pre-edge count (docs § `counter` says so).
+- 2026-11-01, Phase 1: §5.1.2 does not say which of set and reset wins when
+  both hold (count 0, cascade 1, load asserted, gated clock 0): reset wins,
+  so the single-stage loop releases PE on the clock's low half.
+- 2026-11-01, Phase 1: a BCD digit carries only from 9 (up) / 0 (down); an
+  illegal digit (10–15) steps without a carry (§5.1 said "per digit with
+  carry/borrow" without the illegal case). `counter.h` has no
+  `COUNTER_DIV_MODELS` list: E appends its models to `MODELS[]` in
+  `counter.c`.
+- 2026-11-01, Phase 2: the ÷5 section's illegal states (unprinted) follow
+  the JK structure of `counter-b.md` § 74_390: 5 → 2, 6 → 2, 7 → 0; the ÷3
+  of the 74_92 takes 11 → 00 (§ 74_92, derived).
 
 ## Summary
 

@@ -869,3 +869,67 @@ Latch L1B takes pin 1Bn, L2B takes 2Bn, LA1B and LA2B take An;
 An = OEA low ? (SEL ? L1B : L2B) : Z; 1Bn = OE1B low ? LA1B : Z;
 2Bn = OE2B low ? LA2B : Z. Latches read the pin's net value (the part's own
 drive included, as in the hardware). Bus hold is not modeled.
+
+### `counter`
+
+Counters and dividers. A sequential kind (above); `"model"` is one of
+`sync`, `ripple` (and the models of the sections below). The main timing
+path is clock → Q (or clock → the register's Q where the only Q outputs
+are a register's). No counter has open-drain outputs.
+
+#### Model `sync`
+
+Synchronous counters, including the counters with input or output
+registers. Device keys: `"units"` (1–2 unit objects; `PartLogic.units` =
+their number) and, on the 74x8154 only, `"byteBus"`. Unit keys:
+
+| Key | Value |
+|---|---|
+| `"stages"` | 1–32: count bits |
+| `"code"` | `"binary"` (mod 2^stages) or `"bcd"` (stages a multiple of 4; each digit counts 0–9; max = every digit 9) |
+| `"codeSelect"` | instead of `"code"` (4029B): `{"pin", "binary": "high"|"low"}`, read at each edge; `stages` is 4 |
+| `"q"` | optional: `stages` pin names, LSB first |
+| `"clock"` | `{"pin", "edge": "rising"|"falling"}`; or instead `"clockUp"` and `"clockDown"` (pin names): count up on `clockUp` rising while `clockDown` is 1, down on `clockDown` rising while `clockUp` is 1 |
+| `"clockGate"` | optional `{"pin", "op"}`: the counter steps on the edge of the gated clock, CLK·¬G (`and-not`), CLK+G (`or`) or CLK+¬G (`or-not`) |
+| `"count"` | `"up"` or `"down"`; or `"direction"`: `{"pin", "up": "high"|"low"}`; or neither when `"modes"` or the dual clocks give it |
+| `"enables"` | optional controls, all asserted to count (sampled at the edge) |
+| `"enablesAny"` | optional controls, at least one asserted to count |
+| `"clears"` | optional, in priority order: `{"pin", "active", "when": "async"|"clock", "to": "zero"|"max"}` |
+| `"loads"` | optional, after the clears: `{"pin", "active", "when", "from": "data"|"register"}` (an asynchronous load is level-transparent) |
+| `"data"` | load data pin names, LSB first (required by a load from `data` and by `modes`) |
+| `"modes"` | optional (74x867/869): `{"pins": [S0, S1], "table": [4 of "clear", "down", "load", "up", "hold"], "clear": "async"|"clock"}`, row = S0 + 2·S1. A `load` row loads `data` at the edge regardless of the enables; `up`/`down` rows count when the enables are asserted |
+| `"illegal"` | optional, `bcd` only: `{"up": [16], "down": [16]}`, the next value of a digit 0–15 (entries 0–9 must be the normal sequence). Without it a digit 10–15 steps to value+1 / value−1 within 0–15. A digit carries to the next one only from 9 (up) or 0 (down). |
+| `"carries"` | optional: `{"pin", "active", "at": "max"|"min"|"terminal", "gates": [controls], "clockLow": <pin>}` — asserted while the count is at max / 0 / the terminal of the current direction (max up, 0 down; never in a non-counting `modes` row), every gate asserted, and the `clockLow` pin 0 |
+| `"outputEnable"` | optional control gating `q` |
+| `"register"` | optional output register: `{"clock": {"pin","edge"}, "outputs": [stages names], "outputEnable": control, "select": {"pin", "register": "high"|"low"}}` — takes the count (as it was before a counter edge at the same instant, so tied clocks leave it one count behind); `outputs` show the register, or with `select` the register while the pin is at `register` and the count otherwise |
+| `"inputRegister"` | optional: `{"clock": {"pin","edge"}, "data": [names] (absent: the `bus` pins), "enable": control}`; a load `from` `"register"` reads it |
+| `"bus"` | optional (74x593): `{"pins": [stages names, inout], "outputEnables": [controls]}` — the count drives the pins while every enable is asserted |
+| `"zeroLatch"` | optional (4522B): `{"pin", "cascade": <pin>}` — a set/reset latch driving `pin`: set while the count is 0 and `cascade` is 1; reset (winning) while the first load is asserted with the gated clock at 0, or the count is not 0 with the load not asserted |
+
+`"byteBus"` (74x8154): `{"outputs": [8 names], "selects": [{"pin", "unit", "byte"}]}`
+— the outputs show byte `byte` (0 = low) of unit `unit`'s register while
+that select pin is low; the first low select in list order wins; none low →
+Z; an X select → X.
+
+Order on any input change, per unit: the input register and the output
+register take their clocks' edges; then the asynchronous clears in order,
+the asynchronous loads, an asynchronous `modes` clear; when none is asserted
+and the (gated or dual) clock has its edge: the clock clears, the clock
+loads, the `modes` row, then counting when the enables allow it.
+
+#### Model `ripple`
+
+Ripple counters. Device keys `"units"` (the number shown in the drawer) and
+`"sections"` (1–4). Section keys:
+
+| Key | Value |
+|---|---|
+| `"clock"` | pin; every structure counts on its falling edge |
+| `"structure"` | `"binary"` (`"stages"` 1–14; stage k toggles when stage k−1 falls), `"div2"` (one stage), `"div5"` (QB, QC, QD count 0–4: the 74x90/390 ÷5; illegal 5, 6 → 2, 7 → 0), `"div6"` (QB, QC a ÷3, QD toggles when QC falls: the 74x92) |
+| `"q"` | a pin name per stage, or `null` for a stage with no pin (4020B Q2, Q3) |
+| `"reset"` | optional `{"pins": [...], "active"}`: asserted while every listed pin is at `active` |
+| `"set"` | optional `{"pins", "active", "value"}` (74x90 R9: the ÷2 section's value 1, the ÷5 section's 4) |
+
+Priority: set > reset > clock. Timing entries need the extra key
+`"stage"` (ns): an output's delay is the entry's rise/fall plus `stage` × its
+ripple depth (binary: k for stage k from 0; div5: QC 1; div6: QD 1; else 0).
