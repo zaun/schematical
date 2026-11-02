@@ -115,7 +115,7 @@ footprints, none of the 7 below.
 
 Acceptance: `ctest` 100%, T0 + 1 programs; the golden checks above (about
 2 min). Observed: `100% tests passed, 0 tests failed out of 19` (T0 = 18).
-Commit: —
+Commit: 4fd2c85
 
 ## Validation Plan
 

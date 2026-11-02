@@ -165,17 +165,18 @@ its case):
   `statusReadDefer`, `busSync`, `majorityVote`, `timeout`, `clock.single`.
   Implemented (8272fde: loader, decode, behavior). Every key is exercised by
   a D case that prints `ok` (`/tmp/logic-p12/serial_test`).
-- [~] Fixtures and cases D2, D8, D9, D12–D16, D18, D20, D24. The fixtures are
+- [x] Fixtures and cases D2, D8, D9, D12–D16, D18, D20, D24. The fixtures are
   `tests/fixtures/serial/keys/<ID>.json` merged into the data child's
-  `devices/<ID>.json` by `merge.py` (see Corrections). Until that data lands,
-  a stand-in pinout of the pins the keys name stands in. Observed:
-  `ok   D8 …`, `D9`, `D12`–`D16`, `D18`, `D20`, `ok   D24 PC16550D: the C
-  cases on the shipped device object`. D2: the timeout part passes; its
-  `bga24` package check fails until the device data lands. Remaining:
-  re-run all cases on the shipped data.
+  `devices/<ID>.json` by `merge.py` (see Corrections). Observed on the real
+  device data (15723fb): `ok   D2 TL16C550D: timeout delay 9 RCLKs; bga24
+  without modem inputs`, `ok   D8 TL16C554: four channels, shared AND TXRDY,
+  INTN both levels`, `D9`, `D12`–`D16`, `D18`, `ok   D20 82C50A: both stop
+  bits checked, deferred status, driven INTRPT`, `ok   D24 PC16550D: the C
+  cases on the shipped device object`; `grep -c '^ok   D'` → 24.
 
 Acceptance: `serial_test` → every listed case `ok`; `ctest` 100% (about 1 min).
-Commit: —
+Observed: `PASS`; `100% tests passed, 0 tests failed out of 19`.
+Commit: 15723fb
 
 ### Phase 2 — Extended banks, flow control, sleep, IrDA, RS-485, printer port
 
@@ -184,10 +185,12 @@ Commit: —
   `docs/parts-format.md` § `serial` gains §3.1/§3.2.
   Implemented in `ns16550_ext.c` and `ns16550_lpt.c`, with the core hooks.
   `docs/parts-format.md` § `serial` documents every D key (2ac9b98).
-- [~] Fixtures and cases D1, D3–D7, D10, D11, D17, D19, D21–D23. Observed:
-  each prints `ok` on the stand-in fixtures. Remaining: re-run on the shipped
-  device data, and D4's MODE-pin (IOW-only) bus once E's `intel-motorola`
-  style merges.
+- [~] Fixtures and cases D1, D3–D7, D10, D11, D17, D19, D21–D23. Observed on
+  the real device data (15723fb): each prints `ok` (`ok   D1 TL16C550C afe:
+  …`, `ok   D4 TL16C750E: LCR 0x1D, DLF fraction n/64, TLR access`, …,
+  `ok   D23 SC16C752B: LCR 0x1D, 752 decode X rule, FIFO Rdy, IrDA`).
+  Remaining: D4's MODE-pin (IOW-only) bus once E's `intel-motorola` style
+  merges.
 
 Acceptance: `serial_test` → all 24 D cases and C's 12 `ok`; `ctest` 100%;
 `git diff --stat backend/tests/golden` → none (about 1 min).
