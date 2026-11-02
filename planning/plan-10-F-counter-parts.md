@@ -22,7 +22,7 @@ plan-10-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-10-E complete | `ls planning/completed/plan-10-E-counter-models.md` → exists | NOT MET (2026-11-01: written) |
+| plan-10-E complete | `ls planning/completed/plan-10-E-counter-models.md` → exists | MET (2026-11-01: exists, archived at 428808b) |
 
 ## 1. Goal
 
@@ -106,17 +106,30 @@ every 2048 clocks), `CD4017BE` (case 30), `CD4059AM` (case 42),
 
 ### Phase 1 — `counter.json` and `VQFN-16`
 
-- [ ] Footprint (§4.2) and the 57 devices / 730 parts.
-- [ ] Name/device check (C Phase 2 method): `730 parts, 57 devices, names
-  and devices match`.
-- [ ] Regenerate the three goldens; added lines only; 730 / 730 / 1.
-- [ ] Spot checks, one line each here: `SN74HC163N` (`vcc=2000-6000`,
+- [x] Footprint (§4.2) and the 57 devices / 730 parts. (`/tmp/p10/gen_f.py`;
+  the C §1 one-liner on `counter.json` → `57 730`; VQFN-16 hand-checked: 16
+  pads at 0.5 mm, pads at x ±1.65 / y ±1.9 = spanX 3.3 / spanY 3.8, centre
+  2.05 × 2.55 unnumbered.)
+- [x] Name/device check (C Phase 2 method): `730 parts, 57 devices, names
+  and devices match`. (Ran `/tmp/p10/check_names.py`: that line, family and
+  footprint per part included.)
+- [x] Regenerate the three goldens; added lines only; 730 / 730 / 1. (Ran: 0
+  removed, 1461 added; 5525 / 5525 / 156; `grep -c '|counter|'` → 730,
+  `'|counter|.*|Divider|'` → 58.)
+- [x] Spot checks, one line each here: `SN74HC163N` (`vcc=2000-6000`,
   `units=1`), `SNJ54HC163FK` (`fk20`, `LCCC-20`, `military`), `SN74LS90N`
   (14 pins, `LS`), `CD4029BE` (`C`, `vcc=3000-18000`), `SN74LV8154PW`
   (`units=2`), `CD74HC4059M96` (24 pins, `SOIC-24W`, `|Divider|`),
-  `SN54AS867JT` (device `74_867_AS`, `CDIP-24`, `military`).
+  `SN54AS867JT` (device `74_867_AS`, `CDIP-24`, `military`). (Ran, from
+  `parts.txt`: `SN74HC163N` `HC`, `units=1`, 16 pins, `vcc=2000-6000`;
+  `SNJ54HC163FK` 20 pins (1 `NC`), `LCCC-20`, `military`; `SN74LS90N` 14
+  pins, `LS`, `vcc=4750-5250`; `CD4029BE` `C`, `vcc=3000-18000`;
+  `SN74LV8154PW` `units=2`, `TSSOP-20`; `CD74HC4059M96` 24 pins,
+  `SOIC-24W`, `|Divider|`; `SN54AS867JT` in device `74_867_AS` (from
+  `counter.json`), `CDIP-24`, `AS|military`.)
 
-Acceptance: `ctest` 14 of 14; goldens 5525 / 5525 / 156, added only.
+Acceptance: `ctest` 14 of 14; goldens 5525 / 5525 / 156, added only. (Ran:
+`100% tests passed, 0 tests failed out of 14`.)
 Commit: —
 
 ### Phase 2 — Real-part cases
@@ -137,7 +150,24 @@ Phase 1 and 2 acceptance (`ctest`, about 6 s).
 
 ## Corrections
 
-(none yet)
+- 2026-11-01, Phase 1: where one device's families print different pin names
+  the device takes one set (plan-10-A §3.4), recorded in each device's
+  `note`: SN names for 74_161/163/192/193 (not the CD74HC MR/CP/P0…), LS names
+  for 74_590 (CCK/RCK/G), `1CLK`/`2CLK` for 74_393 (39 of its 56 parts are
+  HC/HCT/LV; the LS sheet prints 1A/2A), and the CD names CP/MR/Q1… for
+  74_4020/4024/4040 (as CD4020B/4040B number their outputs; the SN sheets'
+  QA… are the same pins).
+- 2026-11-01, Phase 1: ripple `stage` values are derived per §4.1 from the
+  printed clock-to-output rows: (last − first) / depth, averaged over tPLH
+  and tPHL (74_90 10, 74_92 10, 74_93/293 11, 74_390 LS 11.5, HC/HCT 12,
+  74_393 LS 9.2, HC 5.7, HCT 10, LV 0.9). Where a family prints only the
+  Qn → Qn+1 maximum (74_4020/4024/4040 HC/HCT) that maximum is the stage.
+- 2026-11-01, Phase 1: the 74_867_AS / 74_869_AS parts are all SN54AS
+  (military) rows, but the timing entry carries the SN74 maximum (11/15)
+  with the SN54 value in its note, as every other family entry does; their
+  `vcc` is the same for SN54 and SN74 (4.5–5.5 V).
+- 2026-11-01, Phase 1: 4059A's recommended VDD is 3–12 V (an A-series part),
+  not the B-series 3–18 V.
 
 ## Summary
 
