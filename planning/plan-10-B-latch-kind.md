@@ -387,15 +387,17 @@ Commit: 712f5f3
 Acceptance: `ctest` 12 of 12, golden diff empty (seconds). (Ran: `100% tests
 passed, 0 tests failed out of 12`; `git status --short backend/tests/golden`
 → no output.)
-Commit: —
+Commit: 909366d
 
 ### Phase 3 — `latch_test`
 
-- [ ] `backend/tests/latch_test.c` with the fixtures (§6.2) and the 28 cases
-  (§6.3); `logic_test(latch_test)`.
+- [x] `backend/tests/latch_test.c` with the fixtures (§6.2) and the 28 cases
+  (§6.3); `logic_test(latch_test)`. (Fixture JSON generated from
+  `/tmp/p10/latch_devs.py`, the device definitions C reuses.)
 
 Acceptance: `/tmp/logic-p10/latch_test` → 28 `PASS`, 0 `FAIL`;
-`ctest` 13 of 13 (seconds).
+`ctest` 13 of 13 (seconds). (Ran: `grep -c '^PASS'` → 28, `grep -c FAIL` →
+0; `100% tests passed, 0 tests failed out of 13`; golden status empty.)
 Commit: —
 
 ## Validation Plan
@@ -413,7 +415,24 @@ about 5 s). The landing tier is plan-10-J's.
 
 ## Corrections
 
-(none yet)
+- 2026-11-01, Phase 3: case 1 (power-on Q = 0) failed by design as first
+  written: at `start` the fixture's LE is still floating (Z reads X under
+  §3.5), so a full evaluation turned every power-on 0 into X. §3.5 says
+  "every stored bit 0, then asynchronous controls apply at start", so each
+  model's evaluation takes an `at_start` flag: at start only the
+  asynchronous controls (clear, preset, S/R) act; enables, LE and strobes
+  are evaluated from the first pin change on.
+- 2026-11-01, Phase 3: §6.2 named no footprints, and the repo has none with
+  24, 48 or 56 pins yet (they are plan-10-C/F/I data). `latch_test` loads
+  its own dual-row fixture footprints `FX16`…`FX56` (the `library_check`
+  pattern), not `footprints.json`; fixture device ids are `fx-<device>` so a
+  later test can load them beside the real `latch.json`.
+- 2026-11-01, Phase 3: case 26 first failed with A = Z: the bench drove the
+  1B pins in the same step the part was still releasing them (10 ns), a
+  strong-strong short that stopped the sim. The case now releases OE1B one
+  step earlier and also checks `bench_error` is NULL.
+- 2026-11-01, Phase 3: case 27 checks three loader errors; they print one
+  `PASS` line together (27), so the count stays 28.
 
 ## Summary
 

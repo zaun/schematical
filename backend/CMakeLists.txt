@@ -83,6 +83,7 @@ logic_test(circuit_check)
 logic_test(footprint_check)
 logic_test(engine_test)
 logic_test(eeprom_test)
+logic_test(latch_test)
 logic_test(memory_image_test)
 logic_test(voltage_test)
 

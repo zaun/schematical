@@ -9,7 +9,9 @@
  *   bus-mux       12-to-24-bit multiplexed bus latch (74ALVCH16260)
  *
  * Every model is level-sensitive, so each re-evaluates all of its state on
- * any pin change. Unknown inputs are handled by trying both levels of each
+ * any pin change. At start only the asynchronous controls act (power-on
+ * state 0, then clear/preset/set/reset), so floating enables do not turn
+ * the power-on 0s into X. Unknown inputs are handled by trying both levels of each
  * unknown control: a bit whose outcomes differ (or is X in one) becomes X.
  * Signal rules: docs/parts-format.md "Sequential kinds".
  */
@@ -40,7 +42,8 @@ struct LatchModel {
     void *(*load)(KindContext *ctx, const cJSON *json, unsigned *units);
     void *(*bind)(KindContext *ctx, const void *dev, const PartPin *pins, size_t count);
     LatchHeader *(*create)(const void *dev, const void *bound);
-    void (*eval)(Sim *sim, SimInstance *inst, LatchHeader *state);
+    /* at_start: only the asynchronous controls change state. */
+    void (*eval)(Sim *sim, SimInstance *inst, LatchHeader *state, int at_start);
     int (*open_drain)(const void *dev, const void *bound, size_t pin);
 };
 
@@ -278,7 +281,7 @@ static int tl_open(const Sim *sim, const SimInstance *inst, const TlBound *b, co
     return seq_sync(sim, inst, &u->le);
 }
 
-static void tl_eval(Sim *sim, SimInstance *inst, LatchHeader *h) {
+static void tl_eval(Sim *sim, SimInstance *inst, LatchHeader *h, int at_start) {
     TlState *s = (TlState *)h;
     const TlBound *b = s->b;
     size_t i;
@@ -287,7 +290,7 @@ static void tl_eval(Sim *sim, SimInstance *inst, LatchHeader *h) {
         const TlUnit *u = &b->units[i];
         int pre = seq_async(sim, inst, &u->pre);
         int clr = seq_async(sim, inst, &u->clr);
-        int open = tl_open(sim, inst, b, u);
+        int open = at_start ? 0 : tl_open(sim, inst, b, u);
         LogicValue d = d_value(sim, inst, u->d);
         Merge m = {0, LOGIC_X};
         int p, c, e;
@@ -425,10 +428,10 @@ static LatchHeader *ad_create(const void *dev, const void *bound) {
     return &s->h;
 }
 
-static void ad_eval(Sim *sim, SimInstance *inst, LatchHeader *h) {
+static void ad_eval(Sim *sim, SimInstance *inst, LatchHeader *h, int at_start) {
     AdState *s = (AdState *)h;
     const AdBound *b = s->b;
-    int enable = seq_sync(sim, inst, &b->enable);
+    int enable = at_start ? 0 : seq_sync(sim, inst, &b->enable);
     int clear = seq_async(sim, inst, &b->clear);
     LogicValue d = d_value(sim, inst, b->data);
     unsigned known = 0, value = 0;
@@ -620,11 +623,13 @@ static LatchHeader *sr_create(const void *dev, const void *bound) {
     return &s->h;
 }
 
-static void sr_eval(Sim *sim, SimInstance *inst, LatchHeader *h) {
+static void sr_eval(Sim *sim, SimInstance *inst, LatchHeader *h, int at_start) {
     SrState *s = (SrState *)h;
     const SrBound *b = s->b;
     int enable = seq_enable(sim, inst, &b->oe);
     size_t i, j;
+
+    (void)at_start;   /* S and R are asynchronous: they act at start too. */
 
     for (i = 0; i < b->unit_count; i++) {
         const SrUnit *u = &b->units[i];
@@ -754,10 +759,10 @@ static LatchHeader *bcd_create(const void *dev, const void *bound) {
     return &s->h;
 }
 
-static void bcd_eval(Sim *sim, SimInstance *inst, LatchHeader *h) {
+static void bcd_eval(Sim *sim, SimInstance *inst, LatchHeader *h, int at_start) {
     BcdState *s = (BcdState *)h;
     const BcdBound *b = s->b;
-    int hold = seq_sync(sim, inst, &b->latch);
+    int hold = at_start ? 1 : seq_sync(sim, inst, &b->latch);
     int lamp = b->lamp_test.pin == SEQ_NO_PIN ? 0 : seq_sync(sim, inst, &b->lamp_test);
     int blank = b->blank.pin == SEQ_NO_PIN ? 0 : seq_sync(sim, inst, &b->blank);
     unsigned known = 0, value = 0;
@@ -932,11 +937,13 @@ static LogicValue mux_latch(LogicValue stored, int open, LogicValue d) {
     return merged(&m);
 }
 
-static void mux_eval(Sim *sim, SimInstance *inst, LatchHeader *h) {
+static void mux_eval(Sim *sim, SimInstance *inst, LatchHeader *h, int at_start) {
     MuxState *s = (MuxState *)h;
     const MuxBound *b = s->b;
-    int le_b1 = seq_sync(sim, inst, &b->le_b1), le_b2 = seq_sync(sim, inst, &b->le_b2);
-    int le_a1 = seq_sync(sim, inst, &b->le_a1), le_a2 = seq_sync(sim, inst, &b->le_a2);
+    int le_b1 = at_start ? 0 : seq_sync(sim, inst, &b->le_b1);
+    int le_b2 = at_start ? 0 : seq_sync(sim, inst, &b->le_b2);
+    int le_a1 = at_start ? 0 : seq_sync(sim, inst, &b->le_a1);
+    int le_a2 = at_start ? 0 : seq_sync(sim, inst, &b->le_a2);
     int oe_a = seq_enable(sim, inst, &b->oe_a);
     int oe_b1 = seq_enable(sim, inst, &b->oe_b1), oe_b2 = seq_enable(sim, inst, &b->oe_b2);
     int sel = seq_read(sim, inst, b->select);
@@ -1067,7 +1074,7 @@ static void latch_destroy(void *state) {
 static void latch_start(Sim *sim, SimInstance *instance, void *state) {
     LatchHeader *h = state;
 
-    h->model->eval(sim, instance, h);
+    h->model->eval(sim, instance, h, 1);
 }
 
 static void latch_pin_changed(Sim *sim, SimInstance *instance, void *state, size_t pin,
@@ -1077,7 +1084,7 @@ static void latch_pin_changed(Sim *sim, SimInstance *instance, void *state, size
     (void)pin;
     (void)old_value;
     (void)new_value;
-    h->model->eval(sim, instance, h);
+    h->model->eval(sim, instance, h, 0);
 }
 
 static const SimComponentType LATCH_MODEL = {
