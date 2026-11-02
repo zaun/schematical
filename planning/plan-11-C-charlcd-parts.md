@@ -322,33 +322,42 @@ LCD data at 4001. The program is loaded with `circuit_memory_load` at
 EEPROM offset 0 (address 8000):
 
 ```
-8000 A2 00     LDX #0
-8002 BD 27 80  LDA $8027,X   ; command list
-8005 F0 0B     BEQ $8012
-8007 2C 00 40  BIT $4000     ; busy flag -> N
-800A 30 FB     BMI $8007
-800C 8D 00 40  STA $4000
-800F E8        INX
-8010 D0 F0     BNE $8002
-8012 A2 00     LDX #0
-8014 BD 2C 80  LDA $802C,X   ; text
-8017 F0 0B     BEQ $8024
-8019 2C 00 40  BIT $4000
-801C 30 FB     BMI $8019
-801E 8D 01 40  STA $4001
-8021 E8        INX
-8022 D0 F0     BNE $8014
-8024 4C 24 80  JMP $8024
-8027 38 0C 01 06 00        ; function set, display on, clear, entry mode
-802C 48 45 4C 4C 4F 00     ; "HELLO"
+8000 A9 80     LDA #$80
+8002 8D 00 40  STA $4000     ; Set DDRAM Address 0, unpolled: AC known
+8005 A2 00     LDX #0
+8007 BD 2C 80  LDA $802C,X   ; command list
+800A F0 0B     BEQ $8017
+800C 2C 00 40  BIT $4000     ; busy flag -> N
+800F 30 FB     BMI $800C
+8011 8D 00 40  STA $4000
+8014 E8        INX
+8015 D0 F0     BNE $8007
+8017 A2 00     LDX #0
+8019 BD 31 80  LDA $8031,X   ; text
+801C F0 0B     BEQ $8029
+801E 2C 00 40  BIT $4000
+8021 30 FB     BMI $801E
+8023 8D 01 40  STA $4001
+8026 E8        INX
+8027 D0 F0     BNE $8019
+8029 4C 29 80  JMP $8029
+802C 38 0C 01 06 00        ; function set, display on, clear, entry mode
+8031 48 45 4C 4C 4F 00     ; "HELLO"
 ```
 
+The first two instructions were added in plan-11-D (see Corrections): an
+unpolled Set DDRAM Address makes AC known after a reset held past the
+LCD's power-on, and is ignored while the LCD is still busy.
+
 The reset vector at offset 7FFC/7FFD is `00 80`, and NMI and IRQ point to
-8024. The test runs 50 ms with `circuit_advance`. Expected:
+8029. The test runs 50 ms with `circuit_advance`. Expected:
 
 1. `circuit_lcd_state`: `ddram[0..4]` = `HELLO`, `ddram[5]` = 20, and the
    dots of cells 0–4 equal ROM 48 45 4C 4C 4F. `busy` = 0.
-2. `circuit_cpu_state`: status RUNNING, last instruction `JMP $8024`.
+2. `circuit_cpu_state`: status RUNNING, last instruction `JMP $8029`.
+2a. The same board with the reset switch held closed for 100 ms (the app's
+    flow, past the LCD's 40 ms power-on): the same `HELLO`, `busy` = 0, and
+    RUNNING at `JMP $8029`.
 3. **The W65C02S board.** Same nets with `W65C02S6TPG-14`:
    - PHI2 is driven by the oscillator, and the oscillator output also feeds
      HC11 1A. The W65C02S's bus times are measured from its PHI2 input, so
@@ -456,6 +465,16 @@ Commit: 36dbe1e
   also counts B's own Prerequisites row, whose command text contains
   `Commit: —`, so it never reaches 0. Measured with `grep -c '^Commit: —'`
   (→ 0). The plan-11-D row has the same flaw and gets the same fix.
+- **The program starts with an unpolled `80` (Set DDRAM Address 0)**,
+  added in plan-11-D Phase 4; every address after it moved up 5 bytes
+  (JMP `$8029`, data at `802C`/`8031`, NMI/IRQ to `8029`). While the
+  6502 is held in reset, E pulses X with R/W = 1, which makes AC X (a
+  possible read; plan-11-B Corrections). The 6502 model goes LOST when a
+  `BIT` reads X bits (its V and Z would differ), so the first BF poll
+  would stop the CPU. Writing `80` first makes AC known. When reset ends
+  inside the power-on (the 10 µs case), the LCD is busy and ignores it.
+  Replacing the two instructions with NOPs makes case 2a fail (checked).
+  The W65C02S board is still caught, now at this first `STA $4000`.
 - **The test's data writes are 50 µs apart, not 40.** plan-11-B case 2
   leaves 40 µs between writes; with the helper's 2.55 µs access that is
   42.55 µs E fall to E fall, inside the 162H and AMC1602G data time

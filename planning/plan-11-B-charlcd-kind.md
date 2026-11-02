@@ -280,8 +280,13 @@ every input.** Times are the device's `timing` and `exec` (ps after
   becomes a violated write if, inside that window, a sampled DB pin
   changes within `th` of the fall, or RS or R/W changes within `tah`.
   Then §4.5 applies.
-- **E reads X** (X or Z) at any time: the controller becomes LOST (§4.5)
-  and any read drive goes X until its normal Z time.
+- **E reads X** (X or Z) at any time: it may be an access. With R/W
+  reading 1 (during an access: R/W at its rise) it can only be a read, so
+  AC becomes X unless RS reads 0, and in 4-bit mode (or DL X) the nibble
+  phase becomes X. Otherwise it may be a write, and the controller becomes
+  LOST (§4.5). Either way any read drive goes X until its normal Z time.
+  (Corrected in plan-11-D; see Corrections. Before `exec.powerOn` E X is
+  ignored.)
 - **4-bit mode** (DL = 0): only DB4–7 are read and driven; DB0–3 stay Z.
   A byte is two accesses, high nibble first. A nibble phase (high or low)
   says which comes next:
@@ -374,7 +379,7 @@ shift and nibble phase; BF is known or X too.
   - an instruction write with a timing violation;
   - RS or R/W X at a write;
   - an unknown access (R/W X at E rise);
-  - E reading X.
+  - E reading X while R/W does not read 1 (§4.3).
   "LOST" is not a separate mode: it is all fields X. While BF is X, every
   write is taken (it might have been accepted).
 - **Leaving LOST** happens one field at a time: each instruction with every
@@ -758,6 +763,21 @@ Commit: bab0b68
   the module has no backlight. `circuit_part_lights` and
   `circuit_part_light_time(…, NULL, 0)` both give 0, which is what the
   app's light-part test reads (case 17 checks both).
+- **E reading X with R/W = 1 is a possible read, not LOST** (found in
+  plan-11-D Phase 4). While the 6502 is held in reset its address bus is X
+  and R/W is 1 (`docs/parts-format.md` § `cpu`), so E = PHI2 · A14 · /A15
+  pulses X every cycle. Held past the LCD's 40 ms power-on (the plan-11-D
+  §4.7 flow opens the reset switch by hand after a second), the old rule
+  made the controller LOST, BF read X, and the 6502's first `BIT $4000`
+  went LOST, so HELLO never showed. Measured: the harness run of the D
+  board printed every dot `?` and `Unknown — waiting for reset`; the C
+  board with reset held 100 ms failed the same way. §4.5's own rule (an
+  access whose effect is unknown makes X only what it could change) says
+  a possible read can change only AC (a data read moves it) and the
+  4-bit nibble phase, so those become X; a possible write is still LOST.
+  New cases: `15 E X with R/W 1` (BF and RAM known, AC X, then Set DDRAM
+  Address makes AC known) and the C board with reset held 100 ms.
+  Reverting the rule makes all three fail (checked).
 - **The §4.5 code landed with Phase 3.** Registers are stored as
   known-or-X fields from the start, so the X rules are part of the
   representation. Phase 4 adds cases 14–16, which exercise them.

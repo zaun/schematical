@@ -876,8 +876,23 @@ static void charlcd_pin_changed(Sim *sim, SimInstance *instance, void *raw, size
         if (e == 1) {
             e_rise(sim, instance, st, now);
         } else if (e < 0 && !in_power_on(st, now)) {
-            lose(st);
-            st->pending = 0;
+            /* E reading X may be an access. With R/W reading 1 it can only be
+               a read, which changes no more than AC (a data read moves it)
+               and, in 4-bit mode, the nibble phase. Anything else may be a
+               write: LOST. */
+            int rw = was == 1 ? st->acc_rw : level(sim, instance, st->pins.rw);
+
+            if (rw == 1) {
+                if (level(sim, instance, st->pins.rs) != 0) {
+                    st->ac = -1;
+                }
+                if (st->dl != 1) {
+                    st->phase = -1;
+                }
+            } else {
+                lose(st);
+                st->pending = 0;
+            }
             if (st->driving) {
                 st->drive_x = 1;
                 drive(sim, instance, st, 0);

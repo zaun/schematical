@@ -973,6 +973,29 @@ static void check_lost(void) {
     expect(st.busy == -1 && st.ddram_known[0] == 0, "15 LOST: E reading X makes every field X");
     bench_destroy(l.b);
 
+    /* E reading X with R/W 1 is a possible read: only AC goes X. */
+    l = ready_lcd();
+    text(&l, "AB");
+    lv(&l, "R/W", 1);
+    bench_set(l.b, "RS", LOGIC_Z);
+    bench_run(l.b, NS(50));
+    bench_set(l.b, "E", LOGIC_Z);
+    bench_run(l.b, US(1));
+    bench_set(l.b, "E", LOGIC_0);
+    bench_run(l.b, US(1));
+    lcd_state(&l, &st);
+    {
+        uint8_t v, k;
+
+        rd(&l, 0, &v, &k);
+        expect(st.busy == 0 && st.ddram[0] == 'A' && st.ddram[1] == 'B' && st.ddram_known[0] == 0xFF &&
+                   cell_is_rom(&st, 0, 0, 'A') && (k & 0x80) && !(v & 0x80) && (k & 0x7F) == 0,
+               "15 E X with R/W 1 (a possible read): BF and RAM known, only AC X");
+        cmd(&l, 0x80, US(40));
+        expect(read_ac(&l) == 0, "15 E X with R/W 1: Set DDRAM Address makes AC known again");
+    }
+    bench_destroy(l.b);
+
     /* E reading X during the power-on reset is ignored (see Corrections). */
     l = lcd_open("FX-LCD");
     bench_set(l.b, "E", LOGIC_Z);
@@ -1238,16 +1261,22 @@ static size_t board_part(Board *b, const char *name) {
     return index;
 }
 
-/* The plan-11-C section 4.6 program, at EEPROM offset 0 (address 8000). */
+/* The plan-11-C section 4.6 program, at EEPROM offset 0 (address 8000). It
+   starts with an unpolled Set DDRAM Address (80): while the CPU is held in
+   reset its address bus is X, so E pulses X and AC may be X (a possible
+   read); 80 makes AC known before the first BF poll, and is ignored when
+   the LCD is still busy. */
 static const uint8_t HELLO_PROGRAM[] = {
-    0xA2, 0x00, 0xBD, 0x27, 0x80, 0xF0, 0x0B, 0x2C, 0x00, 0x40, 0x30, 0xFB, 0x8D, 0x00, 0x40,
-    0xE8, 0xD0, 0xF0, 0xA2, 0x00, 0xBD, 0x2C, 0x80, 0xF0, 0x0B, 0x2C, 0x00, 0x40, 0x30, 0xFB,
-    0x8D, 0x01, 0x40, 0xE8, 0xD0, 0xF0, 0x4C, 0x24, 0x80, 0x38, 0x0C, 0x01, 0x06, 0x00, 0x48,
+    0xA9, 0x80, 0x8D, 0x00, 0x40,
+    0xA2, 0x00, 0xBD, 0x2C, 0x80, 0xF0, 0x0B, 0x2C, 0x00, 0x40, 0x30, 0xFB, 0x8D, 0x00, 0x40,
+    0xE8, 0xD0, 0xF0, 0xA2, 0x00, 0xBD, 0x31, 0x80, 0xF0, 0x0B, 0x2C, 0x00, 0x40, 0x30, 0xFB,
+    0x8D, 0x01, 0x40, 0xE8, 0xD0, 0xF0, 0x4C, 0x29, 0x80, 0x38, 0x0C, 0x01, 0x06, 0x00, 0x48,
     0x45, 0x4C, 0x4C, 0x4F, 0x00
 };
 
-/* Builds and runs the board for 50 ms; wdc picks the W65C02S. */
-static void run_board(int wdc, LcdState *lcd, CpuState *cpu, int *ok) {
+/* Builds the board, holds reset for `reset_ps`, then runs 50 ms; wdc picks
+   the W65C02S. */
+static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, int *ok) {
     static uint32_t image[32768];
     const char *cpu_name = wdc ? "W65C02S6TPG-14" : "MPS6502";
     Board b;
@@ -1337,11 +1366,11 @@ static void run_board(int wdc, LcdState *lcd, CpuState *cpu, int *ok) {
     for (i = 0; i < 32768; i++) {
         image[i] = i < sizeof HELLO_PROGRAM ? HELLO_PROGRAM[i] : 0xFF;
     }
-    image[0x7FFA] = 0x24;   /* NMI -> 8024 */
+    image[0x7FFA] = 0x29;   /* NMI -> 8029 */
     image[0x7FFB] = 0x80;
     image[0x7FFC] = 0x00;   /* RESET -> 8000 */
     image[0x7FFD] = 0x80;
-    image[0x7FFE] = 0x24;   /* IRQ -> 8024 */
+    image[0x7FFE] = 0x29;   /* IRQ -> 8029 */
     image[0x7FFF] = 0x80;
     *ok = !b.failed && circuit_memory_load(b.c, ee, 0, image, 32768) == 0 &&
           circuit_set_switch(b.c, sw, 1, 1) == 0 && circuit_start(b.c) == 0;
@@ -1349,7 +1378,7 @@ static void run_board(int wdc, LcdState *lcd, CpuState *cpu, int *ok) {
         fprintf(stderr, "board: %s\n", circuit_error(b.c) != NULL ? circuit_error(b.c) : "build failed");
     }
     if (*ok) {
-        *ok = circuit_advance(b.c, US(10)) && circuit_set_switch(b.c, sw, 1, 0) == 0;
+        *ok = circuit_advance(b.c, reset_ps) && circuit_set_switch(b.c, sw, 1, 0) == 0;
         for (i = 0; *ok && i < 50; i++) {
             *ok = circuit_advance(b.c, MS(1));
         }
@@ -1372,7 +1401,7 @@ static void check_cpu_board(void) {
     unsigned c;
     int cells = 1, all_x = 1, y, x;
 
-    run_board(0, &lcd, &cpu, &ok);
+    run_board(0, US(10), &lcd, &cpu, &ok);
     for (c = 0; c < 5; c++) {
         cells = cells && cell_is_rom(&lcd, 0, c, (unsigned)"HELLO"[c]);
     }
@@ -1381,10 +1410,22 @@ static void check_cpu_board(void) {
            "C 4.6 MPS6502 board: HELLO in ddram[0..4], ddram[5] = 20, cells 0-4 = ROM, BF 0");
     printf("     cpu: status %d, last \"%s\"\n", (int)cpu.status, cpu.instruction_text);
     expect(ok && cpu.status == CPU_RUNNING && cpu.has_instruction &&
-               strcmp(cpu.instruction_text, "JMP $8024") == 0,
-           "C 4.6 MPS6502 board: the CPU is RUNNING, last instruction JMP $8024");
+               strcmp(cpu.instruction_text, "JMP $8029") == 0,
+           "C 4.6 MPS6502 board: the CPU is RUNNING, last instruction JMP $8029");
 
-    run_board(1, &lcd, &cpu, &ok);
+    /* The app's flow: the reset switch opened by hand long after the LCD's
+       40 ms power-on; E pulses X all that time (the CPU's address bus is X
+       in reset). */
+    run_board(0, MS(100), &lcd, &cpu, &ok);
+    cells = 1;
+    for (c = 0; c < 5; c++) {
+        cells = cells && cell_is_rom(&lcd, 0, c, (unsigned)"HELLO"[c]);
+    }
+    expect(ok && memcmp(lcd.ddram, "HELLO", 5) == 0 && cells && lcd.busy == 0 &&
+               cpu.status == CPU_RUNNING && strcmp(cpu.instruction_text, "JMP $8029") == 0,
+           "C 4.6 MPS6502 board, reset held 100 ms: HELLO, BF 0, the CPU RUNNING at JMP $8029");
+
+    run_board(1, US(10), &lcd, &cpu, &ok);
     for (y = 0; y < 16; y++) {
         for (x = 0; x < 80; x++) {
             all_x = all_x && lcd.dots[y][x] == LCD_DOT_X;

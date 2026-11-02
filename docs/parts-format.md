@@ -1024,9 +1024,11 @@ Behavior (the HD44780 family as the module datasheets print it;
   an address with no cell reads X and takes no write.
 - **X.** Registers are tracked one field at a time, each known or X. A
   data write with a violation stores its cell as X; an instruction write
-  with a violation or an unknown instruction, RS or R/W X at a write, or E
-  reading X makes every field, every RAM cell and BF X ("LOST"), except
-  during the power-on reset. A write of `0011` on DB7–4 with RS = 0 while
+  with a violation or an unknown instruction, RS or R/W X at a write, an
+  access with R/W X, or E reading X while R/W does not read 1 makes every
+  field, every RAM cell and BF X ("LOST"), except during the power-on
+  reset. E reading X with R/W reading 1 is a possible read: only AC (unless
+  RS reads 0) and the 4-bit nibble phase become X. A write of `0011` on DB7–4 with RS = 0 while
   DL or the 4-bit nibble phase is X is Function Set with DL = 1 (the
   datasheets' initialization by instruction).
 - **Image.** The backend renders the 5×8 dot image from DDRAM, CGRAM (codes
