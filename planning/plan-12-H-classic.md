@@ -151,17 +151,50 @@ in `circuit_serial_sent`.
 
 ### Phase 1 — Models
 
-- [ ] `serial_ay1013.c`, `serial_i8251.c`, `serial_i82510.c`,
-  `serial_acia6551.c`, `serial_hs82c52.c`, `serial_com78c80x.c`;
-  `CMakeLists.txt`; `docs/parts-format.md` § `serial` gains §3.
-- [ ] Fixtures and cases H1–H8 with the terminal round trips.
-- [ ] `circuit_check`: `circuit_serial_send` on an 8251 in synchronous mode
+- [x] `serial_ay1013.c`, `serial_i8251.c`, `serial_i82510.c`,
+  `serial_acia6551.c`, `serial_hs82c52.c`, `serial_com78c80x.c` (with the
+  shared helpers `serial_util.h`); `CMakeLists.txt`; `MODELS[]`,
+  `DEVICE_KEYS[]` and the kind's part keys in `serial.c`;
+  `docs/parts-format.md` § `serial` gains §3 (a `####` section per model).
+  Check: `cmake -S backend -B /tmp/logic-p12h-clean && cmake --build
+  /tmp/logic-p12h-clean -j8 2>&1 | grep -ci warning` → `0` (also clean with
+  `-Wall -Wextra` for the six files).
+- [x] Fixtures and cases H1–H8 with the terminal round trips. Fixtures:
+  `backend/tests/support/serial_fixture_classic.h` (the 13 devices,
+  Corrections). Check: `/tmp/logic-p12h-clean/serial_test` → `ok   H1
+  AY-5-1013A: control latch, every TX format, DAV/RDAV, OR/FE/PE, RDE/SWE,
+  reset, terminal`, `ok   H1 (COM2017, HD-6402): pin names, 5-bit 1.5
+  stops, receive, reset keeps RD, terminal`, `ok   H2 COM1863/COM8018:
+  HIACC 32x clocks, 5-bit 1.5 stops, RDA/ROR rule, terminal`, `ok   H3
+  CDP1854A: mode 0 as H1; mode 1 registers, TR/RTS, INT sources, break,
+  CTS, terminal`, `ok   H4 8251A: async 1x/16x/64x, every command bit,
+  errors, break; sync hunt, SYNDET, fill, double sync, external sync;
+  terminal`, `ok   H5 82510: every bank's registers, both BRGs and a timer,
+  FIFOs, interrupt blocks and priority, hold state, control characters,
+  break, stops, 9-bit, soft parity, handshake, loopbacks, echo, PMD, ack
+  modes, power down, terminal`, `ok   H6 CDP65C51: baud table at 1.8432
+  MHz, TDRE level IRQ, RX/errors, programmed reset, DCD/DSR, echo, CTS,
+  break, terminal`, `ok   H7 82C52, HD-6406: baud select, USR, interrupts,
+  errors, parity modes, MSR, echo/loop/break; ALE, CS1, DMA acks, status
+  pins, SIE/SFD; terminal`, `ok   H8 COM78C804/802/78804: MR pointer,
+  per-line rates and formats, FIFO/ORR/FER/PER/RERR, scanner and
+  summaries, DSCHNG, break, echo and loopbacks, 2-line variant, terminal`;
+  C's 12 cases and `C outcome` still `ok`; `PASS` (22 `ok` lines).
+- [x] `circuit_check`: `circuit_serial_send` on an 8251 in synchronous mode
   → -1, `channel 0 of part N is not asynchronous` (plan-12-C Corrections: no
-  C model can make this error).
+  C model can make this error). Check: `/tmp/logic-p12h-clean/circuit_check`
+  → `PASS: 8251A rig starts`, `PASS: send to an 8251A in synchronous mode:
+  channel 0 of part 0 is not asynchronous`, `PASS: after IR and an async
+  mode the same 8251A takes the terminal`, `0 failure(s)`.
 
 Acceptance: `serial_test` → H1–H8 and every earlier case `ok`; `ctest` 100%
-(about 1 min).
-Commit: —
+(about 1 min). Observed: `ctest --test-dir /tmp/logic-p12h-clean` →
+`100% tests passed, 0 tests failed out of 18`; `git diff --stat
+backend/tests/golden` → empty.
+Commit: 7602351 (ay1013, i8251, H1–H4), 47e1825 (acia6551, H6), eb30981
+(hs82c52, H7), 224e6d7 (com78c80x, H8), 34139db (i82510, H5), c631192
+(circuit_check; H1 for COM2017 / HD-6402), 796edb6 (docs), and the plan
+update after them.
 
 ### Phase 2 — Parts
 
@@ -192,4 +225,92 @@ The landing tier is plan-12-K's.
 
 ## Corrections
 
-(none yet)
+Phase 1 (models). Where §3 disagreed with the spec, the model follows the
+spec and `decisions.md`:
+
+- **`"fiveBitStops"` is not 1.5 for every device.** §3.1 said 1.5 for
+  every `ay1013` device. `classic-a.md` § AY-5-1013A (device table, row
+  "TSB=1 with 5-bit char") gives 2 stop bits on the AY-5-1013A (and
+  AY-6-1013) and 1.5 on the AY-3-1014A/1015D; COM2017 1.5 (com2017.pdf p5),
+  COM1863/COM8018 1.5 (planner decision), HD-6402 1.5 (p3 table), CDP1854A
+  1.5 (p13, Table IV). The AY-5-1013A device carries `2`.
+- **AY-3-1015D is a variant on the AY-5-1013A device.** The same spec
+  table: pin 2 NC (no VGG), 1.5 stops, XR clears the receive holding
+  register ("resets every register except control register", p12 Fig.35),
+  DAV one RCP after the transfer (Fig.32). The model takes part keys
+  `"fiveBitStops"` and `"resetClearsData"` over the device's, and the
+  fixture adds pinout `dip40n` (pin 2 `NC`) and grade `D`. Phase 2: the
+  AY-3-1015D row should use `dip40n` (parts.tsv says `dip40`), grade `D`,
+  `"fiveBitStops": 1.5, "resetClearsData": true`.
+- **`"resetClearsControl"` added** (not in §3.1): the CDP1854A's MR (mode
+  0, p12) and CLEAR (mode 1, p4) also reset the control register; the AY
+  family's XR does not.
+- **`"cpuMode"` keys.** §3.1 named only `"modePin"`. The model takes
+  `modePin, select1, select2, select3, registerSelect, readWrite, tpb, cts,
+  psi, es`; INT, FE, PE/OE, DA, THRE and RTS are the `"status"` pins (the
+  same package pins as mode 0's PE, FE, OE, DA, THRE, TSRE), the reset pin
+  is CLEAR (active low) in mode 1, and the R BUS / T BUS are the receive /
+  transmit data pins. Pin names give both functions (`RRD/CS2`,
+  `PE/INT`, `OE/PE_OE`, `SFD/RSEL`, `DAR/TPB`, `MR/CLEAR`, `THRL/CS1`,
+  `TSRE/RTS`, `CRL/RD_WR`, `PI/CS3`, `WLS2/PSI`, `WLS1/ES`, `EPE/CTS`):
+  the part has no Intel mode to take names from (plan-12-A §3.4).
+- **CDP1854A mode 1 after CLEAR: THRE = TSRE = 1.** p4 says CLEAR resets
+  the status register; the transmitter is empty, and Table IV's "initial
+  THRE interrupt" when TR is set needs THRE = 1 (P3 reading).
+- **`ay1013` clock edges.** decisions.md (AY family): TCP falling edge,
+  start-bit centre at clock 8. The model counts RCP falling edges too
+  (classic-a p4: a start while the clock is high is timed from its fall),
+  and uses count 8 for the HD-6402 and CDP1854A, whose "7½" is the same
+  half-clock ambiguity. The COM1863's transfer half an RCP before the
+  stop-bit centre (p5) is made at the centre; DAV still waits for RDAR.
+- **COM1863 receive rules are tied to `"hiacc"`.** The RDAR rule for ROR
+  ("RDAR must have gone low and come high again", p4), RDA waiting for RDAR
+  high (p7) and the HIACC notch apply to the device whose `"clocks"` names
+  `"hiacc"` (COM1863/COM8018 only).
+- **8251A terminal.** §3.2: "`serial_send` returns 0 in sync mode". It also
+  returns 0 before a mode is programmed (after a reset or IR the format is
+  not known): `async` is 1 only in a programmed asynchronous mode.
+- **8251A synchronous receiver** (spec silent, P11 readings): no character
+  boundary exists until EH (or, with ESD, the SYNDET input); after the
+  hunt every character, sync characters included, is loaded as data; a
+  double-sync hunt that fails on SYNC2 resumes bit by bit with that window.
+  The CLK pin only bounds delays (tCY multiples, P5); it is not counted.
+- **CDP65C51 `"ctsA"` is a part key**, not a grade key (§3.4 said
+  grade-level): grades hold only timing names, `vcc`, `inputMax` and
+  `note` (`serial.c` load_grade). No in-stock part is a CDP65C51A
+  (parts.tsv leaves CDP65C51ASM2-96 out), so no shipped part sets it. The
+  CDP65C51's RDRF with 1.5 stop bits is set at the stop's middle, not half
+  way through the trailing half stop (p12 Fig 17).
+- **82C52 / HD-6406 interrupt edges.** The spec's formula `posedge(DR |
+  TBRE)` (classic-b § HD-6406, Fig 9) can never fire on DR while TBRE is
+  high (both are levels). The model detects each bit's rising edge (DR, or
+  TBRE; and each USR group bit), so SIE gives an interrupt per received
+  character. MS (USR bit 4) is set on any modem change but, per Fig 9, is
+  not itself an INTR source. Back to back, TBRE rises as the TR takes the
+  next character (end of the last stop) rather than at its 15th CO (p14
+  note 4); idle, TBRE rises at the 4th CO and the start bit at the 5th, as
+  printed. The HD-6406 divisor conflicts resolve to the 82C52 values
+  (decisions.md), so one table serves both and no key separates them.
+- **No `"nmos"` key** (§3.6). `classic-b.md` § COM78804: register set,
+  address map, modes, scanner and summaries "identical to COM78C804"; the
+  differences are DC and tDSU (0 ns, a setup the model does not check),
+  so COM78804 differs only in its grade. No reset difference is printed.
+- **COM78C80x scanner outputs.** IRQLN / IRQTXRX and Interrupt Summary bits
+  3–0 are "valid only while IRQ is asserted" / "a free-running counter"
+  (p8–9): the model drives / reads them X while no interrupt is held (P2).
+  The scanner steps one position per CLK (the rate is not printed).
+- **82510 readings** (spec silent, P3 / P4 / P11): the TX and RX machines
+  are enabled at wake-up (8250 compatibility, p6); TMCR resets to gates open
+  (TMST 30H); in local loopback the modem output pins are inactive as on the
+  PC16550D (the spec names only OUT0); DRI is set by the RI pin going high
+  to low, as printed; RXF bit 7 reads 0; a break's null character takes part
+  in control-character and ACR matching (p41's RST 5CH during a break shows
+  PCRF).
+- **Fixtures** (plan-12-D §3.3). The library rejects a device id that is
+  loaded twice, so the fixture ids are `SFX-` + the device id (the shipped
+  objects keep the plain id); parts are `SFX-<id>-<pinout>`. Footprints not
+  in `footprints.json` yet use one of the same pin count: `PLCC-28`
+  (82510, 82C52 plcc28) → `LCCC-28`; `CDIP-40-600` (CDP1854A) →
+  `PDIP-40-600`; `PDIP-48-600` (COM78804, which plan-12-F adds) →
+  `SSOP-48`. The worktree started at cf44937; it was fast-forwarded to
+  627f50d (plan-12-C) before the work.
