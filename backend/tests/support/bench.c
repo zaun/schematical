@@ -45,8 +45,15 @@ static const SimComponentType DRIVER_TYPE = {
     .start = driver_start
 };
 
+static size_t pin_named(const Bench *b, const char *name);
+
 Bench *bench_create(const Part *part) {
+    return bench_create_joined(part, NULL);
+}
+
+Bench *bench_create_joined(const Part *part, const char *const *joins) {
     Bench *b = calloc(1, sizeof(*b));
+    SimNet **nets;
     size_t i;
 
     if (b == NULL || part == NULL) {
@@ -62,15 +69,26 @@ Bench *bench_create(const Part *part) {
         fprintf(stderr, "bench: cannot create %s\n", part->name);
         exit(2);
     }
+    nets = calloc(b->pin_count, sizeof(*nets));
+    for (i = 0; joins != NULL && joins[i] != NULL && joins[i + 1] != NULL; i += 2) {
+        size_t from = pin_named(b, joins[i]);
+        size_t to = pin_named(b, joins[i + 1]);
+
+        if (nets[from] == NULL) {
+            nets[from] = sim_add_net(b->sim, "n");
+        }
+        nets[to] = nets[from];
+    }
     for (i = 0; i < b->pin_count; i++) {
         PinRole role = part->pins[i].role;
-        SimNet *net = sim_add_net(b->sim, "n");
+        SimNet *net = nets[i] != NULL ? nets[i] : sim_add_net(b->sim, "n");
 
         sim_connect(b->sim, net, b->part, i);
         if (role == PIN_INPUT || role == PIN_INOUT || role == PIN_POWER || role == PIN_GROUND) {
             sim_connect(b->sim, net, b->driver, i);
         }
     }
+    free(nets);
     sim_start(b->sim);
     return b;
 }

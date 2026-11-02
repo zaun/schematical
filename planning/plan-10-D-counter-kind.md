@@ -260,7 +260,7 @@ copied from the spec sections), bench from B §6.1. Cases:
 
 Acceptance: `ctest` 13 of 13; golden diff empty (seconds). (Ran: `100% tests
 passed, 0 tests failed out of 13`; golden status empty.)
-Commit: —
+Commit: e8fc6dc
 
 ### Phase 2 — `ripple`
 
@@ -268,13 +268,18 @@ Commit: —
 
 Acceptance: as Phase 1. (Same run as Phase 1: both models were written in
 one pass of `counter.c` and land in one commit; see Corrections.)
-Commit: —
+Commit: e8fc6dc
 
 ### Phase 3 — `counter_test`
 
-- [ ] `backend/tests/counter_test.c`, the 29 cases; `logic_test(counter_test)`.
+- [x] `backend/tests/counter_test.c`, the 29 cases; `logic_test(counter_test)`.
+  (42 fixture devices generated from `/tmp/p10/counter_devs.py`, the
+  definitions F reuses; `bench.{h,c}` gains `bench_create_joined` for the
+  external wires of cases 17, 24, 26 and 27.)
 
 Acceptance: `counter_test` → 29 `PASS`, 0 `FAIL`; `ctest` 14 of 14 (seconds).
+(Ran: 29 `PASS`, no `FAIL`, 0.5 s; `100% tests passed, 0 tests failed out of
+14`; golden status empty.)
 Commit: —
 
 ## Validation Plan
@@ -313,6 +318,13 @@ Phase 3's acceptance (about 6 s for all 14 tests). Landing tier: plan-10-J.
 - 2026-11-01, Phase 2: the ÷5 section's illegal states (unprinted) follow
   the JK structure of `counter-b.md` § 74_390: 5 → 2, 6 → 2, 7 → 0; the ÷3
   of the 74_92 takes 11 → 00 (§ 74_92, derived).
+- 2026-11-01, Phase 3: the 4522B's "0" output is named `ZERO` (the spec
+  section's suggested id; a pin named "0" reads as a level). The 74_90/92/93
+  reset pins keep the printed `R0(1)`-style names.
+- 2026-11-01, Phase 3: cases 9 and 23 first failed with every Q = X: the
+  test raised UP while DOWN still floated, and an UP edge with DOWN at Z is
+  correctly X (§3.5). The cases now set DOWN first and pulse the clear; the
+  model was not changed.
 
 ## Summary
 

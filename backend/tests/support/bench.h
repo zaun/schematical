@@ -15,6 +15,11 @@
 typedef struct Bench Bench;
 
 Bench *bench_create(const Part *part);
+/*
+ * As bench_create, with pairs of pins wired together (one net), e.g.
+ * {"QA", "CKB", NULL}: an external wire from an output to an input.
+ */
+Bench *bench_create_joined(const Part *part, const char *const *joins);
 /* Drives the pin strong now (LOGIC_Z releases it). */
 void bench_set(Bench *b, const char *pin_name, LogicValue v);
 /* Advances the simulation by ps. */
