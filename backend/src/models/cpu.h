@@ -82,6 +82,16 @@ typedef struct {
    count as inactive). */
 LogicValue cpu_level(LogicValue value, LogicValue inactive);
 
+/*
+ * The reset input sampled at an edge. A reset that changed less than
+ * `setup` before the edge, to a known level, takes effect at the next edge:
+ * the result is the level it had before (0 while in_reset, else 1). The
+ * chip then leaves or enters reset one cycle later, which is all an
+ * asynchronous reset switch can do to it. A reset that is X itself stays X.
+ */
+LogicValue cpu_sample_reset(const Sim *sim, const SimInstance *instance, size_t pin,
+                            SimTime changed, LogicValue seen, SimTime setup, int in_reset);
+
 /* The pin's level now, or X when it changed less than `setup` ago. `seen`
    is the value pin_changed last reported for the pin: a different value now
    is a change at this very instant whose pin_changed has not run yet (the

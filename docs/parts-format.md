@@ -786,6 +786,9 @@ NMI, RES and SO high, RDY high, BE high. X is unknown.
      SYNC 0, VPB 1, MLB 1 from + `tah`. RES back to 1 after at least 2
      cycles at 0: the core starts its reset sequence (reads at 0000, 0100,
      01FF, 01FE, then the vector at FFFC/FFFD); after fewer: LOST.
+     RES is the one input whose setup violation is not X: a change less
+     than `tpcs` before the fall (to 0 or 1) takes effect at the next fall,
+     as an asynchronous reset switch would. RES itself X is still LOST.
   3. **RDY.** RDY X: LOST. RDY 0 holds the cycle (no change, the cycle
      count still grows) on a read, and on the W65C02S also on a write; the
      NMOS chip ignores RDY on a write.
@@ -860,7 +863,8 @@ Behaviour (the Z80). Z inputs read inactive (high); X is unknown.
 - **Power-up: LOST**, every output X. **RESET#** is sampled at each CLK
   rise: low → status RESET, address and data Z, every control output high;
   back high after at least 3 low rises → that rise is T1 of the fetch at
-  0000 (after fewer: LOST); X → LOST.
+  0000 (after fewer: LOST); X → LOST. A change of RESET# less than `tsreset` before a
+  rise takes effect at the next rise (as for the 6502 family's RES).
 - **The clock.** A high phase shorter than `twch`, a low phase shorter than
   `twcl`, rises closer than `tcc`, or CLK X: LOST.
 - **Machine cycles.** At each CLK rise that starts a machine cycle the

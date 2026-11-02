@@ -359,7 +359,9 @@ static void start_core(Sim *sim, SimInstance *instance, Cpu65 *s) {
 static void commit(Sim *sim, SimInstance *instance, Cpu65 *s) {
     int read = (s->pins & PIN_RW) != 0;
     int active = s->status != CPU_LOST && s->status != CPU_RESET;
-    LogicValue res = sample(sim, instance, s, K_RESET, s->t[T_PCS]);
+    LogicValue res = cpu_sample_reset(sim, instance, s->ctl[K_RESET], s->changed[s->ctl[K_RESET]],
+                                      s->seen[s->ctl[K_RESET]], s->t[T_PCS],
+                                      s->status == CPU_RESET);
     LogicValue level;
     uint64_t in;
     uint64_t xmask = 0;

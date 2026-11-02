@@ -352,11 +352,43 @@ separate window from the memory window).
   (13)`. The drawer orders a group's functions itself and gives `65C02 (2),
   6502 (4), Z80 (13)`. The counts and the total (19; 2 with obsolete parts
   hidden) are as planned.
+- **Harness timing read stale snapshots** (found re-running §5 after the
+  merge of main). Snapshots reach the main thread as queued tasks, so
+  `simulation.circuitTime` lags the engine. After a slow step (a PNG
+  capture), a queued pre-switch snapshot could already meet "5 µs later" or
+  "2 ms later". The harness then flipped the switch off, or read the state,
+  almost at once in engine time. The W65C02S board then read `Held in
+  reset` or LOST at "2 ms" in 2 of 3 runs, though it reached Stopped once
+  given more wall time. The same board on the circuit API (a C repro: switch
+  on/off at swept times, 1 µs steps) reached STOPPED at every time. The
+  harness's `advance(by:)` now pumps the run loop 0.1 s before taking its
+  base time. The 6502 board then passed 7 of 7 runs. No app change.
+- **Reset released inside its setup time** (backend change, found the same
+  way). The Z80 board still stayed LOST in 1 of 3 runs. A switch released at
+  a random instant lands inside `tsreset` (40 ns of the 500 ns period at 2
+  MHz, ~8 %); plan-09-B/C read that as X, and RESET X is LOST. The real chip
+  only leaves reset one cycle earlier or later. So `cpu_sample_reset`
+  (`cpu.c`) gives a reset that changed within its setup time, to a known
+  level, the level it had before; the change takes effect at the next
+  edge. A reset that is X itself is still LOST. Used by `cpu6502.c` (RES,
+  `tpcs`) and `cpuz80.c` (RESET#, `tsreset`). New `cpu_test` cases for all
+  three cores: "RES released inside tPCS: reset ends one cycle later, CPU
+  runs", and "RESET# released inside tSRESET: the first fetch one T later".
+  They PASS, and with the rule disabled they FAIL (checked). Nine CPU trace
+  hashes changed; W65C02S6TPG-14's verbose trace was diffed. The stimulus
+  drives RESB low at t = 714165, 6.9 ns before the PHI2 fall at 721033
+  (< tPCS 10 ns). Before, the CPU went LOST at that fall; now the
+  assertion takes effect at the next edge. `traces.txt` regenerated: those
+  9 lines change, and against main the goldens still only add lines (+19
+  parts, +19 traces, +3 footprints). `docs/parts-format.md` § `cpu`
+  states the rule for both families. After the change, both boards pass 4
+  of 4 runs.
 - **Advance steps overshoot.** §5 says "advance 50 µs", "5 µs", "2 ms".
   The app's engine runs on its own thread, paced by the speed setting. The
   harness sets the speed to 1000 (flat out) and pumps the run loop until
-  `circuitTime` passes each target, so it lands later: LOST read at 458 µs
-  and 375 µs; reset held about 5 ms and 15 ms. Every state the plan names
+  `circuitTime` passes each target, so it lands later. In the final run:
+  LOST read at 17.9 ms / 74.6 ms, reset held about 23 ms / 2.7 ms, and the
+  end state read 30 ms / 4.8 ms after OFF. Every state the plan names
   holds over those spans: LOST until reset, at least 3 reset cycles. The
   values match §5.
 - **PNG capture.** The first captures came out blank but for the lit flag

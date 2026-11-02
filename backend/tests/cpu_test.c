@@ -635,6 +635,36 @@ static const SimTime *timing(const Bench *b) {
     return ((const CpuGrade *)part_internal(b->part)->data)->t;
 }
 
+/* 3b. RES released inside tPCS before a fall (an asynchronous reset switch):
+   the release takes effect one cycle later; the CPU starts normally. */
+static void case_reset_setup(const char *name) {
+    Bench *b = bench_open(name);
+    const SimTime *t = ((const CpuGrade *)part_internal(b->part)->data)->t;
+    size_t i;
+    int ok = 1;
+
+    load_byte(b, 0xFFFC, 0x00);
+    load_byte(b, 0xFFFD, 0xC0);
+    for (i = 0; i < 0x100; i++) {
+        load_byte(b, (uint16_t)(0xC000 + i), 0xEA);
+    }
+    set_pin(b, b->res, LOGIC_0);
+    run_cycles(b, 3);
+    run_to(b, b->next_fall - t[9] + NS(1));   /* t[9] = tpcs */
+    set_pin(b, b->res, LOGIC_1);
+    b->release = b->next_fall + NS(1000);   /* one cycle later than in time */
+    run_cycles(b, 2);
+    b->reset_log = b->log_count;
+    run_to_cycle(b, 6);
+    for (i = 0; i < 7; i++) {
+        ok = ok && cycle(b, i)->rw == '1';
+    }
+    expect(ok && cycle(b, 4)->addr == 0xFFFC && cycle(b, 6)->addr == 0xC000 &&
+               status_is(b, CPU_RUNNING),
+           label(name, "3: RES released inside tPCS: reset ends one cycle later, CPU runs"));
+    bench_close(b);
+}
+
 /* 4. The address window after the PHI2 fall that ends the SYNC cycle of
    A9 41 (C000 -> C001: A0 0 -> 1). */
 static void case_address_window(const char *name) {
@@ -1568,6 +1598,27 @@ static void zcase_short_reset(void) {
     zbench_close(b);
 }
 
+/* 3b. RESET# released inside tSRESET before a rise: the first fetch starts
+   one T-state later; the CPU runs. */
+static void zcase_reset_setup(void) {
+    ZBench *b = zbench_open();
+    size_t i;
+
+    for (i = 0; i < 0x100; i++) {
+        b->known[i] = 1;
+    }
+    zset(b, b->reset, LOGIC_0);
+    zrun_rises(b, 4);
+    zrun_to(b, b->next_rise - ztiming(b)[ZT_SRESET] + NS(1));
+    zset(b, b->reset, LOGIC_1);
+    b->first = b->rises + 1;   /* the rise after next is T1 */
+    zrun_rises(b, 8);
+    expect(b->log_count > 0 && b->log[0].type == 'F' && b->log[0].addr == 0x0000 &&
+               b->log[0].t1 == b->first && zstatus_is(b, CPU_RUNNING),
+           "Z80 3: RESET# released inside tSRESET: the first fetch one T later, CPU runs");
+    zbench_close(b);
+}
+
 /* 4. The first fetch's waveform. */
 static void zcase_fetch(void) {
     ZBench *b = zbench_open();
@@ -2019,6 +2070,7 @@ int main(void) {
         case_power_up(CORE_NAMES[i]);
         case_reset_sequence(CORE_NAMES[i]);
         case_short_reset(CORE_NAMES[i]);
+        case_reset_setup(CORE_NAMES[i]);
         case_address_window(CORE_NAMES[i]);
         case_write_timing(CORE_NAMES[i]);
         case_used_x(CORE_NAMES[i]);
@@ -2040,6 +2092,7 @@ int main(void) {
     zcase_power_up();
     zcase_reset();
     zcase_short_reset();
+    zcase_reset_setup();
     zcase_fetch();
     zcase_memory();
     zcase_io();

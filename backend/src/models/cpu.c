@@ -331,6 +331,16 @@ LogicValue cpu_sample(const Sim *sim, const SimInstance *instance, size_t pin, S
     return cpu_level(value, inactive);
 }
 
+LogicValue cpu_sample_reset(const Sim *sim, const SimInstance *instance, size_t pin,
+                            SimTime changed, LogicValue seen, SimTime setup, int in_reset) {
+    LogicValue sampled = cpu_sample(sim, instance, pin, changed, seen, setup, LOGIC_1);
+
+    if (sampled == LOGIC_X && cpu_level(sim_read_pin(sim, instance, pin), LOGIC_1) != LOGIC_X) {
+        return in_reset ? LOGIC_0 : LOGIC_1;
+    }
+    return sampled;
+}
+
 /* ---- The instruction tracker -------------------------------------------- */
 
 typedef struct {

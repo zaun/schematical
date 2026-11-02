@@ -680,7 +680,9 @@ static LogicValue nmi_sample(const Sim *sim, const SimInstance *instance, Z80 *s
 }
 
 static void clock_rise(Sim *sim, SimInstance *instance, Z80 *s) {
-    LogicValue reset = sample(sim, instance, s, K_RESET, s->t[T_SRESET]);
+    LogicValue reset = cpu_sample_reset(sim, instance, s->ctl[K_RESET], s->changed[s->ctl[K_RESET]],
+                                        s->seen[s->ctl[K_RESET]], s->t[T_SRESET],
+                                        s->status == CPU_RESET);
     LogicValue busreq;
 
     s->int_level = sample(sim, instance, s, K_INT, s->t[T_SINT]);
