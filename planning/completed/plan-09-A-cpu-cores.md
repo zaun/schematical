@@ -419,7 +419,7 @@ the vectors.
 
 Acceptance: the cores pass the vectors exactly as in §1, and the app builds.
   Check: `shasum -a 256 backend/src/third_party/chips/*.h backend/tests/cpu/*.jsonl` → the 9 hashes of §4.2 and §4.4; `cmake --build /tmp/logic-p09 -j8 && ctest --test-dir /tmp/logic-p09 -R cpu_core_test -V | grep -E '^[0-9]+: (6502|65C02|Z80):'` → the three lines of §1 (est. 2 min); `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p09-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 2 min; the only check that the synchronized folder compiles the wrappers).
-Commit: —
+Commit: 5203c6c
 
 ## Validation Plan
 
