@@ -105,13 +105,23 @@ window is one per part).
 
 ### Phase 1 — Catalog and facts
 
-- [~] `PartCatalog.swift`, `PartFacts.swift`: §3.1. `xcodebuild … build` →
-  `** BUILD SUCCEEDED **`. Code in place and the build succeeds. Remaining:
-  verify against real parts once F/G ship them.
-- [ ] Harness (`/tmp/p12/harness/build.sh`) commands `catalog` and `facts`
-  (§1 lines).
+- [x] `PartCatalog.swift`, `PartFacts.swift`: §3.1. `xcodebuild … build` →
+  `** BUILD SUCCEEDED **`. Observed with all of F–J shipped (`xcodebuild
+  -project schematical/schematical.xcodeproj -scheme schematical
+  -configuration Debug build`): `** BUILD SUCCEEDED **`.
+- [x] Harness (`/tmp/p12/harness/build.sh`) commands `catalog` and `facts`
+  (§1 lines). Observed: `catalog` → `obsolete shown: Interface: 214 parts;
+  functions Bridge UART (38), I2C controller (1), UART (175)` and `obsolete
+  hidden: Interface: 185 parts; functions Bridge UART (31), I2C controller
+  (1), UART (153)`. 214 = the 219 `|serial|` lines minus 4 automotive and 1
+  military part (MD8251A/B), which the drawer hides by default (`names`
+  mode: the one name missing beyond the automotive four); 185 = 214 minus
+  29 obsolete. `facts TL16C550CPTR` → Kind Serial controller, Function UART,
+  Package LQFP, Footprint TQFP-48-7X7, Pins 48, Model ns16550, Channels 1,
+  Speed grade C, Supply range 3–5.25 V (and Input max 5.25 V).
 
-Acceptance: the build and the two harness commands (about 3 min).
+Acceptance: the build and the two harness commands (about 3 min). Observed as
+above.
 Commit: —
 
 ### Phase 2 — Terminal window
@@ -139,7 +149,7 @@ Commit: —
   failed out of 19`.
 
 Acceptance: §5's printed values; the PNG shows `HELLO` and `x` (about 3 min).
-Commit: —
+Commit: 7c14512
 
 ## 5. Runtime proof (harness `terminal`)
 
@@ -242,6 +252,12 @@ drives the only app paths plan-12 adds.
   the gate does not).
 - **Model bug found by §5** (fixed here, `serial_bus.c`, with a C case-1
   check): a write cycle cut short by reset was stored. See Phase 2.
+- **§1 catalog count.** "n = the `|serial|` line count" holds only with
+  every flag shown: the drawer hides automotive and military parts by
+  default (`PartVisibility`), so the default count is 219 − 4 − 1 = 214.
+- **§1 facts: Package LQFP, not TQFP.** TL16C550CPTR's package is TI PT
+  (PT0048A), an LQFP (`parts.tsv`); the footprint id is TQFP-48-7X7, whose
+  description covers TQFP/LQFP.
 - **PNG render.** The harness's `ImageRenderer` draws AppKit-backed views
   (the transcript's scroll view, the input field) as placeholders; the
   terminal PNG is rendered through an offscreen `NSHostingView` window

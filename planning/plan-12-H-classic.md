@@ -230,7 +230,7 @@ update after them.
 
 Acceptance: `ctest` 100%; the golden checks (about 2 min). Observed:
 `100% tests passed, 0 tests failed out of 19`; `serial_test` → `PASS`.
-Commit: —
+Commit: 8815a63
 
 ## Validation Plan
 

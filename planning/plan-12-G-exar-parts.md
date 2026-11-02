@@ -92,7 +92,7 @@ XR16V654D…) carry `"intPin": "driven"` (plan-12-E §3.1).
 Acceptance: `ctest` 100%; the golden checks (about 2 min). Observed:
 `100% tests passed, 0 tests failed out of 19`; `serial_test` → `PASS`
 (`compared: 52 ns16550`).
-Commit: —
+Commit: c74f63d
 
 ## Validation Plan
 

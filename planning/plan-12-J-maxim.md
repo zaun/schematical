@@ -167,7 +167,7 @@ cases), 2bfe355 (docs)
 
 Acceptance: `ctest` 100%; golden checks (about 2 min). Observed: `100% tests
 passed, 0 tests failed out of 19`; `serial_test` → `PASS`.
-Commit: —
+Commit: fd110a4
 
 ## Validation Plan
 
