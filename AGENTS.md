@@ -17,7 +17,8 @@
 - Add only parts that are **in stock**: DigiKey shows a quantity available
   above zero (`node scripts/digikey.js --in-stock …`; run it with no
   arguments for help). Never add made-to-order parts, or any part with no
-  stock, even when the datasheet or ordering table lists it.
+  stock, even when the datasheet or ordering table lists it. This rule is
+  for adding only: a part already in the catalog stays, in stock or not.
 - Before adding parts from a datasheet PDF, check whether its parts are still
   made. If **every** part the PDF covers is obsolete, do not add any of them:
   delete the PDF and record it in `datasheets/obsolete-not-included.md` (PDF
