@@ -122,7 +122,7 @@ window is one per part).
 
 Acceptance: the build and the two harness commands (about 3 min). Observed as
 above.
-Commit: —
+Commit: f8bf35a
 
 ### Phase 2 — Terminal window
 
@@ -227,6 +227,19 @@ models, the part files, the footprints, the app):
 | Datasheets | `ls datasheets/controller-*/*.pdf \| wc -l` | 80 |
 | App | `xcodebuild … build`; harness `terminal` | `** BUILD SUCCEEDED **`; §5's output |
 
+Observed (landing run, 2026-11-02, from a fresh `cmake -S backend -B
+/tmp/logic-p12`):
+
+| Gate | Observed |
+|---|---|
+| Backend tests | `100% tests passed, 0 tests failed out of 19` (T0 + 1) |
+| `serial_test` cases | 104 `ok`, `PASS` (see Corrections for the count) |
+| Golden sizes | `parts.txt` 7388, `traces.txt` 7388 (P0 7162 + 226), `footprints.txt` 224 (F0 200 + 24); no drops |
+| Goldens vs the start of plan-12 | `git diff ece2a38^ -- backend/tests/golden \| grep -c '^-[^-]'` → 0 |
+| Part counts | 219 `\|serial\|`, 7 `PULL` |
+| Datasheets | 80 |
+| App | `** BUILD SUCCEEDED **`; harness `terminal`: `sent: "HELLO\r\n"`, `echo: "x"`, PNG looked at |
+
 Each check is the cheapest that would fail if its area were wrong: `ctest`
 runs every model test and the golden comparisons in seconds; the harness
 drives the only app paths plan-12 adds.
@@ -258,6 +271,12 @@ drives the only app paths plan-12 adds.
 - **§1 facts: Package LQFP, not TQFP.** TL16C550CPTR's package is TI PT
   (PT0048A), an LQFP (`parts.tsv`); the footprint id is TQFP-48-7X7, whose
   description covers TQFP/LQFP.
+- **`serial_test` count: 104, not 88.** The table summed one `ok` per
+  case of each letter. Observed: 13 C cases (the 12 plus `16450`), 12 of
+  them printed again inside D24 (it re-runs C's cases on the shipped
+  PC16550D), 24 D, 28 E, 1 `shipped`, 9 H (H1 is two cases: AY-5-1013A and
+  the pin-parallel variants), 9 I, 6 J and J's 2 front-end cases (JF1, JF2):
+  13 + 12 + 24 + 28 + 1 + 9 + 9 + 6 + 2 = 104.
 - **PNG render.** The harness's `ImageRenderer` draws AppKit-backed views
   (the transcript's scroll view, the input field) as placeholders; the
   terminal PNG is rendered through an offscreen `NSHostingView` window
