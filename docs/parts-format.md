@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, counter, shift register, SRAM, EEPROM, switch, LED,
-7-segment display, oscillator, supply) is described in a JSON part file in
+7-segment display, oscillator, supply, microprocessor) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -19,6 +19,7 @@ Every orderable part (gate, flip-flop, latch, counter, shift register, SRAM, EEP
 | `latch.json` | `latch` |
 | `counter.json` | `counter` |
 | `shift.json` | `shift` |
+| `cpu.json` | `cpu` |
 
 Beside them, `footprints.json` holds the land patterns parts name with
 `"footprint"` (see [Footprints](#footprints)). It is loaded first, with
@@ -705,6 +706,116 @@ inhibit, the write-pulse noise filter.
 Part keys: `"grade"`, a key of `grades`, and optional `"vcc"` and `"inputMax"`. `PartEeprom`: `words` =
 2^len(address), `bits` = 8, `access_ps` = the grade's `tacc`, `grade`,
 `page_bytes` = `pageSize`, `write_cycle_ps` = the grade's `twc`.
+
+### `cpu`
+
+Microprocessors that run programs inside the simulation (plan-09;
+`backend/src/models/cpu.c`, one adapter per core). The device's `"core"`
+picks the bus adapter: `"6502"` (NMOS 6502) and `"65c02"` (WDC W65C02S),
+`backend/src/models/cpu6502.c`. Each adapter wraps a vendored, unmodified
+floooh/chips core (`backend/src/third_party/chips/`) and drives the pins at
+the datasheet's times. `circuit_cpu_state` reads the state back (status,
+cycle count, registers, the last instruction).
+
+```json
+"core": "65c02",
+"address": ["A0", "A1", "…", "A15"],
+"data": ["D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"],
+"clock": "PHI2", "rw": "RWB", "sync": "SYNC", "irq": "IRQB", "nmi": "NMIB",
+"reset": "RESB", "so": "SOB", "rdy": "RDY", "phi1Out": "PHI1O", "phi2Out": "PHI2O",
+"vectorPull": "VPB", "memoryLock": "MLB", "busEnable": "BE",
+"grades": {"14": {"tcyc": 70, "tpwh": 35, "tpwl": 35, "tads": 30, "tah": 10, "tsync": 30,
+                  "tmds": 25, "tdhw": 10, "tdsr": 10, "tpcs": 10, "tbvd": 25,
+                  "vcc": [1.71, 5.25]}}
+```
+
+| Key | Value |
+|---|---|
+| `"core"` | `"6502"` or `"65c02"` |
+| `"address"` | exactly 16 pin names; `address[i]` is A*i* |
+| `"data"` | exactly 8 pin names; `data[i]` is D*i* |
+| `"clock"` | the clock input (NMOS `PHI0IN`, W65C02S `PHI2`) |
+| `"rw"`, `"sync"` | outputs: R/W (1 = read), SYNC (1 = opcode fetch) |
+| `"irq"`, `"nmi"`, `"reset"`, `"so"` | active-low inputs: IRQ, NMI, RES, SO |
+| `"rdy"` | RDY (high = run): an input on the NMOS chip, an `inout` on the W65C02S (driven low during WAI) |
+| `"phi1Out"`, `"phi2Out"` | the clock outputs (Φ1 OUT / Φ2 OUT, PHI1O / PHI2O) |
+| `"vectorPull"`, `"memoryLock"`, `"busEnable"` | `65c02` only: VPB, MLB (active-low outputs), BE (input, high = bus driven) |
+| `"grades"` | speed grade → timing in ns: `tcyc tpwh tpwl tads tah tsync tmds tdhw tdsr tpcs tbvd` (a missing name is 0; `tcyc`, `tpwh` and `tpwl` must be more than 0) and an optional `note`, `vcc` and `inputMax` |
+
+Every key of the device's core is required, each control names exactly one
+pin in every pinout, and a key of another core is an error (`"vectorPull"
+is not a key of core "6502"`). Part keys: `"grade"`, a key of `grades`, and
+optional `"vcc"` and `"inputMax"`. `PartCpu`: `core`, `grade`, `max_hz` =
+floor(10^12 / `tcyc` in ps).
+
+The timing names, each measured from:
+
+| Name | From | Use |
+|---|---|---|
+| `tcyc` | — | minimum clock period (fall to fall) |
+| `tpwh`, `tpwl` | — | minimum clock high and low widths |
+| `tads` | PHI2 fall | address and R/W valid |
+| `tah` | PHI2 fall | address and R/W held; X after it |
+| `tsync` | PHI2 fall | SYNC valid |
+| `tmds` | PHI2 rise | write data valid |
+| `tdhw` | PHI2 fall | write data held, then Z |
+| `tdsr` | before PHI2 fall | read data setup |
+| `tpcs` | before PHI2 fall | setup for RDY, IRQ, NMI, RES, SO |
+| `tbvd` | BE edge | BE to bus valid / Z |
+
+Behaviour (the 6502 family). An undriven (Z) input reads inactive: IRQ,
+NMI, RES and SO high, RDY high, BE high. X is unknown.
+
+- **Power-up: LOST.** Address, data, R/W, SYNC, VPB and MLB are driven X.
+  Only a reset leaves LOST. Φ1/Φ2 OUT follow the clock from the start, with
+  no added delay (X stays X).
+- **The clock.** A clock that reads X, a low phase shorter than `tpwl`, a
+  high phase shorter than `tpwh`, or falls closer than `tcyc` make the CPU
+  LOST.
+- **The commit, at each PHI2 fall.** The CPU samples the data bus (on a
+  read cycle) and RDY, IRQ, NMI, RES and SO. A pin that changed less than
+  `tdsr` (data) or `tpcs` (controls) before the fall reads X. Then, in
+  order:
+  1. A write cycle's data goes Z at + `tdhw`.
+  2. **Reset.** RES X: LOST. RES 0: status RESET; address X, data Z, R/W 1,
+     SYNC 0, VPB 1, MLB 1 from + `tah`. RES back to 1 after at least 2
+     cycles at 0: the core starts its reset sequence (reads at 0000, 0100,
+     01FF, 01FE, then the vector at FFFC/FFFD); after fewer: LOST.
+  3. **RDY.** RDY X: LOST. RDY 0 holds the cycle (no change, the cycle
+     count still grows) on a read, and on the W65C02S also on a write; the
+     NMOS chip ignores RDY on a write.
+  4. **SO.** SO falling since the last commit sets V. SO X: LOST unless V
+     is already 1.
+  5. **The tick.** The core runs one cycle on the sampled data, IRQ and
+     NMI. When some of those are X it runs twice, with every X bit 0 and
+     then 1; if the two results differ, the CPU is LOST (the unknown value
+     mattered); if they agree it goes on. So dummy reads of uninitialised
+     memory (the reset sequence's stack reads) are harmless, and a used
+     unknown byte is not.
+  6. **The next cycle.** Each address bit and R/W that changes goes X at
+     + `tah` and to its value at + `tads`; SYNC likewise at + `tsync`. A
+     write cycle's data goes X at the next PHI2 rise and valid at
+     rise + `tmds`.
+- **W65C02S extras.** VPB is low on the vector reads (FFFA–FFFF) of BRK,
+  IRQ, NMI and reset. MLB is low on the three cycles of a read-modify-write
+  (the read, the repeat read and the write at one address; ASL ROL LSR ROR
+  DEC INC TSB TRB RMB SMB on memory). BE low floats address, data and RWB
+  `tbvd` after the change (X while BE is X); the CPU keeps running, and BE
+  high drives them again. WAI drives RDY low until an interrupt (IRQ, even
+  with I set, or NMI) or reset ends it; STP stops the CPU until reset.
+- **NMOS JAM.** The 12 JAM opcodes (02 12 22 32 42 52 62 72 92 B2 D2 F2)
+  hang the CPU: status JAMMED until reset.
+- **State** (`circuit_cpu_state`): status, the cycles since the last reset
+  ended, registers `A X Y S P PC` (none while LOST or RESET), and the last
+  completed instruction (address, bytes, text from the vendored
+  disassembler, e.g. `LDA #$41`).
+
+Not modeled: the NMOS 6502's minimum clock (50 kHz, a dynamic-logic limit);
+the read-data hold time tDHR (data is sampled at the PHI2 fall); the
+cycle-accurate IRQ pipeline while RDY holds the CPU; timing at supply
+voltages other than the grade's (W65C02S: the 5 V column only); the exact
+bus pattern of the 12 JAM opcodes, and the SHA/SHX/SHY page-cross address
+(the vendored core's known deviations, plan-09-A §4.4).
 
 ### `7seg`
 

@@ -82,9 +82,12 @@ typedef struct {
    count as inactive). */
 LogicValue cpu_level(LogicValue value, LogicValue inactive);
 
-/* The pin's level now, or X when it changed less than `setup` ago. */
+/* The pin's level now, or X when it changed less than `setup` ago. `seen`
+   is the value pin_changed last reported for the pin: a different value now
+   is a change at this very instant whose pin_changed has not run yet (the
+   engine reports a batch's nets one by one). */
 LogicValue cpu_sample(const Sim *sim, const SimInstance *instance, size_t pin,
-                      SimTime changed, SimTime setup, LogicValue inactive);
+                      SimTime changed, LogicValue seen, SimTime setup, LogicValue inactive);
 
 /* ---- The instruction tracker (cpu.c; plan-09-B section 4.6) -------------- */
 

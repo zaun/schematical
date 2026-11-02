@@ -307,13 +307,14 @@ LogicValue cpu_level(LogicValue value, LogicValue inactive) {
 }
 
 LogicValue cpu_sample(const Sim *sim, const SimInstance *instance, size_t pin, SimTime changed,
-                      SimTime setup, LogicValue inactive) {
+                      LogicValue seen, SimTime setup, LogicValue inactive) {
     SimTime now = sim_now(sim);
+    LogicValue value = sim_read_pin(sim, instance, pin);
 
-    if (changed != CPU_NEVER && changed <= now && now - changed < setup) {
+    if (value != seen || (changed != CPU_NEVER && changed <= now && now - changed < setup)) {
         return LOGIC_X;
     }
-    return cpu_level(sim_read_pin(sim, instance, pin), inactive);
+    return cpu_level(value, inactive);
 }
 
 /* ---- The instruction tracker -------------------------------------------- */

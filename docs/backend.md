@@ -95,6 +95,12 @@ Notes:
   any time during the last `circuit_advance`, so multiplexed digits show.
 - Memory contents (SRAM, EEPROM): `circuit_memory_size`,
   `circuit_memory_read` (a 0 bit in `known` is X).
+- Processors (`cpu` kind): `circuit_cpu_state` fills a `CpuState`
+  (`cpu_state.h`): status (running, lost, reset, waiting, stopped, halted,
+  jammed, bus released), cycles since the last reset ended, the registers
+  (none while lost or in reset) and the last completed instruction
+  (address, bytes, disassembly). Any other kind: -1, `part N is not a
+  processor`.
 - Memory load: `circuit_memory_load` writes words into an EEPROM before
   `circuit_start` (refused after it, and on every other kind, SRAM
   included); words it does not write stay erased (FF). Build the words with
@@ -130,6 +136,10 @@ backend/
                            lights);
                            model_pins.h (LED, switch and open-drain pin
                            facts for the voltage check);
+                           cpu.c + cpu.h (the cpu kind: loader, the model
+                           that forwards to a core adapter, input sampling,
+                           the instruction tracker), cpu6502.c (the
+                           6502/65C02 bus adapter);
                            chips_m6502.c chips_w65c02.c chips_z80.c
                            chips_dasm.c (each instantiates one vendored
                            floooh/chips core, or the three disassemblers)
@@ -225,6 +235,14 @@ drawer work from the kind table and the `Part` structs.
   must still fail, so a core update that fixes one is noticed; any other
   failure, or a listed test that passes, fails the test. It prints
   `6502: 241 pass, 15 expected failures` and the same for 65C02 and Z80.
+- `cpu_test` — the cpu kind's bus adapters on inline fixture devices (the
+  W65C02S and MOS 6502 data of `cpu.json`) and a bench that clocks the CPU
+  at 1 MHz and serves a 64 KB memory (X where it was given nothing): the
+  power-up LOST state, the reset sequence, the address and write windows at
+  the datasheet times, setup violations and used unknowns (LOST), IRQ, NMI,
+  RDY, SO, the register and instruction read-back, clock-width checks,
+  and the W65C02S VPB, MLB, BE, WAI and STP and NMOS JAM rules; plus
+  `circuit_cpu_state`.
 
 Not a ctest: `sim_bench` (`tests/sim_bench.c`) measures engine speed — a
 D flip-flop ripple counter on an oscillator plus N idle SN74HC00N chips,
