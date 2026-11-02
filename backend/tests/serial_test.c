@@ -97,12 +97,47 @@ static const SimComponentType CLOCK = {
 
 /* ---- The bench ------------------------------------------------------------------ */
 
+/*
+ * How a device sits on the bench: its strobe, data, address, reset and clock
+ * pins, the pins tied at fixed levels, and how each unit (channel, printer
+ * port) is selected for a bus access.
+ */
+typedef struct {
+    const char *read;              /* active-low read strobe */
+    const char *write;             /* active-low write strobe */
+    const char *data[8];
+    const char *address[8];
+    unsigned address_count;
+    const char *ties[32];          /* "NAME=1" / "NAME=0" / "NAME=Z" */
+    const char *reset;             /* NULL = none */
+    int reset_high;
+    const char *clock;
+    const char *baudout;           /* joined to rclk when both are set */
+    const char *rclk;
+    /* Per unit: the select pins to make active ("NAME=0" etc.; each unit
+       sets these and the other units' to their inactive levels). */
+    const char *unit_select[8][3];
+    unsigned units;
+} BenchConfig;
+
+static const BenchConfig PC16550D_BENCH = {
+    "RDBAR", "WRBAR",
+    {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"},
+    {"A0", "A1", "A2"}, 3,
+    {"CS0=1", "CS1=1", "CS2=0", "ADS=0", "RD=0", "WR=0", "SIN=1", "CTS=1", "DSR=1", "DCD=1",
+     "RI=1", NULL},
+    "MR", 1, "XIN", "BAUDOUT", "RCLK",
+    {{NULL}}, 0
+};
+
 typedef struct {
     Sim *sim;
     SimInstance *chip;
     SimInstance *drv;
     SimInstance *clk;
     const Part *part;
+    const BenchConfig *cfg;
+    unsigned unit;
     size_t pins;
     SimTime half;
     SimTime period;
@@ -116,12 +151,39 @@ static size_t pin_of(const Bench *b, const char *name) {
             return i;
         }
     }
-    fprintf(stderr, "no pin %s\n", name);
+    fprintf(stderr, "no pin %s on %s\n", name, b->part->name);
     exit(2);
+}
+
+static int has_pin(const Bench *b, const char *name) {
+    size_t i;
+
+    for (i = 0; name != NULL && i < b->part->pin_count; i++) {
+        if (strcmp(b->part->pins[i].name, name) == 0) {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 static void set(Bench *b, const char *name, LogicValue v) {
     sim_schedule_drive(b->sim, b->drv, pin_of(b, name), v, DRIVE_STRONG, 0);
+}
+
+/* "NAME=1" style: sets the pin; `invert` drives the opposite level. */
+static void set_tie(Bench *b, const char *tie, int invert) {
+    char name[32];
+    const char *eq = strchr(tie, '=');
+    size_t n = (size_t)(eq - tie);
+    LogicValue v;
+
+    memcpy(name, tie, n);
+    name[n] = '\0';
+    v = eq[1] == '1' ? LOGIC_1 : eq[1] == '0' ? LOGIC_0 : LOGIC_Z;
+    if (invert && v != LOGIC_Z) {
+        v = v == LOGIC_1 ? LOGIC_0 : LOGIC_1;
+    }
+    set(b, name, v);
 }
 
 static void run(Bench *b, SimTime ps) {
@@ -135,17 +197,45 @@ static LogicValue get(const Bench *b, const char *name) {
     return sim_read_pin(b->sim, b->chip, pin_of(b, name));
 }
 
-/* A UART on a bench with a clock of `half` ps per half period. */
-static Bench *bench_open(const char *part_name, SimTime half) {
+/* Selects unit u (a channel, or the printer port) for the next accesses. */
+static void select_unit(Bench *b, unsigned u) {
+    unsigned i;
+    unsigned k;
+
+    b->unit = u;
+    for (i = 0; i < b->cfg->units; i++) {
+        for (k = 0; k < 3 && b->cfg->unit_select[i][k] != NULL; k++) {
+            set_tie(b, b->cfg->unit_select[i][k], i != u);
+        }
+    }
+    for (k = 0; u < b->cfg->units && k < 3 && b->cfg->unit_select[u][k] != NULL; k++) {
+        set_tie(b, b->cfg->unit_select[u][k], 0);
+    }
+}
+
+static void pulse_reset(Bench *b) {
+    if (b->cfg->reset == NULL) {
+        return;
+    }
+    set(b, b->cfg->reset, b->cfg->reset_high ? LOGIC_1 : LOGIC_0);
+    run(b, NS(6000));
+    set(b, b->cfg->reset, b->cfg->reset_high ? LOGIC_0 : LOGIC_1);
+    run(b, NS(100));
+}
+
+/* A device on a bench with a clock of `half` ps per half period. */
+static Bench *bench_open_cfg(const char *part_name, SimTime half, const BenchConfig *cfg) {
     Bench *b = calloc(1, sizeof *b);
     SimNet *baud_net = NULL;
     size_t i;
+    int join = cfg->baudout != NULL && cfg->rclk != NULL;
 
     b->part = part_library_find(library, part_name);
     if (b->part == NULL) {
         fprintf(stderr, "no part %s\n", part_name);
         exit(2);
     }
+    b->cfg = cfg;
     b->pins = b->part->pin_count;
     b->half = half;
     b->period = 2 * half;
@@ -157,46 +247,42 @@ static Bench *bench_open(const char *part_name, SimTime half) {
         const char *name = b->part->pins[i].name;
         SimNet *net;
 
-        if (strcmp(name, "RCLK") == 0) {
+        if (join && strcmp(name, cfg->rclk) == 0) {
             continue;
         }
         net = sim_add_net(b->sim, name);
         sim_connect(b->sim, net, b->chip, i);
-        if (strcmp(name, "BAUDOUT") == 0) {
+        if (join && strcmp(name, cfg->baudout) == 0) {
             baud_net = net;
         } else {
             sim_connect(b->sim, net, b->drv, i);
         }
-        if (strcmp(name, "XIN") == 0) {
+        if (strcmp(name, cfg->clock) == 0) {
             sim_connect(b->sim, net, b->clk, 0);
         }
     }
-    sim_connect(b->sim, baud_net, b->chip, pin_of(b, "RCLK"));
+    if (join) {
+        sim_connect(b->sim, baud_net, b->chip, pin_of(b, cfg->rclk));
+    }
     if (!sim_start(b->sim)) {
         fprintf(stderr, "start: %s\n", sim_error(b->sim));
         exit(2);
     }
-    set(b, "CS0", LOGIC_1);
-    set(b, "CS1", LOGIC_1);
-    set(b, "CS2", LOGIC_0);
-    set(b, "ADS", LOGIC_0);
-    set(b, "RD", LOGIC_0);
-    set(b, "WR", LOGIC_0);
-    set(b, "RDBAR", LOGIC_1);
-    set(b, "WRBAR", LOGIC_1);
-    set(b, "SIN", LOGIC_1);
-    set(b, "CTS", LOGIC_1);
-    set(b, "DSR", LOGIC_1);
-    set(b, "DCD", LOGIC_1);
-    set(b, "RI", LOGIC_1);
-    set(b, "A0", LOGIC_0);
-    set(b, "A1", LOGIC_0);
-    set(b, "A2", LOGIC_0);
-    set(b, "MR", LOGIC_1);
-    run(b, NS(6000));
-    set(b, "MR", LOGIC_0);
-    run(b, NS(100));
+    for (i = 0; cfg->ties[i] != NULL; i++) {
+        set_tie(b, cfg->ties[i], 0);
+    }
+    set(b, cfg->read, LOGIC_1);
+    set(b, cfg->write, LOGIC_1);
+    for (i = 0; i < cfg->address_count; i++) {
+        set(b, cfg->address[i], LOGIC_0);
+    }
+    select_unit(b, 0);
+    pulse_reset(b);
     return b;
+}
+
+static Bench *bench_open(const char *part_name, SimTime half) {
+    return bench_open_cfg(part_name, half, &PC16550D_BENCH);
 }
 
 static void bench_close(Bench *b) {
@@ -205,18 +291,18 @@ static void bench_close(Bench *b) {
 }
 
 static void set_address(Bench *b, unsigned a) {
-    set(b, "A0", a & 1u ? LOGIC_1 : LOGIC_0);
-    set(b, "A1", a & 2u ? LOGIC_1 : LOGIC_0);
-    set(b, "A2", a & 4u ? LOGIC_1 : LOGIC_0);
+    unsigned i;
+
+    for (i = 0; i < b->cfg->address_count; i++) {
+        set(b, b->cfg->address[i], (a >> i) & 1u ? LOGIC_1 : LOGIC_0);
+    }
 }
 
 static void set_data(Bench *b, int drive, unsigned v) {
-    char name[4];
     unsigned i;
 
     for (i = 0; i < 8; i++) {
-        snprintf(name, sizeof name, "D%u", i);
-        set(b, name, !drive ? LOGIC_Z : (v >> i) & 1u ? LOGIC_1 : LOGIC_0);
+        set(b, b->cfg->data[i], !drive ? LOGIC_Z : (v >> i) & 1u ? LOGIC_1 : LOGIC_0);
     }
 }
 
@@ -224,9 +310,9 @@ static void bus_write(Bench *b, unsigned a, unsigned v) {
     set_address(b, a);
     set_data(b, 1, v);
     run(b, NS(40));
-    set(b, "WRBAR", LOGIC_0);
+    set(b, b->cfg->write, LOGIC_0);
     run(b, NS(120));
-    set(b, "WRBAR", LOGIC_1);
+    set(b, b->cfg->write, LOGIC_1);
     run(b, NS(40));
     set_data(b, 0, 0);
     run(b, NS(160));
@@ -234,26 +320,23 @@ static void bus_write(Bench *b, unsigned a, unsigned v) {
 
 /* A read: the bus as text, high bit first ("01XZ"), and the value (unknown bits 0). */
 static unsigned bus_read_text(Bench *b, unsigned a, char text[9]) {
-    char name[4];
     unsigned v = 0;
     unsigned i;
 
     set_address(b, a);
     run(b, NS(40));
-    set(b, "RDBAR", LOGIC_0);
+    set(b, b->cfg->read, LOGIC_0);
     run(b, NS(150));
     for (i = 0; i < 8; i++) {
-        LogicValue l;
+        LogicValue l = get(b, b->cfg->data[i]);
 
-        snprintf(name, sizeof name, "D%u", i);
-        l = get(b, name);
         text[7 - i] = "01XZ"[l];
         if (l == LOGIC_1) {
             v |= 1u << i;
         }
     }
     text[8] = '\0';
-    set(b, "RDBAR", LOGIC_1);
+    set(b, b->cfg->read, LOGIC_1);
     run(b, NS(160));
     return v;
 }

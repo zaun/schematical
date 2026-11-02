@@ -1020,6 +1020,45 @@ loads one 0x00 for a break (BI with FE), then waits for the line to return
 to 1. A character reaches the RBR 1 RCLK after its stop-bit sample (3 in
 FIFO mode).
 
+**Option keys (plan-12-D).** Every key is optional; absent keeps the PC16550D
+behavior above. They cover the TI, National, Intersil, SMSC and NXP members
+of the family.
+
+| Key | Values |
+|---|---|
+| `"channels"` | 1–8 channel objects. A channel may add `"select"` / `"selectHigh"` (its own chip selects: TL16C554, TL16C2550; then every channel needs one), `"op"` (OP pin = NOT MCR[3]) and `"mf"` (a multi-function pin chosen by AFR[2:1]: OP, BAUDOUT, RXRDY, reserved). `"int"` may be absent. |
+| `"channelSelect"` | `{"pin": name, "aIsHigh": bool}`: one chip select plus a pin that picks channel A or B (TL16C2552, NS16C2552/2752). |
+| `"broadcastWrite"` | `"none"` (several channel selects at once: an X cycle), `"multi-cs"` (a write goes to each selected unit; a read is X), `"afr-conc"` (the AFR concurrent-write bit sends every write to all channels). |
+| `"fifo"` | `0`, `16`, `32`, `64`, `128`, or `"750"` (16 bytes, or 64 when FCR[5] is written with LCR[7] = 1; IIR[5] shows it). |
+| `"rxTrigger"`, `"rxTrigger64"`, `"txTrigger"` | 4 levels each: the RX levels of FCR[7:6] (and in the 750's 64-byte mode), the TX levels of FCR[5:4] (in free spaces; written only with EFR[4] = 1). |
+| `"tlr"` | `4` or `8`: TLR's nibbles × this override the FCR levels when non-zero. |
+| `"dmaClass"` | `"P"` (mode-1 TXRDY low when empty, high when full), `"N"` and `"B"` (low while a slot is free), `"T"` (low while free spaces ≥ the TX trigger; RXRDY also inactive while LSR[7] = 1). |
+| `"dmaPins"`, `"dma"` | `"sharedAnd"` (TL16C554: one RXRDY and one TXRDY, low when any channel's is low) or `"sharedWireOr"` (TL16C754B: the same, open drain), with `"dma": {"txrdy", "rxrdy"}` naming the pins. |
+| `"intPin"`, `"intControl"` | `"driven"`; `"out2-gated"` (3-state unless MCR[3] = 1); `"intn"` (`intControl` names INTN: high = driven, low or open = gated); `"intsel"` (enabled by `intControl` INTSEL OR MCR[3]); `"mcr5-open-source"` (MCR[5] = 1 drives only the high level). |
+| `"lcrReset"`, `"sprReset"`, `"tcrReset"`, `"mcrReset"`, `"afrReset"` | register values after reset (default 0; `sprReset` absent leaves SPR alone, X at power-on). `"xonReset"`: power-up Xon1, Xon2, Xoff1, Xoff2 (absent: X). |
+| `"iirPriority"` | `"standard"` (RX data above the timeout), `"nxpEqual"` (one level, shown as the timeout while one is pending). |
+| `"lsr7Clear"` | `"noErrors"` (an LSR read clears LSR[7] when no errored byte is left), `"lsrRead"` (any LSR read clears it). |
+| `"lsrErrors"` | `"sticky"` (16550: LSR[4:1] latch until an LSR read) or `"head"` (752 style: LSR[4:2] are the head byte's error bits; the line-status interrupt is OE or an errored byte anywhere in the FIFO). |
+| `"stopCheck"` | `"first"` or `"both"` (82C50A: a 0 in either of 2 stop bits is a framing error). |
+| `"statusReadDefer"`, `"busSync"`, `"majorityVote"` | `true`: status bits that change during an LSR/MSR read show after it (82C50A, TL16C552/554); the strobes are sampled on XIN rising edges (TL16C754B, SC16C752B); each bit is the majority of 3 samples around mid-bit. |
+| `"timeout"`, `"timeoutDelay"` | `"4ch"` or `"4w12"` (4 characters + 12 bit times); RCLKs added to the 4ch timeout (default 8; 9 on the TL16C550C). |
+| `"clock"` | adds `"single"` (one clock input for TX and RX, no RCLK), `"select"` (the CLKSEL pin), `"baudOutShape"` (`"half"`, or `"low2"`: low for 2 clocks, high for N − 2). |
+| `"divisorZero"` | the divisor a 0 acts as (COM92C451: 3); absent: 0 stops the generator. |
+| `"extended"` | `"afe"` (MCR[5] auto flow), `"750"` (FCR[5] 64-byte mode, IER[4] sleep, IER[5] low power, MCR[5] AFE), `"650"` (LCR = 0xBF bank: EFR, Xon1/2, Xoff1/2; EFR[4] write-enables IER[7:4], FCR[5:4], MCR[7:5]), `"752"` (650 plus TCR/TLR at 6/7 with EFR[4] and MCR[6], FIFORdy at 7 with MCR[2] and not MCR[4]), `"nsEfr"` (the NS16C2552/2752 bank). |
+| `"afr"` | `"ti752"` (AFR at 2 when LCR[7:5] = 100: CONC, IREN, 485EN, 485LG, RCVEN, DLY), `"ti2552"` / `"ns"` (AFR at 2 with LCR[7] = 1: CONC, MF select). |
+| `"dlf"` | `true`: TL16C750E DLF at 7 (fraction n/64, DLF[7] 8× sampling). |
+| `"autoFlow"`, `"rtsTable"`, `"xoffTable"` | `"afe"` (RTS off at the RX trigger, on when empty; CTS gates TX; no ΔCTS meanwhile), `"tcr"` (RTS off at TCR[3:0] × m, on at TCR[7:4] × m), `"efrTable"` (EFR[6]/[7] with the per-trigger `rtsTable` `[[off, on] × 4]`). `xoffTable` gives the Xoff/Xon send levels per trigger (else TCR). |
+| `"swFlow"` | `"tiAnd"` (EFR[3:0] = 1011/0111 compare either character; 1111/0011 sequential pairs) or `"nxpAnd"` (1011/0111 are sequential pairs too). |
+| `"specialChar"`, `"specialNeedsNoFlow"`, `"specialClear"`, `"ctsRtsClear"` | EFR[5] special character (Xoff2 match: IIR[4], stored); only with EFR[3:0] = 0 (SC16C650B); cleared by `"iir"` or `"lsr"`; the CTS/RTS interrupt cleared by `"iir"`, `"msr"` or `"iirOrMsr"`. |
+| `"sleep"` | `"ier4"` (EFR[4] and IER[4]: the baud clock stops when idle; wakes on RX, a modem input or a THR write), `"ier4-all"` (only when every channel asks). BAUDOUT reads X while asleep. |
+| `"irda"` | `"mcr6"` or `"afr1"`: TX idles low and sends a 3/16-bit pulse per 0; RX takes a falling edge as a 0 for one bit. |
+| `"rs485"` | `"afr-dtr"`: with AFR 485EN, DTR goes high one bit before the first start bit and stays DLY bit times after the last stop bit. |
+| `"prescaler"` | `"mcr7"` (MCR[7] = 1 divides XIN by 4) or `"mcr7-clksel"` (MCR[7] = NOT CLKSEL after reset). |
+| `"tcrNeedsDlab0"`, `"dlabHidesUpper"` | TCR/TLR only with LCR[7] = 0 (SC16C752B); with LCR[7] = 1 only DLL, DLM and LCR answer (SC16C650B). |
+| `"idRegs"` | `{"drev": byte, "dvid": byte}`: read at 0/1 with LCR[7] = 1 and DLL = DLM = 0. |
+| `"tristate"` | the TRI pin: while high every output floats (TL16C552). |
+| `"printerPort"` | `{"style": "ti451" \| "ti552" \| "com92c451", "data": [PD0…PD7], "select", "strobe", "autoFeed", "init", "selectIn", "ack", "busy", "paperEnd", "slct", "error", "irq", "inputEnable" (ti451 LPTOE), "pemd", "enirq" (ti552)}`: the PC printer port at its own chip select, A1..A0 (data, status, control). |
+
 ### `7seg`
 
 LED 7-segment displays. A display is a set of LEDs, each between one
