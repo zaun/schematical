@@ -2,7 +2,7 @@
  * cpu: microprocessors that run programs inside the simulation (plan-09).
  *
  * The device's "core" key picks the bus adapter: "6502" (NMOS) and "65c02"
- * (WDC W65C02S) in cpu6502.c. Each adapter wraps one of the vendored
+ * (WDC W65C02S) in cpu6502.c, "z80" (Zilog Z84C00) in cpuz80.c. Each adapter wraps one of the vendored
  * floooh/chips cores (third_party/chips) and drives the pins at the
  * datasheet's times; this file holds the loader, the one SimComponentType
  * that forwards to the adapter, and what the adapters share: input sampling
@@ -27,10 +27,23 @@ static const char *const CONTROLS_65C02[] = {
 static const char *const TIMING_6502[] = {
     "tcyc", "tpwh", "tpwl", "tads", "tah", "tsync", "tmds", "tdhw", "tdsr", "tpcs", "tbvd", NULL
 };
+static const char *const CONTROLS_Z80[] = {
+    "clock", "m1", "mreq", "iorq", "rd", "wr", "rfsh", "halt", "busack",
+    "wait", "int", "nmi", "reset", "busreq", NULL
+};
+/* PS0178 rows (plan-09-C section 4.2), in cpuz80.c's T_ order. */
+static const char *const TIMING_Z80[] = {
+    "tcc", "twch", "twcl", "tdcra", "tdcfmreqf", "tdcrmreqr", "tdcfmreqr", "tdcfrdf", "tdcrrdr",
+    "tsdcr", "tswaitcf", "tdcrm1f", "tdcrm1r", "tdcrrfshf", "tdcrrfshr", "tdcfrdr", "tdcrrdf",
+    "tsdcf", "tdcriorqf", "tdcfiorqr", "tdcfwrf", "tdcfwrr", "tdcrwrf", "tdcfhalt", "twnmi",
+    "tsbusreq", "tdcrbusackf", "tdcfbusackr", "tdcrdz", "tdcrctz", "tdcraz", "tsreset", "tsint",
+    "tdcfiorqf", "tdcfd", NULL
+};
 
 static const CpuCoreDesc CORES[] = {
     {"6502", CONTROLS_6502, TIMING_6502, 3, &CPU6502_OPS},
     {"65c02", CONTROLS_65C02, TIMING_6502, 3, &CPU6502_OPS},
+    {"z80", CONTROLS_Z80, TIMING_Z80, 3, &CPUZ80_OPS},
 };
 #define CORE_COUNT (sizeof CORES / sizeof CORES[0])
 
@@ -39,6 +52,7 @@ static const char *const DEVICE_KEYS[] = {
     "core", "address", "data", "grades",
     "clock", "rw", "sync", "irq", "nmi", "reset", "so", "rdy", "phi1Out", "phi2Out",
     "vectorPull", "memoryLock", "busEnable",
+    "m1", "mreq", "iorq", "rd", "wr", "rfsh", "halt", "busack", "wait", "int", "busreq",
     NULL
 };
 static const char *const PART_KEYS[] = {"grade", "vcc", "inputMax", NULL};

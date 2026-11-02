@@ -121,4 +121,8 @@ void cpu_tracker_fill(const CpuTracker *tracker, CpuState *out);
 
 extern const CpuCoreOps CPU6502_OPS;
 
+/* ---- The Z80 (cpuz80.c) ---------------------------------------------------- */
+
+extern const CpuCoreOps CPUZ80_OPS;
+
 #endif

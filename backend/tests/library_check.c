@@ -579,6 +579,56 @@ static void check_eeprom_cases(void) {
     CPU_DEVICE(CORE, CPU_ADDR16, CPU_DATA8, KEYS, CPU_GRADE("70"), CPU_P40("p40", "SOB"), \
                CPU_PART("C1", "p40", ""))
 
+/* A 40-pin Z80: A0-A15 on 1-16, D0-D7 on 17-24, the controls on 25-38.
+   PIN40 names pin 40 (GND, or a second M1#). */
+#define Z80_P40(PIN40) \
+    "'p40':[" \
+    CP(1, "A0", "output") "," CP(2, "A1", "output") "," CP(3, "A2", "output") "," \
+    CP(4, "A3", "output") "," CP(5, "A4", "output") "," CP(6, "A5", "output") "," \
+    CP(7, "A6", "output") "," CP(8, "A7", "output") "," CP(9, "A8", "output") "," \
+    CP(10, "A9", "output") "," CP(11, "A10", "output") "," CP(12, "A11", "output") "," \
+    CP(13, "A12", "output") "," CP(14, "A13", "output") "," CP(15, "A14", "output") "," \
+    CP(16, "A15", "output") "," CP(17, "D0", "inout") "," CP(18, "D1", "inout") "," \
+    CP(19, "D2", "inout") "," CP(20, "D3", "inout") "," CP(21, "D4", "inout") "," \
+    CP(22, "D5", "inout") "," CP(23, "D6", "inout") "," CP(24, "D7", "inout") "," \
+    CP(25, "CLK", "input") "," CP(26, "M1#", "output") "," CP(27, "MREQ#", "output") "," \
+    CP(28, "IORQ#", "output") "," CP(29, "RD#", "output") "," CP(30, "WR#", "output") "," \
+    CP(31, "RFSH#", "output") "," CP(32, "HALT#", "output") "," CP(33, "BUSACK#", "output") "," \
+    CP(34, "WAIT#", "input") "," CP(35, "INT#", "input") "," CP(36, "NMI#", "input") "," \
+    CP(37, "RESET#", "input") "," CP(38, "BUSREQ#", "input") "," CP(39, "+5V", "power") "," \
+    CP(40, PIN40, "ground") "]"
+#define Z80_KEYS(BUSACK) \
+    "'clock':'CLK','m1':'M1#','mreq':'MREQ#','iorq':'IORQ#','rd':'RD#','wr':'WR#','rfsh':'RFSH#'," \
+    "'halt':'HALT#'," BUSACK "'wait':'WAIT#','int':'INT#','nmi':'NMI#','reset':'RESET#','busreq':'BUSREQ#'"
+#define Z80_BUSACK "'busack':'BUSACK#',"
+#define Z80_GRADE(TCC) "{'tcc':" TCC ",'twch':40,'twcl':40,'tdcra':65,'note':'n','vcc':[4.5,5.5]}"
+#define Z80_DEVICE(KEYS, GRADE, PIN40) \
+    CPU_DEVICE("z80", CPU_ADDR16, CPU_DATA8, KEYS, GRADE, Z80_P40(PIN40), CPU_PART("Z1", "p40", ""))
+
+static void check_z80_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, Z80_DEVICE(Z80_KEYS(Z80_BUSACK), Z80_GRADE("100"), "GND"), &error) == 0);
+    part = part_library_find(library, "Z1");
+    CHECK(part != NULL && part->cpu != NULL && strcmp(part->cpu->core, "z80") == 0 &&
+          part->cpu->max_hz == 10000000);
+    printf("ok   valid z80 cpu file%s%s\n", error != NULL ? ": " : "", error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("z80 with a sync key",
+                Z80_DEVICE(Z80_KEYS(Z80_BUSACK) ",'sync':'M1#'", Z80_GRADE("100"), "GND"),
+                "devices[0] (C): \"sync\" is not a key of core \"z80\"");
+    expect_fail("z80 missing busack", Z80_DEVICE(Z80_KEYS(""), Z80_GRADE("100"), "GND"),
+                "devices[0] (C): missing \"busack\"");
+    expect_fail("z80 tcc 0", Z80_DEVICE(Z80_KEYS(Z80_BUSACK), Z80_GRADE("0"), "GND"),
+                "grades.14: \"tcc\" must be more than 0");
+    expect_fail("z80 m1 naming two pins", Z80_DEVICE(Z80_KEYS(Z80_BUSACK), Z80_GRADE("100"), "M1#"),
+                "m1: pin name \"M1#\" is used by 2 pins; one is needed");
+}
+
 static void check_cpu_cases(void) {
     PartLibrary *library = part_library_create();
     char *error = NULL;
@@ -1470,6 +1520,7 @@ int main(void) {
     check_sram_cases();
     check_eeprom_cases();
     check_cpu_cases();
+    check_z80_cases();
     check_switch_cases();
     check_flipflop_cases();
     check_gate_cases();
