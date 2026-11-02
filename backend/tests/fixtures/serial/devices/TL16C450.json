@@ -1,0 +1,61 @@
+{
+  "id": "TL16C450",
+  "function": "UART",
+  "description": "Asynchronous communications element",
+  "drawer": ["Interface"],
+  "note": "tl16c450.pdf p.1-31; plan-12-data/specs/ti-a.md § TL16C450",
+  "pinouts": {
+    "plcc44": [
+      {"number": 1, "name": "NC", "role": "nc"},
+      {"number": 2, "name": "D0", "role": "inout"},
+      {"number": 3, "name": "D1", "role": "inout"},
+      {"number": 4, "name": "D2", "role": "inout"},
+      {"number": 5, "name": "D3", "role": "inout"},
+      {"number": 6, "name": "D4", "role": "inout"},
+      {"number": 7, "name": "D5", "role": "inout"},
+      {"number": 8, "name": "D6", "role": "inout"},
+      {"number": 9, "name": "D7", "role": "inout"},
+      {"number": 10, "name": "RCLK", "role": "input"},
+      {"number": 11, "name": "SIN", "role": "input"},
+      {"number": 12, "name": "NC", "role": "nc"},
+      {"number": 13, "name": "SOUT", "role": "output"},
+      {"number": 14, "name": "CS0", "role": "input"},
+      {"number": 15, "name": "CS1", "role": "input"},
+      {"number": 16, "name": "CS2", "role": "input"},
+      {"number": 17, "name": "BAUDOUT", "role": "output"},
+      {"number": 18, "name": "XTAL1", "role": "input"},
+      {"number": 19, "name": "XTAL2", "role": "output"},
+      {"number": 20, "name": "DOSTRBAR", "role": "input"},
+      {"number": 21, "name": "DOSTR", "role": "input"},
+      {"number": 22, "name": "VSS", "role": "ground"},
+      {"number": 23, "name": "NC", "role": "nc"},
+      {"number": 24, "name": "DISTRBAR", "role": "input"},
+      {"number": 25, "name": "DISTR", "role": "input"},
+      {"number": 26, "name": "DDIS", "role": "output"},
+      {"number": 27, "name": "CSOUT", "role": "output"},
+      {"number": 28, "name": "ADS", "role": "input"},
+      {"number": 29, "name": "A2", "role": "input"},
+      {"number": 30, "name": "A1", "role": "input"},
+      {"number": 31, "name": "A0", "role": "input"},
+      {"number": 32, "name": "NC", "role": "nc"},
+      {"number": 33, "name": "INTRPT", "role": "output"},
+      {"number": 34, "name": "NC", "role": "nc"},
+      {"number": 35, "name": "OUT2", "role": "output"},
+      {"number": 36, "name": "RTS", "role": "output"},
+      {"number": 37, "name": "DTR", "role": "output"},
+      {"number": 38, "name": "OUT1", "role": "output"},
+      {"number": 39, "name": "MR", "role": "input"},
+      {"number": 40, "name": "CTS", "role": "input"},
+      {"number": 41, "name": "DSR", "role": "input"},
+      {"number": 42, "name": "DCD", "role": "input"},
+      {"number": 43, "name": "RI", "role": "input"},
+      {"number": 44, "name": "VCC", "role": "power"}
+    ]
+  },
+  "grades": {
+    "C": {"trvd": 60, "thz": 60, "trdd": 60, "tbld": 125, "trint": 140, "thr": 140, "tmdo": 100, "tsim": 170, "trim": 140, "tir": 140, "tcso": 70, "vcc": [4.75, 5.25], "note": "tl16c450.pdf p.6-8, 5 V (4.75-5.25 V) table, max limits (no typicals)"}
+  },
+  "parts": [
+    {"name": "TL16C450FN", "package": "PLCC", "pinout": "plcc44", "footprint": "PLCC-44", "grade": "C"}
+  ]
+}

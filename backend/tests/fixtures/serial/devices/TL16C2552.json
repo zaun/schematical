@@ -1,0 +1,62 @@
+{
+  "id": "TL16C2552",
+  "function": "UART",
+  "description": "1.8-V to 5-V dual UART with 16-byte FIFOs",
+  "drawer": ["Interface"],
+  "note": "tl16c2552.pdf p.1-40; plan-12-data/specs/ti-c.md § TL16C2552",
+  "pinouts": {
+    "plcc44": [
+      {"number": 1, "name": "TXRDYA", "role": "output"},
+      {"number": 2, "name": "D0", "role": "inout"},
+      {"number": 3, "name": "D1", "role": "inout"},
+      {"number": 4, "name": "D2", "role": "inout"},
+      {"number": 5, "name": "D3", "role": "inout"},
+      {"number": 6, "name": "D4", "role": "inout"},
+      {"number": 7, "name": "D5", "role": "inout"},
+      {"number": 8, "name": "D6", "role": "inout"},
+      {"number": 9, "name": "D7", "role": "inout"},
+      {"number": 10, "name": "A0", "role": "input"},
+      {"number": 11, "name": "XTAL1", "role": "input"},
+      {"number": 12, "name": "GND", "role": "ground"},
+      {"number": 13, "name": "XTAL2", "role": "output"},
+      {"number": 14, "name": "A1", "role": "input"},
+      {"number": 15, "name": "A2", "role": "input"},
+      {"number": 16, "name": "CHSEL", "role": "input"},
+      {"number": 17, "name": "INTB", "role": "output"},
+      {"number": 18, "name": "CS", "role": "input"},
+      {"number": 19, "name": "MFB", "role": "output"},
+      {"number": 20, "name": "IOW", "role": "input"},
+      {"number": 21, "name": "RESET", "role": "input"},
+      {"number": 22, "name": "GND", "role": "ground"},
+      {"number": 23, "name": "RTSB", "role": "output"},
+      {"number": 24, "name": "IOR", "role": "input"},
+      {"number": 25, "name": "RXB", "role": "input"},
+      {"number": 26, "name": "TXB", "role": "output"},
+      {"number": 27, "name": "DTRB", "role": "output"},
+      {"number": 28, "name": "CTSB", "role": "input"},
+      {"number": 29, "name": "DSRB", "role": "input"},
+      {"number": 30, "name": "CDB", "role": "input"},
+      {"number": 31, "name": "RIB", "role": "input"},
+      {"number": 32, "name": "TXRDYB", "role": "output"},
+      {"number": 33, "name": "VCC", "role": "power"},
+      {"number": 34, "name": "INTA", "role": "output"},
+      {"number": 35, "name": "MFA", "role": "output"},
+      {"number": 36, "name": "RTSA", "role": "output"},
+      {"number": 37, "name": "DTRA", "role": "output"},
+      {"number": 38, "name": "TXA", "role": "output"},
+      {"number": 39, "name": "RXA", "role": "input"},
+      {"number": 40, "name": "CTSA", "role": "input"},
+      {"number": 41, "name": "DSRA", "role": "input"},
+      {"number": 42, "name": "CDA", "role": "input"},
+      {"number": 43, "name": "RIA", "role": "input"},
+      {"number": 44, "name": "VCC", "role": "power"}
+    ]
+  },
+  "grades": {
+    "C": {"trvd": 20, "thz": 20, "tbld": 25, "trint": 70, "thr": 50, "tmdo": 50, "tsim": 35, "trim": 40, "twxi": 35, "tir": 35, "vcc": [1.62, 5.5], "note": "tl16c2552.pdf p.11-12, 5 V column (tbld = td1 XIN to BAUDOUT on MF); 0..70 °C"}
+  },
+  "parts": [
+    {"name": "TL16C2552FN", "package": "PLCC", "pinout": "plcc44", "footprint": "PLCC-44", "grade": "C"},
+    {"name": "TL16C2552FNR", "package": "PLCC", "pinout": "plcc44", "footprint": "PLCC-44", "grade": "C"}
+  ]
+}
