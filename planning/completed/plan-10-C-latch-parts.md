@@ -134,7 +134,7 @@ cases 2–4 again), `SN74LVC1G373DBVR` (transparent and hold),
   the unused-footprint failure was not run on its own because latch.json was
   generated in the same step; the joint check is Phase 2's `ctest` 13 of 13.)
 
-Commit: (with Phase 2)
+Commit: dfc9d48 (with Phase 2)
 
 ### Phase 2 — `latch.json`
 
@@ -185,7 +185,7 @@ Commit: dfc9d48
 
 Acceptance: `latch_test` all `PASS`; `ctest` 13 of 13. (Ran: 34 `PASS`, 0
 `FAIL`; `100% tests passed, 0 tests failed out of 13`.)
-Commit: —
+Commit: ad5db6d
 
 ## Validation Plan
 
