@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, counter, shift register, SRAM, EEPROM, switch, LED,
-7-segment display, oscillator, supply, microprocessor) is described in a JSON part file in
+7-segment display, character LCD module, oscillator, supply, microprocessor) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -20,6 +20,7 @@ Every orderable part (gate, flip-flop, latch, counter, shift register, SRAM, EEP
 | `counter.json` | `counter` |
 | `shift.json` | `shift` |
 | `cpu.json` | `cpu` |
+| `charlcd.json` | `charlcd` |
 
 Beside them, `footprints.json` holds the land patterns parts name with
 `"footprint"` (see [Footprints](#footprints)). It is loaded first, with
@@ -193,7 +194,7 @@ Flags:
 Chips carry their datasheet's Recommended Operating Conditions supply range,
 for the voltage check (`docs/backend.md`). The keys go on the gate, dff and
 jkff **timing entries**, the sram and eeprom **grades**, the oscillator
-**device**, and on any **part** of those kinds:
+and charlcd **devices**, and on any **part** of those kinds:
 
 | Key | Value |
 |---|---|
@@ -203,7 +204,8 @@ jkff **timing entries**, the sram and eeprom **grades**, the oscillator
 Resolution, per part:
 
 1. The base is the part's timing entry (gate, dff, jkff), grade (sram,
-   eeprom) or device (oscillator): its `vcc` and `inputMax`, each optional.
+   eeprom) or device (oscillator, charlcd): its `vcc` and `inputMax`, each
+   optional.
 2. The part's own `vcc` replaces the base range; its own `inputMax` replaces
    the base input max. A part that overrides only `vcc` keeps the base's
    `inputMax` if one was given, otherwise its input max is its own `vcc`
@@ -214,7 +216,7 @@ Resolution, per part:
 4. `Part.vcc` points at the resolved `PartVoltage` (`min_mv`, `max_mv`,
    `input_max_mv`); parts with no part-level key share their entry's.
 
-Every gate, dff, jkff, sram, eeprom and oscillator part must resolve to a
+Every gate, dff, jkff, sram, eeprom, oscillator and charlcd part must resolve to a
 `vcc` range (a part with none is rejected: `missing "vcc"`). Supplies,
 LEDs, 7-segment displays and switches never take these keys; their
 `Part.vcc` is NULL.
@@ -958,6 +960,42 @@ An LED's segment pin is the first pin (in pin order) in `segmentPins` that
 drives its segment for its digit (or every digit); its commons are the
 first two pins of its digit in `commonPins`. Unused positions are pins with
 role `nc` (no connect) or `absent` (no lead). Parts carry no kind keys.
+
+### `charlcd`
+
+Character LCD modules: HD44780-compatible modules with the controller,
+character ROM, glass and backlight built in (plan-11). The parts drawer
+lists them under Displays → Character.
+
+```json
+"columns": 16, "rows": 2, "controller": "ST7066U", "rom": "A00",
+"panel": "blue-negative",
+"bus": {"rs": "RS", "rw": "R/W", "e": "E",
+        "data": ["DB0", "DB1", "DB2", "DB3", "DB4", "DB5", "DB6", "DB7"]},
+"contrast": "V0",
+"backlight": {"anode": "LED+", "cathode": "LED-", "color": "White"},
+"timing": {"tc": 1200, "tpw": 140, "tas": 0, "tah": 10, "tdsw": 40, "th": 10,
+           "tddr": 100, "tdhr": 10},
+"exec": {"instruction": 37000, "data": 37000, "clearHome": 1520000,
+         "powerOn": 40000000},
+"vcc": [4.5, 5.5]
+```
+
+| Key | Value |
+|---|---|
+| `"columns"`, `"rows"` | characters per line (1–40) and lines (1–2) |
+| `"controller"` | shown as is, e.g. `"ST7066U"` |
+| `"rom"` | `"A00"`, the only character ROM the model has |
+| `"panel"` | `"yellow-green"` (STN positive: dark dots on yellow-green) or `"blue-negative"` (STN negative: light dots on blue) |
+| `"bus"` | `{"rs", "rw", "e", "data"}`: pin names; `data` is 8 names, DB0 first. Each names exactly one pin. `PartCharLcd.bus_pins` holds RS, R/W, E, DB0–DB7 as indices into `Part.pins` |
+| `"contrast"` | the V0 pin's name (one pin); the model ignores it |
+| `"backlight"` | optional `{"anode", "cathode", "color"}`: pin names (one pin each) and the shown color. Without it `PartCharLcd.backlight_color` is NULL |
+| `"timing"` | ns: `tc tpw tas tah tdsw th tddr tdhr` (the datasheet's bus timing), every key required, each ≥ 0; `tc` and `tpw` > 0 |
+| `"exec"` | ns: `instruction` (every instruction but Clear and Home), `data` (a data read or write), `clearHome`, `powerOn` (busy time after power-up), each > 0 |
+| `"vcc"`, `"inputMax"` | the supply range (§ Supply voltage); also allowed on the part |
+
+Part keys: `"vcc"`, `"inputMax"` (optional; replace the device's). Parts
+name a `"connectorFootprint"` as well as their `"footprint"`.
 
 ### Sequential kinds (`latch`, `counter`, `shift`)
 

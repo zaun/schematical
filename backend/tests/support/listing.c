@@ -19,6 +19,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_COUNTER: return "counter";
         case PART_SHIFT: return "shift";
         case PART_CPU: return "cpu";
+        case PART_CHARLCD: return "charlcd";
     }
     return "?";
 }
@@ -109,6 +110,15 @@ static void print_details(FILE *out, const Part *part) {
             fprintf(out, "core=%s grade=%s max_hz=%llu", part->cpu->core, part->cpu->grade,
                     (unsigned long long)part->cpu->max_hz);
             break;
+        case PART_CHARLCD: {
+            const PartCharLcd *l = part->charlcd;
+
+            fprintf(out, "columns=%u rows=%u controller=%s rom=%s panel=%s backlight=%s bus=",
+                    l->columns, l->rows, l->controller, l->rom, l->panel,
+                    l->backlight_color != NULL ? l->backlight_color : "none");
+            print_numbers(out, part->pins, l->bus_pins, l->bus_pin_count);
+            break;
+        }
     }
 }
 

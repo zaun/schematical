@@ -47,8 +47,8 @@ The gate is plan-11-A § Prerequisites. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-11-A complete | `grep -c 'Commit: —' planning/plan-11-A-groundwork.md` → 0 (or the file is in `planning/completed/`) | NOT MET (2026-11-01: A not started) |
-| `Part.connector_footprint` exists | `grep -n 'connector_footprint' backend/include/parts.h` → one line | NOT MET (lands in A) |
+| plan-11-A complete | `grep -c 'Commit: —' planning/plan-11-A-groundwork.md` → 0 (or the file is in `planning/completed/`) | MET (2026-11-01 at bffe730: 0) |
+| `Part.connector_footprint` exists | `grep -n 'connector_footprint' backend/include/parts.h` → one line | MET (2026-11-01 at bffe730: parts.h:119) |
 
 Everything below is written against the world where these hold.
 
@@ -603,21 +603,25 @@ Cases (each an `expect` with its own message):
 Part facts load; the model is a stub that drives nothing (DB Z), and BF is
 not yet readable.
 
-- [ ] `backend/include/parts.h`: `PART_CHARLCD`, `PartCharLcd`, `Part.charlcd` (§4.1).
-- [ ] `backend/src/models/charlcd.c`: `CHARLCD_KIND` with device keys,
+- [x] `backend/include/parts.h`: `PART_CHARLCD`, `PartCharLcd`, `Part.charlcd` (§4.1).
+- [x] `backend/src/models/charlcd.c`: `CHARLCD_KIND` with device keys,
       `load_device`, `bind_pinout`, `load_part` (§4.2); a model with
       `pin_count`, `create`, `destroy` and no-op `start`/`pin_changed`.
-- [ ] `backend/src/library/kinds.c`: `&CHARLCD_KIND` after `&CPU_KIND`.
-- [ ] `backend/tests/support/listing.c`: kind name and facts (§4.8).
-- [ ] `backend/tests/charlcd_test.c` + `logic_test(charlcd_test)` in
+- [x] `backend/src/library/kinds.c`: `&CHARLCD_KIND` after `&CPU_KIND`.
+- [x] `backend/tests/support/listing.c`: kind name and facts (§4.8).
+- [x] `backend/tests/charlcd_test.c` + `logic_test(charlcd_test)` in
       `backend/CMakeLists.txt`: the fixture device and case 20 (loader errors).
-- [ ] `docs/parts-format.md`: the § `charlcd` key table (§4.2), the file
+      Also `src/models/charlcd.c` in the `logic` library's source list (the
+      CMake list is explicit). Ran: `charlcd_test` → 18 PASS lines for case 20
+      (facts, bus pins, vcc, no-backlight device, and 13 bad devices), `all passed`.
+- [x] `docs/parts-format.md`: the § `charlcd` key table (§4.2), the file
       table row, § Supply voltage. `docs/backend.md` § Layout: `charlcd.c`,
       `charlcd_font.c`.
 
 Acceptance: the fixture loads with the right facts and every bad device is
 rejected with its message; the goldens are unchanged.
   Check: `cmake --build /tmp/logic-p11 -j8 && ctest --test-dir /tmp/logic-p11` → `out of 18`, 100% passed; `git diff --exit-code backend/tests/golden` → 0 (est. 1 min).
+  Ran: `100% tests passed, 0 tests failed out of 18`; golden diff → exit 0.
 Commit: —
 
 ### Phase 2 — Character ROM

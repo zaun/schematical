@@ -131,6 +131,9 @@ backend/
     models/                one file per kind: gate.c dff.c jkff.c sram.c
                            eeprom.c switch.c led.c display7.c oscillator.c
                            supply.c latch.c,
+                           charlcd.c (character LCD modules: loader and
+                           the HD44780 controller model), charlcd_font.c
+                           + charlcd_font.h (character ROM A00),
                            seq.c + seq.h (helpers the sequential kinds
                            share: timing entries, controls, X rules,
                            outputs), and lights.c (on-time tracking for

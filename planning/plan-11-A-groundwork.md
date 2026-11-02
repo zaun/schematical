@@ -339,7 +339,7 @@ and the app still builds.
   `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p11-dd CODE_SIGNING_ALLOWED=NO build | tail -1` → `** BUILD SUCCEEDED **` (est. 4 min; the app build is the only check that the new `Part` field compiles in Swift's import).
   Ran: ctest → `100% tests passed, 0 tests failed out of 17`; golden diff →
   exit 0; xcodebuild → `** BUILD SUCCEEDED **`.
-Commit: —
+Commit: bffe730
 
 ## Validation Plan
 
