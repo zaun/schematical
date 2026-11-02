@@ -1092,20 +1092,15 @@ static void case_terminal(void) {
 /* "shipped": every fixture device equals the same device in Parts/serial.json
    (its parts aside), so a model case cannot pass on a device that differs
    from the one the library ships (plan-12-D section 3.3). */
-static void case_shipped(void) {
+static int compare_shipped(const char *file, const char *shipped_text) {
     char path[512];
-    char *fixture_text;
-    char *shipped_text;
     char message[160];
+    char *fixture_text;
     int compared = 0;
 
-    case_begin();
-    snprintf(path, sizeof path, "%s/../fixtures/serial/ns16550.json", GOLDEN_DIR);
+    snprintf(path, sizeof path, "%s/../fixtures/serial/%s", GOLDEN_DIR, file);
     fixture_text = read_file(path);
-    snprintf(path, sizeof path, "%s/serial.json", PARTS_DIR);
-    shipped_text = read_file(path);
     check(fixture_text != NULL, "the fixture file");
-    check(shipped_text != NULL, "Parts/serial.json (shipped by plan-12-F onwards)");
     if (fixture_text != NULL && shipped_text != NULL) {
         cJSON *fixture = cJSON_Parse(fixture_text);
         cJSON *shipped = cJSON_Parse(shipped_text);
@@ -1132,12 +1127,28 @@ static void case_shipped(void) {
                 }
             }
         }
-        snprintf(message, sizeof message, "%d fixture devices found in serial.json", compared);
-        check(compared > 0, message);
         cJSON_Delete(fixture);
         cJSON_Delete(shipped);
     }
     free(fixture_text);
+    return compared;
+}
+
+static void case_shipped(void) {
+    char path[512];
+    char *shipped_text;
+    char message[160];
+    int compared = 0;
+
+    case_begin();
+    snprintf(path, sizeof path, "%s/serial.json", PARTS_DIR);
+    shipped_text = read_file(path);
+    check(shipped_text != NULL, "Parts/serial.json (shipped by plan-12-F onwards)");
+    compared += compare_shipped("ns16550.json", shipped_text);
+    /* plan-12-I: the bridge devices are in their own fixture file. */
+    compared += compare_shipped("bridges.json", shipped_text);
+    snprintf(message, sizeof message, "%d fixture devices found in serial.json", compared);
+    check(compared > 0, message);
     free(shipped_text);
     case_end("shipped: the fixture devices are the shipped device objects");
 }
@@ -2884,11 +2895,15 @@ static void case_j6(void) {
 
 /* ==== end of plan-12-J ==================================================================== */
 
+/* ==== plan-12-I: the I2C/SPI bridges and the SC18IS604 ============================ */
+
+#include "serial_test_i.h"
+
 int main(void) {
     library = part_library_create();
     if (load_parts_dir(library, PARTS_DIR) != 0 || load_serial_fixture(library) != 0 ||
         load_new_footprints() != 0 || load_file("footprints_test.json", 1) != 0 ||
-        load_file("ns16550.json", 0) != 0) {
+        load_file("ns16550.json", 0) != 0 || load_file("bridges.json", 0) != 0) {
         printf("FAIL: loading parts\n");
         return 1;
     }
@@ -2916,6 +2931,7 @@ int main(void) {
     case_j4();
     case_j5();
     case_j6();
+    run_i_cases();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);
