@@ -2898,6 +2898,1506 @@ static void case_j6(void) {
 
 /* ==== end of plan-12-J ==================================================================== */
 
+/* ==== plan-12-E: the Exar/MaxLinear options (cases E1-E28) ===========================
+ *
+ * The 28 Exar devices on their fixture objects (tests/fixtures/serial/keys/ merged
+ * into devices/ by merge.py), on the bench above. Motorola cycles: CS is the strobe
+ * and the Intel write pin is R/W (m_write / m_read).
+ */
+
+static const BenchConfig E_ST450_BENCH = {
+    "IORBAR", "IOWBAR", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"}, {"A0", "A1", "A2"}, 3,
+    {"CS0=1", "CS1=1", "CS2=0", "AS=0", "IOR=0", "IOW=0", "RX=1", "CTS=1", "DSR=1", "CD=1", "RI=1",
+     NULL},
+    "RESET", 1, "XTAL1", "BAUDOUT", "RCLK", {{NULL}}, 0
+};
+
+static const BenchConfig E_ONE_BENCH = {
+    "IOR", "IOW", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"}, {"A0", "A1", "A2"}, 3,
+    {"CS=0", "RX=1", "CTS=1", "DSR=1", "CD=1", "RI=1", NULL},
+    "RESET", 1, "XTAL1", NULL, NULL, {{NULL}}, 0
+};
+
+static const BenchConfig E_L580_BENCH = {
+    "IOR", "IOW", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"}, {"A0", "A1", "A2"}, 3,
+    {"CS=0", "RX=1", "CTS=1", "DSR=1", "CD=1", "RI=1", "16/68=1", "PWRSAVE=0", NULL},
+    "RESET", 1, "XTAL1", NULL, NULL, {{NULL}}, 0
+};
+
+static const BenchConfig E_DUAL_MOTO_BENCH = {
+    "IOR", "IOW", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"}, {"A0", "A1", "A2"}, 3,
+    {"RXA=1", "RXB=1", "CTSA=1", "CTSB=1", "DSRA=1", "DSRB=1", "CDA=1", "CDB=1", "RIA=1", "RIB=1",
+     "16/68=1", "PWRSAVE=0", NULL},
+    "RESET", 1, "XTAL1", NULL, NULL, {{"CSA=0"}, {"CSB=0"}}, 2
+};
+
+static const BenchConfig E_DUAL_68_BENCH = {
+    "IOR", "IOW", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"}, {"A0", "A1", "A2"}, 3,
+    {"RXA=1", "RXB=1", "CTSA=1", "CTSB=1", "DSRA=1", "DSRB=1", "CDA=1", "CDB=1", "RIA=1", "RIB=1",
+     "16/68=1", NULL},
+    "RESET", 1, "XTAL1", NULL, NULL, {{"CSA=0"}, {"CSB=0"}}, 2
+};
+
+static const BenchConfig E_DUAL_CLKSEL_BENCH = {
+    "IOR", "IOW", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"}, {"A0", "A1", "A2"}, 3,
+    {"RXA=1", "RXB=1", "CTSA=1", "CTSB=1", "DSRA=1", "DSRB=1", "CDA=1", "CDB=1", "RIA=1", "RIB=1",
+     "16/68=1", "PWRSAVE=0", "CLKSEL=1", NULL},
+    "RESET", 1, "XTAL1", NULL, NULL, {{"CSA=0"}, {"CSB=0"}}, 2
+};
+
+static const BenchConfig E_DUAL_QFN_BENCH = {
+    "IOR", "IOW", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"}, {"A0", "A1", "A2"}, 3,
+    {"RXA=1", "RXB=1", "CTSA=1", "CTSB=1", NULL},
+    "RESET", 1, "XTAL1", NULL, NULL, {{"CSA=0"}, {"CSB=0"}}, 2
+};
+
+static const BenchConfig E_QUAD_V_BENCH = {
+    "IOR", "IOW", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"}, {"A0", "A1", "A2"}, 3,
+    {"RXA=1", "RXB=1", "RXC=1", "RXD=1", "CTSA=1", "CTSB=1", "CTSC=1", "CTSD=1", "DSRA=1", "DSRB=1",
+     "DSRC=1", "DSRD=1", "CDA=1", "CDB=1", "CDC=1", "CDD=1", "RIA=1", "RIB=1", "RIC=1", "RID=1",
+     "16/68=1", "INTSEL=0", NULL},
+    "RESET", 1, "XTAL1", NULL, NULL, {{"CSA=0"}, {"CSB=0"}, {"CSC=0"}, {"CSD=0"}}, 4
+};
+
+static const BenchConfig E_QUAD_CLKSEL_BENCH = {
+    "IOR", "IOW", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"}, {"A0", "A1", "A2"}, 3,
+    {"RXA=1", "RXB=1", "RXC=1", "RXD=1", "CTSA=1", "CTSB=1", "CTSC=1", "CTSD=1", "DSRA=1", "DSRB=1",
+     "DSRC=1", "DSRD=1", "CDA=1", "CDB=1", "CDC=1", "CDD=1", "RIA=1", "RIB=1", "RIC=1", "RID=1",
+     "CLKSEL=1", NULL},
+    "RESET", 1, "XTAL1", NULL, NULL, {{"CSA=0"}, {"CSB=0"}, {"CSC=0"}, {"CSD=0"}}, 4
+};
+
+static const BenchConfig E_C854_BENCH = {
+    "IOR", "IOW", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"}, {"A0", "A1", "A2"}, 3,
+    {"RXA=1", "RXB=1", "RXC=1", "RXD=1", "CTSA=1", "CTSB=1", "CTSC=1", "CTSD=1", "DSRA=1", "DSRB=1",
+     "DSRC=1", "DSRD=1", "CDA=1", "CDB=1", "CDC=1", "CDD=1", "RIA=1", "RIB=1", "RIC=1", "RID=1",
+     "16/68=1", "INTSEL=0", "CLKSEL=1", "FSRS=1", "CHCCLK=0", NULL},
+    "RESET", 1, "XTAL1", NULL, NULL, {{"CSA=0"}, {"CSB=0"}, {"CSC=0"}, {"CSD=0"}}, 4
+};
+
+static const BenchConfig E_C864_BENCH = {
+    "IOR", "IOW", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"}, {"A0", "A1", "A2"}, 3,
+    {"RXA=1", "RXB=1", "RXC=1", "RXD=1", "CTSA=1", "CTSB=1", "CTSC=1", "CTSD=1", "DSRA=1", "DSRB=1",
+     "DSRC=1", "DSRD=1", "CDA=1", "CDB=1", "CDC=1", "CDD=1", "RIA=1", "RIB=1", "RIC=1", "RID=1",
+     "16/68=1", "INTSEL=0", "CLKSEL=1", "FSRS=1", "CHCCLK=0", "DACKA=1", "DACKB=1", "DACKC=1",
+     "DACKD=1", "AEN=0", "TC=0", NULL},
+    "RESET", 1, "XTAL1", NULL, NULL, {{"CSA=0"}, {"CSB=0"}, {"CSC=0"}, {"CSD=0"}}, 4
+};
+
+static const BenchConfig E_V798_BENCH = {
+    "IOR", "IOW", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"},
+    {"A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7"}, 8,
+    {"CS=0", "16/68=1", "TMRCK=0", "ENIR=0", "RX0=1", "RX1=1", "RX2=1", "RX3=1", "RX4=1", "RX5=1",
+     "RX6=1", "RX7=1", "CTS0=1", "CTS1=1", "CTS2=1", "CTS3=1", "CTS4=1", "CTS5=1", "CTS6=1",
+     "CTS7=1", "DSR0=1", "DSR1=1", "DSR2=1", "DSR3=1", NULL},
+    "RST", 0, "XTAL1", NULL, NULL, {{NULL}}, 0
+};
+
+static const BenchConfig E_L784_BENCH = {
+    "IOR", "IOW", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"},
+    {"A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7"}, 8,
+    {"CS=0", "16/68=1", "TMRCK=0", "ENIR=0", "RX0=1", "RX1=1", "RX2=1", "RX3=1", "CTS0=1",
+     "CTS1=1", "CTS2=1", "CTS3=1", "DSR0=1", "DSR1=1", "DSR2=1", "DSR3=1", "CD0=1", "CD1=1",
+     "CD2=1", "CD3=1", "RI0=1", "RI1=1", "RI2=1", "RI3=1", NULL},
+    "RST", 0, "XTAL1", NULL, NULL, {{NULL}}, 0
+};
+
+/* The enhanced bank (LCR = 0xBF) for one EFR write, then back to 8N1. */
+static void e_efr(Bench *b, unsigned efr) {
+    bus_write(b, 3, 0xBF);
+    bus_write(b, 2, efr);
+    bus_write(b, 3, 0x03);
+}
+
+/* Runs to `before` ps ahead of the next XTAL1 rising edge (the bench clock
+   rises at (2n + 1) half periods). */
+static void e_before_rise(Bench *b, SimTime before) {
+    SimTime now = sim_now(b->sim);
+    SimTime next = (now / b->period) * b->period + b->half;
+
+    while (next <= now + before) {
+        next += b->period;
+    }
+    run(b, next - before - now);
+}
+
+/* Motorola cycles: R/W on IOW (1 = read), CS the strobe, data latched at CS rising. */
+static void m_write(Bench *b, const char *cs, unsigned a, unsigned v) {
+    set_address(b, a);
+    set_data(b, 1, v);
+    set(b, "IOW", LOGIC_0);
+    run(b, NS(40));
+    set(b, cs, LOGIC_0);
+    run(b, NS(120));
+    set(b, cs, LOGIC_1);
+    run(b, NS(40));
+    set_data(b, 0, 0);
+    set(b, "IOW", LOGIC_1);
+    run(b, NS(160));
+}
+
+static unsigned m_read_text(Bench *b, const char *cs, unsigned a, char text[9]) {
+    unsigned v = 0;
+    unsigned i;
+
+    set_address(b, a);
+    set(b, "IOW", LOGIC_1);
+    run(b, NS(40));
+    set(b, cs, LOGIC_0);
+    run(b, NS(150));
+    for (i = 0; i < 8; i++) {
+        LogicValue l = get(b, b->cfg->data[i]);
+
+        text[7 - i] = "01XZ"[l];
+        if (l == LOGIC_1) {
+            v |= 1u << i;
+        }
+    }
+    text[8] = '\0';
+    set(b, cs, LOGIC_1);
+    run(b, NS(160));
+    return v;
+}
+
+static void m_expect(Bench *b, const char *cs, unsigned a, const char *want, const char *what) {
+    char text[9];
+    char message[160];
+
+    m_read_text(b, cs, a, text);
+    snprintf(message, sizeof message, "%s: read %s, want %s", what, text, want);
+    check(strcmp(text, want) == 0, message);
+}
+
+/* Bit time of a TX pin's start bit: the low time from its falling edge, sampled
+   every `step`; 0 when no start bit within `limit`. */
+static SimTime e_low_time(Bench *b, const char *pin, SimTime limit, SimTime step) {
+    SimTime t0;
+    SimTime spent = 0;
+
+    while (get(b, pin) != LOGIC_0) {
+        if (spent >= limit) {
+            return 0;
+        }
+        run(b, step);
+        spent += step;
+    }
+    t0 = sim_now(b->sim);
+    while (get(b, pin) == LOGIC_0 && sim_now(b->sim) - t0 < limit) {
+        run(b, step);
+    }
+    return sim_now(b->sim) - t0;
+}
+
+/* ---- E1 ST16C550, E2 ST16C450: the Exar 16550/16450 baselines ------------------------- */
+
+/* Drives RX low for 7.5 clocks, starting 20 ns before a clock edge, then high:
+   1 when the receiver took it as a start bit (it then reads 0xFF). */
+static int e_half_start(Bench *b) {
+    run(b, b->period * 32);                /* mark first: the receiver needs a 1 before the edge */
+    e_before_rise(b, NS(20));
+    set(b, "RX", LOGIC_0);
+    run(b, b->period * 15 / 2);
+    set(b, "RX", LOGIC_1);
+    run(b, b->period * 16 * 12);
+    return (bus_read(b, 5) & 1u) != 0;
+}
+
+static void case_e1(void) {
+    Bench *b = bench_open_cfg("SFX-ST16C550", HALF_18432, &E_ST450_BENCH);
+    SimTime bt;
+    unsigned i;
+    char text[9];
+
+    case_begin();
+    bus_write(b, 7, 0x12);
+    pulse_reset(b);
+    expect_reg(b, 7, "11111111", "SPR resets to 0xFF (Table 4)");
+    program(b, 1, 0x03);
+    bt = bit_time(b, 1);
+    /* Start bit checked 7.5 clocks in: a 7.5-clock low pulse is a start bit. */
+    check(e_half_start(b), "a 7.5-clock start pulse is a start bit (startSample 7.5)");
+    bus_read(b, 0);
+    /* DMA class N: mode-1 TXRDY low again as soon as one slot frees. */
+    bus_write(b, 2, 0x09);                 /* FIFO, DMA mode 1 */
+    for (i = 0; i < 17; i++) {
+        bus_write(b, 0, 0x30 + i);
+    }
+    run(b, NS(2000));
+    expect_pin(b, "TXRDY", LOGIC_1, "TX FIFO full: TXRDY high");
+    run(b, bt * 11);
+    expect_pin(b, "TXRDY", LOGIC_0, "class N: one slot free, TXRDY low (P would wait for empty)");
+    run(b, bt * 10 * 18);
+    /* Timeout 4 characters + 12 bit times. */
+    bus_write(b, 2, 0x47);                 /* trigger 4: one byte is below it */
+    bus_write(b, 1, 0x01);
+    drive_named(b, "RX", 0x41, bt);
+    run(b, bt * 45);
+    bus_read_text(b, 2, text);
+    check(strcmp(text, "11000001") == 0, "45 bit times after the byte: no timeout yet (4ch would be)");
+    run(b, bt * 8);
+    expect_reg(b, 2, "11001100", "4 characters + 12 bit times: timeout (4w12)");
+    expect_pin(b, "INT", LOGIC_1, "INT driven high (no OUT2 gating)");
+    bus_read(b, 0);
+    run(b, NS(500));
+    expect_pin(b, "INT", LOGIC_0, "INT driven low");
+    case_end("E1 ST16C550: SPR 0xFF, start at 7.5, DMA class N, 4w12 timeout, driven INT");
+    bench_close(b);
+}
+
+static void case_e2(void) {
+    Bench *b = bench_open_cfg("SFX-ST16C450", HALF_18432, &E_ST450_BENCH);
+
+    case_begin();
+    expect_reg(b, 7, "11111111", "SPR 0xFF after reset");
+    expect_reg(b, 2, "00000001", "16450: IIR[7:6] = 00");
+    bus_write(b, 2, 0xC1);
+    expect_reg(b, 2, "00000001", "no FCR: IIR stays 0x01");
+    expect_pin(b, "CSOUT", LOGIC_1, "selected: CSOUT high");
+    set(b, "CS2", LOGIC_1);
+    run(b, NS(200));
+    expect_pin(b, "CSOUT", LOGIC_0, "deselected: CSOUT low");
+    set(b, "CS2", LOGIC_0);
+    /* The active-high IOR strobe reads too. */
+    bus_write(b, 7, 0x5A);
+    set(b, "IORBAR", LOGIC_1);
+    set_address(b, 7);
+    set(b, "IOR", LOGIC_1);
+    run(b, NS(150));
+    expect_pin(b, "DDIS", LOGIC_0, "a read in progress: DDIS low");
+    check(get(b, "D1") == LOGIC_1 && get(b, "D0") == LOGIC_0, "IOR (active high) reads SPR 0x5A");
+    set(b, "IOR", LOGIC_0);
+    run(b, NS(200));
+    expect_pin(b, "DDIS", LOGIC_1, "read over: DDIS high");
+    program(b, 1, 0x03);
+    check(e_half_start(b), "a 7.5-clock start pulse is a start bit");
+    expect_reg(b, 0, "11111111", "and reads 0xFF");
+    case_end("E2 ST16C450: 16450 Exar (SPR 0xFF, CSOUT, DDIS, IOR/IORBAR, start at 7.5)");
+    bench_close(b);
+}
+
+/* ---- E3 ST16C1450, E4 ST16C1550: IER[5] special mode -------------------------------- */
+
+static void case_e3(void) {
+    Bench *b = bench_open_cfg("SFX-ST16C1450", HALF_18432, &E_ONE_BENCH);
+    SimTime bt;
+
+    case_begin();
+    expect_pin(b, "INT", LOGIC_Z, "INT 3-state after reset (MCR[3] = 0)");
+    expect_pin(b, "RST", LOGIC_0, "RST follows RESET (low)");
+    program(b, 1, 0x03);
+    bt = bit_time(b, 1);
+    bus_write(b, 4, 0x84);                 /* MCR[7] without IER[5]: not written */
+    expect_reg(b, 4, "00000100", "MCR[7] needs IER[5]");
+    expect_pin(b, "RST", LOGIC_0, "MCR[2] without IER[5]: RST low");
+    bus_write(b, 1, 0x20);                 /* IER[5] special mode */
+    expect_reg(b, 1, "00100000", "IER[5] writable");
+    run(b, NS(200));
+    expect_pin(b, "RST", LOGIC_1, "IER[5] and MCR[2]: RST high (soft reset out)");
+    expect_reg(b, 2, "00010001", "ISR[4] = TXRDY (THR empty), active high");
+    drive_named(b, "RX", 0x41, bt);
+    run(b, bt);
+    expect_reg(b, 2, "00110001", "data: ISR[5] = RXRDY (IER[0] = 0: no interrupt)");
+    bus_read(b, 0);
+    /* THR interrupt: an ISR read does not clear it. */
+    bus_write(b, 4, 0x08);                 /* INT enabled, RST low again */
+    bus_write(b, 1, 0x22);
+    run(b, NS(300));
+    expect_pin(b, "INT", LOGIC_1, "THR empty: INT high");
+    expect_reg(b, 2, "00010010", "ISR: TX ready");
+    expect_reg(b, 2, "00010010", "still TX ready after a read (ier1Rewrite)");
+    bus_write(b, 1, 0x20);
+    expect_reg(b, 2, "00010001", "IER[1] = 0: cleared");
+    /* Power-down (MCR[7] with IER[5]): the baud clock stops. */
+    bus_write(b, 4, 0x88);
+    expect_reg(b, 4, "10001000", "MCR[7] = 1 with IER[5]");
+    bus_write(b, 1, 0x22);
+    expect_reg(b, 2, "00010010", "IER[1] again with the THR empty: TX ready");
+    bus_write(b, 0, 0x5A);
+    expect_reg(b, 2, "00000001", "a THR write clears it (THR full: ISR[4] = 0)");
+    check(!wait_level(b, "TX", LOGIC_0, bt * 12), "powered down: nothing is sent");
+    bus_write(b, 4, 0x08);
+    check(wait_level(b, "TX", LOGIC_0, bt * 4), "MCR[7] = 0: the byte goes out");
+    /* Loopback cuts MCR[2] from RST. */
+    run(b, bt * 12);
+    bus_write(b, 4, 0x14);
+    run(b, NS(200));
+    expect_pin(b, "RST", LOGIC_0, "loopback: RST = RESET only");
+    case_end("E3 ST16C1450: IER[5] mode (ISR[5:4], RST, MCR[7] power-down), ier1Rewrite THR rule");
+    bench_close(b);
+}
+
+static void case_e4(void) {
+    Bench *b = bench_open_cfg("SFX-ST16C1550", HALF_18432, &E_ONE_BENCH);
+    SimTime bt;
+    SimTime ct;
+    unsigned i;
+
+    case_begin();
+    program(b, 1, 0x03);
+    bt = bit_time(b, 1);
+    ct = bt * 10;
+    bus_write(b, 2, 0x21);                 /* FIFO; FCR[5:4] without IER[5]: ignored */
+    bus_write(b, 1, 0x22);
+    expect_reg(b, 2, "11100010", "IER[5]: ISR[5:4] inverted (TX empty: [4] = 0; RX empty: [5] = 1)");
+    bus_write(b, 2, 0x21);                 /* TX trigger 8, written with IER[5] */
+    bus_write(b, 4, 0x08);
+    for (i = 0; i < 14; i++) {
+        bus_write(b, 0, 0x40 + i);
+    }
+    run(b, ct * 11 / 2);
+    expect_pin(b, "INT", LOGIC_0, "TX trigger 8: 8 bytes still in the FIFO, no interrupt");
+    run(b, ct * 3 / 2);
+    expect_pin(b, "INT", LOGIC_1, "the count fell below 8: TX interrupt (Exar counts bytes)");
+    expect_reg(b, 2, "11110010", "ISR: TX ready; FIFO not empty [4] = 1, RX empty [5] = 1");
+    run(b, ct * 8);
+    /* Not filled to the trigger: the interrupt waits for empty. */
+    bus_write(b, 1, 0x20);
+    bus_write(b, 1, 0x22);
+    bus_read(b, 2);
+    bus_write(b, 0, 0x31);
+    bus_write(b, 0, 0x32);
+    bus_write(b, 0, 0x33);
+    run(b, ct * 3 / 2);
+    expect_pin(b, "INT", LOGIC_0, "3 bytes (trigger 8 never reached): no interrupt yet");
+    run(b, ct * 2);
+    expect_pin(b, "INT", LOGIC_1, "the FIFO emptied: TX interrupt");
+    /* MCR[7] is power-down (decisions.md), not a prescaler. */
+    bus_write(b, 4, 0x88);
+    bus_write(b, 0, 0x5A);
+    check(!wait_level(b, "TX", LOGIC_0, bt * 12), "MCR[7]: powered down");
+    bus_write(b, 4, 0x08);
+    check(wait_level(b, "TX", LOGIC_0, bt * 4), "and back");
+    case_end("E4 ST16C1550: IER[5] TX trigger (bytes), inverted ISR[5:4], MCR[7] power-down");
+    bench_close(b);
+}
+
+/* ---- E5 ST16C2550, E7 XR16C2550: dual, per-channel CS ------------------------------- */
+
+static void case_e5_e7(const char *part, const char *name) {
+    Bench *b = bench_open_cfg(part, HALF_18432, &DUAL_CD_BENCH);
+    SimTime bt;
+    char text[9];
+
+    case_begin();
+    expect_pin(b, "INTA", LOGIC_Z, "INT 3-state until MCR[3]");
+    expect_pin(b, "OP2A", LOGIC_1, "OP2 = NOT MCR[3]");
+    /* Both CS low: a write reaches both channels; a read is X. */
+    set(b, "CSB", LOGIC_0);
+    run(b, NS(100));
+    bus_write(b, 7, 0x3C);
+    bus_read_text(b, 7, text);
+    check(strcmp(text, "XXXXXXXX") == 0, "a read with both CS low: X (contention)");
+    select_unit(b, 1);
+    expect_reg(b, 7, "00111100", "channel B got the broadcast write");
+    select_unit(b, 0);
+    expect_reg(b, 7, "00111100", "channel A too");
+    bus_write(b, 4, 0x08);
+    run(b, NS(300));
+    expect_pin(b, "OP2A", LOGIC_0, "MCR[3] = 1: OP2A low");
+    expect_pin(b, "INTA", LOGIC_0, "MCR[3] = 1: INTA driven");
+    program(b, 1, 0x03);
+    bt = bit_time(b, 1);
+    /* Timeout above RX data (Exar ISR table). */
+    bus_write(b, 2, 0x07);                 /* FIFO, trigger 1 */
+    bus_write(b, 1, 0x01);
+    drive_named(b, "RXA", 0x41, bt);
+    expect_reg(b, 2, "11000100", "RX data at trigger 1");
+    run(b, bt * 60);
+    expect_reg(b, 2, "11001100", "RX data and timeout both pending: the timeout shows");
+    bus_read(b, 0);
+    /* Break: LSR[4] holds while RX stays low. */
+    set(b, "RXA", LOGIC_0);
+    run(b, bt * 14);
+    check((bus_read(b, 5) & 0x10) != 0, "break: LSR[4]");
+    check((bus_read(b, 5) & 0x10) != 0, "RX still low: LSR[4] holds after the read");
+    set(b, "RXA", LOGIC_1);
+    run(b, bt * 2);
+    bus_read(b, 5);
+    check((bus_read(b, 5) & 0x10) == 0, "RX back to mark: an LSR read clears LSR[4]");
+    case_end(name);
+    bench_close(b);
+}
+
+/* ---- E6 ST16C554: quad; the D variant's INT ----------------------------------------- */
+
+static void case_e6(void) {
+    Bench *b = bench_open_cfg("SFX-ST16C554", HALF_18432, &QUAD_C_BENCH);
+    Bench *d;
+    unsigned u;
+
+    case_begin();
+    for (u = 0; u < 4; u++) {
+        select_unit(b, u);
+        bus_write(b, 7, 0x10 + u);
+    }
+    for (u = 0; u < 4; u++) {
+        char want[9];
+        unsigned i;
+
+        for (i = 0; i < 8; i++) {
+            want[7 - i] = ((0x10 + u) >> i) & 1u ? '1' : '0';
+        }
+        want[8] = '\0';
+        select_unit(b, u);
+        expect_reg(b, 7, want, "each channel's own SPR");
+    }
+    expect_pin(b, "INTC", LOGIC_Z, "ST16C554CQ64 (INTSEL to GND): INT 3-state with MCR[3] = 0");
+    d = bench_open_cfg("SFX-ST16C554-lqfp64-driven", HALF_18432, &QUAD_C_BENCH);
+    expect_pin(d, "INTC", LOGIC_0, "ST16C554DCQ64 (part intPin driven): INT driven low");
+    bus_write(d, 1, 0x02);
+    run(d, NS(300));
+    expect_pin(d, "INTA", LOGIC_1, "the D part: INT high without MCR[3]");
+    bench_close(d);
+    case_end("E6 ST16C554: four channels; part key intPin: CQ64 3-state, DCQ64 driven");
+    bench_close(b);
+}
+
+/* ---- E8 XR16L580: exar650 bank, auto flow in loopback ------------------------------- */
+
+static void case_e8(void) {
+    Bench *b = bench_open_cfg("SFX-XR16L580-tqfp48", HALF_18432, &E_L580_BENCH);
+    SimTime bt;
+    unsigned i;
+
+    case_begin();
+    expect_reg(b, 7, "11111111", "SPR 0xFF");
+    bus_write(b, 3, 0x80);
+    expect_reg(b, 0, "00000001", "DLL 0x01 at power-up");
+    bus_write(b, 0, 0x00);
+    expect_reg(b, 0, "00000001", "DLL = DLM = 0: DREV 0x01");
+    expect_reg(b, 1, "00000001", "DVID 0x01");
+    bus_write(b, 0, 0x01);
+    expect_reg(b, 0, "00000001", "the DLL write still landed");
+    bus_write(b, 3, 0xBF);
+    bus_write(b, 2, 0x10);
+    expect_reg(b, 2, "00010000", "LCR = 0xBF: EFR");
+    bus_write(b, 4, 0x11);                 /* Xon1 (write-only) */
+    expect_reg(b, 0, "XXXXXXXX", "000 at 0xBF: X (decisions.md)");
+    bus_write(b, 3, 0x03);
+    bus_write(b, 4, 0x00);
+    bus_write(b, 3, 0xBF);
+    expect_reg(b, 4, "00000000", "Xon1 is write-only: the read is MCR");
+    bus_write(b, 2, 0x00);
+    bus_write(b, 3, 0x03);
+    bus_write(b, 4, 0x04);
+    expect_reg(b, 4, "00000000", "EFR[4] = 0: MCR[2] (with MCR[7:5]) not written");
+    bt = bit_time(b, 1);
+    /* Auto RTS/CTS in loopback: trigger 1 -> RTS off at 4. */
+    e_efr(b, 0xD0);
+    bus_write(b, 2, 0x07);
+    bus_write(b, 4, 0x12);                 /* loopback, RTS */
+    for (i = 0; i < 7; i++) {
+        bus_write(b, 0, 0x41 + i);
+    }
+    run(b, bt * 10 * 9);
+    check((bus_read(b, 5) & 0x20) == 0, "RX FIFO at 4: RTS -> CTS off, the rest held back");
+    for (i = 0; i < 4; i++) {
+        bus_read(b, 0);
+    }
+    run(b, bt * 10 * 5);
+    check((bus_read(b, 5) & 0x60) == 0x60, "emptied: RTS on, the last bytes went out");
+    case_end("E8 XR16L580: exar650 bank, DREV/DVID 01/01, write-only Xon, auto flow in loopback");
+    bench_close(b);
+}
+
+/* ---- E9 XR16L2551, E12 XR16M2551, E14 XR16M2651: Motorola, PowerSave ---------------- */
+
+/* Motorola mode on a 2551-style dual: CS on CSA, A3 on CSB, R/W on IOW,
+   RESET active low, one open-drain IRQ on INTA, INTB driven low. */
+static void e_motorola_dual(Bench *b) {
+    set(b, "RESET", LOGIC_1);              /* Motorola: RESET is active low */
+    set(b, "16/68", LOGIC_0);
+    set(b, "CSA", LOGIC_1);
+    set(b, "CSB", LOGIC_0);
+    set(b, "IOR", LOGIC_1);
+    set(b, "IOW", LOGIC_1);
+    run(b, NS(500));
+    m_write(b, "CSA", 7, 0xA5);            /* A3 = 0: channel A */
+    set(b, "CSB", LOGIC_1);
+    m_write(b, "CSA", 7, 0x5A);            /* A3 = 1: channel B */
+    m_expect(b, "CSA", 7, "01011010", "Motorola, A3 = 1: channel B's SPR");
+    set(b, "CSB", LOGIC_0);
+    m_expect(b, "CSA", 7, "10100101", "Motorola, A3 = 0: channel A's SPR");
+    expect_pin(b, "INTA", LOGIC_Z, "IRQ released (no interrupt)");
+    expect_pin(b, "INTB", LOGIC_0, "INTB driven low in Motorola mode");
+    set(b, "CSB", LOGIC_1);
+    m_write(b, "CSA", 1, 0x02);            /* channel B: THRE interrupt, MCR[3] = 0 */
+    run(b, NS(300));
+    expect_pin(b, "INTA", LOGIC_0, "channel B's interrupt pulls IRQ low, MCR[3] = 0 (not gated)");
+    m_write(b, "CSA", 1, 0x00);
+    run(b, NS(300));
+    expect_pin(b, "INTA", LOGIC_Z, "released again");
+    set(b, "RESET", LOGIC_0);
+    run(b, NS(500));
+    set(b, "RESET", LOGIC_1);
+    set(b, "CSB", LOGIC_0);
+    run(b, NS(500));
+    m_expect(b, "CSA", 7, "11111111", "RESET low resets in Motorola mode (SPR 0xFF)");
+    set(b, "16/68", LOGIC_1);
+    set(b, "RESET", LOGIC_0);
+    set(b, "CSA", LOGIC_1);
+    run(b, NS(500));
+}
+
+/* PowerSave: with PWRSAVE high and the chip asleep the bus is isolated; an RX
+   start bit wakes it. `indicator`: the wake-up interrupt (ISR 0x01, INT high). */
+static void e_powersave(Bench *b, int indicator) {
+    SimTime bt;
+    char text[9];
+    unsigned u;
+
+    program_unit(b, 1, 1, 0x03);
+    program_unit(b, 0, 1, 0x03);
+    bt = bit_time(b, 1);
+    for (u = 0; u < 2; u++) {
+        select_unit(b, u);
+        e_efr(b, 0x10);
+        bus_write(b, 7, 0x66);
+        bus_write(b, 4, 0x08);
+        bus_write(b, 1, 0x10);             /* IER[4] sleep (both channels needed) */
+    }
+    select_unit(b, 0);
+    set(b, "PWRSAVE", LOGIC_1);
+    run(b, bt * 4);
+    bus_read_text(b, 7, text);
+    check(strcmp(text, "ZZZZZZZZ") == 0, "asleep with PWRSAVE high: the bus is isolated (D7-D0 Z)");
+    bus_write(b, 7, 0x77);                 /* ignored */
+    drive_named(b, "RXA", 0x41, bt);       /* the start bit wakes it; the byte stays awake */
+    run(b, bt * 2);
+    if (indicator) {
+        expect_pin(b, "INTA", LOGIC_1, "woken: the wake-up indicator asserts INT");
+        expect_reg(b, 2, "00000001", "the indicator reads as ISR 0x01");
+        run(b, NS(300));
+        expect_pin(b, "INTA", LOGIC_0, "and the ISR read clears it");
+        bus_write(b, 1, 0x00);             /* stay awake */
+    } else {
+        bus_write(b, 1, 0x00);
+    }
+    expect_reg(b, 7, "01100110", "awake: the bus works; the isolated write was dropped");
+    expect_reg(b, 0, "01000001", "and the waking byte arrived");
+    set(b, "PWRSAVE", LOGIC_0);
+}
+
+static void case_e9(void) {
+    Bench *b = bench_open_cfg("SFX-XR16L2551", HALF_18432, &E_DUAL_MOTO_BENCH);
+
+    case_begin();
+    bus_write(b, 3, 0x80);
+    bus_write(b, 0, 0x00);
+    bus_write(b, 1, 0x00);
+    expect_reg(b, 1, "00000010", "DVID 0x02");
+    bus_write(b, 3, 0x03);
+    e_motorola_dual(b);
+    pulse_reset(b);
+    select_unit(b, 0);
+    expect_reg(b, 7, "11111111", "back in Intel mode: CSA selects channel A");
+    e_powersave(b, 0);
+    case_end("E9 XR16L2551: Intel and Motorola (A3 channel, IRQ, RESET low), PowerSave isolation");
+    bench_close(b);
+}
+
+/* ---- E10 XR16L2552: AFR[0] per channel, DREV/DVID, MF ------------------------------- */
+
+static void case_e10(void) {
+    Bench *b = bench_open_cfg("SFX-XR16L2552-tqfp48", HALF_18432, &CHSEL_BENCH);
+
+    case_begin();
+    expect_pin(b, "INTA", LOGIC_0, "INT always driven (no MCR[3] gating)");
+    bus_write(b, 3, 0x80);
+    bus_write(b, 0, 0x00);
+    bus_write(b, 1, 0x00);
+    expect_reg(b, 0, "00000001", "DREV 0x01");
+    expect_reg(b, 1, "00000010", "DVID 0x02");
+    bus_write(b, 2, 0x01);                 /* channel A AFR[0] = 1 */
+    expect_reg(b, 2, "00000001", "AFR at 2 with LCR[7] = 1");
+    bus_write(b, 3, 0x03);
+    select_unit(b, 1);
+    bus_write(b, 3, 0x03);
+    select_unit(b, 0);
+    bus_write(b, 7, 0x44);                 /* addressed to A, whose AFR[0] = 1: both */
+    select_unit(b, 1);
+    expect_reg(b, 7, "01000100", "A's AFR[0] = 1: the write reached B too");
+    bus_write(b, 7, 0x22);                 /* addressed to B (AFR[0] = 0): B only */
+    select_unit(b, 0);
+    expect_reg(b, 7, "01000100", "B's AFR[0] = 0: A kept its value (per-channel bit)");
+    bus_write(b, 3, 0x80);
+    bus_write(b, 2, 0x00);
+    bus_write(b, 3, 0x03);
+    /* MF: AFR[2:1] = 00 OP2 (= NOT MCR[3]), 10 RXRDY. */
+    expect_pin(b, "MFA", LOGIC_1, "MF = OP2, MCR[3] = 0: high");
+    bus_write(b, 4, 0x08);
+    run(b, NS(300));
+    expect_pin(b, "MFA", LOGIC_0, "MCR[3] = 1: low");
+    bus_write(b, 3, 0x80);
+    bus_write(b, 2, 0x04);
+    bus_write(b, 3, 0x03);
+    run(b, NS(300));
+    expect_pin(b, "MFA", LOGIC_1, "MF = RXRDY: no data, high");
+    case_end("E10 XR16L2552: AFR[0] broadcast per channel, DREV/DVID 01/02, MF pin");
+    bench_close(b);
+}
+
+/* ---- E11 XR16M2550, E13 XR16M2650: exar650 with DLD -------------------------------- */
+
+static void case_e11(void) {
+    Bench *b = bench_open_cfg("SFX-XR16M2550-tqfp48", HALF_18432, &DUAL_CD_BENCH);
+    SimTime t;
+    unsigned i;
+
+    case_begin();
+    bus_write(b, 3, 0x80);
+    expect_reg(b, 0, "00000001", "DLL 0x01 at power-up");
+    bus_write(b, 0, 0x00);
+    expect_reg(b, 1, "00000010", "DVID 0x02");
+    bus_write(b, 0, 0x02);
+    expect_reg(b, 2, "00000001", "EFR[4] = 0: address 2 is the ISR (decisions.md)");
+    bus_write(b, 3, 0x03);
+    e_efr(b, 0x10);
+    bus_write(b, 3, 0x80);
+    bus_write(b, 2, 0x18);                 /* DLD: 8x sampling, fraction 8/16 */
+    expect_reg(b, 2, "00011000", "EFR[4] = 1: DLD");
+    bus_write(b, 3, 0x03);
+    bus_write(b, 0, 0xFF);
+    t = e_low_time(b, "TXA", NS(200000), NS(50));
+    /* (2 + 8/16) x 8 clocks = 20 clocks per bit. */
+    check(t >= b->period * 19 && t <= b->period * 21, "DLD: bit = (2 + 8/16) x 8 clocks");
+    run(b, NS(400000));
+    bus_write(b, 3, 0x80);
+    bus_write(b, 0, 0x01);
+    bus_write(b, 2, 0x00);
+    bus_write(b, 3, 0x03);
+    /* Auto RTS (EFR[6]): trigger 1 -> RTS off at 4, on at 0. */
+    e_efr(b, 0x50);
+    bus_write(b, 2, 0x07);
+    bus_write(b, 4, 0x02);
+    run(b, NS(300));
+    expect_pin(b, "RTSA", LOGIC_0, "auto RTS: RTS active");
+    for (i = 0; i < 3; i++) {
+        drive_named(b, "RXA", 0x31, bit_time(b, 1));
+    }
+    expect_pin(b, "RTSA", LOGIC_0, "3 bytes: still active");
+    drive_named(b, "RXA", 0x32, bit_time(b, 1));
+    expect_pin(b, "RTSA", LOGIC_1, "4 bytes (next level above 1): RTS off");
+    for (i = 0; i < 4; i++) {
+        bus_read(b, 0);
+    }
+    run(b, NS(300));
+    expect_pin(b, "RTSA", LOGIC_0, "empty: RTS on");
+    case_end("E11 XR16M2550: exar650 + DLD (fraction, 8x), DVID 0x02, auto-RTS table");
+    bench_close(b);
+}
+
+static void case_e13(void) {
+    Bench *b = bench_open_cfg("SFX-XR16M2650-tqfp48", HALF_18432, &DUAL_CD_BENCH);
+    SimTime bt;
+    unsigned i;
+
+    case_begin();
+    bus_write(b, 3, 0x80);
+    bus_write(b, 0, 0x00);
+    expect_reg(b, 1, "00000110", "DVID 0x06");
+    bus_write(b, 0, 0x01);
+    bus_write(b, 3, 0x03);
+    bt = bit_time(b, 1);
+    bus_write(b, 2, 0x01);                 /* FIFO, RX trigger 00 = 8 */
+    bus_write(b, 1, 0x01);
+    for (i = 0; i < 7; i++) {
+        drive_named(b, "RXA", 0x41, bt);
+    }
+    expect_reg(b, 2, "11000001", "7 bytes: below the default trigger 8");
+    drive_named(b, "RXA", 0x41, bt);
+    expect_reg(b, 2, "11000100", "8 bytes: RX trigger (32-byte table)");
+    for (i = 0; i < 24; i++) {
+        drive_named(b, "RXA", 0x42, bt);
+    }
+    check((bus_read(b, 5) & 0x02) == 0, "32 bytes fit (no overrun)");
+    drive_named(b, "RXA", 0x43, bt);
+    check((bus_read(b, 5) & 0x02) != 0, "the 33rd overruns");
+    /* Xoff1 (EFR[3:2] = 10) two character times after the RX FIFO reaches 8. */
+    bus_write(b, 2, 0x07);
+    bus_write(b, 3, 0xBF);
+    bus_write(b, 6, 0x13);
+    bus_write(b, 4, 0x11);
+    bus_write(b, 2, 0x18);
+    bus_write(b, 3, 0x03);
+    for (i = 0; i < 8; i++) {
+        drive_named(b, "RXA", 0x50, bt);
+    }
+    check(!wait_level(b, "TXA", LOGIC_0, bt * 10), "within 2 characters of the trigger: no Xoff");
+    check(wait_level(b, "TXA", LOGIC_0, bt * 14), "two character times on: Xoff goes out");
+    run(b, bt * 12);
+    for (i = 0; i < 8; i++) {
+        bus_read(b, 0);
+    }
+    run(b, bt * 14);
+    {
+        uint16_t frames[8];
+        const SimComponentType *type = sim_instance_type(b->chip);
+        size_t n = type->serial_sent(sim_instance_state(b->chip), 0, 0, frames, 8);
+
+        check(n >= 2 && frames[n - 2] == 0x13 && frames[n - 1] == 0x11,
+              "Xoff1 (0x13) sent, and Xon1 (0x11) once the FIFO drained to 0");
+    }
+    case_end("E13 XR16M2650: 32-byte FIFOs, RX trigger 8 by default, DVID 0x06, Xoff 2 chars late");
+    bench_close(b);
+}
+
+static void case_e12_e14(const char *part, const char *name) {
+    Bench *b = bench_open_cfg(part, HALF_18432, &E_DUAL_CLKSEL_BENCH);
+    SimTime t;
+
+    case_begin();
+    /* CLKSEL low at reset: ÷4, MCR still reads 0 (decisions.md P1). */
+    set(b, "CLKSEL", LOGIC_0);
+    pulse_reset(b);
+    expect_reg(b, 4, "00000000", "CLKSEL low: MCR reads 0x00");
+    program(b, 1, 0x03);
+    bus_write(b, 0, 0xFF);
+    t = e_low_time(b, "TXA", NS(400000), NS(100));
+    check(t >= b->period * 63 && t <= b->period * 65, "CLKSEL low: ÷4 (64 clocks per bit)");
+    run(b, NS(800000));
+    e_efr(b, 0x10);
+    bus_write(b, 4, 0x00);                 /* MCR[7] = 0 written: overrides CLKSEL */
+    bus_write(b, 0, 0xFF);
+    t = e_low_time(b, "TXA", NS(400000), NS(50));
+    check(t >= b->period * 15 && t <= b->period * 17, "an MCR[7] write overrides: ÷1");
+    run(b, NS(200000));
+    set(b, "CLKSEL", LOGIC_1);
+    pulse_reset(b);
+    e_motorola_dual(b);
+    pulse_reset(b);
+    e_powersave(b, 1);
+    case_end(name);
+    bench_close(b);
+}
+
+/* ---- E15 XR16M752: m752 (TCR/TLR, FIFO Rdy, DLD[7]/[6]), Motorola IRQ ---------------- */
+
+static void case_e15(void) {
+    Bench *b = bench_open_cfg("SFX-XR16M752-tqfp48-68", HALF_18432, &E_DUAL_68_BENCH);
+    SimTime bt;
+    SimTime t;
+
+    case_begin();
+    expect_reg(b, 3, "00011101", "LCR resets to 0x1D");
+    bus_write(b, 3, 0x80);
+    bus_write(b, 0, 0x00);
+    expect_reg(b, 1, "00000000", "no DREV/DVID: DLL = DLM = 0 reads DLM");
+    bus_write(b, 0, 0x01);
+    bus_write(b, 3, 0x03);
+    bt = bit_time(b, 1);
+    e_efr(b, 0x10);
+    bus_write(b, 4, 0x40);                 /* MCR[6]: TCR/TLR */
+    expect_reg(b, 6, "00001111", "TCR resets to 0x0F");
+    bus_write(b, 7, 0x21);                 /* TLR: RX 2 x 4, TX 1 x 4 */
+    expect_reg(b, 7, "00100001", "TLR");
+    bus_write(b, 4, 0x44);                 /* MCR[2] too: FIFO Rdy wins at 7 */
+    bus_write(b, 2, 0x01);
+    expect_reg(b, 7, "00000011", "FIFO Rdy over TLR: both TX ready, no RX");
+    bus_write(b, 4, 0x00);
+    /* DLD[7] IrDA, DLD[6] RS-485 on RTS. */
+    bus_write(b, 3, 0x80);
+    bus_write(b, 2, 0x80);
+    bus_write(b, 3, 0x03);
+    run(b, NS(300));
+    expect_pin(b, "TXA", LOGIC_0, "DLD[7]: IrDA, TX idles low");
+    bus_write(b, 3, 0x80);
+    bus_write(b, 2, 0x40);
+    bus_write(b, 3, 0x03);
+    run(b, NS(300));
+    expect_pin(b, "RTSA", LOGIC_0, "DLD[6] RS-485: RTS low while idle");
+    bus_write(b, 0, 0x55);
+    run(b, bt * 3);
+    expect_pin(b, "RTSA", LOGIC_1, "transmitting: RTS high");
+    t = sim_now(b->sim);
+    wait_level(b, "RTSA", LOGIC_0, bt * 20);
+    t = sim_now(b->sim) - t;
+    check(t >= bt * 7 && t <= bt * 9, "RTS drops a bit after the last stop bit");
+    /* Motorola (XR68M752): IRQ not gated by MCR[3] (planner decision). */
+    bus_write(b, 3, 0x80);
+    bus_write(b, 2, 0x00);
+    bus_write(b, 3, 0x03);
+    set(b, "RESET", LOGIC_1);
+    set(b, "16/68", LOGIC_0);
+    set(b, "CSA", LOGIC_1);
+    set(b, "CSB", LOGIC_0);
+    run(b, NS(500));
+    m_write(b, "CSA", 4, 0x00);
+    m_write(b, "CSA", 1, 0x02);
+    run(b, NS(300));
+    expect_pin(b, "INTA", LOGIC_0, "Motorola IRQ low with MCR[3] = 0");
+    expect_pin(b, "INTB", LOGIC_Z, "INTB not used in Motorola mode");
+    case_end("E15 XR16M752: m752 TCR/TLR, FIFO Rdy, DLD[7] IrDA, DLD[6] RS-485, Motorola IRQ");
+    bench_close(b);
+}
+
+/* ---- E16-E21 XR16V2550/2551/2552/2650/2651/2652 ------------------------------------- */
+
+static void e_dvid(Bench *b, const char *want) {
+    bus_write(b, 3, 0x80);
+    bus_write(b, 0, 0x00);
+    bus_write(b, 1, 0x00);
+    expect_reg(b, 1, want, "DVID");
+    bus_write(b, 0, 0x01);
+    bus_write(b, 3, 0x03);
+}
+
+/* IrDA with the MCR[2] RX polarity: idle-high, low pulses decode with MCR[2] = 1. */
+static void e_irda_polarity(Bench *b, const char *tx, const char *rx) {
+    SimTime bt = bit_time(b, 1);
+    unsigned i;
+
+    e_efr(b, 0x10);
+    bus_write(b, 4, 0x44);                 /* IrDA, MCR[2]: active-high idle RX */
+    run(b, NS(300));
+    expect_pin(b, tx, LOGIC_0, "IrDA: TX idles low");
+    /* 0x41 as inverted pulses: each 0 bit a low pulse of 3/16 bit, idle high. */
+    for (i = 0; i < 10; i++) {
+        int bit = i == 0 ? 0 : i == 9 ? 1 : (0x41 >> (i - 1)) & 1;
+
+        set(b, rx, LOGIC_1);
+        run(b, bt * 7 / 16);
+        set(b, rx, bit ? LOGIC_1 : LOGIC_0);
+        run(b, bt * 3 / 16);
+        set(b, rx, LOGIC_1);
+        run(b, bt * 6 / 16);
+    }
+    run(b, bt * 2);
+    expect_reg(b, 0, "01000001", "inverted IrDA pulses decode with MCR[2] = 1");
+    bus_write(b, 4, 0x00);
+    e_efr(b, 0x00);
+}
+
+static void case_e16(void) {
+    Bench *b = bench_open_cfg("SFX-XR16V2550", HALF_18432, &E_DUAL_QFN_BENCH);
+
+    case_begin();
+    expect_reg(b, 7, "11111111", "SPR 0xFF");
+    e_dvid(b, "00000010");
+    program(b, 1, 0x03);
+    e_irda_polarity(b, "TXA", "RXA");
+    case_end("E16 XR16V2550: exar650 + DLD, DVID 0x02, IrDA with the MCR[2] RX polarity");
+    bench_close(b);
+}
+
+static void case_e19(void) {
+    Bench *b = bench_open_cfg("SFX-XR16V2650-tqfp48", HALF_18432, &DUAL_CD_BENCH);
+    unsigned i;
+
+    case_begin();
+    e_dvid(b, "00000110");
+    program(b, 1, 0x03);
+    /* TX trigger 00 = 16 (32-byte table): the interrupt as the count drops below 16. */
+    e_efr(b, 0x10);
+    bus_write(b, 2, 0x01);
+    bus_write(b, 4, 0x08);
+    bus_write(b, 1, 0x02);
+    bus_read(b, 2);
+    for (i = 0; i < 20; i++) {
+        bus_write(b, 0, 0x30 + i);
+    }
+    run(b, bit_time(b, 1) * 10 * 2);
+    expect_pin(b, "INTA", LOGIC_0, "17 bytes left: no TX interrupt");
+    run(b, bit_time(b, 1) * 10 * 3);
+    expect_pin(b, "INTA", LOGIC_1, "below 16: TX interrupt");
+    case_end("E19 XR16V2650: 32-byte tables (TX trigger 16 by default), DVID 0x06");
+    bench_close(b);
+}
+
+static void case_e17_e20(const char *part, const BenchConfig *cfg, const char *dvid,
+                         const char *name) {
+    Bench *b = bench_open_cfg(part, HALF_18432, cfg);
+
+    case_begin();
+    e_dvid(b, dvid);
+    e_motorola_dual(b);
+    pulse_reset(b);
+    e_powersave(b, 1);
+    case_end(name);
+    bench_close(b);
+}
+
+static void case_e18_e21(const char *part, const char *dvid, const char *name) {
+    Bench *b = bench_open_cfg(part, HALF_18432, &CHSEL_BENCH);
+    SimTime t;
+
+    case_begin();
+    expect_pin(b, "INTA", LOGIC_0, "INT always driven");
+    e_dvid(b, dvid);
+    program(b, 1, 0x03);
+    /* EFR[4] = 0: AFR at 2; EFR[4] = 1: DLD there. */
+    bus_write(b, 3, 0x80);
+    bus_write(b, 2, 0x02);                 /* AFR[2:1] = 01: MF = BAUDOUT */
+    expect_reg(b, 2, "00000010", "EFR[4] = 0: AFR");
+    bus_write(b, 3, 0x03);
+    run(b, NS(2000));
+    t = sim_now(b->sim);
+    wait_level(b, "MFA", LOGIC_0, NS(5000));
+    wait_level(b, "MFA", LOGIC_1, NS(5000));
+    check(sim_now(b->sim) - t < NS(3000), "AFR[2:1] = 01: MF is BAUDOUT (toggling)");
+    e_efr(b, 0x10);
+    bus_write(b, 3, 0x80);
+    expect_reg(b, 2, "00000000", "EFR[4] = 1: DLD at 2");
+    bus_write(b, 3, 0x03);
+    e_efr(b, 0x00);
+    /* Shared AFR[0]: set from channel B, a write to A reaches both. */
+    select_unit(b, 1);
+    bus_write(b, 3, 0x80);
+    bus_write(b, 2, 0x01);
+    bus_write(b, 3, 0x03);
+    select_unit(b, 0);
+    bus_write(b, 7, 0x99);
+    select_unit(b, 1);
+    expect_reg(b, 7, "10011001", "AFR[0] (one bit for both): concurrent write");
+    case_end(name);
+    bench_close(b);
+}
+
+/* ---- E22 XR16V554, E23 XR16V564, E24 XR16V654: the quads ----------------------------- */
+
+static void case_e22(void) {
+    Bench *b = bench_open_cfg("SFX-XR16V554", HALF_18432, &E_QUAD_V_BENCH);
+    SimTime bt;
+    unsigned i;
+
+    case_begin();
+    bus_write(b, 3, 0x80);
+    expect_reg(b, 0, "00000001", "DLL 0x01 at power-up");
+    expect_reg(b, 5, "XXXXXXXX", "LSR with LCR[7] = 1: X (decisions.md)");
+    bus_write(b, 3, 0x03);
+    expect_pin(b, "INTA", LOGIC_Z, "INTSEL low, MCR[3] = 0: INT 3-state");
+    set(b, "INTSEL", LOGIC_1);
+    run(b, NS(300));
+    expect_pin(b, "INTA", LOGIC_0, "INTSEL high: INT driven");
+    set(b, "INTSEL", LOGIC_0);
+    bt = bit_time(b, 1);
+    for (i = 0; i < 4; i++) {
+        program_unit(b, i, 1, 0x03);
+        bus_write(b, 2, 0x09);             /* FIFO, DMA mode 1 */
+    }
+    select_unit(b, 2);
+    bus_write(b, 2, 0x89);                 /* channel C: RX trigger 8 */
+    for (i = 0; i < 7; i++) {
+        drive_named(b, "RXC", 0x41, bt);
+    }
+    expect_pin(b, "RXRDY", LOGIC_1, "7 bytes, trigger 8: shared RXRDY inactive");
+    drive_named(b, "RXC", 0x41, bt);
+    expect_pin(b, "RXRDY", LOGIC_0, "8 bytes: channel C pulls the shared RXRDY (AND) low");
+    /* Motorola: CS on CSA, A4:A3 on CSC:CSB. */
+    set(b, "RESET", LOGIC_1);
+    set(b, "16/68", LOGIC_0);
+    set(b, "CSA", LOGIC_1);
+    set(b, "CSB", LOGIC_1);
+    set(b, "CSC", LOGIC_1);
+    run(b, NS(500));
+    m_write(b, "CSA", 7, 0xD3);            /* A4:A3 = 11: channel D */
+    set(b, "16/68", LOGIC_1);
+    set(b, "RESET", LOGIC_0);
+    run(b, NS(500));
+    select_unit(b, 3);
+    expect_reg(b, 7, "11010011", "Motorola A4:A3 = 11 wrote channel D");
+    case_end("E22 XR16V554: quad, INTSEL, shared AND RXRDY, LSR X with DLAB, Motorola A4:A3");
+    bench_close(b);
+}
+
+/* Sleep needs IER[4] on all four channels. */
+static void e_sleep_all(Bench *b, unsigned channels) {
+    unsigned i;
+
+    for (i = 0; i < channels; i++) {
+        select_unit(b, i);
+        e_efr(b, 0x10);
+        bus_write(b, 1, 0x10);
+    }
+    run(b, NS(20000));
+}
+
+static void case_e23_e24(const char *part, const char *d_part, unsigned fifo, const char *name) {
+    Bench *b = bench_open_cfg(part, HALF_18432, &E_QUAD_CLKSEL_BENCH);
+    Bench *d = bench_open_cfg(d_part, HALF_18432, &E_QUAD_CLKSEL_BENCH);
+    SimTime bt;
+    SimTime t;
+    unsigned i;
+
+    case_begin();
+    expect_pin(b, "INTA", LOGIC_Z, "IV part: INT 3-state");
+    expect_pin(d, "INTA", LOGIC_0, "DIV part (intPin driven): INT driven");
+    bench_close(d);
+    bus_write(b, 3, 0x83);
+    expect_reg(b, 7, "XXXXXXXX", "100-111 with LCR[7] = 1: X (decisions.md)");
+    bus_write(b, 3, 0x03);
+    /* CLKSEL low: ÷4 after reset. */
+    set(b, "CLKSEL", LOGIC_0);
+    pulse_reset(b);
+    program(b, 1, 0x03);
+    bus_write(b, 0, 0xFF);
+    t = e_low_time(b, "TXA", NS(400000), NS(100));
+    check(t >= b->period * 63 && t <= b->period * 65, "CLKSEL low: ÷4");
+    run(b, NS(800000));
+    set(b, "CLKSEL", LOGIC_1);
+    pulse_reset(b);
+    program(b, 1, 0x03);
+    bt = bit_time(b, 1);
+    bus_write(b, 2, 0x01);
+    for (i = 0; i < fifo; i++) {
+        drive_named(b, "RXA", 0x20 + (i & 0x3F), bt);
+    }
+    check((bus_read(b, 5) & 0x02) == 0, "the FIFO holds its size");
+    drive_named(b, "RXA", 0x41, bt);
+    check((bus_read(b, 5) & 0x02) != 0, "one more overruns");
+    /* LSR writes: stored on the XR16V564 (OE, factory-test style), ignored on the V654. */
+    bus_write(b, 5, 0x02);
+    if (fifo == 64) {
+        check((bus_read(b, 5) & 0x02) == 0, "XR16V654: LSR is read-only (statusWrite false)");
+    } else {
+        check((bus_read(b, 5) & 0x02) != 0, "XR16V564: an LSR write sets OE (writable)");
+    }
+    /* Sleep: IER[4] on three channels is not enough; on all four the clock stops. */
+    pulse_reset(b);
+    program(b, 1, 0x03);
+    e_sleep_all(b, 3);
+    select_unit(b, 0);
+    bus_write(b, 0, 0x55);
+    check(wait_level(b, "TXA", LOGIC_0, bit_time(b, 1) * 4), "IER[4] on three channels: a byte goes out");
+    run(b, bit_time(b, 1) * 12);
+    e_sleep_all(b, 4);
+    select_unit(b, 3);
+    bus_write(b, 0, 0x55);                 /* a THR write wakes the chip */
+    check(wait_level(b, "TXD", LOGIC_0, bit_time(b, 1) * 4), "a THR write wakes it");
+    case_end(name);
+    bench_close(b);
+}
+
+/* ---- E25 XR16C854, E26 XR16C864 ------------------------------------------------------ */
+
+static void case_e25(void) {
+    Bench *b = bench_open_cfg("SFX-XR16C854-qfp100", HALF_18432, &E_C854_BENCH);
+    Bench *d = bench_open_cfg("SFX-XR16C854-lqfp64-driven", HALF_18432, &QUAD_C_BENCH);
+    SimTime bt;
+    unsigned i;
+    char text[9];
+
+    case_begin();
+    expect_pin(d, "INTA", LOGIC_0, "XR16C854DIV (part intPin driven): INT driven");
+    bench_close(d);
+    e_dvid(b, "00010100");
+    program(b, 1, 0x03);
+    bt = bit_time(b, 1);
+    /* Table B (FCTR[5:4] = 01): RX trigger 00 = 8. */
+    bus_write(b, 3, 0xBF);
+    bus_write(b, 1, 0x10);                 /* FCTR: table B */
+    expect_reg(b, 1, "00010000", "FCTR at 001 in the 0xBF bank");
+    bus_write(b, 3, 0x03);
+    bus_write(b, 2, 0x01);
+    bus_write(b, 1, 0x01);
+    for (i = 0; i < 7; i++) {
+        drive_named(b, "RXA", 0x41, bt);
+    }
+    expect_reg(b, 2, "11000001", "table B, 7 bytes: below 8");
+    drive_named(b, "RXA", 0x41, bt);
+    expect_reg(b, 2, "11000100", "table B: RX trigger 8");
+    /* FC: the RX count at 000 in the 0xBF bank. */
+    bus_write(b, 3, 0xBF);
+    expect_reg(b, 0, "00001000", "FC: 8 bytes");
+    /* Table D: TRG 3 (FCTR[7] = 0: RX). */
+    bus_write(b, 1, 0x30);
+    bus_write(b, 0, 0x03);
+    bus_write(b, 3, 0x03);
+    bus_write(b, 2, 0x07);                 /* empty the FIFOs */
+    for (i = 0; i < 2; i++) {
+        drive_named(b, "RXA", 0x42, bt);
+    }
+    expect_reg(b, 2, "11000001", "TRG 3: 2 bytes below");
+    drive_named(b, "RXA", 0x42, bt);
+    expect_reg(b, 2, "11000100", "TRG 3: the third byte triggers");
+    /* TRG 0 is out of range: the trigger is X (decisions.md). */
+    bus_write(b, 3, 0xBF);
+    bus_write(b, 0, 0x00);
+    bus_write(b, 3, 0x03);
+    bus_read_text(b, 2, text);
+    check(strcmp(text, "XXXXXXXX") == 0, "TRG 0: whether the trigger is reached is X");
+    /* FLVL/EMSR swap (FCTR[6]): EMSR[1:0] = 11 alternates RX and TX counts. */
+    bus_write(b, 3, 0xBF);
+    bus_write(b, 1, 0x40);
+    bus_write(b, 3, 0x03);
+    bus_write(b, 7, 0x03);
+    expect_reg(b, 7, "00000011", "FLVL first read: RX count 3");
+    expect_reg(b, 7, "00000000", "second read: TX count 0");
+    expect_reg(b, 7, "00000011", "third: RX again");
+    bus_write(b, 3, 0xBF);
+    bus_write(b, 1, 0x00);
+    bus_write(b, 3, 0x03);
+    bus_write(b, 2, 0x07);
+    /* Exar Xon/Xoff: EFR = 1011 compares Xon1 OR Xon2 (exarOr, P9). */
+    bus_write(b, 3, 0xBF);
+    bus_write(b, 4, 0x11);                 /* Xon1 */
+    bus_write(b, 5, 0x12);                 /* Xon2 */
+    bus_write(b, 6, 0x13);                 /* Xoff1 */
+    bus_write(b, 7, 0x14);                 /* Xoff2 */
+    bus_write(b, 2, 0x1B);
+    bus_write(b, 3, 0x03);
+    bus_write(b, 1, 0x20);                 /* IER[5]: Xoff interrupt */
+    drive_named(b, "RXA", 0x14, bt);       /* Xoff2 alone halts (either character) */
+    expect_reg(b, 2, "11010000", "Xoff2 alone: Xoff interrupt (ISR 0x10)");
+    bus_write(b, 0, 0x55);
+    check(!wait_level(b, "TXA", LOGIC_0, bt * 12), "halted by Xoff2");
+    drive_named(b, "RXA", 0x12, bt);       /* Xon2 alone resumes */
+    check(wait_level(b, "TXA", LOGIC_0, bt * 12), "Xon2 alone resumes");
+    check((bus_read(b, 5) & 0x01) == 0, "flow characters are not stored");
+    /* FSTAT (FSRS low, any address): TX ready bits. */
+    set(b, "FSRS", LOGIC_0);
+    select_unit(b, 4);
+    run(b, bt * 12);
+    expect_reg(b, 3, "11111111", "FSTAT (any address): TX ready (NOT TXRDY) x4, RXRDY pins high x4");
+    set(b, "FSRS", LOGIC_1);
+    /* IRTX: always IrDA-encoded (MCR[6] = 0): idle low, a pulse per 0 bit. */
+    program_unit(b, 1, 1, 0x03);
+    expect_pin(b, "IRTXB", LOGIC_0, "IRTX idles low");
+    bus_write(b, 0, 0x00);
+    check(wait_level(b, "IRTXB", LOGIC_1, bt * 2), "IRTX pulses for the start bit");
+    check(wait_level(b, "IRTXB", LOGIC_0, bt), "a 3/16-bit pulse");
+    run(b, bt * 12);
+    /* Channel C's clock is the CHCCLK pin (held low: no ticks). */
+    program_unit(b, 2, 1, 0x03);
+    bus_write(b, 0, 0x55);
+    check(!wait_level(b, "TXC", LOGIC_0, bt * 3), "CHCCLK still: channel C does not send");
+    for (i = 0; i < 40 && get(b, "TXC") != LOGIC_0; i++) {
+        set(b, "CHCCLK", LOGIC_1);
+        run(b, NS(300));
+        set(b, "CHCCLK", LOGIC_0);
+        run(b, NS(300));
+    }
+    check(get(b, "TXC") == LOGIC_0, "CHCCLK edges clock channel C");
+    case_end("E25 XR16C854: tables A-D, TRG (0 = X), FC, FLVL/EMSR, Exar-or Xon/Xoff, FSTAT, "
+             "IRTX, CHCCLK, DIV");
+    bench_close(b);
+}
+
+static void case_e26(void) {
+    Bench *b = bench_open_cfg("SFX-XR16C864", HALF_18432, &E_C864_BENCH);
+    SimTime bt;
+    unsigned i;
+
+    case_begin();
+    program(b, 1, 0x03);
+    bt = bit_time(b, 1);
+    expect_pin(b, "OP1A", LOGIC_1, "OP1 = NOT MCR[2]: high");
+    /* FCTR[3]: OP1 is the RS-485 direction, low while transmitting. */
+    bus_write(b, 3, 0xBF);
+    bus_write(b, 1, 0x08);
+    bus_write(b, 3, 0x03);
+    run(b, NS(300));
+    expect_pin(b, "OP1A", LOGIC_1, "RS-485 idle: OP1 high (receive)");
+    bus_write(b, 0, 0x5A);
+    run(b, bt * 3);
+    expect_pin(b, "OP1A", LOGIC_0, "transmitting: OP1 low");
+    run(b, bt * 9);
+    expect_pin(b, "OP1A", LOGIC_1, "after the last stop bit: OP1 high again (no delay)");
+    bus_write(b, 3, 0xBF);
+    bus_write(b, 1, 0x00);
+    bus_write(b, 3, 0x03);
+    /* BCLK: the 16x clock (divisor 1: the clock itself). */
+    wait_level(b, "BCLKA", LOGIC_0, NS(2000));
+    check(wait_level(b, "BCLKA", LOGIC_1, NS(2000)), "BCLK toggles (16x clock)");
+    /* DMA requests: EMSR[3]: RXRDY becomes RXDRQ (active high). */
+    bus_write(b, 3, 0xBF);
+    bus_write(b, 1, 0x40);                 /* FCTR[6]: EMSR at 7 */
+    bus_write(b, 3, 0x03);
+    bus_write(b, 2, 0x41);                 /* FIFO, RX trigger 4 */
+    bus_write(b, 7, 0x0C);                 /* EMSR[3:2]: both DRQs */
+    run(b, NS(300));
+    expect_pin(b, "RXRDYA", LOGIC_0, "RXDRQ: no request");
+    expect_pin(b, "TXRDYA", LOGIC_1, "TXDRQ: the TX FIFO is below its trigger");
+    for (i = 0; i < 4; i++) {
+        drive_named(b, "RXA", 0x61 + i, bt);
+    }
+    expect_pin(b, "RXRDYA", LOGIC_1, "RX trigger 4: RXDRQ high");
+    /* A DMA read: DACKA low and AEN high read the RX FIFO, CS and address ignored. */
+    select_unit(b, 4);
+    set(b, "DACKA", LOGIC_0);
+    set(b, "AEN", LOGIC_1);
+    run(b, NS(100));
+    expect_reg(b, 5, "01100001", "DMA read: the RX FIFO (0x61), whatever the address");
+    /* TC ends the request of the channel whose DACK is low. */
+    set(b, "TC", LOGIC_1);
+    run(b, NS(100));
+    set(b, "TC", LOGIC_0);
+    run(b, NS(300));
+    expect_pin(b, "RXRDYA", LOGIC_0, "TC: RXDRQ ends");
+    expect_pin(b, "TXRDYA", LOGIC_0, "TC: TXDRQ ends too");
+    set(b, "DACKA", LOGIC_1);
+    set(b, "AEN", LOGIC_0);
+    select_unit(b, 0);
+    expect_reg(b, 0, "01100010", "the next RX byte (0x62) by a normal read");
+    case_end("E26 XR16C864: 128-byte FIFO, FCTR[3] RS-485 on OP1, BCLK, DRQ/DACK/AEN/TC");
+    bench_close(b);
+}
+
+/* ---- E27 XR16V798, E28 XR16L784: the 5G flat map --------------------------------------- */
+
+static void case_e27(void) {
+    Bench *b = bench_open_cfg("SFX-XR16V798", HALF_18432, &E_V798_BENCH);
+    SimTime bt;
+    SimTime t;
+    unsigned i;
+
+    case_begin();
+    expect_reg(b, 0x8D, "01001000", "global DVID 0x48");
+    expect_reg(b, 0x8C, "00000001", "global DREV 0x01");
+    expect_pin(b, "INT", LOGIC_Z, "INT# open drain, released");
+    /* Channel 5 at 0x50: its registers, with FCTR/EFR at 8/9. */
+    bus_write(b, 0x57, 0x5E);
+    expect_reg(b, 0x57, "01011110", "channel 5 SPR at 0x57");
+    expect_reg(b, 0x37, "11111111", "channel 3's SPR untouched (0xFF)");
+    bus_write(b, 0x53, 0x80);
+    expect_reg(b, 0x50, "00000001", "DLL 0x01 after RST#");
+    bus_write(b, 0x53, 0x03);
+    bt = bit_time(b, 1);
+    /* TXCNT / RXCNT. */
+    bus_write(b, 0x52, 0x01);
+    for (i = 0; i < 3; i++) {
+        drive_named(b, "RX5", 0x41 + i, bt);
+    }
+    expect_reg(b, 0x5B, "00000011", "RXCNT 3");
+    /* INT0 / INT1-3: channel 5 code 001 (RX data) at bits 17:15. */
+    bus_write(b, 0x51, 0x01);
+    run(b, NS(300));
+    expect_pin(b, "INT", LOGIC_0, "channel 5's interrupt pulls INT# low");
+    expect_reg(b, 0x80, "00100000", "INT0: channel 5 pending");
+    expect_reg(b, 0x82, "10000000", "INT2 bit 7 = channel 5 code bit 0");
+    expect_reg(b, 0x83, "00000000", "INT3: channel 5 code bits 2:1 = 00");
+    bus_write(b, 0x51, 0x00);
+    bus_write(b, 0x52, 0x07);
+    /* REGB: a write to every channel. */
+    bus_write(b, 0x8E, 0x01);
+    bus_write(b, 0x07, 0x77);
+    bus_write(b, 0x8E, 0x00);
+    expect_reg(b, 0x67, "01110111", "REGB: channel 6 got the write");
+    expect_reg(b, 0x17, "01110111", "and channel 1");
+    /* RESET register: soft reset channel 6 only. */
+    bus_write(b, 0x8A, 0x40);
+    expect_reg(b, 0x67, "11111111", "RESET bit 6: channel 6 back to SPR 0xFF");
+    expect_reg(b, 0x17, "01110111", "channel 1 kept its value");
+    /* 8XMODE: channel 0 at 8x. */
+    bus_write(b, 0x88, 0x01);
+    bus_write(b, 0x03, 0x03);
+    bus_write(b, 0x00, 0xFF);
+    t = e_low_time(b, "TX0", NS(100000), NS(50));
+    check(t >= b->period * 7 && t <= b->period * 9, "8XMODE: 8 clocks per bit");
+    run(b, NS(100000));
+    bus_write(b, 0x88, 0x00);
+    /* The timer: one-shot, 100 oscillator clocks, interrupt on INT#. */
+    bus_write(b, 0x86, 100);
+    bus_write(b, 0x87, 0);
+    bus_write(b, 0x84, 0x05);              /* clock = oscillator */
+    bus_write(b, 0x84, 0x03);              /* one-shot */
+    bus_write(b, 0x84, 0x01);              /* interrupt on */
+    bus_write(b, 0x84, 0x09);              /* start */
+    run(b, b->period * 90);
+    expect_pin(b, "INT", LOGIC_Z, "90 clocks: no timer interrupt yet");
+    run(b, b->period * 15);
+    expect_pin(b, "INT", LOGIC_0, "100 clocks: the timer interrupt");
+    expect_reg(b, 0x81, "00000111", "INT1: channel 0 code 111 (timer)");
+    expect_reg(b, 0x84, "00000001", "TIMERCNTL reads 01 (pending), and the read clears it");
+    run(b, NS(300));
+    expect_pin(b, "INT", LOGIC_Z, "INT# released");
+    /* Send-immediate (MCR[3]): the next THR byte goes out ahead of the FIFO. */
+    bus_write(b, 0x09, 0x10);              /* EFR[4] */
+    bus_write(b, 0x02, 0x01);
+    for (i = 0; i < 4; i++) {
+        bus_write(b, 0x00, 0x11 + i);
+    }
+    bus_write(b, 0x04, 0x08);
+    bus_write(b, 0x00, 0xA5);
+    run(b, bt * 10 * 6);
+    {
+        uint16_t frames[64];
+        size_t n = sent(b, frames, 64);
+
+        check(n >= 5 && frames[n - 5] == 0x11 && frames[n - 4] == 0xA5 && frames[n - 3] == 0x12 &&
+              frames[n - 1] == 0x14, "send-immediate: 0x11, then 0xA5 ahead of 0x12-0x14");
+    }
+    expect_reg(b, 0x04, "00000000", "MCR[3] self-clears");
+    /* TX disable (MSR write [3]). */
+    bus_write(b, 0x06, 0x08);
+    bus_write(b, 0x00, 0x55);
+    check(!wait_level(b, "TX0", LOGIC_0, bt * 12), "TX disabled: the byte waits");
+    bus_write(b, 0x06, 0x00);
+    check(wait_level(b, "TX0", LOGIC_0, bt * 4), "enabled again: it goes");
+    run(b, bt * 12);
+    /* Auto flow on DTR/DSR (MCR[2] = 1): DSR inactive holds the transmitter. */
+    bus_write(b, 0x09, 0x90);              /* EFR[7] auto CTS/DSR, EFR[4] */
+    bus_write(b, 0x04, 0x04);
+    bus_write(b, 0x00, 0x66);
+    check(!wait_level(b, "TX0", LOGIC_0, bt * 12), "MCR[2] = 1: DSR high (inactive) holds TX");
+    set(b, "DSR0", LOGIC_0);
+    check(wait_level(b, "TX0", LOGIC_0, bt * 4), "DSR active: TX goes (CTS ignored)");
+    run(b, bt * 12);
+    bus_write(b, 0x04, 0x00);
+    bus_write(b, 0x09, 0x10);
+    /* Auto RS-485 on RTS (MCR[2] = 0) with a 2-bit turnaround (MSR write [7:4]). */
+    bus_write(b, 0x06, 0x20);              /* MSR write: delay 2 */
+    bus_write(b, 0x08, 0x20);              /* FCTR[5] */
+    run(b, NS(300));
+    expect_pin(b, "RTS0", LOGIC_0, "RS-485 idle: RTS low");
+    bus_write(b, 0x00, 0x33);
+    run(b, bt * 2);
+    expect_pin(b, "RTS0", LOGIC_1, "transmitting: RTS high");
+    t = sim_now(b->sim);
+    wait_level(b, "RTS0", LOGIC_0, bt * 20);
+    t = sim_now(b->sim) - t;
+    check(t >= bt * 9 && t <= bt * 11, "low 2 bit times after the last stop bit");
+    /* SLEEP register: a sleeping channel wakes on a THR write. */
+    bus_write(b, 0x08, 0x00);
+    bus_read(b, 0x06);                     /* clear the MSR deltas (DSR0 moved) */
+    bus_write(b, 0x8B, 0x01);
+    run(b, bt * 2);
+    bus_write(b, 0x00, 0x44);
+    check(wait_level(b, "TX0", LOGIC_0, bt * 4), "asleep: a THR write wakes channel 0");
+    run(b, bt * 12);
+    expect_pin(b, "INT", LOGIC_0, "the wake-up indicator asserts INT#");
+    expect_reg(b, 0x02, "11000001", "ISR reads none (the indicator), and the read clears it");
+    bus_write(b, 0x8B, 0x00);
+    run(b, NS(300));
+    expect_pin(b, "INT", LOGIC_Z, "released");
+    case_end("E27 XR16V798: 5G map, global block (INT0-3, DVID, REGB, RESET, 8XMODE, SLEEP), "
+             "timer, send-immediate, TX disable, DTR/DSR flow, RS-485 delay");
+    bench_close(b);
+}
+
+static void case_e28(void) {
+    Bench *b = bench_open_cfg("SFX-XR16L784", HALF_18432, &E_L784_BENCH);
+    SimTime bt;
+    SimTime t;
+    unsigned i;
+
+    case_begin();
+    expect_reg(b, 0x8D, "00100100", "global DVID 0x24");
+    expect_reg(b, 0x47, "XXXXXXXX", "0x40-0x7F reserved: X");
+    bus_write(b, 0x33, 0x80);
+    expect_reg(b, 0x30, "XXXXXXXX", "DLL X (not reset)");
+    bus_write(b, 0x30, 0x01);
+    bus_write(b, 0x31, 0x00);
+    bus_write(b, 0x33, 0x03);
+    bt = bit_time(b, 1);
+    /* RS-485 on RTS only (planner decision), even with MCR[2] = 1. */
+    bus_write(b, 0x39, 0x10);
+    bus_write(b, 0x34, 0x04);              /* MCR[2] = 1 (DTR/DSR flow select) */
+    bus_write(b, 0x36, 0x10);              /* delay 1 */
+    bus_write(b, 0x38, 0x20);              /* FCTR[5] */
+    run(b, NS(300));
+    expect_pin(b, "RTS3", LOGIC_0, "RS-485 idle: RTS low");
+    bus_write(b, 0x30, 0x5A);
+    run(b, bt * 2);
+    expect_pin(b, "RTS3", LOGIC_1, "transmitting: RTS high (not DTR)");
+    expect_pin(b, "DTR3", LOGIC_1, "DTR untouched (MCR[0] = 0: inactive)");
+    t = sim_now(b->sim);
+    wait_level(b, "RTS3", LOGIC_0, bt * 20);
+    t = sim_now(b->sim) - t;
+    check(t >= bt * 8 && t <= bt * 10, "low 1 bit time after the last stop bit");
+    /* Timer: bit-mapped TIMERCNTL (re-triggerable, interrupt, start). */
+    bus_write(b, 0x86, 50);
+    bus_write(b, 0x87, 0);
+    bus_write(b, 0x84, 0x03);
+    expect_reg(b, 0x84, "00000011", "TIMERCNTL reads its bits");
+    run(b, b->period * 55);
+    expect_pin(b, "INT", LOGIC_0, "the timer interrupt");
+    bus_read(b, 0x84);
+    run(b, NS(300));
+    expect_pin(b, "INT", LOGIC_Z, "a TIMERCNTL read clears it");
+    run(b, b->period * 50);
+    expect_pin(b, "INT", LOGIC_0, "re-triggerable: again N clocks later");
+    bus_write(b, 0x84, 0x00);
+    bus_read(b, 0x84);
+    /* Timer on TMRCK: one-shot, N = 3 pin edges. */
+    bus_write(b, 0x86, 3);
+    bus_write(b, 0x84, 0x0F);              /* TMRCK, one-shot, start, interrupt */
+    for (i = 0; i < 2; i++) {
+        set(b, "TMRCK", LOGIC_1);
+        run(b, NS(500));
+        set(b, "TMRCK", LOGIC_0);
+        run(b, NS(500));
+    }
+    expect_pin(b, "INT", LOGIC_Z, "2 TMRCK edges: not yet");
+    set(b, "TMRCK", LOGIC_1);
+    run(b, NS(500));
+    expect_pin(b, "INT", LOGIC_0, "the third TMRCK edge: timer interrupt");
+    bus_read(b, 0x84);
+    bus_write(b, 0x84, 0x00);
+    /* The timeout interrupt clears when the FIFO empties, not on a read. */
+    bus_write(b, 0x03, 0x80);
+    bus_write(b, 0x00, 0x01);
+    bus_write(b, 0x01, 0x00);
+    bus_write(b, 0x03, 0x03);
+    bus_write(b, 0x02, 0x41);
+    bus_write(b, 0x01, 0x01);
+    drive_named(b, "RX0", 0x31, bt);
+    drive_named(b, "RX0", 0x32, bt);
+    run(b, bt * 60);
+    expect_reg(b, 0x02, "11001100", "timeout");
+    bus_read(b, 0x00);
+    expect_reg(b, 0x02, "11001100", "one byte left: the timeout stays (XR16L784)");
+    bus_read(b, 0x00);
+    expect_reg(b, 0x02, "11000001", "empty: cleared");
+    bus_write(b, 0x01, 0x00);
+    /* Sleep: the wake-up indicator clears with an INT0 read, not the ISR. */
+    bus_write(b, 0x8B, 0x01);
+    run(b, bt * 2);
+    bus_write(b, 0x00, 0x44);
+    run(b, bt * 12);
+    expect_pin(b, "INT", LOGIC_0, "woken: the wake-up indicator");
+    bus_read(b, 0x02);
+    run(b, NS(300));
+    expect_pin(b, "INT", LOGIC_0, "an ISR read leaves it (XR16L784)");
+    bus_read(b, 0x80);
+    run(b, NS(300));
+    expect_pin(b, "INT", LOGIC_Z, "an INT0 read clears it");
+    bus_write(b, 0x8B, 0x00);
+    case_end("E28 XR16L784: 5G map with 4 channels, reserved 0x40, RS-485 on RTS, bit-mapped "
+             "timer (TMRCK), timeout and wake-up clear rules");
+    bench_close(b);
+}
+
+static void run_e_cases(void) {
+    case_e1();
+    case_e2();
+    case_e3();
+    case_e4();
+    case_e5_e7("SFX-ST16C2550", "E5 ST16C2550: dual, per-channel CS (broadcast write, X read), "
+                                "OP2, timeout over RX data, break hold");
+    case_e6();
+    case_e5_e7("SFX-XR16C2550", "E7 XR16C2550: the ST16C2550 keys, the same checks");
+    case_e8();
+    case_e9();
+    case_e10();
+    case_e11();
+    case_e12_e14("SFX-XR16M2551-tqfp48-2551",
+                 "E12 XR16M2551: CLKSEL ÷4 and the MCR[7] override, Motorola, PowerSave");
+    case_e13();
+    case_e12_e14("SFX-XR16M2651-tqfp48-2551",
+                 "E14 XR16M2651: the same with 32-byte FIFOs (CLKSEL, Motorola, PowerSave)");
+    case_e15();
+    case_e16();
+    case_e17_e20("SFX-XR16V2551-tqfp48-2551", &E_DUAL_MOTO_BENCH, "00000010",
+                 "E17 XR16V2551: DVID 0x02, Motorola, PowerSave with the wake-up indicator");
+    case_e18_e21("SFX-XR16V2552", "00000010",
+                 "E18 XR16V2552: MF (BAUDOUT by AFR[2:1]), AFR vs DLD by EFR[4], shared AFR[0]");
+    case_e19();
+    case_e17_e20("SFX-XR16V2651-tqfp48-2651", &E_DUAL_CLKSEL_BENCH, "00000110",
+                 "E20 XR16V2651: DVID 0x06, Motorola, PowerSave with the wake-up indicator");
+    case_e18_e21("SFX-XR16V2652", "00000110",
+                 "E21 XR16V2652: the 2552 wrapper with 32-byte FIFOs (MF, AFR/DLD, AFR[0])");
+    case_e22();
+    case_e23_e24("SFX-XR16V564", "SFX-XR16V564-lqfp64-driven", 32,
+                 "E23 XR16V564: 32-byte FIFO, CLKSEL ÷4, DIV part, 100-111 X with DLAB, sleep");
+    case_e23_e24("SFX-XR16V654", "SFX-XR16V654-lqfp64-driven", 64,
+                 "E24 XR16V654: 64-byte FIFO, CLKSEL ÷4, DIV part, read-only LSR, sleep");
+    case_e25();
+    case_e26();
+    case_e27();
+    case_e28();
+}
+
 int main(void) {
     library = part_library_create();
     if (load_parts_dir(library, PARTS_DIR) != 0 || load_serial_fixture(library) != 0 ||
@@ -2930,6 +4430,7 @@ int main(void) {
     case_j4();
     case_j5();
     case_j6();
+    run_e_cases();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);
