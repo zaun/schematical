@@ -126,12 +126,12 @@ static void track_latch(SerialBus *bus, const Sim *sim, const SimInstance *insta
                                                  : serial_level(sim, instance, p->address[i], LOGIC_X);
     }
     address_of(bus, &value, &known);
-    bus->latched_unit = 0;
+    bus->latched_units = 1;
     if (ads == LOGIC_X) {
         bus->latched_select = LOGIC_X;
     } else if (events->select != NULL) {
         bus->latched_select = events->select(events->context, sim, instance, value, known,
-                                             &bus->latched_unit);
+                                             &bus->latched_units);
     } else {
         bus->latched_select = pin_select(bus, sim, instance);
     }
@@ -200,16 +200,45 @@ static void drive_read(SerialBus *bus, Sim *sim, SimInstance *instance,
 }
 
 /* Every register an address with unknown bits could name gets X. */
-static void write_unknown(const SerialBus *bus, const SerialBusEvents *events, unsigned unit,
+static void write_unknown(const SerialBus *bus, const SerialBusEvents *events, uint32_t units,
                           unsigned address, unsigned known) {
     unsigned count = 1u << bus->pins->address_count;
     unsigned a;
+    unsigned u;
 
-    for (a = 0; a < count; a++) {
-        if ((a & known) == (address & known)) {
-            events->write(events->context, unit, a, 0, 0);
+    for (u = 0; u < 32; u++) {
+        if (!((units >> u) & 1u)) {
+            continue;
+        }
+        for (a = 0; a < count; a++) {
+            if ((a & known) == (address & known)) {
+                events->write(events->context, u, a, 0, 0);
+            }
         }
     }
+}
+
+static void write_units(const SerialBusEvents *events, uint32_t units, unsigned address,
+                        uint8_t data, uint8_t known) {
+    unsigned u;
+
+    for (u = 0; u < 32; u++) {
+        if ((units >> u) & 1u) {
+            events->write(events->context, u, address, data, known);
+        }
+    }
+}
+
+/* The unit of a one-unit mask, or -1. */
+static int single_unit(uint32_t units) {
+    unsigned u;
+
+    if (units == 0 || (units & (units - 1u)) != 0) {
+        return -1;
+    }
+    for (u = 0; !((units >> u) & 1u); u++) {
+    }
+    return (int)u;
 }
 
 void serial_bus_start(SerialBus *bus, Sim *sim, SimInstance *instance,
@@ -242,19 +271,20 @@ void serial_bus_update(SerialBus *bus, Sim *sim, SimInstance *instance,
     /* Read cycle. */
     if (sel == LOGIC_0 || rd == 0) {
         read = SERIAL_CYCLE_NONE;
-    } else if (sel == LOGIC_1 && rd == 1 && known == full) {
+    } else if (sel == LOGIC_1 && rd == 1 && known == full && single_unit(bus->latched_units) >= 0) {
         read = SERIAL_CYCLE_ACTIVE;
     } else {
         read = SERIAL_CYCLE_X;
     }
     if (read != bus->read || (read == SERIAL_CYCLE_ACTIVE &&
-                              (address != bus->read_address || bus->latched_unit != bus->read_unit))) {
+                              (address != bus->read_address ||
+                               (unsigned)single_unit(bus->latched_units) != bus->read_unit))) {
         if (bus->read == SERIAL_CYCLE_ACTIVE && read == SERIAL_CYCLE_NONE) {
             events->read_done(events->context, bus->read_unit, bus->read_address);
         }
         bus->read = read;
         bus->read_address = address;
-        bus->read_unit = bus->latched_unit;
+        bus->read_unit = read == SERIAL_CYCLE_ACTIVE ? (unsigned)single_unit(bus->latched_units) : 0;
         if (read == SERIAL_CYCLE_NONE) {
             drive_data(bus, sim, instance, 0, 0, 1, bus->timing.release);
             drive_pin(sim, instance, p->driver_disable, &bus->ddis_out, LOGIC_1, bus->timing.ddis);
@@ -282,20 +312,21 @@ void serial_bus_update(SerialBus *bus, Sim *sim, SimInstance *instance,
             if (write == SERIAL_CYCLE_X) {
                 data_known = 0;
             }
-            events->write(events->context, bus->write_unit, bus->write_address, data, data_known);
+            write_units(events, bus->write_units, bus->write_address, data, data_known);
         } else if (bus->write == SERIAL_CYCLE_X && write == SERIAL_CYCLE_NONE) {
-            write_unknown(bus, events, bus->write_unit, bus->write_address,
+            write_unknown(bus, events, bus->write_units, bus->write_address,
                           bus->write_address_known);
         }
         bus->write = write;
-        bus->write_unit = bus->latched_unit;
+        bus->write_units = bus->latched_units;
         bus->write_address = address;
         bus->write_address_known = known;
     } else if (write == SERIAL_CYCLE_ACTIVE) {
         /* The address may move during the strobe; the last one counts. */
         bus->write_address = address;
-        bus->write_unit = bus->latched_unit;
+        bus->write_units = bus->latched_units;
     } else if (write == SERIAL_CYCLE_X) {
+        bus->write_units |= bus->latched_units;
         bus->write_address_known &= known & ~(address ^ bus->write_address);
     }
 }

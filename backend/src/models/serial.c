@@ -25,6 +25,9 @@ static const char *const DEVICE_KEYS[] = {
     "model", "grades",
     /* ns16550 */
     "bus", "clock", "channels", "fifo", "rxTrigger", "intPin", "dmaClass", "timeout",
+    "channelSelect", "broadcastWrite", "rxTrigger64", "txTrigger", "tlr", "dmaPins", "dma",
+    "intControl", "lcrReset", "sprReset", "tcrReset", "iirPriority", "lsr7Clear", "stopCheck",
+    "statusReadDefer", "busSync", "majorityVote",
     NULL
 };
 enum { FIRST_MODEL_KEY = 2 };

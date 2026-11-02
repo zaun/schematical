@@ -62,11 +62,13 @@ typedef struct {
     /*
      * Optional: the select decode, for models with more than one unit
      * (per-channel chip selects, a channel pin). Returns 0, 1 or X and sets
-     * *unit. NULL = the pins' selects, unit 0. `address` is the latched
-     * address (value, known).
+     * *units, a bit per selected unit. NULL = the pins' selects, unit 0.
+     * `address` is the latched address (value, known). Several units at
+     * once: a read is an X cycle; a write goes to each of them (return X
+     * instead when the device does not broadcast).
      */
     LogicValue (*select)(void *context, const Sim *sim, const SimInstance *instance,
-                         unsigned address, unsigned address_known, unsigned *unit);
+                         unsigned address, unsigned address_known, uint32_t *units);
     /* The byte a read returns now. */
     void (*peek)(void *context, unsigned unit, unsigned address, uint8_t *data, uint8_t *known);
     /* A read ended: its side effects (an RBR pop, status clears). */
@@ -87,12 +89,12 @@ typedef struct {
     /* The address and select as latched by ADS (or live without it). */
     LogicValue latched_address[SERIAL_BUS_ADDRESS];
     LogicValue latched_select;
-    unsigned latched_unit;
+    uint32_t latched_units;
     SerialCycle read;
     SerialCycle write;
-    unsigned read_unit;
+    unsigned read_unit;     /* the one unit a read reads */
     unsigned read_address;
-    unsigned write_unit;
+    uint32_t write_units;
     unsigned write_address;
     unsigned write_address_known;
     LogicValue data_out[SERIAL_BUS_DATA];   /* what each data pin is set to drive */

@@ -22,185 +22,29 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "serial.h"
+#include "ns16550_int.h"
 
-enum { NS_MAX_FIFO = 128 };
-
-enum {
-    T_RVD, T_HZ, T_RDD, T_BLD, T_RINT, T_HR, T_MDO, T_SIM, T_RIM, T_WXI, T_WRR, T_IR
-};
 static const char *const TIMING[] = {
     "trvd", "thz", "trdd", "tbld", "trint", "thr", "tmdo", "tsim", "trim", "twxi", "twrr", "tir",
+    "tcso", NULL
+};
+static const char *const KEYS[] = {
+    "bus", "clock", "channels", "fifo", "rxTrigger", "intPin", "dmaClass", "timeout",
+    /* plan-12-D */
+    "channelSelect", "broadcastWrite", "rxTrigger64", "txTrigger", "tlr", "dmaPins", "dma",
+    "intControl", "lcrReset", "sprReset", "tcrReset", "iirPriority", "lsr7Clear", "stopCheck",
+    "statusReadDefer", "busSync", "majorityVote",
     NULL
 };
-
-static const char *const KEYS[] = {
-    "bus", "clock", "channels", "fifo", "rxTrigger", "intPin", "dmaClass", "timeout", NULL
-};
-
-typedef enum {
-    CH_TX, CH_RX, CH_RTS, CH_DTR, CH_CTS, CH_DSR, CH_DCD, CH_RI, CH_OUT1, CH_OUT2, CH_INT,
-    CH_TXRDY, CH_RXRDY, CH_PIN_COUNT
-} ChannelPin;
 static const char *const CHANNEL_KEYS[] = {
     "tx", "rx", "rts", "dtr", "cts", "dsr", "dcd", "ri", "out1", "out2", "int", "txrdy", "rxrdy",
     NULL
 };
+/* Keys of a channel object besides its pins. */
+static const char *const CHANNEL_EXTRA_KEYS[] = {"select", "selectHigh", NULL};
 
-/* MSR status bits 4..7, in order: CTS, DSR, RI, DCD. */
-enum { M_CTS, M_DSR, M_RI, M_DCD };
-static const ChannelPin MODEM_PIN[4] = {CH_CTS, CH_DSR, CH_RI, CH_DCD};
 
-/* ---- Device data ---------------------------------------------------------------- */
-
-typedef struct {
-    const char *data[SERIAL_BUS_DATA];
-    const char *address[SERIAL_BUS_ADDRESS];
-    unsigned address_count;
-    const char *read, *read_high, *write, *write_high;
-    const char *select[SERIAL_BUS_SELECTS];
-    unsigned select_count;
-    const char *select_high[SERIAL_BUS_SELECTS];
-    unsigned select_high_count;
-    const char *address_strobe, *driver_disable, *select_out, *reset;
-    int reset_active_high;
-    const char *clock_in, *clock_out, *receive, *baudout;
-    const char *channel[SERIAL_MAX_CHANNELS][CH_PIN_COUNT];
-    unsigned channel_count;
-    unsigned fifo;                 /* 0 = 16450 */
-    unsigned rx_trigger[4];
-} NsDevice;
-
-typedef struct {
-    SerialBusPins bus;
-    size_t reset, clock_in, clock_out, receive, baudout;
-    size_t channel[SERIAL_MAX_CHANNELS][CH_PIN_COUNT];
-} NsPins;
-
-/* ---- State ------------------------------------------------------------------------ */
-
-typedef struct {
-    uint8_t v;
-    uint8_t k;   /* known bits */
-} Reg;
-
-typedef struct NsState NsState;
-
-typedef struct {
-    NsState *owner;
-    unsigned index;
-    SerialLine line;
-    SerialBaud baud;
-    SerialFormat format;
-    Reg ier, lcr, mcr, scr, dll, dlm, rbr;
-    int fifo_on;
-    int fifo_x;                    /* FCR[0] was written X */
-    int dma_mode;
-    unsigned trigger;              /* FCR[7:6] */
-    /* Receive FIFO (depth 1 in 16450 mode). */
-    SerialRxChar rx[NS_MAX_FIFO];
-    unsigned rx_head;
-    unsigned rx_count;
-    struct { SerialRxChar c; unsigned ticks; } pending[8];
-    unsigned pending_count;
-    uint8_t lsr_err;               /* LSR[4:1], sticky until an LSR read */
-    uint8_t lsr_err_k;
-    int lsr7;
-    /* Transmit FIFO (depth 1 in 16450 mode). */
-    uint8_t tx_data[NS_MAX_FIFO];
-    uint8_t tx_known[NS_MAX_FIFO];
-    unsigned tx_head;
-    unsigned tx_count;
-    int thre;                      /* LSR[5] as indicated */
-    int thre_wait;                 /* the indication waits for the last stop bit */
-    int thre_int;                  /* the THRE interrupt source (latched) */
-    int two_seen;                  /* 2+ bytes in the TX FIFO since the last THRE */
-    int immediate;                 /* the next THRE indication is immediate (FCR[0] changed) */
-    LogicValue tsr;                /* the transmitter's output, before break and loopback */
-    /* Modem status bits 4..7 (1 = active) and the deltas. */
-    LogicValue msr[4];
-    uint8_t delta;
-    uint8_t delta_k;
-    /* Timeout. */
-    uint64_t idle_ticks;
-    int timeout;
-    /* DMA mode 1 latches. */
-    int rxrdy1;
-    int txrdy1;
-    uint8_t iir_seen;              /* the IIR a read in progress reported */
-    uint8_t iir_seen_k;
-} NsChannel;
-
-struct NsState {
-    SerialBase base;
-    const Part *part;
-    const NsDevice *dev;
-    const NsPins *pins;
-    const SerialGrade *grade;
-    SerialBus bus;
-    SerialBusEvents events;
-    Sim *sim;
-    SimInstance *instance;
-    NsChannel ch[SERIAL_MAX_CHANNELS];
-    int in_reset;
-    int unknown;                   /* MR was X: everything unknown until a clean reset */
-    LogicValue clock_level;
-    LogicValue receive_level;
-    LogicValue *out;               /* per pin: the level last set to drive */
-    size_t pin_count;
-};
-
-/* What changed, for the output delays. */
-typedef enum {
-    CAUSE_SERIAL,
-    CAUSE_RBR_READ,
-    CAUSE_LSR_READ,
-    CAUSE_IIR_READ,
-    CAUSE_MSR_READ,
-    CAUSE_THR_WRITE,
-    CAUSE_MCR_WRITE,
-    CAUSE_MODEM_IN,
-    CAUSE_WRITE
-} Cause;
-
-/* ---- Small helpers ------------------------------------------------------------------ */
-
-static SimTime t_of(const NsState *s, unsigned i) {
-    return s->grade->t[i];
-}
-
-static unsigned depth(const NsChannel *c) {
-    return c->fifo_on ? c->owner->dev->fifo : 1;
-}
-
-static LogicValue bit_of(Reg r, unsigned bit) {
-    if (!((r.k >> bit) & 1u)) {
-        return LOGIC_X;
-    }
-    return (r.v >> bit) & 1u ? LOGIC_1 : LOGIC_0;
-}
-
-static LogicValue not3(LogicValue a) {
-    return a == LOGIC_0 ? LOGIC_1 : a == LOGIC_1 ? LOGIC_0 : LOGIC_X;
-}
-
-static LogicValue and3(LogicValue a, LogicValue b) {
-    if (a == LOGIC_0 || b == LOGIC_0) {
-        return LOGIC_0;
-    }
-    return a == LOGIC_1 && b == LOGIC_1 ? LOGIC_1 : LOGIC_X;
-}
-
-static LogicValue or3(LogicValue a, LogicValue b) {
-    if (a == LOGIC_1 || b == LOGIC_1) {
-        return LOGIC_1;
-    }
-    return a == LOGIC_0 && b == LOGIC_0 ? LOGIC_0 : LOGIC_X;
-}
-
-static LogicValue bool3(int b) {
-    return b ? LOGIC_1 : LOGIC_0;
-}
+const ChannelPin MODEM_PIN[4] = {CH_CTS, CH_DSR, CH_RI, CH_DCD};
 
 static void drive(NsState *s, size_t pin, LogicValue value, SimTime delay) {
     if (pin == SERIAL_NO_PIN || s->out[pin] == value) {
@@ -240,6 +84,8 @@ static void update_format(NsChannel *c) {
         f.parity = lcr & 0x10u ? SERIAL_PARITY_EVEN : SERIAL_PARITY_ODD;
     }
     f.format_x = (c->lcr.k & 0x3Fu) != 0x3Fu;
+    f.majority = c->owner->dev->majority;
+    f.check_both_stops = c->owner->dev->stop_both;
     c->format = f;
 }
 
@@ -328,11 +174,7 @@ static Sources sources(const NsChannel *c) {
     LogicValue rda;
 
     if (c->fifo_on) {
-        static const unsigned DEFAULT_TRIGGER[4] = {1, 4, 8, 14};
-        const unsigned *table = c->owner->dev->rx_trigger[0] != 0 ? c->owner->dev->rx_trigger
-                                                                  : DEFAULT_TRIGGER;
-
-        rda = bool3(c->rx_count >= table[c->trigger & 3u]);
+        rda = bool3(c->rx_count >= rx_trigger_level(c));
     } else {
         rda = bool3(c->rx_count > 0);
     }
@@ -347,8 +189,13 @@ static Sources sources(const NsChannel *c) {
 /* IIR: the highest pending source. Unknown when an X decides it. */
 static void iir_of(const NsChannel *c, uint8_t *v, uint8_t *k) {
     Sources s = sources(c);
-    const LogicValue order[5] = {s.ls, s.timeout, s.rda, s.thre, s.modem};
-    static const uint8_t ID[5] = {0x06, 0x0C, 0x04, 0x02, 0x00};
+    /* Standard: RX data (trigger reached) above the timeout; nxpEqual: one
+       level, shown as the timeout while one is pending. */
+    int timeout_first = c->owner->dev->iir_priority == IIR_NXP_EQUAL;
+    const LogicValue order[5] = {s.ls, timeout_first ? s.timeout : s.rda,
+                                 timeout_first ? s.rda : s.timeout, s.thre, s.modem};
+    const uint8_t ID[5] = {0x06, timeout_first ? 0x0C : 0x04, timeout_first ? 0x04 : 0x0C,
+                           0x02, 0x00};
     unsigned i;
 
     *v = 0x01;
@@ -365,6 +212,9 @@ static void iir_of(const NsChannel *c, uint8_t *v, uint8_t *k) {
     }
     if (c->fifo_on) {
         *v |= 0xC0;
+        if (c->owner->dev->fifo750 && c->fifo64) {
+            *v |= 0x20;   /* TL16C750: IIR[5] in 64-byte mode */
+        }
     }
     if (c->fifo_x) {
         *k &= (uint8_t)~0xC0;
@@ -378,6 +228,82 @@ static LogicValue int_level(const NsChannel *c) {
 }
 
 /* ---- Outputs ----------------------------------------------------------------------------- */
+
+/* RXRDY (active low) for one channel. Mode 0: low with a character.
+   Mode 1: the latch (trigger or timeout; cleared when empty); class T also
+   goes inactive while LSR[7] is 1. */
+static LogicValue rxrdy_level(const NsChannel *c, int mode1) {
+    if (!mode1) {
+        return bool3(c->rx_count == 0);
+    }
+    if (c->owner->dev->dma_class == 'T' && c->lsr7) {
+        return LOGIC_1;
+    }
+    return bool3(!c->rxrdy1);
+}
+
+/* TXRDY (active low). Mode 0: low when the THR/FIFO is empty. Mode 1 by
+   class: P low when empty, high when full (a latch); N and B low while a
+   slot is free; T low while the free spaces reach the TX trigger. */
+static LogicValue txrdy_level(const NsChannel *c, int mode1) {
+    unsigned free_slots = depth(c) - c->tx_count;
+
+    if (!mode1) {
+        return bool3(c->tx_count != 0);
+    }
+    switch (c->owner->dev->dma_class) {
+        case 'N':
+        case 'B':
+            return bool3(free_slots == 0);
+        case 'T': {
+            unsigned level = c->owner->dev->has_tx_trigger ? c->owner->dev->tx_trigger[0] : 1;
+
+            return bool3(free_slots < level);
+        }
+        default:
+            return bool3(!c->txrdy1);
+    }
+}
+
+/* The INT pin for an interrupt level, per "intPin": driven; OUT2-gated
+   (3-state unless MCR[3] = 1, the register bit, loopback or not); INTN
+   (pin high: driven, low or open: OUT2-gated); INTSEL (enabled by the pin OR
+   MCR[3]); MCR[5] open source (SC16C650B: MCR[5] = 1 drives only the 1). */
+static LogicValue int_pin_level(const NsState *s, const NsChannel *c, LogicValue level) {
+    LogicValue out2 = bit_of(c->mcr, 3);
+    LogicValue enable;
+
+    switch (s->dev->int_pin) {
+        case INT_DRIVEN:
+            return level;
+        case INT_OUT2_GATED:
+            enable = out2;
+            break;
+        case INT_INTN:
+            enable = or3(serial_level(s->sim, s->instance, s->pins->int_control, LOGIC_0), out2);
+            break;
+        case INT_INTSEL:
+            enable = or3(serial_level(s->sim, s->instance, s->pins->int_control, LOGIC_X), out2);
+            break;
+        case INT_MCR5_OPEN_SOURCE: {
+            LogicValue open = bit_of(c->mcr, 5);
+
+            if (open == LOGIC_0) {
+                return level;
+            }
+            if (open == LOGIC_1) {
+                return level == LOGIC_1 ? LOGIC_1 : level == LOGIC_0 ? LOGIC_Z : LOGIC_X;
+            }
+            return level == LOGIC_1 ? LOGIC_1 : LOGIC_X;
+        }
+        default:
+            return level;
+    }
+    if (enable == LOGIC_1) {
+        return level;
+    }
+    return enable == LOGIC_0 ? LOGIC_Z : LOGIC_X;
+}
 
 static void update_channel_outputs(NsState *s, NsChannel *c, Cause cause) {
     const size_t *pin = s->pins->channel[c->index];
@@ -420,9 +346,10 @@ static void update_channel_outputs(NsState *s, NsChannel *c, Cause cause) {
         drive(s, pin[CH_DTR], LOGIC_1, 0);
         drive(s, pin[CH_OUT1], LOGIC_1, 0);
         drive(s, pin[CH_OUT2], LOGIC_1, 0);
-        drive(s, pin[CH_INT], LOGIC_0, 0);
+        drive(s, pin[CH_INT], int_pin_level(s, c, LOGIC_0), 0);
+        /* decisions.md (TL16C554, P3): RXRDY and TXRDY inactive during reset. */
         drive(s, pin[CH_RXRDY], LOGIC_1, 0);
-        drive(s, pin[CH_TXRDY], LOGIC_0, 0);
+        drive(s, pin[CH_TXRDY], LOGIC_1, 0);
         return;
     }
 
@@ -455,15 +382,47 @@ static void update_channel_outputs(NsState *s, NsChannel *c, Cause cause) {
         }
     }
 
-    /* INTR: active high, always driven (intPin "driven"). */
-    intr = int_level(c);
+    /* INT: active high; driven, gated or open per "intPin". */
+    intr = int_pin_level(s, c, int_level(c));
     drive(s, pin[CH_INT], intr, int_delay);
 
     /* RXRDY / TXRDY (active low). */
-    rxrdy = mode1 ? bool3(!c->rxrdy1) : bool3(c->rx_count == 0);
-    txrdy = mode1 ? bool3(!c->txrdy1) : bool3(c->tx_count != 0);
+    rxrdy = rxrdy_level(c, mode1);
+    txrdy = txrdy_level(c, mode1);
     drive(s, pin[CH_RXRDY], rxrdy, rxrdy_delay);
     drive(s, pin[CH_TXRDY], txrdy, txrdy_delay);
+}
+
+/* Shared DMA pins (TL16C554: the channels' active-low signals ANDed;
+   TL16C754B: wire-OR, open drain). */
+static void update_shared_dma(NsState *s, Cause cause) {
+    const NsDevice *d = s->dev;
+    LogicValue rx = LOGIC_1;
+    LogicValue tx = LOGIC_1;
+    SimTime rx_delay = cause == CAUSE_RBR_READ ? t_of(s, T_WRR) : 0;
+    SimTime tx_delay = cause == CAUSE_THR_WRITE ? t_of(s, T_WXI) : 0;
+    unsigned i;
+
+    if (d->dma_pins == DMA_PINS_NAMED) {
+        return;
+    }
+    if (s->unknown) {
+        rx = tx = LOGIC_X;
+    } else if (!s->in_reset) {
+        for (i = 0; i < d->channel_count; i++) {
+            const NsChannel *c = &s->ch[i];
+            int mode1 = c->fifo_on && c->dma_mode;
+
+            rx = and3(rx, rxrdy_level(c, mode1));
+            tx = and3(tx, txrdy_level(c, mode1));
+        }
+    }
+    if (d->dma_pins == DMA_PINS_SHARED_WIRE_OR) {
+        rx = rx == LOGIC_1 ? LOGIC_Z : rx;
+        tx = tx == LOGIC_1 ? LOGIC_Z : tx;
+    }
+    drive(s, s->pins->dma_rxrdy, rx, rx_delay);
+    drive(s, s->pins->dma_txrdy, tx, tx_delay);
 }
 
 static void update_outputs(NsState *s, Cause cause) {
@@ -472,17 +431,14 @@ static void update_outputs(NsState *s, Cause cause) {
     for (i = 0; i < s->dev->channel_count; i++) {
         update_channel_outputs(s, &s->ch[i], cause);
     }
+    update_shared_dma(s, cause);
     serial_bus_refresh(&s->bus, s->sim, s->instance, &s->events);
 }
 
 static void update_dma_latches(NsChannel *c) {
-    static const unsigned DEFAULT_TRIGGER[4] = {1, 4, 8, 14};
-    const unsigned *table = c->owner->dev->rx_trigger[0] != 0 ? c->owner->dev->rx_trigger
-                                                              : DEFAULT_TRIGGER;
-
     if (c->rx_count == 0) {
         c->rxrdy1 = 0;
-    } else if (c->rx_count >= table[c->trigger & 3u] || c->timeout) {
+    } else if (c->rx_count >= rx_trigger_level(c) || c->timeout) {
         c->rxrdy1 = 1;
     }
     if (c->tx_count == 0) {
@@ -554,11 +510,15 @@ static void reset_channel(NsState *s, NsChannel *c) {
     LogicValue now[4];
 
     c->ier = (Reg){0, 0xFF};
-    c->lcr = (Reg){0, 0xFF};
+    c->lcr = (Reg){s->dev->lcr_reset, 0xFF};
     c->mcr = (Reg){0, 0xFF};
-    c->scr = (Reg){0, 0xFF};   /* decisions.md PC16550D: SCR = 0x00 after MR (P3) */
+    if (s->dev->spr_reset >= 0) {
+        c->scr = (Reg){(uint8_t)s->dev->spr_reset, 0xFF};
+    }
     c->fifo_on = 0;
     c->fifo_x = 0;
+    c->fifo64 = 0;
+    c->reading_status = 0;
     c->dma_mode = 0;
     c->trigger = 0;
     clear_rx(c);
@@ -663,9 +623,14 @@ static void rx_tick(NsState *s, NsChannel *c) {
     }
     serial_rx_tick(&c->line.rx, level, &c->format, &events);
 
-    /* Timeout: 4 character times (from RCLK) plus 8 RCLKs with data waiting. */
+    /* Timeout: 4 character times (from RCLK) plus 8 RCLKs with data waiting;
+       "4w12": 4 characters plus 12 bit times. */
     if (c->fifo_on && c->rx_count > 0 && !c->timeout) {
         uint64_t limit = 4ull * serial_format_char_bits(&c->format) * c->format.factor + 8;
+
+        if (s->dev->timeout_4w12) {
+            limit = (4ull * serial_format_char_bits(&c->format) + 12) * c->format.factor;
+        }
 
         if (++c->idle_ticks >= limit) {
             c->timeout = 1;
@@ -786,8 +751,30 @@ static void reg_peek(NsChannel *c, unsigned address, uint8_t *v, uint8_t *k) {
             break;
         case 3: *v = c->lcr.v; *k = c->lcr.k; break;
         case 4: *v = c->mcr.v & 0x1F; *k = (uint8_t)(c->mcr.k | 0xE0); break;
-        case 5: lsr_of(c, v, k); break;
-        case 6: msr_of(c, v, k); break;
+        case 5:
+            if (c->reading_status) {
+                *v = c->shown;
+                *k = c->shown_k;
+                break;
+            }
+            lsr_of(c, v, k);
+            c->lsr_seen = c->lsr_err;
+            c->shown = *v;
+            c->shown_k = *k;
+            c->reading_status = c->owner->dev->status_defer;
+            break;
+        case 6:
+            if (c->reading_status) {
+                *v = c->shown;
+                *k = c->shown_k;
+                break;
+            }
+            msr_of(c, v, k);
+            c->delta_seen = c->delta;
+            c->shown = *v;
+            c->shown_k = *k;
+            c->reading_status = c->owner->dev->status_defer;
+            break;
         default: *v = c->scr.v; *k = c->scr.k; break;
     }
 }
@@ -823,11 +810,19 @@ static Cause reg_read_done(NsChannel *c, unsigned address) {
         case 5: {
             unsigned i;
 
-            c->lsr_err = 0;
-            c->lsr_err_k = 0xFF;
-            /* LSR[7] stays while errors remain further down the FIFO. */
+            /* "statusReadDefer": bits that set during the read stay set. */
+            if (c->owner->dev->status_defer) {
+                c->lsr_err &= (uint8_t)~c->lsr_seen;
+                c->lsr_err_k |= c->lsr_seen;
+            } else {
+                c->lsr_err = 0;
+                c->lsr_err_k = 0xFF;
+            }
+            c->reading_status = 0;
+            /* LSR[7] stays while errors remain further down the FIFO
+               ("lsr7Clear": "lsrRead" clears it on any LSR read). */
             c->lsr7 = 0;
-            for (i = 1; i < c->rx_count; i++) {
+            for (i = 1; i < c->rx_count && !c->owner->dev->lsr7_on_read; i++) {
                 if (char_has_error(&c->rx[(c->rx_head + i) % NS_MAX_FIFO])) {
                     c->lsr7 = 1;
                 }
@@ -835,8 +830,14 @@ static Cause reg_read_done(NsChannel *c, unsigned address) {
             return CAUSE_LSR_READ;
         }
         case 6:
-            c->delta = 0;
-            c->delta_k = 0xFF;
+            if (c->owner->dev->status_defer) {
+                c->delta &= (uint8_t)~c->delta_seen;
+                c->delta_k |= c->delta_seen;
+            } else {
+                c->delta = 0;
+                c->delta_k = 0xFF;
+            }
+            c->reading_status = 0;
             return CAUSE_MSR_READ;
         default:
             return CAUSE_WRITE;
@@ -889,6 +890,16 @@ static void write_fcr(NsChannel *c, uint8_t data, uint8_t known) {
     }
     if (!on) {
         return;   /* "FCR0 must be a 1 when other FCR bits are written" */
+    }
+    /* TL16C750: FCR[5] picks 64-byte mode, writable only while LCR[7] = 1. */
+    if (c->owner->dev->fifo750 && bit_of(c->lcr, 7) == LOGIC_1 && (known & 0x20u)) {
+        int mode64 = (data >> 5) & 1u;
+
+        if (mode64 != c->fifo64) {
+            clear_rx(c);
+            clear_tx(c);
+            c->fifo64 = mode64;
+        }
     }
     if (data & 2u) {
         clear_rx(c);
@@ -968,6 +979,76 @@ static Cause reg_write(NsState *s, NsChannel *c, unsigned address, uint8_t data,
 }
 
 /* ---- Bus events ------------------------------------------------------------------------------ */
+
+/* All of a set of selects active: 0, 1 or X (Z reads inactive). */
+static LogicValue selects_active(const NsState *s, const size_t *low, unsigned low_count,
+                                 const size_t *high, unsigned high_count) {
+    LogicValue all = LOGIC_1;
+    unsigned i;
+
+    for (i = 0; i < low_count; i++) {
+        all = and3(all, not3(serial_level(s->sim, s->instance, low[i], LOGIC_1)));
+    }
+    for (i = 0; i < high_count; i++) {
+        all = and3(all, serial_level(s->sim, s->instance, high[i], LOGIC_0));
+    }
+    return all;
+}
+
+/* The decode for more than one channel: per-channel chip selects (several
+   at once: a broadcast write when the device has one, else X), or one chip
+   select plus a channel pin. */
+static LogicValue bus_select(void *context, const Sim *sim, const SimInstance *instance,
+                             unsigned address, unsigned address_known, uint32_t *units) {
+    NsState *s = context;
+    const NsDevice *d = s->dev;
+    const SerialBusPins *bp = &s->pins->bus;
+    LogicValue common = selects_active(s, bp->select, bp->select_count, bp->select_high,
+                                       bp->select_high_count);
+    unsigned i;
+
+    (void)sim;
+    (void)instance;
+    (void)address;
+    (void)address_known;
+    *units = 1;
+    if (d->channel_pin != NULL) {
+        LogicValue pin = serial_level(s->sim, s->instance, s->pins->channel_pin, LOGIC_X);
+
+        if (common != LOGIC_0 && pin == LOGIC_X) {
+            return LOGIC_X;
+        }
+        *units = (pin == LOGIC_1) == d->a_is_high ? 1u : 2u;
+        return common;
+    }
+    if (d->per_channel_select) {
+        uint32_t on = 0;
+        int unknown = 0;
+
+        for (i = 0; i < d->channel_count; i++) {
+            LogicValue v = selects_active(s, s->pins->chan_select[i], d->chan_select_count[i],
+                                          s->pins->chan_select_high[i],
+                                          d->chan_select_high_count[i]);
+
+            if (v == LOGIC_1) {
+                on |= 1u << i;
+            }
+            unknown |= v == LOGIC_X;
+        }
+        if (common == LOGIC_0 || (on == 0 && !unknown)) {
+            return LOGIC_0;
+        }
+        if (unknown || common == LOGIC_X) {
+            return LOGIC_X;
+        }
+        if ((on & (on - 1u)) != 0 && d->broadcast == BROADCAST_NONE) {
+            return LOGIC_X;   /* several selects at once, no broadcast: P2 */
+        }
+        *units = on;
+        return LOGIC_1;
+    }
+    return common;
+}
 
 static void bus_peek(void *context, unsigned unit, unsigned address, uint8_t *data, uint8_t *known) {
     NsState *s = context;
@@ -1055,6 +1136,10 @@ static void clock_edge(NsState *s, LogicValue level) {
         return;
     }
     s->clock_level = level;
+    if (rising && s->dev->bus_sync && s->bus_dirty) {
+        s->bus_dirty = 0;
+        serial_bus_update(&s->bus, s->sim, s->instance, &s->events);
+    }
     for (i = 0; i < s->dev->channel_count; i++) {
         NsChannel *c = &s->ch[i];
         int tick = serial_baud_edge(&c->baud, rising, level);
@@ -1104,6 +1189,31 @@ static void ns_start(Sim *sim, SimInstance *instance, void *raw) {
     apply_reset(s);
 }
 
+static int is_select_pin(const NsState *s, size_t pin) {
+    unsigned i;
+    unsigned k;
+
+    if (pin == SERIAL_NO_PIN) {
+        return 0;
+    }
+    if (pin == s->pins->channel_pin) {
+        return 1;
+    }
+    for (i = 0; i < s->dev->channel_count; i++) {
+        for (k = 0; k < s->dev->chan_select_count[i]; k++) {
+            if (s->pins->chan_select[i][k] == pin) {
+                return 1;
+            }
+        }
+        for (k = 0; k < s->dev->chan_select_high_count[i]; k++) {
+            if (s->pins->chan_select_high[i][k] == pin) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 static void ns_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t pin,
                            LogicValue old_value, LogicValue new_value) {
     NsState *s = raw;
@@ -1132,8 +1242,15 @@ static void ns_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t pi
             }
         }
     }
-    if (serial_bus_has_pin(&s->bus, pin)) {
-        serial_bus_update(&s->bus, sim, instance, &s->events);
+    if (serial_bus_has_pin(&s->bus, pin) || is_select_pin(s, pin)) {
+        if (s->dev->bus_sync) {
+            s->bus_dirty = 1;   /* sampled at the next XIN rising edge */
+        } else {
+            serial_bus_update(&s->bus, sim, instance, &s->events);
+        }
+    }
+    if (pin == s->pins->int_control) {
+        update_outputs(s, CAUSE_SERIAL);
     }
     for (i = 0; i < s->dev->channel_count; i++) {
         for (j = 0; j < 4; j++) {
@@ -1161,6 +1278,10 @@ static int ns_async(const void *raw, unsigned channel) {
 }
 
 /* ---- Create / destroy ------------------------------------------------------------------------------ */
+
+static int d_needs_select(const NsDevice *d) {
+    return d->channel_pin != NULL || d->per_channel_select;
+}
 
 static void *ns_create(const Part *part, const void *data, const void *pins,
                        const SerialGrade *grade, const void *options) {
@@ -1191,7 +1312,7 @@ static void *ns_create(const Part *part, const void *data, const void *pins,
         serial_bus_init(&s->bus, &s->pins->bus, &timing);
     }
     s->events.context = s;
-    s->events.select = NULL;
+    s->events.select = d_needs_select(s->dev) ? bus_select : NULL;
     s->events.peek = bus_peek;
     s->events.read_done = bus_read_done;
     s->events.write = bus_write;
@@ -1205,6 +1326,7 @@ static void *ns_create(const Part *part, const void *data, const void *pins,
         c->dll = (Reg){0, 0};
         c->dlm = (Reg){0, 0};
         c->rbr = (Reg){0, 0};
+        c->scr = (Reg){0, 0};
         c->msr[0] = c->msr[1] = c->msr[2] = c->msr[3] = LOGIC_X;
         reset_channel(s, c);
         load_divisor(c);
@@ -1311,16 +1433,29 @@ static int load_bus(KindContext *ctx, const cJSON *json, NsDevice *d) {
 }
 
 static int load_clock(KindContext *ctx, const cJSON *json, NsDevice *d) {
-    static const char *const CLOCK_KEYS[] = {"in", "out", "receive", "baudOut", NULL};
+    static const char *const CLOCK_KEYS[] = {"in", "out", "receive", "baudOut", "single", NULL};
     const cJSON *clock = kind_member(ctx, json, "clock", 1);
+    const char *single = NULL;
 
     if (clock == NULL) {
         return -1;
     }
     kind_push(ctx, "clock");
     if (kind_check_keys(ctx, clock, CLOCK_KEYS, NULL) != 0 ||
-        kind_string(ctx, clock, "in", &d->clock_in) != 0 ||
-        serial_optional_name(ctx, clock, "out", &d->clock_out) != 0 ||
+        serial_optional_name(ctx, clock, "single", &single) != 0) {
+        return -1;
+    }
+    /* "single": one clock input for both directions (no RCLK, no BAUDOUT). */
+    if (single != NULL) {
+        if (cJSON_GetObjectItemCaseSensitive(clock, "in") != NULL ||
+            cJSON_GetObjectItemCaseSensitive(clock, "receive") != NULL) {
+            return kind_error(ctx, "\"single\" replaces \"in\" and \"receive\"");
+        }
+        d->clock_in = single;
+    } else if (kind_string(ctx, clock, "in", &d->clock_in) != 0) {
+        return -1;
+    }
+    if (serial_optional_name(ctx, clock, "out", &d->clock_out) != 0 ||
         serial_optional_name(ctx, clock, "receive", &d->receive) != 0 ||
         serial_optional_name(ctx, clock, "baudOut", &d->baudout) != 0) {
         return -1;
@@ -1337,14 +1472,16 @@ static int load_channels(KindContext *ctx, const cJSON *json, NsDevice *d) {
     if (list == NULL) {
         return -1;
     }
-    if (!cJSON_IsArray(list) || cJSON_GetArraySize(list) != 1) {
-        return kind_error(ctx, "\"channels\" must be an array of 1 channel");
+    if (!cJSON_IsArray(list) || cJSON_GetArraySize(list) < 1 ||
+        cJSON_GetArraySize(list) > SERIAL_MAX_CHANNELS) {
+        return kind_error(ctx, "\"channels\" must be an array of 1 to %d channels",
+                          SERIAL_MAX_CHANNELS);
     }
     cJSON_ArrayForEach(item, list) {
         unsigned k;
 
         kind_push(ctx, "channels[%u]", n);
-        if (kind_check_keys(ctx, item, CHANNEL_KEYS, NULL) != 0) {
+        if (kind_check_keys(ctx, item, CHANNEL_KEYS, CHANNEL_EXTRA_KEYS) != 0) {
             return -1;
         }
         for (k = 0; k < CH_PIN_COUNT; k++) {
@@ -1352,75 +1489,245 @@ static int load_channels(KindContext *ctx, const cJSON *json, NsDevice *d) {
                 return -1;
             }
         }
-        if (d->channel[n][CH_TX] == NULL || d->channel[n][CH_RX] == NULL ||
-            d->channel[n][CH_INT] == NULL) {
-            return kind_error(ctx, "a channel needs \"tx\", \"rx\" and \"int\"");
+        if (d->channel[n][CH_TX] == NULL || d->channel[n][CH_RX] == NULL) {
+            return kind_error(ctx, "a channel needs \"tx\" and \"rx\"");
+        }
+        if (load_name_list(ctx, item, "select", 0, d->chan_select[n], SERIAL_BUS_SELECTS,
+                           &d->chan_select_count[n], 0) != 0 ||
+            load_name_list(ctx, item, "selectHigh", 0, d->chan_select_high[n], SERIAL_BUS_SELECTS,
+                           &d->chan_select_high_count[n], 0) != 0) {
+            return -1;
+        }
+        if (d->chan_select_count[n] + d->chan_select_high_count[n] > 0) {
+            d->per_channel_select = 1;
         }
         kind_pop(ctx);
         n++;
     }
     d->channel_count = n;
+    if (d->per_channel_select) {
+        for (n = 0; n < d->channel_count; n++) {
+            if (d->chan_select_count[n] + d->chan_select_high_count[n] == 0) {
+                return kind_error(ctx, "with per-channel selects every channel needs one");
+            }
+        }
+    }
+    return 0;
+}
+
+/* An optional string member that must be one of `values`; *out = its index,
+   or `fallback` when absent. */
+static int load_choice(KindContext *ctx, const cJSON *json, const char *key,
+                       const char *const *values, int fallback, int *out) {
+    const char *text;
+    int i;
+
+    *out = fallback;
+    if (cJSON_GetObjectItemCaseSensitive(json, key) == NULL) {
+        return 0;
+    }
+    if (kind_string(ctx, json, key, &text) != 0) {
+        return -1;
+    }
+    for (i = 0; values[i] != NULL; i++) {
+        if (strcmp(values[i], text) == 0) {
+            *out = i;
+            return 0;
+        }
+    }
+    return kind_error(ctx, "unknown \"%s\" \"%s\"", key, text);
+}
+
+static int load_optional_bool(KindContext *ctx, const cJSON *json, const char *key, int *out) {
+    *out = 0;
+    if (cJSON_GetObjectItemCaseSensitive(json, key) == NULL) {
+        return 0;
+    }
+    return kind_bool(ctx, json, key, out);
+}
+
+/* 4 whole numbers from 1 to max. */
+static int load_levels(KindContext *ctx, const cJSON *json, const char *key, unsigned max,
+                       unsigned out[4]) {
+    const cJSON *list = cJSON_GetObjectItemCaseSensitive(json, key);
+    const cJSON *item;
+    unsigned i = 0;
+
+    if (list == NULL) {
+        return 0;
+    }
+    if (!cJSON_IsArray(list) || cJSON_GetArraySize(list) != 4) {
+        return kind_error(ctx, "\"%s\" must be 4 numbers", key);
+    }
+    cJSON_ArrayForEach(item, list) {
+        if (!cJSON_IsNumber(item) || item->valuedouble < 1 || item->valuedouble > max ||
+            item->valuedouble != (double)(unsigned)item->valuedouble) {
+            return kind_error(ctx, "\"%s\" values must be whole numbers from 1 to the FIFO size", key);
+        }
+        out[i++] = (unsigned)item->valuedouble;
+    }
+    return 0;
+}
+
+static int load_byte(KindContext *ctx, const cJSON *json, const char *key, int fallback, int *out) {
+    uint64_t v;
+
+    *out = fallback;
+    if (cJSON_GetObjectItemCaseSensitive(json, key) == NULL) {
+        return 0;
+    }
+    if (kind_uint(ctx, json, key, 255, &v) != 0) {
+        return -1;
+    }
+    *out = (int)v;
     return 0;
 }
 
 static void *ns_load_device(KindContext *ctx, const cJSON *json, unsigned *channels) {
+    static const char *const INT_PINS[] = {
+        "driven", "out2-gated", "intn", "intsel", "mcr5-open-source", NULL
+    };
+    static const char *const DMA_CLASSES[] = {"P", "N", "T", "X", "B", NULL};
+    static const char *const DMA_PINS[] = {"perChannel", "sharedAnd", "sharedWireOr", NULL};
+    static const char *const BROADCASTS[] = {"none", "multi-cs", "afr-conc", NULL};
+    static const char *const TIMEOUTS[] = {"4ch", "4w12", NULL};
+    static const char *const PRIORITIES[] = {"standard", "nxpEqual", NULL};
+    static const char *const LSR7[] = {"noErrors", "lsrRead", NULL};
+    static const char *const STOPS[] = {"first", "both", NULL};
     NsDevice *d = kind_alloc(ctx, sizeof *d);
-    uint64_t fifo;
-    const char *text;
+    const cJSON *fifo;
+    unsigned max_fifo;
+    int choice;
+    int value;
 
     if (d == NULL || load_bus(ctx, json, d) != 0 || load_clock(ctx, json, d) != 0 ||
-        load_channels(ctx, json, d) != 0 || kind_uint(ctx, json, "fifo", 255, &fifo) != 0) {
+        load_channels(ctx, json, d) != 0) {
         return NULL;
     }
-    if (fifo != 0 && fifo != 16) {
-        kind_error(ctx, "\"fifo\" must be 0 or 16");
+    /* "fifo": 0, 16, 32, 64, 128, or "750" (16 or 64 by FCR[5]). */
+    fifo = kind_member(ctx, json, "fifo", 1);
+    if (fifo == NULL) {
         return NULL;
     }
-    d->fifo = (unsigned)fifo;
-    if (cJSON_GetObjectItemCaseSensitive(json, "rxTrigger") != NULL) {
-        const cJSON *list = cJSON_GetObjectItemCaseSensitive(json, "rxTrigger");
-        const cJSON *item;
-        unsigned i = 0;
+    if (cJSON_IsString(fifo) && strcmp(fifo->valuestring, "750") == 0) {
+        d->fifo = 16;
+        d->fifo750 = 1;
+    } else if (cJSON_IsNumber(fifo) && (fifo->valuedouble == 0 || fifo->valuedouble == 16 ||
+                                         fifo->valuedouble == 32 || fifo->valuedouble == 64 ||
+                                         fifo->valuedouble == 128)) {
+        d->fifo = (unsigned)fifo->valuedouble;
+    } else {
+        kind_error(ctx, "\"fifo\" must be 0, 16, 32, 64, 128 or \"750\"");
+        return NULL;
+    }
+    max_fifo = d->fifo750 ? 64 : d->fifo;
+    if (load_levels(ctx, json, "rxTrigger", d->fifo, d->rx_trigger) != 0 ||
+        load_levels(ctx, json, "rxTrigger64", 64, d->rx_trigger64) != 0 ||
+        load_levels(ctx, json, "txTrigger", max_fifo, d->tx_trigger) != 0) {
+        return NULL;
+    }
+    d->has_tx_trigger = d->tx_trigger[0] != 0;
+    if (d->rx_trigger64[0] != 0 && !d->fifo750) {
+        kind_error(ctx, "\"rxTrigger64\" needs \"fifo\": \"750\"");
+        return NULL;
+    }
+    if (load_byte(ctx, json, "tlr", 0, &value) != 0) {
+        return NULL;
+    }
+    if (value != 0 && value != 4 && value != 8) {
+        kind_error(ctx, "\"tlr\" must be 4 or 8");
+        return NULL;
+    }
+    d->tlr = (unsigned)value;
 
-        if (!cJSON_IsArray(list) || cJSON_GetArraySize(list) != 4) {
-            kind_error(ctx, "\"rxTrigger\" must be 4 numbers");
+    if (load_choice(ctx, json, "intPin", INT_PINS, INT_DRIVEN, &choice) != 0) {
+        return NULL;
+    }
+    d->int_pin = (NsIntPin)choice;
+    if (serial_optional_name(ctx, json, "intControl", &d->int_control) != 0) {
+        return NULL;
+    }
+    if ((d->int_pin == INT_INTN || d->int_pin == INT_INTSEL) != (d->int_control != NULL)) {
+        kind_error(ctx, "\"intControl\" names the INTN/INTSEL pin, for \"intn\" and \"intsel\" only");
+        return NULL;
+    }
+    if (load_choice(ctx, json, "dmaClass", DMA_CLASSES, 0, &choice) != 0) {
+        return NULL;
+    }
+    d->dma_class = "PNTXB"[choice];
+    if (load_choice(ctx, json, "dmaPins", DMA_PINS, DMA_PINS_NAMED, &choice) != 0) {
+        return NULL;
+    }
+    d->dma_pins = (NsDmaPins)choice;
+    if (cJSON_GetObjectItemCaseSensitive(json, "dma") != NULL) {
+        static const char *const DMA_KEYS[] = {"txrdy", "rxrdy", NULL};
+        const cJSON *dma = cJSON_GetObjectItemCaseSensitive(json, "dma");
+
+        kind_push(ctx, "dma");
+        if (kind_check_keys(ctx, dma, DMA_KEYS, NULL) != 0 ||
+            serial_optional_name(ctx, dma, "txrdy", &d->dma_txrdy) != 0 ||
+            serial_optional_name(ctx, dma, "rxrdy", &d->dma_rxrdy) != 0) {
             return NULL;
         }
-        cJSON_ArrayForEach(item, list) {
-            if (!cJSON_IsNumber(item) || item->valuedouble < 1 || item->valuedouble > d->fifo ||
-                item->valuedouble != (double)(unsigned)item->valuedouble) {
-                kind_error(ctx, "\"rxTrigger\" values must be whole numbers from 1 to the FIFO size");
-                return NULL;
-            }
-            d->rx_trigger[i++] = (unsigned)item->valuedouble;
+        kind_pop(ctx);
+    }
+    if ((d->dma_pins != DMA_PINS_NAMED) != (d->dma_txrdy != NULL || d->dma_rxrdy != NULL)) {
+        kind_error(ctx, "shared \"dmaPins\" and the \"dma\" pins go together");
+        return NULL;
+    }
+    if (load_choice(ctx, json, "broadcastWrite", BROADCASTS, BROADCAST_NONE, &choice) != 0) {
+        return NULL;
+    }
+    d->broadcast = (NsBroadcast)choice;
+    if (cJSON_GetObjectItemCaseSensitive(json, "channelSelect") != NULL) {
+        static const char *const CS_KEYS[] = {"pin", "aIsHigh", NULL};
+        const cJSON *cs = cJSON_GetObjectItemCaseSensitive(json, "channelSelect");
+
+        kind_push(ctx, "channelSelect");
+        if (kind_check_keys(ctx, cs, CS_KEYS, NULL) != 0 ||
+            kind_string(ctx, cs, "pin", &d->channel_pin) != 0 ||
+            kind_bool(ctx, cs, "aIsHigh", &d->a_is_high) != 0) {
+            return NULL;
+        }
+        kind_pop(ctx);
+        if (d->channel_count != 2 || d->per_channel_select) {
+            kind_error(ctx, "\"channelSelect\" is for 2 channels sharing one chip select");
+            return NULL;
         }
     }
-    if (cJSON_GetObjectItemCaseSensitive(json, "intPin") != NULL) {
-        if (kind_string(ctx, json, "intPin", &text) != 0) {
-            return NULL;
-        }
-        if (strcmp(text, "driven") != 0) {
-            kind_error(ctx, "unknown \"intPin\" \"%s\"", text);
-            return NULL;
-        }
+    if (d->channel_count > 1 && !d->per_channel_select && d->channel_pin == NULL) {
+        kind_error(ctx, "more than one channel needs per-channel selects or \"channelSelect\"");
+        return NULL;
     }
-    if (cJSON_GetObjectItemCaseSensitive(json, "dmaClass") != NULL) {
-        if (kind_string(ctx, json, "dmaClass", &text) != 0) {
-            return NULL;
-        }
-        if (strcmp(text, "P") != 0) {
-            kind_error(ctx, "unknown \"dmaClass\" \"%s\"", text);
-            return NULL;
-        }
+    if (load_byte(ctx, json, "lcrReset", 0, &value) != 0) {
+        return NULL;
     }
-    if (cJSON_GetObjectItemCaseSensitive(json, "timeout") != NULL) {
-        if (kind_string(ctx, json, "timeout", &text) != 0) {
-            return NULL;
-        }
-        if (strcmp(text, "4ch") != 0) {
-            kind_error(ctx, "unknown \"timeout\" \"%s\"", text);
-            return NULL;
-        }
+    d->lcr_reset = (uint8_t)value;
+    if (load_byte(ctx, json, "sprReset", -1, &d->spr_reset) != 0 ||
+        load_byte(ctx, json, "tcrReset", 0, &value) != 0) {
+        return NULL;
+    }
+    d->tcr_reset = (uint8_t)value;
+    if (load_choice(ctx, json, "timeout", TIMEOUTS, 0, &choice) != 0) {
+        return NULL;
+    }
+    d->timeout_4w12 = choice == 1;
+    if (load_choice(ctx, json, "iirPriority", PRIORITIES, IIR_STANDARD, &choice) != 0) {
+        return NULL;
+    }
+    d->iir_priority = (NsIirPriority)choice;
+    if (load_choice(ctx, json, "lsr7Clear", LSR7, 0, &choice) != 0) {
+        return NULL;
+    }
+    d->lsr7_on_read = choice == 1;
+    if (load_choice(ctx, json, "stopCheck", STOPS, 0, &choice) != 0) {
+        return NULL;
+    }
+    d->stop_both = choice == 1;
+    if (load_optional_bool(ctx, json, "statusReadDefer", &d->status_defer) != 0 ||
+        load_optional_bool(ctx, json, "busSync", &d->bus_sync) != 0 ||
+        load_optional_bool(ctx, json, "majorityVote", &d->majority) != 0) {
+        return NULL;
     }
     *channels = d->channel_count;
     return d;
@@ -1490,6 +1797,27 @@ static void *ns_bind(KindContext *ctx, const void *raw, const PartPin *pins, siz
                 return NULL;
             }
         }
+        for (k = 0; k < d->chan_select_count[i]; k++) {
+            snprintf(key, sizeof key, "channels[%u].select", i);
+            if (serial_bind_pin(ctx, pins, pin_count, key, d->chan_select[i][k],
+                                &p->chan_select[i][k]) != 0) {
+                return NULL;
+            }
+        }
+        for (k = 0; k < d->chan_select_high_count[i]; k++) {
+            snprintf(key, sizeof key, "channels[%u].selectHigh", i);
+            if (serial_bind_pin(ctx, pins, pin_count, key, d->chan_select_high[i][k],
+                                &p->chan_select_high[i][k]) != 0) {
+                return NULL;
+            }
+        }
+    }
+    if (serial_bind_pin(ctx, pins, pin_count, "channelSelect.pin", d->channel_pin,
+                        &p->channel_pin) != 0 ||
+        serial_bind_pin(ctx, pins, pin_count, "dma.txrdy", d->dma_txrdy, &p->dma_txrdy) != 0 ||
+        serial_bind_pin(ctx, pins, pin_count, "dma.rxrdy", d->dma_rxrdy, &p->dma_rxrdy) != 0 ||
+        serial_bind_pin(ctx, pins, pin_count, "intControl", d->int_control, &p->int_control) != 0) {
+        return NULL;
     }
     return p;
 }

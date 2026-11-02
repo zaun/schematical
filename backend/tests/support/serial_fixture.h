@@ -80,7 +80,7 @@
     "\"channels\":[{\"tx\":\"SOUT\",\"rx\":\"SIN\",\"rts\":\"RTS\",\"dtr\":\"DTR\",\"cts\":\"CTS\"," \
     "\"dsr\":\"DSR\",\"dcd\":\"DCD\",\"ri\":\"RI\",\"out1\":\"OUT1\",\"out2\":\"OUT2\",\"int\":\"INTR\"," \
     "\"txrdy\":\"TXRDY\",\"rxrdy\":\"RXRDY\"}]," \
-    "\"fifo\":" FIFO TRIGGER ",\"intPin\":\"driven\",\"dmaClass\":\"P\",\"timeout\":\"4ch\""
+    "\"fifo\":" FIFO TRIGGER ",\"intPin\":\"driven\",\"dmaClass\":\"P\",\"timeout\":\"4ch\",\"sprReset\":0"
 
 /* Grade X: the PC16550D timing (ns), p4-5. */
 #define SFX_GRADES \

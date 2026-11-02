@@ -187,7 +187,7 @@ static void check_serial(void) {
     expect_fail("serial bad fifo",
                 SERIAL_HEAD("'model':'ns16550'," SFX_MODEL_KEYS("12", "") "," SFX_GRADES ",")
                 SERIAL_PART("X"),
-                "devices[0] (U): \"fifo\" must be 0 or 16");
+                "devices[0] (U): \"fifo\" must be 0, 16, 32, 64, 128 or \"750\"");
 }
 
 static void check_valid_supply(void) {
