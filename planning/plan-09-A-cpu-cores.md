@@ -36,7 +36,7 @@ Outcome of A:
 
 - `datasheets/cpu/` holds the 6 PDFs of §4.1, each matching its SHA-256.
 - `backend/src/third_party/chips/` holds the 6 headers of §4.2 byte for byte
-  (SHA-256 below), plus their `LICENSE`.
+  (SHA-256 below), plus their licence as `LICENSE-chips`.
 - `backend/tests/cpu/` holds three SingleStepTests subsets (2,114 tests,
   1,549,129 bytes), the script that made them, and the two MIT licences.
 - `ctest` gains `cpu_core_test`. It passes:
@@ -237,7 +237,7 @@ Fetch from
 | `util/m6502dasm.h` | ed669afd5f256672f918c1a51643e33153b6c1af2a376496afd463db56150a24 |
 | `util/w65c02dasm.h` | 0816aa4b266d00de0a7722a606ef87fcc1518c4c81f2e94dfb21ac1a0a3b7d31 |
 | `util/z80dasm.h` | 59e1cacb2c73db9e3b77d3607dae3f726bc75d0aea0528ddbb77d111b3b0dc47 |
-| `LICENSE` | (copied as is) |
+| `LICENSE` → `LICENSE-chips` | (content copied as is; renamed, see Corrections) |
 
 All seven land flat in `backend/src/third_party/chips/`. Add a `README.md`
 there with:
@@ -267,7 +267,7 @@ include them first.
 
 Add the four files to `add_library(logic …)` in `backend/CMakeLists.txt`.
 Xcode picks them up through the synchronized folder. The `.h` files and
-`README.md` are not compiled. `LICENSE` and `README.md` follow the cJSON
+`README.md` are not compiled. `LICENSE-chips` and `README.md` follow the cJSON
 precedent for non-source files in that folder.
 
 ### 4.4 Vectors (`backend/tests/cpu/`)
@@ -351,7 +351,8 @@ table over `m6502_*` / `w65c02_*`):
    - RAM;
    - `z80_opdone`;
    - the transaction list against `cycles`. A transaction there is the
-     first entry carrying `r`/`w` (with `m` or `i` in flag 4), with its
+     first entry carrying `r`/`w` with `m` or `i` (flags `rwmi`: `m` is
+     position 3, `i` position 4), with its
      data taken from the first non-null data in that run.
 
 Output: one line per CPU in the §1 form. Each unexpected failure is printed
@@ -385,27 +386,39 @@ Files only. Nothing reads them yet.
 
 Acceptance: every file matches its size and SHA-256.
   Check: `cd datasheets/cpu && shasum -a 256 *.pdf` → the six hashes of §4.1 (est. 1 min).
-Commit: —
+Commit: d012540
 
 ### Phase 2 — Cores, wrappers, vectors and `cpu_core_test`
 
 The vendored code builds in both build systems, and the cores are proven on
 the vectors.
 
-- [ ] `backend/src/third_party/chips/`: the 6 headers, `LICENSE` and
-      `README.md` (§4.2).
-- [ ] `backend/src/models/chips_m6502.c`, `chips_w65c02.c`, `chips_z80.c`,
-      `chips_dasm.c` (§4.3), added to `backend/CMakeLists.txt`.
-- [ ] `backend/tests/cpu/`: `make_sst_subset.py`, the three `.jsonl`
-      subsets, the two licence files (§4.4).
-- [ ] `backend/tests/cpu_core_test.c` and its CMake lines (§4.5).
-- [ ] `docs/backend.md`: Layout gains `third_party/chips/` and
+- [x] `backend/src/third_party/chips/`: the 6 headers, `LICENSE-chips` and
+      `README.md` (§4.2). `shasum -a 256 *.h` → the 6 hashes of §4.2;
+      `wc -l` → 3107/2925/2838/485/247/492.
+- [x] `backend/src/models/chips_m6502.c`, `chips_w65c02.c`, `chips_z80.c`,
+      `chips_dasm.c` (§4.3), added to `backend/CMakeLists.txt`. Fresh
+      `cmake --build /tmp/logic-land-p09a` → 0 `warning:` lines.
+- [x] `backend/tests/cpu/`: `make_sst_subset.py`, the three `.jsonl`
+      subsets, the two licence files (§4.4). Regenerated with the committed
+      script from fresh `gh api` tree lists → "empty: wdc65c02/v1/cb.json,
+      db.json"; `wc -lc` → 256/254/1604 lines, 1,549,129 bytes; SHA-256 of
+      all three equal §4.4.
+- [x] `backend/tests/cpu_core_test.c` and its CMake lines (§4.5).
+      `ctest --test-dir /tmp/logic-p09 -R cpu_core_test -V` → the three §1
+      lines. Negative check: dropping `"93 1"` from the 6502 list and
+      changing one 65C02 vector's final A → `6502: FAIL 93 1`,
+      `65C02: FAIL 00 27 ce`, exit 1; restored → exit 0.
+- [x] `docs/backend.md`: Layout gains `third_party/chips/` and
       `tests/cpu/`. Tests gains `cpu_core_test` (what it runs and the
-      expected-failure rule).
-- [ ] The app still builds with the new translation units.
+      expected-failure rule). Also the four `chips_*.c` under `models/`.
+- [x] The app still builds with the new translation units. `xcodebuild …
+      -derivedDataPath /tmp/p09-dd …` → `** BUILD SUCCEEDED **`, 4
+      `chips_*.c` compile lines, 0 warnings from them (after the
+      `LICENSE-chips` rename; see Corrections).
 
 Acceptance: the cores pass the vectors exactly as in §1, and the app builds.
-  Check: `shasum -a 256 backend/src/third_party/chips/*.h backend/tests/cpu/*.jsonl` → the 9 hashes of §4.2 and §4.4; `cmake --build /tmp/logic-p09 -j8 && ctest --test-dir /tmp/logic-p09 -R cpu_core_test -V | grep -E '^(6502|65C02|Z80):'` → the three lines of §1 (est. 2 min); `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p09-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 2 min; the only check that the synchronized folder compiles the wrappers).
+  Check: `shasum -a 256 backend/src/third_party/chips/*.h backend/tests/cpu/*.jsonl` → the 9 hashes of §4.2 and §4.4; `cmake --build /tmp/logic-p09 -j8 && ctest --test-dir /tmp/logic-p09 -R cpu_core_test -V | grep -E '^[0-9]+: (6502|65C02|Z80):'` → the three lines of §1 (est. 2 min); `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p09-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 2 min; the only check that the synchronized folder compiles the wrappers).
 Commit: —
 
 ## Validation Plan
@@ -443,6 +456,26 @@ Commit: —
 
 ## Corrections
 
+- **Chips licence file name** (Phase 2). With the upstream file named
+  `LICENSE`, `xcodebuild` failed: "Multiple commands produce
+  '…/schematical.app/Contents/Resources/LICENSE'". The synchronized folder
+  copies non-source files from `backend/src` into the app's resources, and
+  `third_party/cjson/LICENSE` already has that name. The project has no
+  membership exceptions (`grep -c membershipExceptions project.pbxproj` → 0),
+  and §2 rules out editing `project.pbxproj`. The licence keeps its upstream
+  content as `LICENSE-chips`; the README says why. §4.2, the Outcome and
+  Phase 2 are corrected. Afterwards → `** BUILD SUCCEEDED **`.
+- **Z80 cycle flags** (§4.5). The SingleStepTests z80 flags are four
+  characters `rwmi` (seen: `----`, `r-m-`, `-wm-`, `r--i`, `-w-i`), so `m` is
+  position 3, not "flag 4". §4.5 is corrected. The harness groups each run of
+  consecutive transaction cycles with the same type and address, and gives
+  the §1 counts.
+- **Phase 2 check grep.** `ctest -V` puts a `<n>: ` prefix on every test
+  output line, so `grep -E '^(6502|65C02|Z80):'` matched nothing. Corrected
+  to `'^[0-9]+: (6502|65C02|Z80):'` → the three §1 lines.
+- **`/tmp/logic-p09`** was first configured from the main checkout (gate run).
+  CMake refuses another source dir for the same cache, so it was deleted and
+  reconfigured from the plan worktree. B–D use the same path.
 - **Prerequisites, plan-10 row.** The command `ls planning/plan-10-*` lists
   the committed data folder `planning/plan-10-data/` (README, counter/latch/
   shift notes), so it never prints nothing even with plan-10 archived. It is

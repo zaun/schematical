@@ -129,14 +129,22 @@ backend/
                            outputs), and lights.c (on-time tracking for
                            lights);
                            model_pins.h (LED, switch and open-drain pin
-                           facts for the voltage check)
+                           facts for the voltage check);
+                           chips_m6502.c chips_w65c02.c chips_z80.c
+                           chips_dasm.c (each instantiates one vendored
+                           floooh/chips core, or the three disassemblers)
     circuit.c
     voltage.c              the voltage check (voltage.h)
     memory_image.c         load files (binary, Intel HEX) to memory images
     third_party/cjson/     cJSON v1.7.18
+    third_party/chips/     floooh/chips m6502.h w65c02.h z80.h and their
+                           disassemblers (zlib), unmodified; README.md
+                           names the commit
   tests/                   CTest programs; golden/ holds the regression
                            fixtures (one listing line and one trace hash
-                           per part)
+                           per part); cpu/ holds the SingleStepTests
+                           subsets (MIT) for cpu_core_test and the script
+                           that made them
 ```
 
 The app compiles `backend/src/` directly (an Xcode synchronized folder).
@@ -207,6 +215,16 @@ drawer work from the kind table and the `Part` structs.
   parts and the real supplies.
 - `memory_image_test` — the load-file parser: format by file name, raw
   binary, every Intel HEX rule and message.
+- `cpu_core_test` — the vendored CPU cores (`third_party/chips/`) against
+  `tests/cpu/`: the first SingleStepTests case of every opcode file (6502
+  256, 65C02 254, Z80 1604; `make_sst_subset.py` regenerates them). The
+  6502 family is checked cycle by cycle (address, data, R/W) and on its final
+  registers and RAM; the Z80 on its final registers, RAM, T-state count and
+  bus transactions. The test names the cores' known deviations (6502 JAM and
+  SHA/SHY/SHX, Z80 SCF/CCF, interrupted block repeats, HALT). Each of those
+  must still fail, so a core update that fixes one is noticed; any other
+  failure, or a listed test that passes, fails the test. It prints
+  `6502: 241 pass, 15 expected failures` and the same for 65C02 and Z80.
 
 Not a ctest: `sim_bench` (`tests/sim_bench.c`) measures engine speed — a
 D flip-flop ripple counter on an oscillator plus N idle SN74HC00N chips,
