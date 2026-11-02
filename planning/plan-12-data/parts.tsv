@@ -1,0 +1,245 @@
+name	pdf	device	maker	pinout	package	package_code	pins	footprint	footprint_new	flags	vcc_min	vcc_max	input_max	digikey_status	status	reason
+N82510	82510	82510	Rochester Electronics, LLC	plcc28	PLCC	Intel N (28-PLCC)	28	PLCC-28	yes		4.5	5.5	VCC	Active	add	Intel N = PLCC
+TN82510	82510	82510	Rochester Electronics, LLC	plcc28	PLCC	Intel N (28-PLCC)	28	PLCC-28	yes		4.5	5.5	VCC	Active	add	Intel T = extended temp, N = PLCC; extended limits not in PDF
+8251A/BXA	8251a	8251A	Rochester Electronics, LLC											Active	leave-out	package unknown: /BXA military code undecoded, no DigiKey case
+D8251A	8251a	8251A	Rochester Electronics, LLC	dip28	DIP	Intel D (28-CERDIP)	28	CDIP-28-600	no	ceramic	4.5	5.5	VCC	Active	add	Intel D = CERDIP
+LD8251A	8251a	8251A	Rochester Electronics, LLC	dip28	DIP	Intel D (28-CERDIP)	28	CDIP-28-600	no	ceramic	4.5	5.5	VCC	Active	add	Intel L = EXPRESS extended temp, D = CERDIP; extended limits not in PDF
+MD8251A/B	8251a	8251A	Rochester Electronics, LLC	dip28	DIP	Intel D (28-CERDIP)	28	CDIP-28-600	no	military,ceramic	4.5	5.5	VCC	Active	add	Intel MD = military CERDIP, /B = 883 class B; MIL electrical limits not in PDF
+MR82510/B	8251a	82510	Rochester Electronics, LLC											Active	leave-out	Intel R = LCC; no LCC pinout in 82510.pdf (census files it under 8251a.pdf)
+MR8251A/B	8251a	8251A	Rochester Electronics, LLC											Active	leave-out	Intel R = LCC; no LCC pinout in 8251a.pdf
+N8251A	8251a	8251A	Advanced Micro Devices	dip28	DIP	DigiKey 28-CDIP	28	CDIP-28-600	no	ceramic	4.5	5.5	VCC	Active	add	DigiKey case 28-CDIP (rule b) overrides Intel N = PLCC convention - conflict
+N8251A-G	8251a	8251A	Rochester Electronics, LLC											Active	leave-out	Intel N = PLCC (no DigiKey case); 8251a.pdf prints only the 28-pin DIP pinout
+P8251A	8251a	8251A	Advanced Micro Devices	dip28	DIP	DigiKey 28-CDIP	28	CDIP-28-600	no	ceramic	4.5	5.5	VCC	Active	add	DigiKey case 28-CDIP (rule b) overrides Intel P = plastic convention (rule c) - conflict
+P8251A-G	8251a	8251A	Rochester Electronics, LLC	dip28	DIP	Intel P (28-DIP)	28	PDIP-28-600	no		4.5	5.5	VCC	Active	add	Intel P = plastic DIP; -G = Rochester green
+CS82C50A-5	82c50a	82C50A	Harris Corporation	plcc44	PLCC	Intersil S (N44.65)	44	PLCC-44	no		4.5	5.5	VCC	Active	add	decoded from Intersil scheme (C=0-70, S=PLCC); not an ordering row
+CS82C50A-596	82c50a	82C50A	Intersil	plcc44	PLCC	Intersil S (N44.65)	44	PLCC-44	no	obsolete	4.5	5.5	VCC	Obsolete	add	
+CS82C52	82c52	82C52	Harris Corporation	plcc28	PLCC	Intersil S (N28.45)	28	PLCC-28	yes		4.5	5.5	VCC	Active	add	
+CS82C5296	82c52	82C52	Intersil	plcc28	PLCC	Intersil S (N28.45)	28	PLCC-28	yes	obsolete	4.5	5.5	VCC	Obsolete	add	
+ID82C52	82c52	82C52	Renesas Electronics Corporation	dip28	DIP	Intersil D (F28.6)	28	CDIP-28-600	no	ceramic	4.5	5.5	VCC	Active	add	
+IP82C52	82c52	82C52	Harris Corporation	dip28	DIP	Intersil P (E28.6)	28	PDIP-28-600	no		4.5	5.5	VCC	Active	add	DigiKey lists this name twice (two maker entries); merged, flagged obsolete only if both are
+IS82C52R2490	82c52	82C52	Harris Corporation	plcc28	PLCC	Intersil S (N28.45)	28	PLCC-28	yes		4.5	5.5	VCC	Active	add	IS = industrial PLCC per ordering table; R2490 suffix undecoded
+IS82C52Z	82c52	82C52	Renesas Electronics Corporation	plcc28	PLCC	Intersil S (N28.45)	28	PLCC-28	yes		4.5	5.5	VCC	Active	add	
+AY-3-1015D	ay-5-1013	AY-5-1013A	Microchip Technology	dip40	DIP	40-PDIP 600 mil	40	PDIP-40-600	no		4.75	5.25	VCC	Active	add	AY-3-1015D variant; package from DigiKey 40-PDIP
+AY-5-1013	ay-5-1013	AY-5-1013A	Microchip Technology											Active	leave-out	AY-5-1013 (no A) is not in ay-5-1013.pdf, and DigiKey gives no package
+AY-5-1013A	ay-5-1013	AY-5-1013A	Microchip Technology	dip40	DIP	40-PDIP 600 mil	40	PDIP-40-600	no		4.75	5.25	VCC	Active	add	also needs VGG -12 V on pin 2; package from DigiKey 40-PDIP; -HR suffix undecoded
+AY-5-1013A-HR	ay-5-1013	AY-5-1013A	Microchip Technology	dip40	DIP	40-PDIP 600 mil	40	PDIP-40-600	no		4.75	5.25	VCC	Active	add	also needs VGG -12 V on pin 2; package from DigiKey 40-PDIP; -HR suffix undecoded
+AY-5-1013A-HRS	ay-5-1013	AY-5-1013A	Microchip Technology											Active	leave-out	package unknown: no ordering info in PDF, DigiKey case blank, -HRS undecoded (plastic or ceramic DIP)
+AY-6-1013	ay-5-1013	AY-5-1013A	Microchip Technology											Active	leave-out	package unknown: AY-6-1013 sold in plastic and ceramic DIP, no ordering info, DigiKey case blank
+CDP1854ADS2082	cdp1854a	CDP1854A	Harris Corporation	dip40	DIP	RCA D (40-lead ceramic DIP)	40	CDIP-40-600	yes	ceramic	4.0	10.5	VCC	Active	add	D = ceramic DIP (p1), -55..+125 C; S2082 suffix undecoded
+CP1854ACD	cdp1854a	CDP1854A	Harris Corporation	dip40	DIP	RCA D (40-lead ceramic DIP)	40	CDIP-40-600	yes	ceramic	4.0	6.5	VCC	Active	add	"read as CDP1854AC + D (ceramic DIP); ""CP"" prefix not in PDF"
+CP1854AE	cdp1854a	CDP1854A	Harris Corporation	dip40	DIP	RCA E (40-lead plastic DIP)	40	PDIP-40-600	no		4.0	10.5	VCC	Active	add	"read as CDP1854A + E (plastic DIP); ""CP"" prefix not in PDF"
+CDP65C51ASM2-96	cdp65c51	CDP65C51	Harris Corporation							obsolete				Obsolete	leave-out	"SSOP (DigiKey 28-SSOP) has no pinout in cdp65c51.pdf; ""SM"" letter not in PDF"
+CDP65C51M1	cdp65c51	CDP65C51	Harris Corporation	so28	SOIC	Harris M (28-SOIC 7.5 mm)	28	SOIC-28W	no	obsolete	3.0	6.0	VCC	Obsolete	add	
+CDP65C51M4S2357	cdp65c51	CDP65C51	Intersil	so28	SOIC	Harris M (28-SOIC 7.5 mm)	28	SOIC-28W	no		3.0	6.0	VCC	Active	add	M = SOIC; S2357 suffix undecoded
+COM1863	com1863	COM1863	SMSC											Active	leave-out	package unknown: no suffix, no ordering info, DigiKey case blank
+COM8018	com1863	COM1863	SMSC											Active	leave-out	package unknown: no suffix, no ordering info, DigiKey case blank
+COM8018P	com1863	COM1863	SMSC	dip40	DIP	SMC P (40-DIP)	40	PDIP-40-600	no		4.75	5.25	VCC	Active	add	COM8018 variant; SMC P = plastic DIP (COM92C451 p1)
+COM2017BIP	com2017	COM2017	SMSC											Active	leave-out	package unknown: SMC suffix BIP not decoded (convention defines only P and LJP); DigiKey case blank
+COM2017HCD	com2017	COM2017	SMSC											Active	leave-out	package unknown: SMC suffix HCD not decoded; DigiKey case blank
+COM2017P	com2017	COM2017	SMSC	dip40	DIP	SMC P (40-DIP)	40	PDIP-40-600	no		4.75	5.25	VCC	Active	add	SMC P = plastic DIP (COM92C451 p1); also needs VDD -12 V on pin 2
+COM2502HR	com2017	COM2017	SMSC											Active	leave-out	package unknown: SMC suffix HR not decoded; DigiKey case blank
+COM78804P	com78804	COM78804	SMSC	dip48	DIP	SMC P (48-DIP 600 mil)	48	PDIP-48-600	yes		4.75	5.25	VCC	Active	add	SMC P = plastic DIP; supply tolerance not printed (+5 V; +-5% assumed)
+COM78C802	com78c802	COM78C802	SMSC											Active	leave-out	package unknown: no suffix; datasheet offers DIP-40 and PLCC-44; DigiKey case blank
+COM78C802P	com78c802	COM78C802	SMSC	dip40	DIP	SMC P (40-DIP)	40	PDIP-40-600	no		4.75	5.25	VCC	Active	add	SMC P = plastic DIP; supply tolerance not printed (+5 V; +-5% assumed)
+COM78C804LJP	com78c804	COM78C804	SMSC	plcc44	PLCC	SMC LJP (44-PLCC)	44	PLCC-44	no		4.75	5.25	VCC	Active	add	SMC LJP = PLCC; supply tolerance not printed (+5 V; +-5% assumed)
+COM8017LJP	com8017	COM8017	SMSC											Active	leave-out	LJP = PLCC (SMC convention) but com8017.pdf prints only the 40-pin DIP pinout
+COM8502	com8017	COM8017	SMSC											Active	leave-out	package unknown: no suffix, no ordering info (ceramic or plastic DIP), DigiKey case blank
+COM92C451P	com92c451	COM92C451	SMSC	dip48	DIP	SMC P (48-DIP 600 mil)	48	PDIP-48-600	yes		4.75	5.25	VCC	Active	add	P = DIP per ordering line p1
+HD3-6402C-9	hd-6402	HD-6402	Harris Corporation	dip40	DIP	Harris HD3 (E40.6)	40	PDIP-40-600	no		4.5	5.5	VCC	Active	add	"HD3 = PDIP E40.6 per ordering table p2; ""C"" speed letter not in table (use R timing)"
+HD3-6406-5	hd-6406	HD-6406	Harris Corporation	dip40	DIP	Harris HD3 (E40.6)	40	PDIP-40-600	no		4.5	5.5	VCC	Active	add	HD3 = PDIP by Harris convention (as printed in hd-6402.pdf ordering table)
+M66230FP#TB0Q	m66230	M66230	Renesas Electronics Corporation	sop24	SOP	Mitsubishi FP (24P2W-A)	24	SOP-24-24P2W	yes		4.5	5.5	VCC	Active	leave-out	no package drawing for Renesas 24P2W-A; left out
+MAX14830ETM+	max14830	MAX14830	Analog Devices Inc./Maxim Integrated	tqfn48	TQFN	Maxim T4877+3 (21-0144)	48	TQFN-48-7X7	yes		2.35	3.6	VCC	Active	add	VA 2.35-3.6 (census 1.71 is VL/VEXT); VL/VEXT 1.71-3.6
+MAX14830ETM+T	max14830	MAX14830	Analog Devices Inc./Maxim Integrated	tqfn48	TQFN	Maxim T4877+3 (21-0144)	48	TQFN-48-7X7	yes		2.35	3.6	VCC	Active	add	VA 2.35-3.6 (census 1.71 is VL/VEXT); VL/VEXT 1.71-3.6
+MAX3100CEE+	max3100	MAX3100	Analog Devices Inc./Maxim Integrated	qsop16	QSOP	Maxim E16-1 (21-0055)	16	QSOP-16	yes		2.7	5.5	VCC	Active	add	
+MAX3100CEE+T	max3100	MAX3100	Analog Devices Inc./Maxim Integrated	qsop16	QSOP	Maxim E16-1 (21-0055)	16	QSOP-16	yes		2.7	5.5	VCC	Active	add	
+MAX3100CPD+	max3100	MAX3100	Analog Devices Inc./Maxim Integrated	dip14	DIP	Maxim P14-3 (21-0043)	14	PDIP-14	no		2.7	5.5	VCC	Active	add	
+MAX3100EEE+	max3100	MAX3100	Analog Devices Inc./Maxim Integrated	qsop16	QSOP	Maxim E16-1 (21-0055)	16	QSOP-16	yes		2.7	5.5	VCC	Active	add	
+MAX3100EEE+T	max3100	MAX3100	Analog Devices Inc./Maxim Integrated	qsop16	QSOP	Maxim E16-1 (21-0055)	16	QSOP-16	yes		2.7	5.5	VCC	Active	add	
+MAX3100EPD+	max3100	MAX3100	Analog Devices Inc./Maxim Integrated	dip14	DIP	Maxim P14-3 (21-0043)	14	PDIP-14	no		2.7	5.5	VCC	Active	add	
+MAX3100ETG+	max3100	MAX3100	Analog Devices Inc./Maxim Integrated	tqfn24-4x4	TQFN	Maxim T2444-4 (21-0139)	24	TQFN-24-4X4-T2444	yes		2.7	5.5	VCC	Active	add	
+MAX3107EAG+	max3107	MAX3107	Analog Devices Inc./Maxim Integrated	ssop24	SSOP	Maxim A24+1 (21-0056)	24	SSOP-24	no		2.35	3.6	VCC	Active	add	VA 2.35-3.6; VL/VEXT 1.71-3.6; inputs to own I/O supply
+MAX3107EAG+T	max3107	MAX3107	Analog Devices Inc./Maxim Integrated	ssop24	SSOP	Maxim A24+1 (21-0056)	24	SSOP-24	no		2.35	3.6	VCC	Active	add	VA 2.35-3.6; VL/VEXT 1.71-3.6; inputs to own I/O supply
+MAX3107ETG+	max3107	MAX3107	Analog Devices Inc./Maxim Integrated	tqfn24-3.5	TQFN	Maxim T243A3+1 (21-0188)	24	TQFN-24-3.5X3.5	yes		2.35	3.6	VCC	Active	add	VA 2.35-3.6; VL/VEXT 1.71-3.6; inputs to own I/O supply
+MAX3107ETG+T	max3107	MAX3107	Analog Devices Inc./Maxim Integrated	tqfn24-3.5	TQFN	Maxim T243A3+1 (21-0188)	24	TQFN-24-3.5X3.5	yes		2.35	3.6	VCC	Active	add	VA 2.35-3.6; VL/VEXT 1.71-3.6; inputs to own I/O supply
+MAX3108EWA+T	max3108	MAX3108	Analog Devices Inc./Maxim Integrated	wlp25	WLP	Maxim W252B2+1 (21-0180)	25	WLP-25	yes		1.71	3.6	VCC	Active	add	2.35 V min with PLL; VL/VEXT 1.71-3.6
+MAX3109ETJ+	max3109	MAX3109	Analog Devices Inc./Maxim Integrated	tqfn32	TQFN	Maxim T3255+4 (21-0140)	32	TQFN-32-5X5-T3255	yes		1.71	3.6	VCC	Active	add	2.35 V min with PLL; VL/VEXT 1.71-3.6
+MAX3109ETJ+T	max3109	MAX3109	Analog Devices Inc./Maxim Integrated	tqfn32	TQFN	Maxim T3255+4 (21-0140)	32	TQFN-32-5X5-T3255	yes		1.71	3.6	VCC	Active	add	2.35 V min with PLL; VL/VEXT 1.71-3.6
+MAX3140CEI+	max3140	MAX3140	Analog Devices Inc./Maxim Integrated	qsop28	QSOP	Maxim E28M+1 (21-0055)	28	QSOP-28	yes		4.75	5.25	VCC	Active	add	
+MAX3140EEI+	max3140	MAX3140	Analog Devices Inc./Maxim Integrated	qsop28	QSOP	Maxim E28M+1 (21-0055)	28	QSOP-28	yes		4.75	5.25	VCC	Active	add	
+NS16C2552TVSX/NOPB	ns16c2552	NS16C2552	National Semiconductor	tqfp48-ns	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes		2.97	5.5	5.5	Active	add	
+NS16C2752TVA/NOPB	ns16c2552	NS16C2752	Texas Instruments	plcc44	PLCC	TI FN (FN0044A)	44	PLCC-44	no	obsolete	2.97	5.5	5.5	Obsolete	add	TVA = PLCC FN44 (addendum p44)
+NS16C2752TVSX/NOPB	ns16c2552	NS16C2752	Texas Instruments	tqfp48-ns	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes		2.97	5.5	5.5	Active	add	
+PC16550DV	pc16550d	PC16550D	National Semiconductor	plcc44	PLCC	NS V (V44A)	44	PLCC-44	no		4.5	5.5	VCC	Active	add	DigiKey lists this name twice (two maker entries); merged, flagged obsolete only if both are
+PC16550DVX	pc16550d	PC16550D	National Semiconductor	plcc44	PLCC	NS V (V44A)	44	PLCC-44	no		4.5	5.5	VCC	Active	add	DigiKey lists this name twice (two maker entries); merged, flagged obsolete only if both are
+PI7C9X760CZDEX	pi7c9x760	PI7C9X760	Diodes Incorporated	hvqfn24	TQFN	Diodes ZD (PD-2100)	24	TQFN-24-4X4-ZD	yes		1.62	3.63	5.5	Active	add	revision letter C not in PDF ordering table (lists DZDEX); same ZD package
+PI7C9X762Q2ZHEX	pi7c9x762	PI7C9X762	Diodes Incorporated	hvqfn32	TQFN	Diodes ZH (W-QFN5050-32, PD-2070)	32	TQFN-32-5X5-ZH	yes		1.62	3.63	5.5	Active	add	"""Q2"" code not in PDF (lists DZHEX); ZH package decodes; probably AEC-Q100 grade 2 but not stated -> no automotive flag (planner to confirm)"
+SC16C650BIBS,128	sc16c650b	SC16C650B	NXP Semiconductors	hvqfn32	HVQFN	NXP SOT617-1	32	HVQFN-32-5X5	yes		2.25	5.5	5.3	Active	add	2.5/3.3/5 V +-10% bands; 5.3 V on input-only pins, D7-D0 = VCC
+SC16C752BIB48,128	sc16c752b	SC16C752B	NXP USA Inc.	lqfp48	LQFP	NXP SOT313-2	48	TQFP-48-7X7	yes		2.25	5.5	5.3	Active	add	2.5/3.3/5 V +-10% bands; 5.3 V on input-only pins, D7-D0 = VCC
+SC16C752BIBS,157	sc16c752b	SC16C752B	NXP USA Inc.	hvqfn32	HVQFN	NXP SOT617-1	32	HVQFN-32-5X5	yes		2.25	5.5	5.3	Active	add	2.5/3.3/5 V +-10% bands; 5.3 V on input-only pins, D7-D0 = VCC; DigiKey lists this name twice (two maker entries); merged, flagged obsolete only if both are
+SC16IS740IPW,112	sc16is750	SC16IS740	NXP Semiconductors	tssop16	TSSOP	NXP SOT403-1	16	TSSOP-16	no	obsolete	2.3	3.6	5.5	Obsolete	add	SC16IS740 variant; bands 2.3-2.7 / 3.0-3.6 V
+SC16IS740IPW,128	sc16is750	SC16IS740	NXP USA Inc.	tssop16	TSSOP	NXP SOT403-1	16	TSSOP-16	no		2.3	3.6	5.5	Active	add	SC16IS740 variant; bands 2.3-2.7 / 3.0-3.6 V
+SC16IS740IPW/Q900,	sc16is750	SC16IS740	NXP USA Inc.	tssop16	TSSOP	NXP SOT403-1	16	TSSOP-16	no	automotive	2.3	3.6	5.5	Active	add	SC16IS740 variant; /Q900 = AEC-Q100 (p3 note 1); bands 2.3-2.7 / 3.0-3.6 V
+SC16IS750IBS,128	sc16is750	SC16IS750	NXP USA Inc.	hvqfn24	HVQFN	NXP SOT616-3	24	QFN-24-4X4	yes		2.3	3.6	5.5	Active	add	bands 2.3-2.7 / 3.0-3.6 V
+SC16IS750IBS,157	sc16is750	SC16IS750	NXP USA Inc.	hvqfn24	HVQFN	NXP SOT616-3	24	QFN-24-4X4	yes	obsolete	2.3	3.6	5.5	Obsolete	add	bands 2.3-2.7 / 3.0-3.6 V
+SC16IS760IBS,128	sc16is750	SC16IS750	NXP USA Inc.	hvqfn24	HVQFN	NXP SOT616-3	24	QFN-24-4X4	yes		2.3	3.6	5.5	Last Time Buy	add	SC16IS760 variant (15 MHz SPI, fast IrDA); bands 2.3-2.7 / 3.0-3.6 V
+SC16IS752IBS,128	sc16is752	SC16IS752	NXP USA Inc.	hvqfn32	HVQFN	NXP SOT617-1	32	HVQFN-32-5X5	yes		2.3	3.6	5.5	Active	add	bands 2.3-2.7 / 3.0-3.6 V
+SC16IS752IBS,151	sc16is752	SC16IS752	NXP USA Inc.	hvqfn32	HVQFN	NXP SOT617-1	32	HVQFN-32-5X5	yes		2.3	3.6	5.5	Active	add	bands 2.3-2.7 / 3.0-3.6 V
+SC16IS752IPW,112	sc16is752	SC16IS752	NXP USA Inc.	tssop28	TSSOP	NXP SOT361-1	28	TSSOP-28	yes	obsolete	2.3	3.6	5.5	Obsolete	add	bands 2.3-2.7 / 3.0-3.6 V
+SC16IS752IPW,128	sc16is752	SC16IS752	NXP USA Inc.	tssop28	TSSOP	NXP SOT361-1	28	TSSOP-28	yes		2.3	3.6	5.5	Active	add	bands 2.3-2.7 / 3.0-3.6 V
+SC16IS762IBS,128	sc16is752	SC16IS752	NXP USA Inc.	hvqfn32	HVQFN	NXP SOT617-1	32	HVQFN-32-5X5	yes		2.3	3.6	5.5	Active	add	SC16IS762 variant; bands 2.3-2.7 / 3.0-3.6 V
+SC16IS762IPW,112	sc16is752	SC16IS752	NXP USA Inc.	tssop28	TSSOP	NXP SOT361-1	28	TSSOP-28	yes	obsolete	2.3	3.6	5.5	Obsolete	add	SC16IS762 variant; bands 2.3-2.7 / 3.0-3.6 V; DigiKey lists this name twice (two maker entries); merged, flagged obsolete only if both are
+SC16IS762IPW,128	sc16is752	SC16IS752	NXP USA Inc.	tssop28	TSSOP	NXP SOT361-1	28	TSSOP-28	yes		2.3	3.6	5.5	Active	add	SC16IS762 variant; bands 2.3-2.7 / 3.0-3.6 V
+SC18IS604PWJ	sc18is604	SC18IS604	NXP USA Inc.	tssop16	TSSOP	NXP SOT403-1	16	TSSOP-16	no		1.71	3.6	5.4	Active	add	
+ST16C1450CQ48	st16c1450	ST16C1450	Exar	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.97	5.5	VCC	Active	add	
+ST16C1550IQ48-F	st16c1550	ST16C1550	MaxLinear, Inc.	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.97	5.5	VCC	Active	add	
+ST16C2550CQ48-F	st16c2550	ST16C2550	MaxLinear, Inc.	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.97	5.5	5.5	Active	add	
+ST16C2550IQ48-F	st16c2550	ST16C2550	MaxLinear, Inc.	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.97	5.5	5.5	Active	add	
+ST16C2550IQ48TR-F	st16c2550	ST16C2550	MaxLinear, Inc.	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.97	5.5	5.5	Active	add	
+ST16C450CQ48	st16c450	ST16C450	Sipex	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.97	5.5	VCC	Active	add	PDF watermarked OBS but DigiKey Active
+ST16C450IQ48	st16c450	ST16C450	Sipex	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.97	5.5	VCC	Active	add	PDF watermarked OBS but DigiKey Active
+ST16C550CJ44-F	st16c550	ST16C550	MaxLinear, Inc.	plcc44	PLCC	Exar J (44-PLCC)	44	PLCC-44	no	obsolete	2.97	5.5	VCC	Obsolete	add	
+ST16C550CQ48-F	st16c550	ST16C550	MaxLinear, Inc.	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.97	5.5	VCC	Active	add	
+ST16C550IJ44	st16c550	ST16C550	Sipex	plcc44	PLCC	Exar J (44-PLCC)	44	PLCC-44	no	obsolete	2.97	5.5	VCC	Obsolete	add	
+ST16C550IJ44-F	st16c550	ST16C550	MaxLinear, Inc.	plcc44	PLCC	Exar J (44-PLCC)	44	PLCC-44	no	obsolete	2.97	5.5	VCC	Obsolete	add	
+ST16C550IQ48-F	st16c550	ST16C550	MaxLinear, Inc.	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.97	5.5	VCC	Active	add	
+ST16C550IQ48TR-F	st16c550	ST16C550	MaxLinear, Inc.	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.97	5.5	VCC	Active	add	
+ST16C554CQ64-F	st16c554	ST16C554	MaxLinear, Inc.	lqfp64	LQFP	Exar V/Q64 (64-LQFP 10x10x1.4)	64	LQFP-64-10X10	yes		2.97	5.5	VCC	Active	add	
+ST16C554DCQ64-F	st16c554	ST16C554	MaxLinear, Inc.	lqfp64	LQFP	Exar V/Q64 (64-LQFP 10x10x1.4)	64	LQFP-64-10X10	yes		2.97	5.5	VCC	Active	add	
+ST16C554DIQ64-F	st16c554	ST16C554	MaxLinear, Inc.	lqfp64	LQFP	Exar V/Q64 (64-LQFP 10x10x1.4)	64	LQFP-64-10X10	yes		2.97	5.5	VCC	Active	add	
+ST16C650ACJ44	st16c650a	ST16C650A	Sipex	plcc44	PLCC	Exar J (44-PLCC)	44	PLCC-44	no	obsolete	2.9	5.5	5.5	Obsolete	leave-out	every in-stock part of st16c650a.pdf is obsolete (AGENTS.md: all-obsolete PDF not added)
+ST16C650CJ44	st16c650a	ST16C650A	Sipex	plcc44	PLCC	Exar J (44-PLCC)	44			obsolete				Obsolete	leave-out	non-A ST16C650: no datasheet in the repo (st16c650a.pdf covers only the A)
+ST16C650IJ44	st16c650a	ST16C650A	Sipex	plcc44	PLCC	Exar J (44-PLCC)	44							Active	leave-out	non-A ST16C650: no datasheet in the repo (st16c650a.pdf covers only the A)
+TL16C2550IPFB	tl16c2550	TL16C2550	Texas Instruments	tqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes		1.62	5.5	VCC	Active	add	bands 1.62-1.98 / 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C2550IPFBR	tl16c2550	TL16C2550	Texas Instruments	tqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes		1.62	5.5	VCC	Active	add	bands 1.62-1.98 / 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C2550IRHB	tl16c2550	TL16C2550	Texas Instruments	qfn32	VQFN	TI RHB (RHB0032E)	32	VQFN-32-5X5	yes		1.62	5.5	VCC	Last Time Buy	add	TL16C2550 RHB pinout (differs from TL16C752C RHB); bands as TL16C2550
+TL16C2550PFB	tl16c2550	TL16C2550	Texas Instruments	tqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes		1.62	5.5	VCC	Active	add	bands 1.62-1.98 / 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C2550PFBR	tl16c2550	TL16C2550	Texas Instruments	tqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes		1.62	5.5	VCC	Active	add	bands 1.62-1.98 / 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C2550IPFBRQ1	tl16c2550-q1	TL16C2550	Texas Instruments	tqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes	automotive	1.62	5.5	VCC	Active	add	-Q1 = AEC-Q100 (tl16c2550-q1.pdf); bands as TL16C2550
+TL16C2552FN	tl16c2552	TL16C2552	Texas Instruments	plcc44	PLCC	TI FN (FN0044A)	44	PLCC-44	no		1.62	5.5	VCC	Active	add	bands 1.62-1.98 / 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C2552FNR	tl16c2552	TL16C2552	Texas Instruments	plcc44	PLCC	TI FN (FN0044A)	44	PLCC-44	no		1.62	5.5	VCC	Active	add	bands 1.62-1.98 / 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C2752FN	tl16c2752	TL16C2752	Texas Instruments	plcc44	PLCC	TI FN (FN0044A)	44	PLCC-44	no		1.62	5.5	VCC	Active	leave-out	datasheet names the extended registers but gives no bit behavior (owner rule: full model); left out
+TL16C2752IFN	tl16c2752	TL16C2752	Texas Instruments	plcc44	PLCC	TI FN (FN0044A)	44	PLCC-44	no		1.62	5.5	VCC	Active	leave-out	datasheet names the extended registers but gives no bit behavior (owner rule: full model); left out
+TL16C2752IFNR	tl16c2752	TL16C2752	Texas Instruments	plcc44	PLCC	TI FN (FN0044A)	44	PLCC-44	no	obsolete	1.62	5.5	VCC	Obsolete	leave-out	datasheet names the extended registers but gives no bit behavior (owner rule: full model); left out
+TL16C450FN	tl16c450	TL16C450	Texas Instruments	plcc44	PLCC	TI FN (FN0044A)	44	PLCC-44	no		4.75	5.25	VCC	Active	add	
+TL16C451FN	tl16c451	TL16C451	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes	obsolete	4.75	5.25	VCC	Obsolete	add	FN68 outline not in tl16c451.pdf; FN0068A from tl16c554a.pdf
+TL16C451FNR	tl16c451	TL16C451	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes		4.75	5.25	VCC	Active	add	FN68 outline not in tl16c451.pdf; FN0068A from tl16c554a.pdf
+TL16C452FNR	tl16c451	TL16C452	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes		4.75	5.25	VCC	Active	add	FN68 outline not in tl16c451.pdf; FN0068A from tl16c554a.pdf
+TL16C550BFN	tl16c550b	TL16C550B	Texas Instruments	plcc44	PLCC	TI FN (FN0044A)	44	PLCC-44	no	obsolete	4.75	5.25	VCC	Obsolete	add	
+TL16C550BN	tl16c550b	TL16C550B	Texas Instruments	dip40	DIP	TI N (R-PDIP-T40)	40	PDIP-40-600	no	obsolete	4.75	5.25	VCC	Obsolete	add	
+TL16C550BPTR	tl16c550b	TL16C550B	Texas Instruments	tqfp48	LQFP	TI PT (PT0048A)	48	TQFP-48-7X7	yes		4.75	5.25	VCC	Active	add	census vcc 3.3V/5V wrong: datasheet 5 V only
+TL16C550CFN	tl16c550c	TL16C550C	Texas Instruments	plcc44	PLCC	TI FN (FN0044A)	44	PLCC-44	no	obsolete	3.0	5.25	VCC	Obsolete	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C550CFNR	tl16c550c	TL16C550C	Texas Instruments	plcc44	PLCC	TI FN (FN0044A)	44	PLCC-44	no		3.0	5.25	VCC	Active	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C550CFNRG4	tl16c550c	TL16C550C	Texas Instruments	plcc44	PLCC	TI FN (FN0044A)	44	PLCC-44	no		3.0	5.25	VCC	Discontinued at DigiKey	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C550CIFN	tl16c550c	TL16C550C	Texas Instruments	plcc44	PLCC	TI FN (FN0044A)	44	PLCC-44	no	obsolete	3.0	5.25	VCC	Obsolete	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C550CIFNR	tl16c550c	TL16C550C	Texas Instruments	plcc44	PLCC	TI FN (FN0044A)	44	PLCC-44	no		3.0	5.25	VCC	Active	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C550CIPTR	tl16c550c	TL16C550C	Texas Instruments	lqfp48	LQFP	TI PT (PT0048A)	48	TQFP-48-7X7	yes		3.0	5.25	VCC	Active	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C550CPFB	tl16c550c	TL16C550C	Texas Instruments	lqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes	obsolete	3.0	5.25	VCC	Obsolete	add	PFB has the PT pinout; two bands 3.0-3.6 / 4.75-5.25 V
+TL16C550CPFBR	tl16c550c	TL16C550C	Texas Instruments	lqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes		3.0	5.25	VCC	Active	add	PFB has the PT pinout; two bands 3.0-3.6 / 4.75-5.25 V
+TL16C550CPT	tl16c550c	TL16C550C	Texas Instruments	lqfp48	LQFP	TI PT (PT0048A)	48	TQFP-48-7X7	yes	obsolete	3.0	5.25	VCC	Obsolete	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C550CPTG4	tl16c550c	TL16C550C	Texas Instruments	lqfp48	LQFP	TI PT (PT0048A)	48	TQFP-48-7X7	yes	obsolete	3.0	5.25	VCC	Obsolete	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C550CPTR	tl16c550c	TL16C550C	Texas Instruments	lqfp48	LQFP	TI PT (PT0048A)	48	TQFP-48-7X7	yes		3.0	5.25	VCC	Active	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C550DIPFB	tl16c550d	TL16C550D	Texas Instruments	tqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes		2.25	5.5	VCC	Active	add	bands 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C550DIPFBR	tl16c550d	TL16C550D	Texas Instruments	tqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes		2.25	5.5	VCC	Active	add	bands 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C550DIPT	tl16c550d	TL16C550D	Texas Instruments	tqfp48	LQFP	TI PT (PT0048A)	48	TQFP-48-7X7	yes		2.25	5.5	VCC	Active	add	PT pinout identical to PFB (spec calls it lqfp48; one name used); bands 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C550DIPTR	tl16c550d	TL16C550D	Texas Instruments	tqfp48	LQFP	TI PT (PT0048A)	48	TQFP-48-7X7	yes		2.25	5.5	VCC	Active	add	PT pinout identical to PFB (spec calls it lqfp48; one name used); bands 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C550DIRHB	tl16c550d	TL16C550D	Texas Instruments	qfn32	VQFN	TI RHB (RHB0032E)	32	VQFN-32-5X5	yes		2.25	5.5	VCC	Active	add	bands 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C550DIRHBR	tl16c550d	TL16C550D	Texas Instruments	qfn32	VQFN	TI RHB (RHB0032E)	32	VQFN-32-5X5	yes		2.25	5.5	VCC	Active	add	bands 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C550DIZQSR	tl16c550d	TL16C550D	Texas Instruments	bga24	BGA	TI ZQS (MicroStar Junior 3x3)	24	BGA-24-MICROSTAR	yes	obsolete	2.25	5.5	VCC	Obsolete	add	ball map p2/p12; no ZQS outline in PDF
+TL16C550DPFBR	tl16c550d	TL16C550D	Texas Instruments	tqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes		2.25	5.5	VCC	Active	add	bands 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C550DPT	tl16c550d	TL16C550D	Texas Instruments	tqfp48	LQFP	TI PT (PT0048A)	48	TQFP-48-7X7	yes		2.25	5.5	VCC	Active	add	PT pinout identical to PFB (spec calls it lqfp48; one name used); bands 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C550DPTR	tl16c550d	TL16C550D	Texas Instruments	tqfp48	LQFP	TI PT (PT0048A)	48	TQFP-48-7X7	yes		2.25	5.5	VCC	Active	add	PT pinout identical to PFB (spec calls it lqfp48; one name used); bands 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C550DRHB	tl16c550d	TL16C550D	Texas Instruments	qfn32	VQFN	TI RHB (RHB0032E)	32	VQFN-32-5X5	yes		2.25	5.5	VCC	Active	add	bands 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C550DRHBR	tl16c550d	TL16C550D	Texas Instruments	qfn32	VQFN	TI RHB (RHB0032E)	32	VQFN-32-5X5	yes		2.25	5.5	VCC	Active	add	bands 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C550DZQSR	tl16c550d	TL16C550D	Texas Instruments	bga24	BGA	TI ZQS (MicroStar Junior 3x3)	24	BGA-24-MICROSTAR	yes	obsolete	2.25	5.5	VCC	Obsolete	add	ball map p2/p12; no ZQS outline in PDF
+TL16C552FN	tl16c552	TL16C552	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes		4.75	5.25	VCC	Active	add	
+TL16C552FNR	tl16c552	TL16C552	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes		4.75	5.25	VCC	Active	add	
+TL16C552AFN	tl16c552a	TL16C552A	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes		4.75	5.25	VCC	Active	add	
+TL16C552AFNG4	tl16c552a	TL16C552A	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes	obsolete	4.75	5.25	VCC	Obsolete	add	
+TL16C552AFNR	tl16c552a	TL16C552A	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes		4.75	5.25	VCC	Active	add	
+TL16C552APN	tl16c552a	TL16C552A	Texas Instruments	lqfp80	LQFP	TI PN (PN0080A)	80	LQFP-80-12X12	yes	obsolete	4.75	5.25	VCC	Obsolete	add	temp grade not printed (dropped from addendum); package/pinout known
+TL16C554FN	tl16c554	TL16C554	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes		4.75	5.25	VCC	Active	add	
+TL16C554FNR	tl16c554	TL16C554	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes		4.75	5.25	VCC	Active	add	
+TL16C554IFN	tl16c554	TL16C554	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes		4.75	5.25	VCC	Active	add	
+TL16C554IPN	tl16c554	TL16C554	Texas Instruments	lqfp80	LQFP	TI PN (PN0080A)	80	LQFP-80-12X12	yes		4.75	5.25	VCC	Active	add	
+TL16C554PN	tl16c554	TL16C554	Texas Instruments	lqfp80	LQFP	TI PN (PN0080A)	80	LQFP-80-12X12	yes		4.75	5.25	VCC	Active	add	
+TL16C554PNR	tl16c554	TL16C554	Texas Instruments	lqfp80	LQFP	TI PN (PN0080A)	80	LQFP-80-12X12	yes		4.75	5.25	VCC	Active	add	
+TL16C554AFN	tl16c554a	TL16C554A	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes		3.0	5.25	VCC	Active	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C554AFNR	tl16c554a	TL16C554A	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes		3.0	5.25	VCC	Active	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C554AIFN	tl16c554a	TL16C554A	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes		3.0	5.25	VCC	Active	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C554AIFNR	tl16c554a	TL16C554A	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes		3.0	5.25	VCC	Active	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C554AIPN	tl16c554a	TL16C554A	Texas Instruments	lqfp80	LQFP	TI PN (PN0080A)	80	LQFP-80-12X12	yes		3.0	5.25	VCC	Active	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C554APN	tl16c554a	TL16C554A	Texas Instruments	lqfp80	LQFP	TI PN (PN0080A)	80	LQFP-80-12X12	yes		3.0	5.25	VCC	Active	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C554APNR	tl16c554a	TL16C554A	Texas Instruments	lqfp80	LQFP	TI PN (PN0080A)	80	LQFP-80-12X12	yes		3.0	5.25	VCC	Active	add	two bands 3.0-3.6 / 4.75-5.25 V
+TL16C750PM	tl16c750	TL16C750	Texas Instruments	lqfp64	LQFP	TI PM (PM0064A)	64	LQFP-64-10X10	yes		3.0	5.25	VCC	Active	add	two bands 3.0-3.6 / 4.75-5.25 V; D7-D0 fail-safe to 6.5 V abs
+TL16C750EPFBR	tl16c750e	TL16C750E	Texas Instruments	tqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes		1.62	5.5	VCC	Active	add	bands 1.62-1.98 / 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C752CIPFB	tl16c752c	TL16C752C	Texas Instruments	tqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes		1.62	5.5	VCC	Last Time Buy	add	bands 1.62-1.98 / 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C752CIPFBR	tl16c752c	TL16C752C	Texas Instruments	tqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes		1.62	5.5	VCC	Last Time Buy	add	bands 1.62-1.98 / 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C752CIRHB	tl16c752c	TL16C752C	Texas Instruments	qfn32	VQFN	TI RHB (RHB0032E)	32	VQFN-32-5X5	yes		1.62	5.5	VCC	Active	add	752C RHB pinout; bands as TL16C752C
+TL16C752CIRHBR	tl16c752c	TL16C752C	Texas Instruments	qfn32	VQFN	TI RHB (RHB0032E)	32	VQFN-32-5X5	yes		1.62	5.5	VCC	Last Time Buy	add	752C RHB pinout; bands as TL16C752C
+TL16C752CPFB	tl16c752c	TL16C752C	Texas Instruments	tqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes		1.62	5.5	VCC	Last Time Buy	add	bands 1.62-1.98 / 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C752CRHB	tl16c752c	TL16C752C	Texas Instruments	qfn32	VQFN	TI RHB (RHB0032E)	32	VQFN-32-5X5	yes		1.62	5.5	VCC	Active	add	752C RHB pinout; bands as TL16C752C
+TL16C752CRHBR	tl16c752c	TL16C752C	Texas Instruments	qfn32	VQFN	TI RHB (RHB0032E)	32	VQFN-32-5X5	yes		1.62	5.5	VCC	Last Time Buy	add	752C RHB pinout; bands as TL16C752C
+TL16C752PT	tl16c752c	TL16C752C	Texas Instruments							obsolete				Obsolete	leave-out	no datasheet in the repo (presumably TL16C752B); PT package/3.3 V grade not in any TL16C752 PDF
+TL16C752CIPFBRQ1	tl16c752ci-q1	TL16C752C	Texas Instruments	tqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes	automotive	1.62	5.5	VCC	Active	add	-Q1 = AEC-Q100; bands as TL16C752C
+TL16C752DPFBR	tl16c752d	TL16C752C	Texas Instruments	tqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes		1.62	5.5	VCC	Active	add	bands 1.62-1.98 / 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16C752DPFBRQ1	tl16c752d-q1	TL16C752C	Texas Instruments	tqfp48	TQFP	TI PFB (PFB0048A)	48	TQFP-48-7X7	yes	automotive	1.62	5.5	VCC	Active	add	-Q1 = AEC-Q100; bands as TL16C752C
+TL16C754BFN	tl16c754b	TL16C754B	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68	PLCC-68	yes		2.7	5.5	VCC	Active	add	two bands 2.7-3.6 / 4.5-5.5 V
+TL16C754FN	tl16c754b	TL16C754B	Texas Instruments	plcc68	PLCC	TI FN (FN0068A)	68			obsolete				Obsolete	leave-out	original TL16C754 (not B): its datasheet TL16C754.pdf is not in the repo; grade/registers unknown
+TL16CP754CIPM	tl16c754c	TL16C754C	Texas Instruments	lqfp64	LQFP	TI PM (PM0064A)	64	LQFP-64-10X10	yes		1.62	5.5	VCC	Active	add	bands 1.62-1.98 / 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+TL16CP754CPM	tl16c754c	TL16C754C	Texas Instruments	lqfp64	LQFP	TI PM (PM0064A)	64	LQFP-64-10X10	yes		1.62	5.5	VCC	Active	add	bands 1.62-1.98 / 2.25-2.75 / 3.0-3.6 / 4.5-5.5 V
+XR16C2550IM-F	xr16c2550	XR16C2550	MaxLinear, Inc.	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.97	5.5	5.5	Active	add	
+XR16C854CQ	xr16c854	XR16C854	Sipex	qfp100	QFP	Exar Q (100-QFP 14x20, MS-022)	100	QFP-100-14X20	yes		2.97	5.5	VCC	Active	add	Sipex-era non-F part, not in current ordering table; older DC-mark parts lack 5 V-tolerant inputs -> inputMax VCC
+XR16C854CV-F	xr16c854	XR16C854	MaxLinear, Inc.	lqfp64	LQFP	Exar V/Q64 (64-LQFP 10x10x1.4)	64	LQFP-64-10X10	yes		2.97	5.5	5.5	Not For New Designs	add	XTAL1 = VCC; INTSEL bonded low
+XR16C854DIV-F	xr16c854	XR16C854	MaxLinear, Inc.	lqfp64	LQFP	Exar V/Q64 (64-LQFP 10x10x1.4)	64	LQFP-64-10X10	yes		2.97	5.5	5.5	Not For New Designs	add	XTAL1 = VCC; D = INTSEL bonded high
+XR16C854IQ	xr16c854	XR16C854	Sipex	qfp100	QFP	Exar Q (100-QFP 14x20, MS-022)	100	QFP-100-14X20	yes		2.97	5.5	VCC	Active	add	Sipex-era non-F part, not in current ordering table; older DC-mark parts lack 5 V-tolerant inputs -> inputMax VCC
+XR16C854IQ-F	xr16c854	XR16C854	MaxLinear, Inc.	qfp100	QFP	Exar Q (100-QFP 14x20, MS-022)	100	QFP-100-14X20	yes		2.97	5.5	5.5	Not For New Designs	add	XTAL1 = VCC
+XR16C854IV-F	xr16c854	XR16C854	MaxLinear, Inc.	lqfp64	LQFP	Exar V/Q64 (64-LQFP 10x10x1.4)	64	LQFP-64-10X10	yes		2.97	5.5	5.5	Not For New Designs	add	XTAL1 = VCC; INTSEL bonded low
+XR16C864CQ-F	xr16c864	XR16C864	MaxLinear, Inc.	qfp100-864	QFP	Exar Q (100-QFP 14x20, MS-022)	100	QFP-100-14X20	yes		2.97	5.5	5.5	Not For New Designs	add	XTAL1 = VCC
+XR16C864IQ-F	xr16c864	XR16C864	MaxLinear, Inc.	qfp100-864	QFP	Exar Q (100-QFP 14x20, MS-022)	100	QFP-100-14X20	yes		2.97	5.5	5.5	Not For New Designs	add	XTAL1 = VCC
+XR16L2551IM-F	xr16l2551	XR16L2551	MaxLinear, Inc.	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.25	5.5	5.5	Active	add	XTAL1 = VCC
+XR16L2552IJ	xr16l2552	XR16L2552	Sipex	plcc44	PLCC	Exar J (44-PLCC)	44	PLCC-44	no		2.25	5.5	5.5	Active	add	
+XR16L2552IJTR	xr16l2552	XR16L2552	Sipex	plcc44	PLCC	Exar J (44-PLCC)	44	PLCC-44	no		2.25	5.5	5.5	Active	add	
+XR16L2552IM-F	xr16l2552	XR16L2552	MaxLinear, Inc.	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.25	5.5	5.5	Active	add	
+XR16L580IL-F	xr16l580	XR16L580	MaxLinear, Inc.	qfn32	QFN	Exar L/IL32 (32-QFN 5x5x0.9)	32	QFN-32-5X5	yes	obsolete	2.25	5.5	5.5	Obsolete	add	ordering table: IL/ILTR = 32-QFN 5x5 (DigiKey case 24-QFN for ILTR is wrong); XTAL1 = VCC
+XR16L580ILTR-F	xr16l580	XR16L580	MaxLinear, Inc.	qfn32	QFN	Exar L/IL32 (32-QFN 5x5x0.9)	32	QFN-32-5X5	yes	obsolete	2.25	5.5	5.5	Obsolete	add	ordering table: IL/ILTR = 32-QFN 5x5 (DigiKey case 24-QFN for ILTR is wrong); XTAL1 = VCC
+XR16L580IM-F	xr16l580	XR16L580	MaxLinear, Inc.	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.25	5.5	5.5	Active	add	XTAL1 = VCC
+XR16L784CV-F	xr16l784	XR16L784	MaxLinear, Inc.	lqfp64-784	LQFP	Exar V/Q64 (64-LQFP 10x10x1.4)	64	LQFP-64-10X10	yes		2.97	5.5	5.5	Active	add	XTAL1 = VCC
+XR16L784IV-F	xr16l784	XR16L784	MaxLinear, Inc.	lqfp64-784	LQFP	Exar V/Q64 (64-LQFP 10x10x1.4)	64	LQFP-64-10X10	yes		2.97	5.5	5.5	Active	add	XTAL1 = VCC
+XR16M2550IL32	xr16m2550	XR16M2550	Sipex	qfn32	QFN	Exar L/IL32 (32-QFN 5x5x0.9)	32	QFN-32-5X5	yes		1.62	3.63	VCC	Active	add	
+XR16M2550IM48	xr16m2550	XR16M2550	Sipex	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		1.62	3.63	VCC	Active	add	
+XR16M2551IL32	xr16m2551	XR16M2551	Sipex	qfn32-2551	QFN	Exar L/IL32 (32-QFN 5x5x0.9)	32	QFN-32-5X5	yes		1.62	3.63	VCC	Active	add	PDF watermarked OBS but DigiKey Active
+XR16M2551IM48	xr16m2551	XR16M2551	Sipex	tqfp48-2551	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		1.62	3.63	VCC	Active	add	PDF watermarked OBS but DigiKey Active
+XR16M2650IL32	xr16m2650	XR16M2650	Sipex	qfn32	QFN	Exar L/IL32 (32-QFN 5x5x0.9)	32	QFN-32-5X5	yes		1.62	3.63	VCC	Active	add	PDF watermarked OBS but DigiKey Active
+XR16M2650IM48	xr16m2650	XR16M2650	Sipex	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		1.62	3.63	VCC	Active	add	PDF watermarked OBS but DigiKey Active
+XR16M2651IL32	xr16m2651	XR16M2651	Sipex	qfn32-2551	QFN	Exar L/IL32 (32-QFN 5x5x0.9)	32	QFN-32-5X5	yes		1.62	3.63	VCC	Active	add	PDF watermarked OBS but DigiKey Active
+XR16M2651IM48	xr16m2651	XR16M2651	Sipex	tqfp48-2551	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		1.62	3.63	VCC	Active	add	PDF watermarked OBS but DigiKey Active
+XR16M752IM48-F	xr16m752	XR16M752	MaxLinear, Inc.	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		1.62	3.63	VCC	Active	add	
+XR16M752IM48TR-F	xr16m752	XR16M752	MaxLinear, Inc.	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		1.62	3.63	VCC	Active	add	
+XR68M752IM48TR-F	xr16m752	XR16M752	MaxLinear, Inc.	tqfp48-68	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		1.62	3.63	VCC	Active	add	XR68M752 variant (16/68# on pin 24)
+XR16V2550IL	xr16v2550	XR16V2550	Sipex	qfn32	QFN	Exar L/IL32 (32-QFN 5x5x0.9)	32	QFN-32-5X5	yes		2.25	3.6	5.5	Active	add	XTAL1 = VCC
+XR16V2551IL	xr16v2551	XR16V2551	Sipex	qfn32-2551	QFN	Exar L/IL32 (32-QFN 5x5x0.9)	32	QFN-32-5X5	yes		2.25	3.6	5.5	Active	add	XTAL1 = VCC; PDF watermarked OBS but DigiKey Active
+XR16V2551IM	xr16v2551	XR16V2551	Sipex	tqfp48-2551	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.25	3.6	5.5	Active	add	XTAL1 = VCC; PDF watermarked OBS but DigiKey Active
+XR16V2552IJ	xr16v2552	XR16V2552	Sipex	plcc44	PLCC	Exar J (44-PLCC)	44	PLCC-44	no		2.25	3.6	5.5	Active	add	XTAL1 = VCC
+XR16V2650IL	xr16v2650	XR16V2650	Sipex	qfn32	QFN	Exar L/IL32 (32-QFN 5x5x0.9)	32	QFN-32-5X5	yes		2.25	3.6	5.5	Active	add	XTAL1 = VCC
+XR16V2650IM	xr16v2650	XR16V2650	Sipex	tqfp48	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.25	3.6	5.5	Active	add	XTAL1 = VCC
+XR16V2651IL	xr16v2651	XR16V2651	Sipex	qfn32-2551	QFN	Exar L/IL32 (32-QFN 5x5x0.9)	32	QFN-32-5X5	yes		2.25	3.6	5.5	Active	add	XTAL1 = VCC; PDF watermarked OBS but DigiKey Active
+XR16V2651IM	xr16v2651	XR16V2651	Sipex	tqfp48-2651	TQFP	Exar Q48/M (48-TQFP 7x7x1)	48	TQFP-48-7X7	yes		2.25	3.6	5.5	Active	add	XTAL1 = VCC; PDF watermarked OBS but DigiKey Active
+XR16V2652IJ	xr16v2652	XR16V2652	Sipex	plcc44	PLCC	Exar J (44-PLCC)	44	PLCC-44	no	obsolete	2.25	3.6	5.5	Obsolete	add	XTAL1 = VCC
+XR16V2652IL	xr16v2652	XR16V2652	Sipex	qfn32-2552	QFN	Exar L/IL32 (32-QFN 5x5x0.9)	32	QFN-32-5X5	yes		2.25	3.6	5.5	Active	add	XTAL1 = VCC
+XR16V554IJ	xr16v554	XR16V554	Sipex	plcc68	PLCC	Exar J (68-PLCC)	68	PLCC-68	yes		2.25	3.6	5.5	Active	add	XTAL1 = VCC
+XR16V554IL	xr16v554	XR16V554	Sipex	qfn48	QFN	Exar L (48-QFN 7x7x0.9)	48	QFN-48-7X7	yes		2.25	3.6	5.5	Active	add	XTAL1 = VCC
+XR16V554IV	xr16v554	XR16V554	Sipex	lqfp64	LQFP	Exar V/Q64 (64-LQFP 10x10x1.4)	64	LQFP-64-10X10	yes		2.25	3.6	5.5	Active	add	XTAL1 = VCC; INTSEL bonded low
+XR16V564DIV	xr16v564	XR16V564	Sipex	lqfp64	LQFP	Exar V/Q64 (64-LQFP 10x10x1.4)	64	LQFP-64-10X10	yes		2.25	3.6	5.5	Active	add	XTAL1 = VCC; D = INTSEL bonded high
+XR16V564IJ	xr16v564	XR16V564	Sipex	plcc68	PLCC	Exar J (68-PLCC)	68	PLCC-68	yes		2.25	3.6	5.5	Active	add	XTAL1 = VCC
+XR16V564IL	xr16v564	XR16V564	Sipex	qfn48	QFN	Exar L (48-QFN 7x7x0.9)	48	QFN-48-7X7	yes		2.25	3.6	5.5	Active	add	XTAL1 = VCC
+XR16V564IV	xr16v564	XR16V564	Sipex	lqfp64	LQFP	Exar V/Q64 (64-LQFP 10x10x1.4)	64	LQFP-64-10X10	yes		2.25	3.6	5.5	Active	add	XTAL1 = VCC; INTSEL bonded low
+XR16V654DIV-F	xr16v654	XR16V654	MaxLinear, Inc.	lqfp64	LQFP	Exar V/Q64 (64-LQFP 10x10x1.4)	64	LQFP-64-10X10	yes		2.25	3.6	5.5	Not For New Designs	add	XTAL1 = VCC; D = INTSEL bonded high
+XR16V654IL-F	xr16v654	XR16V654	MaxLinear, Inc.	qfn48	QFN	Exar L (48-QFN 7x7x0.9)	48	QFN-48-7X7	yes		2.25	3.6	5.5	Not For New Designs	add	XTAL1 = VCC
+XR16V654IV-F	xr16v654	XR16V654	MaxLinear, Inc.	lqfp64	LQFP	Exar V/Q64 (64-LQFP 10x10x1.4)	64	LQFP-64-10X10	yes		2.25	3.6	5.5	Not For New Designs	add	XTAL1 = VCC; INTSEL bonded low
+XR16V798IQ-F	xr16v798	XR16V798	MaxLinear, Inc.	qfp100	QFP	Exar Q (100-QFP 14x20, MS-022)	100	QFP-100-14X20	yes		2.25	3.6	5.5	Not For New Designs	add	5 V tolerance stated for serial/modem inputs only; bus inputs = VCC (flag)
+XR20M1170IG16-F	xr20m1170	XR20M1170	MaxLinear, Inc.	tssop16	TSSOP	MaxLinear G16 (POD-00000117)	16	TSSOP-16	no		1.62	3.63	VCC	Not For New Designs	add	
+XR20M1170IG24-F	xr20m1170	XR20M1170	MaxLinear, Inc.	tssop24	TSSOP	MaxLinear G24 (POD-00000058)	24	TSSOP-24	no	obsolete	1.62	3.63	VCC	Obsolete	add	
+XR20M1170IL24-F	xr20m1170	XR20M1170	MaxLinear, Inc.	qfn24	QFN	MaxLinear L24 (POD-00000130)	24	QFN-24-4X4	yes	obsolete	1.62	3.63	VCC	Obsolete	add	
+XR20M1170IL24TR-F	xr20m1170	XR20M1170	MaxLinear, Inc.	qfn24	QFN	MaxLinear L24 (POD-00000130)	24	QFN-24-4X4	yes	obsolete	1.62	3.63	VCC	Obsolete	add	
+XR20M1280IL24TR-F	xr20m1280	XR20M1280	MaxLinear, Inc.	qfn24	QFN	MaxLinear L24 (POD-00000130)	24	QFN-24-4X4	yes		1.62	3.63	5.5	Active	add	XTAL1 = VCC
+XR20M1280IL32-F	xr20m1280	XR20M1280	MaxLinear, Inc.	qfn32	QFN	MaxLinear L32 (POD-00000037)	32	QFN-32-5X5	yes		1.62	3.63	5.5	Active	add	XTAL1 = VCC

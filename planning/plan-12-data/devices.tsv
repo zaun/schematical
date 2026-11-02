@@ -1,0 +1,80 @@
+device	model	function	spec	parts
+82510	i82510	UART	classic-b.md	2
+8251A	i8251	UART	classic-b.md	6
+82C50A	ns16550	UART	ti-a.md	2
+82C52	hs82c52	UART	classic-b.md	6
+AY-5-1013A	ay1013	UART	classic-a.md	3
+CDP1854A	ay1013	UART	classic-a.md	3
+CDP65C51	acia6551	UART	classic-b.md	2
+COM1863	ay1013	UART	classic-a.md	1
+COM2017	ay1013	UART	classic-a.md	1
+COM78804	com78c80x	UART	classic-b.md	1
+COM78C802	com78c80x	UART	classic-b.md	1
+COM78C804	com78c80x	UART	classic-b.md	1
+COM92C451	ns16550	UART	classic-b.md	1
+HD-6402	ay1013	UART	classic-a.md	1
+HD-6406	hs82c52	UART	classic-b.md	1
+MAX14830	max310x	Bridge UART	maxim.md	2
+MAX3100	max3100	Bridge UART	maxim.md	7
+MAX3107	max310x	Bridge UART	maxim.md	4
+MAX3108	max310x	Bridge UART	maxim.md	1
+MAX3109	max310x	Bridge UART	maxim.md	2
+MAX3140	max3100	Bridge UART	maxim.md	2
+NS16C2552	ns16550	UART	ti-c.md	1
+NS16C2752	ns16550	UART	ti-c.md	2
+PC16550D	ns16550	UART	ti-a.md	2
+PI7C9X760	ns16550	Bridge UART	bridges.md	1
+PI7C9X762	ns16550	Bridge UART	bridges.md	1
+SC16C650B	ns16550	UART	exar-d.md	1
+SC16C752B	ns16550	UART	exar-d.md	2
+SC16IS740	ns16550	Bridge UART	bridges.md	3
+SC16IS750	ns16550	Bridge UART	bridges.md	3
+SC16IS752	ns16550	Bridge UART	bridges.md	7
+SC18IS604	sc18is604	I2C controller	bridges.md	1
+ST16C1450	ns16550	UART	exar-a.md	1
+ST16C1550	ns16550	UART	exar-a.md	1
+ST16C2550	ns16550	UART	exar-a.md	3
+ST16C450	ns16550	UART	exar-a.md	2
+ST16C550	ns16550	UART	exar-a.md	6
+ST16C554	ns16550	UART	exar-a.md	3
+TL16C2550	ns16550	UART	ti-c.md	6
+TL16C2552	ns16550	UART	ti-c.md	2
+TL16C450	ns16550	UART	ti-a.md	1
+TL16C451	ns16550	UART	ti-a.md	2
+TL16C452	ns16550	UART	ti-a.md	1
+TL16C550B	ns16550	UART	ti-a.md	3
+TL16C550C	ns16550	UART	ti-a.md	11
+TL16C550D	ns16550	UART	ti-a.md	13
+TL16C552	ns16550	UART	ti-b.md	2
+TL16C552A	ns16550	UART	ti-b.md	4
+TL16C554	ns16550	UART	ti-b.md	6
+TL16C554A	ns16550	UART	ti-b.md	7
+TL16C750	ns16550	UART	ti-b.md	1
+TL16C750E	ns16550	UART	ti-b.md	1
+TL16C752C	ns16550	UART	ti-c.md	10
+TL16C754B	ns16550	UART	ti-b.md	1
+TL16C754C	ns16550	UART	ti-b.md	2
+XR16C2550	ns16550	UART	exar-a.md	1
+XR16C854	ns16550	UART	exar-d.md	6
+XR16C864	ns16550	UART	exar-d.md	2
+XR16L2551	ns16550	UART	exar-b.md	1
+XR16L2552	ns16550	UART	exar-b.md	3
+XR16L580	ns16550	UART	exar-a.md	3
+XR16L784	ns16550	UART	exar-d.md	2
+XR16M2550	ns16550	UART	exar-b.md	2
+XR16M2551	ns16550	UART	exar-b.md	2
+XR16M2650	ns16550	UART	exar-b.md	2
+XR16M2651	ns16550	UART	exar-b.md	2
+XR16M752	ns16550	UART	exar-b.md	3
+XR16V2550	ns16550	UART	exar-c.md	1
+XR16V2551	ns16550	UART	exar-c.md	2
+XR16V2552	ns16550	UART	exar-c.md	1
+XR16V2650	ns16550	UART	exar-c.md	2
+XR16V2651	ns16550	UART	exar-c.md	2
+XR16V2652	ns16550	UART	exar-c.md	2
+XR16V554	ns16550	UART	exar-d.md	3
+XR16V564	ns16550	UART	exar-d.md	4
+XR16V654	ns16550	UART	exar-d.md	3
+XR16V798	ns16550	UART	exar-d.md	1
+XR20M1170	ns16550	Bridge UART	bridges.md	4
+XR20M1280	ns16550	Bridge UART	bridges.md	2
