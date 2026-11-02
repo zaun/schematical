@@ -207,14 +207,29 @@ update after them.
   were added: `AY-5-1013` 4 (AY-5-1013, AY-5-1013A, AY-5-1013A-HR,
   AY-5-1013A-HRS), `AY-3-1015` 1 (AY-3-1015D). All 29 H part names in
   `parts.tsv` are in these lists: no drops.
-- [ ] `footprints.json` + `CDIP-40-600`, `PLCC-28`; `serial.json` + 13
-  devices.
-- [ ] Regenerate the goldens. Check: no removed line; added 29, 29, 2.
-- [ ] Hand-check the 2 footprint lines against `footprints.md`.
-- [ ] Spot-check: `AY-5-1013A` (`PDIP-40-600`), `IS82C52Z` (`PLCC-28`),
-  `MD8251A/B` (`military`, `ceramic`, `CDIP-28-600`).
+- [x] `footprints.json` + `CDIP-40-600`, `PLCC-28`; `serial.json` + 13
+  devices. The 2 objects verbatim from `footprints.md`; the devices from
+  `tests/fixtures/serial/devices/<ID>.json` (whole device objects, see
+  Corrections): `merge.py --ship F,G,H` → `serial.json: 65 devices, 179
+  parts`; `serial_test` `shipped` → `compared: 52 ns16550, 0 bridges, 13
+  classic`.
+- [x] Regenerate the goldens. Check: no removed line; added 29, 29, 2.
+  Observed: removed 0 / added 29, 29, 2.
+- [x] Hand-check the 2 footprint lines against `footprints.md`. PLCC-28:
+  pads at ±5.723 (span 11.445), pitch 1.27, 0.530×2.000 on the top row
+  (2.000×0.530 on the sides), pin 1 top centre (0, −5.723), body 11.51;
+  CDIP-40-600: ±7.620 (15.24), first −24.130 (pitch 2.54), 1.5 round, drill
+  0.8, pin 1 rect, body 14.35×53.24. Both as the JSON.
+- [x] Spot-check: `AY-5-1013A` (`PDIP-40-600`), `IS82C52Z` (`PLCC-28`),
+  `MD8251A/B` (`military`, `ceramic`, `CDIP-28-600`). Observed:
+  `AY-5-1013A|serial|DIP|…|model=ay1013 channels=1 grade=A|…
+  |footprint=PDIP-40-600|vcc=4750-5250`; `IS82C52Z|…|model=hs82c52
+  channels=1 grade=I|…|footprint=PLCC-28`; `MD8251A/B|…|military,ceramic
+  |model=i8251 …|footprint=CDIP-28-600`; also `AY-3-1015D … grade=D` and
+  `CP1854ACD … vcc=4000-6500`.
 
-Acceptance: `ctest` 100%; the golden checks (about 2 min).
+Acceptance: `ctest` 100%; the golden checks (about 2 min). Observed:
+`100% tests passed, 0 tests failed out of 19`; `serial_test` → `PASS`.
 Commit: —
 
 ## Validation Plan
@@ -327,3 +342,12 @@ spec and `decisions.md`:
   the merge compiled and only H7 failed (65 checks: writes to register 2 went
   to register 1). `serial_hs82c52.c`'s `bus_select` now returns `1u << unit`;
   after the fix `serial_test` → `PASS`, 67 `ok`; `ctest` 19/19.
+- **Phase 2 data source.** The device objects ship from
+  `tests/fixtures/serial/devices/<ID>.json`, each the fixture device of
+  `serial_fixture_classic.h` (id without `SFX-`) with its real parts from
+  `parts.tsv`; `merge.py --ship` takes a whole device file when there is no
+  `keys/` file, and `shipped` compares the header's devices with
+  `serial.json` (6d4929b). Grades by part name: CDP65C51M1 → 1, M4 → 4;
+  82C52 `CS` → C, `I…` → I; AY-3-1015D → D on `dip40n` with the part keys
+  above; every other device has one grade. CP1854ACD (CDP1854AC, VDD
+  4–6.5 V, classic-a.md) carries its own `vcc`, the grade being 4–10.5 V.
