@@ -50,14 +50,14 @@ rows.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-09 complete | `ls planning/plan-09-* 2>/dev/null` → no output; `ls planning/completed/plan-09-E-cpu-app.md` → exists | MET (2026-11-01 at 01c8377) |
-| plan-10 complete | `ls planning/plan-10-* 2>/dev/null` → no output | MET (2026-11-01 at 01c8377) |
-| Backend tests green | `cmake -S backend -B /tmp/logic-p11 && cmake --build /tmp/logic-p11 -j8 && ctest --test-dir /tmp/logic-p11` → `100% tests passed, 0 tests failed out of 17` | MET (2026-11-01 at 01c8377: 17 of 17) |
-| Goldens at their measured size | `wc -l < backend/tests/golden/parts.txt` → 7157; `traces.txt` → 7157; `footprints.txt` → 195 | MET (2026-11-01 at 01c8377: 7157/7157/195) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p11-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01 at 01c8377) |
-| No character LCD kind yet | `ls schematical/schematical/Parts/charlcd.json backend/src/models/charlcd*.c backend/include/lcd_state.h 2>/dev/null` → no output | MET (2026-11-01 at 01c8377) |
-| The datasheets are present | `ls datasheets/module-disp-char/*.pdf \| wc -l` → 7 | MET (2026-11-01: 7) |
-| The five parts are in stock | `source ~/.zshrc >/dev/null 2>&1; for p in NHD-0216BZ-FL-YBW NHD-0216K1Z-FL-YBW NHD-0216K1Z-NSW-BBW-L "162H BC BW" AMC1602GR-B-Y6WFDY; do node scripts/digikey.js --in-stock "$p" \| grep -c Active; done` → five lines of `1` | MET (2026-11-01: 4045, 7648, 3688, 114, 118 in stock) |
+| plan-09 complete | `ls planning/plan-09-* 2>/dev/null` → no output; `ls planning/completed/plan-09-E-cpu-app.md` → exists | MET (2026-11-01 at 2ac8045) |
+| plan-10 complete | `ls planning/plan-10-*.md 2>/dev/null` → no output | MET (2026-11-01 at 2ac8045) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p11 && cmake --build /tmp/logic-p11 -j8 && ctest --test-dir /tmp/logic-p11` → `100% tests passed, 0 tests failed out of 17` | MET (2026-11-01 at 2ac8045: 17 of 17) |
+| Goldens at their measured size | `wc -l < backend/tests/golden/parts.txt` → 7157; `traces.txt` → 7157; `footprints.txt` → 195 | MET (2026-11-01 at 2ac8045: 7157/7157/195) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p11-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01 at 2ac8045) |
+| No character LCD kind yet | `ls schematical/schematical/Parts/charlcd.json backend/src/models/charlcd*.c backend/include/lcd_state.h 2>/dev/null` → no output | MET (2026-11-01 at 2ac8045) |
+| The datasheets are present | `ls datasheets/module-disp-char/*.pdf \| wc -l` → 7 | MET (2026-11-01 at 2ac8045: 7) |
+| The five parts are in stock | `source ~/.zshrc >/dev/null 2>&1; for p in NHD-0216BZ-FL-YBW NHD-0216K1Z-FL-YBW NHD-0216K1Z-NSW-BBW-L "162H BC BW" AMC1602GR-B-Y6WFDY; do node scripts/digikey.js --in-stock "$p" \| grep -c Active; done` → five lines of `1` | MET (2026-11-01 at 2ac8045: five `1`s) |
 
 If the goldens or the test count differ at the start (another change landed
 in between), record the new values as **P0** (`parts.txt` = `traces.txt`
@@ -264,9 +264,13 @@ the pin's first pad for the pin-1 mark and the `Pad 1 Center` origin."
 
 Deletes two PDFs, records them and commits the folder. Touches no code.
 
-- [ ] `git rm` is not needed (untracked): `rm "datasheets/module-disp-char/LCM-X01602DXX-D.pdf" "datasheets/module-disp-char/LCM-x01602Dxx+A-page1[1].pdf"`.
-- [ ] `datasheets/not-included.md`: the two rows of §4.1, appended to the table.
-- [ ] Commit `datasheets/module-disp-char/` (5 PDFs) and `not-included.md` together.
+- [x] `git rm` is not needed (untracked): `rm "datasheets/module-disp-char/LCM-X01602DXX-D.pdf" "datasheets/module-disp-char/LCM-x01602Dxx+A-page1[1].pdf"`.
+      (The folder is untracked in the main checkout; it was copied into the
+      plan worktree first.)
+- [x] `datasheets/not-included.md`: the two rows of §4.1, appended to the table.
+- [x] Commit `datasheets/module-disp-char/` (5 PDFs) and `not-included.md` together.
+      Ran: `ls datasheets/module-disp-char/*.pdf | wc -l` → 5;
+      `grep -c 'module-disp-char/LCM-' datasheets/not-included.md` → 2.
 
 Acceptance: five PDFs remain and the two rows are recorded.
   Check: `ls datasheets/module-disp-char/*.pdf | wc -l` → 5;
@@ -349,6 +353,15 @@ Commit: —
   2026-11-01). (§ Prerequisites)
 
 ## Corrections
+
+- **Prerequisites, plan-10 row.** `ls planning/plan-10-*` matches
+  `planning/plan-10-data/` (a data folder plan-10 left behind, not a plan
+  doc), so the command printed its contents. All 10 plan-10 docs are in
+  `planning/completed/` (`ls planning/completed/ | grep -c plan-10` → 10).
+  The command is now `ls planning/plan-10-*.md`.
+- **Prerequisites, build dir.** `/tmp/logic-p11` had been configured from
+  the main checkout; cmake refuses another source dir. It was deleted and
+  configured from the plan worktree (the plan's own scratch dir).
 
 ## Summary
 
