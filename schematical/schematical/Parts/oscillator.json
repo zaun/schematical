@@ -798,6 +798,174 @@
         {"name":"ECS-2100AX-480","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":48000000},
         {"name":"ECS-2100AX-500","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":50000000}
       ]
+    },
+    {
+      "id": "ecs-200-2",
+      "function": "10 MHz to 100 MHz",
+      "description": "ECS-200 oscillator, 10 MHz to 100 MHz",
+      "drawer": ["Oscillator"],
+      "note": "ECS osc/ecs-200x.pdf (ECS-200X Series, marked Not Recommended for New Designs; HCMOS/LSTTL; 1.000-150.000 MHz; body 20.8 x 13.08 max (p.2); ecsxtal.com lists no ECS-200X part numbers; ECS-200AX-100 is the datasheet p.1 Part Numbering Guide example). VCC 4.75-5.25 V (ecs-200x p.1 (Supply Voltage +4.75/+5.0/+5.25 VDC))",
+      "pinouts": {
+        "dip14": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"NP","role":"absent"},
+          {"number":3,"name":"NP","role":"absent"},
+          {"number":4,"name":"NP","role":"absent"},
+          {"number":5,"name":"NP","role":"absent"},
+          {"number":6,"name":"NP","role":"absent"},
+          {"number":7,"name":"CASE GND","role":"ground"},
+          {"number":8,"name":"OUTPUT","role":"output"},
+          {"number":9,"name":"NP","role":"absent"},
+          {"number":10,"name":"NP","role":"absent"},
+          {"number":11,"name":"NP","role":"absent"},
+          {"number":12,"name":"NP","role":"absent"},
+          {"number":13,"name":"NP","role":"absent"},
+          {"number":14,"name":"+5V DC","role":"power"}
+        ]
+      },
+      "family": "ECS-200",
+      "minHz": 1000000,
+      "maxHz": 150000000,
+      "outputs": ["OUTPUT"],
+      "vcc": [4.75, 5.25],
+      "parts": [
+        {"name":"ECS-200AX-100","package":"Full-size DIP-14 can","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":10000000}
+      ]
+    },
+    {
+      "id": "ecs-400-2",
+      "function": "10 MHz to 100 MHz",
+      "description": "ECS-400 oscillator, 10 MHz to 100 MHz",
+      "drawer": ["Oscillator"],
+      "note": "ECS osc/ecs-400x.pdf (ECS-400X Series, marked Not Recommended for New Designs; HCMOS/TTL; 0.250-150.000 MHz; body 20.8 x 13.08 max (p.2); ecsxtal.com lists no ECS-400X part numbers; ECS-400AX-100 is the datasheet p.1 Part Numbering Guide example). VCC 4.75-5.25 V (ecs-400x p.1 (Supply Voltage +4.75/+5.0/+5.25 V))",
+      "pinouts": {
+        "dip14": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"NP","role":"absent"},
+          {"number":3,"name":"NP","role":"absent"},
+          {"number":4,"name":"NP","role":"absent"},
+          {"number":5,"name":"NP","role":"absent"},
+          {"number":6,"name":"NP","role":"absent"},
+          {"number":7,"name":"CASE GND","role":"ground"},
+          {"number":8,"name":"OUTPUT","role":"output"},
+          {"number":9,"name":"NP","role":"absent"},
+          {"number":10,"name":"NP","role":"absent"},
+          {"number":11,"name":"NP","role":"absent"},
+          {"number":12,"name":"NP","role":"absent"},
+          {"number":13,"name":"NP","role":"absent"},
+          {"number":14,"name":"+5V DC","role":"power"}
+        ]
+      },
+      "family": "ECS-400",
+      "minHz": 250000,
+      "maxHz": 150000000,
+      "outputs": ["OUTPUT"],
+      "vcc": [4.75, 5.25],
+      "parts": [
+        {"name":"ECS-400AX-100","package":"Full-size DIP-14 can","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":10000000}
+      ]
+    },
+    {
+      "id": "ecs-1000-2",
+      "function": "10 MHz to 100 MHz",
+      "description": "ECS-1000 oscillator, 10 MHz to 100 MHz",
+      "drawer": ["Oscillator"],
+      "note": "ECS osc/ecs-1000x.pdf (ECS-1000X Series, marked Not Recommended for New Designs; HCMOS/TTL; 1.000-100.000 MHz; pin 1 tri-state (open or VIH >= 2.2 V = active, VIL <= 0.8 V = high Z, internal pull-up to pin 14, p.2); body 20.7 x 12.9 max (p.2); ecsxtal.com lists no ECS-1000X part numbers; ECS-1000AX-100 is the datasheet p.1 Part Numbering Guide example). VCC 4.75-5.25 V (ecs-1000x p.1 (Supply Voltage +4.75/+5.0/+5.25 V))",
+      "pinouts": {
+        "dip14": [
+          {"number":1,"name":"TRI-STATE","role":"input"},
+          {"number":2,"name":"NP","role":"absent"},
+          {"number":3,"name":"NP","role":"absent"},
+          {"number":4,"name":"NP","role":"absent"},
+          {"number":5,"name":"NP","role":"absent"},
+          {"number":6,"name":"NP","role":"absent"},
+          {"number":7,"name":"CASE GND","role":"ground"},
+          {"number":8,"name":"OUTPUT","role":"output"},
+          {"number":9,"name":"NP","role":"absent"},
+          {"number":10,"name":"NP","role":"absent"},
+          {"number":11,"name":"NP","role":"absent"},
+          {"number":12,"name":"NP","role":"absent"},
+          {"number":13,"name":"NP","role":"absent"},
+          {"number":14,"name":"+5V DC","role":"power"}
+        ]
+      },
+      "family": "ECS-1000",
+      "minHz": 1000000,
+      "maxHz": 100000000,
+      "outputs": ["OUTPUT"],
+      "vcc": [4.75, 5.25],
+      "parts": [
+        {"name":"ECS-1000AX-100","package":"Full-size DIP-14 can","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":10000000,"enablePin":1}
+      ]
+    },
+    {
+      "id": "ecs-2200-1",
+      "function": "1 MHz to 10 MHz",
+      "description": "ECS-2200 oscillator, 1 MHz to 10 MHz",
+      "drawer": ["Oscillator"],
+      "note": "ECS osc/ecs-2200x.pdf (ECS-2200X Series, marked Not Recommended for New Designs; HCMOS/TTL; 1.000-150.000 MHz; pin 1 tri-state (open or VIH >= 2.2 V = active, VIL <= 0.8 V = high Z, internal pull-up to pin 8, p.2); body 13.2 x 13.2 max (p.2); part numbers from the ecsxtal.com ECS-2200X ordering table (all BX = +/-50 PPM)). VCC 4.75-5.25 V (ecs-2200x p.1 (Supply Voltage +4.75/+5.0/+5.25 VDC))",
+      "pinouts": {
+        "dip8": [
+          {"number":1,"name":"TRI-STATE","role":"input"},
+          {"number":2,"name":"NP","role":"absent"},
+          {"number":3,"name":"NP","role":"absent"},
+          {"number":4,"name":"CASE GROUND","role":"ground"},
+          {"number":5,"name":"OUTPUT","role":"output"},
+          {"number":6,"name":"NP","role":"absent"},
+          {"number":7,"name":"NP","role":"absent"},
+          {"number":8,"name":"+5V DC","role":"power"}
+        ]
+      },
+      "family": "ECS-2200",
+      "minHz": 1000000,
+      "maxHz": 150000000,
+      "outputs": ["OUTPUT"],
+      "vcc": [4.75, 5.25],
+      "parts": [
+        {"name":"ECS-2200BX-040","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":4000000,"enablePin":1},
+        {"name":"ECS-2200BX-049","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":4915200,"enablePin":1},
+        {"name":"ECS-2200BX-060","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":6000000,"enablePin":1},
+        {"name":"ECS-2200BX-073","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":7372800,"enablePin":1},
+        {"name":"ECS-2200BX-080","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":8000000,"enablePin":1},
+        {"name":"ECS-2200BX-098","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":9830400,"enablePin":1}
+      ]
+    },
+    {
+      "id": "ecs-2200-2",
+      "function": "10 MHz to 100 MHz",
+      "description": "ECS-2200 oscillator, 10 MHz to 100 MHz",
+      "drawer": ["Oscillator"],
+      "note": "ECS osc/ecs-2200x.pdf (ECS-2200X Series, marked Not Recommended for New Designs; HCMOS/TTL; 1.000-150.000 MHz; pin 1 tri-state (open or VIH >= 2.2 V = active, VIL <= 0.8 V = high Z, internal pull-up to pin 8, p.2); body 13.2 x 13.2 max (p.2); part numbers from the ecsxtal.com ECS-2200X ordering table (all BX = +/-50 PPM)). VCC 4.75-5.25 V (ecs-2200x p.1 (Supply Voltage +4.75/+5.0/+5.25 VDC))",
+      "pinouts": {
+        "dip8": [
+          {"number":1,"name":"TRI-STATE","role":"input"},
+          {"number":2,"name":"NP","role":"absent"},
+          {"number":3,"name":"NP","role":"absent"},
+          {"number":4,"name":"CASE GROUND","role":"ground"},
+          {"number":5,"name":"OUTPUT","role":"output"},
+          {"number":6,"name":"NP","role":"absent"},
+          {"number":7,"name":"NP","role":"absent"},
+          {"number":8,"name":"+5V DC","role":"power"}
+        ]
+      },
+      "family": "ECS-2200",
+      "minHz": 1000000,
+      "maxHz": 150000000,
+      "outputs": ["OUTPUT"],
+      "vcc": [4.75, 5.25],
+      "parts": [
+        {"name":"ECS-2200BX-100","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":10000000,"enablePin":1},
+        {"name":"ECS-2200BX-110.5","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":11059200,"enablePin":1},
+        {"name":"ECS-2200BX-160","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":16000000,"enablePin":1},
+        {"name":"ECS-2200BX-196","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":19660800,"enablePin":1},
+        {"name":"ECS-2200BX-200","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":20000000,"enablePin":1},
+        {"name":"ECS-2200BX-240","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":24000000,"enablePin":1},
+        {"name":"ECS-2200BX-320","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":32000000,"enablePin":1},
+        {"name":"ECS-2200BX-400","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":40000000,"enablePin":1},
+        {"name":"ECS-2200BX-480","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":48000000,"enablePin":1},
+        {"name":"ECS-2200BX-500","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":50000000,"enablePin":1},
+        {"name":"ECS-2200BX-800","package":"Half-size DIP-8 can","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":80000000,"enablePin":1}
+      ]
     }
   ]
 }
