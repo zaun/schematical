@@ -2800,6 +2800,342 @@ static void case_h7_hs82c52(void) {
     hb_close(h);
 }
 
+/* ---- H8: COM78C804, COM78C802, COM78804 (com78c80x) ------------------------------------- */
+
+static const char *const CM_DL[8] = {"DL0", "DL1", "DL2", "DL3", "DL4", "DL5", "DL6", "DL7"};
+
+/* CLK 4.9152 MHz: 203.45 ns. */
+#define CM_HALF ((SimTime)101725)
+#define CM_BIT19200 (256 * 2 * CM_HALF)
+
+typedef struct {
+    Bench *b;
+    unsigned lines;
+    int two_ds;   /* COM78804: DS on two pins (both driven) */
+} CmBench;
+
+static void cm_set_addr(CmBench *c, unsigned line, unsigned reg) {
+    unsigned a = (line << 3) | reg;
+    char name[8];
+    unsigned i;
+
+    for (i = 0; i < (c->lines == 4 ? 5u : 4u); i++) {
+        snprintf(name, sizeof name, "ADD%u", i);
+        set(c->b, name, (a >> i) & 1u ? LOGIC_1 : LOGIC_0);
+    }
+}
+
+/* DS: every pin of the name (the DIP-48 has two). */
+static void cm_ds(CmBench *c, LogicValue v) {
+    size_t i;
+
+    for (i = 0; i < c->b->part->pin_count; i++) {
+        if (strcmp(c->b->part->pins[i].name, "DS") == 0) {
+            sim_schedule_drive(c->b->sim, c->b->drv, i, v, DRIVE_STRONG, 0);
+        }
+    }
+}
+
+static void cm_write(CmBench *c, unsigned line, unsigned reg, unsigned v) {
+    Bench *b = c->b;
+
+    cm_set_addr(c, line, reg);
+    set(b, "WR", LOGIC_0);
+    h_set_bus(b, CM_DL, 8, 1, v);
+    set(b, "CS", LOGIC_0);
+    run(b, NS(50));
+    cm_ds(c, LOGIC_0);
+    run(b, NS(200));
+    cm_ds(c, LOGIC_1);
+    run(b, NS(50));
+    set(b, "CS", LOGIC_1);
+    set(b, "WR", LOGIC_1);
+    h_set_bus(b, CM_DL, 8, 0, 0);
+    run(b, NS(500));
+}
+
+static unsigned cm_read(CmBench *c, unsigned line, unsigned reg, char *text) {
+    Bench *b = c->b;
+    unsigned v;
+
+    cm_set_addr(c, line, reg);
+    set(b, "WR", LOGIC_1);
+    set(b, "CS", LOGIC_0);
+    run(b, NS(50));
+    cm_ds(c, LOGIC_0);
+    run(b, NS(250));
+    v = h_get_bus(b, CM_DL, 8, text);
+    cm_ds(c, LOGIC_1);
+    run(b, NS(50));
+    set(b, "CS", LOGIC_1);
+    run(b, NS(500));
+    return v;
+}
+
+static void cm_expect(CmBench *c, unsigned line, unsigned reg, const char *want, const char *what) {
+    char text[16];
+
+    cm_read(c, line, reg, text);
+    h_expect_text(text, want, what);
+}
+
+static HBench *cm_open(const char *part, unsigned lines, CmBench *c) {
+    static const HClockPin CLOCKS[1] = {{"CLK", 0}};
+    SimTime half = CM_HALF;
+    HBench *h = hb_open(part, CLOCKS, 1, &half, 1);
+    Bench *b = &h->b;
+    char name[8];
+    unsigned i;
+
+    c->b = b;
+    c->lines = lines;
+    set(b, "RESET", LOGIC_0);
+    set(b, "CS", LOGIC_1);
+    cm_ds(c, LOGIC_1);
+    set(b, "WR", LOGIC_1);
+    set(b, "MRST", LOGIC_0);
+    for (i = 0; i < lines; i++) {
+        snprintf(name, sizeof name, "RXD%u", i);
+        set(b, name, LOGIC_1);
+        snprintf(name, sizeof name, "DSR%u", i);
+        set(b, name, LOGIC_0);
+        snprintf(name, sizeof name, "DCD%u", i);
+        set(b, name, LOGIC_1);
+    }
+    cm_set_addr(c, 0, 0);
+    run(b, NS(2000));
+    set(b, "RESET", LOGIC_1);
+    run(b, NS(2000));
+    return h;
+}
+
+/* 8N1 at 19200 both ways, then the command. */
+static void cm_setup(CmBench *c, unsigned line, unsigned command) {
+    cm_read(c, line, 3, NULL);   /* the pointer back to MR1 */
+    cm_write(c, line, 2, 0x4C);
+    cm_write(c, line, 2, 0xFF);
+    cm_write(c, line, 3, command);
+}
+
+static void case_h8_com78c80x(void) {
+    CmBench c;
+    HBench *h = cm_open("SFX-COM78C804-plcc44", 4, &c);
+    Bench *b = &h->b;
+    char got[24];
+    char want[24];
+    char text[16];
+
+    case_begin();
+    /* After RESET. */
+    cm_expect(&c, 0, 1, "10000000", "status after RESET (DSR active, DCD inactive)");
+    cm_expect(&c, 0, 3, "00000000", "command after RESET");
+    cm_expect(&c, 0, 2, "00000000", "MR1 after RESET");
+    expect_pin(b, "TXD0", LOGIC_1, "TXD marks");
+    expect_pin(b, "IRQ", LOGIC_Z, "IRQ released");
+    /* MR1 / MR2 through the alternating pointer; a Command read resets it. */
+    cm_setup(&c, 0, 0x05);
+    cm_read(&c, 0, 3, NULL);
+    cm_expect(&c, 0, 2, "01001100", "MR1");
+    cm_expect(&c, 0, 2, "11111111", "MR2 (the pointer alternates)");
+    cm_expect(&c, 0, 2, "01001100", "MR1 again");
+    cm_read(&c, 0, 3, NULL);
+    cm_expect(&c, 0, 2, "01001100", "a Command read resets the pointer to MR1");
+    cm_read(&c, 0, 3, NULL);
+    cm_expect(&c, 0, 1, "10000001", "TxRDY after TxEN");
+    /* TX on line 0 at 19200. */
+    cm_write(&c, 0, 0, 'A');
+    check(h_catch(b, "TXD0", CM_BIT19200, 9, 4 * CM_BIT19200, got), "line 0 frame");
+    h_frame_bits('A', 8, 0, 1, want);
+    h_expect_text(got, want, "line 0: 19200 8N1 A");
+    run(b, CM_BIT19200);
+    cm_expect(&c, 0, 1, "10000101", "TxEMT and TxRDY after the character");
+    h_expect_sent(b, 0, 'A', "line 0: A logged");
+    /* Line 2 at 9600 TX / 19200 RX, independent of line 0. */
+    cm_read(&c, 2, 3, NULL);
+    cm_write(&c, 2, 2, 0x5C);   /* 1 stop, odd parity, 8 bits */
+    cm_write(&c, 2, 2, 0xEF);   /* TX 9600, RX 19200 */
+    cm_write(&c, 2, 3, 0x05);
+    cm_write(&c, 2, 0, 0x81);
+    check(h_catch(b, "TXD2", 2 * CM_BIT19200, 10, 4 * 2 * CM_BIT19200, got), "line 2 frame");
+    h_frame_bits(0x81, 8, 'o', 1, want);
+    h_expect_text(got, want, "line 2: 9600 8O1 (its own rate and format)");
+    expect_pin(b, "TXD0", LOGIC_1, "line 0 idle meanwhile");
+    h_frame_bits(0x3C, 8, 'o', 1, want);
+    h_drive_bits(b, "RXD2", want, CM_BIT19200);
+    run(b, CM_BIT19200);
+    cm_expect(&c, 2, 1, "10000111", "line 2: RxRDY at its 19200 receive rate (TxEMT, TxRDY)");
+    cm_expect(&c, 2, 0, "00111100", "line 2: the character");
+    /* Receive FIFO: two characters, the third overruns. */
+    h_frame_bits(0x11, 8, 0, 1, want);
+    h_drive_bits(b, "RXD0", want, CM_BIT19200);
+    h_frame_bits(0x22, 8, 0, 1, want);
+    h_drive_bits(b, "RXD0", want, CM_BIT19200);
+    h_frame_bits(0x33, 8, 0, 1, want);
+    h_drive_bits(b, "RXD0", want, CM_BIT19200);
+    run(b, CM_BIT19200);
+    cm_expect(&c, 0, 1, "10010111", "ORR on the third character");
+    cm_expect(&c, 0, 0, "00010001", "FIFO first");
+    cm_expect(&c, 0, 0, "00100010", "FIFO second");
+    cm_expect(&c, 0, 1, "10010101", "FIFO empty, ORR sticky");
+    cm_write(&c, 0, 3, 0x15);   /* RERR */
+    cm_expect(&c, 0, 1, "10000101", "RERR clears ORR");
+    cm_write(&c, 0, 3, 0x05);
+    /* FER (sticky) and PER (cleared by reading the character). */
+    h_frame_bits(0x0F, 8, 0, 0, want);
+    strcat(want, "0");
+    h_drive_bits(b, "RXD0", want, CM_BIT19200);
+    run(b, 2 * CM_BIT19200);
+    cm_expect(&c, 0, 1, "10100111", "FER");
+    cm_read(&c, 0, 0, NULL);
+    cm_expect(&c, 0, 1, "10100101", "FER stays after the read");
+    cm_write(&c, 0, 3, 0x15);
+    cm_write(&c, 0, 3, 0x05);
+    cm_read(&c, 0, 3, NULL);
+    cm_write(&c, 0, 2, 0x7C);   /* even parity */
+    cm_write(&c, 0, 2, 0xFF);
+    h_frame_bits(0x01, 8, 'o', 1, want);
+    h_drive_bits(b, "RXD0", want, CM_BIT19200);
+    run(b, CM_BIT19200);
+    cm_expect(&c, 0, 1, "10001111", "PER");
+    cm_read(&c, 0, 0, NULL);
+    cm_expect(&c, 0, 1, "10000101", "reading the character clears PER");
+    cm_setup(&c, 0, 0x05);
+
+    /* The scanner: a receiver interrupt on line 1. */
+    cm_setup(&c, 1, 0x25);   /* RxIE, RxEN, TxEN */
+    h_frame_bits(0x44, 8, 0, 1, want);
+    h_drive_bits(b, "RXD1", want, CM_BIT19200);
+    run(b, CM_BIT19200);
+    expect_pin(b, "IRQ", LOGIC_0, "line 1 receiver interrupt");
+    expect_pin(b, "IRQLN0", LOGIC_1, "IRQLN = 01");
+    expect_pin(b, "IRQLN1", LOGIC_0, "IRQLN = 01");
+    expect_pin(b, "IRQTXRX", LOGIC_0, "IRQTXRX: receiver");
+    cm_expect(&c, 0, 4, "10000010", "Interrupt Summary: IRQ, line 1, Rx");
+    cm_read(&c, 1, 0, NULL);
+    run(b, NS(1000));
+    expect_pin(b, "IRQ", LOGIC_Z, "reading the buffer releases IRQ");
+    /* A transmitter interrupt on line 3 (TxIE with TxRDY). */
+    cm_setup(&c, 3, 0x07);
+    run(b, NS(5000));
+    expect_pin(b, "IRQ", LOGIC_0, "line 3 transmitter interrupt");
+    expect_pin(b, "IRQTXRX", LOGIC_1, "IRQTXRX: transmitter");
+    cm_expect(&c, 0, 4, "10000111", "Interrupt Summary: IRQ, line 3, Tx");
+    cm_write(&c, 3, 3, 0x05);   /* clear TxIE */
+    run(b, NS(1000));
+    expect_pin(b, "IRQ", LOGIC_Z, "clearing TxIE releases IRQ");
+    /* Receivers before transmitters: both pending, the receiver is reported. */
+    cm_write(&c, 3, 3, 0x07);
+    h_drive_bits(b, "RXD1", want, CM_BIT19200);
+    run(b, CM_BIT19200);
+    cm_read(&c, 3, 0, NULL);
+    cm_write(&c, 3, 0, 0x00);
+    cm_expect(&c, 0, 4, "10000010", "the receiver interrupt comes first");
+    cm_read(&c, 1, 0, NULL);
+    cm_write(&c, 3, 3, 0x05);
+    run(b, 12 * CM_BIT19200);   /* line 3 finishes its character */
+    /* Data set change: DSR on line 3; MCIE with RxIE interrupts. */
+    cm_read(&c, 3, 3, NULL);
+    cm_write(&c, 3, 2, 0x4D);   /* MCIE */
+    cm_write(&c, 3, 2, 0xFF);
+    cm_write(&c, 3, 3, 0x25);
+    set(b, "DSR3", LOGIC_1);
+    run(b, NS(5000));
+    cm_expect(&c, 0, 5, "10000000", "Data Set Change Summary: line 3 (bit 7)");
+    expect_pin(b, "IRQ", LOGIC_0, "DSCHNG with MCIE and RxIE interrupts");
+    cm_write(&c, 0, 5, 0x80);
+    run(b, NS(1000));
+    cm_expect(&c, 0, 5, "00000000", "writing 1 clears it");
+    expect_pin(b, "IRQ", LOGIC_Z, "and releases IRQ");
+    cm_expect(&c, 3, 1, "00000101", "status DSR follows the pin (inactive)");
+    set(b, "DSR3", LOGIC_0);
+    run(b, NS(2000));
+    cm_write(&c, 0, 5, 0xFF);
+    cm_write(&c, 3, 3, 0x05);
+
+    /* TxBRK: spacing; cleared, the waiting character is sent. */
+    cm_write(&c, 0, 3, 0x0D);
+    run(b, CM_BIT19200);
+    expect_pin(b, "TXD0", LOGIC_0, "TxBRK spacing");
+    cm_write(&c, 0, 0, 0x5A);
+    run(b, 2 * CM_BIT19200);
+    expect_pin(b, "TXD0", LOGIC_0, "the character waits during the break");
+    cm_write(&c, 0, 3, 0x05);
+    check(h_catch(b, "TXD0", CM_BIT19200, 0, 4 * CM_BIT19200, got) || get(b, "TXD0") == LOGIC_1,
+          "break cleared");
+    run(b, 12 * CM_BIT19200);
+    h_expect_sent(b, 0, 0x5A, "the waiting character went after the break");
+    /* Automatic echo: RXD to TXD; TxRDY cleared. */
+    cm_write(&c, 0, 3, 0x45);
+    set(b, "RXD0", LOGIC_0);
+    run(b, NS(500));
+    expect_pin(b, "TXD0", LOGIC_0, "automatic echo: TXD follows RXD");
+    set(b, "RXD0", LOGIC_1);
+    run(b, 12 * CM_BIT19200);
+    cm_expect(&c, 0, 1, "10000000", "echo: TxRDY and TxEMT cleared");
+    cm_read(&c, 0, 0, NULL);
+    /* Local loopback: TXD high, the receiver gets the transmitter. */
+    cm_write(&c, 0, 3, 0x85);
+    cm_write(&c, 0, 0, 0xA7);
+    run(b, CM_BIT19200);
+    expect_pin(b, "TXD0", LOGIC_1, "local loopback: TXD high");
+    run(b, 11 * CM_BIT19200);
+    cm_expect(&c, 0, 0, "10100111", "local loopback: received what was sent");
+    /* Remote loopback: RXD to TXD, RxEN and TxEN held cleared. */
+    cm_write(&c, 0, 3, 0xC5);
+    cm_expect(&c, 0, 3, "11000000", "remote loopback: TxEN and RxEN held cleared");
+    set(b, "RXD0", LOGIC_0);
+    run(b, NS(500));
+    expect_pin(b, "TXD0", LOGIC_0, "remote loopback: TXD follows RXD");
+    set(b, "RXD0", LOGIC_1);
+    cm_write(&c, 0, 3, 0x05);
+    run(b, 2 * CM_BIT19200);
+    /* Terminal on line 1. */
+    set(b, "RXD1", LOGIC_Z);
+    run(b, NS(100));
+    check(h_send(b, 1, "OK") == 1, "terminal send on line 1");
+    run(b, 22 * CM_BIT19200);
+    cm_expect(&c, 1, 0, "01001111", "terminal O");
+    cm_expect(&c, 1, 0, "01001011", "terminal K");
+    cm_write(&c, 1, 0, 'A');
+    run(b, 12 * CM_BIT19200);
+    h_expect_sent(b, 1, 'A', "line 1: A logged");
+    hb_close(h);
+
+    /* ---- COM78C802: 2 lines, ADD3 picks the line. ---- */
+    h = cm_open("SFX-COM78C802-dip40", 2, &c);
+    b = &h->b;
+    cm_setup(&c, 1, 0x27);
+    run(b, NS(5000));
+    expect_pin(b, "IRQ", LOGIC_0, "COM78C802: line 1 transmitter interrupt");
+    cm_expect(&c, 0, 4, "10000011", "COM78C802 summary: IRQ, line 1, Tx");
+    cm_write(&c, 1, 0, 0x99);
+    check(h_catch(b, "TXD1", CM_BIT19200, 9, 4 * CM_BIT19200, got), "COM78C802 line 1 frame");
+    h_frame_bits(0x99, 8, 0, 1, want);
+    h_expect_text(got, want, "COM78C802 line 1");
+    set(b, "DSR0", LOGIC_1);
+    run(b, NS(2000));
+    cm_expect(&c, 0, 5, "00000001", "COM78C802 Data Set Change Summary bit 0");
+    hb_close(h);
+
+    /* ---- COM78804: DS on two pins (DIP-48). ---- */
+    h = cm_open("SFX-COM78804-dip48", 4, &c);
+    b = &h->b;
+    cm_setup(&c, 2, 0x05);
+    cm_expect(&c, 2, 1, "10000001", "COM78804: both DS pins strobe");
+    /* The two DS pins disagree: the strobe is X, so a read drives X. */
+    cm_set_addr(&c, 2, 1);
+    set(b, "CS", LOGIC_0);
+    set(b, "DS", LOGIC_0);
+    run(b, NS(300));
+    h_get_bus(b, CM_DL, 8, text);
+    h_expect_text(text, "XXXXXXXX", "COM78804: DS pins that disagree read X");
+    set(b, "DS", LOGIC_1);
+    set(b, "CS", LOGIC_1);
+    run(b, NS(500));
+    case_end("H8 COM78C804/802/78804: MR pointer, per-line rates and formats, FIFO/ORR/FER/PER/RERR, scanner and summaries, DSCHNG, break, echo and loopbacks, 2-line variant, terminal");
+    hb_close(h);
+}
+
 int main(void) {
     library = part_library_create();
     if (load_parts_dir(library, PARTS_DIR) != 0 || load_serial_fixture(library) != 0 ||
@@ -2826,6 +3162,7 @@ int main(void) {
     case_h4_i8251();
     case_h6_acia6551();
     case_h7_hs82c52();
+    case_h8_com78c80x();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

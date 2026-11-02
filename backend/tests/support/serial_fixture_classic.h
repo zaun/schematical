@@ -320,6 +320,101 @@
     "e\":\"hd-6406.pdf p10 (bus); serial delays from 82c52.pdf p14\"}},\"parts\":[{\"name\":\"SFX-HD-6406-dip" \
     "40\",\"package\":\"DIP\",\"pinout\":\"dip40\",\"footprint\":\"PDIP-40-600\",\"grade\":\"5\"}]}"
 
+#define SFX_COM78C804 \
+    "{\"id\":\"SFX-COM78C804\",\"function\":\"UART\",\"description\":\"Four-channel universal asynchronous recei" \
+    "ver/transmitter\",\"drawer\":[\"Interface\"],\"note\":\"com78c804.pdf p1-14; plan-12-data/specs/classic-" \
+    "b.md § COM78C804\",\"pinouts\":{\"plcc44\":[{\"number\":1,\"name\":\"RXD2\",\"role\":\"input\"},{\"number\":2,\"na" \
+    "me\":\"DCD2\",\"role\":\"input\"},{\"number\":3,\"name\":\"DSR2\",\"role\":\"input\"},{\"number\":4,\"name\":\"TXD2\",\"" \
+    "role\":\"output\"},{\"number\":5,\"name\":\"DL7\",\"role\":\"inout\"},{\"number\":6,\"name\":\"DL6\",\"role\":\"inout\"" \
+    "},{\"number\":7,\"name\":\"DL5\",\"role\":\"inout\"},{\"number\":8,\"name\":\"DL4\",\"role\":\"inout\"},{\"number\":9," \
+    "\"name\":\"RDY\",\"role\":\"output\"},{\"number\":10,\"name\":\"RESET\",\"role\":\"input\"},{\"number\":11,\"name\":\"V" \
+    "SS0\",\"role\":\"ground\"},{\"number\":12,\"name\":\"CS\",\"role\":\"input\"},{\"number\":13,\"name\":\"WR\",\"role\":\"" \
+    "input\"},{\"number\":14,\"name\":\"DS\",\"role\":\"input\"},{\"number\":15,\"name\":\"DL3\",\"role\":\"inout\"},{\"num" \
+    "ber\":16,\"name\":\"DL2\",\"role\":\"inout\"},{\"number\":17,\"name\":\"DL1\",\"role\":\"inout\"},{\"number\":18,\"nam" \
+    "e\":\"DL0\",\"role\":\"inout\"},{\"number\":19,\"name\":\"TXD0\",\"role\":\"output\"},{\"number\":20,\"name\":\"DSR0\"," \
+    "\"role\":\"input\"},{\"number\":21,\"name\":\"DCD0\",\"role\":\"input\"},{\"number\":22,\"name\":\"RXD0\",\"role\":\"in" \
+    "put\"},{\"number\":23,\"name\":\"RXD1\",\"role\":\"input\"},{\"number\":24,\"name\":\"DCD1\",\"role\":\"input\"},{\"nu" \
+    "mber\":25,\"name\":\"DSR1\",\"role\":\"input\"},{\"number\":26,\"name\":\"TXD1\",\"role\":\"output\"},{\"number\":27," \
+    "\"name\":\"VSS2\",\"role\":\"ground\"},{\"number\":28,\"name\":\"VDD\",\"role\":\"power\"},{\"number\":29,\"name\":\"IR" \
+    "QLN0\",\"role\":\"output\"},{\"number\":30,\"name\":\"IRQLN1\",\"role\":\"output\"},{\"number\":31,\"name\":\"IRQTXR" \
+    "X\",\"role\":\"output\"},{\"number\":32,\"name\":\"IRQ\",\"role\":\"output\"},{\"number\":33,\"name\":\"ADD0\",\"role\"" \
+    ":\"input\"},{\"number\":34,\"name\":\"ADD1\",\"role\":\"input\"},{\"number\":35,\"name\":\"ADD2\",\"role\":\"input\"}," \
+    "{\"number\":36,\"name\":\"ADD3\",\"role\":\"input\"},{\"number\":37,\"name\":\"ADD4\",\"role\":\"input\"},{\"number\":" \
+    "38,\"name\":\"MRST\",\"role\":\"input\"},{\"number\":39,\"name\":\"CLK\",\"role\":\"input\"},{\"number\":40,\"name\":\"" \
+    "VSS1\",\"role\":\"ground\"},{\"number\":41,\"name\":\"TXD3\",\"role\":\"output\"},{\"number\":42,\"name\":\"DSR3\",\"r" \
+    "ole\":\"input\"},{\"number\":43,\"name\":\"DCD3\",\"role\":\"input\"},{\"number\":44,\"name\":\"RXD3\",\"role\":\"inpu" \
+    "t\"}]},\"model\":\"com78c80x\",\"bus\":{\"data\":[\"DL0\",\"DL1\",\"DL2\",\"DL3\",\"DL4\",\"DL5\",\"DL6\",\"DL7\"],\"addre" \
+    "ss\":[\"ADD0\",\"ADD1\",\"ADD2\",\"ADD3\",\"ADD4\"],\"select\":\"CS\",\"strobe\":\"DS\",\"write\":\"WR\",\"ready\":\"RDY\"," \
+    "\"reset\":\"RESET\"},\"clock\":\"CLK\",\"lines\":4,\"channels\":[{\"tx\":\"TXD0\",\"rx\":\"RXD0\",\"dsr\":\"DSR0\",\"dcd\"" \
+    ":\"DCD0\"},{\"tx\":\"TXD1\",\"rx\":\"RXD1\",\"dsr\":\"DSR1\",\"dcd\":\"DCD1\"},{\"tx\":\"TXD2\",\"rx\":\"RXD2\",\"dsr\":\"DSR" \
+    "2\",\"dcd\":\"DCD2\"},{\"tx\":\"TXD3\",\"rx\":\"RXD3\",\"dsr\":\"DSR3\",\"dcd\":\"DCD3\"}],\"interrupt\":{\"irq\":\"IRQ\",\"" \
+    "line\":[\"IRQLN0\",\"IRQLN1\"],\"txrx\":\"IRQTXRX\"},\"grades\":{\"X\":{\"tdd\":165,\"tddz\":65,\"tid\":635,\"trdl\":" \
+    "90,\"trdh\":210,\"vcc\":[4.75,5.25],\"note\":\"com78c804.pdf p12-13 (+5 V)\"}},\"parts\":[{\"name\":\"SFX-COM" \
+    "78C804-plcc44\",\"package\":\"PLCC\",\"pinout\":\"plcc44\",\"footprint\":\"PLCC-44\",\"grade\":\"X\"}]}"
+
+#define SFX_COM78C802 \
+    "{\"id\":\"SFX-COM78C802\",\"function\":\"UART\",\"description\":\"Two-channel universal asynchronous receiv" \
+    "er/transmitter\",\"drawer\":[\"Interface\"],\"note\":\"com78c802.pdf p1-14; plan-12-data/specs/classic-b" \
+    ".md § COM78C802\",\"pinouts\":{\"dip40\":[{\"number\":1,\"name\":\"DCD1\",\"role\":\"input\"},{\"number\":2,\"name" \
+    "\":\"RXD1\",\"role\":\"input\"},{\"number\":3,\"name\":\"NC\",\"role\":\"nc\"},{\"number\":4,\"name\":\"DL7\",\"role\":\"i" \
+    "nout\"},{\"number\":5,\"name\":\"DL6\",\"role\":\"inout\"},{\"number\":6,\"name\":\"DL5\",\"role\":\"inout\"},{\"numbe" \
+    "r\":7,\"name\":\"DL4\",\"role\":\"inout\"},{\"number\":8,\"name\":\"RDY\",\"role\":\"output\"},{\"number\":9,\"name\":\"" \
+    "RESET\",\"role\":\"input\"},{\"number\":10,\"name\":\"VSS0\",\"role\":\"ground\"},{\"number\":11,\"name\":\"CS\",\"rol" \
+    "e\":\"input\"},{\"number\":12,\"name\":\"WR\",\"role\":\"input\"},{\"number\":13,\"name\":\"DS\",\"role\":\"input\"},{\"" \
+    "number\":14,\"name\":\"DL3\",\"role\":\"inout\"},{\"number\":15,\"name\":\"DL2\",\"role\":\"inout\"},{\"number\":16,\"" \
+    "name\":\"DL1\",\"role\":\"inout\"},{\"number\":17,\"name\":\"DL0\",\"role\":\"inout\"},{\"number\":18,\"name\":\"NC\",\"" \
+    "role\":\"nc\"},{\"number\":19,\"name\":\"TXD0\",\"role\":\"output\"},{\"number\":20,\"name\":\"DSR0\",\"role\":\"input" \
+    "\"},{\"number\":21,\"name\":\"DCD0\",\"role\":\"input\"},{\"number\":22,\"name\":\"RXD0\",\"role\":\"input\"},{\"numbe" \
+    "r\":23,\"name\":\"NC\",\"role\":\"nc\"},{\"number\":24,\"name\":\"VSS2\",\"role\":\"ground\"},{\"number\":25,\"name\":\"" \
+    "VDD\",\"role\":\"power\"},{\"number\":26,\"name\":\"IRQLN0\",\"role\":\"output\"},{\"number\":27,\"name\":\"NC\",\"rol" \
+    "e\":\"nc\"},{\"number\":28,\"name\":\"IRQTXRX\",\"role\":\"output\"},{\"number\":29,\"name\":\"IRQ\",\"role\":\"output" \
+    "\"},{\"number\":30,\"name\":\"ADD0\",\"role\":\"input\"},{\"number\":31,\"name\":\"ADD1\",\"role\":\"input\"},{\"numbe" \
+    "r\":32,\"name\":\"ADD2\",\"role\":\"input\"},{\"number\":33,\"name\":\"ADD3\",\"role\":\"input\"},{\"number\":34,\"nam" \
+    "e\":\"MRST\",\"role\":\"input\"},{\"number\":35,\"name\":\"CLK\",\"role\":\"input\"},{\"number\":36,\"name\":\"VSS1\",\"" \
+    "role\":\"ground\"},{\"number\":37,\"name\":\"NC\",\"role\":\"nc\"},{\"number\":38,\"name\":\"NC\",\"role\":\"nc\"},{\"nu" \
+    "mber\":39,\"name\":\"TXD1\",\"role\":\"output\"},{\"number\":40,\"name\":\"DSR1\",\"role\":\"input\"}]},\"model\":\"co" \
+    "m78c80x\",\"bus\":{\"data\":[\"DL0\",\"DL1\",\"DL2\",\"DL3\",\"DL4\",\"DL5\",\"DL6\",\"DL7\"],\"address\":[\"ADD0\",\"ADD1" \
+    "\",\"ADD2\",\"ADD3\"],\"select\":\"CS\",\"strobe\":\"DS\",\"write\":\"WR\",\"ready\":\"RDY\",\"reset\":\"RESET\"},\"clock\"" \
+    ":\"CLK\",\"lines\":2,\"channels\":[{\"tx\":\"TXD0\",\"rx\":\"RXD0\",\"dsr\":\"DSR0\",\"dcd\":\"DCD0\"},{\"tx\":\"TXD1\",\"r" \
+    "x\":\"RXD1\",\"dsr\":\"DSR1\",\"dcd\":\"DCD1\"}],\"interrupt\":{\"irq\":\"IRQ\",\"line\":[\"IRQLN0\"],\"txrx\":\"IRQTXRX" \
+    "\"},\"grades\":{\"X\":{\"tdd\":165,\"tddz\":65,\"tid\":635,\"trdl\":90,\"trdh\":210,\"vcc\":[4.75,5.25],\"note\":\"c" \
+    "om78c802.pdf p12-13 (+5 V)\"}},\"parts\":[{\"name\":\"SFX-COM78C802-dip40\",\"package\":\"DIP\",\"pinout\":\"d" \
+    "ip40\",\"footprint\":\"PDIP-40-600\",\"grade\":\"X\"}]}"
+
+#define SFX_COM78804 \
+    "{\"id\":\"SFX-COM78804\",\"function\":\"UART\",\"description\":\"Four-channel universal asynchronous receiv" \
+    "er/transmitter\",\"drawer\":[\"Interface\"],\"note\":\"com78804.pdf p1-15; plan-12-data/specs/classic-b." \
+    "md § COM78804\",\"pinouts\":{\"dip48\":[{\"number\":1,\"name\":\"DCD2\",\"role\":\"input\"},{\"number\":2,\"name\":" \
+    "\"DSR2\",\"role\":\"input\"},{\"number\":3,\"name\":\"TXD2\",\"role\":\"output\"},{\"number\":4,\"name\":\"VDD\",\"role" \
+    "\":\"power\"},{\"number\":5,\"name\":\"DL7\",\"role\":\"inout\"},{\"number\":6,\"name\":\"DL6\",\"role\":\"inout\"},{\"n" \
+    "umber\":7,\"name\":\"DL5\",\"role\":\"inout\"},{\"number\":8,\"name\":\"DL4\",\"role\":\"inout\"},{\"number\":9,\"name" \
+    "\":\"RDY\",\"role\":\"output\"},{\"number\":10,\"name\":\"RESET\",\"role\":\"input\"},{\"number\":11,\"name\":\"VSS0\"," \
+    "\"role\":\"ground\"},{\"number\":12,\"name\":\"CS\",\"role\":\"input\"},{\"number\":13,\"name\":\"WR\",\"role\":\"input" \
+    "\"},{\"number\":14,\"name\":\"DS\",\"role\":\"input\"},{\"number\":15,\"name\":\"DL3\",\"role\":\"inout\"},{\"number\":" \
+    "16,\"name\":\"DL2\",\"role\":\"inout\"},{\"number\":17,\"name\":\"DL1\",\"role\":\"inout\"},{\"number\":18,\"name\":\"D" \
+    "L0\",\"role\":\"inout\"},{\"number\":19,\"name\":\"VDD\",\"role\":\"power\"},{\"number\":20,\"name\":\"TXD0\",\"role\":" \
+    "\"output\"},{\"number\":21,\"name\":\"DSR0\",\"role\":\"input\"},{\"number\":22,\"name\":\"DCD0\",\"role\":\"input\"}," \
+    "{\"number\":23,\"name\":\"RXD0\",\"role\":\"input\"},{\"number\":24,\"name\":\"RXD1\",\"role\":\"input\"},{\"number\":" \
+    "25,\"name\":\"DCD1\",\"role\":\"input\"},{\"number\":26,\"name\":\"DSR1\",\"role\":\"input\"},{\"number\":27,\"name\":" \
+    "\"TXD1\",\"role\":\"output\"},{\"number\":28,\"name\":\"VSS2\",\"role\":\"ground\"},{\"number\":29,\"name\":\"NC\",\"ro" \
+    "le\":\"nc\"},{\"number\":30,\"name\":\"VDD\",\"role\":\"power\"},{\"number\":31,\"name\":\"IRQLN0\",\"role\":\"output\"" \
+    "},{\"number\":32,\"name\":\"IRQLN1\",\"role\":\"output\"},{\"number\":33,\"name\":\"IRQTXRX\",\"role\":\"output\"},{" \
+    "\"number\":34,\"name\":\"IRQ\",\"role\":\"output\"},{\"number\":35,\"name\":\"ADD0\",\"role\":\"input\"},{\"number\":3" \
+    "6,\"name\":\"ADD1\",\"role\":\"input\"},{\"number\":37,\"name\":\"ADD2\",\"role\":\"input\"},{\"number\":38,\"name\":\"" \
+    "DS\",\"role\":\"input\"},{\"number\":39,\"name\":\"ADD3\",\"role\":\"input\"},{\"number\":40,\"name\":\"ADD4\",\"role\"" \
+    ":\"input\"},{\"number\":41,\"name\":\"MRST\",\"role\":\"input\"},{\"number\":42,\"name\":\"CLK\",\"role\":\"input\"},{" \
+    "\"number\":43,\"name\":\"VSS1\",\"role\":\"ground\"},{\"number\":44,\"name\":\"TXD3\",\"role\":\"output\"},{\"number\"" \
+    ":45,\"name\":\"DSR3\",\"role\":\"input\"},{\"number\":46,\"name\":\"DCD3\",\"role\":\"input\"},{\"number\":47,\"name\"" \
+    ":\"RXD3\",\"role\":\"input\"},{\"number\":48,\"name\":\"RXD2\",\"role\":\"input\"}]},\"model\":\"com78c80x\",\"bus\":{" \
+    "\"data\":[\"DL0\",\"DL1\",\"DL2\",\"DL3\",\"DL4\",\"DL5\",\"DL6\",\"DL7\"],\"address\":[\"ADD0\",\"ADD1\",\"ADD2\",\"ADD3\"," \
+    "\"ADD4\"],\"select\":\"CS\",\"strobe\":\"DS\",\"write\":\"WR\",\"ready\":\"RDY\",\"reset\":\"RESET\"},\"clock\":\"CLK\",\"l" \
+    "ines\":4,\"channels\":[{\"tx\":\"TXD0\",\"rx\":\"RXD0\",\"dsr\":\"DSR0\",\"dcd\":\"DCD0\"},{\"tx\":\"TXD1\",\"rx\":\"RXD1\"" \
+    ",\"dsr\":\"DSR1\",\"dcd\":\"DCD1\"},{\"tx\":\"TXD2\",\"rx\":\"RXD2\",\"dsr\":\"DSR2\",\"dcd\":\"DCD2\"},{\"tx\":\"TXD3\",\"rx" \
+    "\":\"RXD3\",\"dsr\":\"DSR3\",\"dcd\":\"DCD3\"}],\"interrupt\":{\"irq\":\"IRQ\",\"line\":[\"IRQLN0\",\"IRQLN1\"],\"txrx\":" \
+    "\"IRQTXRX\"},\"grades\":{\"X\":{\"tdd\":165,\"tddz\":65,\"tid\":635,\"trdl\":90,\"trdh\":210,\"vcc\":[4.75,5.25],\"" \
+    "note\":\"com78804.pdf p12-13 (+5 V; tDSU 0 ns)\"}},\"parts\":[{\"name\":\"SFX-COM78804-dip48\",\"package\":" \
+    "\"DIP\",\"pinout\":\"dip48\",\"footprint\":\"SSOP-48\",\"grade\":\"X\"}]}"
+
 static const char SERIAL_FIXTURE_CLASSIC[] =
     "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"serial\",\"devices\":["
     SFX_AY_5_1013A ","
@@ -330,7 +425,10 @@ static const char SERIAL_FIXTURE_CLASSIC[] =
     SFX_8251A ","
     SFX_CDP65C51 ","
     SFX_82C52 ","
-    SFX_HD_6406
+    SFX_HD_6406 ","
+    SFX_COM78C804 ","
+    SFX_COM78C802 ","
+    SFX_COM78804
     "]}";
 
 /* Loads the classic fixture devices into a library that has footprints.json. */
