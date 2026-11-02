@@ -39,6 +39,12 @@ static const char *const KEYS[] = {
     "prescaler", "lsrErrors", "mcrReset", "xonReset", "tcrNeedsDlab0", "dlabHidesUpper",
     "idRegs", "timeoutDelay", "divisorZero", "printerPort", "tristate", "absentTies",
     "optionalPins", "sprPowerUp", "dmaMode1", "lsrClearOnGood", "breakMarkTicks",
+    /* plan-12-E (ns16550_exar.c) */
+    "triggerTables", "fifoCounters", "dld", "sampling", "xonAny", "powerSave", "mfPins",
+    "startSample", "thrIntClear", "isrStatus", "resetOut", "divisorPowerUp", "sleepNeedsDivisor",
+    "wakeIndicator", "mcr2Enhanced", "xonWriteOnly", "autoFlowLoopback", "lsrBreakHold",
+    "statusWrite", "dlabHidesStatus", "fstat", "dmaHost", "chcClock", "interrupt", "timer",
+    "variant5g", "irdaStrap",
     NULL
 };
 static const char *const CHANNEL_KEYS[] = {
@@ -46,7 +52,8 @@ static const char *const CHANNEL_KEYS[] = {
     NULL
 };
 /* Keys of a channel object besides its pins. */
-static const char *const CHANNEL_EXTRA_KEYS[] = {"select", "selectHigh", "op", "mf", NULL};
+static const char *const CHANNEL_EXTRA_KEYS[] = {"select", "selectHigh", "op", "mf",
+                                                 "bclk", "irtx" /* plan-12-E */, NULL};
 
 
 const ChannelPin MODEM_PIN[4] = {CH_CTS, CH_DSR, CH_RI, CH_DCD};
@@ -95,6 +102,9 @@ static void update_format(NsChannel *c) {
     f.check_both_stops = c->owner->dev->stop_both;
     f.mark_ticks = c->owner->dev->break_mark_ticks;
     f.factor = ns_ext_factor(c);
+    if (c->owner->dev->x != NULL) {
+        f.sample = ns_x_start_sample(c, f.factor);   /* plan-12-E */
+    }
     c->format = f;
 }
 
@@ -157,7 +167,8 @@ void ns_set_thre(NsChannel *c) {
     c->thre = 1;
     c->thre_wait = 0;
     /* With a TX trigger the THR interrupt comes at the trigger, not at empty. */
-    if (ns_ext_tx_threshold(c) == 0) {
+    if (ns_ext_tx_threshold(c) == 0 ||
+        (c->owner->dev->x != NULL && ns_x_thre_at_empty(c))) {   /* plan-12-E */
         c->thre_int = 1;
     }
     c->two_seen = 0;
@@ -192,6 +203,7 @@ static unsigned tx_free(const NsChannel *c) {
 /* Each source: pending AND enabled, as 0 / 1 / X. */
 typedef struct {
     LogicValue ls, rda, timeout, thre, modem, xoff, ctsrts;
+    LogicValue wake;   /* plan-12-E: the wake-up indicator (INT only; IIR reads none) */
 } Sources;
 
 static LogicValue any_bits(uint8_t v, uint8_t k, uint8_t mask) {
@@ -227,6 +239,10 @@ static Sources sources(const NsChannel *c) {
     r.modem = and3(any_bits(c->delta, c->delta_k, 0x0F), bit_of(c->ier, 3));
     r.xoff = ns_ext_xoff_source(c);
     r.ctsrts = ns_ext_ctsrts_source(c);
+    r.wake = LOGIC_0;
+    if (d->x != NULL) {
+        ns_x_sources(c, &r.ls, &r.rda, &r.thre, &r.wake);   /* plan-12-E */
+    }
     return r;
 }
 
@@ -235,7 +251,8 @@ static void iir_of(const NsChannel *c, uint8_t *v, uint8_t *k) {
     Sources s = sources(c);
     /* Standard: RX data (trigger reached) above the timeout; nxpEqual: one
        level, shown as the timeout while one is pending. */
-    int timeout_first = c->owner->dev->iir_priority == IIR_NXP_EQUAL;
+    int timeout_first = c->owner->dev->iir_priority == IIR_NXP_EQUAL ||
+                        c->owner->dev->iir_priority == IIR_EXAR_TIMEOUT_FIRST;   /* plan-12-E */
     const LogicValue order[7] = {s.ls, timeout_first ? s.timeout : s.rda,
                                  timeout_first ? s.rda : s.timeout, s.thre, s.modem, s.xoff,
                                  s.ctsrts};
@@ -264,13 +281,21 @@ static void iir_of(const NsChannel *c, uint8_t *v, uint8_t *k) {
     if (c->fifo_x) {
         *k &= (uint8_t)~0xC0;
     }
+    if (c->owner->dev->x != NULL) {
+        ns_x_iir(c, v, k);   /* plan-12-E: ST16C1450/1550 ISR[5:4] */
+    }
 }
 
 static LogicValue int_level(const NsChannel *c) {
     Sources s = sources(c);
 
     return or3(or3(or3(s.ls, s.rda), or3(s.timeout, s.thre)),
-               or3(s.modem, or3(s.xoff, s.ctsrts)));
+               or3(or3(s.modem, s.wake), or3(s.xoff, s.ctsrts)));
+}
+
+/* plan-12-E: the interrupt level, for ns16550_exar.c. */
+LogicValue ns_int_level(const NsChannel *c) {
+    return int_level(c);
 }
 
 void ns_iir_now(const NsChannel *c, uint8_t *v, uint8_t *k) {
@@ -322,7 +347,11 @@ static LogicValue txrdy_level(const NsChannel *c, int mode1) {
 static LogicValue int_pin_level(const NsState *s, const NsChannel *c, LogicValue level) {
     LogicValue out2 = bit_of(c->mcr, 3);
     LogicValue enable;
+    LogicValue x_out;
 
+    if ((s->dev->x != NULL || s->xs.part != NULL) && ns_x_int_pin(s, c, level, &x_out)) {
+        return x_out;   /* plan-12-E: Motorola IRQ, 5G INT, part "intPin" */
+    }
     switch (s->dev->int_pin) {
         case INT_DRIVEN:
             return level;
@@ -389,6 +418,9 @@ static void update_channel_outputs(NsState *s, NsChannel *c, Cause cause) {
                 ns_drive(s, pin[i], LOGIC_X, 0);
             }
         }
+        if (s->dev->x != NULL) {
+            ns_x_device_pins(s, cause);   /* plan-12-E */
+        }
         return;
     }
     if (s->in_reset) {
@@ -401,6 +433,9 @@ static void update_channel_outputs(NsState *s, NsChannel *c, Cause cause) {
         /* decisions.md (TL16C554, P3): RXRDY and TXRDY inactive during reset. */
         ns_drive(s, pin[CH_RXRDY], LOGIC_1, 0);
         ns_drive(s, pin[CH_TXRDY], LOGIC_1, 0);
+        if (s->dev->x != NULL) {
+            ns_x_device_pins(s, cause);   /* plan-12-E */
+        }
         return;
     }
 
@@ -435,6 +470,8 @@ static void update_channel_outputs(NsState *s, NsChannel *c, Cause cause) {
                 level = ns_ext_dtr(c, level);
             } else if (i == 1) {
                 level = ns_ext_rts(c, level);
+            } else if (i == 2 && s->dev->x != NULL) {
+                level = ns_x_out1(c, level);   /* plan-12-E: XR16C864 OP1 RS-485 */
             }
             level = or3(level, loop);
             ns_drive(s, pin[OUT_PIN[i]], level, modem_delay);
@@ -448,8 +485,14 @@ static void update_channel_outputs(NsState *s, NsChannel *c, Cause cause) {
     /* RXRDY / TXRDY (active low). */
     rxrdy = rxrdy_level(c, mode1);
     txrdy = txrdy_level(c, mode1);
+    if (s->dev->x != NULL) {
+        ns_x_dma_pins(c, &rxrdy, &txrdy);   /* plan-12-E: XR16C864 DRQ */
+    }
     ns_drive(s, pin[CH_RXRDY], rxrdy, rxrdy_delay);
     ns_drive(s, pin[CH_TXRDY], txrdy, txrdy_delay);
+    if (s->dev->x != NULL) {
+        ns_x_device_pins(s, cause);   /* plan-12-E: IRQ/INT#, RST, FSTAT */
+    }
 }
 
 /* Shared DMA pins (TL16C554: the channels' active-low signals ANDed;
@@ -506,7 +549,9 @@ void ns_update_channel(NsState *s, NsChannel *c, Cause cause) {
 static void update_dma_latches(NsChannel *c) {
     if (c->rx_count == 0) {
         c->rxrdy1 = 0;
-    } else if (c->rx_count >= rx_trigger_level(c) || c->timeout) {
+    } else if (c->rx_count >= (c->owner->dev->x != NULL ? (unsigned)ns_rx_level(c)
+                                                        : rx_trigger_level(c)) ||   /* plan-12-E */
+               c->timeout) {
         c->rxrdy1 = 1;
     }
     if (c->tx_count == 0) {
@@ -661,6 +706,9 @@ static void deliver_char(NsChannel *c, const SerialRxChar *rc) {
     }
     if (c->fifo_on && char_has_error(rc)) {
         c->lsr7 = 1;
+        if (c->owner->dev->x != NULL) {
+            ns_x_error_in(c);   /* plan-12-E */
+        }
     }
 }
 
@@ -811,6 +859,9 @@ static void tx_tick(NsState *s, NsChannel *c) {
             c->rs485_on = 0;
         }
     }
+    if (s->dev->x != NULL) {
+        ns_x_tick(s, c);   /* plan-12-E: RS-485 turnaround, Xoff delay, DMA requests */
+    }
     ns_ext_levels(s, c);
     update_dma_latches(c);
     update_channel_outputs(s, c, CAUSE_SERIAL);
@@ -926,6 +977,9 @@ static Cause reg_read_done(NsChannel *c, unsigned address) {
 
     /* A register of the enhanced banks: no core side effects. */
     if (ns_ext_peek(c, address, &ext_v, &ext_k)) {
+        if (c->owner->dev->x != NULL) {
+            ns_x_read_done(c, address);   /* plan-12-E */
+        }
         return CAUSE_WRITE;
     }
     switch (address & 7u) {
@@ -952,7 +1006,9 @@ static Cause reg_read_done(NsChannel *c, unsigned address) {
                     }
                 }
             }
-            c->timeout = 0;
+            if (c->owner->dev->x == NULL || !ns_x_timeout_holds(c)) {   /* plan-12-E */
+                c->timeout = 0;
+            }
             c->idle_ticks = 0;
             update_dma_latches(c);
             return CAUSE_RBR_READ;
@@ -994,6 +1050,9 @@ static Cause reg_read_done(NsChannel *c, unsigned address) {
             if (c->owner->dev->lsr_head && c->rx_count > 0 &&
                 char_has_error(&c->rx[c->rx_head])) {
                 c->lsr7 = 1;
+            }
+            if (c->owner->dev->x != NULL) {
+                ns_x_lsr_read(c);   /* plan-12-E: break hold, 5G new-error interrupt */
             }
             ns_ext_status_read(c, 0);
             return CAUSE_LSR_READ;
@@ -1093,6 +1152,9 @@ static void write_mcr(NsState *s, NsChannel *c, uint8_t data, uint8_t known) {
 
     c->mcr = (Reg){(uint8_t)((c->mcr.v & ~mask) | (data & mask)),
                    (uint8_t)((c->mcr.k & ~mask) | (known & mask))};
+    if (s->dev->x != NULL) {
+        ns_x_mcr_written(c, mask);   /* plan-12-E: prescaler override, send-immediate */
+    }
     if (s->dev->prescaler != PRESCALE_NONE) {
         load_divisor(c);
     }
@@ -1199,11 +1261,16 @@ static LogicValue bus_select(void *context, const Sim *sim, const SimInstance *i
                                        bp->select_high_count);
     unsigned i;
 
+    LogicValue x_result;
+
     (void)sim;
     (void)instance;
     (void)address;
     (void)address_known;
     *units = 1;
+    if (d->x != NULL && ns_x_select(s, address, address_known, units, &x_result)) {
+        return x_result;   /* plan-12-E: Motorola, PowerSave, 5G map, FSTAT, DMA */
+    }
     if (d->lpt != NULL) {
         LogicValue port = not3(serial_level(s->sim, s->instance, s->pins->lpt->select, LOGIC_1));
         LogicValue uart = common;
@@ -1279,6 +1346,9 @@ static void bus_peek(void *context, unsigned unit, unsigned address, uint8_t *da
     if (s->unknown) {
         return;
     }
+    if (s->dev->x != NULL && ns_x_unit_peek(s, unit, address, data, known)) {
+        return;   /* plan-12-E */
+    }
     if (unit == s->dev->channel_count && s->lpt != NULL) {
         ns_lpt_peek(s, address, data, known);
         return;
@@ -1294,6 +1364,9 @@ static void bus_read_done(void *context, unsigned unit, unsigned address) {
 
     if (s->unknown) {
         return;
+    }
+    if (s->dev->x != NULL && ns_x_unit_read_done(s, unit, address)) {
+        return;   /* plan-12-E */
     }
     if (unit == s->dev->channel_count && s->lpt != NULL) {
         ns_lpt_read_done(s, address);
@@ -1317,6 +1390,9 @@ static void bus_write(void *context, unsigned unit, unsigned address, uint8_t da
     if (s->unknown) {
         return;
     }
+    if (s->dev->x != NULL && ns_x_unit_write(s, unit, address, data, known)) {
+        return;   /* plan-12-E */
+    }
     if (unit == s->dev->channel_count && s->lpt != NULL) {
         ns_lpt_write(s, address, data, known);
         return;
@@ -1325,7 +1401,8 @@ static void bus_write(void *context, unsigned unit, unsigned address, uint8_t da
         return;
     }
     /* AFR concurrent write: every channel takes it. */
-    if (s->dev->afr != AFR_NONE && s->conc) {
+    if (s->dev->afr != AFR_NONE &&
+        (s->dev->x != NULL ? ns_x_conc(s, unit) : s->conc)) {   /* plan-12-E */
         for (i = 0; i < s->dev->channel_count; i++) {
             cause = reg_write(s, &s->ch[i], address, data, known);
             update_channel_outputs(s, &s->ch[i], cause);
@@ -1341,13 +1418,14 @@ static void bus_write(void *context, unsigned unit, unsigned address, uint8_t da
 /* ---- Engine callbacks ----------------------------------------------------------------------------- */
 
 static LogicValue reset_level(const NsState *s) {
-    LogicValue inactive = s->dev->reset_active_high ? LOGIC_0 : LOGIC_1;
+    int high = s->dev->x != NULL ? ns_x_reset_active_high(s) : s->dev->reset_active_high;   /* plan-12-E */
+    LogicValue inactive = high ? LOGIC_0 : LOGIC_1;
     LogicValue v = serial_level(s->sim, s->instance, s->pins->reset, inactive);
 
     if (v == LOGIC_X) {
         return LOGIC_X;
     }
-    return bool3(v == (s->dev->reset_active_high ? LOGIC_1 : LOGIC_0));
+    return bool3(v == (high ? LOGIC_1 : LOGIC_0));
 }
 
 static void apply_reset(NsState *s) {
@@ -1395,10 +1473,17 @@ static void clock_edge(NsState *s, LogicValue level) {
         s->bus_dirty = 0;
         serial_bus_update(&s->bus, s->sim, s->instance, &s->events);
     }
+    if (s->dev->x != NULL) {
+        ns_x_clock_edge(s, rising);   /* plan-12-E: the 5G timer */
+    }
     for (i = 0; i < s->dev->channel_count; i++) {
         NsChannel *c = &s->ch[i];
         int tick = 0;
         LogicValue baudout;
+
+        if (s->dev->x != NULL && ns_x_own_clock(s, i)) {
+            continue;   /* plan-12-E: CHCCLK clocks this channel */
+        }
 
         if (ns_ext_prescale(s, c, rising) || (!rising && !c->asleep &&
                                               !(s->dev->prescaler != PRESCALE_NONE &&
@@ -1415,6 +1500,9 @@ static void clock_edge(NsState *s, LogicValue level) {
             s->out[s->pins->mf[i]] = baudout;
             sim_schedule_drive(s->sim, s->instance, s->pins->mf[i], s->tri ? LOGIC_Z : baudout,
                                DRIVE_STRONG, t_of(s, T_BLD));
+        }
+        if (s->dev->x != NULL) {
+            ns_x_clock_out(s, c, baudout);   /* plan-12-E: BCLK pins */
         }
         if (tick) {
             tx_tick(s, c);
@@ -1455,6 +1543,9 @@ static void ns_start(Sim *sim, SimInstance *instance, void *raw) {
     s->receive_level = serial_level(sim, instance, s->pins->receive, LOGIC_X);
     drive_baudout(s, s->ch[0].baud.baudout, 0);
     s->tri = serial_level(sim, instance, s->pins->tri, LOGIC_0) == LOGIC_1;
+    if (s->dev->x != NULL) {
+        ns_x_start(s);   /* plan-12-E: bus mode, own clocks */
+    }
     serial_bus_start(&s->bus, sim, instance, &s->events);
     apply_reset(s);
 }
@@ -1468,6 +1559,9 @@ static int is_select_pin(const NsState *s, size_t pin) {
     }
     if (pin == s->pins->channel_pin || (s->pins->lpt != NULL && pin == s->pins->lpt->select)) {
         return 1;
+    }
+    if (s->dev->x != NULL && ns_x_is_select_pin(s, pin)) {
+        return 1;   /* plan-12-E */
     }
     for (i = 0; i < s->dev->channel_count; i++) {
         for (k = 0; k < s->dev->chan_select_count[i]; k++) {
@@ -1497,6 +1591,9 @@ static void ns_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t pi
     if (pin == s->pins->reset) {
         apply_reset(s);
         return;
+    }
+    if (s->dev->x != NULL && ns_x_pin_changed(s, pin)) {
+        apply_reset(s);   /* plan-12-E: the bus mode changed the reset polarity */
     }
     if (pin == s->pins->clock_in) {
         clock_edge(s, serial_level(sim, instance, pin, LOGIC_X));
@@ -1551,6 +1648,32 @@ static void ns_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t pi
     }
 }
 
+/* ---- plan-12-E: core entry points for ns16550_exar.c ------------------------------------------ */
+
+void ns_reg_peek(NsChannel *c, unsigned address, uint8_t *v, uint8_t *k) {
+    reg_peek(c, address, v, k);
+}
+
+Cause ns_reg_read_done(NsChannel *c, unsigned address) {
+    return reg_read_done(c, address);
+}
+
+Cause ns_reg_write(NsState *s, NsChannel *c, unsigned address, uint8_t v, uint8_t k) {
+    return reg_write(s, c, address, v, k);
+}
+
+void ns_reset_channel(NsState *s, NsChannel *c) {
+    reset_channel(s, c, 0);
+}
+
+void ns_tx_tick(NsState *s, NsChannel *c) {
+    tx_tick(s, c);
+}
+
+void ns_rx_tick(NsState *s, NsChannel *c) {
+    rx_tick(s, c);
+}
+
 /* ---- Terminal ---------------------------------------------------------------------------------- */
 
 static unsigned ns_channels(const void *raw) {
@@ -1570,7 +1693,8 @@ static int ns_async(const void *raw, unsigned channel) {
 /* ---- Create / destroy ------------------------------------------------------------------------------ */
 
 static int d_needs_select(const NsDevice *d) {
-    return d->channel_pin != NULL || d->per_channel_select || d->lpt != NULL;
+    return d->channel_pin != NULL || d->per_channel_select || d->lpt != NULL ||
+           (d->x != NULL && ns_x_needs_select(d));   /* plan-12-E */
 }
 
 static void *ns_create(const Part *part, const void *data, const void *pins,
@@ -1578,10 +1702,10 @@ static void *ns_create(const Part *part, const void *data, const void *pins,
     NsState *s = calloc(1, sizeof *s);
     unsigned i;
 
-    (void)options;
     if (s == NULL) {
         return NULL;
     }
+    s->xs.part = options;   /* plan-12-E: the part's "intPin" */
     s->base.model = &NS16550_MODEL;
     s->part = part;
     s->dev = data;
@@ -1676,6 +1800,8 @@ static int load_bus(KindContext *ctx, const cJSON *json, NsDevice *d) {
     static const char *const BUS_KEYS[] = {
         "style", "data", "address", "read", "readHigh", "write", "writeHigh", "select",
         "selectHigh", "addressStrobe", "driverDisable", "selectOut", "reset", "resetActiveHigh",
+        /* plan-12-E: "intel-motorola" */
+        "modePin", "rw", "strobe", "channelBits", "irq", "irqOthers",
         NULL
     };
     const cJSON *bus = kind_member(ctx, json, "bus", 1);
@@ -1689,8 +1815,8 @@ static int load_bus(KindContext *ctx, const cJSON *json, NsDevice *d) {
     if (kind_check_keys(ctx, bus, BUS_KEYS, NULL) != 0 || kind_string(ctx, bus, "style", &style) != 0) {
         return -1;
     }
-    if (strcmp(style, "intel") != 0) {
-        return kind_error(ctx, "unknown bus style \"%s\"", style);
+    if (strcmp(style, "intel") != 0 && ns_x_load_bus(ctx, bus, d, style) != 0) {   /* plan-12-E */
+        return -1;
     }
     if (load_name_list(ctx, bus, "data", 1, d->data, SERIAL_BUS_DATA, &n, SERIAL_BUS_DATA) != 0 ||
         load_name_list(ctx, bus, "address", 1, d->address, SERIAL_BUS_ADDRESS, &d->address_count,
@@ -1708,8 +1834,8 @@ static int load_bus(KindContext *ctx, const cJSON *json, NsDevice *d) {
         serial_optional_name(ctx, bus, "reset", &d->reset) != 0) {
         return -1;
     }
-    if (d->address_count != 3) {
-        return kind_error(ctx, "\"address\" needs exactly 3 pin names");
+    if (d->address_count != 3 && d->address_count != 8) {
+        return kind_error(ctx, "\"address\" needs 3 pin names (8 for \"5g\")");   /* plan-12-E */
     }
     if (d->read == NULL && d->read_high == NULL) {
         return kind_error(ctx, "a bus needs \"read\" or \"readHigh\"");
@@ -1800,7 +1926,8 @@ static int load_channels(KindContext *ctx, const cJSON *json, NsDevice *d) {
             return kind_error(ctx, "a channel needs \"tx\" and \"rx\"");
         }
         if (serial_optional_name(ctx, item, "op", &d->op[n]) != 0 ||
-            serial_optional_name(ctx, item, "mf", &d->mf[n]) != 0) {
+            serial_optional_name(ctx, item, "mf", &d->mf[n]) != 0 ||
+            ns_x_load_channel(ctx, item, d, n) != 0) {   /* plan-12-E: "bclk", "irtx" */
             return -1;
         }
         if (load_name_list(ctx, item, "select", 0, d->chan_select[n], SERIAL_BUS_SELECTS,
@@ -2019,15 +2146,24 @@ static int load_absent(KindContext *ctx, const cJSON *json, NsDevice *d) {
 
 /* The plan-12-D Phase 2 keys. */
 static int load_phase2(KindContext *ctx, const cJSON *json, NsDevice *d) {
-    static const char *const EXTENDED[] = {"none", "afe", "750", "650", "752", "nsEfr", NULL};
-    static const char *const AFRS[] = {"none", "ti752", "ti2552", "ns", NULL};
-    static const char *const FLOWS[] = {"none", "afe", "tcr", "efrTable", NULL};
-    static const char *const SWFLOWS[] = {"none", "nxpAnd", "tiAnd", NULL};
+    static const char *const EXTENDED[] = {"none", "afe", "750", "650", "752", "nsEfr",
+                                            /* plan-12-E */ "ier5", "exar650", "exar854",
+                                            "m752", "5g", NULL};
+    static const char *const AFRS[] = {"none", "ti752", "ti2552", "ns", "exar" /* plan-12-E */, NULL};
+    static const char *const FLOWS[] = {"none", "afe", "tcr", "efrTable",
+                                         "exarTable", "dtrDsr" /* plan-12-E */, NULL};
+    static const char *const SWFLOWS[] = {"none", "nxpAnd", "tiAnd", "exarOr" /* plan-12-E */, NULL};
     static const char *const CLEARS[] = {"iir", "lsr", "msr", "iirOrMsr", NULL};
-    static const char *const SLEEPS[] = {"none", "ier4", "ier4-all", NULL};
-    static const char *const IRDAS[] = {"none", "mcr6", "afr1", NULL};
-    static const char *const RS485S[] = {"none", "afr-dtr", NULL};
-    static const char *const PRESCALERS[] = {"none", "mcr7", "mcr7-clksel", NULL};
+    static const char *const SLEEPS[] = {"none", "ier4", "ier4-all",
+                                          /* plan-12-E */ "ier4-exar", "ier4-exar-all", "global",
+                                          NULL};
+    static const char *const IRDAS[] = {"none", "mcr6", "afr1", "mcr6-exar", "dld7" /* plan-12-E */,
+                                         NULL};
+    static const char *const RS485S[] = {"none", "afr-dtr",
+                                          /* plan-12-E */ "fctr-rts", "fctr-mcr2", "dld6",
+                                          "fctr3-op1", NULL};
+    static const char *const PRESCALERS[] = {"none", "mcr7", "mcr7-clksel", "clksel" /* plan-12-E */,
+                                              NULL};
     static const char *const LSR_ERRORS[] = {"sticky", "head", NULL};
     int choice;
     int value;
@@ -2087,8 +2223,9 @@ static int load_phase2(KindContext *ctx, const cJSON *json, NsDevice *d) {
         return -1;
     }
     d->prescaler = (NsPrescaler)choice;
-    if ((d->prescaler == PRESCALE_MCR7_CLKSEL) != (d->clock_select != NULL)) {
-        return kind_error(ctx, "\"mcr7-clksel\" needs \"clock\".\"select\" (and only it)");
+    if ((d->prescaler == PRESCALE_MCR7_CLKSEL || d->prescaler == PRESCALE_CLKSEL) !=   /* plan-12-E */
+        (d->clock_select != NULL)) {
+        return kind_error(ctx, "\"mcr7-clksel\" and \"clksel\" need \"clock\".\"select\" (and only they)");
     }
     if (load_choice(ctx, json, "lsrErrors", LSR_ERRORS, 0, &choice) != 0) {
         return -1;
@@ -2169,9 +2306,11 @@ static void *ns_load_device(KindContext *ctx, const cJSON *json, unsigned *chann
     };
     static const char *const DMA_CLASSES[] = {"P", "N", "T", "X", "B", NULL};
     static const char *const DMA_PINS[] = {"perChannel", "sharedAnd", "sharedWireOr", NULL};
-    static const char *const BROADCASTS[] = {"none", "multi-cs", "afr-conc", NULL};
+    static const char *const BROADCASTS[] = {"none", "multi-cs", "afr-conc",
+                                              "afr0-perChannel" /* plan-12-E */, NULL};
     static const char *const TIMEOUTS[] = {"4ch", "4w12", NULL};
-    static const char *const PRIORITIES[] = {"standard", "nxpEqual", NULL};
+    static const char *const PRIORITIES[] = {"standard", "nxpEqual",
+                                              "exarTimeoutFirst" /* plan-12-E */, NULL};
     static const char *const LSR7[] = {"noErrors", "lsrRead", NULL};
     static const char *const STOPS[] = {"first", "both", NULL};
     NsDevice *d = kind_alloc(ctx, sizeof *d);
@@ -2275,7 +2414,8 @@ static void *ns_load_device(KindContext *ctx, const cJSON *json, unsigned *chann
             return NULL;
         }
     }
-    if (d->channel_count > 1 && !d->per_channel_select && d->channel_pin == NULL) {
+    if (d->channel_count > 1 && !d->per_channel_select && d->channel_pin == NULL &&
+        d->address_count != 8) {   /* plan-12-E: the 5G map decodes A6..A4 */
         kind_error(ctx, "more than one channel needs per-channel selects or \"channelSelect\"");
         return NULL;
     }
@@ -2309,7 +2449,7 @@ static void *ns_load_device(KindContext *ctx, const cJSON *json, unsigned *chann
         load_optional_bool(ctx, json, "majorityVote", &d->majority) != 0) {
         return NULL;
     }
-    if (load_phase2(ctx, json, d) != 0) {
+    if (load_phase2(ctx, json, d) != 0 || ns_x_load(ctx, json, d) != 0) {   /* plan-12-E */
         return NULL;
     }
     *channels = d->channel_count;
@@ -2454,12 +2594,17 @@ static void *ns_bind(KindContext *ctx, const void *raw, const PartPin *pins, siz
         }
         p->lpt = lp;
     }
+    if (d->x != NULL && ns_x_bind(ctx, d, pins, pin_count, p, &d->absent) != 0) {
+        return NULL;   /* plan-12-E */
+    }
     return p;
 }
 
+static const char *const PART_KEYS[] = {"intPin" /* plan-12-E */, NULL};
+
 const SerialModel NS16550_MODEL = {
-    "ns16550", KEYS, TIMING, NULL,
-    ns_load_device, ns_bind, NULL, NULL,
+    "ns16550", KEYS, TIMING, PART_KEYS,
+    ns_load_device, ns_bind, ns_x_load_part, ns_x_open_drain,
     ns_create, ns_destroy, ns_start, ns_pin_changed, NULL,
     ns_channels, ns_line, ns_async
 };

@@ -36,13 +36,21 @@ static const char *const DEVICE_KEYS[] = {
     "prescaler", "lsrErrors", "mcrReset", "xonReset", "tcrNeedsDlab0", "dlabHidesUpper",
     "idRegs", "timeoutDelay", "divisorZero", "printerPort", "tristate", "absentTies",
     "optionalPins", "sprPowerUp", "dmaMode1", "lsrClearOnGood", "breakMarkTicks",
+    /* ns16550, plan-12-E */
+    "triggerTables", "fifoCounters", "dld", "sampling", "xonAny", "powerSave", "mfPins",
+    "startSample", "thrIntClear", "isrStatus", "resetOut", "divisorPowerUp", "sleepNeedsDivisor",
+    "wakeIndicator", "mcr2Enhanced", "xonWriteOnly", "autoFlowLoopback", "lsrBreakHold",
+    "statusWrite", "dlabHidesStatus", "fstat", "dmaHost", "chcClock", "timer", "variant5g",
+    "irdaStrap",
     /* max3100, max310x (plan-12-J) */
     "shutdown", "testMode", "transceiver", "variant", "reset", "interrupt", "gpio",
     NULL
 };
 enum { FIRST_MODEL_KEY = 2 };
 
-static const char *const PART_KEYS[] = {"grade", "vcc", "inputMax", NULL};
+/* Every part key: the common ones, then the union of every model's part keys
+   (plan-12-E: ns16550 "intPin", the D variants' always-driven INT). */
+static const char *const PART_KEYS[] = {"grade", "vcc", "inputMax", "intPin", NULL};
 
 static int in_list(const char *const *list, const char *name) {
     if (list == NULL) {
