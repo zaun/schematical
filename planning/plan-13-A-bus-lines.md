@@ -1,17 +1,17 @@
-# plan-12-A: Buses — the bus line
+# plan-13-A: Buses — the bus line
 
 Last updated: 2026-11-01
-Overall Effort: x-large (1d–3d) — plan-12 is A → B → C
+Overall Effort: x-large (1d–3d) — plan-13 is A → B → C
 Effort: large (3h–1d)
 Depends on: nothing (§ Prerequisites)
 
-plan-12 adds **buses** to the schematic editor. A bus is a thick line that
+plan-13 adds **buses** to the schematic editor. A bus is a thick line that
 carries 2 to 999 named wires. **Bus ports** sit on it, and each port has one
 pin per wire the user ticks. Ordinary wires connect to port pins. Every port
 pin for the same bus wire, on any port of that bus, is one net. The PCB never
 sees a bus, only the nets it makes.
 
-The single behavioral outcome of plan-12: on a schematic with a 5V supply →
+The single behavioral outcome of plan-13: on a schematic with a 5V supply →
 DIP switch → port 1 pin `B0` of a bus, and port 2 pin `B0` of the same bus →
 LED → GND, turning the switch on in play mode lights the LED. The bus,
 its ports and their pins survive save and open.
@@ -39,25 +39,28 @@ References:
   `WireLayer`).
 - `schematical/schematical/Document/SchematicFile.swift` (save/open).
 - `schematical/schematical/Drawer/SchematicSidebarView.swift` (the inspector).
-- `planning/plan-12-B-bus-ports.md`, `planning/plan-12-C-bus-editing.md`.
+- `planning/plan-13-B-bus-ports.md`, `planning/plan-13-C-bus-editing.md`.
 
 ## Prerequisites
 
-This table is the gate for all of plan-12. B and C point here and add their
+This table is the gate for all of plan-13. B and C point here and add their
 own rows.
 
 | Must be true | Command | Status |
 |---|---|---|
 | plan-11 complete | `ls planning/plan-11-* 2>/dev/null` → no output | NOT MET (2026-11-01: A–D open) |
+| plan-12 complete | `ls planning/plan-12-[A-K]-*.md 2>/dev/null` → no output | NOT MET (2026-11-01: A–K open) |
 | The canvas change in progress is committed | `git status --short schematical/schematical/Canvas/SchematicCanvasView.swift` → no output | NOT MET (2026-11-01: ` M`, the `worldCanvas` / `shiftToWorld` change, not this plan's) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p12-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01 with the uncommitted canvas change) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p13-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01 with the uncommitted canvas change) |
 | No bus code yet | `grep -rn "case bus\|struct Bus\b\|\"buses\"" schematical/schematical` → no output | MET (2026-11-01) |
 | File format is version 2 | `grep -n "currentVersion = " schematical/schematical/Document/SchematicFile.swift` → `currentVersion = 2` | MET (2026-11-01) |
 
-plan-12 edits the same canvas, model and file code that plan-11-D edits
-(`SchematicCanvasView.swift`, `SchematicFile.swift`). That is why plan-11
-must finish first. The uncommitted canvas change is the owner's work in
-progress; plan-12 must build on it, never revert it.
+plan-13 edits the same canvas, model and file code that plan-11-D edits
+(`SchematicCanvasView.swift`, `SchematicFile.swift`), and the same
+`SchematicTool` enum and toolbar that plan-12-B edits (it adds Pull-up and
+Pull-down after GND). plan-12-K also edits `SchematicCanvasView.swift`. That
+is why plan-11 and plan-12 must finish first. The uncommitted canvas change is the owner's work in
+progress; plan-13 must build on it, never revert it.
 
 Everything below is written against the world where these hold.
 
@@ -83,7 +86,7 @@ Everything below is written against the world where these hold.
 ### Non-goals (explicit constraints)
 
 - **No undo.** The app has none today, and the owner decided not to add it in
-  plan-12 (2026-11-01).
+  plan-13 (2026-11-01).
 - **No change to wires, junctions or the Line tool.** `Wire`, `WireEnd`,
   `Junction`, `OrthogonalRoute` and wire editing behave exactly as today. Bus
   editing uses its own helper (`BusRoute`); the owner asked that it not be a
@@ -91,14 +94,16 @@ Everything below is written against the world where these hold.
 - **No change to the PCB page, the backend, or the part library.** A bus is
   not a part.
 - **No connectivity in A.** Nothing attaches to a bus line, now or later:
-  wires attach only to port pins (plan-12-B). A wire crossing a bus does not
+  wires attach only to port pins (plan-13-B). A wire crossing a bus does not
   connect to it.
 - **No branching.** A bus is one open polyline with two free ends.
 
 ## 2. Current State
 
 - **Tools.** `SchematicTool` (`Canvas/SchematicModel.swift:22`) is a
-  `CaseIterable` enum (pointer, eraser, line, flip, vcc, ground). The toolbar
+  `CaseIterable` enum (pointer, eraser, line, flip, vcc, ground; plan-12-B
+  adds pullUp and pullDown). Line numbers in this plan are from 2026-11-01,
+  before plan-11 and plan-12; re-find each symbol by name. The toolbar
   picker lists `allCases` (`ContentView.swift`, `Picker("Tool", selection:
   $tool)`), so a new case shows up there automatically.
 - **Wires.** `Wire` (`SchematicModel.swift:542`) has two `WireEnd`s (a pin or
@@ -140,7 +145,7 @@ Everything below is written against the world where these hold.
 
 | What | Count | Command |
 |---|---|---|
-| `SchematicTool` cases | 6 | `sed -n 22,29p schematical/schematical/Canvas/SchematicModel.swift \| grep -c "case "` → 6 |
+| `SchematicTool` cases | 6 today, 8 once plan-12-B lands (`.pullUp`, `.pullDown`) | `sed -n 22,29p schematical/schematical/Canvas/SchematicModel.swift \| grep -c "case "` → 6 (2026-11-01); re-measure at the gate |
 | `selectedChipID` users (files) | 6 | `grep -rln selectedChipID schematical/schematical \| wc -l` → 6 |
 | Existing schematic files at the repo root (untracked, owner's) | 2 | `ls *.schematical` → `be-6502.schematical test.schematical` |
 
@@ -172,7 +177,7 @@ Three layers, built in this order:
 3. **File**: version 3, with the `buses` array.
 
 Risk sits in **`BusRoute` dragging** (keeping right angles, never creating a
-zero-length segment). plan-12-C builds port fitting on top of it, so its rules
+zero-length segment). plan-13-C builds port fitting on top of it, so its rules
 are stated exactly here (§ 5) and C only adds checks to them.
 
 **Correctness gate:** the app build, runtime screenshots, and `jq` checks of a
@@ -214,7 +219,7 @@ struct Bus: Identifiable, Hashable {
     var points: [CGPoint]
     /// The bus's wires in list order. 2…999 of them.
     var wires: [BusWire]
-    // plan-12-B adds `ports: [BusPort]`.
+    // plan-13-B adds `ports: [BusPort]`.
 }
 ```
 
@@ -240,7 +245,7 @@ Index 998 gives `B998` (4 characters), so defaults always fit.
   wires, and selects it.
 - `func setBusWireCount(_ id: UUID, _ count: Int) -> String?`: clamps to
   `2...999`. Growing appends wires with fresh UUIDs and default names.
-  Shrinking drops wires from the end. plan-12-B adds the "a port uses it"
+  Shrinking drops wires from the end. plan-13-B adds the "a port uses it"
   minimum.
 - `func renameBusWire(bus: UUID, wire: UUID, to name: String) -> String?`:
   trims whitespace and refuses with a message, changing nothing:
@@ -258,7 +263,7 @@ Index 998 gives `B998` (4 characters), so defaults always fit.
 - `func insertBusNode(at:tolerance:)`: on the segment hit, adds a node at the
   snapped projection when it is strictly inside the segment.
 - `erase(at:)` gains a last branch: a bus hit removes the bus and clears
-  `selectedBusID` if it was selected. (Order: chip → wire → bus. plan-12-B
+  `selectedBusID` if it was selected. (Order: chip → wire → bus. plan-13-B
   puts ports before wires.)
 
 ## 5. `BusRoute` (right-angle routing for buses)
@@ -299,7 +304,7 @@ last good frame.
 
 - `SchematicTool.bus`: title "Bus", symbol `line.3.horizontal`. Placed after
   `.line` in the enum, so the picker order is Pointer, Eraser, Line, Bus,
-  Flip, VCC, GND.
+  Flip, VCC, GND, Pull-up, Pull-down (the last two from plan-12-B).
 - **Drawing.** `Interaction.drawingBus(from: CGPoint, cursor: CGPoint)`. On
   press, the snapped press point is the start. The preview is
   `BusRoute.route` to the snapped cursor, drawn 6 wide, dashed, in the accent
@@ -358,7 +363,7 @@ last good frame.
   ```
 
   `SchematicFile.buses: [Bus]?` (nil in older files, which means none).
-  plan-12-B adds `"ports"` inside each bus, and a port wire end.
+  plan-13-B adds `"ports"` inside each bus, and a port wire end.
 - Opening validates, and fails with `SchematicFileError.badBus(String)`
   ("The bus is not valid: <detail>."). Details:
   - `bus <id> route is not made of horizontal and vertical segments on the grid`
@@ -446,7 +451,7 @@ Commit: —
 Acceptance: a saved file holds the bus exactly, and reopening it shows the
 same bus with the same names. A version 2 file still opens.
   Check: build; draw a bus with 12 wires, rename `B1` to `D1`, save to
-  `/tmp/p12a.schematical`; `jq '.version, (.buses|length), (.buses[0].wires|length), .buses[0].wires[1].name' /tmp/p12a.schematical`
+  `/tmp/p13a.schematical`; `jq '.version, (.buses|length), (.buses[0].wires|length), .buses[0].wires[1].name' /tmp/p13a.schematical`
   → `3`, `1`, `12`, `"D1"`; reopen and screenshot the panel; open
   `test.schematical` (version 2) and screenshot (est. 6 min).
 Commit: —
@@ -463,11 +468,11 @@ Commit: —
   (Phase 2).
 - Final gate for A: the build → `** BUILD SUCCEEDED **`, and `git status
   --short backend` → no output (the backend is untouched) (est. 4 min). The
-  landing tier for all of plan-12 runs once, at the end of plan-12-C.
+  landing tier for all of plan-13 runs once, at the end of plan-13-C.
 
 ## Decisions
 
-- Undo is out of plan-12 — decided by the owner, 2026-11-01. The app has no
+- Undo is out of plan-13 — decided by the owner, 2026-11-01. The app has no
   undo today; bus edits get none either.
 - A bus line is 4× a wire's width (1.5 → 6) — owner, 2026-11-01.
 - Wire count 2–999 — owner, 2026-11-01.
@@ -488,6 +493,6 @@ Commit: —
 ## Summary
 
 A delivers the bus as a drawn, editable, named, saved object with no
-electrical meaning. The risk is in `BusRoute`'s drag rules, which plan-12-C
+electrical meaning. The risk is in `BusRoute`'s drag rules, which plan-13-C
 extends with port checks. Wires, the netlist, the PCB and the backend are
 untouched.

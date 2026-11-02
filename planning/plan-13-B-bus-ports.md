@@ -1,8 +1,8 @@
-# plan-12-B: Buses — ports, port pins and nets
+# plan-13-B: Buses — ports, port pins and nets
 
 Last updated: 2026-11-01
 Effort: large (3h–1d)
-Depends on: plan-12-A
+Depends on: plan-13-A
 
 This sub-plan adds **bus ports**: boxes on a bus line with one pin per
 ticked bus wire. Ordinary wires connect to those pins. Every pin for the same
@@ -26,13 +26,13 @@ voltage check.
 - the bus's wire count can't go below its highest wire any port uses;
 - ports and port wire ends are saved and opened.
 
-Outcome of B: the plan-12 behavior — switch → port 1 `B0` … port 2 `B0` → LED
+Outcome of B: the plan-13 behavior — switch → port 1 `B0` … port 2 `B0` → LED
 lights in play mode — works on a bus that is not edited after ports are
-placed. Moving a bus that has ports, and sliding ports, is plan-12-C.
+placed. Moving a bus that has ports, and sliding ports, is plan-13-C.
 
 References:
 
-- `planning/plan-12-A-bus-lines.md` (§ Prerequisites, § 4–6: `Bus`,
+- `planning/plan-13-A-bus-lines.md` (§ Prerequisites, § 4–6: `Bus`,
   `BusRoute`, the Bus panel, file version 3).
 - `docs/file-format.md` (§ Buses, added in A; § Wires).
 - `schematical/schematical/Simulation/Simulation.swift` (`NetlistBuilder`),
@@ -40,11 +40,11 @@ References:
 
 ## Prerequisites
 
-The gate is plan-12-A's table. Re-run it, plus:
+The gate is plan-13-A's table. Re-run it, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-12-A complete | `ls planning/plan-12-A-* 2>/dev/null` → no output; `ls planning/completed/plan-12-A-bus-lines.md` → exists | NOT MET (2026-11-01: not started) |
+| plan-13-A complete | `ls planning/plan-13-A-* 2>/dev/null` → no output; `ls planning/completed/plan-13-A-bus-lines.md` → exists | NOT MET (2026-11-01: not started) |
 | Format is version 3 with buses | `grep -n "currentVersion = 3" schematical/schematical/Document/SchematicFile.swift` → one line | NOT MET (lands in A) |
 | No port code yet | `grep -rn "BusPort\|busPin" schematical/schematical` → no output | MET (2026-11-01) |
 
@@ -144,7 +144,7 @@ The gate is plan-12-A's table. Re-run it, plus:
 
 Correctness risk concentrates in **the netlist union** (a wrong union
 silently merges or splits nets in the simulation) and in **the fit rule**
-(plan-12-C reuses it for every drag). Both are stated exactly below. The
+(plan-13-C reuses it for every drag). Both are stated exactly below. The
 end-to-end runtime proof (§ Validation) exercises the netlist through a real
 simulation.
 
@@ -156,7 +156,7 @@ proof. Not byte-identity.
 - *Store a port by absolute point.* A port stores its segment index and its
   position along that segment. A segment drag then moves the port with no
   bookkeeping, because its across coordinate comes from the segment. Only
-  inserting a node renumbers segments (plan-12-C).
+  inserting a node renumbers segments (plan-13-C).
 - *Union every port pin of a bus wire, wired or not.* That adds a net per
   unwired pin, so the circuit gets empty nets. The builder unions only pins
   that some wire ends on.
@@ -296,7 +296,7 @@ is the only real failure.
   hovered), pin stubs, and labels. In Line mode the port pin tips get the same
   markers as chip pins (via `pinTips`).
 - **Pointer**: chip → **port** → wire bend → wire segment → bus node → bus
-  segment → pan. A port hit selects it. plan-12-C adds dragging.
+  segment → pan. A port hit selects it. plan-13-C adds dragging.
 - **Hover**: ports are checked after chips.
 - **`BusPortPanel`** (`Drawer/BusPanels.swift`):
   - header "Bus Port";
@@ -379,7 +379,7 @@ Commit: —
 - [ ] `VoltageCheck.swift`: the `buses:` parameter; `toggleSwitch` and
       `connect` pass `buses`.
 
-Acceptance: the plan-12 behavior. 5V → `TE-GDS0204` position 1 → port 1
+Acceptance: the plan-13 behavior. 5V → `TE-GDS0204` position 1 → port 1
 `B0`; port 2 `B0` (same bus) → `LED-RED-0603` anode; cathode → GND. Run,
 turn position 1 on, and the LED lights. Turn it off and the LED goes dark.
   Check: build; draw it, run (⌘R), screenshot with the switch off and on
@@ -412,8 +412,8 @@ Commit: —
 
 Acceptance: the Phase 2 drawing saved and reopened still lights the LED, and
 the file holds both ports and two port wire ends.
-  Check: build; save the Phase 2 drawing as `/tmp/p12b.schematical`;
-  `jq '[.buses[0].ports[] | .wires | length], [.wires[] | .from, .to | select(.port)] | length' /tmp/p12b.schematical`
+  Check: build; save the Phase 2 drawing as `/tmp/p13b.schematical`;
+  `jq '[.buses[0].ports[] | .wires | length], [.wires[] | .from, .to | select(.port)] | length' /tmp/p13b.schematical`
   → `[1,1]` then `2`; reopen, run, turn the switch on, screenshot
   (est. 6 min).
 Commit: —
@@ -430,7 +430,7 @@ Commit: —
 - Doc sync: `docs/file-format.md` (Phase 4); the canvas header comment gains
   the Bus Port tool (Phase 1).
 - Final gate for B: build → `** BUILD SUCCEEDED **`; `git status --short
-  backend` → no output (est. 4 min). The plan-12 landing tier runs at the end
+  backend` → no output (est. 4 min). The plan-13 landing tier runs at the end
   of C.
 
 ## Decisions

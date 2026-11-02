@@ -1,8 +1,8 @@
-# plan-12-C: Buses — editing a bus that has ports, sliding ports
+# plan-13-C: Buses — editing a bus that has ports, sliding ports
 
 Last updated: 2026-11-01
 Effort: medium (1h–2h)
-Depends on: plan-12-B
+Depends on: plan-13-B
 
 After B, ports work, but A's bus drags ignore them. A drag could shorten a
 segment under a port, and a node could be added inside one. This sub-plan:
@@ -14,20 +14,20 @@ segment under a port, and a node could be added inside one. This sub-plan:
   when a node is added elsewhere;
 - lets the Pointer **slide** a port along its own segment (not past a bend),
   clamped by the segment ends and the neighbouring ports;
-- runs plan-12's landing gate.
+- runs plan-13's landing gate.
 
 References:
 
-- `planning/plan-12-A-bus-lines.md` § 5 (`BusRoute`), § Prerequisites.
-- `planning/plan-12-B-bus-ports.md` § 4 (geometry and the fit rule).
+- `planning/plan-13-A-bus-lines.md` § 5 (`BusRoute`), § Prerequisites.
+- `planning/plan-13-B-bus-ports.md` § 4 (geometry and the fit rule).
 
 ## Prerequisites
 
-The gate is plan-12-A's table. Re-run it, plus:
+The gate is plan-13-A's table. Re-run it, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-12-B complete | `ls planning/plan-12-B-* 2>/dev/null` → no output; `ls planning/completed/plan-12-B-bus-ports.md` → exists | NOT MET (2026-11-01: not started) |
+| plan-13-B complete | `ls planning/plan-13-B-* 2>/dev/null` → no output; `ls planning/completed/plan-13-B-bus-ports.md` → exists | NOT MET (2026-11-01: not started) |
 | The fit rule exists | `grep -n "func fit(" schematical/schematical/Canvas/BusModel.swift` → one line | NOT MET (lands in B) |
 
 ## 1. Goal
@@ -51,14 +51,14 @@ The gate is plan-12-A's table. Re-run it, plus:
 
 ## 2. Current State
 
-- `BusRoute.moveSegment` / `moveNode` / `insertNode` (plan-12-A § 5) return a
+- `BusRoute.moveSegment` / `moveNode` / `insertNode` (plan-13-A § 5) return a
   new route or nil, and know nothing of ports. Canvas bus drags call them
   against the drag-start `base` and store non-nil results via `setBusPoints`.
-- A port stores `segment` and `start` (plan-12-B § 4). Its across coordinate
+- A port stores `segment` and `start` (plan-13-B § 4). Its across coordinate
   comes from its segment, so a perpendicular segment move already carries it.
   Only the along-axis room can break.
-- `Bus.fit` (plan-12-B § 4) answers whether a port's extent fits at a start.
-- `settleWires(attachedToPort:)` (plan-12-B § 6) re-fits wires on a port's
+- `Bus.fit` (plan-13-B § 4) answers whether a port's extent fits at a start.
+- `settleWires(attachedToPort:)` (plan-13-B § 6) re-fits wires on a port's
   pins.
 - Chip moves settle wires on release: `handleEnded`'s `.moveChip` case calls
   `settleWires(attachedTo:)` (`SchematicCanvasView.swift:408`). During a drag,
@@ -131,7 +131,7 @@ that segment down by 50 carries the port and its wires. Dragging the next
 node so the segment shrinks stops where the segment end meets the port's
 extent. Double-clicking inside the port adds nothing; double-clicking left of
 it adds a node and the port stays put.
-  Check: build; perform each step on the plan-12-B Phase 2 drawing with a
+  Check: build; perform each step on the plan-13-B Phase 2 drawing with a
   wire on `B0`, and screenshot after each (est. 8 min).
 Commit: —
 
@@ -149,18 +149,18 @@ leaves the segment.
   the other and past the end, and screenshot (est. 5 min).
 Commit: —
 
-### Phase 3 — plan-12 landing
+### Phase 3 — plan-13 landing
 
-- [ ] Draw the plan-12 proof schematic fresh: 5V → `TE-GDS0204` position 1
+- [ ] Draw the plan-13 proof schematic fresh: 5V → `TE-GDS0204` position 1
       → bus port 1 `B0`; a vertical bend in the bus; port 2 `B0` on the
       vertical segment (Side Left) → `LED-RED-0603` → GND. Rename `B0` to
-      `D0`. Save as `/tmp/p12.schematical`.
+      `D0`. Save as `/tmp/p13.schematical`.
 - [ ] Quit, reopen it, run, turn position 1 on, and screenshot the lit LED
       and the `D0` labels on both ports.
 
-Acceptance: the plan-12 behavior after a save and reopen, with a port on a
+Acceptance: the plan-13 behavior after a save and reopen, with a port on a
 vertical segment and a renamed wire.
-  Check: the screenshots above; `jq '.version, (.buses[0].ports|length), .buses[0].wires[0].name' /tmp/p12.schematical`
+  Check: the screenshots above; `jq '.version, (.buses[0].ports|length), .buses[0].wires[0].name' /tmp/p13.schematical`
   → `3`, `2`, `"D0"` (est. 10 min).
 Commit: —
 
@@ -173,11 +173,11 @@ Commit: —
 - Runtime proof: Phase 3.
 - Doc sync: the canvas header comment (Phase 2); `docs/file-format.md` needs
   nothing new (no format change in C).
-- **Final gate for plan-12** (run once, here): the app build → `** BUILD
+- **Final gate for plan-13** (run once, here): the app build → `** BUILD
   SUCCEEDED **`; `git status --short backend schematical/schematical/Parts` →
   no output (backend and library untouched); open `test.schematical` (version
   2) and `be-6502.schematical` and screenshot each, to check old files still
-  open (est. 8 min). No backend `ctest` run: plan-12 changes no backend file,
+  open (est. 8 min). No backend `ctest` run: plan-13 changes no backend file,
   which the `git status` line proves.
 
 ## Decisions
@@ -194,4 +194,4 @@ Commit: —
 
 C makes bus editing safe once ports exist, with one guard in `setBusPoints`
 and port renumbering on insert, and adds sliding. The format, the netlist and
-the wires are unchanged. The plan-12 landing gate runs here.
+the wires are unchanged. The plan-13 landing gate runs here.

@@ -464,7 +464,7 @@ survives move, rotate, origin change, save and reopen.
   Check: the screenshots above, attached to the commit message's description (est. 15 min).
   Ran: as the three tasks above; the PNG paths are in the Phase 4 commit
   message.
-Commit: —
+Commit: 84c74d0
 
 ## Validation Plan
 
