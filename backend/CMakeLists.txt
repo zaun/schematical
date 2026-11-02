@@ -43,6 +43,7 @@ add_library(logic STATIC
     src/models/serial_line.c
     src/models/serial_bus.c
     src/models/ns16550.c
+    src/models/serial_target.c
     src/third_party/cjson/cJSON.c
 )
 target_include_directories(logic
