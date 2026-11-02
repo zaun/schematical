@@ -3,16 +3,29 @@
 //
 //   node scripts/digikey.js "ECS-100AX"
 //   node scripts/digikey.js --category Oscillators --show Frequency "ECS-100AX"
+//   node scripts/digikey.js --category Oscillators --manufacturer ECS --list
 //
-// Filters take a DigiKey id or a name (case-insensitive):
+// Filters take a DigiKey id or a name (case-insensitive; a unique prefix
+// such as "ECS" for "ECS Inc." also works). Keywords are optional when a
+// filter is given.
 //   --category <id|name>      e.g. 172 or "Oscillators"
-//   --manufacturer <id|name>  e.g. 50 or "ECS Inc."
+//   --manufacturer <id|name>  e.g. 50 or "ECS"
 //   --series <id|name>        e.g. "ECS-100X"
 //   --status <id|name>        e.g. Active, Obsolete; repeatable
 // Output:
-//   --show <param,...>        add parameter columns, e.g. "Frequency,Package / Case"
-//   --limit <n>               most parts to list (default 500; pages of 50)
-//   --json                    print the raw API responses instead of a table
+//   --list                    one line per part: <part number> <status> <datasheet url>
+//   --show <param,...>        add table columns, e.g. "Frequency,Package / Case"
+//   --limit <n>               most parts to fetch (default 500; --list: all)
+//   --pages <n>               most result pages (50 parts each) to fetch
+//   --json                    print each raw API response, one JSON line per page
+//
+// Parts print as they arrive, so an error part way keeps what came before.
+//
+// The API returns at most the first 300 results of a search, so a bigger
+// search is split into smaller ones on the filter options DigiKey reports
+// (category, manufacturer, series, status, then the parameter that splits
+// it best) and the results merged. Progress and the remaining daily call
+// allowance go to stderr.
 //
 // Credentials: the DIGIKEY_CLIENT_ID and DIGIKEY_CLIENT_SECRET environment
 // variables. Uses the 2-legged (client credentials) flow.
@@ -30,12 +43,12 @@ const PAGE = 50; // the API's largest page
 function usage(message) {
   if (message) console.error(`digikey: ${message}`);
   console.error('usage: node scripts/digikey.js [--category X] [--manufacturer X] [--series X]\n' +
-    '                               [--status X] [--show p1,p2] [--limit N] [--json] "keywords"');
+    '                               [--status X] [--list] [--show p1,p2] [--limit N] [--pages N] [--json] ["keywords"]');
   process.exit(2);
 }
 
 function parseArgs(argv) {
-  const opts = { status: [], show: [], limit: 500, json: false, keywords: [] };
+  const opts = { status: [], show: [], limit: null, pages: Infinity, list: false, json: false, keywords: [] };
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     const value = () => {
@@ -49,16 +62,22 @@ function parseArgs(argv) {
       case '--status': opts.status.push(value()); break;
       case '--show': opts.show.push(...value().split(',').map((s) => s.trim()).filter(Boolean)); break;
       case '--limit': opts.limit = Number(value()); break;
+      case '--pages': opts.pages = Number(value()); break;
       case '--json': opts.json = true; break;
+      case '--list': opts.list = true; break;
       case '-h': case '--help': usage();
       default:
         if (arg.startsWith('--')) usage(`unknown option ${arg}`);
         opts.keywords.push(arg);
     }
   }
+  if (opts.limit === null) opts.limit = opts.list ? Infinity : 500;
   if (!(opts.limit > 0)) usage('--limit must be a positive number');
+  if (!(opts.pages > 0)) usage('--pages must be a positive number');
   opts.keywords = opts.keywords.join(' ');
-  if (!opts.keywords && !opts.category && !opts.manufacturer && !opts.series) usage('nothing to search for');
+  if (!opts.keywords && !opts.category && !opts.manufacturer && !opts.series && !opts.status.length) {
+    usage('nothing to search for');
+  }
   return opts;
 }
 
@@ -72,8 +91,8 @@ function credentials() {
   return { id, secret };
 }
 
-async function token(creds) {
-  try {
+async function token(creds, fresh = false) {
+  if (!fresh) try {
     const cached = JSON.parse(fs.readFileSync(TOKEN_CACHE, 'utf8'));
     if (cached.id === creds.id && cached.expires > Date.now() + 30_000) return cached.token;
   } catch { /* no usable cache */ }
@@ -94,7 +113,7 @@ async function token(creds) {
   return body.access_token;
 }
 
-async function call(ctx, method, route, body) {
+async function call(ctx, method, route, body, retried = false) {
   const response = await fetch(`${API}/products/v4${route}`, {
     method,
     headers: {
@@ -107,13 +126,44 @@ async function call(ctx, method, route, body) {
     },
     body: body ? JSON.stringify(body) : undefined,
   });
+  ctx.calls += 1;
+  const remaining = response.headers.get('x-ratelimit-remaining');
+  if (remaining !== null) ctx.remaining = remaining;
   const text = await response.text();
+  if (response.status === 401 && !retried) {
+    // Tokens last 10 minutes; a long run outlives one.
+    ctx.token = await token(ctx.creds, true);
+    return call(ctx, method, route, body, true);
+  }
+  if (response.status === 429) throw new Error(`rate limited by DigiKey: ${text}`);
   if (!response.ok) throw new Error(`${method} ${route} failed (${response.status}): ${text}`);
   return JSON.parse(text);
 }
 
 const isId = (value) => /^\d+$/.test(String(value));
-const same = (a, b) => String(a).trim().toLowerCase() === String(b).trim().toLowerCase();
+const norm = (value) => String(value).trim().toLowerCase();
+const same = (a, b) => norm(a) === norm(b);
+
+// The option named `name`: an exact match, else the only one starting with
+// it as a whole word ("ECS" → "ECS Inc."), else the only one containing it.
+function pick(options, nameOf, name, label) {
+  const want = norm(name);
+  const escaped = want.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const tiers = [
+    (o) => norm(nameOf(o)) === want,
+    (o) => new RegExp(`^${escaped}(?![a-z0-9])`).test(norm(nameOf(o))),
+    (o) => norm(nameOf(o)).includes(want),
+  ];
+  for (const test of tiers) {
+    const hits = options.filter(test);
+    if (hits.length === 1) return hits[0];
+    if (hits.length > 1) {
+      const names = hits.slice(0, 10).map(nameOf).join('; ');
+      throw new Error(`${label} "${name}" is ambiguous: ${names}${hits.length > 10 ? '; …' : ''}`);
+    }
+  }
+  throw new Error(`no ${label} named "${name}"`);
+}
 
 function flattenCategories(nodes, out = []) {
   for (const node of nodes || []) {
@@ -132,9 +182,7 @@ async function resolveFilters(ctx, opts) {
     let id = opts.category;
     if (!isId(id)) {
       const all = flattenCategories((await call(ctx, 'GET', '/search/categories')).Categories);
-      const hit = all.find((c) => same(c.Name, id));
-      if (!hit) throw new Error(`no category named "${id}"`);
-      id = hit.CategoryId;
+      id = pick(all, (c) => c.Name, id, 'category').CategoryId;
     }
     filters.CategoryFilter = [{ Id: String(id) }];
   }
@@ -143,9 +191,7 @@ async function resolveFilters(ctx, opts) {
     let id = opts.manufacturer;
     if (!isId(id)) {
       const all = (await call(ctx, 'GET', '/search/manufacturers')).Manufacturers || [];
-      const hit = all.find((m) => same(m.Name, id));
-      if (!hit) throw new Error(`no manufacturer named "${id}"`);
-      id = hit.Id;
+      id = pick(all, (m) => m.Name, id, 'manufacturer').Id;
     }
     filters.ManufacturerFilter = [{ Id: String(id) }];
   }
@@ -164,11 +210,7 @@ async function resolveFilters(ctx, opts) {
     for (const [label, key, filterKey, names] of named) {
       const options = (probe.FilterOptions || {})[key] || [];
       for (const name of names) {
-        const hit = options.find((o) => same(o.Value, name));
-        if (!hit) {
-          const known = options.map((o) => o.Value).join(', ') || 'none';
-          throw new Error(`no ${label} "${name}" in these results (have: ${known})`);
-        }
+        const hit = pick(options, (o) => o.Value, name, label);
         (filters[filterKey] = filters[filterKey] || []).push({ Id: String(hit.Id) });
       }
     }
@@ -181,56 +223,177 @@ function parameter(product, name) {
   return hit ? hit.ValueText : '';
 }
 
-function printTable(products, total, opts) {
+// Table rows print one at a time, so columns have fixed widths; the last
+// column (description) is not padded.
+function tableLine(cells, opts) {
+  const widths = [20, 20, 7, 20, ...opts.show.map(() => 16)];
+  return cells.map((c, i) => (i < widths.length ? String(c).padEnd(widths[i]) : c)).join('  ');
+}
+
+function tableHeader(opts) {
   const headers = ['Part number', 'Status', 'Stock', 'Series', ...opts.show, 'Description'];
-  const rows = products.map((p) => [
+  return tableLine(headers, opts) + '\n' + tableLine(headers.map((h) => '-'.repeat(h.length)), opts);
+}
+
+function tableRow(p, opts) {
+  return tableLine([
     p.ManufacturerProductNumber || '',
     (p.ProductStatus && p.ProductStatus.Status) || '',
     String(p.QuantityAvailable ?? ''),
     (p.Series && p.Series.Name) || '',
     ...opts.show.map((name) => parameter(p, name)),
     (p.Description && p.Description.ProductDescription) || '',
-  ]);
-  const widths = headers.map((h, i) => Math.max(h.length, ...rows.map((r) => r[i].length)));
-  const line = (cells) => cells.map((c, i) => (i === cells.length - 1 ? c : c.padEnd(widths[i]))).join('  ');
-  console.log(line(headers));
-  console.log(line(widths.map((w) => '-'.repeat(w))));
-  for (const row of rows) console.log(line(row));
-  const more = total > products.length ? ` (showing ${products.length}; raise --limit for more)` : '';
-  console.log(`\n${total} part${total === 1 ? '' : 's'}${more}`);
+  ], opts);
 }
+
+function listRow(p) {
+  const status = (p.ProductStatus && p.ProductStatus.Status) || '';
+  return `${p.ManufacturerProductNumber || ''}\t${status}\t${p.DatasheetUrl || ''}`;
+}
+
+const CAP = 300; // the API refuses Offset + Limit above this
+
+// Ways to split a search, each one a filter the search doesn't have yet:
+// [label, the options DigiKey reported, the filter that selects one option].
+function splits(page, filters) {
+  const options = page.FilterOptions || {};
+  const out = [];
+  const base = (label, key, list) => {
+    if (!filters[key] && list && list.length > 1) {
+      out.push([label, list.map((o) => ({
+        name: o.Value, count: o.ProductCount, apply: (f) => ({ ...f, [key]: [{ Id: String(o.Id) }] }),
+      }))]);
+    }
+  };
+  if (!filters.CategoryFilter && options.TopCategories && options.TopCategories.length > 1) {
+    out.push(['category', options.TopCategories.map((t) => ({
+      name: t.Category.Name, count: t.Category.ProductCount,
+      apply: (f) => ({ ...f, CategoryFilter: [{ Id: String(t.Category.Id) }] }),
+    }))]);
+  }
+  base('manufacturer', 'ManufacturerFilter', options.Manufacturers);
+  base('series', 'SeriesFilter', options.Series);
+  base('status', 'StatusFilter', options.Status);
+  const used = new Set(((filters.ParameterFilterRequest || {}).ParameterFilters || []).map((p) => p.ParameterId));
+  for (const param of options.ParametricFilters || []) {
+    if (used.has(param.ParameterId) || !param.FilterValues || param.FilterValues.length < 2) continue;
+    const category = String(param.Category.Id);
+    const current = filters.ParameterFilterRequest;
+    if (current && current.CategoryFilter.Id !== category) continue;
+    out.push([param.ParameterName, param.FilterValues.map((v) => ({
+      name: v.ValueName, count: v.ProductCount,
+      apply: (f) => ({
+        ...f,
+        ParameterFilterRequest: {
+          CategoryFilter: { Id: category },
+          ParameterFilters: [...((current || {}).ParameterFilters || []),
+            { ParameterId: param.ParameterId, FilterValues: [{ Id: v.ValueId }] }],
+        },
+      }),
+    }))]);
+  }
+  return out;
+}
+
+// The split that covers every result with the smallest largest piece.
+function bestSplit(page, filters) {
+  const total = page.ProductsCount || 0;
+  let best = null;
+  for (const [label, parts] of splits(page, filters)) {
+    const covered = parts.reduce((sum, p) => sum + (p.count || 0), 0);
+    if (covered < total) continue;
+    const largest = Math.max(...parts.map((p) => p.count || 0));
+    if (largest >= total) continue;
+    if (!best || largest < best.largest) best = { label, parts, largest };
+  }
+  return best;
+}
+
+async function search(ctx, opts, filters, offset, limit) {
+  const page = await call(ctx, 'POST', `/search/keyword${ctx.includes}`, {
+    Keywords: opts.keywords,
+    Limit: limit,
+    Offset: offset,
+    FilterOptionsRequest: filters,
+    SortOptions: { Field: 'ManufacturerProductNumber', SortOrder: 'Ascending' },
+  });
+  ctx.pages += 1;
+  if (ctx.opts.json) console.log(JSON.stringify(page));
+  return page;
+}
+
+const done = (ctx, opts) => ctx.seen.size >= opts.limit || ctx.pages >= opts.pages;
+
+// Prints each product the first time it is seen (keyed by manufacturer +
+// part number).
+function add(ctx, opts, page) {
+  for (const p of page.Products || []) {
+    if (ctx.seen.size >= opts.limit) return;
+    const key = `${(p.Manufacturer && p.Manufacturer.Id) ?? ''}|${p.ManufacturerProductNumber}`;
+    if (ctx.seen.has(key)) continue;
+    ctx.seen.add(key);
+    if (opts.json) continue;
+    console.log(opts.list ? listRow(p) : tableRow(p, opts));
+  }
+}
+
+// Fetches every product the search finds, splitting searches the cap would
+// cut short. A split search's own first page prints too; the duplicates
+// its pieces return later are skipped.
+async function collect(ctx, opts, filters, path) {
+  if (done(ctx, opts)) return;
+  const first = await search(ctx, opts, filters, 0, PAGE);
+  const total = first.ProductsCount || 0;
+  if (ctx.total === null) ctx.total = total;
+  add(ctx, opts, first);
+
+  if (total > CAP) {
+    const split = bestSplit(first, filters);
+    if (split) {
+      for (const part of split.parts) {
+        if (!part.count) continue;
+        await collect(ctx, opts, part.apply(filters), [...path, `${split.label}=${part.name}`]);
+        if (done(ctx, opts)) return;
+      }
+      return;
+    }
+    ctx.warnings.push(`${path.join(', ') || 'search'}: ${total} parts and no way to split it; only the first ${CAP} listed`);
+  }
+
+  const end = Math.min(total, CAP);
+  for (let offset = PAGE; offset < end && !done(ctx, opts); offset += PAGE) {
+    add(ctx, opts, await search(ctx, opts, filters, offset, Math.min(PAGE, end - offset)));
+  }
+}
+
+function summary(ctx) {
+  for (const warning of ctx.warnings) console.error(`digikey: ${warning}`);
+  const remaining = ctx.remaining !== null ? `, ${ctx.remaining} left today` : '';
+  console.error(`digikey: ${ctx.seen.size} of ${ctx.total ?? '?'} parts, ${ctx.pages} pages, ` +
+    `${ctx.calls} API calls${remaining}`);
+}
+
+let current = null; // the running search, for the summary on error
 
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
   const creds = credentials();
-  const ctx = { creds, token: await token(creds) };
+  const ctx = current = {
+    opts, creds, token: await token(creds), calls: 0, remaining: null,
+    pages: 0, seen: new Set(), total: null, warnings: [],
+    // --list needs only three fields; asking for just those keeps pages small.
+    includes: opts.list && !opts.json
+      ? `?includes=${encodeURIComponent('ProductsCount,FilterOptions,Products(ManufacturerProductNumber,Manufacturer,ProductStatus,DatasheetUrl)')}`
+      : '',
+  };
   const filters = await resolveFilters(ctx, opts);
-
-  const pages = [];
-  const products = [];
-  let total = 0;
-  for (let offset = 0; offset < opts.limit; offset += PAGE) {
-    const page = await call(ctx, 'POST', '/search/keyword', {
-      Keywords: opts.keywords,
-      Limit: Math.min(PAGE, opts.limit - offset),
-      Offset: offset,
-      FilterOptionsRequest: filters,
-      SortOptions: { Field: 'ManufacturerProductNumber', SortOrder: 'Ascending' },
-    });
-    pages.push(page);
-    total = page.ProductsCount || 0;
-    products.push(...(page.Products || []));
-    if (!page.Products || page.Products.length === 0 || products.length >= total) break;
-  }
-
-  if (opts.json) {
-    console.log(JSON.stringify(pages.length === 1 ? pages[0] : pages, null, 2));
-  } else {
-    printTable(products, total, opts);
-  }
+  if (!opts.list && !opts.json) console.log(tableHeader(opts));
+  await collect(ctx, opts, filters, []);
+  summary(ctx);
 }
 
 main().catch((error) => {
   console.error(`digikey: ${error.message}`);
+  if (current) summary(current);
   process.exit(1);
 });
