@@ -16,3 +16,4 @@ and listed here instead.
 | `divider/sn74ls292.pdf` (SN74LS292, SN74LS294) | counter | Logic → Divider | Programmable frequency dividers with on-chip oscillator; left out (owner, 2026-11-01); https://www.ti.com/product/SN74LS292 |
 | `shifters/sn74abt8996.pdf` (SN74ABT8996) | shift | Logic → Shift register | IEEE 1149.1 addressable scan port; no use in the simulator (owner, 2026-11-01); https://www.ti.com/product/SN74ABT8996 |
 | `latch/sn74lvc1g373b-q1.pdf` (SN74LVC1G373B-Q1) | latch | Logic → Latch | No orderable part numbers yet (product preview, SLVSN16, Aug 2026); https://www.ti.com/product/SN74LVC1G373B-Q1 |
+| `osc/ECOC-2522.pdf` (ECOC-2522) | oscillator | Oscillator | OCXO with a voltage-control pin (pin 1 VC, pin 2 V Ref), so in effect a VCXO; VCXOs left out (owner, 2026-11-01); https://ecsxtal.com/store/pdf/ECOC-2522.pdf |
