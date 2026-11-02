@@ -14,9 +14,8 @@
 //   --limit <n>               most parts to list (default 500; pages of 50)
 //   --json                    print the raw API responses instead of a table
 //
-// Credentials: DIGIKEY_CLIENT_ID and DIGIKEY_CLIENT_SECRET, or else the
-// "Client ID:" and "Client Secret:" lines of digikey.md at the repo root
-// (untracked; never commit it). Uses the 2-legged (client credentials) flow.
+// Credentials: the DIGIKEY_CLIENT_ID and DIGIKEY_CLIENT_SECRET environment
+// variables. Uses the 2-legged (client credentials) flow.
 
 'use strict';
 
@@ -64,19 +63,10 @@ function parseArgs(argv) {
 }
 
 function credentials() {
-  let id = process.env.DIGIKEY_CLIENT_ID;
-  let secret = process.env.DIGIKEY_CLIENT_SECRET;
+  const id = process.env.DIGIKEY_CLIENT_ID;
+  const secret = process.env.DIGIKEY_CLIENT_SECRET;
   if (!id || !secret) {
-    const file = path.join(__dirname, '..', 'digikey.md');
-    if (fs.existsSync(file)) {
-      const text = fs.readFileSync(file, 'utf8');
-      id = id || (text.match(/^Client ID:\s*(\S+)/mi) || [])[1];
-      // Also accepts the "Clietn" spelling the file was written with.
-      secret = secret || (text.match(/^Cli\w*\s+Secret:\s*(\S+)/mi) || [])[1];
-    }
-  }
-  if (!id || !secret) {
-    console.error('digikey: set DIGIKEY_CLIENT_ID and DIGIKEY_CLIENT_SECRET (or add them to digikey.md)');
+    console.error('digikey: set DIGIKEY_CLIENT_ID and DIGIKEY_CLIENT_SECRET (see ~/.zshrc)');
     process.exit(1);
   }
   return { id, secret };
