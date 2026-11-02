@@ -106,6 +106,11 @@ typedef struct {
     LogicValue ddis_out;
     LogicValue select_out;
     int enabled;            /* 0 while in reset: no cycles */
+    /* Clock-synchronous strobes ("busSync"): the data a write strobe's
+       trailing edge latched, used when the clock edge ends the cycle. */
+    int captured;
+    uint8_t captured_data;
+    uint8_t captured_known;
 } SerialBus;
 
 /* A pin's level as an input: 0, 1 or X; Z reads as `z_reads`. */
@@ -124,6 +129,10 @@ void serial_bus_update(SerialBus *bus, Sim *sim, SimInstance *instance,
 /* The model's state changed during a read: re-reads and drives the new byte. */
 void serial_bus_refresh(SerialBus *bus, Sim *sim, SimInstance *instance,
                         const SerialBusEvents *events);
+
+/* Clock-synchronous strobes: a strobe pin changed between clock edges.
+   Latches the data bus now if the write strobes just went inactive. */
+void serial_bus_capture(SerialBus *bus, const Sim *sim, const SimInstance *instance);
 
 /* 1 when the pin is one of the bus's inputs. */
 int serial_bus_has_pin(const SerialBus *bus, size_t pin);

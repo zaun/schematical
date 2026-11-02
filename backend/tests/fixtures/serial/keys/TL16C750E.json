@@ -1,0 +1,79 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel",
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "IOR",
+  "write": "IOW",
+  "select": [
+   "CS"
+  ],
+  "reset": "RESET",
+  "resetActiveHigh": true
+ },
+ "clock": {
+  "in": "XTAL1",
+  "out": "XTAL2"
+ },
+ "channels": [
+  {
+   "tx": "TX",
+   "rx": "RX",
+   "int": "INT",
+   "rts": "RTS",
+   "dtr": "DTR",
+   "cts": "CTS",
+   "dsr": "DSR",
+   "dcd": "CD",
+   "ri": "RI",
+   "txrdy": "TXRDY",
+   "rxrdy": "RXRDY",
+   "op": "OP"
+  }
+ ],
+ "fifo": 128,
+ "rxTrigger": [
+  1,
+  4,
+  120,
+  124
+ ],
+ "txTrigger": [
+  16,
+  32,
+  64,
+  120
+ ],
+ "tlr": 8,
+ "lcrReset": 29,
+ "afrReset": 16,
+ "dmaClass": "T",
+ "intPin": "out2-gated",
+ "timeout": "4w12",
+ "majorityVote": true,
+ "extended": "752",
+ "afr": "ti752",
+ "dlf": true,
+ "autoFlow": "tcr",
+ "swFlow": "tiAnd",
+ "specialChar": true,
+ "sleep": "ier4",
+ "irda": "afr1",
+ "rs485": "afr-dtr",
+ "prescaler": "mcr7",
+ "lsrErrors": "head"
+}

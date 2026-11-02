@@ -1,0 +1,92 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel",
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "IOR",
+  "write": "IOW",
+  "reset": "RESET",
+  "resetActiveHigh": true
+ },
+ "clock": {
+  "in": "XTAL1",
+  "out": "XTAL2"
+ },
+ "channels": [
+  {
+   "tx": "TXA",
+   "rx": "RXA",
+   "int": "INTA",
+   "rts": "RTSA",
+   "dtr": "DTRA",
+   "cts": "CTSA",
+   "dsr": "DSRA",
+   "dcd": "CDA",
+   "ri": "RIA",
+   "select": [
+    "CSA"
+   ],
+   "txrdy": "TXRDYA",
+   "rxrdy": "RXRDYA",
+   "op": "OPA"
+  },
+  {
+   "tx": "TXB",
+   "rx": "RXB",
+   "int": "INTB",
+   "rts": "RTSB",
+   "dtr": "DTRB",
+   "cts": "CTSB",
+   "dsr": "DSRB",
+   "dcd": "CDB",
+   "ri": "RIB",
+   "select": [
+    "CSB"
+   ],
+   "txrdy": "TXRDYB",
+   "rxrdy": "RXRDYB",
+   "op": "OPB"
+  }
+ ],
+ "fifo": 16,
+ "rxTrigger": [
+  1,
+  4,
+  8,
+  14
+ ],
+ "dmaClass": "N",
+ "intPin": "out2-gated",
+ "extended": "afe",
+ "autoFlow": "afe",
+ "optionalPins": [
+  "TXRDYA",
+  "TXRDYB",
+  "RXRDYA",
+  "RXRDYB",
+  "OPA",
+  "OPB",
+  "DSRA",
+  "DSRB",
+  "CDA",
+  "CDB",
+  "RIA",
+  "RIB",
+  "DTRA",
+  "DTRB"
+ ]
+}

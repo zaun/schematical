@@ -1,0 +1,8925 @@
+{
+ "format": "schematical-parts",
+ "version": 1,
+ "kind": "serial",
+ "devices": [
+  {
+   "id": "82C50A",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "CS2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "CS0",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "CS1",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "DISTRBAR",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "DISTR",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "DOSTRBAR",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "DOSTR",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "ADS",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "MR",
+      "role": "input"
+     },
+     {
+      "number": 21,
+      "name": "DDIS",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "CSOUT",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "RCLK",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "BAUDOUT",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "SOUT",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "SIN",
+      "role": "input"
+     },
+     {
+      "number": 29,
+      "name": "INTRPT",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "DTR",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 33,
+      "name": "DSR",
+      "role": "input"
+     },
+     {
+      "number": 34,
+      "name": "DCD",
+      "role": "input"
+     },
+     {
+      "number": 35,
+      "name": "RI",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 37,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 39,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 40,
+      "name": "NC",
+      "role": "nc"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "DISTRBAR",
+    "readHigh": "DISTR",
+    "write": "DOSTRBAR",
+    "writeHigh": "DOSTR",
+    "select": [
+     "CS2"
+    ],
+    "selectHigh": [
+     "CS0",
+     "CS1"
+    ],
+    "addressStrobe": "ADS",
+    "driverDisable": "DDIS",
+    "reset": "MR",
+    "resetActiveHigh": true,
+    "selectOut": "CSOUT"
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2",
+    "receive": "RCLK",
+    "baudOut": "BAUDOUT",
+    "baudOutShape": "low2"
+   },
+   "channels": [
+    {
+     "tx": "SOUT",
+     "rx": "SIN",
+     "int": "INTRPT",
+     "rts": "RTS",
+     "dtr": "DTR",
+     "cts": "CTS",
+     "dsr": "DSR",
+     "dcd": "DCD",
+     "ri": "RI",
+     "out1": "OUT1",
+     "out2": "OUT2"
+    }
+   ],
+   "fifo": 0,
+   "intPin": "driven",
+   "stopCheck": "both",
+   "statusReadDefer": true,
+   "parts": [
+    {
+     "name": "SFX-82C50A",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T40",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "COM92C451",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "IOR",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "IOW",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "CLK",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "SOUT",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "SIN",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "IRQ1",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "DTR",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 22,
+      "name": "DSR",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "DCD",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "RI",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "CE1",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "PD0",
+      "role": "inout"
+     },
+     {
+      "number": 28,
+      "name": "PD1",
+      "role": "inout"
+     },
+     {
+      "number": 29,
+      "name": "PD2",
+      "role": "inout"
+     },
+     {
+      "number": 30,
+      "name": "PD3",
+      "role": "inout"
+     },
+     {
+      "number": 31,
+      "name": "PD4",
+      "role": "inout"
+     },
+     {
+      "number": 32,
+      "name": "PD5",
+      "role": "inout"
+     },
+     {
+      "number": 33,
+      "name": "PD6",
+      "role": "inout"
+     },
+     {
+      "number": 34,
+      "name": "PD7",
+      "role": "inout"
+     },
+     {
+      "number": 35,
+      "name": "CE0",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "STROBE",
+      "role": "inout"
+     },
+     {
+      "number": 37,
+      "name": "AUTOFD",
+      "role": "inout"
+     },
+     {
+      "number": 38,
+      "name": "INIT",
+      "role": "inout"
+     },
+     {
+      "number": 39,
+      "name": "SLC",
+      "role": "inout"
+     },
+     {
+      "number": 40,
+      "name": "ACK",
+      "role": "input"
+     },
+     {
+      "number": 41,
+      "name": "BUSY",
+      "role": "input"
+     },
+     {
+      "number": 42,
+      "name": "PE",
+      "role": "input"
+     },
+     {
+      "number": 43,
+      "name": "SLCT",
+      "role": "input"
+     },
+     {
+      "number": 44,
+      "name": "ERROR",
+      "role": "input"
+     },
+     {
+      "number": 45,
+      "name": "IRQ0",
+      "role": "output"
+     },
+     {
+      "number": 46,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 47,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 48,
+      "name": "NC",
+      "role": "nc"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "IOR",
+    "write": "IOW",
+    "reset": "RESET",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "single": "CLK"
+   },
+   "channels": [
+    {
+     "tx": "SOUT",
+     "rx": "SIN",
+     "int": "IRQ1",
+     "rts": "RTS",
+     "dtr": "DTR",
+     "cts": "CTS",
+     "dsr": "DSR",
+     "dcd": "DCD",
+     "ri": "RI",
+     "out2": "OUT2",
+     "select": [
+      "CE1"
+     ]
+    }
+   ],
+   "fifo": 0,
+   "intPin": "driven",
+   "divisorZero": 3,
+   "broadcastWrite": "multi-cs",
+   "sprReset": 0,
+   "printerPort": {
+    "style": "com92c451",
+    "data": [
+     "PD0",
+     "PD1",
+     "PD2",
+     "PD3",
+     "PD4",
+     "PD5",
+     "PD6",
+     "PD7"
+    ],
+    "select": "CE0",
+    "strobe": "STROBE",
+    "autoFeed": "AUTOFD",
+    "init": "INIT",
+    "selectIn": "SLC",
+    "ack": "ACK",
+    "busy": "BUSY",
+    "paperEnd": "PE",
+    "slct": "SLCT",
+    "error": "ERROR",
+    "irq": "IRQ0"
+   },
+   "parts": [
+    {
+     "name": "SFX-COM92C451",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T48",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "NS16C2552",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "CS",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "RD",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "WR",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "MR",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "XIN",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "XOUT",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "SOUT1",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "SIN1",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "INTR1",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "RTS1",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "DTR1",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "CTS1",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "DSR1",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "DCD1",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "RI1",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "TXRDY1",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "RXRDY1",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "MF1",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "SOUT2",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "SIN2",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "INTR2",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "RTS2",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "DTR2",
+      "role": "output"
+     },
+     {
+      "number": 35,
+      "name": "CTS2",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "DSR2",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "DCD2",
+      "role": "input"
+     },
+     {
+      "number": 38,
+      "name": "RI2",
+      "role": "input"
+     },
+     {
+      "number": 39,
+      "name": "TXRDY2",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "RXRDY2",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "MF2",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "CHSL",
+      "role": "input"
+     },
+     {
+      "number": 43,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 44,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "RD",
+    "write": "WR",
+    "select": [
+     "CS"
+    ],
+    "reset": "MR",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XIN",
+    "out": "XOUT"
+   },
+   "channels": [
+    {
+     "tx": "SOUT1",
+     "rx": "SIN1",
+     "int": "INTR1",
+     "rts": "RTS1",
+     "dtr": "DTR1",
+     "cts": "CTS1",
+     "dsr": "DSR1",
+     "dcd": "DCD1",
+     "ri": "RI1",
+     "txrdy": "TXRDY1",
+     "rxrdy": "RXRDY1",
+     "mf": "MF1"
+    },
+    {
+     "tx": "SOUT2",
+     "rx": "SIN2",
+     "int": "INTR2",
+     "rts": "RTS2",
+     "dtr": "DTR2",
+     "cts": "CTS2",
+     "dsr": "DSR2",
+     "dcd": "DCD2",
+     "ri": "RI2",
+     "txrdy": "TXRDY2",
+     "rxrdy": "RXRDY2",
+     "mf": "MF2"
+    }
+   ],
+   "channelSelect": {
+    "pin": "CHSL",
+    "aIsHigh": true
+   },
+   "fifo": 16,
+   "rxTrigger": [
+    1,
+    4,
+    8,
+    14
+   ],
+   "dmaClass": "P",
+   "intPin": "driven",
+   "timeout": "4w12",
+   "sprReset": 255,
+   "extended": "nsEfr",
+   "afr": "ns",
+   "autoFlow": "efrTable",
+   "rtsTable": [
+    [
+     2,
+     0
+    ],
+    [
+     8,
+     1
+    ],
+    [
+     14,
+     4
+    ],
+    [
+     14,
+     8
+    ]
+   ],
+   "xoffTable": [
+    [
+     1,
+     0
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     8,
+     4
+    ],
+    [
+     14,
+     8
+    ]
+   ],
+   "swFlow": "tiAnd",
+   "specialChar": true,
+   "ctsRtsClear": "iirOrMsr",
+   "sleep": "ier4",
+   "irda": "mcr6",
+   "prescaler": "mcr7",
+   "idRegs": {
+    "drev": 49
+   },
+   "xonReset": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "optionalPins": [
+    "TXRDY1",
+    "TXRDY2",
+    "RXRDY1",
+    "RXRDY2",
+    "MF1",
+    "MF2"
+   ],
+   "parts": [
+    {
+     "name": "SFX-NS16C2552",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T44",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "NS16C2752",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "CS",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "RD",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "WR",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "MR",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "XIN",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "XOUT",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "SOUT1",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "SIN1",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "INTR1",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "RTS1",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "DTR1",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "CTS1",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "DSR1",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "DCD1",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "RI1",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "TXRDY1",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "RXRDY1",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "MF1",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "SOUT2",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "SIN2",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "INTR2",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "RTS2",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "DTR2",
+      "role": "output"
+     },
+     {
+      "number": 35,
+      "name": "CTS2",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "DSR2",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "DCD2",
+      "role": "input"
+     },
+     {
+      "number": 38,
+      "name": "RI2",
+      "role": "input"
+     },
+     {
+      "number": 39,
+      "name": "TXRDY2",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "RXRDY2",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "MF2",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "CHSL",
+      "role": "input"
+     },
+     {
+      "number": 43,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 44,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "RD",
+    "write": "WR",
+    "select": [
+     "CS"
+    ],
+    "reset": "MR",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XIN",
+    "out": "XOUT"
+   },
+   "channels": [
+    {
+     "tx": "SOUT1",
+     "rx": "SIN1",
+     "int": "INTR1",
+     "rts": "RTS1",
+     "dtr": "DTR1",
+     "cts": "CTS1",
+     "dsr": "DSR1",
+     "dcd": "DCD1",
+     "ri": "RI1",
+     "txrdy": "TXRDY1",
+     "rxrdy": "RXRDY1",
+     "mf": "MF1"
+    },
+    {
+     "tx": "SOUT2",
+     "rx": "SIN2",
+     "int": "INTR2",
+     "rts": "RTS2",
+     "dtr": "DTR2",
+     "cts": "CTS2",
+     "dsr": "DSR2",
+     "dcd": "DCD2",
+     "ri": "RI2",
+     "txrdy": "TXRDY2",
+     "rxrdy": "RXRDY2",
+     "mf": "MF2"
+    }
+   ],
+   "channelSelect": {
+    "pin": "CHSL",
+    "aIsHigh": true
+   },
+   "fifo": 64,
+   "rxTrigger": [
+    8,
+    16,
+    56,
+    60
+   ],
+   "dmaClass": "T",
+   "intPin": "driven",
+   "timeout": "4w12",
+   "sprReset": 255,
+   "extended": "nsEfr",
+   "afr": "ns",
+   "autoFlow": "efrTable",
+   "rtsTable": [
+    [
+     16,
+     0
+    ],
+    [
+     56,
+     8
+    ],
+    [
+     60,
+     16
+    ],
+    [
+     60,
+     56
+    ]
+   ],
+   "xoffTable": [
+    [
+     8,
+     0
+    ],
+    [
+     16,
+     8
+    ],
+    [
+     56,
+     16
+    ],
+    [
+     60,
+     56
+    ]
+   ],
+   "swFlow": "tiAnd",
+   "specialChar": true,
+   "ctsRtsClear": "iirOrMsr",
+   "sleep": "ier4",
+   "irda": "mcr6",
+   "prescaler": "mcr7",
+   "idRegs": {
+    "drev": 33
+   },
+   "xonReset": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "optionalPins": [
+    "TXRDY1",
+    "TXRDY2",
+    "RXRDY1",
+    "RXRDY2",
+    "MF1",
+    "MF2"
+   ],
+   "txTrigger": [
+    8,
+    16,
+    32,
+    56
+   ],
+   "parts": [
+    {
+     "name": "SFX-NS16C2752",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T44",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "PC16550D",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "CS2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "CS0",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "CS1",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "RDBAR",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "RD",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "WRBAR",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "WR",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "ADS",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "MR",
+      "role": "input"
+     },
+     {
+      "number": 21,
+      "name": "DDIS",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "XIN",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "RCLK",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "XOUT",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "BAUDOUT",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "SOUT",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "SIN",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "INTR",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "DTR",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "DSR",
+      "role": "input"
+     },
+     {
+      "number": 33,
+      "name": "DCD",
+      "role": "input"
+     },
+     {
+      "number": 34,
+      "name": "RI",
+      "role": "input"
+     },
+     {
+      "number": 35,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 36,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 37,
+      "name": "TXRDY",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "RXRDY",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 40,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "RDBAR",
+    "readHigh": "RD",
+    "write": "WRBAR",
+    "writeHigh": "WR",
+    "select": [
+     "CS2"
+    ],
+    "selectHigh": [
+     "CS0",
+     "CS1"
+    ],
+    "addressStrobe": "ADS",
+    "driverDisable": "DDIS",
+    "reset": "MR",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XIN",
+    "out": "XOUT",
+    "receive": "RCLK",
+    "baudOut": "BAUDOUT"
+   },
+   "channels": [
+    {
+     "tx": "SOUT",
+     "rx": "SIN",
+     "int": "INTR",
+     "rts": "RTS",
+     "dtr": "DTR",
+     "cts": "CTS",
+     "dsr": "DSR",
+     "dcd": "DCD",
+     "ri": "RI",
+     "out1": "OUT1",
+     "out2": "OUT2",
+     "txrdy": "TXRDY",
+     "rxrdy": "RXRDY"
+    }
+   ],
+   "fifo": 16,
+   "rxTrigger": [
+    1,
+    4,
+    8,
+    14
+   ],
+   "intPin": "driven",
+   "dmaClass": "P",
+   "timeout": "4ch",
+   "sprReset": 0,
+   "parts": [
+    {
+     "name": "SFX-PC16550D",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T40",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "SC16C650B",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "CS",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "IOR",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "IOW",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "RCLK",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "BAUDOUT",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "TX",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "RX",
+      "role": "input"
+     },
+     {
+      "number": 22,
+      "name": "INT",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "DTR",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "DSR",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "CD",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "RI",
+      "role": "input"
+     },
+     {
+      "number": 29,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "TXRDY",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "RXRDY",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 33,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 34,
+      "name": "NC",
+      "role": "nc"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "IOR",
+    "write": "IOW",
+    "select": [
+     "CS"
+    ],
+    "reset": "RESET",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2",
+    "receive": "RCLK",
+    "baudOut": "BAUDOUT"
+   },
+   "channels": [
+    {
+     "tx": "TX",
+     "rx": "RX",
+     "int": "INT",
+     "rts": "RTS",
+     "dtr": "DTR",
+     "cts": "CTS",
+     "dsr": "DSR",
+     "dcd": "CD",
+     "ri": "RI",
+     "out1": "OUT",
+     "txrdy": "TXRDY",
+     "rxrdy": "RXRDY"
+    }
+   ],
+   "fifo": 32,
+   "rxTrigger": [
+    8,
+    16,
+    24,
+    28
+   ],
+   "txTrigger": [
+    16,
+    8,
+    24,
+    30
+   ],
+   "dmaClass": "N",
+   "dmaMode1": false,
+   "intPin": "mcr5-open-source",
+   "iirPriority": "nxpEqual",
+   "lsr7Clear": "lsrRead",
+   "timeout": "4ch",
+   "sprPowerUp": 255,
+   "dlabHidesUpper": true,
+   "extended": "650",
+   "autoFlow": "efrTable",
+   "rtsTable": [
+    [
+     8,
+     0
+    ],
+    [
+     16,
+     7
+    ],
+    [
+     24,
+     15
+    ],
+    [
+     28,
+     23
+    ]
+   ],
+   "xoffTable": [
+    [
+     8,
+     0
+    ],
+    [
+     16,
+     7
+    ],
+    [
+     24,
+     15
+    ],
+    [
+     28,
+     23
+    ]
+   ],
+   "swFlow": "nxpAnd",
+   "specialChar": true,
+   "specialNeedsNoFlow": true,
+   "ctsRtsClear": "msr",
+   "sleep": "ier4",
+   "irda": "mcr6",
+   "prescaler": "mcr7",
+   "optionalPins": [
+    "CD",
+    "RI"
+   ],
+   "parts": [
+    {
+     "name": "SFX-SC16C650B",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T34",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "SC16C752B",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "IOR",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "IOW",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "TXA",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "RXA",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "INTA",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "RTSA",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "DTRA",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "CTSA",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "DSRA",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "CDA",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "RIA",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "CSA",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "TXRDYA",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "RXRDYA",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "OPA",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "TXB",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "RXB",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "INTB",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "RTSB",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "DTRB",
+      "role": "output"
+     },
+     {
+      "number": 35,
+      "name": "CTSB",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "DSRB",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "CDB",
+      "role": "input"
+     },
+     {
+      "number": 38,
+      "name": "RIB",
+      "role": "input"
+     },
+     {
+      "number": 39,
+      "name": "CSB",
+      "role": "input"
+     },
+     {
+      "number": 40,
+      "name": "TXRDYB",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "RXRDYB",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "OPB",
+      "role": "output"
+     },
+     {
+      "number": 43,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 44,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "IOR",
+    "write": "IOW",
+    "reset": "RESET",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2"
+   },
+   "channels": [
+    {
+     "tx": "TXA",
+     "rx": "RXA",
+     "int": "INTA",
+     "rts": "RTSA",
+     "dtr": "DTRA",
+     "cts": "CTSA",
+     "dsr": "DSRA",
+     "dcd": "CDA",
+     "ri": "RIA",
+     "select": [
+      "CSA"
+     ],
+     "txrdy": "TXRDYA",
+     "rxrdy": "RXRDYA",
+     "op": "OPA"
+    },
+    {
+     "tx": "TXB",
+     "rx": "RXB",
+     "int": "INTB",
+     "rts": "RTSB",
+     "dtr": "DTRB",
+     "cts": "CTSB",
+     "dsr": "DSRB",
+     "dcd": "CDB",
+     "ri": "RIB",
+     "select": [
+      "CSB"
+     ],
+     "txrdy": "TXRDYB",
+     "rxrdy": "RXRDYB",
+     "op": "OPB"
+    }
+   ],
+   "fifo": 64,
+   "rxTrigger": [
+    8,
+    16,
+    56,
+    60
+   ],
+   "txTrigger": [
+    8,
+    16,
+    32,
+    56
+   ],
+   "tlr": 4,
+   "lcrReset": 29,
+   "dmaClass": "T",
+   "intPin": "out2-gated",
+   "busSync": true,
+   "tcrNeedsDlab0": true,
+   "timeout": "4ch",
+   "extended": "752",
+   "autoFlow": "tcr",
+   "swFlow": "nxpAnd",
+   "specialChar": true,
+   "specialClear": "lsr",
+   "sleep": "ier4",
+   "irda": "mcr6",
+   "prescaler": "mcr7",
+   "lsrErrors": "head",
+   "optionalPins": [
+    "TXRDYA",
+    "TXRDYB",
+    "RXRDYA",
+    "RXRDYB",
+    "OPA",
+    "OPB",
+    "DSRA",
+    "DSRB",
+    "CDA",
+    "CDB",
+    "RIA",
+    "RIB"
+   ],
+   "parts": [
+    {
+     "name": "SFX-SC16C752B",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T44",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C2550",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "IOR",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "IOW",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "TXA",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "RXA",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "INTA",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "RTSA",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "DTRA",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "CTSA",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "DSRA",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "CDA",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "RIA",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "CSA",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "TXRDYA",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "RXRDYA",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "OPA",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "TXB",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "RXB",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "INTB",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "RTSB",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "DTRB",
+      "role": "output"
+     },
+     {
+      "number": 35,
+      "name": "CTSB",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "DSRB",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "CDB",
+      "role": "input"
+     },
+     {
+      "number": 38,
+      "name": "RIB",
+      "role": "input"
+     },
+     {
+      "number": 39,
+      "name": "CSB",
+      "role": "input"
+     },
+     {
+      "number": 40,
+      "name": "TXRDYB",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "RXRDYB",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "OPB",
+      "role": "output"
+     },
+     {
+      "number": 43,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 44,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "IOR",
+    "write": "IOW",
+    "reset": "RESET",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2"
+   },
+   "channels": [
+    {
+     "tx": "TXA",
+     "rx": "RXA",
+     "int": "INTA",
+     "rts": "RTSA",
+     "dtr": "DTRA",
+     "cts": "CTSA",
+     "dsr": "DSRA",
+     "dcd": "CDA",
+     "ri": "RIA",
+     "select": [
+      "CSA"
+     ],
+     "txrdy": "TXRDYA",
+     "rxrdy": "RXRDYA",
+     "op": "OPA"
+    },
+    {
+     "tx": "TXB",
+     "rx": "RXB",
+     "int": "INTB",
+     "rts": "RTSB",
+     "dtr": "DTRB",
+     "cts": "CTSB",
+     "dsr": "DSRB",
+     "dcd": "CDB",
+     "ri": "RIB",
+     "select": [
+      "CSB"
+     ],
+     "txrdy": "TXRDYB",
+     "rxrdy": "RXRDYB",
+     "op": "OPB"
+    }
+   ],
+   "fifo": 16,
+   "rxTrigger": [
+    1,
+    4,
+    8,
+    14
+   ],
+   "dmaClass": "N",
+   "intPin": "out2-gated",
+   "extended": "afe",
+   "autoFlow": "afe",
+   "optionalPins": [
+    "TXRDYA",
+    "TXRDYB",
+    "RXRDYA",
+    "RXRDYB",
+    "OPA",
+    "OPB",
+    "DSRA",
+    "DSRB",
+    "CDA",
+    "CDB",
+    "RIA",
+    "RIB",
+    "DTRA",
+    "DTRB"
+   ],
+   "parts": [
+    {
+     "name": "SFX-TL16C2550",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T44",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C2552",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "CS",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "IOR",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "IOW",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "TXA",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "RXA",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "INTA",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "RTSA",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "DTRA",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "CTSA",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "DSRA",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "CDA",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "RIA",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "TXRDYA",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "MFA",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "TXB",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "RXB",
+      "role": "input"
+     },
+     {
+      "number": 31,
+      "name": "INTB",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "RTSB",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "DTRB",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "CTSB",
+      "role": "input"
+     },
+     {
+      "number": 35,
+      "name": "DSRB",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "CDB",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "RIB",
+      "role": "input"
+     },
+     {
+      "number": 38,
+      "name": "TXRDYB",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "MFB",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "CHSEL",
+      "role": "input"
+     },
+     {
+      "number": 41,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 42,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "IOR",
+    "write": "IOW",
+    "select": [
+     "CS"
+    ],
+    "reset": "RESET",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2",
+    "baudOutShape": "low2"
+   },
+   "channels": [
+    {
+     "tx": "TXA",
+     "rx": "RXA",
+     "int": "INTA",
+     "rts": "RTSA",
+     "dtr": "DTRA",
+     "cts": "CTSA",
+     "dsr": "DSRA",
+     "dcd": "CDA",
+     "ri": "RIA",
+     "txrdy": "TXRDYA",
+     "mf": "MFA"
+    },
+    {
+     "tx": "TXB",
+     "rx": "RXB",
+     "int": "INTB",
+     "rts": "RTSB",
+     "dtr": "DTRB",
+     "cts": "CTSB",
+     "dsr": "DSRB",
+     "dcd": "CDB",
+     "ri": "RIB",
+     "txrdy": "TXRDYB",
+     "mf": "MFB"
+    }
+   ],
+   "channelSelect": {
+    "pin": "CHSEL",
+    "aIsHigh": true
+   },
+   "fifo": 16,
+   "rxTrigger": [
+    1,
+    4,
+    8,
+    14
+   ],
+   "dmaClass": "N",
+   "intPin": "out2-gated",
+   "mcrReset": 8,
+   "extended": "afe",
+   "autoFlow": "afe",
+   "afr": "ti2552",
+   "parts": [
+    {
+     "name": "SFX-TL16C2552",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T42",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C450",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "CS2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "CS0",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "CS1",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "DISTRBAR",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "DISTR",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "DOSTRBAR",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "DOSTR",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "ADS",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "MR",
+      "role": "input"
+     },
+     {
+      "number": 21,
+      "name": "DDIS",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "CSOUT",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "RCLK",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "BAUDOUT",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "SOUT",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "SIN",
+      "role": "input"
+     },
+     {
+      "number": 29,
+      "name": "INTRPT",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "DTR",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 33,
+      "name": "DSR",
+      "role": "input"
+     },
+     {
+      "number": 34,
+      "name": "DCD",
+      "role": "input"
+     },
+     {
+      "number": 35,
+      "name": "RI",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 37,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 39,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 40,
+      "name": "NC",
+      "role": "nc"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "DISTRBAR",
+    "readHigh": "DISTR",
+    "write": "DOSTRBAR",
+    "writeHigh": "DOSTR",
+    "select": [
+     "CS2"
+    ],
+    "selectHigh": [
+     "CS0",
+     "CS1"
+    ],
+    "addressStrobe": "ADS",
+    "driverDisable": "DDIS",
+    "reset": "MR",
+    "resetActiveHigh": true,
+    "selectOut": "CSOUT"
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2",
+    "receive": "RCLK",
+    "baudOut": "BAUDOUT",
+    "baudOutShape": "low2"
+   },
+   "channels": [
+    {
+     "tx": "SOUT",
+     "rx": "SIN",
+     "int": "INTRPT",
+     "rts": "RTS",
+     "dtr": "DTR",
+     "cts": "CTS",
+     "dsr": "DSR",
+     "dcd": "DCD",
+     "ri": "RI",
+     "out1": "OUT1",
+     "out2": "OUT2"
+    }
+   ],
+   "fifo": 0,
+   "intPin": "driven",
+   "parts": [
+    {
+     "name": "SFX-TL16C450",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T40",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C451",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "DB0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "DB1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "DB2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "DB3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "DB4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "DB5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "DB6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "DB7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "IOR",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "IOW",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "BDO",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "CLK",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "SOUT0",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "SIN0",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "INT0",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "RTS0",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "DTR0",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "CTS0",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "DSR0",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "RLSD0",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "RI0",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "CS0",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "PD0",
+      "role": "inout"
+     },
+     {
+      "number": 28,
+      "name": "PD1",
+      "role": "inout"
+     },
+     {
+      "number": 29,
+      "name": "PD2",
+      "role": "inout"
+     },
+     {
+      "number": 30,
+      "name": "PD3",
+      "role": "inout"
+     },
+     {
+      "number": 31,
+      "name": "PD4",
+      "role": "inout"
+     },
+     {
+      "number": 32,
+      "name": "PD5",
+      "role": "inout"
+     },
+     {
+      "number": 33,
+      "name": "PD6",
+      "role": "inout"
+     },
+     {
+      "number": 34,
+      "name": "PD7",
+      "role": "inout"
+     },
+     {
+      "number": 35,
+      "name": "CS2",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "STB",
+      "role": "inout"
+     },
+     {
+      "number": 37,
+      "name": "AFD",
+      "role": "inout"
+     },
+     {
+      "number": 38,
+      "name": "INIT",
+      "role": "inout"
+     },
+     {
+      "number": 39,
+      "name": "SLIN",
+      "role": "inout"
+     },
+     {
+      "number": 40,
+      "name": "ACK",
+      "role": "input"
+     },
+     {
+      "number": 41,
+      "name": "BUSY",
+      "role": "input"
+     },
+     {
+      "number": 42,
+      "name": "PE",
+      "role": "input"
+     },
+     {
+      "number": 43,
+      "name": "SLCT",
+      "role": "input"
+     },
+     {
+      "number": 44,
+      "name": "ERROR",
+      "role": "input"
+     },
+     {
+      "number": 45,
+      "name": "LPTOE",
+      "role": "input"
+     },
+     {
+      "number": 46,
+      "name": "INT2",
+      "role": "output"
+     },
+     {
+      "number": 47,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 48,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "DB0",
+     "DB1",
+     "DB2",
+     "DB3",
+     "DB4",
+     "DB5",
+     "DB6",
+     "DB7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "IOR",
+    "write": "IOW",
+    "driverDisable": "BDO",
+    "reset": "RESET",
+    "resetActiveHigh": false
+   },
+   "clock": {
+    "single": "CLK"
+   },
+   "channels": [
+    {
+     "tx": "SOUT0",
+     "rx": "SIN0",
+     "int": "INT0",
+     "rts": "RTS0",
+     "dtr": "DTR0",
+     "cts": "CTS0",
+     "dsr": "DSR0",
+     "dcd": "RLSD0",
+     "ri": "RI0",
+     "select": [
+      "CS0"
+     ]
+    }
+   ],
+   "fifo": 0,
+   "intPin": "out2-gated",
+   "broadcastWrite": "multi-cs",
+   "printerPort": {
+    "style": "ti451",
+    "data": [
+     "PD0",
+     "PD1",
+     "PD2",
+     "PD3",
+     "PD4",
+     "PD5",
+     "PD6",
+     "PD7"
+    ],
+    "select": "CS2",
+    "strobe": "STB",
+    "autoFeed": "AFD",
+    "init": "INIT",
+    "selectIn": "SLIN",
+    "ack": "ACK",
+    "busy": "BUSY",
+    "paperEnd": "PE",
+    "slct": "SLCT",
+    "error": "ERROR",
+    "irq": "INT2",
+    "inputEnable": "LPTOE"
+   },
+   "parts": [
+    {
+     "name": "SFX-TL16C451",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T48",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C452",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "DB0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "DB1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "DB2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "DB3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "DB4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "DB5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "DB6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "DB7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "IOR",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "IOW",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "BDO",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "CLK",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "SOUT0",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "SIN0",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "INT0",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "RTS0",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "DTR0",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "CTS0",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "DSR0",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "RLSD0",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "RI0",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "CS0",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "SOUT1",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "SIN1",
+      "role": "input"
+     },
+     {
+      "number": 29,
+      "name": "INT1",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "RTS1",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "DTR1",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "CTS1",
+      "role": "input"
+     },
+     {
+      "number": 33,
+      "name": "DSR1",
+      "role": "input"
+     },
+     {
+      "number": 34,
+      "name": "RLSD1",
+      "role": "input"
+     },
+     {
+      "number": 35,
+      "name": "RI1",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "CS1",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "PD0",
+      "role": "inout"
+     },
+     {
+      "number": 38,
+      "name": "PD1",
+      "role": "inout"
+     },
+     {
+      "number": 39,
+      "name": "PD2",
+      "role": "inout"
+     },
+     {
+      "number": 40,
+      "name": "PD3",
+      "role": "inout"
+     },
+     {
+      "number": 41,
+      "name": "PD4",
+      "role": "inout"
+     },
+     {
+      "number": 42,
+      "name": "PD5",
+      "role": "inout"
+     },
+     {
+      "number": 43,
+      "name": "PD6",
+      "role": "inout"
+     },
+     {
+      "number": 44,
+      "name": "PD7",
+      "role": "inout"
+     },
+     {
+      "number": 45,
+      "name": "CS2",
+      "role": "input"
+     },
+     {
+      "number": 46,
+      "name": "STB",
+      "role": "inout"
+     },
+     {
+      "number": 47,
+      "name": "AFD",
+      "role": "inout"
+     },
+     {
+      "number": 48,
+      "name": "INIT",
+      "role": "inout"
+     },
+     {
+      "number": 49,
+      "name": "SLIN",
+      "role": "inout"
+     },
+     {
+      "number": 50,
+      "name": "ACK",
+      "role": "input"
+     },
+     {
+      "number": 51,
+      "name": "BUSY",
+      "role": "input"
+     },
+     {
+      "number": 52,
+      "name": "PE",
+      "role": "input"
+     },
+     {
+      "number": 53,
+      "name": "SLCT",
+      "role": "input"
+     },
+     {
+      "number": 54,
+      "name": "ERROR",
+      "role": "input"
+     },
+     {
+      "number": 55,
+      "name": "LPTOE",
+      "role": "input"
+     },
+     {
+      "number": 56,
+      "name": "INT2",
+      "role": "output"
+     },
+     {
+      "number": 57,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 58,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "DB0",
+     "DB1",
+     "DB2",
+     "DB3",
+     "DB4",
+     "DB5",
+     "DB6",
+     "DB7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "IOR",
+    "write": "IOW",
+    "driverDisable": "BDO",
+    "reset": "RESET",
+    "resetActiveHigh": false
+   },
+   "clock": {
+    "single": "CLK"
+   },
+   "channels": [
+    {
+     "tx": "SOUT0",
+     "rx": "SIN0",
+     "int": "INT0",
+     "rts": "RTS0",
+     "dtr": "DTR0",
+     "cts": "CTS0",
+     "dsr": "DSR0",
+     "dcd": "RLSD0",
+     "ri": "RI0",
+     "select": [
+      "CS0"
+     ]
+    },
+    {
+     "tx": "SOUT1",
+     "rx": "SIN1",
+     "int": "INT1",
+     "rts": "RTS1",
+     "dtr": "DTR1",
+     "cts": "CTS1",
+     "dsr": "DSR1",
+     "dcd": "RLSD1",
+     "ri": "RI1",
+     "select": [
+      "CS1"
+     ]
+    }
+   ],
+   "fifo": 0,
+   "intPin": "out2-gated",
+   "broadcastWrite": "multi-cs",
+   "printerPort": {
+    "style": "ti451",
+    "data": [
+     "PD0",
+     "PD1",
+     "PD2",
+     "PD3",
+     "PD4",
+     "PD5",
+     "PD6",
+     "PD7"
+    ],
+    "select": "CS2",
+    "strobe": "STB",
+    "autoFeed": "AFD",
+    "init": "INIT",
+    "selectIn": "SLIN",
+    "ack": "ACK",
+    "busy": "BUSY",
+    "paperEnd": "PE",
+    "slct": "SLCT",
+    "error": "ERROR",
+    "irq": "INT2",
+    "inputEnable": "LPTOE"
+   },
+   "parts": [
+    {
+     "name": "SFX-TL16C452",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T58",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C550B",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "CS2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "CS0",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "CS1",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "RD1",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "RD2",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "WR1",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "WR2",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "ADS",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "MR",
+      "role": "input"
+     },
+     {
+      "number": 21,
+      "name": "DDIS",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "XIN",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "RCLK",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "XOUT",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "BAUDOUT",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "SOUT",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "SIN",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "INTRPT",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "DTR",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "DSR",
+      "role": "input"
+     },
+     {
+      "number": 33,
+      "name": "DCD",
+      "role": "input"
+     },
+     {
+      "number": 34,
+      "name": "RI",
+      "role": "input"
+     },
+     {
+      "number": 35,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 36,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 37,
+      "name": "TXRDY",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "RXRDY",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 40,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "RD1",
+    "readHigh": "RD2",
+    "write": "WR1",
+    "writeHigh": "WR2",
+    "select": [
+     "CS2"
+    ],
+    "selectHigh": [
+     "CS0",
+     "CS1"
+    ],
+    "addressStrobe": "ADS",
+    "driverDisable": "DDIS",
+    "reset": "MR",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XIN",
+    "out": "XOUT",
+    "receive": "RCLK",
+    "baudOut": "BAUDOUT",
+    "baudOutShape": "low2"
+   },
+   "channels": [
+    {
+     "tx": "SOUT",
+     "rx": "SIN",
+     "int": "INTRPT",
+     "rts": "RTS",
+     "dtr": "DTR",
+     "cts": "CTS",
+     "dsr": "DSR",
+     "dcd": "DCD",
+     "ri": "RI",
+     "out1": "OUT1",
+     "out2": "OUT2",
+     "txrdy": "TXRDY",
+     "rxrdy": "RXRDY"
+    }
+   ],
+   "fifo": 16,
+   "rxTrigger": [
+    1,
+    4,
+    8,
+    14
+   ],
+   "intPin": "driven",
+   "dmaClass": "B",
+   "parts": [
+    {
+     "name": "SFX-TL16C550B",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T40",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C550C",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "CS2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "CS0",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "CS1",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "RD1",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "RD2",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "WR1",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "WR2",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "ADS",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "MR",
+      "role": "input"
+     },
+     {
+      "number": 21,
+      "name": "DDIS",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "XIN",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "RCLK",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "XOUT",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "BAUDOUT",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "SOUT",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "SIN",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "INTRPT",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "DTR",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "DSR",
+      "role": "input"
+     },
+     {
+      "number": 33,
+      "name": "DCD",
+      "role": "input"
+     },
+     {
+      "number": 34,
+      "name": "RI",
+      "role": "input"
+     },
+     {
+      "number": 35,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 36,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 37,
+      "name": "TXRDY",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "RXRDY",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 40,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "RD1",
+    "readHigh": "RD2",
+    "write": "WR1",
+    "writeHigh": "WR2",
+    "select": [
+     "CS2"
+    ],
+    "selectHigh": [
+     "CS0",
+     "CS1"
+    ],
+    "addressStrobe": "ADS",
+    "driverDisable": "DDIS",
+    "reset": "MR",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XIN",
+    "out": "XOUT",
+    "receive": "RCLK",
+    "baudOut": "BAUDOUT",
+    "baudOutShape": "low2"
+   },
+   "channels": [
+    {
+     "tx": "SOUT",
+     "rx": "SIN",
+     "int": "INTRPT",
+     "rts": "RTS",
+     "dtr": "DTR",
+     "cts": "CTS",
+     "dsr": "DSR",
+     "dcd": "DCD",
+     "ri": "RI",
+     "out1": "OUT1",
+     "out2": "OUT2",
+     "txrdy": "TXRDY",
+     "rxrdy": "RXRDY"
+    }
+   ],
+   "fifo": 16,
+   "rxTrigger": [
+    1,
+    4,
+    8,
+    14
+   ],
+   "intPin": "driven",
+   "dmaClass": "N",
+   "extended": "afe",
+   "autoFlow": "afe",
+   "timeoutDelay": 9,
+   "parts": [
+    {
+     "name": "SFX-TL16C550C",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T40",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C550D",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "CS2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "CS0",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "CS1",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "RD1",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "RD2",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "WR1",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "WR2",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "ADS",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "MR",
+      "role": "input"
+     },
+     {
+      "number": 21,
+      "name": "DDIS",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "XIN",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "RCLK",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "XOUT",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "BAUDOUT",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "SOUT",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "SIN",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "INTRPT",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "DTR",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "DSR",
+      "role": "input"
+     },
+     {
+      "number": 33,
+      "name": "DCD",
+      "role": "input"
+     },
+     {
+      "number": 34,
+      "name": "RI",
+      "role": "input"
+     },
+     {
+      "number": 35,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 36,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 37,
+      "name": "TXRDY",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "RXRDY",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 40,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "RD1",
+    "readHigh": "RD2",
+    "write": "WR1",
+    "writeHigh": "WR2",
+    "select": [
+     "CS2"
+    ],
+    "selectHigh": [
+     "CS0",
+     "CS1"
+    ],
+    "addressStrobe": "ADS",
+    "driverDisable": "DDIS",
+    "reset": "MR",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XIN",
+    "out": "XOUT",
+    "receive": "RCLK",
+    "baudOut": "BAUDOUT",
+    "baudOutShape": "low2"
+   },
+   "channels": [
+    {
+     "tx": "SOUT",
+     "rx": "SIN",
+     "int": "INTRPT",
+     "rts": "RTS",
+     "dtr": "DTR",
+     "cts": "CTS",
+     "dsr": "DSR",
+     "dcd": "DCD",
+     "ri": "RI",
+     "out1": "OUT1",
+     "out2": "OUT2",
+     "txrdy": "TXRDY",
+     "rxrdy": "RXRDY"
+    }
+   ],
+   "fifo": 16,
+   "rxTrigger": [
+    1,
+    4,
+    8,
+    14
+   ],
+   "intPin": "driven",
+   "dmaClass": "N",
+   "extended": "afe",
+   "autoFlow": "afe",
+   "timeoutDelay": 9,
+   "absentTies": {
+    "CS0": 1,
+    "CS1": 1,
+    "ADS": 0,
+    "RD2": 0,
+    "WR2": 0
+   },
+   "optionalPins": [
+    "RCLK",
+    "BAUDOUT",
+    "DDIS",
+    "TXRDY",
+    "RXRDY",
+    "OUT1",
+    "OUT2",
+    "DSR",
+    "RI",
+    "DCD",
+    "CTS",
+    "RTS",
+    "DTR"
+   ],
+   "parts": [
+    {
+     "name": "SFX-TL16C550D",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T40",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C552",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "DB0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "DB1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "DB2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "DB3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "DB4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "DB5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "DB6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "DB7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "IOR",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "IOW",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "BDO",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "CLK",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "SOUT0",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "SIN0",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "INT0",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "RTS0",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "DTR0",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "CTS0",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "DSR0",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "DCD0",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "RI0",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "CS0",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "TXRDY0",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "RXRDY0",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "SOUT1",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "SIN1",
+      "role": "input"
+     },
+     {
+      "number": 31,
+      "name": "INT1",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "RTS1",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "DTR1",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "CTS1",
+      "role": "input"
+     },
+     {
+      "number": 35,
+      "name": "DSR1",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "DCD1",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "RI1",
+      "role": "input"
+     },
+     {
+      "number": 38,
+      "name": "CS1",
+      "role": "input"
+     },
+     {
+      "number": 39,
+      "name": "TXRDY1",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "RXRDY1",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "TRI",
+      "role": "input"
+     },
+     {
+      "number": 42,
+      "name": "PD0",
+      "role": "inout"
+     },
+     {
+      "number": 43,
+      "name": "PD1",
+      "role": "inout"
+     },
+     {
+      "number": 44,
+      "name": "PD2",
+      "role": "inout"
+     },
+     {
+      "number": 45,
+      "name": "PD3",
+      "role": "inout"
+     },
+     {
+      "number": 46,
+      "name": "PD4",
+      "role": "inout"
+     },
+     {
+      "number": 47,
+      "name": "PD5",
+      "role": "inout"
+     },
+     {
+      "number": 48,
+      "name": "PD6",
+      "role": "inout"
+     },
+     {
+      "number": 49,
+      "name": "PD7",
+      "role": "inout"
+     },
+     {
+      "number": 50,
+      "name": "CS2",
+      "role": "input"
+     },
+     {
+      "number": 51,
+      "name": "STB",
+      "role": "inout"
+     },
+     {
+      "number": 52,
+      "name": "AFD",
+      "role": "inout"
+     },
+     {
+      "number": 53,
+      "name": "INIT",
+      "role": "inout"
+     },
+     {
+      "number": 54,
+      "name": "SLIN",
+      "role": "inout"
+     },
+     {
+      "number": 55,
+      "name": "ACK",
+      "role": "input"
+     },
+     {
+      "number": 56,
+      "name": "BUSY",
+      "role": "input"
+     },
+     {
+      "number": 57,
+      "name": "PE",
+      "role": "input"
+     },
+     {
+      "number": 58,
+      "name": "SLCT",
+      "role": "input"
+     },
+     {
+      "number": 59,
+      "name": "ERR",
+      "role": "input"
+     },
+     {
+      "number": 60,
+      "name": "PEMD",
+      "role": "input"
+     },
+     {
+      "number": 61,
+      "name": "ENIRQ",
+      "role": "input"
+     },
+     {
+      "number": 62,
+      "name": "INT2",
+      "role": "output"
+     },
+     {
+      "number": 63,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 64,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "DB0",
+     "DB1",
+     "DB2",
+     "DB3",
+     "DB4",
+     "DB5",
+     "DB6",
+     "DB7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "IOR",
+    "write": "IOW",
+    "driverDisable": "BDO",
+    "reset": "RESET",
+    "resetActiveHigh": false
+   },
+   "clock": {
+    "single": "CLK"
+   },
+   "channels": [
+    {
+     "tx": "SOUT0",
+     "rx": "SIN0",
+     "int": "INT0",
+     "rts": "RTS0",
+     "dtr": "DTR0",
+     "cts": "CTS0",
+     "dsr": "DSR0",
+     "dcd": "DCD0",
+     "ri": "RI0",
+     "select": [
+      "CS0"
+     ],
+     "txrdy": "TXRDY0",
+     "rxrdy": "RXRDY0"
+    },
+    {
+     "tx": "SOUT1",
+     "rx": "SIN1",
+     "int": "INT1",
+     "rts": "RTS1",
+     "dtr": "DTR1",
+     "cts": "CTS1",
+     "dsr": "DSR1",
+     "dcd": "DCD1",
+     "ri": "RI1",
+     "select": [
+      "CS1"
+     ],
+     "txrdy": "TXRDY1",
+     "rxrdy": "RXRDY1"
+    }
+   ],
+   "fifo": 16,
+   "rxTrigger": [
+    1,
+    4,
+    8,
+    14
+   ],
+   "dmaClass": "N",
+   "intPin": "out2-gated",
+   "statusReadDefer": true,
+   "printerPort": {
+    "style": "ti552",
+    "data": [
+     "PD0",
+     "PD1",
+     "PD2",
+     "PD3",
+     "PD4",
+     "PD5",
+     "PD6",
+     "PD7"
+    ],
+    "select": "CS2",
+    "strobe": "STB",
+    "autoFeed": "AFD",
+    "init": "INIT",
+    "selectIn": "SLIN",
+    "ack": "ACK",
+    "busy": "BUSY",
+    "paperEnd": "PE",
+    "slct": "SLCT",
+    "error": "ERR",
+    "irq": "INT2",
+    "pemd": "PEMD",
+    "enirq": "ENIRQ"
+   },
+   "tristate": "TRI",
+   "parts": [
+    {
+     "name": "SFX-TL16C552",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T64",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C552A",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "DB0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "DB1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "DB2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "DB3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "DB4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "DB5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "DB6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "DB7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "IOR",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "IOW",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "BDO",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "CLK",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "SOUT0",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "SIN0",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "INT0",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "RTS0",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "DTR0",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "CTS0",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "DSR0",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "DCD0",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "RI0",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "CS0",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "TXRDY0",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "RXRDY0",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "SOUT1",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "SIN1",
+      "role": "input"
+     },
+     {
+      "number": 31,
+      "name": "INT1",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "RTS1",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "DTR1",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "CTS1",
+      "role": "input"
+     },
+     {
+      "number": 35,
+      "name": "DSR1",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "DCD1",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "RI1",
+      "role": "input"
+     },
+     {
+      "number": 38,
+      "name": "CS1",
+      "role": "input"
+     },
+     {
+      "number": 39,
+      "name": "TXRDY1",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "RXRDY1",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "TRI",
+      "role": "input"
+     },
+     {
+      "number": 42,
+      "name": "PD0",
+      "role": "inout"
+     },
+     {
+      "number": 43,
+      "name": "PD1",
+      "role": "inout"
+     },
+     {
+      "number": 44,
+      "name": "PD2",
+      "role": "inout"
+     },
+     {
+      "number": 45,
+      "name": "PD3",
+      "role": "inout"
+     },
+     {
+      "number": 46,
+      "name": "PD4",
+      "role": "inout"
+     },
+     {
+      "number": 47,
+      "name": "PD5",
+      "role": "inout"
+     },
+     {
+      "number": 48,
+      "name": "PD6",
+      "role": "inout"
+     },
+     {
+      "number": 49,
+      "name": "PD7",
+      "role": "inout"
+     },
+     {
+      "number": 50,
+      "name": "CS2",
+      "role": "input"
+     },
+     {
+      "number": 51,
+      "name": "STB",
+      "role": "inout"
+     },
+     {
+      "number": 52,
+      "name": "AFD",
+      "role": "inout"
+     },
+     {
+      "number": 53,
+      "name": "INIT",
+      "role": "inout"
+     },
+     {
+      "number": 54,
+      "name": "SLIN",
+      "role": "inout"
+     },
+     {
+      "number": 55,
+      "name": "ACK",
+      "role": "input"
+     },
+     {
+      "number": 56,
+      "name": "BUSY",
+      "role": "input"
+     },
+     {
+      "number": 57,
+      "name": "PE",
+      "role": "input"
+     },
+     {
+      "number": 58,
+      "name": "SLCT",
+      "role": "input"
+     },
+     {
+      "number": 59,
+      "name": "ERR",
+      "role": "input"
+     },
+     {
+      "number": 60,
+      "name": "PEMD",
+      "role": "input"
+     },
+     {
+      "number": 61,
+      "name": "ENIRQ",
+      "role": "input"
+     },
+     {
+      "number": 62,
+      "name": "INT2",
+      "role": "output"
+     },
+     {
+      "number": 63,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 64,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "DB0",
+     "DB1",
+     "DB2",
+     "DB3",
+     "DB4",
+     "DB5",
+     "DB6",
+     "DB7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "IOR",
+    "write": "IOW",
+    "driverDisable": "BDO",
+    "reset": "RESET",
+    "resetActiveHigh": false
+   },
+   "clock": {
+    "single": "CLK"
+   },
+   "channels": [
+    {
+     "tx": "SOUT0",
+     "rx": "SIN0",
+     "int": "INT0",
+     "rts": "RTS0",
+     "dtr": "DTR0",
+     "cts": "CTS0",
+     "dsr": "DSR0",
+     "dcd": "DCD0",
+     "ri": "RI0",
+     "select": [
+      "CS0"
+     ],
+     "txrdy": "TXRDY0",
+     "rxrdy": "RXRDY0"
+    },
+    {
+     "tx": "SOUT1",
+     "rx": "SIN1",
+     "int": "INT1",
+     "rts": "RTS1",
+     "dtr": "DTR1",
+     "cts": "CTS1",
+     "dsr": "DSR1",
+     "dcd": "DCD1",
+     "ri": "RI1",
+     "select": [
+      "CS1"
+     ],
+     "txrdy": "TXRDY1",
+     "rxrdy": "RXRDY1"
+    }
+   ],
+   "fifo": 16,
+   "rxTrigger": [
+    1,
+    4,
+    8,
+    14
+   ],
+   "dmaClass": "N",
+   "intPin": "out2-gated",
+   "statusReadDefer": true,
+   "printerPort": {
+    "style": "ti552",
+    "data": [
+     "PD0",
+     "PD1",
+     "PD2",
+     "PD3",
+     "PD4",
+     "PD5",
+     "PD6",
+     "PD7"
+    ],
+    "select": "CS2",
+    "strobe": "STB",
+    "autoFeed": "AFD",
+    "init": "INIT",
+    "selectIn": "SLIN",
+    "ack": "ACK",
+    "busy": "BUSY",
+    "paperEnd": "PE",
+    "slct": "SLCT",
+    "error": "ERR",
+    "irq": "INT2",
+    "pemd": "PEMD",
+    "enirq": "ENIRQ"
+   },
+   "tristate": "TRI",
+   "parts": [
+    {
+     "name": "SFX-TL16C552A",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T64",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C554",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "IOR",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "IOW",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "TXA",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "RXA",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "INTA",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "RTSA",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "DTRA",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "CTSA",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "DSRA",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "DCDA",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "RIA",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "CSA",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "TXB",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "RXB",
+      "role": "input"
+     },
+     {
+      "number": 29,
+      "name": "INTB",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "RTSB",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "DTRB",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "CTSB",
+      "role": "input"
+     },
+     {
+      "number": 33,
+      "name": "DSRB",
+      "role": "input"
+     },
+     {
+      "number": 34,
+      "name": "DCDB",
+      "role": "input"
+     },
+     {
+      "number": 35,
+      "name": "RIB",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "CSB",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "TXC",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "RXC",
+      "role": "input"
+     },
+     {
+      "number": 39,
+      "name": "INTC",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "RTSC",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "DTRC",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "CTSC",
+      "role": "input"
+     },
+     {
+      "number": 43,
+      "name": "DSRC",
+      "role": "input"
+     },
+     {
+      "number": 44,
+      "name": "DCDC",
+      "role": "input"
+     },
+     {
+      "number": 45,
+      "name": "RIC",
+      "role": "input"
+     },
+     {
+      "number": 46,
+      "name": "CSC",
+      "role": "input"
+     },
+     {
+      "number": 47,
+      "name": "TXD",
+      "role": "output"
+     },
+     {
+      "number": 48,
+      "name": "RXD",
+      "role": "input"
+     },
+     {
+      "number": 49,
+      "name": "INTD",
+      "role": "output"
+     },
+     {
+      "number": 50,
+      "name": "RTSD",
+      "role": "output"
+     },
+     {
+      "number": 51,
+      "name": "DTRD",
+      "role": "output"
+     },
+     {
+      "number": 52,
+      "name": "CTSD",
+      "role": "input"
+     },
+     {
+      "number": 53,
+      "name": "DSRD",
+      "role": "input"
+     },
+     {
+      "number": 54,
+      "name": "DCDD",
+      "role": "input"
+     },
+     {
+      "number": 55,
+      "name": "RID",
+      "role": "input"
+     },
+     {
+      "number": 56,
+      "name": "CSD",
+      "role": "input"
+     },
+     {
+      "number": 57,
+      "name": "INTN",
+      "role": "input"
+     },
+     {
+      "number": 58,
+      "name": "TXRDY",
+      "role": "output"
+     },
+     {
+      "number": 59,
+      "name": "RXRDY",
+      "role": "output"
+     },
+     {
+      "number": 60,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 61,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 62,
+      "name": "NC",
+      "role": "nc"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "IOR",
+    "write": "IOW",
+    "reset": "RESET",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2"
+   },
+   "channels": [
+    {
+     "tx": "TXA",
+     "rx": "RXA",
+     "int": "INTA",
+     "rts": "RTSA",
+     "dtr": "DTRA",
+     "cts": "CTSA",
+     "dsr": "DSRA",
+     "dcd": "DCDA",
+     "ri": "RIA",
+     "select": [
+      "CSA"
+     ]
+    },
+    {
+     "tx": "TXB",
+     "rx": "RXB",
+     "int": "INTB",
+     "rts": "RTSB",
+     "dtr": "DTRB",
+     "cts": "CTSB",
+     "dsr": "DSRB",
+     "dcd": "DCDB",
+     "ri": "RIB",
+     "select": [
+      "CSB"
+     ]
+    },
+    {
+     "tx": "TXC",
+     "rx": "RXC",
+     "int": "INTC",
+     "rts": "RTSC",
+     "dtr": "DTRC",
+     "cts": "CTSC",
+     "dsr": "DSRC",
+     "dcd": "DCDC",
+     "ri": "RIC",
+     "select": [
+      "CSC"
+     ]
+    },
+    {
+     "tx": "TXD",
+     "rx": "RXD",
+     "int": "INTD",
+     "rts": "RTSD",
+     "dtr": "DTRD",
+     "cts": "CTSD",
+     "dsr": "DSRD",
+     "dcd": "DCDD",
+     "ri": "RID",
+     "select": [
+      "CSD"
+     ]
+    }
+   ],
+   "fifo": 16,
+   "rxTrigger": [
+    1,
+    4,
+    8,
+    14
+   ],
+   "dmaClass": "N",
+   "dmaPins": "sharedAnd",
+   "dma": {
+    "txrdy": "TXRDY",
+    "rxrdy": "RXRDY"
+   },
+   "intPin": "intn",
+   "intControl": "INTN",
+   "statusReadDefer": true,
+   "parts": [
+    {
+     "name": "SFX-TL16C554",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T62",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C554A",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "IOR",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "IOW",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "TXA",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "RXA",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "INTA",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "RTSA",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "DTRA",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "CTSA",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "DSRA",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "DCDA",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "RIA",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "CSA",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "TXB",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "RXB",
+      "role": "input"
+     },
+     {
+      "number": 29,
+      "name": "INTB",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "RTSB",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "DTRB",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "CTSB",
+      "role": "input"
+     },
+     {
+      "number": 33,
+      "name": "DSRB",
+      "role": "input"
+     },
+     {
+      "number": 34,
+      "name": "DCDB",
+      "role": "input"
+     },
+     {
+      "number": 35,
+      "name": "RIB",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "CSB",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "TXC",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "RXC",
+      "role": "input"
+     },
+     {
+      "number": 39,
+      "name": "INTC",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "RTSC",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "DTRC",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "CTSC",
+      "role": "input"
+     },
+     {
+      "number": 43,
+      "name": "DSRC",
+      "role": "input"
+     },
+     {
+      "number": 44,
+      "name": "DCDC",
+      "role": "input"
+     },
+     {
+      "number": 45,
+      "name": "RIC",
+      "role": "input"
+     },
+     {
+      "number": 46,
+      "name": "CSC",
+      "role": "input"
+     },
+     {
+      "number": 47,
+      "name": "TXD",
+      "role": "output"
+     },
+     {
+      "number": 48,
+      "name": "RXD",
+      "role": "input"
+     },
+     {
+      "number": 49,
+      "name": "INTD",
+      "role": "output"
+     },
+     {
+      "number": 50,
+      "name": "RTSD",
+      "role": "output"
+     },
+     {
+      "number": 51,
+      "name": "DTRD",
+      "role": "output"
+     },
+     {
+      "number": 52,
+      "name": "CTSD",
+      "role": "input"
+     },
+     {
+      "number": 53,
+      "name": "DSRD",
+      "role": "input"
+     },
+     {
+      "number": 54,
+      "name": "DCDD",
+      "role": "input"
+     },
+     {
+      "number": 55,
+      "name": "RID",
+      "role": "input"
+     },
+     {
+      "number": 56,
+      "name": "CSD",
+      "role": "input"
+     },
+     {
+      "number": 57,
+      "name": "INTN",
+      "role": "input"
+     },
+     {
+      "number": 58,
+      "name": "TXRDY",
+      "role": "output"
+     },
+     {
+      "number": 59,
+      "name": "RXRDY",
+      "role": "output"
+     },
+     {
+      "number": 60,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 61,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 62,
+      "name": "NC",
+      "role": "nc"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "IOR",
+    "write": "IOW",
+    "reset": "RESET",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2"
+   },
+   "channels": [
+    {
+     "tx": "TXA",
+     "rx": "RXA",
+     "int": "INTA",
+     "rts": "RTSA",
+     "dtr": "DTRA",
+     "cts": "CTSA",
+     "dsr": "DSRA",
+     "dcd": "DCDA",
+     "ri": "RIA",
+     "select": [
+      "CSA"
+     ]
+    },
+    {
+     "tx": "TXB",
+     "rx": "RXB",
+     "int": "INTB",
+     "rts": "RTSB",
+     "dtr": "DTRB",
+     "cts": "CTSB",
+     "dsr": "DSRB",
+     "dcd": "DCDB",
+     "ri": "RIB",
+     "select": [
+      "CSB"
+     ]
+    },
+    {
+     "tx": "TXC",
+     "rx": "RXC",
+     "int": "INTC",
+     "rts": "RTSC",
+     "dtr": "DTRC",
+     "cts": "CTSC",
+     "dsr": "DSRC",
+     "dcd": "DCDC",
+     "ri": "RIC",
+     "select": [
+      "CSC"
+     ]
+    },
+    {
+     "tx": "TXD",
+     "rx": "RXD",
+     "int": "INTD",
+     "rts": "RTSD",
+     "dtr": "DTRD",
+     "cts": "CTSD",
+     "dsr": "DSRD",
+     "dcd": "DCDD",
+     "ri": "RID",
+     "select": [
+      "CSD"
+     ]
+    }
+   ],
+   "fifo": 16,
+   "rxTrigger": [
+    1,
+    4,
+    8,
+    14
+   ],
+   "dmaClass": "N",
+   "dmaPins": "sharedAnd",
+   "dma": {
+    "txrdy": "TXRDY",
+    "rxrdy": "RXRDY"
+   },
+   "intPin": "intn",
+   "intControl": "INTN",
+   "statusReadDefer": true,
+   "extended": "afe",
+   "autoFlow": "afe",
+   "parts": [
+    {
+     "name": "SFX-TL16C554A",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T62",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C750",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "CS2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "CS0",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "CS1",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "RD1",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "RD2",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "WR1",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "WR2",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "ADS",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "MR",
+      "role": "input"
+     },
+     {
+      "number": 21,
+      "name": "DDIS",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "XIN",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "RCLK",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "XOUT",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "BAUDOUT",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "SOUT",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "SIN",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "INTRPT",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "DTR",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "DSR",
+      "role": "input"
+     },
+     {
+      "number": 33,
+      "name": "DCD",
+      "role": "input"
+     },
+     {
+      "number": 34,
+      "name": "RI",
+      "role": "input"
+     },
+     {
+      "number": 35,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 36,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 37,
+      "name": "TXRDY",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "RXRDY",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 40,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "RD1",
+    "readHigh": "RD2",
+    "write": "WR1",
+    "writeHigh": "WR2",
+    "select": [
+     "CS2"
+    ],
+    "selectHigh": [
+     "CS0",
+     "CS1"
+    ],
+    "addressStrobe": "ADS",
+    "driverDisable": "DDIS",
+    "reset": "MR",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XIN",
+    "out": "XOUT",
+    "receive": "RCLK",
+    "baudOut": "BAUDOUT",
+    "baudOutShape": "low2"
+   },
+   "channels": [
+    {
+     "tx": "SOUT",
+     "rx": "SIN",
+     "int": "INTRPT",
+     "rts": "RTS",
+     "dtr": "DTR",
+     "cts": "CTS",
+     "dsr": "DSR",
+     "dcd": "DCD",
+     "ri": "RI",
+     "out1": "OUT1",
+     "out2": "OUT2",
+     "txrdy": "TXRDY",
+     "rxrdy": "RXRDY"
+    }
+   ],
+   "fifo": "750",
+   "rxTrigger": [
+    1,
+    4,
+    8,
+    14
+   ],
+   "rxTrigger64": [
+    1,
+    16,
+    32,
+    56
+   ],
+   "intPin": "driven",
+   "dmaClass": "N",
+   "extended": "750",
+   "autoFlow": "afe",
+   "parts": [
+    {
+     "name": "SFX-TL16C750",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T40",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C750E",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "CS",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "IOR",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "IOW",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "TX",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "RX",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "INT",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "DTR",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "DSR",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "CD",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "RI",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "TXRDY",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "RXRDY",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "OP",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 31,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 32,
+      "name": "NC",
+      "role": "nc"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "IOR",
+    "write": "IOW",
+    "select": [
+     "CS"
+    ],
+    "reset": "RESET",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2"
+   },
+   "channels": [
+    {
+     "tx": "TX",
+     "rx": "RX",
+     "int": "INT",
+     "rts": "RTS",
+     "dtr": "DTR",
+     "cts": "CTS",
+     "dsr": "DSR",
+     "dcd": "CD",
+     "ri": "RI",
+     "txrdy": "TXRDY",
+     "rxrdy": "RXRDY",
+     "op": "OP"
+    }
+   ],
+   "fifo": 128,
+   "rxTrigger": [
+    1,
+    4,
+    120,
+    124
+   ],
+   "txTrigger": [
+    16,
+    32,
+    64,
+    120
+   ],
+   "tlr": 8,
+   "lcrReset": 29,
+   "afrReset": 16,
+   "dmaClass": "T",
+   "intPin": "out2-gated",
+   "timeout": "4w12",
+   "majorityVote": true,
+   "extended": "752",
+   "afr": "ti752",
+   "dlf": true,
+   "autoFlow": "tcr",
+   "swFlow": "tiAnd",
+   "specialChar": true,
+   "sleep": "ier4",
+   "irda": "afr1",
+   "rs485": "afr-dtr",
+   "prescaler": "mcr7",
+   "lsrErrors": "head",
+   "parts": [
+    {
+     "name": "SFX-TL16C750E",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T32",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C752C",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "IOR",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "IOW",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "TXA",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "RXA",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "INTA",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "RTSA",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "DTRA",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "CTSA",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "DSRA",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "CDA",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "RIA",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "CSA",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "TXRDYA",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "RXRDYA",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "OPA",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "TXB",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "RXB",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "INTB",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "RTSB",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "DTRB",
+      "role": "output"
+     },
+     {
+      "number": 35,
+      "name": "CTSB",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "DSRB",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "CDB",
+      "role": "input"
+     },
+     {
+      "number": 38,
+      "name": "RIB",
+      "role": "input"
+     },
+     {
+      "number": 39,
+      "name": "CSB",
+      "role": "input"
+     },
+     {
+      "number": 40,
+      "name": "TXRDYB",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "RXRDYB",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "OPB",
+      "role": "output"
+     },
+     {
+      "number": 43,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 44,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "IOR",
+    "write": "IOW",
+    "reset": "RESET",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2"
+   },
+   "channels": [
+    {
+     "tx": "TXA",
+     "rx": "RXA",
+     "int": "INTA",
+     "rts": "RTSA",
+     "dtr": "DTRA",
+     "cts": "CTSA",
+     "dsr": "DSRA",
+     "dcd": "CDA",
+     "ri": "RIA",
+     "select": [
+      "CSA"
+     ],
+     "txrdy": "TXRDYA",
+     "rxrdy": "RXRDYA",
+     "op": "OPA"
+    },
+    {
+     "tx": "TXB",
+     "rx": "RXB",
+     "int": "INTB",
+     "rts": "RTSB",
+     "dtr": "DTRB",
+     "cts": "CTSB",
+     "dsr": "DSRB",
+     "dcd": "CDB",
+     "ri": "RIB",
+     "select": [
+      "CSB"
+     ],
+     "txrdy": "TXRDYB",
+     "rxrdy": "RXRDYB",
+     "op": "OPB"
+    }
+   ],
+   "fifo": 64,
+   "rxTrigger": [
+    1,
+    4,
+    56,
+    60
+   ],
+   "txTrigger": [
+    8,
+    16,
+    32,
+    56
+   ],
+   "tlr": 4,
+   "lcrReset": 29,
+   "afrReset": 16,
+   "dmaClass": "T",
+   "intPin": "out2-gated",
+   "broadcastWrite": "multi-cs",
+   "prescaler": "mcr7",
+   "majorityVote": true,
+   "timeout": "4w12",
+   "extended": "752",
+   "afr": "ti752",
+   "autoFlow": "tcr",
+   "swFlow": "tiAnd",
+   "specialChar": true,
+   "sleep": "ier4",
+   "irda": "afr1",
+   "rs485": "afr-dtr",
+   "lsrErrors": "head",
+   "optionalPins": [
+    "TXRDYA",
+    "TXRDYB",
+    "RXRDYA",
+    "RXRDYB",
+    "OPA",
+    "OPB",
+    "DSRA",
+    "DSRB",
+    "CDA",
+    "CDB",
+    "RIA",
+    "RIB"
+   ],
+   "parts": [
+    {
+     "name": "SFX-TL16C752C",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T44",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C754B",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "IOR",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "IOW",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "CLKSEL",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "TXA",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "RXA",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "INTA",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "RTSA",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "DTRA",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "CTSA",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "DSRA",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "CDA",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "RIA",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "CSA",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "TXB",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "RXB",
+      "role": "input"
+     },
+     {
+      "number": 30,
+      "name": "INTB",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "RTSB",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "DTRB",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "CTSB",
+      "role": "input"
+     },
+     {
+      "number": 34,
+      "name": "DSRB",
+      "role": "input"
+     },
+     {
+      "number": 35,
+      "name": "CDB",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "RIB",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "CSB",
+      "role": "input"
+     },
+     {
+      "number": 38,
+      "name": "TXC",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "RXC",
+      "role": "input"
+     },
+     {
+      "number": 40,
+      "name": "INTC",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "RTSC",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "DTRC",
+      "role": "output"
+     },
+     {
+      "number": 43,
+      "name": "CTSC",
+      "role": "input"
+     },
+     {
+      "number": 44,
+      "name": "DSRC",
+      "role": "input"
+     },
+     {
+      "number": 45,
+      "name": "CDC",
+      "role": "input"
+     },
+     {
+      "number": 46,
+      "name": "RIC",
+      "role": "input"
+     },
+     {
+      "number": 47,
+      "name": "CSC",
+      "role": "input"
+     },
+     {
+      "number": 48,
+      "name": "TXD",
+      "role": "output"
+     },
+     {
+      "number": 49,
+      "name": "RXD",
+      "role": "input"
+     },
+     {
+      "number": 50,
+      "name": "INTD",
+      "role": "output"
+     },
+     {
+      "number": 51,
+      "name": "RTSD",
+      "role": "output"
+     },
+     {
+      "number": 52,
+      "name": "DTRD",
+      "role": "output"
+     },
+     {
+      "number": 53,
+      "name": "CTSD",
+      "role": "input"
+     },
+     {
+      "number": 54,
+      "name": "DSRD",
+      "role": "input"
+     },
+     {
+      "number": 55,
+      "name": "CDD",
+      "role": "input"
+     },
+     {
+      "number": 56,
+      "name": "RID",
+      "role": "input"
+     },
+     {
+      "number": 57,
+      "name": "CSD",
+      "role": "input"
+     },
+     {
+      "number": 58,
+      "name": "INTSEL",
+      "role": "input"
+     },
+     {
+      "number": 59,
+      "name": "TXRDY",
+      "role": "output"
+     },
+     {
+      "number": 60,
+      "name": "RXRDY",
+      "role": "output"
+     },
+     {
+      "number": 61,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 62,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "IOR",
+    "write": "IOW",
+    "reset": "RESET",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2",
+    "select": "CLKSEL"
+   },
+   "channels": [
+    {
+     "tx": "TXA",
+     "rx": "RXA",
+     "int": "INTA",
+     "rts": "RTSA",
+     "dtr": "DTRA",
+     "cts": "CTSA",
+     "dsr": "DSRA",
+     "dcd": "CDA",
+     "ri": "RIA",
+     "select": [
+      "CSA"
+     ]
+    },
+    {
+     "tx": "TXB",
+     "rx": "RXB",
+     "int": "INTB",
+     "rts": "RTSB",
+     "dtr": "DTRB",
+     "cts": "CTSB",
+     "dsr": "DSRB",
+     "dcd": "CDB",
+     "ri": "RIB",
+     "select": [
+      "CSB"
+     ]
+    },
+    {
+     "tx": "TXC",
+     "rx": "RXC",
+     "int": "INTC",
+     "rts": "RTSC",
+     "dtr": "DTRC",
+     "cts": "CTSC",
+     "dsr": "DSRC",
+     "dcd": "CDC",
+     "ri": "RIC",
+     "select": [
+      "CSC"
+     ]
+    },
+    {
+     "tx": "TXD",
+     "rx": "RXD",
+     "int": "INTD",
+     "rts": "RTSD",
+     "dtr": "DTRD",
+     "cts": "CTSD",
+     "dsr": "DSRD",
+     "dcd": "CDD",
+     "ri": "RID",
+     "select": [
+      "CSD"
+     ]
+    }
+   ],
+   "fifo": 64,
+   "rxTrigger": [
+    8,
+    16,
+    56,
+    60
+   ],
+   "txTrigger": [
+    8,
+    16,
+    32,
+    56
+   ],
+   "tlr": 4,
+   "lcrReset": 29,
+   "dmaClass": "T",
+   "dmaPins": "sharedWireOr",
+   "dma": {
+    "txrdy": "TXRDY",
+    "rxrdy": "RXRDY"
+   },
+   "intPin": "intsel",
+   "intControl": "INTSEL",
+   "prescaler": "mcr7-clksel",
+   "busSync": true,
+   "majorityVote": true,
+   "timeout": "4w12",
+   "extended": "752",
+   "autoFlow": "tcr",
+   "swFlow": "tiAnd",
+   "specialChar": true,
+   "sleep": "ier4",
+   "lsrErrors": "head",
+   "parts": [
+    {
+     "name": "SFX-TL16C754B",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T62",
+     "grade": "T"
+    }
+   ]
+  },
+  {
+   "id": "TL16C754C",
+   "function": "UART",
+   "description": "stand-in fixture",
+   "drawer": [
+    "Interface"
+   ],
+   "pinouts": {
+    "test": [
+     {
+      "number": 1,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "IOR",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "IOW",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "TXA",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "RXA",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "INTA",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "RTSA",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "DTRA",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "CTSA",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "DSRA",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "CDA",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "RIA",
+      "role": "input"
+     },
+     {
+      "number": 26,
+      "name": "CSA",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "TXB",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "RXB",
+      "role": "input"
+     },
+     {
+      "number": 29,
+      "name": "INTB",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "RTSB",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "DTRB",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "CTSB",
+      "role": "input"
+     },
+     {
+      "number": 33,
+      "name": "DSRB",
+      "role": "input"
+     },
+     {
+      "number": 34,
+      "name": "CDB",
+      "role": "input"
+     },
+     {
+      "number": 35,
+      "name": "RIB",
+      "role": "input"
+     },
+     {
+      "number": 36,
+      "name": "CSB",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "TXC",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "RXC",
+      "role": "input"
+     },
+     {
+      "number": 39,
+      "name": "INTC",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "RTSC",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "DTRC",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "CTSC",
+      "role": "input"
+     },
+     {
+      "number": 43,
+      "name": "DSRC",
+      "role": "input"
+     },
+     {
+      "number": 44,
+      "name": "CDC",
+      "role": "input"
+     },
+     {
+      "number": 45,
+      "name": "RIC",
+      "role": "input"
+     },
+     {
+      "number": 46,
+      "name": "CSC",
+      "role": "input"
+     },
+     {
+      "number": 47,
+      "name": "TXD",
+      "role": "output"
+     },
+     {
+      "number": 48,
+      "name": "RXD",
+      "role": "input"
+     },
+     {
+      "number": 49,
+      "name": "INTD",
+      "role": "output"
+     },
+     {
+      "number": 50,
+      "name": "RTSD",
+      "role": "output"
+     },
+     {
+      "number": 51,
+      "name": "DTRD",
+      "role": "output"
+     },
+     {
+      "number": 52,
+      "name": "CTSD",
+      "role": "input"
+     },
+     {
+      "number": 53,
+      "name": "DSRD",
+      "role": "input"
+     },
+     {
+      "number": 54,
+      "name": "CDD",
+      "role": "input"
+     },
+     {
+      "number": 55,
+      "name": "RID",
+      "role": "input"
+     },
+     {
+      "number": 56,
+      "name": "CSD",
+      "role": "input"
+     },
+     {
+      "number": 57,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 58,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "grades": {
+    "T": {
+     "trvd": 60,
+     "thz": 100,
+     "trdd": 60,
+     "tbld": 175,
+     "trint": 1000,
+     "thr": 175,
+     "tmdo": 200,
+     "tsim": 250,
+     "trim": 250,
+     "twxi": 195,
+     "twrr": 290,
+     "tir": 250,
+     "tcso": 50,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "stand-in grade (no device data yet)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "intel",
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "address": [
+     "A0",
+     "A1",
+     "A2"
+    ],
+    "read": "IOR",
+    "write": "IOW",
+    "reset": "RESET",
+    "resetActiveHigh": true
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2"
+   },
+   "channels": [
+    {
+     "tx": "TXA",
+     "rx": "RXA",
+     "int": "INTA",
+     "rts": "RTSA",
+     "dtr": "DTRA",
+     "cts": "CTSA",
+     "dsr": "DSRA",
+     "dcd": "CDA",
+     "ri": "RIA",
+     "select": [
+      "CSA"
+     ]
+    },
+    {
+     "tx": "TXB",
+     "rx": "RXB",
+     "int": "INTB",
+     "rts": "RTSB",
+     "dtr": "DTRB",
+     "cts": "CTSB",
+     "dsr": "DSRB",
+     "dcd": "CDB",
+     "ri": "RIB",
+     "select": [
+      "CSB"
+     ]
+    },
+    {
+     "tx": "TXC",
+     "rx": "RXC",
+     "int": "INTC",
+     "rts": "RTSC",
+     "dtr": "DTRC",
+     "cts": "CTSC",
+     "dsr": "DSRC",
+     "dcd": "CDC",
+     "ri": "RIC",
+     "select": [
+      "CSC"
+     ]
+    },
+    {
+     "tx": "TXD",
+     "rx": "RXD",
+     "int": "INTD",
+     "rts": "RTSD",
+     "dtr": "DTRD",
+     "cts": "CTSD",
+     "dsr": "DSRD",
+     "dcd": "CDD",
+     "ri": "RID",
+     "select": [
+      "CSD"
+     ]
+    }
+   ],
+   "fifo": 64,
+   "rxTrigger": [
+    1,
+    4,
+    56,
+    60
+   ],
+   "txTrigger": [
+    8,
+    16,
+    32,
+    56
+   ],
+   "tlr": 4,
+   "lcrReset": 29,
+   "afrReset": 16,
+   "dmaClass": "T",
+   "intPin": "out2-gated",
+   "prescaler": "mcr7",
+   "majorityVote": true,
+   "timeout": "4w12",
+   "extended": "752",
+   "afr": "ti752",
+   "autoFlow": "tcr",
+   "swFlow": "tiAnd",
+   "specialChar": true,
+   "sleep": "ier4",
+   "irda": "afr1",
+   "rs485": "afr-dtr",
+   "lsrErrors": "head",
+   "xonReset": [
+    255,
+    239,
+    255,
+    255
+   ],
+   "sprPowerUp": 255,
+   "parts": [
+    {
+     "name": "SFX-TL16C754C",
+     "package": "DIP",
+     "pinout": "test",
+     "footprint": "T58",
+     "grade": "T"
+    }
+   ]
+  }
+ ]
+}

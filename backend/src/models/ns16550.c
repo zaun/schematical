@@ -38,7 +38,7 @@ static const char *const KEYS[] = {
     "specialChar", "specialClear", "specialNeedsNoFlow", "ctsRtsClear", "sleep", "irda", "rs485",
     "prescaler", "lsrErrors", "mcrReset", "xonReset", "tcrNeedsDlab0", "dlabHidesUpper",
     "idRegs", "timeoutDelay", "divisorZero", "printerPort", "tristate", "absentTies",
-    "optionalPins",
+    "optionalPins", "sprPowerUp", "dmaMode1",
     NULL
 };
 static const char *const CHANNEL_KEYS[] = {
@@ -1073,7 +1073,7 @@ static void write_fcr(NsChannel *c, uint8_t data, uint8_t known) {
     if (data & 4u) {
         ns_clear_tx(c);
     }
-    c->dma_mode = (data >> 3) & 1u;
+    c->dma_mode = c->owner->dev->no_dma_mode1 ? 0 : (data >> 3) & 1u;
     c->trigger = (data >> 6) & 3u;
     ns_ext_fcr(c, data, known);
     update_dma_latches(c);
@@ -1318,7 +1318,7 @@ static void bus_write(void *context, unsigned unit, unsigned address, uint8_t da
         return;
     }
     /* AFR concurrent write: every channel takes it. */
-    if (s->dev->broadcast == BROADCAST_AFR_CONC && s->conc) {
+    if (s->dev->afr != AFR_NONE && s->conc) {
         for (i = 0; i < s->dev->channel_count; i++) {
             cause = reg_write(s, &s->ch[i], address, data, known);
             update_channel_outputs(s, &s->ch[i], cause);
@@ -1508,6 +1508,7 @@ static void ns_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t pi
     if (serial_bus_has_pin(&s->bus, pin) || is_select_pin(s, pin)) {
         if (s->dev->bus_sync) {
             s->bus_dirty = 1;   /* sampled at the next XIN rising edge */
+            serial_bus_capture(&s->bus, sim, instance);
         } else {
             serial_bus_update(&s->bus, sim, instance, &s->events);
         }
@@ -1611,7 +1612,7 @@ static void *ns_create(const Part *part, const void *data, const void *pins,
         c->dll = (Reg){0, 0};
         c->dlm = (Reg){0, 0};
         c->rbr = (Reg){0, 0};
-        c->scr = (Reg){0, 0};
+        c->scr = s->dev->spr_power_up >= 0 ? (Reg){(uint8_t)s->dev->spr_power_up, 0xFF} : (Reg){0, 0};
         c->msr[0] = c->msr[1] = c->msr[2] = c->msr[3] = LOGIC_X;
         reset_channel(s, c, 1);
         load_divisor(c);
@@ -2134,8 +2135,17 @@ static int load_phase2(KindContext *ctx, const cJSON *json, NsDevice *d) {
         load_printer_port(ctx, json, d) != 0) {
         return -1;
     }
-    if (load_absent(ctx, json, d) != 0) {
+    if (load_absent(ctx, json, d) != 0 ||
+        load_byte(ctx, json, "sprPowerUp", -1, &d->spr_power_up) != 0) {
         return -1;
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "dmaMode1") != NULL) {
+        int mode1;
+
+        if (kind_bool(ctx, json, "dmaMode1", &mode1) != 0) {
+            return -1;
+        }
+        d->no_dma_mode1 = !mode1;
     }
     if (d->lpt != NULL && d->channel_pin != NULL) {
         return kind_error(ctx, "a printer port needs per-channel or common selects");

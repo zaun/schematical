@@ -1,0 +1,74 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel",
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "IOR",
+  "write": "IOW",
+  "reset": "RESET",
+  "resetActiveHigh": true
+ },
+ "clock": {
+  "single": "CLK"
+ },
+ "channels": [
+  {
+   "tx": "SOUT",
+   "rx": "SIN",
+   "int": "IRQ1",
+   "rts": "RTS",
+   "dtr": "DTR",
+   "cts": "CTS",
+   "dsr": "DSR",
+   "dcd": "DCD",
+   "ri": "RI",
+   "out2": "OUT2",
+   "select": [
+    "CE1"
+   ]
+  }
+ ],
+ "fifo": 0,
+ "intPin": "driven",
+ "divisorZero": 3,
+ "broadcastWrite": "multi-cs",
+ "sprReset": 0,
+ "printerPort": {
+  "style": "com92c451",
+  "data": [
+   "PD0",
+   "PD1",
+   "PD2",
+   "PD3",
+   "PD4",
+   "PD5",
+   "PD6",
+   "PD7"
+  ],
+  "select": "CE0",
+  "strobe": "STROBE",
+  "autoFeed": "AUTOFD",
+  "init": "INIT",
+  "selectIn": "SLC",
+  "ack": "ACK",
+  "busy": "BUSY",
+  "paperEnd": "PE",
+  "slct": "SLCT",
+  "error": "ERROR",
+  "irq": "IRQ0"
+ }
+}

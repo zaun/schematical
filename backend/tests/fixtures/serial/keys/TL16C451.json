@@ -1,0 +1,73 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel",
+  "data": [
+   "DB0",
+   "DB1",
+   "DB2",
+   "DB3",
+   "DB4",
+   "DB5",
+   "DB6",
+   "DB7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "IOR",
+  "write": "IOW",
+  "driverDisable": "BDO",
+  "reset": "RESET",
+  "resetActiveHigh": false
+ },
+ "clock": {
+  "single": "CLK"
+ },
+ "channels": [
+  {
+   "tx": "SOUT0",
+   "rx": "SIN0",
+   "int": "INT0",
+   "rts": "RTS0",
+   "dtr": "DTR0",
+   "cts": "CTS0",
+   "dsr": "DSR0",
+   "dcd": "RLSD0",
+   "ri": "RI0",
+   "select": [
+    "CS0"
+   ]
+  }
+ ],
+ "fifo": 0,
+ "intPin": "out2-gated",
+ "broadcastWrite": "multi-cs",
+ "printerPort": {
+  "style": "ti451",
+  "data": [
+   "PD0",
+   "PD1",
+   "PD2",
+   "PD3",
+   "PD4",
+   "PD5",
+   "PD6",
+   "PD7"
+  ],
+  "select": "CS2",
+  "strobe": "STB",
+  "autoFeed": "AFD",
+  "init": "INIT",
+  "selectIn": "SLIN",
+  "ack": "ACK",
+  "busy": "BUSY",
+  "paperEnd": "PE",
+  "slct": "SLCT",
+  "error": "ERROR",
+  "irq": "INT2",
+  "inputEnable": "LPTOE"
+ }
+}

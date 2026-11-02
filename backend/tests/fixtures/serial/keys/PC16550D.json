@@ -1,0 +1,70 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel",
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "RDBAR",
+  "readHigh": "RD",
+  "write": "WRBAR",
+  "writeHigh": "WR",
+  "select": [
+   "CS2"
+  ],
+  "selectHigh": [
+   "CS0",
+   "CS1"
+  ],
+  "addressStrobe": "ADS",
+  "driverDisable": "DDIS",
+  "reset": "MR",
+  "resetActiveHigh": true
+ },
+ "clock": {
+  "in": "XIN",
+  "out": "XOUT",
+  "receive": "RCLK",
+  "baudOut": "BAUDOUT"
+ },
+ "channels": [
+  {
+   "tx": "SOUT",
+   "rx": "SIN",
+   "int": "INTR",
+   "rts": "RTS",
+   "dtr": "DTR",
+   "cts": "CTS",
+   "dsr": "DSR",
+   "dcd": "DCD",
+   "ri": "RI",
+   "out1": "OUT1",
+   "out2": "OUT2",
+   "txrdy": "TXRDY",
+   "rxrdy": "RXRDY"
+  }
+ ],
+ "fifo": 16,
+ "rxTrigger": [
+  1,
+  4,
+  8,
+  14
+ ],
+ "intPin": "driven",
+ "dmaClass": "P",
+ "timeout": "4ch",
+ "sprReset": 0
+}

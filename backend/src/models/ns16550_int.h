@@ -150,6 +150,8 @@ typedef struct {
     const char *op[SERIAL_MAX_CHANNELS];
     const char *mf[SERIAL_MAX_CHANNELS];
     SerialAbsent absent;           /* "absentTies", "optionalPins" */
+    int spr_power_up;              /* "sprPowerUp": SPR at power-up; -1 = X */
+    int no_dma_mode1;              /* "dmaMode1": false: FCR[3] ignored */
 } NsDevice;
 
 typedef struct {

@@ -36,7 +36,7 @@ void serial_baud_load(SerialBaud *baud, uint32_t divisor, int known) {
     baud->frac = 0;
     baud->frac_acc = 0;
     baud->extra = 0;
-    baud->baudout = known && divisor != 0 ? (baud->low2 && divisor > 2 ? LOGIC_0 : LOGIC_1)
+    baud->baudout = known && divisor != 0 ? (baud->low2 && divisor >= 2 ? LOGIC_0 : LOGIC_1)
                                           : LOGIC_X;
 }
 
@@ -45,7 +45,7 @@ int serial_baud_edge(SerialBaud *baud, int rising, LogicValue clock_level) {
         baud->baudout = LOGIC_X;
         return 0;
     }
-    if (baud->divisor == 1) {
+    if (baud->divisor == 1 && baud->frac == 0) {
         baud->baudout = clock_level;
         return rising;
     }
@@ -65,8 +65,9 @@ int serial_baud_edge(SerialBaud *baud, int rising, LogicValue clock_level) {
             }
         }
     }
-    if (baud->low2 && baud->divisor > 2) {
-        baud->baudout = baud->count < 2 ? LOGIC_0 : LOGIC_1;
+    if (baud->low2 && baud->divisor >= 2) {
+        /* TI/Intersil: low for 2 clocks (1 when N = 2), high for the rest. */
+        baud->baudout = baud->count < (baud->divisor == 2 ? 1u : 2u) ? LOGIC_0 : LOGIC_1;
     } else {
         baud->baudout = baud->count < (baud->divisor + 1) / 2 ? LOGIC_1 : LOGIC_0;
     }

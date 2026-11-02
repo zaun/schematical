@@ -159,26 +159,35 @@ its case):
 
 ### Phase 1 — Multi-channel, bus schemes, FIFO sizes, DMA, INT pin
 
-- [~] Keys `channels` (>1), `channelSelect`, `broadcastWrite`, `fifo` 64/128/750,
+- [x] Keys `channels` (>1), `channelSelect`, `broadcastWrite`, `fifo` 64/128/750,
   `rxTrigger64`, `txTrigger`, `tlr`, `dmaPins`, `dmaClass`, `intPin`, reset
   and register reset keys, `iirPriority`, `lsr7Clear`, `stopCheck`,
   `statusReadDefer`, `busSync`, `majorityVote`, `timeout`, `clock.single`.
-  Implemented (8272fde: loader, decode, behavior; `ctest` 100%, 18 programs).
-  Remaining: their cases on the shipped fixtures (next task).
-- [ ] Fixtures and cases D2, D8, D9, D12–D16, D18, D20, D24.
+  Implemented (8272fde: loader, decode, behavior). Every key is exercised by
+  a D case that prints `ok` (`/tmp/logic-p12/serial_test`).
+- [~] Fixtures and cases D2, D8, D9, D12–D16, D18, D20, D24. The fixtures are
+  `tests/fixtures/serial/keys/<ID>.json` merged into the data child's
+  `devices/<ID>.json` by `merge.py` (see Corrections). Until that data lands,
+  a stand-in pinout of the pins the keys name stands in. Observed:
+  `ok   D8 …`, `D9`, `D12`–`D16`, `D18`, `D20`, `ok   D24 PC16550D: the C
+  cases on the shipped device object`. D2: the timeout part passes; its
+  `bga24` package check fails until the device data lands. Remaining:
+  re-run all cases on the shipped data.
 
 Acceptance: `serial_test` → every listed case `ok`; `ctest` 100% (about 1 min).
 Commit: —
 
 ### Phase 2 — Extended banks, flow control, sleep, IrDA, RS-485, printer port
 
-- [~] Keys `extended`, `afr`, `dlf`, `autoFlow`, `swFlow`, `specialChar`,
+- [x] Keys `extended`, `afr`, `dlf`, `autoFlow`, `swFlow`, `specialChar`,
   `sleep`, `irda`, `rs485`, `prescaler`, `printerPort`;
   `docs/parts-format.md` § `serial` gains §3.1/§3.2.
-  Implemented in `ns16550_ext.c` and `ns16550_lpt.c`, with the core hooks
-  (`ctest` 100%). Remaining: the docs, and checking every key against its
-  device case.
-- [ ] Fixtures and cases D1, D3–D7, D10, D11, D17, D19, D21–D23.
+  Implemented in `ns16550_ext.c` and `ns16550_lpt.c`, with the core hooks.
+  `docs/parts-format.md` § `serial` documents every D key (2ac9b98).
+- [~] Fixtures and cases D1, D3–D7, D10, D11, D17, D19, D21–D23. Observed:
+  each prints `ok` on the stand-in fixtures. Remaining: re-run on the shipped
+  device data, and D4's MODE-pin (IOW-only) bus once E's `intel-motorola`
+  style merges.
 
 Acceptance: `serial_test` → all 24 D cases and C's 12 `ok`; `ctest` 100%;
 `git diff --stat backend/tests/golden` → none (about 1 min).
@@ -199,4 +208,55 @@ that uses it, before F/G ship any part. The landing tier is plan-12-K's.
 
 ## Corrections
 
-(none yet)
+- **Fixture format (§3.3).** §3.3 said C strings `SFX_<ID>` in
+  `serial_fixture.h`. Instead each device is two JSON files merged by
+  `tests/fixtures/serial/merge.py` into `ns16550.json`, which `serial_test`
+  loads: `keys/<ID>.json` (the model keys, written here) and
+  `devices/<ID>.json` (pinouts, grades, parts: the data child for F/G). F and
+  G build `serial.json`'s devices from the same pair, so the tested object is
+  the shipped one. A device without its data file gets a stand-in pinout of
+  the pins its keys name; the merge reports which.
+- **Keys added beyond §3.1** (each needed by a device's spec; all
+  documented in `docs/parts-format.md`): `dma` (shared DMA pin names),
+  `intControl` (the INTN/INTSEL pin), channel `op` / `mf` pins, `mcrReset`,
+  `afrReset`, `xonReset`, `sprPowerUp`, `lsrErrors` (`head`: the 752 style's
+  LSR[4:2]), `specialNeedsNoFlow`, `specialClear`, `ctsRtsClear`,
+  `tcrNeedsDlab0`, `dlabHidesUpper`, `idRegs` (NS DREV; E reuses it),
+  `timeoutDelay` (TL16C550C/D: 9 RCLKs), `divisorZero` (COM92C451 ÷3),
+  `tristate` (TL16C552 TRI), `dmaMode1: false` (SC16C650B), `clock.select`
+  (CLKSEL), `clock.baudOutShape` (`low2`), `rtsTable` / `xoffTable` (the
+  `efrTable` data), and `absentTies` / `optionalPins` (package pin subsets:
+  TL16C550D RHB/ZQS, TL16C2550 RHB, SC16C650B HVQFN32, …).
+- **INT pin of TL16C450 and 82C50A.** §3.1 lists them under `out2-gated`.
+  Their specs say the pin is always driven: ti-a.md § TL16C450 "INTRPT …
+  no OUT2 gating and no 3-state", § 82C50A "OUT2 does not gate INTRPT".
+  Both use `intPin: driven`; D14/D20 check it.
+- **D2 majority vote.** D2 listed `majorityVote` for the TL16C550D. Its spec
+  samples once, 8 RCLKs into the bit (ti-a.md § TL16C550D). D2 checks its
+  9-RCLK timeout delay and the bga24 package without modem inputs instead.
+  `majorityVote` is checked on the TL16C754B, TL16C752C and TL16C750E parts.
+- **`swFlow: tiAnd`** follows the TI EFR table: 1011/0111 compare either
+  character, and 1111/0011 compare sequential pairs (ti-b.md § TL16C754B
+  Table 1; ti-c.md § TL16C752C). `nxpAnd` makes 1011/0111 sequential too
+  (exar-d.md § SC16C650B; decisions.md, file-wide note).
+- **`statusReadDefer` on the TL16C554/554A as well** (ti-b.md § TL16C554:
+  "Status set during an IOR is deferred to the trailing edge of the read").
+- **IIR order `standard`.** RX data shows above the timeout. C's first cut
+  showed the timeout first. Matrix A4 lists "timeout above RX data" as an
+  Exar oddity (ST16C2550), so the TI/National default is RX data first. C's
+  cases are unaffected (no case has both pending).
+- **AFR concurrent write** works whenever the device has an AFR, whatever
+  `broadcastWrite` says. The TL16C752C both broadcasts with both CS low
+  (`multi-cs`) and has AFR CONC.
+- **`busSync`.** The strobes are sampled on XTAL1 rising edges. The write
+  data is latched at the strobe's trailing edge itself, because the
+  datasheets time data hold from IOW↑ (ti-b.md § TL16C754B T16h). The bench
+  waits 400 ns after a strobe for these parts (the 4P cycle spacing).
+- **BAUDOUT shape.** TL16C450/550B/C/D, 750, 82C50A and the 2552's MF BAUDOUT
+  are low for 2 clocks and high for N − 2 (low 1, high 1 at N = 2): `clock.baudOutShape: "low2"`.
+- **COM92C451 IRQ0** (decisions.md "IRQ0 clear condition → NPD"; the
+  planner entry describes the ACE's interrupt). IRQ0 is the PIA's: it is
+  latched on ACK's falling edge while control bit 4 is set (Fig 9: "IRQ0 rises ≤ 35 ns after ACK falls"),
+  cleared by a status read, and 3-state while disabled.
+- **TL16C750E MODE pin** (IOW-only: CS is the strobe, IOW is R/W). It uses
+  E's `intel-motorola` bus style when that merges; D4 covers the rest.

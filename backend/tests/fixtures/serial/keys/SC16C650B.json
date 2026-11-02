@@ -1,0 +1,120 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel",
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "IOR",
+  "write": "IOW",
+  "select": [
+   "CS"
+  ],
+  "reset": "RESET",
+  "resetActiveHigh": true
+ },
+ "clock": {
+  "in": "XTAL1",
+  "out": "XTAL2",
+  "receive": "RCLK",
+  "baudOut": "BAUDOUT"
+ },
+ "channels": [
+  {
+   "tx": "TX",
+   "rx": "RX",
+   "int": "INT",
+   "rts": "RTS",
+   "dtr": "DTR",
+   "cts": "CTS",
+   "dsr": "DSR",
+   "dcd": "CD",
+   "ri": "RI",
+   "out1": "OUT",
+   "txrdy": "TXRDY",
+   "rxrdy": "RXRDY"
+  }
+ ],
+ "fifo": 32,
+ "rxTrigger": [
+  8,
+  16,
+  24,
+  28
+ ],
+ "txTrigger": [
+  16,
+  8,
+  24,
+  30
+ ],
+ "dmaClass": "N",
+ "dmaMode1": false,
+ "intPin": "mcr5-open-source",
+ "iirPriority": "nxpEqual",
+ "lsr7Clear": "lsrRead",
+ "timeout": "4ch",
+ "sprPowerUp": 255,
+ "dlabHidesUpper": true,
+ "extended": "650",
+ "autoFlow": "efrTable",
+ "rtsTable": [
+  [
+   8,
+   0
+  ],
+  [
+   16,
+   7
+  ],
+  [
+   24,
+   15
+  ],
+  [
+   28,
+   23
+  ]
+ ],
+ "xoffTable": [
+  [
+   8,
+   0
+  ],
+  [
+   16,
+   7
+  ],
+  [
+   24,
+   15
+  ],
+  [
+   28,
+   23
+  ]
+ ],
+ "swFlow": "nxpAnd",
+ "specialChar": true,
+ "specialNeedsNoFlow": true,
+ "ctsRtsClear": "msr",
+ "sleep": "ier4",
+ "irda": "mcr6",
+ "prescaler": "mcr7",
+ "optionalPins": [
+  "CD",
+  "RI"
+ ]
+}

@@ -65,7 +65,7 @@ typedef struct {
     uint32_t frac_den;
     uint32_t frac_acc;
     int extra;               /* this period is one edge longer */
-    int low2;                /* BAUDOUT low for 2 edges, high for N - 2 (N > 2) */
+    int low2;                /* BAUDOUT low for 2 edges (1 when N = 2), high for the rest */
 } SerialBaud;
 
 /* Loads a new divisor; the counter restarts (PC16550D: "writing either

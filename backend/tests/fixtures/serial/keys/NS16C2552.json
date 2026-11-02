@@ -1,0 +1,139 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel",
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "RD",
+  "write": "WR",
+  "select": [
+   "CS"
+  ],
+  "reset": "MR",
+  "resetActiveHigh": true
+ },
+ "clock": {
+  "in": "XIN",
+  "out": "XOUT"
+ },
+ "channels": [
+  {
+   "tx": "SOUT1",
+   "rx": "SIN1",
+   "int": "INTR1",
+   "rts": "RTS1",
+   "dtr": "DTR1",
+   "cts": "CTS1",
+   "dsr": "DSR1",
+   "dcd": "DCD1",
+   "ri": "RI1",
+   "txrdy": "TXRDY1",
+   "rxrdy": "RXRDY1",
+   "mf": "MF1"
+  },
+  {
+   "tx": "SOUT2",
+   "rx": "SIN2",
+   "int": "INTR2",
+   "rts": "RTS2",
+   "dtr": "DTR2",
+   "cts": "CTS2",
+   "dsr": "DSR2",
+   "dcd": "DCD2",
+   "ri": "RI2",
+   "txrdy": "TXRDY2",
+   "rxrdy": "RXRDY2",
+   "mf": "MF2"
+  }
+ ],
+ "channelSelect": {
+  "pin": "CHSL",
+  "aIsHigh": true
+ },
+ "fifo": 16,
+ "rxTrigger": [
+  1,
+  4,
+  8,
+  14
+ ],
+ "dmaClass": "P",
+ "intPin": "driven",
+ "timeout": "4w12",
+ "sprReset": 255,
+ "extended": "nsEfr",
+ "afr": "ns",
+ "autoFlow": "efrTable",
+ "rtsTable": [
+  [
+   2,
+   0
+  ],
+  [
+   8,
+   1
+  ],
+  [
+   14,
+   4
+  ],
+  [
+   14,
+   8
+  ]
+ ],
+ "xoffTable": [
+  [
+   1,
+   0
+  ],
+  [
+   4,
+   1
+  ],
+  [
+   8,
+   4
+  ],
+  [
+   14,
+   8
+  ]
+ ],
+ "swFlow": "tiAnd",
+ "specialChar": true,
+ "ctsRtsClear": "iirOrMsr",
+ "sleep": "ier4",
+ "irda": "mcr6",
+ "prescaler": "mcr7",
+ "idRegs": {
+  "drev": 49
+ },
+ "xonReset": [
+  0,
+  0,
+  0,
+  0
+ ],
+ "optionalPins": [
+  "TXRDY1",
+  "TXRDY2",
+  "RXRDY1",
+  "RXRDY2",
+  "MF1",
+  "MF2"
+ ]
+}

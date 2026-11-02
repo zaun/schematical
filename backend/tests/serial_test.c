@@ -18,12 +18,15 @@
 #include "parts.h"
 #include "read_file.h"
 #include "serial_fixture.h"
+#include "net.h"
 #include "sim.h"
 
 #define NS(x) ((SimTime)(x) * 1000u)
 
 static int failures;
 static int case_failures;
+/* The PC16550D-shaped part C's cases run on (the C fixture, then the shipped device: D24). */
+static const char *c_part = "SFX-16550";
 static PartLibrary *library;
 
 static void check(int ok, const char *what) {
@@ -118,6 +121,8 @@ typedef struct {
        sets these and the other units' to their inactive levels). */
     const char *unit_select[8][3];
     unsigned units;
+    unsigned recovery_ns;          /* after a strobe ends (0 = 160 ns); longer for
+                                      clock-synchronous strobes */
 } BenchConfig;
 
 static const BenchConfig PC16550D_BENCH = {
@@ -188,7 +193,10 @@ static void set_tie(Bench *b, const char *tie, int invert) {
 
 static void run(Bench *b, SimTime ps) {
     if (!sim_run_until(b->sim, sim_now(b->sim) + ps)) {
-        fprintf(stderr, "sim stopped: %s\n", sim_error(b->sim));
+        const SimNet *net = sim_shorted_net(b->sim);
+
+        fprintf(stderr, "sim stopped: %s (%s, net %s)\n", sim_error(b->sim), b->part->name,
+                net != NULL ? sim_net_name(net) : "-");
         exit(2);
     }
 }
@@ -313,7 +321,7 @@ static void bus_write(Bench *b, unsigned a, unsigned v) {
     set(b, b->cfg->write, LOGIC_0);
     run(b, NS(120));
     set(b, b->cfg->write, LOGIC_1);
-    run(b, NS(40));
+    run(b, NS(b->cfg->recovery_ns > 40 ? b->cfg->recovery_ns : 40));
     set_data(b, 0, 0);
     run(b, NS(160));
 }
@@ -337,7 +345,7 @@ static unsigned bus_read_text(Bench *b, unsigned a, char text[9]) {
     }
     text[8] = '\0';
     set(b, b->cfg->read, LOGIC_1);
-    run(b, NS(160));
+    run(b, NS(b->cfg->recovery_ns != 0 ? b->cfg->recovery_ns : 160));
     return v;
 }
 
@@ -451,7 +459,7 @@ static int send(Bench *b, const char *text) {
 /* ---- 1. Reset values ------------------------------------------------------------------ */
 
 static void case_reset(void) {
-    Bench *b = bench_open("SFX-16550", HALF_18432);
+    Bench *b = bench_open(c_part, HALF_18432);
 
     case_begin();
     expect_reg(b, 1, "00000000", "IER after MR");
@@ -525,7 +533,7 @@ static SimTime baud_period(Bench *b) {
 }
 
 static void case_divisor(void) {
-    Bench *b = bench_open("SFX-16550", NS(50));   /* 10 MHz clock */
+    Bench *b = bench_open(c_part, NS(50));   /* 10 MHz clock */
     SimTime p;
     char message[96];
 
@@ -573,7 +581,7 @@ static void tx_one(Bench *b, unsigned lcr, unsigned byte, unsigned bits, const c
 }
 
 static void case_tx(void) {
-    Bench *b = bench_open("SFX-16550", HALF_18432);
+    Bench *b = bench_open(c_part, HALF_18432);
     uint16_t frames[8];
     SimTime t0;
     SimTime t1;
@@ -636,7 +644,7 @@ static void case_tx(void) {
 /* ---- 4. Receive ------------------------------------------------------------------------------ */
 
 static void case_rx(void) {
-    Bench *b = bench_open("SFX-16550", HALF_18432);
+    Bench *b = bench_open(c_part, HALF_18432);
     SimTime bt;
 
     case_begin();
@@ -693,7 +701,7 @@ static void case_rx(void) {
 /* ---- 5. FIFO ---------------------------------------------------------------------------------- */
 
 static void case_fifo(void) {
-    Bench *b = bench_open("SFX-16550", HALF_18432);
+    Bench *b = bench_open(c_part, HALF_18432);
     SimTime bt;
     unsigned i;
     char text[24];
@@ -770,7 +778,7 @@ static void case_fifo(void) {
 /* ---- 6. Timeout ----------------------------------------------------------------------------- */
 
 static void case_timeout(void) {
-    Bench *b = bench_open("SFX-16550", HALF_18432);
+    Bench *b = bench_open(c_part, HALF_18432);
     SimTime bt;
 
     case_begin();
@@ -795,7 +803,7 @@ static void case_timeout(void) {
 /* ---- 7. Interrupt priority ------------------------------------------------------------------------ */
 
 static void case_priority(void) {
-    Bench *b = bench_open("SFX-16550", HALF_18432);
+    Bench *b = bench_open(c_part, HALF_18432);
     SimTime bt;
     SimTime t;
 
@@ -855,7 +863,7 @@ static void case_priority(void) {
 /* ---- 8. Modem status -------------------------------------------------------------------------------- */
 
 static void case_modem(void) {
-    Bench *b = bench_open("SFX-16550", HALF_18432);
+    Bench *b = bench_open(c_part, HALF_18432);
 
     case_begin();
     bus_write(b, 1, 0x08);
@@ -888,7 +896,7 @@ static void case_modem(void) {
 /* ---- 9. Loopback ------------------------------------------------------------------------------------- */
 
 static void case_loopback(void) {
-    Bench *b = bench_open("SFX-16550", HALF_18432);
+    Bench *b = bench_open(c_part, HALF_18432);
     SimTime bt;
     SimTime spent = 0;
     int stayed = 1;
@@ -916,7 +924,7 @@ static void case_loopback(void) {
 /* ---- 10. DMA modes ---------------------------------------------------------------------------------- */
 
 static void case_dma(void) {
-    Bench *b = bench_open("SFX-16550", HALF_18432);
+    Bench *b = bench_open(c_part, HALF_18432);
     SimTime bt;
     unsigned i;
 
@@ -962,7 +970,7 @@ static void case_dma(void) {
 /* ---- 11. Bus timing and strobes ----------------------------------------------------------------------- */
 
 static void case_bus(void) {
-    Bench *b = bench_open("SFX-16550", HALF_18432);
+    Bench *b = bench_open(c_part, HALF_18432);
     char text[9];
 
     case_begin();
@@ -1056,7 +1064,7 @@ static void case_16450(void) {
 /* ---- Outcome: the terminal ---------------------------------------------------------------------------- */
 
 static void case_terminal(void) {
-    Bench *b = bench_open("SFX-16550", HALF_18432);
+    Bench *b = bench_open(c_part, HALF_18432);
     uint16_t frames[4] = {0};
     SimTime bt;
 
@@ -1079,9 +1087,60 @@ static void case_terminal(void) {
     bench_close(b);
 }
 
+#include "serial_test_d.h"
+
+/* D24: C's cases on the shipped PC16550D device object. */
+static void case_d24(void) {
+    int before = failures;
+
+    c_part = "SFX-PC16550D";
+    printf("-- C's cases on SFX-PC16550D:\n");
+    case_reset();
+    case_divisor();
+    case_tx();
+    case_rx();
+    case_fifo();
+    case_timeout();
+    case_priority();
+    case_modem();
+    case_loopback();
+    case_dma();
+    case_bus();
+    case_terminal();
+    c_part = "SFX-16550";
+    case_begin();
+    case_failures = failures - before;
+    case_end("D24 PC16550D: the C cases on the shipped device object");
+}
+
+/* The shipped ns16550 devices as fixtures (tests/fixtures/serial/ns16550.json,
+   built by merge.py from keys/ and devices/; plan-12-D section 3.3). */
+static int load_file(const char *name, int footprints) {
+    char path[512];
+    char *text;
+    char *error = NULL;
+    int result;
+
+    snprintf(path, sizeof path, "%s/../fixtures/serial/%s", GOLDEN_DIR, name);
+    text = read_file(path);
+    if (text == NULL) {
+        fprintf(stderr, "cannot read %s\n", path);
+        return -1;
+    }
+    result = footprints ? load_footprints(library, text, name, &error)
+                        : load_parts(library, text, name, &error);
+    if (result != 0) {
+        fprintf(stderr, "%s: %s\n", name, error != NULL ? error : "(no message)");
+    }
+    free(error);
+    free(text);
+    return result;
+}
+
 int main(void) {
     library = part_library_create();
-    if (load_parts_dir(library, PARTS_DIR) != 0 || load_serial_fixture(library) != 0) {
+    if (load_parts_dir(library, PARTS_DIR) != 0 || load_serial_fixture(library) != 0 ||
+        load_file("footprints_test.json", 1) != 0 || load_file("ns16550.json", 0) != 0) {
         printf("FAIL: loading parts\n");
         return 1;
     }
@@ -1098,6 +1157,8 @@ int main(void) {
     case_bus();
     case_16450();
     case_terminal();
+    run_d_cases();
+    case_d24();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

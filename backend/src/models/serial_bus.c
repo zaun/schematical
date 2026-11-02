@@ -312,6 +312,10 @@ void serial_bus_update(SerialBus *bus, Sim *sim, SimInstance *instance,
             uint8_t data_known;
 
             read_data(bus, sim, instance, &data, &data_known);
+            if (bus->captured) {
+                data = bus->captured_data;
+                data_known = bus->captured_known;
+            }
             if (write == SERIAL_CYCLE_X) {
                 data_known = 0;
             }
@@ -320,6 +324,7 @@ void serial_bus_update(SerialBus *bus, Sim *sim, SimInstance *instance,
             write_unknown(bus, events, bus->write_units, bus->write_address,
                           bus->write_address_known);
         }
+        bus->captured = 0;
         bus->write = write;
         bus->write_units = bus->latched_units;
         bus->write_address = address;
@@ -331,6 +336,16 @@ void serial_bus_update(SerialBus *bus, Sim *sim, SimInstance *instance,
     } else if (write == SERIAL_CYCLE_X) {
         bus->write_units |= bus->latched_units;
         bus->write_address_known &= known & ~(address ^ bus->write_address);
+    }
+}
+
+void serial_bus_capture(SerialBus *bus, const Sim *sim, const SimInstance *instance) {
+    const SerialBusPins *p = bus->pins;
+
+    if (bus->write == SERIAL_CYCLE_ACTIVE && !bus->captured &&
+        strobe_state(sim, instance, p->write, p->write_high) == 0) {
+        read_data(bus, sim, instance, &bus->captured_data, &bus->captured_known);
+        bus->captured = 1;
     }
 }
 

@@ -1,0 +1,100 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel",
+  "data": [
+   "DB0",
+   "DB1",
+   "DB2",
+   "DB3",
+   "DB4",
+   "DB5",
+   "DB6",
+   "DB7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "IOR",
+  "write": "IOW",
+  "driverDisable": "BDO",
+  "reset": "RESET",
+  "resetActiveHigh": false
+ },
+ "clock": {
+  "single": "CLK"
+ },
+ "channels": [
+  {
+   "tx": "SOUT0",
+   "rx": "SIN0",
+   "int": "INT0",
+   "rts": "RTS0",
+   "dtr": "DTR0",
+   "cts": "CTS0",
+   "dsr": "DSR0",
+   "dcd": "DCD0",
+   "ri": "RI0",
+   "select": [
+    "CS0"
+   ],
+   "txrdy": "TXRDY0",
+   "rxrdy": "RXRDY0"
+  },
+  {
+   "tx": "SOUT1",
+   "rx": "SIN1",
+   "int": "INT1",
+   "rts": "RTS1",
+   "dtr": "DTR1",
+   "cts": "CTS1",
+   "dsr": "DSR1",
+   "dcd": "DCD1",
+   "ri": "RI1",
+   "select": [
+    "CS1"
+   ],
+   "txrdy": "TXRDY1",
+   "rxrdy": "RXRDY1"
+  }
+ ],
+ "fifo": 16,
+ "rxTrigger": [
+  1,
+  4,
+  8,
+  14
+ ],
+ "dmaClass": "N",
+ "intPin": "out2-gated",
+ "statusReadDefer": true,
+ "printerPort": {
+  "style": "ti552",
+  "data": [
+   "PD0",
+   "PD1",
+   "PD2",
+   "PD3",
+   "PD4",
+   "PD5",
+   "PD6",
+   "PD7"
+  ],
+  "select": "CS2",
+  "strobe": "STB",
+  "autoFeed": "AFD",
+  "init": "INIT",
+  "selectIn": "SLIN",
+  "ack": "ACK",
+  "busy": "BUSY",
+  "paperEnd": "PE",
+  "slct": "SLCT",
+  "error": "ERR",
+  "irq": "INT2",
+  "pemd": "PEMD",
+  "enirq": "ENIRQ"
+ },
+ "tristate": "TRI"
+}

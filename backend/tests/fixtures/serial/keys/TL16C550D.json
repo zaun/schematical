@@ -1,0 +1,94 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel",
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "RD1",
+  "readHigh": "RD2",
+  "write": "WR1",
+  "writeHigh": "WR2",
+  "select": [
+   "CS2"
+  ],
+  "selectHigh": [
+   "CS0",
+   "CS1"
+  ],
+  "addressStrobe": "ADS",
+  "driverDisable": "DDIS",
+  "reset": "MR",
+  "resetActiveHigh": true
+ },
+ "clock": {
+  "in": "XIN",
+  "out": "XOUT",
+  "receive": "RCLK",
+  "baudOut": "BAUDOUT",
+  "baudOutShape": "low2"
+ },
+ "channels": [
+  {
+   "tx": "SOUT",
+   "rx": "SIN",
+   "int": "INTRPT",
+   "rts": "RTS",
+   "dtr": "DTR",
+   "cts": "CTS",
+   "dsr": "DSR",
+   "dcd": "DCD",
+   "ri": "RI",
+   "out1": "OUT1",
+   "out2": "OUT2",
+   "txrdy": "TXRDY",
+   "rxrdy": "RXRDY"
+  }
+ ],
+ "fifo": 16,
+ "rxTrigger": [
+  1,
+  4,
+  8,
+  14
+ ],
+ "intPin": "driven",
+ "dmaClass": "N",
+ "extended": "afe",
+ "autoFlow": "afe",
+ "timeoutDelay": 9,
+ "absentTies": {
+  "CS0": 1,
+  "CS1": 1,
+  "ADS": 0,
+  "RD2": 0,
+  "WR2": 0
+ },
+ "optionalPins": [
+  "RCLK",
+  "BAUDOUT",
+  "DDIS",
+  "TXRDY",
+  "RXRDY",
+  "OUT1",
+  "OUT2",
+  "DSR",
+  "RI",
+  "DCD",
+  "CTS",
+  "RTS",
+  "DTR"
+ ]
+}

@@ -1,0 +1,108 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel",
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "IOR",
+  "write": "IOW",
+  "reset": "RESET",
+  "resetActiveHigh": true
+ },
+ "clock": {
+  "in": "XTAL1",
+  "out": "XTAL2"
+ },
+ "channels": [
+  {
+   "tx": "TXA",
+   "rx": "RXA",
+   "int": "INTA",
+   "rts": "RTSA",
+   "dtr": "DTRA",
+   "cts": "CTSA",
+   "dsr": "DSRA",
+   "dcd": "CDA",
+   "ri": "RIA",
+   "select": [
+    "CSA"
+   ],
+   "txrdy": "TXRDYA",
+   "rxrdy": "RXRDYA",
+   "op": "OPA"
+  },
+  {
+   "tx": "TXB",
+   "rx": "RXB",
+   "int": "INTB",
+   "rts": "RTSB",
+   "dtr": "DTRB",
+   "cts": "CTSB",
+   "dsr": "DSRB",
+   "dcd": "CDB",
+   "ri": "RIB",
+   "select": [
+    "CSB"
+   ],
+   "txrdy": "TXRDYB",
+   "rxrdy": "RXRDYB",
+   "op": "OPB"
+  }
+ ],
+ "fifo": 64,
+ "rxTrigger": [
+  8,
+  16,
+  56,
+  60
+ ],
+ "txTrigger": [
+  8,
+  16,
+  32,
+  56
+ ],
+ "tlr": 4,
+ "lcrReset": 29,
+ "dmaClass": "T",
+ "intPin": "out2-gated",
+ "busSync": true,
+ "tcrNeedsDlab0": true,
+ "timeout": "4ch",
+ "extended": "752",
+ "autoFlow": "tcr",
+ "swFlow": "nxpAnd",
+ "specialChar": true,
+ "specialClear": "lsr",
+ "sleep": "ier4",
+ "irda": "mcr6",
+ "prescaler": "mcr7",
+ "lsrErrors": "head",
+ "optionalPins": [
+  "TXRDYA",
+  "TXRDYB",
+  "RXRDYA",
+  "RXRDYB",
+  "OPA",
+  "OPB",
+  "DSRA",
+  "DSRB",
+  "CDA",
+  "CDB",
+  "RIA",
+  "RIB"
+ ]
+}
