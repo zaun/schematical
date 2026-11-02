@@ -1188,6 +1188,1658 @@ static int load_file(const char *name, int footprints) {
     return result;
 }
 
+/* ==== plan-12-J: the Maxim SPI/I2C UARTs and the SPI/I2C target front ends ==========
+ *
+ * JF1/JF2 drive the front ends of serial_target.h directly (a test target
+ * that logs its events); J1-J6 run the max3100 and max310x models on the
+ * shipped device objects of support/serial_fixture_maxim.h. The bench: one
+ * net per pin with a driver on each, an optional clock on XIN/X1, weak
+ * pull-ups on the I2C lines, and pins tied onto another pin's net (I2C
+ * address straps). SPI is bit-banged in mode 0, I2C at 400 kHz with the
+ * bench's SDA/SCL open drain (0 or Z).
+ */
+
+#include "serial_fixture_maxim.h"
+#include "serial_target.h"
+
+typedef struct {
+    size_t count;
+} PullConfig;
+
+static size_t pull_pins(const void *config) {
+    return ((const PullConfig *)config)->count;
+}
+
+static void pull_start(Sim *sim, SimInstance *instance, void *state) {
+    const PullConfig *c = state;
+    size_t i;
+
+    for (i = 0; i < c->count; i++) {
+        sim_schedule_drive(sim, instance, i, LOGIC_1, DRIVE_WEAK, 0);
+    }
+}
+
+static void *pull_create(const void *config) {
+    PullConfig *c = malloc(sizeof *c);
+
+    *c = *(const PullConfig *)config;
+    return c;
+}
+
+static const SimComponentType PULLUP = {
+    "pullup", pull_pins, pull_create, free, pull_start, NULL, NULL,
+    NULL, NULL, NULL, NULL, NULL
+};
+
+typedef struct {
+    Sim *sim;
+    SimInstance *chip;
+    SimInstance *drv;
+    SimInstance *clk;
+    SimInstance *pu;
+    const Part *part;
+    size_t pins;
+    SimTime half;
+    SimTime period;
+    PullConfig pull;
+    const char *cs, *sclk, *mosi, *miso, *scl, *sda;
+} MB;
+
+static int maxim_loaded;
+
+static void maxim_need(void) {
+    if (!maxim_loaded) {
+        if (load_serial_fixture_maxim(library) != 0) {
+            printf("FAIL: loading the Maxim fixtures\n");
+            exit(1);
+        }
+        maxim_loaded = 1;
+    }
+}
+
+static size_t mb_pin(const MB *b, const char *name) {
+    size_t i;
+
+    for (i = 0; i < b->part->pin_count; i++) {
+        if (strcmp(b->part->pins[i].name, name) == 0) {
+            return i;
+        }
+    }
+    fprintf(stderr, "no pin %s\n", name);
+    exit(2);
+}
+
+static void mb_set(MB *b, const char *name, LogicValue v) {
+    sim_schedule_drive(b->sim, b->drv, mb_pin(b, name), v, DRIVE_STRONG, 0);
+}
+
+static LogicValue mb_get(const MB *b, const char *name) {
+    return sim_read_pin(b->sim, b->chip, mb_pin(b, name));
+}
+
+static void mb_run(MB *b, SimTime ps) {
+    if (!sim_run_until(b->sim, sim_now(b->sim) + ps)) {
+        fprintf(stderr, "sim stopped: %s\n", sim_error(b->sim));
+        exit(2);
+    }
+}
+
+/*
+ * A part on a bench. clock: the pin an oscillator of `half` ps per half
+ * period drives (NULL: none). ties: NULL-terminated pairs {pin, onto}: pin
+ * joins onto's net and has no driver of its own. pulls: NULL-terminated pin
+ * names that get a weak pull-up.
+ */
+static MB *mb_open(const char *part_name, const char *clock, SimTime half,
+                   const char *const *ties, const char *const *pulls) {
+    MB *b = calloc(1, sizeof *b);
+    SimNet **nets;
+    size_t i;
+    size_t k;
+
+    maxim_need();
+    b->part = part_library_find(library, part_name);
+    if (b->part == NULL) {
+        fprintf(stderr, "no part %s\n", part_name);
+        exit(2);
+    }
+    b->pins = b->part->pin_count;
+    b->half = half;
+    b->period = 2 * half;
+    for (k = 0; pulls != NULL && pulls[k] != NULL; k++) {
+        b->pull.count++;
+    }
+    b->sim = sim_create();
+    b->chip = sim_add_instance(b->sim, kind_model(b->part), "U1", b->part);
+    b->drv = sim_add_instance(b->sim, &DRIVER, "TB", &b->pins);
+    b->pu = sim_add_instance(b->sim, &PULLUP, "PU", &b->pull);
+    if (clock != NULL) {
+        b->clk = sim_add_instance(b->sim, &CLOCK, "CLK", &b->half);
+    }
+    nets = calloc(b->pins, sizeof *nets);
+    for (i = 0; i < b->pins; i++) {
+        const char *name = b->part->pins[i].name;
+        int tied = 0;
+
+        for (k = 0; ties != NULL && ties[k] != NULL; k += 2) {
+            tied |= strcmp(ties[k], name) == 0;
+        }
+        if (tied || nets[i] != NULL) {
+            continue;
+        }
+        /* Pins of one name (GND, NC) are separate nets. */
+        nets[i] = sim_add_net(b->sim, name);
+        sim_connect(b->sim, nets[i], b->chip, i);
+        if (clock != NULL && strcmp(name, clock) == 0) {
+            sim_connect(b->sim, nets[i], b->clk, 0);
+        } else {
+            sim_connect(b->sim, nets[i], b->drv, i);
+        }
+    }
+    for (k = 0; ties != NULL && ties[k] != NULL; k += 2) {
+        size_t a = mb_pin(b, ties[k]);
+
+        sim_connect(b->sim, nets[mb_pin(b, ties[k + 1])], b->chip, a);
+    }
+    for (k = 0; k < b->pull.count; k++) {
+        sim_connect(b->sim, nets[mb_pin(b, pulls[k])], b->pu, k);
+    }
+    free(nets);
+    if (!sim_start(b->sim)) {
+        fprintf(stderr, "start: %s\n", sim_error(b->sim));
+        exit(2);
+    }
+    return b;
+}
+
+static void mb_close(MB *b) {
+    sim_destroy(b->sim);
+    free(b);
+}
+
+static void mb_expect_pin(MB *b, const char *pin, LogicValue want, const char *what) {
+    char message[160];
+    LogicValue got = mb_get(b, pin);
+
+    snprintf(message, sizeof message, "%s: %s is %c, want %c", what, pin, "01XZ"[got], "01XZ"[want]);
+    check(got == want, message);
+}
+
+static void mb_expect_u(unsigned got, unsigned want, const char *what) {
+    char message[160];
+
+    snprintf(message, sizeof message, "%s: got 0x%X, want 0x%X", what, got, want);
+    check(got == want, message);
+}
+
+static size_t mb_sent(MB *b, unsigned channel, uint16_t *frames, size_t cap) {
+    const SimComponentType *type = sim_instance_type(b->chip);
+
+    return type->serial_sent(sim_instance_state(b->chip), channel, 0, frames, cap);
+}
+
+static int mb_send(MB *b, unsigned channel, const char *text) {
+    const SimComponentType *type = sim_instance_type(b->chip);
+
+    return type->serial_send(b->sim, b->chip, sim_instance_state(b->chip), channel,
+                             (const uint8_t *)text, strlen(text));
+}
+
+/* ---- SPI master (mode 0) ----------------------------------------------------------- */
+
+#define SPI_HALF NS(250)
+
+/* CS low, n bits MSB first; MISO sampled before each rising edge into *in
+   (unknown bits 0) and text ("01XZ"). CS stays low when keep is set. */
+static uint32_t mb_spi(MB *b, uint32_t out, unsigned n, char *text, int keep) {
+    uint32_t in = 0;
+    unsigned i;
+
+    mb_set(b, b->cs, LOGIC_0);
+    mb_run(b, SPI_HALF);
+    for (i = 0; i < n; i++) {
+        LogicValue v;
+
+        mb_set(b, b->mosi, (out >> (n - 1 - i)) & 1u ? LOGIC_1 : LOGIC_0);
+        mb_run(b, SPI_HALF);
+        v = mb_get(b, b->miso);
+        if (text != NULL) {
+            text[i] = "01XZ"[v];
+        }
+        in = (in << 1) | (v == LOGIC_1 ? 1u : 0u);
+        mb_set(b, b->sclk, LOGIC_1);
+        mb_run(b, SPI_HALF);
+        mb_set(b, b->sclk, LOGIC_0);
+    }
+    if (text != NULL) {
+        text[n] = '\0';
+    }
+    mb_run(b, SPI_HALF);
+    if (!keep) {
+        mb_set(b, b->cs, LOGIC_1);
+        mb_run(b, SPI_HALF);
+    }
+    return in;
+}
+
+/* ---- I2C master (bench SDA/SCL open drain at 400 kHz) ---------------------------------------- */
+
+#define I2C_Q NS(625)
+
+static void i2c_line(MB *b, const char *pin, int level) {
+    mb_set(b, pin, level ? LOGIC_Z : LOGIC_0);
+}
+
+static void i2c_start(MB *b) {
+    i2c_line(b, b->sda, 1);
+    i2c_line(b, b->scl, 1);
+    mb_run(b, I2C_Q);
+    i2c_line(b, b->sda, 0);
+    mb_run(b, I2C_Q);
+    i2c_line(b, b->scl, 0);
+    mb_run(b, I2C_Q);
+}
+
+static void i2c_restart(MB *b) {
+    i2c_line(b, b->sda, 1);
+    mb_run(b, I2C_Q);
+    i2c_line(b, b->scl, 1);
+    mb_run(b, I2C_Q);
+    i2c_line(b, b->sda, 0);
+    mb_run(b, I2C_Q);
+    i2c_line(b, b->scl, 0);
+    mb_run(b, I2C_Q);
+}
+
+static void i2c_stop(MB *b) {
+    i2c_line(b, b->sda, 0);
+    mb_run(b, I2C_Q);
+    i2c_line(b, b->scl, 1);
+    mb_run(b, I2C_Q);
+    i2c_line(b, b->sda, 1);
+    mb_run(b, I2C_Q * 2);
+}
+
+static LogicValue i2c_bit(MB *b, int out) {
+    LogicValue v;
+
+    i2c_line(b, b->sda, out);
+    mb_run(b, I2C_Q);
+    i2c_line(b, b->scl, 1);
+    mb_run(b, I2C_Q);
+    v = mb_get(b, b->sda);
+    mb_run(b, I2C_Q);
+    i2c_line(b, b->scl, 0);
+    mb_run(b, I2C_Q);
+    return v;
+}
+
+/* Writes a byte; the ninth bit as the target left it (0 = ACK). */
+static LogicValue i2c_write(MB *b, unsigned byte) {
+    int i;
+
+    for (i = 7; i >= 0; i--) {
+        i2c_bit(b, (byte >> i) & 1u);
+    }
+    return i2c_bit(b, 1);
+}
+
+/* Reads a byte (text "01XZ" when given), then ACKs (ack = 1) or NACKs. */
+static unsigned i2c_read(MB *b, int ack, char *text) {
+    unsigned v = 0;
+    int i;
+
+    for (i = 7; i >= 0; i--) {
+        LogicValue l = i2c_bit(b, 1);
+
+        if (text != NULL) {
+            text[7 - i] = "01XZ"[l];
+        }
+        v = (v << 1) | (l == LOGIC_1 ? 1u : 0u);
+    }
+    if (text != NULL) {
+        text[8] = '\0';
+    }
+    i2c_bit(b, !ack);
+    return v;
+}
+
+/* ---- Line helpers --------------------------------------------------------------------- */
+
+/* Waits up to `limit` for `pin` to read `level`; the time waited, or -1. */
+static long long mb_wait(MB *b, const char *pin, LogicValue level, SimTime limit, SimTime step) {
+    SimTime spent = 0;
+
+    while (spent <= limit) {
+        if (mb_get(b, pin) == level) {
+            return (long long)spent;
+        }
+        mb_run(b, step);
+        spent += step;
+    }
+    return -1;
+}
+
+/* After a start bit was seen: n bits sampled mid-bit ("01XZ"). */
+static void mb_frame(MB *b, const char *pin, SimTime bt, unsigned n, char *out) {
+    unsigned i;
+
+    mb_run(b, bt / 2);
+    out[0] = "01XZ"[mb_get(b, pin)];
+    for (i = 1; i <= n; i++) {
+        mb_run(b, bt);
+        out[i] = "01XZ"[mb_get(b, pin)];
+    }
+    out[n + 1] = '\0';
+}
+
+/* Drives start, `bits` ('0'/'1', LSB first, then any 9th/stop bits), then idle. */
+static void mb_drive_bits(MB *b, const char *pin, const char *bits, SimTime bt, LogicValue idle) {
+    size_t i;
+
+    mb_set(b, pin, idle == LOGIC_1 ? LOGIC_0 : LOGIC_1);
+    mb_run(b, bt);
+    for (i = 0; bits[i] != '\0'; i++) {
+        LogicValue v = bits[i] == '1' ? LOGIC_1 : LOGIC_0;
+
+        mb_set(b, pin, idle == LOGIC_1 ? v : (v == LOGIC_1 ? LOGIC_0 : LOGIC_1));
+        mb_run(b, bt);
+    }
+    mb_set(b, pin, idle);
+}
+
+/* An 8N1 frame of byte v (stop bit `stop`). */
+static void mb_drive_byte(MB *b, const char *pin, unsigned v, SimTime bt, int stop) {
+    char bits[12];
+    unsigned i;
+
+    for (i = 0; i < 8; i++) {
+        bits[i] = (v >> i) & 1u ? '1' : '0';
+    }
+    bits[8] = stop ? '1' : '0';
+    bits[9] = '\0';
+    mb_drive_bits(b, pin, bits, bt, LOGIC_1);
+}
+
+/* ---- JF: the front ends, direct ----------------------------------------------------------- */
+
+enum { TG_CS, TG_SCLK, TG_MOSI, TG_MISO, TG_SCL, TG_SDA, TG_A0, TG_A1, TG_PINS };
+
+typedef struct {
+    SerialSpiPins sp;
+    SerialI2cPins ip;
+    SerialSpi spi;
+    SerialI2c i2c;
+    SerialSpiEvents se;
+    SerialI2cEvents ie;
+    char log[1024];
+    uint8_t mem;
+    int ties[2];
+} Tgt;
+
+static void tg_log(Tgt *t, const char *format, unsigned a, unsigned b) {
+    size_t n = strlen(t->log);
+
+    snprintf(t->log + n, sizeof t->log - n, format, a, b);
+}
+
+static void tg_spi_begin(void *c) { tg_log(c, "B ", 0, 0); }
+static SerialSpiByte tg_spi_next(void *c, unsigned index) {
+    SerialSpiByte b;
+
+    (void)c;
+    b.data = (uint8_t)(0xA5 ^ index);
+    b.known = 0xFF;
+    b.drive = 0xFF;
+    return b;
+}
+static void tg_spi_received(void *c, unsigned index, uint8_t data, uint8_t known) {
+    (void)index;
+    tg_log(c, known == 0xFF ? "R%02X " : "R%02X? ", data, 0);
+}
+static void tg_spi_end(void *c, unsigned bits) { tg_log(c, "E%u ", bits, 0); }
+
+static void tg_i2c_begin(void *c, int repeated) { tg_log(c, repeated ? "Sr " : "S ", 0, 0); }
+static LogicValue tg_i2c_address(void *c, uint8_t byte, uint8_t known) {
+    Tgt *t = c;
+
+    t->ties[0] = serial_i2c_strap(&t->i2c, 0);
+    t->ties[1] = serial_i2c_strap(&t->i2c, 1);
+    tg_log(c, "A%02X ", byte, 0);
+    return known == 0xFF && (byte >> 1) == 0x2A ? LOGIC_1 : LOGIC_0;
+}
+static LogicValue tg_i2c_received(void *c, unsigned index, uint8_t data, uint8_t known) {
+    Tgt *t = c;
+
+    (void)index;
+    (void)known;
+    t->mem = data;
+    tg_log(c, "W%02X ", data, 0);
+    return LOGIC_1;
+}
+static void tg_i2c_next(void *c, unsigned index, uint8_t *data, uint8_t *known) {
+    Tgt *t = c;
+
+    tg_log(c, "N%u ", index, 0);
+    *data = (uint8_t)(t->mem + index);
+    *known = 0xFF;
+}
+static void tg_i2c_acked(void *c, unsigned index, LogicValue ack) {
+    (void)index;
+    tg_log(c, "K%c ", "NAXZ"[ack], 0);
+}
+static void tg_i2c_end(void *c, int stop) { tg_log(c, stop ? "P " : "Px ", 0, 0); }
+
+static size_t tg_pin_count(const void *config) {
+    (void)config;
+    return TG_PINS;
+}
+
+static void *tg_create(const void *config) {
+    Tgt *t = calloc(1, sizeof *t);
+
+    (void)config;
+    t->sp.cs = TG_CS;
+    t->sp.sclk = TG_SCLK;
+    t->sp.mosi = TG_MOSI;
+    t->sp.miso = TG_MISO;
+    t->sp.mode = 0;
+    t->ip.scl = TG_SCL;
+    t->ip.sda = TG_SDA;
+    t->ip.strap[0] = TG_A0;
+    t->ip.strap[1] = TG_A1;
+    t->ip.strap_count = 2;
+    serial_spi_init(&t->spi, &t->sp);
+    serial_i2c_init(&t->i2c, &t->ip);
+    t->spi.t_valid = NS(20);
+    t->spi.t_out = NS(20);
+    t->spi.t_float = NS(20);
+    t->se.context = t;
+    t->se.begin = tg_spi_begin;
+    t->se.next = tg_spi_next;
+    t->se.received = tg_spi_received;
+    t->se.end = tg_spi_end;
+    t->ie.context = t;
+    t->ie.begin = tg_i2c_begin;
+    t->ie.address = tg_i2c_address;
+    t->ie.received = tg_i2c_received;
+    t->ie.next = tg_i2c_next;
+    t->ie.acked = tg_i2c_acked;
+    t->ie.end = tg_i2c_end;
+    return t;
+}
+
+static void tg_start(Sim *sim, SimInstance *instance, void *state) {
+    Tgt *t = state;
+
+    serial_spi_start(&t->spi, sim, instance);
+    serial_i2c_start(&t->i2c, sim, instance);
+}
+
+static void tg_pin_changed(Sim *sim, SimInstance *instance, void *state, size_t pin,
+                           LogicValue old_value, LogicValue new_value) {
+    Tgt *t = state;
+
+    (void)old_value;
+    (void)new_value;
+    serial_spi_pin(&t->spi, sim, instance, pin, &t->se);
+    serial_i2c_pin(&t->i2c, sim, instance, pin, &t->ie);
+}
+
+static const SimComponentType TARGET = {
+    "target", tg_pin_count, tg_create, free, tg_start, tg_pin_changed, NULL,
+    NULL, NULL, NULL, NULL, NULL
+};
+
+/* A bench around the test target: SCL/SDA pulled up, A0 tied to SCL, A1 to SDA. */
+typedef struct {
+    MB b;
+    PartPin pin_table[TG_PINS];
+    Part part;
+} TgBench;
+
+static TgBench *tg_open(void) {
+    static const char *const NAMES[TG_PINS] = {"CS", "SCLK", "MOSI", "MISO", "SCL", "SDA", "A0", "A1"};
+    TgBench *t = calloc(1, sizeof *t);
+    MB *b = &t->b;
+    SimNet *nets[TG_PINS];
+    size_t i;
+
+    for (i = 0; i < TG_PINS; i++) {
+        t->pin_table[i].name = NAMES[i];
+    }
+    t->part.pins = t->pin_table;
+    t->part.pin_count = TG_PINS;
+    b->part = &t->part;
+    b->pins = TG_PINS;
+    b->pull.count = 2;
+    b->sim = sim_create();
+    b->chip = sim_add_instance(b->sim, &TARGET, "T1", NULL);
+    b->drv = sim_add_instance(b->sim, &DRIVER, "TB", &b->pins);
+    b->pu = sim_add_instance(b->sim, &PULLUP, "PU", &b->pull);
+    for (i = 0; i < TG_A0; i++) {
+        nets[i] = sim_add_net(b->sim, NAMES[i]);
+        sim_connect(b->sim, nets[i], b->chip, i);
+        sim_connect(b->sim, nets[i], b->drv, i);
+    }
+    sim_connect(b->sim, nets[TG_SCL], b->chip, TG_A0);
+    sim_connect(b->sim, nets[TG_SDA], b->chip, TG_A1);
+    sim_connect(b->sim, nets[TG_SCL], b->pu, 0);
+    sim_connect(b->sim, nets[TG_SDA], b->pu, 1);
+    b->cs = "CS";
+    b->sclk = "SCLK";
+    b->mosi = "MOSI";
+    b->miso = "MISO";
+    b->scl = "SCL";
+    b->sda = "SDA";
+    if (!sim_start(b->sim)) {
+        fprintf(stderr, "start: %s\n", sim_error(b->sim));
+        exit(2);
+    }
+    mb_set(b, "CS", LOGIC_1);
+    mb_set(b, "SCLK", LOGIC_0);
+    mb_set(b, "MOSI", LOGIC_0);
+    mb_run(b, NS(1000));
+    return t;
+}
+
+static Tgt *tg_state(TgBench *t) {
+    return sim_instance_state(t->b.chip);
+}
+
+static void case_jf_spi(void) {
+    TgBench *t = tg_open();
+    MB *b = &t->b;
+    char text[40];
+    uint32_t in;
+
+    case_begin();
+    mb_expect_pin(b, "MISO", LOGIC_Z, "MISO while CS is high");
+    in = mb_spi(b, 0x3C5A, 16, text, 1);
+    mb_expect_u(in, 0xA5A4, "MISO shifts byte 0 then byte 1 (next(index))");
+    mb_expect_pin(b, "MISO", LOGIC_1, "CS still low: MISO shows bit 7 of byte 2 (0xA7)");
+    mb_set(b, "CS", LOGIC_1);
+    mb_run(b, NS(100));
+    mb_expect_pin(b, "MISO", LOGIC_Z, "MISO 3-state again after CS rises (t_float)");
+    check(strcmp(tg_state(t)->log, "B R3C R5A E16 ") == 0, "SPI log: begin, two bytes, end after 16 bits");
+    /* An X on CS mid-transaction: MISO drives X, the rest of the bits arrive X. */
+    tg_state(t)->log[0] = '\0';
+    mb_set(b, "CS", LOGIC_0);
+    mb_run(b, NS(200));
+    mb_set(b, "CS", LOGIC_X);
+    mb_run(b, NS(100));
+    mb_expect_pin(b, "MISO", LOGIC_X, "CS X: MISO drives X");
+    mb_spi(b, 0xFF, 8, NULL, 0);
+    check(strcmp(tg_state(t)->log, "B R00? E8 ") == 0, "CS X: the byte arrives unknown");
+    case_end("JF1 SPI target: MISO Z while CS is high, bytes both ways, X on CS");
+    sim_destroy(b->sim);
+    free(t);
+}
+
+static void case_jf_i2c(void) {
+    TgBench *t = tg_open();
+    MB *b = &t->b;
+    char text[16];
+    LogicValue ack;
+    unsigned v;
+
+    case_begin();
+    i2c_start(b);
+    ack = i2c_write(b, 0x2A << 1);
+    check(ack == LOGIC_0, "address 0x2A write: ACK");
+    check(tg_state(t)->ties[0] == SERIAL_TIE_SCL && tg_state(t)->ties[1] == SERIAL_TIE_SDA,
+          "straps: A0 tied to SCL, A1 tied to SDA");
+    ack = i2c_write(b, 0x41);
+    check(ack == LOGIC_0, "data byte: ACK");
+    mb_expect_pin(b, "SDA", LOGIC_1, "SDA released after the ACK slot");
+    i2c_restart(b);
+    ack = i2c_write(b, (0x2A << 1) | 1);
+    check(ack == LOGIC_0, "repeated START, address read: ACK");
+    v = i2c_read(b, 1, text);
+    mb_expect_u(v, 0x41, "first read byte (shifted on SCL falling edges)");
+    v = i2c_read(b, 0, text);
+    mb_expect_u(v, 0x42, "second read byte, then NACK");
+    i2c_stop(b);
+    check(strcmp(tg_state(t)->log, "S A54 W41 Sr A55 N0 KA N1 KN P ") == 0,
+          "I2C log: S, address, write, Sr, read 2 with ACK then NACK, P");
+    /* A wrong address: NACK, and the target ignores the rest until STOP. */
+    tg_state(t)->log[0] = '\0';
+    i2c_start(b);
+    ack = i2c_write(b, 0x2B << 1);
+    check(ack == LOGIC_1, "wrong address: NACK (SDA stays high)");
+    ack = i2c_write(b, 0x00);
+    check(ack == LOGIC_1, "not addressed: no ACK for data");
+    i2c_stop(b);
+    check(strcmp(tg_state(t)->log, "S A56 ") == 0, "wrong address: no write, no end event");
+    case_end("JF2 I2C target: START, repeated START, STOP, ACK/NACK, reads, straps on SCL/SDA");
+    sim_destroy(b->sim);
+    free(t);
+}
+
+/* ---- J1 MAX3100 ------------------------------------------------------------------------------- */
+
+#define M3_HALF NS(271)   /* X1 = 1.8432 MHz */
+
+static MB *m3_open(const char *part) {
+    MB *b = mb_open(part, "X1", M3_HALF, NULL, NULL);
+
+    b->cs = "CS";
+    b->sclk = "SCLK";
+    b->mosi = "DIN";
+    b->miso = "DOUT";
+    mb_set(b, "CS", LOGIC_1);
+    mb_set(b, "SCLK", LOGIC_0);
+    mb_set(b, "DIN", LOGIC_0);
+    mb_set(b, "SHDN", LOGIC_1);
+    mb_set(b, "RX", LOGIC_1);
+    mb_set(b, "CTS", LOGIC_1);
+    mb_run(b, NS(2000));
+    return b;
+}
+
+static unsigned m3_word(MB *b, unsigned din) {
+    return mb_spi(b, din, 16, NULL, 0);
+}
+
+/* The length of data bit 0 of a 0x01 frame (high between the start bit and
+   bit 1), measured edge to edge. */
+static long long m3_start_bit(MB *b, const char *pin, SimTime limit) {
+    SimTime step = NS(10);
+
+    if (mb_wait(b, pin, LOGIC_0, limit, step) < 0 || mb_wait(b, pin, LOGIC_1, limit, step) < 0) {
+        return -1;
+    }
+    return mb_wait(b, pin, LOGIC_0, limit, step);
+}
+
+static int within(long long got, long long want, long long tolerance) {
+    return got >= want - tolerance && got <= want + tolerance;
+}
+
+static void m3_register_cases(MB *b, const char *what, int *ok_out) {
+    SimTime bt = 16u * 2 * M3_HALF;   /* BRD 1 */
+    char frame[16];
+    char message[160];
+    uint16_t log[8];
+    unsigned w;
+
+    (void)ok_out;
+    mb_expect_pin(b, "DOUT", LOGIC_Z, "DOUT while CS is high");
+    mb_expect_pin(b, "IRQ", LOGIC_Z, "IRQ released after power-on");
+    mb_expect_pin(b, "RTS", LOGIC_1, "RTS pin high after power-on");
+    mb_expect_pin(b, "TX", LOGIC_1, "TX idles high");
+    w = m3_word(b, 0x4000);
+    mb_expect_u(w, 0x4000, "Read Config at power-on: R = 0, T = 1, config 0");
+    /* Write Config: RM, 8N1, B = 0000 (115200 on 1.8432 MHz). */
+    w = m3_word(b, 0xC000 | 0x0400);
+    mb_expect_u(w, 0x4000, "Write Config returns R T and zeros");
+    w = m3_word(b, 0x4000);
+    mb_expect_u(w, 0x4400, "Read Config returns the last configuration (RM)");
+    /* Write Data 'A' with RTS = 1 (pin low). */
+    m3_word(b, 0x8000 | 0x0200 | 'A');
+    mb_expect_pin(b, "RTS", LOGIC_0, "RTS bit 1 drives the pin low");
+    check(mb_wait(b, "TX", LOGIC_0, bt * 4, NS(20)) >= 0, "TX start bit");
+    mb_frame(b, "TX", bt, 9, frame);
+    snprintf(message, sizeof message, "%s: TX frame of 'A' (0x41 LSB first, stop): %s", what, frame);
+    check(strcmp(frame, "0100000101") == 0, message);
+    mb_run(b, bt * 2);
+    check(mb_sent(b, 0, log, 8) >= 1 && log[0] == 'A', "sent log holds 'A'");
+    /* Receive: one frame on RX, Read Data pops it; IRQ by RM. */
+    mb_drive_byte(b, "RX", 0x5A, bt, 1);
+    mb_run(b, bt);
+    mb_expect_pin(b, "IRQ", LOGIC_0, "R with RM: IRQ asserted (open drain low)");
+    w = m3_word(b, 0x0000);
+    mb_expect_u(w & 0xC0FF, 0xC05A, "Read Data: R = 1, T = 1, D = 0x5A");
+    mb_expect_pin(b, "IRQ", LOGIC_Z, "IRQ released once the word is read");
+    w = m3_word(b, 0x0000);
+    mb_expect_u(w & 0x80FF, 0x0000, "Read Data on an empty FIFO: R = 0, D = 0");
+}
+
+static void case_j1(void) {
+    MB *b = m3_open("SFX-MAX3100-qsop16");
+    SimTime bt = 16u * 2 * M3_HALF;
+    char frame[16];
+    unsigned w;
+    unsigned i;
+    long long len;
+    int ok = 1;
+
+    case_begin();
+    m3_register_cases(b, "MAX3100", &ok);
+    /* Baud table: B = 1010 is BRD 12, B = 1000 is BRD 3. */
+    m3_word(b, 0xC000 | 0x000A);
+    m3_word(b, 0x8000 | 0x01);
+    len = m3_start_bit(b, "TX", bt * 30);
+    check(within(len, (long long)(16u * 12 * 2 * M3_HALF), (long long)(2 * M3_HALF)),
+          "B = 1010: bit time 16 x 12 X1 periods");
+    mb_run(b, bt * 12 * 10);
+    m3_word(b, 0xC000 | 0x0008);
+    m3_word(b, 0x8000 | 0x01);
+    len = m3_start_bit(b, "TX", bt * 8);
+    check(within(len, (long long)(16u * 3 * 2 * M3_HALF), (long long)(2 * M3_HALF)),
+          "B = 1000: bit time 16 x 3 X1 periods");
+    mb_run(b, bt * 3 * 10);
+    /* FIFO: 8 words in, read in order; a 9th clears it (RA/FE set). */
+    m3_word(b, 0xC000);
+    for (i = 0; i < 8; i++) {
+        mb_drive_byte(b, "RX", 0x30 + i, bt, 1);
+    }
+    mb_run(b, bt);
+    for (i = 0; i < 8; i++) {
+        w = m3_word(b, 0x0000);
+        mb_expect_u(w & 0x80FF, 0x8030 + i, "FIFO word in order with R = 1");
+    }
+    mb_expect_u(m3_word(b, 0x0000) & 0x8000, 0, "FIFO empty after 8 reads");
+    for (i = 0; i < 9; i++) {
+        mb_drive_byte(b, "RX", 0x40 + i, bt, 1);
+    }
+    mb_run(b, bt);
+    w = m3_word(b, 0x0000);
+    mb_expect_u(w & 0x84FF, 0x0400, "9th word: the FIFO is cleared, RA/FE = 1, R = 0");
+    /* Framing error sets RA/FE; the next good frame clears it. */
+    m3_word(b, 0xC000);
+    mb_drive_byte(b, "RX", 0x55, bt, 0);
+    mb_run(b, bt * 2);
+    w = m3_word(b, 0x0000);
+    mb_expect_u(w & 0x0400, 0x0400, "a 0 stop bit sets RA/FE");
+    mb_drive_byte(b, "RX", 0x66, bt, 1);
+    mb_run(b, bt);
+    w = m3_word(b, 0x0000);
+    mb_expect_u(w & 0x0400, 0, "the next good frame clears RA/FE");
+    /* IRQ masks: RAM (bit 8) with a framing error. */
+    m3_word(b, 0xC000 | 0x0100);
+    mb_expect_pin(b, "IRQ", LOGIC_Z, "RAM with RA/FE = 0: no IRQ");
+    mb_drive_byte(b, "RX", 0x00, bt, 0);
+    mb_run(b, bt * 2);
+    mb_expect_pin(b, "IRQ", LOGIC_0, "RAM: a framing error asserts IRQ");
+    /* T bit and its latch: TM (bit 11). */
+    m3_word(b, 0xC000 | 0x0800);
+    mb_expect_pin(b, "IRQ", LOGIC_0, "TM: T = 1 after Write Config asserts IRQ");
+    mb_set(b, "CS", LOGIC_0);
+    mb_run(b, SPI_HALF);
+    for (i = 0; i < 16; i++) {
+        mb_set(b, "DIN", LOGIC_0);
+        mb_run(b, SPI_HALF);
+        mb_set(b, "SCLK", LOGIC_1);
+        mb_run(b, SPI_HALF);
+        mb_set(b, "SCLK", LOGIC_0);
+    }
+    mb_run(b, SPI_HALF);
+    mb_expect_pin(b, "IRQ", LOGIC_0, "T latch: still set after the 16th clock (CS low)");
+    mb_set(b, "CS", LOGIC_1);
+    mb_run(b, NS(200));
+    mb_expect_pin(b, "IRQ", LOGIC_Z, "T latch cleared on CS rising of Read Data (planner)");
+    m3_word(b, 0x8000 | 0x11);
+    m3_word(b, 0x8000 | 0x22);
+    w = m3_word(b, 0x0000);
+    mb_expect_u(w & 0x4000, 0, "T = 0 while the buffer holds the second word");
+    mb_run(b, bt * 22);
+    w = m3_word(b, 0x0000);
+    mb_expect_u(w & 0x4000, 0x4000, "T = 1 once both have gone");
+    mb_expect_pin(b, "IRQ", LOGIC_Z, "the Read Data cleared the latch again");
+    /* Test mode: digital loopback and the 16x clock on RTS while CS is low. */
+    m3_word(b, 0xC000);
+    m3_word(b, 0x4001);
+    m3_word(b, 0x8000 | 0x5C);
+    mb_set(b, "CS", LOGIC_0);
+    {
+        int seen0 = 0;
+        int seen1 = 0;
+
+        for (i = 0; i < 8; i++) {
+            mb_run(b, NS(130));
+            seen0 |= mb_get(b, "RTS") == LOGIC_0;
+            seen1 |= mb_get(b, "RTS") == LOGIC_1;
+        }
+        check(seen0 && seen1, "test mode: RTS shows the 16x clock while CS is low");
+    }
+    mb_run(b, bt * 12);
+    mb_set(b, "CS", LOGIC_1);
+    mb_run(b, NS(500));
+    mb_expect_pin(b, "RTS", LOGIC_1, "test mode: RTS back to its bit with CS high");
+    m3_word(b, 0x4000);   /* TEST = 0 leaves test mode */
+    w = m3_word(b, 0x0000);
+    mb_expect_u(w & 0x80FF, 0x805C, "test mode: TX looped back into the receiver");
+    /* 9-bit mode: PE = 1, Pt sent as the 9th bit, Pr received. */
+    m3_word(b, 0xC000 | 0x0020 | 0x0200);
+    m3_word(b, 0x8000 | 0x0100 | 0x12);
+    check(mb_wait(b, "TX", LOGIC_0, bt * 4, NS(20)) >= 0, "9-bit: start bit");
+    mb_frame(b, "TX", bt, 10, frame);
+    check(strcmp(frame, "00100100011") == 0, "9-bit: D0-D7 of 0x12, Pt = 1, stop");
+    mb_drive_bits(b, "RX", "0100100001", bt, LOGIC_1);   /* 0x12, 9th bit 0, stop */
+    mb_set(b, "RX", LOGIC_1);
+    mb_run(b, bt * 2);
+    mb_expect_pin(b, "IRQ", LOGIC_Z, "PM: no IRQ for Pr = 0");
+    w = m3_word(b, 0x0000);
+    mb_expect_u(w & 0x01FF, 0x0012, "9-bit: Pr = 0, D = 0x12");
+    mb_drive_bits(b, "RX", "1010010011", bt, LOGIC_1);   /* 0x25, 9th bit 1, stop */
+    mb_set(b, "RX", LOGIC_1);
+    mb_run(b, bt * 2);
+    mb_expect_pin(b, "IRQ", LOGIC_0, "PM: Pr = 1 asserts IRQ (9-bit address)");
+    w = m3_word(b, 0x0000);
+    mb_expect_u(w & 0x01FF, 0x0125, "9-bit: Pr = 1, D = 0x25");
+    /* Software shutdown: SHDNo after the transmitter is idle; RA on RX activity. */
+    m3_word(b, 0xC000 | 0x1000 | 0x0100);
+    w = m3_word(b, 0x4000);
+    mb_expect_u(w & 0x1000, 0x1000, "SHDNi: SHDNo = 1");
+    mb_set(b, "RX", LOGIC_0);
+    mb_run(b, NS(1000));
+    mb_set(b, "RX", LOGIC_1);
+    mb_run(b, NS(1000));
+    w = m3_word(b, 0x0000);
+    mb_expect_u(w & 0x0400, 0x0400, "shutdown: an RX transition sets RA");
+    mb_expect_pin(b, "IRQ", LOGIC_0, "shutdown: RA with RAM asserts IRQ (wake-up)");
+    m3_word(b, 0x8000 | 0x77);
+    mb_run(b, bt * 3);
+    mb_expect_pin(b, "TX", LOGIC_1, "shutdown: no transmission (clock stopped)");
+    m3_word(b, 0xC000);
+    w = m3_word(b, 0x4000);
+    mb_expect_u(w & 0x1400, 0, "Write Config SHDNi = 0: running again, RA cleared");
+    /* Hardware shutdown aborts a frame. */
+    m3_word(b, 0x8000 | 0x00);
+    check(mb_wait(b, "TX", LOGIC_0, bt * 4, NS(20)) >= 0, "frame starts");
+    mb_run(b, bt * 2);
+    mb_set(b, "SHDN", LOGIC_0);
+    mb_run(b, NS(100));
+    mb_expect_pin(b, "TX", LOGIC_1, "SHDN low aborts the frame (TX high)");
+    w = m3_word(b, 0x4000);
+    mb_expect_u(w & 0x5000, 0x5000, "SHDN low: SHDNo = 1, T = 1");
+    mb_set(b, "SHDN", LOGIC_1);
+    mb_run(b, NS(100));
+    w = m3_word(b, 0x4000);
+    mb_expect_u(w & 0x1000, 0, "SHDN high: SHDNo = 0");
+    case_end("J1 MAX3100: commands, baud table, FIFO, IRQ masks, T latch, loopback, 9-bit, shutdown");
+    mb_close(b);
+}
+
+/* ---- J2 MAX3140 ---------------------------------------------------------------------------------- */
+
+static void case_j2(void) {
+    MB *b = m3_open("SFX-MAX3140-qsop28");
+    SimTime bt = 16u * 2 * M3_HALF;
+    unsigned w;
+    int ok = 1;
+
+    case_begin();
+    m3_register_cases(b, "MAX3140", &ok);
+    /* Driver: DE = 1, Y = DI, Z = not DI; TXP inverts; DE = 0 -> Z. SRL open (115k). */
+    mb_set(b, "DI", LOGIC_1);
+    mb_set(b, "DE", LOGIC_1);
+    mb_set(b, "RE", LOGIC_1);
+    mb_run(b, NS(4000));
+    mb_expect_pin(b, "Y", LOGIC_1, "DE = 1, DI = 1");
+    mb_expect_pin(b, "Z", LOGIC_0, "DE = 1, DI = 1");
+    mb_set(b, "DI", LOGIC_0);
+    mb_run(b, NS(2100));
+    mb_expect_pin(b, "Y", LOGIC_0, "DI = 0 after tdp115");
+    mb_expect_pin(b, "Z", LOGIC_1, "DI = 0 after tdp115");
+    mb_set(b, "TXP", LOGIC_1);
+    mb_run(b, NS(2100));
+    mb_expect_pin(b, "Y", LOGIC_1, "TXP = 1 inverts the driver");
+    mb_set(b, "TXP", LOGIC_0);
+    mb_set(b, "DE", LOGIC_0);
+    mb_run(b, NS(2500));
+    mb_expect_pin(b, "Y", LOGIC_Z, "DE = 0: Y high impedance");
+    mb_expect_pin(b, "Z", LOGIC_Z, "DE = 0: Z high impedance");
+    /* Receiver: RE = 0, H/F open (pull-down: full duplex). */
+    mb_set(b, "RE", LOGIC_0);
+    mb_set(b, "A", LOGIC_1);
+    mb_set(b, "B", LOGIC_0);
+    mb_run(b, NS(4000));
+    mb_expect_pin(b, "RO", LOGIC_1, "A = 1, B = 0 -> RO 1");
+    mb_set(b, "A", LOGIC_0);
+    mb_set(b, "B", LOGIC_1);
+    mb_run(b, NS(300));
+    mb_expect_pin(b, "RO", LOGIC_0, "A = 0, B = 1 -> RO 0");
+    mb_set(b, "B", LOGIC_0);
+    mb_run(b, NS(300));
+    mb_expect_pin(b, "RO", LOGIC_1, "A = B (shorted) -> RO 1 (true fail-safe)");
+    mb_set(b, "A", LOGIC_Z);
+    mb_set(b, "B", LOGIC_Z);
+    mb_run(b, NS(300));
+    mb_expect_pin(b, "RO", LOGIC_1, "A, B open -> RO 1 (true fail-safe)");
+    mb_set(b, "A", LOGIC_X);
+    mb_set(b, "B", LOGIC_0);
+    mb_run(b, NS(300));
+    mb_expect_pin(b, "RO", LOGIC_X, "A = X -> RO X");
+    mb_set(b, "A", LOGIC_0);
+    mb_set(b, "B", LOGIC_1);
+    mb_set(b, "RXP", LOGIC_1);
+    mb_run(b, NS(300));
+    mb_expect_pin(b, "RO", LOGIC_1, "RXP = 1 inverts the receiver");
+    mb_set(b, "RXP", LOGIC_0);
+    mb_set(b, "RE", LOGIC_1);
+    mb_run(b, NS(300));
+    mb_expect_pin(b, "RO", LOGIC_Z, "RE = 1: RO high impedance");
+    /* Half duplex: the receiver reads Y/Z (its own driver: echo). */
+    mb_set(b, "H/F", LOGIC_1);
+    mb_set(b, "RE", LOGIC_0);
+    mb_set(b, "DE", LOGIC_1);
+    mb_set(b, "DI", LOGIC_0);
+    mb_run(b, NS(8000));
+    mb_expect_pin(b, "RO", LOGIC_0, "H/F = 1: RO follows Y/Z (driver 0)");
+    mb_set(b, "DI", LOGIC_1);
+    mb_run(b, NS(2500));
+    mb_expect_pin(b, "RO", LOGIC_1, "H/F = 1: RO follows Y/Z (driver 1)");
+    mb_set(b, "H/F", LOGIC_0);
+    /* Transceiver shutdown: RE = 1, DE = 0 held; enabling is then slower. */
+    mb_set(b, "RE", LOGIC_1);
+    mb_set(b, "DE", LOGIC_0);
+    mb_run(b, NS(5000));
+    mb_set(b, "DE", LOGIC_1);
+    mb_run(b, NS(4000));
+    mb_expect_pin(b, "Y", LOGIC_Z, "from shutdown: not yet enabled after tdz115");
+    mb_run(b, NS(2500));
+    mb_expect_pin(b, "Y", LOGIC_1, "from shutdown: enabled after tdzs115");
+    mb_set(b, "DE", LOGIC_0);
+    mb_set(b, "DI", LOGIC_Z);
+    mb_set(b, "A", LOGIC_Z);
+    mb_set(b, "B", LOGIC_Z);
+    /* Test mode: TX held low while CS is low (planner decision). */
+    m3_word(b, 0x4001);
+    mb_set(b, "CS", LOGIC_0);
+    mb_run(b, NS(200));
+    mb_expect_pin(b, "TX", LOGIC_0, "MAX3140 test mode: TX low while CS is low");
+    mb_set(b, "CS", LOGIC_1);
+    mb_run(b, NS(200));
+    mb_expect_pin(b, "TX", LOGIC_1, "MAX3140 test mode: TX released with CS high");
+    m3_word(b, 0x4000);
+    /* Terminal: drives A (true) and B (complement); the UART receives it. */
+    mb_run(b, NS(1000));
+    check(mb_send(b, 0, "K") == 1, "terminal send queued");
+    {
+        int ab = 0;
+        unsigned i;
+
+        for (i = 0; i < 40; i++) {
+            mb_run(b, bt / 2);
+            if (mb_get(b, "A") == LOGIC_0 && mb_get(b, "B") == LOGIC_1) {
+                ab = 1;
+            }
+        }
+        check(ab, "terminal: A low with B high during a 0 bit");
+    }
+    mb_expect_pin(b, "A", LOGIC_Z, "terminal: A released after the frame");
+    mb_expect_pin(b, "B", LOGIC_Z, "terminal: B released after the frame");
+    w = m3_word(b, 0x0000);
+    mb_expect_u(w & 0x80FF, 0x8000 | 'K', "terminal: Read Data gets 'K'");
+    case_end("J2 MAX3140: J1 registers, Y/Z true/complement and Z, A/B fail-safe receive, test mode TX low");
+    mb_close(b);
+}
+
+/* ---- J3-J6 the max310x family ----------------------------------------------------------------- */
+
+#define MX_HALF NS(271)   /* XIN = 1.8432 MHz */
+
+static const char *const MX_PULLS[] = {"SCLK/SCL", "DOUT/SDA", NULL};
+static const char *const MX_PULLS_B[] = {"SCLK/SCL", "MISO/SDA", NULL};
+
+/* A max310x part in SPI mode (spi = 1) or I2C mode, its pins idle. */
+static MB *mx_open(const char *part, int spi, SimTime half, const char *const *ties) {
+    int b_names = strstr(part, "MAX3107") == NULL;   /* MISO/SDA, MOSI/A1, SPI/I2C */
+    MB *b;
+    const char *select;
+
+    b = mb_open(part, "XIN", half, ties, spi ? NULL : (b_names ? MX_PULLS_B : MX_PULLS));
+    select = b_names ? "SPI/I2C" : "I2C/SPI";
+    b->cs = "CS/A0";
+    b->sclk = "SCLK/SCL";
+    b->mosi = b_names ? "MOSI/A1" : "DIN/A1";
+    b->miso = b_names ? "MISO/SDA" : "DOUT/SDA";
+    b->scl = "SCLK/SCL";
+    b->sda = b->miso;
+    mb_set(b, select, spi ? LOGIC_1 : LOGIC_0);
+    mb_set(b, "RST", LOGIC_1);
+    if (spi) {
+        mb_set(b, "CS/A0", LOGIC_1);
+        mb_set(b, "SCLK/SCL", LOGIC_0);
+        mb_set(b, b->mosi, LOGIC_0);
+    }
+    mb_run(b, NS(2000));
+    return b;
+}
+
+static void mx_w(MB *b, unsigned cmd, unsigned value) {
+    mb_spi(b, ((0x80u | cmd) << 8) | value, 16, NULL, 0);
+}
+
+static unsigned mx_r(MB *b, unsigned cmd) {
+    return mb_spi(b, cmd << 8, 16, NULL, 0) & 0xFF;
+}
+
+/* Clock on (external clock: ClockEn + PLLBypass), 8N1, DIV = 1. */
+static void mx_setup(MB *b, unsigned u_bits, unsigned clksrc) {
+    mx_w(b, 0x1E, clksrc);
+    mx_w(b, u_bits | 0x0B, 0x03);
+    mx_w(b, u_bits | 0x1C, 0x01);
+    mx_w(b, u_bits | 0x1D, 0x00);
+}
+
+static void case_j3(void) {
+    MB *b = mx_open("SFX-MAX3107-ssop24", 1, MX_HALF, NULL);
+    SimTime bt = 16u * 2 * MX_HALF;
+    uint16_t log[8];
+    char text[40];
+    char frame[16];
+    unsigned v;
+    unsigned i;
+    long long t;
+
+    case_begin();
+    mb_expect_pin(b, "IRQ", LOGIC_Z, "IRQSel = 0: IRQ released once the device is ready");
+    mb_set(b, "CTS", LOGIC_0);
+    mb_set(b, "RX", LOGIC_1);
+    mb_run(b, NS(1000));
+    /* Command byte: R + address; MISO Z during it, the data after. */
+    v = mb_spi(b, 0x1F00, 16, text, 0) & 0xFF;
+    mb_expect_u(v, 0xA1, "RevID (0x1F) reads 0xA1");
+    check(strncmp(text, "ZZZZZZZZ", 8) == 0, "MISO Z during the command byte");
+    mb_expect_u(mx_r(b, 0x0B), 0x05, "LCR resets to 0x05 (6 bits, 2 stops)");
+    mb_expect_u(mx_r(b, 0x10), 0xFF, "FIFOTrgLvl resets to 0xFF");
+    mb_expect_u(mx_r(b, 0x1A), 0x01, "PLLConfig resets to 0x01");
+    mb_expect_u(mx_r(b, 0x1C), 0x01, "DIVLSB resets to 0x01");
+    mb_expect_u(mx_r(b, 0x1E), 0x08, "CLKSource resets to 0x08 (ClockEn = 0)");
+    mb_expect_u(mx_r(b, 0x02), 0x60, "ISR resets to 0x60");
+    mb_expect_u(mx_r(b, 0x02), 0x00, "ISR is clear-on-read");
+    /* Write: MISO stays Z. */
+    v = mb_spi(b, 0x8B03, 16, text, 0);
+    check(strcmp(text, "ZZZZZZZZZZZZZZZZ") == 0, "MISO Z for a whole write");
+    /* Burst write to THR: the FIFO fills (no clock yet: ClockEn = 0). */
+    mb_spi(b, ((uint32_t)0x80 << 24) | ((uint32_t)'a' << 16) | ((uint32_t)'b' << 8) | 'c', 32, NULL, 0);
+    mb_expect_u(mx_r(b, 0x11), 3, "TxFIFOLvl after a 3-byte burst to THR");
+    /* Burst auto-increment from 0x14 (XON1..XOFF2), and read back. */
+    mb_spi(b, ((uint32_t)0x94 << 24) | 0x112233u, 32, NULL, 1);
+    mb_spi(b, 0x44, 8, NULL, 0);
+    v = mb_spi(b, (uint32_t)0x14 << 24, 32, NULL, 1);
+    mb_expect_u(v & 0xFFFFFF, 0x112233, "burst read XON1, XON2, XOFF1");
+    v = mb_spi(b, 0, 8, NULL, 0);
+    mb_expect_u(v, 0x44, "burst read XOFF2");
+    /* The clock on: the three bytes go out. */
+    mx_setup(b, 0, 0x18);
+    mb_run(b, bt * 34);
+    check(mb_sent(b, 0, log, 8) == 3 && log[0] == 'a' && log[1] == 'b' && log[2] == 'c',
+          "THR burst sent 'a' 'b' 'c'");
+    mb_expect_u(mx_r(b, 0x11), 0, "TxFIFOLvl 0 after sending");
+    /* RX FIFO level and a burst read of RHR (stays at 0x00). */
+    for (i = 0; i < 5; i++) {
+        mb_drive_byte(b, "RX", 0x61 + i, bt, 1);
+    }
+    mb_run(b, bt);
+    mb_expect_u(mx_r(b, 0x12), 5, "RxFIFOLvl after 5 frames");
+    v = mb_spi(b, 0x00000000, 32, NULL, 1);
+    mb_expect_u(v & 0xFFFFFF, 0x616263, "burst read of RHR stays on the FIFO");
+    v = mb_spi(b, 0, 16, NULL, 0);
+    mb_expect_u(v, 0x6465, "burst read of RHR (2)");
+    mb_expect_u(mx_r(b, 0x12), 0, "RxFIFOLvl 0 after reading");
+    /* Errors: a framing error shows in LSR after its word is read. */
+    mb_drive_byte(b, "RX", 0x70, bt, 0);
+    mb_run(b, bt * 2);
+    mb_expect_u(mx_r(b, 0x00), 0x70, "word with a framing error");
+    mb_expect_u(mx_r(b, 0x04) & 0x0C, 0x08, "LSR FrameErr for the word just read");
+    /* Auto RTS: Halt 8, Resume 8 (FlowLvl 0x11): RTS high above 8 words. */
+    mx_w(b, 0x0F, 0x11);
+    mx_w(b, 0x13, 0x01);
+    mb_expect_pin(b, "RTS/CLKOUT", LOGIC_0, "AutoRTS: RTS asserted (low) with the FIFO empty");
+    for (i = 0; i < 9; i++) {
+        mb_drive_byte(b, "RX", 0x30 + i, bt, 1);
+    }
+    mb_run(b, bt);
+    mb_expect_pin(b, "RTS/CLKOUT", LOGIC_1, "AutoRTS: 9 words > Halt: RTS deasserted");
+    mx_r(b, 0x00);
+    mb_expect_pin(b, "RTS/CLKOUT", LOGIC_1, "AutoRTS: 8 words is not below Resume");
+    mx_r(b, 0x00);
+    mb_expect_pin(b, "RTS/CLKOUT", LOGIC_0, "AutoRTS: 7 words < Resume: RTS asserted");
+    mx_w(b, 0x0A, 0x02);   /* FIFORst */
+    mx_w(b, 0x0A, 0x00);
+    /* Auto CTS: transmit only while CTS is low. */
+    mx_w(b, 0x13, 0x02);
+    mb_set(b, "CTS", LOGIC_1);
+    mb_run(b, NS(500));
+    mx_w(b, 0x00, 0x5A);
+    t = mb_wait(b, "TX", LOGIC_0, bt * 3, NS(50));
+    check(t < 0, "AutoCTS: CTS high holds the transmitter");
+    mb_set(b, "CTS", LOGIC_0);
+    t = mb_wait(b, "TX", LOGIC_0, bt * 3, NS(50));
+    check(t >= 0, "AutoCTS: CTS low lets it send");
+    mb_run(b, bt * 12);
+    mb_expect_u(mx_r(b, 0x02) & 0x80, 0x80, "CTS transitions set ISR[7] CTSInt");
+    /* XON/XOFF transmit control: FlowCtrl SwFlowEn + SwFlow[1:0] = 10. */
+    mx_w(b, 0x13, 0x28);
+    mx_w(b, 0x14, 0x11);
+    mx_w(b, 0x16, 0x13);
+    mb_drive_byte(b, "RX", 0x13, bt, 1);
+    mb_run(b, bt);
+    mx_w(b, 0x00, 0x21);
+    t = mb_wait(b, "TX", LOGIC_0, bt * 3, NS(50));
+    check(t < 0, "XOFF1 received: the transmitter holds");
+    mb_drive_byte(b, "RX", 0x11, bt, 1);
+    t = mb_wait(b, "TX", LOGIC_0, bt * 3, NS(50));
+    check(t >= 0, "XON1 received: it sends again");
+    mb_run(b, bt * 12);
+    mb_expect_u(mx_r(b, 0x12), 0, "XON/XOFF characters are not stored");
+    /* Special characters: MODE2 SpecialChr, SwFlow[1:0] = 11 (all four). */
+    mx_w(b, 0x13, 0x30);
+    mx_w(b, 0x0A, 0x10);
+    mx_w(b, 0x05, 0x0F);
+    mx_w(b, 0x01, 0x02);
+    mb_drive_byte(b, "RX", 0x13, bt, 1);
+    mb_run(b, bt);
+    mb_expect_u(mx_r(b, 0x06), 0x04, "SpclCharInt XOFF1Int");
+    mb_expect_u(mx_r(b, 0x00), 0x13, "the special character is stored");
+    mb_expect_u(mx_r(b, 0x06), 0x00, "SpclCharInt is clear-on-read");
+    mx_w(b, 0x0A, 0x00);
+    mx_w(b, 0x13, 0x00);
+    mx_w(b, 0x01, 0x00);
+    /* IrDA SIR: a 0 bit is a 3/16-bit low pulse; RX idles low, high pulses are 0s.
+       Switching RX's idle level makes junk: flush it with FIFORst. */
+    mx_w(b, 0x0E, 0x03);
+    mb_set(b, "RX", LOGIC_0);
+    mb_run(b, bt * 24);
+    mx_w(b, 0x0A, 0x02);
+    mx_w(b, 0x0A, 0x00);
+    mb_expect_u(mx_r(b, 0x12), 0, "IrDA: RX idling low receives nothing");
+    mx_w(b, 0x00, 0x00);
+    /* The second pulse (data bit 0) is measured edge to edge. */
+    t = mb_wait(b, "TX", LOGIC_0, bt * 3, NS(10));
+    t = t < 0 ? t : mb_wait(b, "TX", LOGIC_1, bt, NS(10));
+    t = t < 0 ? t : mb_wait(b, "TX", LOGIC_0, bt, NS(10));
+    t = t < 0 ? t : mb_wait(b, "TX", LOGIC_1, bt, NS(10));
+    {
+        char message[120];
+
+        snprintf(message, sizeof message, "IrDA SIR: pulse %lld ps, 3/16 of a bit is %llu", t,
+                 (unsigned long long)(3 * 2 * MX_HALF));
+        check(within(t, (long long)(3 * 2 * MX_HALF), NS(20)), message);
+    }
+    mb_run(b, bt * 12);
+    {
+        /* 0x0F: start 0, 1111 0000, stop 1 -> pulses for the 0s. */
+        static const char bits[] = "01111000011";
+        for (i = 0; bits[i] != '\0'; i++) {
+            if (bits[i] == '0') {
+                mb_set(b, "RX", LOGIC_1);
+                mb_run(b, 3 * 2 * MX_HALF);
+                mb_set(b, "RX", LOGIC_0);
+                mb_run(b, bt - 3 * 2 * MX_HALF);
+            } else {
+                mb_run(b, bt);
+            }
+        }
+    }
+    mb_run(b, bt);
+    mb_expect_u(mx_r(b, 0x00), 0x0F, "IrDA SIR receive: 0x0F");
+    mx_w(b, 0x0E, 0x00);
+    mb_set(b, "RX", LOGIC_1);
+    mb_run(b, bt * 24);
+    mx_w(b, 0x0A, 0x02);
+    mx_w(b, 0x0A, 0x00);
+    /* RxTimeOut = 2 character times. */
+    mx_w(b, 0x0C, 0x02);
+    mb_drive_byte(b, "RX", 0x3C, bt, 1);
+    mb_run(b, bt * 12);
+    mb_expect_u(mx_r(b, 0x04) & 0x01, 0, "RTimeout: not yet after 1 character time");
+    mb_run(b, bt * 12);
+    mb_expect_u(mx_r(b, 0x04) & 0x01, 0x01, "RTimeout after 2 character times");
+    mb_expect_u(mx_r(b, 0x00), 0x3C, "the waiting word");
+    mb_expect_u(mx_r(b, 0x04) & 0x01, 0, "reading the word clears RTimeout");
+    mx_w(b, 0x0C, 0x00);
+    /* Noise: one of the three samples of a bit disagrees (one 16x tick). */
+    {
+        SimTime tick = 2 * MX_HALF;
+
+        mb_set(b, "RX", LOGIC_0);
+        mb_run(b, bt * 4 + bt / 2 - tick / 2);
+        mb_set(b, "RX", LOGIC_1);
+        mb_run(b, tick);
+        mb_set(b, "RX", LOGIC_0);
+        mb_run(b, bt * 5 - bt / 2 - tick / 2);
+        mb_set(b, "RX", LOGIC_1);
+        mb_run(b, bt * 2);
+    }
+    mb_expect_u(mx_r(b, 0x00), 0x00, "a glitched 0 bit still reads 0 (majority)");
+    mb_expect_u(mx_r(b, 0x04) & 0x20, 0x20, "LSR RxNoise for that word");
+    /* RS-485 direction control: Setup 2, Hold 3 bit times on RTS. */
+    mx_w(b, 0x0D, 0x23);
+    mx_w(b, 0x09, 0x10);
+    mb_expect_pin(b, "RTS/CLKOUT", LOGIC_0, "auto direction: RTS low while idle");
+    mx_w(b, 0x00, 0x01);
+    t = mb_wait(b, "RTS/CLKOUT", LOGIC_1, bt * 2, NS(10));
+    check(t >= 0, "auto direction: RTS high once the FIFO has data");
+    t = mb_wait(b, "TX", LOGIC_0, bt * 4, NS(10));
+    check(within(t, (long long)(2 * bt), (long long)(2 * 2 * MX_HALF)),
+          "auto direction: the start bit Setup = 2 bit times after RTS");
+    t = mb_wait(b, "RTS/CLKOUT", LOGIC_0, bt * 16, NS(10));
+    check(within(t, (long long)(13 * bt), (long long)(2 * 2 * MX_HALF)),
+          "auto direction: RTS low Hold = 3 bit times after the stop bit");
+    mx_w(b, 0x09, 0x00);
+    mx_w(b, 0x0D, 0x00);
+    /* Multidrop with address filtering: XOFF2 = 0x42; LCR forced parity is the 9th bit. */
+    mx_w(b, 0x17, 0x42);
+    mx_w(b, 0x0B, 0x2B);
+    mx_w(b, 0x0A, 0x50);
+    mx_w(b, 0x05, 0x20);
+    mb_drive_bits(b, "RX", "1000001011", bt, LOGIC_1);   /* address 0x41 */
+    mb_drive_bits(b, "RX", "1000100001", bt, LOGIC_1);   /* data 0x11 */
+    mb_drive_bits(b, "RX", "0100001011", bt, LOGIC_1);   /* address 0x42 (ours) */
+    mb_drive_bits(b, "RX", "0100010001", bt, LOGIC_1);   /* data 0x22 */
+    mb_run(b, bt);
+    mb_expect_u(mx_r(b, 0x12), 1, "multidrop: only data after our address is stored");
+    mb_expect_u(mx_r(b, 0x00), 0x22, "multidrop: the data word");
+    mb_expect_u(mx_r(b, 0x04) & 0x04, 0, "multidrop: LSR[2] = its 9th bit (0)");
+    mb_expect_u(mx_r(b, 0x06) & 0x20, 0x20, "multidrop: MultiDropInt");
+    mx_w(b, 0x00, 0x42);   /* EvenParity = 0: the 9th bit is 1 */
+    check(mb_wait(b, "TX", LOGIC_0, bt * 3, NS(20)) >= 0, "multidrop: frame");
+    mb_frame(b, "TX", bt, 10, frame);
+    check(strcmp(frame, "00100001011") == 0, "multidrop: 0x42 with the 9th bit 1, stop");
+    mb_run(b, bt * 2);
+    mx_w(b, 0x0A, 0x00);
+    mx_w(b, 0x0B, 0x03);
+    mx_w(b, 0x05, 0x00);
+    /* GPIOs: GPIO0 push-pull out, GPIO1 open-drain out, GPIO2 input with an interrupt. */
+    mx_w(b, 0x18, 0x23);
+    mx_w(b, 0x19, 0x03);
+    mb_expect_pin(b, "GPIO0", LOGIC_1, "GPIO0 push-pull 1");
+    mb_expect_pin(b, "GPIO1", LOGIC_Z, "GPIO1 open drain 1 is released");
+    mx_w(b, 0x19, 0x00);
+    mb_expect_pin(b, "GPIO1", LOGIC_0, "GPIO1 open drain 0");
+    mx_r(b, 0x08);
+    mx_w(b, 0x07, 0x04);
+    mx_w(b, 0x01, 0x04);
+    mb_set(b, "GPIO2", LOGIC_1);
+    mb_run(b, NS(2000));
+    mb_expect_u(mx_r(b, 0x19) & 0x40, 0x40, "GPIOData input bit 6 = GPIO2");
+    mb_expect_pin(b, "IRQ", LOGIC_Z, "IRQSel = 0: no IRQ yet");
+    mx_w(b, 0x09, 0x80);
+    mb_expect_pin(b, "IRQ", LOGIC_0, "GPI2Int through STSInt and ISR[2] with IRQSel");
+    mb_expect_u(mx_r(b, 0x08) & 0x04, 0x04, "STSInt GPI2Int");
+    mb_expect_pin(b, "IRQ", LOGIC_Z, "STSInt read clears it");
+    mx_w(b, 0x01, 0x00);
+    mx_w(b, 0x07, 0x00);
+    mx_w(b, 0x18, 0x00);
+    /* Forced sleep stops the UART; waking sends what waited. */
+    mx_w(b, 0x09, 0x20);
+    mb_expect_u(mx_r(b, 0x09) & 0x20, 0x20, "ForcedSleep reads back");
+    mb_expect_u(mx_r(b, 0x08) & 0x40, 0x40, "STSInt SleepInt while asleep");
+    mx_w(b, 0x00, 0x01);
+    check(mb_wait(b, "TX", LOGIC_0, bt * 3, NS(50)) < 0, "asleep: nothing is sent");
+    mx_w(b, 0x09, 0x00);
+    check(mb_wait(b, "TX", LOGIC_0, bt * 3, NS(50)) >= 0, "awake: the word goes out");
+    mb_run(b, bt * 12);
+    /* CLKtoRTS: the 16x clock (DIV = 1: XIN) on RTS/CLKOUT. */
+    mx_w(b, 0x1E, 0x98);
+    {
+        int seen0 = 0;
+        int seen1 = 0;
+
+        for (i = 0; i < 8; i++) {
+            mb_run(b, NS(130));
+            seen0 |= mb_get(b, "RTS/CLKOUT") == LOGIC_0;
+            seen1 |= mb_get(b, "RTS/CLKOUT") == LOGIC_1;
+        }
+        check(seen0 && seen1, "CLKtoRTS: RTS/CLKOUT toggles");
+    }
+    mx_w(b, 0x1E, 0x18);
+    /* A write command with X address bits: every register it could name
+       holds X (plan-12-A section 3.5). */
+    mb_set(b, "CS/A0", LOGIC_0);
+    mb_run(b, SPI_HALF);
+    for (i = 0; i < 16; i++) {
+        mb_set(b, b->mosi, i == 0 ? LOGIC_1 : i < 8 ? LOGIC_X : LOGIC_0);
+        mb_run(b, SPI_HALF);
+        mb_set(b, "SCLK/SCL", LOGIC_1);
+        mb_run(b, SPI_HALF);
+        mb_set(b, "SCLK/SCL", LOGIC_0);
+    }
+    mb_run(b, SPI_HALF);
+    mb_set(b, "CS/A0", LOGIC_1);
+    mb_run(b, SPI_HALF);
+    mb_spi(b, 0x0B00, 16, text, 0);
+    check(strcmp(text + 8, "XXXXXXXX") == 0, "X command: LCR holds X");
+    mb_close(b);
+
+    /* I2C: A1 = VL (DIN/A1 high), A0 = DGND: 7-bit address 0x2E. */
+    b = mx_open("SFX-MAX3107-tqfn24-3.5", 0, MX_HALF, NULL);
+    mb_set(b, "DIN/A1", LOGIC_1);
+    mb_set(b, "CS/A0", LOGIC_0);
+    mb_set(b, "RX", LOGIC_1);
+    mb_run(b, NS(2000));
+    i2c_start(b);
+    check(i2c_write(b, 0x2C << 1) == LOGIC_1, "I2C: 0x2C is not this strap (NACK)");
+    i2c_stop(b);
+    i2c_start(b);
+    check(i2c_write(b, 0x2E << 1) == LOGIC_0, "I2C: 0x2E (A1 = VL, A0 = DGND) ACKs");
+    check(i2c_write(b, 0x20) == LOGIC_1, "I2C: register 0x20 is not valid (NACK)");
+    i2c_stop(b);
+    i2c_start(b);
+    i2c_write(b, 0x2E << 1);
+    check(i2c_write(b, 0x14) == LOGIC_0, "I2C: register address 0x14 ACKs");
+    i2c_write(b, 0x5A);
+    i2c_write(b, 0xA5);
+    i2c_restart(b);
+    check(i2c_write(b, (0x2E << 1) | 1) == LOGIC_0, "I2C: read address after Sr");
+    i2c_read(b, 0, NULL);
+    i2c_stop(b);
+    i2c_start(b);
+    i2c_write(b, 0x2E << 1);
+    i2c_write(b, 0x14);
+    i2c_restart(b);
+    i2c_write(b, (0x2E << 1) | 1);
+    v = i2c_read(b, 1, NULL);
+    mb_expect_u(v, 0x5A, "I2C burst write then read: XON1");
+    v = i2c_read(b, 0, NULL);
+    mb_expect_u(v, 0xA5, "I2C auto-increment: XON2");
+    i2c_stop(b);
+    i2c_start(b);
+    i2c_write(b, 0x2E << 1);
+    i2c_write(b, 0x1F);
+    i2c_restart(b);
+    i2c_write(b, (0x2E << 1) | 1);
+    v = i2c_read(b, 0, NULL);
+    i2c_stop(b);
+    mb_expect_u(v, 0xA1, "I2C: RevID");
+    case_end("J3 MAX3107: SPI and I2C command bytes, bursts, FIFO levels, flow control, special characters, IrDA");
+    mb_close(b);
+}
+
+/* Start-bit length of a 0x01 sent on `tx` (ps). */
+static long long mx_bit_time(MB *b, const char *tx, SimTime limit) {
+    return m3_start_bit(b, tx, limit);
+}
+
+static void case_j4(void) {
+    /* XIN = 3.6864 MHz nominal: 136 ns halves (period 272 ns). */
+    SimTime half = NS(136);
+    SimTime p = 2 * half;
+    MB *b = mx_open("SFX-MAX3107-ssop24", 1, half, NULL);
+    long long t;
+    char message[160];
+
+    case_begin();
+    mb_set(b, "RX", LOGIC_1);
+    mb_set(b, "CTS", LOGIC_0);
+    /* PLL bypass (counted): DIV = 2: bit = 16 x 2 x XIN. */
+    mx_w(b, 0x1E, 0x18);
+    mx_w(b, 0x0B, 0x03);
+    mx_w(b, 0x1C, 0x02);
+    mx_w(b, 0x00, 0x01);
+    t = mx_bit_time(b, "TX", 200 * p);
+    snprintf(message, sizeof message, "bypass: bit %lld ps, want %llu", t, (unsigned long long)(32 * p));
+    check(within(t, (long long)(32 * p), (long long)p), message);
+    mb_run(b, 32 * p * 10);
+    /* Fractional: DIV 2 + 8/16: nine low bits of 0x00 last 9 x 16 x 2.5 periods. */
+    mx_w(b, 0x1B, 0x08);
+    mx_w(b, 0x00, 0x00);
+    if (mb_wait(b, "TX", LOGIC_0, 200 * p, NS(10)) >= 0) {
+        t = mb_wait(b, "TX", LOGIC_1, 600 * p, NS(10));
+        snprintf(message, sizeof message, "fraction 2.5: 9 bits %lld ps, want %llu", t,
+                 (unsigned long long)(9 * 40 * p));
+        check(within(t, (long long)(9 * 40 * p), (long long)p), message);
+    } else {
+        check(0, "fraction: no frame");
+    }
+    mb_run(b, 40 * p * 4);
+    mx_w(b, 0x1B, 0x00);
+    /* 2x mode: 8 ticks per bit. */
+    mx_w(b, 0x1B, 0x10);
+    mx_w(b, 0x00, 0x01);
+    t = mx_bit_time(b, "TX", 200 * p);
+    check(within(t, (long long)(16 * p), (long long)p), "2x mode: bit = 8 x DIV XIN periods");
+    mb_run(b, 16 * p * 12);
+    mx_w(b, 0x1B, 0x00);
+    /* PLL x6 with PreDiv 6: fREF = XIN (measured period). */
+    mx_w(b, 0x1A, 0x06);
+    mx_w(b, 0x1E, 0x14);
+    mb_run(b, 4 * p);
+    mx_w(b, 0x00, 0x01);
+    t = mx_bit_time(b, "TX", 200 * p);
+    snprintf(message, sizeof message, "PLL x6 / 6: bit %lld ps, want %llu", t, (unsigned long long)(32 * p));
+    check(within(t, (long long)(32 * p), (long long)p), message);
+    mb_run(b, 32 * p * 10);
+    /* PLL x6 with PreDiv 3: fREF = 2 x XIN: half the bit time. */
+    mx_w(b, 0x1A, 0x03);
+    mb_run(b, 4 * p);
+    mx_w(b, 0x00, 0x01);
+    t = mx_bit_time(b, "TX", 200 * p);
+    snprintf(message, sizeof message, "PLL x6 / 3: bit %lld ps, want %llu", t, (unsigned long long)(16 * p));
+    check(within(t, (long long)(16 * p), (long long)p), message);
+    mb_run(b, 16 * p * 10);
+    /* PLL x48 / 48: fREF = XIN again. */
+    mx_w(b, 0x1A, 0x40 | 48);
+    mb_run(b, 4 * p);
+    mx_w(b, 0x00, 0x01);
+    t = mx_bit_time(b, "TX", 200 * p);
+    check(within(t, (long long)(32 * p), (long long)p), "PLL x48 / 48: bit = 32 XIN periods");
+    mb_run(b, 32 * p * 10);
+    /* PLLEn = 0 without bypass: no reference, nothing is sent. */
+    mx_w(b, 0x1E, 0x10);
+    mx_w(b, 0x00, 0x01);
+    check(mb_wait(b, "TX", LOGIC_0, 100 * p, NS(20)) < 0, "PLLBypass = 0, PLLEn = 0: no clock");
+    case_end("J4 MAX3107 clocking: bypass counts XIN, PLL x6 and x48 measure it; fraction, 2x");
+    mb_close(b);
+}
+
+static void case_j5(void) {
+    MB *b = mx_open("SFX-MAX3109-tqfn32", 1, MX_HALF, NULL);
+    SimTime bt = 16u * 2 * MX_HALF;
+    uint16_t log[4];
+    char text[40];
+    unsigned v;
+
+    case_begin();
+    mb_set(b, "RX0", LOGIC_1);
+    mb_set(b, "RX1", LOGIC_1);
+    mb_set(b, "CTS0", LOGIC_0);
+    mb_set(b, "CTS1", LOGIC_0);
+    mb_expect_pin(b, "IRQ", LOGIC_Z, "MAX3109: IRQ released (no IRQSel)");
+    /* U selects the UART: LCR 0x03 on UART0, 0x1B on UART1. */
+    mx_w(b, 0x0B, 0x03);
+    mx_w(b, 0x20 | 0x0B, 0x1B);
+    mb_expect_u(mx_r(b, 0x0B), 0x03, "UART0 LCR");
+    mb_expect_u(mx_r(b, 0x20 | 0x0B), 0x1B, "UART1 LCR");
+    mx_w(b, 0x14, 0x77);
+    mx_w(b, 0x20 | 0x14, 0x88);
+    mb_expect_u(mx_r(b, 0x14), 0x77, "UART0 XON1");
+    mb_expect_u(mx_r(b, 0x20 | 0x14), 0x88, "UART1 XON1");
+    /* Bit 6 must be 0: such a command reads X. */
+    mb_spi(b, 0x4B00, 16, text, 0);
+    check(strcmp(text + 8, "XXXXXXXX") == 0, "command bit 6 = 1 reads X");
+    /* GlobalIRQ and the IRQ bits on clocks 5-8 of a read command. */
+    mb_expect_u(mx_r(b, 0x1F), 0x03, "GlobalIRQ 0x03: nothing pending");
+    mx_w(b, 0x20 | 0x01, 0x40);   /* UART1 IRQEn RxEmptyIEn: ISR[6] is set */
+    mb_expect_pin(b, "IRQ", LOGIC_0, "UART1 interrupt: IRQ low");
+    mb_expect_u(mx_r(b, 0x1F), 0x01, "GlobalIRQ: IRQ1 = 0 (pending)");
+    mb_spi(b, 0x00, 8, text, 0);
+    check(strcmp(text, "ZZZZ0001") == 0, "fast read: Z, then 0 0 IRQ1 IRQ0 on clocks 5-8");
+    mx_r(b, 0x20 | 0x02);   /* UART1 ISR read clears it */
+    mb_expect_pin(b, "IRQ", LOGIC_Z, "ISR read: IRQ released");
+    mb_expect_u(mx_r(b, 0x1F), 0x03, "GlobalIRQ back to 0x03");
+    mx_w(b, 0x20 | 0x01, 0x00);
+    /* Extended map: GloblComnd 0xCE, RevID at 0x25 (0xC2, decisions.md). */
+    mx_w(b, 0x1F, 0xCE);
+    mb_expect_u(mx_r(b, 0x05), 0xC2, "extended: RevID 0xC2");
+    mx_w(b, 0x1F, 0xCD);
+    mb_expect_u(mx_r(b, 0x05), 0x00, "extended off: 0x05 is LSRIntEn again");
+    /* PLLConfig only through UART0. */
+    mx_w(b, 0x20 | 0x1A, 0x22);
+    mb_expect_u(mx_r(b, 0x1A), 0x01, "PLLConfig written through UART1 is ignored");
+    mb_spi(b, (0x20u | 0x1A) << 8, 16, text, 0);
+    check(strcmp(text + 8, "XXXXXXXX") == 0, "PLLConfig read through UART1 is X");
+    /* Both UARTs send with their own format (UART1: 8 bits, even parity). */
+    mx_setup(b, 0, 0x18);
+    mx_w(b, 0x20 | 0x1C, 0x01);
+    mx_w(b, 0x00, 0x31);
+    mx_w(b, 0x20 | 0x00, 0x32);
+    mb_run(b, bt * 14);
+    check(mb_sent(b, 0, log, 4) == 1 && log[0] == 0x31, "UART0 sent 0x31 on TX0");
+    check(mb_sent(b, 1, log, 4) == 1 && log[0] == 0x32, "UART1 sent 0x32 on TX1");
+    /* Transmit trigger: UART1 SynchEn, TrigSel 3; GloblComnd 0xE3 starts it. */
+    mx_w(b, 0x1F, 0xCE);
+    mx_w(b, 0x20 | 0x00, 0x10 | 0x03);   /* UART1 TxSynch */
+    mx_w(b, 0x1F, 0xCD);
+    v = mx_r(b, 0x20 | 0x09);
+    mb_expect_u(v & 0x02, 0x02, "SynchEn forces TxDisabl");
+    mx_w(b, 0x20 | 0x00, 0x44);
+    check(mb_wait(b, "TX1", LOGIC_0, bt * 3, NS(50)) < 0, "triggered UART waits");
+    mx_w(b, 0x1F, 0xE2);
+    check(mb_wait(b, "TX1", LOGIC_0, bt * 2, NS(50)) < 0, "another trigger (0xE2) does not start it");
+    mx_w(b, 0x1F, 0xE3);
+    check(mb_wait(b, "TX1", LOGIC_0, bt * 2, NS(50)) >= 0, "GloblComnd 0xE3 starts UART1");
+    mb_run(b, bt * 12);
+    check(mb_sent(b, 1, log, 4) == 2 && log[1] == 0x44, "UART1 sent 0x44");
+    /* TIMER: 50 % clock on GPIO1 at UARTClk / (1024 x Timer); CLKtoGPIO: XIN on GPIO0. */
+    mx_w(b, 0x1F, 0xCE);
+    mx_w(b, 0x03, 0x01);   /* UART0 TIMER1 = 1 */
+    mx_w(b, 0x04, 0x80);   /* TIMER2: TmrToGPIO */
+    mx_w(b, 0x00, 0x80);   /* TxSynch: CLKtoGPIO */
+    mx_w(b, 0x1F, 0xCD);
+    {
+        long long t0 = mb_wait(b, "GPIO1", LOGIC_1, 2048 * 2 * MX_HALF, NS(50));
+        long long t1 = t0 < 0 ? -1 : mb_wait(b, "GPIO1", LOGIC_0, 1024 * 2 * MX_HALF, NS(50));
+        int seen0 = 0;
+        int seen1 = 0;
+        unsigned k;
+
+        check(within(t1, (long long)(512 * 2 * MX_HALF), NS(100)),
+              "TIMER = 1: GPIO1 half period = 512 UART clocks");
+        for (k = 0; k < 8; k++) {
+            mb_run(b, NS(130));
+            seen0 |= mb_get(b, "GPIO0") == LOGIC_0;
+            seen1 |= mb_get(b, "GPIO0") == LOGIC_1;
+        }
+        check(seen0 && seen1, "CLKtoGPIO: the reference clock on GPIO0");
+    }
+    mx_w(b, 0x1F, 0xCE);
+    mx_w(b, 0x04, 0x00);
+    mx_w(b, 0x00, 0x00);
+    mx_w(b, 0x1F, 0xCD);
+    /* Receive per channel. */
+    mb_drive_byte(b, "RX1", 0x55, bt, 1);
+    mb_run(b, bt);
+    mb_expect_u(mx_r(b, 0x20 | 0x12), 1, "UART1 RxFIFOLvl");
+    mb_expect_u(mx_r(b, 0x12), 0, "UART0 RxFIFOLvl");
+    mb_expect_u(mx_r(b, 0x20 | 0x00), 0x55, "UART1 RHR");
+    case_end("J5 MAX3109: U bit, per-channel registers, GlobalIRQ, fast read, extended map, triggers");
+    mb_close(b);
+}
+
+static void case_j6(void) {
+    MB *b = mx_open("SFX-MAX14830-tqfn48", 1, MX_HALF, NULL);
+    SimTime bt = 16u * 2 * MX_HALF;
+    static const char *const MAX3108_TIES[] = {"MOSI/A1", "SCLK/SCL", "CS/A0", "MISO/SDA", NULL};
+    char text[40];
+    uint16_t log[4];
+    unsigned u;
+    unsigned v;
+
+    case_begin();
+    for (u = 0; u < 4; u++) {
+        char name[8];
+
+        snprintf(name, sizeof name, "RX%u", u);
+        mb_set(b, name, LOGIC_1);
+        snprintf(name, sizeof name, "CTS%u", u);
+        mb_set(b, name, LOGIC_0);
+    }
+    mb_run(b, NS(500));
+    for (u = 0; u < 4; u++) {
+        mx_w(b, (u << 5) | 0x14, 0x10 + u);
+    }
+    for (u = 0; u < 4; u++) {
+        mb_expect_u(mx_r(b, (u << 5) | 0x14), 0x10 + u, "U1:U0 select the UART (XON1)");
+    }
+    mb_expect_u(mx_r(b, 0x1F), 0x0F, "GlobalIRQ 0x0F");
+    mx_w(b, 0x1F, 0xCE);
+    mb_expect_u(mx_r(b, 0x05), 0xB4, "RevID 0xB4");
+    mx_w(b, 0x1F, 0xCD);
+    mx_w(b, (2u << 5) | 0x01, 0x40);
+    mb_spi(b, 0x00, 8, text, 0);
+    check(strcmp(text, "ZZZZ1011") == 0, "read command: IRQ3..IRQ0 on clocks 5-8 (UART2 pending)");
+    mb_expect_pin(b, "IRQ", LOGIC_Z, "IRQSel = 0: a pending UART does not drive IRQ");
+    mx_w(b, (2u << 5) | 0x09, 0x80);   /* IRQSel on UART2 */
+    mb_expect_pin(b, "IRQ", LOGIC_0, "UART2 pending with IRQSel");
+    mx_r(b, (2u << 5) | 0x02);
+    mb_expect_pin(b, "IRQ", LOGIC_Z, "ISR read releases IRQ");
+    mx_w(b, (2u << 5) | 0x01, 0x00);
+    mb_expect_u(mx_r(b, 0x1E), 0x08, "CLKSource resets to 0x08");
+    mx_setup(b, 0, 0x18);
+    for (u = 1; u < 4; u++) {
+        mx_w(b, (u << 5) | 0x0B, 0x03);
+        mx_w(b, (u << 5) | 0x1C, 0x01);
+    }
+    for (u = 0; u < 4; u++) {
+        mx_w(b, (u << 5) | 0x00, 0x41 + u);
+    }
+    mb_run(b, bt * 14);
+    for (u = 0; u < 4; u++) {
+        check(mb_sent(b, u, log, 4) == 1 && log[0] == 0x41 + u, "each UART sends on its own TX");
+    }
+    mb_close(b);
+
+    /* MAX14830 I2C: UART2 answers at the table address - 0x40. */
+    b = mx_open("SFX-MAX14830-tqfn48", 0, MX_HALF, NULL);
+    mb_set(b, "MOSI/A1", LOGIC_0);
+    mb_set(b, "CS/A0", LOGIC_0);
+    mb_run(b, NS(2000));
+    i2c_start(b);
+    check(i2c_write(b, (0x6C - 0x40) << 1) == LOGIC_0, "MAX14830 I2C: UART2 at 0x2C (0x58 8-bit)");
+    i2c_write(b, 0x14);
+    i2c_write(b, 0x99);
+    i2c_stop(b);
+    i2c_start(b);
+    i2c_write(b, 0x6C << 1);
+    i2c_write(b, 0x14);
+    i2c_restart(b);
+    i2c_write(b, (0x6C << 1) | 1);
+    v = i2c_read(b, 0, NULL);
+    i2c_stop(b);
+    mb_expect_u(v, 0x00, "UART0 XON1 untouched");
+    i2c_start(b);
+    i2c_write(b, (0x6C - 0x40) << 1);
+    i2c_write(b, 0x14);
+    i2c_restart(b);
+    i2c_write(b, ((0x6C - 0x40) << 1) | 1);
+    v = i2c_read(b, 0, NULL);
+    i2c_stop(b);
+    mb_expect_u(v, 0x99, "UART2 XON1 through its own address");
+    mb_close(b);
+
+    /* MAX3108 WLP: the ball pinout; I2C with A1 on SCL, A0 on SDA (0xD6: 0x6B). */
+    b = mx_open("SFX-MAX3108-wlp25", 0, MX_HALF, MAX3108_TIES);
+    check(strcmp(b->part->pins[mb_pin(b, "SPI/I2C")].designator, "D3") == 0, "WLP: SPI/I2C on ball D3");
+    check(strcmp(b->part->pins[mb_pin(b, "TX")].designator, "E4") == 0, "WLP: TX on ball E4");
+    mb_set(b, "RX", LOGIC_1);
+    mb_run(b, NS(2000));
+    i2c_start(b);
+    check(i2c_write(b, 0x6C << 1) == LOGIC_1, "MAX3108: 0x6C is the DGND/DGND address (NACK)");
+    i2c_stop(b);
+    i2c_start(b);
+    check(i2c_write(b, 0x6B << 1) == LOGIC_0, "MAX3108: A1 = SCL, A0 = SDA answers at 0x6B");
+    check(i2c_write(b, 0x1F) == LOGIC_1, "MAX3108: no RevID (0x1F not valid: NACK)");
+    i2c_stop(b);
+    i2c_start(b);
+    i2c_write(b, 0x6B << 1);
+    i2c_write(b, 0x1C);
+    i2c_restart(b);
+    i2c_write(b, (0x6B << 1) | 1);
+    v = i2c_read(b, 1, NULL);
+    mb_expect_u(v, 0x01, "MAX3108 DIVLSB 0x01");
+    v = i2c_read(b, 0, NULL);
+    mb_expect_u(v, 0x00, "MAX3108 DIVMSB (auto-increment)");
+    i2c_stop(b);
+    i2c_start(b);
+    i2c_write(b, 0x6B << 1);
+    i2c_write(b, 0x1E);
+    i2c_restart(b);
+    i2c_write(b, (0x6B << 1) | 1);
+    v = i2c_read(b, 0, NULL);
+    i2c_stop(b);
+    mb_expect_u(v, 0x18, "MAX3108 CLKSource resets to 0x18");
+    case_end("J6 MAX14830 U1:U0 channels and I2C offsets; MAX3108 WLP balls and its address table");
+    mb_close(b);
+}
+
+/* ==== end of plan-12-J ==================================================================== */
+
 int main(void) {
     library = part_library_create();
     if (load_parts_dir(library, PARTS_DIR) != 0 || load_serial_fixture(library) != 0 ||
@@ -1211,6 +2863,14 @@ int main(void) {
     run_d_cases();
     case_d24();
     case_shipped();
+    case_jf_spi();
+    case_jf_i2c();
+    case_j1();
+    case_j2();
+    case_j3();
+    case_j4();
+    case_j5();
+    case_j6();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

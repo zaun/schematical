@@ -109,12 +109,40 @@ on A.
 
 ### Phase 1 — Models
 
-- [ ] `serial_max3100.c`, `serial_max310x.c`; `docs/parts-format.md` §
-  `serial` gains §3.
-- [ ] Fixtures and cases J1–J6.
+- [x] (added: plan-12-I's front ends, pulled into J because J needs them
+  first; see Corrections) SPI target and I2C target front ends,
+  byte-level, in `backend/src/models/serial_target.c/.h` (not
+  `serial_bus.c`), with the `"bus"` loader for the `spi`, `i2c` and
+  `i2c-spi` styles; `pin_open_drain` reports SDA/SCL and the IRQ pins.
+  Check: `/tmp/logic-p12j/serial_test | grep '^ok   JF'` → `ok   JF1 SPI
+  target: MISO Z while CS is high, bytes both ways, X on CS`, `ok   JF2
+  I2C target: START, repeated START, STOP, ACK/NACK, reads, straps on
+  SCL/SDA`.
+- [x] `serial_max3100.c`, `serial_max310x.c`; `docs/parts-format.md` §
+  `serial` gains §3 (the bus styles, `max3100`, `max310x`). Check: build
+  clean, `cmake --build /tmp/logic-p12j -j8 2>&1 | grep -ci warning` → `0`
+  (also `cc -std=c11 -Wall -Wextra -pedantic` on the four serial sources:
+  no output).
+- [x] Fixtures (`backend/tests/support/serial_fixture_maxim.h`) and cases
+  J1–J6. Observed: `/tmp/logic-p12j/serial_test` → every earlier case
+  `ok`, then `ok   J1 MAX3100: commands, baud table, FIFO, IRQ masks, T
+  latch, loopback, 9-bit, shutdown`, `ok   J2 MAX3140: J1 registers, Y/Z
+  true/complement and Z, A/B fail-safe receive, test mode TX low`, `ok
+  J3 MAX3107: SPI and I2C command bytes, bursts, FIFO levels, flow
+  control, special characters, IrDA`, `ok   J4 MAX3107 clocking: bypass
+  counts XIN, PLL x6 and x48 measure it; fraction, 2x`, `ok   J5 MAX3109:
+  U bit, per-channel registers, GlobalIRQ, fast read, extended map,
+  triggers`, `ok   J6 MAX14830 U1:U0 channels and I2C offsets; MAX3108 WLP
+  balls and its address table`, `PASS`. Four model mutations (IrDA width,
+  noise flag, RS-485 hold, multidrop filter) each turned J3 to `FAIL`.
 
 Acceptance: J1–J6 and every earlier case `ok`; `ctest` 100% (about 1 min).
-Commit: —
+Observed: `cmake -S backend -B /tmp/logic-p12j && cmake --build
+/tmp/logic-p12j -j8 && ctest --test-dir /tmp/logic-p12j` → `100% tests
+passed, 0 tests failed out of 18`; `git diff --stat backend/tests/golden`
+→ no output.
+Commit: ad60d85 (front ends), 2a71c5c (models), 92e96e5 (fixtures and
+cases), 2bfe355 (docs)
 
 ### Phase 2 — Parts
 
@@ -140,4 +168,86 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **Phase 1 ran before its prerequisite.** plan-12-I had not landed (the
+  Prerequisites row stays NOT MET); Phase 1 was done on the parent
+  session's instruction, on 627f50d (plan-12-C), models and tests only.
+  Phase 2 (parts, footprints, goldens, stock) waits for I.
+- **Front ends pulled into J.** plan-12-I §3.1's SPI and I2C target front
+  ends landed in J Phase 1 (added task), because J's models are the first
+  to need them. They are byte-level helpers in a new
+  `backend/src/models/serial_target.c/.h`, not in `serial_bus.c` (§2's
+  "SPI and I2C target front ends exist (`serial_bus.c`)"), which stays the
+  Intel bus helper. API for I's bridges: `SerialSpi` (events `begin`,
+  `next(index)` → the byte to shift out with a per-bit drive mask, `bit`
+  (lets a reply depend on the command's first bits), `received(index)`,
+  `shift`, `end(bits)`), `SerialI2c` (events `begin(repeated)`,
+  `address(byte)` → ACK/NACK/X, `received(index)` → ACK/NACK/X,
+  `next(index)`, `acked(index, ack)`, `end(stop)`; `serial_i2c_strap`
+  tells a strap tied low/high/SCL/SDA), and `SerialHost` for a `"bus"`
+  object (`serial_host_load/bind/init/start/pin/hold`,
+  `serial_host_i2c_address` from the strap table). Timing (`t_valid`,
+  `t_out`, `t_float`) is per instance, set by the model from its grade.
+- **MAX3140 transceiver is independent of the UART** (§3.1 said Y and Z
+  drive the UART's TX, RTS-controlled). `maxim.md` § MAX3140: "the two
+  halves share only supply/ground (p1)", "connect TX→DI, RX←RO, RTS→DE/RE
+  externally (p1, p10)"; driver "DE = 1 → Y = DI XOR TXP, Z = NOT Y. DE = 0
+  → Y, Z high-Z". The model drives Y/Z from DI, TXP and DE.
+- **A = B reads 1, not X** (§3.1 and the J2 row said X). `maxim.md` §
+  MAX3140 receiver: RO = ((A−B) ≥ −50 mV) XOR RXP, and "Open/shorted/
+  idle-terminated inputs → RO = 1 XOR RXP ('true fail-safe')" (p11–12,
+  p24–25). The model reads A = B (shorted) and both open as 1; an X input,
+  or one open input, gives X. J2 checks all four.
+- **MAX3140 terminal** (§3.3): kept as planned (A true, B complement,
+  driven-net check on A); since the UART's RX is a separate pin, the UART
+  receiver also hears the typed waveform directly (plan-12-C §3.4 rule).
+- **Mode pin followed live.** plan-12-I §3.1 samples the I2C/SPI select at
+  reset (the SC16IS7xx rule). The Maxim pin tables say "When I2C/SPI is
+  high, DOUT/SDA functions as the DOUT SPI serial-data output" (max3107
+  p12) with no sampling time, so the Maxim devices use `"selectSampled":
+  "live"`; the front end supports both.
+- **MISO during the command byte and writes on the MAX3107/MAX3108:** Z.
+  `maxim.md`: "SDO state outside the data byte is not described"; Figures
+  15/16 (max3107 p44) draw no SDO there, and the register-compatible
+  MAX3109/MAX14830 print Z (max3109 p57–58). An X on a shared MISO would
+  break every other target on it, so the model uses Z.
+- **GloblComnd stays at 0x1F in the extended map.** The extended address is
+  "generated as 0010 A3A2A1A0" (max3109 p53), which would send 0x1F to
+  0x2F, but the same page says "To return to standard addressing mode, the
+  SPI master sends the 0xCD command to register 0x1F". The model keeps 0x1F
+  on GloblComnd while extended access is on.
+- **MAX3107 has no extended registers** (J3 row "extended registers"): its
+  map ends at 0x1F (`maxim.md` register map). J3 checks that register 0x20
+  is refused (I2C NACK); the extended map is checked on the MAX3109 (J5)
+  and MAX14830 (J6).
+- **PLLBypass = 0 with PLLEn = 0 gives no clock** (not in §3.2): max3107
+  p17 Figure 7 puts PLLByps after the PLL, and "If PLLEn is set low, the
+  internal PLL is disabled" (p42). J4 checks that nothing is sent.
+- **IrDA polarity on the max310x** is not printed (`maxim.md` § MAX3107
+  IrDA: only pulse widths). The model uses the MAX3100's (TX idles high, a
+  0 is a low pulse; RX idles low, a 0 is a high pulse; P9, vendor
+  convention); TxInv/RxInv invert it.
+- **Receiver after a framing error** (max310x): the MAX3107 family does not
+  say; the model waits for a new start bit as the MAX3100 does ("After FE
+  the receiver resyncs to look for a start bit", P9) instead of the line
+  engine's PC16550D resync.
+- **MAX3100 overflow:** "The FIFO is cleared if it overflows" (p7); the
+  word that overflowed is not kept either (RA/FE set, decisions.md).
+- **CTSInt** counts CTS 0 ↔ 1 transitions only; a pin coming out of X at
+  power-up is no transition.
+- **Ready time** (`tready`): only the MAX3109 prints one (about 200 µs,
+  p62); the other grades leave it 0.
+- **MAX3109 MODE2[0]** resets the addressed UART only, as the MAX14830
+  prints (p40); the MAX3109 text is silent.
+- **Internal pulls are read, not driven:** RX reads Z as 1 (weak pull-up),
+  GPIO inputs and the MAX3140's H/F, TXP, RXP read Z as 0 (weak
+  pull-downs). Driving them would collide with the terminal's drive on RX.
+- **Control bits written X** act as 0, except the line format (X frames)
+  and the divisor and clock registers (the generator stops). An SPI
+  command with X address bits stores X in every register it could name
+  (P2; J3 checks LCR).
+- **Fixture footprints:** existing footprints of the same pin count
+  (PDIP-14, SSOP-16, SSOP-24, SOIC-28W, TSSOP-24, PLCC-32, TSSOP-48). No
+  25-pad footprint exists, so the MAX3108 fixture part uses `SFX-WLP-25`, a
+  copy of `footprints.md`'s `WLP-25` object under a fixture id, loaded by
+  the fixture header; the real `WLP-25` lands in Phase 2.
+- **Case names:** the front ends' direct cases print as `JF1`, `JF2`.

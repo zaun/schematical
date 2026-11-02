@@ -16,6 +16,9 @@
 
 static const SerialModel *const MODELS[] = {
     &NS16550_MODEL,
+    /* plan-12-J */
+    &MAX3100_MODEL,
+    &MAX310X_MODEL,
 };
 #define MODEL_COUNT (sizeof MODELS / sizeof MODELS[0])
 
@@ -33,6 +36,8 @@ static const char *const DEVICE_KEYS[] = {
     "prescaler", "lsrErrors", "mcrReset", "xonReset", "tcrNeedsDlab0", "dlabHidesUpper",
     "idRegs", "timeoutDelay", "divisorZero", "printerPort", "tristate", "absentTies",
     "optionalPins", "sprPowerUp", "dmaMode1", "lsrClearOnGood", "breakMarkTicks",
+    /* max3100, max310x (plan-12-J) */
+    "shutdown", "testMode", "transceiver", "variant", "reset", "interrupt", "gpio",
     NULL
 };
 enum { FIRST_MODEL_KEY = 2 };

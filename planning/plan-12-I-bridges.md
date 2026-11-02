@@ -159,4 +159,11 @@ programs are the gate. The landing tier is plan-12-K's.
 
 ## Corrections
 
-(none yet)
+- **The SPI and I2C target front ends landed with plan-12-J** (an added
+  task in J Phase 1, J needed them first), as byte-level helpers in
+  `backend/src/models/serial_target.c/.h` rather than `serial_bus.c`, with
+  the `"bus"` loader for the `spi`, `i2c` and `i2c-spi` styles (the latter
+  with `"selectSampled"`: `"reset"`, this plan's rule, is the default). The
+  API is summarized in plan-12-J's Corrections. Nothing in this plan is
+  ticked: §3.1's box also covers the bridges' sub-address layouts and the
+  `ns16550` wiring, which are still I's.
