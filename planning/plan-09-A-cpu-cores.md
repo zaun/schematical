@@ -64,18 +64,21 @@ rows.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-07 complete (owner: plan-09 waits for plan-07 and plan-08) | `ls planning/plan-07-* 2>/dev/null` → no output; `ls planning/completed/plan-07-G-*.md` → exists | MET (2026-11-01 at c93a608: no `planning/plan-07-*`; `planning/completed/plan-07-G-voltage-app.md` exists) |
-| plan-08 complete | `ls planning/plan-08-* 2>/dev/null` → no output; `ls planning/completed/plan-08-*.md` → exists | MET (2026-11-01 at c93a608: `planning/completed/plan-08-schematic-sidebar.md` exists) |
-| plan-10 complete (owner, 2026-11-01: plan-10 lands before plan-09) | `ls planning/plan-10-* 2>/dev/null` → no output; `ls planning/completed/plan-10-J-app.md` → exists | **NOT MET** (2026-11-01 at c93a608: all 10 `planning/plan-10-A…J-*.md` still open; `planning/completed/plan-10-J-app.md` missing) |
-| `vcc` is a required key (plan-07-F landed) | `grep -n '"vcc"' docs/parts-format.md` → the key is listed as required, with no "required from plan-07-F" text | MET (2026-11-01 at c93a608: parts-format.md:205 requires it, no "required from plan-07-F" text) |
-| Backend tests green | `cmake -S backend -B /tmp/logic-p09 && cmake --build /tmp/logic-p09 -j8 && ctest --test-dir /tmp/logic-p09` → `100% tests passed` | MET at c93a608, 12 of 12 (2026-11-01); re-run at start and record the count as **T0** |
-| No `cpu` kind yet | `ls schematical/schematical/Parts/cpu.json backend/src/models/cpu.c 2>/dev/null` → no output | MET (2026-11-01 at c93a608) |
-| Downloads reachable | `curl -sfIL https://raw.githubusercontent.com/floooh/chips/9e88298ce56319953ac7a43213a1120359f7a3a6/chips/z80.h \| head -1` → `HTTP/2 200` | MET (2026-11-01 at c93a608) |
+| plan-07 complete (owner: plan-09 waits for plan-07 and plan-08) | `ls planning/plan-07-* 2>/dev/null` → no output; `ls planning/completed/plan-07-G-*.md` → exists | MET (2026-11-01 at 1da038c: no `planning/plan-07-*`; `planning/completed/plan-07-G-voltage-app.md` exists) |
+| plan-08 complete | `ls planning/plan-08-* 2>/dev/null` → no output; `ls planning/completed/plan-08-*.md` → exists | MET (2026-11-01 at 1da038c: `planning/completed/plan-08-schematic-sidebar.md` exists) |
+| plan-10 complete (owner, 2026-11-01: plan-10 lands before plan-09) | `ls planning/plan-10-*.md 2>/dev/null` → no output; `ls planning/completed/plan-10-J-app.md` → exists | MET (2026-11-01 at 1da038c: no `planning/plan-10-*.md`; `planning/completed/plan-10-J-app.md` exists. Command corrected, see Corrections) |
+| `vcc` is a required key (plan-07-F landed) | `grep -n '"vcc"' docs/parts-format.md` → the key is listed as required, with no "required from plan-07-F" text | MET (2026-11-01 at 1da038c: parts-format.md:198 requires it, no "required from plan-07-F" text) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p09 && cmake --build /tmp/logic-p09 -j8 && ctest --test-dir /tmp/logic-p09` → `100% tests passed` | MET at 1da038c, 15 of 15 (2026-11-01). **T0 = 15** |
+| No `cpu` kind yet | `ls schematical/schematical/Parts/cpu.json backend/src/models/cpu.c 2>/dev/null` → no output | MET (2026-11-01 at 1da038c) |
+| Downloads reachable | `curl -sfIL https://raw.githubusercontent.com/floooh/chips/9e88298ce56319953ac7a43213a1120359f7a3a6/chips/z80.h \| head -1` → `HTTP/2 200` | MET (2026-11-01 at 1da038c) |
 
 At the start of A, also record the golden line counts as **P0**
 (`wc -l < backend/tests/golden/parts.txt`; it equals `traces.txt`) and
 **F0** (`footprints.txt`). Plan-07 changes them, so they are measured
 then, not now (at 5992f1c they are 4006 and 140).
+
+Measured at the start of A (1da038c, 2026-11-01): **P0 = 6170**
+(`traces.txt` also 6170), **F0 = 160**.
 
 Everything below is written against the world where these hold.
 
@@ -377,7 +380,8 @@ non-zero for either.
 
 Files only. Nothing reads them yet.
 
-- [ ] `datasheets/cpu/`: the 6 PDFs of §4.1.
+- [x] `datasheets/cpu/`: the 6 PDFs of §4.1. `wc -c` + `shasum -a 256 *.pdf` →
+      all 6 sizes and SHA-256 equal §4.1 (11,255,293 bytes total).
 
 Acceptance: every file matches its size and SHA-256.
   Check: `cd datasheets/cpu && shasum -a 256 *.pdf` → the six hashes of §4.1 (est. 1 min).
@@ -438,6 +442,12 @@ Commit: —
 - **Plan number 09** (08 was taken by the sidebar plan). Owner, 2026-11-01.
 
 ## Corrections
+
+- **Prerequisites, plan-10 row.** The command `ls planning/plan-10-*` lists
+  the committed data folder `planning/plan-10-data/` (README, counter/latch/
+  shift notes), so it never prints nothing even with plan-10 archived. It is
+  data, not an open sub-plan. Command corrected to `ls planning/plan-10-*.md`
+  (2026-11-01: no output; `planning/completed/plan-10-J-app.md` exists).
 
 ## Summary
 
