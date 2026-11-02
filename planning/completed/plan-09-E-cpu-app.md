@@ -52,11 +52,11 @@ plan-09-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-09-D complete | `ls planning/plan-09-D-* 2>/dev/null` → no output; `ls planning/completed/plan-09-D-*.md` → exists | NOT MET (2026-11-01) |
-| plan-08's facts table exists | `grep -n 'static func rows(for' schematical/schematical/Backend/PartFacts.swift` → one match | NOT MET (2026-11-01; plan-08 not started) |
-| The proof board's parts accept 5 V | `grep -E '^(NJU6366DF1-TE1\|AT28C256-15PU\|AS6C62256-55PCN\|SN74HC00N\|W65C02S6TPG-14\|Z84C0010PEG)\|' backend/tests/golden/parts.txt` → 6 lines, each with a `vcc=<min>-<max>` where min ≤ 5000 ≤ max | NOT MET (2026-11-01; plan-07-F fills the data). From the datasheets: NJU6366 2.0–5.5 V ("Operating Voltage", `datasheets/osc/NJU6366 Series.pdf`), AT28C256 5 V ± 10 %, AS6C62256 2.7–5.5 V, HC 2–6 V, W65C02S 1.71–5.25 V, Z84C00 4.5–5.5 V. |
-| The supply part `5V` exists (plan-07-A/G) | `grep -c '^5V|' backend/tests/golden/parts.txt` → 1 | NOT MET (2026-11-01) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p09e-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | run at start |
+| plan-09-D complete | `ls planning/plan-09-D-* 2>/dev/null` → no output; `ls planning/completed/plan-09-D-*.md` → exists | MET (2026-11-01 at 5adb55b; plan-09-A's rows re-run at 1da038c, all MET) |
+| plan-08's facts table exists | `grep -n 'static func rows(for' schematical/schematical/Backend/PartFacts.swift` → one match | MET (2026-11-01 at 5adb55b: `PartFacts.swift:6`) |
+| The proof board's parts accept 5 V | `grep -E '^(NJU6366DF1-TE1\|AT28C256-15PU\|AS6C62256-55PCN\|SN74HC00N\|W65C02S6TPG-14\|Z84C0010PEG)\|' backend/tests/golden/parts.txt` → 6 lines, each with a `vcc=<min>-<max>` where min ≤ 5000 ≤ max | MET (2026-11-01 at 5adb55b: NJU6366DF1-TE1 2000–5500, AT28C256-15PU 4500–5500, AS6C62256-55PCN 2700–5500, SN74HC00N 2000–6000, W65C02S6TPG-14 1710–5250, Z84C0010PEG 4500–5500). From the datasheets: NJU6366 2.0–5.5 V ("Operating Voltage", `datasheets/osc/NJU6366 Series.pdf`), AT28C256 5 V ± 10 %, AS6C62256 2.7–5.5 V, HC 2–6 V, W65C02S 1.71–5.25 V, Z84C00 4.5–5.5 V. |
+| The supply part `5V` exists (plan-07-A/G) | `grep -c '^5V|' backend/tests/golden/parts.txt` → 1 | MET (2026-11-01 at 5adb55b: 1) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p09e-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01 at 5adb55b, `-derivedDataPath /tmp/p09-dd`, plan-09-D's gate) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue, and again
@@ -267,27 +267,50 @@ Harness commands:
 
 ### Phase 1 — Catalog and facts
 
-- [ ] `PartCatalog.swift`: §4.1.
-- [ ] `PartFacts.swift`: §4.2.
-- [ ] Harness (`/tmp/p09/harness/build.sh`, plan-06-A approach): commands
-      `catalog` and `facts`.
+- [x] `PartCatalog.swift`: §4.1. `xcodebuild … -derivedDataPath /tmp/p09e-dd`
+      → `** BUILD SUCCEEDED **`.
+- [x] `PartFacts.swift`: §4.2. `run facts W65C02S6TPG-14` → Kind
+      Processor, Function 65C02, Package DIP, Footprint PDIP-40-600 — …,
+      Pins 40, Core 65C02 (WDC), Speed grade 14, Max clock 14 MHz, Supply
+      range 1.71–5.25 V, Input max 5.25 V.
+- [x] Harness (`/tmp/p09/harness/build.sh`, plan-06-A approach): commands
+      `catalog` and `facts`. `run catalog` → `obsolete shown: Processor: 19
+      parts; functions 65C02 (2), 6502 (4), Z80 (13)`, `obsolete hidden:
+      Processor: 2 parts; functions 65C02 (2)`, `W65C02S6TPG-14: 14 MHz`,
+      `MPS6502: 1 MHz`, `Z84C0020AEG: 20 MHz`.
 
 Acceptance: the drawer group and facts print as §1.
   Check: `xcodebuild … -derivedDataPath /tmp/p09e-dd … build` → `** BUILD SUCCEEDED **` (est. 2 min); `/tmp/p09/harness/run catalog` and `run facts W65C02S6TPG-14` → the §1 / §4.2 lines (est. seconds).
-Commit: —
+Commit: 741a628
 
 ### Phase 2 — State plumbing and the processor window
 
-- [ ] `SimulationEngine.swift`, `Simulation.swift`: §4.3.
-- [ ] `Cpu/CpuWindow.swift`, `schematicalApp.swift`, `SchematicCanvasView.swift`,
-      `ContentView.swift`: §4.4.
-- [ ] Harness: the `cpu` command and the fixtures of §5.
+- [x] `SimulationEngine.swift`, `Simulation.swift`: §4.3. `CpuSnapshot`
+      copies the C tuples with `withUnsafeBytes`; the harness prints every
+      field (below).
+- [x] `Cpu/CpuWindow.swift`, `schematicalApp.swift`, `SchematicCanvasView.swift`,
+      `ContentView.swift`: §4.4. `xcodebuild … /tmp/p09e-dd` → `** BUILD
+      SUCCEEDED **` (the synchronized folder compiles `Cpu/`).
+- [x] Harness: the `cpu` command and the fixtures of §5 (`run fixtures`
+      writes the two `.bin` and `.schematical` files: 8 parts, 71 / 73
+      wires, no refused connection). `run cpu cpu6502.schematical`:
+      - at 50 µs: `Unknown — waiting for reset`, 0 registers, last `—`;
+      - after the switch and 2 ms: `Stopped (STP)`, `A=10 X=FF Y=00 S=FF
+        P=07 PC=8013`, last `8012  DB  STP`, SRAM 0200 = `10`.
+      `run cpu cpuz80.schematical`:
+      - LOST first;
+      - then `Halted (HALT)` with 18 registers (`AF=1042` → A 10, `BC=FFFF`
+        at its reset value, `SP=0000`);
+      - last `0010  76  HALT`, SRAM 0200/0201 = `10 10`;
+      - after Stop, `cpuState` nil.
+      The four PNGs were looked at: each status line, register grid, flag
+      row and last instruction reads as stated.
 
 Acceptance: §5 steps 3–5 print their values and write the four PNGs. Each
 PNG is looked at: the status line, the register grid and the last
 instruction all read as stated.
-  Check: `/tmp/p09/harness/run cpu /tmp/p09-proof/cpu6502.schematical` and `run cpu /tmp/p09-proof/cpuz80.schematical` → the §5 values; `ls /tmp/p09-proof/*.png` → `cpu-6502.png cpu-lost.png cpu-stopped.png cpu-z80.png` (est. 1 min).
-Commit: —
+  Check: `/tmp/p09/harness/run cpu /tmp/p09-proof/cpu6502.schematical` and `run cpu /tmp/p09-proof/cpuz80.schematical` → the §5 values; `ls /tmp/p09-proof/*.png` → `cpu-6502.png cpu-lost.png cpu-stopped.png cpu-z80.png` (est. 1 min). Measured as in the task above; `ls` → the four PNGs.
+Commit: 782f944 (window and plumbing), fb01a46 (reset-setup rule found by the §5 re-run)
 
 ## Validation Plan
 
@@ -321,6 +344,70 @@ Owner: the read-only processor window without stepping (plan-09-A
 separate window from the memory window).
 
 ## Corrections
+
+- **Package `DIP`** (§4.2 said Package `PDIP`). plan-09-D wrote the PDIP
+  parts as `"DIP"` to match the library (plan-09-D Corrections), so the
+  facts row reads `Package: DIP`.
+- **Function order in the drawer.** §1 lists `6502 (4), 65C02 (2), Z80
+  (13)`. The drawer orders a group's functions itself and gives `65C02 (2),
+  6502 (4), Z80 (13)`. The counts and the total (19; 2 with obsolete parts
+  hidden) are as planned.
+- **Harness timing read stale snapshots** (found re-running §5 after the
+  merge of main). Snapshots reach the main thread as queued tasks, so
+  `simulation.circuitTime` lags the engine. After a slow step (a PNG
+  capture), a queued pre-switch snapshot could already meet "5 µs later" or
+  "2 ms later". The harness then flipped the switch off, or read the state,
+  almost at once in engine time. The W65C02S board then read `Held in
+  reset` or LOST at "2 ms" in 2 of 3 runs, though it reached Stopped once
+  given more wall time. The same board on the circuit API (a C repro: switch
+  on/off at swept times, 1 µs steps) reached STOPPED at every time. The
+  harness's `advance(by:)` now pumps the run loop 0.1 s before taking its
+  base time. The 6502 board then passed 7 of 7 runs. No app change.
+- **Reset released inside its setup time** (backend change, found the same
+  way). The Z80 board still stayed LOST in 1 of 3 runs. A switch released at
+  a random instant lands inside `tsreset` (40 ns of the 500 ns period at 2
+  MHz, ~8 %); plan-09-B/C read that as X, and RESET X is LOST. The real chip
+  only leaves reset one cycle earlier or later. So `cpu_sample_reset`
+  (`cpu.c`) gives a reset that changed within its setup time, to a known
+  level, the level it had before; the change takes effect at the next
+  edge. A reset that is X itself is still LOST. Used by `cpu6502.c` (RES,
+  `tpcs`) and `cpuz80.c` (RESET#, `tsreset`). New `cpu_test` cases for all
+  three cores: "RES released inside tPCS: reset ends one cycle later, CPU
+  runs", and "RESET# released inside tSRESET: the first fetch one T later".
+  They PASS, and with the rule disabled they FAIL (checked). Nine CPU trace
+  hashes changed; W65C02S6TPG-14's verbose trace was diffed. The stimulus
+  drives RESB low at t = 714165, 6.9 ns before the PHI2 fall at 721033
+  (< tPCS 10 ns). Before, the CPU went LOST at that fall; now the
+  assertion takes effect at the next edge. `traces.txt` regenerated: those
+  9 lines change, and against main the goldens still only add lines (+19
+  parts, +19 traces, +3 footprints). `docs/parts-format.md` § `cpu`
+  states the rule for both families. After the change, both boards pass 4
+  of 4 runs.
+- **Advance steps overshoot.** §5 says "advance 50 µs", "5 µs", "2 ms".
+  The app's engine runs on its own thread, paced by the speed setting. The
+  harness sets the speed to 1000 (flat out) and pumps the run loop until
+  `circuitTime` passes each target, so it lands later. In the final run:
+  LOST read at 17.9 ms / 74.6 ms, reset held about 23 ms / 2.7 ms, and the
+  end state read 30 ms / 4.8 ms after OFF. Every state the plan names
+  holds over those spans: LOST until reset, at least 3 reset cycles. The
+  values match §5.
+- **PNG capture.** The first captures came out blank but for the lit flag
+  cells. The harness ran in Dark Mode with no window background, so the
+  text was white on transparent. The harness now renders with the Aqua
+  appearance and a window background and captures the window frame, like
+  plan-08's harness. This is a harness fix only; the app's window code did
+  not change.
+- **Desktop proof not done** (Validation Plan: "plus on the desktop … run
+  skill … desktop-cpu.png"). This session has no tool that drives a
+  desktop GUI (double-click, play, flip a switch), so it was not run. The
+  harness drives the same `CpuWindowView` in an `NSWindow`, with the app's
+  `SimulationController` and `SchematicSessions` and a document loaded
+  from the saved `.schematical`. The double-click → `onOpenCpu` →
+  `openWindow(id: "cpu")` path is compiled but not exercised. It is left
+  for an interactive check.
+- **The harness source file is `harness.swift`.** `swiftc` treats a file
+  named `main.swift` as top-level code, which conflicts with `@main`
+  (plan-08's harness used `a.swift`).
 
 ## Summary
 

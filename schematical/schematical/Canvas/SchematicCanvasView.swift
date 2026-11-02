@@ -28,6 +28,8 @@ struct SchematicCanvasView: View {
     private var isRunning: Bool { simulation.isRunning }
     /// Called with a memory part's id when it is double-clicked, to show its contents.
     var onOpenMemory: (UUID) -> Void = { _ in }
+    /// Called with a processor part's id when it is double-clicked, to show its state.
+    var onOpenCpu: (UUID) -> Void = { _ in }
     /// Called after a part dragged from the drawer is placed on the canvas.
     var onPartPlaced: () -> Void = {}
 
@@ -96,6 +98,11 @@ struct SchematicCanvasView: View {
                     // play mode too, which is when it has contents to show.
                     if let chip = document.chip(at: point), chip.part.isMemory {
                         onOpenMemory(chip.id)
+                        return
+                    }
+                    // A processor opens its processor window the same way.
+                    if let chip = document.chip(at: point), chip.part.isCpu {
+                        onOpenCpu(chip.id)
                         return
                     }
                     guard !isRunning else { return }

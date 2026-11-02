@@ -22,6 +22,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "cpu_state.h"
 #include "parts.h"
 #include "voltage.h"
 
@@ -73,5 +74,9 @@ size_t circuit_memory_read(const Circuit *circuit, size_t part, uint32_t start, 
    Each value must fit the word width. 0, or -1 with circuit_error set. */
 int circuit_memory_load(Circuit *circuit, size_t part, uint32_t start,
                         const uint32_t *values, size_t count);
+
+/* Processor state (cpu kind): 0, or -1 with circuit_error "part N is not a
+   processor" for any other kind. */
+int circuit_cpu_state(const Circuit *circuit, size_t part, CpuState *out);
 
 #endif

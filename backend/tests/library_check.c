@@ -49,6 +49,7 @@ static char *json(const char *text) {
     FIXTURE_DUAL("T1", "1", ",'perSide':1") "," FIXTURE_DUAL("T2", "2", "") "," \
     FIXTURE_DUAL("T4", "4", "") "," FIXTURE_DUAL("T5", "5", ",'perSide':3") "," \
     FIXTURE_DUAL("T6", "6", "") "," FIXTURE_DUAL("T26", "26", "") "," \
+    FIXTURE_DUAL("T40", "40", "") "," \
     "{'id':'BGA2','description':'d','style':'grid','pins':2,'rows':2,'columns':2,'pitch':0.5," \
     "'balls':['A1','B2'],'body':{'width':1,'height':1},'pad':{'width':0.2,'height':0.2,'shape':'round'}}," \
     "{'id':'BGA4','description':'d','style':'grid','pins':4,'rows':2,'columns':2,'pitch':0.5," \
@@ -537,6 +538,156 @@ static void check_eeprom_cases(void) {
     expect_fail("eeprom grade missing from grades",
                 EEPROM_DEVICE(EE_DATA8, "64", EE_CMDS, "off", EE_GRADE, "70"),
                 "parts[0] (E1): grade \"70\" is not in \"grades\"");
+}
+
+/* A 40-pin processor (plan-09-B section 5.4): A0-A15 on 1-16, D0-D7 on 17-24, the
+   W65C02S controls on 25-37. PINOUT2 is a second pinout (may be empty). */
+#define CP(N, NAME, ROLE) "{'number':" #N ",'name':'" NAME "','role':'" ROLE "'}"
+#define CPU_P40(NAME, PIN31) \
+    "'" NAME "':[" \
+    CP(1, "A0", "output") "," CP(2, "A1", "output") "," CP(3, "A2", "output") "," \
+    CP(4, "A3", "output") "," CP(5, "A4", "output") "," CP(6, "A5", "output") "," \
+    CP(7, "A6", "output") "," CP(8, "A7", "output") "," CP(9, "A8", "output") "," \
+    CP(10, "A9", "output") "," CP(11, "A10", "output") "," CP(12, "A11", "output") "," \
+    CP(13, "A12", "output") "," CP(14, "A13", "output") "," CP(15, "A14", "output") "," \
+    CP(16, "A15", "output") "," CP(17, "D0", "inout") "," CP(18, "D1", "inout") "," \
+    CP(19, "D2", "inout") "," CP(20, "D3", "inout") "," CP(21, "D4", "inout") "," \
+    CP(22, "D5", "inout") "," CP(23, "D6", "inout") "," CP(24, "D7", "inout") "," \
+    CP(25, "PHI2", "input") "," CP(26, "RWB", "output") "," CP(27, "SYNC", "output") "," \
+    CP(28, "IRQB", "input") "," CP(29, "NMIB", "input") "," CP(30, "RESB", "input") "," \
+    CP(31, PIN31, "input") "," CP(32, "RDY", "inout") "," CP(33, "PHI1O", "output") "," \
+    CP(34, "PHI2O", "output") "," CP(35, "VPB", "output") "," CP(36, "MLB", "output") "," \
+    CP(37, "BE", "input") "," CP(38, "VDD", "power") "," CP(39, "VSS", "ground") "," \
+    CP(40, "NC", "nc") "]"
+#define CPU_ADDR16 "'A0','A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12','A13','A14','A15'"
+#define CPU_DATA8 "'D0','D1','D2','D3','D4','D5','D6','D7'"
+#define CPU_KEYS(SYNC) \
+    "'clock':'PHI2','rw':'RWB'," SYNC "'irq':'IRQB','nmi':'NMIB','reset':'RESB','so':'SOB'," \
+    "'rdy':'RDY','phi1Out':'PHI1O','phi2Out':'PHI2O'"
+#define CPU_SYNC "'sync':'SYNC',"
+#define CPU_WDC ",'vectorPull':'VPB','memoryLock':'MLB','busEnable':'BE'"
+#define CPU_GRADE(TCYC) \
+    "{'tcyc':" TCYC ",'tpwh':35,'tpwl':35,'tads':30,'tah':10,'tsync':30,'tmds':25,'tdhw':10," \
+    "'tdsr':10,'tpcs':10,'tbvd':25,'note':'n','vcc':[1.71,5.25]}"
+#define CPU_PART(NAME, PINOUT, EXTRA) \
+    "{'name':'" NAME "','package':'DIP','pinout':'" PINOUT "','footprint':'T40','grade':'14'" EXTRA "}"
+#define CPU_DEVICE(CORE, ADDR, DATA, KEYS, GRADE, PINOUTS, PARTS) \
+    HEAD("cpu") "{'id':'C','function':'65C02','description':'d','drawer':['Processor']," \
+    "'pinouts':{" PINOUTS "},'core':'" CORE "','address':[" ADDR "],'data':[" DATA "]," KEYS "," \
+    "'grades':{'14':" GRADE "},'parts':[" PARTS "]}" TAIL
+#define CPU_OK(CORE, KEYS) \
+    CPU_DEVICE(CORE, CPU_ADDR16, CPU_DATA8, KEYS, CPU_GRADE("70"), CPU_P40("p40", "SOB"), \
+               CPU_PART("C1", "p40", ""))
+
+/* A 40-pin Z80: A0-A15 on 1-16, D0-D7 on 17-24, the controls on 25-38.
+   PIN40 names pin 40 (GND, or a second M1#). */
+#define Z80_P40(PIN40) \
+    "'p40':[" \
+    CP(1, "A0", "output") "," CP(2, "A1", "output") "," CP(3, "A2", "output") "," \
+    CP(4, "A3", "output") "," CP(5, "A4", "output") "," CP(6, "A5", "output") "," \
+    CP(7, "A6", "output") "," CP(8, "A7", "output") "," CP(9, "A8", "output") "," \
+    CP(10, "A9", "output") "," CP(11, "A10", "output") "," CP(12, "A11", "output") "," \
+    CP(13, "A12", "output") "," CP(14, "A13", "output") "," CP(15, "A14", "output") "," \
+    CP(16, "A15", "output") "," CP(17, "D0", "inout") "," CP(18, "D1", "inout") "," \
+    CP(19, "D2", "inout") "," CP(20, "D3", "inout") "," CP(21, "D4", "inout") "," \
+    CP(22, "D5", "inout") "," CP(23, "D6", "inout") "," CP(24, "D7", "inout") "," \
+    CP(25, "CLK", "input") "," CP(26, "M1#", "output") "," CP(27, "MREQ#", "output") "," \
+    CP(28, "IORQ#", "output") "," CP(29, "RD#", "output") "," CP(30, "WR#", "output") "," \
+    CP(31, "RFSH#", "output") "," CP(32, "HALT#", "output") "," CP(33, "BUSACK#", "output") "," \
+    CP(34, "WAIT#", "input") "," CP(35, "INT#", "input") "," CP(36, "NMI#", "input") "," \
+    CP(37, "RESET#", "input") "," CP(38, "BUSREQ#", "input") "," CP(39, "+5V", "power") "," \
+    CP(40, PIN40, "ground") "]"
+#define Z80_KEYS(BUSACK) \
+    "'clock':'CLK','m1':'M1#','mreq':'MREQ#','iorq':'IORQ#','rd':'RD#','wr':'WR#','rfsh':'RFSH#'," \
+    "'halt':'HALT#'," BUSACK "'wait':'WAIT#','int':'INT#','nmi':'NMI#','reset':'RESET#','busreq':'BUSREQ#'"
+#define Z80_BUSACK "'busack':'BUSACK#',"
+#define Z80_GRADE(TCC) "{'tcc':" TCC ",'twch':40,'twcl':40,'tdcra':65,'note':'n','vcc':[4.5,5.5]}"
+#define Z80_DEVICE(KEYS, GRADE, PIN40) \
+    CPU_DEVICE("z80", CPU_ADDR16, CPU_DATA8, KEYS, GRADE, Z80_P40(PIN40), CPU_PART("Z1", "p40", ""))
+
+static void check_z80_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, Z80_DEVICE(Z80_KEYS(Z80_BUSACK), Z80_GRADE("100"), "GND"), &error) == 0);
+    part = part_library_find(library, "Z1");
+    CHECK(part != NULL && part->cpu != NULL && strcmp(part->cpu->core, "z80") == 0 &&
+          part->cpu->max_hz == 10000000);
+    printf("ok   valid z80 cpu file%s%s\n", error != NULL ? ": " : "", error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("z80 with a sync key",
+                Z80_DEVICE(Z80_KEYS(Z80_BUSACK) ",'sync':'M1#'", Z80_GRADE("100"), "GND"),
+                "devices[0] (C): \"sync\" is not a key of core \"z80\"");
+    expect_fail("z80 missing busack", Z80_DEVICE(Z80_KEYS(""), Z80_GRADE("100"), "GND"),
+                "devices[0] (C): missing \"busack\"");
+    expect_fail("z80 tcc 0", Z80_DEVICE(Z80_KEYS(Z80_BUSACK), Z80_GRADE("0"), "GND"),
+                "grades.14: \"tcc\" must be more than 0");
+    expect_fail("z80 m1 naming two pins", Z80_DEVICE(Z80_KEYS(Z80_BUSACK), Z80_GRADE("100"), "M1#"),
+                "m1: pin name \"M1#\" is used by 2 pins; one is needed");
+}
+
+static void check_cpu_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, CPU_OK("65c02", CPU_KEYS(CPU_SYNC) CPU_WDC), &error) == 0);
+    part = part_library_find(library, "C1");
+    CHECK(part != NULL && part->kind == PART_CPU && part->cpu != NULL &&
+          strcmp(part->cpu->core, "65c02") == 0 && strcmp(part->cpu->grade, "14") == 0 &&
+          part->cpu->max_hz == 14285714 && part->eeprom == NULL && part->vcc != NULL &&
+          part->vcc->min_mv == 1710 && part->vcc->max_mv == 5250);
+    printf("ok   valid cpu file%s%s\n", error != NULL ? ": " : "", error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    library = part_library_create();
+    error = NULL;
+    CHECK(load(library, CPU_OK("6502", CPU_KEYS(CPU_SYNC)), &error) == 0);
+    part = part_library_find(library, "C1");
+    CHECK(part != NULL && part->cpu != NULL && strcmp(part->cpu->core, "6502") == 0);
+    printf("ok   valid 6502 cpu file%s%s\n", error != NULL ? ": " : "", error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("cpu unknown core", CPU_OK("6809", CPU_KEYS(CPU_SYNC)),
+                "devices[0] (C): unknown core \"6809\"");
+    expect_fail("cpu vectorPull on a 6502", CPU_OK("6502", CPU_KEYS(CPU_SYNC) CPU_WDC),
+                "devices[0] (C): \"vectorPull\" is not a key of core \"6502\"");
+    expect_fail("cpu missing sync", CPU_OK("65c02", CPU_KEYS("") CPU_WDC),
+                "devices[0] (C): missing \"sync\"");
+    expect_fail("cpu 15 address names",
+                CPU_DEVICE("65c02", "'A0','A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12','A13','A14'",
+                           CPU_DATA8, CPU_KEYS(CPU_SYNC) CPU_WDC, CPU_GRADE("70"),
+                           CPU_P40("p40", "SOB"), CPU_PART("C1", "p40", "")),
+                "devices[0] (C): \"address\" needs exactly 16 pin names");
+    expect_fail("cpu 7 data names",
+                CPU_DEVICE("65c02", CPU_ADDR16, "'D0','D1','D2','D3','D4','D5','D6'",
+                           CPU_KEYS(CPU_SYNC) CPU_WDC, CPU_GRADE("70"), CPU_P40("p40", "SOB"),
+                           CPU_PART("C1", "p40", "")),
+                "devices[0] (C): \"data\" needs exactly 8 pin names");
+    expect_fail("cpu control pin absent from one pinout",
+                CPU_DEVICE("65c02", CPU_ADDR16, CPU_DATA8, CPU_KEYS(CPU_SYNC) CPU_WDC,
+                           CPU_GRADE("70"), CPU_P40("p40", "SOB") "," CPU_P40("p40b", "SO"),
+                           CPU_PART("C1", "p40", "") "," CPU_PART("C2", "p40b", "")),
+                "so: no pin named \"SOB\"");
+    expect_fail("cpu tcyc 0",
+                CPU_DEVICE("65c02", CPU_ADDR16, CPU_DATA8, CPU_KEYS(CPU_SYNC) CPU_WDC,
+                           CPU_GRADE("0"), CPU_P40("p40", "SOB"), CPU_PART("C1", "p40", "")),
+                "grades.14: \"tcyc\" must be more than 0");
+    expect_fail("cpu grade missing from grades",
+                CPU_DEVICE("65c02", CPU_ADDR16, CPU_DATA8, CPU_KEYS(CPU_SYNC) CPU_WDC,
+                           CPU_GRADE("70"), CPU_P40("p40", "SOB"),
+                           "{'name':'C1','package':'DIP','pinout':'p40','footprint':'T40','grade':'8'}"),
+                "parts[0] (C1): grade \"8\" is not in \"grades\"");
+    expect_fail("cpu inputMax below the grade's vcc max",
+                CPU_DEVICE("65c02", CPU_ADDR16, CPU_DATA8, CPU_KEYS(CPU_SYNC) CPU_WDC,
+                           CPU_GRADE("70"), CPU_P40("p40", "SOB"),
+                           CPU_PART("C1", "p40", ",'inputMax':5")),
+                "parts[0] (C1): \"inputMax\" 5 is below the \"vcc\" max 5.25");
 }
 
 #define DISPLAY_DEVICE(COMMON2, SEGMENT_SIDE) \
@@ -1368,6 +1519,8 @@ int main(void) {
     check_display_cases();
     check_sram_cases();
     check_eeprom_cases();
+    check_cpu_cases();
+    check_z80_cases();
     check_switch_cases();
     check_flipflop_cases();
     check_gate_cases();

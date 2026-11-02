@@ -42,7 +42,7 @@ plan-09-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-09-A complete | `ls planning/plan-09-A-* 2>/dev/null` → no output; `ls planning/completed/plan-09-A-*.md` → exists | NOT MET (2026-11-01) |
+| plan-09-A complete | `ls planning/plan-09-A-* 2>/dev/null` → no output; `ls planning/completed/plan-09-A-*.md` → exists | MET (2026-11-01 at 1e5e729; plan-09-A's own rows re-run at 1da038c the same day, all MET) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue, and again
@@ -530,46 +530,55 @@ Each one is a fixture with one fault. Each message names the place, e.g.
 
 A loadable kind with no behaviour beyond "lost", landable alone.
 
-- [ ] `parts.h`: `PART_CPU`, `PartCpu`, `Part.cpu` (§4.1).
-- [ ] `include/cpu_state.h`; `sim.h` hook; `circuit.h`/`circuit.c`
-      `circuit_cpu_state` (§4.3).
-- [ ] `models/cpu.c`:
+- [x] `parts.h`: `PART_CPU`, `PartCpu`, `Part.cpu` (§4.1).
+- [x] `include/cpu_state.h`; `sim.h` hook; `circuit.h`/`circuit.c`
+      `circuit_cpu_state` (§4.3). `cpu_test` case 1 → "circuit_cpu_state
+      reports LOST" and "on a gate: \"part 1 is not a processor\"" PASS.
+- [x] `models/cpu.c` (+ the internal header `models/cpu.h`):
   - `CPU_KIND` with the 6502-family keys and the plan-07 voltage keys;
   - `CPU_MODEL` dispatching to a `CpuCoreOps` table;
   - for now, a core whose `start` drives every output X and reports
-    LOST.
-- [ ] `kinds.c`: `&CPU_KIND`. `backend/CMakeLists.txt`: `models/cpu.c`.
-- [ ] `listing.c`: kind name and details. `trace_check.c`: `TRACE_LAST_KIND`
-      → `PART_CPU`.
-- [ ] `library_check.c`: the §5.4 cases.
-- [ ] `tests/cpu_test.c` with the fixture devices (§4.7), case 1 only.
-      `logic_test(cpu_test)`.
+    LOST (placed in `models/cpu6502.c`, the file Phase 2 fills; see
+    Corrections).
+- [x] `kinds.c`: `&CPU_KIND`. `backend/CMakeLists.txt`: `models/cpu.c` and
+      `models/cpu6502.c`.
+- [x] `listing.c`: kind name and details. `trace_check.c`: `TRACE_LAST_KIND`
+      → `PART_CPU`. `listing_check`, `trace_check` pass; golden diff empty.
+- [x] `library_check.c`: the §5.4 cases, plus a valid 65c02 and a valid
+      6502 file (`max_hz` 14285714, vcc 1710–5250). All 11 print `ok` with
+      the §5.4 messages (e.g. `devices[0] (C): pinouts.p40b: so: no pin
+      named "SOB"`, `parts[0] (C1): "inputMax" 5 is below the "vcc" max 5.25`).
+- [x] `tests/cpu_test.c` with the fixture devices (§4.7), case 1 only.
+      `logic_test(cpu_test)`. `/tmp/logic-p09/cpu_test` → 7 PASS, 0 FAIL.
 
 Acceptance: the fixture loads, and a part reads back LOST; every loader
 rule rejects with its message; the goldens are unchanged.
   Check: `cmake --build /tmp/logic-p09 -j8 && ctest --test-dir /tmp/logic-p09 -R 'library_check|cpu_test|listing_check|trace_check'` → 4/4 passed; `git diff --stat backend/tests/golden` → empty (est. 2 min).
-Commit: —
+Commit: 3441b51
 
 ### Phase 2 — The 6502-family adapter
 
-- [ ] `models/cpu6502.c`: §4.4–§4.5 for `6502` and `65c02`.
-- [ ] `models/cpu.c`: the instruction tracker (§4.6) and `state` for the
-      6502 family (§4.3).
-- [ ] `cpu_test.c`: cases 2–20 (§5.1–§5.3).
-- [ ] `docs/parts-format.md`: the `cpu` row in the kind table, and a § `cpu`
+- [x] `models/cpu6502.c`: §4.4–§4.5 for `6502` and `65c02`. Fresh build
+      (`/tmp/logic-land-p09b`) → 0 warnings; `cpu_test` cases 2–20 PASS.
+- [x] `models/cpu.c`: the instruction tracker (§4.6) and `state` for the
+      6502 family (§4.3). Case 11 → `LDY #$07` at C004 and `JSR $C100`
+      (bytes 20 00 C1) PASS; case 18 → `STP` PASS.
+- [x] `cpu_test.c`: cases 2–20 (§5.1–§5.3). `/tmp/logic-p09/cpu_test` →
+      81 PASS, 0 FAIL, `cpu_test: all passed`.
+- [x] `docs/parts-format.md`: the `cpu` row in the kind table, and a § `cpu`
       section:
   - the keys of §4.1;
   - the behaviour of §4.4–§4.5, written the way the `eeprom` section is;
   - the Non-goals list.
-- [ ] `docs/backend.md`:
+- [x] `docs/backend.md`:
   - `circuit_cpu_state` in the Notes;
   - `cpu.c`, `cpu6502.c` and the `chips_*` wrappers in Layout;
   - `cpu_test` in Tests.
 
 Acceptance: every case of §5.1–§5.3 passes, each at the datasheet times it
 names.
-  Check: `ctest --test-dir /tmp/logic-p09 -R cpu_test -V | grep -c '^PASS'` → the number of `expect` calls in the file, and `grep -c '^FAIL'` → 0 (est. 1 min).
-Commit: —
+  Check: `ctest --test-dir /tmp/logic-p09 -R cpu_test -V | grep -c ': PASS'` → the number of `expect` calls the run makes (81: 50 call sites in the file, the §5.1 ones run once per core), and `grep -c ': FAIL'` → 0 (est. 1 min). Measured: 81 and 0.
+Commit: 926567c
 
 ## Validation Plan
 
@@ -595,6 +604,66 @@ under § 3 Rejected alternatives: one kind, adapter-side RDY, the
 differential rule, no read-hold check, transport drives.
 
 ## Corrections
+
+- **Phase 1 stub location.** The LOST-only core is `CPU6502_OPS` in
+  `models/cpu6502.c` (added to CMake in Phase 1), not a core inside `cpu.c`:
+  Phase 2 then replaces that file's body and `cpu.c` does not change shape.
+  The adapter interface lives in a new internal header `models/cpu.h`
+  (§4.2 names its contents but not the file).
+- **Fixture names and footprint** (§4.7). The fixture devices carry D's
+  data, but their ids and part names are prefixed `FIXTURE-`
+  (`FIXTURE-W65C02S6TPG-14`, `FIXTURE-MPS6502`), and they name a fixture
+  footprint `FIXTURE-PDIP-40` loaded by `cpu_test`. `PDIP-40-600` does not
+  exist until D (`grep -c '"PDIP-40-600"' footprints.json` → 0), every
+  non-supply part needs a footprint (`library.c`: `missing "footprint"`),
+  and D's system tests load the real `cpu.json` into the same library, where
+  the real names must not clash.
+- **Same-instant input changes** (§4.4 setup rule). Measured: case 3
+  failed at first. Bench and test drive RES 0 at t = 0, the same engine
+  batch as the clock's first edge. The engine calls `pin_changed` net by
+  net, so the clock's commit ran before RES's change was recorded, saw
+  RES = 0 with no change time, and counted a reset cycle. `cpu_sample` now
+  also takes the value `pin_changed` last reported for the pin; a different
+  value now is a change at this instant, so it reads X. Case 3 PASS after.
+- **Instruction tracker** (§4.6). "A write, or a read at another address,
+  stops recording" loses operand bytes read after a stack access. The core's
+  JSR is opcode, low byte, a stack read, two pushes, then the high byte
+  (`m6502.h:1069-1074`). The tracker instead appends each read at
+  start + n (n = bytes so far, n < 4) at any point in the instruction, and
+  ignores other cycles. The disassembler takes the bytes it needs, and
+  `instruction_length` is what it took. Case 11 gained a JSR check
+  (`JSR $C100`, bytes `20 00 C1`). Also:
+  - An instruction that never reaches another SYNC (JAM) completes when the
+    CPU jams.
+  - A SYNC while STP or WAI holds the core (the core returns the same pins)
+    starts nothing, so the last instruction stays `STP` / `WAI` (case 18).
+- **RDY while waiting** (§4.4 step 4). WAI drives RDY low itself (§4.5), so
+  step 4 would hold every cycle and the core would never see the interrupt
+  that ends the wait. RDY is not checked while the status is WAITING.
+  Case 17 PASS.
+- **BE gates address, data and RWB only** (§4.4 step 7 said "all of
+  these", which includes SYNC, VPB and MLB). §4.5 and the W65C02S sheet
+  float only address, data and RWB, and SYNC/VPB/MLB keep being driven.
+- **Case 12, tCYC on the W65C02S.** Its `tcyc` (70) equals `tpwh` + `tpwl`
+  (35 + 35), so a period below it always has a short phase. The case runs
+  a period of tCYC − 10 ns with 30 ns phases (LOST). The NMOS grade 1 run
+  isolates tCYC: 480 + 460 = 940 ns, both phases legal.
+- **Case 13, "the bench stores once".** The bench stores at every PHI2 fall
+  with R/W low, like a memory strobed by R/W and PHI2. A write held by RDY
+  is therefore sampled on every held cycle. The checkable form is the
+  stronger one now in the case: 0200, R/W 0 and data 41 on every held
+  cycle; after release, memory holds 41 and the next cycle is the fetch at
+  C005.
+- **Case 16, BE.** With BE low the CPU's R/W floats, so the bench cannot
+  tell a read from a write; but the CPU keeps fetching. The bench acts as
+  the other bus master: it drives address C000 and R/W 1 while BE is low, so
+  the CPU reads NOPs. It releases them when BE returns.
+- **Case 17, reset leaves STP.** The program is `DB` at C000, so after the
+  reset the CPU runs STP again and stops. The case checks RUNNING during the
+  reset sequence (the FFFC read), not after it.
+- **Case 1 also covers the circuit API**: `circuit_cpu_state` on a running
+  circuit (LOST) and on a gate (`part 1 is not a processor`), so the public
+  wrapper of §4.3 has a test in B.
 
 ## Summary
 

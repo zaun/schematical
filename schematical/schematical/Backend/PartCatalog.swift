@@ -160,6 +160,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case oscillator(family: String, minHz: UInt64, maxHz: UInt64, defaultHz: UInt64, enablePin: String?)
         /// `mv`: the supply's voltage in millivolts (0 for ground).
         case supply(level: Int, mv: UInt32)
+        /// A processor: its core ("6502", "65c02", "z80"), speed grade and
+        /// highest clock.
+        case cpu(core: String, grade: String, maxHz: UInt64)
     }
 
     let name: String
@@ -213,6 +216,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
 
     /// SRAM or EEPROM: a part with a memory window.
     var isMemory: Bool { kind == PART_SRAM || kind == PART_EEPROM }
+
+    /// A processor: a part with a processor window.
+    var isCpu: Bool { kind == PART_CPU }
 
     /// A memory's word count and width, from the part's facts.
     var memorySize: MemorySize? {
@@ -275,6 +281,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .display(info): return [info.color, info.size, info.commonAnode ? "CA" : "CC"]
         case let .oscillator(family, _, _, _, _): return [family]
         case .supply: return []
+        case let .cpu(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
         }
     }
 }
@@ -388,6 +395,8 @@ extension CatalogPart {
                                   enablePin: osc.enable_pin.map { String(cString: $0) })
         } else if let supply = part.supply?.pointee {
             details = .supply(level: Int(supply.level), mv: supply.mv)
+        } else if let cpu = part.cpu?.pointee {
+            details = .cpu(core: string(cpu.core), grade: string(cpu.grade), maxHz: cpu.max_hz)
         } else {
             details = .supply(level: 0, mv: 0)
         }

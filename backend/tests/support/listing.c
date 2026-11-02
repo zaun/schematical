@@ -18,6 +18,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_LATCH: return "latch";
         case PART_COUNTER: return "counter";
         case PART_SHIFT: return "shift";
+        case PART_CPU: return "cpu";
     }
     return "?";
 }
@@ -103,6 +104,10 @@ static void print_details(FILE *out, const Part *part) {
                     (unsigned)part->eeprom->words, part->eeprom->bits,
                     (unsigned long long)part->eeprom->access_ps, part->eeprom->page_bytes,
                     (unsigned long long)part->eeprom->write_cycle_ps);
+            break;
+        case PART_CPU:
+            fprintf(out, "core=%s grade=%s max_hz=%llu", part->cpu->core, part->cpu->grade,
+                    (unsigned long long)part->cpu->max_hz);
             break;
     }
 }

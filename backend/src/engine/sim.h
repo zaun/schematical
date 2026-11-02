@@ -86,6 +86,7 @@ typedef struct {
 
 typedef struct Sim Sim;
 typedef struct SimInstance SimInstance;
+struct CpuState;
 typedef struct SimNet SimNet;
 
 typedef struct {
@@ -148,6 +149,8 @@ typedef struct {
      * has checked the range and widths. NULL = not loadable.
      */
     void (*memory_load)(void *state, uint32_t start, const uint32_t *values, size_t count);
+    /* Processors: fills out with the processor's state (cpu_state.h). 1 when filled. */
+    int (*cpu_state)(const void *state, struct CpuState *out);
 } SimComponentType;
 
 /* All times are in picoseconds. */

@@ -32,6 +32,13 @@ add_library(logic STATIC
     src/models/counter_div.c
     src/models/shift.c
     src/models/shift_special.c
+    src/models/cpu.c
+    src/models/cpu6502.c
+    src/models/cpuz80.c
+    src/models/chips_m6502.c
+    src/models/chips_w65c02.c
+    src/models/chips_z80.c
+    src/models/chips_dasm.c
     src/third_party/cjson/cJSON.c
 )
 target_include_directories(logic
@@ -59,6 +66,7 @@ add_library(logic_test_support STATIC
     tests/support/golden.c
     tests/support/trace_core.c
     tests/support/bench.c
+    tests/support/cpu_board.c
 )
 target_include_directories(logic_test_support PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/support
@@ -92,10 +100,20 @@ logic_test(counter_test)
 logic_test(shift_test)
 logic_test(memory_image_test)
 logic_test(voltage_test)
+logic_test(cpu_core_test)
+target_compile_definitions(cpu_core_test PRIVATE
+    CPU_VECTORS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/cpu")
+logic_test(cpu_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.
 add_executable(sim_bench tests/sim_bench.c)
 target_link_libraries(sim_bench PRIVATE logic_test_support)
 target_compile_definitions(sim_bench PRIVATE
+    PARTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../schematical/schematical/Parts")
+
+# CPU board speed (plan-09-D). Not a ctest, like sim_bench.
+add_executable(cpu_bench tests/cpu_bench.c)
+target_link_libraries(cpu_bench PRIVATE logic_test_support)
+target_compile_definitions(cpu_bench PRIVATE
     PARTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../schematical/schematical/Parts")

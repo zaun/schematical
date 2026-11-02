@@ -46,7 +46,7 @@ plan-09-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-09-B complete | `ls planning/plan-09-B-* 2>/dev/null` → no output; `ls planning/completed/plan-09-B-*.md` → exists | NOT MET (2026-11-01) |
+| plan-09-B complete | `ls planning/plan-09-B-* 2>/dev/null` → no output; `ls planning/completed/plan-09-B-*.md` → exists | MET (2026-11-01 at 71321d2; plan-09-A's rows re-run at 1da038c the same day, all MET) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue, and again
@@ -460,32 +460,39 @@ Reset is RESET# low for 4 clocks.
 The loader accepts Z80 devices. The scheduler handles fetch, memory read and
 write, RESET, clock checks and lost.
 
-- [ ] `models/cpu.c`: `"z80"` core, its keys and timing names (§4.1–§4.2),
-      and its registers in `state`.
-- [ ] `models/cpuz80.c`: `CpuCoreOps` for `z80`. §4.3 for the fetch, memory
+- [x] `models/cpu.c`: `"z80"` core, its keys and timing names (§4.1–§4.2),
+      and its registers in `state` (the registers live in `cpuz80.c`'s
+      `state`, like the 6502 family's). `library_check` → `ok   valid z80
+      cpu file`.
+- [x] `models/cpuz80.c`: `CpuCoreOps` for `z80`. §4.3 for the fetch, memory
       read and memory write rows; RESET; clock; lost. §4.4 for those MCs.
-      Added to `backend/CMakeLists.txt`.
-- [ ] `library_check.c`: §5.2. `cpu_test.c`: the Z80 fixture and cases 1–5,
-      8, 14.
+      Added to `backend/CMakeLists.txt`. Fresh build → 0 warnings.
+- [x] `library_check.c`: §5.2. `cpu_test.c`: the Z80 fixture and cases 1–5,
+      8, 14. The 4 §5.2 cases print `ok` (`"sync" is not a key of core
+      "z80"`, `missing "busack"`, `"tcc" must be more than 0`, `m1: pin
+      name "M1#" is used by 2 pins; one is needed`); Z80 cases 1–5, 8, 14
+      PASS.
 
 Acceptance: the Z80 leaves reset, fetches and reads/writes memory with
 datasheet edges; its loader rejects bad devices.
-  Check: `ctest --test-dir /tmp/logic-p09 -R 'cpu_test|library_check' -V | grep -c '^FAIL'` → 0 (est. 2 min).
-Commit: —
+  Check: `ctest --test-dir /tmp/logic-p09 -R 'cpu_test|library_check' -V | grep -c ': FAIL'` → 0 (est. 2 min). Measured: 0.
+Commit: f14384e
 
 ### Phase 2 — I/O, WAIT, interrupts, HALT, BUSREQ
 
-- [ ] `cpuz80.c`: the I/O and int-ack rows; WAIT retries; HALT#; BUSREQ;
-      the int-ack PC (§4.3–§4.4).
-- [ ] The tracker for Z80 (§4.5).
-- [ ] `cpu_test.c`: cases 6, 7, 9–13, 15.
-- [ ] `docs/parts-format.md` § `cpu`: the Z80 keys, timing names,
+- [x] `cpuz80.c`: the I/O and int-ack rows; WAIT retries; HALT#; BUSREQ;
+      the int-ack PC (§4.3–§4.4). Cases 6, 7, 9–13 PASS.
+- [x] The tracker for Z80 (§4.5). Case 15 → `HALT` last, `OUT (10h),A`
+      before it, at 0008.
+- [x] `cpu_test.c`: cases 6, 7, 9–13, 15. `/tmp/logic-p09/cpu_test` →
+      `cpu_test: all passed`.
+- [x] `docs/parts-format.md` § `cpu`: the Z80 keys, timing names,
       behaviour, and the Non-goals' known differences. `docs/backend.md`:
-      `cpuz80.c` in Layout.
+      `cpuz80.c` in Layout (and the Z80 bench under `cpu_test`).
 
 Acceptance: every case of §5.1 passes, and B's 6502-family cases still pass.
-  Check: `ctest --test-dir /tmp/logic-p09 -R cpu_test -V | grep -c '^FAIL'` → 0, and `grep -c '^PASS'` → the file's `expect` count (est. 1 min).
-Commit: —
+  Check: `ctest --test-dir /tmp/logic-p09 -R cpu_test -V | grep -c ': FAIL'` → 0, and `grep -c ': PASS'` → the number of `expect` calls the run makes (est. 1 min). Measured: 0 and 117 (86 call sites; the 6502-family ones run once per core).
+Commit: f14384e (code and cases), 9d4a1d3 (docs)
 
 ## Validation Plan
 
@@ -512,6 +519,35 @@ alternatives (peek-and-commit scheduler, no core edits, no per-opcode
 tables).
 
 ## Corrections
+
+- **One commit for both phases' code.** The scheduler is one state machine
+  over all six machine-cycle kinds: the MC start classifies all of them,
+  and the I/O and int-ack rows share the fetch's phase counter. So
+  `cpuz80.c` and the case functions landed whole in the Phase 1 commit, and
+  both phases' boxes are ticked there. Phase 2's own commit holds the docs.
+- **35 timing names, not 37** (§2 Measured populations). The §4.2 table
+  lists 35 names (rows with "/" carry two). `TIMING_Z80` has those 35.
+- **Bench log, writes.** WR# falls in T2, so a memory write's T1 is the
+  rise before the WR# fall. The first run logged it one rise late. Case 5
+  failed on `zlength` (read 0005 measured 4 T, write 2 T); fixed in the
+  bench, not the model.
+- **INT X while interrupts are disabled.** The core records INT in
+  `int_bits` on every tick, but reads it only at a fetch with IFF1 set, and
+  every tick rewrites it. The differential compare ignores that bit while
+  IFF1 is 0 in both copies. Otherwise any undriven-then-X INT# would make a
+  DI program lost.
+- **RFSH# high at every MC start**, not only before a fetch (§4.4 lists it
+  under the fetch). A fetch's RFSH# low lasts to the next T1 rise whatever
+  machine cycle follows (LD A,(nn): fetch, then memory reads).
+- **NMI# sampling.** §4.3 gives NMI no setup row. A fall is latched in
+  `pin_changed` and passed to the core at the next rise, so a legal pulse
+  between two rises is not missed. A pulse shorter than `twnmi` reads X at
+  that rise (case 11: LOST).
+- **Lengths in case 15.** The expected list is per logged machine cycle,
+  with internal T-states counted into the cycle before them (the int-ack's
+  extra T before its pushes is case 9's `t1 + 7`).
+- **`ctest -V` prefix.** As in plan-09-B, the PASS/FAIL greps need
+  `': PASS'` / `': FAIL'` (each output line is prefixed `<n>: `).
 
 ## Summary
 

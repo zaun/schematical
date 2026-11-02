@@ -58,6 +58,10 @@ nonisolated enum PartFacts {
         case let .supply(level, mv):
             add("Level", level != 0 ? "High (VCC)" : "Low (GND)")
             if level != 0 { add("Voltage", "\(VoltageCheck.volts(mv)) V") }
+        case let .cpu(core, grade, maxHz):
+            add("Core", coreName(core))
+            add("Speed grade", grade)
+            add("Max clock", "\(maxHz / 1_000_000) MHz")
         }
 
         if let vcc = part.vcc {
@@ -82,7 +86,18 @@ nonisolated enum PartFacts {
         case PART_LATCH: return "Latch"
         case PART_COUNTER: return "Counter"
         case PART_SHIFT: return "Shift register"
+        case PART_CPU: return "Processor"
         default: return ""
+        }
+    }
+
+    /// A processor core as shown: "6502 (NMOS)", "65C02 (WDC)", "Z80".
+    static func coreName(_ core: String) -> String {
+        switch core {
+        case "6502": return "6502 (NMOS)"
+        case "65c02": return "65C02 (WDC)"
+        case "z80": return "Z80"
+        default: return core
         }
     }
 

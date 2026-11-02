@@ -95,6 +95,13 @@ Notes:
   any time during the last `circuit_advance`, so multiplexed digits show.
 - Memory contents (SRAM, EEPROM): `circuit_memory_size`,
   `circuit_memory_read` (a 0 bit in `known` is X).
+- Processors (`cpu` kind): `circuit_cpu_state` fills a `CpuState`
+  (`cpu_state.h`): status (running, lost, reset, waiting, stopped, halted,
+  jammed, bus released), cycles since the last reset ended, the registers
+  (none while lost or in reset) and the last completed instruction
+  (address, bytes, disassembly). Any other kind: -1, `part N is not a
+  processor`. The app's processor window reads it on every simulation
+  frame, as the memory window reads `circuit_memory_read`.
 - Memory load: `circuit_memory_load` writes words into an EEPROM before
   `circuit_start` (refused after it, and on every other kind, SRAM
   included); words it does not write stay erased (FF). Build the words with
@@ -129,14 +136,27 @@ backend/
                            outputs), and lights.c (on-time tracking for
                            lights);
                            model_pins.h (LED, switch and open-drain pin
-                           facts for the voltage check)
+                           facts for the voltage check);
+                           cpu.c + cpu.h (the cpu kind: loader, the model
+                           that forwards to a core adapter, input sampling,
+                           the instruction tracker), cpu6502.c (the
+                           6502/65C02 bus adapter), cpuz80.c (the Z80 bus
+                           adapter: a commit scheduler around the core);
+                           chips_m6502.c chips_w65c02.c chips_z80.c
+                           chips_dasm.c (each instantiates one vendored
+                           floooh/chips core, or the three disassemblers)
     circuit.c
     voltage.c              the voltage check (voltage.h)
     memory_image.c         load files (binary, Intel HEX) to memory images
     third_party/cjson/     cJSON v1.7.18
+    third_party/chips/     floooh/chips m6502.h w65c02.h z80.h and their
+                           disassemblers (zlib), unmodified; README.md
+                           names the commit
   tests/                   CTest programs; golden/ holds the regression
                            fixtures (one listing line and one trace hash
-                           per part)
+                           per part); cpu/ holds the SingleStepTests
+                           subsets (MIT) for cpu_core_test and the script
+                           that made them
 ```
 
 The app compiles `backend/src/` directly (an Xcode synchronized folder).
@@ -207,6 +227,32 @@ drawer work from the kind table and the `Part` structs.
   parts and the real supplies.
 - `memory_image_test` — the load-file parser: format by file name, raw
   binary, every Intel HEX rule and message.
+- `cpu_core_test` — the vendored CPU cores (`third_party/chips/`) against
+  `tests/cpu/`: the first SingleStepTests case of every opcode file (6502
+  256, 65C02 254, Z80 1604; `make_sst_subset.py` regenerates them). The
+  6502 family is checked cycle by cycle (address, data, R/W) and on its final
+  registers and RAM; the Z80 on its final registers, RAM, T-state count and
+  bus transactions. The test names the cores' known deviations (6502 JAM and
+  SHA/SHY/SHX, Z80 SCF/CCF, interrupted block repeats, HALT). Each of those
+  must still fail, so a core update that fixes one is noticed; any other
+  failure, or a listed test that passes, fails the test. It prints
+  `6502: 241 pass, 15 expected failures` and the same for 65C02 and Z80.
+- `cpu_test` — the cpu kind's bus adapters on inline fixture devices (the
+  W65C02S and MOS 6502 data of `cpu.json`) and a bench that clocks the CPU
+  at 1 MHz and serves a 64 KB memory (X where it was given nothing): the
+  power-up LOST state, the reset sequence, the address and write windows at
+  the datasheet times, setup violations and used unknowns (LOST), IRQ, NMI,
+  RDY, SO, the register and instruction read-back, clock-width checks,
+  and the W65C02S VPB, MLB, BE, WAI and STP and NMOS JAM rules; plus
+  `circuit_cpu_state`. A second bench drives a Z84C00 fixture the same way
+  and logs every machine cycle (type, address, data, T1, strobe times):
+  the fetch, memory, I/O and int-ack waveforms at the PS0178 edges, WAIT,
+  IM 0/1/2, NMI, HALT, BUSREQ, data setup and clock checks, and a program
+  from reset to HALT. Last, three whole boards of library parts
+  (`tests/support/cpu_board.{h,c}`: the CPU, an AT28C256-15PU, an
+  AS6C62256-55PCN and an SN74HC00N decoder) run a program for 2 ms: the
+  W65C02S6TPG-14 and MPS6502 count to 10 in SRAM, the Z84C0010PEG also
+  CALLs a store and halts.
 
 Not a ctest: `sim_bench` (`tests/sim_bench.c`) measures engine speed — a
 D flip-flop ripple counter on an oscillator plus N idle SN74HC00N chips,
@@ -217,6 +263,14 @@ would make ctest flaky, so it has no `add_test`.
 cmake -S backend -B /tmp/logic-rel -DCMAKE_BUILD_TYPE=Release
 cmake --build /tmp/logic-rel --target sim_bench
 /tmp/logic-rel/sim_bench LMK6CE001200CDLFR 16 10 400   # <osc> <stages> <sim ms> <idle chips>
+```
+
+`cpu_bench` (`tests/cpu_bench.c`, also not a ctest) runs the W65C02S board
+of `cpu_test` with its program looping forever and reports the speed:
+
+```
+cmake --build /tmp/logic-rel --target cpu_bench
+/tmp/logic-rel/cpu_bench 100   # <sim ms>
 ```
 
 The bench runs on the `3V3` supply, so the oscillator must take 3.3 V

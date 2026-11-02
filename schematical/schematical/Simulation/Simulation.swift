@@ -383,6 +383,15 @@ final class SimulationController {
         return engine.readMemory(part: part, start: start, count: count)
     }
 
+    // MARK: Processors
+
+    /// A processor part's state in the running simulation, or nil when the
+    /// part is not a processor or the simulation is not running.
+    func cpuState(of chipID: UUID) -> CpuSnapshot? {
+        guard let engine, let part = netlist?.chipIDs.firstIndex(of: chipID) else { return nil }
+        return engine.cpuState(part: part)
+    }
+
     /// How to draw a wire in play mode. Outside play mode, `.normal`, except
     /// the net of a start refused for voltage, which is `.shorted`.
     func wireStyle(_ wireID: UUID) -> WireStyle {
