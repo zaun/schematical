@@ -30,7 +30,7 @@ plan-10-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-10-A complete | `ls planning/completed/plan-10-A-groundwork.md` → exists | NOT MET (2026-11-01: written) |
+| plan-10-A complete | `ls planning/completed/plan-10-A-groundwork.md` → exists | MET (2026-11-01: exists, archived at 2183572) |
 
 ## 1. Goal
 
@@ -359,12 +359,17 @@ cases check levels 50 ns after each step.
 
 ### Phase 1 — Shared helpers and bench
 
-- [ ] `seq.h`, `seq.c` (§4.2), listed in `add_library(logic …)` in
+- [x] `seq.h`, `seq.c` (§4.2), listed in `add_library(logic …)` in
   `backend/CMakeLists.txt`; `tests/support/bench.{h,c}` (§6.1) added to
-  `logic_test_support` there.
-- [ ] `docs/parts-format.md` § "Sequential kinds" (§4.1).
+  `logic_test_support` there. (Beyond §4.2's table, `seq.h` also has
+  `seq_active`, `seq_optional_name`, `seq_output_style`, `seq_optional_bool`,
+  `seq_read`, `seq_set_bit`, `seq_not`, `seq_value`; `bench.h` adds
+  `bench_error`.)
+- [x] `docs/parts-format.md` § "Sequential kinds" (§4.1).
 
-Acceptance: `cmake --build /tmp/logic-p10` succeeds; `cc -std=c11 -Wall -Wextra -fsyntax-only -Ibackend/include -Ibackend/src/engine -Ibackend/src/library -Ibackend/src/third_party/cjson backend/src/models/seq.c` prints nothing (the project sets no warning flags, so this is checked by hand); `ctest` 12 of 12 (seconds).
+Acceptance: `cmake --build /tmp/logic-p10` succeeds; `cc -std=c11 -Wall -Wextra -fsyntax-only -Ibackend/include -Ibackend/src/engine -Ibackend/src/library -Ibackend/src/third_party/cjson backend/src/models/seq.c` prints nothing (the project sets no warning flags, so this is checked by hand); `ctest` 12 of 12 (seconds). (Ran: build clean; the `cc -fsyntax-only`
+line on `seq.c` printed nothing, same for `bench.c`; `100% tests passed, 0
+tests failed out of 12`.)
 Commit: —
 
 ### Phase 2 — The `latch` kind and models

@@ -735,3 +735,44 @@ An LED's segment pin is the first pin (in pin order) in `segmentPins` that
 drives its segment for its digit (or every digit); its commons are the
 first two pins of its digit in `commonPins`. Unused positions are pins with
 role `nc` (no connect) or `absent` (no lead). Parts carry no kind keys.
+
+### Sequential kinds (`latch`, `counter`, `shift`)
+
+The three sequential kinds share their device and part format and their
+signal rules. Each device names a **model**; the model decides the rest of
+the device's keys.
+
+| Key | Value |
+|---|---|
+| `"model"` | required: one of the kind's models (see each kind). A key of another model of the same kind is an error: `"<key>" is not a key of model "<model>"`. |
+| `"timing"` | logic family → `{rise, fall}` (ns, the model's main path), plus optional `note`, `vcc`, `inputMax` and the model's extra timing keys (named in the model's table). Families as in [Values](#values). |
+
+Part keys: `"family"` (a key of `timing`), optional `"vcc"` and
+`"inputMax"`, as on `dff`. `PartLogic` is {family, units}; each model
+says what `units` counts.
+
+**Controls.** A control is an object
+`{"pin": "<name>", "active": "high" | "low"}`; the pin name must be exactly
+one pin in every pinout. A model says whether each control acts at once
+(asynchronous: clear, preset, reset, set, asynchronous load) or is sampled
+at a clock edge. Where a model allows both, the control also has
+`"when": "async" | "clock"`.
+
+**Signal rules** (every model):
+
+- **Power-on**: every stored bit is 0 (latches, counters, registers, shift
+  stages; a FIFO starts empty); then the asynchronous controls apply. The
+  datasheets say "unknown"; 0 keeps circuits deterministic (as `dff`).
+- **Edges** follow Verilog posedge/negedge: any move into 1 (rising) or into
+  0 (falling) from another value, including from X or Z.
+- **Asynchronous controls**: Z reads inactive; X makes every bit they could
+  change X.
+- **Output enables**: active → driven, inactive → Z, X or Z → X.
+- **Every other input** (data, clocks, enables, mode and select pins): Z
+  reads as X. An X on a synchronous enable or mode pin at a clock edge makes
+  every bit that edge could change X; an X data bit stores X.
+- **Outputs** are driven strong and inertially: the fall delay for 0, the
+  rise delay for 1 and Z, the longer for X; rescheduled only when their value
+  changes. Open-drain outputs (`"output": "open-drain"`) drive 0 and release
+  to Z for 1; the voltage check treats them as carrying no voltage.
+- **Bus hold** (ALVCH, LVCH, LVTH) is not modeled: a floating input reads X.

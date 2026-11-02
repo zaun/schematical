@@ -26,6 +26,7 @@ add_library(logic STATIC
     src/models/led.c
     src/models/oscillator.c
     src/models/eeprom.c
+    src/models/seq.c
     src/third_party/cjson/cJSON.c
 )
 target_include_directories(logic
@@ -52,6 +53,7 @@ add_library(logic_test_support STATIC
     tests/support/listing.c
     tests/support/golden.c
     tests/support/trace_core.c
+    tests/support/bench.c
 )
 target_include_directories(logic_test_support PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/support
