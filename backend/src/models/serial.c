@@ -20,6 +20,7 @@ static const SerialModel *const MODELS[] = {
     &AY1013_MODEL,
     &I8251_MODEL,
     &ACIA6551_MODEL,
+    &HS82C52_MODEL,
 };
 #define MODEL_COUNT (sizeof MODELS / sizeof MODELS[0])
 
@@ -35,6 +36,8 @@ static const char *const DEVICE_KEYS[] = {
     "resetClearsControl", "fiveBitStops", "cpuMode",
     /* i8251 ("bus", "clock" above) */
     "serial",
+    /* hs82c52 */
+    "hd6406",
     NULL
 };
 enum { FIRST_MODEL_KEY = 2 };

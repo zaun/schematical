@@ -253,6 +253,73 @@
     "\"tdly\":315,\"tirq\":315,\"vcc\":[3.0,6.0],\"note\":\"cdp65c51.pdf p17-18 (-4, VDD 5 V)\"}},\"parts\":[{\"na" \
     "me\":\"SFX-CDP65C51-so28\",\"package\":\"SOIC\",\"pinout\":\"so28\",\"footprint\":\"SOIC-28W\",\"grade\":\"4\"}]}"
 
+#define SFX_82C52 \
+    "{\"id\":\"SFX-82C52\",\"function\":\"UART\",\"description\":\"CMOS serial controller interface\",\"drawer\":[\"" \
+    "Interface\"],\"note\":\"82c52.pdf p1-21; plan-12-data/specs/classic-b.md § 82C52\",\"pinouts\":{\"dip28\"" \
+    ":[{\"number\":1,\"name\":\"RD\",\"role\":\"input\"},{\"number\":2,\"name\":\"WR\",\"role\":\"input\"},{\"number\":3,\"n" \
+    "ame\":\"D0\",\"role\":\"inout\"},{\"number\":4,\"name\":\"D1\",\"role\":\"inout\"},{\"number\":5,\"name\":\"D2\",\"role\"" \
+    ":\"inout\"},{\"number\":6,\"name\":\"D3\",\"role\":\"inout\"},{\"number\":7,\"name\":\"D4\",\"role\":\"inout\"},{\"numb" \
+    "er\":8,\"name\":\"D5\",\"role\":\"inout\"},{\"number\":9,\"name\":\"D6\",\"role\":\"inout\"},{\"number\":10,\"name\":\"D" \
+    "7\",\"role\":\"inout\"},{\"number\":11,\"name\":\"A0\",\"role\":\"input\"},{\"number\":12,\"name\":\"A1\",\"role\":\"inp" \
+    "ut\"},{\"number\":13,\"name\":\"IX\",\"role\":\"input\"},{\"number\":14,\"name\":\"OX\",\"role\":\"output\"},{\"number" \
+    "\":15,\"name\":\"SDO\",\"role\":\"output\"},{\"number\":16,\"name\":\"GND\",\"role\":\"ground\"},{\"number\":17,\"name" \
+    "\":\"CTS\",\"role\":\"input\"},{\"number\":18,\"name\":\"DSR\",\"role\":\"input\"},{\"number\":19,\"name\":\"DTR\",\"rol" \
+    "e\":\"output\"},{\"number\":20,\"name\":\"RTS\",\"role\":\"output\"},{\"number\":21,\"name\":\"CO\",\"role\":\"output\"" \
+    "},{\"number\":22,\"name\":\"TBRE\",\"role\":\"output\"},{\"number\":23,\"name\":\"RST\",\"role\":\"input\"},{\"number" \
+    "\":24,\"name\":\"INTR\",\"role\":\"output\"},{\"number\":25,\"name\":\"SDI\",\"role\":\"input\"},{\"number\":26,\"name" \
+    "\":\"DR\",\"role\":\"output\"},{\"number\":27,\"name\":\"VCC\",\"role\":\"power\"},{\"number\":28,\"name\":\"CS0\",\"rol" \
+    "e\":\"input\"}],\"plcc28\":[{\"number\":1,\"name\":\"RD\",\"role\":\"input\"},{\"number\":2,\"name\":\"WR\",\"role\":\"i" \
+    "nput\"},{\"number\":3,\"name\":\"D0\",\"role\":\"inout\"},{\"number\":4,\"name\":\"D1\",\"role\":\"inout\"},{\"number\"" \
+    ":5,\"name\":\"D2\",\"role\":\"inout\"},{\"number\":6,\"name\":\"D3\",\"role\":\"inout\"},{\"number\":7,\"name\":\"D4\",\"" \
+    "role\":\"inout\"},{\"number\":8,\"name\":\"D5\",\"role\":\"inout\"},{\"number\":9,\"name\":\"D6\",\"role\":\"inout\"},{" \
+    "\"number\":10,\"name\":\"D7\",\"role\":\"inout\"},{\"number\":11,\"name\":\"A0\",\"role\":\"input\"},{\"number\":12,\"n" \
+    "ame\":\"A1\",\"role\":\"input\"},{\"number\":13,\"name\":\"IX\",\"role\":\"input\"},{\"number\":14,\"name\":\"OX\",\"rol" \
+    "e\":\"output\"},{\"number\":15,\"name\":\"SDO\",\"role\":\"output\"},{\"number\":16,\"name\":\"GND\",\"role\":\"ground" \
+    "\"},{\"number\":17,\"name\":\"CTS\",\"role\":\"input\"},{\"number\":18,\"name\":\"DSR\",\"role\":\"input\"},{\"number\"" \
+    ":19,\"name\":\"DTR\",\"role\":\"output\"},{\"number\":20,\"name\":\"RTS\",\"role\":\"output\"},{\"number\":21,\"name\"" \
+    ":\"CO\",\"role\":\"output\"},{\"number\":22,\"name\":\"TBRE\",\"role\":\"output\"},{\"number\":23,\"name\":\"RST\",\"ro" \
+    "le\":\"input\"},{\"number\":24,\"name\":\"INTR\",\"role\":\"output\"},{\"number\":25,\"name\":\"SDI\",\"role\":\"input" \
+    "\"},{\"number\":26,\"name\":\"DR\",\"role\":\"output\"},{\"number\":27,\"name\":\"VCC\",\"role\":\"power\"},{\"number\"" \
+    ":28,\"name\":\"CS0\",\"role\":\"input\"}]},\"model\":\"hs82c52\",\"bus\":{\"data\":[\"D0\",\"D1\",\"D2\",\"D3\",\"D4\",\"D5" \
+    "\",\"D6\",\"D7\"],\"address\":[\"A0\",\"A1\"],\"read\":\"RD\",\"write\":\"WR\",\"select\":\"CS0\",\"reset\":\"RST\"},\"clock" \
+    "\":{\"in\":\"IX\",\"out\":\"OX\",\"clockOut\":\"CO\"},\"serial\":{\"tx\":\"SDO\",\"rx\":\"SDI\",\"cts\":\"CTS\",\"dsr\":\"DSR\"" \
+    ",\"dtr\":\"DTR\",\"rts\":\"RTS\",\"int\":\"INTR\",\"tbre\":\"TBRE\",\"dr\":\"DR\"},\"grades\":{\"C\":{\"trldv\":120,\"trhdz" \
+    "\":60,\"tco\":30,\"tbrg\":80,\"tsdo\":30,\"tintr\":50,\"tflag\":50,\"vcc\":[4.5,5.5],\"note\":\"82c52.pdf p12-14" \
+    " (C: 0..70 C)\"},\"I\":{\"trldv\":120,\"trhdz\":60,\"tco\":30,\"tbrg\":80,\"tsdo\":30,\"tintr\":50,\"tflag\":50,\"" \
+    "vcc\":[4.5,5.5],\"note\":\"82c52.pdf p12-14 (I: -40..+85 C)\"}},\"parts\":[{\"name\":\"SFX-82C52-dip28\",\"p" \
+    "ackage\":\"DIP\",\"pinout\":\"dip28\",\"footprint\":\"PDIP-28-600\",\"grade\":\"I\"},{\"name\":\"SFX-82C52-plcc28\"" \
+    ",\"package\":\"PLCC\",\"pinout\":\"plcc28\",\"footprint\":\"LCCC-28\",\"grade\":\"C\"}]}"
+
+#define SFX_HD_6406 \
+    "{\"id\":\"SFX-HD-6406\",\"function\":\"UART\",\"description\":\"CMOS programmable asynchronous communicatio" \
+    "n interface\",\"drawer\":[\"Interface\"],\"note\":\"hd-6406.pdf p1-11; plan-12-data/specs/classic-b.md §" \
+    " HD-6406\",\"pinouts\":{\"dip40\":[{\"number\":1,\"name\":\"CS0\",\"role\":\"input\"},{\"number\":2,\"name\":\"RD\",\"" \
+    "role\":\"input\"},{\"number\":3,\"name\":\"WR\",\"role\":\"input\"},{\"number\":4,\"name\":\"D0\",\"role\":\"inout\"},{" \
+    "\"number\":5,\"name\":\"D1\",\"role\":\"inout\"},{\"number\":6,\"name\":\"D2\",\"role\":\"inout\"},{\"number\":7,\"name" \
+    "\":\"D3\",\"role\":\"inout\"},{\"number\":8,\"name\":\"D4\",\"role\":\"inout\"},{\"number\":9,\"name\":\"D5\",\"role\":\"i" \
+    "nout\"},{\"number\":10,\"name\":\"D6\",\"role\":\"inout\"},{\"number\":11,\"name\":\"D7\",\"role\":\"inout\"},{\"numbe" \
+    "r\":12,\"name\":\"A0\",\"role\":\"input\"},{\"number\":13,\"name\":\"A1\",\"role\":\"input\"},{\"number\":14,\"name\":\"" \
+    "ALE\",\"role\":\"input\"},{\"number\":15,\"name\":\"TXDACK\",\"role\":\"input\"},{\"number\":16,\"name\":\"RXDACK\",\"" \
+    "role\":\"input\"},{\"number\":17,\"name\":\"IX\",\"role\":\"input\"},{\"number\":18,\"name\":\"OX\",\"role\":\"output\"" \
+    "},{\"number\":19,\"name\":\"SDO\",\"role\":\"output\"},{\"number\":20,\"name\":\"GND\",\"role\":\"ground\"},{\"number" \
+    "\":21,\"name\":\"TC\",\"role\":\"output\"},{\"number\":22,\"name\":\"RLSD\",\"role\":\"input\"},{\"number\":23,\"name\"" \
+    ":\"CTS\",\"role\":\"input\"},{\"number\":24,\"name\":\"DSR\",\"role\":\"input\"},{\"number\":25,\"name\":\"RI\",\"role\"" \
+    ":\"input\"},{\"number\":26,\"name\":\"DTR\",\"role\":\"output\"},{\"number\":27,\"name\":\"RTS\",\"role\":\"output\"}," \
+    "{\"number\":28,\"name\":\"CO\",\"role\":\"output\"},{\"number\":29,\"name\":\"TBRE\",\"role\":\"output\"},{\"number\":" \
+    "30,\"name\":\"RST\",\"role\":\"input\"},{\"number\":31,\"name\":\"SIE\",\"role\":\"input\"},{\"number\":32,\"name\":\"S" \
+    "FD\",\"role\":\"input\"},{\"number\":33,\"name\":\"INTR\",\"role\":\"output\"},{\"number\":34,\"name\":\"SDI\",\"role\"" \
+    ":\"input\"},{\"number\":35,\"name\":\"OE\",\"role\":\"output\"},{\"number\":36,\"name\":\"FE\",\"role\":\"output\"},{\"" \
+    "number\":37,\"name\":\"PE\",\"role\":\"output\"},{\"number\":38,\"name\":\"DR\",\"role\":\"output\"},{\"number\":39,\"" \
+    "name\":\"CS1\",\"role\":\"input\"},{\"number\":40,\"name\":\"VCC\",\"role\":\"power\"}]},\"model\":\"hs82c52\",\"bus\":" \
+    "{\"data\":[\"D0\",\"D1\",\"D2\",\"D3\",\"D4\",\"D5\",\"D6\",\"D7\"],\"address\":[\"A0\",\"A1\"],\"read\":\"RD\",\"write\":\"WR\"" \
+    ",\"select\":\"CS0\",\"selectHigh\":\"CS1\",\"addressLatch\":\"ALE\",\"reset\":\"RST\"},\"clock\":{\"in\":\"IX\",\"out\":" \
+    "\"OX\",\"clockOut\":\"CO\"},\"serial\":{\"tx\":\"SDO\",\"rx\":\"SDI\",\"cts\":\"CTS\",\"dsr\":\"DSR\",\"dtr\":\"DTR\",\"rts\":" \
+    "\"RTS\",\"int\":\"INTR\",\"tbre\":\"TBRE\",\"dr\":\"DR\"},\"hd6406\":{\"rlsd\":\"RLSD\",\"ri\":\"RI\",\"tc\":\"TC\",\"oe\":\"OE" \
+    "\",\"fe\":\"FE\",\"pe\":\"PE\",\"sie\":\"SIE\",\"sfd\":\"SFD\",\"txdack\":\"TXDACK\",\"rxdack\":\"RXDACK\"},\"grades\":{\"5\"" \
+    ":{\"trldv\":120,\"trhdz\":60,\"tco\":30,\"tbrg\":80,\"tsdo\":30,\"tintr\":50,\"tflag\":50,\"vcc\":[4.5,5.5],\"not" \
+    "e\":\"hd-6406.pdf p10 (bus); serial delays from 82c52.pdf p14\"}},\"parts\":[{\"name\":\"SFX-HD-6406-dip" \
+    "40\",\"package\":\"DIP\",\"pinout\":\"dip40\",\"footprint\":\"PDIP-40-600\",\"grade\":\"5\"}]}"
+
 static const char SERIAL_FIXTURE_CLASSIC[] =
     "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"serial\",\"devices\":["
     SFX_AY_5_1013A ","
@@ -261,7 +328,9 @@ static const char SERIAL_FIXTURE_CLASSIC[] =
     SFX_HD_6402 ","
     SFX_CDP1854A ","
     SFX_8251A ","
-    SFX_CDP65C51
+    SFX_CDP65C51 ","
+    SFX_82C52 ","
+    SFX_HD_6406
     "]}";
 
 /* Loads the classic fixture devices into a library that has footprints.json. */
