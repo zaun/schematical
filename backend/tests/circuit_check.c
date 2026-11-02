@@ -13,6 +13,7 @@
 #include "parts.h"
 #include "read_file.h"
 #include "voltage_fixture.h"
+#include "serial_fixture.h"
 
 static int failures;
 static PartLibrary *library;
@@ -141,6 +142,218 @@ static void check_pulls(void) {
     circuit_advance(c, 1000);
     expect(circuit_net_value(c, n0) == CIRCUIT_X, "a pull-up and a pull-down read X");
     circuit_destroy(c);
+}
+
+/* ---- plan-12-C: the serial terminal API --------------------------------- */
+
+/* The designator of the pin named `name` on a library part. */
+static const char *pin_named(const char *part_name, const char *name) {
+    const Part *p = part_library_find(library, part_name);
+    size_t i;
+
+    for (i = 0; p != NULL && i < p->pin_count; i++) {
+        if (strcmp(p->pins[i].name, name) == 0) {
+            return p->pins[i].designator;
+        }
+    }
+    printf("  %s has no pin %s\n", part_name, name);
+    return "?";
+}
+
+/* SFX-16550 driven by two DIP switches with pull-ups: every switch position
+   pulls its line to GND when on. Positions: TE-GDS0804 1-8 = D0-D7,
+   TE-GDS0604 1-3 = A0-A2, 4 = WRBAR, 5 = RDBAR. */
+typedef struct {
+    Circuit *c;
+    size_t uart, s8, s6;
+    size_t data[8];
+} SerialRig;
+
+static void rig_line(SerialRig *r, size_t sw, unsigned position, size_t net_index, size_t gnd_net) {
+    const char *name = sw == r->s8 ? "TE-GDS0804" : "TE-GDS0604";
+    char a[4];
+    char b[4];
+    size_t pu = part(r->c, "PULLUP-5V");
+
+    snprintf(a, sizeof a, "%uA", position);
+    snprintf(b, sizeof b, "%uB", position);
+    circuit_connect(r->c, pu, "1", net_index);
+    circuit_connect(r->c, sw, pin_named(name, a), net_index);
+    circuit_connect(r->c, sw, pin_named(name, b), gnd_net);
+}
+
+static void rig_uart(SerialRig *r, const char *pin, size_t net_index) {
+    circuit_connect(r->c, r->uart, pin_named("SFX-16550", pin), net_index);
+}
+
+static void rig_build(SerialRig *r) {
+    static const char *const DATA[8] = {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"};
+    static const char *const CONTROL[5] = {"A0", "A1", "A2", "WRBAR", "RDBAR"};
+    size_t v;
+    size_t g;
+    size_t clk;
+    size_t baud;
+    size_t sin;
+    size_t osc;
+    unsigned i;
+
+    r->c = circuit_create(library);
+    r->uart = part(r->c, "SFX-16550");
+    circuit_connect(r->c, part(r->c, "5V"), "1", v = net(r->c));
+    circuit_connect(r->c, part(r->c, "GND"), "1", g = net(r->c));
+    r->s8 = part(r->c, "TE-GDS0804");
+    r->s6 = part(r->c, "TE-GDS0604");
+    osc = part(r->c, "ECS-100A-018");
+    clk = net(r->c);
+    baud = net(r->c);
+    sin = net(r->c);
+    circuit_connect(r->c, osc, "14", v);
+    circuit_connect(r->c, osc, "7", g);
+    circuit_connect(r->c, osc, "8", clk);
+    rig_uart(r, "VDD", v);
+    rig_uart(r, "VSS", g);
+    rig_uart(r, "XIN", clk);
+    rig_uart(r, "BAUDOUT", baud);
+    rig_uart(r, "RCLK", baud);
+    rig_uart(r, "CS0", v);
+    rig_uart(r, "CS1", v);
+    rig_uart(r, "CTS", v);
+    rig_uart(r, "DSR", v);
+    rig_uart(r, "DCD", v);
+    rig_uart(r, "RI", v);
+    rig_uart(r, "CS2", g);
+    rig_uart(r, "ADS", g);
+    rig_uart(r, "RD", g);
+    rig_uart(r, "WR", g);
+    rig_uart(r, "MR", g);
+    rig_uart(r, "SIN", sin);
+    circuit_connect(r->c, part(r->c, "PULLUP-5V"), "1", sin);
+    for (i = 0; i < 8; i++) {
+        r->data[i] = net(r->c);
+        rig_uart(r, DATA[i], r->data[i]);
+        rig_line(r, r->s8, i + 1, r->data[i], g);
+    }
+    for (i = 0; i < 5; i++) {
+        size_t n = net(r->c);
+
+        rig_uart(r, CONTROL[i], n);
+        rig_line(r, r->s6, i + 1, n, g);
+    }
+}
+
+static void rig_address(SerialRig *r, unsigned a) {
+    unsigned i;
+
+    for (i = 0; i < 3; i++) {
+        circuit_set_switch(r->c, r->s6, i + 1, !((a >> i) & 1u));
+    }
+}
+
+static void rig_write(SerialRig *r, unsigned a, unsigned data) {
+    unsigned i;
+
+    rig_address(r, a);
+    for (i = 0; i < 8; i++) {
+        circuit_set_switch(r->c, r->s8, i + 1, !((data >> i) & 1u));
+    }
+    circuit_advance(r->c, 100000);
+    circuit_set_switch(r->c, r->s6, 4, 1);
+    circuit_advance(r->c, 200000);
+    circuit_set_switch(r->c, r->s6, 4, 0);
+    circuit_advance(r->c, 100000);
+    for (i = 0; i < 8; i++) {
+        circuit_set_switch(r->c, r->s8, i + 1, 0);
+    }
+    circuit_advance(r->c, 100000);
+}
+
+/* A read: the data nets during the strobe; -1 when a bit is not 0 or 1. */
+static int rig_read(SerialRig *r, unsigned a) {
+    int value = 0;
+    unsigned i;
+
+    rig_address(r, a);
+    circuit_advance(r->c, 100000);
+    circuit_set_switch(r->c, r->s6, 5, 1);
+    circuit_advance(r->c, 200000);
+    for (i = 0; i < 8; i++) {
+        CircuitValue bit = circuit_net_value(r->c, r->data[i]);
+
+        if (bit == CIRCUIT_1) {
+            value |= 1 << i;
+        } else if (bit != CIRCUIT_0) {
+            value = -1;
+            break;
+        }
+    }
+    circuit_set_switch(r->c, r->s6, 5, 0);
+    circuit_advance(r->c, 200000);
+    return value;
+}
+
+static void check_serial_terminal(void) {
+    SerialRig r;
+    uint16_t frames[4] = {0};
+    const uint8_t ok[2] = {'O', 'K'};
+    const uint64_t bit = 16 * 542535;   /* 16 clocks of 1.8432 MHz */
+    const size_t gnd = 2;               /* UART 0, 5V 1, GND 2 */
+    int first;
+    int second;
+
+    rig_build(&r);
+    expect(circuit_serial_channels(r.c, r.uart) == 1, "a UART has 1 serial channel");
+    expect(circuit_serial_channels(r.c, gnd) == 0, "a supply has no serial channel");
+    expect(circuit_serial_send(r.c, r.uart, 0, ok, 2) == -1 &&
+               strcmp(circuit_error(r.c), "the circuit is not running") == 0,
+           "send before start is refused");
+    expect(circuit_start(r.c) == 0, "UART rig starts");
+    circuit_advance(r.c, 1000000);
+    rig_write(&r, 3, 0x80);
+    rig_write(&r, 0, 0x01);
+    rig_write(&r, 1, 0x00);
+    rig_write(&r, 3, 0x03);
+    rig_write(&r, 2, 0x01);
+    rig_write(&r, 0, 'H');
+    rig_write(&r, 0, 'i');
+    circuit_advance(r.c, 24 * bit);
+    expect(circuit_serial_sent_count(r.c, r.uart, 0) == 2 &&
+               circuit_serial_sent(r.c, r.uart, 0, 0, frames, 4) == 2 && frames[0] == 0x48 &&
+               frames[1] == 0x69,
+           "8N1 at 115200 sends H and i: 0x48 0x69");
+    expect(circuit_serial_sent(r.c, r.uart, 0, 1, frames, 4) == 1 && frames[0] == 0x69,
+           "circuit_serial_sent from frame 1");
+    expect(circuit_serial_send(r.c, r.uart, 0, ok, 2) == 0,
+           "typing OK is accepted (only a pull-up on RX)");
+    circuit_advance(r.c, 24 * bit);
+    first = rig_read(&r, 0);
+    second = rig_read(&r, 0);
+    expect(first == 0x4F && second == 0x4B, "the RBR reads 0x4F, then 0x4B");
+    if (first != 0x4F || second != 0x4B) {
+        printf("  read %d %d\n", first, second);
+    }
+    expect(circuit_serial_send(r.c, r.uart, 1, ok, 2) == -1 &&
+               strcmp(circuit_error(r.c), "channel 1 of part 0 does not exist") == 0,
+           "send to a channel out of range is refused");
+    expect(circuit_serial_send(r.c, gnd, 0, ok, 2) == -1 &&
+               strcmp(circuit_error(r.c), "part 2 is not a serial part") == 0,
+           "send to a part that is not serial is refused");
+    circuit_destroy(r.c);
+
+    /* Another part's output on the RX net. */
+    {
+        Circuit *c = circuit_create(library);
+        size_t u = part(c, "SFX-16550");
+        size_t osc = part(c, "ECS-100A-018");
+        size_t n = net(c);
+
+        circuit_connect(c, u, pin_named("SFX-16550", "SIN"), n);
+        circuit_connect(c, osc, "8", n);
+        circuit_start(c);
+        expect(circuit_serial_send(c, u, 0, ok, 2) == -1 &&
+                   strcmp(circuit_error(c), "the RX pin of channel 0 of part 0 is driven by part 1") == 0,
+               "send onto an RX net another part drives is refused");
+        circuit_destroy(c);
+    }
 }
 
 static void check_unknown_part(void) {
@@ -516,13 +729,15 @@ static void check_voltage_switch(void) {
 
 int main(void) {
     library = part_library_create();
-    if (load_parts_dir(library, PARTS_DIR) != 0 || load_voltage_fixture(library) != 0) {
+    if (load_parts_dir(library, PARTS_DIR) != 0 || load_voltage_fixture(library) != 0 ||
+        load_serial_fixture(library) != 0) {
         return 1;
     }
     check_lit_led();
     check_dark_led();
     check_short();
     check_pulls();
+    check_serial_terminal();
     check_unknown_part();
     check_oscillator_blinks();
     check_switch();

@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, counter, shift register, SRAM, EEPROM, switch, LED,
-7-segment display, oscillator, supply, microprocessor) is described in a JSON part file in
+7-segment display, oscillator, supply, microprocessor, serial controller) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -20,6 +20,7 @@ Every orderable part (gate, flip-flop, latch, counter, shift register, SRAM, EEP
 | `counter.json` | `counter` |
 | `shift.json` | `shift` |
 | `cpu.json` | `cpu` |
+| `serial.json` | `serial` |
 
 Beside them, `footprints.json` holds the land patterns parts name with
 `"footprint"` (see [Footprints](#footprints)). It is loaded first, with
@@ -930,6 +931,94 @@ flags of an interrupted repeating block instruction. Not modeled: the
 read-data and input hold times; the 4 MHz Z84C0004 grade; the peripheral
 daisy chain (IEI/IEO are not CPU pins).
 
+
+### `serial`
+
+Bus-controller ICs that move bytes over a serial line (plan-12): UARTs,
+USARTs, ACIAs and the I2C/SPI bridges (`backend/src/models/serial.c`). The
+device's `"model"` picks the behavioral model; each model is a full model of
+the chip's digital behavior (registers, FIFOs, baud generator, framing,
+modem lines, interrupts). Every model shares the line engine
+(`serial_line.c`: baud generator, transmitter, receiver) and the host-bus
+helpers (`serial_bus.c`).
+
+| Key | Value |
+|---|---|
+| `"model"` | `"ns16550"` (the 16450/16550 family); more models in later plans |
+| `"grades"` | grade name → the model's timing names (ns; a missing name is 0), plus optional `"vcc"`, `"inputMax"`, `"note"` |
+| the model's keys | below; a key of another model is rejected (`"x" is not a key of model "y"`) |
+
+Part keys: `"grade"` (a key of `"grades"`), optional `"vcc"`, `"inputMax"`
+(the part's own range when its row differs from its grade's). `PartSerial`
+holds the model, the channel count and the grade.
+
+**Signal rules (every model).** Power-on is the reset state, then the reset
+pin applies at start; registers the reset does not touch power on X. An
+input at Z reads X, except reset pins and chip selects, which read inactive.
+An X on a strobe or chip select makes the cycle X (a read drives X, a write
+stores X). Serial outputs drive strong; the data bus drives only during a
+selected read, after the grade's access delay, and floats after its float
+delay. The clock input is counted edge by edge (wire an oscillator part to
+it); the crystal output pin is never driven. Undefined behavior is X; clock
+and baud limits are not checked.
+
+**Terminal.** `circuit_serial_sent` gives the frames a channel sent on its
+TX pin; `circuit_serial_send` types bytes into its RX pin as a real
+waveform at the channel's current baud and format, while nothing else
+drives that net (a pull part may).
+
+#### `ns16550`
+
+The PC16550D (`plan-12-data/specs/ti-a.md` § PC16550D) and, with
+`"fifo": 0`, the 16450.
+
+```json
+"model": "ns16550",
+"bus": {"style": "intel", "data": ["D0", "…", "D7"], "address": ["A0", "A1", "A2"],
+        "read": "RDBAR", "readHigh": "RD", "write": "WRBAR", "writeHigh": "WR",
+        "select": ["CS2"], "selectHigh": ["CS0", "CS1"], "addressStrobe": "ADS",
+        "driverDisable": "DDIS", "reset": "MR", "resetActiveHigh": true},
+"clock": {"in": "XIN", "out": "XOUT", "receive": "RCLK", "baudOut": "BAUDOUT"},
+"channels": [{"tx": "SOUT", "rx": "SIN", "rts": "RTS", "dtr": "DTR", "cts": "CTS",
+              "dsr": "DSR", "dcd": "DCD", "ri": "RI", "out1": "OUT1", "out2": "OUT2",
+              "int": "INTR", "txrdy": "TXRDY", "rxrdy": "RXRDY"}],
+"fifo": 16, "rxTrigger": [1, 4, 8, 14], "intPin": "driven", "dmaClass": "P", "timeout": "4ch",
+"grades": {"X": {"trvd": 60, "thz": 100, "trdd": 60, "tbld": 175, "trint": 1000, "thr": 175,
+                 "tmdo": 200, "tsim": 250, "trim": 250, "twxi": 195, "twrr": 290, "tir": 250,
+                 "vcc": [4.5, 5.5]}}
+```
+
+| Key | Value |
+|---|---|
+| `"bus"` | `"style": "intel"`; `"data"` 8 names; `"address"` 3 names (A0 first); `"read"` (active low) and/or `"readHigh"`; `"write"` and/or `"writeHigh"`; `"select"` (active-low names) and `"selectHigh"` (active-high); optional `"addressStrobe"` (ADS: transparent while low, latched on its rising edge), `"driverDisable"` (DDIS, low while the chip drives the bus), `"selectOut"` (CSOUT), `"reset"` with `"resetActiveHigh"` (default true) |
+| `"clock"` | `"in"` (XIN, counted); optional `"out"` (XOUT, never driven), `"receive"` (RCLK; absent = the 16× tick also clocks the receiver), `"baudOut"` (BAUDOUT: the 16× clock, divisor × clock period) |
+| `"channels"` | one channel: pin names `"tx"`, `"rx"`, `"int"` (required), `"rts"`, `"dtr"`, `"cts"`, `"dsr"`, `"dcd"`, `"ri"`, `"out1"`, `"out2"`, `"txrdy"`, `"rxrdy"` |
+| `"fifo"` | `16`, or `0` for the 16450 (no FCR, IIR[7:6] = 00, no timeout) |
+| `"rxTrigger"` | the 4 RX trigger levels of FCR[7:6] (default `[1, 4, 8, 14]`) |
+| `"intPin"` | `"driven"`: INTR active high, always driven |
+| `"dmaClass"` | `"P"`: the PC16550D's TXRDY/RXRDY mode 0/1 rules |
+| `"timeout"` | `"4ch"`: 4 character times with data in the FIFO |
+
+Timing names (ns): `trvd` read to data, `thz` read end to float, `trdd`
+read to DDIS, `tbld` clock to BAUDOUT, `trint` RBR/LSR read to INTR clear,
+`thr` THR write to INTR clear, `tir` IIR read to THRE clear, `tmdo` MCR
+write to the modem outputs, `tsim` modem input to INTR, `trim` MSR read to
+INTR clear, `twxi` THR write to TXRDY, `twrr` RBR read to RXRDY.
+
+Behavior: the PC16550D register set at A2..A0 with DLAB (LCR[7]); MR
+resets IER, IIR, FCR, LCR, MCR, LSR (0x60), the MSR deltas and SCR (0x00)
+and leaves DLL, DLM, RBR and THR; the FIFOs with trigger levels, the three
+error bits per byte, LSR[7], the timeout, the transmitter-interrupt delay
+rule (a lone byte delays THRE to its last stop bit) and DMA modes 0/1;
+interrupt priority line status > RX data / timeout > THRE > modem status;
+loopback (SOUT held 1, the transmitter feeds the receiver, MSR from MCR,
+the modem output pins inactive); break, stick parity and the scratch
+register. The receiver detects a start bit on 1 → 0, checks it mid-bit (a
+false start is ignored), samples data, parity and the first stop bit
+mid-bit, takes a framing error as the next start bit (PC16550D resync) and
+loads one 0x00 for a break (BI with FE), then waits for the line to return
+to 1. A character reaches the RBR 1 RCLK after its stop-bit sample (3 in
+FIFO mode).
 
 ### `7seg`
 

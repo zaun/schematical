@@ -13,6 +13,7 @@
 #include "library_internal.h"
 #include "model_pins.h"
 #include "parts.h"
+#include "serial_fixture.h"
 
 static int failures;
 
@@ -143,6 +144,50 @@ static void check_valid_pull(void) {
     free(error);
     part_library_destroy(library);
     printf("ok   valid pull part\n");
+}
+
+/* plan-12-C: the serial kind, on the PC16550D fixture keys (serial_fixture.h). */
+#define SERIAL_HEAD(EXTRA) \
+    HEAD("serial") "{'id':'U','function':'UART','description':'d','drawer':['Interface']," \
+    "'pinouts':{" SFX_DIP40 "}," EXTRA
+#define SERIAL_PART(GRADE) \
+    "'parts':[{'name':'U-DIP','package':'DIP','pinout':'dip40','footprint':'T40','grade':'" GRADE "'}]}" TAIL
+
+static void check_serial(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library,
+               SERIAL_HEAD("'model':'ns16550'," SFX_MODEL_KEYS("16", "") "," SFX_GRADES ",")
+               SERIAL_PART("X"), &error) == 0);
+    CHECK(error == NULL);
+    part = part_library_find(library, "U-DIP");
+    CHECK(part != NULL);
+    if (part != NULL) {
+        CHECK(part->kind == PART_SERIAL && part->serial != NULL &&
+              strcmp(part->serial->model, "ns16550") == 0 && part->serial->channels == 1 &&
+              strcmp(part->serial->grade, "X") == 0 && part->vcc != NULL &&
+              part->vcc->min_mv == 4500 && part->logic == NULL);
+    }
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid serial part\n");
+
+    expect_fail("serial unknown model",
+                SERIAL_HEAD("'model':'x','grades':{'X':{}},") SERIAL_PART("X"),
+                "devices[0] (U): unknown model \"x\"");
+    expect_fail("serial missing grades",
+                SERIAL_HEAD("'model':'ns16550'," SFX_MODEL_KEYS("16", "") ",") SERIAL_PART("X"),
+                "devices[0] (U): missing \"grades\"");
+    expect_fail("serial grade not in grades",
+                SERIAL_HEAD("'model':'ns16550'," SFX_MODEL_KEYS("16", "") "," SFX_GRADES ",")
+                SERIAL_PART("Z"),
+                "parts[0] (U-DIP): grade \"Z\" is not in \"grades\"");
+    expect_fail("serial bad fifo",
+                SERIAL_HEAD("'model':'ns16550'," SFX_MODEL_KEYS("12", "") "," SFX_GRADES ",")
+                SERIAL_PART("X"),
+                "devices[0] (U): \"fifo\" must be 0 or 16");
 }
 
 static void check_valid_supply(void) {
@@ -1559,6 +1604,7 @@ int main(void) {
     check_gate_cases();
     check_valid_supply();
     check_valid_pull();
+    check_serial();
     check_valid_led();
     check_duplicate_across_calls();
     check_logic_family();

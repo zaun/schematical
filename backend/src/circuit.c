@@ -7,6 +7,7 @@
 
 #include "kind.h"
 #include "net.h"
+#include "serial.h"
 #include "sim.h"
 #include "voltage.h"
 
@@ -501,6 +502,122 @@ int circuit_cpu_state(const Circuit *circuit, size_t part, CpuState *out) {
     if (type->cpu_state == NULL || out == NULL ||
         !type->cpu_state(sim_instance_state(instance), out)) {
         return fail(writable, "part %zu is not a processor", part);
+    }
+    return 0;
+}
+
+/* ---- Serial terminal (plan-12-C section 3.5) ------------------------------- */
+
+static const SimComponentType *serial_type(const Circuit *circuit, size_t part) {
+    const SimComponentType *type;
+
+    if (part >= circuit->part_count) {
+        return NULL;
+    }
+    type = sim_instance_type(circuit->instances[part]);
+    if (type->serial_channels == NULL ||
+        type->serial_channels(sim_instance_state(circuit->instances[part])) == 0) {
+        return NULL;
+    }
+    return type;
+}
+
+size_t circuit_serial_channels(const Circuit *circuit, size_t part) {
+    const SimComponentType *type = serial_type(circuit, part);
+
+    return type != NULL ? type->serial_channels(sim_instance_state(circuit->instances[part])) : 0;
+}
+
+size_t circuit_serial_sent_count(const Circuit *circuit, size_t part, unsigned channel) {
+    const SimComponentType *type = serial_type(circuit, part);
+
+    if (type == NULL) {
+        return 0;
+    }
+    return type->serial_sent(sim_instance_state(circuit->instances[part]), channel, 0, NULL, 0);
+}
+
+size_t circuit_serial_sent(const Circuit *circuit, size_t part, unsigned channel, size_t start,
+                           uint16_t *frames, size_t cap) {
+    const SimComponentType *type = serial_type(circuit, part);
+    size_t total;
+
+    if (type == NULL || frames == NULL || cap == 0) {
+        return 0;
+    }
+    total = type->serial_sent(sim_instance_state(circuit->instances[part]), channel, start, frames,
+                              cap);
+    if (start >= total) {
+        return 0;
+    }
+    return total - start < cap ? total - start : cap;
+}
+
+/* The lowest part other than `part` with a driving pin on `net`: an output
+   or in/out pin, or a supply that is not a pull. SIZE_MAX when none. */
+static size_t net_driver(const Circuit *circuit, size_t part, size_t net) {
+    size_t best = SIZE_MAX;
+    size_t i;
+
+    for (i = 0; i < circuit->connection_count; i++) {
+        const VoltageConnection *c = &circuit->connections[i];
+        const Part *other;
+        PinRole role;
+
+        if (c->net != net || c->part == part) {
+            continue;
+        }
+        other = circuit->parts[c->part];
+        role = other->pins[c->pin].role;
+        if ((other->kind == PART_SUPPLY && other->supply != NULL && !other->supply->pull) ||
+            (other->kind != PART_SUPPLY && (role == PIN_OUTPUT || role == PIN_INOUT))) {
+            if (c->part < best) {
+                best = c->part;
+            }
+        }
+    }
+    return best;
+}
+
+int circuit_serial_send(Circuit *circuit, size_t part, unsigned channel, const uint8_t *bytes,
+                        size_t count) {
+    const SimComponentType *type;
+    void *state;
+    size_t pin;
+    size_t i;
+
+    if (check_part(circuit, part) != 0) {
+        return -1;
+    }
+    type = serial_type(circuit, part);
+    if (type == NULL) {
+        return fail(circuit, "part %zu is not a serial part", part);
+    }
+    state = sim_instance_state(circuit->instances[part]);
+    if (channel >= type->serial_channels(state)) {
+        return fail(circuit, "channel %u of part %zu does not exist", channel, part);
+    }
+    if (!circuit->started) {
+        return fail(circuit, "the circuit is not running");
+    }
+    pin = serial_rx_pin(state, channel);
+    for (i = 0; pin != SIZE_MAX && i < circuit->connection_count; i++) {
+        const VoltageConnection *c = &circuit->connections[i];
+
+        if (c->part == part && c->pin == pin) {
+            size_t driver = net_driver(circuit, part, c->net);
+
+            if (driver != SIZE_MAX) {
+                return fail(circuit, "the RX pin of channel %u of part %zu is driven by part %zu",
+                            channel, part, driver);
+            }
+        }
+    }
+    if (count == 0) {
+        return 0;
+    }
+    if (!type->serial_send(circuit->sim, circuit->instances[part], state, channel, bytes, count)) {
+        return fail(circuit, "channel %u of part %zu is not asynchronous", channel, part);
     }
     return 0;
 }

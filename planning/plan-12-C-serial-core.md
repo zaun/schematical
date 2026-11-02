@@ -35,7 +35,7 @@ plan-12-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-12-B landed | `grep -n 'pullUp' schematical/schematical/Canvas/SchematicModel.swift` → matches | NOT MET (2026-11-02) |
+| plan-12-B landed | `grep -n 'pullUp' schematical/schematical/Canvas/SchematicModel.swift` → matches | MET (2026-11-01 at 1ae868a: 7 matches) |
 
 ## 1. Goal
 
@@ -270,28 +270,42 @@ with the PC16550D timing, `vcc` [4.5, 5.5]) and `SFX-16450` (same with
 
 ### Phase 1 — Kind, engine, bus helpers
 
-- [ ] `parts.h` (`PART_SERIAL`, `PartSerial`), `serial.c/.h` (model table,
+- [x] `parts.h` (`PART_SERIAL`, `PartSerial`), `serial.c/.h` (model table,
   grades), `kinds.c`, `CMakeLists.txt`, `listing_check`/`trace_check` (§3.1).
-- [ ] `serial_line.c/.h` (§3.2), `serial_bus.c/.h` (§3.3).
-- [ ] `library_check` cases: `"model": "x"` → `unknown model "x"`; a missing
+  Check: `grep -n SERIAL_KIND backend/src/library/kinds.c` → 2 lines; build
+  clean (no warnings).
+- [x] `serial_line.c/.h` (§3.2), `serial_bus.c/.h` (§3.3). Check: exercised by
+  `serial_test` cases 2–4 and 11 (all `ok`).
+- [x] `library_check` cases: `"model": "x"` → `unknown model "x"`; a missing
   `grades` → `missing "grades"`; a part `"grade"` not in `grades` → rejected
-  with the grade name.
+  with the grade name. Observed: `ok   serial unknown model: … unknown model
+  "x"`, `ok   serial missing grades: … missing "grades"`, `ok   serial grade
+  not in grades: … grade "Z" is not in "grades"`, plus `ok   valid serial
+  part` and `ok   serial bad fifo`.
 
 Acceptance: `ctest` → 100%, T0 programs; `git diff --stat backend/tests/golden`
-→ none (about 1 min).
-Commit: —
+→ none (about 1 min). Observed with Phase 2 (one commit, see Corrections):
+`100% tests passed, 0 tests failed out of 18`; no golden diff.
+Commit: (with Phase 2)
 
 ### Phase 2 — `ns16550` core and the terminal API
 
-- [ ] `ns16550.c` (§3.6); the terminal hooks (§3.4) and `circuit_serial_*`
+- [x] `ns16550.c` (§3.6); the terminal hooks (§3.4) and `circuit_serial_*`
   (§3.5); `docs/backend.md` paragraph; `docs/parts-format.md` § `serial` (the
-  kind, the model table, grades, the `ns16550` keys of §3.6).
-- [ ] `serial_test` (§4) added to `CMakeLists.txt`; the `circuit_check`
-  cases.
+  kind, the model table, grades, the `ns16550` keys of §3.6). Check: the app
+  builds with the new kind (`** BUILD SUCCEEDED **`).
+- [x] `serial_test` (§4) added to `CMakeLists.txt`; the `circuit_check`
+  cases. Observed: `serial_test` prints `ok` for cases 1–12 and the outcome
+  case `C outcome: 8N1 at 115200 sends H i; typed OK arrives as 0x4F 0x4B`,
+  then `PASS`; `circuit_check` PASS lines: 1 channel on the UART and 0 on a
+  supply, send before start refused, `8N1 at 115200 sends H and i: 0x48
+  0x69`, `the RBR reads 0x4F, then 0x4B`, channel out of range, not a
+  serial part, RX net driven by part 1; `0 failure(s)`.
 
 Acceptance: `ctest --test-dir /tmp/logic-p12` → `100% tests passed`, T0 + 1
 programs; `/tmp/logic-p12/serial_test` prints each of the 12 cases `ok`
-(about 1 min).
+(about 1 min). Observed (pre-plan-11 main, T0 = 17): `100% tests passed, 0
+tests failed out of 18`; 12 + 1 `ok`. Re-run after merging plan-11.
 Commit: —
 
 ## Validation Plan
@@ -310,4 +324,37 @@ is plan-12-K's.
 
 ## Corrections
 
-(none yet)
+- **Phases 1 and 2 landed as one commit.** `serial.c`'s model table names
+  `NS16550_MODEL`, so the kind does not link without `ns16550.c`.
+- **Listing format** (§3.1 said `|serial|model=<m>|channels=<n>|grade=<g>`).
+  Every kind prints its facts in one space-separated field, so serial parts
+  print `model=ns16550 channels=1 grade=X` there, as `cpu` does.
+- **Timing name `tir` added** (IIR read to THRE clear, PC16550D tIR 250 ns,
+  p5). §3.6's list left it out, but the IIR read is one of the four
+  interrupt-clearing accesses.
+- **TERI edge.** §3.6 said "TERI on RI 1→0 at the pin, i.e. trailing edge of
+  ring". The spec (ti-a.md § PC16550D, MSR) says "RI went from low to high
+  (the trailing edge of the ring)". The pin is active low, so TERI is set
+  when the pin goes 0→1 (MSR[6] 1→0). `serial_test` case 8 checks it.
+- **Transmitter interrupt delay.** §3.6 paraphrased it as "THRE interrupt one
+  character after FIFO empty when the FIFO was more than one byte". The
+  spec (p18) is the reverse: the delay applies when there have *not* been
+  two bytes in the FIFO at once since the last THRE, and the first THRE
+  after an FCR[0] change is immediate. The model follows the spec, and
+  case 7 checks all three paths.
+- **Break sets FE as well as BI.** A break's stop bit is sampled 0, which is
+  FE's own definition (p16). Case 4 expects `LSR = 0x79`.
+- **RX data and timeout both pending.** The PC16550D puts them at one level.
+  The core reports timeout (IIR 0xC) while it is pending, else RX data (0x4).
+  D/E's `iirPriority` values change this.
+- **Benches.** §4 said the bench uses an oscillator part and the `circuit_*`
+  API. `serial_test` uses a sim-level bench (a timer clock on XIN, a
+  driver on every pin) so it can make bad frames and measure pin timing.
+  The §Outcome send/receive goes through the real `circuit_*` API in
+  `circuit_check`, with an ECS-100A-018 (1.8432 MHz), DIP switches and pull
+  parts as the CPU bus.
+- **"not asynchronous" error.** No C model has a synchronous mode (ns16550
+  is always asynchronous), so that message is checked in H on the 8251
+  (task added to plan-12-H Phase 2).
+- **16450 fixture** carries no `rxTrigger`: the loader requires trigger
+  values from 1 to the FIFO size, and a 16450 has no FIFO.

@@ -155,6 +155,9 @@ in `circuit_serial_sent`.
   `serial_acia6551.c`, `serial_hs82c52.c`, `serial_com78c80x.c`;
   `CMakeLists.txt`; `docs/parts-format.md` § `serial` gains §3.
 - [ ] Fixtures and cases H1–H8 with the terminal round trips.
+- [ ] `circuit_check`: `circuit_serial_send` on an 8251 in synchronous mode
+  → -1, `channel 0 of part N is not asynchronous` (plan-12-C Corrections: no
+  C model can make this error).
 
 Acceptance: `serial_test` → H1–H8 and every earlier case `ok`; `ctest` 100%
 (about 1 min).

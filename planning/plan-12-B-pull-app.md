@@ -118,7 +118,7 @@ picked one-pin pulls that follow the VCC menu).
 
 Acceptance: the build succeeds and the two harness commands print as above;
 the PNG is looked at (about 3 min).
-Commit: —
+Commit: 1ae868a
 
 ## Validation Plan
 

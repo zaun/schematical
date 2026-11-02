@@ -79,4 +79,28 @@ int circuit_memory_load(Circuit *circuit, size_t part, uint32_t start,
    processor" for any other kind. */
 int circuit_cpu_state(const Circuit *circuit, size_t part, CpuState *out);
 
+/*
+ * Serial terminal (serial kind, plan-12-A section 3.7).
+ * circuit_serial_channels: the part's serial channels, 0 for any other part.
+ * circuit_serial_sent_count / circuit_serial_sent: the frames a channel has
+ * sent on its TX pin since start (each the frame's data bits, LSB = bit 0);
+ * circuit_serial_sent copies frames [start, start + cap) and returns the
+ * number copied.
+ * circuit_serial_send: types bytes into a channel's RX pin as a serial
+ * waveform at the channel's current baud and format. Only after
+ * circuit_start; refused (-1, circuit_error) when the part is not a serial
+ * part ("part N is not a serial part"), the channel does not exist
+ * ("channel C of part N does not exist") or is not asynchronous ("channel C
+ * of part N is not asynchronous"), another part's output, in/out or strong
+ * supply pin is on the RX pin's net ("the RX pin of channel C of part N is
+ * driven by part M"; pull parts are allowed), or before start ("the circuit
+ * is not running").
+ */
+size_t circuit_serial_channels(const Circuit *circuit, size_t part);
+size_t circuit_serial_sent_count(const Circuit *circuit, size_t part, unsigned channel);
+size_t circuit_serial_sent(const Circuit *circuit, size_t part, unsigned channel, size_t start,
+                           uint16_t *frames, size_t cap);
+int circuit_serial_send(Circuit *circuit, size_t part, unsigned channel, const uint8_t *bytes,
+                        size_t count);
+
 #endif

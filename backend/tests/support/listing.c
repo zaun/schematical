@@ -19,6 +19,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_COUNTER: return "counter";
         case PART_SHIFT: return "shift";
         case PART_CPU: return "cpu";
+        case PART_SERIAL: return "serial";
     }
     return "?";
 }
@@ -111,6 +112,10 @@ static void print_details(FILE *out, const Part *part) {
         case PART_CPU:
             fprintf(out, "core=%s grade=%s max_hz=%llu", part->cpu->core, part->cpu->grade,
                     (unsigned long long)part->cpu->max_hz);
+            break;
+        case PART_SERIAL:
+            fprintf(out, "model=%s channels=%u grade=%s", part->serial->model,
+                    part->serial->channels, part->serial->grade);
             break;
     }
 }

@@ -151,6 +151,16 @@ typedef struct {
     void (*memory_load)(void *state, uint32_t start, const uint32_t *values, size_t count);
     /* Processors: fills out with the processor's state (cpu_state.h). 1 when filled. */
     int (*cpu_state)(const void *state, struct CpuState *out);
+    /* Serial parts (plan-12-C section 3.4): number of channels (0 = not a serial part). */
+    size_t (*serial_channels)(const void *state);
+    /* Frames the channel has sent since start: the total count, and a copy of
+       frames [start, start + cap). Each frame is its data bits, LSB = bit 0. */
+    size_t (*serial_sent)(const void *state, unsigned channel, size_t start,
+                          uint16_t *frames, size_t cap);
+    /* Queues bytes to drive onto the channel's RX pin (plan-12-A section 3.7).
+       1 when queued; 0 when the channel is not in an asynchronous mode. */
+    int (*serial_send)(Sim *sim, SimInstance *instance, void *state, unsigned channel,
+                       const uint8_t *bytes, size_t count);
 } SimComponentType;
 
 /* All times are in picoseconds. */

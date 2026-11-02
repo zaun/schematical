@@ -105,6 +105,18 @@ Notes:
   (address, bytes, disassembly). Any other kind: -1, `part N is not a
   processor`. The app's processor window reads it on every simulation
   frame, as the memory window reads `circuit_memory_read`.
+- Serial parts (`serial` kind, plan-12): `circuit_serial_channels` gives
+  a part's channel count (0 for any other kind);
+  `circuit_serial_sent_count` and `circuit_serial_sent` give the frames a
+  channel has sent on its TX pin since start (each the frame's data bits),
+  recorded on the line, so loopback, break and a stopped transmitter show
+  as they are. `circuit_serial_send` types bytes into a channel: the model
+  drives its own RX pin strong, one bit per 16 receive ticks in the
+  channel's current format, and releases it after the last stop bit. It is
+  refused before start, for a part that is not serial, for a channel that
+  does not exist or is not asynchronous, and while another part's output,
+  in/out or strong supply pin is on the RX net (pull parts are fine); the
+  messages are in `circuit.h`. The app's terminal window is built on these.
 - Memory load: `circuit_memory_load` writes words into an EEPROM before
   `circuit_start` (refused after it, and on every other kind, SRAM
   included); words it does not write stay erased (FF). Build the words with
@@ -147,7 +159,13 @@ backend/
                            adapter: a commit scheduler around the core);
                            chips_m6502.c chips_w65c02.c chips_z80.c
                            chips_dasm.c (each instantiates one vendored
-                           floooh/chips core, or the three disassemblers)
+                           floooh/chips core, or the three disassemblers);
+                           serial.c + serial.h (the serial kind: loader,
+                           model table, the model that forwards to a serial
+                           model, the terminal hooks), serial_line.c (baud
+                           generator, transmitter, receiver, sent log,
+                           terminal sender), serial_bus.c (Intel host bus),
+                           ns16550.c (the 16450/16550 family)
     circuit.c
     voltage.c              the voltage check (voltage.h)
     memory_image.c         load files (binary, Intel HEX) to memory images
@@ -256,6 +274,18 @@ drawer work from the kind table and the `Part` structs.
   AS6C62256-55PCN and an SN74HC00N decoder) run a program for 2 ms: the
   W65C02S6TPG-14 and MPS6502 count to 10 in SRAM, the Z84C0010PEG also
   CALLs a store and halts.
+
+- `serial_test` — the serial kind on fixture devices
+  (`tests/support/serial_fixture.h`: a PC16550D-shaped `ns16550` in plcc44
+  and dip40, and a 16450 twin) with a bench that clocks XIN and wires
+  BAUDOUT to RCLK: reset values, divisor and BAUDOUT, transmit frames and
+  bit times, receive (false start, framing error and resync, parity,
+  break), FIFO triggers and overrun, the timeout, interrupt priorities and
+  the transmitter-interrupt delay, modem status, loopback, DMA modes, bus
+  timing and strobes, the 16450, and the terminal (8N1 at 115200 on
+  1.8432 MHz sends `H i`; typed `OK` reads back). `circuit_check` drives
+  the same UART through DIP switches and pull-ups for the
+  `circuit_serial_*` API and its error messages.
 
 Not a ctest: `sim_bench` (`tests/sim_bench.c`) measures engine speed — a
 D flip-flop ripple counter on an oscillator plus N idle SN74HC00N chips,
