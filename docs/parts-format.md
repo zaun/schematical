@@ -944,7 +944,7 @@ helpers (`serial_bus.c`).
 
 | Key | Value |
 |---|---|
-| `"model"` | `"ns16550"` (the 16450/16550 family); more models in later plans |
+| `"model"` | `"ns16550"` (the 16450/16550 family), `"max3100"` (MAX3100, MAX3140), `"max310x"` (MAX3107, MAX3108, MAX3109, MAX14830); more models in later plans |
 | `"grades"` | grade name → the model's timing names (ns; a missing name is 0), plus optional `"vcc"`, `"inputMax"`, `"note"` |
 | the model's keys | below; a key of another model is rejected (`"x" is not a key of model "y"`) |
 
@@ -1019,6 +1019,160 @@ mid-bit, takes a framing error as the next start bit (PC16550D resync) and
 loads one 0x00 for a break (BI with FE), then waits for the line to return
 to 1. A character reaches the RBR 1 RCLK after its stop-bit sample (3 in
 FIFO mode).
+
+#### SPI and I2C host ports (`"bus"` styles)
+
+Serial-hosted models describe their host port with one of three `"bus"`
+styles (`backend/src/models/serial_target.c`, shared with plan-12-I's
+bridges). The front end does the pin protocol; the model owns its command
+and sub-address bytes.
+
+```json
+"bus": {"style": "spi", "cs": "CS", "sclk": "SCLK", "mosi": "DIN", "miso": "DOUT", "mode": 0}
+"bus": {"style": "i2c", "scl": "SCL", "sda": "SDA", "address": ["A0", "A1"], "table": [44, 45, null, …]}
+"bus": {"style": "i2c-spi", "selectPin": "I2C/SPI", "spiLevel": 1, "selectSampled": "live",
+        "spi": {"cs": "CS/A0", "sclk": "SCLK/SCL", "mosi": "DIN/A1", "miso": "DOUT/SDA", "mode": 0},
+        "i2c": {"scl": "SCLK/SCL", "sda": "DOUT/SDA", "address": ["CS/A0", "DIN/A1"], "table": […]}}
+```
+
+| Key | Value |
+|---|---|
+| `"style"` | `"spi"`, `"i2c"` or `"i2c-spi"` (both on shared pins, picked by `selectPin`) |
+| `"cs"`, `"sclk"`, `"mosi"`, `"miso"` | SPI pins; CS is active low |
+| `"mode"` | SPI mode 0–3 (CPOL, CPHA); default 0 |
+| `"scl"`, `"sda"` | I2C pins |
+| `"address"` | I2C address strap pins, A0 first (0–3) |
+| `"table"` | the 7-bit address (or `null`: none) for each strap combination: 4^n entries, index Σ tie(Aₖ) × 4ᵏ with tie 0 = low (GND), 1 = high (VDD/VL), 2 = tied to SCL, 3 = tied to SDA |
+| `"selectPin"` | `i2c-spi`: the pin that picks the port |
+| `"spiLevel"` | `i2c-spi`: the select level that picks SPI (default 1) |
+| `"selectSampled"` | `i2c-spi`: `"live"` (the pin is followed) or `"reset"` (default: sampled when reset ends) |
+
+SPI: MISO is 3-state while CS is high; while CS is low it drives the bits
+the model marks (others Z), shifting on the clock edge opposite the sampling
+edge (mode 0: sample on SCLK rising, shift on falling, the first bit at CS
+falling). I2C: START, repeated START and STOP; the address byte is ACKed
+only when the model claims it; data bytes in are ACKed or NACKed by the
+model; bytes out shift on SCL falling edges and the controller's ACK/NACK
+is sampled; SDA is open drain (0 strong or Z); there is no clock
+stretching. A strap's tie is told from its level in three bus states (idle,
+at the START, at the first SCL fall). Signal rules: SCLK, MOSI, SCL and SDA
+at Z read X; CS at Z reads inactive; an X on CS or SCLK makes the rest of an
+SPI transaction X (X bits in, MISO X); an X on SCL, or on SDA while SCL is
+high, abandons an I2C transaction until the next START. SDA and SCL are
+open-drain pins for the voltage check.
+
+#### `max3100`
+
+The MAX3100 SPI/MICROWIRE UART and the MAX3140 (the same UART with an
+RS-485/RS-422 transceiver) (`plan-12-data/specs/maxim.md` § MAX3100,
+§ MAX3140).
+
+```json
+"model": "max3100",
+"bus": {"style": "spi", "cs": "CS", "sclk": "SCLK", "mosi": "DIN", "miso": "DOUT", "mode": 0},
+"clock": {"in": "X1", "out": "X2"},
+"channels": [{"tx": "TX", "rx": "RX", "rts": "RTS", "cts": "CTS", "int": "IRQ"}],
+"shutdown": "SHDN", "testMode": "loopback",
+"transceiver": {"y": "Y", "z": "Z", "a": "A", "b": "B", "de": "DE", "re": "RE", "ro": "RO",
+                "di": "DI", "hf": "H/F", "srl": "SRL", "txp": "TXP", "rxp": "RXP"},
+"grades": {"E": {"tdv": 100, "ttr": 100, "tdo": 100, "vcc": [2.7, 5.5]}}
+```
+
+| Key | Value |
+|---|---|
+| `"bus"` | `"style": "spi"`, mode 0 |
+| `"clock"` | `"in"` X1 (counted), optional `"out"` X2 (never driven) |
+| `"channels"` | one channel: `"tx"`, `"rx"`, `"rts"`, `"cts"`, `"int"` (IRQ, open drain, active low) |
+| `"shutdown"` | the SHDN pin (active low; Z reads inactive) |
+| `"testMode"` | `"loopback"` (MAX3100: RTS shows the 16× clock and TX loops to RX while CS is low) or `"txLow"` (MAX3140: TX held low while CS is low) |
+| `"transceiver"` | MAX3140 only: the transceiver pins; `"srl"`, `"txp"`, `"rxp"` optional |
+
+Timing names (ns): `tdv` CS low to DOUT valid, `ttr` CS high to DOUT Z,
+`tdo` SCLK falling to DOUT; transceiver: `tdp115`/`tdp500`/`tdp10m` DI to
+Y/Z, `tdz115`/`tdz500`/`tdz10m` driver enable, `tdd` driver disable, `trp`
+(115k and 500k) / `trp10m` A/B to RO, `trz` receiver enable/disable,
+`tshdn` RE = 1 and DE = 0 to transceiver shutdown, `tdzs115`/`tdzs500`/
+`tdzs10m` and `trzs` enable times out of that shutdown.
+
+Behavior: one 16-bit word per CS-low frame (DIN bits 15–14: 11 Write
+Config, 01 Read Config, 10 Write Data, 00 Read Data; DOUT bit 15 R and 14 T
+from CS falling). Effects happen on CS rising and only for exactly 16 bits,
+except a Write Config's interrupt masks (at the 16th SCLK rising edge) and
+a data word's pop (at the 16th SCLK falling edge). Baud = X1 / (16 × BRD),
+BRD from B3–B0 (1, 2, 4 … 128, 3, 6 … 384); 7 or 8 data bits, the 9th bit
+(Pt/Pr) when PE = 1 (no parity is computed), 1 or 2 stop bits sent and one
+checked, 3-sample majority, an 8-word receive FIFO (FEN = 1: one word)
+cleared when it overflows (RA/FE then set), FE until the next good frame,
+and after a framing error the receiver waits for a new start bit. IRQ =
+R·RM + T·TM + Pr·PM + RA/FE·RAM; the T source is a latch set when the
+transmit buffer empties and cleared on CS rising of a Read or Write Data.
+A Write Config clears the receiver and the transmit buffer (T = 1) and
+takes effect when the transmitter is idle. IrDA (IR = 1): a 0 bit is a
+3/16-bit TX low pulse; RX idles low and a high pulse is a 0. Shutdown: the
+SHDN pin (immediate, aborts the transmitter) or SHDNi (when the transmitter
+is idle) stops the clock, clears the receiver, sets T, and sets RA on any RX
+transition; RTS and the configuration stay writable. The transceiver is
+independent of the UART: Y = DI xor TXP and Z = not Y while DE = 1 (Z while
+DE = 0); RO = (A − B ≥ −50 mV) xor RXP while RE = 0, reading Y/Z when H/F = 1;
+A ≠ B gives A, A = B and both open give 1 (true fail-safe), an X or one open
+input gives X; H/F, TXP and RXP read Z as 0 (internal pull-downs); SRL 0, 1
+or open picks the delays. The MAX3140's terminal drives A (true) and B
+(complement); its UART receiver hears the typed waveform directly.
+
+#### `max310x`
+
+The MAX3107, MAX3108, MAX3109 and MAX14830 SPI/I2C UARTs with 128-word
+FIFOs (`plan-12-data/specs/maxim.md` § MAX3107 … § MAX14830).
+
+```json
+"model": "max310x", "variant": "max3107",
+"bus": {"style": "i2c-spi", "selectPin": "I2C/SPI", "spiLevel": 1, "selectSampled": "live",
+        "spi": {"cs": "CS/A0", "sclk": "SCLK/SCL", "mosi": "DIN/A1", "miso": "DOUT/SDA", "mode": 0},
+        "i2c": {"scl": "SCLK/SCL", "sda": "DOUT/SDA", "address": ["CS/A0", "DIN/A1"],
+                "table": [44, 45, null, null, 46, 47, null, …]}},
+"reset": "RST", "clock": {"in": "XIN", "out": "XOUT"},
+"channels": [{"tx": "TX", "rx": "RX", "rts": "RTS/CLKOUT", "cts": "CTS"}],
+"interrupt": "IRQ", "gpio": ["GPIO0", "GPIO1", "GPIO2", "GPIO3"],
+"grades": {"E": {"tdo": 20, "tft": 10, "vcc": [2.35, 3.6]}}
+```
+
+| Key | Value |
+|---|---|
+| `"variant"` | `"max3107"`, `"max3108"`, `"max3109"` (2 UARTs) or `"max14830"` (4): picks the register differences of each datasheet |
+| `"bus"` | `"style": "i2c-spi"`, SPI mode 0; with more than one UART, `"uartOffsets"`: the 7-bit I2C address offset of each UART from the table's address (MAX3109 `[0, -16]`, MAX14830 `[0, -16, -64, -80]`) |
+| `"reset"` | RST (active low; Z reads inactive) |
+| `"clock"` | `"in"` XIN, optional `"out"` XOUT (never driven) |
+| `"channels"` | one per UART: `"tx"`, `"rx"`, `"rts"`, `"cts"` |
+| `"interrupt"` | IRQ (open drain, active low) |
+| `"gpio"` | 4 GPIO pin names per UART, UART0's first |
+
+Timing names (ns): `tdo` SCLK falling to MISO, `tft` CS rising to MISO Z,
+`tready` reset end to ready (IRQ is held low until then where IRQSel exists).
+
+Behavior: SPI command byte bit 7 = 1 writes; the address is A6–A0
+(MAX3107/3108), 0 U A4–A0 (MAX3109) or U1 U0 A4–A0 (MAX14830); MISO is Z
+during the command byte and writes, and on the MAX3109/MAX14830 a read
+drives the GlobalIRQ bits on clocks 5–8 (an 8-clock frame is the fast
+read). I2C: the register address byte is ACKed only when valid. Bursts
+auto-increment unless they start at 0x00 (THR/RHR). GloblComnd (0x1F,
+MAX3109/MAX14830): 0xCE/0xCD turn the SPI extended map (0x20–0x25) on and
+off (0x1F stays GloblComnd), 0xE0–0xEF trigger transmitters (TxSynch,
+SynchDelay, TxAutoDis). Clock: PLLBypass = 1 counts XIN edges; PLLEn = 1
+measures the XIN period and runs PreDiv and the ×6/×48/×96/×144 PLL on
+timers; neither gives no clock; the fractional generator divides by DIV +
+FRACT/16 (16×, or 8×/4× in 2x/4x mode); PLLConfig and CLKSource are UART0's
+on the MAX3109/MAX14830. The full register set: interrupts (ISR levels and
+clear-on-read events, LSR of the word last read from RHR, special
+characters, STS with GPIO change interrupts), MODE1/MODE2 (IRQSel, sleep,
+RS-485 direction control with setup/hold, TX/RTS 3-state, TX/RX disable,
+echo suppression, multidrop with address filtering, loopback, special
+characters, FIFO and software reset), LCR (incl. forced parity and break),
+RxTimeOut, FlowLvl/FlowCtrl (auto RTS/CTS, XON/XOFF both ways), IrDA
+SIR/MIR with TX/RX inversion (the MAX3100's pulse polarity), GPIOs (push-pull
+or open drain; inputs sampled on the reference clock), TIMER and CLKtoGPIO,
+CLKtoRTS. Internal pulls are read, not driven: RX reads Z as 1, GPIO inputs
+read Z as 0. Control bits written X act as 0, except the line format (X
+frames) and the divisor and clock registers (the generator stops).
 
 ### `7seg`
 
