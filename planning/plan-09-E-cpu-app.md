@@ -52,11 +52,11 @@ plan-09-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-09-D complete | `ls planning/plan-09-D-* 2>/dev/null` → no output; `ls planning/completed/plan-09-D-*.md` → exists | NOT MET (2026-11-01) |
-| plan-08's facts table exists | `grep -n 'static func rows(for' schematical/schematical/Backend/PartFacts.swift` → one match | NOT MET (2026-11-01; plan-08 not started) |
-| The proof board's parts accept 5 V | `grep -E '^(NJU6366DF1-TE1\|AT28C256-15PU\|AS6C62256-55PCN\|SN74HC00N\|W65C02S6TPG-14\|Z84C0010PEG)\|' backend/tests/golden/parts.txt` → 6 lines, each with a `vcc=<min>-<max>` where min ≤ 5000 ≤ max | NOT MET (2026-11-01; plan-07-F fills the data). From the datasheets: NJU6366 2.0–5.5 V ("Operating Voltage", `datasheets/osc/NJU6366 Series.pdf`), AT28C256 5 V ± 10 %, AS6C62256 2.7–5.5 V, HC 2–6 V, W65C02S 1.71–5.25 V, Z84C00 4.5–5.5 V. |
-| The supply part `5V` exists (plan-07-A/G) | `grep -c '^5V|' backend/tests/golden/parts.txt` → 1 | NOT MET (2026-11-01) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p09e-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | run at start |
+| plan-09-D complete | `ls planning/plan-09-D-* 2>/dev/null` → no output; `ls planning/completed/plan-09-D-*.md` → exists | MET (2026-11-01 at 5adb55b; plan-09-A's rows re-run at 1da038c, all MET) |
+| plan-08's facts table exists | `grep -n 'static func rows(for' schematical/schematical/Backend/PartFacts.swift` → one match | MET (2026-11-01 at 5adb55b: `PartFacts.swift:6`) |
+| The proof board's parts accept 5 V | `grep -E '^(NJU6366DF1-TE1\|AT28C256-15PU\|AS6C62256-55PCN\|SN74HC00N\|W65C02S6TPG-14\|Z84C0010PEG)\|' backend/tests/golden/parts.txt` → 6 lines, each with a `vcc=<min>-<max>` where min ≤ 5000 ≤ max | MET (2026-11-01 at 5adb55b: NJU6366DF1-TE1 2000–5500, AT28C256-15PU 4500–5500, AS6C62256-55PCN 2700–5500, SN74HC00N 2000–6000, W65C02S6TPG-14 1710–5250, Z84C0010PEG 4500–5500). From the datasheets: NJU6366 2.0–5.5 V ("Operating Voltage", `datasheets/osc/NJU6366 Series.pdf`), AT28C256 5 V ± 10 %, AS6C62256 2.7–5.5 V, HC 2–6 V, W65C02S 1.71–5.25 V, Z84C00 4.5–5.5 V. |
+| The supply part `5V` exists (plan-07-A/G) | `grep -c '^5V|' backend/tests/golden/parts.txt` → 1 | MET (2026-11-01 at 5adb55b: 1) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p09e-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01 at 5adb55b, `-derivedDataPath /tmp/p09-dd`, plan-09-D's gate) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue, and again
@@ -267,10 +267,17 @@ Harness commands:
 
 ### Phase 1 — Catalog and facts
 
-- [ ] `PartCatalog.swift`: §4.1.
-- [ ] `PartFacts.swift`: §4.2.
-- [ ] Harness (`/tmp/p09/harness/build.sh`, plan-06-A approach): commands
-      `catalog` and `facts`.
+- [x] `PartCatalog.swift`: §4.1. `xcodebuild … -derivedDataPath /tmp/p09e-dd`
+      → `** BUILD SUCCEEDED **`.
+- [x] `PartFacts.swift`: §4.2. `run facts W65C02S6TPG-14` → Kind
+      Processor, Function 65C02, Package DIP, Footprint PDIP-40-600 — …,
+      Pins 40, Core 65C02 (WDC), Speed grade 14, Max clock 14 MHz, Supply
+      range 1.71–5.25 V, Input max 5.25 V.
+- [x] Harness (`/tmp/p09/harness/build.sh`, plan-06-A approach): commands
+      `catalog` and `facts`. `run catalog` → `obsolete shown: Processor: 19
+      parts; functions 65C02 (2), 6502 (4), Z80 (13)`, `obsolete hidden:
+      Processor: 2 parts; functions 65C02 (2)`, `W65C02S6TPG-14: 14 MHz`,
+      `MPS6502: 1 MHz`, `Z84C0020AEG: 20 MHz`.
 
 Acceptance: the drawer group and facts print as §1.
   Check: `xcodebuild … -derivedDataPath /tmp/p09e-dd … build` → `** BUILD SUCCEEDED **` (est. 2 min); `/tmp/p09/harness/run catalog` and `run facts W65C02S6TPG-14` → the §1 / §4.2 lines (est. seconds).
@@ -321,6 +328,17 @@ Owner: the read-only processor window without stepping (plan-09-A
 separate window from the memory window).
 
 ## Corrections
+
+- **Package `DIP`** (§4.2 said Package `PDIP`). plan-09-D wrote the PDIP
+  parts as `"DIP"` to match the library (plan-09-D Corrections), so the
+  facts row reads `Package: DIP`.
+- **Function order in the drawer.** §1 lists `6502 (4), 65C02 (2), Z80
+  (13)`. The drawer orders a group's functions itself and gives `65C02 (2),
+  6502 (4), Z80 (13)`. The counts and the total (19; 2 with obsolete parts
+  hidden) are as planned.
+- **The harness source file is `harness.swift`.** `swiftc` treats a file
+  named `main.swift` as top-level code, which conflicts with `@main`
+  (plan-08's harness used `a.swift`).
 
 ## Summary
 
