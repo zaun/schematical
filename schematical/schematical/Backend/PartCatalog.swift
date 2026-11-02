@@ -164,6 +164,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A processor: its core ("6502", "65c02", "z80"), speed grade and
         /// highest clock.
         case cpu(core: String, grade: String, maxHz: UInt64)
+        /// A serial controller (plan-12): its model, its serial channels
+        /// (0 for the SPI-to-I2C bridge) and its grade.
+        case serial(model: String, channels: Int, grade: String)
     }
 
     let name: String
@@ -220,6 +223,12 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
 
     /// A processor: a part with a processor window.
     var isCpu: Bool { kind == PART_CPU }
+
+    /// A serial part with at least one channel: a part with a terminal window.
+    var hasTerminal: Bool {
+        if case let .serial(_, channels, _) = details { return channels > 0 }
+        return false
+    }
 
     /// A memory's word count and width, from the part's facts.
     var memorySize: MemorySize? {
@@ -283,6 +292,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .oscillator(family, _, _, _, _): return [family]
         case .supply: return []
         case let .cpu(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
+        case let .serial(_, channels, _): return channels > 1 ? ["\(channels) channels"] : []
         }
     }
 }
@@ -398,6 +408,9 @@ extension CatalogPart {
             details = .supply(level: Int(supply.level), mv: supply.mv, pull: supply.pull != 0)
         } else if let cpu = part.cpu?.pointee {
             details = .cpu(core: string(cpu.core), grade: string(cpu.grade), maxHz: cpu.max_hz)
+        } else if let serial = part.serial?.pointee {
+            details = .serial(model: string(serial.model), channels: Int(serial.channels),
+                              grade: string(serial.grade))
         } else {
             details = .supply(level: 0, mv: 0, pull: false)
         }

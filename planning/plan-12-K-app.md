@@ -105,8 +105,9 @@ window is one per part).
 
 ### Phase 1 — Catalog and facts
 
-- [ ] `PartCatalog.swift`, `PartFacts.swift`: §3.1. `xcodebuild … build` →
-  `** BUILD SUCCEEDED **`.
+- [~] `PartCatalog.swift`, `PartFacts.swift`: §3.1. `xcodebuild … build` →
+  `** BUILD SUCCEEDED **`. Code in place and the build succeeds. Remaining:
+  verify against real parts once F/G ship them.
 - [ ] Harness (`/tmp/p12/harness/build.sh`) commands `catalog` and `facts`
   (§1 lines).
 
@@ -115,9 +116,11 @@ Commit: —
 
 ### Phase 2 — Terminal window
 
-- [ ] `SimulationEngine.swift`, `Simulation.swift`, `Terminal/TerminalWindow.swift`,
+- [~] `SimulationEngine.swift`, `Simulation.swift`, `Terminal/TerminalWindow.swift`,
   `schematicalApp.swift`, `SchematicCanvasView.swift`, `ContentView.swift`:
-  §3.2. Build succeeds.
+  §3.2. Build succeeds. Written ahead of F–J (it only needs C's circuit API);
+  `** BUILD SUCCEEDED **`. Remaining: the §5 harness proof (needs TL16C550CFNR
+  from F).
 - [ ] Harness `terminal` (§5): prints and PNG as §1; the PNG is looked at.
 
 Acceptance: §5's printed values; the PNG shows `HELLO` and `x` (about 3 min).

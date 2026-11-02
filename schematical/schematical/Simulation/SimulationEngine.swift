@@ -238,6 +238,48 @@ nonisolated final class SimulationEngine: @unchecked Sendable {
         return (0..<read).map { MemoryWord(value: values[$0], known: known[$0]) }
     }
 
+    // MARK: Serial terminal (plan-12-K)
+
+    /// A part's serial channels (0 for any other part).
+    func serialChannels(part: Int) -> Int {
+        lock.lock()
+        defer { lock.unlock() }
+        guard !destroyed else { return 0 }
+        return circuit_serial_channels(circuit, part)
+    }
+
+    /// Frames a channel has sent since start.
+    func serialSentCount(part: Int, channel: Int) -> Int {
+        lock.lock()
+        defer { lock.unlock() }
+        guard !destroyed, channel >= 0 else { return 0 }
+        return circuit_serial_sent_count(circuit, part, UInt32(channel))
+    }
+
+    /// Frames [from, from + count) a channel has sent.
+    func serialSent(part: Int, channel: Int, from: Int, count: Int) -> [UInt16] {
+        guard from >= 0, count > 0, channel >= 0 else { return [] }
+        lock.lock()
+        defer { lock.unlock() }
+        guard !destroyed else { return [] }
+        var frames = [UInt16](repeating: 0, count: count)
+        let read = circuit_serial_sent(circuit, part, UInt32(channel), from, &frames, count)
+        return Array(frames.prefix(read))
+    }
+
+    /// Types bytes into a channel's RX pin: nil on success, else the reason.
+    func serialSend(part: Int, channel: Int, bytes: [UInt8]) -> String? {
+        lock.lock()
+        defer { lock.unlock() }
+        guard !destroyed else { return "The simulation is not running." }
+        guard channel >= 0 else { return "No such channel." }
+        let result = bytes.withUnsafeBufferPointer {
+            circuit_serial_send(circuit, part, UInt32(channel), $0.baseAddress, $0.count)
+        }
+        if result == 0 { return nil }
+        return circuit_error(circuit).map { String(cString: $0) } ?? "The send was refused."
+    }
+
     /// A processor part's state (cpu kind), or nil for any other part.
     func cpuState(part: Int) -> CpuSnapshot? {
         lock.lock()

@@ -66,6 +66,10 @@ nonisolated enum PartFacts {
             add("Core", coreName(core))
             add("Speed grade", grade)
             add("Max clock", "\(maxHz / 1_000_000) MHz")
+        case let .serial(model, channels, grade):
+            add("Model", model)
+            add("Channels", String(channels))
+            add("Speed grade", grade)
         }
 
         if let vcc = part.vcc {
@@ -91,6 +95,7 @@ nonisolated enum PartFacts {
         case PART_COUNTER: return "Counter"
         case PART_SHIFT: return "Shift register"
         case PART_CPU: return "Processor"
+        case PART_SERIAL: return "Serial controller"
         default: return ""
         }
     }

@@ -43,6 +43,7 @@ struct ContentView: View {
     /// Memory windows opened from this window, closed along with it.
     @State private var memoryWindows: Set<MemoryWindowTarget> = []
     @State private var cpuWindows: Set<CpuWindowTarget> = []
+    @State private var terminalWindows: Set<TerminalWindowTarget> = []
     /// Simulation speed (circuit time per wall time), an app preference.
     @AppStorage("simulationSpeed") private var simulationSpeed = 1.0
     /// The supply the VCC tool places (a `SupplyChoice` name), an app preference.
@@ -122,6 +123,11 @@ struct ContentView: View {
                     let target = CpuWindowTarget(sessionID: sessionID, chipID: chipID)
                     cpuWindows.insert(target)
                     openWindow(id: "cpu", value: target)
+                },
+                onOpenTerminal: { chipID in
+                    let target = TerminalWindowTarget(sessionID: sessionID, chipID: chipID)
+                    terminalWindows.insert(target)
+                    openWindow(id: "terminal", value: target)
                 }
             ) {
                 // Placing a part from the drawer returns to the Pointer tool.
@@ -331,6 +337,10 @@ struct ContentView: View {
                     dismissWindow(id: "cpu", value: target)
                 }
                 cpuWindows = []
+                for target in terminalWindows {
+                    dismissWindow(id: "terminal", value: target)
+                }
+                terminalWindows = []
             }
             .focusedSceneValue(\.schematicFile, file)
             .background(WindowReader { file.window = $0 })

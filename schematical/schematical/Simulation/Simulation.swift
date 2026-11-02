@@ -383,6 +383,34 @@ final class SimulationController {
         return engine.readMemory(part: part, start: start, count: count)
     }
 
+    // MARK: Serial terminal
+
+    /// A part's serial channels in the running simulation (0 when not running).
+    func serialChannels(of chipID: UUID) -> Int {
+        guard let engine, let part = netlist?.chipIDs.firstIndex(of: chipID) else { return 0 }
+        return engine.serialChannels(part: part)
+    }
+
+    /// Frames a channel has sent since the run started.
+    func serialSentCount(of chipID: UUID, channel: Int) -> Int {
+        guard let engine, let part = netlist?.chipIDs.firstIndex(of: chipID) else { return 0 }
+        return engine.serialSentCount(part: part, channel: channel)
+    }
+
+    /// Frames [from, from + count) of a channel.
+    func serialSent(of chipID: UUID, channel: Int, from: Int, count: Int) -> [UInt16] {
+        guard let engine, let part = netlist?.chipIDs.firstIndex(of: chipID) else { return [] }
+        return engine.serialSent(part: part, channel: channel, from: from, count: count)
+    }
+
+    /// Types bytes into a channel: nil when queued, else the reason it was refused.
+    func serialSend(to chipID: UUID, channel: Int, bytes: [UInt8]) -> String? {
+        guard let engine, let part = netlist?.chipIDs.firstIndex(of: chipID) else {
+            return "The simulation is not running."
+        }
+        return engine.serialSend(part: part, channel: channel, bytes: bytes)
+    }
+
     // MARK: Processors
 
     /// A processor part's state in the running simulation, or nil when the
