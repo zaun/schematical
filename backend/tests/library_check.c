@@ -1223,9 +1223,6 @@ static void check_footprint_cases(void) {
                    "\"I1\" is not a ball name");
     expect_fp_fail("explicit: pin missing", FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," EPAD("0", "1") "]"),
                    "pin 2 has no pad");
-    expect_fp_fail("explicit: pin repeated",
-                   FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," EPAD("2", "1") "," EPAD("1", "2") "]"),
-                   "pads[2]: pin 1 has two pads");
     expect_fp_fail("explicit: pin beyond pins",
                    FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," EPAD("3", "1") "]"),
                    "pads[1]: \"pin\" must be a whole number from 0 to 2");
@@ -1240,6 +1237,43 @@ static void check_footprint_cases(void) {
                    FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") ",{'pin':2,'x':1,'y':0,'width':0.4,"
                                     "'height':0.4,'shape':'rect','drill':0.4}]"),
                    "pads[1]: \"drill\" 0.4 must be smaller than the pad (0.4 x 0.4)");
+}
+
+/* plan-11-A: an explicit pin may have several pads; they come out grouped by
+   pin, file order within a pin, unnumbered last. */
+static void check_explicit_repeated_pins(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const PartFootprint *fp;
+
+    CHECK(load_fp(library,
+                  FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," EPAD("2", "1") "," EPAD("1", "2") "]"),
+                  &error) == 0);
+    fp = part_library_find_footprint(library, "F");
+    CHECK(fp != NULL && fp->pins == 2 && fp->pad_count == 3);
+    check_pad(fp, 0, "1", 0, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 1, "1", 2, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 2, "2", 1, 0, 0.4, 0.4, 0, PAD_RECT);
+    part_library_destroy(library);
+    printf("ok   explicit: pin repeated loads as 1, 1, 2\n");
+
+    library = part_library_create();
+    CHECK(load_fp(library,
+                  FP_EXPLICIT_WITH("'pads':[" EPAD("2", "0") "," EPAD("1", "-1") "," EPAD("0", "3") ","
+                                   EPAD("1", "1") "]"),
+                  &error) == 0);
+    fp = part_library_find_footprint(library, "F");
+    CHECK(fp != NULL && fp->pins == 2 && fp->pad_count == fp->pins + 2);
+    check_pad(fp, 0, "1", -1, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 1, "1", 1, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 2, "2", 0, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 3, NULL, 3, 0, 0.4, 0.4, 0, PAD_RECT);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   explicit: pin 1 at x -1 and 1 comes out pads[0], pads[1], file order\n");
+
+    expect_fp_fail("explicit: pin 1 twice, pin 2 missing",
+                   FP_EXPLICIT_WITH("'pads':[" EPAD("1", "-1") "," EPAD("1", "1") "]"), "pin 2 has no pad");
 }
 
 /* An LED with one pinout of PINS whose part names FOOTPRINT (a JSON value). */
@@ -1512,6 +1546,7 @@ static void check_voltage_cases(void) {
 
 int main(void) {
     check_footprint_styles();
+    check_explicit_repeated_pins();
     check_footprint_corners();
     check_footprint_cases();
     check_part_footprints();

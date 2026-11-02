@@ -95,7 +95,7 @@ typedef struct {
     unsigned pins;                      /* designated pads */
     double body_width, body_height;
     int body_round;
-    const FootprintPad *pads; size_t pad_count;   /* "1"…"N" order (grid: row-major), unnumbered last */
+    const FootprintPad *pads; size_t pad_count;   /* "1"…"N" order (grid: row-major); a pin with several pads (explicit only) lists them together, in file order; unnumbered last */
 } PartFootprint;
 
 typedef struct Part {

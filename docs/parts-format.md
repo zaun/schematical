@@ -389,8 +389,11 @@ column c, row index r (A = 0):  x = (c − 1 − (columns−1)/2) · pitch
 For land patterns the parametric styles cannot express (mixed pad sizes).
 `"pads"` is a non-empty array of `{"pin", "x", "y", "width", "height",
 "shape"}` plus optional `"drill"` and corner keys, in the coordinates above. Every pin
-1…`pins` appears exactly once; `"pin": 0` is an unnumbered pad (any
-number of them). `pad`, `drill`, `slots`, `centre` and `pin1Shape` are not
+1…`pins` has at least one pad. A pin may have several (the same
+connection in more places, e.g. a module's two header rows); they are
+listed together, in file order. The app draws each and uses the pin's
+first pad for the pin-1 mark and the `Pad 1 Center` origin. `"pin": 0` is
+an unnumbered pad (any number of them). `pad`, `drill`, `slots`, `centre` and `pin1Shape` are not
 allowed at the footprint level.
 
 ### The `"footprint"` part key

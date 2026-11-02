@@ -275,30 +275,36 @@ Deletes two PDFs, records them and commits the folder. Touches no code.
 Acceptance: five PDFs remain and the two rows are recorded.
   Check: `ls datasheets/module-disp-char/*.pdf | wc -l` → 5;
   `grep -c 'module-disp-char/LCM-' datasheets/not-included.md` → 2 (est. 1 s).
-Commit: —
+Commit: 1484530
 
 ### Phase 2 — Several pads per pin
 
 Loader rule and doc; no footprint uses it yet.
 
-- [ ] `backend/src/library/footprints.c` `load_explicit`: §4.2. Per-pin pad
-      lists replace the single `where[]` slot; output grouped by pin, file
-      order within a pin, unnumbered last.
-- [ ] `backend/include/parts.h`: the `PartFootprint` pad-order comment (§4.2).
-- [ ] `docs/parts-format.md` § `explicit`: the text of §4.2.
-- [ ] `backend/tests/library_check.c`: the case `"explicit: pin repeated"`
+- [x] `backend/src/library/footprints.c` `load_explicit`: §4.2. `where[]`
+      now counts pads per pin; output loops pins 1…N and takes that pin's
+      pads in file order, then unnumbered.
+- [x] `backend/include/parts.h`: the `PartFootprint` pad-order comment (§4.2).
+- [x] `docs/parts-format.md` § `explicit`: the text of §4.2.
+- [x] `backend/tests/library_check.c`: the case `"explicit: pin repeated"`
       (`library_check.c:1226-1228`, expects `pads[2]: pin 1 has two pads`)
       becomes an accept case: it loads, and its pads come out `1, 1, 2`
       (pin 1's two pads in file order, then pin 2).
-- [ ] `backend/tests/library_check.c`: a footprint with pin 1 listed twice
+      Ran: `library_check` → `ok   explicit: pin repeated loads as 1, 1, 2`.
+- [x] `backend/tests/library_check.c`: a footprint with pin 1 listed twice
       (pads at x = −1 and x = 1) loads with `pad_count` = pins + 1, and
       `pads[0]` and `pads[1]` are both designator `"1"`, in file order. A pin
       with no pad still fails with `pin 2 has no pad`.
+      The case also carries one unnumbered pad (pins listed 2, 1, 0, 1), so
+      `pad_count` = pins + 2 and the unnumbered pad is checked last.
+      Ran: `ok   explicit: pin 1 at x -1 and 1 comes out pads[0], pads[1], file order`;
+      `ok   explicit: pin 1 twice, pin 2 missing: … pin 2 has no pad`.
 
 Acceptance: duplicate pins load in the documented order, and every existing
 footprint is unchanged.
   Check: `cmake --build /tmp/logic-p11 -j8 && ctest --test-dir /tmp/logic-p11 -R 'library_check|footprint_check'` → both pass;
   `git diff --exit-code backend/tests/golden/footprints.txt` → exit 0 (est. 1 min).
+  Ran: ctest -R → `100% tests passed, 0 tests failed out of 2`; golden diff → exit 0.
 Commit: —
 
 ### Phase 3 — `connectorFootprint`
