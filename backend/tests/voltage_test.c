@@ -220,6 +220,51 @@ static void check_inputs(void) {
            "a push-pull dff's Q at 5 V into a 3.6 V input is INPUT_OVER");
 }
 
+/* plan-12-A: pull level P, used only when no supply and no powered output set
+   the group (E = S, else D, else P, else C). */
+static void check_pulls(void) {
+    Netlist n = {0};
+    size_t auc;
+    size_t od;
+    size_t hc;
+    size_t y;
+
+    auc = powered_gate(&n, "VFX-AUC1G00", "1V8");
+    od = powered_gate(&n, "VFX-OD1G00", "5V");
+    y = net(&n);
+    wire(&n, od, "4", y);
+    wire(&n, auc, "1", y);
+    wire(&n, add(&n, "PULLUP-5V"), "1", y);
+    expect(only(&n, VOLTAGE_INPUT_OVER) && n.problems[0].mv == 5000 && n.problems[0].part == auc,
+           "an open-drain output pulled up to 5 V into a 3.6 V input is INPUT_OVER");
+
+    memset(&n, 0, sizeof n);
+    auc = powered_gate(&n, "VFX-AUC1G00", "1V8");
+    od = powered_gate(&n, "VFX-OD1G00", "5V");
+    y = net(&n);
+    wire(&n, od, "4", y);
+    wire(&n, auc, "1", y);
+    wire(&n, add(&n, "PULLUP-3V3"), "1", y);
+    expect(none(&n), "the same output pulled up to 3.3 V is fine");
+
+    memset(&n, 0, sizeof n);
+    auc = powered_gate(&n, "VFX-AUC1G00", "1V8");
+    y = net(&n);
+    wire(&n, auc, "1", y);
+    wire(&n, add(&n, "PULLUP-5V"), "1", y);
+    wire(&n, add(&n, "3V3"), "1", y);
+    expect(none(&n), "a 5 V pull-up and a 3V3 supply on one net: no clash, E = 3.3 V");
+
+    memset(&n, 0, sizeof n);
+    auc = powered_gate(&n, "VFX-AUC1G00", "1V8");
+    hc = powered_gate(&n, "VFX-HC1G00", "3V3");
+    y = net(&n);
+    wire(&n, hc, "4", y);
+    wire(&n, auc, "1", y);
+    wire(&n, add(&n, "PULLUP-5V"), "1", y);
+    expect(none(&n), "a push-pull 3.3 V output beats a 5 V pull-up (D wins)");
+}
+
 static void check_supplies(void) {
     Netlist n = {0};
     size_t a;
@@ -399,6 +444,7 @@ int main(void) {
     }
     check_power_pins();
     check_inputs();
+    check_pulls();
     check_supplies();
     check_switches();
     check_leds();

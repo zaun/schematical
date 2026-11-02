@@ -4,11 +4,14 @@
  *
  *   1. Groups: nets joined by closed switch contacts (union-find).
  *   2. Supply voltage S per group: the highest supply on it; two different
- *      non-zero supplies on one group are a clash.
+ *      non-zero supplies on one group are a clash. Pull parts (supply with
+ *      "pull") are not supplies here: pull level P = the highest pull-up on
+ *      the group; a pull never clashes.
  *   3. Fixed point: a part with a vcc range is powered at the highest known
  *      voltage on its power pins; driven D = the highest powered output on
  *      a group (open-drain outputs skipped); carried C = an LED's anode
- *      voltage on its cathode's group. Effective E = S, else D, else C.
+ *      voltage on its cathode's group. Effective E = S, else D, else P,
+ *      else C.
  *   4. Checks on every connection whose group has a known E.
  */
 
@@ -63,13 +66,17 @@ static int compare_problems(const void *a, const void *b) {
     return (int)x->kind - (int)y->kind;
 }
 
-/* E: the supply level, else the driven one, else the carried one. */
-static Level effective(const Level *s, const Level *d, const Level *c, size_t g) {
+/* E: the supply level, else the driven one, else the pulled one, else the
+   carried one. */
+static Level effective(const Level *s, const Level *d, const Level *p, const Level *c, size_t g) {
     if (s[g].known) {
         return s[g];
     }
     if (d[g].known) {
         return d[g];
+    }
+    if (p[g].known) {
+        return p[g];
     }
     return c[g];
 }
@@ -82,6 +89,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
     Level *supply = calloc(net_count + 1, sizeof(*supply));
     Level *driven = calloc(net_count + 1, sizeof(*driven));
     Level *carried = calloc(net_count + 1, sizeof(*carried));
+    Level *pulled = calloc(net_count + 1, sizeof(*pulled));
     size_t *clash_first = malloc((net_count + 1) * sizeof(*clash_first));
     size_t *clash_conn = malloc((net_count + 1) * sizeof(*clash_conn));
     unsigned char *clash_done = calloc(net_count + 1, 1);
@@ -92,9 +100,9 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
     size_t round;
     int changed;
 
-    if (parent == NULL || supply == NULL || driven == NULL || carried == NULL ||
+    if (parent == NULL || supply == NULL || driven == NULL || carried == NULL || pulled == NULL ||
         clash_first == NULL || clash_conn == NULL || clash_done == NULL || found == NULL) {
-        free(parent); free(supply); free(driven); free(carried);
+        free(parent); free(supply); free(driven); free(carried); free(pulled);
         free(clash_first); free(clash_conn); free(clash_done); free(found);
         return 0;
     }
@@ -143,6 +151,12 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             continue;
         }
         g = find(parent, c->net);
+        if (part->supply->pull) {
+            if (part->supply->mv > 0) {
+                level_raise(&pulled[g], part->supply->mv);
+            }
+            continue;
+        }
         level_raise(&supply[g], part->supply->mv);
         if (part->supply->mv == 0) {
             continue;
@@ -161,7 +175,8 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             continue;
         }
         part = parts[c->part];
-        if (part->kind != PART_SUPPLY || part->supply == NULL || part->supply->mv == 0) {
+        if (part->kind != PART_SUPPLY || part->supply == NULL || part->supply->mv == 0 ||
+            part->supply->pull) {
             continue;
         }
         g = find(parent, c->net);
@@ -212,7 +227,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                 for (j = 0; j < connection_count; j++) {
                     if (connections[j].part == i && connections[j].pin == anode &&
                         connections[j].net < net_count) {
-                        Level e = effective(supply, driven, carried, find(parent, connections[j].net));
+                        Level e = effective(supply, driven, pulled, carried, find(parent, connections[j].net));
 
                         if (e.known) {
                             level_raise(&from, e.mv);
@@ -242,7 +257,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
 
                 if (c->part == i && c->net < net_count && c->pin < part->pin_count &&
                     part->pins[c->pin].role == PIN_POWER) {
-                    Level e = effective(supply, driven, carried, find(parent, c->net));
+                    Level e = effective(supply, driven, pulled, carried, find(parent, c->net));
 
                     if (e.known) {
                         level_raise(&power, e.mv);
@@ -286,7 +301,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
         if (c->pin >= part->pin_count) {
             continue;
         }
-        e = effective(supply, driven, carried, find(parent, c->net));
+        e = effective(supply, driven, pulled, carried, find(parent, c->net));
         if (!e.known) {
             continue;
         }
@@ -322,7 +337,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
     for (i = 0; i < found_count && i < cap; i++) {
         out[i] = found[i];
     }
-    free(parent); free(supply); free(driven); free(carried);
+    free(parent); free(supply); free(driven); free(carried); free(pulled);
     free(clash_first); free(clash_conn); free(clash_done); free(found);
     return found_count;
 }

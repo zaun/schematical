@@ -3569,6 +3569,13 @@ OSC-SIT1534-1508|oscillator|CSP|Oscillator|Under 1 MHz|||family=SiT1534 minHz=1 
 OSC-SIT1534-2012|oscillator|SMD|Oscillator|Under 1 MHz|||family=SiT1534 minHz=1 maxHz=32768 defaultHz=32768 enablePin=none|1:NC:nc:default,2:GND:ground:default,3:CLK OUT:output:default,4:VDD:power:default|footprint=OSC-SIT-2012|vcc=1200-3630,in=3630
 OV-7604-C7-32.768KHZ-20PPM-TA-QC|oscillator|SON|Oscillator|Under 1 MHz||ceramic|family=OV-7604 minHz=32768 maxHz=32768 defaultHz=32768 enablePin=3|1:CLKOUT:output:default,2:GND:ground:default,3:CLKOE:input:default,4:VDD:power:default|footprint=OSC-3215-4|vcc=1200-5500,in=5500
 OV-7604-C7-32.768KHZ-20PPM-TB-QC|oscillator|SON|Oscillator|Under 1 MHz||ceramic|family=OV-7604 minHz=32768 maxHz=32768 defaultHz=32768 enablePin=3|1:CLKOUT:output:default,2:GND:ground:default,3:CLKOE:input:default,4:VDD:power:default|footprint=OSC-3215-4|vcc=1200-5500,in=5500
+PULLDOWN|supply|||Pull-down|||level=0 mv=0 pull|1:PD:output:default
+PULLUP-12V|supply|||Pull-up|||level=1 mv=12000 pull|1:PU:output:default
+PULLUP-1V2|supply|||Pull-up|||level=1 mv=1200 pull|1:PU:output:default
+PULLUP-1V8|supply|||Pull-up|||level=1 mv=1800 pull|1:PU:output:default
+PULLUP-2V5|supply|||Pull-up|||level=1 mv=2500 pull|1:PU:output:default
+PULLUP-3V3|supply|||Pull-up|||level=1 mv=3300 pull|1:PU:output:default
+PULLUP-5V|supply|||Pull-up|||level=1 mv=5000 pull|1:PU:output:default
 SN54107J|jkff|DIP|Logic|JK flip-flop|TTL|military,ceramic|units=2|1:1J:input:default,2:1QBAR:output:default,3:1Q:output:default,4:1K:input:default,5:2Q:output:default,6:2QBAR:output:default,7:GND:ground:default,8:2J:input:default,9:2CLK:input:default,10:2CLR:input:default,11:2K:input:default,12:1CLK:input:default,13:1CLR:input:default,14:VCC:power:default|footprint=CDIP-14|vcc=4500-5500,in=5500
 SN54163J|counter|DIP|Logic|Counter|TTL|military,ceramic|units=1|1:CLR:input:default,2:CLK:input:default,3:A:input:default,4:B:input:default,5:C:input:default,6:D:input:default,7:ENP:input:default,8:GND:ground:default,9:LOAD:input:default,10:ENT:input:default,11:QD:output:default,12:QC:output:default,13:QB:output:default,14:QA:output:default,15:RCO:output:default,16:VCC:power:default|footprint=CDIP-16|vcc=4500-5500,in=5500
 SN54166J|shift|DIP|Logic|Shift register|TTL|military,ceramic|units=1|1:SER:input:default,2:A:input:default,3:B:input:default,4:C:input:default,5:D:input:default,6:CLKINH:input:default,7:CLK:input:default,8:GND:ground:default,9:CLR:input:default,10:E:input:default,11:F:input:default,12:G:input:default,13:QH:output:default,14:H:input:default,15:SH/LD:input:default,16:VCC:power:default|footprint=CDIP-16|vcc=4500-5500,in=5500

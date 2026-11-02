@@ -438,6 +438,7 @@ Constant sources. Device key:
 | Key | Value |
 |---|---|
 | `"volts"` | the supply's voltage, 0 to 30. More than 0 drives its pin to 1, strong; 0 (ground) drives 0, strong. `PartSupply.mv` holds it in millivolts and `PartSupply.level` is `mv > 0`. |
+| `"pull"` | optional, `true` or `false` (default `false`). `true` makes the device a pull part: a pull-up for `volts` > 0, a pull-down for 0. `PartSupply.pull` is 1. |
 
 The device has one pinout with one pin. Parts carry no kind keys. Each
 device's single part has the same name as its `id` and `function`.
@@ -461,6 +462,21 @@ The library's supplies (`supply.json`):
 | `1V2` | 1.2 | `VCC` (power) |
 | `12V` | 12 | `VCC` (power) |
 | `GND` | 0 | `GND` (ground) |
+| `PULLUP-5V` | 5, pull | `PU` (output) |
+| `PULLUP-3V3` | 3.3, pull | `PU` (output) |
+| `PULLUP-2V5` | 2.5, pull | `PU` (output) |
+| `PULLUP-1V8` | 1.8, pull | `PU` (output) |
+| `PULLUP-1V2` | 1.2, pull | `PU` (output) |
+| `PULLUP-12V` | 12, pull | `PU` (output) |
+| `PULLDOWN` | 0, pull | `PD` (output) |
+
+A pull part drives its pin **weakly**: 1 for a pull-up, 0 for a pull-down.
+Any strong driver on the net wins over it, so open-drain outputs and I2C
+lines work, and a strong 0 against a pull-up is not a short. A pull-up and
+a pull-down on one net read X (equal strength). Its pin has role `output`,
+because it drives a signal net, not a power net. In the voltage check a
+pull-up gives its net a level only when no supply and no powered output
+sets that net, and a pull never clashes with a supply or another pull.
 
 ### `led`
 

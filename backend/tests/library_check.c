@@ -118,6 +118,33 @@ static int load(PartLibrary *library, const char *text, char **error) {
     "'pinouts':{'pin':[{'number':1,'name':'GND','role':'ground','group':'default'}]},'volts':0," \
     "'parts':[{'name':'GND','package':'','pinout':'pin','flags':['obsolete','military']}]}"
 
+/* plan-12-A: "pull": true makes a pull part; 0 V is a pull-down. */
+static void check_valid_pull(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *pd;
+    const Part *vcc;
+
+    CHECK(load(library,
+               HEAD("supply") VCC_DEVICE ","
+               "{'id':'PULLDOWN','function':'Pull-down','description':'d','drawer':[],"
+               "'pinouts':{'pin':[{'number':1,'name':'PD','role':'output'}]},'volts':0,'pull':true,"
+               "'parts':[{'name':'PULLDOWN','package':'','pinout':'pin'}]}" TAIL,
+               &error) == 0);
+    CHECK(error == NULL);
+    pd = part_library_find(library, "PULLDOWN");
+    vcc = part_library_find(library, "5V");
+    CHECK(pd != NULL && vcc != NULL);
+    if (pd != NULL && vcc != NULL) {
+        CHECK(pd->kind == PART_SUPPLY && pd->supply->pull == 1 && pd->supply->level == 0 &&
+              pd->supply->mv == 0 && pd->pins[0].role == PIN_OUTPUT);
+        CHECK(vcc->supply->pull == 0);
+    }
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid pull part\n");
+}
+
 static void check_valid_supply(void) {
     PartLibrary *library = part_library_create();
     char *error = NULL;
@@ -285,6 +312,12 @@ static void check_supply_cases(void) {
                 "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'volts':31,"
                 "'parts':[]}" TAIL,
                 "devices[0] (VCC): \"volts\" must be from 0 to 30");
+    expect_fail("supply pull not a boolean",
+                HEAD("supply")
+                "{'id':'PU','function':'Pull-up','description':'d','drawer':[],"
+                "'pinouts':{'pin':[{'number':1,'name':'PU','role':'output'}]},'volts':5,'pull':'yes',"
+                "'parts':[]}" TAIL,
+                "devices[0] (PU): \"pull\" must be true or false");
     expect_fail("oscillator defaultHz out of range",
                 HEAD("oscillator")
                 "{'id':'o','function':'f','description':'d','drawer':[],"
@@ -1525,6 +1558,7 @@ int main(void) {
     check_flipflop_cases();
     check_gate_cases();
     check_valid_supply();
+    check_valid_pull();
     check_valid_led();
     check_duplicate_across_calls();
     check_logic_family();

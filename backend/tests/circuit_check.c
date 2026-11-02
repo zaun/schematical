@@ -101,6 +101,48 @@ static void check_short(void) {
     circuit_destroy(c);
 }
 
+/* plan-12-A: a pull part drives weakly; a strong driver wins without a short. */
+static void check_pulls(void) {
+    Circuit *c = circuit_create(library);
+    size_t pu = part(c, "PULLUP-5V");
+    size_t n0 = net(c);
+    size_t shorted = 99;
+
+    circuit_connect(c, pu, "1", n0);
+    expect(circuit_start(c) == 0 && circuit_advance(c, 1000) == 1, "pull-up circuit runs");
+    expect(circuit_net_value(c, n0) == CIRCUIT_1, "a net with only a pull-up reads 1");
+    circuit_destroy(c);
+
+    c = circuit_create(library);
+    pu = part(c, "PULLUP-5V");
+    {
+        size_t gnd = part(c, "GND");
+
+        n0 = net(c);
+        circuit_connect(c, pu, "1", n0);
+        circuit_connect(c, gnd, "1", n0);
+    }
+    expect(circuit_start(c) == 0 && circuit_advance(c, 1000) == 1,
+           "pull-up against GND runs without smoke");
+    expect(circuit_net_value(c, n0) == CIRCUIT_0, "a strong 0 beats a pull-up");
+    expect(circuit_shorted_net(c, &shorted) == 0, "a pull-up against GND is no short");
+    circuit_destroy(c);
+
+    c = circuit_create(library);
+    pu = part(c, "PULLUP-3V3");
+    {
+        size_t pd = part(c, "PULLDOWN");
+
+        n0 = net(c);
+        circuit_connect(c, pu, "1", n0);
+        circuit_connect(c, pd, "1", n0);
+    }
+    circuit_start(c);
+    circuit_advance(c, 1000);
+    expect(circuit_net_value(c, n0) == CIRCUIT_X, "a pull-up and a pull-down read X");
+    circuit_destroy(c);
+}
+
 static void check_unknown_part(void) {
     Circuit *c = circuit_create(library);
     size_t index;
@@ -480,6 +522,7 @@ int main(void) {
     check_lit_led();
     check_dark_led();
     check_short();
+    check_pulls();
     check_unknown_part();
     check_oscillator_blinks();
     check_switch();

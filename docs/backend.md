@@ -90,6 +90,9 @@ Notes:
   - A supply and GND on one net is still a short (`smoke:`), not a voltage
     problem; a net with no known voltage, and a part with no `vcc` data,
     are not checked.
+  - A pull-up part (`PartSupply.pull`) is not a supply here: it gives its
+    group a level only when no supply and no powered output sets it
+    (E = S, else D, else P, else C), and never clashes.
 - Lights (`circuit_part_lights`) are LEDs (one light) and 7-segment
   displays (`PartDisplay.leds` order); a light counts as on if it was on at
   any time during the last `circuit_advance`, so multiplexed digits show.

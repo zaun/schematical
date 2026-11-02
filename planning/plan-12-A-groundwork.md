@@ -442,22 +442,31 @@ UART`, `I2C controller` for cp2120 and sc18is606). The remaining 80 PDFs (79 in
 - [x] Commit (one commit: the deletions and both records).
 
 Acceptance: the checks above (seconds).
-Commit: —
+Commit: ece2a38
 
 ### Phase 2 — Pull parts
 
-- [ ] `parts.h` `PartSupply.pull`; `supply.c` key, weak drive; docs § `supply`.
-- [ ] `voltage.c` pull level P (§4.2); `backend.md` § Using it, the voltage
-  note gains one sentence on pulls.
-- [ ] `supply.json`: the 7 devices of §4.2.
-- [ ] `listing_check` `|pull`; regenerate `parts.txt` and `traces.txt`. Check:
+- [x] `parts.h` `PartSupply.pull`; `supply.c` key, weak drive; docs § `supply`.
+  Check: the `library_check`/`circuit_check` cases below pass (weak drive:
+  "a strong 0 beats a pull-up").
+- [x] `voltage.c` pull level P (§4.2); `backend.md` § Using it, the voltage
+  note gains one sentence on pulls. Check: the 4 `voltage_test` pull cases
+  PASS; the earlier cases are unchanged and still pass.
+- [x] `supply.json`: the 7 devices of §4.2. Check: the device ids load as
+  `[… '12V', 'PULLUP-5V', …, 'PULLDOWN']`, and the listing shows 7 new lines.
+- [x] `listing_check` `|pull` (printed as ` pull` inside the facts field,
+  see Corrections); regenerate `parts.txt` and `traces.txt`. Check:
   `git diff backend/tests/golden | grep -c '^-[^-]'` → 0; `git diff
   backend/tests/golden/parts.txt | grep -c '^+[^+]'` → 7, same for
-  `traces.txt`.
-- [ ] The `library_check`, `circuit_check` and `voltage_test` cases of §4.2.
+  `traces.txt`. Observed: `0`; 7 (`PULLDOWN|supply|||Pull-down|||level=0
+  mv=0 pull|1:PD:output:default`, …); 7.
+- [x] The `library_check`, `circuit_check` and `voltage_test` cases of §4.2. Observed: `ok   valid pull part`,
+  `ok   supply pull not a boolean`, 6 `circuit_check` PASS lines (net reads 1,
+  0 with no short, X), 4 `voltage_test` PASS lines.
 
 Acceptance: `ctest --test-dir /tmp/logic-p12` → `100% tests passed`, T0
-programs (about 15 s); the golden checks above.
+programs (about 15 s); the golden checks above. Observed (pre-plan-11 main):
+`100% tests passed, 0 tests failed out of 17`. Re-run after merging plan-11.
 Commit: —
 
 ## Validation Plan
@@ -511,6 +520,10 @@ programs cover.
 - **Source URLs in the §4.1 records.** `plan-12-data` holds no source URLs,
   so each row names the maker's product page or site (the format the
   existing rows use).
+- **Listing marker.** §4.2 says to print `|pull` after the voltage. The
+  supply facts field is space-separated `key=value` inside one pipe column,
+  so the marker is ` pull` inside that field (`level=1 mv=5000 pull`). A
+  `|` would give these 7 lines one more column than every other line.
 
 ## Summary
 

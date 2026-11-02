@@ -107,6 +107,118 @@
       "parts": [
         {"name":"12V","package":"","pinout":"pin"}
       ]
+    },
+    {
+      "id": "PULLUP-5V",
+      "function": "Pull-up",
+      "description": "Pull-up to 5 V, drives logic 1 weakly",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"PU","role":"output"}
+        ]
+      },
+      "volts": 5,
+      "pull": true,
+      "parts": [
+        {"name":"PULLUP-5V","package":"","pinout":"pin"}
+      ]
+    },
+    {
+      "id": "PULLUP-3V3",
+      "function": "Pull-up",
+      "description": "Pull-up to 3.3 V, drives logic 1 weakly",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"PU","role":"output"}
+        ]
+      },
+      "volts": 3.3,
+      "pull": true,
+      "parts": [
+        {"name":"PULLUP-3V3","package":"","pinout":"pin"}
+      ]
+    },
+    {
+      "id": "PULLUP-2V5",
+      "function": "Pull-up",
+      "description": "Pull-up to 2.5 V, drives logic 1 weakly",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"PU","role":"output"}
+        ]
+      },
+      "volts": 2.5,
+      "pull": true,
+      "parts": [
+        {"name":"PULLUP-2V5","package":"","pinout":"pin"}
+      ]
+    },
+    {
+      "id": "PULLUP-1V8",
+      "function": "Pull-up",
+      "description": "Pull-up to 1.8 V, drives logic 1 weakly",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"PU","role":"output"}
+        ]
+      },
+      "volts": 1.8,
+      "pull": true,
+      "parts": [
+        {"name":"PULLUP-1V8","package":"","pinout":"pin"}
+      ]
+    },
+    {
+      "id": "PULLUP-1V2",
+      "function": "Pull-up",
+      "description": "Pull-up to 1.2 V, drives logic 1 weakly",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"PU","role":"output"}
+        ]
+      },
+      "volts": 1.2,
+      "pull": true,
+      "parts": [
+        {"name":"PULLUP-1V2","package":"","pinout":"pin"}
+      ]
+    },
+    {
+      "id": "PULLUP-12V",
+      "function": "Pull-up",
+      "description": "Pull-up to 12 V, drives logic 1 weakly",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"PU","role":"output"}
+        ]
+      },
+      "volts": 12,
+      "pull": true,
+      "parts": [
+        {"name":"PULLUP-12V","package":"","pinout":"pin"}
+      ]
+    },
+    {
+      "id": "PULLDOWN",
+      "function": "Pull-down",
+      "description": "Pull-down to ground, drives logic 0 weakly",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"PD","role":"output"}
+        ]
+      },
+      "volts": 0,
+      "pull": true,
+      "parts": [
+        {"name":"PULLDOWN","package":"","pinout":"pin"}
+      ]
     }
   ]
 }

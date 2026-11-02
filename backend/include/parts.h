@@ -59,8 +59,9 @@ typedef struct {
 } PartDisplay;
 typedef struct { const char *family; uint64_t min_hz, max_hz, default_hz;
                  const char *enable_pin; /* the pin's designator, NULL = none */ } PartOscillator;
-/* mv: the supply's voltage; level = mv > 0 (drives logic 1, else 0). */
-typedef struct { int level; uint32_t mv; } PartSupply;
+/* mv: the supply's voltage; level = mv > 0 (drives logic 1, else 0).
+   pull: 1 for a pull-up/pull-down part (drives weakly; "pull": true). */
+typedef struct { int level; uint32_t mv; int pull; } PartSupply;
 /* The recommended supply range (millivolts) and the highest voltage an input
    takes: input_max_mv = the part's "inputMax", or max_mv when it has none. */
 typedef struct { uint32_t min_mv, max_mv, input_max_mv; } PartVoltage;

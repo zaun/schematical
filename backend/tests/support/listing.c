@@ -98,6 +98,9 @@ static void print_details(FILE *out, const Part *part) {
         }
         case PART_SUPPLY:
             fprintf(out, "level=%d mv=%u", part->supply->level, (unsigned)part->supply->mv);
+            if (part->supply->pull) {
+                fputs(" pull", out);
+            }
             break;
         case PART_EEPROM:
             fprintf(out, "words=%u bits=%u access_ps=%llu page=%u twc_ps=%llu",

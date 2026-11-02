@@ -2,11 +2,13 @@
  * supply: constant sources. A supply of more than 0 V drives its one pin to
  * 1, GND (0 V) to 0, both strong, for the whole run (ported from
  * backend/supply.c). The voltage itself is only for the voltage check.
+ * A device with "pull": true is a pull-up (volts > 0) or pull-down (0 V): it
+ * drives its pin weakly, so any strong driver on the net wins over it.
  */
 
 #include "kind.h"
 
-static const char *const DEVICE_KEYS[] = {"volts", NULL};
+static const char *const DEVICE_KEYS[] = {"volts", "pull", NULL};
 
 typedef struct {
     PartSupply supply;
@@ -18,6 +20,11 @@ static void *supply_load_device(KindContext *ctx, const cJSON *json) {
         return NULL;
     }
     device->supply.level = device->supply.mv > 0;
+    device->supply.pull = 0;
+    if (cJSON_GetObjectItemCaseSensitive(json, "pull") != NULL &&
+        kind_bool(ctx, json, "pull", &device->supply.pull) != 0) {
+        return NULL;
+    }
     return device;
 }
 
@@ -55,7 +62,7 @@ static void supply_start(Sim *sim, SimInstance *instance, void *state) {
     const Part *part = state;
 
     sim_schedule_drive(sim, instance, 0, part->supply->level ? LOGIC_1 : LOGIC_0,
-                       DRIVE_STRONG, 0);
+                       part->supply->pull ? DRIVE_WEAK : DRIVE_STRONG, 0);
 }
 
 static const SimComponentType SUPPLY_MODEL = {
