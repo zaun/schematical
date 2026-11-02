@@ -578,7 +578,7 @@ Commit: 3441b51
 Acceptance: every case of §5.1–§5.3 passes, each at the datasheet times it
 names.
   Check: `ctest --test-dir /tmp/logic-p09 -R cpu_test -V | grep -c ': PASS'` → the number of `expect` calls the run makes (81: 50 call sites in the file, the §5.1 ones run once per core), and `grep -c ': FAIL'` → 0 (est. 1 min). Measured: 81 and 0.
-Commit: —
+Commit: 926567c
 
 ## Validation Plan
 
