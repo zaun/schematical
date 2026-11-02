@@ -10,8 +10,12 @@
 
 #include "parts.h"
 
-/* An LED's anode and cathode, as indices into Part.pins. */
+/* An LED's anode and cathode, as indices into Part.pins; also a character
+   LCD's backlight anode and cathode (0 for a module without a backlight). */
 int led_pins(const Part *part, size_t *anode, size_t *cathode);
+
+/* led_pins for charlcd parts (charlcd.c). */
+int charlcd_backlight_pins(const Part *part, size_t *anode, size_t *cathode);
 
 /* A switch position's (1-based) two contact pins, as indices into Part.pins. */
 int switch_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b);

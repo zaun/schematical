@@ -997,6 +997,46 @@ lists them under Displays → Character.
 Part keys: `"vcc"`, `"inputMax"` (optional; replace the device's). Parts
 name a `"connectorFootprint"` as well as their `"footprint"`.
 
+Behavior (the HD44780 family as the module datasheets print it;
+`planning/completed/plan-11-B-charlcd-kind.md` §4 has every rule):
+
+- **Pins.** RS, R/W, E, V0 and the backlight pins are inputs; DB0–7 are
+  inout. Z reads as X on every input. V0 is ignored.
+- **Bus.** An access starts when E rises and ends when it falls. A read
+  drives DB X from the rise, the data from + `tddr`, and Z from the fall
+  + `tdhr`. A write samples DB, RS and R/W at the fall and takes effect at
+  the fall + max(`th`, `tah`). Timing violations: less than `tas` from RS
+  or R/W to the rise, less than `tc` between rises, E high less than
+  `tpw`, a sampled DB pin changing less than `tdsw` before the fall or
+  less than `th` after it, RS or R/W changing less than `tah` after it.
+- **4-bit mode** (DL = 0): only DB4–7 are read and driven; a byte is two
+  accesses, high nibble first.
+- **Busy.** A write that takes effect sets BF for its `exec` time
+  (`clearHome` for Clear and Home, `instruction` for other instructions,
+  `data` for data). A write while BF = 1 is not accepted. Power-up: BF = 1
+  for `powerOn`, with the HD44780 internal-reset state (8-bit, 1 line,
+  display off, I/D = 1, DDRAM all spaces, CGRAM X).
+- **Instructions:** Clear, Home, Entry mode, Display on/off, Cursor or
+  display shift, Function set, Set CGRAM and DDRAM address; data reads and
+  writes move AC by I/D (and shift the display when S = 1 on a write).
+  DDRAM has 80 cells (2-line: addresses 00–27 and 40–67; 1-line: 00–4F);
+  an address with no cell reads X and takes no write.
+- **X.** Registers are tracked one field at a time, each known or X. A
+  data write with a violation stores its cell as X; an instruction write
+  with a violation or an unknown instruction, RS or R/W X at a write, or E
+  reading X makes every field, every RAM cell and BF X ("LOST"), except
+  during the power-on reset. A write of `0011` on DB7–4 with RS = 0 while
+  DL or the 4-bit nibble phase is X is Function Set with DL = 1 (the
+  datasheets' initialization by instruction).
+- **Image.** The backend renders the 5×8 dot image from DDRAM, CGRAM (codes
+  00–0F), the character ROM A00 (10–FF), the display shift, the cursor
+  (dot row 7 of AC's cell) and blink (all dots of AC's cell, on while
+  `floor(t / 379 259 259 ps)` is even). A dot is X when anything it depends
+  on is X. `circuit_lcd_state` reads it.
+- **Backlight.** One light, on while the anode reads 1 and the cathode
+  reads 0. The voltage check carries the anode's level to the cathode net,
+  as for an LED, and checks VDD against `vcc`.
+
 ### Sequential kinds (`latch`, `counter`, `shift`)
 
 The three sequential kinds share their device and part format and their

@@ -21,6 +21,7 @@
 #include "kind.h"
 #include "lcd_state.h"
 #include "lights.h"
+#include "model_pins.h"
 
 #define LCD_DATA_BITS 8
 #define LCD_BUS_PINS (3 + LCD_DATA_BITS)
@@ -257,6 +258,21 @@ static int charlcd_load_part(KindContext *ctx, const void *raw, const void *boun
 
     out->charlcd = &((const CharLcdPins *)bound)->info;
     return kind_part_voltage(ctx, json, device->vcc, &out->vcc);
+}
+
+int charlcd_backlight_pins(const Part *part, size_t *anode, size_t *cathode) {
+    const CharLcdPins *pins;
+
+    if (part == NULL || part->kind != PART_CHARLCD) {
+        return 0;
+    }
+    pins = part_internal(part)->bound;
+    if (!pins->has_backlight) {
+        return 0;
+    }
+    *anode = pins->anode;
+    *cathode = pins->cathode;
+    return 1;
 }
 
 /* ---- Model ---------------------------------------------------------------- */

@@ -681,23 +681,31 @@ Acceptance: every violation and X case gives the stated cells and dots, and
 cases 1–13 still pass.
   Check: `ctest --test-dir /tmp/logic-p11 -R charlcd_test` → passes (est. 30 s).
   Ran: `charlcd_test` → `all passed` (cases 1–16, 19, 20).
-Commit: —
+Commit: 2dd9dae
 
 ### Phase 5 — Backlight and voltage
 
-- [ ] `charlcd.c`: the light (`lights`, `light_time`) for devices with a
-      backlight (§4.6).
-- [ ] `models/model_pins.h` / `charlcd.c`: `led_pins` answers for charlcd.
-- [ ] `backend/src/voltage.c:208`: the LED branch for both kinds; `continue`
+- [x] `charlcd.c`: the light (`lights`, `light_time`) for devices with a
+      backlight (§4.6). The hooks landed in 96ce450; a device without a
+      backlight answers 0 lights (see Corrections).
+- [x] `models/model_pins.h` / `charlcd.c`: `led_pins` answers for charlcd.
+      (`led_pins` in `led.c` forwards to `charlcd_backlight_pins`.)
+- [x] `backend/src/voltage.c:208`: the LED branch for both kinds; `continue`
       only for `PART_LED` (§4.6).
-- [ ] `charlcd_test` cases 17–18.
-- [ ] `docs/parts-format.md` § `charlcd`: behavior summary (§4.3–4.7);
+- [x] `charlcd_test` cases 17–18.
+      The fixture library also loads the real `supply.json` (5V, 3V3, GND).
+      Ran: 6 PASS lines, including the exact message
+      `voltage: 3.3 V on pin 2 (VDD) of FX-LCD; it needs 4.5-5.5 V`.
+- [x] `docs/parts-format.md` § `charlcd`: behavior summary (§4.3–4.7);
       `docs/backend.md` § Using it: `circuit_lcd_state` and the
       backlight light.
 
 Acceptance: the backlight lights, the VDD range is enforced, and nothing
 else in the voltage check changed.
   Check: `ctest --test-dir /tmp/logic-p11` → `out of 18`, 100% passed (voltage_test unchanged); `git diff --exit-code backend/tests/golden` → 0 (est. 1 min).
+  Ran: `100% tests passed, 0 tests failed out of 18` (voltage_test.c not
+  modified); golden diff → exit 0; final gate app build →
+  `** BUILD SUCCEEDED **`.
 Commit: —
 
 ## Validation Plan
@@ -744,6 +752,12 @@ Commit: —
 - **A write while BF = 1 is ignored before any LOST check.** A write with
   RS X or a timing violation that arrives while busy is "not accepted"
   (§4.3), so it changes nothing, rather than making the controller LOST.
+- **A device without a backlight has light hooks that answer 0.** §4.6
+  says such a device has no light hooks (NULL). A kind has one
+  `SimComponentType`, so the hooks are shared and return 0 lights when
+  the module has no backlight. `circuit_part_lights` and
+  `circuit_part_light_time(…, NULL, 0)` both give 0, which is what the
+  app's light-part test reads (case 17 checks both).
 - **The §4.5 code landed with Phase 3.** Registers are stored as
   known-or-X fields from the start, so the X rules are part of the
   representation. Phase 4 adds cases 14–16, which exercise them.

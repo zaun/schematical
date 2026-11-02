@@ -1015,6 +1015,76 @@ static void check_partial_x(void) {
     bench_destroy(l.b);
 }
 
+/* ---- Cases 17-18: backlight and voltage ---- */
+
+/* A circuit of `lcd` with 5V, 3V3 and GND; VSS and LED- on GND, V0 on GND,
+   VDD on `vdd` (a supply name), LED+ on `anode` ("5V" or "GND"). */
+static Circuit *lcd_circuit(const char *lcd, const char *vdd, const char *anode, size_t *part) {
+    Circuit *c = circuit_create(library);
+    size_t p5, p3, pg, n5, n3, ng;
+
+    circuit_add_part(c, lcd, part);
+    circuit_add_part(c, "5V", &p5);
+    circuit_add_part(c, "3V3", &p3);
+    circuit_add_part(c, "GND", &pg);
+    circuit_add_net(c, &n5);
+    circuit_add_net(c, &n3);
+    circuit_add_net(c, &ng);
+    circuit_connect(c, p5, "1", n5);
+    circuit_connect(c, p3, "1", n3);
+    circuit_connect(c, pg, "1", ng);
+    circuit_connect(c, *part, "1", ng);
+    circuit_connect(c, *part, "2", strcmp(vdd, "3V3") == 0 ? n3 : n5);
+    circuit_connect(c, *part, "3", ng);
+    circuit_connect(c, *part, "15", strcmp(anode, "5V") == 0 ? n5 : ng);
+    circuit_connect(c, *part, "16", ng);
+    return c;
+}
+
+static void check_backlight(void) {
+    Circuit *c;
+    size_t part;
+    unsigned char on[4] = {0};
+
+    c = lcd_circuit("FX-LCD", "5V", "5V", &part);
+    expect(circuit_start(c) == 0 && circuit_advance(c, US(10)) &&
+               circuit_part_lights(c, part, on, 4) == 1 && on[0] == 1,
+           "17 backlight: anode 1, cathode 0: 1 light, on");
+    circuit_destroy(c);
+    c = lcd_circuit("FX-LCD", "5V", "GND", &part);
+    on[0] = 1;
+    expect(circuit_start(c) == 0 && circuit_advance(c, US(10)) &&
+               circuit_part_lights(c, part, on, 4) == 1 && on[0] == 0,
+           "17 backlight: anode 0: off");
+    circuit_destroy(c);
+    c = lcd_circuit("FX-LCD-NB", "5V", "5V", &part);
+    expect(circuit_start(c) == 0 && circuit_advance(c, US(10)) &&
+               circuit_part_lights(c, part, on, 4) == 0 &&
+               circuit_part_light_time(c, part, NULL, 0) == 0,
+           "17 backlight: a module without a backlight has 0 lights");
+    circuit_destroy(c);
+}
+
+static void check_voltage(void) {
+    Circuit *c;
+    size_t part;
+    const char *want = "voltage: 3.3 V on pin 2 (VDD) of FX-LCD; it needs 4.5-5.5 V";
+    char line[256];
+
+    c = lcd_circuit("FX-LCD", "3V3", "GND", &part);
+    snprintf(line, sizeof line, "18 voltage: VDD on 3V3 is refused: %s (got: %s)", want,
+             circuit_start(c) == -1 && circuit_error(c) != NULL ? circuit_error(c) : "started");
+    expect(circuit_error(c) != NULL && strcmp(circuit_error(c), want) == 0, line);
+    circuit_destroy(c);
+    c = lcd_circuit("FX-LCD", "5V", "GND", &part);
+    expect(circuit_start(c) == 0, "18 voltage: VDD on 5V starts");
+    circuit_destroy(c);
+    c = lcd_circuit("FX-LCD", "5V", "5V", &part);
+    expect(circuit_start(c) == 0 && circuit_advance(c, US(10)) && !circuit_voltage_problem(c, NULL),
+           "18 voltage: backlight anode on 5V, cathode on GND starts (no voltage problem)");
+    circuit_destroy(c);
+}
+
 /* ---- Case 19: API ---- */
 
 static void check_api(void) {
@@ -1061,6 +1131,12 @@ int main(int argc, char **argv) {
                                                DATA, TIMING, EXEC, VCC),
                           "fx-lcd-nb.json");
     }
+    if (error == NULL) {
+        char *supplies = read_file(PARTS_DIR "/supply.json");
+
+        error = supplies == NULL ? strdup("cannot read supply.json")
+                                 : load_file(library, supplies, "supply.json");
+    }
     if (error != NULL) {
         printf("FAIL: fixture: %s\n", error);
         free(error);
@@ -1084,6 +1160,8 @@ int main(int argc, char **argv) {
     check_write_violations();
     check_lost();
     check_partial_x();
+    check_backlight();
+    check_voltage();
     check_api();
     part_library_destroy(library);
     if (failures > 0) {
