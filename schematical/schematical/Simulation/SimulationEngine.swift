@@ -237,4 +237,14 @@ nonisolated final class SimulationEngine: @unchecked Sendable {
         let read = circuit_memory_read(circuit, part, UInt32(start), count, &values, &known)
         return (0..<read).map { MemoryWord(value: values[$0], known: known[$0]) }
     }
+
+    /// A processor part's state (cpu kind), or nil for any other part.
+    func cpuState(part: Int) -> CpuSnapshot? {
+        lock.lock()
+        defer { lock.unlock() }
+        guard !destroyed else { return nil }
+        var state = CpuState()
+        guard circuit_cpu_state(circuit, part, &state) == 0 else { return nil }
+        return CpuSnapshot(state)
+    }
 }

@@ -281,19 +281,35 @@ Harness commands:
 
 Acceptance: the drawer group and facts print as §1.
   Check: `xcodebuild … -derivedDataPath /tmp/p09e-dd … build` → `** BUILD SUCCEEDED **` (est. 2 min); `/tmp/p09/harness/run catalog` and `run facts W65C02S6TPG-14` → the §1 / §4.2 lines (est. seconds).
-Commit: —
+Commit: 741a628
 
 ### Phase 2 — State plumbing and the processor window
 
-- [ ] `SimulationEngine.swift`, `Simulation.swift`: §4.3.
-- [ ] `Cpu/CpuWindow.swift`, `schematicalApp.swift`, `SchematicCanvasView.swift`,
-      `ContentView.swift`: §4.4.
-- [ ] Harness: the `cpu` command and the fixtures of §5.
+- [x] `SimulationEngine.swift`, `Simulation.swift`: §4.3. `CpuSnapshot`
+      copies the C tuples with `withUnsafeBytes`; the harness prints every
+      field (below).
+- [x] `Cpu/CpuWindow.swift`, `schematicalApp.swift`, `SchematicCanvasView.swift`,
+      `ContentView.swift`: §4.4. `xcodebuild … /tmp/p09e-dd` → `** BUILD
+      SUCCEEDED **` (the synchronized folder compiles `Cpu/`).
+- [x] Harness: the `cpu` command and the fixtures of §5 (`run fixtures`
+      writes the two `.bin` and `.schematical` files: 8 parts, 71 / 73
+      wires, no refused connection). `run cpu cpu6502.schematical`:
+      - at 50 µs: `Unknown — waiting for reset`, 0 registers, last `—`;
+      - after the switch and 2 ms: `Stopped (STP)`, `A=10 X=FF Y=00 S=FF
+        P=07 PC=8013`, last `8012  DB  STP`, SRAM 0200 = `10`.
+      `run cpu cpuz80.schematical`:
+      - LOST first;
+      - then `Halted (HALT)` with 18 registers (`AF=1042` → A 10, `BC=FFFF`
+        at its reset value, `SP=0000`);
+      - last `0010  76  HALT`, SRAM 0200/0201 = `10 10`;
+      - after Stop, `cpuState` nil.
+      The four PNGs were looked at: each status line, register grid, flag
+      row and last instruction reads as stated.
 
 Acceptance: §5 steps 3–5 print their values and write the four PNGs. Each
 PNG is looked at: the status line, the register grid and the last
 instruction all read as stated.
-  Check: `/tmp/p09/harness/run cpu /tmp/p09-proof/cpu6502.schematical` and `run cpu /tmp/p09-proof/cpuz80.schematical` → the §5 values; `ls /tmp/p09-proof/*.png` → `cpu-6502.png cpu-lost.png cpu-stopped.png cpu-z80.png` (est. 1 min).
+  Check: `/tmp/p09/harness/run cpu /tmp/p09-proof/cpu6502.schematical` and `run cpu /tmp/p09-proof/cpuz80.schematical` → the §5 values; `ls /tmp/p09-proof/*.png` → `cpu-6502.png cpu-lost.png cpu-stopped.png cpu-z80.png` (est. 1 min). Measured as in the task above; `ls` → the four PNGs.
 Commit: —
 
 ## Validation Plan
@@ -336,6 +352,27 @@ separate window from the memory window).
   (13)`. The drawer orders a group's functions itself and gives `65C02 (2),
   6502 (4), Z80 (13)`. The counts and the total (19; 2 with obsolete parts
   hidden) are as planned.
+- **Advance steps overshoot.** §5 says "advance 50 µs", "5 µs", "2 ms".
+  The app's engine runs on its own thread, paced by the speed setting. The
+  harness sets the speed to 1000 (flat out) and pumps the run loop until
+  `circuitTime` passes each target, so it lands later: LOST read at 458 µs
+  and 375 µs; reset held about 5 ms and 15 ms. Every state the plan names
+  holds over those spans: LOST until reset, at least 3 reset cycles. The
+  values match §5.
+- **PNG capture.** The first captures came out blank but for the lit flag
+  cells. The harness ran in Dark Mode with no window background, so the
+  text was white on transparent. The harness now renders with the Aqua
+  appearance and a window background and captures the window frame, like
+  plan-08's harness. This is a harness fix only; the app's window code did
+  not change.
+- **Desktop proof not done** (Validation Plan: "plus on the desktop … run
+  skill … desktop-cpu.png"). This session has no tool that drives a
+  desktop GUI (double-click, play, flip a switch), so it was not run. The
+  harness drives the same `CpuWindowView` in an `NSWindow`, with the app's
+  `SimulationController` and `SchematicSessions` and a document loaded
+  from the saved `.schematical`. The double-click → `onOpenCpu` →
+  `openWindow(id: "cpu")` path is compiled but not exercised. It is left
+  for an interactive check.
 - **The harness source file is `harness.swift`.** `swiftc` treats a file
   named `main.swift` as top-level code, which conflicts with `@main`
   (plan-08's harness used `a.swift`).

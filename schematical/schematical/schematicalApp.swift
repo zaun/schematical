@@ -49,6 +49,15 @@ struct schematicalApp: App {
         // simulation, so it is not reopened at launch.
         .restorationBehavior(.disabled)
 
+        WindowGroup("Processor", id: "cpu", for: CpuWindowTarget.self) { $target in
+            if let target {
+                CpuWindowView(target: target)
+            }
+        }
+        .defaultSize(width: 420, height: 360)
+        // Like a memory window: tied to a schematic window's simulation.
+        .restorationBehavior(.disabled)
+
         Settings {
             PreferencesView()
         }

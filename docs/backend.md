@@ -100,7 +100,8 @@ Notes:
   jammed, bus released), cycles since the last reset ended, the registers
   (none while lost or in reset) and the last completed instruction
   (address, bytes, disassembly). Any other kind: -1, `part N is not a
-  processor`.
+  processor`. The app's processor window reads it on every simulation
+  frame, as the memory window reads `circuit_memory_read`.
 - Memory load: `circuit_memory_load` writes words into an EEPROM before
   `circuit_start` (refused after it, and on every other kind, SRAM
   included); words it does not write stay erased (FF). Build the words with
