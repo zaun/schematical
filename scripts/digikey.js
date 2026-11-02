@@ -12,6 +12,7 @@
 //   --manufacturer <id|name>  e.g. 50 or "ECS"
 //   --series <id|name>        e.g. "ECS-100X"
 //   --status <id|name>        e.g. Active, Obsolete; repeatable
+//   --active-only             only Active parts (status filter in the request)
 // Output:
 //   --list                    one line per part: <part number> <status> <datasheet url>
 //   --show <param,...>        add table columns, e.g. "Frequency,Package / Case"
@@ -43,7 +44,7 @@ const PAGE = 50; // the API's largest page
 function usage(message) {
   if (message) console.error(`digikey: ${message}`);
   console.error('usage: node scripts/digikey.js [--category X] [--manufacturer X] [--series X]\n' +
-    '                               [--status X] [--list] [--show p1,p2] [--limit N] [--pages N] [--json] ["keywords"]');
+    '                               [--status X] [--active-only] [--list] [--show p1,p2] [--limit N] [--pages N] [--json] ["keywords"]');
   process.exit(2);
 }
 
@@ -60,6 +61,7 @@ function parseArgs(argv) {
       case '--manufacturer': opts.manufacturer = value(); break;
       case '--series': opts.series = value(); break;
       case '--status': opts.status.push(value()); break;
+      case '--active-only': opts.activeOnly = true; break;
       case '--show': opts.show.push(...value().split(',').map((s) => s.trim()).filter(Boolean)); break;
       case '--limit': opts.limit = Number(value()); break;
       case '--pages': opts.pages = Number(value()); break;
@@ -73,9 +75,11 @@ function parseArgs(argv) {
   }
   if (opts.limit === null) opts.limit = opts.list ? Infinity : 500;
   if (!(opts.limit > 0)) usage('--limit must be a positive number');
+  if (opts.activeOnly && opts.status.length) usage('--active-only and --status do not mix');
   if (!(opts.pages > 0)) usage('--pages must be a positive number');
   opts.keywords = opts.keywords.join(' ');
-  if (!opts.keywords && !opts.category && !opts.manufacturer && !opts.series && !opts.status.length) {
+  if (!opts.keywords && !opts.category && !opts.manufacturer && !opts.series && !opts.status.length &&
+      !opts.activeOnly) {
     usage('nothing to search for');
   }
   return opts;
@@ -140,6 +144,7 @@ async function call(ctx, method, route, body, retried = false) {
   return JSON.parse(text);
 }
 
+const ACTIVE_STATUS = '0';
 const isId = (value) => /^\d+$/.test(String(value));
 const norm = (value) => String(value).trim().toLowerCase();
 const same = (a, b) => norm(a) === norm(b);
@@ -199,6 +204,8 @@ async function resolveFilters(ctx, opts) {
   const named = [];
   if (opts.series && !isId(opts.series)) named.push(['series', 'Series', 'SeriesFilter', [opts.series]]);
   else if (opts.series) filters.SeriesFilter = [{ Id: String(opts.series) }];
+  // DigiKey's status ids: 0 Active, 1 Obsolete, 7 Not For New Designs, ...
+  if (opts.activeOnly) filters.StatusFilter = [{ Id: ACTIVE_STATUS }];
   const statusNames = opts.status.filter((s) => !isId(s));
   const statusIds = opts.status.filter(isId);
   if (statusIds.length) filters.StatusFilter = statusIds.map((s) => ({ Id: String(s) }));
