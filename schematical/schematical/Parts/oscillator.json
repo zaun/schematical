@@ -418,10 +418,10 @@
       "outputs": ["CLKOUT"],
       "vcc": [1.6, 5.5],
       "parts": [
-        {"name":"OM-7605-C8-32.768KHZ-20PPM-TA-QC","package":"SON","pinout":"c8","footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3},
-        {"name":"OM-7605-C8-32.768KHZ-20PPM-TB-QC","package":"SON","pinout":"c8","footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3},
-        {"name":"OM-7605-C9-32.768KHZ-20PPM-TA-QC","package":"SON","pinout":"c9","footprint":"OSC-1610-4","defaultHz":32768,"enablePin":3},
-        {"name":"OM-7605-C9-32.768KHZ-20PPM-TB-QC","package":"SON","pinout":"c9","footprint":"OSC-1610-4","defaultHz":32768,"enablePin":3}
+        {"name":"OM-7605-C8-32.768KHZ-20PPM-TA-QC","package":"SON","pinout":"c8","flags":["ceramic"],"footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3},
+        {"name":"OM-7605-C8-32.768KHZ-20PPM-TB-QC","package":"SON","pinout":"c8","flags":["ceramic"],"footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3},
+        {"name":"OM-7605-C9-32.768KHZ-20PPM-TA-QC","package":"SON","pinout":"c9","flags":["ceramic"],"footprint":"OSC-1610-4","defaultHz":32768,"enablePin":3},
+        {"name":"OM-7605-C9-32.768KHZ-20PPM-TB-QC","package":"SON","pinout":"c9","flags":["ceramic"],"footprint":"OSC-1610-4","defaultHz":32768,"enablePin":3}
       ]
     },
     {
@@ -444,7 +444,7 @@
       "outputs": ["CLKOUT"],
       "vcc": [1.6, 5.5],
       "parts": [
-        {"name":"OM-0100-C8-100.00KHZ-20PPM-TA-QC","package":"SON","pinout":"c8","footprint":"OSC-2012-4","defaultHz":100000,"enablePin":3}
+        {"name":"OM-0100-C8-100.00KHZ-20PPM-TA-QC","package":"SON","pinout":"c8","flags":["ceramic"],"footprint":"OSC-2012-4","defaultHz":100000,"enablePin":3}
       ]
     },
     {
@@ -467,8 +467,8 @@
       "outputs": ["CLKOUT"],
       "vcc": [1.2, 5.5],
       "parts": [
-        {"name":"OV-7604-C7-32.768KHZ-20PPM-TA-QC","package":"SON","pinout":"c7","footprint":"OSC-3215-4","defaultHz":32768,"enablePin":3},
-        {"name":"OV-7604-C7-32.768KHZ-20PPM-TB-QC","package":"SON","pinout":"c7","footprint":"OSC-3215-4","defaultHz":32768,"enablePin":3}
+        {"name":"OV-7604-C7-32.768KHZ-20PPM-TA-QC","package":"SON","pinout":"c7","flags":["ceramic"],"footprint":"OSC-3215-4","defaultHz":32768,"enablePin":3},
+        {"name":"OV-7604-C7-32.768KHZ-20PPM-TB-QC","package":"SON","pinout":"c7","flags":["ceramic"],"footprint":"OSC-3215-4","defaultHz":32768,"enablePin":3}
       ]
     },
     {
@@ -491,8 +491,8 @@
       "outputs": ["OUT"],
       "vcc": [1.6, 5.5],
       "parts": [
-        {"name":"ASZKDV-32.768KHZ-L-T","package":"SON","pinout":"2012","footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3},
-        {"name":"ASZKDV-32.768KHZ-H-T","package":"SON","pinout":"2012","footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3}
+        {"name":"ASZKDV-32.768KHZ-L-T","package":"SON","pinout":"2012","flags":["ceramic"],"footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3},
+        {"name":"ASZKDV-32.768KHZ-H-T","package":"SON","pinout":"2012","flags":["ceramic"],"footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3}
       ]
     },
     {
@@ -515,7 +515,7 @@
       "outputs": ["OUT"],
       "vcc": [1.6, 5.5],
       "parts": [
-        {"name":"ASH5KW-32.768KHZ-L-T","package":"SON","pinout":"1610","footprint":"OSC-1610-4","defaultHz":32768,"enablePin":3}
+        {"name":"ASH5KW-32.768KHZ-L-T","package":"SON","pinout":"1610","flags":["ceramic"],"footprint":"OSC-1610-4","defaultHz":32768,"enablePin":3}
       ]
     },
     {
@@ -538,7 +538,7 @@
       "outputs": ["OUT"],
       "vcc": [1.2, 3.6],
       "parts": [
-        {"name":"12.94761","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":40000000,"enablePin":1,"vcc":[1.71,1.89]}
+        {"name":"12.94761","package":"SMD","pinout":"5032","flags":["ceramic"],"footprint":"OSC-5032-4","defaultHz":40000000,"enablePin":1,"vcc":[1.71,1.89]}
       ]
     },
     {
