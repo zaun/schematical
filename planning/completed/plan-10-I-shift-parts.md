@@ -129,7 +129,7 @@ Commit: 94174a1
 Acceptance: `shift_test` all `PASS`; `ctest` 15 of 15. (Ran: 58 `PASS` — 43
 fixture cases and 15 real-part lines — no `FAIL`; `100% tests passed, 0
 tests failed out of 15`.)
-Commit: —
+Commit: 3831ebf
 
 ## Validation Plan
 
