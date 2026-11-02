@@ -248,6 +248,16 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         }
     }
 
+    /// The label at the right of the part's drawer row: the count in
+    /// parentheses ("(4)"), or an oscillator's frequency ("32.768 kHz").
+    var trailingLabel: String? {
+        if case let .oscillator(_, _, _, defaultHz, _) = details {
+            return PartFacts.hertz(defaultHz)
+        }
+        if let count, count > 0 { return "(\(count))" }
+        return nil
+    }
+
     /// The drawer's second line after the package: family, speed grade,
     /// actuator, color or size.
     var detailLabels: [String] {

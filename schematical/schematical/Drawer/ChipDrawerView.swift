@@ -299,8 +299,8 @@ struct ChipDrawerView: View {
             HStack {
                 Text(part.name)
                 Spacer(minLength: 8)
-                if let count = part.count, count > 0 {
-                    Text("(\(count))")
+                if let label = part.trailingLabel {
+                    Text(label)
                 }
             }
             .font(.system(.body, design: .monospaced))
