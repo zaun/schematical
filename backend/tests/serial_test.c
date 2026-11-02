@@ -20,6 +20,7 @@
 #include "serial_fixture.h"
 #include "net.h"
 #include "serial_fixture_classic.h"
+#include "serial_fixture_maxim.h"
 #include "sim.h"
 
 #define NS(x) ((SimTime)(x) * 1000u)
@@ -1104,15 +1105,51 @@ static void case_terminal(void) {
 
 #include "serial_test_d.h"
 
+/* Compares every device of one fixture document with the device of the same
+   id in serial.json (fixture ids are "SFX-<id>"; parts aside). Returns how
+   many were found there. */
+static int compare_shipped(const char *fixture_text, const cJSON *shipped, const char *what) {
+    char message[200];
+    int compared = 0;
+    cJSON *fixture = cJSON_Parse(fixture_text);
+    const cJSON *dev;
+
+    check(fixture != NULL, what);
+    cJSON_ArrayForEach(dev, cJSON_GetObjectItemCaseSensitive(fixture, "devices")) {
+        const char *id = cJSON_GetObjectItemCaseSensitive(dev, "id")->valuestring + 4;
+        const cJSON *other;
+
+        cJSON_ArrayForEach(other, cJSON_GetObjectItemCaseSensitive(shipped, "devices")) {
+            if (strcmp(cJSON_GetObjectItemCaseSensitive(other, "id")->valuestring, id) == 0) {
+                cJSON *a = cJSON_Duplicate(dev, 1);
+                cJSON *b = cJSON_Duplicate(other, 1);
+
+                cJSON_DeleteItemFromObjectCaseSensitive(a, "parts");
+                cJSON_DeleteItemFromObjectCaseSensitive(b, "parts");
+                cJSON_ReplaceItemInObjectCaseSensitive(a, "id", cJSON_CreateString(id));
+                snprintf(message, sizeof message, "%s device %s: fixture equals serial.json", what,
+                         id);
+                check(cJSON_Compare(a, b, 1), message);
+                cJSON_Delete(a);
+                cJSON_Delete(b);
+                compared++;
+            }
+        }
+    }
+    cJSON_Delete(fixture);
+    return compared;
+}
+
 /* "shipped": every fixture device equals the same device in Parts/serial.json
    (its parts aside), so a model case cannot pass on a device that differs
-   from the one the library ships (plan-12-D section 3.3). */
+   from the one the library ships (plan-12-D section 3.3). The fixtures: the
+   ns16550 devices (ns16550.json), the classic UARTs (plan-12-H) and the
+   Maxim UARTs (plan-12-J); a fixture device not shipped yet is skipped. */
 static void case_shipped(void) {
     char path[512];
     char *fixture_text;
     char *shipped_text;
     char message[160];
-    int compared = 0;
 
     case_begin();
     snprintf(path, sizeof path, "%s/../fixtures/serial/ns16550.json", GOLDEN_DIR);
@@ -1122,34 +1159,14 @@ static void case_shipped(void) {
     check(fixture_text != NULL, "the fixture file");
     check(shipped_text != NULL, "Parts/serial.json (shipped by plan-12-F onwards)");
     if (fixture_text != NULL && shipped_text != NULL) {
-        cJSON *fixture = cJSON_Parse(fixture_text);
         cJSON *shipped = cJSON_Parse(shipped_text);
-        const cJSON *dev;
+        int ns = compare_shipped(fixture_text, shipped, "ns16550");
+        int classic = compare_shipped(SERIAL_FIXTURE_CLASSIC, shipped, "classic");
+        int maxim = compare_shipped(SERIAL_FIXTURE_MAXIM, shipped, "maxim");
 
-        cJSON_ArrayForEach(dev, cJSON_GetObjectItemCaseSensitive(fixture, "devices")) {
-            /* Fixture ids are "SFX-<id>" so they load beside the shipped ones. */
-            const char *id = cJSON_GetObjectItemCaseSensitive(dev, "id")->valuestring + 4;
-            const cJSON *other;
-
-            cJSON_ArrayForEach(other, cJSON_GetObjectItemCaseSensitive(shipped, "devices")) {
-                if (strcmp(cJSON_GetObjectItemCaseSensitive(other, "id")->valuestring, id) == 0) {
-                    cJSON *a = cJSON_Duplicate(dev, 1);
-                    cJSON *b = cJSON_Duplicate(other, 1);
-
-                    cJSON_DeleteItemFromObjectCaseSensitive(a, "parts");
-                    cJSON_DeleteItemFromObjectCaseSensitive(b, "parts");
-                    cJSON_ReplaceItemInObjectCaseSensitive(a, "id", cJSON_CreateString(id));
-                    snprintf(message, sizeof message, "device %s: fixture equals serial.json", id);
-                    check(cJSON_Compare(a, b, 1), message);
-                    cJSON_Delete(a);
-                    cJSON_Delete(b);
-                    compared++;
-                }
-            }
-        }
-        snprintf(message, sizeof message, "%d fixture devices found in serial.json", compared);
-        check(compared > 0, message);
-        cJSON_Delete(fixture);
+        printf("   compared: %d ns16550, %d classic, %d maxim\n", ns, classic, maxim);
+        snprintf(message, sizeof message, "%d ns16550 fixture devices found in serial.json", ns);
+        check(ns > 0, message);
         cJSON_Delete(shipped);
     }
     free(fixture_text);

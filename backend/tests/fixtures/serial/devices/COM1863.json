@@ -1,0 +1,290 @@
+{
+ "id": "COM1863",
+ "function": "UART",
+ "description": "Universal asynchronous receiver/transmitter",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "com1863.pdf p1-8; plan-12-data/specs/classic-a.md § COM1863",
+ "pinouts": {
+  "dip40": [
+   {
+    "number": 1,
+    "name": "VDD",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "HIACC",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "RDE",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "RD8",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "RD7",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "RD6",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "RD5",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "RD4",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "RD3",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "RD2",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "RD1",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "RPE",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "RFE",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "ROR",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "SWE",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "RCP",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "RDAR",
+    "role": "input"
+   },
+   {
+    "number": 19,
+    "name": "RDA",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "RSI",
+    "role": "input"
+   },
+   {
+    "number": 21,
+    "name": "MR",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "TBMT",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "TDS",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "TEOC",
+    "role": "output"
+   },
+   {
+    "number": 25,
+    "name": "TSO",
+    "role": "output"
+   },
+   {
+    "number": 26,
+    "name": "TD1",
+    "role": "input"
+   },
+   {
+    "number": 27,
+    "name": "TD2",
+    "role": "input"
+   },
+   {
+    "number": 28,
+    "name": "TD3",
+    "role": "input"
+   },
+   {
+    "number": 29,
+    "name": "TD4",
+    "role": "input"
+   },
+   {
+    "number": 30,
+    "name": "TD5",
+    "role": "input"
+   },
+   {
+    "number": 31,
+    "name": "TD6",
+    "role": "input"
+   },
+   {
+    "number": 32,
+    "name": "TD7",
+    "role": "input"
+   },
+   {
+    "number": 33,
+    "name": "TD8",
+    "role": "input"
+   },
+   {
+    "number": 34,
+    "name": "CS",
+    "role": "input"
+   },
+   {
+    "number": 35,
+    "name": "NPB",
+    "role": "input"
+   },
+   {
+    "number": 36,
+    "name": "NSB",
+    "role": "input"
+   },
+   {
+    "number": 37,
+    "name": "NDB2",
+    "role": "input"
+   },
+   {
+    "number": 38,
+    "name": "NDB1",
+    "role": "input"
+   },
+   {
+    "number": 39,
+    "name": "POE",
+    "role": "input"
+   },
+   {
+    "number": 40,
+    "name": "TCP",
+    "role": "input"
+   }
+  ]
+ },
+ "model": "ay1013",
+ "transmitData": [
+  "TD1",
+  "TD2",
+  "TD3",
+  "TD4",
+  "TD5",
+  "TD6",
+  "TD7",
+  "TD8"
+ ],
+ "receiveData": [
+  "RD1",
+  "RD2",
+  "RD3",
+  "RD4",
+  "RD5",
+  "RD6",
+  "RD7",
+  "RD8"
+ ],
+ "receiveEnable": "RDE",
+ "statusEnable": "SWE",
+ "status": {
+  "dav": "RDA",
+  "tbmt": "TBMT",
+  "eoc": "TEOC",
+  "or": "ROR",
+  "fe": "RFE",
+  "pe": "RPE"
+ },
+ "control": {
+  "strobe": "CS",
+  "noParity": "NPB",
+  "stops": "NSB",
+  "wordLength": [
+   "NDB1",
+   "NDB2"
+  ],
+  "evenParity": "POE"
+ },
+ "dataStrobe": "TDS",
+ "resetDav": "RDAR",
+ "serialOut": "TSO",
+ "serialIn": "RSI",
+ "clocks": {
+  "transmit": "TCP",
+  "receive": "RCP",
+  "hiacc": "HIACC"
+ },
+ "reset": "MR",
+ "resetClearsData": true,
+ "fiveBitStops": 1.5,
+ "grades": {
+  "X": {
+   "tpd": 500,
+   "tds": 400,
+   "ten": 250,
+   "tdis": 250,
+   "tdav": 0,
+   "trdav": 300,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "com1863.pdf p6-p7"
+  }
+ },
+ "parts": [
+  {
+   "name": "COM8018P",
+   "package": "DIP",
+   "pinout": "dip40",
+   "footprint": "PDIP-40-600",
+   "grade": "X"
+  }
+ ]
+}

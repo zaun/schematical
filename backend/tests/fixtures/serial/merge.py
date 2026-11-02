@@ -154,9 +154,16 @@ def ship(groups):
             continue
         keys_path = os.path.join(HERE, 'keys', dev_id + '.json')
         data_path = os.path.join(HERE, 'devices', dev_id + '.json')
-        if not (os.path.exists(keys_path) and os.path.exists(data_path)):
-            raise SystemExit('missing keys or data for ' + dev_id)
+        if not os.path.exists(data_path):
+            raise SystemExit('missing data for ' + dev_id)
         data = json.load(open(data_path))
+        if not os.path.exists(keys_path):
+            # H, I, J: devices/<ID>.json is the whole device (its fixture is a
+            # C header in tests/support; serial_test's "shipped" compares them).
+            if 'model' not in data:
+                raise SystemExit('missing keys for ' + dev_id)
+            devices.append(data)
+            continue
         device = {k: v for k, v in data.items() if k != 'parts'}
         device.update(json.load(open(keys_path)))
         device['parts'] = data['parts']

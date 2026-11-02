@@ -1,0 +1,520 @@
+{
+ "id": "AY-5-1013A",
+ "function": "UART",
+ "description": "UAR/T: universal asynchronous receiver/transmitter",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "ay-5-1013.pdf p1-13; plan-12-data/specs/classic-a.md § AY-5-1013A",
+ "pinouts": {
+  "dip40": [
+   {
+    "number": 1,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "VGG",
+    "role": "power"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "RDE",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "RD8",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "RD7",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "RD6",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "RD5",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "RD4",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "RD3",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "RD2",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "RD1",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "PE",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "FE",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "OR",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "SWE",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "RCP",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "RDAV",
+    "role": "input"
+   },
+   {
+    "number": 19,
+    "name": "DAV",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "SI",
+    "role": "input"
+   },
+   {
+    "number": 21,
+    "name": "XR",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "TBMT",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "DS",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "EOC",
+    "role": "output"
+   },
+   {
+    "number": 25,
+    "name": "SO",
+    "role": "output"
+   },
+   {
+    "number": 26,
+    "name": "DB1",
+    "role": "input"
+   },
+   {
+    "number": 27,
+    "name": "DB2",
+    "role": "input"
+   },
+   {
+    "number": 28,
+    "name": "DB3",
+    "role": "input"
+   },
+   {
+    "number": 29,
+    "name": "DB4",
+    "role": "input"
+   },
+   {
+    "number": 30,
+    "name": "DB5",
+    "role": "input"
+   },
+   {
+    "number": 31,
+    "name": "DB6",
+    "role": "input"
+   },
+   {
+    "number": 32,
+    "name": "DB7",
+    "role": "input"
+   },
+   {
+    "number": 33,
+    "name": "DB8",
+    "role": "input"
+   },
+   {
+    "number": 34,
+    "name": "CS",
+    "role": "input"
+   },
+   {
+    "number": 35,
+    "name": "NP",
+    "role": "input"
+   },
+   {
+    "number": 36,
+    "name": "TSB",
+    "role": "input"
+   },
+   {
+    "number": 37,
+    "name": "NB2",
+    "role": "input"
+   },
+   {
+    "number": 38,
+    "name": "NB1",
+    "role": "input"
+   },
+   {
+    "number": 39,
+    "name": "EPS",
+    "role": "input"
+   },
+   {
+    "number": 40,
+    "name": "TCP",
+    "role": "input"
+   }
+  ],
+  "dip40n": [
+   {
+    "number": 1,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "RDE",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "RD8",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "RD7",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "RD6",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "RD5",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "RD4",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "RD3",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "RD2",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "RD1",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "PE",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "FE",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "OR",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "SWE",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "RCP",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "RDAV",
+    "role": "input"
+   },
+   {
+    "number": 19,
+    "name": "DAV",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "SI",
+    "role": "input"
+   },
+   {
+    "number": 21,
+    "name": "XR",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "TBMT",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "DS",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "EOC",
+    "role": "output"
+   },
+   {
+    "number": 25,
+    "name": "SO",
+    "role": "output"
+   },
+   {
+    "number": 26,
+    "name": "DB1",
+    "role": "input"
+   },
+   {
+    "number": 27,
+    "name": "DB2",
+    "role": "input"
+   },
+   {
+    "number": 28,
+    "name": "DB3",
+    "role": "input"
+   },
+   {
+    "number": 29,
+    "name": "DB4",
+    "role": "input"
+   },
+   {
+    "number": 30,
+    "name": "DB5",
+    "role": "input"
+   },
+   {
+    "number": 31,
+    "name": "DB6",
+    "role": "input"
+   },
+   {
+    "number": 32,
+    "name": "DB7",
+    "role": "input"
+   },
+   {
+    "number": 33,
+    "name": "DB8",
+    "role": "input"
+   },
+   {
+    "number": 34,
+    "name": "CS",
+    "role": "input"
+   },
+   {
+    "number": 35,
+    "name": "NP",
+    "role": "input"
+   },
+   {
+    "number": 36,
+    "name": "TSB",
+    "role": "input"
+   },
+   {
+    "number": 37,
+    "name": "NB2",
+    "role": "input"
+   },
+   {
+    "number": 38,
+    "name": "NB1",
+    "role": "input"
+   },
+   {
+    "number": 39,
+    "name": "EPS",
+    "role": "input"
+   },
+   {
+    "number": 40,
+    "name": "TCP",
+    "role": "input"
+   }
+  ]
+ },
+ "model": "ay1013",
+ "transmitData": [
+  "DB1",
+  "DB2",
+  "DB3",
+  "DB4",
+  "DB5",
+  "DB6",
+  "DB7",
+  "DB8"
+ ],
+ "receiveData": [
+  "RD1",
+  "RD2",
+  "RD3",
+  "RD4",
+  "RD5",
+  "RD6",
+  "RD7",
+  "RD8"
+ ],
+ "receiveEnable": "RDE",
+ "statusEnable": "SWE",
+ "status": {
+  "dav": "DAV",
+  "tbmt": "TBMT",
+  "eoc": "EOC",
+  "or": "OR",
+  "fe": "FE",
+  "pe": "PE"
+ },
+ "control": {
+  "strobe": "CS",
+  "noParity": "NP",
+  "stops": "TSB",
+  "wordLength": [
+   "NB1",
+   "NB2"
+  ],
+  "evenParity": "EPS"
+ },
+ "dataStrobe": "DS",
+ "resetDav": "RDAV",
+ "serialOut": "SO",
+ "serialIn": "SI",
+ "clocks": {
+  "transmit": "TCP",
+  "receive": "RCP"
+ },
+ "reset": "XR",
+ "resetClearsData": false,
+ "fiveBitStops": 2,
+ "grades": {
+  "A": {
+   "tpd": 500,
+   "tds": 500,
+   "ten": 500,
+   "tdis": 500,
+   "tdav": 3000,
+   "trdav": 500,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "ay-5-1013.pdf p6-p9 (AY-5-1013A; VGG -12 V on pin 2)"
+  },
+  "D": {
+   "tpd": 500,
+   "tds": 1000,
+   "ten": 500,
+   "tdis": 500,
+   "tdav": 0,
+   "trdav": 500,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "ay-5-1013.pdf p10-p13 (AY-3-1015D; DAV 1 RCP after the transfer)"
+  }
+ },
+ "parts": [
+  {
+   "name": "AY-3-1015D",
+   "package": "DIP",
+   "pinout": "dip40n",
+   "footprint": "PDIP-40-600",
+   "grade": "D",
+   "fiveBitStops": 1.5,
+   "resetClearsData": true
+  },
+  {
+   "name": "AY-5-1013A",
+   "package": "DIP",
+   "pinout": "dip40",
+   "footprint": "PDIP-40-600",
+   "grade": "A"
+  },
+  {
+   "name": "AY-5-1013A-HR",
+   "package": "DIP",
+   "pinout": "dip40",
+   "footprint": "PDIP-40-600",
+   "grade": "A"
+  }
+ ]
+}

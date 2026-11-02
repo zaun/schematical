@@ -1,0 +1,324 @@
+{
+ "id": "CDP1854A",
+ "function": "UART",
+ "description": "Programmable universal asynchronous receiver/transmitter (UART)",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "cdp1854a.pdf p1-17; plan-12-data/specs/classic-a.md § CDP1854A",
+ "pinouts": {
+  "dip40": [
+   {
+    "number": 1,
+    "name": "VDD",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "MODE",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "RRD/CS2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "RBUS7",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "RBUS6",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "RBUS5",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "RBUS4",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "RBUS3",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "RBUS2",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "RBUS1",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "RBUS0",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "PE/INT",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "FE",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "OE/PE_OE",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "SFD/RSEL",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "RCLOCK",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "DAR/TPB",
+    "role": "input"
+   },
+   {
+    "number": 19,
+    "name": "DA",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "SDI",
+    "role": "input"
+   },
+   {
+    "number": 21,
+    "name": "MR/CLEAR",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "THRE",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "THRL/CS1",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "TSRE/RTS",
+    "role": "output"
+   },
+   {
+    "number": 25,
+    "name": "SDO",
+    "role": "output"
+   },
+   {
+    "number": 26,
+    "name": "TBUS0",
+    "role": "input"
+   },
+   {
+    "number": 27,
+    "name": "TBUS1",
+    "role": "input"
+   },
+   {
+    "number": 28,
+    "name": "TBUS2",
+    "role": "input"
+   },
+   {
+    "number": 29,
+    "name": "TBUS3",
+    "role": "input"
+   },
+   {
+    "number": 30,
+    "name": "TBUS4",
+    "role": "input"
+   },
+   {
+    "number": 31,
+    "name": "TBUS5",
+    "role": "input"
+   },
+   {
+    "number": 32,
+    "name": "TBUS6",
+    "role": "input"
+   },
+   {
+    "number": 33,
+    "name": "TBUS7",
+    "role": "input"
+   },
+   {
+    "number": 34,
+    "name": "CRL/RD_WR",
+    "role": "input"
+   },
+   {
+    "number": 35,
+    "name": "PI/CS3",
+    "role": "input"
+   },
+   {
+    "number": 36,
+    "name": "SBS",
+    "role": "input"
+   },
+   {
+    "number": 37,
+    "name": "WLS2/PSI",
+    "role": "input"
+   },
+   {
+    "number": 38,
+    "name": "WLS1/ES",
+    "role": "input"
+   },
+   {
+    "number": 39,
+    "name": "EPE/CTS",
+    "role": "input"
+   },
+   {
+    "number": 40,
+    "name": "TCLOCK",
+    "role": "input"
+   }
+  ]
+ },
+ "model": "ay1013",
+ "transmitData": [
+  "TBUS0",
+  "TBUS1",
+  "TBUS2",
+  "TBUS3",
+  "TBUS4",
+  "TBUS5",
+  "TBUS6",
+  "TBUS7"
+ ],
+ "receiveData": [
+  "RBUS0",
+  "RBUS1",
+  "RBUS2",
+  "RBUS3",
+  "RBUS4",
+  "RBUS5",
+  "RBUS6",
+  "RBUS7"
+ ],
+ "receiveEnable": "RRD/CS2",
+ "statusEnable": "SFD/RSEL",
+ "status": {
+  "dav": "DA",
+  "tbmt": "THRE",
+  "eoc": "TSRE/RTS",
+  "or": "OE/PE_OE",
+  "fe": "FE",
+  "pe": "PE/INT"
+ },
+ "control": {
+  "strobe": "CRL/RD_WR",
+  "noParity": "PI/CS3",
+  "stops": "SBS",
+  "wordLength": [
+   "WLS1/ES",
+   "WLS2/PSI"
+  ],
+  "evenParity": "EPE/CTS"
+ },
+ "dataStrobe": "THRL/CS1",
+ "resetDav": "DAR/TPB",
+ "serialOut": "SDO",
+ "serialIn": "SDI",
+ "clocks": {
+  "transmit": "TCLOCK",
+  "receive": "RCLOCK"
+ },
+ "reset": "MR/CLEAR",
+ "resetClearsData": true,
+ "fiveBitStops": 1.5,
+ "resetClearsControl": true,
+ "cpuMode": {
+  "modePin": "MODE",
+  "select1": "THRL/CS1",
+  "select2": "RRD/CS2",
+  "select3": "PI/CS3",
+  "registerSelect": "SFD/RSEL",
+  "readWrite": "CRL/RD_WR",
+  "tpb": "DAR/TPB",
+  "cts": "EPE/CTS",
+  "psi": "WLS2/PSI",
+  "es": "WLS1/ES"
+ },
+ "grades": {
+  "5V": {
+   "tpd": 300,
+   "tds": 200,
+   "ten": 75,
+   "tdis": 200,
+   "tdav": 225,
+   "trdav": 150,
+   "tacc": 200,
+   "tint": 220,
+   "vcc": [
+    4.0,
+    10.5
+   ],
+   "note": "cdp1854a.pdf p8-p16 (5 V typical column)"
+  }
+ },
+ "parts": [
+  {
+   "name": "CDP1854ADS2082",
+   "package": "DIP",
+   "pinout": "dip40",
+   "footprint": "CDIP-40-600",
+   "grade": "5V",
+   "flags": [
+    "ceramic"
+   ]
+  },
+  {
+   "name": "CP1854ACD",
+   "package": "DIP",
+   "pinout": "dip40",
+   "footprint": "CDIP-40-600",
+   "grade": "5V",
+   "flags": [
+    "ceramic"
+   ]
+  },
+  {
+   "name": "CP1854AE",
+   "package": "DIP",
+   "pinout": "dip40",
+   "footprint": "PDIP-40-600",
+   "grade": "5V"
+  }
+ ]
+}

@@ -1,0 +1,260 @@
+{
+ "id": "8251A",
+ "function": "UART",
+ "description": "Programmable communication interface",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "8251a.pdf p2-26; plan-12-data/specs/classic-b.md § 8251A",
+ "pinouts": {
+  "dip28": [
+   {
+    "number": 1,
+    "name": "D2",
+    "role": "inout"
+   },
+   {
+    "number": 2,
+    "name": "D3",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "RXD",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "D4",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "D5",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "D6",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "D7",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "TXC",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "WR",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "CS",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "CD",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "RD",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "RXRDY",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "TXRDY",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "SYNDET",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "TXEMPTY",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "TXD",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "CLK",
+    "role": "input"
+   },
+   {
+    "number": 21,
+    "name": "RESET",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "DSR",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "number": 24,
+    "name": "DTR",
+    "role": "output"
+   },
+   {
+    "number": 25,
+    "name": "RXC",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 27,
+    "name": "D0",
+    "role": "inout"
+   },
+   {
+    "number": 28,
+    "name": "D1",
+    "role": "inout"
+   }
+  ]
+ },
+ "model": "i8251",
+ "bus": {
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "controlData": "CD",
+  "read": "RD",
+  "write": "WR",
+  "select": "CS",
+  "reset": "RESET"
+ },
+ "clock": "CLK",
+ "serial": {
+  "tx": "TXD",
+  "rx": "RXD",
+  "txClock": "TXC",
+  "rxClock": "RXC",
+  "txrdy": "TXRDY",
+  "rxrdy": "RXRDY",
+  "txempty": "TXEMPTY",
+  "syndet": "SYNDET",
+  "dsr": "DSR",
+  "dtr": "DTR",
+  "cts": "CTS",
+  "rts": "RTS"
+ },
+ "grades": {
+  "C": {
+   "trd": 200,
+   "tdf": 100,
+   "tclr": 400,
+   "tdtx": 1000,
+   "twc": 2560,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "8251a.pdf p18-19 (twc = 8 tCY at tCY 320 ns)"
+  }
+ },
+ "parts": [
+  {
+   "name": "D8251A",
+   "package": "DIP",
+   "pinout": "dip28",
+   "footprint": "CDIP-28-600",
+   "grade": "C",
+   "flags": [
+    "ceramic"
+   ]
+  },
+  {
+   "name": "LD8251A",
+   "package": "DIP",
+   "pinout": "dip28",
+   "footprint": "CDIP-28-600",
+   "grade": "C",
+   "flags": [
+    "ceramic"
+   ]
+  },
+  {
+   "name": "MD8251A/B",
+   "package": "DIP",
+   "pinout": "dip28",
+   "footprint": "CDIP-28-600",
+   "grade": "C",
+   "flags": [
+    "military",
+    "ceramic"
+   ]
+  },
+  {
+   "name": "N8251A",
+   "package": "DIP",
+   "pinout": "dip28",
+   "footprint": "CDIP-28-600",
+   "grade": "C",
+   "flags": [
+    "ceramic"
+   ]
+  },
+  {
+   "name": "P8251A",
+   "package": "DIP",
+   "pinout": "dip28",
+   "footprint": "CDIP-28-600",
+   "grade": "C",
+   "flags": [
+    "ceramic"
+   ]
+  },
+  {
+   "name": "P8251A-G",
+   "package": "DIP",
+   "pinout": "dip28",
+   "footprint": "PDIP-28-600",
+   "grade": "C"
+  }
+ ]
+}

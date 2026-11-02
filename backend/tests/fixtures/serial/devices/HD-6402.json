@@ -1,0 +1,289 @@
+{
+ "id": "HD-6402",
+ "function": "UART",
+ "description": "CMOS universal asynchronous receiver transmitter (UART)",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "hd-6402.pdf p1-9; plan-12-data/specs/classic-a.md § HD-6402",
+ "pinouts": {
+  "dip40": [
+   {
+    "number": 1,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "RRD",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "RBR8",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "RBR7",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "RBR6",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "RBR5",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "RBR4",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "RBR3",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "RBR2",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "RBR1",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "PE",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "FE",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "OE",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "SFD",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "RRC",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "DRR",
+    "role": "input"
+   },
+   {
+    "number": 19,
+    "name": "DR",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "RRI",
+    "role": "input"
+   },
+   {
+    "number": 21,
+    "name": "MR",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "TBRE",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "TBRL",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "TRE",
+    "role": "output"
+   },
+   {
+    "number": 25,
+    "name": "TRO",
+    "role": "output"
+   },
+   {
+    "number": 26,
+    "name": "TBR1",
+    "role": "input"
+   },
+   {
+    "number": 27,
+    "name": "TBR2",
+    "role": "input"
+   },
+   {
+    "number": 28,
+    "name": "TBR3",
+    "role": "input"
+   },
+   {
+    "number": 29,
+    "name": "TBR4",
+    "role": "input"
+   },
+   {
+    "number": 30,
+    "name": "TBR5",
+    "role": "input"
+   },
+   {
+    "number": 31,
+    "name": "TBR6",
+    "role": "input"
+   },
+   {
+    "number": 32,
+    "name": "TBR7",
+    "role": "input"
+   },
+   {
+    "number": 33,
+    "name": "TBR8",
+    "role": "input"
+   },
+   {
+    "number": 34,
+    "name": "CRL",
+    "role": "input"
+   },
+   {
+    "number": 35,
+    "name": "PI",
+    "role": "input"
+   },
+   {
+    "number": 36,
+    "name": "SBS",
+    "role": "input"
+   },
+   {
+    "number": 37,
+    "name": "CLS2",
+    "role": "input"
+   },
+   {
+    "number": 38,
+    "name": "CLS1",
+    "role": "input"
+   },
+   {
+    "number": 39,
+    "name": "EPE",
+    "role": "input"
+   },
+   {
+    "number": 40,
+    "name": "TRC",
+    "role": "input"
+   }
+  ]
+ },
+ "model": "ay1013",
+ "transmitData": [
+  "TBR1",
+  "TBR2",
+  "TBR3",
+  "TBR4",
+  "TBR5",
+  "TBR6",
+  "TBR7",
+  "TBR8"
+ ],
+ "receiveData": [
+  "RBR1",
+  "RBR2",
+  "RBR3",
+  "RBR4",
+  "RBR5",
+  "RBR6",
+  "RBR7",
+  "RBR8"
+ ],
+ "receiveEnable": "RRD",
+ "statusEnable": "SFD",
+ "status": {
+  "dav": "DR",
+  "tbmt": "TBRE",
+  "eoc": "TRE",
+  "or": "OE",
+  "fe": "FE",
+  "pe": "PE"
+ },
+ "control": {
+  "strobe": "CRL",
+  "noParity": "PI",
+  "stops": "SBS",
+  "wordLength": [
+   "CLS1",
+   "CLS2"
+  ],
+  "evenParity": "EPE"
+ },
+ "dataStrobe": "TBRL",
+ "resetDav": "DRR",
+ "serialOut": "TRO",
+ "serialIn": "RRI",
+ "clocks": {
+  "transmit": "TRC",
+  "receive": "RRC"
+ },
+ "reset": "MR",
+ "resetClearsData": false,
+ "fiveBitStops": 1.5,
+ "grades": {
+  "R": {
+   "tpd": 0,
+   "tds": 0,
+   "ten": 160,
+   "tdis": 160,
+   "tdav": 0,
+   "trdav": 0,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "hd-6402.pdf p7 (HD-6402R column)"
+  }
+ },
+ "parts": [
+  {
+   "name": "HD3-6402C-9",
+   "package": "DIP",
+   "pinout": "dip40",
+   "footprint": "PDIP-40-600",
+   "grade": "R"
+  }
+ ]
+}

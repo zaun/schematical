@@ -1,0 +1,289 @@
+{
+ "id": "HD-6406",
+ "function": "UART",
+ "description": "CMOS programmable asynchronous communication interface",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "hd-6406.pdf p1-11; plan-12-data/specs/classic-b.md § HD-6406",
+ "pinouts": {
+  "dip40": [
+   {
+    "number": 1,
+    "name": "CS0",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "RD",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "WR",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "D0",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "D1",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "D2",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "D3",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "D4",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "D5",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "D6",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "D7",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "A0",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "ALE",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "TXDACK",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "RXDACK",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "IX",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "OX",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "SDO",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 21,
+    "name": "TC",
+    "role": "output"
+   },
+   {
+    "number": 22,
+    "name": "RLSD",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "DSR",
+    "role": "input"
+   },
+   {
+    "number": 25,
+    "name": "RI",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "DTR",
+    "role": "output"
+   },
+   {
+    "number": 27,
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "number": 28,
+    "name": "CO",
+    "role": "output"
+   },
+   {
+    "number": 29,
+    "name": "TBRE",
+    "role": "output"
+   },
+   {
+    "number": 30,
+    "name": "RST",
+    "role": "input"
+   },
+   {
+    "number": 31,
+    "name": "SIE",
+    "role": "input"
+   },
+   {
+    "number": 32,
+    "name": "SFD",
+    "role": "input"
+   },
+   {
+    "number": 33,
+    "name": "INTR",
+    "role": "output"
+   },
+   {
+    "number": 34,
+    "name": "SDI",
+    "role": "input"
+   },
+   {
+    "number": 35,
+    "name": "OE",
+    "role": "output"
+   },
+   {
+    "number": 36,
+    "name": "FE",
+    "role": "output"
+   },
+   {
+    "number": 37,
+    "name": "PE",
+    "role": "output"
+   },
+   {
+    "number": 38,
+    "name": "DR",
+    "role": "output"
+   },
+   {
+    "number": 39,
+    "name": "CS1",
+    "role": "input"
+   },
+   {
+    "number": 40,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "model": "hs82c52",
+ "bus": {
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1"
+  ],
+  "read": "RD",
+  "write": "WR",
+  "select": "CS0",
+  "selectHigh": "CS1",
+  "addressLatch": "ALE",
+  "reset": "RST"
+ },
+ "clock": {
+  "in": "IX",
+  "out": "OX",
+  "clockOut": "CO"
+ },
+ "serial": {
+  "tx": "SDO",
+  "rx": "SDI",
+  "cts": "CTS",
+  "dsr": "DSR",
+  "dtr": "DTR",
+  "rts": "RTS",
+  "int": "INTR",
+  "tbre": "TBRE",
+  "dr": "DR"
+ },
+ "hd6406": {
+  "rlsd": "RLSD",
+  "ri": "RI",
+  "tc": "TC",
+  "oe": "OE",
+  "fe": "FE",
+  "pe": "PE",
+  "sie": "SIE",
+  "sfd": "SFD",
+  "txdack": "TXDACK",
+  "rxdack": "RXDACK"
+ },
+ "grades": {
+  "5": {
+   "trldv": 120,
+   "trhdz": 60,
+   "tco": 30,
+   "tbrg": 80,
+   "tsdo": 30,
+   "tintr": 50,
+   "tflag": 50,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "hd-6406.pdf p10 (bus); serial delays from 82c52.pdf p14"
+  }
+ },
+ "parts": [
+  {
+   "name": "HD3-6406-5",
+   "package": "DIP",
+   "pinout": "dip40",
+   "footprint": "PDIP-40-600",
+   "grade": "5"
+  }
+ ]
+}

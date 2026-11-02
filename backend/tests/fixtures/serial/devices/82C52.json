@@ -1,0 +1,412 @@
+{
+ "id": "82C52",
+ "function": "UART",
+ "description": "CMOS serial controller interface",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "82c52.pdf p1-21; plan-12-data/specs/classic-b.md § 82C52",
+ "pinouts": {
+  "dip28": [
+   {
+    "number": 1,
+    "name": "RD",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "WR",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "D0",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "D1",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "D2",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "D3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "D4",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "D5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "D6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "D7",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A0",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "IX",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "OX",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "SDO",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 17,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "DSR",
+    "role": "input"
+   },
+   {
+    "number": 19,
+    "name": "DTR",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "number": 21,
+    "name": "CO",
+    "role": "output"
+   },
+   {
+    "number": 22,
+    "name": "TBRE",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "RST",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "INTR",
+    "role": "output"
+   },
+   {
+    "number": 25,
+    "name": "SDI",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "DR",
+    "role": "output"
+   },
+   {
+    "number": 27,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 28,
+    "name": "CS0",
+    "role": "input"
+   }
+  ],
+  "plcc28": [
+   {
+    "number": 1,
+    "name": "RD",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "WR",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "D0",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "D1",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "D2",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "D3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "D4",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "D5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "D6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "D7",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A0",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "IX",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "OX",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "SDO",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 17,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "DSR",
+    "role": "input"
+   },
+   {
+    "number": 19,
+    "name": "DTR",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "number": 21,
+    "name": "CO",
+    "role": "output"
+   },
+   {
+    "number": 22,
+    "name": "TBRE",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "RST",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "INTR",
+    "role": "output"
+   },
+   {
+    "number": 25,
+    "name": "SDI",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "DR",
+    "role": "output"
+   },
+   {
+    "number": 27,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 28,
+    "name": "CS0",
+    "role": "input"
+   }
+  ]
+ },
+ "model": "hs82c52",
+ "bus": {
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1"
+  ],
+  "read": "RD",
+  "write": "WR",
+  "select": "CS0",
+  "reset": "RST"
+ },
+ "clock": {
+  "in": "IX",
+  "out": "OX",
+  "clockOut": "CO"
+ },
+ "serial": {
+  "tx": "SDO",
+  "rx": "SDI",
+  "cts": "CTS",
+  "dsr": "DSR",
+  "dtr": "DTR",
+  "rts": "RTS",
+  "int": "INTR",
+  "tbre": "TBRE",
+  "dr": "DR"
+ },
+ "grades": {
+  "C": {
+   "trldv": 120,
+   "trhdz": 60,
+   "tco": 30,
+   "tbrg": 80,
+   "tsdo": 30,
+   "tintr": 50,
+   "tflag": 50,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "82c52.pdf p12-14 (C: 0..70 C)"
+  },
+  "I": {
+   "trldv": 120,
+   "trhdz": 60,
+   "tco": 30,
+   "tbrg": 80,
+   "tsdo": 30,
+   "tintr": 50,
+   "tflag": 50,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "82c52.pdf p12-14 (I: -40..+85 C)"
+  }
+ },
+ "parts": [
+  {
+   "name": "CS82C52",
+   "package": "PLCC",
+   "pinout": "plcc28",
+   "footprint": "PLCC-28",
+   "grade": "C"
+  },
+  {
+   "name": "CS82C5296",
+   "package": "PLCC",
+   "pinout": "plcc28",
+   "footprint": "PLCC-28",
+   "grade": "C",
+   "flags": [
+    "obsolete"
+   ]
+  },
+  {
+   "name": "ID82C52",
+   "package": "DIP",
+   "pinout": "dip28",
+   "footprint": "CDIP-28-600",
+   "grade": "I",
+   "flags": [
+    "ceramic"
+   ]
+  },
+  {
+   "name": "IP82C52",
+   "package": "DIP",
+   "pinout": "dip28",
+   "footprint": "PDIP-28-600",
+   "grade": "I"
+  },
+  {
+   "name": "IS82C52R2490",
+   "package": "PLCC",
+   "pinout": "plcc28",
+   "footprint": "PLCC-28",
+   "grade": "I"
+  },
+  {
+   "name": "IS82C52Z",
+   "package": "PLCC",
+   "pinout": "plcc28",
+   "footprint": "PLCC-28",
+   "grade": "I"
+  }
+ ]
+}

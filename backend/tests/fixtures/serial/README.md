@@ -56,3 +56,5 @@
 | G | XR16V564 | `exar-d.md` § XR16V564 | 4 | lqfp64 (64), plcc68 (68), qfn48 (48) | I |
 | G | XR16V654 | `exar-d.md` § XR16V654 | 3 | lqfp64 (64), qfn48 (48) | I |
 | G | XR16V798 | `exar-d.md` § XR16V798 | 1 | qfp100 (100) | I |
+
+The other models' devices (plan-12-H's classic UARTs, I's bridges, J's Maxim UARTs) have their test fixtures as C headers in `backend/tests/support/` (`serial_fixture_classic.h`, `serial_fixture_maxim.h`, …), with ids `SFX-<id>` and one test part per pinout. For shipping, `devices/<id>.json` is the whole device (model keys included, no `keys/` file) with its real parts; `merge.py --ship` takes it as is, and `serial_test`'s `shipped` case checks that it equals the header's device. `merge.py` without `--ship` reads only `keys/`, so these files do not enter `ns16550.json`.
