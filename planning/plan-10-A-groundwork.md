@@ -51,12 +51,12 @@ rows.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p10 && cmake --build /tmp/logic-p10 -j8 && ctest --test-dir /tmp/logic-p10` → `100% tests passed, 0 tests failed out of 12` | MET (2026-11-01, 12 of 12, 3.5 s, at 4a9a2ed) |
-| Goldens at their measured size | `wc -l < backend/tests/golden/parts.txt` → 4011; `traces.txt` → 4011; `footprints.txt` → 140 | MET (2026-11-01) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p10-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01) |
-| No new kind yet | `ls schematical/schematical/Parts/{latch,counter,shift}.json backend/src/models/{latch,counter,shift,seq}.c 2>/dev/null` → no output | MET (2026-11-01) |
-| The datasheets are present | `ls datasheets/counters/*.pdf datasheets/divider/*.pdf datasheets/latch/*.pdf datasheets/shifters/*.pdf \| wc -l` → 244 | MET (2026-11-01) |
-| plan-09 not started (plan-10 lands first; owner decision) | `ls planning/completed/plan-09-* 2>/dev/null` → no output; `grep -c 'Commit: [0-9a-f]' planning/plan-09-*.md` → every file 0 | MET (2026-11-01) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p10 && cmake --build /tmp/logic-p10 -j8 && ctest --test-dir /tmp/logic-p10` → `100% tests passed, 0 tests failed out of 12` | MET (2026-11-01 re-run at 1db7b45 in worktree P-10: 12 of 12, 3.6 s) |
+| Goldens at their measured size | `wc -l < backend/tests/golden/parts.txt` → 4011; `traces.txt` → 4011; `footprints.txt` → 140 | MET (2026-11-01 re-run: 4011/4011/140) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p10-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01 re-run: BUILD SUCCEEDED) |
+| No new kind yet | `ls schematical/schematical/Parts/{latch,counter,shift}.json backend/src/models/{latch,counter,shift,seq}.c 2>/dev/null` → no output | MET (2026-11-01 re-run: no output) |
+| The datasheets are present | `ls datasheets/counters/*.pdf datasheets/divider/*.pdf datasheets/latch/*.pdf datasheets/shifters/*.pdf \| wc -l` → 244 | MET (2026-11-01 re-run: 244) |
+| plan-09 not started (plan-10 lands first; owner decision) | `ls planning/completed/plan-09-* 2>/dev/null` → no output; `grep -c 'Commit: [0-9a-f]' planning/plan-09-*.md` → every file 0 | MET (2026-11-01 re-run: none archived; 5 files, each 0) |
 
 Everything below is written against the world where these hold.
 
@@ -372,12 +372,13 @@ case: a gate part with `"family": "TPIC"` and a `TPIC` timing entry loads.
 
 ### Phase 1 — Datasheets
 
-- [ ] Delete the 10 PDFs of §4.1; write `datasheets/not-included.md`.
+- [x] Delete the 10 PDFs of §4.1; write `datasheets/not-included.md`.
   Check: `ls datasheets/{counters,divider,latch,shifters}/*.pdf | wc -l` → 234;
-  `grep -c '\.pdf' datasheets/not-included.md` → 10.
-- [ ] Commit `datasheets/{counters,divider,latch,shifters}/` and
+  `grep -c '\.pdf' datasheets/not-included.md` → 10. (Ran: 234; 10.)
+- [x] Commit `datasheets/{counters,divider,latch,shifters}/` and
   `datasheets/not-included.md`. Check: `git status --short datasheets` → no
-  output.
+  output. (The 244 PDFs were already on main, c0d447a/68b2c71/94a8526; this
+  commit has the 10 deletions and the new file. Ran after commit: no output.)
 
 Acceptance: the two checks above (seconds).
 Commit: —
@@ -455,7 +456,14 @@ tests cover.
 
 ## Corrections
 
-(none yet)
+- 2026-11-01, Phase 1: §2 said the four datasheet folders were untracked.
+  False when A ran: main's log has c0d447a, 68b2c71, 94a8526 committing them.
+  Phase 1's commit therefore only deletes the 10 PDFs and adds
+  `datasheets/not-included.md`.
+- 2026-11-01, Prerequisites: `/tmp/logic-p10` held a CMake cache generated
+  from the main checkout (`CMake Error: The source … does not match`); it was
+  deleted and regenerated from the worktree. Command and result otherwise as
+  written.
 
 ## Summary
 
