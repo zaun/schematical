@@ -68,10 +68,10 @@ rows.
 | Must be true | Command | Status |
 |---|---|---|
 | plan-09 complete (owner, 2026-11-02: plan-12 follows plan-09) | `ls planning/plan-09-* 2>/dev/null` → no output; `ls planning/completed/plan-09-E-*.md` → exists | MET (2026-11-01 at 403651a) |
-| plan-11 complete (character LCD modules; plans land in creation order, §Decisions) | `ls planning/plan-11-*.md 2>/dev/null` → no output; `ls planning/completed/plan-11-D-*.md` → exists | **NOT MET** (2026-11-01 at 403651a: `planning/plan-11-A…D-*.md` open on main; plan-11 in progress on `worktree-P-11` at bffe730 — A done, B/C/D 42 boxes open) |
+| plan-11 complete (character LCD modules; plans land in creation order, §Decisions) | `ls planning/plan-11-*.md 2>/dev/null` → no output; `ls planning/completed/plan-11-D-*.md` → exists | MET (2026-11-01: plan-11 landed on main, 2d30a73 "plan-11: archive A-D to planning/completed"; merged into `worktree-P-12`) |
 | plan-10 complete | `ls planning/plan-10-*.md 2>/dev/null` → no output; `ls planning/completed/plan-10-J-app.md` → exists | MET (2026-11-01 at 403651a) |
-| Backend tests green | `cmake -S backend -B /tmp/logic-p12 && cmake --build /tmp/logic-p12 -j8 && ctest --test-dir /tmp/logic-p12` → `100% tests passed` | MET (2026-11-01 at 403651a: 17 programs; T0 is measured after plan-11 lands, which adds programs) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt` (= `traces.txt`) and `footprints.txt` | measured 2026-11-01 at 403651a: parts/traces 7157, footprints 195 — not yet P0/F0 (plan-11 changes them) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p12 && cmake --build /tmp/logic-p12 -j8 && ctest --test-dir /tmp/logic-p12` → `100% tests passed` | MET; **T0 = 18** (main at cd892a7 with plan-11: 17 + `charlcd_test`). After the merge `worktree-P-12` runs 19 = T0 + 1 (`serial_test`). |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt` (= `traces.txt`) and `footprints.txt` | **P0 = 7162**, **F0 = 200** (`git show main:backend/tests/golden/parts.txt \| wc -l` → 7162, `traces.txt` 7162, `footprints.txt` 200, at cd892a7). After the merge, `parts.txt` has 7169 lines = P0 + 7 (A's pull parts). |
 | The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p12-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01 at 403651a) |
 | No `serial` kind or pull parts yet | `ls schematical/schematical/Parts/serial.json backend/src/models/serial*.c 2>/dev/null` → no output; `grep -c PULLUP schematical/schematical/Parts/supply.json` → 0 | MET (2026-11-01 at 403651a) |
 | The datasheets are present | `ls datasheets/controller-*/*.pdf \| wc -l` → 107 | MET (2026-11-01 at 403651a) |

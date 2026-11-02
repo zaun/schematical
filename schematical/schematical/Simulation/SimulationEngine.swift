@@ -11,6 +11,45 @@
 
 import Foundation
 
+/// One character LCD's dot image (`LcdState.dots`, plan-11-B §4.7): row-major
+/// over `rows × 8` dot rows by `columns × 5` dot columns, each
+/// `LCD_DOT_OFF`, `LCD_DOT_ON` or `LCD_DOT_X`.
+nonisolated struct LCDFrame: Equatable, Sendable {
+    let columns: Int
+    let rows: Int
+    let dots: [UInt8]
+
+    var width: Int { columns * Int(LCD_STATE_CELL_WIDTH) }
+
+    /// The dot at dot row `y`, dot column `x`.
+    func dot(x: Int, y: Int) -> UInt8 {
+        let index = y * width + x
+        return index >= 0 && index < dots.count ? dots[index] : UInt8(LCD_DOT_OFF)
+    }
+
+    /// Copies the shown area out of the backend's state.
+    init(_ state: LcdState) {
+        var copy = state
+        let columns = min(Int(state.columns), Int(LCD_STATE_MAX_COLUMNS))
+        let rows = min(Int(state.rows), Int(LCD_STATE_MAX_ROWS))
+        let stride = Int(LCD_STATE_MAX_COLUMNS) * Int(LCD_STATE_CELL_WIDTH)
+        let width = columns * Int(LCD_STATE_CELL_WIDTH)
+        let height = rows * Int(LCD_STATE_CELL_HEIGHT)
+        var dots: [UInt8] = []
+        dots.reserveCapacity(width * height)
+        withUnsafeBytes(of: &copy.dots) { raw in
+            for y in 0..<height {
+                for x in 0..<width {
+                    dots.append(raw[y * stride + x])
+                }
+            }
+        }
+        self.columns = columns
+        self.rows = rows
+        self.dots = dots
+    }
+}
+
 /// The circuit state the canvas needs, read in one go under the engine lock.
 nonisolated struct SimulationSnapshot: Sendable {
     /// `ProcessInfo.systemUptime` when the snapshot was taken.
@@ -22,6 +61,8 @@ nonisolated struct SimulationSnapshot: Sendable {
     let netChanges: [UInt64]
     /// Part index → cumulative on-time per light, picoseconds (parts with lights).
     let lightTimes: [Int: [UInt64]]
+    /// Part index → dot image (character LCDs).
+    let lcdFrames: [Int: LCDFrame]
     let shortedNet: Int?
     let error: String?
 }
@@ -38,6 +79,7 @@ nonisolated final class SimulationEngine: @unchecked Sendable {
     private let circuit: OpaquePointer
     private let netCount: Int
     private let lightParts: [Int]
+    private let lcdParts: [Int]
     private let publish: @Sendable (SimulationSnapshot) -> Void
 
     // Shared with the main thread; under `lock`.
@@ -65,11 +107,12 @@ nonisolated final class SimulationEngine: @unchecked Sendable {
 
     /// Takes ownership of `circuit` (started, not yet advanced); it is
     /// destroyed by `stopAndWait`.
-    init(circuit: OpaquePointer, netCount: Int, lightParts: [Int], speed: Double,
+    init(circuit: OpaquePointer, netCount: Int, lightParts: [Int], lcdParts: [Int] = [], speed: Double,
          publish: @escaping @Sendable (SimulationSnapshot) -> Void) {
         self.circuit = circuit
         self.netCount = netCount
         self.lightParts = lightParts
+        self.lcdParts = lcdParts
         self.speed = speed
         self.publish = publish
     }
@@ -191,7 +234,7 @@ nonisolated final class SimulationEngine: @unchecked Sendable {
         let wall = ProcessInfo.processInfo.systemUptime
         guard !destroyed else {
             return SimulationSnapshot(wallTime: wall, circuitTime: 0, netValues: [], netChanges: [],
-                                      lightTimes: [:], shortedNet: nil, error: nil)
+                                      lightTimes: [:], lcdFrames: [:], shortedNet: nil, error: nil)
         }
         let values = (0..<netCount).map { circuit_net_value(circuit, $0) }
         let changes = (0..<netCount).map { circuit_net_changes(circuit, $0) }
@@ -201,12 +244,19 @@ nonisolated final class SimulationEngine: @unchecked Sendable {
             let count = circuit_part_light_time(circuit, part, &buffer, buffer.count)
             lightTimes[part] = Array(buffer.prefix(min(count, buffer.count)))
         }
+        var lcdFrames: [Int: LCDFrame] = [:]
+        for part in lcdParts {
+            var state = LcdState()
+            if circuit_lcd_state(circuit, part, &state) == 0 {
+                lcdFrames[part] = LCDFrame(state)
+            }
+        }
         var net = 0
         let shorted = circuit_shorted_net(circuit, &net) != 0 ? net : nil
         let error = circuit_error(circuit).map { String(cString: $0) }
         return SimulationSnapshot(wallTime: wall, circuitTime: circuit_time(circuit),
                                   netValues: values, netChanges: changes, lightTimes: lightTimes,
-                                  shortedNet: shorted, error: error)
+                                  lcdFrames: lcdFrames, shortedNet: shorted, error: error)
     }
 
     /// Turns a switch position (1-based) on or off.

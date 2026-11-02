@@ -27,6 +27,9 @@ struct SchematicNetlist {
     let chipIDs: [UUID]
     /// Net index for each wire.
     let netOfWire: [UUID: Int]
+    /// Part indices of the character LCDs (`PART_CHARLCD`), whose dot image
+    /// the engine reads each frame.
+    var lcdParts: [Int] = []
 }
 
 enum NetlistBuilder {
@@ -107,7 +110,8 @@ enum NetlistBuilder {
             connections: connections,
             switchesOn: switchesOn,
             chipIDs: chips.map(\.id),
-            netOfWire: netOfWire
+            netOfWire: netOfWire,
+            lcdParts: chips.indices.filter { chips[$0].part.kind == PART_CHARLCD }
         )
     }
 }
@@ -168,6 +172,8 @@ final class SimulationController {
     /// order): brightness 0…1, the light's on-time in the last frame divided
     /// by the frame's length.
     private(set) var lights: [UUID: [Double]] = [:]
+    /// Character LCDs: the dot image of the last frame.
+    private(set) var lcdFrames: [UUID: LCDFrame] = [:]
     /// The previous snapshot, to measure the frame against.
     private var previous: SimulationSnapshot?
     /// (wall time, circuit time) of the last half second's snapshots.
@@ -239,7 +245,8 @@ final class SimulationController {
         generation += 1
         let current = generation
         let engine = SimulationEngine(
-            circuit: opened, netCount: built.netCount, lightParts: lightParts, speed: speed,
+            circuit: opened, netCount: built.netCount, lightParts: lightParts,
+            lcdParts: built.lcdParts, speed: speed,
             publish: { [weak self] snapshot in
                 let owner = self
                 Task { @MainActor in owner?.apply(snapshot, generation: current) }
@@ -289,6 +296,7 @@ final class SimulationController {
         netValues = []
         shortedNets = []
         lights = [:]
+        lcdFrames = [:]
         previous = nil
         speedHistory = []
         reachedSpeed = nil
@@ -343,6 +351,11 @@ final class SimulationController {
             }
         }
         lights = newLights
+        var newFrames: [UUID: LCDFrame] = [:]
+        for (part, frame) in snapshot.lcdFrames where part < netlist.chipIDs.count {
+            newFrames[netlist.chipIDs[part]] = frame
+        }
+        lcdFrames = newFrames
         previous = snapshot
 
         speedHistory.append((snapshot.wallTime, snapshot.circuitTime))

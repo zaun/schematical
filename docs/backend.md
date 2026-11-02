@@ -93,9 +93,11 @@ Notes:
   - A pull-up part (`PartSupply.pull`) is not a supply here: it gives its
     group a level only when no supply and no powered output sets it
     (E = S, else D, else P, else C), and never clashes.
-- Lights (`circuit_part_lights`) are LEDs (one light) and 7-segment
-  displays (`PartDisplay.leds` order); a light counts as on if it was on at
-  any time during the last `circuit_advance`, so multiplexed digits show.
+- Lights (`circuit_part_lights`) are LEDs (one light), 7-segment
+  displays (`PartDisplay.leds` order) and character LCD backlights (one
+  light, on while the anode reads 1 and the cathode 0; a module without a
+  backlight has none); a light counts as on if it was on at any time during
+  the last `circuit_advance`, so multiplexed digits show.
 - Memory contents (SRAM, EEPROM): `circuit_memory_size`,
   `circuit_memory_read` (a 0 bit in `known` is X).
 - Processors (`cpu` kind): `circuit_cpu_state` fills a `CpuState`
@@ -105,6 +107,13 @@ Notes:
   (address, bytes, disassembly). Any other kind: -1, `part N is not a
   processor`. The app's processor window reads it on every simulation
   frame, as the memory window reads `circuit_memory_read`.
+- Character LCDs (`charlcd` kind): `circuit_lcd_state` fills an
+  `LcdState` (`lcd_state.h`): the dot image the display shows now
+  (`dots[row * 8 + y][column * 5 + x]`, each `LCD_DOT_OFF`, `_ON` or `_X`;
+  the cursor blink phase comes from the circuit time), the busy flag (1, 0
+  or -1 for X), and DDRAM and CGRAM with known masks. The image does not
+  depend on the backlight or V0; the app dims the face by the backlight
+  light. Any other kind: -1, `part N is not a character LCD`.
 - Serial parts (`serial` kind, plan-12): `circuit_serial_channels` gives
   a part's channel count (0 for any other kind);
   `circuit_serial_sent_count` and `circuit_serial_sent` give the frames a
@@ -146,6 +155,9 @@ backend/
     models/                one file per kind: gate.c dff.c jkff.c sram.c
                            eeprom.c switch.c led.c display7.c oscillator.c
                            supply.c latch.c,
+                           charlcd.c (character LCD modules: loader and
+                           the HD44780 controller model), charlcd_font.c
+                           + charlcd_font.h (character ROM A00),
                            seq.c + seq.h (helpers the sequential kinds
                            share: timing entries, controls, X rules,
                            outputs), and lights.c (on-time tracking for
@@ -201,7 +213,10 @@ A new kind of part is added the same way every time:
 5. The app picks a symbol for the new `PartKind`.
 
 Nothing else: the loader, the listing, the circuit API and the app's
-drawer work from the kind table and the `Part` structs.
+drawer work from the kind table and the `Part` structs. The tests need two
+lines: the kind's name and facts in `tests/support/listing.c`, and
+`TRACE_LAST_KIND` in `tests/trace_check.c` moved to the new last
+`PartKind` (its per-kind count array is sized by it).
 
 ## Tests
 
@@ -223,11 +238,13 @@ drawer work from the kind table and the `Part` structs.
   pads, against `tests/golden/footprints.txt` (one line per footprint:
   `id|pins=N|body=WxH|pads=<designator>:x,y,wxh,shape[,d<drill>][,r<radius>][,c<chamfer>:<corners>];…`,
   corners `tl+tr+br+bl` order; `-`
-  for an unnumbered pad), and every footprint used by some part. After an
+  for an unnumbered pad), and every footprint used by some part (`footprint`
+  or `connectorFootprint`). After an
   intended change: `/tmp/logic-build/footprint_check --print >
   backend/tests/golden/footprints.txt`, then hand-check the changed lines
   against the drawing. Listing lines in `parts.txt` end in
-  `|footprint=<id>` for parts that name one.
+  `|footprint=<id>` for parts that name one, then `|connector=<id>` for
+  parts with a `connectorFootprint`.
 - `switch_test`, `sram_test`, `display7_test` — model benches.
 - `latch_test` — the `latch` kind's five models, one case per function-table
   row of the devices that use them (inline fixture devices copied from the

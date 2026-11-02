@@ -185,7 +185,9 @@ static const char *const FILE_KEYS[] = {"format", "version", "kind", "devices", 
 static const char *const DEVICE_KEYS[] = {
     "id", "function", "description", "drawer", "note", "pinouts", "parts", NULL
 };
-static const char *const PART_KEYS[] = {"name", "package", "pinout", "flags", "footprint", NULL};
+static const char *const PART_KEYS[] = {
+    "name", "package", "pinout", "flags", "footprint", "connectorFootprint", NULL
+};
 static const char *const PIN_KEYS[] = {"number", "ball", "name", "role", "group", NULL};
 
 static const char *const ROLE_NAMES[] = {
@@ -357,22 +359,24 @@ static int load_flags(KindContext *ctx, const cJSON *part_json, unsigned *flags)
     return 0;
 }
 
-/* Resolves "footprint" and checks that every pin has a pad of its designator. */
+/* Resolves the footprint id under `key` ("footprint" or "connectorFootprint")
+   into *out and checks that every pin has a pad of its designator. */
 static int load_part_footprint(KindContext *ctx, const PartLibrary *library, const cJSON *part_json,
-                               const char *pinout_name, Part *part) {
+                               const char *key, const char *pinout_name, const Part *part,
+                               const PartFootprint **out) {
     const PartFootprint *footprint;
     const char *id;
     size_t i, j;
 
-    if (kind_string(ctx, part_json, "footprint", &id) != 0) {
+    if (kind_string(ctx, part_json, key, &id) != 0) {
         return -1;
     }
     footprint = part_library_find_footprint(library, id);
     if (footprint == NULL) {
-        return kind_error(ctx, "unknown footprint \"%s\"", id);
+        return kind_error(ctx, "unknown %s \"%s\"", key, id);
     }
     if (footprint->pins != part->pin_count) {
-        return kind_error(ctx, "footprint \"%s\" has %u pads, pinout \"%s\" has %zu pins", id,
+        return kind_error(ctx, "%s \"%s\" has %u pads, pinout \"%s\" has %zu pins", key, id,
                           footprint->pins, pinout_name, part->pin_count);
     }
     for (i = 0; i < part->pin_count; i++) {
@@ -384,11 +388,11 @@ static int load_part_footprint(KindContext *ctx, const PartLibrary *library, con
             }
         }
         if (j == footprint->pad_count) {
-            return kind_error(ctx, "pin \"%s\" has no pad in footprint \"%s\"",
-                              part->pins[i].designator, id);
+            return kind_error(ctx, "pin \"%s\" has no pad in %s \"%s\"",
+                              part->pins[i].designator, key, id);
         }
     }
-    part->footprint = footprint;
+    *out = footprint;
     return 0;
 }
 
@@ -433,13 +437,22 @@ static int load_part(KindContext *ctx, PartLibrary *library, FileParts *file,
     part->pins = pinouts[p].pins;
     part->pin_count = pinouts[p].pin_count;
     /* Every part but a supply names its footprint (checked after the kind's load_part). */
-    if (cJSON_GetObjectItemCaseSensitive(part_json, "footprint") != NULL) {
+    if (cJSON_GetObjectItemCaseSensitive(part_json, "footprint") != NULL ||
+        cJSON_GetObjectItemCaseSensitive(part_json, "connectorFootprint") != NULL) {
         if (ops->kind == PART_SUPPLY) {
             return kind_error(ctx, "a supply has no footprint");
         }
-        if (load_part_footprint(ctx, library, part_json, pinout_name, part) != 0) {
-            return -1;
-        }
+    }
+    if (cJSON_GetObjectItemCaseSensitive(part_json, "footprint") != NULL &&
+        load_part_footprint(ctx, library, part_json, "footprint", pinout_name, part,
+                            &part->footprint) != 0) {
+        return -1;
+    }
+    /* Optional: the second footprint the PCB Style option switches to. */
+    if (cJSON_GetObjectItemCaseSensitive(part_json, "connectorFootprint") != NULL &&
+        load_part_footprint(ctx, library, part_json, "connectorFootprint", pinout_name, part,
+                            &part->connector_footprint) != 0) {
+        return -1;
     }
     internal->ops = ops;
     internal->device = device;

@@ -362,7 +362,7 @@ size_t serial_rx_pin(const void *state, unsigned channel) {
 
 static const SimComponentType SERIAL_COMPONENT = {
     "serial", serial_pin_count, serial_create, serial_destroy, serial_start, serial_pin_changed,
-    serial_timer, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    serial_timer, NULL, NULL, NULL, NULL, NULL, NULL, NULL /* cpu_state */, NULL /* lcd_state */,
     serial_channels, serial_sent, serial_send
 };
 

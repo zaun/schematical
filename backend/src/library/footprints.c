@@ -616,7 +616,7 @@ static int load_explicit(KindContext *ctx, const cJSON *json, PartFootprint *fp)
     FootprintPad *read;
     FootprintPad *pads;
     unsigned *pin_of;
-    size_t *where;
+    size_t *where;                      /* pads per pin */
     size_t count, i, n = 0;
     unsigned pin;
 
@@ -662,10 +662,7 @@ static int load_explicit(KindContext *ctx, const cJSON *json, PartFootprint *fp)
         pad->y = clean(pad->y);
         pin_of[i] = (unsigned)number;
         if (number > 0) {
-            if (where[number] != 0) {
-                return kind_error(ctx, "pin %u has two pads", (unsigned)number);
-            }
-            where[number] = i + 1;
+            where[number]++;
             pad->designator = number_text(ctx, (unsigned)number);
             if (pad->designator == NULL) {
                 return -1;
@@ -674,11 +671,17 @@ static int load_explicit(KindContext *ctx, const cJSON *json, PartFootprint *fp)
         kind_pop(ctx);
         i++;
     }
+    /* Grouped by pin, file order within a pin (a pin may have several pads),
+       then the unnumbered pads in file order. */
     for (pin = 1; pin <= fp->pins; pin++) {
         if (where[pin] == 0) {
             return kind_error(ctx, "pin %u has no pad", pin);
         }
-        pads[n++] = read[where[pin] - 1];
+        for (i = 0; i < count; i++) {
+            if (pin_of[i] == pin) {
+                pads[n++] = read[i];
+            }
+        }
     }
     for (i = 0; i < count; i++) {
         if (pin_of[i] == 0) {

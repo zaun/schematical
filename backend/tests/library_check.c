@@ -1301,9 +1301,6 @@ static void check_footprint_cases(void) {
                    "\"I1\" is not a ball name");
     expect_fp_fail("explicit: pin missing", FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," EPAD("0", "1") "]"),
                    "pin 2 has no pad");
-    expect_fp_fail("explicit: pin repeated",
-                   FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," EPAD("2", "1") "," EPAD("1", "2") "]"),
-                   "pads[2]: pin 1 has two pads");
     expect_fp_fail("explicit: pin beyond pins",
                    FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," EPAD("3", "1") "]"),
                    "pads[1]: \"pin\" must be a whole number from 0 to 2");
@@ -1320,6 +1317,43 @@ static void check_footprint_cases(void) {
                    "pads[1]: \"drill\" 0.4 must be smaller than the pad (0.4 x 0.4)");
 }
 
+/* plan-11-A: an explicit pin may have several pads; they come out grouped by
+   pin, file order within a pin, unnumbered last. */
+static void check_explicit_repeated_pins(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const PartFootprint *fp;
+
+    CHECK(load_fp(library,
+                  FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," EPAD("2", "1") "," EPAD("1", "2") "]"),
+                  &error) == 0);
+    fp = part_library_find_footprint(library, "F");
+    CHECK(fp != NULL && fp->pins == 2 && fp->pad_count == 3);
+    check_pad(fp, 0, "1", 0, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 1, "1", 2, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 2, "2", 1, 0, 0.4, 0.4, 0, PAD_RECT);
+    part_library_destroy(library);
+    printf("ok   explicit: pin repeated loads as 1, 1, 2\n");
+
+    library = part_library_create();
+    CHECK(load_fp(library,
+                  FP_EXPLICIT_WITH("'pads':[" EPAD("2", "0") "," EPAD("1", "-1") "," EPAD("0", "3") ","
+                                   EPAD("1", "1") "]"),
+                  &error) == 0);
+    fp = part_library_find_footprint(library, "F");
+    CHECK(fp != NULL && fp->pins == 2 && fp->pad_count == fp->pins + 2);
+    check_pad(fp, 0, "1", -1, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 1, "1", 1, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 2, "2", 0, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 3, NULL, 3, 0, 0.4, 0.4, 0, PAD_RECT);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   explicit: pin 1 at x -1 and 1 comes out pads[0], pads[1], file order\n");
+
+    expect_fp_fail("explicit: pin 1 twice, pin 2 missing",
+                   FP_EXPLICIT_WITH("'pads':[" EPAD("1", "-1") "," EPAD("1", "1") "]"), "pin 2 has no pad");
+}
+
 /* An LED with one pinout of PINS whose part names FOOTPRINT (a JSON value). */
 #define FP_LED(PINS, FOOTPRINT) \
     HEAD("led") "{'id':'led-fp','function':'LED','description':'d','drawer':[]," \
@@ -1333,6 +1367,16 @@ static void check_footprint_cases(void) {
 #define FP_BGA2 \
     "{'id':'BGA-2','description':'d','style':'grid','pins':2,'rows':2,'columns':2,'pitch':0.5," \
     "'balls':['A1','A2'],'body':{'width':1,'height':1},'pad':{'width':0.2,'height':0.2,'shape':'round'}}"
+
+#define FP_CHIP2B \
+    "{'id':'CHIP-2B','description':'d','style':'dual','pins':2,'perSide':1,'body':{'width':1,'height':0.5}," \
+    "'pitch':2,'span':0.9,'pad':{'width':0.5,'height':0.7,'shape':'rect'}}"
+/* The FP_LED part on CHIP-2 with CONN (a JSON value) as its connectorFootprint. */
+#define FP_LED_CONN(CONN) \
+    HEAD("led") "{'id':'led-fp','function':'LED','description':'d','drawer':[]," \
+    "'pinouts':{'p':[" FP_LED_NUMBERED "]},'color':'Red','anode':'A','cathode':'K'," \
+    "'parts':[{'name':'LED-FP','package':'X','pinout':'p','footprint':'CHIP-2'," \
+    "'connectorFootprint':" CONN "}]}" TAIL
 
 static void check_part_footprints(void) {
     PartLibrary *library = part_library_create();
@@ -1360,6 +1404,35 @@ static void check_part_footprints(void) {
                      FP_LED(FP_LED_NUMBERED, "'BGA-2'"), "pin \"1\" has no pad in footprint \"BGA-2\"");
     expect_part_fail("part: footprint not a string", FP_FILE(FP_CHIP2), FP_LED(FP_LED_NUMBERED, "2"),
                      "\"footprint\" must be a string");
+
+    /* plan-11-A: "connectorFootprint", optional, checked like "footprint". */
+    {
+        PartLibrary *lib = part_library_create();
+        char *err = NULL;
+
+        CHECK(load_fp(lib, FP_FILE(FP_CHIP2 "," FP_CHIP2B), &err) == 0);
+        CHECK(load(lib, FP_LED_CONN("'CHIP-2B'"), &err) == 0);
+        part = part_library_find(lib, "LED-FP");
+        CHECK(part != NULL && part->footprint == part_library_find_footprint(lib, "CHIP-2") &&
+              part->connector_footprint != NULL &&
+              strcmp(part->connector_footprint->id, "CHIP-2B") == 0);
+        free(err);
+        part_library_destroy(lib);
+        printf("ok   a part's \"connectorFootprint\" resolves\n");
+    }
+    expect_part_fail("part: unknown connectorFootprint", FP_FILE(FP_CHIP2), FP_LED_CONN("'HDR-1X17'"),
+                     "parts[0] (LED-FP): unknown connectorFootprint \"HDR-1X17\"");
+    expect_part_fail("part: connectorFootprint pad count mismatch", FP_FILE(FP_CHIP2 "," FP_SOT5),
+                     FP_LED_CONN("'SOT-5'"),
+                     "connectorFootprint \"SOT-5\" has 5 pads, pinout \"p\" has 2 pins");
+    expect_part_fail("part: pin without a pad in connectorFootprint", FP_FILE(FP_CHIP2 "," FP_BGA2),
+                     FP_LED_CONN("'BGA-2'"), "pin \"1\" has no pad in connectorFootprint \"BGA-2\"");
+    expect_fail("supply part with connectorFootprint",
+                HEAD("supply")
+                "{'id':'VCC','function':'VCC','description':'d','drawer':[],"
+                "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'volts':5,"
+                "'parts':[{'name':'VCC','package':'','pinout':'pin','connectorFootprint':'T1'}]}" TAIL,
+                "parts[0] (VCC): a supply has no footprint");
 
     /* plan-03-C: the key is required on every part but a supply, which rejects it. */
     expect_fail("non-supply part without footprint",
@@ -1590,6 +1663,7 @@ static void check_voltage_cases(void) {
 
 int main(void) {
     check_footprint_styles();
+    check_explicit_repeated_pins();
     check_footprint_corners();
     check_footprint_cases();
     check_part_footprints();

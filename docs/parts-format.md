@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, counter, shift register, SRAM, EEPROM, switch, LED,
-7-segment display, oscillator, supply, microprocessor, serial controller) is described in a JSON part file in
+7-segment display, character LCD module, oscillator, supply, microprocessor, serial controller) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -20,6 +20,7 @@ Every orderable part (gate, flip-flop, latch, counter, shift register, SRAM, EEP
 | `counter.json` | `counter` |
 | `shift.json` | `shift` |
 | `cpu.json` | `cpu` |
+| `charlcd.json` | `charlcd` |
 | `serial.json` | `serial` |
 
 Beside them, `footprints.json` holds the land patterns parts name with
@@ -157,6 +158,7 @@ oscillator's `enablePin` is a pin designator; see below.)
 | `"pinout"` | the name of one of the device's pinouts |
 | `"flags"` | optional, any of `obsolete`, `military`, `automotive`, `enhanced`, `ceramic` |
 | `"footprint"` | the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)). Required on every part except supplies (`VCC`, `GND`, `5V`, …), which reject it |
+| `"connectorFootprint"` | optional: a second footprint, the `id` of one in `footprints.json`, that the PCB Style option switches to (**Connector Only**). Same rules as `footprint`. Character LCD modules use it (§ `charlcd`) |
 | `"vcc"`, `"inputMax"` | on gate, dff, jkff, sram, eeprom and oscillator parts only: the part's own supply range / input limit, replacing the one it inherits (see [Supply voltage](#supply-voltage-vcc-and-inputmax)) |
 
 Every other key belongs to the kind.
@@ -193,7 +195,7 @@ Flags:
 Chips carry their datasheet's Recommended Operating Conditions supply range,
 for the voltage check (`docs/backend.md`). The keys go on the gate, dff and
 jkff **timing entries**, the sram and eeprom **grades**, the oscillator
-**device**, and on any **part** of those kinds:
+and charlcd **devices**, and on any **part** of those kinds:
 
 | Key | Value |
 |---|---|
@@ -203,7 +205,8 @@ jkff **timing entries**, the sram and eeprom **grades**, the oscillator
 Resolution, per part:
 
 1. The base is the part's timing entry (gate, dff, jkff), grade (sram,
-   eeprom) or device (oscillator): its `vcc` and `inputMax`, each optional.
+   eeprom) or device (oscillator, charlcd): its `vcc` and `inputMax`, each
+   optional.
 2. The part's own `vcc` replaces the base range; its own `inputMax` replaces
    the base input max. A part that overrides only `vcc` keeps the base's
    `inputMax` if one was given, otherwise its input max is its own `vcc`
@@ -214,7 +217,7 @@ Resolution, per part:
 4. `Part.vcc` points at the resolved `PartVoltage` (`min_mv`, `max_mv`,
    `input_max_mv`); parts with no part-level key share their entry's.
 
-Every gate, dff, jkff, sram, eeprom and oscillator part must resolve to a
+Every gate, dff, jkff, sram, eeprom, oscillator and charlcd part must resolve to a
 `vcc` range (a part with none is rejected: `missing "vcc"`). Supplies,
 LEDs, 7-segment displays and switches never take these keys; their
 `Part.vcc` is NULL.
@@ -390,8 +393,11 @@ column c, row index r (A = 0):  x = (c − 1 − (columns−1)/2) · pitch
 For land patterns the parametric styles cannot express (mixed pad sizes).
 `"pads"` is a non-empty array of `{"pin", "x", "y", "width", "height",
 "shape"}` plus optional `"drill"` and corner keys, in the coordinates above. Every pin
-1…`pins` appears exactly once; `"pin": 0` is an unnumbered pad (any
-number of them). `pad`, `drill`, `slots`, `centre` and `pin1Shape` are not
+1…`pins` has at least one pad. A pin may have several (the same
+connection in more places, e.g. a module's two header rows); they are
+listed together, in file order. The app draws each and uses the pin's
+first pad for the pin-1 mark and the `Pad 1 Center` origin. `"pin": 0` is
+an unnumbered pad (any number of them). `pad`, `drill`, `slots`, `centre` and `pin1Shape` are not
 allowed at the footprint level.
 
 ### The `"footprint"` part key
@@ -406,6 +412,9 @@ allowed at the footprint level.
   if the datasheet gives one, else the outline rules), with a `note` naming
   the drawing, file and page. `footprint_check` fails on a footprint no part
   uses.
+- `"connectorFootprint"` follows the same rules (unknown id, pad count,
+  a pad per pin; messages name `connectorFootprint`), and naming a
+  footprint there counts as a use for `footprint_check`.
 - **Mid-values.** Every dimension that a rule takes from a drawing (lead
   width and length, tip-to-tip span, terminal size, ball and pin
   diameter, body) is the mid-value (min + max) / 2 when the drawing gives
@@ -1095,6 +1104,85 @@ An LED's segment pin is the first pin (in pin order) in `segmentPins` that
 drives its segment for its digit (or every digit); its commons are the
 first two pins of its digit in `commonPins`. Unused positions are pins with
 role `nc` (no connect) or `absent` (no lead). Parts carry no kind keys.
+
+### `charlcd`
+
+Character LCD modules: HD44780-compatible modules with the controller,
+character ROM, glass and backlight built in (plan-11). The parts drawer
+lists them under Displays → Character. The example is the
+`NHD-0216K1Z-NSW` device (part NHD-0216K1Z-NSW-BBW-L):
+
+```json
+"columns": 16, "rows": 2, "controller": "ST7066U", "rom": "A00",
+"panel": "blue-negative",
+"bus": {"rs": "RS", "rw": "R/W", "e": "E",
+        "data": ["DB0", "DB1", "DB2", "DB3", "DB4", "DB5", "DB6", "DB7"]},
+"contrast": "V0",
+"backlight": {"anode": "LED+", "cathode": "LED-", "color": "White"},
+"timing": {"tc": 1200, "tpw": 140, "tas": 0, "tah": 10, "tdsw": 40, "th": 10,
+           "tddr": 100, "tdhr": 10},
+"exec": {"instruction": 37000, "data": 37000, "clearHome": 1520000,
+         "powerOn": 40000000},
+"vcc": [4.5, 5.5]
+```
+
+| Key | Value |
+|---|---|
+| `"columns"`, `"rows"` | characters per line (1–40) and lines (1–2) |
+| `"controller"` | shown as is, e.g. `"ST7066U"` |
+| `"rom"` | `"A00"`, the only character ROM the model has |
+| `"panel"` | `"yellow-green"` (STN positive: dark dots on yellow-green) or `"blue-negative"` (STN negative: light dots on blue) |
+| `"bus"` | `{"rs", "rw", "e", "data"}`: pin names; `data` is 8 names, DB0 first. Each names exactly one pin. `PartCharLcd.bus_pins` holds RS, R/W, E, DB0–DB7 as indices into `Part.pins` |
+| `"contrast"` | the V0 pin's name (one pin); the model ignores it |
+| `"backlight"` | optional `{"anode", "cathode", "color"}`: pin names (one pin each) and the shown color. Without it `PartCharLcd.backlight_color` is NULL |
+| `"timing"` | ns: `tc tpw tas tah tdsw th tddr tdhr` (the datasheet's bus timing), every key required, each ≥ 0; `tc` and `tpw` > 0 |
+| `"exec"` | ns: `instruction` (every instruction but Clear and Home), `data` (a data read or write), `clearHome`, `powerOn` (busy time after power-up), each > 0 |
+| `"vcc"`, `"inputMax"` | the supply range (§ Supply voltage); also allowed on the part |
+
+Part keys: `"vcc"`, `"inputMax"` (optional; replace the device's). Parts
+name a `"connectorFootprint"` as well as their `"footprint"`.
+
+Behavior (the HD44780 family as the module datasheets print it;
+`planning/completed/plan-11-B-charlcd-kind.md` §4 has every rule):
+
+- **Pins.** RS, R/W, E, V0 and the backlight pins are inputs; DB0–7 are
+  inout. Z reads as X on every input. V0 is ignored.
+- **Bus.** An access starts when E rises and ends when it falls. A read
+  drives DB X from the rise, the data from + `tddr`, and Z from the fall
+  + `tdhr`. A write samples DB, RS and R/W at the fall and takes effect at
+  the fall + max(`th`, `tah`). Timing violations: less than `tas` from RS
+  or R/W to the rise, less than `tc` between rises, E high less than
+  `tpw`, a sampled DB pin changing less than `tdsw` before the fall or
+  less than `th` after it, RS or R/W changing less than `tah` after it.
+- **4-bit mode** (DL = 0): only DB4–7 are read and driven; a byte is two
+  accesses, high nibble first.
+- **Busy.** A write that takes effect sets BF for its `exec` time
+  (`clearHome` for Clear and Home, `instruction` for other instructions,
+  `data` for data). A write while BF = 1 is not accepted. Power-up: BF = 1
+  for `powerOn`, with the HD44780 internal-reset state (8-bit, 1 line,
+  display off, I/D = 1, DDRAM all spaces, CGRAM X).
+- **Instructions:** Clear, Home, Entry mode, Display on/off, Cursor or
+  display shift, Function set, Set CGRAM and DDRAM address; data reads and
+  writes move AC by I/D (and shift the display when S = 1 on a write).
+  DDRAM has 80 cells (2-line: addresses 00–27 and 40–67; 1-line: 00–4F);
+  an address with no cell reads X and takes no write.
+- **X.** Registers are tracked one field at a time, each known or X. A
+  data write with a violation stores its cell as X; an instruction write
+  with a violation or an unknown instruction, RS or R/W X at a write, an
+  access with R/W X, or E reading X while R/W does not read 1 makes every
+  field, every RAM cell and BF X ("LOST"), except during the power-on
+  reset. E reading X with R/W reading 1 is a possible read: only AC (unless
+  RS reads 0) and the 4-bit nibble phase become X. A write of `0011` on DB7–4 with RS = 0 while
+  DL or the 4-bit nibble phase is X is Function Set with DL = 1 (the
+  datasheets' initialization by instruction).
+- **Image.** The backend renders the 5×8 dot image from DDRAM, CGRAM (codes
+  00–0F), the character ROM A00 (10–FF), the display shift, the cursor
+  (dot row 7 of AC's cell) and blink (all dots of AC's cell, on while
+  `floor(t / 379 259 259 ps)` is even). A dot is X when anything it depends
+  on is X. `circuit_lcd_state` reads it.
+- **Backlight.** One light, on while the anode reads 1 and the cathode
+  reads 0. The voltage check carries the anode's level to the cathode net,
+  as for an LED, and checks VDD against `vcc`.
 
 ### Sequential kinds (`latch`, `counter`, `shift`)
 

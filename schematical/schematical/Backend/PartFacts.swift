@@ -15,6 +15,9 @@ nonisolated enum PartFacts {
         if let footprint = part.footprint {
             add("Footprint", "\(footprint.id) — \(footprint.description)")
         }
+        if let connector = part.connectorFootprint {
+            add("Connector", "\(connector.id) — \(connector.description)")
+        }
         add("Pins", String(part.pins.filter { !$0.isHidden }.count))
         add("Flags", flagNames(part.flags).joined(separator: ", "))
 
@@ -66,6 +69,12 @@ nonisolated enum PartFacts {
             add("Core", coreName(core))
             add("Speed grade", grade)
             add("Max clock", "\(maxHz / 1_000_000) MHz")
+        case let .characterLCD(info):
+            add("Characters", "\(info.columns) × \(info.rows)")
+            add("Controller", info.controller)
+            add("Character ROM", info.rom == "A00" ? "A00 (Japanese)" : info.rom)
+            add("Panel", info.panel == .blueNegative ? "STN blue, negative" : "STN yellow-green, positive")
+            add("Backlight", info.backlightColor ?? "None")
         case let .serial(model, channels, grade):
             add("Model", model)
             add("Channels", String(channels))
@@ -95,6 +104,7 @@ nonisolated enum PartFacts {
         case PART_COUNTER: return "Counter"
         case PART_SHIFT: return "Shift register"
         case PART_CPU: return "Processor"
+        case PART_CHARLCD: return "Character LCD"
         case PART_SERIAL: return "Serial controller"
         default: return ""
         }

@@ -39,9 +39,9 @@ The gate is plan-11-A § Prerequisites. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-11-C complete | `grep -c 'Commit: —' planning/plan-11-C-charlcd-parts.md` → 0 (or the file is in `planning/completed/`) | NOT MET (2026-11-01: C not started) |
-| The parts load | `grep -c '\|charlcd\|' backend/tests/golden/parts.txt` → 5 | NOT MET (lands in C) |
-| `circuit_lcd_state` exists | `grep -n 'circuit_lcd_state' backend/include/circuit.h` → one line | NOT MET (lands in B) |
+| plan-11-C complete | `grep -c '^Commit: —' planning/plan-11-C-charlcd-parts.md` → 0 (or the file is in `planning/completed/`) | MET (2026-11-01 at 36dbe1e: 0 once C's last hash is filled, in the D Phase 1 commit) |
+| The parts load | `grep -c '\|charlcd\|' backend/tests/golden/parts.txt` → 5 | MET (2026-11-01 at 36dbe1e: 5) |
+| `circuit_lcd_state` exists | `grep -n 'circuit_lcd_state' backend/include/circuit.h` → one line | MET (2026-11-01 at 36dbe1e: circuit.h:86) |
 
 Everything below is written against the world where these hold.
 
@@ -349,42 +349,69 @@ filter parts.
 
 ### Phase 1 — Catalog, drawer and facts
 
-- [ ] `Backend/PartCatalog.swift`: `connectorFootprint`, `.characterLCD`
+- [x] `Backend/PartCatalog.swift`: `connectorFootprint`, `.characterLCD`
       details, `symbol(for:)`, `listsPartsDirectly`, `trailingLabel`,
       `detailLabels` (§4.1).
-- [ ] `Backend/PartFacts.swift`: kind name and fact rows (§4.1).
-- [ ] `Canvas/SchematicModel.swift`: `PartSymbol.characterLCD` and its
+- [x] `Backend/PartFacts.swift`: kind name and fact rows (§4.1).
+- [x] `Canvas/SchematicModel.swift`: `PartSymbol.characterLCD` and its
       `ChipLayout` (§4.2). Until Phase 2 it is drawn by `ChipBlockView`.
+- [x] Added: `Drawer/ChipDrawerView.swift` gains
+      `init(catalog:openGroups:)` (default: none open, so the app is
+      unchanged), so the harness can render Displays → Character open. And
+      the harness itself: `/tmp/p11/harness` (plan-09-E's approach: the app's
+      Swift and the backend C in one CLI inside a copy of the Debug app,
+      rendering real views offscreen to PNG; see Corrections).
 
 Acceptance: the drawer shows Displays → Character with the 5 parts and
 their labels, and the sidebar shows the facts.
   Check: the app build → `** BUILD SUCCEEDED **`; launch it, open the drawer, screenshot Displays → Character and the sidebar of `NHD-0216K1Z-NSW-BBW-L` (est. 6 min; no app test target, so a screenshot is the smallest check of what the drawer lists).
-Commit: —
+  Ran: app build → `** BUILD SUCCEEDED **`; `run catalog` → `Displays →
+  Character: functions 0, parts 5`, each `[16×2]` with `Module · Yellow-green
+  · Yellow-green backlight · 4.5–5.5 V` (BZ 4.7–5.3 V; NSW `Blue negative ·
+  White backlight`); `run shots` → `/tmp/p11-demo/drawer.png` and
+  `sidebar.png`, looked at: the five rows under Displays → Character, and
+  the sidebar's Kind, Footprint, Connector, Characters 16 × 2, Controller
+  ST7066U, Character ROM A00 (Japanese), Panel STN blue, negative,
+  Backlight White, Supply range 4.5–5.5 V.
+Commit: eb7e99c
 
 ### Phase 2 — Live face
 
-- [ ] `Simulation/SimulationEngine.swift`: `LCDFrame`, `lcdParts`,
+- [x] `Simulation/SimulationEngine.swift`: `LCDFrame`, `lcdParts`,
       `lcdFrames` in the snapshot (§4.3).
-- [ ] `Simulation/Simulation.swift`: `lcdParts` by kind, `lcdFrames`
+- [x] `Simulation/Simulation.swift`: `lcdParts` by kind, `lcdFrames`
       published and cleared (§4.3).
-- [ ] `Canvas/CharacterLCDSymbolView.swift`: the view (§4.2).
-- [ ] `Canvas/SchematicCanvasView.swift`: the `.characterLCD` case.
+- [x] `Canvas/CharacterLCDSymbolView.swift`: the view (§4.2).
+- [x] `Canvas/SchematicCanvasView.swift`: the `.characterLCD` case.
+- [x] Harness mode `face`: places the module, wires VDD and LED+ to 5V and
+      VSS and LED- to GND, captures the symbol view (with the simulation's
+      frame and light, as the canvas passes them) at rest and running.
 
 Acceptance: a placed LCD shows a blank face at rest and a lit, empty face
 while running with power and the backlight wired.
   Check: build; place `NHD-0216K1Z-NSW-BBW-L`, wire VDD and LED+ to `5V` and VSS and LED- to `GND`, run, then screenshot the blue face (est. 5 min).
-Commit: —
+  Ran: app build → `** BUILD SUCCEEDED **`; `run face` → layout 330 × 270,
+  face 249 × 56.5 (the §4.2 numbers); running: backlight `[1.0]`, frame
+  16x2 with 1280 dots, 0 on, 0 X (display off at power-up); after Stop the
+  frame is nil. `/tmp/p11-demo/face-rest.png` (dark navy, unlit cells) and
+  `face-running.png` (lit blue, empty cells) were looked at.
+Commit: 8fa1fa1
 
 ### Phase 3 — PCB Style and the file
 
-- [ ] `Canvas/BoardSettings.swift`: `FootprintStyle` (§4.4).
-- [ ] `Canvas/BoardModel.swift`: `BoardPlacement.style`,
+- [x] `Canvas/BoardSettings.swift`: `FootprintStyle` (§4.4).
+- [x] `Canvas/BoardModel.swift`: `BoardPlacement.style`,
       `PlacedChip.footprint`, the 5 sites (§4.4).
-- [ ] `Canvas/SchematicModel.swift`: sites `:811,823,837`; `setFootprintStyle` (§4.4).
-- [ ] `Document/SchematicFile.swift`: `Placement.style`, write and read,
+- [x] `Canvas/SchematicModel.swift`: sites `:811,823,837`; `setFootprintStyle` (§4.4).
+      (Now at `:862,874,888`; the 13-site count re-measured: 13. No re-snap
+      after the switch, see Corrections.)
+- [x] `Document/SchematicFile.swift`: `Placement.style`, write and read,
       site `:340` (§4.5).
-- [ ] `Canvas/PCBSidebarView.swift`: header and Style picker (§4.6).
-- [ ] `docs/file-format.md` (§4.5).
+- [x] `Canvas/PCBSidebarView.swift`: header and Style picker (§4.6).
+- [x] `docs/file-format.md` (§4.5).
+- [x] Harness mode `pcb`: the module with the Pad 1 Center origin, the
+      sidebar and the PCB page captured in each style, save, reopen, a bad
+      value, and a new file's keys.
 
 Acceptance: switching the style swaps the footprint with pin 1's pad
 fixed, and the choice round-trips through a file.
@@ -392,22 +419,52 @@ fixed, and the choice round-trips through a file.
   the Pad 1 Center origin; switch to Connector Only; X/Y unchanged, the
   1×16 header is drawn, the header line reads `HDR-1X16-P2.54`. Save as
   `/tmp/p11-demo/style.schematical`; `grep -c '"style" : "connector"\|"style":"connector"' /tmp/p11-demo/style.schematical` → 1. Reopen: still Connector Only. Edit the file to `"style":"x"` and open: the error `U… style "x" must be module or connector` (est. 8 min).
-Commit: —
+  Ran: build → `** BUILD SUCCEEDED **`; `run pcb` → before `style module,
+  footprint LCM-NHD-0216K1Z, origin pad1Center at (-32.005, -15.780), pads
+  36`; after `style connector, footprint HDR-1X16-P2.54 … at (-32.005,
+  -15.780), pads 16`, `pad 1 moved by 0.000000 mm`; grep → 1 (`"style" :
+  "connector"`); reopened → `style connector … (-32.005, -15.780)`; bad
+  value → `The PCB settings are not valid: U1 style "x" must be module or
+  connector.`; a new file with a gate and an LCD has 1 `style` key (the
+  LCD's). PNGs looked at: `pcb-module.png` (both 1×16 rows, 4 holes),
+  `pcb-connector.png` (the 1×16 header, square pin 1),
+  `pcb-sidebar-connector.png` (Style on Connector Only, header line
+  `HDR-1X16-P2.54 — …`, X −32.01, Y −15.78).
+Commit: fbe7705
 
 ### Phase 4 — Runtime proof
 
-- [ ] `/tmp/p11-demo/make_board.py` and `hello.bin` (§4.7; not committed).
-- [ ] Open `lcd-6502.schematical`, run, open the reset switch, screenshot
+- [x] `/tmp/p11-demo/make_board.py` and `hello.bin` (§4.7; not committed).
+      Ran: `python3 -I make_board.py backend/tests/golden/parts.txt` → 9 parts,
+      63 wires, 33 nets; hello.bin 32768 bytes (the corrected program of
+      plan-11-C §4.6). Harness `run netlist`: the app's netlist equals the
+      intended nets (`diff` → same).
+- [x] Open `lcd-6502.schematical`, run, open the reset switch, screenshot
       `HELLO` on the face.
-- [ ] On the PCB page: the LCD is a 1×16 header. Switch to Full Module and
+      Ran (`run board`, speed 1000): opened 9 parts / 63 wires, the LCD
+      `style connector`; reset held until 101 ms of circuit time, then
+      opened; at 173 ms the CPU is `Running · 72339 cycles`, last
+      `8029  4C 29 80  JMP $8029`, backlight 1.0, and the dot dump spells
+      HELLO. `/tmp/p11-demo/hello.png` looked at: HELLO in light dots on
+      the lit blue face. The first run failed (every dot X, CPU LOST); the
+      cause and fix are in plan-11-B and C Corrections (62adf2d).
+- [x] On the PCB page: the LCD is a 1×16 header. Switch to Full Module and
       screenshot the 80 × 36 module with both header rows and 4 holes.
       Move, rotate and change the origin once each; switch back; save,
       reopen and screenshot again.
+      Ran: header `HDR-1X16-P2.54` at open; Full Module →
+      `LCM-NHD-0216K1Z`, 36 pads (`board-module.png`: both rows, 4 holes);
+      moved (+10, +5 mm), rotated to 90°, origin → Pad 1 Center; back to
+      Connector Only with `pad 1 kept: true`; saved and reopened →
+      identical placement (`same placement after reopen: true`,
+      `board-reopened.png` the turned header, sidebar captured).
 
 Acceptance: `HELLO` on the face; both footprint styles drawn; the style
 survives move, rotate, origin change, save and reopen.
   Check: the screenshots above, attached to the commit message's description (est. 15 min).
-Commit: —
+  Ran: as the three tasks above; the PNG paths are in the Phase 4 commit
+  message.
+Commit: 84c74d0
 
 ## Validation Plan
 
@@ -442,6 +499,43 @@ Commit: —
   `circuit_error`). (§3)
 
 ## Corrections
+
+- **The §4.7 flow found a backend bug, fixed in B and C (62adf2d).** With
+  the reset switch opened by hand after a second (here at 101 ms), the
+  first run showed every dot X and the CPU LOST: the 6502 held in reset
+  pulses E X past the LCD's power-on. The fix (E X with R/W 1 is a
+  possible read; the program first sets AC) and its evidence are in the
+  plan-11-B and plan-11-C Corrections, as § Non-goals asks.
+- **§4.7 program.** `hello.bin` holds the corrected plan-11-C §4.6
+  program (JMP `$8029`, NMI/IRQ `8029`).
+- **No re-snap after a style switch (§4.4 step 4 dropped).** `snapped`
+  moves the placement so its origin point is on the 0.635 mm grid. With
+  the Pad 1 Center origin chosen by hand (an origin change never moves a
+  footprint, so pad 1 is usually off the grid), the snap moved pad 1 by
+  (0.255, −0.095) mm, and the Phase 3 check ("X/Y unchanged") failed.
+  Measured with `run pcb`. `setFootprintStyle` now keeps pin 1's first
+  pad exactly where it was, which is what §4.4 and § Decisions ask for
+  ("pin 1 staying put"). Like an origin change, this may leave the origin
+  point off the grid. The next move snaps it, as before.
+
+- **`lcdParts` is found in `NetlistBuilder`, not `Simulation`.** §4.3 has
+  `Simulation` filter `netlist.chipIDs` by kind when it starts, but
+  `start(netlist:loads:)` receives only the netlist (no chips to read the
+  kind from). `SchematicNetlist` gains `lcdParts`, filled from the chips by
+  `part.kind == PART_CHARLCD` when the netlist is built. The rule (by kind,
+  never probing the circuit) is unchanged.
+
+- **Prerequisites, plan-11-C row.** Same flaw as plan-11-C's row for B:
+  the plain `grep -c 'Commit: —'` counts the row's own text. Measured with
+  `grep -c '^Commit: —'`.
+- **Screenshots come from the harness, not a desktop session.** This
+  session has no tool that drives a desktop GUI (clicking the drawer,
+  pressing Run, flipping a switch on the canvas). As in plan-09-E, the
+  harness (`/tmp/p11/harness`) compiles the app's own Swift sources with
+  the backend and renders the app's real views (`ChipDrawerView`,
+  `SchematicSidebarView`, the canvas, the PCB sidebar) offscreen, driving
+  the same document and simulation objects the app uses. Clicks are
+  replaced by the methods they call.
 
 ## Summary
 

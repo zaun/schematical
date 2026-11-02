@@ -95,6 +95,7 @@ nonisolated enum PartSymbol: Hashable {
     case pullDown
     case dipSwitch
     case sevenSegment
+    case characterLCD
 
     /// Supplies have their pin on the top or bottom edge, so their view needs
     /// room above and below the body for the pin stub.
@@ -196,7 +197,57 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.dipSwitch(pins)
         case .sevenSegment:
             self = Self.sevenSegment(pins, display: part.display)
+        case .characterLCD:
+            self = Self.characterLCD(pins, info: part.characterLCD)
         }
+    }
+
+    /// Character LCD face: cells of 5 x 8 dots, each dot `lcdDot` square on
+    /// an `lcdDotPitch` pitch; one empty dot column between cells and two
+    /// empty dot rows between lines; `lcdFaceMargin` all round. A name column
+    /// on each side of the face, as for 7-segment displays.
+    static let lcdDot: CGFloat = 2
+    static let lcdDotPitch: CGFloat = 2.5
+    static let lcdFaceMargin: CGFloat = 6
+    static let lcdCellSize = CGSize(width: 4 * lcdDotPitch + lcdDot, height: 7 * lcdDotPitch + lcdDot)
+    static let lcdCellPitch = CGSize(width: 6 * lcdDotPitch, height: 10 * lcdDotPitch)
+
+    /// The face's size: 249 x 56.5 for 16 x 2.
+    static func lcdFaceSize(_ info: CharacterLCDInfo) -> CGSize {
+        let columns = CGFloat(max(info.columns, 1)), rows = CGFloat(max(info.rows, 1))
+        return CGSize(
+            width: (columns - 1) * lcdCellPitch.width + lcdCellSize.width + 2 * lcdFaceMargin,
+            height: (rows - 1) * lcdCellPitch.height + lcdCellSize.height + 2 * lcdFaceMargin
+        )
+    }
+
+    /// Bus pins on the left (RS, R/W, E, a one-row gap, DB0-DB7); every
+    /// other drawn pin on the right, in pin order (VSS, VDD, V0, LED+, LED-).
+    private static func characterLCD(_ pins: [ChipPin], info: CharacterLCDInfo?) -> ChipLayout {
+        guard let info else { return ChipLayout(pins: pins) }
+        let byIndex = Dictionary(pins.map { ($0.index, $0) }, uniquingKeysWith: { first, _ in first })
+        let bus = info.busPins.compactMap { byIndex[$0] }
+        let left = stack([Array(bus.prefix(3)), Array(bus.dropFirst(3))])
+        let busSet = Set(info.busPins)
+        let right = pins.filter { !busSet.contains($0.index) }.sorted { $0.index < $1.index }
+        let face = lcdFaceSize(info)
+        let faceRows = Int(((face.height + 16) / pitch).rounded(.up))
+        let rows = max(left.count, right.count, faceRows)
+
+        var slots: [PinSlot] = []
+        for (row, pin) in left.enumerated() {
+            if let pin {
+                slots.append(PinSlot(pin: pin, side: .left, centerY: centerY(forRow: row)))
+            }
+        }
+        for (row, pin) in right.enumerated() {
+            slots.append(PinSlot(pin: pin, side: .right, centerY: centerY(forRow: row)))
+        }
+        let width = SchematicGrid.snap(face.width + 2 * sevenSegmentNameColumn + 5)
+        return ChipLayout(
+            size: CGSize(width: max(width, bodyWidth), height: headerHeight + pitch * CGFloat(rows)),
+            slots: slots
+        )
     }
 
     /// 7-segment display: digit size, gap between digits, and room for the
@@ -829,7 +880,7 @@ final class SchematicDocument {
     func moveFootprint(_ id: UUID, to centre: CGPoint) {
         guard let index = chips.firstIndex(where: { $0.id == id }),
               let board = chips[index].board,
-              let footprint = chips[index].part.footprint else { return }
+              let footprint = chips[index].footprint else { return }
         var moved = board
         moved.centre = centre
         chips[index].board = BoardLayout.snapped(moved, footprint: footprint,
@@ -841,7 +892,7 @@ final class SchematicDocument {
     func moveFootprintOrigin(_ id: UUID, to point: CGPoint) {
         guard let index = chips.firstIndex(where: { $0.id == id }),
               let board = chips[index].board,
-              let footprint = chips[index].part.footprint else { return }
+              let footprint = chips[index].footprint else { return }
         let pad1 = chips[index].part.firstPinDesignator
         let current = BoardLayout.originPoint(of: board, footprint: footprint, pad1: pad1)
         var moved = board
@@ -855,7 +906,7 @@ final class SchematicDocument {
     func rotateFootprint(_ id: UUID) {
         guard let index = chips.firstIndex(where: { $0.id == id }),
               let board = chips[index].board,
-              let footprint = chips[index].part.footprint else { return }
+              let footprint = chips[index].footprint else { return }
         let pad1 = chips[index].part.firstPinDesignator
         let before = BoardLayout.originPoint(of: board, footprint: footprint, pad1: pad1)
         var turned = board
@@ -871,6 +922,31 @@ final class SchematicDocument {
     func setFootprintOrigin(_ id: UUID, _ origin: FootprintOrigin) {
         guard let index = chips.firstIndex(where: { $0.id == id }), chips[index].board != nil else { return }
         chips[index].board?.origin = origin
+    }
+
+    /// Switches a part between its footprint and its connector footprint
+    /// (the PCB Style option). Pin 1's first pad stays exactly where it was
+    /// (not re-snapped: like an origin change, this may leave the origin
+    /// point off the grid); rotation, origin and marks are kept. Does nothing for a part without a connector
+    /// footprint or when the style does not change.
+    func setFootprintStyle(_ id: UUID, _ style: FootprintStyle) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              chips[index].part.connectorFootprint != nil,
+              let board = chips[index].board, board.style != style,
+              let before = chips[index].footprint else { return }
+        let pad1 = chips[index].part.firstPinDesignator
+        var changed = board
+        changed.style = style
+        chips[index].board = changed
+        guard let after = chips[index].footprint else { return }
+        if let old = before.pads.first(where: { $0.designator == pad1 }),
+           let new = after.pads.first(where: { $0.designator == pad1 }) {
+            let anchor = board.board(old.centre)
+            let landed = changed.board(new.centre)
+            changed.centre.x += anchor.x - landed.x
+            changed.centre.y += anchor.y - landed.y
+        }
+        chips[index].board = changed
     }
 
     /// Sets where a footprint's marks are drawn. A nil layer is left as it is.

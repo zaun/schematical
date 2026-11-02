@@ -227,7 +227,7 @@ private struct FootprintPanel: View {
         Section {
             VStack(alignment: .leading, spacing: 4) {
                 PartHeader(chip: chip)
-                if let footprint = chip.part.footprint {
+                if let footprint = chip.footprint {
                     Text("\(footprint.id) — \(footprint.description)")
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -237,6 +237,20 @@ private struct FootprintPanel: View {
         }
 
         ReferenceSection(document: document, chip: chip)
+
+        if chip.part.connectorFootprint != nil {
+            Section("Footprint") {
+                Picker("Style", selection: Binding(
+                    get: { placement.style },
+                    set: { document.setFootprintStyle(chip.id, $0) }
+                )) {
+                    ForEach(FootprintStyle.allCases, id: \.self) { style in
+                        Text(style.title).tag(style)
+                    }
+                }
+                .pickerStyle(.segmented)
+            }
+        }
 
         Section("Position") {
             Picker("Origin", selection: Binding(

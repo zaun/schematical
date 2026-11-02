@@ -23,6 +23,7 @@
 #include <stdint.h>
 
 #include "cpu_state.h"
+#include "lcd_state.h"
 #include "parts.h"
 #include "voltage.h"
 
@@ -79,6 +80,10 @@ int circuit_memory_load(Circuit *circuit, size_t part, uint32_t start,
    processor" for any other kind. */
 int circuit_cpu_state(const Circuit *circuit, size_t part, CpuState *out);
 
+/* Character LCD state (charlcd kind): the dot image now, RAM and busy flag.
+   0, or -1 with circuit_error "part N is not a character LCD" for any other
+   kind. */
+int circuit_lcd_state(const Circuit *circuit, size_t part, LcdState *out);
 /*
  * Serial terminal (serial kind, plan-12-A section 3.7).
  * circuit_serial_channels: the part's serial channels, 0 for any other part.

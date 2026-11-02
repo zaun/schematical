@@ -24,7 +24,7 @@ typedef struct PartLibrary PartLibrary;
 typedef enum {
     PART_GATE, PART_DFF, PART_JKFF, PART_SRAM, PART_SWITCH,
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER,
-    PART_SHIFT, PART_CPU, PART_SERIAL
+    PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -70,6 +70,14 @@ typedef struct { uint32_t words; unsigned bits; uint64_t access_ps; const char *
                  unsigned page_bytes; uint64_t write_cycle_ps; } PartEeprom;
 /* core: "6502", "65c02" or "z80". max_hz = floor(1e12 / the grade's clock period in ps). */
 typedef struct { const char *core; const char *grade; uint64_t max_hz; } PartCpu;
+/* Character LCD module (charlcd). panel: "yellow-green" (STN positive: dark
+   dots on yellow-green) or "blue-negative" (STN negative: light dots on
+   blue). backlight_color: NULL when the module has no backlight. */
+typedef struct {
+    unsigned columns, rows;
+    const char *controller, *rom, *panel, *backlight_color;
+    const size_t *bus_pins; size_t bus_pin_count;  /* RS, R/W, E, DB0-DB7: indices into Part.pins */
+} PartCharLcd;
 /* model: the serial model ("ns16550", "i8251", ...); channels: serial
    channels on the chip; grade: the part's speed/supply grade. */
 typedef struct { const char *model; unsigned channels; const char *grade; } PartSerial;
@@ -99,7 +107,7 @@ typedef struct {
     unsigned pins;                      /* designated pads */
     double body_width, body_height;
     int body_round;
-    const FootprintPad *pads; size_t pad_count;   /* "1"…"N" order (grid: row-major), unnumbered last */
+    const FootprintPad *pads; size_t pad_count;   /* "1"…"N" order (grid: row-major); a pin with several pads (explicit only) lists them together, in file order; unnumbered last */
 } PartFootprint;
 
 typedef struct Part {
@@ -115,12 +123,15 @@ typedef struct Part {
     const PartDisplay *display;
     const PartOscillator *oscillator;
     const PartSupply *supply;
-    const PartVoltage *vcc;            /* recommended supply range; NULL only for supplies,
+    const PartVoltage *vcc;            /* recommended supply range (character LCDs have
+                                          one); NULL only for supplies,
                                           LEDs, 7-seg displays and switches */
     const PartEeprom *eeprom;
     const PartCpu *cpu;
     const PartSerial *serial;
     const PartFootprint *footprint;    /* NULL = none (supplies) */
+    const PartFootprint *connector_footprint;  /* NULL = none; the PCB Style option's "Connector Only" */
+    const PartCharLcd *charlcd;
     const void *internal;              /* model data; not for the app */
 } Part;
 

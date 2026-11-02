@@ -220,7 +220,10 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             size_t anode;
             size_t cathode;
 
-            if (part->kind == PART_LED && led_pins(part, &anode, &cathode)) {
+            /* An LED, or a character LCD's backlight: the anode's level is
+               carried to the cathode net. Only an LED skips the vcc checks. */
+            if ((part->kind == PART_LED || part->kind == PART_CHARLCD) &&
+                led_pins(part, &anode, &cathode)) {
                 Level from = {0, 0};
                 Level to;
 
@@ -234,10 +237,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                         }
                     }
                 }
-                if (!from.known) {
-                    continue;
-                }
-                for (j = 0; j < connection_count; j++) {
+                for (j = 0; from.known && j < connection_count; j++) {
                     if (connections[j].part == i && connections[j].pin == cathode &&
                         connections[j].net < net_count) {
                         size_t g = find(parent, connections[j].net);
@@ -247,7 +247,9 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                         changed |= to.known != carried[g].known || to.mv != carried[g].mv;
                     }
                 }
-                continue;
+                if (part->kind == PART_LED) {
+                    continue;
+                }
             }
             if (part->vcc == NULL) {
                 continue;

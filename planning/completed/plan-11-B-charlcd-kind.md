@@ -47,8 +47,8 @@ The gate is plan-11-A § Prerequisites. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-11-A complete | `grep -c 'Commit: —' planning/plan-11-A-groundwork.md` → 0 (or the file is in `planning/completed/`) | NOT MET (2026-11-01: A not started) |
-| `Part.connector_footprint` exists | `grep -n 'connector_footprint' backend/include/parts.h` → one line | NOT MET (lands in A) |
+| plan-11-A complete | `grep -c 'Commit: —' planning/plan-11-A-groundwork.md` → 0 (or the file is in `planning/completed/`) | MET (2026-11-01 at bffe730: 0) |
+| `Part.connector_footprint` exists | `grep -n 'connector_footprint' backend/include/parts.h` → one line | MET (2026-11-01 at bffe730: parts.h:119) |
 
 Everything below is written against the world where these hold.
 
@@ -280,8 +280,13 @@ every input.** Times are the device's `timing` and `exec` (ps after
   becomes a violated write if, inside that window, a sampled DB pin
   changes within `th` of the fall, or RS or R/W changes within `tah`.
   Then §4.5 applies.
-- **E reads X** (X or Z) at any time: the controller becomes LOST (§4.5)
-  and any read drive goes X until its normal Z time.
+- **E reads X** (X or Z) at any time: it may be an access. With R/W
+  reading 1 (during an access: R/W at its rise) it can only be a read, so
+  AC becomes X unless RS reads 0, and in 4-bit mode (or DL X) the nibble
+  phase becomes X. Otherwise it may be a write, and the controller becomes
+  LOST (§4.5). Either way any read drive goes X until its normal Z time.
+  (Corrected in plan-11-D; see Corrections. Before `exec.powerOn` E X is
+  ignored.)
 - **4-bit mode** (DL = 0): only DB4–7 are read and driven; DB0–3 stay Z.
   A byte is two accesses, high nibble first. A nibble phase (high or low)
   says which comes next:
@@ -374,7 +379,7 @@ shift and nibble phase; BF is known or X too.
   - an instruction write with a timing violation;
   - RS or R/W X at a write;
   - an unknown access (R/W X at E rise);
-  - E reading X.
+  - E reading X while R/W does not read 1 (§4.3).
   "LOST" is not a separate mode: it is all fields X. While BF is X, every
   write is taken (it might have been accepted).
 - **Leaving LOST** happens one field at a time: each instruction with every
@@ -476,7 +481,9 @@ when anything it depends on is X.
 ### 5.1 Content
 
 - `CHARLCD_ROM_A00[k][y]` (k = 0–255, y = 0–7): the 5 dots of row y,
-  bit 4 = left. Row 7 is 0 for every glyph except FF, which is all 1s.
+  bit 4 = left. Row 7 is 0 for every glyph except FF (all 1s) and the
+  eight 5×10 glyphs whose descender starts in row 7: E2 E4 E6 E7 EA F0 F1
+  F9 (see Corrections).
 - Codes 00–0F are never read from the ROM (they select CGRAM); their rows
   are 0.
 - 10–1F, 80–A0 are blank (all 0), as in the tables.
@@ -603,73 +610,108 @@ Cases (each an `expect` with its own message):
 Part facts load; the model is a stub that drives nothing (DB Z), and BF is
 not yet readable.
 
-- [ ] `backend/include/parts.h`: `PART_CHARLCD`, `PartCharLcd`, `Part.charlcd` (§4.1).
-- [ ] `backend/src/models/charlcd.c`: `CHARLCD_KIND` with device keys,
+- [x] `backend/include/parts.h`: `PART_CHARLCD`, `PartCharLcd`, `Part.charlcd` (§4.1).
+- [x] `backend/src/models/charlcd.c`: `CHARLCD_KIND` with device keys,
       `load_device`, `bind_pinout`, `load_part` (§4.2); a model with
       `pin_count`, `create`, `destroy` and no-op `start`/`pin_changed`.
-- [ ] `backend/src/library/kinds.c`: `&CHARLCD_KIND` after `&CPU_KIND`.
-- [ ] `backend/tests/support/listing.c`: kind name and facts (§4.8).
-- [ ] `backend/tests/charlcd_test.c` + `logic_test(charlcd_test)` in
+- [x] `backend/src/library/kinds.c`: `&CHARLCD_KIND` after `&CPU_KIND`.
+- [x] `backend/tests/support/listing.c`: kind name and facts (§4.8).
+- [x] `backend/tests/charlcd_test.c` + `logic_test(charlcd_test)` in
       `backend/CMakeLists.txt`: the fixture device and case 20 (loader errors).
-- [ ] `docs/parts-format.md`: the § `charlcd` key table (§4.2), the file
+      Also `src/models/charlcd.c` in the `logic` library's source list (the
+      CMake list is explicit). Ran: `charlcd_test` → 18 PASS lines for case 20
+      (facts, bus pins, vcc, no-backlight device, and 13 bad devices), `all passed`.
+- [x] `docs/parts-format.md`: the § `charlcd` key table (§4.2), the file
       table row, § Supply voltage. `docs/backend.md` § Layout: `charlcd.c`,
       `charlcd_font.c`.
 
 Acceptance: the fixture loads with the right facts and every bad device is
 rejected with its message; the goldens are unchanged.
   Check: `cmake --build /tmp/logic-p11 -j8 && ctest --test-dir /tmp/logic-p11` → `out of 18`, 100% passed; `git diff --exit-code backend/tests/golden` → 0 (est. 1 min).
-Commit: —
+  Ran: `100% tests passed, 0 tests failed out of 18`; golden diff → exit 0.
+Commit: 70ff814
 
 ### Phase 2 — Character ROM
 
-- [ ] `backend/src/models/charlcd_font.{c,h}`: `CHARLCD_ROM_A00` (§5.1).
-- [ ] `charlcd_test`: the spot checks (§5.2) and the `--font` sheet printer.
-- [ ] Compare the sheet with PDF page 10 at 300 dpi, row by row (§5.2).
+- [x] `backend/src/models/charlcd_font.{c,h}`: `CHARLCD_ROM_A00` (§5.1).
+      Transcribed by sampling every dot centre of the 300 dpi render
+      (`/tmp/p11-scripts/font_extract.py`: cell lines found from the table
+      rules, dots on a 14.6 px pitch); 0 dots in rows 0–7 fell in the
+      ambiguous 70–170 grey band. 189 non-blank glyphs (FE is blank in the
+      table). Added to the `logic` source list in CMake.
+- [x] `charlcd_test`: the spot checks (§5.2) and the `--font` sheet printer.
+      Ran: 7 spot-check PASS lines plus `rom: 00-1F and 80-A0 are blank`.
+- [x] Compare the sheet with PDF page 10 at 300 dpi, row by row (§5.2).
+      The `--font` sheet was redrawn in the table's layout next to crops of
+      the page (columns 2–5, 6–7, A–C, D–F; 0, 1, 8, 9 are blank and checked
+      by the test) and looked at row by row: 16 rows, 0 differences.
 
 Acceptance: spot checks pass, and the sheet matches the datasheet.
+  Ran: `charlcd_test` → `all passed`; sheet compared, 0 differences.
   Check: `/tmp/logic-p11/charlcd_test` → passes; `/tmp/logic-p11/charlcd_test --font` printed and compared with `/tmp/p11-font/p-10.png`, 16 rows, 0 differences recorded in the commit message (est. 20 min of looking; a dot-level transcription can only be checked by looking, and the spot checks cover only 7 glyphs).
-Commit: —
+Commit: a1425c1
 
 ### Phase 3 — Controller: bus, instructions, busy, power-up
 
-- [ ] `charlcd.c`: §4.3 (without the violation and X rules of §4.5),
+- [x] `charlcd.c`: §4.3 (without the violation and X rules of §4.5),
       §4.4, power-up; `lcd_state` hook and image (§4.7).
-- [ ] `backend/include/lcd_state.h`, `circuit.h` (`circuit_lcd_state`),
+      The §4.5 code (timing checks, X fields, LOST, resync) landed in the
+      same commit, since the field-by-field X tracking is the register
+      representation; its cases (14–16) are Phase 4 (see Corrections).
+- [x] `backend/include/lcd_state.h`, `circuit.h` (`circuit_lcd_state`),
       `circuit.c`, `engine/sim.h` (the hook) (§4.7).
-- [ ] `charlcd_test` cases 1–13 and 19.
+- [x] `charlcd_test` cases 1–13 and 19.
+      The bench gained `bench_sim` and `bench_state` so the test can call
+      the `lcd_state` hook. Ran: 41 PASS lines for cases 1–13 and 19
+      (both init examples, busy, clear/home, entry mode, wrap, no-cell,
+      CGRAM, cursor/blink, display off, 1-line, read timing, API).
 
 Acceptance: both datasheet init sequences drive the fixture to `HELLO` / `Hi`,
 and every instruction case passes.
   Check: `ctest --test-dir /tmp/logic-p11 -R charlcd_test` → passes (est. 30 s).
-Commit: —
+  Ran: full ctest → `100% tests passed, 0 tests failed out of 18`; goldens
+  unchanged.
+Commit: 96ce450
 
 ### Phase 4 — Violations, X and LOST
 
-- [ ] `charlcd.c`: the timing checks of §4.3 (setup, `tc`, `tpw`, `tdsw`,
-      the hold window) and §4.5.
-- [ ] `charlcd_test` cases 14–16.
+- [x] `charlcd.c`: the timing checks of §4.3 (setup, `tc`, `tpw`, `tdsw`,
+      the hold window) and §4.5. (In 96ce450, see Corrections.)
+- [x] `charlcd_test` cases 14–16.
+      Ran: 12 PASS lines: tpw, tdsw, th, tah and tc violations; LOST by RS X
+      and resync to HELLO; LOST by E X; E X during power-on ignored; the
+      partial-X instruction `0000 11X0`.
 
 Acceptance: every violation and X case gives the stated cells and dots, and
 cases 1–13 still pass.
   Check: `ctest --test-dir /tmp/logic-p11 -R charlcd_test` → passes (est. 30 s).
-Commit: —
+  Ran: `charlcd_test` → `all passed` (cases 1–16, 19, 20).
+Commit: 2dd9dae
 
 ### Phase 5 — Backlight and voltage
 
-- [ ] `charlcd.c`: the light (`lights`, `light_time`) for devices with a
-      backlight (§4.6).
-- [ ] `models/model_pins.h` / `charlcd.c`: `led_pins` answers for charlcd.
-- [ ] `backend/src/voltage.c:208`: the LED branch for both kinds; `continue`
+- [x] `charlcd.c`: the light (`lights`, `light_time`) for devices with a
+      backlight (§4.6). The hooks landed in 96ce450; a device without a
+      backlight answers 0 lights (see Corrections).
+- [x] `models/model_pins.h` / `charlcd.c`: `led_pins` answers for charlcd.
+      (`led_pins` in `led.c` forwards to `charlcd_backlight_pins`.)
+- [x] `backend/src/voltage.c:208`: the LED branch for both kinds; `continue`
       only for `PART_LED` (§4.6).
-- [ ] `charlcd_test` cases 17–18.
-- [ ] `docs/parts-format.md` § `charlcd`: behavior summary (§4.3–4.7);
+- [x] `charlcd_test` cases 17–18.
+      The fixture library also loads the real `supply.json` (5V, 3V3, GND).
+      Ran: 6 PASS lines, including the exact message
+      `voltage: 3.3 V on pin 2 (VDD) of FX-LCD; it needs 4.5-5.5 V`.
+- [x] `docs/parts-format.md` § `charlcd`: behavior summary (§4.3–4.7);
       `docs/backend.md` § Using it: `circuit_lcd_state` and the
       backlight light.
 
 Acceptance: the backlight lights, the VDD range is enforced, and nothing
 else in the voltage check changed.
   Check: `ctest --test-dir /tmp/logic-p11` → `out of 18`, 100% passed (voltage_test unchanged); `git diff --exit-code backend/tests/golden` → 0 (est. 1 min).
-Commit: —
+  Ran: `100% tests passed, 0 tests failed out of 18` (voltage_test.c not
+  modified); golden diff → exit 0; final gate app build →
+  `** BUILD SUCCEEDED **`.
+Commit: bab0b68
 
 ## Validation Plan
 
@@ -702,6 +744,57 @@ Commit: —
   still carries RAM for the tests. (§4.7)
 
 ## Corrections
+
+- **E or R/W X during the power-on reset does not make the controller
+  LOST.** §4.3/§4.5 say E reading X at any time is LOST. Before the host
+  drives E (a bench at time 0, or the CPU board of plan-11-C §4.6, where E
+  comes from an HC11 whose inputs are X until the CPU clocks), E reads X.
+  LOST then would make BF X, the 6502's first `BIT $4000` would read X,
+  and the CPU would go LOST, so §4.6's HELLO could never print. The
+  internal reset ignores the bus anyway (no write is accepted while
+  BF = 1). Rule as built: E X, or an unknown access (R/W X at E rise),
+  before `exec.powerOn` only drives the bus X; after it, LOST as written.
+- **A write while BF = 1 is ignored before any LOST check.** A write with
+  RS X or a timing violation that arrives while busy is "not accepted"
+  (§4.3), so it changes nothing, rather than making the controller LOST.
+- **A device without a backlight has light hooks that answer 0.** §4.6
+  says such a device has no light hooks (NULL). A kind has one
+  `SimComponentType`, so the hooks are shared and return 0 lights when
+  the module has no backlight. `circuit_part_lights` and
+  `circuit_part_light_time(…, NULL, 0)` both give 0, which is what the
+  app's light-part test reads (case 17 checks both).
+- **E reading X with R/W = 1 is a possible read, not LOST** (found in
+  plan-11-D Phase 4). While the 6502 is held in reset its address bus is X
+  and R/W is 1 (`docs/parts-format.md` § `cpu`), so E = PHI2 · A14 · /A15
+  pulses X every cycle. Held past the LCD's 40 ms power-on (the plan-11-D
+  §4.7 flow opens the reset switch by hand after a second), the old rule
+  made the controller LOST, BF read X, and the 6502's first `BIT $4000`
+  went LOST, so HELLO never showed. Measured: the harness run of the D
+  board printed every dot `?` and `Unknown — waiting for reset`; the C
+  board with reset held 100 ms failed the same way. §4.5's own rule (an
+  access whose effect is unknown makes X only what it could change) says
+  a possible read can change only AC (a data read moves it) and the
+  4-bit nibble phase, so those become X; a possible write is still LOST.
+  New cases: `15 E X with R/W 1` (BF and RAM known, AC X, then Set DDRAM
+  Address makes AC known) and the C board with reset held 100 ms.
+  Reverting the rule makes all three fail (checked).
+- **The §4.5 code landed with Phase 3.** Registers are stored as
+  known-or-X fields from the start, so the X rules are part of the
+  representation. Phase 4 adds cases 14–16, which exercise them.
+
+- **§5.1 "Row 7 is 0 for every glyph except FF" is false.** The table's
+  E0–FF cells are 5×10 drawings; with rows 0–7 taken as drawn (the rule
+  §5.1 also states), eight glyphs have dots in row 7 because their
+  descender starts there: E2 β (`10`), E4 μ (`10`), E6 ρ (`10`), E7 g
+  (`01`), EA j (`02`), F0 p (`10`), F1 q (`01`), F9 y (`01`). Measured
+  with `font_extract.py` on the 300 dpi render. The "as drawn" rule is
+  kept, matching a real 5×8 HD44780, which shows the top 8 rows of these
+  glyphs. Nothing else rested on the row-7 claim (the cursor ORs row 7).
+- **§5.1 "5 × 11 grid".** The table draws 5 × 10 cells: a sample at row
+  index 10 lands on the cell's lower rule in every cell. Rows 0–7 are
+  unaffected.
+- **§2 "191 glyphs"** counts cells (20–7F, A1–FF). Two of them are blank
+  in the table: 20 (space) and FE. So 189 glyphs carry dots.
 
 ## Summary
 

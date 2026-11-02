@@ -59,6 +59,9 @@ static int led_load_part(KindContext *ctx, const void *device, const void *bound
 int led_pins(const Part *part, size_t *anode, size_t *cathode) {
     const LedPins *pins;
 
+    if (part != NULL && part->kind == PART_CHARLCD) {
+        return charlcd_backlight_pins(part, anode, cathode);
+    }
     if (part == NULL || part->kind != PART_LED) {
         return 0;
     }

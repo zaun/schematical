@@ -30,6 +30,13 @@ struct ChipDrawerView: View {
     /// subcategories and functions default closed.
     @State private var toggled: Set<String> = []
 
+    /// `openGroups`: group keys (`subcategoryKey`, …) to start toggled from
+    /// their default, e.g. a subcategory shown open. Empty in the app.
+    init(catalog: PartCatalogStore, openGroups: Set<String> = []) {
+        self.catalog = catalog
+        _toggled = State(initialValue: openGroups)
+    }
+
     var body: some View {
         let groups = catalog.groups(matching: activeFilter)
 

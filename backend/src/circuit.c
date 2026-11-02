@@ -506,6 +506,23 @@ int circuit_cpu_state(const Circuit *circuit, size_t part, CpuState *out) {
     return 0;
 }
 
+int circuit_lcd_state(const Circuit *circuit, size_t part, LcdState *out) {
+    Circuit *writable = (Circuit *)circuit;   /* only the error text changes */
+    SimInstance *instance;
+    const SimComponentType *type;
+
+    if (check_part(writable, part) != 0) {
+        return -1;
+    }
+    instance = circuit->instances[part];
+    type = sim_instance_type(instance);
+    if (type->lcd_state == NULL || out == NULL ||
+        !type->lcd_state(circuit->sim, sim_instance_state(instance), out)) {
+        return fail(writable, "part %zu is not a character LCD", part);
+    }
+    return 0;
+}
+
 /* ---- Serial terminal (plan-12-C section 3.5) ------------------------------- */
 
 static const SimComponentType *serial_type(const Circuit *circuit, size_t part) {
