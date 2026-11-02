@@ -16,6 +16,9 @@
 
 static const SerialModel *const MODELS[] = {
     &NS16550_MODEL,
+    /* plan-12-H */
+    &AY1013_MODEL,
+    &I8251_MODEL,
 };
 #define MODEL_COUNT (sizeof MODELS / sizeof MODELS[0])
 
@@ -25,11 +28,22 @@ static const char *const DEVICE_KEYS[] = {
     "model", "grades",
     /* ns16550 */
     "bus", "clock", "channels", "fifo", "rxTrigger", "intPin", "dmaClass", "timeout",
+    /* plan-12-H: ay1013 */
+    "transmitData", "receiveData", "receiveEnable", "statusEnable", "status", "control",
+    "dataStrobe", "resetDav", "serialOut", "serialIn", "clocks", "reset", "resetClearsData",
+    "resetClearsControl", "fiveBitStops", "cpuMode",
+    /* i8251 ("bus", "clock" above) */
+    "serial",
     NULL
 };
 enum { FIRST_MODEL_KEY = 2 };
 
-static const char *const PART_KEYS[] = {"grade", "vcc", "inputMax", NULL};
+static const char *const PART_KEYS[] = {
+    "grade", "vcc", "inputMax",
+    /* plan-12-H: model part keys (ay1013, acia6551) */
+    "fiveBitStops", "resetClearsData", "ctsA",
+    NULL
+};
 
 static int in_list(const char *const *list, const char *name) {
     if (list == NULL) {

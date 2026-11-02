@@ -78,6 +78,13 @@ typedef struct {
 
 /* The models (serial.c's table). */
 extern const SerialModel NS16550_MODEL;
+/* plan-12-H: the classic UARTs. */
+extern const SerialModel AY1013_MODEL;
+extern const SerialModel I8251_MODEL;
+extern const SerialModel I82510_MODEL;
+extern const SerialModel ACIA6551_MODEL;
+extern const SerialModel HS82C52_MODEL;
+extern const SerialModel COM78C80X_MODEL;
 
 /* The pin a channel's terminal input drives (its RX pin), or SIZE_MAX. For
    circuit_serial_send's driven-net check. */
