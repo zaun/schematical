@@ -23781,7 +23781,7 @@
      "CSB"
     ],
     "irq": "INTA",
-    "irqOthers": "low",
+    "irqOthers": "z",
     "reset": "RESET"
    },
    "clock": {
@@ -25426,7 +25426,7 @@
      "CSB"
     ],
     "irq": "INTA",
-    "irqOthers": "low",
+    "irqOthers": "z",
     "reset": "RESET"
    },
    "clock": {
