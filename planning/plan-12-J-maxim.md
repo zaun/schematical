@@ -150,12 +150,23 @@ cases), 2bfe355 (docs)
   `MAX14830`: 6 calls); drops in Corrections. Observed (2026-11-02): MAX3100
   8, MAX3140 2, MAX3107 5, MAX3108 1, MAX3109 2, MAX14830 3. All 18 J part
   names (6 devices) are in these lists: no drops.
-- [ ] `footprints.json` + 7; `serial.json` + 6 devices; regenerate the goldens.
+- [x] `footprints.json` + 7; `serial.json` + 6 devices; regenerate the goldens.
   Check: no removed line; added 18, 18, 7; hand-check the 7 footprint lines
   (the Maxim ones against the ADI land-pattern documents cited in
-  `footprints.md`).
+  `footprints.md`). Observed: `merge.py --ship F,G,H,I,J` → `serial.json: 79
+  devices, 219 parts`; goldens removed 0 / added 18, 18, 7; `shipped` →
+  `compared: 52 ns16550, 8 bridges, 13 classic, 6 maxim`. Each line against
+  its `footprints.md` JSON (whose derivation notes carry the ADI land-pattern
+  numbers): QSOP-16 ±2.655 (span 5.31), first −2.223 (pitch 0.635),
+  1.60×0.36, body 3.9×4.89; QSOP-28 ±2.655, first −4.128, body 3.9×9.89;
+  TQFN-24-4X4-T2444 ±1.955 (3.91), 0.80×0.30, centre 2.6; TQFN-24-3.5X3.5
+  ±1.750 (3.5), first −1.000 (pitch 0.4), 0.70×0.20, centre 2.4; WLP-25
+  5×5 at 0.4 (A1 −0.8,−0.8 to E5 0.8,0.8), 0.2 round; TQFN-32-5X5-T3255
+  ±2.415 (4.83), 0.80×0.30, centre 3.15; TQFN-48-7X7 ±3.375 (6.75),
+  0.85×0.30, centre 5.18. All as the JSON.
 
-Acceptance: `ctest` 100%; golden checks (about 2 min).
+Acceptance: `ctest` 100%; golden checks (about 2 min). Observed: `100% tests
+passed, 0 tests failed out of 19`; `serial_test` → `PASS`.
 Commit: —
 
 ## Validation Plan
@@ -253,3 +264,8 @@ Commit: —
   copy of `footprints.md`'s `WLP-25` object under a fixture id, loaded by
   the fixture header; the real `WLP-25` lands in Phase 2.
 - **Case names:** the front ends' direct cases print as `JF1`, `JF2`.
+- **Phase 2 data source.** As plan-12-H: the 6 device objects ship from
+  `tests/fixtures/serial/devices/<ID>.json` (the fixture device with its real
+  parts; grade = the Maxim temperature letter, C or E). The fixture's device
+  ids became `SFX-<id>` (f053f2a) so they load next to the shipped devices,
+  and `shipped` compares them.

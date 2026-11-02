@@ -171,8 +171,8 @@ Commit: 96425c7 (models), 0986197 (fixtures), 57c9163 (cases), 256135a (docs)
 Acceptance: `serial_test` I1–I9 `ok`; `ctest` 100%; the golden checks (about
 2 min). Observed: I1–I9 `ok`, `PASS`; `100% tests passed, 0 tests failed out
 of 19`.
-Commit: 96425c7 (sc18is604), 57c9163 (I8, I9); parts, footprints, goldens: the
-commit after 8815a63 (see the next plan update)
+Commit: 96425c7 (sc18is604), 57c9163 (I8, I9); parts, footprints, goldens:
+e1ddc65
 
 ## Validation Plan
 
