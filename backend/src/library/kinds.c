@@ -15,6 +15,7 @@ extern const PartKindOps OSCILLATOR_KIND;
 extern const PartKindOps EEPROM_KIND;
 extern const PartKindOps LATCH_KIND;
 extern const PartKindOps COUNTER_KIND;
+extern const PartKindOps SHIFT_KIND;
 
 /* One line per kind. Adding a kind: docs/backend.md, "Adding a kind". */
 const PartKindOps *const KINDS[] = {
@@ -30,6 +31,7 @@ const PartKindOps *const KINDS[] = {
     &EEPROM_KIND,
     &LATCH_KIND,
     &COUNTER_KIND,
+    &SHIFT_KIND,
     NULL
 };
 

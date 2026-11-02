@@ -1025,3 +1025,48 @@ contain the count); `outBar` = ¬G, `out` = G + cascade. States: binary, a
 rate bit j places from the MSB selects the counts whose low j+1 bits are
 2^j − 1 (the MSB: even counts); bcd: A {4}, B {2, 7}, C {1, 3, 6, 8},
 D {0–3, 5–8}.
+
+### `shift`
+
+Shift registers. A sequential kind (above); `"model"` is `shift` (and the
+special models of the sections below). Main timing path: clock → Q (the
+storage clock → Q for devices with a storage register; the shift clock →
+the serial output for parallel-in serial-out devices).
+
+#### Model `shift`
+
+Device key `"units"`: 1–2 unit objects (`PartLogic.units` = their number).
+Unit keys:
+
+| Key | Value |
+|---|---|
+| `"stages"` | 1–64 |
+| `"clock"` | `{"pin", "edge"}` |
+| `"clockGate"` | optional `{"pin", "op"}` (as `counter` `sync`; 74x165/166 CLK INH: `or`) |
+| `"serial"` | pin names ANDed into stage 1 on a right shift; or `"serialJK"` `{"j", "kbar"}` (stage 1 ← J·¬Q1 + K̄·Q1); or `"serialSelect"` `{"select", "low", "high"}` (stage 1 ← the `low` pin while `select` is 0, the `high` pin while 1). Exactly one of the three. |
+| `"leftSerial"` | optional pin: stage N's input on a left shift |
+| `"modes"` | optional `{"pins": [S0, S1], "table": [4 of "hold", "right", "left", "load"]}`, row = S0 + 2·S1; without it every active edge shifts right (unless a load says otherwise) |
+| `"enables"` | optional controls, all asserted for an edge to act (sampled at the edge) |
+| `"load"` | optional `{"pin", "active", "when": "async"|"clock", "from": "data"|"inputRegister"|"io"}`; an asynchronous load is level-transparent |
+| `"data"` | parallel input pins in stage order |
+| `"clear"` | optional `{"pin", "active", "when"}`: the stages go to 0 |
+| `"clearScope"` | `"shift"` (default) or `"all"`: the (asynchronous) clear also clears `storage` and `serialOutputs` |
+| `"outputs"` | `[{"stage", "pin", "invert"}]` (stage 1-based, `invert` default false) |
+| `"trueComplement"` | optional control (4035B): while not asserted every `outputs` pin shows NOT its stage |
+| `"io"` | optional `{"pins": [stage names, inout], "outputEnables": [controls], "notInModes": [mode names]}`: the stages drive the pins while every enable is asserted and the current `modes` row is not listed; a load `from` `io`, a `load` mode row without `data` and the input register read the pins |
+| `"serialOutputs"` | optional `[{"pin", "stage"}]`: a flip-flop that takes that stage on the clock's opposite edge (4094B Q'S, 4031B Q', TPIC 596 SER OUT) |
+| `"storage"` | optional: exactly one of `"clock": {"pin","edge"}` or `"latch": control` (transparent while asserted), plus `"clear"` (control, asynchronous), `"outputs"` (stages names), `"outputEnable"` (control), `"output"` (`push-pull` / `open-drain`), `"invert"` (bool) |
+| `"inputRegister"` | optional `{"clock": {"pin","edge"}, "data": [names]}` (no `data`: the `io` pins) |
+| `"clockOut"` | optional pin: follows the clock pin, delayed by the entry's rise/fall (4031B CLD) |
+
+Order on any change, per unit: the input register takes its edge; the
+asynchronous clear, then the asynchronous load (clear wins when both are
+asserted — the 74x597/598 "invalid" case); on the (gated) clock's edge with
+the enables asserted: the clock clear, else the clock load, else the `modes`
+row, else a right shift (stage 1 ← the serial input, stage k ← stage k−1;
+left: stage N ← `leftSerial`, stage k ← stage k+1). A storage clock edge
+takes the stages as they were before a shift at the same instant (tied
+clocks leave the storage one clock behind); a storage latch follows the
+stages while asserted. The serial-output flip-flops take their stage on the
+opposite edge. `part_pin_open_drain` is 1 for the outputs of an `open-drain`
+storage.

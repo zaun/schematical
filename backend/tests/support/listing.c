@@ -17,6 +17,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_EEPROM: return "eeprom";
         case PART_LATCH: return "latch";
         case PART_COUNTER: return "counter";
+        case PART_SHIFT: return "shift";
     }
     return "?";
 }
@@ -45,6 +46,7 @@ static void print_details(FILE *out, const Part *part) {
         case PART_JKFF:
         case PART_LATCH:
         case PART_COUNTER:
+        case PART_SHIFT:
             fprintf(out, "units=%u", part->logic->units);
             break;
         case PART_SRAM:
@@ -113,7 +115,8 @@ char *listing_line(const Part *part) {
     size_t i;
     int first = 1;
     int logic = part->kind == PART_GATE || part->kind == PART_DFF || part->kind == PART_JKFF ||
-                part->kind == PART_LATCH || part->kind == PART_COUNTER;
+                part->kind == PART_LATCH || part->kind == PART_COUNTER ||
+                part->kind == PART_SHIFT;
 
     if (out == NULL) {
         return NULL;

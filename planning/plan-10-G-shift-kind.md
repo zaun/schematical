@@ -22,7 +22,7 @@ plan-10-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-10-F complete | `ls planning/completed/plan-10-F-counter-parts.md` → exists | NOT MET (2026-11-01: written) |
+| plan-10-F complete | `ls planning/completed/plan-10-F-counter-parts.md` → exists | MET (2026-11-01: exists, archived at 1d6d359) |
 
 ## 1. Goal
 
@@ -183,12 +183,14 @@ Fixtures as B §6.2 (kind `shift`). Cases:
 
 ### Phase 1 — Kind and model
 
-- [ ] `PART_SHIFT`; `models/shift.{c,h}` (`shift.c` listed in
+- [x] `PART_SHIFT`; `models/shift.{c,h}` (`shift.c` listed in
   `backend/CMakeLists.txt`); `kinds.c`; test support
   (`listing_kind_name` `"shift"`, `print_details`, `logic` condition,
   `TRACE_LAST_KIND` = `PART_SHIFT`); `part_pin_open_drain`; docs § `shift`.
+  (`cc -Wall -Wextra -fsyntax-only` on `shift.c` prints nothing.)
 
-Acceptance: `ctest` 14 of 14; golden diff empty (seconds).
+Acceptance: `ctest` 14 of 14; golden diff empty (seconds). (Ran: `100% tests
+passed, 0 tests failed out of 14`; golden status empty.)
 Commit: —
 
 ### Phase 2 — `shift_test`
