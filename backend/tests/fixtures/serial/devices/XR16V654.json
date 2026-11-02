@@ -126,7 +126,7 @@
     "I": {"trvd": 35, "thz": 10, "trint": 45, "thr": 45, "tmdo": 50, "tsim": 50, "trim": 50, "vcc": [2.25, 3.6], "inputMax": 5.5, "note": "xr16v654.pdf p.43-44, 3.3 V column (max); TRDV->trvd, TDD->thz, TWDO->tmdo, TMOD->tsim, TRSI (modem fig)->trim, TRRI->trint, TWRI->thr; no TXRDY/RXRDY pins on these packages"}
   },
   "parts": [
-    {"name": "XR16V654DIV-F", "package": "LQFP", "pinout": "lqfp64", "footprint": "LQFP-64-10X10", "grade": "I"},
+    {"name": "XR16V654DIV-F", "package": "LQFP", "pinout": "lqfp64", "footprint": "LQFP-64-10X10", "grade": "I", "intPin": "driven"},
     {"name": "XR16V654IL-F", "package": "QFN", "pinout": "qfn48", "footprint": "QFN-48-7X7", "grade": "I"},
     {"name": "XR16V654IV-F", "package": "LQFP", "pinout": "lqfp64", "footprint": "LQFP-64-10X10", "grade": "I"}
   ]

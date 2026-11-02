@@ -181,7 +181,7 @@
   "parts": [
     {"name": "XR16C854CQ", "package": "QFP", "pinout": "qfp100", "footprint": "QFP-100-14X20", "grade": "C"},
     {"name": "XR16C854CV-F", "package": "LQFP", "pinout": "lqfp64", "footprint": "LQFP-64-10X10", "grade": "C", "inputMax": 5.5},
-    {"name": "XR16C854DIV-F", "package": "LQFP", "pinout": "lqfp64", "footprint": "LQFP-64-10X10", "grade": "I", "inputMax": 5.5},
+    {"name": "XR16C854DIV-F", "package": "LQFP", "pinout": "lqfp64", "footprint": "LQFP-64-10X10", "grade": "I", "inputMax": 5.5, "intPin": "driven"},
     {"name": "XR16C854IQ", "package": "QFP", "pinout": "qfp100", "footprint": "QFP-100-14X20", "grade": "I"},
     {"name": "XR16C854IQ-F", "package": "QFP", "pinout": "qfp100", "footprint": "QFP-100-14X20", "grade": "I", "inputMax": 5.5},
     {"name": "XR16C854IV-F", "package": "LQFP", "pinout": "lqfp64", "footprint": "LQFP-64-10X10", "grade": "I", "inputMax": 5.5}

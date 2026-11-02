@@ -1,0 +1,210 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel-motorola",
+  "modePin": "16/68",
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "IOR",
+  "write": "IOW",
+  "rw": "IOW",
+  "strobe": "CSA",
+  "channelBits": [
+   "CSB",
+   "CSC"
+  ],
+  "irq": "INTA",
+  "irqOthers": "z",
+  "reset": "RESET"
+ },
+ "clock": {
+  "in": "XTAL1",
+  "out": "XTAL2",
+  "select": "CLKSEL"
+ },
+ "fifo": 128,
+ "rxTrigger": [
+  1,
+  4,
+  8,
+  14
+ ],
+ "triggerTables": {
+  "rx": [
+   [
+    1,
+    4,
+    8,
+    14
+   ],
+   [
+    8,
+    16,
+    24,
+    28
+   ],
+   [
+    8,
+    16,
+    56,
+    60
+   ],
+   "trg"
+  ],
+  "tx": [
+   [
+    1,
+    1,
+    1,
+    1
+   ],
+   [
+    16,
+    8,
+    24,
+    30
+   ],
+   [
+    8,
+    16,
+    32,
+    56
+   ],
+   "trg"
+  ]
+ },
+ "fifoCounters": "fcFlvl",
+ "dmaClass": "N",
+ "intPin": "intsel",
+ "intControl": "INTSEL",
+ "broadcastWrite": "multi-cs",
+ "timeout": "4w12",
+ "iirPriority": "exarTimeoutFirst",
+ "sprReset": 255,
+ "extended": "exar854",
+ "idRegs": {
+  "drev": 1,
+  "dvid": 20
+ },
+ "autoFlow": "exarTable",
+ "swFlow": "exarOr",
+ "specialChar": true,
+ "xonAny": "mcr5",
+ "ctsRtsClear": "msr",
+ "sleep": "ier4-exar-all",
+ "irda": "mcr6",
+ "prescaler": "clksel",
+ "dlabHidesUpper": true,
+ "channels": [
+  {
+   "tx": "TXA",
+   "rx": "RXA",
+   "int": "INTA",
+   "rts": "RTSA",
+   "dtr": "DTRA",
+   "cts": "CTSA",
+   "dsr": "DSRA",
+   "dcd": "CDA",
+   "ri": "RIA",
+   "select": [
+    "CSA"
+   ],
+   "txrdy": "TXRDYA",
+   "rxrdy": "RXRDYA",
+   "irtx": "IRTXA"
+  },
+  {
+   "tx": "TXB",
+   "rx": "RXB",
+   "int": "INTB",
+   "rts": "RTSB",
+   "dtr": "DTRB",
+   "cts": "CTSB",
+   "dsr": "DSRB",
+   "dcd": "CDB",
+   "ri": "RIB",
+   "select": [
+    "CSB"
+   ],
+   "txrdy": "TXRDYB",
+   "rxrdy": "RXRDYB",
+   "irtx": "IRTXB"
+  },
+  {
+   "tx": "TXC",
+   "rx": "RXC",
+   "int": "INTC",
+   "rts": "RTSC",
+   "dtr": "DTRC",
+   "cts": "CTSC",
+   "dsr": "DSRC",
+   "dcd": "CDC",
+   "ri": "RIC",
+   "select": [
+    "CSC"
+   ],
+   "txrdy": "TXRDYC",
+   "rxrdy": "RXRDYC",
+   "irtx": "IRTXC"
+  },
+  {
+   "tx": "TXD",
+   "rx": "RXD",
+   "int": "INTD",
+   "rts": "RTSD",
+   "dtr": "DTRD",
+   "cts": "CTSD",
+   "dsr": "DSRD",
+   "dcd": "CDD",
+   "ri": "RID",
+   "select": [
+    "CSD"
+   ],
+   "txrdy": "TXRDYD",
+   "rxrdy": "RXRDYD",
+   "irtx": "IRTXD"
+  }
+ ],
+ "dmaPins": "sharedAnd",
+ "dma": {
+  "txrdy": "TXRDY",
+  "rxrdy": "RXRDY"
+ },
+ "fstat": "FSRS",
+ "chcClock": "CHCCLK",
+ "absentTies": {
+  "16/68": 1,
+  "INTSEL": 0
+ },
+ "optionalPins": [
+  "TXRDY",
+  "RXRDY",
+  "FSRS",
+  "CHCCLK",
+  "TXRDYA",
+  "RXRDYA",
+  "IRTXA",
+  "TXRDYB",
+  "RXRDYB",
+  "IRTXB",
+  "TXRDYC",
+  "RXRDYC",
+  "IRTXC",
+  "TXRDYD",
+  "RXRDYD",
+  "IRTXD"
+ ]
+}

@@ -89,13 +89,22 @@ def main():
                 real = [p for p in data['parts'] if p['pinout'] == pinout]
                 if not real:
                     continue
-                part = {'name': 'SFX-%s-%s' % (dev_id, pinout), 'package': real[0]['package'],
-                        'pinout': pinout, 'footprint': real[0]['footprint'],
-                        'grade': real[0]['grade']}
-                for k in ('vcc', 'inputMax'):
-                    if k in real[0]:
-                        part[k] = real[0][k]
-                parts.append(part)
+                # One fixture part per pinout, plus one per other part-level
+                # "intPin" (plan-12-E: the D variants), named SFX-<ID>-<pinout>-<intPin>.
+                variants = []
+                for r in sorted(real, key=lambda r: 'intPin' in r):   # the device's own first
+                    if r.get('intPin') not in [v.get('intPin') for v in variants]:
+                        variants.append(r)
+                for n, r in enumerate(variants):
+                    name = 'SFX-%s-%s' % (dev_id, pinout)
+                    if n > 0:
+                        name += '-' + r['intPin']
+                    part = {'name': name, 'package': r['package'], 'pinout': pinout,
+                            'footprint': r['footprint'], 'grade': r['grade']}
+                    for k in ('vcc', 'inputMax', 'intPin'):
+                        if k in r:
+                            part[k] = r[k]
+                    parts.append(part)
             first = dict(parts[0])
             first['name'] = 'SFX-' + dev_id
             parts.insert(0, first)

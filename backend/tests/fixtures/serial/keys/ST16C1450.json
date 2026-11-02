@@ -1,0 +1,51 @@
+{
+ "model": "ns16550",
+ "bus": {
+  "style": "intel",
+  "data": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "address": [
+   "A0",
+   "A1",
+   "A2"
+  ],
+  "read": "IOR",
+  "write": "IOW",
+  "select": [
+   "CS"
+  ],
+  "reset": "RESET"
+ },
+ "clock": {
+  "in": "XTAL1",
+  "out": "XTAL2"
+ },
+ "channels": [
+  {
+   "tx": "TX",
+   "rx": "RX",
+   "int": "INT",
+   "rts": "RTS",
+   "dtr": "DTR",
+   "cts": "CTS",
+   "dsr": "DSR",
+   "dcd": "CD",
+   "ri": "RI"
+  }
+ ],
+ "fifo": 0,
+ "intPin": "out2-gated",
+ "sprReset": 255,
+ "extended": "ier5",
+ "isrStatus": "high",
+ "thrIntClear": "ier1Rewrite",
+ "resetOut": "RST"
+}
