@@ -1,0 +1,219 @@
+{
+ "id": "MAX3108",
+ "function": "Bridge UART",
+ "description": "SPI/I2C UART with 128-word FIFOs in WLP",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "max3108.pdf p.1-56; plan-12-data/specs/maxim.md § MAX3108",
+ "pinouts": {
+  "wlp25": [
+   {
+    "ball": "A1",
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "ball": "A2",
+    "name": "MISO/SDA",
+    "role": "inout"
+   },
+   {
+    "ball": "A3",
+    "name": "CS/A0",
+    "role": "input"
+   },
+   {
+    "ball": "A4",
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "ball": "A5",
+    "name": "VL",
+    "role": "power"
+   },
+   {
+    "ball": "B1",
+    "name": "V18",
+    "role": "power"
+   },
+   {
+    "ball": "B2",
+    "name": "RST",
+    "role": "input"
+   },
+   {
+    "ball": "B3",
+    "name": "SCLK/SCL",
+    "role": "input"
+   },
+   {
+    "ball": "B4",
+    "name": "MOSI/A1",
+    "role": "input"
+   },
+   {
+    "ball": "B5",
+    "name": "DGND",
+    "role": "ground"
+   },
+   {
+    "ball": "C1",
+    "name": "AGND",
+    "role": "ground"
+   },
+   {
+    "ball": "C2",
+    "name": "LDOEN",
+    "role": "input"
+   },
+   {
+    "ball": "C3",
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "ball": "C4",
+    "name": "GPIO0",
+    "role": "inout"
+   },
+   {
+    "ball": "C5",
+    "name": "GPIO1",
+    "role": "inout"
+   },
+   {
+    "ball": "D1",
+    "name": "XIN",
+    "role": "input"
+   },
+   {
+    "ball": "D2",
+    "name": "XOUT",
+    "role": "output"
+   },
+   {
+    "ball": "D3",
+    "name": "SPI/I2C",
+    "role": "input"
+   },
+   {
+    "ball": "D4",
+    "name": "GPIO3",
+    "role": "inout"
+   },
+   {
+    "ball": "D5",
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "ball": "E1",
+    "name": "VEXT",
+    "role": "power"
+   },
+   {
+    "ball": "E2",
+    "name": "GPIO2",
+    "role": "inout"
+   },
+   {
+    "ball": "E3",
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "ball": "E4",
+    "name": "TX",
+    "role": "output"
+   },
+   {
+    "ball": "E5",
+    "name": "RX",
+    "role": "input"
+   }
+  ]
+ },
+ "model": "max310x",
+ "variant": "max3108",
+ "bus": {
+  "style": "i2c-spi",
+  "selectPin": "SPI/I2C",
+  "spiLevel": 1,
+  "selectSampled": "live",
+  "spi": {
+   "cs": "CS/A0",
+   "sclk": "SCLK/SCL",
+   "mosi": "MOSI/A1",
+   "miso": "MISO/SDA",
+   "mode": 0
+  },
+  "i2c": {
+   "scl": "SCLK/SCL",
+   "sda": "MISO/SDA",
+   "address": [
+    "CS/A0",
+    "MOSI/A1"
+   ],
+   "table": [
+    108,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    96,
+    109,
+    110,
+    111
+   ]
+  }
+ },
+ "reset": "RST",
+ "clock": {
+  "in": "XIN",
+  "out": "XOUT"
+ },
+ "channels": [
+  {
+   "tx": "TX",
+   "rx": "RX",
+   "rts": "RTS",
+   "cts": "CTS"
+  }
+ ],
+ "interrupt": "IRQ",
+ "gpio": [
+  "GPIO0",
+  "GPIO1",
+  "GPIO2",
+  "GPIO3"
+ ],
+ "grades": {
+  "E": {
+   "tdo": 20,
+   "tft": 10,
+   "vcc": [
+    1.71,
+    3.6
+   ],
+   "note": "max3108.pdf p.6-10, -40 to +85 C (2.35 V min with the PLL)"
+  }
+ },
+ "parts": [
+  {
+   "name": "MAX3108EWA+T",
+   "package": "WLP",
+   "pinout": "wlp25",
+   "footprint": "WLP-25",
+   "grade": "E"
+  }
+ ]
+}

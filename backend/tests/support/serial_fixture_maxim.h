@@ -4,8 +4,9 @@
 /*
  * plan-12-J fixtures: the six Maxim device objects as they will ship in
  * serial.json (keys, every pinout their parts use, grades from
- * plan-12-data/specs/maxim.md), plan-12-D section 3.3. Only the "parts"
- * differ: one fixture part per pinout, SFX-<id>-<pinout>, on an existing
+ * plan-12-data/specs/maxim.md), plan-12-D section 3.3. Only two things
+ * differ: the id ("SFX-" + the device id, so they load next to the real
+ * devices) and one fixture part per pinout, SFX-<id>-<pinout>, on an existing
  * footprint of the same pin count (J's own footprints land in Phase 2).
  * The MAX3108's 25-ball WLP has none, so its fixture part uses SFX-WLP-25,
  * a copy of footprints.md's WLP-25 object under a fixture id.
@@ -19,7 +20,7 @@
 #include "parts.h"
 
 #define SFX_MAX3100 \
-    "{\"id\":\"MAX3100\",\"function\":\"Bridge UART\",\"description\":\"SPI/MICROWIRE-compatible UART" \
+    "{\"id\":\"SFX-MAX3100\",\"function\":\"Bridge UART\",\"description\":\"SPI/MICROWIRE-compatible UART" \
     " in QSOP-16\",\"drawer\":[\"Interface\"],\"note\":\"max3100.pdf p.1-24; plan-12-data/specs/maxim" \
     ".md § MAX3100\",\"pinouts\":{\"dip14\":[{\"number\":1,\"name\":\"DIN\",\"role\":\"input\"},{\"nu" \
     "mber\":2,\"name\":\"DOUT\",\"role\":\"output\"},{\"number\":3,\"name\":\"SCLK\",\"role\":\"input" \
@@ -62,7 +63,7 @@
     "ge\":\"TQFN\",\"pinout\":\"tqfn24-4x4\",\"footprint\":\"SSOP-24\",\"grade\":\"E\"}]}"
 
 #define SFX_MAX3140 \
-    "{\"id\":\"MAX3140\",\"function\":\"Bridge UART\",\"description\":\"SPI/MICROWIRE-compatible UART" \
+    "{\"id\":\"SFX-MAX3140\",\"function\":\"Bridge UART\",\"description\":\"SPI/MICROWIRE-compatible UART" \
     " with integrated true fail-safe RS-485/RS-422 transceivers\",\"drawer\":[\"Interface\"],\"note\"" \
     ":\"max3140.pdf p.1-36; plan-12-data/specs/maxim.md § MAX3140\",\"pinouts\":{\"qsop28\":[{\"numbe" \
     "r\":1,\"name\":\"X2\",\"role\":\"output\"},{\"number\":2,\"name\":\"X1\",\"role\":\"input\"},{\"" \
@@ -96,7 +97,7 @@
     "p28\",\"package\":\"QSOP\",\"pinout\":\"qsop28\",\"footprint\":\"SOIC-28W\",\"grade\":\"E\"}]}"
 
 #define SFX_MAX3107 \
-    "{\"id\":\"MAX3107\",\"function\":\"Bridge UART\",\"description\":\"SPI/I2C UART with 128-word FI" \
+    "{\"id\":\"SFX-MAX3107\",\"function\":\"Bridge UART\",\"description\":\"SPI/I2C UART with 128-word FI" \
     "FOs\",\"drawer\":[\"Interface\"],\"note\":\"max3107.pdf p.1-52; plan-12-data/specs/maxim.md § MA" \
     "X3107\",\"pinouts\":{\"ssop24\":[{\"number\":1,\"name\":\"XIN\",\"role\":\"input\"},{\"number\":" \
     "2,\"name\":\"AGND\",\"role\":\"ground\"},{\"number\":3,\"name\":\"VA\",\"role\":\"power\"},{\"nu" \
@@ -139,7 +140,7 @@
     "}]}"
 
 #define SFX_MAX3108 \
-    "{\"id\":\"MAX3108\",\"function\":\"Bridge UART\",\"description\":\"SPI/I2C UART with 128-word FI" \
+    "{\"id\":\"SFX-MAX3108\",\"function\":\"Bridge UART\",\"description\":\"SPI/I2C UART with 128-word FI" \
     "FOs in WLP\",\"drawer\":[\"Interface\"],\"note\":\"max3108.pdf p.1-56; plan-12-data/specs/maxim." \
     "md § MAX3108\",\"pinouts\":{\"wlp25\":[{\"ball\":\"A1\",\"name\":\"VCC\",\"role\":\"power\"},{\"" \
     "ball\":\"A2\",\"name\":\"MISO/SDA\",\"role\":\"inout\"},{\"ball\":\"A3\",\"name\":\"CS/A0\",\"ro" \
@@ -168,7 +169,7 @@
     ":\"E\"}]}"
 
 #define SFX_MAX3109 \
-    "{\"id\":\"MAX3109\",\"function\":\"Bridge UART\",\"description\":\"Dual serial UART with 128-wor" \
+    "{\"id\":\"SFX-MAX3109\",\"function\":\"Bridge UART\",\"description\":\"Dual serial UART with 128-wor" \
     "d FIFOs\",\"drawer\":[\"Interface\"],\"note\":\"max3109.pdf p.1-66; plan-12-data/specs/maxim.md " \
     "§ MAX3109\",\"pinouts\":{\"tqfn32\":[{\"number\":1,\"name\":\"RST\",\"role\":\"input\"},{\"numbe" \
     "r\":2,\"name\":\"MISO/SDA\",\"role\":\"inout\"},{\"number\":3,\"name\":\"SCLK/SCL\",\"role\":\"i" \
@@ -202,7 +203,7 @@
     "otprint\":\"PLCC-32\",\"grade\":\"E\"}]}"
 
 #define SFX_MAX14830 \
-    "{\"id\":\"MAX14830\",\"function\":\"Bridge UART\",\"description\":\"Quad serial UART with 128-wo" \
+    "{\"id\":\"SFX-MAX14830\",\"function\":\"Bridge UART\",\"description\":\"Quad serial UART with 128-wo" \
     "rd FIFOs\",\"drawer\":[\"Interface\"],\"note\":\"max14830.pdf p.1-68; plan-12-data/specs/maxim.m" \
     "d § MAX14830\",\"pinouts\":{\"tqfn48\":[{\"number\":1,\"name\":\"SPI/I2C\",\"role\":\"input\"},{" \
     "\"number\":2,\"name\":\"LDOEN\",\"role\":\"input\"},{\"number\":3,\"name\":\"MISO/SDA\",\"role\"" \

@@ -1,0 +1,384 @@
+{
+ "id": "MAX3100",
+ "function": "Bridge UART",
+ "description": "SPI/MICROWIRE-compatible UART in QSOP-16",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "max3100.pdf p.1-24; plan-12-data/specs/maxim.md § MAX3100",
+ "pinouts": {
+  "dip14": [
+   {
+    "number": 1,
+    "name": "DIN",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "DOUT",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "SCLK",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "CS",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "SHDN",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "X2",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "X1",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "RX",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "TX",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "qsop16": [
+   {
+    "number": 1,
+    "name": "DIN",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "DOUT",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "SCLK",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "CS",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 6,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "SHDN",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "X2",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "X1",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 13,
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "RX",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "TX",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "tqfn24-4x4": [
+   {
+    "number": 1,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 2,
+    "name": "DOUT",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "SCLK",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "CS",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 7,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 8,
+    "name": "SHDN",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 10,
+    "name": "X2",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "X1",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 13,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 14,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 15,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "RX",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 19,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 20,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 21,
+    "name": "TX",
+    "role": "output"
+   },
+   {
+    "number": 22,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 23,
+    "name": "DIN",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "NC",
+    "role": "nc"
+   }
+  ]
+ },
+ "model": "max3100",
+ "bus": {
+  "style": "spi",
+  "cs": "CS",
+  "sclk": "SCLK",
+  "mosi": "DIN",
+  "miso": "DOUT",
+  "mode": 0
+ },
+ "clock": {
+  "in": "X1",
+  "out": "X2"
+ },
+ "channels": [
+  {
+   "tx": "TX",
+   "rx": "RX",
+   "rts": "RTS",
+   "cts": "CTS",
+   "int": "IRQ"
+  }
+ ],
+ "shutdown": "SHDN",
+ "testMode": "loopback",
+ "grades": {
+  "C": {
+   "tdv": 100,
+   "ttr": 100,
+   "tdo": 100,
+   "vcc": [
+    2.7,
+    5.5
+   ],
+   "note": "max3100.pdf p.2-3, 0 to +70 C"
+  },
+  "E": {
+   "tdv": 100,
+   "ttr": 100,
+   "tdo": 100,
+   "vcc": [
+    2.7,
+    5.5
+   ],
+   "note": "max3100.pdf p.2-3, -40 to +85 C"
+  }
+ },
+ "parts": [
+  {
+   "name": "MAX3100CEE+",
+   "package": "QSOP",
+   "pinout": "qsop16",
+   "footprint": "QSOP-16",
+   "grade": "C"
+  },
+  {
+   "name": "MAX3100CEE+T",
+   "package": "QSOP",
+   "pinout": "qsop16",
+   "footprint": "QSOP-16",
+   "grade": "C"
+  },
+  {
+   "name": "MAX3100CPD+",
+   "package": "DIP",
+   "pinout": "dip14",
+   "footprint": "PDIP-14",
+   "grade": "C"
+  },
+  {
+   "name": "MAX3100EEE+",
+   "package": "QSOP",
+   "pinout": "qsop16",
+   "footprint": "QSOP-16",
+   "grade": "E"
+  },
+  {
+   "name": "MAX3100EEE+T",
+   "package": "QSOP",
+   "pinout": "qsop16",
+   "footprint": "QSOP-16",
+   "grade": "E"
+  },
+  {
+   "name": "MAX3100EPD+",
+   "package": "DIP",
+   "pinout": "dip14",
+   "footprint": "PDIP-14",
+   "grade": "E"
+  },
+  {
+   "name": "MAX3100ETG+",
+   "package": "TQFN",
+   "pinout": "tqfn24-4x4",
+   "footprint": "TQFN-24-4X4-T2444",
+   "grade": "E"
+  }
+ ]
+}

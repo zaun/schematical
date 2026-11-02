@@ -1,0 +1,276 @@
+{
+ "id": "MAX3109",
+ "function": "Bridge UART",
+ "description": "Dual serial UART with 128-word FIFOs",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "max3109.pdf p.1-66; plan-12-data/specs/maxim.md § MAX3109",
+ "pinouts": {
+  "tqfn32": [
+   {
+    "number": 1,
+    "name": "RST",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "MISO/SDA",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "SCLK/SCL",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "GPIO7",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "CS/A0",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "MOSI/A1",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "VL",
+    "role": "power"
+   },
+   {
+    "number": 9,
+    "name": "SPI/I2C",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "DGND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "GPIO0",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "GPIO4",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "GPIO1",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "GPIO5",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "CTS0",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "CTS1",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "TX1",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "TX0",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "RX0",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "RX1",
+    "role": "input"
+   },
+   {
+    "number": 21,
+    "name": "RTS0",
+    "role": "output"
+   },
+   {
+    "number": 22,
+    "name": "RTS1",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "GPIO2",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "GPIO3",
+    "role": "inout"
+   },
+   {
+    "number": 25,
+    "name": "VEXT",
+    "role": "power"
+   },
+   {
+    "number": 26,
+    "name": "XIN",
+    "role": "input"
+   },
+   {
+    "number": 27,
+    "name": "XOUT",
+    "role": "output"
+   },
+   {
+    "number": 28,
+    "name": "GPIO6",
+    "role": "inout"
+   },
+   {
+    "number": 29,
+    "name": "AGND",
+    "role": "ground"
+   },
+   {
+    "number": 30,
+    "name": "LDOEN",
+    "role": "input"
+   },
+   {
+    "number": 31,
+    "name": "V18",
+    "role": "power"
+   },
+   {
+    "number": 32,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "model": "max310x",
+ "variant": "max3109",
+ "bus": {
+  "style": "i2c-spi",
+  "selectPin": "SPI/I2C",
+  "spiLevel": 1,
+  "selectSampled": "live",
+  "spi": {
+   "cs": "CS/A0",
+   "sclk": "SCLK/SCL",
+   "mosi": "MOSI/A1",
+   "miso": "MISO/SDA",
+   "mode": 0
+  },
+  "i2c": {
+   "scl": "SCLK/SCL",
+   "sda": "MISO/SDA",
+   "address": [
+    "CS/A0",
+    "MOSI/A1"
+   ],
+   "table": [
+    108,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    96,
+    109,
+    110,
+    111
+   ]
+  },
+  "uartOffsets": [
+   0,
+   -16
+  ]
+ },
+ "reset": "RST",
+ "clock": {
+  "in": "XIN",
+  "out": "XOUT"
+ },
+ "channels": [
+  {
+   "tx": "TX0",
+   "rx": "RX0",
+   "rts": "RTS0",
+   "cts": "CTS0"
+  },
+  {
+   "tx": "TX1",
+   "rx": "RX1",
+   "rts": "RTS1",
+   "cts": "CTS1"
+  }
+ ],
+ "interrupt": "IRQ",
+ "gpio": [
+  "GPIO0",
+  "GPIO1",
+  "GPIO2",
+  "GPIO3",
+  "GPIO4",
+  "GPIO5",
+  "GPIO6",
+  "GPIO7"
+ ],
+ "grades": {
+  "E": {
+   "tdo": 20,
+   "tft": 10,
+   "tready": 200000,
+   "vcc": [
+    1.71,
+    3.6
+   ],
+   "note": "max3109.pdf p.7-11, p.62 (ready about 200 us after reset), -40 to +85 C (2.35 V min with the PLL)"
+  }
+ },
+ "parts": [
+  {
+   "name": "MAX3109ETJ+",
+   "package": "TQFN",
+   "pinout": "tqfn32",
+   "footprint": "TQFN-32-5X5-T3255",
+   "grade": "E"
+  },
+  {
+   "name": "MAX3109ETJ+T",
+   "package": "TQFN",
+   "pinout": "tqfn32",
+   "footprint": "TQFN-32-5X5-T3255",
+   "grade": "E"
+  }
+ ]
+}

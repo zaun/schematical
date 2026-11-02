@@ -1,0 +1,357 @@
+{
+ "id": "MAX3107",
+ "function": "Bridge UART",
+ "description": "SPI/I2C UART with 128-word FIFOs",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "max3107.pdf p.1-52; plan-12-data/specs/maxim.md § MAX3107",
+ "pinouts": {
+  "ssop24": [
+   {
+    "number": 1,
+    "name": "XIN",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "AGND",
+    "role": "ground"
+   },
+   {
+    "number": 3,
+    "name": "VA",
+    "role": "power"
+   },
+   {
+    "number": 4,
+    "name": "V18",
+    "role": "power"
+   },
+   {
+    "number": 5,
+    "name": "I2C/SPI",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "LDOEN",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "DOUT/SDA",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "SCLK/SCL",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "CS/A0",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "DIN/A1",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "RST",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "VL",
+    "role": "power"
+   },
+   {
+    "number": 14,
+    "name": "DGND",
+    "role": "ground"
+   },
+   {
+    "number": 15,
+    "name": "GPIO0",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "GPIO1",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "GPIO2",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "GPIO3",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "RTS/CLKOUT",
+    "role": "output"
+   },
+   {
+    "number": 21,
+    "name": "RX",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "TX",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "VEXT",
+    "role": "power"
+   },
+   {
+    "number": 24,
+    "name": "XOUT",
+    "role": "output"
+   }
+  ],
+  "tqfn24-3.5": [
+   {
+    "number": 1,
+    "name": "V18",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "I2C/SPI",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "LDOEN",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "DOUT/SDA",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "SCLK/SCL",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "CS/A0",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "DIN/A1",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "RST",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "VL",
+    "role": "power"
+   },
+   {
+    "number": 11,
+    "name": "DGND",
+    "role": "ground"
+   },
+   {
+    "number": 12,
+    "name": "GPIO0",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "GPIO1",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "GPIO2",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "GPIO3",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "RTS/CLKOUT",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "RX",
+    "role": "input"
+   },
+   {
+    "number": 19,
+    "name": "TX",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "VEXT",
+    "role": "power"
+   },
+   {
+    "number": 21,
+    "name": "XOUT",
+    "role": "output"
+   },
+   {
+    "number": 22,
+    "name": "XIN",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "AGND",
+    "role": "ground"
+   },
+   {
+    "number": 24,
+    "name": "VA",
+    "role": "power"
+   }
+  ]
+ },
+ "model": "max310x",
+ "variant": "max3107",
+ "bus": {
+  "style": "i2c-spi",
+  "selectPin": "I2C/SPI",
+  "spiLevel": 1,
+  "selectSampled": "live",
+  "spi": {
+   "cs": "CS/A0",
+   "sclk": "SCLK/SCL",
+   "mosi": "DIN/A1",
+   "miso": "DOUT/SDA",
+   "mode": 0
+  },
+  "i2c": {
+   "scl": "SCLK/SCL",
+   "sda": "DOUT/SDA",
+   "address": [
+    "CS/A0",
+    "DIN/A1"
+   ],
+   "table": [
+    44,
+    45,
+    null,
+    null,
+    46,
+    47,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  }
+ },
+ "reset": "RST",
+ "clock": {
+  "in": "XIN",
+  "out": "XOUT"
+ },
+ "channels": [
+  {
+   "tx": "TX",
+   "rx": "RX",
+   "rts": "RTS/CLKOUT",
+   "cts": "CTS"
+  }
+ ],
+ "interrupt": "IRQ",
+ "gpio": [
+  "GPIO0",
+  "GPIO1",
+  "GPIO2",
+  "GPIO3"
+ ],
+ "grades": {
+  "E": {
+   "tdo": 20,
+   "tft": 10,
+   "vcc": [
+    2.35,
+    3.6
+   ],
+   "note": "max3107.pdf p.6-9, -40 to +85 C; VA (VL and VEXT 1.71-3.6 V)"
+  }
+ },
+ "parts": [
+  {
+   "name": "MAX3107EAG+",
+   "package": "SSOP",
+   "pinout": "ssop24",
+   "footprint": "SSOP-24",
+   "grade": "E"
+  },
+  {
+   "name": "MAX3107EAG+T",
+   "package": "SSOP",
+   "pinout": "ssop24",
+   "footprint": "SSOP-24",
+   "grade": "E"
+  },
+  {
+   "name": "MAX3107ETG+",
+   "package": "TQFN",
+   "pinout": "tqfn24-3.5",
+   "footprint": "TQFN-24-3.5X3.5",
+   "grade": "E"
+  },
+  {
+   "name": "MAX3107ETG+T",
+   "package": "TQFN",
+   "pinout": "tqfn24-3.5",
+   "footprint": "TQFN-24-3.5X3.5",
+   "grade": "E"
+  }
+ ]
+}

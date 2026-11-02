@@ -1,0 +1,377 @@
+{
+ "id": "MAX14830",
+ "function": "Bridge UART",
+ "description": "Quad serial UART with 128-word FIFOs",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "max14830.pdf p.1-68; plan-12-data/specs/maxim.md § MAX14830",
+ "pinouts": {
+  "tqfn48": [
+   {
+    "number": 1,
+    "name": "SPI/I2C",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "LDOEN",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "MISO/SDA",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "SCLK/SCL",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "CS/A0",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "MOSI/A1",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "RST",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "VL",
+    "role": "power"
+   },
+   {
+    "number": 10,
+    "name": "DGND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "GPIO0",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "GPIO1",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "GPIO2",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "GPIO3",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "RTS0",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "CTS0",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "RX0",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "TX0",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "GPIO4",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "GPIO5",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "GPIO6",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "GPIO7",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "RTS1",
+    "role": "output"
+   },
+   {
+    "number": 24,
+    "name": "CTS1",
+    "role": "input"
+   },
+   {
+    "number": 25,
+    "name": "RX1",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "TX1",
+    "role": "output"
+   },
+   {
+    "number": 27,
+    "name": "GPIO8",
+    "role": "inout"
+   },
+   {
+    "number": 28,
+    "name": "GPIO9",
+    "role": "inout"
+   },
+   {
+    "number": 29,
+    "name": "GPIO10",
+    "role": "inout"
+   },
+   {
+    "number": 30,
+    "name": "GPIO11",
+    "role": "inout"
+   },
+   {
+    "number": 31,
+    "name": "RTS2",
+    "role": "output"
+   },
+   {
+    "number": 32,
+    "name": "CTS2",
+    "role": "input"
+   },
+   {
+    "number": 33,
+    "name": "RX2",
+    "role": "input"
+   },
+   {
+    "number": 34,
+    "name": "TX2",
+    "role": "output"
+   },
+   {
+    "number": 35,
+    "name": "GPIO12",
+    "role": "inout"
+   },
+   {
+    "number": 36,
+    "name": "GPIO13",
+    "role": "inout"
+   },
+   {
+    "number": 37,
+    "name": "GPIO14",
+    "role": "inout"
+   },
+   {
+    "number": 38,
+    "name": "GPIO15",
+    "role": "inout"
+   },
+   {
+    "number": 39,
+    "name": "RTS3",
+    "role": "output"
+   },
+   {
+    "number": 40,
+    "name": "CTS3",
+    "role": "input"
+   },
+   {
+    "number": 41,
+    "name": "RX3",
+    "role": "input"
+   },
+   {
+    "number": 42,
+    "name": "TX3",
+    "role": "output"
+   },
+   {
+    "number": 43,
+    "name": "VEXT",
+    "role": "power"
+   },
+   {
+    "number": 44,
+    "name": "XOUT",
+    "role": "output"
+   },
+   {
+    "number": 45,
+    "name": "XIN",
+    "role": "input"
+   },
+   {
+    "number": 46,
+    "name": "AGND",
+    "role": "ground"
+   },
+   {
+    "number": 47,
+    "name": "VA",
+    "role": "power"
+   },
+   {
+    "number": 48,
+    "name": "V18",
+    "role": "power"
+   }
+  ]
+ },
+ "model": "max310x",
+ "variant": "max14830",
+ "bus": {
+  "style": "i2c-spi",
+  "selectPin": "SPI/I2C",
+  "spiLevel": 1,
+  "selectSampled": "live",
+  "spi": {
+   "cs": "CS/A0",
+   "sclk": "SCLK/SCL",
+   "mosi": "MOSI/A1",
+   "miso": "MISO/SDA",
+   "mode": 0
+  },
+  "i2c": {
+   "scl": "SCLK/SCL",
+   "sda": "MISO/SDA",
+   "address": [
+    "CS/A0",
+    "MOSI/A1"
+   ],
+   "table": [
+    108,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    96,
+    109,
+    110,
+    111
+   ]
+  },
+  "uartOffsets": [
+   0,
+   -16,
+   -64,
+   -80
+  ]
+ },
+ "reset": "RST",
+ "clock": {
+  "in": "XIN",
+  "out": "XOUT"
+ },
+ "channels": [
+  {
+   "tx": "TX0",
+   "rx": "RX0",
+   "rts": "RTS0",
+   "cts": "CTS0"
+  },
+  {
+   "tx": "TX1",
+   "rx": "RX1",
+   "rts": "RTS1",
+   "cts": "CTS1"
+  },
+  {
+   "tx": "TX2",
+   "rx": "RX2",
+   "rts": "RTS2",
+   "cts": "CTS2"
+  },
+  {
+   "tx": "TX3",
+   "rx": "RX3",
+   "rts": "RTS3",
+   "cts": "CTS3"
+  }
+ ],
+ "interrupt": "IRQ",
+ "gpio": [
+  "GPIO0",
+  "GPIO1",
+  "GPIO2",
+  "GPIO3",
+  "GPIO4",
+  "GPIO5",
+  "GPIO6",
+  "GPIO7",
+  "GPIO8",
+  "GPIO9",
+  "GPIO10",
+  "GPIO11",
+  "GPIO12",
+  "GPIO13",
+  "GPIO14",
+  "GPIO15"
+ ],
+ "grades": {
+  "E": {
+   "tdo": 20,
+   "tft": 10,
+   "vcc": [
+    2.35,
+    3.6
+   ],
+   "note": "max14830.pdf p.8-12, -40 to +85 C; VA (VL and VEXT 1.71-3.6 V)"
+  }
+ },
+ "parts": [
+  {
+   "name": "MAX14830ETM+",
+   "package": "TQFN",
+   "pinout": "tqfn48",
+   "footprint": "TQFN-48-7X7",
+   "grade": "E"
+  },
+  {
+   "name": "MAX14830ETM+T",
+   "package": "TQFN",
+   "pinout": "tqfn48",
+   "footprint": "TQFN-48-7X7",
+   "grade": "E"
+  }
+ ]
+}

@@ -1,0 +1,259 @@
+{
+ "id": "MAX3140",
+ "function": "Bridge UART",
+ "description": "SPI/MICROWIRE-compatible UART with integrated true fail-safe RS-485/RS-422 transceivers",
+ "drawer": [
+  "Interface"
+ ],
+ "note": "max3140.pdf p.1-36; plan-12-data/specs/maxim.md § MAX3140",
+ "pinouts": {
+  "qsop28": [
+   {
+    "number": 1,
+    "name": "X2",
+    "role": "output"
+   },
+   {
+    "number": 2,
+    "name": "X1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "CTS",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "RTS",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "RX",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "TX",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "H/F",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "RO",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "RE",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "DE",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "DI",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "SRL",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 15,
+    "name": "TXP",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "Y",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 18,
+    "name": "Z",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 21,
+    "name": "RXP",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 23,
+    "name": "DIN",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "DOUT",
+    "role": "output"
+   },
+   {
+    "number": 25,
+    "name": "SCLK",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "CS",
+    "role": "input"
+   },
+   {
+    "number": 27,
+    "name": "IRQ",
+    "role": "output"
+   },
+   {
+    "number": 28,
+    "name": "SHDN",
+    "role": "input"
+   }
+  ]
+ },
+ "model": "max3100",
+ "bus": {
+  "style": "spi",
+  "cs": "CS",
+  "sclk": "SCLK",
+  "mosi": "DIN",
+  "miso": "DOUT",
+  "mode": 0
+ },
+ "clock": {
+  "in": "X1",
+  "out": "X2"
+ },
+ "channels": [
+  {
+   "tx": "TX",
+   "rx": "RX",
+   "rts": "RTS",
+   "cts": "CTS",
+   "int": "IRQ"
+  }
+ ],
+ "shutdown": "SHDN",
+ "testMode": "txLow",
+ "transceiver": {
+  "y": "Y",
+  "z": "Z",
+  "a": "A",
+  "b": "B",
+  "de": "DE",
+  "re": "RE",
+  "ro": "RO",
+  "di": "DI",
+  "hf": "H/F",
+  "srl": "SRL",
+  "txp": "TXP",
+  "rxp": "RXP"
+ },
+ "grades": {
+  "C": {
+   "tdv": 100,
+   "ttr": 100,
+   "tdo": 100,
+   "tdp115": 2030,
+   "tdp500": 720,
+   "tdp10m": 34,
+   "tdz115": 3500,
+   "tdz500": 2500,
+   "tdz10m": 150,
+   "tdd": 100,
+   "trp": 127,
+   "trp10m": 106,
+   "trz": 20,
+   "tshdn": 200,
+   "tdzs115": 6000,
+   "tdzs500": 4500,
+   "tdzs10m": 250,
+   "trzs": 3500,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "max3140.pdf p.2-7, 0 to +70 C; transceiver typical values"
+  },
+  "E": {
+   "tdv": 100,
+   "ttr": 100,
+   "tdo": 100,
+   "tdp115": 2030,
+   "tdp500": 720,
+   "tdp10m": 34,
+   "tdz115": 3500,
+   "tdz500": 2500,
+   "tdz10m": 150,
+   "tdd": 100,
+   "trp": 127,
+   "trp10m": 106,
+   "trz": 20,
+   "tshdn": 200,
+   "tdzs115": 6000,
+   "tdzs500": 4500,
+   "tdzs10m": 250,
+   "trzs": 3500,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "max3140.pdf p.2-7, -40 to +85 C; transceiver typical values"
+  }
+ },
+ "parts": [
+  {
+   "name": "MAX3140CEI+",
+   "package": "QSOP",
+   "pinout": "qsop28",
+   "footprint": "QSOP-28",
+   "grade": "C"
+  },
+  {
+   "name": "MAX3140EEI+",
+   "package": "QSOP",
+   "pinout": "qsop28",
+   "footprint": "QSOP-28",
+   "grade": "E"
+  }
+ ]
+}
