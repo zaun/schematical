@@ -310,7 +310,7 @@ Acceptance: §5 steps 3–5 print their values and write the four PNGs. Each
 PNG is looked at: the status line, the register grid and the last
 instruction all read as stated.
   Check: `/tmp/p09/harness/run cpu /tmp/p09-proof/cpu6502.schematical` and `run cpu /tmp/p09-proof/cpuz80.schematical` → the §5 values; `ls /tmp/p09-proof/*.png` → `cpu-6502.png cpu-lost.png cpu-stopped.png cpu-z80.png` (est. 1 min). Measured as in the task above; `ls` → the four PNGs.
-Commit: —
+Commit: 782f944 (window and plumbing), fb01a46 (reset-setup rule found by the §5 re-run)
 
 ## Validation Plan
 
