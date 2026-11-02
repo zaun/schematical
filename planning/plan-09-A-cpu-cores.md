@@ -3,7 +3,7 @@
 Last updated: 2026-11-01
 Overall Effort: x-large (1d–3d) — plan-09 is A → B → C → D → E
 Effort: medium (1h–2h)
-Depends on: plan-07 (all sub-plans) and plan-08 complete (§ Prerequisites)
+Depends on: plan-07 (all sub-plans), plan-08 and plan-10 complete (§ Prerequisites)
 
 plan-09 adds three microprocessors as parts that run programs inside the
 simulation: the NMOS **6502**, the WDC **65C02** (W65C02S) and the Zilog
@@ -66,6 +66,7 @@ rows.
 |---|---|---|
 | plan-07 complete (owner: plan-09 waits for plan-07 and plan-08) | `ls planning/plan-07-* 2>/dev/null` → no output; `ls planning/completed/plan-07-G-*.md` → exists | NOT MET (2026-11-01: plan-07 A–G written, none started) |
 | plan-08 complete | `ls planning/plan-08-* 2>/dev/null` → no output; `ls planning/completed/plan-08-*.md` → exists | NOT MET (2026-11-01: written, not started) |
+| plan-10 complete (owner, 2026-11-01: plan-10 lands before plan-09) | `ls planning/plan-10-* 2>/dev/null` → no output; `ls planning/completed/plan-10-J-app.md` → exists | NOT MET (2026-11-01: plan-10 A–J written, none started) |
 | `vcc` is a required key (plan-07-F landed) | `grep -n '"vcc"' docs/parts-format.md` → the key is listed as required, with no "required from plan-07-F" text | NOT MET (2026-11-01) |
 | Backend tests green | `cmake -S backend -B /tmp/logic-p09 && cmake --build /tmp/logic-p09 -j8 && ctest --test-dir /tmp/logic-p09` → `100% tests passed` | MET at 5992f1c, 11 of 11 (2026-11-01); re-run at start and record the count as **T0** |
 | No `cpu` kind yet | `ls schematical/schematical/Parts/cpu.json backend/src/models/cpu.c 2>/dev/null` → no output | MET (2026-11-01) |

@@ -76,10 +76,11 @@ plan-09-A § Prerequisites, plus:
 
 ## 2. Current State
 
-- Kinds: `KINDS[]` in `backend/src/library/kinds.c` lists 10 kinds.
-  `PartKind` ends `… PART_SUPPLY, PART_EEPROM` (`parts.h`). The app and tests
-  use the names, never numbers (re-checked for plan-04-A). So appending
-  `PART_CPU` renumbers nothing.
+- Kinds: `KINDS[]` in `backend/src/library/kinds.c` lists 13 kinds after
+  plan-10 (which appends `latch`, `counter`, `shift`). `PartKind` ends
+  `… PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER, PART_SHIFT`
+  (`parts.h`). The app and tests use the names, never numbers (re-checked for
+  plan-04-A). So appending `PART_CPU` renumbers nothing.
 - One `SimComponentType` per kind (`PartKindOps.model`, `kind.h`). A kind
   with several behaviours dispatches inside its model. The engine config is
   the `const Part *`; model data comes through `part_internal(part)`.
@@ -97,8 +98,8 @@ plan-09-A § Prerequisites, plus:
   driving X never stops the run.
 - Test support needs updating for a new kind:
   - `listing.c` `listing_kind_name` and `print_details`: one case each.
-  - `trace_check.c:96,163`: `PART_EEPROM + 1` / `<= PART_EEPROM`, which
-    become `PART_CPU`.
+  - `trace_check.c`: the file-level `TRACE_LAST_KIND` (plan-10-B; `PART_SHIFT`
+    after plan-10), which becomes `PART_CPU`.
 - Voltage keys after plan-07: grades of `sram`/`eeprom` take `"vcc"`,
   `"inputMax"` (after `"note"` in `TIMING_NAMES`), and parts take the same
   as overrides, resolved by `kind_voltage` (plan-07-A §4.2). `cpu` follows
@@ -108,8 +109,8 @@ plan-09-A § Prerequisites, plus:
 
 | What | Count | Command |
 |---|---|---|
-| `PART_EEPROM` used as the last kind in tests | 2 | `grep -n 'PART_EEPROM' backend/tests/trace_check.c` → lines 96, 163 |
-| Listing switch cases to extend | 2 | `grep -n 'case PART_EEPROM' backend/tests/support/listing.c` → 2 |
+| Last kind in tests | 1 (`TRACE_LAST_KIND`) | `grep -n 'TRACE_LAST_KIND' backend/tests/trace_check.c` → the `#define` and its uses (after plan-10) |
+| Listing switch cases to extend | 2 | `grep -n 'case PART_SHIFT' backend/tests/support/listing.c` → 2 (after plan-10) |
 | Circuit hook wrappers to copy | 1 pattern (`circuit_memory_read`, `circuit.c:380`) | read |
 | 6502-family pins per device | W65C02S 40 (PDIP) / 44 (PLCC); NMOS 6502 40 | datasheets (D §4.2) |
 
@@ -538,8 +539,8 @@ A loadable kind with no behaviour beyond "lost", landable alone.
   - for now, a core whose `start` drives every output X and reports
     LOST.
 - [ ] `kinds.c`: `&CPU_KIND`. `backend/CMakeLists.txt`: `models/cpu.c`.
-- [ ] `listing.c`: kind name and details. `trace_check.c`: `PART_CPU` in
-      both places.
+- [ ] `listing.c`: kind name and details. `trace_check.c`: `TRACE_LAST_KIND`
+      → `PART_CPU`.
 - [ ] `library_check.c`: the §5.4 cases.
 - [ ] `tests/cpu_test.c` with the fixture devices (§4.7), case 1 only.
       `logic_test(cpu_test)`.
