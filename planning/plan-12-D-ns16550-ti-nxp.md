@@ -201,7 +201,7 @@ and the C cases `ok`, `PASS`; `ctest` 19/19. The golden check was met when
 the phase's code landed (2ac9b98–37d9128, before F); the IOW-only key later
 changes one F line (`traces.txt`: TL16C750EPFBR), an intended behavior
 change recorded in Corrections.
-Commit: 15723fb (data), this commit (IOW-only MODE)
+Commit: 15723fb (data), ab46530 (IOW-only MODE)
 
 ## Validation Plan
 

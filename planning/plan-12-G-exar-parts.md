@@ -68,16 +68,30 @@ XR16V654D…) carry `"intPin": "driven"` (plan-12-E §3.1).
   scripts/digikey.js --in-stock --list`, 2026-11-02): ST16C 34, XR16C 10,
   XR16L 10, XR16M 19, XR16V 21, XR68M 11, SC16C6 4, SC16C7 3. All 69 G part
   names in `parts.tsv` (30 devices) are in these lists: no drops.
-- [ ] `footprints.json` + 4; `serial.json` + 30 devices.
-- [ ] Regenerate the goldens. Check: no removed line; added `parts.txt` 69,
-  `traces.txt` 69, `footprints.txt` 4.
-- [ ] Hand-check the 4 new `footprints.txt` lines against `footprints.md`.
-- [ ] Spot-check: `XR16V798IQ-F` (`channels=8`, `QFP-100-14X20`),
+- [x] `footprints.json` + 4; `serial.json` + 30 devices. The 4 objects
+  verbatim from `footprints.md`; `python3 -I backend/tests/fixtures/serial/
+  merge.py --ship F,G` → `serial.json: 52 devices, 150 parts`.
+- [x] Regenerate the goldens. Check: no removed line; added `parts.txt` 69,
+  `traces.txt` 69, `footprints.txt` 4. Observed: removed 0 / added 69, 69, 4.
+- [x] Hand-check the 4 new `footprints.txt` lines against `footprints.md`.
+  QFN-32-5X5: pads at ±2.400 (span 4.8), first −1.750 (pitch 0.5),
+  0.625×0.275, centre 3.8; QFN-48-7X7: ±3.450 (6.9), first −2.750,
+  0.700×0.290, centre 5.2; QFP-100-14X20: x ±8.610 (17.22), y ±11.610
+  (23.22), sides 30/20 (first −9.425 and −6.175 at pitch 0.65),
+  1.680×0.360, body 14×20; HVQFN-32-5X5: ±2.450 (4.9), 0.700×0.290,
+  centre 3.1. All as the JSON.
+- [x] Spot-check: `XR16V798IQ-F` (`channels=8`, `QFP-100-14X20`),
   `ST16C554DCQ64-F` (the `intPin` override reaches the part: `trace_check
   --verbose` shows INTA driven after reset), `SC16C752BIBS,157`
-  (`HVQFN-32-5X5`).
+  (`HVQFN-32-5X5`). Observed: `XR16V798IQ-F|serial|QFP|…|model=ns16550
+  channels=8 grade=I|…|footprint=QFP-100-14X20`; `SC16C752BIBS,157|…
+  |channels=2 grade=I|…|footprint=HVQFN-32-5X5`; INTA (pin 6):
+  ST16C554DCQ64-F `0 pin 6 -> 0`, `2333203 pin 6 -> 1`, …, while
+  ST16C554CQ64-F never drives it (3-state, MCR[3] = 0).
 
-Acceptance: `ctest` 100%; the golden checks (about 2 min).
+Acceptance: `ctest` 100%; the golden checks (about 2 min). Observed:
+`100% tests passed, 0 tests failed out of 19`; `serial_test` → `PASS`
+(`compared: 52 ns16550`).
 Commit: —
 
 ## Validation Plan
@@ -90,4 +104,10 @@ As plan-12-F.
 
 ## Corrections
 
-(none yet)
+- **SC16C650B and SC16C752B `inputMax`.** The data had a grade `inputMax` of
+  5.3 V, below the 5.5 V supply maximum; the loader refuses an input limit
+  under the supply range (`docs/parts-format.md` § Supply voltage), so the
+  key was removed and the input limit is the supply's, the loader's default
+  (15723fb).
+- **Shipped after E, H and I merged** (all four groups' models were on the
+  branch); the golden order is still F → G → H → I → J.
