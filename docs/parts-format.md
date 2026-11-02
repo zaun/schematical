@@ -136,7 +136,7 @@ A ball pinout, the 5-ball DSBGA of a single gate, in the order of its SOT-23 pin
 ```
 
 **Kind keys refer to pins by name, never by number or ball**, so one device
-can carry several pinouts (DIP and LCCC, DIP and sTSOP, SOT-23 and DSBGA).
+can carry several pinouts (DIP and LCCC, DIP and TSOP-I, SOT-23 and DSBGA).
 Every name a kind key uses must exist in every pinout of the device. A name
 used by several pins means all of them, in pinout order; kinds that need
 exactly one pin reject such names. (One exception, a part key: an
@@ -151,9 +151,9 @@ oscillator's `enablePin` is a pin designator; see below.)
 | Key | Value |
 |---|---|
 | `"name"` | the orderable part number; unique across the whole library (all files) |
-| `"package"` | package name as shown, e.g. `"DIP"`, `"TSSOP"`, `"2520 VSON"`; may be empty (supplies) |
+| `"package"` | the package family, shown in the drawer and used by its package filter, e.g. `"DIP"`, `"TSSOP"`, `"VSON"`; may be empty (supplies). Never put a pin count, body size or material in it (no `"CDIP"`, `"DIP-14"`, `"2520 VSON"`): the pin count comes from the pinout and the exact size from the footprint. Ceramic and plastic DIPs are both `"DIP"`, flat packs are `"CFP"`, leadless chip carriers `"LCCC"`, and small and full-size type I TSOPs are both `"TSOP-I"` (type II stays `"TSOP-II"`). |
 | `"pinout"` | the name of one of the device's pinouts |
-| `"flags"` | optional, any of `obsolete`, `military`, `automotive`, `enhanced` |
+| `"flags"` | optional, any of `obsolete`, `military`, `automotive`, `enhanced`, `ceramic` |
 | `"footprint"` | the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)). Required on every part except supplies (`VCC`, `GND`, `5V`, …), which reject it |
 | `"vcc"`, `"inputMax"` | on gate, dff, jkff, sram, eeprom and oscillator parts only: the part's own supply range / input limit, replacing the one it inherits (see [Supply voltage](#supply-voltage-vcc-and-inputmax)) |
 
@@ -166,6 +166,10 @@ Flags:
   drawing numbers, CD4000 …F3A parts.
 - `automotive`: AEC-Q100 qualified (-Q1) parts.
 - `enhanced`: Enhanced Product (-EP) parts, V62/ numbers.
+- `ceramic`: a ceramic package body (CDIP, CFP, LCCC, CPGA, ceramic SMD
+  oscillators). Ceramic and plastic DIPs share the package name `"DIP"`, so
+  this flag is what tells them apart. Military parts are often, but not
+  always, ceramic; set each flag on its own.
 
 ## Values
 

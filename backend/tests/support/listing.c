@@ -108,7 +108,9 @@ static void print_details(FILE *out, const Part *part) {
 }
 
 char *listing_line(const Part *part) {
-    static const char *const FLAGS[] = {"obsolete", "military", "automotive", "enhanced"};
+    static const char *const FLAGS[] = {
+        "obsolete", "military", "automotive", "enhanced", "ceramic"
+    };
     char *text = NULL;
     size_t length = 0;
     FILE *out = open_memstream(&text, &length);
@@ -126,7 +128,7 @@ char *listing_line(const Part *part) {
         fprintf(out, "%s%s", i > 0 ? "/" : "", part->drawer[i]);
     }
     fprintf(out, "|%s|%s|", part->function, logic ? part->logic->family : "");
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < sizeof FLAGS / sizeof FLAGS[0]; i++) {
         if (part->flags & (1u << i)) {
             fprintf(out, "%s%s", first ? "" : ",", FLAGS[i]);
             first = 0;

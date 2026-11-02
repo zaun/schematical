@@ -117,7 +117,23 @@ longer-running suite for this repo.
 
 ## Corrections
 
-(none yet)
+- 2026-11-01, landing: `main` advanced 17 commits during plan-10 (59ee186):
+  among them a `ceramic` part flag (4c3f245), "one package name per package
+  family" (7e49b2c: `CDIP` parts are `DIP`) and 62 new oscillator parts.
+  `main` was merged into `worktree-P-10`; the only conflicts were the
+  goldens (regenerated) and `dff.json` (main's updated lines kept beside the
+  24 new 74_374 parts). Main's two rules were then applied to plan-10's own
+  parts: 732 parts on CDIP/CFP/LCCC footprints gained `ceramic`, and their
+  `CDIP` package became `DIP` (`/tmp/p10/apply_ceramic.py`; the generator
+  helper `p10lib.part_obj` applies the same rule). The plan's golden sizes
+  therefore become 6170 / 6170 / 160 (main's 4073 parts and 142 footprints
+  plus plan-10's 2097 and 18). Re-run after the merge, every landing gate
+  passes: `ctest` 15 of 15; `git diff main -- backend/tests/golden` → 0
+  removed, 4212 added; `|latch|` 750, `|counter|` 730, `|shift|` 583; 234
+  PDFs, 10 left out; `** BUILD SUCCEEDED **`.
+- 2026-11-01, landing: the repo has no Rust workspace (no `Cargo.toml` at
+  the root or under `repository/`), so the follow-plan `cargo fmt` step does
+  not apply.
 
 ## Summary
 

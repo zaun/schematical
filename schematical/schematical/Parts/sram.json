@@ -84,8 +84,8 @@
         {"name":"AS6C6264-55PIN","package":"DIP","pinout":"p28","footprint":"PDIP-28-600","grade":"55"},
         {"name":"AS6C6264-55SCN","package":"SOP","pinout":"p28","footprint":"SOP-28-330","grade":"55"},
         {"name":"AS6C6264-55SIN","package":"SOP","pinout":"p28","footprint":"SOP-28-330","grade":"55"},
-        {"name":"AS6C6264-55STCN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"55"},
-        {"name":"AS6C6264-55STIN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"55"}
+        {"name":"AS6C6264-55STCN","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"55"},
+        {"name":"AS6C6264-55STIN","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"55"}
       ]
     },
     {
@@ -168,8 +168,8 @@
         {"name":"AS6C62256-55PCN","package":"DIP","pinout":"p28","footprint":"PDIP-28-600","grade":"55"},
         {"name":"AS6C62256-55SCN","package":"SOP","pinout":"p28","footprint":"SOP-28-330","grade":"55"},
         {"name":"AS6C62256-55SIN","package":"SOP","pinout":"p28","footprint":"SOP-28-330","grade":"55"},
-        {"name":"AS6C62256-55STCN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"55"},
-        {"name":"AS6C62256-55STIN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"55"}
+        {"name":"AS6C62256-55STCN","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"55"},
+        {"name":"AS6C62256-55STIN","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"55"}
       ]
     },
     {
@@ -299,7 +299,7 @@
         {"name":"AS6C1008-55PIN","package":"DIP","pinout":"p32","footprint":"PDIP-32-600","grade":"55"},
         {"name":"AS6C1008-55SIN","package":"SOP","pinout":"p32","footprint":"SOP-32-450","grade":"55"},
         {"name":"AS6C1008-55TIN","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-32-8X20","grade":"55"},
-        {"name":"AS6C1008-55STIN","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"55"},
+        {"name":"AS6C1008-55STIN","package":"TSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"55"},
         {"name":"AS6C1008-55BIN","package":"TFBGA","pinout":"bga","footprint":"TFBGA-36-6X8","grade":"55"}
       ]
     },
@@ -430,7 +430,7 @@
         {"name":"AS6C4008-55SIN","package":"SOP","pinout":"p32","footprint":"SOP-32-450","grade":"55"},
         {"name":"AS6C4008-55ZIN","package":"TSOP-II","pinout":"p32","footprint":"TSOP2-32-400","grade":"55"},
         {"name":"AS6C4008-55TIN","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-32-8X20","grade":"55"},
-        {"name":"AS6C4008-55STIN","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"55"},
+        {"name":"AS6C4008-55STIN","package":"TSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"55"},
         {"name":"AS6C4008-55BIN","package":"TFBGA","pinout":"bga","footprint":"TFBGA-36-6X8","grade":"55"}
       ]
     },
@@ -1260,22 +1260,22 @@
         {"name":"AS7C256A-15JIN","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"15"},
         {"name":"AS7C256A-20JI","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"20"},
         {"name":"AS7C256A-20JIN","package":"SOJ","pinout":"p28","footprint":"SOJ-28-300","grade":"20"},
-        {"name":"AS7C256A-10TC","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"10"},
-        {"name":"AS7C256A-10TCN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"10"},
-        {"name":"AS7C256A-12TC","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"12"},
-        {"name":"AS7C256A-12TCN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"12"},
-        {"name":"AS7C256A-15TC","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"15"},
-        {"name":"AS7C256A-15TCN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"15"},
-        {"name":"AS7C256A-20TC","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"20"},
-        {"name":"AS7C256A-20TCN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"20"},
-        {"name":"AS7C256A-10TI","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"10"},
-        {"name":"AS7C256A-10TIN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"10"},
-        {"name":"AS7C256A-12TI","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"12"},
-        {"name":"AS7C256A-12TIN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"12"},
-        {"name":"AS7C256A-15TI","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"15"},
-        {"name":"AS7C256A-15TIN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"15"},
-        {"name":"AS7C256A-20TI","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"20"},
-        {"name":"AS7C256A-20TIN","package":"sTSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"20"}
+        {"name":"AS7C256A-10TC","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"10"},
+        {"name":"AS7C256A-10TCN","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"10"},
+        {"name":"AS7C256A-12TC","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"12"},
+        {"name":"AS7C256A-12TCN","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"12"},
+        {"name":"AS7C256A-15TC","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"15"},
+        {"name":"AS7C256A-15TCN","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"15"},
+        {"name":"AS7C256A-20TC","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"20"},
+        {"name":"AS7C256A-20TCN","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"20"},
+        {"name":"AS7C256A-10TI","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"10"},
+        {"name":"AS7C256A-10TIN","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"10"},
+        {"name":"AS7C256A-12TI","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"12"},
+        {"name":"AS7C256A-12TIN","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"12"},
+        {"name":"AS7C256A-15TI","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"15"},
+        {"name":"AS7C256A-15TIN","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"15"},
+        {"name":"AS7C256A-20TI","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"20"},
+        {"name":"AS7C256A-20TIN","package":"TSOP-I","pinout":"stsop","footprint":"STSOP1-28-8X13.4","grade":"20"}
       ]
     },
     {
@@ -1392,14 +1392,14 @@
         {"name":"AS7C31024B-15TCN","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-32-8X20","grade":"15"},
         {"name":"AS7C31024B-20TC","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-32-8X20","grade":"20"},
         {"name":"AS7C31024B-20TCN","package":"TSOP-I","pinout":"tsop","footprint":"TSOP1-32-8X20","grade":"20"},
-        {"name":"AS7C31024B-10STC","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"10"},
-        {"name":"AS7C31024B-10STCN","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"10"},
-        {"name":"AS7C31024B-12STC","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"12"},
-        {"name":"AS7C31024B-12STCN","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"12"},
-        {"name":"AS7C31024B-15STC","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"15"},
-        {"name":"AS7C31024B-15STCN","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"15"},
-        {"name":"AS7C31024B-20STC","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"20"},
-        {"name":"AS7C31024B-20STCN","package":"sTSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"20"}
+        {"name":"AS7C31024B-10STC","package":"TSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"10"},
+        {"name":"AS7C31024B-10STCN","package":"TSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"10"},
+        {"name":"AS7C31024B-12STC","package":"TSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"12"},
+        {"name":"AS7C31024B-12STCN","package":"TSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"12"},
+        {"name":"AS7C31024B-15STC","package":"TSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"15"},
+        {"name":"AS7C31024B-15STCN","package":"TSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"15"},
+        {"name":"AS7C31024B-20STC","package":"TSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"20"},
+        {"name":"AS7C31024B-20STCN","package":"TSOP-I","pinout":"tsop","footprint":"STSOP1-32-8X13.4","grade":"20"}
       ]
     },
     {

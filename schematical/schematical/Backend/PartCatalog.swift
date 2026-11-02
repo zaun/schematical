@@ -145,6 +145,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         var military = false
         var automotive = false
         var enhanced = false
+        var ceramic = false
     }
 
     /// The facts that depend on the part's kind.
@@ -252,6 +253,16 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         }
     }
 
+    /// The label at the right of the part's drawer row: the count in
+    /// parentheses ("(4)"), or an oscillator's frequency ("32.768 kHz").
+    var trailingLabel: String? {
+        if case let .oscillator(_, _, _, defaultHz, _) = details {
+            return PartFacts.hertz(defaultHz)
+        }
+        if let count, count > 0 { return "(\(count))" }
+        return nil
+    }
+
     /// The drawer's second line after the package: family, speed grade,
     /// actuator, color or size.
     var detailLabels: [String] {
@@ -328,7 +339,8 @@ extension CatalogPart {
             obsolete: part.flags & UInt32(PART_OBSOLETE) != 0,
             military: part.flags & UInt32(PART_MILITARY) != 0,
             automotive: part.flags & UInt32(PART_AUTOMOTIVE) != 0,
-            enhanced: part.flags & UInt32(PART_ENHANCED) != 0
+            enhanced: part.flags & UInt32(PART_ENHANCED) != 0,
+            ceramic: part.flags & UInt32(PART_CERAMIC) != 0
         )
         pins = (0..<part.pin_count).compactMap { index in
             guard let pin = part.pins?[index] else { return nil }

@@ -29,8 +29,8 @@
       "outputs": ["CLK OUT"],
       "vcc": [1.2, 3.63],
       "parts": [
-        {"name":"OSC-SIT1534-2012","package":"2012","pinout":"2012","footprint":"OSC-SIT-2012","defaultHz":32768},
-        {"name":"OSC-SIT1534-1508","package":"1508 CSP","pinout":"1508-csp","footprint":"OSC-SIT-1508","defaultHz":32768}
+        {"name":"OSC-SIT1534-2012","package":"SMD","pinout":"2012","footprint":"OSC-SIT-2012","defaultHz":32768},
+        {"name":"OSC-SIT1534-1508","package":"CSP","pinout":"1508-csp","footprint":"OSC-SIT-1508","defaultHz":32768}
       ]
     },
     {
@@ -59,10 +59,10 @@
       "outputs": ["OUT"],
       "vcc": [2.37, 3.5],
       "parts": [
-        {"name":"LMK6CE001000DDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":1000000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6CE001000DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":1000000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6CE001200CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":1200000,"enablePin":1},
-        {"name":"LMK6CE008000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":8000000,"enablePin":1}
+        {"name":"LMK6CE001000DDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":1000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE001000DDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":1000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE001200CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":1200000,"enablePin":1},
+        {"name":"LMK6CE008000CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":8000000,"enablePin":1}
       ]
     },
     {
@@ -91,41 +91,41 @@
       "outputs": ["OUT"],
       "vcc": [2.37, 3.5],
       "parts": [
-        {"name":"LMK6CA026214DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":26214000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6CA032768DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":32768000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6CA048000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":48000000,"enablePin":1},
-        {"name":"LMK6CE012288CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":12288000,"enablePin":1},
-        {"name":"LMK6CE016000CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":16000000,"enablePin":1},
-        {"name":"LMK6CE019200CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":19200000,"enablePin":1},
-        {"name":"LMK6CE02000CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":20000000,"enablePin":1},
-        {"name":"LMK6CE02000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":20000000,"enablePin":1},
-        {"name":"LMK6CE02400CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":24000000,"enablePin":1},
-        {"name":"LMK6CE02400CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":24000000,"enablePin":1},
-        {"name":"LMK6CE024576CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":24576000,"enablePin":1},
-        {"name":"LMK6CE02500CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":25000000,"enablePin":1},
-        {"name":"LMK6CE02500CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":25000000,"enablePin":1},
-        {"name":"LMK6CE02500DDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":25000000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6CE02500DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":25000000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6CE027000CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":27000000,"enablePin":1},
-        {"name":"LMK6CE027000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":27000000,"enablePin":1},
-        {"name":"LMK6CE028125CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":28125000,"enablePin":1},
-        {"name":"LMK6CE030000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":30000000,"enablePin":1},
-        {"name":"LMK6CE033333DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":33333000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6CE03333ACDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":33333333,"enablePin":1},
-        {"name":"LMK6CE03333CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":33330000,"enablePin":1},
-        {"name":"LMK6CE033550CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":33550000,"enablePin":1},
-        {"name":"LMK6CE04000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":40000000,"enablePin":1},
-        {"name":"LMK6CE048000CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":48000000,"enablePin":1},
-        {"name":"LMK6CE048000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":48000000,"enablePin":1},
-        {"name":"LMK6CE04800DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":48000000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6CE049152CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":49152000,"enablePin":1},
-        {"name":"LMK6CE050000DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":50000000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6CE05000CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":50000000,"enablePin":1},
-        {"name":"LMK6CE05000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":50000000,"enablePin":1},
-        {"name":"LMK6CE05000DDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":50000000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6CE05000DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":50000000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6CE066666CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":66666000,"enablePin":1},
-        {"name":"LMK6CE07425DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":74250000,"enablePin":1,"vcc":[1.7,1.9]}
+        {"name":"LMK6CA026214DDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":26214000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CA032768DDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":32768000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CA048000CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":48000000,"enablePin":1},
+        {"name":"LMK6CE012288CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":12288000,"enablePin":1},
+        {"name":"LMK6CE016000CDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":16000000,"enablePin":1},
+        {"name":"LMK6CE019200CDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":19200000,"enablePin":1},
+        {"name":"LMK6CE02000CDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":20000000,"enablePin":1},
+        {"name":"LMK6CE02000CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":20000000,"enablePin":1},
+        {"name":"LMK6CE02400CDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":24000000,"enablePin":1},
+        {"name":"LMK6CE02400CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":24000000,"enablePin":1},
+        {"name":"LMK6CE024576CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":24576000,"enablePin":1},
+        {"name":"LMK6CE02500CDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":25000000,"enablePin":1},
+        {"name":"LMK6CE02500CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":25000000,"enablePin":1},
+        {"name":"LMK6CE02500DDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":25000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE02500DDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":25000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE027000CDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":27000000,"enablePin":1},
+        {"name":"LMK6CE027000CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":27000000,"enablePin":1},
+        {"name":"LMK6CE028125CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":28125000,"enablePin":1},
+        {"name":"LMK6CE030000CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":30000000,"enablePin":1},
+        {"name":"LMK6CE033333DDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":33333000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE03333ACDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":33333333,"enablePin":1},
+        {"name":"LMK6CE03333CDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":33330000,"enablePin":1},
+        {"name":"LMK6CE033550CDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":33550000,"enablePin":1},
+        {"name":"LMK6CE04000CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":40000000,"enablePin":1},
+        {"name":"LMK6CE048000CDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":48000000,"enablePin":1},
+        {"name":"LMK6CE048000CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":48000000,"enablePin":1},
+        {"name":"LMK6CE04800DDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":48000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE049152CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":49152000,"enablePin":1},
+        {"name":"LMK6CE050000DDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":50000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE05000CDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":50000000,"enablePin":1},
+        {"name":"LMK6CE05000CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":50000000,"enablePin":1},
+        {"name":"LMK6CE05000DDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":50000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE05000DDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":50000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE066666CDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":66666000,"enablePin":1},
+        {"name":"LMK6CE07425DDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":74250000,"enablePin":1,"vcc":[1.7,1.9]}
       ]
     },
     {
@@ -154,14 +154,14 @@
       "outputs": ["OUT"],
       "vcc": [2.37, 3.5],
       "parts": [
-        {"name":"LMK6CE10000CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":100000000,"enablePin":1},
-        {"name":"LMK6CE10000CDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":100000000,"enablePin":1},
-        {"name":"LMK6CE10000DDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":100000000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6CE10000DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":100000000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6CE10800DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":108000000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6CE125000DDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":125000000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6CE12500CDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":125000000,"enablePin":1},
-        {"name":"LMK6CE15625DDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":156250000,"enablePin":1,"vcc":[1.7,1.9]}
+        {"name":"LMK6CE10000CDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6CE10000CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6CE10000DDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":100000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE10000DDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":100000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE10800DDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":108000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE125000DDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":125000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE12500CDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":125000000,"enablePin":1},
+        {"name":"LMK6CE15625DDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":156250000,"enablePin":1,"vcc":[1.7,1.9]}
       ]
     },
     {
@@ -194,10 +194,10 @@
       "outputs": ["OUTP","OUTN"],
       "vcc": [2.37, 3.5],
       "parts": [
-        {"name":"LMK6DA02500ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":25000000,"enablePin":1},
-        {"name":"LMK6DA05184ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":51840000,"enablePin":1},
-        {"name":"LMK6DE026000ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":26000000,"enablePin":1},
-        {"name":"LMK6DE050000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":50000000,"enablePin":1}
+        {"name":"LMK6DA02500ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":25000000,"enablePin":1},
+        {"name":"LMK6DA05184ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":51840000,"enablePin":1},
+        {"name":"LMK6DE026000ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":26000000,"enablePin":1},
+        {"name":"LMK6DE050000ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":50000000,"enablePin":1}
       ]
     },
     {
@@ -230,26 +230,26 @@
       "outputs": ["OUTP","OUTN"],
       "vcc": [2.37, 3.5],
       "parts": [
-        {"name":"LMK6DA10000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":100000000,"enablePin":1},
-        {"name":"LMK6DA10000ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":100000000,"enablePin":1},
-        {"name":"LMK6DA12288ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":122880000,"enablePin":1},
-        {"name":"LMK6DA12288ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":122880000,"enablePin":1},
-        {"name":"LMK6DA125000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":125000000,"enablePin":1},
-        {"name":"LMK6DA12500ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":125000000,"enablePin":1},
-        {"name":"LMK6DA14850ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":148500000,"enablePin":1},
-        {"name":"LMK6DA15552ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":155520000,"enablePin":1},
-        {"name":"LMK6DA15625ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":156250000,"enablePin":1},
-        {"name":"LMK6DA15625ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":156250000,"enablePin":1},
-        {"name":"LMK6DA16113AADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":161130000,"enablePin":1},
-        {"name":"LMK6DA20000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":200000000,"enablePin":1},
-        {"name":"LMK6DA20000ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":200000000,"enablePin":1},
-        {"name":"LMK6DA31250ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":312500000,"enablePin":1},
-        {"name":"LMK6DA40000ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":400000000,"enablePin":1},
-        {"name":"LMK6DE133330ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":133330000,"enablePin":1},
-        {"name":"LMK6DE156250BDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":156250000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6DE260000ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":260000000,"enablePin":1},
-        {"name":"LMK6DE322265ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":322265000,"enablePin":1},
-        {"name":"LMK6DE400000BDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":400000000,"enablePin":1,"vcc":[1.7,1.9]}
+        {"name":"LMK6DA10000ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6DA10000ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6DA12288ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":122880000,"enablePin":1},
+        {"name":"LMK6DA12288ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":122880000,"enablePin":1},
+        {"name":"LMK6DA125000ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":125000000,"enablePin":1},
+        {"name":"LMK6DA12500ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":125000000,"enablePin":1},
+        {"name":"LMK6DA14850ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":148500000,"enablePin":1},
+        {"name":"LMK6DA15552ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":155520000,"enablePin":1},
+        {"name":"LMK6DA15625ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":156250000,"enablePin":1},
+        {"name":"LMK6DA15625ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":156250000,"enablePin":1},
+        {"name":"LMK6DA16113AADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":161130000,"enablePin":1},
+        {"name":"LMK6DA20000ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":200000000,"enablePin":1},
+        {"name":"LMK6DA20000ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":200000000,"enablePin":1},
+        {"name":"LMK6DA31250ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":312500000,"enablePin":1},
+        {"name":"LMK6DA40000ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":400000000,"enablePin":1},
+        {"name":"LMK6DE133330ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":133330000,"enablePin":1},
+        {"name":"LMK6DE156250BDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":156250000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6DE260000ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":260000000,"enablePin":1},
+        {"name":"LMK6DE322265ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":322265000,"enablePin":1},
+        {"name":"LMK6DE400000BDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":400000000,"enablePin":1,"vcc":[1.7,1.9]}
       ]
     },
     {
@@ -274,7 +274,7 @@
       "outputs": ["OUTP","OUTN"],
       "vcc": [2.37, 3.5],
       "parts": [
-        {"name":"LMK6HE025000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":25000000,"enablePin":1}
+        {"name":"LMK6HE025000ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":25000000,"enablePin":1}
       ]
     },
     {
@@ -307,16 +307,16 @@
       "outputs": ["OUTP","OUTN"],
       "vcc": [2.37, 3.5],
       "parts": [
-        {"name":"LMK6HA10000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":100000000,"enablePin":1},
-        {"name":"LMK6HA10000ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":100000000,"enablePin":1},
-        {"name":"LMK6HA10000BDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":100000000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6HA15625ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":156250000,"enablePin":1},
-        {"name":"LMK6HA40000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":400000000,"enablePin":1},
-        {"name":"LMK6HE100000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":100000000,"enablePin":1},
-        {"name":"LMK6HE156250ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":156250000,"enablePin":1},
-        {"name":"LMK6HE156250BDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":156250000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6HE400000BDLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":400000000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6HE40000ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":400000000,"enablePin":1}
+        {"name":"LMK6HA10000ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6HA10000ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6HA10000BDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":100000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6HA15625ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":156250000,"enablePin":1},
+        {"name":"LMK6HA40000ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":400000000,"enablePin":1},
+        {"name":"LMK6HE100000ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6HE156250ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":156250000,"enablePin":1},
+        {"name":"LMK6HE156250BDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":156250000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6HE400000BDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":400000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6HE40000ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":400000000,"enablePin":1}
       ]
     },
     {
@@ -349,9 +349,9 @@
       "outputs": ["OUTP","OUTN"],
       "vcc": [2.37, 3.5],
       "parts": [
-        {"name":"LMK6PE025000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":25000000,"enablePin":1},
-        {"name":"LMK6PE025000BDLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":25000000,"enablePin":1,"vcc":[1.7,1.9]},
-        {"name":"LMK6PE050000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":50000000,"enablePin":1}
+        {"name":"LMK6PE025000ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":25000000,"enablePin":1},
+        {"name":"LMK6PE025000BDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":25000000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6PE050000ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":50000000,"enablePin":1}
       ]
     },
     {
@@ -384,12 +384,12 @@
       "outputs": ["OUTP","OUTN"],
       "vcc": [2.37, 3.5],
       "parts": [
-        {"name":"LMK6PA15625ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":156250000,"enablePin":1},
-        {"name":"LMK6PA15625ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":156250000,"enablePin":1},
-        {"name":"LMK6PE100000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":100000000,"enablePin":1},
-        {"name":"LMK6PE150000ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":150000000,"enablePin":1},
-        {"name":"LMK6PE161132ADLER","package":"3225 VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":161132000,"enablePin":1},
-        {"name":"LMK6PE312500ADLFR","package":"2520 VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":312500000,"enablePin":1}
+        {"name":"LMK6PA15625ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":156250000,"enablePin":1},
+        {"name":"LMK6PA15625ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":156250000,"enablePin":1},
+        {"name":"LMK6PE100000ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":100000000,"enablePin":1},
+        {"name":"LMK6PE150000ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":150000000,"enablePin":1},
+        {"name":"LMK6PE161132ADLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-6","defaultHz":161132000,"enablePin":1},
+        {"name":"LMK6PE312500ADLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-6","defaultHz":312500000,"enablePin":1}
       ]
     },
     {
@@ -418,10 +418,10 @@
       "outputs": ["CLKOUT"],
       "vcc": [1.6, 5.5],
       "parts": [
-        {"name":"OM-7605-C8-32.768KHZ-20PPM-TA-QC","package":"2012 SON-4","pinout":"c8","footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3},
-        {"name":"OM-7605-C8-32.768KHZ-20PPM-TB-QC","package":"2012 SON-4","pinout":"c8","footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3},
-        {"name":"OM-7605-C9-32.768KHZ-20PPM-TA-QC","package":"1610 SON-4","pinout":"c9","footprint":"OSC-1610-4","defaultHz":32768,"enablePin":3},
-        {"name":"OM-7605-C9-32.768KHZ-20PPM-TB-QC","package":"1610 SON-4","pinout":"c9","footprint":"OSC-1610-4","defaultHz":32768,"enablePin":3}
+        {"name":"OM-7605-C8-32.768KHZ-20PPM-TA-QC","package":"SON","pinout":"c8","flags":["ceramic"],"footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3},
+        {"name":"OM-7605-C8-32.768KHZ-20PPM-TB-QC","package":"SON","pinout":"c8","flags":["ceramic"],"footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3},
+        {"name":"OM-7605-C9-32.768KHZ-20PPM-TA-QC","package":"SON","pinout":"c9","flags":["ceramic"],"footprint":"OSC-1610-4","defaultHz":32768,"enablePin":3},
+        {"name":"OM-7605-C9-32.768KHZ-20PPM-TB-QC","package":"SON","pinout":"c9","flags":["ceramic"],"footprint":"OSC-1610-4","defaultHz":32768,"enablePin":3}
       ]
     },
     {
@@ -444,7 +444,7 @@
       "outputs": ["CLKOUT"],
       "vcc": [1.6, 5.5],
       "parts": [
-        {"name":"OM-0100-C8-100.00KHZ-20PPM-TA-QC","package":"2012 SON-4","pinout":"c8","footprint":"OSC-2012-4","defaultHz":100000,"enablePin":3}
+        {"name":"OM-0100-C8-100.00KHZ-20PPM-TA-QC","package":"SON","pinout":"c8","flags":["ceramic"],"footprint":"OSC-2012-4","defaultHz":100000,"enablePin":3}
       ]
     },
     {
@@ -467,8 +467,8 @@
       "outputs": ["CLKOUT"],
       "vcc": [1.2, 5.5],
       "parts": [
-        {"name":"OV-7604-C7-32.768KHZ-20PPM-TA-QC","package":"3215 SON-4","pinout":"c7","footprint":"OSC-3215-4","defaultHz":32768,"enablePin":3},
-        {"name":"OV-7604-C7-32.768KHZ-20PPM-TB-QC","package":"3215 SON-4","pinout":"c7","footprint":"OSC-3215-4","defaultHz":32768,"enablePin":3}
+        {"name":"OV-7604-C7-32.768KHZ-20PPM-TA-QC","package":"SON","pinout":"c7","flags":["ceramic"],"footprint":"OSC-3215-4","defaultHz":32768,"enablePin":3},
+        {"name":"OV-7604-C7-32.768KHZ-20PPM-TB-QC","package":"SON","pinout":"c7","flags":["ceramic"],"footprint":"OSC-3215-4","defaultHz":32768,"enablePin":3}
       ]
     },
     {
@@ -491,8 +491,8 @@
       "outputs": ["OUT"],
       "vcc": [1.6, 5.5],
       "parts": [
-        {"name":"ASZKDV-32.768KHZ-L-T","package":"2012 SON-4","pinout":"2012","footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3},
-        {"name":"ASZKDV-32.768KHZ-H-T","package":"2012 SON-4","pinout":"2012","footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3}
+        {"name":"ASZKDV-32.768KHZ-L-T","package":"SON","pinout":"2012","flags":["ceramic"],"footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3},
+        {"name":"ASZKDV-32.768KHZ-H-T","package":"SON","pinout":"2012","flags":["ceramic"],"footprint":"OSC-2012-4","defaultHz":32768,"enablePin":3}
       ]
     },
     {
@@ -515,7 +515,7 @@
       "outputs": ["OUT"],
       "vcc": [1.6, 5.5],
       "parts": [
-        {"name":"ASH5KW-32.768KHZ-L-T","package":"1610 SON-4","pinout":"1610","footprint":"OSC-1610-4","defaultHz":32768,"enablePin":3}
+        {"name":"ASH5KW-32.768KHZ-L-T","package":"SON","pinout":"1610","flags":["ceramic"],"footprint":"OSC-1610-4","defaultHz":32768,"enablePin":3}
       ]
     },
     {
@@ -538,7 +538,7 @@
       "outputs": ["OUT"],
       "vcc": [1.2, 3.6],
       "parts": [
-        {"name":"12.94761","package":"5032 SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":40000000,"enablePin":1,"vcc":[1.71,1.89]}
+        {"name":"12.94761","package":"SMD","pinout":"5032","flags":["ceramic"],"footprint":"OSC-5032-4","defaultHz":40000000,"enablePin":1,"vcc":[1.71,1.89]}
       ]
     },
     {
@@ -563,7 +563,7 @@
       "outputs": ["FOUT"],
       "vcc": [2, 5.5],
       "parts": [
-        {"name":"NJU6366AF1-TE1","package":"SOT-23-6","pinout":"sot23-6","footprint":"SOT23-6","defaultHz":16000000,"enablePin":4}
+        {"name":"NJU6366AF1-TE1","package":"SOT-23","pinout":"sot23-6","footprint":"SOT23-6","defaultHz":16000000,"enablePin":4}
       ]
     },
     {
@@ -588,7 +588,7 @@
       "outputs": ["FOUT"],
       "vcc": [2, 5.5],
       "parts": [
-        {"name":"NJU6366BF1-TE1","package":"SOT-23-6","pinout":"sot23-6","footprint":"SOT23-6","defaultHz":8000000,"enablePin":4}
+        {"name":"NJU6366BF1-TE1","package":"SOT-23","pinout":"sot23-6","footprint":"SOT23-6","defaultHz":8000000,"enablePin":4}
       ]
     },
     {
@@ -613,7 +613,7 @@
       "outputs": ["FOUT"],
       "vcc": [2, 5.5],
       "parts": [
-        {"name":"NJU6366CF1-TE1","package":"SOT-23-6","pinout":"sot23-6","footprint":"SOT23-6","defaultHz":4000000,"enablePin":4}
+        {"name":"NJU6366CF1-TE1","package":"SOT-23","pinout":"sot23-6","footprint":"SOT23-6","defaultHz":4000000,"enablePin":4}
       ]
     },
     {
@@ -638,7 +638,333 @@
       "outputs": ["FOUT"],
       "vcc": [2, 5.5],
       "parts": [
-        {"name":"NJU6366DF1-TE1","package":"SOT-23-6","pinout":"sot23-6","footprint":"SOT23-6","defaultHz":2000000,"enablePin":4}
+        {"name":"NJU6366DF1-TE1","package":"SOT-23","pinout":"sot23-6","footprint":"SOT23-6","defaultHz":2000000,"enablePin":4}
+      ]
+    },
+    {
+      "id": "ecs-100-1",
+      "function": "1 MHz to 10 MHz",
+      "description": "ECS-100 oscillator, 1 MHz to 10 MHz",
+      "drawer": ["Oscillator"],
+      "note": "ECS osc/esc-100.pdf (ECS-100 Series, ECS Catalog 2000 catalog p.32; 1.000-150.000 MHz, A = +/-100 PPM, B/C tighter grades not listed; part numbers from the ecsxtal.com ECS-100X ordering table (AX = RoHS version of A); pin 7 case ground, other DIP positions have no lead). VCC 4.75-5.25 V (esc-100 p.1 (Supply Voltage +5.0 +/-0.25 V DC))",
+      "pinouts": {
+        "dip14": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"NP","role":"absent"},
+          {"number":3,"name":"NP","role":"absent"},
+          {"number":4,"name":"NP","role":"absent"},
+          {"number":5,"name":"NP","role":"absent"},
+          {"number":6,"name":"NP","role":"absent"},
+          {"number":7,"name":"CASE GND","role":"ground"},
+          {"number":8,"name":"OUTPUT","role":"output"},
+          {"number":9,"name":"NP","role":"absent"},
+          {"number":10,"name":"NP","role":"absent"},
+          {"number":11,"name":"NP","role":"absent"},
+          {"number":12,"name":"NP","role":"absent"},
+          {"number":13,"name":"NP","role":"absent"},
+          {"number":14,"name":"+5V DC","role":"power"}
+        ]
+      },
+      "family": "ECS-100",
+      "minHz": 1000000,
+      "maxHz": 150000000,
+      "outputs": ["OUTPUT"],
+      "vcc": [4.75, 5.25],
+      "parts": [
+        {"name":"ECS-100AX-018","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":1843200},
+        {"name":"ECS-100AX-020","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":2000000},
+        {"name":"ECS-100AX-035","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":3579545},
+        {"name":"ECS-100AX-036","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":3686400},
+        {"name":"ECS-100AX-040","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":4000000},
+        {"name":"ECS-100AX-060","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":6000000},
+        {"name":"ECS-100AX-061","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":6144000},
+        {"name":"ECS-100AX-073","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":7372800},
+        {"name":"ECS-100AX-080","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":8000000},
+        {"name":"ECS-100AX-098.3","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":9830400}
+      ]
+    },
+    {
+      "id": "ecs-100-2",
+      "function": "10 MHz to 100 MHz",
+      "description": "ECS-100 oscillator, 10 MHz to 100 MHz",
+      "drawer": ["Oscillator"],
+      "note": "ECS osc/esc-100.pdf (ECS-100 Series, ECS Catalog 2000 catalog p.32; 1.000-150.000 MHz, A = +/-100 PPM, B/C tighter grades not listed; part numbers from the ecsxtal.com ECS-100X ordering table (AX = RoHS version of A); pin 7 case ground, other DIP positions have no lead). VCC 4.75-5.25 V (esc-100 p.1 (Supply Voltage +5.0 +/-0.25 V DC))",
+      "pinouts": {
+        "dip14": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"NP","role":"absent"},
+          {"number":3,"name":"NP","role":"absent"},
+          {"number":4,"name":"NP","role":"absent"},
+          {"number":5,"name":"NP","role":"absent"},
+          {"number":6,"name":"NP","role":"absent"},
+          {"number":7,"name":"CASE GND","role":"ground"},
+          {"number":8,"name":"OUTPUT","role":"output"},
+          {"number":9,"name":"NP","role":"absent"},
+          {"number":10,"name":"NP","role":"absent"},
+          {"number":11,"name":"NP","role":"absent"},
+          {"number":12,"name":"NP","role":"absent"},
+          {"number":13,"name":"NP","role":"absent"},
+          {"number":14,"name":"+5V DC","role":"power"}
+        ]
+      },
+      "family": "ECS-100",
+      "minHz": 1000000,
+      "maxHz": 150000000,
+      "outputs": ["OUTPUT"],
+      "vcc": [4.75, 5.25],
+      "parts": [
+        {"name":"ECS-100AX-100","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":10000000},
+        {"name":"ECS-100AX-110.5","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":11059200},
+        {"name":"ECS-100AX-143","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":14318180},
+        {"name":"ECS-100AX-147.4","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":14745600},
+        {"name":"ECS-100AX-160","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":16000000},
+        {"name":"ECS-100AX-184","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":18432000},
+        {"name":"ECS-100AX-200","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":20000000},
+        {"name":"ECS-100AX-250","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":25000000},
+        {"name":"ECS-100AX-300","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":30000000},
+        {"name":"ECS-100AX-320","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":32000000},
+        {"name":"ECS-100AX-400","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":40000000},
+        {"name":"ECS-100AX-480","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":48000000},
+        {"name":"ECS-100AX-500","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":50000000},
+        {"name":"ECS-100AX-640","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":64000000}
+      ]
+    },
+    {
+      "id": "ecs-2100-1",
+      "function": "1 MHz to 10 MHz",
+      "description": "ECS-2100 oscillator, 1 MHz to 10 MHz",
+      "drawer": ["Oscillator"],
+      "note": "ECS osc/ecs-2100.pdf (ECS-2100 Series, ECS Catalog 2000 catalog p.36; 1.000-150.000 MHz, A = +/-100 PPM, B/C tighter grades not listed; part numbers from the ecsxtal.com ECS-2100X ordering table (AX = RoHS version of A); pin 4 case ground, other DIP positions have no lead). VCC 4.75-5.25 V (ecs-2100 p.1 (Supply Voltage +5.0 +/-0.25 V DC))",
+      "pinouts": {
+        "dip8": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"NP","role":"absent"},
+          {"number":3,"name":"NP","role":"absent"},
+          {"number":4,"name":"GND","role":"ground"},
+          {"number":5,"name":"OUTPUT","role":"output"},
+          {"number":6,"name":"NP","role":"absent"},
+          {"number":7,"name":"NP","role":"absent"},
+          {"number":8,"name":"+5V DC","role":"power"}
+        ]
+      },
+      "family": "ECS-2100",
+      "minHz": 1000000,
+      "maxHz": 150000000,
+      "outputs": ["OUTPUT"],
+      "vcc": [4.75, 5.25],
+      "parts": [
+        {"name":"ECS-2100AX-036","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":3686400},
+        {"name":"ECS-2100AX-040","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":4000000},
+        {"name":"ECS-2100AX-049","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":4915200},
+        {"name":"ECS-2100AX-073.7","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":7372800},
+        {"name":"ECS-2100AX-080","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":8000000},
+        {"name":"ECS-2100AX-092.1","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":9216000},
+        {"name":"ECS-2100AX-098.3","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":9830400}
+      ]
+    },
+    {
+      "id": "ecs-2100-2",
+      "function": "10 MHz to 100 MHz",
+      "description": "ECS-2100 oscillator, 10 MHz to 100 MHz",
+      "drawer": ["Oscillator"],
+      "note": "ECS osc/ecs-2100.pdf (ECS-2100 Series, ECS Catalog 2000 catalog p.36; 1.000-150.000 MHz, A = +/-100 PPM, B/C tighter grades not listed; part numbers from the ecsxtal.com ECS-2100X ordering table (AX = RoHS version of A); pin 4 case ground, other DIP positions have no lead). VCC 4.75-5.25 V (ecs-2100 p.1 (Supply Voltage +5.0 +/-0.25 V DC))",
+      "pinouts": {
+        "dip8": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"NP","role":"absent"},
+          {"number":3,"name":"NP","role":"absent"},
+          {"number":4,"name":"GND","role":"ground"},
+          {"number":5,"name":"OUTPUT","role":"output"},
+          {"number":6,"name":"NP","role":"absent"},
+          {"number":7,"name":"NP","role":"absent"},
+          {"number":8,"name":"+5V DC","role":"power"}
+        ]
+      },
+      "family": "ECS-2100",
+      "minHz": 1000000,
+      "maxHz": 150000000,
+      "outputs": ["OUTPUT"],
+      "vcc": [4.75, 5.25],
+      "parts": [
+        {"name":"ECS-2100AX-100","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":10000000},
+        {"name":"ECS-2100AX-110.5","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":11059200},
+        {"name":"ECS-2100AX-120","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":12000000},
+        {"name":"ECS-2100AX-147.4","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":14745600},
+        {"name":"ECS-2100AX-160","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":16000000},
+        {"name":"ECS-2100AX-196.6","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":19660800},
+        {"name":"ECS-2100AX-200","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":20000000},
+        {"name":"ECS-2100AX-300","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":30000000},
+        {"name":"ECS-2100AX-400","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":40000000},
+        {"name":"ECS-2100AX-480","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":48000000},
+        {"name":"ECS-2100AX-500","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":50000000}
+      ]
+    },
+    {
+      "id": "ecs-200-2",
+      "function": "10 MHz to 100 MHz",
+      "description": "ECS-200 oscillator, 10 MHz to 100 MHz",
+      "drawer": ["Oscillator"],
+      "note": "ECS osc/ecs-200x.pdf (ECS-200X Series, marked Not Recommended for New Designs; HCMOS/LSTTL; 1.000-150.000 MHz; body 20.8 x 13.08 max (p.2); ecsxtal.com lists no ECS-200X part numbers; ECS-200AX-100 is the datasheet p.1 Part Numbering Guide example). VCC 4.75-5.25 V (ecs-200x p.1 (Supply Voltage +4.75/+5.0/+5.25 VDC))",
+      "pinouts": {
+        "dip14": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"NP","role":"absent"},
+          {"number":3,"name":"NP","role":"absent"},
+          {"number":4,"name":"NP","role":"absent"},
+          {"number":5,"name":"NP","role":"absent"},
+          {"number":6,"name":"NP","role":"absent"},
+          {"number":7,"name":"CASE GND","role":"ground"},
+          {"number":8,"name":"OUTPUT","role":"output"},
+          {"number":9,"name":"NP","role":"absent"},
+          {"number":10,"name":"NP","role":"absent"},
+          {"number":11,"name":"NP","role":"absent"},
+          {"number":12,"name":"NP","role":"absent"},
+          {"number":13,"name":"NP","role":"absent"},
+          {"number":14,"name":"+5V DC","role":"power"}
+        ]
+      },
+      "family": "ECS-200",
+      "minHz": 1000000,
+      "maxHz": 150000000,
+      "outputs": ["OUTPUT"],
+      "vcc": [4.75, 5.25],
+      "parts": [
+        {"name":"ECS-200AX-100","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":10000000}
+      ]
+    },
+    {
+      "id": "ecs-400-2",
+      "function": "10 MHz to 100 MHz",
+      "description": "ECS-400 oscillator, 10 MHz to 100 MHz",
+      "drawer": ["Oscillator"],
+      "note": "ECS osc/ecs-400x.pdf (ECS-400X Series, marked Not Recommended for New Designs; HCMOS/TTL; 0.250-150.000 MHz; body 20.8 x 13.08 max (p.2); ecsxtal.com lists no ECS-400X part numbers; ECS-400AX-100 is the datasheet p.1 Part Numbering Guide example). VCC 4.75-5.25 V (ecs-400x p.1 (Supply Voltage +4.75/+5.0/+5.25 V))",
+      "pinouts": {
+        "dip14": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"NP","role":"absent"},
+          {"number":3,"name":"NP","role":"absent"},
+          {"number":4,"name":"NP","role":"absent"},
+          {"number":5,"name":"NP","role":"absent"},
+          {"number":6,"name":"NP","role":"absent"},
+          {"number":7,"name":"CASE GND","role":"ground"},
+          {"number":8,"name":"OUTPUT","role":"output"},
+          {"number":9,"name":"NP","role":"absent"},
+          {"number":10,"name":"NP","role":"absent"},
+          {"number":11,"name":"NP","role":"absent"},
+          {"number":12,"name":"NP","role":"absent"},
+          {"number":13,"name":"NP","role":"absent"},
+          {"number":14,"name":"+5V DC","role":"power"}
+        ]
+      },
+      "family": "ECS-400",
+      "minHz": 250000,
+      "maxHz": 150000000,
+      "outputs": ["OUTPUT"],
+      "vcc": [4.75, 5.25],
+      "parts": [
+        {"name":"ECS-400AX-100","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":10000000}
+      ]
+    },
+    {
+      "id": "ecs-1000-2",
+      "function": "10 MHz to 100 MHz",
+      "description": "ECS-1000 oscillator, 10 MHz to 100 MHz",
+      "drawer": ["Oscillator"],
+      "note": "ECS osc/ecs-1000x.pdf (ECS-1000X Series, marked Not Recommended for New Designs; HCMOS/TTL; 1.000-100.000 MHz; pin 1 tri-state (open or VIH >= 2.2 V = active, VIL <= 0.8 V = high Z, internal pull-up to pin 14, p.2); body 20.7 x 12.9 max (p.2); ecsxtal.com lists no ECS-1000X part numbers; ECS-1000AX-100 is the datasheet p.1 Part Numbering Guide example). VCC 4.75-5.25 V (ecs-1000x p.1 (Supply Voltage +4.75/+5.0/+5.25 V))",
+      "pinouts": {
+        "dip14": [
+          {"number":1,"name":"TRI-STATE","role":"input"},
+          {"number":2,"name":"NP","role":"absent"},
+          {"number":3,"name":"NP","role":"absent"},
+          {"number":4,"name":"NP","role":"absent"},
+          {"number":5,"name":"NP","role":"absent"},
+          {"number":6,"name":"NP","role":"absent"},
+          {"number":7,"name":"CASE GND","role":"ground"},
+          {"number":8,"name":"OUTPUT","role":"output"},
+          {"number":9,"name":"NP","role":"absent"},
+          {"number":10,"name":"NP","role":"absent"},
+          {"number":11,"name":"NP","role":"absent"},
+          {"number":12,"name":"NP","role":"absent"},
+          {"number":13,"name":"NP","role":"absent"},
+          {"number":14,"name":"+5V DC","role":"power"}
+        ]
+      },
+      "family": "ECS-1000",
+      "minHz": 1000000,
+      "maxHz": 100000000,
+      "outputs": ["OUTPUT"],
+      "vcc": [4.75, 5.25],
+      "parts": [
+        {"name":"ECS-1000AX-100","package":"DIP","pinout":"dip14","footprint":"OSC-DIP14-FULL","defaultHz":10000000,"enablePin":1}
+      ]
+    },
+    {
+      "id": "ecs-2200-1",
+      "function": "1 MHz to 10 MHz",
+      "description": "ECS-2200 oscillator, 1 MHz to 10 MHz",
+      "drawer": ["Oscillator"],
+      "note": "ECS osc/ecs-2200x.pdf (ECS-2200X Series, marked Not Recommended for New Designs; HCMOS/TTL; 1.000-150.000 MHz; pin 1 tri-state (open or VIH >= 2.2 V = active, VIL <= 0.8 V = high Z, internal pull-up to pin 8, p.2); body 13.2 x 13.2 max (p.2); part numbers from the ecsxtal.com ECS-2200X ordering table (all BX = +/-50 PPM)). VCC 4.75-5.25 V (ecs-2200x p.1 (Supply Voltage +4.75/+5.0/+5.25 VDC))",
+      "pinouts": {
+        "dip8": [
+          {"number":1,"name":"TRI-STATE","role":"input"},
+          {"number":2,"name":"NP","role":"absent"},
+          {"number":3,"name":"NP","role":"absent"},
+          {"number":4,"name":"CASE GROUND","role":"ground"},
+          {"number":5,"name":"OUTPUT","role":"output"},
+          {"number":6,"name":"NP","role":"absent"},
+          {"number":7,"name":"NP","role":"absent"},
+          {"number":8,"name":"+5V DC","role":"power"}
+        ]
+      },
+      "family": "ECS-2200",
+      "minHz": 1000000,
+      "maxHz": 150000000,
+      "outputs": ["OUTPUT"],
+      "vcc": [4.75, 5.25],
+      "parts": [
+        {"name":"ECS-2200BX-040","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":4000000,"enablePin":1},
+        {"name":"ECS-2200BX-049","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":4915200,"enablePin":1},
+        {"name":"ECS-2200BX-060","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":6000000,"enablePin":1},
+        {"name":"ECS-2200BX-073","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":7372800,"enablePin":1},
+        {"name":"ECS-2200BX-080","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":8000000,"enablePin":1},
+        {"name":"ECS-2200BX-098","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":9830400,"enablePin":1}
+      ]
+    },
+    {
+      "id": "ecs-2200-2",
+      "function": "10 MHz to 100 MHz",
+      "description": "ECS-2200 oscillator, 10 MHz to 100 MHz",
+      "drawer": ["Oscillator"],
+      "note": "ECS osc/ecs-2200x.pdf (ECS-2200X Series, marked Not Recommended for New Designs; HCMOS/TTL; 1.000-150.000 MHz; pin 1 tri-state (open or VIH >= 2.2 V = active, VIL <= 0.8 V = high Z, internal pull-up to pin 8, p.2); body 13.2 x 13.2 max (p.2); part numbers from the ecsxtal.com ECS-2200X ordering table (all BX = +/-50 PPM)). VCC 4.75-5.25 V (ecs-2200x p.1 (Supply Voltage +4.75/+5.0/+5.25 VDC))",
+      "pinouts": {
+        "dip8": [
+          {"number":1,"name":"TRI-STATE","role":"input"},
+          {"number":2,"name":"NP","role":"absent"},
+          {"number":3,"name":"NP","role":"absent"},
+          {"number":4,"name":"CASE GROUND","role":"ground"},
+          {"number":5,"name":"OUTPUT","role":"output"},
+          {"number":6,"name":"NP","role":"absent"},
+          {"number":7,"name":"NP","role":"absent"},
+          {"number":8,"name":"+5V DC","role":"power"}
+        ]
+      },
+      "family": "ECS-2200",
+      "minHz": 1000000,
+      "maxHz": 150000000,
+      "outputs": ["OUTPUT"],
+      "vcc": [4.75, 5.25],
+      "parts": [
+        {"name":"ECS-2200BX-100","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":10000000,"enablePin":1},
+        {"name":"ECS-2200BX-110.5","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":11059200,"enablePin":1},
+        {"name":"ECS-2200BX-160","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":16000000,"enablePin":1},
+        {"name":"ECS-2200BX-196","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":19660800,"enablePin":1},
+        {"name":"ECS-2200BX-200","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":20000000,"enablePin":1},
+        {"name":"ECS-2200BX-240","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":24000000,"enablePin":1},
+        {"name":"ECS-2200BX-320","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":32000000,"enablePin":1},
+        {"name":"ECS-2200BX-400","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":40000000,"enablePin":1},
+        {"name":"ECS-2200BX-480","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":48000000,"enablePin":1},
+        {"name":"ECS-2200BX-500","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":50000000,"enablePin":1},
+        {"name":"ECS-2200BX-800","package":"DIP","pinout":"dip8","footprint":"OSC-DIP8-HALF","defaultHz":80000000,"enablePin":1}
       ]
     }
   ]

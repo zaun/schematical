@@ -67,21 +67,21 @@
         "LV": {"rise":7.8,"fall":7.8,"vcc":[2,5.5],"inputMax":5.5,"note": "CLK to Q typ, 3.3 V 50 pF; VCC 2-5.5 V, inputs to 5.5 V (sn74lv161a p.10)"}
       },
       "parts": [
-        {"name":"5962-7600801VEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"5962-8407501VEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"76008012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"7600801EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"7600801FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"83022012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
-        {"name":"8302201EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"8302201FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"ALS","flags":["military"]},
-        {"name":"84075012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military"]},
-        {"name":"8407501EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"8407501FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military"]},
-        {"name":"CD54AC161F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"AC","flags":["military"]},
-        {"name":"CD54ACT161F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ACT","flags":["military"]},
-        {"name":"CD54HC161F","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"CD54HC161F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
+        {"name":"5962-7600801VEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"5962-8407501VEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"76008012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"7600801EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"7600801FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"83022012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"8302201EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"8302201FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"84075012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"8407501EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"8407501FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54AC161F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"AC","flags":["military","ceramic"]},
+        {"name":"CD54ACT161F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ACT","flags":["military","ceramic"]},
+        {"name":"CD54HC161F","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HC161F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
         {"name":"CD74AC161E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AC"},
         {"name":"CD74AC161M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC","flags":["obsolete"]},
         {"name":"CD74AC161M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
@@ -95,21 +95,21 @@
         {"name":"CD74HCT161EE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
         {"name":"CD74HCT161M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT","flags":["obsolete"]},
         {"name":"CD74HCT161M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
-        {"name":"JM38510/31504B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/31504BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/31504BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/38001B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
-        {"name":"JM38510/38001BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"JM38510/66302BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"M38510/31504B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/31504BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/31504BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/38001B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
-        {"name":"M38510/38001BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"M38510/66302BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"SN54ALS161BJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"SN54HC161J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"SN54LS161AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31504B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31504BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31504BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/38001B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"JM38510/38001BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"JM38510/66302BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"M38510/31504B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/31504BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/31504BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/38001B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"M38510/38001BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"M38510/66302BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SN54ALS161BJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SN54HC161J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SN54LS161AJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SN74ALS161BD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS","flags":["obsolete"]},
         {"name":"SN74ALS161BDR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS"},
         {"name":"SN74ALS161BN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
@@ -142,16 +142,16 @@
         {"name":"SN74LV161APWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LV"},
         {"name":"SN74LV161APWRG4","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LV"},
         {"name":"SN74LV161APWT","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LV","flags":["obsolete"]},
-        {"name":"SNJ54ALS161BFK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
-        {"name":"SNJ54ALS161BJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"SNJ54ALS161BW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"ALS","flags":["military"]},
-        {"name":"SNJ54AS161J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"AS","flags":["military"]},
-        {"name":"SNJ54HC161FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military"]},
-        {"name":"SNJ54HC161J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"SNJ54HC161W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military"]},
-        {"name":"SNJ54LS161AFK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS161AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS161AW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54ALS161BFK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54ALS161BJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54ALS161BW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54AS161J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"AS","flags":["military","ceramic"]},
+        {"name":"SNJ54HC161FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HC161J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HC161W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54LS161AFK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS161AJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS161AW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -220,20 +220,20 @@
         "S": {"rise":8,"fall":10,"vcc":[4.75,5.25],"note": "CLK to Q typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls161a p.16-17)"}
       },
       "parts": [
-        {"name":"5962-9754801QEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"5962-9754801QFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"TTL","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"76034012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"7603401EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"7603401FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"83022022A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
-        {"name":"8302202EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"86076012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military"]},
-        {"name":"8607601EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"CD54AC163F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"AC","flags":["military"]},
-        {"name":"CD54ACT163F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ACT","flags":["military"]},
-        {"name":"CD54HC163F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"CD54HCT163F","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military"]},
-        {"name":"CD54HCT163F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military"]},
+        {"name":"5962-9754801QEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"5962-9754801QFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"76034012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"7603401EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"7603401FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"83022022A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"8302202EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"86076012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"8607601EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54AC163F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"AC","flags":["military","ceramic"]},
+        {"name":"CD54ACT163F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ACT","flags":["military","ceramic"]},
+        {"name":"CD54HC163F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HCT163F","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
+        {"name":"CD54HCT163F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
         {"name":"CD74AC163E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AC"},
         {"name":"CD74AC163M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC","flags":["obsolete"]},
         {"name":"CD74AC163M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
@@ -248,23 +248,23 @@
         {"name":"CD74HCT163E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
         {"name":"CD74HCT163M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT","flags":["obsolete"]},
         {"name":"CD74HCT163M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
-        {"name":"JM38510/31512B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/31512BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/31512BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/38002B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
-        {"name":"JM38510/38002BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"JM38510/66304BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"M38510/31512B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/31512BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/31512BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/38002B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
-        {"name":"M38510/38002BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"M38510/66304BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"SN54163J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SN54ALS163BJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"SN54HC163J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"SN54LS163AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SN54S163J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31512B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31512BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31512BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/38002B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"JM38510/38002BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"JM38510/66304BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"M38510/31512B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/31512BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/31512BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/38002B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"M38510/38002BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"M38510/66304BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SN54163J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54ALS163BJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SN54HC163J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SN54LS163AJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54S163J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SN74ALS163BD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS","flags":["obsolete"]},
         {"name":"SN74ALS163BDR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS"},
         {"name":"SN74ALS163BN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
@@ -301,16 +301,16 @@
         {"name":"SN74LV163APWRG4","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LV"},
         {"name":"SN74LV163ARGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"LV"},
         {"name":"SN74S163N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"S"},
-        {"name":"SNJ54163J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54163W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"TTL","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54ALS163BFK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
-        {"name":"SNJ54ALS163BJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"SNJ54HC163FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military"]},
-        {"name":"SNJ54HC163J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"SNJ54LS163AFK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS163AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS163AW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54S163J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54163J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54163W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54ALS163BFK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54ALS163BJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54HC163FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HC163J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54LS163AFK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS163AJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS163AW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54S163J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -372,15 +372,15 @@
         "AS": {"rise":7,"fall":13,"vcc":[4.5,5.5],"note": "CLK to Q max, 4.5-5.5 V 50 pF (SN74); VCC 4.5-5.5 V (sn74als169b p.7)"}
       },
       "parts": [
-        {"name":"80018022A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"8001802EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"8001802FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"8302501EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"JM38510/38003BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"M38510/38003BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"SN54ALS169BJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"SN54LS169BJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SN54S169J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"80018022A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"8001802EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"8001802FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"8302501EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"JM38510/38003BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"M38510/38003BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SN54ALS169BJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SN54LS169BJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54S169J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SN74ALS169BD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS","flags":["obsolete"]},
         {"name":"SN74ALS169BDR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS"},
         {"name":"SN74ALS169BN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
@@ -388,11 +388,11 @@
         {"name":"SN74AS169AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AS"},
         {"name":"SN74LS169BD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
         {"name":"SN74LS169BN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
-        {"name":"SNJ54ALS169BJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"SNJ54LS169BFK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS169BJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS169BW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54S169J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54ALS169BJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54LS169BFK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS169BJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS169BW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54S169J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -429,8 +429,8 @@
         "HC": {"rise":34,"fall":34,"vcc":[2,6],"note": "CLK to Q max, 4.5 V 50 pF; VCC 2-6 V (cd74hc190 p.11, p.14)"}
       },
       "parts": [
-        {"name":"5962-8994601EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"CD54HC190F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
+        {"name":"5962-8994601EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HC190F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
         {"name":"CD74HC190E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
         {"name":"CD74HC190NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
         {"name":"CD74HC190PW","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["obsolete"]},
@@ -496,28 +496,28 @@
         "HCT": {"rise":27,"fall":27,"vcc":[4.5,5.5],"note": "CLK to Q max, 4.5 V 50 pF; VCC 4.5-5.5 V (cd74hc190 p.11, p.15)"}
       },
       "parts": [
-        {"name":"5962-86840012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
-        {"name":"5962-8684001EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"5962-8684001FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"ALS","flags":["military"]},
-        {"name":"5962-86891012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military"]},
-        {"name":"5962-8689101EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"5962-8867101EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military"]},
-        {"name":"7600901EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"7600901FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"CD54HC191F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"CD54HCT191F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military"]},
+        {"name":"5962-86840012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"5962-8684001EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"5962-8684001FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"5962-86891012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"5962-8689101EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"5962-8867101EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
+        {"name":"7600901EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"7600901FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"CD54HC191F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HCT191F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
         {"name":"CD74HC191E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
         {"name":"CD74HC191M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["obsolete"]},
         {"name":"CD74HC191M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
         {"name":"CD74HC191MT","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["obsolete"]},
         {"name":"CD74HCT191E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
         {"name":"CD74HCT191M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
-        {"name":"JM38510/31509BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/31509BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/31509BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/31509BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SN54HC191J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"SN54LS191J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31509BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31509BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/31509BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/31509BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54HC191J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SN54LS191J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SN74ALS191AD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS","flags":["obsolete"]},
         {"name":"SN74ALS191ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS"},
         {"name":"SN74ALS191AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
@@ -530,14 +530,14 @@
         {"name":"SN74LS191DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
         {"name":"SN74LS191N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
         {"name":"SN74LS191NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
-        {"name":"SNJ54ALS191AFK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
-        {"name":"SNJ54ALS191AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"SNJ54ALS191AW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"ALS","flags":["military"]},
-        {"name":"SNJ54HC191FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military"]},
-        {"name":"SNJ54HC191J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"SNJ54LS191FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS191J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS191W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54ALS191AFK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54ALS191AJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54ALS191AW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54HC191FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HC191J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54LS191FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS191J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS191W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -575,18 +575,18 @@
         "HC": {"rise":43,"fall":43,"vcc":[2,6],"note": "CPU/CPD to Q max, 4.5 V 50 pF; VCC 2-6 V (cd74hc192 p.3, p.6-7)"}
       },
       "parts": [
-        {"name":"5962-8780801EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"5962-9558401QEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"5962-9558401QFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"TTL","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"CD54HC192F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
+        {"name":"5962-8780801EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"5962-9558401QEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"5962-9558401QFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"CD54HC192F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
         {"name":"CD74HC192E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
         {"name":"CD74HC192NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
         {"name":"CD74HC192NSRG4","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
         {"name":"CD74HC192PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
         {"name":"CD74HC192PWT","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["obsolete"]},
-        {"name":"SN54192J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54192J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54192W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"TTL","flags":["military"],"vcc":[4.5,5.5]}
+        {"name":"SN54192J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54192J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54192W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -648,31 +648,31 @@
         "HCT": {"rise":40,"fall":40,"vcc":[4.5,5.5],"note": "UP/DOWN to Q max, 4.5 V 50 pF; VCC 4.5-5.5 V (cd74hc192 p.3, p.7)"}
       },
       "parts": [
-        {"name":"5962-8772401EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"5962-8869801EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"5962-8869801FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"ALS","flags":["military"]},
-        {"name":"5962-9084801MEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military"]},
-        {"name":"76006012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"7600601EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"7600601FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"CD54HC193F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"CD54HCT193F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military"]},
+        {"name":"5962-8772401EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"5962-8869801EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"5962-8869801FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"5962-9084801MEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
+        {"name":"76006012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"7600601EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"7600601FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"CD54HC193F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HCT193F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
         {"name":"CD74HC193E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
         {"name":"CD74HC193M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["obsolete"]},
         {"name":"CD74HC193M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
         {"name":"CD74HC193MT","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["obsolete"]},
         {"name":"CD74HCT193E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
-        {"name":"JM38510/31508B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/31508BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/31508BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/31508SFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/31508B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/31508BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/31508BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/31508SFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SN54ALS193AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"SN54HC193J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"SN54LS193J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31508B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31508BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31508BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31508SFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/31508B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/31508BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/31508BFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/31508SFA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54ALS193AJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SN54HC193J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SN54LS193J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SN74ALS193AD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS"},
         {"name":"SN74ALS193AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
         {"name":"SN74HC193D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["obsolete"]},
@@ -687,12 +687,12 @@
         {"name":"SN74LS193N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
         {"name":"SN74LS193NE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
         {"name":"SN74LS193NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
-        {"name":"SNJ54ALS193AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military"]},
-        {"name":"SNJ54ALS193AW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"ALS","flags":["military"]},
-        {"name":"SNJ54HC193J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"SNJ54LS193FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS193J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS193W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54ALS193AJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54ALS193AW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54HC193J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54LS193FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS193J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS193W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -774,13 +774,13 @@
         "ALS": {"rise":13,"fall":16,"vcc":[4.5,5.5],"note": "CLK to Q max, 4.5-5.5 V 50 pF (SN74); VCC 4.5-5.5 V (sn74als569a p.8, p.10)"}
       },
       "parts": [
-        {"name":"83025022A","package":"LCCC","pinout":"p20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
-        {"name":"8302502RA","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"ALS","flags":["military"]},
-        {"name":"SN54ALS569AJ","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"ALS","flags":["military"]},
+        {"name":"83025022A","package":"LCCC","pinout":"p20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"8302502RA","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SN54ALS569AJ","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"ALS","flags":["military","ceramic"]},
         {"name":"SN74ALS569ADWR","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ALS"},
         {"name":"SN74ALS569AN","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ALS"},
-        {"name":"SNJ54ALS569AFK","package":"LCCC","pinout":"p20","footprint":"LCCC-20","family":"ALS","flags":["military"]},
-        {"name":"SNJ54ALS569AJ","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"ALS","flags":["military"]}
+        {"name":"SNJ54ALS569AFK","package":"LCCC","pinout":"p20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54ALS569AJ","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"ALS","flags":["military","ceramic"]}
       ]
     },
     {
@@ -916,9 +916,9 @@
         "AS": {"rise":11,"fall":15,"vcc":[4.5,5.5],"note": "CLK to Q max, 4.5-5.5 V 50 pF (SN74; SN54 12/16); VCC 4.5-5.5 V (sn74als867a p.12-13)"}
       },
       "parts": [
-        {"name":"5962-8966801LA","package":"CDIP","pinout":"p24","footprint":"CDIP-24","family":"AS","flags":["military"]},
-        {"name":"SN54AS867JT","package":"CDIP","pinout":"p24","footprint":"CDIP-24","family":"AS","flags":["military"]},
-        {"name":"SNJ54AS867JT","package":"CDIP","pinout":"p24","footprint":"CDIP-24","family":"AS","flags":["military"]}
+        {"name":"5962-8966801LA","package":"DIP","pinout":"p24","footprint":"CDIP-24","family":"AS","flags":["military","ceramic"]},
+        {"name":"SN54AS867JT","package":"DIP","pinout":"p24","footprint":"CDIP-24","family":"AS","flags":["military","ceramic"]},
+        {"name":"SNJ54AS867JT","package":"DIP","pinout":"p24","footprint":"CDIP-24","family":"AS","flags":["military","ceramic"]}
       ]
     },
     {
@@ -963,9 +963,9 @@
         "AS": {"rise":11,"fall":15,"vcc":[4.5,5.5],"note": "CLK to Q max, 4.5-5.5 V 50 pF (SN74; SN54 12/16); VCC 4.5-5.5 V (sn74als867a p.14-15)"}
       },
       "parts": [
-        {"name":"SN54AS869JT","package":"CDIP","pinout":"p24","footprint":"CDIP-24","family":"AS","flags":["military"]},
+        {"name":"SN54AS869JT","package":"DIP","pinout":"p24","footprint":"CDIP-24","family":"AS","flags":["military","ceramic"]},
         {"name":"SN74AS869DW","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"AS"},
-        {"name":"SNJ54AS869JT","package":"CDIP","pinout":"p24","footprint":"CDIP-24","family":"AS","flags":["military"]}
+        {"name":"SNJ54AS869JT","package":"DIP","pinout":"p24","footprint":"CDIP-24","family":"AS","flags":["military","ceramic"]}
       ]
     },
     {
@@ -1025,13 +1025,13 @@
         "HC": {"rise":18,"fall":18,"vcc":[2,6],"note": "RCLK to Q typ, 4.5 V 50 pF; VCC 2-6 V (sn74hc590a p.4, p.8)"}
       },
       "parts": [
-        {"name":"5962-87517012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"5962-8751701EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"5962-89603012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military"]},
-        {"name":"5962-8960301EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"5962-8960301FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military"]},
-        {"name":"SN54HC590AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"SN54LS590J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"5962-87517012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"5962-8751701EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"5962-89603012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"5962-8960301EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"5962-8960301FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SN54HC590AJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SN54LS590J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SN74HC590AD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["obsolete"]},
         {"name":"SN74HC590ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
         {"name":"SN74HC590ADT","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["obsolete"]},
@@ -1042,11 +1042,11 @@
         {"name":"SN74LS590D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
         {"name":"SN74LS590N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
         {"name":"SN74LS590NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
-        {"name":"SNJ54HC590AFK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military"]},
-        {"name":"SNJ54HC590AJ","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"SNJ54HC590AW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military"]},
-        {"name":"SNJ54LS590FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS590J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54HC590AFK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HC590AJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HC590AW","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54LS590FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS590J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -1083,14 +1083,14 @@
         "LS": {"rise":15,"fall":20,"vcc":[4.75,5.25],"note": "CCK to RCO typ, 5 V 30 pF (no Q outputs); VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls592 p.6, p.8)"}
       },
       "parts": [
-        {"name":"5962-8762101EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"5962-8762101FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SN54LS592J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"5962-8762101EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"5962-8762101FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54LS592J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SN74LS592D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
         {"name":"SN74LS592N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
         {"name":"SN74LS592NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
-        {"name":"SNJ54LS592J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS592W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54LS592J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS592W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -1131,11 +1131,11 @@
         "LS": {"rise":14,"fall":26,"vcc":[4.75,5.25],"note": "CCK to Q typ, 5 V 45 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls593 p.6, p.8)"}
       },
       "parts": [
-        {"name":"SN54LS593J","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"SN54LS593J","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SN74LS593DW","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LS","flags":["obsolete"]},
         {"name":"SN74LS593DWR","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LS"},
         {"name":"SN74LS593N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"LS"},
-        {"name":"SNJ54LS593J","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54LS593J","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -1178,7 +1178,7 @@
       "parts": [
         {"name":"SN74LS697DW","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LS"},
         {"name":"SN74LS697N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"LS"},
-        {"name":"SNJ54LS697J","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54LS697J","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -1261,10 +1261,10 @@
         "C": {"rise":250,"fall":250,"vcc":[3,18],"note": "CLOCK to Q typ, VDD 5 V 50 pF; VDD 3-18 V (cd4029b p.5)"}
       },
       "parts": [
-        {"name":"8101602EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
+        {"name":"8101602EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD4029BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD4029BF","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C"},
-        {"name":"CD4029BF3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
+        {"name":"CD4029BF","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["ceramic"]},
+        {"name":"CD4029BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD4029BM","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["obsolete"]},
         {"name":"CD4029BM96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
         {"name":"CD4029BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
@@ -1346,8 +1346,8 @@
       "parts": [
         {"name":"CD4516BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
         {"name":"CD4516BEE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD4516BF","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C"},
-        {"name":"CD4516BF3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
+        {"name":"CD4516BF","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["ceramic"]},
+        {"name":"CD4516BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD4516BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
         {"name":"CD4516BPW","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C","flags":["obsolete"]},
         {"name":"CD4516BPWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
@@ -1390,8 +1390,8 @@
       "parts": [
         {"name":"CD4518BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
         {"name":"CD4518BEE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD4518BF","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C"},
-        {"name":"CD4518BF3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
+        {"name":"CD4518BF","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["ceramic"]},
+        {"name":"CD4518BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD4518BM","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["obsolete"]},
         {"name":"CD4518BM96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
         {"name":"CD4518BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
@@ -1434,11 +1434,11 @@
         "C": {"rise":280,"fall":280,"vcc":[3,18],"note": "CLOCK or ENABLE to Q typ, VDD 5 V 50 pF; VDD 3-18 V (cd4518b p.3)"}
       },
       "parts": [
-        {"name":"7702301EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
+        {"name":"7702301EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD4520BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
         {"name":"CD4520BEE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD4520BF","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C"},
-        {"name":"CD4520BF3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
+        {"name":"CD4520BF","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["ceramic"]},
+        {"name":"CD4520BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD4520BM","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["obsolete"]},
         {"name":"CD4520BM96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
         {"name":"CD4520BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
@@ -1520,9 +1520,9 @@
         "HCT": {"rise":53,"fall":53,"vcc":[4.5,5.5],"note": "CP to Q max, 4.5 V 50 pF; VCC 4.5-5.5 V (cd74hc4518 p.3, p.6)"}
       },
       "parts": [
-        {"name":"5962-8995401EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"CD54HC4520F","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"CD54HC4520F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
+        {"name":"5962-8995401EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HC4520F","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HC4520F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
         {"name":"CD74HC4520E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
         {"name":"CD74HC4520M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["obsolete"]},
         {"name":"CD74HC4520M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
@@ -1609,8 +1609,8 @@
       "parts": [
         {"name":"CD40103BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
         {"name":"CD40103BEE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD40103BF","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C"},
-        {"name":"CD40103BF3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
+        {"name":"CD40103BF","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["ceramic"]},
+        {"name":"CD40103BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD40103BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
         {"name":"CD40103BPW","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
       ]
@@ -1650,9 +1650,9 @@
         "HCT": {"rise":60,"fall":60,"vcc":[4.5,5.5],"note": "CP to TC max, 4.5 V 50 pF (no Q outputs); VCC 4.5-5.5 V (cd74hc40103 p.3, p.7)"}
       },
       "parts": [
-        {"name":"5962-9055301EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"CD54HC40103F","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"CD54HC40103F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
+        {"name":"5962-9055301EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HC40103F","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HC40103F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
         {"name":"CD74HC40103E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
         {"name":"CD74HC40103EE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
         {"name":"CD74HC40103M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["obsolete"]},
@@ -1697,7 +1697,7 @@
         "C": {"rise":200,"fall":200,"vcc":[3,18],"note": "CLOCK to Q typ, VDD 5 V 50 pF; VDD 3-18 V (cd40160b p.5)"}
       },
       "parts": [
-        {"name":"CD40160BF3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]}
+        {"name":"CD40160BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]}
       ]
     },
     {
@@ -1735,7 +1735,7 @@
       },
       "parts": [
         {"name":"CD40161BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD40161BF3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
+        {"name":"CD40161BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD40161BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
         {"name":"CD40161BPWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
       ]
@@ -1775,8 +1775,8 @@
       },
       "parts": [
         {"name":"CD40192BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD40192BF","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C"},
-        {"name":"CD40192BF3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
+        {"name":"CD40192BF","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["ceramic"]},
+        {"name":"CD40192BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD40192BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"}
       ]
     },
@@ -1815,7 +1815,7 @@
       },
       "parts": [
         {"name":"CD40193BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD40193BF3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
+        {"name":"CD40193BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD40193BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
         {"name":"CD40193BNSRE4","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
         {"name":"CD40193BPW","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C","flags":["obsolete"]},
@@ -1896,15 +1896,15 @@
         "LS": {"rise":10,"fall":12,"stage":10,"vcc":[4.75,5.25],"note": "CKA to QA typ, 5 V 15 pF; stage = CKB to QC - CKB to QB; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls90 p.8-9)"}
       },
       "parts": [
-        {"name":"7603201CA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/31501BCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/31501BCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SN54LS90J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"7603201CA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31501BCA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/31501BCA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54LS90J","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SN74LS90D","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS","flags":["obsolete"]},
         {"name":"SN74LS90DR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
         {"name":"SN74LS90N","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
         {"name":"SN74LS90NE4","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
-        {"name":"SNJ54LS90J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54LS90J","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -1980,17 +1980,17 @@
         "LS": {"rise":10,"fall":12,"stage":11,"vcc":[4.75,5.25],"note": "CKA to QA typ, 5 V 15 pF; stage = (CKB to QD - CKB to QB) / 2; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls90 p.8-9)"}
       },
       "parts": [
-        {"name":"7700101CA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"7700101DA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/31502BCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/31502BDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/31502BCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/31502BDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SN54LS93J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"7700101CA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"7700101DA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31502BCA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31502BDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/31502BCA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/31502BDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54LS93J","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SN74LS93D","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
         {"name":"SN74LS93N","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
-        {"name":"SNJ54LS93J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS93W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54LS93J","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS93W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -2093,10 +2093,10 @@
         "HCT": {"rise":40,"fall":40,"stage":12,"vcc":[4.5,5.5],"note": "CLKA to QA max, 4.5 V 50 pF; stage = CLKB to QC - CLKB to QB; VCC 4.5-5.5 V (cd74hc390 p.4, p.7)"}
       },
       "parts": [
-        {"name":"5962-9098401MEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military"]},
-        {"name":"7802601EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"7802601FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"CD54HCT390F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military"]},
+        {"name":"5962-9098401MEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
+        {"name":"7802601EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"7802601FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"CD54HCT390F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
         {"name":"CD74HC390E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
         {"name":"CD74HC390EE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
         {"name":"CD74HC390M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["obsolete"]},
@@ -2106,18 +2106,18 @@
         {"name":"CD74HCT390M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT","flags":["obsolete"]},
         {"name":"CD74HCT390M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
         {"name":"CD74HCT390MT","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT","flags":["obsolete"]},
-        {"name":"JM38510/32701B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/32701BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/32701B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/32701BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SN54LS390J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/32701B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/32701BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/32701B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/32701BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54LS390J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SN74LS390D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
         {"name":"SN74LS390N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
         {"name":"SN74LS390NE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
         {"name":"SN74LS390NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
-        {"name":"SNJ54LS390FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS390J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS390W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54LS390FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS390J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS390W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -2179,31 +2179,31 @@
         "LV": {"rise":6.7,"fall":6.7,"stage":0.9,"vcc":[2,5.5],"inputMax":5.5,"note": "CLK to QA typ, 3.3 V 50 pF; stage = (to QD - to QA) / 3; VCC 2-5.5 V, inputs to 5.5 V (sn74lv393a p.5, p.7)"}
       },
       "parts": [
-        {"name":"5962-8989001CA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HCT","flags":["military"]},
-        {"name":"84100012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military"]},
-        {"name":"8410001CA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military"]},
-        {"name":"8410001DA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"HC","flags":["military"]},
-        {"name":"CD54HC393F3A","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military"]},
-        {"name":"CD54HCT393F","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HCT","flags":["military"]},
-        {"name":"CD54HCT393F3A","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HCT","flags":["military"]},
+        {"name":"5962-8989001CA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HCT","flags":["military","ceramic"]},
+        {"name":"84100012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"8410001CA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"8410001DA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HC393F3A","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HCT393F","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HCT","flags":["military","ceramic"]},
+        {"name":"CD54HCT393F3A","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HCT","flags":["military","ceramic"]},
         {"name":"CD74HC393E","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"HC"},
         {"name":"CD74HC393M","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC","flags":["obsolete"]},
         {"name":"CD74HC393M96","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC"},
         {"name":"CD74HCT393E","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"HCT"},
         {"name":"CD74HCT393M96","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HCT"},
         {"name":"CD74HCT393MT","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HCT","flags":["obsolete"]},
-        {"name":"JM38510/32702B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/32702BCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/32702BDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/32702SDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/66309BCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military"]},
-        {"name":"M38510/32702B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/32702BCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/32702BDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/32702SDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"M38510/66309BCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military"]},
-        {"name":"SN54HC393J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military"]},
-        {"name":"SN54LS393J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/32702B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/32702BCA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/32702BDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/32702SDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/66309BCA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"M38510/32702B2A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/32702BCA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/32702BDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/32702SDA","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/66309BCA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"SN54HC393J","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"SN54LS393J","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SN74HC393D","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC","flags":["obsolete"]},
         {"name":"SN74HC393DBR","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"HC"},
         {"name":"SN74HC393DR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC"},
@@ -2229,12 +2229,12 @@
         {"name":"SN74LV393APWRG4","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV"},
         {"name":"SN74LV393ATPWRG4Q1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV","flags":["automotive"]},
         {"name":"SN74LV393ATPWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV","flags":["automotive"]},
-        {"name":"SNJ54HC393FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military"]},
-        {"name":"SNJ54HC393J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military"]},
-        {"name":"SNJ54HC393W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"HC","flags":["military"]},
-        {"name":"SNJ54LS393FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS393J","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS393W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54HC393FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HC393J","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HC393W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54LS393FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS393J","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS393W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -2274,13 +2274,13 @@
       "parts": [
         {"name":"CD4020BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
         {"name":"CD4020BEE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD4020BF","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C"},
-        {"name":"CD4020BF3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
+        {"name":"CD4020BF","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["ceramic"]},
+        {"name":"CD4020BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD4020BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
         {"name":"CD4020BPW","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C","flags":["obsolete"]},
         {"name":"CD4020BPWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"},
-        {"name":"JM38510/05653BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
-        {"name":"M38510/05653BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]}
+        {"name":"JM38510/05653BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
+        {"name":"M38510/05653BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]}
       ]
     },
     {
@@ -2318,16 +2318,16 @@
       "parts": [
         {"name":"CD4024BE","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
         {"name":"CD4024BEE4","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
-        {"name":"CD4024BF","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"C"},
-        {"name":"CD4024BF3A","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"C","flags":["military"]},
+        {"name":"CD4024BF","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"C","flags":["ceramic"]},
+        {"name":"CD4024BF3A","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"C","flags":["military","ceramic"]},
         {"name":"CD4024BM","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"C","flags":["obsolete"]},
         {"name":"CD4024BM96","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"C"},
         {"name":"CD4024BMT","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"C","flags":["obsolete"]},
         {"name":"CD4024BNSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"C"},
         {"name":"CD4024BPW","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"C","flags":["obsolete"]},
         {"name":"CD4024BPWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"C"},
-        {"name":"JM38510/05655BCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"C","flags":["military"]},
-        {"name":"M38510/05655BCA","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"C","flags":["military"]}
+        {"name":"JM38510/05655BCA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"C","flags":["military","ceramic"]},
+        {"name":"M38510/05655BCA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"C","flags":["military","ceramic"]}
       ]
     },
     {
@@ -2367,8 +2367,8 @@
       "parts": [
         {"name":"CD4040BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
         {"name":"CD4040BEE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD4040BF","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C"},
-        {"name":"CD4040BF3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
+        {"name":"CD4040BF","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["ceramic"]},
+        {"name":"CD4040BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD4040BM","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
         {"name":"CD4040BM96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
         {"name":"CD4040BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
@@ -2435,13 +2435,13 @@
         "HCT": {"rise":40,"fall":40,"stage":15,"vcc":[4.5,5.5],"note": "CP to Q1 max, 4.5 V 50 pF; stage = Qn to Qn+1 max; VCC 4.5-5.5 V (cd74hc4020 p.4, p.7)"}
       },
       "parts": [
-        {"name":"5962-8945801EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military"]},
-        {"name":"85003012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military"]},
-        {"name":"8500301EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"8500301FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military"]},
-        {"name":"CD54HC4020F","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"CD54HC4020F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"CD54HCT4020F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military"]},
+        {"name":"5962-8945801EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
+        {"name":"85003012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"8500301EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"8500301FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HC4020F","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HC4020F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HCT4020F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
         {"name":"CD74HC4020E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
         {"name":"CD74HC4020EE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
         {"name":"CD74HC4020M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["obsolete"]},
@@ -2451,7 +2451,7 @@
         {"name":"CD74HCT4020M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT","flags":["obsolete"]},
         {"name":"CD74HCT4020M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
         {"name":"CD74HCT4020MT","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT","flags":["obsolete"]},
-        {"name":"SN54HC4020J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
+        {"name":"SN54HC4020J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
         {"name":"SN74HC4020D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["obsolete"]},
         {"name":"SN74HC4020DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
         {"name":"SN74HC4020N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
@@ -2460,9 +2460,9 @@
         {"name":"SN74HC4020PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
         {"name":"SN74HC4020PWRG4","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
         {"name":"SN74HC4020PWT","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["obsolete"]},
-        {"name":"SNJ54HC4020FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military"]},
-        {"name":"SNJ54HC4020J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"SNJ54HC4020W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military"]}
+        {"name":"SNJ54HC4020FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HC4020J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HC4020W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military","ceramic"]}
       ]
     },
     {
@@ -2499,8 +2499,8 @@
         "HCT": {"rise":40,"fall":40,"stage":15,"vcc":[4.5,5.5],"note": "CP to Q1 max, 4.5 V 50 pF; stage = Qn to Qn+1 max; VCC 4.5-5.5 V (cd74hc4024 p.4, p.7)"}
       },
       "parts": [
-        {"name":"CD54HC4024F","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military"]},
-        {"name":"CD54HCT4024F3A","package":"CDIP","pinout":"p14","footprint":"CDIP-14","family":"HCT","flags":["military"]},
+        {"name":"CD54HC4024F","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HCT4024F3A","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HCT","flags":["military","ceramic"]},
         {"name":"CD74HC4024E","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"HC"},
         {"name":"CD74HC4024M","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC","flags":["obsolete"]},
         {"name":"CD74HC4024M96","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC"},
@@ -2572,13 +2572,13 @@
         "LV": {"rise":7.5,"fall":7.5,"stage":1.2,"vcc":[2,5.5],"inputMax":5.5,"note": "CLK to QA typ, 3.3 V 50 pF; stage = delta tpd Qn to Qn+1 typ; VCC 2-5.5 V, inputs to 5.5 V (sn74lv4040a p.4, p.6)"}
       },
       "parts": [
-        {"name":"5962-8994701MEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military"]},
-        {"name":"85004012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military"]},
-        {"name":"8500401EA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"8500401FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military"]},
-        {"name":"CD54HC4040F","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"CD54HC4040F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"CD54HCT4040F3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military"]},
+        {"name":"5962-8994701MEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
+        {"name":"85004012A","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"8500401EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"8500401FA","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HC4040F","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HC4040F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HCT4040F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
         {"name":"CD74HC4040E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
         {"name":"CD74HC4040M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["obsolete"]},
         {"name":"CD74HC4040M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
@@ -2586,7 +2586,7 @@
         {"name":"CD74HCT4040E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
         {"name":"CD74HCT4040M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT","flags":["obsolete"]},
         {"name":"CD74HCT4040M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
-        {"name":"SN54HC4040J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
+        {"name":"SN54HC4040J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
         {"name":"SN74HC4040D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["obsolete"]},
         {"name":"SN74HC4040DBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"HC"},
         {"name":"SN74HC4040DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
@@ -2610,9 +2610,9 @@
         {"name":"SN74LV4040APWT","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LV","flags":["obsolete"]},
         {"name":"SN74LV4040ARGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"LV"},
         {"name":"SN74LV4040ARGYRG4","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"LV"},
-        {"name":"SNJ54HC4040FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military"]},
-        {"name":"SNJ54HC4040J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military"]},
-        {"name":"SNJ54HC4040W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military"]}
+        {"name":"SNJ54HC4040FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HC4040J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HC4040W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"HC","flags":["military","ceramic"]}
       ]
     },
     {
@@ -2654,8 +2654,8 @@
       "parts": [
         {"name":"CD4017BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
         {"name":"CD4017BEE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD4017BF","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C"},
-        {"name":"CD4017BF3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
+        {"name":"CD4017BF","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["ceramic"]},
+        {"name":"CD4017BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD4017BM","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["obsolete"]},
         {"name":"CD4017BM96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
         {"name":"CD4017BM96G4","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
@@ -2663,8 +2663,8 @@
         {"name":"CD4017BPW","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C","flags":["obsolete"]},
         {"name":"CD4017BPWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"},
         {"name":"CD4017BPWRE4","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"},
-        {"name":"JM38510/05651BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
-        {"name":"M38510/05651BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]}
+        {"name":"JM38510/05651BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
+        {"name":"M38510/05651BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]}
       ]
     },
     {
@@ -2706,8 +2706,8 @@
       "parts": [
         {"name":"CD4022BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
         {"name":"CD4022BEE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD4022BF","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C"},
-        {"name":"CD4022BF3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
+        {"name":"CD4022BF","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["ceramic"]},
+        {"name":"CD4022BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD4022BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
         {"name":"CD4022BPW","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C","flags":["obsolete"]},
         {"name":"CD4022BPWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
@@ -2801,15 +2801,15 @@
       },
       "parts": [
         {"name":"CD4018BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD4018BF","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C"},
-        {"name":"CD4018BF3A","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
+        {"name":"CD4018BF","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["ceramic"]},
+        {"name":"CD4018BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD4018BM","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["obsolete"]},
         {"name":"CD4018BM96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
         {"name":"CD4018BMT","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["obsolete"]},
         {"name":"CD4018BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
         {"name":"CD4018BPW","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"},
-        {"name":"JM38510/05652BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]},
-        {"name":"M38510/05652BEA","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military"]}
+        {"name":"JM38510/05652BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
+        {"name":"M38510/05652BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]}
       ]
     },
     {
@@ -3178,9 +3178,9 @@
         "TTL": {"rise":26,"fall":20,"vcc":[4.75,5.25],"note": "CLK to Y typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn5497 p.4-5)"}
       },
       "parts": [
-        {"name":"SN5497J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"SN5497J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SN7497N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"},
-        {"name":"SNJ5497J","package":"CDIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military"],"vcc":[4.5,5.5]}
+        {"name":"SNJ5497J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     }
   ]
