@@ -143,7 +143,7 @@ struct ContentView: View {
                 }
                 // macOS opens an inspector at its minimum width and ignores
                 // `ideal`, so the minimum is the width it should open at.
-                .inspectorColumnWidth(min: 300, ideal: 300, max: 500)
+                .inspectorColumnWidth(min: 350, ideal: 350, max: 500)
             }
             .toolbar {
                 ToolbarItemGroup(placement: .navigation) {
