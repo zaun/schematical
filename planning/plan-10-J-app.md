@@ -25,7 +25,7 @@ plan-10-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-10-I complete | `ls planning/completed/plan-10-I-shift-parts.md` → exists | NOT MET (2026-11-01: written) |
+| plan-10-I complete | `ls planning/completed/plan-10-I-shift-parts.md` → exists | MET (2026-11-01: exists, archived at 97d007d) |
 
 ## 1. Goal
 
@@ -74,10 +74,14 @@ plan-10-A § Prerequisites, plus:
 
 ### Phase 1 — App
 
-- [ ] The three edits of §3.
-- [ ] `xcodebuild … build` → `** BUILD SUCCEEDED **` (about 1 min).
+- [x] The three edits of §3.
+- [x] `xcodebuild … build` → `** BUILD SUCCEEDED **` (about 1 min). (Ran:
+  `** BUILD SUCCEEDED **`.)
 
-Acceptance: the build succeeds and the grep of §1 matches.
+Acceptance: the build succeeds and the grep of §1 matches. (Ran: the grep
+prints `PartCatalog.swift:210` (the `isLogic` condition, now on its own line
+of the wrapped property) and `PartFacts.swift:79-81` (the three
+`kindName` cases).)
 Commit: —
 
 ## Validation Plan — plan-10 landing tier

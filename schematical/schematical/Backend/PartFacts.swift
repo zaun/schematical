@@ -76,6 +76,9 @@ nonisolated enum PartFacts {
         case PART_7SEG: return "7-segment display"
         case PART_OSCILLATOR: return "Oscillator"
         case PART_SUPPLY: return "Supply"
+        case PART_LATCH: return "Latch"
+        case PART_COUNTER: return "Counter"
+        case PART_SHIFT: return "Shift register"
         default: return ""
         }
     }
