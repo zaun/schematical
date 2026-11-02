@@ -395,18 +395,23 @@ while running with power and the backlight wired.
   16x2 with 1280 dots, 0 on, 0 X (display off at power-up); after Stop the
   frame is nil. `/tmp/p11-demo/face-rest.png` (dark navy, unlit cells) and
   `face-running.png` (lit blue, empty cells) were looked at.
-Commit: —
+Commit: 8fa1fa1
 
 ### Phase 3 — PCB Style and the file
 
-- [ ] `Canvas/BoardSettings.swift`: `FootprintStyle` (§4.4).
-- [ ] `Canvas/BoardModel.swift`: `BoardPlacement.style`,
+- [x] `Canvas/BoardSettings.swift`: `FootprintStyle` (§4.4).
+- [x] `Canvas/BoardModel.swift`: `BoardPlacement.style`,
       `PlacedChip.footprint`, the 5 sites (§4.4).
-- [ ] `Canvas/SchematicModel.swift`: sites `:811,823,837`; `setFootprintStyle` (§4.4).
-- [ ] `Document/SchematicFile.swift`: `Placement.style`, write and read,
+- [x] `Canvas/SchematicModel.swift`: sites `:811,823,837`; `setFootprintStyle` (§4.4).
+      (Now at `:862,874,888`; the 13-site count re-measured: 13. No re-snap
+      after the switch, see Corrections.)
+- [x] `Document/SchematicFile.swift`: `Placement.style`, write and read,
       site `:340` (§4.5).
-- [ ] `Canvas/PCBSidebarView.swift`: header and Style picker (§4.6).
-- [ ] `docs/file-format.md` (§4.5).
+- [x] `Canvas/PCBSidebarView.swift`: header and Style picker (§4.6).
+- [x] `docs/file-format.md` (§4.5).
+- [x] Harness mode `pcb`: the module with the Pad 1 Center origin, the
+      sidebar and the PCB page captured in each style, save, reopen, a bad
+      value, and a new file's keys.
 
 Acceptance: switching the style swaps the footprint with pin 1's pad
 fixed, and the choice round-trips through a file.
@@ -414,6 +419,17 @@ fixed, and the choice round-trips through a file.
   the Pad 1 Center origin; switch to Connector Only; X/Y unchanged, the
   1×16 header is drawn, the header line reads `HDR-1X16-P2.54`. Save as
   `/tmp/p11-demo/style.schematical`; `grep -c '"style" : "connector"\|"style":"connector"' /tmp/p11-demo/style.schematical` → 1. Reopen: still Connector Only. Edit the file to `"style":"x"` and open: the error `U… style "x" must be module or connector` (est. 8 min).
+  Ran: build → `** BUILD SUCCEEDED **`; `run pcb` → before `style module,
+  footprint LCM-NHD-0216K1Z, origin pad1Center at (-32.005, -15.780), pads
+  36`; after `style connector, footprint HDR-1X16-P2.54 … at (-32.005,
+  -15.780), pads 16`, `pad 1 moved by 0.000000 mm`; grep → 1 (`"style" :
+  "connector"`); reopened → `style connector … (-32.005, -15.780)`; bad
+  value → `The PCB settings are not valid: U1 style "x" must be module or
+  connector.`; a new file with a gate and an LCD has 1 `style` key (the
+  LCD's). PNGs looked at: `pcb-module.png` (both 1×16 rows, 4 holes),
+  `pcb-connector.png` (the 1×16 header, square pin 1),
+  `pcb-sidebar-connector.png` (Style on Connector Only, header line
+  `HDR-1X16-P2.54 — …`, X −32.01, Y −15.78).
 Commit: —
 
 ### Phase 4 — Runtime proof
@@ -464,6 +480,16 @@ Commit: —
   `circuit_error`). (§3)
 
 ## Corrections
+
+- **No re-snap after a style switch (§4.4 step 4 dropped).** `snapped`
+  moves the placement so its origin point is on the 0.635 mm grid. With
+  the Pad 1 Center origin chosen by hand (an origin change never moves a
+  footprint, so pad 1 is usually off the grid), the snap moved pad 1 by
+  (0.255, −0.095) mm, and the Phase 3 check ("X/Y unchanged") failed.
+  Measured with `run pcb`. `setFootprintStyle` now keeps pin 1's first
+  pad exactly where it was, which is what §4.4 and § Decisions ask for
+  ("pin 1 staying put"). Like an origin change, this may leave the origin
+  point off the grid. The next move snaps it, as before.
 
 - **`lcdParts` is found in `NetlistBuilder`, not `Simulation`.** §4.3 has
   `Simulation` filter `netlist.chipIDs` by kind when it starts, but

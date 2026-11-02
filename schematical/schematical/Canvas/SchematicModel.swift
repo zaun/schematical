@@ -859,7 +859,7 @@ final class SchematicDocument {
     func moveFootprint(_ id: UUID, to centre: CGPoint) {
         guard let index = chips.firstIndex(where: { $0.id == id }),
               let board = chips[index].board,
-              let footprint = chips[index].part.footprint else { return }
+              let footprint = chips[index].footprint else { return }
         var moved = board
         moved.centre = centre
         chips[index].board = BoardLayout.snapped(moved, footprint: footprint,
@@ -871,7 +871,7 @@ final class SchematicDocument {
     func moveFootprintOrigin(_ id: UUID, to point: CGPoint) {
         guard let index = chips.firstIndex(where: { $0.id == id }),
               let board = chips[index].board,
-              let footprint = chips[index].part.footprint else { return }
+              let footprint = chips[index].footprint else { return }
         let pad1 = chips[index].part.firstPinDesignator
         let current = BoardLayout.originPoint(of: board, footprint: footprint, pad1: pad1)
         var moved = board
@@ -885,7 +885,7 @@ final class SchematicDocument {
     func rotateFootprint(_ id: UUID) {
         guard let index = chips.firstIndex(where: { $0.id == id }),
               let board = chips[index].board,
-              let footprint = chips[index].part.footprint else { return }
+              let footprint = chips[index].footprint else { return }
         let pad1 = chips[index].part.firstPinDesignator
         let before = BoardLayout.originPoint(of: board, footprint: footprint, pad1: pad1)
         var turned = board
@@ -901,6 +901,31 @@ final class SchematicDocument {
     func setFootprintOrigin(_ id: UUID, _ origin: FootprintOrigin) {
         guard let index = chips.firstIndex(where: { $0.id == id }), chips[index].board != nil else { return }
         chips[index].board?.origin = origin
+    }
+
+    /// Switches a part between its footprint and its connector footprint
+    /// (the PCB Style option). Pin 1's first pad stays exactly where it was
+    /// (not re-snapped: like an origin change, this may leave the origin
+    /// point off the grid); rotation, origin and marks are kept. Does nothing for a part without a connector
+    /// footprint or when the style does not change.
+    func setFootprintStyle(_ id: UUID, _ style: FootprintStyle) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              chips[index].part.connectorFootprint != nil,
+              let board = chips[index].board, board.style != style,
+              let before = chips[index].footprint else { return }
+        let pad1 = chips[index].part.firstPinDesignator
+        var changed = board
+        changed.style = style
+        chips[index].board = changed
+        guard let after = chips[index].footprint else { return }
+        if let old = before.pads.first(where: { $0.designator == pad1 }),
+           let new = after.pads.first(where: { $0.designator == pad1 }) {
+            let anchor = board.board(old.centre)
+            let landed = changed.board(new.centre)
+            changed.centre.x += anchor.x - landed.x
+            changed.centre.y += anchor.y - landed.y
+        }
+        chips[index].board = changed
     }
 
     /// Sets where a footprint's marks are drawn. A nil layer is left as it is.

@@ -42,6 +42,19 @@ nonisolated enum MarkLayer: String, CaseIterable, Hashable, Sendable {
     }
 }
 
+/// Which of a part's two footprints is on the board (the PCB Style option,
+/// for parts with a connector footprint). Raw values are the file values.
+nonisolated enum FootprintStyle: String, CaseIterable, Hashable, Sendable {
+    case module, connector
+
+    var title: String {
+        switch self {
+        case .module: "Full Module"
+        case .connector: "Connector Only"
+        }
+    }
+}
+
 /// The layer a board text is on.
 nonisolated enum TextLayer: String, CaseIterable, Hashable, Sendable {
     case document, silkscreen

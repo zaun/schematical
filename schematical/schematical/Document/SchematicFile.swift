@@ -76,6 +76,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var outline: String? = nil
         var pin1: String? = nil
         var reference: String? = nil
+        /// `FootprintStyle` raw value; written only for parts with a
+        /// connector footprint (character LCD modules), ignored on others.
+        var style: String? = nil
     }
 
     /// The PCB: size in mm, copper layers, colour and sidebar units (raw
@@ -237,7 +240,8 @@ extension SchematicFile {
                 pcb: chip.board.map {
                     Placement(x: $0.centre.x, y: $0.centre.y, rotation: $0.rotation,
                               origin: $0.origin.rawValue, outline: $0.outline.rawValue,
-                              pin1: $0.pin1.rawValue, reference: $0.reference.rawValue)
+                              pin1: $0.pin1.rawValue, reference: $0.reference.rawValue,
+                              style: chip.part.connectorFootprint == nil ? nil : $0.style.rawValue)
                 },
                 memoryFile: chip.memoryFile.map {
                     MemoryFileEntry(path: MemoryFileAccess.path(of: $0.url, schematic: fileURL),
@@ -337,7 +341,7 @@ extension SchematicFile {
             let partSymbol = symbol(for: catalogPart)
             // A stored placement counts only for a part with a footprint.
             var board: BoardPlacement?
-            if let pcb = part.pcb, let footprint = catalogPart.footprint {
+            if let pcb = part.pcb, catalogPart.footprint != nil {
                 guard BoardPlacement.rotations.contains(pcb.rotation) else {
                     throw SchematicFileError.badRotation(reference: part.reference, rotation: pcb.rotation)
                 }
@@ -345,7 +349,13 @@ extension SchematicFile {
                 // top-left, as those builds did. One with an origin is kept as
                 // saved: changing the origin doesn't move a footprint, so its
                 // origin point may be off the grid, and opening must not move it.
-                let stored = try placement(pcb, reference: part.reference)
+                var stored = try placement(pcb, reference: part.reference)
+                if catalogPart.connectorFootprint != nil {
+                    stored.style = try Self.value(pcb.style, of: FootprintStyle.self, "\(part.reference) style",
+                                                  default: .module)
+                }
+                let footprint = stored.style == .connector
+                    ? catalogPart.connectorFootprint ?? catalogPart.footprint! : catalogPart.footprint!
                 board = pcb.origin == nil
                     ? BoardLayout.snapped(stored, footprint: footprint, pad1: catalogPart.firstPinDesignator)
                     : stored

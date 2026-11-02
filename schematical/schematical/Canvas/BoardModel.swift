@@ -38,6 +38,9 @@ nonisolated struct BoardPlacement: Hashable, Sendable {
     var outline: MarkLayer = .document
     var pin1: MarkLayer = .silkscreen
     var reference: MarkLayer = .silkscreen
+    /// Full Module or Connector Only; only parts with a connector footprint
+    /// use it.
+    var style: FootprintStyle = .module
 
     static let rotations = [0, 90, 180, 270]
 
@@ -87,11 +90,17 @@ nonisolated struct PlacedPad: Hashable {
 // MARK: - A placed part's footprint
 
 extension PlacedChip {
+    /// The footprint on the board: the connector footprint when the style is
+    /// Connector Only and the part has one, else the part's footprint.
+    nonisolated var footprint: Footprint? {
+        board?.style == .connector ? part.connectorFootprint ?? part.footprint : part.footprint
+    }
+
     /// The footprint's pads on the board, each belonging to the pin of the same
     /// designator. Pads of `absent` pins are left out; an unnumbered centre pad
     /// is kept. Empty when the part has no footprint or no placement.
     nonisolated var boardPads: [PlacedPad] {
-        guard let footprint = part.footprint, let board else { return [] }
+        guard let footprint, let board else { return [] }
         let hidden = Set(part.pins.filter(\.isHidden).map(\.designator))
         return footprint.pads.compactMap { pad in
             if let designator = pad.designator, hidden.contains(designator) { return nil }
@@ -104,26 +113,26 @@ extension PlacedChip {
 
     /// The body outline on the board, and whether it is drawn as an ellipse.
     nonisolated var boardBody: (rect: CGRect, round: Bool)? {
-        guard let footprint = part.footprint, let board else { return nil }
+        guard let footprint, let board else { return nil }
         return (board.board(centre: .zero, size: footprint.body), footprint.bodyRound)
     }
 
     /// Body and pads together, for drawing the selection and hit testing.
     nonisolated var boardBounds: CGRect? {
-        guard let footprint = part.footprint, let board else { return nil }
+        guard let footprint, let board else { return nil }
         return BoardLayout.localBounds(of: footprint).applying(board)
     }
 
     /// The footprint's origin point on the board (see `FootprintOrigin`).
     nonisolated var boardOrigin: CGPoint? {
-        guard let footprint = part.footprint, let board else { return nil }
+        guard let footprint, let board else { return nil }
         return BoardLayout.originPoint(of: board, footprint: footprint, pad1: part.firstPinDesignator)
     }
 
     /// Where the pin-1 mark goes: 0.5 mm outside the body corner nearest the
     /// pad of the part's first pin ("1", or "A1" on a BGA).
     nonisolated var pin1Mark: CGPoint? {
-        guard let footprint = part.footprint, let board, let first = part.pins.first,
+        guard let footprint, let board, let first = part.pins.first,
               let pad = footprint.pads.first(where: { $0.designator == first.designator }) else {
             return nil
         }
