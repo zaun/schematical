@@ -736,7 +736,9 @@
       "timing": {
         "HC": {"rise":17,"fall":17,"clearWins":false,"vcc":[2,6],"note": "VCC 2-6 V (scls141g p.4)"},
         "HCT": {"rise":30,"fall":30,"clearWins":false,"vcc":[4.5,5.5],"note": "VCC 4.5-5.5 V (scls005e p.4)"},
-        "AHCT": {"rise":6.4,"fall":6.4,"clearWins":false,"vcc":[4.5,5.5],"note": "VCC 4.5-5.5 V (sn74ahct374 p.5)"}
+        "AHCT": {"rise":6.4,"fall":6.4,"clearWins":false,"vcc":[4.5,5.5],"note": "VCC 4.5-5.5 V (sn74ahct374 p.5)"},
+        "LS": {"rise":15,"fall":19,"clearWins":false,"vcc":[4.75,5.25],"note": "CLK to Q typ, 5 V 45 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls373 p.6-7)"},
+        "S": {"rise":8,"fall":11,"clearWins":false,"vcc":[4.75,5.25],"note": "CLK to Q typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls373 p.9-10)"}
       },
       "parts": [
         {"name":"SN74HC374DW","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC","flags":["obsolete"]},
@@ -804,7 +806,31 @@
         {"name":"JM38510/65602BRA","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"HC","flags":["military"]},
         {"name":"JM38510/65652BRA","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"HCT","flags":["military"]},
         {"name":"M38510/65602BRA","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"HC","flags":["military"]},
-        {"name":"M38510/65652BRA","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"HCT","flags":["military"]}
+        {"name":"M38510/65652BRA","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"HCT","flags":["military"]},
+        {"name":"78011022A","package":"LCCC","pinout":"p20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"7801102RA","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"7801102SA","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/32503B2A","package":"LCCC","pinout":"p20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/32503BRA","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/32503BSA","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"M38510/32503B2A","package":"LCCC","pinout":"p20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"M38510/32503BRA","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"M38510/32503BSA","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"SN54LS374J","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"SN54S374J","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"S","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"SN74LS374DBR","package":"SSOP","pinout":"p20","footprint":"SSOP-20","family":"LS"},
+        {"name":"SN74LS374DW","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LS","flags":["obsolete"]},
+        {"name":"SN74LS374DWR","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LS"},
+        {"name":"SN74LS374N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"LS"},
+        {"name":"SN74LS374NE4","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"LS"},
+        {"name":"SN74LS374NSR","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"LS"},
+        {"name":"SN74S374N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"S"},
+        {"name":"SNJ54LS374FK","package":"LCCC","pinout":"p20","footprint":"LCCC-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS374J","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS374W","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"LS","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54S374FK","package":"LCCC","pinout":"p20","footprint":"LCCC-20","family":"S","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54S374J","package":"CDIP","pinout":"p20","footprint":"CDIP-20","family":"S","flags":["military"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54S374W","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"S","flags":["military"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -1471,6 +1497,116 @@
         {"name":"SN74LVC2G74QDCURQ1","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC","flags":["automotive"]},
         {"name":"SN74LVC2G74YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-8-YZP","family":"LVC"},
         {"name":"V62/08617-01XE","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC","flags":["enhanced"]}
+      ]
+    },
+    {
+      "id": "TPIC6273",
+      "function": "D flip-flop",
+      "description": "Power logic octal D-type latch",
+      "drawer": ["Logic"],
+      "note": "Edge-triggered despite the title: eight positive-edge D flip-flops, direct clear, open-drain DMOS outputs; DRAINn is on (low) when the stored bit is 1, so it is the open-drain QN. tpic6273 p.1, p.4; plan-10-data/latch-b.md § TPIC6273",
+      "pinouts": {
+        "p20": [
+          {"number":1,"name":"CLR","role":"input"},
+          {"number":2,"name":"D1","role":"input"},
+          {"number":3,"name":"D2","role":"input"},
+          {"number":4,"name":"DRAIN1","role":"output"},
+          {"number":5,"name":"DRAIN2","role":"output"},
+          {"number":6,"name":"DRAIN3","role":"output"},
+          {"number":7,"name":"DRAIN4","role":"output"},
+          {"number":8,"name":"D3","role":"input"},
+          {"number":9,"name":"D4","role":"input"},
+          {"number":10,"name":"GND","role":"ground"},
+          {"number":11,"name":"CLK","role":"input"},
+          {"number":12,"name":"D5","role":"input"},
+          {"number":13,"name":"D6","role":"input"},
+          {"number":14,"name":"DRAIN5","role":"output"},
+          {"number":15,"name":"DRAIN6","role":"output"},
+          {"number":16,"name":"DRAIN7","role":"output"},
+          {"number":17,"name":"DRAIN8","role":"output"},
+          {"number":18,"name":"D7","role":"input"},
+          {"number":19,"name":"D8","role":"input"},
+          {"number":20,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [
+        {"d":"D1","clk":"CLK","clr":"CLR","qn":"DRAIN1"},
+        {"d":"D2","clk":"CLK","clr":"CLR","qn":"DRAIN2"},
+        {"d":"D3","clk":"CLK","clr":"CLR","qn":"DRAIN3"},
+        {"d":"D4","clk":"CLK","clr":"CLR","qn":"DRAIN4"},
+        {"d":"D5","clk":"CLK","clr":"CLR","qn":"DRAIN5"},
+        {"d":"D6","clk":"CLK","clr":"CLR","qn":"DRAIN6"},
+        {"d":"D7","clk":"CLK","clr":"CLR","qn":"DRAIN7"},
+        {"d":"D8","clk":"CLK","clr":"CLR","qn":"DRAIN8"}
+      ],
+      "presetActiveHigh": false,
+      "clearActiveHigh": false,
+      "clockEdge": "rising",
+      "output": "open-drain",
+      "timing": {
+        "TPIC": {"rise":625,"fall":150,"clearWins":false,"vcc":[4.5,5.5],"note": "CLK to DRAIN typ (tPLH/tPHL), 5 V 30 pF, ID 250 mA; VCC 4.5-5.5 V (tpic6273 p.4)"}
+      },
+      "parts": [
+        {"name":"TPIC6273DW","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"TPIC"},
+        {"name":"TPIC6273DWG4","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"TPIC"},
+        {"name":"TPIC6273DWR","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"TPIC"},
+        {"name":"TPIC6273DWRG4","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"TPIC"},
+        {"name":"TPIC6273N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"TPIC"}
+      ]
+    },
+    {
+      "id": "TPIC6B273",
+      "function": "D flip-flop",
+      "description": "Power logic octal D-type latch",
+      "drawer": ["Logic"],
+      "note": "Edge-triggered despite the title: eight positive-edge D flip-flops, direct clear, open-drain DMOS outputs; DRAINn is on (low) when the stored bit is 1, so it is the open-drain QN. tpic6b273 p.1, p.4; plan-10-data/latch-b.md § TPIC6B273",
+      "pinouts": {
+        "p20": [
+          {"number":1,"name":"CLR","role":"input"},
+          {"number":2,"name":"D1","role":"input"},
+          {"number":3,"name":"D2","role":"input"},
+          {"number":4,"name":"DRAIN1","role":"output"},
+          {"number":5,"name":"DRAIN2","role":"output"},
+          {"number":6,"name":"DRAIN3","role":"output"},
+          {"number":7,"name":"DRAIN4","role":"output"},
+          {"number":8,"name":"D3","role":"input"},
+          {"number":9,"name":"D4","role":"input"},
+          {"number":10,"name":"GND","role":"ground"},
+          {"number":11,"name":"CLK","role":"input"},
+          {"number":12,"name":"D5","role":"input"},
+          {"number":13,"name":"D6","role":"input"},
+          {"number":14,"name":"DRAIN5","role":"output"},
+          {"number":15,"name":"DRAIN6","role":"output"},
+          {"number":16,"name":"DRAIN7","role":"output"},
+          {"number":17,"name":"DRAIN8","role":"output"},
+          {"number":18,"name":"D7","role":"input"},
+          {"number":19,"name":"D8","role":"input"},
+          {"number":20,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [
+        {"d":"D1","clk":"CLK","clr":"CLR","qn":"DRAIN1"},
+        {"d":"D2","clk":"CLK","clr":"CLR","qn":"DRAIN2"},
+        {"d":"D3","clk":"CLK","clr":"CLR","qn":"DRAIN3"},
+        {"d":"D4","clk":"CLK","clr":"CLR","qn":"DRAIN4"},
+        {"d":"D5","clk":"CLK","clr":"CLR","qn":"DRAIN5"},
+        {"d":"D6","clk":"CLK","clr":"CLR","qn":"DRAIN6"},
+        {"d":"D7","clk":"CLK","clr":"CLR","qn":"DRAIN7"},
+        {"d":"D8","clk":"CLK","clr":"CLR","qn":"DRAIN8"}
+      ],
+      "presetActiveHigh": false,
+      "clearActiveHigh": false,
+      "clockEdge": "rising",
+      "output": "open-drain",
+      "timing": {
+        "TPIC": {"rise":150,"fall":90,"clearWins":false,"vcc":[4.5,5.5],"note": "CLK to DRAIN typ (tPLH/tPHL), 5 V 30 pF, ID 100 mA; VCC 4.5-5.5 V (tpic6b273 p.4)"}
+      },
+      "parts": [
+        {"name":"TPIC6B273DW","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"TPIC"},
+        {"name":"TPIC6B273DWG4","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"TPIC"},
+        {"name":"TPIC6B273DWR","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"TPIC"},
+        {"name":"TPIC6B273DWRG4","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"TPIC"},
+        {"name":"TPIC6B273N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"TPIC"}
       ]
     }
   ]
