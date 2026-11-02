@@ -206,7 +206,7 @@ maximum is not modeled: the voltage check has one range per part). `units`
 
 Acceptance: `ctest` 15 of 15 (seconds). (Ran: `100% tests passed, 0 tests
 failed out of 15`; golden status empty.)
-Commit: —
+Commit: b841505
 
 ### Phase 2 — `fifo`, `serial-in`
 
@@ -214,13 +214,17 @@ Commit: —
 
 Acceptance: `ctest` 15 of 15. (Same run as Phase 1: all five models were
 written in one pass of `shift_special.c`; one commit, see Corrections.)
-Commit: —
+Commit: b841505
 
 ### Phase 3 — Cases
 
-- [ ] §5 cases in `shift_test`.
+- [x] §5 cases in `shift_test`. (7 more fixture devices from
+  `/tmp/p10/shift_devs_h.py`; the FIFO fixtures' `fallThrough` is 1500 ns,
+  100 ns per step, so each check has margin.)
 
-Acceptance: `shift_test` → 43 `PASS`, 0 `FAIL`; `ctest` 15 of 15.
+Acceptance: `shift_test` → 43 `PASS`, 0 `FAIL`; `ctest` 15 of 15. (Ran: 43
+`PASS`, no `FAIL`; `100% tests passed, 0 tests failed out of 15`; golden
+status empty.)
 Commit: —
 
 ## Validation Plan
@@ -241,6 +245,20 @@ Phase 3's acceptance. Landing tier: plan-10-J.
 - 2026-11-01, Phase 2: an unknown (X) FIFO master reset is taken as a reset
   (every marker empty), and an LV8153 frame whose sampled address bits are
   unknown is ignored like a frame for another device; §4.4/§4.5 did not say.
+- 2026-11-01, Phase 3: case 27 as written ("CS falling with the clock high")
+  inverts the datasheet: the gated clock is CLK·(CS = 0), so CS falling with
+  CLK high is a *rising* gated edge; CS *rising* with CLK high is the false
+  falling edge the datasheet warns about ("the shift clock should be low
+  during the low-to-high transition of chip select"). The case tests CS
+  rising. Its first run also caught the power-up X → 0 of the gated clock
+  acting as a falling edge (Verilog negedge, §3.5), so the case settles SER
+  low first.
+- 2026-11-01, Phase 3: §4.5's "a second frame whose address differs drops
+  the pair" cannot happen: a frame whose address differs from the A0–A2 pins
+  is ignored before pairing, and the pins are the same for both frames.
+  Case 41 tests the reachable rule (other-address frames are ignored, even
+  between the two halves of a pair); the model keeps the drop branch for an
+  address-pin change between the frames.
 
 ## Summary
 
