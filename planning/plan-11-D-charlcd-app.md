@@ -373,20 +373,28 @@ their labels, and the sidebar shows the facts.
   the sidebar's Kind, Footprint, Connector, Characters 16 × 2, Controller
   ST7066U, Character ROM A00 (Japanese), Panel STN blue, negative,
   Backlight White, Supply range 4.5–5.5 V.
-Commit: —
+Commit: eb7e99c
 
 ### Phase 2 — Live face
 
-- [ ] `Simulation/SimulationEngine.swift`: `LCDFrame`, `lcdParts`,
+- [x] `Simulation/SimulationEngine.swift`: `LCDFrame`, `lcdParts`,
       `lcdFrames` in the snapshot (§4.3).
-- [ ] `Simulation/Simulation.swift`: `lcdParts` by kind, `lcdFrames`
+- [x] `Simulation/Simulation.swift`: `lcdParts` by kind, `lcdFrames`
       published and cleared (§4.3).
-- [ ] `Canvas/CharacterLCDSymbolView.swift`: the view (§4.2).
-- [ ] `Canvas/SchematicCanvasView.swift`: the `.characterLCD` case.
+- [x] `Canvas/CharacterLCDSymbolView.swift`: the view (§4.2).
+- [x] `Canvas/SchematicCanvasView.swift`: the `.characterLCD` case.
+- [x] Harness mode `face`: places the module, wires VDD and LED+ to 5V and
+      VSS and LED- to GND, captures the symbol view (with the simulation's
+      frame and light, as the canvas passes them) at rest and running.
 
 Acceptance: a placed LCD shows a blank face at rest and a lit, empty face
 while running with power and the backlight wired.
   Check: build; place `NHD-0216K1Z-NSW-BBW-L`, wire VDD and LED+ to `5V` and VSS and LED- to `GND`, run, then screenshot the blue face (est. 5 min).
+  Ran: app build → `** BUILD SUCCEEDED **`; `run face` → layout 330 × 270,
+  face 249 × 56.5 (the §4.2 numbers); running: backlight `[1.0]`, frame
+  16x2 with 1280 dots, 0 on, 0 X (display off at power-up); after Stop the
+  frame is nil. `/tmp/p11-demo/face-rest.png` (dark navy, unlit cells) and
+  `face-running.png` (lit blue, empty cells) were looked at.
 Commit: —
 
 ### Phase 3 — PCB Style and the file
@@ -456,6 +464,13 @@ Commit: —
   `circuit_error`). (§3)
 
 ## Corrections
+
+- **`lcdParts` is found in `NetlistBuilder`, not `Simulation`.** §4.3 has
+  `Simulation` filter `netlist.chipIDs` by kind when it starts, but
+  `start(netlist:loads:)` receives only the netlist (no chips to read the
+  kind from). `SchematicNetlist` gains `lcdParts`, filled from the chips by
+  `part.kind == PART_CHARLCD` when the netlist is built. The rule (by kind,
+  never probing the circuit) is unchanged.
 
 - **Prerequisites, plan-11-C row.** Same flaw as plan-11-C's row for B:
   the plain `grep -c 'Commit: —'` counts the row's own text. Measured with

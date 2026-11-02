@@ -156,7 +156,7 @@ struct SchematicCanvasView: View {
             ForEach(document.chips) { chip in
                 Group {
                     switch chip.symbol {
-                    case .block, .oscillator, .characterLCD:
+                    case .block, .oscillator:
                         ChipBlockView(
                             chip: chip,
                             isSelected: chip.id == document.selectedChipID,
@@ -187,6 +187,14 @@ struct SchematicCanvasView: View {
                             isSelected: chip.id == document.selectedChipID,
                             isHovered: chip.id == hoveredChipID,
                             levels: simulation.lights[chip.id] ?? []
+                        )
+                    case .characterLCD:
+                        CharacterLCDSymbolView(
+                            chip: chip,
+                            isSelected: chip.id == document.selectedChipID,
+                            isHovered: chip.id == hoveredChipID,
+                            frame: simulation.lcdFrames[chip.id],
+                            backlight: simulation.lights[chip.id]?.first ?? 0
                         )
                     }
                 }
