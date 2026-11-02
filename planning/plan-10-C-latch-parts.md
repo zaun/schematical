@@ -27,7 +27,7 @@ plan-10-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-10-B complete | `ls planning/completed/plan-10-B-latch-kind.md` → exists | NOT MET (2026-11-01: written) |
+| plan-10-B complete | `ls planning/completed/plan-10-B-latch-kind.md` → exists | MET (2026-11-01: exists, archived at 0cd9047) |
 
 ## 1. Goal
 
@@ -127,35 +127,54 @@ cases 2–4 again), `SN74LVC1G373DBVR` (transparent and hold),
 
 ### Phase 1 — Footprints
 
-- [ ] Add the 15 footprints (§4.2). Check: `footprint_check` fails only with
+- [x] Add the 15 footprints (§4.2). Check: `footprint_check` fails only with
   "footprint not used by any part" for these 15 ids (expected until Phase 2)
-  — so this phase is not committed alone; it lands with Phase 2.
+  — so this phase is not committed alone; it lands with Phase 2. (Added by
+  `/tmp/p10/add_footprints.py` straight from the `footprints.md` JSON blocks;
+  the unused-footprint failure was not run on its own because latch.json was
+  generated in the same step; the joint check is Phase 2's `ctest` 13 of 13.)
 
 Commit: (with Phase 2)
 
 ### Phase 2 — `latch.json`
 
-- [ ] Write the 28 devices (§4.1, B §5 tables) and their 750 parts.
-- [ ] Load check: `trace_check` reports no load error, and
-  `/tmp/logic-p10/listing_check --print | grep -c '|latch|'` → 750.
-- [ ] Name and device check: a /tmp script reads `latch.json` and
+- [x] Write the 28 devices (§4.1, B §5 tables) and their 750 parts.
+  (`/tmp/p10/gen_c.py`; the §1 python line → `28 750`.)
+- [x] Load check: `trace_check` reports no load error, and
+  `/tmp/logic-p10/listing_check --print | grep -c '|latch|'` → 750. (Ran: no
+  load error, 750.)
+- [x] Name and device check: a /tmp script reads `latch.json` and
   `parts.tsv` and prints `750 parts, 28 devices, names and devices match`
   (the set of (part name, device id) pairs in the file equals the TSV's latch
-  rows).
-- [ ] Regenerate `parts.txt`, `traces.txt`, `footprints.txt`. Check: added
+  rows). (Ran `/tmp/p10/check_names.py`, which also compares family and
+  footprint per part: `750 parts, 28 devices, names and devices match`.)
+- [x] Regenerate `parts.txt`, `traces.txt`, `footprints.txt`. Check: added
   lines only (`git diff backend/tests/golden | grep -c '^-[^-]'` → 0);
-  750 / 750 / 15 added.
-- [ ] Spot checks against the spec sections, one line each in this plan:
+  750 / 750 / 15 added. (Ran: 0 removed, 1515 added; 4795 / 4795 / 155
+  lines; `grep -c '|latch|' parts.txt` → 750.)
+- [x] Spot checks against the spec sections, one line each in this plan:
   `SN74HC573AN` (pins 2–9 `1D`–`8D`, 12–19 `8Q`–`1Q`, `vcc=2000-6000`),
   `SNJ54LVC373AJ` (`military`, `vcc=2000-3600,in=5500`),
   `SN74ALVCH16373DGGR` (48 pins, `ALVC`, `TSSOP-48`), `SN74LVCH32373ANMJR`
   (96 balls, `NFBGA-96`), `CD4508BM` (24 pins, `SOIC-24W`, `vcc=3000-18000`),
   `TPIC6A259DW` (24 pins, `SOIC-24W`) and `TPIC6A259NE` (20 pins, `PDIP-20`).
-- [ ] `footprint_check --print` lines of the 15 new footprints hand-checked
-  against `footprints.md` (pad count, pitch, span).
+  (Ran, from `parts.txt`:
+  `SN74HC573AN` 20 pins, 2–9 `1D`…`8D`, 12–19 `8Q`…`1Q`, `PDIP-20`, `vcc=2000-6000,in=6000`;
+  `SNJ54LVC373AJ` `LVC|military`, `CDIP-20`, `vcc=2000-3600,in=5500`;
+  `SN74ALVCH16373DGGR` 48 pins, `ALVC`, `TSSOP-48`, `units=16`;
+  `SN74LVCH32373ANMJR` 96 balls (A1 `1Q2` …), `NFBGA-96`, `units=32`;
+  `CD4508BM` 24 pins, `SOIC-24W`, `vcc=3000-18000,in=18000`;
+  `TPIC6A259DW` 24 pins (1 `DRAIN2`), `SOIC-24W`; `TPIC6A259NE` 20 pins, `PDIP-20`.)
+- [x] `footprint_check --print` lines of the 15 new footprints hand-checked
+  against `footprints.md` (pad count, pitch, span). (`/tmp/p10/check_fp.py`:
+  13 dual footprints match pins / pitch / span; SSOP-56 pitch reads 0.634
+  from coordinates printed to 3 decimals (±8.5725), i.e. 0.635; NFBGA-96 96
+  balls; VQFN-20-RGY 20 pads, 8 per long side and 2 per short side at
+  0.5 mm, centre pad 2.05 x 3.05 unnumbered.)
 
 Acceptance: `ctest` 13 of 13; goldens 4795 / 4795 / 155, added only (about
-5 s).
+5 s). (Ran: `100% tests passed, 0 tests failed out of 13`; 4795 / 4795 / 155;
+0 removed lines.)
 Commit: —
 
 ### Phase 3 — Real-part cases
@@ -181,7 +200,22 @@ script; behavior is covered by `latch_test`.
 
 ## Corrections
 
-(none yet)
+- 2026-11-01, Phase 2: §4.1 left the reference condition for the LV family
+  open. Per plan-10-A §3.4 (LV at 3.3 V), 74_373 and 74_573 LV entries use
+  the 3.3 V typical (7.3 and 7.7 ns), not the 5 V one the spec sections list
+  first.
+- 2026-11-01, Phase 2: where one family has SN and CD datasheets, the entry's
+  timing is the SN typical (the §3.4 order: typical before maximum) and its
+  `vcc` the SN range; CD74AC/CD54AC parts of 74_373 and 74_573 carry their
+  own `"vcc": [1.5, 5.5]`. 74_573 LVC `-Q1` parts carry `[2, 3.6]` like the
+  SN54 parts (latch-a.md § 74_573 VCC). A part-level `vcc` is only written
+  where the SN54/CD/-Q1 range differs from the entry (LS, S, AC, LVC).
+- 2026-11-01, Phase 2: TPIC `inputMax` omitted (absolute maximum only, the
+  plan-10-A Phase 3 precedent). The 74_533/563/580 description says
+  "inverting" (their CD title; the SN title is the 373's, which would hide
+  the inversion in the drawer).
+- 2026-11-01, Phase 2: `docs/parts-format.md`'s file table gains
+  `latch.json`.
 
 ## Summary
 

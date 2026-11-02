@@ -1,7 +1,7 @@
 # Part file format
 
-Every orderable part (gate, flip-flop, SRAM, EEPROM, switch, LED, 7-segment
-display, oscillator, supply) is described in a JSON part file in
+Every orderable part (gate, flip-flop, latch, SRAM, EEPROM, switch, LED,
+7-segment display, oscillator, supply) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -16,6 +16,7 @@ display, oscillator, supply) is described in a JSON part file in
 | `7seg.json` | `7seg` |
 | `oscillator.json` | `oscillator` |
 | `supply.json` | `supply` |
+| `latch.json` | `latch` |
 
 Beside them, `footprints.json` holds the land patterns parts name with
 `"footprint"` (see [Footprints](#footprints)). It is loaded first, with
