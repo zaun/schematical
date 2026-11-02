@@ -270,3 +270,10 @@ that uses it, before F/G ship any part. The landing tier is plan-12-K's.
     Xoff and the special-character interrupt (NS16C2552 Table 20).
 - **TL16C750E MODE pin** (IOW-only: CS is the strobe, IOW is R/W). It uses
   E's `intel-motorola` bus style when that merges; D4 covers the rest.
+- **Bug: shared TXRDY/RXRDY followed only bus cycles** (reported by the E
+  delegate). `update_shared_dma` ran after a register read or write, so a
+  byte received (or a frame sent) with no access did not move the TL16C554's
+  shared pins. `update_channel_outputs` now refreshes them as well. D8/D9
+  gained "shared RXRDY: low once channel 0 holds a byte" (loopback, no bus
+  access): RED before (`RXRDY is 1, want 0`), then `PASS`, 104 `ok`; `ctest`
+  19/19 with the goldens unchanged.

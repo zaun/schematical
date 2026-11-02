@@ -517,6 +517,18 @@ static void case_d8_d9(const char *part, const char *name) {
     set(b, "INTN", LOGIC_1);
     run(b, NS(500));
     expect_pin(b, "INTA", LOGIC_0, "INTN high: INTA driven");
+    /* A byte received with no bus access moves the shared RXRDY (it follows
+       the channels, not only the cycles): channel 0 in loopback, divisor 1. */
+    select_unit(b, 0);
+    bus_write(b, 3, 0x80);
+    bus_write(b, 0, 0x01);
+    bus_write(b, 1, 0x00);
+    bus_write(b, 3, 0x03);
+    bus_write(b, 4, 0x10);
+    expect_pin(b, "RXRDY", LOGIC_1, "shared RXRDY: high, nothing received");
+    bus_write(b, 0, 0x41);
+    run(b, NS(150000));   /* one 8N1 frame at divisor 1: 160 clocks of 542.5 ns = 87 us */
+    expect_pin(b, "RXRDY", LOGIC_0, "shared RXRDY: low once channel 0 holds a byte");
     case_end(name);
     bench_close(b);
 }

@@ -421,9 +421,13 @@ static LogicValue int_pin_level(const NsState *s, const NsChannel *c, LogicValue
 }
 
 static void update_channel_pins(NsState *s, NsChannel *c, Cause cause);
+static void update_shared_dma(NsState *s, Cause cause);
 
 static void update_channel_outputs(NsState *s, NsChannel *c, Cause cause) {
     update_channel_pins(s, c, cause);
+    /* The shared DMA pins follow every channel, not only bus cycles (a byte
+       received or sent with no access moves them too). */
+    update_shared_dma(s, cause);
     if (s->bridge != NULL) {
         ns_bridge_outputs(s, cause);   /* plan-12-I: IRQ, GPIO and modem pins */
     }
