@@ -49,6 +49,9 @@ nonisolated enum PartFacts {
             }
         case let .oscillator(family, minHz, maxHz, defaultHz, enablePin):
             add("Family", family)
+            if let body = part.footprint?.body {
+                add("Size", bodySize(body))
+            }
             add("Range", "\(hertz(minHz)) – \(hertz(maxHz))")
             add("Default", hertz(defaultHz))
             add("Enable pin", enablePin ?? "None")
@@ -101,6 +104,12 @@ nonisolated enum PartFacts {
             total = "\(trimmed(bytes / 1_048_576, decimals: 2)) MB"
         }
         return "\(words) × \(bits) (\(total))"
+    }
+
+    /// A body as length × width, longer side first: "3.2 × 2.5 mm".
+    static func bodySize(_ body: CGSize) -> String {
+        let long = max(body.width, body.height), short = min(body.width, body.height)
+        return "\(trimmed(long, decimals: 2)) × \(trimmed(short, decimals: 2)) mm"
     }
 
     /// 32768 → "32.768 kHz", 110 000 000 → "110 MHz".
