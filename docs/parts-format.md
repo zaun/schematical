@@ -712,7 +712,8 @@ Part keys: `"grade"`, a key of `grades`, and optional `"vcc"` and `"inputMax"`. 
 Microprocessors that run programs inside the simulation (plan-09;
 `backend/src/models/cpu.c`, one adapter per core). The device's `"core"`
 picks the bus adapter: `"6502"` (NMOS 6502) and `"65c02"` (WDC W65C02S),
-`backend/src/models/cpu6502.c`. Each adapter wraps a vendored, unmodified
+`backend/src/models/cpu6502.c`, and `"z80"` (Zilog Z84C00),
+`backend/src/models/cpuz80.c`. Each adapter wraps a vendored, unmodified
 floooh/chips core (`backend/src/third_party/chips/`) and drives the pins at
 the datasheet's times. `circuit_cpu_state` reads the state back (status,
 cycle count, registers, the last instruction).
@@ -731,7 +732,7 @@ cycle count, registers, the last instruction).
 
 | Key | Value |
 |---|---|
-| `"core"` | `"6502"` or `"65c02"` |
+| `"core"` | `"6502"`, `"65c02"` or `"z80"` (Z80 keys below) |
 | `"address"` | exactly 16 pin names; `address[i]` is A*i* |
 | `"data"` | exactly 8 pin names; `data[i]` is D*i* |
 | `"clock"` | the clock input (NMOS `PHI0IN`, W65C02S `PHI2`) |
@@ -816,6 +817,95 @@ cycle-accurate IRQ pipeline while RDY holds the CPU; timing at supply
 voltages other than the grade's (W65C02S: the 5 V column only); the exact
 bus pattern of the 12 JAM opcodes, and the SHA/SHX/SHY page-cross address
 (the vendored core's known deviations, plan-09-A §4.4).
+
+**The Z80** (`"core": "z80"`, Zilog Z84C00; `backend/src/models/cpuz80.c`).
+Keys, each naming one pin, all required, and each rejected on the 6502
+family (as the 6502 family's are on the Z80):
+
+| Key | Value |
+|---|---|
+| `"clock"` | CLK |
+| `"m1"`, `"mreq"`, `"iorq"`, `"rd"`, `"wr"`, `"rfsh"`, `"halt"`, `"busack"` | outputs, active low: M1#, MREQ#, IORQ#, RD#, WR#, RFSH#, HALT#, BUSACK# |
+| `"wait"`, `"int"`, `"nmi"`, `"reset"`, `"busreq"` | inputs, active low: WAIT#, INT#, NMI#, RESET#, BUSREQ# |
+| `"grades"` | speed grade → timing in ns (the PS0178 AC rows below; `tcc`, `twch` and `twcl` must be more than 0), and an optional `note`, `vcc` and `inputMax` |
+
+`"address"` has 16 names and `"data"` 8, as for the 6502 family.
+`PartCpu.max_hz` = floor(10^12 / `tcc` in ps).
+
+| Name | PS0178 row | Meaning |
+|---|---|---|
+| `tcc`, `twch`, `twcl` | 1–3 | clock period, high and low width (minimum) |
+| `tdcra` | 6 | CLK rise → address valid |
+| `tdcfmreqf`, `tdcrmreqr`, `tdcfmreqr` | 8, 9, 12 | CLK fall → MREQ# low; CLK rise → MREQ# high; CLK fall → MREQ# high |
+| `tdcfrdf`, `tdcrrdr`, `tdcfrdr`, `tdcrrdf` | 13, 14, 23, 24 | CLK fall → RD# low; rise → RD# high; fall → RD# high; rise → RD# low (I/O) |
+| `tsdcr`, `tsdcf` | 15, 25 | data setup to CLK rise (fetch, int-ack) / fall (memory and I/O reads) |
+| `tswaitcf` | 17 | WAIT# setup to CLK fall |
+| `tdcrm1f`, `tdcrm1r` | 19, 20 | CLK rise → M1# low / high |
+| `tdcrrfshf`, `tdcrrfshr` | 21, 22 | CLK rise → RFSH# low / high |
+| `tdcriorqf`, `tdcfiorqr`, `tdcfiorqf` | 27, 28, 51 | CLK rise → IORQ# low; fall → IORQ# high; fall → IORQ# low (int-ack) |
+| `tdcfwrf`, `tdcfwrr`, `tdcrwrf` | 30, 32, 34 | CLK fall → WR# low; fall → WR# high; rise → WR# low (I/O) |
+| `tdcfd` | 53 | CLK fall → write data valid |
+| `tdcfhalt` | 36 | CLK fall → HALT# |
+| `twnmi` | 37 | NMI# low width (minimum) |
+| `tsbusreq`, `tsreset`, `tsint` | 38, 46, 48 | BUSREQ#, RESET#, INT# setup to CLK rise |
+| `tdcrbusackf`, `tdcfbusackr` | 40, 41 | CLK rise → BUSACK# low; fall → BUSACK# high |
+| `tdcrdz`, `tdcrctz`, `tdcraz` | 42–44 | CLK rise → data, control strobes, address float |
+
+Behaviour (the Z80). Z inputs read inactive (high); X is unknown.
+
+- **Power-up: LOST**, every output X. **RESET#** is sampled at each CLK
+  rise: low → status RESET, address and data Z, every control output high;
+  back high after at least 3 low rises → that rise is T1 of the fetch at
+  0000 (after fewer: LOST); X → LOST.
+- **The clock.** A high phase shorter than `twch`, a low phase shorter than
+  `twcl`, rises closer than `tcc`, or CLK X: LOST.
+- **Machine cycles.** At each CLK rise that starts a machine cycle the
+  adapter looks ahead in the core for its next bus request and drives that
+  cycle's waveform at the PS0178 edges:
+  - opcode fetch (4 T): A at T1 rise + `tdcra`, M1# low; MREQ# and RD#
+    low after T1 fall; data sampled at T3 rise; at T3 rise MREQ#, RD#, M1#
+    high, A = the refresh address (I, R), RFSH# low; MREQ# low at T3 fall
+    and high at T4 fall; RFSH# high at the next T1 rise;
+  - memory read (3 T): MREQ# and RD# from T1 fall to T3 fall, data sampled
+    at T3 fall;
+  - memory write (3 T): MREQ# from T1 fall, data valid at T1 fall +
+    `tdcfd`, WR# from T2 fall to T3 fall, data Z at the next T1 rise;
+  - I/O read and write (4 T, one automatic wait state TW*): A = the full
+    16-bit port address; IORQ# and RD#/WR# low from T2 rise to T3 fall;
+    read data sampled at T3 fall;
+  - interrupt acknowledge (6 T: T1, T2, TW*, TW*, T3, T4): A = PC, M1# low
+    from T1 rise, IORQ# low from the first TW* fall; the vector is sampled
+    at T3 rise; then the refresh as in a fetch.
+  WAIT# low at the fall the chip samples (T2 of a fetch or memory cycle,
+  TW* of an I/O cycle or int-ack) adds a wait state; the strobes stay low.
+  Other T-states (internal ones) drive nothing.
+- **Unknown inputs** follow the 6502 family's rules: an input that changed
+  within its setup time reads X; a tick with X inputs runs twice and the
+  CPU is LOST only if the results differ. An NMI# low pulse shorter than
+  `twnmi` reads X. INT# X is harmless while interrupts are disabled.
+- **NMI#** is edge-triggered (a fall is kept until the next rise); NMI
+  runs a 5-T fetch at PC (its data unused), two pushes and a fetch at 0066.
+  **INT#** with interrupts enabled runs an int-ack in IM 0 (the vector byte
+  executed: `FF` is RST 38h), IM 1 (to 0038) or IM 2 (the word at I:vector).
+- **HALT**: HALT# low at the T4 fall (+ `tdcfhalt`) of the HALT opcode's
+  fetch; the halted M1 cycles keep refreshing; an interrupt ends it (HALT#
+  high at the next fall).
+- **BUSREQ#** low at the last T-state of a machine cycle releases the bus
+  at the next rise: BUSACK# low, address, data, MREQ#, IORQ#, RD# and WR#
+  Z, no machine cycles. BUSREQ# high again: BUSACK# high at the next fall,
+  and the following rise starts the pending machine cycle. BUSREQ# X: LOST.
+- **State**: registers `AF BC DE HL AF' BC' DE' HL' IX IY SP PC I R WZ IM
+  IFF1 IFF2`; status HALTED while halted, BUS_RELEASED while the bus is
+  released.
+
+Known differences of the vendored Z80 core (pinned by `cpu_core_test`):
+during HALT the bus shows the HALT opcode's own address in the halted M1
+cycles (the real chip shows the next address; execution resumes correctly);
+the undocumented flag bits 3 and 5 after SCF/CCF (the Q register); the
+flags of an interrupted repeating block instruction. Not modeled: the
+read-data and input hold times; the 4 MHz Z84C0004 grade; the peripheral
+daisy chain (IEI/IEO are not CPU pins).
+
 
 ### `7seg`
 

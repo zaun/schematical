@@ -139,7 +139,8 @@ backend/
                            cpu.c + cpu.h (the cpu kind: loader, the model
                            that forwards to a core adapter, input sampling,
                            the instruction tracker), cpu6502.c (the
-                           6502/65C02 bus adapter);
+                           6502/65C02 bus adapter), cpuz80.c (the Z80 bus
+                           adapter: a commit scheduler around the core);
                            chips_m6502.c chips_w65c02.c chips_z80.c
                            chips_dasm.c (each instantiates one vendored
                            floooh/chips core, or the three disassemblers)
@@ -242,7 +243,11 @@ drawer work from the kind table and the `Part` structs.
   the datasheet times, setup violations and used unknowns (LOST), IRQ, NMI,
   RDY, SO, the register and instruction read-back, clock-width checks,
   and the W65C02S VPB, MLB, BE, WAI and STP and NMOS JAM rules; plus
-  `circuit_cpu_state`.
+  `circuit_cpu_state`. A second bench drives a Z84C00 fixture the same way
+  and logs every machine cycle (type, address, data, T1, strobe times):
+  the fetch, memory, I/O and int-ack waveforms at the PS0178 edges, WAIT,
+  IM 0/1/2, NMI, HALT, BUSREQ, data setup and clock checks, and a program
+  from reset to HALT.
 
 Not a ctest: `sim_bench` (`tests/sim_bench.c`) measures engine speed — a
 D flip-flop ripple counter on an oscillator plus N idle SN74HC00N chips,

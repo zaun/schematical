@@ -476,7 +476,7 @@ write, RESET, clock checks and lost.
 Acceptance: the Z80 leaves reset, fetches and reads/writes memory with
 datasheet edges; its loader rejects bad devices.
   Check: `ctest --test-dir /tmp/logic-p09 -R 'cpu_test|library_check' -V | grep -c ': FAIL'` → 0 (est. 2 min). Measured: 0.
-Commit: —
+Commit: f14384e
 
 ### Phase 2 — I/O, WAIT, interrupts, HALT, BUSREQ
 
