@@ -10,3 +10,6 @@ tmp/
 
 # Claude Code local state
 .claude/
+
+# DigiKey API credentials (scripts/digikey.js)
+digikey.md
