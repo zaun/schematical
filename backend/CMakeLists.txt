@@ -88,6 +88,7 @@ logic_test(engine_test)
 logic_test(eeprom_test)
 logic_test(latch_test)
 logic_test(counter_test)
+logic_test(shift_test)
 logic_test(memory_image_test)
 logic_test(voltage_test)
 

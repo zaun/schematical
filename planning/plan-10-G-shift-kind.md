@@ -191,13 +191,17 @@ Fixtures as B §6.2 (kind `shift`). Cases:
 
 Acceptance: `ctest` 14 of 14; golden diff empty (seconds). (Ran: `100% tests
 passed, 0 tests failed out of 14`; golden status empty.)
-Commit: —
+Commit: ba9da2c
 
 ### Phase 2 — `shift_test`
 
-- [ ] `backend/tests/shift_test.c`, the 23 cases; `logic_test(shift_test)`.
+- [x] `backend/tests/shift_test.c`, the 23 cases; `logic_test(shift_test)`.
+  (29 fixture devices from `/tmp/p10/shift_devs.py`, the definitions I
+  reuses.)
 
-Acceptance: `shift_test` → 23 `PASS`; `ctest` 15 of 15 (seconds).
+Acceptance: `shift_test` → 23 `PASS`; `ctest` 15 of 15 (seconds). (Ran: 23
+`PASS`, no `FAIL`; `100% tests passed, 0 tests failed out of 15`; golden
+status empty.)
 Commit: —
 
 ## Validation Plan
@@ -214,7 +218,20 @@ Phase 2's acceptance. Landing tier: plan-10-J.
 
 ## Corrections
 
-(none yet)
+- 2026-11-01, Phase 2: pin names follow one naming per device (plan-10-A
+  §3.4) without spaces: `CLKINH` (CLK INH), `SRSER`/`SLSER` (74_194),
+  `SERIN`/`SEROUT` (TPIC, printed "SER IN"/"SER OUT"), `SERIALIN`,
+  `SHIFTRIGHT`/`SHIFTLEFT`, `P/S`, `OE` (4094B OUTPUT ENABLE). 74_299 uses the
+  ALS/F names `OE1`/`OE2` (the LS sheet's G1/G2 sit beside the `G/QG` I/O
+  pin) with the LS data names; 74_323 (CD74AC323 only) keeps its CD names
+  (I/O0–I/O7, Q0, Q7, DS0, DS7, MR, CP); 74_597 keeps the LS names SRCK/RCK
+  (§4.2 wrote SRCLK/RCLK, the 595's names).
+- 2026-11-01, Phase 2: the fixture generator's single-quote convention could
+  not carry pin names with an apostrophe (`QA'`, `Q'S`); such quotes are now
+  written as the JSON escape `\u0027` in the C string.
+- 2026-11-01, Phase 2: case 21's first expectation miscounted the shifts
+  (after 7 edges the bit sits in stage 7); the test was corrected, not the
+  model.
 
 ## Summary
 
