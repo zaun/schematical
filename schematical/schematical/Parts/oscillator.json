@@ -110,7 +110,7 @@
         {"name":"LMK6CE027000CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":27000000,"enablePin":1},
         {"name":"LMK6CE028125CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":28125000,"enablePin":1},
         {"name":"LMK6CE030000CDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":30000000,"enablePin":1},
-        {"name":"LMK6CE033333DDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":33333000,"enablePin":1,"vcc":[1.7,1.9]},
+        {"name":"LMK6CE033333DDLFR","package":"VSON","pinout":"2520-vson","footprint":"OSC-DLF-4","defaultHz":33333333,"enablePin":1,"vcc":[1.7,1.9]},
         {"name":"LMK6CE03333ACDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":33333333,"enablePin":1},
         {"name":"LMK6CE03333CDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":33330000,"enablePin":1},
         {"name":"LMK6CE033550CDLER","package":"VSON","pinout":"3225-vson","footprint":"OSC-DLE-4","defaultHz":33550000,"enablePin":1},
@@ -1259,9 +1259,9 @@
         {"name":"ECS-2520MV-260-CM-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":26000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-2520MV-260-CN-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":26000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-2520MV-320-CN-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":32000000,"enablePin":1,"flags":["ceramic"]},
-        {"name":"ECS-2520MV-333.3-BM-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":33333300,"enablePin":1,"flags":["ceramic"]},
-        {"name":"ECS-2520MV-333.3-BN-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":33333300,"enablePin":1,"flags":["ceramic"]},
-        {"name":"ECS-2520MV-333.3-CM-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":33333300,"enablePin":1,"flags":["ceramic"]},
+        {"name":"ECS-2520MV-333.3-BM-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":33333333,"enablePin":1,"flags":["ceramic"]},
+        {"name":"ECS-2520MV-333.3-BN-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":33333333,"enablePin":1,"flags":["ceramic"]},
+        {"name":"ECS-2520MV-333.3-CM-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":33333333,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-2520MV-480-BL-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":48000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-2520MV-480-BN-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":48000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-2520MV-480-CM-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":48000000,"enablePin":1,"flags":["ceramic"]},
@@ -1456,7 +1456,7 @@
         {"name":"ECS-2520SMV-250-GP-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":25000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-2520SMV-270-FP-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":27000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-2520SMV-300-FN-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":30000000,"enablePin":1,"flags":["ceramic"]},
-        {"name":"ECS-2520SMV-333.3-FN-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":33333000,"enablePin":1,"flags":["ceramic"]},
+        {"name":"ECS-2520SMV-333.3-FN-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":33333333,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-2520SMV-400-FN-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":40000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-2520SMV-500-FP-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":50000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-2520SMV-500-GP-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":50000000,"enablePin":1,"flags":["ceramic"]}
@@ -1510,7 +1510,7 @@
         {"name":"ECS-2520SMVQ-200-DS-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":20000000,"enablePin":1,"flags":["ceramic","automotive"]},
         {"name":"ECS-2520SMVQ-245.7-DS-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":24576000,"enablePin":1,"flags":["ceramic","automotive"]},
         {"name":"ECS-2520SMVQ-250-DS-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":25000000,"enablePin":1,"flags":["ceramic","automotive"]},
-        {"name":"ECS-2520SMVQ-333.3-DS-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":33333000,"enablePin":1,"flags":["ceramic","automotive"]},
+        {"name":"ECS-2520SMVQ-333.3-DS-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":33333333,"enablePin":1,"flags":["ceramic","automotive"]},
         {"name":"ECS-2520SMVQ-400-DS-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":40000000,"enablePin":1,"flags":["ceramic","automotive"]},
         {"name":"ECS-2520SMVQ-500-DS-TR","package":"SMD","pinout":"smd2520","footprint":"OSC-ECS-2520-4-MV","defaultHz":50000000,"enablePin":1,"flags":["ceramic","automotive"]}
       ]
@@ -1625,7 +1625,7 @@
         {"name":"ECS-3225MV-320-BN-TR3","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MV","defaultHz":32000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3225MV-320-CN-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MV","defaultHz":32000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3225MV-320-CN-TR3","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MV","defaultHz":32000000,"enablePin":1,"flags":["ceramic"]},
-        {"name":"ECS-3225MV-333.3-BN-TR3","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MV","defaultHz":33333000,"enablePin":1,"flags":["ceramic"]},
+        {"name":"ECS-3225MV-333.3-BN-TR3","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MV","defaultHz":33333333,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3225MV-400-BN-TR3","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MV","defaultHz":40000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3225MV-480-BN-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MV","defaultHz":48000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3225MV-480-BN-TR3","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MV","defaultHz":48000000,"enablePin":1,"flags":["ceramic"]},
@@ -1727,7 +1727,7 @@
         {"name":"ECS-3225MVLC-270-CN-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MVLC","defaultHz":27000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3225MVLC-300-CN-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MVLC","defaultHz":30000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3225MVLC-320-CN-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MVLC","defaultHz":32000000,"enablePin":1,"flags":["ceramic"]},
-        {"name":"ECS-3225MVLC-333.3-CN-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MVLC","defaultHz":33333300,"enablePin":1,"flags":["ceramic"]},
+        {"name":"ECS-3225MVLC-333.3-CN-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MVLC","defaultHz":33333333,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3225MVLC-400-CN-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MVLC","defaultHz":40000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3225MVLC-480-BN-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MVLC","defaultHz":48000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3225MVLC-500-BN-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MVLC","defaultHz":50000000,"enablePin":1,"flags":["ceramic"]},
@@ -1879,7 +1879,7 @@
         {"name":"ECS-3225SMV-260-FN-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MV","defaultHz":26000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3225SMV-270-FP-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MV","defaultHz":27000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3225SMV-320-FN-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MV","defaultHz":32000000,"enablePin":1,"flags":["ceramic"]},
-        {"name":"ECS-3225SMV-333.3-FP-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MV","defaultHz":33333000,"enablePin":1,"flags":["ceramic"]},
+        {"name":"ECS-3225SMV-333.3-FP-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MV","defaultHz":33333333,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3225SMV-500-FP-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MV","defaultHz":50000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3225SMV-500-GP-TR","package":"SMD","pinout":"3225","footprint":"OSC-ECS-3225-4-MV","defaultHz":50000000,"enablePin":1,"flags":["ceramic"]}
       ]
@@ -1996,7 +1996,7 @@
         {"name":"ECS-5032MV-270-CN-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":27000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-5032MV-320-BN-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":32000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-5032MV-330-BN-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":33000000,"enablePin":1,"flags":["ceramic"]},
-        {"name":"ECS-5032MV-333.3-BM-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":33333330,"enablePin":1,"flags":["ceramic"]},
+        {"name":"ECS-5032MV-333.3-BM-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":33333333,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-5032MV-400-CN-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":40000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-5032MV-480-BN-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":48000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-5032MV-500-BN-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":50000000,"enablePin":1,"flags":["ceramic"]},
@@ -2257,7 +2257,7 @@
         {"name":"ECS-2333-270-BN-TR","package":"SMD","pinout":"3225-smd","footprint":"OSC-ECS-3225-4-MVLC","defaultHz":27000000,"enablePin":1},
         {"name":"ECS-2333-300-BN-TR","package":"SMD","pinout":"3225-smd","footprint":"OSC-ECS-3225-4-MVLC","defaultHz":30000000,"enablePin":1},
         {"name":"ECS-2333-330-BN-TR","package":"SMD","pinout":"3225-smd","footprint":"OSC-ECS-3225-4-MVLC","defaultHz":33000000,"enablePin":1},
-        {"name":"ECS-2333-333.3-BN-TR","package":"SMD","pinout":"3225-smd","footprint":"OSC-ECS-3225-4-MVLC","defaultHz":33333000,"enablePin":1},
+        {"name":"ECS-2333-333.3-BN-TR","package":"SMD","pinout":"3225-smd","footprint":"OSC-ECS-3225-4-MVLC","defaultHz":33333333,"enablePin":1},
         {"name":"ECS-2333-480-BN-TR","package":"SMD","pinout":"3225-smd","footprint":"OSC-ECS-3225-4-MVLC","defaultHz":48000000,"enablePin":1},
         {"name":"ECS-2333-500-BN-TR","package":"SMD","pinout":"3225-smd","footprint":"OSC-ECS-3225-4-MVLC","defaultHz":50000000,"enablePin":1}
       ]
@@ -2384,8 +2384,8 @@
         {"name":"ECS-2016MV-250-DN-TR","package":"SMD","pinout":"2016-smd","footprint":"OSC-ECS-2016-4-MV","defaultHz":25000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-2016MV-260-BN-TR","package":"SMD","pinout":"2016-smd","footprint":"OSC-ECS-2016-4-MV","defaultHz":26000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-2016MV-260-CN-TR","package":"SMD","pinout":"2016-smd","footprint":"OSC-ECS-2016-4-MV","defaultHz":26000000,"enablePin":1,"flags":["ceramic"]},
-        {"name":"ECS-2016MV-333.3-BN-TR","package":"SMD","pinout":"2016-smd","footprint":"OSC-ECS-2016-4-MV","defaultHz":33333300,"enablePin":1,"flags":["ceramic"]},
-        {"name":"ECS-2016MV-333.3-BN-TR3","package":"SMD","pinout":"2016-smd","footprint":"OSC-ECS-2016-4-MV","defaultHz":33333300,"enablePin":1,"flags":["ceramic"]},
+        {"name":"ECS-2016MV-333.3-BN-TR","package":"SMD","pinout":"2016-smd","footprint":"OSC-ECS-2016-4-MV","defaultHz":33333333,"enablePin":1,"flags":["ceramic"]},
+        {"name":"ECS-2016MV-333.3-BN-TR3","package":"SMD","pinout":"2016-smd","footprint":"OSC-ECS-2016-4-MV","defaultHz":33333333,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-2016MV-400-BP-TR","package":"SMD","pinout":"2016-smd","footprint":"OSC-ECS-2016-4-MV","defaultHz":40000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-2016MV-480-BN-TR","package":"SMD","pinout":"2016-smd","footprint":"OSC-ECS-2016-4-MV","defaultHz":48000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-2016MV-480-CN-TR","package":"SMD","pinout":"2016-smd","footprint":"OSC-ECS-2016-4-MV","defaultHz":48000000,"enablePin":1,"flags":["ceramic"]},
@@ -2761,7 +2761,7 @@
         {"name":"ECS-3963-270-AU-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":27000000,"enablePin":1},
         {"name":"ECS-3963-270-BN-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":27000000,"enablePin":1},
         {"name":"ECS-3963-320-BN-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":32000000,"enablePin":1},
-        {"name":"ECS-3963-333-BN-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":33333000,"enablePin":1},
+        {"name":"ECS-3963-333-BN-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":33333333,"enablePin":1},
         {"name":"ECS-3963-400-AU-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":40000000,"enablePin":1},
         {"name":"ECS-3963-400-BN-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":40000000,"enablePin":1},
         {"name":"ECS-3963-480-AU-TR","package":"SMD","pinout":"5032","footprint":"OSC-ECS-5032-4-MV","defaultHz":48000000,"enablePin":1},
@@ -3276,7 +3276,7 @@
         {"name":"ECS-3518-200-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":20000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3518-250-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":25000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3518-320-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":32000000,"enablePin":1,"flags":["ceramic"]},
-        {"name":"ECS-3518-333-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":33333000,"enablePin":1,"flags":["ceramic"]},
+        {"name":"ECS-3518-333-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":33333333,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3518-400-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":40000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3518-500-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":50000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3518-800-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":80000000,"enablePin":1,"flags":["ceramic"]}
@@ -3331,7 +3331,7 @@
         {"name":"ECS-3525-240-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":24000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3525-250-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":25000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3525-320-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":32000000,"enablePin":1,"flags":["ceramic"]},
-        {"name":"ECS-3525-333-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":33333000,"enablePin":1,"flags":["ceramic"]},
+        {"name":"ECS-3525-333-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":33333333,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3525-400-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":40000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3525-500-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":50000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECS-3525-800-B-TR","package":"SMD","pinout":"5032","footprint":"OSC-5032-4","defaultHz":80000000,"enablePin":1,"flags":["ceramic"]}
@@ -3823,7 +3823,7 @@
       "outputs": ["OUTPUT", "C-OUTPUT"],
       "vcc": [3.135, 3.465],
       "parts": [
-        {"name":"ECX-L27BN-33.333","package":"SMD","pinout":"7050","footprint":"OSC-ECS-7050-6-ECX","defaultHz":33333000,"enablePin":1,"vcc":[2.375,2.625],"flags":["ceramic"]},
+        {"name":"ECX-L27BN-33.333","package":"SMD","pinout":"7050","footprint":"OSC-ECS-7050-6-ECX","defaultHz":33333333,"enablePin":1,"vcc":[2.375,2.625],"flags":["ceramic"]},
         {"name":"ECX-L32BN-50.000","package":"SMD","pinout":"2520","footprint":"OSC-ECS-2520-6-ECX","defaultHz":50000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECX-L37CN-60.000","package":"SMD","pinout":"7050","footprint":"OSC-ECS-7050-6-ECX","defaultHz":60000000,"enablePin":1,"flags":["ceramic"]},
         {"name":"ECX-L37BN-75.000","package":"SMD","pinout":"7050","footprint":"OSC-ECS-7050-6-ECX","defaultHz":75000000,"enablePin":1,"flags":["ceramic"]}
@@ -3925,7 +3925,7 @@
       "outputs": ["OUTPUT", "C-OUTPUT"],
       "vcc": [3.135, 3.465],
       "parts": [
-        {"name":"ECX-P32CM-33.333","package":"SMD","pinout":"2520","footprint":"OSC-ECS-2520-6-ECX","defaultHz":33333000,"enablePin":1,"flags":["ceramic"]}
+        {"name":"ECX-P32CM-33.333","package":"SMD","pinout":"2520","footprint":"OSC-ECS-2520-6-ECX","defaultHz":33333333,"enablePin":1,"flags":["ceramic"]}
       ]
     },
     {
