@@ -3419,7 +3419,8 @@ static void e_motorola_dual(Bench *b) {
     set(b, "CSB", LOGIC_0);
     m_expect(b, "CSA", 7, "10100101", "Motorola, A3 = 0: channel A's SPR");
     expect_pin(b, "INTA", LOGIC_Z, "IRQ released (no interrupt)");
-    expect_pin(b, "INTB", LOGIC_0, "INTB driven low in Motorola mode");
+    expect_pin(b, "INTB", strncmp(b->part->name, "SFX-XR16V", 9) == 0 ? LOGIC_Z : LOGIC_0,
+               "INTB in Motorola mode: driven low (XR16L/M), NC (XR16V)");
     set(b, "CSB", LOGIC_1);
     m_write(b, "CSA", 1, 0x02);            /* channel B: THRE interrupt, MCR[3] = 0 */
     run(b, NS(300));
@@ -4044,6 +4045,16 @@ static void case_e25(void) {
     drive_named(b, "RXA", 0x12, bt);       /* Xon2 alone resumes */
     check(wait_level(b, "TXA", LOGIC_0, bt * 12), "Xon2 alone resumes");
     check((bus_read(b, 5) & 0x01) == 0, "flow characters are not stored");
+    run(b, bt * 12);
+    /* Xon-any (MCR[5]): any character resumes, and is stored. */
+    drive_named(b, "RXA", 0x13, bt);       /* Xoff1 */
+    bus_write(b, 4, 0x20);
+    bus_write(b, 0, 0x56);
+    check(!wait_level(b, "TXA", LOGIC_0, bt * 12), "halted by Xoff1");
+    drive_named(b, "RXA", 0x41, bt);
+    check(wait_level(b, "TXA", LOGIC_0, bt * 12), "Xon-any: 0x41 resumes the transmitter");
+    expect_reg(b, 0, "01000001", "and 0x41 is stored");
+    bus_write(b, 4, 0x00);
     /* FSTAT (FSRS low, any address): TX ready bits. */
     set(b, "FSRS", LOGIC_0);
     select_unit(b, 4);
