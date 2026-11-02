@@ -1,6 +1,7 @@
 #include <string.h>
 
 #include "kind.h"
+#include "model_pins.h"
 
 extern const PartKindOps GATE_KIND;
 extern const PartKindOps DFF_KIND;
@@ -39,4 +40,15 @@ const PartKindOps *kind_find(const char *name) {
         }
     }
     return NULL;
+}
+
+int part_pin_open_drain(const Part *part, size_t pin) {
+    const PartInternal *internal;
+
+    if (part == NULL || part->internal == NULL || pin >= part->pin_count ||
+        part->pins[pin].role != PIN_OUTPUT) {
+        return 0;
+    }
+    internal = part_internal(part);
+    return internal->ops->pin_open_drain != NULL && internal->ops->pin_open_drain(part, pin);
 }

@@ -56,6 +56,7 @@ add_library(logic_test_support STATIC
 target_include_directories(logic_test_support PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/support
     ${CMAKE_CURRENT_SOURCE_DIR}/src/library
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/models
     ${CMAKE_CURRENT_SOURCE_DIR}/src/third_party/cjson
 )
 target_link_libraries(logic_test_support PUBLIC logic)

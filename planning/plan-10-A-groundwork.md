@@ -385,14 +385,20 @@ Commit: —
 
 ### Phase 2 — Families, per-pin open drain, `dff` `output`
 
-- [ ] `kind_util.c` `FAMILIES` + docs § Values (§4.2); `library_check` case.
-- [ ] `model_pins.h`/`gate.c`/`dff.c`/`voltage.c`: `part_pin_open_drain`
+- [x] `kind_util.c` `FAMILIES` + docs § Values (§4.2); `library_check` case.
+  (`library_check` → `ok   gate part with family TPIC`.)
+- [x] `model_pins.h`/`gate.c`/`dff.c`/`voltage.c`: `part_pin_open_drain`
   (§4.3); `gate_open_drain` removed. Check: `grep -rn gate_open_drain backend` →
-  no output.
-- [ ] `dff.c`: `"output"` key, open-drain scheduling; docs § `dff` row;
+  no output. (Ran: no output. Each kind answers through a new optional
+  `PartKindOps.pin_open_drain`; the dispatcher is in `kinds.c`, see
+  Corrections.)
+- [x] `dff.c`: `"output"` key, open-drain scheduling; docs § `dff` row;
   `library_check` cases: `"output": "open-drain"` loads, `"output": "x"` is
-  rejected with `"output" must be "push-pull" or "open-drain"`.
-- [ ] `voltage_test`: one case — a 5 V-powered dff fixture with
+  rejected with `"output" must be "push-pull" or "open-drain"`. (Ran:
+  `ok   dff with "output": "open-drain"`; `ok   dff output x: test.json:
+  devices[0] (d): "output" must be "push-pull" or "open-drain"`.)
+- [x] `voltage_test`: (ran: `PASS: an open-drain dff's Q carries no voltage`,
+  `PASS: a push-pull dff's Q at 5 V into a 3.6 V input is INPUT_OVER`) one case — a 5 V-powered dff fixture with
   `"output": "open-drain"` whose Q drives input A of `VFX-AUC1G00` (input max
   3.6 V) reports no problem; the same circuit with a push-pull dff fixture
   reports the input-max problem. The two fixtures go in
@@ -401,7 +407,8 @@ Commit: —
   5 VCC; parts `VFX-OD74` and `VFX-PP74`, `vcc` [2, 6]).
 
 Acceptance: `ctest --test-dir /tmp/logic-p10` → 12 of 12;
-`git diff --stat backend/tests/golden` → no change (seconds).
+`git diff --stat backend/tests/golden` → no change (seconds). (Ran: `100%
+tests passed, 0 tests failed out of 12`; golden diff empty.)
 Commit: —
 
 ### Phase 3 — The 34 flip-flop parts
@@ -464,6 +471,14 @@ tests cover.
   from the main checkout (`CMake Error: The source … does not match`); it was
   deleted and regenerated from the worktree. Command and result otherwise as
   written.
+- 2026-11-01, Phase 2: §4.3 said "each kind answers for its own parts" but not
+  how. Implemented as an optional ninth `PartKindOps` member
+  `pin_open_drain(part, pin)` (NULL = never, so existing kinds' initializers
+  are unchanged) and `part_pin_open_drain` in `library/kinds.c`, which checks
+  the pin is `PIN_OUTPUT` and dispatches. B, D and G add theirs by setting
+  that member. `logic_test_support` gains `src/models` on its include path so
+  `library_check` can call `part_pin_open_drain`. `docs/backend.md` § Adding a
+  kind names the member.
 
 ## Summary
 

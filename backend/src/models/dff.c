@@ -8,19 +8,22 @@
  * Q=0, QN=1. An optional active-low output enable puts Q/QN in Z (1) or X
  * (unknown). Edges follow Verilog posedge/negedge: any move into 1 (or 0)
  * from another value. Outputs are driven strong, inertially: fall delay
- * for 0, rise delay for 1 or Z, the longer for X.
+ * for 0, rise delay for 1 or Z, the longer for X. With "output":
+ * "open-drain" a 1 (or Z) releases Q/QN to Z after the rise delay instead of
+ * driving it (TPIC6273).
  */
 
 #include <stdlib.h>
 #include <string.h>
 
 #include "kind.h"
+#include "model_pins.h"
 
 #define FF_NO_PIN ((size_t)-1)
 #define FF_MAX_UNITS 8
 
 static const char *const DEVICE_KEYS[] = {
-    "units", "outputEnable", "presetActiveHigh", "clearActiveHigh", "clockEdge", "timing", NULL
+    "units", "outputEnable", "presetActiveHigh", "clearActiveHigh", "clockEdge", "output", "timing", NULL
 };
 static const char *const PART_KEYS[] = {"family", "vcc", "inputMax", NULL};
 
@@ -43,6 +46,7 @@ typedef struct {
     int pre_active_high;
     int clr_active_high;
     int negative_edge;
+    int open_drain;
     const char **families;
     DffTiming *timings;
     size_t timing_count;
@@ -59,6 +63,7 @@ typedef struct {
     int pre_active_high;
     int clr_active_high;
     int negative_edge;
+    int open_drain;
 } FfLayout;
 
 /* An optional pin name: absent -> NULL. */
@@ -83,6 +88,21 @@ static int load_edge(KindContext *ctx, const cJSON *json, int *negative) {
     } else {
         return kind_error(ctx, "\"clockEdge\" must be \"rising\" or \"falling\", not \"%s\"", edge);
     }
+    return 0;
+}
+
+static int load_output(KindContext *ctx, const cJSON *json, int *open_drain) {
+    const cJSON *output = cJSON_GetObjectItemCaseSensitive(json, "output");
+
+    *open_drain = 0;
+    if (output == NULL) {
+        return 0;
+    }
+    if (!cJSON_IsString(output) || (strcmp(output->valuestring, "push-pull") != 0 &&
+                                    strcmp(output->valuestring, "open-drain") != 0)) {
+        return kind_error(ctx, "\"output\" must be \"push-pull\" or \"open-drain\"");
+    }
+    *open_drain = strcmp(output->valuestring, "open-drain") == 0;
     return 0;
 }
 
@@ -124,7 +144,8 @@ static void *dff_load_device(KindContext *ctx, const cJSON *json) {
     if (optional_name(ctx, json, "outputEnable", &device->oe) != 0 ||
         kind_bool(ctx, json, "presetActiveHigh", &device->pre_active_high) != 0 ||
         kind_bool(ctx, json, "clearActiveHigh", &device->clr_active_high) != 0 ||
-        load_edge(ctx, json, &device->negative_edge) != 0) {
+        load_edge(ctx, json, &device->negative_edge) != 0 ||
+        load_output(ctx, json, &device->open_drain) != 0) {
         return NULL;
     }
 
@@ -210,6 +231,7 @@ static void *dff_bind_pinout(KindContext *ctx, const void *raw, const PartPin *p
     layout->pre_active_high = device->pre_active_high;
     layout->clr_active_high = device->clr_active_high;
     layout->negative_edge = device->negative_edge;
+    layout->open_drain = device->open_drain;
     return layout;
 }
 
@@ -344,6 +366,9 @@ static void schedule_pin(Sim *sim, SimInstance *instance, const FfState *state, 
     if (pin == FF_NO_PIN) {
         return;
     }
+    if (state->layout->open_drain && value == LOGIC_1) {
+        value = LOGIC_Z;
+    }
     if (value == LOGIC_0) {
         delay = state->fall_delay;
     } else if (value == LOGIC_1 || value == LOGIC_Z) {
@@ -429,6 +454,22 @@ static void dff_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t p
     }
 }
 
+/* Every Q/QN pin of an open-drain device. */
+static int dff_pin_open_drain(const Part *part, size_t pin) {
+    const FfLayout *layout = part_internal(part)->bound;
+    size_t i;
+
+    if (!layout->open_drain) {
+        return 0;
+    }
+    for (i = 0; i < layout->unit_count; i++) {
+        if (pin == layout->units[i].q || pin == layout->units[i].qn) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 static const SimComponentType DFF_MODEL = {
     "dff", dff_pin_count, dff_create, dff_destroy, dff_start, dff_pin_changed, NULL,
     NULL, NULL, NULL, NULL
@@ -436,5 +477,5 @@ static const SimComponentType DFF_MODEL = {
 
 const PartKindOps DFF_KIND = {
     PART_DFF, "dff", &DFF_MODEL, DEVICE_KEYS, PART_KEYS,
-    dff_load_device, dff_bind_pinout, dff_load_part
+    dff_load_device, dff_bind_pinout, dff_load_part, dff_pin_open_drain
 };

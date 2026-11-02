@@ -11,6 +11,7 @@
 
 #include "kind.h"
 #include "library_internal.h"
+#include "model_pins.h"
 #include "parts.h"
 
 static int failures;
@@ -326,6 +327,19 @@ static void check_gate_cases(void) {
     free(error);
     part_library_destroy(library);
 
+    library = part_library_create();
+    error = NULL;
+    CHECK(load(library,
+               HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
+                                        "{'TPIC':{'rise':20,'fall':20}}", "A", "TPIC") TAIL,
+               &error) == 0);
+    part = part_library_find(library, "G1");
+    CHECK(part != NULL && part->logic != NULL && strcmp(part->logic->family, "TPIC") == 0);
+    printf("ok   gate part with family TPIC%s%s\n", error != NULL ? ": " : "",
+           error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
     expect_fail("gate otherLow on a 3-input device",
                 HEAD("gate") GATE_DEVICE("[{'op':'xor','inputs':['A','B','C'],'output':'Y'}]",
                                          "{'HC':{'otherLow':{'rise':1,'fall':1},'otherHigh':{'rise':2,'fall':2}}}",
@@ -372,6 +386,29 @@ static void check_flipflop_cases(void) {
     free(error);
     part_library_destroy(library);
 
+    library = part_library_create();
+    error = NULL;
+    CHECK(load(library,
+               HEAD("dff") "{'id':'d','function':'D flip-flop','description':'d','drawer':['Logic']," FF_PINS
+               "'units':[{'d':'D','clk':'CLK','q':'Q','qn':'QN'}],'presetActiveHigh':false,"
+               "'clearActiveHigh':false,'clockEdge':'rising','output':'open-drain',"
+               "'timing':{'HC':{'rise':20,'fall':18,'clearWins':false,'vcc':[2,6]}},"
+               "'parts':[{'name':'D1','package':'DIP','pinout':'p6','footprint':'T6','family':'HC'}]}" TAIL,
+               &error) == 0);
+    part = part_library_find(library, "D1");
+    CHECK(part != NULL && part_pin_open_drain(part, 2) && part_pin_open_drain(part, 3) &&
+          !part_pin_open_drain(part, 0));
+    printf("ok   dff with \"output\": \"open-drain\"%s%s\n", error != NULL ? ": " : "",
+           error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("dff output x",
+                HEAD("dff") "{'id':'d','function':'D flip-flop','description':'d','drawer':[]," FF_PINS
+                "'units':[{'d':'D','clk':'CLK','q':'Q','qn':'QN'}],'presetActiveHigh':false,"
+                "'clearActiveHigh':false,'clockEdge':'rising','output':'x',"
+                "'timing':{'HC':{'rise':20,'fall':18,'clearWins':false}},'parts':[]}" TAIL,
+                "\"output\" must be \"push-pull\" or \"open-drain\"");
     expect_fail("dff unit naming a missing pin",
                 HEAD("dff") "{'id':'d','function':'D flip-flop','description':'d','drawer':[]," FF_PINS
                 "'units':[{'d':'D','clk':'CLK','pre':'PRE','q':'Q','qn':'QN'}],'presetActiveHigh':false,"

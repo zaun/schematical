@@ -170,7 +170,11 @@ Flags:
   converts them to the engine's picoseconds with `llround(ns * 1000)`.
 - **Logic families** (`family` on gate, dff and jkff parts) must be one of:
   HC, LS, ACT, HCT, F, AC, AHCT, ALS, AS, AHC, S, C, H, HCS, LV, LVC, AUP,
-  AUC, ALVC, TTL.
+  AUC, ALVC, TTL, ABT, BCT, LVT, AVC, TPIC. The last five:
+  - `ABT`, `BCT`: BiCMOS bus-interface logic (5 V).
+  - `LVT`: 3.3 V ABT; LVTH (bus-hold) parts use it too.
+  - `AVC`: advanced very-low-voltage CMOS.
+  - `TPIC`: TI power-logic parts with DMOS open-drain outputs.
 - **`note`** is allowed on a device and on any timing entry; it is ignored.
 - **Voltages** are volts (JSON numbers, fractions allowed). The loader
   converts them to millivolts (`uint32_t`) with `llround(v * 1000)`.
@@ -547,6 +551,7 @@ Device keys:
 |---|---|
 | `"units"` | 1–8 flip-flops: `d` and `clk` required; `pre`, `clr`, `q`, `qn` optional (absent = no such pin). Units may share pins (a common clock or clear). |
 | `"outputEnable"` | optional, active-low output enable: 1 puts Q/QN in Z, X makes them X |
+| `"output"` | optional: `push-pull` (default) or `open-drain`: a 0 drives 0 after the fall delay, a 1 (or Z) releases Q/QN to Z after the rise delay, X drives X; the voltage check treats Q/QN as carrying no voltage (TPIC6273) |
 | `"presetActiveHigh"`, `"clearActiveHigh"` | `true` when PRE / CLR is asserted high |
 | `"clockEdge"` | `"rising"` or `"falling"` |
 | `"timing"` | logic family → `{rise, fall, clearWins}`, plus `vcc` and `inputMax`; `clearWins` true: PRE and CLR both asserted give Q = 0, QN = 1; false: Q = QN = 1 |

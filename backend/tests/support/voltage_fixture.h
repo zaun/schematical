@@ -9,9 +9,12 @@
  *   VFX-AUC1G00  NAND, vcc 0.8-2.7 V, inputMax 3.6 V
  *   VFX-OD1G00   open-drain NAND, vcc 2-6 V
  *   VFX-SW2      2-position switch rated 5 V
+ *   VFX-OD74     open-drain D flip-flop, vcc 2-6 V
+ *   VFX-PP74     push-pull D flip-flop, vcc 2-6 V
  *
  * Every gate is SOT23-5: 1 A, 2 B, 3 GND, 4 Y, 5 VCC. The switch is
- * 1 1A, 2 2A, 3 2B, 4 1B (positions 1A-1B and 2A-2B).
+ * 1 1A, 2 2A, 3 2B, 4 1B (positions 1A-1B and 2A-2B). Each flip-flop is
+ * SOT23-5: 1 D, 2 CLK, 3 GND, 4 Q, 5 VCC.
  */
 
 #include <stdio.h>
@@ -45,13 +48,30 @@ static const char VOLTAGE_FIXTURE_SWITCHES[] =
     "\"parts\":[{\"name\":\"VFX-SW2\",\"package\":\"DIP\",\"pinout\":\"p4\",\"footprint\":\"SW-DIP-4\"}]}"
     "]}";
 
+#define VFX_DFF(ID, NAME, OUTPUT)                                                                \
+    "{\"id\":\"" ID "\",\"function\":\"D flip-flop\",\"description\":\"fixture\",\"drawer\":[]," \
+    "\"pinouts\":{\"p5\":[{\"number\":1,\"name\":\"D\",\"role\":\"input\"},"                     \
+    "{\"number\":2,\"name\":\"CLK\",\"role\":\"input\"},{\"number\":3,\"name\":\"GND\",\"role\":\"ground\"}," \
+    "{\"number\":4,\"name\":\"Q\",\"role\":\"output\"},{\"number\":5,\"name\":\"VCC\",\"role\":\"power\"}]}," \
+    "\"units\":[{\"d\":\"D\",\"clk\":\"CLK\",\"q\":\"Q\"}],\"presetActiveHigh\":false,"            \
+    "\"clearActiveHigh\":false,\"clockEdge\":\"rising\",\"output\":\"" OUTPUT "\","                 \
+    "\"timing\":{\"HC\":{\"rise\":5,\"fall\":5,\"clearWins\":false,\"vcc\":[2,6]}},"                 \
+    "\"parts\":[{\"name\":\"" NAME "\",\"package\":\"SOT-23\",\"pinout\":\"p5\",\"footprint\":\"SOT23-5\",\"family\":\"HC\"}]}"
+
+static const char VOLTAGE_FIXTURE_DFFS[] =
+    "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"dff\",\"devices\":["
+    VFX_DFF("vfx-od74", "VFX-OD74", "open-drain") ","
+    VFX_DFF("vfx-pp74", "VFX-PP74", "push-pull")
+    "]}";
+
 /* Loads the fixture parts into a library that already has footprints.json.
    0, or -1 after printing the error. */
 static int load_voltage_fixture(PartLibrary *library) {
     char *error = NULL;
 
     if (load_parts(library, VOLTAGE_FIXTURE_GATES, "voltage-fixture-gates.json", &error) != 0 ||
-        load_parts(library, VOLTAGE_FIXTURE_SWITCHES, "voltage-fixture-switches.json", &error) != 0) {
+        load_parts(library, VOLTAGE_FIXTURE_SWITCHES, "voltage-fixture-switches.json", &error) != 0 ||
+        load_parts(library, VOLTAGE_FIXTURE_DFFS, "voltage-fixture-dffs.json", &error) != 0) {
         fprintf(stderr, "voltage fixture: %s\n", error != NULL ? error : "(no message)");
         free(error);
         return -1;

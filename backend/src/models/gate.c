@@ -294,10 +294,9 @@ static int gate_load_part(KindContext *ctx, const void *raw, const void *bound,
     return kind_error(ctx, "family \"%s\" has no timing entry", family);
 }
 
-int gate_open_drain(const Part *part) {
-    if (part == NULL || part->kind != PART_GATE) {
-        return 0;
-    }
+/* Every output pin of an open-drain device (part_pin_open_drain checks the role). */
+static int gate_pin_open_drain(const Part *part, size_t pin) {
+    (void)pin;
     return ((const GateDevice *)part_internal(part)->device)->open_drain;
 }
 
@@ -471,5 +470,5 @@ static const SimComponentType GATE_MODEL = {
 
 const PartKindOps GATE_KIND = {
     PART_GATE, "gate", &GATE_MODEL, DEVICE_KEYS, PART_KEYS,
-    gate_load_device, gate_bind_pinout, gate_load_part
+    gate_load_device, gate_bind_pinout, gate_load_part, gate_pin_open_drain
 };

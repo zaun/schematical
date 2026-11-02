@@ -16,7 +16,12 @@ int led_pins(const Part *part, size_t *anode, size_t *cathode);
 /* A switch position's (1-based) two contact pins, as indices into Part.pins. */
 int switch_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b);
 
-/* 1 for a gate whose outputs are open-drain (74x266). */
-int gate_open_drain(const Part *part);
+/*
+ * 1 when pin (an index into Part.pins) is a PIN_OUTPUT the part never drives
+ * high: an open-drain output (gate and dff "output": "open-drain"). Each
+ * kind answers for its own parts through PartKindOps.pin_open_drain;
+ * 0 for every kind without one.
+ */
+int part_pin_open_drain(const Part *part, size_t pin);
 
 #endif

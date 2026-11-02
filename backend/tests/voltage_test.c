@@ -201,6 +201,23 @@ static void check_inputs(void) {
     wire(&n, auc, "1", supply(&n, "3V3"));
     expect(only(&n, VOLTAGE_POWER_RANGE),
            "3V3 on a 3.6 V-tolerant input is fine (only the 3.3 V VCC is out of range)");
+
+    memset(&n, 0, sizeof n);
+    auc = powered_gate(&n, "VFX-AUC1G00", "1V8");
+    od = powered_gate(&n, "VFX-OD74", "5V");
+    y = net(&n);
+    wire(&n, od, "4", y);
+    wire(&n, auc, "1", y);
+    expect(none(&n), "an open-drain dff's Q carries no voltage");
+
+    memset(&n, 0, sizeof n);
+    auc = powered_gate(&n, "VFX-AUC1G00", "1V8");
+    od = powered_gate(&n, "VFX-PP74", "5V");
+    y = net(&n);
+    wire(&n, od, "4", y);
+    wire(&n, auc, "1", y);
+    expect(only(&n, VOLTAGE_INPUT_OVER) && n.problems[0].mv == 5000 && n.problems[0].part == auc,
+           "a push-pull dff's Q at 5 V into a 3.6 V input is INPUT_OVER");
 }
 
 static void check_supplies(void) {

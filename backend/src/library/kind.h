@@ -36,6 +36,9 @@ typedef struct PartKindOps {
                          const PartPin *pins, size_t pin_count);
     int (*load_part)(KindContext *ctx, const void *device, const void *bound,
                      const cJSON *part, Part *out);
+    /* Optional (NULL = never): 1 when pin is an output the part never drives
+       high (open drain), for the voltage check; see part_pin_open_drain. */
+    int (*pin_open_drain)(const Part *part, size_t pin);
 } PartKindOps;
 
 /* What Part.internal points to. */

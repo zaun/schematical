@@ -145,7 +145,9 @@ A new kind of part is added the same way every time:
 1. `backend/include/parts.h`: a `PART_<KIND>` value and, if the app needs
    facts about it, an info struct and its pointer on `Part`.
 2. `backend/src/models/<kind>.c`: the `PartKindOps` (device and part keys,
-   `load_device`, `bind_pinout`, `load_part`) and the engine callbacks
+   `load_device`, `bind_pinout`, `load_part`, and optional `pin_open_drain`
+   for a kind with open-drain outputs, which the voltage check asks through
+   `part_pin_open_drain`) and the engine callbacks
    (`SimComponentType`; the engine config is the `const Part *`, model data
    through `part_internal(part)`). Use the `KindContext` helpers in
    `kind.h` for keys, pins by name, times and errors.

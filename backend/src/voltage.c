@@ -260,7 +260,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                     continue;
                 }
                 role = part->pins[c->pin].role;
-                if (role == PIN_INOUT || (role == PIN_OUTPUT && !gate_open_drain(part))) {
+                if (role == PIN_INOUT || (role == PIN_OUTPUT && !part_pin_open_drain(part, c->pin))) {
                     size_t g = find(parent, c->net);
                     Level before = driven[g];
 
