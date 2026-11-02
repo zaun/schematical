@@ -944,7 +944,7 @@ helpers (`serial_bus.c`).
 
 | Key | Value |
 |---|---|
-| `"model"` | `"ns16550"` (the 16450/16550 family); more models in later plans |
+| `"model"` | `"ns16550"` (the 16450/16550 family); `"ay1013"`, `"i8251"`, `"i82510"`, `"acia6551"`, `"hs82c52"`, `"com78c80x"` (the classic UARTs, plan-12-H); more models in later plans |
 | `"grades"` | grade name → the model's timing names (ns; a missing name is 0), plus optional `"vcc"`, `"inputMax"`, `"note"` |
 | the model's keys | below; a key of another model is rejected (`"x" is not a key of model "y"`) |
 
@@ -1019,6 +1019,175 @@ mid-bit, takes a framing error as the next start bit (PC16550D resync) and
 loads one 0x00 for a break (BI with FE), then waits for the line to return
 to 1. A character reaches the RBR 1 RCLK after its stop-bit sample (3 in
 FIFO mode).
+
+Every plan-12-H model below sends and receives through the line engine
+(start bit checked mid-bit; data, parity and the first stop bit sampled
+mid-bit), and after a framing error looks for a fresh 1 → 0 (no PC16550D
+resync). Each channel is a terminal channel.
+
+#### `ay1013`
+
+The pin-parallel UARTs: AY-5-1013A / AY-3-1015D, COM2017, COM1863 /
+COM8018, HD-6402, and the CDP1854A (its mode 1 with `"cpuMode"`). No
+register bus: transmit data, receive data, control and status are pins.
+
+```json
+"model": "ay1013",
+"transmitData": ["DB1", "…", "DB8"], "receiveData": ["RD1", "…", "RD8"],
+"receiveEnable": "RDE", "statusEnable": "SWE",
+"status": {"dav": "DAV", "tbmt": "TBMT", "eoc": "EOC", "or": "OR", "fe": "FE", "pe": "PE"},
+"control": {"strobe": "CS", "noParity": "NP", "stops": "TSB", "wordLength": ["NB1", "NB2"],
+            "evenParity": "EPS"},
+"dataStrobe": "DS", "resetDav": "RDAV", "serialOut": "SO", "serialIn": "SI",
+"clocks": {"transmit": "TCP", "receive": "RCP"},
+"reset": "XR", "resetClearsData": false, "fiveBitStops": 2
+```
+
+| Key | Value |
+|---|---|
+| `"transmitData"`, `"receiveData"` | 8 names each, LSB first; unused high RD bits read 0 |
+| `"receiveEnable"`, `"statusEnable"` | low drives RD / the status pins (PE FE OR DAV TBMT), high floats them; EOC and SO are always driven |
+| `"status"` | the six status pins |
+| `"control"` | the control word pins and their strobe: a level latch, transparent while the strobe is high, held when it falls |
+| `"dataStrobe"` | low: TBMT falls; the TD byte is taken on the rising edge |
+| `"resetDav"` | low clears DAV (level) |
+| `"clocks"` | `"transmit"`, `"receive"` (16× clocks; TCP falling edges shift, RCP falling edges are counted); optional `"hiacc"`: 32× clocks while that pin is high (COM8018), plus the COM1863 receive rules (OR reset only with RDA 0 and RDAR 1 at the transfer, RDA notched, RDA waits for RDAR high) |
+| `"reset"` | high resets (TBMT, EOC, SO high; DAV OR FE PE low; the holding register empty) |
+| `"resetClearsData"` | the reset also clears the receive holding register (power-on 0, else X) |
+| `"resetClearsControl"` | optional: the reset also clears the control word (CDP1854A) |
+| `"fiveBitStops"` | `1.5` or `2`: the stop length the stop select gives with 5-bit words |
+| `"cpuMode"` | optional (CDP1854A): `{"modePin", "select1", "select2", "select3", "registerSelect", "readWrite", "tpb", "cts", "psi", "es"}`. MODE high is the CDP1800 bus: selected = CS1 high, CS2 low, CS3 high; RSEL and RD/WR pick THR, RHR, control, status (Table III); writes are taken on TPB's falling edge, a read drives the receive-data pins for the whole selected read; INT (the `pe` pin), DA and THRE pins are active low, FE and PE/OE (the `or` pin) always driven, RTS on the `eoc` pin; the reset pin is CLEAR (active low) |
+
+Part keys: optional `"fiveBitStops"` and `"resetClearsData"` override the
+device's (the AY-3-1015D on the AY-5-1013A device). Timing names (ns):
+`tpd` clock to SO/EOC/TBMT, `tds` DS to TBMT, `ten` enable to valid,
+`tdis` enable to float, `tdav` transfer to DAV, `trdav` RDAV to DAV low,
+`tacc` mode-1 read access, `tint` TPB to INT / DA / THRE.
+
+#### `i8251`
+
+The 8251A USART, asynchronous and synchronous.
+
+```json
+"model": "i8251",
+"bus": {"data": ["D0", "…", "D7"], "controlData": "CD", "read": "RD", "write": "WR",
+        "select": "CS", "reset": "RESET"},
+"clock": "CLK",
+"serial": {"tx": "TXD", "rx": "RXD", "txClock": "TXC", "rxClock": "RXC", "txrdy": "TXRDY",
+           "rxrdy": "RXRDY", "txempty": "TXEMPTY", "syndet": "SYNDET", "dsr": "DSR", "dtr": "DTR",
+           "cts": "CTS", "rts": "RTS"}
+```
+
+After a reset the first control write (C/D = 1) is the mode; a synchronous
+mode then takes SYNC1 (and SYNC2), then commands until IR. Asynchronous:
+×1, ×16, ×64 of TxC (falling edges shift) and RxC (rising edges sample),
+5–8 bits, parity, 1 / 1.5 / 2 stops (transmit only), BRKDET after two
+characters of low. Synchronous: one bit per clock, the bit-by-bit hunt for
+SYNC1 (then SYNC2) after EH, SYNDET (an output, or an input with ESD =
+1), SYNC fill when the CPU is late. TxRDY (pin: buffer empty, CTS low,
+TxEN) and RxRDY reset on the leading edge of the data write / read. CLK
+sets only maximum delays, which are not modeled. The terminal refuses a
+channel that is not in an asynchronous mode. Timing names: `trd`, `tdf`
+(read access, float), `tclr` (strobe to TxRDY / RxRDY), `tdtx` (TxC to
+TxD), `twc` (write to DTR / RTS).
+
+#### `i82510`
+
+The 82510 asynchronous serial controller.
+
+```json
+"model": "i82510",
+"bus": {"data": ["D0", "…", "D7"], "address": ["A0", "A1", "A2"], "read": "RD", "write": "WR",
+        "select": "CS", "reset": "RESET"},
+"clock": {"in": "CLK/X1", "out": "OUT2/X2"},
+"serial": {"tx": "TXD", "rx": "RXD", "int": "INT", "cts": "CTS", "rts": "RTS", "dtr": "DTR/TB",
+           "ri": "RI/SCLK", "dsr": "DSR/TA/OUT0", "dcd": "DCD/ICLK/OUT1"}
+```
+
+The four banks of Table 9 (an address Table 9 leaves empty reads X), the
+wake-up values of Table 4, the RTS / DTR strap as RESET falls (crystal or
+external clock, the divide by 2; pin 8 is OUT2 only with an external
+clock), BRGA and BRGB (BRG or timer mode, sources, the cascade), the 16×
+or 1× (SCLK) clocks, the 1- or 4-deep FIFOs with RXF / TXF, the voting
+filter, start check, DPLL and noise flag, control-character and µLAN
+recognition, quarter-bit stops, 9-bit characters, software parity, the
+handshake modes, loopbacks and automatic echo, the PMD pin functions,
+GSR / GIR / GER with automatic or manual acknowledge, the ICM commands and
+power down. Timing names: `trldv`, `trhdz` (read access, float), `ttxd`
+(1× TXD after SCLK).
+
+#### `acia6551`
+
+The CDP65C51 / CDP65C51A ACIA.
+
+```json
+"model": "acia6551",
+"bus": {"data": ["D0", "…", "D7"], "registerSelect": ["RS0", "RS1"], "select": "CS1",
+        "selectHigh": "CS0", "phi2": "PHI2", "readWrite": "RW", "reset": "RES"},
+"clock": {"in": "XTLI", "out": "XTLO", "receive": "RXC"},
+"serial": {"tx": "TXD", "rx": "RXD", "rts": "RTS", "cts": "CTS", "dtr": "DTR", "dsr": "DSR",
+           "dcd": "DCD", "irq": "IRQ"}
+```
+
+A selected cycle acts while PHI2 is high (writes taken as it falls). The
+Table II baud divisors of XTLI (or XTLI as the 16× clock with SBR 0000);
+RXC is the receiver's 16× input, or the generator's output with RCS = 1.
+IRQ is open drain: RDRF, DCD / DSR changes, and TDRE as a level with TIC
+01 (it recurs while idle). Part key `"ctsA": true` gives the CDP65C51A's
+CTS rule (finish the character, no TDRE interrupt while CTS is high);
+without it CTS high marks TXD at once. Timing names: `tcdr`, `thr` (read
+access, hold), `tdd` (clock to TXD), `tdly` (PHI2 to DTR / RTS), `tirq`.
+
+#### `hs82c52`
+
+The 82C52 and, with `"hd6406"`, the HD-6406.
+
+```json
+"model": "hs82c52",
+"bus": {"data": ["D0", "…", "D7"], "address": ["A0", "A1"], "read": "RD", "write": "WR",
+        "select": "CS0", "selectHigh": "CS1", "addressLatch": "ALE", "reset": "RST"},
+"clock": {"in": "IX", "out": "OX", "clockOut": "CO"},
+"serial": {"tx": "SDO", "rx": "SDI", "cts": "CTS", "dsr": "DSR", "dtr": "DTR", "rts": "RTS",
+           "int": "INTR", "tbre": "TBRE", "dr": "DR"},
+"hd6406": {"rlsd": "RLSD", "ri": "RI", "tc": "TC", "oe": "OE", "fe": "FE", "pe": "PE",
+           "sie": "SIE", "sfd": "SFD", "txdack": "TXDACK", "rxdack": "RXDACK"}
+```
+
+`"selectHigh"` and `"addressLatch"` are optional (the HD-6406's CS1 and
+ALE). TBR/RBR, UCR (separate TX and RX parity), BRSR (prescaler, the Fig 2
+divisors with 16/3, 32/3, 58/3; undefined codes stop the generator and CO
+reads X), MCR (normal, transmit break, echo, loop), USR (DR and TBRE live,
+the rest latched and cleared by a read), MSR, and INTR from the edge
+detectors. HD-6406: RXDACK / TXDACK cycles, the status pins, SIE and SFD,
+RLSD and RI. Timing names: `trldv`, `trhdz`, `tco` (IX to CO), `tbrg`
+(BRG to CO), `tsdo`, `tintr`, `tflag` (status pins).
+
+#### `com78c80x`
+
+The SMC COM78C804 / COM78804 (4 lines) and COM78C802 (2 lines).
+
+```json
+"model": "com78c80x",
+"bus": {"data": ["DL0", "…", "DL7"], "address": ["ADD0", "…", "ADD4"], "select": "CS",
+        "strobe": "DS", "write": "WR", "ready": "RDY", "reset": "RESET"},
+"clock": "CLK", "lines": 4,
+"channels": [{"tx": "TXD0", "rx": "RXD0", "dsr": "DSR0", "dcd": "DCD0"}, "…"],
+"interrupt": {"irq": "IRQ", "line": ["IRQLN0", "IRQLN1"], "txrx": "IRQTXRX"}
+```
+
+| Key | Value |
+|---|---|
+| `"bus"` | `"address"`: 5 names (4 lines) or 4 (2 lines); the high bits pick the line. A name used by two pins of a pinout (DS on the DIP-48) is one input: the pins must agree, else it reads X |
+| `"lines"` | `2` or `4`; `"channels"` has that many lines |
+| `"interrupt"` | IRQ (open drain), the line-number outputs (2, or 1 for 2 lines) and IRQTXRX; they show the scanner position while IRQ is low, X otherwise |
+
+Per line: MR1 / MR2 (an alternating pointer, reset by a Command read),
+Command, Status, a two-entry receive FIFO, the THR, independent TX and RX
+rates from CLK (`CLK / (16 × rate)`); the scanner steps one position per
+CLK (receivers, then transmitters) and stops on an interrupt; the
+Interrupt Summary and Data Set Change Summary (write 1 to clear). RDY (open
+drain) follows CS. Timing names: `tdd`, `tddz` (read access, float), `tid`
+(DS to IRQ release), `trdl`, `trdh` (CS to RDY).
 
 ### `7seg`
 
