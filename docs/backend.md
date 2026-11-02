@@ -247,7 +247,11 @@ drawer work from the kind table and the `Part` structs.
   and logs every machine cycle (type, address, data, T1, strobe times):
   the fetch, memory, I/O and int-ack waveforms at the PS0178 edges, WAIT,
   IM 0/1/2, NMI, HALT, BUSREQ, data setup and clock checks, and a program
-  from reset to HALT.
+  from reset to HALT. Last, three whole boards of library parts
+  (`tests/support/cpu_board.{h,c}`: the CPU, an AT28C256-15PU, an
+  AS6C62256-55PCN and an SN74HC00N decoder) run a program for 2 ms: the
+  W65C02S6TPG-14 and MPS6502 count to 10 in SRAM, the Z84C0010PEG also
+  CALLs a store and halts.
 
 Not a ctest: `sim_bench` (`tests/sim_bench.c`) measures engine speed — a
 D flip-flop ripple counter on an oscillator plus N idle SN74HC00N chips,
@@ -258,6 +262,14 @@ would make ctest flaky, so it has no `add_test`.
 cmake -S backend -B /tmp/logic-rel -DCMAKE_BUILD_TYPE=Release
 cmake --build /tmp/logic-rel --target sim_bench
 /tmp/logic-rel/sim_bench LMK6CE001200CDLFR 16 10 400   # <osc> <stages> <sim ms> <idle chips>
+```
+
+`cpu_bench` (`tests/cpu_bench.c`, also not a ctest) runs the W65C02S board
+of `cpu_test` with its program looping forever and reports the speed:
+
+```
+cmake --build /tmp/logic-rel --target cpu_bench
+/tmp/logic-rel/cpu_bench 100   # <sim ms>
 ```
 
 The bench runs on the `3V3` supply, so the oscillator must take 3.3 V

@@ -66,6 +66,7 @@ add_library(logic_test_support STATIC
     tests/support/golden.c
     tests/support/trace_core.c
     tests/support/bench.c
+    tests/support/cpu_board.c
 )
 target_include_directories(logic_test_support PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/support
@@ -109,4 +110,10 @@ logic_test(cpu_test)
 add_executable(sim_bench tests/sim_bench.c)
 target_link_libraries(sim_bench PRIVATE logic_test_support)
 target_compile_definitions(sim_bench PRIVATE
+    PARTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../schematical/schematical/Parts")
+
+# CPU board speed (plan-09-D). Not a ctest, like sim_bench.
+add_executable(cpu_bench tests/cpu_bench.c)
+target_link_libraries(cpu_bench PRIVATE logic_test_support)
+target_compile_definitions(cpu_bench PRIVATE
     PARTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../schematical/schematical/Parts")

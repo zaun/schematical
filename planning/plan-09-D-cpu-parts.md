@@ -363,18 +363,21 @@ Unconnected inputs read inactive (Z).
 Acceptance: the library loads with the 19 parts, and the goldens grow by
 exactly 19 / 19 / 3 added lines.
   Check: `ctest --test-dir /tmp/logic-p09 -R 'listing_check|trace_check|footprint_check|library_check'` → 4/4 passed; `git diff --numstat backend/tests/golden` → `19 0 …parts.txt`, `19 0 …traces.txt`, `3 0 …footprints.txt` (est. 2 min).
-Commit: —
+Commit: c9da192
 
 ### Phase 2 — Whole-system tests and the speed record
 
-- [ ] `cpu_test.c`: the three boards of §5.
-- [ ] `backend/tests/cpu_bench.c` (not a ctest, like `sim_bench`): the
+- [x] `cpu_test.c`: the three boards of §5 (built by the new
+      `tests/support/cpu_board.{h,c}`, shared with `cpu_bench`). All 9
+      board checks PASS: SRAM contents, registers, and status for each
+      board.
+- [x] `backend/tests/cpu_bench.c` (not a ctest, like `sim_bench`): the
       W65C02S board of §5 looping forever (`4C 07 80` in place of the STP).
       It runs N simulated ms and prints `×real time`. Add it to
       `backend/CMakeLists.txt` and `docs/backend.md`.
 
 Acceptance: the three boards reach their end states.
-  Check: `ctest --test-dir /tmp/logic-p09 -R cpu_test -V | grep -c '^FAIL'` → 0 (est. 1 min). Record (no threshold): `cmake -S backend -B /tmp/logic-rel -DCMAKE_BUILD_TYPE=Release && cmake --build /tmp/logic-rel --target cpu_bench && /tmp/logic-rel/cpu_bench 100` → `<n>x real time` written into this line (est. 1 min).
+  Check: `ctest --test-dir /tmp/logic-p09 -R cpu_test -V | grep -c ': FAIL'` → 0 (est. 1 min). Measured: 0. Record (no threshold): `cmake -S backend -B /tmp/logic-rel -DCMAKE_BUILD_TYPE=Release && cmake --build /tmp/logic-rel --target cpu_bench && /tmp/logic-rel/cpu_bench 100` → `0.12x real time` (2026-11-01: 100 ms simulated in 0.843 s, 99995 cycles).
 Commit: —
 
 ## Validation Plan
@@ -414,6 +417,19 @@ Owner: plan-09-A § Decisions (obsolete exception, no WDC QFP). Author:
 - **PS0072 page numbers** are printed numbers. The PDF pages are +3:
   printed p.6/10/16 = PDF p.9/13/19 (PDF p.6 is the 18-lead PDIP). The
   footprint notes keep the printed numbers.
+- **MPS6502 board end state** (§5). "PC in `8012`–`8014`" was too narrow.
+  The core's PC is the next byte to read. In the `JMP $8012` loop it runs
+  8012 (after the jump), 8013 (after the fetch), 8014, then 8015 (after the
+  high byte). Measured at 2 ms: PC 8015, status RUNNING. The check is now
+  8012–8015, plus the stronger last instruction `JMP $8012` at 8012. The
+  W65C02S board also checks last instruction `STP`.
+- **The boards' WE#/address margin.** On the 6502 board the SRAM's write
+  ends when WE# = NAND(PHI2, gate 1) rises, 9 ns (HC00) after PHI2 falls.
+  The W65C02S address goes X at fall + tAH = 10 ns, and the AS6C62256 takes
+  address and data at the write's end (`twr` 0). So the write ends 1 ns
+  inside the hold. The board passes (SRAM 0010/0200 = 10). This is noted
+  because a slower gate family on that board would store X, as on the real
+  board.
 - **LQFP-44 orientation.** PS0072's outline draws pin 1 at the left end
   of the bottom row. PS0178's pin figure (PDF p.2) puts pin 1 at the top of
   the left side. Both run counter-clockwise, and a footprint may be placed

@@ -9,6 +9,10 @@
  * fall + 20 ns; it samples (and logs) every cycle 1 ps before PHI2 falls,
  * and stores a write's data then. Every byte the bench was not given reads
  * X, like a powered-up SRAM.
+ *
+ * The last cases (plan-09-D section 5) run whole boards of library parts:
+ * the CPU parts of cpu.json with an AT28C256 EEPROM, an AS6C62256 SRAM and
+ * an SN74HC00N decoder (tests/support/cpu_board.c).
  */
 
 #include <stdio.h>
@@ -16,6 +20,7 @@
 #include <string.h>
 
 #include "circuit.h"
+#include "cpu_board.h"
 #include "cpu.h"
 #include "cpu_state.h"
 #include "kind.h"
@@ -1912,6 +1917,97 @@ static void zcase_program(void) {
     zbench_close(b);
 }
 
+static uint32_t reg_value(const CpuState *state, const char *name) {
+    size_t i;
+
+    for (i = 0; i < state->register_count; i++) {
+        if (strcmp(state->registers[i].name, name) == 0) {
+            return state->registers[i].value;
+        }
+    }
+    return 0xEEEE;
+}
+
+/* ---- Whole-system boards (plan-09-D section 5) ------------------------------- */
+
+static int sram_is(const CpuBoard *board, uint32_t address, uint8_t expected) {
+    uint8_t value;
+
+    return cpu_board_sram(board, address, &value) && value == expected;
+}
+
+/* The 6502 boards: count 1..16 in zero page and at 0200, then STP (W65C02S)
+   or JMP $8012 (MPS6502). */
+static void board_6502(const char *name, int wdc) {
+    static const uint8_t COMMON[] = {0xA2, 0xFF, 0x9A, 0xA9, 0x00, 0x85, 0x10, 0xE6, 0x10, 0xA5,
+                                     0x10, 0x8D, 0x00, 0x02, 0xC9, 0x10, 0xD0, 0xF5};
+    uint8_t image[sizeof COMMON + 3];
+    size_t count = sizeof COMMON;
+    CpuBoard *board;
+    CpuState state;
+    char what[160];
+    uint16_t pc;
+
+    memcpy(image, COMMON, sizeof COMMON);
+    if (wdc) {
+        image[count++] = 0xDB;
+    } else {
+        image[count++] = 0x4C;
+        image[count++] = 0x12;
+        image[count++] = 0x80;
+    }
+    board = cpu_board_create(library, name, image, count, 0x8000);
+    if (board == NULL || !cpu_board_run(board, NS(2000000))) {
+        expect(0, "board did not run");
+        cpu_board_destroy(board);
+        return;
+    }
+    cpu_board_state(board, &state);
+    pc = (uint16_t)reg_value(&state, "PC");
+    snprintf(what, sizeof what, "%s board: SRAM 0010 = 10 and 0200 = 10", name);
+    expect(sram_is(board, 0x0010, 0x10) && sram_is(board, 0x0200, 0x10), what);
+    snprintf(what, sizeof what, "%s board: A = 10, X = FF, S = FF", name);
+    expect(state.register_count > 0 && reg_value(&state, "A") == 0x10 &&
+               reg_value(&state, "X") == 0xFF && reg_value(&state, "S") == 0xFF,
+           what);
+    /* The core's PC is the next byte to read: 8012-8015 in the JMP loop. */
+    snprintf(what, sizeof what, "%s board: %s", name,
+             wdc ? "status STOPPED, last instruction STP"
+                 : "RUNNING with PC in 8012-8015, last instruction JMP $8012");
+    expect(wdc ? state.status == CPU_STOPPED && strcmp(state.instruction_text, "STP") == 0
+               : state.status == CPU_RUNNING && pc >= 0x8012 && pc <= 0x8015 &&
+                     strcmp(state.instruction_text, "JMP $8012") == 0 &&
+                     state.instruction_address == 0x8012,
+           what);
+    cpu_board_destroy(board);
+}
+
+/* The Z80 board: count to 10 at 8200, CALL a store at 8201, HALT. */
+static void board_z80(void) {
+    static const uint8_t IMAGE[] = {
+        0x31, 0x00, 0x00, 0x3E, 0x00, 0x3C, 0x32, 0x00, 0x82, 0xFE, 0x10, 0x20, 0xF8, 0xCD,
+        0x20, 0x00, 0x76, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+        0xFF, 0xFF, 0xFF, 0xFF, 0x32, 0x01, 0x82, 0xC9
+    };
+    CpuBoard *board = cpu_board_create(library, "Z84C0010PEG", IMAGE, sizeof IMAGE, -1);
+    CpuState state;
+
+    if (board == NULL || !cpu_board_run(board, NS(2000000))) {
+        expect(0, "Z84C0010PEG board did not run");
+        cpu_board_destroy(board);
+        return;
+    }
+    cpu_board_state(board, &state);
+    expect(sram_is(board, 0x0200, 0x10) && sram_is(board, 0x0201, 0x10),
+           "Z84C0010PEG board: SRAM 0200 = 10 and 0201 = 10 (the CALLed store)");
+    expect(sram_is(board, 0x7FFE, 0x10) && sram_is(board, 0x7FFF, 0x00),
+           "Z84C0010PEG board: SRAM 7FFE-7FFF = 10 00 (the return address)");
+    expect(state.status == CPU_HALTED && (reg_value(&state, "AF") >> 8) == 0x10 &&
+               strcmp(state.instruction_text, "HALT") == 0,
+           "Z84C0010PEG board: HALTED, A = 10, last instruction HALT");
+    cpu_board_destroy(board);
+}
+
 int main(void) {
     size_t i;
 
@@ -1956,6 +2052,9 @@ int main(void) {
     zcase_busreq();
     zcase_clock();
     zcase_program();
+    board_6502("W65C02S6TPG-14", 1);
+    board_6502("MPS6502", 0);
+    board_z80();
     case_circuit_api();
 
     part_library_destroy(library);
