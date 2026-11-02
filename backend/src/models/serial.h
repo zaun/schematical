@@ -81,6 +81,8 @@ extern const SerialModel NS16550_MODEL;
 /* plan-12-J: the Maxim SPI/I2C UARTs. */
 extern const SerialModel MAX3100_MODEL;
 extern const SerialModel MAX310X_MODEL;
+/* plan-12-I: the SC18IS604 SPI-to-I2C bridge. */
+extern const SerialModel SC18IS604_MODEL;
 
 /* The pin a channel's terminal input drives (its RX pin), or SIZE_MAX. For
    circuit_serial_send's driven-net check. */

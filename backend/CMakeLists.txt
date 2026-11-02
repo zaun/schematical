@@ -48,8 +48,11 @@ add_library(logic STATIC
     src/models/ns16550_ext.c
     src/models/ns16550_lpt.c
     src/models/serial_target.c
+    src/models/ns16550_bridge.c
+    src/models/ns16550_xr1280.c
     src/models/serial_max3100.c
     src/models/serial_max310x.c
+    src/models/serial_sc18is604.c
     src/third_party/cjson/cJSON.c
 )
 target_include_directories(logic

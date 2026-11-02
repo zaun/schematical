@@ -26,7 +26,9 @@
 
 static const char *const TIMING[] = {
     "trvd", "thz", "trdd", "tbld", "trint", "thr", "tmdo", "tsim", "trim", "twxi", "twrr", "tir",
-    "tcso", NULL
+    "tcso",
+    /* plan-12-I: SPI SCLK to SO, CS to SO float, I2C SCL to SDA valid, GPIO output */
+    "tdo", "ttr", "tvd", "tgpio", NULL
 };
 static const char *const KEYS[] = {
     "bus", "clock", "channels", "fifo", "rxTrigger", "intPin", "dmaClass", "timeout",
@@ -39,7 +41,13 @@ static const char *const KEYS[] = {
     "prescaler", "lsrErrors", "mcrReset", "xonReset", "tcrNeedsDlab0", "dlabHidesUpper",
     "idRegs", "timeoutDelay", "divisorZero", "printerPort", "tristate", "absentTies",
     "optionalPins", "sprPowerUp", "dmaMode1", "lsrClearOnGood", "breakMarkTicks",
+    /* plan-12-I: the I2C/SPI bridges */
+    "interrupt", "gpio", "fastIrda", "dlPowerUp", "straps", "sleepPin",
     NULL
+};
+/* The plan-12-I keys, which need a serial host "bus". */
+static const char *const BRIDGE_KEYS[] = {
+    "interrupt", "gpio", "fastIrda", "dlPowerUp", "straps", "sleepPin", NULL
 };
 static const char *const CHANNEL_KEYS[] = {
     "tx", "rx", "rts", "dtr", "cts", "dsr", "dcd", "ri", "out1", "out2", "int", "txrdy", "rxrdy",
@@ -54,6 +62,9 @@ const ChannelPin MODEM_PIN[4] = {CH_CTS, CH_DSR, CH_RI, CH_DCD};
 void ns_drive(NsState *s, size_t pin, LogicValue value, SimTime delay) {
     if (!SERIAL_REAL_PIN(pin) || s->out[pin] == value) {
         return;
+    }
+    if (s->bridge != NULL && ns_bridge_owns(s, pin)) {
+        return;   /* plan-12-I: a GPIO/modem pin the bridge drives */
     }
     s->out[pin] = value;
     /* TRI high (TL16C552): every output floats. */
@@ -191,7 +202,7 @@ static unsigned tx_free(const NsChannel *c) {
 
 /* Each source: pending AND enabled, as 0 / 1 / X. */
 typedef struct {
-    LogicValue ls, rda, timeout, thre, modem, xoff, ctsrts;
+    LogicValue ls, rda, timeout, thre, modem, xoff, ctsrts, gpio;
 } Sources;
 
 static LogicValue any_bits(uint8_t v, uint8_t k, uint8_t mask) {
@@ -227,7 +238,27 @@ static Sources sources(const NsChannel *c) {
     r.modem = and3(any_bits(c->delta, c->delta_k, 0x0F), bit_of(c->ier, 3));
     r.xoff = ns_ext_xoff_source(c);
     r.ctsrts = ns_ext_ctsrts_source(c);
+    r.gpio = LOGIC_0;
+    if (d->bridge != NULL) {
+        /* plan-12-I: the GPIO source; the bridges' line-status and THR rules. */
+        r.gpio = ns_bridge_gpio_source(c);
+        r.ls = ns_bridge_ls_source(c, r.ls);
+        r.thre = ns_bridge_thr_source(c, r.thre);
+    }
     return r;
+}
+
+void ns_sources(const NsChannel *c, LogicValue out[8]) {
+    Sources r = sources(c);
+
+    out[0] = r.ls;
+    out[1] = r.rda;
+    out[2] = r.timeout;
+    out[3] = r.thre;
+    out[4] = r.modem;
+    out[5] = r.xoff;
+    out[6] = r.ctsrts;
+    out[7] = r.gpio;
 }
 
 /* IIR: the highest pending source. Unknown when an X decides it. */
@@ -236,16 +267,17 @@ static void iir_of(const NsChannel *c, uint8_t *v, uint8_t *k) {
     /* Standard: RX data (trigger reached) above the timeout; nxpEqual: one
        level, shown as the timeout while one is pending. */
     int timeout_first = c->owner->dev->iir_priority == IIR_NXP_EQUAL;
-    const LogicValue order[7] = {s.ls, timeout_first ? s.timeout : s.rda,
-                                 timeout_first ? s.rda : s.timeout, s.thre, s.modem, s.xoff,
-                                 s.ctsrts};
-    const uint8_t ID[7] = {0x06, timeout_first ? 0x0C : 0x04, timeout_first ? 0x04 : 0x0C,
-                           0x02, 0x00, 0x10, 0x20};
+    /* plan-12-I: the SC16IS7xx GPIO source (0x30) between modem and Xoff. */
+    const LogicValue order[8] = {s.ls, timeout_first ? s.timeout : s.rda,
+                                 timeout_first ? s.rda : s.timeout, s.thre, s.modem, s.gpio,
+                                 s.xoff, s.ctsrts};
+    const uint8_t ID[8] = {0x06, timeout_first ? 0x0C : 0x04, timeout_first ? 0x04 : 0x0C,
+                           0x02, 0x00, 0x30, 0x10, 0x20};
     unsigned i;
 
     *v = 0x01;
     *k = 0xFF;
-    for (i = 0; i < 7; i++) {
+    for (i = 0; i < 8; i++) {
         if (order[i] == LOGIC_X) {
             *k = 0;
             break;
@@ -264,13 +296,16 @@ static void iir_of(const NsChannel *c, uint8_t *v, uint8_t *k) {
     if (c->fifo_x) {
         *k &= (uint8_t)~0xC0;
     }
+    if (c->owner->dev->bridge != NULL) {
+        ns_bridge_iir_bits(c, v, k);   /* plan-12-I: XR20M1280 ISR[6] */
+    }
 }
 
 static LogicValue int_level(const NsChannel *c) {
     Sources s = sources(c);
 
     return or3(or3(or3(s.ls, s.rda), or3(s.timeout, s.thre)),
-               or3(s.modem, or3(s.xoff, s.ctsrts)));
+               or3(or3(s.modem, s.gpio), or3(s.xoff, s.ctsrts)));
 }
 
 void ns_iir_now(const NsChannel *c, uint8_t *v, uint8_t *k) {
@@ -355,7 +390,16 @@ static LogicValue int_pin_level(const NsState *s, const NsChannel *c, LogicValue
     return enable == LOGIC_0 ? LOGIC_Z : LOGIC_X;
 }
 
+static void update_channel_pins(NsState *s, NsChannel *c, Cause cause);
+
 static void update_channel_outputs(NsState *s, NsChannel *c, Cause cause) {
+    update_channel_pins(s, c, cause);
+    if (s->bridge != NULL) {
+        ns_bridge_outputs(s, cause);   /* plan-12-I: IRQ, GPIO and modem pins */
+    }
+}
+
+static void update_channel_pins(NsState *s, NsChannel *c, Cause cause) {
     const size_t *pin = s->pins->channel[c->index];
     SimTime int_delay = 0;
     SimTime modem_delay = 0;
@@ -559,9 +603,14 @@ static void modem_now(const NsState *s, const NsChannel *c, LogicValue now[4]) {
 
     for (i = 0; i < 4; i++) {
         size_t pin = s->pins->channel[c->index][MODEM_PIN[i]];
-        /* Absent pins read X (decisions.md); present ones are active low. */
-        LogicValue from_pin = pin == SERIAL_NO_PIN ? LOGIC_X
-                                                   : not3(serial_level(s->sim, s->instance, pin, LOGIC_X));
+        /* Absent pins read X (decisions.md); present ones are active low.
+           plan-12-I: a bridge's modem pin that is a GPIO now reads as absent. */
+        LogicValue z_reads = LOGIC_X;
+        LogicValue from_pin = pin == SERIAL_NO_PIN ||
+                                      (s->bridge != NULL &&
+                                       !ns_bridge_modem_input(s, c->index, pin, &z_reads))
+                                  ? LOGIC_X
+                                  : not3(serial_level(s->sim, s->instance, pin, z_reads));
         /* Loopback: RTS -> CTS, DTR -> DSR, OUT1 -> RI, OUT2 -> DCD. */
         static const unsigned FROM_MCR[4] = {1, 0, 2, 3};
         LogicValue from_mcr = bit_of(c->mcr, FROM_MCR[i]);
@@ -626,6 +675,17 @@ static void reset_all(NsState *s) {
         reset_channel(s, &s->ch[i], 0);
     }
     ns_lpt_reset(s);
+}
+
+void ns_reset_all(NsState *s) {
+    reset_all(s);
+}
+
+void ns_modem_refresh(NsState *s, NsChannel *c) {
+    LogicValue now[4];
+
+    modem_now(s, c, now);
+    memcpy(c->msr, now, sizeof now);
 }
 
 /* ---- Receiving ------------------------------------------------------------------------------ */
@@ -722,7 +782,8 @@ static void rx_tick(NsState *s, NsChannel *c) {
        "4w12": 4 characters plus 12 bit times. */
     /* TI AFR RCVEN = 0: no timeout at all (Table 21). */
     if (c->fifo_on && c->rx_count > 0 && !c->timeout &&
-        !(s->dev->afr == AFR_TI752 && bit_of(c->afr, 4) == LOGIC_0)) {
+        !(s->dev->afr == AFR_TI752 && bit_of(c->afr, 4) == LOGIC_0) &&
+        (s->dev->bridge == NULL || ns_bridge_timeout_on(c))) {
         uint64_t limit = 4ull * serial_format_char_bits(&c->format) * c->format.factor +
                          s->dev->timeout_extra;
 
@@ -759,6 +820,11 @@ static int tx_fetch(void *context, uint16_t *data, uint16_t *known) {
     }
     *data = c->tx_data[c->tx_head];
     *known = c->tx_known[c->tx_head];
+    /* plan-12-I: XR20M1280 SFR[7], a byte sent with its 9th bit 1 (the
+       format is restored after this tick, tx_tick). */
+    if (c->owner->dev->bridge != NULL && ns_bridge_tx_fetch(c)) {
+        c->format.parity = SERIAL_PARITY_MARK;
+    }
     c->tx_head = (c->tx_head + 1) % NS_MAX_FIFO;
     c->tx_count--;
     /* TX trigger: the THR interrupt as the free spaces reach the level. */
@@ -801,6 +867,9 @@ static void tx_tick(NsState *s, NsChannel *c) {
         return;
     }
     c->tsr = serial_tx_tick(&c->line.tx, &c->format, &events);
+    if (s->dev->bridge != NULL && c->format.parity == SERIAL_PARITY_MARK) {
+        update_format(c);   /* plan-12-I: undo a 9th-bit override (tx_fetch) */
+    }
     /* RS-485: DTR stays DLY bit times after the last stop bit, then drops. */
     if (c->rs485_on && c->rs485_lead == 0 && !serial_tx_busy(&c->line.tx) && c->tx_count == 0 &&
         c->flow_out_count == 0) {
@@ -924,6 +993,12 @@ static Cause reg_read_done(NsChannel *c, unsigned address) {
     uint8_t ext_v;
     uint8_t ext_k;
 
+    Cause cause;
+
+    /* plan-12-I: a bridge register with read side effects (IOState, GPIOLVL, FC). */
+    if (c->owner->dev->bridge != NULL && ns_bridge_read_done(c, address, &cause)) {
+        return cause;
+    }
     /* A register of the enhanced banks: no core side effects. */
     if (ns_ext_peek(c, address, &ext_v, &ext_k)) {
         return CAUSE_WRITE;
@@ -1023,6 +1098,9 @@ static void write_thr(NsChannel *c, uint8_t data, uint8_t known) {
         c->tx_data[at] = data;
         c->tx_known[at] = known;
         c->tx_count++;
+        if (c->owner->dev->bridge != NULL) {
+            ns_bridge_thr_written(c, at);   /* plan-12-I: 9th bit, send immediately */
+        }
     } else if (!c->fifo_on) {
         /* 16450: a THR write while it is full replaces the waiting byte. */
         c->tx_data[c->tx_head] = data;
@@ -1135,7 +1213,8 @@ static Cause reg_write(NsState *s, NsChannel *c, unsigned address, uint8_t data,
                    trigger) raises the THR interrupt. */
                 threshold = ns_ext_tx_threshold(c);
                 if (!was && (c->ier.v & 2u) &&
-                    (threshold == 0 ? c->thre : tx_free(c) >= threshold)) {
+                    (threshold == 0 ? c->thre : tx_free(c) >= threshold) &&
+                    (s->dev->bridge == NULL || ns_bridge_thr_on_enable(c))) {
                     c->thre_int = 1;
                 }
                 ns_ext_sleep_check(s, c);
@@ -1338,6 +1417,32 @@ static void bus_write(void *context, unsigned unit, unsigned address, uint8_t da
     update_shared_dma(s, cause);
 }
 
+/* ---- plan-12-I: register access from a serial host port -------------------------------------- */
+
+void ns_host_peek(NsState *s, unsigned ch, unsigned address, uint8_t *v, uint8_t *k) {
+    bus_peek(s, ch, address, v, k);
+}
+
+void ns_host_read_done(NsState *s, unsigned ch, unsigned address) {
+    bus_read_done(s, ch, address);
+}
+
+void ns_host_write(NsState *s, unsigned ch, unsigned address, uint8_t v, uint8_t k) {
+    bus_write(s, ch, address, v, k);
+}
+
+void ns_tx_tick(NsState *s, NsChannel *c) {
+    tx_tick(s, c);
+}
+
+void ns_rx_tick(NsState *s, NsChannel *c) {
+    rx_tick(s, c);
+}
+
+void ns_update_format(NsChannel *c) {
+    update_format(c);
+}
+
 /* ---- Engine callbacks ----------------------------------------------------------------------------- */
 
 static LogicValue reset_level(const NsState *s) {
@@ -1367,6 +1472,10 @@ static void apply_reset(NsState *s) {
         s->bus.enabled = 1;
     } else if (!s->unknown) {
         s->bus.enabled = 1;
+    }
+    if (s->bridge != NULL) {
+        s->bus.enabled = 0;   /* plan-12-I: no parallel bus; the host port follows reset */
+        ns_bridge_reset(s, active);
     }
     serial_bus_update(&s->bus, s->sim, s->instance, &s->events);
     update_outputs(s, CAUSE_SERIAL);
@@ -1400,6 +1509,9 @@ static void clock_edge(NsState *s, LogicValue level) {
         int tick = 0;
         LogicValue baudout;
 
+        if (s->bridge != NULL && ns_bridge_clock(s, c, rising, level)) {
+            continue;   /* plan-12-I: XR20M1280 independent TX/RX generators */
+        }
         if (ns_ext_prescale(s, c, rising) || (!rising && !c->asleep &&
                                               !(s->dev->prescaler != PRESCALE_NONE &&
                                                 bit_of(c->mcr, 7) == LOGIC_1))) {
@@ -1456,6 +1568,9 @@ static void ns_start(Sim *sim, SimInstance *instance, void *raw) {
     drive_baudout(s, s->ch[0].baud.baudout, 0);
     s->tri = serial_level(sim, instance, s->pins->tri, LOGIC_0) == LOGIC_1;
     serial_bus_start(&s->bus, sim, instance, &s->events);
+    if (s->bridge != NULL) {
+        ns_bridge_start(s);   /* plan-12-I */
+    }
     apply_reset(s);
 }
 
@@ -1497,6 +1612,9 @@ static void ns_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t pi
     if (pin == s->pins->reset) {
         apply_reset(s);
         return;
+    }
+    if (s->bridge != NULL) {
+        ns_bridge_pin(s, pin);   /* plan-12-I: host port, GPIO, straps */
     }
     if (pin == s->pins->clock_in) {
         clock_edge(s, serial_level(sim, instance, pin, LOGIC_X));
@@ -1548,6 +1666,17 @@ static void ns_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t pi
                 modem_changed(s, &s->ch[i]);
             }
         }
+    }
+}
+
+/* plan-12-I: the bridges' timers (the I2C SDA-low timeout). */
+static void ns_timer(Sim *sim, SimInstance *instance, void *raw, uint32_t timer_id) {
+    NsState *s = raw;
+
+    s->sim = sim;
+    s->instance = instance;
+    if (s->bridge != NULL) {
+        ns_bridge_timer(s, timer_id);
     }
 }
 
@@ -1626,6 +1755,12 @@ static void *ns_create(const Part *part, const void *data, const void *pins,
     }
     s->clock_level = LOGIC_X;
     s->receive_level = LOGIC_X;
+    if (s->dev->bridge != NULL && ns_bridge_create(s) != 0) {
+        ns_lpt_destroy(s->lpt);
+        free(s->out);
+        free(s);
+        return NULL;
+    }
     return s;
 }
 
@@ -1637,6 +1772,9 @@ static void ns_destroy(void *raw) {
         serial_line_free(&s->ch[i].line);
     }
     ns_lpt_destroy(s->lpt);
+    if (s->bridge != NULL) {
+        ns_bridge_destroy(s);
+    }
     free(s->out);
     free(s);
 }
@@ -1672,6 +1810,7 @@ static int load_name_list(KindContext *ctx, const cJSON *object, const char *key
     return 0;
 }
 
+/* 1 = the bus is a serial host port (plan-12-I, loaded by ns_bridge_load). */
 static int load_bus(KindContext *ctx, const cJSON *json, NsDevice *d) {
     static const char *const BUS_KEYS[] = {
         "style", "data", "address", "read", "readHigh", "write", "writeHigh", "select",
@@ -1686,8 +1825,15 @@ static int load_bus(KindContext *ctx, const cJSON *json, NsDevice *d) {
         return -1;
     }
     kind_push(ctx, "bus");
-    if (kind_check_keys(ctx, bus, BUS_KEYS, NULL) != 0 || kind_string(ctx, bus, "style", &style) != 0) {
+    if (kind_string(ctx, bus, "style", &style) != 0) {
         return -1;
+    }
+    if (strcmp(style, "intel") == 0 && kind_check_keys(ctx, bus, BUS_KEYS, NULL) != 0) {
+        return -1;
+    }
+    if (strcmp(style, "spi") == 0 || strcmp(style, "i2c") == 0 || strcmp(style, "i2c-spi") == 0) {
+        kind_pop(ctx);
+        return 1;   /* plan-12-I */
     }
     if (strcmp(style, "intel") != 0) {
         return kind_error(ctx, "unknown bus style \"%s\"", style);
@@ -2019,7 +2165,9 @@ static int load_absent(KindContext *ctx, const cJSON *json, NsDevice *d) {
 
 /* The plan-12-D Phase 2 keys. */
 static int load_phase2(KindContext *ctx, const cJSON *json, NsDevice *d) {
-    static const char *const EXTENDED[] = {"none", "afe", "750", "650", "752", "nsEfr", NULL};
+    static const char *const EXTENDED[] = {"none", "afe", "750", "650", "752", "nsEfr",
+                                           /* plan-12-I */
+                                           "sc16is", "sc16is-sfr", "sc16is-dld", "xr1280", NULL};
     static const char *const AFRS[] = {"none", "ti752", "ti2552", "ns", NULL};
     static const char *const FLOWS[] = {"none", "afe", "tcr", "efrTable", NULL};
     static const char *const SWFLOWS[] = {"none", "nxpAnd", "tiAnd", NULL};
@@ -2179,9 +2327,13 @@ static void *ns_load_device(KindContext *ctx, const cJSON *json, unsigned *chann
     unsigned max_fifo;
     int choice;
     int value;
+    int host;
 
-    if (d == NULL || load_bus(ctx, json, d) != 0 || load_clock(ctx, json, d) != 0 ||
-        load_channels(ctx, json, d) != 0) {
+    if (d == NULL) {
+        return NULL;
+    }
+    host = load_bus(ctx, json, d);
+    if (host < 0 || load_clock(ctx, json, d) != 0 || load_channels(ctx, json, d) != 0) {
         return NULL;
     }
     /* "fifo": 0, 16, 32, 64, 128, or "750" (16 or 64 by FCR[5]). */
@@ -2275,7 +2427,7 @@ static void *ns_load_device(KindContext *ctx, const cJSON *json, unsigned *chann
             return NULL;
         }
     }
-    if (d->channel_count > 1 && !d->per_channel_select && d->channel_pin == NULL) {
+    if (d->channel_count > 1 && !d->per_channel_select && d->channel_pin == NULL && !host) {
         kind_error(ctx, "more than one channel needs per-channel selects or \"channelSelect\"");
         return NULL;
     }
@@ -2311,6 +2463,25 @@ static void *ns_load_device(KindContext *ctx, const cJSON *json, unsigned *chann
     }
     if (load_phase2(ctx, json, d) != 0) {
         return NULL;
+    }
+    /* plan-12-I: the serial host port and the bridge keys. */
+    if (host) {
+        if (ns_bridge_load(ctx, json, cJSON_GetObjectItemCaseSensitive(json, "bus"), d) != 0) {
+            return NULL;
+        }
+    } else {
+        unsigned i;
+
+        for (i = 0; BRIDGE_KEYS[i] != NULL; i++) {
+            if (cJSON_GetObjectItemCaseSensitive(json, BRIDGE_KEYS[i]) != NULL) {
+                kind_error(ctx, "\"%s\" needs an I2C/SPI \"bus\"", BRIDGE_KEYS[i]);
+                return NULL;
+            }
+        }
+        if (d->extended >= EXT_SC16IS) {
+            kind_error(ctx, "the bridge \"extended\" styles need an I2C/SPI \"bus\"");
+            return NULL;
+        }
     }
     *channels = d->channel_count;
     return d;
@@ -2454,12 +2625,22 @@ static void *ns_bind(KindContext *ctx, const void *raw, const PartPin *pins, siz
         }
         p->lpt = lp;
     }
+    if (d->bridge != NULL && ns_bridge_bind(ctx, d, pins, pin_count, p) != 0) {
+        return NULL;   /* plan-12-I */
+    }
     return p;
+}
+
+static int ns_open_drain(const void *data, const void *pins, const void *options, size_t pin) {
+    const NsDevice *d = data;
+
+    (void)options;
+    return d->bridge != NULL && ns_bridge_open_drain(d, pins, pin);   /* plan-12-I */
 }
 
 const SerialModel NS16550_MODEL = {
     "ns16550", KEYS, TIMING, NULL,
-    ns_load_device, ns_bind, NULL, NULL,
-    ns_create, ns_destroy, ns_start, ns_pin_changed, NULL,
+    ns_load_device, ns_bind, NULL, ns_open_drain,
+    ns_create, ns_destroy, ns_start, ns_pin_changed, ns_timer,
     ns_channels, ns_line, ns_async
 };

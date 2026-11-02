@@ -19,6 +19,8 @@ static const SerialModel *const MODELS[] = {
     /* plan-12-J */
     &MAX3100_MODEL,
     &MAX310X_MODEL,
+    /* plan-12-I: the SPI-to-I2C bridge */
+    &SC18IS604_MODEL,
 };
 #define MODEL_COUNT (sizeof MODELS / sizeof MODELS[0])
 
@@ -38,6 +40,8 @@ static const char *const DEVICE_KEYS[] = {
     "optionalPins", "sprPowerUp", "dmaMode1", "lsrClearOnGood", "breakMarkTicks",
     /* max3100, max310x (plan-12-J) */
     "shutdown", "testMode", "transceiver", "variant", "reset", "interrupt", "gpio",
+    /* plan-12-I: the bridges (ns16550) and sc18is604 */
+    "fastIrda", "dlPowerUp", "straps", "sleepPin", "i2c",
     NULL
 };
 enum { FIRST_MODEL_KEY = 2 };
