@@ -1,35 +1,6 @@
 #!/usr/bin/env node
 // Search DigiKey's catalog (Product Information API v4, KeywordSearch).
-//
-//   node scripts/digikey.js "ECS-100AX"
-//   node scripts/digikey.js --category Oscillators --show Frequency "ECS-100AX"
-//   node scripts/digikey.js --category Oscillators --manufacturer ECS --list
-//
-// Filters take a DigiKey id or a name (case-insensitive; a unique prefix
-// such as "ECS" for "ECS Inc." also works). Keywords are optional when a
-// filter is given.
-//   --category <id|name>      e.g. 172 or "Oscillators"
-//   --manufacturer <id|name>  e.g. 50 or "ECS"
-//   --series <id|name>        e.g. "ECS-100X"
-//   --status <id|name>        e.g. Active, Obsolete; repeatable
-//   --active-only             only Active parts (status filter in the request)
-// Output:
-//   --list                    one line per part: <part number> <status> <datasheet url>
-//   --show <param,...>        add table columns, e.g. "Frequency,Package / Case"
-//   --limit <n>               most parts to fetch (default 500; --list: all)
-//   --pages <n>               most result pages (50 parts each) to fetch
-//   --json                    print each raw API response, one JSON line per page
-//
-// Parts print as they arrive, so an error part way keeps what came before.
-//
-// The API returns at most the first 300 results of a search, so a bigger
-// search is split into smaller ones on the filter options DigiKey reports
-// (category, manufacturer, series, status, then the parameter that splits
-// it best) and the results merged. Progress and the remaining daily call
-// allowance go to stderr.
-//
-// Credentials: the DIGIKEY_CLIENT_ID and DIGIKEY_CLIENT_SECRET environment
-// variables. Uses the 2-legged (client credentials) flow.
+// Run with no arguments, or --help, for instructions (HELP below).
 
 'use strict';
 
@@ -41,14 +12,74 @@ const API = 'https://api.digikey.com';
 const TOKEN_CACHE = path.join(os.tmpdir(), 'digikey-token.json');
 const PAGE = 50; // the API's largest page
 
+const HELP = `Search DigiKey's catalog.
+
+usage: node scripts/digikey.js [options] ["keywords"]
+
+Examples
+  node scripts/digikey.js "ECS-100AX"
+  node scripts/digikey.js --show "Frequency,Package / Case" "ECS-2100AX"
+  node scripts/digikey.js --category Oscillators --manufacturer ECS --active-only --list
+  node scripts/digikey.js --category 172 --manufacturer 50 --series ECS-2100X --list
+  node scripts/digikey.js --list --pages 3 --category Oscillators --manufacturer ECS
+
+Filters (sent to DigiKey; each takes a DigiKey id or a name)
+  --category <id|name>      e.g. 172 or Oscillators
+  --manufacturer <id|name>  e.g. 50 or ECS ("ECS Inc."; a unique prefix works)
+  --series <id|name>        e.g. ECS-2100X (the Series column of the table)
+  --status <id|name>        e.g. Active, Obsolete, "Not For New Designs"; repeatable
+  --active-only             only Active parts (cannot be combined with --status)
+
+Output
+  (default)                 a table: part number, status, stock, series, description
+  --list                    <part number> <TAB> <status> <TAB> <datasheet url>
+  --show <param,...>        add table columns from DigiKey's parameters,
+                            e.g. "Frequency,Package / Case,Voltage - Supply"
+  --json                    each raw API response, one JSON line per page
+  --limit <n>               most parts (default 500; with --list, all)
+  --pages <n>               most result pages (50 parts each)
+  -h, --help                this text
+
+Parts print as they arrive, so an error part way keeps what came before. A
+summary line goes to stderr: parts found, pages, API calls, calls left today.
+
+Things to know
+  * Credentials: DIGIKEY_CLIENT_ID and DIGIKEY_CLIENT_SECRET in the
+    environment (set in ~/.zshrc). The login token lasts 10 minutes and is
+    cached in the temp directory; it is renewed when it expires.
+  * Calls are rationed: about 1000 a day. Every page is one call, and each
+    name given to a filter costs one more to look up; ids skip that
+    (Oscillators = 172, ECS Inc. = 50). Try --pages 1 or --limit first.
+  * DigiKey returns at most the first 300 results of any one search. A bigger
+    search is split into smaller ones by category, manufacturer, series,
+    status, then whichever parameter splits it best, and the results merged
+    without duplicates. Listing everything is roughly one call per 50 parts
+    plus one per piece. A piece that cannot be split below 300 is cut short
+    with a warning (DigiKey uses "*" as the series of some parts).
+  * Keywords are fuzzy, not a part-number prefix. "ECS-" and "ECS-*" match
+    every ECS part (the maker's name), "ECX-" also finds ECX2-..., and
+    "ECS-21" finds the same parts as "ECS-2100". A fuller part number
+    ("ECS-100AX") or --series narrows the search. With a manufacturer
+    filter, leave the keywords out to get all of its parts.
+  * There is no filter on part names; to keep only some, filter the --list
+    output (e.g. | grep '^ECS-'). That does not save calls.
+  * One part can be listed several times, once per packing: a -TR suffix
+    is tape and reel, otherwise often bulk, tube or cut tape. They are the
+    same part.
+  * Status ids: 0 Active, 1 Obsolete, 7 Not For New Designs.
+`;
+
 function usage(message) {
-  if (message) console.error(`digikey: ${message}`);
-  console.error('usage: node scripts/digikey.js [--category X] [--manufacturer X] [--series X]\n' +
-    '                               [--status X] [--active-only] [--list] [--show p1,p2] [--limit N] [--pages N] [--json] ["keywords"]');
+  if (!message) {
+    process.stdout.write(HELP);
+    process.exit(0);
+  }
+  console.error(`digikey: ${message}\nRun with no arguments for help.`);
   process.exit(2);
 }
 
 function parseArgs(argv) {
+  if (argv.length === 0) usage();
   const opts = { status: [], show: [], limit: null, pages: Infinity, list: false, json: false, keywords: [] };
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
