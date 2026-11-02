@@ -145,6 +145,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         var military = false
         var automotive = false
         var enhanced = false
+        var ceramic = false
     }
 
     /// The facts that depend on the part's kind.
@@ -334,7 +335,8 @@ extension CatalogPart {
             obsolete: part.flags & UInt32(PART_OBSOLETE) != 0,
             military: part.flags & UInt32(PART_MILITARY) != 0,
             automotive: part.flags & UInt32(PART_AUTOMOTIVE) != 0,
-            enhanced: part.flags & UInt32(PART_ENHANCED) != 0
+            enhanced: part.flags & UInt32(PART_ENHANCED) != 0,
+            ceramic: part.flags & UInt32(PART_CERAMIC) != 0
         )
         pins = (0..<part.pin_count).compactMap { index in
             guard let pin = part.pins?[index] else { return nil }

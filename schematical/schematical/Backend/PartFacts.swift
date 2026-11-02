@@ -89,6 +89,7 @@ nonisolated enum PartFacts {
         if flags.military { names.append("Military") }
         if flags.automotive { names.append("Automotive") }
         if flags.enhanced { names.append("Enhanced") }
+        if flags.ceramic { names.append("Ceramic") }
         return names
     }
 

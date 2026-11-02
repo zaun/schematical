@@ -32,7 +32,8 @@ typedef enum {
 } PinRole;
 
 enum { PART_OBSOLETE = 1u << 0, PART_MILITARY = 1u << 1,
-       PART_AUTOMOTIVE = 1u << 2, PART_ENHANCED = 1u << 3 };
+       PART_AUTOMOTIVE = 1u << 2, PART_ENHANCED = 1u << 3,
+       PART_CERAMIC = 1u << 4 };
 
 /* A pin's position in Part.pins is its engine pin index. */
 typedef struct {

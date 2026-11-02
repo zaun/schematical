@@ -191,7 +191,10 @@ static const char *const PIN_KEYS[] = {"number", "ball", "name", "role", "group"
 static const char *const ROLE_NAMES[] = {
     "input", "output", "inout", "power", "ground", "nc", "absent"
 };
-static const char *const FLAG_NAMES[] = {"obsolete", "military", "automotive", "enhanced"};
+static const char *const FLAG_NAMES[] = {
+    "obsolete", "military", "automotive", "enhanced", "ceramic"
+};
+#define FLAG_COUNT (sizeof FLAG_NAMES / sizeof FLAG_NAMES[0])
 
 typedef struct {
     const char *name;
@@ -341,12 +344,12 @@ static int load_flags(KindContext *ctx, const cJSON *part_json, unsigned *flags)
         if (!cJSON_IsString(flag)) {
             return kind_error(ctx, "\"flags\" must be an array of strings");
         }
-        for (f = 0; f < 4; f++) {
+        for (f = 0; f < FLAG_COUNT; f++) {
             if (strcmp(flag->valuestring, FLAG_NAMES[f]) == 0) {
                 break;
             }
         }
-        if (f == 4) {
+        if (f == FLAG_COUNT) {
             return kind_error(ctx, "unknown flag \"%s\"", flag->valuestring);
         }
         *flags |= 1u << f;
