@@ -130,13 +130,19 @@ every 2048 clocks), `CD4017BE` (case 30), `CD4059AM` (case 42),
 
 Acceptance: `ctest` 14 of 14; goldens 5525 / 5525 / 156, added only. (Ran:
 `100% tests passed, 0 tests failed out of 14`.)
-Commit: —
+Commit: 108a814
 
 ### Phase 2 — Real-part cases
 
-- [ ] §4.3 cases in `counter_test`.
+- [x] §4.3 cases in `counter_test`. (The D/E case functions take a real
+  part through `real_part` and a longer step: 100 ns for HC/LS/LV/TTL, 1 µs
+  for CD4017BE and CD4059AM, 2 µs for CD4040BE; output lines carry the part
+  name, e.g. `PASS: [SN74HC161N] 1 …`. `docs/parts-format.md`'s file table
+  gains `counter.json`.)
 
-Acceptance: `counter_test` all `PASS`; `ctest` 14 of 14.
+Acceptance: `counter_test` all `PASS`; `ctest` 14 of 14. (Ran: 64 `PASS` —
+53 fixture cases and 11 real-part lines — and no `FAIL`; `100% tests
+passed, 0 tests failed out of 14`.)
 Commit: —
 
 ## Validation Plan

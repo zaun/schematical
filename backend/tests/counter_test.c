@@ -5,6 +5,7 @@
  * sections (no counter part file exists before plan-10-F), with 10 ns
  * delays (ripple: 5 ns per stage); levels are checked 50 ns after each step.
  * Cases 30-53 (plan-10-E) cover the johnson, seg7, divn and rate models.
+ * The "[part]" cases (plan-10-F) re-run some on real parts from counter.json.
  */
 
 #include <stdio.h>
@@ -14,6 +15,7 @@
 #include "bench.h"
 #include "kind.h"
 #include "parts.h"
+#include "read_file.h"
 #include "sim.h"
 
 #define NS(value) ((SimTime)((value) * 1000ull))
@@ -21,8 +23,18 @@
 static int failures = 0;
 static PartLibrary *library;
 
+/* Real-part runs (plan-10-F section 4.3): the cases open this part from the
+   real library instead of their fixture, and step this long. */
+static PartLibrary *real_library;
+static const char *real_part;
+static SimTime step_ps = NS(50);
+
 static void expect(int ok, const char *what) {
-    printf("%s: %s\n", ok ? "PASS" : "FAIL", what);
+    if (real_part != NULL) {
+        printf("%s: [%s] %s\n", ok ? "PASS" : "FAIL", real_part, what);
+    } else {
+        printf("%s: %s\n", ok ? "PASS" : "FAIL", what);
+    }
     if (!ok) {
         failures++;
     }
@@ -944,7 +956,8 @@ static const Part *fx_part(const char *device) {
     const Part *part;
 
     snprintf(name, sizeof name, "FX-%s", device);
-    part = part_library_find(library, name);
+    part = real_part != NULL ? part_library_find(real_library, real_part)
+                             : part_library_find(library, name);
     if (part == NULL || part->kind != PART_COUNTER) {
         fprintf(stderr, "no counter part %s\n", name);
         exit(1);
@@ -961,7 +974,7 @@ static Bench *open_joined(const char *device, const char *const *joins) {
 }
 
 static void step(Bench *b) {
-    bench_run(b, NS(50));
+    bench_run(b, step_ps);
 }
 
 static void set(Bench *b, const char *pin, LogicValue v) {
@@ -2401,13 +2414,13 @@ static unsigned divn_pulses(Bench *b, const char *clock, const char *out, unsign
 
     for (k = 1; k <= n; k++) {
         set(b, clock, L1);
-        bench_run(b, NS(100));
+        bench_run(b, 2 * step_ps);
         if (bench_get(b, out) == L1 && count < cap) {
             edges[count] = k;
             count++;
         }
         set(b, clock, L0);
-        bench_run(b, NS(100));
+        bench_run(b, 2 * step_ps);
     }
     return count;
 }
@@ -2424,7 +2437,7 @@ static unsigned divn_run(Bench *b, int ka, int kb, int kc, unsigned jam, unsigne
     return divn_pulses(b, "CL", "OUT", n, edges, cap);
 }
 
-static void check_4059(void) {
+static void check_4059_n3(void) {
     unsigned edges[8];
     Bench *b = open_fx("4059A");
     unsigned n;
@@ -2439,6 +2452,15 @@ static void check_4059(void) {
     expect(ok, "42 4059A divide-by-8 mode, N = 3: master preset, release, first pulse on the 4th edge, "
                "then every 3rd");
     bench_destroy(b);
+}
+
+static void check_4059(void) {
+    unsigned edges[8];
+    Bench *b;
+    unsigned n;
+    int ok;
+
+    check_4059_n3();
 
     /* Example A: mode 5, J1..J16 = 0011 1010 1001 0110 (J1 first) -> N = 8479. */
     b = open_fx("4059A");
@@ -2575,10 +2597,10 @@ static void check_4527(void) {
 
 static const char *const RATE6[] = {"B0", "B1", "B2", "B3", "B4", "B5"};
 
-static void check_97(void) {
+static Bench *check_97_rate(void) {
     Bench *b = open_fx("74_97");
     int bad = 0;
-    unsigned n, k;
+    unsigned n;
     int ok;
 
     set(b, "CLK", L0);
@@ -2599,6 +2621,14 @@ static void check_97(void) {
     step(b);
     expect(ok && is(b, "Y", L1), "50 74_97 M = 40 -> 40 Y pulses per 64 clocks; UNITY/CAS low -> Y "
                                  "high");
+    return b;
+}
+
+static void check_97(void) {
+    Bench *b = check_97_rate();
+    unsigned k;
+    int ok;
+
     set(b, "UNITY/CAS", L1);
     for (k = 0; k < 63; k++) {
         pulse(b, "CLK");
@@ -2635,6 +2665,76 @@ static void check_e_loader(void) {
                       E_TAIL,
                       "\"glyphs\" must have 10 names");
     expect(ok, "53 loader: seg7 with 9 glyphs is an error");
+}
+
+/* ---- plan-10-F: real parts ------------------------------------------------- */
+
+static void check_4040_real(void) {
+    Bench *b = bench_create(part_library_find(real_library, "CD4040BE"));
+    int ok = 1;
+    unsigned k;
+
+    set(b, "RESET", L1);
+    set(b, "CLK", L1);
+    step(b);
+    set(b, "RESET", L0);
+    step(b);
+    for (k = 1; k <= 4096; k++) {
+        fall(b, "CLK");
+        rise(b, "CLK");
+        if (k % 2048 == 0 || k % 2048 == 2047 || k == 1) {
+            ok &= is(b, "Q12", (k >> 11) & 1u ? L1 : L0);
+        }
+    }
+    expect(ok, "Q12 toggles every 2048 clocks");
+    bench_destroy(b);
+}
+
+static void real(const char *part, SimTime step, void (*check)(void)) {
+    real_part = part;
+    step_ps = step;
+    check();
+    real_part = NULL;
+    step_ps = NS(50);
+}
+
+static void check_193_real(void) {
+    static const char *const Q[] = {"QA", "QB", "QC", "QD"};
+
+    check_dual_clock("74_193", "UP", "DOWN", "LOAD", L0, "CLR", "CO", "BO", Q, ABCD,
+                     "9 UP rising counts with DOWN high; CO low while UP low at 15; BO low while "
+                     "DOWN low at 0; CLR high beats LOAD");
+}
+
+static void check_4017_real(void) {
+    johnson_cycle("4017B", "CLOCK", "CLOCKINHIBIT", "RESET", "CARRYOUT", 10,
+                  "30 each output high for one clock in order 0-9; carry high for 0-4");
+}
+
+static void check_97_real(void) {
+    bench_destroy(check_97_rate());
+}
+
+static void check_real_parts(void) {
+    real_library = part_library_create();
+    if (real_library == NULL || load_parts_dir(real_library, PARTS_DIR) != 0) {
+        printf("FAIL: cannot load the part library\n");
+        failures++;
+        return;
+    }
+    real("SN74HC161N", NS(100), check_161);
+    real("SN74LS193N", NS(100), check_193_real);
+    real("SN74HC590AN", NS(100), check_590);
+    real("SN74LV8154N", NS(100), check_8154);
+    real_part = "CD4040BE";
+    step_ps = NS(2000);
+    check_4040_real();
+    real_part = NULL;
+    step_ps = NS(50);
+    real("CD4017BE", NS(1000), check_4017_real);
+    real("CD4059AM", NS(1000), check_4059_n3);
+    real("SN7497N", NS(100), check_97_real);
+    part_library_destroy(real_library);
 }
 
 int main(void) {
@@ -2690,6 +2790,7 @@ int main(void) {
     check_4527();
     check_97();
     check_e_loader();
+    check_real_parts();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);
