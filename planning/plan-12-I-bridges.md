@@ -155,15 +155,24 @@ Commit: 96425c7 (models), 0986197 (fixtures), 57c9163 (cases), 256135a (docs)
   IL32-F. All 22 `add` parts in stock: none dropped. Re-checked on
   2026-11-02 before shipping: SC16IS7 17, SC18IS604 1, PI7C9X76 2, XR20M1
   15; the same 22 names.
-- [ ] `footprints.json` + 4; `serial.json` + 8 devices; regenerate the
+- [x] `footprints.json` + 4; `serial.json` + 8 devices; regenerate the
   goldens. Check: no removed line; added 22, 22, 4; hand-check the 4
   footprint lines. (Parent's step. The 4 footprints are in the fixture
   `backend/tests/fixtures/serial/footprints.json`; `merge.py --ship …,I`
-  writes the 8 devices.)
+  writes the 8 devices.) Observed: `merge.py --ship F,G,H,I` →
+  `serial.json: 73 devices, 201 parts`; goldens removed 0 / added 22, 22, 4;
+  `shipped` → `compared: 52 ns16550, 8 bridges, 13 classic`. Footprints
+  against `footprints.md`: QFN-24-4X4 ±1.875 (span 3.75), first −1.250
+  (pitch 0.5), 0.65×0.30, centre 2.7; TSSOP-28 ±2.985 (5.97), first −4.225
+  (pitch 0.65), 1.43×0.30, body 4.4×9.7; TQFN-32-5X5-ZH ±2.400 (4.8),
+  0.70×0.27, centre 3.25; TQFN-24-4X4-ZD ±1.930 (3.86), 0.70×0.28, centre
+  2.3. All as the JSON.
 
 Acceptance: `serial_test` I1–I9 `ok`; `ctest` 100%; the golden checks (about
-2 min).
-Commit: 96425c7 (sc18is604), 57c9163 (I8, I9); parts, footprints, goldens: —
+2 min). Observed: I1–I9 `ok`, `PASS`; `100% tests passed, 0 tests failed out
+of 19`.
+Commit: 96425c7 (sc18is604), 57c9163 (I8, I9); parts, footprints, goldens: the
+commit after 8815a63 (see the next plan update)
 
 ## Validation Plan
 

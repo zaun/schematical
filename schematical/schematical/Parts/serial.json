@@ -6181,6 +6181,608 @@
    ]
   },
   {
+   "id": "PI7C9X760",
+   "function": "Bridge UART",
+   "description": "I2C-bus/SPI to UART bridge controller with 64 bytes of TX/RX FIFOs",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "pi7c9x760.pdf p.1-47; plan-12-data/specs/bridges.md \u00a7 PI7C9X760",
+   "pinouts": {
+    "hvqfn24": [
+     {
+      "number": 1,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "I2C/SPI",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "CS/A0",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "SI/A1",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "SO",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "SCL/SCLK",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 11,
+      "name": "IRQ",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "GPIO0",
+      "role": "inout"
+     },
+     {
+      "number": 13,
+      "name": "GPIO1",
+      "role": "inout"
+     },
+     {
+      "number": 14,
+      "name": "GPIO2",
+      "role": "inout"
+     },
+     {
+      "number": 15,
+      "name": "GPIO3",
+      "role": "inout"
+     },
+     {
+      "number": 16,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 17,
+      "name": "GPIO4/DSR",
+      "role": "inout"
+     },
+     {
+      "number": 18,
+      "name": "GPIO5/DTR",
+      "role": "inout"
+     },
+     {
+      "number": 19,
+      "name": "GPIO6/CD",
+      "role": "inout"
+     },
+     {
+      "number": 20,
+      "name": "GPIO7/RI",
+      "role": "inout"
+     },
+     {
+      "number": 21,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "TX",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "RX",
+      "role": "input"
+     }
+    ]
+   },
+   "grades": {
+    "I": {
+     "tdo": 11,
+     "ttr": 100,
+     "tvd": 600,
+     "trint": 200,
+     "thr": 200,
+     "tir": 200,
+     "trim": 200,
+     "tsim": 200,
+     "tmdo": 200,
+     "tgpio": 200,
+     "vcc": [
+      1.62,
+      3.63
+     ],
+     "inputMax": 5.5,
+     "note": "pi7c9x760.pdf p.38-42, 3.3 V: SPI TDO 11 ns, TTR 100 ns, TD9-TD14 200 ns; I2C tVD 0.6 us, TD2 0.2 us"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "i2c-spi",
+    "selectPin": "I2C/SPI",
+    "spiLevel": 0,
+    "selectSampled": "reset",
+    "spi": {
+     "cs": "CS/A0",
+     "sclk": "SCL/SCLK",
+     "mosi": "SI/A1",
+     "miso": "SO",
+     "mode": 0
+    },
+    "i2c": {
+     "scl": "SCL/SCLK",
+     "sda": "SDA",
+     "address": [
+      "CS/A0",
+      "SI/A1"
+     ],
+     "table": [
+      77,
+      76,
+      78,
+      79,
+      73,
+      72,
+      74,
+      75,
+      81,
+      80,
+      82,
+      83,
+      85,
+      84,
+      86,
+      87
+     ]
+    },
+    "reset": "RESET",
+    "resetActiveHigh": false,
+    "nack": [
+     "full"
+    ]
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2"
+   },
+   "channels": [
+    {
+     "tx": "TX",
+     "rx": "RX",
+     "rts": "RTS",
+     "cts": "CTS",
+     "dsr": "GPIO4/DSR",
+     "dtr": "GPIO5/DTR",
+     "dcd": "GPIO6/CD",
+     "ri": "GPIO7/RI"
+    }
+   ],
+   "interrupt": "IRQ",
+   "gpio": {
+    "pins": [
+     "GPIO0",
+     "GPIO1",
+     "GPIO2",
+     "GPIO3",
+     "GPIO4/DSR",
+     "GPIO5/DTR",
+     "GPIO6/CD",
+     "GPIO7/RI"
+    ],
+    "registers": "sc16is",
+    "stateReset": 255
+   },
+   "fifo": 64,
+   "rxTrigger": [
+    8,
+    16,
+    56,
+    60
+   ],
+   "txTrigger": [
+    8,
+    16,
+    32,
+    56
+   ],
+   "tlr": 4,
+   "lcrReset": 29,
+   "dmaMode1": false,
+   "timeout": "4ch",
+   "iirPriority": "nxpEqual",
+   "lsrErrors": "head",
+   "autoFlow": "tcr",
+   "swFlow": "tiAnd",
+   "specialChar": true,
+   "sleep": "ier4",
+   "irda": "mcr6",
+   "prescaler": "mcr7",
+   "extended": "sc16is-sfr",
+   "fastIrda": true,
+   "xonReset": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "sprPowerUp": 255,
+   "dlPowerUp": [
+    1,
+    null
+   ],
+   "parts": [
+    {
+     "name": "PI7C9X760CZDEX",
+     "package": "TQFN",
+     "pinout": "hvqfn24",
+     "footprint": "TQFN-24-4X4-ZD",
+     "grade": "I"
+    }
+   ]
+  },
+  {
+   "id": "PI7C9X762",
+   "function": "Bridge UART",
+   "description": "I2C-bus/SPI to dual UART bridge controller with 64 bytes of TX/RX FIFOs",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "pi7c9x762.pdf p.1-49; plan-12-data/specs/bridges.md \u00a7 PI7C9X762",
+   "pinouts": {
+    "hvqfn32": [
+     {
+      "number": 1,
+      "name": "RXA",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 6,
+      "name": "I2C/SPI",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "CS/A0",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "SI/A1",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "SO",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "SCL/SCLK",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 12,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 13,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 14,
+      "name": "IRQ",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "CTSB",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "RTSB",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "GPIO0/DSRB",
+      "role": "inout"
+     },
+     {
+      "number": 18,
+      "name": "GPIO1/DTRB",
+      "role": "inout"
+     },
+     {
+      "number": 19,
+      "name": "GPIO2/CDB",
+      "role": "inout"
+     },
+     {
+      "number": 20,
+      "name": "GPIO3/RIB",
+      "role": "inout"
+     },
+     {
+      "number": 21,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 22,
+      "name": "TXB",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "RXB",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "GPIO4/DSRA",
+      "role": "inout"
+     },
+     {
+      "number": 25,
+      "name": "GPIO5/DTRA",
+      "role": "inout"
+     },
+     {
+      "number": 26,
+      "name": "GPIO6/CDA",
+      "role": "inout"
+     },
+     {
+      "number": 27,
+      "name": "GPIO7/RIA",
+      "role": "inout"
+     },
+     {
+      "number": 28,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 29,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 30,
+      "name": "RTSA",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "CTSA",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "TXA",
+      "role": "output"
+     }
+    ]
+   },
+   "grades": {
+    "I": {
+     "tdo": 11,
+     "ttr": 100,
+     "tvd": 600,
+     "trint": 200,
+     "thr": 200,
+     "tir": 200,
+     "trim": 200,
+     "tsim": 200,
+     "tmdo": 200,
+     "tgpio": 200,
+     "vcc": [
+      1.62,
+      3.63
+     ],
+     "inputMax": 5.5,
+     "note": "pi7c9x762.pdf p.38-42, 3.3 V: SPI TDO 11 ns, TTR 100 ns, TD9-TD14 200 ns; I2C tVD 0.6 us, TD2 0.2 us"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "i2c-spi",
+    "selectPin": "I2C/SPI",
+    "spiLevel": 0,
+    "selectSampled": "reset",
+    "spi": {
+     "cs": "CS/A0",
+     "sclk": "SCL/SCLK",
+     "mosi": "SI/A1",
+     "miso": "SO",
+     "mode": 0
+    },
+    "i2c": {
+     "scl": "SCL/SCLK",
+     "sda": "SDA",
+     "address": [
+      "CS/A0",
+      "SI/A1"
+     ],
+     "table": [
+      77,
+      76,
+      78,
+      79,
+      73,
+      72,
+      74,
+      75,
+      81,
+      80,
+      82,
+      83,
+      85,
+      84,
+      86,
+      87
+     ]
+    },
+    "reset": "RESET",
+    "resetActiveHigh": false,
+    "nack": [
+     "full"
+    ]
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2"
+   },
+   "channels": [
+    {
+     "tx": "TXA",
+     "rx": "RXA",
+     "rts": "RTSA",
+     "cts": "CTSA",
+     "dsr": "GPIO4/DSRA",
+     "dtr": "GPIO5/DTRA",
+     "dcd": "GPIO6/CDA",
+     "ri": "GPIO7/RIA"
+    },
+    {
+     "tx": "TXB",
+     "rx": "RXB",
+     "rts": "RTSB",
+     "cts": "CTSB",
+     "dsr": "GPIO0/DSRB",
+     "dtr": "GPIO1/DTRB",
+     "dcd": "GPIO2/CDB",
+     "ri": "GPIO3/RIB"
+    }
+   ],
+   "interrupt": "IRQ",
+   "gpio": {
+    "pins": [
+     "GPIO0/DSRB",
+     "GPIO1/DTRB",
+     "GPIO2/CDB",
+     "GPIO3/RIB",
+     "GPIO4/DSRA",
+     "GPIO5/DTRA",
+     "GPIO6/CDA",
+     "GPIO7/RIA"
+    ],
+    "registers": "sc16is",
+    "stateReset": 255
+   },
+   "fifo": 64,
+   "rxTrigger": [
+    8,
+    16,
+    56,
+    60
+   ],
+   "txTrigger": [
+    8,
+    16,
+    32,
+    56
+   ],
+   "tlr": 4,
+   "lcrReset": 29,
+   "dmaMode1": false,
+   "timeout": "4ch",
+   "iirPriority": "nxpEqual",
+   "lsrErrors": "head",
+   "autoFlow": "tcr",
+   "swFlow": "tiAnd",
+   "specialChar": true,
+   "sleep": "ier4",
+   "irda": "mcr6",
+   "prescaler": "mcr7",
+   "extended": "sc16is-sfr",
+   "fastIrda": true,
+   "xonReset": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "sprPowerUp": 255,
+   "dlPowerUp": [
+    1,
+    null
+   ],
+   "parts": [
+    {
+     "name": "PI7C9X762Q2ZHEX",
+     "package": "TQFN",
+     "pinout": "hvqfn32",
+     "footprint": "TQFN-32-5X5-ZH",
+     "grade": "I"
+    }
+   ]
+  },
+  {
    "id": "SC16C650B",
    "function": "UART",
    "description": "5 V, 3.3 V and 2.5 V UART with 32-byte FIFOs and infrared (IrDA) encoder/decoder",
@@ -7051,6 +7653,1199 @@
      "package": "HVQFN",
      "pinout": "hvqfn32",
      "footprint": "HVQFN-32-5X5",
+     "grade": "I"
+    }
+   ]
+  },
+  {
+   "id": "SC16IS740",
+   "function": "Bridge UART",
+   "description": "Single UART with I2C-bus/SPI interface, 64 bytes of transmit and receive FIFOs, IrDA SIR built-in support",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "sc16is750.pdf p.1-51 (the SC16IS740: no GPIO or modem pins); plan-12-data/specs/bridges.md \u00a7 SC16IS750",
+   "pinouts": {
+    "tssop16": [
+     {
+      "number": 1,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "CS/A0",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "SI/A1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "SO",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "SCL/SCLK",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "IRQ",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "I2C/SPI",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 10,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "TX",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "RX",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "XTAL2",
+      "role": "output"
+     }
+    ]
+   },
+   "grades": {
+    "740": {
+     "tdo": 100,
+     "ttr": 100,
+     "tvd": 600,
+     "trint": 200,
+     "thr": 200,
+     "tir": 200,
+     "trim": 200,
+     "tsim": 200,
+     "tmdo": 200,
+     "tgpio": 200,
+     "vcc": [
+      2.3,
+      3.6
+     ],
+     "inputMax": 5.5,
+     "note": "sc16is750.pdf p.40-46, 3.3 V: Table 39 (SPI 4 MHz: tDO 100 ns, tTR 100 ns, td9-td14 200 ns: tgpio, tmdo, thr, tir, trim, trint), Table 37 (I2C tVD;DAT 0.6 us -> tvd; td2 modem interrupt 0.2 us -> tsim)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "i2c-spi",
+    "selectPin": "I2C/SPI",
+    "spiLevel": 0,
+    "selectSampled": "reset",
+    "spi": {
+     "cs": "CS/A0",
+     "sclk": "SCL/SCLK",
+     "mosi": "SI/A1",
+     "miso": "SO",
+     "mode": 0
+    },
+    "i2c": {
+     "scl": "SCL/SCLK",
+     "sda": "SDA",
+     "address": [
+      "CS/A0",
+      "SI/A1"
+     ],
+     "table": [
+      77,
+      76,
+      78,
+      79,
+      73,
+      72,
+      74,
+      75,
+      81,
+      80,
+      82,
+      83,
+      85,
+      84,
+      86,
+      87
+     ]
+    },
+    "reset": "RESET",
+    "resetActiveHigh": false,
+    "nack": [
+     "reset"
+    ],
+    "sdaTimeout": 25000000
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2"
+   },
+   "channels": [
+    {
+     "tx": "TX",
+     "rx": "RX",
+     "rts": "RTS",
+     "cts": "CTS"
+    }
+   ],
+   "interrupt": "IRQ",
+   "fifo": 64,
+   "rxTrigger": [
+    8,
+    16,
+    56,
+    60
+   ],
+   "txTrigger": [
+    8,
+    16,
+    32,
+    56
+   ],
+   "tlr": 4,
+   "lcrReset": 29,
+   "dmaMode1": false,
+   "timeout": "4ch",
+   "iirPriority": "nxpEqual",
+   "lsrErrors": "head",
+   "autoFlow": "tcr",
+   "swFlow": "tiAnd",
+   "specialChar": true,
+   "sleep": "ier4",
+   "irda": "mcr6",
+   "prescaler": "mcr7",
+   "extended": "sc16is",
+   "parts": [
+    {
+     "name": "SC16IS740IPW,112",
+     "package": "TSSOP",
+     "pinout": "tssop16",
+     "footprint": "TSSOP-16",
+     "flags": [
+      "obsolete"
+     ],
+     "grade": "740"
+    },
+    {
+     "name": "SC16IS740IPW,128",
+     "package": "TSSOP",
+     "pinout": "tssop16",
+     "footprint": "TSSOP-16",
+     "grade": "740"
+    },
+    {
+     "name": "SC16IS740IPW/Q900,",
+     "package": "TSSOP",
+     "pinout": "tssop16",
+     "footprint": "TSSOP-16",
+     "flags": [
+      "automotive"
+     ],
+     "grade": "740"
+    }
+   ]
+  },
+  {
+   "id": "SC16IS750",
+   "function": "Bridge UART",
+   "description": "Single UART with I2C-bus/SPI interface, 64 bytes of transmit and receive FIFOs, IrDA SIR built-in support",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "sc16is750.pdf p.1-51 (SC16IS750 and SC16IS760); plan-12-data/specs/bridges.md \u00a7 SC16IS750",
+   "pinouts": {
+    "hvqfn24": [
+     {
+      "number": 1,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "I2C/SPI",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "CS/A0",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "SI/A1",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "SO",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "SCL/SCLK",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 11,
+      "name": "IRQ",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "GPIO0",
+      "role": "inout"
+     },
+     {
+      "number": 13,
+      "name": "GPIO1",
+      "role": "inout"
+     },
+     {
+      "number": 14,
+      "name": "GPIO2",
+      "role": "inout"
+     },
+     {
+      "number": 15,
+      "name": "GPIO3",
+      "role": "inout"
+     },
+     {
+      "number": 16,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 17,
+      "name": "GPIO4/DSR",
+      "role": "inout"
+     },
+     {
+      "number": 18,
+      "name": "GPIO5/DTR",
+      "role": "inout"
+     },
+     {
+      "number": 19,
+      "name": "GPIO6/CD",
+      "role": "inout"
+     },
+     {
+      "number": 20,
+      "name": "GPIO7/RI",
+      "role": "inout"
+     },
+     {
+      "number": 21,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "TX",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "RX",
+      "role": "input"
+     }
+    ]
+   },
+   "grades": {
+    "750": {
+     "tdo": 100,
+     "ttr": 100,
+     "tvd": 600,
+     "trint": 200,
+     "thr": 200,
+     "tir": 200,
+     "trim": 200,
+     "tsim": 200,
+     "tmdo": 200,
+     "tgpio": 200,
+     "vcc": [
+      2.3,
+      3.6
+     ],
+     "inputMax": 5.5,
+     "note": "sc16is750.pdf p.40-46, 3.3 V: Table 39 (SPI 4 MHz: tDO 100 ns, tTR 100 ns, td9-td14 200 ns: tgpio, tmdo, thr, tir, trim, trint), Table 37 (I2C tVD;DAT 0.6 us -> tvd; td2 modem interrupt 0.2 us -> tsim)"
+    },
+    "760": {
+     "tdo": 20,
+     "ttr": 100,
+     "tvd": 600,
+     "trint": 200,
+     "thr": 200,
+     "tir": 200,
+     "trim": 200,
+     "tsim": 200,
+     "tmdo": 200,
+     "tgpio": 200,
+     "vcc": [
+      2.3,
+      3.6
+     ],
+     "inputMax": 5.5,
+     "note": "sc16is750.pdf p.40-46, 3.3 V: Table 40 (SPI 15 MHz: tDO 20 ns, tTR 100 ns, td9-td14 200 ns), Table 37 (tVD;DAT 0.6 us, td2 0.2 us)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "i2c-spi",
+    "selectPin": "I2C/SPI",
+    "spiLevel": 0,
+    "selectSampled": "reset",
+    "spi": {
+     "cs": "CS/A0",
+     "sclk": "SCL/SCLK",
+     "mosi": "SI/A1",
+     "miso": "SO",
+     "mode": 0
+    },
+    "i2c": {
+     "scl": "SCL/SCLK",
+     "sda": "SDA",
+     "address": [
+      "CS/A0",
+      "SI/A1"
+     ],
+     "table": [
+      77,
+      76,
+      78,
+      79,
+      73,
+      72,
+      74,
+      75,
+      81,
+      80,
+      82,
+      83,
+      85,
+      84,
+      86,
+      87
+     ]
+    },
+    "reset": "RESET",
+    "resetActiveHigh": false,
+    "nack": [
+     "reset"
+    ],
+    "sdaTimeout": 25000000
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2"
+   },
+   "channels": [
+    {
+     "tx": "TX",
+     "rx": "RX",
+     "rts": "RTS",
+     "cts": "CTS",
+     "dsr": "GPIO4/DSR",
+     "dtr": "GPIO5/DTR",
+     "dcd": "GPIO6/CD",
+     "ri": "GPIO7/RI"
+    }
+   ],
+   "interrupt": "IRQ",
+   "gpio": {
+    "pins": [
+     "GPIO0",
+     "GPIO1",
+     "GPIO2",
+     "GPIO3",
+     "GPIO4/DSR",
+     "GPIO5/DTR",
+     "GPIO6/CD",
+     "GPIO7/RI"
+    ],
+    "registers": "sc16is",
+    "pullUp": true
+   },
+   "fifo": 64,
+   "rxTrigger": [
+    8,
+    16,
+    56,
+    60
+   ],
+   "txTrigger": [
+    8,
+    16,
+    32,
+    56
+   ],
+   "tlr": 4,
+   "lcrReset": 29,
+   "dmaMode1": false,
+   "timeout": "4ch",
+   "iirPriority": "nxpEqual",
+   "lsrErrors": "head",
+   "autoFlow": "tcr",
+   "swFlow": "tiAnd",
+   "specialChar": true,
+   "sleep": "ier4",
+   "irda": "mcr6",
+   "prescaler": "mcr7",
+   "extended": "sc16is",
+   "fastIrda": [
+    "760"
+   ],
+   "parts": [
+    {
+     "name": "SC16IS750IBS,128",
+     "package": "HVQFN",
+     "pinout": "hvqfn24",
+     "footprint": "QFN-24-4X4",
+     "grade": "750"
+    },
+    {
+     "name": "SC16IS750IBS,157",
+     "package": "HVQFN",
+     "pinout": "hvqfn24",
+     "footprint": "QFN-24-4X4",
+     "flags": [
+      "obsolete"
+     ],
+     "grade": "750"
+    },
+    {
+     "name": "SC16IS760IBS,128",
+     "package": "HVQFN",
+     "pinout": "hvqfn24",
+     "footprint": "QFN-24-4X4",
+     "grade": "760"
+    }
+   ]
+  },
+  {
+   "id": "SC16IS752",
+   "function": "Bridge UART",
+   "description": "Dual UART with I2C-bus/SPI interface, 64 bytes of transmit and receive FIFOs, IrDA SIR built-in support",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "sc16is752.pdf p.1-51 (SC16IS752 and SC16IS762); plan-12-data/specs/bridges.md \u00a7 SC16IS752",
+   "pinouts": {
+    "hvqfn32": [
+     {
+      "number": 1,
+      "name": "RXA",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 6,
+      "name": "I2C/SPI",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "CS/A0",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "SI/A1",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "SO",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "SCL/SCLK",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 12,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 13,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 14,
+      "name": "IRQ",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "CTSB",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "RTSB",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "GPIO0/DSRB",
+      "role": "inout"
+     },
+     {
+      "number": 18,
+      "name": "GPIO1/DTRB",
+      "role": "inout"
+     },
+     {
+      "number": 19,
+      "name": "GPIO2/CDB",
+      "role": "inout"
+     },
+     {
+      "number": 20,
+      "name": "GPIO3/RIB",
+      "role": "inout"
+     },
+     {
+      "number": 21,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 22,
+      "name": "TXB",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "RXB",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "GPIO4/DSRA",
+      "role": "inout"
+     },
+     {
+      "number": 25,
+      "name": "GPIO5/DTRA",
+      "role": "inout"
+     },
+     {
+      "number": 26,
+      "name": "GPIO6/CDA",
+      "role": "inout"
+     },
+     {
+      "number": 27,
+      "name": "GPIO7/RIA",
+      "role": "inout"
+     },
+     {
+      "number": 28,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 29,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 30,
+      "name": "RTSA",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "CTSA",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "TXA",
+      "role": "output"
+     }
+    ],
+    "tssop28": [
+     {
+      "number": 1,
+      "name": "RTSA",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "CTSA",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "TXA",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RXA",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 9,
+      "name": "I2C/SPI",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "CS/A0",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "SI/A1",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "SO",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "SCL/SCLK",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 15,
+      "name": "IRQ",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "CTSB",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "RTSB",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "GPIO0/DSRB",
+      "role": "inout"
+     },
+     {
+      "number": 19,
+      "name": "GPIO1/DTRB",
+      "role": "inout"
+     },
+     {
+      "number": 20,
+      "name": "GPIO2/CDB",
+      "role": "inout"
+     },
+     {
+      "number": 21,
+      "name": "GPIO3/RIB",
+      "role": "inout"
+     },
+     {
+      "number": 22,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 23,
+      "name": "TXB",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "RXB",
+      "role": "input"
+     },
+     {
+      "number": 25,
+      "name": "GPIO4/DSRA",
+      "role": "inout"
+     },
+     {
+      "number": 26,
+      "name": "GPIO5/DTRA",
+      "role": "inout"
+     },
+     {
+      "number": 27,
+      "name": "GPIO6/CDA",
+      "role": "inout"
+     },
+     {
+      "number": 28,
+      "name": "GPIO7/RIA",
+      "role": "inout"
+     }
+    ]
+   },
+   "grades": {
+    "752": {
+     "tdo": 100,
+     "ttr": 100,
+     "tvd": 600,
+     "trint": 200,
+     "thr": 200,
+     "tir": 200,
+     "trim": 200,
+     "tsim": 200,
+     "tmdo": 200,
+     "tgpio": 200,
+     "vcc": [
+      2.3,
+      3.6
+     ],
+     "inputMax": 5.5,
+     "note": "sc16is752.pdf p.39-44 with the SC16IS750 4 MHz SPI table (decisions.md: sc16is750.pdf Table 39, tDO 100 ns, tTR 100 ns, td9-td14 200 ns); I2C Table 37 tVD;DAT 0.6 us, td2 0.2 us"
+    },
+    "762": {
+     "tdo": 20,
+     "ttr": 100,
+     "tvd": 600,
+     "trint": 200,
+     "thr": 200,
+     "tir": 200,
+     "trim": 200,
+     "tsim": 200,
+     "tmdo": 200,
+     "tgpio": 200,
+     "vcc": [
+      2.3,
+      3.6
+     ],
+     "inputMax": 5.5,
+     "note": "sc16is752.pdf p.41-44, 3.3 V: Table 39 (SPI 15 MHz: tDO 20 ns, tTR 100 ns, td9-td14 200 ns); I2C Table 37 tVD;DAT 0.6 us, td2 0.2 us"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "i2c-spi",
+    "selectPin": "I2C/SPI",
+    "spiLevel": 0,
+    "selectSampled": "reset",
+    "spi": {
+     "cs": "CS/A0",
+     "sclk": "SCL/SCLK",
+     "mosi": "SI/A1",
+     "miso": "SO",
+     "mode": 0
+    },
+    "i2c": {
+     "scl": "SCL/SCLK",
+     "sda": "SDA",
+     "address": [
+      "CS/A0",
+      "SI/A1"
+     ],
+     "table": [
+      77,
+      76,
+      78,
+      79,
+      73,
+      72,
+      74,
+      75,
+      81,
+      80,
+      82,
+      83,
+      85,
+      84,
+      86,
+      87
+     ]
+    },
+    "reset": "RESET",
+    "resetActiveHigh": false,
+    "nack": [
+     "reset"
+    ],
+    "sdaTimeout": 25000000
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2"
+   },
+   "channels": [
+    {
+     "tx": "TXA",
+     "rx": "RXA",
+     "rts": "RTSA",
+     "cts": "CTSA",
+     "dsr": "GPIO4/DSRA",
+     "dtr": "GPIO5/DTRA",
+     "dcd": "GPIO6/CDA",
+     "ri": "GPIO7/RIA"
+    },
+    {
+     "tx": "TXB",
+     "rx": "RXB",
+     "rts": "RTSB",
+     "cts": "CTSB",
+     "dsr": "GPIO0/DSRB",
+     "dtr": "GPIO1/DTRB",
+     "dcd": "GPIO2/CDB",
+     "ri": "GPIO3/RIB"
+    }
+   ],
+   "interrupt": "IRQ",
+   "gpio": {
+    "pins": [
+     "GPIO0/DSRB",
+     "GPIO1/DTRB",
+     "GPIO2/CDB",
+     "GPIO3/RIB",
+     "GPIO4/DSRA",
+     "GPIO5/DTRA",
+     "GPIO6/CDA",
+     "GPIO7/RIA"
+    ],
+    "registers": "sc16is",
+    "pullUp": true
+   },
+   "fifo": 64,
+   "rxTrigger": [
+    8,
+    16,
+    56,
+    60
+   ],
+   "txTrigger": [
+    8,
+    16,
+    32,
+    56
+   ],
+   "tlr": 4,
+   "lcrReset": 29,
+   "dmaMode1": false,
+   "timeout": "4ch",
+   "iirPriority": "nxpEqual",
+   "lsrErrors": "head",
+   "autoFlow": "tcr",
+   "swFlow": "tiAnd",
+   "specialChar": true,
+   "sleep": "ier4",
+   "irda": "mcr6",
+   "prescaler": "mcr7",
+   "extended": "sc16is",
+   "fastIrda": [
+    "762"
+   ],
+   "parts": [
+    {
+     "name": "SC16IS752IBS,128",
+     "package": "HVQFN",
+     "pinout": "hvqfn32",
+     "footprint": "HVQFN-32-5X5",
+     "grade": "752"
+    },
+    {
+     "name": "SC16IS752IBS,151",
+     "package": "HVQFN",
+     "pinout": "hvqfn32",
+     "footprint": "HVQFN-32-5X5",
+     "grade": "752"
+    },
+    {
+     "name": "SC16IS752IPW,112",
+     "package": "TSSOP",
+     "pinout": "tssop28",
+     "footprint": "TSSOP-28",
+     "flags": [
+      "obsolete"
+     ],
+     "grade": "752"
+    },
+    {
+     "name": "SC16IS752IPW,128",
+     "package": "TSSOP",
+     "pinout": "tssop28",
+     "footprint": "TSSOP-28",
+     "grade": "752"
+    },
+    {
+     "name": "SC16IS762IBS,128",
+     "package": "HVQFN",
+     "pinout": "hvqfn32",
+     "footprint": "HVQFN-32-5X5",
+     "grade": "762"
+    },
+    {
+     "name": "SC16IS762IPW,112",
+     "package": "TSSOP",
+     "pinout": "tssop28",
+     "footprint": "TSSOP-28",
+     "flags": [
+      "obsolete"
+     ],
+     "grade": "762"
+    },
+    {
+     "name": "SC16IS762IPW,128",
+     "package": "TSSOP",
+     "pinout": "tssop28",
+     "footprint": "TSSOP-28",
+     "grade": "762"
+    }
+   ]
+  },
+  {
+   "id": "SC18IS604",
+   "function": "I2C controller",
+   "description": "SPI to I2C-bus bridge",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "sc18is604.pdf p.1-19; plan-12-data/specs/bridges.md \u00a7 SC18IS604",
+   "pinouts": {
+    "tssop16": [
+     {
+      "number": 1,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "SCL",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "INT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "GPIO4",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "GPIO3",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "GPIO2",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "CS",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "GPIO0",
+      "role": "inout"
+     },
+     {
+      "number": 10,
+      "name": "MOSI",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "SCLK",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 13,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 14,
+      "name": "MISO",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "VREFP",
+      "role": "power"
+     },
+     {
+      "number": 16,
+      "name": "GPIO1",
+      "role": "inout"
+     }
+    ]
+   },
+   "grades": {
+    "I": {
+     "tvq": 28,
+     "tstart": 35000,
+     "tsa": 125,
+     "vcc": [
+      1.71,
+      3.6
+     ],
+     "inputMax": 5.4,
+     "note": "sc18is604.pdf p.14-17, 3.0-3.6 V: tv(Q) 28 ns, td 35 us (last SCLK to the I2C START), tsa 125 ns (RESET pulse accepted); MISO float not stated (0)"
+    }
+   },
+   "model": "sc18is604",
+   "bus": {
+    "style": "spi",
+    "cs": "CS",
+    "sclk": "SCLK",
+    "mosi": "MOSI",
+    "miso": "MISO",
+    "mode": 3
+   },
+   "i2c": {
+    "scl": "SCL",
+    "sda": "SDA"
+   },
+   "reset": "RESET",
+   "interrupt": "INT",
+   "gpio": [
+    "GPIO0",
+    "GPIO1",
+    "GPIO2",
+    "GPIO3",
+    "GPIO4"
+   ],
+   "parts": [
+    {
+     "name": "SC18IS604PWJ",
+     "package": "TSSOP",
+     "pinout": "tssop16",
+     "footprint": "TSSOP-16",
      "grade": "I"
     }
    ]
@@ -34238,6 +36033,983 @@
      "package": "QFP",
      "pinout": "qfp100",
      "footprint": "QFP-100-14X20",
+     "grade": "I"
+    }
+   ]
+  },
+  {
+   "id": "XR20M1170",
+   "function": "Bridge UART",
+   "description": "I2C/SPI UART with 64-byte FIFO",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "xr20m1170.pdf p.1-60; plan-12-data/specs/bridges.md \u00a7 XR20M1170",
+   "pinouts": {
+    "qfn24": [
+     {
+      "number": 1,
+      "name": "SO",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "GPIO0",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "GPIO1",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "I2C/SPI",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "RX",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "TX",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "GPIO2",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "GPIO3",
+      "role": "inout"
+     },
+     {
+      "number": 11,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 12,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 13,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "IRQ",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "GPIO5/DTR",
+      "role": "inout"
+     },
+     {
+      "number": 17,
+      "name": "GPIO4/DSR",
+      "role": "inout"
+     },
+     {
+      "number": 18,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "GPIO6/CD",
+      "role": "inout"
+     },
+     {
+      "number": 21,
+      "name": "GPIO7/RI",
+      "role": "inout"
+     },
+     {
+      "number": 22,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 23,
+      "name": "A0/CS",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "A1/SI",
+      "role": "input"
+     }
+    ],
+    "tssop24": [
+     {
+      "number": 1,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "A0/CS",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "A1/SI",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "SO",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "GPIO0",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "GPIO1",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "I2C/SPI",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "RX",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "TX",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "GPIO2",
+      "role": "inout"
+     },
+     {
+      "number": 11,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "GPIO3",
+      "role": "inout"
+     },
+     {
+      "number": 14,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 15,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 16,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "IRQ",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "GPIO5/DTR",
+      "role": "inout"
+     },
+     {
+      "number": 20,
+      "name": "GPIO4/DSR",
+      "role": "inout"
+     },
+     {
+      "number": 21,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 22,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "GPIO6/CD",
+      "role": "inout"
+     },
+     {
+      "number": 24,
+      "name": "GPIO7/RI",
+      "role": "inout"
+     }
+    ],
+    "tssop16": [
+     {
+      "number": 1,
+      "name": "A0/CS",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "A1/SI",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "SO",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "I2C/SPI",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "RX",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "TX",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 10,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 11,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "IRQ",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "grades": {
+    "I": {
+     "tdo": 15,
+     "ttr": 100,
+     "tvd": 600,
+     "trint": 200,
+     "thr": 200,
+     "tir": 200,
+     "trim": 200,
+     "tsim": 200,
+     "tmdo": 200,
+     "tgpio": 200,
+     "vcc": [
+      1.62,
+      3.63
+     ],
+     "note": "xr20m1170.pdf p.42-48, 3.3 V: SPI TDO 15 ns, TTR 100 ns, TD9-TD14 200 ns; I2C tVD 0.6 us, TD2 0.2 us; inputs not 5 V tolerant (VIH max = VCC)"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "i2c-spi",
+    "selectPin": "I2C/SPI",
+    "spiLevel": 0,
+    "selectSampled": "reset",
+    "spi": {
+     "cs": "A0/CS",
+     "sclk": "SCL",
+     "mosi": "A1/SI",
+     "miso": "SO",
+     "mode": 0
+    },
+    "i2c": {
+     "scl": "SCL",
+     "sda": "SDA",
+     "address": [
+      "A0/CS",
+      "A1/SI"
+     ],
+     "table": [
+      53,
+      52,
+      54,
+      55,
+      49,
+      48,
+      50,
+      51,
+      49,
+      48,
+      50,
+      51,
+      53,
+      52,
+      54,
+      55
+     ]
+    },
+    "reset": "RESET",
+    "resetActiveHigh": false,
+    "nack": [
+     "full"
+    ]
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2"
+   },
+   "channels": [
+    {
+     "tx": "TX",
+     "rx": "RX",
+     "rts": "RTS",
+     "cts": "CTS",
+     "dsr": "GPIO4/DSR",
+     "dtr": "GPIO5/DTR",
+     "dcd": "GPIO6/CD",
+     "ri": "GPIO7/RI"
+    }
+   ],
+   "interrupt": "IRQ",
+   "gpio": {
+    "pins": [
+     "GPIO0",
+     "GPIO1",
+     "GPIO2",
+     "GPIO3",
+     "GPIO4/DSR",
+     "GPIO5/DTR",
+     "GPIO6/CD",
+     "GPIO7/RI"
+    ],
+    "registers": "sc16is",
+    "stateReset": 0
+   },
+   "fifo": 64,
+   "rxTrigger": [
+    8,
+    16,
+    56,
+    60
+   ],
+   "txTrigger": [
+    8,
+    16,
+    32,
+    56
+   ],
+   "tlr": 4,
+   "lcrReset": 29,
+   "dmaMode1": false,
+   "timeout": "4w12",
+   "iirPriority": "nxpEqual",
+   "lsrErrors": "head",
+   "autoFlow": "tcr",
+   "swFlow": "tiAnd",
+   "specialChar": true,
+   "sleep": "ier4",
+   "irda": "mcr6",
+   "prescaler": "mcr7",
+   "tcrReset": 15,
+   "ctsRtsClear": "msr",
+   "extended": "sc16is-dld",
+   "fastIrda": true,
+   "xonReset": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "sprPowerUp": 255,
+   "dlPowerUp": [
+    1,
+    0
+   ],
+   "optionalPins": [
+    "GPIO0",
+    "GPIO1",
+    "GPIO2",
+    "GPIO3",
+    "GPIO4/DSR",
+    "GPIO5/DTR",
+    "GPIO6/CD",
+    "GPIO7/RI"
+   ],
+   "parts": [
+    {
+     "name": "XR20M1170IG16-F",
+     "package": "TSSOP",
+     "pinout": "tssop16",
+     "footprint": "TSSOP-16",
+     "grade": "I"
+    },
+    {
+     "name": "XR20M1170IG24-F",
+     "package": "TSSOP",
+     "pinout": "tssop24",
+     "footprint": "TSSOP-24",
+     "flags": [
+      "obsolete"
+     ],
+     "grade": "I"
+    },
+    {
+     "name": "XR20M1170IL24-F",
+     "package": "QFN",
+     "pinout": "qfn24",
+     "footprint": "QFN-24-4X4",
+     "flags": [
+      "obsolete"
+     ],
+     "grade": "I"
+    },
+    {
+     "name": "XR20M1170IL24TR-F",
+     "package": "QFN",
+     "pinout": "qfn24",
+     "footprint": "QFN-24-4X4",
+     "flags": [
+      "obsolete"
+     ],
+     "grade": "I"
+    }
+   ]
+  },
+  {
+   "id": "XR20M1280",
+   "function": "Bridge UART",
+   "description": "I2C/SPI UART with 128-byte FIFO and integrated level shifters",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "xr20m1280.pdf p.1-62; plan-12-data/specs/bridges.md \u00a7 XR20M1280",
+   "pinouts": {
+    "qfn24": [
+     {
+      "number": 1,
+      "name": "SO",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "IRQ",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "A1/SI",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "A0/CS",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "SLEEP/PWRDN",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 10,
+      "name": "VCC_BUS",
+      "role": "power"
+     },
+     {
+      "number": 11,
+      "name": "EN485",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "TX",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "RX",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "VCC_UART",
+      "role": "power"
+     },
+     {
+      "number": 17,
+      "name": "RI/GPIO3",
+      "role": "inout"
+     },
+     {
+      "number": 18,
+      "name": "CD/GPIO2",
+      "role": "inout"
+     },
+     {
+      "number": 19,
+      "name": "DSR/GPIO1",
+      "role": "inout"
+     },
+     {
+      "number": 20,
+      "name": "DTR/GPIO0",
+      "role": "inout"
+     },
+     {
+      "number": 21,
+      "name": "VCC_CORE",
+      "role": "power"
+     },
+     {
+      "number": 22,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "XTAL2",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "I2C/SPI",
+      "role": "input"
+     }
+    ],
+    "qfn32": [
+     {
+      "number": 1,
+      "name": "I2C/SPI",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "ENIR",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "SO",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "IRQ",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "A1/SI",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "A0/CS",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "SLEEP/PWRDN",
+      "role": "inout"
+     },
+     {
+      "number": 11,
+      "name": "EN485",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 13,
+      "name": "VCC_BUS",
+      "role": "power"
+     },
+     {
+      "number": 14,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 15,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 16,
+      "name": "VCC_GPIO",
+      "role": "power"
+     },
+     {
+      "number": 17,
+      "name": "GPIO7",
+      "role": "inout"
+     },
+     {
+      "number": 18,
+      "name": "GPIO6",
+      "role": "inout"
+     },
+     {
+      "number": 19,
+      "name": "GPIO5",
+      "role": "inout"
+     },
+     {
+      "number": 20,
+      "name": "GPIO4",
+      "role": "inout"
+     },
+     {
+      "number": 21,
+      "name": "VCC_UART",
+      "role": "power"
+     },
+     {
+      "number": 22,
+      "name": "RI/GPIO3",
+      "role": "inout"
+     },
+     {
+      "number": 23,
+      "name": "CD/GPIO2",
+      "role": "inout"
+     },
+     {
+      "number": 24,
+      "name": "DSR/GPIO1",
+      "role": "inout"
+     },
+     {
+      "number": 25,
+      "name": "DTR/GPIO0",
+      "role": "inout"
+     },
+     {
+      "number": 26,
+      "name": "CTS",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "RTS",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "TX",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "RX",
+      "role": "input"
+     },
+     {
+      "number": 30,
+      "name": "VCC_CORE",
+      "role": "power"
+     },
+     {
+      "number": 31,
+      "name": "XTAL1",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "XTAL2",
+      "role": "output"
+     }
+    ]
+   },
+   "grades": {
+    "I": {
+     "tdo": 100,
+     "ttr": 100,
+     "tvd": 600,
+     "trint": 200,
+     "thr": 200,
+     "tir": 200,
+     "trim": 200,
+     "tsim": 200,
+     "tmdo": 200,
+     "tgpio": 200,
+     "vcc": [
+      1.62,
+      3.63
+     ],
+     "inputMax": 5.5,
+     "note": "xr20m1280.pdf p.49-55: SPI TDO 100 ns (as printed, decisions.md), TTR 100 ns, TD9-TD14 200 ns; I2C tVD 0.6 us, TD2 0.2 us; XTAL1 is not 5 V tolerant"
+    }
+   },
+   "model": "ns16550",
+   "bus": {
+    "style": "i2c-spi",
+    "selectPin": "I2C/SPI",
+    "spiLevel": 0,
+    "selectSampled": "reset",
+    "spi": {
+     "cs": "A0/CS",
+     "sclk": "SCL",
+     "mosi": "A1/SI",
+     "miso": "SO",
+     "mode": 0
+    },
+    "i2c": {
+     "scl": "SCL",
+     "sda": "SDA",
+     "address": [
+      "A0/CS",
+      "A1/SI"
+     ],
+     "table": [
+      53,
+      52,
+      54,
+      55,
+      49,
+      48,
+      50,
+      51,
+      49,
+      48,
+      50,
+      51,
+      53,
+      52,
+      54,
+      55
+     ]
+    },
+    "reset": "RESET",
+    "resetActiveHigh": false,
+    "nack": [
+     "full"
+    ],
+    "registerBits": 3
+   },
+   "clock": {
+    "in": "XTAL1",
+    "out": "XTAL2"
+   },
+   "channels": [
+    {
+     "tx": "TX",
+     "rx": "RX",
+     "rts": "RTS",
+     "cts": "CTS",
+     "dsr": "DSR/GPIO1",
+     "dtr": "DTR/GPIO0",
+     "dcd": "CD/GPIO2",
+     "ri": "RI/GPIO3"
+    }
+   ],
+   "interrupt": "IRQ",
+   "gpio": {
+    "pins": [
+     "DTR/GPIO0",
+     "DSR/GPIO1",
+     "CD/GPIO2",
+     "RI/GPIO3",
+     "GPIO4",
+     "GPIO5",
+     "GPIO6",
+     "GPIO7"
+    ],
+    "registers": "xr1280"
+   },
+   "straps": {
+    "en485": "EN485",
+    "enir": "ENIR"
+   },
+   "sleepPin": "SLEEP/PWRDN",
+   "fifo": 128,
+   "rxTrigger": [
+    8,
+    16,
+    56,
+    60
+   ],
+   "txTrigger": [
+    8,
+    16,
+    32,
+    56
+   ],
+   "lcrReset": 0,
+   "sprReset": 255,
+   "xonReset": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "dlPowerUp": [
+    1,
+    0
+   ],
+   "dmaMode1": false,
+   "timeout": "4w12",
+   "iirPriority": "nxpEqual",
+   "extended": "xr1280",
+   "autoFlow": "tcr",
+   "swFlow": "tiAnd",
+   "specialChar": true,
+   "ctsRtsClear": "msr",
+   "sleep": "ier4",
+   "irda": "mcr6",
+   "prescaler": "mcr7",
+   "fastIrda": true,
+   "optionalPins": [
+    "GPIO4",
+    "GPIO5",
+    "GPIO6",
+    "GPIO7",
+    "ENIR"
+   ],
+   "parts": [
+    {
+     "name": "XR20M1280IL24TR-F",
+     "package": "QFN",
+     "pinout": "qfn24",
+     "footprint": "QFN-24-4X4",
+     "grade": "I"
+    },
+    {
+     "name": "XR20M1280IL32-F",
+     "package": "QFN",
+     "pinout": "qfn32",
+     "footprint": "QFN-32-5X5",
      "grade": "I"
     }
    ]
