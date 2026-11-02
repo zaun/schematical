@@ -1164,6 +1164,48 @@ static void case_d24(void) {
     case_end("D24 PC16550D: the C cases on the shipped device object");
 }
 
+/* The fixture footprints (tests/fixtures/serial/footprints.json: the new
+   footprints of the ns16550 parts) that the library does not have yet; once a
+   data sub-plan moves one into Parts/footprints.json the library's wins. */
+static int load_new_footprints(void) {
+    char path[512];
+    char *text;
+    char *error = NULL;
+    char *out;
+    cJSON *doc;
+    cJSON *list;
+    cJSON *fp;
+    int result;
+
+    snprintf(path, sizeof path, "%s/../fixtures/serial/footprints.json", GOLDEN_DIR);
+    text = read_file(path);
+    if (text == NULL) {
+        fprintf(stderr, "cannot read %s\n", path);
+        return -1;
+    }
+    doc = cJSON_Parse(text);
+    free(text);
+    list = cJSON_GetObjectItemCaseSensitive(doc, "footprints");
+    for (fp = list != NULL ? list->child : NULL; fp != NULL;) {
+        cJSON *next = fp->next;
+        const char *id = cJSON_GetObjectItemCaseSensitive(fp, "id")->valuestring;
+
+        if (part_library_find_footprint(library, id) != NULL) {
+            cJSON_Delete(cJSON_DetachItemViaPointer(list, fp));
+        }
+        fp = next;
+    }
+    out = cJSON_PrintUnformatted(doc);
+    cJSON_Delete(doc);
+    result = load_footprints(library, out, "fixtures/serial/footprints.json", &error);
+    if (result != 0) {
+        fprintf(stderr, "fixture footprints: %s\n", error != NULL ? error : "(no message)");
+    }
+    free(error);
+    free(out);
+    return result;
+}
+
 /* The shipped ns16550 devices as fixtures (tests/fixtures/serial/ns16550.json,
    built by merge.py from keys/ and devices/; plan-12-D section 3.3). */
 static int load_file(const char *name, int footprints) {
@@ -2843,7 +2885,8 @@ static void case_j6(void) {
 int main(void) {
     library = part_library_create();
     if (load_parts_dir(library, PARTS_DIR) != 0 || load_serial_fixture(library) != 0 ||
-        load_file("footprints_test.json", 1) != 0 || load_file("ns16550.json", 0) != 0) {
+        load_new_footprints() != 0 || load_file("footprints_test.json", 1) != 0 ||
+        load_file("ns16550.json", 0) != 0) {
         printf("FAIL: loading parts\n");
         return 1;
     }

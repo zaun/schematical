@@ -13,6 +13,14 @@ static const BenchConfig TI550_BENCH = {
     "MR", 1, "XIN", "BAUDOUT", "RCLK", {{NULL}}, 0
 };
 
+/* TL16C550D bga24 (ZQS): no CS0/CS1/ADS/RD2/WR2 (tied inside), no RCLK
+   (tied to BAUDOUT inside), no DSR/RI/DCD. */
+static const BenchConfig TI550_BGA_BENCH = {
+    "RD1", "WR1", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"}, {"A0", "A1", "A2"}, 3,
+    {"CS2=0", "SIN=1", "CTS=1", NULL},
+    "MR", 1, "XIN", NULL, NULL, {{NULL}}, 0
+};
+
 static const BenchConfig TI450_BENCH = {
     "DISTRBAR", "DOSTRBAR", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"}, {"A0", "A1", "A2"}, 3,
     {"CS0=1", "CS1=1", "CS2=0", "ADS=0", "DISTR=0", "DOSTR=0", "SIN=1", "CTS=1", "DSR=1", "DCD=1",
@@ -113,7 +121,7 @@ static const BenchConfig COM92_BENCH = {
 
 static const BenchConfig NXP650_BENCH = {
     "IOR", "IOW", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"}, {"A0", "A1", "A2"}, 3,
-    {"CS=0", "RX=1", "CTS=1", "DSR=1", "CD=1", "RI=1", NULL},
+    {"CS=0", "RX=1", "CTS=1", "DSR=1", NULL},
     "RESET", 1, "XTAL1", "BAUDOUT", "RCLK", {{NULL}}, 0
 };
 
@@ -238,8 +246,13 @@ static void case_d2(void) {
     /* The ZQS (bga24) package has no DSR, RI, DCD: MSR[5:7] read X, deltas 0. */
     check(part_exists("SFX-TL16C550D-bga24"), "the bga24 package fixture (device data)");
     if (part_exists("SFX-TL16C550D-bga24")) {
-        b = bench_open_cfg("SFX-TL16C550D-bga24", HALF_18432, &TI550_BENCH);
+        b = bench_open_cfg("SFX-TL16C550D-bga24", HALF_18432, &TI550_BGA_BENCH);
         expect_reg(b, 6, "XXX00000", "bga24: MSR DSR/RI/DCD X, CTS inactive, deltas 0");
+        program(b, 1, 0x03);
+        bus_write(b, 4, 0x10);             /* loopback: the internal RCLK = BAUDOUT */
+        bus_write(b, 0, 0x6B);
+        run(b, bit_time(b, 1) * 12);
+        expect_reg(b, 0, "01101011", "bga24: the receiver runs on the internal BAUDOUT");
         bench_close(b);
     }
     case_end("D2 TL16C550D: timeout delay 9 RCLKs; bga24 without modem inputs");
@@ -616,6 +629,7 @@ static void case_d20(void) {
     case_begin();
     program(b, 1, 0x07);                   /* 8 bits, 2 stops */
     bt = bit_time(b, 1);
+    run(b, bt * 2);                        /* the receiver sees the idle line first */
     /* Second stop bit 0: a framing error on the 82C50A (both stops checked). */
     strcpy(bits, "0100000001");
     drive_bits(b, bits, bt);
