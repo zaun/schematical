@@ -999,7 +999,7 @@ The PC16550D (`plan-12-data/specs/ti-a.md` § PC16550D) and, with
 
 | Key | Value |
 |---|---|
-| `"bus"` | `"style": "intel"`; `"data"` 8 names; `"address"` 3 names (A0 first); `"read"` (active low) and/or `"readHigh"`; `"write"` and/or `"writeHigh"`; `"select"` (active-low names) and `"selectHigh"` (active-high); optional `"addressStrobe"` (ADS: transparent while low, latched on its rising edge), `"driverDisable"` (DDIS, low while the chip drives the bus), `"selectOut"` (CSOUT), `"reset"` with `"resetActiveHigh"` (default true) |
+| `"bus"` | `"style": "intel"`; `"data"` 8 names; `"address"` 3 names (A0 first); `"read"` (active low) and/or `"readHigh"`; `"write"` and/or `"writeHigh"`; `"select"` (active-low names) and `"selectHigh"` (active-high); optional `"addressStrobe"` (ADS: transparent while low, latched on its rising edge), `"driverDisable"` (DDIS, low while the chip drives the bus), `"selectOut"` (CSOUT), `"reset"` with `"resetActiveHigh"` (default true); optional `"iowOnly"`: `{"modePin", "rw"}` (TL16C750E: while the MODE strap is low, CS is the strobe and the `rw` pin, IOW, picks read (high) or write (low) at its fall; the read pin is unused; RESET keeps its polarity) |
 | `"clock"` | `"in"` (XIN, counted); optional `"out"` (XOUT, never driven), `"receive"` (RCLK; absent = the 16× tick also clocks the receiver), `"baudOut"` (BAUDOUT: the 16× clock, divisor × clock period) |
 | `"channels"` | one channel: pin names `"tx"`, `"rx"`, `"int"` (required), `"rts"`, `"dtr"`, `"cts"`, `"dsr"`, `"dcd"`, `"ri"`, `"out1"`, `"out2"`, `"txrdy"`, `"rxrdy"` |
 | `"fifo"` | `16`, or `0` for the 16450 (no FCR, IIR[7:6] = 00, no timeout) |

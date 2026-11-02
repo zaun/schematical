@@ -185,16 +185,23 @@ Commit: 15723fb
   `docs/parts-format.md` § `serial` gains §3.1/§3.2.
   Implemented in `ns16550_ext.c` and `ns16550_lpt.c`, with the core hooks.
   `docs/parts-format.md` § `serial` documents every D key (2ac9b98).
-- [~] Fixtures and cases D1, D3–D7, D10, D11, D17, D19, D21–D23. Observed on
+- [x] Fixtures and cases D1, D3–D7, D10, D11, D17, D19, D21–D23. Observed on
   the real device data (15723fb): each prints `ok` (`ok   D1 TL16C550C afe:
   …`, `ok   D4 TL16C750E: LCR 0x1D, DLF fraction n/64, TLR access`, …,
-  `ok   D23 SC16C752B: LCR 0x1D, 752 decode X rule, FIFO Rdy, IrDA`).
-  Remaining: D4's MODE-pin (IOW-only) bus once E's `intel-motorola` style
-  merges.
+  `ok   D23 SC16C752B: LCR 0x1D, 752 decode X rule, FIFO Rdy, IrDA`). D4's
+  MODE pin (IOW-only bus): the TL16C750E's `bus` gains `"iowOnly":
+  {"modePin": "MODE", "rw": "IOW"}` (see Corrections); D4 checks SCR written
+  and read with CS as the strobe: RED without the key (`ZZZZZZZZ`), then
+  `ok   D4 TL16C750E: LCR 0x1D, DLF fraction n/64, TLR access, IOW-only
+  MODE`; `serial_test` → `PASS`, 104 `ok`; `ctest` 19/19.
 
 Acceptance: `serial_test` → all 24 D cases and C's 12 `ok`; `ctest` 100%;
-`git diff --stat backend/tests/golden` → none (about 1 min).
-Commit: —
+`git diff --stat backend/tests/golden` → none (about 1 min). Observed: 24 D
+and the C cases `ok`, `PASS`; `ctest` 19/19. The golden check was met when
+the phase's code landed (2ac9b98–37d9128, before F); the IOW-only key later
+changes one F line (`traces.txt`: TL16C750EPFBR), an intended behavior
+change recorded in Corrections.
+Commit: 15723fb (data), this commit (IOW-only MODE)
 
 ## Validation Plan
 
@@ -277,3 +284,13 @@ that uses it, before F/G ship any part. The landing tier is plan-12-K's.
   gained "shared RXRDY: low once channel 0 holds a byte" (loopback, no bus
   access): RED before (`RXRDY is 1, want 0`), then `PASS`, 104 `ok`; `ctest`
   19/19 with the goldens unchanged.
+- **TL16C750E MODE pin: a core key, not E's `intel-motorola`.** D Phase 2
+  planned to use E's style. E's style routes the whole device through
+  `ns16550_exar.c` (every `ns_ext_*` call goes to its `ns_x_*` twin), which
+  replaces D's 750 bank (EFR, DLF, TLR); its Motorola mode also makes RESET
+  active low, and the TL16C750E keeps it active high (p32). The core
+  now takes `"iowOnly": {"modePin", "rw"}` on an `"intel"` bus and sets the
+  bus helper's Motorola cycles from the strap (`serial_bus.c`: the select is
+  the strobe, `rw` the direction), with nothing else of E's. Re-shipping F's
+  `serial.json` changes one golden line: `traces.txt` TL16C750EPFBR (its
+  MODE pin now chooses the bus protocol), regenerated.

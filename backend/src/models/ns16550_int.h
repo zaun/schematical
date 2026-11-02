@@ -104,6 +104,9 @@ typedef struct {
     unsigned select_high_count;
     const char *address_strobe, *driver_disable, *select_out, *reset;
     int reset_active_high;
+    /* "iowOnly" (TL16C750E): a strap pin that, low, makes CS the strobe and
+       the write pin R/W (1 = read); NULL = none. */
+    const char *iow_mode, *iow_rw;
     const char *clock_in, *clock_out, *receive, *baudout;
     const char *channel[SERIAL_MAX_CHANNELS][CH_PIN_COUNT];
     unsigned channel_count;
@@ -185,6 +188,7 @@ typedef struct {
 typedef struct {
     SerialBusPins bus;
     size_t reset, clock_in, clock_out, receive, baudout;
+    size_t iow_mode, iow_rw;
     size_t channel[SERIAL_MAX_CHANNELS][CH_PIN_COUNT];
     size_t chan_select[SERIAL_MAX_CHANNELS][SERIAL_BUS_SELECTS];
     size_t chan_select_high[SERIAL_MAX_CHANNELS][SERIAL_BUS_SELECTS];

@@ -127,7 +127,7 @@ static const BenchConfig NXP650_BENCH = {
 
 static const BenchConfig TI750E_BENCH = {
     "IOR", "IOW", {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"}, {"A0", "A1", "A2"}, 3,
-    {"CS=0", "RX=1", "CTS=1", "DSR=1", "CD=1", "RI=1", NULL},
+    {"CS=0", "MODE=1", "RX=1", "CTS=1", "DSR=1", "CD=1", "RI=1", NULL},
     "RESET", 1, "XTAL1", NULL, NULL, {{NULL}}, 0
 };
 
@@ -338,7 +338,51 @@ static void case_d4(void) {
     bus_write(b, 4, 0x40);                 /* MCR[6]: TCR/TLR */
     bus_write(b, 7, 0x10);
     expect_reg(b, 7, "00010000", "TLR reads back at 7 with MCR[6]");
-    case_end("D4 TL16C750E: LCR 0x1D, DLF fraction n/64, TLR access");
+    /* MODE low: IOW-only (E's "intel-motorola" style). CS is the strobe and
+       IOW at CS's fall picks write (low) or read (high); IOR is tied high and
+       RESET stays active high (p32). */
+    set(b, "CS", LOGIC_1);
+    set(b, "IOR", LOGIC_1);
+    set(b, "MODE", LOGIC_0);
+    run(b, NS(500));
+    {
+        static const unsigned addr_val[2][2] = {{4, 0x00}, {7, 0x5A}};   /* MCR off, SCR */
+        unsigned i;
+
+        for (i = 0; i < 2; i++) {
+            set_address(b, addr_val[i][0]);
+            set_data(b, 1, addr_val[i][1]);
+            set(b, "IOW", LOGIC_0);
+            run(b, NS(80));
+            set(b, "CS", LOGIC_0);
+            run(b, NS(120));
+            set(b, "CS", LOGIC_1);
+            run(b, NS(100));
+            set_data(b, 0, 0);
+            set(b, "IOW", LOGIC_1);
+            run(b, NS(160));
+        }
+    }
+    {
+        char text[9];
+        unsigned i;
+
+        set_address(b, 7);
+        set(b, "IOW", LOGIC_1);
+        run(b, NS(80));
+        set(b, "CS", LOGIC_0);
+        run(b, NS(150));
+        for (i = 0; i < 8; i++) {
+            text[7 - i] = "01XZ"[get(b, b->cfg->data[i])];
+        }
+        text[8] = '\0';
+        set(b, "CS", LOGIC_1);
+        run(b, NS(160));
+        snprintf(message, sizeof message, "IOW-only mode: SCR written and read by CS: %s", text);
+        check(strcmp(text, "01011010") == 0, message);
+    }
+    expect_pin(b, "D0", LOGIC_Z, "IOW-only mode: the bus floats after the CS pulse");
+    case_end("D4 TL16C750E: LCR 0x1D, DLF fraction n/64, TLR access, IOW-only MODE");
     bench_close(b);
 }
 

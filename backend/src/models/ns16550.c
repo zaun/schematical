@@ -1538,6 +1538,19 @@ static LogicValue reset_level(const NsState *s) {
     return bool3(v == (high ? LOGIC_1 : LOGIC_0));
 }
 
+/* "iowOnly": MODE high = IOR/IOW cycles; low = CS is the strobe and the
+   write pin picks the direction (serial_bus.c's Motorola cycles). */
+static void read_iow_mode(NsState *s) {
+    LogicValue mode;
+
+    if (!SERIAL_REAL_PIN(s->pins->iow_mode)) {
+        return;
+    }
+    mode = serial_level(s->sim, s->instance, s->pins->iow_mode, LOGIC_X);
+    s->bus.motorola = mode == LOGIC_1 ? 0 : mode == LOGIC_0 ? 1 : -1;
+    s->bus.rw = s->pins->iow_rw;
+}
+
 static void apply_reset(NsState *s) {
     LogicValue active = reset_level(s);
 
@@ -1663,6 +1676,7 @@ static void ns_start(Sim *sim, SimInstance *instance, void *raw) {
     if (s->dev->x != NULL) {
         ns_x_start(s);   /* plan-12-E: bus mode, own clocks */
     }
+    read_iow_mode(s);
     serial_bus_start(&s->bus, sim, instance, &s->events);
     if (s->bridge != NULL) {
         ns_bridge_start(s);   /* plan-12-I */
@@ -1711,6 +1725,10 @@ static void ns_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t pi
     if (pin == s->pins->reset) {
         apply_reset(s);
         return;
+    }
+    if (pin == s->pins->iow_mode && SERIAL_REAL_PIN(pin)) {
+        read_iow_mode(s);
+        serial_bus_update(&s->bus, s->sim, s->instance, &s->events);
     }
     if (s->dev->x != NULL && ns_x_pin_changed(s, pin)) {
         apply_reset(s);   /* plan-12-E: the bus mode changed the reset polarity */
@@ -1936,6 +1954,7 @@ static int load_bus(KindContext *ctx, const cJSON *json, NsDevice *d) {
     static const char *const BUS_KEYS[] = {
         "style", "data", "address", "read", "readHigh", "write", "writeHigh", "select",
         "selectHigh", "addressStrobe", "driverDisable", "selectOut", "reset", "resetActiveHigh",
+        "iowOnly",
         /* plan-12-E: "intel-motorola" */
         "modePin", "rw", "strobe", "channelBits", "irq", "irqOthers",
         NULL
@@ -1991,6 +2010,18 @@ static int load_bus(KindContext *ctx, const cJSON *json, NsDevice *d) {
     if (cJSON_GetObjectItemCaseSensitive(bus, "resetActiveHigh") != NULL &&
         kind_bool(ctx, bus, "resetActiveHigh", &d->reset_active_high) != 0) {
         return -1;
+    }
+    if (cJSON_GetObjectItemCaseSensitive(bus, "iowOnly") != NULL) {
+        static const char *const IOW_KEYS[] = {"modePin", "rw", NULL};
+        const cJSON *iow = cJSON_GetObjectItemCaseSensitive(bus, "iowOnly");
+
+        kind_push(ctx, "iowOnly");
+        if (kind_check_keys(ctx, iow, IOW_KEYS, NULL) != 0 ||
+            kind_string(ctx, iow, "modePin", &d->iow_mode) != 0 ||
+            kind_string(ctx, iow, "rw", &d->iow_rw) != 0) {
+            return -1;
+        }
+        kind_pop(ctx);
     }
     kind_pop(ctx);
     return 0;
@@ -2683,6 +2714,8 @@ static void *ns_bind(KindContext *ctx, const void *raw, const PartPin *pins, siz
                         &p->bus.driver_disable) != 0 ||
         bind_pin(ctx, pins, pin_count, "bus.selectOut", d->select_out, &p->bus.select_out) != 0 ||
         bind_pin(ctx, pins, pin_count, "bus.reset", d->reset, &p->reset) != 0 ||
+        bind_pin(ctx, pins, pin_count, "bus.iowOnly", d->iow_mode, &p->iow_mode) != 0 ||
+        bind_pin(ctx, pins, pin_count, "bus.iowOnly", d->iow_rw, &p->iow_rw) != 0 ||
         bind_pin(ctx, pins, pin_count, "clock.in", d->clock_in, &p->clock_in) != 0 ||
         bind_pin(ctx, pins, pin_count, "clock.out", d->clock_out, &p->clock_out) != 0 ||
         bind_pin(ctx, pins, pin_count, "clock.receive", d->receive, &p->receive) != 0 ||

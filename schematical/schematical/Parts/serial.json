@@ -10546,7 +10546,11 @@
      "CS"
     ],
     "reset": "RESET",
-    "resetActiveHigh": true
+    "resetActiveHigh": true,
+    "iowOnly": {
+     "modePin": "MODE",
+     "rw": "IOW"
+    }
    },
    "clock": {
     "in": "XTAL1",
