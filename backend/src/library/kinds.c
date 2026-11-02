@@ -16,6 +16,7 @@ extern const PartKindOps EEPROM_KIND;
 extern const PartKindOps LATCH_KIND;
 extern const PartKindOps COUNTER_KIND;
 extern const PartKindOps SHIFT_KIND;
+extern const PartKindOps CPU_KIND;
 
 /* One line per kind. Adding a kind: docs/backend.md, "Adding a kind". */
 const PartKindOps *const KINDS[] = {
@@ -32,6 +33,7 @@ const PartKindOps *const KINDS[] = {
     &LATCH_KIND,
     &COUNTER_KIND,
     &SHIFT_KIND,
+    &CPU_KIND,
     NULL
 };
 

@@ -32,6 +32,8 @@ add_library(logic STATIC
     src/models/counter_div.c
     src/models/shift.c
     src/models/shift_special.c
+    src/models/cpu.c
+    src/models/cpu6502.c
     src/models/chips_m6502.c
     src/models/chips_w65c02.c
     src/models/chips_z80.c
@@ -99,6 +101,7 @@ logic_test(voltage_test)
 logic_test(cpu_core_test)
 target_compile_definitions(cpu_core_test PRIVATE
     CPU_VECTORS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/cpu")
+logic_test(cpu_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.

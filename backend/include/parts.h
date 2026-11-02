@@ -24,7 +24,7 @@ typedef struct PartLibrary PartLibrary;
 typedef enum {
     PART_GATE, PART_DFF, PART_JKFF, PART_SRAM, PART_SWITCH,
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER,
-    PART_SHIFT
+    PART_SHIFT, PART_CPU
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -67,6 +67,8 @@ typedef struct { uint32_t min_mv, max_mv, input_max_mv; } PartVoltage;
 /* page_bytes: the page-load size; write_cycle_ps: tWC, the internal write time. */
 typedef struct { uint32_t words; unsigned bits; uint64_t access_ps; const char *grade;
                  unsigned page_bytes; uint64_t write_cycle_ps; } PartEeprom;
+/* core: "6502", "65c02" or "z80". max_hz = floor(1e12 / the grade's clock period in ps). */
+typedef struct { const char *core; const char *grade; uint64_t max_hz; } PartCpu;
 
 /* ---- Footprints (Parts/footprints.json, docs/parts-format.md) ----------- */
 
@@ -112,6 +114,7 @@ typedef struct Part {
     const PartVoltage *vcc;            /* recommended supply range; NULL only for supplies,
                                           LEDs, 7-seg displays and switches */
     const PartEeprom *eeprom;
+    const PartCpu *cpu;
     const PartFootprint *footprint;    /* NULL = none (supplies) */
     const void *internal;              /* model data; not for the app */
 } Part;

@@ -487,3 +487,20 @@ size_t circuit_memory_read(const Circuit *circuit, size_t part, uint32_t start, 
         ? type->memory_read(sim_instance_state(instance), start, count, values, known)
         : 0;
 }
+
+int circuit_cpu_state(const Circuit *circuit, size_t part, CpuState *out) {
+    Circuit *writable = (Circuit *)circuit;   /* only the error text changes */
+    SimInstance *instance;
+    const SimComponentType *type;
+
+    if (check_part(writable, part) != 0) {
+        return -1;
+    }
+    instance = circuit->instances[part];
+    type = sim_instance_type(instance);
+    if (type->cpu_state == NULL || out == NULL ||
+        !type->cpu_state(sim_instance_state(instance), out)) {
+        return fail(writable, "part %zu is not a processor", part);
+    }
+    return 0;
+}

@@ -42,7 +42,7 @@ plan-09-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-09-A complete | `ls planning/plan-09-A-* 2>/dev/null` → no output; `ls planning/completed/plan-09-A-*.md` → exists | NOT MET (2026-11-01) |
+| plan-09-A complete | `ls planning/plan-09-A-* 2>/dev/null` → no output; `ls planning/completed/plan-09-A-*.md` → exists | MET (2026-11-01 at 1e5e729; plan-09-A's own rows re-run at 1da038c the same day, all MET) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue, and again
@@ -530,20 +530,26 @@ Each one is a fixture with one fault. Each message names the place, e.g.
 
 A loadable kind with no behaviour beyond "lost", landable alone.
 
-- [ ] `parts.h`: `PART_CPU`, `PartCpu`, `Part.cpu` (§4.1).
-- [ ] `include/cpu_state.h`; `sim.h` hook; `circuit.h`/`circuit.c`
-      `circuit_cpu_state` (§4.3).
-- [ ] `models/cpu.c`:
+- [x] `parts.h`: `PART_CPU`, `PartCpu`, `Part.cpu` (§4.1).
+- [x] `include/cpu_state.h`; `sim.h` hook; `circuit.h`/`circuit.c`
+      `circuit_cpu_state` (§4.3). `cpu_test` case 1 → "circuit_cpu_state
+      reports LOST" and "on a gate: \"part 1 is not a processor\"" PASS.
+- [x] `models/cpu.c` (+ the internal header `models/cpu.h`):
   - `CPU_KIND` with the 6502-family keys and the plan-07 voltage keys;
   - `CPU_MODEL` dispatching to a `CpuCoreOps` table;
   - for now, a core whose `start` drives every output X and reports
-    LOST.
-- [ ] `kinds.c`: `&CPU_KIND`. `backend/CMakeLists.txt`: `models/cpu.c`.
-- [ ] `listing.c`: kind name and details. `trace_check.c`: `TRACE_LAST_KIND`
-      → `PART_CPU`.
-- [ ] `library_check.c`: the §5.4 cases.
-- [ ] `tests/cpu_test.c` with the fixture devices (§4.7), case 1 only.
-      `logic_test(cpu_test)`.
+    LOST (placed in `models/cpu6502.c`, the file Phase 2 fills; see
+    Corrections).
+- [x] `kinds.c`: `&CPU_KIND`. `backend/CMakeLists.txt`: `models/cpu.c` and
+      `models/cpu6502.c`.
+- [x] `listing.c`: kind name and details. `trace_check.c`: `TRACE_LAST_KIND`
+      → `PART_CPU`. `listing_check`, `trace_check` pass; golden diff empty.
+- [x] `library_check.c`: the §5.4 cases, plus a valid 65c02 and a valid
+      6502 file (`max_hz` 14285714, vcc 1710–5250). All 11 print `ok` with
+      the §5.4 messages (e.g. `devices[0] (C): pinouts.p40b: so: no pin
+      named "SOB"`, `parts[0] (C1): "inputMax" 5 is below the "vcc" max 5.25`).
+- [x] `tests/cpu_test.c` with the fixture devices (§4.7), case 1 only.
+      `logic_test(cpu_test)`. `/tmp/logic-p09/cpu_test` → 7 PASS, 0 FAIL.
 
 Acceptance: the fixture loads, and a part reads back LOST; every loader
 rule rejects with its message; the goldens are unchanged.
@@ -595,6 +601,23 @@ under § 3 Rejected alternatives: one kind, adapter-side RDY, the
 differential rule, no read-hold check, transport drives.
 
 ## Corrections
+
+- **Phase 1 stub location.** The LOST-only core is `CPU6502_OPS` in
+  `models/cpu6502.c` (added to CMake in Phase 1), not a core inside `cpu.c`:
+  Phase 2 then replaces that file's body and `cpu.c` does not change shape.
+  The adapter interface lives in a new internal header `models/cpu.h`
+  (§4.2 names its contents but not the file).
+- **Fixture names and footprint** (§4.7). The fixture devices carry D's
+  data, but their ids and part names are prefixed `FIXTURE-`
+  (`FIXTURE-W65C02S6TPG-14`, `FIXTURE-MPS6502`), and they name a fixture
+  footprint `FIXTURE-PDIP-40` loaded by `cpu_test`. `PDIP-40-600` does not
+  exist until D (`grep -c '"PDIP-40-600"' footprints.json` → 0), every
+  non-supply part needs a footprint (`library.c`: `missing "footprint"`),
+  and D's system tests load the real `cpu.json` into the same library, where
+  the real names must not clash.
+- **Case 1 also covers the circuit API**: `circuit_cpu_state` on a running
+  circuit (LOST) and on a gate (`part 1 is not a processor`), so the public
+  wrapper of §4.3 has a test in B.
 
 ## Summary
 
