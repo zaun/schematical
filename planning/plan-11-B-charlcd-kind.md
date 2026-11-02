@@ -476,7 +476,9 @@ when anything it depends on is X.
 ### 5.1 Content
 
 - `CHARLCD_ROM_A00[k][y]` (k = 0–255, y = 0–7): the 5 dots of row y,
-  bit 4 = left. Row 7 is 0 for every glyph except FF, which is all 1s.
+  bit 4 = left. Row 7 is 0 for every glyph except FF (all 1s) and the
+  eight 5×10 glyphs whose descender starts in row 7: E2 E4 E6 E7 EA F0 F1
+  F9 (see Corrections).
 - Codes 00–0F are never read from the ROM (they select CGRAM); their rows
   are 0.
 - 10–1F, 80–A0 are blank (all 0), as in the tables.
@@ -622,15 +624,25 @@ Acceptance: the fixture loads with the right facts and every bad device is
 rejected with its message; the goldens are unchanged.
   Check: `cmake --build /tmp/logic-p11 -j8 && ctest --test-dir /tmp/logic-p11` → `out of 18`, 100% passed; `git diff --exit-code backend/tests/golden` → 0 (est. 1 min).
   Ran: `100% tests passed, 0 tests failed out of 18`; golden diff → exit 0.
-Commit: —
+Commit: 70ff814
 
 ### Phase 2 — Character ROM
 
-- [ ] `backend/src/models/charlcd_font.{c,h}`: `CHARLCD_ROM_A00` (§5.1).
-- [ ] `charlcd_test`: the spot checks (§5.2) and the `--font` sheet printer.
-- [ ] Compare the sheet with PDF page 10 at 300 dpi, row by row (§5.2).
+- [x] `backend/src/models/charlcd_font.{c,h}`: `CHARLCD_ROM_A00` (§5.1).
+      Transcribed by sampling every dot centre of the 300 dpi render
+      (`/tmp/p11-scripts/font_extract.py`: cell lines found from the table
+      rules, dots on a 14.6 px pitch); 0 dots in rows 0–7 fell in the
+      ambiguous 70–170 grey band. 189 non-blank glyphs (FE is blank in the
+      table). Added to the `logic` source list in CMake.
+- [x] `charlcd_test`: the spot checks (§5.2) and the `--font` sheet printer.
+      Ran: 7 spot-check PASS lines plus `rom: 00-1F and 80-A0 are blank`.
+- [x] Compare the sheet with PDF page 10 at 300 dpi, row by row (§5.2).
+      The `--font` sheet was redrawn in the table's layout next to crops of
+      the page (columns 2–5, 6–7, A–C, D–F; 0, 1, 8, 9 are blank and checked
+      by the test) and looked at row by row: 16 rows, 0 differences.
 
 Acceptance: spot checks pass, and the sheet matches the datasheet.
+  Ran: `charlcd_test` → `all passed`; sheet compared, 0 differences.
   Check: `/tmp/logic-p11/charlcd_test` → passes; `/tmp/logic-p11/charlcd_test --font` printed and compared with `/tmp/p11-font/p-10.png`, 16 rows, 0 differences recorded in the commit message (est. 20 min of looking; a dot-level transcription can only be checked by looking, and the spot checks cover only 7 glyphs).
 Commit: —
 
@@ -706,6 +718,20 @@ Commit: —
   still carries RAM for the tests. (§4.7)
 
 ## Corrections
+
+- **§5.1 "Row 7 is 0 for every glyph except FF" is false.** The table's
+  E0–FF cells are 5×10 drawings; with rows 0–7 taken as drawn (the rule
+  §5.1 also states), eight glyphs have dots in row 7 because their
+  descender starts there: E2 β (`10`), E4 μ (`10`), E6 ρ (`10`), E7 g
+  (`01`), EA j (`02`), F0 p (`10`), F1 q (`01`), F9 y (`01`). Measured
+  with `font_extract.py` on the 300 dpi render. The "as drawn" rule is
+  kept, matching a real 5×8 HD44780, which shows the top 8 rows of these
+  glyphs. Nothing else rested on the row-7 claim (the cursor ORs row 7).
+- **§5.1 "5 × 11 grid".** The table draws 5 × 10 cells: a sample at row
+  index 10 lands on the cell's lower rule in every cell. Rows 0–7 are
+  unaffected.
+- **§2 "191 glyphs"** counts cells (20–7F, A1–FF). Two of them are blank
+  in the table: 20 (space) and FE. So 189 glyphs carry dots.
 
 ## Summary
 

@@ -40,6 +40,7 @@ add_library(logic STATIC
     src/models/chips_z80.c
     src/models/chips_dasm.c
     src/models/charlcd.c
+    src/models/charlcd_font.c
     src/third_party/cjson/cJSON.c
 )
 target_include_directories(logic
