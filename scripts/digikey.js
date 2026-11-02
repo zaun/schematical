@@ -29,6 +29,7 @@ Filters (sent to DigiKey; each takes a DigiKey id or a name)
   --series <id|name>        e.g. ECS-2100X (the Series column of the table)
   --status <id|name>        e.g. Active, Obsolete, "Not For New Designs"; repeatable
   --active-only             only Active parts (cannot be combined with --status)
+  --in-stock                only parts DigiKey has in stock (quantity above 0)
 
 Output
   (default)                 a table: part number, status, stock, series, description
@@ -67,6 +68,8 @@ Things to know
     is tape and reel, otherwise often bulk, tube or cut tape. They are the
     same part.
   * Status ids: 0 Active, 1 Obsolete, 7 Not For New Designs.
+  * The parts library takes only in-stock parts, never made-to-order ones
+    (AGENTS.md): check with --in-stock.
 `;
 
 function usage(message) {
@@ -93,6 +96,7 @@ function parseArgs(argv) {
       case '--series': opts.series = value(); break;
       case '--status': opts.status.push(value()); break;
       case '--active-only': opts.activeOnly = true; break;
+      case '--in-stock': opts.inStock = true; break;
       case '--show': opts.show.push(...value().split(',').map((s) => s.trim()).filter(Boolean)); break;
       case '--limit': opts.limit = Number(value()); break;
       case '--pages': opts.pages = Number(value()); break;
@@ -110,7 +114,7 @@ function parseArgs(argv) {
   if (!(opts.pages > 0)) usage('--pages must be a positive number');
   opts.keywords = opts.keywords.join(' ');
   if (!opts.keywords && !opts.category && !opts.manufacturer && !opts.series && !opts.status.length &&
-      !opts.activeOnly) {
+      !opts.activeOnly && !opts.inStock) {
     usage('nothing to search for');
   }
   return opts;
@@ -237,6 +241,7 @@ async function resolveFilters(ctx, opts) {
   else if (opts.series) filters.SeriesFilter = [{ Id: String(opts.series) }];
   // DigiKey's status ids: 0 Active, 1 Obsolete, 7 Not For New Designs, ...
   if (opts.activeOnly) filters.StatusFilter = [{ Id: ACTIVE_STATUS }];
+  if (opts.inStock) filters.MinimumQuantityAvailable = 1;
   const statusNames = opts.status.filter((s) => !isId(s));
   const statusIds = opts.status.filter(isId);
   if (statusIds.length) filters.StatusFilter = statusIds.map((s) => ({ Id: String(s) }));
