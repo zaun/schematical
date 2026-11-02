@@ -44,6 +44,8 @@ add_library(logic STATIC
     src/models/serial_bus.c
     src/models/ns16550.c
     src/models/serial_target.c
+    src/models/serial_max3100.c
+    src/models/serial_max310x.c
     src/third_party/cjson/cJSON.c
 )
 target_include_directories(logic

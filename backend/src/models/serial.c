@@ -16,6 +16,9 @@
 
 static const SerialModel *const MODELS[] = {
     &NS16550_MODEL,
+    /* plan-12-J */
+    &MAX3100_MODEL,
+    &MAX310X_MODEL,
 };
 #define MODEL_COUNT (sizeof MODELS / sizeof MODELS[0])
 
@@ -25,6 +28,8 @@ static const char *const DEVICE_KEYS[] = {
     "model", "grades",
     /* ns16550 */
     "bus", "clock", "channels", "fifo", "rxTrigger", "intPin", "dmaClass", "timeout",
+    /* max3100, max310x (plan-12-J) */
+    "shutdown", "testMode", "transceiver", "variant", "reset", "interrupt", "gpio",
     NULL
 };
 enum { FIRST_MODEL_KEY = 2 };

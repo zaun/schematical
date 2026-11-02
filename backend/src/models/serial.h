@@ -78,6 +78,9 @@ typedef struct {
 
 /* The models (serial.c's table). */
 extern const SerialModel NS16550_MODEL;
+/* plan-12-J: the Maxim SPI/I2C UARTs. */
+extern const SerialModel MAX3100_MODEL;
+extern const SerialModel MAX310X_MODEL;
 
 /* The pin a channel's terminal input drives (its RX pin), or SIZE_MAX. For
    circuit_serial_send's driven-net check. */
