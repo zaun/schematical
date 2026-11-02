@@ -4,7 +4,7 @@
  "kind": "serial",
  "devices": [
   {
-   "id": "82C50A",
+   "id": "SFX-82C50A",
    "function": "UART",
    "description": "CMOS asynchronous communications element",
    "drawer": [
@@ -334,7 +334,7 @@
    ]
   },
   {
-   "id": "COM92C451",
+   "id": "SFX-COM92C451",
    "function": "UART",
    "description": "Combination UART/printer interface",
    "drawer": [
@@ -692,7 +692,7 @@
    ]
   },
   {
-   "id": "NS16C2552",
+   "id": "SFX-NS16C2552",
    "function": "UART",
    "description": "Dual UART with 16-byte/64-byte FIFO's and up to 5 Mbit/s data rate",
    "drawer": [
@@ -1118,7 +1118,7 @@
    ]
   },
   {
-   "id": "NS16C2752",
+   "id": "SFX-NS16C2752",
    "function": "UART",
    "description": "Dual UART with 16-byte/64-byte FIFO's and up to 5 Mbit/s data rate",
    "drawer": [
@@ -1779,7 +1779,7 @@
    ]
   },
   {
-   "id": "PC16550D",
+   "id": "SFX-PC16550D",
    "function": "UART",
    "description": "Universal asynchronous receiver/transmitter with FIFOs",
    "drawer": [
@@ -2117,7 +2117,7 @@
    ]
   },
   {
-   "id": "SC16C650B",
+   "id": "SFX-SC16C650B",
    "function": "UART",
    "description": "5 V, 3.3 V and 2.5 V UART with 32-byte FIFOs and infrared (IrDA) encoder/decoder",
    "drawer": [
@@ -2442,7 +2442,7 @@
    ]
   },
   {
-   "id": "SC16C752B",
+   "id": "SFX-SC16C752B",
    "function": "UART",
    "description": "5 V, 3.3 V and 2.5 V dual UART, 5 Mbit/s (max.), with 64-byte FIFOs",
    "drawer": [
@@ -3006,7 +3006,7 @@
    ]
   },
   {
-   "id": "TL16C2550",
+   "id": "SFX-TL16C2550",
    "function": "UART",
    "description": "1.8-V to 5-V dual UART with 16-byte FIFOs",
    "drawer": [
@@ -3584,7 +3584,7 @@
    ]
   },
   {
-   "id": "TL16C2552",
+   "id": "SFX-TL16C2552",
    "function": "UART",
    "description": "1.8-V to 5-V dual UART with 16-byte FIFOs",
    "drawer": [
@@ -3928,7 +3928,7 @@
    ]
   },
   {
-   "id": "TL16C450",
+   "id": "SFX-TL16C450",
    "function": "UART",
    "description": "Asynchronous communications element",
    "drawer": [
@@ -4256,7 +4256,7 @@
    ]
   },
   {
-   "id": "TL16C451",
+   "id": "SFX-TL16C451",
    "function": "UART",
    "description": "Asynchronous communications element",
    "drawer": [
@@ -4714,7 +4714,7 @@
    ]
   },
   {
-   "id": "TL16C452",
+   "id": "SFX-TL16C452",
    "function": "UART",
    "description": "Asynchronous communications element",
    "drawer": [
@@ -5186,7 +5186,7 @@
    ]
   },
   {
-   "id": "TL16C550B",
+   "id": "SFX-TL16C550B",
    "function": "UART",
    "description": "Asynchronous communications element",
    "drawer": [
@@ -5981,7 +5981,7 @@
    ]
   },
   {
-   "id": "TL16C550C",
+   "id": "SFX-TL16C550C",
    "function": "UART",
    "description": "Asynchronous communications element with autoflow control",
    "drawer": [
@@ -6590,7 +6590,7 @@
    ]
   },
   {
-   "id": "TL16C550D",
+   "id": "SFX-TL16C550D",
    "function": "UART",
    "description": "Asynchronous communications element with autoflow control",
    "drawer": [
@@ -7290,7 +7290,7 @@
    ]
   },
   {
-   "id": "TL16C552",
+   "id": "SFX-TL16C552",
    "function": "UART",
    "description": "Dual asynchronous communications element with FIFO",
    "drawer": [
@@ -7777,7 +7777,7 @@
    ]
   },
   {
-   "id": "TL16C552A",
+   "id": "SFX-TL16C552A",
    "function": "UART",
    "description": "Dual asynchronous communications element with FIFO",
    "drawer": [
@@ -8673,7 +8673,7 @@
    ]
   },
   {
-   "id": "TL16C554",
+   "id": "SFX-TL16C554",
    "function": "UART",
    "description": "Asynchronous communications element",
    "drawer": [
@@ -9588,7 +9588,7 @@
    ]
   },
   {
-   "id": "TL16C554A",
+   "id": "SFX-TL16C554A",
    "function": "UART",
    "description": "Asynchronous-communications element",
    "drawer": [
@@ -10505,7 +10505,7 @@
    ]
   },
   {
-   "id": "TL16C750",
+   "id": "SFX-TL16C750",
    "function": "UART",
    "description": "Asynchronous communications element with 64-byte FIFOs and autoflow control",
    "drawer": [
@@ -10950,7 +10950,7 @@
    ]
   },
   {
-   "id": "TL16C750E",
+   "id": "SFX-TL16C750E",
    "function": "UART",
    "description": "UART with 128-byte FIFO",
    "drawer": [
@@ -11314,7 +11314,7 @@
    ]
   },
   {
-   "id": "TL16C752C",
+   "id": "SFX-TL16C752C",
    "function": "UART",
    "description": "Dual UART with 64-byte FIFO",
    "drawer": [
@@ -11910,7 +11910,7 @@
    ]
   },
   {
-   "id": "TL16C754B",
+   "id": "SFX-TL16C754B",
    "function": "UART",
    "description": "Quad UART with 64-byte FIFO",
    "drawer": [
@@ -12416,7 +12416,7 @@
    ]
   },
   {
-   "id": "TL16C754C",
+   "id": "SFX-TL16C754C",
    "function": "UART",
    "description": "Quad UARTs with 64-byte FIFO",
    "drawer": [

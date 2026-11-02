@@ -1112,7 +1112,8 @@ static void case_shipped(void) {
         const cJSON *dev;
 
         cJSON_ArrayForEach(dev, cJSON_GetObjectItemCaseSensitive(fixture, "devices")) {
-            const char *id = cJSON_GetObjectItemCaseSensitive(dev, "id")->valuestring;
+            /* Fixture ids are "SFX-<id>" so they load beside the shipped ones. */
+            const char *id = cJSON_GetObjectItemCaseSensitive(dev, "id")->valuestring + 4;
             const cJSON *other;
 
             cJSON_ArrayForEach(other, cJSON_GetObjectItemCaseSensitive(shipped, "devices")) {
@@ -1122,6 +1123,7 @@ static void case_shipped(void) {
 
                     cJSON_DeleteItemFromObjectCaseSensitive(a, "parts");
                     cJSON_DeleteItemFromObjectCaseSensitive(b, "parts");
+                    cJSON_ReplaceItemInObjectCaseSensitive(a, "id", cJSON_CreateString(id));
                     snprintf(message, sizeof message, "device %s: fixture equals serial.json", id);
                     check(cJSON_Compare(a, b, 1), message);
                     cJSON_Delete(a);

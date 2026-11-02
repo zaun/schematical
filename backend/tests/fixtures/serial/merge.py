@@ -111,6 +111,7 @@ def main():
             parts = [{'name': 'SFX-' + dev_id, 'package': 'DIP', 'pinout': 'test',
                       'footprint': fp, 'grade': 'T'}]
         device.update(keys)
+        device['id'] = 'SFX-' + dev_id   # beside the shipped device of the same id
         device['parts'] = parts
         devices.append(device)
     out = {'format': 'schematical-parts', 'version': 1, 'kind': 'serial', 'devices': devices}
@@ -160,7 +161,7 @@ def ship(groups):
         device.update(json.load(open(keys_path)))
         device['parts'] = data['parts']
         devices.append(device)
-    devices.sort(key=lambda d: d['id'])
+
     with open(out_path, 'w') as f:
         json.dump({'format': 'schematical-parts', 'version': 1, 'kind': 'serial',
                    'devices': devices}, f, indent=1)
