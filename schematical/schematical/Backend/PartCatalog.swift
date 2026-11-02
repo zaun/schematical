@@ -83,6 +83,35 @@ nonisolated struct DisplayInfo: Hashable, Sendable {
     let commonPins: [Int]
 }
 
+/// A character LCD module's panel (`PartCharLcd.panel`).
+nonisolated enum LCDPanel: Hashable, Sendable {
+    /// STN positive: dark dots on yellow-green.
+    case yellowGreen
+    /// STN negative: light dots on blue.
+    case blueNegative
+
+    var title: String {
+        switch self {
+        case .yellowGreen: return "Yellow-green"
+        case .blueNegative: return "Blue negative"
+        }
+    }
+}
+
+/// How a character LCD module is drawn and what it is.
+nonisolated struct CharacterLCDInfo: Hashable, Sendable {
+    let columns: Int
+    let rows: Int
+    let controller: String
+    /// The character ROM ("A00").
+    let rom: String
+    let panel: LCDPanel
+    /// Nil when the module has no backlight.
+    let backlightColor: String?
+    /// Pin indices (into `CatalogPart.pins`): RS, R/W, E, DB0-DB7.
+    let busPins: [Int]
+}
+
 /// A part's land pattern, copied from the backend's `PartFootprint`. Sizes and
 /// positions are millimetres; the origin is the body centre, y grows down.
 nonisolated struct Footprint: Hashable, Sendable {
@@ -163,6 +192,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A processor: its core ("6502", "65c02", "z80"), speed grade and
         /// highest clock.
         case cpu(core: String, grade: String, maxHz: UInt64)
+        case characterLCD(CharacterLCDInfo)
     }
 
     let name: String
@@ -179,6 +209,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     let details: Details
     /// Nil only for parts with no package (the supplies).
     let footprint: Footprint?
+    /// The second footprint the PCB Style option switches to (Connector
+    /// Only); nil for most parts.
+    let connectorFootprint: Footprint?
     /// The recommended supply range and the highest input voltage,
     /// millivolts. Nil for supplies, LEDs, 7-segment displays and switches.
     let vcc: (minMV: UInt32, maxMV: UInt32, inputMaxMV: UInt32)?
@@ -239,6 +272,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         return nil
     }
 
+    var characterLCD: CharacterLCDInfo? {
+        if case let .characterLCD(info) = details { return info }
+        return nil
+    }
+
     /// The color of an LED or a 7-segment display.
     var color: String? {
         switch details {
@@ -265,6 +303,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         if case let .oscillator(_, _, _, defaultHz, _) = details {
             return PartFacts.hertz(defaultHz)
         }
+        if case let .characterLCD(info) = details { return "\(info.columns)×\(info.rows)" }
         if let count, count > 0 { return "(\(count))" }
         return nil
     }
@@ -282,6 +321,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .oscillator(family, _, _, _, _): return [family]
         case .supply: return []
         case let .cpu(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
+        case let .characterLCD(info):
+            return [info.panel.title] + (info.backlightColor.map { ["\($0) backlight"] } ?? [])
         }
     }
 }
@@ -331,10 +372,12 @@ extension Footprint {
 }
 
 extension CatalogPart {
-    /// Copies one part out of the library. `footprint` is the Swift copy of
-    /// `part.footprint`, shared by every part that uses it.
-    nonisolated init(_ part: Part, footprint: Footprint?) {
+    /// Copies one part out of the library. `footprint` and
+    /// `connectorFootprint` are the Swift copies of `part.footprint` and
+    /// `part.connector_footprint`, shared by every part that uses them.
+    nonisolated init(_ part: Part, footprint: Footprint?, connectorFootprint: Footprint? = nil) {
         self.footprint = footprint
+        self.connectorFootprint = connectorFootprint
         vcc = part.vcc.map { ($0.pointee.min_mv, $0.pointee.max_mv, $0.pointee.input_max_mv) }
         name = string(part.name)
         kind = part.kind
@@ -397,6 +440,16 @@ extension CatalogPart {
             details = .supply(level: Int(supply.level), mv: supply.mv)
         } else if let cpu = part.cpu?.pointee {
             details = .cpu(core: string(cpu.core), grade: string(cpu.grade), maxHz: cpu.max_hz)
+        } else if let lcd = part.charlcd?.pointee {
+            details = .characterLCD(CharacterLCDInfo(
+                columns: Int(lcd.columns),
+                rows: Int(lcd.rows),
+                controller: string(lcd.controller),
+                rom: string(lcd.rom),
+                panel: string(lcd.panel) == "blue-negative" ? .blueNegative : .yellowGreen,
+                backlightColor: lcd.backlight_color.map { String(cString: $0) },
+                busPins: indices(lcd.bus_pins, lcd.bus_pin_count)
+            ))
         } else {
             details = .supply(level: 0, mv: 0)
         }
@@ -446,7 +499,9 @@ nonisolated enum BackendCatalog {
         return (0..<count).compactMap { index in
             part_library_at(library.pointer, index).map { part in
                 CatalogPart(part.pointee,
-                            footprint: part.pointee.footprint.flatMap { footprints[string($0.pointee.id)] })
+                            footprint: part.pointee.footprint.flatMap { footprints[string($0.pointee.id)] },
+                            connectorFootprint: part.pointee.connector_footprint
+                                .flatMap { footprints[string($0.pointee.id)] })
             }
         }
     }
@@ -518,6 +573,7 @@ func symbol(for part: CatalogPart) -> PartSymbol {
     case PART_SWITCH: return .dipSwitch
     case PART_LED: return .diode
     case PART_7SEG: return .sevenSegment
+    case PART_CHARLCD: return .characterLCD
     case PART_OSCILLATOR: return .oscillator
     case PART_SUPPLY:
         if case let .supply(level, _) = part.details, level == 0 { return .ground }
@@ -550,8 +606,8 @@ final class PartCatalogStore {
         let subcategory: String
         let functions: [FunctionGroup]
         /// Parts listed straight under the subcategory, with no function level:
-        /// switches (the function is only the vendor's series), LEDs and
-        /// 7-segment displays.
+        /// switches (the function is only the vendor's series), LEDs,
+        /// 7-segment displays and character LCDs.
         var parts: [CatalogPart] = []
 
         var id: String { subcategory }
@@ -712,9 +768,12 @@ final class PartCatalogStore {
             }
     }
 
-    /// Switches, LEDs and 7-segment displays are listed with no function level.
+    /// Switches, LEDs, 7-segment displays and character LCDs are listed with
+    /// no function level.
     private static func listsPartsDirectly(_ parts: [CatalogPart]) -> Bool {
-        parts.allSatisfy { $0.kind == PART_SWITCH || $0.kind == PART_LED || $0.kind == PART_7SEG }
+        parts.allSatisfy {
+            $0.kind == PART_SWITCH || $0.kind == PART_LED || $0.kind == PART_7SEG || $0.kind == PART_CHARLCD
+        }
     }
 
     /// Parts by count (positions, digits), then by name.

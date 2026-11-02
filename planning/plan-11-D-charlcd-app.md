@@ -39,9 +39,9 @@ The gate is plan-11-A § Prerequisites. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-11-C complete | `grep -c 'Commit: —' planning/plan-11-C-charlcd-parts.md` → 0 (or the file is in `planning/completed/`) | NOT MET (2026-11-01: C not started) |
-| The parts load | `grep -c '\|charlcd\|' backend/tests/golden/parts.txt` → 5 | NOT MET (lands in C) |
-| `circuit_lcd_state` exists | `grep -n 'circuit_lcd_state' backend/include/circuit.h` → one line | NOT MET (lands in B) |
+| plan-11-C complete | `grep -c '^Commit: —' planning/plan-11-C-charlcd-parts.md` → 0 (or the file is in `planning/completed/`) | MET (2026-11-01 at 36dbe1e: 0 once C's last hash is filled, in the D Phase 1 commit) |
+| The parts load | `grep -c '\|charlcd\|' backend/tests/golden/parts.txt` → 5 | MET (2026-11-01 at 36dbe1e: 5) |
+| `circuit_lcd_state` exists | `grep -n 'circuit_lcd_state' backend/include/circuit.h` → one line | MET (2026-11-01 at 36dbe1e: circuit.h:86) |
 
 Everything below is written against the world where these hold.
 
@@ -349,16 +349,30 @@ filter parts.
 
 ### Phase 1 — Catalog, drawer and facts
 
-- [ ] `Backend/PartCatalog.swift`: `connectorFootprint`, `.characterLCD`
+- [x] `Backend/PartCatalog.swift`: `connectorFootprint`, `.characterLCD`
       details, `symbol(for:)`, `listsPartsDirectly`, `trailingLabel`,
       `detailLabels` (§4.1).
-- [ ] `Backend/PartFacts.swift`: kind name and fact rows (§4.1).
-- [ ] `Canvas/SchematicModel.swift`: `PartSymbol.characterLCD` and its
+- [x] `Backend/PartFacts.swift`: kind name and fact rows (§4.1).
+- [x] `Canvas/SchematicModel.swift`: `PartSymbol.characterLCD` and its
       `ChipLayout` (§4.2). Until Phase 2 it is drawn by `ChipBlockView`.
+- [x] Added: `Drawer/ChipDrawerView.swift` gains
+      `init(catalog:openGroups:)` (default: none open, so the app is
+      unchanged), so the harness can render Displays → Character open. And
+      the harness itself: `/tmp/p11/harness` (plan-09-E's approach: the app's
+      Swift and the backend C in one CLI inside a copy of the Debug app,
+      rendering real views offscreen to PNG; see Corrections).
 
 Acceptance: the drawer shows Displays → Character with the 5 parts and
 their labels, and the sidebar shows the facts.
   Check: the app build → `** BUILD SUCCEEDED **`; launch it, open the drawer, screenshot Displays → Character and the sidebar of `NHD-0216K1Z-NSW-BBW-L` (est. 6 min; no app test target, so a screenshot is the smallest check of what the drawer lists).
+  Ran: app build → `** BUILD SUCCEEDED **`; `run catalog` → `Displays →
+  Character: functions 0, parts 5`, each `[16×2]` with `Module · Yellow-green
+  · Yellow-green backlight · 4.5–5.5 V` (BZ 4.7–5.3 V; NSW `Blue negative ·
+  White backlight`); `run shots` → `/tmp/p11-demo/drawer.png` and
+  `sidebar.png`, looked at: the five rows under Displays → Character, and
+  the sidebar's Kind, Footprint, Connector, Characters 16 × 2, Controller
+  ST7066U, Character ROM A00 (Japanese), Panel STN blue, negative,
+  Backlight White, Supply range 4.5–5.5 V.
 Commit: —
 
 ### Phase 2 — Live face
@@ -442,6 +456,18 @@ Commit: —
   `circuit_error`). (§3)
 
 ## Corrections
+
+- **Prerequisites, plan-11-C row.** Same flaw as plan-11-C's row for B:
+  the plain `grep -c 'Commit: —'` counts the row's own text. Measured with
+  `grep -c '^Commit: —'`.
+- **Screenshots come from the harness, not a desktop session.** This
+  session has no tool that drives a desktop GUI (clicking the drawer,
+  pressing Run, flipping a switch on the canvas). As in plan-09-E, the
+  harness (`/tmp/p11/harness`) compiles the app's own Swift sources with
+  the backend and renders the app's real views (`ChipDrawerView`,
+  `SchematicSidebarView`, the canvas, the PCB sidebar) offscreen, driving
+  the same document and simulation objects the app uses. Clicks are
+  replaced by the methods they call.
 
 ## Summary
 

@@ -420,7 +420,7 @@ MPS6502 program prints `HELLO`, and the W65C02S board is caught.
   `100% tests passed, 0 tests failed out of 18`; goldens unchanged since
   667d86f; final gate app build → `** BUILD SUCCEEDED **`.
   Check: `ctest --test-dir /tmp/logic-p11 -R charlcd_test --output-on-failure` → passes (est. 1 min; the board runs 50 ms of simulated time because the LCD's 40 ms power-up wait comes first).
-Commit: —
+Commit: 36dbe1e
 
 ## Validation Plan
 
