@@ -17,3 +17,6 @@ The PDF is deleted and listed here instead (see AGENTS.md, "Datasheets").
 | `osc/ecs300c.pdf` (ECS-300C) | oscillator | Oscillator | 8-pin 0.3 in DIP CMOS oscillator, 5 V; every part Obsolete at DigiKey (6 parts); https://ecsxtal.com/store/pdf/ecs300c.pdf |
 | `osc/ecs-300cx.pdf` (ECS-300CX) | oscillator | Oscillator | 8-pin 0.3 in DIP CMOS oscillator, 5 V; every part Obsolete at DigiKey (2 parts); https://ecsxtal.com/store/pdf/ecs-300cx.pdf |
 | `osc/ECS-327KO.PDF` (ECS-327KO) | oscillator | Oscillator | 32.768 kHz SMD CMOS oscillator, 3.3 V; Obsolete at DigiKey (1 part); https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/1021/ECS-327KO.PDF |
+| `controller-uart/cdp6402.pdf` (CDP6402) | serial | Interface → UART | Its only in-stock part CDP6402D is Obsolete at DigiKey (2026-11-02); plan-12-A §4.1; https://www.renesas.com/ |
+| `controller-uart/sc16c652b.pdf` (SC16C652B) | serial | Interface → UART | Every in-stock part Obsolete at DigiKey (3 parts, 2026-11-02); plan-12-A §4.1; https://www.nxp.com/part/SC16C652B |
+| `controller-uart/st16c650a.pdf` (ST16C650A) | serial | Interface → UART | The only datasheet-covered in-stock part ST16C650ACJ44 is Obsolete at DigiKey (2026-11-02); ST16C650CJ44/IJ44 are the non-A chip, with no datasheet; plan-12-A §4.1; https://www.maxlinear.com/ |

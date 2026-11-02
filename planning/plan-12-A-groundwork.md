@@ -80,6 +80,14 @@ rows.
 
 Everything below is written against the world where these hold.
 
+> **Owner override (2026-11-01):** the owner said to start plan-12 while
+> plan-11 is still running (plan-11 thread 742c2f59…, `worktree-P-11`) and
+> to work around it. plan-12 runs in `worktree-P-12`. The plan-11 row stays
+> NOT MET until plan-11 lands on main. Then main is merged into
+> `worktree-P-12`, conflicts are resolved, and the goldens regenerated.
+> T0/P0/F0 are taken from main **with** plan-11, and every count check is
+> re-run against them. plan-12 does not merge to main before plan-11 has.
+
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue, and again
 > before you decide to stop. Never act on a status you did not just verify.
@@ -425,11 +433,13 @@ UART`, `I2C controller` for cp2120 and sc18is606). The remaining 80 PDFs (79 in
 
 ### Phase 1 — Datasheets
 
-- [ ] Delete the 27 PDFs of §4.1; add 24 rows to `datasheets/not-included.md`
+- [x] Delete the 27 PDFs of §4.1; add 24 rows to `datasheets/not-included.md`
   and 3 to `datasheets/obsolete-not-included.md`. Check: `ls
   datasheets/controller-*/*.pdf | wc -l` → 80; `ls -d datasheets/controller-spi
   2>/dev/null` → no output; `git diff --stat datasheets/*.md` → `+24`, `+3`.
-- [ ] Commit (one commit: the deletions and both records).
+  Observed: `80`; no output; `not-included.md | 24 +++…`,
+  `obsolete-not-included.md | 3 +++`.
+- [x] Commit (one commit: the deletions and both records).
 
 Acceptance: the checks above (seconds).
 Commit: —
@@ -494,7 +504,13 @@ programs cover.
 
 ## Corrections
 
-(none yet)
+- **Gate overridden by the owner (2026-11-01).** The plan-11 prerequisite was
+  NOT MET, measured at 403651a: plan-11 A done, B/C/D 42 boxes open on
+  `worktree-P-11`. The owner said to start anyway and work around plan-11
+  (see the note under Prerequisites).
+- **Source URLs in the §4.1 records.** `plan-12-data` holds no source URLs,
+  so each row names the maker's product page or site (the format the
+  existing rows use).
 
 ## Summary
 
