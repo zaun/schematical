@@ -156,6 +156,7 @@ oscillator's `enablePin` is a pin designator; see below.)
 | `"pinout"` | the name of one of the device's pinouts |
 | `"flags"` | optional, any of `obsolete`, `military`, `automotive`, `enhanced`, `ceramic` |
 | `"footprint"` | the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)). Required on every part except supplies (`VCC`, `GND`, `5V`, …), which reject it |
+| `"connectorFootprint"` | optional: a second footprint, the `id` of one in `footprints.json`, that the PCB Style option switches to (**Connector Only**). Same rules as `footprint`. Character LCD modules use it (§ `charlcd`) |
 | `"vcc"`, `"inputMax"` | on gate, dff, jkff, sram, eeprom and oscillator parts only: the part's own supply range / input limit, replacing the one it inherits (see [Supply voltage](#supply-voltage-vcc-and-inputmax)) |
 
 Every other key belongs to the kind.
@@ -408,6 +409,9 @@ allowed at the footprint level.
   if the datasheet gives one, else the outline rules), with a `note` naming
   the drawing, file and page. `footprint_check` fails on a footprint no part
   uses.
+- `"connectorFootprint"` follows the same rules (unknown id, pad count,
+  a pad per pin; messages name `connectorFootprint`), and naming a
+  footprint there counts as a use for `footprint_check`.
 - **Mid-values.** Every dimension that a rule takes from a drawing (lead
   width and length, tip-to-tip span, terminal size, ball and pin
   diameter, body) is the mid-value (min + max) / 2 when the drawing gives

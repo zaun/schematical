@@ -138,13 +138,15 @@ int main(int argc, char **argv) {
         }
     }
 
-    /* Every footprint is named by some part. */
+    /* Every footprint is named by some part, as its footprint or connectorFootprint. */
     parts = part_library_count(library);
     for (i = 0; i < count; i++) {
         const PartFootprint *fp = part_library_footprint_at(library, i);
 
         for (j = 0; j < parts; j++) {
-            if (part_library_at(library, j)->footprint == fp) {
+            const Part *part = part_library_at(library, j);
+
+            if (part->footprint == fp || part->connector_footprint == fp) {
                 break;
             }
         }

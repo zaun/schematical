@@ -116,6 +116,7 @@ typedef struct Part {
     const PartEeprom *eeprom;
     const PartCpu *cpu;
     const PartFootprint *footprint;    /* NULL = none (supplies) */
+    const PartFootprint *connector_footprint;  /* NULL = none; the PCB Style option's "Connector Only" */
     const void *internal;              /* model data; not for the app */
 } Part;
 

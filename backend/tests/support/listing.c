@@ -151,6 +151,9 @@ char *listing_line(const Part *part) {
     if (part->footprint != NULL) {
         fprintf(out, "|footprint=%s", part->footprint->id);
     }
+    if (part->connector_footprint != NULL) {
+        fprintf(out, "|connector=%s", part->connector_footprint->id);
+    }
     if (part->vcc != NULL) {
         fprintf(out, "|vcc=%u-%u,in=%u", (unsigned)part->vcc->min_mv, (unsigned)part->vcc->max_mv,
                 (unsigned)part->vcc->input_max_mv);

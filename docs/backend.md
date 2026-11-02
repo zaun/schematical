@@ -202,11 +202,13 @@ drawer work from the kind table and the `Part` structs.
   pads, against `tests/golden/footprints.txt` (one line per footprint:
   `id|pins=N|body=WxH|pads=<designator>:x,y,wxh,shape[,d<drill>][,r<radius>][,c<chamfer>:<corners>];…`,
   corners `tl+tr+br+bl` order; `-`
-  for an unnumbered pad), and every footprint used by some part. After an
+  for an unnumbered pad), and every footprint used by some part (`footprint`
+  or `connectorFootprint`). After an
   intended change: `/tmp/logic-build/footprint_check --print >
   backend/tests/golden/footprints.txt`, then hand-check the changed lines
   against the drawing. Listing lines in `parts.txt` end in
-  `|footprint=<id>` for parts that name one.
+  `|footprint=<id>` for parts that name one, then `|connector=<id>` for
+  parts with a `connectorFootprint`.
 - `switch_test`, `sram_test`, `display7_test` — model benches.
 - `latch_test` — the `latch` kind's five models, one case per function-table
   row of the devices that use them (inline fixture devices copied from the

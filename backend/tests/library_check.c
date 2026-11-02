@@ -1290,6 +1290,16 @@ static void check_explicit_repeated_pins(void) {
     "{'id':'BGA-2','description':'d','style':'grid','pins':2,'rows':2,'columns':2,'pitch':0.5," \
     "'balls':['A1','A2'],'body':{'width':1,'height':1},'pad':{'width':0.2,'height':0.2,'shape':'round'}}"
 
+#define FP_CHIP2B \
+    "{'id':'CHIP-2B','description':'d','style':'dual','pins':2,'perSide':1,'body':{'width':1,'height':0.5}," \
+    "'pitch':2,'span':0.9,'pad':{'width':0.5,'height':0.7,'shape':'rect'}}"
+/* The FP_LED part on CHIP-2 with CONN (a JSON value) as its connectorFootprint. */
+#define FP_LED_CONN(CONN) \
+    HEAD("led") "{'id':'led-fp','function':'LED','description':'d','drawer':[]," \
+    "'pinouts':{'p':[" FP_LED_NUMBERED "]},'color':'Red','anode':'A','cathode':'K'," \
+    "'parts':[{'name':'LED-FP','package':'X','pinout':'p','footprint':'CHIP-2'," \
+    "'connectorFootprint':" CONN "}]}" TAIL
+
 static void check_part_footprints(void) {
     PartLibrary *library = part_library_create();
     char *error = NULL;
@@ -1316,6 +1326,35 @@ static void check_part_footprints(void) {
                      FP_LED(FP_LED_NUMBERED, "'BGA-2'"), "pin \"1\" has no pad in footprint \"BGA-2\"");
     expect_part_fail("part: footprint not a string", FP_FILE(FP_CHIP2), FP_LED(FP_LED_NUMBERED, "2"),
                      "\"footprint\" must be a string");
+
+    /* plan-11-A: "connectorFootprint", optional, checked like "footprint". */
+    {
+        PartLibrary *lib = part_library_create();
+        char *err = NULL;
+
+        CHECK(load_fp(lib, FP_FILE(FP_CHIP2 "," FP_CHIP2B), &err) == 0);
+        CHECK(load(lib, FP_LED_CONN("'CHIP-2B'"), &err) == 0);
+        part = part_library_find(lib, "LED-FP");
+        CHECK(part != NULL && part->footprint == part_library_find_footprint(lib, "CHIP-2") &&
+              part->connector_footprint != NULL &&
+              strcmp(part->connector_footprint->id, "CHIP-2B") == 0);
+        free(err);
+        part_library_destroy(lib);
+        printf("ok   a part's \"connectorFootprint\" resolves\n");
+    }
+    expect_part_fail("part: unknown connectorFootprint", FP_FILE(FP_CHIP2), FP_LED_CONN("'HDR-1X17'"),
+                     "parts[0] (LED-FP): unknown connectorFootprint \"HDR-1X17\"");
+    expect_part_fail("part: connectorFootprint pad count mismatch", FP_FILE(FP_CHIP2 "," FP_SOT5),
+                     FP_LED_CONN("'SOT-5'"),
+                     "connectorFootprint \"SOT-5\" has 5 pads, pinout \"p\" has 2 pins");
+    expect_part_fail("part: pin without a pad in connectorFootprint", FP_FILE(FP_CHIP2 "," FP_BGA2),
+                     FP_LED_CONN("'BGA-2'"), "pin \"1\" has no pad in connectorFootprint \"BGA-2\"");
+    expect_fail("supply part with connectorFootprint",
+                HEAD("supply")
+                "{'id':'VCC','function':'VCC','description':'d','drawer':[],"
+                "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'volts':5,"
+                "'parts':[{'name':'VCC','package':'','pinout':'pin','connectorFootprint':'T1'}]}" TAIL,
+                "parts[0] (VCC): a supply has no footprint");
 
     /* plan-03-C: the key is required on every part but a supply, which rejects it. */
     expect_fail("non-supply part without footprint",

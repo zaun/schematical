@@ -305,31 +305,40 @@ footprint is unchanged.
   Check: `cmake --build /tmp/logic-p11 -j8 && ctest --test-dir /tmp/logic-p11 -R 'library_check|footprint_check'` → both pass;
   `git diff --exit-code backend/tests/golden/footprints.txt` → exit 0 (est. 1 min).
   Ran: ctest -R → `100% tests passed, 0 tests failed out of 2`; golden diff → exit 0.
-Commit: —
+Commit: 82971f4
 
 ### Phase 3 — `connectorFootprint`
 
 The part key, the `Part` field, the listing and the used-footprint rule.
 
-- [ ] `backend/src/library/library.c`: `PART_KEYS` gains
+- [x] `backend/src/library/library.c`: `PART_KEYS` gains
       `connectorFootprint`; the shared resolve-and-check helper (§4.3);
       supplies reject it.
-- [ ] `backend/include/parts.h`: append `connector_footprint` to `Part` (§4.3).
-- [ ] `backend/tests/support/listing.c`: `|connector=<id>` (§4.3).
-- [ ] `backend/tests/footprint_check.c`: used = `footprint` or `connector_footprint`.
-- [ ] `backend/tests/library_check.c`, using inline fixture files: a gate
+- [x] `backend/include/parts.h`: append `connector_footprint` to `Part` (§4.3).
+- [x] `backend/tests/support/listing.c`: `|connector=<id>` (§4.3).
+- [x] `backend/tests/footprint_check.c`: used = `footprint` or `connector_footprint`.
+- [x] `backend/tests/library_check.c`, using inline fixture files: a gate
       part with `connectorFootprint` loads and `part->connector_footprint->id`
       matches; the three errors with their exact messages (unknown id, pad
       count, missing pad); a supply with it is rejected.
-- [ ] `docs/parts-format.md` (§ Parts table row, § The `"footprint"` part
+      The fixture part is the existing `FP_LED` test LED (the file's footprint
+      helpers are built on it), not a gate; the key is kind-independent.
+      Ran: `ok   a part's "connectorFootprint" resolves`, plus the three
+      errors (`unknown connectorFootprint "HDR-1X17"`, `connectorFootprint
+      "SOT-5" has 5 pads, pinout "p" has 2 pins`, `pin "1" has no pad in
+      connectorFootprint "BGA-2"`) and `supply part with connectorFootprint:
+      … a supply has no footprint`.
+- [x] `docs/parts-format.md` (§ Parts table row, § The `"footprint"` part
       key) and `docs/backend.md` (§ Tests) per §4.3.
-- [ ] The app still builds (the field is appended; nothing reads it yet).
+- [x] The app still builds (the field is appended; nothing reads it yet).
 
 Acceptance: the key loads and is checked, nothing in the catalog changes,
 and the app still builds.
   Check: `cmake --build /tmp/logic-p11 -j8 && ctest --test-dir /tmp/logic-p11` → `100% tests passed, 0 tests failed out of 17`;
   `git diff --exit-code backend/tests/golden` → exit 0;
   `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p11-dd CODE_SIGNING_ALLOWED=NO build | tail -1` → `** BUILD SUCCEEDED **` (est. 4 min; the app build is the only check that the new `Part` field compiles in Swift's import).
+  Ran: ctest → `100% tests passed, 0 tests failed out of 17`; golden diff →
+  exit 0; xcodebuild → `** BUILD SUCCEEDED **`.
 Commit: —
 
 ## Validation Plan
