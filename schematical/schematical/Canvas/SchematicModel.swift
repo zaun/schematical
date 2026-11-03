@@ -856,8 +856,16 @@ final class SchematicDocument {
     }
 
     func moveChip(_ id: UUID, to origin: CGPoint) {
-        guard let index = chips.firstIndex(where: { $0.id == id }) else { return }
-        chips[index].origin = SchematicGrid.snap(origin)
+        guard let index = chips.firstIndex(where: { $0.id == id }) else {
+            return
+        }
+
+        let snapped = SchematicGrid.snap(origin)
+        guard chips[index].origin != snapped else {
+            return
+        }
+
+        chips[index].origin = snapped
     }
 
     /// Swaps the side of every pin on a placed part, and re-fits the wires
