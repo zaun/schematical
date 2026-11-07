@@ -65,11 +65,15 @@ static void print_details(FILE *out, const Part *part) {
                 fprintf(out, " rated=%u", (unsigned)part->dip_switch->rated_mv);
             }
             break;
-        case PART_LED:
-            /* Phase 1 of plan-18 keeps the old one-color text (every LED has one
-               color until led.json moves to "colors"). */
-            fprintf(out, "color=%s", part->led->colors[0]);
+        case PART_LED: {
+            size_t k;
+
+            fprintf(out, "colors=");
+            for (k = 0; k < part->led->color_count; k++) {
+                fprintf(out, "%s%s", k > 0 ? "," : "", part->led->colors[k]);
+            }
             break;
+        }
         case PART_7SEG: {
             const PartDisplay *d = part->display;
             size_t i;

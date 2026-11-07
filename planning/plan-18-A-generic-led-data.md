@@ -432,27 +432,30 @@ the existing data still loads unchanged.
   → 21/21 pass. `/tmp/p18-build/library_check | grep -c '^FAIL'` → 0, and
   the 10 new cases print `ok`. `git diff --stat backend/tests/golden` → empty
   (no data changed) (est. 1 min).
-Commit: —
+Commit: d571090
 
 ### Phase 2 — Data and backend tests on `GENERIC-LED`
 
 `led.json` becomes the one part. The `color` key goes away. Goldens are
 regenerated. Lands with Phase 3 (the app does not compile in between).
 
-- [ ] `schematical/schematical/Parts/led.json`: replace with §6 exactly.
-- [ ] `backend/src/models/led.c`: remove the `color` fallback; `DEVICE_KEYS` =
+- [x] `schematical/schematical/Parts/led.json`: replace with §6 exactly.
+- [x] `backend/src/models/led.c`: remove the `color` fallback; `DEVICE_KEYS` =
       `{"colors","anode","cathode"}`.
-- [ ] `backend/tests/library_check.c`: the 6 LED fixtures' `'color':'Red'`
+- [x] `backend/tests/library_check.c`: the 6 LED fixtures' `'color':'Red'`
       → `'colors':['Red']` (lines 268, 353, 853, 1406, 1423, 1486). Line 279
       checks `dip->led->colors[0]`. Add `expect_fail` for an LED device with
-      `'color'` → `unknown key "color"`.
-- [ ] `backend/tests/circuit_check.c` (5 lines), `voltage_test.c` (2),
+      `'color'` → `unknown key "color"`. (`grep -c` → 6 before the sed.)
+- [x] `backend/tests/circuit_check.c:628` (added): the ball-pinout LED fixture
+      also had `\"color\":\"Red\"` → `\"colors\":[\"Red\"]`. Before the fix,
+      `circuit_check` printed 4 FAILs ("a ball-pinout LED loads" …); after, 0.
+- [x] `backend/tests/circuit_check.c` (5 lines), `voltage_test.c` (2),
       `sim_bench.c` (2): every old LED name → `"GENERIC-LED"`.
-- [ ] `backend/include/circuit.h:10`, `docs/backend.md:48`: example →
+- [x] `backend/include/circuit.h:10`, `docs/backend.md:48`: example →
       `"GENERIC-LED"`.
-- [ ] Regenerate: `/tmp/p18-build/listing_check --print > backend/tests/golden/parts.txt`
+- [x] Regenerate: `/tmp/p18-build/listing_check --print > backend/tests/golden/parts.txt`
       and `/tmp/p18-build/trace_check --print > backend/tests/golden/traces.txt`.
-- [ ] `docs/parts-format.md`: § Parts table gets a `footprintChoices` row.
+- [x] `docs/parts-format.md`: § Parts table gets a `footprintChoices` row.
       § The `"footprint"` part key gets the §4 rules (extra pads allowed in
       a choice, default must be a choice). § `led` table `color` →
       `colors` (first = default). § Footprints `footprint_check` sentence
@@ -465,6 +468,8 @@ exactly the expected ones.
   (the `+++` header and one `+GENERIC-LED|led|Radial|Indicators/LED|LED|||colors=Red,Green,Blue,Amber,White|1:K:input:default,2:A:input:default|footprint=LED-RADIAL-5MM|choices=0402:LED-0402,…,Radial:LED-RADIAL-5MM`).
   Same counts for `traces.txt` (`^-LED-` → 55, one `+GENERIC-LED` line).
   `git diff --quiet backend/tests/golden/footprints.txt` → exit 0 (est. 1 min).
+  Result: `ctest` 21/21. `parts.txt`: 55 `-LED-` lines, one `+GENERIC-LED|…|colors=Red,Green,Blue,Amber,White|…|footprint=LED-RADIAL-5MM|choices=0402:LED-0402,…,Radial:LED-RADIAL-5MM`, no other `-`/`+` line.
+  `traces.txt`: 55 `-LED-` lines, one `+GENERIC-LED	97b67472c7b07e45`. `footprints.txt` not in the diff.
 Commit: —
 
 ### Phase 3 — App: per-part color and footprint, file format 4, migration
@@ -575,6 +580,16 @@ Commit: —
   on a two-pin part) fails the strict `load_part_footprint` check first, so
   it can never reach "not in footprintChoices". The test uses default `T2`
   with only `T4` offered → `"footprint" "T2" is not in footprintChoices`.
+- **Phase 2 population.** The plan counted 6 `'color'` LED fixtures in
+  `library_check.c`. `circuit_check.c:628` has a 7th (escaped-quote form,
+  `\"color\":\"Red\"`), which the `grep` over `library_check.c` missed. It
+  was moved to `colors` as an added task.
+- **Old-name population grew (plan-15 landed after this plan was written).**
+  `grep -rnE 'LED-(RED|GREEN|BLUE|AMBER|WHITE)-'` now also hits
+  `scripts/harness/multiselect.swift` (3 lines) and the unit tests
+  `schematical/schematicalTests/SelectionModelTests.swift` (7),
+  `SelectionSidebarTests.swift` (7, two assert the row detail text) and
+  `SelectionGestureTests.swift` (13). Added to Phase 3 as tasks.
 
 ## Summary
 

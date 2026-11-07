@@ -265,7 +265,7 @@ static void check_valid_supply(void) {
     "'pinouts':{'two-pin':[{'number':1,'name':'K','role':'input'},{'number':2,'name':'A','role':'input'}]," \
     "'dip4':[{'number':1,'name':'K','role':'input'},{'number':2,'name':'" ANODE2 "','role':'input'}," \
     "{'number':3,'name':'NC','role':'nc'},{'number':4,'name':'NC','role':'nc'}]}," \
-    "'color':'Red','anode':'A','cathode':'K'," \
+    "'colors':['Red'],'anode':'A','cathode':'K'," \
     "'parts':[{'name':'LED-RED-0603','package':'0603','pinout':'two-pin','footprint':'T2'}," \
     "{'name':'LED-RED-DIP','package':'DIP','pinout':'dip4','footprint':'T4'}]}"
 
@@ -319,6 +319,9 @@ static void check_footprint_choices(void) {
     expect_fail("LED empty colors",
                 HEAD("led") CHOICE_DEVICE("'colors':[]", ",'package':'0603','footprint':'T2'") TAIL,
                 "\"colors\" must not be empty");
+    expect_fail("LED device with the old color key",
+                HEAD("led") CHOICE_DEVICE("'color':'Red'", ",'package':'0603','footprint':'T2'") TAIL,
+                "unknown key \"color\"");
     expect_fail("footprintChoices empty",
                 HEAD("led") CHOICE_DEVICE("'colors':['Red']",
                 ",'package':'0603','footprint':'T2','footprintChoices':[]") TAIL,
@@ -422,7 +425,7 @@ static void check_supply_cases(void) {
                 HEAD("led")
                 "{'id':'led-red','function':'LED','description':'d','drawer':[],"
                 "'pinouts':{'two-pin':[{'number':1,'name':'K','role':'input'},{'number':3,'name':'A','role':'input'}]},"
-                "'color':'Red','anode':'A','cathode':'K','parts':[]}" TAIL,
+                "'colors':['Red'],'anode':'A','cathode':'K','parts':[]}" TAIL,
                 "pinouts.two-pin: pin 2: pin numbers must be 1..N in order (found 3)");
     expect_fail("unknown role",
                 HEAD("supply")
@@ -922,7 +925,7 @@ static void check_display_cases(void) {
 #define BALL_LED(BGA_PINS) \
     HEAD("led") "{'id':'led-ball','function':'LED','description':'d','drawer':[]," \
     "'pinouts':{'dip2':[{'number':1,'name':'K','role':'input'},{'number':2,'name':'A','role':'input'}]," \
-    "'bga':[" BGA_PINS "]},'color':'Red','anode':'A','cathode':'K'," \
+    "'bga':[" BGA_PINS "]},'colors':['Red'],'anode':'A','cathode':'K'," \
     "'parts':[{'name':'LED-BALL-DIP','package':'DIP','pinout':'dip2','footprint':'T2'}," \
     "{'name':'LED-BALL-BGA','package':'BGA','pinout':'bga','footprint':'BGA2'}]}" TAIL
 #define BALL_LED_PINS "{'ball':'A1','name':'K','role':'input'},{'ball':'B2','name':'A','role':'input'}"
@@ -1475,7 +1478,7 @@ static void check_explicit_repeated_pins(void) {
 /* An LED with one pinout of PINS whose part names FOOTPRINT (a JSON value). */
 #define FP_LED(PINS, FOOTPRINT) \
     HEAD("led") "{'id':'led-fp','function':'LED','description':'d','drawer':[]," \
-    "'pinouts':{'p':[" PINS "]},'color':'Red','anode':'A','cathode':'K'," \
+    "'pinouts':{'p':[" PINS "]},'colors':['Red'],'anode':'A','cathode':'K'," \
     "'parts':[{'name':'LED-FP','package':'X','pinout':'p','footprint':" FOOTPRINT "}]}" TAIL
 #define FP_LED_NUMBERED "{'number':1,'name':'K','role':'input'},{'number':2,'name':'A','role':'input'}"
 #define FP_LED_BALLS "{'ball':'A1','name':'K','role':'input'},{'ball':'B2','name':'A','role':'input'}"
@@ -1492,7 +1495,7 @@ static void check_explicit_repeated_pins(void) {
 /* The FP_LED part on CHIP-2 with CONN (a JSON value) as its connectorFootprint. */
 #define FP_LED_CONN(CONN) \
     HEAD("led") "{'id':'led-fp','function':'LED','description':'d','drawer':[]," \
-    "'pinouts':{'p':[" FP_LED_NUMBERED "]},'color':'Red','anode':'A','cathode':'K'," \
+    "'pinouts':{'p':[" FP_LED_NUMBERED "]},'colors':['Red'],'anode':'A','cathode':'K'," \
     "'parts':[{'name':'LED-FP','package':'X','pinout':'p','footprint':'CHIP-2'," \
     "'connectorFootprint':" CONN "}]}" TAIL
 
@@ -1555,7 +1558,7 @@ static void check_part_footprints(void) {
     /* plan-03-C: the key is required on every part but a supply, which rejects it. */
     expect_fail("non-supply part without footprint",
                 HEAD("led") "{'id':'led-nf','function':'LED','description':'d','drawer':[],"
-                "'pinouts':{'p':[" FP_LED_NUMBERED "]},'color':'Red','anode':'A','cathode':'K',"
+                "'pinouts':{'p':[" FP_LED_NUMBERED "]},'colors':['Red'],'anode':'A','cathode':'K',"
                 "'parts':[{'name':'LED-NF','package':'X','pinout':'p'}]}" TAIL,
                 "parts[0] (LED-NF): missing \"footprint\"");
     expect_fail("supply part with footprint",
