@@ -51,7 +51,7 @@ plan-19-A § Prerequisites, plus:
 - [x] Runtime proof: launch the app (`run` skill), open Logic in the drawer, choose family `LS` → `SN74LS138N` and `SN74LS148N` are listed with the gates; select a placed '138 → sidebar shows "Kind: Decoder", "Family: LS", "Units: 1". Done on the /tmp/p19-dd build, driven with AppleScript and a CGEvent drag helper (no project run skill): Logic shows the leaves "7-segment decoder", "Decoder", "Encoder" and FCT in the family menu; with LS chosen, Decoder lists SN74LS42D/N, SN74LS138D/DR/N/NSR, SN74LS139ADR … and Encoder SN74LS148DR, SN74LS148N ("DIP · LS · 4.75–5.25 V"); SN74LS138N dragged onto the canvas draws a "Decoder" block, and selected shows Kind Decoder, Function Decoder, Package DIP, Footprint PDIP-16, Family LS, Units 1, Supply range 4.75–5.25 V. Mouse returned to (0, 0) after.
 
 Acceptance: build succeeds; grep of §1 matches; the runtime proof as stated. Met (all three).
-Commit: — (recorded in the archive commit)
+Commit: 8bb23b4
 
 ## Validation Plan — plan-19 landing tier
 
@@ -79,7 +79,9 @@ Then archive plan-19-A…D to `planning/completed/`.
   backend/tests/golden | grep -c '^-[^-]'` → 0 (c7d2ba0 = the plan-19 start,
   the parent of A's first commit 6ff7393); `grep -c '|decoder|' parts.txt`
   → 322 = N19 − n4511; datasheets → 89; app `** BUILD SUCCEEDED **`.
-  Repeated after merging main (follow-plan §5).
+  Repeated after merging main (baf741b, clean: main added only plan-24
+  planning files): 22 of 22, 0 golden lines removed, 322, 89, `** BUILD
+  SUCCEEDED **`.
 - **No Rust formatter step**: the repo has no `Cargo.toml` (`ls Cargo.toml
   repository/Cargo.toml` → no such file), so follow-plan's `cargo fmt` does
   not apply.
