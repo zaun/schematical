@@ -112,13 +112,21 @@ Commands:
 
 Acceptance: build succeeds; the harness prints §4's lines.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p14j-dd build` → `** BUILD SUCCEEDED **` (est. 2 min); `/tmp/p14/harness/run facts W65C816S6TPG-14`, `run cpu /tmp/p14-proof/cpu816.schematical` → the §4 lines (est. 1 min).
-Commit: —
+Commit: e8ecc42
 
 ### Phase 2 — Landing tier and archive
 
-- [ ] Run the Validation Plan's final gate; record the counts below.
-- [ ] Archive every `planning/plan-14-*.md` still open to
-      `planning/completed/`.
+- [x] Run the Validation Plan's final gate; record the counts below.
+      `cmake … && cmake --build … && ctest --test-dir /tmp/logic-p14` →
+      `100% tests passed, 0 tests failed out of 21`; `wc -l` parts.txt `7411`, traces.txt `7411` (P0 7399 +
+      12), footprints.txt `233` (F0 232 + 1); `|pio|` → `7`, `^W65C51N` →
+      `3`, `^W65C816S` → `2`; `node backend/tools/jsmooch-gen/run.js
+      /tmp/g.c && cmp …` → no output (exit 0); coverage grep → `9` (all 8
+      sources, see Corrections); `xcodebuild … build` →
+      `** BUILD SUCCEEDED **`.
+- [x] Archive every `planning/plan-14-*.md` still open to
+      `planning/completed/` (A–I archived as each landed; J in this
+      commit).
 
 Acceptance: the final gate's expected results, all observed.
   Check: the commands of § Validation Plan → their results (est. 6 min).
@@ -176,6 +184,10 @@ Commit: —
 - §4 command 3: no plan-09-E `cpu6502.schematical` survives in
   `/tmp`; the harness rebuilds that board (W65C02S6TPG-14, AT28C256-15PU,
   AS6C62256-55PCN, SN74HC00N, the plan-09-D program) the same way.
+- Validation Plan coverage check: the grep counts `9`, not 8. The ninth
+  line is `CMakeLists.txt:145`, the generator test's
+  `JSMOOCH_C=…/wdc65816_generated_opcodes.c` path; the eight source lines
+  (38, 65–68, 70–72) are all there.
 - §4 command 2: the 816 board also ties the AS6C1008's CE2 high and leaves
   RDY open (plan-14-I Corrections).
 
