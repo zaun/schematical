@@ -15,13 +15,15 @@ import SwiftUI
 ///   selection; Shift-drag empty space to draw a box that adds every part,
 ///   junction and wire it touches to the selection.
 /// - Line: drag from one pin to another to connect them with a right-angled wire.
+///   Press Escape during the drag to cancel it (no wire is placed).
 ///   A grid point on an existing wire can be a start or end too; it becomes a
 ///   junction, so wires branch there. Only connection points are highlighted.
 /// - Bus: drag to draw a bus line or L; start or end on a bus to join it at a
 ///   T or L, or to extend it. A straight drag between two line ends in line
 ///   with each other joins them end to end into one line. Leaving an L
 ///   straight out of one of its lines makes it a T. A drag from one bus to
-///   another joins them into the bus it starts on.
+///   another joins them into the bus it starts on. Press Escape during the
+///   drag to cancel it (no bus is placed).
 /// - Bus Port: click a bus line (not its ends or a T) to add an empty port
 ///   there; tick wires in its panel to give it pins.
 /// - Eraser: click or drag over a block, wire or bus line to remove it.
@@ -61,6 +63,8 @@ struct SchematicCanvasView: View {
     @State private var hoveredPortID: UUID?
     /// The connection point under the pointer in Line mode, when not drawing.
     @State private var hoverAnchor: LineAnchor?
+    /// Watches for Escape, which cancels a wire or bus being drawn.
+    @State private var escapeMonitor: Any?
 
     private enum Interaction {
         /// Moves every selected part, junction and wire bend from `base`.
@@ -118,6 +122,8 @@ struct SchematicCanvasView: View {
                     clearHover()
                 }
             }
+            .onAppear { installEscapeMonitor() }
+            .onDisappear { removeEscapeMonitor() }
             .onChange(of: isRunning) { _, running in
                 // Drop any highlight left from before play mode started (⌘R).
                 if running {
@@ -347,6 +353,33 @@ struct SchematicCanvasView: View {
 
     private func lineAnchor(at point: CGPoint) -> LineAnchor? {
         document.lineAnchor(at: point, pinRadius: pinRadius, gridRadius: lineTolerance)
+    }
+
+    private func installEscapeMonitor() {
+        guard escapeMonitor == nil else { return }
+        escapeMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            guard event.keyCode == 53, cancelDrawing() else { return event }
+            return nil
+        }
+    }
+
+    private func removeEscapeMonitor() {
+        if let escapeMonitor {
+            NSEvent.removeMonitor(escapeMonitor)
+        }
+        escapeMonitor = nil
+    }
+
+    /// Drops a wire or bus being drawn, so the rest of the drag does nothing.
+    /// Returns whether there was one to drop.
+    private func cancelDrawing() -> Bool {
+        switch interaction {
+        case .connecting?, .drawingBus?:
+            interaction = .idle
+            return true
+        default:
+            return false
+        }
     }
 
     private var canvasGesture: some Gesture {
