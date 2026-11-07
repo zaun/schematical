@@ -21,8 +21,8 @@ plan-19-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-19-B complete | `ls planning/completed/plan-19-B-*.md` → exists | NOT MET (2026-11-07) |
-| Part data present | `awk -F'\t' 'NR>1 && $11=="add"' planning/plan-19-data/parts.tsv \| wc -l` → N19 (recorded by A) | NOT MET (A not run) |
+| plan-19-B complete | `ls planning/completed/plan-19-B-*.md` → exists | MET (2026-11-07: B landed in 252d6a6 and is archived in this commit) |
+| Part data present | `awk -F'\t' 'NR>1 && $11=="add"' planning/plan-19-data/parts.tsv \| wc -l` → N19 (recorded by A) | MET (2026-11-07: `322` = N19) |
 
 ## 1. Goal
 
@@ -67,17 +67,17 @@ plan-19-A § Prerequisites, plus:
 
 ### Phase 1 — Part files
 
-- [ ] Generate `decoder.json` and the `4511B` device; load check: `ctest --test-dir /tmp/logic-p19 -R library_check` → pass.
-- [ ] Device coverage: every `device` in `parts.tsv` `add` rows is a device id in the two files (python set difference → empty).
+- [x] Generate `decoder.json` and the `4511B` device; load check: `ctest --test-dir /tmp/logic-p19 -R library_check` → pass. `decoder.json`: 32 devices, 322 parts (generator `/tmp/p19/scripts/gen_decoder.py`); `library_check` → `100% tests passed`; the whole library loads (`footprint_check` → `239 footprints compared, 8344 parts loaded`). ~~The `4511B` device~~ — moot: n4511 = 0, the census's only CD4511B part (CD4511BNS) is not in the cd4511b ordering table (plan-19-A Corrections), so `latch.json` is unchanged.
+- [x] Device coverage: every `device` in `parts.tsv` `add` rows is a device id in the two files (python set difference → empty). `/tmp/p19/scripts/coverage.py` → `missing devices: []`, `add rows not in decoder.json: []`, `decoder.json parts not add rows: []`.
 
 Acceptance: both checks (seconds).
 Commit: —
 
 ### Phase 2 — Goldens and spot checks
 
-- [ ] Regenerate `parts.txt` and `traces.txt` (docs/backend.md § Tests). Check: removed lines 0; added lines N19 in each.
-- [ ] Spot checks against `specs.md`, one listing line each: `SN74HC138N` (`|decoder|`, `HC`, `units=1`, `PDIP-16`, `vcc=2000-6000`), `SN74LS145N` (open-drain outputs), `SN74LS148N` (`Encoder`), `SN7447AN` (`7-segment decoder`), `CD4511BE` (`|latch|`), one `military` and one `automotive` part.
-- [ ] `trace_check --verbose SN74HC138N` shows exactly one of Y0…Y7 low whenever G1 = 1 and G2A = G2B = 0.
+- [x] Regenerate `parts.txt` and `traces.txt` (docs/backend.md § Tests). Check: removed lines 0; added lines N19 in each. `git diff backend/tests/golden | grep -c '^-[^-]'` → 0; `+` lines: parts.txt 322, traces.txt 322, footprints.txt 2; `wc -l` parts.txt and traces.txt → 8344 = P0 8022 + 322; `grep -c '|decoder|' parts.txt` → 322 = N19 − n4511.
+- [x] Spot checks against `specs.md`, one listing line each: `SN74HC138N` (`|decoder|`, `HC`, `units=1`, `PDIP-16`, `vcc=2000-6000`), `SN74LS145N` (open-drain outputs), `SN74LS148N` (`Encoder`), `SN7447AN` (`7-segment decoder`), `CD4511BE` (`|latch|`), one `military` and one `automotive` part. `SN74HC138N|decoder|DIP|Logic|Decoder|||units=1|…|footprint=PDIP-16|vcc=2000-6000,in=6000` (the listing has no family field: `"family":"HC"` in decoder.json); `SN74LS148N|decoder|DIP|Logic|Encoder|…|vcc=4750-5250`; `SN7447AN|decoder|DIP|Logic|7-segment decoder|…|4:BI/RBO:inout|…`; `SNJ54LS148FK|…|military,ceramic|…|footprint=LCCC-20|vcc=4500-5500` (SN54 range); `SN74HC138QPWRQ1|…|automotive|…|TSSOP-16`; `SN74LV138ATDR|…|vcc=4500-5500` (part-level AT range); SN74LS145N open drain (listing has no such field; probe `/tmp/p19/tools/od`: `Y0 open_drain=1`, `Y9 open_drain=1`, `A open_drain=0`; SN7447AN `a` 1, `BI/RBO` 1, `LT` 0). ~~`CD4511BE`~~ — moot: no CD4511B part (n4511 = 0).
+- [x] `trace_check --verbose SN74HC138N` shows exactly one of Y0…Y7 low whenever G1 = 1 and G2A = G2B = 0. `/tmp/p19/scripts/trace138.py` over the trace (states held longer than the 18 ns delay): `checked 53 settled states (7 enabled), 0 wrong` — enabled states show exactly Y<code> low, disabled ones every Y high.
 
 Acceptance: `ctest` T0 + 1 of T0 + 1; golden counts as §1 (seconds).
 Commit: —
@@ -92,6 +92,19 @@ C's gate: Phase 2 (`ctest` about 13 s, golden counts). Landing tier in D.
   plan-19-A §3.2).
 
 ## Corrections
+
+- **No CD4511B** (§3, Phase 1): n4511 = 0 (plan-19-A Corrections), so no
+  `4511B` device and `latch.json` is unchanged; `parts.txt` grows by N19 =
+  322, all `|decoder|`.
+- **plan-19-A's two footprints land here** (`SOT23-THIN-16`,
+  `UQFN-16-RSV`; `footprint_check` rejects unused footprints), with their 2
+  golden lines; the footprint check of plan-19-A Phase 2 is met here.
+- **Part-level `vcc`** beyond the SN54 rule, from the spec sections' Supply
+  lines: SN74AC138/238/139 -Q1 parts [1.5, 6]; SN74LV138AT parts [4.5, 5.5];
+  LVC138A -Q1/-EP parts and CLVC138A [2, 3.6] (15 parts; the generator
+  asserts each is used).
+- **The listing line has no family field**: the spot check's `HC` is read
+  from decoder.json, and open-drain from `part_pin_open_drain` (probe).
 
 ## Summary
 

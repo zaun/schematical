@@ -276,7 +276,7 @@ Commit: 6ff7393
 ### Phase 2 — Families and footprints
 
 - [x] §4.3 families + docs; `library_check` case: a gate part with `"family": "FCT"` and an `FCT` timing entry loads (`ok   gate part with family FCT`). Before: `grep -c '"FCT"' backend/src/library/kind_util.c` → 0 (no other plan added it). After: `library_check` prints `ok   gate part with family FCT` and `ok   families L and ALV`; `ctest --test-dir /tmp/logic-p19` → `100% tests passed, 0 tests failed out of 21`.
-- [~] §4.4 footprints into `footprints.json`; regenerate `backend/tests/golden/footprints.txt` (docs/backend.md § Tests). `SOT23-THIN-16` and `UQFN-16-RSV` written and their golden lines generated (2 `+` lines, 0 `-`), but `footprint_check` fails on a footprint no part uses (`unused footprint: SOT23-THIN-16`), so they land in plan-19-C Phase 1's commit with the parts that use them (Corrections).
+- [x] §4.4 footprints into `footprints.json`; regenerate `backend/tests/golden/footprints.txt` (docs/backend.md § Tests). `SOT23-THIN-16` (DYY0016A, sn74hcs138 p.27–28) and `UQFN-16-RSV` (RSV0016A, sn74avc4t774 p.30–31) landed in plan-19-C Phase 1's commit with the parts that use them (`footprint_check` fails on an unused footprint; Corrections): `git diff backend/tests/golden/footprints.txt | grep -c '^+[^+]'` → 2 = new ids, `grep -c '^-[^-]'` → 0; `ctest` 22 of 22.
 
 Acceptance: `ctest --test-dir /tmp/logic-p19` → T0 of T0 passed;
 `git diff backend/tests/golden | grep -c '^-[^-]'` → 0;

@@ -172,7 +172,7 @@ every output.
 - [x] `docs/parts-format.md` § `decoder` (kind intro, model `binary` key table); `docs/backend.md` kind list. Also the file table (`decoder.json`) and the `decoder_test` entry in docs/backend.md § Tests.
 
 Acceptance: `ctest --test-dir /tmp/logic-p19 -R 'decoder_test|library_check'` → both pass; `decoder_test` prints the `binary` PASS lines (seconds). Met: both pass; PASS 1–15.
-Commit: — (one commit with Phase 2; Corrections)
+Commit: 252d6a6 (one commit with Phase 2; Corrections)
 
 ### Phase 2 — `priority` and `seg7`
 
@@ -180,7 +180,7 @@ Commit: — (one commit with Phase 2; Corrections)
 - [x] `library_check` failure cases for every validation error. 25 `expect_fail` cases + one valid 2-unit device (`ok   valid decoder (binary, 2 units)` … `ok   decoder seg7 rbo not inout`); `library_check: all passed`.
 
 Acceptance: `ctest --test-dir /tmp/logic-p19` → T0 + 1 of T0 + 1 passed; `git diff --stat backend/tests/golden` → empty (seconds). Met: `100% tests passed, 0 tests failed out of 22`; golden diff empty.
-Commit: —
+Commit: 252d6a6
 
 ## Validation Plan
 
