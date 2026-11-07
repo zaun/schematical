@@ -66,7 +66,9 @@ static void print_details(FILE *out, const Part *part) {
             }
             break;
         case PART_LED:
-            fprintf(out, "color=%s", part->led->color);
+            /* Phase 1 of plan-18 keeps the old one-color text (every LED has one
+               color until led.json moves to "colors"). */
+            fprintf(out, "color=%s", part->led->colors[0]);
             break;
         case PART_7SEG: {
             const PartDisplay *d = part->display;
@@ -183,6 +185,15 @@ char *listing_line(const Part *part) {
     }
     if (part->connector_footprint != NULL) {
         fprintf(out, "|connector=%s", part->connector_footprint->id);
+    }
+    if (part->footprint_choice_count > 0) {
+        size_t k;
+
+        fprintf(out, "|choices=");
+        for (k = 0; k < part->footprint_choice_count; k++) {
+            fprintf(out, "%s%s:%s", k > 0 ? "," : "", part->footprint_choices[k].package,
+                    part->footprint_choices[k].footprint->id);
+        }
     }
     if (part->vcc != NULL) {
         fprintf(out, "|vcc=%u-%u,in=%u", (unsigned)part->vcc->min_mv, (unsigned)part->vcc->max_mv,

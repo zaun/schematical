@@ -45,8 +45,8 @@ from either one that lands first gets merged in; neither is a dependency.
 
 | Must be true | Command | Status |
 |---|---|---|
-| The 55 old LED parts are still the only `led` parts | `grep -c '"name":"LED-' schematical/schematical/Parts/led.json` → 55 | MET (2026-11-07) |
-| Backend tests pass before starting | `cmake -S backend -B /tmp/p18-build && cmake --build /tmp/p18-build -j8 && ctest --test-dir /tmp/p18-build -j8` → 21/21 | MET (2026-11-07, 9.3 s) |
+| The 55 old LED parts are still the only `led` parts | `grep -c '"name":"LED-' schematical/schematical/Parts/led.json` → 55 | MET (2026-11-07, re-run in worktree: 55) |
+| Backend tests pass before starting | `cmake -S backend -B /tmp/p18-build && cmake --build /tmp/p18-build -j8 && ctest --test-dir /tmp/p18-build -j8` → 21/21 | MET (2026-11-07, re-run in worktree with a fresh `/tmp/p18-build`: 21/21, 5.9 s) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue.
@@ -397,21 +397,23 @@ The loader accepts both new keys. The real `led.json` is untouched in this
 phase: LED devices accept `color` *or* `colors` until Phase 2 removes
 `color`. Safe alone: no shipped data uses the new keys yet.
 
-- [ ] `backend/include/parts.h`: add `PartFootprintChoice`, the two `Part`
+- [x] `backend/include/parts.h`: add `PartFootprintChoice`, the two `Part`
       fields, and `PartLed { const char *const *colors; size_t color_count; }`.
-- [ ] `backend/src/library/library.c`: `"footprintChoices"` in `PART_KEYS`;
+- [x] `backend/src/library/library.c`: `"footprintChoices"` in `PART_KEYS`;
       split out `check_pads`; add `load_footprint_choices` with the §4 rules
       and messages; call it after `load_part_footprint` for `"footprint"`.
-- [ ] `backend/src/models/led.c`: read `colors` with `kind_names` (non-empty).
+- [x] `backend/src/models/led.c`: read `colors` with `kind_names` (non-empty).
       For this phase only, a device with `color` and no `colors` loads as a
       one-entry list. `DEVICE_KEYS` lists both.
-- [ ] `backend/tests/support/listing.c`: `colors=` joined with commas, and
-      `|choices=<package>:<id>,…` after `|connector=`.
-- [ ] `backend/tests/footprint_check.c:149`: count choice footprints as used.
-- [ ] Swift, so the app still builds: `PartCatalog.swift:436` reads
+- [x] `backend/tests/support/listing.c`: `colors=` joined with commas, and
+      `|choices=<package>:<id>,…` after `|connector=`. (Phase 1 writes
+      `color=<colors[0]>` so the golden stays byte-identical; `colors=` joined
+      lands in Phase 2. See Corrections.)
+- [x] `backend/tests/footprint_check.c:149`: count choice footprints as used.
+- [x] Swift, so the app still builds: `PartCatalog.swift:436` reads
       `led.colors[0]` into the existing `.led(color:)` (temporary, replaced
       in Phase 3).
-- [ ] Tests in `backend/tests/library_check.c`: a valid fixture with
+- [x] Tests in `backend/tests/library_check.c`: a valid fixture with
       `'colors':['Red','Blue']` and
       `'footprintChoices':[{'package':'0603','footprint':'T2'},{'package':'DIP','footprint':'T4'}]`
       on a two-pin part with `'footprint':'T2','package':'0603'` loads, with
@@ -420,7 +422,9 @@ phase: LED devices accept `color` *or* `colors` until Phase 2 removes
       `footprintChoices`; a choice with an extra key; unknown choice
       footprint; choice `T1` (pin 2 has no pad); `T2` listed twice; default
       footprint not among the choices; package mismatch; `footprintChoices`
-      on a supply.
+      on a supply. Result: `ctest` 21/21; `library_check | grep -c '^FAIL'` → 0;
+      the 10 new lines print `ok` (`grep -cE` over them → 10);
+      `git diff --stat backend/tests/golden` → empty.
 
 Acceptance: the new loader rules accept and reject exactly as §4/§5 say, and
 the existing data still loads unchanged.
@@ -557,6 +561,20 @@ Commit: —
   `"Generic LED"`, which `PartHeader` already shows under the part number.
 
 ## Corrections
+
+- **Prerequisite build dir.** `/tmp/p18-build` had been configured from the
+  main checkout, so `cmake -S backend` in the worktree failed ("does not match
+  the source … used to generate cache"). Fix: `rm -rf /tmp/p18-build` first,
+  then the gate command as written → 21/21.
+- **Phase 1 `listing.c` vs. its acceptance.** The task said Phase 1 writes
+  `colors=`, but the acceptance says the goldens don't change, and every LED
+  line would then change `color=Red` → `colors=Red`. Phase 1 writes
+  `color=<colors[0]>` (same bytes for the one-color data). Phase 2 switches to
+  `colors=` joined with commas, which is the line its acceptance expects.
+- **§4 example message.** A default footprint with more pads than pins (`T4`
+  on a two-pin part) fails the strict `load_part_footprint` check first, so
+  it can never reach "not in footprintChoices". The test uses default `T2`
+  with only `T4` offered → `"footprint" "T2" is not in footprintChoices`.
 
 ## Summary
 

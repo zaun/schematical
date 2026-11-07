@@ -433,7 +433,7 @@ extension CatalogPart {
             details = .dipSwitch(positions: Int(dip.positions), actuator: string(dip.actuator),
                                  ratedMV: dip.rated_mv)
         } else if let led = part.led?.pointee {
-            details = .led(color: string(led.color))
+            details = .led(color: led.color_count > 0 ? string(led.colors?[0]) : "")
         } else if let display = part.display?.pointee {
             let leds: [DisplayInfo.LED] = (0..<display.led_count).compactMap { index in
                 guard let led = display.leds?[index] else { return nil }
