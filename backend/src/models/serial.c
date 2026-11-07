@@ -61,6 +61,8 @@ static const char *const DEVICE_KEYS[] = {
     "serial",
     /* hs82c52 */
     "hd6406",
+    /* acia6551, plan-14-E */
+    "w65c51n",
     /* com78c80x ("bus", "clock", "channels", "interrupt" above) */
     "lines",
     /* plan-12-I: the bridges (ns16550) and sc18is604 */

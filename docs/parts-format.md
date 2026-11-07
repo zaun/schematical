@@ -1526,6 +1526,16 @@ CTS rule (finish the character, no TDRE interrupt while CTS is high);
 without it CTS high marks TXD at once. Timing names: `tcdr`, `thr` (read
 access, hold), `tdd` (clock to TXD), `tdly` (PHI2 to DTR / RTS), `tirq`.
 
+Device key `"w65c51n": true` (optional, default `false`; plan-14-E) is the
+WDC W65C51N (`datasheets/controller-uart/w65c51n.pdf`): TDRE (status bit
+4) reads 1 always (p.10: the TSR loads when the TDR is written), so a TIC
+01 interrupt is set again right after every status read; a TDR write while
+a frame is going out cuts it off at the next bit boundary, where the new
+byte's start bit begins (the cut-off character is not in the sent log; a
+frame cut in its stop bits had sent its data and is logged); no parity —
+command bits 5–7 are ignored and PE reads 0 (p.14). CTSB high marks TxD at
+once (no `"ctsA"`). Everything else is the model above.
+
 #### `hs82c52`
 
 The 82C52 and, with `"hd6406"`, the HD-6406.

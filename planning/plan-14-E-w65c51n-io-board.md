@@ -29,7 +29,7 @@ plan-14-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-14-D landed | `grep -c -F '|pio|' backend/tests/golden/parts.txt` → 7 | NOT MET (2026-11-01) |
+| plan-14-D landed | `grep -c -F '|pio|' backend/tests/golden/parts.txt` → 7 | MET (2026-11-07: `7`) |
 
 ## 1. Goal
 
@@ -220,14 +220,21 @@ data register holds `I` (the loopback).
 
 ### Phase 1 — The `w65c51n` variant and the parts
 
-- [ ] `serial_acia6551.c`: the `"w65c51n"` key and §3.1; docs
-      `parts-format.md` § `serial` → `acia6551`: the key.
-- [ ] `footprints.json` + `LQFP-32-7X7` (§3.3); `serial.json` + `W65C51N`
-      (§3.2), 3 parts.
-- [ ] `serial_test` E1–E7.
-- [ ] Regenerate the goldens. Check: no removed line; + 3, + 3, + 1.
-- [ ] Hand-check the `LQFP-32-7X7` line against §3.3 (pad 1 at
+- [x] `serial_acia6551.c`: the `"w65c51n"` key and §3.1; docs
+      `parts-format.md` § `serial` → `acia6551`: the key. (`serial.c`
+      DEVICE_KEYS gains `"w65c51n"`.) Build: no errors or warnings.
+- [x] `footprints.json` + `LQFP-32-7X7` (§3.3); `serial.json` + `W65C51N`
+      (§3.2), 3 parts (`W65C51N6TPLG-14` flagged obsolete: Corrections).
+- [x] `serial_test` E1–E7. → `ok   E1 W65C51N: TDRE …` … `ok   E7 W65C51N: the terminal …`;
+      `PASS`. A mutation (no cut-off) fails E2 (`got 1010010000, want
+      0010000101`; the log held 0x41), then reverted.
+- [x] Regenerate the goldens. Check: no removed line; + 3, + 3, + 1.
+      → numstat `1 0 footprints.txt`, `3 0 parts.txt`, `3 0 traces.txt`.
+- [x] Hand-check the `LQFP-32-7X7` line against §3.3 (pad 1 at
       (−4.3, −2.8), pad 9 at (−2.8, 4.3) turned 0.425 × 1.4).
+      → `1:-4.300,-2.800,1.400x0.425,rect`, `9:-2.800,4.300,0.425x1.400,rect`,
+      `17:4.300,2.800,…`, `32:-2.800,-4.300,0.425x1.400,rect`.
+- [x] Acceptance: `ctest` → `100% tests passed, 0 tests failed out of 21`.
 
 Acceptance: `serial_test` E1–E7 and every plan-12 case `ok`; the golden diff
 is exactly the 7 added lines.
@@ -263,4 +270,24 @@ peripherals on a real CPU). The landing tier is plan-14-J's.
 
 ## Corrections
 
-(none yet)
+- §3.2 grade `14`: the `acia6551` model has five timing names (`tcdr`,
+  `thr`, `tdd`, `tdly`, `tirq`; plan-12-H), not tCYC/tC/tAC/… — the grade
+  loader refuses any other key. The grade is `tcdr 50, thr 10` (Table 4,
+  4 MHz) and `tdd 500, tdly 500, tirq 500` (Table 3); the other Table 4
+  values are not modeled by `acia6551` (as for the CDP65C51).
+- §3.2 parts: the datasheet (p.6, Figure 1b) marks the PLCC-28 "EOL use
+  QFP" and says the PLCC "is only available in very limited quantities due
+  to packaging obsolescence". Per AGENTS.md (some parts obsolete → add all,
+  flag those), `W65C51N6TPLG-14` carries `"flags": ["obsolete"]`; its
+  listing line shows `|obsolete|`.
+- §3.3: the `footprints.txt` line prints three decimals —
+  `LQFP-32-7X7|pins=32|body=7.000x7.000|pads=1:-4.300,-2.800,1.400x0.425,rect;…`
+  — not the short form the plan quoted. Same values.
+- §3.1 item 2 (detail): a frame cut while in its stop bits had sent all its
+  data; it is logged before the new start bit. A frame cut in its start,
+  data or (absent) parity bits is not.
+- §4 E2: "write A, then B mid-frame" is placed in A's bit period 6 so the
+  boundary falls where A would send a 1 (data bit 6 of 0x41): B's start bit
+  (0) is then visible.
+- §4 E6: "52.08 µs bits" is checked as the first low period of 0x55 (the
+  start bit) within ±100 ns of 52 083 ns; 115200 the same with 8 681 ns.

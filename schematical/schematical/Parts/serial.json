@@ -2322,6 +2322,415 @@
    ]
   },
   {
+   "id": "W65C51N",
+   "function": "UART",
+   "description": "Asynchronous communications interface adapter (WDC W65C51N)",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "W65C51N (datasheets/controller-uart/w65c51n.pdf): pinouts p.6, registers p.9-14, CTSB p.17, AC Tables 3-4 p.20-21, outlines p.23 and p.25, ordering p.26; TDRE always 1 (p.10). The PLCC-28 is end of life (p.6: \"EOL use QFP\").",
+   "model": "acia6551",
+   "w65c51n": true,
+   "bus": {
+    "data": [
+     "D0",
+     "D1",
+     "D2",
+     "D3",
+     "D4",
+     "D5",
+     "D6",
+     "D7"
+    ],
+    "registerSelect": [
+     "RS0",
+     "RS1"
+    ],
+    "select": "CS1B",
+    "selectHigh": "CS0",
+    "phi2": "PHI2",
+    "readWrite": "RWB",
+    "reset": "RESB"
+   },
+   "clock": {
+    "in": "XTLI",
+    "out": "XTLO",
+    "receive": "RxC"
+   },
+   "serial": {
+    "tx": "TxD",
+    "rx": "RxD",
+    "rts": "RTSB",
+    "cts": "CTSB",
+    "dtr": "DTRB",
+    "dsr": "DSRB",
+    "dcd": "DCDB",
+    "irq": "IRQB"
+   },
+   "grades": {
+    "14": {
+     "tcdr": 50,
+     "thr": 10,
+     "tdd": 500,
+     "tdly": 500,
+     "tirq": 500,
+     "vcc": [
+      4.75,
+      5.25
+     ],
+     "note": "-14 part code; bus timing from the 4 MHz column of Table 4 (no faster column published), tDD/tDLY/tIRQ from Table 3 (p.20-21). VCC 5 V +/- 5% (p.22)."
+    }
+   },
+   "pinouts": {
+    "p28": [
+     {
+      "number": 1,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "CS0",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "CS1B",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "RESB",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "RxC",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "XTLI",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "XTLO",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "RTSB",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "CTSB",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "TxD",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "DTRB",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "RxD",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "RS0",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "RS1",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 16,
+      "name": "DCDB",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "DSRB",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "D0",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 19,
+      "name": "D1",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 20,
+      "name": "D2",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 21,
+      "name": "D3",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 22,
+      "name": "D4",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 23,
+      "name": "D5",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 24,
+      "name": "D6",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 25,
+      "name": "D7",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 26,
+      "name": "IRQB",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "PHI2",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "RWB",
+      "role": "input"
+     }
+    ],
+    "lqfp32": [
+     {
+      "number": 1,
+      "name": "RxC",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "XTLI",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "XTLO",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RTSB",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "CTSB",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "TxD",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "DTRB",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 9,
+      "name": "RxD",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "RS0",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "RS1",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 13,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 14,
+      "name": "DCDB",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "DSRB",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "D0",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 17,
+      "name": "D1",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 18,
+      "name": "D2",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 19,
+      "name": "D3",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 20,
+      "name": "D4",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 21,
+      "name": "D5",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 22,
+      "name": "D6",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 23,
+      "name": "D7",
+      "role": "inout",
+      "group": "data"
+     },
+     {
+      "number": 24,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 25,
+      "name": "IRQB",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "PHI2",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "RWB",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 29,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 30,
+      "name": "CS0",
+      "role": "input"
+     },
+     {
+      "number": 31,
+      "name": "CS1B",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "RESB",
+      "role": "input"
+     }
+    ]
+   },
+   "parts": [
+    {
+     "name": "W65C51N6TPG-14",
+     "package": "DIP",
+     "pinout": "p28",
+     "footprint": "PDIP-28-600",
+     "grade": "14"
+    },
+    {
+     "name": "W65C51N6TPLG-14",
+     "package": "PLCC",
+     "pinout": "p28",
+     "footprint": "PLCC-28",
+     "grade": "14",
+     "flags": [
+      "obsolete"
+     ]
+    },
+    {
+     "name": "W65C51N6TQG-14",
+     "package": "LQFP",
+     "pinout": "lqfp32",
+     "footprint": "LQFP-32-7X7",
+     "grade": "14"
+    }
+   ]
+  },
+  {
    "id": "COM1863",
    "function": "UART",
    "description": "Universal asynchronous receiver/transmitter",

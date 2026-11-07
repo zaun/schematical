@@ -23,6 +23,13 @@
  * lost, TDRE reads 0, its interrupts go on); the CDP65C51A (part key
  * "ctsA") finishes the character and holds the next with no TDRE
  * interrupt until CTS is low.
+ *
+ * "w65c51n": true (plan-14-E; datasheets/controller-uart/w65c51n.pdf): the
+ * WDC W65C51N. TDRE reads 1 always (p.10: the TSR is loaded when the TDR is
+ * written), so a TIC = 01 interrupt never clears; a TDR write while a frame
+ * is going out cuts it off at the next bit boundary, where the new byte's
+ * start bit begins (the cut-off character is not logged); there is no
+ * parity (p.14: command bits 5-7 are ignored, PE reads 0).
  */
 
 #include <stdlib.h>
@@ -33,7 +40,7 @@
 enum { T_CDR, T_HR, T_DD, T_DLY, T_IRQ };
 static const char *const TIMING[] = {"tcdr", "thr", "tdd", "tdly", "tirq", NULL};
 
-static const char *const KEYS[] = {"bus", "clock", "serial", NULL};
+static const char *const KEYS[] = {"bus", "clock", "serial", "w65c51n", NULL};
 static const char *const PART_KEYS[] = {"ctsA", NULL};
 
 enum { B_SELECT, B_SELECT_HIGH, B_PHI2, B_RW, B_RESET, B_COUNT };
@@ -59,6 +66,7 @@ typedef struct {
     const char *bus[B_COUNT];
     const char *clock[K_COUNT];
     const char *pin[P_COUNT];
+    int w65c51n;
 } AcDevice;
 
 typedef struct {
@@ -109,6 +117,7 @@ typedef struct {
     int cycle;                    /* 0 none, 1 read, 2 write, 3 X */
     unsigned cycle_rs, cycle_rs_known;
     int resync;
+    int cut;                      /* W65C51N: a TDR write cuts the frame in progress */
 } AcState;
 
 static SimTime t_of(const AcState *s, unsigned i) {
@@ -124,7 +133,7 @@ static unsigned word_length(const AcState *s) {
 static void update_format(AcState *s) {
     SerialFormat f = serial_format_default();
     unsigned wl = word_length(s);
-    int parity = (s->command.v >> 5) & 1u;
+    int parity = s->dev->w65c51n ? 0 : (s->command.v >> 5) & 1u;
     unsigned pmc = (s->command.v >> 6) & 3u;
 
     f.data_bits = wl;
@@ -137,7 +146,8 @@ static void update_format(AcState *s) {
     } else {
         f.stop_halves = 2;
     }
-    f.format_x = (s->control.k & 0xE0u) != 0xE0u || (s->command.k & 0xE0u) != 0xE0u;
+    f.format_x = (s->control.k & 0xE0u) != 0xE0u ||
+                 (!s->dev->w65c51n && (s->command.k & 0xE0u) != 0xE0u);
     s->format = f;
 }
 
@@ -173,6 +183,9 @@ static LogicValue cts_high(const AcState *s) {
 static LogicValue tdre_int(const AcState *s) {
     LogicValue on = su_and(dtr_bit(s), su_bool(tic(s) == 1 && (s->command.k & 0x0Cu) == 0x0Cu));
 
+    if (s->dev->w65c51n) {
+        return on;   /* TDRE is always 1 */
+    }
     if (s->cts_a) {
         on = su_and(on, su_not(cts_high(s)));
     }
@@ -192,7 +205,10 @@ static void status_of(const AcState *s, uint8_t *v, uint8_t *k) {
     if (!s->cts_a) {
         tdre = su_and(tdre, su_not(cts_high(s)));
     }
-    bits[0] = s->pe;
+    if (s->dev->w65c51n) {
+        tdre = LOGIC_1;   /* p.10: always 1 */
+    }
+    bits[0] = s->dev->w65c51n ? LOGIC_0 : s->pe;
     bits[1] = s->fe;
     bits[2] = s->ovr;
     bits[3] = s->rdrf;
@@ -312,6 +328,7 @@ static void reset_state(AcState *s) {
     s->tsr = LOGIC_1;
     s->break_end = 0;
     s->break_on = 0;
+    s->cut = 0;
     s->int_rx = s->int_modem = 0;
     s->frozen = 0;
     s->echo_mark = 0;
@@ -367,6 +384,9 @@ static void write_reg(AcState *s, unsigned rs, uint8_t v, uint8_t k) {
             s->tdr = su_reg(v, k);
             s->tdre = LOGIC_0;
             s->committed = dtr_bit(s) == LOGIC_1;
+            if (s->dev->w65c51n && serial_tx_busy(&s->line.tx)) {
+                s->cut = 1;   /* loads the TSR at once */
+            }
             break;
         case 1:
             /* Programmed reset (p14): OVR cleared, command b4..b0 = 0;
@@ -515,11 +535,36 @@ static void tx_done(void *context, uint16_t data, uint16_t known) {
     serial_line_log(&s->line, data);
 }
 
+/* 1 when this tick ends the bit the transmitter is sending. */
+static int tx_bit_ends(const SerialTx *tx) {
+    switch (tx->phase) {
+        case SERIAL_TX_START:
+        case SERIAL_TX_DATA:
+        case SERIAL_TX_PARITY:
+            return tx->count + 1 >= tx->format.factor;
+        case SERIAL_TX_STOP:
+            return (tx->stop_ticks + 1) % tx->format.factor == 0;
+        default:
+            return 1;
+    }
+}
+
 static void tx_tick(AcState *s) {
     SerialTxEvents events = {s, tx_fetch, NULL, tx_done};
 
     if (s->in_reset || s->unknown) {
         return;
+    }
+    if (s->cut && (!serial_tx_busy(&s->line.tx) || tx_bit_ends(&s->line.tx))) {
+        /* W65C51N: the new byte's start bit begins at this bit boundary. A
+           frame cut in its stop bits had sent all its data: it is logged. */
+        if (s->line.tx.phase == SERIAL_TX_STOP) {
+            uint16_t mask = (uint16_t)((1u << s->line.tx.format.data_bits) - 1);
+
+            serial_line_log(&s->line, s->line.tx.data & mask);
+        }
+        s->cut = 0;
+        serial_tx_reset(&s->line.tx);
     }
     if (s->break_end > 0) {
         s->break_end--;
@@ -544,7 +589,7 @@ static void on_received(void *context, const SerialRxChar *c) {
     LogicValue dcd = serial_level(s->sim, s->instance, s->pins->pin[P_DCD], LOGIC_X);
 
     if (s->format.parity == SERIAL_PARITY_MARK || s->format.parity == SERIAL_PARITY_SPACE ||
-        pmc >= 2) {
+        pmc >= 2 || s->dev->w65c51n) {
         pe = LOGIC_0;   /* mark/space: the check is disabled */
     }
     if (fe == LOGIC_1 && !(c->flags & SERIAL_RX_BI)) {
@@ -760,6 +805,10 @@ static void *ac_load_device(KindContext *ctx, const cJSON *json, unsigned *chann
     kind_pop(ctx);
     if (su_load_pin_object(ctx, json, "clock", 1, CLOCK_KEYS, d->clock, 0x7u) != 0 ||
         su_load_pin_object(ctx, json, "serial", 1, SERIAL_KEYS, d->pin, 0xFFu) != 0) {
+        return NULL;
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "w65c51n") != NULL &&
+        kind_bool(ctx, json, "w65c51n", &d->w65c51n) != 0) {
         return NULL;
     }
     *channels = 1;
