@@ -53,7 +53,7 @@ Commit: eb3852a
 - [x] `trace_check --verbose SN74HC245DWR` (same device; SN74HC245N not in the census), analysed by `/tmp/p20-scripts/trace245.py` (every moment ≥ 40 ns after the last A/DIR/OE change in a DIR-high, OE-low stretch: B_k = A_k) → `checks 126 mismatches 0`.
 
 Acceptance: `ctest` T0 + 1 of T0 + 1; golden counts (seconds).
-Commit: (this commit; hash in the next)
+Commit: 4378575
 
 ## Validation Plan
 

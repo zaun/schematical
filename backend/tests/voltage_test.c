@@ -517,6 +517,45 @@ static void check_domains(void) {
            "translator: 12 V on VCCB is out of the B side's 1.65-5.5 V range");
 }
 
+/* plan-20-H: the real SN74LVC1T45DBVR at VCCA 1.8 V / VCCB 5 V between a 1.8 V
+   SN74LVC1G04DBVR and a 5 V SN74HC04N (A to B), with a 3.6 V-max input on
+   A too: no problem (the A side sits at 1.8 V, the B side at 5 V). */
+static void check_real_translator(void) {
+    Netlist n = {0};
+    size_t t;
+    size_t lvc;
+    size_t hc;
+    size_t v18;
+    size_t v5;
+    size_t gnd;
+    size_t a;
+    size_t b;
+
+    v18 = supply(&n, "1V8");
+    v5 = supply(&n, "5V");
+    gnd = supply(&n, "GND");
+    t = add(&n, "SN74LVC1T45DBVR");
+    lvc = add(&n, "SN74LVC1G04DBVR");
+    hc = add(&n, "SN74HC04N");
+    wire(&n, t, "1", v18);
+    wire(&n, t, "6", v5);
+    wire(&n, t, "2", gnd);
+    wire(&n, t, "5", v18);
+    wire(&n, lvc, "5", v18);
+    wire(&n, lvc, "3", gnd);
+    wire(&n, hc, "14", v5);
+    wire(&n, hc, "7", gnd);
+    a = net(&n);
+    b = net(&n);
+    wire(&n, lvc, "4", a);
+    wire(&n, t, "3", a);
+    wire(&n, t, "4", b);
+    wire(&n, hc, "1", b);
+    /* A 3.6 V-max input on A: one supply range would put 5 V there. */
+    wire(&n, powered_gate(&n, "VFX-AUC1G00", "1V8"), "1", a);
+    expect(none(&n), "SN74LVC1T45DBVR at 1.8 V / 5 V between a 1.8 V LVC1G04 and a 5 V HC04: no problem");
+}
+
 int main(void) {
     library = part_library_create();
     if (library == NULL || load_parts_dir(library, PARTS_DIR) != 0 ||
@@ -533,6 +572,7 @@ int main(void) {
     check_no_data();
     check_order();
     check_domains();
+    check_real_translator();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);
