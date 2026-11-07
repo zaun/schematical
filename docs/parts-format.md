@@ -1666,6 +1666,74 @@ high), `tdc`, `pwi` (interrupt input pulse width, a minimum), `trs3`
 - Not modeled: port drive currents and the N/S buffer difference (the two
   dies are one model with the same timing).
 
+#### Model `via6522`
+
+The W65C22 VIA (`datasheets/pio/w65c22.pdf`). Keys: the shared ones with
+`"csHigh"` 1 name (CS1), `"csLow"` 1 (CS2B), `"rs"` 4; plus `"irq"` (IRQB),
+`"irqOpenDrain"` (bool, required: `true` = IRQB only pulls low, the
+W65C22N; `false` = totem pole, the W65C22S) and `"busHold"` (bool,
+required: `true` = every pin but PHI2 holds its last level when nothing
+drives it, the W65C22S). Timing names (ns; Tables 4-3, 4-4): `tcyc`,
+`tpwh`, `tpwl` (all > 0), `tacr`, `tcar`, `tcdr`, `thr`, `tpcr`, `tacw`,
+`tcaw`, `tdcw`, `thw`, `tcpw`, `tca2`, `trs1`, `trs2`, `twhs`, `tds`,
+`trs3`, `trs4`, `t21`, `til`, `tsr1`, `tsr2`, `tal`, `tpdh`. `tRS1` is
+printed in µs; it is ns. `tipw`, `ticw`, `tips`, `tics` are two PHI2
+cycles (measured), not keys.
+
+- **Registers** (Table 2-1), RS 0–F: ORB/IRB, ORA/IRA (handshake), DDRB,
+  DDRA, T1C-L, T1C-H, T1L-L, T1L-H, T2C-L, T2C-H, SR, ACR, PCR, IFR, IER,
+  ORA/IRA (no handshake). Writes act at the PHI2 fall; port outputs follow
+  `tcpw` later. A read's side effects (flag clears, the CA2 read strobe) act
+  at its PHI2 fall.
+- **Ports.** DDR 1 drives from OR (strong), DDR 0 floats. IRA reads the PA
+  pins (output bits too); IRB reads ORB for outputs and the pins for
+  inputs. A pin that changed less than `tpcr` before the read's rise reads
+  X. Latching (ACR bit 0 PA, bit 1 PB): the read returns the pins as they
+  were at the last active CA1/CB1 edge — X where a pin changed less than
+  `til` before the edge or within `tpdh` after it — and, once read, the
+  pins again until the next edge (p.8). Bus hold: an input at Z reads its
+  last level (X before the first); without it Z reads X.
+- **CA1, CB1.** The edge PCR bit 0 / bit 4 picks (1 = rising) sets IFR1 /
+  IFR4 and latches the port when enabled.
+- **CA2, CB2** (PCR bits 3–1 / 7–5): `000`/`010` input, falling/rising
+  edge sets IFR0/IFR3, cleared by an ORA (RS 1) / ORB access along with
+  IFR1/IFR4; `001`/`011` independent input (an ORA/ORB access leaves the
+  flag); `100` handshake output (CA2 low `tca2` after the fall of a read of
+  RS 1; CA2/CB2 low `twhs` after the rise that follows a write of RS 1/RS 0;
+  high on the next active CA1/CB1 edge, `trs2` after a read strobe, `trs4`
+  after a write strobe); `101` pulse output (after a read: low `tca2` after
+  the fall, high `trs1` after the next fall; after a write: low `twhs` after
+  the next rise, high `trs3` after the rise after that); `110`/`111` low /
+  high. Entering `100`/`101` sets the line high. RS F reads and writes ORA
+  with no handshake and no flag clear.
+- **Timer 1.** A write of RS 5 loads the counter from the latches, clears
+  IFR6 and starts it; the counter decrements at every PHI2 fall but the one
+  that loaded it, so it reads N in the next cycle and 0xFFFF in cycle N + 2,
+  and the time-out is at that cycle's PHI2 rise (N + 1.5 cycles after the
+  write). One-shot (ACR bit 6 = 0): IFR6 once per start; the counter rolls
+  on. Free-run: the counter reloads from the latch at the next fall, so
+  time-outs come every L + 2 cycles; IFR6 each time. ACR bit 7: T1 drives
+  PB7 whatever DDRB bit 7 is — low from the start write (+ `tcpw`), high at
+  a one-shot time-out, toggled at each free-run time-out — and IRB bit 7
+  reads it. RS 7 writes the high latch only and clears IFR6.
+- **Timer 2.** One-shot as T1 one-shot, from a write of RS 9 (counter high
+  ← data, counter low ← the low latch). Pulse counting (ACR bit 5): the
+  counter decrements once for each PB6 low sampled at a PHI2 rise after a
+  high one, and sets IFR5 when it reaches 0 (once per start); a PB6 pulse
+  narrower than two PHI2 cycles, or one starting less than two cycles after
+  the last ended, makes the count X.
+- **Interrupts.** IFR bits 0 CA2, 1 CA1, 2 SR, 3 CB2, 4 CB1, 5 T2, 6 T1;
+  IFR bit 7 reads (IFR ∧ IER) ≠ 0. Writing IFR clears the bits written 1.
+  IER bit 7 = 1 sets, 0 clears the bits written 1; IER bit 7 reads 1. IRQB
+  follows (IFR ∧ IER) ≠ 0 with no delay: low, or released (Z open drain, 1
+  totem pole).
+- **Reset and power-up.** RESB low clears every register but the T1 and T2
+  counters and latches and the SR; every pin is an input; the timers stop
+  until their start write. RESB X makes every register X; RESB at Z reads
+  X, or its held level with bus hold. Registers power up X.
+- **Shift register:** plan-14-D. Until then every ACR shift mode acts as
+  `000` (SR readable and writable, no shifting).
+
 ### `7seg`
 
 LED 7-segment displays. A display is a set of LEDs, each between one

@@ -214,8 +214,21 @@ static void check_pio(void) {
     expect_fail("pia6521 pa of 7", PIO_DEVICE(PIA_KEYS("'PA0','PA1','PA2','PA3','PA4','PA5','PA6'",
                                                        "'ca2':'CA2',")),
                 "devices[0] (U): \"pa\" needs exactly 8 pin names");
-#undef PA8
 #undef PIA_KEYS
+    /* plan-14-C: via6522 keys. */
+#define VIA_KEYS(RS, OPEN_DRAIN) \
+    "'model':'via6522','phi2':'PHI2','rw':'RWB','reset':'RESB'," \
+    "'data':['D0','D1','D2','D3','D4','D5','D6','D7'],'csHigh':['CS1'],'csLow':['CS2B']," \
+    "'rs':[" RS "],'pa':[" PA8 "],'pb':['PB0','PB1','PB2','PB3','PB4','PB5','PB6','PB7']," \
+    "'ca1':'CA1','ca2':'CA2','cb1':'CB1','cb2':'CB2','irq':'IRQB'," OPEN_DRAIN "'busHold':false," \
+    "'grades':{'14':{'tcyc':70,'tpwh':35,'tpwl':35}},"
+    expect_fail("via6522 missing irqOpenDrain",
+                PIO_DEVICE(VIA_KEYS("'RS0','RS1','RS2','RS3'", "")),
+                "devices[0] (U): missing \"irqOpenDrain\"");
+    expect_fail("via6522 rs of 3", PIO_DEVICE(VIA_KEYS("'RS0','RS1','RS2'", "'irqOpenDrain':true,")),
+                "devices[0] (U): \"rs\" needs exactly 4 pin names");
+#undef VIA_KEYS
+#undef PA8
 }
 
 static void check_valid_supply(void) {

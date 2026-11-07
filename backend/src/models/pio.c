@@ -16,6 +16,7 @@
 /* The model table (NULL-terminated). */
 static const PioModel *const MODELS[] = {
     &PIA6521_MODEL,   /* plan-14-B */
+    &VIA6522_MODEL,   /* plan-14-C */
     NULL
 };
 
@@ -28,6 +29,8 @@ static const char *const DEVICE_KEYS[] = {
     "ca1", "ca2", "cb1", "cb2",
     /* pia6521 */
     "irqa", "irqb",
+    /* via6522 */
+    "irq", "irqOpenDrain", "busHold",
     NULL
 };
 enum { FIRST_MODEL_KEY = 2 };

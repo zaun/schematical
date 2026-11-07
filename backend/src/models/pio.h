@@ -59,6 +59,7 @@ typedef struct {
 
 /* The models (pio.c's table). */
 extern const PioModel PIA6521_MODEL;
+extern const PioModel VIA6522_MODEL;
 
 /* ---- Shared helpers: the 65xx bus and the two ports ------------------------ */
 

@@ -64,6 +64,7 @@ add_library(logic STATIC
     src/models/pio.c
     src/models/bus65.c
     src/models/pio_pia6521.c
+    src/models/pio_via6522.c
     src/third_party/cjson/cJSON.c
 )
 target_include_directories(logic

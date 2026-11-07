@@ -243,7 +243,7 @@ Commit: c5b9082
 Acceptance: `ctest` 100%; the golden diff is exactly the 8 added lines.
   Check: `ctest --test-dir /tmp/logic-p14` → `100% tests passed`; `git diff --numstat backend/tests/golden` → `4 0 parts.txt`, `4 0 traces.txt` (est. 2 min).
   Result: `100% tests passed, 0 tests failed out of 21`; numstat as above.
-Commit: —
+Commit: 807ae4c
 
 ## Validation Plan
 

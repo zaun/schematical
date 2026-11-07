@@ -30,7 +30,7 @@ plan-14-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-14-B landed | `grep -c -F 'model=pia6521 ' backend/tests/golden/parts.txt` → 4 | NOT MET (2026-11-01) |
+| plan-14-B landed | `grep -c -F 'model=pia6521 ' backend/tests/golden/parts.txt` → 4 | MET (2026-11-07: `4`) |
 
 ## 1. Goal
 
@@ -216,7 +216,7 @@ Inline device copies `W65C22N` and `W65C22S` (§3.1) in the test file; PHI2
 | C6 CB2 write handshake | S | PCR = 0x80: write RS 0 → CB2 low at next rise + 75 ns; CB1 edge → high 88 ns later |
 | C7 pulse outputs | N | PCR = 0x0A (CA2 pulse), 0xA0 (CB2 pulse) |
 | C8 independent input | S | PCR = 0x02: CA2 falling sets IFR0; RS 1 read does not clear it; IFR write does |
-| C9 T1 one-shot | N | write T1 = 0x0005: reads 5,4,3,2,1,0,FFFF in cycles 1–7; IFR6 at the rise of cycle 7 (5.5 µs after the write's fall); no second IFR6 |
+| C9 T1 one-shot | N | write T1 = 0x0005: reads 5,4,3,2,1,0,FFFF in cycles 1–7; IFR6 at the rise of cycle 7 (6.5 µs after the write's fall; Corrections); no second IFR6 |
 | C10 T1 free-run PB7 | S | ACR = 0xC0, T1 = 3: PB7 toggles every 5 cycles; RS 7 write changes the next period only |
 | C11 T2 one-shot | N | IFR5 at N + 1.5; counter rolls to FFFF and on |
 | C12 T2 pulse count | S | ACR = 0x20, T2 = 3, three PB6 pulses → IFR5 after the third; a 1-cycle-wide pulse → counter X |
@@ -232,10 +232,16 @@ with 3 `"rs"` names, are refused.
 
 ### Phase 1 — Registers, ports, control lines, interrupts
 
-- [ ] `backend/src/models/pio_via6522.c` (§3.1–§3.4, §3.7, §3.8) registered
+- [x] `backend/src/models/pio_via6522.c` (§3.1–§3.4, §3.7, §3.8) registered
       in `pio.c`; `bus65` gains the `busHold` flag (§3.3; a Correction in A
-      if A's rule text changes); `backend/CMakeLists.txt`.
-- [ ] `pio_test` C1–C8, C13, C14; `library_check` refusals.
+      if A's rule text changes); `backend/CMakeLists.txt`. (`bus65` already
+      had the flag from A; the model sets it from `"busHold"`.) Build: no
+      errors or warnings.
+- [x] `pio_test` C1–C8, C13, C14; `library_check` refusals. → `ok C1 reset` …
+      `ok C8 independent input`, `ok C13 IER/IFR/IRQB (N)`, `(S)`, `ok C14 bus hold`;
+      `ok   via6522 missing irqOpenDrain: … missing "irqOpenDrain"`,
+      `ok   via6522 rs of 3: … "rs" needs exactly 4 pin names`. A mutation
+      (read-handshake release delay trs2 → trs4) makes C5 fail, then reverted.
 
 Acceptance: those cases `ok`; earlier cases still `ok`.
   Check: `/tmp/logic-p14/pio_test` → every case `ok` (est. 1 min with the build).
@@ -243,10 +249,14 @@ Commit: —
 
 ### Phase 2 — Timers
 
-- [ ] T1 and T2 (§3.5, §3.6) in `pio_via6522.c`.
-- [ ] `pio_test` C9–C12.
-- [ ] `docs/parts-format.md` § `pio` → Model `via6522` (keys, timing names,
+- [x] T1 and T2 (§3.5, §3.6) in `pio_via6522.c`.
+- [x] `pio_test` C9–C12. → `ok C9 T1 one-shot`, `ok C10 T1 free-run PB7`,
+      `ok C11 T2 one-shot`, `ok C12 T2 pulse count`.
+- [x] `docs/parts-format.md` § `pio` → Model `via6522` (keys, timing names,
       §3.2–§3.8; "Shift register: D").
+- [x] Acceptance: `/tmp/logic-p14/pio_test` → 33 `ok` (A1–A8, B1–B10, C1–C14
+      with C13 on both dies); `ctest` → `100% tests passed, 0 tests failed out of 21`;
+      the golden diff stat → empty.
 
 Acceptance: C1–C14 `ok`; `ctest` 100%, goldens unchanged.
   Check: `ctest --test-dir /tmp/logic-p14` → `100% tests passed`; `git diff --stat backend/tests/golden` → empty (est. 2 min).
@@ -267,4 +277,29 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- Phases 1 and 2 landed in one commit: the timers were written with the
+  rest of the model, and C9–C12 ran in the same build.
+- §4 C9: "5.5 µs after the write's fall" contradicts §3.5 (time-out at the
+  rise of cycle N + 2, N + 1.5 cycles after the fall) and C9's own read
+  sequence (FFFF in cycle 7). For N = 5 the rise of cycle 7 is 6.5 µs after
+  the fall; the case checks IRQB low at that rise.
+- §3.6 / §4 C12: `tipw`/`tips` = 2 × tCYC must be the **actual** PHI2
+  period for C12's "1-cycle-wide pulse → X" to hold at 1 MHz (2 × the
+  grade's 70 ns is 140 ns, far under a 1 µs pulse). The model measures the
+  PHI2 period between rises and uses two of it. Spacing is measured from
+  the end of one pulse to the start of the next.
+- §3.3: the datasheet (p.8) adds that a latched IRA, once read, is
+  "transparent, reflecting the current state of the PA bus pins until the
+  next CA1 latching transition"; IRB likewise. Modeled, and checked in C3
+  (the second IRA read shows the pins). The plan's text said only "the byte
+  latched at the last active CA1 edge".
+- §4 C10: the plan's "RS 7 write changes the next period only" is tested
+  with RS 7 = 1 in cycle 7 (L = 0x0103): time-outs at cycles 5, 10, then
+  10 + 0x105 = 271.
+- §3.4 (not stated): entering handshake (`100`) or pulse (`101`) mode sets
+  CA2/CB2 high, as the PIA (plan-14-B); C5–C7 check it.
+- §3.4: CA2's handshake can be strobed by a read (`tca2`, released `trs2`
+  after the CA1 edge) or a write (`twhs`, released `trs4`); the model keeps
+  which one drove it low to pick the release delay.
+- `via6522` keeps a 64-pin hold table: a device with more pins is refused
+  (`a via6522 has at most 64 pins`).
