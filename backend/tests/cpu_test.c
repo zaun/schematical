@@ -133,23 +133,6 @@ static const char FIXTURE[] =
     "},"
     "'parts':[{'name':'FIXTURE-Z84C0010PEG','package':'PDIP','pinout':'p40',"
     "'footprint':'FIXTURE-PDIP-40','grade':'10','flags':['obsolete']}]}"
-    ",{'id':'FIXTURE-W65C816S','function':'65C816','description':'8/16-bit CMOS microprocessor (WDC W65C816S)',"
-    "'drawer':['Processor'],'note':'cpu_test fixture: the W65C816S device (plan-14-H)','core':'65816',"
-    "'pinouts':{'p40':["
-    PIN(1, "VPB", "output") "," PIN(2, "RDY", "inout") "," PIN(3, "ABORTB", "input") ","
-    PIN(4, "IRQB", "input") "," PIN(5, "MLB", "output") "," PIN(6, "NMIB", "input") ","
-    PIN(7, "VPA", "output") "," PIN(8, "VDD", "power") "," A0_A11 "," PIN(21, "VSS", "ground") ","
-    A12_D0 "," PIN(34, "RWB", "output") "," PIN(35, "E", "output") "," PIN(36, "BE", "input") ","
-    PIN(37, "PHI2", "input") "," PIN(38, "MX", "output") "," PIN(39, "VDA", "output") ","
-    PIN(40, "RESB", "input") "]},"
-    ADDRESS_KEYS
-    "'clock':'PHI2','rw':'RWB','irq':'IRQB','nmi':'NMIB','reset':'RESB','rdy':'RDY','abort':'ABORTB',"
-    "'vda':'VDA','vpa':'VPA','vectorPull':'VPB','memoryLock':'MLB','emulation':'E','mx':'MX',"
-    "'busEnable':'BE',"
-    "'grades':{'14':{'tcyc':70,'tpwh':35,'tpwl':35,'tads':30,'tah':10,'tbas':33,'tbh':10,"
-    "'tdsr':10,'tmds':30,'tdhw':10,'tpcs':10,'tes':10,'teh':5,'tbvd':25,'vcc':[1.71,5.25]}},"
-    "'parts':[{'name':'FIXTURE-W65C816S6TPG-14','package':'PDIP','pinout':'p40',"
-    "'footprint':'FIXTURE-PDIP-40','grade':'14'}]}"
     "]}";
 
 #define W65C02S "FIXTURE-W65C02S6TPG-14"
@@ -2062,7 +2045,7 @@ static void board_6502(const char *name, int wdc) {
  * of D0-D7, E and MX at the datasheet's edges.
  */
 
-#define W65C816S "FIXTURE-W65C816S6TPG-14"
+#define W65C816S "W65C816S6TPG-14"   /* the shipped part (plan-14-I) */
 
 enum { B8_RISE = 100, B8_FALL, B8_SERVE, B8_SAMPLE, B8_RELEASE, B8_LOWEND,
        B8_F4, B8_F5, B8_F9, B8_F10, B8_F32, B8_F33, B8_R4, B8_R5, B8_R9, B8_R10, B8_R29, B8_R30 };

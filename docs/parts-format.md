@@ -754,9 +754,10 @@ floooh/chips core (`backend/src/third_party/chips/`) and drives the pins at
 the datasheet's times. `circuit_cpu_state` reads the state back (status,
 cycle count, registers, the last instruction).
 
-`cpu.json` holds three devices: `W65C02S` (2 parts), `MCS6502` (the 4
-plastic MPS6502 parts, obsolete) and `Z84C00` (13 parts, obsolete). The
-example below is the `W65C02S` device's keys and grade.
+`cpu.json` holds four devices: `W65C02S` (2 parts), `W65C816S` (2 parts,
+plan-14-I), `MCS6502` (the 4 plastic MPS6502 parts, obsolete) and `Z84C00`
+(13 parts, obsolete). The example below is the `W65C02S` device's keys and
+grade.
 
 ```json
 "core": "65c02",

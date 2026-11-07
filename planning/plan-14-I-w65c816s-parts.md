@@ -24,7 +24,7 @@ plan-14-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-14-H landed | `/tmp/logic-p14/cpu_test \| grep -c '^ok w65c816s'` → 13 | NOT MET (2026-11-01) |
+| plan-14-H landed | `/tmp/logic-p14/cpu_test \| grep -c '^ok w65c816s'` → 13 | MET (2026-11-07: `13`) |
 
 ## 1. Goal
 
@@ -137,13 +137,19 @@ PBR = 00, PC = 8029 or 802A (inside the loop), C = 3344.
 
 ### Phase 1 — Parts
 
-- [ ] `cpu.json` + `W65C816S` (§3.1), 2 parts; `cpu_test` H-cases switch from
-      the inline device to the shipped one.
-- [ ] Regenerate the goldens. Check: no removed line; + 2, + 2, + 0.
-- [ ] Spot-check `W65C816S6TPLG-14`: pin 12 `NC`, pins 23–24 `VSS`,
+- [x] `cpu.json` + `W65C816S` (§3.1), 2 parts; `cpu_test` H-cases switch from
+      the inline device to the shipped one. (The inline fixture device is
+      removed.) → `cpu_test | grep -c '^ok w65c816s'` → `13` on
+      `W65C816S6TPG-14`.
+- [x] Regenerate the goldens. Check: no removed line; + 2, + 2, + 0.
+      → numstat `2 0 parts.txt`, `2 0 traces.txt`; `footprints.txt` unchanged.
+- [x] Spot-check `W65C816S6TPLG-14`: pin 12 `NC`, pins 23–24 `VSS`,
       `|core=65816 grade=14 max_hz=14285714`, `|footprint=PLCC-44`.
-- [ ] `docs/parts-format.md` § `cpu`: "`cpu.json` holds four devices …
+      → `12:NC:nc:default`, `23:VSS:ground:default`, `24:VSS:ground:default`,
+      `|core=65816 grade=14 max_hz=14285714|`, `|footprint=PLCC-44`.
+- [x] `docs/parts-format.md` § `cpu`: "`cpu.json` holds four devices …
       `W65C816S` (2 parts)".
+- [x] Acceptance: `ctest` → `100% tests passed, 0 tests failed out of 21`.
 
 Acceptance: `ctest` 100%; the golden diff is exactly the 4 added lines.
   Check: `ctest --test-dir /tmp/logic-p14` → `100% tests passed`; `git diff --numstat backend/tests/golden` → `2 0 parts.txt`, `2 0 traces.txt` (est. 2 min).
@@ -172,4 +178,6 @@ on library parts) and the golden programs. The landing tier is plan-14-J's.
 
 ## Corrections
 
-(none yet)
+- §3.1 (detail): the device's `note` cites the supply range from the DC
+  characteristics table on p.25 (the VDD row, 1.71–5.25 V across the
+  voltage columns); AC Table 4-2 is p.27.
