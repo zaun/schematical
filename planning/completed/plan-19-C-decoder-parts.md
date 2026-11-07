@@ -71,7 +71,7 @@ plan-19-A § Prerequisites, plus:
 - [x] Device coverage: every `device` in `parts.tsv` `add` rows is a device id in the two files (python set difference → empty). `/tmp/p19/scripts/coverage.py` → `missing devices: []`, `add rows not in decoder.json: []`, `decoder.json parts not add rows: []`.
 
 Acceptance: both checks (seconds).
-Commit: —
+Commit: ec27dfa
 
 ### Phase 2 — Goldens and spot checks
 
@@ -80,7 +80,7 @@ Commit: —
 - [x] `trace_check --verbose SN74HC138N` shows exactly one of Y0…Y7 low whenever G1 = 1 and G2A = G2B = 0. `/tmp/p19/scripts/trace138.py` over the trace (states held longer than the 18 ns delay): `checked 53 settled states (7 enabled), 0 wrong` — enabled states show exactly Y<code> low, disabled ones every Y high.
 
 Acceptance: `ctest` T0 + 1 of T0 + 1; golden counts as §1 (seconds).
-Commit: —
+Commit: ec27dfa
 
 ## Validation Plan
 
