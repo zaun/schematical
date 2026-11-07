@@ -477,6 +477,10 @@ static void check_gate_cases(void) {
                 HEAD("gate") GATE_DEVICE("[{'op':'nandd','inputs':['A','B','C'],'output':'Y'}]",
                                          "{'HC':{'rise':9,'fall':9}}", "A", "HC") TAIL,
                 "gates[0]: unknown op \"nandd\"");
+    expect_fail("gate not with 2 inputs",
+                HEAD("gate") GATE_DEVICE("[{'op':'not','inputs':['A','B'],'output':'Y'}]",
+                                         "{'HC':{'rise':9,'fall':9}}", "A", "HC") TAIL,
+                "gates[0]: a \"not\" gate has exactly 1 input");
     expect_fail("gate unknown family",
                 HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
                                          "{'HX':{'rise':9,'fall':9}}", "A", "HC") TAIL,

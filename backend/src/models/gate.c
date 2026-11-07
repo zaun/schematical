@@ -3,7 +3,7 @@
  * the old 74_*.c, gates.c and cd4000.c).
  *
  * Each gate computes AND/NAND/OR/NOR/XOR (odd parity)/XNOR (even parity) of
- * its inputs, X for unknown inputs unless a controlling value decides. The
+ * its inputs, or NOT of its one input (inverters), X for unknown inputs unless a controlling value decides. The
  * output is driven strong, inertially, after the rise delay for 1, the fall
  * delay for 0, or the longer of the two for X. `start` evaluates every gate;
  * a changed pin re-evaluates every gate it feeds.
@@ -28,9 +28,9 @@
 static const char *const DEVICE_KEYS[] = {"gates", "output", "timing", "units", NULL};
 static const char *const PART_KEYS[] = {"family", "vcc", "inputMax", NULL};
 
-typedef enum { OP_AND, OP_NAND, OP_OR, OP_NOR, OP_XOR, OP_XNOR } GateOp;
+typedef enum { OP_AND, OP_NAND, OP_OR, OP_NOR, OP_XOR, OP_XNOR, OP_NOT } GateOp;
 
-static const char *const OP_NAMES[] = {"and", "nand", "or", "nor", "xor", "xnor"};
+static const char *const OP_NAMES[] = {"and", "nand", "or", "nor", "xor", "xnor", "not"};
 
 typedef struct {
     SimTime rise;
@@ -152,6 +152,9 @@ static int load_gate(KindContext *ctx, const cJSON *json, GateDef *gate) {
     gate->op = (GateOp)i;
     if (gate->input_count < 1 || gate->input_count > GATE_MAX_INPUTS) {
         return kind_error(ctx, "a gate has 1 to %d inputs", GATE_MAX_INPUTS);
+    }
+    if (gate->op == OP_NOT && gate->input_count != 1) {
+        return kind_error(ctx, "a \"not\" gate has exactly 1 input");
     }
     memcpy(gate->inputs, inputs, gate->input_count * sizeof(*inputs));
     return 0;
@@ -335,6 +338,7 @@ static LogicValue gate_value(const GatePins *gate, const LogicValue *in) {
     LogicValue v;
 
     switch (gate->op) {
+        case OP_NOT:
         case OP_AND:
         case OP_NAND:
             v = LOGIC_1;
@@ -375,7 +379,8 @@ static LogicValue gate_value(const GatePins *gate, const LogicValue *in) {
         default:
             return LOGIC_X;
     }
-    if (v != LOGIC_X && (gate->op == OP_NAND || gate->op == OP_NOR || gate->op == OP_XNOR)) {
+    if (v != LOGIC_X && (gate->op == OP_NAND || gate->op == OP_NOR || gate->op == OP_XNOR ||
+                           gate->op == OP_NOT)) {
         v = v == LOGIC_1 ? LOGIC_0 : LOGIC_1;
     }
     return v;
