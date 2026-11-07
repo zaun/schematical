@@ -595,13 +595,15 @@ line that holds the bus together leaves two buses.
   `B0`–`B7`, fresh wire ids. Canvas PNGs `a2-1` … `a2-6b` (plus the T and
   refused previews) show every shape as listed, corner squares and T dots
   drawn.
-Commit: —
+Commit: 1514cab
 
 ### Phase 3 — Bus inspector panel
 
-- [ ] Add `schematical/schematical/Drawer/BusPanels.swift` with `BusPanel`
-      (§ 6) and add it to the target.
-- [ ] `SchematicSidebarView.swift`: show `BusPanel` for `selectedBusID`.
+- [x] Add `schematical/schematical/Drawer/BusPanels.swift` with `BusPanel`
+      (§ 6) (in the target through the synchronized folder, as in Phase 1).
+- [x] `SchematicSidebarView.swift`: show `BusPanel` for `selectedBusID`.
+- [x] Added: `Harness.renderHosted` (an offscreen `NSHostingView`), since
+      `ImageRenderer` draws a `Form` blank.
 
 Acceptance: a new bus shows 8 wires `B0`–`B7`; setting the count to 12 adds
 `B8`–`B11`; setting it to 1 clamps to 2; renaming `B1` to `D1` works;
@@ -609,6 +611,14 @@ renaming `B2` to `d1` shows "d1 is already used on this bus."; renaming to
 `ADDR0` shows "A wire name is at most 4 characters."; clicking any line of a
 joined bus shows the same panel.
   Check: build; perform each step and screenshot the panel after it (est. 6 min).
+  Result (2026-11-07): build → `** BUILD SUCCEEDED **`; harness
+  `scripts/harness/bus-panel.swift` → `ALL OK`: names `B0`–`B7`; count 12 →
+  `B8`–`B11`; count 1 → `B0,B1`; `B1`→`D1` stored; `B2`→`d1` returns "d1 is
+  already used on this bus." (B2 kept); `ADDR0` returns "A wire name is at
+  most 4 characters." (B3 kept); all three lines of a joined bus hit the
+  same bus. Sidebar PNGs `a3-1` … `a3-5` show the panel with each state
+  (Wires 8 / 12 / 2, `D1`, "3 lines"). The red caption is field state the
+  harness can't set; it shows the returned string, as `ReferenceSection` does.
 Commit: —
 
 ### Phase 4 — Save and open (version 3)

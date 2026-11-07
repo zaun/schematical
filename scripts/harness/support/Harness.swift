@@ -79,6 +79,43 @@ enum Harness {
     static func renderSidebar(_ document: SchematicDocument, to path: String,
                               size: CGSize = CGSize(width: 320, height: 600)) {
         let view = SchematicSidebarView(catalog: catalog, document: document, simulation: simulation)
-        render(view, size: size, to: path)
+        renderHosted(view, size: size, to: path)
+    }
+
+    /// Renders a view hosted in an offscreen window, as the app shows it.
+    /// Unlike `render` (ImageRenderer), this draws AppKit-backed controls:
+    /// forms, text fields, steppers. `settle` runs the run loop first so
+    /// `onAppear` and layout have happened.
+    static func renderHosted<V: View>(_ view: V, size: CGSize, to path: String, settle: TimeInterval = 0.3) {
+        _ = NSApplication.shared
+        let host = NSHostingView(rootView: view
+            .frame(width: size.width, height: size.height)
+            .environment(\.colorScheme, .light))
+        host.frame = CGRect(origin: .zero, size: size)
+        let window = NSWindow(contentRect: host.frame, styleMask: [.borderless], backing: .buffered, defer: false)
+        window.appearance = NSAppearance(named: .aqua)
+        window.contentView = host
+        window.setFrameOrigin(CGPoint(x: -10_000, y: -10_000))
+        window.orderFront(nil)
+        RunLoop.main.run(until: Date().addingTimeInterval(settle))
+        host.layoutSubtreeIfNeeded()
+        guard let rep = host.bitmapImageRepForCachingDisplay(in: host.bounds) else {
+            print("render failed: \(path)")
+            return
+        }
+        host.cacheDisplay(in: host.bounds, to: rep)
+        window.orderOut(nil)
+        guard let data = rep.representation(using: .png, properties: [:]) else {
+            print("render failed: \(path)")
+            return
+        }
+        do {
+            try FileManager.default.createDirectory(
+                at: URL(fileURLWithPath: path).deletingLastPathComponent(), withIntermediateDirectories: true)
+            try data.write(to: URL(fileURLWithPath: path))
+            print("wrote \(path)")
+        } catch {
+            print("write failed: \(path): \(error)")
+        }
     }
 }

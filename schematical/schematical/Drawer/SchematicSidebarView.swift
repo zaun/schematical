@@ -2,7 +2,7 @@ import SwiftUI
 
 /// The Schematic page's inspector. It follows the selection: the parts
 /// library with nothing selected, the part's header, reference fields and
-/// details with a part selected. The library stays in the view tree under
+/// details with a part selected, the bus panel with a bus selected. The library stays in the view tree under
 /// the part panel, so its search, filters, open groups and scroll position
 /// are as they were when the selection clears. The PCB page keeps it in the
 /// tree too, inactive (`isActive` false), so a visit there doesn't reset it.
@@ -17,9 +17,16 @@ struct SchematicSidebarView: View {
         return document.chips.first { $0.id == id }
     }
 
+    private var selectedBus: UUID? {
+        guard let id = document.selectedBusID, document.bus(id) != nil else { return nil }
+        return id
+    }
+
     var body: some View {
         let chip = isActive ? selected : nil
-        let showsLibrary = isActive && chip == nil
+        // Chip panel first, then the bus panel, then the library.
+        let busID = isActive && chip == nil ? selectedBus : nil
+        let showsLibrary = isActive && chip == nil && busID == nil
         ZStack {
             ChipDrawerView(catalog: catalog)
                 // Hidden under the part panel or the PCB page: no clicks, no
@@ -42,6 +49,10 @@ struct SchematicSidebarView: View {
                 .formStyle(.grouped)
                 // Fresh field state for each part.
                 .id(chip.id)
+            } else if let busID {
+                BusPanel(document: document, busID: busID)
+                    // Fresh field state for each bus.
+                    .id(busID)
             }
         }
     }
