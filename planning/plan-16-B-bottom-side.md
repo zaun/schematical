@@ -224,7 +224,7 @@ it clockwise on screen.
   Check: run the app (`run` skill), open `be-6502.schematical`, select U1 on
   PCB, set Layer to Bottom: the drawing is mirrored, X/Y unchanged, and ⌥⌘R
   turns it clockwise (est. 3 min).
-Commit: —
+Commit: 3082b45
 
 ## Validation Plan
 

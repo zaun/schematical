@@ -231,7 +231,7 @@ Commit: dee9a6c
 Acceptance: a selected trace's width and layer change from the sidebar,
 Connects lists the touched pads, and Delete removes it.
   Check: `xcodebuild … test -only-testing:<tests>/TraceToolTests` → all pass (est. 3 min).
-Commit: —
+Commit: 10bd395
 
 ## Validation Plan
 
@@ -259,6 +259,32 @@ Commit: —
   - `git log --format= --name-only --grep='^plan-16' | grep '^backend/'` →
     no output: plan-16 touches no backend code, so the backend and golden
     tests aren't needed.
+
+### Validation results (2026-11-07)
+
+- Runtime proof, worktree build on a copy of `be-6502.schematical`, PCB
+  page, driven with real mouse events and screenshots:
+  1. Trace tool, Top, from a U1 pad to a U2 pad: a red 10 mil trace with
+     one 45° bend; Connects read "U1.14, U2.18".
+  2. With Option held, a second trace from a U3 pad went diagonal first.
+  3. A vertical trace drawn across the second one joined it: the run
+     highlight showed both, and the sidebar read "Joined to 1 other trace".
+  4. Second trace set to Bottom: drawn blue, no longer joined (no "Joined"
+     line); Connects still "U3.14", a through-hole pad.
+  5. Width 50: visibly thicker.
+  6. View, Top unchecked: both Top traces hidden, the Bottom one stayed.
+  7. Saved (`board.traces` had the three traces: top 10, bottom 50, top
+     10), reopened in a fresh app: all three drawn as before.
+- Doc sync: `docs/file-format.md` carries A's `layerStyles`, B's `side`
+  keys and D's `traces`, with their errors and the example, checked as one
+  file. Doc comments updated: `PCBCanvasView` (layers, draw order, hit
+  order, Trace tool), `PCBSidebarView` (Layers section, trace panel),
+  `BoardSettings` (`layers`, `CopperLayer`, `BoardVisibility`), and the
+  `ContentView` toolbar comments (View button, trace layer menu).
+- Final gate: `xcodebuild -project schematical/schematical.xcodeproj
+  -scheme schematical test CODE_SIGNING_ALLOWED=NO` → "Executed 70 tests,
+  with 0 failures". `git log --format= --name-only --grep='^plan-16' |
+  grep '^backend/'` → no output.
 
 ## Decisions
 

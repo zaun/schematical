@@ -288,7 +288,7 @@ Commit: d244b86
 Acceptance: every same-layer contact is a shared vertex, different layers
 never join, and pad contact follows the side and through-hole rules.
   Check: `xcodebuild … test -only-testing:<tests>/TraceJoinTests` → all pass (est. 3 min).
-Commit: —
+Commit: 32a9695
 
 ## Validation Plan
 

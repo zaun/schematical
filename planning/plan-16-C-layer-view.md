@@ -198,7 +198,7 @@ hides all pads. Show All restores everything. Several toggles work without
 reopening the popover.
   Check: run the app (`run` skill), open `be-6502.schematical`, PCB page, and
   try each of those in the View popover (est. 3 min).
-Commit: —
+Commit: 1ebb1c8
 
 ## Validation Plan
 
