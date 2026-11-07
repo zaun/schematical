@@ -1,0 +1,3 @@
+== plan 22 packages 18
+    91 (blank: ceramic/military; map from TI code)
+     5 24-PDIP -> PDIP-24
