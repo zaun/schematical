@@ -114,23 +114,54 @@ snapped delta, selected wires retain attached endpoints, and a save/load has no
 selection.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO` → selection-model tests pass (est. 3 min).
   Result (2026-11-07): `Executed 12 tests, with 0 failures` / `** TEST SUCCEEDED **`.
-Commit: —
+Commit: f427222
 
 ### Phase 2 — Canvas interaction and rendering
 
-- [ ] Update `SchematicCanvasView.swift` to interpret Shift at pointer-drag
+- [x] Update `SchematicCanvasView.swift` to interpret Shift at pointer-drag
       start, select chips/wires/junctions, capture group geometry, apply group
       drags, and draw all selected parts, wires, and junctions in accent color.
-- [ ] Update `PCBCanvasView.swift` with the same Shift semantics for footprints
+      — `beginPointerInteraction` reads `NSEvent.modifierFlags` once and
+      routes part/junction/wire hits through `pressSelection`;
+      `.moveGroup(base:lever:)` replaces `.moveChip` (the unused
+      `SchematicDocument.moveChip` was removed); release runs
+      `settleSchematicGroup` and `releaseSelection`. New `junctionHit`. Wires
+      are drawn accent at 2.5 pt and junction dots accent at r 4 when selected.
+      Proof: harness `scripts/harness/multiselect.swift` →
+      `/tmp/p15img/s1-selected.png` (2 LEDs, branch wire, junction in accent),
+      `s2-dragged.png`; output `U1: (80.0, 80.0) -> (120.0, 120.0)`,
+      `U3: (230.0, 240.0) -> (270.0, 280.0)`, `U2` unchanged,
+      `junction: (250.0, 100.0) -> (290.0, 140.0)`, `all right angles: true`.
+- [x] Update `PCBCanvasView.swift` with the same Shift semantics for footprints
       and text, group-drag snapshots, and multi-item accent bounds.
-- [ ] Preserve existing tool precedence: line, eraser, flip, supply placement,
+      — `Interaction` is `.moveGroup(base:)`/`.pan`; `end(translation:)`
+      releases the press; one accent box per selected item. Proof:
+      `/tmp/p15img/p1-selected.png`, `p2-dragged.png`; output: both footprints
+      and the text moved (+2.54, +1.27) mm, e.g. `(4.76, -0.135) -> (7.3, 1.135)`.
+- [x] Preserve existing tool precedence: line, eraser, flip, supply placement,
       play-mode panning, wire node/segment editing, and Text placement retain
       their current behavior outside Select/Pointer selection gestures.
+      — `git diff -U0` hunks in `SchematicCanvasView.swift` touch only the
+      Pointer branch (old line 351), `beginPointerInteraction`, `handleEnded`
+      and drawing. The play-mode, Line, Bus, Bus Port, Eraser, Flip and supply
+      branches (old lines 331–452) are unchanged. A plain press on an
+      unselected wire still edits its node or segment
+      (`testPlainPressOnWireKeepsRouteEditing`). The PCB Text tool still
+      places and drags the new text, now as a one-item group.
+- [x] (added) Document helpers `pressEmptySchematic(shift:)` /
+      `pressEmptyBoard(shift:)`, and gesture-sequence tests
+      `schematicalTests/SelectionGestureTests.swift` (6 tests): Shift-select
+      then drag, an empty Shift press keeps the selection, wire press modes,
+      bus exclusion, junction drag, PCB Shift group drag.
 
 Acceptance: manually exercising both canvases shows Shift-selected objects stay
 highlighted and move together on the corresponding grid; empty Shift drags pan
 without clearing selection.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO` → gesture/model tests pass (est. 3 min).
+  Result (2026-11-07): `Executed 18 tests, with 0 failures` / `** TEST SUCCEEDED **`.
+  Manual check: done headlessly with the harness renders above. The harness
+  drives the same document calls the gestures make; the live Shift key
+  (`NSEvent.modifierFlags`) is the only part not exercised.
 Commit: —
 
 ### Phase 3 — Sidebar and lifecycle integration

@@ -1,11 +1,18 @@
+import AppKit
 import SwiftUI
 
 /// The editing surface. Its gestures depend on the active tool:
-/// - Pointer: drag a block to move it. Drag a wire's bend point to move it, or
-///   drag a segment to shift it. Double-click a wire to add a bend there.
-///   Click a bus to select it; drag a bus line, end, corner or T (lines stay
-///   straight, joints stay T or L, ports ride along); drag a port to slide
-///   it along its line. Drag empty space to pan.
+/// - Pointer: click a part, wire or junction to select it; Shift-click adds it
+///   to the selection or takes it out (plan-15). Drag a part or junction to
+///   move it. Drag a wire's bend point to move it, or drag a segment to shift
+///   it. Shift-drag any of them, or drag an item that is part of a larger
+///   selection, to move the whole selection by one snapped step (selected
+///   wires move their bends; their ends stay on their pins). Double-click a
+///   wire to add a bend there. Click a bus to select it; drag a bus line,
+///   end, corner or T (lines stay straight, joints stay T or L, ports ride
+///   along); drag a port to slide it along its line. Buses and ports are
+///   selected on their own. Drag empty space to pan; without Shift that also
+///   clears the selection.
 /// - Line: drag from one pin to another to connect them with a right-angled wire.
 ///   A grid point on an existing wire can be a start or end too; it becomes a
 ///   junction, so wires branch there. Only connection points are highlighted.
@@ -42,6 +49,8 @@ struct SchematicCanvasView: View {
     var onPartPlaced: () -> Void = {}
 
     @State private var interaction: Interaction?
+    /// What the current press did to the selection; a click finishes it.
+    @State private var selectionPress: SelectionPress<SchematicItem>?
     @State private var isDropTargeted = false
     @State private var hoveredChipID: UUID?
     @State private var hoveredWireID: UUID?
@@ -51,7 +60,9 @@ struct SchematicCanvasView: View {
     @State private var hoverAnchor: LineAnchor?
 
     private enum Interaction {
-        case moveChip(id: UUID, startOrigin: CGPoint)
+        /// Moves every selected part, junction and wire bend from `base`.
+        /// `lever` is the part pressed without Shift: a click flips its lever.
+        case moveGroup(base: SchematicGroupBase, lever: UUID?)
         case dragNode(wire: UUID, base: [CGPoint], index: Int)
         case dragSegment(wire: UUID, base: [CGPoint], index: Int)
         case connecting(from: LineAnchor, cursor: CGPoint)
@@ -186,7 +197,10 @@ struct SchematicCanvasView: View {
                         style: simulation.wireStyle(wire.id)
                     )
                 },
-                junctions: document.junctions.map(\.point),
+                junctions: document.junctions.map { junction in
+                    JunctionDot(point: junction.point, isSelected: document.isSelected(.junction(junction.id)))
+                },
+                selectedWireIDs: selectedWireIDs,
                 hoveredWireID: hoveredWireID,
                 preview: connectionPreview,
                 area: gridRect
@@ -198,45 +212,45 @@ struct SchematicCanvasView: View {
                     case .block, .oscillator:
                         ChipBlockView(
                             chip: chip,
-                            isSelected: chip.id == document.selectedChipID,
+                            isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID
                         )
                     case .barrelJack:
                         BarrelJackSymbolView(
                             chip: chip,
-                            isSelected: chip.id == document.selectedChipID,
+                            isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID
                         )
                     case .diode:
                         DiodeSymbolView(
                             chip: chip,
-                            isSelected: chip.id == document.selectedChipID,
+                            isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID,
                             level: simulation.lights[chip.id]?.first ?? 0
                         )
                     case .vcc, .ground, .pullUp, .pullDown:
                         SupplySymbolView(
                             chip: chip,
-                            isSelected: chip.id == document.selectedChipID,
+                            isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID
                         )
                     case .dipSwitch:
                         DipSwitchSymbolView(
                             chip: chip,
-                            isSelected: chip.id == document.selectedChipID,
+                            isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID
                         )
                     case .sevenSegment:
                         SevenSegmentSymbolView(
                             chip: chip,
-                            isSelected: chip.id == document.selectedChipID,
+                            isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID,
                             levels: simulation.lights[chip.id] ?? []
                         )
                     case .characterLCD:
                         CharacterLCDSymbolView(
                             chip: chip,
-                            isSelected: chip.id == document.selectedChipID,
+                            isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID,
                             frame: simulation.lcdFrames[chip.id],
                             backlight: simulation.lights[chip.id]?.first ?? 0
@@ -254,6 +268,14 @@ struct SchematicCanvasView: View {
         }
         .scaleEffect(zoom, anchor: .topLeading)
         .offset(viewport.offset)
+    }
+
+    /// The wires in the Schematic selection.
+    private var selectedWireIDs: Set<UUID> {
+        Set(document.schematicSelection.items.compactMap { item in
+            if case let .wire(id) = item { return id }
+            return nil
+        })
     }
 
     /// Grid spacing in world units. Dots get sparse when zoomed out so they stay legible.
@@ -348,11 +370,8 @@ struct SchematicCanvasView: View {
                 beginPointerInteraction(at: start)
             }
             switch interaction {
-            case let .moveChip(id, startOrigin)?:
-                document.moveChip(
-                    id,
-                    to: CGPoint(x: startOrigin.x + delta.width, y: startOrigin.y + delta.height)
-                )
+            case let .moveGroup(base, _)?:
+                document.moveSchematicGroup(base, by: delta)
 
             case let .dragNode(wire, base, index)?:
                 document.setWirePath(
@@ -483,28 +502,32 @@ struct SchematicCanvasView: View {
         }
     }
 
+    /// Decides what a Pointer press does. Shift is read once, here, at the
+    /// start of the press.
     private func beginPointerInteraction(at point: CGPoint) {
+        let shift = NSEvent.modifierFlags.contains(.shift)
         if let hit = document.chip(at: point) {
-            document.select(.chip(hit.id))
-            interaction = .moveChip(id: hit.id, startOrigin: hit.origin)
+            selectionPress = document.pressSelection(.chip(hit.id), shift: shift)
+            interaction = .moveGroup(base: document.schematicGroupBase(), lever: shift ? nil : hit.id)
         } else if let port = document.portHit(at: point), let found = document.port(port) {
             // A press selects the port; dragging slides it along its line.
             document.selectedPortID = port
             interaction = .slidePort(port: port, base: found.port.start)
+        } else if let junction = document.junctionHit(at: point, tolerance: lineTolerance) {
+            selectionPress = document.pressSelection(.junction(junction.id), shift: shift)
+            interaction = .moveGroup(base: document.schematicGroupBase(), lever: nil)
         } else if let node = document.nodeHit(at: point, tolerance: lineTolerance) {
-            clearSelection()
-            interaction = .dragNode(
-                wire: node.wire,
-                base: document.path(forWire: node.wire),
-                index: node.index
-            )
+            let press = document.pressSelection(.wire(node.wire), shift: shift)
+            selectionPress = press
+            interaction = press.dragsGroup
+                ? .moveGroup(base: document.schematicGroupBase(), lever: nil)
+                : .dragNode(wire: node.wire, base: document.path(forWire: node.wire), index: node.index)
         } else if let segment = document.segmentHit(at: point, tolerance: lineTolerance) {
-            clearSelection()
-            interaction = .dragSegment(
-                wire: segment.wire,
-                base: document.path(forWire: segment.wire),
-                index: segment.index
-            )
+            let press = document.pressSelection(.wire(segment.wire), shift: shift)
+            selectionPress = press
+            interaction = press.dragsGroup
+                ? .moveGroup(base: document.schematicGroupBase(), lever: nil)
+                : .dragSegment(wire: segment.wire, base: document.path(forWire: segment.wire), index: segment.index)
         } else if let end = document.busEndHit(at: point, tolerance: busTolerance),
                   let base = document.bus(end.bus) {
             document.selectedBusID = end.bus
@@ -514,13 +537,9 @@ struct SchematicCanvasView: View {
             document.selectedBusID = line.bus
             interaction = .dragBusLine(bus: line.bus, base: base, line: line.line, done: .zero)
         } else {
-            clearSelection()
+            document.pressEmptySchematic(shift: shift)
             interaction = .pan(startOffset: viewport.offset)
         }
-    }
-
-    private func clearSelection() {
-        document.clearSchematicSelection()
     }
 
     private func handleEnded(_ value: DragGesture.Value) {
@@ -538,11 +557,11 @@ struct SchematicCanvasView: View {
             document.settleWires(attachedToBus: bus)
         case let .slidePort(port, _)?:
             document.settleWires(attachedToPort: port)
-        case let .moveChip(id, _)?:
-            if isClick(value) {
+        case let .moveGroup(base, lever)?:
+            if lever != nil, isClick(value) {
                 toggleSwitchLever(at: viewport.world(value.startLocation))
             }
-            document.settleWires(attachedTo: id)
+            document.settleSchematicGroup(base)
         case .pan?:
             // In play mode every press starts a pan; a click flips a lever.
             if isRunning, isClick(value) {
@@ -551,6 +570,10 @@ struct SchematicCanvasView: View {
         default:
             break
         }
+        if let press = selectionPress {
+            document.releaseSelection(press, wasClick: isClick(value))
+        }
+        selectionPress = nil
         interaction = nil
     }
 
@@ -659,11 +682,20 @@ private struct PinMarkerLayer: View {
     }
 }
 
+/// A junction's dot, accent when it is selected.
+struct JunctionDot {
+    let point: CGPoint
+    var isSelected = false
+}
+
 /// Draws wires as orthogonal polylines, plus the route being drawn from a pin.
-/// The hovered wire gets a soft accent underlay. Junctions get a solid dot.
+/// The hovered wire gets a soft accent underlay; selected wires are drawn in
+/// the accent colour. Junctions get a solid dot, larger and accent when
+/// selected.
 private struct WireLayer: View {
     let routes: [RoutedWire]
-    let junctions: [CGPoint]
+    let junctions: [JunctionDot]
+    var selectedWireIDs: Set<UUID> = []
     let hoveredWireID: UUID?
     let preview: ConnectionPreview?
     /// The visible world area; drawing outside it is not shown.
@@ -680,6 +712,10 @@ private struct WireLayer: View {
                 }
                 let dashedStyle = StrokeStyle(lineWidth: 1.5, lineCap: .butt, lineJoin: .round, dash: [4, 3])
                 let path = polyline(route.points)
+                if selectedWireIDs.contains(route.id) {
+                    context.stroke(path, with: .color(.accentColor), style: StrokeStyle(lineWidth: 2.5, lineCap: .round, lineJoin: .round))
+                    continue
+                }
                 switch route.style {
                 case .normal:
                     context.stroke(path, with: .color(.primary), style: solid)
@@ -695,9 +731,11 @@ private struct WireLayer: View {
                 }
             }
 
-            for point in junctions {
-                let rect = CGRect(x: point.x - 2.5, y: point.y - 2.5, width: 5, height: 5)
-                context.fill(Path(ellipseIn: rect), with: .color(.primary))
+            for junction in junctions {
+                let r: CGFloat = junction.isSelected ? 4 : 2.5
+                let point = junction.point
+                let rect = CGRect(x: point.x - r, y: point.y - r, width: 2 * r, height: 2 * r)
+                context.fill(Path(ellipseIn: rect), with: .color(junction.isSelected ? .accentColor : .primary))
             }
 
             if let preview {

@@ -894,6 +894,18 @@ final class SchematicDocument {
         boardSelection.release(press, wasClick: wasClick)
     }
 
+    /// A Pointer press on empty canvas, which pans: it clears the Schematic
+    /// selection, unless Shift is down.
+    func pressEmptySchematic(shift: Bool) {
+        if !shift { clearSchematicSelection() }
+    }
+
+    /// A Select press on empty board, which pans: it clears the PCB
+    /// selection, unless Shift is down.
+    func pressEmptyBoard(shift: Bool) {
+        if !shift { clearBoardSelection() }
+    }
+
     /// Clears the Schematic page's selection: items, bus and port.
     func clearSchematicSelection() {
         schematicSelection.clear()
@@ -1010,19 +1022,6 @@ final class SchematicDocument {
         }
         chips[index].reference = reference
         return nil
-    }
-
-    func moveChip(_ id: UUID, to origin: CGPoint) {
-        guard let index = chips.firstIndex(where: { $0.id == id }) else {
-            return
-        }
-
-        let snapped = SchematicGrid.snap(origin)
-        guard chips[index].origin != snapped else {
-            return
-        }
-
-        chips[index].origin = snapped
     }
 
     /// Swaps the side of every pin on a placed part, and re-fits the wires

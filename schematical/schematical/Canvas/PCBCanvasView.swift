@@ -1,12 +1,15 @@
+import AppKit
 import SwiftUI
 
 /// The PCB page: every placed part that has a footprint, drawn as its pads,
 /// drill holes, body outline, pin-1 mark and reference, on a 0.635 mm grid.
 ///
 /// With the Select tool, press on a text or footprint to select it and drag
-/// to move it (snapped to the grid); press on empty space to clear the
-/// selection and pan. With the Text tool, a press places a text and goes back
-/// to Select. Nothing runs while this page shows (`ContentView` stops a run
+/// to move it (snapped to the grid). Shift-click adds an item to the
+/// selection or takes it out (plan-15); Shift-drag, or a drag on an item of a
+/// larger selection, moves every selected item by one snapped step. Press on
+/// empty space to pan; without Shift that also clears the selection. With
+/// the Text tool, a press places a text and goes back to Select. Nothing runs while this page shows (`ContentView` stops a run
 /// when switching to it).
 ///
 /// Board positions are millimetres; the view draws `BoardScale.pointsPerMM`
@@ -19,10 +22,13 @@ struct PCBCanvasView: View {
     var onPlaced: () -> Void = {}
 
     @State private var interaction: Interaction?
+    /// What the current press did to the selection; a click finishes it.
+    @State private var selectionPress: SelectionPress<BoardItem>?
 
     enum Interaction: Equatable {
-        case move(id: UUID, startCentre: CGPoint)
-        case moveText(id: UUID, startAnchor: CGPoint)
+        /// Moves every selected footprint and text from where they were at
+        /// the press.
+        case moveGroup(base: BoardGroupBase)
         case pan(startOffset: CGSize)
     }
 
@@ -68,7 +74,7 @@ struct PCBCanvasView: View {
         .gesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { value in handle(start: value.startLocation, translation: value.translation) }
-                .onEnded { _ in interaction = nil }
+                .onEnded { value in end(translation: value.translation) }
         )
     }
 
@@ -143,17 +149,18 @@ struct PCBCanvasView: View {
             }
         }
 
-        // Selection boxes, on top of everything.
+        // Selection boxes, one per selected item, on top of everything.
         let margin = 3 / scale
-        var selected: CGRect?
-        if let id = document.selectedFootprintID {
-            selected = document.chips.first { $0.id == id }?.boardBounds
-        } else if let id = document.selectedTextID {
-            selected = document.texts.first { $0.id == id }?.boardRect
-        }
-        if let selected {
-            context.stroke(Path(selected.insetBy(dx: -margin, dy: -margin)),
-                           with: .color(.accentColor), lineWidth: 2 / scale)
+        for item in document.boardSelection.items {
+            let selected: CGRect?
+            switch item {
+            case let .footprint(id): selected = document.chips.first { $0.id == id }?.boardBounds
+            case let .text(id): selected = document.texts.first { $0.id == id }?.boardRect
+            }
+            if let selected {
+                context.stroke(Path(selected.insetBy(dx: -margin, dy: -margin)),
+                               with: .color(.accentColor), lineWidth: 2 / scale)
+            }
         }
     }
 
@@ -191,10 +198,8 @@ struct PCBCanvasView: View {
         interaction = current
         let offset = CGSize(width: translation.width / scale, height: translation.height / scale)
         switch current {
-        case let .move(id, startCentre):
-            document.moveFootprint(id, to: CGPoint(x: startCentre.x + offset.width, y: startCentre.y + offset.height))
-        case let .moveText(id, startAnchor):
-            document.moveText(id, to: CGPoint(x: startAnchor.x + offset.width, y: startAnchor.y + offset.height))
+        case let .moveGroup(base):
+            document.moveBoardGroup(base, by: offset)
         case let .pan(startOffset):
             viewport.pan(to: CGSize(
                 width: startOffset.width + translation.width,
@@ -204,26 +209,38 @@ struct PCBCanvasView: View {
         return current
     }
 
+    /// Decides what a press does. Shift is read once, here, at the start.
     private func begin(at start: CGPoint) -> Interaction {
         let point = board(start)
+        let shift = NSEvent.modifierFlags.contains(.shift)
         switch tool {
         case .text:
-            let id = document.addText(at: point)
+            // The new text is the whole selection, and the drag moves it.
+            document.addText(at: point)
             onPlaced()
-            let anchor = document.texts.first { $0.id == id }?.anchor ?? point
-            return .moveText(id: id, startAnchor: anchor)
+            return .moveGroup(base: document.boardGroupBase())
         case .select:
             if let text = document.text(at: point) {
-                document.select(.text(text.id))
-                return .moveText(id: text.id, startAnchor: text.anchor)
+                selectionPress = document.pressSelection(.text(text.id), shift: shift)
+                return .moveGroup(base: document.boardGroupBase())
             }
-            if let hit = document.footprint(at: point), let placement = hit.board {
-                document.select(.footprint(hit.id))
-                return .move(id: hit.id, startCentre: placement.centre)
+            if let hit = document.footprint(at: point), hit.board != nil {
+                selectionPress = document.pressSelection(.footprint(hit.id), shift: shift)
+                return .moveGroup(base: document.boardGroupBase())
             }
-            document.clearBoardSelection()
+            document.pressEmptyBoard(shift: shift)
             return .pan(startOffset: viewport.offset)
         }
+    }
+
+    /// The end of a press: a click (under 3 points of movement) finishes
+    /// what the press left pending in the selection.
+    private func end(translation: CGSize) {
+        if let press = selectionPress {
+            document.releaseSelection(press, wasClick: hypot(translation.width, translation.height) < 3)
+        }
+        selectionPress = nil
+        interaction = nil
     }
 }
 
