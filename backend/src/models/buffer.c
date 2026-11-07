@@ -7,7 +7,8 @@
  *                 asserted, else Z ('244, '541, '125, '240, 16244 ...)
  *   transceiver   two ports A and B; DIR + OE ('245 form) or one enable
  *                 per direction ('243/'623 form) ('245, '640, 16245 ...)
- *   registered    storage per direction (buffer_reg.c; '646, '543, '2952)
+ *   registered    a latch or register per direction (buffer_reg.c; '646,
+ *                 '652, '543, '2952)
  *
  * Signal rules: docs/parts-format.md "buffer". Every model is
  * combinational or level-sensitive except registered's clocks, so each
@@ -144,7 +145,7 @@ LogicValue buf_invert(LogicValue v, int invert) {
 }
 
 /* Every output starts undriven (Z) and not scheduled. */
-static void init_outputs(SeqOutput *outputs, const size_t *pins, size_t n) {
+void buf_init_outputs(SeqOutput *outputs, const size_t *pins, size_t n) {
     size_t i;
 
     for (i = 0; i < n; i++) {
@@ -192,7 +193,7 @@ typedef struct {
 } TriState;
 
 /* "units": 1..BUF_MAX_UNITS objects; each_unit loads the model's own keys. */
-static const cJSON *units_array(KindContext *ctx, const cJSON *json, size_t *n) {
+const cJSON *buf_units_array(KindContext *ctx, const cJSON *json, size_t *n) {
     const cJSON *units = kind_member(ctx, json, "units", 1);
 
     if (units == NULL) {
@@ -214,7 +215,7 @@ static void *tri_load(KindContext *ctx, const cJSON *json, unsigned *units_out) 
     size_t i = 0, total = 0, ny;
     int invert;
 
-    if (dev == NULL || (units = units_array(ctx, json, &dev->unit_count)) == NULL ||
+    if (dev == NULL || (units = buf_units_array(ctx, json, &dev->unit_count)) == NULL ||
         seq_optional_bool(ctx, json, "invert", 0, &invert) != 0) {
         return NULL;
     }
@@ -278,7 +279,7 @@ static BufHeader *tri_create(const void *raw, const void *bound) {
     s->dev = dev;
     s->b = bound;
     for (i = 0; i < dev->unit_count; i++) {
-        init_outputs(s->y[i], s->b->units[i].y, dev->units[i].bits);
+        buf_init_outputs(s->y[i], s->b->units[i].y, dev->units[i].bits);
     }
     return &s->h;
 }
@@ -354,7 +355,7 @@ typedef struct {
 } XcvrState;
 
 /* "dir": {"pin": name, "ab": "high"|"low"}. */
-static int dir_name(KindContext *ctx, const cJSON *unit, const char **pin, int *ab_high) {
+int buf_dir_name(KindContext *ctx, const cJSON *unit, const char **pin, int *ab_high) {
     static const char *const KEYS[] = {"pin", "ab", NULL};
     const cJSON *dir = kind_member(ctx, unit, "dir", 1);
 
@@ -393,7 +394,7 @@ static int xcvr_unit(KindContext *ctx, const cJSON *u, int device_invert, XcvrUn
             buf_enable_names(ctx, u, "oeba", 1, &d->oeba) != 0) {
             return -1;
         }
-    } else if (dir_name(ctx, u, &d->dir, &d->dir_ab_high) != 0 ||
+    } else if (buf_dir_name(ctx, u, &d->dir, &d->dir_ab_high) != 0 ||
                buf_enable_names(ctx, u, "oe", 0, &d->oe) != 0) {
         return -1;
     }
@@ -406,7 +407,7 @@ static void *xcvr_load(KindContext *ctx, const cJSON *json, unsigned *units_out)
     size_t i = 0, total = 0;
     int invert;
 
-    if (dev == NULL || (units = units_array(ctx, json, &dev->unit_count)) == NULL ||
+    if (dev == NULL || (units = buf_units_array(ctx, json, &dev->unit_count)) == NULL ||
         seq_optional_bool(ctx, json, "invert", 0, &invert) != 0) {
         return NULL;
     }
@@ -470,8 +471,8 @@ static BufHeader *xcvr_create(const void *raw, const void *bound) {
     s->dev = dev;
     s->b = bound;
     for (i = 0; i < dev->unit_count; i++) {
-        init_outputs(s->a[i], s->b->units[i].a, dev->units[i].bits);
-        init_outputs(s->b_out[i], s->b->units[i].b, dev->units[i].bits);
+        buf_init_outputs(s->a[i], s->b->units[i].a, dev->units[i].bits);
+        buf_init_outputs(s->b_out[i], s->b->units[i].b, dev->units[i].bits);
         for (j = 0; j < dev->units[i].bits; j++) {
             s->hold[i][j] = LOGIC_X;
         }
@@ -564,10 +565,15 @@ static int xcvr_is_output(const void *raw, const void *bound, size_t pin) {
 
 /* ---- The kind ------------------------------------------------------------- */
 
-static const BufModel MODELS[] = {
-    {"tristate", TRISTATE_KEYS, tri_load, tri_bind, tri_create, tri_eval, tri_is_output},
-    {"transceiver", TRANSCEIVER_KEYS, xcvr_load, xcvr_bind, xcvr_create, xcvr_eval,
-     xcvr_is_output},
+static const BufModel TRISTATE_MODEL = {
+    "tristate", TRISTATE_KEYS, tri_load, tri_bind, tri_create, tri_eval, tri_is_output
+};
+static const BufModel TRANSCEIVER_MODEL = {
+    "transceiver", TRANSCEIVER_KEYS, xcvr_load, xcvr_bind, xcvr_create, xcvr_eval, xcvr_is_output
+};
+
+static const BufModel *const MODELS[] = {
+    &TRISTATE_MODEL, &TRANSCEIVER_MODEL, &BUF_REGISTERED_MODEL,
 };
 
 #define MODEL_COUNT (sizeof(MODELS) / sizeof(MODELS[0]))
@@ -586,8 +592,8 @@ static const BufModel *find_model(const char *name) {
     size_t i;
 
     for (i = 0; i < MODEL_COUNT; i++) {
-        if (strcmp(MODELS[i].name, name) == 0) {
-            return &MODELS[i];
+        if (strcmp(MODELS[i]->name, name) == 0) {
+            return MODELS[i];
         }
     }
     return NULL;

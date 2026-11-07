@@ -187,7 +187,7 @@ backend/
                            pio models share)
                            buffer.c + buffer.h (the buffer kind: models
                            tristate and transceiver; the port read-back
-                           rule)
+                           rule), buffer_reg.c (model registered)
     circuit.c
     voltage.c              the voltage check (voltage.h)
     memory_image.c         load files (binary, Intel HEX) to memory images
@@ -354,7 +354,10 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   real devices' pin names: '244, '240, '541, 1G125/1G126 and an open-drain
   1G125 (tristate); '245, '640, '641, '623 and a two-unit 16245
   (transceiver: DIR/OE, the turnaround read-back rule, X on DIR, the '623
-  bus-hold loop); the loader's errors.
+  bus-hold loop); '646, '652, '543, '2952 and a two-unit 16952
+  (registered: real-time and stored transfer, storing the bus the part
+  drives, CE gating a latch and its outputs, clock enables, X on a clock);
+  the loader's errors.
 
 Not a ctest: `sim_bench` (`tests/sim_bench.c`) measures engine speed — a
 D flip-flop ripple counter on an oscillator plus N idle SN74HC00N chips,

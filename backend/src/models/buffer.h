@@ -4,7 +4,7 @@
 /*
  * The buffer kind's shared pieces (plan-20-D section 2): the model table
  * and the helpers its models share. buffer.c holds the kind and the
- * tristate and transceiver models.
+ * tristate and transceiver models; buffer_reg.c the registered model.
  *
  * Every model keeps its run state behind a BufHeader. Ports are read with
  * buf_port: a pin the part drove until a moment ago reads X until its own
@@ -72,5 +72,14 @@ LogicValue buf_port(const Sim *sim, const SimInstance *inst, const BufHeader *h,
    a re-evaluation then. */
 void buf_drive(Sim *sim, SimInstance *inst, BufHeader *h, SeqOutput *o, LogicValue v);
 LogicValue buf_invert(LogicValue v, int invert);
+/* Every output starts undriven (Z), not scheduled. */
+void buf_init_outputs(SeqOutput *outputs, const size_t *pins, size_t n);
+/* "units": an array of 1..BUF_MAX_UNITS objects; *n its size. NULL (error set) otherwise. */
+const cJSON *buf_units_array(KindContext *ctx, const cJSON *json, size_t *n);
+/* A unit's "dir": {"pin": name, "ab": "high"|"low"} (ab: the level meaning A to B). */
+int buf_dir_name(KindContext *ctx, const cJSON *unit, const char **pin, int *ab_high);
+
+/* The registered model (buffer_reg.c). */
+extern const BufModel BUF_REGISTERED_MODEL;
 
 #endif

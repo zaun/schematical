@@ -1972,7 +1972,7 @@ Behavior (the HD44780 family as the module datasheets print it;
 Buffers with output enables, bus transceivers, registered and latched
 transceivers, and level translators (plan-20). Each device names a
 **model**: `tristate`, `transceiver`, `registered` or `translator`; the
-model decides the rest of the device keys. `timing` entries are as in the
+model decides the rest of the device keys (`registered`: below). `timing` entries are as in the
 sequential kinds: family → `{rise, fall}` (ns, the model's main path:
 A → Y, A → B, clock → B for `registered`), plus `note`, `vcc`, `inputMax`.
 Part keys: `family`, optional `vcc` and `inputMax`. `PartLogic.units` is
@@ -2029,6 +2029,32 @@ latch row, `oeab` and `oeba` asserted together): each port drives the
 value last passed in either direction — the two buffers form a loop that
 holds the bus value present when the second enable arrived (X if both
 came at once).
+
+#### Model `registered`
+
+Transceivers with a latch or a register in each direction ('646/'648,
+'652/'654, '651/'653, '543/'544, '2952/'2953 and their 16-bit versions).
+Main path: clock → B (or LE → B for latches). Unit keys: `"a"`, `"b"` (inout,
+as many each), `"ab"` and `"ba"` (the A → B and B → A directions), optional
+`"invert"`; or additionally `"dir"` and `"oe"` at the unit ('646 form: one
+OE, DIR picks the driven side, as in the '245).
+
+| Key (inside `ab` / `ba`) | Value |
+|---|---|
+| `"store"` | `"latch"` or `"register"` |
+| `"le"` | latch only, required: control; the latch is transparent while asserted ('543 LEAB low) |
+| `"clk"` | register only, required: `{"pin", "edge": "rising"\|"falling"}` |
+| `"ce"` | optional control. A latch: transparent only while `le` and `ce` are asserted, and the destination drives only while `oe` and `ce` are ('543 CEAB). A register: the edge loads only while `ce` is asserted ('2952 CLKENAB). |
+| `"oe"` | enable: the destination drives while it is asserted; required unless the unit has `dir` (then not allowed) |
+| `"select"` | optional control: asserted → the destination shows the stored value; deasserted → the source's real-time value ('646 SAB). Without it the destination always shows the stored value (the '543 latch output, the '2952 register). |
+| `"invert"` | optional: the destination shows the inverse ('648, '651, '653, '654) |
+
+Stored bits are 0 at power-on. A latch or register takes its source
+port's value whether or not the part itself drives that port (the '646
+stores the bus it drives). A clock edge from X or Z, or a move from the
+pre-edge level into X or Z, may have been an edge: bits it would change go
+X. Both directions enabled and both showing real time hold the value last
+passed, as the transceiver model's both-enabled row.
 
 ### Sequential kinds (`latch`, `counter`, `shift`)
 

@@ -86,14 +86,14 @@ X on every port that could drive.
 - [x] `PART_BUFFER` (appended after `PART_PIO`); `KINDS[]`; `buffer.c`, `buffer.h`; CMake lines (`src/models/buffer.c`, `logic_test(buffer_test)`); listing/trace/listing_check last-kind lines; `buffer_test.c` tristate cases ('244, '240, '541, 1G125/1G126, open-drain 1G125); docs § `buffer` (intro, enables, port rule, `tristate`), `docs/backend.md` (source map, test list). `ctest --test-dir /tmp/logic-p20 -R buffer_test` → `Passed`; `buffer_test` prints `buffer_test: all passed`.
 
 Acceptance: `ctest --test-dir /tmp/logic-p20 -R buffer_test` passes (seconds).
-Commit: (this commit — Phases 1 and 2 land together, one source file; hash in the next)
+Commit: 849cb04 (Phases 1 and 2 together, one source file)
 
 ### Phase 2 — `transceiver`
 
 - [x] Model `transceiver` (DIR + OE and `oeab`/`oeba` forms, `invert`, `open-drain`, the '623 hold loop), §3 cases ('245 both ways, external drive passes, turnaround never reads the part's own drive — `PASS: '245: after DIR goes low, A never shows the part's own old B drive`, OE high → both Z, X on DIR → both ports X; '640; '641 open drain; '623 each enable, isolation, both-enabled hold; 16245 units independent), docs § Model `transceiver`, loader error cases (14, in `buffer_test` `check_loader` — Corrections 1). `ctest --test-dir /tmp/logic-p20` → `100% tests passed, 0 tests failed out of 22`; `git diff --stat backend/tests/golden` → empty.
 
 Acceptance: `ctest --test-dir /tmp/logic-p20` → T0 + 1 of T0 + 1; golden diff empty (seconds).
-Commit: (this commit; hash in the next)
+Commit: 849cb04
 
 ## Validation Plan
 

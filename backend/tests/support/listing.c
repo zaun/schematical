@@ -161,7 +161,7 @@ char *listing_line(const Part *part) {
     int first = 1;
     int logic = part->kind == PART_GATE || part->kind == PART_DFF || part->kind == PART_JKFF ||
                 part->kind == PART_LATCH || part->kind == PART_COUNTER ||
-                part->kind == PART_SHIFT;
+                part->kind == PART_SHIFT || part->kind == PART_BUFFER;
 
     if (out == NULL) {
         return NULL;

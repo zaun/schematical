@@ -157,7 +157,100 @@ static const char FIXTURE[] =
     "pin':'1DIR','ab':'high'},'oe':{'pin':'1OE','active':'low'}},{'a':['2A1','2A2'],'b':['2B1',"
     "'2B2'],'dir':{'pin':'2DIR','ab':'high'},'oe':{'pin':'2OE','active':'low'}}],'timing':{'HC'"
     ":{'rise':10,'fall':10,'vcc':[2,6]}},'parts':[{'name':'FX-74_16245','package':'DIP','pinout"
-    "':'p14','footprint':'FX14','family':'HC'}]}]}"
+    "':'p14','footprint':'FX14','family':'HC'}]},{'id':'fx-74_646','function':'Buffer','descrip"
+    "tion':'d','drawer':[],'pinouts':{'p24':[{'number':1,'name':'CLKAB','role':'input'},{'numbe"
+    "r':2,'name':'SAB','role':'input'},{'number':3,'name':'DIR','role':'input'},{'number':4,'na"
+    "me':'A1','role':'inout'},{'number':5,'name':'A2','role':'inout'},{'number':6,'name':'A3','"
+    "role':'inout'},{'number':7,'name':'A4','role':'inout'},{'number':8,'name':'A5','role':'ino"
+    "ut'},{'number':9,'name':'A6','role':'inout'},{'number':10,'name':'A7','role':'inout'},{'nu"
+    "mber':11,'name':'A8','role':'inout'},{'number':12,'name':'GND','role':'ground'},{'number':"
+    "13,'name':'B8','role':'inout'},{'number':14,'name':'B7','role':'inout'},{'number':15,'name"
+    "':'B6','role':'inout'},{'number':16,'name':'B5','role':'inout'},{'number':17,'name':'B4','"
+    "role':'inout'},{'number':18,'name':'B3','role':'inout'},{'number':19,'name':'B2','role':'i"
+    "nout'},{'number':20,'name':'B1','role':'inout'},{'number':21,'name':'OE','role':'input'},{"
+    "'number':22,'name':'SBA','role':'input'},{'number':23,'name':'CLKBA','role':'input'},{'num"
+    "ber':24,'name':'VCC','role':'power'}]},'model':'registered','units':[{'a':['A1','A2','A3',"
+    "'A4','A5','A6','A7','A8'],'b':['B1','B2','B3','B4','B5','B6','B7','B8'],'dir':{'pin':'DIR'"
+    ",'ab':'high'},'oe':{'pin':'OE','active':'low'},'ab':{'store':'register','clk':{'pin':'CLKA"
+    "B','edge':'rising'},'select':{'pin':'SAB','active':'high'}},'ba':{'store':'register','clk'"
+    ":{'pin':'CLKBA','edge':'rising'},'select':{'pin':'SBA','active':'high'}}}],'timing':{'HC':"
+    "{'rise':10,'fall':10,'vcc':[2,6]}},'parts':[{'name':'FX-74_646','package':'DIP','pinout':'"
+    "p24','footprint':'FX24','family':'HC'}]},{'id':'fx-74_652','function':'Buffer','descriptio"
+    "n':'d','drawer':[],'pinouts':{'p24':[{'number':1,'name':'CLKAB','role':'input'},{'number':"
+    "2,'name':'SAB','role':'input'},{'number':3,'name':'OEAB','role':'input'},{'number':4,'name"
+    "':'A1','role':'inout'},{'number':5,'name':'A2','role':'inout'},{'number':6,'name':'A3','ro"
+    "le':'inout'},{'number':7,'name':'A4','role':'inout'},{'number':8,'name':'A5','role':'inout"
+    "'},{'number':9,'name':'A6','role':'inout'},{'number':10,'name':'A7','role':'inout'},{'numb"
+    "er':11,'name':'A8','role':'inout'},{'number':12,'name':'GND','role':'ground'},{'number':13"
+    ",'name':'B8','role':'inout'},{'number':14,'name':'B7','role':'inout'},{'number':15,'name':"
+    "'B6','role':'inout'},{'number':16,'name':'B5','role':'inout'},{'number':17,'name':'B4','ro"
+    "le':'inout'},{'number':18,'name':'B3','role':'inout'},{'number':19,'name':'B2','role':'ino"
+    "ut'},{'number':20,'name':'B1','role':'inout'},{'number':21,'name':'OEBA','role':'input'},{"
+    "'number':22,'name':'SBA','role':'input'},{'number':23,'name':'CLKBA','role':'input'},{'num"
+    "ber':24,'name':'VCC','role':'power'}]},'model':'registered','units':[{'a':['A1','A2','A3',"
+    "'A4','A5','A6','A7','A8'],'b':['B1','B2','B3','B4','B5','B6','B7','B8'],'ab':{'store':'reg"
+    "ister','clk':{'pin':'CLKAB','edge':'rising'},'oe':{'pin':'OEAB','active':'high'},'select':"
+    "{'pin':'SAB','active':'high'}},'ba':{'store':'register','clk':{'pin':'CLKBA','edge':'risin"
+    "g'},'oe':{'pin':'OEBA','active':'low'},'select':{'pin':'SBA','active':'high'}}}],'timing':"
+    "{'HC':{'rise':10,'fall':10,'vcc':[2,6]}},'parts':[{'name':'FX-74_652','package':'DIP','pin"
+    "out':'p24','footprint':'FX24','family':'HC'}]},{'id':'fx-74_543','function':'Buffer','desc"
+    "ription':'d','drawer':[],'pinouts':{'p24':[{'number':1,'name':'LEBA','role':'input'},{'num"
+    "ber':2,'name':'OEBA','role':'input'},{'number':3,'name':'A1','role':'inout'},{'number':4,'"
+    "name':'A2','role':'inout'},{'number':5,'name':'A3','role':'inout'},{'number':6,'name':'A4'"
+    ",'role':'inout'},{'number':7,'name':'A5','role':'inout'},{'number':8,'name':'A6','role':'i"
+    "nout'},{'number':9,'name':'A7','role':'inout'},{'number':10,'name':'A8','role':'inout'},{'"
+    "number':11,'name':'CEAB','role':'input'},{'number':12,'name':'GND','role':'ground'},{'numb"
+    "er':13,'name':'CEBA','role':'input'},{'number':14,'name':'B8','role':'inout'},{'number':15"
+    ",'name':'B7','role':'inout'},{'number':16,'name':'B6','role':'inout'},{'number':17,'name':"
+    "'B5','role':'inout'},{'number':18,'name':'B4','role':'inout'},{'number':19,'name':'B3','ro"
+    "le':'inout'},{'number':20,'name':'B2','role':'inout'},{'number':21,'name':'B1','role':'ino"
+    "ut'},{'number':22,'name':'LEAB','role':'input'},{'number':23,'name':'OEAB','role':'input'}"
+    ",{'number':24,'name':'VCC','role':'power'}]},'model':'registered','units':[{'a':['A1','A2'"
+    ",'A3','A4','A5','A6','A7','A8'],'b':['B1','B2','B3','B4','B5','B6','B7','B8'],'ab':{'store"
+    "':'latch','le':{'pin':'LEAB','active':'low'},'ce':{'pin':'CEAB','active':'low'},'oe':{'pin"
+    "':'OEAB','active':'low'}},'ba':{'store':'latch','le':{'pin':'LEBA','active':'low'},'ce':{'"
+    "pin':'CEBA','active':'low'},'oe':{'pin':'OEBA','active':'low'}}}],'timing':{'HC':{'rise':1"
+    "0,'fall':10,'vcc':[2,6]}},'parts':[{'name':'FX-74_543','package':'DIP','pinout':'p24','foo"
+    "tprint':'FX24','family':'HC'}]},{'id':'fx-74_2952','function':'Buffer','description':'d','"
+    "drawer':[],'pinouts':{'p24':[{'number':1,'name':'CLKAB','role':'input'},{'number':2,'name'"
+    ":'CLKENAB','role':'input'},{'number':3,'name':'OEAB','role':'input'},{'number':4,'name':'C"
+    "LKBA','role':'input'},{'number':5,'name':'CLKENBA','role':'input'},{'number':6,'name':'OEB"
+    "A','role':'input'},{'number':7,'name':'A1','role':'inout'},{'number':8,'name':'A2','role':"
+    "'inout'},{'number':9,'name':'A3','role':'inout'},{'number':10,'name':'A4','role':'inout'},"
+    "{'number':11,'name':'A5','role':'inout'},{'number':12,'name':'A6','role':'inout'},{'number"
+    "':13,'name':'A7','role':'inout'},{'number':14,'name':'A8','role':'inout'},{'number':15,'na"
+    "me':'GND','role':'ground'},{'number':16,'name':'B1','role':'inout'},{'number':17,'name':'B"
+    "2','role':'inout'},{'number':18,'name':'B3','role':'inout'},{'number':19,'name':'B4','role"
+    "':'inout'},{'number':20,'name':'B5','role':'inout'},{'number':21,'name':'B6','role':'inout"
+    "'},{'number':22,'name':'B7','role':'inout'},{'number':23,'name':'B8','role':'inout'},{'num"
+    "ber':24,'name':'VCC','role':'power'}]},'model':'registered','units':[{'a':['A1','A2','A3',"
+    "'A4','A5','A6','A7','A8'],'b':['B1','B2','B3','B4','B5','B6','B7','B8'],'ab':{'store':'reg"
+    "ister','clk':{'pin':'CLKAB','edge':'rising'},'ce':{'pin':'CLKENAB','active':'low'},'oe':{'"
+    "pin':'OEAB','active':'low'}},'ba':{'store':'register','clk':{'pin':'CLKBA','edge':'rising'"
+    "},'ce':{'pin':'CLKENBA','active':'low'},'oe':{'pin':'OEBA','active':'low'}}}],'timing':{'H"
+    "C':{'rise':10,'fall':10,'vcc':[2,6]}},'parts':[{'name':'FX-74_2952','package':'DIP','pinou"
+    "t':'p24','footprint':'FX24','family':'HC'}]},{'id':'fx-74_16952','function':'Buffer','desc"
+    "ription':'d','drawer':[],'pinouts':{'p22':[{'number':1,'name':'1CLKAB','role':'input'},{'n"
+    "umber':2,'name':'1CLKENAB','role':'input'},{'number':3,'name':'1OEAB','role':'input'},{'nu"
+    "mber':4,'name':'1CLKBA','role':'input'},{'number':5,'name':'1CLKENBA','role':'input'},{'nu"
+    "mber':6,'name':'1OEBA','role':'input'},{'number':7,'name':'1A1','role':'inout'},{'number':"
+    "8,'name':'1A2','role':'inout'},{'number':9,'name':'1B1','role':'inout'},{'number':10,'name"
+    "':'1B2','role':'inout'},{'number':11,'name':'2CLKAB','role':'input'},{'number':12,'name':'"
+    "2CLKENAB','role':'input'},{'number':13,'name':'2OEAB','role':'input'},{'number':14,'name':"
+    "'2CLKBA','role':'input'},{'number':15,'name':'2CLKENBA','role':'input'},{'number':16,'name"
+    "':'2OEBA','role':'input'},{'number':17,'name':'2A1','role':'inout'},{'number':18,'name':'2"
+    "A2','role':'inout'},{'number':19,'name':'2B1','role':'inout'},{'number':20,'name':'2B2','r"
+    "ole':'inout'},{'number':21,'name':'GND','role':'ground'},{'number':22,'name':'VCC','role':"
+    "'power'}]},'model':'registered','units':[{'a':['1A1','1A2'],'b':['1B1','1B2'],'ab':{'store"
+    "':'register','clk':{'pin':'1CLKAB','edge':'rising'},'ce':{'pin':'1CLKENAB','active':'low'}"
+    ",'oe':{'pin':'1OEAB','active':'low'}},'ba':{'store':'register','clk':{'pin':'1CLKBA','edge"
+    "':'rising'},'ce':{'pin':'1CLKENBA','active':'low'},'oe':{'pin':'1OEBA','active':'low'}}},{"
+    "'a':['2A1','2A2'],'b':['2B1','2B2'],'ab':{'store':'register','clk':{'pin':'2CLKAB','edge':"
+    "'rising'},'ce':{'pin':'2CLKENAB','active':'low'},'oe':{'pin':'2OEAB','active':'low'}},'ba'"
+    ":{'store':'register','clk':{'pin':'2CLKBA','edge':'rising'},'ce':{'pin':'2CLKENBA','active"
+    "':'low'},'oe':{'pin':'2OEBA','active':'low'}}}],'timing':{'HC':{'rise':10,'fall':10,'vcc':"
+    "[2,6]}},'parts':[{'name':'FX-74_16952','package':'DIP','pinout':'p22','footprint':'FX22','"
+    "family':'HC'}]}]}"
     ;
 
 /* Dual-row fixture footprints FX<n>, one per pin count above. */
@@ -168,7 +261,10 @@ static const char FIXTURE_FOOTPRINTS[] =
     "':'d','style':'dual','pins':14,'body':{'width':1,'height':1},'pitch':1,'span':2,'pad':{'wi"
     "dth':0.5,'height':0.5,'shape':'rect'}},{'id':'FX20','description':'d','style':'dual','pins"
     "':20,'body':{'width':1,'height':1},'pitch':1,'span':2,'pad':{'width':0.5,'height':0.5,'sha"
-    "pe':'rect'}}]}"
+    "pe':'rect'}},{'id':'FX22','description':'d','style':'dual','pins':22,'body':{'width':1,'he"
+    "ight':1},'pitch':1,'span':2,'pad':{'width':0.5,'height':0.5,'shape':'rect'}},{'id':'FX24',"
+    "'description':'d','style':'dual','pins':24,'body':{'width':1,'height':1},'pitch':1,'span':"
+    "2,'pad':{'width':0.5,'height':0.5,'shape':'rect'}}]}"
     ;
 
 static char *dequote(const char *text) {
@@ -232,8 +328,13 @@ static Bench *open_fx(const char *device) {
     return bench_create(fx_part(device));
 }
 
+/* Runs 50 ns; an engine error (a short between drivers) fails the test. */
 static void step(Bench *b) {
     bench_run(b, NS(50));
+    if (bench_error(b) != NULL) {
+        printf("FAIL: engine error: %s\n", bench_error(b));
+        failures++;
+    }
 }
 
 static void set(Bench *b, const char *pin, LogicValue v) {
@@ -546,6 +647,170 @@ static void check_16245(void) {
     bench_destroy(b);
 }
 
+/* ---- registered (plan-20-E) ----------------------------------------------- */
+
+/* A rising edge on pin (0 -> 1, then back to 0). */
+static void pulse(Bench *b, const char *pin) {
+    set(b, pin, L0);
+    step(b);
+    set(b, pin, L1);
+    step(b);
+    set(b, pin, L0);
+    step(b);
+}
+
+static void check_646(void) {
+    Bench *b = open_fx("74_646");
+
+    set(b, "CLKAB", L0);
+    set(b, "CLKBA", L0);
+    set(b, "OE", L1);
+    set(b, "DIR", L1);
+    set(b, "SAB", L0);
+    set(b, "SBA", L0);
+    set_bus(b, "A%u", 8, 0x3C);
+    step(b);
+    expect(bus_all(b, "B%u", 8, LZ), "'646: OE high: isolation, B is Z");
+    pulse(b, "CLKAB");
+    set(b, "OE", L0);
+    step(b);
+    expect(bus_value(b, "B%u", 8, 0x3C), "'646: OE low, DIR high, SAB low: real-time A to B");
+    set_bus(b, "A%u", 8, 0x81);
+    step(b);
+    expect(bus_value(b, "B%u", 8, 0x81), "'646: real time follows A");
+    set(b, "SAB", L1);
+    step(b);
+    expect(bus_value(b, "B%u", 8, 0x3C),
+           "'646: SAB high: B shows the A register (stored while OE was high)");
+    /* Turn around: A released and DIR low first, then B driven (no contention). */
+    set(b, "SAB", L0);
+    release_bus(b, "A%u", 8);
+    set(b, "DIR", L0);
+    step(b);
+    set_bus(b, "B%u", 8, 0x5A);
+    step(b);
+    expect(bus_value(b, "A%u", 8, 0x5A), "'646: DIR low, SBA low: real-time B to A");
+    /* Store A in the A register while the part drives A from B. */
+    pulse(b, "CLKAB");
+    set(b, "OE", L1);
+    step(b);
+    release_bus(b, "B%u", 8);
+    set(b, "DIR", L1);
+    set(b, "SAB", L1);
+    set(b, "OE", L0);
+    step(b);
+    expect(bus_value(b, "B%u", 8, 0x5A),
+           "'646: the A register stored the bus the part was driving (0x5A), stored transfer to B");
+    bench_destroy(b);
+}
+
+static void check_652(void) {
+    Bench *b = open_fx("74_652");
+
+    set(b, "CLKAB", L0);
+    set(b, "CLKBA", L0);
+    set(b, "SAB", L0);
+    set(b, "SBA", L0);
+    set(b, "OEAB", L1);
+    set(b, "OEBA", L1);
+    set_bus(b, "A%u", 8, 0x5A);
+    step(b);
+    expect(bus_value(b, "B%u", 8, 0x5A), "'652: OEAB high, OEBA high (off): real-time A to B");
+    pulse(b, "CLKAB");
+    set(b, "OEAB", L0);
+    release_bus(b, "A%u", 8);
+    step(b);
+    set_bus(b, "B%u", 8, 0xA5);
+    step(b);
+    expect(bus_all(b, "A%u", 8, LZ), "'652: OEAB low, OEBA high: neither direction drives");
+    pulse(b, "CLKBA");
+    release_bus(b, "B%u", 8);
+    set(b, "SAB", L1);
+    set(b, "SBA", L1);
+    set(b, "OEAB", L1);
+    set(b, "OEBA", L0);
+    step(b);
+    expect(bus_value(b, "B%u", 8, 0x5A) && bus_value(b, "A%u", 8, 0xA5),
+           "'652: both enabled, stored select: B shows the A register, A the B register");
+    bench_destroy(b);
+}
+
+static void check_543(void) {
+    Bench *b = open_fx("74_543");
+
+    set(b, "CEBA", L1);
+    set(b, "LEBA", L1);
+    set(b, "OEBA", L1);
+    set(b, "CEAB", L0);
+    set(b, "LEAB", L0);
+    set(b, "OEAB", L0);
+    set_bus(b, "A%u", 8, 0x96);
+    step(b);
+    expect(bus_value(b, "B%u", 8, 0x96), "'543: CEAB, LEAB, OEAB low: transparent A to B");
+    set(b, "LEAB", L1);
+    step(b);
+    set_bus(b, "A%u", 8, 0x0F);
+    step(b);
+    expect(bus_value(b, "B%u", 8, 0x96), "'543: LEAB high: the latch holds while A changes");
+    set(b, "CEAB", L1);
+    step(b);
+    expect(bus_all(b, "B%u", 8, LZ), "'543: CEAB high: B outputs off (CE gates OE)");
+    set(b, "CEAB", L0);
+    step(b);
+    expect(bus_value(b, "B%u", 8, 0x96), "'543: CEAB low again: the held value is back on B");
+    set(b, "LEAB", L0);
+    step(b);
+    expect(bus_value(b, "B%u", 8, 0x0F), "'543: LEAB low: transparent again");
+    bench_destroy(b);
+}
+
+static void check_2952(void) {
+    Bench *b = open_fx("74_2952");
+
+    set(b, "CLKAB", L0);
+    set(b, "CLKBA", L0);
+    set(b, "OEBA", L1);
+    set(b, "OEAB", L0);
+    set(b, "CLKENAB", L1);
+    set_bus(b, "A%u", 8, 0xC3);
+    step(b);
+    expect(bus_value(b, "B%u", 8, 0x00), "'2952: B shows the register (0 at power-on)");
+    pulse(b, "CLKAB");
+    expect(bus_value(b, "B%u", 8, 0x00), "'2952: CLKENAB high: the clock edge is ignored");
+    set(b, "CLKENAB", L0);
+    pulse(b, "CLKAB");
+    expect(bus_value(b, "B%u", 8, 0xC3), "'2952: CLKENAB low: the edge loads A");
+    set_bus(b, "A%u", 8, 0x3C);
+    step(b);
+    expect(bus_value(b, "B%u", 8, 0xC3), "'2952: no real-time path: B keeps the register");
+    set(b, "CLKAB", LX);
+    step(b);
+    expect(bus_all(b, "B%u", 8, LX), "X on a clock (from 0): every bit that would change is X");
+    bench_destroy(b);
+}
+
+static void check_16952(void) {
+    Bench *b = open_fx("74_16952");
+
+    set(b, "1CLKAB", L0);
+    set(b, "2CLKAB", L0);
+    set(b, "1OEAB", L0);
+    set(b, "2OEAB", L0);
+    set(b, "1OEBA", L1);
+    set(b, "2OEBA", L1);
+    set(b, "1CLKENAB", L0);
+    set(b, "2CLKENAB", L0);
+    set(b, "1A1", L1);
+    set(b, "1A2", L1);
+    set(b, "2A1", L1);
+    set(b, "2A2", L1);
+    step(b);
+    pulse(b, "1CLKAB");
+    expect(is(b, "1B1", L1) && is(b, "1B2", L1) && is(b, "2B1", L0) && is(b, "2B2", L0),
+           "16952: clocking unit 1 leaves unit 2's register alone");
+    bench_destroy(b);
+}
+
 /* ---- Loader errors -------------------------------------------------------- */
 
 #define HEAD "{'format':'schematical-parts','version':1,'kind':'buffer','devices':["
@@ -620,6 +885,35 @@ static void check_loader(void) {
                          "'units':[{'a':['A'],'b':['Y'],'dir':{'pin':'OE','ab':'high'},"
                          "'oeab':{'pin':'OE','active':'high'}}]"),
                 "unknown key \"oeab\"");
+    expect_fail("registered store neither latch nor register",
+                HEAD DEV("registered",
+                         "'units':[{'a':['A'],'b':['Y'],'ab':{'store':'flop'},'ba':{'store':'flop'}}]"),
+                "\"store\" must be \"latch\" or \"register\", not \"flop\"");
+    expect_fail("registered latch without le",
+                HEAD DEV("registered",
+                         "'units':[{'a':['A'],'b':['Y'],'ab':{'store':'latch','oe':[]},"
+                         "'ba':{'store':'latch','oe':[]}}]"),
+                "missing \"le\"");
+    expect_fail("registered register without clk",
+                HEAD DEV("registered",
+                         "'units':[{'a':['A'],'b':['Y'],'ab':{'store':'register','oe':[]},"
+                         "'ba':{'store':'register','oe':[]}}]"),
+                "missing \"clk\"");
+    expect_fail("registered latch with a clock",
+                HEAD DEV("registered",
+                         "'units':[{'a':['A'],'b':['Y'],'ab':{'store':'latch','le':{'pin':'OE','active':'low'},"
+                         "'clk':{'pin':'OE','edge':'rising'},'oe':[]},'ba':{'store':'latch','le':{'pin':'OE','active':'low'},'oe':[]}}]"),
+                "unknown key \"clk\"");
+    expect_fail("registered dir form with a direction oe",
+                HEAD DEV("registered",
+                         "'units':[{'a':['A'],'b':['Y'],'dir':{'pin':'OE','ab':'high'},"
+                         "'ab':{'store':'register','clk':{'pin':'OE','edge':'rising'},'oe':[]},"
+                         "'ba':{'store':'register','clk':{'pin':'OE','edge':'rising'}}}]"),
+                "\"oe\" is on the unit when the unit has \"dir\"");
+    expect_fail("registered direction missing",
+                HEAD DEV("registered",
+                         "'units':[{'a':['A'],'b':['Y'],'ab':{'store':'register','clk':{'pin':'OE','edge':'rising'},'oe':[]}}]"),
+                "missing \"ba\"");
 }
 
 int main(void) {
@@ -642,6 +936,11 @@ int main(void) {
     check_641();
     check_623();
     check_16245();
+    check_646();
+    check_652();
+    check_543();
+    check_2952();
+    check_16952();
     check_loader();
     part_library_destroy(library);
     if (failures > 0) {

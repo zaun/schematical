@@ -21,7 +21,7 @@ plan-20-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-20-D complete | `ls planning/completed/plan-20-D-*.md` → exists | NOT MET (2026-11-07) |
+| plan-20-D complete | `ls planning/completed/plan-20-D-*.md` → exists | MET (2026-11-07: `planning/completed/plan-20-D-buffer-kind.md`) |
 
 ## 1. Goal
 
@@ -62,10 +62,10 @@ store the bus while it drives it, per its function table, specs.md).
 
 ### Phase 1 — Model and tests
 
-- [ ] `buffer_reg.c` (+ CMake line), §3 cases, docs § `buffer` model `registered`, `library_check` cases.
+- [x] `buffer_reg.c` (+ CMake line; the model table in `buffer.c` now holds pointers so it can name `BUF_REGISTERED_MODEL`), §3 cases in `buffer_test` ('646: isolation and storing while OE high, real-time A→B and B→A, stored transfer, the A register storing the bus the part drives; '652: OEAB/OEBA independent, both enabled with stored select; '543: CEAB/LEAB/OEAB rows, hold while LEAB high, CEAB high turns B off; '2952: CLKENAB gates the edge, no real-time path; 16952: units independent; X on a clock → the bits that would change are X), docs § Model `registered`, loader cases (6, in `buffer_test` as D's). `buffer_test` → `buffer_test: all passed` (67 PASS lines). Dry run: the 28 real `registered` specs (155 parts) load with the tristate/transceiver ones (`listing_check`: `8243 parts compared` — only `extra part` lines, no load error). `ctest --test-dir /tmp/logic-p20` → `100% tests passed, 0 tests failed out of 22`; `git diff --stat backend/tests/golden` → empty.
 
 Acceptance: `ctest --test-dir /tmp/logic-p20` → T0 + 1 of T0 + 1; golden diff empty (seconds).
-Commit: —
+Commit: (this commit; hash in the next)
 
 ## Validation Plan
 
@@ -77,6 +77,11 @@ E's gate: Phase 1. Landing tier at the end of I.
   differ only in store type, enables and select).
 
 ## Corrections
+
+1. **`ce` means two things**, by the datasheets (plan-20-A reports G05, G07, G08): on a latch it gates both the latch and the outputs ('543: B drives only while CEAB and OEAB are low), on a register only the clock ('2952 CLKENAB, CY29FCT52 CE). §2's table now says so; no separate key needed.
+2. **Unit-level `dir` + `oe` excludes per-direction `oe`** ('646 form) — a loader error otherwise.
+3. **Test benches must not drive a port in the instant the part still drives it**: that shorts the net and the engine stops; `step()` in `buffer_test` now fails on any engine error (`bench_error`), which the first '646 draft hit.
+4. **The listing printed no family for buffer parts** (`tests/support/listing.c` `logic` test missed `PART_BUFFER`, a D gap found by E's dry run); fixed before any buffer part exists, so no golden moves.
 
 ## Summary
 
