@@ -41,7 +41,7 @@ Same generator as G; translator devices carry `domains` and per-family
 - [x] Runtime voltage proof: `voltage_test` `check_real_translator` with the real SN74LVC1T45DBVR (VCCA 1.8 V, VCCB 5 V, DIR at 1.8 V) between SN74LVC1G04DBVR (1.8 V) and SN74HC04N (5 V), plus a 3.6 V-max input on the A net (which a single supply range would push to 5 V) → `PASS: SN74LVC1T45DBVR at 1.8 V / 5 V between a 1.8 V LVC1G04 and a 5 V HC04: no problem`. `ctest` → `100% tests passed, 0 tests failed out of 22`.
 
 Acceptance: `ctest` T0 + 1 of T0 + 1; golden counts (seconds).
-Commit: (this commit; hash in the next)
+Commit: fe1583e
 
 ## Validation Plan
 

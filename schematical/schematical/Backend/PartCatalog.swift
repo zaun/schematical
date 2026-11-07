@@ -243,6 +243,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// The recommended supply range and the highest input voltage,
     /// millivolts. Nil for supplies, LEDs, 7-segment displays and switches.
     let vcc: (minMV: UInt32, maxMV: UInt32, inputMaxMV: UInt32)?
+    /// A dual-supply part's two supply domains (plan-20-F), A side first: the
+    /// supply pin's name and the side's range; empty for single-supply parts.
+    let supplyDomains: [(power: String, minMV: UInt32, maxMV: UInt32, inputMaxMV: UInt32)]
 
     var id: String { name }
 
@@ -270,11 +273,12 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         }
     }
 
-    /// Gate, flip-flop, latch, counter or shift register: a logic chip with a
-    /// family and a unit count.
+    /// Gate, flip-flop, latch, counter, shift register or buffer: a logic chip
+    /// with a family and a unit count.
     var isLogic: Bool {
         kind == PART_GATE || kind == PART_DFF || kind == PART_JKFF ||
-            kind == PART_LATCH || kind == PART_COUNTER || kind == PART_SHIFT
+            kind == PART_LATCH || kind == PART_COUNTER || kind == PART_SHIFT ||
+            kind == PART_BUFFER
     }
 
     /// SRAM or EEPROM: a part with a memory window.
@@ -429,6 +433,12 @@ extension CatalogPart {
         self.connectorFootprint = connectorFootprint
         self.footprintChoices = footprintChoices
         vcc = part.vcc.map { ($0.pointee.min_mv, $0.pointee.max_mv, $0.pointee.input_max_mv) }
+        supplyDomains = (0..<part.domain_count).compactMap { k in
+            guard let domain = part.domains?[k], let range = domain.vcc?.pointee else { return nil }
+            let power = domain.power_pin_count > 0
+                ? string(part.pins?[domain.power_pins[0]].name) : ""
+            return (power, range.min_mv, range.max_mv, range.input_max_mv)
+        }
         name = string(part.name)
         kind = part.kind
         package = string(part.package)

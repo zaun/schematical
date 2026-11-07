@@ -19,7 +19,7 @@ plan-20-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-20-H complete | `ls planning/completed/plan-20-H-*.md` → exists | NOT MET (2026-11-07) |
+| plan-20-H complete | `ls planning/completed/plan-20-H-*.md` → exists | MET (2026-11-07: `planning/completed/plan-20-H-registered-translator-parts.md`) |
 
 ## 1. Goal
 
@@ -44,11 +44,11 @@ plan-20-A § Prerequisites, plus:
 
 ### Phase 1 — App
 
-- [ ] §2 edits; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p20-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (about 1 min).
-- [ ] Runtime proof (`run` skill): Logic drawer, family `LVC` → `SN74LVC245ANSR` and `SN74LVC1T45DBVR` listed; a placed 1T45 shows the two supply rows; a placed `SN74HC244N` shows "Kind: Buffer" and one supply row.
+- [x] §2 edits: `isLogic` `|| kind == PART_BUFFER` (`PartCatalog.swift`), `kindName` `case PART_BUFFER: return "Buffer"` (`PartFacts.swift`), `categoryHeader` `|| kinds.contains(PART_BUFFER.rawValue)` (`ChipDrawerView.swift`); `CatalogPart.supplyDomains` (power pin name and range per side) and the two Details rows "Supply A (VCCA)" / "Supply B (VCCB)" with "Input max A/B" (Corrections 1). `xcodebuild … build` → `** BUILD SUCCEEDED **`.
+- [x] Runtime proof with the app's own code in the headless harness (`scripts/harness/buffer-app.swift`: the real `PartCatalogStore`, drawer filter, `SchematicDocument`, `PartFacts` and the rendered sidebar; Corrections 2): `ok   1 Logic drawer, family LVC: SN74LVC245ANSR and SN74LVC1T45DBVR listed`; `ok   2 buffer parts are logic: family and units`; `ok   3 SN74LVC1T45DBVR Details: Supply A (VCCA) and Supply B (VCCB) 1.65–5.5 V, no single row` (rows `Kind: Buffer`, `Function: Level shifter`, …, `Supply A (VCCA): 1.65–5.5 V`, `Input max A: 5.5 V`, `Supply B (VCCB): 1.65–5.5 V`, `Input max B: 5.5 V`); `ok   4 SN74HC244N Details: Kind Buffer, one Supply range row 2–6 V`; `ok   5 render the sidebar for both parts` (the 1T45 image shows the two supply rows).
 
 Acceptance: build, grep, runtime proof.
-Commit: —
+Commit: (this commit; hash in the next)
 
 ## Validation Plan — plan-20 landing tier
 
@@ -67,6 +67,9 @@ Then archive plan-20-A…I to `planning/completed/`.
 - No new drawer filter (plan-10-J precedent).
 
 ## Corrections
+
+1. **Input max per side**: the single-supply Details show "Input max" beside "Supply range"; a dual-supply part shows it per side too ("Input max A", "Input max B"), since the B side's limit differs from A's on many translators.
+2. **Runtime proof in the harness, not by driving the GUI**: `scripts/harness/` compiles the app's sources with the backend and runs the real drawer filter, document and Details code, and renders the sidebar offscreen — the same code the window runs, checkable without moving the user's mouse. Landing tier (2026-11-07, worktree at the I commit): `ctest` → `100% tests passed, 0 tests failed out of 22` (T0 + 1); `git diff e06894a^ -- backend/tests/golden | grep -c '^-[^-]'` → `0`; `grep -c '|buffer|' parts.txt` → `2135` (Ntri 1331 + Nxcvr 418 + Nreg 155 + Ntrans 231); `grep -c 'vccb=' parts.txt` → `231`; gate lines added since plan-20 start → `221` (Nbuf); `ls datasheets/{buffer,transceiver,translator}/*.pdf | wc -l` → `817` = distinct `pdf` of `add` rows; `xcodebuild` → `** BUILD SUCCEEDED **`.
 
 ## Summary
 
