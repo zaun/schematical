@@ -17,6 +17,12 @@ final class CanvasViewport {
         Self.zoomLevels.first!...Self.zoomLevels.last!
     }
 
+    /// A viewport at `zoom` (clamped to the zoom steps' range), with the
+    /// world origin at the view's top left.
+    init(zoom: CGFloat = 1) {
+        self.zoom = min(max(zoom, Self.zoomLevels.first!), Self.zoomLevels.last!)
+    }
+
     func updateSize(_ newSize: CGSize) {
         size = newSize
     }

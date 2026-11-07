@@ -262,18 +262,28 @@ New `badPCB` details:
 Acceptance: a 4-layer board with a changed colour and an inner Wire layer
 survives a round trip, and each bad entry gives its exact message.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:<tests>/BoardLayersTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 3 min).
-Commit: —
+Commit: a4b5fd5
 
 ### Phase 2 — Layers section and start zoom
 
-- [ ] `Canvas/PCBSidebarView.swift`: add `LayersSection` under Board in
+- [x] `Canvas/PCBSidebarView.swift`: add `LayersSection` under Board in
       `BoardPanel`, with rows as in §3. Each count in the Layers picker is
       disabled when `canSetLayerCount` returns a reason, with that reason as
       its `.help`.
-- [ ] `Canvas/CanvasViewport.swift`: add `init(zoom:)`.
+- [x] `Canvas/CanvasViewport.swift`: add `init(zoom:)`.
       `ContentView.swift:30`: `CanvasViewport(zoom: 0.25)`.
-- [ ] Tests: `CanvasViewport(zoom: 0.25).zoom == 0.25`, and
-      `CanvasViewport(zoom: 9).zoom == 3`.
+- [x] Tests: `CanvasViewport(zoom: 0.25).zoom == 0.25`, and
+      `CanvasViewport(zoom: 9).zoom == 3`. `BoardLayersTests` → "Executed 9
+      tests, with 0 failures". (The test keeps its viewports alive: freeing
+      a `CanvasViewport` in a test aborts the host, the same isolated-deinit
+      crash `TestSupport` notes for documents.)
+- [x] Runtime check (app built to `/tmp/p16dd`, driven with System Events
+      and screenshots, on a copy of `be-6502.schematical`): PCB page opened
+      at "25%"; Layers showed Top and Bottom (Component); 6 layers listed
+      Top, Layer 2–5 (Plane menus) and Bottom; Layer 3 switched to Wire; the
+      colour panel turned Top green at once. Set 4 layers, saved: the file
+      had `"layers" : 4` and `layerStyles` top `#00BD00`, inner3 `wire`.
+      Reopened in a fresh app: 4 layers, Top green, Layer 3 Wire.
 
 Acceptance: the PCB page opens at "25%". With nothing selected, a 6-layer
 board lists Top, Layer 2–5 and Bottom. Inner types switch between Plane and

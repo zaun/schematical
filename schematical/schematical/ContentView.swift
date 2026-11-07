@@ -26,8 +26,9 @@ struct ContentView: View {
     @State private var catalog: PartCatalogStore
     @State private var document: SchematicDocument
     @State private var viewport = CanvasViewport()
-    /// The PCB page's own pan and zoom.
-    @State private var boardViewport = CanvasViewport()
+    /// The PCB page's own pan and zoom. It opens at 25 %, so a whole board
+    /// fits.
+    @State private var boardViewport = CanvasViewport(zoom: 0.25)
     @State private var page = EditorPage.schematic
     @State private var tool: SchematicTool = .pointer
     @State private var pcbTool = PCBTool.select

@@ -156,4 +156,14 @@ final class BoardLayersTests: XCTestCase {
         XCTAssertNil(doc.board.styles[.inner(5)], "not on a 4-layer board")
         for count in BoardSettings.layerCounts { XCTAssertNil(doc.canSetLayerCount(count)) }
     }
+
+    /// Viewports made by tests, kept alive for the same reason as
+    /// `TestSupport`'s documents: freeing one aborts the host.
+    private static var keptViewports: [CanvasViewport] = []
+
+    func testViewportStartZoom() {
+        let viewports = [CanvasViewport(zoom: 0.25), CanvasViewport(zoom: 9), CanvasViewport()]
+        Self.keptViewports += viewports
+        XCTAssertEqual(viewports.map(\.zoom), [0.25, 3, 1])
+    }
 }

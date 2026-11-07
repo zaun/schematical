@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// The PCB page's inspector. It follows the selection: the board's settings
-/// with nothing selected, the footprint's with only a footprint selected,
+/// with nothing selected (with a Layers section, one row per copper layer), the footprint's with only a footprint selected,
 /// the text's with only a board text selected, and a read-only
 /// `Selection (N)` list for several items (plan-15). A mm | in switch at the
 /// top sets the units of every length field.
@@ -57,6 +57,7 @@ struct PCBSidebarView: View {
                 )
             case .board:
                 BoardPanel(document: document)
+                LayersSection(document: document)
             }
         }
         .formStyle(.grouped)
@@ -79,9 +80,18 @@ private struct BoardPanel: View {
                 document.setBoardSize(width: document.board.width, height: $0)
                 return document.board.height
             }
-            Picker("Layers", selection: $document.board.layers) {
+            Picker("Layers", selection: Binding(
+                get: { document.board.layers },
+                set: { document.setLayerCount($0) }
+            )) {
                 ForEach(BoardSettings.layerCounts, id: \.self) { count in
-                    Text(count == 1 ? "1 layer" : "\(count) layers").tag(count)
+                    // A count that would drop a layer holding something is
+                    // greyed, and says why.
+                    let refusal = count == document.board.layers ? nil : document.canSetLayerCount(count)
+                    Text(count == 1 ? "1 layer" : "\(count) layers")
+                        .tag(count)
+                        .selectionDisabled(refusal != nil)
+                        .help(refusal ?? "")
                 }
             }
             .pickerStyle(.menu)
@@ -118,6 +128,56 @@ private struct BoardPanel: View {
         .buttonStyle(.plain)
         .help(colour.title)
         .accessibilityLabel(colour.title)
+    }
+}
+
+// MARK: - Layers
+
+/// One row per copper layer, Top first: a colour well, the name and the
+/// type. Top and Bottom are always Component; an inner layer is Plane or
+/// Wire.
+struct LayersSection: View {
+    let document: SchematicDocument
+
+    var body: some View {
+        Section("Layers") {
+            ForEach(document.board.copperLayers, id: \.self) { layer in
+                row(layer)
+            }
+        }
+    }
+
+    private func row(_ layer: CopperLayer) -> some View {
+        let style = document.board.style(of: layer)
+        return HStack(spacing: 8) {
+            ColorPicker("\(layer.title) colour", selection: Binding(
+                get: { style.color.color },
+                set: { document.setLayerColor(layer, LayerColor($0)) }
+            ), supportsOpacity: false)
+            .labelsHidden()
+            Text(layer.title)
+            Spacer()
+            if layer.isInner {
+                Picker("\(layer.title) type", selection: Binding(
+                    get: { style.type },
+                    set: { document.setLayerType(layer, $0) }
+                )) {
+                    ForEach([LayerType.plane, .wire], id: \.self) { type in
+                        let refusal = type == style.type ? nil : document.canSetLayerType(layer, type)
+                        Text(type.title)
+                            .tag(type)
+                            .selectionDisabled(refusal != nil)
+                            .help(refusal ?? "")
+                    }
+                }
+                .pickerStyle(.menu)
+                .labelsHidden()
+                .fixedSize()
+            } else {
+                Text(LayerType.component.title)
+                    .foregroundStyle(.secondary)
+            }
+        }
     }
 }
 
