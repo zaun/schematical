@@ -1332,21 +1332,24 @@ final class SchematicDocument {
     }
 
     /// The text under a board point (mm): the last one drawn there, a Top
-    /// text before a Bottom one.
-    func text(at point: CGPoint) -> BoardText? {
+    /// text before a Bottom one. A text that isn't drawn can't be hit.
+    func text(at point: CGPoint, visible: BoardVisibility = BoardVisibility()) -> BoardText? {
         for side in [BoardSide.top, .bottom] {
-            if let hit = texts.last(where: { $0.side == side && $0.boardRect.contains(point) }) { return hit }
+            if let hit = texts.last(where: {
+                $0.side == side && visible.showsText($0) && $0.boardRect.contains(point)
+            }) { return hit }
         }
         return nil
     }
 
     /// The footprint under a board point (mm): the last one drawn there, a
-    /// Top footprint before a Bottom one.
-    func footprint(at point: CGPoint) -> PlacedChip? {
+    /// Top footprint before a Bottom one. It is hit by its bounds while
+    /// anything of it is drawn.
+    func footprint(at point: CGPoint, visible: BoardVisibility = BoardVisibility()) -> PlacedChip? {
         for side in [BoardSide.top, .bottom] {
-            if let hit = chips.last(where: { $0.board?.side == side && ($0.boardBounds?.contains(point) ?? false) }) {
-                return hit
-            }
+            if let hit = chips.last(where: {
+                $0.board?.side == side && ($0.boardBounds?.contains(point) ?? false) && visible.showsFootprint($0)
+            }) { return hit }
         }
         return nil
     }

@@ -153,19 +153,23 @@ Draw order, back to front:
 
 ### Phase 1 — Visibility model and filtered drawing
 
-- [ ] `Canvas/BoardSettings.swift`: `BoardViewLayer`, `BoardVisibility`
+- [x] `Canvas/BoardSettings.swift`: `BoardViewLayer`, `BoardVisibility`
       (`shows`, `showsAnyCopper`).
-- [ ] `Canvas/PCBCanvasView.swift`: add `var visible = BoardVisibility()`.
+- [x] `Canvas/PCBCanvasView.swift`: add `var visible = BoardVisibility()`.
       Draw in the §3 order with the §3 table. Surface-mount pads take their
       side's colour; Plane layers get their fill. Selection boxes are drawn
       only for visible items.
-- [ ] `Canvas/SchematicModel.swift`: `text(at:visible:)` and
+- [x] `Canvas/SchematicModel.swift`: `text(at:visible:)` and
       `footprint(at:visible:)` skip items that aren't drawn. The canvas's
       `begin(at:)` passes the visibility.
-- [ ] Tests (`<tests>/BoardVisibilityTests.swift`): the table, row by row,
+- [x] Tests (`<tests>/BoardVisibilityTests.swift`): the table, row by row,
       for a top part and a bottom part. Hit tests miss a footprint whose side
       and silkscreen are hidden. A through-hole-only footprint stays hittable
       while any copper layer is visible.
+      `/tmp/p16t.sh BoardVisibilityTests,BoardSideTests` → "Executed 12
+      tests, with 0 failures". The table is `BoardVisibility`'s
+      `showsPad` / `showsMark` / `showsText` / `showsPlane` / `showsTrace` /
+      `showsFootprint`, which both drawing and hit testing call.
 
 Acceptance: every table row holds in tests, and a hidden item can't be hit.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:<tests>/BoardVisibilityTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 3 min).
@@ -207,7 +211,10 @@ Commit: —
 
 ## Corrections
 
-None yet.
+- 2026-11-07: `BoardVisibility` also carries the board's `copperLayers`
+  (for `showsAnyCopper`, as §3 says it takes them). `ContentView` passes
+  only the hidden set; the canvas fills in the board's layers when it
+  draws and hit-tests.
 
 ## Summary
 

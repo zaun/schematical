@@ -6,6 +6,13 @@ import SwiftUI
 /// The view always looks from the top: bottom-side parts and texts are drawn
 /// mirrored, under the top-side ones, and a press picks a Top item first.
 ///
+/// Only the layers `visible` shows are drawn (see `BoardVisibility`), back
+/// to front: the board and grid; each copper layer from Bottom up to Top,
+/// with its Plane tint and, on Top and Bottom, that side's surface-mount
+/// pads in the layer's colour (Bottom's marks and texts right after
+/// Bottom's copper); through-hole pads in copper; Top's marks and texts;
+/// the selection. A press hits only what is drawn.
+///
 /// With the Select tool, press on a text or footprint to select it and drag
 /// to move it (snapped to the grid). Shift-click adds an item to the
 /// selection or takes it out (plan-15); Shift-drag, or a drag on an item of a
@@ -20,6 +27,8 @@ struct PCBCanvasView: View {
     let document: SchematicDocument
     let viewport: CanvasViewport
     var tool: PCBTool = .select
+    /// The layers to draw (the View popover). Hidden items can't be hit.
+    var visible = BoardVisibility()
     /// Called when the Text tool has placed a text; the owner returns to Select.
     var onPlaced: () -> Void = {}
 
@@ -101,23 +110,54 @@ struct PCBCanvasView: View {
         context.stroke(Path(boardRect), with: .color(colour.silkscreen), lineWidth: 0.2)
         drawGrid(in: context, size: size)
 
-        // Bottom items first, then Top items over them.
-        for side in [BoardSide.bottom, .top] {
-            for chip in document.chips where chip.board?.side == side {
-                drawFootprint(chip, in: &context, colour: colour)
+        let visible = shown
+        // Copper from Bottom up to Top: each layer's plane tint, then the
+        // surface-mount pads of the side it is on. Bottom's marks and texts
+        // go straight after Bottom's copper, under everything else.
+        for layer in board.copperLayers.reversed() {
+            let style = board.style(of: layer)
+            if visible.showsPlane(layer, style: style) {
+                context.fill(Path(boardRect), with: .color(style.color.color.opacity(0.2)))
             }
-            for text in document.texts where text.side == side {
-                drawText(text, in: &context, colour: colour)
+            let side: BoardSide? = layer == .top ? .top : layer == .bottom ? .bottom : nil
+            if let side, visible.shows(.copper(layer)) {
+                for chip in document.chips where chip.board?.side == side {
+                    for pad in chip.boardPads where pad.drill == 0 {
+                        context.fill(Self.outline(of: pad), with: .color(style.color.color))
+                    }
+                }
+            }
+            if side == .bottom {
+                drawMarksAndTexts(on: .bottom, in: &context, colour: colour, visible: visible)
+            }
+        }
+        // A 1-layer board has no Bottom layer, and nothing on its bottom.
+
+        // Through-hole pads go through every layer: copper, with the canvas
+        // showing through the drill.
+        if visible.showsAnyCopper {
+            for chip in document.chips {
+                for pad in chip.boardPads where pad.drill > 0 {
+                    context.fill(Self.outline(of: pad), with: .color(Self.copper))
+                    let d = pad.drill
+                    let hole = CGRect(x: pad.rect.midX - d / 2, y: pad.rect.midY - d / 2, width: d, height: d)
+                    context.fill(Path(ellipseIn: hole), with: .color(Self.background))
+                }
             }
         }
 
-        // Selection boxes, one per selected item, on top of everything.
+        drawMarksAndTexts(on: .top, in: &context, colour: colour, visible: visible)
+
+        // Selection boxes, one per selected item that is drawn, on top of
+        // everything. A selected item on a hidden layer stays selected.
         let margin = 3 / scale
         for item in document.boardSelection.items {
             let selected: CGRect?
             switch item {
-            case let .footprint(id): selected = document.chips.first { $0.id == id }?.boardBounds
-            case let .text(id): selected = document.texts.first { $0.id == id }?.boardRect
+            case let .footprint(id):
+                selected = document.chips.first { $0.id == id && visible.showsFootprint($0) }?.boardBounds
+            case let .text(id):
+                selected = document.texts.first { $0.id == id && visible.showsText($0) }?.boardRect
             }
             if let selected {
                 context.stroke(Path(selected.insetBy(dx: -margin, dy: -margin)),
@@ -126,12 +166,32 @@ struct PCBCanvasView: View {
         }
     }
 
-    /// A footprint: body outline, pads and drill holes, pin-1 mark and
-    /// reference. On Bottom the geometry is already mirrored (see
-    /// `BoardPlacement`), and the reference reads backwards.
-    private func drawFootprint(_ chip: PlacedChip, in context: inout GraphicsContext, colour: BoardColor) {
+    /// The layers this canvas shows, for the board's current copper layers.
+    private var shown: BoardVisibility {
+        var visible = visible
+        visible.copperLayers = document.board.copperLayers
+        return visible
+    }
+
+    /// One side's footprint marks, then its texts.
+    private func drawMarksAndTexts(on side: BoardSide, in context: inout GraphicsContext, colour: BoardColor,
+                                   visible: BoardVisibility) {
+        for chip in document.chips where chip.board?.side == side {
+            drawMarks(chip, in: &context, colour: colour, visible: visible)
+        }
+        for text in document.texts where text.side == side && visible.showsText(text) {
+            drawText(text, in: &context, colour: colour)
+        }
+    }
+
+    /// A footprint's marks: body outline, pin-1 mark and reference, each
+    /// where its layer is shown. On Bottom the geometry is already mirrored
+    /// (see `BoardPlacement`), and the reference reads backwards.
+    private func drawMarks(_ chip: PlacedChip, in context: inout GraphicsContext, colour: BoardColor,
+                           visible: BoardVisibility) {
         guard let body = chip.boardBody, let placement = chip.board else { return }
-        if let ink = placement.outline.color(on: colour) {
+        let side = placement.side
+        if visible.showsMark(placement.outline, side: side), let ink = placement.outline.color(on: colour) {
             let outline = Path { path in
                 if body.round {
                     path.addEllipse(in: body.rect)
@@ -142,31 +202,22 @@ struct PCBCanvasView: View {
             context.stroke(outline, with: .color(ink), lineWidth: 0.15)
         }
 
-        for pad in chip.boardPads {
-            context.fill(Self.outline(of: pad), with: .color(Self.copper))
-            if pad.drill > 0 {
-                let d = pad.drill
-                let hole = CGRect(x: pad.rect.midX - d / 2, y: pad.rect.midY - d / 2, width: d, height: d)
-                // You see through a drill hole to the canvas.
-                context.fill(Path(ellipseIn: hole), with: .color(Self.background))
-            }
-        }
-
-        if let mark = chip.pin1Mark, let ink = placement.pin1.color(on: colour) {
+        if let mark = chip.pin1Mark, visible.showsMark(placement.pin1, side: side),
+           let ink = placement.pin1.color(on: colour) {
             context.fill(Path(ellipseIn: CGRect(x: mark.x - 0.2, y: mark.y - 0.2, width: 0.4, height: 0.4)),
                          with: .color(ink))
         }
 
         // Reference: 1 mm tall, but never under 8 points on screen. Mirrored
         // on Bottom, as a real bottom silkscreen reads from above.
-        if let ink = placement.reference.color(on: colour) {
+        if visible.showsMark(placement.reference, side: side), let ink = placement.reference.color(on: colour) {
             let height = max(1, 8 / scale)
             let text = Text(chip.reference)
                 .font(.system(size: height, weight: .medium))
                 .foregroundStyle(ink)
             context.drawLayer { layer in
                 layer.translateBy(x: body.rect.midX, y: body.rect.midY)
-                if placement.side == .bottom { layer.scaleBy(x: -1, y: 1) }
+                if side == .bottom { layer.scaleBy(x: -1, y: 1) }
                 layer.draw(text, at: .zero, anchor: .center)
             }
         }
@@ -246,11 +297,11 @@ struct PCBCanvasView: View {
             onPlaced()
             return .moveGroup(base: document.boardGroupBase())
         case .select:
-            if let text = document.text(at: point) {
+            if let text = document.text(at: point, visible: shown) {
                 selectionPress = document.pressSelection(.text(text.id), shift: shift)
                 return .moveGroup(base: document.boardGroupBase())
             }
-            if let hit = document.footprint(at: point), hit.board != nil {
+            if let hit = document.footprint(at: point, visible: shown), hit.board != nil {
                 selectionPress = document.pressSelection(.footprint(hit.id), shift: shift)
                 return .moveGroup(base: document.boardGroupBase())
             }

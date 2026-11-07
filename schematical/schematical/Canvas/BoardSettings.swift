@@ -270,6 +270,81 @@ nonisolated struct BoardText: Identifiable, Hashable, Sendable {
     var sizeMM: Double { Double(size) * 0.0254 }
 }
 
+// MARK: - Layer visibility
+
+/// A layer the PCB page's View popover can show or hide: a copper layer,
+/// the silkscreen, or the document layer.
+nonisolated enum BoardViewLayer: Hashable, Sendable {
+    case copper(CopperLayer)
+    case silkscreen
+    case document
+
+    var title: String {
+        switch self {
+        case let .copper(layer): layer.title
+        case .silkscreen: "Silkscreen"
+        case .document: "Document"
+        }
+    }
+}
+
+/// Which layers the PCB canvas draws, and so which items a press can hit.
+/// Holds the hidden set, so layers added later start visible. Per window;
+/// never saved.
+///
+/// A part's marks and texts belong to its side: they show only while that
+/// side's copper layer shows too. A through-hole pad goes through every
+/// layer, so it shows while any copper layer shows.
+nonisolated struct BoardVisibility: Equatable, Sendable {
+    var hidden: Set<BoardViewLayer> = []
+    /// The board's copper layers, for `showsAnyCopper`.
+    var copperLayers: [CopperLayer] = CopperLayer.allCases(for: 6)
+
+    func shows(_ layer: BoardViewLayer) -> Bool { !hidden.contains(layer) }
+
+    var showsAnyCopper: Bool { copperLayers.contains { shows(.copper($0)) } }
+
+    /// A pad: surface mount (`drill == 0`) on its side's layer, or through
+    /// hole.
+    func showsPad(drill: Double, side: BoardSide) -> Bool {
+        drill > 0 ? showsAnyCopper : shows(.copper(side.copperLayer))
+    }
+
+    /// A footprint mark (outline, pin 1, reference) on `layer`, on `side`.
+    func showsMark(_ layer: MarkLayer, side: BoardSide) -> Bool {
+        let view: BoardViewLayer
+        switch layer {
+        case .hidden: return false
+        case .document: view = .document
+        case .silkscreen: view = .silkscreen
+        }
+        return shows(view) && shows(.copper(side.copperLayer))
+    }
+
+    func showsText(_ text: BoardText) -> Bool {
+        let view: BoardViewLayer = text.layer == .silkscreen ? .silkscreen : .document
+        return shows(view) && shows(.copper(text.side.copperLayer))
+    }
+
+    /// A Plane layer's tint over the board.
+    func showsPlane(_ layer: CopperLayer, style: LayerStyle) -> Bool {
+        style.type == .plane && shows(.copper(layer))
+    }
+
+    /// A trace on `layer`.
+    func showsTrace(on layer: CopperLayer) -> Bool { shows(.copper(layer)) }
+
+    /// Whether anything of the footprint is drawn, so it can be hit.
+    func showsFootprint(_ chip: PlacedChip) -> Bool {
+        guard let placement = chip.board else { return false }
+        if [placement.outline, placement.reference].contains(where: { showsMark($0, side: placement.side) }) {
+            return true
+        }
+        if chip.pin1Mark != nil, showsMark(placement.pin1, side: placement.side) { return true }
+        return chip.boardPads.contains { showsPad(drill: $0.drill, side: placement.side) }
+    }
+}
+
 // MARK: - References
 
 /// A part reference split into a letter prefix and a number: "U12" is "U" and
