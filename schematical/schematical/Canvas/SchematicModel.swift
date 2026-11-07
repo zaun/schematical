@@ -1207,6 +1207,46 @@ final class SchematicDocument {
         board.height = min(max(height, range.lowerBound), range.upperBound)
     }
 
+    // MARK: Board layers
+
+    /// Why the board can't have `count` copper layers, or nil when it can.
+    /// A count is refused when it would drop a layer that holds something.
+    func canSetLayerCount(_ count: Int) -> String? {
+        guard BoardSettings.layerCounts.contains(count) else { return "Boards have 1, 2, 4 or 6 layers." }
+        return nil
+    }
+
+    /// Sets the copper layer count, unless `canSetLayerCount` refuses it.
+    func setLayerCount(_ count: Int) {
+        guard count != board.layers, canSetLayerCount(count) == nil else { return }
+        board.layers = count
+    }
+
+    func setLayerColor(_ layer: CopperLayer, _ color: LayerColor) {
+        guard board.copperLayers.contains(layer) else { return }
+        var style = board.style(of: layer)
+        guard style.color != color else { return }
+        style.color = color
+        board.styles[layer] = style
+    }
+
+    /// Why `layer` can't become `type`, or nil when it can. Top and Bottom
+    /// are always Component; an inner layer is Plane or Wire.
+    func canSetLayerType(_ layer: CopperLayer, _ type: LayerType) -> String? {
+        guard board.copperLayers.contains(layer) else { return "\(layer.title) is not on this board." }
+        guard layer.isInner else { return "\(layer.title) is always a component layer." }
+        guard type != .component else { return "Inner layers are planes or wires." }
+        return nil
+    }
+
+    func setLayerType(_ layer: CopperLayer, _ type: LayerType) {
+        guard canSetLayerType(layer, type) == nil else { return }
+        var style = board.style(of: layer)
+        guard style.type != type else { return }
+        style.type = type
+        board.styles[layer] = style
+    }
+
     // MARK: Board texts
 
     /// Adds a "Text" on the silkscreen with its top-left at `point` (snapped)

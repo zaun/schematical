@@ -199,7 +199,7 @@ points and are kept.
 
 ## Compatibility / Format Impact
 
-New optional `board.traces` (version stays 2):
+New optional `board.traces` (version stays 3; see plan-16-A Corrections):
 
 ```json
 "traces": [ { "id": "…", "layer": "top", "width": 10,

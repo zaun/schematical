@@ -123,6 +123,8 @@ An EEPROM can name the file loaded into it when the simulation starts:
 
 ```json
 "board": { "width": 100, "height": 80, "layers": 2, "color": "green", "units": "mm",
+  "layerStyles": [ { "layer": "top", "color": "#C83737", "type": "component" },
+                   { "layer": "bottom", "color": "#3A6FD8", "type": "component" } ],
   "texts": [ { "id": "...", "text": "REV A", "x": 5.08, "y": 2.54,
                "size": 50, "layer": "silkscreen", "rotation": 0 } ] }
 ```
@@ -130,7 +132,8 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | Field    | Type    | Meaning                                                                |
 |----------|---------|------------------------------------------------------------------------|
 | `width`, `height` | number | The board rectangle from (0, 0), in mm, each 1 to 1000. Default 100 × 80. |
-| `layers` | integer | Copper layers: 1, 2, 4 or 6. Default 2. Stored only; the PCB page draws the top side. |
+| `layers` | integer | Copper layers: 1, 2, 4 or 6. Default 2. Layer 1 is `top` and the last is `bottom`; the ones between are `inner2` to `inner5`. A 1-layer board has only `top`. |
+| `layerStyles` | array | Optional. Each copper layer's colour and type: `layer` (`"top"`, `"inner2"` to `"inner5"`, or `"bottom"`), `color` (`"#RRGGBB"`, sRGB) and `type` (`"component"` for `top` and `bottom`, which is all they can be; `"plane"` or `"wire"` for an inner layer). Written for every layer on the board, in stack order. A missing entry, `color` or `type` takes its default: `top` `#C83737` red, `inner2` `#D8B23A` gold, `inner3` `#3AAE5C` green, `inner4` `#B04AD0` purple, `inner5` `#3AB8C8` cyan, `bottom` `#3A6FD8` blue; inner layers are `plane`. Older builds ignore it. |
 | `color`  | string  | The board colour: `"green"` (default), `"black"`, `"red"`, `"blue"`, `"yellow"`, `"white"` or `"purple"`. |
 | `units`  | string  | The units the PCB sidebar shows lengths in: `"mm"` (default) or `"in"`. Lengths in the file are always mm. |
 | `texts`  | array   | Free texts on the board, in drawing order. Default none.              |
@@ -274,6 +277,12 @@ Opening fails, and the canvas is left unchanged, if:
   - `board layers 3 must be 1, 2, 4 or 6`;
   - `board color "pink" must be green, black, red, blue, yellow, white or purple`;
   - `board units "cm" must be mm or in`;
+  - `layer "inner4" is not on a 4-layer board`;
+  - `layer "middle" must be top, inner2 to inner5, or bottom`;
+  - `layer top type "plane" must be component` (same for `bottom`);
+  - `layer inner2 type "component" must be plane or wire`;
+  - `layer top color "red" must be #RRGGBB`;
+  - `layer top is listed twice`;
   - `U2 origin "middle" must be center, topLeft, centerLeft, bottomLeft or pad1Center`;
   - `U2 style "x" must be module or connector` (a part with a connector
     footprint);
@@ -371,6 +380,10 @@ A red LED between a 5 V supply and GND:
   "buses": [],
   "board": {
     "width": 50, "height": 30, "layers": 2, "color": "green", "units": "mm",
+    "layerStyles": [
+      { "layer": "top", "color": "#C83737", "type": "component" },
+      { "layer": "bottom", "color": "#3A6FD8", "type": "component" }
+    ],
     "texts": [
       { "id": "66666666-6666-6666-6666-666666666666", "text": "LED", "x": 5.08, "y": 2.54,
         "size": 50, "layer": "silkscreen", "rotation": 0 }

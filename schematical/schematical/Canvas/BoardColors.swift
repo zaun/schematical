@@ -49,3 +49,17 @@ extension TextLayer {
         }
     }
 }
+
+extension LayerColor {
+    /// The colour for drawing.
+    var color: Color {
+        Color(.sRGB, red: Double(red) / 255, green: Double(green) / 255, blue: Double(blue) / 255)
+    }
+
+    /// A colour from the colour well, in sRGB, rounded to bytes.
+    init(_ color: Color) {
+        let rgb = NSColor(color).usingColorSpace(.sRGB) ?? NSColor.black
+        func byte(_ value: CGFloat) -> UInt8 { UInt8(min(max((value * 255).rounded(), 0), 255)) }
+        self.init(red: byte(rgb.redComponent), green: byte(rgb.greenComponent), blue: byte(rgb.blueComponent))
+    }
+}

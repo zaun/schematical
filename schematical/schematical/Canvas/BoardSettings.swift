@@ -84,21 +84,147 @@ nonisolated enum FootprintOrigin: String, CaseIterable, Hashable, Sendable {
     }
 }
 
+// MARK: - Copper layers
+
+/// One copper layer of the board, by name: Top, an inner layer by its place
+/// in the stack (Layer 2 to Layer 5), or Bottom. Bottom is Bottom on every
+/// board, so a bottom-side part keeps its layer when the count changes.
+nonisolated enum CopperLayer: Hashable, Sendable {
+    case top
+    /// 2...5, its place in the stack.
+    case inner(Int)
+    case bottom
+
+    /// The file value: "top", "inner2" to "inner5", or "bottom".
+    var rawValue: String {
+        switch self {
+        case .top: "top"
+        case let .inner(n): "inner\(n)"
+        case .bottom: "bottom"
+        }
+    }
+
+    init?(rawValue: String) {
+        switch rawValue {
+        case "top": self = .top
+        case "bottom": self = .bottom
+        default:
+            guard rawValue.hasPrefix("inner"), let n = Int(rawValue.dropFirst(5)),
+                  (2...5).contains(n), rawValue == "inner\(n)" else { return nil }
+            self = .inner(n)
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .top: "Top"
+        case let .inner(n): "Layer \(n)"
+        case .bottom: "Bottom"
+        }
+    }
+
+    var isInner: Bool {
+        if case .inner = self { return true }
+        return false
+    }
+
+    /// The layers of a board with `count` copper layers, Top first and
+    /// Bottom last. A 1-layer board has only Top.
+    static func allCases(for count: Int) -> [CopperLayer] {
+        guard count > 1 else { return [.top] }
+        return [.top] + (2..<count).map { .inner($0) } + [.bottom]
+    }
+}
+
+/// What a copper layer is for: Top and Bottom carry components; an inner
+/// layer is a plane (ground, power) or carries wires.
+nonisolated enum LayerType: String, CaseIterable, Hashable, Sendable {
+    case component, plane, wire
+
+    var title: String {
+        switch self {
+        case .component: "Component"
+        case .plane: "Plane"
+        case .wire: "Wire"
+        }
+    }
+}
+
+/// An sRGB colour, saved as "#RRGGBB".
+nonisolated struct LayerColor: Hashable, Sendable {
+    var red: UInt8
+    var green: UInt8
+    var blue: UInt8
+
+    init(red: UInt8, green: UInt8, blue: UInt8) {
+        self.red = red
+        self.green = green
+        self.blue = blue
+    }
+
+    /// "#RRGGBB", either case; nil for anything else.
+    init?(hex: String) {
+        guard hex.count == 7, hex.first == "#" else { return nil }
+        let digits = hex.dropFirst()
+        guard digits.allSatisfy(\.isHexDigit), let value = UInt32(digits, radix: 16) else { return nil }
+        red = UInt8((value >> 16) & 0xFF)
+        green = UInt8((value >> 8) & 0xFF)
+        blue = UInt8(value & 0xFF)
+    }
+
+    /// "#RRGGBB", upper case.
+    var hex: String {
+        String(format: "#%02X%02X%02X", red, green, blue)
+    }
+}
+
+/// How a copper layer is drawn and what it is for.
+nonisolated struct LayerStyle: Hashable, Sendable {
+    var color: LayerColor
+    var type: LayerType
+
+    /// Red Top, blue Bottom, and gold, green, purple and cyan inner layers.
+    /// Top and Bottom are Component; inner layers start as Plane.
+    static func defaultStyle(of layer: CopperLayer) -> LayerStyle {
+        switch layer {
+        case .top: LayerStyle(color: LayerColor(hex: "#C83737")!, type: .component)
+        case .bottom: LayerStyle(color: LayerColor(hex: "#3A6FD8")!, type: .component)
+        case let .inner(n):
+            LayerStyle(color: LayerColor(hex: defaultInnerColors[(n - 2) % 4])!, type: .plane)
+        }
+    }
+
+    private static let defaultInnerColors = ["#D8B23A", "#3AAE5C", "#B04AD0", "#3AB8C8"]
+}
+
 // MARK: - Board
 
-/// The board: a rectangle from (0, 0), its copper layer count and colour, and
+/// The board: a rectangle from (0, 0), its copper layers and colour, and
 /// the units the sidebar uses.
 nonisolated struct BoardSettings: Hashable, Sendable {
     /// mm, within `sizeRange`.
     var width: Double = 100
     var height: Double = 80
-    /// Copper layers, one of `layerCounts`. Stored only; the top side is drawn.
+    /// The copper layer count, one of `layerCounts`: Top first, then the
+    /// inner layers, Bottom last (see `copperLayers`).
     var layers: Int = 2
     var color: BoardColor = .green
     var units: BoardUnits = .mm
+    /// Styles the user has set. A layer without one uses its default. A
+    /// style is kept when its layer leaves the board, so it comes back with
+    /// the layer.
+    var styles: [CopperLayer: LayerStyle] = [:]
 
     static let layerCounts = [1, 2, 4, 6]
     static let sizeRange: ClosedRange<Double> = 1...1000
+
+    /// The board's copper layers in stack order.
+    var copperLayers: [CopperLayer] { CopperLayer.allCases(for: layers) }
+
+    /// The layer's stored style, or its default.
+    func style(of layer: CopperLayer) -> LayerStyle {
+        styles[layer] ?? LayerStyle.defaultStyle(of: layer)
+    }
 }
 
 /// Free text on the board.

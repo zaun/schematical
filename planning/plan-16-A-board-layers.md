@@ -36,9 +36,9 @@ These apply to all of plan-16. Sub-plans B–E point here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-15 is complete and archived | `ls planning/plan-15-* 2>/dev/null` → no output, and `ls planning/completed/plan-15-multiselect.md` → listed | NOT MET (2026-11-07: `planning/plan-15-multiselect.md` is still open) |
-| The app has a unit-test target (added by plan-15 Phase 1) | `grep -c 'com.apple.product-type.bundle.unit-test' schematical/schematical.xcodeproj/project.pbxproj` → 1 or more | NOT MET (2026-11-07: 0) |
-| PCB selection is set-based (plan-15) | `rg -n 'selectedChipID\|selectedTextID' schematical/schematical --glob '*.swift' \| wc -l` → 0 outside plan-15's single-item compatibility accessors | NOT MET (2026-11-07: 37) |
+| plan-15 is complete and archived | `ls planning/plan-15-* 2>/dev/null` → no output, and `ls planning/completed/plan-15-multiselect.md` → listed | MET (2026-11-07, re-run: no `planning/plan-15-*`; `planning/completed/plan-15-multiselect.md` listed) |
+| The app has a unit-test target (added by plan-15 Phase 1) | `grep -c 'com.apple.product-type.bundle.unit-test' schematical/schematical.xcodeproj/project.pbxproj` → 1 or more | MET (2026-11-07, re-run: 1; target `schematicalTests`) |
+| PCB selection is set-based (plan-15) | `rg -n 'selectedChipID\|selectedTextID' schematical/schematical --glob '*.swift' \| wc -l` → 0 outside plan-15's single-item compatibility accessors | MET (2026-11-07, re-run: 6 = the two read-only sole-item accessors `selectedChipID`/`selectedTextID` (`SchematicModel.swift:834,846`) and 4 reads of them) |
 
 If plan-15 is not complete, plan-16 cannot start, full stop. Everything below
 assumes plan-15 has landed: PCB selection is a typed set of footprint and
@@ -65,7 +65,7 @@ selected item, and there is an XCTest target. In the check commands,
 - No nets on planes, no pours, no clearances.
 - The schematic page's zoom, the zoom steps and "Actual Size" (⌘0 = 100 %)
   stay as they are.
-- The file version stays 2. Every new key is optional.
+- The file version stays 3 (see Corrections). Every new key is optional.
 
 ## 2. Current State
 
@@ -201,7 +201,7 @@ left, as it is today.
 
 ## Compatibility / Format Impact
 
-New optional key `board.layerStyles` (version stays 2):
+New optional key `board.layerStyles` (version stays 3):
 
 ```json
 "board": { "layers": 4, "layerStyles": [
@@ -231,26 +231,33 @@ New `badPCB` details:
 
 ### Phase 1 — Layer model and file format
 
-- [ ] `Canvas/BoardSettings.swift`: add `CopperLayer` (raw string, title,
+- [x] `Canvas/BoardSettings.swift`: add `CopperLayer` (raw string, title,
       `allCases(for count:)`), `LayerType`, `LayerColor` (hex parse/print),
       `LayerStyle`, `BoardSettings.styles`, `copperLayers`,
       `style(of:)` and the default colour table. Rewrite the `layers` comment:
       it is the copper layer count, Top first and Bottom last.
-- [ ] `Canvas/BoardColors.swift`: `LayerColor.color` (a SwiftUI `Color`) and
+- [x] `Canvas/BoardColors.swift`: `LayerColor.color` (a SwiftUI `Color`) and
       `init(_ color: Color)` (via `NSColor.usingColorSpace(.sRGB)`, rounding
       to bytes).
-- [ ] `Canvas/SchematicModel.swift`: `setLayerColor`, `setLayerType` (with the
+- [x] `Canvas/SchematicModel.swift`: `setLayerColor`, `setLayerType` (with the
       refusals in §3), and `canSetLayerCount` (returns nil for every count in
       this sub-plan).
-- [ ] `Document/SchematicFile.swift`: add `Board.layerStyles:
+- [x] (added) `Canvas/SchematicModel.swift`: `setLayerCount(_:)` (the picker
+      used to bind `board.layers` directly, which skips `canSetLayerCount`)
+      and `canSetLayerType(_:_:) -> String?` (the reason, for D's disabled
+      Plane choice and its help text).
+- [x] `Document/SchematicFile.swift`: add `Board.layerStyles:
       [LayerStyleEntry]?` (`layer`, `color?`, `type?`). Encode one entry per
       `copperLayers` element. Decode and validate it in `boardSettings()`,
       using the error details above.
-- [ ] Tests (`<tests>/BoardLayersTests.swift`): `copperLayers` for 1, 2, 4
+- [x] Tests (`<tests>/BoardLayersTests.swift`): `copperLayers` for 1, 2, 4
       and 6; hex round trip; a save/open round trip of a 4-layer board with a
       changed colour and a Wire inner layer; a file without `layerStyles`
       gets the defaults; every new error detail; 4→2→4 restores Layer 2's
-      style.
+      style. `xcodebuild … test -only-testing:schematicalTests/BoardLayersTests`
+      → "Executed 8 tests, with 0 failures".
+- [x] (added, from Validation Plan doc sync) `docs/file-format.md` § Board:
+      `layers` row rewritten, `layerStyles` row, example, error details.
 
 Acceptance: a 4-layer board with a changed colour and an inner Wire layer
 survives a round trip, and each bad entry gives its exact message.
@@ -301,7 +308,17 @@ Commit: —
 
 ## Corrections
 
-None yet.
+- 2026-11-07: the plan said the file version "stays 2". It is 3
+  (`grep -n 'currentVersion = ' schematical/schematical/Document/SchematicFile.swift`
+  → `static let currentVersion = 3`; buses made it 3). Corrected to "stays 3"
+  here and in D. Nothing in the design rested on the number.
+- 2026-11-07: `<tests>` is `schematicalTests`
+  (`xcodebuild -list -project schematical/schematical.xcodeproj` → targets
+  `schematical`, `schematicalTests`).
+- 2026-11-07: the Layers picker bound `board.layers` directly, so a refused
+  count could not be refused. Added `setLayerCount(_:)`, which checks
+  `canSetLayerCount`, and `canSetLayerType` (the reason text for D's
+  disabled Plane choice).
 
 ## Summary
 

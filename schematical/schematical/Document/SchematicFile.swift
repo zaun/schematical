@@ -91,7 +91,18 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var layers: Int? = nil
         var color: String? = nil
         var units: String? = nil
+        /// One entry per copper layer on the board, in stack order. Missing
+        /// entries, colours or types mean the defaults.
+        var layerStyles: [LayerStyleEntry]? = nil
         var texts: [Text]? = nil
+
+        /// A copper layer's colour ("#RRGGBB") and type (`LayerType` raw
+        /// value), by its `CopperLayer` raw value.
+        struct LayerStyleEntry: Codable, Equatable, Sendable {
+            var layer: String
+            var color: String? = nil
+            var type: String? = nil
+        }
 
         /// A board text: top-left at rotation 0 (`x`, `y`, mm), font size in
         /// mil, layer (`TextLayer` raw value) and clockwise rotation.
@@ -332,6 +343,10 @@ extension SchematicFile {
             layers: settings.layers,
             color: settings.color.rawValue,
             units: settings.units.rawValue,
+            layerStyles: settings.copperLayers.map { layer in
+                let style = settings.style(of: layer)
+                return Board.LayerStyleEntry(layer: layer.rawValue, color: style.color.hex, type: style.type.rawValue)
+            },
             texts: document.texts.map { text in
                 Board.Text(id: text.id, text: text.text, x: text.anchor.x, y: text.anchor.y,
                            size: text.size, layer: text.layer.rawValue, rotation: text.rotation)
@@ -576,7 +591,45 @@ extension SchematicFile {
         }
         settings.color = try Self.value(board.color, of: BoardColor.self, "board color", default: settings.color)
         settings.units = try Self.value(board.units, of: BoardUnits.self, "board units", default: settings.units)
+        settings.styles = try Self.layerStyles(board.layerStyles ?? [], layers: settings.layers)
         return settings
+    }
+
+    /// The stored layer styles of a board with `layers` copper layers, with
+    /// defaults for missing colours and types.
+    private static func layerStyles(_ entries: [Board.LayerStyleEntry],
+                                    layers: Int) throws -> [CopperLayer: LayerStyle] {
+        let onBoard = CopperLayer.allCases(for: layers)
+        var styles: [CopperLayer: LayerStyle] = [:]
+        for entry in entries {
+            guard let layer = CopperLayer(rawValue: entry.layer) else {
+                throw SchematicFileError.badPCB("layer \"\(entry.layer)\" must be top, inner2 to inner5, or bottom")
+            }
+            let name = "layer \(layer.rawValue)"
+            guard onBoard.contains(layer) else {
+                throw SchematicFileError.badPCB("layer \"\(layer.rawValue)\" is not on a \(layers)-layer board")
+            }
+            guard styles[layer] == nil else {
+                throw SchematicFileError.badPCB("\(name) is listed twice")
+            }
+            var style = LayerStyle.defaultStyle(of: layer)
+            if let raw = entry.color {
+                guard let color = LayerColor(hex: raw) else {
+                    throw SchematicFileError.badPCB("\(name) color \"\(raw)\" must be #RRGGBB")
+                }
+                style.color = color
+            }
+            if let raw = entry.type {
+                let allowed: [LayerType] = layer.isInner ? [.plane, .wire] : [.component]
+                guard let type = LayerType(rawValue: raw), allowed.contains(type) else {
+                    let list = allowed.map(\.rawValue).joined(separator: " or ")
+                    throw SchematicFileError.badPCB("\(name) type \"\(raw)\" must be \(list)")
+                }
+                style.type = type
+            }
+            styles[layer] = style
+        }
+        return styles
     }
 
     /// A stored footprint placement, with defaults for missing keys.
