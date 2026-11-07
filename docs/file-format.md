@@ -180,6 +180,8 @@ An end is one of:
   package pin number on numbered packages (`"14"`), the ball name on ball
   grids (`"A1"`).
 - `{ "junction": <junction id> }`: a junction.
+- `{ "port": <port id>, "wire": <bus wire id> }`: the pin of a bus port for
+  one bus wire ([Ports](#ports)). The wire must be ticked on that port.
 
 The ends' own positions are not stored. They come from the part's pin layout
 or the junction. The app re-fits the bends next to each end when the wire is
@@ -208,6 +210,7 @@ the schematic and connects to nothing by itself.
 | `id`    | UUID  | Unique within the file.                                              |
 | `lines` | array | The bus's straight lines, at least one. Each has an `id` (UUID) and two ends `a` and `b` (canvas units, on the 10-unit grid). A line is horizontal or vertical, with length > 0. |
 | `wires` | array | The bus's wires in list order, 2 to 999. Each has an `id` (UUID; ports refer to it) and a `name`: 1 to 4 characters with no spaces, unique in the bus ignoring case. |
+| `ports` | array | The bus's ports ([Ports](#ports)). Always written, empty when there are none; missing means none. |
 
 **Joints.** Lines of one bus meet only at right angles, in one of two ways:
 
@@ -221,6 +224,30 @@ Every line of a bus is joined to the others through joints (one piece), and
 no two lines overlap along their length. No line end of one bus may touch a
 line of another bus.
 
+### Ports
+
+A port is a box on one bus line with one pin per ticked bus wire. Wires
+connect to its pins. Every pin for the same bus wire, on any port of the
+bus (whichever line it is on), is one net.
+
+```json
+"ports": [ { "id": "…", "line": "<bus line id>", "start": 140,
+             "side": "bottom", "wires": [ "<bus wire id>", "…" ] } ]
+```
+
+| Field   | Type   | Meaning                                                             |
+|---------|--------|---------------------------------------------------------------------|
+| `id`    | UUID   | Unique within the file.                                             |
+| `line`  | UUID   | The line of this bus the port sits on.                              |
+| `start` | number | Along the line (x on a horizontal line, y on a vertical one): the first pin's position. Pin i is at `start + 20·i`. |
+| `side`  | string | Where the pins come out: `"top"` or `"bottom"` on a horizontal line, `"left"` or `"right"` on a vertical one. |
+| `wires` | array  | The ticked bus wire ids, in bus order. May be empty (the port is then one slot long). |
+
+The port takes `[start − 10, start − 10 + 20·max(n, 1)]` along its line (n
+pins). That range lies within the line, overlaps no other port on the line,
+and has no T inside it (it may end at one). The body is 40 deep on the pin
+side, and each pin's tip is 50 out from the line.
+
 ## Validation on open
 
 Opening fails, and the canvas is left unchanged, if:
@@ -228,10 +255,13 @@ Opening fails, and the canvas is left unchanged, if:
 - `format` is missing or not `"schematical"`, or `version` is newer than the app supports;
 - the JSON doesn't match this structure;
 - an ID is used more than once across parts, junctions, wires, buses, bus
-  lines, bus wires and board texts;
+  lines, bus wires, ports and board texts;
 - a `partNumber` is not in the catalog (the error lists every missing one);
 - a wire end names a part or junction that isn't in the file, or a pin the
   part's symbol doesn't draw (for example the no-connect pins of a 4-pin LED);
+- a wire end names a port that isn't in the file ("Wire <id> connects to
+  port <id>, which is not in the file."), or a bus wire that isn't ticked on
+  that port ("Wire <id> connects to a pin port <id> does not have.");
 - the pins don't match the version: a version 1 file with a string `"pin"`, or a
   version 2 file with an integer `"pin"`. A file uses one or the other;
 - a part with a footprint has a `pcb.rotation` other than 0, 90, 180 or 270
@@ -263,7 +293,13 @@ Opening fails, and the canvas is left unchanged, if:
   - `buses <id> and <id> touch at (<x>, <y>)`;
   - `bus <id> has <n> wires; it must have 2 to 999`;
   - `bus <id> wire name "<name>" must be 1 to 4 characters with no spaces`;
-  - `bus <id> uses the wire name "<name>" twice`.
+  - `bus <id> uses the wire name "<name>" twice`;
+  - `port <id> line <id> is not on bus <id>`;
+  - `port <id> side "<s>" must be top or bottom on a horizontal line` (left
+    or right on a vertical one);
+  - `port <id> wire <id> is not on bus <id>`;
+  - `port <id> does not fit on its line` (off the line, overlapping another
+    port, or over a T).
 
 A missing or unreadable EEPROM load file (`memoryFile`) does not fail Open:
 the memory window shows the problem, and Run stops with it

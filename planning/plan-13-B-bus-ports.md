@@ -480,14 +480,19 @@ switch no longer lights the LED.
   wire end mapped to the new bus's `B0`, both panels `B0`–`B7`; switch on →
   LED 0.0. PNGs `b3-1` … `b3-5`. The dialog itself is an AppKit alert the
   harness can't draw; its text is `pendingRemoval.message`, checked above.
-Commit: —
+Commit: 127e620
 
 ### Phase 4 — Save and open ports
 
-- [ ] `SchematicFile.swift`: `Bus.ports` (`PortEntry`), `End.port`
+- [x] `SchematicFile.swift`: `Bus.ports` (`PortEntry`), `End.port`
       (decode/encode), `End.init(_:chips:)` for `.busPin`, `resolve` for
       `.busPin`, the port validation (§ Compatibility), and the two new errors.
-- [ ] `docs/file-format.md`: Ports, the third wire end, and the new messages.
+      (`End.port`, `End.init`, `resolve` and the two errors landed in Phase 2,
+      `eb1bfc5`, where the new `WireEnd` case needed them to compile;
+      `PortEntry`, writing ports, claiming their ids and their validation
+      land here.)
+- [x] `docs/file-format.md`: Ports, the third wire end, and the new messages.
+- [x] Added: `scripts/harness/bus-ports-file.swift` (the check below).
 
 Acceptance: the Phase 2 drawing saved and reopened still lights the LED, and
 the file holds both ports and two port wire ends.
@@ -495,6 +500,15 @@ the file holds both ports and two port wire ends.
   `jq '[.buses[0].ports[] | .wires | length], [.wires[] | .from, .to | select(.port)] | length' /tmp/p13b.schematical`
   → `[1,1]` then `2`; reopen, run, turn the switch on, screenshot
   (est. 6 min).
+  Result (2026-11-07): build → `** BUILD SUCCEEDED **`; harness
+  `bus-ports-file.swift` saves `/tmp/p13b.schematical`; the `jq` line →
+  `[1,1]` then `2`; reopened buses and wires `==` the saved ones; LED 0.0
+  off, 1.0 on (PNG `b4-reopened-on`). Bad files fail with: port line not on
+  the bus; side "left" on a horizontal line; a wire not on the bus; "does
+  not fit on its line" (over the T, and off the line's end); a wire end on
+  a missing port; a wire end on an unticked pin.
+  Final gate for B: build → `** BUILD SUCCEEDED **`; `git status --short
+  backend` → no output.
 Commit: —
 
 ## Validation Plan

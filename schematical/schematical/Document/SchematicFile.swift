@@ -178,6 +178,18 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var id: UUID
         var lines: [BusLineEntry]
         var wires: [BusWireEntry]
+        /// Always written (empty allowed); missing means none.
+        var ports: [PortEntry]? = nil
+    }
+
+    /// A bus port: the line it sits on, its first pin slot's along-axis
+    /// coordinate, its pin side, and its ticked bus wires in bus order.
+    struct PortEntry: Codable, Equatable, Sendable {
+        var id: UUID
+        var line: UUID
+        var start: Double
+        var side: String
+        var wires: [UUID]
     }
 
     /// One straight bus line, from `a` to `b`.
@@ -306,7 +318,11 @@ extension SchematicFile {
                 lines: bus.lines.map {
                     BusLineEntry(id: $0.id, a: Point(x: $0.a.x, y: $0.a.y), b: Point(x: $0.b.x, y: $0.b.y))
                 },
-                wires: bus.wires.map { BusWireEntry(id: $0.id, name: $0.name) }
+                wires: bus.wires.map { BusWireEntry(id: $0.id, name: $0.name) },
+                ports: bus.ports.map { port in
+                    PortEntry(id: port.id, line: port.line, start: port.start,
+                              side: Self.sideName(port.side), wires: bus.pinWires(of: port).map(\.id))
+                }
             )
         }
         let settings = document.board
@@ -453,6 +469,7 @@ extension SchematicFile {
             try claim(bus.id)
             for line in bus.lines { try claim(line.id) }
             for wire in bus.wires { try claim(wire.id) }
+            for port in bus.ports ?? [] { try claim(port.id) }
             placedBuses.append(try Self.modelBus(bus))
         }
         if let (first, second, point) = SchematicModelBus.firstTouch(placedBuses) {
@@ -662,7 +679,50 @@ extension SchematicFile {
                 throw SchematicFileError.badBus("bus \(id) uses the wire name \"\(wire.name)\" twice")
             }
         }
-        return model
+
+        // Ports: on a line of this bus, a side that suits the line, wires of
+        // this bus, and fitting where they are.
+        var withPorts = model
+        let wireIDs = Set(model.wires.map(\.id))
+        for entry in bus.ports ?? [] {
+            let portID = entry.id.uuidString
+            guard let line = model.line(entry.line) else {
+                throw SchematicFileError.badBus("port \(portID) line \(entry.line.uuidString) is not on bus \(id)")
+            }
+            guard let side = sideValue(entry.side), BusPort.sides(for: line).contains(side) else {
+                let allowed = line.isHorizontal ? "top or bottom on a horizontal line" : "left or right on a vertical line"
+                throw SchematicFileError.badBus("port \(portID) side \"\(entry.side)\" must be \(allowed)")
+            }
+            for wire in entry.wires where !wireIDs.contains(wire) {
+                throw SchematicFileError.badBus("port \(portID) wire \(wire.uuidString) is not on bus \(id)")
+            }
+            withPorts.ports.append(BusPort(id: entry.id, line: entry.line, start: CGFloat(entry.start),
+                                           side: side, wireIDs: Set(entry.wires)))
+        }
+        for port in withPorts.ports
+            where withPorts.fit(port: port, slots: withPorts.slots(of: port), preferredStart: port.start) != port.start {
+            throw SchematicFileError.badBus("port \(port.id.uuidString) does not fit on its line")
+        }
+        return withPorts
+    }
+
+    fileprivate static func sideName(_ side: ChipLayout.Side) -> String {
+        switch side {
+        case .top: "top"
+        case .bottom: "bottom"
+        case .left: "left"
+        case .right: "right"
+        }
+    }
+
+    fileprivate static func sideValue(_ name: String) -> ChipLayout.Side? {
+        switch name {
+        case "top": .top
+        case "bottom": .bottom
+        case "left": .left
+        case "right": .right
+        default: nil
+        }
     }
 
     /// A point as written in a message: (100, 200).
