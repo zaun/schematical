@@ -51,11 +51,11 @@ This table is the gate for all of plan-19; B–D point here and add their own ro
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p19 && cmake --build /tmp/logic-p19 -j8 && ctest --test-dir /tmp/logic-p19` → `100% tests passed` | MET; **T0 = 21** (2026-11-07 at 4ae312f: `100% tests passed, 0 tests failed out of 21`) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `footprints.txt` | **P0 = 8022**, **F0 = 237** (2026-11-07 at 7b6b604). Re-measure at start; later letters use the values measured then. |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p19-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | re-run at start |
-| No `decoder` kind yet | `ls schematical/schematical/Parts/decoder.json backend/src/models/decoder*.c 2>/dev/null` → no output | MET (2026-11-07) |
-| DigiKey script works | `node scripts/digikey.js --in-stock --manufacturer 296 --limit 1 SN74HC138N` → a part line (credentials: memory `digikey-credentials`; a wrapper that evals the two `export DIGIKEY_CLIENT_*` lines of `~/.zshrc` then runs node) | MET (2026-11-07) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p19 && cmake --build /tmp/logic-p19 -j8 && ctest --test-dir /tmp/logic-p19` → `100% tests passed` | MET; **T0 = 21** (2026-11-07 at c7d2ba0 in `.claude/worktrees/P-19`: `100% tests passed, 0 tests failed out of 21`) |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `footprints.txt` | MET: **P0 = 8022**, **F0 = 237** (re-measured 2026-11-07 at c7d2ba0) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p19-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-07 at c7d2ba0: `** BUILD SUCCEEDED **`) |
+| No `decoder` kind yet | `ls schematical/schematical/Parts/decoder.json backend/src/models/decoder*.c 2>/dev/null` → no output | MET (2026-11-07 at c7d2ba0: no output) |
+| DigiKey script works | `node scripts/digikey.js --in-stock --manufacturer 296 --limit 1 SN74HC138N` → a part line (credentials: memory `digikey-credentials`; a wrapper that evals the two `export DIGIKEY_CLIENT_*` lines of `~/.zshrc` then runs node) | MET (2026-11-07: `SN74HC138N  Active  5208  74HC …`) |
 
 plan-19 does not wait for any other plan (owner: plans 19–22 run in any
 order, possibly in parallel worktrees). Everything below is written against
@@ -265,10 +265,10 @@ while mapping gets a footprint the same way and a line in Corrections.
 
 ### Phase 1 — Datasheets and part data
 
-- [ ] Stock re-check: for each function, `node scripts/digikey.js --in-stock --manufacturer 296 --list "<base name>"` (budget: one call per base name; about 60 calls) → refresh `qty`/`status` per row; parts no longer in stock become `skip` ("not in stock on <date>"), parts whose status is not Active or Last Time Buy become `skip` ("status <status>").
-- [ ] Download the PDFs of §4.1 into `datasheets/decoder/` and `datasheets/encoder/`. Check: `ls datasheets/decoder/*.pdf datasheets/encoder/*.pdf | wc -l` = `cut -f10 planning/plan-19-data/parts.tsv | tail -n +2 | sort -u | grep -c pdf`.
-- [ ] Write `parts.tsv` (§4.2) from each PDF's ordering table; `specs.md`; `README.md`. Check: `tail -n +2 parts.tsv | wc -l` → 505; `awk -F'\t' 'NR>1 && $11!="add" && $11!="skip"' parts.tsv | wc -l` → 0; every `add` row has a footprint: `awk -F'\t' 'NR>1 && $11=="add" && $7==""' parts.tsv | wc -l` → 0.
-- [ ] `datasheets/skipped-parts.md` § TI decoders: one table of the `skip` rows grouped by reason; `obsolete-not-included.md` rows for any all-obsolete PDF (and the PDF deleted).
+- [x] Stock re-check: for each function, `node scripts/digikey.js --in-stock --manufacturer 296 --list "<base name>"` (budget: one call per base name; about 60 calls) → refresh `qty`/`status` per row; parts no longer in stock become `skip` ("not in stock on <date>"), parts whose status is not Active or Last Time Buy become `skip` ("status <status>"). Done 2026-11-07 with `--json` (for qty): 82 base-name searches + 30 exact-name searches for the candidates with no DigiKey base → `candidates 505 found 503 missing 2` (missing: SN74278N, SNJ54278J, skipped as no TI datasheet anyway); no status changed. Status skips: 102 Obsolete, 8 Discontinued at DigiKey.
+- [x] Download the PDFs of §4.1 into `datasheets/decoder/` and `datasheets/encoder/`. Check: `ls datasheets/decoder/*.pdf datasheets/encoder/*.pdf | wc -l` = `cut -f10 planning/plan-19-data/parts.tsv | tail -n +2 | sort -u | grep -c pdf` → `89` = `89` (83 decoder, 6 encoder).
+- [x] Write `parts.tsv` (§4.2) from each PDF's ordering table; `specs.md`; `README.md`. Check: `tail -n +2 parts.tsv | wc -l` → 505; `awk -F'\t' 'NR>1 && $11!="add" && $11!="skip"' parts.tsv | wc -l` → 0; every `add` row has a footprint: `awk -F'\t' 'NR>1 && $11=="add" && $7==""' parts.tsv | wc -l` → 0. Measured: `505`, `0`, `0`; **N19 = 322** add rows (`awk -F'\t' 'NR>1 && $11=="add"' parts.tsv | wc -l`), **n4511 = 0**; 32 devices, `grep -c '^## ' specs.md` → 32. Each device's JSON was load-checked against the decoder kind (`/tmp/p19/scripts/check_device.py` → `ok` for all 32).
+- [x] `datasheets/skipped-parts.md` § TI decoders: one table of the `skip` rows grouped by reason; `obsolete-not-included.md` rows for any all-obsolete PDF (and the PDF deleted). Section `## TI decoders (2026-11-07)`, 4 reason rows covering all 183 skip rows. No PDF is all-obsolete (`sheets only on skip rows: []`). Two downloaded PDFs have no addable part for other reasons (cd4511b, cd4056b): not copied in, recorded in `datasheets/not-included.md`.
 
 Acceptance: the four checks above (minutes).
 Commit: —
@@ -307,6 +307,42 @@ The landing tier for plan-19 runs once, at the end of D. For A: Phase 2's
   device (§3.3; plan-10 precedent).
 
 ## Corrections
+
+- **The census's CD4511B and CD4056B parts are not addable** (2026-11-07):
+  the census holds only CD4511BNS and CD4056BNS, and neither is in its
+  datasheet's packaging table (cd4511b lists CD4511BNSR; cd4056b lists
+  CD4056BE, BF3A, BM96, BPW; `grep` of `/tmp/p19/txt/cd4511b.txt`). So
+  n4511 = 0: no `4511B` latch device and no `4056B` device; plan-19-C's
+  CD4511B task is moot on this evidence. The other §3.1 functions with no
+  added part: '131, '159, '445, 11238 (no TI datasheet: `curl` of
+  `sn74als131`, `sn74as131a`, `sn74ls445`, `74ac11238` symlinks returns no
+  PDF; the 74_159 sheet `sn74159` returns an HTML page), '278 (as planned).
+- **PDF names** (§4.1): files are named after the TI datasheet
+  (`sn74hc138.pdf`, `cd74hc138.pdf`, `sn74ls139a.pdf` …), not the DigiKey
+  base number; byte-identical downloads (e.g. `cd54hc138`, `cd74hc238`,
+  `cd74hct138` are one file) are kept once under the alphabetically first
+  SN74/CD74/CD4 name. A part's PDF is the sheet whose packaging table lists
+  it, preferring the sheet named after its own series.
+- **Stock re-check cost** (Phase 1): 112 calls (82 base names + 30 exact
+  names), not ~60; a first run of the script also spent 82 calls because its
+  output directory did not exist yet (results discarded).
+- **Footprints** (§4.4), measured on the `add` rows of `parts.tsv`:
+  - `SM8-DCT` moot: TI's DCT (SM8) package already has the footprint
+    `SSOP-8` ("8-pin SSOP (DCT)", from DCT0008A); the 3 DCT add rows use it.
+  - `BGA-20-MICROSTAR-JR` moot: its 3 candidates (SN74LVC138AGQNR,
+    SN74LVC138AZQNR, SN74LVC139AGQNR) are Obsolete → `skip`.
+  - `PDIP-24` moot: its 4 candidates (CD74HCT4514E, CD4515BE, CD74HC4515E,
+    CD74HC4515EN) are Obsolete → `skip`.
+  - CY74FCT138 QSOP (TI code DBQ) uses the existing `QSOP-16` (same JEDEC
+    MO-137 body and 0.635 mm pitch).
+  - New: `SOT23-THIN-16` (DYY; 5 add rows), `UQFN-16-RSV` (RSV; 1 add row).
+- **74_154 enables are E1, E2** (only CD74HC/HCT154 parts are added, so the
+  device uses the CD74 names), not G1/G2 (specs.md § 74_154).
+- **Design corrections found by the spec read** (repaired in plan-19-B):
+  the SN74BCT2414's two units have separate address pins (they share only
+  G and SD), and its VS output is open-collector and low while VCC is good;
+  '1G29 code 3 does select an output (A1 = L selects Y0 whatever A0 is), so
+  it is two units sharing G; the 7447A's BI wins over LT (blank > lamp test).
 
 ## Summary
 
