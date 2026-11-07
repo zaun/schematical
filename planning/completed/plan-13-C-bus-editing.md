@@ -210,7 +210,7 @@ port on a vertical line and a renamed wire.
   harness `open-file.swift`: `test.schematical` → "5 parts, 6 wires, 0
   buses", `be-6502.schematical` → "15 parts, 32 wires, 0 buses", PNGs
   `c3-test`, `c3-be6502` drawn as before.
-Commit: —
+Commit: 2f7e0db
 
 ## Validation Plan
 
