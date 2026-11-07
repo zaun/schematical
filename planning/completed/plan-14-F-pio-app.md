@@ -155,7 +155,7 @@ Commit: 261725a
 
 Acceptance: the PNG shows both chips as blocks with the pin order of §3.4.
   Check: `/tmp/p14/harness/run render /tmp/p14/pio.schematical /tmp/p14/pio.png` → the PNG, inspected (est. 1 min).
-Commit: —
+Commit: 3386a2b
 
 ## Validation Plan
 
