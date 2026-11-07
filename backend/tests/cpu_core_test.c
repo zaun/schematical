@@ -11,6 +11,10 @@
  *
  * The tests named in the expected-failure lists are known deviations of the
  * cores. Each must still fail, so a core update that fixes one is noticed.
+ *
+ * 65816 (plan-14-G): the vendored jsmooch core (src/third_party/jsmooch,
+ * README.md) on the first 10 tests of each SingleStepTests/65816 file: every
+ * bus cycle (24-bit address, data, RWB), then the final registers and RAM.
  * The exit status is non-zero for any unexpected failure, and for any
  * expected failure that passed.
  */
@@ -26,6 +30,7 @@
 #include "../src/third_party/chips/m6502.h"
 #include "../src/third_party/chips/w65c02.h"
 #include "../src/third_party/chips/z80.h"
+#include "../src/third_party/jsmooch/wdc65816.h"
 
 static uint8_t mem[65536];
 
@@ -335,6 +340,132 @@ static bool runz80(const cJSON *t)
     return ok;
 }
 
+/* ---- 65816 (plan-14-G: third_party/jsmooch) ----------------------------- */
+
+/* 24-bit memory; the addresses a test touches are cleared after it. */
+static uint8_t mem816[1 << 24];
+static uint32_t touched[4096];
+static int ntouched;
+
+static void touch(uint32_t addr)
+{
+    if (ntouched < (int)(sizeof touched / sizeof touched[0]))
+        touched[ntouched++] = addr;
+}
+
+static void clear816(void)
+{
+    for (int i = 0; i < ntouched; i++)
+        mem816[touched[i]] = 0;
+    ntouched = 0;
+}
+
+static void load_ram816(const cJSON *state)
+{
+    const cJSON *e;
+    cJSON_ArrayForEach(e, cJSON_GetObjectItemCaseSensitive(state, "ram")) {
+        uint32_t addr = (uint32_t)at(e, 0) & 0xFFFFFF;
+        mem816[addr] = (uint8_t)at(e, 1);
+        touch(addr);
+    }
+}
+
+static bool ram816_matches(const cJSON *state)
+{
+    const cJSON *e;
+    cJSON_ArrayForEach(e, cJSON_GetObjectItemCaseSensitive(state, "ram"))
+        if (mem816[(uint32_t)at(e, 0) & 0xFFFFFF] != at(e, 1))
+            return false;
+    return true;
+}
+
+/* Compares one bus cycle with a test's [address, value|null, "dpvremxl"]. */
+static bool cycle816_matches(const struct WDC65816_pins *pins, const cJSON *c, bool flags)
+{
+    uint32_t addr = ((uint32_t)pins->BA << 16) | (pins->Addr & 0xFFFF);
+    const cJSON *value = cJSON_GetArrayItem(c, 1);
+    const char *f = cJSON_GetArrayItem(c, 2)->valuestring;
+    bool write = f[3] == 'w';
+
+    if (cJSON_IsNull(cJSON_GetArrayItem(c, 0)))
+        return true;   /* the bus is stopped (STP): no address */
+    if (addr != (uint32_t)at(c, 0) || (pins->RW != 0) != write)
+        return false;
+    if (cJSON_IsNumber(value) && (pins->D & 0xFF) != (uint32_t)value->valueint)
+        return false;
+    (void)flags;
+    return true;
+}
+
+static bool run816(const cJSON *t)
+{
+    static struct WDC65816 cpu;
+    static u64 clock;
+    const cJSON *in = cJSON_GetObjectItemCaseSensitive(t, "initial");
+    const cJSON *out = cJSON_GetObjectItemCaseSensitive(t, "final");
+    const cJSON *cycles = cJSON_GetObjectItemCaseSensitive(t, "cycles");
+    int n = cJSON_GetArraySize(cycles);
+    bool ok = true;
+
+    load_ram816(in);
+    WDC65816_init(&cpu, &clock);
+    cpu.regs.C = (u16)num(in, "a");
+    cpu.regs.X = (u32)num(in, "x");
+    cpu.regs.Y = (u32)num(in, "y");
+    cpu.regs.S = (u32)num(in, "s");
+    cpu.regs.D = (u32)num(in, "d");
+    cpu.regs.DBR = (u32)num(in, "dbr");
+    cpu.regs.PBR = (u16)num(in, "pbr");
+    cpu.regs.P.v = (u8)num(in, "p");
+    cpu.regs.E = (u32)num(in, "e");
+    /* SingleStepTests quirks: an emulation-mode S may have a high byte other
+       than 01; X set may come with XH/YH bits set. */
+    if (cpu.regs.E)
+        cpu.regs.S = 0x100 | (cpu.regs.S & 0xFF);
+    if (cpu.regs.P.X) {
+        cpu.regs.X &= 0xFF;
+        cpu.regs.Y &= 0xFF;
+    }
+    /* The opcode fetch, as the previous instruction's last cycle leaves it. */
+    cpu.regs.TCU = 0;
+    cpu.pins.Addr = (u32)num(in, "pc");
+    cpu.pins.BA = (u8)num(in, "pbr");
+    cpu.pins.RW = 0;
+    cpu.pins.PDV = 1;
+    cpu.regs.PC = ((u32)num(in, "pc") + 1) & 0xFFFF;
+    cpu.pins.D = mem816[((uint32_t)cpu.pins.BA << 16) | cpu.pins.Addr];
+    if (n < 1 || !cycle816_matches(&cpu.pins, cJSON_GetArrayItem(cycles, 0), false))
+        ok = false;
+
+    for (int i = 1; i <= n && ok; i++) {
+        WDC65816_cycle(&cpu);
+        uint32_t addr = ((uint32_t)cpu.pins.BA << 16) | (cpu.pins.Addr & 0xFFFF);
+        if (cpu.pins.RW) {
+            if (i < n) {
+                mem816[addr] = (uint8_t)cpu.pins.D;
+                touch(addr);
+            }
+        } else {
+            cpu.pins.D = mem816[addr];
+        }
+        if (i < n && !cycle816_matches(&cpu.pins, cJSON_GetArrayItem(cycles, i), false))
+            ok = false;
+    }
+    /* The last call ended the instruction: the pins fetch the next opcode. */
+    /* STP leaves PC past the opcode and the bus stopped. */
+    ok = ok && cpu.regs.TCU == 0 &&
+         (cpu.regs.STP ? cpu.regs.PC : cpu.pins.Addr & 0xFFFF) == (u32)num(out, "pc") &&
+         cpu.regs.PBR == num(out, "pbr") &&
+         cpu.regs.C == num(out, "a") && cpu.regs.X == (u32)num(out, "x") &&
+         cpu.regs.Y == (u32)num(out, "y") && cpu.regs.S == (u32)num(out, "s") &&
+         cpu.regs.D == (u32)num(out, "d") && cpu.regs.DBR == (u32)num(out, "dbr") &&
+         cpu.regs.P.v == num(out, "p") && cpu.regs.E == (u32)num(out, "e") &&
+         ram816_matches(out);
+    WDC65816_delete(&cpu);
+    clear816();
+    return ok;
+}
+
 /* ---- Driver ----------------------------------------------------------- */
 
 static const char *const EXPECTED_6502[] = {
@@ -357,10 +488,66 @@ static const char *const EXPECTED_Z80[] = {
     NULL,
 };
 
+static const char *const EXPECTED_65816[] = {
+    /* The unmodified core (plan-14-G Phase 1); each fix removes its tests. */
+    "00 e 4", "00 e 9", "02 e 5", "02 e 7", "02 e 9", "02 e 10", "10 e 1", "10 e 2",
+    "10 e 3", "10 e 4", "10 e 5", "10 e 6", "10 e 8", "10 e 9", "10 e 10", "15 e 1",
+    "15 e 2", "15 e 3", "15 e 4", "15 e 5", "15 e 6", "15 e 7", "15 e 8", "15 e 9",
+    "15 e 10", "16 e 1", "16 e 2", "16 e 3", "16 e 4", "16 e 5", "16 e 6", "16 e 7",
+    "16 e 8", "16 e 9", "16 e 10", "30 e 2", "30 e 3", "30 e 4", "30 e 5", "30 e 6",
+    "30 e 7", "30 e 8", "30 e 9", "34 e 1", "34 e 2", "34 e 3", "34 e 4", "34 e 5",
+    "34 e 6", "34 e 7", "34 e 8", "34 e 9", "34 e 10", "35 e 1", "35 e 2", "35 e 3",
+    "35 e 4", "35 e 5", "35 e 6", "35 e 7", "35 e 8", "35 e 9", "35 e 10", "36 e 1",
+    "36 e 2", "36 e 3", "36 e 4", "36 e 5", "36 e 6", "36 e 7", "36 e 8", "36 e 9",
+    "36 e 10", "44 e 1", "44 e 2", "44 e 3", "44 e 4", "44 e 5", "44 e 7", "44 e 8",
+    "44 e 9", "44 e 10", "48 e 1", "48 e 2", "48 e 3", "48 e 4", "48 e 5", "48 e 6",
+    "48 e 7", "48 e 8", "48 e 9", "48 e 10", "50 e 1", "50 e 2", "50 e 3", "50 e 4",
+    "50 e 5", "50 e 6", "50 e 7", "50 e 8", "50 e 9", "50 e 10", "54 e 1", "54 e 3",
+    "54 e 4", "54 e 5", "54 e 6", "54 e 7", "54 e 8", "54 e 9", "54 e 10", "55 e 1",
+    "55 e 2", "55 e 3", "55 e 4", "55 e 5", "55 e 6", "55 e 7", "55 e 8", "55 e 9",
+    "55 e 10", "56 e 1", "56 e 2", "56 e 3", "56 e 4", "56 e 5", "56 e 6", "56 e 7",
+    "56 e 8", "56 e 9", "56 e 10", "5a e 1", "5a e 2", "5a e 3", "5a e 4", "5a e 5",
+    "5a e 6", "5a e 7", "5a e 8", "5a e 9", "5a e 10", "68 e 1", "68 e 2", "68 e 3",
+    "68 e 4", "68 e 5", "68 e 6", "68 e 7", "68 e 8", "68 e 9", "68 e 10", "70 e 2",
+    "70 e 3", "70 e 4", "70 e 5", "70 e 7", "70 e 8", "70 e 9", "70 e 10", "74 e 1",
+    "74 e 2", "74 e 3", "74 e 4", "74 e 5", "74 e 6", "74 e 7", "74 e 8", "74 e 9",
+    "74 e 10", "75 e 1", "75 e 2", "75 e 3", "75 e 4", "75 e 5", "75 e 6", "75 e 7",
+    "75 e 8", "75 e 9", "75 e 10", "76 e 1", "76 e 2", "76 e 3", "76 e 4", "76 e 5",
+    "76 e 6", "76 e 7", "76 e 8", "76 e 9", "76 e 10", "7a e 1", "7a e 2", "7a e 3",
+    "7a e 4", "7a e 5", "7a e 6", "7a e 7", "7a e 8", "7a e 9", "7a e 10", "80 e 1",
+    "80 e 3", "80 e 5", "80 e 6", "80 e 7", "80 e 9", "80 e 10", "90 e 3", "90 e 5",
+    "90 e 6", "90 e 7", "90 e 8", "90 e 9", "90 e 10", "94 e 1", "94 e 2", "94 e 3",
+    "94 e 4", "94 e 5", "94 e 6", "94 e 7", "94 e 8", "94 e 9", "94 e 10", "95 e 1",
+    "95 e 2", "95 e 3", "95 e 4", "95 e 5", "95 e 6", "95 e 7", "95 e 8", "95 e 9",
+    "95 e 10", "96 e 1", "96 e 2", "96 e 3", "96 e 4", "96 e 5", "96 e 6", "96 e 7",
+    "96 e 8", "96 e 9", "96 e 10", "9a e 1", "9a e 2", "9a e 3", "9a e 4", "9a e 5",
+    "9a e 6", "9a e 7", "9a e 8", "9a e 9", "9a e 10", "b0 e 1", "b0 e 2", "b0 e 4",
+    "b0 e 5", "b0 e 6", "b0 e 7", "b0 e 8", "b0 e 9", "b0 e 10", "b4 e 1", "b4 e 2",
+    "b4 e 3", "b4 e 4", "b4 e 5", "b4 e 6", "b4 e 7", "b4 e 8", "b4 e 9", "b4 e 10",
+    "b5 e 1", "b5 e 2", "b5 e 3", "b5 e 4", "b5 e 5", "b5 e 6", "b5 e 7", "b5 e 8",
+    "b5 e 9", "b5 e 10", "b6 e 1", "b6 e 2", "b6 e 3", "b6 e 4", "b6 e 5", "b6 e 6",
+    "b6 e 7", "b6 e 8", "b6 e 9", "b6 e 10", "c2 e 1", "c2 e 2", "c2 e 3", "c2 e 4",
+    "c2 e 5", "c2 e 6", "c2 e 7", "c2 e 8", "c2 e 9", "c2 e 10", "cb e 1", "cb e 2",
+    "cb e 3", "cb e 4", "cb e 5", "cb e 6", "cb e 7", "cb e 8", "cb e 9", "cb e 10",
+    "cb n 1", "cb n 2", "cb n 3", "cb n 4", "cb n 5", "cb n 6", "cb n 7", "cb n 8",
+    "cb n 9", "cb n 10", "d0 e 1", "d0 e 2", "d0 e 3", "d0 e 4", "d0 e 5", "d0 e 6",
+    "d0 e 7", "d0 e 9", "d0 e 10", "d5 e 1", "d5 e 2", "d5 e 3", "d5 e 4", "d5 e 5",
+    "d5 e 6", "d5 e 7", "d5 e 8", "d5 e 9", "d5 e 10", "d6 e 1", "d6 e 2", "d6 e 3",
+    "d6 e 4", "d6 e 5", "d6 e 6", "d6 e 7", "d6 e 8", "d6 e 9", "d6 e 10", "da e 1",
+    "da e 2", "da e 3", "da e 4", "da e 5", "da e 6", "da e 7", "da e 8", "da e 9",
+    "da e 10", "f0 e 1", "f0 e 2", "f0 e 3", "f0 e 4", "f0 e 5", "f0 e 6", "f0 e 7",
+    "f0 e 8", "f5 e 1", "f5 e 2", "f5 e 3", "f5 e 4", "f5 e 5", "f5 e 6", "f5 e 7",
+    "f5 e 8", "f5 e 9", "f5 e 10", "f6 e 1", "f6 e 2", "f6 e 3", "f6 e 4", "f6 e 5",
+    "f6 e 6", "f6 e 7", "f6 e 8", "f6 e 9", "f6 e 10", "fa e 1", "fa e 2", "fa e 3",
+    "fa e 4", "fa e 5", "fa e 6", "fa e 7", "fa e 8", "fa e 9", "fa e 10",
+    NULL,
+};
+
 typedef struct {
     const char *label, *file;
-    const Ops65 *ops; /* NULL: Z80 */
+    const Ops65 *ops; /* NULL: Z80, or `run` */
     const char *const *expected;
+    bool (*run)(const cJSON *t);
 } Suite;
 
 static int run_suite(const Suite *suite)
@@ -388,7 +575,7 @@ static int run_suite(const Suite *suite)
             cJSON_Delete(t);
             continue;
         }
-        bool ok = suite->ops ? run65(suite->ops, t) : runz80(t);
+        bool ok = suite->run ? suite->run(t) : suite->ops ? run65(suite->ops, t) : runz80(t);
         bool expected = listed(name->valuestring, suite->expected);
         listed_seen += expected;
         if (ok && !expected) {
@@ -424,6 +611,7 @@ int main(void)
         {"6502", "sst-6502.jsonl", &OPS_6502, EXPECTED_6502},
         {"65C02", "sst-65c02.jsonl", &OPS_65C02, EXPECTED_65C02},
         {"Z80", "sst-z80.jsonl", NULL, EXPECTED_Z80},
+        {"65816", "sst-65816.jsonl", NULL, EXPECTED_65816, run816},
     };
     int errors = 0;
     for (size_t i = 0; i < sizeof suites / sizeof suites[0]; i++)

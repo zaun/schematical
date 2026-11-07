@@ -49,9 +49,9 @@ plan-14-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-14-F landed (archived) | `ls planning/completed/plan-14-F-pio-app.md` → exists | NOT MET (2026-11-01) |
-| Downloads reachable | `curl -sfIL https://raw.githubusercontent.com/howprice/jsmooch-emus/57366f22500671b5e3c208d4283d33c66299acee/LICENSE \| head -1` → `HTTP/2 200` | MET (2026-11-01) |
-| Node.js for the generator | `node --version` → v18 or later | MET (2026-11-01) |
+| plan-14-F landed (archived) | `ls planning/completed/plan-14-F-pio-app.md` → exists | MET (2026-11-07: exists) |
+| Downloads reachable | `curl -sfIL https://raw.githubusercontent.com/howprice/jsmooch-emus/57366f22500671b5e3c208d4283d33c66299acee/LICENSE \| head -1` → `HTTP/2 200` | MET (2026-11-07: `HTTP/2 200`) |
+| Node.js for the generator | `node --version` → v18 or later | MET (2026-11-07: `v24.12.0`) |
 
 ## 1. Goal
 
@@ -223,22 +223,35 @@ fs.writeFileSync(process.argv[2] ||
 
 ### Phase 1 — Vendor unchanged, build, test harness
 
-- [ ] Copy the 5 C/H files at 57366f2 to `backend/src/third_party/jsmooch/`
+- [x] Copy the 5 C/H files at 57366f2 to `backend/src/third_party/jsmooch/`
       and the 3 JS files to `backend/tools/jsmooch-gen/`; `LICENSE` →
       `LICENSE-jsmooch` in both; the stubs; `run.js`; `README.md` (source, no
-      changes yet).
-- [ ] `backend/CMakeLists.txt`: the three C files in the `logic` sources.
-- [ ] `make_sst_subset.py` count argument; generate `sst-65816.jsonl` (10 per
+      changes yet). → `wc -l`: 203, 134, 54200, 583, 16; 2974, 975, 175 (as
+      §2). The README is `README-jsmooch.md` (Corrections). The stub
+      `debugger.h` includes `jsm_string.h` (upstream's `wdc65816.h` gets
+      `struct jsm_string` through it).
+- [x] `backend/CMakeLists.txt`: the three C files in the `logic` sources.
+      Build: no errors or warnings.
+- [x] `make_sst_subset.py` count argument; generate `sst-65816.jsonl` (10 per
       file) and `LICENSE-SingleStepTests-65816`; regenerate the three existing
-      subsets with count 1 → byte-identical.
-- [ ] `cpu_core_test` 65816 runner with the unmodified core and its observed
+      subsets with count 1 → byte-identical. → `sst-65816.jsonl` 5120
+      lines, 6213884 bytes (`wc -lc`, as §2); `cmp` of the regenerated 6502,
+      65C02, Z80 subsets with the committed ones → identical. The licence is
+      the repo's `LICENCE` (MIT, "Copyright (c) Thomas Harte, et al").
+- [x] `cpu_core_test` 65816 runner with the unmodified core and its observed
       failures listed as expected failures (the 43 files' failing tests and
       the 220 flag failures once the flag is on), so the test passes and
-      each later fix shrinks the list.
+      each later fix shrinks the list. → `65816: 4721 pass, 399 expected
+      failures` (the 43 files of §2 exactly; Corrections for the count).
+      Flags are compared from Phase 2, when the core drives them.
+- [x] (added) App build with the core: `xcodebuild … -derivedDataPath
+      /tmp/p14g-dd build` → `** BUILD SUCCEEDED **` (after the README
+      rename).
 
 Acceptance: `cpu_core_test` passes and prints `65816: <p> pass, <f> expected
 failures` with p + f = 5120; `run.js` reproduces the shipped C.
   Check: `ctest --test-dir /tmp/logic-p14 -R cpu_core_test --output-on-failure` → passes; `node backend/tools/jsmooch-gen/run.js /tmp/g.c && cmp /tmp/g.c backend/src/third_party/jsmooch/wdc65816_generated_opcodes.c` → no output (est. 3 min).
+  Result: `cpu_core_test … Passed`; `run.js` → `cmp` identical.
 Commit: —
 
 ### Phase 2 — The fixes
@@ -277,4 +290,23 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- §3 item 5, §4.1: the README is `third_party/jsmooch/README-jsmooch.md`,
+  not `README.md`. The app copies `backend/src` files flat into its
+  resources; with floooh/chips' `README.md` there, the build failed:
+  `error: Multiple commands produce '…/Contents/Resources/README.md'`. (The
+  same reason `LICENSE-jsmooch` is not `LICENSE`.)
+- §2 baseline: the unmodified core passes **4721** of 5120 here (§2's probe:
+  4766). The failures are exactly §2's 43 files (all ten tests or most of
+  them: `00.e 2`, `02.e 4`, `10.e 9`, `30.e 8`, `44.e 9`, `54.e 9`,
+  `70.e 8`, `80.e 7`, `90.e 7`, `b0.e 9`, `d0.e 9`, `f0.e 8`, the rest 10).
+  This runner checks every cycle's address (idle cycles too), RWB and the
+  given data, then all final registers and RAM — stricter than the probe;
+  the gate is 5120, so the count only sets the starting list.
+- §3 item 7 (runner): STP's last test cycle has a null address (the bus is
+  stopped) and STP's final PC is past the opcode, not a fetch address; the
+  runner accepts any bus state on a null-address cycle and checks `regs.PC`
+  when `regs.STP` is set.
+- `make_sst_subset.py`: MVN/MVP tests (`54`, `44`) are large; ten do not fit
+  the Range read, so the script fetches the whole file whenever fewer than
+  `count` tests were found. The file lists came from the GitHub tree API
+  (the same data `gh api …/git/trees` gives).

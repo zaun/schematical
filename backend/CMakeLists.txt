@@ -66,6 +66,9 @@ add_library(logic STATIC
     src/models/pio_pia6521.c
     src/models/pio_via6522.c
     src/third_party/cjson/cJSON.c
+    src/third_party/jsmooch/wdc65816.c
+    src/third_party/jsmooch/wdc65816_generated_opcodes.c
+    src/third_party/jsmooch/wdc65816_disassembler.c
 )
 target_include_directories(logic
     PUBLIC
