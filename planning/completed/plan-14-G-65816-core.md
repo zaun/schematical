@@ -291,7 +291,7 @@ Commit: d9110bf
 Acceptance: `65816: 5120 pass, 0 expected failures`; the abort case passes;
 the generator check passes; the app builds.
   Check: `/tmp/logic-p14/cpu_core_test` → the four lines, 65816 `5120 pass, 0 expected failures` (est. 1 min); `xcodebuild … -derivedDataPath /tmp/p14g-dd build` → `** BUILD SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: 3cff7db
 
 ## Validation Plan
 
