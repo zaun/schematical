@@ -1,0 +1,80 @@
+# DigiKey supplier packages of in-scope, addable plan-24 candidates with no existing footprint (2026-11-07)
+  122 10-VSSOP
+  104 8-SOIC
+   70 16-WQFN (3x3)
+   60 48-TQFP (7x7)
+   50 32-VQFN (5x5)
+   37 24-VQFN (4x4)
+   35 32-TQFP (5x5)
+   35 28-SSOP
+   34 38-TSSOP
+   24 64-HTQFP (10x10)
+   23 64-LQFP (10x10)
+   22 10-VSON (3x3)
+   21 8-WSON (2x2)
+   20 10-WSON (3x3)
+   19 8-SON (3x3)
+   17 64-TQFP (10x10)
+   17 10-X2QFN (2x1.5)
+   16 48-VQFN (7x7)
+   14 8-PDIP
+   13 30-TSSOP
+   12 32-TQFP (7x7)
+   12 32-VQFN (4x4)
+   11 SOT-23-THIN
+   11 8-X2QFN (1.5x1.5)
+   11 16-QFN (4x4)
+   10 32-TSSOP
+    9 48-HTQFP (7x7)
+    9 80-HTQFP (12x12)
+    9 16-DSBGA
+    8 TSOT-23-6
+    8 6-WSON (2.2x2.5)
+    8 40-VQFN (6x6)
+    7 20-WQFN (3x3)
+    7 16-WQFN (4x4)
+    6 16-DSBGA (1.62x1.62)
+    6 64-VQFN (9x9)
+    6 24-HTSSOP
+    5 40-WQFN (5x5)
+    5 24-VQFN (5x4)
+    5 10-WSON (2.5x2.5)
+    4 12-DSBGA (1.46x1.11)
+    4 16-VQFN (3.5x3.5)
+    4 16-VQFN (4x4)
+    4 28-PLCC (11.51x11.51)
+    4 100-HTQFP (14x14)
+    3 10-UQFN (2x1.6)
+    3 32-QFN (4x4)
+    3 196-NFBGA (12x12)
+    3 28-QFN (6x6)
+    3 8-SOP
+    3 8-CDIP
+    3 10-SON (3x3)
+    3 16-VQFN (3x3)
+    3 56-QFN (8x8)
+    3 48-LQFP (7x7)
+    2 28-CDIP
+    2 64-NFBGA (8x8)
+    2 20-LCCC (8.89x8.89)
+    2 14-VSON (4x3)
+    2 SOT-23-8
+    2 12-USON (3x2)
+    2 32-LQFP (7x7)
+    2 40-WQFN (6x6)
+    2 16-HTSSOP
+    1 32-WQFN (5x5)
+    1 32-CDIP
+    1 SOT-5X3
+    1 20-VQFN (5x5)
+    1 84-CFP
+    1 52-HTQFP (10x10)
+    1 8-VSON (3x3)
+    1 20-QFN (4x4)
+    1 8-CFP
+    1 80-LQFP (14x14)
+    1 56-VQFN (7x7)
+    1 48-VQFN (6x6)
+    1 196-NFBGA (15x15)
+    1 24-CDIP SB
+    1 (blank: map from TI code)
