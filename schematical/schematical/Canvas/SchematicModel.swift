@@ -96,6 +96,7 @@ nonisolated enum PartSymbol: Hashable {
     case dipSwitch
     case sevenSegment
     case characterLCD
+    case barrelJack
 
     /// Supplies have their pin on the top or bottom edge, so their view needs
     /// room above and below the body for the pin stub.
@@ -183,6 +184,8 @@ nonisolated struct ChipLayout: Hashable {
         switch symbol {
         case .block, .oscillator:
             self = ChipLayout(pins: pins)
+        case .barrelJack:
+            self = Self.barrelJack(pins)
         case .diode:
             self = Self.diode(pins)
         case .vcc:
@@ -314,6 +317,19 @@ nonisolated struct ChipLayout: Hashable {
             size: CGSize(width: switchBodyWidth, height: headerHeight + pitch * CGFloat(max(positions, 1))),
             slots: slots
         )
+    }
+
+    /// Barrel jack terminals all leave on the right. The drawing follows the
+    /// datasheet schematic: centre at top, switched sleeve contact beneath.
+    private static func barrelJack(_ pins: [ChipPin]) -> ChipLayout {
+        let centre = pins.first(where: { $0.name == "Centre" })
+        let sleeve = pins.first(where: { $0.name == "Sleeve" })
+        let switched = pins.first(where: { $0.name == "Switch" })
+        var slots: [PinSlot] = []
+        if let centre { slots.append(PinSlot(pin: centre, side: .right, centerY: 30)) }
+        if let switched { slots.append(PinSlot(pin: switched, side: .right, centerY: 50)) }
+        if let sleeve { slots.append(PinSlot(pin: sleeve, side: .right, centerY: 75)) }
+        return ChipLayout(size: CGSize(width: 120, height: switched == nil ? 90 : 95), slots: slots)
     }
 
     /// The lever of a switch position (1-based), in body coordinates.

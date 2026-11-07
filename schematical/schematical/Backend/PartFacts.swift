@@ -79,6 +79,10 @@ nonisolated enum PartFacts {
             add("Model", model)
             add("Channels", String(channels))
             add("Speed grade", grade)
+        case let .connector(centerPinUM, ratedMV, ratedMA, contacts):
+            add("Centre pin", String(format: "%.1f mm", Double(centerPinUM) / 1000))
+            add("Rating", "\(VoltageCheck.volts(ratedMV)) V, \(String(format: "%.1f", Double(ratedMA) / 1000)) A")
+            add("Sleeve contact", contacts > 0 ? "Normally closed when unplugged" : "None")
         }
 
         if let vcc = part.vcc {
@@ -106,6 +110,7 @@ nonisolated enum PartFacts {
         case PART_CPU: return "Processor"
         case PART_CHARLCD: return "Character LCD"
         case PART_SERIAL: return "Serial controller"
+        case PART_CONNECTOR: return "Barrel connector"
         default: return ""
         }
     }

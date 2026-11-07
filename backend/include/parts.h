@@ -24,7 +24,7 @@ typedef struct PartLibrary PartLibrary;
 typedef enum {
     PART_GATE, PART_DFF, PART_JKFF, PART_SRAM, PART_SWITCH,
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER,
-    PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL
+    PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -81,6 +81,9 @@ typedef struct {
 /* model: the serial model ("ns16550", "i8251", ...); channels: serial
    channels on the chip; grade: the part's speed/supply grade. */
 typedef struct { const char *model; unsigned channels; const char *grade; } PartSerial;
+/* A barrel connector. center_diameter_um is the mating plug's centre-pin
+   diameter; contacts is the number of normally-closed contacts. */
+typedef struct { uint32_t center_diameter_um, rated_mv, rated_ma; unsigned contacts; } PartConnector;
 
 /* ---- Footprints (Parts/footprints.json, docs/parts-format.md) ----------- */
 
@@ -132,6 +135,7 @@ typedef struct Part {
     const PartFootprint *footprint;    /* NULL = none (supplies) */
     const PartFootprint *connector_footprint;  /* NULL = none; the PCB Style option's "Connector Only" */
     const PartCharLcd *charlcd;
+    const PartConnector *connector;
     const void *internal;              /* model data; not for the app */
 } Part;
 

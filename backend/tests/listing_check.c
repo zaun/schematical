@@ -47,8 +47,8 @@ int main(int argc, char **argv) {
     size_t compared = 0;
     size_t skipped = 0;
     size_t failures = 0;
-    const char *kinds[16];
-    size_t kind_counts[16];
+    const char *kinds[17];
+    size_t kind_counts[17];
     size_t kind_n = 0;
 
     if (load_parts_dir(library, PARTS_DIR) != 0) {

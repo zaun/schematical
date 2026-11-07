@@ -1,0 +1,106 @@
+{
+  "format": "schematical-parts",
+  "version": 1,
+  "kind": "connector",
+  "devices": [
+    {
+      "id": "barrel_2pin_2mm",
+      "function": "2.0 mm centre pin",
+      "description": "Right-angle DC barrel jack, two terminals",
+      "drawer": ["Connector", "Barrel"],
+      "note": "PJ-037A datasheet p.2",
+      "centerPin": 2.0,
+      "ratedVolts": 24,
+      "ratedAmps": 2.5,
+      "pinouts": {"p2":[{"number":1,"name":"Centre","role":"inout"},{"number":2,"name":"Sleeve","role":"inout"}]},
+      "parts": [{"name":"PJ-037A","package":"Through hole","pinout":"p2","footprint":"BARREL-PJ-037"}]
+    },
+    {
+      "id": "barrel_2pin_2mm_5a",
+      "function": "2.0 mm centre pin",
+      "description": "Right-angle DC barrel jack, two terminals",
+      "drawer": ["Connector", "Barrel"],
+      "note": "PJ-037AH datasheet p.2",
+      "centerPin": 2.0,
+      "ratedVolts": 24,
+      "ratedAmps": 5,
+      "pinouts": {"p2":[{"number":1,"name":"Centre","role":"inout"},{"number":2,"name":"Sleeve","role":"inout"}]},
+      "parts": [{"name":"PJ-037AH","package":"Through hole","pinout":"p2","footprint":"BARREL-PJ-037"}]
+    },
+    {
+      "id": "barrel_3pin_2mm",
+      "function": "2.0 mm centre pin, switched",
+      "description": "Right-angle DC barrel jack with normally-closed sleeve contact",
+      "drawer": ["Connector", "Barrel"],
+      "note": "Same Sky PJ-series datasheets p.2; terminal 2 and terminal 3 are normally closed while unplugged",
+      "centerPin": 2.0,
+      "ratedVolts": 24,
+      "ratedAmps": 2.5,
+      "contacts": [["Sleeve", "Switch"]],
+      "pinouts": {"p3":[{"number":1,"name":"Centre","role":"inout"},{"number":2,"name":"Sleeve","role":"inout"},{"number":3,"name":"Switch","role":"inout"}]},
+      "parts": [
+        {"name":"PJ-002A","package":"Through hole","pinout":"p3","footprint":"BARREL-PJ-002"},
+        {"name":"PJ-102A","package":"Through hole","pinout":"p3","footprint":"BARREL-PJ-102"},
+        {"name":"PJ-202A","package":"Through hole","pinout":"p3","footprint":"BARREL-PJ-202"}
+      ]
+    },
+    {
+      "id": "barrel_3pin_1_3mm",
+      "function": "1.3 mm centre pin, switched",
+      "description": "Right-angle DC barrel jack with normally-closed sleeve contact",
+      "drawer": ["Connector", "Barrel"],
+      "note": "PJ-040DH datasheet p.2",
+      "centerPin": 1.3,
+      "ratedVolts": 24,
+      "ratedAmps": 3.5,
+      "contacts": [["Sleeve", "Switch"]],
+      "pinouts": {"p3":[{"number":1,"name":"Centre","role":"inout"},{"number":2,"name":"Sleeve","role":"inout"},{"number":3,"name":"Switch","role":"inout"}]},
+      "parts": [{"name":"PJ-040DH","package":"Through hole","pinout":"p3","footprint":"BARREL-PJ-040"}]
+    },
+    {
+      "id": "barrel_3pin_2_1mm",
+      "function": "2.1 mm centre pin, switched",
+      "description": "Right-angle DC barrel jack with normally-closed sleeve contact",
+      "drawer": ["Connector", "Barrel"],
+      "note": "Tensility 54-00166 datasheet p.1",
+      "centerPin": 2.1,
+      "ratedVolts": 48,
+      "ratedAmps": 6,
+      "contacts": [["Sleeve", "Switch"]],
+      "pinouts": {"p3":[{"number":1,"name":"Centre","role":"inout"},{"number":2,"name":"Sleeve","role":"inout"},{"number":3,"name":"Switch","role":"inout"}]},
+      "parts": [{"name":"54-00166","package":"Through hole","pinout":"p3","footprint":"BARREL-54-00166"}]
+    },
+    {
+      "id": "barrel_kldx_2mm",
+      "function": "2.0 mm centre pin, switched",
+      "description": "KLDX PCB DC power jack with normally-closed sleeve contact",
+      "drawer": ["Connector", "Barrel"],
+      "note": "Kycon KLDX-0202 datasheet p.1",
+      "centerPin": 2.0,
+      "ratedVolts": 24,
+      "ratedAmps": 3.5,
+      "contacts": [["Sleeve", "Switch"]],
+      "pinouts": {"p3":[{"number":1,"name":"Centre","role":"inout"},{"number":2,"name":"Sleeve","role":"inout"},{"number":3,"name":"Switch","role":"inout"}]},
+      "parts": [
+        {"name":"KLDX-0202-A","package":"Through hole","pinout":"p3","footprint":"BARREL-KLDX-0202"},
+        {"name":"KLDX-0202-AC","package":"Through hole","pinout":"p3","footprint":"BARREL-KLDX-0202-C"}
+      ]
+    },
+    {
+      "id": "barrel_kldx_2_5mm",
+      "function": "2.5 mm centre pin, switched",
+      "description": "KLDX PCB DC power jack with normally-closed sleeve contact",
+      "drawer": ["Connector", "Barrel"],
+      "note": "Kycon KLDX-0202 datasheet p.1",
+      "centerPin": 2.5,
+      "ratedVolts": 24,
+      "ratedAmps": 3.5,
+      "contacts": [["Sleeve", "Switch"]],
+      "pinouts": {"p3":[{"number":1,"name":"Centre","role":"inout"},{"number":2,"name":"Sleeve","role":"inout"},{"number":3,"name":"Switch","role":"inout"}]},
+      "parts": [
+        {"name":"KLDX-0202-B","package":"Through hole","pinout":"p3","footprint":"BARREL-KLDX-0202"},
+        {"name":"KLDX-0202-BC","package":"Through hole","pinout":"p3","footprint":"BARREL-KLDX-0202-C"}
+      ]
+    }
+  ]
+}

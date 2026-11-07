@@ -47,6 +47,9 @@ struct ChipBlockView: View {
             if chip.symbol == .oscillator {
                 let radius = min(14, (box.maxY - ChipLayout.headerHeight) / 2 - 4)
                 Self.drawSineGlyph(&context, centre: bodyCentre, radius: radius, color: outline)
+            } else if chip.symbol == .barrelJack {
+                let radius = min(14, (box.maxY - ChipLayout.headerHeight) / 2 - 4)
+                Self.drawBarrelGlyph(&context, centre: bodyCentre, radius: radius, color: outline)
             } else {
                 context.draw(
                     Text(chip.part.function)
@@ -110,6 +113,16 @@ struct ChipBlockView: View {
             }
         }
         context.stroke(wave, with: .color(color), style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
+    }
+
+    /// Front view of a barrel jack: outer sleeve ring and centre pin.
+    private static func drawBarrelGlyph(_ context: inout GraphicsContext, centre: CGPoint, radius: CGFloat, color: Color) {
+        let outer = CGRect(x: centre.x - radius, y: centre.y - radius, width: radius * 2, height: radius * 2)
+        let innerRadius = radius * 0.35
+        let inner = CGRect(x: centre.x - innerRadius, y: centre.y - innerRadius,
+                           width: innerRadius * 2, height: innerRadius * 2)
+        context.stroke(Path(ellipseIn: outer), with: .color(color.opacity(0.7)), lineWidth: 2)
+        context.fill(Path(ellipseIn: inner), with: .color(color.opacity(0.7)))
     }
 
     private static func nameColor(for role: ChipPinRole) -> Color {

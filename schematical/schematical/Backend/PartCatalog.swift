@@ -197,6 +197,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A serial controller (plan-12): its model, its serial channels
         /// (0 for the SPI-to-I2C bridge) and its grade.
         case serial(model: String, channels: Int, grade: String)
+        case connector(centerPinUM: UInt32, ratedMV: UInt32, ratedMA: UInt32, contacts: Int)
     }
 
     let name: String
@@ -238,6 +239,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .display(info) where info.vfMaxMV > 0:
             return "VF \(VoltageCheck.volts(info.vfMinMV))–\(VoltageCheck.volts(info.vfMaxMV)) V"
         case let .dipSwitch(_, _, ratedMV) where ratedMV > 0:
+            return "\(VoltageCheck.volts(ratedMV)) V max"
+        case let .connector(_, ratedMV, _, _) where ratedMV > 0:
             return "\(VoltageCheck.volts(ratedMV)) V max"
         default:
             return nil
@@ -334,6 +337,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .characterLCD(info):
             return [info.panel.title] + (info.backlightColor.map { ["\($0) backlight"] } ?? [])
         case let .serial(_, channels, _): return channels > 1 ? ["\(channels) channels"] : []
+        case let .connector(centerPinUM, _, ratedMA, contacts):
+            return [String(format: "%.1f mm", Double(centerPinUM) / 1000),
+                    String(format: "%.1f A", Double(ratedMA) / 1000)] + (contacts > 0 ? ["switched"] : [])
         }
     }
 }
@@ -464,6 +470,9 @@ extension CatalogPart {
         } else if let serial = part.serial?.pointee {
             details = .serial(model: string(serial.model), channels: Int(serial.channels),
                               grade: string(serial.grade))
+        } else if let connector = part.connector?.pointee {
+            details = .connector(centerPinUM: connector.center_diameter_um, ratedMV: connector.rated_mv,
+                                 ratedMA: connector.rated_ma, contacts: Int(connector.contacts))
         } else {
             details = .supply(level: 0, mv: 0, pull: false)
         }
@@ -593,6 +602,7 @@ func symbol(for part: CatalogPart) -> PartSymbol {
         guard case let .supply(level, _, pull) = part.details else { return .vcc }
         if pull { return level == 0 ? .pullDown : .pullUp }
         return level == 0 ? .ground : .vcc
+    case PART_CONNECTOR: return .barrelJack
     default: return .block
     }
 }

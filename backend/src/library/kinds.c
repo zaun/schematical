@@ -19,6 +19,7 @@ extern const PartKindOps SHIFT_KIND;
 extern const PartKindOps CPU_KIND;
 extern const PartKindOps CHARLCD_KIND;
 extern const PartKindOps SERIAL_KIND;
+extern const PartKindOps CONNECTOR_KIND;
 
 /* One line per kind. Adding a kind: docs/backend.md, "Adding a kind". */
 const PartKindOps *const KINDS[] = {
@@ -38,6 +39,7 @@ const PartKindOps *const KINDS[] = {
     &CPU_KIND,
     &CHARLCD_KIND,
     &SERIAL_KIND,
+    &CONNECTOR_KIND,
     NULL
 };
 

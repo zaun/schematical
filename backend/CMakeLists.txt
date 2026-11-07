@@ -60,6 +60,7 @@ add_library(logic STATIC
     src/models/serial_hs82c52.c
     src/models/serial_com78c80x.c
     src/models/serial_sc18is604.c
+    src/models/connector.c
     src/third_party/cjson/cJSON.c
 )
 target_include_directories(logic
@@ -110,6 +111,7 @@ logic_test(library_check)
 logic_test(listing_check)
 logic_test(trace_check)
 logic_test(switch_test)
+logic_test(connector_test)
 logic_test(sram_test)
 logic_test(display7_test)
 logic_test(circuit_check)

@@ -21,6 +21,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_CPU: return "cpu";
         case PART_CHARLCD: return "charlcd";
         case PART_SERIAL: return "serial";
+        case PART_CONNECTOR: return "connector";
     }
     return "?";
 }
@@ -126,6 +127,12 @@ static void print_details(FILE *out, const Part *part) {
         case PART_SERIAL:
             fprintf(out, "model=%s channels=%u grade=%s", part->serial->model,
                     part->serial->channels, part->serial->grade);
+            break;
+        case PART_CONNECTOR:
+            fprintf(out, "center_um=%u rated=%uV/%umA contacts=%u",
+                    (unsigned)part->connector->center_diameter_um,
+                    (unsigned)(part->connector->rated_mv / 1000),
+                    (unsigned)part->connector->rated_ma, part->connector->contacts);
             break;
     }
 }

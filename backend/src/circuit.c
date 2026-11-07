@@ -11,6 +11,9 @@
 #include "sim.h"
 #include "voltage.h"
 
+int connector_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b);
+static int record_contact(Circuit *circuit, size_t part, unsigned position, int on);
+
 struct Circuit {
     const PartLibrary *library;
     Sim *sim;
@@ -145,6 +148,14 @@ int circuit_add_part(Circuit *circuit, const char *part_name, size_t *index) {
     }
     circuit->parts[circuit->part_count] = part;
     circuit->instances[circuit->part_count] = instance;
+    if (part->kind == PART_CONNECTOR) {
+        unsigned position;
+        for (position = 1; position <= part->connector->contacts; position++) {
+            if (record_contact(circuit, circuit->part_count, position, 1) != 0) {
+                return fail(circuit, "cannot initialize connector \"%s\"", part->name);
+            }
+        }
+    }
     if (index != NULL) {
         *index = circuit->part_count;
     }
@@ -274,6 +285,14 @@ static int record_contact(Circuit *circuit, size_t part, unsigned position, int 
     return 0;
 }
 
+static int contact_recorded(const Circuit *circuit, size_t part, unsigned position) {
+    size_t i;
+    for (i = 0; i < circuit->closed_count; i++) {
+        if (circuit->closed[i].part == part && circuit->closed[i].position == position) return 1;
+    }
+    return 0;
+}
+
 int circuit_set_switch(Circuit *circuit, size_t part, unsigned position, int on) {
     SimInstance *instance;
     const SimComponentType *type;
@@ -300,9 +319,48 @@ int circuit_set_switch(Circuit *circuit, size_t part, unsigned position, int on)
     return 0;
 }
 
+int circuit_set_connector_plug(Circuit *circuit, size_t part, int inserted) {
+    SimInstance *instance;
+    const SimComponentType *type;
+
+    if (check_part(circuit, part) != 0) return -1;
+    if (circuit->parts[part]->kind != PART_CONNECTOR) {
+        return fail(circuit, "part %zu is not a connector", part);
+    }
+    if (circuit->parts[part]->connector->contacts == 0) {
+        return fail(circuit, "%s has no switched contact", circuit->parts[part]->name);
+    }
+    instance = circuit->instances[part];
+    type = sim_instance_type(instance);
+    if (!type->set_switch(circuit->sim, instance, sim_instance_state(instance), 1, !inserted)) {
+        return fail(circuit, "%s has no switched contact", circuit->parts[part]->name);
+    }
+    if (record_contact(circuit, part, 1, !inserted) != 0) return fail(circuit, "out of memory");
+    if (circuit->started && !inserted && !circuit->voltage_stopped && voltage_failed(circuit)) {
+        circuit->voltage_stopped = 1;
+    }
+    return 0;
+}
+
 int circuit_start(Circuit *circuit) {
+    size_t part;
     if (check_building(circuit) != 0) {
         return -1;
+    }
+    /* Pins have their nets only after building. Apply each connector's
+       remembered default/current contact state now, before voltage checks. */
+    for (part = 0; part < circuit->part_count; part++) {
+        const Part *info = circuit->parts[part];
+        SimInstance *instance = circuit->instances[part];
+        unsigned position;
+        if (info->kind != PART_CONNECTOR) continue;
+        for (position = 1; position <= info->connector->contacts; position++) {
+            if (!sim_instance_type(instance)->set_switch(circuit->sim, instance,
+                                                          sim_instance_state(instance), position,
+                                                          contact_recorded(circuit, part, position))) {
+                return fail(circuit, "cannot initialize connector \"%s\"", info->name);
+            }
+        }
     }
     circuit->has_problem = 0;
     if (voltage_failed(circuit)) {

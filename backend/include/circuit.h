@@ -46,6 +46,11 @@ int circuit_connect(Circuit *circuit, size_t part, const char *pin, size_t net);
    circuit_error is the "voltage: …" text. */
 int circuit_set_switch(Circuit *circuit, size_t part, unsigned position, int on);
 
+/* Barrel connector plug state. A switched connector's normally-closed
+   contact is closed while unplugged (inserted = 0) and open while a plug is
+   inserted (inserted = 1). */
+int circuit_set_connector_plug(Circuit *circuit, size_t part, int inserted);
+
 /* Runs the voltage check first: a circuit with a voltage problem does not
    start (-1, circuit_error "voltage: …"); building calls stay usable. */
 int circuit_start(Circuit *circuit);

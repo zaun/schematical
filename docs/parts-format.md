@@ -22,6 +22,7 @@ Every orderable part (gate, flip-flop, latch, counter, shift register, SRAM, EEP
 | `cpu.json` | `cpu` |
 | `charlcd.json` | `charlcd` |
 | `serial.json` | `serial` |
+| `connector.json` | `connector` |
 
 Beside them, `footprints.json` holds the land patterns parts name with
 `"footprint"` (see [Footprints](#footprints)). It is loaded first, with
@@ -626,6 +627,15 @@ starts OFF; the app turns positions on and off (`circuit_set_switch`).
 | `"ratedVolts"` | the contacts' **switching** voltage rating (the "Contact rating, switching" row, not the non-switching carry rating), 0 < v ≤ 1000; `PartSwitch.rated_mv`. Required. |
 
 `PartSwitch.positions` is the number of contacts. Parts carry no kind keys.
+
+### `connector`
+
+Barrel power connectors are passive `inout` terminals. `centerPin` is the
+mating plug centre-pin diameter in millimetres; `ratedVolts` and `ratedAmps`
+are the connector ratings. A two-terminal jack has centre and sleeve pins.
+A switched jack additionally names `"contacts": [["Sleeve", "Switch"]]`:
+the listed contact is normally closed while unplugged and opens when a plug
+is inserted through `circuit_set_connector_plug`.
 
 ### `sram`
 
