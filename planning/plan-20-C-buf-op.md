@@ -55,16 +55,16 @@ plan-20-A § Prerequisites, plus:
 - [x] §2 `gate.c` (`OP_BUF`, `"buf"`, the 1-input check shared with `not`, `gate_value` as a 1-input AND) + docs § `gate`; `library_check` → `ok   gate buf with 2 inputs: … a "buf" gate has exactly 1 input`; the behavior fixture is in `engine_test` (fd9a9fa added no `not` behavior case to follow): a SOT-23-5 `buf` part, 4 ns — `PASS: buf: A = 0 gives Y = 0`, `… Y still 0 at 3 ns after A rises`, `… A = 1 gives Y = 1 after 4 ns`, `… A = X gives Y = X`, `… A floating (Z) gives Y = X`. `ctest --test-dir /tmp/logic-p20` → `100% tests passed, 0 tests failed out of 21`; `git diff --stat backend/tests/golden` → empty.
 
 Acceptance: `ctest --test-dir /tmp/logic-p20` → T0 of T0; golden diff empty (seconds).
-Commit: —
+Commit: 7400cd2
 
 ### Phase 2 — Parts
 
-- [ ] Generate the devices from `parts.tsv` (`model == buf`) into `gate.json` (script under `/tmp/p20/`, not committed).
-- [ ] Regenerate `parts.txt`, `traces.txt`: 0 removed, +Nbuf each.
-- [ ] Spot checks: `SN74LS07N` (open-drain), `SN74LVC1G17DBVR`, `CD4050BE` (`C`), `CD74HC4049E` (`not`).
+- [x] Generate the devices from `parts.tsv` / `specs/` (`kind == gate`: ops `buf` and `not`) into `gate.json` (`/tmp/p20-scripts/gen.py` + `land.py`, not committed): 25 new devices (`74_07`, `74_17`, `74_17_OD`, `74_34`, `74_1035`, `1G07`, `1G16`, `1G17`, `1G34`, `1G37`, `2G07`, `2G17`, `2G34`, `3G07`, `3G17`, `3G34`, `74_6T07`, `74_6T17`, `1T17`, `1T34`, `1T50`, `4050B`, `74_4050`, `4041UB`, `74_4049`) and SNJ5416J into the existing `74_16`; **Nbuf = 221**. No new footprint needed (`land.py`: `footprints added []`).
+- [x] Regenerate `parts.txt`, `traces.txt`: `git diff --numstat backend/tests/golden` → `221 0 parts.txt`, `221 0 traces.txt`; `ctest` → `100% tests passed, 0 tests failed out of 21`.
+- [x] Spot checks (`parts.txt`): `SN74LS07N|gate|DIP|Logic|Buffer|LS||units=6|…|footprint=PDIP-14|vcc=4750-5250` (device `74_07` `"output": "open-drain"`); `SN74LVC1G17DBVR|gate|SOT-23|…|Buffer|LVC||units=1|…|footprint=SOT23-5|vcc=1650-5500,in=5500`; `CD4050BE|gate|DIP|…|Buffer|C||units=6|…|vcc=3000-18000,in=18000`; `CD74HC4049E|gate|DIP|Logic|NOT|HC||units=6|…`; `CD4041UBE … units=4` (a `buf` and a `not` per input).
 
 Acceptance: `ctest` T0 of T0; golden counts (seconds).
-Commit: —
+Commit: (this commit; hash in the next)
 
 ## Validation Plan
 
@@ -75,6 +75,8 @@ C's gate: Phase 2. Landing tier at the end of I.
 - `buf` in the gate kind (plan-20-A §3.2).
 
 ## Corrections
+
+1. **The device list differs from §2's guess** (plan-20-A Corrections 6): '756, '757 and '760 have enables and are `buffer` `tristate` parts; AUP1T34 is a dual-supply translator; the 6T06 parts are already in the catalog; '1035 and 1G16/1G37 join. 4050B/74_4050/4049 carry their datasheets' input maximum above VCC (high-to-low level shifting).
 
 ## Summary
 
