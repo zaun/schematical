@@ -224,24 +224,32 @@ New `badPCB` details:
 
 ### Phase 1 — Trace value, routing and file format
 
-- [ ] New `Canvas/BoardTrace.swift`: `BoardTrace`, `TraceRoute` (`route`,
+- [x] New `Canvas/BoardTrace.swift`: `BoardTrace`, `TraceRoute` (`route`,
       `isLegal`, `clean`, `epsilon`). No project edit: the app target is a
       synced folder (`grep -c PBXFileSystemSynchronizedRootGroup
       schematical/schematical.xcodeproj/project.pbxproj` → 4, and existing
       files such as `BoardModel.swift` aren't listed in it: `grep -c` → 0).
-- [ ] `Canvas/SchematicModel.swift`: `private(set) var traces:
+- [x] `Canvas/SchematicModel.swift`: `private(set) var traces:
       [BoardTrace]`. Add `traces:` to `replaceContents`, which clears it with
       the rest.
-- [ ] `Document/SchematicFile.swift`: `Board.traces` entries (`id`, `layer`,
+- [x] `Document/SchematicFile.swift`: `Board.traces` entries (`id`, `layer`,
       `width`, `points`), encoded and decoded with the errors above, and
       trace IDs in the uniqueness check.
-- [ ] Tests (`<tests>/TraceRouteTests.swift`):
+- [x] Tests (`<tests>/TraceRouteTests.swift`):
   - route for each octant, straight-first and diagonal-first;
   - an already-45° pair gives 2 points;
   - `isLegal` rejects a 30° segment and a zero-length one;
   - round trip of two traces;
   - each error detail;
   - a trace ID equal to a text ID is refused.
+
+  `/tmp/p16t.sh TraceRouteTests,BoardLayersTests,SelectionModelTests` →
+  "Executed 27 tests, with 0 failures" (TraceRouteTests: 6).
+- [x] (added) `schematicalTests/SelectionModelTests.swift`: its
+  `replaceContents` call passes `traces: []`.
+- [x] (added, from Validation Plan doc sync) `docs/file-format.md`: Traces
+  table, the error details, trace IDs in the uniqueness sentence, a trace
+  in the example.
 
 Acceptance: routes are legal in all octants, and traces survive a round trip.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:<tests>/TraceRouteTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 3 min).
@@ -300,7 +308,13 @@ Commit: —
 
 ## Corrections
 
-None yet.
+- 2026-11-07: `grep -c PBXFileSystemSynchronizedRootGroup …/project.pbxproj`
+  → 5, not 4 (plan-15 added the test target's synced group). The point
+  stands: `BoardTrace.swift` needed no project edit.
+- 2026-11-07: a trace layer that isn't a layer name at all gets
+  `trace <id> layer "middle" must be top, inner2 to inner5, or bottom`
+  (same wording as A's layer error); the plan listed only the not-on-board
+  case. `width` is optional in the file (default 10), as other PCB keys are.
 
 ## Summary
 

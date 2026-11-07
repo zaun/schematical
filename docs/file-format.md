@@ -137,6 +137,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `color`  | string  | The board colour: `"green"` (default), `"black"`, `"red"`, `"blue"`, `"yellow"`, `"white"` or `"purple"`. |
 | `units`  | string  | The units the PCB sidebar shows lengths in: `"mm"` (default) or `"in"`. Lengths in the file are always mm. |
 | `texts`  | array   | Free texts on the board, in drawing order. Default none.              |
+| `traces` | array   | Copper traces, in drawing order ([Traces](#traces)). Always written, `[]` when there are none; missing means none. Older builds ignore it. |
 
 A missing key takes its default. A text:
 
@@ -149,6 +150,24 @@ A missing key takes its default. A text:
 | `layer`    | string  | `"silkscreen"` (default) or `"document"`.                           |
 | `rotation` | integer | 0 (default), 90, 180 or 270 degrees clockwise.                      |
 | `side`     | string  | `"top"` (default) or `"bottom"`. A bottom text is drawn mirrored inside its own box. Always written; not allowed on a 1-layer board. |
+
+### Traces
+
+```json
+"traces": [ { "id": "...", "layer": "top", "width": 10,
+              "points": [ { "x": 2.54, "y": 5.08 }, { "x": 7.62, "y": 5.08 }, { "x": 10.16, "y": 7.62 } ] } ]
+```
+
+| Field    | Type    | Meaning                                                              |
+|----------|---------|----------------------------------------------------------------------|
+| `id`     | UUID    | Unique within the file, across every other ID.                       |
+| `layer`  | string  | The copper layer: `"top"`, `"inner2"` to `"inner5"`, or `"bottom"`. It must be on the board and not a Plane. |
+| `width`  | integer | mil, 5 to 100. Default 10.                                           |
+| `points` | array   | `x`, `y` in mm. At least 2; no two consecutive points the same; every segment at a multiple of 45°. Kept as saved, not snapped: a crossing of two diagonals, or a pad centre, can be off the grid. |
+
+Traces that touch or cross on the same layer share a vertex at each contact
+point; that shared vertex is what connects them. Traces on different layers
+never connect, except through a through-hole pad.
 
 ## Junctions
 
@@ -260,7 +279,7 @@ Opening fails, and the canvas is left unchanged, if:
 - `format` is missing or not `"schematical"`, or `version` is newer than the app supports;
 - the JSON doesn't match this structure;
 - an ID is used more than once across parts, junctions, wires, buses, bus
-  lines, bus wires, ports and board texts;
+  lines, bus wires, ports, board texts and traces;
 - a `partNumber` is not in the catalog (the error lists every missing one);
 - a wire end names a part or junction that isn't in the file, or a pin the
   part's symbol doesn't draw (for example the no-connect pins of a 4-pin LED);
@@ -297,6 +316,13 @@ Opening fails, and the canvas is left unchanged, if:
   - `text <id> side "left" must be top or bottom`;
   - `U2 is on the bottom of a 1-layer board`;
   - `text <id> is on the bottom of a 1-layer board`;
+  - `trace <id> layer "inner4" is not on a 4-layer board`;
+  - `trace <id> layer "middle" must be top, inner2 to inner5, or bottom`;
+  - `trace <id> layer inner2 is a plane`;
+  - `trace <id> width 3 must be 5 to 100 mil`;
+  - `trace <id> has fewer than 2 points`;
+  - `trace <id> segment 2 has no length` (segments are numbered from 1);
+  - `trace <id> segment 2 is not at a multiple of 45°`;
 - a bus is not valid. The message is "The bus is not valid: <detail>.",
   where the detail is one of:
   - `bus <id> has no lines`;
@@ -392,6 +418,10 @@ A red LED between a 5 V supply and GND:
     "texts": [
       { "id": "66666666-6666-6666-6666-666666666666", "text": "LED", "x": 5.08, "y": 2.54,
         "size": 50, "layer": "silkscreen", "rotation": 0, "side": "top" }
+    ],
+    "traces": [
+      { "id": "77777777-7777-7777-7777-777777777777", "layer": "bottom", "width": 10,
+        "points": [ { "x": 2.54, "y": 10.16 }, { "x": 7.62, "y": 10.16 }, { "x": 10.16, "y": 12.7 } ] }
     ]
   }
 }

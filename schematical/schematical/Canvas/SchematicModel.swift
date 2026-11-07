@@ -947,6 +947,8 @@ final class SchematicDocument {
     var board = BoardSettings()
     /// Free texts on the PCB, in drawing order.
     private(set) var texts: [BoardText] = []
+    /// Copper traces on the PCB, in drawing order (plan-16).
+    private(set) var traces: [BoardTrace] = []
 
     /// Lowest number tried for the next part's reference ("U" plus a number).
     private(set) var nextReference = 1
@@ -967,7 +969,8 @@ final class SchematicDocument {
     /// Replaces everything on the canvas, for example with a file that was
     /// just opened. Clears the selection.
     func replaceContents(chips: [PlacedChip], wires: [Wire], junctions: [Junction], buses: [Bus],
-                         nextReference: Int, board: BoardSettings, texts: [BoardText]) {
+                         nextReference: Int, board: BoardSettings, texts: [BoardText],
+                         traces: [BoardTrace]) {
         self.chips = chips
         self.wires = wires
         self.junctions = junctions
@@ -975,6 +978,7 @@ final class SchematicDocument {
         self.nextReference = max(nextReference, 1)
         self.board = board
         self.texts = texts
+        self.traces = traces
         clearAllSelections()
         editorMessage = nil
     }

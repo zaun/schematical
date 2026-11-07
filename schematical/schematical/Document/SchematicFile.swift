@@ -97,6 +97,18 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// entries, colours or types mean the defaults.
         var layerStyles: [LayerStyleEntry]? = nil
         var texts: [Text]? = nil
+        /// Copper traces, in drawing order. Always written (`[]` when there
+        /// are none); missing means none.
+        var traces: [TraceEntry]? = nil
+
+        /// A trace: its copper layer (`CopperLayer` raw value), width in
+        /// mil (default 10) and points in mm, kept as saved (not snapped).
+        struct TraceEntry: Codable, Equatable, Sendable {
+            var id: UUID
+            var layer: String
+            var width: Int? = nil
+            var points: [Point]
+        }
 
         /// A copper layer's colour ("#RRGGBB") and type (`LayerType` raw
         /// value), by its `CopperLayer` raw value.
@@ -356,6 +368,10 @@ extension SchematicFile {
                 Board.Text(id: text.id, text: text.text, x: text.anchor.x, y: text.anchor.y,
                            size: text.size, layer: text.layer.rawValue, rotation: text.rotation,
                            side: text.side.rawValue)
+            },
+            traces: document.traces.map { trace in
+                Board.TraceEntry(id: trace.id, layer: trace.layer.rawValue, width: trace.width,
+                                 points: trace.points.map { Point(x: $0.x, y: $0.y) })
             }
         )
     }
@@ -563,6 +579,12 @@ extension SchematicFile {
             texts.append(placed)
         }
 
+        var traces: [BoardTrace] = []
+        for entry in board?.traces ?? [] {
+            try claim(entry.id)
+            traces.append(try Self.boardTrace(entry, settings: settings))
+        }
+
 
         // Never hand out a U<n> reference that's already used, even if the
         // stored counter is behind.
@@ -577,7 +599,8 @@ extension SchematicFile {
             buses: placedBuses,
             nextReference: max(nextReference, highest + 1),
             board: settings,
-            texts: texts
+            texts: texts,
+            traces: traces
         )
     }
 
@@ -643,6 +666,29 @@ extension SchematicFile {
             styles[layer] = style
         }
         return styles
+    }
+
+    /// A stored trace, checked against the board's layers.
+    private static func boardTrace(_ entry: Board.TraceEntry, settings: BoardSettings) throws -> BoardTrace {
+        let name = "trace \(entry.id.uuidString)"
+        guard let layer = CopperLayer(rawValue: entry.layer) else {
+            throw SchematicFileError.badPCB("\(name) layer \"\(entry.layer)\" must be top, inner2 to inner5, or bottom")
+        }
+        guard settings.copperLayers.contains(layer) else {
+            throw SchematicFileError.badPCB("\(name) layer \"\(entry.layer)\" is not on a \(settings.layers)-layer board")
+        }
+        guard settings.style(of: layer).type != .plane else {
+            throw SchematicFileError.badPCB("\(name) layer \(layer.rawValue) is a plane")
+        }
+        let width = entry.width ?? BoardTrace.defaultWidth
+        guard BoardTrace.widthRange.contains(width) else {
+            throw SchematicFileError.badPCB("\(name) width \(width) must be 5 to 100 mil")
+        }
+        let points = entry.points.map { CGPoint(x: $0.x, y: $0.y) }
+        if let problem = TraceRoute.problem(points) {
+            throw SchematicFileError.badPCB("\(name) \(problem)")
+        }
+        return BoardTrace(id: entry.id, layer: layer, width: width, points: points)
     }
 
     /// A stored footprint placement, with defaults for missing keys.

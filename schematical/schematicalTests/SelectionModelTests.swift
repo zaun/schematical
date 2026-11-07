@@ -277,7 +277,7 @@ final class SelectionModelTests: XCTestCase {
         doc.select(.chip(c.left.id))
         doc.select(.footprint(c.left.id))
         doc.replaceContents(chips: doc.chips, wires: doc.wires, junctions: doc.junctions, buses: [],
-                            nextReference: 4, board: doc.board, texts: [])
+                            nextReference: 4, board: doc.board, texts: [], traces: [])
         XCTAssertTrue(doc.schematicSelection.isEmpty)
         XCTAssertTrue(doc.boardSelection.isEmpty)
     }
