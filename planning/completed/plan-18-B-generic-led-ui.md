@@ -288,7 +288,7 @@ or empty settings fall back to Red / Radial.
   with the three toggles, then "New Generic LED" with Color "● Red" and
   Footprint "5 mm (T-1 3/4) radial LED, 2.54 mm lead spacing", footer "Used for
   LEDs dropped from now on."
-Commit: —
+Commit: e713944
 
 ## Validation Plan
 
@@ -311,6 +311,17 @@ Commit: —
   `generic-led-ui.swift` 10 ok), each from a fresh out dir;
   `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p18-dd CODE_SIGNING_ALLOWED=NO build`
   → `BUILD SUCCEEDED` (est. 5 min total).
+  Result (2026-11-07): ctest 21/21; `generic-led-file.swift` 7 `ok`, exit 0;
+  `generic-led-ui.swift` 10 `ok`, exit 0 (each from a fresh `/tmp/p18-h`);
+  xcodebuild `** BUILD SUCCEEDED **`.
+- Runtime proof as run (2026-11-07): instead of clicking the GUI, a scratch
+  harness (`/tmp/p18-proof/proof.swift`, not kept) drove the real document
+  and views on `be-6502.schematical`: U22 Green / `LED-RADIAL-5MM`, pad 1 at
+  (8.255, 13.97) → `setPartColor` Blue, `setPartFootprint` `LED-0805` →
+  pad 1 at (8.255, 13.97), moved 0.0 mm, 2 pads. `DiodeSymbolView` at
+  level 1 glows blue. The PCB renders before and after show the 0805
+  pads with pad 1 where the radial's square pad 1 was. The saved file has
+  `"color" : "Blue"`, `"footprint" : "LED-0805"`, `"partNumber" : "GENERIC-LED"`.
 
 ## Decisions
 
