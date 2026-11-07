@@ -34,8 +34,10 @@ struct SchematicNetlist {
 
 enum NetlistBuilder {
     /// Two wire ends are the same electrical node when a wire joins them, or
-    /// when they meet at a junction. Union-find over the wire ends gives the nets.
-    static func build(chips: [PlacedChip], wires: [Wire]) -> SchematicNetlist {
+    /// when they meet at a junction. Every bus port pin for the same bus wire,
+    /// on any port of that bus, is one node too. Union-find over the wire ends
+    /// gives the nets.
+    static func build(chips: [PlacedChip], wires: [Wire], buses: [Bus]) -> SchematicNetlist {
         var parent: [WireEnd: WireEnd] = [:]
 
         func find(_ end: WireEnd) -> WireEnd {
@@ -56,6 +58,26 @@ enum NetlistBuilder {
 
         for wire in wires {
             union(wire.start, wire.end)
+        }
+
+        // Port pins that some wire ends on, grouped by bus wire: each group is
+        // one net, whichever line of the bus its ports are on. Unwired pins
+        // add nothing.
+        let portBus = Dictionary(buses.flatMap { bus in bus.ports.map { ($0.id, bus.id) } },
+                                 uniquingKeysWith: { first, _ in first })
+        var groups: [UUID: [WireEnd]] = [:]
+        var seen = Set<WireEnd>()
+        for wire in wires {
+            for end in [wire.start, wire.end] {
+                guard case let .busPin(ref) = end, portBus[ref.portID] != nil,
+                      seen.insert(end).inserted else { continue }
+                groups[ref.wireID, default: []].append(end)
+            }
+        }
+        for group in groups.values {
+            for end in group.dropFirst() {
+                union(group[0], end)
+            }
         }
 
         var netIndexByRoot: [WireEnd: Int] = [:]
@@ -198,7 +220,7 @@ final class SimulationController {
     /// file's contents first; a file that can't be read or parsed stops the
     /// start with a message naming the part.
     func start(document: SchematicDocument) {
-        let netlist = NetlistBuilder.build(chips: document.chips, wires: document.wires)
+        let netlist = NetlistBuilder.build(chips: document.chips, wires: document.wires, buses: document.buses)
         var loads: [(part: Int, values: [UInt32])] = []
         for (index, chip) in document.chips.enumerated() where chip.part.kind == PART_EEPROM {
             guard let file = chip.memoryFile, let size = chip.part.memorySize else { continue }

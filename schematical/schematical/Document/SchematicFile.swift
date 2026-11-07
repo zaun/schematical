@@ -119,18 +119,22 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         case position(Int)
     }
 
-    /// One end of a wire: `{"part": <id>, "pin": "<designator>"}` or `{"junction": <id>}`.
+    /// One end of a wire: `{"part": <id>, "pin": "<designator>"}`,
+    /// `{"junction": <id>}`, or `{"port": <id>, "wire": <bus wire id>}`.
     enum End: Codable, Equatable, Sendable {
         case pin(part: UUID, pin: PinKey)
         case junction(UUID)
+        case port(port: UUID, wire: UUID)
 
         private enum CodingKeys: String, CodingKey {
-            case part, pin, junction
+            case part, pin, junction, port, wire
         }
 
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            if let junction = try container.decodeIfPresent(UUID.self, forKey: .junction) {
+            if let port = try container.decodeIfPresent(UUID.self, forKey: .port) {
+                self = .port(port: port, wire: try container.decode(UUID.self, forKey: .wire))
+            } else if let junction = try container.decodeIfPresent(UUID.self, forKey: .junction) {
                 self = .junction(junction)
             } else {
                 let part = try container.decode(UUID.self, forKey: .part)
@@ -153,6 +157,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
                 try container.encode(number, forKey: .pin)
             case let .junction(id):
                 try container.encode(id, forKey: .junction)
+            case let .port(port, wire):
+                try container.encode(port, forKey: .port)
+                try container.encode(wire, forKey: .wire)
             }
         }
     }
@@ -211,6 +218,8 @@ nonisolated enum SchematicFileError: LocalizedError {
     case missingPart(wire: UUID, part: UUID)
     case missingPin(wire: UUID, reference: String, pin: String)
     case missingJunction(wire: UUID, junction: UUID)
+    case missingPort(wire: UUID, port: UUID)
+    case missingPortPin(wire: UUID, port: UUID, busWire: UUID)
     case badRotation(reference: String, rotation: Int)
     /// A board setting, footprint origin or mark, or board text that isn't
     /// valid; the detail names it.
@@ -236,6 +245,10 @@ nonisolated enum SchematicFileError: LocalizedError {
             "Wire \(wire.uuidString) connects to pin \(pin) of \(reference), which has no such pin."
         case let .missingJunction(wire, junction):
             "Wire \(wire.uuidString) ends at junction \(junction.uuidString), which is not in the file."
+        case let .missingPort(wire, port):
+            "Wire \(wire.uuidString) connects to port \(port.uuidString), which is not in the file."
+        case let .missingPortPin(wire, port, _):
+            "Wire \(wire.uuidString) connects to a pin port \(port.uuidString) does not have."
         case let .badRotation(reference, rotation):
             "\(reference) has PCB rotation \(rotation); it must be 0, 90, 180 or 270."
         case let .badPCB(detail):
@@ -434,6 +447,22 @@ extension SchematicFile {
         let junctionIDs = Set(placedJunctions.map(\.id))
         let chipsByID = Dictionary(uniqueKeysWithValues: chips.map { ($0.id, $0) })
 
+        // Buses come before wires, since wires may end on their port pins.
+        var placedBuses: [SchematicModelBus] = []
+        for bus in buses ?? [] {
+            try claim(bus.id)
+            for line in bus.lines { try claim(line.id) }
+            for wire in bus.wires { try claim(wire.id) }
+            placedBuses.append(try Self.modelBus(bus))
+        }
+        if let (first, second, point) = SchematicModelBus.firstTouch(placedBuses) {
+            throw SchematicFileError.badBus(
+                "buses \(first.uuidString) and \(second.uuidString) touch at \(Self.pointText(point))")
+        }
+        let portsByID = Dictionary(
+            placedBuses.flatMap { bus in bus.ports.map { ($0.id, (bus: bus, port: $0)) } },
+            uniquingKeysWith: { first, _ in first })
+
         func resolve(_ end: End, wire: UUID) throws -> WireEnd {
             switch end {
             case let .pin(partID, pin):
@@ -461,6 +490,14 @@ extension SchematicFile {
                     throw SchematicFileError.missingJunction(wire: wire, junction: id)
                 }
                 return .junction(id)
+            case let .port(portID, busWire):
+                guard let found = portsByID[portID] else {
+                    throw SchematicFileError.missingPort(wire: wire, port: portID)
+                }
+                guard found.port.wireIDs.contains(busWire) else {
+                    throw SchematicFileError.missingPortPin(wire: wire, port: portID, busWire: busWire)
+                }
+                return .busPin(BusPinRef(portID: portID, wireID: busWire))
             }
         }
 
@@ -481,17 +518,6 @@ extension SchematicFile {
             texts.append(try boardText(text))
         }
 
-        var placedBuses: [SchematicModelBus] = []
-        for bus in buses ?? [] {
-            try claim(bus.id)
-            for line in bus.lines { try claim(line.id) }
-            for wire in bus.wires { try claim(wire.id) }
-            placedBuses.append(try Self.modelBus(bus))
-        }
-        if let (first, second, point) = SchematicModelBus.firstTouch(placedBuses) {
-            throw SchematicFileError.badBus(
-                "buses \(first.uuidString) and \(second.uuidString) touch at \(Self.pointText(point))")
-        }
 
         // Never hand out a U<n> reference that's already used, even if the
         // stored counter is behind.
@@ -660,6 +686,8 @@ private extension SchematicFile.End {
             self = .pin(part: ref.chipID, pin: .designator(designator))
         case let .junction(id):
             self = .junction(id)
+        case let .busPin(ref):
+            self = .port(port: ref.portID, wire: ref.wireID)
         }
     }
 }

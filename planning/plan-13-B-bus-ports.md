@@ -404,18 +404,25 @@ below the highest ticked wire.
   extent 160..200", 3 pins → 140..200 (never over the T); clicking the T or
   the end → "A port can't go on the end of a bus line or on a joint."; a T
   drawn into port 1 refused. Canvas and panel PNGs `b1-1` … `b1-6`.
-Commit: —
+Commit: c4bb8c0
 
 ### Phase 2 — Port pins as wire ends; nets
 
-- [ ] `SchematicModel.swift`: `BusPinRef`, the new `WireEnd` / `LineAnchor`
+- [x] `SchematicModel.swift`: `BusPinRef`, the new `WireEnd` / `LineAnchor`
       cases in all 4 model switch sites, `busPinTip`, `busPin(at:)`, `pinTips`,
       `lineAnchor`, `settleWires(attachedToPort:)`, called from
       `setPortWires` / `setPortSide`.
-- [ ] `Simulation.swift`: `NetlistBuilder.build(chips:wires:buses:)` (§ 6);
+- [x] `Simulation.swift`: `NetlistBuilder.build(chips:wires:buses:)` (§ 6);
       `start(document:)` passes buses.
-- [ ] `VoltageCheck.swift`: the `buses:` parameter; `toggleSwitch` and
+- [x] `VoltageCheck.swift`: the `buses:` parameter; `toggleSwitch` and
       `connect` pass `buses`.
+- [x] Added: the file's two `WireEnd` switch sites (`End.init(_:chips:)`,
+      `resolve`) need the new case to compile, so Phase 4's `End.port`
+      (decode `port` first, encode), `resolve` for `.busPin`, and the two new
+      errors land here; buses are now read before wires in `apply`.
+- [x] Added: `scripts/harness/support/BusProof.swift` (builds the proof
+      circuit through the tools' document calls; reused by later phases) and
+      `scripts/harness/bus-play.swift` (the check below).
 
 Acceptance: the plan-13 behavior. 5V → `TE-GDS0204` position 1 → port 1
 `B0` on a horizontal bus line; port 2 `B0` on a vertical line joined to it
@@ -423,6 +430,14 @@ at a T → `LED-RED-0603` anode; cathode → GND. Run,
 turn position 1 on, and the LED lights. Turn it off and the LED goes dark.
   Check: build; draw it, run (⌘R), screenshot with the switch off and on
   (est. 8 min; the smallest check that the union reaches the backend).
+  Result (2026-11-07): build → `** BUILD SUCCEEDED **`; harness
+  `bus-play.swift` → `ALL OK`: switch 1B and LED anode on one net (net 1),
+  two nets with `buses: []`; real `SimulationController`: LED light 0.0 off,
+  1.0 on, 0.0 off again; across the bus, 12V on `B2` then port 2 `B2` →
+  74HC00 VCC is refused with "Can't connect: 12 V on U6 pin 14 (VCC).
+  SN74HC00D needs 2–6 V." while `B0` (5V) is accepted. PNGs `b2-1` (Line
+  mode, port pins marked), `b2-2` (lit LED, green nets across the bus),
+  `b2-3` (dark), `b2-4`.
 Commit: —
 
 ### Phase 3 — Erasing, unticking, confirm dialog

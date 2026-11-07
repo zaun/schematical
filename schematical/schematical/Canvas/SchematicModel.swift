@@ -606,10 +606,18 @@ struct PinRef: Hashable {
     let index: Int
 }
 
-/// One end of a wire: a pin on a placed part, or a junction where wires meet.
+/// A pin on a bus port: the port, and the bus wire the pin is for.
+struct BusPinRef: Hashable {
+    let portID: UUID
+    let wireID: UUID
+}
+
+/// One end of a wire: a pin on a placed part, a junction where wires meet,
+/// or a pin on a bus port.
 enum WireEnd: Hashable {
     case pin(PinRef)
     case junction(UUID)
+    case busPin(BusPinRef)
 }
 
 /// A grid point where wires meet. Wires that branch from a point on another
@@ -624,11 +632,12 @@ struct Junction: Identifiable, Hashable {
     }
 }
 
-/// Where a line can start or end in Line mode: a pin, or a grid point that an
-/// existing wire passes through.
+/// Where a line can start or end in Line mode: a pin, a bus port pin, or a
+/// grid point that an existing wire passes through.
 enum LineAnchor: Hashable {
     case pin(PinRef)
     case point(CGPoint)
+    case busPin(BusPinRef)
 }
 
 /// A wire joins two ends. Its route is the start tip, then the bends in
@@ -1108,7 +1117,8 @@ final class SchematicDocument {
         if !chips[index].switchesOn[position - 1], let library {
             var candidate = chips
             candidate[index].switchesOn[position - 1] = true
-            if let issue = VoltageCheck.firstNew(before: chips, wires, after: candidate, wires, library: library) {
+            if let issue = VoltageCheck.firstNew(before: chips, wires, after: candidate, wires,
+                                                 buses: buses, library: library) {
                 editorMessage = VoltageCheck.message(issue, chips: chips, edit: .turnOn)
                 return nil
             }
@@ -1129,12 +1139,35 @@ final class SchematicDocument {
         return chip.tip(of: slot)
     }
 
-    /// Tip position of every pin on every placed chip.
+    /// Tip position of every pin on every placed chip and bus port.
     var pinTips: [CGPoint] {
         chips.flatMap { chip in
             chip.layout.slots.compactMap { slot in
                 pinTip(PinRef(chipID: chip.id, index: slot.pin.index))
             }
+        } + busPinRefs.compactMap { busPinTip($0) }
+    }
+
+    /// Every pin on every bus port.
+    var busPinRefs: [BusPinRef] {
+        buses.flatMap { bus in
+            bus.ports.flatMap { port in
+                bus.pinWires(of: port).map { BusPinRef(portID: port.id, wireID: $0.id) }
+            }
+        }
+    }
+
+    /// Where a wire meets a bus port pin; nil when the port is gone or the
+    /// wire isn't ticked on it.
+    func busPinTip(_ ref: BusPinRef) -> CGPoint? {
+        guard let (bus, port) = port(ref.portID) else { return nil }
+        return bus.pinTip(port, wire: ref.wireID)
+    }
+
+    /// The bus port pin whose tip is within `radius` of `point`.
+    func busPin(at point: CGPoint, radius: CGFloat = 8) -> BusPinRef? {
+        busPinRefs.reversed().first { ref in
+            busPinTip(ref).map { Self.distance(from: point, to: $0) <= radius } ?? false
         }
     }
 
@@ -1158,6 +1191,8 @@ final class SchematicDocument {
             return pinTip(ref)
         case let .junction(id):
             return junctions.first { $0.id == id }?.point
+        case let .busPin(ref):
+            return busPinTip(ref)
         }
     }
 
@@ -1168,15 +1203,21 @@ final class SchematicDocument {
             return pinTip(ref)
         case let .point(point):
             return point
+        case let .busPin(ref):
+            return busPinTip(ref)
         }
     }
 
-    /// What a line can start or end on near `point`: a pin if one is within
-    /// `pinRadius`, otherwise the grid point nearest `point` when an existing
-    /// wire passes through it and it is within `gridRadius`.
+    /// What a line can start or end on near `point`: a part pin if one is
+    /// within `pinRadius`, then a bus port pin, otherwise the grid point
+    /// nearest `point` when an existing wire passes through it and it is
+    /// within `gridRadius`. Never a point on a bus line.
     func lineAnchor(at point: CGPoint, pinRadius: CGFloat, gridRadius: CGFloat) -> LineAnchor? {
         if let ref = pin(at: point, radius: pinRadius) {
             return .pin(ref)
+        }
+        if let ref = busPin(at: point, radius: pinRadius) {
+            return .busPin(ref)
         }
         let grid = SchematicGrid.snap(point)
         guard Self.distance(from: point, to: grid) <= gridRadius,
@@ -1222,7 +1263,8 @@ final class SchematicDocument {
         // point on a wire for real splits that wire.
         if let library, let standInStart = standIn(for: start), let standInEnd = standIn(for: end) {
             let candidate = wires + [Wire(start: standInStart, end: standInEnd, interior: [])]
-            if let issue = VoltageCheck.firstNew(before: chips, wires, after: chips, candidate, library: library) {
+            if let issue = VoltageCheck.firstNew(before: chips, wires, after: chips, candidate,
+                                                 buses: buses, library: library) {
                 editorMessage = VoltageCheck.message(issue, chips: chips, edit: .connect)
                 return editorMessage
             }
@@ -1253,6 +1295,8 @@ final class SchematicDocument {
                 return wire.start
             }
             return .junction(UUID())
+        case let .busPin(ref):
+            return .busPin(ref)
         }
     }
 
@@ -1263,6 +1307,8 @@ final class SchematicDocument {
             return .pin(ref)
         case let .point(point):
             return junction(at: point).map { WireEnd.junction($0) }
+        case let .busPin(ref):
+            return .busPin(ref)
         }
     }
 
@@ -1331,10 +1377,29 @@ final class SchematicDocument {
         }
     }
 
+    /// Whether a wire end sits on a pin of the given bus port.
+    private func attaches(_ end: WireEnd, toPort portID: UUID) -> Bool {
+        if case let .busPin(ref) = end {
+            return ref.portID == portID
+        }
+        return false
+    }
+
+    /// Re-fits the wires on a bus port's pins after the port changed (pins
+    /// added, removed or moved across), as `settleWires(attachedTo:)` does for
+    /// a part.
+    func settleWires(attachedToPort portID: UUID) {
+        settle { attaches($0, toPort: portID) }
+    }
+
     /// Called when a block is released. Re-fits the wires attached to it and
     /// stores the result, so the change stays rather than being recomputed per frame.
     func settleWires(attachedTo chipID: UUID) {
-        for index in wires.indices where attaches(wires[index].start, to: chipID) || attaches(wires[index].end, to: chipID) {
+        settle { attaches($0, to: chipID) }
+    }
+
+    private func settle(where touches: (WireEnd) -> Bool) {
+        for index in wires.indices where touches(wires[index].start) || touches(wires[index].end) {
             guard let start = endTip(wires[index].start), let end = endTip(wires[index].end) else { continue }
             wires[index].interior = OrthogonalRoute.settled(
                 start: start,
@@ -1517,6 +1582,8 @@ final class SchematicDocument {
         }
         buses[at.bus].ports[at.port].start = start
         buses[at.bus].ports[at.port].wireIDs = wanted
+        // Pins after an added one shift by a pitch; re-fit their wires.
+        settleWires(attachedToPort: portID)
         return nil
     }
 
@@ -1526,6 +1593,7 @@ final class SchematicDocument {
               let line = buses[at.bus].line(buses[at.bus].ports[at.port].line),
               BusPort.sides(for: line).contains(side) else { return }
         buses[at.bus].ports[at.port].side = side
+        settleWires(attachedToPort: portID)
     }
 
     /// The port whose body is under `point` (topmost first).
