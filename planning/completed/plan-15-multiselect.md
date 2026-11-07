@@ -1,6 +1,6 @@
 # Multi-select Plan
 
-Last updated: 2026-11-03
+Last updated: 2026-11-07 (complete)
 Effort: large (3h–1d)
 
 Add Shift multi-selection to both the schematic and PCB canvases. The selection
@@ -200,7 +200,7 @@ Acceptance: every selected object is listed in the active sidebar, selecting a
 row opens the existing single-item inspector, and Run clears selection.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO` → sidebar/lifecycle tests pass (est. 3 min).
   Result (2026-11-07): `Executed 24 tests, with 0 failures` / `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 53aa831
 
 ## Validation Plan
 
@@ -212,6 +212,11 @@ Commit: —
 - Doc sync: update the canvas and sidebar comments describing Pointer/Select
   behavior and selection state.
 - Final gate: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO` and `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build && ctest --test-dir /tmp/logic-build --output-on-failure` → all tests pass (est. 10 min).
+  Result (2026-11-07, after merging main ec2be83 (plan-18 docs only)):
+  xcodebuild `Executed 24 tests, with 0 failures` / `** TEST SUCCEEDED **`;
+  ctest `100% tests passed, 0 tests failed out of 21`. There is no Rust in
+  the repo (no `Cargo.toml`, no `repository/`), so the `cargo fmt` step
+  does not apply.
 
 ## Decisions
 
