@@ -61,17 +61,18 @@ that check the letter before them.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-11 complete | `ls planning/plan-11-*.md 2>/dev/null` → no output; `ls planning/completed/plan-11-D-charlcd-app.md` → exists | NOT MET (2026-11-01: `planning/plan-11-A-groundwork.md` … `plan-11-D-charlcd-app.md` open) |
-| plan-12 complete (the `serial` kind, `acia6551`, `PLCC-28`, the terminal window) | `ls planning/plan-12-*.md 2>/dev/null` → no output; `ls planning/completed/plan-12-K-app.md` → exists | NOT MET (2026-11-01: plan-12-A … K open) |
-| plan-13 complete | `ls planning/plan-13-*.md 2>/dev/null` → no output; `ls planning/completed/plan-13-C-bus-editing.md` → exists | NOT MET (2026-11-01: plan-13-A … C open) |
-| The `acia6551` model and `PLCC-28` exist | `ls backend/src/models/serial_acia6551.c && grep -c '"id":"PLCC-28"' schematical/schematical/Parts/footprints.json` → the path, `1` | NOT MET (2026-11-01: no such file) |
-| No `pio` kind yet | `ls backend/src/models/pio.c schematical/schematical/Parts/pio.json 2>/dev/null` → no output | MET (2026-11-01) |
-| Backend tests green | `cmake -S backend -B /tmp/logic-p14 && cmake --build /tmp/logic-p14 -j8 && ctest --test-dir /tmp/logic-p14` → `100% tests passed`; record the program count as **T0** | not run (plans 11–13 change the count) |
+| plan-11 complete | `ls planning/plan-11-*.md 2>/dev/null` → no output; `ls planning/completed/plan-11-D-charlcd-app.md` → exists | MET (2026-11-07: no open plan-11 file; completed/plan-11-D exists) |
+| plan-12 complete (the `serial` kind, `acia6551`, `PLCC-28`, the terminal window) | `ls planning/plan-12-*.md 2>/dev/null` → no output; `ls planning/completed/plan-12-K-app.md` → exists | MET (2026-11-07: no open plan-12 file; completed/plan-12-K exists) |
+| plan-13 complete | `ls planning/plan-13-*.md 2>/dev/null` → no output; `ls planning/completed/plan-13-C-bus-editing.md` → exists | MET (2026-11-07: no open plan-13 file; completed/plan-13-C exists) |
+| The `acia6551` model and `PLCC-28` exist | `ls backend/src/models/serial_acia6551.c && grep -c '"id": *"PLCC-28"' schematical/schematical/Parts/footprints.json` → the path, `1` | MET (2026-11-07: path, `1`; command corrected, see Corrections) |
+| No `pio` kind yet | `ls backend/src/models/pio.c schematical/schematical/Parts/pio.json 2>/dev/null` → no output | MET (2026-11-07: no output) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p14 && cmake --build /tmp/logic-p14 -j8 && ctest --test-dir /tmp/logic-p14` → `100% tests passed`; record the program count as **T0** | MET (2026-11-07: `100% tests passed, 0 tests failed out of 20`; **T0 = 20**) |
 
 At the start of A also record **P0** = `wc -l < backend/tests/golden/parts.txt`
 (it equals `traces.txt`) and **F0** = `wc -l < backend/tests/golden/footprints.txt`.
 Plans 11–13 change them, so they are measured then (at 403651a they are
 7157 and 195).
+Measured 2026-11-07 at 41be905: **P0 = 7399** (`traces.txt` 7399), **F0 = 232**.
 
 Everything below is written against the world where these hold.
 
@@ -298,8 +299,8 @@ timing (`tacr` 10, `tcar` 10, `tcdr` 20, `thr` 10, `tacw` 10, `tcaw` 10,
 
 ### Phase 1 — Datasheets
 
-- [ ] Download the four PDFs of §4.1 to their paths (`curl -sfL -o`).
-- [ ] `shasum -a 256` each → the §4.1 value.
+- [x] Download the four PDFs of §4.1 to their paths (`curl -sfL -o`). → 456912, 612281, 799941, 1532025 bytes (`wc -c`), as §4.1.
+- [x] `shasum -a 256` each → the §4.1 value. → dd5670ef…, 8827a429…, 248096fb…, b9177e1b… — all four match.
 
 Acceptance: the four files exist and match.
   Check: `shasum -a 256 datasheets/pio/w65c2*.pdf datasheets/controller-uart/w65c51n.pdf datasheets/cpu/w65c816s.pdf` → the four §4.1 hashes (est. seconds).
@@ -352,7 +353,7 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- Prerequisites row 4: `grep -c '"id":"PLCC-28"'` → `0` because `footprints.json` writes newer entries as `"id": "PLCC-28"` (with a space; line 216). Corrected to `grep -c '"id": *"PLCC-28"'` → `1`. The same applies to §2's `grep -o '"id":"[^"]*"'` population check.
 
 ## Summary
 
