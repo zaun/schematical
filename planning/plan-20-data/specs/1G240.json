@@ -1,0 +1,206 @@
+{
+ "id": "1G240",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Single inverting buffer/driver, 3-state output",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinouts sn74aup1g240 p.3 Pin Functions (DBV/DCK/DPW 1 OE, 2 A, 3 GND, 4 Y, 5 VCC; DRY/DSF NC at 5, VCC 6; YZP A1 OE, B1 A, C1 GND, C2 Y, A2 VCC); sn74lvc1g240 p.3 (DBV/DCK, DRY/DSF; its YZP figure numbers pins 1-5 but draws pin 4 Y top-right / 5 VCC bottom-right, balls taken from sn74aup1g240 and sn74auc1g240 p.1); sn74auc1g240 p.1 (DBV/DCK/YZP). OE active low, inverting.",
+ "pinouts": {
+  "p5": [
+   {
+    "number": 1,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "p6": [
+   {
+    "number": 1,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 6,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "dsbga": [
+   {
+    "ball": "A1",
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "ball": "B1",
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "ball": "C1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "C2",
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "ball": "A2",
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBV",
+    "DCK",
+    "DPW"
+   ],
+   "pinout": "p5"
+  },
+  {
+   "codes": [
+    "DRY",
+    "DSF"
+   ],
+   "pinout": "p6"
+  },
+  {
+   "codes": [
+    "YZP"
+   ],
+   "pinout": "dsbga"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A"
+   ],
+   "y": [
+    "Y"
+   ],
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": true,
+ "output": "push-pull",
+ "timing": {
+  "AUC": {
+   "rise": 1,
+   "fall": 1,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "sn74auc1g240 typ tpd at 1.8 V, 15 pF (p.4). VCC 0.8-2.7 V, VI 0-3.6 V (p.3)"
+  },
+  "AUP": {
+   "rise": 3.6,
+   "fall": 3.6,
+   "vcc": [
+    0.8,
+    3.6
+   ],
+   "note": "sn74aup1g240 typ tpd at 3.3 V, 15 pF, 25 C (p.9). VCC 0.8-3.6 V (p.5)"
+  },
+  "LVC": {
+   "rise": 4.5,
+   "fall": 4.5,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "sn74lvc1g240 max tpd at 3.3 V, 50 pF, -40 to 85 C, no typ printed (p.6). VCC 1.65-5.5 V, VI 0-5.5 V (p.5)"
+  }
+ },
+ "families": {
+  "AUC": [
+   "sn74auc1g240"
+  ],
+  "AUP": [
+   "sn74aup1g240"
+  ],
+  "LVC": [
+   "sn74lvc1g240"
+  ]
+ },
+ "pdfs": [
+  "sn74auc1g240",
+  "sn74aup1g240",
+  "sn74lvc1g240"
+ ],
+ "parts": [
+  "SN74AUC1G240DBVR",
+  "SN74AUC1G240DCKR",
+  "SN74AUP1G240DBVR",
+  "SN74AUP1G240DBVT",
+  "SN74AUP1G240DCKR",
+  "SN74AUP1G240DCKT",
+  "SN74AUP1G240DPWR",
+  "SN74AUP1G240DRYR",
+  "SN74AUP1G240DSFR",
+  "SN74AUP1G240YZPR",
+  "SN74LVC1G240DBVR",
+  "SN74LVC1G240DBVT",
+  "SN74LVC1G240DCKR",
+  "SN74LVC1G240DCKT",
+  "SN74LVC1G240DRYR",
+  "SN74LVC1G240DSFR",
+  "SN74LVC1G240YZPR",
+  "SN74LVC1G240DBVRE4"
+ ]
+}

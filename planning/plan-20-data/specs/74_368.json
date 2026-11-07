@@ -1,0 +1,176 @@
+{
+ "id": "74_368",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Hex inverting buffer/line driver, 3-state outputs (4 + 2 enables)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout: sn74hc368 p.3 (J, D, N, NS, PW; FK not in this group; same file as sn54hc368); outputs printed with overbars (1Y1...). Y = not A when OE low, Z when OE high (sn74hc368 p.9). 1OE drives 1A1-1A4, 2OE drives 2A1-2A2. 5962-8681201EA is SNJ54HC368J per the sn54hc368 packaging table.",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "1Y1",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "1A2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "1Y2",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1A3",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "1Y3",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "1Y4",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "1A4",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "2Y1",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "2A1",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "2Y2",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "2A2",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "D",
+    "N",
+    "NS",
+    "PW",
+    "J"
+   ],
+   "pinout": "p16"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4"
+   ],
+   "y": [
+    "1Y1",
+    "1Y2",
+    "1Y3",
+    "1Y4"
+   ],
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2"
+   ],
+   "y": [
+    "2Y1",
+    "2Y2"
+   ],
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": true,
+ "output": "push-pull",
+ "timing": {
+  "HC": {
+   "rise": 12,
+   "fall": 12,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "Typical tpd A->Y at 4.5 V, 50 pF, 25 C (sn74hc368 p.6). VCC 2-6 V for SN54HC368 and SN74HC368 (p.4)"
+  }
+ },
+ "families": {
+  "HC": [
+   "sn74hc368",
+   "sn54hc368"
+  ]
+ },
+ "parts": [
+  "SN74HC368DR",
+  "SN74HC368N",
+  "SN74HC368NSR",
+  "SN74HC368PWR",
+  "5962-8681201EA",
+  "SNJ54HC368J"
+ ],
+ "pdfs": [
+  "sn54hc368",
+  "sn74hc368"
+ ]
+}

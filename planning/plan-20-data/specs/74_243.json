@@ -1,0 +1,146 @@
+{
+ "id": "74_243",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "Quad bus transceiver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74ls243 p.1 (D/N/NS top view; GAB active low, GBA active high). Function table p.1: GAB L GBA L = A to B; H H = B to A; H L = isolation; L H = latch A and B (A = B), the model's both-enabled bus latch. Timing p.4.",
+ "pinouts": {
+  "p14": [
+   {
+    "number": 1,
+    "name": "GAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 3,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 13,
+    "name": "GBA",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "NS",
+    "D",
+    "J",
+    "W"
+   ],
+   "pinout": "p14"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4"
+   ],
+   "oeab": {
+    "pin": "GAB",
+    "active": "low"
+   },
+   "oeba": {
+    "pin": "GBA",
+    "active": "high"
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "LS": {
+   "rise": 12,
+   "fall": 12,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "typ tPLH/tPHL A->B or B->A, SN74LS243, 5 V, 45 pF, RL 667 ohm (sn74ls243 p.4); VCC 4.75-5.25 V (p.3)"
+  }
+ },
+ "families": {
+  "LS": [
+   "sn74ls243"
+  ]
+ },
+ "pdfs": [
+  "sn74ls243"
+ ],
+ "parts": [
+  "SN74LS243N",
+  "SN74LS243NS"
+ ]
+}

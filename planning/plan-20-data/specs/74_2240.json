@@ -1,0 +1,221 @@
+{
+ "id": "74_2240",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Octal inverting buffer/line/MOS driver, 3-state outputs with series damping resistors",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "'240 pinout with 25-ohm (ABT) / 33-ohm (BCT) series output resistors. Pinout sn74abt2240a p.1 (SN74 DB/DW/N/PW, SN54 J/W; same text as sn54abt2240a), sn54bct2240 p.1 (SN54 J/W). Function table sn74abt2240a p.2, sn54bct2240 p.2 (OE low: Y = not A; OE high: Z). Timing sn74abt2240a p.5, sn54bct2240 p.4.",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "2Y4",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "1A2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "2Y3",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1A3",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "2Y2",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "1A4",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "2Y1",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "2A1",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "1Y4",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "2A2",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "1Y3",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "2A3",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "1Y2",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "2A4",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "1Y1",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DB",
+    "DBL",
+    "DW",
+    "N",
+    "NS",
+    "PW",
+    "J"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4"
+   ],
+   "y": [
+    "1Y1",
+    "1Y2",
+    "1Y3",
+    "1Y4"
+   ],
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4"
+   ],
+   "y": [
+    "2Y1",
+    "2Y2",
+    "2Y3",
+    "2Y4"
+   ],
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": true,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 3,
+   "fall": 4.1,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "sn74abt2240a typ tPLH/tPHL A->Y at 5 V, 25 C, 50 pF, SN74 table (p.5; SN54 table typ 3/4.8). VCC 4.5-5.5 V, SN54 and SN74 (p.4)"
+  },
+  "BCT": {
+   "rise": 3.4,
+   "fall": 2.8,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "sn54bct2240 typ tPLH/tPHL A->Y at 5 V, 25 C, 50 pF (p.4). VCC 4.5-5.5 V, SN54 and SN74 (p.4)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt2240a",
+   "sn54abt2240a"
+  ],
+  "BCT": [
+   "sn54bct2240"
+  ]
+ },
+ "pdfs": [
+  "sn74abt2240a",
+  "sn54abt2240a",
+  "sn54bct2240"
+ ],
+ "parts": [
+  "SN74ABT2240ADBR",
+  "SN74ABT2240ADW",
+  "SN74ABT2240ADWR",
+  "SN74ABT2240AN",
+  "SN74ABT2240ANSR",
+  "SN74ABT2240APW",
+  "SN74ABT2240APWR",
+  "SN74ABT2240ADBLE",
+  "SN74ABT2240APWLE",
+  "SN74ABT2240APWRE4",
+  "5962-9093901MRA",
+  "5962-9469701QRA"
+ ]
+}

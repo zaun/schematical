@@ -1,0 +1,230 @@
+{
+ "id": "74_760",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Octal buffer/driver, open-collector outputs ('244 pinout)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "'244 pinout (1OE 1, 1A1 2, 2Y4 3, 1A2 4, 2Y3 5, 1A3 6, 2Y2 7, 1A4 8, 2Y1 9, GND 10, 2A1 11, 1Y4 12, 2A2 13, 1Y3 14, 2A3 15, 1Y2 16, 2A4 17, 1Y1 18, 2OE 19, VCC 20): sn74as760 (= sn74als760 = sn54as760, SDAS141A) p.1 (J, DW, N; FK same numbering), sn74bct760 p.1 (J, W, DW, N), sn74bct760-ep p.1 (DW). Function table OE L: Y = A; OE H: Y off (high via pull-up) (sn74bct760 p.1). Open-collector version of the '244: modeled as tristate with open-drain output.",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "2Y4",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "1A2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "2Y3",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1A3",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "2Y2",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "1A4",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "2Y1",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "2A1",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "1Y4",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "2A2",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "1Y3",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "2A3",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "1Y2",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "2A4",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "1Y1",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "DW",
+    "NS",
+    "J"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4"
+   ],
+   "y": [
+    "1Y1",
+    "1Y2",
+    "1Y3",
+    "1Y4"
+   ],
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4"
+   ],
+   "y": [
+    "2Y1",
+    "2Y2",
+    "2Y3",
+    "2Y4"
+   ],
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "open-drain",
+ "timing": {
+  "ALS": {
+   "rise": 15,
+   "fall": 12,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL A->Y, SN74ALS760, 50 pF (sn74als760 p.3; no typical printed); VCC 4.5-5.5 V (p.2)"
+  },
+  "AS": {
+   "rise": 18.5,
+   "fall": 6,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL A->Y, SN74AS760, 50 pF (sn74as760 p.4; no typical printed); VCC 4.5-5.5 V for SN54 and SN74 (p.4)"
+  },
+  "BCT": {
+   "rise": 8,
+   "fall": 4.3,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A->Y at 5 V, 50 pF (sn74bct760 p.3); VCC 4.5-5.5 V (p.3); -ep p.3 same"
+  }
+ },
+ "families": {
+  "ALS": [
+   "sn74als760"
+  ],
+  "AS": [
+   "sn74as760",
+   "sn54as760"
+  ],
+  "BCT": [
+   "sn74bct760",
+   "sn74bct760-ep"
+  ]
+ },
+ "pdfs": [
+  "sn74als760",
+  "sn74as760",
+  "sn74bct760",
+  "sn74bct760-ep",
+  "sn54as760"
+ ],
+ "parts": [
+  "SN74ALS760N",
+  "SN74AS760DWR",
+  "SN74AS760N",
+  "SN74AS760NSR",
+  "SN74BCT760DWR",
+  "SN74BCT760MDWREP",
+  "SN74BCT760N",
+  "SNJ54AS760J",
+  "SN74BCT760NS"
+ ]
+}

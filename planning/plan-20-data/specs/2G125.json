@@ -1,0 +1,256 @@
+{
+ "id": "2G125",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Dual bus buffer gate, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74lvc2g125 p.4 Pin Functions (DCT/DCU, YZP balls A1=1OE B1=1A C1=2Y D1=GND D2=2A C2=1Y B2=2OE A2=VCC); sn74auc2g125 p.1 (DCT/DCU/YZP same); sn74aup2g125 p.1 (DCU/DQE same; YFP/YZP same balls; RSE UQFN top view 1=2OE 2=1Y 3=2A 4=GND 5=2Y 6=1A 7=1OE 8=VCC). Function table OE low = Y=A, OE high = Z (sn74lvc2g125 p.11).",
+ "pinouts": {
+  "p8": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "rse8": [
+   {
+    "number": 1,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "dsbga": [
+   {
+    "ball": "A1",
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "ball": "B1",
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "ball": "C1",
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "ball": "D1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "D2",
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "ball": "C2",
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "ball": "B2",
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "ball": "A2",
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DCT",
+    "DCU",
+    "DQE"
+   ],
+   "pinout": "p8"
+  },
+  {
+   "codes": [
+    "RSE"
+   ],
+   "pinout": "rse8"
+  },
+  {
+   "codes": [
+    "YZP",
+    "YFP"
+   ],
+   "pinout": "dsbga"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A"
+   ],
+   "y": [
+    "1Y"
+   ],
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A"
+   ],
+   "y": [
+    "2Y"
+   ],
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "AUC": {
+   "rise": 1,
+   "fall": 1,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "typ tpd A->Y at 1.8 V, 15 pF (sn74auc2g125 p.4); VCC 0.8-2.7 V, VI to 3.6 V (p.3)"
+  },
+  "AUP": {
+   "rise": 3.1,
+   "fall": 3.1,
+   "vcc": [
+    0.8,
+    3.6
+   ],
+   "note": "typ tpd A->Y at 3.3 V, 15 pF, 25 C (sn74aup2g125 p.7); VCC 0.8-3.6 V, VIH to 3.6 V (p.4)"
+  },
+  "LVC": {
+   "rise": 4.3,
+   "fall": 4.3,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "max tpd A->Y at 3.3 V, 30/50 pF, -40 to 85 C (no typical printed) (sn74lvc2g125 p.7); VCC 1.65-5.5 V, VI 0-5.5 V (p.6); -q1 p.3-4 same"
+  }
+ },
+ "families": {
+  "AUC": [
+   "sn74auc2g125"
+  ],
+  "AUP": [
+   "sn74aup2g125"
+  ],
+  "LVC": [
+   "sn74lvc2g125",
+   "sn74lvc2g125-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74auc2g125",
+  "sn74aup2g125",
+  "sn74lvc2g125",
+  "sn74lvc2g125-q1"
+ ],
+ "parts": [
+  "SN74AUC2G125DCTR",
+  "SN74AUC2G125DCUR",
+  "SN74AUC2G125YZPR",
+  "SN74AUP2G125DCUR",
+  "SN74AUP2G125DQER",
+  "SN74AUP2G125RSER",
+  "SN74AUP2G125YFPR",
+  "SN74AUP2G125YZPR",
+  "SN74LVC2G125DCTR",
+  "CLVC2G125IDCTRQ1",
+  "SN74LVC2G125DCT3",
+  "SN74LVC2G125DCU3"
+ ]
+}

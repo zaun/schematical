@@ -1,0 +1,136 @@
+{
+ "id": "TXU0102",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "Dual-bit fixed-direction voltage-level translator, Schmitt-trigger inputs, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout: txu0102 p.4 Figures 6-1..6-3 + Table 6-1 (DCU, DTT, DTM: same numbering); txu0102-q1 p.3 (DCU, DTT, same). Both bits A->B (A1->B1Y, A2->B2Y); OE high enables, low = all outputs Hi-Z (function table txu0102 p.23). OE may be driven from either VCCA or VCCB logic levels (VCC(MIN) circuitry); placed in the VCCA domain. Inputs and OE have weak internal pull-downs.",
+ "pinouts": {
+  "p8": [
+   {
+    "number": 1,
+    "name": "B2Y",
+    "role": "output"
+   },
+   {
+    "number": 2,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 3,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 4,
+    "name": "A2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "number": 8,
+    "name": "B1Y",
+    "role": "output"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DCU",
+    "DTM",
+    "DTT"
+   ],
+   "pinout": "p8"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2"
+   ],
+   "y": [
+    "B1Y",
+    "B2Y"
+   ],
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "high"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "A1",
+    "A2",
+    "OE"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "B1Y",
+    "B2Y"
+   ]
+  }
+ ],
+ "timing": {
+  "TXU": {
+   "rise": 8,
+   "fall": 8,
+   "vcc": [
+    1.08,
+    5.5
+   ],
+   "inputMax": 5.5,
+   "vccB": [
+    1.08,
+    5.5
+   ],
+   "inputMaxB": 5.5,
+   "note": "max tpd A->B at VCCA 3.3 V, VCCB 5.0 V, -40 to 85 C; no typical printed (txu0102 p.14). VCCA and VCCB 1.08-5.5 V, VI 0-5.5 V (txu0102 p.6; txu0102-q1 same)"
+  }
+ },
+ "families": {
+  "TXU": [
+   "txu0102",
+   "txu0102-q1"
+  ]
+ },
+ "pdfs": [
+  "txu0102",
+  "txu0102-q1"
+ ],
+ "parts": [
+  "TXU0102DCUR",
+  "TXU0102DTMR",
+  "TXU0102DTTR",
+  "TXU0102QDCURQ1",
+  "TXU0102QDTTRQ1"
+ ]
+}

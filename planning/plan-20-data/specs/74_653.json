@@ -1,0 +1,229 @@
+{
+ "id": "74_653",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver and register, inverting, open-collector A outputs, 3-state B outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "sn74als653 = sn54als653 (SDAS066G). Pinout p.1 (JT, DW/NT; W not drawn, assumed = JT). Function table p.4 ('ALS653 table); A outputs open-collector, B outputs 3-state (p.1 device table); inverting data paths. Timing p.15, ROC p.12. The model takes one output style per device: A side is really open-collector, B side 3-state (see _report.md).",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "CLKAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "SAB",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "OEAB",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "OEBA",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "SBA",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "CLKBA",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DW",
+    "NT",
+    "JT",
+    "W"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "ab": {
+    "store": "register",
+    "clk": {
+     "pin": "CLKAB",
+     "edge": "rising"
+    },
+    "oe": {
+     "pin": "OEAB",
+     "active": "high"
+    },
+    "select": {
+     "pin": "SAB",
+     "active": "high"
+    },
+    "invert": true
+   },
+   "ba": {
+    "store": "register",
+    "clk": {
+     "pin": "CLKBA",
+     "edge": "rising"
+    },
+    "oe": {
+     "pin": "OEBA",
+     "active": "low"
+    },
+    "select": {
+     "pin": "SBA",
+     "active": "high"
+    },
+    "invert": true
+   }
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "ALS": {
+   "rise": 30,
+   "fall": 17,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL CLKAB->B, SN74ALS653, 4.5-5.5 V, 50 pF, no typ printed (sn74als653 p.15); A->B real time max 18/15, CLKBA->A (open-collector) max 64/22; VCC 4.5-5.5 V SN54 and SN74 (p.12)"
+  }
+ },
+ "families": {
+  "ALS": [
+   "sn74als653",
+   "sn54als653"
+  ]
+ },
+ "pdfs": [
+  "sn74als653",
+  "sn54als653"
+ ],
+ "parts": [
+  "SN74ALS653DW",
+  "SN74ALS653-1NT",
+  "SNJ54ALS653W"
+ ]
+}

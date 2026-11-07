@@ -1,0 +1,236 @@
+{
+ "id": "74_652_CD",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver and registers, real-time or stored data, 3-state outputs (CD74 pin names)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Separate from 74_652 because the Harris/RCA datasheet prints different names (CAB/CBA clocks, A0-A7 / B0-B7). cd74ac652 and cd74act652 are the same scanned PDF (CD54/74AC651/652, CD54/74ACT651/652). Pinout: p.1 Terminal Assignment (24-pin, M = SOIC). OEAB active high, OEBA active low, SAB/SBA low = real-time, high = stored; CAB/CBA rising edge stores (function table p.2, '652 column). Timing p.4 (AC) and p.5 (ACT); ROC p.2.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "CAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "SAB",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "OEAB",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A0",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B0",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "OEBA",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "SBA",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "CBA",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "M",
+    "DW"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A0",
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7"
+   ],
+   "b": [
+    "B0",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7"
+   ],
+   "ab": {
+    "store": "register",
+    "clk": {
+     "pin": "CAB",
+     "edge": "rising"
+    },
+    "oe": {
+     "pin": "OEAB",
+     "active": "high"
+    },
+    "select": {
+     "pin": "SAB",
+     "active": "high"
+    }
+   },
+   "ba": {
+    "store": "register",
+    "clk": {
+     "pin": "CBA",
+     "edge": "rising"
+    },
+    "oe": {
+     "pin": "OEBA",
+     "active": "low"
+    },
+    "select": {
+     "pin": "SBA",
+     "active": "high"
+    }
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "AC": {
+   "rise": 12.3,
+   "fall": 12.3,
+   "vcc": [
+    1.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL store A data to B bus (clock->B), 5 V, -40 to 85 C, 50 pF; no typical in the table (cd74ac652 p.4; p.1 quotes 5.3 ns typical propagation delay at 5 V). VCC 1.5-5.5 V (cd74ac652 p.2)"
+  },
+  "ACT": {
+   "rise": 14.1,
+   "fall": 14.1,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL store A data to B bus (clock->B), 5 V, -40 to 85 C, 50 pF; no typical in the table (cd74act652 p.5). VCC 4.5-5.5 V (cd74act652 p.2)"
+  }
+ },
+ "families": {
+  "AC": [
+   "cd74ac652"
+  ],
+  "ACT": [
+   "cd74act652"
+  ]
+ },
+ "pdfs": [
+  "cd74ac652",
+  "cd74act652"
+ ],
+ "parts": [
+  "CD74AC652M96",
+  "CD74ACT652M96"
+ ]
+}

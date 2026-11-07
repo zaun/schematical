@@ -1,0 +1,221 @@
+{
+ "id": "74_647",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver and register, open-collector outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Image-only PDF sdls190a (SN74LS646 thru SN74LS649). Pinout p.1 (SN74LS' DW or NT, SN54LS' JT): 1 CAB, 2 SAB, 3 DIR, 4-11 A1-A8, 12 GND, 13-20 B8-B1, 21 G (active low), 22 SBA, 23 CBA, 24 VCC. Function table p.2 (LS646/LS647: true data). 'LS647 has open-collector outputs on both the A and B ports (p.1 table, p.6 output schematic, p.9). Registers clock on the low-to-high transition of CAB/CBA whatever the enables.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "CAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "SAB",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "G",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "SBA",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "CBA",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "NT"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": {
+    "pin": "G",
+    "active": "low"
+   },
+   "ab": {
+    "store": "register",
+    "clk": {
+     "pin": "CAB",
+     "edge": "rising"
+    },
+    "select": {
+     "pin": "SAB",
+     "active": "high"
+    }
+   },
+   "ba": {
+    "store": "register",
+    "clk": {
+     "pin": "CBA",
+     "edge": "rising"
+    },
+    "select": {
+     "pin": "SBA",
+     "active": "high"
+    }
+   }
+  }
+ ],
+ "invert": false,
+ "output": "open-drain",
+ "timing": {
+  "LS": {
+   "rise": 22,
+   "fall": 28,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "Typical CAB/CBA -> B/A at 5 V, 25 C (RL 667 ohm, 45 pF), 'LS647 (sdls190a p.10); A->B real time 17/18. VCC 4.75-5.25 V SN74, 4.5-5.5 V SN54; off-state A/B output voltage 5.5 V max (sdls190a p.9)"
+  }
+ },
+ "families": {
+  "LS": [
+   "dl2:sdls190a"
+  ]
+ },
+ "pdfs": [
+  "dl2:sdls190a"
+ ],
+ "parts": [
+  "SN74LS647NT"
+ ]
+}

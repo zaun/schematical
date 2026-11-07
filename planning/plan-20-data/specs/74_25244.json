@@ -1,0 +1,212 @@
+{
+ "id": "74_25244",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "25-ohm octal buffer/driver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout from sn74bct25244 p.1 (DW/NT) and sn64bct25244 p.1 (DW/NT), identical; distributed GND/VCC pins. Function table p.1: OE L -> Y = A, OE H -> Z; 1OE gates 1A1-1A4, 2OE gates 2A1-2A4 (logic diagram p.2).",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "1Y1",
+    "role": "output"
+   },
+   {
+    "number": 2,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 3,
+    "name": "1Y2",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "1Y3",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 6,
+    "name": "1Y4",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "2Y1",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "2Y2",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "2Y3",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 12,
+    "name": "2Y4",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "2A4",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "2A3",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 17,
+    "name": "2A2",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "2A1",
+    "role": "input"
+   },
+   {
+    "number": 19,
+    "name": "1A4",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "1A3",
+    "role": "input"
+   },
+   {
+    "number": 21,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 22,
+    "name": "1A2",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "1A1",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "1OE",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DW"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4"
+   ],
+   "y": [
+    "1Y1",
+    "1Y2",
+    "1Y3",
+    "1Y4"
+   ],
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4"
+   ],
+   "y": [
+    "2Y1",
+    "2Y2",
+    "2Y3",
+    "2Y4"
+   ],
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "BCT": {
+   "rise": 3.2,
+   "fall": 4,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->Y at 5 V and 25 C (sn74bct25244 p.3; sn64bct25244 p.3 same). VCC 4.5-5.5 V (sn74bct25244 p.2, sn64bct25244 p.2)"
+  }
+ },
+ "families": {
+  "BCT": [
+   "sn74bct25244",
+   "sn64bct25244"
+  ]
+ },
+ "pdfs": [
+  "sn74bct25244",
+  "sn64bct25244"
+ ],
+ "parts": [
+  "SN74BCT25244DWR",
+  "SN64BCT25244DW"
+ ]
+}

@@ -1,0 +1,578 @@
+{
+ "id": "74_125",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Quad bus buffer gate, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Standard '125 pinout (1OE 1A 1Y 2OE 2A 2Y GND 3Y 3A 3OE 4Y 4A 4OE VCC), same in every PDF: sn74lvc125a p.3 Table 4-1, sn74hc125 p.4, cd74hc125 p.3, cd74hct125 p.3, sn74ahc125 p.3 (D/DB/DGV/N/NS/J/W/PW and RGY/BQA same numbers), sn74ahct125 p.3, sn74act125 p.3 (PW, BQA), sn74hcs125 p.3 (D/PW/DYY, BQA), sn74abt125/sn74lvth125/sn74lv125a p.1 (incl. RGY), sn74ls125a/sn74f125/sn74bct125a/sn64bct125a/sn74alvc125/sn74auc125/sn74lvt125 p.1. QFN thermal pad is not a pin. Function table: OE low -> Y = A, OE high -> Z (every PDF). sn74ahc125-q1 p.3 Table 4-1 and its BQA figure put 3OE on 8 and 3Y on 10 while its D/PW figure on the same page shows the standard 8 = 3Y, 10 = 3OE; treated as a datasheet error (same die as SN74AHC125, whose BQA is standard).",
+ "pinouts": {
+  "p14": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "3OE",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "4Y",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "4A",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "4OE",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "J",
+    "N",
+    "D",
+    "PW",
+    "DB",
+    "RGY",
+    "BQA",
+    "NS",
+    "DGV",
+    "W",
+    "DYY"
+   ],
+   "pinout": "p14"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A"
+   ],
+   "y": [
+    "1Y"
+   ],
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A"
+   ],
+   "y": [
+    "2Y"
+   ],
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "3A"
+   ],
+   "y": [
+    "3Y"
+   ],
+   "oe": [
+    {
+     "pin": "3OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "4A"
+   ],
+   "y": [
+    "4Y"
+   ],
+   "oe": [
+    {
+     "pin": "4OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "HC": {
+   "rise": 14,
+   "fall": 14,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "Typical tpd A->Y at 4.5 V, 25 C, 50 pF, SN74HC125 (sn74hc125 p.6). VCC 2-6 V (sn74hc125 p.4; CD74HC125 cd74hc125 p.4 same)"
+  },
+  "HCT": {
+   "rise": 11,
+   "fall": 11,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tpd A->Y at 4.5 V, 25 C, 50 pF, SN74HCT125 (sn74hct125 p.5). VCC 4.5-5.5 V (sn74hct125 p.4; CD74HCT125 same)"
+  },
+  "HCS": {
+   "rise": 6,
+   "fall": 6,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "Typical tpd A->Y at 4.5 V, 25 C, 50 pF, SN74HCS125 (sn74hcs125 p.6). Schmitt-trigger inputs. VCC 2-6 V (sn74hcs125 p.4)"
+  },
+  "LS": {
+   "rise": 9,
+   "fall": 7,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "Typical at 5 V, 25 C (RL 667 ohm, 45 pF), SN74LS125A (sn74ls125a p.6). VCC 4.75-5.25 V SN74, 4.5-5.5 V SN54 (sn74ls125a p.6)"
+  },
+  "F": {
+   "rise": 3.6,
+   "fall": 5.1,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical at 5 V, 25 C, 50 pF, SN74F125 (sn74f125 p.3). VCC 4.5-5.5 V (sn74f125 p.2)"
+  },
+  "ABT": {
+   "rise": 3.2,
+   "fall": 2.5,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical at 5 V, 25 C, 50 pF, SN74ABT125 (sn74abt125 p.5). VCC 4.5-5.5 V SN54 and SN74 (sn74abt125 p.3)"
+  },
+  "BCT": {
+   "rise": 3.5,
+   "fall": 5,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical at 5 V, 25 C, SN74BCT125A (sn74bct125a p.4; SN64BCT125A same, sn64bct125a p.3). VCC 4.5-5.5 V (sn74bct125a p.3)"
+  },
+  "LVT": {
+   "rise": 2.7,
+   "fall": 2.9,
+   "vcc": [
+    2.7,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "Typical at 3.3 V, 25 C, 50 pF, SN74LVT125 (sn74lvt125 p.4); LVTH125 typ 2/2.1 (sn74lvth125 p.5). VCC 2.7-3.6 V, inputs to 5.5 V (sn74lvt125 p.3)"
+  },
+  "LV": {
+   "rise": 6.1,
+   "fall": 6.1,
+   "vcc": [
+    2,
+    5.5
+   ],
+   "note": "Typical tpd at 3.3 V, 25 C, 50 pF, SN74LV125A (sn74lv125a p.6). VCC 2-5.5 V, VI 0-5.5 V (sn74lv125a p.5)"
+  },
+  "LVC": {
+   "rise": 2.5,
+   "fall": 2.5,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "Typical tpd at 3.3 V, 25 C, 50 pF, SN74LVC125A (sn74lvc125a p.6). VCC 1.65-3.6 V, inputs to 5.5 V (sn74lvc125a p.5)"
+  },
+  "AHC": {
+   "rise": 5.3,
+   "fall": 5.3,
+   "vcc": [
+    2,
+    5.5
+   ],
+   "note": "Typical at 5 V, 25 C, 50 pF, SN74AHC125 (sn74ahc125 p.9). VCC 2-5.5 V, VI 0-5.5 V (sn74ahc125 p.5)"
+  },
+  "AHCT": {
+   "rise": 5.3,
+   "fall": 5.3,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical at 5 V, 25 C, 50 pF, SN74AHCT125 (sn74ahct125 p.6). VCC 4.5-5.5 V (sn74ahct125 p.5)"
+  },
+  "ACT": {
+   "rise": 5.2,
+   "fall": 5.7,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical at 4.5 V (no 5 V row), 50 pF, SN74ACT125 (sn74act125 p.6). VCC 4.5-5.5 V (sn74act125 p.4)"
+  },
+  "ALVC": {
+   "rise": 2.8,
+   "fall": 2.8,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "note": "Max tpd at 3.3 V (no typical printed), SN74ALVC125 (sn74alvc125 p.3). VCC 1.65-3.6 V, VI to 3.6 V (sn74alvc125 p.2)"
+  },
+  "AUC": {
+   "rise": 1,
+   "fall": 1,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "Typical tpd at 1.8 V, 25 C, 15 pF, SN74AUC125 (sn74auc125 p.4). VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc125 p.3)"
+  }
+ },
+ "partVcc": [
+  {
+   "prefix": "JM38510/32301",
+   "family": "LS",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  }
+ ],
+ "families": {
+  "HC": [
+   "sn74hc125",
+   "sn54hc125",
+   "cd74hc125",
+   "cd54hc125",
+   "cd74hc125-q1",
+   "sn74hc125-q1"
+  ],
+  "HCT": [
+   "sn74hct125",
+   "cd74hct125"
+  ],
+  "HCS": [
+   "sn74hcs125",
+   "sn74hcs125-q1"
+  ],
+  "LS": [
+   "sn74ls125a",
+   "sn54ls125a"
+  ],
+  "F": [
+   "sn74f125"
+  ],
+  "ABT": [
+   "sn74abt125",
+   "sn54abt125"
+  ],
+  "BCT": [
+   "sn74bct125a",
+   "sn64bct125a"
+  ],
+  "LVT": [
+   "sn74lvt125",
+   "sn74lvt125-q1",
+   "sn74lvt125-ep",
+   "sn74lvth125",
+   "sn74lvth125-ep"
+  ],
+  "LV": [
+   "sn74lv125a",
+   "sn74lv125a-q1"
+  ],
+  "LVC": [
+   "sn74lvc125a",
+   "sn74lvc125a-q1",
+   "sn74lvc125a-ep"
+  ],
+  "AHC": [
+   "sn74ahc125",
+   "sn54ahc125",
+   "sn74ahc125-q1",
+   "sn74ahc125-ep"
+  ],
+  "AHCT": [
+   "sn74ahct125",
+   "sn54ahct125",
+   "sn74ahct125-q1",
+   "sn74ahct125-ep"
+  ],
+  "ACT": [
+   "sn74act125",
+   "sn74act125-q1"
+  ],
+  "ALVC": [
+   "sn74alvc125"
+  ],
+  "AUC": [
+   "sn74auc125"
+  ]
+ },
+ "pdfs": [
+  "cd54hc125",
+  "cd74hc125",
+  "cd74hc125-q1",
+  "cd74hct125",
+  "sn54abt125",
+  "sn54ahc125",
+  "sn54ahct125",
+  "sn54hc125",
+  "sn54ls125a",
+  "sn64bct125a",
+  "sn74abt125",
+  "sn74act125",
+  "sn74act125-q1",
+  "sn74ahc125",
+  "sn74ahc125-ep",
+  "sn74ahc125-q1",
+  "sn74ahct125",
+  "sn74ahct125-ep",
+  "sn74ahct125-q1",
+  "sn74alvc125",
+  "sn74auc125",
+  "sn74bct125a",
+  "sn74f125",
+  "sn74hc125",
+  "sn74hc125-q1",
+  "sn74hcs125",
+  "sn74hcs125-q1",
+  "sn74hct125",
+  "sn74ls125a",
+  "sn74lv125a",
+  "sn74lv125a-q1",
+  "sn74lvc125a",
+  "sn74lvc125a-ep",
+  "sn74lvc125a-q1",
+  "sn74lvt125",
+  "sn74lvt125-ep",
+  "sn74lvt125-q1",
+  "sn74lvth125",
+  "sn74lvth125-ep"
+ ],
+ "parts": [
+  "CD54HC125F",
+  "CD74HC125E",
+  "CD74HC125M96",
+  "CD74HC125QM96G4Q1",
+  "CD74HC125QPWRG4Q1",
+  "CD74HC125QPWRQ1",
+  "CD74HCT125E",
+  "CD74HCT125M96",
+  "SN54HC125J",
+  "SN74ABT125D",
+  "SN74ABT125DBR",
+  "SN74ABT125DR",
+  "SN74ABT125N",
+  "SN74ABT125PW",
+  "SN74ABT125PWR",
+  "SN74ABT125RGYR",
+  "SN74ACT125BQAR",
+  "SN74ACT125PWR",
+  "SN74ACT125PWRQ1",
+  "SN74ACT125WBQARQ1",
+  "SN74AHC125BQAR",
+  "SN74AHC125DBR",
+  "SN74AHC125DR",
+  "SN74AHC125MDREP",
+  "SN74AHC125N",
+  "SN74AHC125PWR",
+  "SN74AHC125QDRG4Q1",
+  "SN74AHC125QPWRG4Q1",
+  "SN74AHC125QPWRQ1",
+  "SN74AHC125QWBQARQ1",
+  "SN74AHC125RGYR",
+  "SN74AHCT125BQAR",
+  "SN74AHCT125DBR",
+  "SN74AHCT125DGVR",
+  "SN74AHCT125DR",
+  "SN74AHCT125N",
+  "SN74AHCT125NSR",
+  "SN74AHCT125QDREP",
+  "SN74AHCT125QDRG4Q1",
+  "SN74AHCT125QDRQ1",
+  "SN74AHCT125QPWRQ1",
+  "SN74AHCT125RGYR",
+  "SN74ALVC125D",
+  "SN74ALVC125DGVR",
+  "SN74ALVC125DR",
+  "SN74ALVC125NSR",
+  "SN74ALVC125PW",
+  "SN74ALVC125PWR",
+  "SN74AUC125RGYR",
+  "SN74BCT125ADR",
+  "SN74BCT125AN",
+  "SN74F125DR",
+  "SN74F125N",
+  "SN74F125NSR",
+  "SN74HC125DBR",
+  "SN74HC125DR",
+  "SN74HC125IPWRG4Q1",
+  "SN74HC125N",
+  "SN74HC125NSR",
+  "SN74HC125PWR",
+  "SN74HCS125BQAR",
+  "SN74HCS125DR",
+  "SN74HCS125QBQARQ1",
+  "SN74HCS125QDRQ1",
+  "SN74HCS125QPWRQ1",
+  "SN74HCT125DR",
+  "SN74HCT125N",
+  "SN74LS125ADBR",
+  "SN74LS125ADR",
+  "SN74LS125AN",
+  "SN74LS125ANSR",
+  "SN74LV125ADBR",
+  "SN74LV125ADGVR",
+  "SN74LV125ADR",
+  "SN74LV125AN",
+  "SN74LV125ANSR",
+  "SN74LV125APWR",
+  "SN74LV125AQRGYRQ1",
+  "SN74LV125ARGYR",
+  "SN74LVC125ABQAR",
+  "SN74LVC125AD",
+  "SN74LVC125ADBR",
+  "SN74LVC125ADR",
+  "SN74LVC125ADRG3",
+  "SN74LVC125ADT",
+  "SN74LVC125AIPWREP",
+  "SN74LVC125AMDREP",
+  "SN74LVC125ANSR",
+  "SN74LVC125APW",
+  "SN74LVC125APWR",
+  "SN74LVC125APWRG3",
+  "SN74LVC125APWT",
+  "SN74LVC125AQDRQ1",
+  "SN74LVC125AQPWRQ1",
+  "SN74LVC125AWBQARQ1",
+  "SN74LVT125D",
+  "SN74LVT125DBR",
+  "SN74LVT125DR",
+  "SN74LVT125NSR",
+  "SN74LVT125PW",
+  "SN74LVT125PWR",
+  "SN74LVT125QPWREP",
+  "SN74LVT125QPWRG4Q1",
+  "SN74LVT125QPWRQ1",
+  "SN74LVTH125D",
+  "SN74LVTH125DBR",
+  "SN74LVTH125DGVR",
+  "SN74LVTH125DR",
+  "SN74LVTH125IPWREP",
+  "SN74LVTH125NSR",
+  "SN74LVTH125PW",
+  "SN74LVTH125RGYR",
+  "SNJ54ABT125W",
+  "5962-9676801QCA",
+  "5962-9686901QCA",
+  "SN64BCT125AD",
+  "SN64BCT125AN",
+  "CAHCT125QPWRG4Q1",
+  "CLVC125AQPWRG4Q1",
+  "JM38510/32301BCA",
+  "SNJ54AHC125J",
+  "SN74ABT125DB",
+  "SN74ABT125NS",
+  "SN74ABT125QDRG4Q1",
+  "SN74ABT125QDRQ1",
+  "SN74AHC125DGVR",
+  "SN74AHC125NSR",
+  "SN74AHC125QPWR",
+  "SN74ALVC125NS",
+  "SN74F125DRG4",
+  "SN74F125NS",
+  "SN74HC125ADBR",
+  "SN74HC125ANSR",
+  "SN74HC125APW",
+  "SN74HC125APWR",
+  "SN74HC125NS",
+  "SN74HCS125DYYR",
+  "SN74HCS125QDYYRQ1",
+  "SN74LS125ADB",
+  "SN74LS125ADBRG4",
+  "SN74LV125ADG4",
+  "SN74LV125ANS",
+  "SN74LV125ATDBR",
+  "SN74LV125ATDR",
+  "SN74LV125ATNSR",
+  "SN74LV125ATPWR",
+  "SN74LVC125ADB",
+  "SN74LVC125ANS",
+  "SN74AHC125NS",
+  "SN74BCT125ADBR",
+  "SN74LVTH125NS"
+ ]
+}

@@ -1,0 +1,160 @@
+{
+ "id": "2G17",
+ "kind": "gate",
+ "model": "buf",
+ "function": "Buffer",
+ "description": "Dual Schmitt-trigger buffer",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout from sn74lvc2g17 p.3 (DBV/DCK/DRY/DSF/YZP); sn74aup2g17 p.1 (DCK/DRY/DSF/YFP, same order); sn74lvc2g17-ep p.1 (DCK). DSBGA balls: sn74aup2g17 p.1 (YFP: A1 1A, B1 GND, C1 2A, C2 2Y, B2 VCC, A2 1Y), listed in p6 order.",
+ "pinouts": {
+  "p6": [
+   {
+    "number": 1,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 6,
+    "name": "1Y",
+    "role": "output"
+   }
+  ],
+  "dsbga": [
+   {
+    "ball": "A1",
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "ball": "B1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "C1",
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "ball": "C2",
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "ball": "B2",
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "ball": "A2",
+    "name": "1Y",
+    "role": "output"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "YFP",
+    "YZP"
+   ],
+   "pinout": "dsbga"
+  },
+  {
+   "codes": [
+    "DBV",
+    "DCK",
+    "DRY",
+    "DSF",
+    "DRL"
+   ],
+   "pinout": "p6"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "1A"
+   ],
+   "output": "1Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "2A"
+   ],
+   "output": "2Y"
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "AUP": {
+   "rise": 4.1,
+   "fall": 4.1,
+   "vcc": [
+    0.8,
+    3.6
+   ],
+   "note": "sn74aup2g17 typ tpd at 3.3 V, 15 pF (p.6). VCC 0.8-3.6 V, VI to 3.6 V (p.4)"
+  },
+  "LVC": {
+   "rise": 5.4,
+   "fall": 5.4,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "sn74lvc2g17 max tpd at 3.3 V, -40 to 85 C (p.6; no typical given). VCC 1.65-5.5 V, VI to 5.5 V (p.4; sn74lvc2g17-ep p.2 same)"
+  }
+ },
+ "families": {
+  "AUP": [
+   "sn74aup2g17"
+  ],
+  "LVC": [
+   "sn74lvc2g17",
+   "sn74lvc2g17-ep"
+  ]
+ },
+ "parts": [
+  "SN74AUP2G17DCKR",
+  "SN74AUP2G17DRYR",
+  "SN74AUP2G17DSFR",
+  "SN74AUP2G17YFPR",
+  "SN74LVC2G17DBVR",
+  "SN74LVC2G17DBVT",
+  "SN74LVC2G17DCKT",
+  "SN74LVC2G17DRYR",
+  "SN74LVC2G17DSF2",
+  "SN74LVC2G17DSFR",
+  "SN74LVC2G17MDCKREP"
+ ],
+ "pdfs": [
+  "sn74aup2g17",
+  "sn74lvc2g17",
+  "sn74lvc2g17-ep"
+ ]
+}

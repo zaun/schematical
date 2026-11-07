@@ -1,0 +1,348 @@
+{
+ "id": "74_4T245",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "4-bit dual-supply bus transceiver with configurable voltage translation, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "D/DGV/PW/RGY/DYY pinout and RSV pinout from sn74avc4t245 p.4-5 (Figures 4-1..4-5, Table 4-1); same in sn74avch4t245 pin table, sn74axc4t245 (PW/RSV), sn74axc4t245-q1 (PW/RSV), sn74axch4t245 (PW/RSV), sn74avc4t245-q1 (PW/DYY), sn74avch4t245-q1 (PW), sn74avch4t245-ep p.1 (RSV). Two 2-bit sections. Function table (sn74avc4t245 p.16): OE L + DIR L = B to A, OE L + DIR H = A to B, OE H = isolation. DIR and OE referenced to VCCA.",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "1DIR",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "2DIR",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "1A1",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "1A2",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "2A1",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "2A2",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 10,
+    "name": "2B2",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "2B1",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "1B2",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "1B1",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "VCCB",
+    "role": "power"
+   }
+  ],
+  "rsv16": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "number": 3,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 4,
+    "name": "1DIR",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "2DIR",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "1A1",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "1A2",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "2A1",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "2A2",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 12,
+    "name": "2B2",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "2B1",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "1B2",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "1B1",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "2OE",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "D",
+    "DGV",
+    "PW",
+    "RGY",
+    "DYY"
+   ],
+   "pinout": "p16"
+  },
+  {
+   "codes": [
+    "RSV"
+   ],
+   "pinout": "rsv16"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2"
+   ],
+   "b": [
+    "1B1",
+    "1B2"
+   ],
+   "dir": {
+    "pin": "1DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2"
+   ],
+   "b": [
+    "2B1",
+    "2B2"
+   ],
+   "dir": {
+    "pin": "2DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "1A1",
+    "1A2",
+    "2A1",
+    "2A2",
+    "1DIR",
+    "2DIR",
+    "1OE",
+    "2OE"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "1B1",
+    "1B2",
+    "2B1",
+    "2B2"
+   ]
+  }
+ ],
+ "timing": {
+  "AVC": {
+   "rise": 2.9,
+   "fall": 2.9,
+   "vcc": [
+    1.2,
+    3.6
+   ],
+   "inputMax": 3.6,
+   "vccB": [
+    1.2,
+    3.6
+   ],
+   "inputMaxB": 3.6,
+   "note": "Max tPLH/tPHL A->B at VCCA 3.3 V, VCCB 3.3 V (nearest row to 3.3<->5 V; parts top out at 3.6 V), -40 to 85 C (sn74avc4t245 p.12; sn74avch4t245 p.12 same). VCCA/VCCB 1.2-3.6 V, VI 0-3.6 V (sn74avc4t245 p.7)"
+  },
+  "AXC": {
+   "rise": 4,
+   "fall": 4,
+   "vcc": [
+    0.65,
+    3.6
+   ],
+   "inputMax": 3.6,
+   "vccB": [
+    0.65,
+    3.6
+   ],
+   "inputMaxB": 3.6,
+   "note": "Max tpd A->B at VCCA 3.3 V, VCCB 3.3 V (nearest row to 3.3<->5 V), -40 to 85 C (sn74axc4t245 p.12; sn74axch4t245 p.15 same). VCCA/VCCB 0.65-3.6 V, VI 0-3.6 V (sn74axc4t245 p.6)"
+  }
+ },
+ "families": {
+  "AVC": [
+   "sn74avc4t245",
+   "sn74avc4t245-q1",
+   "sn74avch4t245",
+   "sn74avch4t245-q1",
+   "sn74avch4t245-ep"
+  ],
+  "AXC": [
+   "sn74axc4t245",
+   "sn74axc4t245-q1",
+   "sn74axch4t245"
+  ]
+ },
+ "pdfs": [
+  "sn74avc4t245",
+  "sn74avc4t245-q1",
+  "sn74avch4t245",
+  "sn74avch4t245-q1",
+  "sn74avch4t245-ep",
+  "sn74axc4t245",
+  "sn74axc4t245-q1",
+  "sn74axch4t245"
+ ],
+ "parts": [
+  "74AVC4T245QPWRQ1",
+  "74AVC4T245RSVR-NT",
+  "74AVCH4T245QPWRQ1",
+  "SN74AVC4T245D",
+  "SN74AVC4T245DGVR",
+  "SN74AVC4T245DR",
+  "SN74AVC4T245DT",
+  "SN74AVC4T245PW",
+  "SN74AVC4T245PWR",
+  "SN74AVC4T245PWT",
+  "SN74AVC4T245RGYR",
+  "SN74AVC4T245RSVR",
+  "SN74AVCH4T245D",
+  "SN74AVCH4T245DGVR",
+  "SN74AVCH4T245DR",
+  "SN74AVCH4T245DT",
+  "SN74AVCH4T245PW",
+  "SN74AVCH4T245PWR",
+  "SN74AVCH4T245PWT",
+  "SN74AVCH4T245RGYR",
+  "SN74AXC4T245PWR",
+  "SN74AXC4T245QPWRQ1",
+  "SN74AXCH4T245PWR",
+  "CAVCH4T245MRSVREP",
+  "CAXC4T245QRSVRQ1",
+  "74AVC4T245QDYYRQ1",
+  "SN74AVC4T245DYYR"
+ ]
+}

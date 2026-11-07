@@ -1,0 +1,194 @@
+{
+ "id": "74_2240_FCT",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "8-bit inverting buffer/line driver, 3-state outputs with 25-ohm series resistors",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "CY74FCT2240T: same pin positions and function as the '2240 but its own pin names (OEA/OEB, DAn/DBn inputs, OAn/OBn outputs, numbered 0-3), so its own device. Pinout cy74fct2240t p.1 (Q = DBQ QSOP, SO = SOIC); function table and logic diagram p.2 (OEA low: OAn = not DAn; OEB low: OBn = not DBn; high: Z). Timing p.5, VCC p.3.",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "OEA",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "DA0",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "OB0",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "DA1",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "OB1",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "DA2",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "OB2",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "DA3",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "OB3",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "DB3",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "OA3",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "DB2",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "OA2",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "DB1",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "OA1",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "DB0",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "OA0",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "OEB",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBQ",
+    "CY-QC",
+    "CY-SOC"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "DA0",
+    "DA1",
+    "DA2",
+    "DA3"
+   ],
+   "y": [
+    "OA0",
+    "OA1",
+    "OA2",
+    "OA3"
+   ],
+   "oe": [
+    {
+     "pin": "OEA",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "DB0",
+    "DB1",
+    "DB2",
+    "DB3"
+   ],
+   "y": [
+    "OB0",
+    "OB1",
+    "OB2",
+    "OB3"
+   ],
+   "oe": [
+    {
+     "pin": "OEB",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": true,
+ "output": "push-pull",
+ "timing": {
+  "FCT": {
+   "rise": 4.1,
+   "fall": 4.1,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "cy74fct2240t max tPLH/tPHL D->O, CT speed grade (T 8, AT 4.8), -40 to 85 C (no typ printed) (p.5). VCC 4.75-5.25 V (p.3)"
+  }
+ },
+ "families": {
+  "FCT": [
+   "cy74fct2240t"
+  ]
+ },
+ "pdfs": [
+  "cy74fct2240t"
+ ],
+ "parts": [
+  "CY74FCT2240CTQCT",
+  "CY74FCT2240CTSOCT",
+  "CY74FCT2240ATQC",
+  "CY74FCT2240TS0C"
+ ]
+}

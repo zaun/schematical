@@ -1,0 +1,335 @@
+{
+ "id": "1G126",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Single buffer, 3-state output (active-high enable)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout from sn74lvc1g126-q1 p.3: DBV OE 1, A 2, GND 3, Y 4, VCC 5; DRY OE 1, A 2, GND 3, Y 4, N.C. 5, VCC 6. Function table p.10: OE high = Y follows A, OE low = Z. MERGE with group G15's 1G126 device (same function; parts here are the 1P1G126...Q1 orderables). | Pinouts: sn74lvc1g126 p.3 (DBV/DCK/DRL, DRY/DSF with pin 5 N.C., YZP), sn74aup1g126 p.3 (DPW same numbering as DBV; YFP 6-ball with B2 DNU per the drawing), sn74auc1g126 p.3, sn74ahc1g126 p.3, sn74ahct1g126 p.3, sn74ahct1g126-q1 p.3, sn74lvc1g126-ep p.2. DSBGA balls listed in SOT-23 pin order. OE high = Y drives A.",
+ "pinouts": {
+  "p5": [
+   {
+    "number": 1,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "son6": [
+   {
+    "number": 1,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 6,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "p6": [
+   {
+    "number": 1,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 6,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "dsbga": [
+   {
+    "ball": "A1",
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "ball": "B1",
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "ball": "C1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "C2",
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "ball": "A2",
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "dsbga6": [
+   {
+    "ball": "A1",
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "ball": "B1",
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "ball": "C1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "C2",
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "ball": "B2",
+    "name": "DNU",
+    "role": "nc"
+   },
+   {
+    "ball": "A2",
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DRY"
+   ],
+   "pinout": "son6"
+  },
+  {
+   "codes": [
+    "DBV",
+    "DCK"
+   ],
+   "pinout": "p5"
+  },
+  {
+   "codes": [
+    "DBV",
+    "DCK",
+    "DRL",
+    "DPW"
+   ],
+   "pinout": "p5"
+  },
+  {
+   "codes": [
+    "DRY",
+    "DSF"
+   ],
+   "pinout": "p6"
+  },
+  {
+   "codes": [
+    "YZP"
+   ],
+   "pinout": "dsbga"
+  },
+  {
+   "codes": [
+    "YFP"
+   ],
+   "pinout": "dsbga6"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A"
+   ],
+   "y": [
+    "Y"
+   ],
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "high"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "LVC": {
+   "rise": 5.8,
+   "fall": 5.8,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "Max tpd A->Y at 3.3 V (no typical) (sn74lvc1g126-q1 p.7). VCC 1.65-5.5 V, VI to 5.5 V (p.5)"
+  },
+  "AHC": {
+   "rise": 5.3,
+   "fall": 5.3,
+   "vcc": [
+    2,
+    5.5
+   ],
+   "note": "typ at 5 V, 50 pF (sn74ahc1g126 p.6); VCC 2-5.5 V, VI to 5.5 V (p.4)"
+  },
+  "AHCT": {
+   "rise": 5.3,
+   "fall": 5.3,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ at 5 V, 50 pF (sn74ahct1g126 p.5); VCC 4.5-5.5 V (p.4); the -Q1 sheet allows 3-5.5 V (sn74ahct1g126-q1 p.4, partVcc)"
+  },
+  "AUC": {
+   "rise": 1,
+   "fall": 1,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "typ tpd at 1.8 V, 15 pF (sn74auc1g126 p.7); VCC 0.8-2.7 V, VI to 3.6 V (p.5)"
+  },
+  "AUP": {
+   "rise": 3.2,
+   "fall": 3.2,
+   "vcc": [
+    0.8,
+    3.6
+   ],
+   "note": "typ tpd at 3.3 V, 25 C, 15 pF (sn74aup1g126 p.9); VCC 0.8-3.6 V (p.4)"
+  }
+ },
+ "families": {
+  "LVC": [
+   "sn74lvc1g126-q1",
+   "sn74lvc1g126",
+   "sn74lvc1g126-ep"
+  ],
+  "AHC": [
+   "sn74ahc1g126"
+  ],
+  "AHCT": [
+   "sn74ahct1g126",
+   "sn74ahct1g126-q1"
+  ],
+  "AUC": [
+   "sn74auc1g126"
+  ],
+  "AUP": [
+   "sn74aup1g126"
+  ]
+ },
+ "parts": [
+  "1P1G126QDBVRQ1",
+  "1P1G126QDRYRQ1",
+  "SN74AHC1G126DBVR",
+  "SN74AHC1G126DCKR",
+  "SN74AHC1G126DRLR",
+  "SN74AHCT1G126DBVR",
+  "SN74AHCT1G126DCKR",
+  "SN74AUC1G126DBVR",
+  "SN74AUC1G126DCKR",
+  "SN74AUC1G126YZPR",
+  "SN74AUP1G126DBVR",
+  "SN74AUP1G126DBVT",
+  "SN74AUP1G126DCKR",
+  "SN74AUP1G126DCKT",
+  "SN74AUP1G126DPWR",
+  "SN74AUP1G126DRLR",
+  "SN74AUP1G126DRYR",
+  "SN74AUP1G126DSFR",
+  "SN74AUP1G126YFPR",
+  "SN74AUP1G126YZPR",
+  "SN74LVC1G126DBVT",
+  "SN74LVC1G126DCKR",
+  "SN74LVC1G126DCKT",
+  "SN74LVC1G126DRLR",
+  "SN74LVC1G126DRYR",
+  "SN74LVC1G126DSFR",
+  "SN74LVC1G126YZPR",
+  "CAHCT1G126QDCKRG4Q",
+  "CAHCT1G126QDCKRQ1",
+  "CLVC1G126IDCKREP",
+  "SN74AHCT1G126DCK3"
+ ],
+ "pdfs": [
+  "sn74ahc1g126",
+  "sn74ahct1g126",
+  "sn74ahct1g126-q1",
+  "sn74auc1g126",
+  "sn74aup1g126",
+  "sn74lvc1g126",
+  "sn74lvc1g126-ep",
+  "sn74lvc1g126-q1"
+ ]
+}

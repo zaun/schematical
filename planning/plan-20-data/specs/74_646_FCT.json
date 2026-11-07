@@ -1,0 +1,390 @@
+{
+ "id": "74_646_FCT",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "Octal registered bus transceiver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "CY54/74FCT646T print CPAB/CPBA for the clocks and G for the output enable (cy74fct646t p.1-2; same PDF as cy54fct646t); same positions as 74_646 CLKAB/CLKBA/OE. p24 from cy74fct646t p.1 (Q = DBQ, SO = DW, CY54 D). lccc28 = CY54FCT646T L package p.1 (5962-9222301M3A, FK): NC on 1, 8, 15, 22. Function table (all 646 PDFs): G H = isolation (both ports read, registers still clock); G L + DIR L: SBA L = real-time B to A, SBA H = stored B to A; G L + DIR H: SAB L = real-time A to B, SAB H = stored A to B; CPAB/CPBA rising edge stores the A/B bus whatever G/DIR are. (cy74fct646t p.2).",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "CPAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "SAB",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "G",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "SBA",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "CPBA",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "lccc28": [
+   {
+    "number": 1,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 2,
+    "name": "CPAB",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "SAB",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 9,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 15,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 16,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 23,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 25,
+    "name": "G",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "SBA",
+    "role": "input"
+   },
+   {
+    "number": 27,
+    "name": "CPBA",
+    "role": "input"
+   },
+   {
+    "number": 28,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBQ",
+    "DW",
+    "D"
+   ],
+   "pinout": "p24"
+  },
+  {
+   "codes": [
+    "FK",
+    "L"
+   ],
+   "pinout": "lccc28"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": {
+    "pin": "G",
+    "active": "low"
+   },
+   "ab": {
+    "store": "register",
+    "clk": {
+     "pin": "CPAB",
+     "edge": "rising"
+    },
+    "select": {
+     "pin": "SAB",
+     "active": "high"
+    }
+   },
+   "ba": {
+    "store": "register",
+    "clk": {
+     "pin": "CPBA",
+     "edge": "rising"
+    },
+    "select": {
+     "pin": "SBA",
+     "active": "high"
+    }
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "FCT": {
+   "rise": 9,
+   "fall": 9,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "Max tPLH/tPHL CPAB/CPBA -> A/B, CY74FCT646T (slowest grade; AT 6.3, CT 5.7), -40 to 85 C, 50 pF; no typical printed (cy74fct646t p.8). VCC 4.75-5.25 V CY74, 4.5-5.5 V CY54 (cy74fct646t p.5)"
+  }
+ },
+ "partVcc": [
+  {
+   "prefix": "5962-9222301",
+   "family": "FCT",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  }
+ ],
+ "families": {
+  "FCT": [
+   "cy54fct646t",
+   "cy74fct646t"
+  ]
+ },
+ "pdfs": [
+  "cy54fct646t",
+  "cy74fct646t"
+ ],
+ "parts": [
+  "5962-9222301M3A",
+  "CY74FCT646ATQCT",
+  "CY74FCT646ATSOC",
+  "CY74FCT646ATSOCT",
+  "CY74FCT646CTSOC",
+  "CY74FCT646TSOC",
+  "CY74FCT646TSOCT"
+ ]
+}

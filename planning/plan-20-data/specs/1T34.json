@@ -1,0 +1,89 @@
+{
+ "id": "1T34",
+ "kind": "gate",
+ "function": "Buffer",
+ "description": "Single buffer, reduced-threshold 5.5-V-tolerant input (single-supply level shifter)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74lv1t34 p.4 (DBV/DCK: 1 NC, 2 A, 3 GND, 4 Y, 5 VCC); sn74lv1t34-q1 p.3 same.",
+ "pinouts": {
+  "p5": [
+   {
+    "number": 1,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBV",
+    "DCK"
+   ],
+   "pdfs": [
+    "sn74lv1t34",
+    "sn74lv1t34-q1"
+   ],
+   "pinout": "p5"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "A"
+   ],
+   "output": "Y"
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "LV": {
+   "rise": 4.9,
+   "fall": 4.9,
+   "vcc": [
+    1.6,
+    5.5
+   ],
+   "note": "sn74lv1t34 typ tpd at 3.3 V, 30 pF, 25 C (p.7). VCC 1.6-5.5 V, VI 0-5.5 V (= VCC max, no inputMax) (p.5); -q1 p.4 same range"
+  }
+ },
+ "families": {
+  "LV": [
+   "sn74lv1t34",
+   "sn74lv1t34-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74lv1t34",
+  "sn74lv1t34-q1"
+ ],
+ "parts": [
+  "SN74LV1T34DBVR",
+  "SN74LV1T34DCKR",
+  "SN74LV1T34QDBVRQ1",
+  "SN74LV1T34QDCKRQ1"
+ ]
+}

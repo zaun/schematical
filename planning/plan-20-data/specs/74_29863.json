@@ -1,0 +1,227 @@
+{
+ "id": "74_29863",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "9-bit bus transceiver, 3-state outputs (dual output enables per direction)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Am29863 equivalent. Pinout sn74als29863 p.1 (DW/NT), sn74bct29863b p.1 (DW/NT, SN54 JT/W), same 24-pin layout. Function table sn74als29863 p.1 / sn74bct29863b p.1: OEAB1 and OEAB2 both low with an OEBA high = A to B; OEBA1 and OEBA2 both low with an OEAB high = B to A; all four low = latch A and B; otherwise isolation. Logic diagram p.2 (AND of the two enables). Timing sn74als29863 p.3, sn74bct29863b p.4.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "OEBA1",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A9",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "OEBA2",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "OEAB1",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "OEAB2",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "B9",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DW"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8",
+    "B9"
+   ],
+   "oeab": [
+    {
+     "pin": "OEAB1",
+     "active": "low"
+    },
+    {
+     "pin": "OEAB2",
+     "active": "low"
+    }
+   ],
+   "oeba": [
+    {
+     "pin": "OEBA1",
+     "active": "low"
+    },
+    {
+     "pin": "OEBA2",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ALS": {
+   "rise": 8,
+   "fall": 8,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "sn74als29863 max tPLH/tPHL A or B -> B or A, 50 pF, VCC 4.75-5.25 V (no typ printed; 300 pF 15) (p.3). VCC 4.75-5.25 V (p.2)"
+  },
+  "BCT": {
+   "rise": 3,
+   "fall": 4.8,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "sn74bct29863b typ tPLH/tPHL A or B -> B or A at 5 V, 25 C, 50 pF (p.4). VCC 4.5-5.5 V (p.3)"
+  }
+ },
+ "families": {
+  "ALS": [
+   "sn74als29863"
+  ],
+  "BCT": [
+   "sn74bct29863b"
+  ]
+ },
+ "pdfs": [
+  "sn74als29863",
+  "sn74bct29863b"
+ ],
+ "parts": [
+  "SN74ALS29863DW",
+  "SN74BCT29863BDW"
+ ]
+}

@@ -1,0 +1,241 @@
+{
+ "id": "1G07",
+ "kind": "gate",
+ "function": "Buffer",
+ "description": "Single buffer/driver, open-drain output",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinouts sn74lvc1g07 p.3 Pin Functions (DBV/DCK/DRL, DRY/DSF with NC at 1 and 5, DPW, YZP 5-ball with A1 DNU, YZV 4-ball); sn74aup1g07 p.3 (same, plus YFP not used); sn74auc1g07 p.3 (DBV/DCK, YZP A1 DNU); sn74lvc1g07-q1 p.3 (DBV/DCK, DRY); sn74lvc1g07-ep p.1 (DCK). Open-drain output.",
+ "pinouts": {
+  "p5": [
+   {
+    "number": 1,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "p6": [
+   {
+    "number": 1,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 6,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "dsbga": [
+   {
+    "ball": "A1",
+    "name": "DNU",
+    "role": "nc"
+   },
+   {
+    "ball": "B1",
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "ball": "C1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "C2",
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "ball": "A2",
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "dsbga4": [
+   {
+    "ball": "A1",
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "ball": "B1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "B2",
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "ball": "A2",
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBV",
+    "DCK",
+    "DRL",
+    "DPW"
+   ],
+   "pinout": "p5"
+  },
+  {
+   "codes": [
+    "DRY",
+    "DSF"
+   ],
+   "pinout": "p6"
+  },
+  {
+   "codes": [
+    "YZP"
+   ],
+   "pinout": "dsbga"
+  },
+  {
+   "codes": [
+    "YZV"
+   ],
+   "pinout": "dsbga4"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "A"
+   ],
+   "output": "Y"
+  }
+ ],
+ "output": "open-drain",
+ "timing": {
+  "AUC": {
+   "rise": 1.1,
+   "fall": 1.1,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "sn74auc1g07 typ tpd at 1.8 V, 15 pF (p.5). VCC 0.8-2.7 V, VI 0-3.6 V (p.4)"
+  },
+  "AUP": {
+   "rise": 3.7,
+   "fall": 3.7,
+   "vcc": [
+    0.8,
+    3.6
+   ],
+   "note": "sn74aup1g07 typ tpd at 3.3 V, 15 pF (p.6). VCC 0.8-3.6 V, VI to 3.6 V (p.4)"
+  },
+  "LVC": {
+   "rise": 4.2,
+   "fall": 4.2,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "sn74lvc1g07 max tpd at 3.3 V, -40 to 85 C, no typ printed (p.6). VCC 1.65-5.5 V, VI 0-5.5 V (p.5); -q1 p.4 and -ep p.3 same range"
+  }
+ },
+ "families": {
+  "AUC": [
+   "sn74auc1g07"
+  ],
+  "AUP": [
+   "sn74aup1g07"
+  ],
+  "LVC": [
+   "sn74lvc1g07",
+   "sn74lvc1g07-ep",
+   "sn74lvc1g07-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74auc1g07",
+  "sn74aup1g07",
+  "sn74lvc1g07",
+  "sn74lvc1g07-ep",
+  "sn74lvc1g07-q1"
+ ],
+ "parts": [
+  "SN74AUC1G07DBVR",
+  "SN74AUC1G07DBVT",
+  "SN74AUC1G07DCKR",
+  "SN74AUC1G07DCKT",
+  "SN74AUC1G07YZPR",
+  "SN74AUP1G07DBVR",
+  "SN74AUP1G07DBVT",
+  "SN74AUP1G07DCKR",
+  "SN74AUP1G07DCKT",
+  "SN74AUP1G07DRLR",
+  "SN74AUP1G07DRYR",
+  "SN74AUP1G07DSF2",
+  "SN74AUP1G07DSFR",
+  "SN74AUP1G07YZPR",
+  "SN74LVC1G07DBVR",
+  "SN74LVC1G07DBVT",
+  "SN74LVC1G07DCKRG4",
+  "SN74LVC1G07DCKT",
+  "SN74LVC1G07DPWR",
+  "SN74LVC1G07DRY2",
+  "SN74LVC1G07DRYR",
+  "SN74LVC1G07DSF2",
+  "SN74LVC1G07MDCKREP",
+  "SN74LVC1G07QDBVRQ1",
+  "SN74LVC1G07QDCKRQ1",
+  "SN74LVC1G07QDCKTQ1",
+  "SN74LVC1G07QDRYRQ1",
+  "SN74LVC1G07YZPR",
+  "SN74LVC1G07YZVR"
+ ]
+}

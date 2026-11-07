@@ -1,0 +1,230 @@
+{
+ "id": "3G34",
+ "kind": "gate",
+ "model": "buf",
+ "function": "Buffer",
+ "description": "Triple buffer gate",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "sn74aup3g34 p.1 (DCU/DQE same order; RSE UQFN rotated: 1 1Y, 2 3A, 3 2Y, 4 GND, 5 2A, 6 3Y, 7 1A, 8 VCC; YFP balls lettered A1-D2 = pins 1-8); sn74lvc3g34 p.3 (DCT/DCU, YZP balls given as pins 1-8, same positions as YFP). YEP (older NanoStar bump) is not in the lvc3g34 packaging table; it takes the YZP ball map.",
+ "pinouts": {
+  "p8": [
+   {
+    "number": 1,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "rse8": [
+   {
+    "number": 1,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 2,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "dsbga8": [
+   {
+    "ball": "A1",
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "ball": "B1",
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "ball": "C1",
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "ball": "D1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "D2",
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "ball": "C2",
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "ball": "B2",
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "ball": "A2",
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DCU",
+    "DCT",
+    "DQE"
+   ],
+   "pinout": "p8"
+  },
+  {
+   "codes": [
+    "RSE"
+   ],
+   "pinout": "rse8"
+  },
+  {
+   "codes": [
+    "YFP",
+    "YZP",
+    "YEP"
+   ],
+   "pinout": "dsbga8"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "1A"
+   ],
+   "output": "1Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "2A"
+   ],
+   "output": "2Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "3A"
+   ],
+   "output": "3Y"
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "AUP": {
+   "rise": 3.4,
+   "fall": 3.4,
+   "vcc": [
+    0.8,
+    3.6
+   ],
+   "note": "typ tpd at 3.3 V, 25 C, CL 15 pF (sn74aup3g34 p.6); VCC 0.8-3.6 V, VI to 3.6 V (p.4)"
+  },
+  "LVC": {
+   "rise": 4.1,
+   "fall": 4.1,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "max tpd at 3.3 V +-0.3 V, -40 to 85 C, 50 pF, no typical printed (sn74lvc3g34 p.5); VCC 1.65-5.5 V, VI to 5.5 V (p.4)"
+  }
+ },
+ "families": {
+  "AUP": [
+   "sn74aup3g34"
+  ],
+  "LVC": [
+   "sn74lvc3g34"
+  ]
+ },
+ "pdfs": [
+  "sn74aup3g34",
+  "sn74lvc3g34"
+ ],
+ "parts": [
+  "SN74AUP3G34DCUR",
+  "SN74AUP3G34DQER",
+  "SN74AUP3G34RSER",
+  "SN74AUP3G34YFPR",
+  "SN74LVC3G34DCUR",
+  "SN74LVC3G34DCUT",
+  "SN74LVC3G34YZPR",
+  "SN74LVC3G34YEPR",
+  "SN74LVC3G34YZPRB"
+ ]
+}

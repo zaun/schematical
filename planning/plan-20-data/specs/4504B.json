@@ -1,0 +1,187 @@
+{
+ "id": "4504B",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "Hex voltage-level shifter, TTL-to-CMOS or CMOS-to-CMOS",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout cd4504b p.1 terminal assignment (scanned; VCC=1, VSS=8, SELECT=13, VDD=16), cd4504b-ep p.1 same. Inputs referenced to VCC, outputs to VDD (p.1 Fig. 1: 'shift input signals from the VCC logic level to the VDD logic level'). SELECT picks TTL (H) or CMOS (L) input thresholds; no logic effect, no enable. Y = A, non-inverting.",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "AOUT",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "AIN",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "BOUT",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "BIN",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "COUT",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "CIN",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "DIN",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "DOUT",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "EIN",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "EOUT",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "SELECT",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "FIN",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "FOUT",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "VDD",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "D",
+    "N",
+    "PW"
+   ],
+   "pinout": "p16"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "AIN",
+    "BIN",
+    "CIN",
+    "DIN",
+    "EIN",
+    "FIN"
+   ],
+   "y": [
+    "AOUT",
+    "BOUT",
+    "COUT",
+    "DOUT",
+    "EOUT",
+    "FOUT"
+   ],
+   "oe": []
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCC",
+   "pins": [
+    "AIN",
+    "BIN",
+    "CIN",
+    "DIN",
+    "EIN",
+    "FIN",
+    "SELECT"
+   ]
+  },
+  {
+   "power": "VDD",
+   "pins": [
+    "AOUT",
+    "BOUT",
+    "COUT",
+    "DOUT",
+    "EOUT",
+    "FOUT"
+   ]
+  }
+ ],
+ "timing": {
+  "C": {
+   "rise": 140,
+   "fall": 140,
+   "vcc": [
+    5,
+    18
+   ],
+   "vccB": [
+    5,
+    18
+   ],
+   "note": "typ tPLH/tPHL TTL-to-CMOS, VCC 5 V -> VDD 10 V, 50 pF (cd4504b p.3, the nearest row to 3.3<->5 V); recommended supply 5-18 V (cd4504b p.3, listed for VDD only; VCC taken as the same range - the datasheet characterises VCC 5-15 V and lets VCC exceed VDD)"
+  }
+ },
+ "families": {
+  "C": [
+   "cd4504b",
+   "cd4504b-ep"
+  ]
+ },
+ "pdfs": [
+  "cd4504b",
+  "cd4504b-ep"
+ ],
+ "parts": [
+  "CD4504BE",
+  "CD4504BM",
+  "CD4504BM96",
+  "CD4504BMPWREP",
+  "CD4504BMT",
+  "CD4504BPW",
+  "CD4504BPWR"
+ ]
+}

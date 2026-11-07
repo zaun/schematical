@@ -1,0 +1,199 @@
+{
+ "id": "74_17",
+ "kind": "gate",
+ "model": "buf",
+ "function": "Buffer",
+ "description": "Hex Schmitt-trigger buffer",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Standard hex pinout: sn74ac17 p.3 (PW TSSOP, BQA WQFN with thermal pad that is not a pin), sn74ac17-q1 p.3, sn74act17 p.3, sn74act17-q1 p.3, sn74auc17 p.1 (RGY VQFN, same numbering). Function Y = A (sn74auc17 p.1). Push-pull; the TTL SN7417 is open-collector and is device 74_17_OD.",
+ "pinouts": {
+  "p14": [
+   {
+    "number": 1,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "4Y",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "4A",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "5Y",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "5A",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "6Y",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "6A",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "PW",
+    "BQA",
+    "RGY"
+   ],
+   "pinout": "p14"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "1A"
+   ],
+   "output": "1Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "2A"
+   ],
+   "output": "2Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "3A"
+   ],
+   "output": "3Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "4A"
+   ],
+   "output": "4Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "5A"
+   ],
+   "output": "5Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "6A"
+   ],
+   "output": "6Y"
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "AC": {
+   "rise": 4.6,
+   "fall": 6,
+   "vcc": [
+    1.5,
+    6
+   ],
+   "note": "Typical tPLH/tPHL A->Y at 5 V, 50 pF, SN74AC17 (sn74ac17 p.6). VCC 1.5-6 V (sn74ac17 p.4; sn74ac17-q1 same)"
+  },
+  "ACT": {
+   "rise": 4.7,
+   "fall": 6.9,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->Y at 5 V, 50 pF, SN74ACT17 (sn74act17 p.5). VCC 4.5-5.5 V (sn74act17 p.4; sn74act17-q1 same)"
+  },
+  "AUC": {
+   "rise": 1.2,
+   "fall": 1.2,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "Typical tpd A->Y at 1.8 V, 15 pF, SN74AUC17 (sn74auc17 p.3). VCC 0.8-2.7 V, VI to 3.6 V (sn74auc17 p.2)"
+  }
+ },
+ "families": {
+  "AC": [
+   "sn74ac17",
+   "sn74ac17-q1"
+  ],
+  "ACT": [
+   "sn74act17",
+   "sn74act17-q1"
+  ],
+  "AUC": [
+   "sn74auc17"
+  ]
+ },
+ "parts": [
+  "SN74AC17BQAR",
+  "SN74AC17PWRQ1",
+  "SN74AC17WBQARQ1",
+  "SN74ACT17PWR",
+  "SN74ACT17PWRQ1",
+  "SN74ACT17WBQARQ1",
+  "SN74AUC17RGYR"
+ ],
+ "pdfs": [
+  "sn74ac17",
+  "sn74ac17-q1",
+  "sn74act17",
+  "sn74act17-q1",
+  "sn74auc17"
+ ]
+}

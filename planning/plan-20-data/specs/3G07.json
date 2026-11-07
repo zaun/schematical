@@ -1,0 +1,232 @@
+{
+ "id": "3G07",
+ "kind": "gate",
+ "model": "buf",
+ "function": "Buffer",
+ "description": "Triple buffer/driver, open-drain outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinouts: sn74lvc3g07 p.1 (DCT/DCU); sn74lvc3g07-ep p.1 and sn74lvc3g07-q1 p.1 (DCU, same); sn74aup3g07 p.1 (DCU/DQE same order; RSE top view mirrored: 1Y,3A,2Y,GND,2A,3Y,1A,VCC, same as the existing 3G14_RSE; YFP balls A1..D2). Function table Y = A, open-drain (sn74lvc3g07 p.2).",
+ "pinouts": {
+  "p8": [
+   {
+    "number": 1,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "rse8": [
+   {
+    "number": 1,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 2,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "dsbga": [
+   {
+    "ball": "A1",
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "ball": "A2",
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "ball": "B1",
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "ball": "B2",
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "ball": "C1",
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "ball": "C2",
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "ball": "D1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "D2",
+    "name": "2Y",
+    "role": "output"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DCT",
+    "DCU",
+    "DQE"
+   ],
+   "pinout": "p8"
+  },
+  {
+   "codes": [
+    "RSE"
+   ],
+   "pinout": "rse8"
+  },
+  {
+   "codes": [
+    "YFP"
+   ],
+   "pinout": "dsbga"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "1A"
+   ],
+   "output": "1Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "2A"
+   ],
+   "output": "2Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "3A"
+   ],
+   "output": "3Y"
+  }
+ ],
+ "output": "open-drain",
+ "timing": {
+  "AUP": {
+   "rise": 3.7,
+   "fall": 3.7,
+   "vcc": [
+    0.8,
+    3.6
+   ],
+   "note": "typ tpd A->Y at 3.3 V, 15 pF, 25 C (sn74aup3g07 p.6). VCC 0.8-3.6 V, VI and VO to 3.6 V (sn74aup3g07 p.4)"
+  },
+  "LVC": {
+   "rise": 3.7,
+   "fall": 3.7,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "max tpd A->Y at 3.3 V, -40 to 85 C, no typical printed (sn74lvc3g07 p.3). VCC 1.65-5.5 V, VI and VO to 5.5 V (sn74lvc3g07 p.3; -ep and -q1 same)"
+  }
+ },
+ "families": {
+  "AUP": [
+   "sn74aup3g07"
+  ],
+  "LVC": [
+   "sn74lvc3g07",
+   "sn74lvc3g07-ep",
+   "sn74lvc3g07-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74aup3g07",
+  "sn74lvc3g07",
+  "sn74lvc3g07-ep",
+  "sn74lvc3g07-q1"
+ ],
+ "parts": [
+  "SN74AUP3G07DCUR",
+  "SN74AUP3G07DQER",
+  "SN74AUP3G07RSER",
+  "SN74AUP3G07YFPR",
+  "SN74LVC3G07DCTR",
+  "SN74LVC3G07DCUT",
+  "SN74LVC3G07MDCUREP",
+  "SN74LVC3G07QDCURQ1",
+  "SN74LVC3G07DCT3"
+ ]
+}

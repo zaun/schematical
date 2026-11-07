@@ -1,0 +1,438 @@
+{
+ "id": "74_164245",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "16-bit dual-supply bus transceiver, 3-state outputs, controls on VCCA",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "sn74alvc164245 p.3 Pin Functions (DGG/DL; VCCB pins 7, 18; VCCA pins 31, 42); sn74alvc164245-ep p.1 same; sn74avca164245 p.1 (DGG/DGV); sn74avcah164245 p.1 same. Function table (each section): OE low, DIR high = A to B, DIR low = B to A, OE high = isolation. Control pins 1DIR, 2DIR, 1OE, 2OE are powered by VCCA (sn74alvc164245 p.1; sn74avca164245 p.1).",
+ "pinouts": {
+  "p48": [
+   {
+    "number": 1,
+    "name": "1DIR",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1B1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "1B2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "1B3",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "1B4",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "number": 8,
+    "name": "1B5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "1B6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "1B7",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "1B8",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "2B1",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "2B2",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 16,
+    "name": "2B3",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "2B4",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "number": 19,
+    "name": "2B5",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "2B6",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 22,
+    "name": "2B7",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "2B8",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "2DIR",
+    "role": "input"
+   },
+   {
+    "number": 25,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "2A8",
+    "role": "inout"
+   },
+   {
+    "number": 27,
+    "name": "2A7",
+    "role": "inout"
+   },
+   {
+    "number": 28,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 29,
+    "name": "2A6",
+    "role": "inout"
+   },
+   {
+    "number": 30,
+    "name": "2A5",
+    "role": "inout"
+   },
+   {
+    "number": 31,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 32,
+    "name": "2A4",
+    "role": "inout"
+   },
+   {
+    "number": 33,
+    "name": "2A3",
+    "role": "inout"
+   },
+   {
+    "number": 34,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 35,
+    "name": "2A2",
+    "role": "inout"
+   },
+   {
+    "number": 36,
+    "name": "2A1",
+    "role": "inout"
+   },
+   {
+    "number": 37,
+    "name": "1A8",
+    "role": "inout"
+   },
+   {
+    "number": 38,
+    "name": "1A7",
+    "role": "inout"
+   },
+   {
+    "number": 39,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 40,
+    "name": "1A6",
+    "role": "inout"
+   },
+   {
+    "number": 41,
+    "name": "1A5",
+    "role": "inout"
+   },
+   {
+    "number": 42,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 43,
+    "name": "1A4",
+    "role": "inout"
+   },
+   {
+    "number": 44,
+    "name": "1A3",
+    "role": "inout"
+   },
+   {
+    "number": 45,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 46,
+    "name": "1A2",
+    "role": "inout"
+   },
+   {
+    "number": 47,
+    "name": "1A1",
+    "role": "inout"
+   },
+   {
+    "number": 48,
+    "name": "1OE",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DGG",
+    "DL",
+    "DGV"
+   ],
+   "pinout": "p48"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4",
+    "1A5",
+    "1A6",
+    "1A7",
+    "1A8"
+   ],
+   "b": [
+    "1B1",
+    "1B2",
+    "1B3",
+    "1B4",
+    "1B5",
+    "1B6",
+    "1B7",
+    "1B8"
+   ],
+   "dir": {
+    "pin": "1DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4",
+    "2A5",
+    "2A6",
+    "2A7",
+    "2A8"
+   ],
+   "b": [
+    "2B1",
+    "2B2",
+    "2B3",
+    "2B4",
+    "2B5",
+    "2B6",
+    "2B7",
+    "2B8"
+   ],
+   "dir": {
+    "pin": "2DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "1DIR",
+    "2DIR",
+    "1OE",
+    "2OE",
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4",
+    "1A5",
+    "1A6",
+    "1A7",
+    "1A8",
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4",
+    "2A5",
+    "2A6",
+    "2A7",
+    "2A8"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "1B1",
+    "1B2",
+    "1B3",
+    "1B4",
+    "1B5",
+    "1B6",
+    "1B7",
+    "1B8",
+    "2B1",
+    "2B2",
+    "2B3",
+    "2B4",
+    "2B5",
+    "2B6",
+    "2B7",
+    "2B8"
+   ]
+  }
+ ],
+ "timing": {
+  "ALVC": {
+   "rise": 5.8,
+   "fall": 5.8,
+   "vcc": [
+    2.3,
+    3.6
+   ],
+   "vccB": [
+    3,
+    5.5
+   ],
+   "note": "max tpd A->B at VCCA 3.3 V +-0.3 V, VCCB 5 V +-0.5 V, no typical printed (sn74alvc164245 p.10); VCCA 2.3-3.6 V (p.8), VCCB 3-5.5 V (p.7); inputs 0-VCCA / 0-VCCB"
+  },
+  "AVC": {
+   "rise": 3.1,
+   "fall": 3.1,
+   "vcc": [
+    1.4,
+    3.6
+   ],
+   "vccB": [
+    1.4,
+    3.6
+   ],
+   "note": "max tpd A->B at VCCA 3.3 V +-0.3 V, VCCB 3.3 V +-0.3 V (the nearest row to 3.3/5 V; no 5 V side), no typical printed (sn74avca164245 p.8; sn74avcah164245 p.8 same); VCCA and VCCB 1.4-3.6 V (p.5)"
+  }
+ },
+ "families": {
+  "ALVC": [
+   "sn74alvc164245",
+   "sn74alvc164245-ep"
+  ],
+  "AVC": [
+   "sn74avca164245",
+   "sn74avcah164245"
+  ]
+ },
+ "pdfs": [
+  "sn74alvc164245",
+  "sn74alvc164245-ep",
+  "sn74avca164245",
+  "sn74avcah164245"
+ ],
+ "parts": [
+  "SN74ALVC164245DGG",
+  "SN74ALVC164245DGGR",
+  "SN74ALVC164245DGGT",
+  "SN74AVCA164245VR",
+  "SN74AVCAH164245VR",
+  "SN74AVCA164245GR",
+  "SN74AVCAH164245GR",
+  "CALVC164245IDGGREP",
+  "CALVC164245IDLREP",
+  "CALVC164245MDGGREP",
+  "SN74AVCAH164245G"
+ ]
+}

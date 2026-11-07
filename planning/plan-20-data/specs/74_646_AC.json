@@ -1,0 +1,221 @@
+{
+ "id": "74_646_AC",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver and registers, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "CD74AC646 (Harris data, scanned): clocks CAB/CBA, output enable OE, bits A0-A7/B0-B7 (cd74ac646 p.1 terminal assignment: 1 CAB, 2 SAB, 3 DIR, 4-11 A0-A7, 12 GND, 13 B7 ... 20 B0, 21 OE, 22 SBA, 23 CBA, 24 VCC); same positions as 74_646. Function table cd74ac646 p.2 (646 column): Function table (all 646 PDFs): OE H = isolation (both ports read, registers still clock); OE L + DIR L: SBA L = real-time B to A, SBA H = stored B to A; OE L + DIR H: SAB L = real-time A to B, SAB H = stored A to B; CAB/CBA rising edge stores the A/B bus whatever OE/DIR are. Timing cd74ac646 p.5, VCC p.2.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "CAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "SAB",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A0",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B0",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "SBA",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "CBA",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DW"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A0",
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7"
+   ],
+   "b": [
+    "B0",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": {
+    "pin": "OE",
+    "active": "low"
+   },
+   "ab": {
+    "store": "register",
+    "clk": {
+     "pin": "CAB",
+     "edge": "rising"
+    },
+    "select": {
+     "pin": "SAB",
+     "active": "high"
+    }
+   },
+   "ba": {
+    "store": "register",
+    "clk": {
+     "pin": "CBA",
+     "edge": "rising"
+    },
+    "select": {
+     "pin": "SBA",
+     "active": "high"
+    }
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "AC": {
+   "rise": 12.3,
+   "fall": 12.3,
+   "vcc": [
+    1.5,
+    5.5
+   ],
+   "note": "Max tPLH/tPHL store A data to B bus (clock -> bus) at 5 V, -40 to 85 C, 50 pF; no typical in the table (cd74ac646 p.5; cover typ 5.3 ns is the data path). VCC 1.5-5.5 V AC types (cd74ac646 p.2)"
+  }
+ },
+ "families": {
+  "AC": [
+   "cd74ac646"
+  ]
+ },
+ "pdfs": [
+  "cd74ac646"
+ ],
+ "parts": [
+  "CD74AC646M96"
+ ]
+}

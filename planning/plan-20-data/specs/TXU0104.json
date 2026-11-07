@@ -1,0 +1,166 @@
+{
+ "id": "TXU0104",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "4-bit fixed-direction (A to B) dual-supply level shifter, Schmitt-trigger inputs, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout from txu0104-q1 p.4 (PW; WBQA same numbering). Function table (txu0104-q1 p.24): OE H -> outputs follow inputs, OE L -> Hi-Z. OE may be driven from either supply's levels (datasheet: VCC(MIN) control logic); placed in the VCCA domain. Inputs have static pull-downs (not modeled).",
+ "pinouts": {
+  "p14": [
+   {
+    "number": 1,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 10,
+    "name": "B4Y",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "B3Y",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "B2Y",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "B1Y",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "VCCB",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "PW"
+   ],
+   "pinout": "p14"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4"
+   ],
+   "y": [
+    "B1Y",
+    "B2Y",
+    "B3Y",
+    "B4Y"
+   ],
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "high"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "OE"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "B1Y",
+    "B2Y",
+    "B3Y",
+    "B4Y"
+   ]
+  }
+ ],
+ "timing": {
+  "TXU": {
+   "rise": 8,
+   "fall": 8,
+   "vcc": [
+    1.08,
+    5.5
+   ],
+   "inputMax": 5.5,
+   "vccB": [
+    1.08,
+    5.5
+   ],
+   "inputMaxB": 5.5,
+   "note": "Max tpd A->B at VCCA 3.3 V, VCCB 5 V, -40 to 85 C (txu0104-q1 p.14). VCCA/VCCB 1.08-5.5 V, VI 0-5.5 V (txu0104-q1 p.6)"
+  }
+ },
+ "families": {
+  "TXU": [
+   "txu0104-q1"
+  ]
+ },
+ "pdfs": [
+  "txu0104-q1"
+ ],
+ "parts": [
+  "TXU0104QPWRQ1"
+ ]
+}

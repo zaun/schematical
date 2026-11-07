@@ -1,0 +1,488 @@
+{
+ "id": "74_646",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver and registers, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "p24 from sn74abt646a p.1 (DB/DGV/DW/NS/NT/PW and SN54 JT/W; 74ABT646ADBLE/SN74ABT646ADBLE are DB SSOP-24 orderables not in the packaging table), sn74abt646 p.1, sn74als646a p.1 (DW/NT/JT), sn74hc646 p.1, sn74hct646 p.1, sn74lvc646a p.1, sn74lvth646 p.1: all identical. lccc28 (FK) from sn74abt646a p.1, sn74lvth646 p.1 (5962-9674801Q3A), sn74hc646 p.1, sn74als646a p.1: NC on 1, 8, 15, 22. Function table (all 646 PDFs): OE H = isolation (both ports read, registers still clock); OE L + DIR L: SBA L = real-time B to A, SBA H = stored B to A; OE L + DIR H: SAB L = real-time A to B, SAB H = stored A to B; CLKAB/CLKBA rising edge stores the A/B bus whatever OE/DIR are. (sn74abt646a p.4, sn74als646a p.3, sn74hc646 p.2, sn74lvc646a p.2, sn74lvth646 p.2).",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "CLKAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "SAB",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "SBA",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "CLKBA",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "lccc28": [
+   {
+    "number": 1,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 2,
+    "name": "CLKAB",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "SAB",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 9,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 15,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 16,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 23,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 25,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "SBA",
+    "role": "input"
+   },
+   {
+    "number": 27,
+    "name": "CLKBA",
+    "role": "input"
+   },
+   {
+    "number": 28,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DB",
+    "DBL",
+    "DGV",
+    "DW",
+    "NS",
+    "NT",
+    "PW",
+    "JT",
+    "W"
+   ],
+   "pinout": "p24"
+  },
+  {
+   "codes": [
+    "FK"
+   ],
+   "pinout": "lccc28"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": {
+    "pin": "OE",
+    "active": "low"
+   },
+   "ab": {
+    "store": "register",
+    "clk": {
+     "pin": "CLKAB",
+     "edge": "rising"
+    },
+    "select": {
+     "pin": "SAB",
+     "active": "high"
+    }
+   },
+   "ba": {
+    "store": "register",
+    "clk": {
+     "pin": "CLKBA",
+     "edge": "rising"
+    },
+    "select": {
+     "pin": "SBA",
+     "active": "high"
+    }
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 4,
+   "fall": 4,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL CLKAB/CLKBA -> B/A at 5 V, 25 C, 50 pF, SN74ABT646A (sn74abt646a p.8); A->B typ 3/3.3. VCC 4.5-5.5 V, SN54 and SN74 (sn74abt646a p.5); SN74ABT646 (sn74abt646) same function and pinout"
+  },
+  "ALS": {
+   "rise": 30,
+   "fall": 17,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Max tPLH/tPHL CLK -> A/B at 4.5-5.5 V, 0-70 C, 50 pF, SN74ALS646A; no typical printed (sn74als646a p.8). VCC 4.5-5.5 V (sn74als646a p.6)"
+  },
+  "AS": {
+   "rise": 8.5,
+   "fall": 9,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Max tPLH/tPHL CLK -> A/B at 4.5-5.5 V, 0-70 C, 50 pF, SN74AS646; no typical printed (sn74als646a p.14, same PDF as sn74as646). VCC 4.5-5.5 V (p.12)"
+  },
+  "HC": {
+   "rise": 18,
+   "fall": 18,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "Typical tpd CLK -> A/B at 4.5 V, 25 C, 50 pF (sn74hc646 p.7); A->B typ 14. VCC 2-6 V (sn74hc646 p.5)"
+  },
+  "HCT": {
+   "rise": 18,
+   "fall": 18,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tpd CLK -> A/B at 4.5 V, 25 C, 50 pF (sn74hct646 p.6). VCC 4.5-5.5 V (sn74hct646 p.5)"
+  },
+  "LVC": {
+   "rise": 8.4,
+   "fall": 8.4,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "Max tpd CLK -> A/B at 3.3 V, -40 to 85 C, 50 pF, SN74LVC646A; no typical printed (sn74lvc646a p.7). VCC 1.65-3.6 V, VI to 5.5 V (sn74lvc646a p.5)"
+  },
+  "LVT": {
+   "rise": 3.1,
+   "fall": 3.1,
+   "vcc": [
+    2.7,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "Typical tPLH/tPHL CLKAB/CLKBA -> B/A at 3.3 V, 25 C, 50 pF, SN74LVTH646 (sn74lvth646 p.7). VCC 2.7-3.6 V, VI to 5.5 V, SN54 and SN74 (sn74lvth646 p.5)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn54abt646a",
+   "sn74abt646a",
+   "sn74abt646"
+  ],
+  "ALS": [
+   "sn74als646a"
+  ],
+  "AS": [
+   "sn74as646"
+  ],
+  "HC": [
+   "sn74hc646"
+  ],
+  "HCT": [
+   "sn74hct646"
+  ],
+  "LVC": [
+   "sn74lvc646a"
+  ],
+  "LVT": [
+   "sn54lvth646",
+   "sn74lvth646"
+  ]
+ },
+ "pdfs": [
+  "sn54abt646a",
+  "sn54lvth646",
+  "sn74abt646a",
+  "sn74abt646",
+  "sn74als646a",
+  "sn74as646",
+  "sn74hc646",
+  "sn74hct646",
+  "sn74lvc646a",
+  "sn74lvth646"
+ ],
+ "parts": [
+  "5962-9457702QLA",
+  "5962-9674801Q3A",
+  "SN74ABT646ADBR",
+  "SN74ABT646ADW",
+  "SN74ABT646ADWR",
+  "SN74ABT646ANSR",
+  "SN74ABT646APW",
+  "SN74ABT646DBR",
+  "SN74ABT646DW",
+  "SN74ABT646DWR",
+  "SN74ABT646PW",
+  "SN74ABT646PWR",
+  "SN74ALS646ADW",
+  "SN74AS646DW",
+  "SN74HC646DWR",
+  "SN74HCT646DW",
+  "SN74LVC646ADBR",
+  "SN74LVC646ADW",
+  "SN74LVC646APW",
+  "SN74LVC646APWR",
+  "SN74LVTH646DW",
+  "SNJ54ABT646AJT",
+  "74ABT646ADBLE",
+  "SN74ABT646ADB",
+  "SN74ABT646ADBLE",
+  "SN74ABT646ANS"
+ ]
+}

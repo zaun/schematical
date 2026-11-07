@@ -1,0 +1,144 @@
+{
+ "id": "TXU0202",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "Dual-bit fixed-direction level shifter (one A to B, one B to A), Schmitt inputs, 3-state",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout from txu0202 p.4 (DCU, DTT; DTM not in this group) and txu0202-q1 p.3 (same): B2 1, GND 2, VCCA 3, A2Y 4, A1 5, OE 6, VCCB 7, B1Y 8. Channel 1 A1 -> B1Y, channel 2 B2 -> A2Y. OE high = enabled, low = all outputs Hi-Z (p.23 function table). OE may be driven from either VCCA or VCCB levels (p.3); put in the VCCA domain.",
+ "pinouts": {
+  "p8": [
+   {
+    "number": 1,
+    "name": "B2",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 3,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 4,
+    "name": "A2Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "number": 8,
+    "name": "B1Y",
+    "role": "output"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DCU",
+    "DTT"
+   ],
+   "pinout": "p8"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1"
+   ],
+   "y": [
+    "B1Y"
+   ],
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "high"
+    }
+   ]
+  },
+  {
+   "a": [
+    "B2"
+   ],
+   "y": [
+    "A2Y"
+   ],
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "high"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "A1",
+    "A2Y",
+    "OE"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "B2",
+    "B1Y"
+   ]
+  }
+ ],
+ "timing": {
+  "TXU": {
+   "rise": 8,
+   "fall": 8,
+   "vcc": [
+    1.08,
+    5.5
+   ],
+   "vccB": [
+    1.08,
+    5.5
+   ],
+   "note": "Max tpd A->B at VCCA = 3.3 V, VCCB = 5 V, -40 to 85 C (B->A 10 ns; no typical) (txu0202 p.14). VCCA/VCCB 1.08-5.5 V, VI to 5.5 V (p.6)"
+  }
+ },
+ "families": {
+  "TXU": [
+   "txu0202",
+   "txu0202-q1"
+  ]
+ },
+ "parts": [
+  "TXU0202DCUR",
+  "TXU0202DTTR",
+  "TXU0202QDCURQ1",
+  "TXU0202QDTTRQ1"
+ ],
+ "pdfs": [
+  "txu0202",
+  "txu0202-q1"
+ ]
+}

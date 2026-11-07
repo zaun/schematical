@@ -1,0 +1,687 @@
+{
+ "id": "74_24T245",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "24-bit dual-supply bus transceiver, configurable voltage translation, 3-state outputs (six 4-bit sections)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Ball map sn74avc24t245 p.3 Table 5-1 (NMU 83-ball, G3 unpopulated), same in sn74avch24t245 p.3; function table sn74avc24t245 p.17 (each 4-bit section: OE low + DIR high = A->B, DIR low = B->A, OE high = isolation). DIR and OE referenced to VCCA (p.1, p.3).",
+ "pinouts": {
+  "nmu83": [
+   {
+    "ball": "A1",
+    "name": "6OE",
+    "role": "input"
+   },
+   {
+    "ball": "A2",
+    "name": "5OE",
+    "role": "input"
+   },
+   {
+    "ball": "A3",
+    "name": "4OE",
+    "role": "input"
+   },
+   {
+    "ball": "A4",
+    "name": "3OE",
+    "role": "input"
+   },
+   {
+    "ball": "A5",
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "ball": "A6",
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "ball": "B1",
+    "name": "1B1",
+    "role": "inout"
+   },
+   {
+    "ball": "B2",
+    "name": "1B2",
+    "role": "inout"
+   },
+   {
+    "ball": "B3",
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "ball": "B4",
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "ball": "B5",
+    "name": "1A2",
+    "role": "inout"
+   },
+   {
+    "ball": "B6",
+    "name": "1A1",
+    "role": "inout"
+   },
+   {
+    "ball": "C1",
+    "name": "1B3",
+    "role": "inout"
+   },
+   {
+    "ball": "C2",
+    "name": "1B4",
+    "role": "inout"
+   },
+   {
+    "ball": "C3",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "C4",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "C5",
+    "name": "1A4",
+    "role": "inout"
+   },
+   {
+    "ball": "C6",
+    "name": "1A3",
+    "role": "inout"
+   },
+   {
+    "ball": "D1",
+    "name": "2B1",
+    "role": "inout"
+   },
+   {
+    "ball": "D2",
+    "name": "2B2",
+    "role": "inout"
+   },
+   {
+    "ball": "D3",
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "ball": "D4",
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "ball": "D5",
+    "name": "2A2",
+    "role": "inout"
+   },
+   {
+    "ball": "D6",
+    "name": "2A1",
+    "role": "inout"
+   },
+   {
+    "ball": "E1",
+    "name": "2B3",
+    "role": "inout"
+   },
+   {
+    "ball": "E2",
+    "name": "2B4",
+    "role": "inout"
+   },
+   {
+    "ball": "E3",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "E4",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "E5",
+    "name": "2A4",
+    "role": "inout"
+   },
+   {
+    "ball": "E6",
+    "name": "2A3",
+    "role": "inout"
+   },
+   {
+    "ball": "F1",
+    "name": "3B1",
+    "role": "inout"
+   },
+   {
+    "ball": "F2",
+    "name": "3B2",
+    "role": "inout"
+   },
+   {
+    "ball": "F3",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "F4",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "F5",
+    "name": "3A2",
+    "role": "inout"
+   },
+   {
+    "ball": "F6",
+    "name": "3A1",
+    "role": "inout"
+   },
+   {
+    "ball": "G1",
+    "name": "3B3",
+    "role": "inout"
+   },
+   {
+    "ball": "G2",
+    "name": "3B4",
+    "role": "inout"
+   },
+   {
+    "ball": "G4",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "G5",
+    "name": "3A4",
+    "role": "inout"
+   },
+   {
+    "ball": "G6",
+    "name": "3A3",
+    "role": "inout"
+   },
+   {
+    "ball": "H1",
+    "name": "4B1",
+    "role": "inout"
+   },
+   {
+    "ball": "H2",
+    "name": "4B2",
+    "role": "inout"
+   },
+   {
+    "ball": "H3",
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "ball": "H4",
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "ball": "H5",
+    "name": "4A2",
+    "role": "inout"
+   },
+   {
+    "ball": "H6",
+    "name": "4A1",
+    "role": "inout"
+   },
+   {
+    "ball": "J1",
+    "name": "4B3",
+    "role": "inout"
+   },
+   {
+    "ball": "J2",
+    "name": "4B4",
+    "role": "inout"
+   },
+   {
+    "ball": "J3",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "J4",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "J5",
+    "name": "4A4",
+    "role": "inout"
+   },
+   {
+    "ball": "J6",
+    "name": "4A3",
+    "role": "inout"
+   },
+   {
+    "ball": "K1",
+    "name": "5B1",
+    "role": "inout"
+   },
+   {
+    "ball": "K2",
+    "name": "5B2",
+    "role": "inout"
+   },
+   {
+    "ball": "K3",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "K4",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "K5",
+    "name": "5A2",
+    "role": "inout"
+   },
+   {
+    "ball": "K6",
+    "name": "5A1",
+    "role": "inout"
+   },
+   {
+    "ball": "L1",
+    "name": "5B3",
+    "role": "inout"
+   },
+   {
+    "ball": "L2",
+    "name": "5B4",
+    "role": "inout"
+   },
+   {
+    "ball": "L3",
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "ball": "L4",
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "ball": "L5",
+    "name": "5A4",
+    "role": "inout"
+   },
+   {
+    "ball": "L6",
+    "name": "5A3",
+    "role": "inout"
+   },
+   {
+    "ball": "M1",
+    "name": "6B1",
+    "role": "inout"
+   },
+   {
+    "ball": "M2",
+    "name": "6B2",
+    "role": "inout"
+   },
+   {
+    "ball": "M3",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "M4",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "M5",
+    "name": "6A2",
+    "role": "inout"
+   },
+   {
+    "ball": "M6",
+    "name": "6A1",
+    "role": "inout"
+   },
+   {
+    "ball": "N1",
+    "name": "6B3",
+    "role": "inout"
+   },
+   {
+    "ball": "N2",
+    "name": "6B4",
+    "role": "inout"
+   },
+   {
+    "ball": "N3",
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "ball": "N4",
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "ball": "N5",
+    "name": "6A4",
+    "role": "inout"
+   },
+   {
+    "ball": "N6",
+    "name": "6A3",
+    "role": "inout"
+   },
+   {
+    "ball": "P1",
+    "name": "6DIR",
+    "role": "input"
+   },
+   {
+    "ball": "P2",
+    "name": "5DIR",
+    "role": "input"
+   },
+   {
+    "ball": "P3",
+    "name": "4DIR",
+    "role": "input"
+   },
+   {
+    "ball": "P4",
+    "name": "3DIR",
+    "role": "input"
+   },
+   {
+    "ball": "P5",
+    "name": "2DIR",
+    "role": "input"
+   },
+   {
+    "ball": "P6",
+    "name": "1DIR",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "NMU"
+   ],
+   "pinout": "nmu83"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4"
+   ],
+   "b": [
+    "1B1",
+    "1B2",
+    "1B3",
+    "1B4"
+   ],
+   "dir": {
+    "pin": "1DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4"
+   ],
+   "b": [
+    "2B1",
+    "2B2",
+    "2B3",
+    "2B4"
+   ],
+   "dir": {
+    "pin": "2DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "3A1",
+    "3A2",
+    "3A3",
+    "3A4"
+   ],
+   "b": [
+    "3B1",
+    "3B2",
+    "3B3",
+    "3B4"
+   ],
+   "dir": {
+    "pin": "3DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "3OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "4A1",
+    "4A2",
+    "4A3",
+    "4A4"
+   ],
+   "b": [
+    "4B1",
+    "4B2",
+    "4B3",
+    "4B4"
+   ],
+   "dir": {
+    "pin": "4DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "4OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "5A1",
+    "5A2",
+    "5A3",
+    "5A4"
+   ],
+   "b": [
+    "5B1",
+    "5B2",
+    "5B3",
+    "5B4"
+   ],
+   "dir": {
+    "pin": "5DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "5OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "6A1",
+    "6A2",
+    "6A3",
+    "6A4"
+   ],
+   "b": [
+    "6B1",
+    "6B2",
+    "6B3",
+    "6B4"
+   ],
+   "dir": {
+    "pin": "6DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "6OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4",
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4",
+    "3A1",
+    "3A2",
+    "3A3",
+    "3A4",
+    "4A1",
+    "4A2",
+    "4A3",
+    "4A4",
+    "5A1",
+    "5A2",
+    "5A3",
+    "5A4",
+    "6A1",
+    "6A2",
+    "6A3",
+    "6A4",
+    "1DIR",
+    "2DIR",
+    "3DIR",
+    "4DIR",
+    "5DIR",
+    "6DIR",
+    "1OE",
+    "2OE",
+    "3OE",
+    "4OE",
+    "5OE",
+    "6OE"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "1B1",
+    "1B2",
+    "1B3",
+    "1B4",
+    "2B1",
+    "2B2",
+    "2B3",
+    "2B4",
+    "3B1",
+    "3B2",
+    "3B3",
+    "3B4",
+    "4B1",
+    "4B2",
+    "4B3",
+    "4B4",
+    "5B1",
+    "5B2",
+    "5B3",
+    "5B4",
+    "6B1",
+    "6B2",
+    "6B3",
+    "6B4"
+   ]
+  }
+ ],
+ "timing": {
+  "AVC": {
+   "rise": 2.7,
+   "fall": 2.7,
+   "vcc": [
+    1.2,
+    3.6
+   ],
+   "vccB": [
+    1.2,
+    3.6
+   ],
+   "note": "max tPLH/tPHL A->B at VCCA 3.3 V, VCCB 3.3 V (nearest row to 3.3<->5 V; the parts stop at 3.6 V), no typ printed (sn74avc24t245 p.12; sn74avch24t245 p.12 same); VCCA and VCCB 1.2-3.6 V, VI 0-3.6 V (p.7)"
+  }
+ },
+ "families": {
+  "AVC": [
+   "sn74avc24t245",
+   "sn74avch24t245"
+  ]
+ },
+ "pdfs": [
+  "sn74avc24t245",
+  "sn74avch24t245"
+ ],
+ "parts": [
+  "SN74AVC24T245NMUR",
+  "SN74AVCH24T245NMUR"
+ ]
+}

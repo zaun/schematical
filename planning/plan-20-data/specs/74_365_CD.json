@@ -1,0 +1,177 @@
+{
+ "id": "74_365_CD",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Hex buffer/line driver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout cd74hc365 / cd74hct365 (same PDF) p.3 Figure 4-1 + Table 4-1 (J/N/D: OE1 and OE2 active low, 1A..6A, 1Y..6Y). Timing p.6.",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "OE1",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "4Y",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "4A",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "5Y",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "5A",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "6Y",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "6A",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "OE2",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "D",
+    "M",
+    "J",
+    "F"
+   ],
+   "pinout": "p16"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A",
+    "2A",
+    "3A",
+    "4A",
+    "5A",
+    "6A"
+   ],
+   "y": [
+    "1Y",
+    "2Y",
+    "3Y",
+    "4Y",
+    "5Y",
+    "6Y"
+   ],
+   "oe": [
+    {
+     "pin": "OE1",
+     "active": "low"
+    },
+    {
+     "pin": "OE2",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "HC": {
+   "rise": 8,
+   "fall": 8,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "typ tPLH/tPHL data to outputs at 5 V, 15 pF (cd74hc365 p.6); VCC 2-6 V (p.4)"
+  },
+  "HCT": {
+   "rise": 9,
+   "fall": 9,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL data to outputs at 5 V, 15 pF (cd74hct365 p.6); VCC 4.5-5.5 V (p.4)"
+  }
+ },
+ "families": {
+  "HC": [
+   "cd74hc365"
+  ],
+  "HCT": [
+   "cd74hct365"
+  ]
+ },
+ "pdfs": [
+  "cd74hc365",
+  "cd74hct365"
+ ],
+ "parts": [
+  "CD74HC365E",
+  "CD74HCT365E",
+  "CD74HCT365M96",
+  "CD74HC365M96"
+ ]
+}

@@ -1,0 +1,153 @@
+{
+ "id": "1T34_DUAL",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "1-bit unidirectional dual-supply voltage-level translator (A to B)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74aup1t34 p.4 (DCK: 1 VCCA, 2 A, 3 GND, 4 B, 5 VCCB; DRY/DSF: 1 VCCA, 2 A, 3 GND, 4 B, 5 NC, 6 VCCB); sn74aup1t34-q1 p.3 (DCK, same). A is the input referenced to VCCA, B the output referenced to VCCB; no enable.",
+ "pinouts": {
+  "p5": [
+   {
+    "number": 1,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "B",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VCCB",
+    "role": "power"
+   }
+  ],
+  "p6": [
+   {
+    "number": 1,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "B",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 6,
+    "name": "VCCB",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DCK"
+   ],
+   "pdfs": [
+    "sn74aup1t34",
+    "sn74aup1t34-q1"
+   ],
+   "pinout": "p5"
+  },
+  {
+   "codes": [
+    "DRY",
+    "DSF"
+   ],
+   "pdfs": [
+    "sn74aup1t34",
+    "sn74aup1t34-q1"
+   ],
+   "pinout": "p6"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A"
+   ],
+   "y": [
+    "B"
+   ],
+   "oe": []
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "A"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "B"
+   ]
+  }
+ ],
+ "timing": {
+  "AUP": {
+   "rise": 5.07,
+   "fall": 5.07,
+   "vcc": [
+    0.9,
+    3.6
+   ],
+   "vccB": [
+    0.9,
+    3.6
+   ],
+   "note": "sn74aup1t34 max tPLH/tPHL A->B, VCCA 1.65 V to VCCB 3 V, 15 pF (p.9; nearest row to 1.8 V -> 3.3 V, the part tops out at 3.6 V; no typ printed at these supplies). VCCA and VCCB 0.9-3.6 V (p.6); ROC gives no VI row (abs max 4.6 V), so no inputMax"
+  }
+ },
+ "families": {
+  "AUP": [
+   "sn74aup1t34",
+   "sn74aup1t34-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74aup1t34",
+  "sn74aup1t34-q1"
+ ],
+ "parts": [
+  "SN74AUP1T34QDCKRQ1",
+  "SN74AUP1T34DCKR",
+  "SN74AUP1T34DRYR",
+  "SN74AUP1T34DSFR"
+ ]
+}

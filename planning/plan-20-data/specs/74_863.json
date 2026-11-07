@@ -1,0 +1,235 @@
+{
+ "id": "74_863",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "9-bit bus transceiver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74lvc863a p.1 and sn74abt863 p.1 (same: 1 OEBA1, 2-10 A1-A9, 11 OEBA2, 12 GND, 13 OEAB1, 14 OEAB2, 15-23 B9-B1, 24 VCC). Function table p.2 (both PDFs): OEAB1 and OEAB2 both low = A to B, OEBA1 and OEBA2 both low = B to A, all four low = latch A and B; uses the array-of-controls form of oeab/oeba.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "OEBA1",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A9",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "OEBA2",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "OEAB1",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "OEAB2",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "B9",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DW",
+    "DGV",
+    "PW",
+    "DB",
+    "NS",
+    "NT"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8",
+    "B9"
+   ],
+   "oeab": [
+    {
+     "pin": "OEAB1",
+     "active": "low"
+    },
+    {
+     "pin": "OEAB2",
+     "active": "low"
+    }
+   ],
+   "oeba": [
+    {
+     "pin": "OEBA1",
+     "active": "low"
+    },
+    {
+     "pin": "OEBA2",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 2.6,
+   "fall": 2.3,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A or B -> B or A at 5 V, 50 pF (sn74abt863 p.5); VCC 4.5-5.5 V (p.3)"
+  },
+  "LVC": {
+   "rise": 6.1,
+   "fall": 6.1,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "max tpd A or B -> B or A at 3.3 V (no typical printed) (sn74lvc863a p.4); VCC 1.65-3.6 V, VI 0-5.5 V (p.3)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt863"
+  ],
+  "LVC": [
+   "sn74lvc863a"
+  ]
+ },
+ "pdfs": [
+  "sn74abt863",
+  "sn74lvc863a"
+ ],
+ "parts": [
+  "SN74ABT863DW",
+  "SN74LVC863ADGVR",
+  "SN74LVC863ADW",
+  "SN74LVC863APWR"
+ ]
+}

@@ -1,0 +1,402 @@
+{
+ "id": "74_16540",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "16-bit inverting buffer/driver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74abt16540a p.1 (DGG/DGV/DL); same in sn74ahc16540 p.1, sn74ahct16540 p.1, sn74lvch16540a p.1. Function table sn74abt16540a p.2 (each 8-bit section): OE1 L and OE2 L -> Y = not A; either H -> Z.",
+ "pinouts": {
+  "p48": [
+   {
+    "number": 1,
+    "name": "1OE1",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Y1",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "1Y2",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "1Y3",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1Y4",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 8,
+    "name": "1Y5",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "1Y6",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "1Y7",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "1Y8",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "2Y1",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "2Y2",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 16,
+    "name": "2Y3",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "2Y4",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 19,
+    "name": "2Y5",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "2Y6",
+    "role": "output"
+   },
+   {
+    "number": 21,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 22,
+    "name": "2Y7",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "2Y8",
+    "role": "output"
+   },
+   {
+    "number": 24,
+    "name": "2OE1",
+    "role": "input"
+   },
+   {
+    "number": 25,
+    "name": "2OE2",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "2A8",
+    "role": "input"
+   },
+   {
+    "number": 27,
+    "name": "2A7",
+    "role": "input"
+   },
+   {
+    "number": 28,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 29,
+    "name": "2A6",
+    "role": "input"
+   },
+   {
+    "number": 30,
+    "name": "2A5",
+    "role": "input"
+   },
+   {
+    "number": 31,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 32,
+    "name": "2A4",
+    "role": "input"
+   },
+   {
+    "number": 33,
+    "name": "2A3",
+    "role": "input"
+   },
+   {
+    "number": 34,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 35,
+    "name": "2A2",
+    "role": "input"
+   },
+   {
+    "number": 36,
+    "name": "2A1",
+    "role": "input"
+   },
+   {
+    "number": 37,
+    "name": "1A8",
+    "role": "input"
+   },
+   {
+    "number": 38,
+    "name": "1A7",
+    "role": "input"
+   },
+   {
+    "number": 39,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 40,
+    "name": "1A6",
+    "role": "input"
+   },
+   {
+    "number": 41,
+    "name": "1A5",
+    "role": "input"
+   },
+   {
+    "number": 42,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 43,
+    "name": "1A4",
+    "role": "input"
+   },
+   {
+    "number": 44,
+    "name": "1A3",
+    "role": "input"
+   },
+   {
+    "number": 45,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 46,
+    "name": "1A2",
+    "role": "input"
+   },
+   {
+    "number": 47,
+    "name": "1A1",
+    "role": "input"
+   },
+   {
+    "number": 48,
+    "name": "1OE2",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DGG",
+    "DL"
+   ],
+   "pinout": "p48"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4",
+    "1A5",
+    "1A6",
+    "1A7",
+    "1A8"
+   ],
+   "y": [
+    "1Y1",
+    "1Y2",
+    "1Y3",
+    "1Y4",
+    "1Y5",
+    "1Y6",
+    "1Y7",
+    "1Y8"
+   ],
+   "oe": [
+    {
+     "pin": "1OE1",
+     "active": "low"
+    },
+    {
+     "pin": "1OE2",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4",
+    "2A5",
+    "2A6",
+    "2A7",
+    "2A8"
+   ],
+   "y": [
+    "2Y1",
+    "2Y2",
+    "2Y3",
+    "2Y4",
+    "2Y5",
+    "2Y6",
+    "2Y7",
+    "2Y8"
+   ],
+   "oe": [
+    {
+     "pin": "2OE1",
+     "active": "low"
+    },
+    {
+     "pin": "2OE2",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": true,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 2.3,
+   "fall": 2.5,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A->Y at 5 V, 50 pF (sn74abt16540a p.4); VCC 4.5-5.5 V SN54/SN74 (p.3)"
+  },
+  "AHC": {
+   "rise": 5.2,
+   "fall": 5.2,
+   "vcc": [
+    2,
+    5.5
+   ],
+   "note": "typ A->Y at 5 V, 50 pF (sn74ahc16540 p.5); VCC 2-5.5 V, VI to 5.5 V (p.3)"
+  },
+  "AHCT": {
+   "rise": 6,
+   "fall": 6,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ A->Y at 5 V, 50 pF (sn74ahct16540 p.4); VCC 4.5-5.5 V (p.3)"
+  },
+  "LVC": {
+   "rise": 3.7,
+   "fall": 3.7,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "max tpd A->Y at 3.3 V (sn74lvch16540a p.4; no typ printed); VCC 1.65-3.6 V, VI to 5.5 V (p.3). LVCH (bus hold) folded into LVC"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt16540a"
+  ],
+  "AHC": [
+   "sn74ahc16540"
+  ],
+  "AHCT": [
+   "sn74ahct16540"
+  ],
+  "LVC": [
+   "sn74lvch16540a"
+  ]
+ },
+ "pdfs": [
+  "sn74abt16540a",
+  "sn74ahc16540",
+  "sn74ahct16540",
+  "sn74lvch16540a"
+ ],
+ "parts": [
+  "SN74ABT16540ADGGR",
+  "SN74ABT16540ADL",
+  "SN74ABT16540ADLR",
+  "SN74AHC16540DGGR",
+  "SN74AHC16540DL",
+  "SN74AHCT16540DGGR",
+  "SN74AHCT16540DL",
+  "SN74LVCH16540ADGGR",
+  "SN74LVCH16540ADL"
+ ]
+}

@@ -1,0 +1,221 @@
+{
+ "id": "74_25245",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "25-ohm octal bus transceiver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "p24 from sn74abth25245 p.1 (DW/NT, SN54 JT), sn74bct25245 p.1 (DW/NT), sn64bct25245 p.1 (DW/NT): identical, distributed GND on 2/5/8/11 and VCC on 16/21. Function table OE L + DIR L = B data to A, DIR H = A data to B, OE H = isolation (sn74abth25245 p.2, sn74bct25245 p.1, sn64bct25245 p.1). SN64BCT25245 is the -40 to 85 C BCT part.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 2,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 6,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 12,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 17,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 22,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "DIR",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DW",
+    "NT",
+    "JT"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 2.3,
+   "fall": 2.4,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->B at 5 V, 25 C, 50 pF, SN74ABTH25245 (sn74abth25245 p.6). VCC 4.5-5.5 V (sn74abth25245 p.4)"
+  },
+  "BCT": {
+   "rise": 3.3,
+   "fall": 4.3,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->B at 5 V, 25 C (sn74bct25245 p.4; SN64BCT25245 same typ, sn64bct25245 p.4). VCC 4.5-5.5 V (sn74bct25245 p.3, sn64bct25245 p.2)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abth25245"
+  ],
+  "BCT": [
+   "sn74bct25245",
+   "sn64bct25245"
+  ]
+ },
+ "pdfs": [
+  "sn74abth25245",
+  "sn74bct25245",
+  "sn64bct25245"
+ ],
+ "parts": [
+  "SN74ABTH25245DW",
+  "SN74ABTH25245DWR",
+  "SN74BCT25245DW",
+  "SN64BCT25245DW"
+ ]
+}

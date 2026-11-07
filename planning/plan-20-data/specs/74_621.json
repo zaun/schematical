@@ -1,0 +1,184 @@
+{
+ "id": "74_621",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver, open-collector outputs (OEAB/OEBA)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "sn74als621a (SDAS226A) p.1 DW/N pinout and function table: OEAB high = A to B, OEBA low = B to A, both = bus latch (A = B), OEAB low/OEBA high = isolation; open-collector outputs on both ports (p.1 device table, p.6 IOH/VOH 5.5 V). NS is not in the sheet; the SOP-20 takes the same pinout.",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "OEAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "OEBA",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "DW",
+    "NS"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "oeab": {
+    "pin": "OEAB",
+    "active": "high"
+   },
+   "oeba": {
+    "pin": "OEBA",
+    "active": "low"
+   }
+  }
+ ],
+ "invert": false,
+ "output": "open-drain",
+ "timing": {
+  "ALS": {
+   "rise": 33,
+   "fall": 20,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL A->B, VCC 4.5-5.5 V, CL 50 pF, RL 680 ohm, no typical printed (sn74als621a p.6); VCC 4.5-5.5 V (p.5)"
+  }
+ },
+ "families": {
+  "ALS": [
+   "sn74als621a"
+  ]
+ },
+ "pdfs": [
+  "sn74als621a"
+ ],
+ "parts": [
+  "SN74ALS621ADW",
+  "SN74ALS621AN",
+  "SN74ALS621A-1N",
+  "SN74ALS621A-1NS"
+ ]
+}

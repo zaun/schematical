@@ -1,0 +1,86 @@
+{
+ "id": "1G37",
+ "kind": "gate",
+ "model": "buf",
+ "function": "Buffer",
+ "description": "Single buffer, Schmitt-trigger input, open-drain output",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74lvc1g37 p.3 Table 4-1 (DBV, DCK: NC=1, A=2, GND=3, Y=4, VCC=5); sn74lvc1g37-q1 p.3 same. Schmitt-trigger input, open-drain output (p.1).",
+ "pinouts": {
+  "p5": [
+   {
+    "number": 1,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBV",
+    "DCK"
+   ],
+   "pinout": "p5"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "A"
+   ],
+   "output": "Y"
+  }
+ ],
+ "output": "open-drain",
+ "timing": {
+  "LVC": {
+   "rise": 4,
+   "fall": 4,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "typ tpd A->Y at 3.3 V, 50 pF (sn74lvc1g37 p.6); VCC 1.65-5.5 V, VI to 5.5 V (sn74lvc1g37 p.4; -Q1 p.4 same range, faster typ 1.8 ns)"
+  }
+ },
+ "families": {
+  "LVC": [
+   "sn74lvc1g37",
+   "sn74lvc1g37-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74lvc1g37",
+  "sn74lvc1g37-q1"
+ ],
+ "parts": [
+  "SN74LVC1G37DBVR",
+  "SN74LVC1G37DBVRQ1",
+  "SN74LVC1G37DCKR",
+  "SN74LVC1G37DCKRQ1"
+ ]
+}

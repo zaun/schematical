@@ -1,0 +1,178 @@
+{
+ "id": "74_17_OD",
+ "kind": "gate",
+ "model": "buf",
+ "function": "Buffer",
+ "description": "Hex buffer/driver, open-collector high-voltage (15 V) outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout from sn7417 p.3 (D, N, NS, J, W; same file as sn5417). Open-collector outputs, VO max 15 V for SN5417/SN7417 (sn7417 p.4). Y = A (p.1).",
+ "pinouts": {
+  "p14": [
+   {
+    "number": 1,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "4Y",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "4A",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "5Y",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "5A",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "6Y",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "6A",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "D",
+    "N",
+    "NS",
+    "J",
+    "W"
+   ],
+   "pinout": "p14"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "1A"
+   ],
+   "output": "1Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "2A"
+   ],
+   "output": "2Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "3A"
+   ],
+   "output": "3Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "4A"
+   ],
+   "output": "4Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "5A"
+   ],
+   "output": "5Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "6A"
+   ],
+   "output": "6Y"
+  }
+ ],
+ "output": "open-drain",
+ "timing": {
+  "TTL": {
+   "rise": 6,
+   "fall": 20,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "Typical at 5 V, 25 C, RL 110 ohm, CL 15 pF (sn7417 p.5). VCC 4.75-5.25 V for SN7417, 4.5-5.5 V for SN5417 (sn7417 p.4)"
+  }
+ },
+ "partVcc": [
+  {
+   "prefix": "SNJ54",
+   "family": "TTL",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  }
+ ],
+ "families": {
+  "TTL": [
+   "sn7417",
+   "sn5417"
+  ]
+ },
+ "parts": [
+  "SN7417DR",
+  "SN7417N",
+  "SNJ5417J"
+ ],
+ "pdfs": [
+  "sn5417",
+  "sn7417"
+ ]
+}

@@ -1,0 +1,235 @@
+{
+ "id": "74_11244",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Octal buffer/line driver, 3-state outputs, center-pin VCC/GND",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "74ac11244 (= scas171b, SCAS171B) p.1 DB/DW/NT/PW pinout and function table; 74act11244 (SCAS006C) p.1 same pinout. Both OEs active low.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "1Y1",
+    "role": "output"
+   },
+   {
+    "number": 2,
+    "name": "1Y2",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "1Y3",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "1Y4",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 6,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "2Y1",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "2Y2",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "2Y3",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "2Y4",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "2A4",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "2A3",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "2A2",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "2A1",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 19,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 20,
+    "name": "1A4",
+    "role": "input"
+   },
+   {
+    "number": 21,
+    "name": "1A3",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "1A2",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "1A1",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "1OE",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DB",
+    "DW",
+    "PW",
+    "NT",
+    "N",
+    "NS"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4"
+   ],
+   "y": [
+    "1Y1",
+    "1Y2",
+    "1Y3",
+    "1Y4"
+   ],
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4"
+   ],
+   "y": [
+    "2Y1",
+    "2Y2",
+    "2Y3",
+    "2Y4"
+   ],
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "AC": {
+   "rise": 4.9,
+   "fall": 4.5,
+   "vcc": [
+    3,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A->Y at 5 V +-0.5 V, 25 C, 50 pF (74ac11244 p.4); VCC 3-5.5 V (p.3)"
+  },
+  "ACT": {
+   "rise": 6,
+   "fall": 5.4,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A->Y at 5 V +-0.5 V, 25 C, 50 pF (74act11244 p.3); VCC 4.5-5.5 V (p.2)"
+  }
+ },
+ "families": {
+  "AC": [
+   "74ac11244",
+   "scas171b"
+  ],
+  "ACT": [
+   "74act11244"
+  ]
+ },
+ "pdfs": [
+  "74ac11244",
+  "74act11244",
+  "scas171b"
+ ],
+ "parts": [
+  "74AC11244DBR",
+  "74AC11244DWR",
+  "74AC11244PWR",
+  "74ACT11244DBR",
+  "74ACT11244DWR",
+  "74ACT11244PWR",
+  "74AC11244PWLE"
+ ]
+}

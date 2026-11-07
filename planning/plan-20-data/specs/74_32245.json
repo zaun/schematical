@@ -1,0 +1,685 @@
+{
+ "id": "74_32245",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "36-bit bus transceiver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74abth32245 p.1 (PZ 100-pin LQFP top view, checked on the rendered page: four 9-bit groups, nDIR and nOE per group, 16 GND, 4 VCC). Function table p.2: OE L DIR L = B data to A bus; OE L DIR H = A data to B bus; OE H = isolation. Bus hold not modeled.",
+ "pinouts": {
+  "lqfp100": [
+   {
+    "number": 1,
+    "name": "1A9",
+    "role": "inout"
+   },
+   {
+    "number": 2,
+    "name": "2A1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "2A2",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "2A3",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "2A4",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "2A5",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "2A6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "2A7",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "2A8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "2A9",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 14,
+    "name": "3A1",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "3A2",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "3A3",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "3A4",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 19,
+    "name": "3A5",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "3A6",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "3A7",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "3A8",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 24,
+    "name": "3A9",
+    "role": "inout"
+   },
+   {
+    "number": 25,
+    "name": "4A1",
+    "role": "inout"
+   },
+   {
+    "number": 26,
+    "name": "4A2",
+    "role": "inout"
+   },
+   {
+    "number": 27,
+    "name": "4A3",
+    "role": "inout"
+   },
+   {
+    "number": 28,
+    "name": "4A4",
+    "role": "inout"
+   },
+   {
+    "number": 29,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 30,
+    "name": "4A5",
+    "role": "inout"
+   },
+   {
+    "number": 31,
+    "name": "4A6",
+    "role": "inout"
+   },
+   {
+    "number": 32,
+    "name": "4A7",
+    "role": "inout"
+   },
+   {
+    "number": 33,
+    "name": "4A8",
+    "role": "inout"
+   },
+   {
+    "number": 34,
+    "name": "4A9",
+    "role": "inout"
+   },
+   {
+    "number": 35,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 36,
+    "name": "4DIR",
+    "role": "input"
+   },
+   {
+    "number": 37,
+    "name": "4OE",
+    "role": "input"
+   },
+   {
+    "number": 38,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 39,
+    "name": "3OE",
+    "role": "input"
+   },
+   {
+    "number": 40,
+    "name": "3DIR",
+    "role": "input"
+   },
+   {
+    "number": 41,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 42,
+    "name": "4B9",
+    "role": "inout"
+   },
+   {
+    "number": 43,
+    "name": "4B8",
+    "role": "inout"
+   },
+   {
+    "number": 44,
+    "name": "4B7",
+    "role": "inout"
+   },
+   {
+    "number": 45,
+    "name": "4B6",
+    "role": "inout"
+   },
+   {
+    "number": 46,
+    "name": "4B5",
+    "role": "inout"
+   },
+   {
+    "number": 47,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 48,
+    "name": "4B4",
+    "role": "inout"
+   },
+   {
+    "number": 49,
+    "name": "4B3",
+    "role": "inout"
+   },
+   {
+    "number": 50,
+    "name": "4B2",
+    "role": "inout"
+   },
+   {
+    "number": 51,
+    "name": "4B1",
+    "role": "inout"
+   },
+   {
+    "number": 52,
+    "name": "3B9",
+    "role": "inout"
+   },
+   {
+    "number": 53,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 54,
+    "name": "3B8",
+    "role": "inout"
+   },
+   {
+    "number": 55,
+    "name": "3B7",
+    "role": "inout"
+   },
+   {
+    "number": 56,
+    "name": "3B6",
+    "role": "inout"
+   },
+   {
+    "number": 57,
+    "name": "3B5",
+    "role": "inout"
+   },
+   {
+    "number": 58,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 59,
+    "name": "3B4",
+    "role": "inout"
+   },
+   {
+    "number": 60,
+    "name": "3B3",
+    "role": "inout"
+   },
+   {
+    "number": 61,
+    "name": "3B2",
+    "role": "inout"
+   },
+   {
+    "number": 62,
+    "name": "3B1",
+    "role": "inout"
+   },
+   {
+    "number": 63,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 64,
+    "name": "2B9",
+    "role": "inout"
+   },
+   {
+    "number": 65,
+    "name": "2B8",
+    "role": "inout"
+   },
+   {
+    "number": 66,
+    "name": "2B7",
+    "role": "inout"
+   },
+   {
+    "number": 67,
+    "name": "2B6",
+    "role": "inout"
+   },
+   {
+    "number": 68,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 69,
+    "name": "2B5",
+    "role": "inout"
+   },
+   {
+    "number": 70,
+    "name": "2B4",
+    "role": "inout"
+   },
+   {
+    "number": 71,
+    "name": "2B3",
+    "role": "inout"
+   },
+   {
+    "number": 72,
+    "name": "2B2",
+    "role": "inout"
+   },
+   {
+    "number": 73,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 74,
+    "name": "2B1",
+    "role": "inout"
+   },
+   {
+    "number": 75,
+    "name": "1B9",
+    "role": "inout"
+   },
+   {
+    "number": 76,
+    "name": "1B8",
+    "role": "inout"
+   },
+   {
+    "number": 77,
+    "name": "1B7",
+    "role": "inout"
+   },
+   {
+    "number": 78,
+    "name": "1B6",
+    "role": "inout"
+   },
+   {
+    "number": 79,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 80,
+    "name": "1B5",
+    "role": "inout"
+   },
+   {
+    "number": 81,
+    "name": "1B4",
+    "role": "inout"
+   },
+   {
+    "number": 82,
+    "name": "1B3",
+    "role": "inout"
+   },
+   {
+    "number": 83,
+    "name": "1B2",
+    "role": "inout"
+   },
+   {
+    "number": 84,
+    "name": "1B1",
+    "role": "inout"
+   },
+   {
+    "number": 85,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 86,
+    "name": "2DIR",
+    "role": "input"
+   },
+   {
+    "number": 87,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 88,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 89,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 90,
+    "name": "1DIR",
+    "role": "input"
+   },
+   {
+    "number": 91,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 92,
+    "name": "1A1",
+    "role": "inout"
+   },
+   {
+    "number": 93,
+    "name": "1A2",
+    "role": "inout"
+   },
+   {
+    "number": 94,
+    "name": "1A3",
+    "role": "inout"
+   },
+   {
+    "number": 95,
+    "name": "1A4",
+    "role": "inout"
+   },
+   {
+    "number": 96,
+    "name": "1A5",
+    "role": "inout"
+   },
+   {
+    "number": 97,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 98,
+    "name": "1A6",
+    "role": "inout"
+   },
+   {
+    "number": 99,
+    "name": "1A7",
+    "role": "inout"
+   },
+   {
+    "number": 100,
+    "name": "1A8",
+    "role": "inout"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "PZ"
+   ],
+   "pinout": "lqfp100"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4",
+    "1A5",
+    "1A6",
+    "1A7",
+    "1A8",
+    "1A9"
+   ],
+   "b": [
+    "1B1",
+    "1B2",
+    "1B3",
+    "1B4",
+    "1B5",
+    "1B6",
+    "1B7",
+    "1B8",
+    "1B9"
+   ],
+   "dir": {
+    "pin": "1DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4",
+    "2A5",
+    "2A6",
+    "2A7",
+    "2A8",
+    "2A9"
+   ],
+   "b": [
+    "2B1",
+    "2B2",
+    "2B3",
+    "2B4",
+    "2B5",
+    "2B6",
+    "2B7",
+    "2B8",
+    "2B9"
+   ],
+   "dir": {
+    "pin": "2DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "3A1",
+    "3A2",
+    "3A3",
+    "3A4",
+    "3A5",
+    "3A6",
+    "3A7",
+    "3A8",
+    "3A9"
+   ],
+   "b": [
+    "3B1",
+    "3B2",
+    "3B3",
+    "3B4",
+    "3B5",
+    "3B6",
+    "3B7",
+    "3B8",
+    "3B9"
+   ],
+   "dir": {
+    "pin": "3DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "3OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "4A1",
+    "4A2",
+    "4A3",
+    "4A4",
+    "4A5",
+    "4A6",
+    "4A7",
+    "4A8",
+    "4A9"
+   ],
+   "b": [
+    "4B1",
+    "4B2",
+    "4B3",
+    "4B4",
+    "4B5",
+    "4B6",
+    "4B7",
+    "4B8",
+    "4B9"
+   ],
+   "dir": {
+    "pin": "4DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "4OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 3.2,
+   "fall": 3.3,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A or B -> B or A at 5 V, 50 pF (sn74abth32245 p.5); VCC 4.5-5.5 V (p.3)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abth32245"
+  ]
+ },
+ "pdfs": [
+  "sn74abth32245"
+ ],
+ "parts": [
+  "SN74ABTH32245PZ"
+ ]
+}

@@ -1,0 +1,187 @@
+{
+ "id": "2G07",
+ "kind": "gate",
+ "function": "Buffer",
+ "description": "Dual buffer, open-drain outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74lvc2g07 p.3 Pin Functions (DBV, DCK, DRY, DSF, YZP); sn74aup2g07 p.3 Table 5-1 (DCK, DSF, DRY numbers; YFP balls A1 1A, A2 1Y, B1 GND, B2 VCC, C1 2A, C2 2Y); sn74auc2g07 p.1 (DBV, DCK, YZP); sn74lvc2g07b-q1 p.3 (DCK); sn74lvc2g07-ep p.1 (DCK). Open-drain outputs (sn74lvc2g07 p.3).",
+ "pinouts": {
+  "p6": [
+   {
+    "number": 1,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 6,
+    "name": "1Y",
+    "role": "output"
+   }
+  ],
+  "dsbga": [
+   {
+    "ball": "A1",
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "ball": "B1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "C1",
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "ball": "C2",
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "ball": "B2",
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "ball": "A2",
+    "name": "1Y",
+    "role": "output"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBV",
+    "DCK",
+    "DRY",
+    "DSF"
+   ],
+   "pinout": "p6"
+  },
+  {
+   "codes": [
+    "YZP",
+    "YFP"
+   ],
+   "pinout": "dsbga"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "1A"
+   ],
+   "output": "1Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "2A"
+   ],
+   "output": "2Y"
+  }
+ ],
+ "output": "open-drain",
+ "timing": {
+  "AUC": {
+   "rise": 1.8,
+   "fall": 1,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "typ tPLH/tPHL A->Y at 1.8 V, 15 pF (sn74auc2g07 p.4); VCC 0.8-2.7 V, VI to 3.6 V (p.3)"
+  },
+  "AUP": {
+   "rise": 3.7,
+   "fall": 3.7,
+   "vcc": [
+    0.8,
+    3.6
+   ],
+   "note": "typ tpd at 3.3 V, 15 pF (sn74aup2g07 p.7); VCC 0.8-3.6 V (p.5)"
+  },
+  "LVC": {
+   "rise": 3.7,
+   "fall": 3.7,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "max tpd at 3.3 V, 50 pF, -40 to 85 C (sn74lvc2g07 p.5); VCC 1.65-5.5 V (p.4); SN74LVC2G07B-Q1 VCC 1.1-5.5 V (sn74lvc2g07b-q1 p.4)"
+  }
+ },
+ "partVcc": [
+  {
+   "prefix": "SN74LVC2G07B",
+   "family": "LVC",
+   "vcc": [
+    1.1,
+    5.5
+   ]
+  }
+ ],
+ "families": {
+  "AUC": [
+   "sn74auc2g07"
+  ],
+  "AUP": [
+   "sn74aup2g07"
+  ],
+  "LVC": [
+   "sn74lvc2g07",
+   "sn74lvc2g07b-q1",
+   "sn74lvc2g07-ep"
+  ]
+ },
+ "pdfs": [
+  "sn74auc2g07",
+  "sn74aup2g07",
+  "sn74lvc2g07",
+  "sn74lvc2g07-ep",
+  "sn74lvc2g07b-q1"
+ ],
+ "parts": [
+  "SN74AUC2G07DBVR",
+  "SN74AUC2G07DBVT",
+  "SN74AUC2G07DCKR",
+  "SN74AUC2G07YZPR",
+  "SN74AUP2G07DCKR",
+  "SN74AUP2G07DRYR",
+  "SN74AUP2G07DSFR",
+  "SN74AUP2G07YFPR",
+  "SN74LVC2G07BDCKRQ1",
+  "SN74LVC2G07DCKR",
+  "SN74LVC2G07DCKT",
+  "SN74LVC2G07DSF2",
+  "SN74LVC2G07DSFR",
+  "SN74LVC2G07MDCKTEP"
+ ]
+}

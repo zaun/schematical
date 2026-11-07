@@ -1,0 +1,444 @@
+{
+ "id": "74_162344",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "1-bit to 4-bit address driver (8 x 1:4 fan-out), 3-state outputs, series damping resistors",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "sn74alvch162344 (SCES085I) p.1 DGG/DGV/DL pinout; p.2 function table (OE low: Bn = A; OE high: Z); p.3 logic diagram: OE1 enables 1A->1B1-1B4 and 2A->2B1-2B4, OE2 3A/4A, OE3 5A/6A, OE4 7A/8A. Each A drives four B outputs, so a unit lists each A pin four times in \"a\". 26-ohm output resistors and bus hold are not modeled.",
+ "pinouts": {
+  "p56": [
+   {
+    "number": 1,
+    "name": "OE1",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1B1",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "1B2",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "1B3",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1B4",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 8,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "2B1",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "2B2",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 12,
+    "name": "2B3",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "2B4",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "3B1",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "3B2",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 19,
+    "name": "3B3",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "3B4",
+    "role": "output"
+   },
+   {
+    "number": 21,
+    "name": "4A",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 23,
+    "name": "4B1",
+    "role": "output"
+   },
+   {
+    "number": 24,
+    "name": "4B2",
+    "role": "output"
+   },
+   {
+    "number": 25,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 26,
+    "name": "4B3",
+    "role": "output"
+   },
+   {
+    "number": 27,
+    "name": "4B4",
+    "role": "output"
+   },
+   {
+    "number": 28,
+    "name": "OE2",
+    "role": "input"
+   },
+   {
+    "number": 29,
+    "name": "OE3",
+    "role": "input"
+   },
+   {
+    "number": 30,
+    "name": "5B4",
+    "role": "output"
+   },
+   {
+    "number": 31,
+    "name": "5B3",
+    "role": "output"
+   },
+   {
+    "number": 32,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 33,
+    "name": "5B2",
+    "role": "output"
+   },
+   {
+    "number": 34,
+    "name": "5B1",
+    "role": "output"
+   },
+   {
+    "number": 35,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 36,
+    "name": "5A",
+    "role": "input"
+   },
+   {
+    "number": 37,
+    "name": "6B4",
+    "role": "output"
+   },
+   {
+    "number": 38,
+    "name": "6B3",
+    "role": "output"
+   },
+   {
+    "number": 39,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 40,
+    "name": "6B2",
+    "role": "output"
+   },
+   {
+    "number": 41,
+    "name": "6B1",
+    "role": "output"
+   },
+   {
+    "number": 42,
+    "name": "6A",
+    "role": "input"
+   },
+   {
+    "number": 43,
+    "name": "7A",
+    "role": "input"
+   },
+   {
+    "number": 44,
+    "name": "7B4",
+    "role": "output"
+   },
+   {
+    "number": 45,
+    "name": "7B3",
+    "role": "output"
+   },
+   {
+    "number": 46,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 47,
+    "name": "7B2",
+    "role": "output"
+   },
+   {
+    "number": 48,
+    "name": "7B1",
+    "role": "output"
+   },
+   {
+    "number": 49,
+    "name": "8A",
+    "role": "input"
+   },
+   {
+    "number": 50,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 51,
+    "name": "8B4",
+    "role": "output"
+   },
+   {
+    "number": 52,
+    "name": "8B3",
+    "role": "output"
+   },
+   {
+    "number": 53,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 54,
+    "name": "8B2",
+    "role": "output"
+   },
+   {
+    "number": 55,
+    "name": "8B1",
+    "role": "output"
+   },
+   {
+    "number": 56,
+    "name": "OE4",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DGG",
+    "DL",
+    "DGV"
+   ],
+   "pinout": "p56"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A",
+    "1A",
+    "1A",
+    "1A",
+    "2A",
+    "2A",
+    "2A",
+    "2A"
+   ],
+   "y": [
+    "1B1",
+    "1B2",
+    "1B3",
+    "1B4",
+    "2B1",
+    "2B2",
+    "2B3",
+    "2B4"
+   ],
+   "oe": [
+    {
+     "pin": "OE1",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "3A",
+    "3A",
+    "3A",
+    "3A",
+    "4A",
+    "4A",
+    "4A",
+    "4A"
+   ],
+   "y": [
+    "3B1",
+    "3B2",
+    "3B3",
+    "3B4",
+    "4B1",
+    "4B2",
+    "4B3",
+    "4B4"
+   ],
+   "oe": [
+    {
+     "pin": "OE2",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "5A",
+    "5A",
+    "5A",
+    "5A",
+    "6A",
+    "6A",
+    "6A",
+    "6A"
+   ],
+   "y": [
+    "5B1",
+    "5B2",
+    "5B3",
+    "5B4",
+    "6B1",
+    "6B2",
+    "6B3",
+    "6B4"
+   ],
+   "oe": [
+    {
+     "pin": "OE3",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "7A",
+    "7A",
+    "7A",
+    "7A",
+    "8A",
+    "8A",
+    "8A",
+    "8A"
+   ],
+   "y": [
+    "7B1",
+    "7B2",
+    "7B3",
+    "7B4",
+    "8B1",
+    "8B2",
+    "8B3",
+    "8B4"
+   ],
+   "oe": [
+    {
+     "pin": "OE4",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ALVC": {
+   "rise": 4.4,
+   "fall": 4.4,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "note": "max tpd A->B at 3.3 V +-0.3 V, no typical printed (sn74alvch162344 p.5); VCC 1.65-3.6 V, VI 0-VCC (p.4)"
+  }
+ },
+ "families": {
+  "ALVC": [
+   "sn74alvch162344"
+  ]
+ },
+ "pdfs": [
+  "sn74alvch162344"
+ ],
+ "parts": [
+  "SN74ALVCH162344DL",
+  "SN74ALVCH162344GR"
+ ]
+}

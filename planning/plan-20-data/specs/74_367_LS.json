@@ -1,0 +1,192 @@
+{
+ "id": "74_367_LS",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Hex buffer/line driver, 3-state outputs (4 + 2 enables)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout from sn74ls367a (scanned SN54365A-SN74LS368A data sheet, Dec 1983 rev Mar 1988; identical file as sn54ls367a, sn74ls368a, sn54ls368a) p.1 (J, D, N packages; NS uses the same numbering); enables printed 1G/2G (active low), else same pins as 74_367. Logic diagram p.2: 1G drives 1A1-1A4, 2G drives 2A1-2A2.",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "1G",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "1Y1",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "1A2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "1Y2",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1A3",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "1Y3",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "1Y4",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "1A4",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "2Y1",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "2A1",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "2Y2",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "2A2",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "2G",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "D",
+    "N",
+    "NS",
+    "J",
+    "DB"
+   ],
+   "pinout": "p16"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4"
+   ],
+   "y": [
+    "1Y1",
+    "1Y2",
+    "1Y3",
+    "1Y4"
+   ],
+   "oe": [
+    {
+     "pin": "1G",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2"
+   ],
+   "y": [
+    "2Y1",
+    "2Y2"
+   ],
+   "oe": [
+    {
+     "pin": "2G",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "LS": {
+   "rise": 10,
+   "fall": 9,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "Typical tPLH/tPHL A->Y at 5 V, 25 C, RL 667 ohm, CL 45 pF (sn74ls367a p.7, scanned). VCC 4.75-5.25 V SN74LS, 4.5-5.5 V SN54LS (p.6)"
+  }
+ },
+ "partVcc": [
+  {
+   "prefix": "SN54",
+   "family": "LS",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  },
+  {
+   "prefix": "SNJ54",
+   "family": "LS",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  }
+ ],
+ "families": {
+  "LS": [
+   "sn74ls367a",
+   "sn54ls367a"
+  ]
+ },
+ "parts": [
+  "SN74LS367ADR",
+  "SN74LS367AN",
+  "SN74LS367ANSR",
+  "SNJ54LS367AJ"
+ ],
+ "pdfs": [
+  "sn54ls367a",
+  "sn74ls367a"
+ ]
+}

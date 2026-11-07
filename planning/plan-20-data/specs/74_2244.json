@@ -1,0 +1,246 @@
+{
+ "id": "74_2244",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Octal buffer/line driver with series damping resistors, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Standard '244 pinout: sn74abt2244a p.1 (DB/DW/N/PW, SN54 J/W), sn74bct2244 p.1 (DW/N/NS, SN54 J/W), sn74lvc2244a p.3 (DB/DBQ/DGV/DW/NS/PW). Outputs have built-in 25/26/33-ohm series resistors (not modeled). Function table OE L: Y = A, OE H: Z (sn74abt2244a p.2, sn74bct2244 p.2). SN74BCT2244NS is an NS orderable not in the packaging table.",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "2Y4",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "1A2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "2Y3",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1A3",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "2Y2",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "1A4",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "2Y1",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "2A1",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "1Y4",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "2A2",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "1Y3",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "2A3",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "1Y2",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "2A4",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "1Y1",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DB",
+    "DBQ",
+    "DGV",
+    "DW",
+    "N",
+    "NS",
+    "PW",
+    "J",
+    "W"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4"
+   ],
+   "y": [
+    "1Y1",
+    "1Y2",
+    "1Y3",
+    "1Y4"
+   ],
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4"
+   ],
+   "y": [
+    "2Y1",
+    "2Y2",
+    "2Y3",
+    "2Y4"
+   ],
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 3.4,
+   "fall": 4.5,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->Y at 5 V, 25 C, 50 pF, SN74ABT2244A (sn74abt2244a p.6). VCC 4.5-5.5 V, SN54 and SN74 (sn74abt2244a p.4)"
+  },
+  "BCT": {
+   "rise": 3,
+   "fall": 4.6,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->Y at 5 V, 25 C, 50 pF (sn74bct2244 p.4). VCC 4.5-5.5 V, SN54 and SN74 (sn74bct2244 p.3)"
+  },
+  "LVC": {
+   "rise": 5.5,
+   "fall": 5.5,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "Max tpd A->Y at 3.3 V, -40 to 85 C, 50 pF; no typical printed (sn74lvc2244a p.6). VCC 1.65-3.6 V, VI to 5.5 V (sn74lvc2244a p.5)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt2244a"
+  ],
+  "BCT": [
+   "sn74bct2244",
+   "sn54bct2244"
+  ],
+  "LVC": [
+   "sn74lvc2244a"
+  ]
+ },
+ "pdfs": [
+  "sn74abt2244a",
+  "sn74bct2244",
+  "sn74lvc2244a",
+  "sn54bct2244"
+ ],
+ "parts": [
+  "SN74ABT2244ADBR",
+  "SN74ABT2244ADW",
+  "SN74ABT2244ADWR",
+  "SN74ABT2244AN",
+  "SN74ABT2244ANSR",
+  "SN74ABT2244APW",
+  "SN74ABT2244APWR",
+  "SN74BCT2244DW",
+  "SN74BCT2244N",
+  "SN74LVC2244ADBQR",
+  "SN74LVC2244ADBR",
+  "SN74LVC2244ADGVR",
+  "SN74LVC2244ADW",
+  "SN74LVC2244ADWR",
+  "SN74LVC2244APW",
+  "SN74LVC2244APWR",
+  "SN74LVC2244APWT",
+  "SNJ54BCT2244J",
+  "SN74ABT2244ANS",
+  "SN74LVC2244ANS",
+  "SN74BCT2244NS"
+ ]
+}

@@ -1,0 +1,194 @@
+{
+ "id": "74_2245_FCT",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver with 25-ohm series resistors, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "CY74FCT2245T prints T/R for the direction pin and bits A0-A7/B0-B7 (cy74fct2245t p.1: 1 T/R, 2-9 A0-A7, 10 GND, 11 B7 ... 18 B0, 19 OE, 20 VCC; P = N, Q = DBQ, SO = DW; PW from the packaging table). Function table p.2: OE L + T/R L = bus B to bus A, T/R H = bus A to bus B, OE H = Z. CY74FCT2245SOCT (CY-SOC) is a DW orderable not in the packaging table. Series resistors not modeled.",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "T/R",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A0",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B0",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "PW",
+    "DBQ",
+    "DW",
+    "CY-SOC"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A0",
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7"
+   ],
+   "b": [
+    "B0",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7"
+   ],
+   "dir": {
+    "pin": "T/R",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "FCT": {
+   "rise": 7,
+   "fall": 7,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "Max tPLH/tPHL A->B, CY74FCT2245T (slowest grade; AT 4.6, CT 4.1), -40 to 85 C, 50 pF; no typical printed (cy74fct2245t p.4). VCC 4.75-5.25 V (cy74fct2245t p.2)"
+  }
+ },
+ "families": {
+  "FCT": [
+   "cy74fct2245t"
+  ]
+ },
+ "pdfs": [
+  "cy74fct2245t"
+ ],
+ "parts": [
+  "CY74FCT2245ATPC",
+  "CY74FCT2245ATPWR",
+  "CY74FCT2245ATQCT",
+  "CY74FCT2245ATSOC",
+  "CY74FCT2245ATSOCT",
+  "CY74FCT2245CTSOCT",
+  "CY74FCT2245TQCT",
+  "CY74FCT2245TSOC",
+  "CY74FCT2245TSOCT",
+  "CY74FCT2245SOCT"
+ ]
+}

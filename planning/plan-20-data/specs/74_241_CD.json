@@ -1,0 +1,226 @@
+{
+ "id": "74_241_CD",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Octal buffer/line driver, 3-state outputs (1OE active low, 2OE active high)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "cd74hc241 (= cd74hct241, SCHS167G) p.3 pinout figure (J/N/DW/PW); cd74act241 (SCHS287C) p.3 Figure 3-2 and p.4 Table 3-1 (DW/N): bits numbered from 0 (1A0-1A3, 1Y0-1Y3, 2A0-2A3, 2Y0-2Y3), same positions as 74_241 (pin 3 = 2Y3 ... pin 18 = 1Y0). 2OE (pin 19) active high on the 241 (cd74hc241 p.1 description; cd74act241 p.9 note).",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A0",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "2Y3",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "1A1",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "2Y2",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1A2",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "2Y1",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "1A3",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "2Y0",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "2A0",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "1Y3",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "2A1",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "1Y2",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "2A2",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "1Y1",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "2A3",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "1Y0",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "E",
+    "DW",
+    "M",
+    "PW",
+    "J",
+    "F"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A0",
+    "1A1",
+    "1A2",
+    "1A3"
+   ],
+   "y": [
+    "1Y0",
+    "1Y1",
+    "1Y2",
+    "1Y3"
+   ],
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A0",
+    "2A1",
+    "2A2",
+    "2A3"
+   ],
+   "y": [
+    "2Y0",
+    "2Y1",
+    "2Y2",
+    "2Y3"
+   ],
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "high"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "HC": {
+   "rise": 9,
+   "fall": 9,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "typ tPLH/tPHL data to output at 5 V, 25 C, CL 15 pF, CD74HC241 (cd74hc241 p.9 sec 5.8); VCC 2-6 V (p.4)"
+  },
+  "HCT": {
+   "rise": 10,
+   "fall": 10,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL data to output at 5 V, 25 C, CL 15 pF, CD74HCT241 (cd74hct241 p.9 sec 5.8); VCC 4.5-5.5 V (p.4)"
+  },
+  "ACT": {
+   "rise": 8.7,
+   "fall": 8.7,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL data to output at 5 V, -40 to 85 C, 50 pF, ACT241 (cd74act241 p.8 sec 4.7), no typical printed; VCC 4.5-5.5 V (p.5)"
+  }
+ },
+ "families": {
+  "HC": [
+   "cd74hc241"
+  ],
+  "HCT": [
+   "cd74hct241"
+  ],
+  "ACT": [
+   "cd74act241"
+  ]
+ },
+ "pdfs": [
+  "cd74act241",
+  "cd74hc241",
+  "cd74hct241"
+ ],
+ "parts": [
+  "CD74ACT241M96",
+  "CD74HC241M96",
+  "CD74HCT241E",
+  "CD74HCT241M96",
+  "CD74ACT241E",
+  "CD74HC241E"
+ ]
+}

@@ -1,0 +1,253 @@
+{
+ "id": "74_241_G",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Octal buffer/line driver, 3-state outputs (1G active low, 2G active high)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "sn74ls241 (= sn54ls241 = sn74s241 = sn54s241, one sheet SDLS144D) p.3 Pin Functions: DB/DW/J/N/NS/W and FK use the same numbers; enables printed 1G (active low) and 2G (active high, footnote: 2G for SNx4LS241/SNx4S241). Same positions as 74_241 with OE named G.",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "1G",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "2Y4",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "1A2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "2Y3",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1A3",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "2Y2",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "1A4",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "2Y1",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "2A1",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "1Y4",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "2A2",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "1Y3",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "2A3",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "1Y2",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "2A4",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "1Y1",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "2G",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "DW",
+    "NS",
+    "DB",
+    "J",
+    "W",
+    "FK"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4"
+   ],
+   "y": [
+    "1Y1",
+    "1Y2",
+    "1Y3",
+    "1Y4"
+   ],
+   "oe": [
+    {
+     "pin": "1G",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4"
+   ],
+   "y": [
+    "2Y1",
+    "2Y2",
+    "2Y3",
+    "2Y4"
+   ],
+   "oe": [
+    {
+     "pin": "2G",
+     "active": "high"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "LS": {
+   "rise": 12,
+   "fall": 12,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "typ tPLH/tPHL at 5 V, 25 C, RL 667 ohm, CL 45 pF, SNx4LS241 (sn74ls241 p.6 sec 6.7); VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (p.4)"
+  },
+  "S": {
+   "rise": 6,
+   "fall": 6,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "typ tPLH/tPHL at 5 V, 25 C, RL 90 ohm, CL 50 pF, SNx4S241 (sn74s241 p.6 sec 6.8); VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (p.4)"
+  }
+ },
+ "partVcc": [
+  {
+   "prefix": "SN54",
+   "family": "LS",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  },
+  {
+   "prefix": "SNJ54",
+   "family": "LS",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  },
+  {
+   "prefix": "SN54",
+   "family": "S",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  },
+  {
+   "prefix": "SNJ54",
+   "family": "S",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  }
+ ],
+ "families": {
+  "LS": [
+   "sn74ls241",
+   "sn54ls241"
+  ],
+  "S": [
+   "sn74s241",
+   "sn54s241"
+  ]
+ },
+ "pdfs": [
+  "sn54ls241",
+  "sn54s241",
+  "sn74ls241",
+  "sn74s241"
+ ],
+ "parts": [
+  "SN54LS241J",
+  "SN74LS241N",
+  "SN74LS241NSR",
+  "SN74S241DW",
+  "SNJ54LS241FK",
+  "SNJ54S241J",
+  "SN74S241N",
+  "SN74LS241NS"
+ ]
+}

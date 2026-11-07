@@ -1,0 +1,173 @@
+{
+ "id": "2G34",
+ "kind": "gate",
+ "function": "Buffer",
+ "description": "Dual buffer",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74lvc2g34 p.3 Pin Functions (DBV, DCK, DRL, YZP); sn74auc2g34 p.1 (DBV, DCK, DRL, YZP); sn74aup2g34 p.1 (DCK, DRY, DSF; YFP balls A1 1A, A2 1Y, B1 GND, B2 VCC, C1 2A, C2 2Y); sn74lvc2g34-ep p.1 (DCK).",
+ "pinouts": {
+  "p6": [
+   {
+    "number": 1,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 6,
+    "name": "1Y",
+    "role": "output"
+   }
+  ],
+  "dsbga": [
+   {
+    "ball": "A1",
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "ball": "B1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "C1",
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "ball": "C2",
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "ball": "B2",
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "ball": "A2",
+    "name": "1Y",
+    "role": "output"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBV",
+    "DCK",
+    "DRL",
+    "DRY",
+    "DSF"
+   ],
+   "pinout": "p6"
+  },
+  {
+   "codes": [
+    "YZP",
+    "YFP"
+   ],
+   "pinout": "dsbga"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "1A"
+   ],
+   "output": "1Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "2A"
+   ],
+   "output": "2Y"
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "AUC": {
+   "rise": 1,
+   "fall": 1,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "typ tpd A->Y at 1.8 V, 15 pF (sn74auc2g34 p.4); VCC 0.8-2.7 V, VI to 3.6 V (p.3)"
+  },
+  "AUP": {
+   "rise": 3.4,
+   "fall": 3.4,
+   "vcc": [
+    0.8,
+    3.6
+   ],
+   "note": "typ tpd at 3.3 V, 15 pF (sn74aup2g34 p.5); VCC 0.8-3.6 V (p.3)"
+  },
+  "LVC": {
+   "rise": 4.1,
+   "fall": 4.1,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "max tpd at 3.3 V, -40 to 85 C (sn74lvc2g34 p.5); VCC 1.65-5.5 V (p.4)"
+  }
+ },
+ "families": {
+  "AUC": [
+   "sn74auc2g34"
+  ],
+  "AUP": [
+   "sn74aup2g34"
+  ],
+  "LVC": [
+   "sn74lvc2g34",
+   "sn74lvc2g34-ep"
+  ]
+ },
+ "pdfs": [
+  "sn74auc2g34",
+  "sn74aup2g34",
+  "sn74lvc2g34",
+  "sn74lvc2g34-ep"
+ ],
+ "parts": [
+  "SN74AUC2G34DBVR",
+  "SN74AUC2G34DCKR",
+  "SN74AUC2G34DRLR",
+  "SN74AUP2G34DCKR",
+  "SN74AUP2G34DRYR",
+  "SN74AUP2G34DSFR",
+  "SN74AUP2G34YFPR",
+  "SN74LVC2G34DBVR",
+  "SN74LVC2G34DBVT",
+  "SN74LVC2G34MDCKREP",
+  "SN74LVC2G34YZPR"
+ ]
+}

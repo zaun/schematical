@@ -1,0 +1,230 @@
+{
+ "id": "74_5402",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "12-bit line/memory driver, 3-state outputs, 25-ohm series output resistors",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "sn74abt5402a p.1: DW (and JT) pinout 1-6 Y1-Y6, 7 GND, 8-13 Y7-Y12, 14 OE1, 15 OE2, 16-20 D12-D8, 21 VCC, 22-28 D7-D1. Function table p.1: OE1 and OE2 both low = Y follows D; either high = Z (2-input AND of active-low enables); noninverting. Outputs have equivalent 25-ohm series resistors (not modeled).",
+ "pinouts": {
+  "p28": [
+   {
+    "number": 1,
+    "name": "Y1",
+    "role": "output"
+   },
+   {
+    "number": 2,
+    "name": "Y2",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "Y3",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "Y4",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "Y5",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "Y6",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "Y7",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "Y8",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "Y9",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "Y10",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "Y11",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "Y12",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "OE1",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "OE2",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "D12",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "D11",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "D10",
+    "role": "input"
+   },
+   {
+    "number": 19,
+    "name": "D9",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "D8",
+    "role": "input"
+   },
+   {
+    "number": 21,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 22,
+    "name": "D7",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "D6",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "D5",
+    "role": "input"
+   },
+   {
+    "number": 25,
+    "name": "D4",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "D3",
+    "role": "input"
+   },
+   {
+    "number": 27,
+    "name": "D2",
+    "role": "input"
+   },
+   {
+    "number": 28,
+    "name": "D1",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DW"
+   ],
+   "pinout": "p28"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7",
+    "D8",
+    "D9",
+    "D10",
+    "D11",
+    "D12"
+   ],
+   "y": [
+    "Y1",
+    "Y2",
+    "Y3",
+    "Y4",
+    "Y5",
+    "Y6",
+    "Y7",
+    "Y8",
+    "Y9",
+    "Y10",
+    "Y11",
+    "Y12"
+   ],
+   "oe": [
+    {
+     "pin": "OE1",
+     "active": "low"
+    },
+    {
+     "pin": "OE2",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 4.5,
+   "fall": 3.7,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL D->Y at 5 V, 25 C, 50 pF (sn74abt5402a p.4); VCC 4.5-5.5 V SN54/SN74 (p.3)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt5402a"
+  ]
+ },
+ "pdfs": [
+  "sn74abt5402a"
+ ],
+ "parts": [
+  "SN74ABT5402ADW",
+  "SN74ABT5402ADWR"
+ ]
+}

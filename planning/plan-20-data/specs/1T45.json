@@ -1,0 +1,261 @@
+{
+ "id": "1T45",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "Single-bit dual-supply bus transceiver / level shifter, direction control",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout VCCA 1, GND 2, A 3, B 4, DIR 5, VCCB 6, identical in sn74avc1t45 p.4 (DBV, DCK, DRL), sn74avch1t45 p.3, sn74axc1t45 p.3 (DBV, DCK, DRL, DEA, DTQ), sn74axch1t45 p.3 (DBV, DCK, DTQ, DRY), sn74lvc1t45 p.2-3, sn74lxc1t45 p.3 (DCK, DRL, DRY, DTQ), sn74lxch1t45 p.3, and the -Q1/-EP data sheets (DCK, DRY). DSBGA (YZP) balls: sn74avc1t45 p.5 and sn74lvc1t45 p.3 (A1 VCCA, A2 VCCB, B1 GND, B2 DIR, C1 A, C2 B), listed in p6 order. DIR high = A to B, low = B to A (sn74avc1t45 p.15 function table, same in all); no OE. A and DIR referenced to VCCA, B to VCCB.",
+ "pinouts": {
+  "p6": [
+   {
+    "number": 1,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 3,
+    "name": "A",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "B",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "VCCB",
+    "role": "power"
+   }
+  ],
+  "dsbga": [
+   {
+    "ball": "A1",
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "ball": "B1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "C1",
+    "name": "A",
+    "role": "inout"
+   },
+   {
+    "ball": "C2",
+    "name": "B",
+    "role": "inout"
+   },
+   {
+    "ball": "B2",
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "ball": "A2",
+    "name": "VCCB",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "YZP"
+   ],
+   "pinout": "dsbga"
+  },
+  {
+   "codes": [
+    "DBV",
+    "DCK",
+    "DRL",
+    "DRY",
+    "DTQ",
+    "DEA"
+   ],
+   "pinout": "p6"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A"
+   ],
+   "b": [
+    "B"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": []
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "A",
+    "DIR"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "B"
+   ]
+  }
+ ],
+ "timing": {
+  "AVC": {
+   "rise": 2.8,
+   "fall": 2.8,
+   "vcc": [
+    1.2,
+    3.6
+   ],
+   "vccB": [
+    1.2,
+    3.6
+   ],
+   "note": "Max tPLH/tPHL A->B at VCCA = VCCB = 3.3 V (nearest row to 3.3<->5 V; no typical) (sn74avc1t45 p.11). VCCA/VCCB 1.2-3.6 V, VI to 3.6 V (p.7). sn74avc1t45-q1 lists 1.08-3.6 V (main PDF used)"
+  },
+  "AXC": {
+   "rise": 3,
+   "fall": 3,
+   "vcc": [
+    0.65,
+    3.6
+   ],
+   "vccB": [
+    0.65,
+    3.6
+   ],
+   "note": "Max tpd A->B at VCCA = VCCB = 3.3 V, -40 to 85 C (nearest row to 3.3<->5 V; no typical) (sn74axc1t45 p.10). VCCA/VCCB 0.65-3.6 V, VI to 3.6 V (p.5)"
+  },
+  "LVC": {
+   "rise": 4.4,
+   "fall": 4,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "vccB": [
+    1.65,
+    5.5
+   ],
+   "note": "Max tPLH/tPHL A->B at VCCA = 3.3 V, VCCB = 5 V (no typical) (sn74lvc1t45 p.8). VCCA/VCCB 1.65-5.5 V, VI to 5.5 V (p.4-5)"
+  },
+  "LXC": {
+   "rise": 12,
+   "fall": 12,
+   "vcc": [
+    1.1,
+    5.5
+   ],
+   "vccB": [
+    1.1,
+    5.5
+   ],
+   "note": "Max tpd A->B at VCCA = 3.3 V, VCCB = 5 V, -40 to 85 C (no typical) (sn74lxc1t45 p.13). VCCA/VCCB 1.1-5.5 V, VI to 5.5 V (p.5)"
+  }
+ },
+ "families": {
+  "AVC": [
+   "sn74avc1t45",
+   "sn74avch1t45",
+   "sn74avc1t45-q1"
+  ],
+  "AXC": [
+   "sn74axc1t45",
+   "sn74axch1t45",
+   "sn74axc1t45-q1"
+  ],
+  "LVC": [
+   "sn74lvc1t45",
+   "sn74lvc1t45-ep",
+   "sn74lvc1t45-q1"
+  ],
+  "LXC": [
+   "sn74lxc1t45",
+   "sn74lxch1t45",
+   "sn74lxc1t45-q1"
+  ]
+ },
+ "parts": [
+  "SN74AVC1T45DBVR",
+  "SN74AVC1T45DBVT",
+  "SN74AVC1T45DCKR",
+  "SN74AVC1T45DCKT",
+  "SN74AVC1T45DRLR",
+  "SN74AVC1T45YZPR",
+  "SN74AVCH1T45DBVR",
+  "SN74AVCH1T45DBVT",
+  "SN74AVCH1T45DCKR",
+  "SN74AVCH1T45DCKT",
+  "SN74AVCH1T45YZPR",
+  "SN74AXC1T45DBVR",
+  "SN74AXC1T45DCKR",
+  "SN74AXC1T45DEAR",
+  "SN74AXC1T45DTQR",
+  "SN74AXC1T45QDCKRQ1",
+  "SN74AXC1T45QDRYRQ1",
+  "SN74AXCH1T45DBVR",
+  "SN74AXCH1T45DCKR",
+  "SN74AXCH1T45DRY2",
+  "SN74AXCH1T45DRYR",
+  "SN74AXCH1T45DTQR",
+  "SN74LVC1T45DBVR",
+  "SN74LVC1T45DBVT",
+  "SN74LVC1T45DCKR",
+  "SN74LVC1T45DCKRG4",
+  "SN74LVC1T45DRLR",
+  "SN74LVC1T45MDCKREP",
+  "SN74LVC1T45QDCKRQ1",
+  "SN74LVC1T45YZPR",
+  "SN74LXC1T45DBVR",
+  "SN74LXC1T45DCKR",
+  "SN74LXC1T45DRYR",
+  "SN74LXC1T45DTQR",
+  "SN74LXC1T45QDCKRQ1",
+  "SN74LXC1T45QDRYRQ1",
+  "SN74LXCH1T45DCKR",
+  "SN74LXCH1T45DRYR",
+  "SN74LXCH1T45DTQR",
+  "CAVC1T45QDCKRQ1",
+  "CAVC1T45QDRYRQ1"
+ ],
+ "pdfs": [
+  "sn74avc1t45",
+  "sn74avc1t45-q1",
+  "sn74avch1t45",
+  "sn74axc1t45",
+  "sn74axc1t45-q1",
+  "sn74axch1t45",
+  "sn74lvc1t45",
+  "sn74lvc1t45-ep",
+  "sn74lvc1t45-q1",
+  "sn74lxc1t45",
+  "sn74lxc1t45-q1",
+  "sn74lxch1t45"
+ ]
+}

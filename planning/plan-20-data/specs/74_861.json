@@ -1,0 +1,225 @@
+{
+ "id": "74_861",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "10-bit bus transceiver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74abt861 p.1 (DW/NT), sn74lvc861a p.1 (DB/DGV/DW/NS/PW), same 24-pin layout. Function table sn74abt861 p.2, sn74lvc861a p.2: OEAB low = A to B, OEBA low = B to A, both high = isolation, both low = latch A and B (A = B). Timing sn74abt861 p.5, sn74lvc861a p.4.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "OEBA",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A9",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A10",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "OEAB",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "B10",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B9",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DW",
+    "DB",
+    "DGV",
+    "PW"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "A10"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8",
+    "B9",
+    "B10"
+   ],
+   "oeab": {
+    "pin": "OEAB",
+    "active": "low"
+   },
+   "oeba": {
+    "pin": "OEBA",
+    "active": "low"
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 3.4,
+   "fall": 3.2,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "sn74abt861 typ tPLH/tPHL A or B -> B or A at 5 V, 25 C, 50 pF (p.5). VCC 4.5-5.5 V (p.3)"
+  },
+  "LVC": {
+   "rise": 6.4,
+   "fall": 6.4,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "sn74lvc861a max tpd A or B -> B or A at 3.3 V, 50 pF (no typ printed) (p.4). VCC 1.65-3.6 V, VI to 5.5 V (p.3)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt861"
+  ],
+  "LVC": [
+   "sn74lvc861a"
+  ]
+ },
+ "pdfs": [
+  "sn74abt861",
+  "sn74lvc861a"
+ ],
+ "parts": [
+  "SN74ABT861DW",
+  "SN74LVC861ADBR",
+  "SN74LVC861ADGVR",
+  "SN74LVC861ADW",
+  "SN74LVC861APW",
+  "SN74LVC861APWR"
+ ]
+}

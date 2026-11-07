@@ -1,0 +1,80 @@
+{
+ "id": "1T50",
+ "kind": "gate",
+ "model": "buf",
+ "function": "Buffer",
+ "description": "Single Schmitt-trigger buffer with level shifting",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout from sn74aup1t50 p.1 (DCK): 1 NC, 2 A, 3 GND, 4 Y, 5 VCC. Y = A (p.2). Single-supply translator: low-threshold Schmitt inputs, output at VCC.",
+ "pinouts": {
+  "p5": [
+   {
+    "number": 1,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DCK"
+   ],
+   "pinout": "p5"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "A"
+   ],
+   "output": "Y"
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "AUP": {
+   "rise": 2.7,
+   "fall": 2.7,
+   "vcc": [
+    2.3,
+    3.6
+   ],
+   "note": "Typical tpd A->Y at VCC 3.3 V, VI 3.3 V, 15 pF, 25 C (sn74aup1t50 p.7). VCC 2.3-3.6 V, VI 0-3.6 V (sn74aup1t50 p.4)"
+  }
+ },
+ "families": {
+  "AUP": [
+   "sn74aup1t50"
+  ]
+ },
+ "pdfs": [
+  "sn74aup1t50"
+ ],
+ "parts": [
+  "SN74AUP1T50DCKR"
+ ]
+}

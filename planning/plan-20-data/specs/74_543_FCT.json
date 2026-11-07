@@ -1,0 +1,227 @@
+{
+ "id": "74_543_FCT",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "Octal latched registered transceiver, 3-state outputs (FCT, A0-A7/B0-B7 naming)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Separate device only because cy74fct543t names the data pins A0-A7/B0-B7 (74_543 uses A1-A8/B1-B8); same pin positions. Pinout cy74fct543t p.1 (Q = QSOP/DBQ, SO = SOIC/DW); pin description and function table p.2. Timing is A->B transparent propagation.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "LEBA",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "OEBA",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A0",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "CEAB",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "OEAB",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "LEAB",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "B0",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "CEBA",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBQ",
+    "DW",
+    "CY-QC"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A0",
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7"
+   ],
+   "b": [
+    "B0",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7"
+   ],
+   "ab": {
+    "store": "latch",
+    "le": {
+     "pin": "LEAB",
+     "active": "low"
+    },
+    "ce": {
+     "pin": "CEAB",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "OEAB",
+     "active": "low"
+    }
+   },
+   "ba": {
+    "store": "latch",
+    "le": {
+     "pin": "LEBA",
+     "active": "low"
+    },
+    "ce": {
+     "pin": "CEBA",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "OEBA",
+     "active": "low"
+    }
+   }
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "FCT": {
+   "rise": 8.5,
+   "fall": 8.5,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "max tPLH/tPHL A->B, CY74FCT543T grade, 50 pF (cy74fct543t p.6; AT grade 6.5, CT grade 5.3; no typ printed); VCC 4.75-5.25 V (p.3)"
+  }
+ },
+ "families": {
+  "FCT": [
+   "cy74fct543t"
+  ]
+ },
+ "pdfs": [
+  "cy74fct543t"
+ ],
+ "parts": [
+  "CY74FCT543ATQCT",
+  "CY74FCT543ATSOC",
+  "CY74FCT543TQCT",
+  "CY74FCT543TSOC",
+  "CY74FCT543TSOCT",
+  "CY74FCT543CTQC"
+ ]
+}

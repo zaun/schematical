@@ -57,12 +57,12 @@ This table is the gate for all of plan-20; B–I point here and add their own ro
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p20 && cmake --build /tmp/logic-p20 -j8 && ctest --test-dir /tmp/logic-p20` → `100% tests passed` | MET; **T0 = 21** (2026-11-07 at 4ae312f) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `footprints.txt` | **P0 = 8022**, **F0 = 237** (2026-11-07 at 7b6b604); re-measure at start |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p20-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | re-run at start |
-| The `not` op exists (inverters landed) | `grep -c '"not"' backend/src/models/gate.c` → ≥ 1 | MET (2026-11-07, fd9a9fa on main) |
-| No `buffer` kind yet | `ls schematical/schematical/Parts/buffer.json backend/src/models/buffer*.c 2>/dev/null` → no output | MET (2026-11-07) |
-| DigiKey script works | `node scripts/digikey.js --in-stock --manufacturer 296 --limit 1 SN74HC245N` → a part line | MET (2026-11-07) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p20 && cmake --build /tmp/logic-p20 -j8 && ctest --test-dir /tmp/logic-p20` → `100% tests passed` | MET; **T0 = 21** (re-run 2026-11-07 at 965a3d7: `100% tests passed, 0 tests failed out of 21`) |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `footprints.txt` | MET: **P0 = 8022**, **F0 = 237** (re-measured 2026-11-07 at 965a3d7) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p20-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-07 at 965a3d7: `** BUILD SUCCEEDED **`) |
+| The `not` op exists (inverters landed) | `grep -c '"not"' backend/src/models/gate.c` → ≥ 1 | MET (re-run 2026-11-07: `1`) |
+| No `buffer` kind yet | `ls schematical/schematical/Parts/buffer.json backend/src/models/buffer*.c 2>/dev/null` → no output | MET (re-run 2026-11-07: no output) |
+| DigiKey script works | `node scripts/digikey.js --in-stock --manufacturer 296 --limit 1 SN74HC245N` → a part line | MET (re-run 2026-11-07: `SN74HC245NS  Obsolete  934  74HC …`, 277 calls left) |
 
 plan-20 waits for no other plan (owner: 19–22 in any order, possibly in parallel).
 
@@ -72,7 +72,7 @@ plan-20 waits for no other plan (owner: 19–22 in any order, possibly in parall
 
 ## 1. Goal
 
-- `tail -n +2 planning/plan-20-data/parts.tsv | wc -l` → 3857; each row has a
+- `tail -n +2 planning/plan-20-data/parts.tsv | wc -l` → 4157 (corrected from 3857, § Corrections); each row has a
   `model` (`buf`, `tristate`, `transceiver`, `registered`, `translator`) or
   `skip` with a reason.
 - `ls datasheets/{buffer,transceiver,translator}/*.pdf | wc -l` = distinct
@@ -224,16 +224,16 @@ carry about 2650 of the parts; D tests them before any data lands (G).
 
 ### Phase 1 — Stock and datasheets
 
-- [ ] Stock re-check per base name (`node scripts/digikey.js --in-stock --manufacturer 296 --list "<base>"`; about 400 calls — spread over two days of the ~1000/day quota); refresh `status`, add found rows (Corrections); rows whose status is not Active or Last Time Buy `skip`.
-- [ ] Download the PDFs. Check: `ls datasheets/{buffer,transceiver,translator}/*.pdf | wc -l` = distinct `pdf` values.
+- [x] Stock re-check, scoped to the two listings the census cut short (Corrections 1): series `*` Active of category 704 (610 parts, 300 listed) by 17 keyword searches, and 74LVC Active (340 parts, 317 known) by 11 more; `--in-stock --status Active --json`, about 150 calls. Found 300 rows not in `candidates.tsv` (290 + 10 LVC861/863), added to `parts.tsv` (`wc -l` 4157 + header); the rest of the census is the same day's in-stock listing. Rows not Active or Last Time Buy: `skip` "status …" (932).
+- [x] Download the PDFs: TI symlink by the part's generic number (1109 names tried, 889 PDFs), then TI literature numbers for DigiKey's Rochester links (42 more). Check: `ls datasheets/{buffer,transceiver,translator}/*.pdf | wc -l` → `818`; `awk -F'\t' 'NR>1 && $11=="add"{print $10}' planning/plan-20-data/parts.tsv | sort -u | wc -l` → `818`.
 
 Acceptance: both checks (hours: the call quota sets the pace).
 Commit: —
 
 ### Phase 2 — Part data
 
-- [ ] `parts.tsv` (≥ 3857 rows), `specs.md`, `README.md`. Checks: 0 rows without `model` or `skip`; 0 `add` rows without a footprint id (existing or one of `footprints-needed.txt`'s mapped ids); every out-of-scope family of § Non-goals is `skip`.
-- [ ] `datasheets/skipped-parts.md` § TI buffers and transceivers; `obsolete-not-included.md` for all-obsolete PDFs (PDF deleted).
+- [x] `parts.tsv` (4157 rows: 2360 `add`, 1797 `skip`), `specs/` (187 device specs) + `specs.md`, `reports/G01-G16.md`, `README.md`. Checks: `awk -F'\t' 'NR>1 && !(($11=="add" && $13!="") || ($11=="skip" && $12!=""))' parts.tsv | wc -l` → `0`; `awk -F'\t' 'NR>1 && $11=="add" && $7==""' parts.tsv | wc -l` → `0` (21 of the footprint ids are new, plan-20-B); `add` names matching `TXB|TXS|LSF|PCA|TCA|TXG|CBT|CB3|GTL|SSTL|SN75|SN65|SN95|SN725|CYBUS|FB` → none.
+- [x] `datasheets/skipped-parts.md` § TI buffers, bus transceivers and level shifters (110 reason groups); `not-included.md`: the 72 read PDFs left with no part to add (not copied into `datasheets/`). ~~`obsolete-not-included.md`~~ — moot: only PDFs of Active/LTB rows were fetched, so no PDF has only obsolete parts (`awk` over `parts.tsv`: every copied PDF has ≥ 1 `add` row).
 
 Acceptance: the checks above (minutes).
 Commit: —
@@ -257,6 +257,14 @@ Landing tier at the end of I. A has no code; its gate is Phase 2's checks.
   precedent).
 
 ## Corrections
+
+1. **Stock re-check scoped** (Phase 1). The per-base-name re-check (845 bases measured by `cut -f4 | sort -u`, not ~400) did not fit the day's quota (277 calls left at start, shared with plans 19, 21, 22, 24). The census itself was the same day's `--in-stock` listing, so it is the stock check; what it lacked was the two listings DigiKey cut at 300 (`/tmp/p19/cat704.err`): **series `*` Active, 610 parts** (the plan knew only the 74LVC one) and 74LVC Active, 340. Keyword searches recovered 597 of 610 and 327 of 340 (the 13 + 13 left are SN55/SN65/SN70/CDC line and clock drivers the keyword lookup could not reach, out of scope, and 13 LVC rows no keyword found). 300 new rows → `parts.tsv` has 4157 rows, not 3857.
+2. **Datasheet names**: DigiKey's base number is not TI's datasheet name; the PDF is the TI generic part number derived from the part name (`sn74abt16244a`, `sn74lvc1g125`, `cy74fct244t`, `-q1`/`-ep` for those parts), with DigiKey's own TI link next. 320 rows have no TI PDF at all (DigiKey links a Rochester Electronics viewer page — HTML, not a datasheet, § 4): `skip` "no TI datasheet".
+3. **Parts not in their datasheet's ordering table are skipped** (332), as in the TI inverter work (`datasheets/skipped-parts.md` § TI inverters): DigiKey lists packing and finish variants (E4/G4/LE, NS without R, "A" revisions such as SN74HC125A, LV…AT parts) that no current packaging table lists, so their package is not documented. The readers had placed most of them by package code; the generator drops them.
+4. **Status follows DigiKey**, per § Decisions, where a PDF's table disagrees (it lists some Active DigiKey parts as NRND, LTB or Obsolete). The readers dropped five such parts; they are added back (SN74AHC541DGVR, SN74AHCT541NSR, SN74AHCT16541DGGR, SN74LS367AD; CY74FCT16543ETPVC has no pinout for its package and stays out).
+5. **Specs are JSON, one file per device** (`specs/<id>.json`), with `specs.md` generated from them: 187 devices and 2360 parts are too many for a hand-written markdown table, and the generators of C, G and H read the JSON.
+6. **Census model counts were rough**: by the datasheets, 224 gate (`buf`/`not`), 1331 tristate, 418 transceiver, 155 registered, 232 translator parts. Corrections to § 3.1: '756, '757 and '760 have enables (tristate, open drain), not gates; AUP1T34 is a dual-supply translator (`1T34_DUAL`); LV8T245/8T540/8T541/8T7541/8T9541 are single-supply (transceiver/tristate); 4010B is a translator (VDD/VCC). Parity transceivers ('657, '833, '853, 29854, 16657, 16833), CD4502B (inhibit), '644 (one direction inverted), '16470, '16501, '16973 and the AXC8T245 (two DIR pins) do not fit the models: `skip` with that reason.
+7. **Existing devices**: SNJ5416J joins the existing `74_16` in `gate.json`; SN74LV6T06PWREP and SN74LVC1G06DBVRQ1/DCKRQ1 are already in the catalog (`skip`).
 
 ## Summary
 

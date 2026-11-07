@@ -1,0 +1,209 @@
+{
+ "id": "74_642",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver, inverting, open-collector outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout DIR 1, A1-A8 2-9, GND 10, B8-B1 11-18, OE 19, VCC 20: sn74as641 (= sn74als641a-1 = sdas300, SDAS300) p.1 (DW, N); sn74ls642 (SDLS189, scanned) p.1 (DW, J, N; enable printed G-bar there, named OE here). Function table OE L DIR L: B->A, OE L DIR H: A->B, OE H: isolation (sn74as641 p.1, sn74ls642 p.1). '642 is the inverting open-collector member (sn74as641 p.1 device table, sn74ls642 p.1). Both A and B outputs are open-collector.",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DW",
+    "N",
+    "NE",
+    "DB"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": true,
+ "output": "open-drain",
+ "timing": {
+  "ALS": {
+   "rise": 30,
+   "fall": 22,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL A or B -> B or A, SN74ALS642A, 50 pF, 0-70 C (sn74as641 p.4; no typical printed); VCC 4.5-5.5 V (p.3)"
+  },
+  "LS": {
+   "rise": 19,
+   "fall": 14,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "typ tPLH/tPHL A->B at 5 V, 45 pF, 'LS642 (sn74ls642 p.8); VCC 4.75-5.25 V (p.7)"
+  }
+ },
+ "families": {
+  "ALS": [
+   "sn74as641",
+   "sdas300",
+   "sn74als641a-1"
+  ],
+  "LS": [
+   "sn74ls642"
+  ]
+ },
+ "pdfs": [
+  "sn74as641",
+  "sn74ls642",
+  "sdas300",
+  "sn74als641a-1"
+ ],
+ "parts": [
+  "SN74ALS642A-1DW",
+  "SN74ALS642A-1N",
+  "SN74LS642-1N",
+  "SN74LS642DW",
+  "SN74LS642N",
+  "SN74ALS642A-1NE4",
+  "SN74LS642-1DW",
+  "SN74ALS642A-1DB",
+  "SN74ALS642AN"
+ ]
+}

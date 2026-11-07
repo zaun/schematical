@@ -1,0 +1,433 @@
+{
+ "id": "74_162952",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "16-bit registered bus transceiver, 3-state outputs, balanced 24-mA drivers with series resistors",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sccs065c p.1 (SSOP/TSSOP-56; PA = TSSOP, TI DGG): 1OEAB 1, 1CLKAB 2, 1CEAB 3, ... 2CEAB 26, 2CLKAB 27, 2OEAB 28, 2OEBA 29, 2CLKBA 30, 2CEBA 31, ... 1CEBA 54, 1CLKBA 55, 1OEBA 56; VCC 7/22/35/50, GND 4/11/18/25/32/39/46/53. Pin description p.2: OEAB, OEBA, CEAB, CEBA all active low. Function table p.2 (A-to-B; B-to-A symmetric): CEAB L and CLKAB rising stores A; CEAB H or no edge holds; OEAB L drives B with the stored data, OEAB H = Z. 162H952 has bus hold on A/B (not modeled). Two independent 8-bit units.",
+ "pinouts": {
+  "tssop56": [
+   {
+    "number": 1,
+    "name": "1OEAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1CLKAB",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "1CEAB",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "1A1",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "1A2",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 8,
+    "name": "1A3",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "1A4",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "1A5",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 12,
+    "name": "1A6",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "1A7",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "1A8",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "2A1",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "2A2",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "2A3",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 19,
+    "name": "2A4",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "2A5",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "2A6",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 23,
+    "name": "2A7",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "2A8",
+    "role": "inout"
+   },
+   {
+    "number": 25,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 26,
+    "name": "2CEAB",
+    "role": "input"
+   },
+   {
+    "number": 27,
+    "name": "2CLKAB",
+    "role": "input"
+   },
+   {
+    "number": 28,
+    "name": "2OEAB",
+    "role": "input"
+   },
+   {
+    "number": 29,
+    "name": "2OEBA",
+    "role": "input"
+   },
+   {
+    "number": 30,
+    "name": "2CLKBA",
+    "role": "input"
+   },
+   {
+    "number": 31,
+    "name": "2CEBA",
+    "role": "input"
+   },
+   {
+    "number": 32,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 33,
+    "name": "2B8",
+    "role": "inout"
+   },
+   {
+    "number": 34,
+    "name": "2B7",
+    "role": "inout"
+   },
+   {
+    "number": 35,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 36,
+    "name": "2B6",
+    "role": "inout"
+   },
+   {
+    "number": 37,
+    "name": "2B5",
+    "role": "inout"
+   },
+   {
+    "number": 38,
+    "name": "2B4",
+    "role": "inout"
+   },
+   {
+    "number": 39,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 40,
+    "name": "2B3",
+    "role": "inout"
+   },
+   {
+    "number": 41,
+    "name": "2B2",
+    "role": "inout"
+   },
+   {
+    "number": 42,
+    "name": "2B1",
+    "role": "inout"
+   },
+   {
+    "number": 43,
+    "name": "1B8",
+    "role": "inout"
+   },
+   {
+    "number": 44,
+    "name": "1B7",
+    "role": "inout"
+   },
+   {
+    "number": 45,
+    "name": "1B6",
+    "role": "inout"
+   },
+   {
+    "number": 46,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 47,
+    "name": "1B5",
+    "role": "inout"
+   },
+   {
+    "number": 48,
+    "name": "1B4",
+    "role": "inout"
+   },
+   {
+    "number": 49,
+    "name": "1B3",
+    "role": "inout"
+   },
+   {
+    "number": 50,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 51,
+    "name": "1B2",
+    "role": "inout"
+   },
+   {
+    "number": 52,
+    "name": "1B1",
+    "role": "inout"
+   },
+   {
+    "number": 53,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 54,
+    "name": "1CEBA",
+    "role": "input"
+   },
+   {
+    "number": 55,
+    "name": "1CLKBA",
+    "role": "input"
+   },
+   {
+    "number": 56,
+    "name": "1OEBA",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "CY-PA"
+   ],
+   "pinout": "tssop56"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4",
+    "1A5",
+    "1A6",
+    "1A7",
+    "1A8"
+   ],
+   "b": [
+    "1B1",
+    "1B2",
+    "1B3",
+    "1B4",
+    "1B5",
+    "1B6",
+    "1B7",
+    "1B8"
+   ],
+   "ab": {
+    "store": "register",
+    "clk": {
+     "pin": "1CLKAB",
+     "edge": "rising"
+    },
+    "ce": {
+     "pin": "1CEAB",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "1OEAB",
+     "active": "low"
+    }
+   },
+   "ba": {
+    "store": "register",
+    "clk": {
+     "pin": "1CLKBA",
+     "edge": "rising"
+    },
+    "ce": {
+     "pin": "1CEBA",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "1OEBA",
+     "active": "low"
+    }
+   }
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4",
+    "2A5",
+    "2A6",
+    "2A7",
+    "2A8"
+   ],
+   "b": [
+    "2B1",
+    "2B2",
+    "2B3",
+    "2B4",
+    "2B5",
+    "2B6",
+    "2B7",
+    "2B8"
+   ],
+   "ab": {
+    "store": "register",
+    "clk": {
+     "pin": "2CLKAB",
+     "edge": "rising"
+    },
+    "ce": {
+     "pin": "2CEAB",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "2OEAB",
+     "active": "low"
+    }
+   },
+   "ba": {
+    "store": "register",
+    "clk": {
+     "pin": "2CLKBA",
+     "edge": "rising"
+    },
+    "ce": {
+     "pin": "2CEBA",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "2OEBA",
+     "active": "low"
+    }
+   }
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "FCT": {
+   "rise": 10,
+   "fall": 10,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL CLKAB/CLKBA -> B/A, CY74FCT162H952AT (sccs065c p.5; no typical printed; the E speed grade of the orderables is not in the table, 162H952 CT grade is 6.3 max); VCC 5 V +-10% (p.2)"
+  }
+ },
+ "families": {
+  "FCT": [
+   "sccs065c"
+  ]
+ },
+ "pdfs": [
+  "sccs065c"
+ ],
+ "parts": [
+  "74FCT162H952ETPAC",
+  "74FCT162H952ETPACT"
+ ]
+}

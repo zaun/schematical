@@ -1,0 +1,437 @@
+{
+ "id": "74_162245",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "16-bit bus transceiver, 3-state outputs, series damping resistors",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Standard 48-pin Widebus pinout, same in sn74abt162245 (= sn54abt162245) p.1 (DGG/DL/WD), sn74abth162245 p.1, sn74lvcr162245 p.1, sn74lvt162245a p.1, sn74lvth162245 p.1, sn74lvth162245-ep p.1, sn74alvchr162245 p.1, cy74fct162245t p.1 (SSOP/TSSOP; CY-PA = 48-pin TSSOP). Function table (each 8-bit section): OE low, DIR high = A to B, DIR low = B to A, OE high = isolation. Series output resistors (B port on ABT/ABTH/LVT/LVTH; all outputs on LVCR/ALVCHR/FCT162245T) are not modeled.",
+ "pinouts": {
+  "p48": [
+   {
+    "number": 1,
+    "name": "1DIR",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1B1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "1B2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "1B3",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "1B4",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 8,
+    "name": "1B5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "1B6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "1B7",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "1B8",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "2B1",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "2B2",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 16,
+    "name": "2B3",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "2B4",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 19,
+    "name": "2B5",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "2B6",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 22,
+    "name": "2B7",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "2B8",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "2DIR",
+    "role": "input"
+   },
+   {
+    "number": 25,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "2A8",
+    "role": "inout"
+   },
+   {
+    "number": 27,
+    "name": "2A7",
+    "role": "inout"
+   },
+   {
+    "number": 28,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 29,
+    "name": "2A6",
+    "role": "inout"
+   },
+   {
+    "number": 30,
+    "name": "2A5",
+    "role": "inout"
+   },
+   {
+    "number": 31,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 32,
+    "name": "2A4",
+    "role": "inout"
+   },
+   {
+    "number": 33,
+    "name": "2A3",
+    "role": "inout"
+   },
+   {
+    "number": 34,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 35,
+    "name": "2A2",
+    "role": "inout"
+   },
+   {
+    "number": 36,
+    "name": "2A1",
+    "role": "inout"
+   },
+   {
+    "number": 37,
+    "name": "1A8",
+    "role": "inout"
+   },
+   {
+    "number": 38,
+    "name": "1A7",
+    "role": "inout"
+   },
+   {
+    "number": 39,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 40,
+    "name": "1A6",
+    "role": "inout"
+   },
+   {
+    "number": 41,
+    "name": "1A5",
+    "role": "inout"
+   },
+   {
+    "number": 42,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 43,
+    "name": "1A4",
+    "role": "inout"
+   },
+   {
+    "number": 44,
+    "name": "1A3",
+    "role": "inout"
+   },
+   {
+    "number": 45,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 46,
+    "name": "1A2",
+    "role": "inout"
+   },
+   {
+    "number": 47,
+    "name": "1A1",
+    "role": "inout"
+   },
+   {
+    "number": 48,
+    "name": "1OE",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DGG",
+    "DL",
+    "WD",
+    "DGV",
+    "CY-PA"
+   ],
+   "pinout": "p48"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4",
+    "1A5",
+    "1A6",
+    "1A7",
+    "1A8"
+   ],
+   "b": [
+    "1B1",
+    "1B2",
+    "1B3",
+    "1B4",
+    "1B5",
+    "1B6",
+    "1B7",
+    "1B8"
+   ],
+   "dir": {
+    "pin": "1DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4",
+    "2A5",
+    "2A6",
+    "2A7",
+    "2A8"
+   ],
+   "b": [
+    "2B1",
+    "2B2",
+    "2B3",
+    "2B4",
+    "2B5",
+    "2B6",
+    "2B7",
+    "2B8"
+   ],
+   "dir": {
+    "pin": "2DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 2.2,
+   "fall": 2.3,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A->B at 5 V, 25 C, 50 pF (sn74abt162245 p.5; sn74abth162245 p.6 same); VCC 4.5-5.5 V SN54 and SN74 (p.3)"
+  },
+  "ALVC": {
+   "rise": 4.2,
+   "fall": 4.2,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "note": "max tpd A or B -> B or A at 3.3 V +-0.3 V, no typical printed, SN74ALVCHR162245 (sn74alvchr162245 p.5); VCC 1.65-3.6 V, VI 0-VCC (p.4)"
+  },
+  "FCT": {
+   "rise": 4.1,
+   "fall": 4.1,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL A->B, 74FCT162245CT grade (fastest printed; the E grade of CY74FCT162245ETPAC is not in the sheet), VCC 5 V +-10% (cy74fct162245t p.4-5)"
+  },
+  "LVC": {
+   "rise": 7.5,
+   "fall": 7.5,
+   "vcc": [
+    2.7,
+    3.6
+   ],
+   "note": "max tpd A or B -> B or A at 3.3 V +-0.3 V, 50 pF, no typical printed, SN74LVCR162245 (sn74lvcr162245 p.5); VCC 2.7-3.6 V, VI 0-VCC (p.4)"
+  },
+  "LVT": {
+   "rise": 2.3,
+   "fall": 2.2,
+   "vcc": [
+    2.7,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "typ tPLH/tPHL A->B at 3.3 V, 50 pF (sn74lvt162245a p.6; sn74lvth162245 p.6 same); VCC 2.7-3.6 V, VI to 5.5 V (p.4)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt162245",
+   "sn54abt162245",
+   "sn74abth162245"
+  ],
+  "ALVC": [
+   "dl2:sn74alvchr162245"
+  ],
+  "FCT": [
+   "cy74fct162245t"
+  ],
+  "LVC": [
+   "sn74lvcr162245"
+  ],
+  "LVT": [
+   "sn74lvt162245a",
+   "sn74lvth162245",
+   "sn74lvth162245-ep"
+  ]
+ },
+ "pdfs": [
+  "cy74fct162245t",
+  "dl2:sn74alvchr162245",
+  "sn54abt162245",
+  "sn74abt162245",
+  "sn74abth162245",
+  "sn74lvcr162245",
+  "sn74lvt162245a",
+  "sn74lvth162245",
+  "sn74lvth162245-ep"
+ ],
+ "parts": [
+  "SN74ABT162245DGGR",
+  "SN74ABT162245DL",
+  "SN74ABT162245DLR",
+  "SN74ABTH162245DGGR",
+  "SN74ABTH162245DL",
+  "SN74LVCR162245DGGR",
+  "SN74LVCR162245DL",
+  "SN74LVCR162245DLR",
+  "SN74LVT162245ADGGR",
+  "SN74LVT162245ADL",
+  "SN74LVT162245ADLR",
+  "SN74LVTH162245DGGR",
+  "SN74LVTH162245DL",
+  "SN74LVTH162245DLR",
+  "5962-9677401QXA",
+  "CLVTH162245IDGGREP",
+  "CY74FCT162245ETPAC",
+  "SN74ABT162245DGG",
+  "SN74ALVCHR162245DL",
+  "SN74LVT162245ADGG"
+ ]
+}

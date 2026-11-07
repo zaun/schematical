@@ -1,0 +1,183 @@
+{
+ "id": "74_639",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver, open-collector A outputs, 3-state B outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout and function table from sn74als639a p.1 (SDAS123A, DW or N; same file as dl2 sdas123a). OE low + DIR high = A to B, DIR low = B to A, OE high = isolation. A-bus outputs are open-collector, B-bus 3-state (p.1); output is given as push-pull (device-wide key) - see _report.md.",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DW",
+    "N"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ALS": {
+   "rise": 12,
+   "fall": 12,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Max tPLH/tPHL A->B, VCC 4.5-5.5 V, 50 pF, TA min to max (sn74als639a p.4; no typical given). VCC 4.5-5.5 V (p.3)"
+  }
+ },
+ "families": {
+  "ALS": [
+   "sn74als639a"
+  ]
+ },
+ "parts": [
+  "SN74ALS639ADW",
+  "SN74ALS639AN"
+ ],
+ "pdfs": [
+  "sn74als639a"
+ ]
+}

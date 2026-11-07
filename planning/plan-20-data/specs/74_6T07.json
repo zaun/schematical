@@ -1,0 +1,178 @@
+{
+ "id": "74_6T07",
+ "kind": "gate",
+ "model": "buf",
+ "function": "Buffer",
+ "description": "Hex buffer, open-drain outputs, LVxT translating inputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74lv6t07 p.3 (PW and BQA same numbering; BQA thermal pad not a pin), sn74lv6t07-q1 p.3, sn74lv6t07-ep p.3; Y = A open-drain (p.9). Timing p.6 (only tPZL/tPLZ given for the open-drain output).",
+ "pinouts": {
+  "p14": [
+   {
+    "number": 1,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "4Y",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "4A",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "5Y",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "5A",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "6Y",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "6A",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "PW",
+    "BQA"
+   ],
+   "pinout": "p14"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "1A"
+   ],
+   "output": "1Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "2A"
+   ],
+   "output": "2Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "3A"
+   ],
+   "output": "3Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "4A"
+   ],
+   "output": "4Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "5A"
+   ],
+   "output": "5Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "6A"
+   ],
+   "output": "6Y"
+  }
+ ],
+ "output": "open-drain",
+ "timing": {
+  "LV": {
+   "rise": 7.7,
+   "fall": 7.7,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "typ tPLZ (rise) / tPZL (fall) A->Y at 3.3 V, 50 pF, 25 C (sn74lv6t07 p.6; -q1 p.6 same); VCC 1.65-5.5 V, VI 0-5.5 V (p.4)"
+  }
+ },
+ "partVcc": [
+  {
+   "prefix": "SN74LV6T07PWREP",
+   "family": "LV",
+   "vcc": [
+    1.6,
+    5.5
+   ]
+  }
+ ],
+ "families": {
+  "LV": [
+   "sn74lv6t07",
+   "sn74lv6t07-q1",
+   "sn74lv6t07-ep"
+  ]
+ },
+ "pdfs": [
+  "sn74lv6t07",
+  "sn74lv6t07-q1",
+  "sn74lv6t07-ep"
+ ],
+ "parts": [
+  "SN74LV6T07PWR",
+  "SN74LV6T07PWREP",
+  "SN74LV6T07QPWRQ1",
+  "SN74LV6T07QWBQARQ1"
+ ]
+}

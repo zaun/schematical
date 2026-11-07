@@ -1,0 +1,247 @@
+{
+ "id": "74_3245",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "Octal dual-supply bus transceiver, 3-state outputs (A 2.3-3.6 V, B 3-5.5 V)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "sn74lvcc3245a (SCAS585R) p.3 Figure 4-1 and Table 4-1 (DB/DBQ/DW/NS/PW, same 24-pin pinout; pin 23 NC); function table p.13 Table 7-1: OE low, DIR high = A to B, DIR low = B to A, OE high = isolation; control inputs referenced to VCCA (p.1, p.5).",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 14,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 24,
+    "name": "VCCB",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DB",
+    "DBQ",
+    "DW",
+    "NS",
+    "PW"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "DIR",
+    "OE",
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ]
+  }
+ ],
+ "timing": {
+  "LVC": {
+   "rise": 5.3,
+   "fall": 6,
+   "vcc": [
+    2.3,
+    3.6
+   ],
+   "vccB": [
+    3,
+    5.5
+   ],
+   "note": "max tPLH/tPHL A->B at VCCA 2.7-3.6 V, VCCB 5 V +-0.5 V, no typical printed (sn74lvcc3245a p.7); VCCA 2.3-3.6 V, VCCB 3-5.5 V, inputs 0-VCCA / 0-VCCB (p.4-5)"
+  }
+ },
+ "families": {
+  "LVC": [
+   "sn74lvcc3245a"
+  ]
+ },
+ "pdfs": [
+  "sn74lvcc3245a"
+ ],
+ "parts": [
+  "SN74LVCC3245ADBQR",
+  "SN74LVCC3245ADBR",
+  "SN74LVCC3245ADW",
+  "SN74LVCC3245ADWR",
+  "SN74LVCC3245ANSR",
+  "SN74LVCC3245APW",
+  "SN74LVCC3245APWR",
+  "SN74LVCC3245APWT",
+  "SN74LVCC3245ANS"
+ ]
+}

@@ -1,0 +1,181 @@
+{
+ "id": "4041UB",
+ "kind": "gate",
+ "model": "buf",
+ "function": "Buffer",
+ "description": "Quad true/complement buffer",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout and logic from cd4041ub p.1 (scanned; terminal assignment E=A 1, F=/A 2, A 3, G=B 4, H=/B 5, B 6, VSS 7, K=C 8, L=/C 9, C 10, M=D 11, N=/D 12, D 13, VDD 14). Each input drives a buf (true) and a not (complement) output; 4 units.",
+ "pinouts": {
+  "p14": [
+   {
+    "number": 1,
+    "name": "E",
+    "role": "output"
+   },
+   {
+    "number": 2,
+    "name": "F",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "G",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "H",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "B",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "K",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "L",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "C",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "M",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "N",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "D",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "VDD",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "D",
+    "PW",
+    "J",
+    "NS"
+   ],
+   "pinout": "p14"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "A"
+   ],
+   "output": "E"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "A"
+   ],
+   "output": "F"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "B"
+   ],
+   "output": "G"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "B"
+   ],
+   "output": "H"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "C"
+   ],
+   "output": "K"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "C"
+   ],
+   "output": "L"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "D"
+   ],
+   "output": "M"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "D"
+   ],
+   "output": "N"
+  }
+ ],
+ "units": 4,
+ "output": "push-pull",
+ "timing": {
+  "C": {
+   "rise": 60,
+   "fall": 60,
+   "vcc": [
+    3,
+    18
+   ],
+   "note": "Typical tPHL/tPLH at VDD 5 V, 25 C, 50 pF (cd4041ub p.2, dynamic characteristics; true and complement outputs share one row). VDD 3-18 V (cd4041ub p.1)"
+  }
+ },
+ "families": {
+  "C": [
+   "cd4041ub"
+  ]
+ },
+ "parts": [
+  "CD4041UBE",
+  "CD4041UBM96",
+  "CD4041UBPWR"
+ ],
+ "pdfs": [
+  "cd4041ub"
+ ]
+}

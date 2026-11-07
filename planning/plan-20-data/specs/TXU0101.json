@@ -1,0 +1,122 @@
+{
+ "id": "TXU0101",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "1-bit fixed-direction dual-supply level translator, Schmitt-trigger input, 3-state output",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout txu0101 p.3 (DBV, DCK, DRY, DTQ all the same): VCCA 1, GND 2, A 3, BY 4, OE 5, VCCB 6; txu0101-q1 p.3 same (DCK, DRY). A -> BY when OE high, OE low = BY Z (p.1, p.3). A referenced to VCCA, BY to VCCB; OE works from either supply (VCC(MIN) logic), put in the VCCA domain. Inputs have weak pull-downs (not modeled).",
+ "pinouts": {
+  "p6": [
+   {
+    "number": 1,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 3,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "BY",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "VCCB",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBV",
+    "DCK",
+    "DRY",
+    "DTQ"
+   ],
+   "pinout": "p6"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A"
+   ],
+   "y": [
+    "BY"
+   ],
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "high"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "A",
+    "OE"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "BY"
+   ]
+  }
+ ],
+ "timing": {
+  "TXU": {
+   "rise": 8,
+   "fall": 8,
+   "vcc": [
+    1.08,
+    5.5
+   ],
+   "vccB": [
+    1.08,
+    5.5
+   ],
+   "note": "max tpd A->B at VCCA 3.3 V +-0.3 V, VCCB 5 V +-0.5 V, -40 to 85 C (txu0101 p.13; no typical printed); VCCA and VCCB 1.08-5.5 V, VI 0-5.5 V on every input (p.5); -q1 p.5 same"
+  }
+ },
+ "families": {
+  "TXU": [
+   "txu0101",
+   "txu0101-q1"
+  ]
+ },
+ "pdfs": [
+  "txu0101",
+  "txu0101-q1"
+ ],
+ "parts": [
+  "TXU0101DBVR",
+  "TXU0101DCKR",
+  "TXU0101DRYR",
+  "TXU0101DTQR",
+  "TXU0101QDCKRQ1",
+  "TXU0101QDRYRQ1"
+ ]
+}

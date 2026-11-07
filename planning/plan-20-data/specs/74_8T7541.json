@@ -1,0 +1,189 @@
+{
+ "id": "74_8T7541",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Octal buffer, open-drain outputs, 5.5 V tolerant LVxT inputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74lv8t7541 p.3 Pin Functions (PW, DGS, RKS same numbers; RKS thermal pad not a pin): 1 OE1, 2-9 A1-A8, 10 GND, 11-18 Y8-Y1, 19 OE2, 20 VCC; sn74lv8t7541-q1 p.3 same. Function table sn74lv8t7541 p.14: OE1 L and OE2 L -> Y = A (H = Z, open-drain off), either OE high -> Z. Single supply (outputs referenced to VCC); the level shifting is the reduced-threshold 5.5 V tolerant inputs plus open-drain outputs.",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "OE1",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "Y8",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "Y7",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "Y6",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "Y5",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "Y4",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "Y3",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "Y2",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "Y1",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "OE2",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DGS",
+    "PW",
+    "RKS"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "y": [
+    "Y1",
+    "Y2",
+    "Y3",
+    "Y4",
+    "Y5",
+    "Y6",
+    "Y7",
+    "Y8"
+   ],
+   "oe": [
+    {
+     "pin": "OE1",
+     "active": "low"
+    },
+    {
+     "pin": "OE2",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "open-drain",
+ "timing": {
+  "LV": {
+   "rise": 13,
+   "fall": 38.8,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "Max A->Y at 3.3 V, 25 C, 50 pF (no typical printed): rise = tPLZ (output release) 13, fall = tPZL 38.8; at 15 pF 9.3 / 15.8 (sn74lv8t7541 p.6). VCC 1.65-5.5 V, VI 0-5.5 V (sn74lv8t7541 p.4)"
+  }
+ },
+ "families": {
+  "LV": [
+   "sn74lv8t7541",
+   "sn74lv8t7541-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74lv8t7541",
+  "sn74lv8t7541-q1"
+ ],
+ "parts": [
+  "SN74LV8T7541DGSR",
+  "SN74LV8T7541PWR",
+  "SN74LV8T7541RKSR",
+  "CLV8T7541QDGSRQ1",
+  "CLV8T7541QWRKSRQ1"
+ ]
+}
