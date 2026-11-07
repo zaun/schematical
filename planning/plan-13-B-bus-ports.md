@@ -365,14 +365,22 @@ Still version 3 (A bumped it; no build has shipped version 3 without ports).
 
 ### Phase 1 — Port model, tool and drawing
 
-- [ ] `BusModel.swift`: `BusPort` (with `line`), `Bus.ports`, geometry
+- [x] `BusModel.swift`: `BusPort` (with `line`), `Bus.ports`, geometry
       helpers, `Bus.fit` with Ts as obstacles (§ 4).
-- [ ] `SchematicModel.swift`: `SchematicTool.busPort`, `selectedPortID`,
+- [x] `SchematicModel.swift`: `SchematicTool.busPort`, `selectedPortID`,
       `addPort`, `setPortWires` (grow and shrink without wire removal, since no
       wire can attach yet), `setPortSide`, and the `setBusWireCount` minimum.
-- [ ] `SchematicCanvasView.swift`: `PortLayer`, the tool branch, Pointer
+- [x] `SchematicCanvasView.swift`: `PortLayer`, the tool branch, Pointer
       selection and hover for ports.
-- [ ] `BusPanels.swift`: `BusPortPanel`; `SchematicSidebarView`: show it.
+- [x] `BusPanels.swift`: `BusPortPanel`; `SchematicSidebarView`: show it.
+- [x] Added: `Bus.portsFit` (every port's line exists, side matches, `fit`
+      keeps its start), and the Bus tool refuses a join that leaves a port
+      not fitting (a new T inside a port). § 4 says a port never covers a T,
+      but nothing stopped a later Bus tool drag from making one. `BusJoin`
+      also kept no ports when it rebuilt the bus; it keeps them now.
+- [x] Added: `eraseBusLine` drops ports whose line is gone (Phase 3 replaces
+      this with the full rule), so no port outlives its line in between.
+- [x] Added: `scripts/harness/bus-ports.swift` (the check below).
 
 Acceptance: a port placed mid-line is empty and selected; ticking 4 wires
 grows it right; ticking near the line's right end grows it left; ticking
@@ -381,11 +389,21 @@ end or a T is refused; a port can't cover a T; switching Side moves the pins acr
 below the highest ticked wire.
   Check: build; on a horizontal bus from (100,100) to (300,100), place a port at
   x 260, tick `B0`–`B3`, screenshot (it should have shifted left to end at
-  300); tick all 8 → message, screenshot; set Side to Top, screenshot; set the
+  300); set the wire count to 12 and Select All → message, screenshot (see
+  § Corrections: all 8 fit); set Side to Top, screenshot; set the
   wire count to 3 with `B3` ticked → message, screenshot. With the Bus tool
   drag (200,100) → (200,160) (a T); place a port at x 180 and tick
   `B0`–`B1` (its extent would cover the T at 200, so it shifts left to end
   there), screenshot; click the T → message, screenshot (est. 10 min).
+  Result (2026-11-07): build → `** BUILD SUCCEEDED **`; harness
+  `bus-ports.swift` → `ALL OK`: port at 260 "start 260 extent 250..270",
+  empty, selected; `B0`–`B3` → "start 230 extent 220..300"; 12 pins →
+  "Not enough room on this bus line for 12 pins.", port unchanged; B0 tip
+  (230,150) → (230,50) on Top, Left refused; count 3 → "B3 is used by a
+  port; this bus needs at least 4 wires."; port 2 `B0`–`B1` → "start 170
+  extent 160..200", 3 pins → 140..200 (never over the T); clicking the T or
+  the end → "A port can't go on the end of a bus line or on a joint."; a T
+  drawn into port 1 refused. Canvas and panel PNGs `b1-1` … `b1-6`.
 Commit: —
 
 ### Phase 2 — Port pins as wire ends; nets
@@ -505,6 +523,12 @@ Commit: —
   and panel make and renders the real views to PNG. A play-mode check runs
   the real `SimulationController` and reads the LED's light level.
 - plan-13-A now lives at `planning/completed/plan-13-A-bus-lines.md`.
+- **Phase 1's "tick all 8 → message" can't happen** (2026-11-07). The line
+  (100,100)–(300,100) is 200 long; 8 pins take 8 × 20 = 160, so the fit rule
+  moves the port left to start 150 and accepts (`fit(slots: 8)` from 230 →
+  150, measured in `bus-ports.swift`). The room message needs more than 10
+  pins on that line: the check sets 12 wires and Selects All, which is
+  refused with "Not enough room on this bus line for 12 pins.".
 
 ## Summary
 

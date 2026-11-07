@@ -134,3 +134,78 @@ private struct BusWireNameRow: View {
         name = document.bus(busID)?.wires.first { $0.id == wire.id }?.name ?? wire.name
     }
 }
+
+/// The inspector for a selected bus port: which side its pins come out of,
+/// and a checkbox per bus wire (ticked wires are pins, in bus order).
+struct BusPortPanel: View {
+    let document: SchematicDocument
+    let portID: UUID
+
+    @State private var message: String?
+
+    var body: some View {
+        if let found = document.port(portID), let line = found.bus.line(found.port.line) {
+            let bus = found.bus
+            let port = found.port
+            Form {
+                Section {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Bus Port")
+                            .font(.title2.bold())
+                        Text("\(port.wireIDs.count) of \(bus.wires.count) wires")
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                Section("Pins") {
+                    Picker("Side", selection: sideBinding(port.side)) {
+                        ForEach(BusPort.sides(for: line), id: \.self) { side in
+                            Text(Self.title(side)).tag(side)
+                        }
+                    }
+                    HStack {
+                        Button("Select All") { set(Set(bus.wires.map(\.id))) }
+                        Button("Deselect All") { set([]) }
+                    }
+                    if let message {
+                        Text(message)
+                            .font(.caption)
+                            .foregroundStyle(.red)
+                    }
+                    LazyVStack(alignment: .leading, spacing: 4) {
+                        ForEach(bus.wires) { wire in
+                            Toggle(wire.name, isOn: Binding(
+                                get: { port.wireIDs.contains(wire.id) },
+                                set: { on in
+                                    var ids = port.wireIDs
+                                    if on { ids.insert(wire.id) } else { ids.remove(wire.id) }
+                                    set(ids)
+                                }
+                            ))
+                            .toggleStyle(.checkbox)
+                        }
+                    }
+                }
+            }
+            .formStyle(.grouped)
+        }
+    }
+
+    private func sideBinding(_ side: ChipLayout.Side) -> Binding<ChipLayout.Side> {
+        Binding(get: { side }, set: { document.setPortSide(portID, $0) })
+    }
+
+    /// Stores the ticked wires; a refusal shows its message.
+    private func set(_ ids: Set<UUID>) {
+        message = document.setPortWires(portID, ids)
+    }
+
+    private static func title(_ side: ChipLayout.Side) -> String {
+        switch side {
+        case .top: "Top"
+        case .bottom: "Bottom"
+        case .left: "Left"
+        case .right: "Right"
+        }
+    }
+}

@@ -11,6 +11,8 @@ import SwiftUI
 ///   junction, so wires branch there. Only connection points are highlighted.
 /// - Bus: drag to draw a bus line or L; start or end on a bus to join it at a
 ///   T or L, or to extend it.
+/// - Bus Port: click a bus line (not its ends or a T) to add an empty port
+///   there; tick wires in its panel to give it pins.
 /// - Eraser: click or drag over a block, wire or bus line to remove it.
 /// - Flip: click a part to flip it left and right.
 /// - VCC and GND: click the canvas to place a supply there.
@@ -43,6 +45,7 @@ struct SchematicCanvasView: View {
     @State private var hoveredChipID: UUID?
     @State private var hoveredWireID: UUID?
     @State private var hoveredBusID: UUID?
+    @State private var hoveredPortID: UUID?
     /// The connection point under the pointer in Line mode, when not drawing.
     @State private var hoverAnchor: LineAnchor?
 
@@ -90,19 +93,13 @@ struct SchematicCanvasView: View {
                 case let .active(location):
                     updateHover(at: viewport.world(location))
                 case .ended:
-                    hoveredChipID = nil
-                    hoveredWireID = nil
-                    hoveredBusID = nil
-                    hoverAnchor = nil
+                    clearHover()
                 }
             }
             .onChange(of: isRunning) { _, running in
                 // Drop any highlight left from before play mode started (⌘R).
                 if running {
-                    hoveredChipID = nil
-                    hoveredWireID = nil
-                    hoveredBusID = nil
-                    hoverAnchor = nil
+                    clearHover()
                 }
             }
             .simultaneousGesture(
@@ -166,6 +163,13 @@ struct SchematicCanvasView: View {
                 selectedBusID: document.selectedBusID,
                 hoveredBusID: hoveredBusID,
                 preview: busPreview,
+                area: gridRect
+            )
+
+            PortLayer(
+                buses: document.buses,
+                selectedPortID: document.selectedPortID,
+                hoveredPortID: hoveredPortID,
                 area: gridRect
             )
 
@@ -391,6 +395,14 @@ struct SchematicCanvasView: View {
                 interaction = .connecting(from: from, cursor: current)
             }
 
+        case .busPort:
+            // One port per press, where the press started. A refusal sets
+            // document.editorMessage.
+            if interaction == nil {
+                document.addPort(at: start, tolerance: busTolerance)
+            }
+            interaction = .idle
+
         case .bus:
             if interaction == nil {
                 interaction = .drawingBus(from: SchematicGrid.snap(start), cursor: current)
@@ -428,33 +440,30 @@ struct SchematicCanvasView: View {
     /// Highlights the block under the pointer, or else the wire segment under it.
     /// In Line mode, highlights only the connection point under the pointer.
     /// In play mode, nothing is highlighted.
+    private func clearHover() {
+        hoveredChipID = nil
+        hoveredWireID = nil
+        hoveredBusID = nil
+        hoveredPortID = nil
+        hoverAnchor = nil
+    }
+
     private func updateHover(at point: CGPoint) {
+        clearHover()
         if isRunning {
-            hoveredChipID = nil
-            hoveredWireID = nil
-            hoveredBusID = nil
-            hoverAnchor = nil
             return
         }
         if tool == .line {
-            hoveredChipID = nil
-            hoveredWireID = nil
-            hoveredBusID = nil
             hoverAnchor = lineAnchor(at: point)
             return
         }
-        hoverAnchor = nil
         if let chip = document.chip(at: point) {
             hoveredChipID = chip.id
-            hoveredWireID = nil
-            hoveredBusID = nil
+        } else if let port = document.portHit(at: point) {
+            hoveredPortID = port
         } else if let wire = document.segmentHit(at: point, tolerance: lineTolerance)?.wire {
-            hoveredChipID = nil
             hoveredWireID = wire
-            hoveredBusID = nil
         } else {
-            hoveredChipID = nil
-            hoveredWireID = nil
             hoveredBusID = document.busHit(at: point, tolerance: busTolerance)?.bus
         }
     }
@@ -463,6 +472,10 @@ struct SchematicCanvasView: View {
         if let hit = document.chip(at: point) {
             document.selectedChipID = hit.id
             interaction = .moveChip(id: hit.id, startOrigin: hit.origin)
+        } else if let port = document.portHit(at: point) {
+            // plan-13-C adds sliding; for now a press only selects.
+            document.selectedPortID = port
+            interaction = .idle
         } else if let node = document.nodeHit(at: point, tolerance: lineTolerance) {
             clearSelection()
             interaction = .dragNode(
@@ -494,6 +507,7 @@ struct SchematicCanvasView: View {
     private func clearSelection() {
         document.selectedChipID = nil
         document.selectedBusID = nil
+        document.selectedPortID = nil
     }
 
     private func handleEnded(_ value: DragGesture.Value) {
@@ -752,5 +766,54 @@ struct BusLayer: View {
         path.move(to: a)
         path.addLine(to: b)
         return path
+    }
+}
+
+/// Draws bus ports: each body (outlined; accent when selected or hovered),
+/// a stub per pin out to its tip, and each pin's wire name inside the body
+/// next to its pin, turned 90° on a horizontal line where pins are close.
+struct PortLayer: View {
+    let buses: [Bus]
+    let selectedPortID: UUID?
+    let hoveredPortID: UUID?
+    /// The visible world area; drawing outside it is not shown.
+    let area: CGRect
+
+    var body: some View {
+        Canvas { context, _ in
+            context.shiftToWorld(area)
+            for bus in buses {
+                for port in bus.ports {
+                    guard let body = bus.body(of: port), let line = bus.line(port.line) else { continue }
+                    let highlighted = port.id == selectedPortID || port.id == hoveredPortID
+                    let outline: Color = highlighted ? .accentColor : .primary
+                    context.fill(Path(body), with: .color(Color(nsColor: .controlBackgroundColor)))
+                    context.stroke(Path(body), with: .color(outline), lineWidth: highlighted ? 2 : 1.5)
+
+                    for (index, wire) in bus.pinWires(of: port).enumerated() {
+                        let along = bus.pinAlong(port, index: index)
+                        guard let edge = bus.point(on: port, along: along, out: BusPort.depth),
+                              let tip = bus.point(on: port, along: along, out: BusPort.depth + BusPort.stub),
+                              let label = bus.point(on: port, along: along, out: BusPort.depth / 2) else { continue }
+                        var stub = Path()
+                        stub.move(to: edge)
+                        stub.addLine(to: tip)
+                        context.stroke(stub, with: .color(outline), lineWidth: 1.5)
+
+                        let text = Text(wire.name)
+                            .font(.system(size: 10, weight: .medium, design: .monospaced))
+                        if line.isHorizontal {
+                            var turned = context
+                            turned.translateBy(x: label.x, y: label.y)
+                            turned.rotate(by: .degrees(-90))
+                            turned.draw(text, at: .zero, anchor: .center)
+                        } else {
+                            context.draw(text, at: label, anchor: .center)
+                        }
+                    }
+                }
+            }
+        }
+        .worldCanvas(area)
     }
 }

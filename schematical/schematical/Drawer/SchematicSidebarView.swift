@@ -22,11 +22,17 @@ struct SchematicSidebarView: View {
         return id
     }
 
+    private var selectedPort: UUID? {
+        guard let id = document.selectedPortID, document.port(id) != nil else { return nil }
+        return id
+    }
+
     var body: some View {
         let chip = isActive ? selected : nil
-        // Chip panel first, then the bus panel, then the library.
-        let busID = isActive && chip == nil ? selectedBus : nil
-        let showsLibrary = isActive && chip == nil && busID == nil
+        // Chip panel first, then the port panel, then the bus panel, then the library.
+        let portID = isActive && chip == nil ? selectedPort : nil
+        let busID = isActive && chip == nil && portID == nil ? selectedBus : nil
+        let showsLibrary = isActive && chip == nil && portID == nil && busID == nil
         ZStack {
             ChipDrawerView(catalog: catalog)
                 // Hidden under the part panel or the PCB page: no clicks, no
@@ -49,6 +55,10 @@ struct SchematicSidebarView: View {
                 .formStyle(.grouped)
                 // Fresh field state for each part.
                 .id(chip.id)
+            } else if let portID {
+                BusPortPanel(document: document, portID: portID)
+                    // Fresh field state for each port.
+                    .id(portID)
             } else if let busID {
                 BusPanel(document: document, busID: busID)
                     // Fresh field state for each bus.

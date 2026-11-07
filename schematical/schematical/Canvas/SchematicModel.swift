@@ -24,6 +24,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
     case eraser
     case line
     case bus
+    case busPort
     case flip
     case vcc
     case ground
@@ -38,6 +39,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         case .eraser: "Eraser"
         case .line: "Line"
         case .bus: "Bus"
+        case .busPort: "Bus Port"
         case .flip: "Flip"
         case .vcc: "VCC"
         case .ground: "GND"
@@ -52,6 +54,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         case .eraser: "eraser"
         case .line: "line.diagonal"
         case .bus: "line.3.horizontal"
+        case .busPort: "rectangle.connected.to.line.below"
         case .flip: "arrow.left.and.right"
         case .vcc: "bolt"
         case .ground: "arrow.down.to.line"
@@ -782,30 +785,43 @@ final class SchematicDocument {
     private(set) var junctions: [Junction] = []
     /// Buses, in drawing order (plan-13). They carry no current themselves.
     private(set) var buses: [Bus] = []
-    /// The selected part. Selecting one clears the selected text and bus.
+    /// The selected part. Selecting one clears the other selections.
     var selectedChipID: UUID? {
         didSet {
-            if selectedChipID != nil, selectedTextID != nil { selectedTextID = nil }
-            if selectedChipID != nil, selectedBusID != nil { selectedBusID = nil }
+            if selectedChipID != nil { clearSelection(except: .chip) }
         }
     }
-    /// The selected bus. Selecting one clears the selected part and text.
+    /// The selected bus. Selecting one clears the other selections.
     var selectedBusID: UUID? {
         didSet {
-            if selectedBusID != nil, selectedChipID != nil { selectedChipID = nil }
-            if selectedBusID != nil, selectedTextID != nil { selectedTextID = nil }
+            if selectedBusID != nil { clearSelection(except: .bus) }
         }
+    }
+    /// The selected bus port. Selecting one clears the other selections.
+    var selectedPortID: UUID? {
+        didSet {
+            if selectedPortID != nil { clearSelection(except: .port) }
+        }
+    }
+
+    private enum SelectionKind { case chip, text, bus, port }
+
+    /// At most one thing is selected: clears every selection but `kept`.
+    private func clearSelection(except kept: SelectionKind) {
+        if kept != .chip, selectedChipID != nil { selectedChipID = nil }
+        if kept != .text, selectedTextID != nil { selectedTextID = nil }
+        if kept != .bus, selectedBusID != nil { selectedBusID = nil }
+        if kept != .port, selectedPortID != nil { selectedPortID = nil }
     }
 
     /// The PCB's size, layers, colour and units.
     var board = BoardSettings()
     /// Free texts on the PCB, in drawing order.
     private(set) var texts: [BoardText] = []
-    /// The selected board text. Selecting one clears the selected part and bus.
+    /// The selected board text. Selecting one clears the other selections.
     var selectedTextID: UUID? {
         didSet {
-            if selectedTextID != nil, selectedChipID != nil { selectedChipID = nil }
-            if selectedTextID != nil, selectedBusID != nil { selectedBusID = nil }
+            if selectedTextID != nil { clearSelection(except: .text) }
         }
     }
 
@@ -839,6 +855,7 @@ final class SchematicDocument {
         selectedChipID = nil
         selectedTextID = nil
         selectedBusID = nil
+        selectedPortID = nil
         editorMessage = nil
     }
 
@@ -1406,9 +1423,15 @@ final class SchematicDocument {
     }
 
     /// Sets how many wires a bus carries, clamped to 2–999. New wires get
-    /// fresh ids and default names; removing drops wires from the end.
+    /// fresh ids and default names; removing drops wires from the end. It
+    /// can't drop a wire a port uses: that is refused with a message.
     func setBusWireCount(_ id: UUID, _ count: Int) -> String? {
         guard let index = buses.firstIndex(where: { $0.id == id }) else { return nil }
+        let bus = buses[index]
+        let used = bus.ports.reduce(into: Set<UUID>()) { $0.formUnion($1.wireIDs) }
+        if let highest = bus.wires.lastIndex(where: { used.contains($0.id) }), count < highest + 1 {
+            return "\(bus.wires[highest].name) is used by a port; this bus needs at least \(highest + 1) wires."
+        }
         let wanted = min(max(count, Bus.wireCountRange.lowerBound), Bus.wireCountRange.upperBound)
         var wires = buses[index].wires
         if wanted < wires.count {
@@ -1435,6 +1458,85 @@ final class SchematicDocument {
             return "\(trimmed) is already used on this bus."
         }
         buses[index].wires[w].name = trimmed
+        return nil
+    }
+
+    // MARK: Bus ports
+
+    /// The bus and index of a port.
+    func portLocation(_ portID: UUID) -> (bus: Int, port: Int)? {
+        for (b, bus) in buses.enumerated() {
+            if let p = bus.ports.firstIndex(where: { $0.id == portID }) { return (b, p) }
+        }
+        return nil
+    }
+
+    /// A port and the bus it is on.
+    func port(_ portID: UUID) -> (bus: Bus, port: BusPort)? {
+        portLocation(portID).map { (buses[$0.bus], buses[$0.bus].ports[$0.port]) }
+    }
+
+    /// The Bus Port tool: adds an empty port where `point` is on a bus line,
+    /// and selects it. Refused (with `editorMessage` set, and returned) on or
+    /// near a line end or a T, or when one slot doesn't fit there.
+    @discardableResult
+    func addPort(at point: CGPoint, tolerance: CGFloat = 6) -> String? {
+        guard let hit = busHit(at: point, tolerance: tolerance),
+              let b = buses.firstIndex(where: { $0.id == hit.bus }),
+              let line = buses[b].line(hit.line) else { return nil }
+        let bus = buses[b]
+        let along = line.isHorizontal ? point.x : point.y
+        let blocked = [line.alongRange.lowerBound, line.alongRange.upperBound] + bus.teeAlongs(on: line.id)
+        if blocked.contains(where: { abs($0 - along) <= tolerance }) {
+            editorMessage = "A port can't go on the end of a bus line or on a joint."
+            return editorMessage
+        }
+        let port = BusPort(line: line.id, start: SchematicGrid.snap(along), side: BusPort.defaultSide(for: line))
+        guard let start = bus.fit(port: port, slots: 1, preferredStart: port.start) else {
+            editorMessage = "Not enough room on this bus line for a port."
+            return editorMessage
+        }
+        var placed = port
+        placed.start = start
+        buses[b].ports.append(placed)
+        editorMessage = nil
+        selectedPortID = placed.id
+        return nil
+    }
+
+    /// Sets which bus wires are pins on a port (ticks, Select All, Deselect
+    /// All). More pins than fit is refused with a message and changes
+    /// nothing; a port that grows may move left (up) to fit.
+    func setPortWires(_ portID: UUID, _ ids: Set<UUID>) -> String? {
+        guard let at = portLocation(portID) else { return nil }
+        let bus = buses[at.bus]
+        let port = bus.ports[at.port]
+        let wanted = ids.intersection(bus.wires.map(\.id))
+        guard let start = bus.fit(port: port, slots: wanted.count, preferredStart: port.start) else {
+            return "Not enough room on this bus line for \(wanted.count) pins."
+        }
+        buses[at.bus].ports[at.port].start = start
+        buses[at.bus].ports[at.port].wireIDs = wanted
+        return nil
+    }
+
+    /// Sets the side a port's pins come out of, if it suits the line.
+    func setPortSide(_ portID: UUID, _ side: ChipLayout.Side) {
+        guard let at = portLocation(portID),
+              let line = buses[at.bus].line(buses[at.bus].ports[at.port].line),
+              BusPort.sides(for: line).contains(side) else { return }
+        buses[at.bus].ports[at.port].side = side
+    }
+
+    /// The port whose body is under `point` (topmost first).
+    func portHit(at point: CGPoint, tolerance: CGFloat = 0) -> UUID? {
+        for bus in buses.reversed() {
+            for port in bus.ports.reversed() {
+                if let body = bus.body(of: port), body.insetBy(dx: -tolerance, dy: -tolerance).contains(point) {
+                    return port.id
+                }
+            }
+        }
         return nil
     }
 
@@ -1498,6 +1600,8 @@ final class SchematicDocument {
         }
         let pieces = bus.pieces()
         bus.lines = pieces[0]
+        let kept = Set(bus.lines.map(\.id))
+        bus.ports.removeAll { !kept.contains($0.line) }
         buses[index] = bus
         let split = pieces.dropFirst().map { piece in
             Bus(lines: piece, wires: bus.wires.map { BusWire(name: $0.name) })

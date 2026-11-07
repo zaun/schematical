@@ -155,6 +155,8 @@ struct Bus: Identifiable, Hashable {
     /// The bus's wires in list order. 2…999 of them. Every line carries all
     /// of them.
     var wires: [BusWire]
+    /// Ports on the bus's lines (plan-13-B).
+    var ports: [BusPort]
 
     static let wireCountRange = 2...999
     static let defaultWireCount = 8
@@ -162,10 +164,11 @@ struct Bus: Identifiable, Hashable {
     /// Four times a wire's 1.5.
     static let lineWidth: CGFloat = 6
 
-    init(id: UUID = UUID(), lines: [BusLine], wires: [BusWire]) {
+    init(id: UUID = UUID(), lines: [BusLine], wires: [BusWire], ports: [BusPort] = []) {
         self.id = id
         self.lines = lines
         self.wires = wires
+        self.ports = ports
     }
 
     /// `B<index>`, or else the first free `B<n>` (case-insensitive).
@@ -302,6 +305,171 @@ struct Bus: Identifiable, Hashable {
                     for point in [line.a, line.b] where second.lines.contains(where: { $0.contains(point) }) {
                         return (first.id, second.id, point)
                     }
+                }
+            }
+        }
+        return nil
+    }
+}
+
+// MARK: - Ports
+
+/// A box on a bus line with one pin per ticked bus wire. Wires connect to
+/// its pins; every pin for the same bus wire, on any port of the bus, is one
+/// net.
+struct BusPort: Identifiable, Hashable {
+    let id: UUID
+    /// The bus line it sits on.
+    let line: UUID
+    /// Along-axis coordinate of its first pin slot: x on a horizontal line,
+    /// y on a vertical one. On the grid.
+    var start: CGFloat
+    /// Which side its pins come out: top/bottom on a horizontal line,
+    /// left/right on a vertical one.
+    var side: ChipLayout.Side
+    /// The ticked bus wire ids. Pin order is always the bus's wire order.
+    var wireIDs: Set<UUID>
+
+    init(id: UUID = UUID(), line: UUID, start: CGFloat, side: ChipLayout.Side, wireIDs: Set<UUID> = []) {
+        self.id = id
+        self.line = line
+        self.start = start
+        self.side = side
+        self.wireIDs = wireIDs
+    }
+
+    /// How deep the body is, out from the bus line.
+    static let depth: CGFloat = 40
+    static let pitch = ChipLayout.pitch
+    static let stub = ChipLayout.stubLength
+
+    /// The default side for a line: bottom on a horizontal line, right on a
+    /// vertical one.
+    static func defaultSide(for line: BusLine) -> ChipLayout.Side {
+        line.isHorizontal ? .bottom : .right
+    }
+
+    /// The sides a port on `line` may use.
+    static func sides(for line: BusLine) -> [ChipLayout.Side] {
+        line.isHorizontal ? [.top, .bottom] : [.left, .right]
+    }
+
+    /// +1 when pins point to growing y (bottom) or x (right), else −1.
+    var outward: CGFloat {
+        side == .bottom || side == .right ? 1 : -1
+    }
+
+    /// Along-axis range a port with `slots` slots takes from `start`.
+    static func extent(start: CGFloat, slots: Int) -> ClosedRange<CGFloat> {
+        let lo = start - pitch / 2
+        return lo...(lo + CGFloat(max(slots, 1)) * pitch)
+    }
+}
+
+extension Bus {
+    func port(_ id: UUID) -> BusPort? {
+        ports.first { $0.id == id }
+    }
+
+    /// The port's pins, in bus wire order.
+    func pinWires(of port: BusPort) -> [BusWire] {
+        wires.filter { port.wireIDs.contains($0.id) }
+    }
+
+    /// Slots a port takes along its line: one per pin, at least one.
+    func slots(of port: BusPort) -> Int {
+        max(port.wireIDs.count, 1)
+    }
+
+    func extent(of port: BusPort) -> ClosedRange<CGFloat> {
+        BusPort.extent(start: port.start, slots: slots(of: port))
+    }
+
+    /// A point `along` the port's line and `out` from it toward the pins.
+    func point(on port: BusPort, along: CGFloat, out: CGFloat) -> CGPoint? {
+        guard let line = line(port.line) else { return nil }
+        let across = line.across + out * port.outward
+        return line.isHorizontal ? CGPoint(x: along, y: across) : CGPoint(x: across, y: along)
+    }
+
+    /// The port's body: its extent along the line, `BusPort.depth` deep on
+    /// the pin side. The bus line runs along its inner edge.
+    func body(of port: BusPort) -> CGRect? {
+        let extent = extent(of: port)
+        guard let a = point(on: port, along: extent.lowerBound, out: 0),
+              let b = point(on: port, along: extent.upperBound, out: BusPort.depth) else { return nil }
+        return CGRect(x: min(a.x, b.x), y: min(a.y, b.y), width: abs(b.x - a.x), height: abs(b.y - a.y))
+    }
+
+    /// Along-axis position of pin `index` (0-based, in bus order).
+    func pinAlong(_ port: BusPort, index: Int) -> CGFloat {
+        port.start + CGFloat(index) * BusPort.pitch
+    }
+
+    /// Where a wire meets the port's pin for `wireID`: the end of its stub,
+    /// 50 out from the line. Nil when the wire isn't ticked on the port.
+    func pinTip(_ port: BusPort, wire wireID: UUID) -> CGPoint? {
+        guard let index = pinWires(of: port).firstIndex(where: { $0.id == wireID }) else { return nil }
+        return point(on: port, along: pinAlong(port, index: index), out: BusPort.depth + BusPort.stub)
+    }
+
+    /// Along-axis positions of the Ts on a line's middle (where another line
+    /// of the bus ends on it).
+    func teeAlongs(on lineID: UUID) -> [CGFloat] {
+        guard let line = line(lineID) else { return [] }
+        return joints.compactMap { joint in
+            guard case let .tee(_, on, at) = joint, on == lineID else { return nil }
+            return line.isHorizontal ? at.x : at.y
+        }
+    }
+
+    /// Whether every port still fits where it is: its line exists, its side
+    /// matches the line, and the fit rule keeps its start.
+    var portsFit: Bool {
+        ports.allSatisfy { port in
+            guard let line = line(port.line), BusPort.sides(for: line).contains(port.side) else { return false }
+            return fit(port: port, slots: slots(of: port), preferredStart: port.start) == port.start
+        }
+    }
+
+    /// The fit rule. Where a port with `slots` slots can start on its line,
+    /// given that it would like `preferredStart`: its extent must lie in one
+    /// free interval of the line (the line's ends, minus the other ports'
+    /// extents, split at every T). It keeps `preferredStart` if it fits there;
+    /// else it moves left (up) just enough to end at that interval's end;
+    /// else nil.
+    func fit(port: BusPort, slots: Int, preferredStart: CGFloat) -> CGFloat? {
+        guard let line = line(port.line) else { return nil }
+        let range = line.alongRange
+        var cuts: [ClosedRange<CGFloat>] = ports
+            .filter { $0.id != port.id && $0.line == port.line }
+            .map { extent(of: $0) }
+        cuts += teeAlongs(on: line.id).map { $0...$0 }
+
+        // Free intervals: the line minus the cuts, which may touch them.
+        var free: [ClosedRange<CGFloat>] = [range]
+        for cut in cuts {
+            free = free.flatMap { interval -> [ClosedRange<CGFloat>] in
+                guard cut.lowerBound <= interval.upperBound, cut.upperBound >= interval.lowerBound else {
+                    return [interval]
+                }
+                var pieces: [ClosedRange<CGFloat>] = []
+                if interval.lowerBound <= cut.lowerBound { pieces.append(interval.lowerBound...cut.lowerBound) }
+                if cut.upperBound <= interval.upperBound { pieces.append(cut.upperBound...interval.upperBound) }
+                return pieces
+            }
+        }
+
+        let length = CGFloat(max(slots, 1)) * BusPort.pitch
+        let wanted = BusPort.extent(start: preferredStart, slots: slots)
+        for interval in free where interval.contains(preferredStart) {
+            if interval.lowerBound <= wanted.lowerBound, wanted.upperBound <= interval.upperBound {
+                return preferredStart
+            }
+            if wanted.upperBound > interval.upperBound {
+                let start = interval.upperBound - length + BusPort.pitch / 2
+                if start - BusPort.pitch / 2 >= interval.lowerBound {
+                    return start
                 }
             }
         }
@@ -523,8 +691,8 @@ enum BusJoin {
                                         resolve(BusLineEnd(line: drawn[1].id, end: .a)), at: path[1]))
         }
 
-        let result = Bus(id: base.id, lines: lines + added, wires: base.wires)
-        guard result.isValid else { return nil }
+        let result = Bus(id: base.id, lines: lines + added, wires: base.wires, ports: base.ports)
+        guard result.isValid, result.portsFit else { return nil }
         let others = buses.enumerated().filter { $0.offset != target }.map(\.element)
         guard Bus.firstTouch(others + [result]) == nil else { return nil }
         guard result.jointShapes == base.jointShapes.union(expected.map(\.shape)) else { return nil }
