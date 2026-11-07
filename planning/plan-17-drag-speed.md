@@ -21,6 +21,7 @@ References:
 ## Prerequisites
 
 None. Every file this plan touches is on `main` today.
+Status (2026-11-07, at start of work): MET — no rows to check.
 
 ## 1. Goal
 
@@ -136,15 +137,18 @@ Rejected alternatives:
 This fixes the drag, and adds the timing script so the slowdown can be
 measured again later.
 
-- [ ] `schematical/schematical/Drawer/ChipDrawerView.swift`: declare
+- [x] `schematical/schematical/Drawer/ChipDrawerView.swift`: declare
       `struct ChipDrawerView: View, Equatable` and add
       `static func == (lhs:rhs:) -> Bool { lhs.catalog === rhs.catalog }`,
       with a doc comment saying the sidebar redraws whenever the selected part
       moves, and that any new stored input must be compared here.
-- [ ] `schematical/schematical/Drawer/SchematicSidebarView.swift`: add
+      Done; builds in the harness (drag-timing build below).
+- [x] `schematical/schematical/Drawer/SchematicSidebarView.swift`: add
       `.equatable()` directly after `ChipDrawerView(catalog: catalog)`, before
       the `.disabled` / `.opacity` modifiers.
-- [ ] Add `scripts/harness/drag-timing.swift`, based on
+      Done. Note: the `Equatable` conformance alone already gives the
+      speed-up (see Corrections); `.equatable()` stays as the explicit guard.
+- [x] Add `scripts/harness/drag-timing.swift`, based on
       `/tmp/drag-probe/main.swift`. It opens the file named in its first
       argument and selects the part with the most pins. It hosts
       `SchematicCanvasView` plus `SchematicSidebarView` (350 pt) in an
@@ -154,11 +158,21 @@ measured again later.
       `RunLoop.main.run(mode: .default, before: Date())` three times, then
       `layoutSubtreeIfNeeded()`, `displayIfNeeded()` and `CATransaction.flush()`.
       The usage comment at the top follows `open-file.swift`.
-- [ ] Add `scripts/harness/drawer-updates.swift`, based on
+      Done. Part steps use `moveSchematicGroup` (see Corrections). Run →
+      `moveChip: median 10.75 ms  p90 11.81 ms`,
+      `dragBusLine: median 0.18 ms  p90 10.10 ms`, `pan: median 5.29 ms`.
+- [x] Add `scripts/harness/drawer-updates.swift`, based on
       `/tmp/drawer-probe/main.swift`. It hosts the sidebar with an unloaded
       catalog, calls `catalog.load()`, types "74HC00" into the search field,
       and writes `1-before-load.png`, `2-after-load.png` and `3-search.png`
       to the directory named in its first argument.
+      Done. Run → wrote the three PNGs to `/tmp/drawer-check`; 2 lists
+      Connector … Logic with footer "7,397 parts from backend"; 3 shows only
+      Logic › NAND.
+- [x] Baseline check (added): the timing script on `main`'s two Drawer files
+      (fix reverted, temporary copy) → `moveChip: median 164.65 ms`,
+      `dragBusLine: … p90 161.55 ms`. So the script still catches the
+      slowdown after plan-15, and the fix is what removes it.
 
 Acceptance: a selected part's drag step and a selected bus line's drag step,
 with the sidebar shown, each take at most 15 ms. The library still fills in
@@ -194,6 +208,25 @@ Commit: —
   from the measurements above (§3).
 
 ## Corrections
+
+- **Plan-15 changed the drag API after this plan was written.**
+  `document.moveChip` and settable `selectedChipID` no longer exist: a part
+  drag in `handleChanged` is now `document.moveSchematicGroup(base, by:)`
+  (`Canvas/SchematicCanvasView.swift:374`), and selection is
+  `document.select(.chip(id))` (`Canvas/SchematicModel.swift:834`, `:854`).
+  The first build of `drag-timing.swift` failed on both. The script now
+  selects with `select(.chip:)` and times `moveSchematicGroup` with a
+  one-part group base, keeping the `moveChip:` output label the Phase 1
+  check reads. The §1 non-goal "`moveChip` is not changed" now means
+  `moveSchematicGroup` is not changed (it isn't). §2's call names are as of
+  before plan-15; the cause (a document write the sidebar body reads) is
+  the same.
+- **The `Equatable` conformance alone fixes the drag.** With
+  `ChipDrawerView: Equatable` but no `.equatable()` at the call site, the
+  timing script gives `moveChip: median 9.48 ms`, `dragBusLine: … p90
+  8.90 ms`; SwiftUI uses a view's `Equatable` conformance when it diffs.
+  `.equatable()` is kept as planned: it states the intent at the call site
+  and does not depend on that default.
 
 ## Summary
 

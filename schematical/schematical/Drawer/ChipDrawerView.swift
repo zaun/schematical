@@ -18,8 +18,18 @@ nonisolated struct ChipPartDragItem: Codable, Hashable, Sendable, Transferable {
 /// of part in it: family and gate count for gates and flip-flops, a count of
 /// positions for switches, a color for LEDs and displays; a group of
 /// 7-segment displays has digit count and size menus.
-struct ChipDrawerView: View {
+struct ChipDrawerView: View, Equatable {
     let catalog: PartCatalogStore
+
+    /// The sidebar redraws whenever the selected part or bus moves, and
+    /// rebuilding this list costs far more than a drag step (plan-17). With
+    /// `.equatable()` at the call site, a parent redraw that keeps the same
+    /// catalog skips this view; its own state and the catalog it observes
+    /// still redraw it. Compare any new stored input here, or changes to it
+    /// will not show.
+    static func == (lhs: ChipDrawerView, rhs: ChipDrawerView) -> Bool {
+        lhs.catalog === rhs.catalog
+    }
 
     @State private var filter = DrawerFilter()
     @AppStorage(PreferenceKey.showObsoleteParts) private var showObsolete = false
