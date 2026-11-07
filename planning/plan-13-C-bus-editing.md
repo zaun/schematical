@@ -175,23 +175,41 @@ follow. It never leaves its line.
   pin; the left port stops at the line's end (extent 100..140), still on its
   line; with a T at x 280 the right port stops at it (extent 260..280); a
   press with no move selects without moving. PNGs `c2-1` … `c2-3`.
-Commit: —
+Commit: 8a444a8
 
 ### Phase 3 — plan-13 landing
 
-- [ ] Draw the plan-13 proof schematic fresh: a bus drawn as an L
+- [x] Draw the plan-13 proof schematic fresh: a bus drawn as an L
       (horizontal, then down), plus a vertical line joined to the
       horizontal line at a T. 5V → `TE-GDS0204` position 1 → port 1 `B0` on
       the horizontal line; port 2 `B0` on the T line (Side Left) →
       `LED-RED-0603` → GND. Rename `B0` to `D0`. Save as
       `/tmp/p13.schematical`.
-- [ ] Quit, reopen it, run, turn position 1 on, and screenshot the lit LED
+      → `scripts/harness/bus-landing.swift draw /tmp/p13.schematical`: bus
+      lines (200,100)–(520,100), (520,100)–(520,300) (the L),
+      (380,100)–(380,320) (the T); "saved /tmp/p13.schematical". (The LED is
+      flipped so its anode faces port 2; unflipped, the wire to the anode
+      ran across the LED body.)
+- [x] Quit, reopen it, run, turn position 1 on, and screenshot the lit LED
       and the `D0` labels on both ports.
+      → a second process, `bus-landing.swift open /tmp/p13.schematical`:
+      "4 parts, 4 wires, 1 bus, 2 ports", LED 0.0 with the switch off and
+      1.0 on, "LANDING OK", pin labels `["D0", "D0"]`; PNG
+      `c3-2-reopened-lit` shows the lit LED, green nets across the bus, and
+      `D0` on both ports.
 
 Acceptance: the plan-13 behavior after a save and reopen, with an L, a T, a
 port on a vertical line and a renamed wire.
   Check: the screenshots above; `jq '.version, (.buses[0].lines|length), (.buses[0].ports|length), .buses[0].wires[0].name' /tmp/p13.schematical`
   → `3`, `3`, `2`, `"D0"` (est. 10 min).
+  Result (2026-11-07): the screenshots above; the `jq` line → `3`, `3`, `2`,
+  `"D0"`.
+  Final gate for plan-13: build → `** BUILD SUCCEEDED **`; `git status
+  --short backend schematical/schematical/Parts` → no output (and `git diff
+  --stat main -- backend schematical/schematical/Parts` → no output);
+  harness `open-file.swift`: `test.schematical` → "5 parts, 6 wires, 0
+  buses", `be-6502.schematical` → "15 parts, 32 wires, 0 buses", PNGs
+  `c3-test`, `c3-be6502` drawn as before.
 Commit: —
 
 ## Validation Plan
@@ -237,6 +255,9 @@ Commit: —
   cursor one grid step at a time and stops there. After the fix the same
   drag, and the same drag in a single frame, stop at x 270.
 - plan-13-A and plan-13-B now live in `planning/completed/`.
+- **`test.schematical` is a version 1 file, not version 2** (`jq .version
+  test.schematical` → `1`; `be-6502.schematical` → `2`). The final gate
+  opens both, so versions 1 and 2 are both checked.
 
 ## Summary
 
