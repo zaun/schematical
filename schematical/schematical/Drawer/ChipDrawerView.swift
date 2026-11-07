@@ -18,8 +18,18 @@ nonisolated struct ChipPartDragItem: Codable, Hashable, Sendable, Transferable {
 /// of part in it: family and gate count for gates and flip-flops, a count of
 /// positions for switches, a color for LEDs and displays; a group of
 /// 7-segment displays has digit count and size menus.
-struct ChipDrawerView: View {
+struct ChipDrawerView: View, Equatable {
     let catalog: PartCatalogStore
+
+    /// The sidebar redraws whenever the selected part or bus moves, and
+    /// rebuilding this list costs far more than a drag step (plan-17). With
+    /// `.equatable()` at the call site, a parent redraw that keeps the same
+    /// catalog skips this view; its own state and the catalog it observes
+    /// still redraw it. Compare any new stored input here, or changes to it
+    /// will not show.
+    static func == (lhs: ChipDrawerView, rhs: ChipDrawerView) -> Bool {
+        lhs.catalog === rhs.catalog
+    }
 
     @State private var filter = DrawerFilter()
     @AppStorage(PreferenceKey.showObsoleteParts) private var showObsolete = false
@@ -348,21 +358,15 @@ struct ChipDrawerView: View {
     /// Opens or closes a group when its label is clicked, like its chevron.
     private func toggle(_ key: String, defaultOpen: Bool) {
         withAnimation(.easeInOut(duration: 0.15)) {
-            expansion(for: key, defaultOpen: defaultOpen).wrappedValue.toggle()
+            toggled[drawerOpen: key, defaultOpen: defaultOpen].toggle()
         }
     }
 
+    /// Derived from `$toggled` rather than built from get/set closures:
+    /// SwiftUI cannot see a change behind closures, so the List kept its rows
+    /// and groups never opened or closed.
     private func expansion(for key: String, defaultOpen: Bool) -> Binding<Bool> {
-        Binding(
-            get: { toggled.contains(key) ? !defaultOpen : defaultOpen },
-            set: { isExpanded in
-                if isExpanded == defaultOpen {
-                    toggled.remove(key)
-                } else {
-                    toggled.insert(key)
-                }
-            }
-        )
+        $toggled[drawerOpen: key, defaultOpen: defaultOpen]
     }
 
     // MARK: Status
@@ -416,5 +420,20 @@ struct ChipDrawerView: View {
         .padding(.vertical, 6)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.bar)
+    }
+}
+
+private extension Set where Element == String {
+    /// Whether the drawer group `key` is open: `toggled` holds the keys whose
+    /// state differs from `defaultOpen`.
+    subscript(drawerOpen key: String, defaultOpen defaultOpen: Bool) -> Bool {
+        get { contains(key) != defaultOpen }
+        set {
+            if newValue == defaultOpen {
+                remove(key)
+            } else {
+                insert(key)
+            }
+        }
     }
 }

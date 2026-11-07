@@ -44,6 +44,8 @@ struct SchematicSidebarView: View {
         let showsLibrary = isActive && content == .library
         ZStack {
             ChipDrawerView(catalog: catalog)
+                // Skip the library when only the selection's data changed.
+                .equatable()
                 // Hidden under the part panel or the PCB page: no clicks, no
                 // keyboard focus.
                 .disabled(simulation.isRunning || !showsLibrary)
