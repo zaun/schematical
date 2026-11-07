@@ -112,12 +112,18 @@ nonisolated struct CpuSnapshot: Equatable, Sendable {
     }
 
     /// The flag cells: (label, set), most significant bit first. The 6502
-    /// family's P, or the low byte of the Z80's AF; empty otherwise.
+    /// family's P, or the low byte of the Z80's AF; empty otherwise. The
+    /// 65816 (it has an E register) labels P by mode: native `N V M X D I Z
+    /// C`, emulation as the 65C02 (bit 5 reads 1, bit 4 is B).
     var flags: [(label: String, set: Bool)] {
         let labels: [String]
         let value: UInt32
         if let p = register("P") {
-            labels = ["N", "V", "–", "B", "D", "I", "Z", "C"]
+            if let e = register("E"), e.value & 1 == 0 {
+                labels = ["N", "V", "M", "X", "D", "I", "Z", "C"]
+            } else {
+                labels = ["N", "V", "–", "B", "D", "I", "Z", "C"]
+            }
             value = p.value
         } else if let af = register("AF") {
             labels = ["S", "Z", "Y", "H", "X", "P/V", "N", "C"]
@@ -130,10 +136,11 @@ nonisolated struct CpuSnapshot: Equatable, Sendable {
         }
     }
 
-    /// "C004  A0 07  LDY #$07", or "—".
+    /// "C004  A0 07  LDY #$07", or "—". A processor with a program bank
+    /// (the 65816's PBR) shows 6 digits: "008029  80 FE  BRA $8029".
     var instructionText: String {
         guard let instruction else { return "—" }
-        let address = String(format: "%04X", instruction.address)
+        let address = String(format: register("PBR") != nil ? "%06X" : "%04X", instruction.address)
         let bytes = instruction.bytes.map { String(format: "%02X", $0) }.joined(separator: " ")
         return "\(address)  \(bytes)  \(instruction.text)"
     }

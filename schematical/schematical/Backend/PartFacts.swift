@@ -129,12 +129,13 @@ nonisolated enum PartFacts {
         }
     }
 
-    /// A processor core as shown: "6502 (NMOS)", "65C02 (WDC)", "Z80".
+    /// A processor core as shown: "6502 (NMOS)", "65C02 (WDC)", "Z80", "65C816 (WDC)".
     static func coreName(_ core: String) -> String {
         switch core {
         case "6502": return "6502 (NMOS)"
         case "65c02": return "65C02 (WDC)"
         case "z80": return "Z80"
+        case "65816": return "65C816 (WDC)"
         default: return core
         }
     }

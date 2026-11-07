@@ -28,7 +28,7 @@ plan-14-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-14-I landed | `grep -c '^W65C816S' backend/tests/golden/parts.txt` → 2 | NOT MET (2026-11-01) |
+| plan-14-I landed | `grep -c '^W65C816S' backend/tests/golden/parts.txt` → 2 | MET (2026-11-07: `2`) |
 
 ## 1. Goal
 
@@ -91,10 +91,24 @@ Commands:
 
 ### Phase 1 — App
 
-- [ ] `PartFacts.swift`: `coreName`.
-- [ ] `CpuWindow.swift`: the E-dependent flag labels and the 6-digit
-      address (§3).
-- [ ] Harness commands 1–3 (§4); PNGs.
+- [x] `PartFacts.swift`: `coreName` (`"65816"` → `65C816 (WDC)`).
+- [x] `CpuWindow.swift`: the E-dependent flag labels and the 6-digit
+      address (§3). `xcodebuild … -derivedDataPath /tmp/p14j-dd build` →
+      `** BUILD SUCCEEDED **`.
+- [x] Harness commands 1–3 (§4); PNGs.
+      1. `facts W65C816S6TPG-14` → `Kind: Processor`, `Function: 65C816`,
+         `Footprint: PDIP-40-600 — …`, `Pins: 40`, `Core: 65C816 (WDC)`,
+         `Speed grade: 14`, `Max clock: 14 MHz`, `Supply range: 1.71–5.25 V`.
+      2. `cpu cpu816.schematical` → `at 50 us: Unknown — waiting for reset`;
+         after the switch and 2 ms: `Running · 3999 cycles`, registers
+         `C 3344  X 0000  Y 0000  S 01FF  D 0000  DBR 00  PBR 00  PC 802B
+         P 15  E 0`, flags `N V M X D I Z C` with X I C set (M clear),
+         `last: 008029  80 FE  BRA $8029`; `sram 00100 = 11`,
+         `sram 08100 = 22` (and 00200..00203 = 11 22 44 33);
+         `/tmp/p14-proof/cpu-816.png`.
+      3. `cpu cpu6502.schematical` → `Stopped (STP)`, `A 10  X FF  Y 00  S FF
+         P 07  PC 8013`, flags `N V – B D I Z C`, `last: 8012  DB  STP`,
+         `sram 00200 = 10`; `/tmp/p14-proof/cpu-6502.png`.
 
 Acceptance: build succeeds; the harness prints §4's lines.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p14j-dd build` → `** BUILD SUCCEEDED **` (est. 2 min); `/tmp/p14/harness/run facts W65C816S6TPG-14`, `run cpu /tmp/p14-proof/cpu816.schematical` → the §4 lines (est. 1 min).
@@ -148,7 +162,22 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- §4 harness: built at `/tmp/p14/outj` (plan-06-A `build.sh` against the
+  Debug app in `/tmp/p14j-dd`), run as
+  `/tmp/p14/outj/H.app/Contents/MacOS/harness <cmd>`, not
+  `/tmp/p14/harness/run`. Its `board 816|6502 <dir>` command writes the
+  `.schematical` files with the document API (`placeChip`, `connect`,
+  `setMemoryFile`, `SchematicFile` save); `cpu <file>` reloads one, builds
+  the netlist with `NetlistBuilder` and drives the circuit API directly
+  (the processor window's `CpuInspector` needs a running
+  `SimulationController`). The PNG is a view of the same `CpuSnapshot`
+  (status, register grid, flag row, `instructionText`) through
+  `ImageRenderer`.
+- §4 command 3: no plan-09-E `cpu6502.schematical` survives in
+  `/tmp`; the harness rebuilds that board (W65C02S6TPG-14, AT28C256-15PU,
+  AS6C62256-55PCN, SN74HC00N, the plan-09-D program) the same way.
+- §4 command 2: the 816 board also ties the AS6C1008's CE2 high and leaves
+  RDY open (plan-14-I Corrections).
 
 ## Summary
 
