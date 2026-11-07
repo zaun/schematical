@@ -34,6 +34,19 @@
 #include "../third_party/chips/w65c02.h"
 #include "../third_party/chips/w65c02dasm.h"
 
+/* The floooh disassemblers as the tracker's CpuDasm. */
+static size_t dasm_m6502(uint32_t pc, const uint8_t *bytes, size_t count, void *user, char *out,
+                         size_t cap) {
+    (void)user;
+    return cpu_dasm_floooh(m6502dasm_op, pc, bytes, count, out, cap);
+}
+
+static size_t dasm_w65c02(uint32_t pc, const uint8_t *bytes, size_t count, void *user, char *out,
+                          size_t cap) {
+    (void)user;
+    return cpu_dasm_floooh(w65c02dasm_op, pc, bytes, count, out, cap);
+}
+
 /* Control order (cpu.c CONTROLS_6502 / CONTROLS_65C02). */
 enum { K_CLOCK, K_RW, K_SYNC, K_IRQ, K_NMI, K_RESET, K_SO, K_RDY, K_PHI1, K_PHI2, K_VPB, K_MLB,
        K_BE, K_COUNT };
@@ -335,7 +348,7 @@ static void after_tick(Sim *sim, SimInstance *instance, Cpu65 *s, int was_frozen
         s->status = CPU_RUNNING;
     }
     if ((s->pins & PIN_SYNC) && !(was_frozen && frozen) && s->status != CPU_JAMMED) {
-        cpu_tracker_begin(&s->tracker, M6502_GET_ADDR(s->pins));
+        cpu_tracker_begin(&s->tracker, M6502_GET_ADDR(s->pins), NULL);
     }
 }
 
@@ -348,7 +361,7 @@ static void start_core(Sim *sim, SimInstance *instance, Cpu65 *s) {
     s->so_fell = 0;
     s->mlb_left = 0;
     s->jammed = 0;
-    cpu_tracker_reset(&s->tracker, s->wdc ? w65c02dasm_op : m6502dasm_op);
+    cpu_tracker_reset(&s->tracker, s->wdc ? dasm_w65c02 : dasm_m6502);
     drive_cycle(sim, instance, s);
     if (s->wdc) {
         drive_strobes(sim, instance, s);
@@ -600,7 +613,7 @@ static void *c65_create(const Part *part, const CpuPins *pins, const CpuGrade *g
         s->changed[i] = CPU_NEVER;
         s->seen[i] = LOGIC_Z;   /* a net with no drive yet */
     }
-    cpu_tracker_reset(&s->tracker, s->wdc ? w65c02dasm_op : m6502dasm_op);
+    cpu_tracker_reset(&s->tracker, s->wdc ? dasm_w65c02 : dasm_m6502);
     return s;
 }
 

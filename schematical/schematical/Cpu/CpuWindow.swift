@@ -30,7 +30,7 @@ nonisolated struct CpuSnapshot: Equatable, Sendable {
     }
 
     struct Instruction: Equatable, Sendable {
-        let address: UInt16
+        let address: UInt32
         let bytes: [UInt8]
         let text: String
     }

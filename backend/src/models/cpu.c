@@ -373,20 +373,30 @@ void cpu_tracker_reset(CpuTracker *tracker, CpuDasm dasm) {
     tracker->dasm = dasm;
 }
 
-void cpu_tracker_finish(CpuTracker *tracker) {
+size_t cpu_dasm_floooh(CpuDasmFloooh dasm, uint32_t pc, const uint8_t *bytes, size_t count,
+                       char *out, size_t cap) {
     DasmIo io;
 
+    memset(&io, 0, sizeof io);
+    io.bytes = bytes;
+    io.length = count;
+    io.text = out;
+    io.text_cap = cap;
+    dasm((uint16_t)pc, dasm_in, dasm_out, &io);
+    if (cap > 0) {
+        out[io.text_length] = '\0';
+    }
+    return io.used;
+}
+
+void cpu_tracker_finish(CpuTracker *tracker) {
     if (tracker->recording && tracker->length > 0) {
-        memset(&io, 0, sizeof io);
-        io.bytes = tracker->bytes;
-        io.length = tracker->length;
-        io.text = tracker->text;
-        io.text_cap = sizeof tracker->text;
-        tracker->dasm(tracker->start, dasm_in, dasm_out, &io);
-        tracker->text[io.text_length] = '\0';
+        size_t used = tracker->dasm(tracker->start, tracker->bytes, tracker->length, tracker->user,
+                                    tracker->text, sizeof tracker->text);
+
         tracker->has = 1;
         tracker->address = tracker->start;
-        tracker->last_length = io.used < sizeof tracker->last ? io.used : sizeof tracker->last;
+        tracker->last_length = used < sizeof tracker->last ? used : sizeof tracker->last;
         memcpy(tracker->last, tracker->bytes, sizeof tracker->last);
         if (tracker->last_length > tracker->length) {
             memset(tracker->last + tracker->length, 0, tracker->last_length - tracker->length);
@@ -395,17 +405,19 @@ void cpu_tracker_finish(CpuTracker *tracker) {
     tracker->recording = 0;
 }
 
-void cpu_tracker_begin(CpuTracker *tracker, uint16_t address) {
+void cpu_tracker_begin(CpuTracker *tracker, uint32_t address, void *user) {
     cpu_tracker_finish(tracker);
     tracker->recording = 1;
     tracker->start = address;
+    tracker->user = user;
     tracker->length = 0;
     memset(tracker->bytes, 0, sizeof tracker->bytes);
 }
 
-void cpu_tracker_read(CpuTracker *tracker, uint16_t address, uint8_t data) {
-    if (tracker->recording && tracker->length < sizeof tracker->bytes &&
-        address == (uint16_t)(tracker->start + tracker->length)) {
+void cpu_tracker_read(CpuTracker *tracker, uint32_t address, uint8_t data) {
+    uint32_t next = (tracker->start & 0xFF0000u) | ((tracker->start + tracker->length) & 0xFFFFu);
+
+    if (tracker->recording && tracker->length < sizeof tracker->bytes && address == next) {
         tracker->bytes[tracker->length++] = data;
     }
 }

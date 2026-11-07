@@ -101,28 +101,41 @@ LogicValue cpu_sample(const Sim *sim, const SimInstance *instance, size_t pin,
 
 /* ---- The instruction tracker (cpu.c; plan-09-B section 4.6) -------------- */
 
-/* A vendored disassembler (m6502dasm_op, w65c02dasm_op, z80dasm_op). */
-typedef uint16_t (*CpuDasm)(uint16_t pc, uint8_t (*in)(void *), void (*out)(char, void *),
-                            void *user_data);
+/* A disassembler (plan-14-H section 3.5): the instruction at pc from its
+   recorded bytes (count of them; missing bytes read 0) into out (cap bytes,
+   NUL-terminated). Returns the instruction's length in bytes. `user` is the
+   value cpu_tracker_begin was given for this instruction. */
+typedef size_t (*CpuDasm)(uint32_t pc, const uint8_t *bytes, size_t count, void *user, char *out,
+                          size_t cap);
+
+/* A floooh/chips disassembler (m6502dasm_op, w65c02dasm_op, z80dasm_op). */
+typedef uint16_t (*CpuDasmFloooh)(uint16_t pc, uint8_t (*in)(void *), void (*out)(char, void *),
+                                  void *user_data);
+
+/* Runs a floooh disassembler as a CpuDasm. */
+size_t cpu_dasm_floooh(CpuDasmFloooh dasm, uint32_t pc, const uint8_t *bytes, size_t count,
+                       char *out, size_t cap);
 
 typedef struct {
     CpuDasm dasm;
     int recording;
-    uint16_t start;
+    uint32_t start;
+    void *user;
     uint8_t bytes[4];
     size_t length;
     int has;                  /* the last completed instruction: */
-    uint16_t address;
+    uint32_t address;
     uint8_t last[4];
     size_t last_length;
     char text[32];
 } CpuTracker;
 
 void cpu_tracker_reset(CpuTracker *tracker, CpuDasm dasm);
-/* An instruction starts at address: the one being recorded is complete. */
-void cpu_tracker_begin(CpuTracker *tracker, uint16_t address);
-/* A read cycle's sampled byte. */
-void cpu_tracker_read(CpuTracker *tracker, uint16_t address, uint8_t data);
+/* An instruction starts at address (bank in bits 16-23 on the 65816): the
+   one being recorded is complete. `user` goes to the disassembler. */
+void cpu_tracker_begin(CpuTracker *tracker, uint32_t address, void *user);
+/* A read cycle's sampled byte. Bytes follow the start within its bank. */
+void cpu_tracker_read(CpuTracker *tracker, uint32_t address, uint8_t data);
 /* The instruction being recorded is complete, and no new one starts. */
 void cpu_tracker_finish(CpuTracker *tracker);
 void cpu_tracker_fill(const CpuTracker *tracker, CpuState *out);

@@ -30,7 +30,7 @@ plan-14-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-14-G landed | `/tmp/logic-p14/cpu_core_test \| grep '^65816'` → `65816: 5120 pass, 0 expected failures` | NOT MET (2026-11-01) |
+| plan-14-G landed | `/tmp/logic-p14/cpu_core_test \| grep '^65816'` → `65816: 5120 pass, 0 expected failures` | MET (2026-11-07: that line, then `65816: abort ok`, the generator line) |
 
 ## 1. Goal
 
@@ -234,12 +234,20 @@ Also `library_check`: `"abort"` on a `65c02` device is refused;
 
 ### Phase 1 — Widen the tracker and state
 
-- [ ] `cpu_state.h` `instruction_address` → `uint32_t`; `cpu.h`/`cpu.c`
+- [x] `cpu_state.h` `instruction_address` → `uint32_t`; `cpu.h`/`cpu.c`
       `CpuTracker` → 32-bit addresses and the new `CpuDasm` (§3.5); wrap
       `m6502dasm_op`, `w65c02dasm_op`, `z80dasm_op`; `cpu6502.c`,
-      `cpuz80.c` call sites.
-- [ ] App: `CpuWindow.swift` compiles with the `UInt32` address (format
-      unchanged for 16-bit values; J adds the 24-bit format).
+      `cpuz80.c` call sites. (`cpu_dasm_floooh` in `cpu.c` adapts a floooh
+      disassembler; `cpu6502.c`/`cpuz80.c` hold the three wrappers;
+      `cpu_tracker_begin` takes the per-instruction `user`; the next byte's
+      address wraps within the start's bank.) Build: no errors or warnings.
+- [x] App: `CpuWindow.swift` compiles with the `UInt32` address (format
+      unchanged for 16-bit values; J adds the 24-bit format). (`Instruction.address`
+      → `UInt32`.)
+- [x] Acceptance: `/tmp/logic-p14/cpu_test` → 136 `PASS` lines, `io_board ok`,
+      `cpu_test: all passed`; `ctest` → `100% tests passed, 0 tests failed out
+      of 21`; the golden diff stat → empty; `xcodebuild … -derivedDataPath
+      /tmp/p14h-dd build` → `** BUILD SUCCEEDED **`.
 
 Acceptance: every existing `cpu_test` case `ok` (the instruction texts
 unchanged); goldens unchanged; the app builds.

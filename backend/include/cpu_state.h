@@ -31,7 +31,7 @@ typedef struct CpuState {
     size_t register_count;    /* 0 while LOST or RESET */
     CpuRegister registers[CPU_MAX_REGISTERS];
     int has_instruction;      /* 1 once an instruction has completed since reset */
-    uint16_t instruction_address;
+    uint32_t instruction_address;  /* 24-bit (bank:address) on the 65816, 16-bit elsewhere */
     uint8_t instruction_bytes[4];
     size_t instruction_length;
     char instruction_text[32]; /* the vendored disassembler's text, e.g. "LDA #$41" */

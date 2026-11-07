@@ -34,6 +34,13 @@
 #include "../third_party/chips/z80.h"
 #include "../third_party/chips/z80dasm.h"
 
+/* The floooh disassembler as the tracker's CpuDasm. */
+static size_t dasm_z80(uint32_t pc, const uint8_t *bytes, size_t count, void *user, char *out,
+                       size_t cap) {
+    (void)user;
+    return cpu_dasm_floooh(z80dasm_op, pc, bytes, count, out, cap);
+}
+
 /* Control order (cpu.c CONTROLS_Z80). */
 enum { K_CLOCK, K_M1, K_MREQ, K_IORQ, K_RD, K_WR, K_RFSH, K_HALT, K_BUSACK, K_WAIT, K_INT,
        K_NMI, K_RESET, K_BUSREQ, K_COUNT };
@@ -421,7 +428,7 @@ static void mc_start(Sim *sim, SimInstance *instance, Z80 *s) {
         case MC_FETCH:
             s->mc_addr = Z80_GET_ADDR(s->pins);
             if (!s->core.prefix_active) {
-                cpu_tracker_begin(&s->tracker, s->mc_addr);
+                cpu_tracker_begin(&s->tracker, s->mc_addr, NULL);
             }
             break;
         case MC_INTACK:
@@ -708,7 +715,7 @@ static void clock_rise(Sim *sim, SimInstance *instance, Z80 *s) {
         s->status = CPU_RUNNING;
         s->cycles = 0;
         s->busreq_last = LOGIC_1;
-        cpu_tracker_reset(&s->tracker, z80dasm_op);
+        cpu_tracker_reset(&s->tracker, dasm_z80);
     }
     if (s->status == CPU_LOST) {
         return;
@@ -850,7 +857,7 @@ static void *z80_create(const Part *part, const CpuPins *pins, const CpuGrade *g
         s->changed[i] = CPU_NEVER;
         s->seen[i] = LOGIC_Z;
     }
-    cpu_tracker_reset(&s->tracker, z80dasm_op);
+    cpu_tracker_reset(&s->tracker, dasm_z80);
     return s;
 }
 
