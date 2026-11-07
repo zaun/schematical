@@ -1,0 +1,158 @@
+# Multi-select Plan
+
+Last updated: 2026-11-03
+Effort: large (3h–1d)
+
+Add Shift multi-selection to both the schematic and PCB canvases. The selection
+is editor state only: it is never written to a schematic file. Users can
+Shift-click or Shift-drag every canvas object, see the entire selection in the
+active sidebar, and drag the selected group by one snapped delta.
+
+References:
+
+- `schematical/schematical/Canvas/SchematicModel.swift:SchematicDocument`
+- `schematical/schematical/Canvas/SchematicCanvasView.swift:Interaction`
+- `schematical/schematical/Canvas/PCBCanvasView.swift:Interaction`
+- `schematical/schematical/Drawer/SchematicSidebarView.swift:SchematicSidebarView`
+- `schematical/schematical/Canvas/PCBSidebarView.swift:PCBSidebarView`
+- `schematical/schematical/Document/SchematicFile.swift:init(document:fileURL:)`
+
+## 1. Goal
+
+- Shift selection works for parts, wires, junctions, PCB footprints, and board
+  text; dragging a selected item moves the selected group as one unit and the
+  sidebar enumerates the selected objects.
+
+### Non-goals
+
+- Do not persist selection, change the schematic-file version, alter circuit
+  simulation, add copy/paste or bulk editing, or add a marquee/lasso gesture.
+- Do not make an unselected part move merely because an attached wire is
+  selected.
+
+## 2. Current State
+
+`SchematicDocument` has mutually exclusive `selectedChipID` and
+`selectedTextID`. `SchematicCanvasView` moves one chip then settles wires
+attached to it; `PCBCanvasView` separately moves one footprint or text. Both
+canvases use a single zero-distance drag recognizer. The schematic sidebar
+derives one selected chip, while the PCB sidebar derives one footprint or text.
+`SchematicFile` documents that selection is not saved.
+
+Measured scope:
+
+| What | Count | Command |
+|---|---:|---|
+| Swift files using singular selection IDs | 6 | `rg -l 'selectedChipID|selectedTextID' schematical/schematical --glob '*.swift' \| wc -l → 6` |
+| Singular-selection references | 37 | `rg -n 'selectedChipID|selectedTextID' schematical/schematical --glob '*.swift' \| wc -l → 37` |
+| Canvas zero-distance drag recognizers | 2 | `rg -n 'DragGesture\\(minimumDistance: 0\\)' schematical/schematical/Canvas --glob '*.swift' \| wc -l → 2` |
+| Existing document move/route methods | 6 | `rg -n 'func (moveChip|moveFootprint|moveText|settleWires|setWirePath)' schematical/schematical/Canvas/SchematicModel.swift \| wc -l → 6` |
+
+## 3. Design
+
+Replace singular IDs with typed, page-specific sets: schematic items are chip,
+wire, and junction IDs; PCB items are footprint/chip and board-text IDs. Keep
+single-item convenience accessors for existing inspectors. A normal hit replaces
+the active-page selection, a Shift hit toggles the hit item, a Shift-drag first
+adds the hit item and then drags the resulting group, and a normal empty drag
+clears the active-page selection and pans. An empty Shift drag pans without
+changing selection.
+
+Each group drag captures all starting geometry, then applies the total snapped
+pointer delta on every update. Chips, junctions, footprints, and board text
+translate directly. A selected wire translates only stored interior route nodes;
+its pin/junction endpoints remain attached. On release, settle every selected
+wire and every wire attached to a moved chip or junction once, preserving
+connectivity and orthogonal routing.
+
+Render accent selection for all selected items. A zero selection retains the
+current drawer/board-settings sidebars. A sole selected object retains its
+existing detailed inspector. A multi-selection shows `Selection (N)` with a
+read-only row per item; activating a row reduces selection to that item and
+Clear empties the set. PCB Rotate remains enabled for exactly one eligible item.
+
+## Phases
+
+### Phase 1 — Document selection and group movement
+
+- [ ] In `SchematicModel.swift`, introduce typed schematic and PCB selection
+      sets, replace/toggle/clear APIs, and sole-item compatibility accessors.
+- [ ] Add starting-geometry snapshots and group-move methods for chips, wires,
+      junctions, footprints, and board text; preserve wire endpoints and settle
+      the complete affected-wire set at release.
+- [ ] Update erase/delete and `replaceContents` to remove stale selected IDs
+      and clear both selection sets.
+- [ ] Add an XCTest target plus document tests for set algebra, snapping,
+      mixed group movement, endpoint preservation, and unsaved selection.
+
+Acceptance: document tests prove all selected movable objects receive the same
+snapped delta, selected wires retain attached endpoints, and a save/load has no
+selection.
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO` → selection-model tests pass (est. 3 min).
+Commit: —
+
+### Phase 2 — Canvas interaction and rendering
+
+- [ ] Update `SchematicCanvasView.swift` to interpret Shift at pointer-drag
+      start, select chips/wires/junctions, capture group geometry, apply group
+      drags, and draw all selected parts, wires, and junctions in accent color.
+- [ ] Update `PCBCanvasView.swift` with the same Shift semantics for footprints
+      and text, group-drag snapshots, and multi-item accent bounds.
+- [ ] Preserve existing tool precedence: line, eraser, flip, supply placement,
+      play-mode panning, wire node/segment editing, and Text placement retain
+      their current behavior outside Select/Pointer selection gestures.
+
+Acceptance: manually exercising both canvases shows Shift-selected objects stay
+highlighted and move together on the corresponding grid; empty Shift drags pan
+without clearing selection.
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO` → gesture/model tests pass (est. 3 min).
+Commit: —
+
+### Phase 3 — Sidebar and lifecycle integration
+
+- [ ] Add a shared selection-row resolver for references/part numbers, wire
+      endpoints, junction coordinates, footprints, and board-text previews.
+- [ ] Update `SchematicSidebarView.swift` and `PCBSidebarView.swift` with
+      zero/single/multiple selection states and a `Selection (N)` list.
+- [ ] Make summary-row selection replace its page set; make Clear clear that
+      page set; leave mutable inspectors available only to a sole selection.
+- [ ] Update `ContentView.swift` selection clearing at run start and PCB Rotate
+      enablement for exactly one selected eligible item; add accessibility labels
+      for the count and summary rows.
+
+Acceptance: every selected object is listed in the active sidebar, selecting a
+row opens the existing single-item inspector, and Run clears selection.
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO` → sidebar/lifecycle tests pass (est. 3 min).
+Commit: —
+
+## Validation Plan
+
+- Tests: selection replacement/toggling/clearing, group snapping, selected-wire
+  endpoint preservation, selection cleanup, sidebar zero/single/multiple states,
+  and run-time clearing.
+- Runtime proof: Shift-select multiple parts, wires/junctions, footprints, and
+  board text; verify highlights, sidebar rows, group drag, Clear, and Run reset.
+- Doc sync: update the canvas and sidebar comments describing Pointer/Select
+  behavior and selection state.
+- Final gate: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO` and `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build && ctest --test-dir /tmp/logic-build --output-on-failure` → all tests pass (est. 10 min).
+
+## Decisions
+
+- Shift applies to every canvas object type — owner decision, 2026-11-03.
+- Selection is transient and page-specific — preserves existing file behavior
+  and avoids treating a schematic wire as a PCB object.
+- Selected wires move only their interior route geometry; attached endpoints
+  remain fixed unless their chips/junctions are also selected — preserves
+  explicit selection and connectivity.
+- A multi-selection inspector is read-only; existing editable inspectors remain
+  single-selection only — prevents accidental bulk edits.
+
+## Corrections
+
+None.
+
+## Summary
+
+The highest risk is route correctness for a mixed chip/junction/wire selection.
+The document-level movement tests land before the UI gesture work, and neither
+the simulation nor the file format changes.
