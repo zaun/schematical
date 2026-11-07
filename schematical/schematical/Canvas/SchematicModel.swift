@@ -23,6 +23,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
     case pointer
     case eraser
     case line
+    case bus
     case flip
     case vcc
     case ground
@@ -36,6 +37,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         case .pointer: "Pointer"
         case .eraser: "Eraser"
         case .line: "Line"
+        case .bus: "Bus"
         case .flip: "Flip"
         case .vcc: "VCC"
         case .ground: "GND"
@@ -49,6 +51,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         case .pointer: "cursorarrow"
         case .eraser: "eraser"
         case .line: "line.diagonal"
+        case .bus: "line.3.horizontal"
         case .flip: "arrow.left.and.right"
         case .vcc: "bolt"
         case .ground: "arrow.down.to.line"

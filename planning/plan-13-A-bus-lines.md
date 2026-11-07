@@ -545,16 +545,18 @@ its contents.
   Result (2026-11-07): `** BUILD SUCCEEDED **`; harness `open-file.swift
   test.schematical` → "opened test.schematical: 5 parts, 6 wires, 0 buses",
   canvas PNG shows the oscillator, LED, 5V and both GNDs wired as before.
-Commit: —
+Commit: 8057e51
 
 ### Phase 2 — Bus tool, drawing, joining, editing, erasing
 
-- [ ] `SchematicModel.swift`: `SchematicTool.bus` (title, symbol).
-- [ ] `SchematicCanvasView.swift`: `BusLayer` under `WireLayer` (lines,
+- [x] `SchematicModel.swift`: `SchematicTool.bus` (title, symbol).
+- [x] `SchematicCanvasView.swift`: `BusLayer` under `WireLayer` (lines,
       corner squares, T dots); the `.drawingBus`, `.dragBusEnd` and
       `.dragBusLine` interactions; the Bus tool branch in `handleChanged` /
       `handleEnded`; bus hits in `beginPointerInteraction` and
-      `updateHover`; the header comment.
+      `updateHover`; the header comment. (`BusLayer` and `BusPreview` are
+      internal, not private, so the harness can render a drag's preview;
+      a refused drag previews in red.)
 
 Acceptance: the Bus tool draws a straight line or an L, never a diagonal. A drag
 from the middle of a line makes a T with a dot; from a free end, an L or a
@@ -584,6 +586,15 @@ line that holds the bus together leaves two buses.
   Screenshot after each numbered step (est. 12 min; no app test target, so
   screenshots are the smallest check of drag behaviour). If a step's shape
   differs, re-pick points on the drawn lines and note it in § Corrections.
+  Result (2026-11-07): build → `** BUILD SUCCEEDED **`; harness
+  `scripts/harness/bus-lines.swift` (each drag = its frames' `BusEdit` +
+  `setBusLines` calls against the press-time bus) → `ALL OK`, 32 checks,
+  e.g. 2c "(60,80)-(360,80) (360,80)-(360,200) joints: L(360,80)", 4b "T end
+  stops at y 30", 5a "A bus line can only join another at a T or an L.",
+  5b "Two buses can't be joined.", 6a three buses with the y 30 line alone,
+  `B0`–`B7`, fresh wire ids. Canvas PNGs `a2-1` … `a2-6b` (plus the T and
+  refused previews) show every shape as listed, corner squares and T dots
+  drawn.
 Commit: —
 
 ### Phase 3 — Bus inspector panel

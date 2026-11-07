@@ -3,11 +3,15 @@ import SwiftUI
 /// The editing surface. Its gestures depend on the active tool:
 /// - Pointer: drag a block to move it. Drag a wire's bend point to move it, or
 ///   drag a segment to shift it. Double-click a wire to add a bend there.
+///   Click a bus to select it; drag a bus line sideways, or drag its free
+///   end, corner or T end (lines stay straight, joints stay T or L).
 ///   Drag empty space to pan.
 /// - Line: drag from one pin to another to connect them with a right-angled wire.
 ///   A grid point on an existing wire can be a start or end too; it becomes a
 ///   junction, so wires branch there. Only connection points are highlighted.
-/// - Eraser: click or drag over a block or wire to remove it.
+/// - Bus: drag to draw a bus line or L; start or end on a bus to join it at a
+///   T or L, or to extend it.
+/// - Eraser: click or drag over a block, wire or bus line to remove it.
 /// - Flip: click a part to flip it left and right.
 /// - VCC and GND: click the canvas to place a supply there.
 ///
@@ -38,6 +42,7 @@ struct SchematicCanvasView: View {
     @State private var isDropTargeted = false
     @State private var hoveredChipID: UUID?
     @State private var hoveredWireID: UUID?
+    @State private var hoveredBusID: UUID?
     /// The connection point under the pointer in Line mode, when not drawing.
     @State private var hoverAnchor: LineAnchor?
 
@@ -46,6 +51,11 @@ struct SchematicCanvasView: View {
         case dragNode(wire: UUID, base: [CGPoint], index: Int)
         case dragSegment(wire: UUID, base: [CGPoint], index: Int)
         case connecting(from: LineAnchor, cursor: CGPoint)
+        /// Bus tool: from the snapped press point to the cursor.
+        case drawingBus(from: CGPoint, cursor: CGPoint)
+        /// Pointer drags on a bus, against the bus as it was at the press.
+        case dragBusEnd(bus: UUID, base: Bus, line: UUID, end: BusEnd)
+        case dragBusLine(bus: UUID, base: Bus, line: UUID)
         case pan(startOffset: CGSize)
         case idle
     }
@@ -55,6 +65,8 @@ struct SchematicCanvasView: View {
     /// Hit tolerances are in screen points, so they are divided by zoom.
     private var lineTolerance: CGFloat { 6 / zoom }
     private var pinRadius: CGFloat { 8 / zoom }
+    /// A bus is 6 wide, so half its width is added to the wire tolerance.
+    private var busTolerance: CGFloat { lineTolerance + 3 / zoom }
 
     var body: some View {
         // The world layer is an overlay so its size never feeds back into layout.
@@ -80,6 +92,7 @@ struct SchematicCanvasView: View {
                 case .ended:
                     hoveredChipID = nil
                     hoveredWireID = nil
+                    hoveredBusID = nil
                     hoverAnchor = nil
                 }
             }
@@ -88,6 +101,7 @@ struct SchematicCanvasView: View {
                 if running {
                     hoveredChipID = nil
                     hoveredWireID = nil
+                    hoveredBusID = nil
                     hoverAnchor = nil
                 }
             }
@@ -145,6 +159,15 @@ struct SchematicCanvasView: View {
         ZStack(alignment: .topLeading) {
             GridBackground(rect: gridRect, step: gridStep)
                 .equatable()
+
+            // Under the wires, so wires crossing a bus stay visible.
+            BusLayer(
+                buses: document.buses,
+                selectedBusID: document.selectedBusID,
+                hoveredBusID: hoveredBusID,
+                preview: busPreview,
+                area: gridRect
+            )
 
             WireLayer(
                 routes: document.wires.map { wire in
@@ -252,6 +275,21 @@ struct SchematicCanvasView: View {
         return ConnectionPreview(points: OrthogonalRoute.route(from: start, to: end), target: target)
     }
 
+    /// What the Bus tool would draw: the lines `addBus` would add, or the
+    /// first route it would try when the drag would be refused.
+    private var busPreview: BusPreview? {
+        guard case let .drawingBus(from, cursor)? = interaction else { return nil }
+        let end = SchematicGrid.snap(cursor)
+        guard end != from else { return nil }
+        switch document.busDraft(from: from, to: end) {
+        case let .success(draft):
+            return BusPreview(points: draft.path, refused: false)
+        case .failure:
+            let corner = from.x == end.x || from.y == end.y ? [] : [CGPoint(x: end.x, y: from.y)]
+            return BusPreview(points: [from] + corner + [end], refused: true)
+        }
+    }
+
     /// The point to highlight in Line mode: where a line would land while it is
     /// being drawn, or else the connection point under the pointer. Nothing else is
     /// highlighted in this mode.
@@ -320,6 +358,17 @@ struct SchematicCanvasView: View {
                 )
                 document.setWirePath(wire, OrthogonalRoute.moveSegment(base, at: index, by: offset))
 
+            case let .dragBusEnd(bus, base, line, end)?:
+                // A refused step leaves the bus at the last good frame.
+                if let lines = BusEdit.moveEnd(base, line: line, end: end, to: current) {
+                    document.setBusLines(bus, lines)
+                }
+
+            case let .dragBusLine(bus, base, line)?:
+                if let lines = BusEdit.moveLine(base, line: line, by: delta) {
+                    document.setBusLines(bus, lines)
+                }
+
             case let .pan(startOffset)?:
                 viewport.pan(to: CGSize(
                     width: startOffset.width + value.translation.width,
@@ -340,6 +389,14 @@ struct SchematicCanvasView: View {
             }
             if case let .connecting(from, _)? = interaction {
                 interaction = .connecting(from: from, cursor: current)
+            }
+
+        case .bus:
+            if interaction == nil {
+                interaction = .drawingBus(from: SchematicGrid.snap(start), cursor: current)
+            }
+            if case let .drawingBus(from, _)? = interaction {
+                interaction = .drawingBus(from: from, cursor: current)
             }
 
         case .eraser:
@@ -375,12 +432,14 @@ struct SchematicCanvasView: View {
         if isRunning {
             hoveredChipID = nil
             hoveredWireID = nil
+            hoveredBusID = nil
             hoverAnchor = nil
             return
         }
         if tool == .line {
             hoveredChipID = nil
             hoveredWireID = nil
+            hoveredBusID = nil
             hoverAnchor = lineAnchor(at: point)
             return
         }
@@ -388,9 +447,15 @@ struct SchematicCanvasView: View {
         if let chip = document.chip(at: point) {
             hoveredChipID = chip.id
             hoveredWireID = nil
+            hoveredBusID = nil
+        } else if let wire = document.segmentHit(at: point, tolerance: lineTolerance)?.wire {
+            hoveredChipID = nil
+            hoveredWireID = wire
+            hoveredBusID = nil
         } else {
             hoveredChipID = nil
-            hoveredWireID = document.segmentHit(at: point, tolerance: lineTolerance)?.wire
+            hoveredWireID = nil
+            hoveredBusID = document.busHit(at: point, tolerance: busTolerance)?.bus
         }
     }
 
@@ -399,23 +464,36 @@ struct SchematicCanvasView: View {
             document.selectedChipID = hit.id
             interaction = .moveChip(id: hit.id, startOrigin: hit.origin)
         } else if let node = document.nodeHit(at: point, tolerance: lineTolerance) {
-            document.selectedChipID = nil
+            clearSelection()
             interaction = .dragNode(
                 wire: node.wire,
                 base: document.path(forWire: node.wire),
                 index: node.index
             )
         } else if let segment = document.segmentHit(at: point, tolerance: lineTolerance) {
-            document.selectedChipID = nil
+            clearSelection()
             interaction = .dragSegment(
                 wire: segment.wire,
                 base: document.path(forWire: segment.wire),
                 index: segment.index
             )
+        } else if let end = document.busEndHit(at: point, tolerance: busTolerance),
+                  let base = document.bus(end.bus) {
+            document.selectedBusID = end.bus
+            interaction = .dragBusEnd(bus: end.bus, base: base, line: end.line, end: end.end)
+        } else if let line = document.busHit(at: point, tolerance: busTolerance),
+                  let base = document.bus(line.bus) {
+            document.selectedBusID = line.bus
+            interaction = .dragBusLine(bus: line.bus, base: base, line: line.line)
         } else {
-            document.selectedChipID = nil
+            clearSelection()
             interaction = .pan(startOffset: viewport.offset)
         }
+    }
+
+    private func clearSelection() {
+        document.selectedChipID = nil
+        document.selectedBusID = nil
     }
 
     private func handleEnded(_ value: DragGesture.Value) {
@@ -425,6 +503,9 @@ struct SchematicCanvasView: View {
                 // A refused wire changes nothing; document.editorMessage says why.
                 _ = document.connect(from, target)
             }
+        case let .drawingBus(from, _)?:
+            // A refused drag changes nothing; document.editorMessage says why.
+            document.addBus(from: from, to: SchematicGrid.snap(viewport.world(value.location)))
         case let .moveChip(id, _)?:
             if isClick(value) {
                 toggleSwitchLever(at: viewport.world(value.startLocation))
@@ -602,6 +683,74 @@ private struct WireLayer: View {
         for point in points.dropFirst() {
             path.addLine(to: point)
         }
+        return path
+    }
+}
+
+/// The route the Bus tool is drawing. `refused` when releasing would be
+/// refused (a joint that is not a T or an L, or two buses).
+struct BusPreview {
+    let points: [CGPoint]
+    let refused: Bool
+}
+
+/// Draws buses: each line 6 wide with square ends, a filled square closing
+/// each L corner, and a dot on each T. The hovered bus gets a soft accent
+/// underlay and the selected one is drawn in the accent colour. Also draws
+/// the route the Bus tool is drawing, dashed. Not private, so the harness can
+/// render it on its own.
+struct BusLayer: View {
+    let buses: [Bus]
+    let selectedBusID: UUID?
+    let hoveredBusID: UUID?
+    let preview: BusPreview?
+    /// The visible world area; drawing outside it is not shown.
+    let area: CGRect
+
+    var body: some View {
+        Canvas { context, _ in
+            context.shiftToWorld(area)
+            let width = Bus.lineWidth
+            for bus in buses {
+                if bus.id == hoveredBusID {
+                    let underlay = StrokeStyle(lineWidth: width * 2, lineCap: .round)
+                    for line in bus.lines {
+                        context.stroke(segment(line.a, line.b), with: .color(Color.accentColor.opacity(0.35)), style: underlay)
+                    }
+                }
+                let color: Color = bus.id == selectedBusID ? .accentColor : .primary
+                for line in bus.lines {
+                    context.stroke(segment(line.a, line.b), with: .color(color), style: StrokeStyle(lineWidth: width, lineCap: .butt))
+                }
+                for joint in bus.joints {
+                    let p = joint.point
+                    switch joint {
+                    case .corner:
+                        let square = CGRect(x: p.x - width / 2, y: p.y - width / 2, width: width, height: width)
+                        context.fill(Path(square), with: .color(color))
+                    case .tee:
+                        let dot = CGRect(x: p.x - width, y: p.y - width, width: width * 2, height: width * 2)
+                        context.fill(Path(ellipseIn: dot), with: .color(color))
+                    }
+                }
+            }
+
+            if let preview, let first = preview.points.first {
+                var path = Path()
+                path.move(to: first)
+                for point in preview.points.dropFirst() { path.addLine(to: point) }
+                let dashed = StrokeStyle(lineWidth: width, lineCap: .butt, lineJoin: .miter, dash: [8, 6])
+                let color: Color = preview.refused ? .red.opacity(0.6) : .accentColor
+                context.stroke(path, with: .color(color), style: dashed)
+            }
+        }
+        .worldCanvas(area)
+    }
+
+    private func segment(_ a: CGPoint, _ b: CGPoint) -> Path {
+        var path = Path()
+        path.move(to: a)
+        path.addLine(to: b)
         return path
     }
 }

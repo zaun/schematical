@@ -6,11 +6,13 @@
 //     /tmp/schematical-harness/H.app/Contents/MacOS/harness
 import CoreGraphics
 import Foundation
+import SwiftUI
 
 MainActor.assumeIsolated { runChecks() }
 
 @MainActor func runChecks() {
     let doc = SchematicDocument()
+    let images = CommandLine.arguments.count > 1 ? CommandLine.arguments[1] : "/tmp/p13img"
     var failures = 0
 
     func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: x, y: y) }
@@ -30,6 +32,23 @@ MainActor.assumeIsolated { runChecks() }
             print("  bus \(i): \(shape(bus))  joints: \(joints)  wires: \(bus.wires.map(\.name).joined(separator: ","))")
         }
         if let message = doc.editorMessage { print("  message: \(message)") }
+        // The real canvas after the step: images/a2-<step>.png.
+        let step = label.split(separator: " ").first.map(String.init) ?? label
+        Harness.renderCanvas(doc, to: "\(images)/a2-\(step).png",
+                             size: CGSize(width: 480, height: 360), origin: p(-20, -20))
+    }
+    /// A Bus tool drag in progress: the preview the canvas would draw.
+    func renderPreview(from start: CGPoint, to end: CGPoint, name: String) {
+        let preview: BusPreview
+        switch doc.busDraft(from: start, to: end) {
+        case let .success(draft): preview = BusPreview(points: draft.path, refused: false)
+        case .failure: preview = BusPreview(points: [start, end], refused: true)
+        }
+        let area = CGRect(x: -20, y: -20, width: 480, height: 360)
+        Harness.render(
+            BusLayer(buses: doc.buses, selectedBusID: doc.selectedBusID, hoveredBusID: nil, preview: preview, area: area)
+                .background(Color.white),
+            size: area.size, to: "\(images)/a2-\(name).png")
     }
     func expect(_ ok: Bool, _ what: String) {
         print(ok ? "  ok: \(what)" : "  FAIL: \(what)")
@@ -89,6 +108,7 @@ MainActor.assumeIsolated { runChecks() }
     expect(hasLine(p(60, 80), p(360, 80)) && hasLine(p(360, 80), p(360, 200)), "corner at (360,80)")
 
     // 3. Joining.
+    renderPreview(from: p(200, 80), to: p(200, 20), name: "3-preview-T")
     doc.addBus(from: p(200, 80), to: p(200, 20))
     dump("3a drag (200,80)->(200,20)")
     expect(doc.buses.count == 1 && hasLine(p(200, 80), p(200, 20)), "T line added to the bus")
@@ -114,6 +134,7 @@ MainActor.assumeIsolated { runChecks() }
 
     // 5. Refusals.
     let snapshot = doc.buses
+    renderPreview(from: p(360, 100), to: p(420, 100), name: "5-preview-refused")
     doc.addBus(from: p(360, 100), to: p(420, 100))
     dump("5a drag from the corner")
     expect(doc.buses == snapshot && doc.editorMessage == "A bus line can only join another at a T or an L.", "corner refused")
