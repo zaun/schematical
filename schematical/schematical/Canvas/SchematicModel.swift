@@ -1240,6 +1240,11 @@ final class SchematicDocument {
            chips.contains(where: { $0.board?.side == .bottom }) || texts.contains(where: { $0.side == .bottom }) {
             return "Move every part and text to Top first."
         }
+        if let layer = board.copperLayers.first(where: { layer in
+            dropped.contains(layer) && traces.contains { $0.layer == layer }
+        }) {
+            return "Delete or move the traces on \(layer.title) first."
+        }
         return nil
     }
 
@@ -1263,6 +1268,9 @@ final class SchematicDocument {
         guard board.copperLayers.contains(layer) else { return "\(layer.title) is not on this board." }
         guard layer.isInner else { return "\(layer.title) is always a component layer." }
         guard type != .component else { return "Inner layers are planes or wires." }
+        if type == .plane, traces.contains(where: { $0.layer == layer }) {
+            return "Move or delete this layer's traces first."
+        }
         return nil
     }
 
@@ -1356,6 +1364,248 @@ final class SchematicDocument {
             }) { return hit }
         }
         return nil
+    }
+
+
+    // MARK: Traces (PCB)
+
+    /// The pads on `layer`, with their parts: a surface-mount pad is on its
+    /// part's side layer; a through-hole pad is on every layer.
+    func pads(on layer: CopperLayer) -> [(chip: PlacedChip, pad: PlacedPad)] {
+        chips.flatMap { chip -> [(chip: PlacedChip, pad: PlacedPad)] in
+            guard let side = chip.board?.side else { return [] }
+            return chip.boardPads
+                .filter { $0.drill > 0 || side.copperLayer == layer }
+                .map { (chip: chip, pad: $0) }
+        }
+    }
+
+    /// Where a trace end pressed or released at `point` lands on `layer`:
+    /// the centre of a pad there, else a vertex of a trace on that layer
+    /// within `tolerance`, else the nearest point of a trace segment within
+    /// `tolerance`, else the nearest grid point.
+    func traceAnchor(at point: CGPoint, layer: CopperLayer, tolerance: CGFloat) -> CGPoint {
+        if let hit = pads(on: layer).last(where: { $0.pad.rect.contains(point) }) {
+            return CGPoint(x: hit.pad.rect.midX, y: hit.pad.rect.midY)
+        }
+        let same = traces.filter { $0.layer == layer }
+        var best: (point: CGPoint, distance: CGFloat)?
+        for trace in same {
+            for vertex in trace.points {
+                let d = Self.distance(from: point, to: vertex)
+                if d <= tolerance, d < best?.distance ?? .infinity { best = (vertex, d) }
+            }
+        }
+        if let best { return best.point }
+        for trace in same {
+            for (a, b) in trace.segments {
+                let near = Self.nearest(on: a, b, to: point)
+                let d = Self.distance(from: point, to: near)
+                if d <= tolerance, d < best?.distance ?? .infinity { best = (near, d) }
+            }
+        }
+        return best?.point ?? BoardGrid.snap(point)
+    }
+
+    /// Why no trace can go on `layer`, or nil when one can.
+    private func traceLayerRefusal(_ layer: CopperLayer) -> String? {
+        guard board.copperLayers.contains(layer) else { return "\(layer.title) is not on this board." }
+        guard board.style(of: layer).type != .plane else { return "\(layer.title) is a plane." }
+        return nil
+    }
+
+    /// Adds a 45° trace from `a` to `b` on `layer` (`TraceRoute.route`),
+    /// `BoardTrace.defaultWidth` wide, and joins it to every trace it
+    /// touches there. Returns its id, or nil when nothing was added: `a`
+    /// and `b` the same point, or a layer that is a plane or not on the
+    /// board.
+    @discardableResult
+    func addTrace(from a: CGPoint, to b: CGPoint, layer: CopperLayer, diagonalFirst: Bool) -> UUID? {
+        guard !TraceRoute.same(a, b), traceLayerRefusal(layer) == nil else { return nil }
+        let trace = BoardTrace(id: UUID(), layer: layer, width: BoardTrace.defaultWidth,
+                               points: TraceRoute.route(from: a, to: b, diagonalFirst: diagonalFirst))
+        traces.append(trace)
+        join(trace.id)
+        return trace.id
+    }
+
+    /// Makes every point where trace `id` touches or crosses another trace
+    /// on its layer a vertex of both. Inserting a vertex on a straight
+    /// segment keeps its angle, so both stay legal.
+    func join(_ id: UUID) {
+        guard let index = traces.firstIndex(where: { $0.id == id }) else { return }
+        let layer = traces[index].layer
+        for other in traces.indices where other != index && traces[other].layer == layer {
+            var contacts: [CGPoint] = []
+            for (a, b) in traces[index].segments {
+                for (c, d) in traces[other].segments {
+                    contacts += Self.contacts(a, b, c, d)
+                }
+            }
+            for point in contacts {
+                traces[index].points = Self.inserting(point, into: traces[index].points)
+                traces[other].points = Self.inserting(point, into: traces[other].points)
+            }
+        }
+    }
+
+    /// The traces on the same layer reachable from `id` through shared
+    /// vertices, `id` first.
+    func connectedRun(of id: UUID) -> [UUID] {
+        guard let start = traces.first(where: { $0.id == id }) else { return [] }
+        let same = traces.filter { $0.layer == start.layer }
+        var run = [id], seen: Set<UUID> = [id], queue = [start]
+        while !queue.isEmpty {
+            let trace = queue.removeFirst()
+            for other in same where !seen.contains(other.id) {
+                let shares = trace.points.contains { p in other.points.contains { TraceRoute.same($0, p) } }
+                if shares {
+                    seen.insert(other.id)
+                    run.append(other.id)
+                    queue.append(other)
+                }
+            }
+        }
+        return run
+    }
+
+    /// The pads the traces of `run` touch on their layer, as
+    /// "<reference>.<designator>" ("U1.3", or "U1.EP" for an unnumbered
+    /// centre pad), sorted by reference, then designator.
+    func pads(touching run: [UUID]) -> [String] {
+        let members = traces.filter { run.contains($0.id) }
+        guard let layer = members.first?.layer else { return [] }
+        var found: [(reference: String, designator: String)] = []
+        for (chip, pad) in pads(on: layer) {
+            let touched = members.contains { trace in
+                trace.segments.contains { Self.segment($0.0, $0.1, touches: pad.rect) }
+            }
+            if touched { found.append((chip.reference, pad.designator ?? "EP")) }
+        }
+        return found
+            .sorted {
+                $0.reference != $1.reference
+                    ? $0.reference.localizedStandardCompare($1.reference) == .orderedAscending
+                    : $0.designator.localizedStandardCompare($1.designator) == .orderedAscending
+            }
+            .map { "\($0.reference).\($0.designator)" }
+    }
+
+    /// Sets a trace's width in mil, clamped to `BoardTrace.widthRange`.
+    func setTraceWidth(_ id: UUID, _ mil: Int) {
+        guard let index = traces.firstIndex(where: { $0.id == id }) else { return }
+        traces[index].width = min(max(mil, BoardTrace.widthRange.lowerBound), BoardTrace.widthRange.upperBound)
+    }
+
+    /// Moves one trace to another layer and joins it there. Ignored for a
+    /// plane or a layer not on the board. Its run on the old layer stays.
+    func setTraceLayer(_ id: UUID, _ layer: CopperLayer) {
+        guard traceLayerRefusal(layer) == nil,
+              let index = traces.firstIndex(where: { $0.id == id }), traces[index].layer != layer else { return }
+        traces[index].layer = layer
+        join(id)
+    }
+
+    func deleteTrace(_ id: UUID) {
+        traces.removeAll { $0.id == id }
+        pruneSelection()
+    }
+
+    /// Moves every vertex of the traces `ids` by `offset` (mm), then joins
+    /// each one where it now lands.
+    func moveTraces(_ ids: Set<UUID>, by offset: CGSize) {
+        for index in traces.indices where ids.contains(traces[index].id) {
+            traces[index].points = traces[index].points.map {
+                CGPoint(x: $0.x + offset.width, y: $0.y + offset.height)
+            }
+        }
+        for id in ids { join(id) }
+    }
+
+    /// The trace under a board point (mm): the last one drawn there (Top's
+    /// layer first, down the stack) whose layer is shown, within half its
+    /// width plus `tolerance`.
+    func trace(at point: CGPoint, tolerance: CGFloat, visible: BoardVisibility = BoardVisibility()) -> BoardTrace? {
+        for layer in board.copperLayers where visible.showsTrace(on: layer) {
+            if let hit = traces.last(where: { trace in
+                trace.layer == layer && trace.segments.contains {
+                    Self.distance(from: point, toSegment: $0.0, $0.1) <= trace.widthMM / 2 + tolerance
+                }
+            }) { return hit }
+        }
+        return nil
+    }
+
+    // MARK: Trace geometry
+
+    /// The point of segment a–b nearest `point`.
+    static func nearest(on a: CGPoint, _ b: CGPoint, to point: CGPoint) -> CGPoint {
+        let dx = b.x - a.x, dy = b.y - a.y
+        let lengthSquared = dx * dx + dy * dy
+        guard lengthSquared > 0 else { return a }
+        let t = min(max(((point.x - a.x) * dx + (point.y - a.y) * dy) / lengthSquared, 0), 1)
+        return CGPoint(x: a.x + t * dx, y: a.y + t * dy)
+    }
+
+    /// Where segments a–b and c–d touch: their crossing point, or both ends
+    /// of a collinear overlap. Empty when they don't touch.
+    static func contacts(_ a: CGPoint, _ b: CGPoint, _ c: CGPoint, _ d: CGPoint) -> [CGPoint] {
+        let eps = TraceRoute.epsilon
+        let r = CGPoint(x: b.x - a.x, y: b.y - a.y), s = CGPoint(x: d.x - c.x, y: d.y - c.y)
+        let denom = r.x * s.y - r.y * s.x
+        let lengths = hypot(r.x, r.y) * hypot(s.x, s.y)
+        if abs(denom) > 1e-9 * lengths {
+            let q = CGPoint(x: c.x - a.x, y: c.y - a.y)
+            let t = (q.x * s.y - q.y * s.x) / denom
+            let point = CGPoint(x: a.x + t * r.x, y: a.y + t * r.y)
+            let onBoth = distance(from: point, toSegment: a, b) < eps && distance(from: point, toSegment: c, d) < eps
+            return onBoth ? [snapToEnds(point, [a, b, c, d])] : []
+        }
+        // Parallel: they touch only when collinear, at the ends of each that
+        // lie on the other.
+        var points: [CGPoint] = []
+        for (end, segment) in [(a, (c, d)), (b, (c, d)), (c, (a, b)), (d, (a, b))]
+        where distance(from: end, toSegment: segment.0, segment.1) < eps {
+            if !points.contains(where: { TraceRoute.same($0, end) }) { points.append(end) }
+        }
+        return points
+    }
+
+    /// `point`, or the end it is within epsilon of, so a touching end is
+    /// shared exactly.
+    private static func snapToEnds(_ point: CGPoint, _ ends: [CGPoint]) -> CGPoint {
+        ends.first { TraceRoute.same($0, point) } ?? point
+    }
+
+    /// `points` with `point` added as a vertex on the segment it lies on.
+    /// Unchanged when it is already a vertex or on no segment.
+    static func inserting(_ point: CGPoint, into points: [CGPoint]) -> [CGPoint] {
+        if points.contains(where: { TraceRoute.same($0, point) }) { return points }
+        for index in points.indices.dropLast()
+        where distance(from: point, toSegment: points[index], points[index + 1]) < TraceRoute.epsilon {
+            var result = points
+            result.insert(point, at: index + 1)
+            return result
+        }
+        return points
+    }
+
+    /// Whether segment a–b meets `rect` (inside it, or crossing or touching
+    /// its edge).
+    static func segment(_ a: CGPoint, _ b: CGPoint, touches rect: CGRect) -> Bool {
+        // Liang–Barsky: clip the segment's parameter range to the rect.
+        var low: CGFloat = 0, high: CGFloat = 1
+        let dx = b.x - a.x, dy = b.y - a.y
+        for (p, q) in [(-dx, a.x - rect.minX), (dx, rect.maxX - a.x), (-dy, a.y - rect.minY), (dy, rect.maxY - a.y)] {
+            if p == 0 {
+                if q < 0 { return false }
+            } else {
+                let t = q / p
+                if p < 0 { low = max(low, t) } else { high = min(high, t) }
+                if low > high { return false }
+            }
+        }
+        return true
     }
 
     // MARK: Group drags (PCB)

@@ -253,15 +253,15 @@ New `badPCB` details:
 
 Acceptance: routes are legal in all octants, and traces survive a round trip.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:<tests>/TraceRouteTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 3 min).
-Commit: —
+Commit: d244b86
 
 ### Phase 2 — Anchors, joining and connectivity
 
-- [ ] `Canvas/SchematicModel.swift`: `traceAnchor`, `addTrace`, `join`,
+- [x] `Canvas/SchematicModel.swift`: `traceAnchor`, `addTrace`, `join`,
       `connectedRun`, `pads(touching:)`, `setTraceWidth`, `setTraceLayer`,
       `deleteTrace`, `moveTraces` and `trace(at:tolerance:visible:)`, as in
       §3. Extend `canSetLayerCount` and `setLayerType` with the trace rules.
-- [ ] Tests (`<tests>/TraceJoinTests.swift`):
+- [x] Tests (`<tests>/TraceJoinTests.swift`):
   - a horizontal trace crossing a vertical one on Top: both gain the
     crossing vertex, and `connectedRun` has both;
   - the same crossing on Top vs Bottom: no vertex, separate runs;
@@ -276,6 +276,14 @@ Commit: —
   - `setTraceLayer` to Bottom re-joins against Bottom traces;
   - `canSetLayerCount(2)` is refused with a trace on Layer 3;
   - `setLayerType(.inner(3), .plane)` is refused while it holds a trace.
+
+  `/tmp/p16t.sh TraceJoinTests,TraceRouteTests` → "Executed 18 tests, with 0
+  failures" (TraceJoinTests: 12, including trace hit testing and width
+  clamping). A's Layers section greys the Plane choice through
+  `canSetLayerType`, which now carries the trace refusal and its help text.
+- [x] (added) `SchematicModel.pads(on:)`, the shared "pads on a layer" rule
+  (surface-mount on its side, through-hole on every layer) that
+  `traceAnchor` and `pads(touching:)` both use.
 
 Acceptance: every same-layer contact is a shared vertex, different layers
 never join, and pad contact follows the side and through-hole rules.
