@@ -60,8 +60,8 @@ own rows.
 |---|---|---|
 | plan-11 complete | `ls planning/plan-11-* 2>/dev/null` → no output | MET (2026-11-07: all in `planning/completed`) |
 | plan-12 complete | `ls planning/plan-12-[A-K]-*.md 2>/dev/null` → no output | MET (2026-11-07: all in `planning/completed`) |
-| The canvas change in progress is committed | `git status --short schematical/schematical/Canvas/SchematicCanvasView.swift` → no output | NOT MET (2026-11-07: ` M`, the barrel-jack symbol case, not this plan's; the `worldCanvas` / `shiftToWorld` change is committed) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p13-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-01 with the uncommitted canvas change) |
+| The canvas change in progress is committed | `git status --short schematical/schematical/Canvas/SchematicCanvasView.swift` → no output | MET (2026-11-07: no output after the barrel-jack work was committed in `28abedd`) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p13-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-07: `** BUILD SUCCEEDED **`) |
 | No bus code yet | `grep -rn "case bus\|struct Bus\b\|\"buses\"" schematical/schematical` → no output | MET (2026-11-07) |
 | File format is version 2 | `grep -n "currentVersion = " schematical/schematical/Document/SchematicFile.swift` → `currentVersion = 2` | MET (2026-11-07) |
 
@@ -655,6 +655,14 @@ Commit: —
   tried when the first makes a bad joint) — author's call, 2026-11-07 (§ 4).
 
 ## Corrections
+
+- **Screenshots come from the harness, not a desktop session** (2026-11-07).
+  This session has no tool that clicks or drags in a desktop GUI. As in
+  plan-09-E and plan-11-D, app checks run in the headless harness, now kept
+  at `scripts/harness/build.sh`: it compiles the app's own sources with the
+  backend, drives the same `SchematicDocument` / `SchematicFile` methods the
+  gestures call (a drag is replaced by the calls its frames make), and
+  renders the real canvas and sidebar views offscreen to PNG.
 
 ## Summary
 
