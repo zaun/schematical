@@ -453,6 +453,7 @@ extension SchematicFile {
             chips: chips,
             wires: placedWires,
             junctions: placedJunctions,
+            buses: [],
             nextReference: max(nextReference, highest + 1),
             board: settings,
             texts: texts

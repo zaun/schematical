@@ -518,22 +518,33 @@ it was not joined to (its own bus or another), or any joint changing kind.
 
 Pure model code with no callers yet. It lands alone with no visible change.
 
-- [ ] Add `schematical/schematical/Canvas/BusModel.swift` with `BusWire`,
+- [x] Add `schematical/schematical/Canvas/BusModel.swift` with `BusWire`,
       `BusLine`, `BusEnd`, `BusJoint`, `Bus` (constants, `defaultName`,
       `joints`, `isValid`, `pieces`, helpers) and `BusEdit` (`moveLine`,
-      `moveEnd`) as in § 4–5. Add it to the `schematical` target in
-      `project.pbxproj`.
-- [ ] `SchematicModel.swift`: `buses`, `selectedBusID` (with the three
+      `moveEnd`) as in § 4–5, plus `BusJoin` (the joining rules). ~~Add it to
+      the `schematical` target in `project.pbxproj`.~~ — moot: the target uses
+      a `PBXFileSystemSynchronizedRootGroup` (`grep -n
+      PBXFileSystemSynchronized schematical/schematical.xcodeproj/project.pbxproj`
+      → lines 13–25), so new files join it with no project edit.
+- [x] `SchematicModel.swift`: `buses`, `selectedBusID` (with the three
       `didSet`s clearing each other), `replaceContents(…, buses:)` (all
       callers pass `[]` for now), `busesAreApart`, `addBus` (new bus, join,
       extend, and its refusals), `setBusWireCount`, `renameBusWire`,
       `setBusLines`, `busHit`, `busEndHit`, and the bus branch of `erase`
       (with the split into pieces).
+- [x] Added: `scripts/harness/bus-lines.swift`, a harness check that runs
+      Phase 2's steps through the model calls the gestures make →
+      `ALL OK` (every step's shape, joint, refusal message and split as
+      Phase 2 expects); `scripts/harness/open-file.swift` and
+      `support/Harness.swift` to open a file and render the real canvas.
 
 Acceptance: the app builds, and opening `test.schematical` still shows
 its contents.
   Check: the build command from § Prerequisites → `** BUILD SUCCEEDED **`
   (est. 3 min); launch the app, open `test.schematical`, screenshot (est. 2 min).
+  Result (2026-11-07): `** BUILD SUCCEEDED **`; harness `open-file.swift
+  test.schematical` → "opened test.schematical: 5 parts, 6 wires, 0 buses",
+  canvas PNG shows the oscillator, LED, 5V and both GNDs wired as before.
 Commit: —
 
 ### Phase 2 — Bus tool, drawing, joining, editing, erasing
@@ -663,6 +674,17 @@ Commit: —
   backend, drives the same `SchematicDocument` / `SchematicFile` methods the
   gestures call (a drag is replaced by the calls its frames make), and
   renders the real canvas and sidebar views offscreen to PNG.
+- **Joints name line ends, not just lines** (2026-11-07). § 4 writes
+  `.corner(line1, line2, at:)` and `.tee(end: line, on: line, at:)`. A line
+  can have joints at both ends, so "same joints after a drag" needs to know
+  *which* end: `BusJoint` holds `BusLineEnd(line, end)` for each joining end.
+  The rule it checks is unchanged.
+- **The other L is tried whenever the first fails** (2026-11-07). § 4 step 2
+  tries the second L only when the first makes a bad joint at P or Q. The
+  code (`BusJoin.join`) tries it whenever the first L fails any check
+  (including the first L running back over the line it starts on, which is
+  an overlap, not a bad joint). It only accepts what the full check allows,
+  so nothing invalid gets in; the preview uses the same function.
 
 ## Summary
 

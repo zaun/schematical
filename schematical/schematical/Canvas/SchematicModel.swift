@@ -777,10 +777,20 @@ final class SchematicDocument {
     private(set) var chips: [PlacedChip] = []
     private(set) var wires: [Wire] = []
     private(set) var junctions: [Junction] = []
-    /// The selected part. Selecting one clears the selected text.
+    /// Buses, in drawing order (plan-13). They carry no current themselves.
+    private(set) var buses: [Bus] = []
+    /// The selected part. Selecting one clears the selected text and bus.
     var selectedChipID: UUID? {
         didSet {
             if selectedChipID != nil, selectedTextID != nil { selectedTextID = nil }
+            if selectedChipID != nil, selectedBusID != nil { selectedBusID = nil }
+        }
+    }
+    /// The selected bus. Selecting one clears the selected part and text.
+    var selectedBusID: UUID? {
+        didSet {
+            if selectedBusID != nil, selectedChipID != nil { selectedChipID = nil }
+            if selectedBusID != nil, selectedTextID != nil { selectedTextID = nil }
         }
     }
 
@@ -788,10 +798,11 @@ final class SchematicDocument {
     var board = BoardSettings()
     /// Free texts on the PCB, in drawing order.
     private(set) var texts: [BoardText] = []
-    /// The selected board text. Selecting one clears the selected part.
+    /// The selected board text. Selecting one clears the selected part and bus.
     var selectedTextID: UUID? {
         didSet {
             if selectedTextID != nil, selectedChipID != nil { selectedChipID = nil }
+            if selectedTextID != nil, selectedBusID != nil { selectedBusID = nil }
         }
     }
 
@@ -813,16 +824,18 @@ final class SchematicDocument {
 
     /// Replaces everything on the canvas, for example with a file that was
     /// just opened. Clears the selection.
-    func replaceContents(chips: [PlacedChip], wires: [Wire], junctions: [Junction], nextReference: Int,
-                         board: BoardSettings, texts: [BoardText]) {
+    func replaceContents(chips: [PlacedChip], wires: [Wire], junctions: [Junction], buses: [Bus],
+                         nextReference: Int, board: BoardSettings, texts: [BoardText]) {
         self.chips = chips
         self.wires = wires
         self.junctions = junctions
+        self.buses = buses
         self.nextReference = max(nextReference, 1)
         self.board = board
         self.texts = texts
         selectedChipID = nil
         selectedTextID = nil
+        selectedBusID = nil
         editorMessage = nil
     }
 
@@ -1350,9 +1363,149 @@ final class SchematicDocument {
         setWirePath(hit.wire, OrthogonalRoute.insertNode(path, segment: hit.index, at: point))
     }
 
+    // MARK: Buses
+
+    func bus(_ id: UUID) -> Bus? {
+        buses.first { $0.id == id }
+    }
+
+    /// Whether no line end of one bus touches a line of another.
+    static func busesAreApart(_ buses: [Bus]) -> Bool {
+        Bus.firstTouch(buses) == nil
+    }
+
+    /// What a Bus tool drag from `start` to `end` would make (both snapped).
+    /// Changes nothing; the canvas previews it.
+    func busDraft(from start: CGPoint, to end: CGPoint) -> Result<BusDraft, BusJoinRefusal> {
+        BusJoin.join(buses, from: SchematicGrid.snap(start), to: SchematicGrid.snap(end))
+    }
+
+    /// The Bus tool: draws a line or an L from `start` to `end`, as a new bus
+    /// or joined to the bus it starts or ends on (a T, an L, or a longer
+    /// line). Selects that bus and returns its id. A refused drag changes
+    /// nothing, sets `editorMessage`, and returns nil.
+    @discardableResult
+    func addBus(from start: CGPoint, to end: CGPoint) -> UUID? {
+        switch busDraft(from: start, to: end) {
+        case let .failure(refusal):
+            if let message = refusal.message { editorMessage = message }
+            return nil
+        case let .success(draft):
+            if let index = draft.busIndex {
+                buses[index] = draft.bus
+            } else {
+                buses.append(draft.bus)
+            }
+            editorMessage = nil
+            selectedBusID = draft.bus.id
+            return draft.bus.id
+        }
+    }
+
+    /// Sets how many wires a bus carries, clamped to 2–999. New wires get
+    /// fresh ids and default names; removing drops wires from the end.
+    func setBusWireCount(_ id: UUID, _ count: Int) -> String? {
+        guard let index = buses.firstIndex(where: { $0.id == id }) else { return nil }
+        let wanted = min(max(count, Bus.wireCountRange.lowerBound), Bus.wireCountRange.upperBound)
+        var wires = buses[index].wires
+        if wanted < wires.count {
+            wires.removeLast(wires.count - wanted)
+        }
+        while wires.count < wanted {
+            wires.append(BusWire(name: Bus.defaultName(for: wires.count, taken: Set(wires.map(\.name)))))
+        }
+        buses[index].wires = wires
+        return nil
+    }
+
+    /// Renames one wire of a bus. Returns why when the name is refused, and
+    /// changes nothing then.
+    func renameBusWire(bus id: UUID, wire wireID: UUID, to name: String) -> String? {
+        guard let index = buses.firstIndex(where: { $0.id == id }),
+              let w = buses[index].wires.firstIndex(where: { $0.id == wireID }) else { return nil }
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty { return "A wire name can't be empty." }
+        if trimmed.count > Bus.nameLengthRange.upperBound { return "A wire name is at most 4 characters." }
+        if trimmed.contains(where: \.isWhitespace) { return "A wire name can't contain spaces." }
+        let lowered = trimmed.lowercased()
+        if buses[index].wires.contains(where: { $0.id != wireID && $0.name.lowercased() == lowered }) {
+            return "\(trimmed) is already used on this bus."
+        }
+        buses[index].wires[w].name = trimmed
+        return nil
+    }
+
+    /// The one way a drag changes a bus. Stores `lines` only if the bus stays
+    /// valid, keeps the same joints (points may move), keeps every line's
+    /// direction, and stays apart from other buses. Returns whether it did.
+    @discardableResult
+    func setBusLines(_ id: UUID, _ lines: [BusLine]) -> Bool {
+        guard let index = buses.firstIndex(where: { $0.id == id }) else { return false }
+        let old = buses[index]
+        guard lines.map(\.id) == old.lines.map(\.id) else { return false }
+        for (before, after) in zip(old.lines, lines)
+            where before.isHorizontal != after.isHorizontal || before.direction != after.direction {
+            return false
+        }
+        var edited = old
+        edited.lines = lines
+        guard edited.isValid, edited.jointShapes == old.jointShapes else { return false }
+        var all = buses
+        all[index] = edited
+        guard Self.busesAreApart(all) else { return false }
+        buses[index] = edited
+        return true
+    }
+
+    /// The bus line under `point`, if any (topmost bus first).
+    func busHit(at point: CGPoint, tolerance: CGFloat = 6) -> (bus: UUID, line: UUID)? {
+        for bus in buses.reversed() {
+            for line in bus.lines where Self.distance(from: point, toSegment: line.a, line.b) <= tolerance {
+                return (bus.id, line.id)
+            }
+        }
+        return nil
+    }
+
+    /// The bus line end under `point`, if any. A corner is two ends at one
+    /// point; either is returned, and the drag moves both lines.
+    func busEndHit(at point: CGPoint, tolerance: CGFloat = 6) -> (bus: UUID, line: UUID, end: BusEnd)? {
+        for bus in buses.reversed() {
+            for line in bus.lines {
+                for end in BusEnd.allCases where Self.distance(from: point, to: line.point(end)) <= tolerance {
+                    return (bus.id, line.id, end)
+                }
+            }
+        }
+        return nil
+    }
+
+    /// Removes one bus line. A bus with no lines left is removed. If the rest
+    /// falls into pieces, the piece holding the first remaining line keeps the
+    /// bus; each other piece becomes a bus of its own, with the same wire
+    /// names and fresh wire ids.
+    private func eraseBusLine(bus id: UUID, line lineID: UUID) {
+        guard let index = buses.firstIndex(where: { $0.id == id }) else { return }
+        var bus = buses[index]
+        bus.lines.removeAll { $0.id == lineID }
+        if bus.lines.isEmpty {
+            buses.remove(at: index)
+            if selectedBusID == id { selectedBusID = nil }
+            return
+        }
+        let pieces = bus.pieces()
+        bus.lines = pieces[0]
+        buses[index] = bus
+        let split = pieces.dropFirst().map { piece in
+            Bus(lines: piece, wires: bus.wires.map { BusWire(name: $0.name) })
+        }
+        buses.insert(contentsOf: split, at: index + 1)
+    }
+
     // MARK: Erasing
 
-    /// Removes whatever is under `point`: a block (and its wires) first, then a wire.
+    /// Removes whatever is under `point`: a block (and its wires) first, then
+    /// a wire, then a bus line.
     func erase(at point: CGPoint, tolerance: CGFloat = 6) {
         if let hit = chip(at: point) {
             chips.removeAll { $0.id == hit.id }
@@ -1362,6 +1515,9 @@ final class SchematicDocument {
             }
         } else if let hit = segmentHit(at: point, tolerance: tolerance) {
             wires.removeAll { $0.id == hit.wire }
+        } else if let hit = busHit(at: point, tolerance: tolerance) {
+            eraseBusLine(bus: hit.bus, line: hit.line)
+            return
         } else {
             return
         }

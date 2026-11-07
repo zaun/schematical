@@ -6,7 +6,9 @@
 # backend's C sources together with one extra main.swift into a CLI. The CLI
 # is placed inside a copy of the Debug .app, so Bundle.main finds the part
 # files. A main.swift drives SchematicDocument / SchematicFile directly and
-# can render the app's real views offscreen with ImageRenderer.
+# can render the app's real views offscreen with ImageRenderer. Every file in
+# scripts/harness/support (shared helpers: Harness.render, Harness.open, …)
+# is compiled in too.
 #
 # Usage:  scripts/harness/build.sh <main.swift> [out dir]
 #   out dir defaults to /tmp/schematical-harness.
@@ -43,7 +45,8 @@ swiftc -swift-version 5 -default-isolation MainActor \
   -enable-upcoming-feature NonisolatedNonsendingByDefault \
   -enable-upcoming-feature InferIsolatedConformances \
   -import-objc-header "$S/schematical-Bridging-Header.h" $INC \
-  $(find "$S" -name '*.swift' ! -name schematicalApp.swift) "$MAIN" "$O"/obj/*.o \
+  $(find "$S" -name '*.swift' ! -name schematicalApp.swift) \
+  $(find "$R/scripts/harness/support" -name '*.swift') "$MAIN" "$O"/obj/*.o \
   -o "$O/harness"
 
 rm -rf "$O/H.app"
