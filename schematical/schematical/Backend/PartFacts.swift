@@ -79,6 +79,10 @@ nonisolated enum PartFacts {
             add("Model", model)
             add("Channels", String(channels))
             add("Speed grade", grade)
+        case let .pio(model, grade, maxHz):
+            add("Model", modelName(model))
+            add("Speed grade", grade)
+            add("Max clock", "\(maxHz / 1_000_000) MHz")
         case let .connector(centerPinUM, ratedMV, ratedMA, contacts):
             add("Centre pin", String(format: "%.1f mm", Double(centerPinUM) / 1000))
             add("Rating", "\(VoltageCheck.volts(ratedMV)) V, \(String(format: "%.1f", Double(ratedMA) / 1000)) A")
@@ -111,7 +115,17 @@ nonisolated enum PartFacts {
         case PART_CHARLCD: return "Character LCD"
         case PART_SERIAL: return "Serial controller"
         case PART_CONNECTOR: return "Barrel connector"
+        case PART_PIO: return "Peripheral I/O"
         default: return ""
+        }
+    }
+
+    /// A parallel I/O model as shown: "6521 PIA", "6522 VIA"; others raw.
+    static func modelName(_ model: String) -> String {
+        switch model {
+        case "pia6521": return "6521 PIA"
+        case "via6522": return "6522 VIA"
+        default: return model
         }
     }
 

@@ -257,7 +257,7 @@ Commit: 3e1e9ad
 
 Acceptance: `cpu_test` → `io_board ok`; `ctest` 100%.
   Check: `/tmp/logic-p14/cpu_test | grep io_board` → `io_board ok` (est. 1 min with the build; the board simulates 4 ms).
-Commit: —
+Commit: 122c47d
 
 ## Validation Plan
 

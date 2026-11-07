@@ -198,6 +198,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// (0 for the SPI-to-I2C bridge) and its grade.
         case serial(model: String, channels: Int, grade: String)
         case connector(centerPinUM: UInt32, ratedMV: UInt32, ratedMA: UInt32, contacts: Int)
+        /// A parallel I/O peripheral on the 65xx bus (plan-14): its model
+        /// ("pia6521", "via6522"), speed grade and highest clock.
+        case pio(model: String, grade: String, maxHz: UInt64)
     }
 
     let name: String
@@ -337,6 +340,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .characterLCD(info):
             return [info.panel.title] + (info.backlightColor.map { ["\($0) backlight"] } ?? [])
         case let .serial(_, channels, _): return channels > 1 ? ["\(channels) channels"] : []
+        case let .pio(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
         case let .connector(centerPinUM, _, ratedMA, contacts):
             return [String(format: "%.1f mm", Double(centerPinUM) / 1000),
                     String(format: "%.1f A", Double(ratedMA) / 1000)] + (contacts > 0 ? ["switched"] : [])
@@ -470,6 +474,8 @@ extension CatalogPart {
         } else if let serial = part.serial?.pointee {
             details = .serial(model: string(serial.model), channels: Int(serial.channels),
                               grade: string(serial.grade))
+        } else if let pio = part.pio?.pointee {
+            details = .pio(model: string(pio.model), grade: string(pio.grade), maxHz: pio.max_hz)
         } else if let connector = part.connector?.pointee {
             details = .connector(centerPinUM: connector.center_diameter_um, ratedMV: connector.rated_mv,
                                  ratedMA: connector.rated_ma, contacts: Int(connector.contacts))

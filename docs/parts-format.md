@@ -1533,8 +1533,10 @@ WDC W65C51N (`datasheets/controller-uart/w65c51n.pdf`): TDRE (status bit
 a frame is going out cuts it off at the next bit boundary, where the new
 byte's start bit begins (the cut-off character is not in the sent log; a
 frame cut in its stop bits had sent its data and is logged); no parity —
-command bits 5–7 are ignored and PE reads 0 (p.14). CTSB high marks TxD at
-once (no `"ctsA"`). Everything else is the model above.
+command bits 5–7 are ignored and PE reads 0 (p.14); an overrun transfers
+the new byte into the RDR and flags OVR (p.7), and an RDR read clears OVR,
+FE and PE (p.10). CTSB high marks TxD at once (no `"ctsA"`). Everything
+else is the model above.
 
 #### `hs82c52`
 

@@ -29,7 +29,7 @@ plan-14-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-14-E landed | `grep -c '^W65C51N' backend/tests/golden/parts.txt` → 3 | NOT MET (2026-11-01) |
+| plan-14-E landed | `grep -c '^W65C51N' backend/tests/golden/parts.txt` → 3 | MET (2026-11-07: `3`) |
 
 ## 1. Goal
 
@@ -115,9 +115,26 @@ The plan-06-A harness approach (`/tmp/p14/harness/build.sh`, as plan-12-K's):
 
 ### Phase 1 — Catalog and facts
 
-- [ ] `PartCatalog.swift`: `.pio` details (§3.1).
-- [ ] `PartFacts.swift`: `kindName`, `modelName`, the `.pio` rows (§3.2).
-- [ ] Harness `catalog` and `facts` commands (§4 items 1–2).
+- [x] `PartCatalog.swift`: `.pio` details (§3.1) (and its `detailLabels`
+      case: `14 MHz`). `xcodebuild -project schematical/schematical.xcodeproj
+      -scheme schematical -derivedDataPath /tmp/p14f-dd build` →
+      `** BUILD SUCCEEDED **`.
+- [x] `PartFacts.swift`: `kindName`, `modelName`, the `.pio` rows (§3.2).
+- [x] Harness `catalog` and `facts` commands (§4 items 1–2). The plan-12-K
+      harness was gone from /tmp; rebuilt from plan-06-A § Harness
+      (`build.sh`, a `main.swift` with `catalog`, `facts`, `render`), output
+      `/tmp/p14/out/H.app`. `catalog` → `obsolete shown: Interface: 224
+      parts; functions Bridge UART (38), I2C controller (1), PIA (4), UART
+      (178), VIA (3)`; `obsolete hidden: … PIA (4), UART (155), VIA (3)`
+      (UART = plan-12's 175 / 153 + the 3 / 2 W65C51N; the PLCC one is
+      obsolete). `facts W65C22S6TPG-14` → Kind Peripheral I/O, Function VIA,
+      Package DIP, Footprint PDIP-40-600, Pins 40, Model 6522 VIA, Speed
+      grade 14, Max clock 14 MHz, Supply range 1.71–5.5 V. `facts
+      W65C21N6TPLG-14` → Function PIA, Package PLCC, Footprint PLCC-44, Pins
+      44, Model 6521 PIA, Max clock 14 MHz, Supply range 4.5–5.5 V. `facts
+      W65C51N6TQG-14` → Kind Serial controller, Function UART, Package LQFP,
+      Footprint LQFP-32-7X7, Pins 32, Model acia6551, Channels 1, Speed grade
+      14, Supply range 4.75–5.25 V.
 
 Acceptance: the build and the harness output of §1.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p14f-dd build` → `** BUILD SUCCEEDED **` (est. 2 min); `/tmp/p14/harness/run catalog`, `run facts …` → the §3.2/§3.3 rows (est. seconds).
@@ -143,4 +160,15 @@ Harness output and the PNG. The landing tier is plan-14-J's.
 
 ## Corrections
 
-(none yet)
+- §3.4: the named pin groups are stacked in order of **first appearance in
+  the pinout** (`ChipLayout.grouped`), each group's pins sorted by name —
+  not alphabetically by group name. PA0 (pin 2/3) appears before PB0 and
+  D7, so both chips' right side reads: the default group, gap, PA0–PA7,
+  gap, PB0–PB7, gap, D0–D7, then VSS. The plan predicted D0–D7 first. The
+  harness `render` prints the order: W65C22S6TPG-14 right `18 CB1, 19 CB2,
+  21 IRQB, 39 CA2, 2 PA0 … 9 PA7, 10 PB0 … 17 PB7, 33 D0 … 26 D7, 1 VSS`;
+  W65C21N6TPLG-14 right `20 CB2, 41 IRQBB, 42 IRQAB, 43 CA2, 3 PA0 …,
+  11 PB0 …, 36 D0 …, 1 VSS`; left as §3.4 (VDD; the inputs in pin order;
+  the four NCs).
+- §3.1: `CatalogPart.detailLabels` (the drawer row's labels) is a second
+  exhaustive switch over `Details`; `.pio` shows `14 MHz` there, as `.cpu`.
