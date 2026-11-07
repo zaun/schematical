@@ -153,5 +153,32 @@ MainActor.assumeIsolated { runChecks() }
     dump("x2 close a loop")
     expect(doc.buses.count == 1 && doc.buses[0].isValid, "loop allowed")
 
+    // End to end: two facing free ends of one bus, in line, joined by a
+    // straight drag become one line. The line that goes away takes a port
+    // and an L corner with it.
+    for point in [p(50, 0), p(100, 30), p(50, 60), p(0, 30)] { doc.erase(at: point) }
+    expect(doc.buses.isEmpty, "x3 start clean")
+    doc.addBus(from: p(0, 100), to: p(300, 100))
+    doc.addBus(from: p(50, 100), to: p(120, 200))      // T down, then L right to (120,200)
+    doc.addBus(from: p(250, 100), to: p(180, 200))     // T down, then L left to (180,200)
+    dump("x3 comb with facing free ends")
+    expect(doc.buses.count == 1 && doc.buses[0].lines.count == 5, "one bus, five lines")
+    expect(doc.addPort(at: p(220, 200)) == nil, "port on the right lower line")
+    let portID = doc.selectedPortID!
+    doc.addBus(from: p(120, 200), to: p(180, 200))
+    dump("x4 join (120,200) to (180,200) end to end")
+    expect(doc.editorMessage == nil, "not refused")
+    expect(doc.buses.count == 1 && doc.buses[0].lines.count == 4, "the two lines became one (four lines)")
+    expect(hasLine(p(50, 200), p(250, 200)), "one line (50,200)-(250,200)")
+    expect(doc.buses[0].isValid && doc.buses[0].joints.filter {
+        if case .corner = $0 { return true }; return false
+    }.count == 2, "both L corners kept")
+    let merged = doc.buses[0].lines.first { $0.a.y == 200 && $0.b.y == 200 }!
+    expect(doc.port(portID)?.port.line == merged.id && doc.bus(doc.buses[0].id)!.portsFit, "the port moved to the joined line")
+    doc.addBus(from: p(0, 100), to: p(-50, 100))
+    expect(hasLine(p(-50, 100), p(300, 100)), "extending from a free end still works")
+    doc.addBus(from: p(-80, 100), to: p(-50, 100))
+    expect(hasLine(p(-80, 100), p(300, 100)), "a line ending end to end on a free end extends it too")
+
     print(failures == 0 ? "ALL OK" : "\(failures) FAILED")
 }

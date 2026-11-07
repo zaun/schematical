@@ -129,6 +129,18 @@ enum BusJoint: Hashable {
         }
     }
 
+    /// The joint with `old` renamed to `new`, its ends mapped by `end`: for
+    /// when two lines are joined end to end into one.
+    func replacingLine(_ old: UUID, with new: UUID, end: (BusEnd) -> BusEnd) -> BusJoint {
+        func map(_ e: BusLineEnd) -> BusLineEnd {
+            e.line == old ? BusLineEnd(line: new, end: end(e.end)) : e
+        }
+        switch self {
+        case let .corner(first, second, at): return .makeCorner(map(first), map(second), at: at)
+        case let .tee(e, on, at): return .tee(end: map(e), on: on == old ? new : on, at: at)
+        }
+    }
+
     func involves(_ line: UUID) -> Bool {
         switch self {
         case let .corner(first, second, _): first.line == line || second.line == line
@@ -693,6 +705,32 @@ enum BusJoin {
             mergedQ = true
         }
 
+        // End to end: the straight drag ran from a free end of one line to a
+        // free end of another line in line with it. The three become one line;
+        // the joints and ports of the line that goes away move to it.
+        var baseShapes = base.jointShapes
+        var ports = base.ports
+        if mergedP, added.isEmpty, case let .freeEnd(_, startEnd) = atP, case let .freeEnd(_, endEnd) = atQ,
+           startEnd.line != endEnd.line,
+           let x = lines.firstIndex(where: { $0.id == startEnd.line }),
+           let y = lines.firstIndex(where: { $0.id == endEnd.line }),
+           lines[x].isHorizontal == lines[y].isHorizontal, lines[x].across == lines[y].across,
+           !lines[y].contains(path[0]) {
+            let gone = lines[y]
+            let farEnd = endEnd.end.other
+            lines[x].set(startEnd.end, to: gone.point(farEnd))
+            lines.remove(at: y)
+            baseShapes = Set(baseShapes.map {
+                $0.replacingLine(gone.id, with: startEnd.line) { $0 == farEnd ? startEnd.end : $0 }
+            })
+            ports = ports.map { port in
+                port.line == gone.id
+                    ? BusPort(id: port.id, line: startEnd.line, start: port.start, side: port.side, wireIDs: port.wireIDs)
+                    : port
+            }
+            mergedQ = true
+        }
+
         // The joints the drag is meant to make.
         var expected = Set<BusJoint>()
         func expect(_ touch: Touch, _ newEnd: BusLineEnd, at point: CGPoint) {
@@ -709,11 +747,11 @@ enum BusJoin {
                                         resolve(BusLineEnd(line: drawn[1].id, end: .a)), at: path[1]))
         }
 
-        let result = Bus(id: base.id, lines: lines + added, wires: base.wires, ports: base.ports)
+        let result = Bus(id: base.id, lines: lines + added, wires: base.wires, ports: ports)
         guard result.isValid, result.portsFit else { return nil }
         let others = buses.enumerated().filter { $0.offset != target }.map(\.element)
         guard Bus.firstTouch(others + [result]) == nil else { return nil }
-        guard result.jointShapes == base.jointShapes.union(expected.map(\.shape)) else { return nil }
+        guard result.jointShapes == baseShapes.union(expected.map(\.shape)) else { return nil }
         return BusDraft(busIndex: target, bus: result, path: path)
     }
 }

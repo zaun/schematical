@@ -10,7 +10,8 @@ import SwiftUI
 ///   A grid point on an existing wire can be a start or end too; it becomes a
 ///   junction, so wires branch there. Only connection points are highlighted.
 /// - Bus: drag to draw a bus line or L; start or end on a bus to join it at a
-///   T or L, or to extend it.
+///   T or L, or to extend it. A straight drag between two line ends in line
+///   with each other joins them end to end into one line.
 /// - Bus Port: click a bus line (not its ends or a T) to add an empty port
 ///   there; tick wires in its panel to give it pins.
 /// - Eraser: click or drag over a block, wire or bus line to remove it.

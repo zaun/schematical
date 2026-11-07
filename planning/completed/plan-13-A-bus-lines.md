@@ -697,6 +697,12 @@ Commit: 8379877
   line that splits a bus makes the extra pieces new buses with the same wire
   names; the L corner's direction is picked automatically (the other L is
   tried when the first makes a bad joint) — author's call, 2026-11-07 (§ 4).
+- Bus lines join end to end as well as extend: a straight Bus tool drag
+  between two free ends of one bus that are in line with each other makes
+  the two lines and the new piece one line. The joints and ports of the line
+  that goes away move to the joined line. Lines still never meet straight on
+  as two lines (a bus line has no nodes) — owner, 2026-11-07 (after landing;
+  `BusJoin.build`, checked in `scripts/harness/bus-lines.swift` x3–x4).
 
 ## Corrections
 
