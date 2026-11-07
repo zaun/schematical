@@ -1611,6 +1611,30 @@ final class SchematicDocument {
         settleWires(attachedToPort: portID)
     }
 
+    /// Moves a port along its line to `start`. Stores it only if the fit
+    /// rule keeps it unchanged (on its line, clear of the other ports and the
+    /// Ts). Returns whether it did.
+    @discardableResult
+    func slidePort(_ portID: UUID, to start: CGFloat) -> Bool {
+        guard let at = portLocation(portID) else { return false }
+        let bus = buses[at.bus]
+        let port = bus.ports[at.port]
+        guard start != port.start else { return true }
+        guard bus.fit(port: port, slots: bus.slots(of: port), preferredStart: start) == start else { return false }
+        buses[at.bus].ports[at.port].start = start
+        return true
+    }
+
+    /// One frame of a port slide: `base` (the start at the press) plus
+    /// `along` (the drag along the line), snapped to the grid and clamped to
+    /// where the port may go. It never leaves its line or passes a line
+    /// end, another port or a T.
+    func slidePort(_ portID: UUID, from base: CGFloat, by along: CGFloat) {
+        guard let (bus, port) = port(portID), let range = bus.slideRange(of: port) else { return }
+        let wanted = SchematicGrid.snap(base + along)
+        slidePort(portID, to: min(max(wanted, range.lowerBound), range.upperBound))
+    }
+
     /// The port whose body is under `point` (topmost first).
     func portHit(at point: CGPoint, tolerance: CGFloat = 0) -> UUID? {
         for bus in buses.reversed() {

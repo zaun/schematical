@@ -3,9 +3,9 @@ import SwiftUI
 /// The editing surface. Its gestures depend on the active tool:
 /// - Pointer: drag a block to move it. Drag a wire's bend point to move it, or
 ///   drag a segment to shift it. Double-click a wire to add a bend there.
-///   Click a bus to select it; drag a bus line sideways, or drag its free
-///   end, corner or T end (lines stay straight, joints stay T or L).
-///   Drag empty space to pan.
+///   Click a bus to select it; drag a bus line, end, corner or T (lines stay
+///   straight, joints stay T or L, ports ride along); drag a port to slide
+///   it along its line. Drag empty space to pan.
 /// - Line: drag from one pin to another to connect them with a right-angled wire.
 ///   A grid point on an existing wire can be a start or end too; it becomes a
 ///   junction, so wires branch there. Only connection points are highlighted.
@@ -60,6 +60,9 @@ struct SchematicCanvasView: View {
         /// `done` is the drag offset stored so far (see `dragBus`).
         case dragBusEnd(bus: UUID, base: Bus, line: UUID, end: BusEnd, done: CGSize)
         case dragBusLine(bus: UUID, base: Bus, line: UUID, done: CGSize)
+        /// Pointer drag on a bus port: slides it along its line from `base`,
+        /// its start at the press.
+        case slidePort(port: UUID, base: CGFloat)
         case pan(startOffset: CGSize)
         case idle
     }
@@ -380,6 +383,10 @@ struct SchematicCanvasView: View {
                 }
                 interaction = .dragBusLine(bus: bus, base: base, line: line, done: reached)
 
+            case let .slidePort(port, base)?:
+                guard let found = document.port(port), let line = found.bus.line(found.port.line) else { break }
+                document.slidePort(port, from: base, by: line.isHorizontal ? delta.width : delta.height)
+
             case let .pan(startOffset)?:
                 viewport.pan(to: CGSize(
                     width: startOffset.width + value.translation.width,
@@ -479,10 +486,10 @@ struct SchematicCanvasView: View {
         if let hit = document.chip(at: point) {
             document.selectedChipID = hit.id
             interaction = .moveChip(id: hit.id, startOrigin: hit.origin)
-        } else if let port = document.portHit(at: point) {
-            // plan-13-C adds sliding; for now a press only selects.
+        } else if let port = document.portHit(at: point), let found = document.port(port) {
+            // A press selects the port; dragging slides it along its line.
             document.selectedPortID = port
-            interaction = .idle
+            interaction = .slidePort(port: port, base: found.port.start)
         } else if let node = document.nodeHit(at: point, tolerance: lineTolerance) {
             clearSelection()
             interaction = .dragNode(
@@ -530,6 +537,8 @@ struct SchematicCanvasView: View {
         case let .dragBusEnd(bus, _, _, _, _)?, let .dragBusLine(bus, _, _, _)?:
             // Ports rode along with their lines; keep the wires on their pins.
             document.settleWires(attachedToBus: bus)
+        case let .slidePort(port, _)?:
+            document.settleWires(attachedToPort: port)
         case let .moveChip(id, _)?:
             if isClick(value) {
                 toggleSwitchLever(at: viewport.world(value.startLocation))

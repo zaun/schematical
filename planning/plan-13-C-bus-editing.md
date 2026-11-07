@@ -151,14 +151,17 @@ Dragging the horizontal line's free end inward stops at port 1's edge.
   top edge, extent 210..230); the T end toward port 1 → stops at x 270
   (port 1's right edge), also in a single-frame drag; the free end inward →
   stops at x 250. PNGs `c1-1` … `c1-4`.
-Commit: —
+Commit: 5bd9343
 
 ### Phase 2 — Sliding ports
 
-- [ ] `SchematicModel.swift`: `slidePort(_:to:)`, which stores only a start
-      `fit` returns unchanged.
-- [ ] `SchematicCanvasView.swift`: the `.slidePort` interaction, clamping,
-      settle on release, and the header comment.
+- [x] `SchematicModel.swift`: `slidePort(_:to:)`, which stores only a start
+      `fit` returns unchanged. (Plus `slidePort(_:from:by:)`, the clamped
+      frame step the canvas calls, so the harness drives the same code.)
+- [x] `SchematicCanvasView.swift`: the `.slidePort` interaction, clamping,
+      settle on release, and the header comment. (The clamp range is
+      `Bus.slideRange`, from `Bus.freeIntervals`, which `fit` now shares.)
+- [x] Added: `scripts/harness/bus-slide.swift` (the check below).
 
 Acceptance: dragging a port left stops at the line's left end, at the
 neighbouring port's edge, or at a T, in 10-unit steps, and its wires
@@ -166,6 +169,12 @@ follow. It never leaves its line.
   Check: build; place two ports on one line, slide the right one left into
   the other and past the end, and screenshot; draw a T line off that line
   between them and slide one port into it, and screenshot (est. 7 min).
+  Result (2026-11-07): build → `** BUILD SUCCEEDED **`; harness
+  `bus-slide.swift` → `ALL OK`: the right port slides 290, 280, … 180 and
+  stops touching the left port (extent 170..190), its wire's end on its
+  pin; the left port stops at the line's end (extent 100..140), still on its
+  line; with a T at x 280 the right port stops at it (extent 260..280); a
+  press with no move selects without moving. PNGs `c2-1` … `c2-3`.
 Commit: —
 
 ### Phase 3 — plan-13 landing

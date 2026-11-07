@@ -423,6 +423,45 @@ extension Bus {
         }
     }
 
+    /// The free intervals of a port's line, along its axis: the line's ends,
+    /// minus the other ports' extents on that line, split at every T on its
+    /// middle. Intervals may touch an extent or a T.
+    func freeIntervals(around port: BusPort) -> [ClosedRange<CGFloat>] {
+        guard let line = line(port.line) else { return [] }
+        var cuts: [ClosedRange<CGFloat>] = ports
+            .filter { $0.id != port.id && $0.line == port.line }
+            .map { extent(of: $0) }
+        cuts += teeAlongs(on: line.id).map { $0...$0 }
+
+        var free: [ClosedRange<CGFloat>] = [line.alongRange]
+        for cut in cuts {
+            free = free.flatMap { interval -> [ClosedRange<CGFloat>] in
+                guard cut.lowerBound <= interval.upperBound, cut.upperBound >= interval.lowerBound else {
+                    return [interval]
+                }
+                var pieces: [ClosedRange<CGFloat>] = []
+                if interval.lowerBound <= cut.lowerBound { pieces.append(interval.lowerBound...cut.lowerBound) }
+                if cut.upperBound <= interval.upperBound { pieces.append(cut.upperBound...interval.upperBound) }
+                return pieces
+            }
+        }
+        return free
+    }
+
+    /// Where a port can slide: the starts that keep its extent inside the
+    /// free interval it is in now (between the line's ends, the neighbouring
+    /// ports and the Ts). Nil if it doesn't fit where it is.
+    func slideRange(of port: BusPort) -> ClosedRange<CGFloat>? {
+        let current = extent(of: port)
+        let length = current.upperBound - current.lowerBound
+        guard let interval = freeIntervals(around: port).first(where: {
+            $0.lowerBound <= current.lowerBound && current.upperBound <= $0.upperBound
+        }) else { return nil }
+        let lo = interval.lowerBound + BusPort.pitch / 2
+        let hi = interval.upperBound - length + BusPort.pitch / 2
+        return lo <= hi ? lo...hi : nil
+    }
+
     /// Whether every port still fits where it is: its line exists, its side
     /// matches the line, and the fit rule keeps its start.
     var portsFit: Bool {
@@ -439,30 +478,9 @@ extension Bus {
     /// else it moves left (up) just enough to end at that interval's end;
     /// else nil.
     func fit(port: BusPort, slots: Int, preferredStart: CGFloat) -> CGFloat? {
-        guard let line = line(port.line) else { return nil }
-        let range = line.alongRange
-        var cuts: [ClosedRange<CGFloat>] = ports
-            .filter { $0.id != port.id && $0.line == port.line }
-            .map { extent(of: $0) }
-        cuts += teeAlongs(on: line.id).map { $0...$0 }
-
-        // Free intervals: the line minus the cuts, which may touch them.
-        var free: [ClosedRange<CGFloat>] = [range]
-        for cut in cuts {
-            free = free.flatMap { interval -> [ClosedRange<CGFloat>] in
-                guard cut.lowerBound <= interval.upperBound, cut.upperBound >= interval.lowerBound else {
-                    return [interval]
-                }
-                var pieces: [ClosedRange<CGFloat>] = []
-                if interval.lowerBound <= cut.lowerBound { pieces.append(interval.lowerBound...cut.lowerBound) }
-                if cut.upperBound <= interval.upperBound { pieces.append(cut.upperBound...interval.upperBound) }
-                return pieces
-            }
-        }
-
         let length = CGFloat(max(slots, 1)) * BusPort.pitch
         let wanted = BusPort.extent(start: preferredStart, slots: slots)
-        for interval in free where interval.contains(preferredStart) {
+        for interval in freeIntervals(around: port) where interval.contains(preferredStart) {
             if interval.lowerBound <= wanted.lowerBound, wanted.upperBound <= interval.upperBound {
                 return preferredStart
             }
