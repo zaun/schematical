@@ -37,7 +37,7 @@ MainActor.assumeIsolated { runLanding() }
             let supply = try place("5V", p(40, 150))
             let dip = try place("TE-GDS0204", p(120, 220))
             // Flipped (the Flip tool), so its anode faces port 2.
-            var led = try place("LED-RED-0603", p(240, 330))
+            var led = try place("GENERIC-LED", p(240, 330))
             doc.flipChip(led.id)
             led = doc.chips.first { $0.id == led.id }!
             let ground = try place("GND", p(140, 400))
@@ -70,7 +70,7 @@ MainActor.assumeIsolated { runLanding() }
             let doc = try Harness.open(path)
             print("opened \(path): \(doc.chips.count) parts, \(doc.wires.count) wires, \(doc.buses.count) bus, \(doc.buses.first?.ports.count ?? 0) ports")
             guard let dip = doc.chips.first(where: { $0.partNumber == "TE-GDS0204" }),
-                  let led = doc.chips.first(where: { $0.partNumber == "LED-RED-0603" }) else { throw ProofError("parts") }
+                  let led = doc.chips.first(where: { $0.partNumber == "GENERIC-LED" }) else { throw ProofError("parts") }
             let off = BusProof.ledLevel(doc, switchID: dip.id, ledID: led.id, on: false)
             let on = BusProof.ledLevel(doc, switchID: dip.id, ledID: led.id, on: true)
             print("LED: switch off \(off), switch on \(on)")

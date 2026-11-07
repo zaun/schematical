@@ -470,32 +470,40 @@ exactly the expected ones.
   `git diff --quiet backend/tests/golden/footprints.txt` → exit 0 (est. 1 min).
   Result: `ctest` 21/21. `parts.txt`: 55 `-LED-` lines, one `+GENERIC-LED|…|colors=Red,Green,Blue,Amber,White|…|footprint=LED-RADIAL-5MM|choices=0402:LED-0402,…,Radial:LED-RADIAL-5MM`, no other `-`/`+` line.
   `traces.txt`: 55 `-LED-` lines, one `+GENERIC-LED	97b67472c7b07e45`. `footprints.txt` not in the diff.
-Commit: —
+Commit: cc539fd
 
 ### Phase 3 — App: per-part color and footprint, file format 4, migration
 
 The app compiles again. Every placed LED carries its color and footprint, and
 old files migrate. This is the highest-risk phase.
 
-- [ ] `Backend/PartCatalog.swift`: §7 Catalog (`.led(colors:)`,
+- [x] `Backend/PartCatalog.swift`: §7 Catalog (`.led(colors:)`,
       `FootprintChoice`, `footprintChoices`, `colors`, `detailLabels`,
       `packages`, package/color filters, `colors(in:)`).
-- [ ] `Drawer/ChipDrawerView.swift:subtitle(for:)`: `"\(n) footprints"` package
+- [x] `Drawer/ChipDrawerView.swift:subtitle(for:)`: `"\(n) footprints"` package
       slot for parts with choices.
-- [ ] `Canvas/SchematicModel.swift`: `PlacedChip.color`, `footprintID`,
+- [x] `Canvas/SchematicModel.swift`: `PlacedChip.color`, `footprintID`,
       `footprintChoice`, normalizing `init`; `placeChip` gets the two
       parameters and uses `chip.footprint` for `nextSpot`.
-- [ ] `Canvas/BoardModel.swift:95`: `footprint` uses the choice (§7).
-- [ ] `Canvas/DiodeSymbolView.swift:20`: color from `chip.color`.
-- [ ] `Backend/PartFacts.swift`: `rows(for chip:)`;
+- [x] `Canvas/BoardModel.swift:95`: `footprint` uses the choice (§7).
+- [x] `Canvas/DiodeSymbolView.swift:20`: color from `chip.color`.
+- [x] `Backend/PartFacts.swift`: `rows(for chip:)`;
       `Drawer/SchematicSidebarView.swift:58` passes the chip.
-- [ ] `Document/SchematicFile.swift`: version 4, `color`/`footprint` fields
+- [x] `Document/SchematicFile.swift`: version 4, `color`/`footprint` fields
       written and read, `legacyLEDs`, `badPartOption`, chosen footprint in
       both placement paths.
-- [ ] Harness scripts: `bus-landing.swift` (2), `bus-erase.swift` (1),
+- [x] Harness scripts: `bus-landing.swift` (2), `bus-erase.swift` (1),
       `bus-slide.swift` (1), `support/BusProof.swift` (2): `"LED-RED-0603"` →
       `"GENERIC-LED"`.
-- [ ] New `scripts/harness/generic-led-file.swift` (kept), which prints one
+- [x] (added) `scripts/harness/multiselect.swift` (3 lines) and the unit tests
+      `schematicalTests/SelectionModelTests.swift`, `SelectionSidebarTests.swift`,
+      `SelectionGestureTests.swift`: `"LED-RED-0603"` → `"GENERIC-LED"`;
+      the board-row assertion's prefix `"LED-RED-0603 — "` → `"GENERIC-LED — "`.
+      After: `grep -rnE 'LED-(RED|GREEN|BLUE|AMBER|WHITE)-'` outside goldens,
+      plans and `.schematical` files hits only `library_check.c`'s own
+      fixture part names (269, 270, 278), which are test data, not library
+      parts.
+- [x] New `scripts/harness/generic-led-file.swift` (kept), which prints one
       `ok`/`FAIL` line per check and exits 1 on any FAIL:
   1. `be-6502.schematical`: U22 is `GENERIC-LED`, `color == "Green"`,
      `footprint?.id == "LED-RADIAL-5MM"`, `board.centre == (9.525, 13.97)`.
@@ -513,7 +521,7 @@ old files migrate. This is the highest-risk phase.
   6. `PartFacts.rows(for:)` for the (4) 0805 chip has `Package` = `0805` and
      `Color` = `Red`.
   7. The catalog lists one LED-kind part (`GENERIC-LED`).
-- [ ] `docs/file-format.md`: version 4 in the version list; `color` and
+- [x] `docs/file-format.md`: version 4 in the version list; `color` and
       `footprint` rows in § Parts; the LED example (line 89) and the full
       example (line 351) use `GENERIC-LED` with both fields. A paragraph on
       the old `LED-<COLOR>-<PACKAGE>` names opening as `GENERIC-LED`, next to
@@ -524,6 +532,10 @@ new files save and reopen the same; a chosen footprint drives the PCB.
   Check: `rm -rf /tmp/p18-h && scripts/harness/build.sh scripts/harness/generic-led-file.swift /tmp/p18-h && /tmp/p18-h/H.app/Contents/MacOS/harness`
   → 7 `ok` lines, exit 0 (est. 1.5 min. The fresh out dir is required:
   build.sh reuses an existing app copy, whose `led.json` would be old).
+  Result: 7 `ok` lines (1 be-6502 U22 Green/LED-RADIAL-5MM at (9.525, 13.97);
+  2 test.schematical Amber/LED-0603; 3 v4 encode + round trip; 4 placeChip
+  defaults, 0805 → 2 pads, DIP4 → 4 pads; 5 both badPartOption messages;
+  6 Package 0805 / Color Red; 7 one LED part), `exit=0`.
 Commit: —
 
 ## Validation Plan

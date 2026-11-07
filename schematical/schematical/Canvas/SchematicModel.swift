@@ -511,6 +511,11 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// For an EEPROM, the file loaded into it when the simulation starts.
     /// Nil for every other part, and for an EEPROM that starts erased.
     var memoryFile: MemoryFile?
+    /// An LED's color, one of `part.colors`. Nil for every other part.
+    var color: String?
+    /// For a part with footprint choices, the id of the chosen footprint (one
+    /// of `part.footprintChoices`). Nil for every other part.
+    var footprintID: String?
 
     private let baseLayout: ChipLayout
 
@@ -523,7 +528,9 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         isFlipped: Bool = false,
         switchesOn: [Bool] = [],
         board: BoardPlacement? = nil,
-        memoryFile: MemoryFile? = nil
+        memoryFile: MemoryFile? = nil,
+        color: String? = nil,
+        footprintID: String? = nil
     ) {
         self.id = id
         self.reference = reference
@@ -534,6 +541,20 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         self.isFlipped = isFlipped
         self.board = part.footprint == nil ? nil : board
         self.memoryFile = part.kind == PART_EEPROM ? memoryFile : nil
+        // A nil or unknown option is the part's default; parts without the
+        // option have none.
+        if part.kind == PART_LED, !part.colors.isEmpty {
+            self.color = color.flatMap { part.colors.contains($0) ? $0 : nil } ?? part.colors[0]
+        } else {
+            self.color = nil
+        }
+        if !part.footprintChoices.isEmpty, let base = part.footprint {
+            self.footprintID = footprintID.flatMap { id in
+                part.footprintChoices.contains { $0.footprint.id == id } ? id : nil
+            } ?? base.id
+        } else {
+            self.footprintID = nil
+        }
         // A switch has one state per position, OFF unless given; others none.
         var positions = 0
         if case let .dipSwitch(count, _, _) = part.details {
@@ -544,6 +565,12 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
 
     /// The orderable part number, as saved in a file.
     var partNumber: String { part.name }
+
+    /// The chosen footprint choice, for a part with footprint choices.
+    var footprintChoice: CatalogPart.FootprintChoice? {
+        guard let footprintID else { return nil }
+        return part.footprintChoices.first { $0.footprint.id == footprintID }
+    }
 
     /// The switch position (1-based) whose lever is under `point`, if any.
     func switchPosition(at point: CGPoint) -> Int? {
@@ -984,7 +1011,10 @@ final class SchematicDocument {
     /// Places a block with its centre under `point`, snapped to the grid.
     /// The new part is not selected, so the parts library stays open for
     /// the next drop.
-    func placeChip(part: CatalogPart, symbol: PartSymbol, centeredAt point: CGPoint) {
+    /// `color` and `footprintID` are the LED options; nil (or a value the
+    /// part doesn't have) is the part's default.
+    func placeChip(part: CatalogPart, symbol: PartSymbol, centeredAt point: CGPoint,
+                   color: String? = nil, footprintID: String? = nil) {
         let layout = ChipLayout(part: part, symbol: symbol)
         let origin = SchematicGrid.snap(
             CGPoint(x: point.x - layout.size.width / 2, y: point.y - layout.size.height / 2)
@@ -996,13 +1026,15 @@ final class SchematicDocument {
         while used.contains("U\(number)") {
             number += 1
         }
-        let placed = PlacedChip(
+        var placed = PlacedChip(
             reference: "U\(number)",
             part: part,
             symbol: symbol,
             origin: origin,
-            board: part.footprint.map { BoardLayout.nextSpot(for: $0, among: chips) }
+            color: color,
+            footprintID: footprintID
         )
+        placed.board = placed.footprint.map { BoardLayout.nextSpot(for: $0, among: chips) }
         nextReference = number + 1
         chips.append(placed)
     }

@@ -1,7 +1,7 @@
 # Schematical file format
 
 Schematical saves a schematic as a UTF-8 JSON file with the extension
-`.schematical`. This document describes version 3. Version 1 and 2 files
+`.schematical`. This document describes version 4. Version 1, 2 and 3 files
 open too (see [Older versions](#older-versions)).
 
 Code: `schematical/schematical/Document/SchematicFile.swift` (the format) and
@@ -41,7 +41,7 @@ to the grid on open.
 ```json
 {
   "format": "schematical",
-  "version": 3,
+  "version": 4,
   "nextReference": 4,
   "parts": [ ... ],
   "junctions": [ ... ],
@@ -86,7 +86,8 @@ Every part with a footprint (all but the supplies) also stores where its
 footprint sits on the PCB:
 
 ```json
-{ "id": "...", "reference": "U2", "partNumber": "LED-AMBER-0603",
+{ "id": "...", "reference": "U2", "partNumber": "GENERIC-LED",
+  "color": "Amber", "footprint": "LED-0603",
   "x": 200, "y": 100, "flipped": false,
   "pcb": { "x": 5.08, "y": 0, "rotation": 90, "origin": "topLeft",
            "outline": "document", "pin1": "silkscreen", "reference": "silkscreen" } }
@@ -112,11 +113,13 @@ An EEPROM can name the file loaded into it when the simulation starts:
 |--------------|---------|-------------------------------------------------------------------------|
 | `id`         | UUID    | Unique within the file.                                                 |
 | `reference`  | string  | Label shown on the PCB and in memory window titles, such as `U1`: 1 to 8 letters then a number of 1 or more. New parts get `U<n>`; the PCB sidebar renames them (letters uppercased; a reference another part has is refused). |
-| `partNumber` | string  | A part name from the part library (`schematical/schematical/Parts/*.json`): a logic part, memory (SRAM, EEPROM), switch, LED, 7-segment display, character LCD module, oscillator, processor, or a supply: `5V`, `3V3`, `2V5`, `1V8`, `1V2`, `12V` or `GND`. `VCC` (a supply removed from the library) opens as `5V`, and is saved as `5V`. |
+| `partNumber` | string  | A part name from the part library (`schematical/schematical/Parts/*.json`): a logic part, memory (SRAM, EEPROM), switch, LED, 7-segment display, character LCD module, oscillator, processor, or a supply: `5V`, `3V3`, `2V5`, `1V8`, `1V2`, `12V` or `GND`. `VCC` (a supply removed from the library) opens as `5V`, and is saved as `5V`. The 55 LED parts `LED-<COLOR>-<PACKAGE>` (such as `LED-GREEN-RADIAL`, `LED-AMBER-0603`) that `GENERIC-LED` replaced open as `GENERIC-LED` with that part's color and footprint, in a file of any version, and are saved as `GENERIC-LED` (see [Old LED part numbers](#old-led-part-numbers)). |
 | `x`, `y`     | number  | Top-left corner of the part body.                                       |
 | `flipped`    | boolean | Pins on the opposite sides. Ignored for the supplies.                   |
 | `switches`   | array of booleans | DIP switches only, optional: whether each position is ON, position 1 first. Missing positions are OFF; extra entries are ignored. Left out for other parts. |
 | `pcb`        | object  | Optional. The footprint on the PCB: `x`, `y` (numbers, mm) are the footprint's centre, `rotation` (integer) is 0, 90, 180 or 270 degrees clockwise. `origin` (string, default `"topLeft"`) is the footprint's origin point (see [Coordinates](#coordinates)): `"center"`, `"topLeft"`, `"centerLeft"`, `"bottomLeft"` (of the bounding box as rotated) or `"pad1Center"` (the centre of the pad of the part's first pin). `outline` (the body outline, default `"document"`), `pin1` (the pin-1 dot, default `"silkscreen"`) and `reference` (the reference text, default `"silkscreen"`) say where each mark is drawn: `"hidden"`, `"document"` or `"silkscreen"`. The four strings are always written; a missing one takes its default. `style` (string, default `"module"`): `"module"` (Full Module) or `"connector"` (Connector Only), which of the part's two footprints is on the board. Written only for parts with a connector footprint (the character LCD modules); ignored on other parts. Written for every part with a footprint; left out for the supplies, and ignored on a part without a footprint. A part with a footprint and no `pcb` (older files) is placed automatically when the file is opened: after the stored ones, in file order, each to the right of everything already placed. |
+| `color`      | string  | Version 4. LEDs only (`GENERIC-LED`): one of the part's colors, `"Red"`, `"Green"`, `"Blue"`, `"Amber"` or `"White"`. Used by the symbol's glow in play mode. Always written for an LED; missing means the part's default (`Red`). Ignored on other parts. |
+| `footprint`  | string  | Version 4. Parts with footprint choices only (`GENERIC-LED`): the id of the chosen footprint, one of the part's `footprintChoices` (`docs/parts-format.md`), such as `"LED-0805"`. The PCB uses it. Always written for those parts; missing means the part's default footprint (`LED-RADIAL-5MM`). Ignored on other parts. |
 | `memoryFile` | object  | EEPROMs only, optional: the file (raw binary, or Intel HEX for `.hex`/`.ihx`/`.ihex`) loaded into the chip at every start; without it the chip starts erased (every byte FF). `path` (string) is the file's path relative to the schematic's folder (`../roms/boot.bin`), or absolute for a schematic that had never been saved. `bookmark` (base64 string, optional) is an app-scoped security bookmark; on the Mac that wrote it, it is tried first, so the sandboxed app can read the file after a restart, and `path` is the fallback. Ignored on other parts. |
 
 ## Board
@@ -258,8 +261,11 @@ Opening fails, and the canvas is left unchanged, if:
 - an ID is used more than once across parts, junctions, wires, buses, bus
   lines, bus wires, ports and board texts;
 - a `partNumber` is not in the catalog (the error lists every missing one);
+- an LED's `color` is not one of its colors (`U3: "Purple" is not a color of
+  GENERIC-LED`), or a `footprint` is not one of the part's footprint choices
+  (`U3: "LED-9999" is not a footprint of GENERIC-LED`);
 - a wire end names a part or junction that isn't in the file, or a pin the
-  part's symbol doesn't draw (for example the no-connect pins of a 4-pin LED);
+  part's symbol doesn't draw (for example a pin with role `absent`);
 - a wire end names a port that isn't in the file ("Wire <id> connects to
   port <id>, which is not in the file."), or a bus wire that isn't ticked on
   that port ("Wire <id> connects to a pin port <id> does not have.");
@@ -308,8 +314,14 @@ the memory window shows the problem, and Run stops with it
 
 ## Older versions
 
+Version 3 is version 4 without the part keys `color` and `footprint`. Its
+LEDs were separate parts per color and package; they open as described in
+[Old LED part numbers](#old-led-part-numbers). Saving always writes version
+4. Version 3 builds refuse version 4 files as "saved by a newer version of
+Schematical (file format 4)".
+
 Version 2 is version 3 without buses: it has no `buses` key. The app opens
-version 2 files with no buses. Saving always writes version 3. Version 2
+version 2 files with no buses. Saving always writes version 4. Version 2
 builds refuse version 3 files as "saved by a newer version of Schematical
 (file format 3)", rather than opening them and losing the buses on save.
 
@@ -326,6 +338,17 @@ The app opens version 1 files and converts each pin to its designator.
 Builds from before version 2 refuse newer files as "saved by a newer version
 of Schematical".
 
+### Old LED part numbers
+
+Before version 4 the library had 55 LED parts, `LED-<COLOR>-<PACKAGE>`:
+colors `RED`, `GREEN`, `BLUE`, `AMBER`, `WHITE`, and packages `0402`, `0603`,
+`0805`, `1204`, `1205`, `1206`, `1209`, `1411`, `1414`, `DIP`, `RADIAL`. A file
+of any version that names one opens as `GENERIC-LED` with color `Red`,
+`Green`, `Blue`, `Amber` or `White`, and footprint `LED-<package>` (`LED-DIP4`
+for `DIP`, `LED-RADIAL-5MM` for `RADIAL`), at the same canvas and PCB place
+(`SchematicFile.legacyLEDs`). Wires stay on their pins: every old pinout had
+K at pin 1 and A at pin 2. Like `VCC`, it is saved under the new name.
+
 ## Changing the format
 
 - Adding an optional field: keep `version` as it is, and decode the field as
@@ -334,7 +357,8 @@ of Schematical".
   reading older versions by converting them on open.
 - The app refuses files with a newer `version` rather than guessing.
 - A part removed from the library may map to its replacement on open
-  (`VCC` → `5V`, `SchematicFile.renamedParts`), without a version bump: the
+  (`VCC` → `5V`, `SchematicFile.renamedParts`; the old LEDs →
+  `GENERIC-LED`, `SchematicFile.legacyLEDs`), without a version bump: the
   `partNumber` still names a library part, and saving writes the new name.
 
 ## Example
@@ -344,11 +368,11 @@ A red LED between a 5 V supply and GND:
 ```json
 {
   "format": "schematical",
-  "version": 3,
+  "version": 4,
   "nextReference": 4,
   "parts": [
     { "id": "11111111-1111-1111-1111-111111111111", "reference": "U1", "partNumber": "5V", "x": 100, "y": 40, "flipped": false },
-    { "id": "22222222-2222-2222-2222-222222222222", "reference": "U2", "partNumber": "LED-RED-0603", "x": 200, "y": 100, "flipped": false,
+    { "id": "22222222-2222-2222-2222-222222222222", "reference": "U2", "partNumber": "GENERIC-LED", "color": "Red", "footprint": "LED-RADIAL-5MM", "x": 200, "y": 100, "flipped": false,
       "pcb": { "x": 0, "y": 0, "rotation": 0, "origin": "topLeft",
                "outline": "document", "pin1": "silkscreen", "reference": "silkscreen" } },
     { "id": "33333333-3333-3333-3333-333333333333", "reference": "U3", "partNumber": "GND", "x": 300, "y": 180, "flipped": false }

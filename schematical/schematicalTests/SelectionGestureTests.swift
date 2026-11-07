@@ -29,9 +29,9 @@ final class SelectionGestureTests: XCTestCase {
 
     func testShiftSelectThenDragMovesEveryPart() throws {
         let doc = doc()
-        let a = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 100, y: 100))
-        let b = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 300, y: 100))
-        let c = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 500, y: 100))
+        let a = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let b = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 300, y: 100))
+        let c = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 500, y: 100))
         // Click a, Shift-click b: both selected, c not.
         drag(doc, .chip(a.id), shift: false, by: .zero)
         drag(doc, .chip(b.id), shift: true, by: .zero)
@@ -58,7 +58,7 @@ final class SelectionGestureTests: XCTestCase {
 
     func testEmptyPressPansAndClearsOnlyWithoutShift() throws {
         let doc = doc()
-        let a = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 100, y: 100))
+        let a = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
         doc.select(.chip(a.id))
         doc.pressEmptySchematic(shift: true)
         XCTAssertEqual(doc.selectedChipID, a.id)
@@ -74,8 +74,8 @@ final class SelectionGestureTests: XCTestCase {
 
     func testPlainPressOnWireKeepsRouteEditing() throws {
         let doc = doc()
-        let a = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 100, y: 100))
-        let b = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 400, y: 200))
+        let a = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let b = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 400, y: 200))
         XCTAssertNil(doc.connect(.pin(try TestSupport.pin(a, "K")), .pin(try TestSupport.pin(b, "A"))))
         let wire = try XCTUnwrap(doc.wires.first)
         // Plain press on an unselected wire: it alone is selected and the drag
@@ -90,7 +90,7 @@ final class SelectionGestureTests: XCTestCase {
 
     func testBusPressLeavesItemsAndShiftDoesNotMixThem() throws {
         let doc = doc()
-        let a = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 100, y: 100))
+        let a = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
         let bus = try XCTUnwrap(doc.addBus(from: CGPoint(x: 200, y: 300), to: CGPoint(x: 400, y: 300)))
         doc.select(.chip(a.id))
         // The canvas sets the bus on any press on it, Shift or not.
@@ -103,9 +103,9 @@ final class SelectionGestureTests: XCTestCase {
 
     func testJunctionDragMovesItAndKeepsItsWires() throws {
         let doc = doc()
-        let a = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 100, y: 100))
-        let b = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 400, y: 100))
-        let c = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 250, y: 300))
+        let a = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let b = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 400, y: 100))
+        let c = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 250, y: 300))
         XCTAssertNil(doc.connect(.pin(try TestSupport.pin(a, "K")), .pin(try TestSupport.pin(b, "A"))))
         let path = doc.path(forWire: try XCTUnwrap(doc.wires.first).id)
         let middle = CGPoint(x: SchematicGrid.snap((path.first!.x + path.last!.x) / 2), y: path.first!.y)
@@ -124,8 +124,8 @@ final class SelectionGestureTests: XCTestCase {
 
     func testBoardShiftSelectAndGroupDrag() throws {
         let doc = doc()
-        let a = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 100, y: 100))
-        let b = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 300, y: 100))
+        let a = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let b = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 300, y: 100))
         let text = doc.addText(at: CGPoint(x: 20, y: 20))
         XCTAssertEqual(doc.boardSelection.items, [.text(text)], "a new text is selected")
         var press = doc.pressSelection(.footprint(a.id), shift: true)

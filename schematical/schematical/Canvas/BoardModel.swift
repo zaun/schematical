@@ -91,9 +91,11 @@ nonisolated struct PlacedPad: Hashable {
 
 extension PlacedChip {
     /// The footprint on the board: the connector footprint when the style is
-    /// Connector Only and the part has one, else the part's footprint.
+    /// Connector Only and the part has one, else the chosen footprint choice,
+    /// else the part's footprint.
     nonisolated var footprint: Footprint? {
-        board?.style == .connector ? part.connectorFootprint ?? part.footprint : part.footprint
+        let base = footprintChoice?.footprint ?? part.footprint
+        return board?.style == .connector ? part.connectorFootprint ?? base : base
     }
 
     /// The footprint's pads on the board, each belonging to the pin of the same

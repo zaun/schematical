@@ -23,9 +23,9 @@ MainActor.assumeIsolated { runMultiSelect() }
     func pin(_ chip: PlacedChip, _ name: String) -> LineAnchor {
         .pin(PinRef(chipID: chip.id, index: chip.layout.slots.first { $0.pin.name == name }!.pin.index))
     }
-    let left = place("LED-RED-0603", at: CGPoint(x: 100, y: 100))
-    let right = place("LED-RED-0603", at: CGPoint(x: 400, y: 100))
-    let below = place("LED-RED-0603", at: CGPoint(x: 250, y: 260))
+    let left = place("GENERIC-LED", at: CGPoint(x: 100, y: 100))
+    let right = place("GENERIC-LED", at: CGPoint(x: 400, y: 100))
+    let below = place("GENERIC-LED", at: CGPoint(x: 250, y: 260))
     _ = doc.connect(pin(left, "K"), pin(right, "A"))
     let path = doc.path(forWire: doc.wires[0].id)
     let middle = CGPoint(x: SchematicGrid.snap((path.first!.x + path.last!.x) / 2), y: path.first!.y)

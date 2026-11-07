@@ -30,9 +30,9 @@ final class SelectionModelTests: XCTestCase {
 
     private func circuit() throws -> Circuit {
         let doc = newDocument()
-        let left = try place(doc, "LED-RED-0603", at: CGPoint(x: 100, y: 100))
-        let right = try place(doc, "LED-RED-0603", at: CGPoint(x: 400, y: 100))
-        let below = try place(doc, "LED-RED-0603", at: CGPoint(x: 250, y: 300))
+        let left = try place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let right = try place(doc, "GENERIC-LED", at: CGPoint(x: 400, y: 100))
+        let below = try place(doc, "GENERIC-LED", at: CGPoint(x: 250, y: 300))
         XCTAssertNil(doc.connect(.pin(try pin(left, "K")), .pin(try pin(right, "A"))))
         let path = doc.path(forWire: try XCTUnwrap(doc.wires.first).id)
         let middle = CGPoint(x: SchematicGrid.snap((path.first!.x + path.last!.x) / 2), y: path.first!.y)
@@ -99,7 +99,7 @@ final class SelectionModelTests: XCTestCase {
 
     func testSchematicItemsAndBusExcludeEachOther() throws {
         let doc = newDocument()
-        let led = try place(doc, "LED-RED-0603", at: CGPoint(x: 100, y: 100))
+        let led = try place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
         let busID = try XCTUnwrap(doc.addBus(from: CGPoint(x: 200, y: 300), to: CGPoint(x: 400, y: 300)))
         XCTAssertEqual(doc.selectedBusID, busID)
         doc.select(.chip(led.id))
@@ -112,7 +112,7 @@ final class SelectionModelTests: XCTestCase {
 
     func testPagesKeepSeparateSelections() throws {
         let doc = newDocument()
-        let led = try place(doc, "LED-RED-0603", at: CGPoint(x: 100, y: 100))
+        let led = try place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
         let text = doc.addText(at: CGPoint(x: 5, y: 5))
         doc.select(.chip(led.id))
         XCTAssertEqual(doc.selectedTextID, text)
@@ -209,8 +209,8 @@ final class SelectionModelTests: XCTestCase {
 
     func testBoardGroupGetsOneSnappedDelta() throws {
         let doc = newDocument()
-        let a = try place(doc, "LED-RED-0603", at: CGPoint(x: 100, y: 100))
-        let b = try place(doc, "LED-RED-0603", at: CGPoint(x: 300, y: 100))
+        let a = try place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let b = try place(doc, "GENERIC-LED", at: CGPoint(x: 300, y: 100))
         let text = doc.addText(at: CGPoint(x: 10, y: 10))
         doc.select(.footprint(a.id))
         doc.toggleSelection(.footprint(b.id))
