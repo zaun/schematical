@@ -5139,6 +5139,27 @@ static void case_e7_w65c51n_terminal(void) {
     hb_close(h);
 }
 
+static void case_e8_w65c51n_overrun(void) {
+    HBench *h = wn_open();
+    Bench *b = &h->b;
+    char want[24];
+
+    case_begin();
+    wn_19200(b);
+    run(b, WN_BT);                   /* the receiver sees mark first */
+    h_frame_bits('H', 8, 0, 1, want);
+    h_drive_bits(b, "RxD", want, WN_BT);
+    run(b, WN_BT);
+    h_frame_bits('I', 8, 0, 1, want);
+    h_drive_bits(b, "RxD", want, WN_BT);
+    run(b, WN_BT);
+    wn_expect(b, 1, "00011100", "status: TDRE, RDRF, overrun");
+    wn_expect(b, 0, "01001001", "RDR holds the second byte (I)");
+    wn_expect(b, 1, "00010000", "the RDR read cleared RDRF and the overrun");
+    case_end("E8 W65C51N: an overrun transfers the new byte; an RDR read clears OVR");
+    hb_close(h);
+}
+
 static void run_p14_e_cases(void) {
     case_e1_w65c51n_tdre();
     case_e2_w65c51n_cut();
@@ -5147,6 +5168,7 @@ static void run_p14_e_cases(void) {
     case_e5_w65c51n_cts();
     case_e6_w65c51n_baud();
     case_e7_w65c51n_terminal();
+    case_e8_w65c51n_overrun();
 }
 
 /* ---- H7: 82C52 and HD-6406 (hs82c52) -------------------------------------------------- */

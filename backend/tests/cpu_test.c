@@ -21,6 +21,7 @@
 
 #include "circuit.h"
 #include "cpu_board.h"
+#include "io_board.h"
 #include "cpu.h"
 #include "cpu_state.h"
 #include "kind.h"
@@ -2033,6 +2034,112 @@ static void board_6502(const char *name, int wdc) {
     cpu_board_destroy(board);
 }
 
+/* ---- The W65C02S I/O board (plan-14-E section 3.4) --------------------------- */
+
+/*
+ * The program, at 8000 (EEPROM offset 0):
+ *
+ *   8000 A2 FF     RESET: LDX #$FF
+ *   8002 9A               TXS
+ *   8003 9C 00 02         STZ $0200
+ *   8006 A9 FF            LDA #$FF
+ *   8008 8D 02 60         STA $6002      ; VIA DDRB
+ *   800B A9 55            LDA #$55
+ *   800D 8D 00 60         STA $6000      ; VIA ORB
+ *   8010 A9 FF            LDA #$FF
+ *   8012 8D 00 50         STA $5000      ; PIA DDRA (CRA bit 2 = 0 after reset)
+ *   8015 A9 04            LDA #$04
+ *   8017 8D 01 50         STA $5001      ; PIA CRA: select ORA
+ *   801A A9 AA            LDA #$AA
+ *   801C 8D 00 50         STA $5000      ; PIA ORA
+ *   801F 8D 01 40         STA $4001      ; ACIA programmed reset
+ *   8022 A9 1F            LDA #$1F
+ *   8024 8D 03 40         STA $4003      ; 1 stop, 8 bits, baud generator, 19200
+ *   8027 A9 0B            LDA #$0B
+ *   8029 8D 02 40         STA $4002      ; no parity, RTS low, no TX/RX int, DTR
+ *   802C A9 48            LDA #'H'
+ *   802E 8D 00 40         STA $4000
+ *   8031 20 6C 80         JSR DELAY
+ *   8034 A9 49            LDA #'I'
+ *   8036 8D 00 40         STA $4000
+ *   8039 20 6C 80         JSR DELAY
+ *   803C A9 00            LDA #$00
+ *   803E 8D 0B 60         STA $600B      ; ACR: T1 one-shot
+ *   8041 A9 C0            LDA #$C0
+ *   8043 8D 0E 60         STA $600E      ; IER: enable T1
+ *   8046 A9 E8            LDA #$E8
+ *   8048 8D 04 60         STA $6004
+ *   804B A9 03            LDA #$03
+ *   804D 8D 05 60         STA $6005      ; T1 = 1000
+ *   8050 58               CLI
+ *   8051 AD 00 02  WAIT:  LDA $0200
+ *   8054 F0 FB            BEQ WAIT
+ *   8056 8D 01 02         STA $0201
+ *   8059 AD 00 40         LDA $4000      ; the ACIA's RDR: the looped-back byte
+ *   805C 8D 02 02         STA $0202
+ *   805F 80 FE     DONE:  BRA DONE
+ *   8061 48        IRQ:   PHA
+ *   8062 AD 04 60         LDA $6004      ; reading T1C-L clears IFR6
+ *   8065 A9 01            LDA #$01
+ *   8067 8D 00 02         STA $0200
+ *   806A 68               PLA
+ *   806B 40               RTI
+ *   806C A2 80     DELAY: LDX #$80
+ *   806E CA        D1:    DEX
+ *   806F D0 FD            BNE D1         ; 640 cycles > one 19200-baud character (521 us)
+ *   8071 60               RTS
+ *
+ *   FFFC 00 80 (RESET), FFFE 61 80 (IRQ)
+ */
+static void board_io(void) {
+    static const uint8_t PROGRAM[] = {
+        0xA2, 0xFF, 0x9A, 0x9C, 0x00, 0x02, 0xA9, 0xFF, 0x8D, 0x02, 0x60, 0xA9, 0x55, 0x8D,
+        0x00, 0x60, 0xA9, 0xFF, 0x8D, 0x00, 0x50, 0xA9, 0x04, 0x8D, 0x01, 0x50, 0xA9, 0xAA,
+        0x8D, 0x00, 0x50, 0x8D, 0x01, 0x40, 0xA9, 0x1F, 0x8D, 0x03, 0x40, 0xA9, 0x0B, 0x8D,
+        0x02, 0x40, 0xA9, 0x48, 0x8D, 0x00, 0x40, 0x20, 0x6C, 0x80, 0xA9, 0x49, 0x8D, 0x00,
+        0x40, 0x20, 0x6C, 0x80, 0xA9, 0x00, 0x8D, 0x0B, 0x60, 0xA9, 0xC0, 0x8D, 0x0E, 0x60,
+        0xA9, 0xE8, 0x8D, 0x04, 0x60, 0xA9, 0x03, 0x8D, 0x05, 0x60, 0x58, 0xAD, 0x00, 0x02,
+        0xF0, 0xFB, 0x8D, 0x01, 0x02, 0xAD, 0x00, 0x40, 0x8D, 0x02, 0x02, 0x80, 0xFE, 0x48,
+        0xAD, 0x04, 0x60, 0xA9, 0x01, 0x8D, 0x00, 0x02, 0x68, 0x40, 0xA2, 0x80, 0xCA, 0xD0,
+        0xFD, 0x60
+    };
+    static uint8_t image[32768];
+    int before = failures;
+    IoBoard *board;
+    CpuState state;
+    uint16_t sent[8];
+    size_t n;
+    uint8_t v;
+
+    memset(image, 0xFF, sizeof image);
+    memcpy(image, PROGRAM, sizeof PROGRAM);
+    image[0x7FFC] = 0x00;
+    image[0x7FFD] = 0x80;
+    image[0x7FFE] = 0x61;
+    image[0x7FFF] = 0x80;
+    expect(PROGRAM[0x61] == 0x48 && PROGRAM[0x6C] == 0xA2, "io_board: IRQ at 8061, DELAY at 806C");
+    board = io_board_create(library, image, sizeof image);
+    if (board == NULL || !io_board_run(board, NS(4000000))) {
+        expect(0, "io_board: the board did not run");
+        io_board_destroy(board);
+        printf("io_board FAIL\n");
+        return;
+    }
+    io_board_state(board, &state);
+    expect(state.status == CPU_RUNNING, "io_board: CPU RUNNING");
+    expect(io_board_sram(board, 0x0200, &v) && v == 0x01 && io_board_sram(board, 0x0201, &v) &&
+               v == 0x01,
+           "io_board: SRAM 0200 = 01, 0201 = 01 (the T1 interrupt ran)");
+    expect(io_board_port(board, "VIA", 'B', &v) && v == 0x55, "io_board: VIA PB = 55");
+    expect(io_board_port(board, "PIA", 'A', &v) && v == 0xAA, "io_board: PIA PA = AA");
+    n = io_board_sent(board, sent, 8);
+    expect(n == 2 && sent[0] == 'H' && sent[1] == 'I', "io_board: the ACIA sent HI");
+    expect(io_board_sram(board, 0x0202, &v) && v == 'I',
+           "io_board: SRAM 0202 = 'I' (the ACIA's RDR, looped back)");
+    io_board_destroy(board);
+    printf("io_board %s\n", failures == before ? "ok" : "FAIL");
+}
+
 /* The Z80 board: count to 10 at 8200, CALL a store at 8201, HALT. */
 static void board_z80(void) {
     static const uint8_t IMAGE[] = {
@@ -2108,6 +2215,7 @@ int main(void) {
     board_6502("W65C02S6TPG-14", 1);
     board_6502("MPS6502", 0);
     board_z80();
+    board_io();
     case_circuit_api();
 
     part_library_destroy(library);

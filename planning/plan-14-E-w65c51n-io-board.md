@@ -239,14 +239,21 @@ data register holds `I` (the loopback).
 Acceptance: `serial_test` E1–E7 and every plan-12 case `ok`; the golden diff
 is exactly the 7 added lines.
   Check: `/tmp/logic-p14/serial_test` → every case `ok`; `git diff --numstat backend/tests/golden` → `3 0 parts.txt`, `3 0 traces.txt`, `1 0 footprints.txt` (est. 3 min).
-Commit: —
+Commit: 3e1e9ad
 
 ### Phase 2 — The I/O board
 
-- [ ] `backend/tests/support/io_board.{h,c}` (§3.4), built into
+- [x] `backend/tests/support/io_board.{h,c}` (§3.4), built into
       `logic_test_support`.
-- [ ] `cpu_test` case `io_board` with the program and checks of §3.4.
-- [ ] `docs/backend.md` § Tests → `cpu_test`: the I/O board.
+- [x] `cpu_test` case `io_board` with the program and checks of §3.4.
+      → `io_board ok`: CPU RUNNING; SRAM 0200 = 01, 0201 = 01; VIA PB = 55;
+      PIA PA = AA; the ACIA sent `HI`; SRAM 0202 = `I` (Corrections).
+- [x] `docs/backend.md` § Tests → `cpu_test`: the I/O board.
+- [x] (added) `acia6551` with `"w65c51n"`: an overrun transfers the new byte
+      into the RDR, and an RDR read clears OVR/FE/PE (w65c51n.pdf p.7,
+      p.10); `serial_test` E8 → `ok   E8 W65C51N: an overrun transfers the
+      new byte; an RDR read clears OVR`.
+- [x] Acceptance: `ctest` → `100% tests passed, 0 tests failed out of 21`.
 
 Acceptance: `cpu_test` → `io_board ok`; `ctest` 100%.
   Check: `/tmp/logic-p14/cpu_test | grep io_board` → `io_board ok` (est. 1 min with the build; the board simulates 4 ms).
@@ -289,5 +296,23 @@ peripherals on a real CPU). The landing tier is plan-14-J's.
 - §4 E2: "write A, then B mid-frame" is placed in A's bit period 6 so the
   boundary falls where A would send a 1 (data bit 6 of 0x41): B's start bit
   (0) is then visible.
+- §3.1 (missing item): §3.4's check "the ACIA's received data register holds
+  `I`" needs the W65C51N's own overrun rule. The board loops back `H` then
+  `I` and never reads the RDR, and plan-12-H's `acia6551` (the CDP65C51)
+  does not transfer a byte on overrun — the RDR would hold `H`. The W65C51N
+  sheet says otherwise (p.7: "If the RDR is not read before the next byte is
+  transferred to the RDR, an overrun condition is flagged"; p.10: OVR, FE
+  and PE "are automatically cleared after a read of the Receiver Data
+  Register"). Added to the `"w65c51n"` variant as §3.1 item 7, with the new
+  `serial_test` case E8.
+- §3.4: the board is engine parts, not a `Circuit`, so there is no
+  `circuit_serial_sent` or register peek. The sent log is read through the
+  same `serial_sent` hook `circuit_serial_sent` wraps; the RDR is checked
+  by the program itself: after the interrupt it does `LDA $4000 / STA
+  $0202`, and the test checks SRAM 0202 = `I`. That moves `DONE` to 805F,
+  `IRQ` to 8061 (vector FFFE = `61 80`) and `DELAY` to 806C.
+- §3.4: the 5V and GND supply parts drive the logic-1 and logic-0 nets
+  (NMIB, RDY, SOB, BE, EEPROM WE#; CTSB, DCDB, DSRB); power pins are not
+  wired, as on the plan-09-D boards.
 - §4 E6: "52.08 µs bits" is checked as the first low period of 0x55 (the
   start bit) within ±100 ns of 52 083 ns; 115200 the same with 8 681 ns.

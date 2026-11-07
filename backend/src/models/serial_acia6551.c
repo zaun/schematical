@@ -421,6 +421,11 @@ static void read_done(AcState *s, unsigned rs) {
     if ((rs & 3u) == 0) {
         s->rdrf = LOGIC_0;
         s->int_rx = 0;
+        if (s->dev->w65c51n) {
+            /* p.10: overrun, framing and parity "are automatically cleared
+               after a read of the Receiver Data Register". */
+            s->ovr = s->fe = s->pe = LOGIC_0;
+        }
         if (s->echo_wait_read) {
             s->echo_wait_read = 0;   /* the mark ends at the next start bit */
         }
@@ -596,13 +601,16 @@ static void on_received(void *context, const SerialRxChar *c) {
         s->resync = 1;
     }
     if (s->rdrf == LOGIC_1) {
-        /* Overrun: the new character is not transferred (p9). */
+        /* Overrun: the new character is not transferred (p9). The W65C51N
+           transfers it and flags the overrun (w65c51n.pdf p.7). */
         s->ovr = LOGIC_1;
         if (echo_mode(s)) {
             s->echo_mark = 1;
             s->echo_wait_read = 1;
         }
-        return;
+        if (!s->dev->w65c51n) {
+            return;
+        }
     }
     s->rdr = su_reg((uint8_t)(c->data & mask), s->format.format_x ? 0 : (uint8_t)((c->known & mask) | ~mask));
     s->rdrf = LOGIC_1;

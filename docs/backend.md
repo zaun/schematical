@@ -295,7 +295,11 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   (`tests/support/cpu_board.{h,c}`: the CPU, an AT28C256-15PU, an
   AS6C62256-55PCN and an SN74HC00N decoder) run a program for 2 ms: the
   W65C02S6TPG-14 and MPS6502 count to 10 in SRAM, the Z84C0010PEG also
-  CALLs a store and halts.
+  CALLs a store and halts. The I/O board (`tests/support/io_board.{h,c}`,
+  plan-14-E) adds a W65C22S VIA, a W65C21N PIA and a W65C51N ACIA (TxD
+  looped to RxD, on an ECS-2100A-018) with three SN74HC00N decoders: its
+  program sets the ports, sends `HI`, takes a VIA Timer 1 interrupt and
+  reads the looped-back byte (`io_board ok`).
 
 - `serial_test` — the serial kind on fixture devices
   (`tests/support/serial_fixture.h`: a PC16550D-shaped `ns16550` in plcc44

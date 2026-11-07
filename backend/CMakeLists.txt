@@ -93,6 +93,7 @@ add_library(logic_test_support STATIC
     tests/support/trace_core.c
     tests/support/bench.c
     tests/support/cpu_board.c
+    tests/support/io_board.c
 )
 target_include_directories(logic_test_support PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/support
