@@ -24,6 +24,7 @@ typedef struct BufModel BufModel;
 
 typedef struct {
     const BufModel *model;
+    const BufModel *inner;  /* translator: the transceiver or tristate model it runs */
     const SeqTiming *timing;
     SeqOutputStyle style;
     size_t pin_count;

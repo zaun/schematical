@@ -93,6 +93,12 @@ Notes:
   - A pull-up part (`PartSupply.pull`) is not a supply here: it gives its
     group a level only when no supply and no powered output sets it
     (E = S, else D, else P, else C), and never clashes.
+  - A dual-supply part (`Part.domain_count` 2, plan-20-F) is powered per
+    domain: each side at the highest voltage on its own power pins, its
+    outputs driving that side's level, and each pin checked against its
+    own side's range and input max (`PartSupplyDomain`, docs/parts-format.md
+    "Two supply domains"). Every other part takes the single-supply path
+    unchanged.
 - Lights (`circuit_part_lights`) are LEDs (one light), 7-segment
   displays (`PartDisplay.leds` order) and character LCD backlights (one
   light, on while the anode reads 1 and the cathode 0; a module without a
@@ -186,8 +192,9 @@ backend/
                            bus65.c + bus65.h (the 65xx peripheral bus the
                            pio models share)
                            buffer.c + buffer.h (the buffer kind: models
-                           tristate and transceiver; the port read-back
-                           rule), buffer_reg.c (model registered)
+                           tristate, transceiver and translator, supply
+                           domains; the port read-back rule),
+                           buffer_reg.c (model registered)
     circuit.c
     voltage.c              the voltage check (voltage.h)
     memory_image.c         load files (binary, Intel HEX) to memory images
@@ -281,8 +288,10 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   `tests/support/voltage_fixture.h`).
 - `voltage_test` — `voltage_check` and `voltage_describe`, one case per
   rule (supplies, power range, input max, driven and carried voltages,
-  open-drain, closed contacts, switch rating, ordering), on the fixture
-  parts and the real supplies.
+  open-drain, closed contacts, switch rating, ordering, and the two supply
+  domains of a translator: each side powered from its own pin, its pins
+  judged against its own range), on the fixture parts and the real
+  supplies.
 - `memory_image_test` — the load-file parser: format by file name, raw
   binary, every Intel HEX rule and message.
 - `cpu_core_test` — the vendored CPU cores (`third_party/chips/`) against

@@ -205,6 +205,13 @@ char *listing_line(const Part *part) {
         fprintf(out, "|vcc=%u-%u,in=%u", (unsigned)part->vcc->min_mv, (unsigned)part->vcc->max_mv,
                 (unsigned)part->vcc->input_max_mv);
     }
+    /* Dual-supply parts (plan-20-F): the B side's range. */
+    if (part->domain_count == 2 && part->domains[1].vcc != NULL) {
+        const PartVoltage *b = part->domains[1].vcc;
+
+        fprintf(out, "|vccb=%u-%u,in=%u", (unsigned)b->min_mv, (unsigned)b->max_mv,
+                (unsigned)b->input_max_mv);
+    }
     fclose(out);
     return text;
 }

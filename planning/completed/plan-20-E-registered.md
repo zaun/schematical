@@ -65,7 +65,7 @@ store the bus while it drives it, per its function table, specs.md).
 - [x] `buffer_reg.c` (+ CMake line; the model table in `buffer.c` now holds pointers so it can name `BUF_REGISTERED_MODEL`), §3 cases in `buffer_test` ('646: isolation and storing while OE high, real-time A→B and B→A, stored transfer, the A register storing the bus the part drives; '652: OEAB/OEBA independent, both enabled with stored select; '543: CEAB/LEAB/OEAB rows, hold while LEAB high, CEAB high turns B off; '2952: CLKENAB gates the edge, no real-time path; 16952: units independent; X on a clock → the bits that would change are X), docs § Model `registered`, loader cases (6, in `buffer_test` as D's). `buffer_test` → `buffer_test: all passed` (67 PASS lines). Dry run: the 28 real `registered` specs (155 parts) load with the tristate/transceiver ones (`listing_check`: `8243 parts compared` — only `extra part` lines, no load error). `ctest --test-dir /tmp/logic-p20` → `100% tests passed, 0 tests failed out of 22`; `git diff --stat backend/tests/golden` → empty.
 
 Acceptance: `ctest --test-dir /tmp/logic-p20` → T0 + 1 of T0 + 1; golden diff empty (seconds).
-Commit: (this commit; hash in the next)
+Commit: 9735f28
 
 ## Validation Plan
 

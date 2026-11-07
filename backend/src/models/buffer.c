@@ -9,6 +9,8 @@
  *                 per direction ('243/'623 form) ('245, '640, 16245 ...)
  *   registered    a latch or register per direction (buffer_reg.c; '646,
  *                 '652, '543, '2952)
+ *   translator    dual-supply level shifters: transceiver or tristate
+ *                 logic plus "domains" (1T45, 8T245, TXU0104, 4504B)
  *
  * Signal rules: docs/parts-format.md "buffer". Every model is
  * combinational or level-sensitive except registered's clocks, so each
@@ -563,7 +565,7 @@ static int xcvr_is_output(const void *raw, const void *bound, size_t pin) {
     return 0;
 }
 
-/* ---- The kind ------------------------------------------------------------- */
+/* ---- Models ---------------------------------------------------------------- */
 
 static const BufModel TRISTATE_MODEL = {
     "tristate", TRISTATE_KEYS, tri_load, tri_bind, tri_create, tri_eval, tri_is_output
@@ -572,21 +574,101 @@ static const BufModel TRANSCEIVER_MODEL = {
     "transceiver", TRANSCEIVER_KEYS, xcvr_load, xcvr_bind, xcvr_create, xcvr_eval, xcvr_is_output
 };
 
+/* ---- translator ----------------------------------------------------------- */
+
+/*
+ * Level translators (plan-20-F section 2.4): the transceiver logic (units
+ * with "b") or the tristate logic (fixed direction, units with "y"), plus
+ * "domains". The domains only matter to the voltage check.
+ */
+static const char *const TRANSLATOR_KEYS[] = {"units", "invert", "output", "domains", NULL};
+
+typedef struct {
+    const BufModel *inner;
+    void *dev;
+} TransDevice;
+
+static void *trans_load(KindContext *ctx, const cJSON *json, unsigned *units) {
+    TransDevice *t = kind_alloc(ctx, sizeof(*t));
+    const cJSON *list = cJSON_GetObjectItemCaseSensitive(json, "units");
+    const cJSON *first = cJSON_IsArray(list) ? list->child : NULL;
+
+    if (t == NULL) {
+        return NULL;
+    }
+    t->inner = first != NULL && cJSON_GetObjectItemCaseSensitive(first, "b") != NULL
+                   ? &TRANSCEIVER_MODEL : &TRISTATE_MODEL;
+    t->dev = t->inner->load(ctx, json, units);
+    return t->dev == NULL ? NULL : t;
+}
+
+static void *trans_bind(KindContext *ctx, const void *raw, const PartPin *pins, size_t count) {
+    const TransDevice *t = raw;
+
+    return t->inner->bind(ctx, t->dev, pins, count);
+}
+
+static BufHeader *trans_create(const void *raw, const void *bound) {
+    const TransDevice *t = raw;
+    BufHeader *h = t->inner->create(t->dev, bound);
+
+    if (h != NULL) {
+        h->inner = t->inner;
+    }
+    return h;
+}
+
+static void trans_eval(Sim *sim, SimInstance *inst, BufHeader *h, int at_start) {
+    h->inner->eval(sim, inst, h, at_start);
+}
+
+static int trans_is_output(const void *raw, const void *bound, size_t pin) {
+    const TransDevice *t = raw;
+
+    return t->inner->is_output(t->dev, bound, pin);
+}
+
+static const BufModel TRANSLATOR_MODEL = {
+    "translator", TRANSLATOR_KEYS, trans_load, trans_bind, trans_create, trans_eval,
+    trans_is_output
+};
+
+/* ---- The kind ------------------------------------------------------------- */
+
 static const BufModel *const MODELS[] = {
-    &TRISTATE_MODEL, &TRANSCEIVER_MODEL, &BUF_REGISTERED_MODEL,
+    &TRISTATE_MODEL, &TRANSCEIVER_MODEL, &BUF_REGISTERED_MODEL, &TRANSLATOR_MODEL,
 };
 
 #define MODEL_COUNT (sizeof(MODELS) / sizeof(MODELS[0]))
 
-static const char *const DEVICE_KEYS[] = {"model", "timing", "units", "invert", "output", NULL};
-static const char *const PART_KEYS[] = {"family", "vcc", "inputMax", NULL};
+static const char *const DEVICE_KEYS[] = {"model", "timing", "units", "invert", "output",
+                                          "domains", NULL};
+static const char *const PART_KEYS[] = {"family", "vcc", "inputMax", "vccB", "inputMaxB", NULL};
+static const char *const DOMAIN_TIMING_KEYS[] = {"vccB", "inputMaxB", NULL};
+
+/* A supply domain at load time: its power pin name and its other pins. */
+typedef struct {
+    const char *power;
+    const char *const *pins;
+    size_t pin_count;
+} DomainNames;
 
 typedef struct {
     const BufModel *model;
     void *dev;
     SeqTimingTable timing;
     SeqOutputStyle style;
+    int has_domains;
+    DomainNames domains[2];
+    const PartVoltage **vcc_b;   /* per timing entry: the B side's range */
 } BufDevice;
+
+/* What bind_pinout returns: the model's bound data and the pinout's domains. */
+typedef struct {
+    const void *model;
+    size_t *power[2], *pins[2];
+    size_t power_count[2], pin_count[2];
+} BufBound;
 
 static const BufModel *find_model(const char *name) {
     size_t i;
@@ -599,10 +681,84 @@ static const BufModel *find_model(const char *name) {
     return NULL;
 }
 
+/* "domains": exactly 2 objects {"power": name, "pins": [names]}. */
+static int load_domains(KindContext *ctx, const cJSON *json, BufDevice *dev) {
+    static const char *const KEYS[] = {"power", "pins", NULL};
+    const cJSON *list = cJSON_GetObjectItemCaseSensitive(json, "domains");
+    const cJSON *d;
+    size_t i = 0;
+
+    if (list == NULL) {
+        return 0;
+    }
+    kind_push(ctx, "domains");
+    if (!cJSON_IsArray(list) || cJSON_GetArraySize(list) != 2) {
+        return kind_error(ctx, "must be an array of 2 domains");
+    }
+    cJSON_ArrayForEach(d, list) {
+        kind_push(ctx, "[%zu]", i);
+        if (!cJSON_IsObject(d) || kind_check_keys(ctx, d, KEYS, NULL) != 0 ||
+            kind_string(ctx, d, "power", &dev->domains[i].power) != 0 ||
+            kind_names(ctx, d, "pins", &dev->domains[i].pins, &dev->domains[i].pin_count) != 0) {
+            return cJSON_IsObject(d) ? -1 : kind_error(ctx, "must be {\"power\", \"pins\"}");
+        }
+        kind_pop(ctx);
+        i++;
+    }
+    kind_pop(ctx);
+    dev->has_domains = 1;
+    return 0;
+}
+
+/*
+ * The B side's voltage from json's "vccB"/"inputMaxB" over base, with the
+ * rules of kind_voltage. NULL in *out (no error) when json has neither and
+ * base is NULL.
+ */
+static int voltage_b(KindContext *ctx, const cJSON *json, const PartVoltage *base,
+                     const PartVoltage **out) {
+    const cJSON *range = cJSON_GetObjectItemCaseSensitive(json, "vccB");
+    const cJSON *in = cJSON_GetObjectItemCaseSensitive(json, "inputMaxB");
+    PartVoltage *v;
+
+    *out = base;
+    if (range == NULL && in == NULL) {
+        return 0;
+    }
+    if (range == NULL && base == NULL) {
+        return kind_error(ctx, "\"inputMaxB\" without \"vccB\"");
+    }
+    v = kind_alloc(ctx, sizeof(*v));
+    if (v == NULL) {
+        return -1;
+    }
+    if (base != NULL) {
+        *v = *base;
+    }
+    if (range != NULL) {
+        if (kind_volt_range(ctx, json, "vccB", 30, 1, &v->min_mv, &v->max_mv) != 0) {
+            return -1;
+        }
+        v->input_max_mv = base != NULL && in == NULL && base->input_max_mv > base->max_mv
+                              ? base->input_max_mv : v->max_mv;
+    }
+    if (in != NULL) {
+        if (kind_volts(ctx, json, "inputMaxB", 30, &v->input_max_mv) != 0) {
+            return -1;
+        }
+        if (v->input_max_mv < v->max_mv) {
+            return kind_error(ctx, "\"inputMaxB\" below the \"vccB\" max");
+        }
+    }
+    *out = v;
+    return 0;
+}
+
 static void *buffer_load_device(KindContext *ctx, const cJSON *json) {
     BufDevice *dev = kind_alloc(ctx, sizeof(*dev));
     const char *name;
     unsigned units = 0;
+    size_t i;
 
     if (dev == NULL || kind_string(ctx, json, "model", &name) != 0) {
         return NULL;
@@ -613,42 +769,160 @@ static void *buffer_load_device(KindContext *ctx, const cJSON *json) {
         return NULL;
     }
     if (seq_check_model_keys(ctx, json, name, dev->model->keys) != 0 ||
-        seq_output_style(ctx, json, &dev->style) != 0) {
+        seq_output_style(ctx, json, &dev->style) != 0 || load_domains(ctx, json, dev) != 0) {
+        return NULL;
+    }
+    if (dev->model == &TRANSLATOR_MODEL && !dev->has_domains) {
+        kind_error(ctx, "missing \"domains\"");
         return NULL;
     }
     dev->dev = dev->model->load(ctx, json, &units);
-    if (dev->dev == NULL || seq_timing(ctx, json, NULL, units, &dev->timing) != 0) {
+    if (dev->dev == NULL ||
+        seq_timing(ctx, json, dev->has_domains ? DOMAIN_TIMING_KEYS : NULL, units,
+                   &dev->timing) != 0) {
         return NULL;
     }
+    if (dev->has_domains) {
+        dev->vcc_b = kind_alloc(ctx, dev->timing.count * sizeof(*dev->vcc_b));
+        if (dev->vcc_b == NULL) {
+            return NULL;
+        }
+        for (i = 0; i < dev->timing.count; i++) {
+            const SeqTiming *t = &dev->timing.entries[i];
+
+            kind_push(ctx, "timing.%s", t->family);
+            if (cJSON_GetObjectItemCaseSensitive(t->json, "vccB") == NULL) {
+                kind_error(ctx, "missing \"vccB\"");
+                return NULL;
+            }
+            if (voltage_b(ctx, t->json, NULL, &dev->vcc_b[i]) != 0) {
+                return NULL;
+            }
+            kind_pop(ctx);
+        }
+    }
     return dev;
+}
+
+/* Binds one domain's names; marks each pin in owner (domain index + 1). */
+static int bind_domain(KindContext *ctx, const PartPin *pins, size_t count, const DomainNames *d,
+                       size_t k, BufBound *b, unsigned char *owner) {
+    size_t i, n;
+
+    b->power[k] = kind_alloc(ctx, count * sizeof(size_t));
+    b->pins[k] = kind_alloc(ctx, count * sizeof(size_t));
+    if (b->power[k] == NULL || b->pins[k] == NULL) {
+        return -1;
+    }
+    n = kind_pins(ctx, pins, count, d->power, b->power[k], count);
+    if (n == 0) {
+        return -1;
+    }
+    for (i = 0; i < n; i++) {
+        if (pins[b->power[k][i]].role != PIN_POWER) {
+            return kind_error(ctx, "\"domains\": \"%s\" is not a power pin", d->power);
+        }
+        owner[b->power[k][i]] = (unsigned char)(k + 1);
+    }
+    b->power_count[k] = n;
+    b->pin_count[k] = 0;
+    for (i = 0; i < d->pin_count; i++) {
+        size_t m = kind_pins(ctx, pins, count, d->pins[i], b->pins[k] + b->pin_count[k],
+                             count - b->pin_count[k]);
+        size_t j;
+
+        if (m == 0) {
+            return -1;
+        }
+        for (j = 0; j < m; j++) {
+            size_t p = b->pins[k][b->pin_count[k] + j];
+
+            if (owner[p] != 0) {
+                return kind_error(ctx, "\"domains\": pin \"%s\" is in two domains", pins[p].name);
+            }
+            owner[p] = (unsigned char)(k + 1);
+        }
+        b->pin_count[k] += m;
+    }
+    return 0;
 }
 
 static void *buffer_bind_pinout(KindContext *ctx, const void *raw, const PartPin *pins,
                                 size_t pin_count) {
     const BufDevice *dev = raw;
+    BufBound *b = kind_alloc(ctx, sizeof(*b));
+    unsigned char *owner;
+    size_t i;
 
-    return dev->model->bind(ctx, dev->dev, pins, pin_count);
+    if (b == NULL || (b->model = dev->model->bind(ctx, dev->dev, pins, pin_count)) == NULL) {
+        return NULL;
+    }
+    if (!dev->has_domains) {
+        return b;
+    }
+    owner = kind_alloc(ctx, pin_count ? pin_count : 1);
+    if (owner == NULL || bind_domain(ctx, pins, pin_count, &dev->domains[0], 0, b, owner) != 0 ||
+        bind_domain(ctx, pins, pin_count, &dev->domains[1], 1, b, owner) != 0) {
+        return NULL;
+    }
+    for (i = 0; i < pin_count; i++) {
+        PinRole role = pins[i].role;
+
+        if (owner[i] == 0 && role != PIN_GROUND && role != PIN_NC && role != PIN_ABSENT) {
+            kind_error(ctx, "\"domains\": pin \"%s\" is in no domain", pins[i].name);
+            return NULL;
+        }
+    }
+    return b;
 }
 
 static int buffer_load_part(KindContext *ctx, const void *raw, const void *bound,
                             const cJSON *json, Part *out) {
     const BufDevice *dev = raw;
+    const BufBound *b = bound;
     const SeqTiming *entry;
+    PartSupplyDomain *domains;
+    const PartVoltage *vb;
+    size_t k;
 
-    (void)bound;
     if (seq_part(ctx, &dev->timing, json, out, &entry) != 0) {
         return -1;
     }
     kind_set_part_data(out, entry);
+    if (!dev->has_domains) {
+        if (cJSON_GetObjectItemCaseSensitive(json, "vccB") != NULL ||
+            cJSON_GetObjectItemCaseSensitive(json, "inputMaxB") != NULL) {
+            return kind_error(ctx, "\"vccB\" without \"domains\"");
+        }
+        return 0;
+    }
+    if (voltage_b(ctx, json, dev->vcc_b[entry - dev->timing.entries], &vb) != 0) {
+        return -1;
+    }
+    domains = kind_alloc(ctx, 2 * sizeof(*domains));
+    if (domains == NULL) {
+        return -1;
+    }
+    for (k = 0; k < 2; k++) {
+        domains[k].power_pins = b->power[k];
+        domains[k].power_pin_count = b->power_count[k];
+        domains[k].pins = b->pins[k];
+        domains[k].pin_count = b->pin_count[k];
+    }
+    domains[0].vcc = out->vcc;
+    domains[1].vcc = vb;
+    out->domains = domains;
+    out->domain_count = 2;
     return 0;
 }
 
 static int buffer_pin_open_drain(const Part *part, size_t pin) {
     const PartInternal *internal = part_internal(part);
     const BufDevice *dev = internal->device;
+    const BufBound *b = internal->bound;
 
     return dev->style == SEQ_OPEN_DRAIN && dev->model->is_output != NULL &&
-           dev->model->is_output(dev->dev, internal->bound, pin);
+           dev->model->is_output(dev->dev, b->model, pin);
 }
 
 /* ---- Engine callbacks ----------------------------------------------------- */
@@ -661,7 +935,8 @@ static void *buffer_create(const void *config) {
     const Part *part = config;
     const PartInternal *internal = part_internal(part);
     const BufDevice *dev = internal->device;
-    BufHeader *h = dev->model->create(dev->dev, internal->bound);
+    const BufBound *b = internal->bound;
+    BufHeader *h = dev->model->create(dev->dev, b->model);
 
     if (h == NULL) {
         return NULL;

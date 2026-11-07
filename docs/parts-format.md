@@ -230,6 +230,24 @@ Every gate, dff, jkff, sram, eeprom, oscillator and charlcd part must resolve to
 LEDs, 7-segment displays and switches never take these keys; their
 `Part.vcc` is NULL.
 
+#### Two supply domains (`domains`, `vccB`, `inputMaxB`)
+
+A dual-supply part (a level translator: SN74LVC1T45, SN74AVC8T245,
+TXU0104, CD4504B) has two supply domains, each powered from its own pin
+and judged against its own range. Today only the `buffer` kind's model
+`translator` takes these keys; the `Part` fields are general.
+
+| Key | Where | Value |
+|---|---|---|
+| `"domains"` | device | exactly 2 objects `{"power": <pin name>, "pins": [<pin names>]}`: the A side first, then the B side. `power` names the domain's supply pins (every pin of that name, e.g. two `VCCB`; each must have role `power`); `pins` lists the domain's other pins. Every pin of every pinout except ground, NC and absent pins belongs to exactly one domain (`"domains": pin "DIR" is in no domain`, `… is in two domains`). Control pins go to the side the datasheet references them to (usually A). |
+| `"vccB"`, `"inputMaxB"` | timing entry, part | the B side's range and input max, with the rules of `vcc`/`inputMax` above. Every timing entry of a device with `domains` needs `vccB`; without `domains` both keys are errors. `vcc`/`inputMax` are the A side's. |
+
+`Part.domains` (`PartSupplyDomain`: power pins, `vcc`, other pins; indices
+into `Part.pins`) has `domain_count` 2: domain 0 is the A side, whose `vcc`
+is `Part.vcc`; domain 1 the B side. Single-supply parts have
+`domain_count` 0. The listing line of a dual-supply part ends in
+`|vccb=<min>-<max>,in=<inputMax>` (millivolts) after its `|vcc=` field.
+
 ## Loading rules
 
 - A key appearing twice in one object is an error.
@@ -2055,6 +2073,19 @@ stores the bus it drives). A clock edge from X or Z, or a move from the
 pre-edge level into X or Z, may have been an edge: bits it would change go
 X. Both directions enabled and both showing real time hold the value last
 passed, as the transceiver model's both-enabled row.
+
+#### Model `translator`
+
+Dual-supply level translators. The logic is the transceiver's (units with
+`"b"`: DIR-controlled, `oe` optional — 1T45 has none; per-bit DIR parts
+such as the 4T774 have one unit per bit) or the tristate's (units with
+`"y"`: fixed direction, TXU/TXV, 8T540-style, CD4504B with no enable). The
+device also has `"domains"` (required) and every timing entry `vccB`
+([Two supply domains](#two-supply-domains-domains-vccb-inputmaxb)); the
+domains change only the voltage check, not the logic. Timing is one pair
+per family, from the datasheet's VCCA 3.3 V ↔ VCCB 5 V row or the nearest
+one. A translator's outputs do not float when one side is unpowered (the
+engine has no supply level per part).
 
 ### Sequential kinds (`latch`, `counter`, `shift`)
 

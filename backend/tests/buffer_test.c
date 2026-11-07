@@ -250,21 +250,52 @@ static const char FIXTURE[] =
     ":{'store':'register','clk':{'pin':'2CLKBA','edge':'rising'},'ce':{'pin':'2CLKENBA','active"
     "':'low'},'oe':{'pin':'2OEBA','active':'low'}}}],'timing':{'HC':{'rise':10,'fall':10,'vcc':"
     "[2,6]}},'parts':[{'name':'FX-74_16952','package':'DIP','pinout':'p22','footprint':'FX22','"
-    "family':'HC'}]}]}"
+    "family':'HC'}]},{'id':'fx-1T45','function':'Buffer','description':'d','drawer':[],'pinouts"
+    "':{'p6':[{'number':1,'name':'VCCA','role':'power'},{'number':2,'name':'GND','role':'ground"
+    "'},{'number':3,'name':'A','role':'inout'},{'number':4,'name':'B','role':'inout'},{'number'"
+    ":5,'name':'DIR','role':'input'},{'number':6,'name':'VCCB','role':'power'}]},'model':'trans"
+    "lator','units':[{'a':['A'],'b':['B'],'dir':{'pin':'DIR','ab':'high'},'oe':[]}],'domains':["
+    "{'power':'VCCA','pins':['A','DIR']},{'power':'VCCB','pins':['B']}],'timing':{'LVC':{'rise'"
+    ":10,'fall':10,'vcc':[1.65,5.5],'vccB':[1.65,5.5]}},'parts':[{'name':'FX-1T45','package':'D"
+    "IP','pinout':'p6','footprint':'FX6','family':'LVC'}]},{'id':'fx-74_8T245','function':'Buff"
+    "er','description':'d','drawer':[],'pinouts':{'p10':[{'number':1,'name':'VCCA','role':'powe"
+    "r'},{'number':2,'name':'DIR','role':'input'},{'number':3,'name':'A1','role':'inout'},{'num"
+    "ber':4,'name':'A2','role':'inout'},{'number':5,'name':'GND','role':'ground'},{'number':6,'"
+    "name':'GND','role':'ground'},{'number':7,'name':'B2','role':'inout'},{'number':8,'name':'B"
+    "1','role':'inout'},{'number':9,'name':'OE','role':'input'},{'number':10,'name':'VCCB','rol"
+    "e':'power'}]},'model':'translator','units':[{'a':['A1','A2'],'b':['B1','B2'],'dir':{'pin':"
+    "'DIR','ab':'high'},'oe':{'pin':'OE','active':'low'}}],'domains':[{'power':'VCCA','pins':['"
+    "A1','A2','DIR','OE']},{'power':'VCCB','pins':['B1','B2']}],'timing':{'LVC':{'rise':10,'fal"
+    "l':10,'vcc':[1.65,5.5],'vccB':[1.65,5.5]}},'parts':[{'name':'FX-74_8T245','package':'DIP',"
+    "'pinout':'p10','footprint':'FX10','family':'LVC'}]},{'id':'fx-TXU0104','function':'Buffer'"
+    ",'description':'d','drawer':[],'pinouts':{'p8':[{'number':1,'name':'VCCA','role':'power'},"
+    "{'number':2,'name':'A1','role':'input'},{'number':3,'name':'A2','role':'input'},{'number':"
+    "4,'name':'OE','role':'input'},{'number':5,'name':'GND','role':'ground'},{'number':6,'name'"
+    ":'Y2','role':'output'},{'number':7,'name':'Y1','role':'output'},{'number':8,'name':'VCCB',"
+    "'role':'power'}]},'model':'translator','units':[{'a':['A1','A2'],'y':['Y1','Y2'],'oe':{'pi"
+    "n':'OE','active':'high'}}],'domains':[{'power':'VCCA','pins':['A1','A2','OE']},{'power':'V"
+    "CCB','pins':['Y1','Y2']}],'timing':{'TXU':{'rise':10,'fall':10,'vcc':[1.1,5.5],'vccB':[1.1"
+    ",5.5]}},'parts':[{'name':'FX-TXU0104','package':'DIP','pinout':'p8','footprint':'FX8','fam"
+    "ily':'TXU'}]}]}"
     ;
 
 /* Dual-row fixture footprints FX<n>, one per pin count above. */
 static const char FIXTURE_FOOTPRINTS[] =
     "{'format':'schematical-footprints','version':1,'footprints':[{'id':'FX5','description':'d'"
     ",'style':'dual','pins':5,'perSide':3,'slots':[1,2,3,4,6],'body':{'width':1,'height':1},'pi"
-    "tch':1,'span':2,'pad':{'width':0.5,'height':0.5,'shape':'rect'}},{'id':'FX14','description"
-    "':'d','style':'dual','pins':14,'body':{'width':1,'height':1},'pitch':1,'span':2,'pad':{'wi"
-    "dth':0.5,'height':0.5,'shape':'rect'}},{'id':'FX20','description':'d','style':'dual','pins"
-    "':20,'body':{'width':1,'height':1},'pitch':1,'span':2,'pad':{'width':0.5,'height':0.5,'sha"
-    "pe':'rect'}},{'id':'FX22','description':'d','style':'dual','pins':22,'body':{'width':1,'he"
-    "ight':1},'pitch':1,'span':2,'pad':{'width':0.5,'height':0.5,'shape':'rect'}},{'id':'FX24',"
-    "'description':'d','style':'dual','pins':24,'body':{'width':1,'height':1},'pitch':1,'span':"
-    "2,'pad':{'width':0.5,'height':0.5,'shape':'rect'}}]}"
+    "tch':1,'span':2,'pad':{'width':0.5,'height':0.5,'shape':'rect'}},{'id':'FX6','description'"
+    ":'d','style':'dual','pins':6,'body':{'width':1,'height':1},'pitch':1,'span':2,'pad':{'widt"
+    "h':0.5,'height':0.5,'shape':'rect'}},{'id':'FX8','description':'d','style':'dual','pins':8"
+    ",'body':{'width':1,'height':1},'pitch':1,'span':2,'pad':{'width':0.5,'height':0.5,'shape':"
+    "'rect'}},{'id':'FX10','description':'d','style':'dual','pins':10,'body':{'width':1,'height"
+    "':1},'pitch':1,'span':2,'pad':{'width':0.5,'height':0.5,'shape':'rect'}},{'id':'FX14','des"
+    "cription':'d','style':'dual','pins':14,'body':{'width':1,'height':1},'pitch':1,'span':2,'p"
+    "ad':{'width':0.5,'height':0.5,'shape':'rect'}},{'id':'FX20','description':'d','style':'dua"
+    "l','pins':20,'body':{'width':1,'height':1},'pitch':1,'span':2,'pad':{'width':0.5,'height':"
+    "0.5,'shape':'rect'}},{'id':'FX22','description':'d','style':'dual','pins':22,'body':{'widt"
+    "h':1,'height':1},'pitch':1,'span':2,'pad':{'width':0.5,'height':0.5,'shape':'rect'}},{'id'"
+    ":'FX24','description':'d','style':'dual','pins':24,'body':{'width':1,'height':1},'pitch':1"
+    ",'span':2,'pad':{'width':0.5,'height':0.5,'shape':'rect'}}]}"
     ;
 
 static char *dequote(const char *text) {
@@ -811,6 +842,54 @@ static void check_16952(void) {
     bench_destroy(b);
 }
 
+/* ---- translator (plan-20-F) ----------------------------------------------- */
+
+static void check_translators(void) {
+    Bench *b = open_fx("1T45");
+    Bench *c = open_fx("74_8T245");
+    Bench *d = open_fx("TXU0104");
+    const Part *t45 = fx_part("1T45");
+
+    expect(t45->domain_count == 2 && t45->domains[0].power_pin_count == 1 &&
+               t45->domains[0].power_pins[0] == 0 && t45->domains[0].pin_count == 2 &&
+               t45->domains[1].power_pins[0] == 5 && t45->domains[1].pin_count == 1 &&
+               t45->domains[1].pins[0] == 3 && t45->domains[1].vcc != NULL &&
+               t45->domains[1].vcc->max_mv == 5500 && t45->domains[0].vcc == t45->vcc,
+           "1T45: two domains (VCCA: A, DIR; VCCB: B), domain A's range is Part.vcc");
+    set(b, "DIR", L1);
+    set(b, "A", L1);
+    step(b);
+    expect(is(b, "B", L1), "1T45: DIR high: B = A (no OE)");
+    set(b, "A", LZ);
+    set(b, "DIR", L0);
+    step(b);
+    set(b, "B", L0);
+    step(b);
+    expect(is(b, "A", L0), "1T45: DIR low: A = B");
+
+    set(c, "DIR", L1);
+    set(c, "OE", L1);
+    set(c, "A1", L1);
+    set(c, "A2", L0);
+    step(c);
+    expect(is(c, "B1", LZ) && is(c, "B2", LZ), "8T245: OE high: B is Z");
+    set(c, "OE", L0);
+    step(c);
+    expect(is(c, "B1", L1) && is(c, "B2", L0), "8T245: OE low, DIR high: B = A");
+
+    set(d, "OE", L1);
+    set(d, "A1", L0);
+    set(d, "A2", L1);
+    step(d);
+    expect(is(d, "Y1", L0) && is(d, "Y2", L1), "TXU0104: OE high: fixed direction, Y = A");
+    set(d, "OE", L0);
+    step(d);
+    expect(is(d, "Y1", LZ) && is(d, "Y2", LZ), "TXU0104: OE low: Y is Z");
+    bench_destroy(b);
+    bench_destroy(c);
+    bench_destroy(d);
+}
+
 /* ---- Loader errors -------------------------------------------------------- */
 
 #define HEAD "{'format':'schematical-parts','version':1,'kind':'buffer','devices':["
@@ -821,6 +900,16 @@ static void check_16952(void) {
     "{'number':5,'name':'VCC','role':'power'}]},'model':'" MODEL "'," KEYS ","              \
     "'timing':{'HC':{'rise':1,'fall':1,'vcc':[2,6]}},"                                       \
     "'parts':[{'name':'E1','package':'DIP','pinout':'p5','footprint':'FX5','family':'HC'}]}]}"
+
+#define DEV6(MODEL, KEYS, TIMING, PARTX)                                                     \
+    "{'id':'e','function':'Level shifter','description':'d','drawer':[],'pinouts':{'p6':["   \
+    "{'number':1,'name':'VCCA','role':'power'},{'number':2,'name':'GND','role':'ground'},"  \
+    "{'number':3,'name':'A','role':'inout'},{'number':4,'name':'B','role':'inout'},"        \
+    "{'number':5,'name':'DIR','role':'input'},{'number':6,'name':'VCCB','role':'power'}]}," \
+    "'model':'" MODEL "'," KEYS ",'timing':{'LVC':{'rise':1,'fall':1,'vcc':[1.65,5.5]" TIMING "}}," \
+    "'parts':[{'name':'E1','package':'SOT-23','pinout':'p6','footprint':'FX6','family':'LVC'" PARTX "}]}]}"
+#define XUNITS "'units':[{'a':['A'],'b':['B'],'dir':{'pin':'DIR','ab':'high'}}]"
+#define DOMAINS(APINS) ",'domains':[{'power':'VCCA','pins':[" APINS "]},{'power':'VCCB','pins':['B']}]"
 
 static void expect_fail(const char *what, const char *text, const char *message) {
     PartLibrary *lib = fixture_library();
@@ -914,6 +1003,34 @@ static void check_loader(void) {
                 HEAD DEV("registered",
                          "'units':[{'a':['A'],'b':['Y'],'ab':{'store':'register','clk':{'pin':'OE','edge':'rising'},'oe':[]}}]"),
                 "missing \"ba\"");
+    expect_fail("domains: a pin in no domain",
+                HEAD DEV6("translator", XUNITS DOMAINS("'A'"), ",'vccB':[1.65,5.5]", ""),
+                "\"domains\": pin \"DIR\" is in no domain");
+    expect_fail("domains: a pin in two domains",
+                HEAD DEV6("translator", XUNITS DOMAINS("'A','DIR','B'"), ",'vccB':[1.65,5.5]", ""),
+                "\"domains\": pin \"B\" is in two domains");
+    expect_fail("domains: power is not a power pin",
+                HEAD DEV6("translator", XUNITS ",'domains':[{'power':'DIR','pins':['A']},"
+                          "{'power':'VCCB','pins':['B']}]", ",'vccB':[1.65,5.5]", ""),
+                "\"domains\": \"DIR\" is not a power pin");
+    expect_fail("vccB on a part without domains",
+                HEAD DEV6("transceiver", XUNITS, "", ",'vccB':[1.65,5.5]"),
+                "\"vccB\" without \"domains\"");
+    expect_fail("vccB in timing without domains",
+                HEAD DEV6("transceiver", XUNITS, ",'vccB':[1.65,5.5]", ""),
+                "unknown key \"vccB\"");
+    expect_fail("domains on a model that has none",
+                HEAD DEV6("transceiver", XUNITS DOMAINS("'A','DIR'"), ",'vccB':[1.65,5.5]", ""),
+                "\"domains\" is not a key of model \"transceiver\"");
+    expect_fail("translator without domains",
+                HEAD DEV6("translator", XUNITS, ",'vccB':[1.65,5.5]", ""),
+                "missing \"domains\"");
+    expect_fail("translator timing without vccB",
+                HEAD DEV6("translator", XUNITS DOMAINS("'A','DIR'"), "", ""),
+                "timing.LVC: missing \"vccB\"");
+    expect_fail("inputMaxB below the vccB max",
+                HEAD DEV6("translator", XUNITS DOMAINS("'A','DIR'"), ",'vccB':[1.65,5.5],'inputMaxB':3", ""),
+                "\"inputMaxB\" below the \"vccB\" max");
 }
 
 int main(void) {
@@ -941,6 +1058,7 @@ int main(void) {
     check_543();
     check_2952();
     check_16952();
+    check_translators();
     check_loader();
     part_library_destroy(library);
     if (failures > 0) {

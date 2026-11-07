@@ -1,7 +1,7 @@
 /*
  * voltage_test: voltage_check (include/voltage.h) on small netlists of the
  * fixture parts (support/voltage_fixture.h) and the real supplies, one case
- * per rule of plan-07-B section 4.2.
+ * per rule of plan-07-B section 4.2, and the supply domains of plan-20-F.
  */
 
 #include <stdio.h>
@@ -435,6 +435,88 @@ static void check_order(void) {
            "the count is every problem; out holds the first cap");
 }
 
+/* plan-20-F: a dual-supply translator (VFX-T45: A side 1.65-3.6 V, B side
+   1.65-5.5 V), each pin judged against its own side. */
+static void check_domains(void) {
+    Netlist n = {0};
+    size_t t;
+    size_t auc;
+    size_t hc;
+    size_t a;
+    size_t b;
+
+    /* VCCA 1.8 V, VCCB 5 V; a 1.8 V gate drives A, B feeds a 5 V HC input. */
+    t = add(&n, "VFX-T45");
+    wire(&n, t, "1", supply(&n, "1V8"));
+    wire(&n, t, "6", supply(&n, "5V"));
+    wire(&n, t, "2", supply(&n, "GND"));
+    wire(&n, t, "5", supply(&n, "1V8"));
+    auc = powered_gate(&n, "VFX-AUC1G00", "1V8");
+    hc = powered_gate(&n, "VFX-HC1G00", "5V");
+    a = net(&n);
+    b = net(&n);
+    wire(&n, auc, "4", a);
+    wire(&n, t, "3", a);
+    wire(&n, t, "4", b);
+    wire(&n, hc, "1", b);
+    expect(none(&n), "translator 1.8 V / 5 V: 1.8 V logic on A, 5 V logic on B: no problem");
+
+    /* DIR low (B to A): a 5 V output drives B; A, which the translator drives
+       at its 1.8 V side, feeds a 3.6 V-max input: the level shift, no problem. */
+    memset(&n, 0, sizeof n);
+    t = add(&n, "VFX-T45");
+    wire(&n, t, "1", supply(&n, "1V8"));
+    wire(&n, t, "6", supply(&n, "5V"));
+    wire(&n, t, "5", supply(&n, "GND"));
+    hc = powered_gate(&n, "VFX-HC1G00", "5V");
+    auc = powered_gate(&n, "VFX-AUC1G00", "1V8");
+    a = net(&n);
+    b = net(&n);
+    wire(&n, hc, "4", b);
+    wire(&n, t, "4", b);
+    wire(&n, t, "3", a);
+    wire(&n, auc, "1", a);
+    expect(none(&n), "translator B to A: 5 V on B, A into a 1.8 V-side input: no problem");
+
+    /* A 5 V output straight into pin A: over the A side's 3.6 V input max. */
+    memset(&n, 0, sizeof n);
+    t = add(&n, "VFX-T45");
+    wire(&n, t, "1", supply(&n, "1V8"));
+    wire(&n, t, "6", supply(&n, "5V"));
+    hc = powered_gate(&n, "VFX-HC1G00", "5V");
+    a = net(&n);
+    wire(&n, hc, "4", a);
+    wire(&n, t, "3", a);
+    expect(only(&n, VOLTAGE_INPUT_OVER) && n.problems[0].part == t && n.problems[0].pin == 2 &&
+               n.problems[0].max_mv == 3600 &&
+               text_is(&n, 0, "voltage: 5 V on pin 3 (A) of VFX-T45; its inputs take at most 3.6 V"),
+           "translator: a 5 V output into pin A is INPUT_OVER (A side input max 3.6 V)");
+
+    /* 5 V straight into pin B is fine: the B side takes up to 5.5 V. */
+    memset(&n, 0, sizeof n);
+    t = add(&n, "VFX-T45");
+    wire(&n, t, "1", supply(&n, "1V8"));
+    wire(&n, t, "6", supply(&n, "3V3"));
+    wire(&n, t, "4", supply(&n, "5V"));
+    expect(none(&n), "translator: 5 V into pin B at VCCB 3.3 V is within the B side's 5.5 V");
+
+    /* Power ranges per side: 5 V is in the B range, out of the A range. */
+    memset(&n, 0, sizeof n);
+    t = add(&n, "VFX-T45");
+    wire(&n, t, "1", supply(&n, "5V"));
+    wire(&n, t, "6", supply(&n, "5V"));
+    expect(only(&n, VOLTAGE_POWER_RANGE) && n.problems[0].pin == 0 && n.problems[0].max_mv == 3600,
+           "translator: 5 V on VCCA is out of the A side's range; 5 V on VCCB is not");
+
+    /* 12 V on VCCB: out of the B side's 1.65-5.5 V. */
+    memset(&n, 0, sizeof n);
+    t = add(&n, "VFX-T45");
+    wire(&n, t, "1", supply(&n, "1V8"));
+    wire(&n, t, "6", supply(&n, "12V"));
+    expect(only(&n, VOLTAGE_POWER_RANGE) && n.problems[0].pin == 5 && n.problems[0].max_mv == 5500,
+           "translator: 12 V on VCCB is out of the B side's 1.65-5.5 V range");
+}
+
 int main(void) {
     library = part_library_create();
     if (library == NULL || load_parts_dir(library, PARTS_DIR) != 0 ||
@@ -450,6 +532,7 @@ int main(void) {
     check_leds();
     check_no_data();
     check_order();
+    check_domains();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

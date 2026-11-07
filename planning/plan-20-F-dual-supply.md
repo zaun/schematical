@@ -28,7 +28,7 @@ plan-20-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-20-E complete | `ls planning/completed/plan-20-E-*.md` → exists | NOT MET (2026-11-07) |
+| plan-20-E complete | `ls planning/completed/plan-20-E-*.md` → exists | MET (2026-11-07: `planning/completed/plan-20-E-registered.md`) |
 
 ## 1. Goal
 
@@ -96,17 +96,17 @@ applies (one pair per family, plan-20-A §4).
 
 ### Phase 1 — Format, `Part`, listing
 
-- [ ] §2.1 loader + `parts.h`; §2.3 listing; `library_check` cases; `docs/parts-format.md` § Supply voltage (`domains`, `vccB`, `inputMaxB`), `docs/backend.md` (the struct).
+- [x] §2.1 loader (buffer kind: `domains` device key, `vccB`/`inputMaxB` timing and part keys, per-pinout domain binding) + `parts.h` (`PartSupplyDomain`, `Part.domains`/`domain_count`, Corrections 1–2); §2.3 listing (`|vccb=`); loader cases in `buffer_test` (pin in no domain, pin in two domains, non-power `power`, `vccB` on a part / in timing without `domains`, `domains` on a model without them, translator without `domains`, timing without `vccB`, `inputMaxB` below `vccB` max — all `PASS`); docs `parts-format.md` § Two supply domains, `backend.md` (Voltages, source map). `git diff --stat backend/tests/golden` → empty.
 
 Acceptance: `ctest --test-dir /tmp/logic-p20` → T0 + 1 of T0 + 1; golden diff empty (seconds).
-Commit: —
+Commit: (this commit — Phases 1 and 2 together; hash in the next)
 
 ### Phase 2 — Voltage check and `translator`
 
-- [ ] §2.2 in `voltage.c`; `voltage_test` fixture and cases; `translator` model and `buffer_test` cases; docs § `buffer` model `translator`, `docs/backend.md` § voltages.
+- [x] §2.2 in `voltage.c` (step 3a and the per-domain checks; header rule 3a); `voltage_test` fixture `VFX-T45` (A side 1.65–3.6 V, B side 1.65–5.5 V, Corrections 3) and 6 cases: `PASS: translator 1.8 V / 5 V: 1.8 V logic on A, 5 V logic on B: no problem`, `… B to A: 5 V on B, A into a 1.8 V-side input: no problem`, `… a 5 V output into pin A is INPUT_OVER (A side input max 3.6 V)`, `… 5 V into pin B at VCCB 3.3 V is within the B side's 5.5 V`, `… 5 V on VCCA is out of the A side's range; 5 V on VCCB is not`, `… 12 V on VCCB is out of the B side's 1.65-5.5 V range`; every existing case still `PASS` (`voltage_test: all passed`, 36 PASS lines). `translator` model (transceiver or tristate logic by the units' keys) and `buffer_test` cases: 1T45 domains bound and DIR both ways, 8T245 OE, TXU0104 fixed direction with OE. Dry run: the 27 real translator specs (232 parts) load. Docs § Model `translator`, `backend.md` § Voltages.
 
 Acceptance: `ctest --test-dir /tmp/logic-p20` → T0 + 1 of T0 + 1; `voltage_test` prints the new PASS lines; golden diff empty (seconds).
-Commit: —
+Commit: (this commit; hash in the next)
 
 ## Validation Plan
 
@@ -120,6 +120,10 @@ no existing line moved). Landing tier at the end of I.
 - No supply-off modeling (non-goal; the engine has no per-part supply level).
 
 ## Corrections
+
+1. **A domain has a list of power pins**, not one `power_pin`: the '4245 and TXV0108 have two pins named VCCB (plan-20-A reports G06, G03). `PartSupplyDomain` is `{power_pins, power_pin_count, vcc, pins, pin_count}`; `"power"` names every pin of that name.
+2. **`domains` is parsed by the buffer kind**, not the library core: the domains are bound per pinout (pin indices differ between pinouts) and the B range comes from the kind's timing entries, so the kind's `bind_pinout`/`load_part` is the place. The `Part` fields, the voltage check and the listing are kind-independent, so another kind can fill them the same way (the Decision's intent).
+3. **§3's second voltage case was mis-stated**: with DIR low a 5 V output on B and A into a 1.8 V-max input is *not* a problem — the translator drives A at its A-side level, which is the point of the part. The fixture's A side is 1.65–3.6 V so that "a 5 V output into pin A directly → `INPUT_OVER`" holds (with both sides 1.65–5.5 V, 5 V is within A's input max and the case cannot fail).
 
 ## Summary
 
