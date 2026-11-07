@@ -122,9 +122,19 @@ The gate is plan-13-A's table. Re-run it, plus:
 
 ### Phase 1 — Bus drags respect ports
 
-- [ ] `SchematicModel.swift`: the port guard in `setBusLines`.
-- [ ] `SchematicCanvasView.swift`: bus drags settle port wires on release
+- [x] `SchematicModel.swift`: the port guard in `setBusLines` (`Bus.portsFit`,
+      added in plan-13-B Phase 1 for the Bus tool).
+- [x] `SchematicCanvasView.swift`: bus drags settle port wires on release
       (they already keep the last good frame on false, from A).
+      (`settleWires(attachedToBus:)` settles every port of the bus.)
+- [x] Added: `SchematicDocument.dragBus`, which walks each drag frame from
+      the last stored offset toward the cursor in grid steps and stops at
+      the first refused step; the two canvas bus drags carry that offset
+      (`done`). Without it a T end jumped over port 1 (§ Corrections).
+- [x] Added: `scripts/harness/support/BusDrag.swift` (drags exactly as the
+      canvas does) and `scripts/harness/bus-drag-ports.swift` (the check
+      below); `bus-lines.swift` now drags through `BusDrag` too and still
+      passes.
 
 Acceptance: on the plan-13-B Phase 2 drawing (port 1 on the horizontal line,
 port 2 on the vertical line joined at a T), with a wire on `B0` of each:
@@ -134,6 +144,13 @@ further, so the vertical line would no longer hold port 2, stops there.
 Dragging the vertical line's T end toward port 1 stops at port 1's edge.
 Dragging the horizontal line's free end inward stops at port 1's edge.
   Check: build; perform each step and screenshot after each (est. 10 min).
+  Result (2026-11-07): build → `** BUILD SUCCEEDED **`; harness
+  `bus-drag-ports.swift` → `ALL OK`: down 50 → line at y 150, port 1 tip
+  (260,200) with its wire's end on it, vertical line (380,150)–(380,320)
+  with port 2's start unchanged; further → stops at y 210 (T at port 2's
+  top edge, extent 210..230); the T end toward port 1 → stops at x 270
+  (port 1's right edge), also in a single-frame drag; the free end inward →
+  stops at x 250. PNGs `c1-1` … `c1-4`.
 Commit: —
 
 ### Phase 2 — Sliding ports
@@ -196,6 +213,21 @@ Commit: —
   frame) rather than pushing ports — author's call, 2026-11-01 (§ 3).
 
 ## Corrections
+
+- **Checks run in the harness** (2026-11-07), as plan-13-A and B record:
+  `scripts/harness/build.sh` drives the document calls the gestures make
+  and renders the real views to PNG.
+- **A drag could jump over a port** (2026-11-07). A's drags computed each
+  frame from the press-time bus and stored it if valid. The guard refuses a
+  T end inside a port, but once the T end is past the port the shape is
+  valid again: dragging the T end from x 380 to x 200 left it at x 210, on
+  the far side of port 1 (extent 250..270) — measured in
+  `bus-drag-ports.swift` before the fix. "Stops at the last good frame"
+  needs the drag to stop at the first refused step, so
+  `SchematicDocument.dragBus` walks from the last stored offset toward the
+  cursor one grid step at a time and stops there. After the fix the same
+  drag, and the same drag in a single frame, stop at x 270.
+- plan-13-A and plan-13-B now live in `planning/completed/`.
 
 ## Summary
 

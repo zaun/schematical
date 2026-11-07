@@ -57,8 +57,9 @@ struct SchematicCanvasView: View {
         /// Bus tool: from the snapped press point to the cursor.
         case drawingBus(from: CGPoint, cursor: CGPoint)
         /// Pointer drags on a bus, against the bus as it was at the press.
-        case dragBusEnd(bus: UUID, base: Bus, line: UUID, end: BusEnd)
-        case dragBusLine(bus: UUID, base: Bus, line: UUID)
+        /// `done` is the drag offset stored so far (see `dragBus`).
+        case dragBusEnd(bus: UUID, base: Bus, line: UUID, end: BusEnd, done: CGSize)
+        case dragBusLine(bus: UUID, base: Bus, line: UUID, done: CGSize)
         case pan(startOffset: CGSize)
         case idle
     }
@@ -362,16 +363,22 @@ struct SchematicCanvasView: View {
                 )
                 document.setWirePath(wire, OrthogonalRoute.moveSegment(base, at: index, by: offset))
 
-            case let .dragBusEnd(bus, base, line, end)?:
-                // A refused step leaves the bus at the last good frame.
-                if let lines = BusEdit.moveEnd(base, line: line, end: end, to: current) {
-                    document.setBusLines(bus, lines)
+            case let .dragBusEnd(bus, base, line, end, done)?:
+                // Walks toward the cursor in grid steps; a refused step leaves
+                // the bus at the last good one.
+                guard let point = base.line(line)?.point(end) else { break }
+                let target = CGSize(width: current.x - point.x, height: current.y - point.y)
+                let reached = document.dragBus(bus, from: done, to: target) { offset in
+                    BusEdit.moveEnd(base, line: line, end: end,
+                                    to: CGPoint(x: point.x + offset.width, y: point.y + offset.height))
                 }
+                interaction = .dragBusEnd(bus: bus, base: base, line: line, end: end, done: reached)
 
-            case let .dragBusLine(bus, base, line)?:
-                if let lines = BusEdit.moveLine(base, line: line, by: delta) {
-                    document.setBusLines(bus, lines)
+            case let .dragBusLine(bus, base, line, done)?:
+                let reached = document.dragBus(bus, from: done, to: delta) { offset in
+                    BusEdit.moveLine(base, line: line, by: offset)
                 }
+                interaction = .dragBusLine(bus: bus, base: base, line: line, done: reached)
 
             case let .pan(startOffset)?:
                 viewport.pan(to: CGSize(
@@ -493,11 +500,11 @@ struct SchematicCanvasView: View {
         } else if let end = document.busEndHit(at: point, tolerance: busTolerance),
                   let base = document.bus(end.bus) {
             document.selectedBusID = end.bus
-            interaction = .dragBusEnd(bus: end.bus, base: base, line: end.line, end: end.end)
+            interaction = .dragBusEnd(bus: end.bus, base: base, line: end.line, end: end.end, done: .zero)
         } else if let line = document.busHit(at: point, tolerance: busTolerance),
                   let base = document.bus(line.bus) {
             document.selectedBusID = line.bus
-            interaction = .dragBusLine(bus: line.bus, base: base, line: line.line)
+            interaction = .dragBusLine(bus: line.bus, base: base, line: line.line, done: .zero)
         } else {
             clearSelection()
             interaction = .pan(startOffset: viewport.offset)
@@ -520,6 +527,9 @@ struct SchematicCanvasView: View {
         case let .drawingBus(from, _)?:
             // A refused drag changes nothing; document.editorMessage says why.
             document.addBus(from: from, to: SchematicGrid.snap(viewport.world(value.location)))
+        case let .dragBusEnd(bus, _, _, _, _)?, let .dragBusLine(bus, _, _, _)?:
+            // Ports rode along with their lines; keep the wires on their pins.
+            document.settleWires(attachedToBus: bus)
         case let .moveChip(id, _)?:
             if isClick(value) {
                 toggleSwitchLever(at: viewport.world(value.startLocation))

@@ -61,30 +61,14 @@ MainActor.assumeIsolated { runChecks() }
 
     /// A Pointer drag on a line: every frame from the press to `delta` in grid steps.
     func dragLine(at point: CGPoint, by delta: CGSize) {
-        guard let hit = doc.busHit(at: point), let base = doc.bus(hit.bus) else {
-            print("  no bus line at \(fmt(point))"); failures += 1; return
-        }
-        doc.selectedBusID = hit.bus
-        let steps = Int(max(abs(delta.width), abs(delta.height)) / 10)
-        for k in 0...max(steps, 1) {
-            let t = CGFloat(k) / CGFloat(max(steps, 1))
-            if let lines = BusEdit.moveLine(base, line: hit.line, by: CGSize(width: delta.width * t, height: delta.height * t)) {
-                doc.setBusLines(hit.bus, lines)
-            }
+        if BusDrag.line(doc, at: point, by: delta) == nil {
+            print("  no bus line at \(fmt(point))"); failures += 1
         }
     }
     /// A Pointer drag on a line end, frame by frame from the end to `target`.
     func dragEnd(at point: CGPoint, to target: CGPoint) {
-        guard let hit = doc.busEndHit(at: point), let base = doc.bus(hit.bus) else {
-            print("  no bus end at \(fmt(point))"); failures += 1; return
-        }
-        let steps = Int(max(abs(target.x - point.x), abs(target.y - point.y)) / 10)
-        for k in 0...max(steps, 1) {
-            let t = CGFloat(k) / CGFloat(max(steps, 1))
-            let q = CGPoint(x: point.x + (target.x - point.x) * t, y: point.y + (target.y - point.y) * t)
-            if let lines = BusEdit.moveEnd(base, line: hit.line, end: hit.end, to: q) {
-                doc.setBusLines(hit.bus, lines)
-            }
+        if BusDrag.end(doc, at: point, to: target) == nil {
+            print("  no bus end at \(fmt(point))"); failures += 1
         }
     }
 

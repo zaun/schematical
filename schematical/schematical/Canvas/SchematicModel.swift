@@ -1392,6 +1392,13 @@ final class SchematicDocument {
         settle { attaches($0, toPort: portID) }
     }
 
+    /// Re-fits the wires on every port of a bus, when a bus drag ends.
+    func settleWires(attachedToBus busID: UUID) {
+        for port in bus(busID)?.ports ?? [] {
+            settleWires(attachedToPort: port.id)
+        }
+    }
+
     /// Called when a block is released. Re-fits the wires attached to it and
     /// stores the result, so the change stays rather than being recomputed per frame.
     func settleWires(attachedTo chipID: UUID) {
@@ -1618,7 +1625,9 @@ final class SchematicDocument {
 
     /// The one way a drag changes a bus. Stores `lines` only if the bus stays
     /// valid, keeps the same joints (points may move), keeps every line's
-    /// direction, and stays apart from other buses. Returns whether it did.
+    /// direction, stays apart from other buses, and every port still fits
+    /// where it is (its line long enough, no T slid into it). Ports ride
+    /// along with their line. Returns whether it stored the lines.
     @discardableResult
     func setBusLines(_ id: UUID, _ lines: [BusLine]) -> Bool {
         guard let index = buses.firstIndex(where: { $0.id == id }) else { return false }
@@ -1630,12 +1639,36 @@ final class SchematicDocument {
         }
         var edited = old
         edited.lines = lines
-        guard edited.isValid, edited.jointShapes == old.jointShapes else { return false }
+        guard edited.isValid, edited.jointShapes == old.jointShapes, edited.portsFit else { return false }
         var all = buses
         all[index] = edited
         guard Self.busesAreApart(all) else { return false }
         buses[index] = edited
         return true
+    }
+
+    /// One frame of a bus drag. `step(offset)` gives the lines for a drag of
+    /// `offset` from the press (against the press-time bus). The drag walks
+    /// from `done` (the last offset stored) toward `target` one grid step at
+    /// a time, storing each step through `setBusLines`, and stops at the
+    /// first refused one. So a drag never jumps over something it may not
+    /// pass, such as a T end over a port. Returns the offset reached.
+    @discardableResult
+    func dragBus(_ id: UUID, from done: CGSize, to target: CGSize, step: (CGSize) -> [BusLine]?) -> CGSize {
+        let dx = target.width - done.width
+        let dy = target.height - done.height
+        let count = Int((max(abs(dx), abs(dy)) / SchematicGrid.spacing).rounded(.up))
+        var reached = done
+        guard count > 0 else { return done }
+        for k in 1...count {
+            let t = CGFloat(k) / CGFloat(count)
+            let offset = CGSize(width: SchematicGrid.snap(done.width + dx * t),
+                                height: SchematicGrid.snap(done.height + dy * t))
+            guard offset != reached else { continue }
+            guard let lines = step(offset), setBusLines(id, lines) else { break }
+            reached = offset
+        }
+        return reached
     }
 
     /// The bus line under `point`, if any (topmost bus first).
