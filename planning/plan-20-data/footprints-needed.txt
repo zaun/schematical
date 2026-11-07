@@ -1,0 +1,47 @@
+== plan 20 packages 103
+   369 (blank: ceramic/military; map from TI code)
+    55 24-PDIP -> PDIP-24
+    45 56-BGA Microstar Junior (7x4.5)
+    22 SM8
+    20 54-BGA Microstar Junior (8x5.5)
+    19 8-SOIC -> SOIC-8
+    16 20-BGA MICROSTAR JUNIOR (4x3)
+    14 56-TVSOP -> TVSOP-56
+    12 8-PDIP -> PDIP-8
+    11 96-PBGA MICROSTAR (13.6x5.6)
+     9 24-TVSOP -> TVSOP-24
+     9 8-DSBGA (1.9x0.9)
+     8 24-VQFN (5.5x3.5)
+     7 8-X1SON (1.95x1)
+     7 8-SO -> SOP-8
+     6 16-UQFN (2.6x1.8)
+     5 6-X2SON (1x0.8)
+     5 8-XFBGA, DSBGA
+     4 80-TSSOP
+     4 SOT-5X3
+     4 8-X2SON (1.35x0.8)
+     4 20-LCC (8.89x8.89)
+     3 4-DSBGA (0.88x0.88)
+     3 4-DSBGA
+     3 20-LCCC (8.89x8.89)
+     3 10-UQFN (1.8x1.4)
+     3 16-SOT-23-THIN
+     2 64-TSSOP -> TSSOP-64
+     2 4-X2SON (0.8x0.8)
+     2 6-USON (1.45x1)
+     2 83-NFBGA (10x4.5)
+     2 100-LQFP (14x14)
+     2 24-VSSOP
+     2 12-UQFN (1.7x2)
+     1 5-DSBGA
+     1 4-DSBGA (0.9x0.9)
+     1 6-X2SON (1x1)
+     1 20-SSOP/QSOP
+     1 20-BGA Microstar Junior (2.5x3.0)
+     1 TSOT-23-8
+     1 96-NFBGA (13.5x5.5)
+     1 24-CFP
+     1 5-X2SON (1.1x0.85)
+     1 8-CDIP
+     1 12-X2QFN (1.7x1)
+     1 24-VQFN (3.5x5.5)
