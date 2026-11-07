@@ -12,6 +12,12 @@
   every lettered sub-plan, plus any edits to other plans it causes. Don't
   make one commit per sub-plan.
 
+## Testing in the app
+
+- When you drive the real mouse to test the app (clicks, drags, hovers),
+  move the pointer to the top-left corner of the screen (0, 0) when you are
+  done, so it isn't left over the user's work.
+
 ## Datasheets
 
 - Add only parts that are **in stock**: DigiKey shows a quantity available
