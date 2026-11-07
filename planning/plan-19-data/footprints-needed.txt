@@ -1,0 +1,8 @@
+== plan 19 packages 26
+    53 (blank: ceramic/military; map from TI code)
+     5 16-SOT-23-THIN
+     4 SM8
+     4 24-PDIP -> PDIP-24
+     3 20-BGA MICROSTAR JUNIOR (4x3)
+     2 SOT-5X3
+     1 16-UQFN (2.6x1.8)
