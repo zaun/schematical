@@ -18,7 +18,7 @@ struct PCBSidebarView: View {
                 .pickerStyle(.segmented)
             }
 
-            if let id = document.selectedChipID,
+            if let id = document.selectedFootprintID,
                let chip = document.chips.first(where: { $0.id == id }), chip.board != nil {
                 FootprintPanel(document: document, chip: chip)
                     // Fresh field state for each part.

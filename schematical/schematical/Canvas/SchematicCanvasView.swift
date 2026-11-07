@@ -485,7 +485,7 @@ struct SchematicCanvasView: View {
 
     private func beginPointerInteraction(at point: CGPoint) {
         if let hit = document.chip(at: point) {
-            document.selectedChipID = hit.id
+            document.select(.chip(hit.id))
             interaction = .moveChip(id: hit.id, startOrigin: hit.origin)
         } else if let port = document.portHit(at: point), let found = document.port(port) {
             // A press selects the port; dragging slides it along its line.
@@ -520,9 +520,7 @@ struct SchematicCanvasView: View {
     }
 
     private func clearSelection() {
-        document.selectedChipID = nil
-        document.selectedBusID = nil
-        document.selectedPortID = nil
+        document.clearSchematicSelection()
     }
 
     private func handleEnded(_ value: DragGesture.Value) {

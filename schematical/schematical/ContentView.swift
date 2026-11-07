@@ -99,7 +99,7 @@ struct ContentView: View {
     /// on the PCB page, where the simulation never runs.
     private var canRotate: Bool {
         if document.selectedTextID != nil { return true }
-        guard let id = document.selectedChipID else { return false }
+        guard let id = document.selectedFootprintID else { return false }
         return document.chips.first { $0.id == id }?.board != nil
     }
 
@@ -172,10 +172,7 @@ struct ContentView: View {
                                 // Select) tool and nothing selected.
                                 tool = .pointer
                                 pcbTool = .select
-                                document.selectedChipID = nil
-                                document.selectedTextID = nil
-                                document.selectedBusID = nil
-                                document.selectedPortID = nil
+                                document.clearAllSelections()
                             }
                             simulation.toggle(document: document)
                         } label: {
@@ -259,7 +256,7 @@ struct ContentView: View {
                         Button {
                             if let id = document.selectedTextID {
                                 document.rotateText(id)
-                            } else if let id = document.selectedChipID {
+                            } else if let id = document.selectedFootprintID {
                                 document.rotateFootprint(id)
                             }
                         } label: {

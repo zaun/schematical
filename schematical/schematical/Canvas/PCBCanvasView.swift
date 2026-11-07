@@ -146,7 +146,7 @@ struct PCBCanvasView: View {
         // Selection boxes, on top of everything.
         let margin = 3 / scale
         var selected: CGRect?
-        if let id = document.selectedChipID {
+        if let id = document.selectedFootprintID {
             selected = document.chips.first { $0.id == id }?.boardBounds
         } else if let id = document.selectedTextID {
             selected = document.texts.first { $0.id == id }?.boardRect
@@ -214,15 +214,14 @@ struct PCBCanvasView: View {
             return .moveText(id: id, startAnchor: anchor)
         case .select:
             if let text = document.text(at: point) {
-                document.selectedTextID = text.id
+                document.select(.text(text.id))
                 return .moveText(id: text.id, startAnchor: text.anchor)
             }
             if let hit = document.footprint(at: point), let placement = hit.board {
-                document.selectedChipID = hit.id
+                document.select(.footprint(hit.id))
                 return .move(id: hit.id, startCentre: placement.centre)
             }
-            document.selectedChipID = nil
-            document.selectedTextID = nil
+            document.clearBoardSelection()
             return .pan(startOffset: viewport.offset)
         }
     }

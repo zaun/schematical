@@ -624,7 +624,8 @@ enum WireEnd: Hashable {
 /// wire both end here, so the point is fixed in place.
 struct Junction: Identifiable, Hashable {
     let id: UUID
-    let point: CGPoint
+    /// Moves only with a group drag (plan-15); always on the grid.
+    var point: CGPoint
 
     init(id: UUID = UUID(), point: CGPoint) {
         self.id = id
@@ -785,7 +786,7 @@ enum OrthogonalRoute {
 
 // MARK: - Document
 
-/// The schematic being edited: placed blocks, wires and the selection.
+/// The schematic being edited: placed blocks, wires, and each page's selection.
 @MainActor
 @Observable
 final class SchematicDocument {
@@ -794,45 +795,146 @@ final class SchematicDocument {
     private(set) var junctions: [Junction] = []
     /// Buses, in drawing order (plan-13). They carry no current themselves.
     private(set) var buses: [Bus] = []
-    /// The selected part. Selecting one clears the other selections.
-    var selectedChipID: UUID? {
+    /// What is selected on the Schematic page: parts, wires and junctions
+    /// (plan-15). Editor state only, never saved. Changing it clears the bus
+    /// and port selection.
+    private(set) var schematicSelection = ItemSelection<SchematicItem>() {
         didSet {
-            if selectedChipID != nil { clearSelection(except: .chip) }
+            if !schematicSelection.isEmpty { clearSelection(except: .items) }
         }
     }
-    /// The selected bus. Selecting one clears the other selections.
+    /// What is selected on the PCB page: footprints and board texts. Kept
+    /// apart from the Schematic page's selection.
+    private(set) var boardSelection = ItemSelection<BoardItem>()
+
+    /// The selected bus. Selecting one clears the other Schematic selections.
     var selectedBusID: UUID? {
         didSet {
             if selectedBusID != nil { clearSelection(except: .bus) }
         }
     }
-    /// The selected bus port. Selecting one clears the other selections.
+    /// The selected bus port. Selecting one clears the other Schematic selections.
     var selectedPortID: UUID? {
         didSet {
             if selectedPortID != nil { clearSelection(except: .port) }
         }
     }
 
-    private enum SelectionKind { case chip, text, bus, port }
+    private enum SelectionKind { case items, bus, port }
 
-    /// At most one thing is selected: clears every selection but `kept`.
+    /// On the Schematic page, the item set, a bus and a port exclude each
+    /// other: clears every one but `kept`.
     private func clearSelection(except kept: SelectionKind) {
-        if kept != .chip, selectedChipID != nil { selectedChipID = nil }
-        if kept != .text, selectedTextID != nil { selectedTextID = nil }
+        if kept != .items, !schematicSelection.isEmpty { schematicSelection.clear() }
         if kept != .bus, selectedBusID != nil { selectedBusID = nil }
         if kept != .port, selectedPortID != nil { selectedPortID = nil }
+    }
+
+    /// The part, when it is the only thing selected on the Schematic page.
+    var selectedChipID: UUID? {
+        if case let .chip(id)? = schematicSelection.sole { return id }
+        return nil
+    }
+
+    /// The part whose footprint is the only thing selected on the PCB page.
+    var selectedFootprintID: UUID? {
+        if case let .footprint(id)? = boardSelection.sole { return id }
+        return nil
+    }
+
+    /// The board text, when it is the only thing selected on the PCB page.
+    var selectedTextID: UUID? {
+        if case let .text(id)? = boardSelection.sole { return id }
+        return nil
+    }
+
+    // MARK: Selecting
+
+    /// Selects only `item` on the Schematic page.
+    func select(_ item: SchematicItem) {
+        schematicSelection.replace(with: item)
+    }
+
+    /// Selects only `item` on the PCB page.
+    func select(_ item: BoardItem) {
+        boardSelection.replace(with: item)
+    }
+
+    func toggleSelection(_ item: SchematicItem) {
+        schematicSelection.toggle(item)
+    }
+
+    func toggleSelection(_ item: BoardItem) {
+        boardSelection.toggle(item)
+    }
+
+    func isSelected(_ item: SchematicItem) -> Bool {
+        schematicSelection.contains(item)
+    }
+
+    func isSelected(_ item: BoardItem) -> Bool {
+        boardSelection.contains(item)
+    }
+
+    /// A Pointer press on `item`; see `ItemSelection.press`.
+    func pressSelection(_ item: SchematicItem, shift: Bool) -> SelectionPress<SchematicItem> {
+        schematicSelection.press(item, shift: shift)
+    }
+
+    /// A Select press on `item`; see `ItemSelection.press`.
+    func pressSelection(_ item: BoardItem, shift: Bool) -> SelectionPress<BoardItem> {
+        boardSelection.press(item, shift: shift)
+    }
+
+    func releaseSelection(_ press: SelectionPress<SchematicItem>, wasClick: Bool) {
+        schematicSelection.release(press, wasClick: wasClick)
+    }
+
+    func releaseSelection(_ press: SelectionPress<BoardItem>, wasClick: Bool) {
+        boardSelection.release(press, wasClick: wasClick)
+    }
+
+    /// Clears the Schematic page's selection: items, bus and port.
+    func clearSchematicSelection() {
+        schematicSelection.clear()
+        selectedBusID = nil
+        selectedPortID = nil
+    }
+
+    func clearBoardSelection() {
+        boardSelection.clear()
+    }
+
+    /// Clears both pages' selections (opening a file, starting a run).
+    func clearAllSelections() {
+        clearSchematicSelection()
+        clearBoardSelection()
+    }
+
+    /// Drops selected ids that are no longer in the document.
+    private func pruneSelection() {
+        let chipIDs = Set(chips.map(\.id)), wireIDs = Set(wires.map(\.id))
+        let junctionIDs = Set(junctions.map(\.id)), textIDs = Set(texts.map(\.id))
+        schematicSelection.filter { item in
+            switch item {
+            case let .chip(id): chipIDs.contains(id)
+            case let .wire(id): wireIDs.contains(id)
+            case let .junction(id): junctionIDs.contains(id)
+            }
+        }
+        let footprints = Set(chips.filter { $0.board != nil }.map(\.id))
+        boardSelection.filter { item in
+            switch item {
+            case let .footprint(id): footprints.contains(id)
+            case let .text(id): textIDs.contains(id)
+            }
+        }
     }
 
     /// The PCB's size, layers, colour and units.
     var board = BoardSettings()
     /// Free texts on the PCB, in drawing order.
     private(set) var texts: [BoardText] = []
-    /// The selected board text. Selecting one clears the other selections.
-    var selectedTextID: UUID? {
-        didSet {
-            if selectedTextID != nil { clearSelection(except: .text) }
-        }
-    }
 
     /// Lowest number tried for the next part's reference ("U" plus a number).
     private(set) var nextReference = 1
@@ -861,10 +963,7 @@ final class SchematicDocument {
         self.nextReference = max(nextReference, 1)
         self.board = board
         self.texts = texts
-        selectedChipID = nil
-        selectedTextID = nil
-        selectedBusID = nil
-        selectedPortID = nil
+        clearAllSelections()
         editorMessage = nil
     }
 
@@ -937,6 +1036,82 @@ final class SchematicDocument {
 
     func chip(at point: CGPoint) -> PlacedChip? {
         chips.last { $0.hitRect.contains(point) }
+    }
+
+    /// The junction within `tolerance` of `point`, if any.
+    func junctionHit(at point: CGPoint, tolerance: CGFloat = 6) -> Junction? {
+        junctions.last { Self.distance(from: point, to: $0.point) <= tolerance }
+    }
+
+    // MARK: Group drags (Schematic)
+
+    /// Where every selected part, junction and wire is now, for a group drag.
+    func schematicGroupBase() -> SchematicGroupBase {
+        var base = SchematicGroupBase()
+        for item in schematicSelection.items {
+            switch item {
+            case let .chip(id):
+                if let chip = chips.first(where: { $0.id == id }) { base.chips[id] = chip.origin }
+            case let .junction(id):
+                if let junction = junctions.first(where: { $0.id == id }) { base.junctions[id] = junction.point }
+            case let .wire(id):
+                if let wire = wires.first(where: { $0.id == id }) { base.wires[id] = wire.interior }
+            }
+        }
+        for wire in wires where base.wires[wire.id] != nil || moves(wire.start, in: base) || moves(wire.end, in: base) {
+            base.affectedWires.insert(wire.id)
+            if OrthogonalRoute.isOrthogonal(path(forWire: wire.id)) {
+                base.orthogonalWires.insert(wire.id)
+            }
+        }
+        return base
+    }
+
+    /// Whether a group drag moves this wire end: a pin of a moved part, or a
+    /// moved junction.
+    private func moves(_ end: WireEnd, in base: SchematicGroupBase) -> Bool {
+        switch end {
+        case let .pin(ref): base.chips[ref.chipID] != nil
+        case let .junction(id): base.junctions[id] != nil
+        case .busPin: false
+        }
+    }
+
+    /// One frame of a group drag: every part, junction and selected wire bend
+    /// in `base` moves by `delta` snapped to the grid, from where it was at
+    /// the press. Selected wires keep their ends: only their bends move.
+    func moveSchematicGroup(_ base: SchematicGroupBase, by delta: CGSize) {
+        let dx = SchematicGrid.snap(delta.width), dy = SchematicGrid.snap(delta.height)
+        func shifted(_ point: CGPoint) -> CGPoint { CGPoint(x: point.x + dx, y: point.y + dy) }
+        for index in chips.indices {
+            guard let origin = base.chips[chips[index].id] else { continue }
+            let moved = shifted(origin)
+            if chips[index].origin != moved { chips[index].origin = moved }
+        }
+        for index in junctions.indices {
+            guard let point = base.junctions[junctions[index].id] else { continue }
+            let moved = shifted(point)
+            if junctions[index].point != moved { junctions[index].point = moved }
+        }
+        for index in wires.indices {
+            guard let bends = base.wires[wires[index].id] else { continue }
+            let moved = bends.map(shifted)
+            if wires[index].interior != moved { wires[index].interior = moved }
+        }
+    }
+
+    /// The end of a group drag: re-fits each affected wire once, as
+    /// `settleWires(attachedTo:)` does. A wire that was all right angles at
+    /// the press gets corners wherever the move left a slanted segment.
+    func settleSchematicGroup(_ base: SchematicGroupBase) {
+        for index in wires.indices where base.affectedWires.contains(wires[index].id) {
+            guard let start = endTip(wires[index].start), let end = endTip(wires[index].end) else { continue }
+            var interior = OrthogonalRoute.settled(start: start, interior: wires[index].interior, end: end)
+            if base.orthogonalWires.contains(wires[index].id) {
+                interior = Array(OrthogonalRoute.normalize([start] + interior + [end]).dropFirst().dropLast())
+            }
+            wires[index].interior = interior
+        }
     }
 
     // MARK: Footprints (PCB)
@@ -1041,7 +1216,7 @@ final class SchematicDocument {
     func addText(at point: CGPoint) -> UUID {
         let text = BoardText(id: UUID(), text: "Text", anchor: BoardGrid.snap(point), size: BoardText.defaultSize)
         texts.append(text)
-        selectedTextID = text.id
+        select(.text(text.id))
         return text.id
     }
 
@@ -1083,9 +1258,7 @@ final class SchematicDocument {
 
     func deleteText(_ id: UUID) {
         texts.removeAll { $0.id == id }
-        if selectedTextID == id {
-            selectedTextID = nil
-        }
+        pruneSelection()
     }
 
     /// The text under a board point (mm): the last one drawn there.
@@ -1096,6 +1269,49 @@ final class SchematicDocument {
     /// The footprint under a board point (mm): the last one drawn there.
     func footprint(at point: CGPoint) -> PlacedChip? {
         chips.last { $0.boardBounds?.contains(point) ?? false }
+    }
+
+    // MARK: Group drags (PCB)
+
+    /// Where every selected footprint (its centre) and text (its anchor) is
+    /// now, for a group drag.
+    func boardGroupBase() -> BoardGroupBase {
+        var base = BoardGroupBase()
+        for item in boardSelection.items {
+            switch item {
+            case let .footprint(id):
+                if let centre = chips.first(where: { $0.id == id })?.board?.centre { base.footprints[id] = centre }
+            case let .text(id):
+                if let anchor = texts.first(where: { $0.id == id })?.anchor { base.texts[id] = anchor }
+            }
+        }
+        return base
+    }
+
+    /// One frame of a group drag on the PCB. One item moves as it always
+    /// has, snapped onto the grid. Several all move by the same `delta`
+    /// snapped to the board grid, so they keep their places relative to
+    /// each other.
+    func moveBoardGroup(_ base: BoardGroupBase, by delta: CGSize) {
+        func moved(_ point: CGPoint, by offset: CGSize) -> CGPoint {
+            CGPoint(x: point.x + offset.width, y: point.y + offset.height)
+        }
+        if base.footprints.count + base.texts.count == 1 {
+            if let (id, centre) = base.footprints.first { moveFootprint(id, to: moved(centre, by: delta)) }
+            if let (id, anchor) = base.texts.first { moveText(id, to: moved(anchor, by: delta)) }
+            return
+        }
+        let offset = CGSize(width: BoardGrid.snap(delta.width), height: BoardGrid.snap(delta.height))
+        for index in chips.indices {
+            guard let centre = base.footprints[chips[index].id], chips[index].board != nil else { continue }
+            let target = moved(centre, by: offset)
+            if chips[index].board?.centre != target { chips[index].board?.centre = target }
+        }
+        for index in texts.indices {
+            guard let anchor = base.texts[texts[index].id] else { continue }
+            let target = moved(anchor, by: offset)
+            if texts[index].anchor != target { texts[index].anchor = target }
+        }
     }
 
     /// Sets or clears an EEPROM's load file. Does nothing for other parts.
@@ -1370,11 +1586,13 @@ final class SchematicDocument {
         return false
     }
 
-    /// Drops junctions that no wire ends at any more.
+    /// Drops junctions that no wire ends at any more. Every removal of
+    /// parts or wires ends here, so it also drops what left the selection.
     private func pruneJunctions() {
         junctions.removeAll { junction in
             !wires.contains { $0.start == .junction(junction.id) || $0.end == .junction(junction.id) }
         }
+        pruneSelection()
     }
 
     /// Whether a wire end sits on a pin of the given bus port.
@@ -1874,9 +2092,6 @@ final class SchematicDocument {
         if let hit = chip(at: point) {
             chips.removeAll { $0.id == hit.id }
             wires.removeAll { attaches($0.start, to: hit.id) || attaches($0.end, to: hit.id) }
-            if selectedChipID == hit.id {
-                selectedChipID = nil
-            }
         } else if let portID = portHit(at: point) {
             let count = wiresOnPins(port: portID)
             if count > 0 {
