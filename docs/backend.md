@@ -217,10 +217,11 @@ A new kind of part is added the same way every time:
 5. The app picks a symbol for the new `PartKind`.
 
 Nothing else: the loader, the listing, the circuit API and the app's
-drawer work from the kind table and the `Part` structs. The tests need two
-lines: the kind's name and facts in `tests/support/listing.c`, and
+drawer work from the kind table and the `Part` structs. The tests need
+three lines: the kind's name and facts in `tests/support/listing.c`,
 `TRACE_LAST_KIND` in `tests/trace_check.c` moved to the new last
-`PartKind` (its per-kind count array is sized by it).
+`PartKind` (its per-kind count array is sized by it), and the same last
+`PartKind` in the per-kind arrays of `tests/listing_check.c`.
 
 ## Tests
 

@@ -221,21 +221,28 @@ with a `"pa"` list of 7 names.
 
 Acceptance: `pio_test` B1–B10 `ok`; `ctest` 100%.
   Check: `cmake --build /tmp/logic-p14 -j8 && /tmp/logic-p14/pio_test` → every case `ok` (est. 1 min).
-Commit: —
+Commit: c5b9082
 
 ### Phase 2 — Parts
 
-- [ ] `schematical/schematical/Parts/pio.json` (new file, `"format"` and
+- [x] `schematical/schematical/Parts/pio.json` (new file, `"format"` and
       `"version"` as the other part files) with `W65C21N` and `W65C21S`
-      (§3.1), 4 parts.
-- [ ] `pio_test` loads `W65C21N` from the library instead of the inline copy.
-- [ ] Regenerate the goldens (`docs/backend.md` § Tests). Check: no removed
+      (§3.1), 4 parts. Loads: `listing_check` → `pio 4`.
+- [x] `pio_test` loads `W65C21N` from the library instead of the inline copy.
+      → 18 cases `ok` (A1–A8, B1–B10).
+- [x] Regenerate the goldens (`docs/backend.md` § Tests). Check: no removed
       line; + 4 `parts.txt`, + 4 `traces.txt`, 0 `footprints.txt`.
-- [ ] Spot-check `W65C21N6TPLG-14`'s listing line: pin 25 `CS2B`, pin 2 `NC`,
-      `|footprint=PLCC-44`.
+      → numstat `4 0 parts.txt`, `4 0 traces.txt`; `footprints.txt` unchanged.
+- [x] Spot-check `W65C21N6TPLG-14`'s listing line: pin 25 `CS2B`, pin 2 `NC`,
+      `|footprint=PLCC-44`. → `25:CS2B:input:default`, `2:NC:nc:default`,
+      `|footprint=PLCC-44|vcc=4500-5500,in=5500`.
+- [x] (added) `listing_check.c` sized its per-kind arrays at 17 kinds; the
+      first `pio` part overflowed them (SegFault). Sized by `PART_PIO + 1`;
+      `docs/backend.md` § Adding a kind names the third line.
 
 Acceptance: `ctest` 100%; the golden diff is exactly the 8 added lines.
   Check: `ctest --test-dir /tmp/logic-p14` → `100% tests passed`; `git diff --numstat backend/tests/golden` → `4 0 parts.txt`, `4 0 traces.txt` (est. 2 min).
+  Result: `100% tests passed, 0 tests failed out of 21`; numstat as above.
 Commit: —
 
 ## Validation Plan
@@ -275,6 +282,9 @@ is plan-14-J's.
 - §3.2 "an unknown read of OR makes the side's flags X" needed a `bus65`
   hook: `read_unknown()` (plan-14-A Corrections). A side whose CR bit 2 is
   known 0 is left alone (its RS0 = 0 read is DDR, no side effect).
+- `listing_check` had a fixed 17-entry per-kind array (not in
+  `docs/backend.md`'s "Adding a kind"); the 18th kind segfaulted it. Fixed
+  in Phase 2 and documented.
 - The bench helpers are one 1 MHz cycle each and start and end at a PHI2
   fall; a manual edge between cycles uses the tests' `idle_begin` /
   `idle_end` so the low phase never drops under `tc`.

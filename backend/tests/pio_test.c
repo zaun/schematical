@@ -485,52 +485,7 @@ static void a8_widths(const Part *part) {
     printf("%s A8 PHI2 widths\n", failures > before ? "FAIL" : "ok");
 }
 
-/* ---- B: pia6521 (the W65C21N device) ------------------------------------------- */
-
-/* The W65C21N device of pio.json (p40 pinout, one part). */
-static const char W65C21N_INLINE[] =
-    "{\"id\":\"W65C21N\",\"function\":\"PIA\",\"description\":\"Peripheral interface adapter, NM"
-    "OS-compatible (WDC W65C21N)\",\"drawer\":[\"Interface\"],\"note\":\"W65C21 (datasheets/p"
-    "io/w65c21.pdf): pinouts p.3, AC timing p.8, timing figures p.9-10, registers Tab"
-    "les 1-2 p.11, port buffers p.11 and p.16, control lines p.14-15 and Table 3 p.18"
-    ", ordering p.20. The N and S dies differ only in port buffer currents (not model"
-    "ed).\",\"model\":\"pia6521\",\"phi2\":\"PHI2\",\"rw\":\"RWB\",\"reset\":\"RESB\",\"data\":[\"D0\",\"D1"
-    "\",\"D2\",\"D3\",\"D4\",\"D5\",\"D6\",\"D7\"],\"csHigh\":[\"CS0\",\"CS1\"],\"csLow\":[\"CS2B\"],\"rs\":[\""
-    "RS0\",\"RS1\"],\"pa\":[\"PA0\",\"PA1\",\"PA2\",\"PA3\",\"PA4\",\"PA5\",\"PA6\",\"PA7\"],\"pb\":[\"PB0\",\""
-    "PB1\",\"PB2\",\"PB3\",\"PB4\",\"PB5\",\"PB6\",\"PB7\"],\"ca1\":\"CA1\",\"ca2\":\"CA2\",\"cb1\":\"CB1\",\"c"
-    "b2\":\"CB2\",\"irqa\":\"IRQAB\",\"irqb\":\"IRQBB\",\"grades\":{\"14\":{\"tcyc\":70,\"tc\":35,\"tacr\""
-    ":8,\"tcar\":0,\"tpcr\":10,\"tcdr\":20,\"thr\":5,\"tacw\":8,\"tcaw\":0,\"tdcw\":10,\"thw\":5,\"tcp"
-    "w\":20,\"tca2\":20,\"tca2h\":20,\"trs2\":25,\"tcb2\":70,\"tcb2h\":20,\"tdc\":5,\"pwi\":70,\"trs3"
-    "\":20,\"tir\":25,\"vcc\":[4.5,5.5],\"note\":\"AC timing p.8, the one 14 MHz @ 5 V table "
-    "(both dies). pwi is printed in the Max column; it is a minimum. VDD 5 V +/- 10% "
-    "(p.2).\"}},\"pinouts\":{\"p40\":[{\"number\":1,\"name\":\"VSS\",\"role\":\"ground\"},{\"number\":"
-    "2,\"name\":\"PA0\",\"role\":\"inout\",\"group\":\"port A\"},{\"number\":3,\"name\":\"PA1\",\"role\":"
-    "\"inout\",\"group\":\"port A\"},{\"number\":4,\"name\":\"PA2\",\"role\":\"inout\",\"group\":\"port "
-    "A\"},{\"number\":5,\"name\":\"PA3\",\"role\":\"inout\",\"group\":\"port A\"},{\"number\":6,\"name\""
-    ":\"PA4\",\"role\":\"inout\",\"group\":\"port A\"},{\"number\":7,\"name\":\"PA5\",\"role\":\"inout\","
-    "\"group\":\"port A\"},{\"number\":8,\"name\":\"PA6\",\"role\":\"inout\",\"group\":\"port A\"},{\"nu"
-    "mber\":9,\"name\":\"PA7\",\"role\":\"inout\",\"group\":\"port A\"},{\"number\":10,\"name\":\"PB0\","
-    "\"role\":\"inout\",\"group\":\"port B\"},{\"number\":11,\"name\":\"PB1\",\"role\":\"inout\",\"group"
-    "\":\"port B\"},{\"number\":12,\"name\":\"PB2\",\"role\":\"inout\",\"group\":\"port B\"},{\"number\""
-    ":13,\"name\":\"PB3\",\"role\":\"inout\",\"group\":\"port B\"},{\"number\":14,\"name\":\"PB4\",\"rol"
-    "e\":\"inout\",\"group\":\"port B\"},{\"number\":15,\"name\":\"PB5\",\"role\":\"inout\",\"group\":\"p"
-    "ort B\"},{\"number\":16,\"name\":\"PB6\",\"role\":\"inout\",\"group\":\"port B\"},{\"number\":17,"
-    "\"name\":\"PB7\",\"role\":\"inout\",\"group\":\"port B\"},{\"number\":18,\"name\":\"CB1\",\"role\":\""
-    "input\"},{\"number\":19,\"name\":\"CB2\",\"role\":\"inout\"},{\"number\":20,\"name\":\"VDD\",\"rol"
-    "e\":\"power\"},{\"number\":21,\"name\":\"RWB\",\"role\":\"input\"},{\"number\":22,\"name\":\"CS0\","
-    "\"role\":\"input\"},{\"number\":23,\"name\":\"CS2B\",\"role\":\"input\"},{\"number\":24,\"name\":\""
-    "CS1\",\"role\":\"input\"},{\"number\":25,\"name\":\"PHI2\",\"role\":\"input\"},{\"number\":26,\"na"
-    "me\":\"D7\",\"role\":\"inout\",\"group\":\"data\"},{\"number\":27,\"name\":\"D6\",\"role\":\"inout\","
-    "\"group\":\"data\"},{\"number\":28,\"name\":\"D5\",\"role\":\"inout\",\"group\":\"data\"},{\"number"
-    "\":29,\"name\":\"D4\",\"role\":\"inout\",\"group\":\"data\"},{\"number\":30,\"name\":\"D3\",\"role\":"
-    "\"inout\",\"group\":\"data\"},{\"number\":31,\"name\":\"D2\",\"role\":\"inout\",\"group\":\"data\"},"
-    "{\"number\":32,\"name\":\"D1\",\"role\":\"inout\",\"group\":\"data\"},{\"number\":33,\"name\":\"D0\""
-    ",\"role\":\"inout\",\"group\":\"data\"},{\"number\":34,\"name\":\"RESB\",\"role\":\"input\"},{\"num"
-    "ber\":35,\"name\":\"RS1\",\"role\":\"input\"},{\"number\":36,\"name\":\"RS0\",\"role\":\"input\"},{"
-    "\"number\":37,\"name\":\"IRQBB\",\"role\":\"output\"},{\"number\":38,\"name\":\"IRQAB\",\"role\":\""
-    "output\"},{\"number\":39,\"name\":\"CA2\",\"role\":\"inout\"},{\"number\":40,\"name\":\"CA1\",\"ro"
-    "le\":\"input\"}]},\"parts\":[{\"name\":\"W65C21N6TPG-14\",\"package\":\"DIP\",\"pinout\":\"p40\","
-    "\"footprint\":\"PDIP-40-600\",\"grade\":\"14\"}]}";
+/* ---- B: pia6521 (the shipped W65C21N) ------------------------------------------- */
 
 static PartLibrary *inline_library(const char *device) {
     PartLibrary *library = part_library_create();
@@ -559,20 +514,28 @@ static PartLibrary *inline_library(const char *device) {
     return library;
 }
 
-static PartLibrary *pia_library;
+/* The shipped part library (schematical/schematical/Parts). */
+static PartLibrary *shipped_library;
 
-static const Part *pia_part(void) {
+static const Part *shipped_part(const char *name) {
     const Part *part;
 
-    if (pia_library == NULL) {
-        pia_library = inline_library(W65C21N_INLINE);
+    if (shipped_library == NULL) {
+        shipped_library = part_library_create();
+        if (load_parts_dir(shipped_library, PARTS_DIR) != 0) {
+            exit(2);
+        }
     }
-    part = part_library_find(pia_library, "W65C21N6TPG-14");
+    part = part_library_find(shipped_library, name);
     if (part == NULL) {
-        fprintf(stderr, "no W65C21N6TPG-14\n");
+        fprintf(stderr, "no part %s\n", name);
         exit(2);
     }
     return part;
+}
+
+static const Part *pia_part(void) {
+    return shipped_part("W65C21N6TPG-14");
 }
 
 enum { PIA_ORA = 0, PIA_CRA = 1, PIA_ORB = 2, PIA_CRB = 3 };
@@ -938,7 +901,7 @@ int main(void) {
     b8_cb2_pulse();
     b9_manual();
     b10_inputs();
-    if (pia_library != NULL) part_library_destroy(pia_library);
+    if (shipped_library != NULL) part_library_destroy(shipped_library);
     if (failures > 0) {
         printf("%d failures\n", failures);
         return 1;
