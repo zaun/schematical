@@ -138,12 +138,20 @@ The plan-06-A harness approach (`/tmp/p14/harness/build.sh`, as plan-12-K's):
 
 Acceptance: the build and the harness output of §1.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p14f-dd build` → `** BUILD SUCCEEDED **` (est. 2 min); `/tmp/p14/harness/run catalog`, `run facts …` → the §3.2/§3.3 rows (est. seconds).
-Commit: —
+Commit: 261725a
 
 ### Phase 2 — Symbol render
 
-- [ ] Harness `render` of the two-chip document (§4 item 3); attach the PNG
-      path in the commit message.
+- [x] Harness `render` of the two-chip document (§4 item 3); attach the PNG
+      path in the commit message. → `harness render /tmp/p14/pio.schematical
+      /tmp/p14/pio.png`: places W65C22S6TPG-14 and W65C21N6TPLG-14 with
+      `SchematicDocument.placeChip`, saves the file (`SchematicFile.encoded`),
+      reads it back (`decode` + `apply`) and draws each `ChipBlockView`;
+      prints the side order (Corrections) and `rendered /tmp/p14/pio.png`.
+      The PNG, looked at: two blocks, U1 W65C22S6TPG-14 (VIA) and U2
+      W65C21N6TPLG-14 (PIA); left VDD, the bus inputs, CA1 (PIA: CB1 and four
+      NCs); right the control outputs, PA0–7, PB0–7, D0–7, VSS at the
+      bottom.
 
 Acceptance: the PNG shows both chips as blocks with the pin order of §3.4.
   Check: `/tmp/p14/harness/run render /tmp/p14/pio.schematical /tmp/p14/pio.png` → the PNG, inspected (est. 1 min).
