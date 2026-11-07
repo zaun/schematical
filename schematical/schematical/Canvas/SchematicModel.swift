@@ -763,7 +763,31 @@ enum OrthogonalRoute {
             }
         }
 
-        return Array(mergeCoincident(points).dropFirst().dropLast())
+        return Array(removeDoubleBacks(mergeCoincident(points)).dropFirst().dropLast())
+    }
+
+    /// Drops a vertex where the route turns straight back on itself (three
+    /// points on one line, the middle one outside the other two). That is
+    /// what an end moving past a stored vertex leaves behind. The first and
+    /// last points never go.
+    static func removeDoubleBacks(_ points: [CGPoint]) -> [CGPoint] {
+        var result = points
+        var index = 1
+        while index + 1 < result.count {
+            let a = result[index - 1], b = result[index], c = result[index + 1]
+            let sameRow = a.y == b.y && b.y == c.y
+            let sameColumn = a.x == b.x && b.x == c.x
+            let turnsBack = (sameRow && (b.x - a.x) * (c.x - b.x) < 0)
+                || (sameColumn && (b.y - a.y) * (c.y - b.y) < 0)
+            if turnsBack {
+                result.remove(at: index)
+                result = mergeCoincident(result)
+                index = max(index - 1, 1)
+            } else {
+                index += 1
+            }
+        }
+        return result
     }
 
     /// Moves only the bend at `index`. The neighbouring bends stay where they are,
