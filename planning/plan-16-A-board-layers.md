@@ -289,7 +289,7 @@ Acceptance: the PCB page opens at "25%". With nothing selected, a 6-layer
 board lists Top, Layer 2–5 and Bottom. Inner types switch between Plane and
 Wire; Top and Bottom read Component; a colour change shows at once.
   Check: `xcodebuild … test -only-testing:<tests>/BoardLayersTests` → pass (est. 3 min). Then run the app (`run` skill) and switch to PCB: the zoom label reads 25% and the Layers rows are as described (est. 3 min).
-Commit: —
+Commit: fbca5c9
 
 ## Validation Plan
 

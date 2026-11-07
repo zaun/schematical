@@ -167,16 +167,16 @@ items in reverse drawing order, then Bottom items.
 
 ### Phase 1 — Mirrored geometry and file format
 
-- [ ] `Canvas/BoardSettings.swift`: `BoardSide`; `BoardText.side`.
-- [ ] `Canvas/BoardModel.swift`: `BoardPlacement.side`; mirror in
+- [x] `Canvas/BoardSettings.swift`: `BoardSide`; `BoardText.side`.
+- [x] `Canvas/BoardModel.swift`: `BoardPlacement.side`; mirror in
       `board(_:)` and `board(centre:size:)`; mirrored corners in
       `boardPads`. Replace the "Top side only" comment.
-- [ ] `Backend/PartCatalog.swift`: `Corners.mirrored(_ on: Bool)`.
-- [ ] `Canvas/SchematicModel.swift`: `setFootprintSide`, `setTextSide`, and
+- [x] `Backend/PartCatalog.swift`: `Corners.mirrored(_ on: Bool)`.
+- [x] `Canvas/SchematicModel.swift`: `setFootprintSide`, `setTextSide`, and
       the 1-layer refusal in `canSetLayerCount`.
-- [ ] `Document/SchematicFile.swift`: `Placement.side` and `Board.Text.side`,
+- [x] `Document/SchematicFile.swift`: `Placement.side` and `Board.Text.side`,
       encoded and decoded, with the errors above.
-- [ ] Tests (`<tests>/BoardSideTests.swift`):
+- [x] Tests (`<tests>/BoardSideTests.swift`):
   - a SOIC-14 on Bottom at rotation 0 has pad 1 at the mirrored x of its Top
     position;
   - a chamfered pad's corners swap;
@@ -186,6 +186,14 @@ items in reverse drawing order, then Bottom items.
   - side survives a round trip;
   - each new error;
   - `canSetLayerCount(1)` is refused while a part is on Bottom.
+
+  `/tmp/p16t.sh BoardSideTests,BoardLayersTests` (the named xcodebuild
+  check, both suites) → "Executed 18 tests, with 0 failures". The chamfer
+  test uses SN74AUP1G00DPWR (X2SON-5-DPW), whose signal pads are cut on one
+  corner.
+- [x] (added, from Validation Plan doc sync) `docs/file-format.md`: `side`
+  in the `pcb` row and the text table, the four errors, a bottom part in
+  the example.
 
 Acceptance: mirrored pads, corners and origins match the formulas, and side
 survives Save and Open.
@@ -234,7 +242,12 @@ Commit: —
 
 ## Corrections
 
-None yet.
+- 2026-11-07: `rg -n '\.board\(' schematical/schematical --glob '*.swift' | wc -l`
+  → 8, not 7. The 8th is `SelectionRows.board(document)`
+  (`PCBSidebarView.swift:54`, added by plan-15), not the placement
+  transform; the 7 transform call sites are as the plan says.
+- 2026-11-07: `setTextSide` on a 1-layer board still allows going back to
+  Top (only Bottom is refused), so a text can never get stuck.
 
 ## Summary
 

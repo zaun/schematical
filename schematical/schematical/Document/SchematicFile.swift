@@ -80,6 +80,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// `FootprintStyle` raw value; written only for parts with a
         /// connector footprint (character LCD modules), ignored on others.
         var style: String? = nil
+        /// `BoardSide` raw value; missing means top.
+        var side: String? = nil
     }
 
     /// The PCB: size in mm, copper layers, colour and sidebar units (raw
@@ -114,6 +116,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var size: Int? = nil
             var layer: String? = nil
             var rotation: Int? = nil
+            /// `BoardSide` raw value; missing means top.
+            var side: String? = nil
         }
     }
 
@@ -306,7 +310,8 @@ extension SchematicFile {
                     Placement(x: $0.centre.x, y: $0.centre.y, rotation: $0.rotation,
                               origin: $0.origin.rawValue, outline: $0.outline.rawValue,
                               pin1: $0.pin1.rawValue, reference: $0.reference.rawValue,
-                              style: chip.part.connectorFootprint == nil ? nil : $0.style.rawValue)
+                              style: chip.part.connectorFootprint == nil ? nil : $0.style.rawValue,
+                              side: $0.side.rawValue)
                 },
                 memoryFile: chip.memoryFile.map {
                     MemoryFileEntry(path: MemoryFileAccess.path(of: $0.url, schematic: fileURL),
@@ -349,7 +354,8 @@ extension SchematicFile {
             },
             texts: document.texts.map { text in
                 Board.Text(id: text.id, text: text.text, x: text.anchor.x, y: text.anchor.y,
-                           size: text.size, layer: text.layer.rawValue, rotation: text.rotation)
+                           size: text.size, layer: text.layer.rawValue, rotation: text.rotation,
+                           side: text.side.rawValue)
             }
         )
     }
@@ -432,6 +438,9 @@ extension SchematicFile {
                 // saved: changing the origin doesn't move a footprint, so its
                 // origin point may be off the grid, and opening must not move it.
                 var stored = try placement(pcb, reference: part.reference)
+                if stored.side == .bottom, settings.layers == 1 {
+                    throw SchematicFileError.badPCB("\(part.reference) is on the bottom of a 1-layer board")
+                }
                 if catalogPart.connectorFootprint != nil {
                     stored.style = try Self.value(pcb.style, of: FootprintStyle.self, "\(part.reference) style",
                                                   default: .module)
@@ -547,7 +556,11 @@ extension SchematicFile {
         var texts: [BoardText] = []
         for text in board?.texts ?? [] {
             try claim(text.id)
-            texts.append(try boardText(text))
+            let placed = try boardText(text)
+            if placed.side == .bottom, settings.layers == 1 {
+                throw SchematicFileError.badPCB("text \(text.id.uuidString) is on the bottom of a 1-layer board")
+            }
+            texts.append(placed)
         }
 
 
@@ -642,6 +655,7 @@ extension SchematicFile {
         placement.pin1 = try Self.value(pcb.pin1, of: MarkLayer.self, "\(reference) pin1", default: placement.pin1)
         placement.reference = try Self.value(pcb.reference, of: MarkLayer.self, "\(reference) reference",
                                              default: placement.reference)
+        placement.side = try Self.value(pcb.side, of: BoardSide.self, "\(reference) side", default: placement.side)
         return placement
     }
 
@@ -661,6 +675,7 @@ extension SchematicFile {
             result.size = size
         }
         result.layer = try Self.value(text.layer, of: TextLayer.self, "\(name) layer", default: result.layer)
+        result.side = try Self.value(text.side, of: BoardSide.self, "\(name) side", default: result.side)
         if let rotation = text.rotation {
             guard BoardPlacement.rotations.contains(rotation) else {
                 throw SchematicFileError.badPCB("\(name) rotation \(rotation) must be 0, 90, 180 or 270")

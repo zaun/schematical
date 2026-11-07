@@ -55,6 +55,27 @@ nonisolated enum FootprintStyle: String, CaseIterable, Hashable, Sendable {
     }
 }
 
+/// The side of the board a part or text is on. The canvas always looks
+/// from the top; a bottom item is drawn mirrored, under the top ones.
+nonisolated enum BoardSide: String, CaseIterable, Hashable, Sendable {
+    case top, bottom
+
+    var title: String {
+        switch self {
+        case .top: "Top"
+        case .bottom: "Bottom"
+        }
+    }
+
+    /// The copper layer on this side.
+    var copperLayer: CopperLayer {
+        switch self {
+        case .top: .top
+        case .bottom: .bottom
+        }
+    }
+}
+
 /// The layer a board text is on.
 nonisolated enum TextLayer: String, CaseIterable, Hashable, Sendable {
     case document, silkscreen
@@ -239,6 +260,8 @@ nonisolated struct BoardText: Identifiable, Hashable, Sendable {
     var layer: TextLayer = .silkscreen
     /// 0, 90, 180 or 270, clockwise about `anchor`.
     var rotation: Int = 0
+    /// On Bottom the text is drawn mirrored inside its own box.
+    var side: BoardSide = .top
 
     static let sizeRange = 10...1000
     static let defaultSize = 50

@@ -26,9 +26,14 @@ nonisolated enum BoardGrid {
 
 // MARK: - Placement
 
-/// Where a part's footprint sits on the board: its body centre, in mm, and a
-/// clockwise rotation in 90° steps. Top side only. Also the footprint's
-/// origin point (the point that snaps to the grid) and where its marks go.
+/// Where a part's footprint sits on the board: its body centre, in mm, a
+/// clockwise rotation in 90° steps (as seen from above, on both sides) and
+/// its side. Also the footprint's origin point (the point that snaps to the
+/// grid) and where its marks go.
+///
+/// A bottom-side footprint is mirrored left to right about its body centre
+/// before it is turned, so every derived point (pads, body, bounds, origin,
+/// pin-1 mark) mirrors through `board(_:)`.
 nonisolated struct BoardPlacement: Hashable, Sendable {
     var centre: CGPoint
     /// 0, 90, 180 or 270, clockwise.
@@ -41,16 +46,20 @@ nonisolated struct BoardPlacement: Hashable, Sendable {
     /// Full Module or Connector Only; only parts with a connector footprint
     /// use it.
     var style: FootprintStyle = .module
+    var side: BoardSide = .top
 
     static let rotations = [0, 90, 180, 270]
 
-    /// A footprint point (mm, origin = body centre, y down) on the board.
+    /// A footprint point (mm, origin = body centre, y down) on the board:
+    /// mirrored on Bottom, then turned, then moved to `centre`.
     func board(_ local: CGPoint) -> CGPoint {
-        let turned = BoardPlacement.rotate(local, by: rotation)
+        let flipped = side == .bottom ? CGPoint(x: -local.x, y: local.y) : local
+        let turned = BoardPlacement.rotate(flipped, by: rotation)
         return CGPoint(x: centre.x + turned.x, y: centre.y + turned.y)
     }
 
-    /// A footprint-aligned rectangle centred on `local`, on the board.
+    /// A footprint-aligned rectangle centred on `local`, on the board. A
+    /// mirror leaves the size alone; only the turn swaps it.
     func board(centre local: CGPoint, size: CGSize) -> CGRect {
         let point = board(local)
         let turned = BoardPlacement.rotate(size, by: rotation)
@@ -107,7 +116,7 @@ extension PlacedChip {
             return PlacedPad(designator: pad.designator,
                              rect: board.board(centre: pad.centre, size: pad.size),
                              drill: pad.drill, shape: pad.shape, radius: pad.radius,
-                             chamfer: pad.chamfer, corners: pad.corners.rotated(by: board.rotation))
+                             chamfer: pad.chamfer, corners: pad.corners.mirrored(board.side == .bottom).rotated(by: board.rotation))
         }
     }
 

@@ -138,6 +138,14 @@ nonisolated struct Footprint: Hashable, Sendable {
             for _ in 0..<steps { bits = ((bits << 1) | (bits >> 3)) & 0xF }
             return Corners(rawValue: bits)
         }
+
+        /// The same corners mirrored left to right when `on` (a bottom-side
+        /// footprint): top-left and top-right swap, and so do the bottom two.
+        func mirrored(_ on: Bool) -> Corners {
+            guard on else { return self }
+            let bits = rawValue & 0xF
+            return Corners(rawValue: ((bits & 0b0101) << 1) | ((bits & 0b1010) >> 1))
+        }
     }
 
     struct Pad: Hashable, Sendable {

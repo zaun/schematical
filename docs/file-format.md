@@ -116,7 +116,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `x`, `y`     | number  | Top-left corner of the part body.                                       |
 | `flipped`    | boolean | Pins on the opposite sides. Ignored for the supplies.                   |
 | `switches`   | array of booleans | DIP switches only, optional: whether each position is ON, position 1 first. Missing positions are OFF; extra entries are ignored. Left out for other parts. |
-| `pcb`        | object  | Optional. The footprint on the PCB: `x`, `y` (numbers, mm) are the footprint's centre, `rotation` (integer) is 0, 90, 180 or 270 degrees clockwise. `origin` (string, default `"topLeft"`) is the footprint's origin point (see [Coordinates](#coordinates)): `"center"`, `"topLeft"`, `"centerLeft"`, `"bottomLeft"` (of the bounding box as rotated) or `"pad1Center"` (the centre of the pad of the part's first pin). `outline` (the body outline, default `"document"`), `pin1` (the pin-1 dot, default `"silkscreen"`) and `reference` (the reference text, default `"silkscreen"`) say where each mark is drawn: `"hidden"`, `"document"` or `"silkscreen"`. The four strings are always written; a missing one takes its default. `style` (string, default `"module"`): `"module"` (Full Module) or `"connector"` (Connector Only), which of the part's two footprints is on the board. Written only for parts with a connector footprint (the character LCD modules); ignored on other parts. Written for every part with a footprint; left out for the supplies, and ignored on a part without a footprint. A part with a footprint and no `pcb` (older files) is placed automatically when the file is opened: after the stored ones, in file order, each to the right of everything already placed. |
+| `pcb`        | object  | Optional. The footprint on the PCB: `x`, `y` (numbers, mm) are the footprint's centre, `rotation` (integer) is 0, 90, 180 or 270 degrees clockwise. `origin` (string, default `"topLeft"`) is the footprint's origin point (see [Coordinates](#coordinates)): `"center"`, `"topLeft"`, `"centerLeft"`, `"bottomLeft"` (of the bounding box as rotated) or `"pad1Center"` (the centre of the pad of the part's first pin). `outline` (the body outline, default `"document"`), `pin1` (the pin-1 dot, default `"silkscreen"`) and `reference` (the reference text, default `"silkscreen"`) say where each mark is drawn: `"hidden"`, `"document"` or `"silkscreen"`. The four strings are always written; a missing one takes its default. `style` (string, default `"module"`): `"module"` (Full Module) or `"connector"` (Connector Only), which of the part's two footprints is on the board. Written only for parts with a connector footprint (the character LCD modules); ignored on other parts. `side` (string, default `"top"`): `"top"` or `"bottom"`, the side of the board the footprint is on. A bottom footprint is drawn mirrored left to right about its body centre before it is turned, so `rotation` stays clockwise as seen from above; `x`, `y` stay the body centre. Always written; not allowed on a 1-layer board. Older builds ignore it and show the part unmirrored on top. Written for every part with a footprint; left out for the supplies, and ignored on a part without a footprint. A part with a footprint and no `pcb` (older files) is placed automatically when the file is opened: after the stored ones, in file order, each to the right of everything already placed. |
 | `memoryFile` | object  | EEPROMs only, optional: the file (raw binary, or Intel HEX for `.hex`/`.ihx`/`.ihex`) loaded into the chip at every start; without it the chip starts erased (every byte FF). `path` (string) is the file's path relative to the schematic's folder (`../roms/boot.bin`), or absolute for a schematic that had never been saved. `bookmark` (base64 string, optional) is an app-scoped security bookmark; on the Mac that wrote it, it is tried first, so the sandboxed app can read the file after a restart, and `path` is the fallback. Ignored on other parts. |
 
 ## Board
@@ -148,6 +148,7 @@ A missing key takes its default. A text:
 | `size`     | integer | Font size in mil (1/1000 inch), 10 to 1000. Default 50.             |
 | `layer`    | string  | `"silkscreen"` (default) or `"document"`.                           |
 | `rotation` | integer | 0 (default), 90, 180 or 270 degrees clockwise.                      |
+| `side`     | string  | `"top"` (default) or `"bottom"`. A bottom text is drawn mirrored inside its own box. Always written; not allowed on a 1-layer board. |
 
 ## Junctions
 
@@ -292,6 +293,10 @@ Opening fails, and the canvas is left unchanged, if:
   - `text <id> layer "x" must be document or silkscreen`;
   - `text <id> rotation 45 must be 0, 90, 180 or 270`;
   - `text <id> is empty`;
+  - `U2 side "left" must be top or bottom`;
+  - `text <id> side "left" must be top or bottom`;
+  - `U2 is on the bottom of a 1-layer board`;
+  - `text <id> is on the bottom of a 1-layer board`;
 - a bus is not valid. The message is "The bus is not valid: <detail>.",
   where the detail is one of:
   - `bus <id> has no lines`;
@@ -359,7 +364,7 @@ A red LED between a 5 V supply and GND:
     { "id": "11111111-1111-1111-1111-111111111111", "reference": "U1", "partNumber": "5V", "x": 100, "y": 40, "flipped": false },
     { "id": "22222222-2222-2222-2222-222222222222", "reference": "U2", "partNumber": "LED-RED-0603", "x": 200, "y": 100, "flipped": false,
       "pcb": { "x": 0, "y": 0, "rotation": 0, "origin": "topLeft",
-               "outline": "document", "pin1": "silkscreen", "reference": "silkscreen" } },
+               "outline": "document", "pin1": "silkscreen", "reference": "silkscreen", "side": "bottom" } },
     { "id": "33333333-3333-3333-3333-333333333333", "reference": "U3", "partNumber": "GND", "x": 300, "y": 180, "flipped": false }
   ],
   "junctions": [],
@@ -386,7 +391,7 @@ A red LED between a 5 V supply and GND:
     ],
     "texts": [
       { "id": "66666666-6666-6666-6666-666666666666", "text": "LED", "x": 5.08, "y": 2.54,
-        "size": 50, "layer": "silkscreen", "rotation": 0 }
+        "size": 50, "layer": "silkscreen", "rotation": 0, "side": "top" }
     ]
   }
 }

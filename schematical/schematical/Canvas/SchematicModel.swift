@@ -1157,6 +1157,24 @@ final class SchematicDocument {
         chips[index].board = BoardLayout.snapped(turned, footprint: footprint, pad1: pad1)
     }
 
+    /// Moves a footprint to the other side of the board, mirrored. Its origin
+    /// point stays where it was, then snaps, as in `rotateFootprint`. Does
+    /// nothing on a 1-layer board or when the side doesn't change.
+    func setFootprintSide(_ id: UUID, _ side: BoardSide) {
+        guard board.layers > 1,
+              let index = chips.firstIndex(where: { $0.id == id }),
+              let placement = chips[index].board, placement.side != side,
+              let footprint = chips[index].footprint else { return }
+        let pad1 = chips[index].part.firstPinDesignator
+        let before = BoardLayout.originPoint(of: placement, footprint: footprint, pad1: pad1)
+        var flipped = placement
+        flipped.side = side
+        let after = BoardLayout.originPoint(of: flipped, footprint: footprint, pad1: pad1)
+        flipped.centre.x += before.x - after.x
+        flipped.centre.y += before.y - after.y
+        chips[index].board = BoardLayout.snapped(flipped, footprint: footprint, pad1: pad1)
+    }
+
     /// Changes which point of a footprint is its origin. The footprint stays
     /// where it is and is not re-snapped.
     func setFootprintOrigin(_ id: UUID, _ origin: FootprintOrigin) {
@@ -1213,6 +1231,11 @@ final class SchematicDocument {
     /// A count is refused when it would drop a layer that holds something.
     func canSetLayerCount(_ count: Int) -> String? {
         guard BoardSettings.layerCounts.contains(count) else { return "Boards have 1, 2, 4 or 6 layers." }
+        let dropped = Set(board.copperLayers).subtracting(CopperLayer.allCases(for: count))
+        if dropped.contains(.bottom),
+           chips.contains(where: { $0.board?.side == .bottom }) || texts.contains(where: { $0.side == .bottom }) {
+            return "Move every part and text to Top first."
+        }
         return nil
     }
 
@@ -1274,6 +1297,14 @@ final class SchematicDocument {
     func setTextLayer(_ id: UUID, _ layer: TextLayer) {
         guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
         texts[index].layer = layer
+    }
+
+    /// Puts a text on the top or bottom of the board. Its box stays where it
+    /// is. Does nothing on a 1-layer board, except to bring a text back to Top.
+    func setTextSide(_ id: UUID, _ side: BoardSide) {
+        guard side == .top || board.layers > 1,
+              let index = texts.firstIndex(where: { $0.id == id }), texts[index].side != side else { return }
+        texts[index].side = side
     }
 
     /// Moves a text's anchor to `point`, snapped to the grid.
