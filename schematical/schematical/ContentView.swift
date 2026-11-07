@@ -32,6 +32,10 @@ struct ContentView: View {
     @State private var page = EditorPage.schematic
     @State private var tool: SchematicTool = .pointer
     @State private var pcbTool = PCBTool.select
+    /// Layers the PCB page doesn't draw (the View popover). The hidden set,
+    /// so layers added later start shown. Per window; not saved.
+    @State private var hiddenLayers: Set<BoardViewLayer> = []
+    @State private var isLayerViewShown = false
     @State private var isDrawerShown = true
     /// The PCB page's inspector (board, footprint or text settings).
     @State private var isPCBSidebarShown = true
@@ -136,7 +140,8 @@ struct ContentView: View {
                 tool = .pointer
             }
         case .pcb:
-            PCBCanvasView(document: document, viewport: boardViewport, tool: pcbTool) {
+            PCBCanvasView(document: document, viewport: boardViewport, tool: pcbTool,
+                          visible: BoardVisibility(hidden: hiddenLayers)) {
                 // Placing a text returns to the Select tool.
                 pcbTool = .select
             }
@@ -267,6 +272,21 @@ struct ContentView: View {
                         .keyboardShortcut("r", modifiers: [.command, .option])
                         .help("Rotate the selection 90° (⌥⌘R)")
                         .disabled(!canRotate)
+                    }
+                }
+
+                // Which layers the PCB page draws, just left of the zoom.
+                if page == .pcb {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button {
+                            isLayerViewShown.toggle()
+                        } label: {
+                            Label("View", systemImage: "square.3.layers.3d")
+                        }
+                        .help("Choose which layers to show")
+                        .popover(isPresented: $isLayerViewShown, arrowEdge: .bottom) {
+                            LayerViewPopover(board: document.board, hidden: $hiddenLayers)
+                        }
                     }
                 }
 
@@ -446,5 +466,47 @@ struct ReachedSpeedLabel: View {
                 .foregroundStyle(.secondary)
                 .help("The circuit is too busy to run at the chosen speed.")
         }
+    }
+}
+
+/// The PCB page's View popover: a checkbox per copper layer (with its
+/// colour), then Silkscreen and Document, and Show All. It stays open while
+/// the user ticks several boxes; a menu would close after each one.
+private struct LayerViewPopover: View {
+    let board: BoardSettings
+    @Binding var hidden: Set<BoardViewLayer>
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            ForEach(board.copperLayers, id: \.self) { layer in
+                toggle(.copper(layer)) {
+                    HStack(spacing: 6) {
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(board.style(of: layer).color.color)
+                            .frame(width: 12, height: 12)
+                        Text(layer.title)
+                    }
+                }
+            }
+            Divider()
+            toggle(.silkscreen) { Text("Silkscreen") }
+            toggle(.document) { Text("Document") }
+            Divider()
+            Button("Show All") { hidden.removeAll() }
+                .disabled(hidden.isEmpty)
+        }
+        .toggleStyle(.checkbox)
+        .padding(12)
+        .frame(minWidth: 160, alignment: .leading)
+    }
+
+    private func toggle(_ layer: BoardViewLayer, @ViewBuilder label: () -> some View) -> some View {
+        Toggle(isOn: Binding(
+            get: { !hidden.contains(layer) },
+            set: { shown in
+                if shown { hidden.remove(layer) } else { hidden.insert(layer) }
+            }
+        ), label: label)
+        .accessibilityLabel(layer.title)
     }
 }

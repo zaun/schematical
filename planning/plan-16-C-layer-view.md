@@ -173,13 +173,24 @@ Draw order, back to front:
 
 Acceptance: every table row holds in tests, and a hidden item can't be hit.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:<tests>/BoardVisibilityTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 3 min).
-Commit: —
+Commit: e7bea38
 
 ### Phase 2 — View popover
 
-- [ ] `ContentView.swift`: `hiddenLayers` state; the View button and popover
+- [x] `ContentView.swift`: `hiddenLayers` state; the View button and popover
       (§3) before `zoomControls`, PCB page only; pass `visible` into
       `PCBCanvasView`.
+- [x] Runtime check (worktree build). `be-6502.schematical` set to 4
+      layers: the two Plane layers tinted the board; the View popover listed
+      Top, Layer 2, Layer 3, Bottom (with swatches), Silkscreen, Document and
+      Show All, and stayed open through four toggles in a row. Unchecking
+      Top hid every top mark and reference while the through-hole pads
+      stayed; unchecking all four copper layers hid every pad and both
+      tints; Show All restored everything. On a test file with an SOIC on
+      each side and a DIP (4 layers): Top SMD pads red, Bottom SMD pads blue
+      with a mirrored "U2", DIP pads copper; unchecking Top hid U1's pads and
+      marks only, and a click where U1 was selected nothing (sidebar stayed
+      on Board).
 
 Acceptance: on a 4-layer board, unchecking Top hides top surface-mount pads
 and top marks, while through-hole pads stay. Unchecking every copper layer
