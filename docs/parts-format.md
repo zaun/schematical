@@ -1717,7 +1717,8 @@ floor(10^12 / `tcyc` in ps). The listing's facts column reads
 `model=<m> grade=<g> max_hz=<n>`.
 
 Pin groups (presentation, § Pinouts and pins): D0–D7 `"data"`, PA0–PA7
-`"port A"`, PB0–PB7 `"port B"`; every other pin the default group.
+`"port A"`, PB0–PB7 `"port B"`, RS0–RS3 `"register select"`, CS1 and CS2B
+`"chip select"` (W65C22 only); every other pin the default group.
 
 **The bus (`bus65`).** Chip selects (active-high `cs_high`, active-low
 `cs_low`), RWB and the register selects are sampled at each PHI2 rise.
