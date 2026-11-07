@@ -255,16 +255,16 @@ Color Blue. A gate shows no Options section.
   Options with Color "● Blue" and Footprint "0805 chip LED (2.05 x 1.25 mm)";
   Details Package 0805, Footprint `LED-0805 — …`, Color Blue.
   `p18-sidebar-gate.png`: Reference then Details, no Options section.
-Commit: —
+Commit: 01c3a84
 
 ### Phase 3 — Settings defaults and the drop
 
 New LEDs use the Settings choice.
 
-- [ ] `Preferences/PreferencesView.swift`: the two keys, `NewPartOptions`, and
+- [x] `Preferences/PreferencesView.swift`: the two keys, `NewPartOptions`, and
       the New Generic LED section with its own catalog (§6).
-- [ ] `Canvas/SchematicCanvasView.swift:150`: pass both options.
-- [ ] `generic-led-ui.swift`, add (using a `UserDefaults(suiteName: "p18-test")`
+- [x] `Canvas/SchematicCanvasView.swift:150`: pass both options.
+- [x] `generic-led-ui.swift`, add (using a `UserDefaults(suiteName: "p18-test")`
       that is cleared first):
   7. Empty defaults → `NewPartOptions` gives nil/nil, and `placeChip` gives
      Red / `LED-RADIAL-5MM`.
@@ -273,12 +273,21 @@ New LEDs use the Settings choice.
   9. Set `"Purple"` / `"LED-9999"` → Red / `LED-RADIAL-5MM`.
   10. `Harness.render(PreferencesView(), size: 420×400, to: "/tmp/p18-settings.png")`
       after the catalog loads (`renderHosted`, settle 0.5 s).
+      (The view gets `.defaultAppStorage` of the cleared `p18-test` suite, so
+      the render never reads or writes the app's own Settings.)
+- [x] (added) The sidebar and Settings share the pickers:
+      `ColorChoicePicker` and `FootprintChoicePicker` in
+      `Drawer/PartOptionsSection.swift` (§6's "same rows as §5").
 
 Acceptance: a dropped LED gets the Settings color and footprint, and bad
 or empty settings fall back to Red / Radial.
   Check: the Phase 1 command → 10 `ok` lines. Then read `/tmp/p18-settings.png`:
   it shows a New Generic LED section with Color Red and Footprint "5 mm (T-1 3/4)
   radial LED, 2.54 mm lead spacing" under the three part toggles (est. 2 min).
+  Result: 10 `ok` lines, exit 0. `p18-settings.png`: "Include in parts list"
+  with the three toggles, then "New Generic LED" with Color "● Red" and
+  Footprint "5 mm (T-1 3/4) radial LED, 2.54 mm lead spacing", footer "Used for
+  LEDs dropped from now on."
 Commit: —
 
 ## Validation Plan

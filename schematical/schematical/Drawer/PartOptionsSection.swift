@@ -10,58 +10,55 @@ struct PartOptionsSection: View {
 
     /// Whether `part` has anything for this section to show.
     static func applies(to part: CatalogPart) -> Bool {
-        (part.kind == PART_LED && part.colors.count > 1) || !part.footprintChoices.isEmpty
+        hasColorChoice(part) || !part.footprintChoices.isEmpty
+    }
+
+    /// An LED with more than one color.
+    static func hasColorChoice(_ part: CatalogPart) -> Bool {
+        part.kind == PART_LED && part.colors.count > 1
     }
 
     var body: some View {
         // Read the chip again, so the pickers follow every change.
         let current = document.chips.first { $0.id == chip.id } ?? chip
         Section("Options") {
-            if current.part.kind == PART_LED, current.part.colors.count > 1 {
-                Picker("Color", selection: Binding(
+            if Self.hasColorChoice(current.part) {
+                ColorChoicePicker(colors: current.part.colors, selection: Binding(
                     get: { current.color ?? current.part.colors[0] },
                     set: { document.setPartColor(chip.id, $0) }
-                )) {
-                    ForEach(current.part.colors, id: \.self) { color in
-                        ColorChoiceRow(name: color).tag(color)
-                    }
-                }
+                ))
             }
             if !current.part.footprintChoices.isEmpty {
-                // The descriptions are long, so the menu gets the row's full
-                // width under its label.
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("Footprint")
-                    Picker("Footprint", selection: Binding(
-                        get: { current.footprintID ?? current.part.footprint?.id ?? "" },
-                        set: { document.setPartFootprint(chip.id, $0) }
-                    )) {
-                        ForEach(current.part.footprintChoices, id: \.footprint.id) { choice in
-                            Text(choice.footprint.description).tag(choice.footprint.id)
-                        }
-                    }
-                    .labelsHidden()
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                FootprintChoicePicker(choices: current.part.footprintChoices, selection: Binding(
+                    get: { current.footprintID ?? current.part.footprint?.id ?? "" },
+                    set: { document.setPartFootprint(chip.id, $0) }
+                ))
+            }
+        }
+    }
+}
+
+/// A menu of LED colors; each row a filled circle in the LED's glow color,
+/// then the name. Also used by Settings ▸ New Generic LED.
+struct ColorChoicePicker: View {
+    let colors: [String]
+    @Binding var selection: String
+
+    var body: some View {
+        Picker("Color", selection: $selection) {
+            ForEach(colors, id: \.self) { color in
+                Label {
+                    Text(color)
+                } icon: {
+                    Image(nsImage: Self.swatch(DiodeSymbolView.lightColor(named: color)))
                 }
+                .tag(color)
             }
         }
         .pickerStyle(.menu)
     }
-}
 
-/// A color's picker row: a filled circle in the LED's glow color, then the
-/// name. The circle is a non-template image, so a menu keeps its color.
-struct ColorChoiceRow: View {
-    let name: String
-
-    var body: some View {
-        Label {
-            Text(name)
-        } icon: {
-            Image(nsImage: Self.swatch(DiodeSymbolView.lightColor(named: name)))
-        }
-    }
-
+    /// A non-template image, so a menu keeps its color.
     static func swatch(_ color: Color) -> NSImage {
         let image = NSImage(size: CGSize(width: 12, height: 12), flipped: false) { rect in
             NSColor(color).setFill()
@@ -70,5 +67,27 @@ struct ColorChoiceRow: View {
         }
         image.isTemplate = false
         return image
+    }
+}
+
+/// A menu of a part's footprint choices by footprint description, selected
+/// by footprint id. The descriptions are long, so the menu gets the row's
+/// full width under its label. Also used by Settings ▸ New Generic LED.
+struct FootprintChoicePicker: View {
+    let choices: [CatalogPart.FootprintChoice]
+    @Binding var selection: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Footprint")
+            Picker("Footprint", selection: $selection) {
+                ForEach(choices, id: \.footprint.id) { choice in
+                    Text(choice.footprint.description).tag(choice.footprint.id)
+                }
+            }
+            .pickerStyle(.menu)
+            .labelsHidden()
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
     }
 }

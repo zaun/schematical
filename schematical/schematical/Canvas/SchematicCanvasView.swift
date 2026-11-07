@@ -150,7 +150,9 @@ struct SchematicCanvasView: View {
                 document.placeChip(
                     part: part,
                     symbol: symbol(for: part),
-                    centeredAt: viewport.world(location)
+                    centeredAt: viewport.world(location),
+                    color: NewPartOptions.color(for: part),
+                    footprintID: NewPartOptions.footprintID(for: part)
                 )
                 onPartPlaced()
                 return true

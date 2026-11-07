@@ -125,5 +125,56 @@ MainActor.assumeIsolated { runGenericLEDUIChecks() }
         return FileManager.default.fileExists(atPath: path) ? nil : "no image"
     }
 
+    // 7–9. The Settings defaults a drop uses, in a test suite (never the
+    // app's own defaults).
+    let suite = "p18-test"
+    let defaults = UserDefaults(suiteName: suite)!
+    defaults.removePersistentDomain(forName: suite)
+    /// Places a part the way the drop does, and returns its color and footprint.
+    func dropped(_ part: CatalogPart) -> (color: String?, footprint: String?) {
+        let target = Harness.newDocument()
+        target.placeChip(part: part, symbol: symbol(for: part), centeredAt: CGPoint(x: 100, y: 100),
+                         color: NewPartOptions.color(for: part, defaults: defaults),
+                         footprintID: NewPartOptions.footprintID(for: part, defaults: defaults))
+        let placed = target.chips.last!
+        return (placed.color, placed.footprint?.id)
+    }
+
+    check("7 empty Settings: NewPartOptions nil/nil; a drop gives Red / LED-RADIAL-5MM") {
+        let color = NewPartOptions.color(for: led, defaults: defaults)
+        let footprint = NewPartOptions.footprintID(for: led, defaults: defaults)
+        if color != nil || footprint != nil { return "options \(color ?? "nil") / \(footprint ?? "nil")" }
+        let got = dropped(led)
+        return got == ("Red", "LED-RADIAL-5MM") ? nil : "dropped \(got)"
+    }
+
+    check("8 Settings Green / LED-0603: a drop gives Green / LED-0603; SN74HC00N gets nil/nil") {
+        defaults.set("Green", forKey: PreferenceKey.genericLEDColor)
+        defaults.set("LED-0603", forKey: PreferenceKey.genericLEDFootprint)
+        let got = dropped(led)
+        if got != ("Green", "LED-0603") { return "dropped \(got)" }
+        let color = NewPartOptions.color(for: gate, defaults: defaults)
+        let footprint = NewPartOptions.footprintID(for: gate, defaults: defaults)
+        return color == nil && footprint == nil ? nil : "gate options \(color ?? "nil") / \(footprint ?? "nil")"
+    }
+
+    check("9 Settings Purple / LED-9999: a drop gives Red / LED-RADIAL-5MM") {
+        defaults.set("Purple", forKey: PreferenceKey.genericLEDColor)
+        defaults.set("LED-9999", forKey: PreferenceKey.genericLEDFootprint)
+        let got = dropped(led)
+        return got == ("Red", "LED-RADIAL-5MM") ? nil : "dropped \(got)"
+    }
+
+    // 10. The Settings window, reading the empty suite (read the image).
+    check("10 Settings window → \(images)/p18-settings.png") {
+        defaults.removePersistentDomain(forName: suite)
+        let path = "\(images)/p18-settings.png"
+        try? FileManager.default.removeItem(atPath: path)
+        Harness.renderHosted(PreferencesView().defaultAppStorage(defaults),
+                             size: CGSize(width: 420, height: 400), to: path, settle: 0.5)
+        return FileManager.default.fileExists(atPath: path) ? nil : "no image"
+    }
+    defaults.removePersistentDomain(forName: suite)
+
     exit(failures == 0 ? 0 : 1)
 }
