@@ -23,7 +23,7 @@ plan-14-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-14-C landed | `/tmp/logic-p14/pio_test \| grep -c '^ok C'` → 14 | NOT MET (2026-11-01) |
+| plan-14-C landed | `/tmp/logic-p14/pio_test \| grep -c '^ok C'` → 15 (C1–C14, C13 on both dies; Corrections) | MET (2026-11-07: `15`) |
 
 ## 1. Goal
 
@@ -127,9 +127,11 @@ Shipped devices (C's cases switch from the inline copies to them).
 
 ### Phase 1 — The shift register
 
-- [ ] `pio_via6522.c`: §3.1.
-- [ ] `pio_test` D1–D8 (inline devices still).
-- [ ] `docs/parts-format.md` § `pio` → Model `via6522`: the shift register.
+- [x] `pio_via6522.c`: §3.1. Build: no errors or warnings.
+- [x] `pio_test` D1–D8 (inline devices still). → `ok D1 SR disabled (000)` …
+      `ok D8 SR out, external (111)`; 41 cases `ok` in all.
+- [x] `docs/parts-format.md` § `pio` → Model `via6522`: the shift register.
+- [x] Acceptance: `ctest` → `100% tests passed, 0 tests failed out of 21`; goldens unchanged.
 
 Acceptance: D1–D8 and C1–C14 `ok`.
   Check: `/tmp/logic-p14/pio_test` → every case `ok` (est. 1 min with the build).
@@ -158,4 +160,22 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- Prerequisites: `grep -c '^ok C'` → **15**, not 14: C13 runs on both the
+  N and S dies and prints a line for each. Every C case is `ok`.
+- §3.1 (not stated): CB1 edges still set IFR4 by PCR bit 4 in the shift
+  modes, including the VIA's own shift clock (the flag follows the pin, as
+  on the NMOS 6522); CB2's PCR edge flags are off while CB2 is the serial
+  line. D5 and D7 therefore check IFR2 alone, not the whole IFR.
+- §3.1 (not stated): before the first bit the output modes drive CB2 high
+  (the sheet's figures leave it undefined), and the CB1 output clock idles
+  high.
+- §3.1: IFR2 in the output modes is set at the 8th CB1 rise (Figures 2-10,
+  2-11 show IRQB falling there); in the input modes at the fall that
+  shifts the 8th bit in.
+- §3.1 external clock: an X edge on CB1 in `011`/`111` makes the SR and its
+  count X, as the `tpcr` rule does.
+- §4 D1: the bench releases CB1/CB2 to check the VIA does not drive them;
+  on the W65C22N a released pin floats (X), which correctly sets the PCR
+  flags X. D1 runs on the W65C22S (bus hold keeps the level).
+- §4 D5: the bit sequence is checked over 24 bits, then two more CB1 rises
+  prove it keeps running (`T2 low latch = 1`: a bit every 6 cycles).

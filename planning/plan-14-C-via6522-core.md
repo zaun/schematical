@@ -245,7 +245,7 @@ with 3 `"rs"` names, are refused.
 
 Acceptance: those cases `ok`; earlier cases still `ok`.
   Check: `/tmp/logic-p14/pio_test` → every case `ok` (est. 1 min with the build).
-Commit: —
+Commit: 77adb41
 
 ### Phase 2 — Timers
 
@@ -260,7 +260,7 @@ Commit: —
 
 Acceptance: C1–C14 `ok`; `ctest` 100%, goldens unchanged.
   Check: `ctest --test-dir /tmp/logic-p14` → `100% tests passed`; `git diff --stat backend/tests/golden` → empty (est. 2 min).
-Commit: —
+Commit: 77adb41
 
 ## Validation Plan
 

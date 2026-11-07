@@ -30,6 +30,19 @@
  * sampled at a PHI2 rise after a high one, and sets IFR5 when it reaches 0.
  * PB6 pulses narrower than, or closer than, 2 PHI2 cycles make it X.
  *
+ * Shift register (sections 2.11-2.13, ACR bits 4-2): bit 7 shifts out
+ * first on CB2 and rotates into bit 0; bits shift in at bit 0. With T2
+ * (001, 100, 101) CB1 toggles every N + 2 PHI2 cycles (N = the T2 low
+ * latch); with PHI2 (010, 110) it is low one cycle and high the next. An
+ * output bit leaves tsr1 after the PHI2 fall where CB1 falls; an input bit
+ * is sampled at the PHI2 rise after CB1 rises (X if CB2 changed less than
+ * tsr2 before it) and shifted in at that cycle's fall. 001, 010, 101, 110
+ * stop after 8 bits and set IFR2; 100 never stops and never sets IFR2.
+ * External clock (011 in on CB1 rises, 111 out on CB1 falls) shifts at the
+ * PHI2 fall after the edge, sets IFR2 every 8 bits and keeps going; an edge
+ * less than tpcr before that fall makes the SR and its count X. An SR
+ * access restarts the count, clears IFR2 and starts the internal clock.
+ *
  * IRQB is asserted while IFR & IER & 0x7F is not 0, with no delay; open
  * drain ("irqOpenDrain": W65C22N) or totem pole (W65C22S).
  *
@@ -128,6 +141,19 @@ typedef struct {
     uint8_t acr, acr_k, pcr, pcr_k;
     uint8_t ifr, ifr_k, ier, ier_k;   /* bits 0-6 */
     uint8_t sr, sr_k;
+    int sr_run;                /* the internal shift clock runs */
+    unsigned sr_div;           /* PHI2 falls since the last T2-rate toggle */
+    int sr_count;              /* bits shifted since the access; -1 = X */
+    LogicValue cb1_out;        /* the shift clock CB1 drives */
+    LogicValue cb2_sr;         /* the serial output CB2 drives */
+    int sr_sample_pending;     /* input: sample CB2 at the next rise */
+    int sr_shift_pending;      /* input: shift the sample in at the next fall */
+    LogicValue sr_sample;
+    int sr_access;             /* the SR was read or written this cycle */
+    int sr_ext;                /* an external CB1 edge waits for the next fall */
+    SimTime sr_ext_at;
+    SimTime cb2_at;
+    int cb2_seen;
     uint8_t pending_clear, pending_x; /* IFR bits a read clears (or makes X) at the fall */
 
     Word t1c, t1l, t2c;
@@ -273,10 +299,43 @@ static void drive_pb7(Via *s, SimTime delay) {
     }
 }
 
+/* Shift register modes (ACR bits 4-2). */
+enum { SR_OFF, SR_IN_T2, SR_IN_PHI2, SR_IN_EXT, SR_OUT_FREE, SR_OUT_T2, SR_OUT_PHI2, SR_OUT_EXT };
+
+static int sr_mode(const Via *s) {
+    if ((s->acr_k & 0x1C) != 0x1C) return -1;
+    return (s->acr >> 2) & 7;
+}
+
+static int sr_internal(int m) {
+    return m == SR_IN_T2 || m == SR_IN_PHI2 || m == SR_OUT_FREE || m == SR_OUT_T2 ||
+           m == SR_OUT_PHI2;
+}
+
+static int sr_t2(int m) {
+    return m == SR_IN_T2 || m == SR_OUT_FREE || m == SR_OUT_T2;
+}
+
+/* CB1: the shift clock output in the internal-clock modes, else an input. */
+static void drive_cb1(Via *s, SimTime delay) {
+    int m = sr_mode(s);
+    LogicValue v = m < 0 ? LOGIC_X : sr_internal(m) ? s->cb1_out : LOGIC_Z;
+
+    sim_schedule_inertial_drive(s->sim, s->instance, s->pins->p.cb1, v, DRIVE_STRONG, delay);
+}
+
 static void drive_c2(Via *s, int side, SimTime delay) {
     int mode = c2_mode(s, side);
     LogicValue v;
 
+    if (side == 1 && sr_mode(s) != SR_OFF) {
+        /* CB2 is the serial line. */
+        int m = sr_mode(s);
+
+        v = m < 0 ? LOGIC_X : m >= SR_OUT_FREE ? s->cb2_sr : LOGIC_Z;
+        sim_schedule_inertial_drive(s->sim, s->instance, c2_pin(s, side), v, DRIVE_STRONG, delay);
+        return;
+    }
     switch (mode) {
         case C2_HANDSHAKE:
         case C2_PULSE: v = s->side[side].c2_out; break;
@@ -322,6 +381,11 @@ static void reset_registers(Via *s, int known, int timers_too) {
     s->t1_armed = s->t2_armed = known ? 0 : -1;
     s->t1_timeout = s->t1_reload = s->t2_timeout = 0;
     s->pb7 = known ? LOGIC_1 : LOGIC_X;
+    s->sr_run = 0;
+    s->sr_div = 0;
+    s->sr_count = 0;
+    s->cb1_out = s->cb2_sr = known ? LOGIC_1 : LOGIC_X;
+    s->sr_sample_pending = s->sr_shift_pending = s->sr_access = s->sr_ext = 0;
     if (timers_too) {
         s->t1c.v = s->t1l.v = s->t2c.v = 0;
         s->t1c.k = s->t1l.k = s->t2c.k = 0;
@@ -332,6 +396,7 @@ static void reset_registers(Via *s, int known, int timers_too) {
         drive_ports(s, side, 0);
         drive_c2(s, side, 0);
     }
+    drive_cb1(s, 0);
     update_irq(s);
 }
 
@@ -412,7 +477,12 @@ static int via_read(void *model, unsigned reg, uint8_t *value, uint8_t *known) {
         case R_T1LH: word_byte(s->t1l, 1, value, known); break;
         case R_T2CL: word_byte(s->t2c, 0, value, known); s->pending_clear |= F_T2; break;
         case R_T2CH: word_byte(s->t2c, 1, value, known); break;
-        case R_SR: *value = s->sr; *known = s->sr_k; s->pending_clear |= F_SR; break;
+        case R_SR:
+            *value = s->sr;
+            *known = s->sr_k;
+            s->pending_clear |= F_SR;
+            s->sr_access = 1;
+            break;
         case R_ACR: *value = s->acr; *known = s->acr_k; break;
         case R_PCR: *value = s->pcr; *known = s->pcr_k; break;
         case R_IFR:
@@ -559,12 +629,28 @@ static void via_write(void *model, unsigned reg, uint8_t value, uint8_t known) {
             s->sr = value & known;
             s->sr_k = known;
             if (full) flag_clear(s, F_SR); else flag_maybe_clear(s, F_SR);
+            s->sr_access = 1;
             break;
-        case R_ACR:
+        case R_ACR: {
+            int old_sr = sr_mode(s);
+
             s->acr = value & known;
             s->acr_k = known;
+            if (sr_mode(s) != old_sr) {
+                s->sr_run = 0;
+                s->sr_div = 0;
+                s->sr_count = 0;
+                s->sr_sample_pending = s->sr_shift_pending = s->sr_ext = 0;
+                s->cb1_out = LOGIC_1;
+                if (sr_mode(s) == SR_OUT_FREE) s->sr_run = 1;
+                if (sr_mode(s) == SR_OFF) flag_clear(s, F_SR);
+                else if (sr_mode(s) < 0) flag_maybe_clear(s, F_SR);
+                drive_cb1(s, 0);
+                drive_c2(s, 1, 0);
+            }
             drive_ports(s, 1, s->t[T_TCPW]);
             break;
+        }
         case R_PCR: {
             int old_a = c2_mode(s, 0);
             int old_b = c2_mode(s, 1);
@@ -743,6 +829,9 @@ static void t2_rise(Via *s) {
         return;
     }
     s->t2_timeout = 0;
+    if (sr_t2(sr_mode(s))) {
+        return;   /* T2 times the shift clock: no IFR5 */
+    }
     if (s->t2_armed == 1) {
         flag_set(s, F_T2, 0);
     } else if (s->t2_armed < 0) {
@@ -775,6 +864,148 @@ static void pb6_edge(Via *s, LogicValue v) {
     }
 }
 
+/* ---- Shift register ------------------------------------------------------------------ */
+
+static void sr_shift_in(Via *s, LogicValue bit) {
+    s->sr = (uint8_t)(s->sr << 1);
+    s->sr_k = (uint8_t)(s->sr_k << 1 | 1);
+    set_bit(&s->sr, &s->sr_k, 0, bit);
+}
+
+/* Bit 7 out on CB2 (tsr1 after this fall), rotated into bit 0. */
+static void sr_shift_out(Via *s) {
+    LogicValue b = bitv(s->sr, s->sr_k, 7);
+
+    s->sr = (uint8_t)(s->sr << 1);
+    s->sr_k = (uint8_t)(s->sr_k << 1 | 1);
+    set_bit(&s->sr, &s->sr_k, 0, b);
+    s->cb2_sr = b;
+    drive_c2(s, 1, s->t[T_TSR1]);
+}
+
+/* One bit done; 8 sets IFR2. Returns 1 at the 8th. */
+static int sr_count_bit(Via *s) {
+    if (s->sr_count < 0) {
+        flag_set(s, F_SR, 1);
+        return 0;
+    }
+    if (++s->sr_count < 8) {
+        return 0;
+    }
+    flag_set(s, F_SR, 0);
+    return 1;
+}
+
+static void sr_toggle(Via *s, int m) {
+    if (s->cb1_out != LOGIC_0) {
+        s->cb1_out = LOGIC_0;
+        drive_cb1(s, 0);
+        if (m >= SR_OUT_FREE) sr_shift_out(s);
+        return;
+    }
+    s->cb1_out = LOGIC_1;
+    drive_cb1(s, 0);
+    if (m < SR_OUT_FREE) {
+        s->sr_sample_pending = 1;
+    } else if (m != SR_OUT_FREE && sr_count_bit(s)) {
+        s->sr_run = 0;            /* 8 out: CB1 stays high, CB2 holds */
+    }
+}
+
+/* Every PHI2 fall. */
+static void sr_fall(Via *s) {
+    int m = sr_mode(s);
+
+    if (m == SR_OFF) {
+        return;
+    }
+    if (m < 0) {
+        s->sr = s->sr_k = 0;
+        return;
+    }
+    if (s->sr_shift_pending) {
+        s->sr_shift_pending = 0;
+        sr_shift_in(s, s->sr_sample);
+        if (sr_count_bit(s)) {
+            s->sr_run = 0;        /* 8 in: CB1 stays high */
+            return;
+        }
+    }
+    if (m == SR_IN_EXT || m == SR_OUT_EXT) {
+        if (!s->sr_ext) return;
+        s->sr_ext = 0;
+        if (sim_now(s->sim) - s->sr_ext_at < s->t[T_TPCR]) {
+            /* An edge too close to PHI2 low: shifted or not, unknown (p.19). */
+            s->sr = s->sr_k = 0;
+            s->sr_count = -1;
+            if (m == SR_OUT_EXT) {
+                s->cb2_sr = LOGIC_X;
+                drive_c2(s, 1, s->t[T_TSR1]);
+            }
+            flag_set(s, F_SR, 1);
+            return;
+        }
+        if (m == SR_IN_EXT) {
+            LogicValue v = pin_level(s, s->pins->p.cb2);
+
+            sr_shift_in(s, v);
+        } else {
+            sr_shift_out(s);
+        }
+        if (sr_count_bit(s)) s->sr_count = 0;   /* keeps shifting */
+        return;
+    }
+    if (!s->sr_run) {
+        return;
+    }
+    if (sr_t2(m)) {
+        unsigned n = s->t2ll_k == 0xFF ? s->t2ll : 0;
+
+        if (++s->sr_div < n + 2) return;
+        s->sr_div = 0;
+        s->t2c.v = (uint16_t)((s->t2c.v & 0xFF00) | s->t2ll);
+        s->t2c.k = (uint16_t)((s->t2c.k & 0xFF00) | s->t2ll_k);
+    }
+    sr_toggle(s, m);
+}
+
+/* An SR access, at its PHI2 fall: restart the count and the clock. */
+static void sr_start(Via *s) {
+    int m = sr_mode(s);
+
+    s->sr_access = 0;
+    if (m <= SR_OFF) {
+        return;
+    }
+    s->sr_count = 0;
+    s->sr_sample_pending = s->sr_shift_pending = 0;
+    if (!sr_internal(m)) {
+        return;
+    }
+    s->sr_run = 1;
+    s->sr_div = 0;
+    s->cb1_out = LOGIC_1;
+    if (m == SR_IN_PHI2 || m == SR_OUT_PHI2) {
+        sr_toggle(s, m);          /* CB1 low from the cycle after the access */
+    } else {
+        drive_cb1(s, 0);
+    }
+}
+
+/* Every PHI2 rise: an input sample after a CB1 rise. */
+static void sr_rise(Via *s) {
+    LogicValue v;
+
+    if (!s->sr_sample_pending) {
+        return;
+    }
+    s->sr_sample_pending = 0;
+    v = pin_level(s, s->pins->p.cb2);
+    if (s->cb2_seen && sim_now(s->sim) - s->cb2_at < s->t[T_TSR2]) v = LOGIC_X;
+    s->sr_sample = v;
+    s->sr_shift_pending = 1;
+}
+
 /* ---- Cycle hooks -------------------------------------------------------------------- */
 
 /* Every PHI2 fall: read side effects, the CA2 read strobe, the timers. */
@@ -785,6 +1016,7 @@ static void via_cycle(void *model) {
     if (s->reset != LOGIC_1) {
         s->side[0].read_or = s->side[1].read_or = 0;
         s->pending_clear = s->pending_x = 0;
+        s->sr_access = 0;
         return;
     }
     for (side = 0; side < 2; side++) {
@@ -818,6 +1050,8 @@ static void via_cycle(void *model) {
 
     t1_fall(s);
     t2_fall(s);
+    sr_fall(s);
+    if (s->sr_access) sr_start(s);
     update_irq(s);
 }
 
@@ -846,6 +1080,7 @@ static void via_rise(Via *s) {
     }
     t1_rise(s);
     t2_rise(s);
+    sr_rise(s);
 }
 
 static const Bus65Ops VIA_BUS = {via_read, via_write, via_cycle, via_read_unknown};
@@ -904,6 +1139,10 @@ static void c2_edge(Via *s, int side, LogicValue old_v, LogicValue new_v) {
     int mode = c2_mode(s, side);
     uint8_t flag = side == 0 ? F_CA2 : F_CB2;
     int rising;
+
+    if (side == 1 && sr_mode(s) != SR_OFF) {
+        return;   /* the serial line, not a PCR input */
+    }
 
     if (mode == C2_UNKNOWN) {
         flag_set(s, flag, 1);
@@ -1047,11 +1286,31 @@ static void via_pin_changed(Sim *sim, SimInstance *instance, void *state, size_t
             LogicValue old_v = ps->c1;
 
             ps->c1 = v;
-            if (s->reset == LOGIC_1 && old_v != v) c1_edge(s, side, old_v, v);
+            if (s->reset == LOGIC_1 && old_v != v) {
+                c1_edge(s, side, old_v, v);
+                if (side == 1) {
+                    int m = sr_mode(s);
+
+                    if ((m == SR_IN_EXT || m == SR_OUT_EXT) &&
+                        (v == LOGIC_X || old_v == LOGIC_X)) {
+                        s->sr = s->sr_k = 0;        /* an unknown clock edge */
+                        s->sr_count = -1;
+                    } else if ((m == SR_IN_EXT && v == LOGIC_1) ||
+                               (m == SR_OUT_EXT && v == LOGIC_0)) {
+                        s->sr_ext = 1;
+                        s->sr_ext_at = sim_now(sim);
+                    }
+                }
+            }
             return;
         }
         if (pin == c2_pin(s, side)) {
             LogicValue old_v = ps->c2;
+
+            if (side == 1) {
+                s->cb2_at = sim_now(sim);
+                s->cb2_seen = 1;
+            }
 
             ps->c2 = v;
             if (s->reset == LOGIC_1 && old_v != v) c2_edge(s, side, old_v, v);

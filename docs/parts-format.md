@@ -1731,8 +1731,25 @@ cycles (measured), not keys.
   counters and latches and the SR; every pin is an input; the timers stop
   until their start write. RESB X makes every register X; RESB at Z reads
   X, or its held level with bus hold. Registers power up X.
-- **Shift register:** plan-14-D. Until then every ACR shift mode acts as
-  `000` (SR readable and writable, no shifting).
+- **Shift register** (ACR bits 4–2, §2.11–2.13). Shifting out sends bit 7
+  first on CB2 and rotates it into bit 0; shifting in enters at bit 0. A
+  read or write of the SR restarts its bit count, clears IFR2 and starts the
+  internal clock. `000`: no shifting, IFR2 held 0, CB1/CB2 under the PCR.
+  `001`/`101` (T2 rate): CB1 is an output clock that toggles every N + 2
+  PHI2 cycles (N = the T2 low latch; T2's low counter reloads from it at
+  each toggle and T2 sets no IFR5); `010`/`110` (PHI2 rate): CB1 low one
+  cycle, high the next. Out (`101`, `110`): CB2 changes `tsr1` after the
+  PHI2 fall where CB1 falls; after 8 bits IFR2 is set, CB1 stays high and
+  CB2 holds the last bit. In (`001`, `010`): CB2 is sampled at the PHI2
+  rise after CB1 rises (X if it changed less than `tsr2` before) and shifted
+  in at that cycle's fall; after 8, IFR2, CB1 stays high. `100`: as `101`
+  but it never stops and never sets IFR2. External clock (`011` in on CB1
+  rises, `111` out on CB1 falls): the shift happens at the PHI2 fall after
+  the edge, IFR2 every 8 bits, and it keeps going; an edge less than `tpcr`
+  before that fall (the sheet's "no shift" hazard, p.19) makes the SR and
+  its count X. In shift modes CB2 is the serial line whatever the PCR says
+  (its PCR edge flags are off); CB1 edges still set IFR4 by PCR bit 4,
+  including the VIA's own shift clock.
 
 ### `7seg`
 

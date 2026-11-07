@@ -1513,6 +1513,290 @@ static void c14_bus_hold(void) {
     printf("%s C14 bus hold\n", failures > before ? "FAIL" : "ok");
 }
 
+/* ---- D: the via6522 shift register ------------------------------------------------- */
+
+/* One unselected PHI2 cycle; returns the pin just after its fall. */
+static LogicValue cycle_then(Bench *b, const char *pin) {
+    bench_bus65_idle(b, 1);
+    return bench_get(b, pin);
+}
+
+static void d1_disabled(void) {
+    Bench *b = via_bench(1);   /* bus hold: released CB1/CB2 keep their level */
+    int before = failures;
+    uint8_t x;
+    int j;
+
+    bench_set(b, "CB1", LOGIC_Z);
+    bench_set(b, "CB2", LOGIC_Z);
+    bench_bus65_write(b, V_SR, 0x5A);
+    CHECK(bench_bus65_read(b, V_SR, &x) == 0x5A && x == 0);
+    for (j = 0; j < 20; j++) {
+        CHECK(cycle_then(b, "CB1") == LOGIC_Z && bench_get(b, "CB2") == LOGIC_Z);
+    }
+    CHECK(bench_bus65_read(b, V_IFR, &x) == 0x00 && x == 0);
+    CHECK(bench_bus65_read(b, V_SR, &x) == 0x5A && x == 0);
+    CHECK(bench_error(b) == NULL);
+    bench_destroy(b);
+    printf("%s D1 SR disabled (000)\n", failures > before ? "FAIL" : "ok");
+}
+
+/* Shift-in with an internal clock: each time CB1 falls the bench puts the
+   next bit (MSB first) on CB2. Returns the cycles (after the starting SR
+   read's fall = cycle 0) at which CB1 changed, in *toggles. */
+static int shift_in_internal(Bench *b, uint8_t pattern, int cycles, int *toggles, int cap) {
+    LogicValue last;
+    int n = 0;
+    int bit = 7;
+    int j;
+
+    bench_bus65_read(b, V_SR, NULL);                            /* the access starts it */
+    last = bench_get(b, "CB1");
+    if (last == LOGIC_0) {
+        if (n < cap) toggles[n++] = 0;
+        bench_set(b, "CB2", (pattern >> bit-- & 1) ? LOGIC_1 : LOGIC_0);
+    }
+    for (j = 1; j <= cycles; j++) {
+        LogicValue v = cycle_then(b, "CB1");
+
+        if (v != last && n < cap) toggles[n++] = j;
+        if (v == LOGIC_0 && last == LOGIC_1 && bit >= 0) {
+            bench_set(b, "CB2", (pattern >> bit-- & 1) ? LOGIC_1 : LOGIC_0);
+        }
+        last = v;
+    }
+    return n;
+}
+
+static void d2_in_t2(void) {
+    Bench *b = via_bench(0);
+    int before = failures;
+    int toggles[40];
+    int n;
+    int j;
+    int even = 1;
+    uint8_t x;
+
+    bench_set(b, "CB1", LOGIC_Z);
+    bench_bus65_write(b, V_T2CL, 2);                            /* N = 2: every 4 cycles */
+    bench_bus65_write(b, V_ACR, 0x04);
+    n = shift_in_internal(b, 0xA5, 70, toggles, 40);
+    for (j = 0; j < n; j++) even &= toggles[j] == 4 * (j + 1);
+    CHECK(n == 16 && even);                                     /* 8 pulses, then high */
+    CHECK(bench_get(b, "CB1") == LOGIC_1);
+    CHECK((bench_bus65_read(b, V_IFR, &x) & 0x04) && x == 0);
+    CHECK(bench_bus65_read(b, V_SR, &x) == 0xA5 && x == 0);
+    CHECK((bench_bus65_read(b, V_IFR, &x) & 0x04) == 0);        /* the SR read cleared it */
+    CHECK(bench_error(b) == NULL);
+    bench_destroy(b);
+    printf("%s D2 SR in, T2 (001)\n", failures > before ? "FAIL" : "ok");
+}
+
+static void d3_in_phi2(void) {
+    Bench *b = via_bench(1);
+    int before = failures;
+    int toggles[40];
+    int n;
+    int j;
+    int ok = 1;
+    uint8_t x;
+
+    bench_set(b, "CB1", LOGIC_Z);
+    bench_bus65_write(b, V_ACR, 0x08);
+    n = shift_in_internal(b, 0x3C, 24, toggles, 40);
+    for (j = 0; j < n; j++) ok &= toggles[j] == j;              /* low 1 cycle, high 1 */
+    CHECK(n == 16 && ok);
+    CHECK(bench_get(b, "CB1") == LOGIC_1);
+    CHECK((bench_bus65_read(b, V_IFR, &x) & 0x04) && x == 0);
+    CHECK(bench_bus65_read(b, V_SR, &x) == 0x3C && x == 0);
+    CHECK(bench_error(b) == NULL);
+    bench_destroy(b);
+    printf("%s D3 SR in, PHI2 (010)\n", failures > before ? "FAIL" : "ok");
+}
+
+static void d4_in_external(void) {
+    Bench *b = via_bench(0);
+    int before = failures;
+    uint8_t x;
+    int bit;
+
+    bench_bus65_write(b, V_ACR, 0x0C);
+    bench_bus65_read(b, V_SR, NULL);                            /* count from 0 */
+    for (bit = 7; bit >= 0; bit--) {
+        idle_begin(b);
+        bench_run(b, 70 * NS);
+        bench_set(b, "CB2", (0x81 >> bit & 1) ? LOGIC_1 : LOGIC_0);
+        bench_run(b, 100 * NS);
+        bench_set(b, "CB1", LOGIC_1);                           /* shifts at this cycle's fall */
+        idle_end(b, 200 * NS);
+        bench_set(b, "CB1", LOGIC_0);
+        if (bit == 1) CHECK((bench_bus65_read(b, V_IFR, &x) & 0x04) == 0);
+    }
+    CHECK((bench_bus65_read(b, V_IFR, &x) & 0x04) && x == 0);   /* after 8 */
+    CHECK(bench_bus65_read(b, V_SR, &x) == 0x81 && x == 0);
+    /* A CB1 rise 5 ns before a PHI2 fall: shifted or not, the SR is X. */
+    idle_to_rise(b);
+    bench_run(b, 495 * NS);
+    bench_set(b, "CB1", LOGIC_1);
+    bench_run(b, 5 * NS);
+    bench_set(b, "PHI2", LOGIC_0);
+    bench_run(b, 0);
+    bench_set(b, "CB1", LOGIC_0);
+    bench_bus65_read(b, V_SR, &x);
+    CHECK(x == 0xFF);
+    CHECK(bench_error(b) == NULL);
+    bench_destroy(b);
+    printf("%s D4 SR in, external (011)\n", failures > before ? "FAIL" : "ok");
+}
+
+/* Shift-out with an internal clock: CB2 read at each CB1 rise, MSB first,
+   for the first bits_wanted rises; *rises_after counts the rises after. */
+static unsigned shift_out_internal(Bench *b, int bits_wanted, int cycles, int *bits,
+                                   int *rises_after) {
+    LogicValue last = bench_get(b, "CB1");
+    unsigned value = 0;
+    int n = 0;
+    int j;
+
+    *rises_after = 0;
+    for (j = 1; j <= cycles; j++) {
+        LogicValue v = cycle_then(b, "CB1");
+
+        if (v == LOGIC_1 && last == LOGIC_0) {
+            if (n < bits_wanted) {
+                value = value << 1 | (bench_get(b, "CB2") == LOGIC_1);
+                n++;
+            } else {
+                (*rises_after)++;
+            }
+        }
+        last = v;
+    }
+    *bits = n;
+    return value;
+}
+
+static void d5_out_free(void) {
+    Bench *b = via_bench(0);
+    int before = failures;
+    int bits;
+    int after;
+    unsigned v;
+    uint8_t x;
+
+    bench_set(b, "CB1", LOGIC_Z);
+    bench_set(b, "CB2", LOGIC_Z);
+    bench_bus65_write(b, V_T2CL, 1);                            /* toggles every 3 cycles */
+    bench_bus65_write(b, V_ACR, 0x10);
+    bench_bus65_write(b, V_SR, 0x96);
+    v = shift_out_internal(b, 24, 24 * 6 + 12, &bits, &after);
+    CHECK(bits == 24 && v == 0x969696u);
+    CHECK(after == 2);                                          /* free running: keeps going */
+    CHECK(!(bench_bus65_read(b, V_IFR, &x) & 0x04) && !(x & 0x04));  /* never IFR2 */
+    CHECK(bench_error(b) == NULL);
+    bench_destroy(b);
+    printf("%s D5 SR out, free-running T2 (100)\n", failures > before ? "FAIL" : "ok");
+}
+
+static void d6_out_t2(void) {
+    Bench *b = via_bench(1);
+    int before = failures;
+    LogicValue cb2;
+    LogicValue last;
+    unsigned value = 0;
+    int n = 0;
+    int j;
+    int falls = 0;
+    int timing = 1;
+    uint8_t x;
+
+    bench_set(b, "CB1", LOGIC_Z);
+    bench_set(b, "CB2", LOGIC_Z);
+    bench_bus65_write(b, V_T2CL, 2);
+    bench_bus65_write(b, V_ACR, 0x14);
+    bench_bus65_write(b, V_SR, 0xC3);
+    last = bench_get(b, "CB1");
+    for (j = 1; j <= 80; j++) {
+        LogicValue v = cycle_then(b, "CB1");
+
+        if (v == LOGIC_0 && last == LOGIC_1) {
+            /* The bit leaves tsr1 = 35 ns after this fall. */
+            int bit = 0xC3 >> (7 - falls) & 1;
+
+            cb2 = bench_get(b, "CB2");
+            bench_run(b, 34 * NS);
+            if (falls > 0 && ((0xC3 >> (8 - falls)) & 1) != bit) {
+                timing &= bench_get(b, "CB2") == cb2;           /* not yet */
+            }
+            bench_run(b, NS);
+            timing &= bench_get(b, "CB2") == (bit ? LOGIC_1 : LOGIC_0);
+            falls++;
+        }
+        if (v == LOGIC_1 && last == LOGIC_0) {
+            value = value << 1 | (bench_get(b, "CB2") == LOGIC_1);
+            n++;
+        }
+        last = v;
+    }
+    CHECK(n == 8 && value == 0xC3 && falls == 8 && timing);
+    CHECK(bench_get(b, "CB1") == LOGIC_1 && bench_get(b, "CB2") == LOGIC_1); /* holds bit 0 */
+    CHECK((bench_bus65_read(b, V_IFR, &x) & 0x04) && x == 0);
+    CHECK(bench_error(b) == NULL);
+    bench_destroy(b);
+    printf("%s D6 SR out, T2 (101)\n", failures > before ? "FAIL" : "ok");
+}
+
+static void d7_out_phi2(void) {
+    Bench *b = via_bench(0);
+    int before = failures;
+    int bits;
+    int after;
+    unsigned v;
+    uint8_t x;
+
+    bench_set(b, "CB1", LOGIC_Z);
+    bench_set(b, "CB2", LOGIC_Z);
+    bench_bus65_write(b, V_ACR, 0x18);
+    bench_bus65_write(b, V_SR, 0x5A);
+    v = shift_out_internal(b, 8, 30, &bits, &after);
+    CHECK(bits == 8 && v == 0x5A && after == 0);
+    CHECK((bench_bus65_read(b, V_IFR, &x) & 0x04) && !(x & 0x04));   /* IFR2 after 8 */
+    CHECK(bench_error(b) == NULL);
+    bench_destroy(b);
+    printf("%s D7 SR out, PHI2 (110)\n", failures > before ? "FAIL" : "ok");
+}
+
+static void d8_out_external(void) {
+    Bench *b = via_bench(1);
+    int before = failures;
+    unsigned value = 0;
+    uint8_t x;
+    int k;
+
+    bench_set(b, "CB1", LOGIC_1);
+    bench_set(b, "CB2", LOGIC_Z);
+    bench_bus65_write(b, V_ACR, 0x1C);
+    bench_bus65_write(b, V_SR, 0x0F);
+    for (k = 0; k < 16; k++) {
+        idle_begin(b);
+        bench_run(b, 70 * NS);
+        bench_set(b, "CB1", LOGIC_0);                           /* shifts at this cycle's fall */
+        idle_end(b, 100 * NS);
+        bench_run(b, 35 * NS);
+        value = value << 1 | (bench_get(b, "CB2") == LOGIC_1);
+        bench_set(b, "CB1", LOGIC_1);
+        if (k == 7) {
+            CHECK((bench_bus65_read(b, V_IFR, &x) & 0x04) && x == 0);
+            bench_bus65_write(b, V_IFR, 0x04);
+        }
+    }
+    CHECK(value == 0x0F0F);
+    CHECK((bench_bus65_read(b, V_IFR, &x) & 0x04) && x == 0);   /* again after 8 more */
+    CHECK(bench_error(b) == NULL);
+    bench_destroy(b);
+    printf("%s D8 SR out, external (111)\n", failures > before ? "FAIL" : "ok");
+}
+
 int main(void) {
     Part part = test_part();
 
@@ -1549,6 +1833,14 @@ int main(void) {
     c13_interrupts(0);
     c13_interrupts(1);
     c14_bus_hold();
+    d1_disabled();
+    d2_in_t2();
+    d3_in_phi2();
+    d4_in_external();
+    d5_out_free();
+    d6_out_t2();
+    d7_out_phi2();
+    d8_out_external();
     if (via_library != NULL) part_library_destroy(via_library);
     if (shipped_library != NULL) part_library_destroy(shipped_library);
     if (failures > 0) {
