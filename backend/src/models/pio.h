@@ -57,4 +57,41 @@ typedef struct {
     const PioModel *model;
 } PioBase;
 
+/* The models (pio.c's table). */
+extern const PioModel PIA6521_MODEL;
+
+/* ---- Shared helpers: the 65xx bus and the two ports ------------------------ */
+
+enum { PIO_PORT_BITS = 8 };
+
+/* The pin-name keys every pio model has: "phi2", "rw", "reset", "data" (8),
+   "csHigh", "csLow", "rs", "pa" (8), "pb" (8), "ca1", "ca2", "cb1", "cb2". */
+typedef struct {
+    const char *phi2, *rw, *reset;
+    const char *const *data;
+    const char *const *cs_high, *const *cs_low, *const *rs;
+    size_t cs_high_count, cs_low_count, rs_count;
+    const char *const *pa, *const *pb;
+    const char *ca1, *ca2, *cb1, *cb2;
+} PioNames;
+
+typedef struct {
+    Bus65Pins bus;
+    size_t reset;
+    size_t pa[PIO_PORT_BITS], pb[PIO_PORT_BITS];
+    size_t ca1, ca2, cb1, cb2;
+} PioPins;
+
+/* Reads the shared keys; the lists must have exactly these counts. */
+int pio_load_names(KindContext *ctx, const cJSON *json, PioNames *names, size_t cs_high_count,
+                   size_t cs_low_count, size_t rs_count);
+
+/* Binds the shared names to one pinout. */
+int pio_bind_names(KindContext *ctx, const PioNames *names, const PartPin *pins, size_t pin_count,
+                   PioPins *out);
+
+/* One pin name to its index, with the key in the error path. */
+int pio_bind_pin(KindContext *ctx, const PartPin *pins, size_t pin_count, const char *key,
+                 const char *name, size_t *out);
+
 #endif

@@ -24,7 +24,7 @@ plan-14-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-14-A landed | `grep -n 'pio_test' backend/CMakeLists.txt && ls backend/src/models/bus65.c` → a line, the path | NOT MET (2026-11-01) |
+| plan-14-A landed | `grep -n 'pio_test' backend/CMakeLists.txt && ls backend/src/models/bus65.c` → a line, the path | MET (2026-11-07: `135:logic_test(pio_test)`, `backend/src/models/bus65.c`) |
 
 ## 1. Goal
 
@@ -183,11 +183,11 @@ PHI2 1 MHz.
 
 | Case | Checks |
 |---|---|
-| B1 reset | after RESB low: CRA/CRB/DDRA/DDRB/ORA/ORB read 0 (with CR bit 2 set for the OR reads), PA weak 1, PB Z, IRQs Z |
+| B1 reset | after RESB low: CRA/CRB/DDRA/DDRB read 0; with DDRA = DDRB = 0xFF and CR bit 2 set, ORA/ORB read 0 (Corrections); PA weak 1, PB Z, IRQs Z |
 | B2 DDR/OR select | RS0 = 0 reads DDR with CR bit 2 = 0 and OR with bit 2 = 1, both sides |
-| B3 port A out | DDRA = 0xFF, ORA = 0xA5: PA = A5 at PHI2 fall + 20 ns; a bench driver forcing PA3 low reads back 0xA5 & ~8 |
+| B3 port A out | DDRA = 0xFF, ORA = 0xA5: PA = A5 at PHI2 fall + 20 ns; a bench driver forcing PA2 low reads back 0xA5 & ~4 (Corrections) |
 | B4 port B mixed | DDRB = 0x0F, ORB = 0x5A, bench drives PB7..4 = 1001: read → 0x9A |
-| B5 CA1 edge + IRQ | CRA = 0x05 (rising, enabled): CA1 rise → IRQAB low 20 ns later, CRA bit 7 = 1; read ORA → bit 7 0, IRQAB Z 25 ns after the fall |
+| B5 CA1 edge + IRQ | CRA = 0x07 (rising, enabled; Corrections): CA1 rise → IRQAB low 20 ns later, CRA bit 7 = 1; read ORA → bit 7 0, IRQAB Z 25 ns after the fall |
 | B6 CA1 narrow pulse | CA1 high for 50 ns → CRA bit 7 X |
 | B7 CA2 handshake | CRA = 0x24: read ORA → CA2 low at fall + 20 ns; CA1 active edge → CA2 high 25 ns later |
 | B8 CB2 pulse | CRB = 0x2C: write ORB → CB2 low at the next rise + 70 ns, high at the following rise + 20 ns |
@@ -203,16 +203,21 @@ with a `"pa"` list of 7 names.
 
 ### Phase 1 — The model
 
-- [ ] `backend/src/models/pio_pia6521.c` (§3.2–§3.5) registered in `pio.c`'s
+- [x] `backend/src/models/pio_pia6521.c` (§3.2–§3.5) registered in `pio.c`'s
       table; device keys and timing names of §3.1; `pin_open_drain` for the
-      IRQ pins; `backend/CMakeLists.txt`.
-- [ ] `tests/support/bench.{h,c}`: `bench_bus65_write`, `bench_bus65_read`.
-- [ ] `pio_test` B1–B10 with an inline copy of the `W65C21N` device for this
+      IRQ pins; `backend/CMakeLists.txt`. The shared 65xx keys load and bind
+      through new `pio_load_names`/`pio_bind_names` in `pio.c` (C reuses
+      them). Build: no errors or warnings.
+- [x] `tests/support/bench.{h,c}`: `bench_bus65_write`, `bench_bus65_read`
+      (plus `bench_bus65_begin`, `bench_bus65_idle`, `bench_has_pin`).
+- [x] `pio_test` B1–B10 with an inline copy of the `W65C21N` device for this
       phase (Phase 2 switches it to the shipped device); `library_check` the
-      two refusals.
-- [ ] `docs/parts-format.md` § `pio` → Model `pia6521` (keys, timing names,
+      two refusals. → `ok B1 reset` … `ok B10 inputs as interrupts`;
+      `ok   pia6521 missing ca2: … missing "ca2"`, `ok   pia6521 pa of 7: … "pa" needs exactly 8 pin names`.
+- [x] `docs/parts-format.md` § `pio` → Model `pia6521` (keys, timing names,
       behavior of §3.2–§3.5, "Not modeled": port drive currents, the N/S
-      buffer difference).
+      buffer difference), plus the shared keys.
+- [x] Acceptance: `ctest --test-dir /tmp/logic-p14` → `100% tests passed, 0 tests failed out of 21`.
 
 Acceptance: `pio_test` B1–B10 `ok`; `ctest` 100%.
   Check: `cmake --build /tmp/logic-p14 -j8 && /tmp/logic-p14/pio_test` → every case `ok` (est. 1 min).
@@ -248,4 +253,28 @@ is plan-14-J's.
 
 ## Corrections
 
-(none yet)
+- §4 B5: `CRA = 0x05` has bit 1 = 0, the **falling** CA1 edge (Table 3,
+  p.18: bit 1 "0 Negative, 1 Positive"). A rising, enabled edge with ORA
+  selected is `0x07`; the case uses `0x07` (its CRA read-back is `0x87`,
+  then `0x07` after the ORA read).
+- §4 B3: `0xA5 & ~8` = `0xA5` (bit 3 of A5 is already 0), so forcing PA3
+  low proved nothing. The case forces **PA2** low and reads `0xA1`.
+- §4 B3 / §3.3: a bench driver can only force a port A output low if the
+  PIA's high is weak; two strong drivers short (the engine's smoke rule).
+  p.16 says port A's pull-ups are "resistive in nature" and that a read can
+  differ from ORA when a pin is held below 2.0 V. So port A drives an
+  output **0 strong and an output 1 weak**; port B outputs are strong.
+- §4 B1: with CR bit 2 set, ORA reads the PA **pins** (0xFF: the
+  pull-ups) and ORB's input bits read the floating pins (X), so "ORA/ORB
+  read 0" cannot be observed directly. B1 sets DDRA = DDRB = 0xFF first;
+  the pins then show ORA = ORB = 0x00.
+- §3.4: the `pwi` narrow-pulse rule is applied to CA2/CB2 inputs as well
+  (p.8 lists PWI for the interrupt inputs, CA2/CB2 among them).
+- §3.4 (not stated): entering handshake (`100`) or pulse (`101`) mode sets
+  CA2/CB2 high, as on the 6821; B7 and B8 check the line starts high.
+- §3.2 "an unknown read of OR makes the side's flags X" needed a `bus65`
+  hook: `read_unknown()` (plan-14-A Corrections). A side whose CR bit 2 is
+  known 0 is left alone (its RS0 = 0 read is DDR, no side effect).
+- The bench helpers are one 1 MHz cycle each and start and end at a PHI2
+  fall; a manual edge between cycles uses the tests' `idle_begin` /
+  `idle_end` so the low phase never drops under `tc`.

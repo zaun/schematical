@@ -235,6 +235,7 @@ static void phi2_rise(Bus65 *bus, Sim *sim, SimInstance *instance) {
     } else if (bus->cycle == BUS65_UNKNOWN && bus->rwb != 0) {
         bus->read_valid = 0;
         start_drive(bus, sim, instance, t->tcdr);
+        if (bus->ops->read_unknown != NULL) bus->ops->read_unknown(bus->model);
     }
 }
 
@@ -328,6 +329,7 @@ static void control_hold(Bus65 *bus, Sim *sim, SimInstance *instance, int slot) 
             bus->driving = 1;
         }
         drive_data(bus, sim, instance, 0);
+        if (bus->ops->read_unknown != NULL) bus->ops->read_unknown(bus->model);
     }
 }
 

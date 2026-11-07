@@ -15,6 +15,7 @@
 
 /* The model table (NULL-terminated). */
 static const PioModel *const MODELS[] = {
+    &PIA6521_MODEL,   /* plan-14-B */
     NULL
 };
 
@@ -22,6 +23,11 @@ static const PioModel *const MODELS[] = {
    model's keys (each model's own list is checked after "model"). */
 static const char *const DEVICE_KEYS[] = {
     "model", "grades",
+    /* the shared 65xx keys (pio_load_names) */
+    "phi2", "rw", "reset", "data", "csHigh", "csLow", "rs", "pa", "pb",
+    "ca1", "ca2", "cb1", "cb2",
+    /* pia6521 */
+    "irqa", "irqb",
     NULL
 };
 enum { FIRST_MODEL_KEY = 2 };
@@ -36,6 +42,95 @@ static int in_list(const char *const *list, const char *name) {
         if (strcmp(*list, name) == 0) {
             return 1;
         }
+    }
+    return 0;
+}
+
+/* ---- Shared helpers ------------------------------------------------------------ */
+
+static int load_list(KindContext *ctx, const cJSON *json, const char *key, size_t count,
+                     const char *const **out) {
+    size_t n;
+
+    if (kind_names(ctx, json, key, out, &n) != 0) {
+        return -1;
+    }
+    if (n != count) {
+        return kind_error(ctx, "\"%s\" needs exactly %zu pin names", key, count);
+    }
+    return 0;
+}
+
+int pio_load_names(KindContext *ctx, const cJSON *json, PioNames *names, size_t cs_high_count,
+                   size_t cs_low_count, size_t rs_count) {
+    names->cs_high_count = cs_high_count;
+    names->cs_low_count = cs_low_count;
+    names->rs_count = rs_count;
+    if (kind_string(ctx, json, "phi2", &names->phi2) != 0 ||
+        kind_string(ctx, json, "rw", &names->rw) != 0 ||
+        kind_string(ctx, json, "reset", &names->reset) != 0 ||
+        load_list(ctx, json, "data", BUS65_DATA, &names->data) != 0 ||
+        load_list(ctx, json, "csHigh", cs_high_count, &names->cs_high) != 0 ||
+        load_list(ctx, json, "csLow", cs_low_count, &names->cs_low) != 0 ||
+        load_list(ctx, json, "rs", rs_count, &names->rs) != 0 ||
+        load_list(ctx, json, "pa", PIO_PORT_BITS, &names->pa) != 0 ||
+        load_list(ctx, json, "pb", PIO_PORT_BITS, &names->pb) != 0 ||
+        kind_string(ctx, json, "ca1", &names->ca1) != 0 ||
+        kind_string(ctx, json, "ca2", &names->ca2) != 0 ||
+        kind_string(ctx, json, "cb1", &names->cb1) != 0 ||
+        kind_string(ctx, json, "cb2", &names->cb2) != 0) {
+        return -1;
+    }
+    return 0;
+}
+
+int pio_bind_pin(KindContext *ctx, const PartPin *pins, size_t pin_count, const char *key,
+                 const char *name, size_t *out) {
+    kind_push(ctx, "%s", key);
+    if (kind_pin(ctx, pins, pin_count, name, out) != 0) {
+        return -1;
+    }
+    kind_pop(ctx);
+    return 0;
+}
+
+static int bind_list(KindContext *ctx, const PartPin *pins, size_t pin_count, const char *key,
+                     const char *const *names, size_t count, size_t *out) {
+    char path[32];
+    size_t i;
+
+    for (i = 0; i < count; i++) {
+        snprintf(path, sizeof path, "%s[%zu]", key, i);
+        if (pio_bind_pin(ctx, pins, pin_count, path, names[i], &out[i]) != 0) {
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int pio_bind_names(KindContext *ctx, const PioNames *names, const PartPin *pins, size_t pin_count,
+                   PioPins *out) {
+    Bus65Pins *bus = &out->bus;
+
+    bus->cs_high_count = names->cs_high_count;
+    bus->cs_low_count = names->cs_low_count;
+    bus->rs_count = names->rs_count;
+    if (pio_bind_pin(ctx, pins, pin_count, "phi2", names->phi2, &bus->phi2) != 0 ||
+        pio_bind_pin(ctx, pins, pin_count, "rw", names->rw, &bus->rwb) != 0 ||
+        pio_bind_pin(ctx, pins, pin_count, "reset", names->reset, &out->reset) != 0 ||
+        bind_list(ctx, pins, pin_count, "data", names->data, BUS65_DATA, bus->data) != 0 ||
+        bind_list(ctx, pins, pin_count, "csHigh", names->cs_high, names->cs_high_count,
+                  bus->cs_high) != 0 ||
+        bind_list(ctx, pins, pin_count, "csLow", names->cs_low, names->cs_low_count,
+                  bus->cs_low) != 0 ||
+        bind_list(ctx, pins, pin_count, "rs", names->rs, names->rs_count, bus->rs) != 0 ||
+        bind_list(ctx, pins, pin_count, "pa", names->pa, PIO_PORT_BITS, out->pa) != 0 ||
+        bind_list(ctx, pins, pin_count, "pb", names->pb, PIO_PORT_BITS, out->pb) != 0 ||
+        pio_bind_pin(ctx, pins, pin_count, "ca1", names->ca1, &out->ca1) != 0 ||
+        pio_bind_pin(ctx, pins, pin_count, "ca2", names->ca2, &out->ca2) != 0 ||
+        pio_bind_pin(ctx, pins, pin_count, "cb1", names->cb1, &out->cb1) != 0 ||
+        pio_bind_pin(ctx, pins, pin_count, "cb2", names->cb2, &out->cb2) != 0) {
+        return -1;
     }
     return 0;
 }

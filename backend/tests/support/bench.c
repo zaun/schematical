@@ -129,6 +129,94 @@ void *bench_state(Bench *b) {
     return sim_instance_state(b->part);
 }
 
+int bench_has_pin(const Bench *b, const char *pin_name) {
+    size_t i;
+
+    for (i = 0; i < b->pin_count; i++) {
+        if (strcmp(b->config->pins[i].name, pin_name) == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/* ---- 65xx bus cycles ------------------------------------------------------------ */
+
+#define BUS65_NS 1000ull
+
+static const char *const BUS65_D[8] = {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"};
+static const char *const BUS65_RS[4] = {"RS0", "RS1", "RS2", "RS3"};
+
+static void bus65_selects(Bench *b, int selected) {
+    if (bench_has_pin(b, "CS0")) bench_set(b, "CS0", LOGIC_1);
+    if (bench_has_pin(b, "CS1")) bench_set(b, "CS1", LOGIC_1);
+    if (bench_has_pin(b, "CS2B")) bench_set(b, "CS2B", selected ? LOGIC_0 : LOGIC_1);
+    if (bench_has_pin(b, "CS1B")) bench_set(b, "CS1B", selected ? LOGIC_0 : LOGIC_1);
+}
+
+static void bus65_setup(Bench *b, int rw, unsigned reg, int selected) {
+    int i;
+
+    bench_run(b, 30 * BUS65_NS);
+    for (i = 0; i < 8; i++) bench_set(b, BUS65_D[i], LOGIC_Z);
+    bench_set(b, "RWB", rw ? LOGIC_1 : LOGIC_0);
+    for (i = 0; i < 4 && bench_has_pin(b, BUS65_RS[i]); i++) {
+        bench_set(b, BUS65_RS[i], (reg >> i & 1) ? LOGIC_1 : LOGIC_0);
+    }
+    bus65_selects(b, selected);
+    bench_run(b, 470 * BUS65_NS);
+    bench_set(b, "PHI2", LOGIC_1);
+}
+
+void bench_bus65_begin(Bench *b) {
+    bench_set(b, "PHI2", LOGIC_0);
+    bench_set(b, "RWB", LOGIC_1);
+    bus65_selects(b, 0);
+    bench_run(b, 1000 * BUS65_NS);
+}
+
+void bench_bus65_write(Bench *b, unsigned reg, uint8_t value) {
+    int i;
+
+    bus65_setup(b, 0, reg, 1);
+    bench_run(b, 100 * BUS65_NS);
+    for (i = 0; i < 8; i++) bench_set(b, BUS65_D[i], (value >> i & 1) ? LOGIC_1 : LOGIC_0);
+    bench_run(b, 400 * BUS65_NS);
+    bench_set(b, "PHI2", LOGIC_0);
+    bench_run(b, 0);
+}
+
+uint8_t bench_bus65_read(Bench *b, unsigned reg, uint8_t *unknown) {
+    uint8_t value = 0;
+    uint8_t x = 0;
+    int i;
+
+    bus65_setup(b, 1, reg, 1);
+    bench_run(b, 400 * BUS65_NS);
+    for (i = 0; i < 8; i++) {
+        LogicValue v = bench_get(b, BUS65_D[i]);
+
+        if (v == LOGIC_1) value |= (uint8_t)(1u << i);
+        else if (v != LOGIC_0) x |= (uint8_t)(1u << i);
+    }
+    bench_run(b, 100 * BUS65_NS);
+    bench_set(b, "PHI2", LOGIC_0);
+    bench_run(b, 0);
+    if (unknown != NULL) *unknown = x;
+    return value;
+}
+
+void bench_bus65_idle(Bench *b, unsigned cycles) {
+    unsigned n;
+
+    for (n = 0; n < cycles; n++) {
+        bus65_setup(b, 1, 0, 0);
+        bench_run(b, 500 * BUS65_NS);
+        bench_set(b, "PHI2", LOGIC_0);
+        bench_run(b, 0);
+    }
+}
+
 void bench_destroy(Bench *b) {
     if (b != NULL) {
         sim_destroy(b->sim);

@@ -13,7 +13,8 @@
  *
  *   read   read() at the rise; data X from the rise, the value at rise +
  *          tcdr, driven until fall + thr, then Z. An unknown read drives X
- *          for the same window and does not call read().
+ *          for the same window and calls read_unknown() instead of read()
+ *          (a read can have side effects: clearing flags).
  *   write  data sampled at the PHI2 fall (a bit that changed less than tdcw
  *          before it is X); write() at the fall. A bit that changes within
  *          thw after the fall calls write() again with that bit unknown. An
@@ -68,6 +69,10 @@ typedef struct {
     void (*write)(void *model, unsigned reg, uint8_t value, uint8_t known);
     /* Every PHI2 fall, after read/write (the VIA's timers count here). May be NULL. */
     void (*cycle)(void *model);
+    /* An unknown read cycle (any register may have been read): the model
+       makes every read side effect unknown. Called at the rise, or when a
+       hold violation turns the cycle unknown. May be NULL. */
+    void (*read_unknown)(void *model);
 } Bus65Ops;
 
 typedef enum {

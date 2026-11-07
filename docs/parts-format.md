@@ -1611,7 +1611,60 @@ the fall, or changes within `thw` after it, is unknown. An unknown write
 makes every register unknown. PHI2 X makes every register unknown and the
 data pins X until PHI2 is known again; so does a high or low phase shorter
 than the model's minimum widths, or a cycle shorter than `tcyc`. Not
-selected, the data pins stay Z.
+selected, the data pins stay Z. An unknown read makes every read side
+effect unknown (a flag a read would clear goes X).
+
+**Shared keys (every model).** `"phi2"`, `"rw"`, `"reset"` (pin names),
+`"data"` (8 names, D0 first), `"csHigh"` (active-high selects), `"csLow"`
+(active-low selects), `"rs"` (register selects, RS0 first), `"pa"`, `"pb"`
+(8 names each, bit 0 first), `"ca1"`, `"ca2"`, `"cb1"`, `"cb2"`. A list of
+the wrong length is refused (`"pa" needs exactly 8 pin names`).
+
+#### Model `pia6521`
+
+The W65C21 PIA (`datasheets/pio/w65c21.pdf`). Keys: the shared ones with
+`"csHigh"` 2 names (CS0, CS1), `"csLow"` 1 (CS2B), `"rs"` 2; plus `"irqa"`,
+`"irqb"` (the open-drain IRQAB/IRQBB pins). Timing names (ns, p.8): `tcyc`
+tCYC and `tc` the PHI2 pulse width (both > 0; the bus checks both phases
+against `tc`), `tacr`, `tcar`, `tpcr`, `tcdr`, `thr` (read), `tacw`,
+`tcaw`, `tdcw`, `thw`, `tcpw` (write), `tca2` (PHI2 low to CA2 low),
+`tca2h` (PHI2 low to CA2 high, pulse mode), `trs2` (CA1/CB1 active to
+CA2/CB2 high), `tcb2` (PHI2 high to CB2 low), `tcb2h` (PHI2 high to CB2
+high), `tdc`, `pwi` (interrupt input pulse width, a minimum), `trs3`
+(interrupt response), `tir` (interrupt clear).
+
+- **Registers.** RS1 picks the side; RS0 = 1 is CR, RS0 = 0 is OR when CR
+  bit 2 = 1 and DDR when it is 0. CR bits 0–5 are written; bits 6 and 7
+  are the flags (read only). A write reaches the register at the PHI2 fall;
+  a port output follows `tcpw` later.
+- **Ports.** DDR bit 1: output. Port A reads its pins (output bits too),
+  drives an output 0 strong and an output 1 weak (its resistive pull-ups,
+  p.16: a stronger driver wins and the read shows the pin), and pulls an
+  input up (weak 1). Port B drives its outputs strong and reads them back
+  from ORB; its inputs float (Z reads X). A pin that changed less than
+  `tpcr` before the read's PHI2 rise reads X. Reading OR clears that side's
+  flags at the PHI2 fall; IRQ is released `tir` later.
+- **CA1, CB1.** The edge CR bit 1 picks (1 = rising) sets CR bit 7; IRQ goes
+  low `trs3` later when CR bit 0 = 1. A pulse that returns within `pwi` of
+  its active edge sets the flag X (the chip may have missed it). X on the
+  input sets the flag X.
+- **CA2, CB2 as inputs** (CR bit 5 = 0): the edge CR bit 4 picks sets CR
+  bit 6, onto IRQ when CR bit 3 = 1; the same pulse rule. CA2 is pulled up
+  (weak 1), CB2 floats.
+- **CA2, CB2 as outputs** (CR bit 5 = 1; bit 6 reads 0), CR bits 4–3: `00`
+  handshake — CA2 low `tca2` after the PHI2 fall of a read of ORA, CB2 low
+  `tcb2` after the PHI2 rise that follows a write of ORB; high `trs2` after
+  the next active CA1/CB1 edge. `01` pulse — low as for `00`, high again
+  `tca2h` after the next PHI2 fall (CA2) / `tcb2h` after the next rise
+  (CB2). `10`/`11` — the line is CR bit 3. Entering `00` or `01` sets the
+  line high.
+- **IRQAB, IRQBB** (open drain): low while (bit 7 ∧ bit 0) ∨ (bit 6 ∧ bit
+  3 ∧ ¬bit 5), else Z; X when a term is X.
+- **Reset and power-up.** RESB low clears every register (ports and CA2/CB2
+  inputs, IRQs Z) and holds them; writes and edges are ignored. RESB X
+  makes every register X. RESB at Z reads high. Registers power up X.
+- Not modeled: port drive currents and the N/S buffer difference (the two
+  dies are one model with the same timing).
 
 ### `7seg`
 

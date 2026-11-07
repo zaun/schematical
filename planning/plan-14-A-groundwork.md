@@ -328,7 +328,7 @@ Commit: 30040b3
 Acceptance: `pio_test` A1–A7 pass; `library_check` refuses both devices;
 `ctest` T0 + 1, goldens unchanged.
   Check: `cmake --build /tmp/logic-p14 -j8 && ctest --test-dir /tmp/logic-p14` → `100% tests passed`, T0 + 1 programs; `git diff --stat backend/tests/golden` → empty (est. 2 min).
-Commit: —
+Commit: adf0a11
 
 ## Validation Plan
 
@@ -383,6 +383,12 @@ Commit: —
   its last known level); C only sets it from `"busHold"`.
 - A `pio` device without `"model"` is refused with `"model" is required`
   (§1), not the loader's usual `missing "model"`.
+- §4.3 rule 2 (found in B): an unknown read cycle does not call `read()`,
+  so the model could not learn that a read side effect may have happened
+  (B §3.2: "an unknown read of OR makes the side's flags X"; C §3.2 the
+  same for the VIA's flag clears). `Bus65Ops` gains an optional
+  `read_unknown(model)`, called at the rise of an unknown read and when a
+  hold violation turns a cycle unknown. A3 and A4 check it is called once.
 
 ## Summary
 

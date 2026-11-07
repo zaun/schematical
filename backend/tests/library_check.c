@@ -201,6 +201,21 @@ static void check_pio(void) {
                 "devices[0] (U): unknown pio model \"nope\"");
     expect_fail("pio missing model", PIO_DEVICE("'grades':{'14':{}},"),
                 "devices[0] (U): \"model\" is required");
+    /* plan-14-B: pia6521 keys. */
+#define PIA_KEYS(PA, CA2) \
+    "'model':'pia6521','phi2':'PHI2','rw':'RWB','reset':'RESB'," \
+    "'data':['D0','D1','D2','D3','D4','D5','D6','D7'],'csHigh':['CS0','CS1'],'csLow':['CS2B']," \
+    "'rs':['RS0','RS1'],'pa':[" PA "],'pb':['PB0','PB1','PB2','PB3','PB4','PB5','PB6','PB7']," \
+    "'ca1':'CA1'," CA2 "'cb1':'CB1','cb2':'CB2','irqa':'IRQAB','irqb':'IRQBB'," \
+    "'grades':{'14':{'tcyc':70,'tc':35}},"
+#define PA8 "'PA0','PA1','PA2','PA3','PA4','PA5','PA6','PA7'"
+    expect_fail("pia6521 missing ca2", PIO_DEVICE(PIA_KEYS(PA8, "")),
+                "devices[0] (U): missing \"ca2\"");
+    expect_fail("pia6521 pa of 7", PIO_DEVICE(PIA_KEYS("'PA0','PA1','PA2','PA3','PA4','PA5','PA6'",
+                                                       "'ca2':'CA2',")),
+                "devices[0] (U): \"pa\" needs exactly 8 pin names");
+#undef PA8
+#undef PIA_KEYS
 }
 
 static void check_valid_supply(void) {
