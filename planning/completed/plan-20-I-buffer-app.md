@@ -48,7 +48,7 @@ plan-20-A § Prerequisites, plus:
 - [x] Runtime proof with the app's own code in the headless harness (`scripts/harness/buffer-app.swift`: the real `PartCatalogStore`, drawer filter, `SchematicDocument`, `PartFacts` and the rendered sidebar; Corrections 2): `ok   1 Logic drawer, family LVC: SN74LVC245ANSR and SN74LVC1T45DBVR listed`; `ok   2 buffer parts are logic: family and units`; `ok   3 SN74LVC1T45DBVR Details: Supply A (VCCA) and Supply B (VCCB) 1.65–5.5 V, no single row` (rows `Kind: Buffer`, `Function: Level shifter`, …, `Supply A (VCCA): 1.65–5.5 V`, `Input max A: 5.5 V`, `Supply B (VCCB): 1.65–5.5 V`, `Input max B: 5.5 V`); `ok   4 SN74HC244N Details: Kind Buffer, one Supply range row 2–6 V`; `ok   5 render the sidebar for both parts` (the 1T45 image shows the two supply rows).
 
 Acceptance: build, grep, runtime proof.
-Commit: (this commit; hash in the next)
+Commit: 6f314f9
 
 ## Validation Plan — plan-20 landing tier
 
