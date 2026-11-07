@@ -1,0 +1,7 @@
+== plan 21 packages 24
+    97 (blank: ceramic/military; map from TI code)
+     3 24-PDIP -> PDIP-24
+     2 SM8
+     2 8-DSBGA (1.9x0.9)
+     1 20-LCCC (8.89x8.89)
+     1 8-XFBGA, DSBGA
