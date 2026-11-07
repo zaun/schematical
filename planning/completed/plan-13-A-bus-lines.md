@@ -653,7 +653,7 @@ same lines, joints and names. A version 2 file still opens.
   Final gate for A: build → `** BUILD SUCCEEDED **`; `git status --short
   backend` → no output.
 - [x] Added: `scripts/harness/bus-file.swift` (the check above).
-Commit: —
+Commit: 8379877
 
 ## Validation Plan
 
