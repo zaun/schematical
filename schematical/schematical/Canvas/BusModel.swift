@@ -436,12 +436,13 @@ extension Bus {
     }
 
     /// The free intervals of a port's line, along its axis: the line's ends,
-    /// minus the other ports' extents on that line, split at every T on its
-    /// middle. Intervals may touch an extent or a T.
+    /// minus the extents of the other ports on that line and side, split at
+    /// every T on its middle. Ports on opposite sides never block each
+    /// other. Intervals may touch an extent or a T.
     func freeIntervals(around port: BusPort) -> [ClosedRange<CGFloat>] {
         guard let line = line(port.line) else { return [] }
         var cuts: [ClosedRange<CGFloat>] = ports
-            .filter { $0.id != port.id && $0.line == port.line }
+            .filter { $0.id != port.id && $0.line == port.line && $0.side == port.side }
             .map { extent(of: $0) }
         cuts += teeAlongs(on: line.id).map { $0...$0 }
 

@@ -244,8 +244,9 @@ bus (whichever line it is on), is one net.
 | `wires` | array  | The ticked bus wire ids, in bus order. May be empty (the port is then one slot long). |
 
 The port takes `[start − 10, start − 10 + 20·max(n, 1)]` along its line (n
-pins). That range lies within the line, overlaps no other port on the line,
-and has no T inside it (it may end at one). The body is 40 deep on the pin
+pins). That range lies within the line, overlaps no other port on the same
+side of the line (ports on opposite sides may share a place), and has no T
+inside it (it may end at one). The body is 40 deep on the pin
 side, and each pin's tip is 50 out from the line.
 
 ## Validation on open
@@ -299,7 +300,7 @@ Opening fails, and the canvas is left unchanged, if:
     or right on a vertical one);
   - `port <id> wire <id> is not on bus <id>`;
   - `port <id> does not fit on its line` (off the line, overlapping another
-    port, or over a T).
+    port on the same side, or over a T).
 
 A missing or unreadable EEPROM load file (`memoryFile`) does not fail Open:
 the memory window shows the problem, and Run stops with it

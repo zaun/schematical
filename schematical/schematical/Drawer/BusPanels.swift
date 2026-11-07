@@ -192,7 +192,7 @@ struct BusPortPanel: View {
     }
 
     private func sideBinding(_ side: ChipLayout.Side) -> Binding<ChipLayout.Side> {
-        Binding(get: { side }, set: { document.setPortSide(portID, $0) })
+        Binding(get: { side }, set: { message = document.setPortSide(portID, $0) })
     }
 
     /// Stores the ticked wires; a refusal shows its message. Unticking a pin

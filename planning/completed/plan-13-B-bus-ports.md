@@ -556,6 +556,13 @@ Commit: 619e2a7
   the line); after a split, ports stay with their line and their pins map
   to the new bus's wires by position — author's call, 2026-11-07, following
   the owner's T/L joining rule (plan-13-A § Decisions).
+- Ports on opposite sides of a line may overlap (a left and a right port
+  can sit at the same place); only ports on the same side block each other
+  in the fit rule, slides and file checks. A new port tries the line's
+  default side, then the other side. Switching a port's side onto a port
+  there is refused: "A port on that side is in the way." — owner,
+  2026-11-07 (after landing; checked in
+  `scripts/harness/bus-port-sides.swift`).
 
 ## Corrections
 

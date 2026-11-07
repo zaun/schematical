@@ -1563,13 +1563,19 @@ final class SchematicDocument {
             editorMessage = "A port can't go on the end of a bus line or on a joint."
             return editorMessage
         }
-        let port = BusPort(line: line.id, start: SchematicGrid.snap(along), side: BusPort.defaultSide(for: line))
-        guard let start = bus.fit(port: port, slots: 1, preferredStart: port.start) else {
+        // The default side first; if a port there is in the way, the other side.
+        let defaultSide = BusPort.defaultSide(for: line)
+        let sides = [defaultSide] + BusPort.sides(for: line).filter { $0 != defaultSide }
+        let fitted = sides.lazy.compactMap { side -> BusPort? in
+            var port = BusPort(line: line.id, start: SchematicGrid.snap(along), side: side)
+            guard let start = bus.fit(port: port, slots: 1, preferredStart: port.start) else { return nil }
+            port.start = start
+            return port
+        }.first
+        guard let placed = fitted else {
             editorMessage = "Not enough room on this bus line for a port."
             return editorMessage
         }
-        var placed = port
-        placed.start = start
         buses[b].ports.append(placed)
         editorMessage = nil
         selectedPortID = placed.id
@@ -1602,13 +1608,23 @@ final class SchematicDocument {
         return nil
     }
 
-    /// Sets the side a port's pins come out of, if it suits the line.
-    func setPortSide(_ portID: UUID, _ side: ChipLayout.Side) {
+    /// Sets the side a port's pins come out of, if it suits the line. Ports
+    /// on opposite sides may share a place, so a port on the new side that is
+    /// in the way refuses the switch with a message.
+    @discardableResult
+    func setPortSide(_ portID: UUID, _ side: ChipLayout.Side) -> String? {
         guard let at = portLocation(portID),
               let line = buses[at.bus].line(buses[at.bus].ports[at.port].line),
-              BusPort.sides(for: line).contains(side) else { return }
+              BusPort.sides(for: line).contains(side) else { return nil }
+        let bus = buses[at.bus]
+        var moved = bus.ports[at.port]
+        moved.side = side
+        guard bus.fit(port: moved, slots: bus.slots(of: moved), preferredStart: moved.start) == moved.start else {
+            return "A port on that side is in the way."
+        }
         buses[at.bus].ports[at.port].side = side
         settleWires(attachedToPort: portID)
+        return nil
     }
 
     /// Moves a port along its line to `start`. Stores it only if the fit
