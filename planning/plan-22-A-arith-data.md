@@ -78,6 +78,7 @@ parallel).
 | What | Count | Command |
 |---|---|---|
 | Candidate parts | 225 | `tail -n +2 planning/plan-22-data/candidates.tsv \| wc -l` |
+| … addable by status (Active or Last Time Buy) | 179 (46 excluded: Obsolete, Discontinued at DigiKey, Not For New Designs) | `awk -F'\t' 'NR>1 && ($6=="Active"||$6=="Last Time Buy")' planning/plan-22-data/candidates.tsv \| wc -l` |
 | … comparators | 109 | `tail -n +2 … \| cut -f1 \| grep -cxE '85\|518\|519\|520\|521\|527\|528\|677\|679\|680\|682\|684\|685\|686\|688\|689\|866\|885\|4063\|4585\|11521\|29806'` |
 | … adders ('283, '183, '385, '80) | 32 | same, `'80\|83\|283\|183\|385'` |
 | … ALUs ('181, '381, '382, '881, 11181) | 14 | same |
@@ -168,7 +169,7 @@ exhaustively against a reference written from the datasheet equations.
 
 ### Phase 1 — Datasheets and part data
 
-- [ ] Re-run the §2 availability probe; stock re-check per base name (`node scripts/digikey.js --in-stock --manufacturer 296 --list "<base>"`; about 40 calls).
+- [ ] Re-run the §2 availability probe; stock re-check per base name (`node scripts/digikey.js --in-stock --manufacturer 296 --list "<base>"`; about 40 calls); rows whose status is not Active or Last Time Buy `skip`.
 - [ ] Download the available PDFs. Check: `ls … | wc -l` = distinct `pdf` values of `add` rows.
 - [ ] `parts.tsv` (225 rows), `specs.md`, `README.md`. Checks: 0 undecided rows; 0 `add` rows without a footprint; every no-datasheet function's rows `skip`.
 - [ ] `datasheets/skipped-parts.md` § TI comparators and arithmetic: the `skip` rows grouped by reason, the ACT8832/ACT8847 row first with "owner chose them; no datasheet can be fetched (2026-11-07)".
@@ -189,6 +190,7 @@ Landing tier at the end of E. For A: Phase 2's `ctest` and Phase 1's checks.
 
 ## Decisions
 
+- **Only Active and Last Time Buy parts are added** (owner, 2026-11-07): a part whose DigiKey status is Obsolete, Discontinued at DigiKey or Not For New Designs is `skip` with reason "status <status>", even when it is in stock and in the datasheet's ordering table. This overrides, for this plan, AGENTS.md's "add obsolete parts with the `obsolete` flag"; no part of this plan carries the `obsolete` flag. A PDF left with no addable part is deleted and recorded in `datasheets/obsolete-not-included.md` (all its parts obsolete) or `datasheets/not-included.md` (other statuses).
 - **Scope** (owner, 2026-11-07): comparators, adders/ALUs, carry lookahead,
   parity generators, multipliers, and the ACT8832/ACT8847.
 - **Parts without a datasheet are skipped** (AGENTS.md and the inverter

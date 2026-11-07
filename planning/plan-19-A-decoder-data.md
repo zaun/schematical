@@ -113,6 +113,7 @@ the world where these rows hold.
 | Candidate parts | 505 | `tail -n +2 planning/plan-19-data/candidates.tsv \| wc -l` |
 | Candidate functions | 37 | `tail -n +2 planning/plan-19-data/candidates.tsv \| cut -f1 \| sort -u \| wc -l` |
 | … listed obsolete by DigiKey | 102 | `awk -F'\t' '$6=="Obsolete"' planning/plan-19-data/candidates.tsv \| wc -l` |
+| … addable by status (Active or Last Time Buy) | 395 (110 excluded: Obsolete, Discontinued at DigiKey, Not For New Designs) | `awk -F'\t' 'NR>1 && ($6=="Active"||$6=="Last Time Buy")' planning/plan-19-data/candidates.tsv \| wc -l` |
 | Per function | 138: 166, 139: 108, 238: 34, 1G19: 15, 42: 18, 137: 16, 148: 12, 237: 11, 4028: 8, 4555: 8, 156: 8, 1G18: 8, 11138: 8, 1G29: 7, 145: 7, 147: 7, 155: 7, 4515: 7, 4532: 7, 1G139: 6, 11139: 6, 4514: 5, 154: 3, 348: 3, 4014 (CD40147): 3, 4556: 3, 131: 2, 278: 2, 2414: 2, 45: 1, 47: 1, 49: 1, 159: 1, 445: 1, 4056: 1, 4511: 1, 11238: 1 | `tail -n +2 planning/plan-19-data/candidates.tsv \| cut -f1 \| sort \| uniq -c` |
 | Families in the candidates | HC, HCT, HCS, LS, ALS, AS, F, S, AC, ACT, AHC, AHCT, LV, LVC, AUC, CD4 (→ `C`), FCT, L, ALV, standard TTL (blank → `TTL`) | `cut -f2 planning/plan-19-data/candidates.tsv \| sort -u` |
 | Candidates with no DigiKey package (ceramic / military; mapped from the TI code) | 53 | `awk -F"\t" 'NR>1 && $8==""' planning/plan-19-data/candidates.tsv | wc -l` → 53 |
@@ -264,7 +265,7 @@ while mapping gets a footprint the same way and a line in Corrections.
 
 ### Phase 1 — Datasheets and part data
 
-- [ ] Stock re-check: for each function, `node scripts/digikey.js --in-stock --manufacturer 296 --list "<base name>"` (budget: one call per base name; about 60 calls) → refresh `qty`/`status` per row; parts no longer in stock become `skip` ("not in stock on <date>").
+- [ ] Stock re-check: for each function, `node scripts/digikey.js --in-stock --manufacturer 296 --list "<base name>"` (budget: one call per base name; about 60 calls) → refresh `qty`/`status` per row; parts no longer in stock become `skip` ("not in stock on <date>"), parts whose status is not Active or Last Time Buy become `skip` ("status <status>").
 - [ ] Download the PDFs of §4.1 into `datasheets/decoder/` and `datasheets/encoder/`. Check: `ls datasheets/decoder/*.pdf datasheets/encoder/*.pdf | wc -l` = `cut -f10 planning/plan-19-data/parts.tsv | tail -n +2 | sort -u | grep -c pdf`.
 - [ ] Write `parts.tsv` (§4.2) from each PDF's ordering table; `specs.md`; `README.md`. Check: `tail -n +2 parts.tsv | wc -l` → 505; `awk -F'\t' 'NR>1 && $11!="add" && $11!="skip"' parts.tsv | wc -l` → 0; every `add` row has a footprint: `awk -F'\t' 'NR>1 && $11=="add" && $7==""' parts.tsv | wc -l` → 0.
 - [ ] `datasheets/skipped-parts.md` § TI decoders: one table of the `skip` rows grouped by reason; `obsolete-not-included.md` rows for any all-obsolete PDF (and the PDF deleted).
@@ -290,6 +291,7 @@ The landing tier for plan-19 runs once, at the end of D. For A: Phase 2's
 
 ## Decisions
 
+- **Only Active and Last Time Buy parts are added** (owner, 2026-11-07): a part whose DigiKey status is Obsolete, Discontinued at DigiKey or Not For New Designs is `skip` with reason "status <status>", even when it is in stock and in the datasheet's ordering table. This overrides, for this plan, AGENTS.md's "add obsolete parts with the `obsolete` flag"; no part of this plan carries the `obsolete` flag. A PDF left with no addable part is deleted and recorded in `datasheets/obsolete-not-included.md` (all its parts obsolete) or `datasheets/not-included.md` (other statuses).
 - **Scope** (owner, 2026-11-07): TI binary decoders/demultiplexers plus
   priority encoders, BCD-to-decimal decoders, BCD-to-7-segment drivers
   (SN7447A; CD4511B into the existing latch kind) and the SN74BCT2414 memory

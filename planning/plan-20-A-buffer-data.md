@@ -101,6 +101,7 @@ plan-20 waits for no other plan (owner: 19–22 in any order, possibly in parall
 | … from category 732 (translators) | 189 | census (1T45 42, 2T45 27, 4245 15, 164245 14 + 164245G 6, 3245 9, 4T774 9, 4504 9, TXU 24, TXV 2, 8T540 5, 8T541 5, 4010 5, 4T245 4, 324245 4, CALVC/CAVC/CLV8T 9) |
 | Functions | 418 | `tail -n +2 … \| cut -f1 \| sort -u \| wc -l` |
 | … DigiKey obsolete | 855 | `awk -F'\t' '$6=="Obsolete"' … \| wc -l` |
+| … addable by status (Active or Last Time Buy) | 2925 (932 excluded: Obsolete, Discontinued at DigiKey, Not For New Designs) | `awk -F'\t' 'NR>1 && ($6=="Active"||$6=="Last Time Buy")' planning/plan-20-data/candidates.tsv \| wc -l` |
 | Model by DigiKey type/output/description (A confirms from each PDF) | tristate 1838, transceiver 815, plain (`buf`) 541, registered 311, translator 292, unclassified 60 | classifier in `census/` (type "Buffer"+3-state → tristate; "Transceiver" → transceiver; register/latch/flip-flop words → registered; translation or dual supply → translator) |
 | Peripheral/line drivers among them (out of scope) | 47 | `grep -cE $'^[^\t]*\t[^\t]*\t(SN75\|SN95\|SN725\|CYBUS\|SN65)' …` |
 | Largest functions | 244: 275, 245: 256, 240: 196, 125: 168, 541: 154, 126: 118, 540: 99, 16244: 97, 16245: 91, 241: 75, 646: 62, 652: 55, 162244: 47, 2245: 46, 367: 44, 07: 43, 1T45: 42 | `cut -f1 … \| sort \| uniq -c \| sort -rn` |
@@ -223,7 +224,7 @@ carry about 2650 of the parts; D tests them before any data lands (G).
 
 ### Phase 1 — Stock and datasheets
 
-- [ ] Stock re-check per base name (`node scripts/digikey.js --in-stock --manufacturer 296 --list "<base>"`; about 400 calls — spread over two days of the ~1000/day quota); refresh `status`, add found rows (Corrections).
+- [ ] Stock re-check per base name (`node scripts/digikey.js --in-stock --manufacturer 296 --list "<base>"`; about 400 calls — spread over two days of the ~1000/day quota); refresh `status`, add found rows (Corrections); rows whose status is not Active or Last Time Buy `skip`.
 - [ ] Download the PDFs. Check: `ls datasheets/{buffer,transceiver,translator}/*.pdf | wc -l` = distinct `pdf` values.
 
 Acceptance: both checks (hours: the call quota sets the pace).
@@ -243,6 +244,7 @@ Landing tier at the end of I. A has no code; its gate is Phase 2's checks.
 
 ## Decisions
 
+- **Only Active and Last Time Buy parts are added** (owner, 2026-11-07): a part whose DigiKey status is Obsolete, Discontinued at DigiKey or Not For New Designs is `skip` with reason "status <status>", even when it is in stock and in the datasheet's ordering table. This overrides, for this plan, AGENTS.md's "add obsolete parts with the `obsolete` flag"; no part of this plan carries the `obsolete` flag. A PDF left with no addable part is deleted and recorded in `datasheets/obsolete-not-included.md` (all its parts obsolete) or `datasheets/not-included.md` (other statuses).
 - **Scope** (owner, 2026-11-07): single-supply buffers and transceivers,
   plus registered/latched transceivers, plus dual-supply level shifters
   (the widest option). Backplane, scan-test, termination and FET-switch parts

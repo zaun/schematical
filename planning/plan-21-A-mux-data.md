@@ -86,6 +86,7 @@ possibly in parallel). Everything below assumes these rows hold.
 | Candidate parts | 634 | `tail -n +2 planning/plan-21-data/candidates.tsv \| wc -l` |
 | Functions | 34 | `tail -n +2 … \| cut -f1 \| sort -u \| wc -l` |
 | … DigiKey obsolete | 156 | `awk -F'\t' '$6=="Obsolete"' … \| wc -l` |
+| … addable by status (Active or Last Time Buy) | 455 (179 excluded: Obsolete, Discontinued at DigiKey, Not For New Designs) | `awk -F'\t' 'NR>1 && ($6=="Active"||$6=="Last Time Buy")' planning/plan-21-data/candidates.tsv \| wc -l` |
 | Per function | 157: 137, 257: 97, 153: 67, 151: 56, 158: 44, 251: 43, 253: 41, 258: 33, 670: 14, 2G157: 12, 11257: 11, 298: 10, 399: 8, 4512: 8, 2257: 6, 353: 5, 4025 (CD40257): 5, 352: 4, 354: 4, 162460: 3, 250: 3, 857: 3, 870: 3, 11151: 2, 11157: 2, 11251: 2, 16460: 2, 355: 2, 850: 2, 1T157: 1, 1T158: 1, 356: 1, 604: 1, 851: 1 | `tail -n +2 … \| cut -f1 \| sort \| uniq -c` |
 | … `select` model (B) | 583 | `tail -n +2 … \| cut -f1 \| grep -cxE '151\|153\|157\|158\|251\|253\|257\|258\|352\|353\|2G157\|1T157\|1T158\|11151\|11157\|11251\|11257\|4512\|4025\|2257\|250\|850\|851'` → 583 |
 | … `stored` (C) | 26 | functions 298, 354, 355, 356, 399, 604 |
@@ -170,7 +171,7 @@ directions and the turnaround.
 
 ### Phase 1 — Datasheets and part data
 
-- [ ] Stock re-check per base name (`node scripts/digikey.js --in-stock --manufacturer 296 --list "<base>"`; about 40 calls); refresh `status`; out-of-stock rows `skip`.
+- [ ] Stock re-check per base name (`node scripts/digikey.js --in-stock --manufacturer 296 --list "<base>"`; about 40 calls); refresh `status`; out-of-stock rows and rows whose status is not Active or Last Time Buy `skip`.
 - [ ] Download the PDFs. Check: `ls datasheets/mux/*.pdf | wc -l` = distinct `pdf` values.
 - [ ] `parts.tsv`, `specs.md`, `README.md`. Check: 634 rows; 0 rows without a decision; 0 `add` rows without a footprint.
 - [ ] `datasheets/skipped-parts.md` § TI multiplexers; `obsolete-not-included.md` for all-obsolete PDFs (PDF deleted).
@@ -192,6 +193,7 @@ Landing tier at the end of E. For A: Phase 2's `ctest` and Phase 1's data checks
 
 ## Decisions
 
+- **Only Active and Last Time Buy parts are added** (owner, 2026-11-07): a part whose DigiKey status is Obsolete, Discontinued at DigiKey or Not For New Designs is `skip` with reason "status <status>", even when it is in stock and in the datasheet's ordering table. This overrides, for this plan, AGENTS.md's "add obsolete parts with the `obsolete` flag"; no part of this plan carries the `obsolete` flag. A PDF left with no addable part is deleted and recorded in `datasheets/obsolete-not-included.md` (all its parts obsolete) or `datasheets/not-included.md` (other statuses).
 - **Scope** (owner, 2026-11-07): digital muxes plus muxes with storage, the
   '670 register file (and the '870, the same function doubled), and the
   ALS/AS data-generator specials; analog/FET switches out.
