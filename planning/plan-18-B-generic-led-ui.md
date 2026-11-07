@@ -34,8 +34,8 @@ plan-18-A must be complete. If it is not, this plan cannot start.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-18-A archived | `ls planning/completed/plan-18-A-*` → 1 file | NOT MET (2026-11-07) |
-| `PlacedChip` has a footprint choice | `grep -c 'var footprintID' schematical/schematical/Canvas/SchematicModel.swift` → 1 | NOT MET (2026-11-07) |
+| plan-18-A archived | `ls planning/completed/plan-18-A-*` → 1 file | MET (2026-11-07, in the P-18 worktree: `planning/completed/plan-18-A-generic-led-data.md`) |
+| `PlacedChip` has a footprint choice | `grep -c 'var footprintID' schematical/schematical/Canvas/SchematicModel.swift` → 1 | MET (2026-11-07: 1) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue.

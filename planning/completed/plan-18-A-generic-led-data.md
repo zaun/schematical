@@ -536,7 +536,10 @@ new files save and reopen the same; a chosen footprint drives the PCB.
   2 test.schematical Amber/LED-0603; 3 v4 encode + round trip; 4 placeChip
   defaults, 0805 → 2 pads, DIP4 → 4 pads; 5 both badPartOption messages;
   6 Package 0805 / Color Red; 7 one LED part), `exit=0`.
-Commit: —
+  Also run (touched by the added task): `xcodebuild … test -only-testing:`
+  the three Selection test classes → `Executed 24 tests, with 0 failures`;
+  `multiselect.swift` harness → exit 0, no FAIL.
+Commit: 3bf4aaa
 
 ## Validation Plan
 
@@ -561,6 +564,8 @@ Commit: —
   → 21/21; the Phase 3 harness check; `scripts/harness/build.sh scripts/harness/bus-slide.swift /tmp/p18-h && /tmp/p18-h/H.app/Contents/MacOS/harness`
   → no FAIL lines; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p18-dd CODE_SIGNING_ALLOWED=NO build`
   → `BUILD SUCCEEDED` (est. 4 min total).
+  Result (2026-11-07): ctest 21/21; `generic-led-file.swift` 7 `ok`, exit 0;
+  `bus-slide.swift` 9 `ok:` lines, 0 FAIL, `ALL OK`; xcodebuild `** BUILD SUCCEEDED **`.
 
 ## Decisions
 
