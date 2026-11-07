@@ -95,8 +95,9 @@ struct ContentView: View {
         )
     }
 
-    /// A selected footprint or board text, which Rotate turns. Rotate is only
-    /// on the PCB page, where the simulation never runs.
+    /// Exactly one footprint or board text selected, which Rotate turns
+    /// (plan-15: never a group). Rotate is only on the PCB page, where the
+    /// simulation never runs.
     private var canRotate: Bool {
         if document.selectedTextID != nil { return true }
         guard let id = document.selectedFootprintID else { return false }

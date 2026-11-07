@@ -162,23 +162,44 @@ without clearing selection.
   Manual check: done headlessly with the harness renders above. The harness
   drives the same document calls the gestures make; the live Shift key
   (`NSEvent.modifierFlags`) is the only part not exercised.
-Commit: —
+Commit: 76e22c4
 
 ### Phase 3 — Sidebar and lifecycle integration
 
-- [ ] Add a shared selection-row resolver for references/part numbers, wire
+- [x] Add a shared selection-row resolver for references/part numbers, wire
       endpoints, junction coordinates, footprints, and board-text previews.
-- [ ] Update `SchematicSidebarView.swift` and `PCBSidebarView.swift` with
+      — `Canvas/SelectionList.swift`: `SelectionRows.schematic`/`.board`
+      (`SelectionRow`). Verified by `testSchematicRowsListEverySelectedItem`
+      (e.g. wire detail `U1 K – junction (250, 100)`) and
+      `testPCBSidebarStatesAndRows` (text preview `Line one is quite long …`).
+- [x] Update `SchematicSidebarView.swift` and `PCBSidebarView.swift` with
       zero/single/multiple selection states and a `Selection (N)` list.
-- [ ] Make summary-row selection replace its page set; make Clear clear that
+      — `SchematicSidebarView.content(for:)` (library / chip / port / bus /
+      selection) and `PCBSidebarView.content(for:)` (board / footprint / text /
+      selection); `SelectionListSection`. A lone wire or junction has no
+      inspector, so it shows the list. Verified by `testSchematicSidebarStates`,
+      `testBusAndPortPanelsStillShow`, `testPCBSidebarStatesAndRows`; renders
+      `/tmp/p15img/i1-schematic-sidebar.png` (Selection (4): U1, U3, Junction,
+      Wire) and `i2-pcb-sidebar.png` (Selection (3): U1, U2, Text).
+- [x] Make summary-row selection replace its page set; make Clear clear that
       page set; leave mutable inspectors available only to a sole selection.
-- [ ] Update `ContentView.swift` selection clearing at run start and PCB Rotate
+      — Rows call `document.select(item)`, Clear calls
+      `clearSchematicSelection()` / `clearBoardSelection()`; inspectors are
+      reached only via `selectedChipID`/`selectedFootprintID`/`selectedTextID`
+      (sole item). Verified by `testRowSelectReducesAndClearEmpties`.
+- [x] Update `ContentView.swift` selection clearing at run start and PCB Rotate
       enablement for exactly one selected eligible item; add accessibility labels
       for the count and summary rows.
+      — Run calls `document.clearAllSelections()` (phase 1); `canRotate` and
+      the Rotate action read the sole-item `selectedTextID` /
+      `selectedFootprintID`, so a group never rotates. Count header
+      label "N selected items", row labels "title, detail" with hint, and
+      "Clear selection". Verified by `testRunClearsEverySelection`.
 
 Acceptance: every selected object is listed in the active sidebar, selecting a
 row opens the existing single-item inspector, and Run clears selection.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO` → sidebar/lifecycle tests pass (est. 3 min).
+  Result (2026-11-07): `Executed 24 tests, with 0 failures` / `** TEST SUCCEEDED **`.
 Commit: —
 
 ## Validation Plan

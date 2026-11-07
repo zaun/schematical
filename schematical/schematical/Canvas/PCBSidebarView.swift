@@ -1,11 +1,30 @@
 import SwiftUI
 
 /// The PCB page's inspector. It follows the selection: the board's settings
-/// with nothing selected, the footprint's with a part selected, the text's
-/// with a board text selected. A mm | in switch at the top sets the units of
-/// every length field.
+/// with nothing selected, the footprint's with only a footprint selected,
+/// the text's with only a board text selected, and a read-only
+/// `Selection (N)` list for several items (plan-15). A mm | in switch at the
+/// top sets the units of every length field.
 struct PCBSidebarView: View {
     @Bindable var document: SchematicDocument
+
+    /// What the inspector shows.
+    enum Content: Equatable {
+        case board
+        case footprint(UUID)
+        case text(UUID)
+        case selection
+    }
+
+    static func content(for document: SchematicDocument) -> Content {
+        if let id = document.selectedFootprintID, document.chips.contains(where: { $0.id == id && $0.board != nil }) {
+            return .footprint(id)
+        }
+        if let id = document.selectedTextID, document.texts.contains(where: { $0.id == id }) {
+            return .text(id)
+        }
+        return document.boardSelection.isEmpty ? .board : .selection
+    }
 
     var body: some View {
         Form {
@@ -18,16 +37,25 @@ struct PCBSidebarView: View {
                 .pickerStyle(.segmented)
             }
 
-            if let id = document.selectedFootprintID,
-               let chip = document.chips.first(where: { $0.id == id }), chip.board != nil {
-                FootprintPanel(document: document, chip: chip)
-                    // Fresh field state for each part.
-                    .id(chip.id)
-            } else if let id = document.selectedTextID,
-                      let text = document.texts.first(where: { $0.id == id }) {
-                TextPanel(document: document, text: text)
-                    .id(text.id)
-            } else {
+            switch Self.content(for: document) {
+            case let .footprint(id):
+                if let chip = document.chips.first(where: { $0.id == id }) {
+                    FootprintPanel(document: document, chip: chip)
+                        // Fresh field state for each part.
+                        .id(chip.id)
+                }
+            case let .text(id):
+                if let text = document.texts.first(where: { $0.id == id }) {
+                    TextPanel(document: document, text: text)
+                        .id(text.id)
+                }
+            case .selection:
+                SelectionListSection(
+                    rows: SelectionRows.board(document),
+                    onSelect: { document.select($0) },
+                    onClear: { document.clearBoardSelection() }
+                )
+            case .board:
                 BoardPanel(document: document)
             }
         }
