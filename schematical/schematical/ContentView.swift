@@ -174,6 +174,8 @@ struct ContentView: View {
                                 pcbTool = .select
                                 document.selectedChipID = nil
                                 document.selectedTextID = nil
+                                document.selectedBusID = nil
+                                document.selectedPortID = nil
                             }
                             simulation.toggle(document: document)
                         } label: {
@@ -315,6 +317,18 @@ struct ContentView: View {
                 if !Task.isCancelled {
                     document.editorMessage = nil
                 }
+            }
+            // Erasing a port with wires, a bus line with ports, or unticking
+            // a wired pin asks first.
+            .alert(
+                document.pendingRemoval?.message ?? "",
+                isPresented: Binding(
+                    get: { document.pendingRemoval != nil },
+                    set: { if !$0 { document.cancelPendingRemoval() } }
+                )
+            ) {
+                Button("Delete", role: .destructive) { document.confirmPendingRemoval() }
+                Button("Cancel", role: .cancel) { document.cancelPendingRemoval() }
             }
             .onChange(of: page) { _, newPage in
                 // The simulation never runs on the PCB page. Coming back to

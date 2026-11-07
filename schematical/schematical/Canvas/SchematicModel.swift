@@ -1571,7 +1571,8 @@ final class SchematicDocument {
 
     /// Sets which bus wires are pins on a port (ticks, Select All, Deselect
     /// All). More pins than fit is refused with a message and changes
-    /// nothing; a port that grows may move left (up) to fit.
+    /// nothing; a port that grows may move left (up) to fit. Unticked pins
+    /// take the wires on them along.
     func setPortWires(_ portID: UUID, _ ids: Set<UUID>) -> String? {
         guard let at = portLocation(portID) else { return nil }
         let bus = buses[at.bus]
@@ -1579,6 +1580,13 @@ final class SchematicDocument {
         let wanted = ids.intersection(bus.wires.map(\.id))
         guard let start = bus.fit(port: port, slots: wanted.count, preferredStart: port.start) else {
             return "Not enough room on this bus line for \(wanted.count) pins."
+        }
+        let removing = port.wireIDs.subtracting(wanted)
+        if !removing.isEmpty {
+            wires.removeAll {
+                endsOn($0.start, port: portID, wireIDs: removing) || endsOn($0.end, port: portID, wireIDs: removing)
+            }
+            pruneJunctions()
         }
         buses[at.bus].ports[at.port].start = start
         buses[at.bus].ports[at.port].wireIDs = wanted
@@ -1653,45 +1661,171 @@ final class SchematicDocument {
         return nil
     }
 
-    /// Removes one bus line. A bus with no lines left is removed. If the rest
-    /// falls into pieces, the piece holding the first remaining line keeps the
-    /// bus; each other piece becomes a bus of its own, with the same wire
-    /// names and fresh wire ids.
-    private func eraseBusLine(bus id: UUID, line lineID: UUID) {
+    // MARK: Removing ports and bus lines
+
+    /// A removal waiting for the user to confirm: it would take more than the
+    /// thing clicked (wires on port pins, or a line's ports).
+    struct PendingRemoval: Identifiable {
+        let id = UUID()
+        let message: String
+        fileprivate let action: Action
+
+        fileprivate enum Action {
+            case port(UUID)
+            case busLine(bus: UUID, line: UUID)
+            case untick(port: UUID, keeping: Set<UUID>)
+        }
+    }
+
+    /// Set while a confirm dialog is up. Erasing does nothing meanwhile, so
+    /// one eraser sweep raises at most one dialog.
+    private(set) var pendingRemoval: PendingRemoval?
+
+    func confirmPendingRemoval() {
+        guard let pending = pendingRemoval else { return }
+        pendingRemoval = nil
+        switch pending.action {
+        case let .port(id): removePort(id)
+        case let .busLine(bus, line): removeBusLine(bus: bus, line: line)
+        case let .untick(port, keeping): _ = setPortWires(port, keeping)
+        }
+    }
+
+    func cancelPendingRemoval() {
+        pendingRemoval = nil
+    }
+
+    /// Whether a wire end is on one of `wireIDs`' pins of a port (any pin
+    /// when `wireIDs` is nil).
+    private func endsOn(_ end: WireEnd, port portID: UUID, wireIDs: Set<UUID>? = nil) -> Bool {
+        guard case let .busPin(ref) = end, ref.portID == portID else { return false }
+        return wireIDs.map { $0.contains(ref.wireID) } ?? true
+    }
+
+    /// How many wires end on the pins of a port that unticking `ids` (or,
+    /// with nil, deleting the port) would remove.
+    func wiresOnPins(port portID: UUID, removing ids: Set<UUID>? = nil) -> Int {
+        wires.filter { endsOn($0.start, port: portID, wireIDs: ids) || endsOn($0.end, port: portID, wireIDs: ids) }.count
+    }
+
+    /// The port panel's ticks: like `setPortWires`, but unticking a pin that
+    /// has wires asks first (through `pendingRemoval`) and returns nil.
+    func requestPortWires(_ portID: UUID, _ ids: Set<UUID>) -> String? {
+        guard let (_, port) = port(portID) else { return nil }
+        let removing = port.wireIDs.subtracting(ids)
+        let count = wiresOnPins(port: portID, removing: removing)
+        if count > 0 {
+            pendingRemoval = PendingRemoval(
+                message: "Remove \(Self.counted(removing.count, "pin")) and the \(Self.counted(count, "wire")) connected to them?",
+                action: .untick(port: portID, keeping: ids))
+            return nil
+        }
+        return setPortWires(portID, ids)
+    }
+
+    /// Removes a port and the wires on its pins.
+    private func removePort(_ portID: UUID) {
+        guard let at = portLocation(portID) else { return }
+        buses[at.bus].ports.remove(at: at.port)
+        wires.removeAll { endsOn($0.start, port: portID) || endsOn($0.end, port: portID) }
+        pruneJunctions()
+        if selectedPortID == portID { selectedPortID = nil }
+    }
+
+    /// Removes one bus line, with its ports and the wires on their pins. A bus
+    /// with no lines left is removed. If the rest falls into pieces, the piece
+    /// holding the first remaining line keeps the bus; each other piece
+    /// becomes a bus of its own with the same wire names and fresh wire ids,
+    /// and its ports (and the wire ends on them) map to those ids by list
+    /// position.
+    private func removeBusLine(bus id: UUID, line lineID: UUID) {
         guard let index = buses.firstIndex(where: { $0.id == id }) else { return }
         var bus = buses[index]
+        for port in bus.ports where port.line == lineID {
+            wires.removeAll { endsOn($0.start, port: port.id) || endsOn($0.end, port: port.id) }
+            if selectedPortID == port.id { selectedPortID = nil }
+        }
+        bus.ports.removeAll { $0.line == lineID }
         bus.lines.removeAll { $0.id == lineID }
+        defer { pruneJunctions() }
         if bus.lines.isEmpty {
             buses.remove(at: index)
             if selectedBusID == id { selectedBusID = nil }
             return
         }
+
         let pieces = bus.pieces()
-        bus.lines = pieces[0]
-        let kept = Set(bus.lines.map(\.id))
-        bus.ports.removeAll { !kept.contains($0.line) }
-        buses[index] = bus
-        let split = pieces.dropFirst().map { piece in
-            Bus(lines: piece, wires: bus.wires.map { BusWire(name: $0.name) })
+        func ports(on piece: [BusLine]) -> [BusPort] {
+            let ids = Set(piece.map(\.id))
+            return bus.ports.filter { ids.contains($0.line) }
         }
+        var split: [Bus] = []
+        for piece in pieces.dropFirst() {
+            let newWires = bus.wires.map { BusWire(name: $0.name) }
+            let map = Dictionary(uniqueKeysWithValues: zip(bus.wires.map(\.id), newWires.map(\.id)))
+            var moved = ports(on: piece)
+            for k in moved.indices {
+                moved[k].wireIDs = Set(moved[k].wireIDs.compactMap { map[$0] })
+            }
+            let movedIDs = Set(moved.map(\.id))
+            func remap(_ end: WireEnd) -> WireEnd {
+                guard case let .busPin(ref) = end, movedIDs.contains(ref.portID),
+                      let wireID = map[ref.wireID] else { return end }
+                return .busPin(BusPinRef(portID: ref.portID, wireID: wireID))
+            }
+            for w in wires.indices {
+                wires[w].start = remap(wires[w].start)
+                wires[w].end = remap(wires[w].end)
+            }
+            split.append(Bus(lines: piece, wires: newWires, ports: moved))
+        }
+        bus.lines = pieces[0]
+        bus.ports = ports(on: pieces[0])
+        buses[index] = bus
         buses.insert(contentsOf: split, at: index + 1)
+    }
+
+    /// "1 wire", "3 wires".
+    private static func counted(_ n: Int, _ noun: String) -> String {
+        "\(n) \(noun)\(n == 1 ? "" : "s")"
     }
 
     // MARK: Erasing
 
     /// Removes whatever is under `point`: a block (and its wires) first, then
-    /// a wire, then a bus line.
+    /// a bus port, then a wire, then a bus line. A port with wires on its
+    /// pins, or a bus line with ports, asks first (`pendingRemoval`); while
+    /// that is up, nothing is erased.
     func erase(at point: CGPoint, tolerance: CGFloat = 6) {
+        guard pendingRemoval == nil else { return }
         if let hit = chip(at: point) {
             chips.removeAll { $0.id == hit.id }
             wires.removeAll { attaches($0.start, to: hit.id) || attaches($0.end, to: hit.id) }
             if selectedChipID == hit.id {
                 selectedChipID = nil
             }
+        } else if let portID = portHit(at: point) {
+            let count = wiresOnPins(port: portID)
+            if count > 0 {
+                pendingRemoval = PendingRemoval(
+                    message: "Delete this port and the \(Self.counted(count, "wire")) connected to it?",
+                    action: .port(portID))
+            } else {
+                removePort(portID)
+            }
+            return
         } else if let hit = segmentHit(at: point, tolerance: tolerance) {
             wires.removeAll { $0.id == hit.wire }
-        } else if let hit = busHit(at: point, tolerance: tolerance) {
-            eraseBusLine(bus: hit.bus, line: hit.line)
+        } else if let hit = busHit(at: point, tolerance: tolerance), let bus = bus(hit.bus) {
+            let ports = bus.ports.filter { $0.line == hit.line }
+            if ports.isEmpty {
+                removeBusLine(bus: hit.bus, line: hit.line)
+            } else {
+                let count = ports.map { wiresOnPins(port: $0.id) }.reduce(0, +)
+                pendingRemoval = PendingRemoval(
+                    message: "Delete this bus line, its \(Self.counted(ports.count, "port")) and the \(Self.counted(count, "wire")) connected to them?",
+                    action: .busLine(bus: hit.bus, line: hit.line))
+            }
             return
         } else {
             return

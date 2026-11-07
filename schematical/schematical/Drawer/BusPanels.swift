@@ -195,9 +195,10 @@ struct BusPortPanel: View {
         Binding(get: { side }, set: { document.setPortSide(portID, $0) })
     }
 
-    /// Stores the ticked wires; a refusal shows its message.
+    /// Stores the ticked wires; a refusal shows its message. Unticking a pin
+    /// with wires on it asks first (the window's confirm dialog).
     private func set(_ ids: Set<UUID>) {
-        message = document.setPortWires(portID, ids)
+        message = document.requestPortWires(portID, ids)
     }
 
     private static func title(_ side: ChipLayout.Side) -> String {

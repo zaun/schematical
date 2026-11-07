@@ -438,17 +438,21 @@ turn position 1 on, and the LED lights. Turn it off and the LED goes dark.
   SN74HC00D needs 2–6 V." while `B0` (5V) is accepted. PNGs `b2-1` (Line
   mode, port pins marked), `b2-2` (lit LED, green nets across the bus),
   `b2-3` (dark), `b2-4`.
-Commit: —
+Commit: eb1bfc5
 
 ### Phase 3 — Erasing, unticking, confirm dialog
 
-- [ ] `SchematicModel.swift`: `PendingRemoval`, `confirmPendingRemoval`,
+- [x] `SchematicModel.swift`: `PendingRemoval`, `confirmPendingRemoval`,
       `cancelPendingRemoval`, `wiresOnPins`, the port and bus line branches
       of `erase` (order chip → port → wire → bus), moving ports with their
       piece after a split (with the wire ID mapping), and untick removal of
-      wires and junction pruning.
-- [ ] `ContentView.swift`: the `.alert` for `pendingRemoval`.
-- [ ] `BusPanels.swift`: unticking with wires goes through `pendingRemoval`.
+      wires and junction pruning. (`removeBusLine` replaces Phase 1's
+      interim `eraseBusLine`; the panel's untick goes through
+      `requestPortWires`, which sets `pendingRemoval` when a pin has wires.)
+- [x] `ContentView.swift`: the `.alert` for `pendingRemoval`. (Run also
+      clears the bus and port selection, as it clears the part's.)
+- [x] `BusPanels.swift`: unticking with wires goes through `pendingRemoval`.
+- [x] Added: `scripts/harness/bus-erase.swift` (the check below).
 
 Acceptance: erasing an unwired port removes it with no dialog; erasing a
 wired port asks, and Cancel keeps everything, Delete removes the port and its
@@ -464,6 +468,18 @@ switch no longer lights the LED.
   the dialog and the result; draw the split layout, erase, select each half
   (each shows its own Bus panel with `B0`–`B7`), run, turn the switch on,
   and screenshot (est. 14 min).
+  Result (2026-11-07): build → `** BUILD SUCCEEDED **`; harness
+  `bus-erase.swift` → `ALL OK`: an unwired port goes with no dialog; a wired
+  port asks "Delete this port and the 1 wire connected to it?", erasing
+  pauses while it asks, Cancel keeps all, Delete removes port and wire; the
+  vertical line asks "Delete this bus line, its 1 port and the 1 wire
+  connected to them?" then leaves only the horizontal line and port 1;
+  unticking `B0` asks "Remove 1 pin and the 1 wire connected to them?" then
+  removes both. Split: LED 1.0 before; erasing the horizontal line (no
+  dialog) leaves two buses, both ports and all 4 wires, port 2's pin and
+  wire end mapped to the new bus's `B0`, both panels `B0`–`B7`; switch on →
+  LED 0.0. PNGs `b3-1` … `b3-5`. The dialog itself is an AppKit alert the
+  harness can't draw; its text is `pendingRemoval.message`, checked above.
 Commit: —
 
 ### Phase 4 — Save and open ports
@@ -544,6 +560,12 @@ Commit: —
   150, measured in `bus-ports.swift`). The room message needs more than 10
   pins on that line: the check sets 12 wires and Selects All, which is
   refused with "Not enough room on this bus line for 12 pins.".
+- **`PendingRemoval` erases a bus line, not a bus** (2026-11-07). § 5 lists
+  `.bus(UUID)`, but since 2026-11-07 the Eraser removes one line at a time;
+  the action is `.busLine(bus:line:)`, and confirming runs plan-13-A's
+  line erase with its split. `.untick` stores the wires to keep.
+- **Counts in messages are pluralized** ("the 1 wire", "its 2 ports"); § 5's
+  "wire(s)" marks the plural.
 
 ## Summary
 
