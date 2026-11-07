@@ -271,7 +271,7 @@ while mapping gets a footprint the same way and a line in Corrections.
 - [x] `datasheets/skipped-parts.md` § TI decoders: one table of the `skip` rows grouped by reason; `obsolete-not-included.md` rows for any all-obsolete PDF (and the PDF deleted). Section `## TI decoders (2026-11-07)`, 4 reason rows covering all 183 skip rows. No PDF is all-obsolete (`sheets only on skip rows: []`). Two downloaded PDFs have no addable part for other reasons (cd4511b, cd4056b): not copied in, recorded in `datasheets/not-included.md`.
 
 Acceptance: the four checks above (minutes).
-Commit: —
+Commit: 6ff7393
 
 ### Phase 2 — Families and footprints
 
@@ -283,7 +283,7 @@ Acceptance: `ctest --test-dir /tmp/logic-p19` → T0 of T0 passed;
 `git diff backend/tests/golden/footprints.txt | grep -c '^+[^+]'` = the
 number of new footprint ids (seconds). The footprint half is checked at
 plan-19-C Phase 1, where the footprints land (Corrections).
-Commit: —
+Commit: a9a16bf (families; the footprints land in plan-19-C Phase 1)
 
 ## Validation Plan
 

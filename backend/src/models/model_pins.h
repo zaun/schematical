@@ -21,8 +21,9 @@ int charlcd_backlight_pins(const Part *part, size_t *anode, size_t *cathode);
 int switch_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b);
 
 /*
- * 1 when pin (an index into Part.pins) is a PIN_OUTPUT the part never drives
- * high: an open-drain output (gate and dff "output": "open-drain"). Each
+ * 1 when pin (an index into Part.pins) is a PIN_OUTPUT or PIN_INOUT the part
+ * never drives high: an open-drain output (gate and dff "output":
+ * "open-drain"; the SN7447A's BI/RBO). Each
  * kind answers for its own parts through PartKindOps.pin_open_drain;
  * 0 for every kind without one.
  */

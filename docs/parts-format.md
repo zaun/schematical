@@ -1,6 +1,6 @@
 # Part file format
 
-Every orderable part (gate, flip-flop, latch, counter, shift register, SRAM, EEPROM, switch, LED,
+Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
 7-segment display, character LCD module, oscillator, supply, microprocessor, serial controller) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
@@ -17,6 +17,7 @@ Every orderable part (gate, flip-flop, latch, counter, shift register, SRAM, EEP
 | `oscillator.json` | `oscillator` |
 | `supply.json` | `supply` |
 | `latch.json` | `latch` |
+| `decoder.json` | `decoder` |
 | `counter.json` | `counter` |
 | `shift.json` | `shift` |
 | `cpu.json` | `cpu` |
@@ -2096,6 +2097,78 @@ Latch L1B takes pin 1Bn, L2B takes 2Bn, LA1B and LA2B take An;
 An = OEA low ? (SEL ? L1B : L2B) : Z; 1Bn = OE1B low ? LA1B : Z;
 2Bn = OE2B low ? LA2B : Z. Latches read the pin's net value (the part's own
 drive included, as in the hardware). Bus hold is not modeled.
+
+### `decoder`
+
+Combinational decoders and encoders (plan-19): binary decoders and
+demultiplexers (74x138, 74x139, BCD-to-decimal 74x42 and 4028B, 4-to-16
+74x154 and 4514B, the address-latched 74x137, the SN74BCT2414 memory
+decoder, the 1G parts), priority encoders (74x147, 74x148, 74x348, 4532B,
+40147B) and BCD-to-7-segment decoders/drivers (SN7447A, SN74LS49). It
+shares the sequential kinds' device format (above): `"model"` is one of
+`binary`, `priority`, `seg7`; `timing` entries are `{rise, fall}` for the
+model's main path; part keys `family`, `vcc`, `inputMax`. Every model
+re-evaluates all of its outputs on any pin change and takes `"output"`:
+`"push-pull"` (default) or `"open-drain"` (open-collector parts: drive 0,
+release to Z). Signal rules as the sequential kinds: an address latch or
+register and an input latch hold 0 at power-on; Z on an input reads X.
+
+#### Model `binary`
+
+Main path address → output; `units` = the number of unit objects.
+
+| Key | Value |
+|---|---|
+| `"units"` | 1–4 objects: `address` (1–4 pin names, LSB first), `outputs` (1–16 pin names, at most 2^address; `outputs[i]` is selected by code i, and a code ≥ the number of outputs selects none: 74x42, 4028B), `enables` (optional, 0–3 controls; the unit is enabled while every one is asserted), `latch` (optional pin name: a transparent latch on the address) or `clock` (optional pin name: the address is registered on its rising edge). Units may share pins: '155 units share the address, BCT2414 units share G and SD, '1G29's second unit takes the first unit's address pin as an enable. |
+| `"outputsActive"` | `"high"` / `"low"`: the level of the selected output |
+| `"unselected"` | `"inactive"` (default) or `"z"`: what an output that is not selected shows (SN74LVC1G18: high impedance) |
+| `"disabled"` | `"inactive"` (default) or `"z"`: what every output shows while the unit is not enabled (with `"unselected": "z"`, only the selected output) |
+| `"latchActive"` | `"high"` / `"low"`: the `latch` level that **holds** the address (74x137 LE: `"high"`; 4514B STROBE passes while high: `"low"`). Required when a unit has `latch`, an error otherwise. |
+| `"monitor"` | optional pin name: an open-collector supply-good output (SN74BCT2414 VS), driven low; the engine has no supply failure |
+
+Enabled and code = i → output i active, the others inactive (or Z per
+`unselected`); not enabled → every output inactive (or Z per `disabled`).
+An X or Z on an enable makes every output it gates X; an X address bit
+makes X exactly the outputs that differ across its completions.
+
+#### Model `priority`
+
+Main path input → code; `units` = 1.
+
+| Key | Value |
+|---|---|
+| `"inputs"` | 4–10 pin names; `inputs[i]` has priority i (the highest active index wins) |
+| `"inputsActive"` | `"high"` / `"low"` |
+| `"code"` | 2–4 pin names, LSB first: the winning index plus `offset`, as a binary number |
+| `"codeActive"` | `"high"` / `"low"` (`"low"`: each pin shows the inverted bit, 74x148) |
+| `"offset"` | optional, default 0: added to the index (74x147: inputs 1–9 → 1) |
+| `"idle"` | optional, default 0: the code value shown while no input is active (before inversion; 40147B: 15) |
+| `"enableIn"` | optional control (EI) |
+| `"groupSelect"`, `"enableOut"` | optional controls naming an output pin and its active level: GS is active while enabled and some input is active, EO while enabled and none is |
+| `"disabled"` | `"inactive"` (default: the code shows `idle`) or `"z"` (74x348: the code pins are Z while disabled or idle; GS and EO stay driven) |
+
+`offset` + the number of inputs must fit the code, and `idle` must be
+below 2^code. An X input makes X the outputs whose value differs between
+the cases it allows; an X `enableIn` makes every output X.
+
+#### Model `seg7`
+
+Main path BCD input → segment; `units` = 1.
+
+| Key | Value |
+|---|---|
+| `"inputs"` | 4 pin names, LSB first |
+| `"segments"` | 7 pin names, a … g |
+| `"segmentsActive"` | `"high"` / `"low"`: the pin level of a lit segment (SN7447A: low) |
+| `"glyphs"` | 16 strings of 7 characters `0`/`1` (segments a…g lit) for codes 0–15, from the datasheet's display figure |
+| `"lampTest"`, `"blank"` | optional controls (LT, BI) |
+| `"rbi"`, `"rbo"` | optional pin names, given together (SN7447A): RBI is read active low; RBO (role `inout`, open drain) is pulled low while RBI is low, the code is 0 and lamp test is off; read as an input, a low on it blanks every segment (Z reads high) |
+| `"latch"` | optional control: the code is held while asserted (CD4056B strobe) |
+| `"phase"` | optional pin name: every segment level is XORed with it (CD4056B DF, liquid-crystal drive) |
+
+Priority: blank (`blank` asserted or RBO low) > lamp test (every segment
+lit) > ripple blanking (RBI low and code 0) > the glyph of the code. The
+SN7447A's BI wins over LT (sn7447a p.3, notes 2 and 4).
 
 ### `counter`
 

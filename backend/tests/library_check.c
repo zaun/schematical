@@ -385,6 +385,131 @@ static void check_duplicate_across_calls(void) {
     part_library_destroy(library);
 }
 
+/* plan-19-B: a decoder device on a 26-pin fixture pinout; KEYS are the model's keys. */
+#define DEC_PIN(N, NAME, ROLE) "{'number':" #N ",'name':'" NAME "','role':'" ROLE "'}"
+#define DEC_DEVICE(KEYS) \
+    "{'id':'d','function':'Decoder','description':'d','drawer':['Logic'],'pinouts':{'p26':[" \
+    DEC_PIN(1, "A", "input") "," DEC_PIN(2, "B", "input") "," DEC_PIN(3, "C", "input") "," \
+    DEC_PIN(4, "D", "input") "," DEC_PIN(5, "E", "input") "," DEC_PIN(6, "G", "input") "," \
+    DEC_PIN(7, "LE", "input") "," DEC_PIN(8, "CLK", "input") "," DEC_PIN(9, "Y0", "output") "," \
+    DEC_PIN(10, "Y1", "output") "," DEC_PIN(11, "Y2", "output") "," DEC_PIN(12, "Y3", "output") "," \
+    DEC_PIN(13, "Y4", "output") "," DEC_PIN(14, "Y5", "output") "," DEC_PIN(15, "Y6", "output") "," \
+    DEC_PIN(16, "Y7", "output") "," DEC_PIN(17, "Y8", "output") "," DEC_PIN(18, "Y9", "output") "," \
+    DEC_PIN(19, "Y10", "output") "," DEC_PIN(20, "Y11", "output") "," DEC_PIN(21, "Y12", "output") "," \
+    DEC_PIN(22, "Y13", "output") "," DEC_PIN(23, "RBI", "input") "," DEC_PIN(24, "RBO", "inout") "," \
+    DEC_PIN(25, "GND", "ground") "," DEC_PIN(26, "VCC", "power") "]}," KEYS "," \
+    "'timing':{'HC':{'rise':10,'fall':10,'vcc':[2,6]}}," \
+    "'parts':[{'name':'D1','package':'DIP','pinout':'p26','footprint':'T26','family':'HC'}]}"
+#define DEC_BIN(UNIT, REST) "'model':'binary','units':[" UNIT "],'outputsActive':'low'" REST
+#define DEC_U2 "{'address':['A','B'],'outputs':['Y0','Y1','Y2','Y3']"
+#define DEC_PRI(REST) \
+    "'model':'priority','inputs':['A','B','C','D'],'inputsActive':'low','code':['Y0','Y1']," \
+    "'codeActive':'low'" REST
+#define DEC_GLYPHS(G0) \
+    "'glyphs':['" G0 "','0110000','1101101','1111001','0110011','1011011','0011111','1110000'," \
+    "'1111111','1110011','0000000','0000000','0000000','0000000','0000000','0000000']"
+#define DEC_SEG(REST, G0) \
+    "'model':'seg7','inputs':['A','B','C','D'],'segments':['Y0','Y1','Y2','Y3','Y4','Y5','Y6']," \
+    "'segmentsActive':'low'," DEC_GLYPHS(G0) REST
+
+static void check_decoder_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library,
+               HEAD("decoder") DEC_DEVICE(DEC_BIN(DEC_U2 ",'enables':[{'pin':'G','active':'low'}]},"
+                                          DEC_U2 ",'latch':'LE'}", ",'latchActive':'high'")) TAIL,
+               &error) == 0);
+    part = part_library_find(library, "D1");
+    CHECK(part != NULL && part->kind == PART_DECODER && part->logic != NULL &&
+          strcmp(part->logic->family, "HC") == 0 && part->logic->units == 2);
+    printf("ok   valid decoder (binary, 2 units)%s%s\n", error != NULL ? ": " : "",
+           error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("decoder unknown model",
+                HEAD("decoder") DEC_DEVICE("'model':'ternary'") TAIL,
+                "devices[0] (d): unknown model \"ternary\"");
+    expect_fail("decoder key of another model",
+                HEAD("decoder") DEC_DEVICE(DEC_BIN(DEC_U2 "}", ",'segments':['Y0']")) TAIL,
+                "\"segments\" is not a key of model \"binary\"");
+    expect_fail("decoder no units",
+                HEAD("decoder") DEC_DEVICE(DEC_BIN("", "")) TAIL,
+                "\"units\" must be an array of 1 to 4 units");
+    expect_fail("decoder 5 address pins",
+                HEAD("decoder") DEC_DEVICE(DEC_BIN("{'address':['A','B','C','D','E'],'outputs':['Y0']}", "")) TAIL,
+                "units[0]: \"address\" must have 1 to 4 names");
+    expect_fail("decoder no outputs",
+                HEAD("decoder") DEC_DEVICE(DEC_BIN("{'address':['A'],'outputs':[]}", "")) TAIL,
+                "units[0]: \"outputs\" must have 1 to 16 names");
+    expect_fail("decoder more outputs than codes",
+                HEAD("decoder") DEC_DEVICE(DEC_BIN("{'address':['A'],'outputs':['Y0','Y1','Y2']}", "")) TAIL,
+                "units[0]: \"outputs\" must have at most 2 names (2 to the number of address pins)");
+    expect_fail("decoder latch and clock",
+                HEAD("decoder") DEC_DEVICE(DEC_BIN(DEC_U2 ",'latch':'LE','clock':'CLK'}", ",'latchActive':'high'")) TAIL,
+                "units[0]: a unit cannot have both \"latch\" and \"clock\"");
+    expect_fail("decoder 4 enables",
+                HEAD("decoder") DEC_DEVICE(DEC_BIN(DEC_U2 ",'enables':[{'pin':'C','active':'low'},"
+                    "{'pin':'D','active':'low'},{'pin':'E','active':'low'},{'pin':'G','active':'low'}]}", "")) TAIL,
+                "units[0]: \"enables\" must be an array of 0 to 3 controls");
+    expect_fail("decoder enable without active",
+                HEAD("decoder") DEC_DEVICE(DEC_BIN(DEC_U2 ",'enables':[{'pin':'G'}]}", "")) TAIL,
+                "units[0]: enables[0]: missing \"active\"");
+    expect_fail("decoder outputsActive",
+                HEAD("decoder") DEC_DEVICE("'model':'binary','units':[" DEC_U2 "}],'outputsActive':'up'") TAIL,
+                "\"outputsActive\" must be \"high\" or \"low\", not \"up\"");
+    expect_fail("decoder unselected",
+                HEAD("decoder") DEC_DEVICE(DEC_BIN(DEC_U2 "}", ",'unselected':'off'")) TAIL,
+                "\"unselected\" must be \"inactive\" or \"z\", not \"off\"");
+    expect_fail("decoder disabled",
+                HEAD("decoder") DEC_DEVICE(DEC_BIN(DEC_U2 "}", ",'disabled':'float'")) TAIL,
+                "\"disabled\" must be \"inactive\" or \"z\", not \"float\"");
+    expect_fail("decoder latch without latchActive",
+                HEAD("decoder") DEC_DEVICE(DEC_BIN(DEC_U2 ",'latch':'LE'}", "")) TAIL,
+                "missing \"latchActive\"");
+    expect_fail("decoder latchActive without latch",
+                HEAD("decoder") DEC_DEVICE(DEC_BIN(DEC_U2 "}", ",'latchActive':'high'")) TAIL,
+                "\"latchActive\" needs a unit with \"latch\"");
+    expect_fail("decoder output style",
+                HEAD("decoder") DEC_DEVICE(DEC_BIN(DEC_U2 "}", ",'output':'open-collector'")) TAIL,
+                "\"output\" must be \"push-pull\" or \"open-drain\"");
+    expect_fail("decoder unknown address pin",
+                HEAD("decoder") DEC_DEVICE(DEC_BIN("{'address':['A','Q'],'outputs':['Y0']}", "")) TAIL,
+                "pinouts.p26: units[0]: no pin named \"Q\"");
+    expect_fail("decoder priority 3 inputs",
+                HEAD("decoder") DEC_DEVICE("'model':'priority','inputs':['A','B','C'],'inputsActive':'low',"
+                    "'code':['Y0','Y1'],'codeActive':'low'") TAIL,
+                "\"inputs\" must have 4 to 10 names");
+    expect_fail("decoder priority 1 code pin",
+                HEAD("decoder") DEC_DEVICE("'model':'priority','inputs':['A','B','C','D'],'inputsActive':'low',"
+                    "'code':['Y0'],'codeActive':'low'") TAIL,
+                "\"code\" must have 2 to 4 names");
+    expect_fail("decoder priority offset",
+                HEAD("decoder") DEC_DEVICE(DEC_PRI(",'offset':1")) TAIL,
+                "\"offset\" plus the number of inputs must be at most 4 (2 to the number of code pins)");
+    expect_fail("decoder priority idle",
+                HEAD("decoder") DEC_DEVICE(DEC_PRI(",'idle':4")) TAIL,
+                "\"idle\" must be below 4 (2 to the number of code pins)");
+    expect_fail("decoder seg7 glyph length",
+                HEAD("decoder") DEC_DEVICE(DEC_SEG("", "111111")) TAIL,
+                "glyphs[0]: must be 7 characters 0 or 1 (segments a to g)");
+    expect_fail("decoder seg7 glyph character",
+                HEAD("decoder") DEC_DEVICE(DEC_SEG("", "11111x1")) TAIL,
+                "glyphs[0]: must be 7 characters 0 or 1 (segments a to g)");
+    expect_fail("decoder seg7 6 segments",
+                HEAD("decoder") DEC_DEVICE("'model':'seg7','inputs':['A','B','C','D'],"
+                    "'segments':['Y0','Y1','Y2','Y3','Y4','Y5'],'segmentsActive':'low'," DEC_GLYPHS("1111110")) TAIL,
+                "\"segments\" must have 7 names");
+    expect_fail("decoder seg7 rbi without rbo",
+                HEAD("decoder") DEC_DEVICE(DEC_SEG(",'rbi':'RBI'", "1111110")) TAIL,
+                "\"rbi\" and \"rbo\" go together");
+    expect_fail("decoder seg7 rbo not inout",
+                HEAD("decoder") DEC_DEVICE(DEC_SEG(",'rbi':'RBI','rbo':'Y13'", "1111110")) TAIL,
+                "\"rbo\" pin \"Y13\" must have role inout");
+}
+
 static void check_logic_family(void) {
     KindContext ctx;
 
@@ -1832,6 +1957,7 @@ int main(void) {
     check_footprint_choices();
     check_duplicate_across_calls();
     check_logic_family();
+    check_decoder_cases();
     check_supply_cases();
     check_voltage_cases();
     if (failures > 0) {

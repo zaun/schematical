@@ -154,7 +154,8 @@ backend/
                            check and expand footprints.json)
     models/                one file per kind: gate.c dff.c jkff.c sram.c
                            eeprom.c switch.c led.c display7.c oscillator.c
-                           supply.c latch.c,
+                           supply.c latch.c, decoder.c (decoders,
+                           priority encoders, 7-segment decoders),
                            charlcd.c (character LCD modules: loader and
                            the HD44780 controller model), charlcd_font.c
                            + charlcd_font.h (character ROM A00),
@@ -268,6 +269,10 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   real ones), plus loader errors and the open-drain answer. Its bench,
   `tests/support/bench.{h,c}`, drives any part's input pins by name and is
   shared by the sequential kinds' tests.
+- `decoder_test` — the `decoder` kind's three models (plan-19-B): one case
+  per function-table row of each device shape (inline fixture devices copied
+  from the real ones, plus '131 and CD4056B shapes), X rules and the
+  open-drain answers. Its loader errors are in `library_check`.
 - `eeprom_test` — the EEPROM model's read window, page loads, write cycle,
   DATA# polling and toggle bit, timing violations and software data
   protection (an inline fixture device, then real parts).
