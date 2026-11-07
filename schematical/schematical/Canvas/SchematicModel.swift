@@ -686,17 +686,69 @@ struct Wire: Identifiable, Hashable {
 
 // MARK: - Orthogonal routing
 
+/// The direction of a straight run: along a row or along a column.
+enum RouteAxis: Hashable {
+    case horizontal
+    case vertical
+
+    var other: RouteAxis { self == .horizontal ? .vertical : .horizontal }
+}
+
 /// Right-angle routing helpers. Paths are arrays of grid points where
 /// consecutive points share an x or a y.
 enum OrthogonalRoute {
-    /// Default route between two tips: out horizontally, a vertical run at the
-    /// midpoint, then horizontally into the target.
+    /// Pin to pin with both pins facing sideways: out horizontally, a
+    /// vertical run at the midpoint, then horizontally into the target.
     static func route(from a: CGPoint, to b: CGPoint) -> [CGPoint] {
-        if a.x == b.x || a.y == b.y {
-            return normalize([a, b])
+        normalize([a] + leg(from: a, to: b, first: .horizontal, last: .horizontal, preferred: .horizontal))
+    }
+
+    /// One drawn leg from `p` to `q`: the points after `p`, up to and
+    /// including `q`. A straight line when the two are aligned, else an L.
+    /// `first` and `last` are the axes a pin forces on the leg's first and
+    /// last segment. When both are forced along the same axis no L fits, so
+    /// the leg is a Z with its middle run halfway. `preferred` picks the
+    /// L's first segment when nothing forces it.
+    static func leg(from p: CGPoint, to q: CGPoint,
+                    first: RouteAxis?, last: RouteAxis?,
+                    preferred: RouteAxis) -> [CGPoint] {
+        if p == q { return [] }
+        if p.x == q.x || p.y == q.y { return [q] }
+        let start: RouteAxis
+        switch (first, last) {
+        case let (first?, last?) where first == last:
+            if first == .horizontal {
+                let midX = SchematicGrid.snap((p.x + q.x) / 2)
+                return mergeCoincident([p, CGPoint(x: midX, y: p.y), CGPoint(x: midX, y: q.y), q]).filter { $0 != p }
+            }
+            let midY = SchematicGrid.snap((p.y + q.y) / 2)
+            return mergeCoincident([p, CGPoint(x: p.x, y: midY), CGPoint(x: q.x, y: midY), q]).filter { $0 != p }
+        case let (first?, _):
+            start = first
+        case let (nil, last?):
+            start = last.other
+        case (nil, nil):
+            start = preferred
         }
-        let midX = SchematicGrid.snap((a.x + b.x) / 2)
-        return normalize([a, CGPoint(x: midX, y: a.y), CGPoint(x: midX, y: b.y), b])
+        return start == .horizontal ? [CGPoint(x: q.x, y: p.y), q] : [CGPoint(x: p.x, y: q.y), q]
+    }
+
+    /// A drawn route cleaned up: coincident points merged, double-backs
+    /// dropped, and any bend in the middle of a straight run removed. The
+    /// first and last points stay.
+    static func simplified(_ path: [CGPoint]) -> [CGPoint] {
+        var result = removeDoubleBacks(mergeCoincident(path))
+        var index = 1
+        while index + 1 < result.count {
+            let a = result[index - 1], b = result[index], c = result[index + 1]
+            let straight = (a.y == b.y && b.y == c.y) || (a.x == b.x && b.x == c.x)
+            if straight {
+                result.remove(at: index)
+            } else {
+                index += 1
+            }
+        }
+        return result
     }
 
     /// Merges points that overlap, adds a corner wherever two points are

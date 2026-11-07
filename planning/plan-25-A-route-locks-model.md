@@ -275,10 +275,10 @@ it for that leg.
 
 Pure functions with no callers yet. Safe alone.
 
-- [ ] `SchematicModel.swift`: add `RouteAxis`, `OrthogonalRoute.leg`,
+- [x] `SchematicModel.swift`: add `RouteAxis`, `OrthogonalRoute.leg`,
       `OrthogonalRoute.simplified` per §4.1. Re-express `route(from:to:)`
       over `leg`.
-- [ ] Tests: new `schematicalTests/RouteLegTests.swift`. Aligned → straight.
+- [x] Tests: new `schematicalTests/RouteLegTests.swift`. Aligned → straight.
       H/H → Z at mid-x. V/V → Z at mid-y. H/V and V/H → L. Only-first,
       only-last and neither × preferred. `simplified` drops a straight-through
       lock and a double-back, and keeps a U.
@@ -286,6 +286,7 @@ Pure functions with no callers yet. Safe alone.
 Acceptance: every case in §4.1 returns the listed points, and `route` returns
 the same points as before for the cases in `WireSettleTests`.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/RouteLegTests -only-testing:schematicalTests/WireSettleTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 3 min).
+  Observed 2026-11-07: "Executed 17 tests, with 0 failures", `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — RouteDraft
