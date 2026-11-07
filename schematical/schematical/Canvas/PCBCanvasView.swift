@@ -3,6 +3,8 @@ import SwiftUI
 
 /// The PCB page: every placed part that has a footprint, drawn as its pads,
 /// drill holes, body outline, pin-1 mark and reference, on a 0.635 mm grid.
+/// The view always looks from the top: bottom-side parts and texts are drawn
+/// mirrored, under the top-side ones, and a press picks a Top item first.
 ///
 /// With the Select tool, press on a text or footprint to select it and drag
 /// to move it (snapped to the grid). Shift-click adds an item to the
@@ -99,53 +101,13 @@ struct PCBCanvasView: View {
         context.stroke(Path(boardRect), with: .color(colour.silkscreen), lineWidth: 0.2)
         drawGrid(in: context, size: size)
 
-        for chip in document.chips {
-            guard let body = chip.boardBody, let placement = chip.board else { continue }
-            if let ink = placement.outline.color(on: colour) {
-                let outline = Path { path in
-                    if body.round {
-                        path.addEllipse(in: body.rect)
-                    } else {
-                        path.addRect(body.rect)
-                    }
-                }
-                context.stroke(outline, with: .color(ink), lineWidth: 0.15)
+        // Bottom items first, then Top items over them.
+        for side in [BoardSide.bottom, .top] {
+            for chip in document.chips where chip.board?.side == side {
+                drawFootprint(chip, in: &context, colour: colour)
             }
-
-            for pad in chip.boardPads {
-                context.fill(Self.outline(of: pad), with: .color(Self.copper))
-                if pad.drill > 0 {
-                    let d = pad.drill
-                    let hole = CGRect(x: pad.rect.midX - d / 2, y: pad.rect.midY - d / 2, width: d, height: d)
-                    // You see through a drill hole to the canvas.
-                    context.fill(Path(ellipseIn: hole), with: .color(Self.background))
-                }
-            }
-
-            if let mark = chip.pin1Mark, let ink = placement.pin1.color(on: colour) {
-                context.fill(Path(ellipseIn: CGRect(x: mark.x - 0.2, y: mark.y - 0.2, width: 0.4, height: 0.4)),
-                             with: .color(ink))
-            }
-
-            // Reference: 1 mm tall, but never under 8 points on screen.
-            if let ink = placement.reference.color(on: colour) {
-                let height = max(1, 8 / scale)
-                let text = Text(chip.reference)
-                    .font(.system(size: height, weight: .medium))
-                    .foregroundStyle(ink)
-                context.draw(text, at: CGPoint(x: body.rect.midX, y: body.rect.midY), anchor: .center)
-            }
-        }
-
-        // Texts: laid out at the reference font size, scaled to the board
-        // (see BoardTextGeometry), turned about their anchor.
-        for text in document.texts {
-            context.drawLayer { layer in
-                layer.translateBy(x: text.anchor.x, y: text.anchor.y)
-                layer.rotate(by: .degrees(Double(text.rotation)))
-                layer.scaleBy(x: text.drawScale, y: text.drawScale)
-                layer.draw(Text(text.text).font(Font(text.font)).foregroundStyle(text.layer.color(on: colour)),
-                           at: .zero, anchor: .topLeading)
+            for text in document.texts where text.side == side {
+                drawText(text, in: &context, colour: colour)
             }
         }
 
@@ -161,6 +123,70 @@ struct PCBCanvasView: View {
                 context.stroke(Path(selected.insetBy(dx: -margin, dy: -margin)),
                                with: .color(.accentColor), lineWidth: 2 / scale)
             }
+        }
+    }
+
+    /// A footprint: body outline, pads and drill holes, pin-1 mark and
+    /// reference. On Bottom the geometry is already mirrored (see
+    /// `BoardPlacement`), and the reference reads backwards.
+    private func drawFootprint(_ chip: PlacedChip, in context: inout GraphicsContext, colour: BoardColor) {
+        guard let body = chip.boardBody, let placement = chip.board else { return }
+        if let ink = placement.outline.color(on: colour) {
+            let outline = Path { path in
+                if body.round {
+                    path.addEllipse(in: body.rect)
+                } else {
+                    path.addRect(body.rect)
+                }
+            }
+            context.stroke(outline, with: .color(ink), lineWidth: 0.15)
+        }
+
+        for pad in chip.boardPads {
+            context.fill(Self.outline(of: pad), with: .color(Self.copper))
+            if pad.drill > 0 {
+                let d = pad.drill
+                let hole = CGRect(x: pad.rect.midX - d / 2, y: pad.rect.midY - d / 2, width: d, height: d)
+                // You see through a drill hole to the canvas.
+                context.fill(Path(ellipseIn: hole), with: .color(Self.background))
+            }
+        }
+
+        if let mark = chip.pin1Mark, let ink = placement.pin1.color(on: colour) {
+            context.fill(Path(ellipseIn: CGRect(x: mark.x - 0.2, y: mark.y - 0.2, width: 0.4, height: 0.4)),
+                         with: .color(ink))
+        }
+
+        // Reference: 1 mm tall, but never under 8 points on screen. Mirrored
+        // on Bottom, as a real bottom silkscreen reads from above.
+        if let ink = placement.reference.color(on: colour) {
+            let height = max(1, 8 / scale)
+            let text = Text(chip.reference)
+                .font(.system(size: height, weight: .medium))
+                .foregroundStyle(ink)
+            context.drawLayer { layer in
+                layer.translateBy(x: body.rect.midX, y: body.rect.midY)
+                if placement.side == .bottom { layer.scaleBy(x: -1, y: 1) }
+                layer.draw(text, at: .zero, anchor: .center)
+            }
+        }
+    }
+
+    /// A text: laid out at the reference font size, scaled to the board (see
+    /// BoardTextGeometry), turned about its anchor. On Bottom it is mirrored
+    /// inside its own box, so the box doesn't move.
+    private func drawText(_ text: BoardText, in context: inout GraphicsContext, colour: BoardColor) {
+        let width = text.side == .bottom ? text.localSize.width : 0
+        context.drawLayer { layer in
+            layer.translateBy(x: text.anchor.x, y: text.anchor.y)
+            layer.rotate(by: .degrees(Double(text.rotation)))
+            if text.side == .bottom {
+                layer.translateBy(x: width, y: 0)
+                layer.scaleBy(x: -1, y: 1)
+            }
+            layer.scaleBy(x: text.drawScale, y: text.drawScale)
+            layer.draw(Text(text.text).font(Font(text.font)).foregroundStyle(text.layer.color(on: colour)),
+                       at: .zero, anchor: .topLeading)
         }
     }
 

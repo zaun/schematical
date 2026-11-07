@@ -1331,14 +1331,24 @@ final class SchematicDocument {
         pruneSelection()
     }
 
-    /// The text under a board point (mm): the last one drawn there.
+    /// The text under a board point (mm): the last one drawn there, a Top
+    /// text before a Bottom one.
     func text(at point: CGPoint) -> BoardText? {
-        texts.last { $0.boardRect.contains(point) }
+        for side in [BoardSide.top, .bottom] {
+            if let hit = texts.last(where: { $0.side == side && $0.boardRect.contains(point) }) { return hit }
+        }
+        return nil
     }
 
-    /// The footprint under a board point (mm): the last one drawn there.
+    /// The footprint under a board point (mm): the last one drawn there, a
+    /// Top footprint before a Bottom one.
     func footprint(at point: CGPoint) -> PlacedChip? {
-        chips.last { $0.boardBounds?.contains(point) ?? false }
+        for side in [BoardSide.top, .bottom] {
+            if let hit = chips.last(where: { $0.board?.side == side && ($0.boardBounds?.contains(point) ?? false) }) {
+                return hit
+            }
+        }
+        return nil
     }
 
     // MARK: Group drags (PCB)

@@ -198,17 +198,25 @@ items in reverse drawing order, then Bottom items.
 Acceptance: mirrored pads, corners and origins match the formulas, and side
 survives Save and Open.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:<tests>/BoardSideTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 3 min).
-Commit: —
+Commit: adf51c1
 
 ### Phase 2 — Drawing and sidebar
 
-- [ ] `Canvas/PCBCanvasView.swift`: the bottom-then-top draw order;
+- [x] `Canvas/PCBCanvasView.swift`: the bottom-then-top draw order;
       mirrored reference and board text; Top-first hit testing. Update the
       type's doc comment.
-- [ ] `Canvas/PCBSidebarView.swift`: the Layer picker in `FootprintPanel`
+- [x] `Canvas/PCBSidebarView.swift`: the Layer picker in `FootprintPanel`
       Position and the Side picker in `TextPanel`, both disabled on a 1-layer
       board. The 1-layer choice in the Layers picker is disabled, with its
       reason, while anything is on Bottom.
+- [x] Runtime check (worktree build, copy of `be-6502.schematical`, PCB):
+      selected U1 (PDIP-14, rotation 270, X 31.12, Y 87), set Layer to
+      Bottom: pad 1 moved to the opposite row, "U1" drawn backwards, X/Y
+      still 31.12 / 87. ⌥⌘R: pad 1 went from top-left to top-right
+      (clockwise). A new text set to Side Bottom drew mirrored inside the
+      same selection box. With U1 on Bottom, the Layers menu showed
+      "1 layer" greyed. `/tmp/p16t.sh BoardSideTests,SelectionGestureTests`
+      → "Executed 15 tests, with 0 failures".
 
 Acceptance: an SOIC on Bottom shows mirrored pads and a backwards reference.
 Its X/Y in the sidebar don't change when it switches side. Rotate still turns

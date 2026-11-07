@@ -183,8 +183,8 @@ struct LayersSection: View {
 
 // MARK: - Text
 
-/// The selected board text: its words, layer, font size, position and
-/// rotation, and Delete.
+/// The selected board text: its words, side, layer, font size, position
+/// and rotation, and Delete.
 private struct TextPanel: View {
     let document: SchematicDocument
     let text: BoardText
@@ -208,6 +208,16 @@ private struct TextPanel: View {
         }
 
         Section {
+            Picker("Side", selection: Binding(
+                get: { text.side },
+                set: { document.setTextSide(text.id, $0) }
+            )) {
+                ForEach(BoardSide.allCases, id: \.self) { side in
+                    Text(side.title).tag(side)
+                }
+            }
+            .pickerStyle(.segmented)
+            .disabled(document.board.layers == 1)
             Picker("Layer", selection: Binding(
                 get: { text.layer },
                 set: { document.setTextLayer(text.id, $0) }
@@ -303,7 +313,8 @@ private struct TextPanel: View {
 
 // MARK: - Footprint
 
-/// The selected part: name, reference, origin and position, and marks.
+/// The selected part: name, reference, side (Top or Bottom), origin and
+/// position, and marks.
 private struct FootprintPanel: View {
     let document: SchematicDocument
     let chip: PlacedChip
@@ -341,6 +352,16 @@ private struct FootprintPanel: View {
         }
 
         Section("Position") {
+            Picker("Layer", selection: Binding(
+                get: { placement.side },
+                set: { document.setFootprintSide(chip.id, $0) }
+            )) {
+                ForEach(BoardSide.allCases, id: \.self) { side in
+                    Text(side.title).tag(side)
+                }
+            }
+            .pickerStyle(.segmented)
+            .disabled(document.board.layers == 1)
             Picker("Origin", selection: Binding(
                 get: { placement.origin },
                 set: { document.setFootprintOrigin(chip.id, $0) }
