@@ -1469,7 +1469,7 @@ lists and the function tables of registered devices are in `reports/G<nn>.md`.
 ## TXV0108
 
 - Kind / model: `buffer` / `translator`; function "Level shifter"; 8-bit dual-supply direction-controlled voltage translator, 3-state, 1.14-3.6 V each port
-- Report: reports/G03.md; parts added: 1
+- Report: reports/G03.md; parts added: 0
 - PDFs: txv0108
 - Pinouts: `rgy24` (24 pins) for RGY
 - Source: Pinout from txv0108 p.3 (RGY 24-pin VQFN; thermal pad not a pin): VCCA 1, GND 11-13, VCCB 23 and 24. Function table p.17: OE L, DIR L -> B to A; OE L, DIR H -> A to B; OE H -> both ports Hi-Z. DIR and OE referenced to VCCA (p.3). 10-ohm damping output resistors (not modeled).
@@ -2948,7 +2948,7 @@ lists and the function tables of registered devices are in `reports/G<nn>.md`.
 ## 1G07
 
 - Kind / model: `gate` / `buf`; function "Buffer"; Single buffer/driver, open-drain output
-- Report: reports/G07.md; parts added: 29
+- Report: reports/G07.md; parts added: 28
 - PDFs: sn74auc1g07, sn74aup1g07, sn74lvc1g07, sn74lvc1g07-ep, sn74lvc1g07-q1
 - Pinouts: `p5` (5 pins) for DBV, DCK, DRL, DPW; `p6` (6 pins) for DRY, DSF; `dsbga` (5 pins) for YZP; `dsbga4` (4 pins) for YZV
 - Source: Pinouts sn74lvc1g07 p.3 Pin Functions (DBV/DCK/DRL, DRY/DSF with NC at 1 and 5, DPW, YZP 5-ball with A1 DNU, YZV 4-ball); sn74aup1g07 p.3 (same, plus YFP not used); sn74auc1g07 p.3 (DBV/DCK, YZP A1 DNU); sn74lvc1g07-q1 p.3 (DBV/DCK, DRY); sn74lvc1g07-ep p.1 (DCK). Open-drain output.
@@ -3036,7 +3036,7 @@ lists and the function tables of registered devices are in `reports/G<nn>.md`.
 ## 1G17
 
 - Kind / model: `gate` / `buf`; function "Buffer"; Single Schmitt-trigger buffer
-- Report: reports/G13.md; parts added: 28
+- Report: reports/G13.md; parts added: 27
 - PDFs: sn74auc1g17, sn74aup1g17, sn74aup1g17-ep, sn74lvc1g17, sn74lvc1g17-ep, sn74lvc1g17-q1
 - Pinouts: `p5` (5 pins) for DBV, DCK, DRL, DPW; `p6` (6 pins) for DRY, DSF; `dsbga` (5 pins) for YZP; `dsbga4` (4 pins) for YFP, YZV
 - Source: Pinouts: sn74lvc1g17 p.3 Pin Functions (DBV/DCK/DRL/DPW 5-pin; DRY/DSF 6-pin with NC 1,5; YZP 5-ball A1 DNU, B2 unpopulated; YZV 4-ball); sn74lvc1g17-q1 p.3 (DBV/DCK/DRY, same); sn74lvc1g17-ep p.1 (DBV/DCK, same); sn74aup1g17 p.3 (DBV/DCK/DRL/DPW/DRY/DSF/YFP/YZP; YFP 4-ball A1 A, A2 VCC, B1 GND, B2 Y); sn74aup1g17-ep p.1 (DCK, same); sn74auc1g17 p.3 (DBV/DCK/DRL/YZP). Function Y = A, Schmitt-trigger input (sn74lvc1g17 p.1).
@@ -3054,7 +3054,7 @@ lists and the function tables of registered devices are in `reports/G<nn>.md`.
 ## 1G34
 
 - Kind / model: `gate` / `buf`; function "Buffer"; Single buffer
-- Report: reports/G08.md; parts added: 23
+- Report: reports/G08.md; parts added: 22
 - PDFs: sn74aup1g34, sn74lvc1g34, sn74lvc1g34-q1
 - Pinouts: `p5` (5 pins) for DBV, DCK, DRL, DPW; `p6` (6 pins) for DRY, DSF; `dsbga` (5 pins) for YZP; `dsbga4` (4 pins) for YFP, YZV
 - Source: Pinout from sn74lvc1g34 p.3 Table 4-1 (DBV/DCK/DRL/DPW 5-pin; DRY/DSF 6-pin with NC 1,5; YZP 5-ball with A1 DNU; YZV/YFP 4-ball); sn74aup1g34 p.3 Pin Functions (same; YZP A1 printed N.C.); sn74lvc1g34-q1 p.3 Table 4-1 (DBV, DCK). Function Y = A.

@@ -3209,7 +3209,7 @@ SN74LVC1G07QDRYRQ1	1G07	LVC	SON	DRY	6	SON-6-DRY	automotive	Active	buffer/sn74lvc
 SN74LVC1G07YEPR								Obsolete		skip	status Obsolete	
 SN74LVC1G07YZAR								Obsolete		skip	status Obsolete	
 SN74LVC1G07YZPR	1G07	LVC	DSBGA	YZP	5	DSBGA-5-YZP		Active	buffer/sn74lvc1g07.pdf	add		buf
-SN74LVC1G07YZVR	1G07	LVC	DSBGA	YZV	4	DSBGA-4-YZV		Active	buffer/sn74lvc1g07.pdf	add		buf
+SN74LVC1G07YZVR				YZV	4			Active	buffer/sn74lvc1g07.pdf	skip	no package drawing: TI publishes no outline or land pattern for its package (YZV0004 / RGY0024; plan-20-B)	
 SN74LVC1G125BDCKR	1G125	LVC	SC-70	DCK	5	SC70-5		Active	buffer/sn74lvc1g125b.pdf	add		tristate
 SN74LVC1G125DBVT	1G125	LVC	SOT-23	DBV	5	SOT23-5		Active	buffer/sn74lvc1g125.pdf	add		tristate
 SN74LVC1G125DCK3				DCK	5			Last Time Buy	buffer/sn74lvc1g125.pdf	skip	not in its datasheet's current ordering table, so its package is not documented (same rule as the TI inverters)	
@@ -3249,7 +3249,7 @@ SN74LVC1G17YEPR								Obsolete		skip	status Obsolete
 SN74LVC1G17YZAR								Obsolete		skip	status Obsolete	
 SN74LVC1G17YZPR	1G17	LVC	DSBGA	YZP	5	DSBGA-5-YZP		Active	buffer/sn74lvc1g17.pdf	add		buf
 SN74LVC1G17YZTR				YZT	4			Active	buffer/sn74lvc1g17.pdf	skip	not placed by the datasheet reading: SN74LVC1G17YZTR | YZT (4-ball 0.9×0.9 DSBGA) is not in sn74lvc1g17 (no pin map; only YZP/YZV are drawn). It is probably the same as the 4-ball `dsbga4` pinout, but that is unconfirmed.	
-SN74LVC1G17YZVR	1G17	LVC	DSBGA	YZV	4	DSBGA-4-YZV		Active	buffer/sn74lvc1g17.pdf	add		buf
+SN74LVC1G17YZVR				YZV	4			Active	buffer/sn74lvc1g17.pdf	skip	no package drawing: TI publishes no outline or land pattern for its package (YZV0004 / RGY0024; plan-20-B)	
 SN74LVC1G240DBVR	1G240	LVC	SOT-23	DBV	5	SOT23-5		Active	buffer/sn74lvc1g240.pdf	add		tristate
 SN74LVC1G240DBVRE4				DBV	5			Active	buffer/sn74lvc1g240.pdf	skip	not in its datasheet's current ordering table, so its package is not documented (same rule as the TI inverters)	
 SN74LVC1G240DBVT	1G240	LVC	SOT-23	DBV	5	SOT23-5		Active	buffer/sn74lvc1g240.pdf	add		tristate
@@ -3273,7 +3273,7 @@ SN74LVC1G34DSFR	1G34	LVC	SON	DSF	6	SON-6-DSF		Active	buffer/sn74lvc1g34.pdf	add	
 SN74LVC1G34YEPR								Obsolete		skip	status Obsolete	
 SN74LVC1G34YFPR	1G34	LVC	DSBGA	YFP	4	DSBGA-4-YFP		Active	buffer/sn74lvc1g34.pdf	add		buf
 SN74LVC1G34YZPR	1G34	LVC	DSBGA	YZP	5	DSBGA-5-YZP		Active	buffer/sn74lvc1g34.pdf	add		buf
-SN74LVC1G34YZVR	1G34	LVC	DSBGA	YZV	4	DSBGA-4-YZV		Active	buffer/sn74lvc1g34.pdf	add		buf
+SN74LVC1G34YZVR				YZV	4			Active	buffer/sn74lvc1g34.pdf	skip	no package drawing: TI publishes no outline or land pattern for its package (YZV0004 / RGY0024; plan-20-B)	
 SN74LVC1G37DBVR	1G37	LVC	SOT-23	DBV	5	SOT23-5		Active	buffer/sn74lvc1g37.pdf	add		buf
 SN74LVC1G37DBVRQ1	1G37	LVC	SOT-23	DBV	5	SOT23-5	automotive	Active	buffer/sn74lvc1g37-q1.pdf	add		buf
 SN74LVC1G37DCKR	1G37	LVC	SC-70	DCK	5	SC70-5		Active	buffer/sn74lvc1g37.pdf	add		buf
@@ -4152,7 +4152,7 @@ TXU0304PWR	TXU0304	TXU	TSSOP	PW	14	TSSOP-14		Active	translator/txu0304.pdf	add		
 TXU0304QPWRQ1	TXU0304	TXU	TSSOP	PW	14	TSSOP-14	automotive	Active	translator/txu0304-q1.pdf	add		translator
 TXU0304RUTR	TXU0304	TXU	UQFN	RUT	12	UQFN-12		Active	translator/txu0304.pdf	add		translator
 TXV0106BQBR	TXV0106	TXV	WQFN	BQB	16	WQFN-16		Active	translator/txv0106.pdf	add		translator
-TXV0108RGYR	TXV0108	TXV	VQFN	RGY	24	VQFN-24-RGY		Active	translator/txv0108.pdf	add		translator
+TXV0108RGYR				RGY	24			Active	txv0108.pdf	skip	no package drawing: TI publishes no outline or land pattern for its package (YZV0004 / RGY0024; plan-20-B)	
 V62/03667-01YE	74_244	LVT	TSSOP	PW	20	TSSOP-20	enhanced	Active	buffer/sn74lvth244a-ep.pdf	add		tristate
 V62/04620-01XE								Active		skip	no TI datasheet (DigiKey links a Rochester viewer page; no TI PDF lists the part)	
 V62/04723-02YE	74_245	LVT	SSOP	DB	20	SSOP-20	enhanced	Active	transceiver/sn74lvth245a-ep.pdf	add		transceiver

@@ -115,3 +115,4 @@ and listed here instead.
 | `sn74lv574a.pdf` (SN74LV574ANS) | buffer | Logic → Buffer / Transceiver | plan-20 (2026-11-07): read, but no part of it is added: not placed by the datasheet reading: SN74LV574ANS (sn74lv574a): octal D flip-flop ('574), a register with no transceiver function — belongs to the existing `74_574` device in |
 | `sn74lv6t06-ep.pdf` (SN74LV6T06PWREP) | buffer | Logic → Buffer / Transceiver | plan-20 (2026-11-07): read, but no part of it is added: already in catalog |
 | `sn74lvc1g06-q1.pdf` (SN74LVC1G06DBVRQ1, SN74LVC1G06DCKRQ1) | buffer | Logic → Buffer / Transceiver | plan-20 (2026-11-07): read, but no part of it is added: already in catalog |
+| `txv0108.pdf` (TXV0108RGYR) | buffer | Logic → Buffer / Transceiver | plan-20 (2026-11-07): read, but no part of it is added: no package drawing: TI publishes no outline or land pattern for its package (YZV0004 / RGY0024; plan-20-B) |

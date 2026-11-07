@@ -228,7 +228,7 @@ carry about 2650 of the parts; D tests them before any data lands (G).
 - [x] Download the PDFs: TI symlink by the part's generic number (1109 names tried, 889 PDFs), then TI literature numbers for DigiKey's Rochester links (42 more). Check: `ls datasheets/{buffer,transceiver,translator}/*.pdf | wc -l` → `818`; `awk -F'\t' 'NR>1 && $11=="add"{print $10}' planning/plan-20-data/parts.tsv | sort -u | wc -l` → `818`.
 
 Acceptance: both checks (hours: the call quota sets the pace).
-Commit: —
+Commit: df97eb9
 
 ### Phase 2 — Part data
 
@@ -236,7 +236,7 @@ Commit: —
 - [x] `datasheets/skipped-parts.md` § TI buffers, bus transceivers and level shifters (110 reason groups); `not-included.md`: the 72 read PDFs left with no part to add (not copied into `datasheets/`). ~~`obsolete-not-included.md`~~ — moot: only PDFs of Active/LTB rows were fetched, so no PDF has only obsolete parts (`awk` over `parts.tsv`: every copied PDF has ≥ 1 `add` row).
 
 Acceptance: the checks above (minutes).
-Commit: —
+Commit: df97eb9
 
 ## Validation Plan
 
