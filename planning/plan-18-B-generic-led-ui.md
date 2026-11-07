@@ -207,8 +207,8 @@ because the panel reads the chip again on every document change.
 `setPartColor` and `setPartFootprint`, with no UI yet. Safe alone: nothing
 calls them.
 
-- [ ] `Canvas/SchematicModel.swift`: §4, both methods, under `// MARK: Chips`.
-- [ ] New `scripts/harness/generic-led-ui.swift` (kept), first part. It prints
+- [x] `Canvas/SchematicModel.swift`: §4, both methods, under `// MARK: Chips`.
+- [x] New `scripts/harness/generic-led-ui.swift` (kept), first part. It prints
       one `ok`/`FAIL` line per check and exits 1 on any FAIL:
   1. `setPartColor(id, "Blue")` → `chip.color == "Blue"`;
      `setPartColor(id, "Purple")` → unchanged; on a non-LED part (SN74HC00N)
@@ -221,10 +221,13 @@ calls them.
   3. `setPartFootprint(id, "LED-9999")` and setting the current id again →
      `board` unchanged.
   4. After (1)+(2), encoding gives `"color" : "Blue"` and the last footprint id.
+     (The loop's last choice is Radial, the default, so the script then sets
+     `LED-1206` and checks 3 and 4 use that id.)
 
 Acceptance: both setters change only what §4 says, and pad 1 never moves.
   Check: `rm -rf /tmp/p18-h && scripts/harness/build.sh scripts/harness/generic-led-ui.swift /tmp/p18-h && /tmp/p18-h/H.app/Contents/MacOS/harness`
   → 4 `ok` lines, exit 0 (est. 1.5 min).
+  Result: 4 `ok` lines, check 2 printed `44 cases`, `exit=0`.
 Commit: —
 
 ### Phase 2 — Sidebar Options section
@@ -306,6 +309,11 @@ Commit: —
   `PartHeader` is not changed.
 
 ## Corrections
+
+- **Prerequisite "plan-18-A archived".** Under `/follow-plan 18`, A and B are
+  done in one `P-18` worktree, so A was archived there
+  (`git mv` to `planning/completed/`, commit 953bd2a) before B started. The
+  gate command then holds in that worktree, and on `main` once it merges.
 
 ## Summary
 

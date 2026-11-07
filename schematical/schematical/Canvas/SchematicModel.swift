@@ -1039,6 +1039,38 @@ final class SchematicDocument {
         chips.append(placed)
     }
 
+    /// Sets an LED's color. Does nothing for a part that isn't an LED, or a
+    /// color the part doesn't have.
+    func setPartColor(_ id: UUID, _ color: String) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              chips[index].part.kind == PART_LED,
+              chips[index].part.colors.contains(color) else { return }
+        chips[index].color = color
+    }
+
+    /// Picks one of a part's footprint choices. On the PCB the pad of the
+    /// part's first pin keeps its board point (no re-snap, like
+    /// `setFootprintStyle`); rotation, origin, marks and style are kept. Does
+    /// nothing for an id that isn't one of the part's choices, or the current one.
+    func setPartFootprint(_ id: UUID, _ footprintID: String) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              chips[index].footprintID != footprintID,
+              chips[index].part.footprintChoices.contains(where: { $0.footprint.id == footprintID })
+        else { return }
+        let before = chips[index].footprint
+        chips[index].footprintID = footprintID
+        guard var changed = chips[index].board, let before, let after = chips[index].footprint else { return }
+        let pad1 = chips[index].part.firstPinDesignator
+        if let old = before.pads.first(where: { $0.designator == pad1 }),
+           let new = after.pads.first(where: { $0.designator == pad1 }) {
+            let anchor = changed.board(old.centre)
+            let landed = changed.board(new.centre)
+            changed.centre.x += anchor.x - landed.x
+            changed.centre.y += anchor.y - landed.y
+        }
+        chips[index].board = changed
+    }
+
     /// Renames a part to `prefix` (uppercased) plus `number`. Returns why it
     /// can't (a bad prefix or number, or a reference another part has), or
     /// nil when it was renamed.
