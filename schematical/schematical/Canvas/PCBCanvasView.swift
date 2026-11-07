@@ -18,8 +18,16 @@ import SwiftUI
 /// selection or takes it out (plan-15); Shift-drag, or a drag on an item of a
 /// larger selection, moves every selected item by one snapped step. Press on
 /// empty space to pan; without Shift that also clears the selection. With
-/// the Text tool, a press places a text and goes back to Select. Nothing runs while this page shows (`ContentView` stops a run
-/// when switching to it).
+/// the Text tool, a press places a text and goes back to Select. With the
+/// Trace tool, a drag draws a 45° trace on `traceLayer` (`TraceDrawing`):
+/// a live preview in the layer's colour while dragging, a green ring where
+/// the end lands, and on release the trace is added, joined and selected.
+/// The tool stays Trace. Option puts the diagonal first. Nothing runs while
+/// this page shows (`ContentView` stops a run when switching to it).
+///
+/// Traces draw with their layer's copper, in its colour, at their width. A
+/// selected trace gets an accent underlay; the rest of its joined run gets
+/// a fainter one.
 ///
 /// Board positions are millimetres; the view draws `BoardScale.pointsPerMM`
 /// world units per mm and the viewport maps world units to the screen.
@@ -29,10 +37,19 @@ struct PCBCanvasView: View {
     var tool: PCBTool = .select
     /// The layers to draw (the View popover). Hidden items can't be hit.
     var visible = BoardVisibility()
+    /// The layer the Trace tool draws on.
+    var traceLayer: CopperLayer = .top
+    /// Called with a hidden layer the Trace tool just drew on; the owner
+    /// shows it.
+    var onShowLayer: (CopperLayer) -> Void = { _ in }
     /// Called when the Text tool has placed a text; the owner returns to Select.
     var onPlaced: () -> Void = {}
 
     @State private var interaction: Interaction?
+    /// Where the pointer is (board mm), for the Trace tool's landing ring.
+    @State private var hoverPoint: CGPoint?
+    /// Where the current press started, in screen points.
+    @State private var pressLocation: CGPoint = .zero
     /// What the current press did to the selection; a click finishes it.
     @State private var selectionPress: SelectionPress<BoardItem>?
 
@@ -41,6 +58,9 @@ struct PCBCanvasView: View {
         /// the press.
         case moveGroup(base: BoardGroupBase)
         case pan(startOffset: CGSize)
+        /// A trace being drawn from `start` (already anchored) towards the
+        /// pointer at `cursor` (board mm).
+        case drawTrace(start: CGPoint, cursor: CGPoint)
     }
 
     static let background = Color(white: 0.13)
@@ -87,6 +107,12 @@ struct PCBCanvasView: View {
                 .onChanged { value in handle(start: value.startLocation, translation: value.translation) }
                 .onEnded { value in end(translation: value.translation) }
         )
+        .onContinuousHover { phase in
+            switch phase {
+            case let .active(location): hoverPoint = board(location)
+            case .ended: hoverPoint = nil
+            }
+        }
     }
 
     /// A screen point in board millimetres.
@@ -119,6 +145,9 @@ struct PCBCanvasView: View {
             if visible.showsPlane(layer, style: style) {
                 context.fill(Path(boardRect), with: .color(style.color.color.opacity(0.2)))
             }
+            if visible.showsTrace(on: layer) {
+                drawTraces(on: layer, colour: style.color.color, in: &context)
+            }
             let side: BoardSide? = layer == .top ? .top : layer == .bottom ? .bottom : nil
             if let side, visible.shows(.copper(layer)) {
                 for chip in document.chips where chip.board?.side == side {
@@ -148,6 +177,8 @@ struct PCBCanvasView: View {
 
         drawMarksAndTexts(on: .top, in: &context, colour: colour, visible: visible)
 
+        drawTraceTool(in: &context)
+
         // Selection boxes, one per selected item that is drawn, on top of
         // everything. A selected item on a hidden layer stays selected.
         let margin = 3 / scale
@@ -158,12 +189,70 @@ struct PCBCanvasView: View {
                 selected = document.chips.first { $0.id == id && visible.showsFootprint($0) }?.boardBounds
             case let .text(id):
                 selected = document.texts.first { $0.id == id && visible.showsText($0) }?.boardRect
+            case .trace:
+                // A selected trace has its own underlay (`drawTraces`).
+                selected = nil
             }
             if let selected {
                 context.stroke(Path(selected.insetBy(dx: -margin, dy: -margin)),
                                with: .color(.accentColor), lineWidth: 2 / scale)
             }
         }
+    }
+
+    /// The traces on one layer, after their selection underlays: an accent
+    /// stroke 4 points wider under each selected trace, and a fainter one
+    /// under the other traces joined to it.
+    private func drawTraces(on layer: CopperLayer, colour: Color, in context: inout GraphicsContext) {
+        let onLayer = document.traces.filter { $0.layer == layer }
+        guard !onLayer.isEmpty else { return }
+        let selected = Set(document.boardSelection.items.compactMap { item -> UUID? in
+            if case let .trace(id) = item { return id }
+            return nil
+        })
+        var joined = Set<UUID>()
+        for id in selected where onLayer.contains(where: { $0.id == id }) {
+            joined.formUnion(document.connectedRun(of: id))
+        }
+        joined.subtract(selected)
+        for trace in onLayer where selected.contains(trace.id) || joined.contains(trace.id) {
+            let opacity = selected.contains(trace.id) ? 1 : 0.35
+            context.stroke(Self.path(trace.points), with: .color(.accentColor.opacity(opacity)),
+                           style: Self.traceStyle(width: trace.widthMM + 4 / scale))
+        }
+        for trace in onLayer {
+            context.stroke(Self.path(trace.points), with: .color(colour), style: Self.traceStyle(width: trace.widthMM))
+        }
+    }
+
+    /// The Trace tool's preview while dragging, and the green ring where a
+    /// press or release would land.
+    private func drawTraceTool(in context: inout GraphicsContext) {
+        guard tool == .trace else { return }
+        let ring: CGPoint?
+        if case let .drawTrace(start, cursor) = interaction {
+            let route = TraceDrawing.preview(document, from: start, to: cursor, layer: traceLayer, scale: scale,
+                                             diagonalFirst: NSEvent.modifierFlags.contains(.option))
+            let colour = document.board.style(of: traceLayer).color.color.opacity(0.6)
+            context.stroke(Self.path(route), with: .color(colour),
+                           style: Self.traceStyle(width: Double(BoardTrace.defaultWidth) * 0.0254))
+            ring = route.last
+        } else {
+            ring = hoverPoint.map { TraceDrawing.anchor(document, at: $0, layer: traceLayer, scale: scale) }
+        }
+        if let ring {
+            let r = 6 / scale
+            context.stroke(Path(ellipseIn: CGRect(x: ring.x - r, y: ring.y - r, width: 2 * r, height: 2 * r)),
+                           with: .color(.green), lineWidth: 2 / scale)
+        }
+    }
+
+    static func path(_ points: [CGPoint]) -> Path {
+        Path { path in path.addLines(points) }
+    }
+
+    static func traceStyle(width: CGFloat) -> StrokeStyle {
+        StrokeStyle(lineWidth: width, lineCap: .round, lineJoin: .round)
     }
 
     /// The layers this canvas shows, for the board's current copper layers.
@@ -271,6 +360,7 @@ struct PCBCanvasView: View {
     /// clears the selection and pans. Returns what the drag is doing.
     @discardableResult
     func handle(start: CGPoint, translation: CGSize) -> Interaction {
+        if interaction == nil { pressLocation = start }
         let current = interaction ?? begin(at: start)
         interaction = current
         let offset = CGSize(width: translation.width / scale, height: translation.height / scale)
@@ -282,6 +372,10 @@ struct PCBCanvasView: View {
                 width: startOffset.width + translation.width,
                 height: startOffset.height + translation.height
             ))
+        case let .drawTrace(start, _):
+            let cursor = board(CGPoint(x: pressLocation.x + translation.width, y: pressLocation.y + translation.height))
+            interaction = .drawTrace(start: start, cursor: cursor)
+            return .drawTrace(start: start, cursor: cursor)
         }
         return current
     }
@@ -291,6 +385,9 @@ struct PCBCanvasView: View {
         let point = board(start)
         let shift = NSEvent.modifierFlags.contains(.shift)
         switch tool {
+        case .trace:
+            let anchored = TraceDrawing.anchor(document, at: point, layer: traceLayer, scale: scale)
+            return .drawTrace(start: anchored, cursor: point)
         case .text:
             // The new text is the whole selection, and the drag moves it.
             document.addText(at: point)
@@ -313,6 +410,11 @@ struct PCBCanvasView: View {
     /// The end of a press: a click (under 3 points of movement) finishes
     /// what the press left pending in the selection.
     private func end(translation: CGSize) {
+        if case let .drawTrace(start, cursor) = interaction {
+            TraceDrawing.finish(document, from: start, to: cursor, layer: traceLayer, scale: scale,
+                                diagonalFirst: NSEvent.modifierFlags.contains(.option),
+                                visible: shown, onShowLayer: onShowLayer)
+        }
         if let press = selectionPress {
             document.releaseSelection(press, wasClick: hypot(translation.width, translation.height) < 3)
         }
@@ -321,11 +423,51 @@ struct PCBCanvasView: View {
     }
 }
 
-/// The PCB page's tools: Select (move footprints and texts, pan) and Text
-/// (click to place a text).
+/// The steps of a Trace tool drag, kept apart from the view so tests can
+/// run them in the order the canvas does: anchor the press, preview while
+/// dragging, finish on release.
+@MainActor
+enum TraceDrawing {
+    /// Screen points within which an end snaps to a trace, as the schematic
+    /// Line tool's tolerance.
+    static let tolerance: CGFloat = 6
+
+    /// Where an end at `point` lands (see `SchematicDocument.traceAnchor`).
+    /// `scale` is screen points per mm.
+    static func anchor(_ document: SchematicDocument, at point: CGPoint, layer: CopperLayer,
+                       scale: CGFloat) -> CGPoint {
+        document.traceAnchor(at: point, layer: layer, tolerance: tolerance / scale)
+    }
+
+    /// The route a release at `cursor` would add.
+    static func preview(_ document: SchematicDocument, from start: CGPoint, to cursor: CGPoint,
+                        layer: CopperLayer, scale: CGFloat, diagonalFirst: Bool) -> [CGPoint] {
+        TraceRoute.route(from: start, to: anchor(document, at: cursor, layer: layer, scale: scale),
+                         diagonalFirst: diagonalFirst)
+    }
+
+    /// The release: adds the trace (nothing for a zero-length one), makes it
+    /// the whole selection, and asks for its layer to be shown if hidden.
+    @discardableResult
+    static func finish(_ document: SchematicDocument, from start: CGPoint, to cursor: CGPoint, layer: CopperLayer,
+                       scale: CGFloat, diagonalFirst: Bool, visible: BoardVisibility,
+                       onShowLayer: (CopperLayer) -> Void) -> UUID? {
+        let end = anchor(document, at: cursor, layer: layer, scale: scale)
+        guard let id = document.addTrace(from: start, to: end, layer: layer, diagonalFirst: diagonalFirst) else {
+            return nil
+        }
+        document.select(.trace(id))
+        if !visible.showsTrace(on: layer) { onShowLayer(layer) }
+        return id
+    }
+}
+
+/// The PCB page's tools: Select (move footprints, texts and traces, pan),
+/// Text (click to place a text) and Trace (drag to draw a trace).
 enum PCBTool: String, CaseIterable, Identifiable {
     case select
     case text
+    case trace
 
     var id: String { rawValue }
 
@@ -333,6 +475,7 @@ enum PCBTool: String, CaseIterable, Identifiable {
         switch self {
         case .select: "Select"
         case .text: "Text"
+        case .trace: "Trace"
         }
     }
 
@@ -340,6 +483,7 @@ enum PCBTool: String, CaseIterable, Identifiable {
         switch self {
         case .select: "cursorarrow"
         case .text: "textformat"
+        case .trace: "line.diagonal"
         }
     }
 }

@@ -935,10 +935,12 @@ final class SchematicDocument {
             }
         }
         let footprints = Set(chips.filter { $0.board != nil }.map(\.id))
+        let traceIDs = Set(traces.map(\.id))
         boardSelection.filter { item in
             switch item {
             case let .footprint(id): footprints.contains(id)
             case let .text(id): textIDs.contains(id)
+            case let .trace(id): traceIDs.contains(id)
             }
         }
     }
@@ -1620,6 +1622,8 @@ final class SchematicDocument {
                 if let centre = chips.first(where: { $0.id == id })?.board?.centre { base.footprints[id] = centre }
             case let .text(id):
                 if let anchor = texts.first(where: { $0.id == id })?.anchor { base.texts[id] = anchor }
+            case .trace:
+                break
             }
         }
         return base

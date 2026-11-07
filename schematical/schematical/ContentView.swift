@@ -36,6 +36,8 @@ struct ContentView: View {
     /// so layers added later start shown. Per window; not saved.
     @State private var hiddenLayers: Set<BoardViewLayer> = []
     @State private var isLayerViewShown = false
+    /// The layer the PCB Trace tool draws on (the trace layer menu).
+    @State private var traceLayer: CopperLayer = .top
     @State private var isDrawerShown = true
     /// The PCB page's inspector (board, footprint or text settings).
     @State private var isPCBSidebarShown = true
@@ -100,6 +102,11 @@ struct ContentView: View {
         )
     }
 
+    /// The layers the Trace tool can draw on: the board's, less its planes.
+    private var traceLayers: [CopperLayer] {
+        document.board.copperLayers.filter { document.board.style(of: $0).type != .plane }
+    }
+
     /// Exactly one footprint or board text selected, which Rotate turns
     /// (plan-15: never a group). Rotate is only on the PCB page, where the
     /// simulation never runs.
@@ -141,7 +148,8 @@ struct ContentView: View {
             }
         case .pcb:
             PCBCanvasView(document: document, viewport: boardViewport, tool: pcbTool,
-                          visible: BoardVisibility(hidden: hiddenLayers)) {
+                          visible: BoardVisibility(hidden: hiddenLayers), traceLayer: traceLayer,
+                          onShowLayer: { hiddenLayers.remove(.copper($0)) }) {
                 // Placing a text returns to the Select tool.
                 pcbTool = .select
             }
@@ -255,6 +263,20 @@ struct ContentView: View {
                         .pickerStyle(.segmented)
                         .labelStyle(.iconOnly)
                         .labelsHidden()
+
+                        // The Trace tool's layer: every board layer that
+                        // isn't a plane. Picking one also picks Trace and
+                        // shows that layer.
+                        Menu(traceLayer.title) {
+                            ForEach(traceLayers, id: \.self) { layer in
+                                Button(layer.title) {
+                                    traceLayer = layer
+                                    pcbTool = .trace
+                                    hiddenLayers.remove(.copper(layer))
+                                }
+                            }
+                        }
+                        .help("Layer for the Trace tool")
                     }
                 }
 
@@ -329,6 +351,11 @@ struct ContentView: View {
                         .foregroundStyle(.white)
                         .padding(.bottom, 16)
                 }
+            }
+            // A trace layer that left the board or became a plane goes back
+            // to Top.
+            .onChange(of: traceLayers) { _, layers in
+                if !layers.contains(traceLayer) { traceLayer = .top }
             }
             .task(id: document.editorMessage) {
                 guard document.editorMessage != nil else { return }

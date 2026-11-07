@@ -11,10 +11,11 @@ nonisolated enum SchematicItem: Hashable, Sendable {
 }
 
 /// One thing that can be selected on the PCB page: a part's footprint (by
-/// the part's id) or a board text.
+/// the part's id), a board text or a trace.
 nonisolated enum BoardItem: Hashable, Sendable {
     case footprint(UUID)
     case text(UUID)
+    case trace(UUID)
 }
 
 // MARK: - Selection set

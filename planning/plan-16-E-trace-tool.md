@@ -175,19 +175,26 @@ Shown when a trace is the sole selection.
 
 ### Phase 1 — Trace tool and rendering
 
-- [ ] `Canvas/PCBCanvasView.swift`: `PCBTool.trace`; `traceLayer` and
+- [x] `Canvas/PCBCanvasView.swift`: `PCBTool.trace`; `traceLayer` and
       `onShowLayer` properties; the `.drawTrace` interaction, preview and
       landing ring; trace rendering and the selection underlays (§3). Update
       the doc comment to cover the Trace tool.
-- [ ] `ContentView.swift`: `traceLayer` state; the layer menu after the PCB
+- [x] `ContentView.swift`: `traceLayer` state; the layer menu after the PCB
       tool picker; the fallback `onChange`; pass `traceLayer` and
       `onShowLayer` to the canvas.
-- [ ] Tests (`<tests>/TraceToolTests.swift`), driving `PCBCanvasView.handle`
-      the way plan-15's gesture tests do:
+- [x] Tests (`<tests>/TraceToolTests.swift`), driving the canvas's Trace
+      steps (`TraceDrawing`) the way plan-15's gesture tests do:
   - a Trace drag from (2.54, 2.54) to (10.16, 5.08) adds one Top trace with
     points `[(2.54,2.54), (7.62,2.54), (10.16,5.08)]` and selects it;
   - a zero-length press adds none;
   - a drag on Layer 3 (Wire) while Layer 3 is hidden calls `onShowLayer`.
+
+  `/tmp/p16t.sh TraceToolTests,SelectionGestureTests,SelectionSidebarTests`
+  → "Executed 15 tests, with 0 failures" (TraceToolTests: 3).
+- [x] (added, moved up from Phase 2) `Canvas/Selection.swift`:
+  `BoardItem.trace`, and the trace case in `pruneSelection` and the
+  canvas's selection loop. Phase 1's test needs a drawn trace to become the
+  selection.
 
 Acceptance: a drag adds the routed trace on the menu's layer, and the tool
 stays Trace.
@@ -260,7 +267,14 @@ Commit: —
 
 ## Corrections
 
-None yet.
+- 2026-11-07: `PCBCanvasView.handle` can't be driven from a test: the
+  interaction it continues lives in `@State`, which only persists inside a
+  running view. plan-15's gesture tests don't call `handle` either; they
+  call the document steps the canvas calls. So the Trace drag's steps are
+  `TraceDrawing.anchor` / `preview` / `finish` (in `PCBCanvasView.swift`),
+  which the canvas calls and `TraceToolTests` calls in the same order.
+- 2026-11-07: `BoardItem.trace` landed in Phase 1, not 2: Phase 1's first
+  test checks that a drawn trace is selected.
 
 ## Summary
 
