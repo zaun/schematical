@@ -130,7 +130,7 @@ Commit: e8ecc42
 
 Acceptance: the final gate's expected results, all observed.
   Check: the commands of § Validation Plan → their results (est. 6 min).
-Commit: —
+Commit: 41b8383
 
 ## Validation Plan
 
