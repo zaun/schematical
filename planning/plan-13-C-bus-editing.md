@@ -28,8 +28,8 @@ The gate is plan-13-A's table. Re-run it, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-13-B complete | `ls planning/plan-13-B-* 2>/dev/null` → no output; `ls planning/completed/plan-13-B-bus-ports.md` → exists | NOT MET (2026-11-01: not started) |
-| The fit rule exists | `grep -n "func fit(" schematical/schematical/Canvas/BusModel.swift` → one line | NOT MET (lands in B) |
+| plan-13-B complete | `ls planning/plan-13-B-* 2>/dev/null` → no output; `ls planning/completed/plan-13-B-bus-ports.md` → exists | MET (2026-11-07: archived in `0558a28`) |
+| The fit rule exists | `grep -n "func fit(" schematical/schematical/Canvas/BusModel.swift` → one line | MET (2026-11-07: line 441) |
 
 ## 1. Goal
 
@@ -73,7 +73,7 @@ The gate is plan-13-A's table. Re-run it, plus:
 
 | What | Count | Command |
 |---|---|---|
-| Bus drag call sites | 2 | after B: `grep -n "BusEdit.move" schematical/schematical/Canvas/SchematicCanvasView.swift` → 2 (`.dragBusEnd`, `.dragBusLine`); re-measure before starting. Both already go through `setBusLines`, so the guard needs no canvas change beyond settling on release |
+| Bus drag call sites | 2 | after B: `grep -n "BusEdit.move" schematical/schematical/Canvas/SchematicCanvasView.swift` → 2 (`.dragBusEnd`, `.dragBusLine`); re-measured 2026-11-07 → lines 367, 372. Both already go through `setBusLines`, so the guard needs no canvas change beyond settling on release |
 
 ### Verified properties
 
