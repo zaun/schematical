@@ -20,8 +20,8 @@ plan-20-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-20-F complete | `ls planning/completed/plan-20-F-*.md` → exists | NOT MET (2026-11-07) |
-| Part data present | `awk -F'\t' 'NR>1 && $11=="add" && ($13=="tristate" \|\| $13=="transceiver")' planning/plan-20-data/parts.tsv \| wc -l` → Ntri + Nxcvr | NOT MET (A not run) |
+| plan-20-F complete | `ls planning/completed/plan-20-F-*.md` → exists | MET (2026-11-07: `planning/completed/plan-20-F-dual-supply.md`) |
+| Part data present | `awk -F'\t' 'NR>1 && $11=="add" && ($13=="tristate" \|\| $13=="transceiver")' planning/plan-20-data/parts.tsv \| wc -l` → Ntri + Nxcvr | MET (2026-11-07: `1749` = Ntri 1331 + Nxcvr 418) |
 
 ## 1. Goal
 
@@ -41,10 +41,10 @@ as 2-unit (16-bit) or 4-unit (32-bit) devices; parts generated from
 
 ### Phase 1 — Tristate devices
 
-- [ ] Generate the `tristate` devices; `ctest -R library_check`; coverage check.
+- [x] Generate the `tristate` devices (74 devices, **Ntri = 1331** parts; `gen.py` + `land.py buffer tristate`, which also appends the plan-20-B footprints they use: `QSOP-20`, `QSOP-24`, `TSSOP-80`, `TVSOP-56`, `CFP-24`); `/tmp/logic-p20/library_check` → `library_check: all passed`; coverage (python: `add` rows with model `tristate` vs `buffer.json` part names) → `tristate rows 1331 in buffer.json 1331 missing [] extra []`. Goldens regenerated in the same commit so `ctest` stays green: `git diff --numstat backend/tests/golden` → `5 0 footprints.txt`, `1331 0 parts.txt`, `1331 0 traces.txt`; `ctest` → `100% tests passed, 0 tests failed out of 22`.
 
 Acceptance: library loads (seconds).
-Commit: —
+Commit: (this commit; hash in the next)
 
 ### Phase 2 — Transceiver devices and goldens
 

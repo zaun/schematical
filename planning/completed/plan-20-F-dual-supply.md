@@ -99,14 +99,14 @@ applies (one pair per family, plan-20-A §4).
 - [x] §2.1 loader (buffer kind: `domains` device key, `vccB`/`inputMaxB` timing and part keys, per-pinout domain binding) + `parts.h` (`PartSupplyDomain`, `Part.domains`/`domain_count`, Corrections 1–2); §2.3 listing (`|vccb=`); loader cases in `buffer_test` (pin in no domain, pin in two domains, non-power `power`, `vccB` on a part / in timing without `domains`, `domains` on a model without them, translator without `domains`, timing without `vccB`, `inputMaxB` below `vccB` max — all `PASS`); docs `parts-format.md` § Two supply domains, `backend.md` (Voltages, source map). `git diff --stat backend/tests/golden` → empty.
 
 Acceptance: `ctest --test-dir /tmp/logic-p20` → T0 + 1 of T0 + 1; golden diff empty (seconds).
-Commit: (this commit — Phases 1 and 2 together; hash in the next)
+Commit: b0dbb70 (Phases 1 and 2 together)
 
 ### Phase 2 — Voltage check and `translator`
 
 - [x] §2.2 in `voltage.c` (step 3a and the per-domain checks; header rule 3a); `voltage_test` fixture `VFX-T45` (A side 1.65–3.6 V, B side 1.65–5.5 V, Corrections 3) and 6 cases: `PASS: translator 1.8 V / 5 V: 1.8 V logic on A, 5 V logic on B: no problem`, `… B to A: 5 V on B, A into a 1.8 V-side input: no problem`, `… a 5 V output into pin A is INPUT_OVER (A side input max 3.6 V)`, `… 5 V into pin B at VCCB 3.3 V is within the B side's 5.5 V`, `… 5 V on VCCA is out of the A side's range; 5 V on VCCB is not`, `… 12 V on VCCB is out of the B side's 1.65-5.5 V range`; every existing case still `PASS` (`voltage_test: all passed`, 36 PASS lines). `translator` model (transceiver or tristate logic by the units' keys) and `buffer_test` cases: 1T45 domains bound and DIR both ways, 8T245 OE, TXU0104 fixed direction with OE. Dry run: the 27 real translator specs (232 parts) load. Docs § Model `translator`, `backend.md` § Voltages.
 
 Acceptance: `ctest --test-dir /tmp/logic-p20` → T0 + 1 of T0 + 1; `voltage_test` prints the new PASS lines; golden diff empty (seconds).
-Commit: (this commit; hash in the next)
+Commit: b0dbb70
 
 ## Validation Plan
 
