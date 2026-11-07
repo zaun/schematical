@@ -170,7 +170,7 @@ Commit: 5be2e32
 
 Acceptance: `board_w65c816s ok`; the existing board cases still `ok`.
   Check: `/tmp/logic-p14/cpu_test | grep board_` → every board `ok` (est. 1 min with the build).
-Commit: —
+Commit: 7dc9d1c
 
 ## Validation Plan
 
