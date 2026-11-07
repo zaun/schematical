@@ -4,14 +4,15 @@ import UniformTypeIdentifiers
 
 // MARK: - File format
 
-/// The on-disk form of a schematic, version 2. See `docs/file-format.md`.
-/// Version 1 files (pins by number) are converted when opened.
+/// The on-disk form of a schematic, version 3. See `docs/file-format.md`.
+/// Version 1 files (pins by number) are converted when opened; version 1 and
+/// 2 files have no buses.
 ///
 /// Parts are stored by part number only. Pins, layout and symbol come from the
 /// backend catalog when the file is opened.
 nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     static let formatName = "schematical"
-    static let currentVersion = 2
+    static let currentVersion = 3
     static let fileExtension = "schematical"
 
     /// Parts removed from the library, and the part each one opens as. A file
@@ -164,12 +165,36 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var bends: [Point]
     }
 
+    /// A bus: its straight lines (joints are worked out from where they
+    /// touch) and its wires in list order.
+    struct Bus: Codable, Equatable, Sendable {
+        var id: UUID
+        var lines: [BusLineEntry]
+        var wires: [BusWireEntry]
+    }
+
+    /// One straight bus line, from `a` to `b`.
+    struct BusLineEntry: Codable, Equatable, Sendable {
+        var id: UUID
+        var a: Point
+        var b: Point
+    }
+
+    /// One bus wire: the id ports refer to, and its display name.
+    struct BusWireEntry: Codable, Equatable, Sendable {
+        var id: UUID
+        var name: String
+    }
+
     var format: String
     var version: Int
     var nextReference: Int
     var parts: [Part]
     var junctions: [Junction]
     var wires: [Wire]
+    /// Buses. Always written from version 3 on (empty when there are none);
+    /// nil in older files, which means none.
+    var buses: [Bus]? = nil
     /// The PCB's settings and texts. Always written; files from before it
     /// open with the defaults.
     var board: Board? = nil
@@ -190,6 +215,8 @@ nonisolated enum SchematicFileError: LocalizedError {
     /// A board setting, footprint origin or mark, or board text that isn't
     /// valid; the detail names it.
     case badPCB(String)
+    /// A bus whose lines, joints or wires aren't valid; the detail names it.
+    case badBus(String)
 
     var errorDescription: String? {
         switch self {
@@ -213,6 +240,8 @@ nonisolated enum SchematicFileError: LocalizedError {
             "\(reference) has PCB rotation \(rotation); it must be 0, 90, 180 or 270."
         case let .badPCB(detail):
             "The PCB settings are not valid: \(detail)."
+        case let .badBus(detail):
+            "The bus is not valid: \(detail)."
         }
     }
 }
@@ -256,6 +285,15 @@ extension SchematicFile {
                 from: End(wire.start, chips: document.chips),
                 to: End(wire.end, chips: document.chips),
                 bends: wire.interior.map { Point(x: $0.x, y: $0.y) }
+            )
+        }
+        buses = document.buses.map { bus in
+            Bus(
+                id: bus.id,
+                lines: bus.lines.map {
+                    BusLineEntry(id: $0.id, a: Point(x: $0.a.x, y: $0.a.y), b: Point(x: $0.b.x, y: $0.b.y))
+                },
+                wires: bus.wires.map { BusWireEntry(id: $0.id, name: $0.name) }
             )
         }
         let settings = document.board
@@ -443,6 +481,18 @@ extension SchematicFile {
             texts.append(try boardText(text))
         }
 
+        var placedBuses: [SchematicModelBus] = []
+        for bus in buses ?? [] {
+            try claim(bus.id)
+            for line in bus.lines { try claim(line.id) }
+            for wire in bus.wires { try claim(wire.id) }
+            placedBuses.append(try Self.modelBus(bus))
+        }
+        if let (first, second, point) = SchematicModelBus.firstTouch(placedBuses) {
+            throw SchematicFileError.badBus(
+                "buses \(first.uuidString) and \(second.uuidString) touch at \(Self.pointText(point))")
+        }
+
         // Never hand out a U<n> reference that's already used, even if the
         // stored counter is behind.
         let highest = chips.map { ReferenceParts($0.reference) }
@@ -453,7 +503,7 @@ extension SchematicFile {
             chips: chips,
             wires: placedWires,
             junctions: placedJunctions,
-            buses: [],
+            buses: placedBuses,
             nextReference: max(nextReference, highest + 1),
             board: settings,
             texts: texts
@@ -544,9 +594,61 @@ extension SchematicFile {
     }
 }
 
+// MARK: Bus values
+
+extension SchematicFile {
+    /// A file bus as a model bus, checked: wire count and names, straight
+    /// lines on the grid, no overlaps, only T and L joints, one piece.
+    @MainActor
+    fileprivate static func modelBus(_ bus: Bus) throws -> SchematicModelBus {
+        let id = bus.id.uuidString
+        let lines = bus.lines.map {
+            BusLine(id: $0.id, a: CGPoint(x: $0.a.x, y: $0.a.y), b: CGPoint(x: $0.b.x, y: $0.b.y))
+        }
+        let model = SchematicModelBus(
+            id: bus.id, lines: lines, wires: bus.wires.map { BusWire(id: $0.id, name: $0.name) })
+
+        switch model.problem {
+        case nil:
+            break
+        case .noLines?:
+            throw SchematicFileError.badBus("bus \(id) has no lines")
+        case let .notStraight(line)?:
+            throw SchematicFileError.badBus("line \(line.uuidString) is not a horizontal or vertical line on the grid")
+        case let .overlap(first, second)?:
+            throw SchematicFileError.badBus("lines \(first.uuidString) and \(second.uuidString) overlap")
+        case let .badJoint(_, point)?:
+            throw SchematicFileError.badBus("bus \(id) has a joint at \(pointText(point)) that is not a T or an L")
+        case .notOnePiece?:
+            throw SchematicFileError.badBus("bus \(id) is not one piece")
+        }
+
+        guard SchematicModelBus.wireCountRange.contains(bus.wires.count) else {
+            throw SchematicFileError.badBus("bus \(id) has \(bus.wires.count) wires; it must have 2 to 999")
+        }
+        var seen = Set<String>()
+        for wire in bus.wires {
+            guard SchematicModelBus.nameLengthRange.contains(wire.name.count),
+                  !wire.name.contains(where: \.isWhitespace) else {
+                throw SchematicFileError.badBus("bus \(id) wire name \"\(wire.name)\" must be 1 to 4 characters with no spaces")
+            }
+            guard seen.insert(wire.name.lowercased()).inserted else {
+                throw SchematicFileError.badBus("bus \(id) uses the wire name \"\(wire.name)\" twice")
+            }
+        }
+        return model
+    }
+
+    /// A point as written in a message: (100, 200).
+    fileprivate static func pointText(_ point: CGPoint) -> String {
+        "(\(number(Double(point.x))), \(number(Double(point.y))))"
+    }
+}
+
 /// The model's types, named apart from the file's nested types of the same name.
 typealias SchematicModelWire = Wire
 typealias SchematicModelJunction = Junction
+typealias SchematicModelBus = Bus
 
 private extension SchematicFile.End {
     /// Saves a pin by its designator, looked up on the placed chip.

@@ -1,8 +1,8 @@
 # Schematical file format
 
 Schematical saves a schematic as a UTF-8 JSON file with the extension
-`.schematical`. This document describes version 2. Version 1 files are
-converted when opened (see [Version 1 files](#version-1-files)).
+`.schematical`. This document describes version 3. Version 1 and 2 files
+open too (see [Older versions](#older-versions)).
 
 Code: `schematical/schematical/Document/SchematicFile.swift` (the format) and
 `SchematicFileController.swift` (Save, Save As, Open).
@@ -15,8 +15,8 @@ Code: `schematical/schematical/Document/SchematicFile.swift` (the format) and
   existing files.
 - **Connections are explicit.** A wire end names a part and pin designator, or a
   junction. Connectivity never depends on two coordinates touching.
-- **IDs are stable.** Every part, junction and wire has a UUID that is kept
-  across save and open.
+- **IDs are stable.** Every part, junction, wire, bus, bus line and bus wire
+  has a UUID that is kept across save and open.
 - **The selection, zoom, scroll position and simulation state are not saved.**
 
 ## Coordinates
@@ -41,11 +41,12 @@ to the grid on open.
 ```json
 {
   "format": "schematical",
-  "version": 2,
+  "version": 3,
   "nextReference": 4,
   "parts": [ ... ],
   "junctions": [ ... ],
   "wires": [ ... ],
+  "buses": [ ... ],
   "board": { ... }
 }
 ```
@@ -58,6 +59,7 @@ to the grid on open.
 | `parts`         | array   | Placed parts, in drawing order (later parts draw on top).            |
 | `junctions`     | array   | Points where wires branch.                                           |
 | `wires`         | array   | Wires between pins and junctions.                                    |
+| `buses`         | array   | Buses ([Buses](#buses)). Always written from version 3 on, empty when there are none; version 1 and 2 files have none. |
 | `board`         | object  | Optional. The PCB's settings and texts ([Board](#board)). Written by every build that has it; a file without it opens with the defaults. |
 
 On open, `nextReference` is raised if needed so that it is higher than every
@@ -183,13 +185,50 @@ The ends' own positions are not stored. They come from the part's pin layout
 or the junction. The app re-fits the bends next to each end when the wire is
 drawn, so slightly stale bends still produce a right-angle route.
 
+## Buses
+
+A bus is a thick line that carries 2 to 999 named wires. It is drawn only on
+the schematic and connects to nothing by itself.
+
+```json
+"buses": [
+  { "id": "…",
+    "lines": [
+      { "id": "…", "a": { "x": 100, "y": 200 }, "b": { "x": 300, "y": 200 } },
+      { "id": "…", "a": { "x": 180, "y": 200 }, "b": { "x": 180, "y": 300 } }
+    ],
+    "wires": [ { "id": "…", "name": "B0" }, { "id": "…", "name": "B1" } ] }
+]
+```
+
+(The second line ends on the middle of the first: a T.)
+
+| Field   | Type  | Meaning                                                              |
+|---------|-------|----------------------------------------------------------------------|
+| `id`    | UUID  | Unique within the file.                                              |
+| `lines` | array | The bus's straight lines, at least one. Each has an `id` (UUID) and two ends `a` and `b` (canvas units, on the 10-unit grid). A line is horizontal or vertical, with length > 0. |
+| `wires` | array | The bus's wires in list order, 2 to 999. Each has an `id` (UUID; ports refer to it) and a `name`: 1 to 4 characters with no spaces, unique in the bus ignoring case. |
+
+**Joints.** Lines of one bus meet only at right angles, in one of two ways:
+
+- an **L**: exactly two line ends meet at one point;
+- a **T**: one line's end lies strictly inside another line.
+
+Nothing else may touch there (no third line, no end on a corner or on a T).
+Lines that cross in their middles do not touch: that is a crossing, as for
+wires. Joints are not written; they are worked out from the lines on open.
+Every line of a bus is joined to the others through joints (one piece), and
+no two lines overlap along their length. No line end of one bus may touch a
+line of another bus.
+
 ## Validation on open
 
 Opening fails, and the canvas is left unchanged, if:
 
 - `format` is missing or not `"schematical"`, or `version` is newer than the app supports;
 - the JSON doesn't match this structure;
-- an ID is used more than once across parts, junctions, wires and board texts;
+- an ID is used more than once across parts, junctions, wires, buses, bus
+  lines, bus wires and board texts;
 - a `partNumber` is not in the catalog (the error lists every missing one);
 - a wire end names a part or junction that isn't in the file, or a pin the
   part's symbol doesn't draw (for example the no-connect pins of a 4-pin LED);
@@ -212,15 +251,32 @@ Opening fails, and the canvas is left unchanged, if:
   - `text <id> size 5 must be 10 to 1000 mil`;
   - `text <id> layer "x" must be document or silkscreen`;
   - `text <id> rotation 45 must be 0, 90, 180 or 270`;
-  - `text <id> is empty`.
+  - `text <id> is empty`;
+- a bus is not valid. The message is "The bus is not valid: <detail>.",
+  where the detail is one of:
+  - `bus <id> has no lines`;
+  - `line <id> is not a horizontal or vertical line on the grid` (diagonal,
+    off the grid, or length 0);
+  - `lines <id> and <id> overlap`;
+  - `bus <id> has a joint at (<x>, <y>) that is not a T or an L`;
+  - `bus <id> is not one piece`;
+  - `buses <id> and <id> touch at (<x>, <y>)`;
+  - `bus <id> has <n> wires; it must have 2 to 999`;
+  - `bus <id> wire name "<name>" must be 1 to 4 characters with no spaces`;
+  - `bus <id> uses the wire name "<name>" twice`.
 
 A missing or unreadable EEPROM load file (`memoryFile`) does not fail Open:
 the memory window shows the problem, and Run stops with it
 (`"U4: can't read boot.bin: …"`).
 
-## Version 1 files
+## Older versions
 
-Version 1 is the same format except for wire ends: `"pin"` is an integer, and
+Version 2 is version 3 without buses: it has no `buses` key. The app opens
+version 2 files with no buses. Saving always writes version 3. Version 2
+builds refuse version 3 files as "saved by a newer version of Schematical
+(file format 3)", rather than opening them and losing the buses on save.
+
+Version 1 is version 2 except for wire ends: `"pin"` is an integer, and
 pin n is the part's n-th pin in its pinout (the order its part file lists
 them). For example:
 
@@ -229,9 +285,9 @@ them). For example:
 { "part": "6F1C...", "pin": 14 }
 ```
 
-The app opens version 1 files and converts each pin to its designator, and
-saving always writes version 2. Builds from before version 2 refuse version 2
-files as "saved by a newer version of Schematical".
+The app opens version 1 files and converts each pin to its designator.
+Builds from before version 2 refuse newer files as "saved by a newer version
+of Schematical".
 
 ## Changing the format
 
@@ -251,7 +307,7 @@ A red LED between a 5 V supply and GND:
 ```json
 {
   "format": "schematical",
-  "version": 2,
+  "version": 3,
   "nextReference": 4,
   "parts": [
     { "id": "11111111-1111-1111-1111-111111111111", "reference": "U1", "partNumber": "5V", "x": 100, "y": 40, "flipped": false },
@@ -275,6 +331,7 @@ A red LED between a 5 V supply and GND:
       "bends": [ { "x": 320, "y": 120 } ]
     }
   ],
+  "buses": [],
   "board": {
     "width": 50, "height": 30, "layers": 2, "color": "green", "units": "mm",
     "texts": [

@@ -619,17 +619,17 @@ joined bus shows the same panel.
   same bus. Sidebar PNGs `a3-1` … `a3-5` show the panel with each state
   (Wires 8 / 12 / 2, `D1`, "3 lines"). The red caption is field state the
   harness can't set; it shows the returned string, as `ReferenceSection` does.
-Commit: —
+Commit: 23bc4f3
 
 ### Phase 4 — Save and open (version 3)
 
-- [ ] `SchematicFile.swift`: `currentVersion = 3`; `struct Bus` (`id`,
+- [x] `SchematicFile.swift`: `currentVersion = 3`; `struct Bus` (`id`,
       `lines: [BusLineEntry]`, `wires: [BusWireEntry]`), `BusLineEntry`
       (`id`, `a`, `b`) and `BusWireEntry` (`id`, `name`);
       `var buses: [Bus]? = nil`; `init(document:)` writes `buses` (always, even
       empty); `apply` validates (§ Compatibility), claims IDs, and passes
       buses to `replaceContents`; `SchematicFileError.badBus`.
-- [ ] `docs/file-format.md`: version 3 in the intro and the top-level table,
+- [x] `docs/file-format.md`: version 3 in the intro and the top-level table,
       a "Buses" section (fields, the T and L rule, validation messages), and
       version 2 → 3 in § Version 1 files (renamed "Older versions": version 2
       files open with no buses).
@@ -641,6 +641,18 @@ same lines, joints and names. A version 2 file still opens.
   `jq '.version, (.buses|length), (.buses[0].lines|length), (.buses[0].wires|length), .buses[0].wires[1].name' /tmp/p13a.schematical`
   → `3`, `1`, `3`, `12`, `"D1"`; reopen and screenshot the canvas and the
   panel; open `test.schematical` (version 2) and screenshot (est. 6 min).
+  Result (2026-11-07): build → `** BUILD SUCCEEDED **`; harness
+  `scripts/harness/bus-file.swift` saves the drawing to
+  `/tmp/p13a.schematical`; the `jq` line → `3`, `1`, `3`, `12`, `"D1"`;
+  reopened buses `==` the saved ones (ids, lines, wires) with the same
+  joints; PNGs of the reopened canvas (L + T dot) and panel (12 wires, `D1`);
+  `test.schematical` (version 2) → "5 parts, 6 wires, 0 buses". Ten bad
+  files each fail with their § Compatibility message (no lines, diagonal,
+  overlap, bad joint, not one piece, 1 wire, `ADDR0`, name twice, two buses
+  touching, duplicate id).
+  Final gate for A: build → `** BUILD SUCCEEDED **`; `git status --short
+  backend` → no output.
+- [x] Added: `scripts/harness/bus-file.swift` (the check above).
 Commit: —
 
 ## Validation Plan
