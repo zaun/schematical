@@ -356,21 +356,15 @@ struct ChipDrawerView: View, Equatable {
     /// Opens or closes a group when its label is clicked, like its chevron.
     private func toggle(_ key: String, defaultOpen: Bool) {
         withAnimation(.easeInOut(duration: 0.15)) {
-            expansion(for: key, defaultOpen: defaultOpen).wrappedValue.toggle()
+            toggled[drawerOpen: key, defaultOpen: defaultOpen].toggle()
         }
     }
 
+    /// Derived from `$toggled` rather than built from get/set closures:
+    /// SwiftUI cannot see a change behind closures, so the List kept its rows
+    /// and groups never opened or closed.
     private func expansion(for key: String, defaultOpen: Bool) -> Binding<Bool> {
-        Binding(
-            get: { toggled.contains(key) ? !defaultOpen : defaultOpen },
-            set: { isExpanded in
-                if isExpanded == defaultOpen {
-                    toggled.remove(key)
-                } else {
-                    toggled.insert(key)
-                }
-            }
-        )
+        $toggled[drawerOpen: key, defaultOpen: defaultOpen]
     }
 
     // MARK: Status
@@ -424,5 +418,20 @@ struct ChipDrawerView: View, Equatable {
         .padding(.vertical, 6)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.bar)
+    }
+}
+
+private extension Set where Element == String {
+    /// Whether the drawer group `key` is open: `toggled` holds the keys whose
+    /// state differs from `defaultOpen`.
+    subscript(drawerOpen key: String, defaultOpen defaultOpen: Bool) -> Bool {
+        get { contains(key) != defaultOpen }
+        set {
+            if newValue == defaultOpen {
+                remove(key)
+            } else {
+                insert(key)
+            }
+        }
     }
 }
