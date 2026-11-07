@@ -203,6 +203,7 @@ struct ChipDrawerView: View, Equatable {
             if kinds.contains(PART_GATE.rawValue) || kinds.contains(PART_DFF.rawValue)
                 || kinds.contains(PART_JKFF.rawValue) || kinds.contains(PART_LATCH.rawValue)
                 || kinds.contains(PART_COUNTER.rawValue) || kinds.contains(PART_SHIFT.rawValue)
+                || kinds.contains(PART_DECODER.rawValue)
                 || kinds.contains(PART_BUFFER.rawValue) {
                 familyMenu(for: category)
                 countMenu(counts: catalog.logicCounts(in: category), selection: $filter.gateCount, unit: "gate")

@@ -1,0 +1,1602 @@
+{
+  "format": "schematical-parts",
+  "version": 1,
+  "kind": "decoder",
+  "devices": [
+    {
+      "id": "74_138",
+      "function": "Decoder",
+      "description": "3-line to 8-line decoders/demultiplexers",
+      "drawer": ["Logic"],
+      "note": "sn74hc138, cd74hc138, cd74hc138-q1, sn74hc138-q1, sn74hct138, sn54hct138, sn74hcs138, sn74hcs138-q1, cd74ac138, sn74ac138-q1, cd74act138, sn74act138-q1, sn74ahc138, sn74ahc138-q1, sn74ahct138, sn74ahct138q-q1, sn74ahct138-ep, sn74als138a, sn74f138, sn74ls138, sn74lv138a, sn74lv138a-q1, sn74lv138at, sn74lvc138a, sn74lvc138a-q1, sn74lvc138a-ep, cy74fct138t; plan-19-data/specs.md § 74_138",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"A","role":"input"},
+          {"number":2,"name":"B","role":"input"},
+          {"number":3,"name":"C","role":"input"},
+          {"number":4,"name":"G2A","role":"input"},
+          {"number":5,"name":"G2B","role":"input"},
+          {"number":6,"name":"G1","role":"input"},
+          {"number":7,"name":"Y7","role":"output"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"Y6","role":"output"},
+          {"number":10,"name":"Y5","role":"output"},
+          {"number":11,"name":"Y4","role":"output"},
+          {"number":12,"name":"Y3","role":"output"},
+          {"number":13,"name":"Y2","role":"output"},
+          {"number":14,"name":"Y1","role":"output"},
+          {"number":15,"name":"Y0","role":"output"},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["A","B","C"],"outputs":["Y0","Y1","Y2","Y3","Y4","Y5","Y6","Y7"],"enables":[{"pin":"G1","active":"high"},{"pin":"G2A","active":"low"},{"pin":"G2B","active":"low"}]}],
+      "outputsActive": "low",
+      "timing": {
+        "AC": {"rise":10,"fall":10,"vcc":[1.5,5.5],"note":"A/B/C to Y max, 5 V 50 pF, -40 to 85 C; VCC 1.5-5.5 V (cd74ac138 p.6, p.4)"},
+        "ACT": {"rise":10.9,"fall":10.9,"vcc":[4.5,5.5],"note":"A/B/C to Y max, 5 V 50 pF, -40 to 85 C; VCC 4.5-5.5 V (cd74act138 p.5, p.4)"},
+        "AHC": {"rise":7.2,"fall":7.2,"vcc":[2,5.5],"note":"A/B/C to Y typ, 5 V 50 pF; VCC 2-5.5 V (sn74ahc138 p.7, p.5)"},
+        "AHCT": {"rise":8.1,"fall":8.1,"vcc":[4.5,5.5],"note":"A/B/C to Y typ, 5 V 50 pF; VCC 4.5-5.5 V (sn74ahct138 p.6; VCC per sn74ahct138q-q1 p.4 and sn74ahct138-ep p.3, the main sheet p.5 prints 1.5-5.5 V)"},
+        "ALS": {"rise":22,"fall":18,"vcc":[4.5,5.5],"note":"A/B/C to Y max, 4.5-5.5 V 50 pF; VCC 4.5-5.5 V (sn74als138a p.4)"},
+        "AS": {"rise":10,"fall":9.5,"vcc":[4.5,5.5],"note":"A/B/C to Y max, 4.5-5.5 V 50 pF; VCC 4.5-5.5 V (sn74als138a p.6, p.5)"},
+        "F": {"rise":5.2,"fall":5.7,"vcc":[4.5,5.5],"note":"A/B/C to Y typ, 5 V 50 pF; VCC 4.5-5.5 V (sn74f138 p.5, p.4)"},
+        "FCT": {"rise":5.8,"fall":5.8,"vcc":[4.75,5.25],"note":"A to O max, AT grade, 50 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (cy74fct138t p.5, p.4)"},
+        "HC": {"rise":18,"fall":18,"vcc":[2,6],"note":"A/B/C to Y typ, 4.5 V 50 pF; VCC 2-6 V (sn74hc138 p.6, p.4)"},
+        "HCS": {"rise":8,"fall":8,"vcc":[2,6],"note":"A/B/C to Y typ, 4.5 V 50 pF; VCC 2-6 V (sn74hcs138 p.6, p.4)"},
+        "HCT": {"rise":23,"fall":23,"vcc":[4.5,5.5],"note":"A/B/C to Y typ, 4.5 V 50 pF; VCC 4.5-5.5 V (sn74hct138 p.5, p.4)"},
+        "LS": {"rise":21,"fall":20,"vcc":[4.75,5.25],"note":"A/B/C to Y typ (3 levels), 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls138 p.4)"},
+        "LV": {"rise":10.3,"fall":10.3,"vcc":[2,5.5],"note":"A/B/C to Y typ, 3.3 V 50 pF; VCC 2-5.5 V (sn74lv138a p.7, p.6)"},
+        "LVC": {"rise":6.7,"fall":6.7,"vcc":[1.65,3.6],"inputMax":5.5,"note":"A/B/C to Y max, 3.3 V 50 pF; VCC 1.65-3.6 V, inputs to 5.5 V (sn74lvc138a p.7, p.6)"},
+        "S": {"rise":7.5,"fall":8,"vcc":[4.75,5.25],"note":"A/B/C to Y typ (3 levels), 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls138 p.6, p.5)"}
+      },
+      "parts": [
+        {"name":"CAHCT138QPWRG4Q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHCT","flags":["automotive"]},
+        {"name":"CAHCT138QWBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AHCT","flags":["automotive"]},
+        {"name":"CD54AC138F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"AC","flags":["military","ceramic"]},
+        {"name":"CD54HC138F","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HCT138F","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
+        {"name":"CD74AC138BQBR","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AC"},
+        {"name":"CD74AC138E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AC"},
+        {"name":"CD74AC138M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
+        {"name":"CD74AC138PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AC"},
+        {"name":"CD74ACT138BQBR","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"ACT"},
+        {"name":"CD74ACT138E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ACT"},
+        {"name":"CD74ACT138M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ACT"},
+        {"name":"CD74ACT138PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT"},
+        {"name":"CD74HC138E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC138M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"CD74HC138QM96Q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["automotive"]},
+        {"name":"CD74HCT138E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"CD74HCT138M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"CLVC138AQPWRG4Q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
+        {"name":"CY74FCT138ATQCT","package":"SSOP","pinout":"p16","footprint":"QSOP-16","family":"FCT"},
+        {"name":"CY74FCT138ATSOC","package":"SOIC","pinout":"p16","footprint":"SOIC-16W","family":"FCT"},
+        {"name":"CY74FCT138ATSOCT","package":"SOIC","pinout":"p16","footprint":"SOIC-16W","family":"FCT"},
+        {"name":"CY74FCT138CTQCT","package":"SSOP","pinout":"p16","footprint":"QSOP-16","family":"FCT"},
+        {"name":"CY74FCT138CTSOC","package":"SOIC","pinout":"p16","footprint":"SOIC-16W","family":"FCT"},
+        {"name":"CY74FCT138TQCT","package":"SSOP","pinout":"p16","footprint":"QSOP-16","family":"FCT"},
+        {"name":"SN54F138J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"F","flags":["military","ceramic"]},
+        {"name":"SN54HCT138J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
+        {"name":"SN74AC138PWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
+        {"name":"SN74AC138WBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
+        {"name":"SN74ACT138PWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT","flags":["automotive"]},
+        {"name":"SN74ACT138WBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"ACT","flags":["automotive"]},
+        {"name":"SN74AHC138DBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"AHC"},
+        {"name":"SN74AHC138DGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"AHC"},
+        {"name":"SN74AHC138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AHC"},
+        {"name":"SN74AHC138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AHC"},
+        {"name":"SN74AHC138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"AHC"},
+        {"name":"SN74AHC138PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC"},
+        {"name":"SN74AHC138QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC","flags":["automotive"]},
+        {"name":"SN74AHC138QWBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AHC","flags":["automotive"]},
+        {"name":"SN74AHC138RGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"AHC"},
+        {"name":"SN74AHCT138DBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"AHCT"},
+        {"name":"SN74AHCT138DGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"AHCT"},
+        {"name":"SN74AHCT138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AHCT"},
+        {"name":"SN74AHCT138MPWREP","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHCT","flags":["enhanced"]},
+        {"name":"SN74AHCT138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AHCT"},
+        {"name":"SN74AHCT138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"AHCT"},
+        {"name":"SN74AHCT138PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHCT"},
+        {"name":"SN74AHCT138QDRQ1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AHCT","flags":["automotive"]},
+        {"name":"SN74AHCT138RGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"AHCT"},
+        {"name":"SN74ALS138ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS"},
+        {"name":"SN74ALS138AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
+        {"name":"SN74AS138D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AS"},
+        {"name":"SN74AS138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AS"},
+        {"name":"SN74AS138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"AS"},
+        {"name":"SN74F138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"F"},
+        {"name":"SN74F138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"F"},
+        {"name":"SN74F138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"F"},
+        {"name":"SN74HC138DBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"HC"},
+        {"name":"SN74HC138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"SN74HC138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"SN74HC138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
+        {"name":"SN74HC138PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"SN74HC138QDRG4Q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["automotive"]},
+        {"name":"SN74HC138QPWRG4Q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["automotive"]},
+        {"name":"SN74HC138QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["automotive"]},
+        {"name":"SN74HCS138BQBR","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"HCS"},
+        {"name":"SN74HCS138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS"},
+        {"name":"SN74HCS138DYYR","package":"SOT-23-THIN","pinout":"p16","footprint":"SOT23-THIN-16","family":"HCS"},
+        {"name":"SN74HCS138PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS"},
+        {"name":"SN74HCS138QBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS138QDRQ1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS138QDYYRQ1","package":"SOT-23-THIN","pinout":"p16","footprint":"SOT23-THIN-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS138QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS138QWBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCT138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"SN74HCT138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"SN74HCT138NE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"SN74HCT138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HCT"},
+        {"name":"SN74HCT138PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCT"},
+        {"name":"SN74LS138D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SN74LS138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
+        {"name":"SN74LV138ADBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"LV"},
+        {"name":"SN74LV138ADGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"LV"},
+        {"name":"SN74LV138ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LV"},
+        {"name":"SN74LV138ANSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LV"},
+        {"name":"SN74LV138APWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LV"},
+        {"name":"SN74LV138AQWBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"LV","flags":["automotive"]},
+        {"name":"SN74LV138ARGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"LV"},
+        {"name":"SN74LV138ATDBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"LV","vcc":[4.5,5.5]},
+        {"name":"SN74LV138ATDGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"LV","vcc":[4.5,5.5]},
+        {"name":"SN74LV138ATDR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LV","vcc":[4.5,5.5]},
+        {"name":"SN74LV138ATPWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LV","vcc":[4.5,5.5]},
+        {"name":"SN74LV138ATRGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"LV","vcc":[4.5,5.5]},
+        {"name":"SN74LVC138AD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
+        {"name":"SN74LVC138ADBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"LVC"},
+        {"name":"SN74LVC138ADGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"LVC"},
+        {"name":"SN74LVC138ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
+        {"name":"SN74LVC138ADT","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
+        {"name":"SN74LVC138AMPWTEP","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC","flags":["enhanced"],"vcc":[2,3.6]},
+        {"name":"SN74LVC138ANSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LVC"},
+        {"name":"SN74LVC138APW","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
+        {"name":"SN74LVC138APWT","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
+        {"name":"SN74LVC138AQDRG4Q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
+        {"name":"SN74LVC138AQDRQ1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
+        {"name":"SN74LVC138AQPWREP","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC","flags":["enhanced"],"vcc":[2,3.6]},
+        {"name":"SN74LVC138ARSVR","package":"UQFN","pinout":"p16","footprint":"UQFN-16-RSV","family":"LVC"},
+        {"name":"SN74S138AD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"S"},
+        {"name":"SN74S138AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"S"},
+        {"name":"SNJ54AHC138W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"AHC","flags":["military","ceramic"]}
+      ]
+    },
+    {
+      "id": "74_238",
+      "function": "Decoder",
+      "description": "3-line to 8-line decoders/demultiplexers, noninverting outputs",
+      "drawer": ["Logic"],
+      "note": "cd74hc138, cd74ac238, cd74act238, sn74ac238-q1, sn74act238, sn74act238-q1, sn74ahc238, sn74ahc238-q1, sn74hcs238, sn74hcs238-q1; plan-19-data/specs.md § 74_238",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"A","role":"input"},
+          {"number":2,"name":"B","role":"input"},
+          {"number":3,"name":"C","role":"input"},
+          {"number":4,"name":"G2A","role":"input"},
+          {"number":5,"name":"G2B","role":"input"},
+          {"number":6,"name":"G1","role":"input"},
+          {"number":7,"name":"Y7","role":"output"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"Y6","role":"output"},
+          {"number":10,"name":"Y5","role":"output"},
+          {"number":11,"name":"Y4","role":"output"},
+          {"number":12,"name":"Y3","role":"output"},
+          {"number":13,"name":"Y2","role":"output"},
+          {"number":14,"name":"Y1","role":"output"},
+          {"number":15,"name":"Y0","role":"output"},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["A","B","C"],"outputs":["Y0","Y1","Y2","Y3","Y4","Y5","Y6","Y7"],"enables":[{"pin":"G1","active":"high"},{"pin":"G2A","active":"low"},{"pin":"G2B","active":"low"}]}],
+      "outputsActive": "high",
+      "timing": {
+        "AC": {"rise":13.6,"fall":13.6,"vcc":[1.5,5.5],"note":"A/B/C to Y max, 5 V 50 pF, -40 to 85 C; VCC 1.5-5.5 V (cd74ac238 p.6, p.4)"},
+        "ACT": {"rise":7.2,"fall":7.3,"vcc":[4.5,5.5],"note":"A to Y typ, 5 V 50 pF; VCC 4.5-5.5 V (sn74act238 p.5, p.4)"},
+        "AHC": {"rise":6.5,"fall":6.5,"vcc":[2,5.5],"note":"A/B/C to Y typ, 5 V 50 pF; VCC 2-5.5 V (sn74ahc238 p.6, p.4)"},
+        "HC": {"rise":30,"fall":30,"vcc":[2,6],"note":"Address to Y max, 4.5 V 50 pF, 25 C; VCC 2-6 V (cd74hc138 p.6, p.4)"},
+        "HCS": {"rise":8,"fall":8,"vcc":[2,6],"note":"A to Y typ, 4.5 V 50 pF; VCC 2-6 V (sn74hcs238 p.6, p.4)"},
+        "HCT": {"rise":35,"fall":35,"vcc":[4.5,5.5],"note":"Address to Y max, 4.5 V 50 pF, 25 C; VCC 4.5-5.5 V (cd74hc138 p.6, p.4)"}
+      },
+      "parts": [
+        {"name":"CD74AC238BQBR","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AC"},
+        {"name":"CD74AC238M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
+        {"name":"CD74AC238PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AC"},
+        {"name":"CD74ACT238E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ACT"},
+        {"name":"CD74HC238E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC238EE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC238M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"CD74HC238NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
+        {"name":"CD74HC238PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"CD74HCT238E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"CD74HCT238M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"CD74HCT238PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCT"},
+        {"name":"SN74AC238PWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
+        {"name":"SN74ACT238BQBR","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"ACT"},
+        {"name":"SN74ACT238PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT"},
+        {"name":"SN74ACT238PWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT","flags":["automotive"]},
+        {"name":"SN74ACT238WBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"ACT","flags":["automotive"]},
+        {"name":"SN74AHC238BQBR","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AHC"},
+        {"name":"SN74AHC238PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC"},
+        {"name":"SN74AHC238QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC","flags":["automotive"]},
+        {"name":"SN74HCS238BQBR","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"HCS"},
+        {"name":"SN74HCS238DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS"},
+        {"name":"SN74HCS238DYYR","package":"SOT-23-THIN","pinout":"p16","footprint":"SOT23-THIN-16","family":"HCS"},
+        {"name":"SN74HCS238PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS"},
+        {"name":"SN74HCS238QBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS238QDRQ1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS238QDYYRQ1","package":"SOT-23-THIN","pinout":"p16","footprint":"SOT23-THIN-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS238QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS","flags":["automotive"]}
+      ]
+    },
+    {
+      "id": "74_137",
+      "function": "Decoder",
+      "description": "3-line to 8-line decoders/demultiplexers with address latches",
+      "drawer": ["Logic"],
+      "note": "sdls132, sn74als137a, cd74hc137, sn74hcs137, sn74hcs137-q1; plan-19-data/specs.md § 74_137",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"A","role":"input"},
+          {"number":2,"name":"B","role":"input"},
+          {"number":3,"name":"C","role":"input"},
+          {"number":4,"name":"LE","role":"input"},
+          {"number":5,"name":"G2","role":"input"},
+          {"number":6,"name":"G1","role":"input"},
+          {"number":7,"name":"Y7","role":"output"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"Y6","role":"output"},
+          {"number":10,"name":"Y5","role":"output"},
+          {"number":11,"name":"Y4","role":"output"},
+          {"number":12,"name":"Y3","role":"output"},
+          {"number":13,"name":"Y2","role":"output"},
+          {"number":14,"name":"Y1","role":"output"},
+          {"number":15,"name":"Y0","role":"output"},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["A","B","C"],"outputs":["Y0","Y1","Y2","Y3","Y4","Y5","Y6","Y7"],"enables":[{"pin":"G1","active":"high"},{"pin":"G2","active":"low"}],"latch":"LE"}],
+      "outputsActive": "low",
+      "latchActive": "high",
+      "timing": {
+        "ALS": {"rise":20,"fall":20,"vcc":[4.5,5.5],"note":"A/B/C to Y max, 4.5-5.5 V 50 pF; VCC 4.5-5.5 V (sn74als137a p.4, p.3)"},
+        "HC": {"rise":36,"fall":36,"vcc":[2,6],"note":"An to Y max, 4.5 V 50 pF, 25 C; VCC 2-6 V (cd74hc137 p.6, p.4)"},
+        "HCS": {"rise":7,"fall":7,"vcc":[2,6],"note":"An to Y typ, 4.5 V 50 pF; VCC 2-6 V (sn74hcs137 p.6, p.4)"},
+        "HCT": {"rise":38,"fall":38,"vcc":[4.5,5.5],"note":"An to Y max, 4.5 V 50 pF, 25 C; VCC 4.5-5.5 V (cd74hc137 p.7, p.4)"},
+        "LS": {"rise":16,"fall":19,"vcc":[4.75,5.25],"note":"A/B/C to Y typ (3 levels), 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sdls132 p.4)"}
+      },
+      "parts": [
+        {"name":"CD74HC137E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC137PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"CD74HCT137E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"CD74HCT137M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"SN54LS137J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN74ALS137AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
+        {"name":"SN74HCS137DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS"},
+        {"name":"SN74HCS137PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS"},
+        {"name":"SN74HCS137QDRQ1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS137QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS","flags":["automotive"]}
+      ]
+    },
+    {
+      "id": "74_237",
+      "function": "Decoder",
+      "description": "3-line to 8-line decoders/demultiplexers with address latches, noninverting outputs",
+      "drawer": ["Logic"],
+      "note": "cd74hc137, sn74hcs237, sn74hcs237-q1; plan-19-data/specs.md § 74_237",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"A","role":"input"},
+          {"number":2,"name":"B","role":"input"},
+          {"number":3,"name":"C","role":"input"},
+          {"number":4,"name":"LE","role":"input"},
+          {"number":5,"name":"G2","role":"input"},
+          {"number":6,"name":"G1","role":"input"},
+          {"number":7,"name":"Y7","role":"output"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"Y6","role":"output"},
+          {"number":10,"name":"Y5","role":"output"},
+          {"number":11,"name":"Y4","role":"output"},
+          {"number":12,"name":"Y3","role":"output"},
+          {"number":13,"name":"Y2","role":"output"},
+          {"number":14,"name":"Y1","role":"output"},
+          {"number":15,"name":"Y0","role":"output"},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["A","B","C"],"outputs":["Y0","Y1","Y2","Y3","Y4","Y5","Y6","Y7"],"enables":[{"pin":"G1","active":"high"},{"pin":"G2","active":"low"}],"latch":"LE"}],
+      "outputsActive": "high",
+      "latchActive": "high",
+      "timing": {
+        "HC": {"rise":32,"fall":32,"vcc":[2,6],"note":"An to Y max, 4.5 V 50 pF, 25 C; VCC 2-6 V (cd74hc137 p.6, p.4)"},
+        "HCS": {"rise":7,"fall":7,"vcc":[2,6],"note":"An to Y typ, 4.5 V 50 pF; VCC 2-6 V (sn74hcs237 p.6, p.4)"},
+        "HCT": {"rise":38,"fall":38,"vcc":[4.5,5.5],"note":"An to Y max, 4.5 V 50 pF, 25 C; VCC 4.5-5.5 V (cd74hc137 p.7, p.4)"}
+      },
+      "parts": [
+        {"name":"CD74HC237DYYR","package":"SOT-23-THIN","pinout":"p16","footprint":"SOT23-THIN-16","family":"HC"},
+        {"name":"CD74HC237E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC237NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
+        {"name":"CD74HC237PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"CD74HCT237E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"SN74HCS237DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS"},
+        {"name":"SN74HCS237PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS"},
+        {"name":"SN74HCS237QDRQ1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS237QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS","flags":["automotive"]}
+      ]
+    },
+    {
+      "id": "74_11138",
+      "function": "Decoder",
+      "description": "3-line to 8-line decoder/demultiplexer",
+      "drawer": ["Logic"],
+      "note": "74ac11138 p.3, p.6, p.9; plan-19-data/specs.md § 74_11138",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"Y1","role":"output"},
+          {"number":2,"name":"Y2","role":"output"},
+          {"number":3,"name":"Y3","role":"output"},
+          {"number":4,"name":"GND","role":"ground"},
+          {"number":5,"name":"Y4","role":"output"},
+          {"number":6,"name":"Y5","role":"output"},
+          {"number":7,"name":"Y6","role":"output"},
+          {"number":8,"name":"Y7","role":"output"},
+          {"number":9,"name":"G2B","role":"input"},
+          {"number":10,"name":"G2A","role":"input"},
+          {"number":11,"name":"G1","role":"input"},
+          {"number":12,"name":"VCC","role":"power"},
+          {"number":13,"name":"C","role":"input"},
+          {"number":14,"name":"B","role":"input"},
+          {"number":15,"name":"A","role":"input"},
+          {"number":16,"name":"Y0","role":"output"}
+        ]
+      },
+      "units": [{"address":["A","B","C"],"outputs":["Y0","Y1","Y2","Y3","Y4","Y5","Y6","Y7"],"enables":[{"pin":"G1","active":"high"},{"pin":"G2A","active":"low"},{"pin":"G2B","active":"low"}]}],
+      "outputsActive": "low",
+      "timing": {
+        "AC": {"rise":5.7,"fall":6.2,"vcc":[3,5.5],"note":"A/B/C to Y typ, 5 V 50 pF; VCC 3-5.5 V (74ac11138 p.6, p.4)"}
+      },
+      "parts": [
+        {"name":"74AC11138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
+        {"name":"74AC11138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AC"},
+        {"name":"74AC11138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"AC"}
+      ]
+    },
+    {
+      "id": "74_2414",
+      "function": "Decoder",
+      "description": "Memory decoder with on-chip supply voltage monitor",
+      "drawer": ["Logic"],
+      "note": "sn74bct2414 p.1-6; plan-19-data/specs.md § 74_2414",
+      "model": "binary",
+      "pinouts": {
+        "p20": [
+          {"number":1,"name":"VS","role":"output"},
+          {"number":2,"name":"SD","role":"input"},
+          {"number":3,"name":"1A","role":"input"},
+          {"number":4,"name":"2A","role":"input"},
+          {"number":5,"name":"1B","role":"input"},
+          {"number":6,"name":"2B","role":"input"},
+          {"number":7,"name":"1G","role":"input"},
+          {"number":8,"name":"2G","role":"input"},
+          {"number":9,"name":"G","role":"input"},
+          {"number":10,"name":"GND","role":"ground"},
+          {"number":11,"name":"2Y3","role":"output"},
+          {"number":12,"name":"2Y2","role":"output"},
+          {"number":13,"name":"2Y1","role":"output"},
+          {"number":14,"name":"2Y0","role":"output"},
+          {"number":15,"name":"1Y3","role":"output"},
+          {"number":16,"name":"1Y2","role":"output"},
+          {"number":17,"name":"1Y1","role":"output"},
+          {"number":18,"name":"1Y0","role":"output"},
+          {"number":19,"name":"VBAT","role":"power"},
+          {"number":20,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["1A","1B"],"outputs":["1Y0","1Y1","1Y2","1Y3"],"enables":[{"pin":"G","active":"low"},{"pin":"1G","active":"low"},{"pin":"SD","active":"high"}]},{"address":["2A","2B"],"outputs":["2Y0","2Y1","2Y2","2Y3"],"enables":[{"pin":"G","active":"low"},{"pin":"2G","active":"high"},{"pin":"SD","active":"high"}]}],
+      "outputsActive": "low",
+      "monitor": "VS",
+      "timing": {
+        "BCT": {"rise":5,"fall":5.8,"vcc":[4.5,5.5],"note":"A/B to Y typ, 5 V 50 pF; VCC and Vbat 4.5-5.5 V (sn74bct2414 p.6, p.5)"}
+      },
+      "parts": [
+        {"name":"SN74BCT2414DW","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"BCT"},
+        {"name":"SN74BCT2414N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"BCT"}
+      ]
+    },
+    {
+      "id": "74_139",
+      "function": "Decoder",
+      "description": "Dual 2-line to 4-line decoders/demultiplexers",
+      "drawer": ["Logic"],
+      "note": "sn74hc139, sn74hc139-q1, cd74hc139, sn74hct139, sn74hcs139, sn74hcs139-q1, sn74ls139a, sn74als139, cd74ac139, sn74ac139-q1, cd74act139, sn74act139, sn74ahc139, sn74ahc139-q1, sn74ahct139, sn74ahct139-q1, sn74lv139a, sn74lvc139a, sn74lvc139a-q1; plan-19-data/specs.md § 74_139",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"1G","role":"input"},
+          {"number":2,"name":"1A","role":"input"},
+          {"number":3,"name":"1B","role":"input"},
+          {"number":4,"name":"1Y0","role":"output"},
+          {"number":5,"name":"1Y1","role":"output"},
+          {"number":6,"name":"1Y2","role":"output"},
+          {"number":7,"name":"1Y3","role":"output"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"2Y3","role":"output"},
+          {"number":10,"name":"2Y2","role":"output"},
+          {"number":11,"name":"2Y1","role":"output"},
+          {"number":12,"name":"2Y0","role":"output"},
+          {"number":13,"name":"2B","role":"input"},
+          {"number":14,"name":"2A","role":"input"},
+          {"number":15,"name":"2G","role":"input"},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["1A","1B"],"outputs":["1Y0","1Y1","1Y2","1Y3"],"enables":[{"pin":"1G","active":"low"}]},{"address":["2A","2B"],"outputs":["2Y0","2Y1","2Y2","2Y3"],"enables":[{"pin":"2G","active":"low"}]}],
+      "outputsActive": "low",
+      "timing": {
+        "HC": {"rise":14,"fall":14,"vcc":[2,6],"note":"A/B to Y typ, 4.5 V 50 pF; VCC 2-6 V (sn74hc139 p.4, p.5)"},
+        "HCT": {"rise":14,"fall":14,"vcc":[4.5,5.5],"note":"A/B to Y typ, 4.5 V 50 pF; VCC 4.5-5.5 V (sn74hct139 p.4, p.5)"},
+        "HCS": {"rise":7,"fall":7,"vcc":[2,6],"note":"A/B to Y typ, 4.5 V 50 pF; VCC 2-6 V (sn74hcs139 p.4, p.5)"},
+        "LS": {"rise":18,"fall":25,"vcc":[4.75,5.25],"note":"A/B to Y (3 gate levels) typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls139a p.3)"},
+        "S": {"rise":7,"fall":8,"vcc":[4.75,5.25],"note":"A/B to Y (3 gate levels) typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls139a p.4)"},
+        "ALS": {"rise":14,"fall":14,"vcc":[4.5,5.5],"note":"A/B to Y max, 4.5-5.5 V 50 pF; VCC 4.5-5.5 V (sn74als139 p.3)"},
+        "AC": {"rise":6.1,"fall":6.4,"vcc":[1.5,5.5],"note":"A to Y typ, 5 V 50 pF (sn74ac139-q1 p.7); VCC 1.5-5.5 V (cd74ac139 p.3; sn74ac139-q1 p.5 allows 1.5-6 V)"},
+        "ACT": {"rise":6.3,"fall":6.9,"vcc":[4.5,5.5],"note":"A to Y typ, 5 V 50 pF; VCC 4.5-5.5 V (sn74act139 p.4, p.5)"},
+        "AHC": {"rise":6.5,"fall":6.5,"vcc":[2,5.5],"inputMax":5.5,"note":"A/B to Y typ, 5 V 50 pF; VCC 2-5.5 V, inputs to 5.5 V (sn74ahc139 p.4, p.6)"},
+        "AHCT": {"rise":6.5,"fall":6.5,"vcc":[4.5,5.5],"inputMax":5.5,"note":"A/B to Y typ, 5 V 50 pF; VCC 4.5-5.5 V, inputs to 5.5 V (sn74ahct139 p.3, p.4)"},
+        "LV": {"rise":7.3,"fall":7.3,"vcc":[2,5.5],"inputMax":5.5,"note":"A/B to Y typ, 3.3 V 50 pF; VCC 2-5.5 V, inputs to 5.5 V (sn74lv139a p.4, p.6)"},
+        "LVC": {"rise":6.2,"fall":6.2,"vcc":[1.65,3.6],"inputMax":5.5,"note":"A/B to Y max, 3.3 V 50 pF; VCC 1.65-3.6 V, inputs to 5.5 V (sn74lvc139a p.3, p.4)"}
+      },
+      "parts": [
+        {"name":"CAHCT139QWBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AHCT","flags":["automotive"]},
+        {"name":"CD54HCT139F","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
+        {"name":"CD74AC139E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AC"},
+        {"name":"CD74AC139M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
+        {"name":"CD74AC139M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
+        {"name":"CD74ACT139E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ACT"},
+        {"name":"CD74ACT139M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ACT"},
+        {"name":"CD74ACT139M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ACT"},
+        {"name":"CD74HC139E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC139M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"CD74HCT139E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"CD74HCT139M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"CD74HCT139M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"CLVC139AQPWRG4Q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC","flags":["automotive"]},
+        {"name":"SN54LS139AJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54S139J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN74AC139PWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
+        {"name":"SN74AC139WBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
+        {"name":"SN74ACT139PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT"},
+        {"name":"SN74AHC139DBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"AHC"},
+        {"name":"SN74AHC139DGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"AHC"},
+        {"name":"SN74AHC139DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AHC"},
+        {"name":"SN74AHC139N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AHC"},
+        {"name":"SN74AHC139NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"AHC"},
+        {"name":"SN74AHC139PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC"},
+        {"name":"SN74AHC139QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC","flags":["automotive"]},
+        {"name":"SN74AHC139QWBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AHC","flags":["automotive"]},
+        {"name":"SN74AHC139RGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"AHC"},
+        {"name":"SN74AHCT139DBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"AHCT"},
+        {"name":"SN74AHCT139DGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"AHCT"},
+        {"name":"SN74AHCT139DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AHCT"},
+        {"name":"SN74AHCT139N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AHCT"},
+        {"name":"SN74AHCT139PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHCT"},
+        {"name":"SN74ALS139DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS"},
+        {"name":"SN74ALS139N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
+        {"name":"SN74ALS139NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"ALS"},
+        {"name":"SN74HC139DBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"HC"},
+        {"name":"SN74HC139DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"SN74HC139N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"SN74HC139NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
+        {"name":"SN74HC139PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"SN74HC139QDRG4Q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["automotive"]},
+        {"name":"SN74HC139QDRQ1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["automotive"]},
+        {"name":"SN74HC139QPWRG4Q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["automotive"]},
+        {"name":"SN74HC139QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["automotive"]},
+        {"name":"SN74HCS139DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS"},
+        {"name":"SN74HCS139PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS"},
+        {"name":"SN74HCS139QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCT139DBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"HCT"},
+        {"name":"SN74HCT139DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"SN74HCT139N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"SN74HCT139PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCT"},
+        {"name":"SN74LS139ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS139AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SN74LS139ANSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
+        {"name":"SN74LV139ADBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"LV"},
+        {"name":"SN74LV139ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LV"},
+        {"name":"SN74LV139ANSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LV"},
+        {"name":"SN74LV139APWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LV"},
+        {"name":"SN74LV139ARGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"LV"},
+        {"name":"SN74LVC139AD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
+        {"name":"SN74LVC139ADBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"LVC"},
+        {"name":"SN74LVC139ADGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"LVC"},
+        {"name":"SN74LVC139ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
+        {"name":"SN74LVC139ADT","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
+        {"name":"SN74LVC139ANSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LVC"},
+        {"name":"SN74LVC139APW","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
+        {"name":"SN74LVC139APWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
+        {"name":"SN74LVC139APWT","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
+        {"name":"SN74LVC139AQPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC","flags":["automotive"]},
+        {"name":"SN74LVC139ARGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"LVC"},
+        {"name":"SN74S139AD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"S"},
+        {"name":"SN74S139AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"S"}
+      ]
+    },
+    {
+      "id": "74_155",
+      "function": "Decoder",
+      "description": "Dual 2-line to 4-line decoders/demultiplexers",
+      "drawer": ["Logic"],
+      "note": "sn74ls155a; plan-19-data/specs.md § 74_155",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"1C","role":"input"},
+          {"number":2,"name":"1G","role":"input"},
+          {"number":3,"name":"B","role":"input"},
+          {"number":4,"name":"1Y3","role":"output"},
+          {"number":5,"name":"1Y2","role":"output"},
+          {"number":6,"name":"1Y1","role":"output"},
+          {"number":7,"name":"1Y0","role":"output"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"2Y0","role":"output"},
+          {"number":10,"name":"2Y1","role":"output"},
+          {"number":11,"name":"2Y2","role":"output"},
+          {"number":12,"name":"2Y3","role":"output"},
+          {"number":13,"name":"A","role":"input"},
+          {"number":14,"name":"2G","role":"input"},
+          {"number":15,"name":"2C","role":"input"},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["A","B"],"outputs":["1Y0","1Y1","1Y2","1Y3"],"enables":[{"pin":"1G","active":"low"},{"pin":"1C","active":"high"}]},{"address":["A","B"],"outputs":["2Y0","2Y1","2Y2","2Y3"],"enables":[{"pin":"2G","active":"low"},{"pin":"2C","active":"low"}]}],
+      "outputsActive": "low",
+      "timing": {
+        "LS": {"rise":17,"fall":19,"vcc":[4.75,5.25],"note":"A/B to Y (3 gate levels) typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls155a p.6)"}
+      },
+      "parts": [
+        {"name":"SN74LS155ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS155AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SN74LS155ANSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
+        {"name":"SNJ54LS155AJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+      ]
+    },
+    {
+      "id": "74_156",
+      "function": "Decoder",
+      "description": "Dual 2-line to 4-line decoders/demultiplexers with open-collector outputs",
+      "drawer": ["Logic"],
+      "note": "sn74ls155a, sn74als156; plan-19-data/specs.md § 74_156",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"1C","role":"input"},
+          {"number":2,"name":"1G","role":"input"},
+          {"number":3,"name":"B","role":"input"},
+          {"number":4,"name":"1Y3","role":"output"},
+          {"number":5,"name":"1Y2","role":"output"},
+          {"number":6,"name":"1Y1","role":"output"},
+          {"number":7,"name":"1Y0","role":"output"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"2Y0","role":"output"},
+          {"number":10,"name":"2Y1","role":"output"},
+          {"number":11,"name":"2Y2","role":"output"},
+          {"number":12,"name":"2Y3","role":"output"},
+          {"number":13,"name":"A","role":"input"},
+          {"number":14,"name":"2G","role":"input"},
+          {"number":15,"name":"2C","role":"input"},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["A","B"],"outputs":["1Y0","1Y1","1Y2","1Y3"],"enables":[{"pin":"1G","active":"low"},{"pin":"1C","active":"high"}]},{"address":["A","B"],"outputs":["2Y0","2Y1","2Y2","2Y3"],"enables":[{"pin":"2G","active":"low"},{"pin":"2C","active":"low"}]}],
+      "outputsActive": "low",
+      "output": "open-drain",
+      "timing": {
+        "LS": {"rise":31,"fall":34,"vcc":[4.75,5.25],"note":"A/B to Y (3 gate levels) typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls155a p.7)"},
+        "ALS": {"rise":55,"fall":25,"vcc":[4.5,5.5],"note":"A/B to Y max, 4.5-5.5 V 50 pF; VCC 4.5-5.5 V (sn74als156 p.4, p.5)"}
+      },
+      "parts": [
+        {"name":"SN74ALS156DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS"},
+        {"name":"SN74ALS156N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
+        {"name":"SN74LS156DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS156N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SN74LS156NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
+        {"name":"SNJ54LS156J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+      ]
+    },
+    {
+      "id": "74_11139",
+      "function": "Decoder",
+      "description": "Dual 2-line to 4-line decoder/demultiplexer",
+      "drawer": ["Logic"],
+      "note": "74act11139; plan-19-data/specs.md § 74_11139",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"1Y1","role":"output"},
+          {"number":2,"name":"1Y2","role":"output"},
+          {"number":3,"name":"1Y3","role":"output"},
+          {"number":4,"name":"GND","role":"ground"},
+          {"number":5,"name":"2Y0","role":"output"},
+          {"number":6,"name":"2Y1","role":"output"},
+          {"number":7,"name":"2Y2","role":"output"},
+          {"number":8,"name":"2Y3","role":"output"},
+          {"number":9,"name":"2B","role":"input"},
+          {"number":10,"name":"2A","role":"input"},
+          {"number":11,"name":"2G","role":"input"},
+          {"number":12,"name":"VCC","role":"power"},
+          {"number":13,"name":"1G","role":"input"},
+          {"number":14,"name":"1B","role":"input"},
+          {"number":15,"name":"1A","role":"input"},
+          {"number":16,"name":"1Y0","role":"output"}
+        ]
+      },
+      "units": [{"address":["1A","1B"],"outputs":["1Y0","1Y1","1Y2","1Y3"],"enables":[{"pin":"1G","active":"low"}]},{"address":["2A","2B"],"outputs":["2Y0","2Y1","2Y2","2Y3"],"enables":[{"pin":"2G","active":"low"}]}],
+      "outputsActive": "low",
+      "timing": {
+        "ACT": {"rise":5.7,"fall":5.5,"vcc":[4.5,5.5],"note":"A/B to Y typ, 5 V 50 pF; VCC 4.5-5.5 V (74act11139 p.3, p.4)"}
+      },
+      "parts": [
+        {"name":"74ACT11139D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ACT"},
+        {"name":"74ACT11139PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT"}
+      ]
+    },
+    {
+      "id": "74_1G139",
+      "function": "Decoder",
+      "description": "2-to-4 line decoder",
+      "drawer": ["Logic"],
+      "note": "sn74lvc1g139; plan-19-data/specs.md § 74_1G139",
+      "model": "binary",
+      "pinouts": {
+        "p8": [
+          {"number":1,"name":"A","role":"input"},
+          {"number":2,"name":"B","role":"input"},
+          {"number":3,"name":"Y3","role":"output"},
+          {"number":4,"name":"GND","role":"ground"},
+          {"number":5,"name":"Y2","role":"output"},
+          {"number":6,"name":"Y1","role":"output"},
+          {"number":7,"name":"Y0","role":"output"},
+          {"number":8,"name":"VCC","role":"power"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"A","role":"input"},
+          {"ball":"B1","name":"B","role":"input"},
+          {"ball":"C1","name":"Y3","role":"output"},
+          {"ball":"D1","name":"GND","role":"ground"},
+          {"ball":"D2","name":"Y2","role":"output"},
+          {"ball":"C2","name":"Y1","role":"output"},
+          {"ball":"B2","name":"Y0","role":"output"},
+          {"ball":"A2","name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["A","B"],"outputs":["Y0","Y1","Y2","Y3"]}],
+      "outputsActive": "low",
+      "timing": {
+        "LVC": {"rise":5.9,"fall":5.9,"vcc":[1.65,5.5],"inputMax":5.5,"note":"A/B to Y max, 3.3 V 30 pF; VCC 1.65-5.5 V, inputs to 5.5 V (sn74lvc1g139 p.5, p.6)"}
+      },
+      "parts": [
+        {"name":"SN74LVC1G139DCTR","package":"SSOP","pinout":"p8","footprint":"SSOP-8","family":"LVC"},
+        {"name":"SN74LVC1G139DCTT","package":"SSOP","pinout":"p8","footprint":"SSOP-8","family":"LVC"},
+        {"name":"SN74LVC1G139DCUR","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
+        {"name":"SN74LVC1G139DCUT","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
+        {"name":"SN74LVC1G139YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-8-YZP","family":"LVC"}
+      ]
+    },
+    {
+      "id": "74_1G18",
+      "function": "Decoder",
+      "description": "1-of-2 noninverting demultiplexer with 3-state deselected output",
+      "drawer": ["Logic"],
+      "note": "sn74lvc1g18; plan-19-data/specs.md § 74_1G18",
+      "model": "binary",
+      "pinouts": {
+        "p6": [
+          {"number":1,"name":"S","role":"input"},
+          {"number":2,"name":"GND","role":"ground"},
+          {"number":3,"name":"A","role":"input"},
+          {"number":4,"name":"Y1","role":"output"},
+          {"number":5,"name":"VCC","role":"power"},
+          {"number":6,"name":"Y0","role":"output"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"S","role":"input"},
+          {"ball":"B1","name":"GND","role":"ground"},
+          {"ball":"C1","name":"A","role":"input"},
+          {"ball":"C2","name":"Y1","role":"output"},
+          {"ball":"B2","name":"VCC","role":"power"},
+          {"ball":"A2","name":"Y0","role":"output"}
+        ]
+      },
+      "units": [{"address":["S"],"outputs":["Y0","Y1"],"enables":[{"pin":"A","active":"high"}]}],
+      "outputsActive": "high",
+      "unselected": "z",
+      "timing": {
+        "LVC": {"rise":4.2,"fall":4.2,"vcc":[1.65,5.5],"inputMax":5.5,"note":"A to Y max, 3.3 V 30/50 pF; VCC 1.65-5.5 V, inputs to 5.5 V (sn74lvc1g18 p.6, p.7)"}
+      },
+      "parts": [
+        {"name":"SN74LVC1G18DBVR","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"LVC"},
+        {"name":"SN74LVC1G18DCKR","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"LVC"},
+        {"name":"SN74LVC1G18DRYR","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"LVC"},
+        {"name":"SN74LVC1G18DSFR","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"LVC"},
+        {"name":"SN74LVC1G18YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-6-YZP","family":"LVC"}
+      ]
+    },
+    {
+      "id": "74_1G19",
+      "function": "Decoder",
+      "description": "1-of-2 decoder/demultiplexer",
+      "drawer": ["Logic"],
+      "note": "sn74lvc1g19, sn74auc1g19; plan-19-data/specs.md § 74_1G19",
+      "model": "binary",
+      "pinouts": {
+        "p6": [
+          {"number":1,"name":"A","role":"input"},
+          {"number":2,"name":"GND","role":"ground"},
+          {"number":3,"name":"E","role":"input"},
+          {"number":4,"name":"Y1","role":"output"},
+          {"number":5,"name":"VCC","role":"power"},
+          {"number":6,"name":"Y0","role":"output"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"A","role":"input"},
+          {"ball":"B1","name":"GND","role":"ground"},
+          {"ball":"C1","name":"E","role":"input"},
+          {"ball":"C2","name":"Y1","role":"output"},
+          {"ball":"B2","name":"VCC","role":"power"},
+          {"ball":"A2","name":"Y0","role":"output"}
+        ]
+      },
+      "units": [{"address":["A"],"outputs":["Y0","Y1"],"enables":[{"pin":"E","active":"low"}]}],
+      "outputsActive": "low",
+      "timing": {
+        "LVC": {"rise":5.2,"fall":5.2,"vcc":[1.65,5.5],"inputMax":5.5,"note":"A/E to Y max, 3.3 V 30/50 pF; VCC 1.65-5.5 V, inputs to 5.5 V (sn74lvc1g19 p.5, p.6)"},
+        "AUC": {"rise":2.8,"fall":2.8,"vcc":[0.8,2.7],"inputMax":3.6,"note":"A/E to Y max, 1.8 V 30 pF; VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc1g19 p.4, p.5)"}
+      },
+      "parts": [
+        {"name":"SN74AUC1G19DBVR","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"AUC"},
+        {"name":"SN74AUC1G19DCKR","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"AUC"},
+        {"name":"SN74AUC1G19DCKT","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"AUC"},
+        {"name":"SN74AUC1G19DRLR","package":"SOT-5X3","pinout":"p6","footprint":"SOT5X3-6","family":"AUC"},
+        {"name":"SN74AUC1G19YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-6-YZP","family":"AUC"},
+        {"name":"SN74LVC1G19DBVR","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"LVC"},
+        {"name":"SN74LVC1G19DBVT","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"LVC"},
+        {"name":"SN74LVC1G19DCKR","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"LVC"},
+        {"name":"SN74LVC1G19DRLR","package":"SOT-5X3","pinout":"p6","footprint":"SOT5X3-6","family":"LVC"},
+        {"name":"SN74LVC1G19DRYR","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"LVC"},
+        {"name":"SN74LVC1G19YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-6-YZP","family":"LVC"}
+      ]
+    },
+    {
+      "id": "74_1G29",
+      "function": "Decoder",
+      "description": "2-of-3 decoder/demultiplexer",
+      "drawer": ["Logic"],
+      "note": "sn74lvc1g29; plan-19-data/specs.md § 74_1G29",
+      "model": "binary",
+      "pinouts": {
+        "p8": [
+          {"number":1,"name":"G","role":"input"},
+          {"number":2,"name":"Y1","role":"output"},
+          {"number":3,"name":"A0","role":"input"},
+          {"number":4,"name":"GND","role":"ground"},
+          {"number":5,"name":"Y2","role":"output"},
+          {"number":6,"name":"A1","role":"input"},
+          {"number":7,"name":"Y0","role":"output"},
+          {"number":8,"name":"VCC","role":"power"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"G","role":"input"},
+          {"ball":"B1","name":"Y1","role":"output"},
+          {"ball":"C1","name":"A0","role":"input"},
+          {"ball":"D1","name":"GND","role":"ground"},
+          {"ball":"D2","name":"Y2","role":"output"},
+          {"ball":"C2","name":"A1","role":"input"},
+          {"ball":"B2","name":"Y0","role":"output"},
+          {"ball":"A2","name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["A1"],"outputs":["Y0"],"enables":[{"pin":"G","active":"low"}]},{"address":["A0"],"outputs":["Y1","Y2"],"enables":[{"pin":"G","active":"low"},{"pin":"A1","active":"high"}]}],
+      "outputsActive": "low",
+      "timing": {
+        "LVC": {"rise":6.1,"fall":6.1,"vcc":[1.65,5.5],"inputMax":5.5,"note":"A/G to Y max, 3.3 V 30/50 pF; VCC 1.65-5.5 V, inputs to 5.5 V (sn74lvc1g29 p.3, p.4)"}
+      },
+      "parts": [
+        {"name":"SN74LVC1G29DCTR","package":"SSOP","pinout":"p8","footprint":"SSOP-8","family":"LVC"},
+        {"name":"SN74LVC1G29DCUR","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
+        {"name":"SN74LVC1G29DCUT","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
+        {"name":"SN74LVC1G29YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-8-YZP","family":"LVC"}
+      ]
+    },
+    {
+      "id": "4555B",
+      "function": "Decoder",
+      "description": "Dual binary to 1 of 4 decoder/demultiplexer, outputs high on select",
+      "drawer": ["Logic"],
+      "note": "cd4555b; plan-19-data/specs.md § 4555B",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"1E","role":"input"},
+          {"number":2,"name":"1A","role":"input"},
+          {"number":3,"name":"1B","role":"input"},
+          {"number":4,"name":"1Q0","role":"output"},
+          {"number":5,"name":"1Q1","role":"output"},
+          {"number":6,"name":"1Q2","role":"output"},
+          {"number":7,"name":"1Q3","role":"output"},
+          {"number":8,"name":"VSS","role":"ground"},
+          {"number":9,"name":"2Q3","role":"output"},
+          {"number":10,"name":"2Q2","role":"output"},
+          {"number":11,"name":"2Q1","role":"output"},
+          {"number":12,"name":"2Q0","role":"output"},
+          {"number":13,"name":"2B","role":"input"},
+          {"number":14,"name":"2A","role":"input"},
+          {"number":15,"name":"2E","role":"input"},
+          {"number":16,"name":"VDD","role":"power"}
+        ]
+      },
+      "units": [{"address":["1A","1B"],"outputs":["1Q0","1Q1","1Q2","1Q3"],"enables":[{"pin":"1E","active":"low"}]},{"address":["2A","2B"],"outputs":["2Q0","2Q1","2Q2","2Q3"],"enables":[{"pin":"2E","active":"low"}]}],
+      "outputsActive": "high",
+      "timing": {
+        "C": {"rise":220,"fall":220,"vcc":[3,18],"note":"A/B to Q typ, VDD 5 V 50 pF; VDD 3-18 V (cd4555b p.1, p.2)"}
+      },
+      "parts": [
+        {"name":"CD4555BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4555BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
+        {"name":"CD4555BM96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"CD4555BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
+        {"name":"CD4555BPWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
+      ]
+    },
+    {
+      "id": "4556B",
+      "function": "Decoder",
+      "description": "Dual binary to 1 of 4 decoder/demultiplexer, outputs low on select",
+      "drawer": ["Logic"],
+      "note": "cd4555b; plan-19-data/specs.md § 4556B",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"1E","role":"input"},
+          {"number":2,"name":"1A","role":"input"},
+          {"number":3,"name":"1B","role":"input"},
+          {"number":4,"name":"1Q0","role":"output"},
+          {"number":5,"name":"1Q1","role":"output"},
+          {"number":6,"name":"1Q2","role":"output"},
+          {"number":7,"name":"1Q3","role":"output"},
+          {"number":8,"name":"VSS","role":"ground"},
+          {"number":9,"name":"2Q3","role":"output"},
+          {"number":10,"name":"2Q2","role":"output"},
+          {"number":11,"name":"2Q1","role":"output"},
+          {"number":12,"name":"2Q0","role":"output"},
+          {"number":13,"name":"2B","role":"input"},
+          {"number":14,"name":"2A","role":"input"},
+          {"number":15,"name":"2E","role":"input"},
+          {"number":16,"name":"VDD","role":"power"}
+        ]
+      },
+      "units": [{"address":["1A","1B"],"outputs":["1Q0","1Q1","1Q2","1Q3"],"enables":[{"pin":"1E","active":"low"}]},{"address":["2A","2B"],"outputs":["2Q0","2Q1","2Q2","2Q3"],"enables":[{"pin":"2E","active":"low"}]}],
+      "outputsActive": "low",
+      "timing": {
+        "C": {"rise":220,"fall":220,"vcc":[3,18],"note":"A/B to Q typ, VDD 5 V 50 pF; VDD 3-18 V (cd4555b p.1, p.2)"}
+      },
+      "parts": [
+        {"name":"CD4556BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4556BM96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"}
+      ]
+    },
+    {
+      "id": "74_42",
+      "function": "Decoder",
+      "description": "4-line BCD to 10-line decimal decoder",
+      "drawer": ["Logic"],
+      "note": "sn74hc42 p.1, p.2, p.5; cd74hc42 p.1, p.2, p.4, p.5; sn74ls42 p.1, p.4, p.6; plan-19-data/specs.md § 74_42",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"Y0","role":"output"},
+          {"number":2,"name":"Y1","role":"output"},
+          {"number":3,"name":"Y2","role":"output"},
+          {"number":4,"name":"Y3","role":"output"},
+          {"number":5,"name":"Y4","role":"output"},
+          {"number":6,"name":"Y5","role":"output"},
+          {"number":7,"name":"Y6","role":"output"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"Y7","role":"output"},
+          {"number":10,"name":"Y8","role":"output"},
+          {"number":11,"name":"Y9","role":"output"},
+          {"number":12,"name":"D","role":"input"},
+          {"number":13,"name":"C","role":"input"},
+          {"number":14,"name":"B","role":"input"},
+          {"number":15,"name":"A","role":"input"},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["A","B","C","D"],"outputs":["Y0","Y1","Y2","Y3","Y4","Y5","Y6","Y7","Y8","Y9"]}],
+      "outputsActive": "low",
+      "timing": {
+        "HC": {"rise":18,"fall":18,"vcc":[2,6],"note":"A/B/C/D to Y typ, 4.5 V 50 pF; VCC 2-6 V (sn74hc42 p.5)"},
+        "HCT": {"rise":35,"fall":35,"vcc":[4.5,5.5],"note":"A to Y max, 4.5 V 50 pF; VCC 4.5-5.5 V (cd74hc42 p.5)"},
+        "LS": {"rise":20,"fall":20,"vcc":[4.75,5.25],"note":"A/B/C/D to Y typ (3 levels of logic), 5 V 15 pF; VCC 4.75-5.25 V (sn74ls42 p.6)"}
+      },
+      "parts": [
+        {"name":"CD74HC42E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC42M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"CD74HCT42E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"SN74HC42DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"SN74HC42N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"SN74LS42D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS42N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"}
+      ]
+    },
+    {
+      "id": "74_45",
+      "function": "Decoder",
+      "description": "BCD-to-decimal decoder/driver",
+      "drawer": ["Logic"],
+      "note": "sn7445 p.1, p.2; plan-19-data/specs.md § 74_45",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"Y0","role":"output"},
+          {"number":2,"name":"Y1","role":"output"},
+          {"number":3,"name":"Y2","role":"output"},
+          {"number":4,"name":"Y3","role":"output"},
+          {"number":5,"name":"Y4","role":"output"},
+          {"number":6,"name":"Y5","role":"output"},
+          {"number":7,"name":"Y6","role":"output"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"Y7","role":"output"},
+          {"number":10,"name":"Y8","role":"output"},
+          {"number":11,"name":"Y9","role":"output"},
+          {"number":12,"name":"D","role":"input"},
+          {"number":13,"name":"C","role":"input"},
+          {"number":14,"name":"B","role":"input"},
+          {"number":15,"name":"A","role":"input"},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["A","B","C","D"],"outputs":["Y0","Y1","Y2","Y3","Y4","Y5","Y6","Y7","Y8","Y9"]}],
+      "outputsActive": "low",
+      "output": "open-drain",
+      "timing": {
+        "TTL": {"rise":50,"fall":50,"vcc":[4.75,5.25],"note":"A/B/C/D to Y max, 5 V 15 pF 100 ohm; VCC 4.75-5.25 V (sn7445 p.2)"}
+      },
+      "parts": [
+        {"name":"SN7445N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"}
+      ]
+    },
+    {
+      "id": "74_145",
+      "function": "Decoder",
+      "description": "BCD-to-decimal decoder/driver",
+      "drawer": ["Logic"],
+      "note": "sn74145 p.1, p.2, p.3; plan-19-data/specs.md § 74_145",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"Y0","role":"output"},
+          {"number":2,"name":"Y1","role":"output"},
+          {"number":3,"name":"Y2","role":"output"},
+          {"number":4,"name":"Y3","role":"output"},
+          {"number":5,"name":"Y4","role":"output"},
+          {"number":6,"name":"Y5","role":"output"},
+          {"number":7,"name":"Y6","role":"output"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"Y7","role":"output"},
+          {"number":10,"name":"Y8","role":"output"},
+          {"number":11,"name":"Y9","role":"output"},
+          {"number":12,"name":"D","role":"input"},
+          {"number":13,"name":"C","role":"input"},
+          {"number":14,"name":"B","role":"input"},
+          {"number":15,"name":"A","role":"input"},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["A","B","C","D"],"outputs":["Y0","Y1","Y2","Y3","Y4","Y5","Y6","Y7","Y8","Y9"]}],
+      "outputsActive": "low",
+      "output": "open-drain",
+      "timing": {
+        "TTL": {"rise":50,"fall":50,"vcc":[4.75,5.25],"note":"A/B/C/D to Y max, 5 V 15 pF 100 ohm; VCC 4.75-5.25 V (sn74145 p.2)"},
+        "LS": {"rise":50,"fall":50,"vcc":[4.75,5.25],"note":"A/B/C/D to Y max, 5 V 45 pF 665 ohm; VCC 4.75-5.25 V (sn74145 p.3)"}
+      },
+      "parts": [
+        {"name":"SN74145N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"},
+        {"name":"SN74LS145DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS145N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SN74LS145NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"}
+      ]
+    },
+    {
+      "id": "74_154",
+      "function": "Decoder",
+      "description": "4- to 16-line decoder/demultiplexer",
+      "drawer": ["Logic"],
+      "note": "cd74hc154 p.1, p.2, p.4, p.5; plan-19-data/specs.md § 74_154",
+      "model": "binary",
+      "pinouts": {
+        "p24": [
+          {"number":1,"name":"Y0","role":"output"},
+          {"number":2,"name":"Y1","role":"output"},
+          {"number":3,"name":"Y2","role":"output"},
+          {"number":4,"name":"Y3","role":"output"},
+          {"number":5,"name":"Y4","role":"output"},
+          {"number":6,"name":"Y5","role":"output"},
+          {"number":7,"name":"Y6","role":"output"},
+          {"number":8,"name":"Y7","role":"output"},
+          {"number":9,"name":"Y8","role":"output"},
+          {"number":10,"name":"Y9","role":"output"},
+          {"number":11,"name":"Y10","role":"output"},
+          {"number":12,"name":"GND","role":"ground"},
+          {"number":13,"name":"Y11","role":"output"},
+          {"number":14,"name":"Y12","role":"output"},
+          {"number":15,"name":"Y13","role":"output"},
+          {"number":16,"name":"Y14","role":"output"},
+          {"number":17,"name":"Y15","role":"output"},
+          {"number":18,"name":"E1","role":"input"},
+          {"number":19,"name":"E2","role":"input"},
+          {"number":20,"name":"A3","role":"input"},
+          {"number":21,"name":"A2","role":"input"},
+          {"number":22,"name":"A1","role":"input"},
+          {"number":23,"name":"A0","role":"input"},
+          {"number":24,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["A0","A1","A2","A3"],"outputs":["Y0","Y1","Y2","Y3","Y4","Y5","Y6","Y7","Y8","Y9","Y10","Y11","Y12","Y13","Y14","Y15"],"enables":[{"pin":"E1","active":"low"},{"pin":"E2","active":"low"}]}],
+      "outputsActive": "low",
+      "timing": {
+        "HC": {"rise":35,"fall":35,"vcc":[2,6],"note":"A to Y max, 4.5 V 50 pF; VCC 2-6 V (cd74hc154 p.4)"},
+        "HCT": {"rise":35,"fall":35,"vcc":[4.5,5.5],"note":"A to Y max, 4.5 V 50 pF; VCC 4.5-5.5 V (cd74hc154 p.5)"}
+      },
+      "parts": [
+        {"name":"CD74HC154M96","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"HC"},
+        {"name":"CD74HCT154M96","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"HCT"}
+      ]
+    },
+    {
+      "id": "4028B",
+      "function": "Decoder",
+      "description": "BCD-to-decimal decoder",
+      "drawer": ["Logic"],
+      "note": "cd4028b p.1, p.2; plan-19-data/specs.md § 4028B",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"Q4","role":"output"},
+          {"number":2,"name":"Q2","role":"output"},
+          {"number":3,"name":"Q0","role":"output"},
+          {"number":4,"name":"Q7","role":"output"},
+          {"number":5,"name":"Q9","role":"output"},
+          {"number":6,"name":"Q5","role":"output"},
+          {"number":7,"name":"Q6","role":"output"},
+          {"number":8,"name":"VSS","role":"ground"},
+          {"number":9,"name":"Q8","role":"output"},
+          {"number":10,"name":"A","role":"input"},
+          {"number":11,"name":"D","role":"input"},
+          {"number":12,"name":"C","role":"input"},
+          {"number":13,"name":"B","role":"input"},
+          {"number":14,"name":"Q1","role":"output"},
+          {"number":15,"name":"Q3","role":"output"},
+          {"number":16,"name":"VDD","role":"power"}
+        ]
+      },
+      "units": [{"address":["A","B","C","D"],"outputs":["Q0","Q1","Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9"]}],
+      "outputsActive": "high",
+      "timing": {
+        "C": {"rise":175,"fall":175,"vcc":[3,18],"note":"A/B/C/D to Q typ, 5 V 50 pF; VDD 3-18 V (cd4028b p.2)"}
+      },
+      "parts": [
+        {"name":"CD4028BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4028BM96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"CD4028BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
+        {"name":"CD4028BPWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
+      ]
+    },
+    {
+      "id": "4514B",
+      "function": "Decoder",
+      "description": "4-bit latch/4-to-16 line decoder, output high on select",
+      "drawer": ["Logic"],
+      "note": "cd4514b p.1, p.3, p.4; plan-19-data/specs.md § 4514B",
+      "model": "binary",
+      "pinouts": {
+        "p24": [
+          {"number":1,"name":"STROBE","role":"input"},
+          {"number":2,"name":"DATA1","role":"input"},
+          {"number":3,"name":"DATA2","role":"input"},
+          {"number":4,"name":"S7","role":"output"},
+          {"number":5,"name":"S6","role":"output"},
+          {"number":6,"name":"S5","role":"output"},
+          {"number":7,"name":"S4","role":"output"},
+          {"number":8,"name":"S3","role":"output"},
+          {"number":9,"name":"S1","role":"output"},
+          {"number":10,"name":"S2","role":"output"},
+          {"number":11,"name":"S0","role":"output"},
+          {"number":12,"name":"VSS","role":"ground"},
+          {"number":13,"name":"S13","role":"output"},
+          {"number":14,"name":"S12","role":"output"},
+          {"number":15,"name":"S15","role":"output"},
+          {"number":16,"name":"S14","role":"output"},
+          {"number":17,"name":"S9","role":"output"},
+          {"number":18,"name":"S8","role":"output"},
+          {"number":19,"name":"S11","role":"output"},
+          {"number":20,"name":"S10","role":"output"},
+          {"number":21,"name":"DATA3","role":"input"},
+          {"number":22,"name":"DATA4","role":"input"},
+          {"number":23,"name":"INHIBIT","role":"input"},
+          {"number":24,"name":"VDD","role":"power"}
+        ]
+      },
+      "units": [{"address":["DATA1","DATA2","DATA3","DATA4"],"outputs":["S0","S1","S2","S3","S4","S5","S6","S7","S8","S9","S10","S11","S12","S13","S14","S15"],"enables":[{"pin":"INHIBIT","active":"low"}],"latch":"STROBE"}],
+      "outputsActive": "high",
+      "latchActive": "low",
+      "timing": {
+        "C": {"rise":485,"fall":485,"vcc":[3,18],"note":"DATA to S typ, 5 V 50 pF; VDD 3-18 V (cd4514b p.3)"}
+      },
+      "parts": [
+        {"name":"CD4514BM96","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"C"},
+        {"name":"CD4514BM96G4","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"C"}
+      ]
+    },
+    {
+      "id": "4515B",
+      "function": "Decoder",
+      "description": "4-bit latch/4-to-16 line decoder, output low on select",
+      "drawer": ["Logic"],
+      "note": "cd4514b p.1, p.3, p.4; plan-19-data/specs.md § 4515B",
+      "model": "binary",
+      "pinouts": {
+        "p24": [
+          {"number":1,"name":"STROBE","role":"input"},
+          {"number":2,"name":"DATA1","role":"input"},
+          {"number":3,"name":"DATA2","role":"input"},
+          {"number":4,"name":"S7","role":"output"},
+          {"number":5,"name":"S6","role":"output"},
+          {"number":6,"name":"S5","role":"output"},
+          {"number":7,"name":"S4","role":"output"},
+          {"number":8,"name":"S3","role":"output"},
+          {"number":9,"name":"S1","role":"output"},
+          {"number":10,"name":"S2","role":"output"},
+          {"number":11,"name":"S0","role":"output"},
+          {"number":12,"name":"VSS","role":"ground"},
+          {"number":13,"name":"S13","role":"output"},
+          {"number":14,"name":"S12","role":"output"},
+          {"number":15,"name":"S15","role":"output"},
+          {"number":16,"name":"S14","role":"output"},
+          {"number":17,"name":"S9","role":"output"},
+          {"number":18,"name":"S8","role":"output"},
+          {"number":19,"name":"S11","role":"output"},
+          {"number":20,"name":"S10","role":"output"},
+          {"number":21,"name":"DATA3","role":"input"},
+          {"number":22,"name":"DATA4","role":"input"},
+          {"number":23,"name":"INHIBIT","role":"input"},
+          {"number":24,"name":"VDD","role":"power"}
+        ]
+      },
+      "units": [{"address":["DATA1","DATA2","DATA3","DATA4"],"outputs":["S0","S1","S2","S3","S4","S5","S6","S7","S8","S9","S10","S11","S12","S13","S14","S15"],"enables":[{"pin":"INHIBIT","active":"low"}],"latch":"STROBE"}],
+      "outputsActive": "low",
+      "latchActive": "low",
+      "timing": {
+        "C": {"rise":485,"fall":485,"vcc":[3,18],"note":"DATA to S typ, 5 V 50 pF; VDD 3-18 V (cd4514b p.3)"}
+      },
+      "parts": [
+        {"name":"CD4515BM96","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"C"}
+      ]
+    },
+    {
+      "id": "74_4514",
+      "function": "Decoder",
+      "description": "4- to 16-line decoder/demultiplexer with input latches, output high on select",
+      "drawer": ["Logic"],
+      "note": "cd74hc4514 p.1, p.2, p.4; plan-19-data/specs.md § 74_4514",
+      "model": "binary",
+      "pinouts": {
+        "p24": [
+          {"number":1,"name":"LE","role":"input"},
+          {"number":2,"name":"A0","role":"input"},
+          {"number":3,"name":"A1","role":"input"},
+          {"number":4,"name":"Y7","role":"output"},
+          {"number":5,"name":"Y6","role":"output"},
+          {"number":6,"name":"Y5","role":"output"},
+          {"number":7,"name":"Y4","role":"output"},
+          {"number":8,"name":"Y3","role":"output"},
+          {"number":9,"name":"Y1","role":"output"},
+          {"number":10,"name":"Y2","role":"output"},
+          {"number":11,"name":"Y0","role":"output"},
+          {"number":12,"name":"GND","role":"ground"},
+          {"number":13,"name":"Y13","role":"output"},
+          {"number":14,"name":"Y12","role":"output"},
+          {"number":15,"name":"Y15","role":"output"},
+          {"number":16,"name":"Y14","role":"output"},
+          {"number":17,"name":"Y9","role":"output"},
+          {"number":18,"name":"Y8","role":"output"},
+          {"number":19,"name":"Y11","role":"output"},
+          {"number":20,"name":"Y10","role":"output"},
+          {"number":21,"name":"A2","role":"input"},
+          {"number":22,"name":"A3","role":"input"},
+          {"number":23,"name":"E","role":"input"},
+          {"number":24,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["A0","A1","A2","A3"],"outputs":["Y0","Y1","Y2","Y3","Y4","Y5","Y6","Y7","Y8","Y9","Y10","Y11","Y12","Y13","Y14","Y15"],"enables":[{"pin":"E","active":"low"}],"latch":"LE"}],
+      "outputsActive": "high",
+      "latchActive": "low",
+      "timing": {
+        "HC": {"rise":55,"fall":55,"vcc":[2,6],"note":"A to Y max, 4.5 V 50 pF; VCC 2-6 V (cd74hc4514 p.4)"}
+      },
+      "parts": [
+        {"name":"CD74HC4514M96","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"HC"}
+      ]
+    },
+    {
+      "id": "74_4515",
+      "function": "Decoder",
+      "description": "4- to 16-line decoder/demultiplexer with input latches, output low on select",
+      "drawer": ["Logic"],
+      "note": "cd74hc4514 p.1, p.2, p.4; plan-19-data/specs.md § 74_4515",
+      "model": "binary",
+      "pinouts": {
+        "p24": [
+          {"number":1,"name":"LE","role":"input"},
+          {"number":2,"name":"A0","role":"input"},
+          {"number":3,"name":"A1","role":"input"},
+          {"number":4,"name":"Y7","role":"output"},
+          {"number":5,"name":"Y6","role":"output"},
+          {"number":6,"name":"Y5","role":"output"},
+          {"number":7,"name":"Y4","role":"output"},
+          {"number":8,"name":"Y3","role":"output"},
+          {"number":9,"name":"Y1","role":"output"},
+          {"number":10,"name":"Y2","role":"output"},
+          {"number":11,"name":"Y0","role":"output"},
+          {"number":12,"name":"GND","role":"ground"},
+          {"number":13,"name":"Y13","role":"output"},
+          {"number":14,"name":"Y12","role":"output"},
+          {"number":15,"name":"Y15","role":"output"},
+          {"number":16,"name":"Y14","role":"output"},
+          {"number":17,"name":"Y9","role":"output"},
+          {"number":18,"name":"Y8","role":"output"},
+          {"number":19,"name":"Y11","role":"output"},
+          {"number":20,"name":"Y10","role":"output"},
+          {"number":21,"name":"A2","role":"input"},
+          {"number":22,"name":"A3","role":"input"},
+          {"number":23,"name":"E","role":"input"},
+          {"number":24,"name":"VCC","role":"power"}
+        ]
+      },
+      "units": [{"address":["A0","A1","A2","A3"],"outputs":["Y0","Y1","Y2","Y3","Y4","Y5","Y6","Y7","Y8","Y9","Y10","Y11","Y12","Y13","Y14","Y15"],"enables":[{"pin":"E","active":"low"}],"latch":"LE"}],
+      "outputsActive": "low",
+      "latchActive": "low",
+      "timing": {
+        "HC": {"rise":55,"fall":55,"vcc":[2,6],"note":"A to Y max, 4.5 V 50 pF; VCC 2-6 V (cd74hc4514 p.4)"}
+      },
+      "parts": [
+        {"name":"CD74HC4515M96","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"HC"}
+      ]
+    },
+    {
+      "id": "74_147",
+      "function": "Encoder",
+      "description": "10- to 4-line priority encoder",
+      "drawer": ["Logic"],
+      "note": "cd74hc147 p.3, p.8; plan-19-data/specs.md § 74_147",
+      "model": "priority",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"I4","role":"input"},
+          {"number":2,"name":"I5","role":"input"},
+          {"number":3,"name":"I6","role":"input"},
+          {"number":4,"name":"I7","role":"input"},
+          {"number":5,"name":"I8","role":"input"},
+          {"number":6,"name":"Y2","role":"output"},
+          {"number":7,"name":"Y1","role":"output"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"Y0","role":"output"},
+          {"number":10,"name":"I9","role":"input"},
+          {"number":11,"name":"I1","role":"input"},
+          {"number":12,"name":"I2","role":"input"},
+          {"number":13,"name":"I3","role":"input"},
+          {"number":14,"name":"Y3","role":"output"},
+          {"number":15,"name":"NC","role":"nc"},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "inputs": ["I1","I2","I3","I4","I5","I6","I7","I8","I9"],
+      "inputsActive": "low",
+      "code": ["Y0","Y1","Y2","Y3"],
+      "codeActive": "low",
+      "offset": 1,
+      "idle": 0,
+      "timing": {
+        "HC": {"rise":32,"fall":32,"vcc":[2,6],"note":"I to Y max, 4.5 V 50 pF; VCC 2-6 V (cd74hc147 p.6)"},
+        "HCT": {"rise":35,"fall":35,"vcc":[4.5,5.5],"note":"I to Y max, 4.5 V 50 pF; VCC 4.5-5.5 V (cd74hc147 p.6)"}
+      },
+      "parts": [
+        {"name":"CD74HC147E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC147M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"CD74HC147PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"CD74HCT147E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"}
+      ]
+    },
+    {
+      "id": "74_148",
+      "function": "Encoder",
+      "description": "8-line to 3-line priority encoder",
+      "drawer": ["Logic"],
+      "note": "sn74hc148 p.3, p.9; sn74ls148 p.1, p.3; plan-19-data/specs.md § 74_148",
+      "model": "priority",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"I4","role":"input"},
+          {"number":2,"name":"I5","role":"input"},
+          {"number":3,"name":"I6","role":"input"},
+          {"number":4,"name":"I7","role":"input"},
+          {"number":5,"name":"EI","role":"input"},
+          {"number":6,"name":"A2","role":"output"},
+          {"number":7,"name":"A1","role":"output"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"A0","role":"output"},
+          {"number":10,"name":"I0","role":"input"},
+          {"number":11,"name":"I1","role":"input"},
+          {"number":12,"name":"I2","role":"input"},
+          {"number":13,"name":"I3","role":"input"},
+          {"number":14,"name":"GS","role":"output"},
+          {"number":15,"name":"EO","role":"output"},
+          {"number":16,"name":"VCC","role":"power"}
+        ],
+        "fk20": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"I4","role":"input"},
+          {"number":3,"name":"I5","role":"input"},
+          {"number":4,"name":"I6","role":"input"},
+          {"number":5,"name":"I7","role":"input"},
+          {"number":6,"name":"NC","role":"nc"},
+          {"number":7,"name":"EI","role":"input"},
+          {"number":8,"name":"A2","role":"output"},
+          {"number":9,"name":"A1","role":"output"},
+          {"number":10,"name":"GND","role":"ground"},
+          {"number":11,"name":"NC","role":"nc"},
+          {"number":12,"name":"A0","role":"output"},
+          {"number":13,"name":"I0","role":"input"},
+          {"number":14,"name":"I1","role":"input"},
+          {"number":15,"name":"I2","role":"input"},
+          {"number":16,"name":"NC","role":"nc"},
+          {"number":17,"name":"I3","role":"input"},
+          {"number":18,"name":"GS","role":"output"},
+          {"number":19,"name":"EO","role":"output"},
+          {"number":20,"name":"VCC","role":"power"}
+        ]
+      },
+      "inputs": ["I0","I1","I2","I3","I4","I5","I6","I7"],
+      "inputsActive": "low",
+      "code": ["A0","A1","A2"],
+      "codeActive": "low",
+      "enableIn": {"pin":"EI","active":"low"},
+      "groupSelect": {"pin":"GS","active":"low"},
+      "enableOut": {"pin":"EO","active":"low"},
+      "timing": {
+        "HC": {"rise":23,"fall":23,"vcc":[2,6],"note":"1-7 to A typ, 4.5 V 50 pF; VCC 2-6 V (sn74hc148 p.5)"},
+        "LS": {"rise":14,"fall":15,"vcc":[4.75,5.25],"note":"1-7 to A in-phase typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls148 p.10)"}
+      },
+      "parts": [
+        {"name":"SN74HC148N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"SN74HC148NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
+        {"name":"SN74LS148DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS148N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SNJ54LS148FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+      ]
+    },
+    {
+      "id": "74_348",
+      "function": "Encoder",
+      "description": "8-line to 3-line priority encoder with 3-state outputs",
+      "drawer": ["Logic"],
+      "note": "sn74ls348 p.1; plan-19-data/specs.md § 74_348",
+      "model": "priority",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"I4","role":"input"},
+          {"number":2,"name":"I5","role":"input"},
+          {"number":3,"name":"I6","role":"input"},
+          {"number":4,"name":"I7","role":"input"},
+          {"number":5,"name":"EI","role":"input"},
+          {"number":6,"name":"A2","role":"output"},
+          {"number":7,"name":"A1","role":"output"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"A0","role":"output"},
+          {"number":10,"name":"I0","role":"input"},
+          {"number":11,"name":"I1","role":"input"},
+          {"number":12,"name":"I2","role":"input"},
+          {"number":13,"name":"I3","role":"input"},
+          {"number":14,"name":"GS","role":"output"},
+          {"number":15,"name":"EO","role":"output"},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "inputs": ["I0","I1","I2","I3","I4","I5","I6","I7"],
+      "inputsActive": "low",
+      "code": ["A0","A1","A2"],
+      "codeActive": "low",
+      "enableIn": {"pin":"EI","active":"low"},
+      "groupSelect": {"pin":"GS","active":"low"},
+      "enableOut": {"pin":"EO","active":"low"},
+      "disabled": "z",
+      "timing": {
+        "LS": {"rise":11,"fall":20,"vcc":[4.75,5.25],"note":"1-7 to A in-phase typ, 5 V 45 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls348 p.4)"}
+      },
+      "parts": [
+        {"name":"SN74LS348D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS348N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"}
+      ]
+    },
+    {
+      "id": "4532B",
+      "function": "Encoder",
+      "description": "8-bit priority encoder",
+      "drawer": ["Logic"],
+      "note": "cd4532b p.1, p.3; plan-19-data/specs.md § 4532B",
+      "model": "priority",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"D4","role":"input"},
+          {"number":2,"name":"D5","role":"input"},
+          {"number":3,"name":"D6","role":"input"},
+          {"number":4,"name":"D7","role":"input"},
+          {"number":5,"name":"EI","role":"input"},
+          {"number":6,"name":"Q2","role":"output"},
+          {"number":7,"name":"Q1","role":"output"},
+          {"number":8,"name":"VSS","role":"ground"},
+          {"number":9,"name":"Q0","role":"output"},
+          {"number":10,"name":"D0","role":"input"},
+          {"number":11,"name":"D1","role":"input"},
+          {"number":12,"name":"D2","role":"input"},
+          {"number":13,"name":"D3","role":"input"},
+          {"number":14,"name":"GS","role":"output"},
+          {"number":15,"name":"EO","role":"output"},
+          {"number":16,"name":"VDD","role":"power"}
+        ]
+      },
+      "inputs": ["D0","D1","D2","D3","D4","D5","D6","D7"],
+      "inputsActive": "high",
+      "code": ["Q0","Q1","Q2"],
+      "codeActive": "high",
+      "enableIn": {"pin":"EI","active":"high"},
+      "groupSelect": {"pin":"GS","active":"high"},
+      "enableOut": {"pin":"EO","active":"high"},
+      "timing": {
+        "C": {"rise":220,"fall":220,"vcc":[3,18],"note":"D to Q typ, 5 V 50 pF; VDD 3-18 V (cd4532b p.2)"}
+      },
+      "parts": [
+        {"name":"CD4532BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4532BM96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"CD4532BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
+        {"name":"CD4532BPWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
+      ]
+    },
+    {
+      "id": "40147B",
+      "function": "Encoder",
+      "description": "10-line to 4-line BCD priority encoder",
+      "drawer": ["Logic"],
+      "note": "cd40147b p.1, p.3; plan-19-data/specs.md § 40147B",
+      "model": "priority",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"I4","role":"input"},
+          {"number":2,"name":"I5","role":"input"},
+          {"number":3,"name":"I6","role":"input"},
+          {"number":4,"name":"I7","role":"input"},
+          {"number":5,"name":"I8","role":"input"},
+          {"number":6,"name":"C","role":"output"},
+          {"number":7,"name":"B","role":"output"},
+          {"number":8,"name":"VSS","role":"ground"},
+          {"number":9,"name":"A","role":"output"},
+          {"number":10,"name":"I9","role":"input"},
+          {"number":11,"name":"I1","role":"input"},
+          {"number":12,"name":"I2","role":"input"},
+          {"number":13,"name":"I3","role":"input"},
+          {"number":14,"name":"D","role":"output"},
+          {"number":15,"name":"I0","role":"input"},
+          {"number":16,"name":"VDD","role":"power"}
+        ]
+      },
+      "inputs": ["I0","I1","I2","I3","I4","I5","I6","I7","I8","I9"],
+      "inputsActive": "low",
+      "code": ["A","B","C","D"],
+      "codeActive": "low",
+      "offset": 0,
+      "idle": 15,
+      "timing": {
+        "C": {"rise":450,"fall":450,"vcc":[3,18],"note":"I to A/B/C/D in-phase typ, 5 V 50 pF; VDD 3-18 V (cd40147b p.3)"}
+      },
+      "parts": [
+        {"name":"CD40147BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD40147BM","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"}
+      ]
+    },
+    {
+      "id": "74_47",
+      "function": "7-segment decoder",
+      "description": "BCD-to-seven-segment decoder/driver, open-collector active-low outputs",
+      "drawer": ["Logic"],
+      "note": "sn7447a p.1, p.3, p.9; plan-19-data/specs.md § 74_47",
+      "model": "seg7",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"B","role":"input"},
+          {"number":2,"name":"C","role":"input"},
+          {"number":3,"name":"LT","role":"input"},
+          {"number":4,"name":"BI/RBO","role":"inout"},
+          {"number":5,"name":"RBI","role":"input"},
+          {"number":6,"name":"D","role":"input"},
+          {"number":7,"name":"A","role":"input"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"e","role":"output"},
+          {"number":10,"name":"d","role":"output"},
+          {"number":11,"name":"c","role":"output"},
+          {"number":12,"name":"b","role":"output"},
+          {"number":13,"name":"a","role":"output"},
+          {"number":14,"name":"g","role":"output"},
+          {"number":15,"name":"f","role":"output"},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "inputs": ["A","B","C","D"],
+      "segments": ["a","b","c","d","e","f","g"],
+      "segmentsActive": "low",
+      "glyphs": ["1111110","0110000","1101101","1111001","0110011","1011011","0011111","1110000","1111111","1110011","0001101","0011001","0100011","1001011","0001111","0000000"],
+      "lampTest": {"pin":"LT","active":"low"},
+      "rbi": "RBI",
+      "rbo": "BI/RBO",
+      "output": "open-drain",
+      "timing": {
+        "TTL": {"rise":100,"fall":100,"vcc":[4.75,5.25],"note":"A to segment max (toff, ton), 5 V 15 pF 120 ohm; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn7447a p.9)"}
+      },
+      "parts": [
+        {"name":"SN7447AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"}
+      ]
+    },
+    {
+      "id": "74_49",
+      "function": "7-segment decoder",
+      "description": "BCD-to-seven-segment decoder/driver, open-collector active-high outputs",
+      "drawer": ["Logic"],
+      "note": "sn7447a p.1, p.4, p.13; plan-19-data/specs.md § 74_49",
+      "model": "seg7",
+      "pinouts": {
+        "p14": [
+          {"number":1,"name":"B","role":"input"},
+          {"number":2,"name":"C","role":"input"},
+          {"number":3,"name":"BI","role":"input"},
+          {"number":4,"name":"D","role":"input"},
+          {"number":5,"name":"A","role":"input"},
+          {"number":6,"name":"e","role":"output"},
+          {"number":7,"name":"GND","role":"ground"},
+          {"number":8,"name":"d","role":"output"},
+          {"number":9,"name":"c","role":"output"},
+          {"number":10,"name":"b","role":"output"},
+          {"number":11,"name":"a","role":"output"},
+          {"number":12,"name":"g","role":"output"},
+          {"number":13,"name":"f","role":"output"},
+          {"number":14,"name":"VCC","role":"power"}
+        ]
+      },
+      "inputs": ["A","B","C","D"],
+      "segments": ["a","b","c","d","e","f","g"],
+      "segmentsActive": "high",
+      "glyphs": ["1111110","0110000","1101101","1111001","0110011","1011011","0011111","1110000","1111111","1110011","0001101","0011001","0100011","1001011","0001111","0000000"],
+      "blank": {"pin":"BI","active":"low"},
+      "output": "open-drain",
+      "timing": {
+        "LS": {"rise":100,"fall":100,"vcc":[4.75,5.25],"note":"A to segment max, 5 V 15 pF 4 kohm; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn7447a p.13)"}
+      },
+      "parts": [
+        {"name":"SNJ54LS49J","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,506 @@
+name	device	family	package	code	pins	footprint	flags	status	pdf	decision	reason
+74AC11138D	74_11138	AC	SOIC	D	16	SOIC-16		Obsolete	decoder/74ac11138.pdf	skip	status Obsolete
+74AC11138DR	74_11138	AC	SOIC	D	16	SOIC-16		Active	decoder/74ac11138.pdf	add	
+74AC11138N	74_11138	AC	DIP	N	16	PDIP-16		Active	decoder/74ac11138.pdf	add	
+74AC11138NSR	74_11138	AC	SOP	NS	16	SOP-16		Active	decoder/74ac11138.pdf	add	
+74AC11138PW	74_11138	AC	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/74ac11138.pdf	skip	status Obsolete
+74AC11138PWLE	74_11138	AC						Active		skip	not in the datasheet ordering table
+74AC11138PWR	74_11138	AC	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/74ac11138.pdf	skip	status Obsolete
+SN74ACT11138N	74_11138	ACT						Active		skip	no TI datasheet
+74AC11139DR	74_11139	AC						Obsolete		skip	status Obsolete
+74AC11139N	74_11139	AC						Active		skip	no TI datasheet
+74AC11139PWR	74_11139	AC						Obsolete		skip	status Obsolete
+74ACT11139D	74_11139	ACT	SOIC	D	16	SOIC-16		Active	decoder/74act11139.pdf	add	
+74ACT11139DR	74_11139	ACT						Obsolete		skip	status Obsolete
+74ACT11139PWR	74_11139	ACT	TSSOP	PW	16	TSSOP-16		Active	decoder/74act11139.pdf	add	
+74AC11238N	74_11238	AC						Active		skip	no TI datasheet
+SN74ALS131N	74_131	ALS						Active		skip	no TI datasheet
+SN74AS131AD	74_131	AS						Active		skip	no TI datasheet
+CD74HC137E	74_137	HC	DIP	N	16	PDIP-16		Active	decoder/cd74hc137.pdf	add	
+CD74HC137PW	74_137	HC	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/cd74hc137.pdf	skip	status Obsolete
+CD74HC137PWE4	74_137	HC						Active		skip	not in the datasheet ordering table
+CD74HC137PWR	74_137	HC	TSSOP	PW	16	TSSOP-16		Active	decoder/cd74hc137.pdf	add	
+CD74HC137PWT	74_137	HC						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+CD74HCT137E	74_137	HCT	DIP	N	16	PDIP-16		Active	decoder/cd74hc137.pdf	add	
+CD74HCT137M96	74_137	HCT	SOIC	D	16	SOIC-16		Active	decoder/cd74hc137.pdf	add	
+CD74HCT137MT	74_137	HCT	SOIC	D	16	SOIC-16		Obsolete	decoder/cd74hc137.pdf	skip	status Obsolete
+SN54LS137J	74_137	LS	DIP	J	16	CDIP-16	military,ceramic	Active	decoder/sdls132.pdf	add	
+SN74ALS137AD	74_137	ALS	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74als137a.pdf	skip	status Obsolete
+SN74ALS137AN	74_137	ALS	DIP	N	16	PDIP-16		Active	decoder/sn74als137a.pdf	add	
+SN74HCS137DR	74_137	HCS	SOIC	D	16	SOIC-16		Active	decoder/sn74hcs137.pdf	add	
+SN74HCS137PWR	74_137	HCS	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74hcs137.pdf	add	
+SN74HCS137QDRQ1	74_137	HCS	SOIC	D	16	SOIC-16	automotive	Active	decoder/sn74hcs137-q1.pdf	add	
+SN74HCS137QPWRQ1	74_137	HCS	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74hcs137-q1.pdf	add	
+SN74LS137D	74_137	LS						Active		skip	not in the datasheet ordering table
+CAHCT138QPWRG4Q1	74_138	AHCT	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74ahct138q-q1.pdf	add	
+CAHCT138QWBQBRQ1	74_138	AHCT	WQFN	BQB	16	WQFN-16	automotive	Active	decoder/sn74ahct138q-q1.pdf	add	
+CD54AC138F3A	74_138	AC	DIP	J	16	CDIP-16	military,ceramic	Active	decoder/cd74ac138.pdf	add	
+CD54HC138F	74_138	HC	DIP	J	16	CDIP-16	military,ceramic	Active	decoder/cd74hc138.pdf	add	
+CD54HCT138F	74_138	HCT	DIP	J	16	CDIP-16	military,ceramic	Active	decoder/cd74hc138.pdf	add	
+CD74AC138BQBR	74_138	AC	WQFN	BQB	16	WQFN-16		Active	decoder/cd74ac138.pdf	add	
+CD74AC138E	74_138	AC	DIP	N	16	PDIP-16		Active	decoder/cd74ac138.pdf	add	
+CD74AC138M96	74_138	AC	SOIC	D	16	SOIC-16		Active	decoder/cd74ac138.pdf	add	
+CD74AC138PWR	74_138	AC	TSSOP	PW	16	TSSOP-16		Active	decoder/cd74ac138.pdf	add	
+CD74ACT138BQBR	74_138	ACT	WQFN	BQB	16	WQFN-16		Active	decoder/cd74act138.pdf	add	
+CD74ACT138E	74_138	ACT	DIP	N	16	PDIP-16		Active	decoder/cd74act138.pdf	add	
+CD74ACT138M96	74_138	ACT	SOIC	D	16	SOIC-16		Active	decoder/cd74act138.pdf	add	
+CD74ACT138PWR	74_138	ACT	TSSOP	PW	16	TSSOP-16		Active	decoder/cd74act138.pdf	add	
+CD74HC138E	74_138	HC	DIP	N	16	PDIP-16		Active	decoder/cd74hc138.pdf	add	
+CD74HC138M96	74_138	HC	SOIC	D	16	SOIC-16		Active	decoder/cd74hc138.pdf	add	
+CD74HC138QM96Q1	74_138	HC	SOIC	D	16	SOIC-16	automotive	Active	decoder/cd74hc138-q1.pdf	add	
+CD74HCT138E	74_138	HCT	DIP	N	16	PDIP-16		Active	decoder/cd74hc138.pdf	add	
+CD74HCT138E-NG	74_138	HCT						Active		skip	not in the datasheet ordering table
+CD74HCT138M96	74_138	HCT	SOIC	D	16	SOIC-16		Active	decoder/cd74hc138.pdf	add	
+CD74HCT138M96G4	74_138	HCT						Obsolete		skip	status Obsolete
+CD74HCT138MTE4	74_138	HCT						Obsolete		skip	status Obsolete
+CLVC138AQPWRG4Q1	74_138	LVC	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74lvc138a-q1.pdf	add	
+CY74FCT138ATQC	74_138	FCT						Active		skip	not in the datasheet ordering table
+CY74FCT138ATQCT	74_138	FCT	SSOP	DBQ	16	QSOP-16		Active	decoder/cy74fct138t.pdf	add	
+CY74FCT138ATSOC	74_138	FCT	SOIC	DW	16	SOIC-16W		Active	decoder/cy74fct138t.pdf	add	
+CY74FCT138ATSOCT	74_138	FCT	SOIC	DW	16	SOIC-16W		Active	decoder/cy74fct138t.pdf	add	
+CY74FCT138CTQC	74_138	FCT						Active		skip	not in the datasheet ordering table
+CY74FCT138CTQCT	74_138	FCT	SSOP	DBQ	16	QSOP-16		Active	decoder/cy74fct138t.pdf	add	
+CY74FCT138CTSOC	74_138	FCT	SOIC	DW	16	SOIC-16W		Active	decoder/cy74fct138t.pdf	add	
+CY74FCT138CTSOCT	74_138	FCT						Active		skip	not in the datasheet ordering table
+CY74FCT138TQCT	74_138	FCT	SSOP	DBQ	16	QSOP-16		Active	decoder/cy74fct138t.pdf	add	
+SN54F138J	74_138	F	DIP	J	16	CDIP-16	military,ceramic	Active	decoder/sn74f138.pdf	add	
+SN54HCT138J	74_138	HCT	DIP	J	16	CDIP-16	military,ceramic	Active	decoder/sn54hct138.pdf	add	
+SN74AC138PWRQ1	74_138	AC	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74ac138-q1.pdf	add	
+SN74AC138WBQBRQ1	74_138	AC	WQFN	BQB	16	WQFN-16	automotive	Active	decoder/sn74ac138-q1.pdf	add	
+SN74ACT138PWRQ1	74_138	ACT	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74act138-q1.pdf	add	
+SN74ACT138WBQBRQ1	74_138	ACT	WQFN	BQB	16	WQFN-16	automotive	Active	decoder/sn74act138-q1.pdf	add	
+SN74AHC138D	74_138	AHC	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74ahc138.pdf	skip	status Obsolete
+SN74AHC138DBR	74_138	AHC	SSOP	DB	16	SSOP-16		Active	decoder/sn74ahc138.pdf	add	
+SN74AHC138DGVR	74_138	AHC	TVSOP	DGV	16	TVSOP-16		Active	decoder/sn74ahc138.pdf	add	
+SN74AHC138DR	74_138	AHC	SOIC	D	16	SOIC-16		Active	decoder/sn74ahc138.pdf	add	
+SN74AHC138N	74_138	AHC	DIP	N	16	PDIP-16		Active	decoder/sn74ahc138.pdf	add	
+SN74AHC138NS	74_138	AHC						Active		skip	not in the datasheet ordering table
+SN74AHC138NSR	74_138	AHC	SOP	NS	16	SOP-16		Active	decoder/sn74ahc138.pdf	add	
+SN74AHC138PW	74_138	AHC	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/sn74ahc138.pdf	skip	status Obsolete
+SN74AHC138PWR	74_138	AHC	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74ahc138.pdf	add	
+SN74AHC138QPWRQ1	74_138	AHC	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74ahc138-q1.pdf	add	
+SN74AHC138QWBQBRQ1	74_138	AHC	WQFN	BQB	16	WQFN-16	automotive	Active	decoder/sn74ahc138-q1.pdf	add	
+SN74AHC138RGYR	74_138	AHC	VQFN	RGY	16	VQFN-16		Active	decoder/sn74ahc138.pdf	add	
+SN74AHCT138D	74_138	AHCT	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74ahct138.pdf	skip	status Obsolete
+SN74AHCT138DBR	74_138	AHCT	SSOP	DB	16	SSOP-16		Active	decoder/sn74ahct138.pdf	add	
+SN74AHCT138DGVR	74_138	AHCT	TVSOP	DGV	16	TVSOP-16		Active	decoder/sn74ahct138.pdf	add	
+SN74AHCT138DR	74_138	AHCT	SOIC	D	16	SOIC-16		Active	decoder/sn74ahct138.pdf	add	
+SN74AHCT138MPWREP	74_138	AHCT	TSSOP	PW	16	TSSOP-16	enhanced	Active	decoder/sn74ahct138-ep.pdf	add	
+SN74AHCT138N	74_138	AHCT	DIP	N	16	PDIP-16		Active	decoder/sn74ahct138.pdf	add	
+SN74AHCT138NS	74_138	AHCT						Active		skip	not in the datasheet ordering table
+SN74AHCT138NSR	74_138	AHCT	SOP	NS	16	SOP-16		Active	decoder/sn74ahct138.pdf	add	
+SN74AHCT138PW	74_138	AHCT	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/sn74ahct138.pdf	skip	status Obsolete
+SN74AHCT138PWR	74_138	AHCT	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74ahct138.pdf	add	
+SN74AHCT138QDRQ1	74_138	AHCT	SOIC	D	16	SOIC-16	automotive	Active	decoder/sn74ahct138q-q1.pdf	add	
+SN74AHCT138RGYR	74_138	AHCT	VQFN	RGY	16	VQFN-16		Active	decoder/sn74ahct138.pdf	add	
+SN74ALS138AD	74_138	ALS	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74als138a.pdf	skip	status Obsolete
+SN74ALS138ADB	74_138	ALS						Active		skip	not in the datasheet ordering table
+SN74ALS138ADBR	74_138	ALS						Active		skip	not in the datasheet ordering table
+SN74ALS138ADR	74_138	ALS	SOIC	D	16	SOIC-16		Active	decoder/sn74als138a.pdf	add	
+SN74ALS138AN	74_138	ALS	DIP	N	16	PDIP-16		Active	decoder/sn74als138a.pdf	add	
+SN74ALS138AN3	74_138	ALS						Active		skip	not in the datasheet ordering table
+SN74ALS138ANE4	74_138	ALS						Active		skip	not in the datasheet ordering table
+SN74ALS138ANS	74_138	ALS						Obsolete		skip	status Obsolete
+SN74AS138D	74_138	AS	SOIC	D	16	SOIC-16		Active	decoder/sn74als138a.pdf	add	
+SN74AS138DR	74_138	AS						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+SN74AS138N	74_138	AS	DIP	N	16	PDIP-16		Active	decoder/sn74als138a.pdf	add	
+SN74AS138N-J	74_138	AS						Active		skip	not in the datasheet ordering table
+SN74AS138NS	74_138	AS						Active		skip	not in the datasheet ordering table
+SN74AS138NSR	74_138	AS	SOP	NS	16	SOP-16		Active	decoder/sn74als138a.pdf	add	
+SN74F138D	74_138	F	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74f138.pdf	skip	status Obsolete
+SN74F138DB	74_138	F						Active		skip	not in the datasheet ordering table
+SN74F138DR	74_138	F	SOIC	D	16	SOIC-16		Active	decoder/sn74f138.pdf	add	
+SN74F138N	74_138	F	DIP	N	16	PDIP-16		Active	decoder/sn74f138.pdf	add	
+SN74F138NS	74_138	F						Obsolete		skip	status Obsolete
+SN74F138NSR	74_138	F	SOP	NS	16	SOP-16		Active	decoder/sn74f138.pdf	add	
+SN74HC138ADB	74_138	HC						Active		skip	not in the datasheet ordering table
+SN74HC138ADBR	74_138	HC						Obsolete		skip	status Obsolete
+SN74HC138AN	74_138	HC						Active		skip	not in the datasheet ordering table
+SN74HC138ANSR	74_138	HC						Active		skip	not in the datasheet ordering table
+SN74HC138DB	74_138	HC						Active		skip	not in the datasheet ordering table
+SN74HC138DBR	74_138	HC	SSOP	DB	16	SSOP-16		Active	decoder/sn74hc138.pdf	add	
+SN74HC138DG4	74_138	HC						Obsolete		skip	status Obsolete
+SN74HC138DR	74_138	HC	SOIC	D	16	SOIC-16		Active	decoder/sn74hc138.pdf	add	
+SN74HC138DT	74_138	HC	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74hc138.pdf	skip	status Obsolete
+SN74HC138N	74_138	HC	DIP	N	16	PDIP-16		Active	decoder/sn74hc138.pdf	add	
+SN74HC138NSR	74_138	HC	SOP	NS	16	SOP-16		Active	decoder/sn74hc138.pdf	add	
+SN74HC138PW	74_138	HC	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/sn74hc138.pdf	skip	status Obsolete
+SN74HC138PWR	74_138	HC	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74hc138.pdf	add	
+SN74HC138PWT	74_138	HC	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/sn74hc138.pdf	skip	status Obsolete
+SN74HC138QDRG4Q1	74_138	HC	SOIC	D	16	SOIC-16	automotive	Active	decoder/sn74hc138-q1.pdf	add	
+SN74HC138QPWRG4Q1	74_138	HC	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74hc138-q1.pdf	add	
+SN74HC138QPWRQ1	74_138	HC	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74hc138-q1.pdf	add	
+SN74HCS138BQBR	74_138	HCS	WQFN	BQB	16	WQFN-16		Active	decoder/sn74hcs138.pdf	add	
+SN74HCS138DR	74_138	HCS	SOIC	D	16	SOIC-16		Active	decoder/sn74hcs138.pdf	add	
+SN74HCS138DYYR	74_138	HCS	SOT-23-THIN	DYY	16	SOT23-THIN-16		Active	decoder/sn74hcs138.pdf	add	
+SN74HCS138PWR	74_138	HCS	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74hcs138.pdf	add	
+SN74HCS138QBQBRQ1	74_138	HCS	WQFN	BQB	16	WQFN-16	automotive	Active	decoder/sn74hcs138-q1.pdf	add	
+SN74HCS138QDRQ1	74_138	HCS	SOIC	D	16	SOIC-16	automotive	Active	decoder/sn74hcs138-q1.pdf	add	
+SN74HCS138QDYYRQ1	74_138	HCS	SOT-23-THIN	DYY	16	SOT23-THIN-16	automotive	Active	decoder/sn74hcs138-q1.pdf	add	
+SN74HCS138QPWRQ1	74_138	HCS	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74hcs138-q1.pdf	add	
+SN74HCS138QWBQBRQ1	74_138	HCS	WQFN	BQB	16	WQFN-16	automotive	Active	decoder/sn74hcs138-q1.pdf	add	
+SN74HCT138ANS	74_138	HCT						Active		skip	not in the datasheet ordering table
+SN74HCT138D	74_138	HCT	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74hct138.pdf	skip	status Obsolete
+SN74HCT138DG4	74_138	HCT						Obsolete		skip	status Obsolete
+SN74HCT138DR	74_138	HCT	SOIC	D	16	SOIC-16		Active	decoder/sn74hct138.pdf	add	
+SN74HCT138DT	74_138	HCT	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74hct138.pdf	skip	status Obsolete
+SN74HCT138N	74_138	HCT	DIP	N	16	PDIP-16		Active	decoder/sn74hct138.pdf	add	
+SN74HCT138NE4	74_138	HCT	DIP	N	16	PDIP-16		Active	decoder/sn74hct138.pdf	add	
+SN74HCT138NSR	74_138	HCT	SOP	NS	16	SOP-16		Active	decoder/sn74hct138.pdf	add	
+SN74HCT138PW	74_138	HCT	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/sn74hct138.pdf	skip	status Obsolete
+SN74HCT138PWR	74_138	HCT	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74hct138.pdf	add	
+SN74HCT138PWT	74_138	HCT						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+SN74LS138D	74_138	LS	SOIC	D	16	SOIC-16		Active	decoder/sn74ls138.pdf	add	
+SN74LS138DR	74_138	LS	SOIC	D	16	SOIC-16		Active	decoder/sn74ls138.pdf	add	
+SN74LS138N	74_138	LS	DIP	N	16	PDIP-16		Active	decoder/sn74ls138.pdf	add	
+SN74LS138NS	74_138	LS						Active		skip	not in the datasheet ordering table
+SN74LS138NSR	74_138	LS	SOP	NS	16	SOP-16		Active	decoder/sn74ls138.pdf	add	
+SN74LV138AD	74_138	LV	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74lv138a.pdf	skip	status Obsolete
+SN74LV138ADBR	74_138	LV	SSOP	DB	16	SSOP-16		Active	decoder/sn74lv138a.pdf	add	
+SN74LV138ADGVR	74_138	LV	TVSOP	DGV	16	TVSOP-16		Active	decoder/sn74lv138a.pdf	add	
+SN74LV138ADR	74_138	LV	SOIC	D	16	SOIC-16		Active	decoder/sn74lv138a.pdf	add	
+SN74LV138ANS	74_138	LV						Obsolete		skip	status Obsolete
+SN74LV138ANSR	74_138	LV	SOP	NS	16	SOP-16		Active	decoder/sn74lv138a.pdf	add	
+SN74LV138APW	74_138	LV	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/sn74lv138a.pdf	skip	status Obsolete
+SN74LV138APWR	74_138	LV	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74lv138a.pdf	add	
+SN74LV138APWT	74_138	LV	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/sn74lv138a.pdf	skip	status Obsolete
+SN74LV138AQWBQBRQ1	74_138	LV	WQFN	BQB	16	WQFN-16	automotive	Active	decoder/sn74lv138a-q1.pdf	add	
+SN74LV138ARGYR	74_138	LV	VQFN	RGY	16	VQFN-16		Active	decoder/sn74lv138a.pdf	add	
+SN74LV138ATD	74_138	LV	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74lv138at.pdf	skip	status Obsolete
+SN74LV138ATDBR	74_138	LV	SSOP	DB	16	SSOP-16		Active	decoder/sn74lv138at.pdf	add	
+SN74LV138ATDGVR	74_138	LV	TVSOP	DGV	16	TVSOP-16		Active	decoder/sn74lv138at.pdf	add	
+SN74LV138ATDR	74_138	LV	SOIC	D	16	SOIC-16		Active	decoder/sn74lv138at.pdf	add	
+SN74LV138ATNSR	74_138	LV						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+SN74LV138ATPW	74_138	LV	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/sn74lv138at.pdf	skip	status Obsolete
+SN74LV138ATPWR	74_138	LV	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74lv138at.pdf	add	
+SN74LV138ATPWT	74_138	LV	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/sn74lv138at.pdf	skip	status Obsolete
+SN74LV138ATRGYR	74_138	LV	VQFN	RGY	16	VQFN-16		Active	decoder/sn74lv138at.pdf	add	
+SN74LVC138AD	74_138	LVC	SOIC	D	16	SOIC-16		Active	decoder/sn74lvc138a.pdf	add	
+SN74LVC138ADB	74_138	LVC						Active		skip	not in the datasheet ordering table
+SN74LVC138ADBR	74_138	LVC	SSOP	DB	16	SSOP-16		Active	decoder/sn74lvc138a.pdf	add	
+SN74LVC138ADGVR	74_138	LVC	TVSOP	DGV	16	TVSOP-16		Active	decoder/sn74lvc138a.pdf	add	
+SN74LVC138ADR	74_138	LVC	SOIC	D	16	SOIC-16		Active	decoder/sn74lvc138a.pdf	add	
+SN74LVC138ADT	74_138	LVC	SOIC	D	16	SOIC-16		Active	decoder/sn74lvc138a.pdf	add	
+SN74LVC138AGQNR	74_138	LVC						Obsolete		skip	status Obsolete
+SN74LVC138AMPWTEP	74_138	LVC	TSSOP	PW	16	TSSOP-16	enhanced	Active	decoder/sn74lvc138a-ep.pdf	add	
+SN74LVC138ANS	74_138	LVC						Active		skip	not in the datasheet ordering table
+SN74LVC138ANSR	74_138	LVC	SOP	NS	16	SOP-16		Active	decoder/sn74lvc138a.pdf	add	
+SN74LVC138APW	74_138	LVC	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74lvc138a.pdf	add	
+SN74LVC138APWG4	74_138	LVC	TSSOP	PW	16	TSSOP-16		Discontinued at DigiKey	decoder/sn74lvc138a.pdf	skip	status Discontinued at DigiKey
+SN74LVC138APWT	74_138	LVC	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74lvc138a.pdf	add	
+SN74LVC138AQDRG4Q1	74_138	LVC	SOIC	D	16	SOIC-16	automotive	Active	decoder/sn74lvc138a-q1.pdf	add	
+SN74LVC138AQDRQ1	74_138	LVC	SOIC	D	16	SOIC-16	automotive	Active	decoder/sn74lvc138a-q1.pdf	add	
+SN74LVC138AQPWREP	74_138	LVC	TSSOP	PW	16	TSSOP-16	enhanced	Active	decoder/sn74lvc138a-ep.pdf	add	
+SN74LVC138ARSVR	74_138	LVC	UQFN	RSV	16	UQFN-16-RSV		Active	decoder/sn74lvc138a.pdf	add	
+SN74LVC138AZQNR	74_138	LVC						Obsolete		skip	status Obsolete
+SN74LVC138DBR	74_138	LVC						Obsolete		skip	status Obsolete
+SN74S138AD	74_138	S	SOIC	D	16	SOIC-16		Active	decoder/sn74ls138.pdf	add	
+SN74S138AN	74_138	S	DIP	N	16	PDIP-16		Active	decoder/sn74ls138.pdf	add	
+SN74S138AN3	74_138	S						Active		skip	not in the datasheet ordering table
+SNJ54AHC138W	74_138	AHC	CFP	W	16	CFP-16	military,ceramic	Active	decoder/sn74ahc138.pdf	add	
+CAHCT139QWBQBRQ1	74_139	AHCT	WQFN	BQB	16	WQFN-16	automotive	Active	decoder/sn74ahct139-q1.pdf	add	
+CD54HCT139F	74_139	HCT	DIP	J	16	CDIP-16	military,ceramic	Active	decoder/cd74hc139.pdf	add	
+CD74AC139E	74_139	AC	DIP	N	16	PDIP-16		Active	decoder/cd74ac139.pdf	add	
+CD74AC139M	74_139	AC	SOIC	D	16	SOIC-16		Active	decoder/cd74ac139.pdf	add	
+CD74AC139M96	74_139	AC	SOIC	D	16	SOIC-16		Active	decoder/cd74ac139.pdf	add	
+CD74ACT139E	74_139	ACT	DIP	N	16	PDIP-16		Active	decoder/cd74act139.pdf	add	
+CD74ACT139M	74_139	ACT	SOIC	D	16	SOIC-16		Active	decoder/cd74act139.pdf	add	
+CD74ACT139M96	74_139	ACT	SOIC	D	16	SOIC-16		Active	decoder/cd74act139.pdf	add	
+CD74HC139E	74_139	HC	DIP	N	16	PDIP-16		Active	decoder/cd74hc139.pdf	add	
+CD74HC139M	74_139	HC	SOIC	D	16	SOIC-16		Obsolete	decoder/cd74hc139.pdf	skip	status Obsolete
+CD74HC139M96	74_139	HC	SOIC	D	16	SOIC-16		Active	decoder/cd74hc139.pdf	add	
+CD74HC139MT	74_139	HC						Obsolete		skip	status Obsolete
+CD74HCT139E	74_139	HCT	DIP	N	16	PDIP-16		Active	decoder/cd74hc139.pdf	add	
+CD74HCT139M	74_139	HCT	SOIC	D	16	SOIC-16		Active	decoder/cd74hc139.pdf	add	
+CD74HCT139M96	74_139	HCT	SOIC	D	16	SOIC-16		Active	decoder/cd74hc139.pdf	add	
+CD74HCT139MT	74_139	HCT						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+CLVC139AQPWRG4Q1	74_139	LVC	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74lvc139a-q1.pdf	add	
+SN54LS139AJ	74_139	LS	DIP	J	16	CDIP-16	military,ceramic	Active	decoder/sn74ls139a.pdf	add	
+SN54S139J	74_139	S	DIP	J	16	CDIP-16	military,ceramic	Active	decoder/sn74ls139a.pdf	add	
+SN74AC139PWRQ1	74_139	AC	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74ac139-q1.pdf	add	
+SN74AC139WBQBRQ1	74_139	AC	WQFN	BQB	16	WQFN-16	automotive	Active	decoder/sn74ac139-q1.pdf	add	
+SN74ACT139PWR	74_139	ACT	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74act139.pdf	add	
+SN74AHC139D	74_139	AHC	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74ahc139.pdf	skip	status Obsolete
+SN74AHC139DBR	74_139	AHC	SSOP	DB	16	SSOP-16		Active	decoder/sn74ahc139.pdf	add	
+SN74AHC139DGVR	74_139	AHC	TVSOP	DGV	16	TVSOP-16		Active	decoder/sn74ahc139.pdf	add	
+SN74AHC139DR	74_139	AHC	SOIC	D	16	SOIC-16		Active	decoder/sn74ahc139.pdf	add	
+SN74AHC139N	74_139	AHC	DIP	N	16	PDIP-16		Active	decoder/sn74ahc139.pdf	add	
+SN74AHC139NS	74_139	AHC						Active		skip	not in the datasheet ordering table
+SN74AHC139NSR	74_139	AHC	SOP	NS	16	SOP-16		Active	decoder/sn74ahc139.pdf	add	
+SN74AHC139PW	74_139	AHC	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/sn74ahc139.pdf	skip	status Obsolete
+SN74AHC139PWR	74_139	AHC	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74ahc139.pdf	add	
+SN74AHC139QPWRQ1	74_139	AHC	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74ahc139-q1.pdf	add	
+SN74AHC139QWBQBRQ1	74_139	AHC	WQFN	BQB	16	WQFN-16	automotive	Active	decoder/sn74ahc139-q1.pdf	add	
+SN74AHC139RGYR	74_139	AHC	VQFN	RGY	16	VQFN-16		Active	decoder/sn74ahc139.pdf	add	
+SN74AHCT139D	74_139	AHCT	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74ahct139.pdf	skip	status Obsolete
+SN74AHCT139DBR	74_139	AHCT	SSOP	DB	16	SSOP-16		Active	decoder/sn74ahct139.pdf	add	
+SN74AHCT139DGVR	74_139	AHCT	TVSOP	DGV	16	TVSOP-16		Active	decoder/sn74ahct139.pdf	add	
+SN74AHCT139DR	74_139	AHCT	SOIC	D	16	SOIC-16		Active	decoder/sn74ahct139.pdf	add	
+SN74AHCT139N	74_139	AHCT	DIP	N	16	PDIP-16		Active	decoder/sn74ahct139.pdf	add	
+SN74AHCT139PW	74_139	AHCT	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/sn74ahct139.pdf	skip	status Obsolete
+SN74AHCT139PWR	74_139	AHCT	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74ahct139.pdf	add	
+SN74ALS139D	74_139	ALS	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74als139.pdf	skip	status Obsolete
+SN74ALS139DR	74_139	ALS	SOIC	D	16	SOIC-16		Active	decoder/sn74als139.pdf	add	
+SN74ALS139N	74_139	ALS	DIP	N	16	PDIP-16		Active	decoder/sn74als139.pdf	add	
+SN74ALS139NS	74_139	ALS						Active		skip	not in the datasheet ordering table
+SN74ALS139NSR	74_139	ALS	SOP	NS	16	SOP-16		Active	decoder/sn74als139.pdf	add	
+SN74ALV139AD	74_139	ALV						Active		skip	no TI datasheet
+SN74HC139ADB	74_139	HC						Active		skip	not in the datasheet ordering table
+SN74HC139ADBR	74_139	HC						Active		skip	not in the datasheet ordering table
+SN74HC139AN	74_139	HC						Active		skip	not in the datasheet ordering table
+SN74HC139ANSR	74_139	HC						Active		skip	not in the datasheet ordering table
+SN74HC139APW	74_139	HC						Active		skip	not in the datasheet ordering table
+SN74HC139D	74_139	HC	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74hc139.pdf	skip	status Obsolete
+SN74HC139DBR	74_139	HC	SSOP	DB	16	SSOP-16		Active	decoder/sn74hc139.pdf	add	
+SN74HC139DR	74_139	HC	SOIC	D	16	SOIC-16		Active	decoder/sn74hc139.pdf	add	
+SN74HC139DT	74_139	HC	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74hc139.pdf	skip	status Obsolete
+SN74HC139N	74_139	HC	DIP	N	16	PDIP-16		Active	decoder/sn74hc139.pdf	add	
+SN74HC139NSR	74_139	HC	SOP	NS	16	SOP-16		Active	decoder/sn74hc139.pdf	add	
+SN74HC139PW	74_139	HC						Obsolete		skip	status Obsolete
+SN74HC139PWR	74_139	HC	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74hc139.pdf	add	
+SN74HC139PWT	74_139	HC						Obsolete		skip	status Obsolete
+SN74HC139QDRG4Q1	74_139	HC	SOIC	D	16	SOIC-16	automotive	Active	decoder/sn74hc139-q1.pdf	add	
+SN74HC139QDRQ1	74_139	HC	SOIC	D	16	SOIC-16	automotive	Active	decoder/sn74hc139-q1.pdf	add	
+SN74HC139QPWRG4Q1	74_139	HC	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74hc139-q1.pdf	add	
+SN74HC139QPWRQ1	74_139	HC	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74hc139-q1.pdf	add	
+SN74HCS139DR	74_139	HCS	SOIC	D	16	SOIC-16		Active	decoder/sn74hcs139.pdf	add	
+SN74HCS139PWR	74_139	HCS	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74hcs139.pdf	add	
+SN74HCS139QPWRQ1	74_139	HCS	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74hcs139-q1.pdf	add	
+SN74HCT139D	74_139	HCT	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74hct139.pdf	skip	status Obsolete
+SN74HCT139DBR	74_139	HCT	SSOP	DB	16	SSOP-16		Active	decoder/sn74hct139.pdf	add	
+SN74HCT139DR	74_139	HCT	SOIC	D	16	SOIC-16		Active	decoder/sn74hct139.pdf	add	
+SN74HCT139DT	74_139	HCT						Obsolete		skip	status Obsolete
+SN74HCT139N	74_139	HCT	DIP	N	16	PDIP-16		Active	decoder/sn74hct139.pdf	add	
+SN74HCT139PWR	74_139	HCT	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74hct139.pdf	add	
+SN74HCT139PWT	74_139	HCT	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/sn74hct139.pdf	skip	status Obsolete
+SN74LS139AD	74_139	LS	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74ls139a.pdf	skip	status Obsolete
+SN74LS139ADR	74_139	LS	SOIC	D	16	SOIC-16		Active	decoder/sn74ls139a.pdf	add	
+SN74LS139AN	74_139	LS	DIP	N	16	PDIP-16		Active	decoder/sn74ls139a.pdf	add	
+SN74LS139ANS	74_139	LS						Active		skip	not in the datasheet ordering table
+SN74LS139ANSLE	74_139	LS						Active		skip	not in the datasheet ordering table
+SN74LS139ANSR	74_139	LS	SOP	NS	16	SOP-16		Active	decoder/sn74ls139a.pdf	add	
+SN74LV139AD	74_139	LV	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74lv139a.pdf	skip	status Obsolete
+SN74LV139ADBR	74_139	LV	SSOP	DB	16	SSOP-16		Active	decoder/sn74lv139a.pdf	add	
+SN74LV139ADGVR	74_139	LV						Obsolete		skip	status Obsolete
+SN74LV139ADR	74_139	LV	SOIC	D	16	SOIC-16		Active	decoder/sn74lv139a.pdf	add	
+SN74LV139ANS	74_139	LV						Active		skip	not in the datasheet ordering table
+SN74LV139ANSR	74_139	LV	SOP	NS	16	SOP-16		Active	decoder/sn74lv139a.pdf	add	
+SN74LV139APW	74_139	LV	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/sn74lv139a.pdf	skip	status Obsolete
+SN74LV139APWR	74_139	LV	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74lv139a.pdf	add	
+SN74LV139APWT	74_139	LV						Obsolete		skip	status Obsolete
+SN74LV139ARGYR	74_139	LV	VQFN	RGY	16	VQFN-16		Active	decoder/sn74lv139a.pdf	add	
+SN74LVC139AD	74_139	LVC	SOIC	D	16	SOIC-16		Active	decoder/sn74lvc139a.pdf	add	
+SN74LVC139ADBR	74_139	LVC	SSOP	DB	16	SSOP-16		Active	decoder/sn74lvc139a.pdf	add	
+SN74LVC139ADGVR	74_139	LVC	TVSOP	DGV	16	TVSOP-16		Active	decoder/sn74lvc139a.pdf	add	
+SN74LVC139ADR	74_139	LVC	SOIC	D	16	SOIC-16		Active	decoder/sn74lvc139a.pdf	add	
+SN74LVC139ADT	74_139	LVC	SOIC	D	16	SOIC-16		Active	decoder/sn74lvc139a.pdf	add	
+SN74LVC139AGQNR	74_139	LVC						Obsolete		skip	status Obsolete
+SN74LVC139ANS	74_139	LVC						Active		skip	not in the datasheet ordering table
+SN74LVC139ANSR	74_139	LVC	SOP	NS	16	SOP-16		Active	decoder/sn74lvc139a.pdf	add	
+SN74LVC139APW	74_139	LVC	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74lvc139a.pdf	add	
+SN74LVC139APWR	74_139	LVC	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74lvc139a.pdf	add	
+SN74LVC139APWT	74_139	LVC	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74lvc139a.pdf	add	
+SN74LVC139AQPWRQ1	74_139	LVC	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74lvc139a-q1.pdf	add	
+SN74LVC139ARGYR	74_139	LVC	VQFN	RGY	16	VQFN-16		Active	decoder/sn74lvc139a.pdf	add	
+SN74S139AD	74_139	S	SOIC	D	16	SOIC-16		Active	decoder/sn74ls139a.pdf	add	
+SN74S139AN	74_139	S	DIP	N	16	PDIP-16		Active	decoder/sn74ls139a.pdf	add	
+SN74S139AN3	74_139	S						Active		skip	not in the datasheet ordering table
+SN74S139ANSR	74_139	S						Obsolete		skip	status Obsolete
+SN74145N	74_145	TTL	DIP	N	16	PDIP-16		Active	decoder/sn74145.pdf	add	
+SN74145NS	74_145	TTL						Active		skip	not in the datasheet ordering table
+SN74LS145D	74_145	LS	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74145.pdf	skip	status Obsolete
+SN74LS145DR	74_145	LS	SOIC	D	16	SOIC-16		Active	decoder/sn74145.pdf	add	
+SN74LS145N	74_145	LS	DIP	N	16	PDIP-16		Active	decoder/sn74145.pdf	add	
+SN74LS145NS	74_145	LS						Obsolete		skip	status Obsolete
+SN74LS145NSR	74_145	LS	SOP	NS	16	SOP-16		Active	decoder/sn74145.pdf	add	
+CD74HC147E	74_147	HC	DIP	N	16	PDIP-16		Active	encoder/cd74hc147.pdf	add	
+CD74HC147M96	74_147	HC	SOIC	D	16	SOIC-16		Active	encoder/cd74hc147.pdf	add	
+CD74HC147MT	74_147	HC	SOIC	D	16	SOIC-16		Obsolete	encoder/cd74hc147.pdf	skip	status Obsolete
+CD74HC147PW	74_147	HC	TSSOP	PW	16	TSSOP-16		Obsolete	encoder/cd74hc147.pdf	skip	status Obsolete
+CD74HC147PWR	74_147	HC	TSSOP	PW	16	TSSOP-16		Active	encoder/cd74hc147.pdf	add	
+CD74HC147PWT	74_147	HC	TSSOP	PW	16	TSSOP-16		Obsolete	encoder/cd74hc147.pdf	skip	status Obsolete
+CD74HCT147E	74_147	HCT	DIP	N	16	PDIP-16		Active	encoder/cd74hc147.pdf	add	
+SN74148N	74_148	TTL						Active		skip	not in the datasheet ordering table
+SN74148N3	74_148	TTL						Active		skip	not in the datasheet ordering table
+SN74HC148AN	74_148	HC						Active		skip	not in the datasheet ordering table
+SN74HC148ANSR	74_148	HC						Active		skip	not in the datasheet ordering table
+SN74HC148DT	74_148	HC						Obsolete		skip	status Obsolete
+SN74HC148DWR	74_148	HC						Obsolete		skip	status Obsolete
+SN74HC148N	74_148	HC	DIP	N	16	PDIP-16		Active	encoder/sn74hc148.pdf	add	
+SN74HC148NSR	74_148	HC	SOP	NS	16	SOP-16		Active	encoder/sn74hc148.pdf	add	
+SN74LS148D	74_148	LS	SOIC	D	16	SOIC-16		Obsolete	encoder/sn74ls148.pdf	skip	status Obsolete
+SN74LS148DR	74_148	LS	SOIC	D	16	SOIC-16		Active	encoder/sn74ls148.pdf	add	
+SN74LS148N	74_148	LS	DIP	N	16	PDIP-16		Active	encoder/sn74ls148.pdf	add	
+SNJ54LS148FK	74_148	LS	LCCC	FK	20	LCCC-20	military,ceramic	Active	encoder/sn74ls148.pdf	add	
+CD74HC154M96	74_154	HC	SOIC	DW	24	SOIC-24W		Active	decoder/cd74hc154.pdf	add	
+CD74HCT154M	74_154	HCT	SOIC	DW	24	SOIC-24W		Obsolete	decoder/cd74hc154.pdf	skip	status Obsolete
+CD74HCT154M96	74_154	HCT	SOIC	DW	24	SOIC-24W		Active	decoder/cd74hc154.pdf	add	
+SN74155N3	74_155	TTL						Active		skip	not in the datasheet ordering table
+SN74LS155AD	74_155	LS	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74ls155a.pdf	skip	status Obsolete
+SN74LS155ADR	74_155	LS	SOIC	D	16	SOIC-16		Active	decoder/sn74ls155a.pdf	add	
+SN74LS155AN	74_155	LS	DIP	N	16	PDIP-16		Active	decoder/sn74ls155a.pdf	add	
+SN74LS155ANS	74_155	LS						Active		skip	not in the datasheet ordering table
+SN74LS155ANSR	74_155	LS	SOP	NS	16	SOP-16		Active	decoder/sn74ls155a.pdf	add	
+SNJ54LS155AJ	74_155	LS	DIP	J	16	CDIP-16	military,ceramic	Active	decoder/sn74ls155a.pdf	add	
+SN74ALS156D	74_156	ALS	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74als156.pdf	skip	status Obsolete
+SN74ALS156DR	74_156	ALS	SOIC	D	16	SOIC-16		Active	decoder/sn74als156.pdf	add	
+SN74ALS156N	74_156	ALS	DIP	N	16	PDIP-16		Active	decoder/sn74als156.pdf	add	
+SN74LS156DR	74_156	LS	SOIC	D	16	SOIC-16		Active	decoder/sn74ls155a.pdf	add	
+SN74LS156N	74_156	LS	DIP	N	16	PDIP-16		Active	decoder/sn74ls155a.pdf	add	
+SN74LS156NSR	74_156	LS	SOP	NS	16	SOP-16		Active	decoder/sn74ls155a.pdf	add	
+SNJ54156W	74_156	TTL					military	Active		skip	not in the datasheet ordering table
+SNJ54LS156J	74_156	LS	DIP	J	16	CDIP-16	military,ceramic	Active	decoder/sn74ls155a.pdf	add	
+SNJ54159J	74_159	TTL					military	Active		skip	no TI datasheet
+74LVC1G139DCURG4	74_1G139	LVC						Active		skip	not in the datasheet ordering table
+SN74LVC1G139DCTR	74_1G139	LVC	SSOP	DCT	8	SSOP-8		Active	decoder/sn74lvc1g139.pdf	add	
+SN74LVC1G139DCTT	74_1G139	LVC	SSOP	DCT	8	SSOP-8		Active	decoder/sn74lvc1g139.pdf	add	
+SN74LVC1G139DCUR	74_1G139	LVC	VSSOP	DCU	8	VSSOP-8		Active	decoder/sn74lvc1g139.pdf	add	
+SN74LVC1G139DCUT	74_1G139	LVC	VSSOP	DCU	8	VSSOP-8		Active	decoder/sn74lvc1g139.pdf	add	
+SN74LVC1G139YZPR	74_1G139	LVC	DSBGA	YZP	8	DSBGA-8-YZP		Active	decoder/sn74lvc1g139.pdf	add	
+SN74LVC1G18DBVR	74_1G18	LVC	SOT-23	DBV	6	SOT23-6		Active	decoder/sn74lvc1g18.pdf	add	
+SN74LVC1G18DCKR	74_1G18	LVC	SC-70	DCK	6	SC70-6		Active	decoder/sn74lvc1g18.pdf	add	
+SN74LVC1G18DRYR	74_1G18	LVC	SON	DRY	6	SON-6-DRY		Active	decoder/sn74lvc1g18.pdf	add	
+SN74LVC1G18DSFR	74_1G18	LVC	SON	DSF	6	SON-6-DSF		Active	decoder/sn74lvc1g18.pdf	add	
+SN74LVC1G18YEAR	74_1G18	LVC						Obsolete		skip	status Obsolete
+SN74LVC1G18YEPR	74_1G18	LVC						Obsolete		skip	status Obsolete
+SN74LVC1G18YZAR	74_1G18	LVC						Obsolete		skip	status Obsolete
+SN74LVC1G18YZPR	74_1G18	LVC	DSBGA	YZP	6	DSBGA-6-YZP		Active	decoder/sn74lvc1g18.pdf	add	
+SN74AUC1G19DBVR	74_1G19	AUC	SOT-23	DBV	6	SOT23-6		Active	decoder/sn74auc1g19.pdf	add	
+SN74AUC1G19DBVT	74_1G19	AUC						Obsolete		skip	status Obsolete
+SN74AUC1G19DCKR	74_1G19	AUC	SC-70	DCK	6	SC70-6		Active	decoder/sn74auc1g19.pdf	add	
+SN74AUC1G19DCKT	74_1G19	AUC	SC-70	DCK	6	SC70-6		Active	decoder/sn74auc1g19.pdf	add	
+SN74AUC1G19DRLR	74_1G19	AUC	SOT-5X3	DRL	6	SOT5X3-6		Active	decoder/sn74auc1g19.pdf	add	
+SN74AUC1G19YZPR	74_1G19	AUC	DSBGA	YZP	6	DSBGA-6-YZP		Active	decoder/sn74auc1g19.pdf	add	
+SN74AUC1G19YZPRB	74_1G19	AUC						Active		skip	not in the datasheet ordering table
+SN74LVC1G19DBVR	74_1G19	LVC	SOT-23	DBV	6	SOT23-6		Active	decoder/sn74lvc1g19.pdf	add	
+SN74LVC1G19DBVT	74_1G19	LVC	SOT-23	DBV	6	SOT23-6		Active	decoder/sn74lvc1g19.pdf	add	
+SN74LVC1G19DCK3	74_1G19	LVC						Active		skip	not in the datasheet ordering table
+SN74LVC1G19DCKR	74_1G19	LVC	SC-70	DCK	6	SC70-6		Active	decoder/sn74lvc1g19.pdf	add	
+SN74LVC1G19DRLR	74_1G19	LVC	SOT-5X3	DRL	6	SOT5X3-6		Active	decoder/sn74lvc1g19.pdf	add	
+SN74LVC1G19DRYR	74_1G19	LVC	SON	DRY	6	SON-6-DRY		Active	decoder/sn74lvc1g19.pdf	add	
+SN74LVC1G19YEPR	74_1G19	LVC						Obsolete		skip	status Obsolete
+SN74LVC1G19YZPR	74_1G19	LVC	DSBGA	YZP	6	DSBGA-6-YZP		Active	decoder/sn74lvc1g19.pdf	add	
+SN74LVC1G29DCTR	74_1G29	LVC	SSOP	DCT	8	SSOP-8		Active	decoder/sn74lvc1g29.pdf	add	
+SN74LVC1G29DCTT	74_1G29	LVC						Obsolete		skip	status Obsolete
+SN74LVC1G29DCUR	74_1G29	LVC	VSSOP	DCU	8	VSSOP-8		Active	decoder/sn74lvc1g29.pdf	add	
+SN74LVC1G29DCUT	74_1G29	LVC	VSSOP	DCU	8	VSSOP-8		Active	decoder/sn74lvc1g29.pdf	add	
+SN74LVC1G29SYZPR	74_1G29	LVC						Active		skip	not in the datasheet ordering table
+SN74LVC1G29YEPR	74_1G29	LVC						Obsolete		skip	status Obsolete
+SN74LVC1G29YZPR	74_1G29	LVC	DSBGA	YZP	8	DSBGA-8-YZP		Active	decoder/sn74lvc1g29.pdf	add	
+CD74HC237DYYR	74_237	HC	SOT-23-THIN	DYY	16	SOT23-THIN-16		Active	decoder/cd74hc137.pdf	add	
+CD74HC237E	74_237	HC	DIP	N	16	PDIP-16		Active	decoder/cd74hc137.pdf	add	
+CD74HC237NSR	74_237	HC	SOP	NS	16	SOP-16		Active	decoder/cd74hc137.pdf	add	
+CD74HC237PWR	74_237	HC	TSSOP	PW	16	TSSOP-16		Active	decoder/cd74hc137.pdf	add	
+CD74HC237PWT	74_237	HC	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/cd74hc137.pdf	skip	status Obsolete
+CD74HCT237E	74_237	HCT	DIP	N	16	PDIP-16		Active	decoder/cd74hc137.pdf	add	
+SN74HCS237DR	74_237	HCS	SOIC	D	16	SOIC-16		Active	decoder/sn74hcs237.pdf	add	
+SN74HCS237PWR	74_237	HCS	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74hcs237.pdf	add	
+SN74HCS237QDRQ1	74_237	HCS	SOIC	D	16	SOIC-16	automotive	Active	decoder/sn74hcs237-q1.pdf	add	
+SN74HCS237QPWRQ1	74_237	HCS	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74hcs237-q1.pdf	add	
+SNJ54HC237J	74_237	HC					military	Active		skip	not in the datasheet ordering table
+CD74AC238BQBR	74_238	AC	WQFN	BQB	16	WQFN-16		Active	decoder/cd74ac238.pdf	add	
+CD74AC238M96	74_238	AC	SOIC	D	16	SOIC-16		Active	decoder/cd74ac238.pdf	add	
+CD74AC238PWR	74_238	AC	TSSOP	PW	16	TSSOP-16		Active	decoder/cd74ac238.pdf	add	
+CD74ACT238E	74_238	ACT	DIP	N	16	PDIP-16		Active	decoder/cd74act238.pdf	add	
+CD74HC238E	74_238	HC	DIP	N	16	PDIP-16		Active	decoder/cd74hc138.pdf	add	
+CD74HC238EE4	74_238	HC	DIP	N	16	PDIP-16		Active	decoder/cd74hc138.pdf	add	
+CD74HC238M	74_238	HC	SOIC	D	16	SOIC-16		Obsolete	decoder/cd74hc138.pdf	skip	status Obsolete
+CD74HC238M96	74_238	HC	SOIC	D	16	SOIC-16		Active	decoder/cd74hc138.pdf	add	
+CD74HC238MT	74_238	HC	SOIC	D	16	SOIC-16		Obsolete	decoder/cd74hc138.pdf	skip	status Obsolete
+CD74HC238NS	74_238	HC						Active		skip	not in the datasheet ordering table
+CD74HC238NSR	74_238	HC	SOP	NS	16	SOP-16		Active	decoder/cd74hc138.pdf	add	
+CD74HC238PWR	74_238	HC	TSSOP	PW	16	TSSOP-16		Active	decoder/cd74hc138.pdf	add	
+CD74HC238PWT	74_238	HC	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/cd74hc138.pdf	skip	status Obsolete
+CD74HCT238E	74_238	HCT	DIP	N	16	PDIP-16		Active	decoder/cd74hc138.pdf	add	
+CD74HCT238M	74_238	HCT	SOIC	D	16	SOIC-16		Obsolete	decoder/cd74hc138.pdf	skip	status Obsolete
+CD74HCT238M96	74_238	HCT	SOIC	D	16	SOIC-16		Active	decoder/cd74hc138.pdf	add	
+CD74HCT238PW	74_238	HCT	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/cd74hc138.pdf	skip	status Obsolete
+CD74HCT238PWR	74_238	HCT	TSSOP	PW	16	TSSOP-16		Active	decoder/cd74hc138.pdf	add	
+SN74AC238PWRQ1	74_238	AC	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74ac238-q1.pdf	add	
+SN74ACT238BQBR	74_238	ACT	WQFN	BQB	16	WQFN-16		Active	decoder/sn74act238.pdf	add	
+SN74ACT238PWR	74_238	ACT	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74act238.pdf	add	
+SN74ACT238PWRQ1	74_238	ACT	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74act238-q1.pdf	add	
+SN74ACT238WBQBRQ1	74_238	ACT	WQFN	BQB	16	WQFN-16	automotive	Active	decoder/sn74act238-q1.pdf	add	
+SN74AHC238BQBR	74_238	AHC	WQFN	BQB	16	WQFN-16		Active	decoder/sn74ahc238.pdf	add	
+SN74AHC238PWR	74_238	AHC	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74ahc238.pdf	add	
+SN74AHC238QPWRQ1	74_238	AHC	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74ahc238-q1.pdf	add	
+SN74HCS238BQBR	74_238	HCS	WQFN	BQB	16	WQFN-16		Active	decoder/sn74hcs238.pdf	add	
+SN74HCS238DR	74_238	HCS	SOIC	D	16	SOIC-16		Active	decoder/sn74hcs238.pdf	add	
+SN74HCS238DYYR	74_238	HCS	SOT-23-THIN	DYY	16	SOT23-THIN-16		Active	decoder/sn74hcs238.pdf	add	
+SN74HCS238PWR	74_238	HCS	TSSOP	PW	16	TSSOP-16		Active	decoder/sn74hcs238.pdf	add	
+SN74HCS238QBQBRQ1	74_238	HCS	WQFN	BQB	16	WQFN-16	automotive	Active	decoder/sn74hcs238-q1.pdf	add	
+SN74HCS238QDRQ1	74_238	HCS	SOIC	D	16	SOIC-16	automotive	Active	decoder/sn74hcs238-q1.pdf	add	
+SN74HCS238QDYYRQ1	74_238	HCS	SOT-23-THIN	DYY	16	SOT23-THIN-16	automotive	Active	decoder/sn74hcs238-q1.pdf	add	
+SN74HCS238QPWRQ1	74_238	HCS	TSSOP	PW	16	TSSOP-16	automotive	Active	decoder/sn74hcs238-q1.pdf	add	
+SN74BCT2414DW	74_2414	BCT	SOIC	DW	20	SOIC-20W		Active	decoder/sn74bct2414.pdf	add	
+SN74BCT2414N	74_2414	BCT	DIP	N	20	PDIP-20		Active	decoder/sn74bct2414.pdf	add	
+SN74278N	74_278	TTL						Active		skip	no TI datasheet
+SNJ54278J	74_278	TTL					military	Active		skip	no TI datasheet
+SN74LS348D	74_348	LS	SOIC	D	16	SOIC-16		Active	encoder/sn74ls348.pdf	add	
+SN74LS348N	74_348	LS	DIP	N	16	PDIP-16		Active	encoder/sn74ls348.pdf	add	
+SN74LS348NS	74_348	LS						Active		skip	not in the datasheet ordering table
+CD40147BE	40147B	C	DIP	N	16	PDIP-16		Active	encoder/cd40147b.pdf	add	
+CD40147BM	40147B	C	SOIC	D	16	SOIC-16		Active	encoder/cd40147b.pdf	add	
+CD40147BPWR	40147B	C						Obsolete		skip	status Obsolete
+CD4028BE	4028B	C	DIP	N	16	PDIP-16		Active	decoder/cd4028b.pdf	add	
+CD4028BM	4028B	C	SOIC	D	16	SOIC-16		Obsolete	decoder/cd4028b.pdf	skip	status Obsolete
+CD4028BM96	4028B	C	SOIC	D	16	SOIC-16		Active	decoder/cd4028b.pdf	add	
+CD4028BMT	4028B	C	SOIC	D	16	SOIC-16		Obsolete	decoder/cd4028b.pdf	skip	status Obsolete
+CD4028BNS	4028B	C						Active		skip	not in the datasheet ordering table
+CD4028BNSR	4028B	C	SOP	NS	16	SOP-16		Active	decoder/cd4028b.pdf	add	
+CD4028BPW	4028B	C	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/cd4028b.pdf	skip	status Obsolete
+CD4028BPWR	4028B	C	TSSOP	PW	16	TSSOP-16		Last Time Buy	decoder/cd4028b.pdf	add	
+CD4056BNS	4056B	C						Active		skip	not in the datasheet ordering table
+CD74HC42E	74_42	HC	DIP	N	16	PDIP-16		Active	decoder/cd74hc42.pdf	add	
+CD74HC42M	74_42	HC	SOIC	D	16	SOIC-16		Active	decoder/cd74hc42.pdf	add	
+CD74HCT42E	74_42	HCT	DIP	N	16	PDIP-16		Active	decoder/cd74hc42.pdf	add	
+SN5442AJ	74_42	TTL					military	Active		skip	not in the datasheet ordering table
+SN54LS42J	74_42	LS					military	Active		skip	not in the datasheet ordering table
+SN74HC42ANSR	74_42	HC						Active		skip	not in the datasheet ordering table
+SN74HC42D	74_42	HC	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74hc42.pdf	skip	status Obsolete
+SN74HC42DR	74_42	HC	SOIC	D	16	SOIC-16		Active	decoder/sn74hc42.pdf	add	
+SN74HC42DT	74_42	HC	SOIC	D	16	SOIC-16		Obsolete	decoder/sn74hc42.pdf	skip	status Obsolete
+SN74HC42N	74_42	HC	DIP	N	16	PDIP-16		Active	decoder/sn74hc42.pdf	add	
+SN74HC42NS	74_42	HC						Active		skip	not in the datasheet ordering table
+SN74HC42NSR	74_42	HC						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+SN74LS42D	74_42	LS	SOIC	D	16	SOIC-16		Active	decoder/sn74ls42.pdf	add	
+SN74LS42N	74_42	LS	DIP	N	16	PDIP-16		Active	decoder/sn74ls42.pdf	add	
+SN74LS42NS	74_42	LS						Active		skip	not in the datasheet ordering table
+SN74LS42NSR	74_42	LS						Obsolete		skip	status Obsolete
+SNJ54L42J	74_42	L					military	Active		skip	no TI datasheet
+SNJ54LS42FK	74_42	LS					military	Active		skip	not in the datasheet ordering table
+SN74LS445N	74_445	LS						Active		skip	no TI datasheet
+SN7445N	74_45	TTL	DIP	N	16	PDIP-16		Active	decoder/sn7445.pdf	add	
+CD4511BNS	4511B	C						Active		skip	not in the datasheet ordering table
+CD4514BM	4514B	C	SOIC	DW	24	SOIC-24W		Obsolete	decoder/cd4514b.pdf	skip	status Obsolete
+CD4514BM96	4514B	C	SOIC	DW	24	SOIC-24W		Active	decoder/cd4514b.pdf	add	
+CD4514BM96G4	4514B	C	SOIC	DW	24	SOIC-24W		Active	decoder/cd4514b.pdf	add	
+CD74HC4514M96	74_4514	HC	SOIC	DW	24	SOIC-24W		Active	decoder/cd74hc4514.pdf	add	
+CD74HCT4514E	74_4514	HCT						Obsolete		skip	status Obsolete
+CD4515BE	4515B	C						Obsolete		skip	status Obsolete
+CD4515BM	4515B	C	SOIC	DW	24	SOIC-24W		Obsolete	decoder/cd4514b.pdf	skip	status Obsolete
+CD4515BM96	4515B	C	SOIC	DW	24	SOIC-24W		Active	decoder/cd4514b.pdf	add	
+CD74HC4515E	74_4515	HC						Obsolete		skip	status Obsolete
+CD74HC4515EN	74_4515	HC						Obsolete		skip	status Obsolete
+CD74HC4515M	74_4515	HC	SOIC	DW	24	SOIC-24W		Obsolete	decoder/cd74hc4514.pdf	skip	status Obsolete
+CD74HC4515M96	74_4515	HC	SOIC	DW	24	SOIC-24W		Active	decoder/cd74hc4514.pdf	add	
+CD4532BE	4532B	C	DIP	N	16	PDIP-16		Active	encoder/cd4532b.pdf	add	
+CD4532BM	4532B	C	SOIC	D	16	SOIC-16		Obsolete	encoder/cd4532b.pdf	skip	status Obsolete
+CD4532BM96	4532B	C	SOIC	D	16	SOIC-16		Active	encoder/cd4532b.pdf	add	
+CD4532BMT	4532B	C						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+CD4532BNS	4532B	C						Active		skip	not in the datasheet ordering table
+CD4532BNSR	4532B	C	SOP	NS	16	SOP-16		Active	encoder/cd4532b.pdf	add	
+CD4532BPWR	4532B	C	TSSOP	PW	16	TSSOP-16		Active	encoder/cd4532b.pdf	add	
+CD4555BE	4555B	C	DIP	N	16	PDIP-16		Active	decoder/cd4555b.pdf	add	
+CD4555BF3A	4555B	C	DIP	J	16	CDIP-16	military,ceramic	Active	decoder/cd4555b.pdf	add	
+CD4555BM	4555B	C	SOIC	D	16	SOIC-16		Obsolete	decoder/cd4555b.pdf	skip	status Obsolete
+CD4555BM96	4555B	C	SOIC	D	16	SOIC-16		Active	decoder/cd4555b.pdf	add	
+CD4555BMT	4555B	C	SOIC	D	16	SOIC-16		Obsolete	decoder/cd4555b.pdf	skip	status Obsolete
+CD4555BNSR	4555B	C	SOP	NS	16	SOP-16		Active	decoder/cd4555b.pdf	add	
+CD4555BPW	4555B	C	TSSOP	PW	16	TSSOP-16		Obsolete	decoder/cd4555b.pdf	skip	status Obsolete
+CD4555BPWR	4555B	C	TSSOP	PW	16	TSSOP-16		Active	decoder/cd4555b.pdf	add	
+CD4556BE	4556B	C	DIP	N	16	PDIP-16		Active	decoder/cd4555b.pdf	add	
+CD4556BM96	4556B	C	SOIC	D	16	SOIC-16		Active	decoder/cd4555b.pdf	add	
+CD4556BMT	4556B	C	SOIC	D	16	SOIC-16		Obsolete	decoder/cd4555b.pdf	skip	status Obsolete
+SN7447AN	74_47	TTL	DIP	N	16	PDIP-16		Active	decoder/sn7447a.pdf	add	
+SNJ54LS49J	74_49	LS	DIP	J	14	CDIP-14	military,ceramic	Active	decoder/sn7447a.pdf	add	

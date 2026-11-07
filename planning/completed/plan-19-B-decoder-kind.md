@@ -22,7 +22,7 @@ plan-19-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-19-A complete | `ls planning/completed/plan-19-A-*.md` → exists | NOT MET (2026-11-07) |
+| plan-19-A's data and families landed (corrected from "plan-19-A complete": A's footprints can only land with C's parts) | `git log --oneline \| grep -c 'plan-19-A phase'` → 2; `grep -c '^## ' planning/plan-19-data/specs.md` → 32 | MET (2026-11-07: `2`, `32`; commits 6ff7393, a9a16bf) |
 
 ## 1. Goal
 
@@ -74,20 +74,22 @@ Main path address → output. `units` = the number of unit objects.
 
 | Key | Value |
 |---|---|
-| `"units"` | 1–4 objects: `address` (1–4 pin names, LSB first; units may share address pins: '155/'156/'BCT2414), `outputs` (1–16 pin names; `outputs[i]` is selected by code i; fewer than 2^n outputs = codes ≥ count select nothing: '42, '145, '445, 4028, '1G29 code 3), `enables` (0–3 controls `{"pin", "active"}`; the unit is enabled when every one is asserted; shared enables are repeated per unit), `latch` (optional pin name: a transparent latch on the address, polarity per `latchActive`), `clock` (optional pin, rising edge registers the address: '131) |
+| `"units"` | 1–4 objects: `address` (1–4 pin names, LSB first; units may share address pins: '155/'156 — corrected: the BCT2414 units have separate address pins and share only G and SD), `outputs` (1–16 pin names; `outputs[i]` is selected by code i; fewer than 2^n outputs = codes ≥ count select nothing: '42, '145, '445, 4028 — corrected: '1G29 code 3 selects Y2, see Corrections), `enables` (0–3 controls `{"pin", "active"}`; the unit is enabled when every one is asserted; shared enables are repeated per unit), `latch` (optional pin name: a transparent latch on the address, polarity per `latchActive`), `clock` (optional pin, rising edge registers the address: '131) |
 | `"outputsActive"` | `"high"` or `"low"`: the level of the selected output |
 | `"unselected"` | `"inactive"` (default) or `"z"` (1G18: the unselected output is high-impedance) |
 | `"disabled"` | `"inactive"` (default) or `"z"` (3-state decoders whose enable floats the outputs) |
 | `"latchActive"` | `"high"` / `"low"`: the `latch` level that **holds** the address ('137/'237 LE (G̅L) holds while high; 4514/4515 STROBE passes while high, holds while low → `"low"`) |
 | `"output"` | `"push-pull"` (default) / `"open-drain"` ('145, '45, '156, '159, '445) |
-| `"monitor"` | optional pin name (BCT2414 VS): driven 1 (supply good) |
+| `"monitor"` | optional pin name (BCT2414 VS): open collector, driven low (supply good) — corrected from "driven 1" |
 
 Rules: enabled and code = i → output i active; every other output inactive
 (or Z per `unselected`); not enabled → all inactive (or Z per `disabled`);
 an X enable → X on every output of the unit; an X address bit → X on exactly
 the outputs that differ across its completions. The latch/register holds 0
-at power-on. The `monitor` pin is driven 1 from start: the engine runs every
-part at its supply's nominal level and has no VCC-fail event (Decisions).
+at power-on. The `monitor` pin is driven low (open drain) from start: the
+engine runs every part at its supply's nominal level and has no VCC-fail
+event (Decisions). With `"unselected": "z"`, an output that is unselected
+for every completion of the address stays Z under an X enable (1G18).
 
 ### 4.2 `priority`
 
@@ -125,7 +127,7 @@ Main path BCD input → segment.
 | `"phase"` | optional pin (CD4056 DF): every segment output is XORed with it (liquid-crystal drive) |
 | `"output"` | `"push-pull"` / `"open-drain"` |
 
-Priority: lamp test > blank (BI or RBO read low) > ripple blank > glyph.
+Priority (corrected): blank (BI or RBO read low) > lamp test > ripple blank > glyph — the SN7447A's BI wins over LT (sn7447a p.3 notes 2 and 4).
 
 ### 4.4 Shared
 
@@ -150,8 +152,8 @@ every output.
 | 4514 (strobe, active-high out) | strobe high passes, low holds; INH disables |
 | 1G18 (`unselected` z) | selected output follows D; the other is Z |
 | '145 open-drain | selected output 0, others Z; `part_pin_open_drain` → 1 |
-| BCT2414 | dual decode with SD and G; VS = 1 |
-| '148 (8 active-low inputs, EI, GS, EO) | every row of the '148 function table (9 rows) |
+| BCT2414 | dual decode with SD and G; VS = 0, open drain (corrected) |
+| '148 (8 active-low inputs, EI, GS, EO) | every row of the '148 function table (10 rows: disabled, idle and the 8 inputs) |
 | '348 (`disabled` z) | idle → code outputs Z, GS/EO driven |
 | '147 (`offset` 1, `idle` 0, active-low) | every row of the '147 table |
 | 7447A | codes 0–15 glyphs; LT; BI low; RBI with code 0 → RBO low; RBI with code 5 → RBO released; RBO driven low externally blanks |
@@ -165,20 +167,20 @@ every output.
 
 ### Phase 1 — Kind skeleton and `binary`
 
-- [ ] `parts.h` `PART_DECODER`; `kinds.c` `KINDS[]` entry; `decoder.c` with the kind ops and `binary`; `CMakeLists.txt` source line.
-- [ ] `decoder_test.c` with the `binary` fixtures of §5; added to the test list in `backend/CMakeLists.txt`.
-- [ ] `docs/parts-format.md` § `decoder` (kind intro, model `binary` key table); `docs/backend.md` kind list.
+- [x] `parts.h` `PART_DECODER`; `kinds.c` `KINDS[]` entry; `decoder.c` with the kind ops and `binary`; `CMakeLists.txt` source line. Also the three test-support lines docs/backend.md § Adding a kind asks for (`listing.c` kind name and `units=`, `TRACE_LAST_KIND`, `listing_check` arrays → `PART_DECODER`), and `part_pin_open_drain` / the voltage check now accept an inout pin (the 7447A BI/RBO; no existing kind answers 1 for an inout pin: the only inout pins named IRQ/RDY/INT are the CPU's RDY, and `cpu.c` has no `pin_open_drain`).
+- [x] `decoder_test.c` with the `binary` fixtures of §5; added to the test list in `backend/CMakeLists.txt`. Fixtures generated from the spec JSON (specs.md); cases 1–15 PASS ('138 ×4, '139, '42, 4028B, '137 ×2, '131, 4514B, 1G18, 1G29, '145, BCT2414).
+- [x] `docs/parts-format.md` § `decoder` (kind intro, model `binary` key table); `docs/backend.md` kind list. Also the file table (`decoder.json`) and the `decoder_test` entry in docs/backend.md § Tests.
 
-Acceptance: `ctest --test-dir /tmp/logic-p19 -R 'decoder_test|library_check'` → both pass; `decoder_test` prints the `binary` PASS lines (seconds).
-Commit: —
+Acceptance: `ctest --test-dir /tmp/logic-p19 -R 'decoder_test|library_check'` → both pass; `decoder_test` prints the `binary` PASS lines (seconds). Met: both pass; PASS 1–15.
+Commit: 252d6a6 (one commit with Phase 2; Corrections)
 
 ### Phase 2 — `priority` and `seg7`
 
-- [ ] `priority` and `seg7` in `decoder.c`; their §5 fixtures; docs key tables.
-- [ ] `library_check` failure cases for every validation error.
+- [x] `priority` and `seg7` in `decoder.c`; their §5 fixtures; docs key tables. `decoder_test` cases 16–25 PASS ('148 10 rows, '348, '147 10 rows, 40147B, 4532B with X input and X EI, 7447A ×4, CD4056B shape); `decoder_test: all passed` (25 PASS).
+- [x] `library_check` failure cases for every validation error. 25 `expect_fail` cases + one valid 2-unit device (`ok   valid decoder (binary, 2 units)` … `ok   decoder seg7 rbo not inout`); `library_check: all passed`.
 
-Acceptance: `ctest --test-dir /tmp/logic-p19` → T0 + 1 of T0 + 1 passed; `git diff --stat backend/tests/golden` → empty (seconds).
-Commit: —
+Acceptance: `ctest --test-dir /tmp/logic-p19` → T0 + 1 of T0 + 1 passed; `git diff --stat backend/tests/golden` → empty (seconds). Met: `100% tests passed, 0 tests failed out of 22`; golden diff empty.
+Commit: 252d6a6
 
 ## Validation Plan
 
@@ -188,10 +190,38 @@ about 13 s). Landing tier at the end of D.
 ## Decisions
 
 - **VS/VCC-fail of the BCT2414 is not modeled** (author): the engine has no
-  supply-fail event; VS reads 1. The decode function is complete.
+  supply-fail event; VS stays low (supply good; corrected from "reads 1").
+  The decode function is complete.
 - **One kind, three models** (plan-19-A §3.2).
 
 ## Corrections
+
+- **Prerequisite row** corrected to "A's data and families landed": A's new
+  footprints fail `footprint_check` until C adds the parts that use them
+  (plan-19-A Corrections), so "plan-19-A complete" cannot precede B.
+- **SN74BCT2414 VS** (§4.1): open collector, low while VCC is good
+  (sn74bct2414 p.1 "forces … VS … to the high level" when VCC < 3.65 V;
+  p.5 VOL(VS) at IOL = 20 mA; p.3 output transistor). The model drives the
+  `monitor` pin 0 through an open drain and `pin_open_drain` answers 1 for
+  it (decoder_test case 15).
+- **SN74BCT2414 units** do not share address pins (1A/1B vs 2A/2B); they
+  share G and SD (specs.md § 74_2414).
+- **'1G29** (§4.1): the function table has no unused code: A1 = L selects
+  Y0 whatever A0 is, A1 = H selects Y1/Y2 by A0 (sn74lvc1g29 p.2). Expressed
+  as two units sharing G, the second enabled by A1 high (specs.md
+  § 74_1G29; decoder_test case 13).
+- **seg7 priority** (§4.3): blank beats lamp test on the SN7447A
+  (sn7447a p.3 notes 2 and 4); the model and docs use blank > lamp test >
+  ripple blank > glyph (decoder_test case 22).
+- **X enable with `"unselected": "z"`**: an output Z for every address
+  completion stays Z under an X enable (the 1G18's unselected output does
+  not depend on A); every other output gated by the X enable is X, as §4.1
+  says (decoder_test cases 3 and 12).
+- **One commit for both phases**: `decoder.c` was written with all three
+  models at once, so Phases 1 and 2 landed together; both Commit lines carry
+  the same hash.
+- **'148 function table has 10 rows** (§5 said 9): disabled, idle, and one
+  per input (sn74ls148 function table).
 
 ## Summary
 

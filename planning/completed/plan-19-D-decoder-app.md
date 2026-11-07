@@ -21,7 +21,7 @@ plan-19-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-19-C complete | `ls planning/completed/plan-19-C-*.md` → exists | NOT MET (2026-11-07) |
+| plan-19-C complete | `ls planning/completed/plan-19-C-*.md` → exists | MET (2026-11-07: C landed in ec27dfa, every box resolved; archived in D's commit) |
 
 ## 1. Goal
 
@@ -46,12 +46,12 @@ plan-19-A § Prerequisites, plus:
 
 ### Phase 1 — App
 
-- [ ] The three edits of §3.
-- [ ] `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p19-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (about 1 min).
-- [ ] Runtime proof: launch the app (`run` skill), open Logic in the drawer, choose family `LS` → `SN74LS138N` and `SN74LS148N` are listed with the gates; select a placed '138 → sidebar shows "Kind: Decoder", "Family: LS", "Units: 1".
+- [x] The three edits of §3. `grep -n 'PART_DECODER'` → `PartCatalog.swift:277` (`isLogic`), `PartFacts.swift:122` (`case PART_DECODER: return "Decoder"`), `ChipDrawerView.swift:206` (`categoryHeader`); no other of plans 19–22 had touched these lines.
+- [x] `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p19-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (about 1 min). Output: `** BUILD SUCCEEDED **`.
+- [x] Runtime proof: launch the app (`run` skill), open Logic in the drawer, choose family `LS` → `SN74LS138N` and `SN74LS148N` are listed with the gates; select a placed '138 → sidebar shows "Kind: Decoder", "Family: LS", "Units: 1". Done on the /tmp/p19-dd build, driven with AppleScript and a CGEvent drag helper (no project run skill): Logic shows the leaves "7-segment decoder", "Decoder", "Encoder" and FCT in the family menu; with LS chosen, Decoder lists SN74LS42D/N, SN74LS138D/DR/N/NSR, SN74LS139ADR … and Encoder SN74LS148DR, SN74LS148N ("DIP · LS · 4.75–5.25 V"); SN74LS138N dragged onto the canvas draws a "Decoder" block, and selected shows Kind Decoder, Function Decoder, Package DIP, Footprint PDIP-16, Family LS, Units 1, Supply range 4.75–5.25 V. Mouse returned to (0, 0) after.
 
-Acceptance: build succeeds; grep of §1 matches; the runtime proof as stated.
-Commit: —
+Acceptance: build succeeds; grep of §1 matches; the runtime proof as stated. Met (all three).
+Commit: 8bb23b4
 
 ## Validation Plan — plan-19 landing tier
 
@@ -73,6 +73,18 @@ Then archive plan-19-A…D to `planning/completed/`.
 - No new drawer filter: family and unit count cover decoders (plan-10-J precedent).
 
 ## Corrections
+
+- **Landing tier results** (2026-11-07, before merging main): `ctest` →
+  `100% tests passed, 0 tests failed out of 22`; `git diff c7d2ba0 --
+  backend/tests/golden | grep -c '^-[^-]'` → 0 (c7d2ba0 = the plan-19 start,
+  the parent of A's first commit 6ff7393); `grep -c '|decoder|' parts.txt`
+  → 322 = N19 − n4511; datasheets → 89; app `** BUILD SUCCEEDED **`.
+  Repeated after merging main (baf741b, clean: main added only plan-24
+  planning files): 22 of 22, 0 golden lines removed, 322, 89, `** BUILD
+  SUCCEEDED **`.
+- **No Rust formatter step**: the repo has no `Cargo.toml` (`ls Cargo.toml
+  repository/Cargo.toml` → no such file), so follow-plan's `cargo fmt` does
+  not apply.
 
 ## Summary
 

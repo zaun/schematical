@@ -273,12 +273,12 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         }
     }
 
-    /// Gate, flip-flop, latch, counter, shift register or buffer: a logic chip
-    /// with a family and a unit count.
+    /// Gate, flip-flop, latch, counter, shift register, decoder or buffer: a
+    /// logic chip with a family and a unit count.
     var isLogic: Bool {
         kind == PART_GATE || kind == PART_DFF || kind == PART_JKFF ||
             kind == PART_LATCH || kind == PART_COUNTER || kind == PART_SHIFT ||
-            kind == PART_BUFFER
+            kind == PART_DECODER || kind == PART_BUFFER
     }
 
     /// SRAM or EEPROM: a part with a memory window.

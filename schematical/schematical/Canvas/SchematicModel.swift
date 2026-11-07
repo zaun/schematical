@@ -939,6 +939,57 @@ final class SchematicDocument {
         if !shift { clearBoardSelection() }
     }
 
+    // MARK: Box select
+
+    /// The parts, junctions and wires a box (schematic coordinates) touches.
+    func schematicItems(in rect: CGRect) -> Set<SchematicItem> {
+        var items = Set<SchematicItem>()
+        for chip in chips where chip.hitRect.intersects(rect) {
+            items.insert(.chip(chip.id))
+        }
+        for junction in junctions where rect.contains(junction.point) {
+            items.insert(.junction(junction.id))
+        }
+        for wire in wires {
+            let path = path(forWire: wire.id)
+            if zip(path, path.dropFirst()).contains(where: { Self.segment($0, $1, touches: rect) }) {
+                items.insert(.wire(wire.id))
+            }
+        }
+        return items
+    }
+
+    /// The drawn footprints, texts and traces a box (board mm) touches.
+    func boardItems(in rect: CGRect, visible: BoardVisibility = BoardVisibility()) -> Set<BoardItem> {
+        var items = Set<BoardItem>()
+        for chip in chips where chip.board != nil && visible.showsFootprint(chip) {
+            if let bounds = chip.boardBounds, bounds.intersects(rect) { items.insert(.footprint(chip.id)) }
+        }
+        for text in texts where visible.showsText(text) && text.boardRect.intersects(rect) {
+            items.insert(.text(text.id))
+        }
+        for trace in traces where board.copperLayers.contains(trace.layer) && visible.showsTrace(on: trace.layer) {
+            let grown = rect.insetBy(dx: -trace.widthMM / 2, dy: -trace.widthMM / 2)
+            if trace.segments.contains(where: { Self.segment($0.0, $0.1, touches: grown) }) {
+                items.insert(.trace(trace.id))
+            }
+        }
+        return items
+    }
+
+    /// A Shift-drag on empty Schematic canvas: the selection is what it was
+    /// at the press (`base`) plus everything the box touches.
+    func boxSelectSchematic(_ rect: CGRect, base: Set<SchematicItem>) {
+        let items = base.union(schematicItems(in: rect))
+        if items != schematicSelection.items { schematicSelection.set(items) }
+    }
+
+    /// A Shift-drag on empty board: as `boxSelectSchematic`, on the PCB page.
+    func boxSelectBoard(_ rect: CGRect, base: Set<BoardItem>, visible: BoardVisibility = BoardVisibility()) {
+        let items = base.union(boardItems(in: rect, visible: visible))
+        if items != boardSelection.items { boardSelection.set(items) }
+    }
+
     /// Clears the Schematic page's selection: items, bus and port.
     func clearSchematicSelection() {
         schematicSelection.clear()
