@@ -434,7 +434,8 @@ int kind_is_ball_name(const char *text) {
 
 static const char *const LOGIC_FAMILIES[] = {
     "HC", "LS", "ACT", "HCT", "F", "AC", "AHCT", "ALS", "AS", "AHC", "S", "C",
-    "H", "HCS", "LV", "LVC", "AUP", "AUC", "ALVC", "TTL", "ABT", "BCT", "LVT", "AVC", "TPIC", NULL
+    "H", "HCS", "LV", "LVC", "AUP", "AUC", "ALVC", "TTL", "ABT", "BCT", "LVT", "AVC", "TPIC",
+    "FCT", "L", "ALV", NULL
 };
 
 const char *kind_logic_family(KindContext *ctx, const char *text) {

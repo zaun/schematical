@@ -275,13 +275,14 @@ Commit: —
 
 ### Phase 2 — Families and footprints
 
-- [ ] §4.3 families + docs; `library_check` case: a gate part with `"family": "FCT"` and an `FCT` timing entry loads (`ok   gate part with family FCT`).
-- [ ] §4.4 footprints into `footprints.json`; regenerate `backend/tests/golden/footprints.txt` (docs/backend.md § Tests).
+- [x] §4.3 families + docs; `library_check` case: a gate part with `"family": "FCT"` and an `FCT` timing entry loads (`ok   gate part with family FCT`). Before: `grep -c '"FCT"' backend/src/library/kind_util.c` → 0 (no other plan added it). After: `library_check` prints `ok   gate part with family FCT` and `ok   families L and ALV`; `ctest --test-dir /tmp/logic-p19` → `100% tests passed, 0 tests failed out of 21`.
+- [~] §4.4 footprints into `footprints.json`; regenerate `backend/tests/golden/footprints.txt` (docs/backend.md § Tests). `SOT23-THIN-16` and `UQFN-16-RSV` written and their golden lines generated (2 `+` lines, 0 `-`), but `footprint_check` fails on a footprint no part uses (`unused footprint: SOT23-THIN-16`), so they land in plan-19-C Phase 1's commit with the parts that use them (Corrections).
 
 Acceptance: `ctest --test-dir /tmp/logic-p19` → T0 of T0 passed;
 `git diff backend/tests/golden | grep -c '^-[^-]'` → 0;
 `git diff backend/tests/golden/footprints.txt | grep -c '^+[^+]'` = the
-number of new footprint ids (seconds).
+number of new footprint ids (seconds). The footprint half is checked at
+plan-19-C Phase 1, where the footprints land (Corrections).
 Commit: —
 
 ## Validation Plan
@@ -336,6 +337,13 @@ The landing tier for plan-19 runs once, at the end of D. For A: Phase 2's
   - CY74FCT138 QSOP (TI code DBQ) uses the existing `QSOP-16` (same JEDEC
     MO-137 body and 0.635 mm pitch).
   - New: `SOT23-THIN-16` (DYY; 5 add rows), `UQFN-16-RSV` (RSV; 1 add row).
+- **New footprints cannot land in A** (Phase 2): `footprint_check` fails on
+  any footprint no part uses (`unused footprint: SOT23-THIN-16`,
+  `unused footprint: UQFN-16-RSV`; `FAIL: 2 mismatches`), so A's acceptance
+  "T0 of T0 with the new footprints" cannot hold before plan-19-C adds the
+  parts. The two footprints and their golden lines (prepared in A, 2 `+`
+  lines, 0 `-`) are committed in plan-19-C Phase 1 with the parts; the
+  Phase 2 footprint checks run there. Phase 2 lands the families alone.
 - **74_154 enables are E1, E2** (only CD74HC/HCT154 parts are added, so the
   device uses the CD74 names), not G1/G2 (specs.md § 74_154).
 - **Design corrections found by the spec read** (repaired in plan-19-B):

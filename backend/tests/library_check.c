@@ -535,6 +535,29 @@ static void check_gate_cases(void) {
     free(error);
     part_library_destroy(library);
 
+    /* plan-19-A: FCT, L and ALV are logic families. */
+    library = part_library_create();
+    error = NULL;
+    CHECK(load(library,
+               HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
+                                        "{'FCT':{'rise':5,'fall':5}}", "A", "FCT") TAIL,
+               &error) == 0);
+    part = part_library_find(library, "G1");
+    CHECK(part != NULL && part->logic != NULL && strcmp(part->logic->family, "FCT") == 0);
+    printf("ok   gate part with family FCT%s%s\n", error != NULL ? ": " : "",
+           error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+    {
+        KindContext ctx;
+
+        memset(&ctx, 0, sizeof(ctx));
+        ctx.source = "test.json";
+        CHECK(kind_logic_family(&ctx, "L") != NULL && kind_logic_family(&ctx, "ALV") != NULL &&
+              ctx.error == NULL);
+        printf("ok   families L and ALV\n");
+    }
+
     expect_fail("gate otherLow on a 3-input device",
                 HEAD("gate") GATE_DEVICE("[{'op':'xor','inputs':['A','B','C'],'output':'Y'}]",
                                          "{'HC':{'otherLow':{'rise':1,'fall':1},'otherHigh':{'rise':2,'fall':2}}}",
