@@ -322,6 +322,12 @@ Commit: e713944
   level 1 glows blue. The PCB renders before and after show the 0805
   pads with pad 1 where the radial's square pad 1 was. The saved file has
   `"color" : "Blue"`, `"footprint" : "LED-0805"`, `"partNumber" : "GENERIC-LED"`.
+- Landing (2026-11-07): `main` had moved (17e17d9 → a6b8f69: plan-17, TI
+  inverters). Merged into `worktree-P-18` with no conflicts, then re-run:
+  ctest 21/21; `generic-led-file.swift` 7 `ok`; `generic-led-ui.swift` 10
+  `ok`; `bus-slide.swift` `ALL OK`; the three Selection test classes 24
+  tests, 0 failures, `** TEST SUCCEEDED **`. No Rust in the repo, so no
+  `cargo fmt` step.
 
 ## Decisions
 
