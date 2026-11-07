@@ -181,13 +181,19 @@ Flags:
 
 - **Times** are nanoseconds (JSON numbers, fractions allowed). The loader
   converts them to the engine's picoseconds with `llround(ns * 1000)`.
-- **Logic families** (`family` on gate, dff and jkff parts) must be one of:
+- **Logic families** (`family` on gate, dff, jkff and the sequential and
+  buffer kinds' parts) must be one of:
   HC, LS, ACT, HCT, F, AC, AHCT, ALS, AS, AHC, S, C, H, HCS, LV, LVC, AUP,
-  AUC, ALVC, TTL, ABT, BCT, LVT, AVC, TPIC. The last five:
+  AUC, ALVC, TTL, ABT, BCT, LVT, AVC, TPIC, FCT, AXC, LXC, TXU, TXV. Of these:
   - `ABT`, `BCT`: BiCMOS bus-interface logic (5 V).
   - `LVT`: 3.3 V ABT; LVTH (bus-hold) parts use it too.
   - `AVC`: advanced very-low-voltage CMOS.
   - `TPIC`: TI power-logic parts with DMOS open-drain outputs.
+  - `FCT`: TI (ex-Cypress, ex-Harris) FCT CMOS bus-interface logic,
+    CY74FCT…T and CD74FCT parts (5 V, TTL-level inputs).
+  - `AXC`, `LXC`: dual-supply translating CMOS (AXC 0.65–3.6 V,
+    LXC 1.1–5.5 V per side); AXCH/LXCH bus-hold parts use them too.
+  - `TXU`, `TXV`: TI fixed-direction level translators (TXU0104, TXV0108 …).
 - **`note`** is allowed on a device and on any timing entry; it is ignored.
 - **Voltages** are volts (JSON numbers, fractions allowed). The loader
   converts them to millivolts (`uint32_t`) with `llround(v * 1000)`.

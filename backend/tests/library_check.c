@@ -535,6 +535,37 @@ static void check_gate_cases(void) {
     free(error);
     part_library_destroy(library);
 
+    /* plan-20-B: FCT, AXC, LXC, TXU, TXV. */
+    {
+        static const char *const FAMILIES[] = {"FCT", "AXC", "LXC", "TXU", "TXV"};
+        static const char *const FILES[] = {
+            HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
+                                     "{'FCT':{'rise':5,'fall':5,'vcc':[4.5,5.5]}}", "A", "FCT") TAIL,
+            HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
+                                     "{'AXC':{'rise':5,'fall':5,'vcc':[0.65,3.6]}}", "A", "AXC") TAIL,
+            HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
+                                     "{'LXC':{'rise':5,'fall':5,'vcc':[1.1,5.5]}}", "A", "LXC") TAIL,
+            HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
+                                     "{'TXU':{'rise':5,'fall':5,'vcc':[1.1,5.5]}}", "A", "TXU") TAIL,
+            HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
+                                     "{'TXV':{'rise':5,'fall':5,'vcc':[0.9,3.6]}}", "A", "TXV") TAIL,
+        };
+        size_t f;
+
+        for (f = 0; f < 5; f++) {
+            library = part_library_create();
+            error = NULL;
+            CHECK(load(library, FILES[f], &error) == 0);
+            part = part_library_find(library, "G1");
+            CHECK(part != NULL && part->logic != NULL &&
+                  strcmp(part->logic->family, FAMILIES[f]) == 0);
+            printf("ok   gate part with family %s%s%s\n", FAMILIES[f], error != NULL ? ": " : "",
+                   error != NULL ? error : "");
+            free(error);
+            part_library_destroy(library);
+        }
+    }
+
     expect_fail("gate otherLow on a 3-input device",
                 HEAD("gate") GATE_DEVICE("[{'op':'xor','inputs':['A','B','C'],'output':'Y'}]",
                                          "{'HC':{'otherLow':{'rise':1,'fall':1},'otherHigh':{'rise':2,'fall':2}}}",

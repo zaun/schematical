@@ -21,7 +21,7 @@ plan-20-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-20-A complete | `ls planning/completed/plan-20-A-*.md` → exists | NOT MET (2026-11-07) |
+| plan-20-A complete | `ls planning/completed/plan-20-A-*.md` → exists | MET (2026-11-07: `planning/completed/plan-20-A-buffer-data.md`, 15f4c73) |
 
 ## 1. Goal
 
@@ -62,7 +62,7 @@ an existing footprint under another name (`20-LCC`/`20-LCCC` → `LCCC-20`,
 
 ### Phase 1 — Families
 
-- [ ] §2.1 codes, docs, one `library_check` case each.
+- [x] §2.1 codes `FCT`, `AXC`, `LXC`, `TXU`, `TXV` in `LOGIC_FAMILIES`, docs § Values, one `library_check` case each: `ctest --test-dir /tmp/logic-p20 -R library_check` → `100% tests passed`; `library_check` prints `ok   gate part with family FCT` … `TXV`. ~~`ALVT`, `ALB`~~ — moot: no `add` row uses them (`awk -F'\t' 'NR>1 && $11=="add"{print $3}' parts.tsv | grep -cE '^(ALVT|ALB)$'` → `0`; the ALVTH and ALB16244 parts were skipped, plan-20-A Corrections 3). `FCT` was not yet present (`grep -c '"FCT"' kind_util.c` → `0` before the edit).
 
 Acceptance: `ctest --test-dir /tmp/logic-p20 -R library_check` passes (seconds).
 Commit: —
@@ -85,6 +85,8 @@ B's gate: Phase 2. Landing tier at the end of I.
   the drawer filter tells them apart (plan-10-A precedent).
 
 ## Corrections
+
+1. **Families**: plan-20-A's parts use `TXU` and `TXV` (TI's fixed-direction translators, their own family in the datasheets) and not `ALVT` or `ALB`; the list is `FCT`, `AXC`, `LXC`, `TXU`, `TXV` (measured from `parts.tsv`'s `family` column).
 
 ## Summary
 
