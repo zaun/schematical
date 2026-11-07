@@ -1,6 +1,6 @@
 # plan-13-B: Buses — ports, port pins and nets
 
-Last updated: 2026-11-01
+Last updated: 2026-11-07
 Effort: large (3h–1d)
 Depends on: plan-13-A
 
@@ -9,17 +9,18 @@ ticked bus wire. Ordinary wires connect to those pins. Every pin for the same
 bus wire, on every port of that bus, is one net in the simulation and the
 voltage check.
 
-- the **Bus Port** tool: a click on a straight part of a bus adds an empty
-  port there and selects it. A click on a bend or end node is refused;
+- the **Bus Port** tool: a click on a bus line (any line of the bus) adds an
+  empty port there and selects it. A click on a line end (a free end or an
+  L corner) or on a T is refused;
 - the **Bus Port** inspector panel: a checkbox per bus wire, Select All /
-  Deselect All, and a Side picker (Top/Bottom on a horizontal segment,
+  Deselect All, and a Side picker (Top/Bottom on a horizontal line,
   Left/Right on a vertical one);
 - ticked wires become pins, in bus order, at the normal 20-unit pin pitch.
   The port grows right (or down). If there is no room it grows left (or up),
   and if there is still no room it refuses with a message;
 - the Line tool connects to port pins; the netlist, simulation colours and
   voltage check see bus nets;
-- the Eraser removes a port, or a whole bus with its ports, after a confirm
+- the Eraser removes a port, or a bus line with its ports, after a confirm
   dialog whenever more than the clicked thing would go;
 - unticking a wire that has wires attached asks first, then removes those
   wires;
@@ -33,7 +34,7 @@ placed. Moving a bus that has ports, and sliding ports, is plan-13-C.
 References:
 
 - `planning/plan-13-A-bus-lines.md` (§ Prerequisites, § 4–6: `Bus`,
-  `BusRoute`, the Bus panel, file version 3).
+  `BusEdit`, T and L joints, the Bus panel, file version 3).
 - `docs/file-format.md` (§ Buses, added in A; § Wires).
 - `schematical/schematical/Simulation/Simulation.swift` (`NetlistBuilder`),
   `Simulation/VoltageCheck.swift`.
@@ -50,23 +51,29 @@ The gate is plan-13-A's table. Re-run it, plus:
 
 ## 1. Goal
 
-- With the Bus Port tool, clicking a bus segment more than one tolerance away
-  from every node adds an empty port there and selects it. Clicking near a
-  node shows "A port can't go on a bend or the end of a bus.".
+- With the Bus Port tool, clicking a bus line more than one tolerance away
+  from its ends and from any T on it adds an empty port there and selects
+  it. Clicking near one shows "A port can't go on the end of a bus line or
+  on a joint.".
 - Ticking wires in the port panel adds pins in bus order. The port always
-  lies within its segment and never overlaps another port. When it can't fit,
-  the tick is refused with "Not enough room on this bus segment for <n> pins.".
+  lies within its line and never overlaps another port or covers a T on
+  that line. When it can't fit, the tick is refused with "Not enough room on
+  this bus line for <n> pins.".
 - A wire drawn from a chip pin to a port pin, plus a wire from another port's
   pin for the same bus wire to another chip pin, puts both chip pins on one
   net: the simulation drives one from the other, and the voltage check
   refuses a clash across the bus.
 - Erasing a port removes it and the wires on its pins. If it has any such
-  wires, a confirm dialog comes first. Erasing a bus that has ports asks first,
-  then removes the bus, its ports and the wires on their pins.
+  wires, a confirm dialog comes first. Erasing a bus line that has ports
+  asks first, then removes the line, its ports and the wires on their pins.
+  When the erase splits the bus (plan-13-A § 4), ports stay with their line,
+  so ports on a split-off piece belong to its new bus.
 - Setting the wire count below the highest wire any port uses is refused:
   "<name> is used by a port; this bus needs at least <k> wires.".
-- Save and open keep every port (segment, position, side, wires) and every
+- Save and open keep every port (line, position, side, wires) and every
   wire end on a port pin.
+- A port on any line of a bus is a port of that bus: its pins join the same
+  nets as pins on the bus's other lines.
 
 ### Non-goals (explicit constraints)
 
@@ -153,10 +160,10 @@ proof. Not byte-identity.
 
 **Rejected alternatives:**
 
-- *Store a port by absolute point.* A port stores its segment index and its
-  position along that segment. A segment drag then moves the port with no
-  bookkeeping, because its across coordinate comes from the segment. Only
-  inserting a node renumbers segments (plan-13-C).
+- *Store a port by absolute point.* A port stores its line's ID and its
+  position along that line. A line drag then moves the port with no
+  bookkeeping, because its across coordinate comes from the line. A bus line
+  has no nodes, so nothing ever renumbers.
 - *Union every port pin of a bus wire, wired or not.* That adds a net per
   unwired pin, so the circuit gets empty nets. The builder unions only pins
   that some wire ends on.
@@ -171,12 +178,12 @@ proof. Not byte-identity.
 ```swift
 struct BusPort: Identifiable, Hashable {
     let id: UUID
-    /// Index of the bus segment it sits on (points[segment] → points[segment+1]).
-    var segment: Int
+    /// The bus line it sits on (plan-13-A § 4).
+    let line: UUID
     /// Along-axis coordinate of its first pin slot: x on a horizontal
-    /// segment, y on a vertical one. On the grid.
+    /// line, y on a vertical one. On the grid.
     var start: CGFloat
-    /// Which side its pins come out: .top/.bottom on a horizontal segment,
+    /// Which side its pins come out: .top/.bottom on a horizontal line,
     /// .left/.right on a vertical one (ChipLayout.Side).
     var side: ChipLayout.Side
     /// The ticked bus wire IDs. Pin order is always the bus's wire order.
@@ -186,7 +193,7 @@ struct BusPort: Identifiable, Hashable {
 
 `Bus` gains `var ports: [BusPort] = []`.
 
-**Geometry** (`BusPort` helpers taking the bus). Let the segment have axis
+**Geometry** (`BusPort` helpers taking the bus). Let the port's line have axis
 coordinate range `[lo, hi]` and across coordinate `c` (y for horizontal, x
 for vertical). Let `n` be the number of ticked wires, `slots = max(n, 1)` and
 `pitch = ChipLayout.pitch` (20).
@@ -205,11 +212,14 @@ for vertical). Let `n` be the number of ticked wires, `slots = max(n, 1)` and
 - **Label**: the wire's display name, inside the body next to its pin, at the
   chip pin-name font. It is rotated 90° on a horizontal bus, where pins are
   only 20 apart along x, and level on a vertical one.
-- **Defaults**: `.bottom` on a horizontal segment, `.right` on a vertical one.
+- **Defaults**: `.bottom` on a horizontal line, `.right` on a vertical one.
 
 **Fit rule** (`Bus.fit(port:slots:preferredStart:) -> CGFloat?`). Free
-space is `[lo, hi]` of the port's segment, minus the extents of the other
-ports on the same segment (both sides). Extents may touch but not overlap.
+space is `[lo, hi]` of the port's line, minus the extents of the other
+ports on the same line (both sides), and split at every T on that line's
+middle (the point where another line ends on it, plan-13-A § 4). Extents
+may touch each other or a T but not overlap or contain one. A port on the
+line that ends at the T is already stopped there by `[lo, hi]`.
 With `length = slots·pitch`:
 
 1. If the extent at `preferredStart` lies in the free interval that contains
@@ -220,30 +230,30 @@ With `length = slots·pitch`:
 3. Otherwise return nil.
 
 The owner's rule: "grow right if can, if can't grow left, if can't error.
-Grow down if can, if can't grow up." Note that a bus segment that is too short
-is the only real failure.
+Grow down if can, if can't grow up." Note that a bus line (or the gap
+between Ts on it) that is too short is the only real failure.
 
 ## 5. Document operations
 
 - `var selectedPortID: UUID?`, which clears and is cleared by the other three
   selections.
-- `addPort(at:tolerance:) -> String?`: hits a bus segment (`busHit`). Refused
-  within `tolerance` of any route node: "A port can't go on a bend or the end
-  of a bus.". Snaps the along-axis coordinate to the grid as the preferred
-  start, then runs `fit(slots: 1)`; nil → "Not enough room on this bus
-  segment for a port.". It appends an empty port with the default side and
+- `addPort(at:tolerance:) -> String?`: hits a bus line (`busHit`). Refused
+  within `tolerance` of either end of the line or of a T on it: "A port
+  can't go on the end of a bus line or on a joint.". Snaps the along-axis
+  coordinate to the grid as the preferred start, then runs `fit(slots: 1)`;
+  nil → "Not enough room on this bus line for a port.". It appends an empty port with the default side and
   selects it.
 - `setPortWires(_ portID:, _ ids: Set<UUID>) -> String?`: the result of
   ticks, Select All, and Deselect All. Growing runs `fit` with the new slot
   count and the current start. On nil it changes nothing and returns "Not
-  enough room on this bus segment for <n> pins.". It stores the fitted start
+  enough room on this bus line for <n> pins.". It stores the fitted start
   (it may have moved left/up). Then `settleWires` re-fits wires on this port,
   because pins after an inserted one shift by one pitch.
 - `wiresOnPins(port:, removing ids:) -> Int`: how many wires end on the pins
   that unticking `ids` would remove. The panel uses it to decide whether to
   ask first.
 - Unticking removes the wires on those pins, then prunes junctions.
-- `setPortSide(_:_:)`: stores the side if it matches the segment's
+- `setPortSide(_:_:)`: stores the side if it matches the line's
   orientation, then settles the port's wires.
 - `setBusWireCount` minimum: `max(2, k)`, where k is 1 + the highest list
   index of any wire ticked on any port of the bus. A smaller request returns
@@ -256,8 +266,13 @@ is the only real failure.
   bus**:
   - a port with wires on its pins → `pendingRemoval` "Delete this port and
     the <m> wire(s) connected to it?"; one with none → removed now;
-  - a bus with ports → "Delete this bus, its <p> port(s) and the <m> wire(s)
-    connected to them?"; one with none → removed now;
+  - a bus line with ports → "Delete this bus line, its <p> port(s) and the
+    <m> wire(s) connected to them?"; one with none → removed now (plan-13-A
+    § 4, with its split into pieces);
+  - **after a split**, each port goes with its line's piece. On a piece that
+    became a new bus, the port's `wireIDs` and every `.busPin` wire end on
+    it are mapped to the new bus's wire IDs by list position (the wire list
+    is copied in order, so names match). The wires on those pins stay;
   - while `pendingRemoval` is set, `erase` does nothing, so one eraser sweep
     raises at most one dialog.
   The panel's untick asks through the same state when `wiresOnPins > 0`:
@@ -277,9 +292,10 @@ is the only real failure.
 - `attaches` gains a port form. `settleWires(attachedToPort:)` re-fits wires
   with an end on that port's pins, the same body as the chip version.
 - **`NetlistBuilder.build(chips:wires:buses:)`**: after the wire unions, for
-  each bus, collect the `.busPin` ends that some wire uses, group them by
-  `wireID`, and union each group's members with its first. Nothing else
-  changes. Chip-pin connections are collected exactly as today. Port pins are
+  each bus, collect the `.busPin` ends that some wire uses (on ports of
+  every line of the bus), group them by `wireID`, and union each group's
+  members with its first. Which line a port is on doesn't matter. Nothing
+  else changes. Chip-pin connections are collected exactly as today. Port pins are
   not circuit pins, so they add no connection rows.
 - `VoltageCheck.issues` / `sortedIssues` / `firstNew` take `buses:`.
   `toggleSwitch` and `connect` pass `buses`, and `SimulationController.start`
@@ -295,12 +311,12 @@ is the only real failure.
   body (control background fill, 1.5 outline; accent and 2 when selected or
   hovered), pin stubs, and labels. In Line mode the port pin tips get the same
   markers as chip pins (via `pinTips`).
-- **Pointer**: chip → **port** → wire bend → wire segment → bus node → bus
-  segment → pan. A port hit selects it. plan-13-C adds dragging.
+- **Pointer**: chip → **port** → wire bend → wire segment → bus end → bus
+  line → pan. A port hit selects it. plan-13-C adds dragging.
 - **Hover**: ports are checked after chips.
 - **`BusPortPanel`** (`Drawer/BusPanels.swift`):
   - header "Bus Port";
-  - Section "Pins": a `Picker("Side")` (Top/Bottom or Left/Right by segment
+  - Section "Pins": a `Picker("Side")` (Top/Bottom or Left/Right by line
     orientation); `Button("Select All")` and `Button("Deselect All")`;
   - a `LazyVStack` of `Toggle(name, isOn:)`, one per bus wire in bus order.
     Turning a toggle on calls `setPortWires`. Turning one off checks
@@ -317,20 +333,21 @@ Still version 3 (A bumped it; no build has shipped version 3 without ports).
   means none):
 
   ```json
-  "ports": [ { "id": "…", "segment": 0, "start": 140, "side": "bottom",
-               "wires": [ "<bus wire id>", "…" ] } ]
+  "ports": [ { "id": "…", "line": "<bus line id>", "start": 140,
+               "side": "bottom", "wires": [ "<bus wire id>", "…" ] } ]
   ```
 
   `wires` is written in bus order.
 - A new wire end: `{ "port": <port id>, "wire": <bus wire id> }`.
   `SchematicFile.End` decodes `port` first, then `junction`, then `part`.
 - New validation details under `badBus`:
-  - `port <id> segment <i> is not on bus <id>`;
-  - `port <id> side "<s>" must be top or bottom on a horizontal segment`
+  - `port <id> line <id> is not on bus <id>`;
+  - `port <id> side "<s>" must be top or bottom on a horizontal line`
     (left or right on a vertical one);
   - `port <id> wire <id> is not on bus <id>`;
-  - `port <id> does not fit on its segment` (when `fit` at the stored start
-    does not return that start: off the segment, or overlapping another port);
+  - `port <id> does not fit on its line` (when `fit` at the stored start
+    does not return that start: off the line, overlapping another port, or
+    covering a T);
   - and for wire ends (new `SchematicFileError.missingPort(wire:port:)`,
     "Wire <id> connects to port <id>, which is not in the file."), plus
     `missingPortPin(wire:port:wire:)`, "Wire <id> connects to a pin port
@@ -348,8 +365,8 @@ Still version 3 (A bumped it; no build has shipped version 3 without ports).
 
 ### Phase 1 — Port model, tool and drawing
 
-- [ ] `BusModel.swift`: `BusPort`, `Bus.ports`, geometry helpers, `Bus.fit`
-      (§ 4).
+- [ ] `BusModel.swift`: `BusPort` (with `line`), `Bus.ports`, geometry
+      helpers, `Bus.fit` with Ts as obstacles (§ 4).
 - [ ] `SchematicModel.swift`: `SchematicTool.busPort`, `selectedPortID`,
       `addPort`, `setPortWires` (grow and shrink without wire removal, since no
       wire can attach yet), `setPortSide`, and the `setBusWireCount` minimum.
@@ -357,15 +374,18 @@ Still version 3 (A bumped it; no build has shipped version 3 without ports).
       selection and hover for ports.
 - [ ] `BusPanels.swift`: `BusPortPanel`; `SchematicSidebarView`: show it.
 
-Acceptance: a port placed mid-segment is empty and selected; ticking 4 wires
-grows it right; ticking near the segment's right end grows it left; ticking
-more than fit shows the room message and nothing changes; clicking a bend is
-refused; switching Side moves the pins across; the wire count can't drop
+Acceptance: a port placed mid-line is empty and selected; ticking 4 wires
+grows it right; ticking near the line's right end grows it left; ticking
+more than fit shows the room message and nothing changes; clicking a line
+end or a T is refused; a port can't cover a T; switching Side moves the pins across; the wire count can't drop
 below the highest ticked wire.
   Check: build; on a horizontal bus from (100,100) to (300,100), place a port at
   x 260, tick `B0`–`B3`, screenshot (it should have shifted left to end at
   300); tick all 8 → message, screenshot; set Side to Top, screenshot; set the
-  wire count to 3 with `B3` ticked → message, screenshot (est. 8 min).
+  wire count to 3 with `B3` ticked → message, screenshot. With the Bus tool
+  drag (200,100) → (200,160) (a T); place a port at x 180 and tick
+  `B0`–`B1` (its extent would cover the T at 200, so it shifts left to end
+  there), screenshot; click the T → message, screenshot (est. 10 min).
 Commit: —
 
 ### Phase 2 — Port pins as wire ends; nets
@@ -380,7 +400,8 @@ Commit: —
       `connect` pass `buses`.
 
 Acceptance: the plan-13 behavior. 5V → `TE-GDS0204` position 1 → port 1
-`B0`; port 2 `B0` (same bus) → `LED-RED-0603` anode; cathode → GND. Run,
+`B0` on a horizontal bus line; port 2 `B0` on a vertical line joined to it
+at a T → `LED-RED-0603` anode; cathode → GND. Run,
 turn position 1 on, and the LED lights. Turn it off and the LED goes dark.
   Check: build; draw it, run (⌘R), screenshot with the switch off and on
   (est. 8 min; the smallest check that the union reaches the backend).
@@ -389,18 +410,27 @@ Commit: —
 ### Phase 3 — Erasing, unticking, confirm dialog
 
 - [ ] `SchematicModel.swift`: `PendingRemoval`, `confirmPendingRemoval`,
-      `cancelPendingRemoval`, `wiresOnPins`, the port and bus branches of
-      `erase` (order chip → port → wire → bus), and untick removal of wires
-      and junction pruning.
+      `cancelPendingRemoval`, `wiresOnPins`, the port and bus line branches
+      of `erase` (order chip → port → wire → bus), moving ports with their
+      piece after a split (with the wire ID mapping), and untick removal of
+      wires and junction pruning.
 - [ ] `ContentView.swift`: the `.alert` for `pendingRemoval`.
 - [ ] `BusPanels.swift`: unticking with wires goes through `pendingRemoval`.
 
 Acceptance: erasing an unwired port removes it with no dialog; erasing a
 wired port asks, and Cancel keeps everything, Delete removes the port and its
-wires; erasing a bus with 2 ports asks, then removes the bus, both ports and
-their wires; unticking a wired pin asks, then removes the pin and its wires.
+wires; erasing the line that holds port 2 asks, then removes that line,
+port 2 and its wire, and leaves the other line and port 1; unticking a wired
+pin asks, then removes the pin and its wires. Erasing the line that holds a
+bus together splits it: on a horizontal line with two vertical lines joined
+at Ts, port 1 `B0` on one (wired to the switch) and port 2 `B0` on the other
+(wired to the LED), erasing the horizontal line (no ports, so no dialog)
+leaves two buses; both ports and their wires stay, and in play mode the
+switch no longer lights the LED.
   Check: build; on the Phase 2 drawing (re-drawn), do each step and screenshot
-  the dialog and the result (est. 8 min).
+  the dialog and the result; draw the split layout, erase, select each half
+  (each shows its own Bus panel with `B0`–`B7`), run, turn the switch on,
+  and screenshot (est. 14 min).
 Commit: —
 
 ### Phase 4 — Save and open ports
@@ -436,7 +466,8 @@ Commit: —
 ## Decisions
 
 - A port is placed by clicking the bus with the Bus Port tool; bends and
-  ends are invalid spots — owner, 2026-11-01.
+  ends are invalid spots — owner, 2026-11-01. (Bus lines have no bends since
+  2026-11-07; the corners of an L are line ends, and a T is invalid too.)
 - A new port starts empty and selected, so its panel opens — owner,
   2026-11-01.
 - The panel lists every bus wire with a checkbox, plus Select All /
@@ -450,12 +481,18 @@ Commit: —
 - All pins for the same wire on the same bus are one net; there is no other
   bus naming — owner, 2026-11-01.
 - Deleting a port deletes the wires on its pins; deleting a bus deletes its
-  ports and their wires; both confirm first — owner, 2026-11-01.
+  ports and their wires; both confirm first — owner, 2026-11-01. Since bus
+  lines join (2026-11-07), the Eraser deletes one bus line at a time, with
+  the ports on it.
 - The wire count can't go below the highest wire any port uses — owner,
   2026-11-01.
 - Port body 40 deep on the pin side, labels inside; confirm only when
   something beyond the clicked item would be removed; no bus colouring in
   play mode — author's call, 2026-11-01 (§ 4, § 5).
+- Ports go on any line of a bus; a port can't cover a T (on either side of
+  the line); after a split, ports stay with their line and their pins map
+  to the new bus's wires by position — author's call, 2026-11-07, following
+  the owner's T/L joining rule (plan-13-A § Decisions).
 
 ## Corrections
 
