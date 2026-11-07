@@ -304,19 +304,26 @@ timing (`tacr` 10, `tcar` 10, `tcdr` 20, `thr` 10, `tacw` 10, `tcaw` 10,
 
 Acceptance: the four files exist and match.
   Check: `shasum -a 256 datasheets/pio/w65c2*.pdf datasheets/controller-uart/w65c51n.pdf datasheets/cpu/w65c816s.pdf` → the four §4.1 hashes (est. seconds).
-Commit: —
+Commit: 30040b3
 
 ### Phase 2 — The `pio` kind and `bus65`
 
-- [ ] `backend/include/parts.h`: `PART_PIO`, `PartPio`, `Part.pio` (§4.2).
-- [ ] `backend/src/models/pio.c`, `pio.h` (§4.2), empty model table;
+- [x] `backend/include/parts.h`: `PART_PIO` (after `PART_CONNECTOR`), `PartPio`, `Part.pio` (§4.2). Build clean.
+- [x] `backend/src/models/pio.c`, `pio.h` (§4.2), empty model table;
       `bus65.c`, `bus65.h` (§4.3); `backend/src/library/kinds.c` +
-      `&PIO_KIND`; `backend/CMakeLists.txt` adds the three sources.
-- [ ] `listing_check`/`trace_check` kind name and `TRACE_LAST_KIND` (§4.2).
-- [ ] `library_check`: the two refusals of §1.
-- [ ] `backend/tests/pio_test.c` cases A1–A7; `logic_test(pio_test)`.
-- [ ] `docs/parts-format.md` § `pio`; `docs/backend.md` § Layout (`pio.c`,
+      `&PIO_KIND`; `backend/CMakeLists.txt` adds `pio.c`, `bus65.c` and
+      `logic_test(pio_test)`. `cmake --build` → no errors or warnings.
+- [x] `listing_check`/`trace_check` kind name and `TRACE_LAST_KIND` (§4.2):
+      `listing.c` → `pio`, `model=… grade=… max_hz=…`; `TRACE_LAST_KIND PART_PIO`.
+- [x] `library_check`: the two refusals of §1 → `ok   pio unknown model: … unknown pio model "nope"`,
+      `ok   pio missing model: … "model" is required`.
+- [x] `backend/tests/pio_test.c` cases A1–A7; `logic_test(pio_test)`.
+      `/tmp/logic-p14/pio_test` → `ok A1 read` … `ok A7 cycle hook`.
+- [x] (added) `bus65` PHI2 width rule and `pio_test` A8 (Corrections) → `ok A8 PHI2 widths`.
+- [x] `docs/parts-format.md` § `pio`; `docs/backend.md` § Layout (`pio.c`,
       `bus65.c`) and § Tests (`pio_test`).
+- [x] Acceptance: `ctest --test-dir /tmp/logic-p14` → `100% tests passed, 0 tests failed out of 21`
+      (T0 + 1); the golden diff stat → empty.
 
 Acceptance: `pio_test` A1–A7 pass; `library_check` refuses both devices;
 `ctest` T0 + 1, goldens unchanged.
@@ -354,6 +361,28 @@ Commit: —
 ## Corrections
 
 - Prerequisites row 4: `grep -c '"id":"PLCC-28"'` → `0` because `footprints.json` writes newer entries as `"id": "PLCC-28"` (with a space; line 216). Corrected to `grep -c '"id": *"PLCC-28"'` → `1`. The same applies to §2's `grep -o '"id":"[^"]*"'` population check.
+- §4.3 rule 6 extended (B §3.5 and C §3.8 both say "PHI2 widths and period
+  as `bus65` rule 6"): `Bus65Timing` gains `tcyc`, `tpwh`, `tpwl` (0 = not
+  checked). A high phase shorter than `tpwh`, a low phase shorter than
+  `tpwl`, or rises closer than `tcyc` make every register unknown, as PHI2
+  X, and the cycle unknown. Tested by the added case A8. B passes `tc` as
+  both widths.
+- §4.3 rule 4: a select, RWB or RS change at the very instant of the rise
+  always counts as a hold violation, also when `tcar`/`tcaw` = 0 (the
+  W65C21). Without it the engine's per-round notification order would
+  decide whether a same-instant change is a setup violation or ignored.
+- §4.3 rules 3–4 (write data hold): `write()` is called at the fall; a data
+  bit that then changes within `thw` calls `write()` again with that bit's
+  known cleared. The plan did not say how a violation found after the fall
+  reaches the model; models must accept a repeated write of one register
+  in one cycle.
+- §4.3 rule 4, not-selected cycle: a select change within the hold window
+  makes the cycle unknown only when no other select was inactive at the
+  rise; RWB/RS changes are ignored when not selected.
+- `bus65` already carries plan-14-C's `bus_hold` flag (Z on a bus pin reads
+  its last known level); C only sets it from `"busHold"`.
+- A `pio` device without `"model"` is refused with `"model" is required`
+  (§1), not the loader's usual `missing "model"`.
 
 ## Summary
 

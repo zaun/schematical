@@ -190,6 +190,19 @@ static void check_serial(void) {
                 "devices[0] (U): \"fifo\" must be 0, 16, 32, 64, 128 or \"750\"");
 }
 
+/* plan-14-A: the pio kind checks "model" against its model table. */
+#define PIO_DEVICE(KEYS) \
+    HEAD("pio") "{'id':'U','function':'PIA','description':'d','drawer':['Interface']," \
+    "'pinouts':{'p':[{'number':1,'name':'VSS','role':'ground'}]}," KEYS \
+    "'parts':[{'name':'U-P','package':'DIP','pinout':'p','footprint':'T40','grade':'14'}]}" TAIL
+
+static void check_pio(void) {
+    expect_fail("pio unknown model", PIO_DEVICE("'model':'nope','grades':{'14':{}},"),
+                "devices[0] (U): unknown pio model \"nope\"");
+    expect_fail("pio missing model", PIO_DEVICE("'grades':{'14':{}},"),
+                "devices[0] (U): \"model\" is required");
+}
+
 static void check_valid_supply(void) {
     PartLibrary *library = part_library_create();
     char *error = NULL;
@@ -1679,6 +1692,7 @@ int main(void) {
     check_valid_supply();
     check_valid_pull();
     check_serial();
+    check_pio();
     check_valid_led();
     check_duplicate_across_calls();
     check_logic_family();

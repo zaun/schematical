@@ -24,7 +24,7 @@ typedef struct PartLibrary PartLibrary;
 typedef enum {
     PART_GATE, PART_DFF, PART_JKFF, PART_SRAM, PART_SWITCH,
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER,
-    PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR
+    PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -84,6 +84,9 @@ typedef struct { const char *model; unsigned channels; const char *grade; } Part
 /* A barrel connector. center_diameter_um is the mating plug's centre-pin
    diameter; contacts is the number of normally-closed contacts. */
 typedef struct { uint32_t center_diameter_um, rated_mv, rated_ma; unsigned contacts; } PartConnector;
+/* Parallel I/O peripheral (plan-14): model "pia6521" or "via6522"; grade:
+   the part's speed grade; max_hz = floor(1e12 / the grade's tcyc in ps). */
+typedef struct { const char *model; const char *grade; uint64_t max_hz; } PartPio;
 
 /* ---- Footprints (Parts/footprints.json, docs/parts-format.md) ----------- */
 
@@ -136,6 +139,7 @@ typedef struct Part {
     const PartFootprint *connector_footprint;  /* NULL = none; the PCB Style option's "Connector Only" */
     const PartCharLcd *charlcd;
     const PartConnector *connector;
+    const PartPio *pio;
     const void *internal;              /* model data; not for the app */
 } Part;
 

@@ -22,6 +22,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_CHARLCD: return "charlcd";
         case PART_SERIAL: return "serial";
         case PART_CONNECTOR: return "connector";
+        case PART_PIO: return "pio";
     }
     return "?";
 }
@@ -133,6 +134,10 @@ static void print_details(FILE *out, const Part *part) {
                     (unsigned)part->connector->center_diameter_um,
                     (unsigned)(part->connector->rated_mv / 1000),
                     (unsigned)part->connector->rated_ma, part->connector->contacts);
+            break;
+        case PART_PIO:
+            fprintf(out, "model=%s grade=%s max_hz=%llu", part->pio->model, part->pio->grade,
+                    (unsigned long long)part->pio->max_hz);
             break;
     }
 }

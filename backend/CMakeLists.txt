@@ -61,6 +61,8 @@ add_library(logic STATIC
     src/models/serial_com78c80x.c
     src/models/serial_sc18is604.c
     src/models/connector.c
+    src/models/pio.c
+    src/models/bus65.c
     src/third_party/cjson/cJSON.c
 )
 target_include_directories(logic
@@ -129,6 +131,7 @@ target_compile_definitions(cpu_core_test PRIVATE
 logic_test(cpu_test)
 logic_test(charlcd_test)
 logic_test(serial_test)
+logic_test(pio_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.

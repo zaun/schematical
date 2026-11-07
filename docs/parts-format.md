@@ -1577,6 +1577,42 @@ Interrupt Summary and Data Set Change Summary (write 1 to clear). RDY (open
 drain) follows CS. Timing names: `tdd`, `tddz` (read access, float), `tid`
 (DS to IRQ release), `trdl`, `trdh` (CS to RDY).
 
+### `pio`
+
+Parallel I/O peripherals on the 65xx bus (plan-14): the WDC W65C21 PIA and
+W65C22 VIA (`backend/src/models/pio.c`). The device's `"model"` picks the
+behavioral model, a full pin-level model at the datasheet's times. Every
+model talks to the bus through `bus65.c` (below).
+
+| Key | Value |
+|---|---|
+| `"model"` | required. Models: B and C add `pia6521` and `via6522`. An unknown name is refused (`unknown pio model "x"`) |
+| `"grades"` | required: grade name → the model's timing names (ns; a missing name is 0), plus optional `"vcc"`, `"inputMax"`, `"note"`. Every model's first timing name is `tcyc` |
+| the model's keys | below; a key of another model is rejected (`"x" is not a key of model "y"`) |
+
+Part keys: `"grade"` (a key of `"grades"`, required), optional `"vcc"`,
+`"inputMax"`. `PartPio` holds the model, the grade and `max_hz` =
+floor(10^12 / `tcyc` in ps). The listing's facts column reads
+`model=<m> grade=<g> max_hz=<n>`.
+
+Pin groups (presentation, § Pinouts and pins): D0–D7 `"data"`, PA0–PA7
+`"port A"`, PB0–PB7 `"port B"`; every other pin the default group.
+
+**The bus (`bus65`).** Chip selects (active-high `cs_high`, active-low
+`cs_low`), RWB and the register selects are sampled at each PHI2 rise.
+Selected = every active-high select reads 1 and every active-low one 0. A
+select, RWB or RS that reads X or Z, or changed less than `tacr` (read) /
+`tacw` (write) before the rise, makes the cycle unknown; so does one that
+changes at the rise or within `tcar` / `tcaw` after it. A read drives the
+data pins X from the rise and the register's value from rise + `tcdr`,
+until fall + `thr`; an unknown read drives X for the same window. A write
+takes the data at the PHI2 fall: a bit that changed less than `tdcw` before
+the fall, or changes within `thw` after it, is unknown. An unknown write
+makes every register unknown. PHI2 X makes every register unknown and the
+data pins X until PHI2 is known again; so does a high or low phase shorter
+than the model's minimum widths, or a cycle shorter than `tcyc`. Not
+selected, the data pins stay Z.
+
 ### `7seg`
 
 LED 7-segment displays. A display is a set of LEDs, each between one

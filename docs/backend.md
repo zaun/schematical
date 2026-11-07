@@ -177,7 +177,11 @@ backend/
                            model, the terminal hooks), serial_line.c (baud
                            generator, transmitter, receiver, sent log,
                            terminal sender), serial_bus.c (Intel host bus),
-                           ns16550.c (the 16450/16550 family)
+                           ns16550.c (the 16450/16550 family);
+                           pio.c + pio.h (the pio kind: loader, model
+                           table, the model that forwards to a pio model),
+                           bus65.c + bus65.h (the 65xx peripheral bus the
+                           pio models share)
     circuit.c
     voltage.c              the voltage check (voltage.h)
     memory_image.c         load files (binary, Intel HEX) to memory images
@@ -303,6 +307,11 @@ lines: the kind's name and facts in `tests/support/listing.c`, and
   1.8432 MHz sends `H i`; typed `OK` reads back). `circuit_check` drives
   the same UART through DIP switches and pull-ups for the
   `circuit_serial_*` API and its error messages.
+- `pio_test` — the pio kind (plan-14). A1–A8 drive the 65xx bus helper
+  (`bus65`) through a test-only 16-register component on the bench at the
+  W65C22S 14 MHz times: the read window (X at the rise, data at + `tcdr`,
+  Z at fall + `thr`), write data setup and hold, select/RS setup and hold,
+  not selected, PHI2 X, the per-fall `cycle()` hook and PHI2 width checks.
 
 Not a ctest: `sim_bench` (`tests/sim_bench.c`) measures engine speed — a
 D flip-flop ripple counter on an oscillator plus N idle SN74HC00N chips,
