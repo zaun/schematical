@@ -45,9 +45,9 @@ The gate is plan-13-A's table. Re-run it, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-13-A complete | `ls planning/plan-13-A-* 2>/dev/null` → no output; `ls planning/completed/plan-13-A-bus-lines.md` → exists | NOT MET (2026-11-01: not started) |
-| Format is version 3 with buses | `grep -n "currentVersion = 3" schematical/schematical/Document/SchematicFile.swift` → one line | NOT MET (lands in A) |
-| No port code yet | `grep -rn "BusPort\|busPin" schematical/schematical` → no output | MET (2026-11-01) |
+| plan-13-A complete | `ls planning/plan-13-A-* 2>/dev/null` → no output; `ls planning/completed/plan-13-A-bus-lines.md` → exists | MET (2026-11-07: archived in `782b524`) |
+| Format is version 3 with buses | `grep -n "currentVersion = 3" schematical/schematical/Document/SchematicFile.swift` → one line | MET (2026-11-07: line 15) |
+| No port code yet | `grep -rnw "BusPort\|busPin" schematical/schematical` → no output | MET (2026-11-07; see § Corrections for `-w`) |
 
 ## 1. Goal
 
@@ -495,6 +495,16 @@ Commit: —
   the owner's T/L joining rule (plan-13-A § Decisions).
 
 ## Corrections
+
+- **"No port code yet" needs a whole-word grep** (2026-11-07). As written,
+  `grep -rn "BusPort\|busPin"` matches the character LCD's `busPins`
+  (`PartCatalog.swift:112`, `SchematicModel.swift:235`, from plan-11), which
+  is not port code. `grep -rnw` → no output.
+- **Checks run in the harness** (2026-11-07), as plan-13-A's Corrections
+  record: `scripts/harness/build.sh` drives the document calls the gestures
+  and panel make and renders the real views to PNG. A play-mode check runs
+  the real `SimulationController` and reads the LED's light level.
+- plan-13-A now lives at `planning/completed/plan-13-A-bus-lines.md`.
 
 ## Summary
 
