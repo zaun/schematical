@@ -23,6 +23,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_SERIAL: return "serial";
         case PART_CONNECTOR: return "connector";
         case PART_PIO: return "pio";
+        case PART_BUFFER: return "buffer";
     }
     return "?";
 }
@@ -52,6 +53,7 @@ static void print_details(FILE *out, const Part *part) {
         case PART_LATCH:
         case PART_COUNTER:
         case PART_SHIFT:
+        case PART_BUFFER:
             fprintf(out, "units=%u", part->logic->units);
             break;
         case PART_SRAM:

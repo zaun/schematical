@@ -1967,6 +1967,69 @@ Behavior (the HD44780 family as the module datasheets print it;
   reads 0. The voltage check carries the anode's level to the cathode net,
   as for an LED, and checks VDD against `vcc`.
 
+### `buffer`
+
+Buffers with output enables, bus transceivers, registered and latched
+transceivers, and level translators (plan-20). Each device names a
+**model**: `tristate`, `transceiver`, `registered` or `translator`; the
+model decides the rest of the device keys. `timing` entries are as in the
+sequential kinds: family → `{rise, fall}` (ns, the model's main path:
+A → Y, A → B, clock → B for `registered`), plus `note`, `vcc`, `inputMax`.
+Part keys: `family`, optional `vcc` and `inputMax`. `PartLogic.units` is
+the number of bits (buffers or transceiver channels) of the part.
+
+Shared keys:
+
+| Key | Value |
+|---|---|
+| `"units"` | 1–8 unit objects (the model's keys below); a unit is one group of bits sharing its enables. At most 40 bits per unit and 64 per part. |
+| `"invert"` | optional, default `false`: every path inverts ('240, '540, '640). A unit's own `"invert"` overrides it. |
+| `"output"` | optional: `push-pull` (default) or `open-drain` ('641, '756, open-collector parts): a 1 releases the pin. Applies to every output and port. |
+
+An **enable** (`oe`, `oeab`, `oeba`) is one control `{"pin", "active"}` or
+an array of 0–4 controls that must all be asserted ('541 OE1·OE2; `[]` =
+always enabled). An enable pin at X or Z makes what it gates X.
+
+**Ports.** A pin a part drives is never read back as an input: after a
+port's drive is released (a direction change), the port reads X until the
+release has taken effect (the rise delay), then the net's value. So a
+transceiver turning around shows X on the new destination for that time
+rather than its own old output.
+
+Signal rules otherwise as in [Sequential kinds](#sequential-kinds-latch-counter-shift):
+a data input at Z reads X; outputs are inertial (fall delay for 0, rise
+for 1 and Z, the longer for X); bus hold is not modeled.
+
+#### Model `tristate`
+
+Y = A (or NOT A) while every enable of the unit is asserted; Z while one is
+deasserted; X while one is unknown and none is deasserted.
+
+| Unit key | Value |
+|---|---|
+| `"a"` | input pin names (a name may repeat: '16344 drives four outputs from one input) |
+| `"y"` | output pin names, as many as `a` |
+| `"oe"` | optional enable; absent = always enabled |
+| `"invert"` | optional, overrides the device's |
+
+#### Model `transceiver`
+
+Two ports per unit, `"a"` and `"b"` (inout pins, as many each), in one of
+two forms:
+
+| Form | Unit keys |
+|---|---|
+| DIR + OE ('245) | `"dir": {"pin": <name>, "ab": "high"\|"low"}` — the DIR level that means A → B; `"oe"`: optional enable (absent: always on, 1T45) |
+| one enable per direction ('243, '620, '623, '638 inverted) | `"oeab"`, `"oeba"`: enables of the A → B and B → A buffers |
+
+The enabled direction's destination drives the source's value (inverted
+with `invert`); a port of a direction that is off is Z and reads. X on DIR
+(with OE not deasserted) makes both ports X. Both directions on (the '623
+latch row, `oeab` and `oeba` asserted together): each port drives the
+value last passed in either direction — the two buffers form a loop that
+holds the bus value present when the second enable arrived (X if both
+came at once).
+
 ### Sequential kinds (`latch`, `counter`, `shift`)
 
 The three sequential kinds share their device and part format and their

@@ -66,6 +66,7 @@ add_library(logic STATIC
     src/models/bus65.c
     src/models/pio_pia6521.c
     src/models/pio_via6522.c
+    src/models/buffer.c
     src/third_party/cjson/cJSON.c
     src/third_party/jsmooch/wdc65816.c
     src/third_party/jsmooch/wdc65816_generated_opcodes.c
@@ -132,6 +133,7 @@ logic_test(counter_test)
 logic_test(shift_test)
 logic_test(memory_image_test)
 logic_test(voltage_test)
+logic_test(buffer_test)
 logic_test(cpu_core_test)
 target_compile_definitions(cpu_core_test PRIVATE
     CPU_VECTORS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/cpu")

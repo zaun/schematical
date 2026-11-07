@@ -19,7 +19,7 @@ plan-20-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-20-C complete | `ls planning/completed/plan-20-C-*.md` → exists | NOT MET (2026-11-07) |
+| plan-20-C complete | `ls planning/completed/plan-20-C-*.md` → exists | MET (2026-11-07: `planning/completed/plan-20-C-buf-op.md`) |
 
 ## 1. Goal
 
@@ -83,17 +83,17 @@ X on every port that could drive.
 
 ### Phase 1 — Kind and `tristate`
 
-- [ ] `PART_BUFFER`; `KINDS[]`; `buffer.c`, `buffer.h`; CMake lines; `buffer_test.c` tristate cases; test entry; docs § `buffer` (intro, `tristate`).
+- [x] `PART_BUFFER` (appended after `PART_PIO`); `KINDS[]`; `buffer.c`, `buffer.h`; CMake lines (`src/models/buffer.c`, `logic_test(buffer_test)`); listing/trace/listing_check last-kind lines; `buffer_test.c` tristate cases ('244, '240, '541, 1G125/1G126, open-drain 1G125); docs § `buffer` (intro, enables, port rule, `tristate`), `docs/backend.md` (source map, test list). `ctest --test-dir /tmp/logic-p20 -R buffer_test` → `Passed`; `buffer_test` prints `buffer_test: all passed`.
 
 Acceptance: `ctest --test-dir /tmp/logic-p20 -R buffer_test` passes (seconds).
-Commit: —
+Commit: (this commit — Phases 1 and 2 land together, one source file; hash in the next)
 
 ### Phase 2 — `transceiver`
 
-- [ ] Model, §3 cases, docs, `library_check` cases.
+- [x] Model `transceiver` (DIR + OE and `oeab`/`oeba` forms, `invert`, `open-drain`, the '623 hold loop), §3 cases ('245 both ways, external drive passes, turnaround never reads the part's own drive — `PASS: '245: after DIR goes low, A never shows the part's own old B drive`, OE high → both Z, X on DIR → both ports X; '640; '641 open drain; '623 each enable, isolation, both-enabled hold; 16245 units independent), docs § Model `transceiver`, loader error cases (14, in `buffer_test` `check_loader` — Corrections 1). `ctest --test-dir /tmp/logic-p20` → `100% tests passed, 0 tests failed out of 22`; `git diff --stat backend/tests/golden` → empty.
 
 Acceptance: `ctest --test-dir /tmp/logic-p20` → T0 + 1 of T0 + 1; golden diff empty (seconds).
-Commit: —
+Commit: (this commit; hash in the next)
 
 ## Validation Plan
 
@@ -105,6 +105,10 @@ D's gate: Phase 2. Landing tier at the end of I.
   translating part (plan-20-A §3.2).
 
 ## Corrections
+
+1. **Loader error cases live in `buffer_test`** (`check_loader`), not `library_check`: they need fixture footprints, which `buffer_test` already loads; one case per validation error (unknown model, unknown device key, no units, `a`/`y` count, unknown unit key, enable not a control, bad level, unknown pin, bad output style, `a`/`b` count, missing `oeba`, `dir` without `ab`, `dir` with `oeab`).
+2. **Open-drain ports**: `part_pin_open_drain` answered only for `PIN_OUTPUT` pins and the voltage check counted every `PIN_INOUT` as a driver, so an open-drain transceiver port ('641, '642) would have driven its domain's level. Both now take `PIN_INOUT` too (`kinds.c`, `voltage.c:280`); no existing kind reports an inout pin as open drain, so no golden or `voltage_test` line moves (`ctest` 22/22, golden diff empty).
+3. **Turnaround needs a timer**: "never reads its own value" is implemented as: a port whose drive was released reads X until the release lands (rise delay + 1 ps), and the model re-evaluates then (`sim_schedule_timer`) — a pin change alone would not come when the floating bus keeps the old value.
 
 ## Summary
 

@@ -64,7 +64,7 @@ Commit: 7400cd2
 - [x] Spot checks (`parts.txt`): `SN74LS07N|gate|DIP|Logic|Buffer|LS||units=6|…|footprint=PDIP-14|vcc=4750-5250` (device `74_07` `"output": "open-drain"`); `SN74LVC1G17DBVR|gate|SOT-23|…|Buffer|LVC||units=1|…|footprint=SOT23-5|vcc=1650-5500,in=5500`; `CD4050BE|gate|DIP|…|Buffer|C||units=6|…|vcc=3000-18000,in=18000`; `CD74HC4049E|gate|DIP|Logic|NOT|HC||units=6|…`; `CD4041UBE … units=4` (a `buf` and a `not` per input).
 
 Acceptance: `ctest` T0 of T0; golden counts (seconds).
-Commit: (this commit; hash in the next)
+Commit: 443ee8d
 
 ## Validation Plan
 

@@ -21,6 +21,7 @@ extern const PartKindOps CHARLCD_KIND;
 extern const PartKindOps SERIAL_KIND;
 extern const PartKindOps CONNECTOR_KIND;
 extern const PartKindOps PIO_KIND;
+extern const PartKindOps BUFFER_KIND;
 
 /* One line per kind. Adding a kind: docs/backend.md, "Adding a kind". */
 const PartKindOps *const KINDS[] = {
@@ -42,6 +43,7 @@ const PartKindOps *const KINDS[] = {
     &SERIAL_KIND,
     &CONNECTOR_KIND,
     &PIO_KIND,
+    &BUFFER_KIND,
     NULL
 };
 
@@ -62,7 +64,7 @@ int part_pin_open_drain(const Part *part, size_t pin) {
     const PartInternal *internal;
 
     if (part == NULL || part->internal == NULL || pin >= part->pin_count ||
-        part->pins[pin].role != PIN_OUTPUT) {
+        (part->pins[pin].role != PIN_OUTPUT && part->pins[pin].role != PIN_INOUT)) {
         return 0;
     }
     internal = part_internal(part);

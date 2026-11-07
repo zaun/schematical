@@ -185,6 +185,9 @@ backend/
                            table, the model that forwards to a pio model),
                            bus65.c + bus65.h (the 65xx peripheral bus the
                            pio models share)
+                           buffer.c + buffer.h (the buffer kind: models
+                           tristate and transceiver; the port read-back
+                           rule)
     circuit.c
     voltage.c              the voltage check (voltage.h)
     memory_image.c         load files (binary, Intel HEX) to memory images
@@ -346,6 +349,12 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   W65C22S 14 MHz times: the read window (X at the rise, data at + `tcdr`,
   Z at fall + `thr`), write data setup and hold, select/RS setup and hold,
   not selected, PHI2 X, the per-fall `cycle()` hook and PHI2 width checks.
+
+- `buffer_test` — the buffer kind (plan-20). Fixture devices with the
+  real devices' pin names: '244, '240, '541, 1G125/1G126 and an open-drain
+  1G125 (tristate); '245, '640, '641, '623 and a two-unit 16245
+  (transceiver: DIR/OE, the turnaround read-back rule, X on DIR, the '623
+  bus-hold loop); the loader's errors.
 
 Not a ctest: `sim_bench` (`tests/sim_bench.c`) measures engine speed — a
 D flip-flop ripple counter on an oscillator plus N idle SN74HC00N chips,
