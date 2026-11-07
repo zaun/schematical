@@ -2192,9 +2192,32 @@ final class SchematicDocument {
             } else {
                 buses.append(draft.bus)
             }
+            if let gone = draft.absorbedIndex {
+                absorb(buses[gone], wireMap: draft.wireMap)
+                buses.remove(at: gone)
+            }
             editorMessage = nil
             selectedBusID = draft.bus.id
             return draft.bus.id
+        }
+    }
+
+    /// After the Bus tool joined `gone` into another bus: wires on `gone`'s port
+    /// pins move to the pin for the wire it became, and are re-fitted (the
+    /// pins may have moved along the port).
+    private func absorb(_ gone: Bus, wireMap: [UUID: UUID]) {
+        let portIDs = Set(gone.ports.map(\.id))
+        func remap(_ end: WireEnd) -> WireEnd {
+            guard case let .busPin(ref) = end, portIDs.contains(ref.portID),
+                  let wireID = wireMap[ref.wireID] else { return end }
+            return .busPin(BusPinRef(portID: ref.portID, wireID: wireID))
+        }
+        for index in wires.indices {
+            wires[index].start = remap(wires[index].start)
+            wires[index].end = remap(wires[index].end)
+        }
+        for portID in portIDs {
+            settleWires(attachedToPort: portID)
         }
     }
 

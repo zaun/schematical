@@ -19,7 +19,9 @@ import SwiftUI
 ///   junction, so wires branch there. Only connection points are highlighted.
 /// - Bus: drag to draw a bus line or L; start or end on a bus to join it at a
 ///   T or L, or to extend it. A straight drag between two line ends in line
-///   with each other joins them end to end into one line.
+///   with each other joins them end to end into one line. Leaving an L
+///   straight out of one of its lines makes it a T. A drag from one bus to
+///   another joins them into the bus it starts on.
 /// - Bus Port: click a bus line (not its ends or a T) to add an empty port
 ///   there; tick wires in its panel to give it pins.
 /// - Eraser: click or drag over a block, wire or bus line to remove it.
@@ -796,7 +798,7 @@ private struct WireLayer: View {
 }
 
 /// The route the Bus tool is drawing. `refused` when releasing would be
-/// refused (a joint that is not a T or an L, or two buses).
+/// refused (a joint that is not a T or an L, or too many wires).
 struct BusPreview {
     let points: [CGPoint]
     let refused: Bool
