@@ -99,5 +99,31 @@ MainActor.assumeIsolated { runGenericLEDUIChecks() }
         return nil
     }
 
+    // 5. The sidebar of a Blue / 0805 Generic LED (read the image).
+    check("5 sidebar of a GENERIC-LED, Blue / LED-0805 → \(images)/p18-sidebar-led.png") {
+        doc.setPartFootprint(ledID, "LED-0805")
+        doc.select(.chip(ledID))
+        let path = "\(images)/p18-sidebar-led.png"
+        try? FileManager.default.removeItem(atPath: path)
+        Harness.renderSidebar(doc, to: path, size: CGSize(width: 320, height: 900))
+        if !PartOptionsSection.applies(to: led) { return "Options does not apply to GENERIC-LED" }
+        let rows = PartFacts.rows(for: chip(ledID))
+        func value(_ label: String) -> String? { rows.first { $0.label == label }?.value }
+        if value("Package") != "0805" || value("Color") != "Blue" {
+            return "Details Package \(value("Package") ?? "nil"), Color \(value("Color") ?? "nil")"
+        }
+        return FileManager.default.fileExists(atPath: path) ? nil : "no image"
+    }
+
+    // 6. A gate's sidebar has no Options section (read the image).
+    check("6 sidebar of SN74HC00N (no Options) → \(images)/p18-sidebar-gate.png") {
+        doc.select(.chip(gateID))
+        let path = "\(images)/p18-sidebar-gate.png"
+        try? FileManager.default.removeItem(atPath: path)
+        Harness.renderSidebar(doc, to: path)
+        if PartOptionsSection.applies(to: gate) { return "Options applies to SN74HC00N" }
+        return FileManager.default.fileExists(atPath: path) ? nil : "no image"
+    }
+
     exit(failures == 0 ? 0 : 1)
 }

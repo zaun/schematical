@@ -228,17 +228,17 @@ Acceptance: both setters change only what §4 says, and pad 1 never moves.
   Check: `rm -rf /tmp/p18-h && scripts/harness/build.sh scripts/harness/generic-led-ui.swift /tmp/p18-h && /tmp/p18-h/H.app/Contents/MacOS/harness`
   → 4 `ok` lines, exit 0 (est. 1.5 min).
   Result: 4 `ok` lines, check 2 printed `44 cases`, `exit=0`.
-Commit: —
+Commit: 7d3a74b
 
 ### Phase 2 — Sidebar Options section
 
 The pickers appear for a selected Generic LED.
 
-- [ ] New `Drawer/PartOptionsSection.swift` (§5). Add
+- [x] New `Drawer/PartOptionsSection.swift` (§5). Add
       `DiodeSymbolView.lightColor(named:)`.
-- [ ] `Drawer/SchematicSidebarView.swift`: `PartOptionsSection(document:chip:)`
+- [x] `Drawer/SchematicSidebarView.swift`: `PartOptionsSection(document:chip:)`
       between `ReferenceSection` and `Section("Details")`.
-- [ ] `generic-led-ui.swift`, add:
+- [x] `generic-led-ui.swift`, add:
   5. Select a `GENERIC-LED` set to Blue / `LED-0805`, then
      `Harness.renderSidebar(doc, to: "/tmp/p18-sidebar-led.png")`.
   6. Select `SN74HC00N` and render `/tmp/p18-sidebar-gate.png`.
@@ -250,6 +250,11 @@ Color Blue. A gate shows no Options section.
   shows the header `GENERIC-LED` / `Generic LED`, an Options section with
   those two values and the Details rows; the gate image has no Options
   section (est. 2 min).
+  Result: 6 `ok` lines, exit 0. `p18-sidebar-led.png` (rendered 320×900 so
+  the Details Color row is in frame): header `U1` / `GENERIC-LED` / `Generic LED`;
+  Options with Color "● Blue" and Footprint "0805 chip LED (2.05 x 1.25 mm)";
+  Details Package 0805, Footprint `LED-0805 — …`, Color Blue.
+  `p18-sidebar-gate.png`: Reference then Details, no Options section.
 Commit: —
 
 ### Phase 3 — Settings defaults and the drop
@@ -314,6 +319,10 @@ Commit: —
   done in one `P-18` worktree, so A was archived there
   (`git mv` to `planning/completed/`, commit 953bd2a) before B started. The
   gate command then holds in that worktree, and on `main` once it merges.
+- **§5 layout.** With the Footprint picker in a normal labelled row, the
+  first render cut the value to "0805 chip LED (2.05 x 1.…", which fails
+  the Phase 2 acceptance. The Footprint picker now sits under its label at
+  full row width (labels hidden), and the full description shows.
 
 ## Summary
 
