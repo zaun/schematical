@@ -35,6 +35,7 @@ add_library(logic STATIC
     src/models/cpu.c
     src/models/cpu6502.c
     src/models/cpuz80.c
+    src/models/cpu65816.c
     src/models/chips_m6502.c
     src/models/chips_w65c02.c
     src/models/chips_z80.c

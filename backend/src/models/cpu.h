@@ -148,4 +148,8 @@ extern const CpuCoreOps CPU6502_OPS;
 
 extern const CpuCoreOps CPUZ80_OPS;
 
+/* ---- The W65C816S (cpu65816.c, plan-14-H) ---------------------------------- */
+
+extern const CpuCoreOps CPU65816_OPS;
+
 #endif

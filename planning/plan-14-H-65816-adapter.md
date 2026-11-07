@@ -252,19 +252,31 @@ Also `library_check`: `"abort"` on a `65c02` device is refused;
 Acceptance: every existing `cpu_test` case `ok` (the instruction texts
 unchanged); goldens unchanged; the app builds.
   Check: `/tmp/logic-p14/cpu_test` → all `ok`; `git diff --stat backend/tests/golden` → empty; `xcodebuild … -derivedDataPath /tmp/p14h-dd build` → `** BUILD SUCCEEDED **` (est. 4 min).
-Commit: —
+Commit: c332738
 
 ### Phase 2 — The 65816 adapter
 
-- [ ] `cpu.c`: core `65816` in the core table with its controls and timing
+- [x] `cpu.c`: core `65816` in the core table with its controls and timing
       (§3.1); the new control keys and refusals.
-- [ ] `backend/src/models/cpu65816.c`: §3.2–§3.5; `extern const CpuCoreOps
-      CPU65816_OPS` in `cpu.h`; `backend/CMakeLists.txt`.
-- [ ] `cpu_test` H1–H13 with the 24-bit bench; `library_check` refusals.
-- [ ] `docs/parts-format.md` § `cpu`: core `65816` (keys, timing names,
+- [x] `backend/src/models/cpu65816.c`: §3.2–§3.5; `extern const CpuCoreOps
+      CPU65816_OPS` in `cpu.h`; `backend/CMakeLists.txt`. Build: no errors
+      or warnings.
+- [x] `cpu_test` H1–H13 with the 24-bit bench; `library_check` refusals.
+      → `ok w65c816s_h1_reset` … `ok w65c816s_h13_state` (13);
+      `ok   cpu abort on a 65c02: … "abort" is not a key of core "65c02"`,
+      `ok   cpu sync on a 65816: … "sync" is not a key of core "65816"`.
+      First run 9/13; the four failures were the bench's (Corrections).
+- [x] `docs/parts-format.md` § `cpu`: core `65816` (keys, timing names,
       behavior §3.2–§3.5, not modeled: tDHR, §7.4.1 abort exceptions,
       non-5 V timing); `docs/backend.md` § Layout (`cpu65816.c`), § Tests
       (`cpu_test`).
+- [x] (added) `wdc65816_disassembler.c`: `do_immediate_x` used M for the
+      LDX/LDY/CPX/CPY # width (README-jsmooch change 16); the tracker's
+      text depends on it.
+- [x] Acceptance: `ctest` → `100% tests passed, 0 tests failed out of 21`;
+      `cpu_test | grep -c '^ok w65c816s'` → `13`; every earlier `cpu_test`
+      check `PASS`; `cpu_core_test` unchanged (5120, abort, generator); the
+      golden diff stat → empty.
 
 Acceptance: H1–H13 and every earlier case `ok`; `ctest` 100%; goldens
 unchanged.
@@ -288,4 +300,27 @@ from the tracker change). The landing tier is plan-14-J's.
 
 ## Corrections
 
-(none yet)
+- §4 bench: the 24-bit bench's bank latch keeps its value when D0–D7 hold
+  no bank at the rise (a cycle RDY holds: they are Z by §7.6). A latch that
+  took Z made the bench serve bank FE and the CPU read X (H9's first run);
+  a board gates the latch with RDY, so the bench does too.
+- §4 H11: with BE low the address bus floats, so a bench serving by address
+  serves X and the CPU (correctly) goes LOST; the bench now stands in for
+  another bus master and serves NOPs (EA) while the address is unknown. The
+  case then checks RUNNING and the cycle count.
+- §4 H6/H8: an internal cycle drives PC on the address bus, so "the cycle
+  at 8002" can be XCE's idle cycle; the cases find the opcode fetch (VDA =
+  VPA = 1) and, for the stack, the write cycle.
+- §4 H8: the aborted-STA part runs in emulation mode and checks the
+  emulation abort vector 00FFF8 as well (the INX part covers native
+  00FFE8/9).
+- §3.4 differential rule: the core's `IRQ_pending` / `interrupt_pending`
+  mirror the IRQB input and are set again at every tick; they are not
+  compared (else IRQB X with I = 1 would be LOST, against H12). What the
+  level did shows in the other state (an interrupt taken, WAI ended).
+- §3.5: the tracker hook's `user` carries the instruction's E, M, X (bits
+  0–2) from its opcode fetch; `cpu_dasm_floooh` adapts the floooh
+  disassemblers. jsmooch's `do_immediate_x` chose the X/Y immediate width
+  from M — fixed (README-jsmooch change 16).
+- §3.5 `PC`: the register is the core's PC, the next byte to read (as the
+  65C02's); H13 reads `PC 8008` after `STP` at 01:8007.

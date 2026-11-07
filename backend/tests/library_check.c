@@ -776,6 +776,11 @@ static void check_cpu_cases(void) {
                 "devices[0] (C): unknown core \"6809\"");
     expect_fail("cpu vectorPull on a 6502", CPU_OK("6502", CPU_KEYS(CPU_SYNC) CPU_WDC),
                 "devices[0] (C): \"vectorPull\" is not a key of core \"6502\"");
+    /* plan-14-H: the 65816's keys belong to it alone, and its key set has no sync. */
+    expect_fail("cpu abort on a 65c02", CPU_OK("65c02", CPU_KEYS(CPU_SYNC) CPU_WDC ",'abort':'NC'"),
+                "devices[0] (C): \"abort\" is not a key of core \"65c02\"");
+    expect_fail("cpu sync on a 65816", CPU_OK("65816", CPU_KEYS(CPU_SYNC) CPU_WDC),
+                "devices[0] (C): \"sync\" is not a key of core \"65816\"");
     expect_fail("cpu missing sync", CPU_OK("65c02", CPU_KEYS("") CPU_WDC),
                 "devices[0] (C): missing \"sync\"");
     expect_fail("cpu 15 address names",

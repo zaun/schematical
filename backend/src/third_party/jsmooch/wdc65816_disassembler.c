@@ -160,7 +160,7 @@ static i32 do_immediate_a(ARGS) {
 
 static i32 do_immediate_x(ARGS) {
     u32 n;
-    if (m) {
+    if (x) {   /* plan-14-H: X/Y immediates follow X (upstream tested m) */
         *ins_len = 2;
         n = read_op_byte(addr, rt);
         snprintf(buf, 50, "#$%02x", n);

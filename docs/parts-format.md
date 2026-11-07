@@ -772,7 +772,7 @@ example below is the `W65C02S` device's keys and grade.
 
 | Key | Value |
 |---|---|
-| `"core"` | `"6502"`, `"65c02"` or `"z80"` (Z80 keys below) |
+| `"core"` | `"6502"`, `"65c02"`, `"z80"` (Z80 keys below) or `"65816"` (W65C816S keys below) |
 | `"address"` | exactly 16 pin names; `address[i]` is A*i* |
 | `"data"` | exactly 8 pin names; `data[i]` is D*i* |
 | `"clock"` | the clock input (NMOS `PHI0IN`, W65C02S `PHI2`) |
@@ -950,6 +950,68 @@ flags of an interrupted repeating block instruction. Not modeled: the
 read-data and input hold times; the 4 MHz Z84C0004 grade; the peripheral
 daisy chain (IEI/IEO are not CPU pins).
 
+
+**The W65C816S** (`"core": "65816"`, WDC W65C816S; plan-14-H;
+`backend/src/models/cpu65816.c` on the vendored jsmooch core,
+`backend/src/third_party/jsmooch/`). Its own keys besides `address`, `data`
+and `grades` — every one required, and a key of another core (`sync`, `so`,
+`phi1Out`, `phi2Out`, …) is refused:
+
+```json
+"core": "65816",
+"clock": "PHI2", "rw": "RWB", "irq": "IRQB", "nmi": "NMIB", "reset": "RESB",
+"rdy": "RDY", "abort": "ABORTB", "vda": "VDA", "vpa": "VPA",
+"vectorPull": "VPB", "memoryLock": "MLB", "emulation": "E", "mx": "MX",
+"busEnable": "BE",
+"grades": {"14": {"tcyc": 70, "tpwh": 35, "tpwl": 35, "tads": 30, "tah": 10,
+                  "tbas": 33, "tbh": 10, "tdsr": 10, "tmds": 30, "tdhw": 10,
+                  "tpcs": 10, "tes": 10, "teh": 5, "tbvd": 25, "vcc": [1.71, 5.25]}}
+```
+
+Timing names (Table 4-2): `tcyc`, `tpwh`, `tpwl` (> 0), `tads`/`tah`
+(address, RWB, VDA, VPA, VPB, MLB valid / held from the PHI2 fall),
+`tbas`/`tbh` (the bank address on D0–D7 valid from the fall / held past the
+rise), `tdsr` (read data setup), `tmds` (write data valid from the rise),
+`tdhw` (write data held past the fall), `tpcs` (control input setup),
+`tes`/`teh` (E and MX setup / hold), `tbvd` (BE to bus valid / Z).
+
+Behaviour: the 6502 family's rules above (LOST at power-up and on a bad
+clock or a used X; RES for at least 2 cycles; RDY; the differential rule;
+the commit at each PHI2 fall), plus:
+
+- **The bus cycle.** A0–A15, RWB, VDA, VPA, VPB (low on vector reads) and
+  MLB (low through a read-modify-write's read, modify and write cycles):
+  X at fall + `tah`, valid at + `tads`. **D0–D7 carry the bank address
+  while PHI2 is low** (X at fall + `tdhw`, valid at + `tbas`; the board
+  latches it, Figure 5-1); at the rise the bank holds to + `tbh`, then a read
+  floats D0–D7 and a write drives X, then its data at rise + `tmds`, held to
+  the next fall + `tdhw`. An internal cycle (VDA = VPA = 0) still drives the
+  address (PC) and the bank.
+- **E** follows the emulation flag, changing at fall + `teh` from the first
+  cycle after the XCE. **MX** shows M while PHI2 is high and X while it is
+  low, changing at + `teh` after each edge; an instruction's cycles show the
+  E/M/X it began with (REP, SEP, PLP, RTI, XCE take effect at the next
+  opcode fetch).
+- **RESB** low: address X, data Z, RWB 1, VDA = VPA = 0, VPB = MLB = 1, E =
+  1, MX = 1 from + `tah`; released, the reset sequence ends in the vector
+  read at 00FFFC/D with VPB low (a reset also restarts a stopped CPU).
+- **RDY** low holds the cycle, reads and writes; D0–D7 stay in their
+  transfer state through PHI2 low (no bank, §7.6). WAI pulls RDY low until
+  IRQ (even with I set), NMI, ABORTB or reset; STP stops it until reset.
+- **ABORTB** low at a PHI2 fall marks the instruction in progress: when it
+  ends (the next opcode fetch) every register goes back to the snapshot taken
+  at its opcode fetch, and the core pushes its address (PBR in native mode),
+  PC and P and jumps through 00FFE8 (native) / 00FFF8 (emulation) with VPB
+  low; memory writes it made stay. ABORTB X: LOST.
+- **BE** low floats A0–A15, D0–D7 and RWB `tbvd` later; VDA, VPA, VPB, MLB,
+  E and MX stay driven; the CPU keeps running.
+- **State**: registers `C` 16, `X` 16, `Y` 16, `S` 16, `D` 16, `DBR` 8,
+  `PBR` 8, `PC` 16, `P` 8, `E` 1; `instruction_address` is 24-bit
+  (bank:address) and the text is jsmooch's disassembly, uppercased
+  (`LDA $123456`, `LDA #$1234` with M = 0).
+
+Not modeled: the read data hold `tDHR`; timing at supply columns other than
+5 V; the §7.4.1 ABORT exceptions (the snapshot restores every register).
 
 ### `serial`
 

@@ -168,7 +168,10 @@ backend/
                            that forwards to a core adapter, input sampling,
                            the instruction tracker), cpu6502.c (the
                            6502/65C02 bus adapter), cpuz80.c (the Z80 bus
-                           adapter: a commit scheduler around the core);
+                           adapter: a commit scheduler around the core),
+                           cpu65816.c (the W65C816S bus adapter: the bank
+                           on D0-D7, VDA/VPA, E and MX, ABORTB, on the
+                           jsmooch core);
                            chips_m6502.c chips_w65c02.c chips_z80.c
                            chips_dasm.c (each instantiates one vendored
                            floooh/chips core, or the three disassemblers);
@@ -313,7 +316,12 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   (`tests/support/cpu_board.{h,c}`: the CPU, an AT28C256-15PU, an
   AS6C62256-55PCN and an SN74HC00N decoder) run a program for 2 ms: the
   W65C02S6TPG-14 and MPS6502 count to 10 in SRAM, the Z84C0010PEG also
-  CALLs a store and halts. The I/O board (`tests/support/io_board.{h,c}`,
+  CALLs a store and halts. The W65C816S cases (`w65c816s_h1` … `h13`,
+  plan-14-H) run an inline W65C816S on a 24-bit bench that latches the
+  bank at each PHI2 rise: reset and the vector pull, the bank on D0–D7 and
+  the write window at the Table 4-2 edges, VDA/VPA/VPB equal to the bare
+  core's, MX and E, MLB, ABORTB, RDY, WAI/STP, BE, setup, and the 24-bit
+  state and tracker (`ok w65c816s_…`). The I/O board (`tests/support/io_board.{h,c}`,
   plan-14-E) adds a W65C22S VIA, a W65C21N PIA and a W65C51N ACIA (TxD
   looped to RxD, on an ECS-2100A-018) with three SN74HC00N decoders: its
   program sets the ports, sends `HI`, takes a VIA Timer 1 interrupt and

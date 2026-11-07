@@ -99,5 +99,7 @@ By hand (not generated):
 15. `wdc65816_disassembler.c`: the 16-bit immediates were formatted with
     `snprintf(buf, 5, "#$%04x", n)`, which cut `#$1234` to `#$12`; the size
     is 50, as every other formatter.
+16. `wdc65816_disassembler.c`: `do_immediate_x` (LDX, LDY, CPX, CPY #)
+    chose the operand width from M; it is X (plan-14-H).
 
 Ours, alongside: the `helpers/` stubs and `run.js` (above).

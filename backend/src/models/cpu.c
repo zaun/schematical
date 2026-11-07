@@ -2,7 +2,8 @@
  * cpu: microprocessors that run programs inside the simulation (plan-09).
  *
  * The device's "core" key picks the bus adapter: "6502" (NMOS) and "65c02"
- * (WDC W65C02S) in cpu6502.c, "z80" (Zilog Z84C00) in cpuz80.c. Each adapter wraps one of the vendored
+ * (WDC W65C02S) in cpu6502.c, "z80" (Zilog Z84C00) in cpuz80.c, "65816"
+ * (WDC W65C816S, plan-14-H) in cpu65816.c. Each adapter wraps one of the vendored
  * floooh/chips cores (third_party/chips) and drives the pins at the
  * datasheet's times; this file holds the loader, the one SimComponentType
  * that forwards to the adapter, and what the adapters share: input sampling
@@ -40,10 +41,21 @@ static const char *const TIMING_Z80[] = {
     "tdcfiorqf", "tdcfd", NULL
 };
 
+/* plan-14-H: the W65C816S (Table 4-2 names). */
+static const char *const CONTROLS_65816[] = {
+    "clock", "rw", "irq", "nmi", "reset", "rdy", "abort", "vda", "vpa", "vectorPull",
+    "memoryLock", "emulation", "mx", "busEnable", NULL
+};
+static const char *const TIMING_65816[] = {
+    "tcyc", "tpwh", "tpwl", "tads", "tah", "tbas", "tbh", "tdsr", "tmds", "tdhw", "tpcs", "tes",
+    "teh", "tbvd", NULL
+};
+
 static const CpuCoreDesc CORES[] = {
     {"6502", CONTROLS_6502, TIMING_6502, 3, &CPU6502_OPS},
     {"65c02", CONTROLS_65C02, TIMING_6502, 3, &CPU6502_OPS},
     {"z80", CONTROLS_Z80, TIMING_Z80, 3, &CPUZ80_OPS},
+    {"65816", CONTROLS_65816, TIMING_65816, 3, &CPU65816_OPS},
 };
 #define CORE_COUNT (sizeof CORES / sizeof CORES[0])
 
@@ -53,6 +65,7 @@ static const char *const DEVICE_KEYS[] = {
     "clock", "rw", "sync", "irq", "nmi", "reset", "so", "rdy", "phi1Out", "phi2Out",
     "vectorPull", "memoryLock", "busEnable",
     "m1", "mreq", "iorq", "rd", "wr", "rfsh", "halt", "busack", "wait", "int", "busreq",
+    "abort", "vda", "vpa", "emulation", "mx",
     NULL
 };
 static const char *const PART_KEYS[] = {"grade", "vcc", "inputMax", NULL};
