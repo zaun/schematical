@@ -57,70 +57,6 @@ static WDC65816_ins_func get_decoded_opcode(struct WDC65816 *this)
     return ret;
 }
 
-static void pprint_context(struct WDC65816 *this, struct jsm_string *out)
-{
-    jsm_string_sprintf(out, "%c%c  A:%04x  D:%04x  X:%04x  Y:%04x  DBR:%02x  PBR:%02x  S:%04x, P:%c%c%c%c%c%c",
-        this->regs.P.M ? 'M' : 'm',
-        this->regs.P.X ? 'X' : 'x',
-        this->regs.C, this->regs.D,
-        this->regs.X, this->regs.Y,
-        this->regs.DBR, this->regs.PBR,
-        this->regs.S,
-        this->regs.P.C ? 'C' : 'c',
-        this->regs.P.Z ? 'Z' : 'z',
-        this->regs.P.I ? 'I' : 'i',
-        this->regs.P.D ? 'D' : 'd',
-        this->regs.P.V ? 'V' : 'v',
-        this->regs.P.N ? 'N' : 'n'
-        );
-}
-
-static void wdc_trace_format(struct WDC65816 *this)
-{
-    if (this->trace.dbglog.view && this->trace.dbglog.view->ids_enabled[this->trace.dbglog.id]) {
-        // addr, regs, e, m, x, rt, out
-        jsm_string_quickempty(&this->trace.str);
-        jsm_string_quickempty(&this->trace.str2);
-        struct dbglog_view *dv = this->trace.dbglog.view;
-        u64 tc;
-        if (!this->master_clock) tc = 0;
-        else tc = *this->master_clock;
-
-
-        if (this->regs.IR > 255) {
-            switch(this->regs.IR) {
-                case WDC65816_OP_RESET:
-                    jsm_string_sprintf(&this->trace.str, "RESET");
-                    break;
-                case WDC65816_OP_IRQ:
-                    jsm_string_sprintf(&this->trace.str, "IRQ");
-                    break;
-                case WDC65816_OP_NMI:
-                    jsm_string_sprintf(&this->trace.str, "NMI");
-                    break;
-                default:
-                    jsm_string_sprintf(&this->trace.str, "UKN %03x", this->regs.IR);
-                    break;
-
-            }
-            dbglog_view_add_printf(dv, this->trace.dbglog.id, tc, DBGLS_TRACE, "%s", this->trace.str.ptr);
-            dbglog_view_extra_printf(dv, "%s", this->trace.str2.ptr);
-            return;
-        }
-        struct WDC65816_ctxt ct;
-        WDC65816_disassemble(this->trace.ins_PC, &this->regs, this->regs.E, this->regs.P.M, this->regs.P.X, &this->trace.strct, &this->trace.str, &ct);
-        pprint_context(this, &this->trace.str2);
-
-        dbglog_view_add_printf(dv, this->trace.dbglog.id, tc, DBGLS_TRACE, "%06x  %s", this->trace.ins_PC, this->trace.str.ptr);
-        dbglog_view_extra_printf(dv, "%s", this->trace.str2.ptr);
-    }
-}
-
-static void irqdump(struct WDC65816 *this, u32 nmi)
-{
-    printf("\nAT %s. PC:%06x  D:%04x  X:%04x  Y:%04x  S:%04x  E:%d  WAI:%d  cyc:%lld", nmi ? "NMI" : "IRQ", (this->regs.PBR << 16) | this->regs.PC, this->regs.D, this->regs.X, this->regs.Y, this->regs.S, this->regs.E, this->regs.WAI, *this->master_clock);
-}
-
 void WDC65816_cycle(struct WDC65816* this)
 {
     this->int_clock++;
@@ -128,7 +64,18 @@ void WDC65816_cycle(struct WDC65816* this)
 
     this->regs.TCU++;
     if (this->regs.TCU == 1) {
-        if (this->regs.NMI_pending || (this->regs.IRQ_pending && !this->regs.P.I)) {
+        if (this->regs.ABORT_pending) {
+            /* plan-14-G: ABORTB. The instruction it hit has run to its end
+               (the adapter restores the registers it changed); the S_ABORT
+               sequence pushes that instruction's address, so RTI re-runs it,
+               and jumps through 00FFE8 (native) / 00FFF8 (emulation). */
+            this->regs.ABORT_pending = 0;
+            this->regs.PC = this->trace.ins_PC & 0xFFFF;
+            this->regs.PBR = (this->trace.ins_PC >> 16) & 0xFF;
+            this->regs.IR = WDC65816_OP_ABORT;
+            this->regs.WAI = 0;
+        }
+        else if (this->regs.NMI_pending || (this->regs.IRQ_pending && !this->regs.P.I)) {
             if (this->regs.NMI_pending) {
                 this->regs.NMI_pending = 0;
                 this->regs.IR = WDC65816_OP_NMI;
@@ -144,20 +91,20 @@ void WDC65816_cycle(struct WDC65816* this)
         else {
             this->trace.ins_PC = (this->pins.BA << 16) | this->pins.Addr;
             this->regs.IR = this->pins.D;
-            if ((this->regs.IR == 0) || ((this->trace.ins_PC >= 0x003113) && (this->trace.ins_PC < 0x003cff))) {
-                printf("\nCRAP!");
-                dbg_break("IR=0", *this->master_clock);
-            }
-            /*if (this->trace.ins_PC == 0x8B88D2) {
-                dbg_break("BKPT!", *this->master_clock);
-            }*/
         }
         this->regs.old_I = this->regs.P.I;
         this->ins = get_decoded_opcode(this);
-        wdc_trace_format(this);
     }
 
     this->ins(&this->regs, &this->pins);
+    /* plan-14-G: the E, M and X outputs hold the values an instruction began
+       with; a change (REP, SEP, PLP, RTI, XCE) shows from the next opcode
+       fetch, the cycle the instruction's last step sets up (TCU = 0). */
+    if (this->regs.TCU == 0) {
+        this->pins.E = (u8)this->regs.E;
+        this->pins.M = this->regs.P.M;
+        this->pins.X = this->regs.P.X;
+    }
 }
 
 void WDC65816_init(struct WDC65816* this, u64 *master_clock)

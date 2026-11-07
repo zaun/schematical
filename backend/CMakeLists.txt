@@ -134,6 +134,16 @@ logic_test(voltage_test)
 logic_test(cpu_core_test)
 target_compile_definitions(cpu_core_test PRIVATE
     CPU_VECTORS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/cpu")
+# plan-14-G: with node, cpu_core_test checks the 65816 generator reproduces
+# the committed opcode table.
+find_program(LOGIC_NODE node)
+if(LOGIC_NODE)
+    target_compile_definitions(cpu_core_test PRIVATE
+        JSMOOCH_NODE="${LOGIC_NODE}"
+        JSMOOCH_GEN="${CMAKE_CURRENT_SOURCE_DIR}/tools/jsmooch-gen/run.js"
+        JSMOOCH_C="${CMAKE_CURRENT_SOURCE_DIR}/src/third_party/jsmooch/wdc65816_generated_opcodes.c"
+        JSMOOCH_TMP="${CMAKE_CURRENT_BINARY_DIR}")
+endif()
 logic_test(cpu_test)
 logic_test(charlcd_test)
 logic_test(serial_test)

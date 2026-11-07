@@ -252,19 +252,41 @@ Acceptance: `cpu_core_test` passes and prints `65816: <p> pass, <f> expected
 failures` with p + f = 5120; `run.js` reproduces the shipped C.
   Check: `ctest --test-dir /tmp/logic-p14 -R cpu_core_test --output-on-failure` → passes; `node backend/tools/jsmooch-gen/run.js /tmp/g.c && cmp /tmp/g.c backend/src/third_party/jsmooch/wdc65816_generated_opcodes.c` → no output (est. 3 min).
   Result: `cpu_core_test … Passed`; `run.js` → `cmp` identical.
-Commit: —
+Commit: d9110bf
 
 ### Phase 2 — The fixes
 
-- [ ] Generator: separate VDA/VPA/VPB; the 11 files' flags; emulation-mode
+- [x] Generator: separate VDA/VPA/VPB; the 11 files' flags; emulation-mode
       rules; WAI; MLB; E/M/X fields. Regenerate after each; shrink the
-      expected-failure list as tests pass.
-- [ ] `wdc65816.c`: remove the debug hack and trace code; `ABORT_pending`;
-      the abort case in `cpu_core_test`.
-- [ ] `cpu_core_test`: compare all 10 flags per cycle; the generator check.
-- [ ] `README.md` change list; `docs/backend.md` § Layout (`third_party/jsmooch/`, `tools/jsmooch-gen/`)
+      expected-failure list as tests pass. → with all flags compared:
+      4161 (separate pins on) → 4661 (MLB, RMW data VDA) → 4701 ((a,x)
+      pointer VDA) → 4721 (E/M/X held per instruction) → 4921 (E-mode
+      direct page indexed) → 4999 (E table built with M = X = 1) → 5019
+      (REP, TXS in E) → 5025 (E-mode BRK/COP P) → 5100 (branches) → 5120
+      (WAI). The E/M/X outputs are set in `wdc65816.c` (hand edit 13 of
+      the README), not by the generator (Corrections). The list is empty.
+- [x] `wdc65816.c`: remove the debug hack and trace code; `ABORT_pending`;
+      the abort case in `cpu_core_test`. → `65816: abort ok` (LDA $1234
+      completes, pushes 00 80 00 38 at 01FF..01FC, VPB on 00FFE8/9, I set,
+      D clear, handler fetched at 009000). The generator's S_ABORT gained
+      I = 1, D = 0 (Corrections).
+- [x] `cpu_core_test`: compare all 10 flags per cycle; the generator check.
+      → every cycle's address, data, VDA VPA VPB RWB E M X MLB; `65816:
+      generator reproduces wdc65816_generated_opcodes.c` (with a line
+      appended to the C file it prints `FAIL: output differs`, then
+      regenerated). `SST65816="<name>"` prints one test's cycles.
+- [x] `README.md` change list; `docs/backend.md` § Layout (`third_party/jsmooch/`, `tools/jsmooch-gen/`)
       and § Tests (`cpu_core_test`: the 65816 line and the generator check).
-- [ ] App build (the third-party C compiles once in Xcode).
+      (`README-jsmooch.md`: 15 numbered changes.)
+- [x] App build (the third-party C compiles once in Xcode). →
+      `xcodebuild … -derivedDataPath /tmp/p14g-dd build` → `** BUILD SUCCEEDED **`.
+- [x] (added) `wdc65816_disassembler.c`: the 16-bit immediate formatter size
+      (§3 item 4) — README change 15.
+- [x] Acceptance: `/tmp/logic-p14/cpu_core_test` → `6502: 241 pass, 15
+      expected failures`, `65C02: 254 pass, 0 expected failures`, `Z80: 1592
+      pass, 12 expected failures`, `65816: 5120 pass, 0 expected failures`,
+      `65816: abort ok`, generator line; `ctest` → `100% tests passed, 0
+      tests failed out of 21`; the golden diff stat → empty.
 
 Acceptance: `65816: 5120 pass, 0 expected failures`; the abort case passes;
 the generator check passes; the app builds.
@@ -306,6 +328,23 @@ Commit: —
   stopped) and STP's final PC is past the opcode, not a fetch address; the
   runner accepts any bus state on a null-address cycle and checks `regs.PC`
   when `regs.STP` is set.
+- §2 "What the failures are" was incomplete; fixed besides it, each found
+  by the per-cycle flag comparison: (a) the C table builder generated the
+  emulation table with M = X = 0 (`decode_opcodes_c`; the JS
+  `decode_opcodes()` used 1) — the root of the 8-bit stack and block-move
+  failures; (b) `REPE` cleared M and X in emulation mode; (c) E-mode BRK
+  pushed `P | 0x38` (sets D) and COP `P & 0xF7` (clears D): both push P with
+  bits 4–5 set and D as it is; IRQ/NMI/ABORT push B = 0; (d) S_ABORT did not
+  set I or clear D; (e) the relative branch's second idle cycle was taken on
+  every taken branch in emulation mode, not only on a page cross.
+- §3 item 3 "E, M, X pins … set from the registers each cycle": the tests
+  show an instruction's cycles keep the E/M/X it began with (REP, SEP, PLP,
+  RTI, XCE change them from the next opcode fetch). Done in `wdc65816.c`
+  after each cycle: updated only when the instruction ends (`TCU = 0`).
+- §3 item 4 / §2 WAI: WAI is two idle cycles at PBR,PC with no VDA/VPA,
+  then no bus cycles until an interrupt (the tests' fourth cycle is a null
+  address); the generator's WAI re-presented the opcode fetch. The runner
+  treats a waiting core like a stopped one (PC past the opcode).
 - `make_sst_subset.py`: MVN/MVP tests (`54`, `44`) are large; ten do not fit
   the Range read, so the script fetches the whole file whenever fewer than
   `count` tests were found. The file lists came from the GitHub tree API

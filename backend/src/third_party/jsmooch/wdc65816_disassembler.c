@@ -153,7 +153,7 @@ static i32 do_immediate_a(ARGS) {
     else {
         *ins_len = 3;
         n = read_op_word(addr, rt);
-        snprintf(buf, 5, "#$%04x", n);
+        snprintf(buf, 50, "#$%04x", n);
     }
     return -1;
 }
@@ -168,7 +168,7 @@ static i32 do_immediate_x(ARGS) {
     else {
         *ins_len = 3;
         n = read_op_word(addr, rt);
-        snprintf(buf, 5, "#$%04x", n);
+        snprintf(buf, 50, "#$%04x", n);
     }
     return -1;
 }

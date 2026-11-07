@@ -14,7 +14,10 @@
  *
  * 65816 (plan-14-G): the vendored jsmooch core (src/third_party/jsmooch,
  * README.md) on the first 10 tests of each SingleStepTests/65816 file: every
- * bus cycle (24-bit address, data, RWB), then the final registers and RAM.
+ * bus cycle (24-bit address, data and the eight flags VDA VPA VPB RWB E M X
+ * MLB), then the final registers and RAM; an ABORT case; and, when CMake
+ * found node, a check that backend/tools/jsmooch-gen/run.js reproduces the
+ * committed wdc65816_generated_opcodes.c.
  * The exit status is non-zero for any unexpected failure, and for any
  * expected failure that passed.
  */
@@ -379,22 +382,44 @@ static bool ram816_matches(const cJSON *state)
     return true;
 }
 
-/* Compares one bus cycle with a test's [address, value|null, "dpvremxl"]. */
-static bool cycle816_matches(const struct WDC65816_pins *pins, const cJSON *c, bool flags)
+/* The pins' flags as SingleStepTests writes them: "dpvremxl" (VDA, VPA,
+   VPB, r/w, E, M, X, MLB), '-' where off. */
+static void flags816(const struct WDC65816_pins *pins, char *out)
+{
+    out[0] = pins->VDA ? 'd' : '-';
+    out[1] = pins->VPA ? 'p' : '-';
+    out[2] = pins->VPB ? 'v' : '-';
+    out[3] = pins->RW ? 'w' : 'r';
+    out[4] = pins->E ? 'e' : '-';
+    out[5] = pins->M ? 'm' : '-';
+    out[6] = pins->X ? 'x' : '-';
+    out[7] = pins->ML ? 'l' : '-';
+    out[8] = '\0';
+}
+
+/* Compares one bus cycle with a test's [address, value|null, "dpvremxl"]:
+   the 24-bit address, the data (where the test gives it) and every flag. */
+static bool cycle816_matches(const struct WDC65816_pins *pins, const cJSON *c, bool debug)
 {
     uint32_t addr = ((uint32_t)pins->BA << 16) | (pins->Addr & 0xFFFF);
     const cJSON *value = cJSON_GetArrayItem(c, 1);
     const char *f = cJSON_GetArrayItem(c, 2)->valuestring;
-    bool write = f[3] == 'w';
+    char got[9];
+    bool ok = true;
 
-    if (cJSON_IsNull(cJSON_GetArrayItem(c, 0)))
-        return true;   /* the bus is stopped (STP): no address */
-    if (addr != (uint32_t)at(c, 0) || (pins->RW != 0) != write)
-        return false;
-    if (cJSON_IsNumber(value) && (pins->D & 0xFF) != (uint32_t)value->valueint)
-        return false;
-    (void)flags;
-    return true;
+    flags816(pins, got);
+    if (cJSON_IsNull(cJSON_GetArrayItem(c, 0))) {
+        ok = true;   /* the bus is stopped (STP, WAI): no cycle */
+    } else if (addr != (uint32_t)at(c, 0) || strcmp(got, f) != 0) {
+        ok = false;
+    } else if (cJSON_IsNumber(value) && (pins->D & 0xFF) != (uint32_t)value->valueint) {
+        ok = false;
+    }
+    if (debug)
+        printf("  got %06x %02x %s  want %06x %3d %s%s\n", addr, (unsigned)(pins->D & 0xFF), got,
+               cJSON_IsNull(cJSON_GetArrayItem(c, 0)) ? 0u : (unsigned)at(c, 0),
+               cJSON_IsNumber(value) ? value->valueint : -1, f, ok ? "" : "   <--");
+    return ok;
 }
 
 static bool run816(const cJSON *t)
@@ -405,6 +430,9 @@ static bool run816(const cJSON *t)
     const cJSON *out = cJSON_GetObjectItemCaseSensitive(t, "final");
     const cJSON *cycles = cJSON_GetObjectItemCaseSensitive(t, "cycles");
     int n = cJSON_GetArraySize(cycles);
+    const char *want_debug = getenv("SST65816");
+    bool debug = want_debug != NULL &&
+                 strcmp(want_debug, cJSON_GetObjectItemCaseSensitive(t, "name")->valuestring) == 0;
     bool ok = true;
 
     load_ram816(in);
@@ -434,10 +462,16 @@ static bool run816(const cJSON *t)
     cpu.pins.PDV = 1;
     cpu.regs.PC = ((u32)num(in, "pc") + 1) & 0xFFFF;
     cpu.pins.D = mem816[((uint32_t)cpu.pins.BA << 16) | cpu.pins.Addr];
-    if (n < 1 || !cycle816_matches(&cpu.pins, cJSON_GetArrayItem(cycles, 0), false))
+    cpu.pins.VDA = cpu.pins.VPA = 1;
+    cpu.pins.VPB = 0;
+    cpu.pins.ML = 0;
+    cpu.pins.E = (u8)cpu.regs.E;
+    cpu.pins.M = cpu.regs.P.M;
+    cpu.pins.X = cpu.regs.P.X;
+    if (n < 1 || !cycle816_matches(&cpu.pins, cJSON_GetArrayItem(cycles, 0), debug))
         ok = false;
 
-    for (int i = 1; i <= n && ok; i++) {
+    for (int i = 1; i <= n && (ok || debug); i++) {
         WDC65816_cycle(&cpu);
         uint32_t addr = ((uint32_t)cpu.pins.BA << 16) | (cpu.pins.Addr & 0xFFFF);
         if (cpu.pins.RW) {
@@ -448,22 +482,131 @@ static bool run816(const cJSON *t)
         } else {
             cpu.pins.D = mem816[addr];
         }
-        if (i < n && !cycle816_matches(&cpu.pins, cJSON_GetArrayItem(cycles, i), false))
+        if (i < n && !cycle816_matches(&cpu.pins, cJSON_GetArrayItem(cycles, i), debug))
             ok = false;
     }
     /* The last call ended the instruction: the pins fetch the next opcode. */
-    /* STP leaves PC past the opcode and the bus stopped. */
-    ok = ok && cpu.regs.TCU == 0 &&
-         (cpu.regs.STP ? cpu.regs.PC : cpu.pins.Addr & 0xFFFF) == (u32)num(out, "pc") &&
+    /* STP and WAI leave PC past the opcode and the bus stopped (WAI until an
+       interrupt). */
+    bool stopped = cpu.regs.STP || cpu.regs.WAI;
+    ok = ok && (stopped || cpu.regs.TCU == 0) &&
+         (stopped ? cpu.regs.PC : cpu.pins.Addr & 0xFFFF) == (u32)num(out, "pc") &&
          cpu.regs.PBR == num(out, "pbr") &&
          cpu.regs.C == num(out, "a") && cpu.regs.X == (u32)num(out, "x") &&
          cpu.regs.Y == (u32)num(out, "y") && cpu.regs.S == (u32)num(out, "s") &&
          cpu.regs.D == (u32)num(out, "d") && cpu.regs.DBR == (u32)num(out, "dbr") &&
          cpu.regs.P.v == num(out, "p") && cpu.regs.E == (u32)num(out, "e") &&
          ram816_matches(out);
+    if (debug)
+        printf("  final pc %04x/%04x pbr %02x/%02x a %04x/%04x x %04x/%04x y %04x/%04x s %04x/%04x "
+               "d %04x/%04x dbr %02x/%02x p %02x/%02x e %u/%d ram %d\n",
+               (unsigned)(stopped ? cpu.regs.PC : cpu.pins.Addr & 0xFFFF), num(out, "pc"),
+               (unsigned)cpu.regs.PBR, num(out, "pbr"), (unsigned)cpu.regs.C, num(out, "a"),
+               (unsigned)cpu.regs.X, num(out, "x"), (unsigned)cpu.regs.Y, num(out, "y"),
+               (unsigned)cpu.regs.S, num(out, "s"), (unsigned)cpu.regs.D, num(out, "d"),
+               (unsigned)cpu.regs.DBR, num(out, "dbr"), (unsigned)cpu.regs.P.v, num(out, "p"),
+               (unsigned)cpu.regs.E, num(out, "e"), ram816_matches(out));
     WDC65816_delete(&cpu);
     clear816();
     return ok;
+}
+
+/* ABORTB (plan-14-G): set during LDA $1234 at 00:8000 (native, 8-bit). The
+   LDA runs to its end; the core then pushes PBR, the LDA's address and P,
+   pulls the vector at 00FFE8/9 with VPB, sets I, clears D and fetches the
+   handler at 9000. */
+static int abort816(void)
+{
+    static struct WDC65816 cpu;
+    static u64 clock;
+    static const uint8_t program[] = {0xAD, 0x34, 0x12, 0xEA};
+    uint32_t vector_reads = 0;
+    bool fetched_handler = false;
+    int errors = 0;
+
+    for (unsigned i = 0; i < sizeof program; i++) {
+        mem816[0x8000 + i] = program[i];
+        touch(0x8000 + i);
+    }
+    mem816[0x1234] = 0x5A;
+    mem816[0xFFE8] = 0x00;
+    mem816[0xFFE9] = 0x90;
+    touch(0x1234);
+    touch(0xFFE8);
+    touch(0xFFE9);
+    WDC65816_init(&cpu, &clock);
+    cpu.regs.E = 0;
+    cpu.regs.P.v = 0x38;          /* M, X 8-bit; D set (cleared by the abort) */
+    cpu.regs.S = 0x01FF;
+    cpu.regs.TCU = 0;
+    cpu.pins.Addr = 0x8000;
+    cpu.pins.BA = 0;
+    cpu.pins.RW = 0;
+    cpu.regs.PC = 0x8001;
+    cpu.pins.D = mem816[0x8000];
+    for (int i = 0; i < 40 && !fetched_handler; i++) {
+        WDC65816_cycle(&cpu);
+        if (i == 1)
+            cpu.regs.ABORT_pending = 1;   /* during the LDA's operand fetch */
+        uint32_t addr = ((uint32_t)cpu.pins.BA << 16) | (cpu.pins.Addr & 0xFFFF);
+        if (cpu.pins.RW) {
+            mem816[addr] = (uint8_t)cpu.pins.D;
+            touch(addr);
+        } else {
+            cpu.pins.D = mem816[addr];
+        }
+        if (cpu.pins.VPB && (addr == 0xFFE8 || addr == 0xFFE9))
+            vector_reads++;
+        if (cpu.regs.TCU == 0 && addr == 0x9000 && cpu.pins.VPA)
+            fetched_handler = true;
+    }
+    if (!fetched_handler || vector_reads != 2) {
+        printf("65816: abort: handler fetched %d, vector reads with VPB %u\n", fetched_handler,
+               vector_reads);
+        errors++;
+    }
+    /* The LDA completed (A = 5A); the pushes: PBR, PCH, PCL of the LDA, P. */
+    if ((cpu.regs.C & 0xFF) != 0x5A || mem816[0x01FF] != 0x00 || mem816[0x01FE] != 0x80 ||
+        mem816[0x01FD] != 0x00 || mem816[0x01FC] != 0x38 || cpu.regs.S != 0x01FB ||
+        !cpu.regs.P.I || cpu.regs.P.D || cpu.regs.PBR != 0) {
+        printf("65816: abort: A %02x stack %02x %02x %02x %02x S %04x I %u D %u PBR %02x\n",
+               (unsigned)(cpu.regs.C & 0xFF), mem816[0x01FF], mem816[0x01FE], mem816[0x01FD],
+               mem816[0x01FC], (unsigned)cpu.regs.S, cpu.regs.P.I, cpu.regs.P.D,
+               (unsigned)cpu.regs.PBR);
+        errors++;
+    }
+    WDC65816_delete(&cpu);
+    clear816();
+    printf("65816: abort %s\n", errors ? "FAIL" : "ok");
+    return errors;
+}
+
+/* The vendored generator reproduces the committed opcode table (when CMake
+   found node). */
+static int generator816(void)
+{
+#ifdef JSMOOCH_NODE
+    char cmd[2048];
+    char out[1024];
+    snprintf(out, sizeof out, "%s/jsmooch-gen-check.c", JSMOOCH_TMP);
+    snprintf(cmd, sizeof cmd, "\"%s\" \"%s\" \"%s\"", JSMOOCH_NODE, JSMOOCH_GEN, out);
+    if (system(cmd) != 0) {
+        printf("65816: generator: run.js failed\n");
+        return 1;
+    }
+    char *made = read_file(out);
+    char *committed = read_file(JSMOOCH_C);
+    bool same = made && committed && strcmp(made, committed) == 0;
+    free(made);
+    free(committed);
+    remove(out);
+    printf("65816: generator %s\n", same ? "reproduces wdc65816_generated_opcodes.c"
+                                         : "FAIL: output differs from wdc65816_generated_opcodes.c");
+    return same ? 0 : 1;
+#else
+    printf("65816: generator check skipped (no node)\n");
+    return 0;
+#endif
 }
 
 /* ---- Driver ----------------------------------------------------------- */
@@ -489,57 +632,6 @@ static const char *const EXPECTED_Z80[] = {
 };
 
 static const char *const EXPECTED_65816[] = {
-    /* The unmodified core (plan-14-G Phase 1); each fix removes its tests. */
-    "00 e 4", "00 e 9", "02 e 5", "02 e 7", "02 e 9", "02 e 10", "10 e 1", "10 e 2",
-    "10 e 3", "10 e 4", "10 e 5", "10 e 6", "10 e 8", "10 e 9", "10 e 10", "15 e 1",
-    "15 e 2", "15 e 3", "15 e 4", "15 e 5", "15 e 6", "15 e 7", "15 e 8", "15 e 9",
-    "15 e 10", "16 e 1", "16 e 2", "16 e 3", "16 e 4", "16 e 5", "16 e 6", "16 e 7",
-    "16 e 8", "16 e 9", "16 e 10", "30 e 2", "30 e 3", "30 e 4", "30 e 5", "30 e 6",
-    "30 e 7", "30 e 8", "30 e 9", "34 e 1", "34 e 2", "34 e 3", "34 e 4", "34 e 5",
-    "34 e 6", "34 e 7", "34 e 8", "34 e 9", "34 e 10", "35 e 1", "35 e 2", "35 e 3",
-    "35 e 4", "35 e 5", "35 e 6", "35 e 7", "35 e 8", "35 e 9", "35 e 10", "36 e 1",
-    "36 e 2", "36 e 3", "36 e 4", "36 e 5", "36 e 6", "36 e 7", "36 e 8", "36 e 9",
-    "36 e 10", "44 e 1", "44 e 2", "44 e 3", "44 e 4", "44 e 5", "44 e 7", "44 e 8",
-    "44 e 9", "44 e 10", "48 e 1", "48 e 2", "48 e 3", "48 e 4", "48 e 5", "48 e 6",
-    "48 e 7", "48 e 8", "48 e 9", "48 e 10", "50 e 1", "50 e 2", "50 e 3", "50 e 4",
-    "50 e 5", "50 e 6", "50 e 7", "50 e 8", "50 e 9", "50 e 10", "54 e 1", "54 e 3",
-    "54 e 4", "54 e 5", "54 e 6", "54 e 7", "54 e 8", "54 e 9", "54 e 10", "55 e 1",
-    "55 e 2", "55 e 3", "55 e 4", "55 e 5", "55 e 6", "55 e 7", "55 e 8", "55 e 9",
-    "55 e 10", "56 e 1", "56 e 2", "56 e 3", "56 e 4", "56 e 5", "56 e 6", "56 e 7",
-    "56 e 8", "56 e 9", "56 e 10", "5a e 1", "5a e 2", "5a e 3", "5a e 4", "5a e 5",
-    "5a e 6", "5a e 7", "5a e 8", "5a e 9", "5a e 10", "68 e 1", "68 e 2", "68 e 3",
-    "68 e 4", "68 e 5", "68 e 6", "68 e 7", "68 e 8", "68 e 9", "68 e 10", "70 e 2",
-    "70 e 3", "70 e 4", "70 e 5", "70 e 7", "70 e 8", "70 e 9", "70 e 10", "74 e 1",
-    "74 e 2", "74 e 3", "74 e 4", "74 e 5", "74 e 6", "74 e 7", "74 e 8", "74 e 9",
-    "74 e 10", "75 e 1", "75 e 2", "75 e 3", "75 e 4", "75 e 5", "75 e 6", "75 e 7",
-    "75 e 8", "75 e 9", "75 e 10", "76 e 1", "76 e 2", "76 e 3", "76 e 4", "76 e 5",
-    "76 e 6", "76 e 7", "76 e 8", "76 e 9", "76 e 10", "7a e 1", "7a e 2", "7a e 3",
-    "7a e 4", "7a e 5", "7a e 6", "7a e 7", "7a e 8", "7a e 9", "7a e 10", "80 e 1",
-    "80 e 3", "80 e 5", "80 e 6", "80 e 7", "80 e 9", "80 e 10", "90 e 3", "90 e 5",
-    "90 e 6", "90 e 7", "90 e 8", "90 e 9", "90 e 10", "94 e 1", "94 e 2", "94 e 3",
-    "94 e 4", "94 e 5", "94 e 6", "94 e 7", "94 e 8", "94 e 9", "94 e 10", "95 e 1",
-    "95 e 2", "95 e 3", "95 e 4", "95 e 5", "95 e 6", "95 e 7", "95 e 8", "95 e 9",
-    "95 e 10", "96 e 1", "96 e 2", "96 e 3", "96 e 4", "96 e 5", "96 e 6", "96 e 7",
-    "96 e 8", "96 e 9", "96 e 10", "9a e 1", "9a e 2", "9a e 3", "9a e 4", "9a e 5",
-    "9a e 6", "9a e 7", "9a e 8", "9a e 9", "9a e 10", "b0 e 1", "b0 e 2", "b0 e 4",
-    "b0 e 5", "b0 e 6", "b0 e 7", "b0 e 8", "b0 e 9", "b0 e 10", "b4 e 1", "b4 e 2",
-    "b4 e 3", "b4 e 4", "b4 e 5", "b4 e 6", "b4 e 7", "b4 e 8", "b4 e 9", "b4 e 10",
-    "b5 e 1", "b5 e 2", "b5 e 3", "b5 e 4", "b5 e 5", "b5 e 6", "b5 e 7", "b5 e 8",
-    "b5 e 9", "b5 e 10", "b6 e 1", "b6 e 2", "b6 e 3", "b6 e 4", "b6 e 5", "b6 e 6",
-    "b6 e 7", "b6 e 8", "b6 e 9", "b6 e 10", "c2 e 1", "c2 e 2", "c2 e 3", "c2 e 4",
-    "c2 e 5", "c2 e 6", "c2 e 7", "c2 e 8", "c2 e 9", "c2 e 10", "cb e 1", "cb e 2",
-    "cb e 3", "cb e 4", "cb e 5", "cb e 6", "cb e 7", "cb e 8", "cb e 9", "cb e 10",
-    "cb n 1", "cb n 2", "cb n 3", "cb n 4", "cb n 5", "cb n 6", "cb n 7", "cb n 8",
-    "cb n 9", "cb n 10", "d0 e 1", "d0 e 2", "d0 e 3", "d0 e 4", "d0 e 5", "d0 e 6",
-    "d0 e 7", "d0 e 9", "d0 e 10", "d5 e 1", "d5 e 2", "d5 e 3", "d5 e 4", "d5 e 5",
-    "d5 e 6", "d5 e 7", "d5 e 8", "d5 e 9", "d5 e 10", "d6 e 1", "d6 e 2", "d6 e 3",
-    "d6 e 4", "d6 e 5", "d6 e 6", "d6 e 7", "d6 e 8", "d6 e 9", "d6 e 10", "da e 1",
-    "da e 2", "da e 3", "da e 4", "da e 5", "da e 6", "da e 7", "da e 8", "da e 9",
-    "da e 10", "f0 e 1", "f0 e 2", "f0 e 3", "f0 e 4", "f0 e 5", "f0 e 6", "f0 e 7",
-    "f0 e 8", "f5 e 1", "f5 e 2", "f5 e 3", "f5 e 4", "f5 e 5", "f5 e 6", "f5 e 7",
-    "f5 e 8", "f5 e 9", "f5 e 10", "f6 e 1", "f6 e 2", "f6 e 3", "f6 e 4", "f6 e 5",
-    "f6 e 6", "f6 e 7", "f6 e 8", "f6 e 9", "f6 e 10", "fa e 1", "fa e 2", "fa e 3",
-    "fa e 4", "fa e 5", "fa e 6", "fa e 7", "fa e 8", "fa e 9", "fa e 10",
     NULL,
 };
 
@@ -616,5 +708,7 @@ int main(void)
     int errors = 0;
     for (size_t i = 0; i < sizeof suites / sizeof suites[0]; i++)
         errors += run_suite(&suites[i]);
+    errors += abort816();
+    errors += generator816();
     return errors ? 1 : 0;
 }

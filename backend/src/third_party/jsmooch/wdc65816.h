@@ -65,6 +65,7 @@ struct WDC65816_regs {
 
 
     u8 old_I; // old I flag, for use timing IRQs
+    u8 ABORT_pending; // plan-14-G: ABORTB seen; serviced at the next instruction boundary
     u8 NMI_pending;
     u8 IRQ_pending;
     u32 interrupt_pending;
@@ -85,6 +86,7 @@ struct WDC65816_pins {
     u8 RW; // 0 = reading, 1 = writing, *IF* PDV asserted
     u8 E; // state of Emulation bit
     u8 MX; // M and X flags set. Not emulated
+    u8 M, X; // plan-14-G: P.M and P.X during this cycle (the MX pin shows M, then X)
     u8 RES; // RESET signal. Not emulated
 
     u8 PDV; // combined program, data, vector pin, to simplify.

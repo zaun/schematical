@@ -1,5 +1,5 @@
 "use strict";
-var WDC_PINS_SEPERATE_PDV = false;
+var WDC_PINS_SEPERATE_PDV = true;   // plan-14-G: VDA, VPA, VPB apart
 // BIG TODO: implement diff-based RPDV, so pins are not set and reset SO MUCH
 
 // is this still true?
@@ -228,6 +228,7 @@ class WDC_switchgen {
         this.no_addr_at_end = false;
         this.no_RPDV_at_end = false;
         this.has_custom_end = false;
+        this.ml = false;
         this.outstr = '';
 
         // We start any instruction on a read of a valid address
@@ -247,6 +248,7 @@ class WDC_switchgen {
         this.no_addr_at_end = false;
         this.no_RPDV_at_end = false;
         this.has_custom_end = false;
+        this.ml = false;
         this.outstr = this.indent1 + 'switch(regs->TCU) {\n';
 
         this.old_rw = 0;
@@ -281,6 +283,13 @@ class WDC_switchgen {
 
     no_modify_addr() {
         this.no_addr_at_end = true;
+    }
+
+    // plan-14-G: MLB low (pins.ML = 1) from a read-modify-write's first data
+    // read to its write; the instruction's end releases it.
+    ML_on() {
+        this.addl('pins.ML = 1;');
+        this.ml = true;
     }
 
     no_modify_RPDV() {
@@ -406,6 +415,8 @@ class WDC_switchgen {
             this.addr_to_PC_then_inc();
         if (!this.no_RPDV_at_end)
             this.RPDV(0, 1, 1, 0);
+        if (this.ml)
+            this.addl('pins.ML = 0;');
         this.addl('regs.TCU = 0;')
         this.addl('break;')
     }
@@ -872,7 +883,9 @@ class WDC_switchgen {
         //Reversed clear    = 1000
         //Anded             = 1000
         //                    success!
-        this.addl('regs.P.v = ((regs.P.v | 0x30) & (~(regs.TR | 0x30) & 0xFF));');
+        // plan-14-G: clear the bits, then force M and X back to 1 (the
+        // old form cleared them: (P | 30) & ~(TR | 30)).
+        this.addl('regs.P.v = (regs.P.v & (~regs.TR & 0xFF)) | 0x30;');
     }
 
     // Native Set bits from P
@@ -1018,10 +1031,13 @@ class WDC_switchgen {
 
         this.addcycle(6);
         this.addr_to_S_then_dec();
-        if (E && ins === WDC_OM.BRK)
-            this.addl('pins.D = regs.P.v | 0x38;'); // Set BRK bit
+        // plan-14-G: in emulation mode BRK and COP push P with bits 5 and 4
+        // (B) set; IRQ, NMI and ABORT push B = 0. D is pushed as it is (the
+        // old forms set it for BRK, | 0x38, and cleared it otherwise, & 0xF7).
+        if (E && (ins === WDC_OM.BRK || ins === WDC_OM.COP))
+            this.addl('pins.D = regs.P.v | 0x30;');
         else if (E)
-            this.addl('pins.D = regs.P.v & 0xF7;'); // Clear BRK bit
+            this.addl('pins.D = (regs.P.v & 0xEF) | 0x20;');
         else
             this.addl('pins.D = regs.P.v;');
 
@@ -1047,6 +1063,9 @@ class WDC_switchgen {
 
     S_ABORT(E) {
         this.INTERRUPT(WDC_OM.S_ABORT, E);
+        // plan-14-G: as IRQ and NMI (the old code left I and D alone).
+        this.addl('regs.P.I = 1;');
+        this.addl('regs.P.D = 0;');
     }
 
     S_IRQ(E) {
@@ -1369,7 +1388,9 @@ class WDC_switchgen {
                     this.TXYA16('regs.X');
                 break;
             case WDC_OM.TXS:
-                if (E || X)
+                if (E)   // plan-14-G: the emulation stack stays in page 1
+                    this.addl('regs.S = 0x100 | (regs.X & 0xFF);');
+                else if (X)
                     this.TXS8();
                 else
                     this.TXS16();
@@ -1448,6 +1469,15 @@ class generate_instruction_function_return {
         this.affected_by_X = aX;
         this.affected_by_D = aD;
     }
+}
+
+// plan-14-G: direct page indexed address. Native: (D + d + index) & FFFF.
+// Emulation: with DL = 0 the index wraps within D's page; with DL != 0 the
+// sum crosses pages as in native mode (w65c816s.pdf section 7.2).
+function WDC_dp_indexed(E, index) {
+    if (!E)
+        return '(regs.TA + ' + index + ' + regs.D) & 0xFFFF';
+    return '((regs.D & 0xFF) === 0) ? ((regs.D & 0xFF00) | ((regs.TA + ' + index + ') & 0xFF)) : ((regs.TA + ' + index + ' + regs.D) & 0xFFFF)';
 }
 
 function WDC_generate_instruction_function(indent, opcode_info, E, M, X) {
@@ -1688,6 +1718,8 @@ function WDC_generate_instruction_function(indent, opcode_info, E, M, X) {
             set_em16rmw();
 
             ag.get_TA_from_PC();
+            ag.RPDV(0, 0, 1, 0);   // plan-14-G: the data read (was VPA)
+            ag.ML_on();
             ag.addr_to_DBR('regs.TA');
             fetch_rmw_8or16();
 
@@ -1700,7 +1732,7 @@ function WDC_generate_instruction_function(indent, opcode_info, E, M, X) {
             ag.RPDV(0, 0, 0, 0);
             // used to be get_TA_from_PC() or something
             ag.addcycle();
-            ag.RPDV(0, 1, 0, 0);
+            ag.RPDV(0, 0, 1, 0);   // plan-14-G: the pointer read is VDA
             ag.addr_to_ta_pbr();
             ag.addcycle();
             ag.addl('regs.TR = pins.D;')
@@ -1733,7 +1765,7 @@ function WDC_generate_instruction_function(indent, opcode_info, E, M, X) {
             ag.addl('regs.TA = (regs.TA + regs.X + (pins.D << 8)) & 0xFFFF;');
 
             ag.addcycle(7); // 7 PBR, AA+X
-            ag.RPDV(0, 1, 0, 0);
+            ag.RPDV(0, 0, 1, 0);   // plan-14-G: the pointer read is VDA
             ag.addl('pins.Addr = regs.TA;');
 
             ag.addcycle(8); // 8 PBR, AA+X+1 <- PCL
@@ -1919,6 +1951,7 @@ function WDC_generate_instruction_function(indent, opcode_info, E, M, X) {
 
             ag.addcycle(5);
             ag.RPDV(0, 0, 1, 0);
+            ag.ML_on();
             ag.addr_to('regs.TA', 'regs.TR');
 
             if (mem16) {
@@ -2034,6 +2067,7 @@ function WDC_generate_instruction_function(indent, opcode_info, E, M, X) {
 
             fetch_D0_and_skip_cycle();
             ag.RPDV(0, 0, 1, 0);
+            ag.ML_on();
             ag.addr_to_ZB('(regs.TA + regs.D) & 0xFFFF');
 
             fetch_rmw_8or16(true);
@@ -2169,10 +2203,7 @@ function WDC_generate_instruction_function(indent, opcode_info, E, M, X) {
             ag.RPDV(0, 0, 0, 0);
 
             ag.addcycle(4);
-            if (E)
-                ag.addr_to_ZB('(regs.TA + regs.X + regs.D) & 0xFF');
-            else
-                ag.addr_to_ZB('(regs.TA + regs.X + regs.D) & 0xFFFF');
+            ag.addr_to_ZB(WDC_dp_indexed(E, 'regs.X'));
             finish_RW8or16p(true);
             break;
         case WDC_AM.D_INDEXED_Xb: // d,x RMWs
@@ -2183,10 +2214,8 @@ function WDC_generate_instruction_function(indent, opcode_info, E, M, X) {
 
             ag.addcycle(4);
             ag.RPDV(0, 0, 1, 0);
-            if (E)
-                ag.addr_to_ZB('(regs.TA + regs.X + regs.D) & 0xFF');
-            else
-                ag.addr_to_ZB('(regs.TA + regs.X + regs.D) & 0xFFFF');
+            ag.ML_on();
+            ag.addr_to_ZB(WDC_dp_indexed(E, 'regs.X'));
             fetch_rmw_8or16(true);
             finish_rmw(true);
             break;
@@ -2195,10 +2224,7 @@ function WDC_generate_instruction_function(indent, opcode_info, E, M, X) {
             fetch_D0_and_skip_cycle();
             ag.RPDV(0, 0, 0, 0);
             ag.addcycle(4);
-            if (E)
-                ag.addr_to_ZB('(regs.TA + regs.Y + regs.D) & 0xFF');
-            else
-                ag.addr_to_ZB('(regs.TA + regs.Y + regs.D) & 0xFFFF');
+            ag.addr_to_ZB(WDC_dp_indexed(E, 'regs.Y'));
             finish_RW8or16p(true);
             break;
         case WDC_AM.IMM:
@@ -2251,17 +2277,20 @@ function WDC_generate_instruction_function(indent, opcode_info, E, M, X) {
             ag.addl('regs.STP = true;');
             break;
         case WDC_AM.Id: // WAI
-            ag.addcycle(1);
-            ag.addl('regs.WAI = 1;');
+            // plan-14-G: two idle cycles at PBR,PC (VDA = VPA = 0), then the
+            // processor waits (no bus cycles; the adapter pulls RDY low)
+            // until an interrupt clears regs.WAI; an interrupt already
+            // pending does not wait. The next opcode fetch is at PC.
             ag.addcycle(2);
+            ag.RPDV(0, 0, 0, 0);
+            ag.addr_to_PC();
+            ag.addl('regs.WAI = regs.interrupt_pending ? 0 : 1;');
+            ag.addcycle(3);
+            ag.addcycle('wait');
             ag.addl('if (regs.WAI) {');
             ag.addl('    regs.TCU--;');
             ag.addl('    break;');
             ag.addl('}');
-            ag.addr_to_PC();
-            ag.RPDV(0, 0, 0, 0);
-            ag.addcycle(3);
-            ag.addl('regs.PC = (regs.PC + 1) & 0xFFFF;');
             break;
         case WDC_AM.Ie: // SEI, CLI
             ag.addcycle(2);
@@ -2307,34 +2336,25 @@ function WDC_generate_instruction_function(indent, opcode_info, E, M, X) {
                     break;
             }
 
-            ag.addl('regs.skipped_cycle = 0;')
-            // Technically this is supposed to be skip if E and branch across page boundary
-            // BUT
-            // This is the one place it was too huge a pain to add perfect accuracy FOR RIGHT NOW
-            // It can certainly be added by making specialized versions of this function
-            if (!E) ag.addl('regs.TCU++; regs.skipped_cycle++;           // skip cycle for no E')
-            ag.addl('if (!regs.TR) { regs.TCU++; regs.skipped_cycle++; } // skip cycle if NOT taken');
+            // plan-14-G: not taken, the instruction ends after the operand.
+            // Taken: one idle cycle (2a), and in emulation mode a second
+            // (2b) when the target is on another page; native never adds it
+            // (w65c816s.pdf Table 5-7 note 6). The old code always took 2b
+            // in emulation mode.
+            ag.addl('if (!regs.TR) { regs.TCU += 2; }');
 
             ag.addcycle('2a');
-            ag.addl('regs.TA = pins.D;');
             ag.RPDV(0, 0, 0, 0);
+            ag.addl('regs.TA = (regs.PC + ((u32)(i8)(pins.D))) & 0xFFFF;');
+            if (E)
+                ag.addl('if ((regs.TA & 0xFF00) === (regs.PC & 0xFF00)) regs.TCU++;');
+            else
+                ag.addl('regs.TCU++;');
 
             ag.addcycle('2b');
-            if (WDC_PINS_SEPERATE_PDV) {
-                ag.addl('if (regs.skipped_cycle === 1) { regs.TA = pins.D; pins.RW = 0; pins.VPA = 0; pins.VDA = 0; }');
-            } else {
-                ag.addl('if (regs.skipped_cycle === 1) { regs.TA = pins.D; pins.RW = 0; pins.PDV = 0; } ');
-                ag.old_rw = 0; ag.old_pdv = 0;
-            }
 
             ag.cleanup();
-            if (WDC_PINS_SEPERATE_PDV) {
-                ag.addl('if (regs.skipped_cycle === 2) { regs.TA = pins.D; pins.RW = 0; pins.VPA = 0; pins.VDA = 0; }');
-            } else {
-                ag.addl('if (regs.skipped_cycle === 2) { regs.TA = pins.D; pins.RW = 0; pins.PDV = 0; } ');
-                ag.old_rw = 0; ag.old_pdv = 0;
-            }
-            ag.addl('if (regs.TR) regs.PC = (regs.PC + ((u32)(i8)(regs.TA))) & 0xFFFF;');
+            ag.addl('if (regs.TR) regs.PC = regs.TA;');
             break;
         case WDC_AM.PC_RL:
             ag.addcycle(2);
@@ -2787,8 +2807,9 @@ function decode_opcodes_c() {
     for (let i = 0; i < 5; i++) {
         IDT = '    ';
         let E = (i == 4) ? 1 : 0;
-        let M = i & 1;
-        let X = (i >>> 1) & 1;
+        // plan-14-G: emulation mode runs with M = X = 1 (as decode_opcodes()).
+        let M = E ? 1 : i & 1;
+        let X = E ? 1 : (i >>> 1) & 1;
         //outstr += IDT + '// E' + E + ' M' + ME + ' X' + XE + '\n';
         for (let j = 0; j <= WDC_MAX_OPCODE; j++) {
             funcstr += generate_instruction_code_c(j, IDT, E, M, X);

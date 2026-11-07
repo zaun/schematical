@@ -189,6 +189,15 @@ backend/
     third_party/chips/     floooh/chips m6502.h w65c02.h z80.h and their
                            disassemblers (zlib), unmodified; README.md
                            names the commit
+    third_party/jsmooch/   jsmooch's cycle-stepped WDC 65816 core and
+                           disassembler (MIT), fixed through its code
+                           generator, plus our helpers/ stubs;
+                           README-jsmooch.md names the commit and lists
+                           every change
+  tools/jsmooch-gen/       the 65816 core's JavaScript code generator (MIT)
+                           and run.js, which regenerates
+                           wdc65816_generated_opcodes.c (`node run.js`);
+                           outside src/, so the app does not bundle it
   tests/                   CTest programs; golden/ holds the regression
                            fixtures (one listing line and one trace hash
                            per part); cpu/ holds the SingleStepTests
@@ -280,6 +289,15 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   must still fail, so a core update that fixes one is noticed; any other
   failure, or a listed test that passes, fails the test. It prints
   `6502: 241 pass, 15 expected failures` and the same for 65C02 and Z80.
+  The 65816 (`third_party/jsmooch/`, plan-14-G) runs the first 10 tests of
+  each of the 512 SingleStepTests/65816 files (`sst-65816.jsonl`, 5120;
+  `make_sst_subset.py … 10`), checking every cycle's 24-bit address, data
+  and the eight flags VDA VPA VPB RWB E M X MLB, then the final registers
+  and RAM: `65816: 5120 pass, 0 expected failures`. Then an ABORT case
+  (`65816: abort ok`) and, when CMake finds `node`, a check that
+  `tools/jsmooch-gen/run.js` reproduces the committed
+  `wdc65816_generated_opcodes.c` (`65816: generator reproduces …`). Set
+  `SST65816="<test name>"` to print one test's cycles side by side.
 - `cpu_test` — the cpu kind's bus adapters on inline fixture devices (the
   W65C02S and MOS 6502 data of `cpu.json`) and a bench that clocks the CPU
   at 1 MHz and serves a 64 KB memory (X where it was given nothing): the
