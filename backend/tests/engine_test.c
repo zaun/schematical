@@ -6,6 +6,9 @@
  * inertial rule must keep an output edge that is already pending when a
  * later input change asks for the same value again (plan-05-B), while a
  * pulse shorter than the delay is still swallowed.
+ *
+ * A one-input "buf" gate (plan-20-C) passes 0 and 1 through and turns an X
+ * or a floating (Z) input into X.
  */
 
 #include <stdio.h>
@@ -103,6 +106,54 @@ static const SimComponentType PROBE_TYPE = {
 };
 
 static const Part *or_part;
+static const Part *buf_part;
+
+/* The test buffer (SOT-23-5: NC, A, GND, Y, VCC), 4 ns each way. */
+static const char BUF_JSON[] =
+    "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"gate\",\"devices\":["
+    "{\"id\":\"TBUF\",\"function\":\"Buffer\",\"description\":\"test buffer\",\"drawer\":[],"
+    "\"pinouts\":{\"p5\":[{\"number\":1,\"name\":\"NC\",\"role\":\"nc\"},"
+    "{\"number\":2,\"name\":\"A\",\"role\":\"input\"},{\"number\":3,\"name\":\"GND\",\"role\":\"ground\"},"
+    "{\"number\":4,\"name\":\"Y\",\"role\":\"output\"},{\"number\":5,\"name\":\"VCC\",\"role\":\"power\"}]},"
+    "\"gates\":[{\"op\":\"buf\",\"inputs\":[\"A\"],\"output\":\"Y\"}],"
+    "\"timing\":{\"LVC\":{\"rise\":4,\"fall\":4,\"vcc\":[1.65,5.5]}},"
+    "\"parts\":[{\"name\":\"TEST-BUF\",\"package\":\"SOT-23\",\"pinout\":\"p5\","
+    "\"footprint\":\"SOT23-5\",\"family\":\"LVC\"}]}]}";
+
+/* Test buffer pins, 0-based. */
+enum { BUF_A = 1, BUF_GND = 2, BUF_Y = 3, BUF_VCC = 4 };
+
+/* Y of the test buffer at time t, with A driven by the script (A starts at 0). */
+static LogicValue buf_y_at(const Edge *edges, size_t count, SimTime t) {
+    Script script = { edges, count };
+    Probe probe = { {0}, {0}, 0 };
+    Sim *sim = sim_create();
+    SimInstance *source = sim_add_instance(sim, &SOURCE_TYPE, "source", &script);
+    SimInstance *buf = sim_add_instance(sim, kind_model(buf_part), "U1", buf_part);
+    SimInstance *probe_instance = sim_add_instance(sim, &PROBE_TYPE, "probe", &probe);
+    SimNet *a = sim_add_net(sim, "A");
+    SimNet *y = sim_add_net(sim, "Y");
+    SimNet *vcc = sim_add_net(sim, "VCC");
+    SimNet *gnd = sim_add_net(sim, "GND");
+    LogicValue v = LOGIC_Z;
+
+    sim_connect(sim, a, source, SRC_A);
+    sim_connect(sim, vcc, source, SRC_VCC);
+    sim_connect(sim, gnd, source, SRC_GND);
+    sim_connect(sim, a, buf, BUF_A);
+    sim_connect(sim, y, buf, BUF_Y);
+    sim_connect(sim, vcc, buf, BUF_VCC);
+    sim_connect(sim, gnd, buf, BUF_GND);
+    sim_connect(sim, y, probe_instance, 0);
+    if (!sim_start(sim) || !sim_run_until(sim, t)) {
+        printf("  engine error: %s\n", sim_error(sim));
+        failures++;
+    } else {
+        v = sim_read_pin(sim, probe_instance, 0);
+    }
+    sim_destroy(sim);
+    return v;
+}
 
 /*
  * Runs one script to 200 ns and returns the time 1Y first became 1, or 0
@@ -199,6 +250,23 @@ int main(void) {
 
     t = first_high(one_rise, 1);
     expect(t == 110000, "A up at 100 ns alone: 1Y rises at 110 ns");
+
+    if (load_parts(library, BUF_JSON, "buf.json", &error) != 0 ||
+        (buf_part = part_library_find(library, "TEST-BUF")) == NULL) {
+        fprintf(stderr, "engine_test: cannot load the test buffer: %s\n", error ? error : "?");
+        return 1;
+    }
+    {
+        static const Edge up[] = { { SRC_A, 100000, LOGIC_1 } };
+        static const Edge unknown[] = { { SRC_A, 100000, LOGIC_X } };
+        static const Edge floating[] = { { SRC_A, 100000, LOGIC_Z } };
+
+        expect(buf_y_at(up, 0, 50000) == LOGIC_0, "buf: A = 0 gives Y = 0");
+        expect(buf_y_at(up, 1, 103000) == LOGIC_0, "buf: Y still 0 at 3 ns after A rises (4 ns delay)");
+        expect(buf_y_at(up, 1, 105000) == LOGIC_1, "buf: A = 1 gives Y = 1 after 4 ns");
+        expect(buf_y_at(unknown, 1, 110000) == LOGIC_X, "buf: A = X gives Y = X");
+        expect(buf_y_at(floating, 1, 110000) == LOGIC_X, "buf: A floating (Z) gives Y = X");
+    }
 
     part_library_destroy(library);
     printf("%d failure(s)\n", failures);

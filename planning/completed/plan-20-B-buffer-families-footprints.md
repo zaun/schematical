@@ -74,7 +74,7 @@ Commit: e06894a
 - [x] Coverage check of §1 (python, `fpdata.py`: `add` footprint ids − `footprints.json` ids − the 19) → `missing []`.
 
 Acceptance: `ctest --test-dir /tmp/logic-p20` → T0 of T0 (no footprint lands in `footprints.json` in B, so `footprints.txt` is unchanged; each footprint's golden line lands with its first part, C/G/H) (seconds).
-Commit: (this commit; hash in the next)
+Commit: dfc720c
 
 ## Validation Plan
 

@@ -21,7 +21,7 @@ plan-20-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-20-B complete | `ls planning/completed/plan-20-B-*.md` → exists | NOT MET (2026-11-07) |
+| plan-20-B complete | `ls planning/completed/plan-20-B-*.md` → exists | MET (2026-11-07: `planning/completed/plan-20-B-buffer-families-footprints.md`) |
 
 ## 1. Goal
 
@@ -52,7 +52,7 @@ plan-20-A § Prerequisites, plus:
 
 ### Phase 1 — Op
 
-- [ ] §2 `gate.c` + docs; `library_check` rejection case; a `gate` fixture case for `buf` in the existing gate test (the file that tests `not`, `backend/tests/library_check.c` / `circuit_check.c` per fd9a9fa).
+- [x] §2 `gate.c` (`OP_BUF`, `"buf"`, the 1-input check shared with `not`, `gate_value` as a 1-input AND) + docs § `gate`; `library_check` → `ok   gate buf with 2 inputs: … a "buf" gate has exactly 1 input`; the behavior fixture is in `engine_test` (fd9a9fa added no `not` behavior case to follow): a SOT-23-5 `buf` part, 4 ns — `PASS: buf: A = 0 gives Y = 0`, `… Y still 0 at 3 ns after A rises`, `… A = 1 gives Y = 1 after 4 ns`, `… A = X gives Y = X`, `… A floating (Z) gives Y = X`. `ctest --test-dir /tmp/logic-p20` → `100% tests passed, 0 tests failed out of 21`; `git diff --stat backend/tests/golden` → empty.
 
 Acceptance: `ctest --test-dir /tmp/logic-p20` → T0 of T0; golden diff empty (seconds).
 Commit: —
