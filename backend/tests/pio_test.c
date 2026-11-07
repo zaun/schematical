@@ -15,6 +15,7 @@
 #include "read_file.h"
 #include "bus65.h"
 #include "kind.h"
+#include "model_pins.h"
 
 static int failures;
 
@@ -487,33 +488,6 @@ static void a8_widths(const Part *part) {
 
 /* ---- B: pia6521 (the shipped W65C21N) ------------------------------------------- */
 
-static PartLibrary *inline_library(const char *device) {
-    PartLibrary *library = part_library_create();
-    char path[1024];
-    char *footprints;
-    char *text;
-    char *error = NULL;
-    size_t n;
-
-    snprintf(path, sizeof path, "%s/footprints.json", PARTS_DIR);
-    footprints = read_file(path);
-    if (footprints == NULL || load_footprints(library, footprints, "footprints.json", &error) != 0) {
-        fprintf(stderr, "footprints: %s\n", error != NULL ? error : "unreadable");
-        exit(2);
-    }
-    free(footprints);
-    n = strlen(device) + 128;
-    text = malloc(n);
-    snprintf(text, n, "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"pio\",\"devices\":[%s]}",
-             device);
-    if (load_parts(library, text, "inline.json", &error) != 0) {
-        fprintf(stderr, "inline device: %s\n", error);
-        exit(2);
-    }
-    free(text);
-    return library;
-}
-
 /* The shipped part library (schematical/schematical/Parts). */
 static PartLibrary *shipped_library;
 
@@ -880,112 +854,10 @@ static void b10_inputs(void) {
     printf("%s B10 inputs as interrupts\n", failures > before ? "FAIL" : "ok");
 }
 
-/* ---- C: via6522 (inline W65C22N and W65C22S devices) ----------------------------- */
-
-/* The W65C22N and W65C22S devices (p40 pinout, one part each). */
-static const char W65C22_INLINE[] =
-    "{\"id\":\"W65C22N\",\"function\":\"VIA\",\"description\":\"Versatile interface adapter, NMO"
-    "S-compatible (WDC W65C22N)\",\"drawer\":[\"Interface\"],\"note\":\"W65C22 (datasheets/pi"
-    "o/w65c22.pdf): register map Table 2-1 p.7, ports and handshake p.7-12, timers p."
-    "13-19, shift register p.19-24, interrupts p.24-26, pins p.27-35, AC Tables 4-3/4"
-    "-4 p.40-43, caveats p.48, ordering p.50. IRQB is open drain (p.24); no bus holdi"
-    "ng.\",\"model\":\"via6522\",\"phi2\":\"PHI2\",\"rw\":\"RWB\",\"reset\":\"RESB\",\"data\":[\"D0\",\"D1\""
-    ",\"D2\",\"D3\",\"D4\",\"D5\",\"D6\",\"D7\"],\"csHigh\":[\"CS1\"],\"csLow\":[\"CS2B\"],\"rs\":[\"RS0\",\"R"
-    "S1\",\"RS2\",\"RS3\"],\"pa\":[\"PA0\",\"PA1\",\"PA2\",\"PA3\",\"PA4\",\"PA5\",\"PA6\",\"PA7\"],\"pb\":[\"P"
-    "B0\",\"PB1\",\"PB2\",\"PB3\",\"PB4\",\"PB5\",\"PB6\",\"PB7\"],\"ca1\":\"CA1\",\"ca2\":\"CA2\",\"cb1\":\"CB"
-    "1\",\"cb2\":\"CB2\",\"irq\":\"IRQB\",\"irqOpenDrain\":true,\"busHold\":false,\"grades\":{\"14\":{"
-    "\"tcyc\":70,\"tpwh\":35,\"tpwl\":35,\"tacr\":10,\"tcar\":10,\"tcdr\":20,\"thr\":10,\"tpcr\":10,\""
-    "tacw\":10,\"tcaw\":10,\"tdcw\":10,\"thw\":10,\"tcpw\":250,\"tca2\":75,\"trs1\":75,\"trs2\":100,"
-    "\"twhs\":75,\"tds\":100,\"trs3\":150,\"trs4\":88,\"t21\":88,\"til\":62,\"tsr1\":35,\"tsr2\":105,"
-    "\"tal\":88,\"tpdh\":10,\"vcc\":[4.75,5.25],\"note\":\"Tables 4-3a and 4-4a, 5.0 V +/- 5% "
-    "(14 MHz). tRS1 is printed in us; it is ns. VDD Table 4-2a.\"}},\"pinouts\":{\"p40\":["
-    "{\"number\":1,\"name\":\"VSS\",\"role\":\"ground\"},{\"number\":2,\"name\":\"PA0\",\"role\":\"inout"
-    "\",\"group\":\"port A\"},{\"number\":3,\"name\":\"PA1\",\"role\":\"inout\",\"group\":\"port A\"},{\""
-    "number\":4,\"name\":\"PA2\",\"role\":\"inout\",\"group\":\"port A\"},{\"number\":5,\"name\":\"PA3\""
-    ",\"role\":\"inout\",\"group\":\"port A\"},{\"number\":6,\"name\":\"PA4\",\"role\":\"inout\",\"group"
-    "\":\"port A\"},{\"number\":7,\"name\":\"PA5\",\"role\":\"inout\",\"group\":\"port A\"},{\"number\":"
-    "8,\"name\":\"PA6\",\"role\":\"inout\",\"group\":\"port A\"},{\"number\":9,\"name\":\"PA7\",\"role\":"
-    "\"inout\",\"group\":\"port A\"},{\"number\":10,\"name\":\"PB0\",\"role\":\"inout\",\"group\":\"port"
-    " B\"},{\"number\":11,\"name\":\"PB1\",\"role\":\"inout\",\"group\":\"port B\"},{\"number\":12,\"na"
-    "me\":\"PB2\",\"role\":\"inout\",\"group\":\"port B\"},{\"number\":13,\"name\":\"PB3\",\"role\":\"ino"
-    "ut\",\"group\":\"port B\"},{\"number\":14,\"name\":\"PB4\",\"role\":\"inout\",\"group\":\"port B\"}"
-    ",{\"number\":15,\"name\":\"PB5\",\"role\":\"inout\",\"group\":\"port B\"},{\"number\":16,\"name\":"
-    "\"PB6\",\"role\":\"inout\",\"group\":\"port B\"},{\"number\":17,\"name\":\"PB7\",\"role\":\"inout\","
-    "\"group\":\"port B\"},{\"number\":18,\"name\":\"CB1\",\"role\":\"inout\"},{\"number\":19,\"name\":"
-    "\"CB2\",\"role\":\"inout\"},{\"number\":20,\"name\":\"VDD\",\"role\":\"power\"},{\"number\":21,\"na"
-    "me\":\"IRQB\",\"role\":\"output\"},{\"number\":22,\"name\":\"RWB\",\"role\":\"input\"},{\"number\":"
-    "23,\"name\":\"CS2B\",\"role\":\"input\"},{\"number\":24,\"name\":\"CS1\",\"role\":\"input\"},{\"num"
-    "ber\":25,\"name\":\"PHI2\",\"role\":\"input\"},{\"number\":26,\"name\":\"D7\",\"role\":\"inout\",\"g"
-    "roup\":\"data\"},{\"number\":27,\"name\":\"D6\",\"role\":\"inout\",\"group\":\"data\"},{\"number\":"
-    "28,\"name\":\"D5\",\"role\":\"inout\",\"group\":\"data\"},{\"number\":29,\"name\":\"D4\",\"role\":\"i"
-    "nout\",\"group\":\"data\"},{\"number\":30,\"name\":\"D3\",\"role\":\"inout\",\"group\":\"data\"},{\""
-    "number\":31,\"name\":\"D2\",\"role\":\"inout\",\"group\":\"data\"},{\"number\":32,\"name\":\"D1\",\""
-    "role\":\"inout\",\"group\":\"data\"},{\"number\":33,\"name\":\"D0\",\"role\":\"inout\",\"group\":\"d"
-    "ata\"},{\"number\":34,\"name\":\"RESB\",\"role\":\"input\"},{\"number\":35,\"name\":\"RS3\",\"role"
-    "\":\"input\"},{\"number\":36,\"name\":\"RS2\",\"role\":\"input\"},{\"number\":37,\"name\":\"RS1\",\""
-    "role\":\"input\"},{\"number\":38,\"name\":\"RS0\",\"role\":\"input\"},{\"number\":39,\"name\":\"CA"
-    "2\",\"role\":\"inout\"},{\"number\":40,\"name\":\"CA1\",\"role\":\"input\"}]},\"parts\":[{\"name\":"
-    "\"W65C22N6TPG-14\",\"package\":\"DIP\",\"pinout\":\"p40\",\"footprint\":\"PDIP-40-600\",\"grade"
-    "\":\"14\"}]},{\"id\":\"W65C22S\",\"function\":\"VIA\",\"description\":\"Versatile interface ad"
-    "apter, CMOS (WDC W65C22S)\",\"drawer\":[\"Interface\"],\"note\":\"W65C22 (datasheets/pio"
-    "/w65c22.pdf): register map Table 2-1 p.7, ports and handshake p.7-12, timers p.1"
-    "3-19, shift register p.19-24, interrupts p.24-26, pins p.27-35, AC Tables 4-3/4-"
-    "4 p.40-43, caveats p.48, ordering p.50. IRQB is a totem-pole output (p.24); ever"
-    "y pin but PHI2 has a bus holding device (p.48).\",\"model\":\"via6522\",\"phi2\":\"PHI2\""
-    ",\"rw\":\"RWB\",\"reset\":\"RESB\",\"data\":[\"D0\",\"D1\",\"D2\",\"D3\",\"D4\",\"D5\",\"D6\",\"D7\"],\"csH"
-    "igh\":[\"CS1\"],\"csLow\":[\"CS2B\"],\"rs\":[\"RS0\",\"RS1\",\"RS2\",\"RS3\"],\"pa\":[\"PA0\",\"PA1\",\""
-    "PA2\",\"PA3\",\"PA4\",\"PA5\",\"PA6\",\"PA7\"],\"pb\":[\"PB0\",\"PB1\",\"PB2\",\"PB3\",\"PB4\",\"PB5\",\"P"
-    "B6\",\"PB7\"],\"ca1\":\"CA1\",\"ca2\":\"CA2\",\"cb1\":\"CB1\",\"cb2\":\"CB2\",\"irq\":\"IRQB\",\"irqOpen"
-    "Drain\":false,\"busHold\":true,\"grades\":{\"14\":{\"tcyc\":70,\"tpwh\":35,\"tpwl\":35,\"tacr\""
-    ":10,\"tcar\":10,\"tcdr\":20,\"thr\":10,\"tpcr\":10,\"tacw\":10,\"tcaw\":10,\"tdcw\":10,\"thw\":1"
-    "0,\"tcpw\":30,\"tca2\":75,\"trs1\":75,\"trs2\":100,\"twhs\":75,\"tds\":100,\"trs3\":150,\"trs4\""
-    ":88,\"t21\":88,\"til\":62,\"tsr1\":35,\"tsr2\":105,\"tal\":88,\"tpdh\":10,\"vcc\":[1.71,5.5],\""
-    "note\":\"Tables 4-3b and 4-4b, the 5.0 V +/- 5% (14 MHz) column. tRS1 is printed i"
-    "n us; it is ns. VDD 1.71-5.5 V across the voltage columns (Table 4-2b).\"}},\"pino"
-    "uts\":{\"p40\":[{\"number\":1,\"name\":\"VSS\",\"role\":\"ground\"},{\"number\":2,\"name\":\"PA0\","
-    "\"role\":\"inout\",\"group\":\"port A\"},{\"number\":3,\"name\":\"PA1\",\"role\":\"inout\",\"group\""
-    ":\"port A\"},{\"number\":4,\"name\":\"PA2\",\"role\":\"inout\",\"group\":\"port A\"},{\"number\":5"
-    ",\"name\":\"PA3\",\"role\":\"inout\",\"group\":\"port A\"},{\"number\":6,\"name\":\"PA4\",\"role\":\""
-    "inout\",\"group\":\"port A\"},{\"number\":7,\"name\":\"PA5\",\"role\":\"inout\",\"group\":\"port A"
-    "\"},{\"number\":8,\"name\":\"PA6\",\"role\":\"inout\",\"group\":\"port A\"},{\"number\":9,\"name\":"
-    "\"PA7\",\"role\":\"inout\",\"group\":\"port A\"},{\"number\":10,\"name\":\"PB0\",\"role\":\"inout\","
-    "\"group\":\"port B\"},{\"number\":11,\"name\":\"PB1\",\"role\":\"inout\",\"group\":\"port B\"},{\"n"
-    "umber\":12,\"name\":\"PB2\",\"role\":\"inout\",\"group\":\"port B\"},{\"number\":13,\"name\":\"PB3"
-    "\",\"role\":\"inout\",\"group\":\"port B\"},{\"number\":14,\"name\":\"PB4\",\"role\":\"inout\",\"gro"
-    "up\":\"port B\"},{\"number\":15,\"name\":\"PB5\",\"role\":\"inout\",\"group\":\"port B\"},{\"numbe"
-    "r\":16,\"name\":\"PB6\",\"role\":\"inout\",\"group\":\"port B\"},{\"number\":17,\"name\":\"PB7\",\"r"
-    "ole\":\"inout\",\"group\":\"port B\"},{\"number\":18,\"name\":\"CB1\",\"role\":\"inout\"},{\"numbe"
-    "r\":19,\"name\":\"CB2\",\"role\":\"inout\"},{\"number\":20,\"name\":\"VDD\",\"role\":\"power\"},{\"n"
-    "umber\":21,\"name\":\"IRQB\",\"role\":\"output\"},{\"number\":22,\"name\":\"RWB\",\"role\":\"input"
-    "\"},{\"number\":23,\"name\":\"CS2B\",\"role\":\"input\"},{\"number\":24,\"name\":\"CS1\",\"role\":\""
-    "input\"},{\"number\":25,\"name\":\"PHI2\",\"role\":\"input\"},{\"number\":26,\"name\":\"D7\",\"rol"
-    "e\":\"inout\",\"group\":\"data\"},{\"number\":27,\"name\":\"D6\",\"role\":\"inout\",\"group\":\"data"
-    "\"},{\"number\":28,\"name\":\"D5\",\"role\":\"inout\",\"group\":\"data\"},{\"number\":29,\"name\":\""
-    "D4\",\"role\":\"inout\",\"group\":\"data\"},{\"number\":30,\"name\":\"D3\",\"role\":\"inout\",\"grou"
-    "p\":\"data\"},{\"number\":31,\"name\":\"D2\",\"role\":\"inout\",\"group\":\"data\"},{\"number\":32,"
-    "\"name\":\"D1\",\"role\":\"inout\",\"group\":\"data\"},{\"number\":33,\"name\":\"D0\",\"role\":\"inou"
-    "t\",\"group\":\"data\"},{\"number\":34,\"name\":\"RESB\",\"role\":\"input\"},{\"number\":35,\"name"
-    "\":\"RS3\",\"role\":\"input\"},{\"number\":36,\"name\":\"RS2\",\"role\":\"input\"},{\"number\":37,\""
-    "name\":\"RS1\",\"role\":\"input\"},{\"number\":38,\"name\":\"RS0\",\"role\":\"input\"},{\"number\":"
-    "39,\"name\":\"CA2\",\"role\":\"inout\"},{\"number\":40,\"name\":\"CA1\",\"role\":\"input\"}]},\"par"
-    "ts\":[{\"name\":\"W65C22S6TPG-14\",\"package\":\"DIP\",\"pinout\":\"p40\",\"footprint\":\"PDIP-4"
-    "0-600\",\"grade\":\"14\"}]}";
-
-static PartLibrary *via_library;
+/* ---- C: via6522 (the shipped W65C22N and W65C22S) ----------------------------- */
 
 static const Part *via_part(int cmos) {
-    const char *name = cmos ? "W65C22S6TPG-14" : "W65C22N6TPG-14";
-    const Part *part;
-
-    if (via_library == NULL) {
-        via_library = inline_library(W65C22_INLINE);
-    }
-    part = part_library_find(via_library, name);
-    if (part == NULL) {
-        fprintf(stderr, "no part %s\n", name);
-        exit(2);
-    }
-    return part;
+    return shipped_part(cmos ? "W65C22S6TPG-14" : "W65C22N6TPG-14");
 }
 
 enum {
@@ -1797,6 +1669,30 @@ static void d8_out_external(void) {
     printf("%s D8 SR out, external (111)\n", failures > before ? "FAIL" : "ok");
 }
 
+/* The voltage check's open-drain answer for the shipped parts. */
+static int pin_index(const Part *part, const char *name) {
+    size_t i;
+
+    for (i = 0; i < part->pin_count; i++) {
+        if (strcmp(part->pins[i].name, name) == 0) return (int)i;
+    }
+    return -1;
+}
+
+static void open_drain_pins(void) {
+    int before = failures;
+    const Part *n = shipped_part("W65C22N6TPG-14");
+    const Part *s = shipped_part("W65C22S6TPLG-14");
+    const Part *pia = shipped_part("W65C21N6TPLG-14");
+
+    CHECK(part_pin_open_drain(n, (size_t)pin_index(n, "IRQB")) == 1);
+    CHECK(part_pin_open_drain(s, (size_t)pin_index(s, "IRQB")) == 0);
+    CHECK(part_pin_open_drain(pia, (size_t)pin_index(pia, "IRQAB")) == 1);
+    CHECK(part_pin_open_drain(pia, (size_t)pin_index(pia, "IRQBB")) == 1);
+    CHECK(part_pin_open_drain(n, (size_t)pin_index(n, "PA0")) == 0);
+    printf("%s open-drain IRQ pins\n", failures > before ? "FAIL" : "ok");
+}
+
 int main(void) {
     Part part = test_part();
 
@@ -1841,7 +1737,7 @@ int main(void) {
     d6_out_t2();
     d7_out_phi2();
     d8_out_external();
-    if (via_library != NULL) part_library_destroy(via_library);
+    open_drain_pins();
     if (shipped_library != NULL) part_library_destroy(shipped_library);
     if (failures > 0) {
         printf("%d failures\n", failures);

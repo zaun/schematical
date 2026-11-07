@@ -135,15 +135,23 @@ Shipped devices (C's cases switch from the inline copies to them).
 
 Acceptance: D1–D8 and C1–C14 `ok`.
   Check: `/tmp/logic-p14/pio_test` → every case `ok` (est. 1 min with the build).
-Commit: —
+Commit: f2aace0
 
 ### Phase 2 — Parts
 
-- [ ] `pio.json` + `W65C22N`, `W65C22S` (§3.2), 3 parts.
-- [ ] `pio_test` C and D cases load the shipped devices.
-- [ ] Regenerate the goldens. Check: no removed line; + 3, + 3, + 0.
-- [ ] Spot-check `W65C22S6TPLG-14`: pin 11 `NC`, pin 23 `IRQB`,
+- [x] `pio.json` + `W65C22N`, `W65C22S` (§3.2), 3 parts.
+- [x] `pio_test` C and D cases load the shipped devices. → 41 cases `ok`
+      (the inline copies and `inline_library` removed).
+- [x] Regenerate the goldens. Check: no removed line; + 3, + 3, + 0.
+      → numstat `3 0 parts.txt`, `3 0 traces.txt`; `footprints.txt` unchanged.
+- [x] Spot-check `W65C22S6TPLG-14`: pin 11 `NC`, pin 23 `IRQB`,
       `|footprint=PLCC-44`; `W65C22N6TPG-14` IRQB open-drain in the listing.
+      → `11:NC:nc:default`, `23:IRQB:output:default`,
+      `|footprint=PLCC-44|vcc=1710-5500,in=5500`. The listing has no
+      open-drain field (Corrections); `pio_test` → `ok open-drain IRQ pins`
+      checks `part_pin_open_drain`: W65C22N IRQB 1, W65C22S IRQB 0, W65C21N
+      IRQAB/IRQBB 1.
+- [x] Acceptance: `ctest` → `100% tests passed, 0 tests failed out of 21`.
 
 Acceptance: `ctest` 100%; the golden diff is exactly the 6 added lines.
   Check: `ctest --test-dir /tmp/logic-p14` → `100% tests passed`; `git diff --numstat backend/tests/golden` → `3 0 parts.txt`, `3 0 traces.txt` (est. 2 min).
@@ -177,5 +185,9 @@ Commit: —
 - §4 D1: the bench releases CB1/CB2 to check the VIA does not drive them;
   on the W65C22N a released pin floats (X), which correctly sets the PCR
   flags X. D1 runs on the W65C22S (bus hold keeps the level).
+- Phase 2 spot check: the listing line (`tests/support/listing.c`) has no
+  open-drain field, so "IRQB open-drain in the listing" cannot be read
+  there. The added `pio_test` case `open-drain IRQ pins` asks
+  `part_pin_open_drain` (what the voltage check uses) instead.
 - §4 D5: the bit sequence is checked over 24 bits, then two more CB1 rises
   prove it keeps running (`T2 low latch = 1`: a bit every 6 cycles).
