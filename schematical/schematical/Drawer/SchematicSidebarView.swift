@@ -56,8 +56,11 @@ struct SchematicSidebarView: View {
                 Form {
                     Section { PartHeader(chip: chip) }
                     ReferenceSection(document: document, chip: chip)
+                    if PartOptionsSection.applies(to: chip.part) {
+                        PartOptionsSection(document: document, chip: chip)
+                    }
                     Section("Details") {
-                        let rows = PartFacts.rows(for: chip.part)
+                        let rows = PartFacts.rows(for: chip)
                         ForEach(rows.indices, id: \.self) { index in
                             LabeledContent(rows[index].label, value: rows[index].value)
                         }

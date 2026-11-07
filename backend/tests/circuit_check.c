@@ -53,7 +53,7 @@ static void check_lit_led(void) {
     Circuit *c = circuit_create(library);
     size_t vcc = part(c, "5V");
     size_t gnd = part(c, "GND");
-    size_t led = part(c, "LED-RED-0603");
+    size_t led = part(c, "GENERIC-LED");
     size_t n0 = net(c);
     size_t n1 = net(c);
 
@@ -71,7 +71,7 @@ static void check_dark_led(void) {
     Circuit *c = circuit_create(library);
     size_t vcc = part(c, "5V");
     size_t gnd = part(c, "GND");
-    size_t led = part(c, "LED-GREEN-0603");
+    size_t led = part(c, "GENERIC-LED");
     size_t n0 = net(c);
     size_t n1 = net(c);
 
@@ -447,7 +447,7 @@ static void check_oscillator_blinks(void) {
     const Part *osc_part = part_library_find(library, "OSC-SIT1534-2012");
     size_t osc = part(c, "OSC-SIT1534-2012");
     size_t gnd = part(c, "GND");
-    size_t led = part(c, "LED-RED-0603");
+    size_t led = part(c, "GENERIC-LED");
     size_t n0 = net(c);
     size_t n1 = net(c);
     const char *out = NULL;
@@ -491,7 +491,7 @@ static void check_switch(void) {
     Circuit *c = circuit_create(library);
     size_t vcc = part(c, "5V");
     size_t sw = part(c, "TE-GDS0404");
-    size_t led = part(c, "LED-RED-0603");
+    size_t led = part(c, "GENERIC-LED");
     size_t gnd = part(c, "GND");
     size_t n0 = net(c);
     size_t n1 = net(c);
@@ -625,7 +625,7 @@ static void check_ball_led(void) {
         "{\"id\":\"led-ball\",\"function\":\"LED\",\"description\":\"d\",\"drawer\":[],"
         "\"pinouts\":{\"bga\":[{\"ball\":\"A1\",\"name\":\"K\",\"role\":\"input\"},"
         "{\"ball\":\"B2\",\"name\":\"A\",\"role\":\"input\"}]},"
-        "\"color\":\"Red\",\"anode\":\"A\",\"cathode\":\"K\","
+        "\"colors\":[\"Red\"],\"anode\":\"A\",\"cathode\":\"K\","
         "\"parts\":[{\"name\":\"LED-BALL-BGA\",\"package\":\"BGA\",\"pinout\":\"bga\","
         "\"footprint\":\"BALL-LED-2\"}]}]}";
     char *error = NULL;
@@ -690,7 +690,7 @@ static void check_changes_and_light_time(void) {
     size_t vcc = part(c, "1V8");
     size_t gnd = part(c, "GND");
     size_t osc = part(c, "LMK6CE001000DDLER");
-    size_t led = part(c, "LED-RED-0603");
+    size_t led = part(c, "GENERIC-LED");
     size_t vcc_net = net(c);
     size_t gnd_net = net(c);
     size_t clock = net(c);

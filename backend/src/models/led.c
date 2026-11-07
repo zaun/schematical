@@ -10,7 +10,7 @@
 #include "lights.h"
 #include "model_pins.h"
 
-static const char *const DEVICE_KEYS[] = {"color", "anode", "cathode", NULL};
+static const char *const DEVICE_KEYS[] = {"colors", "anode", "cathode", NULL};
 
 typedef struct {
     PartLed led;
@@ -26,8 +26,17 @@ typedef struct {
 static void *led_load_device(KindContext *ctx, const cJSON *json) {
     LedDevice *device = kind_alloc(ctx, sizeof(*device));
 
-    if (device == NULL || kind_string(ctx, json, "color", &device->led.color) != 0 ||
-        kind_string(ctx, json, "anode", &device->anode) != 0 ||
+    if (device == NULL) {
+        return NULL;
+    }
+    if (kind_names(ctx, json, "colors", &device->led.colors, &device->led.color_count) != 0) {
+        return NULL;
+    }
+    if (device->led.color_count == 0) {
+        kind_error(ctx, "\"colors\" must not be empty");
+        return NULL;
+    }
+    if (kind_string(ctx, json, "anode", &device->anode) != 0 ||
         kind_string(ctx, json, "cathode", &device->cathode) != 0) {
         return NULL;
     }

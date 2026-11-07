@@ -65,9 +65,15 @@ static void print_details(FILE *out, const Part *part) {
                 fprintf(out, " rated=%u", (unsigned)part->dip_switch->rated_mv);
             }
             break;
-        case PART_LED:
-            fprintf(out, "color=%s", part->led->color);
+        case PART_LED: {
+            size_t k;
+
+            fprintf(out, "colors=");
+            for (k = 0; k < part->led->color_count; k++) {
+                fprintf(out, "%s%s", k > 0 ? "," : "", part->led->colors[k]);
+            }
             break;
+        }
         case PART_7SEG: {
             const PartDisplay *d = part->display;
             size_t i;
@@ -183,6 +189,15 @@ char *listing_line(const Part *part) {
     }
     if (part->connector_footprint != NULL) {
         fprintf(out, "|connector=%s", part->connector_footprint->id);
+    }
+    if (part->footprint_choice_count > 0) {
+        size_t k;
+
+        fprintf(out, "|choices=");
+        for (k = 0; k < part->footprint_choice_count; k++) {
+            fprintf(out, "%s%s:%s", k > 0 ? "," : "", part->footprint_choices[k].package,
+                    part->footprint_choices[k].footprint->id);
+        }
     }
     if (part->vcc != NULL) {
         fprintf(out, "|vcc=%u-%u,in=%u", (unsigned)part->vcc->min_mv, (unsigned)part->vcc->max_mv,

@@ -3,7 +3,10 @@ import Foundation
 /// The rows of the Schematic sidebar's Details section: a part's overview,
 /// then the facts of its kind. A row whose value would be empty is left out.
 nonisolated enum PartFacts {
-    static func rows(for part: CatalogPart) -> [(label: String, value: String)] {
+    /// The rows for a placed part. Package and Footprint follow the part's
+    /// chosen footprint choice, and an LED's Color its own color.
+    static func rows(for chip: PlacedChip) -> [(label: String, value: String)] {
+        let part = chip.part
         var rows: [(label: String, value: String)] = []
         func add(_ label: String, _ value: String) {
             if !value.isEmpty { rows.append((label, value)) }
@@ -11,8 +14,8 @@ nonisolated enum PartFacts {
 
         add("Kind", kindName(part.kind))
         add("Function", part.function)
-        add("Package", part.package)
-        if let footprint = part.footprint {
+        add("Package", chip.footprintChoice?.package ?? part.package)
+        if let footprint = chip.footprintChoice?.footprint ?? part.footprint {
             add("Footprint", "\(footprint.id) — \(footprint.description)")
         }
         if let connector = part.connectorFootprint {
@@ -39,8 +42,8 @@ nonisolated enum PartFacts {
             add("Positions", String(positions))
             add("Actuator", actuator)
             if ratedMV > 0 { add("Rating", "\(VoltageCheck.volts(ratedMV)) V max") }
-        case let .led(color):
-            add("Color", color)
+        case let .led(colors):
+            add("Color", chip.color ?? colors.first ?? "")
         case let .display(info):
             add("Digits", String(info.digits))
             add("Color", info.color)

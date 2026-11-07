@@ -37,7 +37,7 @@ struct BusProof {
 
         let supply = try place("5V", at: CGPoint(x: 40, y: 150))
         let dip = try place("TE-GDS0204", at: CGPoint(x: 120, y: 220))
-        let led = try place("LED-RED-0603", at: CGPoint(x: 540, y: 220))
+        let led = try place("GENERIC-LED", at: CGPoint(x: 540, y: 220))
         let ground = try place("GND", at: CGPoint(x: 640, y: 280))
 
         guard let busID = doc.addBus(from: CGPoint(x: 200, y: 100), to: CGPoint(x: 460, y: 100)) else {
@@ -76,7 +76,7 @@ struct BusProof {
               let port1 = bus.ports.first(where: { $0.line == horizontal.id }),
               let port2 = bus.ports.first(where: { $0.line == vertical.id }),
               let dip = doc.chips.first(where: { $0.partNumber == "TE-GDS0204" }),
-              let led = doc.chips.first(where: { $0.partNumber == "LED-RED-0603" }) else {
+              let led = doc.chips.first(where: { $0.partNumber == "GENERIC-LED" }) else {
             throw ProofError("not the proof circuit")
         }
         return BusProof(document: doc, busID: bus.id, horizontalLine: horizontal.id, verticalLine: vertical.id,

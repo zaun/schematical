@@ -177,6 +177,13 @@ nonisolated struct Footprint: Hashable, Sendable {
 
 /// One orderable part, copied from the backend's `Part` once at load.
 nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
+    /// One of a part's `footprintChoices`: the package name shown for it and
+    /// its footprint.
+    struct FootprintChoice: Hashable, Sendable {
+        let package: String
+        let footprint: Footprint
+    }
+
     struct Flags: Hashable, Sendable {
         var obsolete = false
         var military = false
@@ -192,7 +199,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case eeprom(words: Int, bits: Int, accessNs: Int, grade: String, pageBytes: Int, writeCycleUs: Int)
         /// `ratedMV`: the contacts' switching voltage rating.
         case dipSwitch(positions: Int, actuator: String, ratedMV: UInt32)
-        case led(color: String)
+        /// An LED: the colors a placed one may have; the first is the default.
+        case led(colors: [String])
         case display(DisplayInfo)
         case oscillator(family: String, minHz: UInt64, maxHz: UInt64, defaultHz: UInt64, enablePin: String?)
         /// `mv`: the supply's voltage in millivolts (0 for ground); `pull`:
@@ -228,6 +236,10 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// The second footprint the PCB Style option switches to (Connector
     /// Only); nil for most parts.
     let connectorFootprint: Footprint?
+    /// The footprints a placed part may use instead of `footprint`, in
+    /// picker order; one of them is `footprint` (the default). Empty for
+    /// most parts.
+    let footprintChoices: [FootprintChoice]
     /// The recommended supply range and the highest input voltage,
     /// millivolts. Nil for supplies, LEDs, 7-segment displays and switches.
     let vcc: (minMV: UInt32, maxMV: UInt32, inputMaxMV: UInt32)?
@@ -301,13 +313,20 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         return nil
     }
 
-    /// The color of an LED or a 7-segment display.
-    var color: String? {
+    /// The colors of an LED (the first is the default), or a 7-segment
+    /// display's one color. Empty for other parts.
+    var colors: [String] {
         switch details {
-        case let .led(color): return color
-        case let .display(info): return info.color
-        default: return nil
+        case let .led(colors): return colors
+        case let .display(info): return [info.color]
+        default: return []
         }
+    }
+
+    /// Every package the part can be placed in: its own, then each footprint
+    /// choice's.
+    var allPackages: [String] {
+        [package] + footprintChoices.map(\.package)
     }
 
     /// The count shown next to the name in the drawer: gates or flip-flops per
@@ -340,7 +359,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .sram(_, _, accessNs, _): return ["\(accessNs) ns"]
         case let .eeprom(_, _, accessNs, _, _, _): return ["\(accessNs) ns"]
         case let .dipSwitch(_, actuator, _): return [actuator]
-        case let .led(color): return [color]
+        case let .led(colors): return colors.count == 1 ? colors : ["\(colors.count) colors"]
         case let .display(info): return [info.color, info.size, info.commonAnode ? "CA" : "CC"]
         case let .oscillator(family, _, _, _, _): return [family]
         case .supply: return []
@@ -404,9 +423,11 @@ extension CatalogPart {
     /// Copies one part out of the library. `footprint` and
     /// `connectorFootprint` are the Swift copies of `part.footprint` and
     /// `part.connector_footprint`, shared by every part that uses them.
-    nonisolated init(_ part: Part, footprint: Footprint?, connectorFootprint: Footprint? = nil) {
+    nonisolated init(_ part: Part, footprint: Footprint?, connectorFootprint: Footprint? = nil,
+                     footprintChoices: [FootprintChoice] = []) {
         self.footprint = footprint
         self.connectorFootprint = connectorFootprint
+        self.footprintChoices = footprintChoices
         vcc = part.vcc.map { ($0.pointee.min_mv, $0.pointee.max_mv, $0.pointee.input_max_mv) }
         name = string(part.name)
         kind = part.kind
@@ -441,7 +462,7 @@ extension CatalogPart {
             details = .dipSwitch(positions: Int(dip.positions), actuator: string(dip.actuator),
                                  ratedMV: dip.rated_mv)
         } else if let led = part.led?.pointee {
-            details = .led(color: string(led.color))
+            details = .led(colors: (0..<led.color_count).map { string(led.colors?[$0]) })
         } else if let display = part.display?.pointee {
             let leds: [DisplayInfo.LED] = (0..<display.led_count).compactMap { index in
                 guard let led = display.leds?[index] else { return nil }
@@ -538,7 +559,14 @@ nonisolated enum BackendCatalog {
                 CatalogPart(part.pointee,
                             footprint: part.pointee.footprint.flatMap { footprints[string($0.pointee.id)] },
                             connectorFootprint: part.pointee.connector_footprint
-                                .flatMap { footprints[string($0.pointee.id)] })
+                                .flatMap { footprints[string($0.pointee.id)] },
+                            footprintChoices: (0..<part.pointee.footprint_choice_count).compactMap { k in
+                                guard let choice = part.pointee.footprint_choices?[k],
+                                      let footprint = choice.footprint.flatMap({ footprints[string($0.pointee.id)] })
+                                else { return nil }
+                                return CatalogPart.FootprintChoice(package: string(choice.package),
+                                                                   footprint: footprint)
+                            })
             }
         }
     }
@@ -677,7 +705,7 @@ final class PartCatalogStore {
     }
 
     var packages: [String] {
-        sortedNames(entries.map(\.package))
+        sortedNames(entries.flatMap(\.allPackages))
     }
 
     /// The kinds of part listed under a top-level drawer category.
@@ -708,7 +736,7 @@ final class PartCatalogStore {
 
     /// LED and display colors in a category.
     func colors(in category: String) -> [String] {
-        sortedNames(entries.filter { $0.drawer.first == category }.compactMap(\.color))
+        sortedNames(entries.filter { $0.drawer.first == category }.flatMap(\.colors))
     }
 
     /// Digit counts and digit heights of the 7-segment displays.
@@ -747,7 +775,7 @@ final class PartCatalogStore {
             if let category = filter.category, part.drawer.first != category {
                 return false
             }
-            if let package = filter.package, part.package != package {
+            if let package = filter.package, !part.allPackages.contains(package) {
                 return false
             }
             if part.isLogic {
@@ -769,7 +797,7 @@ final class PartCatalogStore {
                     return false
                 }
             }
-            if let color = filter.color, let partColor = part.color, partColor != color {
+            if let color = filter.color, !part.colors.isEmpty, !part.colors.contains(color) {
                 return false
             }
             if let display = part.display {

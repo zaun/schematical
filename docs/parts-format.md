@@ -160,6 +160,7 @@ oscillator's `enablePin` is a pin designator; see below.)
 | `"flags"` | optional, any of `obsolete`, `military`, `automotive`, `enhanced`, `ceramic` |
 | `"footprint"` | the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)). Required on every part except supplies (`VCC`, `GND`, `5V`, …), which reject it |
 | `"connectorFootprint"` | optional: a second footprint, the `id` of one in `footprints.json`, that the PCB Style option switches to (**Connector Only**). Same rules as `footprint`. Character LCD modules use it (§ `charlcd`) |
+| `"footprintChoices"` | optional: the footprints a placed part may use, each `{"package": …, "footprint": …}`, in picker order. The part's own `footprint` is one of them (the default), with the part's `package`. `GENERIC-LED` uses it (§ `led`; rules in [The `"footprint"` part key](#the-footprint-part-key)) |
 | `"vcc"`, `"inputMax"` | on gate, dff, jkff, sram, eeprom and oscillator parts only: the part's own supply range / input limit, replacing the one it inherits (see [Supply voltage](#supply-voltage-vcc-and-inputmax)) |
 
 Every other key belongs to the kind.
@@ -412,10 +413,26 @@ allowed at the footprint level.
   (`planning/completed/plan-03-B-logic-footprints.md` §3: the board layout
   if the datasheet gives one, else the outline rules), with a `note` naming
   the drawing, file and page. `footprint_check` fails on a footprint no part
-  uses.
+  uses (as its `footprint`, `connectorFootprint` or one of its
+  `footprintChoices`).
 - `"connectorFootprint"` follows the same rules (unknown id, pad count,
   a pad per pin; messages name `connectorFootprint`), and naming a
   footprint there counts as a use for `footprint_check`.
+- `"footprintChoices"` is a non-empty array of objects with exactly the keys
+  `package` (non-empty string) and `footprint` (a footprint id); anything
+  else fails with `"footprintChoices" must be a non-empty array of
+  {"package", "footprint"}`. Each footprint must exist
+  (`unknown footprintChoices footprint "X"`) and have a pad for every pin
+  (`pin "2" has no pad in footprintChoices footprint "X"`). Unlike
+  `footprint`, a choice **may have more pads than the part has pins**: the
+  extra pads are unconnected copper (`GENERIC-LED`'s `LED-DIP4` choice has
+  pads 3 and 4 with no pin). No footprint may be listed twice
+  (`footprintChoices footprint "X" listed twice`). The part's own
+  `footprint` must be a choice (`"footprint" "X" is not in
+  footprintChoices`) whose `package` equals the part's (`"package" "X" does
+  not match footprintChoices "Y" ("Z")`). A supply rejects the key (`a
+  supply has no footprint`). The app saves each placed part's choice in the
+  schematic file (`docs/file-format.md` § Parts).
 - **Mid-values.** Every dimension that a rule takes from a drawing (lead
   width and length, tip-to-tip span, terminal size, ball and pin
   diameter, body) is the mid-value (min + max) / 2 when the drawing gives
@@ -497,11 +514,13 @@ step). Device keys:
 
 | Key | Value |
 |---|---|
-| `"color"` | shown color, e.g. `"Red"` |
+| `"colors"` | the colors a placed LED may have, a non-empty array of strings, e.g. `["Red","Green","Blue","Amber","White"]`; the first is the default. Each placed LED keeps its own color in the schematic file |
 | `"anode"` | pin name of the anode (exactly one pin) |
 | `"cathode"` | pin name of the cathode (exactly one pin) |
 
-Parts carry no kind keys.
+Parts carry no kind keys. The library has one LED part, `GENERIC-LED`, whose
+`footprintChoices` list the eleven LED footprints (0402 … Radial; default
+`LED-RADIAL-5MM`).
 
 ### `oscillator`
 

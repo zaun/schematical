@@ -34,8 +34,8 @@ plan-18-A must be complete. If it is not, this plan cannot start.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-18-A archived | `ls planning/completed/plan-18-A-*` → 1 file | NOT MET (2026-11-07) |
-| `PlacedChip` has a footprint choice | `grep -c 'var footprintID' schematical/schematical/Canvas/SchematicModel.swift` → 1 | NOT MET (2026-11-07) |
+| plan-18-A archived | `ls planning/completed/plan-18-A-*` → 1 file | MET (2026-11-07, in the P-18 worktree: `planning/completed/plan-18-A-generic-led-data.md`) |
+| `PlacedChip` has a footprint choice | `grep -c 'var footprintID' schematical/schematical/Canvas/SchematicModel.swift` → 1 | MET (2026-11-07: 1) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue.
@@ -207,8 +207,8 @@ because the panel reads the chip again on every document change.
 `setPartColor` and `setPartFootprint`, with no UI yet. Safe alone: nothing
 calls them.
 
-- [ ] `Canvas/SchematicModel.swift`: §4, both methods, under `// MARK: Chips`.
-- [ ] New `scripts/harness/generic-led-ui.swift` (kept), first part. It prints
+- [x] `Canvas/SchematicModel.swift`: §4, both methods, under `// MARK: Chips`.
+- [x] New `scripts/harness/generic-led-ui.swift` (kept), first part. It prints
       one `ok`/`FAIL` line per check and exits 1 on any FAIL:
   1. `setPartColor(id, "Blue")` → `chip.color == "Blue"`;
      `setPartColor(id, "Purple")` → unchanged; on a non-LED part (SN74HC00N)
@@ -221,21 +221,24 @@ calls them.
   3. `setPartFootprint(id, "LED-9999")` and setting the current id again →
      `board` unchanged.
   4. After (1)+(2), encoding gives `"color" : "Blue"` and the last footprint id.
+     (The loop's last choice is Radial, the default, so the script then sets
+     `LED-1206` and checks 3 and 4 use that id.)
 
 Acceptance: both setters change only what §4 says, and pad 1 never moves.
   Check: `rm -rf /tmp/p18-h && scripts/harness/build.sh scripts/harness/generic-led-ui.swift /tmp/p18-h && /tmp/p18-h/H.app/Contents/MacOS/harness`
   → 4 `ok` lines, exit 0 (est. 1.5 min).
-Commit: —
+  Result: 4 `ok` lines, check 2 printed `44 cases`, `exit=0`.
+Commit: 7d3a74b
 
 ### Phase 2 — Sidebar Options section
 
 The pickers appear for a selected Generic LED.
 
-- [ ] New `Drawer/PartOptionsSection.swift` (§5). Add
+- [x] New `Drawer/PartOptionsSection.swift` (§5). Add
       `DiodeSymbolView.lightColor(named:)`.
-- [ ] `Drawer/SchematicSidebarView.swift`: `PartOptionsSection(document:chip:)`
+- [x] `Drawer/SchematicSidebarView.swift`: `PartOptionsSection(document:chip:)`
       between `ReferenceSection` and `Section("Details")`.
-- [ ] `generic-led-ui.swift`, add:
+- [x] `generic-led-ui.swift`, add:
   5. Select a `GENERIC-LED` set to Blue / `LED-0805`, then
      `Harness.renderSidebar(doc, to: "/tmp/p18-sidebar-led.png")`.
   6. Select `SN74HC00N` and render `/tmp/p18-sidebar-gate.png`.
@@ -247,16 +250,21 @@ Color Blue. A gate shows no Options section.
   shows the header `GENERIC-LED` / `Generic LED`, an Options section with
   those two values and the Details rows; the gate image has no Options
   section (est. 2 min).
-Commit: —
+  Result: 6 `ok` lines, exit 0. `p18-sidebar-led.png` (rendered 320×900 so
+  the Details Color row is in frame): header `U1` / `GENERIC-LED` / `Generic LED`;
+  Options with Color "● Blue" and Footprint "0805 chip LED (2.05 x 1.25 mm)";
+  Details Package 0805, Footprint `LED-0805 — …`, Color Blue.
+  `p18-sidebar-gate.png`: Reference then Details, no Options section.
+Commit: 01c3a84
 
 ### Phase 3 — Settings defaults and the drop
 
 New LEDs use the Settings choice.
 
-- [ ] `Preferences/PreferencesView.swift`: the two keys, `NewPartOptions`, and
+- [x] `Preferences/PreferencesView.swift`: the two keys, `NewPartOptions`, and
       the New Generic LED section with its own catalog (§6).
-- [ ] `Canvas/SchematicCanvasView.swift:150`: pass both options.
-- [ ] `generic-led-ui.swift`, add (using a `UserDefaults(suiteName: "p18-test")`
+- [x] `Canvas/SchematicCanvasView.swift:150`: pass both options.
+- [x] `generic-led-ui.swift`, add (using a `UserDefaults(suiteName: "p18-test")`
       that is cleared first):
   7. Empty defaults → `NewPartOptions` gives nil/nil, and `placeChip` gives
      Red / `LED-RADIAL-5MM`.
@@ -265,13 +273,22 @@ New LEDs use the Settings choice.
   9. Set `"Purple"` / `"LED-9999"` → Red / `LED-RADIAL-5MM`.
   10. `Harness.render(PreferencesView(), size: 420×400, to: "/tmp/p18-settings.png")`
       after the catalog loads (`renderHosted`, settle 0.5 s).
+      (The view gets `.defaultAppStorage` of the cleared `p18-test` suite, so
+      the render never reads or writes the app's own Settings.)
+- [x] (added) The sidebar and Settings share the pickers:
+      `ColorChoicePicker` and `FootprintChoicePicker` in
+      `Drawer/PartOptionsSection.swift` (§6's "same rows as §5").
 
 Acceptance: a dropped LED gets the Settings color and footprint, and bad
 or empty settings fall back to Red / Radial.
   Check: the Phase 1 command → 10 `ok` lines. Then read `/tmp/p18-settings.png`:
   it shows a New Generic LED section with Color Red and Footprint "5 mm (T-1 3/4)
   radial LED, 2.54 mm lead spacing" under the three part toggles (est. 2 min).
-Commit: —
+  Result: 10 `ok` lines, exit 0. `p18-settings.png`: "Include in parts list"
+  with the three toggles, then "New Generic LED" with Color "● Red" and
+  Footprint "5 mm (T-1 3/4) radial LED, 2.54 mm lead spacing", footer "Used for
+  LEDs dropped from now on."
+Commit: e713944
 
 ## Validation Plan
 
@@ -294,6 +311,23 @@ Commit: —
   `generic-led-ui.swift` 10 ok), each from a fresh out dir;
   `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p18-dd CODE_SIGNING_ALLOWED=NO build`
   → `BUILD SUCCEEDED` (est. 5 min total).
+  Result (2026-11-07): ctest 21/21; `generic-led-file.swift` 7 `ok`, exit 0;
+  `generic-led-ui.swift` 10 `ok`, exit 0 (each from a fresh `/tmp/p18-h`);
+  xcodebuild `** BUILD SUCCEEDED **`.
+- Runtime proof as run (2026-11-07): instead of clicking the GUI, a scratch
+  harness (`/tmp/p18-proof/proof.swift`, not kept) drove the real document
+  and views on `be-6502.schematical`: U22 Green / `LED-RADIAL-5MM`, pad 1 at
+  (8.255, 13.97) → `setPartColor` Blue, `setPartFootprint` `LED-0805` →
+  pad 1 at (8.255, 13.97), moved 0.0 mm, 2 pads. `DiodeSymbolView` at
+  level 1 glows blue. The PCB renders before and after show the 0805
+  pads with pad 1 where the radial's square pad 1 was. The saved file has
+  `"color" : "Blue"`, `"footprint" : "LED-0805"`, `"partNumber" : "GENERIC-LED"`.
+- Landing (2026-11-07): `main` had moved (17e17d9 → a6b8f69: plan-17, TI
+  inverters). Merged into `worktree-P-18` with no conflicts, then re-run:
+  ctest 21/21; `generic-led-file.swift` 7 `ok`; `generic-led-ui.swift` 10
+  `ok`; `bus-slide.swift` `ALL OK`; the three Selection test classes 24
+  tests, 0 failures, `** TEST SUCCEEDED **`. No Rust in the repo, so no
+  `cargo fmt` step.
 
 ## Decisions
 
@@ -306,6 +340,15 @@ Commit: —
   `PartHeader` is not changed.
 
 ## Corrections
+
+- **Prerequisite "plan-18-A archived".** Under `/follow-plan 18`, A and B are
+  done in one `P-18` worktree, so A was archived there
+  (`git mv` to `planning/completed/`, commit 953bd2a) before B started. The
+  gate command then holds in that worktree, and on `main` once it merges.
+- **§5 layout.** With the Footprint picker in a normal labelled row, the
+  first render cut the value to "0805 chip LED (2.05 x 1.…", which fails
+  the Phase 2 acceptance. The Footprint picker now sits under its label at
+  full row width (labels hidden), and the full description shows.
 
 ## Summary
 

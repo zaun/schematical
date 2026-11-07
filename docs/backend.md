@@ -45,7 +45,7 @@ Circuit *c = circuit_create(library);
 size_t vcc, gnd, led, anode, cathode;
 circuit_add_part(c, "VCC", &vcc);
 circuit_add_part(c, "GND", &gnd);
-circuit_add_part(c, "LED-RED-0603", &led);
+circuit_add_part(c, "GENERIC-LED", &led);
 circuit_add_net(c, &anode);
 circuit_add_net(c, &cathode);
 circuit_connect(c, vcc, "1", anode);

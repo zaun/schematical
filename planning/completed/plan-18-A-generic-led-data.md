@@ -45,8 +45,8 @@ from either one that lands first gets merged in; neither is a dependency.
 
 | Must be true | Command | Status |
 |---|---|---|
-| The 55 old LED parts are still the only `led` parts | `grep -c '"name":"LED-' schematical/schematical/Parts/led.json` → 55 | MET (2026-11-07) |
-| Backend tests pass before starting | `cmake -S backend -B /tmp/p18-build && cmake --build /tmp/p18-build -j8 && ctest --test-dir /tmp/p18-build -j8` → 21/21 | MET (2026-11-07, 9.3 s) |
+| The 55 old LED parts are still the only `led` parts | `grep -c '"name":"LED-' schematical/schematical/Parts/led.json` → 55 | MET (2026-11-07, re-run in worktree: 55) |
+| Backend tests pass before starting | `cmake -S backend -B /tmp/p18-build && cmake --build /tmp/p18-build -j8 && ctest --test-dir /tmp/p18-build -j8` → 21/21 | MET (2026-11-07, re-run in worktree with a fresh `/tmp/p18-build`: 21/21, 5.9 s) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue.
@@ -397,21 +397,23 @@ The loader accepts both new keys. The real `led.json` is untouched in this
 phase: LED devices accept `color` *or* `colors` until Phase 2 removes
 `color`. Safe alone: no shipped data uses the new keys yet.
 
-- [ ] `backend/include/parts.h`: add `PartFootprintChoice`, the two `Part`
+- [x] `backend/include/parts.h`: add `PartFootprintChoice`, the two `Part`
       fields, and `PartLed { const char *const *colors; size_t color_count; }`.
-- [ ] `backend/src/library/library.c`: `"footprintChoices"` in `PART_KEYS`;
+- [x] `backend/src/library/library.c`: `"footprintChoices"` in `PART_KEYS`;
       split out `check_pads`; add `load_footprint_choices` with the §4 rules
       and messages; call it after `load_part_footprint` for `"footprint"`.
-- [ ] `backend/src/models/led.c`: read `colors` with `kind_names` (non-empty).
+- [x] `backend/src/models/led.c`: read `colors` with `kind_names` (non-empty).
       For this phase only, a device with `color` and no `colors` loads as a
       one-entry list. `DEVICE_KEYS` lists both.
-- [ ] `backend/tests/support/listing.c`: `colors=` joined with commas, and
-      `|choices=<package>:<id>,…` after `|connector=`.
-- [ ] `backend/tests/footprint_check.c:149`: count choice footprints as used.
-- [ ] Swift, so the app still builds: `PartCatalog.swift:436` reads
+- [x] `backend/tests/support/listing.c`: `colors=` joined with commas, and
+      `|choices=<package>:<id>,…` after `|connector=`. (Phase 1 writes
+      `color=<colors[0]>` so the golden stays byte-identical; `colors=` joined
+      lands in Phase 2. See Corrections.)
+- [x] `backend/tests/footprint_check.c:149`: count choice footprints as used.
+- [x] Swift, so the app still builds: `PartCatalog.swift:436` reads
       `led.colors[0]` into the existing `.led(color:)` (temporary, replaced
       in Phase 3).
-- [ ] Tests in `backend/tests/library_check.c`: a valid fixture with
+- [x] Tests in `backend/tests/library_check.c`: a valid fixture with
       `'colors':['Red','Blue']` and
       `'footprintChoices':[{'package':'0603','footprint':'T2'},{'package':'DIP','footprint':'T4'}]`
       on a two-pin part with `'footprint':'T2','package':'0603'` loads, with
@@ -420,7 +422,9 @@ phase: LED devices accept `color` *or* `colors` until Phase 2 removes
       `footprintChoices`; a choice with an extra key; unknown choice
       footprint; choice `T1` (pin 2 has no pad); `T2` listed twice; default
       footprint not among the choices; package mismatch; `footprintChoices`
-      on a supply.
+      on a supply. Result: `ctest` 21/21; `library_check | grep -c '^FAIL'` → 0;
+      the 10 new lines print `ok` (`grep -cE` over them → 10);
+      `git diff --stat backend/tests/golden` → empty.
 
 Acceptance: the new loader rules accept and reject exactly as §4/§5 say, and
 the existing data still loads unchanged.
@@ -428,27 +432,30 @@ the existing data still loads unchanged.
   → 21/21 pass. `/tmp/p18-build/library_check | grep -c '^FAIL'` → 0, and
   the 10 new cases print `ok`. `git diff --stat backend/tests/golden` → empty
   (no data changed) (est. 1 min).
-Commit: —
+Commit: d571090
 
 ### Phase 2 — Data and backend tests on `GENERIC-LED`
 
 `led.json` becomes the one part. The `color` key goes away. Goldens are
 regenerated. Lands with Phase 3 (the app does not compile in between).
 
-- [ ] `schematical/schematical/Parts/led.json`: replace with §6 exactly.
-- [ ] `backend/src/models/led.c`: remove the `color` fallback; `DEVICE_KEYS` =
+- [x] `schematical/schematical/Parts/led.json`: replace with §6 exactly.
+- [x] `backend/src/models/led.c`: remove the `color` fallback; `DEVICE_KEYS` =
       `{"colors","anode","cathode"}`.
-- [ ] `backend/tests/library_check.c`: the 6 LED fixtures' `'color':'Red'`
+- [x] `backend/tests/library_check.c`: the 6 LED fixtures' `'color':'Red'`
       → `'colors':['Red']` (lines 268, 353, 853, 1406, 1423, 1486). Line 279
       checks `dip->led->colors[0]`. Add `expect_fail` for an LED device with
-      `'color'` → `unknown key "color"`.
-- [ ] `backend/tests/circuit_check.c` (5 lines), `voltage_test.c` (2),
+      `'color'` → `unknown key "color"`. (`grep -c` → 6 before the sed.)
+- [x] `backend/tests/circuit_check.c:628` (added): the ball-pinout LED fixture
+      also had `\"color\":\"Red\"` → `\"colors\":[\"Red\"]`. Before the fix,
+      `circuit_check` printed 4 FAILs ("a ball-pinout LED loads" …); after, 0.
+- [x] `backend/tests/circuit_check.c` (5 lines), `voltage_test.c` (2),
       `sim_bench.c` (2): every old LED name → `"GENERIC-LED"`.
-- [ ] `backend/include/circuit.h:10`, `docs/backend.md:48`: example →
+- [x] `backend/include/circuit.h:10`, `docs/backend.md:48`: example →
       `"GENERIC-LED"`.
-- [ ] Regenerate: `/tmp/p18-build/listing_check --print > backend/tests/golden/parts.txt`
+- [x] Regenerate: `/tmp/p18-build/listing_check --print > backend/tests/golden/parts.txt`
       and `/tmp/p18-build/trace_check --print > backend/tests/golden/traces.txt`.
-- [ ] `docs/parts-format.md`: § Parts table gets a `footprintChoices` row.
+- [x] `docs/parts-format.md`: § Parts table gets a `footprintChoices` row.
       § The `"footprint"` part key gets the §4 rules (extra pads allowed in
       a choice, default must be a choice). § `led` table `color` →
       `colors` (first = default). § Footprints `footprint_check` sentence
@@ -461,32 +468,42 @@ exactly the expected ones.
   (the `+++` header and one `+GENERIC-LED|led|Radial|Indicators/LED|LED|||colors=Red,Green,Blue,Amber,White|1:K:input:default,2:A:input:default|footprint=LED-RADIAL-5MM|choices=0402:LED-0402,…,Radial:LED-RADIAL-5MM`).
   Same counts for `traces.txt` (`^-LED-` → 55, one `+GENERIC-LED` line).
   `git diff --quiet backend/tests/golden/footprints.txt` → exit 0 (est. 1 min).
-Commit: —
+  Result: `ctest` 21/21. `parts.txt`: 55 `-LED-` lines, one `+GENERIC-LED|…|colors=Red,Green,Blue,Amber,White|…|footprint=LED-RADIAL-5MM|choices=0402:LED-0402,…,Radial:LED-RADIAL-5MM`, no other `-`/`+` line.
+  `traces.txt`: 55 `-LED-` lines, one `+GENERIC-LED	97b67472c7b07e45`. `footprints.txt` not in the diff.
+Commit: cc539fd
 
 ### Phase 3 — App: per-part color and footprint, file format 4, migration
 
 The app compiles again. Every placed LED carries its color and footprint, and
 old files migrate. This is the highest-risk phase.
 
-- [ ] `Backend/PartCatalog.swift`: §7 Catalog (`.led(colors:)`,
+- [x] `Backend/PartCatalog.swift`: §7 Catalog (`.led(colors:)`,
       `FootprintChoice`, `footprintChoices`, `colors`, `detailLabels`,
       `packages`, package/color filters, `colors(in:)`).
-- [ ] `Drawer/ChipDrawerView.swift:subtitle(for:)`: `"\(n) footprints"` package
+- [x] `Drawer/ChipDrawerView.swift:subtitle(for:)`: `"\(n) footprints"` package
       slot for parts with choices.
-- [ ] `Canvas/SchematicModel.swift`: `PlacedChip.color`, `footprintID`,
+- [x] `Canvas/SchematicModel.swift`: `PlacedChip.color`, `footprintID`,
       `footprintChoice`, normalizing `init`; `placeChip` gets the two
       parameters and uses `chip.footprint` for `nextSpot`.
-- [ ] `Canvas/BoardModel.swift:95`: `footprint` uses the choice (§7).
-- [ ] `Canvas/DiodeSymbolView.swift:20`: color from `chip.color`.
-- [ ] `Backend/PartFacts.swift`: `rows(for chip:)`;
+- [x] `Canvas/BoardModel.swift:95`: `footprint` uses the choice (§7).
+- [x] `Canvas/DiodeSymbolView.swift:20`: color from `chip.color`.
+- [x] `Backend/PartFacts.swift`: `rows(for chip:)`;
       `Drawer/SchematicSidebarView.swift:58` passes the chip.
-- [ ] `Document/SchematicFile.swift`: version 4, `color`/`footprint` fields
+- [x] `Document/SchematicFile.swift`: version 4, `color`/`footprint` fields
       written and read, `legacyLEDs`, `badPartOption`, chosen footprint in
       both placement paths.
-- [ ] Harness scripts: `bus-landing.swift` (2), `bus-erase.swift` (1),
+- [x] Harness scripts: `bus-landing.swift` (2), `bus-erase.swift` (1),
       `bus-slide.swift` (1), `support/BusProof.swift` (2): `"LED-RED-0603"` →
       `"GENERIC-LED"`.
-- [ ] New `scripts/harness/generic-led-file.swift` (kept), which prints one
+- [x] (added) `scripts/harness/multiselect.swift` (3 lines) and the unit tests
+      `schematicalTests/SelectionModelTests.swift`, `SelectionSidebarTests.swift`,
+      `SelectionGestureTests.swift`: `"LED-RED-0603"` → `"GENERIC-LED"`;
+      the board-row assertion's prefix `"LED-RED-0603 — "` → `"GENERIC-LED — "`.
+      After: `grep -rnE 'LED-(RED|GREEN|BLUE|AMBER|WHITE)-'` outside goldens,
+      plans and `.schematical` files hits only `library_check.c`'s own
+      fixture part names (269, 270, 278), which are test data, not library
+      parts.
+- [x] New `scripts/harness/generic-led-file.swift` (kept), which prints one
       `ok`/`FAIL` line per check and exits 1 on any FAIL:
   1. `be-6502.schematical`: U22 is `GENERIC-LED`, `color == "Green"`,
      `footprint?.id == "LED-RADIAL-5MM"`, `board.centre == (9.525, 13.97)`.
@@ -504,7 +521,7 @@ old files migrate. This is the highest-risk phase.
   6. `PartFacts.rows(for:)` for the (4) 0805 chip has `Package` = `0805` and
      `Color` = `Red`.
   7. The catalog lists one LED-kind part (`GENERIC-LED`).
-- [ ] `docs/file-format.md`: version 4 in the version list; `color` and
+- [x] `docs/file-format.md`: version 4 in the version list; `color` and
       `footprint` rows in § Parts; the LED example (line 89) and the full
       example (line 351) use `GENERIC-LED` with both fields. A paragraph on
       the old `LED-<COLOR>-<PACKAGE>` names opening as `GENERIC-LED`, next to
@@ -515,7 +532,14 @@ new files save and reopen the same; a chosen footprint drives the PCB.
   Check: `rm -rf /tmp/p18-h && scripts/harness/build.sh scripts/harness/generic-led-file.swift /tmp/p18-h && /tmp/p18-h/H.app/Contents/MacOS/harness`
   → 7 `ok` lines, exit 0 (est. 1.5 min. The fresh out dir is required:
   build.sh reuses an existing app copy, whose `led.json` would be old).
-Commit: —
+  Result: 7 `ok` lines (1 be-6502 U22 Green/LED-RADIAL-5MM at (9.525, 13.97);
+  2 test.schematical Amber/LED-0603; 3 v4 encode + round trip; 4 placeChip
+  defaults, 0805 → 2 pads, DIP4 → 4 pads; 5 both badPartOption messages;
+  6 Package 0805 / Color Red; 7 one LED part), `exit=0`.
+  Also run (touched by the added task): `xcodebuild … test -only-testing:`
+  the three Selection test classes → `Executed 24 tests, with 0 failures`;
+  `multiselect.swift` harness → exit 0, no FAIL.
+Commit: 3bf4aaa
 
 ## Validation Plan
 
@@ -540,6 +564,8 @@ Commit: —
   → 21/21; the Phase 3 harness check; `scripts/harness/build.sh scripts/harness/bus-slide.swift /tmp/p18-h && /tmp/p18-h/H.app/Contents/MacOS/harness`
   → no FAIL lines; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p18-dd CODE_SIGNING_ALLOWED=NO build`
   → `BUILD SUCCEEDED` (est. 4 min total).
+  Result (2026-11-07): ctest 21/21; `generic-led-file.swift` 7 `ok`, exit 0;
+  `bus-slide.swift` 9 `ok:` lines, 0 FAIL, `ALL OK`; xcodebuild `** BUILD SUCCEEDED **`.
 
 ## Decisions
 
@@ -557,6 +583,30 @@ Commit: —
   `"Generic LED"`, which `PartHeader` already shows under the part number.
 
 ## Corrections
+
+- **Prerequisite build dir.** `/tmp/p18-build` had been configured from the
+  main checkout, so `cmake -S backend` in the worktree failed ("does not match
+  the source … used to generate cache"). Fix: `rm -rf /tmp/p18-build` first,
+  then the gate command as written → 21/21.
+- **Phase 1 `listing.c` vs. its acceptance.** The task said Phase 1 writes
+  `colors=`, but the acceptance says the goldens don't change, and every LED
+  line would then change `color=Red` → `colors=Red`. Phase 1 writes
+  `color=<colors[0]>` (same bytes for the one-color data). Phase 2 switches to
+  `colors=` joined with commas, which is the line its acceptance expects.
+- **§4 example message.** A default footprint with more pads than pins (`T4`
+  on a two-pin part) fails the strict `load_part_footprint` check first, so
+  it can never reach "not in footprintChoices". The test uses default `T2`
+  with only `T4` offered → `"footprint" "T2" is not in footprintChoices`.
+- **Phase 2 population.** The plan counted 6 `'color'` LED fixtures in
+  `library_check.c`. `circuit_check.c:628` has a 7th (escaped-quote form,
+  `\"color\":\"Red\"`), which the `grep` over `library_check.c` missed. It
+  was moved to `colors` as an added task.
+- **Old-name population grew (plan-15 landed after this plan was written).**
+  `grep -rnE 'LED-(RED|GREEN|BLUE|AMBER|WHITE)-'` now also hits
+  `scripts/harness/multiselect.swift` (3 lines) and the unit tests
+  `schematical/schematicalTests/SelectionModelTests.swift` (7),
+  `SelectionSidebarTests.swift` (7, two assert the row detail text) and
+  `SelectionGestureTests.swift` (13). Added to Phase 3 as tasks.
 
 ## Summary
 

@@ -355,7 +355,7 @@ static void check_leds(void) {
     size_t cathode;
 
     auc = powered_gate(&n, "VFX-AUC1G00", "1V8");
-    led = add(&n, "LED-RED-0603");
+    led = add(&n, "GENERIC-LED");
     cathode = net(&n);
     wire(&n, led, "2", supply(&n, "5V"));     /* anode */
     wire(&n, led, "1", cathode);
@@ -368,7 +368,7 @@ static void check_leds(void) {
 
     memset(&n, 0, sizeof n);
     auc = powered_gate(&n, "VFX-AUC1G00", "1V8");
-    led = add(&n, "LED-RED-0603");
+    led = add(&n, "GENERIC-LED");
     cathode = net(&n);
     wire(&n, led, "1", supply(&n, "5V"));     /* cathode on 5V */
     wire(&n, led, "2", cathode);              /* anode net */

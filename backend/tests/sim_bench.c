@@ -4,7 +4,7 @@
  *     sim_bench <oscillator part> <stages> <sim ms> <idle chips>
  *
  * Builds VCC, GND, the oscillator, a ripple counter of <stages> D flip-flops
- * (SN74HC74N units, each Q lighting an LED-RED-0603) clocked by the
+ * (SN74HC74N units, each Q lighting a GENERIC-LED) clocked by the
  * oscillator, plus <idle chips> SN74HC00N with every gate pin on its own net.
  * Advances in 10 us steps to <sim ms> and prints the speed against real time.
  *
@@ -148,7 +148,7 @@ int main(int argc, char **argv) {
             connect(ff, pins[1], qbar);     /* D = QBAR */
             connect(ff, pins[4], q);
             connect(ff, pins[5], qbar);
-            led = add_part("LED-RED-0603");
+            led = add_part("GENERIC-LED");
             connect(led, "2", q);
             connect(led, "1", gnd_net);
             clock = qbar;

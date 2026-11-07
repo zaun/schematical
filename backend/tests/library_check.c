@@ -265,7 +265,7 @@ static void check_valid_supply(void) {
     "'pinouts':{'two-pin':[{'number':1,'name':'K','role':'input'},{'number':2,'name':'A','role':'input'}]," \
     "'dip4':[{'number':1,'name':'K','role':'input'},{'number':2,'name':'" ANODE2 "','role':'input'}," \
     "{'number':3,'name':'NC','role':'nc'},{'number':4,'name':'NC','role':'nc'}]}," \
-    "'color':'Red','anode':'A','cathode':'K'," \
+    "'colors':['Red'],'anode':'A','cathode':'K'," \
     "'parts':[{'name':'LED-RED-0603','package':'0603','pinout':'two-pin','footprint':'T2'}," \
     "{'name':'LED-RED-DIP','package':'DIP','pinout':'dip4','footprint':'T4'}]}"
 
@@ -276,11 +276,86 @@ static void check_valid_led(void) {
 
     CHECK(load(library, HEAD("led") LED_DEVICE("A") TAIL, &error) == 0);
     dip = part_library_find(library, "LED-RED-DIP");
-    CHECK(dip != NULL && dip->pin_count == 4 && strcmp(dip->led->color, "Red") == 0);
+    CHECK(dip != NULL && dip->pin_count == 4 && strcmp(dip->led->colors[0], "Red") == 0);
     CHECK(dip != NULL && dip->drawer_count == 2 && strcmp(dip->drawer[1], "LED") == 0);
     free(error);
     part_library_destroy(library);
     printf("ok   valid LED file with two pinouts\n");
+}
+
+/* ---- plan-18-A: LED "colors" and the "footprintChoices" part key -------- */
+
+#define CHOICE_DEVICE(COLORS, PART_EXTRA) \
+    "{'id':'led-c','function':'LED','description':'d','drawer':['Indicators','LED']," \
+    "'pinouts':{'two-pin':[{'number':1,'name':'K','role':'input'},{'number':2,'name':'A','role':'input'}]}," \
+    COLORS ",'anode':'A','cathode':'K'," \
+    "'parts':[{'name':'LED-C','pinout':'two-pin'" PART_EXTRA "}]}"
+#define TWO_CHOICES "'footprintChoices':[{'package':'0603','footprint':'T2'},{'package':'DIP','footprint':'T4'}]"
+
+static void check_footprint_choices(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, HEAD("led") CHOICE_DEVICE("'colors':['Red','Blue']",
+               ",'package':'0603','footprint':'T2'," TWO_CHOICES) TAIL, &error) == 0);
+    part = part_library_find(library, "LED-C");
+    CHECK(part != NULL && part->led->color_count == 2 && strcmp(part->led->colors[0], "Red") == 0 &&
+          strcmp(part->led->colors[1], "Blue") == 0);
+    CHECK(part != NULL && part->footprint_choice_count == 2 &&
+          strcmp(part->footprint_choices[0].package, "0603") == 0 &&
+          strcmp(part->footprint_choices[1].package, "DIP") == 0 &&
+          strcmp(part->footprint_choices[1].footprint->id, "T4") == 0 &&
+          part->footprint_choices[1].footprint->pad_count == 4 && part->pin_count == 2 &&
+          part->footprint == part->footprint_choices[0].footprint);
+    if (error != NULL) {
+        printf("FAIL valid footprintChoices: %s\n", error);
+        failures++;
+    }
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid LED with 2 colors and 2 footprintChoices\n");
+
+    expect_fail("LED empty colors",
+                HEAD("led") CHOICE_DEVICE("'colors':[]", ",'package':'0603','footprint':'T2'") TAIL,
+                "\"colors\" must not be empty");
+    expect_fail("LED device with the old color key",
+                HEAD("led") CHOICE_DEVICE("'color':'Red'", ",'package':'0603','footprint':'T2'") TAIL,
+                "unknown key \"color\"");
+    expect_fail("footprintChoices empty",
+                HEAD("led") CHOICE_DEVICE("'colors':['Red']",
+                ",'package':'0603','footprint':'T2','footprintChoices':[]") TAIL,
+                "\"footprintChoices\" must be a non-empty array of {\"package\", \"footprint\"}");
+    expect_fail("footprintChoices extra key",
+                HEAD("led") CHOICE_DEVICE("'colors':['Red']",
+                ",'package':'0603','footprint':'T2','footprintChoices':[{'package':'0603','footprint':'T2','x':1}]") TAIL,
+                "\"footprintChoices\" must be a non-empty array of {\"package\", \"footprint\"}");
+    expect_fail("footprintChoices unknown footprint",
+                HEAD("led") CHOICE_DEVICE("'colors':['Red']",
+                ",'package':'0603','footprint':'T2','footprintChoices':[{'package':'0603','footprint':'T2'},{'package':'X','footprint':'NOPE'}]") TAIL,
+                "unknown footprintChoices footprint \"NOPE\"");
+    expect_fail("footprintChoices pin without a pad",
+                HEAD("led") CHOICE_DEVICE("'colors':['Red']",
+                ",'package':'0603','footprint':'T2','footprintChoices':[{'package':'0603','footprint':'T2'},{'package':'X','footprint':'T1'}]") TAIL,
+                "pin \"2\" has no pad in footprintChoices footprint \"T1\"");
+    expect_fail("footprintChoices listed twice",
+                HEAD("led") CHOICE_DEVICE("'colors':['Red']",
+                ",'package':'0603','footprint':'T2','footprintChoices':[{'package':'0603','footprint':'T2'},{'package':'Y','footprint':'T2'}]") TAIL,
+                "footprintChoices footprint \"T2\" listed twice");
+    expect_fail("footprintChoices without the default",
+                HEAD("led") CHOICE_DEVICE("'colors':['Red']",
+                ",'package':'0603','footprint':'T2','footprintChoices':[{'package':'DIP','footprint':'T4'}]") TAIL,
+                "\"footprint\" \"T2\" is not in footprintChoices");
+    expect_fail("footprintChoices package mismatch",
+                HEAD("led") CHOICE_DEVICE("'colors':['Red']",
+                ",'package':'X','footprint':'T2'," TWO_CHOICES) TAIL,
+                "\"package\" \"X\" does not match footprintChoices \"T2\" (\"0603\")");
+    expect_fail("supply part with footprintChoices",
+                HEAD("supply")
+                "{'id':'VCC','function':'VCC','description':'d','drawer':[],"
+                "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'volts':5,"
+                "'parts':[{'name':'VCC','package':'','pinout':'pin','footprintChoices':[{'package':'X','footprint':'T1'}]}]}" TAIL,
+                "parts[0] (VCC): a supply has no footprint");
 }
 
 static void check_duplicate_across_calls(void) {
@@ -350,7 +425,7 @@ static void check_supply_cases(void) {
                 HEAD("led")
                 "{'id':'led-red','function':'LED','description':'d','drawer':[],"
                 "'pinouts':{'two-pin':[{'number':1,'name':'K','role':'input'},{'number':3,'name':'A','role':'input'}]},"
-                "'color':'Red','anode':'A','cathode':'K','parts':[]}" TAIL,
+                "'colors':['Red'],'anode':'A','cathode':'K','parts':[]}" TAIL,
                 "pinouts.two-pin: pin 2: pin numbers must be 1..N in order (found 3)");
     expect_fail("unknown role",
                 HEAD("supply")
@@ -854,7 +929,7 @@ static void check_display_cases(void) {
 #define BALL_LED(BGA_PINS) \
     HEAD("led") "{'id':'led-ball','function':'LED','description':'d','drawer':[]," \
     "'pinouts':{'dip2':[{'number':1,'name':'K','role':'input'},{'number':2,'name':'A','role':'input'}]," \
-    "'bga':[" BGA_PINS "]},'color':'Red','anode':'A','cathode':'K'," \
+    "'bga':[" BGA_PINS "]},'colors':['Red'],'anode':'A','cathode':'K'," \
     "'parts':[{'name':'LED-BALL-DIP','package':'DIP','pinout':'dip2','footprint':'T2'}," \
     "{'name':'LED-BALL-BGA','package':'BGA','pinout':'bga','footprint':'BGA2'}]}" TAIL
 #define BALL_LED_PINS "{'ball':'A1','name':'K','role':'input'},{'ball':'B2','name':'A','role':'input'}"
@@ -1407,7 +1482,7 @@ static void check_explicit_repeated_pins(void) {
 /* An LED with one pinout of PINS whose part names FOOTPRINT (a JSON value). */
 #define FP_LED(PINS, FOOTPRINT) \
     HEAD("led") "{'id':'led-fp','function':'LED','description':'d','drawer':[]," \
-    "'pinouts':{'p':[" PINS "]},'color':'Red','anode':'A','cathode':'K'," \
+    "'pinouts':{'p':[" PINS "]},'colors':['Red'],'anode':'A','cathode':'K'," \
     "'parts':[{'name':'LED-FP','package':'X','pinout':'p','footprint':" FOOTPRINT "}]}" TAIL
 #define FP_LED_NUMBERED "{'number':1,'name':'K','role':'input'},{'number':2,'name':'A','role':'input'}"
 #define FP_LED_BALLS "{'ball':'A1','name':'K','role':'input'},{'ball':'B2','name':'A','role':'input'}"
@@ -1424,7 +1499,7 @@ static void check_explicit_repeated_pins(void) {
 /* The FP_LED part on CHIP-2 with CONN (a JSON value) as its connectorFootprint. */
 #define FP_LED_CONN(CONN) \
     HEAD("led") "{'id':'led-fp','function':'LED','description':'d','drawer':[]," \
-    "'pinouts':{'p':[" FP_LED_NUMBERED "]},'color':'Red','anode':'A','cathode':'K'," \
+    "'pinouts':{'p':[" FP_LED_NUMBERED "]},'colors':['Red'],'anode':'A','cathode':'K'," \
     "'parts':[{'name':'LED-FP','package':'X','pinout':'p','footprint':'CHIP-2'," \
     "'connectorFootprint':" CONN "}]}" TAIL
 
@@ -1487,7 +1562,7 @@ static void check_part_footprints(void) {
     /* plan-03-C: the key is required on every part but a supply, which rejects it. */
     expect_fail("non-supply part without footprint",
                 HEAD("led") "{'id':'led-nf','function':'LED','description':'d','drawer':[],"
-                "'pinouts':{'p':[" FP_LED_NUMBERED "]},'color':'Red','anode':'A','cathode':'K',"
+                "'pinouts':{'p':[" FP_LED_NUMBERED "]},'colors':['Red'],'anode':'A','cathode':'K',"
                 "'parts':[{'name':'LED-NF','package':'X','pinout':'p'}]}" TAIL,
                 "parts[0] (LED-NF): missing \"footprint\"");
     expect_fail("supply part with footprint",
@@ -1731,6 +1806,7 @@ int main(void) {
     check_serial();
     check_pio();
     check_valid_led();
+    check_footprint_choices();
     check_duplicate_across_calls();
     check_logic_family();
     check_supply_cases();

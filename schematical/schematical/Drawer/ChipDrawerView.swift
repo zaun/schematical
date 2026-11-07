@@ -331,9 +331,11 @@ struct ChipDrawerView: View, Equatable {
 
     /// Package, then the kind's facts: family, speed grade, actuator or color;
     /// for a 7-segment display also its size and whether it is common anode
-    /// (CA) or common cathode (CC); last, its voltage (`voltageLabel`).
+    /// (CA) or common cathode (CC); last, its voltage (`voltageLabel`). A part
+    /// with footprint choices shows their count in the package slot.
     private func subtitle(for part: CatalogPart) -> String {
-        ([part.package] + part.detailLabels + [part.voltageLabel].compactMap { $0 })
+        let package = part.footprintChoices.isEmpty ? part.package : "\(part.footprintChoices.count) footprints"
+        return ([package] + part.detailLabels + [part.voltageLabel].compactMap { $0 })
             .filter { !$0.isEmpty }
             .joined(separator: " · ")
     }

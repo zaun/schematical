@@ -88,7 +88,7 @@ MainActor.assumeIsolated { runEraseChecks() }
         }
         let supply = place("5V", p(40, 150))
         let dip = place("TE-GDS0204", p(120, 220))
-        let led = place("LED-RED-0603", p(540, 220))
+        let led = place("GENERIC-LED", p(540, 220))
         let ground = place("GND", p(640, 280))
         let busID = doc.addBus(from: p(200, 100), to: p(460, 100))!
         doc.addBus(from: p(240, 100), to: p(240, 300))

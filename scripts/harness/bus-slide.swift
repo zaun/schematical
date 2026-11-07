@@ -24,7 +24,7 @@ MainActor.assumeIsolated { runSlideChecks() }
     _ = doc.setPortWires(left, [wires[0].id, wires[1].id])
     _ = doc.addPort(at: p(300, 100)); let right = doc.selectedPortID!
     _ = doc.setPortWires(right, [wires[0].id])
-    let led = Harness.catalog.part(named: "LED-RED-0603")!
+    let led = Harness.catalog.part(named: "GENERIC-LED")!
     doc.placeChip(part: led, symbol: symbol(for: led), centeredAt: p(330, 240))
     let ledChip = doc.chips.last!
     let anode = PinRef(chipID: ledChip.id, index: ledChip.layout.slots.first { $0.pin.name == "A" }!.pin.index)

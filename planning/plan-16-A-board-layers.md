@@ -322,6 +322,13 @@ Commit: fbca5c9
   (`grep -n 'currentVersion = ' schematical/schematical/Document/SchematicFile.swift`
   → `static let currentVersion = 3`; buses made it 3). Corrected to "stays 3"
   here and in D. Nothing in the design rested on the number.
+- 2026-11-07, landing: main moved to file version 4 (plan-18's LED
+  `color` and `footprint` keys) while plan-16 was in its worktree. Merging
+  main into `worktree-P-16` conflicted only in `docs/file-format.md`'s
+  Parts table (kept plan-16's `pcb` row with `side`, plus main's two new
+  rows). plan-16's keys stay optional and need no version of their own; the
+  file is now version 4. After the merge the full suite still passed:
+  "Executed 70 tests, with 0 failures".
 - 2026-11-07: `<tests>` is `schematicalTests`
   (`xcodebuild -list -project schematical/schematical.xcodeproj` → targets
   `schematical`, `schematicalTests`).

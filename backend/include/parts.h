@@ -47,7 +47,8 @@ typedef struct { const char *family; unsigned units; } PartLogic;         /* gat
 typedef struct { uint32_t words; unsigned bits; uint64_t access_ps; const char *grade; } PartSram;
 /* rated_mv: the contacts' switching voltage rating. */
 typedef struct { unsigned positions; const char *actuator; uint32_t rated_mv; } PartSwitch;
-typedef struct { const char *color; } PartLed;
+/* colors: the LED's colors, in file order; colors[0] is the default. */
+typedef struct { const char *const *colors; size_t color_count; } PartLed;
 typedef struct { unsigned digit; const char *segment; } PartDisplayLed;  /* digit 0 = colon/dot */
 typedef struct {
     unsigned digits; int common_anode; unsigned colon_after, dot_after;
@@ -116,6 +117,9 @@ typedef struct {
     const FootprintPad *pads; size_t pad_count;   /* "1"…"N" order (grid: row-major); a pin with several pads (explicit only) lists them together, in file order; unnumbered last */
 } PartFootprint;
 
+/* One entry of a part's "footprintChoices": a package name and its footprint. */
+typedef struct { const char *package; const PartFootprint *footprint; } PartFootprintChoice;
+
 typedef struct Part {
     PartKind kind;
     const char *name, *package, *function, *description;
@@ -137,6 +141,9 @@ typedef struct Part {
     const PartSerial *serial;
     const PartFootprint *footprint;    /* NULL = none (supplies) */
     const PartFootprint *connector_footprint;  /* NULL = none; the PCB Style option's "Connector Only" */
+    /* The footprints a placed part may use instead, in file order; one of
+       them is `footprint` (the default). 0 = only footprint. */
+    const PartFootprintChoice *footprint_choices; size_t footprint_choice_count;
     const PartCharLcd *charlcd;
     const PartConnector *connector;
     const PartPio *pio;

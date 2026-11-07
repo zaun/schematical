@@ -3189,6 +3189,7 @@ ETXO-H33CL-125.000|oscillator|SMD|Oscillator|100 MHz and up||ceramic|family=ETXO
 ETXO-L33CL-100.000|oscillator|SMD|Oscillator|100 MHz and up||ceramic|family=ETXO-L minHz=10000000 maxHz=1500000000 defaultHz=100000000 enablePin=2|1:No Connect:nc:default,2:Output Enable:input:default,3:Ground:ground:default,4:Differential Output:output:default,5:Complementary Output:output:default,6:Supply Voltage:power:default|footprint=OSC-ECS-3225-6-ETXO|vcc=3135-3465,in=3465
 ETXO-L33CL-156.250|oscillator|SMD|Oscillator|100 MHz and up||ceramic|family=ETXO-L minHz=10000000 maxHz=1500000000 defaultHz=156250000 enablePin=2|1:No Connect:nc:default,2:Output Enable:input:default,3:Ground:ground:default,4:Differential Output:output:default,5:Complementary Output:output:default,6:Supply Voltage:power:default|footprint=OSC-ECS-3225-6-ETXO|vcc=3135-3465,in=3465
 ETXO-L33CL-250.000|oscillator|SMD|Oscillator|100 MHz and up||ceramic|family=ETXO-L minHz=10000000 maxHz=1500000000 defaultHz=250000000 enablePin=2|1:No Connect:nc:default,2:Output Enable:input:default,3:Ground:ground:default,4:Differential Output:output:default,5:Complementary Output:output:default,6:Supply Voltage:power:default|footprint=OSC-ECS-3225-6-ETXO|vcc=3135-3465,in=3465
+GENERIC-LED|led|Radial|Indicators/LED|LED|||colors=Red,Green,Blue,Amber,White|1:K:input:default,2:A:input:default|footprint=LED-RADIAL-5MM|choices=0402:LED-0402,0603:LED-0603,0805:LED-0805,1204:LED-1204,1205:LED-1205,1206:LED-1206,1209:LED-1209,1411:LED-1411,1414:LED-1414,DIP:LED-DIP4,Radial:LED-RADIAL-5MM
 GND|supply|||GND|||level=0 mv=0|1:GND:ground:default
 HD3-6402C-9|serial|DIP|Interface|UART|||model=ay1013 channels=1 grade=R|1:VCC:power:default,2:NC:nc:default,3:GND:ground:default,4:RRD:input:default,5:RBR8:output:default,6:RBR7:output:default,7:RBR6:output:default,8:RBR5:output:default,9:RBR4:output:default,10:RBR3:output:default,11:RBR2:output:default,12:RBR1:output:default,13:PE:output:default,14:FE:output:default,15:OE:output:default,16:SFD:input:default,17:RRC:input:default,18:DRR:input:default,19:DR:output:default,20:RRI:input:default,21:MR:input:default,22:TBRE:output:default,23:TBRL:input:default,24:TRE:output:default,25:TRO:output:default,26:TBR1:input:default,27:TBR2:input:default,28:TBR3:input:default,29:TBR4:input:default,30:TBR5:input:default,31:TBR6:input:default,32:TBR7:input:default,33:TBR8:input:default,34:CRL:input:default,35:PI:input:default,36:SBS:input:default,37:CLS2:input:default,38:CLS1:input:default,39:EPE:input:default,40:TRC:input:default|footprint=PDIP-40-600|vcc=4500-5500,in=5500
 HD3-6406-5|serial|DIP|Interface|UART|||model=hs82c52 channels=1 grade=5|1:CS0:input:default,2:RD:input:default,3:WR:input:default,4:D0:inout:default,5:D1:inout:default,6:D2:inout:default,7:D3:inout:default,8:D4:inout:default,9:D5:inout:default,10:D6:inout:default,11:D7:inout:default,12:A0:input:default,13:A1:input:default,14:ALE:input:default,15:TXDACK:input:default,16:RXDACK:input:default,17:IX:input:default,18:OX:output:default,19:SDO:output:default,20:GND:ground:default,21:TC:output:default,22:RLSD:input:default,23:CTS:input:default,24:DSR:input:default,25:RI:input:default,26:DTR:output:default,27:RTS:output:default,28:CO:output:default,29:TBRE:output:default,30:RST:input:default,31:SIE:input:default,32:SFD:input:default,33:INTR:output:default,34:SDI:input:default,35:OE:output:default,36:FE:output:default,37:PE:output:default,38:DR:output:default,39:CS1:input:default,40:VCC:power:default|footprint=PDIP-40-600|vcc=4500-5500,in=5500
@@ -3347,61 +3348,6 @@ KLDX-0202-AC|connector|Through hole|Connector/Barrel|2.0 mm centre pin, switched
 KLDX-0202-B|connector|Through hole|Connector/Barrel|2.5 mm centre pin, switched|||center_um=2500 rated=24V/3500mA contacts=1|1:Centre:inout:default,2:Sleeve:inout:default,3:Switch:inout:default|footprint=BARREL-KLDX-0202
 KLDX-0202-BC|connector|Through hole|Connector/Barrel|2.5 mm centre pin, switched|||center_um=2500 rated=24V/3500mA contacts=1|1:Centre:inout:default,2:Sleeve:inout:default,3:Switch:inout:default|footprint=BARREL-KLDX-0202-C
 LD8251A|serial|DIP|Interface|UART||ceramic|model=i8251 channels=1 grade=C|1:D2:inout:default,2:D3:inout:default,3:RXD:input:default,4:GND:ground:default,5:D4:inout:default,6:D5:inout:default,7:D6:inout:default,8:D7:inout:default,9:TXC:input:default,10:WR:input:default,11:CS:input:default,12:CD:input:default,13:RD:input:default,14:RXRDY:output:default,15:TXRDY:output:default,16:SYNDET:inout:default,17:CTS:input:default,18:TXEMPTY:output:default,19:TXD:output:default,20:CLK:input:default,21:RESET:input:default,22:DSR:input:default,23:RTS:output:default,24:DTR:output:default,25:RXC:input:default,26:VCC:power:default,27:D0:inout:default,28:D1:inout:default|footprint=CDIP-28-600|vcc=4500-5500,in=5500
-LED-AMBER-0402|led|0402|Indicators/LED|LED|||color=Amber|1:K:input:default,2:A:input:default|footprint=LED-0402
-LED-AMBER-0603|led|0603|Indicators/LED|LED|||color=Amber|1:K:input:default,2:A:input:default|footprint=LED-0603
-LED-AMBER-0805|led|0805|Indicators/LED|LED|||color=Amber|1:K:input:default,2:A:input:default|footprint=LED-0805
-LED-AMBER-1204|led|1204|Indicators/LED|LED|||color=Amber|1:K:input:default,2:A:input:default|footprint=LED-1204
-LED-AMBER-1205|led|1205|Indicators/LED|LED|||color=Amber|1:K:input:default,2:A:input:default|footprint=LED-1205
-LED-AMBER-1206|led|1206|Indicators/LED|LED|||color=Amber|1:K:input:default,2:A:input:default|footprint=LED-1206
-LED-AMBER-1209|led|1209|Indicators/LED|LED|||color=Amber|1:K:input:default,2:A:input:default|footprint=LED-1209
-LED-AMBER-1411|led|1411|Indicators/LED|LED|||color=Amber|1:K:input:default,2:A:input:default|footprint=LED-1411
-LED-AMBER-1414|led|1414|Indicators/LED|LED|||color=Amber|1:K:input:default,2:A:input:default|footprint=LED-1414
-LED-AMBER-DIP|led|DIP|Indicators/LED|LED|||color=Amber|1:K:input:default,2:A:input:default,3:NC:nc:default,4:NC:nc:default|footprint=LED-DIP4
-LED-AMBER-RADIAL|led|Radial|Indicators/LED|LED|||color=Amber|1:K:input:default,2:A:input:default|footprint=LED-RADIAL-5MM
-LED-BLUE-0402|led|0402|Indicators/LED|LED|||color=Blue|1:K:input:default,2:A:input:default|footprint=LED-0402
-LED-BLUE-0603|led|0603|Indicators/LED|LED|||color=Blue|1:K:input:default,2:A:input:default|footprint=LED-0603
-LED-BLUE-0805|led|0805|Indicators/LED|LED|||color=Blue|1:K:input:default,2:A:input:default|footprint=LED-0805
-LED-BLUE-1204|led|1204|Indicators/LED|LED|||color=Blue|1:K:input:default,2:A:input:default|footprint=LED-1204
-LED-BLUE-1205|led|1205|Indicators/LED|LED|||color=Blue|1:K:input:default,2:A:input:default|footprint=LED-1205
-LED-BLUE-1206|led|1206|Indicators/LED|LED|||color=Blue|1:K:input:default,2:A:input:default|footprint=LED-1206
-LED-BLUE-1209|led|1209|Indicators/LED|LED|||color=Blue|1:K:input:default,2:A:input:default|footprint=LED-1209
-LED-BLUE-1411|led|1411|Indicators/LED|LED|||color=Blue|1:K:input:default,2:A:input:default|footprint=LED-1411
-LED-BLUE-1414|led|1414|Indicators/LED|LED|||color=Blue|1:K:input:default,2:A:input:default|footprint=LED-1414
-LED-BLUE-DIP|led|DIP|Indicators/LED|LED|||color=Blue|1:K:input:default,2:A:input:default,3:NC:nc:default,4:NC:nc:default|footprint=LED-DIP4
-LED-BLUE-RADIAL|led|Radial|Indicators/LED|LED|||color=Blue|1:K:input:default,2:A:input:default|footprint=LED-RADIAL-5MM
-LED-GREEN-0402|led|0402|Indicators/LED|LED|||color=Green|1:K:input:default,2:A:input:default|footprint=LED-0402
-LED-GREEN-0603|led|0603|Indicators/LED|LED|||color=Green|1:K:input:default,2:A:input:default|footprint=LED-0603
-LED-GREEN-0805|led|0805|Indicators/LED|LED|||color=Green|1:K:input:default,2:A:input:default|footprint=LED-0805
-LED-GREEN-1204|led|1204|Indicators/LED|LED|||color=Green|1:K:input:default,2:A:input:default|footprint=LED-1204
-LED-GREEN-1205|led|1205|Indicators/LED|LED|||color=Green|1:K:input:default,2:A:input:default|footprint=LED-1205
-LED-GREEN-1206|led|1206|Indicators/LED|LED|||color=Green|1:K:input:default,2:A:input:default|footprint=LED-1206
-LED-GREEN-1209|led|1209|Indicators/LED|LED|||color=Green|1:K:input:default,2:A:input:default|footprint=LED-1209
-LED-GREEN-1411|led|1411|Indicators/LED|LED|||color=Green|1:K:input:default,2:A:input:default|footprint=LED-1411
-LED-GREEN-1414|led|1414|Indicators/LED|LED|||color=Green|1:K:input:default,2:A:input:default|footprint=LED-1414
-LED-GREEN-DIP|led|DIP|Indicators/LED|LED|||color=Green|1:K:input:default,2:A:input:default,3:NC:nc:default,4:NC:nc:default|footprint=LED-DIP4
-LED-GREEN-RADIAL|led|Radial|Indicators/LED|LED|||color=Green|1:K:input:default,2:A:input:default|footprint=LED-RADIAL-5MM
-LED-RED-0402|led|0402|Indicators/LED|LED|||color=Red|1:K:input:default,2:A:input:default|footprint=LED-0402
-LED-RED-0603|led|0603|Indicators/LED|LED|||color=Red|1:K:input:default,2:A:input:default|footprint=LED-0603
-LED-RED-0805|led|0805|Indicators/LED|LED|||color=Red|1:K:input:default,2:A:input:default|footprint=LED-0805
-LED-RED-1204|led|1204|Indicators/LED|LED|||color=Red|1:K:input:default,2:A:input:default|footprint=LED-1204
-LED-RED-1205|led|1205|Indicators/LED|LED|||color=Red|1:K:input:default,2:A:input:default|footprint=LED-1205
-LED-RED-1206|led|1206|Indicators/LED|LED|||color=Red|1:K:input:default,2:A:input:default|footprint=LED-1206
-LED-RED-1209|led|1209|Indicators/LED|LED|||color=Red|1:K:input:default,2:A:input:default|footprint=LED-1209
-LED-RED-1411|led|1411|Indicators/LED|LED|||color=Red|1:K:input:default,2:A:input:default|footprint=LED-1411
-LED-RED-1414|led|1414|Indicators/LED|LED|||color=Red|1:K:input:default,2:A:input:default|footprint=LED-1414
-LED-RED-DIP|led|DIP|Indicators/LED|LED|||color=Red|1:K:input:default,2:A:input:default,3:NC:nc:default,4:NC:nc:default|footprint=LED-DIP4
-LED-RED-RADIAL|led|Radial|Indicators/LED|LED|||color=Red|1:K:input:default,2:A:input:default|footprint=LED-RADIAL-5MM
-LED-WHITE-0402|led|0402|Indicators/LED|LED|||color=White|1:K:input:default,2:A:input:default|footprint=LED-0402
-LED-WHITE-0603|led|0603|Indicators/LED|LED|||color=White|1:K:input:default,2:A:input:default|footprint=LED-0603
-LED-WHITE-0805|led|0805|Indicators/LED|LED|||color=White|1:K:input:default,2:A:input:default|footprint=LED-0805
-LED-WHITE-1204|led|1204|Indicators/LED|LED|||color=White|1:K:input:default,2:A:input:default|footprint=LED-1204
-LED-WHITE-1205|led|1205|Indicators/LED|LED|||color=White|1:K:input:default,2:A:input:default|footprint=LED-1205
-LED-WHITE-1206|led|1206|Indicators/LED|LED|||color=White|1:K:input:default,2:A:input:default|footprint=LED-1206
-LED-WHITE-1209|led|1209|Indicators/LED|LED|||color=White|1:K:input:default,2:A:input:default|footprint=LED-1209
-LED-WHITE-1411|led|1411|Indicators/LED|LED|||color=White|1:K:input:default,2:A:input:default|footprint=LED-1411
-LED-WHITE-1414|led|1414|Indicators/LED|LED|||color=White|1:K:input:default,2:A:input:default|footprint=LED-1414
-LED-WHITE-DIP|led|DIP|Indicators/LED|LED|||color=White|1:K:input:default,2:A:input:default,3:NC:nc:default,4:NC:nc:default|footprint=LED-DIP4
-LED-WHITE-RADIAL|led|Radial|Indicators/LED|LED|||color=White|1:K:input:default,2:A:input:default|footprint=LED-RADIAL-5MM
 LMK6CA026214DDLFR|oscillator|VSON|Oscillator|10 MHz to 100 MHz|||family=LMK6C minHz=1000000 maxHz=200000000 defaultHz=26214000 enablePin=1|1:OE/ST/NC:input:default,2:GND:ground:default,3:OUT:output:default,4:VDD:power:default|footprint=OSC-DLF-4|vcc=1700-1900,in=1900
 LMK6CA032768DDLFR|oscillator|VSON|Oscillator|10 MHz to 100 MHz|||family=LMK6C minHz=1000000 maxHz=200000000 defaultHz=32768000 enablePin=1|1:OE/ST/NC:input:default,2:GND:ground:default,3:OUT:output:default,4:VDD:power:default|footprint=OSC-DLF-4|vcc=1700-1900,in=1900
 LMK6CA048000CDLFR|oscillator|VSON|Oscillator|10 MHz to 100 MHz|||family=LMK6C minHz=1000000 maxHz=200000000 defaultHz=48000000 enablePin=1|1:OE/ST/NC:input:default,2:GND:ground:default,3:OUT:output:default,4:VDD:power:default|footprint=OSC-DLF-4|vcc=2370-3500,in=3500

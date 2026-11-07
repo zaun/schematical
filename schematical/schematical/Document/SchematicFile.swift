@@ -4,20 +4,42 @@ import UniformTypeIdentifiers
 
 // MARK: - File format
 
-/// The on-disk form of a schematic, version 3. See `docs/file-format.md`.
+/// The on-disk form of a schematic, version 4. See `docs/file-format.md`.
 /// Version 1 files (pins by number) are converted when opened; version 1 and
-/// 2 files have no buses.
+/// 2 files have no buses; version 1–3 files have no part `color` or
+/// `footprint`.
 ///
 /// Parts are stored by part number only. Pins, layout and symbol come from the
 /// backend catalog when the file is opened.
 nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     static let formatName = "schematical"
-    static let currentVersion = 3
+    static let currentVersion = 4
     static let fileExtension = "schematical"
 
     /// Parts removed from the library, and the part each one opens as. A file
     /// that names one opens with the replacement, and is saved with its name.
     static let renamedParts = ["VCC": "5V"]
+
+    /// The 55 LED parts `GENERIC-LED` replaced (plan-18), `LED-<COLOR>-<PACKAGE>`,
+    /// and the color and footprint each one opens with. A file of any version
+    /// that names one opens as `GENERIC-LED`, and is saved with that name.
+    static let legacyLEDs: [String: (color: String, footprint: String)] = {
+        let colors = ["RED": "Red", "GREEN": "Green", "BLUE": "Blue", "AMBER": "Amber", "WHITE": "White"]
+        var packages = Dictionary(uniqueKeysWithValues:
+            ["0402", "0603", "0805", "1204", "1205", "1206", "1209", "1411", "1414"].map { ($0, "LED-\($0)") })
+        packages["DIP"] = "LED-DIP4"
+        packages["RADIAL"] = "LED-RADIAL-5MM"
+        var table: [String: (color: String, footprint: String)] = [:]
+        for (code, color) in colors {
+            for (package, footprint) in packages {
+                table["LED-\(code)-\(package)"] = (color, footprint)
+            }
+        }
+        return table
+    }()
+
+    /// The part every name in `legacyLEDs` opens as.
+    static let genericLED = "GENERIC-LED"
 
     /// The file type, declared in the app's Info.plist (`UTExportedTypeDeclarations`).
     static let contentType = UTType(exportedAs: "jgz.schematical.schematic", conformingTo: .json)
@@ -55,6 +77,13 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// EEPROMs only: the file loaded into the chip when the simulation
         /// starts. Left out when there is none and for other parts.
         var memoryFile: MemoryFileEntry? = nil
+        /// LEDs only (version 4): one of the part's colors. Always written for
+        /// an LED; missing means the part's default.
+        var color: String? = nil
+        /// Parts with footprint choices only (version 4): the chosen
+        /// footprint's id. Always written for them; missing means the part's
+        /// default footprint.
+        var footprint: String? = nil
     }
 
     /// An EEPROM's load file: the path relative to the schematic's folder (or
@@ -265,6 +294,8 @@ nonisolated enum SchematicFileError: LocalizedError {
     case badPCB(String)
     /// A bus whose lines, joints or wires aren't valid; the detail names it.
     case badBus(String)
+    /// A part's color or footprint that the part doesn't offer.
+    case badPartOption(reference: String, detail: String)
 
     var errorDescription: String? {
         switch self {
@@ -294,6 +325,8 @@ nonisolated enum SchematicFileError: LocalizedError {
             "The PCB settings are not valid: \(detail)."
         case let .badBus(detail):
             "The bus is not valid: \(detail)."
+        case let .badPartOption(reference, detail):
+            "\(reference): \(detail)"
         }
     }
 }
@@ -328,7 +361,9 @@ extension SchematicFile {
                 memoryFile: chip.memoryFile.map {
                     MemoryFileEntry(path: MemoryFileAccess.path(of: $0.url, schematic: fileURL),
                                     bookmark: $0.bookmark)
-                }
+                },
+                color: chip.color,
+                footprint: chip.footprintID
             )
         }
         junctions = document.junctions.map { Junction(id: $0.id, x: $0.point.x, y: $0.point.y) }
@@ -437,12 +472,44 @@ extension SchematicFile {
         var unknown: [String] = []
         for part in parts {
             try claim(part.id)
-            let name = Self.renamedParts[part.partNumber] ?? part.partNumber
+            let legacy = Self.legacyLEDs[part.partNumber]
+            let name = legacy != nil ? Self.genericLED : Self.renamedParts[part.partNumber] ?? part.partNumber
             guard let catalogPart = catalog.part(named: name) else {
                 unknown.append(part.partNumber)
                 continue
             }
             let partSymbol = symbol(for: catalogPart)
+            // The LED options: a stored value must be one the part offers;
+            // missing is the part's default (an old LED name gives its own).
+            let color = part.color ?? legacy?.color
+            if let color, catalogPart.kind == PART_LED, !catalogPart.colors.contains(color) {
+                throw SchematicFileError.badPartOption(
+                    reference: part.reference, detail: "\"\(color)\" is not a color of \(catalogPart.name)")
+            }
+            let footprintID = part.footprint ?? legacy?.footprint
+            if let footprintID, !catalogPart.footprintChoices.isEmpty,
+               !catalogPart.footprintChoices.contains(where: { $0.footprint.id == footprintID }) {
+                throw SchematicFileError.badPartOption(
+                    reference: part.reference, detail: "\"\(footprintID)\" is not a footprint of \(catalogPart.name)")
+            }
+            // A load file counts only on an EEPROM.
+            var memoryFile: MemoryFile?
+            if catalogPart.kind == PART_EEPROM, let entry = part.memoryFile {
+                memoryFile = MemoryFileAccess.file(path: entry.path, bookmark: entry.bookmark, schematic: fileURL)
+            }
+            // Built before its placement, which is snapped with the chosen footprint.
+            var chip = PlacedChip(
+                id: part.id,
+                reference: part.reference,
+                part: catalogPart,
+                symbol: partSymbol,
+                origin: SchematicGrid.snap(CGPoint(x: part.x, y: part.y)),
+                isFlipped: part.flipped && partSymbol.canFlip,
+                switchesOn: part.switches ?? [],
+                memoryFile: memoryFile,
+                color: color,
+                footprintID: footprintID
+            )
             // A stored placement counts only for a part with a footprint.
             var board: BoardPlacement?
             if let pcb = part.pcb, catalogPart.footprint != nil {
@@ -461,28 +528,14 @@ extension SchematicFile {
                     stored.style = try Self.value(pcb.style, of: FootprintStyle.self, "\(part.reference) style",
                                                   default: .module)
                 }
-                let footprint = stored.style == .connector
-                    ? catalogPart.connectorFootprint ?? catalogPart.footprint! : catalogPart.footprint!
+                chip.board = stored
+                let footprint = chip.footprint!
                 board = pcb.origin == nil
                     ? BoardLayout.snapped(stored, footprint: footprint, pad1: catalogPart.firstPinDesignator)
                     : stored
             }
-            // A load file counts only on an EEPROM.
-            var memoryFile: MemoryFile?
-            if catalogPart.kind == PART_EEPROM, let entry = part.memoryFile {
-                memoryFile = MemoryFileAccess.file(path: entry.path, bookmark: entry.bookmark, schematic: fileURL)
-            }
-            chips.append(PlacedChip(
-                id: part.id,
-                reference: part.reference,
-                part: catalogPart,
-                symbol: partSymbol,
-                origin: SchematicGrid.snap(CGPoint(x: part.x, y: part.y)),
-                isFlipped: part.flipped && partSymbol.canFlip,
-                switchesOn: part.switches ?? [],
-                board: board,
-                memoryFile: memoryFile
-            ))
+            chip.board = board
+            chips.append(chip)
         }
         if !unknown.isEmpty {
             throw SchematicFileError.unknownParts(Array(Set(unknown)).sorted())
@@ -490,7 +543,7 @@ extension SchematicFile {
         // Footprints with no stored place (older files) go after the stored
         // ones, in file order.
         for index in chips.indices where chips[index].board == nil {
-            if let footprint = chips[index].part.footprint {
+            if let footprint = chips[index].footprint {
                 chips[index].board = BoardLayout.nextSpot(for: footprint, among: chips)
             }
         }

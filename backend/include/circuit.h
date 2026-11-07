@@ -7,7 +7,7 @@
  *     Circuit *c = circuit_create(library);
  *     size_t vcc, led, net;
  *     circuit_add_part(c, "VCC", &vcc);
- *     circuit_add_part(c, "LED-RED-0603", &led);
+ *     circuit_add_part(c, "GENERIC-LED", &led);
  *     circuit_add_net(c, &net);
  *     circuit_connect(c, vcc, "1", net);    // pins are named by designator
  *     circuit_connect(c, led, "2", net);    // the LED's anode

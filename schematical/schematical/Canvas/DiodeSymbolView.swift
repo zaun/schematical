@@ -14,10 +14,14 @@ struct DiodeSymbolView: View {
     /// (anode high, cathode low). A lit LED glows in its own color.
     var level: Double = 0
 
-    /// The LED's color, from the part's color (Red, Green, Blue, Amber, White,
-    /// and for 7-segment displays also Yellow and Orange).
+    /// The LED's color: the placed LED's own color (Red, Green, Blue, Amber,
+    /// White), or a 7-segment display's (also Yellow and Orange).
     static func lightColor(for chip: PlacedChip) -> Color {
-        let family = chip.part.color ?? ""
+        lightColor(named: chip.color ?? chip.part.colors.first ?? "")
+    }
+
+    /// The glow color of a color name; `.secondary` for an unknown one.
+    static func lightColor(named family: String) -> Color {
         switch family {
         case "Red": return .red
         case "Green": return .green

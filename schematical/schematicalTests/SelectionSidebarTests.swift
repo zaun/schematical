@@ -16,9 +16,9 @@ final class SelectionSidebarTests: XCTestCase {
 
     private func circuit() throws -> Circuit {
         let doc = TestSupport.newDocument()
-        let left = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 100, y: 100))
-        let right = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 400, y: 100))
-        let below = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 250, y: 300))
+        let left = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let right = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 400, y: 100))
+        let below = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 250, y: 300))
         XCTAssertNil(doc.connect(.pin(try TestSupport.pin(left, "K")), .pin(try TestSupport.pin(right, "A"))))
         let path = doc.path(forWire: try XCTUnwrap(doc.wires.first).id)
         let middle = CGPoint(x: SchematicGrid.snap((path.first!.x + path.last!.x) / 2), y: path.first!.y)
@@ -56,7 +56,7 @@ final class SelectionSidebarTests: XCTestCase {
         XCTAssertEqual(Set(rows.map(\.item)), doc.schematicSelection.items)
         // Parts in drawing order, then junctions, then wires.
         XCTAssertEqual(rows.map(\.title), [c.left.reference, c.right.reference, "Junction", "Wire"])
-        XCTAssertEqual(rows[0].detail, "LED-RED-0603")
+        XCTAssertEqual(rows[0].detail, "GENERIC-LED")
         XCTAssertEqual(rows[2].detail, "(\(Int(c.junction.point.x)), \(Int(c.junction.point.y)))")
         XCTAssertEqual(rows[3].detail, "\(c.left.reference) K – junction \(rows[2].detail)")
         XCTAssertEqual(rows[3].accessibilityLabel, "Wire, \(rows[3].detail)")
@@ -89,8 +89,8 @@ final class SelectionSidebarTests: XCTestCase {
 
     func testPCBSidebarStatesAndRows() throws {
         let doc = TestSupport.newDocument()
-        let a = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 100, y: 100))
-        let b = try TestSupport.place(doc, "LED-RED-0603", at: CGPoint(x: 300, y: 100))
+        let a = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let b = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 300, y: 100))
         XCTAssertEqual(PCBSidebarView.content(for: doc), .board)
         let text = doc.addText(at: .zero)
         doc.setText(text, "Line one is quite long indeed\nline two")
@@ -103,7 +103,7 @@ final class SelectionSidebarTests: XCTestCase {
         let rows = SelectionRows.board(doc)
         XCTAssertEqual(rows.map(\.title), [a.reference, b.reference, "Text"])
         XCTAssertEqual(rows[2].detail, "Line one is quite long …")
-        XCTAssertTrue(rows[0].detail.hasPrefix("LED-RED-0603 — "), rows[0].detail)
+        XCTAssertTrue(rows[0].detail.hasPrefix("GENERIC-LED — "), rows[0].detail)
         doc.select(rows[2].item)
         XCTAssertEqual(PCBSidebarView.content(for: doc), .text(text))
         doc.toggleSelection(.footprint(a.id))
