@@ -281,7 +281,7 @@ Commit: c332738
 Acceptance: H1–H13 and every earlier case `ok`; `ctest` 100%; goldens
 unchanged.
   Check: `ctest --test-dir /tmp/logic-p14` → `100% tests passed`; `/tmp/logic-p14/cpu_test | grep -c '^ok w65c816s'` → 13 (est. 3 min).
-Commit: —
+Commit: 8fa737e
 
 ## Validation Plan
 
