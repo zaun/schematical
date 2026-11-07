@@ -183,7 +183,7 @@ after the catalog loads, and still filters on search.
   Check: `scripts/harness/build.sh scripts/harness/drawer-updates.swift && /tmp/schematical-harness/H.app/Contents/MacOS/harness /tmp/drawer-check`
   → `2-after-load.png` lists the categories (Connector … Memory) and
   `3-search.png` shows only Logic › NAND (est. 2 min).
-Commit: —
+Commit: 03f1f0c
 
 ## Validation Plan
 
@@ -200,6 +200,8 @@ Commit: —
 - Doc sync: none. No doc describes sidebar redraws.
 - Final gate (run once, after Phase 1): `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug CODE_SIGNING_ALLOWED=NO build`
   → `BUILD SUCCEEDED`, plus both Phase 1 harness checks (est. 4 min).
+  Result (2026-11-07, at 03f1f0c): `** BUILD SUCCEEDED **`. Both harness
+  checks ran on the same sources (results on the Phase 1 task lines).
 
 ## Decisions
 
