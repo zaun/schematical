@@ -18,18 +18,19 @@ typedef struct {
 
 struct CpuBoard {
     Sim *sim;
-    SimInstance *cpu, *rom, *ram, *nand, *tb;
-    const Part *cpu_part, *rom_part, *ram_part, *nand_part;
+    SimInstance *cpu, *rom, *ram, *nand, *tb, *nand2, *latch;
+    const Part *cpu_part, *rom_part, *ram_part, *nand_part, *nand2_part, *latch_part;
     Net nets[MAX_NETS];
     size_t net_count;
     int failed;
 };
 
-/* ---- The bench: CLK (pin 0), RESET (pin 1, low for 4 cycles), ONE (pin 2) --- */
+/* ---- The bench: CLK (pin 0), RESET (pin 1, low for 4 cycles), ONE (pin 2),
+   ZERO (pin 3) ---------------------------------------------------------------- */
 
 static size_t bench_pins(const void *config) {
     (void)config;
-    return 3;
+    return 4;
 }
 
 static void *bench_create(const void *config) {
@@ -45,6 +46,7 @@ static void bench_start(Sim *sim, SimInstance *instance, void *state) {
     sim_schedule_drive(sim, instance, 0, LOGIC_0, DRIVE_STRONG, 0);
     sim_schedule_drive(sim, instance, 1, LOGIC_0, DRIVE_STRONG, 0);
     sim_schedule_drive(sim, instance, 2, LOGIC_1, DRIVE_STRONG, 0);
+    sim_schedule_drive(sim, instance, 3, LOGIC_0, DRIVE_STRONG, 0);
     sim_schedule_timer(sim, instance, T_RISE, NS(500));
     sim_schedule_timer(sim, instance, T_RELEASE, NS(4200));
 }
@@ -184,6 +186,59 @@ static void wire_6502(CpuBoard *b, int wdc) {
     wire(b, b->ram, b->ram_part, "WE#", "G2Y");
 }
 
+/* The W65C816S board (plan-14-I section 3.2). */
+static void wire_65816(CpuBoard *b) {
+    char pin[8], bus[8];
+    int i;
+
+    wire_cpu_buses(b);
+    wire(b, b->cpu, b->cpu_part, "PHI2", "CLK");
+    wire(b, b->cpu, b->cpu_part, "RESB", "RES");
+    wire(b, b->cpu, b->cpu_part, "RWB", "RW");
+    wire(b, b->cpu, b->cpu_part, "IRQB", "ONE");
+    wire(b, b->cpu, b->cpu_part, "NMIB", "ONE");
+    wire(b, b->cpu, b->cpu_part, "ABORTB", "ONE");
+    wire(b, b->cpu, b->cpu_part, "BE", "ONE");
+    /* g1 = NAND(A15, A15): EEPROM CE#; g2 = NAND(PHI2, RWB): OE#;
+       g3 = NAND(RWB, RWB); g4 = NAND(PHI2, g3): SRAM WE#; g5 = NAND(PHI2,
+       PHI2): the latch's LE. */
+    wire(b, b->nand, b->nand_part, "1A", "A15");
+    wire(b, b->nand, b->nand_part, "1B", "A15");
+    wire(b, b->nand, b->nand_part, "1Y", "G1Y");
+    wire(b, b->nand, b->nand_part, "2A", "CLK");
+    wire(b, b->nand, b->nand_part, "2B", "RW");
+    wire(b, b->nand, b->nand_part, "2Y", "G2Y");
+    wire(b, b->nand, b->nand_part, "3A", "RW");
+    wire(b, b->nand, b->nand_part, "3B", "RW");
+    wire(b, b->nand, b->nand_part, "3Y", "G3Y");
+    wire(b, b->nand, b->nand_part, "4A", "CLK");
+    wire(b, b->nand, b->nand_part, "4B", "G3Y");
+    wire(b, b->nand, b->nand_part, "4Y", "G4Y");
+    wire(b, b->nand2, b->nand2_part, "1A", "CLK");
+    wire(b, b->nand2, b->nand2_part, "1B", "CLK");
+    wire(b, b->nand2, b->nand2_part, "1Y", "G5Y");
+    /* The bank latch. */
+    for (i = 0; i < 8; i++) {
+        snprintf(pin, sizeof pin, "%dD", i + 1);
+        snprintf(bus, sizeof bus, "D%d", i);
+        wire(b, b->latch, b->latch_part, pin, bus);
+    }
+    wire(b, b->latch, b->latch_part, "LE", "G5Y");
+    wire(b, b->latch, b->latch_part, "OE", "ZERO");
+    wire(b, b->latch, b->latch_part, "1Q", "BA0");
+    /* Memories: the CPU's A0-A14 and D0-D7 (wire_memories); the SRAM's A15
+       is BA0, A16 0. */
+    wire(b, b->ram, b->ram_part, "A15", "BA0");
+    wire(b, b->ram, b->ram_part, "A16", "ZERO");
+    wire(b, b->ram, b->ram_part, "CE#", "A15");
+    wire(b, b->ram, b->ram_part, "CE2", "ONE");
+    wire(b, b->ram, b->ram_part, "OE#", "G2Y");
+    wire(b, b->ram, b->ram_part, "WE#", "G4Y");
+    wire(b, b->rom, b->rom_part, "CE#", "G1Y");
+    wire(b, b->rom, b->rom_part, "OE#", "G2Y");
+    wire(b, b->rom, b->rom_part, "WE#", "ONE");
+}
+
 static void wire_z80(CpuBoard *b) {
     wire_cpu_buses(b);
     wire(b, b->cpu, b->cpu_part, "CLK", "CLK");
@@ -219,25 +274,38 @@ CpuBoard *cpu_board_create(const PartLibrary *library, const char *cpu, const ui
     const SimComponentType *rom_type;
     uint32_t words[32768];
     size_t i;
+    int w816;
 
     if (b == NULL) {
         return NULL;
     }
     b->sim = sim_create();
     b->cpu = add(b, library, cpu, &b->cpu_part);
-    b->rom = add(b, library, "AT28C256-15PU", &b->rom_part);
-    b->ram = add(b, library, "AS6C62256-55PCN", &b->ram_part);
-    b->nand = add(b, library, "SN74HC00N", &b->nand_part);
-    b->tb = sim_add_instance(b->sim, &BENCH, "TB", b);
     if (b->failed || b->cpu_part->kind != PART_CPU || count > 32768) {
+        cpu_board_destroy(b);
+        return NULL;
+    }
+    w816 = strcmp(b->cpu_part->cpu->core, "65816") == 0;
+    b->rom = add(b, library, "AT28C256-15PU", &b->rom_part);
+    b->ram = add(b, library, w816 ? "AS6C1008-55PCN" : "AS6C62256-55PCN", &b->ram_part);
+    b->nand = add(b, library, "SN74HC00N", &b->nand_part);
+    if (w816) {
+        b->nand2 = add(b, library, "SN74HC00N", &b->nand2_part);
+        b->latch = add(b, library, "SN74HC573AN", &b->latch_part);
+    }
+    b->tb = sim_add_instance(b->sim, &BENCH, "TB", b);
+    if (b->failed) {
         cpu_board_destroy(b);
         return NULL;
     }
     wire_bench(b, 0, "CLK");
     wire_bench(b, 1, "RES");
     wire_bench(b, 2, "ONE");
+    wire_bench(b, 3, "ZERO");
     wire_memories(b);
-    if (strcmp(b->cpu_part->cpu->core, "z80") == 0) {
+    if (w816) {
+        wire_65816(b);
+    } else if (strcmp(b->cpu_part->cpu->core, "z80") == 0) {
         wire_z80(b);
     } else {
         wire_6502(b, strcmp(b->cpu_part->cpu->core, "65c02") == 0);

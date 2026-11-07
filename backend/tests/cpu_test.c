@@ -3044,6 +3044,63 @@ static void board_io(void) {
     printf("io_board %s\n", failures == before ? "ok" : "FAIL");
 }
 
+/* The W65C816S board (plan-14-I section 3.2): native mode writes to bank 0
+   and bank 1 through the bank latch and reads both back.
+
+     8000 18           CLC
+     8001 FB           XCE                  ; native mode
+     8002 E2 30        SEP #$30             ; 8-bit A, X, Y
+     8004 A9 11        LDA #$11
+     8006 8F 00 01 00  STA $000100
+     800A A9 22        LDA #$22
+     800C 8F 00 01 01  STA $010100
+     8010 AF 00 01 00  LDA $000100
+     8014 8F 00 02 00  STA $000200
+     8018 AF 00 01 01  LDA $010100
+     801C 8F 01 02 00  STA $000201
+     8020 C2 20        REP #$20             ; 16-bit A
+     8022 A9 44 33     LDA #$3344
+     8025 8F 02 02 00  STA $000202
+     8029 80 FE        BRA $8029
+*/
+static void board_w65c816s(void) {
+    static const uint8_t IMAGE[] = {
+        0x18, 0xFB, 0xE2, 0x30, 0xA9, 0x11, 0x8F, 0x00, 0x01, 0x00, 0xA9, 0x22, 0x8F, 0x00,
+        0x01, 0x01, 0xAF, 0x00, 0x01, 0x00, 0x8F, 0x00, 0x02, 0x00, 0xAF, 0x00, 0x01, 0x01,
+        0x8F, 0x01, 0x02, 0x00, 0xC2, 0x20, 0xA9, 0x44, 0x33, 0x8F, 0x02, 0x02, 0x00, 0x80,
+        0xFE
+    };
+    CpuBoard *board = cpu_board_create(library, "W65C816S6TPG-14", IMAGE, sizeof IMAGE, 0x8000);
+    CpuState state;
+    int failed = failures;
+    uint32_t pc;
+
+    expect(IMAGE[0x29] == 0x80 && IMAGE[0x22] == 0xA9, "W65C816S board: BRA at 8029, LDA # at 8022");
+    if (board == NULL || !cpu_board_run(board, NS(2000000))) {
+        expect(0, "W65C816S board did not run");
+        cpu_board_destroy(board);
+        printf("board_w65c816s FAIL\n");
+        return;
+    }
+    cpu_board_state(board, &state);
+    pc = reg_value(&state, "PC");
+    expect(state.status == CPU_RUNNING, "W65C816S board: RUNNING");
+    expect(sram_is((const CpuBoard *)board, 0x00100, 0x11) && sram_is(board, 0x08100, 0x22),
+           "W65C816S board: SRAM 00100 = 11, 08100 = 22 (bank 1 -> A15)");
+    expect(sram_is(board, 0x00200, 0x11) && sram_is(board, 0x00201, 0x22) &&
+               sram_is(board, 0x00202, 0x44) && sram_is(board, 0x00203, 0x33),
+           "W65C816S board: SRAM 00200..00203 = 11 22 44 33");
+    expect(reg_value(&state, "E") == 0 && reg_value(&state, "PBR") == 0 &&
+               pc >= 0x8029 && pc <= 0x802B && reg_value(&state, "C") == 0x3344,
+           "W65C816S board: E 0, PBR 00, PC in the loop, C 3344");
+    if (failures != failed) {
+        printf("  E %u PBR %02x PC %04x C %04x\n", (unsigned)reg_value(&state, "E"),
+               (unsigned)reg_value(&state, "PBR"), (unsigned)pc, (unsigned)reg_value(&state, "C"));
+    }
+    cpu_board_destroy(board);
+    printf("board_w65c816s %s\n", failures == failed ? "ok" : "FAIL");
+}
+
 /* The Z80 board: count to 10 at 8200, CALL a store at 8201, HALT. */
 static void board_z80(void) {
     static const uint8_t IMAGE[] = {
@@ -3119,6 +3176,7 @@ int main(void) {
     board_6502("W65C02S6TPG-14", 1);
     board_6502("MPS6502", 0);
     board_z80();
+    board_w65c816s();
     board_io();
     run_w65c816s_cases();
     case_circuit_api();

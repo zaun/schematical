@@ -153,13 +153,20 @@ PBR = 00, PC = 8029 or 802A (inside the loop), C = 3344.
 
 Acceptance: `ctest` 100%; the golden diff is exactly the 4 added lines.
   Check: `ctest --test-dir /tmp/logic-p14` → `100% tests passed`; `git diff --numstat backend/tests/golden` → `2 0 parts.txt`, `2 0 traces.txt` (est. 2 min).
-Commit: —
+Commit: 5be2e32
 
 ### Phase 2 — The board
 
-- [ ] `cpu_board.{h,c}`: the `65816` layout (§3.2); `cpu_board_sram` range.
-- [ ] `cpu_test` `board_w65c816s` with the §3.2 program and checks.
-- [ ] `docs/backend.md` § Tests → `cpu_test`: the W65C816S board.
+- [x] `cpu_board.{h,c}`: the `65816` layout (§3.2); `cpu_board_sram` range.
+      (The board bench gains a logic-0 pin, ZERO.)
+- [x] `cpu_test` `board_w65c816s` with the §3.2 program and checks. →
+      `PASS: W65C816S board: RUNNING`, `… SRAM 00100 = 11, 08100 = 22 (bank 1
+      -> A15)`, `… SRAM 00200..00203 = 11 22 44 33`, `… E 0, PBR 00, PC in
+      the loop, C 3344`; `board_w65c816s ok`.
+- [x] `docs/backend.md` § Tests → `cpu_test`: the W65C816S board.
+- [x] Acceptance: every board `ok`/`PASS` (W65C02S, MPS6502, Z84C00,
+      W65C816S, io_board); `cpu_test: all passed`; `ctest` → `100% tests
+      passed, 0 tests failed out of 21`; the golden diff stat → empty.
 
 Acceptance: `board_w65c816s ok`; the existing board cases still `ok`.
   Check: `/tmp/logic-p14/cpu_test | grep board_` → every board `ok` (est. 1 min with the build).
@@ -178,6 +185,15 @@ on library parts) and the golden programs. The landing tier is plan-14-J's.
 
 ## Corrections
 
+- §3.2 board: the AS6C1008 has a second, active-high chip enable (CE2, pin
+  30) the table leaves out; it is tied to 1. RDY is left open rather than
+  tied to 1: it is an `inout` the CPU drives low during WAI (a strong 1
+  would short), and an open RDY reads high (as on the plan-09-D boards).
+  The board bench gains a logic-0 pin for the latch's OE# and the SRAM's
+  A16.
+- §3.2 check "PC = 8029 or 802A": the `PC` register is the core's next byte
+  to read, which during BRA's operand cycle is 802B; the case accepts
+  8029–802B (observed: 802B at 2 ms).
 - §3.1 (detail): the device's `note` cites the supply range from the DC
   characteristics table on p.25 (the VDD row, 1.71–5.25 V across the
   voltage columns); AC Table 4-2 is p.27.

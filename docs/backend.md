@@ -321,7 +321,10 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   bank at each PHI2 rise: reset and the vector pull, the bank on D0–D7 and
   the write window at the Table 4-2 edges, VDA/VPA/VPB equal to the bare
   core's, MX and E, MLB, ABORTB, RDY, WAI/STP, BE, setup, and the 24-bit
-  state and tracker (`ok w65c816s_…`). The I/O board (`tests/support/io_board.{h,c}`,
+  state and tracker (`ok w65c816s_…`). The W65C816S board (plan-14-I:
+  `cpu_board`'s `65816` layout, an SN74HC573AN bank latch and an
+  AS6C1008-55PCN) runs a native-mode program that stores to banks 0 and 1
+  and reads both back (`board_w65c816s ok`). The I/O board (`tests/support/io_board.{h,c}`,
   plan-14-E) adds a W65C22S VIA, a W65C21N PIA and a W65C51N ACIA (TxD
   looped to RxD, on an ECS-2100A-018) with three SN74HC00N decoders: its
   program sets the ports, sends `HI`, takes a VIA Timer 1 interrupt and
