@@ -150,4 +150,49 @@ final class SelectionGestureTests: XCTestCase {
         // The Schematic page's selection never changed.
         XCTAssertTrue(doc.schematicSelection.isEmpty)
     }
+
+    func testShiftDragBoxAddsWhatItTouches() throws {
+        let doc = doc()
+        let a = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let b = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 300, y: 100))
+        let c = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 600, y: 400))
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(b, "K")), .pin(try TestSupport.pin(c, "A"))))
+        let wire = try XCTUnwrap(doc.wires.first)
+        doc.select(.chip(c.id))
+        let base = doc.schematicSelection.items
+        // A box over a only adds a; c stays selected.
+        doc.boxSelectSchematic(a.hitRect.insetBy(dx: 2, dy: 2), base: base)
+        XCTAssertEqual(doc.schematicSelection.items, [.chip(a.id), .chip(c.id)])
+        // Growing it to b picks up b and the wire leaving b; shrinking drops them.
+        let both = a.hitRect.union(b.hitRect)
+        doc.boxSelectSchematic(both, base: base)
+        XCTAssertEqual(doc.schematicSelection.items, [.chip(a.id), .chip(b.id), .chip(c.id), .wire(wire.id)])
+        doc.boxSelectSchematic(a.hitRect, base: base)
+        XCTAssertEqual(doc.schematicSelection.items, [.chip(a.id), .chip(c.id)])
+        // A box over nothing leaves the selection as it was at the press.
+        doc.boxSelectSchematic(CGRect(x: -900, y: -900, width: 10, height: 10), base: base)
+        XCTAssertEqual(doc.schematicSelection.items, base)
+    }
+
+    func testBoardShiftDragBoxAddsWhatItTouches() throws {
+        let doc = doc()
+        let a = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let b = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 300, y: 100))
+        let boundsA = try XCTUnwrap(doc.chips.first { $0.id == a.id }?.boardBounds)
+        let boundsB = try XCTUnwrap(doc.chips.first { $0.id == b.id }?.boardBounds)
+        XCTAssertFalse(boundsA.intersects(boundsB), "test parts must not overlap on the board")
+        doc.boxSelectBoard(boundsA, base: [])
+        XCTAssertEqual(doc.boardSelection.items, [.footprint(a.id)])
+        doc.boxSelectBoard(boundsA.union(boundsB), base: [])
+        XCTAssertEqual(doc.boardSelection.items, [.footprint(a.id), .footprint(b.id)])
+        XCTAssertTrue(doc.schematicSelection.isEmpty)
+    }
+
+    func testSegmentTouchesRect() {
+        let r = CGRect(x: 0, y: 0, width: 10, height: 10)
+        XCTAssertTrue(SchematicDocument.segment(CGPoint(x: -5, y: 5), CGPoint(x: 15, y: 5), touches: r))
+        XCTAssertTrue(SchematicDocument.segment(CGPoint(x: 2, y: 2), CGPoint(x: 3, y: 3), touches: r))
+        XCTAssertFalse(SchematicDocument.segment(CGPoint(x: -5, y: -1), CGPoint(x: 15, y: -1), touches: r))
+        XCTAssertFalse(SchematicDocument.segment(CGPoint(x: 11, y: -5), CGPoint(x: 20, y: 5), touches: r))
+    }
 }

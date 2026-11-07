@@ -11,8 +11,9 @@ import SwiftUI
 ///   wire to add a bend there. Click a bus to select it; drag a bus line,
 ///   end, corner or T (lines stay straight, joints stay T or L, ports ride
 ///   along); drag a port to slide it along its line. Buses and ports are
-///   selected on their own. Drag empty space to pan; without Shift that also
-///   clears the selection.
+///   selected on their own. Drag empty space to pan, which also clears the
+///   selection; Shift-drag empty space to draw a box that adds every part,
+///   junction and wire it touches to the selection.
 /// - Line: drag from one pin to another to connect them with a right-angled wire.
 ///   A grid point on an existing wire can be a start or end too; it becomes a
 ///   junction, so wires branch there. Only connection points are highlighted.
@@ -76,6 +77,9 @@ struct SchematicCanvasView: View {
         /// its start at the press.
         case slidePort(port: UUID, base: CGFloat)
         case pan(startOffset: CGSize)
+        /// Shift-drag on empty space: a selection box between two screen
+        /// points, adding to `base`, the selection at the press.
+        case boxSelect(base: Set<SchematicItem>, from: CGPoint, to: CGPoint)
         case idle
     }
 
@@ -157,6 +161,11 @@ struct SchematicCanvasView: View {
                 onPartPlaced()
                 return true
             } isTargeted: { isDropTargeted = $0 }
+            .overlay(alignment: .topLeading) {
+                if case let .boxSelect(_, from, to)? = interaction {
+                    SelectionBox(from: from, to: to)
+                }
+            }
             .overlay {
                 if isDropTargeted {
                     Rectangle()
@@ -369,7 +378,7 @@ struct SchematicCanvasView: View {
         switch tool {
         case .pointer:
             if interaction == nil {
-                beginPointerInteraction(at: start)
+                beginPointerInteraction(at: start, screen: value.startLocation)
             }
             switch interaction {
             case let .moveGroup(base, _)?:
@@ -414,6 +423,14 @@ struct SchematicCanvasView: View {
                     width: startOffset.width + value.translation.width,
                     height: startOffset.height + value.translation.height
                 ))
+
+            case let .boxSelect(base, from, _)?:
+                interaction = .boxSelect(base: base, from: from, to: value.location)
+                let a = viewport.world(from), b = viewport.world(value.location)
+                document.boxSelectSchematic(
+                    CGRect(x: min(a.x, b.x), y: min(a.y, b.y), width: abs(a.x - b.x), height: abs(a.y - b.y)),
+                    base: base
+                )
 
             default:
                 break
@@ -505,8 +522,8 @@ struct SchematicCanvasView: View {
     }
 
     /// Decides what a Pointer press does. Shift is read once, here, at the
-    /// start of the press.
-    private func beginPointerInteraction(at point: CGPoint) {
+    /// start of the press. `screen` is the press in screen points.
+    private func beginPointerInteraction(at point: CGPoint, screen: CGPoint) {
         let shift = NSEvent.modifierFlags.contains(.shift)
         if let hit = document.chip(at: point) {
             selectionPress = document.pressSelection(.chip(hit.id), shift: shift)
@@ -538,8 +555,10 @@ struct SchematicCanvasView: View {
                   let base = document.bus(line.bus) {
             document.selectedBusID = line.bus
             interaction = .dragBusLine(bus: line.bus, base: base, line: line.line, done: .zero)
+        } else if shift {
+            interaction = .boxSelect(base: document.schematicSelection.items, from: screen, to: screen)
         } else {
-            document.pressEmptySchematic(shift: shift)
+            document.pressEmptySchematic(shift: false)
             interaction = .pan(startOffset: viewport.offset)
         }
     }
@@ -592,6 +611,23 @@ struct SchematicCanvasView: View {
               let position = chip.switchPosition(at: point),
               let isOn = document.toggleSwitch(chip.id, position: position) else { return }
         simulation.setSwitch(chip.id, position: position, on: isOn)
+    }
+}
+
+/// The box a Shift-drag on empty canvas draws, between two screen points.
+struct SelectionBox: View {
+    let from: CGPoint
+    let to: CGPoint
+
+    var body: some View {
+        let rect = CGRect(x: min(from.x, to.x), y: min(from.y, to.y),
+                          width: abs(from.x - to.x), height: abs(from.y - to.y))
+        Rectangle()
+            .fill(Color.accentColor.opacity(0.12))
+            .overlay(Rectangle().strokeBorder(Color.accentColor.opacity(0.8), lineWidth: 1))
+            .frame(width: rect.width, height: rect.height)
+            .offset(x: rect.minX, y: rect.minY)
+            .allowsHitTesting(false)
     }
 }
 
