@@ -99,7 +99,7 @@ from either one that lands first gets merged in; neither is a dependency.
   names it as `footprint` or `connector_footprint`.
 - **Precedent for a second footprint:** `connectorFootprint` (character LCDs).
   `PlacedChip.footprint` (`BoardModel.swift:95`) picks it from the placement's
-  style. `SchematicDocument.setFootprintStyle` (`SchematicModel.swift:996`)
+  style. `SchematicDocument.setFootprintStyle` (`SchematicModel.swift:1172`)
   swaps it and keeps pad 1 where it was. plan-18-B copies that for footprint
   changes.
 - **Precedent for a renamed part:** `SchematicFile.renamedParts = ["VCC": "5V"]`
@@ -112,9 +112,9 @@ from either one that lands first gets merged in; neither is a dependency.
   for an LED (`:335`). `PartFacts.rows(for: CatalogPart)` lists Package,
   Footprint and Color from the part (`PartFacts.swift:14-43`).
 - **Placed part.** `PlacedChip.part` is a `let` `CatalogPart`
-  (`SchematicModel.swift:498`). `placeChip` (`:876`) places a part's
+  (`SchematicModel.swift:498`). `placeChip` (`:987`) places a part's
   footprint with `BoardLayout.nextSpot(for: part.footprint, …)`.
-  `SchematicFile.apply` (`SchematicFile.swift:398-456`) snaps a stored
+  `SchematicFile.apply` (`SchematicFile.swift:398-457`) snaps a stored
   placement with `catalogPart.footprint`, and places footprints that have no
   stored position with `chips[index].part.footprint`.
 - **PCB pads.** `PlacedChip.boardPads` (`BoardModel.swift:102`) draws every
@@ -346,7 +346,7 @@ pads 3 and 4 are unconnected (§4).
 **Facts (`PartFacts.swift`).** `rows(for chip: PlacedChip)` replaces
 `rows(for: CatalogPart)`. Package and Footprint come from
 `chip.footprintChoice` when there is one. For an LED, the Color row is
-`chip.color`. `SchematicSidebarView.swift:49` passes `chip`.
+`chip.color`. `SchematicSidebarView.swift:58` passes `chip`.
 
 **File (`SchematicFile.swift`).**
 
@@ -366,7 +366,7 @@ pads 3 and 4 are unconnected (§4).
   `"U3: \"Purple\" is not a color of GENERIC-LED"` and
   `"U3: \"LED-9999\" is not a footprint of GENERIC-LED"`. A missing `color`
   or `footprint` takes the part's default.
-- In `apply`, the stored-placement snap (`SchematicFile.swift:420-424`) and
+- In `apply`, the stored-placement snap (`SchematicFile.swift:425`) and
   the no-placement `nextSpot` (`:453`) use the chip's chosen footprint. The
   chip is built before its placement is snapped.
 
@@ -479,7 +479,7 @@ old files migrate. This is the highest-risk phase.
 - [ ] `Canvas/BoardModel.swift:95`: `footprint` uses the choice (§7).
 - [ ] `Canvas/DiodeSymbolView.swift:20`: color from `chip.color`.
 - [ ] `Backend/PartFacts.swift`: `rows(for chip:)`;
-      `Drawer/SchematicSidebarView.swift:49` passes the chip.
+      `Drawer/SchematicSidebarView.swift:58` passes the chip.
 - [ ] `Document/SchematicFile.swift`: version 4, `color`/`footprint` fields
       written and read, `legacyLEDs`, `badPartOption`, chosen footprint in
       both placement paths.

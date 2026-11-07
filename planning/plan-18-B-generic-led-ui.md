@@ -22,10 +22,10 @@ References:
   `footprintID`, `footprintChoice`, `CatalogPart.colors`, `footprintChoices`)
 - `schematical/schematical/Drawer/SchematicSidebarView.swift`
 - `schematical/schematical/Canvas/PartInfoViews.swift` (`PartHeader`, `ReferenceSection`)
-- `schematical/schematical/Canvas/PCBSidebarView.swift:242-251` (the Style picker this mirrors)
+- `schematical/schematical/Canvas/PCBSidebarView.swift:270-280` (the Style picker this mirrors)
 - `schematical/schematical/Canvas/SchematicModel.swift:setFootprintStyle` (pad-1 anchoring this mirrors)
 - `schematical/schematical/Preferences/PreferencesView.swift`
-- `schematical/schematical/Canvas/SchematicCanvasView.swift:134-146` (the drop)
+- `schematical/schematical/Canvas/SchematicCanvasView.swift:145-157` (the drop)
 - `scripts/harness/support/Harness.swift` (`renderSidebar`, `render`)
 
 ## Prerequisites
@@ -66,23 +66,23 @@ plan-18-A must be complete. If it is not, this plan cannot start.
 (As of plan-18-A complete.)
 
 - The Schematic sidebar's part panel is `Form { PartHeader; ReferenceSection;
-  Section("Details") }` (`SchematicSidebarView.swift:45-56`), with a fresh
+  Section("Details") }` (`SchematicSidebarView.swift:54-66`), with a fresh
   `.id(chip.id)` per part. The header already reads `U<n>` / `GENERIC-LED` /
   `Generic LED`.
-- `setFootprintStyle` (`SchematicModel.swift:996-1015`) swaps the footprint and
+- `setFootprintStyle` (`SchematicModel.swift:1172-1190`) swaps the footprint and
   keeps pad 1. It finds the pad of `part.firstPinDesignator` in the old and
   new footprints and shifts `board.centre` by the difference between their
   board positions. It doesn't re-snap. The footprint swap here is the same
   move.
 - The Style picker in the PCB sidebar is the UI precedent: a `Picker` bound
   with `Binding(get:set:)` that calls the document method
-  (`PCBSidebarView.swift:243-251`).
+  (`PCBSidebarView.swift:271-280`).
 - `PreferencesView` is a `Form` of `@AppStorage` toggles keyed by
   `PreferenceKey` (`PreferencesView.swift:1-35`). The Settings scene has no
   catalog: each window makes its own `PartCatalogStore` (`ContentView.swift:63`)
-  and loads it in `.task` (`:340`).
+  and loads it in `.task` (`:338`).
 - The drop calls `document.placeChip(part:symbol:centeredAt:)`
-  (`SchematicCanvasView.swift:139`). After plan-18-A it takes optional
+  (`SchematicCanvasView.swift:150`). After plan-18-A it takes optional
   `color:` and `footprintID:`. Nil means the part's default, and unknown
   values are normalized to the default by `PlacedChip.init`.
 - The footprint descriptions shown in the picker come from `footprints.json`,
@@ -95,7 +95,7 @@ plan-18-A must be complete. If it is not, this plan cannot start.
 | What | Count | Command |
 |---|---|---|
 | Colors / footprint choices on `GENERIC-LED` | 5 / 11 | plan-18-A §6 (`grep -c '"footprint":"LED-' …/Parts/led.json` → 12: 11 choices + the default) |
-| Call sites of `placeChip` in the app | 2 | `grep -c 'document.placeChip(' schematical/schematical/Canvas/SchematicCanvasView.swift` → 2 (drop at :139, supply tool at :445; only the drop can place an LED) |
+| Call sites of `placeChip` in the app | 2 | `grep -c 'document.placeChip(' schematical/schematical/Canvas/SchematicCanvasView.swift` → 2 (drop at :150, supply tool at :464; only the drop can place an LED) |
 | Preference keys today | 3 | `grep -c 'static let' schematical/schematical/Preferences/PreferencesView.swift` → 3 |
 
 ### Verified properties
@@ -191,7 +191,7 @@ because the panel reads the chip again on every document change.
   ```
   Each binding maps `""` to the part's default for display and writes the
   picked value.
-- `SchematicCanvasView.swift:139` passes
+- `SchematicCanvasView.swift:150` passes
   `color: NewPartOptions.color(for: part)` and
   `footprintID: NewPartOptions.footprintID(for: part)`.
 
@@ -255,7 +255,7 @@ New LEDs use the Settings choice.
 
 - [ ] `Preferences/PreferencesView.swift`: the two keys, `NewPartOptions`, and
       the New Generic LED section with its own catalog (§6).
-- [ ] `Canvas/SchematicCanvasView.swift:139`: pass both options.
+- [ ] `Canvas/SchematicCanvasView.swift:150`: pass both options.
 - [ ] `generic-led-ui.swift`, add (using a `UserDefaults(suiteName: "p18-test")`
       that is cleared first):
   7. Empty defaults → `NewPartOptions` gives nil/nil, and `placeChip` gives
