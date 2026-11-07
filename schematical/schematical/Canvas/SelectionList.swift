@@ -16,7 +16,7 @@ struct SelectionRow<Item: Hashable>: Identifiable, Equatable {
 
 /// Turns a page's selection into sidebar rows, in the order the items are
 /// drawn: parts, then junctions, then wires (Schematic); footprints, then
-/// texts (PCB).
+/// texts, then traces (PCB).
 @MainActor
 enum SelectionRows {
     static func schematic(_ document: SchematicDocument) -> [SelectionRow<SchematicItem>] {
@@ -45,6 +45,10 @@ enum SelectionRows {
         }
         for text in document.texts where selection.contains(.text(text.id)) {
             rows.append(SelectionRow(item: .text(text.id), title: "Text", detail: preview(text.text)))
+        }
+        for trace in document.traces where selection.contains(.trace(trace.id)) {
+            rows.append(SelectionRow(item: .trace(trace.id), title: "Trace",
+                                     detail: "\(trace.layer.title), \(trace.width) mil"))
         }
         return rows
     }

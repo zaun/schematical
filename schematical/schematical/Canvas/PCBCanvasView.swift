@@ -13,8 +13,8 @@ import SwiftUI
 /// Bottom's copper); through-hole pads in copper; Top's marks and texts;
 /// the selection. A press hits only what is drawn.
 ///
-/// With the Select tool, press on a text or footprint to select it and drag
-/// to move it (snapped to the grid). Shift-click adds an item to the
+/// With the Select tool, press on a text, trace or footprint (in that order)
+/// to select it and drag to move it (snapped to the grid). Shift-click adds an item to the
 /// selection or takes it out (plan-15); Shift-drag, or a drag on an item of a
 /// larger selection, moves every selected item by one snapped step. Press on
 /// empty space to pan; without Shift that also clears the selection. With
@@ -54,8 +54,8 @@ struct PCBCanvasView: View {
     @State private var selectionPress: SelectionPress<BoardItem>?
 
     enum Interaction: Equatable {
-        /// Moves every selected footprint and text from where they were at
-        /// the press.
+        /// Moves every selected footprint, text and trace from where they
+        /// were at the press.
         case moveGroup(base: BoardGroupBase)
         case pan(startOffset: CGSize)
         /// A trace being drawn from `start` (already anchored) towards the
@@ -356,8 +356,9 @@ struct PCBCanvasView: View {
     /// One step of a drag that started at `start` (screen points) and has
     /// moved by `translation`. On the first step it decides what the drag
     /// does: the Text tool places a text there (and the drag moves it); the
-    /// Select tool picks a text, else a footprint (texts draw on top), else
-    /// clears the selection and pans. Returns what the drag is doing.
+    /// Trace tool starts a trace; the Select tool picks a text, else a
+    /// trace, else a footprint, else clears the selection and pans. Returns
+    /// what the drag is doing.
     @discardableResult
     func handle(start: CGPoint, translation: CGSize) -> Interaction {
         if interaction == nil { pressLocation = start }
@@ -394,12 +395,8 @@ struct PCBCanvasView: View {
             onPlaced()
             return .moveGroup(base: document.boardGroupBase())
         case .select:
-            if let text = document.text(at: point, visible: shown) {
-                selectionPress = document.pressSelection(.text(text.id), shift: shift)
-                return .moveGroup(base: document.boardGroupBase())
-            }
-            if let hit = document.footprint(at: point, visible: shown), hit.board != nil {
-                selectionPress = document.pressSelection(.footprint(hit.id), shift: shift)
+            if let item = document.boardItem(at: point, tolerance: TraceDrawing.tolerance / scale, visible: shown) {
+                selectionPress = document.pressSelection(item, shift: shift)
                 return .moveGroup(base: document.boardGroupBase())
             }
             document.pressEmptyBoard(shift: shift)
@@ -414,6 +411,9 @@ struct PCBCanvasView: View {
             TraceDrawing.finish(document, from: start, to: cursor, layer: traceLayer, scale: scale,
                                 diagonalFirst: NSEvent.modifierFlags.contains(.option),
                                 visible: shown, onShowLayer: onShowLayer)
+        }
+        if case let .moveGroup(base) = interaction {
+            document.settleBoardGroup(base)
         }
         if let press = selectionPress {
             document.releaseSelection(press, wasClick: hypot(translation.width, translation.height) < 3)

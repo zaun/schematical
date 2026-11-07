@@ -139,8 +139,11 @@ nonisolated struct SchematicGroupBase: Equatable {
 nonisolated struct BoardGroupBase: Equatable {
     var footprints: [UUID: CGPoint] = [:]
     var texts: [UUID: CGPoint] = [:]
+    /// Selected traces' points.
+    var traces: [UUID: [CGPoint]] = [:]
 
-    var isEmpty: Bool { footprints.isEmpty && texts.isEmpty }
+    var isEmpty: Bool { footprints.isEmpty && texts.isEmpty && traces.isEmpty }
+    var count: Int { footprints.count + texts.count + traces.count }
 }
 
 extension OrthogonalRoute {

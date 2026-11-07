@@ -199,24 +199,34 @@ Shown when a trace is the sole selection.
 Acceptance: a drag adds the routed trace on the menu's layer, and the tool
 stays Trace.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:<tests>/TraceToolTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 3 min).
-Commit: —
+Commit: dee9a6c
 
 ### Phase 2 — Selection and trace sidebar
 
-- [ ] `Canvas/SchematicModel.swift` and `PCBCanvasView.swift`: the trace
+- [x] `Canvas/SchematicModel.swift` and `PCBCanvasView.swift`: the trace
       selection item; hit order text → trace → footprint; Shift toggling;
       `moveTraces` in the group drag. `replaceContents` and `deleteTrace`
       drop stale trace IDs.
-- [ ] `Canvas/PCBSidebarView.swift`: `TracePanel` (§3); a trace row in the
+- [x] `Canvas/PCBSidebarView.swift`: `TracePanel` (§3); a trace row in the
       multi-selection list.
-- [ ] `ContentView.swift`: Rotate stays disabled for a trace-only selection.
-- [ ] Tests (`TraceToolTests`):
+- [x] `ContentView.swift`: Rotate stays disabled for a trace-only selection.
+- [x] Tests (`TraceToolTests`):
   - clicking a trace selects it over the footprint under it;
   - Shift-click adds a trace to a footprint selection;
   - a group drag moves the selected trace by the snapped delta and re-joins
     it;
   - `setTraceWidth(3)` clamps to 5 and `setTraceWidth(250)` to 100;
   - the Layer picker lists no Plane layer.
+
+  `/tmp/p16t.sh TraceToolTests,SelectionGestureTests,SelectionSidebarTests,SelectionModelTests`
+  → "Executed 31 tests, with 0 failures" (TraceToolTests: 7). Rotate:
+  `canRotate` reads `selectedTextID` / `selectedFootprintID`, both nil for
+  a sole trace (asserted in the first test).
+- [x] (added) `SchematicDocument.boardItem(at:tolerance:visible:)`: the
+  text → trace → footprint hit order in one place, which the canvas's
+  Select press and the test both use; `settleBoardGroup(_:)`, the release
+  step that re-joins moved traces; `selectedTraceID`;
+  `BoardSettings.traceLayers`, shared by the toolbar menu and the panel.
 
 Acceptance: a selected trace's width and layer change from the sidebar,
 Connects lists the touched pads, and Delete removes it.
@@ -275,6 +285,11 @@ Commit: —
   which the canvas calls and `TraceToolTests` calls in the same order.
 - 2026-11-07: `BoardItem.trace` landed in Phase 1, not 2: Phase 1's first
   test checks that a drawn trace is selected.
+- 2026-11-07: the group drag sets each selected trace's points to its
+  captured points plus the snapped delta (`moveBoardGroup`), which is
+  `moveTraces(ids, by:)` from the starting points without the join; the
+  join runs once on release (`settleBoardGroup`), as §3 says. D's
+  `moveTraces` (move and join at once) stays for single-step moves.
 
 ## Summary
 

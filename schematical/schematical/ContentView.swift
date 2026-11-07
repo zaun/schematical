@@ -103,13 +103,11 @@ struct ContentView: View {
     }
 
     /// The layers the Trace tool can draw on: the board's, less its planes.
-    private var traceLayers: [CopperLayer] {
-        document.board.copperLayers.filter { document.board.style(of: $0).type != .plane }
-    }
+    private var traceLayers: [CopperLayer] { document.board.traceLayers }
 
     /// Exactly one footprint or board text selected, which Rotate turns
-    /// (plan-15: never a group). Rotate is only on the PCB page, where the
-    /// simulation never runs.
+    /// (plan-15: never a group). A trace doesn't turn. Rotate is only on
+    /// the PCB page, where the simulation never runs.
     private var canRotate: Bool {
         if document.selectedTextID != nil { return true }
         guard let id = document.selectedFootprintID else { return false }

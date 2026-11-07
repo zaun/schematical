@@ -1,7 +1,8 @@
 import SwiftUI
 
 /// The PCB page's inspector. It follows the selection: the board's settings
-/// with nothing selected (with a Layers section, one row per copper layer), the footprint's with only a footprint selected,
+/// with nothing selected (with a Layers section, one row per copper layer), the trace's with
+/// only a trace selected, the footprint's with only a footprint selected,
 /// the text's with only a board text selected, and a read-only
 /// `Selection (N)` list for several items (plan-15). A mm | in switch at the
 /// top sets the units of every length field.
@@ -13,6 +14,7 @@ struct PCBSidebarView: View {
         case board
         case footprint(UUID)
         case text(UUID)
+        case trace(UUID)
         case selection
     }
 
@@ -22,6 +24,9 @@ struct PCBSidebarView: View {
         }
         if let id = document.selectedTextID, document.texts.contains(where: { $0.id == id }) {
             return .text(id)
+        }
+        if let id = document.selectedTraceID, document.traces.contains(where: { $0.id == id }) {
+            return .trace(id)
         }
         return document.boardSelection.isEmpty ? .board : .selection
     }
@@ -48,6 +53,11 @@ struct PCBSidebarView: View {
                 if let text = document.texts.first(where: { $0.id == id }) {
                     TextPanel(document: document, text: text)
                         .id(text.id)
+                }
+            case let .trace(id):
+                if let trace = document.traces.first(where: { $0.id == id }) {
+                    TracePanel(document: document, trace: trace)
+                        .id(trace.id)
                 }
             case .selection:
                 SelectionListSection(
@@ -308,6 +318,91 @@ private struct TextPanel: View {
     private func move(to point: CGPoint) -> CGPoint {
         document.moveText(text.id, to: point)
         return current()?.anchor ?? point
+    }
+}
+
+// MARK: - Trace
+
+/// The selected trace: width, layer, the pads its joined run touches, and
+/// Delete. Width is in mil whatever the board units, as text size is.
+struct TracePanel: View {
+    let document: SchematicDocument
+    let trace: BoardTrace
+
+    @State private var width = ""
+    @FocusState private var isWidthFocused: Bool
+
+    /// The layers the Layer picker offers: never a Plane.
+    static func layers(for board: BoardSettings) -> [CopperLayer] { board.traceLayers }
+
+    var body: some View {
+        Section {
+            Text("Trace")
+                .font(.title2.bold())
+        }
+
+        Section {
+            LabeledContent("Width") {
+                HStack(spacing: 4) {
+                    TextField("Width", text: $width)
+                        .labelsHidden()
+                        .multilineTextAlignment(.trailing)
+                        .focused($isWidthFocused)
+                        .onSubmit(commitWidth)
+                    Text("mil")
+                        .foregroundStyle(.secondary)
+                    Stepper("Width", value: Binding(
+                        get: { trace.width },
+                        set: { document.setTraceWidth(trace.id, $0); showWidth() }
+                    ), in: BoardTrace.widthRange, step: 5)
+                    .labelsHidden()
+                }
+            }
+            Picker("Layer", selection: Binding(
+                get: { trace.layer },
+                set: { document.setTraceLayer(trace.id, $0) }
+            )) {
+                ForEach(Self.layers(for: document.board), id: \.self) { layer in
+                    Text(layer.title).tag(layer)
+                }
+            }
+            .pickerStyle(.menu)
+        }
+
+        Section("Connects") {
+            let run = document.connectedRun(of: trace.id)
+            let pads = document.pads(touching: run)
+            Text(pads.isEmpty ? "Nothing" : pads.joined(separator: ", "))
+                .textSelection(.enabled)
+            if run.count > 1 {
+                Text("Joined to \(run.count - 1) other \(run.count == 2 ? "trace" : "traces")")
+                    .foregroundStyle(.secondary)
+            }
+        }
+
+        Section {
+            // ⌘⌫, not ⌫ alone, so it can't fire while a field is being edited.
+            Button("Delete Trace", role: .destructive) {
+                document.deleteTrace(trace.id)
+            }
+            .keyboardShortcut(.delete, modifiers: .command)
+        }
+        .onAppear(perform: showWidth)
+        .onChange(of: isWidthFocused) { wasFocused, _ in
+            if wasFocused { commitWidth() }
+        }
+    }
+
+    /// A typed width is clamped by the document; the field shows the result.
+    private func commitWidth() {
+        if let value = Int(width.trimmingCharacters(in: .whitespaces)) {
+            document.setTraceWidth(trace.id, value)
+        }
+        showWidth()
+    }
+
+    private func showWidth() {
+        width = String(document.traces.first { $0.id == trace.id }?.width ?? trace.width)
     }
 }
 

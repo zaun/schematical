@@ -242,6 +242,9 @@ nonisolated struct BoardSettings: Hashable, Sendable {
     /// The board's copper layers in stack order.
     var copperLayers: [CopperLayer] { CopperLayer.allCases(for: layers) }
 
+    /// The layers a trace can go on: every board layer that isn't a Plane.
+    var traceLayers: [CopperLayer] { copperLayers.filter { style(of: $0).type != .plane } }
+
     /// The layer's stored style, or its default.
     func style(of layer: CopperLayer) -> LayerStyle {
         styles[layer] ?? LayerStyle.defaultStyle(of: layer)

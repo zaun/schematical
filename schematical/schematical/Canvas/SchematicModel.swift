@@ -848,6 +848,12 @@ final class SchematicDocument {
         return nil
     }
 
+    /// The trace, when it is the only thing selected on the PCB page.
+    var selectedTraceID: UUID? {
+        if case let .trace(id)? = boardSelection.sole { return id }
+        return nil
+    }
+
     // MARK: Selecting
 
     /// Selects only `item` on the Schematic page.
@@ -1622,8 +1628,8 @@ final class SchematicDocument {
                 if let centre = chips.first(where: { $0.id == id })?.board?.centre { base.footprints[id] = centre }
             case let .text(id):
                 if let anchor = texts.first(where: { $0.id == id })?.anchor { base.texts[id] = anchor }
-            case .trace:
-                break
+            case let .trace(id):
+                if let points = traces.first(where: { $0.id == id })?.points { base.traces[id] = points }
             }
         }
         return base
@@ -1637,12 +1643,19 @@ final class SchematicDocument {
         func moved(_ point: CGPoint, by offset: CGSize) -> CGPoint {
             CGPoint(x: point.x + offset.width, y: point.y + offset.height)
         }
-        if base.footprints.count + base.texts.count == 1 {
+        let offset = CGSize(width: BoardGrid.snap(delta.width), height: BoardGrid.snap(delta.height))
+        // Traces move by the snapped delta from where they were, alone or
+        // in a group; joins wait for the release (`settleBoardGroup`).
+        for index in traces.indices {
+            guard let points = base.traces[traces[index].id] else { continue }
+            let target = points.map { moved($0, by: offset) }
+            if traces[index].points != target { traces[index].points = target }
+        }
+        if base.count == 1 {
             if let (id, centre) = base.footprints.first { moveFootprint(id, to: moved(centre, by: delta)) }
             if let (id, anchor) = base.texts.first { moveText(id, to: moved(anchor, by: delta)) }
             return
         }
-        let offset = CGSize(width: BoardGrid.snap(delta.width), height: BoardGrid.snap(delta.height))
         for index in chips.indices {
             guard let centre = base.footprints[chips[index].id], chips[index].board != nil else { continue }
             let target = moved(centre, by: offset)
@@ -1653,6 +1666,23 @@ final class SchematicDocument {
             let target = moved(anchor, by: offset)
             if texts[index].anchor != target { texts[index].anchor = target }
         }
+    }
+
+    /// The end of a PCB group drag: each moved trace joins what it now
+    /// touches. Traces that weren't selected stay where they are.
+    func settleBoardGroup(_ base: BoardGroupBase) {
+        for id in base.traces.keys { join(id) }
+    }
+
+    /// What a Select press at `point` (board mm) picks: a text, else a
+    /// trace (within `tolerance` of its edge), else a footprint; Top before
+    /// Bottom within each. Only drawn items count.
+    func boardItem(at point: CGPoint, tolerance: CGFloat,
+                   visible: BoardVisibility = BoardVisibility()) -> BoardItem? {
+        if let text = text(at: point, visible: visible) { return .text(text.id) }
+        if let trace = trace(at: point, tolerance: tolerance, visible: visible) { return .trace(trace.id) }
+        if let chip = footprint(at: point, visible: visible), chip.board != nil { return .footprint(chip.id) }
+        return nil
     }
 
     /// Sets or clears an EEPROM's load file. Does nothing for other parts.
