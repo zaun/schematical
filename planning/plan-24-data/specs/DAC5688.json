@@ -2361,7 +2361,7 @@
  "packages": {
   "RGC": {
    "pinout": "rgc64",
-   "footprint": "VQFN-64-RGC",
+   "footprint": "VQFN-64-RGC-H",
    "package": "VQFN",
    "pins": 64
   }

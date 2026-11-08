@@ -31,6 +31,7 @@ Same generator as G; RTC devices per plan-24-F §2.
 ### Phase 1 — Devices and goldens
 
 - [ ] Generate DAC devices and `rtc.json`; coverage; regenerate goldens.
+- [ ] Move the remaining footprints of `planning/plan-24-data/footprints-new.json` into `footprints.json` (plan-24-C Corrections; the file is then empty and deleted); `footprints.txt` + that many lines, 0 removed; `footprint_check` passes.
 - [ ] Spot checks: `DAC8562SDGSR`, `DAC5571IDBVR`, one parallel DAC, `BQ32000DR` (`|rtc|`), `BQ4802YDSWR`.
 - [ ] `trace_check --verbose BQ32000DR` shows no SDA drive outside acknowledged transfers.
 

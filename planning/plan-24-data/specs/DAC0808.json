@@ -243,7 +243,7 @@
   },
   "NFG": {
    "pinout": "nfg16",
-   "footprint": "PDIP-16-NFG",
+   "footprint": "PDIP-16",
    "package": "DIP",
    "pins": 16
   }

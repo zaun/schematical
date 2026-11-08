@@ -206,7 +206,7 @@
   },
   "DRC": {
    "pinout": "p10",
-   "footprint": "VSON-10-DRC",
+   "footprint": "VSON-10-DRC-J",
    "package": "VSON",
    "pins": 10
   }

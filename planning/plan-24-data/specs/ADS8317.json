@@ -99,7 +99,7 @@
   },
   "DRB": {
    "pinout": "p8",
-   "footprint": "SON-8-DRB",
+   "footprint": "SON-8-DRB-B",
    "package": "SON",
    "pins": 8
   }

@@ -21,11 +21,12 @@ plan-24-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-24-B complete | `ls planning/completed/plan-24-B-*.md` → exists | NOT MET (2026-11-07) |
+| plan-24-B complete | `ls planning/completed/plan-24-B-*.md` → exists | MET (`planning/completed/plan-24-B-dac-rtc-data.md`, 2026-11-07 at 69052a8) |
 
 ## 1. Goal
 
-- Python check: set of `add` footprint ids − `footprints.json` ids → empty.
+- Python check: set of `add` footprint ids − (`footprints.json` ids ∪ `planning/plan-24-data/footprints-new.json` ids) → empty, and every staged footprint is used by an `add` row (Corrections).
+- The staged footprints load with the backend's `load_footprints` after `footprints.json` with no error, no overlapping pads, a pad for every pin (`/tmp/p24/fpcheck`), and each spec package's footprint has a pad per pinout designator and the pinout's pin count (`census/fpmatch.py`).
 - `ctest --test-dir /tmp/logic-p24` → T0 of T0; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0.
 
 ## 2. Design
@@ -47,10 +48,11 @@ plan-24-A § Prerequisites, plus:
 
 ### Phase 1 — Footprints
 
-- [ ] Draw the footprints into `footprints.json`, smallest pin counts first; regenerate `footprints.txt`.
-- [ ] Coverage check of §1.
+- [x] Draw the footprints (10 subagent batches against `/tmp/p24/fpbrief.md`, R1 board layouts where TI gives one, R2/R4/R5 from outlines otherwise) into `planning/plan-24-data/footprints-new.json` (Corrections): `fpcheck footprints.json footprints-new.json` → `85 staging footprints loaded, ok`. 77 of the 79 planned ids drawn, 2 reused (`PDIP-16-NFG` → `PDIP-16`, `VQFN-14-RGY` → `VQFN-14`), 2 with no TI drawing anywhere (`CDIP-SB-28-JD`, `WQFN-40-RSB`: their parts skip), 10 second drawings of one designator (`footprint-overrides.tsv`).
+- [x] Coverage check of §1: `add` footprint ids 118, missing from footprints.json ∪ footprints-new.json 0, staged but unused 0; `census/fpmatch.py footprints-new.json` → `0 problems`; footprint pin count = pinout pin count for every spec package (0 mismatches); `census/coverage.py ADC/DAC/RTC` → 0 problems (1187 / 724 / 14 add rows).
+- [x] Specs and `parts.tsv` follow the drawings: `census/build.py` reads `footprint-overrides.tsv` and skips the two undrawable packages (ADC3541, ADC3542, ADC3544, ADC3642 have only RSB parts, DAC811's JD part: 6 rows; `adc3541.pdf`, `adc3544.pdf`, `adc3643.pdf` deleted, `datasheets/not-included.md`); 58 spec package footprints updated (`/tmp/p24/scripts/syncfp.py`); 4 specs removed.
 
-Acceptance: `ctest` T0 of T0; coverage empty; only added golden lines (seconds).
+Acceptance: `ctest` T0 of T0 (`100% tests passed, 0 tests failed out of 24`); coverage empty (above); golden diff 0 lines — the `footprints.txt` lines are added in G/H (Corrections).
 Commit: —
 
 ## Validation Plan
@@ -62,6 +64,32 @@ C's gate: Phase 1. Landing tier at the end of I.
 - Exposed thermal pads are the unnumbered `centre` pad (the `VQFN-14` precedent).
 
 ## Corrections
+
+- **The footprints are staged, not put in `footprints.json` here.**
+  `footprint_check` fails on any footprint no part uses ("unused
+  footprint"), and the parts that use these arrive in G and H. Landing them
+  in `footprints.json` now would turn `ctest` red until H, so C's "T0 of
+  T0" could not hold. They go to `planning/plan-24-data/footprints-new.json`
+  instead, checked with the real loader (`/tmp/p24/fpcheck`: load, golden
+  line, overlap, pin pads) and against every spec pinout; G moves the ones
+  its ADC parts use into `footprints.json` and regenerates
+  `footprints.txt`, H the rest (tasks added there). Every check still runs,
+  at the commit where it can pass.
+- **One TI designator, several drawings.** RGE (B, H, F), RTE (C, D), RHA
+  (C, H), RGZ (A, D), RGC (A, H), RTC (sheets -2, -3), DRB (A, B), DRC
+  (D, J) and DSC (TI vs National SDA10A) have different land patterns in
+  different datasheets. The id per designator stays the default; a
+  per-datasheet override (`footprint-overrides.tsv`, read by
+  `census/build.py`) names the second drawing's footprint (`-H`, `-D`,
+  `-B`, …). Same-pad, different-thermal-pad revisions of PHP and PAP share
+  one footprint (noted in each footprint's note).
+- **No drawing**: `CDIP-SB-28-JD` (DAC811BH) and `WQFN-40-RSB` (ADC3541,
+  ADC3542, ADC3544, ADC3641/ADC3642) appear in no datasheet's mechanical
+  pages; their 6 parts are skipped (AGENTS.md: a footprint comes from the
+  package drawing).
+- `CFP-84-HFQ` takes its lead foot from the same package's formed variant
+  HKP (`ads1278-ht.pdf` p.57): HFQ ships on a carrier frame with no lead
+  length or board layout.
 
 ## Summary
 

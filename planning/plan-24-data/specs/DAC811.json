@@ -419,12 +419,6 @@
   }
  },
  "packages": {
-  "JD": {
-   "pinout": "dip28",
-   "footprint": "CDIP-SB-28-JD",
-   "package": "DIP",
-   "pins": 28
-  },
   "DW": {
    "pinout": "dip28",
    "footprint": "SOIC-28W",
@@ -441,12 +435,6 @@
  ],
  "variants": "dac811.pdf covers DAC811 A/B/J/K grades (CERDIP, plastic DIP, SO); identical logic",
  "parts": [
-  [
-   "DAC811BH",
-   "JD",
-   28,
-   "Active"
-  ],
   [
    "DAC811KU",
    "DW",

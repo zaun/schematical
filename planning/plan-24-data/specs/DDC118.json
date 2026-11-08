@@ -343,7 +343,7 @@
  "packages": {
   "RTC": {
    "pinout": "rtc48",
-   "footprint": "VQFN-48-RTC",
+   "footprint": "VQFN-48-RTC-3",
    "package": "VQFN",
    "pins": 48
   }

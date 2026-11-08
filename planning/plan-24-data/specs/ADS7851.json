@@ -1,64 +1,163 @@
 {
-  "device": {
-    "id": "ADS7851",
-    "function": "ADC",
-    "description": "14-bit 1.5 MSPS dual simultaneous-sampling fully-differential SAR ADC with internal references and dual-SDO serial interface",
-    "drawer": ["Interface"],
-    "note": "ads7851.pdf (SBAS587A, ADS7251/ADS7851) p.3 terminal descriptions, p.4 recommended operating conditions, p.6 electrical characteristics (DVDD 1.65-5.25 V), p.9 ADS7851 timing (Figure 2), p.20 transfer characteristics (Table 1, twos complement), p.21-22 serial interface (Table 2, short-cycling)",
-    "pinouts": {
-      "rte16": [
-        {"number": 1, "name": "REFOUT-A", "role": "output"},
-        {"number": 2, "name": "REFGND-A", "role": "ground"},
-        {"number": 3, "name": "REFGND-B", "role": "ground"},
-        {"number": 4, "name": "REFOUT-B", "role": "output"},
-        {"number": 5, "name": "AINM-B", "role": "input"},
-        {"number": 6, "name": "AINP-B", "role": "input"},
-        {"number": 7, "name": "DVDD", "role": "power"},
-        {"number": 8, "name": "GND", "role": "ground"},
-        {"number": 9, "name": "CS", "role": "input"},
-        {"number": 10, "name": "SCLK", "role": "input"},
-        {"number": 11, "name": "SDO-A", "role": "output"},
-        {"number": 12, "name": "SDO-B", "role": "output"},
-        {"number": 13, "name": "GND", "role": "ground"},
-        {"number": 14, "name": "AVDD", "role": "power"},
-        {"number": 15, "name": "AINP-A", "role": "input"},
-        {"number": 16, "name": "AINM-A", "role": "input"}
-      ]
-    },
-    "type": "adc",
-    "bits": 14,
-    "channels": 2,
-    "codeFormat": "twos",
-    "vcc": [1.65, 5.25],
-    "analog": ["REFOUT-A", "REFOUT-B", "AINM-B", "AINP-B", "AVDD", "AINP-A", "AINM-A"],
-    "bus": {"style": "spi", "cs": "CS", "sclk": "SCLK", "miso": "SDO-A", "mode": 2},
-    "timing": {"tValid": 10, "tOut": 15, "tFloat": 10},
-    "registers": [],
-    "protocol": {
-      "frame": "fixed",
-      "out": "00 R{14}",
-      "idle": "0",
-      "commands": []
-    },
-    "conversion": {
-      "time": 0,
-      "start": ["cs-fall"]
-    }
-  },
-  "packages": {
-    "RTE": {"pinout": "rte16", "footprint": "WQFN-16-RTE", "package": "WQFN", "pins": 16}
-  },
-  "pdf": "ads7851.pdf",
-  "pages": "p.3 (terminals), p.4 (ROC), p.6 (DVDD range, digital levels), p.9 (ADS7851 timing, Figure 2), p.20 (Table 1 transfer characteristics), p.21-22 (serial interface, Table 2 data launch edge, short-cycling)",
-  "notModeled": [
-    "analog inputs and the two internal references (REFOUT-A/B never driven): both ADCs return the 0 V code 0000h",
-    "SDO-B (ADC_B result) is never driven; only SDO-A shifts the frame (the two pins carry identical-format frames, 0 0 D13..D0)",
-    "conversion is clocked by SCLK (tCONV = tSU_CSCK + 14 tCLK): not timed, the 0 V code is available at once",
-    "SPI phase: Figure 2 shows SCLK idling high and data changing after SCLK rising edges (tD_CKDO), read on falling edges (mode 2, 16 cells: 0, 0, D13..D0); Table 2 lists the falling edge as the launch edge. Modeled as Figure 2",
-    "short-cycling (CS high before 16 SCLK rising edges aborts the frame) and throughput / tACQ limits"
+ "device": {
+  "id": "ADS7851",
+  "function": "ADC",
+  "description": "14-bit 1.5 MSPS dual simultaneous-sampling fully-differential SAR ADC with internal references and dual-SDO serial interface",
+  "drawer": [
+   "Interface"
   ],
-  "variants": "ADS7251 (12-bit, 2 MSPS, 14-clock frame 0 0 D11..D0) shares ads7851.pdf; not in this batch",
-  "parts": [
-    ["ADS7851IRTER", "RTE", 16, "Active"]
+  "note": "ads7851.pdf (SBAS587A, ADS7251/ADS7851) p.3 terminal descriptions, p.4 recommended operating conditions, p.6 electrical characteristics (DVDD 1.65-5.25 V), p.9 ADS7851 timing (Figure 2), p.20 transfer characteristics (Table 1, twos complement), p.21-22 serial interface (Table 2, short-cycling)",
+  "pinouts": {
+   "rte16": [
+    {
+     "number": 1,
+     "name": "REFOUT-A",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "REFGND-A",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "REFGND-B",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "REFOUT-B",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "AINM-B",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AINP-B",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "SDO-A",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "SDO-B",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "AINP-A",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "AINM-A",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 14,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   1.65,
+   5.25
+  ],
+  "analog": [
+   "REFOUT-A",
+   "REFOUT-B",
+   "AINM-B",
+   "AINP-B",
+   "AVDD",
+   "AINP-A",
+   "AINM-A"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDO-A",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 10,
+   "tOut": 15,
+   "tFloat": 10
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "00 R{14}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "RTE": {
+   "pinout": "rte16",
+   "footprint": "WQFN-16-RTE-D",
+   "package": "WQFN",
+   "pins": 16
+  }
+ },
+ "pdf": "ads7851.pdf",
+ "pages": "p.3 (terminals), p.4 (ROC), p.6 (DVDD range, digital levels), p.9 (ADS7851 timing, Figure 2), p.20 (Table 1 transfer characteristics), p.21-22 (serial interface, Table 2 data launch edge, short-cycling)",
+ "notModeled": [
+  "analog inputs and the two internal references (REFOUT-A/B never driven): both ADCs return the 0 V code 0000h",
+  "SDO-B (ADC_B result) is never driven; only SDO-A shifts the frame (the two pins carry identical-format frames, 0 0 D13..D0)",
+  "conversion is clocked by SCLK (tCONV = tSU_CSCK + 14 tCLK): not timed, the 0 V code is available at once",
+  "SPI phase: Figure 2 shows SCLK idling high and data changing after SCLK rising edges (tD_CKDO), read on falling edges (mode 2, 16 cells: 0, 0, D13..D0); Table 2 lists the falling edge as the launch edge. Modeled as Figure 2",
+  "short-cycling (CS high before 16 SCLK rising edges aborts the frame) and throughput / tACQ limits"
+ ],
+ "variants": "ADS7251 (12-bit, 2 MSPS, 14-clock frame 0 0 D11..D0) shares ads7851.pdf; not in this batch",
+ "parts": [
+  [
+   "ADS7851IRTER",
+   "RTE",
+   16,
+   "Active"
   ]
+ ]
 }

@@ -161,7 +161,7 @@
   },
   "RGY": {
    "pinout": "d14",
-   "footprint": "VQFN-14-RGY",
+   "footprint": "VQFN-14",
    "package": "VQFN",
    "pins": 14
   }

@@ -402,7 +402,7 @@
  "packages": {
   "RTE": {
    "pinout": "rte16",
-   "footprint": "WQFN-16-RTE",
+   "footprint": "WQFN-16-RTE-D",
    "package": "WQFN",
    "pins": 16
   }

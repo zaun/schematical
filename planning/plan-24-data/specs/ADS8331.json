@@ -563,7 +563,7 @@
   },
   "RGE": {
    "pinout": "rge24",
-   "footprint": "VQFN-24-RGE",
+   "footprint": "VQFN-24-RGE-F",
    "package": "VQFN",
    "pins": 24
   }

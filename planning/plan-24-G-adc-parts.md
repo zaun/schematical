@@ -38,6 +38,7 @@ by a script under `/tmp/p24/` (not committed).
 ### Phase 1 — Devices and goldens
 
 - [ ] Generate the ADC devices; `ctest -R library_check`; coverage (set difference → empty).
+- [ ] Move the footprints the ADC parts use from `planning/plan-24-data/footprints-new.json` into `footprints.json` (plan-24-C Corrections); regenerate `footprints.txt` (+ that many lines, 0 removed); `footprint_check` passes.
 - [ ] Regenerate `parts.txt`, `traces.txt` (+NADC each, 0 removed).
 - [ ] Spot checks: `ADS1115IDGSR` (I2C, `VSSOP-10`), `ADS7042IDCUR`, `ADS1256IDBR`, one parallel ADC, one Last Time Buy part.
 - [ ] Runtime proof: a `circuit_check` case with a 6502 test program (the plan-12 serial test circuits' pattern) that bit-bangs I2C on a W65C22 port to an ADS1115, starts a conversion, polls the config OS bit and reads 0x0000.

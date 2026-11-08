@@ -251,7 +251,7 @@
   },
   "DSC": {
    "pinout": "p10",
-   "footprint": "WSON-10-DSC",
+   "footprint": "WSON-10-DSC-A",
    "package": "WSON",
    "pins": 10
   }

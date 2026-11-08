@@ -18,6 +18,20 @@ for l in open(IDS):
     p = l.rstrip('\n').split('\t')
     fid[p[0]] = p[1]
 
+# one TI designator, several TI drawings: the footprint per datasheet (plan-24-C)
+OVR = {}
+for l in open(os.path.join(DATA, 'footprint-overrides.tsv')):
+    if l.startswith('#') or not l.strip():
+        continue
+    p = l.rstrip('\n').split('\t')
+    OVR[(p[0].split('/', 1)[1], p[1])] = p[2]
+# packages with no TI drawing in any datasheet (plan-24-C): no footprint can be drawn
+FOOTPRINT_SKIP = {
+    'CDIP-SB-28-JD': 'no package drawing (dac811.pdf and every other datasheet lack the JD outline and land pattern), so no footprint',
+    'WQFN-40-RSB': 'no package drawing (the datasheets give only the RSB "generic package view"), so no footprint',
+}
+
+
 def flags(r):
     f = []
     n = r['name']
@@ -57,7 +71,10 @@ for rows_f, dev_f in zip(args[0::2], args[1::2]):
         m = r['match']
         code = r['code']
         fp = fid.get(f"{code}-{r['pins']}", '') if code else ''
-        if m in ('own', 'other') and device.get(r['name']) in DEVICE_SKIP:
+        fp = OVR.get((r['pdf'], f"{code}-{r['pins']}"), fp)
+        if m in ('own', 'other') and fp in FOOTPRINT_SKIP:
+            dec, why = 'skip', FOOTPRINT_SKIP[fp]
+        elif m in ('own', 'other') and device.get(r['name']) in DEVICE_SKIP:
             dec, why = 'skip', DEVICE_SKIP[device[r['name']]]
         elif m in ('own', 'other'):
             dec, why = 'add', ('ordering table of ' + r['pdf'] if m == 'other' else '')

@@ -1,0 +1,3202 @@
+{
+ "format": "schematical-footprints",
+ "version": 1,
+ "footprints": [
+  {
+   "id": "CDIP-8-JG",
+   "description": "8-pin ceramic DIP (JG), 6.67 x 9.58 mm body, 2.54 mm pitch, 7.62 mm row spacing",
+   "note": "TI JG0008A board layout (R1; 8X (1.6) pads, pin 1 square, 8X (\u00d81) drill, (7.62) row spacing, 6X (2.54) pitch), dac/tlv5618a.pdf p.26; body 6.67 mid (6.22-7.11) x 9.58 mid (9.00-10.16) from JG0008A outline p.25",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 6.67,
+    "height": 9.58
+   },
+   "pitch": 2.54,
+   "span": 7.62,
+   "pad": {
+    "width": 1.6,
+    "height": 1.6,
+    "shape": "round"
+   },
+   "drill": 1,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "CDIP-SB-24-JDN",
+   "description": "24-pin ceramic side-braze DIP (JDN), 7.49 x 30.48 mm body, 2.54 mm pitch, 7.62 mm row spacing",
+   "note": "TI JDN (R-CDIP-T24) outline 4204038/A (R5; lead 0.46 mid (0.38-0.53), max 0.53 x 0.30; drill 0.71 -> 0.75; row spacing 0.300 (7.62) TYP; body 7.49 mid (7.11-7.87) x 30.48 mid (30.18-30.78)), adc/ads7800.pdf p.17",
+   "style": "dual",
+   "pins": 24,
+   "body": {
+    "width": 7.49,
+    "height": 30.48
+   },
+   "pitch": 2.54,
+   "span": 7.62,
+   "pad": {
+    "width": 1.5,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.75,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "CFP-8-HKJ",
+   "description": "8-pin ceramic flatpack (HKJ), 5.75 x 7.04 mm body, 1.27 mm pitch",
+   "note": "TI HKJ (R-CDFP-F8) outline only, 4209892/A (R2; lead b 0.46 mid (0.38-0.53), L 7.875 mid (6.35-9.40); E = body + 2L = 21.50; body 5.75 mid (5.61-5.89) x 7.04 mid (6.73-7.34)), adc/ads8320-ht.pdf p.25 (image page); pad inner ends overlap the body edge by 0.30",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 5.75,
+    "height": 7.04
+   },
+   "pitch": 1.27,
+   "span": 13.83,
+   "pad": {
+    "width": 8.67,
+    "height": 0.51,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "CFP-84-HFQ",
+   "description": "84-pin ceramic quad flatpack (HFQ), 13.81 x 13.81 mm body, 0.5 mm pitch, leads formed as HKP",
+   "note": "TI HFQ0084A outline, adc/ads1278-ht.pdf p.56: flat leads brazed to a tie-bar carrier (no lead length, no tip-to-tip span, no board layout), so the pads use the formed sibling HKP (S-CQFP-G84) 4211672/A (same body, leads, pitch; p.57, image page) by R2: foot L 1.27 mid (1.14-1.40), b 0.20 mid (0.15-0.25), E 19.33 mid (18.87-19.79) tip to tip; pin 1 at the top of the left side as on the HFQ outline (CCW 21 per side); body 13.81 mid (13.61-14.01); heat pad 7.038 square (bottom view, tied to the ground leads) as the unnumbered centre",
+   "style": "quad",
+   "pins": 84,
+   "body": {
+    "width": 13.81,
+    "height": 13.81
+   },
+   "sides": [
+    21,
+    21,
+    21,
+    21
+   ],
+   "pitch": 0.5,
+   "spanX": 18.26,
+   "spanY": 18.26,
+   "pad": {
+    "width": 2.07,
+    "height": 0.25,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 7.038,
+    "height": 7.038,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DSBGA-12-YCJ",
+   "description": "12-ball DSBGA (YCJ), 4 x 3 grid, 0.99 x 1.43 mm, 0.35 mm pitch",
+   "note": "TI YCJ0012 board layout (R1; 12X (\u00d80.18), (0.35) pitch), adc/ads1014l.pdf p.42; body E 0.99 mid (0.962-1.022) x D 1.43 mid (1.402-1.462) from YCJ0012 outline p.41 (same in adc/ads1115l.pdf p.43-44)",
+   "style": "grid",
+   "pins": 12,
+   "rows": 4,
+   "columns": 3,
+   "body": {
+    "width": 0.99,
+    "height": 1.43
+   },
+   "pitch": 0.35,
+   "pad": {
+    "width": 0.18,
+    "height": 0.18,
+    "shape": "round"
+   },
+   "balls": [
+    "A1",
+    "A2",
+    "A3",
+    "B1",
+    "B2",
+    "B3",
+    "C1",
+    "C2",
+    "C3",
+    "D1",
+    "D2",
+    "D3"
+   ]
+  },
+  {
+   "id": "DSBGA-16-YBH",
+   "description": "16-ball DSBGA (YBH), 4 x 4 grid, 1.76 x 1.76 mm, 0.4 mm pitch",
+   "note": "TI YBH0016-C03 board layout (R1; 16X (\u00d80.2), (0.4) pitch), dac/dac53204w.pdf p.78; body 1.76 mid (1.737-1.777) square from the outline p.77 (same in dac/dac539e4w.pdf p.54, dac/dac63202w.pdf p.76); adc/ads7067.pdf YBH0016 p.50-51 has the same land pattern with a 1.62 mid (1.59-1.651) body",
+   "style": "grid",
+   "pins": 16,
+   "rows": 4,
+   "columns": 4,
+   "body": {
+    "width": 1.76,
+    "height": 1.76
+   },
+   "pitch": 0.4,
+   "pad": {
+    "width": 0.2,
+    "height": 0.2,
+    "shape": "round"
+   },
+   "balls": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+   ]
+  },
+  {
+   "id": "DSBGA-16-YZF",
+   "description": "16-ball DSBGA (YZF), 4 x 4 grid, 2.39 x 2.39 mm, 0.5 mm pitch",
+   "note": "TI YZF0016 board layout (R1; 16X (\u00d80.245), (0.5) pitch), dac/dac60508.pdf p.57; body 2.39 mid (2.36-2.42) square from YZF0016 outline p.56",
+   "style": "grid",
+   "pins": 16,
+   "rows": 4,
+   "columns": 4,
+   "body": {
+    "width": 2.39,
+    "height": 2.39
+   },
+   "pitch": 0.5,
+   "pad": {
+    "width": 0.245,
+    "height": 0.245,
+    "shape": "round"
+   },
+   "balls": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+   ]
+  },
+  {
+   "id": "HTQFP-100-PZP",
+   "description": "100-pin HTQFP PowerPAD (PZP), 14 x 14 mm body, 0.5 mm pitch, 16.0 mm tip span, exposed pad 5.45 mm",
+   "note": "TI PZP (S-PQFP-G100) outline 4146929/C (R2, no board layout in any listed datasheet; lead b 0.22 mid (0.17-0.27), L 0.60 mid (0.45-0.75), tip span 16.00 mid (15.80-16.20): pad 1.40 x 0.27, span 16.0 + 1.0 - 1.4 = 15.6; body 14.00 mid (13.80-14.20)), dac/dac5687.pdf p.80; exposed thermal pad 5.445 mid (4.69-6.20) square from 4206333-3/L p.81. Pins 1-25 are on the drawing's bottom side; turned so pin 1 tops the left side (square, counter-clockwise order kept). Same drawings in dac5686.pdf p.54-55, dac5687-ep.pdf p.76-77",
+   "style": "quad",
+   "pins": 100,
+   "body": {
+    "width": 14.0,
+    "height": 14.0
+   },
+   "sides": [
+    25,
+    25,
+    25,
+    25
+   ],
+   "pitch": 0.5,
+   "spanX": 15.6,
+   "spanY": 15.6,
+   "pad": {
+    "width": 1.4,
+    "height": 0.27,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 5.445,
+    "height": 5.445,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "HTQFP-48-PHP",
+   "description": "48-pin HTQFP PowerPAD (PHP), 7 x 7 mm body, 0.5 mm pitch, 9.0 mm tip span, exposed pad 4.6 mm land",
+   "note": "TI PHP0048C board layout 4226381/A (R1; 48X (1.6) x 48X (0.3), (8.5) pad-centre rows, (4.6) solder-mask-defined thermal pad on (6.5) metal, R0.05 pad corners not drawn), adc/ads1258-ep.pdf p.55; body 7.0 mid (6.8-7.2) from outline p.54 (same in ads5413.pdf p.19-20). PHP0048G (ads131b23.pdf p.229-230, ads131b26-q1.pdf p.250-251) has the same signal pads with a (5.17) thermal pad",
+   "style": "quad",
+   "pins": 48,
+   "body": {
+    "width": 7.0,
+    "height": 7.0
+   },
+   "sides": [
+    12,
+    12,
+    12,
+    12
+   ],
+   "pitch": 0.5,
+   "spanX": 8.5,
+   "spanY": 8.5,
+   "pad": {
+    "width": 1.6,
+    "height": 0.3,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 4.6,
+    "height": 4.6,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "HTQFP-52-PGP",
+   "description": "52-pin HTQFP PowerPAD (PGP), 10 x 10 mm body, 0.65 mm pitch, 12.0 mm tip span, exposed pad 6.8 x 5.5 mm",
+   "note": "TI PGP (S-PQFP-G52) outline 4147700/B (R2, no board layout; lead b 0.30 mid (0.22-0.38), L 0.60 mid (0.45-0.75), tip span 12.00 mid (11.80-12.20): pad 1.40 x 0.35, span 12.0 + 1.0 - 1.4 = 11.6; body 10.00 mid (9.80-10.20)), adc/ads5423.pdf p.25; exposed thermal pad from 4210154-4/B p.26: 6.80 mid (6.40-7.20) along pins 40-52 x 5.50 mid (5.10-5.90) along pins 1-13. Pins 1-13 are on the drawing's bottom side; turned so pin 1 tops the left side, so the 6.8 side runs horizontally",
+   "style": "quad",
+   "pins": 52,
+   "body": {
+    "width": 10.0,
+    "height": 10.0
+   },
+   "sides": [
+    13,
+    13,
+    13,
+    13
+   ],
+   "pitch": 0.65,
+   "spanX": 11.6,
+   "spanY": 11.6,
+   "pad": {
+    "width": 1.4,
+    "height": 0.35,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 6.8,
+    "height": 5.5,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "HTQFP-64-PAP",
+   "description": "64-pin HTQFP PowerPAD (PAP), 10 x 10 mm body, 0.5 mm pitch, 12.0 mm tip span, exposed pad 7.0 mm land",
+   "note": "TI PAP0064G board layout 4218924/A (R1; 64X (1.5) x 64X (0.3), (11.4) pad-centre rows, (7) solder-mask-defined thermal pad on (8) metal, R0.05 pad corners not drawn), adc/ads1278.pdf p.50; body 10.0 mid (9.8-10.2) from outline p.49 (same in ads1174.pdf p.37-38, ads1278-ht.pdf p.53-54). PAP0064F (ads1605.pdf p.36-37, ads1625.pdf p.35-36, ads2807.pdf p.22-23) has the same signal pads with a (6.5) thermal pad",
+   "style": "quad",
+   "pins": 64,
+   "body": {
+    "width": 10.0,
+    "height": 10.0
+   },
+   "sides": [
+    16,
+    16,
+    16,
+    16
+   ],
+   "pitch": 0.5,
+   "spanX": 11.4,
+   "spanY": 11.4,
+   "pad": {
+    "width": 1.5,
+    "height": 0.3,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 7.0,
+    "height": 7.0,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "HTQFP-80-PFP",
+   "description": "80-pin HTQFP PowerPAD (PFP), 12 x 12 mm body, 0.5 mm pitch, 14.0 mm tip span, exposed pad 7.5 mm land",
+   "note": "TI PFP (S-PQFP-G80) land pattern data 4208544-2/G (R1; 80X 1.5 x 80X 0.3, 13.4 pad-centre rows (extension lines at the pad centres), 7.5 solder-mask-defined thermal pad on 10.0 metal), adc/ads5553.pdf p.26; body 12.00 mid (11.80-12.20) from outline 4146925/C p.24 (exposed pad 6.15-7.50, 4206327-2/P p.25). Pins 1-20 are on the drawing's bottom side; turned so pin 1 tops the left side (square, counter-clockwise order kept)",
+   "style": "quad",
+   "pins": 80,
+   "body": {
+    "width": 12.0,
+    "height": 12.0
+   },
+   "sides": [
+    20,
+    20,
+    20,
+    20
+   ],
+   "pitch": 0.5,
+   "spanX": 13.4,
+   "spanY": 13.4,
+   "pad": {
+    "width": 1.5,
+    "height": 0.3,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 7.5,
+    "height": 7.5,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "HTSSOP-16-PWP",
+   "description": "16-pin HTSSOP PowerPAD (PWP), 4.4 x 5.0 mm body, 0.65 mm pitch, exposed pad 3.3 mm land",
+   "note": "TI PWP0016A board layout 4214868/A (R1; 16X (1.5) x 16X (0.45), (5.8) pad-centre span, (3.3) x (3.3) solder-mask-defined thermal pad on (3.4) x (5) metal, R0.05 pad corners not drawn), dac/lmp92066.pdf p.64; body 4.4 mid (4.3-4.5) x 5.0 mid (4.9-5.1) from outline p.63",
+   "style": "dual",
+   "pins": 16,
+   "body": {
+    "width": 4.4,
+    "height": 5.0
+   },
+   "pitch": 0.65,
+   "span": 5.8,
+   "pad": {
+    "width": 1.5,
+    "height": 0.45,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 3.3,
+    "height": 3.3,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "HTSSOP-24-PWP",
+   "description": "24-pin HTSSOP PowerPAD (PWP), 4.4 x 7.8 mm body, 0.65 mm pitch, exposed pad 3.2 x 5.26 mm land",
+   "note": "TI PWP0024J board layout 4225860/B (R1; 24X (1.5) x 24X (0.45), (5.8) pad-centre span, (3.2) x (5.26) solder-mask-defined thermal pad on (3.4) x (7.8) metal, R0.05 pad corners not drawn), dac/dac7750.pdf p.50; body 4.4 mid (4.3-4.5) x 7.8 mid (7.7-7.9) from outline p.49 (same in dac8760.pdf p.62-63)",
+   "style": "dual",
+   "pins": 24,
+   "body": {
+    "width": 4.4,
+    "height": 7.8
+   },
+   "pitch": 0.65,
+   "span": 5.8,
+   "pad": {
+    "width": 1.5,
+    "height": 0.45,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 3.2,
+    "height": 5.26,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "LQFP-32-NEY",
+   "description": "32-pin LQFP (NEY), 7 x 7 mm body, 0.8 mm pitch, 9.0 mm tip span",
+   "note": "TI NEY0032A board layout 4219901/B (R1; 32X (1.6) x 32X (0.45), (8.5) pad-centre rows, R0.05 pad corners not drawn), adc/adc12020.pdf p.32; body 7.0 mid (6.9-7.1) from outline p.31 (same in adc10321.pdf p.25-26, adc12010.pdf p.32-33, adc12040.pdf p.29-30, adc12l063.pdf p.30-31, adc12l066.pdf p.35-36)",
+   "style": "quad",
+   "pins": 32,
+   "body": {
+    "width": 7.0,
+    "height": 7.0
+   },
+   "sides": [
+    8,
+    8,
+    8,
+    8
+   ],
+   "pitch": 0.8,
+   "spanX": 8.5,
+   "spanY": 8.5,
+   "pad": {
+    "width": 1.6,
+    "height": 0.45,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "LQFP-32-VF",
+   "description": "32-pin LQFP (VF), 7 x 7 mm body, 0.8 mm pitch, 9.0 mm tip span",
+   "note": "TI VF0032A board layout 4219769/A (R1; 32X (1.5) x 32X (0.55), (8.4) pad-centre rows, R0.05 pad corners not drawn), dac/dac7642.pdf p.22; body 7.0 mid (6.8-7.2) from VF0032A outline p.21",
+   "style": "quad",
+   "pins": 32,
+   "body": {
+    "width": 7.0,
+    "height": 7.0
+   },
+   "sides": [
+    8,
+    8,
+    8,
+    8
+   ],
+   "pitch": 0.8,
+   "spanX": 8.4,
+   "spanY": 8.4,
+   "pad": {
+    "width": 1.5,
+    "height": 0.55,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "LQFP-48-PT",
+   "description": "48-pin LQFP (PT), 7 x 7 mm body, 0.5 mm pitch, 9.0 mm tip span",
+   "note": "TI PT0048A board layout 4215159/B (R1; 48X (1.6) x 48X (0.3), (8.2) pad-centre rows, R0.05 pad corners not drawn), dac/dac7741.pdf p.21; body 7.0 mid (6.8-7.2) from PT0048A outline p.20 (same drawing in dac/dac7742.pdf p.19-20). Not TQFP-48-7X7: that is TI PFB0048A's land (1.35 x 0.25, 8.5)",
+   "style": "quad",
+   "pins": 48,
+   "body": {
+    "width": 7.0,
+    "height": 7.0
+   },
+   "sides": [
+    12,
+    12,
+    12,
+    12
+   ],
+   "pitch": 0.5,
+   "spanX": 8.2,
+   "spanY": 8.2,
+   "pad": {
+    "width": 1.6,
+    "height": 0.3,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "LQFP-80-PZA",
+   "description": "80-pin LQFP (PZA), 14 x 14 mm body, 0.65 mm pitch, 16.0 mm tip span",
+   "note": "TI PZA0080A board layout 4219780/A (R1; 80X (1.5) x 80X (0.45), (15.4) pad-centre rows, R0.05 pad corners not drawn), adc/ads8686s.pdf p.115; body 14.0 mid (13.8-14.2) from PZA0080A outline p.114",
+   "style": "quad",
+   "pins": 80,
+   "body": {
+    "width": 14.0,
+    "height": 14.0
+   },
+   "sides": [
+    20,
+    20,
+    20,
+    20
+   ],
+   "pitch": 0.65,
+   "spanX": 15.4,
+   "spanY": 15.4,
+   "pad": {
+    "width": 1.5,
+    "height": 0.45,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "NFBGA-196-ZAY",
+   "description": "196-ball NFBGA (ZAY), 14 x 14 grid, 12 x 12 mm, 0.8 mm pitch",
+   "note": "TI ZAY0196A board layout 4219823/A (R1, 196X \u00d80.4), adc/ads5401.pdf p.47; body 12.0 mid (11.9-12.1) square and ball \u00d80.5 mid (0.45-0.55) from the outline p.46 (same drawing in adc/ads5402.pdf p.44-45); all 196 balls populated (A-P less I, O; 1-14)",
+   "style": "grid",
+   "pins": 196,
+   "rows": 14,
+   "columns": 14,
+   "body": {
+    "width": 12.0,
+    "height": 12.0
+   },
+   "pitch": 0.8,
+   "pad": {
+    "width": 0.4,
+    "height": 0.4,
+    "shape": "round"
+   },
+   "balls": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "A10",
+    "A11",
+    "A12",
+    "A13",
+    "A14",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8",
+    "B9",
+    "B10",
+    "B11",
+    "B12",
+    "B13",
+    "B14",
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C5",
+    "C6",
+    "C7",
+    "C8",
+    "C9",
+    "C10",
+    "C11",
+    "C12",
+    "C13",
+    "C14",
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7",
+    "D8",
+    "D9",
+    "D10",
+    "D11",
+    "D12",
+    "D13",
+    "D14",
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11",
+    "E12",
+    "E13",
+    "E14",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8",
+    "F9",
+    "F10",
+    "F11",
+    "F12",
+    "F13",
+    "F14",
+    "G1",
+    "G2",
+    "G3",
+    "G4",
+    "G5",
+    "G6",
+    "G7",
+    "G8",
+    "G9",
+    "G10",
+    "G11",
+    "G12",
+    "G13",
+    "G14",
+    "H1",
+    "H2",
+    "H3",
+    "H4",
+    "H5",
+    "H6",
+    "H7",
+    "H8",
+    "H9",
+    "H10",
+    "H11",
+    "H12",
+    "H13",
+    "H14",
+    "J1",
+    "J2",
+    "J3",
+    "J4",
+    "J5",
+    "J6",
+    "J7",
+    "J8",
+    "J9",
+    "J10",
+    "J11",
+    "J12",
+    "J13",
+    "J14",
+    "K1",
+    "K2",
+    "K3",
+    "K4",
+    "K5",
+    "K6",
+    "K7",
+    "K8",
+    "K9",
+    "K10",
+    "K11",
+    "K12",
+    "K13",
+    "K14",
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5",
+    "L6",
+    "L7",
+    "L8",
+    "L9",
+    "L10",
+    "L11",
+    "L12",
+    "L13",
+    "L14",
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M6",
+    "M7",
+    "M8",
+    "M9",
+    "M10",
+    "M11",
+    "M12",
+    "M13",
+    "M14",
+    "N1",
+    "N2",
+    "N3",
+    "N4",
+    "N5",
+    "N6",
+    "N7",
+    "N8",
+    "N9",
+    "N10",
+    "N11",
+    "N12",
+    "N13",
+    "N14",
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P6",
+    "P7",
+    "P8",
+    "P9",
+    "P10",
+    "P11",
+    "P12",
+    "P13",
+    "P14"
+   ]
+  },
+  {
+   "id": "NFBGA-196-ZEB",
+   "description": "196-ball NFBGA (ZEB), 14 x 14 grid, 15 x 15 mm, 1.0 mm pitch",
+   "note": "TI ZEB0196A board layout 4221792/B (R1, 196X \u00d80.45), dac/dac60096.pdf p.49; body 15.0 mid (14.9-15.1) square and ball \u00d80.46 mid (0.41-0.51) from the outline p.48; all 196 balls populated (A-P less I, O; 1-14)",
+   "style": "grid",
+   "pins": 196,
+   "rows": 14,
+   "columns": 14,
+   "body": {
+    "width": 15.0,
+    "height": 15.0
+   },
+   "pitch": 1.0,
+   "pad": {
+    "width": 0.45,
+    "height": 0.45,
+    "shape": "round"
+   },
+   "balls": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "A10",
+    "A11",
+    "A12",
+    "A13",
+    "A14",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8",
+    "B9",
+    "B10",
+    "B11",
+    "B12",
+    "B13",
+    "B14",
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C5",
+    "C6",
+    "C7",
+    "C8",
+    "C9",
+    "C10",
+    "C11",
+    "C12",
+    "C13",
+    "C14",
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7",
+    "D8",
+    "D9",
+    "D10",
+    "D11",
+    "D12",
+    "D13",
+    "D14",
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11",
+    "E12",
+    "E13",
+    "E14",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8",
+    "F9",
+    "F10",
+    "F11",
+    "F12",
+    "F13",
+    "F14",
+    "G1",
+    "G2",
+    "G3",
+    "G4",
+    "G5",
+    "G6",
+    "G7",
+    "G8",
+    "G9",
+    "G10",
+    "G11",
+    "G12",
+    "G13",
+    "G14",
+    "H1",
+    "H2",
+    "H3",
+    "H4",
+    "H5",
+    "H6",
+    "H7",
+    "H8",
+    "H9",
+    "H10",
+    "H11",
+    "H12",
+    "H13",
+    "H14",
+    "J1",
+    "J2",
+    "J3",
+    "J4",
+    "J5",
+    "J6",
+    "J7",
+    "J8",
+    "J9",
+    "J10",
+    "J11",
+    "J12",
+    "J13",
+    "J14",
+    "K1",
+    "K2",
+    "K3",
+    "K4",
+    "K5",
+    "K6",
+    "K7",
+    "K8",
+    "K9",
+    "K10",
+    "K11",
+    "K12",
+    "K13",
+    "K14",
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5",
+    "L6",
+    "L7",
+    "L8",
+    "L9",
+    "L10",
+    "L11",
+    "L12",
+    "L13",
+    "L14",
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M6",
+    "M7",
+    "M8",
+    "M9",
+    "M10",
+    "M11",
+    "M12",
+    "M13",
+    "M14",
+    "N1",
+    "N2",
+    "N3",
+    "N4",
+    "N5",
+    "N6",
+    "N7",
+    "N8",
+    "N9",
+    "N10",
+    "N11",
+    "N12",
+    "N13",
+    "N14",
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P6",
+    "P7",
+    "P8",
+    "P9",
+    "P10",
+    "P11",
+    "P12",
+    "P13",
+    "P14"
+   ]
+  },
+  {
+   "id": "NFBGA-64-ZXG",
+   "description": "64-ball NFBGA (ZXG), 8 x 8 grid, 8 x 8 mm, 0.8 mm pitch",
+   "note": "TI ZXG0064A board layout 4220377/A (R1, 64X \u00d80.4), adc/ddc232.pdf p.33; body 8.0 mid (7.9-8.1) square and ball \u00d80.46 mid (0.41-0.51) from the outline p.32; all 64 balls populated (A-H, 1-8)",
+   "style": "grid",
+   "pins": 64,
+   "rows": 8,
+   "columns": 8,
+   "body": {
+    "width": 8.0,
+    "height": 8.0
+   },
+   "pitch": 0.8,
+   "pad": {
+    "width": 0.4,
+    "height": 0.4,
+    "shape": "round"
+   },
+   "balls": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8",
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C5",
+    "C6",
+    "C7",
+    "C8",
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7",
+    "D8",
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8",
+    "G1",
+    "G2",
+    "G3",
+    "G4",
+    "G5",
+    "G6",
+    "G7",
+    "G8",
+    "H1",
+    "H2",
+    "H3",
+    "H4",
+    "H5",
+    "H6",
+    "H7",
+    "H8"
+   ]
+  },
+  {
+   "id": "PDIP-8",
+   "description": "8-pin PDIP (P), 6.35 x 9.59 mm body, 2.54 mm pitch, 7.62 mm row spacing",
+   "note": "TI P (R-PDIP-T8) outline 4040082/E (R5; lead 0.46 mid (0.38-0.53), drill 0.71 -> 0.75; row spacing 0.300 in (7.62 over the shoulders 7.62-8.26); body 9.59 mid (9.02-10.16) x 6.35 mid (6.10-6.60)), adc/slas107b.pdf p.20; no board layout in any listed datasheet (the others carry only D0008A/DGK0008A)",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 6.35,
+    "height": 9.59
+   },
+   "pitch": 2.54,
+   "span": 7.62,
+   "pad": {
+    "width": 1.5,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.75,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "QFN-16-RSA",
+   "description": "16-pin VQFN (RSA), 4 x 4 mm body, 0.65 mm pitch, exposed pad 2.7 mm",
+   "note": "TI RSA0016B board layout 4219093/A (R1; 16X (0.6) x 16X (0.31), 12X (0.65) pitch, (3.8) pad-centre rows, (2.7) thermal pad; R0.05 pad corners not drawn), adc/ads8330.pdf p.48; body 4.0 mid (3.9-4.1) from RSA0016B outline p.47 (same drawing in ads7229.pdf, ads7279.pdf, ads8327.pdf)",
+   "style": "quad",
+   "pins": 16,
+   "body": {
+    "width": 4.0,
+    "height": 4.0
+   },
+   "sides": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "pitch": 0.65,
+   "spanX": 3.8,
+   "spanY": 3.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.31,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 2.7,
+    "height": 2.7,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "QFN-20-RTJ",
+   "description": "20-pin WQFN (RTJ), 4 x 4 mm body, 0.5 mm pitch, exposed pad 2.6 mm",
+   "note": "TI RTJ0020F board layout 4219126/A (R1; 20X (0.6) x 20X (0.24), 16X (0.5) pitch, (3.8) pad-centre rows, (2.6) thermal pad; R0.05 pad corners not drawn), adc/ads8028.pdf p.34; body 4.0 mid (3.85-4.15) from RTJ0020F outline p.33",
+   "style": "quad",
+   "pins": 20,
+   "body": {
+    "width": 4.0,
+    "height": 4.0
+   },
+   "sides": [
+    5,
+    5,
+    5,
+    5
+   ],
+   "pitch": 0.5,
+   "spanX": 3.8,
+   "spanY": 3.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.24,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 2.6,
+    "height": 2.6,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "QFN-32-RSN",
+   "description": "32-pin WQFN (RSN), 4 x 4 mm body, 0.4 mm pitch, exposed pad 2.8 mm",
+   "note": "TI RSN0032B board layout 4219109/B (R1; 32X (0.55) x 32X (0.2), 28X (0.4) pitch, (3.85) pad-centre rows, (2.8) thermal pad; R0.05 pad corners not drawn), adc/ads131m08.pdf p.114; body 4.0 mid (3.9-4.1) from RSN0032B outline p.113 (same in ads131m06.pdf)",
+   "style": "quad",
+   "pins": 32,
+   "body": {
+    "width": 4.0,
+    "height": 4.0
+   },
+   "sides": [
+    8,
+    8,
+    8,
+    8
+   ],
+   "pitch": 0.4,
+   "spanX": 3.85,
+   "spanY": 3.85,
+   "pad": {
+    "width": 0.55,
+    "height": 0.2,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 2.8,
+    "height": 2.8,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "QFN-56-RTQ",
+   "description": "56-pin VQFN (RTQ), 8 x 8 mm body, 0.5 mm pitch, exposed pad 6.15 mm",
+   "note": "TI RTQ (S-PVQFN-N56) outline only, 4206089/D 08/11 (R4; terminal b 0.24 mid (0.18-0.30), L 0.40 mid (0.30-0.50), terminal-centre span 8.0 - 0.4 = 7.6; exposed pad 6.15 (+-0.10) from thermal pad sheet 4206252-3/Q p.55; body 8.0 mid (7.85-8.15)), dac/dac7728.pdf p.54 (image page; no RTQ land pattern in dac7728/dac8228/dac8728.pdf). Pins 1-56 counter-clockwise from a corner as drawn; the square body is turned so pin 1 tops the left side",
+   "style": "quad",
+   "pins": 56,
+   "body": {
+    "width": 8.0,
+    "height": 8.0
+   },
+   "sides": [
+    14,
+    14,
+    14,
+    14
+   ],
+   "pitch": 0.5,
+   "spanX": 7.9,
+   "spanY": 7.9,
+   "pad": {
+    "width": 0.7,
+    "height": 0.29,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 6.15,
+    "height": 6.15,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SOIC-14-NPA",
+   "description": "14-pin wide SOIC (NPA), 7.49 x 8.99 mm body, 1.27 mm pitch",
+   "note": "TI NPA0014B (M14B rev D) outline only (R2; lead b 0.42 mid (0.356-0.483), L 1.016 mid (0.762-1.270), E 10.325 mid (10.01-10.64) tip to tip; pad 1.82 x 0.47, span 10.325 + 1.0 - 1.816 = 9.51; body 7.49 mid (7.391-7.595) x 8.99 mid (8.788-9.195)), adc/adc0832-n.pdf p.36 (image page; no land pattern published)",
+   "style": "dual",
+   "pins": 14,
+   "body": {
+    "width": 7.49,
+    "height": 8.99
+   },
+   "pitch": 1.27,
+   "span": 9.51,
+   "pad": {
+    "width": 1.82,
+    "height": 0.47,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SOIC-8",
+   "description": "8-pin SOIC (D), 3.9 x 4.9 mm body, 1.27 mm pitch",
+   "note": "TI D0008A board layout 4214825/C (R1; 8X (1.55) x 8X (0.6), 6X (1.27) pitch, (5.4) pad-centre span; R0.05 corners not drawn), adc/tlv0832.pdf p.18; body 3.9 mid (.150-.157 in, 3.81-3.98) x 4.9 mid (.189-.197 in, 4.81-5.00; inches control) from D0008A outline p.17",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 3.9,
+    "height": 4.9
+   },
+   "pitch": 1.27,
+   "span": 5.4,
+   "pad": {
+    "width": 1.55,
+    "height": 0.6,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SON-8-DRB",
+   "description": "8-pin VSON (DRB), 3 x 3 mm body, 0.65 mm pitch, exposed pad with four tabs",
+   "note": "TI DRB0008A board layout 4218875/A (R1; 8X (0.6) x 8X (0.31), 6X (0.65) pitch, (2.8) pad-centre span; thermal land (1.5) x (1.75) plus four (0.23)-wide tabs at (0.65) centres reaching (0.825) beyond it top and bottom, drawn as five abutting unnumbered pads, so explicit; R0.05 corners not drawn), adc/ads7829.pdf p.25; body 3.0 mid (2.9-3.1) from DRB0008A outline p.24 (same drawing in dac8811.pdf, dac8801.pdf)",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 3.0,
+    "height": 3.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -1.4,
+     "y": -0.975,
+     "width": 0.6,
+     "height": 0.31,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.4,
+     "y": -0.325,
+     "width": 0.6,
+     "height": 0.31,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.4,
+     "y": 0.325,
+     "width": 0.6,
+     "height": 0.31,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -1.4,
+     "y": 0.975,
+     "width": 0.6,
+     "height": 0.31,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.4,
+     "y": 0.975,
+     "width": 0.6,
+     "height": 0.31,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.4,
+     "y": 0.325,
+     "width": 0.6,
+     "height": 0.31,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 1.4,
+     "y": -0.325,
+     "width": 0.6,
+     "height": 0.31,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 1.4,
+     "y": -0.975,
+     "width": 0.6,
+     "height": 0.31,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 0,
+     "y": 0,
+     "width": 1.5,
+     "height": 1.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -0.325,
+     "y": -1.2875,
+     "width": 0.23,
+     "height": 0.825,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -0.325,
+     "y": 1.2875,
+     "width": 0.23,
+     "height": 0.825,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 0.325,
+     "y": -1.2875,
+     "width": 0.23,
+     "height": 0.825,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 0.325,
+     "y": 1.2875,
+     "width": 0.23,
+     "height": 0.825,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SON-8-DRB-B",
+   "description": "8-pin VSON (DRB, DRB0008B), 3 x 3 mm body, 0.65 mm pitch, exposed pad 1.65 x 2.4 mm",
+   "note": "TI DRB0008B board layout 4218876/A (R1; 8X (0.6) x 8X (0.3), 6X (0.65) pitch, (2.8) pad-centre span, (1.65) x (2.4) thermal pad; R0.05 corners not drawn), adc/ads8317.pdf p.35; body 3.0 mid (2.9-3.1) from DRB0008B outline p.34 (same drawing in ads8326.pdf, dac8531.pdf)",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 3.0,
+    "height": 3.0
+   },
+   "pitch": 0.65,
+   "span": 2.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.3,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 1.65,
+    "height": 2.4,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SOP-8-DUB",
+   "description": "8-pin SOP (DUB), 6.62 x 9.29 mm body, 2.54 mm pitch",
+   "note": "TI DUB0008A board layout 4222355/G, IPC-7351 nominal option (R1; 8X (2.35) x 8X (0.65), 6X (2.54) pitch, (9.1) pad-centre span; the HV option's (9.45) span not used; R0.05 corners not drawn), adc/amc1203.pdf p.40; body 6.62 mid (6.37-6.87) x 9.29 mid (9.02-9.55) from DUB0008A outline p.39",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 6.62,
+    "height": 9.29
+   },
+   "pitch": 2.54,
+   "span": 9.1,
+   "pad": {
+    "width": 2.35,
+    "height": 0.65,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SOP-8-PSA",
+   "description": "8-pin SOP (PSA), 5.3 x 5.27 mm body, 1.27 mm pitch, 7.9 mm tip span",
+   "note": "TI PSA (R-PDSO-G8) outline only, 4209043/A 09/07 (R2; lead b 0.435 mid (0.36-0.51), L 0.635 mid (0.51-0.76), E 7.90 mid (7.70-8.10); pad length 1.435 -> 1.44 and span 7.465 -> 7.46 keep the 8.9 outer extent, pad width 0.485 -> 0.49; body 5.30 mid (5.21-5.39) x 5.27 mid (5.21-5.33)), adc/amc1203.pdf p.46 (image page; no PSA land pattern in the datasheet, which has board layouts only for DUB0008A and DW0016B)",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 5.3,
+    "height": 5.27
+   },
+   "pitch": 1.27,
+   "span": 7.46,
+   "pad": {
+    "width": 1.44,
+    "height": 0.49,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SOT23-8-DCN",
+   "description": "8-pin SOT-23 (DCN), 1.6 x 2.9 mm body, 0.65 mm pitch",
+   "note": "TI DCN (R-PDSO-G8) land pattern 4211034/C (R1; (1.1) x (0.45) pads, (2.6) pad-centre span, 0.65 pitch), dac/dac7513.pdf p.27 (image page); body 1.6 mid (1.45-1.75) x 2.9 mid (2.80-3.00) from DCN outline 4202106/D p.26. Not SOT23-THIN-8: DDF0008A's pads are 1.05 x 0.45",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 1.6,
+    "height": 2.9
+   },
+   "pitch": 0.65,
+   "span": 2.6,
+   "pad": {
+    "width": 1.1,
+    "height": 0.45,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SOT23-THIN-6",
+   "description": "6-pin SOT-23-THIN (DDC), 1.6 x 2.9 mm body, 0.95 mm pitch",
+   "note": "TI DDC0006A board layout 4214841/E (R1; 6X (1.1) x 6X (0.6), (2.7) pad-centre span, R0.05 pad corners not drawn), adc/adc121c021.pdf p.45; body 1.6 mid (1.45-1.75) x 2.9 mid (2.75-3.05) from DDC0006A outline p.44 (same drawing in adc/adc101c021.pdf p.43-44, adc/adc081c021.pdf p.38-39, dac/dac121s101.pdf p.36-37, dac/dac081s101.pdf p.28-29, dac/dac101s101.pdf p.33-34). Not SOT23-6: DBV0006A's span is 2.6",
+   "style": "dual",
+   "pins": 6,
+   "body": {
+    "width": 1.6,
+    "height": 2.9
+   },
+   "pitch": 0.95,
+   "span": 2.7,
+   "pad": {
+    "width": 1.1,
+    "height": 0.6,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SOT5X3-10",
+   "description": "10-pin SOT (DYN), 2.1 x 2.9 mm body, 0.5 mm pitch",
+   "note": "TI DYN0010A board layout 4229803/F (R1; 10X (0.82) x 10X (0.3), (2.53) pad-centre span, R0.05 pad corners not drawn), adc/ads1113.pdf p.55; body 2.1 mid (2.0-2.2) x 2.9 mid (2.8-3.0) from DYN0010A outline p.54",
+   "style": "dual",
+   "pins": 10,
+   "body": {
+    "width": 2.1,
+    "height": 2.9
+   },
+   "pitch": 0.5,
+   "span": 2.53,
+   "pad": {
+    "width": 0.82,
+    "height": 0.3,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SSOP-28",
+   "description": "28-pin SSOP (DB), 5.3 x 10.2 mm body, 0.65 mm pitch",
+   "note": "TI DB0028A board layout 4214853/B (R1; 28X (1.85) x 28X (0.45), (7) pad-centre span, R0.05 pad corners not drawn), adc/ads822.pdf p.19; body 5.3 mid (5.0-5.6) x 10.2 mid (9.9-10.5) from DB0028A outline p.18 (same drawing in dac/dac8814.pdf p.27-28, dac/dac8820.pdf p.23-24, adc/ads1240.pdf p.29-30, adc/ads1255.pdf p.43-44, adc/ads7842.pdf p.20-21)",
+   "style": "dual",
+   "pins": 28,
+   "body": {
+    "width": 5.3,
+    "height": 10.2
+   },
+   "pitch": 0.65,
+   "span": 7,
+   "pad": {
+    "width": 1.85,
+    "height": 0.45,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "TQFP-32-PBS",
+   "description": "32-pin TQFP (PBS), 5 x 5 mm body, 0.5 mm pitch, 7.0 mm tip span",
+   "note": "TI PBS (S-PQFP-G32) land pattern 4212229/A (R1; 1.60 x 0.30 pads, 6.20 pad-centre rows, 0.50 pitch), adc/ads114s06b.pdf p.96 (image page); body 5.0 mid (4.95-5.05) from PBS outline 4087735/B p.95",
+   "style": "quad",
+   "pins": 32,
+   "body": {
+    "width": 5.0,
+    "height": 5.0
+   },
+   "sides": [
+    8,
+    8,
+    8,
+    8
+   ],
+   "pitch": 0.5,
+   "spanX": 6.2,
+   "spanY": 6.2,
+   "pad": {
+    "width": 1.6,
+    "height": 0.3,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "TQFP-32-PJT",
+   "description": "32-pin TQFP (PJT), 7 x 7 mm body, 0.8 mm pitch, 9.0 mm tip span",
+   "note": "TI PJT0032A board layout 4220861/A (R1; 32X (1.5) x 32X (0.55), (8.4) pad-centre rows, R0.05 pad corners not drawn), adc/ddc112.pdf p.35; body 7.0 mid (6.8-7.2) from PJT0032A outline p.34",
+   "style": "quad",
+   "pins": 32,
+   "body": {
+    "width": 7.0,
+    "height": 7.0
+   },
+   "sides": [
+    8,
+    8,
+    8,
+    8
+   ],
+   "pitch": 0.8,
+   "spanX": 8.4,
+   "spanY": 8.4,
+   "pad": {
+    "width": 1.5,
+    "height": 0.55,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "TQFP-64-PAG",
+   "description": "64-pin TQFP (PAG), 10 x 10 mm body, 0.5 mm pitch, 12.0 mm tip span",
+   "note": "TI PAG (S-PQFP-G64) land pattern 4211414/B (R1; 1.6 x 0.3 pads, 11.2 pad-centre rows, 0.5 pitch), adc/ads8364.pdf p.26 (image page); body 10.0 mid (9.80-10.20) from PAG outline 4040282/C p.25 (same outline in adc/ads8365.pdf p.38, dac/dac7718.pdf p.60, dac/dac8218.pdf p.60)",
+   "style": "quad",
+   "pins": 64,
+   "body": {
+    "width": 10.0,
+    "height": 10.0
+   },
+   "sides": [
+    16,
+    16,
+    16,
+    16
+   ],
+   "pitch": 0.5,
+   "spanX": 11.2,
+   "spanY": 11.2,
+   "pad": {
+    "width": 1.6,
+    "height": 0.3,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "TSSOP-30",
+   "description": "30-pin TSSOP (DBT), 4.4 x 7.8 mm body, 0.5 mm pitch",
+   "note": "TI DBT0030A board layout 4220214/B (R1; 30X (1.5) x 30X (0.3), 30X (0.5), (5.8) pad-centre span; R0.05 pad corners not drawn), adc/ads7955-q1.pdf p.33; body 4.4 mid (4.3-4.5) x 7.8 mid (7.75-7.85) from DBT0030A outline p.32 (same drawing in adc/ads7950.pdf p.81-82, adc/ads7956-q1.pdf p.52-53)",
+   "style": "dual",
+   "pins": 30,
+   "body": {
+    "width": 4.4,
+    "height": 7.8
+   },
+   "pitch": 0.5,
+   "span": 5.8,
+   "pad": {
+    "width": 1.5,
+    "height": 0.3,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "TSSOP-32-DA",
+   "description": "32-pin TSSOP (DA), 6.1 x 11.0 mm body, 0.65 mm pitch",
+   "note": "TI DA (R-PDSO-G**) outline 4040066/F 01/2009 (R2; no board layout; lead L 0.625 mid (0.50-0.75), b 0.245 mid (0.19-0.30), tip-to-tip E 8.1 mid (7.90-8.30); pad length 1.425 -> 1.43 and span 7.675 -> 7.67 keep the 9.1 outer extent, width 0.295 -> 0.3, as TSSOP-28; body 6.1 mid (6.00-6.20) x A 11.0 mid (10.90-11.10) for 32 pins), adc/ths1206.pdf p.43 (same rev F in adc/ths1007.pdf p.33, adc/ths1207.pdf p.32; rev D 11/98 in adc/tlv1571.pdf p.27, adc/ths12082.pdf p.37, adc/ths10064.pdf p.37 gives body 6.20 NOM, E 7.80-8.40, same pads)",
+   "style": "dual",
+   "pins": 32,
+   "body": {
+    "width": 6.1,
+    "height": 11.0
+   },
+   "pitch": 0.65,
+   "span": 7.67,
+   "pad": {
+    "width": 1.43,
+    "height": 0.3,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "TSSOP-38",
+   "description": "38-pin TSSOP (DBT), 4.4 x 9.7 mm body, 0.5 mm pitch",
+   "note": "TI DBT0038A board layout 4220221/A (R1; 38X (1.5) x 38X (0.3), 38X (0.5), (5.8) pad-centre span; R0.05 pad corners not drawn), adc/ads7950.pdf p.85; body 4.4 mid (4.35-4.45) x 9.7 mid (9.65-9.75) from DBT0038A outline p.84 (same drawing in adc/ads7956-q1.pdf p.49-50, dac/dac8822.pdf p.24-25, adc/ads8684a.pdf, adc/ads8688.pdf p.65-66, adc/ads8664.pdf)",
+   "style": "dual",
+   "pins": 38,
+   "body": {
+    "width": 4.4,
+    "height": 9.7
+   },
+   "pitch": 0.5,
+   "span": 5.8,
+   "pad": {
+    "width": 1.5,
+    "height": 0.3,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "UQFN-10-NKS",
+   "description": "10-pin UQFN (NKS), 1.6 x 2.0 mm body, 0.5 mm pitch",
+   "note": "TI NKS0010A board layout 4228435/A 01/2022 (R1; 8X (0.62) x 8X (0.25) side pads at 6X (0.5), (1.38) between the side columns; pins 5 and 10 2X (0.3) x (0.62), (1.73) apart, so explicit; R0.05 pad corners not drawn), adc/ads1013-q1.pdf p.42; body 1.6 mid (1.55-1.65) x 2.0 mid (1.95-2.05) from outline p.41 (same drawing in adc/ads1113-q1.pdf p.47-48)",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 1.6,
+    "height": 2.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -0.69,
+     "y": -0.75,
+     "width": 0.62,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.69,
+     "y": -0.25,
+     "width": 0.62,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -0.69,
+     "y": 0.25,
+     "width": 0.62,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -0.69,
+     "y": 0.75,
+     "width": 0.62,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.0,
+     "y": 0.865,
+     "width": 0.3,
+     "height": 0.62,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 0.69,
+     "y": 0.75,
+     "width": 0.62,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 0.69,
+     "y": 0.25,
+     "width": 0.62,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 0.69,
+     "y": -0.25,
+     "width": 0.62,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 0.69,
+     "y": -0.75,
+     "width": 0.62,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 0.0,
+     "y": -0.865,
+     "width": 0.3,
+     "height": 0.62,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "USON-12-DRN",
+   "description": "12-pin USON (DRN), 2.0 x 3.0 mm body, 0.5 mm pitch, exposed pad",
+   "note": "TI DRN (R-PUSON-N12) land pattern 4210158/A 03/09 (R1; pads 0.28 x 0.75 (R0.14 ends not drawn), 10x0.5 pitch, 2.8 outer extent so span 2.8 - 0.75 = 2.05, thermal land 2.3 x 0.9), dac/dac7551.pdf p.21; body 3.0 mid (2.90-3.10) x 2.0 mid (1.90-2.10) from DRN (R-PDSO-N12) outline 4205915/B p.19, exposed pad 2.30 x 0.90 (+-0.10) p.20; the drawing's rows of 6 (pins 1-6 bottom, 7-12 top) are turned to columns, so the body is 2.0 wide x 3.0 high",
+   "style": "dual",
+   "pins": 12,
+   "body": {
+    "width": 2.0,
+    "height": 3.0
+   },
+   "pitch": 0.5,
+   "span": 2.05,
+   "pad": {
+    "width": 0.75,
+    "height": 0.28,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 0.9,
+    "height": 2.3,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-16-RGT",
+   "description": "16-pin VQFN (RGT), 3 x 3 mm body, 0.5 mm pitch, exposed pad 1.68 mm",
+   "note": "TI RGT0016C board layout 4222419/E 07/2025 (R1; 16X (0.6) x 16X (0.24), 12X (0.5), (2.8) pad-centre rows, (1.68) thermal pad; R0.05 pad corners and vias not drawn), dac/dac7552.pdf p.25; body 3.0 mid (2.9-3.1), exposed pad 1.68 +-0.07 from outline p.24 (same drawing in dac/dac7553.pdf p.23-24)",
+   "style": "quad",
+   "pins": 16,
+   "body": {
+    "width": 3.0,
+    "height": 3.0
+   },
+   "sides": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "pitch": 0.5,
+   "spanX": 2.8,
+   "spanY": 2.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.24,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 1.68,
+    "height": 1.68,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-16-RGV",
+   "description": "16-pin VQFN (RGV), 4 x 4 mm body, 0.65 mm pitch, exposed pad 2.16 mm",
+   "note": "TI RGV0016A board layout 4219037/A 06/2019 (R1; 16X (0.75) x 16X (0.305), 12X (0.65), (3.65) pad-centre rows, (2.16) thermal pad (pin 17 on the drawing, unnumbered here); R0.05 pad corners and vias not drawn), adc/ads1225.pdf p.28; body 4.0 mid (3.85-4.15), exposed pad 2.16 +-0.1 from outline p.27",
+   "style": "quad",
+   "pins": 16,
+   "body": {
+    "width": 4.0,
+    "height": 4.0
+   },
+   "sides": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "pitch": 0.65,
+   "spanX": 3.65,
+   "spanY": 3.65,
+   "pad": {
+    "width": 0.75,
+    "height": 0.305,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 2.16,
+    "height": 2.16,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-16-RVA",
+   "description": "16-pin VQFN (RVA), 3.5 x 3.5 mm body, 0.5 mm pitch, exposed pad (size not drawn)",
+   "note": "TI RVA (S-PVQFN-N16) outline 4209676/C 05/11 only, no board layout (R4; terminal b 0.24 mid (0.18-0.30), L 0.40 mid (0.30-0.50), terminal-centre span 3.5 - 0.4 = 3.1, so pads 0.7 x 0.29 at 3.4), adc/ads1120.pdf p.75 (same in ads1220.pdf p.77); body 3.5 mid (3.40-3.60); the thermal pad's size is 'shown on separate sheet', which neither datasheet has, so no centre pad",
+   "style": "quad",
+   "pins": 16,
+   "body": {
+    "width": 3.5,
+    "height": 3.5
+   },
+   "sides": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "pitch": 0.5,
+   "spanX": 3.4,
+   "spanY": 3.4,
+   "pad": {
+    "width": 0.7,
+    "height": 0.29,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-20-RGW",
+   "description": "20-pin VQFN (RGW), 5 x 5 mm body, 0.65 mm pitch, exposed pad 3.15 mm",
+   "note": "TI RGW0020A board layout 4219039/A 06/2018 (R1; 20X (0.75) x 20X (0.31), 16X (0.65) pitch, (4.65) pad-centre rows, (3.15) thermal pad; R0.05 pad corners not drawn), adc/ads1257.pdf p.74; body 5.0 mid (4.9-5.1) from RGW0020A outline p.73",
+   "style": "quad",
+   "pins": 20,
+   "body": {
+    "width": 5.0,
+    "height": 5.0
+   },
+   "sides": [
+    5,
+    5,
+    5,
+    5
+   ],
+   "pitch": 0.65,
+   "spanX": 4.65,
+   "spanY": 4.65,
+   "pad": {
+    "width": 0.75,
+    "height": 0.31,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 3.15,
+    "height": 3.15,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-24-RGE",
+   "description": "24-pin VQFN (RGE, RGE0024B), 4 x 4 mm body, 0.5 mm pitch, exposed pad 2.45 mm",
+   "note": "TI RGE0024B board layout 4219013/A 05/2017 (R1; 24X (0.6) x 24X (0.25), 20X (0.5) pitch, (3.8) pad-centre rows, (2.45) thermal pad; R0.05 pad corners not drawn), dac/dac9881.pdf p.44; body 4.0 mid (3.9-4.1) from RGE0024B outline p.43",
+   "style": "quad",
+   "pins": 24,
+   "body": {
+    "width": 4.0,
+    "height": 4.0
+   },
+   "sides": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "pitch": 0.5,
+   "spanX": 3.8,
+   "spanY": 3.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.25,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 2.45,
+    "height": 2.45,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-24-RGE-F",
+   "description": "24-pin VQFN (RGE, RGE0024F), 4 x 4 mm body, 0.5 mm pitch, exposed pad 2.8 mm",
+   "note": "TI RGE0024F board layout 4222437/A 12/2015 (R1; 24X (0.6) x 24X (0.24), 20X (0.5) pitch, (3.8) pad-centre rows, (2.8) thermal pad; R0.05 pad corners not drawn), adc/ads8332.pdf p.57; body 4.0 mid (3.9-4.1) from RGE0024F outline p.56",
+   "style": "quad",
+   "pins": 24,
+   "body": {
+    "width": 4.0,
+    "height": 4.0
+   },
+   "sides": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "pitch": 0.5,
+   "spanX": 3.8,
+   "spanY": 3.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.24,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 2.8,
+    "height": 2.8,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-24-RGE-H",
+   "description": "24-pin VQFN (RGE, RGE0024H), 4 x 4 mm body, 0.5 mm pitch, exposed pad 2.7 mm",
+   "note": "TI RGE0024H board layout 4219016/A 08/2017 (R1; 24X (0.58) x 24X (0.24), 20X (0.5) pitch, (3.825) pad-centre rows, (2.7) thermal pad; R0.05 pad corners not drawn), adc/ads7950.pdf p.75; body 4.0 mid (3.9-4.1) from RGE0024H outline p.74 (same drawing in dac5578.pdf p.57-58, ads8904b.pdf p.76-77, ads8910b.pdf p.74-75)",
+   "style": "quad",
+   "pins": 24,
+   "body": {
+    "width": 4.0,
+    "height": 4.0
+   },
+   "sides": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "pitch": 0.5,
+   "spanX": 3.825,
+   "spanY": 3.825,
+   "pad": {
+    "width": 0.58,
+    "height": 0.24,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 2.7,
+    "height": 2.7,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-24-RHF",
+   "description": "24-pin VQFN (RHF), 4 x 5 mm body, 0.5 mm pitch, exposed pad 2.65 x 3.65 mm",
+   "note": "TI RHF0024A board layout 4219064/A 04/2017 (R1; 24X (0.6) x 24X (0.24), 20X (0.5) pitch, (3.8) x (4.8) pad-centre spans, (2.65) x (3.65) thermal pad; R0.05 pad corners not drawn), adc/ads1283.pdf p.65; body 4.0 mid (3.9-4.1) x 5.0 mid (4.9-5.1) from RHF0024A outline p.64 (same drawing in ads1284.pdf p.65-66, ads1287.pdf p.63-64)",
+   "style": "quad",
+   "pins": 24,
+   "body": {
+    "width": 4.0,
+    "height": 5.0
+   },
+   "sides": [
+    7,
+    5,
+    7,
+    5
+   ],
+   "pitch": 0.5,
+   "spanX": 3.8,
+   "spanY": 4.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.24,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 2.65,
+    "height": 3.65,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-28-RHP",
+   "description": "28-pin VQFN (RHP), 6 x 6 mm body, 0.65 mm pitch, exposed pad 4.45 mm",
+   "note": "TI RHP (S-PVQFN-N28) land pattern 4209975/C 06/12 (R1; 28X 0.35 x 0.85 pads, 24X 0.65 pitch, 6.8 outer and 5.1 inner pad extent, so (6.8 + 5.1)/2 = 5.95 pad-centre rows; rounded pad ends drawn square; the thermal land is not dimensioned, so it is the exposed pad 4.45 +-0.10 from the thermal pad sheet 4206484/F p.30, also the via-pattern size), adc/ads8370.pdf p.31; body 6.0 mid (5.85-6.15) from outline 4205387/C p.29 (same pages in ads8380.pdf p.29-31)",
+   "style": "quad",
+   "pins": 28,
+   "body": {
+    "width": 6.0,
+    "height": 6.0
+   },
+   "sides": [
+    7,
+    7,
+    7,
+    7
+   ],
+   "pitch": 0.65,
+   "spanX": 5.95,
+   "spanY": 5.95,
+   "pad": {
+    "width": 0.85,
+    "height": 0.35,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 4.45,
+    "height": 4.45,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-32-RHM",
+   "description": "32-pin VQFNP (RHM), 5 x 5 mm body, 0.5 mm pitch, exposed pad 3.7 mm",
+   "note": "TI RHM0032A board layout 4219073/A 03/2017 (R1; 32X (0.6) x 32X (0.25), 28X (0.5) pitch, (4.8) pad-centre rows, (3.7) thermal pad; R0.05 pad corners not drawn), adc/ads1235-q1.pdf p.75; body 5.0 mid (4.9-5.1) from RHM0032A outline p.74, 45 deg x 0.6 body corner chamfers not drawn (same drawing in ads1260-q1.pdf p.76-77 and p.83-84)",
+   "style": "quad",
+   "pins": 32,
+   "body": {
+    "width": 5.0,
+    "height": 5.0
+   },
+   "sides": [
+    8,
+    8,
+    8,
+    8
+   ],
+   "pitch": 0.5,
+   "spanX": 4.8,
+   "spanY": 4.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.25,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 3.7,
+    "height": 3.7,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-32-RSM",
+   "description": "32-pin VQFN (RSM), 4 x 4 mm body, 0.4 mm pitch, exposed pad 2.8 mm",
+   "note": "TI RSM0032B board layout 4219108/B 08/2019 (R1; 32X (0.55) x 32X (0.2), 28X (0.4) pitch, (3.85) pad-centre rows, (2.8) thermal pad; R0.05 pad corners not drawn), adc/adc3908d025.pdf p.45; body 4.0 mid (3.9-4.1) from RSM0032B outline p.44 (same drawing in adc3910d125.pdf p.128-129)",
+   "style": "quad",
+   "pins": 32,
+   "body": {
+    "width": 4.0,
+    "height": 4.0
+   },
+   "sides": [
+    8,
+    8,
+    8,
+    8
+   ],
+   "pitch": 0.4,
+   "spanX": 3.85,
+   "spanY": 3.85,
+   "pad": {
+    "width": 0.55,
+    "height": 0.2,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 2.8,
+    "height": 2.8,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-40-RHA",
+   "description": "40-pin VQFN (RHA, RHA0040C), 6 x 6 mm body, 0.5 mm pitch, exposed pad 4.7 mm",
+   "note": "TI RHA0040C board layout 4219053/B 03/2021 (R1; 40X (0.6) x 40X (0.25), 36X (0.5) pitch, (5.8) pad-centre rows, (4.7) thermal pad; R0.05 pad corners not drawn), dac/dac81416.pdf p.54; body 6.0 mid (5.9-6.1) from RHA0040C outline p.53 (same land pattern in dac81408.pdf p.52-53, rev 4219053/A)",
+   "style": "quad",
+   "pins": 40,
+   "body": {
+    "width": 6.0,
+    "height": 6.0
+   },
+   "sides": [
+    10,
+    10,
+    10,
+    10
+   ],
+   "pitch": 0.5,
+   "spanX": 5.8,
+   "spanY": 5.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.25,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 4.7,
+    "height": 4.7,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-40-RHA-H",
+   "description": "40-pin VQFN (RHA, RHA0040H), 6 x 6 mm body, 0.5 mm pitch, exposed pad 4.5 mm",
+   "note": "TI RHA0040H board layout 4219055/B 08/22/2019 (R1; 40X (0.6) x 40X (0.25), 36X (0.5) pitch, (5.8) pad-centre rows, (4.5) thermal pad; R0.05 pad corners not drawn), dac/dac8734.pdf p.40; body 6.0 mid (5.9-6.1) from RHA0040H outline p.39",
+   "style": "quad",
+   "pins": 40,
+   "body": {
+    "width": 6.0,
+    "height": 6.0
+   },
+   "sides": [
+    10,
+    10,
+    10,
+    10
+   ],
+   "pitch": 0.5,
+   "spanX": 5.8,
+   "spanY": 5.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.25,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 4.5,
+    "height": 4.5,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-48-RGZ",
+   "description": "48-pin VQFN (RGZ, RGZ0048A), 7 x 7 mm body, 0.5 mm pitch, exposed pad 5.15 mm",
+   "note": "TI RGZ0048A board layout 4219044/D (R1; 48X (0.6) x 48X (0.24), 44X (0.5) pitch, (6.8) pad-centre rows, (5.15) thermal pad; R0.05 pad corners not drawn), adc/ads7881.pdf p.30; body 7.0 mid (6.9-7.1) from RGZ0048A outline p.29 (same drawing in ads8471.pdf, ads8481.pdf)",
+   "style": "quad",
+   "pins": 48,
+   "body": {
+    "width": 7.0,
+    "height": 7.0
+   },
+   "sides": [
+    12,
+    12,
+    12,
+    12
+   ],
+   "pitch": 0.5,
+   "spanX": 6.8,
+   "spanY": 6.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.24,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 5.15,
+    "height": 5.15,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-48-RGZ-D",
+   "description": "48-pin VQFN (RGZ, RGZ0048D), 7 x 7 mm body, 0.5 mm pitch, exposed pad 5.6 mm",
+   "note": "TI RGZ0048D board layout 4219046/B (R1; 48X (0.6) x 48X (0.24), 44X (0.5) pitch, (6.8) pad-centre rows, (5.6) thermal pad; R0.05 pad corners not drawn), dac/afe7070.pdf p.42; body 7.0 mid (6.9-7.1) from RGZ0048D outline p.41 (same drawing in afe7071.pdf, dac7718.pdf, dac8718.pdf, dac8771.pdf)",
+   "style": "quad",
+   "pins": 48,
+   "body": {
+    "width": 7.0,
+    "height": 7.0
+   },
+   "sides": [
+    12,
+    12,
+    12,
+    12
+   ],
+   "pitch": 0.5,
+   "spanX": 6.8,
+   "spanY": 6.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.24,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 5.6,
+    "height": 5.6,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-48-RSL",
+   "description": "48-pin VQFN (RSL, RSL0048G), 6 x 6 mm body, 0.4 mm pitch, exposed pad 4.2 mm",
+   "note": "TI RSL0048G board layout 4231403/A (R1; 48X (0.55) x 48X (0.2), 44X (0.4) pitch, (5.75) pad-centre rows, (4.2) thermal pad; R0.05 pad corners not drawn), dac/dac5652a.pdf p.35; body 6.0 mid (5.9-6.1) from RSL0048G outline p.34",
+   "style": "quad",
+   "pins": 48,
+   "body": {
+    "width": 6.0,
+    "height": 6.0
+   },
+   "sides": [
+    12,
+    12,
+    12,
+    12
+   ],
+   "pitch": 0.4,
+   "spanX": 5.75,
+   "spanY": 5.75,
+   "pad": {
+    "width": 0.55,
+    "height": 0.2,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 4.2,
+    "height": 4.2,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-48-RTC",
+   "description": "48-pin VQFN (RTC), 7 x 7 mm body, 0.5 mm pitch, exposed pad 5.1 mm",
+   "note": "TI RTC (S-PVQFN-N48) land pattern 4210029-2/D (R1; 48X 0.85 x 0.28 pads, 44X 0.50 pitch, 7.8 outer / 6.1 inner extent so (6.95) pad-centre rows, 5.10 thermal pad; R0.14 pad end rounding not drawn), adc/ads1158.pdf p.52; body 7.0 mid (6.90-7.10) from outline 4205143/D p.50 (same drawing in ads1258.pdf, ads1258-ep.pdf, ddc114.pdf; ddc118.pdf has the 5.3 thermal pad sheet 4210029-3/D)",
+   "style": "quad",
+   "pins": 48,
+   "body": {
+    "width": 7.0,
+    "height": 7.0
+   },
+   "sides": [
+    12,
+    12,
+    12,
+    12
+   ],
+   "pitch": 0.5,
+   "spanX": 6.95,
+   "spanY": 6.95,
+   "pad": {
+    "width": 0.85,
+    "height": 0.28,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 5.1,
+    "height": 5.1,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-48-RTC-3",
+   "description": "48-pin VQFN (RTC), 7 x 7 mm body, 0.5 mm pitch, exposed pad 5.3 mm",
+   "note": "TI RTC (S-PVQFN-N48) land pattern 4210029-3/D (R1; 48X 0.85 x 0.28 pads, 44X 0.50 pitch, 7.8 outer / 6.1 inner extent so (6.95) pad-centre rows, 5.3 thermal pad; R0.14 pad end rounding not drawn), adc/ddc118.pdf p.35; body 7.0 mid (6.90-7.10) from outline 4205143/D p.33 (thermal pad 5.30 sheet 4206337-3/H p.34)",
+   "style": "quad",
+   "pins": 48,
+   "body": {
+    "width": 7.0,
+    "height": 7.0
+   },
+   "sides": [
+    12,
+    12,
+    12,
+    12
+   ],
+   "pitch": 0.5,
+   "spanX": 6.95,
+   "spanY": 6.95,
+   "pad": {
+    "width": 0.85,
+    "height": 0.28,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 5.3,
+    "height": 5.3,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-56-RSH",
+   "description": "56-pin VQFN (RSH), 7 x 7 mm body, 0.4 mm pitch, exposed pad 5.2 mm",
+   "note": "TI RSH (S-PVQFN-N56) land pattern 4209275-2/G (R1; 56X 0.95 x 0.2 pads, 52X 0.4 pitch, 7.8 outer / 5.9 inner extent so (6.85) pad-centre rows, 5.2 thermal pad), adc/ads9817.pdf p.71 (image-only page); body 7.0 mid (6.85-7.15) from outline 4207513/C p.69",
+   "style": "quad",
+   "pins": 56,
+   "body": {
+    "width": 7.0,
+    "height": 7.0
+   },
+   "sides": [
+    14,
+    14,
+    14,
+    14
+   ],
+   "pitch": 0.4,
+   "spanX": 6.85,
+   "spanY": 6.85,
+   "pad": {
+    "width": 0.95,
+    "height": 0.2,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 5.2,
+    "height": 5.2,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-64-RGC",
+   "description": "64-pin VQFN (RGC, RGC0064A), 9 x 9 mm body, 0.5 mm pitch, exposed pad 7.25 mm",
+   "note": "TI RGC0064A board layout 4219009/A (R1; 64X (0.6) x 64X (0.24), 60X (0.5) pitch, (8.8) pad-centre rows, (7.25) thermal pad; (0.05) pad corners not drawn), adc/ads8528.pdf p.60; body 9.0 mid (8.85-9.15) from RGC0064A outline p.59",
+   "style": "quad",
+   "pins": 64,
+   "body": {
+    "width": 9.0,
+    "height": 9.0
+   },
+   "sides": [
+    16,
+    16,
+    16,
+    16
+   ],
+   "pitch": 0.5,
+   "spanX": 8.8,
+   "spanY": 8.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.24,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 7.25,
+    "height": 7.25,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-64-RGC-H",
+   "description": "64-pin VQFN (RGC, RGC0064H), 9 x 9 mm body, 0.5 mm pitch, exposed pad 7.4 mm",
+   "note": "TI RGC0064H board layout 4219011/A (R1; 64X (0.6) x 64X (0.24), 60X (0.5) pitch, (8.8) pad-centre rows, (7.4) thermal pad; R0.05 pad corners not drawn), dac/dac5688.pdf p.52; body 9.0 mid (8.85-9.15) from RGC0064H outline p.51 (same drawing in dac5689.pdf)",
+   "style": "quad",
+   "pins": 64,
+   "body": {
+    "width": 9.0,
+    "height": 9.0
+   },
+   "sides": [
+    16,
+    16,
+    16,
+    16
+   ],
+   "pitch": 0.5,
+   "spanX": 8.8,
+   "spanY": 8.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.24,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 7.4,
+    "height": 7.4,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VSON-10-DRC",
+   "description": "10-pin VSON (DRC, DRC0010D), 3 x 3 mm body, 0.5 mm pitch, exposed pad 1.05 x 2.55 mm",
+   "note": "TI DRC0010D board layout 4218880/A (R1; 10X (0.6) x 10X (0.24), 8X (0.5) pitch, (2.8) pad-centre span, (1.05) x (2.55) thermal pad; R0.05 corners not drawn), adc/ads8860.pdf p.51; body 3.0 mid (2.9-3.1) from DRC0010D outline p.50 (same drawing in ads8861.pdf, ads8866.pdf, ads8881.pdf; ads8318.pdf and ads8319.pdf carry no DRC drawing)",
+   "style": "dual",
+   "pins": 10,
+   "body": {
+    "width": 3.0,
+    "height": 3.0
+   },
+   "pitch": 0.5,
+   "span": 2.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.24,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 1.05,
+    "height": 2.55,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VSON-10-DRC-J",
+   "description": "10-pin VSON (DRC, DRC0010J), 3 x 3 mm body, 0.5 mm pitch, exposed pad 1.65 x 2.4 mm with four tabs",
+   "note": "TI DRC0010J board layout 4218878/B (R1; 10X (0.6) x 10X (0.24), 8X (0.5) pitch, (2.8) pad-centre span; thermal land (1.65) x (2.4) plus four (0.25)-wide tabs at (0.5) centres reaching (3.4) overall, drawn as five abutting unnumbered pads, so explicit; R0.05 corners not drawn), adc/ads1112.pdf p.25; body 3.0 mid (2.9-3.1) from DRC0010J outline p.24",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 3.0,
+    "height": 3.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -1.4,
+     "y": -1.0,
+     "width": 0.6,
+     "height": 0.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.4,
+     "y": -0.5,
+     "width": 0.6,
+     "height": 0.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.4,
+     "y": 0.0,
+     "width": 0.6,
+     "height": 0.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -1.4,
+     "y": 0.5,
+     "width": 0.6,
+     "height": 0.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -1.4,
+     "y": 1.0,
+     "width": 0.6,
+     "height": 0.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.4,
+     "y": 1.0,
+     "width": 0.6,
+     "height": 0.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 1.4,
+     "y": 0.5,
+     "width": 0.6,
+     "height": 0.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 1.4,
+     "y": 0.0,
+     "width": 0.6,
+     "height": 0.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 1.4,
+     "y": -0.5,
+     "width": 0.6,
+     "height": 0.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 1.4,
+     "y": -1.0,
+     "width": 0.6,
+     "height": 0.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 0,
+     "y": 0,
+     "width": 1.65,
+     "height": 2.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -0.25,
+     "y": -1.45,
+     "width": 0.25,
+     "height": 0.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -0.25,
+     "y": 1.45,
+     "width": 0.25,
+     "height": 0.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 0.25,
+     "y": -1.45,
+     "width": 0.25,
+     "height": 0.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 0.25,
+     "y": 1.45,
+     "width": 0.25,
+     "height": 0.5,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "VSON-14-DMD",
+   "description": "14-pin VSON (DMD), 3 x 4 mm body, 0.5 mm pitch, exposed pad 1.5 x 3.4 mm",
+   "note": "TI DMD0014A board layout 4221688/A (R1; 14X (0.65) x 14X (0.25), 12X (0.5) pitch, (2.75) pad-centre span, (1.5) x (3.4) thermal pad), dac/dac60004.pdf p.39; body 3.0 mid (2.9-3.1) x 4.0 mid (3.9-4.1) from DMD0014A outline p.38",
+   "style": "dual",
+   "pins": 14,
+   "body": {
+    "width": 3.0,
+    "height": 4.0
+   },
+   "pitch": 0.5,
+   "span": 2.75,
+   "pad": {
+    "width": 0.65,
+    "height": 0.25,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 1.5,
+    "height": 3.4,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VSSOP-10",
+   "description": "10-pin VSSOP (DGS), 3.0 x 3.0 mm body, 0.5 mm pitch",
+   "note": "TI DGS0010A board layout 4221984/A (R1; 10X (1.45) x 10X (0.3), 8X (0.5) pitch, (4.4) pad-centre span; R0.05 corners not drawn), dac/dac60501.pdf p.46; body 3.0 mid (2.9-3.1) x 3.0 mid (2.9-3.1) from DGS0010A outline p.45 (same drawing in dac7562.pdf, dac7563t.pdf, ads1113.pdf, ads1013.pdf, adc104s021q-q1.pdf)",
+   "style": "dual",
+   "pins": 10,
+   "body": {
+    "width": 3.0,
+    "height": 3.0
+   },
+   "pitch": 0.5,
+   "span": 4.4,
+   "pad": {
+    "width": 1.45,
+    "height": 0.3,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VSSOP-8-DGK",
+   "description": "8-pin VSSOP (DGK), 3.0 x 3.0 mm body, 0.65 mm pitch",
+   "note": "TI DGK0008A board layout 4214862/A (R1; 8X (1.4) x 8X (0.45), 6X (0.65) pitch, (4.4) pad-centre span; R0.05 pad corners not drawn), adc/tlv2541.pdf p.29; body 3.0 mid (2.9-3.1) x 3.0 mid (2.9-3.1) from DGK0008A outline p.28 (same 4214862/A drawing in every DGK datasheet, e.g. dac8560.pdf p.38-40, ads7816.pdf p.20-22, slas276d.pdf p.25-27). Not VSSOP-8: that is the 2.3 x 2.0 DCU",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 3.0,
+    "height": 3.0
+   },
+   "pitch": 0.65,
+   "span": 4.4,
+   "pad": {
+    "width": 1.4,
+    "height": 0.45,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "WQFN-16-RGH",
+   "description": "16-pin WQFN (RGH), 4 x 4 mm body, 0.5 mm pitch, exposed pad 2.6 mm",
+   "note": "TI RGH0016A board layout 4214978/B (R1; 16X (0.6) x 16X (0.25), 12X (0.5) pitch, (3.8) pad-centre rows, (2.6) thermal pad; R0.05 pad corners not drawn), dac/dac088s085.pdf p.39; body 4.0 mid (3.9-4.1) from RGH0016A outline p.38 (same drawing in dac108s085.pdf p.33-34, dac128s085.pdf p.32-33, dac161s055.pdf p.27-28)",
+   "style": "quad",
+   "pins": 16,
+   "body": {
+    "width": 4.0,
+    "height": 4.0
+   },
+   "sides": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "pitch": 0.5,
+   "spanX": 3.8,
+   "spanY": 3.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.25,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 2.6,
+    "height": 2.6,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "WQFN-16-RTE",
+   "description": "16-pin WQFN (RTE), 3 x 3 mm body, 0.5 mm pitch, exposed pad 1.68 mm",
+   "note": "TI RTE0016C board layout 4219117/B (R1; 16X (0.6) x 16X (0.24), 12X (0.5) pitch, (2.8) pad-centre rows, (1.68) thermal pad; R0.05 pad corners not drawn), adc/ads7947.pdf p.40; body 3.0 mid (2.9-3.1) from RTE0016C outline p.39 (same drawing in ads7946.pdf, ads7924.pdf, ads7028.pdf, ads7038.pdf, ads7128.pdf, ads7138.pdf, ads112s14.pdf, dac53204.pdf, dac53608.pdf, dac43508.pdf, dac43902-q1.pdf, dac53004.pdf, dac63001.pdf, dac63202.pdf). RTE0016D (0.8 thermal pad) is WQFN-16-RTE-D",
+   "style": "quad",
+   "pins": 16,
+   "body": {
+    "width": 3.0,
+    "height": 3.0
+   },
+   "sides": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "pitch": 0.5,
+   "spanX": 2.8,
+   "spanY": 2.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.24,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 1.68,
+    "height": 1.68,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "WQFN-16-RTE-D",
+   "description": "16-pin WQFN (RTE, RTE0016D), 3 x 3 mm body, 0.5 mm pitch, exposed pad 0.8 mm",
+   "note": "TI RTE0016D board layout 4219118/A (R1; 16X (0.6) x 16X (0.24), 12X (0.5) pitch, (2.8) pad-centre rows, (0.8) thermal pad; R0.05 pad corners not drawn), adc/ads7253.pdf p.70; body 3.0 mid (2.85-3.15) from RTE0016D outline p.69 (same drawing in ads1119.pdf, ads112c04.pdf, ads122c04.pdf, ads7254.pdf, ads7851.pdf, ads8350.pdf, ads8355.pdf, dac60508.pdf, dac80504.pdf). Signal pads as WQFN-16-RTE (RTE0016C); only the thermal pad differs (0.8 vs 1.68)",
+   "style": "quad",
+   "pins": 16,
+   "body": {
+    "width": 3.0,
+    "height": 3.0
+   },
+   "sides": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "pitch": 0.5,
+   "spanX": 2.8,
+   "spanY": 2.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.24,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 0.8,
+    "height": 0.8,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "WQFN-16-RUM",
+   "description": "16-pin WQFN (RUM), 4 x 4 mm body, 0.65 mm pitch, exposed pad 2.7 mm",
+   "note": "TI RUM (S-PQFP-N16) outline only, 4209092/A (R4; terminal L 0.4 mid (0.30-0.50), b 0.30 mid (0.25-0.35); pad 0.7 x 0.35, terminal-centre span 3.6 + 0.3 = 3.9, 0.65 pitch), adc/ads8681w.pdf p.68; exposed pad 2.70 +-0.10 from thermal pad drawing 4209093-2/F p.69 (pin-1 C0.30 chamfer not drawn); body 4.0 mid (3.90-4.10). No RUM board layout in any datasheet (ads8681.pdf has only PW drawings)",
+   "style": "quad",
+   "pins": 16,
+   "body": {
+    "width": 4.0,
+    "height": 4.0
+   },
+   "sides": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "pitch": 0.65,
+   "spanX": 3.9,
+   "spanY": 3.9,
+   "pad": {
+    "width": 0.7,
+    "height": 0.35,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 2.7,
+    "height": 2.7,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "WQFN-20-RUK",
+   "description": "20-pin WQFN (RUK), 3 x 3 mm body, 0.4 mm pitch, exposed pad 1.7 mm",
+   "note": "TI RUK0020B board layout 4222676/A (R1; 20X (0.6) x 20X (0.2), 16X (0.4) pitch, (2.8) pad-centre rows, (1.7) thermal pad; R0.05 pad corners not drawn), adc/ads117l11.pdf p.76; body 3.0 mid (2.9-3.1) from RUK0020B outline p.75 (same drawing in ads127l21.pdf p.116-117, ads131m02.pdf p.88-89, ads131m03.pdf p.94-95, ads131m04.pdf p.99-100)",
+   "style": "quad",
+   "pins": 20,
+   "body": {
+    "width": 3.0,
+    "height": 3.0
+   },
+   "sides": [
+    5,
+    5,
+    5,
+    5
+   ],
+   "pitch": 0.4,
+   "spanX": 2.8,
+   "spanY": 2.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.2,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 1.7,
+    "height": 1.7,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "WQFN-32-RTV",
+   "description": "32-pin WQFN (RTV), 5 x 5 mm body, 0.5 mm pitch, exposed pad 3.1 mm",
+   "note": "TI RTV0032A board layout 4224386/B (R1; 32X (0.6) x 32X (0.24), 28X (0.5) pitch, (4.8) pad-centre rows, (3.1) thermal pad; R0.05 pad corners not drawn), adc/adc12c105.pdf p.31; body 5.0 mid (4.85-5.15) from RTV0032A outline p.30. Not VQFN-32-5X5 (RHB0032E: 0.25 pads, 3.45 thermal pad)",
+   "style": "quad",
+   "pins": 32,
+   "body": {
+    "width": 5.0,
+    "height": 5.0
+   },
+   "sides": [
+    8,
+    8,
+    8,
+    8
+   ],
+   "pitch": 0.5,
+   "spanX": 4.8,
+   "spanY": 4.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.24,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 3.1,
+    "height": 3.1,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "WQFN-40-RTA",
+   "description": "40-pin WQFN (RTA), 6 x 6 mm body, 0.5 mm pitch, exposed pad 4.15 mm",
+   "note": "TI RTA0040B board layout 4219112/A (R1; 40X (0.6) x 40X (0.22), 36X (0.5) pitch, 2X (5.8) pad-centre rows, (4.15) thermal pad; R0.05 pad corners not drawn), dac/dac7822.pdf p.23; body 6.0 mid (5.9-6.1) from RTA0040B outline p.22",
+   "style": "quad",
+   "pins": 40,
+   "body": {
+    "width": 6.0,
+    "height": 6.0
+   },
+   "sides": [
+    10,
+    10,
+    10,
+    10
+   ],
+   "pitch": 0.5,
+   "spanX": 5.8,
+   "spanY": 5.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.22,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 4.15,
+    "height": 4.15,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "WSON-10-DRX",
+   "description": "10-pin WSON (DRX), 2.5 x 2.5 mm body, 0.5 mm pitch, no exposed pad",
+   "note": "TI DRX0010A board layout 4223856/B 01/2020 (R1; 10X (1.2) x 10X (0.24), 8X (0.5) pitch, (1.7) pad-centre span; R0.05 corners not drawn), dac/dac60502.pdf p.45; body 2.5 mid (2.4-2.6) from DRX0010A outline p.44 (same drawing in dac/dac82001.pdf)",
+   "style": "dual",
+   "pins": 10,
+   "body": {
+    "width": 2.5,
+    "height": 2.5
+   },
+   "pitch": 0.5,
+   "span": 1.7,
+   "pad": {
+    "width": 1.2,
+    "height": 0.24,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "WSON-10-DSC",
+   "description": "10-pin WSON (DSC), 3 x 3 mm body, 0.5 mm pitch, exposed pad 1.05 x 2.55 mm with corner tabs",
+   "note": "TI DSC (S-PWSON-N10) land pattern 4210390-4/K 08/15 (R1; 10X 0.85 x 0.28 pad geometry, 8X 0.50 pitch, 3.80 outer extent so 2.95 pad-centre span (2.10 between inner ends); thermal land 2.55 x 1.05 plus four 0.18 x 0.23 tabs at its corners (Exposed Pad Geometry), reaching 0.18 beyond its 2.55 ends, drawn as five abutting unnumbered pads, so explicit; drawing rotated 90 deg (pins along the long sides); R0.14 pad end rounding not drawn), dac/dac7562.pdf p.59; body 3.0 mid (2.85-3.15) from DSC outline 4207383/E p.57 (same drawings in dac/dac7563t.pdf p.60-62); the NSC DSC0010A drawing in dac082s085.pdf differs, see WSON-10-DSC-A",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 3.0,
+    "height": 3.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -1.475,
+     "y": -1.0,
+     "width": 0.85,
+     "height": 0.28,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.475,
+     "y": -0.5,
+     "width": 0.85,
+     "height": 0.28,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.475,
+     "y": 0.0,
+     "width": 0.85,
+     "height": 0.28,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -1.475,
+     "y": 0.5,
+     "width": 0.85,
+     "height": 0.28,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -1.475,
+     "y": 1.0,
+     "width": 0.85,
+     "height": 0.28,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.475,
+     "y": 1.0,
+     "width": 0.85,
+     "height": 0.28,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 1.475,
+     "y": 0.5,
+     "width": 0.85,
+     "height": 0.28,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 1.475,
+     "y": 0.0,
+     "width": 0.85,
+     "height": 0.28,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 1.475,
+     "y": -0.5,
+     "width": 0.85,
+     "height": 0.28,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 1.475,
+     "y": -1.0,
+     "width": 0.85,
+     "height": 0.28,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 0.0,
+     "y": 0.0,
+     "width": 1.05,
+     "height": 2.55,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -0.41,
+     "y": -1.365,
+     "width": 0.23,
+     "height": 0.18,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -0.41,
+     "y": 1.365,
+     "width": 0.23,
+     "height": 0.18,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 0.41,
+     "y": -1.365,
+     "width": 0.23,
+     "height": 0.18,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 0.41,
+     "y": 1.365,
+     "width": 0.23,
+     "height": 0.18,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "WSON-10-DSC-A",
+   "description": "10-pin WSON (DSC, DSC0010A), 3 x 3 mm body, 0.5 mm pitch, exposed pad 1.6 x 2.0 mm",
+   "note": "TI DSC0010A (SDA10A Rev A) recommended land pattern (R1; 10X (0.6) x 10X (0.25), 8X (0.5) pitch, (2.8) pad-centre span (dimension drawn to the pad centrelines), (2) x (1.6) thermal pad; drawing rotated 90 deg), dac/dac082s085.pdf p.32; body 3.0 (3 +-0.1) from the same page (same drawing in dac084s085.pdf, dac104s085.pdf, dac122s085.pdf)",
+   "style": "dual",
+   "pins": 10,
+   "body": {
+    "width": 3.0,
+    "height": 3.0
+   },
+   "pitch": 0.5,
+   "span": 2.8,
+   "pad": {
+    "width": 0.6,
+    "height": 0.25,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 1.6,
+    "height": 2.0,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "WSON-6-NGF",
+   "description": "6-pin WSON (NGF), 2.2 x 2.5 mm body, 0.65 mm pitch, exposed pad 0.75 x 1.2 mm",
+   "note": "TI NGF0006A (SDB06A Rev A) recommended land pattern (R1; 6X (0.6) x 6X (0.25), 4X (0.65) pitch, (2.3) pad-centre span (dimension drawn to the pad centrelines), (1.2) x (0.75) thermal pad; drawing rotated 90 deg, so the body's 2.5 side runs across the pad columns), adc/adc081s021.pdf p.30; body 2.2 (2.2 +-0.1) x 2.5 (2.5 +-0.1) from the same page (same drawing in adc081s051.pdf p.26, adc081s101.pdf p.24, adc101s021.pdf p.24, dac081c081.pdf p.42, dac101c081.pdf p.38)",
+   "style": "dual",
+   "pins": 6,
+   "body": {
+    "width": 2.5,
+    "height": 2.2
+   },
+   "pitch": 0.65,
+   "span": 2.3,
+   "pad": {
+    "width": 0.6,
+    "height": 0.25,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 0.75,
+    "height": 1.2,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "WSON-8-DQF",
+   "description": "8-pin WSON (DQF), 2 x 2 mm body, 0.5 mm pitch, no exposed pad",
+   "note": "TI DQF0008A board layout 4220563/A 03/2021 (R1; 7X (0.7) x 8X (0.25), 6X (0.5) pitch, (1.7) pad-centre span; pin 1 land (0.8) long, outer end flush with the others, so it reaches 0.1 further inward and its centre is 0.05 inward: explicit; R0.05 corners not drawn), dac/dac60501.pdf p.50; body 2.0 mid (1.9-2.1) from DQF0008A outline p.49",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 2.0,
+    "height": 2.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -0.8,
+     "y": -0.75,
+     "width": 0.8,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.85,
+     "y": -0.25,
+     "width": 0.7,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -0.85,
+     "y": 0.25,
+     "width": 0.7,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -0.85,
+     "y": 0.75,
+     "width": 0.7,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.85,
+     "y": 0.75,
+     "width": 0.7,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 0.85,
+     "y": 0.25,
+     "width": 0.7,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 0.85,
+     "y": -0.25,
+     "width": 0.7,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 0.85,
+     "y": -0.75,
+     "width": 0.7,
+     "height": 0.25,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "WSON-8-DSG",
+   "description": "8-pin WSON (DSG), 2 x 2 mm body, 0.5 mm pitch, exposed pad 0.9 x 1.6 mm",
+   "note": "TI DSG0008A board layout 4218900/E 08/2022 (R1; 8X (0.5) x 8X (0.25), 6X (0.5) pitch, (1.9) pad-centre span, (0.9) x (1.6) thermal pad (drawing's pad 9, unnumbered here: the pinouts have 8 pins); R0.05 corners and optional vias not drawn), dac/dac53401.pdf p.54; body 2.0 mid (1.9-2.1) from DSG0008A outline p.53 (same drawing in dac43401-q1.pdf, dac53701-q1.pdf, dac43701.pdf)",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 2.0,
+    "height": 2.0
+   },
+   "pitch": 0.5,
+   "span": 1.9,
+   "pad": {
+    "width": 0.5,
+    "height": 0.25,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 0.9,
+    "height": 1.6,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "X2QFN-10-RUG",
+   "description": "10-pin X2QFN (RUG), 1.5 x 2.0 mm body, 0.5 mm pitch",
+   "note": "TI RUG0010A board layout 4231745/B 03/2026 (R1; side lands 8X (0.55) long, corner ones 1/4/6/9 4X (0.25) and middle ones 2/3/7/8 4X (0.2) high, 6X (0.5) pitch, (1.35) pad-centre span; end lands 5/10 2X (0.3) x (0.6), centres (1.8) apart; mixed sizes, so explicit; R0.05 corners not drawn), adc/ads1113.pdf p.49; body 1.5 mid (1.45-1.55) x 2.0 mid (1.95-2.05) from RUG0010A outline p.48 (same drawing rev in ads1013.pdf, ads1018.pdf, ads1118.pdf, ads7142.pdf)",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 1.5,
+    "height": 2.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -0.675,
+     "y": -0.75,
+     "width": 0.55,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.675,
+     "y": -0.25,
+     "width": 0.55,
+     "height": 0.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -0.675,
+     "y": 0.25,
+     "width": 0.55,
+     "height": 0.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -0.675,
+     "y": 0.75,
+     "width": 0.55,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.0,
+     "y": 0.9,
+     "width": 0.3,
+     "height": 0.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 0.675,
+     "y": 0.75,
+     "width": 0.55,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 0.675,
+     "y": 0.25,
+     "width": 0.55,
+     "height": 0.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 0.675,
+     "y": -0.25,
+     "width": 0.55,
+     "height": 0.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 0.675,
+     "y": -0.75,
+     "width": 0.55,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 0.0,
+     "y": -0.9,
+     "width": 0.3,
+     "height": 0.6,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "X2QFN-8-RUG",
+   "description": "8-pin X2QFN (RUG), 1.5 x 1.5 mm body, 0.5 mm pitch",
+   "note": "TI RUG0008A board layout 4222060/A 05/14/2015 (R1; side lands 6X (0.55) long, corner ones 1/3/5/7 4X (0.25) and middle ones 2/6 2X (0.2) high, 4X (0.5) pitch, (1.35) pad-centre span; end lands 4/8 2X (0.3) x (0.6), centres (1.3) apart; mixed sizes, so explicit; R0.05 corners not drawn), adc/ads7040.pdf p.34; body 1.5 mid (1.45-1.55) from RUG0008A outline p.33 (same drawing rev in ads7041.pdf, ads7042.pdf, ads7043.pdf, ads7044.pdf, ads7046.pdf)",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 1.5,
+    "height": 1.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -0.675,
+     "y": -0.5,
+     "width": 0.55,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.675,
+     "y": 0.0,
+     "width": 0.55,
+     "height": 0.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -0.675,
+     "y": 0.5,
+     "width": 0.55,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 0.0,
+     "y": 0.65,
+     "width": 0.3,
+     "height": 0.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.675,
+     "y": 0.5,
+     "width": 0.55,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 0.675,
+     "y": 0.0,
+     "width": 0.55,
+     "height": 0.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 0.675,
+     "y": -0.5,
+     "width": 0.55,
+     "height": 0.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 0.0,
+     "y": -0.65,
+     "width": 0.3,
+     "height": 0.6,
+     "shape": "rect"
+    }
+   ]
+  }
+ ]
+}

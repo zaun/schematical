@@ -976,7 +976,7 @@
   },
   "RHA": {
    "pinout": "rha40",
-   "footprint": "VQFN-40-RHA",
+   "footprint": "VQFN-40-RHA-H",
    "package": "VQFN",
    "pins": 40
   }

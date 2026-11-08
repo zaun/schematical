@@ -1129,7 +1129,7 @@
  "packages": {
   "RGZ": {
    "pinout": "rgz48",
-   "footprint": "VQFN-48-RGZ",
+   "footprint": "VQFN-48-RGZ-D",
    "package": "VQFN",
    "pins": 48
   }
