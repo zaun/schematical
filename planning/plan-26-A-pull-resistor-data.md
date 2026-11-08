@@ -36,8 +36,8 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests pass | `cmake -S backend -B /tmp/p26-build && cmake --build /tmp/p26-build -j8 && ctest --test-dir /tmp/p26-build -j8` → 23/23 | MET (2026-11-07: 23/23, 6.85 s) |
-| The 7 pull parts still have no footprint | `grep -c '"pull": true' schematical/schematical/Parts/supply.json` → 7, and `grep -c 'RES-' schematical/schematical/Parts/footprints.json` → 0 | MET (2026-11-07: 7, 0) |
+| Backend tests pass | `cmake -S backend -B /tmp/p26-build && cmake --build /tmp/p26-build -j8 && ctest --test-dir /tmp/p26-build -j8` → 23/23 | MET (2026-11-07, re-run by follow-plan: 24/24, 7.72 s — one test added since authoring; see Corrections) |
+| The 7 pull parts still have no footprint | `grep -c '"pull": true' schematical/schematical/Parts/supply.json` → 7, and `grep -c 'RES-' schematical/schematical/Parts/footprints.json` → 0 | MET (2026-11-07, re-run: 7, 0) |
 
 Everything below is written against the world where these hold.
 
@@ -257,33 +257,46 @@ Adds the footprints and the loader rule. No part uses the footprints yet, so
 `footprint_check`'s "every footprint is used" rule would fail; the part data
 lands in the same phase.
 
-- [ ] `schematical/schematical/Parts/footprints.json`: add the six footprints
-      of §4 after `LED-DIP4`'s block.
-- [ ] `backend/src/library/library.c`: the §5 changes (`load_part` order,
+- [x] `schematical/schematical/Parts/footprints.json`: add the six footprints
+      of §4 after `LED-DIP4`'s block. (JSON parses; 263 footprints.)
+- [x] `backend/src/library/library.c`: the §5 changes (`load_part` order,
       supply/pull rule, `extra_pads`, final missing-footprint check).
-- [ ] `schematical/schematical/Parts/supply.json`: the 7 pull parts as §6.
-- [ ] `backend/tests/library_check.c`: `check_valid_pull` gives `PULLDOWN`
+- [x] `schematical/schematical/Parts/supply.json`: the 7 pull parts as §6.
+- [x] `backend/tests/library_check.c`: `check_valid_pull` gives `PULLDOWN`
       `'package':'0603','footprint':'T2','footprintChoices':[{'package':'0603','footprint':'T2'}]`
       and checks `pd->footprint` is `T2`. New `expect_fail` cases: a pull
       without `footprint` → `missing "footprint"`; a pull with
       `connectorFootprint` → `a pull part has no connectorFootprint`; a
       non-pull supply with `'footprint':'T1'` → `a supply has no footprint`
-      (still rejected).
-- [ ] Regenerate goldens: `/tmp/p26-build/listing_check --print >
+      (still rejected — already the existing "supply part with footprint"
+      case, which passes unchanged; also added "pull part footprint with
+      fewer pads than pins" → `pin "1" has no pad in footprint "BGA2"`).
+      `library_check` → `library_check: all passed`, the 3 new cases `ok`.
+- [x] Regenerate goldens: `/tmp/p26-build/listing_check --print >
       backend/tests/golden/parts.txt` and `/tmp/p26-build/footprint_check
       --print > backend/tests/golden/footprints.txt`; hand-check the 6 new
-      footprint lines against §4.
-- [ ] `docs/parts-format.md`: § `supply` (pull parts name a footprint and
+      footprint lines against §4. (Checked: bodies and pads match, pad
+      centres ±span/2 = 0.45, 0.6, 0.8, 1.15, 5.08, 1.27; drill d0.800 on
+      Axial/Radial.)
+- [x] `docs/parts-format.md`: § `supply` (pull parts name a footprint and
       footprint choices; their own footprint may have more pads than pins,
       pad 2 is the rail end; table column for footprint), § The `"footprint"`
       part key ("except supplies" → "except VCC/GND supplies"; the pull
       exception), § `dual` intro (add "chip resistors").
+- [x] Added: `backend/tests/charlcd_test.c` loads the real `footprints.json`
+      before the real `supply.json` (its fixture library had only `FX16`, so
+      the pull parts failed `unknown footprint "RES-RADIAL-2.54"`). See
+      Corrections.
 
 Acceptance: the library loads with the new pull parts; only the expected
 golden lines changed.
   Check: `cmake --build /tmp/p26-build -j8 && ctest --test-dir /tmp/p26-build -j8`
   → 100% passed; `git diff --stat backend/tests/golden` → `parts.txt` 7 lines
   changed, `footprints.txt` 6 lines added, `traces.txt` untouched (est. 1 min).
+  Result (2026-11-07): `100% tests passed, 0 tests failed out of 24`;
+  `footprints.txt | 6 ++++++`, `parts.txt | 14 +++++++-------` (7 lines
+  changed), `traces.txt` not in the diff; `listing_check --print | grep -c
+  'RES-RADIAL-2.54'` → 7.
 Commit: —
 
 ### Phase 2 — App model and file format
@@ -344,6 +357,21 @@ Commit: —
   simulation — author's call (the simulation is digital). (§1 Non-goals)
 
 ## Corrections
+
+- **Prerequisites test count**: the backend suite has 24 tests, not 23
+  (`ctest --test-dir /tmp/p26-build -j8` → `0 tests failed out of 24`,
+  2026-11-07). A test landed between authoring and execution; the row is
+  still MET (all pass).
+- **`charlcd_test` loads the real `supply.json`** into a fixture library
+  that holds only its `FX16` footprint
+  (`backend/tests/charlcd_test.c` main), so after §6 it failed with
+  `supply.json: devices[7] (PULLUP-5V): parts[0] (PULLUP-5V): unknown
+  footprint "RES-RADIAL-2.54"`. §2 missed this reader. Fix: it now loads the
+  real `footprints.json` first (`load_footprints` accepts several calls).
+  Added as a Phase 1 task.
+- **The "non-pull supply with `footprint` T1" case already existed**
+  (`library_check.c` "supply part with footprint", one of the 3 counted in
+  §2), so it was not added twice; it passes unchanged.
 
 ## Summary
 

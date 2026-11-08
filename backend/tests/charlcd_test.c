@@ -1458,6 +1458,18 @@ int main(int argc, char **argv) {
                           "fx-lcd-nb.json");
     }
     if (error == NULL) {
+        /* The pull parts name resistor footprints (plan-26-A). */
+        char *footprints = read_file(PARTS_DIR "/footprints.json");
+
+        if (footprints == NULL) {
+            error = strdup("cannot read footprints.json");
+        } else if (load_footprints(library, footprints, "footprints.json", &error) != 0 &&
+                   error == NULL) {
+            error = strdup("(no message)");
+        }
+        free(footprints);
+    }
+    if (error == NULL) {
         char *supplies = read_file(PARTS_DIR "/supply.json");
 
         error = supplies == NULL ? strdup("cannot read supply.json")
