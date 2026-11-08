@@ -188,23 +188,24 @@ Commit: 001b772
 
 Acceptance: the tests pass, and the app builds with the menu.
   Check: `xcodebuild … test -only-testing:schematicalTests/SchematicExportActionTests -only-testing:schematicalTests/SchematicRasterTests CODE_SIGNING_ALLOWED=NO 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 8 min).
-Commit: —
+Commit: 6852513
 
 ### Phase 3 — Running app, docs
 
-- [ ] Launch the built app (`xcodebuild … -derivedDataPath /tmp/p28-dd build`, then open
+- [~] Launch the built app (`xcodebuild … -derivedDataPath /tmp/p28-dd build`, then open
       `/tmp/p28-dd/Build/Products/Debug/schematical.app`), open `be-6502.schematical` with ⌘O, and with the real mouse:
       open the Schematical menu → Export; screenshot the open submenu showing the three items (record the screenshot path here);
       choose each item and save into `/tmp/p28-out/` (type the path in the save panel's name field).
       When done, move the pointer to the top-left corner of the screen (0, 0) (AGENTS.md).
+      Partly done (2026-11-07, screen locked: `CGSSessionScreenIsLocked 1`, display asleep, `screencapture` all black). Built (`** BUILD SUCCEEDED **`) and launched; through the Accessibility API the application menu reads `About schematical | Export | — | Settings… | — | Services | …`, and Export holds `SVG Schematic`, `PNG Schematic`, `JPG Schematic`, all `enabled false` with no schematic window focused (as § 1 requires). Remains: with the screen unlocked, open be-6502, take the submenu screenshot, choose each item and save into `/tmp/p28-out/`. While locked, no window becomes key, so the items cannot be enabled (see Corrections).
 - [ ] Check the three files: `xmllint --noout /tmp/p28-out/be-6502.svg`; `file /tmp/p28-out/be-6502.png /tmp/p28-out/be-6502.jpg` → `8-bit/color RGBA` for the PNG and a JPEG with 3 components;
       `magick identify -format '%[opaque]\n' /tmp/p28-out/be-6502.png` → `False`, and for the JPG `True`;
       `magick /tmp/p28-out/be-6502.png -background white -flatten /tmp/p28-out/flat.png`; view `flat.png`, the JPG and `rsvg-convert -z 2 … be-6502.svg` with the Read tool — all three show the same schematic, black on white, with nothing cut off at the edges.
 - [ ] Export from a window with an empty schematic: the alert appears, no panel.
-- [ ] `docs/export.md` (new): the three formats and their pixel rule; the ink table from plan-28-A § 3.1 (screen vs export);
+- [x] `docs/export.md` (new): the three formats and their pixel rule; the ink table from plan-28-A § 3.1 (screen vs export);
       "a new part symbol draws through `SchematicPainter` with `Ink`/`PaintedText`, never `GraphicsContext`/`Color`, and needs a case in
       `SchematicScene.paint`'s switch (it has no `default`)"; text is live `<text>` in SVG; where the code lives.
-- [ ] `docs/file-format.md` is not changed (no format change); `rg -n 'Export' docs/file-format.md` → nothing.
+- [x] `docs/file-format.md` is not changed (no format change); `rg -n 'Export' docs/file-format.md` → nothing. (→ no match, exit 1; `git diff main -- docs/file-format.md` empty)
 
 Acceptance: the submenu shows the three items and each writes a valid file; the PNG is non-opaque, the JPG opaque, both visually the whole schematic.
   Check: the commands above and the screenshot (est. 20 min; nothing headless can see a menu bar or a save panel).
@@ -239,7 +240,8 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- Phase 3 found the session locked (`CGSessionCopyCurrentDictionary` → `CGSSessionScreenIsLocked 1`; `CGDisplayIsAsleep` → 1), so `screencapture` is black and keystrokes go to the lock screen. Accessibility reads and clicks still reach the app: that is how the menu listing above was taken. File > New through Accessibility created windows (`CGWindowListCopyWindowInfo` → two `Untitled` windows, `onscreen false`), but none became key, so `@FocusedValue(\.schematicFile)` stays nil and the Export items stay disabled.
+- Added a test affordance for the running-app check, `scripts/harness/export-menu.swift`: the app's real `ContentView` scene with the real `SchematicFileCommands`/`SchematicExportCommands`, be-6502 loaded into the window's document (from `SchematicSessions`, as File > Open's `apply` does), each Export item chosen with `NSMenu.performActionForItem`, and the save-panel sheet filled and confirmed in code. While locked it confirms the menu (`ok   Export is the application menu's second item, after About`, `ok   three Export items in order`) but also hits the key-window limit (`window "Untitled" key false … app active false`, items disabled). It is the scripted check once the screen is unlocked; the real-mouse run is still the Phase 3 criterion.
 
 ## Summary
 
