@@ -222,7 +222,10 @@ int main(void) {
     char *error = NULL;
     SimTime t;
 
-    /* gate.json names footprints, so footprints.json loads first. */
+    /* gate.json names datasheets and footprints, so those load first. */
+    if (load_datasheets_file(library, PARTS_DIR) != 0) {
+        return 1;
+    }
     if (text == NULL || load_footprints(library, text, "footprints.json", &error) != 0) {
         fprintf(stderr, "engine_test: cannot load footprints.json: %s\n",
                 error ? error : "read failed");

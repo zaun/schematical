@@ -91,6 +91,9 @@ int main(int argc, char **argv) {
     idle = atoi(argv[4]);
 
     library = part_library_create();
+    if (load_datasheets_file(library, PARTS_DIR) != 0) {
+        return 1;
+    }
     for (i = 0; i < 6; i++) {
         char path[1024];
         char *text;

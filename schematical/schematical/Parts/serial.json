@@ -207,6 +207,7 @@
    "parts": [
     {
      "name": "N82510",
+     "manufacturer": "Intel",
      "package": "PLCC",
      "pinout": "plcc28",
      "footprint": "PLCC-28",
@@ -214,6 +215,7 @@
     },
     {
      "name": "TN82510",
+     "manufacturer": "Intel",
      "package": "PLCC",
      "pinout": "plcc28",
      "footprint": "PLCC-28",
@@ -423,6 +425,7 @@
    "parts": [
     {
      "name": "D8251A",
+     "manufacturer": "Intel",
      "package": "DIP",
      "pinout": "dip28",
      "footprint": "CDIP-28-600",
@@ -433,6 +436,7 @@
     },
     {
      "name": "LD8251A",
+     "manufacturer": "Intel",
      "package": "DIP",
      "pinout": "dip28",
      "footprint": "CDIP-28-600",
@@ -443,6 +447,7 @@
     },
     {
      "name": "MD8251A/B",
+     "manufacturer": "Intel",
      "package": "DIP",
      "pinout": "dip28",
      "footprint": "CDIP-28-600",
@@ -454,6 +459,7 @@
     },
     {
      "name": "N8251A",
+     "manufacturer": "Intel",
      "package": "DIP",
      "pinout": "dip28",
      "footprint": "CDIP-28-600",
@@ -464,6 +470,7 @@
     },
     {
      "name": "P8251A",
+     "manufacturer": "Intel",
      "package": "DIP",
      "pinout": "dip28",
      "footprint": "CDIP-28-600",
@@ -474,6 +481,7 @@
     },
     {
      "name": "P8251A-G",
+     "manufacturer": "Intel",
      "package": "DIP",
      "pinout": "dip28",
      "footprint": "PDIP-28-600",
@@ -797,6 +805,8 @@
    "parts": [
     {
      "name": "CS82C50A-5",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "82c50a",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -804,6 +814,8 @@
     },
     {
      "name": "CS82C50A-596",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "82c50a",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -1178,6 +1190,8 @@
    "parts": [
     {
      "name": "CS82C52",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "82c52",
      "package": "PLCC",
      "pinout": "plcc28",
      "footprint": "PLCC-28",
@@ -1185,6 +1199,8 @@
     },
     {
      "name": "CS82C5296",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "82c52",
      "package": "PLCC",
      "pinout": "plcc28",
      "footprint": "PLCC-28",
@@ -1195,6 +1211,8 @@
     },
     {
      "name": "ID82C52",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "82c52",
      "package": "DIP",
      "pinout": "dip28",
      "footprint": "CDIP-28-600",
@@ -1205,6 +1223,8 @@
     },
     {
      "name": "IP82C52",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "82c52",
      "package": "DIP",
      "pinout": "dip28",
      "footprint": "PDIP-28-600",
@@ -1212,6 +1232,8 @@
     },
     {
      "name": "IS82C52R2490",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "82c52",
      "package": "PLCC",
      "pinout": "plcc28",
      "footprint": "PLCC-28",
@@ -1219,6 +1241,8 @@
     },
     {
      "name": "IS82C52Z",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "82c52",
      "package": "PLCC",
      "pinout": "plcc28",
      "footprint": "PLCC-28",
@@ -1723,6 +1747,7 @@
    "parts": [
     {
      "name": "AY-3-1015D",
+     "manufacturer": "General Instrument",
      "package": "DIP",
      "pinout": "dip40n",
      "footprint": "PDIP-40-600",
@@ -1732,6 +1757,7 @@
     },
     {
      "name": "AY-5-1013A",
+     "manufacturer": "General Instrument",
      "package": "DIP",
      "pinout": "dip40",
      "footprint": "PDIP-40-600",
@@ -1739,6 +1765,7 @@
     },
     {
      "name": "AY-5-1013A-HR",
+     "manufacturer": "General Instrument",
      "package": "DIP",
      "pinout": "dip40",
      "footprint": "PDIP-40-600",
@@ -2043,6 +2070,7 @@
    "parts": [
     {
      "name": "CDP1854ADS2082",
+     "manufacturer": "Renesas Electronics",
      "package": "DIP",
      "pinout": "dip40",
      "footprint": "CDIP-40-600",
@@ -2053,6 +2081,7 @@
     },
     {
      "name": "CP1854ACD",
+     "manufacturer": "Renesas Electronics",
      "package": "DIP",
      "pinout": "dip40",
      "footprint": "CDIP-40-600",
@@ -2067,6 +2096,7 @@
     },
     {
      "name": "CP1854AE",
+     "manufacturer": "Renesas Electronics",
      "package": "DIP",
      "pinout": "dip40",
      "footprint": "PDIP-40-600",
@@ -2304,6 +2334,7 @@
    "parts": [
     {
      "name": "CDP65C51M1",
+     "manufacturer": "Renesas Electronics",
      "package": "SOIC",
      "pinout": "so28",
      "footprint": "SOIC-28W",
@@ -2314,6 +2345,7 @@
     },
     {
      "name": "CDP65C51M4S2357",
+     "manufacturer": "Renesas Electronics",
      "package": "SOIC",
      "pinout": "so28",
      "footprint": "SOIC-28W",
@@ -2706,6 +2738,8 @@
    "parts": [
     {
      "name": "W65C51N6TPG-14",
+     "manufacturer": "Western Design Center",
+     "datasheet": "w65c51n",
      "package": "DIP",
      "pinout": "p28",
      "footprint": "PDIP-28-600",
@@ -2713,6 +2747,8 @@
     },
     {
      "name": "W65C51N6TPLG-14",
+     "manufacturer": "Western Design Center",
+     "datasheet": "w65c51n",
      "package": "PLCC",
      "pinout": "p28",
      "footprint": "PLCC-28",
@@ -2723,6 +2759,8 @@
     },
     {
      "name": "W65C51N6TQG-14",
+     "manufacturer": "Western Design Center",
+     "datasheet": "w65c51n",
      "package": "LQFP",
      "pinout": "lqfp32",
      "footprint": "LQFP-32-7X7",
@@ -3013,6 +3051,7 @@
    "parts": [
     {
      "name": "COM8018P",
+     "manufacturer": "Microchip Technology",
      "package": "DIP",
      "pinout": "dip40",
      "footprint": "PDIP-40-600",
@@ -3302,6 +3341,7 @@
    "parts": [
     {
      "name": "COM2017P",
+     "manufacturer": "Microchip Technology",
      "package": "DIP",
      "pinout": "dip40",
      "footprint": "PDIP-40-600",
@@ -3639,6 +3679,7 @@
    "parts": [
     {
      "name": "COM78804P",
+     "manufacturer": "Microchip Technology",
      "package": "DIP",
      "pinout": "dip48",
      "footprint": "PDIP-48-600",
@@ -3922,6 +3963,7 @@
    "parts": [
     {
      "name": "COM78C802P",
+     "manufacturer": "Microchip Technology",
      "package": "DIP",
      "pinout": "dip40",
      "footprint": "PDIP-40-600",
@@ -4239,6 +4281,7 @@
    "parts": [
     {
      "name": "COM78C804LJP",
+     "manufacturer": "Microchip Technology",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -4590,6 +4633,7 @@
    "parts": [
     {
      "name": "COM92C451P",
+     "manufacturer": "Microchip Technology",
      "package": "DIP",
      "pinout": "dip48",
      "footprint": "PDIP-48-600",
@@ -4879,6 +4923,8 @@
    "parts": [
     {
      "name": "HD3-6402C-9",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "hd-6402",
      "package": "DIP",
      "pinout": "dip40",
      "footprint": "PDIP-40-600",
@@ -5168,6 +5214,7 @@
    "parts": [
     {
      "name": "HD3-6406-5",
+     "manufacturer": "Renesas Electronics",
      "package": "DIP",
      "pinout": "dip40",
      "footprint": "PDIP-40-600",
@@ -5538,6 +5585,8 @@
    "parts": [
     {
      "name": "MAX14830ETM+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max14830",
      "package": "TQFN",
      "pinout": "tqfn48",
      "footprint": "TQFN-48-7X7",
@@ -5545,6 +5594,8 @@
     },
     {
      "name": "MAX14830ETM+T",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max14830",
      "package": "TQFN",
      "pinout": "tqfn48",
      "footprint": "TQFN-48-7X7",
@@ -5887,6 +5938,8 @@
    "parts": [
     {
      "name": "MAX3100CEE+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3100",
      "package": "QSOP",
      "pinout": "qsop16",
      "footprint": "QSOP-16",
@@ -5894,6 +5947,8 @@
     },
     {
      "name": "MAX3100CEE+T",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3100",
      "package": "QSOP",
      "pinout": "qsop16",
      "footprint": "QSOP-16",
@@ -5901,6 +5956,8 @@
     },
     {
      "name": "MAX3100CPD+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3100",
      "package": "DIP",
      "pinout": "dip14",
      "footprint": "PDIP-14",
@@ -5908,6 +5965,8 @@
     },
     {
      "name": "MAX3100EEE+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3100",
      "package": "QSOP",
      "pinout": "qsop16",
      "footprint": "QSOP-16",
@@ -5915,6 +5974,8 @@
     },
     {
      "name": "MAX3100EEE+T",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3100",
      "package": "QSOP",
      "pinout": "qsop16",
      "footprint": "QSOP-16",
@@ -5922,6 +5983,8 @@
     },
     {
      "name": "MAX3100EPD+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3100",
      "package": "DIP",
      "pinout": "dip14",
      "footprint": "PDIP-14",
@@ -5929,6 +5992,8 @@
     },
     {
      "name": "MAX3100ETG+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3100",
      "package": "TQFN",
      "pinout": "tqfn24-4x4",
      "footprint": "TQFN-24-4X4-T2444",
@@ -6265,6 +6330,8 @@
    "parts": [
     {
      "name": "MAX3107EAG+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3107",
      "package": "SSOP",
      "pinout": "ssop24",
      "footprint": "SSOP-24",
@@ -6272,6 +6339,8 @@
     },
     {
      "name": "MAX3107EAG+T",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3107",
      "package": "SSOP",
      "pinout": "ssop24",
      "footprint": "SSOP-24",
@@ -6279,6 +6348,8 @@
     },
     {
      "name": "MAX3107ETG+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3107",
      "package": "TQFN",
      "pinout": "tqfn24-3.5",
      "footprint": "TQFN-24-3.5X3.5",
@@ -6286,6 +6357,8 @@
     },
     {
      "name": "MAX3107ETG+T",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3107",
      "package": "TQFN",
      "pinout": "tqfn24-3.5",
      "footprint": "TQFN-24-3.5X3.5",
@@ -6505,6 +6578,8 @@
    "parts": [
     {
      "name": "MAX3108EWA+T",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3108",
      "package": "WLP",
      "pinout": "wlp25",
      "footprint": "WLP-25",
@@ -6774,6 +6849,8 @@
    "parts": [
     {
      "name": "MAX3109ETJ+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3109",
      "package": "TQFN",
      "pinout": "tqfn32",
      "footprint": "TQFN-32-5X5-T3255",
@@ -6781,6 +6858,8 @@
     },
     {
      "name": "MAX3109ETJ+T",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3109",
      "package": "TQFN",
      "pinout": "tqfn32",
      "footprint": "TQFN-32-5X5-T3255",
@@ -7033,6 +7112,8 @@
    "parts": [
     {
      "name": "MAX3140CEI+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3140",
      "package": "QSOP",
      "pinout": "qsop28",
      "footprint": "QSOP-28",
@@ -7040,6 +7121,8 @@
     },
     {
      "name": "MAX3140EEI+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max3140",
      "package": "QSOP",
      "pinout": "qsop28",
      "footprint": "QSOP-28",
@@ -7459,6 +7542,8 @@
    "parts": [
     {
      "name": "NS16C2552TVSX/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "ns16c2552",
      "package": "TQFP",
      "pinout": "tqfp48-ns",
      "footprint": "TQFP-48-7X7",
@@ -8106,6 +8191,8 @@
    "parts": [
     {
      "name": "NS16C2752TVA/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "ns16c2552",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -8116,6 +8203,8 @@
     },
     {
      "name": "NS16C2752TVSX/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "ns16c2552",
      "package": "TQFP",
      "pinout": "tqfp48-ns",
      "footprint": "TQFP-48-7X7",
@@ -8447,6 +8536,8 @@
    "parts": [
     {
      "name": "PC16550DV",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "pc16550d",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -8454,6 +8545,8 @@
     },
     {
      "name": "PC16550DVX",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "pc16550d",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -8730,6 +8823,8 @@
    "parts": [
     {
      "name": "PI7C9X760CZDEX",
+     "manufacturer": "Diodes Incorporated",
+     "datasheet": "pi7c9x760",
      "package": "TQFN",
      "pinout": "hvqfn24",
      "footprint": "TQFN-24-4X4-ZD",
@@ -9056,6 +9151,8 @@
    "parts": [
     {
      "name": "PI7C9X762Q2ZHEX",
+     "manufacturer": "Diodes Incorporated",
+     "datasheet": "pi7c9x762",
      "package": "TQFN",
      "pinout": "hvqfn32",
      "footprint": "TQFN-32-5X5-ZH",
@@ -9374,6 +9471,8 @@
    "parts": [
     {
      "name": "SC16C650BIBS,128",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16c650b",
      "package": "HVQFN",
      "pinout": "hvqfn32",
      "footprint": "HVQFN-32-5X5",
@@ -9924,6 +10023,8 @@
    "parts": [
     {
      "name": "SC16C752BIB48,128",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16c752b",
      "package": "LQFP",
      "pinout": "lqfp48",
      "footprint": "TQFP-48-7X7",
@@ -9931,6 +10032,8 @@
     },
     {
      "name": "SC16C752BIBS,157",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16c752b",
      "package": "HVQFN",
      "pinout": "hvqfn32",
      "footprint": "HVQFN-32-5X5",
@@ -10138,6 +10241,8 @@
    "parts": [
     {
      "name": "SC16IS740IPW,112",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16is750",
      "package": "TSSOP",
      "pinout": "tssop16",
      "footprint": "TSSOP-16",
@@ -10148,6 +10253,8 @@
     },
     {
      "name": "SC16IS740IPW,128",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16is750",
      "package": "TSSOP",
      "pinout": "tssop16",
      "footprint": "TSSOP-16",
@@ -10155,6 +10262,8 @@
     },
     {
      "name": "SC16IS740IPW/Q900,",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16is750",
      "package": "TSSOP",
      "pinout": "tssop16",
      "footprint": "TSSOP-16",
@@ -10444,6 +10553,8 @@
    "parts": [
     {
      "name": "SC16IS750IBS,128",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16is750",
      "package": "HVQFN",
      "pinout": "hvqfn24",
      "footprint": "QFN-24-4X4",
@@ -10451,6 +10562,8 @@
     },
     {
      "name": "SC16IS750IBS,157",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16is750",
      "package": "HVQFN",
      "pinout": "hvqfn24",
      "footprint": "QFN-24-4X4",
@@ -10461,6 +10574,8 @@
     },
     {
      "name": "SC16IS760IBS,128",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16is750",
      "package": "HVQFN",
      "pinout": "hvqfn24",
      "footprint": "QFN-24-4X4",
@@ -10939,6 +11054,8 @@
    "parts": [
     {
      "name": "SC16IS752IBS,128",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16is752",
      "package": "HVQFN",
      "pinout": "hvqfn32",
      "footprint": "HVQFN-32-5X5",
@@ -10946,6 +11063,8 @@
     },
     {
      "name": "SC16IS752IBS,151",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16is752",
      "package": "HVQFN",
      "pinout": "hvqfn32",
      "footprint": "HVQFN-32-5X5",
@@ -10953,6 +11072,8 @@
     },
     {
      "name": "SC16IS752IPW,112",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16is752",
      "package": "TSSOP",
      "pinout": "tssop28",
      "footprint": "TSSOP-28",
@@ -10963,6 +11084,8 @@
     },
     {
      "name": "SC16IS752IPW,128",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16is752",
      "package": "TSSOP",
      "pinout": "tssop28",
      "footprint": "TSSOP-28",
@@ -10970,6 +11093,8 @@
     },
     {
      "name": "SC16IS762IBS,128",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16is752",
      "package": "HVQFN",
      "pinout": "hvqfn32",
      "footprint": "HVQFN-32-5X5",
@@ -10977,6 +11102,8 @@
     },
     {
      "name": "SC16IS762IPW,112",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16is752",
      "package": "TSSOP",
      "pinout": "tssop28",
      "footprint": "TSSOP-28",
@@ -10987,6 +11114,8 @@
     },
     {
      "name": "SC16IS762IPW,128",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc16is752",
      "package": "TSSOP",
      "pinout": "tssop28",
      "footprint": "TSSOP-28",
@@ -11124,6 +11253,8 @@
    "parts": [
     {
      "name": "SC18IS604PWJ",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "sc18is604",
      "package": "TSSOP",
      "pinout": "tssop16",
      "footprint": "TSSOP-16",
@@ -11452,6 +11583,8 @@
    "parts": [
     {
      "name": "ST16C1450CQ48",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c1450",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -11795,6 +11928,8 @@
    "parts": [
     {
      "name": "ST16C1550IQ48-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c1550",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -12169,6 +12304,8 @@
    "parts": [
     {
      "name": "ST16C2550CQ48-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c2550",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -12176,6 +12313,8 @@
     },
     {
      "name": "ST16C2550IQ48-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c2550",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -12183,6 +12322,8 @@
     },
     {
      "name": "ST16C2550IQ48TR-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c2550",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -12539,6 +12680,8 @@
    "parts": [
     {
      "name": "ST16C450CQ48",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c450",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -12546,6 +12689,8 @@
     },
     {
      "name": "ST16C450IQ48",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c450",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -13134,6 +13279,8 @@
    "parts": [
     {
      "name": "ST16C550CJ44-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c550",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -13144,6 +13291,8 @@
     },
     {
      "name": "ST16C550CQ48-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c550",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -13151,6 +13300,8 @@
     },
     {
      "name": "ST16C550IJ44",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c550",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -13161,6 +13312,8 @@
     },
     {
      "name": "ST16C550IJ44-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c550",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -13171,6 +13324,8 @@
     },
     {
      "name": "ST16C550IQ48-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c550",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -13178,6 +13333,8 @@
     },
     {
      "name": "ST16C550IQ48TR-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c550",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -13647,6 +13804,8 @@
    "parts": [
     {
      "name": "ST16C554CQ64-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c554",
      "package": "LQFP",
      "pinout": "lqfp64",
      "footprint": "LQFP-64-10X10",
@@ -13654,6 +13813,8 @@
     },
     {
      "name": "ST16C554DCQ64-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c554",
      "package": "LQFP",
      "pinout": "lqfp64",
      "footprint": "LQFP-64-10X10",
@@ -13662,6 +13823,8 @@
     },
     {
      "name": "ST16C554DIQ64-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "st16c554",
      "package": "LQFP",
      "pinout": "lqfp64",
      "footprint": "LQFP-64-10X10",
@@ -14227,6 +14390,8 @@
    "parts": [
     {
      "name": "TL16C2550IPFB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c2550",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -14234,6 +14399,8 @@
     },
     {
      "name": "TL16C2550IPFBR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c2550",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -14241,6 +14408,8 @@
     },
     {
      "name": "TL16C2550IRHB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c2550",
      "package": "VQFN",
      "pinout": "qfn32",
      "footprint": "VQFN-32-5X5",
@@ -14248,6 +14417,8 @@
     },
     {
      "name": "TL16C2550PFB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c2550",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -14255,6 +14426,8 @@
     },
     {
      "name": "TL16C2550PFBR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c2550",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -14262,6 +14435,8 @@
     },
     {
      "name": "TL16C2550IPFBRQ1",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c2550",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -14602,6 +14777,8 @@
    "parts": [
     {
      "name": "TL16C2552FN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c2552",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -14609,6 +14786,8 @@
     },
     {
      "name": "TL16C2552FNR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c2552",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -14930,6 +15109,8 @@
    "parts": [
     {
      "name": "TL16C450FN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c450",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -15381,6 +15562,8 @@
    "parts": [
     {
      "name": "TL16C451FN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c451",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -15391,6 +15574,8 @@
     },
     {
      "name": "TL16C451FNR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c451",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -15856,6 +16041,8 @@
    "parts": [
     {
      "name": "TL16C452FNR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c451",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -16630,6 +16817,8 @@
    "parts": [
     {
      "name": "TL16C550BFN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550b",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -16640,6 +16829,8 @@
     },
     {
      "name": "TL16C550BN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550b",
      "package": "DIP",
      "pinout": "dip40",
      "footprint": "PDIP-40-600",
@@ -16650,6 +16841,8 @@
     },
     {
      "name": "TL16C550BPTR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550b",
      "package": "LQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -17245,6 +17438,8 @@
    "parts": [
     {
      "name": "TL16C550CFN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550c",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -17255,6 +17450,8 @@
     },
     {
      "name": "TL16C550CFNR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550c",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -17262,6 +17459,8 @@
     },
     {
      "name": "TL16C550CFNRG4",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550c",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -17269,6 +17468,8 @@
     },
     {
      "name": "TL16C550CIFN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550c",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -17279,6 +17480,8 @@
     },
     {
      "name": "TL16C550CIFNR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550c",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -17286,6 +17489,8 @@
     },
     {
      "name": "TL16C550CIPTR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550c",
      "package": "LQFP",
      "pinout": "lqfp48",
      "footprint": "TQFP-48-7X7",
@@ -17293,6 +17498,8 @@
     },
     {
      "name": "TL16C550CPFB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550c",
      "package": "TQFP",
      "pinout": "lqfp48",
      "footprint": "TQFP-48-7X7",
@@ -17303,6 +17510,8 @@
     },
     {
      "name": "TL16C550CPFBR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550c",
      "package": "TQFP",
      "pinout": "lqfp48",
      "footprint": "TQFP-48-7X7",
@@ -17310,6 +17519,8 @@
     },
     {
      "name": "TL16C550CPT",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550c",
      "package": "LQFP",
      "pinout": "lqfp48",
      "footprint": "TQFP-48-7X7",
@@ -17320,6 +17531,8 @@
     },
     {
      "name": "TL16C550CPTG4",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550c",
      "package": "LQFP",
      "pinout": "lqfp48",
      "footprint": "TQFP-48-7X7",
@@ -17330,6 +17543,8 @@
     },
     {
      "name": "TL16C550CPTR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550c",
      "package": "LQFP",
      "pinout": "lqfp48",
      "footprint": "TQFP-48-7X7",
@@ -18009,6 +18224,8 @@
    "parts": [
     {
      "name": "TL16C550DIPFB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550d",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -18016,6 +18233,8 @@
     },
     {
      "name": "TL16C550DIPFBR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550d",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -18023,6 +18242,8 @@
     },
     {
      "name": "TL16C550DIPT",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550d",
      "package": "LQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -18030,6 +18251,8 @@
     },
     {
      "name": "TL16C550DIPTR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550d",
      "package": "LQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -18037,6 +18260,8 @@
     },
     {
      "name": "TL16C550DIRHB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550d",
      "package": "VQFN",
      "pinout": "qfn32",
      "footprint": "VQFN-32-5X5",
@@ -18044,6 +18269,8 @@
     },
     {
      "name": "TL16C550DIRHBR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550d",
      "package": "VQFN",
      "pinout": "qfn32",
      "footprint": "VQFN-32-5X5",
@@ -18051,6 +18278,8 @@
     },
     {
      "name": "TL16C550DIZQSR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550d",
      "package": "BGA",
      "pinout": "bga24",
      "footprint": "BGA-24-MICROSTAR",
@@ -18061,6 +18290,8 @@
     },
     {
      "name": "TL16C550DPFBR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550d",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -18068,6 +18299,8 @@
     },
     {
      "name": "TL16C550DPT",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550d",
      "package": "LQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -18075,6 +18308,8 @@
     },
     {
      "name": "TL16C550DPTR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550d",
      "package": "LQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -18082,6 +18317,8 @@
     },
     {
      "name": "TL16C550DRHB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550d",
      "package": "VQFN",
      "pinout": "qfn32",
      "footprint": "VQFN-32-5X5",
@@ -18089,6 +18326,8 @@
     },
     {
      "name": "TL16C550DRHBR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550d",
      "package": "VQFN",
      "pinout": "qfn32",
      "footprint": "VQFN-32-5X5",
@@ -18096,6 +18335,8 @@
     },
     {
      "name": "TL16C550DZQSR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c550d",
      "package": "BGA",
      "pinout": "bga24",
      "footprint": "BGA-24-MICROSTAR",
@@ -18579,6 +18820,8 @@
    "parts": [
     {
      "name": "TL16C552FN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c552",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -18586,6 +18829,8 @@
     },
     {
      "name": "TL16C552FNR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c552",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -19468,6 +19713,8 @@
    "parts": [
     {
      "name": "TL16C552AFN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c552a",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -19475,6 +19722,8 @@
     },
     {
      "name": "TL16C552AFNG4",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c552a",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -19485,6 +19734,8 @@
     },
     {
      "name": "TL16C552AFNR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c552a",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -19492,6 +19743,8 @@
     },
     {
      "name": "TL16C552APN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c552a",
      "package": "LQFP",
      "pinout": "lqfp80",
      "footprint": "LQFP-80-12X12",
@@ -20396,6 +20649,8 @@
    "parts": [
     {
      "name": "TL16C554FN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c554",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -20403,6 +20658,8 @@
     },
     {
      "name": "TL16C554FNR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c554",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -20410,6 +20667,8 @@
     },
     {
      "name": "TL16C554IFN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c554",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -20417,6 +20676,8 @@
     },
     {
      "name": "TL16C554IPN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c554",
      "package": "LQFP",
      "pinout": "lqfp80",
      "footprint": "LQFP-80-12X12",
@@ -20424,6 +20685,8 @@
     },
     {
      "name": "TL16C554PN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c554",
      "package": "LQFP",
      "pinout": "lqfp80",
      "footprint": "LQFP-80-12X12",
@@ -20431,6 +20694,8 @@
     },
     {
      "name": "TL16C554PNR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c554",
      "package": "LQFP",
      "pinout": "lqfp80",
      "footprint": "LQFP-80-12X12",
@@ -21334,6 +21599,8 @@
    "parts": [
     {
      "name": "TL16C554AFN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c554a",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -21341,6 +21608,8 @@
     },
     {
      "name": "TL16C554AFNR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c554a",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -21348,6 +21617,8 @@
     },
     {
      "name": "TL16C554AIFN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c554a",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -21355,6 +21626,8 @@
     },
     {
      "name": "TL16C554AIFNR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c554a",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -21362,6 +21635,8 @@
     },
     {
      "name": "TL16C554AIPN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c554a",
      "package": "LQFP",
      "pinout": "lqfp80",
      "footprint": "LQFP-80-12X12",
@@ -21369,6 +21644,8 @@
     },
     {
      "name": "TL16C554APN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c554a",
      "package": "LQFP",
      "pinout": "lqfp80",
      "footprint": "LQFP-80-12X12",
@@ -21376,6 +21653,8 @@
     },
     {
      "name": "TL16C554APNR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c554a",
      "package": "LQFP",
      "pinout": "lqfp80",
      "footprint": "LQFP-80-12X12",
@@ -21814,6 +22093,8 @@
    "parts": [
     {
      "name": "TL16C750PM",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c750",
      "package": "LQFP",
      "pinout": "lqfp64",
      "footprint": "LQFP-64-10X10",
@@ -22175,6 +22456,8 @@
    "parts": [
     {
      "name": "TL16C750EPFBR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c750e",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -22757,6 +23040,8 @@
    "parts": [
     {
      "name": "TL16C752CIPFB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c752c",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -22764,6 +23049,8 @@
     },
     {
      "name": "TL16C752CIPFBR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c752c",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -22771,6 +23058,8 @@
     },
     {
      "name": "TL16C752CIRHB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c752c",
      "package": "VQFN",
      "pinout": "qfn32",
      "footprint": "VQFN-32-5X5",
@@ -22778,6 +23067,8 @@
     },
     {
      "name": "TL16C752CIRHBR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c752c",
      "package": "VQFN",
      "pinout": "qfn32",
      "footprint": "VQFN-32-5X5",
@@ -22785,6 +23076,8 @@
     },
     {
      "name": "TL16C752CPFB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c752c",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -22792,6 +23085,8 @@
     },
     {
      "name": "TL16C752CRHB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c752c",
      "package": "VQFN",
      "pinout": "qfn32",
      "footprint": "VQFN-32-5X5",
@@ -22799,6 +23094,8 @@
     },
     {
      "name": "TL16C752CRHBR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c752c",
      "package": "VQFN",
      "pinout": "qfn32",
      "footprint": "VQFN-32-5X5",
@@ -22806,6 +23103,8 @@
     },
     {
      "name": "TL16C752CIPFBRQ1",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c752ci-q1",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -22816,6 +23115,8 @@
     },
     {
      "name": "TL16C752DPFBR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c752d",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -22823,6 +23124,8 @@
     },
     {
      "name": "TL16C752DPFBRQ1",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c752d-q1",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -23325,6 +23628,8 @@
    "parts": [
     {
      "name": "TL16C754BFN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c754b",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -23819,6 +24124,8 @@
    "parts": [
     {
      "name": "TL16CP754CIPM",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c754c",
      "package": "LQFP",
      "pinout": "lqfp64",
      "footprint": "LQFP-64-10X10",
@@ -23826,6 +24133,8 @@
     },
     {
      "name": "TL16CP754CPM",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tl16c754c",
      "package": "LQFP",
      "pinout": "lqfp64",
      "footprint": "LQFP-64-10X10",
@@ -24183,6 +24492,7 @@
    "parts": [
     {
      "name": "XR16C2550IM-F",
+     "manufacturer": "MaxLinear",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -25269,6 +25579,8 @@
    "parts": [
     {
      "name": "XR16C854CQ",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16c854",
      "package": "QFP",
      "pinout": "qfp100",
      "footprint": "QFP-100-14X20",
@@ -25276,6 +25588,8 @@
     },
     {
      "name": "XR16C854CV-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16c854",
      "package": "LQFP",
      "pinout": "lqfp64",
      "footprint": "LQFP-64-10X10",
@@ -25284,6 +25598,8 @@
     },
     {
      "name": "XR16C854DIV-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16c854",
      "package": "LQFP",
      "pinout": "lqfp64",
      "footprint": "LQFP-64-10X10",
@@ -25293,6 +25609,8 @@
     },
     {
      "name": "XR16C854IQ",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16c854",
      "package": "QFP",
      "pinout": "qfp100",
      "footprint": "QFP-100-14X20",
@@ -25300,6 +25618,8 @@
     },
     {
      "name": "XR16C854IQ-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16c854",
      "package": "QFP",
      "pinout": "qfp100",
      "footprint": "QFP-100-14X20",
@@ -25308,6 +25628,8 @@
     },
     {
      "name": "XR16C854IV-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16c854",
      "package": "LQFP",
      "pinout": "lqfp64",
      "footprint": "LQFP-64-10X10",
@@ -26076,6 +26398,8 @@
    "parts": [
     {
      "name": "XR16C864CQ-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16c864",
      "package": "QFP",
      "pinout": "qfp100-864",
      "footprint": "QFP-100-14X20",
@@ -26083,6 +26407,8 @@
     },
     {
      "name": "XR16C864IQ-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16c864",
      "package": "QFP",
      "pinout": "qfp100-864",
      "footprint": "QFP-100-14X20",
@@ -26501,6 +26827,8 @@
    "parts": [
     {
      "name": "XR16L2551IM-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16l2551",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -27142,6 +27470,8 @@
    "parts": [
     {
      "name": "XR16L2552IJ",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16l2552",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -27149,6 +27479,8 @@
     },
     {
      "name": "XR16L2552IJTR",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16l2552",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -27156,6 +27488,8 @@
     },
     {
      "name": "XR16L2552IM-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16l2552",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -27719,6 +28053,8 @@
    "parts": [
     {
      "name": "XR16L580IL-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16l580",
      "package": "QFN",
      "pinout": "qfn32",
      "footprint": "QFN-32-5X5",
@@ -27729,6 +28065,8 @@
     },
     {
      "name": "XR16L580ILTR-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16l580",
      "package": "QFN",
      "pinout": "qfn32",
      "footprint": "QFN-32-5X5",
@@ -27739,6 +28077,8 @@
     },
     {
      "name": "XR16L580IM-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16l580",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -28268,6 +28608,8 @@
    "parts": [
     {
      "name": "XR16L784CV-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16l784",
      "package": "LQFP",
      "pinout": "lqfp64-784",
      "footprint": "LQFP-64-10X10",
@@ -28275,6 +28617,8 @@
     },
     {
      "name": "XR16L784IV-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16l784",
      "package": "LQFP",
      "pinout": "lqfp64-784",
      "footprint": "LQFP-64-10X10",
@@ -28865,6 +29209,8 @@
    "parts": [
     {
      "name": "XR16M2550IL32",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16m2550",
      "package": "QFN",
      "pinout": "qfn32",
      "footprint": "QFN-32-5X5",
@@ -28872,6 +29218,8 @@
     },
     {
      "name": "XR16M2550IM48",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16m2550",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -29476,6 +29824,8 @@
    "parts": [
     {
      "name": "XR16M2551IL32",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16m2551",
      "package": "QFN",
      "pinout": "qfn32-2551",
      "footprint": "QFN-32-5X5",
@@ -29483,6 +29833,8 @@
     },
     {
      "name": "XR16M2551IM48",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16m2551",
      "package": "TQFP",
      "pinout": "tqfp48-2551",
      "footprint": "TQFP-48-7X7",
@@ -30073,6 +30425,8 @@
    "parts": [
     {
      "name": "XR16M2650IL32",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16m2650",
      "package": "QFN",
      "pinout": "qfn32",
      "footprint": "QFN-32-5X5",
@@ -30080,6 +30434,8 @@
     },
     {
      "name": "XR16M2650IM48",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16m2650",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -30684,6 +31040,8 @@
    "parts": [
     {
      "name": "XR16M2651IL32",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16m2651",
      "package": "QFN",
      "pinout": "qfn32-2551",
      "footprint": "QFN-32-5X5",
@@ -30691,6 +31049,8 @@
     },
     {
      "name": "XR16M2651IM48",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16m2651",
      "package": "TQFP",
      "pinout": "tqfp48-2551",
      "footprint": "TQFP-48-7X7",
@@ -31327,6 +31687,8 @@
    "parts": [
     {
      "name": "XR16M752IM48-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16m752",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -31334,6 +31696,8 @@
     },
     {
      "name": "XR16M752IM48TR-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16m752",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -31341,6 +31705,8 @@
     },
     {
      "name": "XR68M752IM48TR-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16m752",
      "package": "TQFP",
      "pinout": "tqfp48-68",
      "footprint": "TQFP-48-7X7",
@@ -31688,6 +32054,8 @@
    "parts": [
     {
      "name": "XR16V2550IL",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v2550",
      "package": "QFN",
      "pinout": "qfn32",
      "footprint": "QFN-32-5X5",
@@ -32291,6 +32659,8 @@
    "parts": [
     {
      "name": "XR16V2551IL",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v2551",
      "package": "QFN",
      "pinout": "qfn32-2551",
      "footprint": "QFN-32-5X5",
@@ -32298,6 +32668,8 @@
     },
     {
      "name": "XR16V2551IM",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v2551",
      "package": "TQFP",
      "pinout": "tqfp48-2551",
      "footprint": "TQFP-48-7X7",
@@ -32714,6 +33086,7 @@
    "parts": [
     {
      "name": "XR16V2552IJ",
+     "manufacturer": "MaxLinear",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -33305,6 +33678,8 @@
    "parts": [
     {
      "name": "XR16V2650IL",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v2650",
      "package": "QFN",
      "pinout": "qfn32",
      "footprint": "QFN-32-5X5",
@@ -33312,6 +33687,8 @@
     },
     {
      "name": "XR16V2650IM",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v2650",
      "package": "TQFP",
      "pinout": "tqfp48",
      "footprint": "TQFP-48-7X7",
@@ -33917,6 +34294,8 @@
    "parts": [
     {
      "name": "XR16V2651IL",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v2651",
      "package": "QFN",
      "pinout": "qfn32-2551",
      "footprint": "QFN-32-5X5",
@@ -33924,6 +34303,8 @@
     },
     {
      "name": "XR16V2651IM",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v2651",
      "package": "TQFP",
      "pinout": "tqfp48-2651",
      "footprint": "TQFP-48-7X7",
@@ -34502,6 +34883,8 @@
    "parts": [
     {
      "name": "XR16V2652IJ",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v2652",
      "package": "PLCC",
      "pinout": "plcc44",
      "footprint": "PLCC-44",
@@ -34512,6 +34895,8 @@
     },
     {
      "name": "XR16V2652IL",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v2652",
      "package": "QFN",
      "pinout": "qfn32-2552",
      "footprint": "QFN-32-5X5",
@@ -35595,6 +35980,8 @@
    "parts": [
     {
      "name": "XR16V554IJ",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v554",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -35602,6 +35989,8 @@
     },
     {
      "name": "XR16V554IL",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v554",
      "package": "QFN",
      "pinout": "qfn48",
      "footprint": "QFN-48-7X7",
@@ -35609,6 +35998,8 @@
     },
     {
      "name": "XR16V554IV",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v554",
      "package": "LQFP",
      "pinout": "lqfp64",
      "footprint": "LQFP-64-10X10",
@@ -36746,6 +37137,8 @@
    "parts": [
     {
      "name": "XR16V564DIV",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v564",
      "package": "LQFP",
      "pinout": "lqfp64",
      "footprint": "LQFP-64-10X10",
@@ -36754,6 +37147,8 @@
     },
     {
      "name": "XR16V564IJ",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v564",
      "package": "PLCC",
      "pinout": "plcc68",
      "footprint": "PLCC-68",
@@ -36761,6 +37156,8 @@
     },
     {
      "name": "XR16V564IL",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v564",
      "package": "QFN",
      "pinout": "qfn48",
      "footprint": "QFN-48-7X7",
@@ -36768,6 +37165,8 @@
     },
     {
      "name": "XR16V564IV",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v564",
      "package": "LQFP",
      "pinout": "lqfp64",
      "footprint": "LQFP-64-10X10",
@@ -37562,6 +37961,8 @@
    "parts": [
     {
      "name": "XR16V654DIV-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v654",
      "package": "LQFP",
      "pinout": "lqfp64",
      "footprint": "LQFP-64-10X10",
@@ -37570,6 +37971,8 @@
     },
     {
      "name": "XR16V654IL-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v654",
      "package": "QFN",
      "pinout": "qfn48",
      "footprint": "QFN-48-7X7",
@@ -37577,6 +37980,8 @@
     },
     {
      "name": "XR16V654IV-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v654",
      "package": "LQFP",
      "pinout": "lqfp64",
      "footprint": "LQFP-64-10X10",
@@ -38311,6 +38716,8 @@
    "parts": [
     {
      "name": "XR16V798IQ-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr16v798",
      "package": "QFP",
      "pinout": "qfp100",
      "footprint": "QFP-100-14X20",
@@ -38802,6 +39209,8 @@
    "parts": [
     {
      "name": "XR20M1170IG16-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr20m1170",
      "package": "TSSOP",
      "pinout": "tssop16",
      "footprint": "TSSOP-16",
@@ -38809,6 +39218,8 @@
     },
     {
      "name": "XR20M1170IG24-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr20m1170",
      "package": "TSSOP",
      "pinout": "tssop24",
      "footprint": "TSSOP-24",
@@ -38819,6 +39230,8 @@
     },
     {
      "name": "XR20M1170IL24-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr20m1170",
      "package": "QFN",
      "pinout": "qfn24",
      "footprint": "QFN-24-4X4",
@@ -38829,6 +39242,8 @@
     },
     {
      "name": "XR20M1170IL24TR-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr20m1170",
      "package": "QFN",
      "pinout": "qfn24",
      "footprint": "QFN-24-4X4",
@@ -39281,6 +39696,8 @@
    "parts": [
     {
      "name": "XR20M1280IL24TR-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr20m1280",
      "package": "QFN",
      "pinout": "qfn24",
      "footprint": "QFN-24-4X4",
@@ -39288,6 +39705,8 @@
     },
     {
      "name": "XR20M1280IL32-F",
+     "manufacturer": "MaxLinear",
+     "datasheet": "xr20m1280",
      "package": "QFN",
      "pinout": "qfn32",
      "footprint": "QFN-32-5X5",

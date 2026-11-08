@@ -439,12 +439,16 @@
    "parts": [
     {
      "name": "BQ32000D",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq32000",
      "package": "SOIC",
      "pinout": "d8",
      "footprint": "SOIC-8"
     },
     {
      "name": "BQ32000DR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq32000",
      "package": "SOIC",
      "pinout": "d8",
      "footprint": "SOIC-8"
@@ -837,12 +841,16 @@
    "parts": [
     {
      "name": "BQ32002D",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq32002",
      "package": "SOIC",
      "pinout": "d8",
      "footprint": "SOIC-8"
     },
     {
      "name": "BQ32002DR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq32002",
      "package": "SOIC",
      "pinout": "d8",
      "footprint": "SOIC-8"
@@ -1519,6 +1527,8 @@
    "parts": [
     {
      "name": "BQ3285S-SB2",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq3285",
      "package": "SOIC",
      "pinout": "dw24",
      "footprint": "SOIC-24W"
@@ -2265,6 +2275,8 @@
    "parts": [
     {
      "name": "BQ4802LYDW",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq4802ly",
      "package": "SOIC",
      "pinout": "so28",
      "footprint": "SOIC-28W",
@@ -2275,6 +2287,8 @@
     },
     {
      "name": "BQ4802LYDWR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq4802ly",
      "package": "SOIC",
      "pinout": "so28",
      "footprint": "SOIC-28W",
@@ -2285,6 +2299,8 @@
     },
     {
      "name": "BQ4802LYPW",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq4802ly",
      "package": "TSSOP",
      "pinout": "so28",
      "footprint": "TSSOP-28",
@@ -2295,6 +2311,8 @@
     },
     {
      "name": "BQ4802YDW",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq4802ly",
      "package": "SOIC",
      "pinout": "so28",
      "footprint": "SOIC-28W",
@@ -2305,6 +2323,8 @@
     },
     {
      "name": "BQ4802YDWR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq4802ly",
      "package": "SOIC",
      "pinout": "so28",
      "footprint": "SOIC-28W",
@@ -2315,6 +2335,8 @@
     },
     {
      "name": "BQ4802YPW",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq4802ly",
      "package": "TSSOP",
      "pinout": "so28",
      "footprint": "TSSOP-28",
@@ -3054,6 +3076,8 @@
    "parts": [
     {
      "name": "BQ4845S-A4TR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq4845",
      "package": "SOIC",
      "pinout": "so28",
      "footprint": "SOIC-28W",
@@ -4618,6 +4642,8 @@
    "parts": [
     {
      "name": "DP8570AV/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "dp8570a",
      "package": "PLCC",
      "pinout": "plcc28",
      "footprint": "PLCC-28"
@@ -5656,6 +5682,8 @@
    "parts": [
     {
      "name": "DP8573AV/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "dp8573a",
      "package": "PLCC",
      "pinout": "plcc28",
      "footprint": "PLCC-28"

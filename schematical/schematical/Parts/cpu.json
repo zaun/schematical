@@ -119,8 +119,8 @@
         "14": {"tcyc":70,"tpwh":35,"tpwl":35,"tads":30,"tah":10,"tsync":30,"tmds":25,"tdhw":10,"tdsr":10,"tpcs":10,"tbvd":25,"vcc":[1.71,5.25],"note":"AC characteristics p.25, the 5.0 V +/- 5% (14 MHz) column. VDD 1.71-5.25 V across the voltage columns (p.24)."}
       },
       "parts": [
-        {"name":"W65C02S6TPG-14","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"14"},
-        {"name":"W65C02S6TPLG-14","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"14"}
+        {"name":"W65C02S6TPG-14","manufacturer":"Western Design Center","datasheet":"w65c02s","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"14"},
+        {"name":"W65C02S6TPLG-14","manufacturer":"Western Design Center","datasheet":"w65c02s","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"14"}
       ]
     },
     {
@@ -240,8 +240,8 @@
         "14": {"tcyc":70,"tpwh":35,"tpwl":35,"tads":30,"tah":10,"tbas":33,"tbh":10,"tdsr":10,"tmds":30,"tdhw":10,"tpcs":10,"tes":10,"teh":5,"tbvd":25,"vcc":[1.71,5.25],"note":"AC characteristics Table 4-2 p.27, the 5.0 V +/- 5% (14 MHz) column. VDD 1.71-5.25 V across the voltage columns (DC characteristics, p.25)."}
       },
       "parts": [
-        {"name":"W65C816S6TPG-14","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"14"},
-        {"name":"W65C816S6TPLG-14","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"14"}
+        {"name":"W65C816S6TPG-14","manufacturer":"Western Design Center","datasheet":"w65c816s","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"14"},
+        {"name":"W65C816S6TPLG-14","manufacturer":"Western Design Center","datasheet":"w65c816s","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"14"}
       ]
     },
     {
@@ -314,10 +314,10 @@
         "C": {"tcyc":250,"tpwh":123,"tpwl":123,"tads":85,"tah":10,"tsync":100,"tmds":90,"tdhw":10,"tdsr":40,"tpcs":40,"tbvd":0,"vcc":[4.75,5.25],"note":"4 MHz timing p.6. tpwl = tCYC - PWH(phi0) max (250 - 127); tpcs = TS.O. min (the tRDY column prints only a max). VCC 5 V +/- 5% (p.5)."}
       },
       "parts": [
-        {"name":"MPS6502","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"1","flags":["obsolete"]},
-        {"name":"MPS6502A","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"A","flags":["obsolete"]},
-        {"name":"MPS6502B","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"B","flags":["obsolete"]},
-        {"name":"MPS6502C","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"C","flags":["obsolete"]}
+        {"name":"MPS6502","manufacturer":"MOS Technology","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"1","flags":["obsolete"]},
+        {"name":"MPS6502A","manufacturer":"MOS Technology","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"A","flags":["obsolete"]},
+        {"name":"MPS6502B","manufacturer":"MOS Technology","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"B","flags":["obsolete"]},
+        {"name":"MPS6502C","manufacturer":"MOS Technology","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"C","flags":["obsolete"]}
       ]
     },
     {
@@ -486,19 +486,19 @@
         "20": {"tcc":50,"twch":20,"twcl":20,"tdcra":57,"tdcfmreqf":40,"tdcrmreqr":40,"tdcfmreqr":40,"tdcfrdf":40,"tdcrrdr":40,"tsdcr":12,"tswaitcf":7.5,"tdcrm1f":45,"tdcrm1r":45,"tdcrrfshf":60,"tdcrrfshr":60,"tdcfrdr":40,"tdcrrdf":40,"tsdcf":12,"tdcriorqf":40,"tdcfiorqr":40,"tdcfwrf":40,"tdcfwrr":40,"tdcrwrf":40,"tdcfhalt":70,"twnmi":60,"tsbusreq":15,"tdcrbusackf":40,"tdcfbusackr":40,"tdcrdz":40,"tdcrctz":40,"tdcraz":40,"tsreset":15,"tsint":15,"tdcfiorqf":45,"tdcfd":75,"vcc":[4.5,5.5],"note":"AC characteristics PS0178 printed p.35-36, the Z84C0020 column (each grade's minimum-period values). VCC 5 V +/- 10% (printed p.35)."}
       },
       "parts": [
-        {"name":"Z84C0006PEG","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"6","flags":["obsolete"]},
-        {"name":"Z84C0008PEG","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"8","flags":["obsolete"]},
-        {"name":"Z84C0010PEG","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"10","flags":["obsolete"]},
-        {"name":"Z84C0020PEG","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"20","flags":["obsolete"]},
-        {"name":"Z84C0006VEG","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"6","flags":["obsolete"]},
-        {"name":"Z84C0008VEG","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"8","flags":["obsolete"]},
-        {"name":"Z84C0010VEG","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"10","flags":["obsolete"]},
-        {"name":"Z84C0010VEG00TR","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"10","flags":["obsolete"]},
-        {"name":"Z84C0020VEG","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"20","flags":["obsolete"]},
-        {"name":"Z84C0006AEG","package":"LQFP","pinout":"lqfp44","footprint":"LQFP-44-10X10","grade":"6","flags":["obsolete"]},
-        {"name":"Z84C0008AEG","package":"LQFP","pinout":"lqfp44","footprint":"LQFP-44-10X10","grade":"8","flags":["obsolete"]},
-        {"name":"Z84C0010AEG","package":"LQFP","pinout":"lqfp44","footprint":"LQFP-44-10X10","grade":"10","flags":["obsolete"]},
-        {"name":"Z84C0020AEG","package":"LQFP","pinout":"lqfp44","footprint":"LQFP-44-10X10","grade":"20","flags":["obsolete"]}
+        {"name":"Z84C0006PEG","manufacturer":"Littelfuse","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"6","flags":["obsolete"]},
+        {"name":"Z84C0008PEG","manufacturer":"Littelfuse","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"8","flags":["obsolete"]},
+        {"name":"Z84C0010PEG","manufacturer":"Littelfuse","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"10","flags":["obsolete"]},
+        {"name":"Z84C0020PEG","manufacturer":"Littelfuse","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"20","flags":["obsolete"]},
+        {"name":"Z84C0006VEG","manufacturer":"Littelfuse","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"6","flags":["obsolete"]},
+        {"name":"Z84C0008VEG","manufacturer":"Littelfuse","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"8","flags":["obsolete"]},
+        {"name":"Z84C0010VEG","manufacturer":"Littelfuse","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"10","flags":["obsolete"]},
+        {"name":"Z84C0010VEG00TR","manufacturer":"Littelfuse","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"10","flags":["obsolete"]},
+        {"name":"Z84C0020VEG","manufacturer":"Littelfuse","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"20","flags":["obsolete"]},
+        {"name":"Z84C0006AEG","manufacturer":"Littelfuse","package":"LQFP","pinout":"lqfp44","footprint":"LQFP-44-10X10","grade":"6","flags":["obsolete"]},
+        {"name":"Z84C0008AEG","manufacturer":"Littelfuse","package":"LQFP","pinout":"lqfp44","footprint":"LQFP-44-10X10","grade":"8","flags":["obsolete"]},
+        {"name":"Z84C0010AEG","manufacturer":"Littelfuse","package":"LQFP","pinout":"lqfp44","footprint":"LQFP-44-10X10","grade":"10","flags":["obsolete"]},
+        {"name":"Z84C0020AEG","manufacturer":"Littelfuse","package":"LQFP","pinout":"lqfp44","footprint":"LQFP-44-10X10","grade":"20","flags":["obsolete"]}
       ]
     }
   ]

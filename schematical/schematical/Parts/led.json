@@ -18,7 +18,7 @@
       "anode": "A",
       "cathode": "K",
       "parts": [
-        {"name":"GENERIC-LED","package":"Radial","pinout":"two-pin","footprint":"LED-RADIAL-5MM",
+        {"name":"GENERIC-LED","manufacturer":"Generic","package":"Radial","pinout":"two-pin","footprint":"LED-RADIAL-5MM",
          "footprintChoices":[
            {"package":"0402","footprint":"LED-0402"},
            {"package":"0603","footprint":"LED-0603"},

@@ -119,8 +119,8 @@
         ]
       },
       "parts": [
-        {"name":"W65C21N6TPG-14","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"14"},
-        {"name":"W65C21N6TPLG-14","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"14"}
+        {"name":"W65C21N6TPG-14","manufacturer":"Western Design Center","datasheet":"w65c21","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"14"},
+        {"name":"W65C21N6TPLG-14","manufacturer":"Western Design Center","datasheet":"w65c21","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"14"}
       ]
     },
     {
@@ -239,8 +239,8 @@
         ]
       },
       "parts": [
-        {"name":"W65C21S6TPG-14","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"14"},
-        {"name":"W65C21S6TPLG-14","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"14"}
+        {"name":"W65C21S6TPG-14","manufacturer":"Western Design Center","datasheet":"w65c21","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"14"},
+        {"name":"W65C21S6TPLG-14","manufacturer":"Western Design Center","datasheet":"w65c21","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"14"}
       ]
     },
     {
@@ -314,7 +314,7 @@
         ]
       },
       "parts": [
-        {"name":"W65C22N6TPG-14","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"14"}
+        {"name":"W65C22N6TPG-14","manufacturer":"Western Design Center","datasheet":"w65c22","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"14"}
       ]
     },
     {
@@ -434,8 +434,8 @@
         ]
       },
       "parts": [
-        {"name":"W65C22S6TPG-14","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"14"},
-        {"name":"W65C22S6TPLG-14","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"14"}
+        {"name":"W65C22S6TPG-14","manufacturer":"Western Design Center","datasheet":"w65c22","package":"DIP","pinout":"p40","footprint":"PDIP-40-600","grade":"14"},
+        {"name":"W65C22S6TPLG-14","manufacturer":"Western Design Center","datasheet":"w65c22","package":"PLCC","pinout":"plcc44","footprint":"PLCC-44","grade":"14"}
       ]
     }
   ]

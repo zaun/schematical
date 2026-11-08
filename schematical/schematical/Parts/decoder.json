@@ -50,117 +50,117 @@
         "S": {"rise":7.5,"fall":8,"vcc":[4.75,5.25],"note":"A/B/C to Y typ (3 levels), 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls138 p.6, p.5)"}
       },
       "parts": [
-        {"name":"CAHCT138QPWRG4Q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHCT","flags":["automotive"]},
-        {"name":"CAHCT138QWBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AHCT","flags":["automotive"]},
-        {"name":"CD54AC138F3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"AC","flags":["military","ceramic"]},
-        {"name":"CD54HC138F","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
-        {"name":"CD54HCT138F","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
-        {"name":"CD74AC138BQBR","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AC"},
-        {"name":"CD74AC138E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AC"},
-        {"name":"CD74AC138M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
-        {"name":"CD74AC138PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AC"},
-        {"name":"CD74ACT138BQBR","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"ACT"},
-        {"name":"CD74ACT138E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ACT"},
-        {"name":"CD74ACT138M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ACT"},
-        {"name":"CD74ACT138PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT"},
-        {"name":"CD74HC138E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
-        {"name":"CD74HC138M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
-        {"name":"CD74HC138QM96Q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["automotive"]},
-        {"name":"CD74HCT138E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
-        {"name":"CD74HCT138M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
-        {"name":"CLVC138AQPWRG4Q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
-        {"name":"CY74FCT138ATQCT","package":"SSOP","pinout":"p16","footprint":"QSOP-16","family":"FCT"},
-        {"name":"CY74FCT138ATSOC","package":"SOIC","pinout":"p16","footprint":"SOIC-16W","family":"FCT"},
-        {"name":"CY74FCT138ATSOCT","package":"SOIC","pinout":"p16","footprint":"SOIC-16W","family":"FCT"},
-        {"name":"CY74FCT138CTQCT","package":"SSOP","pinout":"p16","footprint":"QSOP-16","family":"FCT"},
-        {"name":"CY74FCT138CTSOC","package":"SOIC","pinout":"p16","footprint":"SOIC-16W","family":"FCT"},
-        {"name":"CY74FCT138TQCT","package":"SSOP","pinout":"p16","footprint":"QSOP-16","family":"FCT"},
-        {"name":"SN54F138J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"F","flags":["military","ceramic"]},
-        {"name":"SN54HCT138J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
-        {"name":"SN74AC138PWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
-        {"name":"SN74AC138WBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
-        {"name":"SN74ACT138PWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT","flags":["automotive"]},
-        {"name":"SN74ACT138WBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"ACT","flags":["automotive"]},
-        {"name":"SN74AHC138DBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"AHC"},
-        {"name":"SN74AHC138DGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"AHC"},
-        {"name":"SN74AHC138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AHC"},
-        {"name":"SN74AHC138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AHC"},
-        {"name":"SN74AHC138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"AHC"},
-        {"name":"SN74AHC138PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC"},
-        {"name":"SN74AHC138QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC","flags":["automotive"]},
-        {"name":"SN74AHC138QWBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AHC","flags":["automotive"]},
-        {"name":"SN74AHC138RGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"AHC"},
-        {"name":"SN74AHCT138DBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"AHCT"},
-        {"name":"SN74AHCT138DGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"AHCT"},
-        {"name":"SN74AHCT138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AHCT"},
-        {"name":"SN74AHCT138MPWREP","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHCT","flags":["enhanced"]},
-        {"name":"SN74AHCT138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AHCT"},
-        {"name":"SN74AHCT138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"AHCT"},
-        {"name":"SN74AHCT138PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHCT"},
-        {"name":"SN74AHCT138QDRQ1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AHCT","flags":["automotive"]},
-        {"name":"SN74AHCT138RGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"AHCT"},
-        {"name":"SN74ALS138ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS"},
-        {"name":"SN74ALS138AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
-        {"name":"SN74AS138D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AS"},
-        {"name":"SN74AS138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AS"},
-        {"name":"SN74AS138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"AS"},
-        {"name":"SN74F138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"F"},
-        {"name":"SN74F138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"F"},
-        {"name":"SN74F138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"F"},
-        {"name":"SN74HC138DBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"HC"},
-        {"name":"SN74HC138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
-        {"name":"SN74HC138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
-        {"name":"SN74HC138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
-        {"name":"SN74HC138PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
-        {"name":"SN74HC138QDRG4Q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["automotive"]},
-        {"name":"SN74HC138QPWRG4Q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["automotive"]},
-        {"name":"SN74HC138QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["automotive"]},
-        {"name":"SN74HCS138BQBR","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"HCS"},
-        {"name":"SN74HCS138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS"},
-        {"name":"SN74HCS138DYYR","package":"SOT-23-THIN","pinout":"p16","footprint":"SOT23-THIN-16","family":"HCS"},
-        {"name":"SN74HCS138PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS"},
-        {"name":"SN74HCS138QBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"HCS","flags":["automotive"]},
-        {"name":"SN74HCS138QDRQ1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS","flags":["automotive"]},
-        {"name":"SN74HCS138QDYYRQ1","package":"SOT-23-THIN","pinout":"p16","footprint":"SOT23-THIN-16","family":"HCS","flags":["automotive"]},
-        {"name":"SN74HCS138QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS","flags":["automotive"]},
-        {"name":"SN74HCS138QWBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"HCS","flags":["automotive"]},
-        {"name":"SN74HCT138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
-        {"name":"SN74HCT138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
-        {"name":"SN74HCT138NE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
-        {"name":"SN74HCT138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HCT"},
-        {"name":"SN74HCT138PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCT"},
-        {"name":"SN74LS138D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
-        {"name":"SN74LS138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
-        {"name":"SN74LS138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
-        {"name":"SN74LS138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
-        {"name":"SN74LV138ADBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"LV"},
-        {"name":"SN74LV138ADGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"LV"},
-        {"name":"SN74LV138ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LV"},
-        {"name":"SN74LV138ANSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LV"},
-        {"name":"SN74LV138APWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LV"},
-        {"name":"SN74LV138AQWBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"LV","flags":["automotive"]},
-        {"name":"SN74LV138ARGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"LV"},
-        {"name":"SN74LV138ATDBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"LV","vcc":[4.5,5.5]},
-        {"name":"SN74LV138ATDGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"LV","vcc":[4.5,5.5]},
-        {"name":"SN74LV138ATDR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LV","vcc":[4.5,5.5]},
-        {"name":"SN74LV138ATPWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LV","vcc":[4.5,5.5]},
-        {"name":"SN74LV138ATRGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"LV","vcc":[4.5,5.5]},
-        {"name":"SN74LVC138AD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
-        {"name":"SN74LVC138ADBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"LVC"},
-        {"name":"SN74LVC138ADGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"LVC"},
-        {"name":"SN74LVC138ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
-        {"name":"SN74LVC138ADT","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
-        {"name":"SN74LVC138AMPWTEP","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC","flags":["enhanced"],"vcc":[2,3.6]},
-        {"name":"SN74LVC138ANSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LVC"},
-        {"name":"SN74LVC138APW","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
-        {"name":"SN74LVC138APWT","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
-        {"name":"SN74LVC138AQDRG4Q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
-        {"name":"SN74LVC138AQDRQ1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
-        {"name":"SN74LVC138AQPWREP","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC","flags":["enhanced"],"vcc":[2,3.6]},
-        {"name":"SN74LVC138ARSVR","package":"UQFN","pinout":"p16","footprint":"UQFN-16-RSV","family":"LVC"},
-        {"name":"SN74S138AD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"S"},
-        {"name":"SN74S138AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"S"},
-        {"name":"SNJ54AHC138W","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"AHC","flags":["military","ceramic"]}
+        {"name":"CAHCT138QPWRG4Q1","manufacturer":"Texas Instruments","datasheet":"sn74ahct138q-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHCT","flags":["automotive"]},
+        {"name":"CAHCT138QWBQBRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ahct138q-q1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AHCT","flags":["automotive"]},
+        {"name":"CD54AC138F3A","manufacturer":"Texas Instruments","datasheet":"cd74ac138","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"AC","flags":["military","ceramic"]},
+        {"name":"CD54HC138F","manufacturer":"Texas Instruments","datasheet":"cd74hc138","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD54HCT138F","manufacturer":"Texas Instruments","datasheet":"cd74hc138","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
+        {"name":"CD74AC138BQBR","manufacturer":"Texas Instruments","datasheet":"cd74ac138","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AC"},
+        {"name":"CD74AC138E","manufacturer":"Texas Instruments","datasheet":"cd74ac138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AC"},
+        {"name":"CD74AC138M96","manufacturer":"Texas Instruments","datasheet":"cd74ac138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
+        {"name":"CD74AC138PWR","manufacturer":"Texas Instruments","datasheet":"cd74ac138","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AC"},
+        {"name":"CD74ACT138BQBR","manufacturer":"Texas Instruments","datasheet":"cd74act138","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"ACT"},
+        {"name":"CD74ACT138E","manufacturer":"Texas Instruments","datasheet":"cd74act138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ACT"},
+        {"name":"CD74ACT138M96","manufacturer":"Texas Instruments","datasheet":"cd74act138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ACT"},
+        {"name":"CD74ACT138PWR","manufacturer":"Texas Instruments","datasheet":"cd74act138","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT"},
+        {"name":"CD74HC138E","manufacturer":"Texas Instruments","datasheet":"cd74hc138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC138M96","manufacturer":"Texas Instruments","datasheet":"cd74hc138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"CD74HC138QM96Q1","manufacturer":"Texas Instruments","datasheet":"cd74hc138-q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["automotive"]},
+        {"name":"CD74HCT138E","manufacturer":"Texas Instruments","datasheet":"cd74hc138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"CD74HCT138M96","manufacturer":"Texas Instruments","datasheet":"cd74hc138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"CLVC138AQPWRG4Q1","manufacturer":"Texas Instruments","datasheet":"sn74lvc138a-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
+        {"name":"CY74FCT138ATQCT","manufacturer":"Texas Instruments","datasheet":"cy74fct138t","package":"SSOP","pinout":"p16","footprint":"QSOP-16","family":"FCT"},
+        {"name":"CY74FCT138ATSOC","manufacturer":"Texas Instruments","datasheet":"cy74fct138t","package":"SOIC","pinout":"p16","footprint":"SOIC-16W","family":"FCT"},
+        {"name":"CY74FCT138ATSOCT","manufacturer":"Texas Instruments","datasheet":"cy74fct138t","package":"SOIC","pinout":"p16","footprint":"SOIC-16W","family":"FCT"},
+        {"name":"CY74FCT138CTQCT","manufacturer":"Texas Instruments","datasheet":"cy74fct138t","package":"SSOP","pinout":"p16","footprint":"QSOP-16","family":"FCT"},
+        {"name":"CY74FCT138CTSOC","manufacturer":"Texas Instruments","datasheet":"cy74fct138t","package":"SOIC","pinout":"p16","footprint":"SOIC-16W","family":"FCT"},
+        {"name":"CY74FCT138TQCT","manufacturer":"Texas Instruments","datasheet":"cy74fct138t","package":"SSOP","pinout":"p16","footprint":"QSOP-16","family":"FCT"},
+        {"name":"SN54F138J","manufacturer":"Texas Instruments","datasheet":"sn74f138","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"F","flags":["military","ceramic"]},
+        {"name":"SN54HCT138J","manufacturer":"Texas Instruments","datasheet":"sn54hct138","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
+        {"name":"SN74AC138PWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ac138-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
+        {"name":"SN74AC138WBQBRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ac138-q1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
+        {"name":"SN74ACT138PWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74act138-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT","flags":["automotive"]},
+        {"name":"SN74ACT138WBQBRQ1","manufacturer":"Texas Instruments","datasheet":"sn74act138-q1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"ACT","flags":["automotive"]},
+        {"name":"SN74AHC138DBR","manufacturer":"Texas Instruments","datasheet":"sn74ahc138","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"AHC"},
+        {"name":"SN74AHC138DGVR","manufacturer":"Texas Instruments","datasheet":"sn74ahc138","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"AHC"},
+        {"name":"SN74AHC138DR","manufacturer":"Texas Instruments","datasheet":"sn74ahc138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AHC"},
+        {"name":"SN74AHC138N","manufacturer":"Texas Instruments","datasheet":"sn74ahc138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AHC"},
+        {"name":"SN74AHC138NSR","manufacturer":"Texas Instruments","datasheet":"sn74ahc138","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"AHC"},
+        {"name":"SN74AHC138PWR","manufacturer":"Texas Instruments","datasheet":"sn74ahc138","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC"},
+        {"name":"SN74AHC138QPWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ahc138-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC","flags":["automotive"]},
+        {"name":"SN74AHC138QWBQBRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ahc138-q1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AHC","flags":["automotive"]},
+        {"name":"SN74AHC138RGYR","manufacturer":"Texas Instruments","datasheet":"sn74ahc138","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"AHC"},
+        {"name":"SN74AHCT138DBR","manufacturer":"Texas Instruments","datasheet":"sn74ahct138","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"AHCT"},
+        {"name":"SN74AHCT138DGVR","manufacturer":"Texas Instruments","datasheet":"sn74ahct138","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"AHCT"},
+        {"name":"SN74AHCT138DR","manufacturer":"Texas Instruments","datasheet":"sn74ahct138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AHCT"},
+        {"name":"SN74AHCT138MPWREP","manufacturer":"Texas Instruments","datasheet":"sn74ahct138-ep","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHCT","flags":["enhanced"]},
+        {"name":"SN74AHCT138N","manufacturer":"Texas Instruments","datasheet":"sn74ahct138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AHCT"},
+        {"name":"SN74AHCT138NSR","manufacturer":"Texas Instruments","datasheet":"sn74ahct138","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"AHCT"},
+        {"name":"SN74AHCT138PWR","manufacturer":"Texas Instruments","datasheet":"sn74ahct138","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHCT"},
+        {"name":"SN74AHCT138QDRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ahct138q-q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AHCT","flags":["automotive"]},
+        {"name":"SN74AHCT138RGYR","manufacturer":"Texas Instruments","datasheet":"sn74ahct138","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"AHCT"},
+        {"name":"SN74ALS138ADR","manufacturer":"Texas Instruments","datasheet":"sn74als138a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS"},
+        {"name":"SN74ALS138AN","manufacturer":"Texas Instruments","datasheet":"sn74als138a","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
+        {"name":"SN74AS138D","manufacturer":"Texas Instruments","datasheet":"sn74als138a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AS"},
+        {"name":"SN74AS138N","manufacturer":"Texas Instruments","datasheet":"sn74als138a","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AS"},
+        {"name":"SN74AS138NSR","manufacturer":"Texas Instruments","datasheet":"sn74als138a","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"AS"},
+        {"name":"SN74F138DR","manufacturer":"Texas Instruments","datasheet":"sn74f138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"F"},
+        {"name":"SN74F138N","manufacturer":"Texas Instruments","datasheet":"sn74f138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"F"},
+        {"name":"SN74F138NSR","manufacturer":"Texas Instruments","datasheet":"sn74f138","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"F"},
+        {"name":"SN74HC138DBR","manufacturer":"Texas Instruments","datasheet":"sn74hc138","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"HC"},
+        {"name":"SN74HC138DR","manufacturer":"Texas Instruments","datasheet":"sn74hc138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"SN74HC138N","manufacturer":"Texas Instruments","datasheet":"sn74hc138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"SN74HC138NSR","manufacturer":"Texas Instruments","datasheet":"sn74hc138","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
+        {"name":"SN74HC138PWR","manufacturer":"Texas Instruments","datasheet":"sn74hc138","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"SN74HC138QDRG4Q1","manufacturer":"Texas Instruments","datasheet":"sn74hc138-q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["automotive"]},
+        {"name":"SN74HC138QPWRG4Q1","manufacturer":"Texas Instruments","datasheet":"sn74hc138-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["automotive"]},
+        {"name":"SN74HC138QPWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hc138-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["automotive"]},
+        {"name":"SN74HCS138BQBR","manufacturer":"Texas Instruments","datasheet":"sn74hcs138","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"HCS"},
+        {"name":"SN74HCS138DR","manufacturer":"Texas Instruments","datasheet":"sn74hcs138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS"},
+        {"name":"SN74HCS138DYYR","manufacturer":"Texas Instruments","datasheet":"sn74hcs138","package":"SOT-23-THIN","pinout":"p16","footprint":"SOT23-THIN-16","family":"HCS"},
+        {"name":"SN74HCS138PWR","manufacturer":"Texas Instruments","datasheet":"sn74hcs138","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS"},
+        {"name":"SN74HCS138QBQBRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs138-q1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS138QDRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs138-q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS138QDYYRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs138-q1","package":"SOT-23-THIN","pinout":"p16","footprint":"SOT23-THIN-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS138QPWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs138-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS138QWBQBRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs138-q1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCT138DR","manufacturer":"Texas Instruments","datasheet":"sn74hct138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"SN74HCT138N","manufacturer":"Texas Instruments","datasheet":"sn74hct138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"SN74HCT138NE4","manufacturer":"Texas Instruments","datasheet":"sn74hct138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"SN74HCT138NSR","manufacturer":"Texas Instruments","datasheet":"sn74hct138","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HCT"},
+        {"name":"SN74HCT138PWR","manufacturer":"Texas Instruments","datasheet":"sn74hct138","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCT"},
+        {"name":"SN74LS138D","manufacturer":"Texas Instruments","datasheet":"sn74ls138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS138DR","manufacturer":"Texas Instruments","datasheet":"sn74ls138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS138N","manufacturer":"Texas Instruments","datasheet":"sn74ls138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SN74LS138NSR","manufacturer":"Texas Instruments","datasheet":"sn74ls138","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
+        {"name":"SN74LV138ADBR","manufacturer":"Texas Instruments","datasheet":"sn74lv138a","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"LV"},
+        {"name":"SN74LV138ADGVR","manufacturer":"Texas Instruments","datasheet":"sn74lv138a","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"LV"},
+        {"name":"SN74LV138ADR","manufacturer":"Texas Instruments","datasheet":"sn74lv138a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LV"},
+        {"name":"SN74LV138ANSR","manufacturer":"Texas Instruments","datasheet":"sn74lv138a","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LV"},
+        {"name":"SN74LV138APWR","manufacturer":"Texas Instruments","datasheet":"sn74lv138a","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LV"},
+        {"name":"SN74LV138AQWBQBRQ1","manufacturer":"Texas Instruments","datasheet":"sn74lv138a-q1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"LV","flags":["automotive"]},
+        {"name":"SN74LV138ARGYR","manufacturer":"Texas Instruments","datasheet":"sn74lv138a","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"LV"},
+        {"name":"SN74LV138ATDBR","manufacturer":"Texas Instruments","datasheet":"sn74lv138at","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"LV","vcc":[4.5,5.5]},
+        {"name":"SN74LV138ATDGVR","manufacturer":"Texas Instruments","datasheet":"sn74lv138at","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"LV","vcc":[4.5,5.5]},
+        {"name":"SN74LV138ATDR","manufacturer":"Texas Instruments","datasheet":"sn74lv138at","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LV","vcc":[4.5,5.5]},
+        {"name":"SN74LV138ATPWR","manufacturer":"Texas Instruments","datasheet":"sn74lv138at","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LV","vcc":[4.5,5.5]},
+        {"name":"SN74LV138ATRGYR","manufacturer":"Texas Instruments","datasheet":"sn74lv138at","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"LV","vcc":[4.5,5.5]},
+        {"name":"SN74LVC138AD","manufacturer":"Texas Instruments","datasheet":"sn74lvc138a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
+        {"name":"SN74LVC138ADBR","manufacturer":"Texas Instruments","datasheet":"sn74lvc138a","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"LVC"},
+        {"name":"SN74LVC138ADGVR","manufacturer":"Texas Instruments","datasheet":"sn74lvc138a","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"LVC"},
+        {"name":"SN74LVC138ADR","manufacturer":"Texas Instruments","datasheet":"sn74lvc138a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
+        {"name":"SN74LVC138ADT","manufacturer":"Texas Instruments","datasheet":"sn74lvc138a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
+        {"name":"SN74LVC138AMPWTEP","manufacturer":"Texas Instruments","datasheet":"sn74lvc138a-ep","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC","flags":["enhanced"],"vcc":[2,3.6]},
+        {"name":"SN74LVC138ANSR","manufacturer":"Texas Instruments","datasheet":"sn74lvc138a","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LVC"},
+        {"name":"SN74LVC138APW","manufacturer":"Texas Instruments","datasheet":"sn74lvc138a","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
+        {"name":"SN74LVC138APWT","manufacturer":"Texas Instruments","datasheet":"sn74lvc138a","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
+        {"name":"SN74LVC138AQDRG4Q1","manufacturer":"Texas Instruments","datasheet":"sn74lvc138a-q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
+        {"name":"SN74LVC138AQDRQ1","manufacturer":"Texas Instruments","datasheet":"sn74lvc138a-q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
+        {"name":"SN74LVC138AQPWREP","manufacturer":"Texas Instruments","datasheet":"sn74lvc138a-ep","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC","flags":["enhanced"],"vcc":[2,3.6]},
+        {"name":"SN74LVC138ARSVR","manufacturer":"Texas Instruments","datasheet":"sn74lvc138a","package":"UQFN","pinout":"p16","footprint":"UQFN-16-RSV","family":"LVC"},
+        {"name":"SN74S138AD","manufacturer":"Texas Instruments","datasheet":"sn74ls138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"S"},
+        {"name":"SN74S138AN","manufacturer":"Texas Instruments","datasheet":"sn74ls138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"S"},
+        {"name":"SNJ54AHC138W","manufacturer":"Texas Instruments","datasheet":"sn74ahc138","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"AHC","flags":["military","ceramic"]}
       ]
     },
     {
@@ -201,34 +201,34 @@
         "HCT": {"rise":35,"fall":35,"vcc":[4.5,5.5],"note":"Address to Y max, 4.5 V 50 pF, 25 C; VCC 4.5-5.5 V (cd74hc138 p.6, p.4)"}
       },
       "parts": [
-        {"name":"CD74AC238BQBR","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AC"},
-        {"name":"CD74AC238M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
-        {"name":"CD74AC238PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AC"},
-        {"name":"CD74ACT238E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ACT"},
-        {"name":"CD74HC238E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
-        {"name":"CD74HC238EE4","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
-        {"name":"CD74HC238M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
-        {"name":"CD74HC238NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
-        {"name":"CD74HC238PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
-        {"name":"CD74HCT238E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
-        {"name":"CD74HCT238M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
-        {"name":"CD74HCT238PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCT"},
-        {"name":"SN74AC238PWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
-        {"name":"SN74ACT238BQBR","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"ACT"},
-        {"name":"SN74ACT238PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT"},
-        {"name":"SN74ACT238PWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT","flags":["automotive"]},
-        {"name":"SN74ACT238WBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"ACT","flags":["automotive"]},
-        {"name":"SN74AHC238BQBR","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AHC"},
-        {"name":"SN74AHC238PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC"},
-        {"name":"SN74AHC238QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC","flags":["automotive"]},
-        {"name":"SN74HCS238BQBR","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"HCS"},
-        {"name":"SN74HCS238DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS"},
-        {"name":"SN74HCS238DYYR","package":"SOT-23-THIN","pinout":"p16","footprint":"SOT23-THIN-16","family":"HCS"},
-        {"name":"SN74HCS238PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS"},
-        {"name":"SN74HCS238QBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"HCS","flags":["automotive"]},
-        {"name":"SN74HCS238QDRQ1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS","flags":["automotive"]},
-        {"name":"SN74HCS238QDYYRQ1","package":"SOT-23-THIN","pinout":"p16","footprint":"SOT23-THIN-16","family":"HCS","flags":["automotive"]},
-        {"name":"SN74HCS238QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS","flags":["automotive"]}
+        {"name":"CD74AC238BQBR","manufacturer":"Texas Instruments","datasheet":"cd74ac238","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AC"},
+        {"name":"CD74AC238M96","manufacturer":"Texas Instruments","datasheet":"cd74ac238","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
+        {"name":"CD74AC238PWR","manufacturer":"Texas Instruments","datasheet":"cd74ac238","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AC"},
+        {"name":"CD74ACT238E","manufacturer":"Texas Instruments","datasheet":"cd74act238","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ACT"},
+        {"name":"CD74HC238E","manufacturer":"Texas Instruments","datasheet":"cd74hc138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC238EE4","manufacturer":"Texas Instruments","datasheet":"cd74hc138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC238M96","manufacturer":"Texas Instruments","datasheet":"cd74hc138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"CD74HC238NSR","manufacturer":"Texas Instruments","datasheet":"cd74hc138","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
+        {"name":"CD74HC238PWR","manufacturer":"Texas Instruments","datasheet":"cd74hc138","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"CD74HCT238E","manufacturer":"Texas Instruments","datasheet":"cd74hc138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"CD74HCT238M96","manufacturer":"Texas Instruments","datasheet":"cd74hc138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"CD74HCT238PWR","manufacturer":"Texas Instruments","datasheet":"cd74hc138","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCT"},
+        {"name":"SN74AC238PWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ac238-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
+        {"name":"SN74ACT238BQBR","manufacturer":"Texas Instruments","datasheet":"sn74act238","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"ACT"},
+        {"name":"SN74ACT238PWR","manufacturer":"Texas Instruments","datasheet":"sn74act238","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT"},
+        {"name":"SN74ACT238PWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74act238-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT","flags":["automotive"]},
+        {"name":"SN74ACT238WBQBRQ1","manufacturer":"Texas Instruments","datasheet":"sn74act238-q1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"ACT","flags":["automotive"]},
+        {"name":"SN74AHC238BQBR","manufacturer":"Texas Instruments","datasheet":"sn74ahc238","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AHC"},
+        {"name":"SN74AHC238PWR","manufacturer":"Texas Instruments","datasheet":"sn74ahc238","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC"},
+        {"name":"SN74AHC238QPWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ahc238-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC","flags":["automotive"]},
+        {"name":"SN74HCS238BQBR","manufacturer":"Texas Instruments","datasheet":"sn74hcs238","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"HCS"},
+        {"name":"SN74HCS238DR","manufacturer":"Texas Instruments","datasheet":"sn74hcs238","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS"},
+        {"name":"SN74HCS238DYYR","manufacturer":"Texas Instruments","datasheet":"sn74hcs238","package":"SOT-23-THIN","pinout":"p16","footprint":"SOT23-THIN-16","family":"HCS"},
+        {"name":"SN74HCS238PWR","manufacturer":"Texas Instruments","datasheet":"sn74hcs238","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS"},
+        {"name":"SN74HCS238QBQBRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs238-q1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS238QDRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs238-q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS238QDYYRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs238-q1","package":"SOT-23-THIN","pinout":"p16","footprint":"SOT23-THIN-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS238QPWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs238-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS","flags":["automotive"]}
       ]
     },
     {
@@ -269,16 +269,16 @@
         "LS": {"rise":16,"fall":19,"vcc":[4.75,5.25],"note":"A/B/C to Y typ (3 levels), 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sdls132 p.4)"}
       },
       "parts": [
-        {"name":"CD74HC137E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
-        {"name":"CD74HC137PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
-        {"name":"CD74HCT137E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
-        {"name":"CD74HCT137M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
-        {"name":"SN54LS137J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SN74ALS137AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
-        {"name":"SN74HCS137DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS"},
-        {"name":"SN74HCS137PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS"},
-        {"name":"SN74HCS137QDRQ1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS","flags":["automotive"]},
-        {"name":"SN74HCS137QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS","flags":["automotive"]}
+        {"name":"CD74HC137E","manufacturer":"Texas Instruments","datasheet":"cd74hc137","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC137PWR","manufacturer":"Texas Instruments","datasheet":"cd74hc137","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"CD74HCT137E","manufacturer":"Texas Instruments","datasheet":"cd74hc137","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"CD74HCT137M96","manufacturer":"Texas Instruments","datasheet":"cd74hc137","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"SN54LS137J","manufacturer":"Texas Instruments","datasheet":"sdls132","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN74ALS137AN","manufacturer":"Texas Instruments","datasheet":"sn74als137a","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
+        {"name":"SN74HCS137DR","manufacturer":"Texas Instruments","datasheet":"sn74hcs137","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS"},
+        {"name":"SN74HCS137PWR","manufacturer":"Texas Instruments","datasheet":"sn74hcs137","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS"},
+        {"name":"SN74HCS137QDRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs137-q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS137QPWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs137-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS","flags":["automotive"]}
       ]
     },
     {
@@ -317,15 +317,15 @@
         "HCT": {"rise":38,"fall":38,"vcc":[4.5,5.5],"note":"An to Y max, 4.5 V 50 pF, 25 C; VCC 4.5-5.5 V (cd74hc137 p.7, p.4)"}
       },
       "parts": [
-        {"name":"CD74HC237DYYR","package":"SOT-23-THIN","pinout":"p16","footprint":"SOT23-THIN-16","family":"HC"},
-        {"name":"CD74HC237E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
-        {"name":"CD74HC237NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
-        {"name":"CD74HC237PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
-        {"name":"CD74HCT237E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
-        {"name":"SN74HCS237DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS"},
-        {"name":"SN74HCS237PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS"},
-        {"name":"SN74HCS237QDRQ1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS","flags":["automotive"]},
-        {"name":"SN74HCS237QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS","flags":["automotive"]}
+        {"name":"CD74HC237DYYR","manufacturer":"Texas Instruments","datasheet":"cd74hc137","package":"SOT-23-THIN","pinout":"p16","footprint":"SOT23-THIN-16","family":"HC"},
+        {"name":"CD74HC237E","manufacturer":"Texas Instruments","datasheet":"cd74hc137","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC237NSR","manufacturer":"Texas Instruments","datasheet":"cd74hc137","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
+        {"name":"CD74HC237PWR","manufacturer":"Texas Instruments","datasheet":"cd74hc137","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"CD74HCT237E","manufacturer":"Texas Instruments","datasheet":"cd74hc137","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"SN74HCS237DR","manufacturer":"Texas Instruments","datasheet":"sn74hcs237","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS"},
+        {"name":"SN74HCS237PWR","manufacturer":"Texas Instruments","datasheet":"sn74hcs237","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS"},
+        {"name":"SN74HCS237QDRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs237-q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCS237QPWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs237-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS","flags":["automotive"]}
       ]
     },
     {
@@ -361,9 +361,9 @@
         "AC": {"rise":5.7,"fall":6.2,"vcc":[3,5.5],"note":"A/B/C to Y typ, 5 V 50 pF; VCC 3-5.5 V (74ac11138 p.6, p.4)"}
       },
       "parts": [
-        {"name":"74AC11138DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
-        {"name":"74AC11138N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AC"},
-        {"name":"74AC11138NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"AC"}
+        {"name":"74AC11138DR","manufacturer":"Texas Instruments","datasheet":"74ac11138","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
+        {"name":"74AC11138N","manufacturer":"Texas Instruments","datasheet":"74ac11138","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AC"},
+        {"name":"74AC11138NSR","manufacturer":"Texas Instruments","datasheet":"74ac11138","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"AC"}
       ]
     },
     {
@@ -404,8 +404,8 @@
         "BCT": {"rise":5,"fall":5.8,"vcc":[4.5,5.5],"note":"A/B to Y typ, 5 V 50 pF; VCC and Vbat 4.5-5.5 V (sn74bct2414 p.6, p.5)"}
       },
       "parts": [
-        {"name":"SN74BCT2414DW","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"BCT"},
-        {"name":"SN74BCT2414N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"BCT"}
+        {"name":"SN74BCT2414DW","manufacturer":"Texas Instruments","datasheet":"sn74bct2414","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"BCT"},
+        {"name":"SN74BCT2414N","manufacturer":"Texas Instruments","datasheet":"sn74bct2414","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"BCT"}
       ]
     },
     {
@@ -452,79 +452,79 @@
         "LVC": {"rise":6.2,"fall":6.2,"vcc":[1.65,3.6],"inputMax":5.5,"note":"A/B to Y max, 3.3 V 50 pF; VCC 1.65-3.6 V, inputs to 5.5 V (sn74lvc139a p.3, p.4)"}
       },
       "parts": [
-        {"name":"CAHCT139QWBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AHCT","flags":["automotive"]},
-        {"name":"CD54HCT139F","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
-        {"name":"CD74AC139E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AC"},
-        {"name":"CD74AC139M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
-        {"name":"CD74AC139M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
-        {"name":"CD74ACT139E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ACT"},
-        {"name":"CD74ACT139M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ACT"},
-        {"name":"CD74ACT139M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ACT"},
-        {"name":"CD74HC139E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
-        {"name":"CD74HC139M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
-        {"name":"CD74HCT139E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
-        {"name":"CD74HCT139M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
-        {"name":"CD74HCT139M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
-        {"name":"CLVC139AQPWRG4Q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC","flags":["automotive"]},
-        {"name":"SN54LS139AJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SN54S139J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SN74AC139PWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
-        {"name":"SN74AC139WBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
-        {"name":"SN74ACT139PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT"},
-        {"name":"SN74AHC139DBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"AHC"},
-        {"name":"SN74AHC139DGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"AHC"},
-        {"name":"SN74AHC139DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AHC"},
-        {"name":"SN74AHC139N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AHC"},
-        {"name":"SN74AHC139NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"AHC"},
-        {"name":"SN74AHC139PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC"},
-        {"name":"SN74AHC139QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC","flags":["automotive"]},
-        {"name":"SN74AHC139QWBQBRQ1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AHC","flags":["automotive"]},
-        {"name":"SN74AHC139RGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"AHC"},
-        {"name":"SN74AHCT139DBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"AHCT"},
-        {"name":"SN74AHCT139DGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"AHCT"},
-        {"name":"SN74AHCT139DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AHCT"},
-        {"name":"SN74AHCT139N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AHCT"},
-        {"name":"SN74AHCT139PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHCT"},
-        {"name":"SN74ALS139DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS"},
-        {"name":"SN74ALS139N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
-        {"name":"SN74ALS139NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"ALS"},
-        {"name":"SN74HC139DBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"HC"},
-        {"name":"SN74HC139DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
-        {"name":"SN74HC139N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
-        {"name":"SN74HC139NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
-        {"name":"SN74HC139PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
-        {"name":"SN74HC139QDRG4Q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["automotive"]},
-        {"name":"SN74HC139QDRQ1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["automotive"]},
-        {"name":"SN74HC139QPWRG4Q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["automotive"]},
-        {"name":"SN74HC139QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["automotive"]},
-        {"name":"SN74HCS139DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS"},
-        {"name":"SN74HCS139PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS"},
-        {"name":"SN74HCS139QPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS","flags":["automotive"]},
-        {"name":"SN74HCT139DBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"HCT"},
-        {"name":"SN74HCT139DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
-        {"name":"SN74HCT139N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
-        {"name":"SN74HCT139PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCT"},
-        {"name":"SN74LS139ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
-        {"name":"SN74LS139AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
-        {"name":"SN74LS139ANSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
-        {"name":"SN74LV139ADBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"LV"},
-        {"name":"SN74LV139ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LV"},
-        {"name":"SN74LV139ANSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LV"},
-        {"name":"SN74LV139APWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LV"},
-        {"name":"SN74LV139ARGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"LV"},
-        {"name":"SN74LVC139AD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
-        {"name":"SN74LVC139ADBR","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"LVC"},
-        {"name":"SN74LVC139ADGVR","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"LVC"},
-        {"name":"SN74LVC139ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
-        {"name":"SN74LVC139ADT","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
-        {"name":"SN74LVC139ANSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LVC"},
-        {"name":"SN74LVC139APW","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
-        {"name":"SN74LVC139APWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
-        {"name":"SN74LVC139APWT","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
-        {"name":"SN74LVC139AQPWRQ1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC","flags":["automotive"]},
-        {"name":"SN74LVC139ARGYR","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"LVC"},
-        {"name":"SN74S139AD","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"S"},
-        {"name":"SN74S139AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"S"}
+        {"name":"CAHCT139QWBQBRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ahct139-q1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AHCT","flags":["automotive"]},
+        {"name":"CD54HCT139F","manufacturer":"Texas Instruments","datasheet":"cd74hc139","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HCT","flags":["military","ceramic"]},
+        {"name":"CD74AC139E","manufacturer":"Texas Instruments","datasheet":"cd74ac139","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AC"},
+        {"name":"CD74AC139M","manufacturer":"Texas Instruments","datasheet":"cd74ac139","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
+        {"name":"CD74AC139M96","manufacturer":"Texas Instruments","datasheet":"cd74ac139","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AC"},
+        {"name":"CD74ACT139E","manufacturer":"Texas Instruments","datasheet":"cd74act139","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ACT"},
+        {"name":"CD74ACT139M","manufacturer":"Texas Instruments","datasheet":"cd74act139","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ACT"},
+        {"name":"CD74ACT139M96","manufacturer":"Texas Instruments","datasheet":"cd74act139","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ACT"},
+        {"name":"CD74HC139E","manufacturer":"Texas Instruments","datasheet":"cd74hc139","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC139M96","manufacturer":"Texas Instruments","datasheet":"cd74hc139","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"CD74HCT139E","manufacturer":"Texas Instruments","datasheet":"cd74hc139","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"CD74HCT139M","manufacturer":"Texas Instruments","datasheet":"cd74hc139","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"CD74HCT139M96","manufacturer":"Texas Instruments","datasheet":"cd74hc139","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"CLVC139AQPWRG4Q1","manufacturer":"Texas Instruments","datasheet":"sn74lvc139a-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC","flags":["automotive"]},
+        {"name":"SN54LS139AJ","manufacturer":"Texas Instruments","datasheet":"sn74ls139a","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54S139J","manufacturer":"Texas Instruments","datasheet":"sn74ls139a","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN74AC139PWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ac139-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
+        {"name":"SN74AC139WBQBRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ac139-q1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
+        {"name":"SN74ACT139PWR","manufacturer":"Texas Instruments","datasheet":"sn74act139","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT"},
+        {"name":"SN74AHC139DBR","manufacturer":"Texas Instruments","datasheet":"sn74ahc139","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"AHC"},
+        {"name":"SN74AHC139DGVR","manufacturer":"Texas Instruments","datasheet":"sn74ahc139","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"AHC"},
+        {"name":"SN74AHC139DR","manufacturer":"Texas Instruments","datasheet":"sn74ahc139","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AHC"},
+        {"name":"SN74AHC139N","manufacturer":"Texas Instruments","datasheet":"sn74ahc139","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AHC"},
+        {"name":"SN74AHC139NSR","manufacturer":"Texas Instruments","datasheet":"sn74ahc139","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"AHC"},
+        {"name":"SN74AHC139PWR","manufacturer":"Texas Instruments","datasheet":"sn74ahc139","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC"},
+        {"name":"SN74AHC139QPWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ahc139-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHC","flags":["automotive"]},
+        {"name":"SN74AHC139QWBQBRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ahc139-q1","package":"WQFN","pinout":"p16","footprint":"WQFN-16","family":"AHC","flags":["automotive"]},
+        {"name":"SN74AHC139RGYR","manufacturer":"Texas Instruments","datasheet":"sn74ahc139","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"AHC"},
+        {"name":"SN74AHCT139DBR","manufacturer":"Texas Instruments","datasheet":"sn74ahct139","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"AHCT"},
+        {"name":"SN74AHCT139DGVR","manufacturer":"Texas Instruments","datasheet":"sn74ahct139","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"AHCT"},
+        {"name":"SN74AHCT139DR","manufacturer":"Texas Instruments","datasheet":"sn74ahct139","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"AHCT"},
+        {"name":"SN74AHCT139N","manufacturer":"Texas Instruments","datasheet":"sn74ahct139","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AHCT"},
+        {"name":"SN74AHCT139PWR","manufacturer":"Texas Instruments","datasheet":"sn74ahct139","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"AHCT"},
+        {"name":"SN74ALS139DR","manufacturer":"Texas Instruments","datasheet":"sn74als139","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS"},
+        {"name":"SN74ALS139N","manufacturer":"Texas Instruments","datasheet":"sn74als139","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
+        {"name":"SN74ALS139NSR","manufacturer":"Texas Instruments","datasheet":"sn74als139","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"ALS"},
+        {"name":"SN74HC139DBR","manufacturer":"Texas Instruments","datasheet":"sn74hc139","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"HC"},
+        {"name":"SN74HC139DR","manufacturer":"Texas Instruments","datasheet":"sn74hc139","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"SN74HC139N","manufacturer":"Texas Instruments","datasheet":"sn74hc139","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"SN74HC139NSR","manufacturer":"Texas Instruments","datasheet":"sn74hc139","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
+        {"name":"SN74HC139PWR","manufacturer":"Texas Instruments","datasheet":"sn74hc139","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"SN74HC139QDRG4Q1","manufacturer":"Texas Instruments","datasheet":"sn74hc139-q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["automotive"]},
+        {"name":"SN74HC139QDRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hc139-q1","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["automotive"]},
+        {"name":"SN74HC139QPWRG4Q1","manufacturer":"Texas Instruments","datasheet":"sn74hc139-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["automotive"]},
+        {"name":"SN74HC139QPWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hc139-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["automotive"]},
+        {"name":"SN74HCS139DR","manufacturer":"Texas Instruments","datasheet":"sn74hcs139","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCS"},
+        {"name":"SN74HCS139PWR","manufacturer":"Texas Instruments","datasheet":"sn74hcs139","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS"},
+        {"name":"SN74HCS139QPWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs139-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCS","flags":["automotive"]},
+        {"name":"SN74HCT139DBR","manufacturer":"Texas Instruments","datasheet":"sn74hct139","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"HCT"},
+        {"name":"SN74HCT139DR","manufacturer":"Texas Instruments","datasheet":"sn74hct139","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"SN74HCT139N","manufacturer":"Texas Instruments","datasheet":"sn74hct139","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"SN74HCT139PWR","manufacturer":"Texas Instruments","datasheet":"sn74hct139","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCT"},
+        {"name":"SN74LS139ADR","manufacturer":"Texas Instruments","datasheet":"sn74ls139a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS139AN","manufacturer":"Texas Instruments","datasheet":"sn74ls139a","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SN74LS139ANSR","manufacturer":"Texas Instruments","datasheet":"sn74ls139a","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
+        {"name":"SN74LV139ADBR","manufacturer":"Texas Instruments","datasheet":"sn74lv139a","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"LV"},
+        {"name":"SN74LV139ADR","manufacturer":"Texas Instruments","datasheet":"sn74lv139a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LV"},
+        {"name":"SN74LV139ANSR","manufacturer":"Texas Instruments","datasheet":"sn74lv139a","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LV"},
+        {"name":"SN74LV139APWR","manufacturer":"Texas Instruments","datasheet":"sn74lv139a","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LV"},
+        {"name":"SN74LV139ARGYR","manufacturer":"Texas Instruments","datasheet":"sn74lv139a","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"LV"},
+        {"name":"SN74LVC139AD","manufacturer":"Texas Instruments","datasheet":"sn74lvc139a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
+        {"name":"SN74LVC139ADBR","manufacturer":"Texas Instruments","datasheet":"sn74lvc139a","package":"SSOP","pinout":"p16","footprint":"SSOP-16","family":"LVC"},
+        {"name":"SN74LVC139ADGVR","manufacturer":"Texas Instruments","datasheet":"sn74lvc139a","package":"TVSOP","pinout":"p16","footprint":"TVSOP-16","family":"LVC"},
+        {"name":"SN74LVC139ADR","manufacturer":"Texas Instruments","datasheet":"sn74lvc139a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
+        {"name":"SN74LVC139ADT","manufacturer":"Texas Instruments","datasheet":"sn74lvc139a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LVC"},
+        {"name":"SN74LVC139ANSR","manufacturer":"Texas Instruments","datasheet":"sn74lvc139a","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LVC"},
+        {"name":"SN74LVC139APW","manufacturer":"Texas Instruments","datasheet":"sn74lvc139a","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
+        {"name":"SN74LVC139APWR","manufacturer":"Texas Instruments","datasheet":"sn74lvc139a","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
+        {"name":"SN74LVC139APWT","manufacturer":"Texas Instruments","datasheet":"sn74lvc139a","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC"},
+        {"name":"SN74LVC139AQPWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74lvc139a-q1","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"LVC","flags":["automotive"]},
+        {"name":"SN74LVC139ARGYR","manufacturer":"Texas Instruments","datasheet":"sn74lvc139a","package":"VQFN","pinout":"p16","footprint":"VQFN-16","family":"LVC"},
+        {"name":"SN74S139AD","manufacturer":"Texas Instruments","datasheet":"sn74ls139a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"S"},
+        {"name":"SN74S139AN","manufacturer":"Texas Instruments","datasheet":"sn74ls139a","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"S"}
       ]
     },
     {
@@ -560,10 +560,10 @@
         "LS": {"rise":17,"fall":19,"vcc":[4.75,5.25],"note":"A/B to Y (3 gate levels) typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls155a p.6)"}
       },
       "parts": [
-        {"name":"SN74LS155ADR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
-        {"name":"SN74LS155AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
-        {"name":"SN74LS155ANSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
-        {"name":"SNJ54LS155AJ","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+        {"name":"SN74LS155ADR","manufacturer":"Texas Instruments","datasheet":"sn74ls155a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS155AN","manufacturer":"Texas Instruments","datasheet":"sn74ls155a","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SN74LS155ANSR","manufacturer":"Texas Instruments","datasheet":"sn74ls155a","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
+        {"name":"SNJ54LS155AJ","manufacturer":"Texas Instruments","datasheet":"sn74ls155a","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -601,12 +601,12 @@
         "ALS": {"rise":55,"fall":25,"vcc":[4.5,5.5],"note":"A/B to Y max, 4.5-5.5 V 50 pF; VCC 4.5-5.5 V (sn74als156 p.4, p.5)"}
       },
       "parts": [
-        {"name":"SN74ALS156DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS"},
-        {"name":"SN74ALS156N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
-        {"name":"SN74LS156DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
-        {"name":"SN74LS156N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
-        {"name":"SN74LS156NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
-        {"name":"SNJ54LS156J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+        {"name":"SN74ALS156DR","manufacturer":"Texas Instruments","datasheet":"sn74als156","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ALS"},
+        {"name":"SN74ALS156N","manufacturer":"Texas Instruments","datasheet":"sn74als156","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ALS"},
+        {"name":"SN74LS156DR","manufacturer":"Texas Instruments","datasheet":"sn74ls155a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS156N","manufacturer":"Texas Instruments","datasheet":"sn74ls155a","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SN74LS156NSR","manufacturer":"Texas Instruments","datasheet":"sn74ls155a","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
+        {"name":"SNJ54LS156J","manufacturer":"Texas Instruments","datasheet":"sn74ls155a","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -642,8 +642,8 @@
         "ACT": {"rise":5.7,"fall":5.5,"vcc":[4.5,5.5],"note":"A/B to Y typ, 5 V 50 pF; VCC 4.5-5.5 V (74act11139 p.3, p.4)"}
       },
       "parts": [
-        {"name":"74ACT11139D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ACT"},
-        {"name":"74ACT11139PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT"}
+        {"name":"74ACT11139D","manufacturer":"Texas Instruments","datasheet":"74act11139","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ACT"},
+        {"name":"74ACT11139PWR","manufacturer":"Texas Instruments","datasheet":"74act11139","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"ACT"}
       ]
     },
     {
@@ -681,11 +681,11 @@
         "LVC": {"rise":5.9,"fall":5.9,"vcc":[1.65,5.5],"inputMax":5.5,"note":"A/B to Y max, 3.3 V 30 pF; VCC 1.65-5.5 V, inputs to 5.5 V (sn74lvc1g139 p.5, p.6)"}
       },
       "parts": [
-        {"name":"SN74LVC1G139DCTR","package":"SSOP","pinout":"p8","footprint":"SSOP-8","family":"LVC"},
-        {"name":"SN74LVC1G139DCTT","package":"SSOP","pinout":"p8","footprint":"SSOP-8","family":"LVC"},
-        {"name":"SN74LVC1G139DCUR","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
-        {"name":"SN74LVC1G139DCUT","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
-        {"name":"SN74LVC1G139YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-8-YZP","family":"LVC"}
+        {"name":"SN74LVC1G139DCTR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g139","package":"SSOP","pinout":"p8","footprint":"SSOP-8","family":"LVC"},
+        {"name":"SN74LVC1G139DCTT","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g139","package":"SSOP","pinout":"p8","footprint":"SSOP-8","family":"LVC"},
+        {"name":"SN74LVC1G139DCUR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g139","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
+        {"name":"SN74LVC1G139DCUT","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g139","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
+        {"name":"SN74LVC1G139YZPR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g139","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-8-YZP","family":"LVC"}
       ]
     },
     {
@@ -720,11 +720,11 @@
         "LVC": {"rise":4.2,"fall":4.2,"vcc":[1.65,5.5],"inputMax":5.5,"note":"A to Y max, 3.3 V 30/50 pF; VCC 1.65-5.5 V, inputs to 5.5 V (sn74lvc1g18 p.6, p.7)"}
       },
       "parts": [
-        {"name":"SN74LVC1G18DBVR","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"LVC"},
-        {"name":"SN74LVC1G18DCKR","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"LVC"},
-        {"name":"SN74LVC1G18DRYR","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"LVC"},
-        {"name":"SN74LVC1G18DSFR","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"LVC"},
-        {"name":"SN74LVC1G18YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-6-YZP","family":"LVC"}
+        {"name":"SN74LVC1G18DBVR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g18","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"LVC"},
+        {"name":"SN74LVC1G18DCKR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g18","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"LVC"},
+        {"name":"SN74LVC1G18DRYR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g18","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"LVC"},
+        {"name":"SN74LVC1G18DSFR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g18","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"LVC"},
+        {"name":"SN74LVC1G18YZPR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g18","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-6-YZP","family":"LVC"}
       ]
     },
     {
@@ -759,17 +759,17 @@
         "AUC": {"rise":2.8,"fall":2.8,"vcc":[0.8,2.7],"inputMax":3.6,"note":"A/E to Y max, 1.8 V 30 pF; VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc1g19 p.4, p.5)"}
       },
       "parts": [
-        {"name":"SN74AUC1G19DBVR","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"AUC"},
-        {"name":"SN74AUC1G19DCKR","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"AUC"},
-        {"name":"SN74AUC1G19DCKT","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"AUC"},
-        {"name":"SN74AUC1G19DRLR","package":"SOT-5X3","pinout":"p6","footprint":"SOT5X3-6","family":"AUC"},
-        {"name":"SN74AUC1G19YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-6-YZP","family":"AUC"},
-        {"name":"SN74LVC1G19DBVR","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"LVC"},
-        {"name":"SN74LVC1G19DBVT","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"LVC"},
-        {"name":"SN74LVC1G19DCKR","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"LVC"},
-        {"name":"SN74LVC1G19DRLR","package":"SOT-5X3","pinout":"p6","footprint":"SOT5X3-6","family":"LVC"},
-        {"name":"SN74LVC1G19DRYR","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"LVC"},
-        {"name":"SN74LVC1G19YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-6-YZP","family":"LVC"}
+        {"name":"SN74AUC1G19DBVR","manufacturer":"Texas Instruments","datasheet":"sn74auc1g19","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"AUC"},
+        {"name":"SN74AUC1G19DCKR","manufacturer":"Texas Instruments","datasheet":"sn74auc1g19","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"AUC"},
+        {"name":"SN74AUC1G19DCKT","manufacturer":"Texas Instruments","datasheet":"sn74auc1g19","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"AUC"},
+        {"name":"SN74AUC1G19DRLR","manufacturer":"Texas Instruments","datasheet":"sn74auc1g19","package":"SOT-5X3","pinout":"p6","footprint":"SOT5X3-6","family":"AUC"},
+        {"name":"SN74AUC1G19YZPR","manufacturer":"Texas Instruments","datasheet":"sn74auc1g19","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-6-YZP","family":"AUC"},
+        {"name":"SN74LVC1G19DBVR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g19","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"LVC"},
+        {"name":"SN74LVC1G19DBVT","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g19","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"LVC"},
+        {"name":"SN74LVC1G19DCKR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g19","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"LVC"},
+        {"name":"SN74LVC1G19DRLR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g19","package":"SOT-5X3","pinout":"p6","footprint":"SOT5X3-6","family":"LVC"},
+        {"name":"SN74LVC1G19DRYR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g19","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"LVC"},
+        {"name":"SN74LVC1G19YZPR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g19","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-6-YZP","family":"LVC"}
       ]
     },
     {
@@ -807,10 +807,10 @@
         "LVC": {"rise":6.1,"fall":6.1,"vcc":[1.65,5.5],"inputMax":5.5,"note":"A/G to Y max, 3.3 V 30/50 pF; VCC 1.65-5.5 V, inputs to 5.5 V (sn74lvc1g29 p.3, p.4)"}
       },
       "parts": [
-        {"name":"SN74LVC1G29DCTR","package":"SSOP","pinout":"p8","footprint":"SSOP-8","family":"LVC"},
-        {"name":"SN74LVC1G29DCUR","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
-        {"name":"SN74LVC1G29DCUT","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
-        {"name":"SN74LVC1G29YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-8-YZP","family":"LVC"}
+        {"name":"SN74LVC1G29DCTR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g29","package":"SSOP","pinout":"p8","footprint":"SSOP-8","family":"LVC"},
+        {"name":"SN74LVC1G29DCUR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g29","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
+        {"name":"SN74LVC1G29DCUT","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g29","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
+        {"name":"SN74LVC1G29YZPR","manufacturer":"Texas Instruments","datasheet":"sn74lvc1g29","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-8-YZP","family":"LVC"}
       ]
     },
     {
@@ -846,11 +846,11 @@
         "C": {"rise":220,"fall":220,"vcc":[3,18],"note":"A/B to Q typ, VDD 5 V 50 pF; VDD 3-18 V (cd4555b p.1, p.2)"}
       },
       "parts": [
-        {"name":"CD4555BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD4555BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
-        {"name":"CD4555BM96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
-        {"name":"CD4555BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
-        {"name":"CD4555BPWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
+        {"name":"CD4555BE","manufacturer":"Texas Instruments","datasheet":"cd4555b","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4555BF3A","manufacturer":"Texas Instruments","datasheet":"cd4555b","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
+        {"name":"CD4555BM96","manufacturer":"Texas Instruments","datasheet":"cd4555b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"CD4555BNSR","manufacturer":"Texas Instruments","datasheet":"cd4555b","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
+        {"name":"CD4555BPWR","manufacturer":"Texas Instruments","datasheet":"cd4555b","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
       ]
     },
     {
@@ -886,8 +886,8 @@
         "C": {"rise":220,"fall":220,"vcc":[3,18],"note":"A/B to Q typ, VDD 5 V 50 pF; VDD 3-18 V (cd4555b p.1, p.2)"}
       },
       "parts": [
-        {"name":"CD4556BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD4556BM96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"}
+        {"name":"CD4556BE","manufacturer":"Texas Instruments","datasheet":"cd4555b","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4556BM96","manufacturer":"Texas Instruments","datasheet":"cd4555b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"}
       ]
     },
     {
@@ -925,13 +925,13 @@
         "LS": {"rise":20,"fall":20,"vcc":[4.75,5.25],"note":"A/B/C/D to Y typ (3 levels of logic), 5 V 15 pF; VCC 4.75-5.25 V (sn74ls42 p.6)"}
       },
       "parts": [
-        {"name":"CD74HC42E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
-        {"name":"CD74HC42M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
-        {"name":"CD74HCT42E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
-        {"name":"SN74HC42DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
-        {"name":"SN74HC42N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
-        {"name":"SN74LS42D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
-        {"name":"SN74LS42N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"}
+        {"name":"CD74HC42E","manufacturer":"Texas Instruments","datasheet":"cd74hc42","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC42M","manufacturer":"Texas Instruments","datasheet":"cd74hc42","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"CD74HCT42E","manufacturer":"Texas Instruments","datasheet":"cd74hc42","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"SN74HC42DR","manufacturer":"Texas Instruments","datasheet":"sn74hc42","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"SN74HC42N","manufacturer":"Texas Instruments","datasheet":"sn74hc42","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"SN74LS42D","manufacturer":"Texas Instruments","datasheet":"sn74ls42","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS42N","manufacturer":"Texas Instruments","datasheet":"sn74ls42","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"}
       ]
     },
     {
@@ -968,7 +968,7 @@
         "TTL": {"rise":50,"fall":50,"vcc":[4.75,5.25],"note":"A/B/C/D to Y max, 5 V 15 pF 100 ohm; VCC 4.75-5.25 V (sn7445 p.2)"}
       },
       "parts": [
-        {"name":"SN7445N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"}
+        {"name":"SN7445N","manufacturer":"Texas Instruments","datasheet":"sn7445","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"}
       ]
     },
     {
@@ -1006,10 +1006,10 @@
         "LS": {"rise":50,"fall":50,"vcc":[4.75,5.25],"note":"A/B/C/D to Y max, 5 V 45 pF 665 ohm; VCC 4.75-5.25 V (sn74145 p.3)"}
       },
       "parts": [
-        {"name":"SN74145N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"},
-        {"name":"SN74LS145DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
-        {"name":"SN74LS145N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
-        {"name":"SN74LS145NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"}
+        {"name":"SN74145N","manufacturer":"Texas Instruments","datasheet":"sn74145","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"},
+        {"name":"SN74LS145DR","manufacturer":"Texas Instruments","datasheet":"sn74145","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS145N","manufacturer":"Texas Instruments","datasheet":"sn74145","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SN74LS145NSR","manufacturer":"Texas Instruments","datasheet":"sn74145","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"}
       ]
     },
     {
@@ -1054,8 +1054,8 @@
         "HCT": {"rise":35,"fall":35,"vcc":[4.5,5.5],"note":"A to Y max, 4.5 V 50 pF; VCC 4.5-5.5 V (cd74hc154 p.5)"}
       },
       "parts": [
-        {"name":"CD74HC154M96","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"HC"},
-        {"name":"CD74HCT154M96","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"HCT"}
+        {"name":"CD74HC154M96","manufacturer":"Texas Instruments","datasheet":"cd74hc154","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"HC"},
+        {"name":"CD74HCT154M96","manufacturer":"Texas Instruments","datasheet":"cd74hc154","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"HCT"}
       ]
     },
     {
@@ -1091,10 +1091,10 @@
         "C": {"rise":175,"fall":175,"vcc":[3,18],"note":"A/B/C/D to Q typ, 5 V 50 pF; VDD 3-18 V (cd4028b p.2)"}
       },
       "parts": [
-        {"name":"CD4028BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD4028BM96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
-        {"name":"CD4028BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
-        {"name":"CD4028BPWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
+        {"name":"CD4028BE","manufacturer":"Texas Instruments","datasheet":"cd4028b","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4028BM96","manufacturer":"Texas Instruments","datasheet":"cd4028b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"CD4028BNSR","manufacturer":"Texas Instruments","datasheet":"cd4028b","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
+        {"name":"CD4028BPWR","manufacturer":"Texas Instruments","datasheet":"cd4028b","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
       ]
     },
     {
@@ -1139,8 +1139,8 @@
         "C": {"rise":485,"fall":485,"vcc":[3,18],"note":"DATA to S typ, 5 V 50 pF; VDD 3-18 V (cd4514b p.3)"}
       },
       "parts": [
-        {"name":"CD4514BM96","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"C"},
-        {"name":"CD4514BM96G4","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"C"}
+        {"name":"CD4514BM96","manufacturer":"Texas Instruments","datasheet":"cd4514b","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"C"},
+        {"name":"CD4514BM96G4","manufacturer":"Texas Instruments","datasheet":"cd4514b","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"C"}
       ]
     },
     {
@@ -1185,7 +1185,7 @@
         "C": {"rise":485,"fall":485,"vcc":[3,18],"note":"DATA to S typ, 5 V 50 pF; VDD 3-18 V (cd4514b p.3)"}
       },
       "parts": [
-        {"name":"CD4515BM96","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"C"}
+        {"name":"CD4515BM96","manufacturer":"Texas Instruments","datasheet":"cd4514b","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"C"}
       ]
     },
     {
@@ -1230,7 +1230,7 @@
         "HC": {"rise":55,"fall":55,"vcc":[2,6],"note":"A to Y max, 4.5 V 50 pF; VCC 2-6 V (cd74hc4514 p.4)"}
       },
       "parts": [
-        {"name":"CD74HC4514M96","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"HC"}
+        {"name":"CD74HC4514M96","manufacturer":"Texas Instruments","datasheet":"cd74hc4514","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"HC"}
       ]
     },
     {
@@ -1275,7 +1275,7 @@
         "HC": {"rise":55,"fall":55,"vcc":[2,6],"note":"A to Y max, 4.5 V 50 pF; VCC 2-6 V (cd74hc4514 p.4)"}
       },
       "parts": [
-        {"name":"CD74HC4515M96","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"HC"}
+        {"name":"CD74HC4515M96","manufacturer":"Texas Instruments","datasheet":"cd74hc4514","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"HC"}
       ]
     },
     {
@@ -1316,10 +1316,10 @@
         "HCT": {"rise":35,"fall":35,"vcc":[4.5,5.5],"note":"I to Y max, 4.5 V 50 pF; VCC 4.5-5.5 V (cd74hc147 p.6)"}
       },
       "parts": [
-        {"name":"CD74HC147E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
-        {"name":"CD74HC147M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
-        {"name":"CD74HC147PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
-        {"name":"CD74HCT147E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"}
+        {"name":"CD74HC147E","manufacturer":"Texas Instruments","datasheet":"cd74hc147","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC147M96","manufacturer":"Texas Instruments","datasheet":"cd74hc147","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"CD74HC147PWR","manufacturer":"Texas Instruments","datasheet":"cd74hc147","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"CD74HCT147E","manufacturer":"Texas Instruments","datasheet":"cd74hc147","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"}
       ]
     },
     {
@@ -1383,11 +1383,11 @@
         "LS": {"rise":14,"fall":15,"vcc":[4.75,5.25],"note":"1-7 to A in-phase typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls148 p.10)"}
       },
       "parts": [
-        {"name":"SN74HC148N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
-        {"name":"SN74HC148NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
-        {"name":"SN74LS148DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
-        {"name":"SN74LS148N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
-        {"name":"SNJ54LS148FK","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+        {"name":"SN74HC148N","manufacturer":"Texas Instruments","datasheet":"sn74hc148","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"SN74HC148NSR","manufacturer":"Texas Instruments","datasheet":"sn74hc148","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
+        {"name":"SN74LS148DR","manufacturer":"Texas Instruments","datasheet":"sn74ls148","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS148N","manufacturer":"Texas Instruments","datasheet":"sn74ls148","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SNJ54LS148FK","manufacturer":"Texas Instruments","datasheet":"sn74ls148","package":"LCCC","pinout":"fk20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -1429,8 +1429,8 @@
         "LS": {"rise":11,"fall":20,"vcc":[4.75,5.25],"note":"1-7 to A in-phase typ, 5 V 45 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls348 p.4)"}
       },
       "parts": [
-        {"name":"SN74LS348D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
-        {"name":"SN74LS348N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"}
+        {"name":"SN74LS348D","manufacturer":"Texas Instruments","datasheet":"sn74ls348","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS348N","manufacturer":"Texas Instruments","datasheet":"sn74ls348","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"}
       ]
     },
     {
@@ -1471,10 +1471,10 @@
         "C": {"rise":220,"fall":220,"vcc":[3,18],"note":"D to Q typ, 5 V 50 pF; VDD 3-18 V (cd4532b p.2)"}
       },
       "parts": [
-        {"name":"CD4532BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD4532BM96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
-        {"name":"CD4532BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
-        {"name":"CD4532BPWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
+        {"name":"CD4532BE","manufacturer":"Texas Instruments","datasheet":"cd4532b","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4532BM96","manufacturer":"Texas Instruments","datasheet":"cd4532b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"CD4532BNSR","manufacturer":"Texas Instruments","datasheet":"cd4532b","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
+        {"name":"CD4532BPWR","manufacturer":"Texas Instruments","datasheet":"cd4532b","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
       ]
     },
     {
@@ -1514,8 +1514,8 @@
         "C": {"rise":450,"fall":450,"vcc":[3,18],"note":"I to A/B/C/D in-phase typ, 5 V 50 pF; VDD 3-18 V (cd40147b p.3)"}
       },
       "parts": [
-        {"name":"CD40147BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD40147BM","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"}
+        {"name":"CD40147BE","manufacturer":"Texas Instruments","datasheet":"cd40147b","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD40147BM","manufacturer":"Texas Instruments","datasheet":"cd40147b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"}
       ]
     },
     {
@@ -1557,7 +1557,7 @@
         "TTL": {"rise":100,"fall":100,"vcc":[4.75,5.25],"note":"A to segment max (toff, ton), 5 V 15 pF 120 ohm; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn7447a p.9)"}
       },
       "parts": [
-        {"name":"SN7447AN","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"}
+        {"name":"SN7447AN","manufacturer":"Texas Instruments","datasheet":"sn7447a","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"}
       ]
     },
     {
@@ -1595,7 +1595,7 @@
         "LS": {"rise":100,"fall":100,"vcc":[4.75,5.25],"note":"A to segment max, 5 V 15 pF 4 kohm; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn7447a p.13)"}
       },
       "parts": [
-        {"name":"SNJ54LS49J","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54LS49J","manufacturer":"Texas Instruments","datasheet":"sn7447a","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     }
   ]

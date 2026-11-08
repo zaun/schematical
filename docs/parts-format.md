@@ -27,9 +27,10 @@ Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, 
 | `converter.json` | `converter` |
 | `rtc.json` | `rtc` |
 
-Beside them, `footprints.json` holds the land patterns parts name with
-`"footprint"` (see [Footprints](#footprints)). It is loaded first, with
-`load_footprints()`.
+Beside them, `datasheets.json` holds the datasheet URLs parts name with
+`"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
+patterns parts name with `"footprint"` (see [Footprints](#footprints)). They
+are loaded first, with `load_datasheets()` and `load_footprints()`.
 
 The backend loads each part file with `load_parts()` (`backend/include/parts.h`).
 The loader checks everything below; a file that breaks any rule is rejected
@@ -152,12 +153,14 @@ oscillator's `enablePin` is a pin designator; see below.)
 ## Parts
 
 ```json
-{"name": "SN74HC00N", "package": "DIP", "pinout": "p14", "footprint": "PDIP-14", "family": "HC", "flags": ["obsolete"]}
+{"name": "SN74HC00N", "manufacturer": "Texas Instruments", "datasheet": "sn74hc00", "package": "DIP", "pinout": "p14", "footprint": "PDIP-14", "family": "HC", "flags": ["obsolete"]}
 ```
 
 | Key | Value |
 |---|---|
 | `"name"` | the orderable part number; unique across the whole library (all files) |
+| `"manufacturer"` | the company that makes the part, e.g. `"Texas Instruments"`. When the maker was bought and the part number stayed the same, the buyer (Atmel parts are `"Microchip Technology"`). `"Generic"` for parts no one company makes: supplies, pull resistors, headers, `GENERIC-LED`. Shown under the part name in the inspector. The loader accepts a part without it (test fixtures); every shipped part has one (`listing_check`) |
+| `"datasheet"` | the `id` of an entry in `datasheets.json` (see [Datasheets](#datasheets)): the datasheet the part was transcribed from, on the manufacturer's site. Needs `"manufacturer"`; a `"Generic"` part has none. Every other shipped part has one, except the parts whose maker no longer hosts a datasheet (listed in [Datasheets](#datasheets)). The inspector's **Open Datasheet** button opens it |
 | `"package"` | the package family, shown in the drawer and used by its package filter, e.g. `"DIP"`, `"TSSOP"`, `"VSON"`; may be empty (VCC/GND supplies). Never put a pin count, body size or material in it (no `"CDIP"`, `"DIP-14"`, `"2520 VSON"`): the pin count comes from the pinout and the exact size from the footprint. Ceramic and plastic DIPs are both `"DIP"`, flat packs are `"CFP"`, leadless chip carriers `"LCCC"`, and small and full-size type I TSOPs are both `"TSOP-I"` (type II stays `"TSOP-II"`). |
 | `"pinout"` | the name of one of the device's pinouts |
 | `"flags"` | optional, any of `obsolete`, `military`, `automotive`, `enhanced`, `ceramic` |
@@ -260,6 +263,66 @@ is `Part.vcc`; domain 1 the B side. Single-supply parts have
   are unique within a kind.
 - A failed `load_parts` adds nothing from that file; parts from earlier files
   stay.
+
+## Datasheets
+
+`datasheets.json` lists the datasheet PDFs parts name with `"datasheet"`:
+
+```json
+{
+  "format": "schematical-datasheets",
+  "version": 1,
+  "datasheets": [
+    {"id": "sn74hc00", "url": "https://www.ti.com/lit/ds/symlink/sn74hc00.pdf"}
+  ]
+}
+```
+
+| Key | Value |
+|---|---|
+| `"id"` | unique, non-empty; by custom the local PDF's name in lower case (`datasheets/<group>/<id>.pdf`), or a TI literature number (`scls148`) |
+| `"url"` | the full `https://` URL of the PDF on the **manufacturer's own site** (no distributor or archive copies), the same document as the local PDF or its current revision. Several parts share one entry |
+
+TI URLs use the stable `https://www.ti.com/lit/ds/symlink/<name>.pdf` form,
+with the product name (`sn74hc00`) or the literature number without its
+revision letter (`scls148` for `scls148h.pdf`).
+
+`node scripts/check-datasheets.js` fetches every URL and reports the ones
+that do not answer with a PDF (run it with `--help`). Run it now and then:
+manufacturers move their files.
+
+A part whose maker no longer hosts its datasheet has a `"manufacturer"`
+but no `"datasheet"`; `listing_check` prints how many there are. They are:
+
+| Manufacturer | Datasheet (local copy) | Parts |
+|---|---|---|
+| General Instrument | `ay-5-1013` | AY-3-1015D, AY-5-1013A, AY-5-1013A-HR |
+| Intel | `82510` | N82510, TN82510 |
+| Intel | `8251a` | D8251A, LD8251A, MD8251A/B, N8251A, P8251A, P8251A-G |
+| Lite-On | `LSHD-5601` | LSHD-5601 |
+| Lite-On | `LSHD-7801` | LSHD-7801 |
+| Lite-On | `LSHD-A101` | LSHD-A101 |
+| Lite-On | `LTC-2623G` | LTC-2623G |
+| Lite-On | `LTD-2601WC` | LTD-2601WC |
+| Lite-On | `LTD-2701JD` | LTD-2701JD |
+| Lite-On | `LTD-4608JR` | LTD-4608JR |
+| Lite-On | `LTD-4708JR` | LTD-4708JR |
+| Lite-On | `LTD-6000` | LTD-6410G, LTD-6430G, LTD-6440G, LTD-6450G, LTD-6610E, LTD-6630E, LTD-6640E, LTD-6650E, LTD-6710P, LTD-6710R, LTD-6730P, LTD-6730R, LTD-6740P, LTD-6740R, LTD-6750P, LTD-6750R, LTD-6810Y, LTD-6830Y, LTD-6840Y, LTD-6850Y, LTD-6930HR, LTD-6940HR, LTD-6950HR |
+| Lite-On | `LTS-4802BJR-H1` | LTS-4802BJR-H1 |
+| Littelfuse | `ps0178` | Z84C0006AEG, Z84C0006PEG, Z84C0006VEG, Z84C0008AEG, Z84C0008PEG, Z84C0008VEG, Z84C0010AEG, Z84C0010PEG, Z84C0010VEG, Z84C0010VEG00TR, Z84C0020AEG, Z84C0020PEG, Z84C0020VEG |
+| MOS Technology | `mos_6500_mpu_nov_1985` | MPS6502, MPS6502A, MPS6502B, MPS6502C |
+| MaxLinear | `xr16c2550` | XR16C2550IM-F |
+| MaxLinear | `xr16v2552` | XR16V2552IJ |
+| Microchip Technology | `com1863` | COM8018P |
+| Microchip Technology | `com2017` | COM2017P |
+| Microchip Technology | `com78804` | COM78804P |
+| Microchip Technology | `com78c802` | COM78C802P |
+| Microchip Technology | `com78c804` | COM78C804LJP |
+| Microchip Technology | `com92c451` | COM92C451P |
+| Renesas Electronics | `cdp1854a` | CDP1854ADS2082, CP1854ACD, CP1854AE |
+| Renesas Electronics | `cdp65c51` | CDP65C51M1, CDP65C51M4S2357 |
+| Renesas Electronics | `hd-6406` | HD3-6406-5 |
+| Texas Instruments | `snx4ls27x` | SN54LS275J, SN74LS275N |
 
 ## Footprints
 

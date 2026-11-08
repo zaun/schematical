@@ -55,6 +55,31 @@ int main(int argc, char **argv) {
         return 1;
     }
     count = part_library_count(library);
+    /* Every shipped part names its manufacturer; all but Generic parts and
+       the few whose maker no longer hosts one name a datasheet. */
+    {
+        size_t no_maker = 0;
+        size_t no_sheet = 0;
+
+        for (i = 0; i < count; i++) {
+            const Part *part = part_library_at(library, i);
+
+            if (part->manufacturer == NULL) {
+                if (no_maker++ < 10) {
+                    printf("FAIL: %s has no \"manufacturer\"\n", part->name);
+                }
+            } else if (part->datasheet == NULL && strcmp(part->manufacturer, "Generic") != 0) {
+                no_sheet++;
+            }
+        }
+        if (no_maker > 0) {
+            printf("FAIL: %zu parts have no \"manufacturer\"\n", no_maker);
+            return 1;
+        }
+        if (argc != 2) {
+            printf("   %zu parts have a manufacturer but no hosted datasheet\n", no_sheet);
+        }
+    }
     lines = calloc(count + 1, sizeof(*lines));
     for (i = 0; i < count; i++) {
         const Part *part = part_library_at(library, i);

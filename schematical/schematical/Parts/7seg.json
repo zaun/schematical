@@ -88,7 +88,7 @@
       "commonSide": ["CC1","CC2","CC3","CC4","CC L"],
       "vf": [2, 2.6],
       "parts": [
-        {"name":"LTC-4727JR","package":"DIP","pinout":"p16","footprint":"7SEG-C4727JR"}
+        {"name":"LTC-4727JR","manufacturer":"Lite-On","datasheet":"c4727jr","package":"DIP","pinout":"p16","footprint":"7SEG-C4727JR"}
       ]
     },
     {
@@ -176,7 +176,7 @@
       "commonSide": ["CA1","CA2","CA3","CA4","CA L"],
       "vf": [2, 2.6],
       "parts": [
-        {"name":"LTC-4627JR","package":"DIP","pinout":"p16","footprint":"7SEG-LTC-4627JR"}
+        {"name":"LTC-4627JR","manufacturer":"Lite-On","datasheet":"ltc-4627jr","package":"DIP","pinout":"p16","footprint":"7SEG-LTC-4627JR"}
       ]
     },
     {
@@ -257,7 +257,7 @@
       "commonSide": ["CC1","CC2","CC3","CC4"],
       "vf": [2, 2.6],
       "parts": [
-        {"name":"LTC-5723HR","package":"DIP","pinout":"p12","footprint":"7SEG-C5723HR"}
+        {"name":"LTC-5723HR","manufacturer":"Lite-On","datasheet":"c5723hr","package":"DIP","pinout":"p12","footprint":"7SEG-C5723HR"}
       ]
     },
     {
@@ -338,7 +338,7 @@
       "commonSide": ["CA1","CA2","CA3","CA4"],
       "vf": [2.1, 2.6],
       "parts": [
-        {"name":"LTC-5623G","package":"DIP","pinout":"p12","footprint":"7SEG-LTC-5623G"}
+        {"name":"LTC-5623G","manufacturer":"Lite-On","datasheet":"ltc-5623g","package":"DIP","pinout":"p12","footprint":"7SEG-LTC-5623G"}
       ]
     },
     {
@@ -426,7 +426,7 @@
       "commonSide": ["CA1","CA2","CA3","CA4","CA L"],
       "vf": [2.1, 2.6],
       "parts": [
-        {"name":"LTC-2623G","package":"DIP","pinout":"p16","footprint":"7SEG-LTC-2623G"}
+        {"name":"LTC-2623G","manufacturer":"Lite-On","package":"DIP","pinout":"p16","footprint":"7SEG-LTC-2623G"}
       ]
     },
     {
@@ -505,7 +505,7 @@
       "commonSide": ["CA1","CA2","CA3","CA L"],
       "vf": [2, 2.6],
       "parts": [
-        {"name":"LTC-4624JR","package":"DIP","pinout":"p15","footprint":"7SEG-LTC-4624JR"}
+        {"name":"LTC-4624JR","manufacturer":"Lite-On","datasheet":"ltc-4624jr","package":"DIP","pinout":"p15","footprint":"7SEG-LTC-4624JR"}
       ]
     },
     {
@@ -584,7 +584,7 @@
       "commonSide": ["CC1","CC2","CC3","CC L"],
       "vf": [2, 2.6],
       "parts": [
-        {"name":"LTC-4724JR","package":"DIP","pinout":"p15","footprint":"7SEG-LTC-4724JR"}
+        {"name":"LTC-4724JR","manufacturer":"Lite-On","datasheet":"ltc-4724jr","package":"DIP","pinout":"p15","footprint":"7SEG-LTC-4724JR"}
       ]
     },
     {
@@ -647,7 +647,7 @@
       "commonSide": ["CA1","CA2"],
       "vf": [2.05, 2.6],
       "parts": [
-        {"name":"LTD-4608JF","package":"DIP","pinout":"p10","footprint":"7SEG-D4608JF"}
+        {"name":"LTD-4608JF","manufacturer":"Lite-On","datasheet":"d4608jf","package":"DIP","pinout":"p10","footprint":"7SEG-D4608JF"}
       ]
     },
     {
@@ -710,7 +710,7 @@
       "commonSide": ["CA1","CA2"],
       "vf": [2, 2.6],
       "parts": [
-        {"name":"LTD-4608JR","package":"DIP","pinout":"p10","footprint":"7SEG-LTD-4608JR"}
+        {"name":"LTD-4608JR","manufacturer":"Lite-On","package":"DIP","pinout":"p10","footprint":"7SEG-LTD-4608JR"}
       ]
     },
     {
@@ -773,7 +773,7 @@
       "commonSide": ["CC1","CC2"],
       "vf": [2, 2.6],
       "parts": [
-        {"name":"LTD-4708JR","package":"DIP","pinout":"p10","footprint":"7SEG-LTD-4708JR"}
+        {"name":"LTD-4708JR","manufacturer":"Lite-On","package":"DIP","pinout":"p10","footprint":"7SEG-LTD-4708JR"}
       ]
     },
     {
@@ -836,7 +836,7 @@
       "commonSide": ["CA1","CA2"],
       "vf": [1.7, 2.4],
       "parts": [
-        {"name":"LTD-2601WC","package":"DIP","pinout":"p10","footprint":"7SEG-LTD-2601WC"}
+        {"name":"LTD-2601WC","manufacturer":"Lite-On","package":"DIP","pinout":"p10","footprint":"7SEG-LTD-2601WC"}
       ]
     },
     {
@@ -899,7 +899,7 @@
       "commonSide": ["CC1","CC2"],
       "vf": [2.1, 2.6],
       "parts": [
-        {"name":"LTD-2701JD","package":"DIP","pinout":"p10","footprint":"7SEG-LTD-2701JD"}
+        {"name":"LTD-2701JD","manufacturer":"Lite-On","package":"DIP","pinout":"p10","footprint":"7SEG-LTD-2701JD"}
       ]
     },
     {
@@ -954,7 +954,7 @@
       "commonSide": ["CC"],
       "vf": [2.1, 2.6],
       "parts": [
-        {"name":"LSHD-5503","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-5503"}
+        {"name":"LSHD-5503","manufacturer":"Lite-On","datasheet":"lshd-5503","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-5503"}
       ]
     },
     {
@@ -1009,7 +1009,7 @@
       "commonSide": ["CA"],
       "vf": [2.1, 2.6],
       "parts": [
-        {"name":"LSHD-5601","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-5601"}
+        {"name":"LSHD-5601","manufacturer":"Lite-On","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-5601"}
       ]
     },
     {
@@ -1064,7 +1064,7 @@
       "commonSide": ["CA"],
       "vf": [2, 2.6],
       "parts": [
-        {"name":"LTS-6960HR","package":"DIP","pinout":"p10","footprint":"7SEG-LTS-6960HR"}
+        {"name":"LTS-6960HR","manufacturer":"Lite-On","datasheet":"lts-6960hr","package":"DIP","pinout":"p10","footprint":"7SEG-LTS-6960HR"}
       ]
     },
     {
@@ -1119,7 +1119,7 @@
       "commonSide": ["CA"],
       "vf": [2.1, 2.6],
       "parts": [
-        {"name":"LSHD-7501","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-7501"}
+        {"name":"LSHD-7501","manufacturer":"Lite-On","datasheet":"lshd-7501","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-7501"}
       ]
     },
     {
@@ -1174,7 +1174,7 @@
       "commonSide": ["CC"],
       "vf": [2.1, 2.6],
       "parts": [
-        {"name":"LSHD-7503","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-7503"}
+        {"name":"LSHD-7503","manufacturer":"Lite-On","datasheet":"lshd-7503","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-7503"}
       ]
     },
     {
@@ -1229,7 +1229,7 @@
       "commonSide": ["CA"],
       "vf": [2.1, 2.6],
       "parts": [
-        {"name":"LSHD-7801","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-7801"}
+        {"name":"LSHD-7801","manufacturer":"Lite-On","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-7801"}
       ]
     },
     {
@@ -1284,7 +1284,7 @@
       "commonSide": ["CC"],
       "vf": [2.1, 2.6],
       "parts": [
-        {"name":"LSHD-7803","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-7803"}
+        {"name":"LSHD-7803","manufacturer":"Lite-On","datasheet":"lshd-7803","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-7803"}
       ]
     },
     {
@@ -1339,7 +1339,7 @@
       "commonSide": ["CA"],
       "vf": [2.1, 2.6],
       "parts": [
-        {"name":"LSHD-A101","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-A101"}
+        {"name":"LSHD-A101","manufacturer":"Lite-On","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-A101"}
       ]
     },
     {
@@ -1394,7 +1394,7 @@
       "commonSide": ["CC"],
       "vf": [2.1, 2.6],
       "parts": [
-        {"name":"LSHD-A103","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-A103"}
+        {"name":"LSHD-A103","manufacturer":"Lite-On","datasheet":"lshd-a103","package":"DIP","pinout":"p10","footprint":"7SEG-LSHD-A103"}
       ]
     },
     {
@@ -1449,7 +1449,7 @@
       "commonSide": ["CA"],
       "vf": [2, 2.6],
       "parts": [
-        {"name":"LTS-4802BJR-H1","package":"DIP","pinout":"p10","footprint":"7SEG-LTS-4802BJR-H1"}
+        {"name":"LTS-4802BJR-H1","manufacturer":"Lite-On","package":"DIP","pinout":"p10","footprint":"7SEG-LTS-4802BJR-H1"}
       ]
     },
     {
@@ -1504,7 +1504,7 @@
       "commonSide": ["CC"],
       "vf": [2, 2.6],
       "parts": [
-        {"name":"LTS-4301JR","package":"DIP","pinout":"p10","footprint":"7SEG-LTS-4301JR"}
+        {"name":"LTS-4301JR","manufacturer":"Lite-On","datasheet":"lts-4301jr","package":"DIP","pinout":"p10","footprint":"7SEG-LTS-4301JR"}
       ]
     },
     {
@@ -1559,7 +1559,7 @@
       "commonSide": ["CA"],
       "vf": [2, 2.6],
       "parts": [
-        {"name":"LTS-4801JR","package":"DIP","pinout":"p10","footprint":"7SEG-LTS-4801JR"}
+        {"name":"LTS-4801JR","manufacturer":"Lite-On","datasheet":"lts-4801jr","package":"DIP","pinout":"p10","footprint":"7SEG-LTS-4801JR"}
       ]
     },
     {
@@ -1620,7 +1620,7 @@
       "commonSide": ["CA"],
       "vf": [2, 2.6],
       "parts": [
-        {"name":"LTS-312AHR","package":"DIP","pinout":"p14","footprint":"7SEG-LTS-312AHR"}
+        {"name":"LTS-312AHR","manufacturer":"Lite-On","datasheet":"lts-312ahr","package":"DIP","pinout":"p14","footprint":"7SEG-LTS-312AHR"}
       ]
     },
     {
@@ -1699,7 +1699,7 @@
       "commonSide": ["CA1","CA2"],
       "vf": [2, 2.6],
       "parts": [
-        {"name":"LTD-6910HR","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6910HR"}
+        {"name":"LTD-6910HR","manufacturer":"Lite-On","datasheet":"ltd-6910hr","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6910HR"}
       ]
     },
     {
@@ -1778,7 +1778,7 @@
       "commonSide": ["CA1","CA2"],
       "vf": [1.7, 2],
       "parts": [
-        {"name":"LTD-6710R","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000","flags":["obsolete"]}
+        {"name":"LTD-6710R","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000","flags":["obsolete"]}
       ]
     },
     {
@@ -1857,7 +1857,7 @@
       "commonSide": ["CA1","CA2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6710P","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000","flags":["obsolete"]}
+        {"name":"LTD-6710P","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000","flags":["obsolete"]}
       ]
     },
     {
@@ -1936,7 +1936,7 @@
       "commonSide": ["CA1","CA2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6410G","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6410G","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -2015,7 +2015,7 @@
       "commonSide": ["CA1","CA2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6810Y","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6810Y","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -2094,7 +2094,7 @@
       "commonSide": ["CA1","CA2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6610E","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6610E","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -2167,7 +2167,7 @@
       "commonSide": ["CA1","CA2"],
       "vf": [1.7, 2],
       "parts": [
-        {"name":"LTD-6730R","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6730R","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -2240,7 +2240,7 @@
       "commonSide": ["CA1","CA2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6730P","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6730P","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -2313,7 +2313,7 @@
       "commonSide": ["CA1","CA2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6430G","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6430G","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -2386,7 +2386,7 @@
       "commonSide": ["CA1","CA2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6830Y","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6830Y","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -2459,7 +2459,7 @@
       "commonSide": ["CA1","CA2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6630E","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6630E","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -2532,7 +2532,7 @@
       "commonSide": ["CA1","CA2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6930HR","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6930HR","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -2611,7 +2611,7 @@
       "commonSide": ["CC1","CC2"],
       "vf": [1.7, 2],
       "parts": [
-        {"name":"LTD-6740R","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6740R","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -2690,7 +2690,7 @@
       "commonSide": ["CC1","CC2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6740P","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6740P","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -2769,7 +2769,7 @@
       "commonSide": ["CC1","CC2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6440G","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6440G","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -2848,7 +2848,7 @@
       "commonSide": ["CC1","CC2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6840Y","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6840Y","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -2927,7 +2927,7 @@
       "commonSide": ["CC1","CC2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6640E","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6640E","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -3006,7 +3006,7 @@
       "commonSide": ["CC1","CC2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6940HR","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6940HR","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -3079,7 +3079,7 @@
       "commonSide": ["CC1","CC2"],
       "vf": [1.7, 2],
       "parts": [
-        {"name":"LTD-6750R","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6750R","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -3152,7 +3152,7 @@
       "commonSide": ["CC1","CC2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6750P","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6750P","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -3225,7 +3225,7 @@
       "commonSide": ["CC1","CC2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6450G","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6450G","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -3298,7 +3298,7 @@
       "commonSide": ["CC1","CC2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6850Y","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6850Y","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -3371,7 +3371,7 @@
       "commonSide": ["CC1","CC2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6650E","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6650E","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     },
     {
@@ -3444,7 +3444,7 @@
       "commonSide": ["CC1","CC2"],
       "vf": [2.1, 2.8],
       "parts": [
-        {"name":"LTD-6950HR","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
+        {"name":"LTD-6950HR","manufacturer":"Lite-On","package":"DIP","pinout":"p18","footprint":"7SEG-LTD-6000"}
       ]
     }
   ]
