@@ -46,11 +46,11 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p22 && cmake --build /tmp/logic-p22 -j8 && ctest --test-dir /tmp/logic-p22` → `100% tests passed` | MET; **T0 = 23** (2026-11-07 at 624159a: `100% tests passed, 0 tests failed out of 23`) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `footprints.txt` | **P0 = 10700**, **F0 = 257** (2026-11-07 at 624159a) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p22-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-07 at 624159a) |
-| No `arith` kind yet | `ls schematical/schematical/Parts/arith.json backend/src/models/arith*.c 2>/dev/null` → no output | MET (2026-11-07 at 624159a) |
-| DigiKey script works | `node scripts/digikey.js --in-stock --manufacturer 296 --limit 1 SN74LS283N` → a part line | **NOT MET** (2026-11-07 11:16 HST): `429 Daily Ratelimit exceeded`, `0 left today`; `x-ratelimit-resettime 2026-11-08T00:00:00.000Z` (14:00 HST). Quota is shared with parallel sessions. |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p22 && cmake --build /tmp/logic-p22 -j8 && ctest --test-dir /tmp/logic-p22` → `100% tests passed` | MET; **T0 = 24** (2026-11-07 16:30 HST at 76e4f46: `100% tests passed, 0 tests failed out of 24`) |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `footprints.txt` | **P0 = 11126**, **F0 = 423** (2026-11-07 at 76e4f46) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p22-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-07 at 76e4f46: `** BUILD SUCCEEDED **`) |
+| No `arith` kind yet | `ls schematical/schematical/Parts/arith.json backend/src/models/arith*.c 2>/dev/null` → no output | MET (2026-11-07 at 76e4f46: no output) |
+| DigiKey script works | `node scripts/digikey.js --in-stock --manufacturer 296 --limit 1 SN74LS283N` → a part line | MET (2026-11-07 16:25 HST: `SN74LS283N Active 2285`, 474 calls left today) |
 
 plan-22 waits for no other plan (owner: 19–22 in any order, possibly in
 parallel).
