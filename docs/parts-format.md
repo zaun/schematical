@@ -156,10 +156,10 @@ oscillator's `enablePin` is a pin designator; see below.)
 | Key | Value |
 |---|---|
 | `"name"` | the orderable part number; unique across the whole library (all files) |
-| `"package"` | the package family, shown in the drawer and used by its package filter, e.g. `"DIP"`, `"TSSOP"`, `"VSON"`; may be empty (supplies). Never put a pin count, body size or material in it (no `"CDIP"`, `"DIP-14"`, `"2520 VSON"`): the pin count comes from the pinout and the exact size from the footprint. Ceramic and plastic DIPs are both `"DIP"`, flat packs are `"CFP"`, leadless chip carriers `"LCCC"`, and small and full-size type I TSOPs are both `"TSOP-I"` (type II stays `"TSOP-II"`). |
+| `"package"` | the package family, shown in the drawer and used by its package filter, e.g. `"DIP"`, `"TSSOP"`, `"VSON"`; may be empty (VCC/GND supplies). Never put a pin count, body size or material in it (no `"CDIP"`, `"DIP-14"`, `"2520 VSON"`): the pin count comes from the pinout and the exact size from the footprint. Ceramic and plastic DIPs are both `"DIP"`, flat packs are `"CFP"`, leadless chip carriers `"LCCC"`, and small and full-size type I TSOPs are both `"TSOP-I"` (type II stays `"TSOP-II"`). |
 | `"pinout"` | the name of one of the device's pinouts |
 | `"flags"` | optional, any of `obsolete`, `military`, `automotive`, `enhanced`, `ceramic` |
-| `"footprint"` | the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)). Required on every part except supplies (`VCC`, `GND`, `5V`, …), which reject it |
+| `"footprint"` | the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)). Required on every part except VCC/GND supplies (`VCC`, `GND`, `5V`, …), which reject it. Pull parts (`"pull": true`) are resistors and require it |
 | `"connectorFootprint"` | optional: a second footprint, the `id` of one in `footprints.json`, that the PCB Style option switches to (**Connector Only**). Same rules as `footprint`. Character LCD modules use it (§ `charlcd`) |
 | `"footprintChoices"` | optional: the footprints a placed part may use, each `{"package": …, "footprint": …}`, in picker order. The part's own `footprint` is one of them (the default), with the part's `package`. `GENERIC-LED` uses it (§ `led`; rules in [The `"footprint"` part key](#the-footprint-part-key)) |
 | `"vcc"`, `"inputMax"` | on gate, dff, jkff, sram, eeprom and oscillator parts only: the part's own supply range / input limit, replacing the one it inherits (see [Supply voltage](#supply-voltage-vcc-and-inputmax)) |
@@ -348,7 +348,8 @@ X2SON-5-DPW: each signal pad's inner corner is cut, and the centre land, a
 
 ### `dual` — two columns
 
-DIP, SOIC, SOP, SSOP, TSSOP, SOJ, TSOP, SOT-23, SC-70, SON, chip LEDs.
+DIP, SOIC, SOP, SSOP, TSSOP, SOJ, TSOP, SOT-23, SC-70, SON, chip LEDs,
+chip resistors.
 
 | Key | Value |
 |---|---|
@@ -417,6 +418,38 @@ column c, row index r (A = 0):  x = (c − 1 − (columns−1)/2) · pitch
                                 y = (r − (rows−1)/2) · pitch
 ```
 
+### `header` — pin header
+
+Through-hole pin headers, one or two rows, numbered zigzag: pin 2 is across
+the rows from pin 1, then 3 and 4 in the next column. `slots` and `centre`
+are not allowed.
+
+| Key | Value |
+|---|---|
+| `"rows"` | 1 or 2; `pins` must be a multiple of it |
+| `"pitch"` | > 0, pad-centre distance along a row |
+| `"rowPitch"` | non-zero, row 2's y minus row 1's; required with 2 rows, not allowed with 1 |
+| `"firstRowY"` | y of row 1 (the row with pin 1) from the body centre |
+| `"pad"` | pad size and shape, as on `dual` |
+| `"drill"` | optional, > 0 |
+| `"pin1Shape"` | optional, as on `dual` |
+
+perRow = pins / rows. Pin p (1-based) is in column c = (p − 1) / rows and
+row k = (p − 1) % rows:
+
+```
+x = (c − (perRow − 1)/2) · pitch
+y = firstRowY + k · rowPitch
+```
+
+```
+ 1 ■  3 ●  5 ●  7 ●       2x4, rowPitch > 0: row 1 above row 2
+ 2 ●  4 ●  6 ●  8 ●
+```
+
+A right-angle header's body is its housing; `firstRowY` puts the holes
+beside it (the pins past the housing are not drawn).
+
 ### `explicit` — literal pads
 
 For land patterns the parametric styles cannot express (mixed pad sizes).
@@ -431,9 +464,13 @@ allowed at the footprint level.
 
 ### The `"footprint"` part key
 
-- Every part names one, except supplies: a non-supply part without
-  `"footprint"` is rejected (`missing "footprint"`), and so is a supply
-  with one (`a supply has no footprint`).
+- Every part names one, except VCC/GND supplies: a part without
+  `"footprint"` is rejected (`missing "footprint"`), and so is a non-pull
+  supply with one (`a supply has no footprint`). A pull part (`supply` with
+  `"pull": true`) is a resistor: it must name a footprint, its own
+  footprint may have **more pads than pins** (pad 1 is its pin, pad 2 the
+  rail end, unconnected copper), and it has no `connectorFootprint` (`a
+  pull part has no connectorFootprint`).
 - Every footprint in the library lives in `footprints.json`. A new part
   reuses one whose land pattern matches its package drawing; otherwise add a
   footprint from the datasheet's package drawing, using the pad rules R1–R6
@@ -457,8 +494,8 @@ allowed at the footprint level.
   (`footprintChoices footprint "X" listed twice`). The part's own
   `footprint` must be a choice (`"footprint" "X" is not in
   footprintChoices`) whose `package` equals the part's (`"package" "X" does
-  not match footprintChoices "Y" ("Z")`). A supply rejects the key (`a
-  supply has no footprint`). The app saves each placed part's choice in the
+  not match footprintChoices "Y" ("Z")`). A non-pull supply rejects the key
+  (`a supply has no footprint`). The app saves each placed part's choice in the
   schematic file (`docs/file-format.md` § Parts).
 - **Mid-values.** Every dimension that a rule takes from a drawing (lead
   width and length, tip-to-tip span, terminal size, ball and pin
@@ -498,6 +535,14 @@ Constant sources. Device key:
 The device has one pinout with one pin. Parts carry no kind keys. Each
 device's single part has the same name as its `id` and `function`.
 
+VCC/GND supplies have no footprint (package `""`). A pull part is a
+resistor on the board: package `Radial`, footprint `RES-RADIAL-2.54`, and
+`footprintChoices` 0402, 0603, 0805, 1206, Axial (`RES-AXIAL-10.16`) and
+Radial. Its footprint may have more pads than its one pin: pad 1 is the
+signal pin, pad 2 the rail end (no pin; routed by hand). Each placed pull
+also has a resistance (`ohms`, `docs/file-format.md` § Parts) that does not
+affect the simulation.
+
 ```json
 {"id": "3V3", "function": "3V3", "description": "Supply, 3.3 V, drives logic 1", "drawer": [],
  "pinouts": {"pin": [{"number": 1, "name": "VCC", "role": "power"}]},
@@ -507,23 +552,23 @@ device's single part has the same name as its `id` and `function`.
 
 The library's supplies (`supply.json`):
 
-| Part | `volts` | Pin |
-|---|---|---|
-| `VCC` | 5 | `VCC` (power) |
-| `5V` | 5 | `VCC` (power) |
-| `3V3` | 3.3 | `VCC` (power) |
-| `2V5` | 2.5 | `VCC` (power) |
-| `1V8` | 1.8 | `VCC` (power) |
-| `1V2` | 1.2 | `VCC` (power) |
-| `12V` | 12 | `VCC` (power) |
-| `GND` | 0 | `GND` (ground) |
-| `PULLUP-5V` | 5, pull | `PU` (output) |
-| `PULLUP-3V3` | 3.3, pull | `PU` (output) |
-| `PULLUP-2V5` | 2.5, pull | `PU` (output) |
-| `PULLUP-1V8` | 1.8, pull | `PU` (output) |
-| `PULLUP-1V2` | 1.2, pull | `PU` (output) |
-| `PULLUP-12V` | 12, pull | `PU` (output) |
-| `PULLDOWN` | 0, pull | `PD` (output) |
+| Part | `volts` | Pin | Footprint |
+|---|---|---|---|
+| `VCC` | 5 | `VCC` (power) | — |
+| `5V` | 5 | `VCC` (power) | — |
+| `3V3` | 3.3 | `VCC` (power) | — |
+| `2V5` | 2.5 | `VCC` (power) | — |
+| `1V8` | 1.8 | `VCC` (power) | — |
+| `1V2` | 1.2 | `VCC` (power) | — |
+| `12V` | 12 | `VCC` (power) | — |
+| `GND` | 0 | `GND` (ground) | — |
+| `PULLUP-5V` | 5, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
+| `PULLUP-3V3` | 3.3, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
+| `PULLUP-2V5` | 2.5, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
+| `PULLUP-1V8` | 1.8, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
+| `PULLUP-1V2` | 1.2, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
+| `PULLUP-12V` | 12, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
+| `PULLDOWN` | 0, pull | `PD` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
 
 A pull part drives its pin **weakly**: 1 for a pull-up, 0 for a pull-down.
 Any strong driver on the net wins over it, so open-drain outputs and I2C
@@ -682,6 +727,29 @@ are the connector ratings. A two-terminal jack has centre and sleeve pins.
 A switched jack additionally names `"contacts": [["Sleeve", "Switch"]]`:
 the listed contact is normally closed while unplugged and opens when a plug
 is inserted through `circuit_set_connector_plug`.
+
+### `header`
+
+A generic pin header: passive `inout` terminals, each pin just its net (the
+model drives nothing). Device keys:
+
+| Key | Value |
+|---|---|
+| `"rows"` | 1 or 2 |
+| `"genders"` | the genders a placed header may have, a non-empty array of strings, e.g. `["Male","Female"]`; the first is the default. The app shows and saves the gender; the backend does not act on it |
+
+Parts carry no kind keys. Every pinout's pin count must be at least 1 and a
+multiple of `rows` (`a header's pin count must be a multiple of its rows`).
+
+The library's headers are `Parts/header.json`, written by
+`node scripts/gen-headers.js` (kept; running it twice changes nothing): 80
+parts named `GENERIC-HEADER-<R>X<NN>` (R = 1 or 2 rows, NN = 01 … 40 pins
+per row), in devices `header-1row` and `header-2row`. Pinout `<r>x<nn>`
+lists pins 1 … R·NN in order, named by number. Each part's
+`footprintChoices` are `Straight` (`PINHDR-<R>X<NN>-V`, the default) and
+`Right angle` (`PINHDR-<R>X<NN>-RA`); the script also writes those 160
+`header`-style footprints (every `PINHDR-` line of `footprints.json`) from
+the Würth WR-PHD drawings in `datasheets/connector-header/`.
 
 ### `sram`
 
@@ -1717,7 +1785,8 @@ floor(10^12 / `tcyc` in ps). The listing's facts column reads
 `model=<m> grade=<g> max_hz=<n>`.
 
 Pin groups (presentation, § Pinouts and pins): D0–D7 `"data"`, PA0–PA7
-`"port A"`, PB0–PB7 `"port B"`; every other pin the default group.
+`"port A"`, PB0–PB7 `"port B"`, RS0–RS3 `"register select"`, CS1 and CS2B
+`"chip select"` (W65C22 only); every other pin the default group.
 
 **The bus (`bus65`).** Chip selects (active-high `cs_high`, active-low
 `cs_low`), RWB and the register selects are sampled at each PHI2 rise.
@@ -2294,6 +2363,86 @@ Main path BCD input → segment; `units` = 1.
 Priority: blank (`blank` asserted or RBO low) > lamp test (every segment
 lit) > ripple blanking (RBI low and code 0) > the glyph of the code. The
 SN7447A's BI wins over LT (sn7447a p.3, notes 2 and 4).
+
+### `mux`
+
+Multiplexers / data selectors (plan-21): the plain selectors (74x151,
+'153, '157, '158, '251, '253, '257, '258, the 2G157 and 1T157/1T158 single
+gates, 74AC11257, CD4512B, CD40257B, CY74FCT2257T), the selectors with
+storage ('298, '399, '354, '356) and the '670 register file. It shares
+the sequential kinds' device format (above): `"model"` is one of `select`,
+`stored`, `regfile`; `timing` entries are
+`{rise, fall}` for the model's main path; part keys `family`, `vcc`,
+`inputMax`. Every model re-evaluates all of its outputs on any pin change.
+Signal rules as the sequential kinds: stored bits hold 0 at power-on; Z on
+an input reads X; an output enable deasserted → Z, X → X.
+
+**Selector units** (`select`, `stored`): `"units"` is 1–6 objects:
+
+| Unit key | Value |
+|---|---|
+| `data` | 2–16 pin names; `data[i]` is chosen by select code i. Exactly 2^(select pins) names. |
+| `select` | 1–4 pin names, LSB first. Usually shared by every unit. |
+| `y` | optional pin name: the true output |
+| `w` | optional pin name: the complement output (W = NOT Y). At least one of `y`/`w`. |
+| `strobe` | optional control: deasserted forces the unit's outputs to the `disabled` state |
+| `oe` | optional control: output enable, separate from the strobe ('251 G, CD4512B DISABLE) |
+
+with device keys `"disabled"` (`"low"`, the default: a deasserted strobe
+gives Y low and W high, '151/'153/'157; or `"z"`: both Z, '253/'257),
+`"invert"` (bool, default false: Y shows NOT the chosen data, '158/'258/'352)
+and `"output"` (`"push-pull"`, the default, or `"open-drain"`).
+
+Per unit: OE deasserted → Y and W Z; else strobe deasserted → the
+`disabled` state (with `invert`, Y high); else Y = data[code] (inverted per
+`invert`), W = NOT Y. An X or Z select bit gives X unless every data input
+it chooses between has the same known value; an X strobe or OE gives X.
+
+#### Model `select`
+
+Main path data → Y; `units` = the number of unit objects. Keys: `units`,
+`disabled`, `invert`, `output` (above), plus:
+
+| Key | Value |
+|---|---|
+| `"selectLatch"` | optional control: a transparent latch on every unit's select inputs, holding while asserted |
+
+#### Model `stored`
+
+A selector with storage in front of or behind it. Main path: data → Y
+(data latches), clock → Q (registers); `units` = the number of unit
+objects. Keys of `select` (`units`, `disabled`, `invert`, `output`,
+`selectLatch`) plus at least one storage key:
+
+| Key | Value |
+|---|---|
+| `"dataLatch"` | optional control: a transparent latch on every data input, holding while asserted (CD74HC354 E̅: `{"pin": "E", "active": "high"}`) |
+| `"dataClock"` | optional clock `{"pin", "edge": "rising"|"falling"}`: an edge-triggered register on every data input (CD74HCT356 CP). Not with `dataLatch`. |
+| `"outputClock"` | optional clock: an edge-triggered register on each unit's selected value; Y shows the register ('298 CLK falling, '399 rising) |
+| `"oes"` | optional, 1–3 controls shared by every unit: the outputs are driven only while all are asserted ('354 OE1̅, OE2̅, OE3) |
+
+Data and select latches and the registers are 0 at power-on. A clock that
+moves from its idle level to X or Z makes X the stored bits it could
+change; an X latch control does the same while the input differs from
+the stored bit.
+
+#### Model `regfile`
+
+Register files with independent write and read ports ('670). Main path:
+read address → Q; `units` = the number of files.
+
+| Key | Value |
+|---|---|
+| `"words"` | 2, 4, 8 or 16 |
+| `"bits"` | 1–8 |
+| `"files"` | 1–2 objects: `d` (`bits` pin names), `wa` (log2 `words` pin names, LSB first), `we` (control: while asserted the addressed word follows D, transparently), `ra` (read address, as `wa`), `re` (control: read enable; deasserted → Q Z), `q` (`bits` pin names) |
+| `"output"` | `"push-pull"` (default) / `"open-drain"` |
+
+Q = the word at the read address, read combinationally from the array
+(a write to the word being read shows on Q). Every word is 0 at power-on.
+An X write enable or write address bit makes X the bits it could change;
+an X read address bit gives X unless every word it chooses between has
+the same bit.
 
 ### `counter`
 

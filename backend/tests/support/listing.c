@@ -25,6 +25,8 @@ const char *listing_kind_name(PartKind kind) {
         case PART_PIO: return "pio";
         case PART_DECODER: return "decoder";
         case PART_BUFFER: return "buffer";
+        case PART_MUX: return "mux";
+        case PART_HEADER: return "header";
     }
     return "?";
 }
@@ -56,8 +58,18 @@ static void print_details(FILE *out, const Part *part) {
         case PART_SHIFT:
         case PART_DECODER:
         case PART_BUFFER:
+        case PART_MUX:
             fprintf(out, "units=%u", part->logic->units);
             break;
+        case PART_HEADER: {
+            size_t k;
+
+            fprintf(out, "rows=%u genders=", part->header->rows);
+            for (k = 0; k < part->header->gender_count; k++) {
+                fprintf(out, "%s%s", k > 0 ? "," : "", part->header->genders[k]);
+            }
+            break;
+        }
         case PART_SRAM:
             fprintf(out, "words=%u bits=%u access_ps=%llu", (unsigned)part->sram->words,
                     part->sram->bits, (unsigned long long)part->sram->access_ps);
@@ -163,7 +175,7 @@ char *listing_line(const Part *part) {
     int first = 1;
     int logic = part->kind == PART_GATE || part->kind == PART_DFF || part->kind == PART_JKFF ||
                 part->kind == PART_LATCH || part->kind == PART_COUNTER ||
-                part->kind == PART_SHIFT || part->kind == PART_BUFFER;
+                part->kind == PART_SHIFT || part->kind == PART_BUFFER || part->kind == PART_MUX;
 
     if (out == NULL) {
         return NULL;

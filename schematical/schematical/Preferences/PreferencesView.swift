@@ -10,6 +10,18 @@ enum PreferenceKey {
     /// (never picked) means the part's default.
     static let genericLEDColor = "genericLEDColor"
     static let genericLEDFootprint = "genericLEDFootprint"
+    /// What a newly dropped generic header (plan-23) is: rows (1 or 2), pins
+    /// per row (1–40), gender, and footprint type as a package name
+    /// (`Straight` or `Right angle`, which fits every size). 0 or `""`
+    /// (never picked) means the data default: 1×2, Male, Straight.
+    static let headerRows = "headerRows"
+    static let headerPinsPerRow = "headerPinsPerRow"
+    static let headerGender = "headerGender"
+    static let headerFootprintType = "headerFootprintType"
+    /// The resistance (ohms; 0, never set, means 1 kΩ) and footprint id
+    /// (`""` means the part's default) a newly placed pull-up or pull-down gets.
+    static let pullResistorOhms = "pullResistorOhms"
+    static let pullResistorFootprint = "pullResistorFootprint"
 }
 
 /// The options a newly placed part starts with, from Settings. Nil means the
@@ -17,19 +29,60 @@ enum PreferenceKey {
 /// default, through `PlacedChip.init`.
 enum NewPartOptions {
     static let genericLED = "GENERIC-LED"
+    /// The part whose footprint choices Settings ▸ New Pull Resistor offers
+    /// (every pull part has the same ones).
+    static let pullDown = "PULLDOWN"
 
     static func color(for part: CatalogPart, defaults: UserDefaults = .standard) -> String? {
-        stored(PreferenceKey.genericLEDColor, for: part, defaults: defaults)
+        guard part.name == genericLED else { return nil }
+        return stored(PreferenceKey.genericLEDColor, defaults: defaults)
     }
 
+    /// The LED's stored footprint id; for a header, the id of the part's
+    /// choice whose package is the stored footprint type.
     static func footprintID(for part: CatalogPart, defaults: UserDefaults = .standard) -> String? {
-        stored(PreferenceKey.genericLEDFootprint, for: part, defaults: defaults)
+        if part.kind == PART_HEADER {
+            guard let type = defaults.string(forKey: PreferenceKey.headerFootprintType), !type.isEmpty
+            else { return nil }
+            return part.footprintChoices.first { $0.package == type }?.footprint.id
+        }
+        if part.isPullResistor {
+            return stored(PreferenceKey.pullResistorFootprint, defaults: defaults)
+        }
+        guard part.name == genericLED else { return nil }
+        return stored(PreferenceKey.genericLEDFootprint, defaults: defaults)
     }
 
-    private static func stored(_ key: String, for part: CatalogPart, defaults: UserDefaults) -> String? {
-        guard part.name == genericLED, let value = defaults.string(forKey: key), !value.isEmpty else {
-            return nil
-        }
+    /// A header's stored gender; nil for other parts or when never picked.
+    static func gender(for part: CatalogPart, defaults: UserDefaults = .standard) -> String? {
+        guard part.kind == PART_HEADER, let value = defaults.string(forKey: PreferenceKey.headerGender),
+              !value.isEmpty else { return nil }
+        return value
+    }
+
+    /// The part a dropped header becomes: the stored rows and pins per row
+    /// (each falling back to the dropped part's own when 0 or out of range),
+    /// or the dropped part when that size isn't in the catalog. Other parts
+    /// are returned unchanged.
+    static func headerPart(for part: CatalogPart, catalog: PartCatalogStore,
+                           defaults: UserDefaults = .standard) -> CatalogPart {
+        guard let size = part.headerSize else { return part }
+        let rows = defaults.integer(forKey: PreferenceKey.headerRows)
+        let perRow = defaults.integer(forKey: PreferenceKey.headerPinsPerRow)
+        let name = HeaderFamily.name(rows: (1...2).contains(rows) ? rows : size.rows,
+                                     perRow: (1...HeaderFamily.maxPerRow).contains(perRow) ? perRow : size.perRow)
+        return catalog.part(named: name) ?? part
+    }
+
+    /// A pull resistor's stored resistance, if it is valid.
+    static func ohms(for part: CatalogPart, defaults: UserDefaults = .standard) -> Double? {
+        guard part.isPullResistor else { return nil }
+        let value = defaults.double(forKey: PreferenceKey.pullResistorOhms)
+        return ResistorValue.isValid(value) ? value : nil
+    }
+
+    private static func stored(_ key: String, defaults: UserDefaults) -> String? {
+        guard let value = defaults.string(forKey: key), !value.isEmpty else { return nil }
         return value
     }
 }
@@ -41,6 +94,12 @@ struct PreferencesView: View {
     @AppStorage(PreferenceKey.showAutomotiveParts) private var showAutomotive = false
     @AppStorage(PreferenceKey.genericLEDColor) private var ledColor = ""
     @AppStorage(PreferenceKey.genericLEDFootprint) private var ledFootprint = ""
+    @AppStorage(PreferenceKey.headerRows) private var headerRows = 0
+    @AppStorage(PreferenceKey.headerPinsPerRow) private var headerPinsPerRow = 0
+    @AppStorage(PreferenceKey.headerGender) private var headerGender = ""
+    @AppStorage(PreferenceKey.headerFootprintType) private var headerFootprintType = ""
+    @AppStorage(PreferenceKey.pullResistorOhms) private var pullOhms = 0.0
+    @AppStorage(PreferenceKey.pullResistorFootprint) private var pullFootprint = ""
     /// The Settings scene has no window catalog, so it loads its own.
     @State private var catalog = PartCatalogStore()
 
@@ -79,6 +138,74 @@ struct PreferencesView: View {
                     Text("New Generic LED")
                 } footer: {
                     Text("Used for LEDs dropped from now on.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            if let pull = catalog.part(named: NewPartOptions.pullDown) {
+                Section {
+                    // 0 (never set) or a bad value shows the default.
+                    OhmsField(ohms: ResistorValue.isValid(pullOhms) ? pullOhms : ResistorValue.defaultOhms) {
+                        pullOhms = $0
+                    }
+                    if !pull.footprintChoices.isEmpty, let base = pull.footprint {
+                        FootprintChoicePicker(choices: pull.footprintChoices, selection: Binding(
+                            get: {
+                                pull.footprintChoices.contains { $0.footprint.id == pullFootprint }
+                                    ? pullFootprint : base.id
+                            },
+                            set: { pullFootprint = $0 }
+                        ))
+                    }
+                } header: {
+                    Text("New Pull Resistor")
+                } footer: {
+                    Text("Used for pull-ups and pull-downs placed from now on.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            if let base = catalog.part(named: HeaderFamily.defaultPart), let baseSize = base.headerSize {
+                // Each control shows the data default while its key is empty
+                // or out of range.
+                let rows = (1...2).contains(headerRows) ? headerRows : baseSize.rows
+                let perRow = (1...HeaderFamily.maxPerRow).contains(headerPinsPerRow)
+                    ? headerPinsPerRow : baseSize.perRow
+                let part = catalog.part(named: HeaderFamily.name(rows: rows, perRow: perRow)) ?? base
+                Section {
+                    Picker("Rows", selection: Binding(get: { rows }, set: { headerRows = $0 })) {
+                        Text("1").tag(1)
+                        Text("2").tag(2)
+                    }
+                    .pickerStyle(.segmented)
+                    Picker("Pins per row", selection: Binding(get: { perRow }, set: { headerPinsPerRow = $0 })) {
+                        ForEach(1...HeaderFamily.maxPerRow, id: \.self) { Text("\($0)").tag($0) }
+                    }
+                    .pickerStyle(.menu)
+                    if !part.genders.isEmpty {
+                        Picker("Gender", selection: Binding(
+                            get: { part.genders.contains(headerGender) ? headerGender : part.genders[0] },
+                            set: { headerGender = $0 }
+                        )) {
+                            ForEach(part.genders, id: \.self) { Text($0).tag($0) }
+                        }
+                        .pickerStyle(.segmented)
+                    }
+                    if !part.footprintChoices.isEmpty, let footprint = part.footprint {
+                        FootprintChoicePicker(choices: part.footprintChoices, selection: Binding(
+                            get: {
+                                part.footprintChoices.first { $0.package == headerFootprintType }?.footprint.id
+                                    ?? footprint.id
+                            },
+                            set: { id in
+                                headerFootprintType = part.footprintChoices.first { $0.footprint.id == id }?.package ?? ""
+                            }
+                        ))
+                    }
+                } header: {
+                    Text("New Generic Header")
+                } footer: {
+                    Text("Used for headers dropped from now on.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

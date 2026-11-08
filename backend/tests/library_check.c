@@ -130,7 +130,8 @@ static void check_valid_pull(void) {
                HEAD("supply") VCC_DEVICE ","
                "{'id':'PULLDOWN','function':'Pull-down','description':'d','drawer':[],"
                "'pinouts':{'pin':[{'number':1,'name':'PD','role':'output'}]},'volts':0,'pull':true,"
-               "'parts':[{'name':'PULLDOWN','package':'','pinout':'pin'}]}" TAIL,
+               "'parts':[{'name':'PULLDOWN','package':'0603','pinout':'pin','footprint':'T2',"
+               "'footprintChoices':[{'package':'0603','footprint':'T2'}]}]}" TAIL,
                &error) == 0);
     CHECK(error == NULL);
     pd = part_library_find(library, "PULLDOWN");
@@ -140,10 +141,29 @@ static void check_valid_pull(void) {
         CHECK(pd->kind == PART_SUPPLY && pd->supply->pull == 1 && pd->supply->level == 0 &&
               pd->supply->mv == 0 && pd->pins[0].role == PIN_OUTPUT);
         CHECK(vcc->supply->pull == 0);
+        /* plan-26-A: a pull is a resistor; its 2-pad footprint's pad 2 is the rail end. */
+        CHECK(pd->footprint != NULL && strcmp(pd->footprint->id, "T2") == 0);
+        CHECK(pd->footprint_choice_count == 1);
+        CHECK(vcc->footprint == NULL);
     }
     free(error);
     part_library_destroy(library);
     printf("ok   valid pull part\n");
+
+#define PULL_DEVICE(PART_KEYS) \
+    HEAD("supply") \
+    "{'id':'PULLDOWN','function':'Pull-down','description':'d','drawer':[]," \
+    "'pinouts':{'pin':[{'number':1,'name':'PD','role':'output'}]},'volts':0,'pull':true," \
+    "'parts':[{'name':'PULLDOWN','package':'0603','pinout':'pin'" PART_KEYS "}]}" TAIL
+    expect_fail("pull part without footprint", PULL_DEVICE(""),
+                "parts[0] (PULLDOWN): missing \"footprint\"");
+    expect_fail("pull part with connectorFootprint",
+                PULL_DEVICE(",'footprint':'T2','connectorFootprint':'T2'"),
+                "parts[0] (PULLDOWN): a pull part has no connectorFootprint");
+    expect_fail("pull part footprint with fewer pads than pins",
+                PULL_DEVICE(",'footprint':'BGA2'"),
+                "pin \"1\" has no pad in footprint \"BGA2\"");
+#undef PULL_DEVICE
 }
 
 /* plan-12-C: the serial kind, on the PC16550D fixture keys (serial_fixture.h). */
@@ -281,6 +301,60 @@ static void check_valid_led(void) {
     free(error);
     part_library_destroy(library);
     printf("ok   valid LED file with two pinouts\n");
+}
+
+/* ---- plan-23-A: the header kind ------------------------------------------ */
+
+#define HDR_PINS2 "[{'number':1,'name':'1','role':'inout'},{'number':2,'name':'2','role':'inout'}]"
+#define HDR_PINS3 "[{'number':1,'name':'1','role':'inout'},{'number':2,'name':'2','role':'inout'}," \
+    "{'number':3,'name':'3','role':'inout'}]"
+#define HDR_PINS4 "[{'number':1,'name':'1','role':'inout'},{'number':2,'name':'2','role':'inout'}," \
+    "{'number':3,'name':'3','role':'inout'},{'number':4,'name':'4','role':'inout'}]"
+#define HDR_DEVICE(KEYS, PINOUTS, PARTS) \
+    HEAD("header") "{'id':'header-2row','function':'Header','description':'d','drawer':['Connector','Header']," \
+    KEYS ",'pinouts':{" PINOUTS "},'parts':[" PARTS "]}" TAIL
+
+static void check_header_kind(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *two, *four;
+
+    CHECK(load(library,
+               HDR_DEVICE("'rows':2,'genders':['Male','Female']",
+                          "'2x01':" HDR_PINS2 ",'2x02':" HDR_PINS4,
+                          "{'name':'H-2X01','package':'Straight','pinout':'2x01','footprint':'T2'},"
+                          "{'name':'H-2X02','package':'Straight','pinout':'2x02','footprint':'T4'}"),
+               &error) == 0);
+    if (error != NULL) {
+        printf("FAIL valid header: %s\n", error);
+        failures++;
+    }
+    two = part_library_find(library, "H-2X01");
+    four = part_library_find(library, "H-2X02");
+    CHECK(two != NULL && four != NULL);
+    if (two != NULL && four != NULL) {
+        CHECK(two->kind == PART_HEADER && two->pin_count == 2 && four->pin_count == 4);
+        CHECK(two->header != NULL && two->header->rows == 2 && two->header->gender_count == 2 &&
+              strcmp(two->header->genders[0], "Male") == 0 &&
+              strcmp(two->header->genders[1], "Female") == 0);
+        CHECK(four->header == two->header);
+    }
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid 2-row header with parts of 2 and 4 pins\n");
+
+    expect_fail("header rows 3",
+                HDR_DEVICE("'rows':3,'genders':['Male']", "'p':" HDR_PINS3,
+                           "{'name':'H','package':'Straight','pinout':'p','footprint':'T4'}"),
+                "\"rows\" must be 1 or 2");
+    expect_fail("header empty genders",
+                HDR_DEVICE("'rows':1,'genders':[]", "'p':" HDR_PINS2,
+                           "{'name':'H','package':'Straight','pinout':'p','footprint':'T2'}"),
+                "\"genders\" must not be empty");
+    expect_fail("header 3 pins on 2 rows",
+                HDR_DEVICE("'rows':2,'genders':['Male']", "'p':" HDR_PINS3,
+                           "{'name':'H','package':'Straight','pinout':'p','footprint':'T4'}"),
+                "a header's pin count must be a multiple of its rows");
 }
 
 /* ---- plan-18-A: LED "colors" and the "footprintChoices" part key -------- */
@@ -508,6 +582,160 @@ static void check_decoder_cases(void) {
     expect_fail("decoder seg7 rbo not inout",
                 HEAD("decoder") DEC_DEVICE(DEC_SEG(",'rbi':'RBI','rbo':'Y13'", "1111110")) TAIL,
                 "\"rbo\" pin \"Y13\" must have role inout");
+}
+
+/* plan-21-B: a mux device on the decoder's 26-pin fixture pinout. */
+#define MUX_SEL(UNIT, REST) "'model':'select','units':[" UNIT "]" REST
+#define MUX_U1 "{'data':['A','B'],'select':['G'],'y':'Y0'"
+#define MUX_STO(REST) "'model':'stored','units':[" MUX_U1 ",'w':'Y1'}]" REST
+#define MUX_RF_FILE(D, Q) \
+    "{'d':[" D "],'wa':['A','B'],'we':{'pin':'CLK','active':'low'},'ra':['E','G']," \
+    "'re':{'pin':'LE','active':'low'},'q':[" Q "]}"
+#define MUX_RF(WORDS, BITS, FILES) \
+    "'model':'regfile','words':" WORDS ",'bits':" BITS ",'files':[" FILES "]"
+
+static void check_mux_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library,
+               HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 ",'w':'Y1','strobe':{'pin':'LE','active':'low'}},"
+                                      "{'data':['A','B','C','D'],'select':['E','G'],'w':'Y2',"
+                                      "'oe':{'pin':'CLK','active':'low'}}",
+                                      ",'disabled':'z','invert':true")) TAIL,
+               &error) == 0);
+    part = part_library_find(library, "D1");
+    CHECK(part != NULL && part->kind == PART_MUX && part->logic != NULL &&
+          strcmp(part->logic->family, "HC") == 0 && part->logic->units == 2);
+    printf("ok   valid mux (select, 2 units)%s%s\n", error != NULL ? ": " : "",
+           error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("mux unknown model",
+                HEAD("mux") DEC_DEVICE("'model':'crossbar'") TAIL,
+                "devices[0] (d): unknown model \"crossbar\"");
+    expect_fail("mux key of another kind",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 "}", ",'outputsActive':'low'")) TAIL,
+                "devices[0]: unknown key \"outputsActive\"");
+    expect_fail("mux no units",
+                HEAD("mux") DEC_DEVICE(MUX_SEL("", "")) TAIL,
+                "\"units\" must be an array of 1 to 6 units");
+    expect_fail("mux 7 units",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 "}," MUX_U1 "}," MUX_U1 "}," MUX_U1 "},"
+                                               MUX_U1 "}," MUX_U1 "}," MUX_U1 "}", "")) TAIL,
+                "\"units\" must be an array of 1 to 6 units");
+    expect_fail("mux unknown unit key",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 ",'q':'Y1'}", "")) TAIL,
+                "units[0]: unknown key \"q\"");
+    expect_fail("mux 5 select pins",
+                HEAD("mux") DEC_DEVICE(MUX_SEL("{'data':['A','B'],'select':['A','B','C','D','E'],'y':'Y0'}", "")) TAIL,
+                "units[0]: \"select\" must have 1 to 4 names");
+    expect_fail("mux 1 data pin",
+                HEAD("mux") DEC_DEVICE(MUX_SEL("{'data':['A'],'select':['G'],'y':'Y0'}", "")) TAIL,
+                "units[0]: \"data\" must have 2 to 16 names");
+    expect_fail("mux data not 2^select",
+                HEAD("mux") DEC_DEVICE(MUX_SEL("{'data':['A','B','C'],'select':['E','G'],'y':'Y0'}", "")) TAIL,
+                "units[0]: \"data\" must have 4 names (2 to the number of select pins)");
+    expect_fail("mux no y or w",
+                HEAD("mux") DEC_DEVICE(MUX_SEL("{'data':['A','B'],'select':['G']}", "")) TAIL,
+                "units[0]: a unit needs \"y\" or \"w\"");
+    expect_fail("mux strobe without active",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 ",'strobe':{'pin':'LE'}}", "")) TAIL,
+                "units[0]: strobe: missing \"active\"");
+    expect_fail("mux disabled",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 "}", ",'disabled':'high'")) TAIL,
+                "\"disabled\" must be \"low\" or \"z\", not \"high\"");
+    expect_fail("mux invert not bool",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 "}", ",'invert':'yes'")) TAIL,
+                "\"invert\"");
+    expect_fail("mux output style",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 "}", ",'output':'open-collector'")) TAIL,
+                "\"output\" must be \"push-pull\" or \"open-drain\"");
+    expect_fail("mux unknown data pin",
+                HEAD("mux") DEC_DEVICE(MUX_SEL("{'data':['A','Q'],'select':['G'],'y':'Y0'}", "")) TAIL,
+                "pinouts.p26: units[0]: no pin named \"Q\"");
+    expect_fail("mux selectLatch without active",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 "}", ",'selectLatch':{'pin':'LE'}")) TAIL,
+                "selectLatch: missing \"active\"");
+    expect_fail("mux key of another model",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 "}", ",'words':4")) TAIL,
+                "\"words\" is not a key of model \"select\"");
+
+    /* plan-21-C: stored and regfile. */
+    CHECK(load(library = part_library_create(),
+               HEAD("mux") DEC_DEVICE(MUX_STO(",'dataClock':{'pin':'CLK','edge':'rising'},"
+                                      "'selectLatch':{'pin':'LE','active':'high'},"
+                                      "'oes':[{'pin':'D','active':'low'},{'pin':'E','active':'high'}]")) TAIL,
+               &error) == 0);
+    part = part_library_find(library, "D1");
+    CHECK(part != NULL && part->kind == PART_MUX && part->logic->units == 1);
+    printf("ok   valid mux (stored)%s%s\n", error != NULL ? ": " : "", error != NULL ? error : "");
+    free(error);
+    error = NULL;
+    part_library_destroy(library);
+    CHECK(load(library = part_library_create(),
+               HEAD("mux") DEC_DEVICE(MUX_RF("4", "2", MUX_RF_FILE("'C','D'", "'Y0','Y1'") ","
+                                             MUX_RF_FILE("'C','D'", "'Y2','Y3'"))) TAIL,
+               &error) == 0);
+    part = part_library_find(library, "D1");
+    CHECK(part != NULL && part->kind == PART_MUX && part->logic->units == 2);
+    printf("ok   valid mux (regfile, 2 files)%s%s\n", error != NULL ? ": " : "",
+           error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("mux stored without storage",
+                HEAD("mux") DEC_DEVICE(MUX_STO("")) TAIL,
+                "model \"stored\" needs \"selectLatch\", \"dataLatch\", \"dataClock\" or \"outputClock\"");
+    expect_fail("mux stored dataLatch and dataClock",
+                HEAD("mux") DEC_DEVICE(MUX_STO(",'dataLatch':{'pin':'LE','active':'high'},"
+                                               "'dataClock':{'pin':'CLK','edge':'rising'}")) TAIL,
+                "a device cannot have both \"dataLatch\" and \"dataClock\"");
+    expect_fail("mux stored bad edge",
+                HEAD("mux") DEC_DEVICE(MUX_STO(",'outputClock':{'pin':'CLK','edge':'up'}")) TAIL,
+                "outputClock");
+    expect_fail("mux stored 4 oes",
+                HEAD("mux") DEC_DEVICE(MUX_STO(",'outputClock':{'pin':'CLK','edge':'rising'},"
+                    "'oes':[{'pin':'C','active':'low'},{'pin':'D','active':'low'},"
+                    "{'pin':'E','active':'low'},{'pin':'LE','active':'low'}]")) TAIL,
+                "\"oes\" must be an array of 1 to 3 controls");
+    expect_fail("mux stored oe without active",
+                HEAD("mux") DEC_DEVICE(MUX_STO(",'outputClock':{'pin':'CLK','edge':'rising'},"
+                    "'oes':[{'pin':'C'}]")) TAIL,
+                "oes[0]: missing \"active\"");
+    expect_fail("mux stored unknown clock pin",
+                HEAD("mux") DEC_DEVICE(MUX_STO(",'dataClock':{'pin':'Q','edge':'rising'}")) TAIL,
+                "no pin named \"Q\"");
+    expect_fail("mux regfile 3 words",
+                HEAD("mux") DEC_DEVICE(MUX_RF("3", "2", MUX_RF_FILE("'C','D'", "'Y0','Y1'"))) TAIL,
+                "\"words\" must be 2, 4, 8 or 16 and \"bits\" 1 to 8");
+    expect_fail("mux regfile 9 bits",
+                HEAD("mux") DEC_DEVICE(MUX_RF("4", "9", MUX_RF_FILE("'C','D'", "'Y0','Y1'"))) TAIL,
+                "\"bits\"");
+    expect_fail("mux regfile no files",
+                HEAD("mux") DEC_DEVICE(MUX_RF("4", "2", "")) TAIL,
+                "\"files\" must be an array of 1 to 2 files");
+    expect_fail("mux regfile 3 files",
+                HEAD("mux") DEC_DEVICE(MUX_RF("4", "2", MUX_RF_FILE("'C','D'", "'Y0','Y1'") ","
+                    MUX_RF_FILE("'C','D'", "'Y2','Y3'") "," MUX_RF_FILE("'C','D'", "'Y4','Y5'"))) TAIL,
+                "\"files\" must be an array of 1 to 2 files");
+    expect_fail("mux regfile q count",
+                HEAD("mux") DEC_DEVICE(MUX_RF("4", "2", MUX_RF_FILE("'C','D'", "'Y0'"))) TAIL,
+                "files[0]: \"q\" must have 2 names");
+    expect_fail("mux regfile address count",
+                HEAD("mux") DEC_DEVICE(MUX_RF("8", "2", MUX_RF_FILE("'C','D'", "'Y0','Y1'"))) TAIL,
+                "files[0]: \"wa\" must have 3 names");
+    expect_fail("mux regfile missing we",
+                HEAD("mux") DEC_DEVICE(MUX_RF("4", "2", "{'d':['C','D'],'wa':['A','B'],"
+                    "'ra':['E','G'],'re':{'pin':'LE','active':'low'},'q':['Y0','Y1']}")) TAIL,
+                "files[0]: missing \"we\"");
+    expect_fail("mux regfile unknown file key",
+                HEAD("mux") DEC_DEVICE(MUX_RF("4", "2", "{'d':['C','D'],'wa':['A','B'],"
+                    "'we':{'pin':'CLK','active':'low'},'ra':['E','G'],'re':{'pin':'LE','active':'low'},"
+                    "'q':['Y0','Y1'],'oe':'Y2'}")) TAIL,
+                "files[0]: unknown key \"oe\"");
 }
 
 static void check_logic_family(void) {
@@ -1683,6 +1911,59 @@ static void check_explicit_repeated_pins(void) {
     "'parts':[{'name':'LED-FP','package':'X','pinout':'p','footprint':'CHIP-2'," \
     "'connectorFootprint':" CONN "}]}" TAIL
 
+/* ---- plan-23-A: the header footprint style ----------------------------- */
+
+#define FP_HEADER(KEYS) \
+    FP_FILE("{'id':'H','description':'d','style':'header','body':{'width':7.62,'height':5.08}," \
+            "'pad':{'width':1.8,'height':1.8,'shape':'round'},'drill':1.1,'pitch':2.54," KEYS "}")
+
+static void check_header_footprints(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const PartFootprint *fp;
+
+    CHECK(load_fp(library,
+                  FP_FILE("{'id':'H2X3','description':'d','style':'header','pins':6,'rows':2,"
+                          "'body':{'width':7.62,'height':5.08},'pitch':2.54,'rowPitch':2.54,'firstRowY':-1.27,"
+                          "'pad':{'width':1.8,'height':1.8,'shape':'round'},'drill':1.1,'pin1Shape':'rect'},"
+                          "{'id':'H1X3','description':'d','style':'header','pins':3,'rows':1,"
+                          "'body':{'width':7.62,'height':2.54},'pitch':2.54,'firstRowY':-2.77,"
+                          "'pad':{'width':1.8,'height':1.8,'shape':'round'},'drill':1.1}"),
+                  &error) == 0);
+    if (error != NULL) {
+        printf("FAIL header footprints: %s\n", error);
+        failures++;
+    }
+    fp = part_library_find_footprint(library, "H2X3");
+    CHECK(fp != NULL && fp->pins == 6 && fp->pad_count == 6);
+    check_pad(fp, 0, "1", -2.54, -1.27, 1.8, 1.8, 1.1, PAD_RECT);
+    check_pad(fp, 1, "2", -2.54, 1.27, 1.8, 1.8, 1.1, PAD_ROUND);
+    check_pad(fp, 2, "3", 0, -1.27, 1.8, 1.8, 1.1, PAD_ROUND);
+    check_pad(fp, 3, "4", 0, 1.27, 1.8, 1.8, 1.1, PAD_ROUND);
+    check_pad(fp, 4, "5", 2.54, -1.27, 1.8, 1.8, 1.1, PAD_ROUND);
+    check_pad(fp, 5, "6", 2.54, 1.27, 1.8, 1.8, 1.1, PAD_ROUND);
+    printf("ok   header 2x3: zigzag pads, pin 1 rect\n");
+    fp = part_library_find_footprint(library, "H1X3");
+    CHECK(fp != NULL && fp->pins == 3 && fp->pad_count == 3);
+    check_pad(fp, 0, "1", -2.54, -2.77, 1.8, 1.8, 1.1, PAD_ROUND);
+    check_pad(fp, 1, "2", 0, -2.77, 1.8, 1.8, 1.1, PAD_ROUND);
+    check_pad(fp, 2, "3", 2.54, -2.77, 1.8, 1.8, 1.1, PAD_ROUND);
+    printf("ok   header 1x3: one row at firstRowY -2.77\n");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fp_fail("header: rows 3", FP_HEADER("'pins':6,'rows':3,'rowPitch':2.54,'firstRowY':0"),
+                   "\"rows\" must be 1 or 2");
+    expect_fp_fail("header: pins not a multiple of rows",
+                   FP_HEADER("'pins':7,'rows':2,'rowPitch':2.54,'firstRowY':0"),
+                   "\"pins\" 7 is not a multiple of \"rows\" 2");
+    expect_fp_fail("header: 2 rows without rowPitch", FP_HEADER("'pins':6,'rows':2,'firstRowY':0"),
+                   "\"rowPitch\" is required with 2 rows");
+    expect_fp_fail("header: 1 row with rowPitch",
+                   FP_HEADER("'pins':3,'rows':1,'rowPitch':2.54,'firstRowY':0"),
+                   "\"rowPitch\" is not allowed with 1 row");
+}
+
 static void check_part_footprints(void) {
     PartLibrary *library = part_library_create();
     char *error = NULL;
@@ -1971,6 +2252,8 @@ int main(void) {
     check_explicit_repeated_pins();
     check_footprint_corners();
     check_footprint_cases();
+    check_header_footprints();
+    check_header_kind();
     check_part_footprints();
     check_ball_cases();
     check_display_cases();
@@ -1990,6 +2273,7 @@ int main(void) {
     check_duplicate_across_calls();
     check_logic_family();
     check_decoder_cases();
+    check_mux_cases();
     check_supply_cases();
     check_voltage_cases();
     if (failures > 0) {

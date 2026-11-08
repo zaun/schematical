@@ -121,7 +121,15 @@
       "volts": 5,
       "pull": true,
       "parts": [
-        {"name":"PULLUP-5V","package":"","pinout":"pin"}
+        {"name":"PULLUP-5V","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+         "footprintChoices":[
+           {"package":"0402","footprint":"RES-0402"},
+           {"package":"0603","footprint":"RES-0603"},
+           {"package":"0805","footprint":"RES-0805"},
+           {"package":"1206","footprint":"RES-1206"},
+           {"package":"Axial","footprint":"RES-AXIAL-10.16"},
+           {"package":"Radial","footprint":"RES-RADIAL-2.54"}
+         ]}
       ]
     },
     {
@@ -137,7 +145,15 @@
       "volts": 3.3,
       "pull": true,
       "parts": [
-        {"name":"PULLUP-3V3","package":"","pinout":"pin"}
+        {"name":"PULLUP-3V3","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+         "footprintChoices":[
+           {"package":"0402","footprint":"RES-0402"},
+           {"package":"0603","footprint":"RES-0603"},
+           {"package":"0805","footprint":"RES-0805"},
+           {"package":"1206","footprint":"RES-1206"},
+           {"package":"Axial","footprint":"RES-AXIAL-10.16"},
+           {"package":"Radial","footprint":"RES-RADIAL-2.54"}
+         ]}
       ]
     },
     {
@@ -153,7 +169,15 @@
       "volts": 2.5,
       "pull": true,
       "parts": [
-        {"name":"PULLUP-2V5","package":"","pinout":"pin"}
+        {"name":"PULLUP-2V5","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+         "footprintChoices":[
+           {"package":"0402","footprint":"RES-0402"},
+           {"package":"0603","footprint":"RES-0603"},
+           {"package":"0805","footprint":"RES-0805"},
+           {"package":"1206","footprint":"RES-1206"},
+           {"package":"Axial","footprint":"RES-AXIAL-10.16"},
+           {"package":"Radial","footprint":"RES-RADIAL-2.54"}
+         ]}
       ]
     },
     {
@@ -169,7 +193,15 @@
       "volts": 1.8,
       "pull": true,
       "parts": [
-        {"name":"PULLUP-1V8","package":"","pinout":"pin"}
+        {"name":"PULLUP-1V8","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+         "footprintChoices":[
+           {"package":"0402","footprint":"RES-0402"},
+           {"package":"0603","footprint":"RES-0603"},
+           {"package":"0805","footprint":"RES-0805"},
+           {"package":"1206","footprint":"RES-1206"},
+           {"package":"Axial","footprint":"RES-AXIAL-10.16"},
+           {"package":"Radial","footprint":"RES-RADIAL-2.54"}
+         ]}
       ]
     },
     {
@@ -185,7 +217,15 @@
       "volts": 1.2,
       "pull": true,
       "parts": [
-        {"name":"PULLUP-1V2","package":"","pinout":"pin"}
+        {"name":"PULLUP-1V2","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+         "footprintChoices":[
+           {"package":"0402","footprint":"RES-0402"},
+           {"package":"0603","footprint":"RES-0603"},
+           {"package":"0805","footprint":"RES-0805"},
+           {"package":"1206","footprint":"RES-1206"},
+           {"package":"Axial","footprint":"RES-AXIAL-10.16"},
+           {"package":"Radial","footprint":"RES-RADIAL-2.54"}
+         ]}
       ]
     },
     {
@@ -201,7 +241,15 @@
       "volts": 12,
       "pull": true,
       "parts": [
-        {"name":"PULLUP-12V","package":"","pinout":"pin"}
+        {"name":"PULLUP-12V","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+         "footprintChoices":[
+           {"package":"0402","footprint":"RES-0402"},
+           {"package":"0603","footprint":"RES-0603"},
+           {"package":"0805","footprint":"RES-0805"},
+           {"package":"1206","footprint":"RES-1206"},
+           {"package":"Axial","footprint":"RES-AXIAL-10.16"},
+           {"package":"Radial","footprint":"RES-RADIAL-2.54"}
+         ]}
       ]
     },
     {
@@ -217,7 +265,15 @@
       "volts": 0,
       "pull": true,
       "parts": [
-        {"name":"PULLDOWN","package":"","pinout":"pin"}
+        {"name":"PULLDOWN","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+         "footprintChoices":[
+           {"package":"0402","footprint":"RES-0402"},
+           {"package":"0603","footprint":"RES-0603"},
+           {"package":"0805","footprint":"RES-0805"},
+           {"package":"1206","footprint":"RES-1206"},
+           {"package":"Axial","footprint":"RES-AXIAL-10.16"},
+           {"package":"Radial","footprint":"RES-RADIAL-2.54"}
+         ]}
       ]
     }
   ]

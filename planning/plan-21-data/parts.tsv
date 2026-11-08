@@ -1,0 +1,635 @@
+name	device	family	package	code	pins	footprint	flags	status	pdf	decision	reason
+74ACT11151D	74_11151	ACT						Active		skip	no TI datasheet
+74ACT11151N	74_11151	ACT						Active		skip	no TI datasheet
+74AC11157DWR	74_11157	AC						Active		skip	no TI datasheet
+74ACT11157N	74_11157	ACT						Active		skip	no TI datasheet
+74ACT11251D	74_11251	ACT						Active		skip	no TI datasheet
+74ACT11251N	74_11251	ACT						Active		skip	no TI datasheet
+74AC11257DW	74_11257	AC	SOIC	DW	20	SOIC-20W		Active	mux/74ac11257.pdf	add	
+74AC11257DWR	74_11257	AC						Active		skip	not in the datasheet ordering table
+74AC11257N	74_11257	AC	DIP	N	20	PDIP-20		Active	mux/74ac11257.pdf	add	
+74AC11257PW	74_11257	AC	TSSOP	PW	20	TSSOP-20		Active	mux/74ac11257.pdf	add	
+74AC11257PWLE	74_11257	AC						Active		skip	not in the datasheet ordering table
+74ACT11257DBR	74_11257	ACT						Obsolete		skip	status Obsolete
+74ACT11257DW	74_11257	ACT						Obsolete		skip	status Obsolete
+74ACT11257DWR	74_11257	ACT	SOIC	DW	20	SOIC-20W		Active	mux/74act11257.pdf	add	
+74ACT11257N	74_11257	ACT						Obsolete		skip	status Obsolete
+74ACT11257PW	74_11257	ACT						Obsolete		skip	status Obsolete
+74ACT11257PWR	74_11257	ACT						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+CD74AC151BQBR	74_151	AC	WQFN	BQB	16	WQFN-16		Active	mux/cd74ac151.pdf	add	
+CD74AC151E	74_151	AC	DIP	N	16	PDIP-16		Active	mux/cd74ac151.pdf	add	
+CD74AC151M96	74_151	AC	SOIC	D	16	SOIC-16		Active	mux/cd74ac151.pdf	add	
+CD74AC151PWR	74_151	AC	TSSOP	PW	16	TSSOP-16		Active	mux/cd74ac151.pdf	add	
+CD74ACT151BQBR	74_151	ACT	WQFN	BQB	16	WQFN-16		Active	mux/cd74act151.pdf	add	
+CD74ACT151M96	74_151	ACT	SOIC	D	16	SOIC-16		Active	mux/cd74act151.pdf	add	
+CD74ACT151PWR	74_151	ACT	TSSOP	PW	16	TSSOP-16		Active	mux/cd74act151.pdf	add	
+CD74HC151E	74_151	HC	DIP	N	16	PDIP-16		Active	mux/cd74hc151.pdf	add	
+CD74HC151M96	74_151	HC	SOIC	D	16	SOIC-16		Active	mux/cd74hc151.pdf	add	
+CD74HC151MT	74_151	HC	SOIC	D	16	SOIC-16		Obsolete	mux/cd74hc151.pdf	skip	status Obsolete
+CD74HCT151E	74_151	HCT	DIP	N	16	PDIP-16		Active	mux/cd74hc151.pdf	add	
+CD74HCT151M	74_151	HCT	SOIC	D	16	SOIC-16		Obsolete	mux/cd74hc151.pdf	skip	status Obsolete
+CD74HCT151M96	74_151	HCT	SOIC	D	16	SOIC-16		Active	mux/cd74hc151.pdf	add	
+SN74AC151PWRQ1	74_151	AC	TSSOP	PW	16	TSSOP-16	automotive	Active	mux/sn74ac151-q1.pdf	add	
+SN74AC151WBQBRQ1	74_151	AC	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74ac151-q1.pdf	add	
+SN74ACT151PWRQ1	74_151	ACT	TSSOP	PW	16	TSSOP-16	automotive	Active	mux/sn74act151-q1.pdf	add	
+SN74ACT151WBQBRQ1	74_151	ACT	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74act151-q1.pdf	add	
+SN74ALS151D	74_151	ALS	SOIC	D	16	SOIC-16		Obsolete	mux/sn74als151.pdf	skip	status Obsolete
+SN74ALS151DB	74_151	ALS						Active		skip	not in the datasheet ordering table
+SN74ALS151DR	74_151	ALS	SOIC	D	16	SOIC-16		Active	mux/sn74als151.pdf	add	
+SN74ALS151N	74_151	ALS	DIP	N	16	PDIP-16		Active	mux/sn74als151.pdf	add	
+SN74ALS151NSR	74_151	ALS	SOP	NS	16	SOP-16		Active	mux/sn74als151.pdf	add	
+SN74AS151D	74_151	AS						Obsolete		skip	status Obsolete
+SN74AS151N	74_151	AS	DIP	N	16	PDIP-16		Active	mux/sn74als151.pdf	add	
+SN74AS151NS	74_151	AS						Active		skip	not in the datasheet ordering table
+SN74AS151NSR	74_151	AS	SOP	NS	16	SOP-16		Active	mux/sn74als151.pdf	add	
+SN74F151BD	74_151	F	SOIC	D	16	SOIC-16		Obsolete	mux/sn74f151b.pdf	skip	status Obsolete
+SN74F151BDBR	74_151	F						Active		skip	not in the datasheet ordering table
+SN74F151BDR	74_151	F	SOIC	D	16	SOIC-16		Active	mux/sn74f151b.pdf	add	
+SN74F151BN	74_151	F	DIP	N	16	PDIP-16		Active	mux/sn74f151b.pdf	add	
+SN74F151BNS	74_151	F						Active		skip	not in the datasheet ordering table
+SN74F151BNSR	74_151	F	SOP	NS	16	SOP-16		Active	mux/sn74f151b.pdf	add	
+SN74HC151ANSR	74_151	HC						Active		skip	not in the datasheet ordering table
+SN74HC151DE4	74_151	HC						Obsolete		skip	status Obsolete
+SN74HC151DR	74_151	HC	SOIC	D	16	SOIC-16		Active	mux/sn74hc151.pdf	add	
+SN74HC151DT	74_151	HC	SOIC	D	16	SOIC-16		Obsolete	mux/sn74hc151.pdf	skip	status Obsolete
+SN74HC151NSR	74_151	HC	SOP	NS	16	SOP-16		Active	mux/sn74hc151.pdf	add	
+SN74HC151PW	74_151	HC	TSSOP	PW	16	TSSOP-16		Obsolete	mux/sn74hc151.pdf	skip	status Obsolete
+SN74HC151PWR	74_151	HC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74hc151.pdf	add	
+SN74HC151PWT	74_151	HC	TSSOP	PW	16	TSSOP-16		Obsolete	mux/sn74hc151.pdf	skip	status Obsolete
+SN74HC151QDRQ1	74_151	HC	SOIC	D	16	SOIC-16	automotive	Active	mux/sn74hc151-q1.pdf	add	
+SN74HCS151DR	74_151	HCS	SOIC	D	16	SOIC-16		Active	mux/sn74hcs151.pdf	add	
+SN74HCS151PWR	74_151	HCS	TSSOP	PW	16	TSSOP-16		Active	mux/sn74hcs151.pdf	add	
+SN74HCS151QDRQ1	74_151	HCS	SOIC	D	16	SOIC-16	automotive	Active	mux/sn74hcs151-q1.pdf	add	
+SN74HCS151QPWRQ1	74_151	HCS	TSSOP	PW	16	TSSOP-16	automotive	Active	mux/sn74hcs151-q1.pdf	add	
+SN74HCS151QWBQBRQ1	74_151	HCS	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74hcs151-q1.pdf	add	
+SN74LS151D	74_151	LS	SOIC	D	16	SOIC-16		Obsolete	mux/sn74ls151.pdf	skip	status Obsolete
+SN74LS151DR	74_151	LS	SOIC	D	16	SOIC-16		Active	mux/sn74ls151.pdf	add	
+SN74LS151N	74_151	LS	DIP	N	16	PDIP-16		Active	mux/sn74ls151.pdf	add	
+SN74LS151NE4	74_151	LS	DIP	N	16	PDIP-16		Active	mux/sn74ls151.pdf	add	
+SN74LS151NSR	74_151	LS	SOP	NS	16	SOP-16		Active	mux/sn74ls151.pdf	add	
+SN74S151D	74_151	S						Obsolete		skip	status Obsolete
+SN74S151N	74_151	S						Obsolete		skip	status Obsolete
+SN74S151NS	74_151	S						Active		skip	not in the datasheet ordering table
+SNJ54ALS151W	74_151	ALS					military	Active		skip	not in the datasheet ordering table
+SNJ54LS151FK	74_151	LS	LCCC	FK	20	LCCC-20	military,ceramic	Active	mux/sn74ls151.pdf	add	
+CD74AC153BQBR	74_153	AC	WQFN	BQB	16	WQFN-16		Active	mux/cd74ac153.pdf	add	
+CD74AC153E	74_153	AC	DIP	N	16	PDIP-16		Active	mux/cd74ac153.pdf	add	
+CD74AC153EE4	74_153	AC						Active		skip	not in the datasheet ordering table
+CD74AC153M	74_153	AC	SOIC	D	16	SOIC-16		Obsolete	mux/cd74ac153.pdf	skip	status Obsolete
+CD74AC153M96	74_153	AC	SOIC	D	16	SOIC-16		Active	mux/cd74ac153.pdf	add	
+CD74AC153PWR	74_153	AC	TSSOP	PW	16	TSSOP-16		Active	mux/cd74ac153.pdf	add	
+CD74ACT153E	74_153	ACT	DIP	N	16	PDIP-16		Active	mux/cd74act153.pdf	add	
+CD74ACT153M	74_153	ACT	SOIC	D	16	SOIC-16		Obsolete	mux/cd74act153.pdf	skip	status Obsolete
+CD74ACT153M96	74_153	ACT	SOIC	D	16	SOIC-16		Active	mux/cd74act153.pdf	add	
+CD74ACT153NSR	74_153	ACT	SOP	NS	16	SOP-16		Active	mux/cd74act153.pdf	add	
+CD74HC153E	74_153	HC	DIP	N	16	PDIP-16		Active	mux/cd74hc153.pdf	add	
+CD74HC153M96	74_153	HC	SOIC	D	16	SOIC-16		Active	mux/cd74hc153.pdf	add	
+CD74HC153MT	74_153	HC						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+CD74HCT153E	74_153	HCT	DIP	N	16	PDIP-16		Active	mux/cd74hc153.pdf	add	
+CD74HCT153M	74_153	HCT	SOIC	D	16	SOIC-16		Obsolete	mux/cd74hc153.pdf	skip	status Obsolete
+CD74HCT153M96	74_153	HCT	SOIC	D	16	SOIC-16		Active	mux/cd74hc153.pdf	add	
+CD74HCT153MT	74_153	HCT	SOIC	D	16	SOIC-16		Obsolete	mux/cd74hc153.pdf	skip	status Obsolete
+SN54ALS153J	74_153	ALS	DIP	J	16	CDIP-16	military,ceramic	Active	mux/sn74als153.pdf	add	
+SN54HC153J	74_153	HC	DIP	J	16	CDIP-16	military,ceramic	Active	mux/sn74hc153.pdf	add	
+SN74153N	74_153	TTL						Active		skip	not in the datasheet ordering table
+SN74AC153PWRQ1	74_153	AC	TSSOP	PW	16	TSSOP-16	automotive	Active	mux/sn74ac153-q1.pdf	add	
+SN74AC153WBQBRQ1	74_153	AC	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74ac153-q1.pdf	add	
+SN74ACT153BQBR	74_153	ACT	WQFN	BQB	16	WQFN-16		Active	mux/sn74act153.pdf	add	
+SN74ACT153PWR	74_153	ACT	TSSOP	PW	16	TSSOP-16		Active	mux/sn74act153.pdf	add	
+SN74ACT153PWRQ1	74_153	ACT	TSSOP	PW	16	TSSOP-16	automotive	Active	mux/sn74act153-q1.pdf	add	
+SN74ACT153WBQBRQ1	74_153	ACT	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74act153-q1.pdf	add	
+SN74ALS153D	74_153	ALS	SOIC	D	16	SOIC-16		Obsolete	mux/sn74als153.pdf	skip	status Obsolete
+SN74ALS153DR	74_153	ALS	SOIC	D	16	SOIC-16		Active	mux/sn74als153.pdf	add	
+SN74ALS153N	74_153	ALS	DIP	N	16	PDIP-16		Active	mux/sn74als153.pdf	add	
+SN74ALS153NS	74_153	ALS						Active		skip	not in the datasheet ordering table
+SN74ALS153NSR	74_153	ALS	SOP	NS	16	SOP-16		Active	mux/sn74als153.pdf	add	
+SN74AS153D	74_153	AS						Obsolete		skip	status Obsolete
+SN74AS153DR	74_153	AS						Obsolete		skip	status Obsolete
+SN74AS153N	74_153	AS	DIP	N	16	PDIP-16		Active	mux/sn74als153.pdf	add	
+SN74AS153NS	74_153	AS						Active		skip	not in the datasheet ordering table
+SN74AS153NSR	74_153	AS	SOP	NS	16	SOP-16		Active	mux/sn74als153.pdf	add	
+SN74F153D	74_153	F	SOIC	D	16	SOIC-16		Obsolete	mux/sn74f153.pdf	skip	status Obsolete
+SN74F153DBR	74_153	F						Active		skip	not in the datasheet ordering table
+SN74F153DR	74_153	F	SOIC	D	16	SOIC-16		Active	mux/sn74f153.pdf	add	
+SN74F153N	74_153	F	DIP	N	16	PDIP-16		Active	mux/sn74f153.pdf	add	
+SN74F153NSR	74_153	F	SOP	NS	16	SOP-16		Active	mux/sn74f153.pdf	add	
+SN74HC153AN	74_153	HC						Active		skip	not in the datasheet ordering table
+SN74HC153ANSR	74_153	HC						Active		skip	not in the datasheet ordering table
+SN74HC153D	74_153	HC	SOIC	D	16	SOIC-16		Obsolete	mux/sn74hc153.pdf	skip	status Obsolete
+SN74HC153DR	74_153	HC	SOIC	D	16	SOIC-16		Active	mux/sn74hc153.pdf	add	
+SN74HC153DT	74_153	HC						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+SN74HC153N	74_153	HC	DIP	N	16	PDIP-16		Active	mux/sn74hc153.pdf	add	
+SN74HC153NS	74_153	HC						Active		skip	not in the datasheet ordering table
+SN74HC153NSR	74_153	HC	SOP	NS	16	SOP-16		Active	mux/sn74hc153.pdf	add	
+SN74HC153PW	74_153	HC	TSSOP	PW	16	TSSOP-16		Obsolete	mux/sn74hc153.pdf	skip	status Obsolete
+SN74HC153PWR	74_153	HC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74hc153.pdf	add	
+SN74HC153PWT	74_153	HC						Obsolete		skip	status Obsolete
+SN74HCS153DR	74_153	HCS	SOIC	D	16	SOIC-16		Active	mux/sn74hcs153.pdf	add	
+SN74HCS153PWR	74_153	HCS	TSSOP	PW	16	TSSOP-16		Active	mux/sn74hcs153.pdf	add	
+SN74HCS153QDRQ1	74_153	HCS	SOIC	D	16	SOIC-16	automotive	Active	mux/sn74hcs153-q1.pdf	add	
+SN74HCS153QPWRQ1	74_153	HCS	TSSOP	PW	16	TSSOP-16	automotive	Active	mux/sn74hcs153-q1.pdf	add	
+SN74HCS153QWBQBRQ1	74_153	HCS	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74hcs153-q1.pdf	add	
+SN74LS153D	74_153	LS	SOIC	D	16	SOIC-16		Obsolete	mux/sn74ls153.pdf	skip	status Obsolete
+SN74LS153DR	74_153	LS	SOIC	D	16	SOIC-16		Active	mux/sn74ls153.pdf	add	
+SN74LS153N	74_153	LS	DIP	N	16	PDIP-16		Active	mux/sn74ls153.pdf	add	
+SN74LS153NSR	74_153	LS	SOP	NS	16	SOP-16		Active	mux/sn74ls153.pdf	add	
+SN74S153N	74_153	S						Active		skip	not in the datasheet ordering table
+SNJ54ALS153W	74_153	ALS	CFP	W	16	CFP-16	military,ceramic	Active	mux/sn74als153.pdf	add	
+SNJ54F153FK	74_153	F	LCCC	FK	20	LCCC-20	military,ceramic	Active	mux/sn74f153.pdf	add	
+SNJ54HC153FK	74_153	HC	LCCC	FK	20	LCCC-20	military,ceramic	Active	mux/sn74hc153.pdf	add	
+SNJ54LS153FK	74_153	LS	LCCC	FK	20	LCCC-20	military,ceramic	Active	mux/sn74ls153.pdf	add	
+SNJ54S153J	74_153	S					military	Active		skip	not in the datasheet ordering table
+CAHCT157QWBQBRQ1	74_157	AHC	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74ahc157-q1.pdf	add	
+CD54HC157F	74_157	HC	DIP	J	16	CDIP-16	military,ceramic	Active	mux/cd74hc157.pdf	add	
+CD74AC157BQBR	74_157	AC	WQFN	BQB	16	WQFN-16		Active	mux/cd74ac157.pdf	add	
+CD74AC157E	74_157	AC	DIP	N	16	PDIP-16		Active	mux/cd74ac157.pdf	add	
+CD74AC157M	74_157	AC	SOIC	D	16	SOIC-16		Obsolete	mux/cd74ac157.pdf	skip	status Obsolete
+CD74AC157M96	74_157	AC	SOIC	D	16	SOIC-16		Active	mux/cd74ac157.pdf	add	
+CD74ACT157BQBR	74_157	ACT	WQFN	BQB	16	WQFN-16		Active	mux/cd74act157.pdf	add	
+CD74ACT157E	74_157	ACT	DIP	N	16	PDIP-16		Active	mux/cd74act157.pdf	add	
+CD74ACT157M	74_157	ACT	SOIC	D	16	SOIC-16		Obsolete	mux/cd74act157.pdf	skip	status Obsolete
+CD74ACT157M96	74_157	ACT	SOIC	D	16	SOIC-16		Active	mux/cd74act157.pdf	add	
+CD74ACT157MG4	74_157	ACT						Active		skip	not in the datasheet ordering table
+CD74ACT157PW	74_157	ACT	TSSOP	PW	16	TSSOP-16		Obsolete	mux/cd74act157.pdf	skip	status Obsolete
+CD74HC157E	74_157	HC	DIP	N	16	PDIP-16		Active	mux/cd74hc157.pdf	add	
+CD74HC157M	74_157	HC	SOIC	D	16	SOIC-16		Obsolete	mux/cd74hc157.pdf	skip	status Obsolete
+CD74HC157M96	74_157	HC	SOIC	D	16	SOIC-16		Active	mux/cd74hc157.pdf	add	
+CD74HC157MT	74_157	HC	SOIC	D	16	SOIC-16		Obsolete	mux/cd74hc157.pdf	skip	status Obsolete
+CD74HCT157E	74_157	HCT	DIP	N	16	PDIP-16		Active	mux/cd74hc157.pdf	add	
+CD74HCT157M	74_157	HCT	SOIC	D	16	SOIC-16		Obsolete	mux/cd74hc157.pdf	skip	status Obsolete
+CD74HCT157M96	74_157	HCT	SOIC	D	16	SOIC-16		Active	mux/cd74hc157.pdf	add	
+CD74HCT157M96G4	74_157	HCT						Active		skip	not in the datasheet ordering table
+CD74HCT157MT	74_157	HCT	SOIC	D	16	SOIC-16		Obsolete	mux/cd74hc157.pdf	skip	status Obsolete
+CY74FCT157ATDR	74_157	FCT	SOIC	D	16	SOIC-16		Active	mux/cy74fct157t.pdf	add	
+CY74FCT157ATQCT	74_157	FCT						Obsolete		skip	status Obsolete
+CY74FCT157ATSOC	74_157	FCT	SOIC	DW	16	SOIC-16W		Active	mux/cy74fct157t.pdf	add	
+CY74FCT157ATSOCT	74_157	FCT						Obsolete		skip	status Obsolete
+CY74FCT157CTD	74_157	FCT	SOIC	D	16	SOIC-16		Active	mux/cy74fct157t.pdf	add	
+CY74FCT157CTDR	74_157	FCT						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+CY74FCT157CTQC	74_157	FCT						Active		skip	not in the datasheet ordering table
+CY74FCT157CTSOC	74_157	FCT	SOIC	DW	16	SOIC-16W		Active	mux/cy74fct157t.pdf	add	
+CY74FCT157CTSOCT	74_157	FCT	SOIC	DW	16	SOIC-16W		Active	mux/cy74fct157t.pdf	add	
+SN54HC157J	74_157	HC	DIP	J	16	CDIP-16	military,ceramic	Active	mux/sn74hc157.pdf	add	
+SN54S157J	74_157	S	DIP	J	16	CDIP-16	military,ceramic	Active	mux/sn74ls157.pdf	add	
+SN74AC157PWRQ1	74_157	AC	TSSOP	PW	16	TSSOP-16	automotive	Active	mux/sn74ac157-q1.pdf	add	
+SN74AC157WBQBRQ1	74_157	AC	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74ac157-q1.pdf	add	
+SN74ACT157PWRQ1	74_157	ACT	TSSOP	PW	16	TSSOP-16	automotive	Active	mux/sn74act157-q1.pdf	add	
+SN74ACT157WBQBRQ1	74_157	ACT	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74act157-q1.pdf	add	
+SN74AHC157D	74_157	AHC	SOIC	D	16	SOIC-16		Obsolete	mux/sn74ahc157.pdf	skip	status Obsolete
+SN74AHC157DBR	74_157	AHC	SSOP	DB	16	SSOP-16		Active	mux/sn74ahc157.pdf	add	
+SN74AHC157DGVR	74_157	AHC	TVSOP	DGV	16	TVSOP-16		Active	mux/sn74ahc157.pdf	add	
+SN74AHC157DR	74_157	AHC	SOIC	D	16	SOIC-16		Active	mux/sn74ahc157.pdf	add	
+SN74AHC157N	74_157	AHC	DIP	N	16	PDIP-16		Active	mux/sn74ahc157.pdf	add	
+SN74AHC157NS	74_157	AHC						Active		skip	not in the datasheet ordering table
+SN74AHC157NSR	74_157	AHC	SOP	NS	16	SOP-16		Active	mux/sn74ahc157.pdf	add	
+SN74AHC157PW	74_157	AHC	TSSOP	PW	16	TSSOP-16		Obsolete	mux/sn74ahc157.pdf	skip	status Obsolete
+SN74AHC157PWR	74_157	AHC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74ahc157.pdf	add	
+SN74AHC157PWRG3	74_157	AHC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74ahc157.pdf	add	
+SN74AHC157QPWRQ1	74_157	AHC	TSSOP	PW	16	TSSOP-16	automotive	Active	mux/sn74ahc157-q1.pdf	add	
+SN74AHC157QWBQBRQ1	74_157	AHC	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74ahc157-q1.pdf	add	
+SN74AHC157RGYR	74_157	AHC	VQFN	RGY	16	VQFN-16		Active	mux/sn74ahc157.pdf	add	
+SN74AHCT157D	74_157	AHCT	SOIC	D	16	SOIC-16		Obsolete	mux/sn74ahct157.pdf	skip	status Obsolete
+SN74AHCT157DBR	74_157	AHCT	SSOP	DB	16	SSOP-16		Active	mux/sn74ahct157.pdf	add	
+SN74AHCT157DGVR	74_157	AHCT	TVSOP	DGV	16	TVSOP-16		Active	mux/sn74ahct157.pdf	add	
+SN74AHCT157DR	74_157	AHCT	SOIC	D	16	SOIC-16		Active	mux/sn74ahct157.pdf	add	
+SN74AHCT157N	74_157	AHCT	DIP	N	16	PDIP-16		Active	mux/sn74ahct157.pdf	add	
+SN74AHCT157NS	74_157	AHCT						Active		skip	not in the datasheet ordering table
+SN74AHCT157NSR	74_157	AHCT						Obsolete		skip	status Obsolete
+SN74AHCT157PW	74_157	AHCT	TSSOP	PW	16	TSSOP-16		Obsolete	mux/sn74ahct157.pdf	skip	status Obsolete
+SN74AHCT157PWLE	74_157	AHCT						Active		skip	not in the datasheet ordering table
+SN74AHCT157PWR	74_157	AHCT	TSSOP	PW	16	TSSOP-16		Active	mux/sn74ahct157.pdf	add	
+SN74ALS157AD	74_157	ALS	SOIC	D	16	SOIC-16		Obsolete	mux/sn74als157a.pdf	skip	status Obsolete
+SN74ALS157ADB	74_157	ALS						Active		skip	not in the datasheet ordering table
+SN74ALS157ADBR	74_157	ALS						Active		skip	not in the datasheet ordering table
+SN74ALS157ADR	74_157	ALS	SOIC	D	16	SOIC-16		Active	mux/sn74als157a.pdf	add	
+SN74ALS157AN	74_157	ALS	DIP	N	16	PDIP-16		Active	mux/sn74als157a.pdf	add	
+SN74ALS157ANS	74_157	ALS						Active		skip	not in the datasheet ordering table
+SN74ALS157ANSR	74_157	ALS	SOP	NS	16	SOP-16		Active	mux/sn74als157a.pdf	add	
+SN74AS157D	74_157	AS	SOIC	D	16	SOIC-16		Active	mux/sn74als157a.pdf	add	
+SN74AS157N	74_157	AS	DIP	N	16	PDIP-16		Active	mux/sn74als157a.pdf	add	
+SN74AS157NS	74_157	AS						Active		skip	not in the datasheet ordering table
+SN74AS157NSR	74_157	AS						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+SN74F157AD	74_157	F	SOIC	D	16	SOIC-16		Obsolete	mux/sn74f157a.pdf	skip	status Obsolete
+SN74F157ADB	74_157	F						Active		skip	not in the datasheet ordering table
+SN74F157ADR	74_157	F	SOIC	D	16	SOIC-16		Active	mux/sn74f157a.pdf	add	
+SN74F157AN	74_157	F	DIP	N	16	PDIP-16		Active	mux/sn74f157a.pdf	add	
+SN74F157ANSR	74_157	F	SOP	NS	16	SOP-16		Active	mux/sn74f157a.pdf	add	
+SN74HC157ANSR	74_157	HC						Active		skip	not in the datasheet ordering table
+SN74HC157APWR	74_157	HC						Active		skip	not in the datasheet ordering table
+SN74HC157DBR	74_157	HC	SSOP	DB	16	SSOP-16		Active	mux/sn74hc157.pdf	add	
+SN74HC157DR	74_157	HC	SOIC	D	16	SOIC-16		Active	mux/sn74hc157.pdf	add	
+SN74HC157DT	74_157	HC	SOIC	D	16	SOIC-16		Obsolete	mux/sn74hc157.pdf	skip	status Obsolete
+SN74HC157N	74_157	HC	DIP	N	16	PDIP-16		Active	mux/sn74hc157.pdf	add	
+SN74HC157NSR	74_157	HC	SOP	NS	16	SOP-16		Active	mux/sn74hc157.pdf	add	
+SN74HC157NSRG4	74_157	HC						Active		skip	not in the datasheet ordering table
+SN74HC157PW	74_157	HC	TSSOP	PW	16	TSSOP-16		Obsolete	mux/sn74hc157.pdf	skip	status Obsolete
+SN74HC157PWR	74_157	HC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74hc157.pdf	add	
+SN74HC157PWT	74_157	HC	TSSOP	PW	16	TSSOP-16		Obsolete	mux/sn74hc157.pdf	skip	status Obsolete
+SN74HCS157DR	74_157	HCS	SOIC	D	16	SOIC-16		Active	mux/sn74hcs157.pdf	add	
+SN74HCS157PWR	74_157	HCS	TSSOP	PW	16	TSSOP-16		Active	mux/sn74hcs157.pdf	add	
+SN74HCS157QDRQ1	74_157	HCS	SOIC	D	16	SOIC-16	automotive	Active	mux/sn74hcs157-q1.pdf	add	
+SN74HCS157QPWRQ1	74_157	HCS	TSSOP	PW	16	TSSOP-16	automotive	Active	mux/sn74hcs157-q1.pdf	add	
+SN74HCS157QWBQBRQ1	74_157	HCS	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74hcs157-q1.pdf	add	
+SN74HCT157D	74_157	HCT	SOIC	D	16	SOIC-16		Obsolete	mux/sn74hct157.pdf	skip	status Obsolete
+SN74HCT157DR	74_157	HCT	SOIC	D	16	SOIC-16		Active	mux/sn74hct157.pdf	add	
+SN74HCT157DT	74_157	HCT	SOIC	D	16	SOIC-16		Obsolete	mux/sn74hct157.pdf	skip	status Obsolete
+SN74HCT157N	74_157	HCT	DIP	N	16	PDIP-16		Active	mux/sn74hct157.pdf	add	
+SN74LS157D	74_157	LS	SOIC	D	16	SOIC-16		Obsolete	mux/sn74ls157.pdf	skip	status Obsolete
+SN74LS157DR	74_157	LS	SOIC	D	16	SOIC-16		Active	mux/sn74ls157.pdf	add	
+SN74LS157N	74_157	LS	DIP	N	16	PDIP-16		Active	mux/sn74ls157.pdf	add	
+SN74LS157NS	74_157	LS						Active		skip	not in the datasheet ordering table
+SN74LS157NSR	74_157	LS	SOP	NS	16	SOP-16		Active	mux/sn74ls157.pdf	add	
+SN74LV157AD	74_157	LV	SOIC	D	16	SOIC-16		Obsolete	mux/sn74lv157a.pdf	skip	status Obsolete
+SN74LV157ADG4	74_157	LV						Active		skip	not in the datasheet ordering table
+SN74LV157ADGVR	74_157	LV	TVSOP	DGV	16	TVSOP-16		Active	mux/sn74lv157a.pdf	add	
+SN74LV157ADR	74_157	LV	SOIC	D	16	SOIC-16		Active	mux/sn74lv157a.pdf	add	
+SN74LV157ANS	74_157	LV						Obsolete		skip	status Obsolete
+SN74LV157APW	74_157	LV	TSSOP	PW	16	TSSOP-16		Obsolete	mux/sn74lv157a.pdf	skip	status Obsolete
+SN74LV157APWG4	74_157	LV						Obsolete		skip	status Obsolete
+SN74LV157APWR	74_157	LV	TSSOP	PW	16	TSSOP-16		Active	mux/sn74lv157a.pdf	add	
+SN74LVC157ABQBR	74_157	LVC	WQFN	BQB	16	WQFN-16		Active	mux/sn74lvc157a.pdf	add	
+SN74LVC157AD	74_157	LVC	SOIC	D	16	SOIC-16		Active	mux/sn74lvc157a.pdf	add	
+SN74LVC157ADBR	74_157	LVC	SSOP	DB	16	SSOP-16		Active	mux/sn74lvc157a.pdf	add	
+SN74LVC157ADE4	74_157	LVC						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+SN74LVC157ADR	74_157	LVC	SOIC	D	16	SOIC-16		Active	mux/sn74lvc157a.pdf	add	
+SN74LVC157ADRG3	74_157	LVC	SOIC	D	16	SOIC-16		Active	mux/sn74lvc157a.pdf	add	
+SN74LVC157ADRQ1	74_157	LVC	SOIC	D	16	SOIC-16	automotive	Active	mux/sn74lvc157a-q1.pdf	add	
+SN74LVC157ADT	74_157	LVC	SOIC	D	16	SOIC-16		Active	mux/sn74lvc157a.pdf	add	
+SN74LVC157ANS	74_157	LVC						Active		skip	not in the datasheet ordering table
+SN74LVC157ANSR	74_157	LVC	SOP	NS	16	SOP-16		Active	mux/sn74lvc157a.pdf	add	
+SN74LVC157APW	74_157	LVC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74lvc157a.pdf	add	
+SN74LVC157APWR	74_157	LVC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74lvc157a.pdf	add	
+SN74LVC157APWRE4	74_157	LVC	TSSOP	PW	16	TSSOP-16		Discontinued at DigiKey	mux/sn74lvc157a.pdf	skip	status Discontinued at DigiKey
+SN74LVC157APWRG4	74_157	LVC	TSSOP	PW	16	TSSOP-16		Discontinued at DigiKey	mux/sn74lvc157a.pdf	skip	status Discontinued at DigiKey
+SN74LVC157APWT	74_157	LVC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74lvc157a.pdf	add	
+SN74LVC157AQDRG4Q1	74_157	LVC	SOIC	D	16	SOIC-16	automotive	Active	mux/sn74lvc157a-q1.pdf	add	
+SN74LVC157AQPWREP	74_157	LVC	TSSOP	PW	16	TSSOP-16	enhanced	Active	mux/sn74lvc157a-ep.pdf	add	
+SN74LVC157AQPWRQ1	74_157	LVC	TSSOP	PW	16	TSSOP-16	automotive	Active	mux/sn74lvc157a-q1.pdf	add	
+SN74LVC157ARGYR	74_157	LVC	VQFN	RGY	16	VQFN-16		Active	mux/sn74lvc157a.pdf	add	
+SN74LVC157AWBQBRQ1	74_157	LVC	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74lvc157a-q1.pdf	add	
+SN74LVC157DR	74_157	LVC						Active		skip	not in the datasheet ordering table
+SN74S157D	74_157	S						Obsolete		skip	status Obsolete
+SN74S157N	74_157	S						Obsolete		skip	status Obsolete
+SNJ54AHC157J	74_157	AHC	DIP	J	16	CDIP-16	military,ceramic	Active	mux/sn74ahc157.pdf	add	
+SNJ54AHC157W	74_157	AHC	CFP	W	16	CFP-16	military,ceramic	Active	mux/sn74ahc157.pdf	add	
+SNJ54ALS157AJ	74_157	ALS	DIP	J	16	CDIP-16	military,ceramic	Active	mux/sn74als157a.pdf	add	
+SNJ54HC157FK	74_157	HC	LCCC	FK	20	LCCC-20	military,ceramic	Active	mux/sn74hc157.pdf	add	
+SNJ54LS157W	74_157	LS	CFP	W	16	CFP-16	military,ceramic	Active	mux/sn74ls157.pdf	add	
+SNJ54S157FK	74_157	S	LCCC	FK	20	LCCC-20	military,ceramic	Active	mux/sn74ls157.pdf	add	
+CD74AC158M	74_158	AC	SOIC	D	16	SOIC-16		Active	mux/cd74ac158.pdf	add	
+CD74ACT158M96	74_158	ACT	SOIC	D	16	SOIC-16		Active	mux/cd74act158.pdf	add	
+CD74HCT158E	74_158	HCT	DIP	N	16	PDIP-16		Active	mux/cd74hc157.pdf	add	
+SN54LS158J	74_158	LS	DIP	J	16	CDIP-16	military,ceramic	Active	mux/sn74ls157.pdf	add	
+SN74AHC158D	74_158	AHC	SOIC	D	16	SOIC-16		Obsolete	mux/sn74ahc158.pdf	skip	status Obsolete
+SN74AHC158DBR	74_158	AHC	SSOP	DB	16	SSOP-16		Active	mux/sn74ahc158.pdf	add	
+SN74AHC158DGVR	74_158	AHC						Obsolete		skip	status Obsolete
+SN74AHC158DR	74_158	AHC	SOIC	D	16	SOIC-16		Active	mux/sn74ahc158.pdf	add	
+SN74AHC158N	74_158	AHC	DIP	N	16	PDIP-16		Active	mux/sn74ahc158.pdf	add	
+SN74AHC158NSR	74_158	AHC						Obsolete		skip	status Obsolete
+SN74AHC158PW	74_158	AHC						Obsolete		skip	status Obsolete
+SN74AHC158PWR	74_158	AHC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74ahc158.pdf	add	
+SN74AHCT158D	74_158	AHCT	SOIC	D	16	SOIC-16		Active	mux/sn74ahct158.pdf	add	
+SN74AHCT158NSR	74_158	AHCT						Obsolete		skip	status Obsolete
+SN74AHCT158PW	74_158	AHCT	TSSOP	PW	16	TSSOP-16		Obsolete	mux/sn74ahct158.pdf	skip	status Obsolete
+SN74AHCT158PWR	74_158	AHCT	TSSOP	PW	16	TSSOP-16		Active	mux/sn74ahct158.pdf	add	
+SN74ALS158D	74_158	ALS	SOIC	D	16	SOIC-16		Active	mux/sn74als157a.pdf	add	
+SN74ALS158N	74_158	ALS	DIP	N	16	PDIP-16		Active	mux/sn74als157a.pdf	add	
+SN74ALS158NS	74_158	ALS						Active		skip	not in the datasheet ordering table
+SN74ALS158NSR	74_158	ALS	SOP	NS	16	SOP-16		Active	mux/sn74als157a.pdf	add	
+SN74AS158D	74_158	AS						Obsolete		skip	status Obsolete
+SN74AS158DR	74_158	AS						Obsolete		skip	status Obsolete
+SN74AS158N	74_158	AS	DIP	N	16	PDIP-16		Active	mux/sn74als157a.pdf	add	
+SN74AS158NS	74_158	AS						Active		skip	not in the datasheet ordering table
+SN74AS158NSR	74_158	AS						Obsolete		skip	status Obsolete
+SN74F158ANSR	74_158	F						Obsolete		skip	status Obsolete
+SN74HC158ANSR	74_158	HC						Active		skip	not in the datasheet ordering table
+SN74HC158D	74_158	HC	SOIC	D	16	SOIC-16		Obsolete	mux/sn74hc158.pdf	skip	status Obsolete
+SN74HC158DR	74_158	HC	SOIC	D	16	SOIC-16		Active	mux/sn74hc158.pdf	add	
+SN74HC158DT	74_158	HC	SOIC	D	16	SOIC-16		Obsolete	mux/sn74hc158.pdf	skip	status Obsolete
+SN74HC158N	74_158	HC	DIP	N	16	PDIP-16		Active	mux/sn74hc158.pdf	add	
+SN74HC158NSR	74_158	HC	SOP	NS	16	SOP-16		Active	mux/sn74hc158.pdf	add	
+SN74HC158PW	74_158	HC	TSSOP	PW	16	TSSOP-16		Obsolete	mux/sn74hc158.pdf	skip	status Obsolete
+SN74HC158PWR	74_158	HC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74hc158.pdf	add	
+SN74HC158PWT	74_158	HC						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+SN74LS158D	74_158	LS	SOIC	D	16	SOIC-16		Obsolete	mux/sn74ls157.pdf	skip	status Obsolete
+SN74LS158DR	74_158	LS	SOIC	D	16	SOIC-16		Active	mux/sn74ls157.pdf	add	
+SN74LS158N	74_158	LS	DIP	N	16	PDIP-16		Active	mux/sn74ls157.pdf	add	
+SN74LS158NSR	74_158	LS	SOP	NS	16	SOP-16		Active	mux/sn74ls157.pdf	add	
+SN74LVC158ADR	74_158	LVC	SOIC	D	16	SOIC-16		Active	mux/sn74lvc158a.pdf	add	
+SN74LVC158APWR	74_158	LVC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74lvc158a.pdf	add	
+SN74S158N	74_158	S						Active		skip	not in the datasheet ordering table
+SNJ54F158AJ	74_158	F					military	Active		skip	no TI datasheet
+SNJ54LS158J	74_158	LS	DIP	J	16	CDIP-16	military,ceramic	Active	mux/sn74ls157.pdf	add	
+SN74ABT162460DL	74_162460	ABT						Active		skip	no TI datasheet
+SN74ABTH162460DL	74_162460	ABT						Obsolete		skip	status Obsolete
+SN74ABTH162460DLR	74_162460	ABT						Obsolete		skip	status Obsolete
+SN74ABTH16460DL	74_16460	ABT						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+SN74ABTH16460DLR	74_16460	ABT						Obsolete		skip	status Obsolete
+SN74AUP1T157DCKR	74_1T157	AUP	SC-70	DCK	6	SC70-6		Active	mux/sn74aup1t157.pdf	add	
+SN74AUP1T158DCKR	74_1T158	AUP	SC-70	DCK	6	SC70-6		Active	mux/sn74aup1t158.pdf	add	
+CY74FCT2257ATQC	74_2257	FCT						Obsolete		skip	status Obsolete
+CY74FCT2257ATQCT	74_2257	FCT	SSOP	DBQ	16	QSOP-16		Active	mux/cy74fct2257t.pdf	add	
+CY74FCT2257CTQC	74_2257	FCT						Active		skip	not in the datasheet ordering table
+CY74FCT2257CTQCT	74_2257	FCT						Obsolete		skip	status Obsolete
+CY74FCT2257CTSOC	74_2257	FCT						Obsolete		skip	status Obsolete
+CY74FCT2257CTSOCT	74_2257	FCT						Obsolete		skip	status Obsolete
+SN74AS250ADW	74_250	AS						Obsolete		skip	status Obsolete
+SN74AS250ADWR	74_250	AS						Obsolete		skip	status Obsolete
+SN74AS250ANT	74_250	AS						Obsolete		skip	status Obsolete
+CD74AC251M96	74_251	AC	SOIC	D	16	SOIC-16		Active	mux/cd74ac251.pdf	add	
+CD74HC251E	74_251	HC	DIP	N	16	PDIP-16		Active	mux/cd74hc251.pdf	add	
+CD74HC251M96	74_251	HC	SOIC	D	16	SOIC-16		Active	mux/cd74hc251.pdf	add	
+CD74HC251MT	74_251	HC	SOIC	D	16	SOIC-16		Obsolete	mux/cd74hc251.pdf	skip	status Obsolete
+CD74HCT251E	74_251	HCT	DIP	N	16	PDIP-16		Active	mux/cd74hc251.pdf	add	
+CD74HCT251M	74_251	HCT	SOIC	D	16	SOIC-16		Obsolete	mux/cd74hc251.pdf	skip	status Obsolete
+CD74HCT251M96	74_251	HCT	SOIC	D	16	SOIC-16		Active	mux/cd74hc251.pdf	add	
+CD74HCT251MT	74_251	HCT	SOIC	D	16	SOIC-16		Obsolete	mux/cd74hc251.pdf	skip	status Obsolete
+SN54F251AJ	74_251	F					military	Active		skip	not in the datasheet ordering table
+SN54S251J	74_251	S					military	Active		skip	not in the datasheet ordering table
+SN74251N	74_251	TTL						Active		skip	no TI datasheet
+SN74251N3	74_251	TTL						Active		skip	no TI datasheet
+SN74ALS251D	74_251	ALS	SOIC	D	16	SOIC-16		Obsolete	mux/sn74als251.pdf	skip	status Obsolete
+SN74ALS251FN	74_251	ALS						Active		skip	not in the datasheet ordering table
+SN74ALS251N	74_251	ALS	DIP	N	16	PDIP-16		Active	mux/sn74als251.pdf	add	
+SN74ALS251NS	74_251	ALS						Active		skip	not in the datasheet ordering table
+SN74ALS251NSR	74_251	ALS						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+SN74F251BD	74_251	F	SOIC	D	16	SOIC-16		Obsolete	mux/sn74f251b.pdf	skip	status Obsolete
+SN74F251BDR	74_251	F	SOIC	D	16	SOIC-16		Active	mux/sn74f251b.pdf	add	
+SN74F251BN	74_251	F	DIP	N	16	PDIP-16		Active	mux/sn74f251b.pdf	add	
+SN74HC251D	74_251	HC	SOIC	D	16	SOIC-16		Obsolete	mux/sn74hc251.pdf	skip	status Obsolete
+SN74HC251DBR	74_251	HC	SSOP	DB	16	SSOP-16		Active	mux/sn74hc251.pdf	add	
+SN74HC251DR	74_251	HC	SOIC	D	16	SOIC-16		Active	mux/sn74hc251.pdf	add	
+SN74HC251DT	74_251	HC	SOIC	D	16	SOIC-16		Obsolete	mux/sn74hc251.pdf	skip	status Obsolete
+SN74HC251N	74_251	HC	DIP	N	16	PDIP-16		Active	mux/sn74hc251.pdf	add	
+SN74HC251NS	74_251	HC						Active		skip	not in the datasheet ordering table
+SN74HC251NSR	74_251	HC	SOP	NS	16	SOP-16		Active	mux/sn74hc251.pdf	add	
+SN74HC251PW	74_251	HC	TSSOP	PW	16	TSSOP-16		Obsolete	mux/sn74hc251.pdf	skip	status Obsolete
+SN74HC251PWR	74_251	HC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74hc251.pdf	add	
+SN74HC251PWT	74_251	HC	TSSOP	PW	16	TSSOP-16		Obsolete	mux/sn74hc251.pdf	skip	status Obsolete
+SN74HCS251DR	74_251	HCS	SOIC	D	16	SOIC-16		Active	mux/sn74hcs251.pdf	add	
+SN74HCS251PWR	74_251	HCS	TSSOP	PW	16	TSSOP-16		Active	mux/sn74hcs251.pdf	add	
+SN74HCS251QDRQ1	74_251	HCS	SOIC	D	16	SOIC-16	automotive	Active	mux/sn74hcs251-q1.pdf	add	
+SN74LS251D	74_251	LS	SOIC	D	16	SOIC-16		Active	mux/sn74ls251.pdf	add	
+SN74LS251N	74_251	LS	DIP	N	16	PDIP-16		Active	mux/sn74ls251.pdf	add	
+SN74LS251NE4	74_251	LS	DIP	N	16	PDIP-16		Active	mux/sn74ls251.pdf	add	
+SN74LS251NS	74_251	LS						Active		skip	not in the datasheet ordering table
+SN74LS251NSR	74_251	LS	SOP	NS	16	SOP-16		Active	mux/sn74ls251.pdf	add	
+SN74S251N	74_251	S						Active		skip	not in the datasheet ordering table
+SN74S251N3	74_251	S						Active		skip	not in the datasheet ordering table
+SNJ54ALS251J	74_251	ALS	DIP	J	16	CDIP-16	military,ceramic	Active	mux/sn74als251.pdf	add	
+SNJ54F251AFK	74_251	F					military	Active		skip	not in the datasheet ordering table
+SNJ54F251AJ	74_251	F					military	Active		skip	not in the datasheet ordering table
+CD74AC253M	74_253	AC	SOIC	D	16	SOIC-16		Obsolete	mux/cd74ac253.pdf	skip	status Obsolete
+CD74AC253M96	74_253	AC	SOIC	D	16	SOIC-16		Active	mux/cd74ac253.pdf	add	
+CD74ACT253E	74_253	ACT	DIP	N	16	PDIP-16		Active	mux/cd74ac253.pdf	add	
+CD74ACT253M	74_253	ACT	SOIC	D	16	SOIC-16		Obsolete	mux/cd74ac253.pdf	skip	status Obsolete
+CD74ACT253M96	74_253	ACT	SOIC	D	16	SOIC-16		Active	mux/cd74ac253.pdf	add	
+CD74HC253E	74_253	HC	DIP	N	16	PDIP-16		Active	mux/cd74hc253.pdf	add	
+CD74HC253M	74_253	HC	SOIC	D	16	SOIC-16		Active	mux/cd74hc253.pdf	add	
+CD74HC253MT	74_253	HC	SOIC	D	16	SOIC-16		Active	mux/cd74hc253.pdf	add	
+CD74HCT253E	74_253	HCT	DIP	N	16	PDIP-16		Active	mux/cd74hc253.pdf	add	
+CD74HCT253M	74_253	HCT	SOIC	D	16	SOIC-16		Obsolete	mux/cd74hc253.pdf	skip	status Obsolete
+CD74HCT253M96	74_253	HCT	SOIC	D	16	SOIC-16		Active	mux/cd74hc253.pdf	add	
+CD74HCT253MT	74_253	HCT	SOIC	D	16	SOIC-16		Obsolete	mux/cd74hc253.pdf	skip	status Obsolete
+SN74ALS253D	74_253	ALS	SOIC	D	16	SOIC-16		Obsolete	mux/sn74als253.pdf	skip	status Obsolete
+SN74ALS253N	74_253	ALS	DIP	N	16	PDIP-16		Active	mux/sn74als253.pdf	add	
+SN74ALS253NSR	74_253	ALS						Obsolete		skip	status Obsolete
+SN74AS253AD	74_253	AS	SOIC	D	16	SOIC-16		Active	mux/sn74als253.pdf	add	
+SN74AS253AN	74_253	AS						Obsolete		skip	status Obsolete
+SN74AS253ANS	74_253	AS						Active		skip	not in the datasheet ordering table
+SN74AS253ANSR	74_253	AS						Active		skip	not in the datasheet ordering table
+SN74F253D	74_253	F	SOIC	D	16	SOIC-16		Obsolete	mux/sn74f253.pdf	skip	status Obsolete
+SN74F253DR	74_253	F	SOIC	D	16	SOIC-16		Active	mux/sn74f253.pdf	add	
+SN74F253DRG4	74_253	F	SOIC	D	16	SOIC-16		Discontinued at DigiKey	mux/sn74f253.pdf	skip	status Discontinued at DigiKey
+SN74F253N	74_253	F	DIP	N	16	PDIP-16		Active	mux/sn74f253.pdf	add	
+SN74F253NS	74_253	F						Active		skip	not in the datasheet ordering table
+SN74F253NSR	74_253	F						Obsolete		skip	status Obsolete
+SN74HC253ANSR	74_253	HC						Obsolete		skip	status Obsolete
+SN74HC253DBR	74_253	HC	SSOP	DB	16	SSOP-16		Active	mux/sn74hc253.pdf	add	
+SN74HC253DR	74_253	HC	SOIC	D	16	SOIC-16		Active	mux/sn74hc253.pdf	add	
+SN74HC253DT	74_253	HC	SOIC	D	16	SOIC-16		Obsolete	mux/sn74hc253.pdf	skip	status Obsolete
+SN74HC253N	74_253	HC	DIP	N	16	PDIP-16		Active	mux/sn74hc253.pdf	add	
+SN74HC253NSR	74_253	HC	SOP	NS	16	SOP-16		Active	mux/sn74hc253.pdf	add	
+SN74HC253QDREP	74_253	HC	SOIC	D	16	SOIC-16	enhanced	Active	mux/sn74hc253-ep.pdf	add	
+SN74HC253QDRG4Q1	74_253	HC	SOIC	D	16	SOIC-16	automotive	Active	mux/sn74hc253-q1.pdf	add	
+SN74LS253D	74_253	LS						Obsolete		skip	status Obsolete
+SN74LS253DR	74_253	LS	SOIC	D	16	SOIC-16		Active	mux/sn74ls253.pdf	add	
+SN74LS253N	74_253	LS	DIP	N	16	PDIP-16		Active	mux/sn74ls253.pdf	add	
+SN74LS253NS	74_253	LS						Active		skip	not in the datasheet ordering table
+SN74LS253NSR	74_253	LS						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+SNJ54ALS253J	74_253	ALS	DIP	J	16	CDIP-16	military,ceramic	Active	mux/sn74als253.pdf	add	
+SNJ54F253W	74_253	F					military	Active		skip	not in the datasheet ordering table
+SNJ54HC253FK	74_253	HC	LCCC	FK	20	LCCC-20	military,ceramic	Active	mux/sn74hc253.pdf	add	
+CAHCT257QWBQBRQ1	74_257	AHCT	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74ahct257-q1.pdf	add	
+CD54HCT257F3A	74_257	HCT	DIP	J	16	CDIP-16	military,ceramic	Active	mux/cd74hc257.pdf	add	
+CD74AC257BQBR	74_257	AC	WQFN	BQB	16	WQFN-16		Active	mux/cd74ac257.pdf	add	
+CD74AC257E	74_257	AC	DIP	N	16	PDIP-16		Active	mux/cd74ac257.pdf	add	
+CD74AC257M	74_257	AC	SOIC	D	16	SOIC-16		Obsolete	mux/cd74ac257.pdf	skip	status Obsolete
+CD74AC257M96	74_257	AC	SOIC	D	16	SOIC-16		Active	mux/cd74ac257.pdf	add	
+CD74AC257PWR	74_257	AC	TSSOP	PW	16	TSSOP-16		Active	mux/cd74ac257.pdf	add	
+CD74ACT257BQBR	74_257	ACT	WQFN	BQB	16	WQFN-16		Active	mux/cd74ac257.pdf	add	
+CD74ACT257E	74_257	ACT	DIP	N	16	PDIP-16		Active	mux/cd74ac257.pdf	add	
+CD74ACT257M	74_257	ACT	SOIC	D	16	SOIC-16		Obsolete	mux/cd74ac257.pdf	skip	status Obsolete
+CD74ACT257M96	74_257	ACT	SOIC	D	16	SOIC-16		Active	mux/cd74ac257.pdf	add	
+CD74ACT257PWR	74_257	ACT	TSSOP	PW	16	TSSOP-16		Active	mux/cd74ac257.pdf	add	
+CD74HC257E	74_257	HC	DIP	N	16	PDIP-16		Active	mux/cd74hc257.pdf	add	
+CD74HC257M	74_257	HC	SOIC	D	16	SOIC-16		Obsolete	mux/cd74hc257.pdf	skip	status Obsolete
+CD74HC257M96	74_257	HC	SOIC	D	16	SOIC-16		Active	mux/cd74hc257.pdf	add	
+CD74HC257MT	74_257	HC						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+CD74HCT257E	74_257	HCT	DIP	N	16	PDIP-16		Active	mux/cd74hc257.pdf	add	
+CD74HCT257M96	74_257	HCT	SOIC	D	16	SOIC-16		Active	mux/cd74hc257.pdf	add	
+CD74HCT257MT	74_257	HCT						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+CLVC257AQPWRG4Q1	74_257	LVC	TSSOP	PW	16	TSSOP-16	automotive	Active	mux/sn74lvc257a-q1.pdf	add	
+CY74FCT257ATD	74_257	FCT	SOIC	D	16	SOIC-16		Active	mux/cy74fct257t.pdf	add	
+CY74FCT257ATDR	74_257	FCT						Obsolete		skip	status Obsolete
+CY74FCT257ATQC	74_257	FCT						Active		skip	not in the datasheet ordering table
+CY74FCT257ATQCT	74_257	FCT	SSOP	DBQ	16	QSOP-16		Active	mux/cy74fct257t.pdf	add	
+CY74FCT257CTD	74_257	FCT						Obsolete		skip	status Obsolete
+CY74FCT257CTDR	74_257	FCT						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+CY74FCT257CTQCT	74_257	FCT						Obsolete		skip	status Obsolete
+CY74FCT257CTSOC	74_257	FCT	SOIC	DW	16	SOIC-16W		Active	mux/cy74fct257t.pdf	add	
+CY74FCT257CTSOCT	74_257	FCT						Obsolete		skip	status Obsolete
+CY74FCT257TQC	74_257	FCT						Active		skip	not in the datasheet ordering table
+CY74FCT257TQCT	74_257	FCT	SSOP	DBQ	16	QSOP-16		Active	mux/cy74fct257t.pdf	add	
+SN54ALS257J	74_257	ALS					military	Active		skip	not in the datasheet ordering table
+SN54F257J	74_257	F					military	Active		skip	not in the datasheet ordering table
+SN54HC257J	74_257	HC	DIP	J	16	CDIP-16	military,ceramic	Active	mux/sn74hc257.pdf	add	
+SN74AC257PWRQ1	74_257	AC	TSSOP	PW	16	TSSOP-16	automotive	Active	mux/sn74ac257-q1.pdf	add	
+SN74AC257WBQBRQ1	74_257	AC	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74ac257-q1.pdf	add	
+SN74ACT257PWRQ1	74_257	ACT	TSSOP	PW	16	TSSOP-16	automotive	Active	mux/sn74act257-q1.pdf	add	
+SN74ACT257WBQBRQ1	74_257	ACT	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74act257-q1.pdf	add	
+SN74AHC257BQBR	74_257	AHC	WQFN	BQB	16	WQFN-16		Active	mux/sn74ahc257.pdf	add	
+SN74AHC257QPWRQ1	74_257	AHC	TSSOP	PW	16	TSSOP-16	automotive	Active	mux/sn74ahc257-q1.pdf	add	
+SN74AHC257QWBQBRQ1	74_257	AHC	WQFN	BQB	16	WQFN-16	automotive	Active	mux/sn74ahc257-q1.pdf	add	
+SN74AHCT257BQBR	74_257	AHCT	WQFN	BQB	16	WQFN-16		Active	mux/sn74ahct257.pdf	add	
+SN74AHCT257PWR	74_257	AHCT	TSSOP	PW	16	TSSOP-16		Active	mux/sn74ahct257.pdf	add	
+SN74ALS257AD	74_257	ALS	SOIC	D	16	SOIC-16		Obsolete	mux/sn74als257a.pdf	skip	status Obsolete
+SN74ALS257ADR	74_257	ALS	SOIC	D	16	SOIC-16		Active	mux/sn74als257a.pdf	add	
+SN74ALS257AN	74_257	ALS	DIP	N	16	PDIP-16		Active	mux/sn74als257a.pdf	add	
+SN74ALS257ANSR	74_257	ALS	SOP	NS	16	SOP-16		Active	mux/sn74als257a.pdf	add	
+SN74AS257D	74_257	AS	SOIC	D	16	SOIC-16		Active	mux/sn74als257a.pdf	add	
+SN74AS257DR	74_257	AS						Obsolete		skip	status Obsolete
+SN74AS257FN	74_257	AS						Active		skip	not in the datasheet ordering table
+SN74AS257N	74_257	AS	DIP	N	16	PDIP-16		Active	mux/sn74als257a.pdf	add	
+SN74AS257NSR	74_257	AS	SOP	NS	16	SOP-16		Active	mux/sn74als257a.pdf	add	
+SN74F257D	74_257	F	SOIC	D	16	SOIC-16		Obsolete	mux/sn74f257.pdf	skip	status Obsolete
+SN74F257DR	74_257	F	SOIC	D	16	SOIC-16		Active	mux/sn74f257.pdf	add	
+SN74F257N	74_257	F	DIP	N	16	PDIP-16		Active	mux/sn74f257.pdf	add	
+SN74F257NSR	74_257	F	SOP	NS	16	SOP-16		Active	mux/sn74f257.pdf	add	
+SN74HC257ANSR	74_257	HC						Active		skip	not in the datasheet ordering table
+SN74HC257D	74_257	HC	SOIC	D	16	SOIC-16		Obsolete	mux/sn74hc257.pdf	skip	status Obsolete
+SN74HC257DBR	74_257	HC						Active		skip	not in the datasheet ordering table
+SN74HC257DE4	74_257	HC						Active		skip	not in the datasheet ordering table
+SN74HC257DR	74_257	HC	SOIC	D	16	SOIC-16		Active	mux/sn74hc257.pdf	add	
+SN74HC257DT	74_257	HC	SOIC	D	16	SOIC-16		Obsolete	mux/sn74hc257.pdf	skip	status Obsolete
+SN74HC257N	74_257	HC	DIP	N	16	PDIP-16		Active	mux/sn74hc257.pdf	add	
+SN74HC257NSR	74_257	HC	SOP	NS	16	SOP-16		Active	mux/sn74hc257.pdf	add	
+SN74HC257PW	74_257	HC	TSSOP	PW	16	TSSOP-16		Obsolete	mux/sn74hc257.pdf	skip	status Obsolete
+SN74HC257PWR	74_257	HC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74hc257.pdf	add	
+SN74HC257PWT	74_257	HC						Obsolete		skip	status Obsolete
+SN74HCT257D	74_257	HCT	SOIC	D	16	SOIC-16		Obsolete	mux/sn74hct257.pdf	skip	status Obsolete
+SN74HCT257DR	74_257	HCT	SOIC	D	16	SOIC-16		Active	mux/sn74hct257.pdf	add	
+SN74HCT257DT	74_257	HCT						Obsolete		skip	status Obsolete
+SN74HCT257N	74_257	HCT	DIP	N	16	PDIP-16		Active	mux/sn74hct257.pdf	add	
+SN74LS257BD	74_257	LS	SOIC	D	16	SOIC-16		Obsolete	mux/sn74ls257b.pdf	skip	status Obsolete
+SN74LS257BDR	74_257	LS	SOIC	D	16	SOIC-16		Active	mux/sn74ls257b.pdf	add	
+SN74LS257BN	74_257	LS	DIP	N	16	PDIP-16		Active	mux/sn74ls257b.pdf	add	
+SN74LS257BNS	74_257	LS						Active		skip	not in the datasheet ordering table
+SN74LS257BNSR	74_257	LS	SOP	NS	16	SOP-16		Active	mux/sn74ls257b.pdf	add	
+SN74LVC257ABQBR	74_257	LVC	WQFN	BQB	16	WQFN-16		Active	mux/sn74lvc257a.pdf	add	
+SN74LVC257AD	74_257	LVC	SOIC	D	16	SOIC-16		Active	mux/sn74lvc257a.pdf	add	
+SN74LVC257ADB	74_257	LVC						Active		skip	not in the datasheet ordering table
+SN74LVC257ADBR	74_257	LVC	SSOP	DB	16	SSOP-16		Active	mux/sn74lvc257a.pdf	add	
+SN74LVC257ADR	74_257	LVC	SOIC	D	16	SOIC-16		Active	mux/sn74lvc257a.pdf	add	
+SN74LVC257ADRQ1	74_257	LVC	SOIC	D	16	SOIC-16	automotive	Active	mux/sn74lvc257a-q1.pdf	add	
+SN74LVC257ADT	74_257	LVC						Obsolete		skip	status Obsolete
+SN74LVC257AMPWREP	74_257	LVC	TSSOP	PW	16	TSSOP-16	enhanced	Active	mux/sn74lvc257a-ep.pdf	add	
+SN74LVC257ANS	74_257	LVC						Obsolete		skip	status Obsolete
+SN74LVC257ANSR	74_257	LVC	SOP	NS	16	SOP-16		Active	mux/sn74lvc257a.pdf	add	
+SN74LVC257APW	74_257	LVC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74lvc257a.pdf	add	
+SN74LVC257APWR	74_257	LVC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74lvc257a.pdf	add	
+SN74LVC257APWRG4	74_257	LVC	TSSOP	PW	16	TSSOP-16		Discontinued at DigiKey	mux/sn74lvc257a.pdf	skip	status Discontinued at DigiKey
+SN74LVC257APWT	74_257	LVC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74lvc257a.pdf	add	
+SN74LVC257AQDRG4Q1	74_257	LVC	SOIC	D	16	SOIC-16	automotive	Active	mux/sn74lvc257a-q1.pdf	add	
+SN74LVC257AQDRQ1	74_257	LVC					automotive	Obsolete		skip	status Obsolete
+SN74LVC257AQPWREP	74_257	LVC	TSSOP	PW	16	TSSOP-16	enhanced	Active	mux/sn74lvc257a-ep.pdf	add	
+SN74LVC257AQPWRQ1	74_257	LVC					automotive	Obsolete		skip	status Obsolete
+SN74LVC257ARGYR	74_257	LVC	VQFN	RGY	16	VQFN-16		Active	mux/sn74lvc257a.pdf	add	
+SN74LVC257D	74_257	LVC						Active		skip	not in the datasheet ordering table
+SN74S257N	74_257	S	DIP	N	16	PDIP-16		Obsolete	mux/sn74ls257b.pdf	skip	status Obsolete
+CD74ACT258M	74_258	ACT	SOIC	D	16	SOIC-16		Obsolete	mux/cd74ac257.pdf	skip	status Obsolete
+CD74ACT258M96	74_258	ACT	SOIC	D	16	SOIC-16		Active	mux/cd74ac257.pdf	add	
+CD74HC258M	74_258	HC						Obsolete		skip	status Obsolete
+CD74HCT258E	74_258	HCT	DIP	N	16	PDIP-16		Active	mux/cd74hct258.pdf	add	
+SN74ALS258AD	74_258	ALS						Obsolete		skip	status Obsolete
+SN74ALS258ADR	74_258	ALS						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+SN74ALS258AN	74_258	ALS	DIP	N	16	PDIP-16		Active	mux/sn74als257a.pdf	add	
+SN74AS258D	74_258	AS						Obsolete		skip	status Obsolete
+SN74AS258DR	74_258	AS						Obsolete		skip	status Obsolete
+SN74AS258N	74_258	AS	DIP	N	16	PDIP-16		Active	mux/sn74als257a.pdf	add	
+SN74AS258NSR	74_258	AS						Obsolete		skip	status Obsolete
+SN74F258D	74_258	F	SOIC	D	16	SOIC-16		Active	mux/sn74f258.pdf	add	
+SN74F258N	74_258	F	DIP	N	16	PDIP-16		Active	mux/sn74f258.pdf	add	
+SN74HC258D	74_258	HC	SOIC	D	16	SOIC-16		Obsolete	mux/sn74hc257.pdf	skip	status Obsolete
+SN74HC258DR	74_258	HC	SOIC	D	16	SOIC-16		Active	mux/sn74hc257.pdf	add	
+SN74HC258N	74_258	HC	DIP	N	16	PDIP-16		Active	mux/sn74hc257.pdf	add	
+SN74HC258NS	74_258	HC						Active		skip	not in the datasheet ordering table
+SN74HC258PW	74_258	HC	TSSOP	PW	16	TSSOP-16		Obsolete	mux/sn74hc257.pdf	skip	status Obsolete
+SN74HC258PWR	74_258	HC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74hc257.pdf	add	
+SN74HC258PWT	74_258	HC						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+SN74LS258BD	74_258	LS	SOIC	D	16	SOIC-16		Obsolete	mux/sn74ls257b.pdf	skip	status Obsolete
+SN74LS258BDR	74_258	LS	SOIC	D	16	SOIC-16		Active	mux/sn74ls257b.pdf	add	
+SN74LS258BN	74_258	LS	DIP	N	16	PDIP-16		Active	mux/sn74ls257b.pdf	add	
+SN74LS258BNE4	74_258	LS						Active		skip	not in the datasheet ordering table
+SN74LS258BNS	74_258	LS						Active		skip	not in the datasheet ordering table
+SN74LS258D	74_258	LS						Active		skip	not in the datasheet ordering table
+SN74LVC258ADR	74_258	LVC	SOIC	D	16	SOIC-16		Active	mux/sn74lvc258a.pdf	add	
+SN74LVC258APWR	74_258	LVC	TSSOP	PW	16	TSSOP-16		Active	mux/sn74lvc258a.pdf	add	
+SN74S258N	74_258	S						Active		skip	not in the datasheet ordering table
+SNJ54ALS258AJ	74_258	ALS	DIP	J	16	CDIP-16	military,ceramic	Active	mux/sn74als257a.pdf	add	
+SNJ54LS258BFK	74_258	LS					military	Active		skip	not in the datasheet ordering table
+SNJ54LS258BW	74_258	LS					military	Active		skip	not in the datasheet ordering table
+SNJ54S258J	74_258	S	DIP	J	16	CDIP-16	military,ceramic	Active	mux/sn74ls257b.pdf	add	
+SN74298N	74_298	TTL						Active		skip	not in the datasheet ordering table
+SN74AS298AD	74_298	AS	SOIC	D	16	SOIC-16		Active	mux/sn74as298a.pdf	add	
+SN74AS298ADR	74_298	AS						Obsolete		skip	status Obsolete
+SN74AS298AN	74_298	AS	DIP	N	16	PDIP-16		Active	mux/sn74as298a.pdf	add	
+SN74AS298ANSR	74_298	AS						Obsolete		skip	status Obsolete
+SN74AS298DR	74_298	AS						Active		skip	not in the datasheet ordering table
+SN74LS298D	74_298	LS						Obsolete		skip	status Obsolete
+SN74LS298DR	74_298	LS						Obsolete		skip	status Obsolete
+SN74LS298N	74_298	LS	DIP	N	16	PDIP-16		Active	mux/sn74ls298.pdf	add	
+SN74LS298NS	74_298	LS						Active		skip	not in the datasheet ordering table
+74LVC2G157DCURG4	74_2G157	LVC	VSSOP	DCU	8	VSSOP-8		Discontinued at DigiKey	mux/sn74lvc2g157.pdf	skip	status Discontinued at DigiKey
+SN74AHC2G157HDCT3	74_2G157	AHC						Active		skip	no TI datasheet
+SN74AHC2G157HDCTR	74_2G157	AHC						Active		skip	no TI datasheet
+SN74LVC2G157DCT3	74_2G157	LVC	SSOP	DCT	8	SSOP-8		Obsolete	mux/sn74lvc2g157.pdf	skip	status Obsolete
+SN74LVC2G157DCTR	74_2G157	LVC	SSOP	DCT	8	SSOP-8		Active	mux/sn74lvc2g157.pdf	add	
+SN74LVC2G157DCU3	74_2G157	LVC	VSSOP	DCU	8	VSSOP-8		Last Time Buy	mux/sn74lvc2g157.pdf	add	
+SN74LVC2G157DCUR	74_2G157	LVC	VSSOP	DCU	8	VSSOP-8		Active	mux/sn74lvc2g157.pdf	add	
+SN74LVC2G157DCUT	74_2G157	LVC	VSSOP	DCU	8	VSSOP-8		Active	mux/sn74lvc2g157.pdf	add	
+SN74LVC2G157YEAR	74_2G157	LVC						Obsolete		skip	status Obsolete
+SN74LVC2G157YEPR	74_2G157	LVC						Obsolete		skip	status Obsolete
+SN74LVC2G157YZAR	74_2G157	LVC						Obsolete		skip	status Obsolete
+SN74LVC2G157YZPR	74_2G157	LVC	DSBGA	YZP	8	DSBGA-8-YZP		Active	mux/sn74lvc2g157.pdf	add	
+SN74ALS352D	74_352	ALS						Active		skip	no TI datasheet
+SN74AS352N	74_352	AS						Active		skip	no TI datasheet
+SN74F352N	74_352	F						Active		skip	no TI datasheet
+SNJ54LS352W	74_352	LS					military	Active		skip	no TI datasheet
+SN54ALS353J	74_353	ALS					military	Active		skip	no TI datasheet
+SN74AS353BD	74_353	AS						Active		skip	no TI datasheet
+SN74AS353BDR	74_353	AS						Active		skip	no TI datasheet
+SNJ54ALS353J	74_353	ALS					military	Active		skip	no TI datasheet
+SNJ54LS353FK	74_353	LS					military	Active		skip	no TI datasheet
+CD54HC354F3A	74_354	HC	DIP	J	20	CDIP-20	military,ceramic	Active	mux/cd74hc354.pdf	add	
+CD74HC354E	74_354	HC	DIP	N	20	PDIP-20		Active	mux/cd74hc354.pdf	add	
+CD74HCT354E	74_354	HCT	DIP	N	20	PDIP-20		Active	mux/cd74hc354.pdf	add	
+SN74LS354N	74_354	LS						Active		skip	no TI datasheet
+SN74LS355DW	74_355	LS						Active		skip	no TI datasheet
+SN74LS355N	74_355	LS						Active		skip	no TI datasheet
+CD74HCT356E	74_356	HCT	DIP	N	20	PDIP-20		Active	mux/cd74hct356.pdf	add	
+CY74FCT399ATSOC	74_399	FCT	SOIC	DW	16	SOIC-16W		Active	mux/cy74fct399t.pdf	add	
+CY74FCT399ATSOCT	74_399	FCT	SOIC	DW	16	SOIC-16W		Active	mux/cy74fct399t.pdf	add	
+CY74FCT399CTQCT	74_399	FCT						Obsolete		skip	status Obsolete
+CY74FCT399CTSOC	74_399	FCT	SOIC	DW	16	SOIC-16W		Active	mux/cy74fct399t.pdf	add	
+CY74FCT399CTSOCT	74_399	FCT						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+SN54LS399J	74_399	LS	DIP	J	16	CDIP-16	military,ceramic	Active	mux/sn74ls399.pdf	add	
+SN74LS399D	74_399	LS						Obsolete		skip	status Obsolete
+SN74LS399N	74_399	LS	DIP	N	16	PDIP-16		Active	mux/sn74ls399.pdf	add	
+CD40257BE	40257B	C	DIP	N	16	PDIP-16		Active	mux/cd40257b.pdf	add	
+CD40257BF3A	40257B	C	DIP	J	16	CDIP-16	military,ceramic	Active	mux/cd40257b.pdf	add	
+CD40257BM	40257B	C	SOIC	D	16	SOIC-16		Active	mux/cd40257b.pdf	add	
+CD40257BMT	40257B	C						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+CD40257BPWR	40257B	C						Obsolete		skip	status Obsolete
+CD4512BE	4512B	C	DIP	N	16	PDIP-16		Active	mux/cd4512b.pdf	add	
+CD4512BM	4512B	C	SOIC	D	16	SOIC-16		Obsolete	mux/cd4512b.pdf	skip	status Obsolete
+CD4512BM96	4512B	C	SOIC	D	16	SOIC-16		Active	mux/cd4512b.pdf	add	
+CD4512BMT	4512B	C	SOIC	D	16	SOIC-16		Obsolete	mux/cd4512b.pdf	skip	status Obsolete
+CD4512BNS	4512B	C						Active		skip	not in the datasheet ordering table
+CD4512BNSR	4512B	C	SOP	NS	16	SOP-16		Last Time Buy	mux/cd4512b.pdf	add	
+CD4512BPW	4512B	C	TSSOP	PW	16	TSSOP-16		Obsolete	mux/cd4512b.pdf	skip	status Obsolete
+CD4512BPWR	4512B	C	TSSOP	PW	16	TSSOP-16		Last Time Buy	mux/cd4512b.pdf	add	
+SN74LS604N	74_604	LS						Active		skip	no TI datasheet
+CD74HC670E	74_670	HC	DIP	N	16	PDIP-16		Active	mux/cd74hc670.pdf	add	
+CD74HC670M	74_670	HC	SOIC	D	16	SOIC-16		Obsolete	mux/cd74hc670.pdf	skip	status Obsolete
+CD74HC670M96	74_670	HC	SOIC	D	16	SOIC-16		Active	mux/cd74hc670.pdf	add	
+CD74HC670MT	74_670	HC						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+CD74HCT670E	74_670	HCT	DIP	N	16	PDIP-16		Active	mux/cd74hc670.pdf	add	
+CD74HCT670M	74_670	HCT	SOIC	D	16	SOIC-16		Active	mux/cd74hc670.pdf	add	
+CD74HCT670M96	74_670	HCT						Obsolete		skip	status Obsolete
+CD74HCT670MT	74_670	HCT						Obsolete		skip	status Obsolete
+SN74LS670D	74_670	LS	SOIC	D	16	SOIC-16		Active	mux/sn74ls670.pdf	add	
+SN74LS670DR	74_670	LS						Obsolete		skip	status Obsolete
+SN74LS670N	74_670	LS	DIP	N	16	PDIP-16		Active	mux/sn74ls670.pdf	add	
+SN74LS670N3	74_670	LS						Active		skip	not in the datasheet ordering table
+SN74LS670NS	74_670	LS						Active		skip	not in the datasheet ordering table
+SN74LS670NSR	74_670	LS	SOP	NS	16	SOP-16		Active	mux/sn74ls670.pdf	add	
+SN74AS850ADW	74_850	AS						Active		skip	no TI datasheet
+SN74AS850AFN	74_850	AS						Active		skip	no TI datasheet
+SN74AS851BDW	74_851	AS						Active		skip	no TI datasheet
+SN74ALS857DW	74_857	ALS						Obsolete		skip	status Obsolete
+SN74ALS857DWR	74_857	ALS						Obsolete		skip	status Obsolete
+SN74ALS857NT	74_857	ALS						Obsolete		skip	status Obsolete
+SN74ALS870DW	74_870	ALS						Obsolete		skip	status Obsolete
+SN74ALS870DWR	74_870	ALS						Obsolete		skip	status Obsolete
+SN74ALS870NT	74_870	ALS						Obsolete		skip	status Obsolete

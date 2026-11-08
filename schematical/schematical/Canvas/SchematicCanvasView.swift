@@ -15,13 +15,15 @@ import SwiftUI
 ///   selection; Shift-drag empty space to draw a box that adds every part,
 ///   junction and wire it touches to the selection.
 /// - Line: drag from one pin to another to connect them with a right-angled wire.
+///   Press Escape during the drag to cancel it (no wire is placed).
 ///   A grid point on an existing wire can be a start or end too; it becomes a
 ///   junction, so wires branch there. Only connection points are highlighted.
 /// - Bus: drag to draw a bus line or L; start or end on a bus to join it at a
 ///   T or L, or to extend it. A straight drag between two line ends in line
 ///   with each other joins them end to end into one line. Leaving an L
 ///   straight out of one of its lines makes it a T. A drag from one bus to
-///   another joins them into the bus it starts on.
+///   another joins them into the bus it starts on. Press Escape during the
+///   drag to cancel it (no bus is placed).
 /// - Bus Port: click a bus line (not its ends or a T) to add an empty port
 ///   there; tick wires in its panel to give it pins.
 /// - Eraser: click or drag over a block, wire or bus line to remove it.
@@ -61,6 +63,8 @@ struct SchematicCanvasView: View {
     @State private var hoveredPortID: UUID?
     /// The connection point under the pointer in Line mode, when not drawing.
     @State private var hoverAnchor: LineAnchor?
+    /// Watches for Space, Esc and `/` while a wire or bus is being drawn.
+    @State private var drawingKeyMonitor: Any?
 
     private enum Interaction {
         /// Moves every selected part, junction and wire bend from `base`.
@@ -68,9 +72,12 @@ struct SchematicCanvasView: View {
         case moveGroup(base: SchematicGroupBase, lever: UUID?)
         case dragNode(wire: UUID, base: [CGPoint], index: Int)
         case dragSegment(wire: UUID, base: [CGPoint], index: Int)
-        case connecting(from: LineAnchor, cursor: CGPoint)
-        /// Bus tool: from the snapped press point to the cursor.
-        case drawingBus(from: CGPoint, cursor: CGPoint)
+        /// Line tool: the route from the anchor pressed on, with its locked
+        /// legs, to the cursor.
+        case connecting(from: LineAnchor, draft: RouteDraft, cursor: CGPoint)
+        /// Bus tool: the route from the snapped press point, with its locked
+        /// legs, to the cursor.
+        case drawingBus(draft: RouteDraft, cursor: CGPoint)
         /// Pointer drags on a bus, against the bus as it was at the press.
         /// `done` is the drag offset stored so far (see `dragBus`).
         case dragBusEnd(bus: UUID, base: Bus, line: UUID, end: BusEnd, done: CGSize)
@@ -118,6 +125,8 @@ struct SchematicCanvasView: View {
                     clearHover()
                 }
             }
+            .onAppear { installDrawingKeyMonitor() }
+            .onDisappear { removeDrawingKeyMonitor() }
             .onChange(of: isRunning) { _, running in
                 // Drop any highlight left from before play mode started (⌘R).
                 if running {
@@ -150,15 +159,18 @@ struct SchematicCanvasView: View {
             )
             .dropDestination(for: ChipPartDragItem.self) { items, location in
                 guard !isRunning, let item = items.first,
-                      let part = catalog.part(named: item.partNumber) else {
+                      let dropped = catalog.part(named: item.partNumber) else {
                     return false
                 }
+                // A header takes its Settings size (plan-23-C); others are as dropped.
+                let part = NewPartOptions.headerPart(for: dropped, catalog: catalog)
                 document.placeChip(
                     part: part,
                     symbol: symbol(for: part),
                     centeredAt: viewport.world(location),
                     color: NewPartOptions.color(for: part),
-                    footprintID: NewPartOptions.footprintID(for: part)
+                    footprintID: NewPartOptions.footprintID(for: part),
+                    gender: NewPartOptions.gender(for: part)
                 )
                 onPartPlaced()
                 return true
@@ -230,6 +242,12 @@ struct SchematicCanvasView: View {
                         )
                     case .barrelJack:
                         BarrelJackSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID
+                        )
+                    case .header:
+                        HeaderSymbolView(
                             chip: chip,
                             isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID
@@ -307,30 +325,36 @@ struct SchematicCanvasView: View {
         return CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
     }
 
+    /// The Line route being drawn: locked legs, then the live leg to the
+    /// anchor under the cursor or the snapped cursor.
     private var connectionPreview: ConnectionPreview? {
-        guard case let .connecting(from, cursor)? = interaction,
-              let start = document.anchorTip(from) else {
-            return nil
-        }
+        guard case let .connecting(from, draft, cursor)? = interaction else { return nil }
+        let end = lineEnd(from: from, cursor: cursor)
+        return ConnectionPreview(points: draft.path(to: end.point, endAxis: end.axis),
+                                 target: end.target == nil ? nil : end.point)
+    }
 
-        let anchor = lineAnchor(at: cursor).flatMap { $0 == from ? nil : $0 }
-        let target = anchor.flatMap { document.anchorTip($0) }
-        let end = target ?? SchematicGrid.snap(cursor)
-        return ConnectionPreview(points: OrthogonalRoute.route(from: start, to: end), target: target)
+    /// Where a Line route ends for `cursor`: the tip of the anchor under it
+    /// (other than the start) and the axis that pin forces, or else the
+    /// snapped cursor. The preview, Space and the release all use this.
+    private func lineEnd(from: LineAnchor, cursor: CGPoint) -> (point: CGPoint, axis: RouteAxis?, target: LineAnchor?) {
+        if let anchor = lineAnchor(at: cursor), anchor != from, let tip = document.anchorTip(anchor) {
+            return (tip, document.anchorAxis(anchor), anchor)
+        }
+        return (SchematicGrid.snap(cursor), nil, nil)
     }
 
     /// What the Bus tool would draw: the lines `addBus` would add, or the
-    /// first route it would try when the drag would be refused.
+    /// route as drawn when releasing would be refused.
     private var busPreview: BusPreview? {
-        guard case let .drawingBus(from, cursor)? = interaction else { return nil }
-        let end = SchematicGrid.snap(cursor)
-        guard end != from else { return nil }
-        switch document.busDraft(from: from, to: end) {
-        case let .success(draft):
-            return BusPreview(points: draft.path, refused: false)
+        guard case let .drawingBus(draft, cursor)? = interaction else { return nil }
+        let candidates = draft.busCandidates(to: SchematicGrid.snap(cursor))
+        guard let drawn = candidates.first, drawn.count >= 2 else { return nil }
+        switch document.busDraft(candidates: candidates) {
+        case let .success(result):
+            return BusPreview(points: result.path, refused: false)
         case .failure:
-            let corner = from.x == end.x || from.y == end.y ? [] : [CGPoint(x: end.x, y: from.y)]
-            return BusPreview(points: [from] + corner + [end], refused: true)
+            return BusPreview(points: drawn, refused: true)
         }
     }
 
@@ -347,6 +371,88 @@ struct SchematicCanvasView: View {
 
     private func lineAnchor(at point: CGPoint) -> LineAnchor? {
         document.lineAnchor(at: point, pinRadius: pinRadius, gridRadius: lineTolerance)
+    }
+
+    private func installDrawingKeyMonitor() {
+        guard drawingKeyMonitor == nil else { return }
+        drawingKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            handleDrawingKey(event) ? nil : event
+        }
+    }
+
+    private func removeDrawingKeyMonitor() {
+        if let drawingKeyMonitor {
+            NSEvent.removeMonitor(drawingKeyMonitor)
+        }
+        drawingKeyMonitor = nil
+    }
+
+    private enum DrawingKey {
+        /// Space: lock the live leg.
+        case lock
+        /// Esc: drop the last lock, or the whole drawing when nothing is locked.
+        case back
+        /// `/`: flip the live leg's L.
+        case flip
+    }
+
+    /// Space, Esc and `/` while a Line or Bus is being drawn. Returns whether
+    /// the key was used; any other key, or any key when nothing is being
+    /// drawn, is left alone.
+    private func handleDrawingKey(_ event: NSEvent) -> Bool {
+        let key: DrawingKey
+        if event.keyCode == 53 {
+            key = .back
+        } else if event.keyCode == 49 {
+            key = .lock
+        } else if event.charactersIgnoringModifiers == "/",
+                  event.modifierFlags.intersection([.command, .control, .option]).isEmpty {
+            key = .flip
+        } else {
+            return false
+        }
+
+        switch interaction {
+        case let .connecting(from, draft, cursor)?:
+            var draft = draft
+            let end = lineEnd(from: from, cursor: cursor)
+            switch key {
+            case .lock:
+                if !event.isARepeat { draft.lock(to: end.point, endAxis: end.axis) }
+            case .back:
+                // Dropping the whole drawing leaves the rest of the drag doing nothing.
+                if !draft.unlock() { interaction = .idle; return true }
+            case .flip:
+                if draft.canFlip(endAxis: end.axis) { draft.flip() }
+            }
+            interaction = .connecting(from: from, draft: draft, cursor: cursor)
+            return true
+
+        case let .drawingBus(draft, cursor)?:
+            var draft = draft
+            let end = SchematicGrid.snap(cursor)
+            switch key {
+            case .lock:
+                guard !event.isARepeat else { return true }
+                // Lock what the preview shows: when only the flipped live leg
+                // would be accepted, that is the one drawn.
+                let candidates = draft.busCandidates(to: end)
+                if candidates.count > 1, case let .success(result) = document.busDraft(candidates: candidates),
+                   result.path == candidates[1] {
+                    draft.flip()
+                }
+                draft.lock(to: end, endAxis: nil)
+            case .back:
+                if !draft.unlock() { interaction = .idle; return true }
+            case .flip:
+                if draft.canFlip(endAxis: nil) { draft.flip() }
+            }
+            interaction = .drawingBus(draft: draft, cursor: cursor)
+            return true
+
+        default:
+            return false
+        }
     }
 
     private var canvasGesture: some Gesture {
@@ -440,14 +546,15 @@ struct SchematicCanvasView: View {
 
         case .line:
             if interaction == nil {
-                if let anchor = lineAnchor(at: start) {
-                    interaction = .connecting(from: anchor, cursor: current)
+                if let anchor = lineAnchor(at: start), let tip = document.anchorTip(anchor) {
+                    let draft = RouteDraft(start: tip, startAxis: document.anchorAxis(anchor))
+                    interaction = .connecting(from: anchor, draft: draft, cursor: current)
                 } else {
                     interaction = .idle
                 }
             }
-            if case let .connecting(from, _)? = interaction {
-                interaction = .connecting(from: from, cursor: current)
+            if case let .connecting(from, draft, _)? = interaction {
+                interaction = .connecting(from: from, draft: draft, cursor: current)
             }
 
         case .busPort:
@@ -460,10 +567,10 @@ struct SchematicCanvasView: View {
 
         case .bus:
             if interaction == nil {
-                interaction = .drawingBus(from: SchematicGrid.snap(start), cursor: current)
+                interaction = .drawingBus(draft: RouteDraft(start: SchematicGrid.snap(start), startAxis: nil), cursor: current)
             }
-            if case let .drawingBus(from, _)? = interaction {
-                interaction = .drawingBus(from: from, cursor: current)
+            if case let .drawingBus(draft, _)? = interaction {
+                interaction = .drawingBus(draft: draft, cursor: current)
             }
 
         case .eraser:
@@ -485,7 +592,9 @@ struct SchematicCanvasView: View {
                 document.placeChip(
                     part: part,
                     symbol: symbol(for: part),
-                    centeredAt: start
+                    centeredAt: start,
+                    footprintID: NewPartOptions.footprintID(for: part),
+                    ohms: NewPartOptions.ohms(for: part)
                 )
             }
             interaction = .idle
@@ -567,14 +676,15 @@ struct SchematicCanvasView: View {
 
     private func handleEnded(_ value: DragGesture.Value) {
         switch interaction {
-        case let .connecting(from, _)?:
-            if let target = lineAnchor(at: viewport.world(value.location)), target != from {
+        case let .connecting(from, draft, _)?:
+            let end = lineEnd(from: from, cursor: viewport.world(value.location))
+            if let target = end.target {
                 // A refused wire changes nothing; document.editorMessage says why.
-                _ = document.connect(from, target)
+                _ = document.connect(from, target, path: draft.path(to: end.point, endAxis: end.axis))
             }
-        case let .drawingBus(from, _)?:
+        case let .drawingBus(draft, _)?:
             // A refused drag changes nothing; document.editorMessage says why.
-            document.addBus(from: from, to: SchematicGrid.snap(viewport.world(value.location)))
+            document.addBus(candidates: draft.busCandidates(to: SchematicGrid.snap(viewport.world(value.location))))
         case let .dragBusEnd(bus, _, _, _, _)?, let .dragBusLine(bus, _, _, _)?:
             // Ports rode along with their lines; keep the wires on their pins.
             document.settleWires(attachedToBus: bus)
@@ -731,8 +841,8 @@ struct JunctionDot {
 /// Draws wires as orthogonal polylines, plus the route being drawn from a pin.
 /// The hovered wire gets a soft accent underlay; selected wires are drawn in
 /// the accent colour. Junctions get a solid dot, larger and accent when
-/// selected.
-private struct WireLayer: View {
+/// selected. Not private, so the harness can render it on its own.
+struct WireLayer: View {
     let routes: [RoutedWire]
     let junctions: [JunctionDot]
     var selectedWireIDs: Set<UUID> = []

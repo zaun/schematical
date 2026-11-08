@@ -36,6 +36,7 @@ struct schematicalApp: App {
         .windowToolbarStyle(.unifiedCompact(showsTitle: false))
         .commands {
             SchematicFileCommands()
+            BillOfMaterialsCommands()
         }
 
         // One window per memory part, opened by double-clicking it.
@@ -65,6 +66,15 @@ struct schematicalApp: App {
             }
         }
         .defaultSize(width: 640, height: 420)
+        .restorationBehavior(.disabled)
+
+        // One Bill of Materials per schematic window (Window menu, ⇧⌘B).
+        WindowGroup("Bill of Materials", id: "bom", for: BillOfMaterialsTarget.self) { $target in
+            if let target {
+                BillOfMaterialsWindowView(target: target)
+            }
+        }
+        .defaultSize(width: 760, height: 420)
         .restorationBehavior(.disabled)
 
         Settings {

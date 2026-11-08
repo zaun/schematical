@@ -1,7 +1,7 @@
 /*
  * Footprints: parses Parts/footprints.json, checks every rule of
  * docs/parts-format.md § Footprints, and expands each parametric footprint
- * (dual, quad, grid) or literal one (explicit) into a flat pad list in the
+ * (dual, quad, grid, header) or literal one (explicit) into a flat pad list in the
  * file's arena. library.c registers the result.
  */
 
@@ -39,6 +39,9 @@ static const char *const QUAD_KEYS[] = {
 };
 static const char *const GRID_KEYS[] = {"pad", "drill", "rows", "columns", "pitch", "balls", NULL};
 static const char *const EXPLICIT_KEYS[] = {"pads", NULL};
+static const char *const HEADER_KEYS[] = {
+    "pad", "drill", "pin1Shape", "rows", "pitch", "rowPitch", "firstRowY", NULL
+};
 static const char *const SIZE_KEYS[] = {"width", "height", "shape", "radius", "chamfer", "corners", NULL};
 static const char *const BODY_KEYS[] = {"width", "height", "round", NULL};
 static const char *const PAD_KEYS[] = {
@@ -504,6 +507,69 @@ static int load_quad(KindContext *ctx, const cJSON *json, PartFootprint *fp) {
     return emit_slotted(ctx, json, fp, slots, total);
 }
 
+/*
+ * A pin header: one or two rows of pins numbered zigzag (pin 2 across the
+ * rows from pin 1, then 3 and 4 in the next column). Pin p is in column
+ * (p - 1) / rows and row (p - 1) % rows; columns are centred on x = 0, row k
+ * is at firstRowY + k * rowPitch.
+ */
+static int load_header(KindContext *ctx, const cJSON *json, PartFootprint *fp) {
+    const cJSON *row_pitch_json = cJSON_GetObjectItemCaseSensitive(json, "rowPitch");
+    uint64_t rows;
+    double pitch, row_pitch = 0, first_row_y;
+    unsigned per_row, p;
+    Slot *slots;
+
+    if (kind_uint(ctx, json, "rows", MAX_PINS, &rows) != 0) {
+        return -1;
+    }
+    if (rows != 1 && rows != 2) {
+        return kind_error(ctx, "\"rows\" must be 1 or 2");
+    }
+    if (fp->pins % rows != 0) {
+        return kind_error(ctx, "\"pins\" %u is not a multiple of \"rows\" %u", fp->pins,
+                          (unsigned)rows);
+    }
+    if (rows == 2 && row_pitch_json == NULL) {
+        return kind_error(ctx, "\"rowPitch\" is required with 2 rows");
+    }
+    if (rows == 1 && row_pitch_json != NULL) {
+        return kind_error(ctx, "\"rowPitch\" is not allowed with 1 row");
+    }
+    if (positive(ctx, json, "pitch", &pitch) != 0 ||
+        kind_number(ctx, json, "firstRowY", &first_row_y) != 0) {
+        return -1;
+    }
+    if (row_pitch_json != NULL) {
+        if (kind_number(ctx, json, "rowPitch", &row_pitch) != 0) {
+            return -1;
+        }
+        if (row_pitch == 0) {
+            return kind_error(ctx, "\"rowPitch\" must not be 0");
+        }
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "drill") != NULL) {
+        double drill;
+
+        if (positive(ctx, json, "drill", &drill) != 0) {
+            return -1;
+        }
+    }
+    per_row = fp->pins / (unsigned)rows;
+    slots = kind_alloc(ctx, fp->pins * sizeof(*slots));
+    if (slots == NULL) {
+        return -1;
+    }
+    for (p = 0; p < fp->pins; p++) {
+        unsigned column = p / (unsigned)rows;
+        unsigned row = p % (unsigned)rows;
+
+        slots[p].x = ((double)column - ((double)per_row - 1) / 2) * pitch;
+        slots[p].y = first_row_y + (double)row * row_pitch;
+    }
+    return emit_slotted(ctx, json, fp, slots, fp->pins);
+}
+
 /* ---- grid ------------------------------------------------------------------ */
 
 typedef struct {
@@ -753,6 +819,8 @@ static int load_footprint(KindContext *ctx, const cJSON *json, const PartLibrary
     } else if (strcmp(style, "grid") == 0) {
         style_keys = GRID_KEYS;
         forbidden = GRID_FORBIDDEN;
+    } else if (strcmp(style, "header") == 0) {
+        style_keys = HEADER_KEYS;
     } else if (strcmp(style, "explicit") == 0) {
         style_keys = EXPLICIT_KEYS;
         forbidden = EXPLICIT_FORBIDDEN;
@@ -797,10 +865,12 @@ static int load_footprint(KindContext *ctx, const cJSON *json, const PartLibrary
     }
     kind_pop(ctx);
 
-    switch (style_keys == DUAL_KEYS ? 0 : style_keys == QUAD_KEYS ? 1 : style_keys == GRID_KEYS ? 2 : 3) {
+    switch (style_keys == DUAL_KEYS ? 0 : style_keys == QUAD_KEYS ? 1 : style_keys == GRID_KEYS ? 2
+            : style_keys == HEADER_KEYS ? 4 : 3) {
         case 0: return load_dual(ctx, json, fp);
         case 1: return load_quad(ctx, json, fp);
         case 2: return load_grid(ctx, json, fp);
+        case 4: return load_header(ctx, json, fp);
         default: return load_explicit(ctx, json, fp);
     }
 }

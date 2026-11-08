@@ -204,7 +204,7 @@ struct ChipDrawerView: View, Equatable {
                 || kinds.contains(PART_JKFF.rawValue) || kinds.contains(PART_LATCH.rawValue)
                 || kinds.contains(PART_COUNTER.rawValue) || kinds.contains(PART_SHIFT.rawValue)
                 || kinds.contains(PART_DECODER.rawValue)
-                || kinds.contains(PART_BUFFER.rawValue) {
+                || kinds.contains(PART_BUFFER.rawValue) || kinds.contains(PART_MUX.rawValue) {
                 familyMenu(for: category)
                 countMenu(counts: catalog.logicCounts(in: category), selection: $filter.gateCount, unit: "gate")
             } else if kinds.contains(PART_SWITCH.rawValue) {
@@ -317,7 +317,7 @@ struct ChipDrawerView: View, Equatable {
     private func partRow(_ part: CatalogPart) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack {
-                Text(part.name)
+                Text(part.kind == PART_HEADER ? HeaderFamily.title : part.name)
                 Spacer(minLength: 8)
                 if let label = part.trailingLabel {
                     Text(label)
@@ -336,6 +336,7 @@ struct ChipDrawerView: View, Equatable {
     /// (CA) or common cathode (CC); last, its voltage (`voltageLabel`). A part
     /// with footprint choices shows their count in the package slot.
     private func subtitle(for part: CatalogPart) -> String {
+        if part.kind == PART_HEADER { return HeaderFamily.subtitle }
         let package = part.footprintChoices.isEmpty ? part.package : "\(part.footprintChoices.count) footprints"
         return ([package] + part.detailLabels + [part.voltageLabel].compactMap { $0 })
             .filter { !$0.isEmpty }

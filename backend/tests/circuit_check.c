@@ -66,6 +66,30 @@ static void check_lit_led(void) {
     circuit_destroy(c);
 }
 
+/* plan-23-A: a header is passive terminals. 5V reaches the LED's anode
+   through header pin 1's net and GND its cathode through pin 40's; the
+   other 38 pins are left open. */
+static void check_header_passes_nets(void) {
+    Circuit *c = circuit_create(library);
+    size_t vcc = part(c, "5V");
+    size_t gnd = part(c, "GND");
+    size_t header = part(c, "GENERIC-HEADER-2X20");
+    size_t led = part(c, "GENERIC-LED");
+    size_t supply_net = net(c);
+    size_t ground_net = net(c);
+
+    expect(header != (size_t)-1, "GENERIC-HEADER-2X20 is added");
+    circuit_connect(c, vcc, "1", supply_net);
+    circuit_connect(c, header, "1", supply_net);
+    circuit_connect(c, led, "2", supply_net);
+    circuit_connect(c, gnd, "1", ground_net);
+    circuit_connect(c, header, "40", ground_net);
+    circuit_connect(c, led, "1", ground_net);
+    expect(circuit_start(c) == 0 && circuit_advance(c, 1000) == 1, "header circuit runs");
+    expect(light(c, led) == 1, "LED wired from header pin 1 (A) to pin 40 (K) is lit");
+    circuit_destroy(c);
+}
+
 /* The anode is left unconnected, so it reads Z and the LED stays dark. */
 static void check_dark_led(void) {
     Circuit *c = circuit_create(library);
@@ -809,6 +833,7 @@ int main(void) {
         return 1;
     }
     check_lit_led();
+    check_header_passes_nets();
     check_dark_led();
     check_short();
     check_pulls();

@@ -29,6 +29,8 @@ add_library(logic STATIC
     src/models/seq.c
     src/models/latch.c
     src/models/decoder.c
+    src/models/mux.c
+    src/models/mux_stored.c
     src/models/counter.c
     src/models/counter_div.c
     src/models/shift.c
@@ -63,6 +65,7 @@ add_library(logic STATIC
     src/models/serial_com78c80x.c
     src/models/serial_sc18is604.c
     src/models/connector.c
+    src/models/header.c
     src/models/pio.c
     src/models/bus65.c
     src/models/pio_pia6521.c
@@ -132,6 +135,7 @@ logic_test(engine_test)
 logic_test(eeprom_test)
 logic_test(latch_test)
 logic_test(decoder_test)
+logic_test(mux_test)
 logic_test(counter_test)
 logic_test(shift_test)
 logic_test(memory_image_test)

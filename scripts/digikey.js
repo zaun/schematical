@@ -174,7 +174,14 @@ async function call(ctx, method, route, body, retried = false) {
     ctx.token = await token(ctx.creds, true);
     return call(ctx, method, route, body, true);
   }
-  if (response.status === 429) throw new Error(`rate limited by DigiKey: ${text}`);
+  if (response.status === 429) {
+    // DigiKey names the reset in headers: x-ratelimit-resettime (ISO time), retry-after (s).
+    const resetAt = response.headers.get('x-ratelimit-resettime');
+    const retryAfter = response.headers.get('retry-after');
+    const when = resetAt ? `resets at ${resetAt}` : 'reset time not given';
+    const wait = retryAfter ? ` (in ${Math.ceil(Number(retryAfter) / 60)} min)` : '';
+    throw new Error(`rate limited by DigiKey; ${when}${wait}: ${text}`);
+  }
   if (!response.ok) throw new Error(`${method} ${route} failed (${response.status}): ${text}`);
   return JSON.parse(text);
 }

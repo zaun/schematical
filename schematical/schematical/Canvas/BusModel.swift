@@ -612,7 +612,7 @@ struct BusDraft {
     let busIndex: Int?
     /// The bus after the drag.
     let bus: Bus
-    /// The route as drawn, P to Q (two or three points), for the preview.
+    /// The route as drawn, P to Q (two or more points), for the preview.
     let path: [CGPoint]
     /// Index of a second bus the drag joined into `bus`, which goes away.
     var absorbedIndex: Int? = nil
@@ -671,7 +671,21 @@ enum BusJoin {
     /// leaves straight out of one of its lines becomes a T). A drag from one
     /// bus to another joins them into the bus it starts on.
     static func join(_ buses: [Bus], from p: CGPoint, to q: CGPoint) -> Result<BusDraft, BusJoinRefusal> {
-        guard p != q else { return .failure(.samePoint) }
+        let candidates: [[CGPoint]] = p.x == q.x || p.y == q.y
+            ? [[p, q]]
+            : [[p, CGPoint(x: q.x, y: p.y), q], [p, CGPoint(x: p.x, y: q.y), q]]
+        return join(buses, candidates: candidates)
+    }
+
+    /// The bus a drawn route would make or grow, by the same rules as
+    /// `join(_:from:to:)`: the first of `candidates` that works. Every
+    /// candidate runs between the same two points; each bend in it becomes
+    /// an L.
+    static func join(_ buses: [Bus], candidates raw: [[CGPoint]]) -> Result<BusDraft, BusJoinRefusal> {
+        let candidates = raw.map(OrthogonalRoute.simplified).filter { $0.count >= 2 }
+        guard let p = candidates.first?.first, let q = candidates.first?.last, p != q else {
+            return .failure(.samePoint)
+        }
         let atP = touch(p, in: buses)
         let atQ = touch(q, in: buses)
         if case .other = atP { return .failure(.badJoint) }
@@ -692,9 +706,6 @@ enum BusJoin {
         }
         let others = buses.indices.filter { $0 != target && $0 != absorbed }.map { buses[$0] }
 
-        let candidates: [[CGPoint]] = p.x == q.x || p.y == q.y
-            ? [[p, q]]
-            : [[p, CGPoint(x: q.x, y: p.y), q], [p, CGPoint(x: p.x, y: q.y), q]]
         for path in candidates {
             if let bus = build(base, others: others, path: path, atP: atP, atQ: atQ) {
                 return .success(BusDraft(busIndex: target, bus: bus, path: path, absorbedIndex: absorbed, wireMap: wireMap))
@@ -837,9 +848,10 @@ enum BusJoin {
         }
         if !mergedP { expect(atP, BusLineEnd(line: drawn[0].id, end: .a), at: path[0]) }
         if !mergedQ, let last = drawn.last { expect(atQ, BusLineEnd(line: last.id, end: .b), at: path[path.count - 1]) }
-        if drawn.count == 2 {
-            expected.insert(.makeCorner(resolve(BusLineEnd(line: drawn[0].id, end: .b)),
-                                        resolve(BusLineEnd(line: drawn[1].id, end: .a)), at: path[1]))
+        for index in 0..<(drawn.count - 1) {
+            expected.insert(.makeCorner(resolve(BusLineEnd(line: drawn[index].id, end: .b)),
+                                        resolve(BusLineEnd(line: drawn[index + 1].id, end: .a)),
+                                        at: path[index + 1]))
         }
 
         let result = Bus(id: base.id, lines: lines + added, wires: base.wires, ports: ports)

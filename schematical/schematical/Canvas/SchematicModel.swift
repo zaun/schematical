@@ -48,6 +48,14 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         }
     }
 
+    /// The toolbar tooltip: the title, plus the drawing keys for Line and Bus.
+    var tooltip: String {
+        switch self {
+        case .line, .bus: "\(title) — Space: lock a corner · /: flip the bend · Esc: undo a corner"
+        default: title
+        }
+    }
+
     var symbol: String {
         switch self {
         case .pointer: "cursorarrow"
@@ -103,6 +111,9 @@ nonisolated enum PartSymbol: Hashable {
     case sevenSegment
     case characterLCD
     case barrelJack
+    /// A generic pin header (plan-23): pins on the left, and with two rows
+    /// the even pins on the right.
+    case header
 
     /// Supplies have their pin on the top or bottom edge, so their view needs
     /// room above and below the body for the pin stub.
@@ -192,6 +203,8 @@ nonisolated struct ChipLayout: Hashable {
             self = ChipLayout(pins: pins)
         case .barrelJack:
             self = Self.barrelJack(pins)
+        case .header:
+            self = Self.header(pins, rows: part.headerSize?.rows ?? 1)
         case .diode:
             self = Self.diode(pins)
         case .vcc:
@@ -336,6 +349,24 @@ nonisolated struct ChipLayout: Hashable {
         if let switched { slots.append(PinSlot(pin: switched, side: .right, centerY: 50)) }
         if let sleeve { slots.append(PinSlot(pin: sleeve, side: .right, centerY: 75)) }
         return ChipLayout(size: CGSize(width: 120, height: switched == nil ? 90 : 95), slots: slots)
+    }
+
+    /// Header body width; its height is one pin row (`pitch`) per column.
+    static let headerBodyWidth: CGFloat = 40
+
+    /// A pin header, pins zigzag as on the part (pin 2 across from pin 1):
+    /// pin p is in column (p - 1) / rows, one 20-tall row each, centred at
+    /// 10 + 20 c. With 1 row every pin is on the left; with 2 rows odd pins
+    /// are on the left and even pins on the right, side by side.
+    static func header(_ pins: [ChipPin], rows: Int) -> ChipLayout {
+        let rows = max(rows, 1)
+        let ordered = pins.sorted { $0.index < $1.index }
+        let columns = max((ordered.count + rows - 1) / rows, 1)
+        let slots = ordered.enumerated().map { position, pin in
+            PinSlot(pin: pin, side: rows == 2 && position % 2 == 1 ? .right : .left,
+                    centerY: pitch / 2 + pitch * CGFloat(position / rows))
+        }
+        return ChipLayout(size: CGSize(width: headerBodyWidth, height: pitch * CGFloat(columns)), slots: slots)
     }
 
     /// The lever of a switch position (1-based), in body coordinates.
@@ -516,6 +547,11 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// For a part with footprint choices, the id of the chosen footprint (one
     /// of `part.footprintChoices`). Nil for every other part.
     var footprintID: String?
+    /// A header's gender, one of `part.genders`. Nil for every other part.
+    var gender: String?
+    /// A pull resistor's resistance in ohms (`ResistorValue.isValid`). Nil
+    /// for every other part.
+    var ohms: Double?
 
     private let baseLayout: ChipLayout
 
@@ -530,7 +566,9 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         board: BoardPlacement? = nil,
         memoryFile: MemoryFile? = nil,
         color: String? = nil,
-        footprintID: String? = nil
+        footprintID: String? = nil,
+        gender: String? = nil,
+        ohms: Double? = nil
     ) {
         self.id = id
         self.reference = reference
@@ -548,12 +586,22 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         } else {
             self.color = nil
         }
+        if part.kind == PART_HEADER, !part.genders.isEmpty {
+            self.gender = gender.flatMap { part.genders.contains($0) ? $0 : nil } ?? part.genders[0]
+        } else {
+            self.gender = nil
+        }
         if !part.footprintChoices.isEmpty, let base = part.footprint {
             self.footprintID = footprintID.flatMap { id in
                 part.footprintChoices.contains { $0.footprint.id == id } ? id : nil
             } ?? base.id
         } else {
             self.footprintID = nil
+        }
+        if part.isPullResistor {
+            self.ohms = ohms.flatMap { ResistorValue.isValid($0) ? $0 : nil } ?? ResistorValue.defaultOhms
+        } else {
+            self.ohms = nil
         }
         // A switch has one state per position, OFF unless given; others none.
         var positions = 0
@@ -565,6 +613,19 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
 
     /// The orderable part number, as saved in a file.
     var partNumber: String { part.name }
+
+    /// The same chip on another part (a header's new size): id, reference,
+    /// symbol, origin, flip, board placement, gender and memory file are
+    /// kept. The footprint is the new part's choice with the same package as
+    /// the current one (`Straight` stays `Straight`), else its default.
+    func resized(to newPart: CatalogPart) -> PlacedChip {
+        let package = footprintChoice?.package
+        let footprint = newPart.footprintChoices.first { $0.package == package }?.footprint.id
+        return PlacedChip(id: id, reference: reference, part: newPart, symbol: symbol, origin: origin,
+                          isFlipped: isFlipped, switchesOn: switchesOn, board: board,
+                          memoryFile: memoryFile, color: color, footprintID: footprint, gender: gender,
+                          ohms: ohms)
+    }
 
     /// The chosen footprint choice, for a part with footprint choices.
     var footprintChoice: CatalogPart.FootprintChoice? {
@@ -686,17 +747,69 @@ struct Wire: Identifiable, Hashable {
 
 // MARK: - Orthogonal routing
 
+/// The direction of a straight run: along a row or along a column.
+enum RouteAxis: Hashable {
+    case horizontal
+    case vertical
+
+    var other: RouteAxis { self == .horizontal ? .vertical : .horizontal }
+}
+
 /// Right-angle routing helpers. Paths are arrays of grid points where
 /// consecutive points share an x or a y.
 enum OrthogonalRoute {
-    /// Default route between two tips: out horizontally, a vertical run at the
-    /// midpoint, then horizontally into the target.
+    /// Pin to pin with both pins facing sideways: out horizontally, a
+    /// vertical run at the midpoint, then horizontally into the target.
     static func route(from a: CGPoint, to b: CGPoint) -> [CGPoint] {
-        if a.x == b.x || a.y == b.y {
-            return normalize([a, b])
+        normalize([a] + leg(from: a, to: b, first: .horizontal, last: .horizontal, preferred: .horizontal))
+    }
+
+    /// One drawn leg from `p` to `q`: the points after `p`, up to and
+    /// including `q`. A straight line when the two are aligned, else an L.
+    /// `first` and `last` are the axes a pin forces on the leg's first and
+    /// last segment. When both are forced along the same axis no L fits, so
+    /// the leg is a Z with its middle run halfway. `preferred` picks the
+    /// L's first segment when nothing forces it.
+    static func leg(from p: CGPoint, to q: CGPoint,
+                    first: RouteAxis?, last: RouteAxis?,
+                    preferred: RouteAxis) -> [CGPoint] {
+        if p == q { return [] }
+        if p.x == q.x || p.y == q.y { return [q] }
+        let start: RouteAxis
+        switch (first, last) {
+        case let (first?, last?) where first == last:
+            if first == .horizontal {
+                let midX = SchematicGrid.snap((p.x + q.x) / 2)
+                return mergeCoincident([p, CGPoint(x: midX, y: p.y), CGPoint(x: midX, y: q.y), q]).filter { $0 != p }
+            }
+            let midY = SchematicGrid.snap((p.y + q.y) / 2)
+            return mergeCoincident([p, CGPoint(x: p.x, y: midY), CGPoint(x: q.x, y: midY), q]).filter { $0 != p }
+        case let (first?, _):
+            start = first
+        case let (nil, last?):
+            start = last.other
+        case (nil, nil):
+            start = preferred
         }
-        let midX = SchematicGrid.snap((a.x + b.x) / 2)
-        return normalize([a, CGPoint(x: midX, y: a.y), CGPoint(x: midX, y: b.y), b])
+        return start == .horizontal ? [CGPoint(x: q.x, y: p.y), q] : [CGPoint(x: p.x, y: q.y), q]
+    }
+
+    /// A drawn route cleaned up: coincident points merged, double-backs
+    /// dropped, and any bend in the middle of a straight run removed. The
+    /// first and last points stay.
+    static func simplified(_ path: [CGPoint]) -> [CGPoint] {
+        var result = removeDoubleBacks(mergeCoincident(path))
+        var index = 1
+        while index + 1 < result.count {
+            let a = result[index - 1], b = result[index], c = result[index + 1]
+            let straight = (a.y == b.y && b.y == c.y) || (a.x == b.x && b.x == c.x)
+            if straight {
+                result.remove(at: index)
+            } else {
+                index += 1
+            }
+        }
+        return result
     }
 
     /// Merges points that overlap, adds a corner wherever two points are
@@ -763,7 +876,31 @@ enum OrthogonalRoute {
             }
         }
 
-        return Array(mergeCoincident(points).dropFirst().dropLast())
+        return Array(removeDoubleBacks(mergeCoincident(points)).dropFirst().dropLast())
+    }
+
+    /// Drops a vertex where the route turns straight back on itself (three
+    /// points on one line, the middle one outside the other two). That is
+    /// what an end moving past a stored vertex leaves behind. The first and
+    /// last points never go.
+    static func removeDoubleBacks(_ points: [CGPoint]) -> [CGPoint] {
+        var result = points
+        var index = 1
+        while index + 1 < result.count {
+            let a = result[index - 1], b = result[index], c = result[index + 1]
+            let sameRow = a.y == b.y && b.y == c.y
+            let sameColumn = a.x == b.x && b.x == c.x
+            let turnsBack = (sameRow && (b.x - a.x) * (c.x - b.x) < 0)
+                || (sameColumn && (b.y - a.y) * (c.y - b.y) < 0)
+            if turnsBack {
+                result.remove(at: index)
+                result = mergeCoincident(result)
+                index = max(index - 1, 1)
+            } else {
+                index += 1
+            }
+        }
+        return result
     }
 
     /// Moves only the bend at `index`. The neighbouring bends stay where they are,
@@ -828,11 +965,57 @@ final class SchematicDocument {
     private(set) var schematicSelection = ItemSelection<SchematicItem>() {
         didSet {
             if !schematicSelection.isEmpty { clearSelection(except: .items) }
+            mirrorSchematicSelectionToBoard()
         }
     }
-    /// What is selected on the PCB page: footprints and board texts. Kept
-    /// apart from the Schematic page's selection.
-    private(set) var boardSelection = ItemSelection<BoardItem>()
+    /// What is selected on the PCB page: footprints, board texts and traces.
+    /// A part and its footprint are one selection with the Schematic page
+    /// (see `mirrorSchematicSelectionToBoard`); the rest is kept apart.
+    private(set) var boardSelection = ItemSelection<BoardItem>() {
+        didSet { mirrorBoardSelectionToSchematic() }
+    }
+
+    /// Set while one page's selection is being copied to the other, so the
+    /// copy does not copy back.
+    private var isMirroringSelection = false
+
+    /// The parts selected on the Schematic page.
+    private var schematicSelectedParts: Set<UUID> {
+        Set(schematicSelection.items.compactMap { if case let .chip(id) = $0 { id } else { nil } })
+    }
+
+    /// The parts whose footprint is selected on the PCB page.
+    private var boardSelectedParts: Set<UUID> {
+        Set(boardSelection.items.compactMap { if case let .footprint(id) = $0 { id } else { nil } })
+    }
+
+    /// Selecting a part on the Schematic page selects its footprint on the
+    /// PCB page. When the two pages disagree about which parts are selected,
+    /// the PCB selection becomes just those footprints (a part without a
+    /// footprint has none). Texts and traces are left alone while the parts
+    /// agree.
+    private func mirrorSchematicSelectionToBoard() {
+        guard !isMirroringSelection else { return }
+        let parts = schematicSelectedParts
+        let withFootprint = Set(chips.lazy.filter { $0.board != nil }.map(\.id))
+        let footprints = parts.intersection(withFootprint)
+        guard footprints != boardSelectedParts else { return }
+        isMirroringSelection = true
+        defer { isMirroringSelection = false }
+        boardSelection.set(Set(footprints.map(BoardItem.footprint)))
+    }
+
+    /// Selecting a footprint on the PCB page selects its part on the
+    /// Schematic page, as `mirrorSchematicSelectionToBoard`. A text or trace
+    /// has no part, so selecting one leaves no part selected.
+    private func mirrorBoardSelectionToSchematic() {
+        guard !isMirroringSelection else { return }
+        let parts = boardSelectedParts
+        guard parts != schematicSelectedParts else { return }
+        isMirroringSelection = true
+        defer { isMirroringSelection = false }
+        schematicSelection.set(Set(parts.map(SchematicItem.chip)))
+    }
 
     /// The selected bus. Selecting one clears the other Schematic selections.
     var selectedBusID: UUID? {
@@ -1074,31 +1257,46 @@ final class SchematicDocument {
     /// Places a block with its centre under `point`, snapped to the grid.
     /// The new part is not selected, so the parts library stays open for
     /// the next drop.
-    /// `color` and `footprintID` are the LED options; nil (or a value the
-    /// part doesn't have) is the part's default.
+    /// `color`, `footprintID` and `ohms` are the part's options (LED, parts
+    /// with footprint choices, pull resistors); nil (or a value the part
+    /// doesn't have) is the part's default.
     func placeChip(part: CatalogPart, symbol: PartSymbol, centeredAt point: CGPoint,
-                   color: String? = nil, footprintID: String? = nil) {
+                   color: String? = nil, footprintID: String? = nil, gender: String? = nil,
+                   ohms: Double? = nil) {
         let layout = ChipLayout(part: part, symbol: symbol)
         let origin = SchematicGrid.snap(
             CGPoint(x: point.x - layout.size.width / 2, y: point.y - layout.size.height / 2)
         )
-        // The first U<n> from nextReference on that no part uses, since a
-        // part may have been renamed to one.
         let used = Set(chips.map(\.reference))
-        var number = nextReference
-        while used.contains("U\(number)") {
-            number += 1
+        let reference: String
+        if part.isPullResistor {
+            // A pull resistor is the lowest R<n> no part uses.
+            var number = 1
+            while used.contains("R\(number)") {
+                number += 1
+            }
+            reference = "R\(number)"
+        } else {
+            // The first U<n> from nextReference on that no part uses, since a
+            // part may have been renamed to one.
+            var number = nextReference
+            while used.contains("U\(number)") {
+                number += 1
+            }
+            reference = "U\(number)"
+            nextReference = number + 1
         }
         var placed = PlacedChip(
-            reference: "U\(number)",
+            reference: reference,
             part: part,
             symbol: symbol,
             origin: origin,
             color: color,
-            footprintID: footprintID
+            footprintID: footprintID,
+            gender: gender,
+            ohms: ohms
         )
         placed.board = placed.footprint.map { BoardLayout.nextSpot(for: $0, among: chips) }
-        nextReference = number + 1
         chips.append(placed)
     }
 
@@ -1109,6 +1307,59 @@ final class SchematicDocument {
               chips[index].part.kind == PART_LED,
               chips[index].part.colors.contains(color) else { return }
         chips[index].color = color
+    }
+
+    /// Sets a header's gender. Does nothing for a part that isn't a header,
+    /// or a gender the part doesn't list.
+    func setPartGender(_ id: UUID, _ gender: String) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              chips[index].part.kind == PART_HEADER,
+              chips[index].part.genders.contains(gender) else { return }
+        chips[index].gender = gender
+    }
+
+    /// Changes a header's size by swapping its part for `newPart` (the
+    /// caller looks up `HeaderFamily.name(rows:perRow:)` in its catalog).
+    /// Reference, origin, flip, gender, footprint type and board placement
+    /// are kept, and on the PCB pad 1 keeps its board point. Wires on pins
+    /// the new size doesn't have are removed; the rest are re-fitted. Does
+    /// nothing unless both are headers and `newPart` is another size.
+    func setHeaderSize(_ id: UUID, to newPart: CatalogPart) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              chips[index].part.kind == PART_HEADER, newPart.kind == PART_HEADER,
+              chips[index].part != newPart else { return }
+        let old = chips[index]
+        let pad1 = old.part.firstPinDesignator
+        let anchor = old.board.flatMap { board in
+            old.footprint?.pads.first { $0.designator == pad1 }.map { board.board($0.centre) }
+        }
+        chips[index] = old.resized(to: newPart)
+        let pinCount = newPart.pins.count
+        let before = wires.count
+        wires.removeAll { wire in
+            [wire.start, wire.end].contains { end in
+                if case let .pin(ref) = end { return ref.chipID == id && ref.index >= pinCount }
+                return false
+            }
+        }
+        if wires.count != before { pruneJunctions() }
+        if let anchor, var board = chips[index].board,
+           let pad = chips[index].footprint?.pads.first(where: { $0.designator == pad1 }) {
+            let landed = board.board(pad.centre)
+            board.centre.x += anchor.x - landed.x
+            board.centre.y += anchor.y - landed.y
+            chips[index].board = board
+        }
+        settleWires(attachedTo: id)
+    }
+
+    /// Sets a pull resistor's resistance. Does nothing for a part that isn't
+    /// a pull resistor, or a value that isn't `ResistorValue.isValid`.
+    func setPartOhms(_ id: UUID, _ ohms: Double) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              chips[index].part.isPullResistor,
+              ResistorValue.isValid(ohms) else { return }
+        chips[index].ohms = ohms
     }
 
     /// Picks one of a part's footprint choices. On the PCB the pad of the
@@ -1910,6 +2161,26 @@ final class SchematicDocument {
         }
     }
 
+    /// The axis a wire must leave or enter `anchor` along: sideways for a
+    /// pin on a part's left or right, up/down for one on its top or bottom,
+    /// and across the line for a bus port pin. Nil for a point on a wire.
+    func anchorAxis(_ anchor: LineAnchor) -> RouteAxis? {
+        switch anchor {
+        case let .pin(ref):
+            guard let chip = chips.first(where: { $0.id == ref.chipID }),
+                  let slot = chip.layout.slots.first(where: { $0.pin.index == ref.index }) else { return nil }
+            switch slot.side {
+            case .left, .right: return .horizontal
+            case .top, .bottom: return .vertical
+            }
+        case let .busPin(ref):
+            guard let (bus, port) = port(ref.portID), let line = bus.line(port.line) else { return nil }
+            return line.isHorizontal ? .vertical : .horizontal
+        case .point:
+            return nil
+        }
+    }
+
     /// What a line can start or end on near `point`: a part pin if one is
     /// within `pinRadius`, then a bus port pin, otherwise the grid point
     /// nearest `point` when an existing wire passes through it and it is
@@ -1955,7 +2226,7 @@ final class SchematicDocument {
     /// Refused, with nothing changed, when the wire would put a voltage out of
     /// range on a part (a problem the drawing doesn't already have). Returns
     /// why, which is also `editorMessage`; nil otherwise.
-    func connect(_ start: LineAnchor, _ end: LineAnchor) -> String? {
+    func connect(_ start: LineAnchor, _ end: LineAnchor, path: [CGPoint]? = nil) -> String? {
         guard start != end,
               let a = anchorTip(start), let b = anchorTip(end), a != b else {
             return nil
@@ -1978,7 +2249,11 @@ final class SchematicDocument {
               let fromTip = endTip(from), let toTip = endTip(to) else {
             return nil
         }
-        let route = OrthogonalRoute.route(from: fromTip, to: toTip)
+        // The ends are always the tips; a drawn path gives the bends between.
+        let bends = path.map { Array($0.dropFirst().dropLast()) }
+            ?? Array(OrthogonalRoute.leg(from: fromTip, to: toTip, first: anchorAxis(start),
+                                         last: anchorAxis(end), preferred: .horizontal).dropLast())
+        let route = OrthogonalRoute.simplified([fromTip] + bends + [toTip])
         wires.append(Wire(start: from, end: to, interior: Array(route.dropFirst().dropLast())))
         return nil
     }
@@ -2176,13 +2451,31 @@ final class SchematicDocument {
         BusJoin.join(buses, from: SchematicGrid.snap(start), to: SchematicGrid.snap(end))
     }
 
+    /// What the Bus tool would make of a drawn route: the first of
+    /// `candidates` (grid paths, as `RouteDraft.busCandidates` gives) the
+    /// bus rules accept.
+    func busDraft(candidates: [[CGPoint]]) -> Result<BusDraft, BusJoinRefusal> {
+        BusJoin.join(buses, candidates: candidates)
+    }
+
     /// The Bus tool: draws a line or an L from `start` to `end`, as a new bus
     /// or joined to the bus it starts or ends on (a T, an L, or a longer
     /// line). Selects that bus and returns its id. A refused drag changes
     /// nothing, sets `editorMessage`, and returns nil.
     @discardableResult
     func addBus(from start: CGPoint, to end: CGPoint) -> UUID? {
-        switch busDraft(from: start, to: end) {
+        applyBusDraft(busDraft(from: start, to: end))
+    }
+
+    /// The Bus tool along a drawn route: `addBus(from:to:)` for the first of
+    /// `candidates` the bus rules accept.
+    @discardableResult
+    func addBus(candidates: [[CGPoint]]) -> UUID? {
+        applyBusDraft(busDraft(candidates: candidates))
+    }
+
+    private func applyBusDraft(_ result: Result<BusDraft, BusJoinRefusal>) -> UUID? {
+        switch result {
         case let .failure(refusal):
             if let message = refusal.message { editorMessage = message }
             return nil

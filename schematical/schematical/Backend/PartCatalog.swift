@@ -217,6 +217,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A parallel I/O peripheral on the 65xx bus (plan-14): its model
         /// ("pia6521", "via6522"), speed grade and highest clock.
         case pio(model: String, grade: String, maxHz: UInt64)
+        /// A generic pin header (plan-23): rows (1 or 2), pins per row, and
+        /// the genders a placed one may have (the first is the default).
+        case header(rows: Int, perRow: Int, genders: [String])
     }
 
     let name: String
@@ -273,12 +276,12 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         }
     }
 
-    /// Gate, flip-flop, latch, counter, shift register, decoder or buffer: a
-    /// logic chip with a family and a unit count.
+    /// Gate, flip-flop, latch, counter, shift register, decoder, buffer or
+    /// multiplexer: a logic chip with a family and a unit count.
     var isLogic: Bool {
         kind == PART_GATE || kind == PART_DFF || kind == PART_JKFF ||
             kind == PART_LATCH || kind == PART_COUNTER || kind == PART_SHIFT ||
-            kind == PART_DECODER || kind == PART_BUFFER
+            kind == PART_DECODER || kind == PART_BUFFER || kind == PART_MUX
     }
 
     /// SRAM or EEPROM: a part with a memory window.
@@ -286,6 +289,13 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
 
     /// A processor: a part with a processor window.
     var isCpu: Bool { kind == PART_CPU }
+
+    /// A pull-up or pull-down: a resistor on the board, with a resistance
+    /// (`PlacedChip.ohms`) and footprint choices.
+    var isPullResistor: Bool {
+        if case .supply(_, _, pull: true) = details { return true }
+        return false
+    }
 
     /// A serial part with at least one channel: a part with a terminal window.
     var hasTerminal: Bool {
@@ -315,6 +325,18 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     var characterLCD: CharacterLCDInfo? {
         if case let .characterLCD(info) = details { return info }
         return nil
+    }
+
+    /// A header's rows and pins per row; nil for other parts.
+    var headerSize: (rows: Int, perRow: Int)? {
+        if case let .header(rows, perRow, _) = details { return (rows, perRow) }
+        return nil
+    }
+
+    /// A header's genders (the first is the default); empty for other parts.
+    var genders: [String] {
+        if case let .header(_, _, genders) = details { return genders }
+        return []
     }
 
     /// The colors of an LED (the first is the default), or a 7-segment
@@ -375,6 +397,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .connector(centerPinUM, _, ratedMA, contacts):
             return [String(format: "%.1f mm", Double(centerPinUM) / 1000),
                     String(format: "%.1f A", Double(ratedMA) / 1000)] + (contacts > 0 ? ["switched"] : [])
+        case let .header(rows, perRow, _): return ["\(rows)×\(perRow)"]
         }
     }
 }
@@ -515,6 +538,10 @@ extension CatalogPart {
                               grade: string(serial.grade))
         } else if let pio = part.pio?.pointee {
             details = .pio(model: string(pio.model), grade: string(pio.grade), maxHz: pio.max_hz)
+        } else if let header = part.header?.pointee {
+            let rows = max(Int(header.rows), 1)
+            details = .header(rows: rows, perRow: Int(part.pin_count) / rows,
+                              genders: (0..<header.gender_count).map { string(header.genders?[$0]) })
         } else if let connector = part.connector?.pointee {
             details = .connector(centerPinUM: connector.center_diameter_um, ratedMV: connector.rated_mv,
                                  ratedMA: connector.rated_ma, contacts: Int(connector.contacts))
@@ -655,6 +682,7 @@ func symbol(for part: CatalogPart) -> PartSymbol {
         if pull { return level == 0 ? .pullDown : .pullUp }
         return level == 0 ? .ground : .vcc
     case PART_CONNECTOR: return .barrelJack
+    case PART_HEADER: return .header
     default: return .block
     }
 }
@@ -845,11 +873,12 @@ final class PartCatalogStore {
             }
     }
 
-    /// Switches, LEDs, 7-segment displays and character LCDs are listed with
-    /// no function level.
+    /// Switches, LEDs, 7-segment displays, character LCDs and the generic
+    /// header are listed with no function level.
     private static func listsPartsDirectly(_ parts: [CatalogPart]) -> Bool {
         parts.allSatisfy {
             $0.kind == PART_SWITCH || $0.kind == PART_LED || $0.kind == PART_7SEG || $0.kind == PART_CHARLCD
+                || $0.kind == PART_HEADER
         }
     }
 
@@ -883,7 +912,11 @@ final class PartCatalogStore {
         do {
             let parts = try BackendCatalog.load(into: library)
             partsByName = Dictionary(parts.map { ($0.name, $0) }, uniquingKeysWith: { first, _ in first })
-            entries = parts.filter { !$0.drawer.isEmpty }
+            // The 80 header sizes are one generic header in the drawer
+            // (`HeaderFamily`); `part(named:)` still finds every size.
+            entries = parts.filter {
+                !$0.drawer.isEmpty && ($0.kind != PART_HEADER || $0.name == HeaderFamily.defaultPart)
+            }
             loadState = .loaded
         } catch {
             loadState = .failed(error.localizedDescription)
