@@ -48,6 +48,14 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         }
     }
 
+    /// The toolbar tooltip: the title, plus the drawing keys for Line and Bus.
+    var tooltip: String {
+        switch self {
+        case .line, .bus: "\(title) — Space: lock a corner · /: flip the bend · Esc: undo a corner"
+        default: title
+        }
+    }
+
     var symbol: String {
         switch self {
         case .pointer: "cursorarrow"

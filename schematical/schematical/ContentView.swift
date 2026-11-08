@@ -230,7 +230,7 @@ struct ContentView: View {
                         Picker("Tool", selection: $tool) {
                             ForEach(SchematicTool.allCases) { tool in
                                 Label(tool.title, systemImage: tool.symbol)
-                                    .help(tool.title)
+                                    .help(tool.tooltip)
                                     .tag(tool)
                             }
                         }

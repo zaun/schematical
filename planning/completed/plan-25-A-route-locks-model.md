@@ -342,7 +342,7 @@ That covers the 7 BusJoinTests and the 9 `connect` callers.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO` → "0 failures" (est. 5 min; the whole app suite, because `connect` and `BusJoin` are used across 5 test files, and listing them all costs as much as running it).
   Observed 2026-11-07: "Executed 118 tests, with 0 failures", `** TEST SUCCEEDED **`
   (after the self-crossing correction; the first run failed only that test).
-Commit: —
+Commit: ccbdbdd
 
 ## Validation Plan
 

@@ -198,14 +198,14 @@ the 3-leg bus.
   (reusing the worktree's Debug build): 16 `ok:` lines, no `FAIL`, `PASS`.
   `line-placed.png` shows the U from cathode to cathode, and `bus-placed.png`
   shows the 3-line bus.
-Commit: —
+Commit: e6d8d50
 
 ### Phase 2 — Keys and tooltips
 
-- [ ] `SchematicCanvasView.swift`: `drawingKeyMonitor` per §4.3, installed
+- [x] (landed with Phase 1 in e6d8d50) `SchematicCanvasView.swift`: `drawingKeyMonitor` per §4.3, installed
       and removed where the Escape monitor is now.
-- [ ] `SchematicModel.swift`: `SchematicTool.help`. `ContentView.swift:233,258`
-      use it.
+- [x] `SchematicModel.swift`: `SchematicTool.tooltip` (renamed from `help`, see
+      Corrections). `ContentView.swift:233` uses it. Line 258 is the PCB picker and keeps `title`.
 
 Acceptance: in the running app (Debug build), check each of these:
 - the Outcome's Line U and 3-leg bus;
@@ -216,6 +216,23 @@ Acceptance: in the running app (Debug build), check each of these:
 
 Drive the real mouse (AGENTS.md: put the pointer at (0, 0) after).
   Check: build with `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/schematical-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **`. Then run each step above in the app and record what happened here (est. 10 min; key events during a held drag exist only in the real app, so no harness run can catch a broken monitor).
+  Observed 2026-11-07: `** BUILD SUCCEEDED **`. Run in the Debug build, with
+  the mouse driven by a CGEvent script (`/tmp/p25drive/drive`, keys posted to
+  the app's pid; see Corrections). The test file had two LEDs (K tips at
+  world (230,150) and (230,310)). Every check passed:
+  - **Line U:** cathode → out and down → Space → into the other cathode.
+    Placed a U with bends at x = 290.
+  - **Bus:** right, Space, down, Space, left. Placed 3 lines following the
+    legs.
+  - **Esc once:** after 2 locks, one Esc dropped the second. The corner fell
+    at the one-lock route's point (1050,350), not the two-lock (950,300).
+  - **Esc with no locks:** nothing placed.
+  - **`/` on a free bus leg:** the L flipped to vertical-first.
+  - **`/` on a leg leaving the LED anode:** the preview still left sideways
+    (unchanged).
+  - **Space in the bus wire-name field:** typed a space ("B0 x").
+
+  Pointer left at (0, 0), and the test app quit.
 Commit: —
 
 ## Validation Plan
@@ -240,6 +257,28 @@ See plan-25-A § Decisions (owner, 2026-11-07). Also:
 - Tooltips name the keys. Author's call (§4.5).
 
 ## Corrections
+
+- **`SchematicTool.help` → `tooltip`.** §4.5 named the property `help`.
+  Building with it, `.help(tool.help)` failed (`the compiler is unable to
+  type-check this expression in reasonable time`, ContentView.swift:158),
+  and only the tool picker at line 233 is the schematic one. Line 258 is
+  the PCB picker (`PCBTool`), which keeps `.help(tool.title)`. The property
+  is now `tooltip`.
+- **The key monitor landed with Phase 1**, because the new
+  `Interaction` cases replace `cancelDrawing()` and could not build without
+  it. It is still the design in §4.3.
+- **App test harness: Space, `/`, Esc and Return posted through the HID tap
+  never reached the app on this machine.** Letters did. The keys were
+  confirmed with a temporary stderr log in `handleDrawingKey`, since
+  removed. Posting with `CGEvent.postToPid` reaches it. A Command flag left
+  by earlier Cmd-key steps also stuck to later events: `/` arrived with
+  `mods 0x100000` and was rightly ignored. It was cleared with a
+  flagsChanged event, and the Phase 2 results above are from the clean
+  run. Neither problem is in the app.
+- Each open window's canvas installs its own monitor, so a key is seen
+  once per window (seen in the log). Only the window that is drawing has
+  a drawing interaction, so the others pass the key on. That is the same
+  as the Esc monitor before.
 
 ## Summary
 
