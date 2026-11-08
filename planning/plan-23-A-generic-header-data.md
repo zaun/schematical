@@ -43,10 +43,10 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-18 (the `footprintChoices` part key) is on main | `ls planning/completed/plan-18-A-* planning/completed/plan-18-B-*` → 2 files; `grep -c footprintChoices backend/src/library/library.c` → ≥ 1 | MET (2026-11-07: 2 files; 11) |
-| No `header` kind or `PINHDR-` footprint exists yet | `grep -c '"kind": "header"' schematical/schematical/Parts/*.json \| grep -v ':0'` → no lines; `grep -c PINHDR schematical/schematical/Parts/footprints.json` → 0 | MET (2026-11-07) |
-| Backend tests pass before starting | `rm -rf /tmp/p23-build && cmake -S backend -B /tmp/p23-build && cmake --build /tmp/p23-build -j8 && ctest --test-dir /tmp/p23-build -j8` → 21/21 | MET (2026-11-07, as `/tmp/p18-build`: 21/21) |
-| Node runs the generator | `node --version` → any version | MET (2026-11-07: `/Users/justinzaun/local/bin/node`) |
+| plan-18 (the `footprintChoices` part key) is on main | `ls planning/completed/plan-18-A-* planning/completed/plan-18-B-*` → 2 files; `grep -c footprintChoices backend/src/library/library.c` → ≥ 1 | MET (2026-11-07 re-run: 2 files; 11) |
+| No `header` kind or `PINHDR-` footprint exists yet | `grep -c '"kind": "header"' schematical/schematical/Parts/*.json \| grep -v ':0'` → no lines; `grep -c PINHDR schematical/schematical/Parts/footprints.json` → 0 | MET (2026-11-07 re-run: no lines; 0) |
+| Backend tests pass before starting | `rm -rf /tmp/p23-build && cmake -S backend -B /tmp/p23-build && cmake --build /tmp/p23-build -j8 && ctest --test-dir /tmp/p23-build -j8` → 21/21 | MET (2026-11-07 re-run: 24/24, see Corrections) |
+| Node runs the generator | `node --version` → any version | MET (2026-11-07 re-run: v24.12.0) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue.
@@ -247,21 +247,25 @@ Rejected alternatives:
 
 ### Phase 1 — Footprint style `header`
 
-- [ ] `backend/src/library/footprints.c`: `HEADER_KEYS`, `load_header`
+- [x] `backend/src/library/footprints.c`: `HEADER_KEYS`, `load_header`
       (§ Footprint style) and its `"header"` case in the style switch.
-- [ ] `backend/tests/footprint_check.c` (or the file holding the footprint
+- [x] `backend/tests/footprint_check.c` (or the file holding the footprint
       fixture cases, `library_check.c:check_footprint_cases`): a valid
       `rows` 2, `pins` 6 fixture whose pads 1–6 sit at
       (−2.54, −1.27), (−2.54, 1.27), (0, −1.27), (0, 1.27), (2.54, −1.27),
       (2.54, 1.27), with pad 1 rect and the rest round; a `rows` 1 fixture with
       `firstRowY` −2.77; one `expect_fail` per § error message (4).
-- [ ] `docs/parts-format.md` § Footprints: a `### header` section with the key
+      Done as `library_check.c:check_header_footprints`: `library_check | grep header`
+      → 6 `ok` lines (2x3 zigzag, 1x3 at −2.77, the 4 errors).
+- [x] `docs/parts-format.md` § Footprints: a `### header` section with the key
       table, the numbering formula and an ASCII sketch, beside `dual`.
 
 Acceptance: the style lays out zigzag pads and rejects bad keys. Nothing else changes.
   Check: `cmake --build /tmp/p23-build -j8 && ctest --test-dir /tmp/p23-build -j8`
   → 21/21; `/tmp/p23-build/library_check | grep -c '^FAIL'` → 0, and the 6
   new cases print `ok`; `git diff --stat backend/tests/golden` → empty (est. 1 min).
+  Result (2026-11-07): ctest 24/24 (count corrected); 0 `FAIL`, 0 `check failed`;
+  6 header `ok`; golden diff empty.
 Commit: —
 
 ### Phase 2 — Kind `header`
@@ -349,6 +353,13 @@ Commit: —
   (plan-23-B).
 
 ## Corrections
+
+- The test count is 24, not 21 (other plans added tests since this was
+  written): `ctest --test-dir /tmp/p23-build -j8` → `100% tests passed, 0
+  tests failed out of 24`. Every "21/21" check in this plan means 24/24.
+- Golden line counts today: `wc -l backend/tests/golden/*.txt` →
+  `parts.txt` 11046, `traces.txt` 11046, `footprints.txt` 257 (not 8022 /
+  8022 / 237). The checks are diffs, so they don't depend on these.
 
 ## Summary
 

@@ -1837,6 +1837,59 @@ static void check_explicit_repeated_pins(void) {
     "'parts':[{'name':'LED-FP','package':'X','pinout':'p','footprint':'CHIP-2'," \
     "'connectorFootprint':" CONN "}]}" TAIL
 
+/* ---- plan-23-A: the header footprint style ----------------------------- */
+
+#define FP_HEADER(KEYS) \
+    FP_FILE("{'id':'H','description':'d','style':'header','body':{'width':7.62,'height':5.08}," \
+            "'pad':{'width':1.8,'height':1.8,'shape':'round'},'drill':1.1,'pitch':2.54," KEYS "}")
+
+static void check_header_footprints(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const PartFootprint *fp;
+
+    CHECK(load_fp(library,
+                  FP_FILE("{'id':'H2X3','description':'d','style':'header','pins':6,'rows':2,"
+                          "'body':{'width':7.62,'height':5.08},'pitch':2.54,'rowPitch':2.54,'firstRowY':-1.27,"
+                          "'pad':{'width':1.8,'height':1.8,'shape':'round'},'drill':1.1,'pin1Shape':'rect'},"
+                          "{'id':'H1X3','description':'d','style':'header','pins':3,'rows':1,"
+                          "'body':{'width':7.62,'height':2.54},'pitch':2.54,'firstRowY':-2.77,"
+                          "'pad':{'width':1.8,'height':1.8,'shape':'round'},'drill':1.1}"),
+                  &error) == 0);
+    if (error != NULL) {
+        printf("FAIL header footprints: %s\n", error);
+        failures++;
+    }
+    fp = part_library_find_footprint(library, "H2X3");
+    CHECK(fp != NULL && fp->pins == 6 && fp->pad_count == 6);
+    check_pad(fp, 0, "1", -2.54, -1.27, 1.8, 1.8, 1.1, PAD_RECT);
+    check_pad(fp, 1, "2", -2.54, 1.27, 1.8, 1.8, 1.1, PAD_ROUND);
+    check_pad(fp, 2, "3", 0, -1.27, 1.8, 1.8, 1.1, PAD_ROUND);
+    check_pad(fp, 3, "4", 0, 1.27, 1.8, 1.8, 1.1, PAD_ROUND);
+    check_pad(fp, 4, "5", 2.54, -1.27, 1.8, 1.8, 1.1, PAD_ROUND);
+    check_pad(fp, 5, "6", 2.54, 1.27, 1.8, 1.8, 1.1, PAD_ROUND);
+    printf("ok   header 2x3: zigzag pads, pin 1 rect\n");
+    fp = part_library_find_footprint(library, "H1X3");
+    CHECK(fp != NULL && fp->pins == 3 && fp->pad_count == 3);
+    check_pad(fp, 0, "1", -2.54, -2.77, 1.8, 1.8, 1.1, PAD_ROUND);
+    check_pad(fp, 1, "2", 0, -2.77, 1.8, 1.8, 1.1, PAD_ROUND);
+    check_pad(fp, 2, "3", 2.54, -2.77, 1.8, 1.8, 1.1, PAD_ROUND);
+    printf("ok   header 1x3: one row at firstRowY -2.77\n");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fp_fail("header: rows 3", FP_HEADER("'pins':6,'rows':3,'rowPitch':2.54,'firstRowY':0"),
+                   "\"rows\" must be 1 or 2");
+    expect_fp_fail("header: pins not a multiple of rows",
+                   FP_HEADER("'pins':7,'rows':2,'rowPitch':2.54,'firstRowY':0"),
+                   "\"pins\" 7 is not a multiple of \"rows\" 2");
+    expect_fp_fail("header: 2 rows without rowPitch", FP_HEADER("'pins':6,'rows':2,'firstRowY':0"),
+                   "\"rowPitch\" is required with 2 rows");
+    expect_fp_fail("header: 1 row with rowPitch",
+                   FP_HEADER("'pins':3,'rows':1,'rowPitch':2.54,'firstRowY':0"),
+                   "\"rowPitch\" is not allowed with 1 row");
+}
+
 static void check_part_footprints(void) {
     PartLibrary *library = part_library_create();
     char *error = NULL;
@@ -2125,6 +2178,7 @@ int main(void) {
     check_explicit_repeated_pins();
     check_footprint_corners();
     check_footprint_cases();
+    check_header_footprints();
     check_part_footprints();
     check_ball_cases();
     check_display_cases();

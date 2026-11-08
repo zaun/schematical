@@ -417,6 +417,38 @@ column c, row index r (A = 0):  x = (c − 1 − (columns−1)/2) · pitch
                                 y = (r − (rows−1)/2) · pitch
 ```
 
+### `header` — pin header
+
+Through-hole pin headers, one or two rows, numbered zigzag: pin 2 is across
+the rows from pin 1, then 3 and 4 in the next column. `slots` and `centre`
+are not allowed.
+
+| Key | Value |
+|---|---|
+| `"rows"` | 1 or 2; `pins` must be a multiple of it |
+| `"pitch"` | > 0, pad-centre distance along a row |
+| `"rowPitch"` | non-zero, row 2's y minus row 1's; required with 2 rows, not allowed with 1 |
+| `"firstRowY"` | y of row 1 (the row with pin 1) from the body centre |
+| `"pad"` | pad size and shape, as on `dual` |
+| `"drill"` | optional, > 0 |
+| `"pin1Shape"` | optional, as on `dual` |
+
+perRow = pins / rows. Pin p (1-based) is in column c = (p − 1) / rows and
+row k = (p − 1) % rows:
+
+```
+x = (c − (perRow − 1)/2) · pitch
+y = firstRowY + k · rowPitch
+```
+
+```
+ 1 ■  3 ●  5 ●  7 ●       2x4, rowPitch > 0: row 1 above row 2
+ 2 ●  4 ●  6 ●  8 ●
+```
+
+A right-angle header's body is its housing; `firstRowY` puts the holes
+beside it (the pins past the housing are not drawn).
+
 ### `explicit` — literal pads
 
 For land patterns the parametric styles cannot express (mixed pad sizes).
