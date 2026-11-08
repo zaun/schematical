@@ -15,8 +15,32 @@ final class SchematicFileController {
     /// asks about unsaved changes first.
     @ObservationIgnored
     weak var window: NSWindow? {
-        didSet { closeGuard.attach(to: window) }
+        didSet {
+            closeGuard.attach(to: window)
+            joinPendingTabGroup()
+        }
     }
+
+    /// Opens a new, blank schematic window. Set by the window's view, which
+    /// has SwiftUI's `openWindow`.
+    @ObservationIgnored
+    var openNewWindow: (() -> Void)?
+
+    /// A file read by one window to open in a new tab: the next new window
+    /// takes it.
+    private struct PendingOpen {
+        let url: URL
+        let file: SchematicFile
+        /// The window whose tab group the new window joins.
+        weak var tabbedWith: NSWindow?
+    }
+
+    @ObservationIgnored
+    private static var pendingOpens: [PendingOpen] = []
+
+    /// The window this one joins as a tab once it has a window.
+    @ObservationIgnored
+    private weak var pendingTabGroup: NSWindow?
 
     /// Every open window's controller, so quitting can check them all.
     @ObservationIgnored
@@ -97,19 +121,56 @@ final class SchematicFileController {
         write(to: url)
     }
 
-    /// Asks for a schematic and opens it in this window, replacing the canvas.
-    /// Offers to save first if there are unsaved changes.
-    func open() async {
-        guard await confirmDiscardingChanges() else { return }
+    /// True for a new window's untitled schematic that is still empty.
+    var isBlank: Bool {
+        fileURL == nil && !hasUnsavedChanges
+    }
 
+    /// Asks for a schematic and opens it. A blank untitled window loads it in
+    /// place; any other window opens it in a new tab. A file that is already
+    /// open brings its window to the front instead.
+    func open() async {
         let panel = NSOpenPanel()
         panel.allowedContentTypes = SchematicFile.openableTypes
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
         guard await run(panel) == .OK, let url = panel.url else { return }
 
+        if let existing = Self.all.allObjects.first(where: { $0.fileURL?.standardizedFileURL == url.standardizedFileURL }),
+           let window = existing.window, window.isVisible {
+            window.makeKeyAndOrderFront(nil)
+            return
+        }
+
+        let file: SchematicFile
         do {
-            let file = try SchematicFile.decode(try Data(contentsOf: url))
+            file = try SchematicFile.decode(try Data(contentsOf: url))
+        } catch {
+            present(error, title: "Couldn't open “\(url.lastPathComponent)”")
+            return
+        }
+
+        if isBlank || openNewWindow == nil {
+            guard await confirmDiscardingChanges() else { return }
+            load(file, from: url)
+        } else {
+            Self.pendingOpens.append(PendingOpen(url: url, file: file, tabbedWith: window))
+            openNewWindow?()
+        }
+    }
+
+    /// Loads a file another window read for this new one, if there is one,
+    /// and joins that window's tab group. Call once the catalog is loaded.
+    func takePendingOpen() {
+        guard isBlank, !Self.pendingOpens.isEmpty else { return }
+        let pending = Self.pendingOpens.removeFirst()
+        pendingTabGroup = pending.tabbedWith
+        joinPendingTabGroup()
+        load(pending.file, from: pending.url)
+    }
+
+    private func load(_ file: SchematicFile, from url: URL) {
+        do {
             willReplaceDocument()
             try file.apply(to: document, catalog: catalog, fileURL: url)
             fileURL = url
@@ -118,6 +179,13 @@ final class SchematicFileController {
         } catch {
             present(error, title: "Couldn't open “\(url.lastPathComponent)”")
         }
+    }
+
+    private func joinPendingTabGroup() {
+        guard let window, let group = pendingTabGroup, group !== window else { return }
+        pendingTabGroup = nil
+        group.addTabbedWindow(window, ordered: .above)
+        window.makeKeyAndOrderFront(nil)
     }
 
     /// Asks where to export the schematic as `format`, then writes it there.

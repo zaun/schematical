@@ -377,8 +377,13 @@ struct ContentView: View {
                     simulation.stop()
                 }
             }
-            .task { catalog.load() }
+            .task {
+                catalog.load()
+                // A file opened from another window lands here, in a new tab.
+                file.takePendingOpen()
+            }
             .onAppear {
+                file.openNewWindow = { openWindow(id: "schematic") }
                 SchematicSessions.shared.register(sessionID, document: document, simulation: simulation)
                 simulation.setSpeed(simulationSpeed)
             }
