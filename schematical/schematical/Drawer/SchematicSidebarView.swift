@@ -71,6 +71,12 @@ struct SchematicSidebarView: View {
                             LabeledContent(rows[index].label, value: rows[index].value)
                         }
                     }
+                    if let url = chip.part.datasheetURL {
+                        Section {
+                            OpenDatasheetButton(target: DatasheetWindowTarget(
+                                url: url, partName: chip.part.name))
+                        }
+                    }
                 }
                 .formStyle(.grouped)
                 // Fresh field state for each part.

@@ -93,6 +93,15 @@ struct schematicalApp: App {
         .defaultSize(width: 760, height: 420)
         .restorationBehavior(.disabled)
 
+        // One window per datasheet, opened from a part's Open Datasheet button.
+        WindowGroup("Datasheet", id: "datasheet", for: DatasheetWindowTarget.self) { $target in
+            if let target {
+                DatasheetWindowView(target: target)
+            }
+        }
+        .defaultSize(width: 820, height: 1000)
+        .restorationBehavior(.disabled)
+
         Settings {
             PreferencesView()
         }

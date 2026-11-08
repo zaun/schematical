@@ -237,6 +237,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// Empty for parts that are never listed (VCC, GND).
     let drawer: [String]
     let flags: Flags
+    /// The company that makes the part; "Generic" for parts no one company
+    /// makes (supplies, headers, the generic LED). Empty if not given.
+    let manufacturer: String
+    /// The manufacturer's PDF of the part's datasheet; nil for Generic parts.
+    let datasheetURL: URL?
     let pins: [ChipPin]
     let details: Details
     /// Nil only for parts with no package (the supplies).
@@ -479,6 +484,8 @@ extension CatalogPart {
         package = string(part.package)
         function = string(part.function)
         description = string(part.description)
+        manufacturer = string(part.manufacturer)
+        datasheetURL = part.datasheet.flatMap { URL(string: string($0.pointee.url)) }
         drawer = (0..<part.drawer_count).map { string(part.drawer?[$0]) }
         flags = Flags(
             obsolete: part.flags & UInt32(PART_OBSOLETE) != 0,
@@ -585,19 +592,26 @@ nonisolated enum BackendCatalog {
         }
     }
 
-    /// The footprint file; every other bundled JSON resource is a part file.
+    /// The footprint file.
     static let footprintsFile = "footprints.json"
+    /// The datasheet file; every other bundled JSON resource is a part file.
+    static let datasheetsFile = "datasheets.json"
 
-    /// Loads `footprints.json` first (part files name its footprints), then
-    /// every other bundled JSON resource as a part file, in file-name order.
+    /// Loads `datasheets.json` and `footprints.json` first (part files name
+    /// their entries), then every other bundled JSON resource as a part
+    /// file, in file-name order.
     static func load(into library: PartLibraryHandle) throws -> [CatalogPart] {
         let urls = (Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: nil) ?? [])
             .sorted { $0.lastPathComponent < $1.lastPathComponent }
         guard let footprintsURL = urls.first(where: { $0.lastPathComponent == footprintsFile }) else {
             throw LoadError.unavailable
         }
+        guard let datasheetsURL = urls.first(where: { $0.lastPathComponent == datasheetsFile }) else {
+            throw LoadError.unavailable
+        }
+        try loadFile(datasheetsURL, with: load_datasheets, into: library)
         try loadFile(footprintsURL, with: load_footprints, into: library)
-        for url in urls where url != footprintsURL {
+        for url in urls where url != footprintsURL && url != datasheetsURL {
             try loadFile(url, with: load_parts, into: library)
         }
 
