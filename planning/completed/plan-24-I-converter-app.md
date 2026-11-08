@@ -51,7 +51,7 @@ plan-24-A § Prerequisites, plus:
 - [x] Runtime proof (`run` skill), as §1. No project run skill; the plan-06-A harness (the app's Swift sources and backend, a custom `main.swift`, inside a copy of the Debug .app): the app's `SimulationController` runs §G's 6502/W65C22/ADS1115 board plus a BQ32000DR on 3.3 V; the app's `RegisterInspector` shows in an on-screen window, captured with `screencapture -l`: `U1 — ADS1115IDGSR`, CONFIG `85A3`, CONVERSION `0000`; `U2 — BQ32000DR` Time `2000-01-01 00:00:00 Saturday`, SECONDS `00` → 2 s of circuit time later `00:00:02`, SECONDS `02`; `error -` (no stop). PNGs looked at.
 
 Acceptance: build, tests, runtime proof: `** BUILD SUCCEEDED **`; `100% tests passed, 0 tests failed out of 26`; the windows above.
-Commit: —
+Commit: a56d3a3
 
 ## Validation Plan — plan-24 landing tier
 
@@ -62,6 +62,17 @@ Commit: —
 | Part counts | `grep -c '\|converter\|' parts.txt`; `grep -c '\|rtc\|' parts.txt` | NADC + NDAC; NRTC |
 | Datasheets | `ls datasheets/{adc,dac,rtc}/*.pdf \| wc -l` | A + B counts |
 | App | `xcodebuild` above | `** BUILD SUCCEEDED **` |
+
+Observed (landing run, 2026-11-07, fresh `cmake -S backend -B
+/tmp/logic-p24-land`, the C first commit being 79cabb9):
+
+| Gate | Observed |
+|---|---|
+| Backend tests | `100% tests passed, 0 tests failed out of 26` (T0 24 + 2) |
+| Goldens vs plan-24 start | `git diff 79cabb9^ -- backend/tests/golden \| grep -c '^-[^-]'` → 0 |
+| Part counts | 1911 `\|converter\|` (NADC 1187 + NDAC 724); 14 `\|rtc\|` |
+| Datasheets | adc 429, dac 217, rtc 7 = the distinct PDFs the `add` rows cite (429, 217, 7) |
+| App | `** BUILD SUCCEEDED **` |
 
 Then archive plan-24-A…I to `planning/completed/`.
 
