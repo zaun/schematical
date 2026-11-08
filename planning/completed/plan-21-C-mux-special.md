@@ -99,15 +99,15 @@ read-while-not-driving handling (no self-read of a driven value).
 - [x] ~~LS604 case~~ — moot: SN74LS604N, the only LS604 candidate, has no TI datasheet (no TI product page, no ti.com/lit PDF; DigiKey links a Rochester copy) → `skip` in `parts.tsv`, so there is no function table to test against and no part to carry it.
 - [x] `library_check` failure cases for every new `stored`/`regfile` validation error (16 lines: valid stored, valid two-file regfile, no storage key, `dataLatch` + `dataClock`, bad edge, 4 `oes`, oe without `active`, unknown clock pin, 3 words, 9 bits, no files, 3 files, `q` count, `wa` count, missing `we`, unknown file key) → all `ok`.
 
-Acceptance: `ctest --test-dir /tmp/logic-p21 -R mux_test` passes (seconds).
-Commit: —
+Acceptance: `ctest --test-dir /tmp/logic-p21 -R mux_test` passes (seconds). Met at 82d8f17 (detached checkout /tmp/p21-at): `100% tests passed, 0 tests failed out of 23` (T0 + 1); `mux_test: all passed`; `git diff --stat bbaf886 82d8f17 -- backend/tests/golden` → empty.
+Commit: 82d8f17
 
 ### Phase 2 — `universal` and `bus4`
 
 - [x] ~~'857 (`universal`) and '16460 (`bus4`) models, §4 cases, docs, `library_check` cases~~ — moot: no candidate of either model is addable (`parts.tsv`: 74_857 3 × `status Obsolete`; 74_16460 `status Obsolete` + `status Discontinued at DigiKey`; 74_162460 2 × `status Obsolete` + SN74ABT162460DL `no TI datasheet`; 74_870 3 × `status Obsolete`). A model no part uses would be untested dead code in the engine; plan-21-A's outcome ("every new device runs its datasheet behavior") has no device for them. Recorded in Corrections and `specs.md`'s header.
 
-Acceptance: `ctest --test-dir /tmp/logic-p21` → T0 + 1 of T0 + 1; golden diff empty (seconds).
-Commit: —
+Acceptance: `ctest --test-dir /tmp/logic-p21` → T0 + 1 of T0 + 1; golden diff empty (seconds). Met at 82d8f17 (detached checkout /tmp/p21-at): `100% tests passed, 0 tests failed out of 23` (T0 + 1); `mux_test: all passed`; `git diff --stat bbaf886 82d8f17 -- backend/tests/golden` → empty.
+Commit: 82d8f17
 
 ## Validation Plan
 

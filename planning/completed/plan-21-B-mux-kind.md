@@ -81,8 +81,8 @@ needs 2^n entries or fewer for n select pins`, missing `y`/`w`, bad
 - [x] `mux_test.c` with §4 (fixtures generated from the spec JSON: '151, '153, '157, '158, '251, '257, CD4512B, 2G157, and a select-latch shape `shape_sl` in place of the '850 — Corrections); test list entry; `library_check` cases. Check: `/tmp/logic-p21/mux_test` → cases 1–15 `PASS`, `mux_test: all passed`; `library_check` → 17 `select` lines `ok` (valid device + 16 errors, incl. `"data" must have 4 names (2 to the number of select pins)`, `a unit needs "y" or "w"`, `"disabled" must be "low" or "z"`, `"words" is not a key of model "select"`).
 - [x] `docs/parts-format.md` § `mux` (intro, selector units, model `select`); `docs/backend.md` source list (`mux.c + mux.h`, `mux_stored.c`) and test list (`mux_test`).
 
-Acceptance: `ctest --test-dir /tmp/logic-p21` → T0 + 1 of T0 + 1; golden diff empty (seconds).
-Commit: —
+Acceptance: `ctest --test-dir /tmp/logic-p21` → T0 + 1 of T0 + 1; golden diff empty (seconds). Met at 82d8f17 (detached checkout /tmp/p21-at): `100% tests passed, 0 tests failed out of 23` (T0 + 1); `mux_test: all passed`; `git diff --stat bbaf886 82d8f17 -- backend/tests/golden` → empty.
+Commit: 82d8f17
 
 ## Validation Plan
 
