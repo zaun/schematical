@@ -10114,7 +10114,7 @@ static void WDC65816_opcode_E2_mx(struct WDC65816_regs *regs, struct WDC65816_pi
             case 3: // cleanup_custom
         // instruction code follows
         regs->P.v |= regs->TR;
-        if (regs->P.X) { regs->X &= 0xFF, regs->Y &= 0xFF; }
+        if (regs->P.X) { regs->X &= 0xFF; regs->Y &= 0xFF; }
         // instruction code ends
         // Following is auto-generated code for instruction finish
         pins->Addr = regs->PC; pins->BA = regs->PBR;
@@ -21263,7 +21263,7 @@ static void WDC65816_opcode_E2_Mx(struct WDC65816_regs *regs, struct WDC65816_pi
             case 3: // cleanup_custom
         // instruction code follows
         regs->P.v |= regs->TR;
-        if (regs->P.X) { regs->X &= 0xFF, regs->Y &= 0xFF; }
+        if (regs->P.X) { regs->X &= 0xFF; regs->Y &= 0xFF; }
         // instruction code ends
         // Following is auto-generated code for instruction finish
         pins->Addr = regs->PC; pins->BA = regs->PBR;
@@ -32876,7 +32876,7 @@ static void WDC65816_opcode_E2_mX(struct WDC65816_regs *regs, struct WDC65816_pi
             case 3: // cleanup_custom
         // instruction code follows
         regs->P.v |= regs->TR;
-        if (regs->P.X) { regs->X &= 0xFF, regs->Y &= 0xFF; }
+        if (regs->P.X) { regs->X &= 0xFF; regs->Y &= 0xFF; }
         // instruction code ends
         // Following is auto-generated code for instruction finish
         pins->Addr = regs->PC; pins->BA = regs->PBR;
@@ -43950,7 +43950,7 @@ static void WDC65816_opcode_E2_MX(struct WDC65816_regs *regs, struct WDC65816_pi
             case 3: // cleanup_custom
         // instruction code follows
         regs->P.v |= regs->TR;
-        if (regs->P.X) { regs->X &= 0xFF, regs->Y &= 0xFF; }
+        if (regs->P.X) { regs->X &= 0xFF; regs->Y &= 0xFF; }
         // instruction code ends
         // Following is auto-generated code for instruction finish
         pins->Addr = regs->PC; pins->BA = regs->PBR;

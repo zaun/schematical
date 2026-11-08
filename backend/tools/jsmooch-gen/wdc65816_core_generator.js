@@ -891,7 +891,7 @@ class WDC_switchgen {
     // Native Set bits from P
     SEPN() {
         this.addl('regs.P.v |= regs.TR;');
-        this.addl('if (regs.P.X) { regs.X &= 0xFF, regs.Y &= 0xFF; }');
+        this.addl('if (regs.P.X) { regs.X &= 0xFF; regs.Y &= 0xFF; }');
     }
 
     // Native Clear bits from P
