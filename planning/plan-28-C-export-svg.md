@@ -147,13 +147,13 @@ Rejected: outlines via Core Text (owner chose text); a `<style>` block with clas
 
 Acceptance: `SVGPainterTests` pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/SVGPainterTests CODE_SIGNING_ALLOWED=NO 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 0bb6dcf
 
 ### Phase 2 — SchematicExport.svg, tests, and the visual proof
 
-- [ ] `Document/SchematicExport.swift` (new): `SchematicExport` with `padding`, `bounds(of:)`,
+- [x] `Document/SchematicExport.swift` (new): `SchematicExport` with `padding`, `bounds(of:)`,
       `svg(_:)` per § 3.1 (measure with `BoundsPainter`; return `nil` when the scene is empty).
-- [ ] `schematicalTests/SchematicSVGTests.swift` (new), using `TestSupport`:
+- [x] `schematicalTests/SchematicSVGTests.swift` (new), using `TestSupport`:
       - empty document → `svg` is `nil`.
       - One `SN74HC00N` and one wire: parses with `XMLParser` (no error); root `svg` has `viewBox` equal to
         `0 0 W H` with `W == ceil(bounds.width)`, `H == ceil(bounds.height)`; no `<rect`; every `fill=`/`stroke=`
@@ -162,16 +162,18 @@ Commit: —
         function text, `TE-GDS0204`'s designators; DIP lever 1 on vs off produce different SVG and the on one contains `fill-opacity="0.25"`.
       - `NHD-0216K1Z-FL-YBW` alone: fewer than 100 `<path` elements (its 5×8-dot matrix is 16×2 characters = 1 280 dots, so emitting them would exceed it).
       - Padding: the viewBox is exactly 24 larger than `BoundsPainter`'s result in each dimension, up to the `ceil`.
-- [ ] `scripts/harness/export-svg.swift` (new): opens `be-6502.schematical` (21 parts, 148 wires, 2 buses) and
+      → 5 tests passed (with the 7 `SVGPainterTests`: 12, `** TEST SUCCEEDED **`). The one-chip case also checks `width`/`height` equal the viewBox's, no `<style`, and the exact XML prolog; the 12-symbol case checks every `TE-GDS0204` pin designator and the `GENERIC-LED` function text.
+- [x] `scripts/harness/export-svg.swift` (new): opens `be-6502.schematical` (21 parts, 148 wires, 2 buses) and
       builds the 12-symbol document; for each writes `<name>.svg` via `SchematicExport.svg`, and `<name>-app.png`
       by rendering the same `SchematicScene` in a `Canvas` with `ScreenPainter(…, palette: .export)` at scale 4
       through `ImageRenderer` (padding and translation as `SchematicExport.bounds`). Output dir is `CommandLine.arguments[1]`.
-- [ ] Run it: `rm -rf /tmp/p28-hc && scripts/harness/build.sh scripts/harness/export-svg.swift /tmp/p28-hc && /tmp/p28-hc/H.app/Contents/MacOS/harness /tmp/p28-svg`.
+- [x] Run it: `rm -rf /tmp/p28-hc && scripts/harness/build.sh scripts/harness/export-svg.swift /tmp/p28-hc && /tmp/p28-hc/H.app/Contents/MacOS/harness /tmp/p28-svg`.
       Then, per schematic: `xmllint --noout /tmp/p28-svg/<name>.svg` (no output),
       `rsvg-convert -z 4 /tmp/p28-svg/<name>.svg -o /tmp/p28-svg/<name>-svg.png`,
       `compare -metric AE -fuzz 30% /tmp/p28-svg/<name>-svg.png /tmp/p28-svg/<name>-app.png /tmp/p28-svg/<name>-diff.png`.
       View `<name>-svg.png`, `<name>-app.png` and `<name>-diff.png` with the Read tool.
-- [ ] Record in the Corrections section the pixel counts `compare` printed and what the diff image showed.
+      → (via `/tmp/p28-scripts/svgcheck.sh`, harness built with `APP=` as in A) `wrote … symbols-app.png 4472x2916 (1118x729 pt)`, `wrote … be-6502-app.png 7800x5092 (1950x1273 pt)`; `xmllint ok` for both; viewed flattened on white and downsized (`/tmp/p28-scripts/view.sh`).
+- [x] Record in the Corrections section the pixel counts `compare` printed and what the diff image showed.
 
 Acceptance: both SVGs pass `xmllint --noout`; in the diff image the differing pixels lie inside label text boxes only — no
 stroke, symbol outline or bus is missing, displaced or the wrong weight; the recorded image sizes of `-svg.png` and `-app.png`
@@ -197,6 +199,7 @@ Commit: —
 ## Corrections
 
 - § 3.1 says a `<text>` carries `transform` whenever the painter's transform is not the identity. Every export starts by translating by the padded bounds' corner, so that would put a `matrix(1 0 0 1 tx ty)` on every label. A translation-only transform is folded into `x`/`y` instead (as paths fold every transform into `d`); `transform="matrix(…)"` is written only when the painter is turned (the rotated port labels). `testTransforms` checks both: a rotated label → `transform="matrix(0 -1 1 0 5 7)" … x="0" y="0"`; `testText` checks an unturned label has no `transform`.
+- Phase 2 visual proof (`compare -metric AE -fuzz 30%`): `symbols` 50 304 differing pixels (0.39 %), `be-6502` 167 465 (0.42 %). Image sizes: `symbols-svg.png` and `symbols-app.png` both 4472×2916; `be-6502-svg.png` and `be-6502-app.png` both 7800×5092 (equal, within the 1 px criterion). In both diff images every red (differing) pixel lies on label text: part numbers, pin names and designators, function labels, port wire names; all strokes, symbol outlines, the 7-segment bars, the DIP levers, wires, junction dots and the 6 pt buses are gray (matching), none missing, displaced or a different weight. Nothing is cut off at the edges of either rasterized SVG.
 - `SVGPainter.Output` is a `nonisolated final class`, for the deinit abort recorded in plan-28-B's Corrections.
 
 ## Summary
