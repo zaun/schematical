@@ -57,7 +57,11 @@ struct ChipDrawerView: View, Equatable {
                 .padding(.top, 8)
             filterBar
 
-            List {
+            // A lazy stack, not a List: SwiftUI's List is an NSOutlineView,
+            // and opening groups of rows with different heights makes AppKit
+            // log "reentrant operation in its NSTableView delegate".
+            ScrollView {
+                LazyVStack(alignment: .leading, spacing: 0) {
                 ForEach(groups) { category in
                     DisclosureGroup(
                         isExpanded: expansion(for: categoryKey(category.category), defaultOpen: true)
@@ -92,6 +96,10 @@ struct ChipDrawerView: View, Equatable {
                             }
                     }
                 }
+                }
+                .disclosureGroupStyle(DrawerDisclosureStyle())
+                .padding(.horizontal, 12)
+                .padding(.vertical, 4)
             }
             .overlay {
                 if groups.isEmpty {
@@ -324,6 +332,11 @@ struct ChipDrawerView: View, Equatable {
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
+        .padding(.vertical, 4)
+        .padding(.leading, DrawerDisclosureStyle.indent)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .overlay(alignment: .bottom) { Divider() }
+        .contentShape(Rectangle())
         .draggable(ChipPartDragItem(partNumber: part.name))
     }
 
@@ -419,6 +432,44 @@ struct ChipDrawerView: View, Equatable {
         .padding(.vertical, 6)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.bar)
+    }
+}
+
+/// The drawer's groups, laid out like the outline list they replaced: a
+/// chevron and the label on one row with a rule under it, and the open
+/// content indented below.
+private struct DrawerDisclosureStyle: DisclosureGroupStyle {
+    /// How far each level is indented, the chevron's column.
+    static let indent: CGFloat = 16
+
+    func makeBody(configuration: Configuration) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 4) {
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(.secondary)
+                    .rotationEffect(.degrees(configuration.isExpanded ? 90 : 0))
+                    .frame(width: Self.indent - 4)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        withAnimation(.easeInOut(duration: 0.15)) {
+                            configuration.isExpanded.toggle()
+                        }
+                    }
+                configuration.label
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .frame(minHeight: 22)
+            .padding(.vertical, 4)
+            .overlay(alignment: .bottom) { Divider() }
+
+            if configuration.isExpanded {
+                LazyVStack(alignment: .leading, spacing: 0) {
+                    configuration.content
+                }
+                .padding(.leading, Self.indent)
+            }
+        }
     }
 }
 
