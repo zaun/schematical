@@ -89,7 +89,7 @@ several cascade inputs high are taken from its function table, specs.md
 - [x] `docs/parts-format.md` § `arith` (intro, `compare`, `parity`); `docs/backend.md` kind list. § `arith` before § `counter`; `backend.md` models list (`arith.c + arith.h`) and test list (`arith_test`).
 
 Acceptance: `ctest --test-dir /tmp/logic-p22` → T0 + 1 of T0 + 1; golden diff empty (seconds). Met: `100% tests passed, 0 tests failed out of 25` (T0 + 1 = 25); `git diff --stat backend/tests/golden` → empty.
-Commit: —
+Commit: e672958
 
 ## Validation Plan
 
