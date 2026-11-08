@@ -219,11 +219,10 @@ From the reviewers' estimates for the rest of the sample:
 | 16C550-class UARTs | 40–55 KB |
 
 **So the 20–30 KB target is realistic, and generous**, for everything
-except register-heavy UARTs. The limits are now 60 KB for `controller`
-and 140 KB for `microprocessor`/`microcontroller`, measured in
-[large-parts.md](large-parts.md): controllers and microprocessors fit;
-full AVR microcontroller datasheets (190–310 KB) don't, and need a
-decision.
+except register-heavy UARTs. The limits are now 60 KB for `controller`,
+120 KB for `microprocessor` and 400 KB for `microcontroller`, measured
+in [large-parts.md](large-parts.md): every converted sample fits, with
+full AVR microcontroller datasheets at 190–310 KB.
 
 ## Effort to convert all PDFs
 
@@ -263,8 +262,7 @@ phased so each phase lands on its own:
    - Move check.py to `scripts/`.
    - Run it in the backend test suite over `Datasheets/`, including the
      cross-file "claimed twice" check.
-   - Settle the microcontroller limit (large-parts.md § Options) and the
-     home folder (`schematical/schematical/Datasheets/<category>/`).
+   - Settle the home folder (`schematical/schematical/Datasheets/<category>/`).
 2. **Renderer.**
    - Show the Markdown in a WKWebView with markdown-it (sub/sup on,
      strikethrough off) and WaveDrom bundled locally.

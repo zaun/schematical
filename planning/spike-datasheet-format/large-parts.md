@@ -1,20 +1,25 @@
 # Datasheet format spike, part 2: controllers, microprocessors, microcontrollers
 
-Follow-up to [findings.md](findings.md). The question: do the size limits
-**60 KB for `controller`** and **140 KB for `microprocessor` and
-`microcontroller`** hold for real datasheets converted under
-[format.md](format.md) without cutting facts?
+Follow-up to [findings.md](findings.md). The question: do per-class size
+limits hold for real datasheets converted under [format.md](format.md)
+without cutting facts? The first limits asked for were 60 KB for
+`controller` and 140 KB for `microprocessor` and `microcontroller`.
+Microcontrollers didn't fit 140 KB, so the limits are now **60 KB for
+`controller`**, **120 KB for `microprocessor`** and **400 KB for
+`microcontroller`** (option B below).
 
 ## Answer
 
 | Class | Limit | Measured | Verdict |
 |---|--:|---|---|
-| `microprocessor` | 140 KB | W65C816S **72.1 KB** (largest processor datasheet in the repo) | **Works**, with room to spare |
+| `microprocessor` | 120 KB | W65C816S **72.1 KB** (largest processor datasheet in the repo) | **Works**, with room to spare |
 | `controller` | 60 KB | MAX14830 **63.6 KB** first pass, **58.3 KB** after the de-duplication rules (largest controller in the repo) | **Works**, just: it needed the de-duplication rules, with no facts cut |
-| `microcontroller` | 140 KB | ATtiny85 **192.7 KB**, ATmega328P **310.1 KB**, ATmega4809 **309.0 KB** | **Doesn't work** for full AVR datasheets |
+| `microcontroller` | 400 KB | ATtiny85 **192.7 KB**, ATmega328P **310.1 KB**, ATmega4809 **309.0 KB** | **Works**. At 140 KB it didn't: full AVR datasheets are 1.4–2.2× over |
 
-The microcontroller result needs a decision (see
-[Options for microcontrollers](#options-for-microcontrollers)).
+The microcontroller limit was decided from the options in
+[Options for microcontrollers](#options-for-microcontrollers): option B,
+400 KB. ATmega2560 and ATmega32U4, the largest AVR datasheets in the
+repo, are estimated at 330–380 KB, so they should fit too.
 
 ## Method
 
@@ -64,7 +69,7 @@ The microcontroller result needs a decision (see
   chapters (interrupt response, hardware/software implementation) into
   the Z84C00 file.
 
-140 KB leaves about 2× headroom over the largest real case.
+120 KB leaves about 1.7× headroom over the largest real case.
 
 ### Controller: MAX14830
 
@@ -147,8 +152,9 @@ Estimates for the AVRs not converted, by the same method:
 
 ## Options for microcontrollers
 
-The 140 KB limit fails by 1.4× (ATtiny85) to 2.2× (ATmega4809). Facts
-can't be cut to fit, so one of these has to give:
+The first 140 KB limit failed by 1.4× (ATtiny85) to 2.2× (ATmega4809).
+Facts can't be cut to fit, so one of these had to give. **Decision: B,
+400 KB.**
 
 | Option | What changes | Effect on the samples | Cost |
 |---|---|---|---|
@@ -157,8 +163,10 @@ can't be cut to fit, so one of these has to give:
 | **C. Split per chapter** | An MCU datasheet becomes a core file (description, pins, programming model, memory map, ratings, characteristics, package, ordering) plus one file per peripheral, each under 140 KB. | Same total size. Every file is easily under 140 KB; ATmega4809's TWI is the largest chapter at 27.6 KB. | One datasheet becomes 15–25 files, and the app shows them as one document with chapters. |
 | **D. Limit with A**, 200 KB | A and B together. | All three samples fit (about 120–170 KB). ATmega2560/32U4 would be about 180–220 KB with classic-AVR modules, borderline. | As A. |
 
-**Recommendation: D** (shared family modules plus a 200 KB
-microcontroller limit). The modules pay for themselves:
+The spike recommended **D** (shared family modules plus a 200 KB
+microcontroller limit); B was chosen instead. Shared modules are still
+worth adding later, since they would shrink the files without changing
+the limit:
 
 - **The library isn't duplicated.** The six AVR PDFs repeat the same
   USART, SPI, TWI, timer and programming chapters six times, about
@@ -168,11 +176,8 @@ microcontroller limit). The modules pay for themselves:
 - **The device file stays readable.** It holds what is particular to
   that chip.
 
-If shared modules are too much machinery for now, **B with 400 KB** is the
-simple fallback; nothing else in the format depends on the number.
-
-The microprocessor limit can stay at 140 KB. If the microcontroller
-limit is raised, the two classes simply get different limits.
+Nothing else in the format depends on the number. The microprocessor
+limit is 120 KB, separate from the microcontroller limit.
 
 ## Format changes made for these classes
 
@@ -209,8 +214,8 @@ All are in format.md and enforced by check.py:
   and `parts` lets a PDF be converted before its parts are in the
   catalog. Pinout, Package and Ordering then use tables, which are
   replaced by the generated blocks when the parts land.
-- **Per-class size limits.** controller 60 KB and microprocessor /
-  microcontroller 140 KB are errors above the limit; the other classes
+- **Per-class size limits.** controller 60 KB, microprocessor
+  120 KB and microcontroller 400 KB are errors above the limit; the other classes
   warn above 30 KB.
 - **Fixes the large samples exposed:**
   - Note markers no longer match bit references: `ISR[2]` and
@@ -224,8 +229,11 @@ All are in format.md and enforced by check.py:
 
 ## Still open
 
-1. **The microcontroller limit**: options A–D above. Needs your
-   decision.
+1. **Rendering 300–400 KB pages.** The 400 KB microcontroller limit
+   means the viewer must handle about 150–200 printed pages in one
+   document; it needs an outline sidebar and should be tested with
+   ATmega328P. Shared family modules (option A) remain a way to shrink
+   these files later.
 2. **Analog drawings in MCU datasheets.** Reset ramps, the external
    clock drive waveform and timer sawtooth/triangle mode plots have no
    WaveDrom form. They are drawn as digital levels or described in

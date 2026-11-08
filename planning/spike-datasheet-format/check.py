@@ -60,7 +60,7 @@ SOURCE_KEYS = {"pdf", "vendor", "document", "date", "pages"}
 VALUE_COLS = {"min", "typ", "nom", "max", "value"}
 NAMED_COLS = {"symbol", "parameter", "conditions", "test conditions", "from", "to", "unit"} | VALUE_COLS
 SIZE_WARN = 30 * 1024
-SIZE_LIMIT = {"controller": 60 * 1024, "microprocessor": 140 * 1024, "microcontroller": 140 * 1024}
+SIZE_LIMIT = {"controller": 60 * 1024, "microprocessor": 120 * 1024, "microcontroller": 400 * 1024}
 MAX_CURVES = {"microprocessor": 12, "microcontroller": 12}
 
 

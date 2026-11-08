@@ -472,7 +472,8 @@ sidecar SVGs; generated blocks cost nothing.
 | Class | Limit | Checker |
 |---|--:|---|
 | `controller` | 60 KB | error above |
-| `microprocessor`, `microcontroller` | 140 KB | error above |
+| `microprocessor` | 120 KB | error above |
+| `microcontroller` | 400 KB | error above |
 | every other class | target 20–30 KB | warning above 30 KB |
 
 `check.py` reports the size of every section so the big ones are easy to
