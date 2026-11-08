@@ -749,6 +749,14 @@ final class PartCatalogStore {
         var id: String { category }
     }
 
+    /// The app's one catalog, shared by every window. The part files are
+    /// read the first time it's used, at launch.
+    static let shared: PartCatalogStore = {
+        let store = PartCatalogStore()
+        store.load()
+        return store
+    }()
+
     /// The C library; circuits are built from it.
     let library = PartLibraryHandle()
     private(set) var loadState: LoadState = .notLoaded

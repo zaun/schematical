@@ -29,6 +29,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 struct schematicalApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
+    init() {
+        // Read the parts once, at launch, rather than per window.
+        _ = PartCatalogStore.shared
+    }
+
     var body: some Scene {
         // Opening a file from a window that isn't blank opens a new one of
         // these, as a tab of that window.

@@ -23,7 +23,8 @@ enum EditorPage: String, CaseIterable, Identifiable {
 }
 
 struct ContentView: View {
-    @State private var catalog: PartCatalogStore
+    /// The app-wide catalog, loaded once at launch.
+    private let catalog = PartCatalogStore.shared
     @State private var document: SchematicDocument
     @State private var viewport = CanvasViewport()
     /// The PCB page's own pan and zoom. It opens at 25 %, so a whole board
@@ -69,10 +70,9 @@ struct ContentView: View {
     }
 
     init() {
-        let catalog = PartCatalogStore()
+        let catalog = PartCatalogStore.shared
         let document = SchematicDocument(library: catalog.library)
         let simulation = SimulationController(library: catalog.library)
-        _catalog = State(initialValue: catalog)
         _document = State(initialValue: document)
         _simulation = State(initialValue: simulation)
         // Opening a file stops any running simulation first, since the
@@ -378,7 +378,6 @@ struct ContentView: View {
                 }
             }
             .task {
-                catalog.load()
                 // A file opened from another window lands here, in a new tab.
                 file.loadClaimedOpen()
             }
