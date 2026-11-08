@@ -53,7 +53,7 @@ plan-24-A § Prerequisites, plus:
 - [x] Specs and `parts.tsv` follow the drawings: `census/build.py` reads `footprint-overrides.tsv` and skips the two undrawable packages (ADC3541, ADC3542, ADC3544, ADC3642 have only RSB parts, DAC811's JD part: 6 rows; `adc3541.pdf`, `adc3544.pdf`, `adc3643.pdf` deleted, `datasheets/not-included.md`); 58 spec package footprints updated (`/tmp/p24/scripts/syncfp.py`); 4 specs removed.
 
 Acceptance: `ctest` T0 of T0 (`100% tests passed, 0 tests failed out of 24`); coverage empty (above); golden diff 0 lines — the `footprints.txt` lines are added in G/H (Corrections).
-Commit: —
+Commit: 79cabb9
 
 ## Validation Plan
 

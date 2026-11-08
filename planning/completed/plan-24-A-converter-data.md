@@ -192,7 +192,7 @@ Commit: a1c3238
 - [x] Spec writing: 55 batches of about 10 devices by subagents against `schema.md` and `/tmp/p24/brief.md` (4 pilots first; the brief and schema were extended after each wave), plus 3 fix-up batches (revision splits, per-part I2C addresses, 2-wire parts, multi-frame register sequences). Every spec validates (above).
 
 Acceptance: the checks above (minutes).
-Commit: —
+Commit: 676cf59
 
 ## Validation Plan
 

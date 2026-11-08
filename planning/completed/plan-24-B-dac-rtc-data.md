@@ -59,7 +59,7 @@ Commit: 5287733
 - [x] Spec writing: 26 DAC batches + 1 RTC batch by subagents (as plan-24-A), plus 2 DAC fix-up batches (update-all, strap-selected resets, per-grade resets, clear codes, register-write triggers, per-package I2C straps, active-high LOAD pins, the DAC60508C/DAC80508C/DAC61404 splits) and an RTC pass for the adopted clock forms.
 
 Acceptance: the checks above (minutes).
-Commit: —
+Commit: b16e4c9
 
 ## Validation Plan
 
