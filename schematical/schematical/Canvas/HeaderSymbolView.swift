@@ -16,9 +16,18 @@ struct HeaderSymbolView: View {
 
     /// "1×8 male": the size and gender under the body.
     static func label(for chip: PlacedChip) -> String {
-        let size = chip.part.headerSize.map { "\($0.rows)×\($0.perRow)" } ?? ""
-        let gender = (chip.gender ?? chip.part.genders.first ?? "").lowercased()
-        return [size, gender].filter { !$0.isEmpty }.joined(separator: " ")
+        // Plain ifs: Xcode 26.3's optimizer crashes ("Found ownership error")
+        // on the `??` chain this used to be, failing the Release build.
+        var words: [String] = []
+        if let size = chip.part.headerSize {
+            words.append("\(size.rows)×\(size.perRow)")
+        }
+        if let gender = chip.gender {
+            words.append(gender.lowercased())
+        } else if let gender = chip.part.genders.first {
+            words.append(gender.lowercased())
+        }
+        return words.filter { !$0.isEmpty }.joined(separator: " ")
     }
 
     var body: some View {
