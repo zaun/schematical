@@ -44,7 +44,7 @@ by a script under `/tmp/p24/` (not committed).
 - [x] Runtime proof: a `circuit_check` case with a 6502 test program (the plan-12 serial test circuits' pattern) that bit-bangs I2C on a W65C22 port to an ADS1115, starts a conversion, polls the config OS bit and reads 0x0000. `check_adc_from_cpu` (W65C02S, AT28C256, AS6C62256, W65C22S, ADS1115IDGSR, ECS-100A-010, io_board's decoding through the circuit API; a 464-byte program, listed in the test): `results: 00 05 03 85 00 00 00 AA` — every byte ACKed, first poll CONFIG 05xx (OS = 0), 3 busy polls, then 85xx, CONVERSION 0x0000; `9499 cycles`; all `adc board` checks PASS.
 
 Acceptance: `ctest` T0 + 2 of T0 + 2; golden counts; the runtime case passes (seconds): `100% tests passed, 0 tests failed out of 26`; goldens +60/+1187/+1187, 0 removed; `circuit_check` `0 failure(s)`.
-Commit: —
+Commit: 284ef4e
 
 ## Validation Plan
 
