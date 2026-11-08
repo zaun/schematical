@@ -130,7 +130,8 @@ static void check_valid_pull(void) {
                HEAD("supply") VCC_DEVICE ","
                "{'id':'PULLDOWN','function':'Pull-down','description':'d','drawer':[],"
                "'pinouts':{'pin':[{'number':1,'name':'PD','role':'output'}]},'volts':0,'pull':true,"
-               "'parts':[{'name':'PULLDOWN','package':'','pinout':'pin'}]}" TAIL,
+               "'parts':[{'name':'PULLDOWN','package':'0603','pinout':'pin','footprint':'T2',"
+               "'footprintChoices':[{'package':'0603','footprint':'T2'}]}]}" TAIL,
                &error) == 0);
     CHECK(error == NULL);
     pd = part_library_find(library, "PULLDOWN");
@@ -140,10 +141,29 @@ static void check_valid_pull(void) {
         CHECK(pd->kind == PART_SUPPLY && pd->supply->pull == 1 && pd->supply->level == 0 &&
               pd->supply->mv == 0 && pd->pins[0].role == PIN_OUTPUT);
         CHECK(vcc->supply->pull == 0);
+        /* plan-26-A: a pull is a resistor; its 2-pad footprint's pad 2 is the rail end. */
+        CHECK(pd->footprint != NULL && strcmp(pd->footprint->id, "T2") == 0);
+        CHECK(pd->footprint_choice_count == 1);
+        CHECK(vcc->footprint == NULL);
     }
     free(error);
     part_library_destroy(library);
     printf("ok   valid pull part\n");
+
+#define PULL_DEVICE(PART_KEYS) \
+    HEAD("supply") \
+    "{'id':'PULLDOWN','function':'Pull-down','description':'d','drawer':[]," \
+    "'pinouts':{'pin':[{'number':1,'name':'PD','role':'output'}]},'volts':0,'pull':true," \
+    "'parts':[{'name':'PULLDOWN','package':'0603','pinout':'pin'" PART_KEYS "}]}" TAIL
+    expect_fail("pull part without footprint", PULL_DEVICE(""),
+                "parts[0] (PULLDOWN): missing \"footprint\"");
+    expect_fail("pull part with connectorFootprint",
+                PULL_DEVICE(",'footprint':'T2','connectorFootprint':'T2'"),
+                "parts[0] (PULLDOWN): a pull part has no connectorFootprint");
+    expect_fail("pull part footprint with fewer pads than pins",
+                PULL_DEVICE(",'footprint':'BGA2'"),
+                "pin \"1\" has no pad in footprint \"BGA2\"");
+#undef PULL_DEVICE
 }
 
 /* plan-12-C: the serial kind, on the PC16550D fixture keys (serial_fixture.h). */

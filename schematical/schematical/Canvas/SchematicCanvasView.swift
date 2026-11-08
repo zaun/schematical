@@ -592,7 +592,9 @@ struct SchematicCanvasView: View {
                 document.placeChip(
                     part: part,
                     symbol: symbol(for: part),
-                    centeredAt: start
+                    centeredAt: start,
+                    footprintID: NewPartOptions.footprintID(for: part),
+                    ohms: NewPartOptions.ohms(for: part)
                 )
             }
             interaction = .idle

@@ -19,7 +19,7 @@ a pull-down at 4.7 kΩ / 0805 are one BOM line: `3`, `R1, R2, R3`,
 
 References:
 
-- `planning/plan-26-A-pull-resistor-data.md` (the model this builds on)
+- `planning/completed/plan-26-A-pull-resistor-data.md` (the model this builds on)
 - `planning/completed/plan-18-B-generic-led-ui.md` (precedent: LED Color and Footprint pickers, Settings default)
 - `schematical/schematical/Drawer/PartOptionsSection.swift`
 - `schematical/schematical/Canvas/LengthField.swift` (precedent: number field that commits on Return / focus loss)
@@ -34,7 +34,7 @@ sub-plan adds one:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-26-A is complete | `ls planning/completed/plan-26-A-*` → one file, and `grep -c 'var ohms' schematical/schematical/Canvas/SchematicModel.swift` → 1 | NOT MET (2026-11-07: plan-26-A just written) |
+| plan-26-A is complete | `ls planning/completed/plan-26-A-*` → one file, and `grep -c 'var ohms' schematical/schematical/Canvas/SchematicModel.swift` → 1 | MET (2026-11-07, re-run by follow-plan: `planning/completed/plan-26-A-pull-resistor-data.md`, `grep -c` → 1) |
 
 If plan-26-A is not complete, this plan cannot start, full stop.
 
@@ -192,9 +192,9 @@ at `point(30, mid)` with `anchor: .leading`, 9 pt monospaced, `.primary`
 
 ### Phase 1 — Formatting and BOM
 
-- [ ] `schematical/schematical/Canvas/ResistorValue.swift`: §4.
-- [ ] `schematical/schematical/BillOfMaterials/BillOfMaterialsWindow.swift`: §8.
-- [ ] Tests: `PullResistorTests.swift` gains `ResistorValue` cases (the §4
+- [x] `schematical/schematical/Canvas/ResistorValue.swift`: §4.
+- [x] `schematical/schematical/BillOfMaterials/BillOfMaterialsWindow.swift`: §8.
+- [x] Tests: `PullResistorTests.swift` gains `ResistorValue` cases (the §4
       examples; `ohms(number: 2000, unit: .mega)` → nil; `ohms(number:
       1.2345, unit: .kilo)` → 1235 (1.2345 rounds to 1.235 × 1000 = 1235; check with
       accuracy 1e-9)). `BillOfMaterialsTests.swift`: new test — `PULLUP-5V`,
@@ -202,31 +202,51 @@ at `point(30, mid)` with `anchor: .leading`, 9 pt monospaced, `.primary`
       `RESISTOR`, `0805`, `4.7kΩ`, quantity 3, references `R1, R2, R3`; a
       fourth at 1000 Ω is a second line. `testCSVQuotesFieldsWithCommas`
       expects the new header and an empty Value field. `testGroupsByPartAndSkipsSupplies`
-      still passes (GND still left out).
+      still passes (GND still left out). (Added `PullResistorTests`
+      `testResistorValueText`, `testResistorValueOhmsAndParse`;
+      `BillOfMaterialsTests.testPullResistorsGroupByValueAndPackage`, which
+      also checks the CSV row `3,"R1, R2, R3",RESISTOR,0805,4.7kΩ,,Resistor`.)
 
 Acceptance: pull resistors are grouped by value and package in the BOM and CSV.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/BillOfMaterialsTests -only-testing:schematicalTests/PullResistorTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 3 min).
-Commit: —
+  Result (2026-11-07): `Executed 13 tests, with 0 failures` (BOM 4,
+  PullResistor 9), `** TEST SUCCEEDED **`.
+Commit: 24d3fda
 
 ### Phase 2 — Sidebar, Settings and symbol
 
-- [ ] `schematical/schematical/Drawer/PartOptionsSection.swift`: `OhmsField`
+- [x] `schematical/schematical/Drawer/PartOptionsSection.swift`: `OhmsField`
       and the Ohms row (§5).
-- [ ] `schematical/schematical/Preferences/PreferencesView.swift`: keys,
+- [x] `schematical/schematical/Preferences/PreferencesView.swift`: keys,
       `NewPartOptions`, "New Pull Resistor" section (§6).
-- [ ] `schematical/schematical/Canvas/SchematicCanvasView.swift`: pull
+- [x] `schematical/schematical/Canvas/SchematicCanvasView.swift`: pull
       placement passes the Settings options (§6).
-- [ ] `schematical/schematical/Canvas/SupplySymbolView.swift`: the value
+- [x] `schematical/schematical/Canvas/SupplySymbolView.swift`: the value
       label (§7); update the type's doc comment.
-- [ ] Tests: `PullResistorTests.swift` — `NewPartOptions` with a test
+- [x] Tests: `PullResistorTests.swift` — `NewPartOptions` with a test
       `UserDefaults` suite: unset → nil/nil; `pullResistorOhms` 2200 and
       `pullResistorFootprint` `RES-1206` → 2200 / `RES-1206` for `PULLUP-5V`
-      and nil for `SN74HC00D`; `pullResistorOhms` -5 → nil.
+      and nil for `SN74HC00D`; `pullResistorOhms` -5 → nil. (Also: the
+      pull footprint key gives nil for `GENERIC-LED`.)
+- [x] Added: `scripts/harness/pull-resistor-ui.swift` (kept), the runtime
+      proof below run on the app's real document and views (see Corrections).
 
 Acceptance: the Options section and Settings set a pull's value and
 footprint, and the symbol shows it.
   Check: `xcodebuild … test -only-testing:schematicalTests/PullResistorTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 3 min); then the runtime proof below.
-Commit: —
+  Result (2026-11-07): `Executed 10 tests, with 0 failures`, `** TEST
+  SUCCEEDED **`. Runtime proof: `rm -rf /tmp/p26-h && scripts/harness/build.sh
+  scripts/harness/pull-resistor-ui.swift /tmp/p26-h &&
+  /tmp/p26-h/H.app/Contents/MacOS/harness /tmp/p26-img` → 8 `ok`, exit 0.
+  Images read: sidebar Options shows Ohms `1` `kΩ` and Footprint "Radial
+  (standing) resistor, 2.54 mm le…"; the canvas shows `4.7kΩ` right of the
+  zig-zag after 4.7 kΩ; the PCB shows two 0805 pads labelled R1; the BOM row
+  `1 R1 RESISTOR 0805 4.7kΩ Resistor`; Settings shows "New Pull Resistor"
+  with `10` `kΩ` and Axial. The Pull-down placed with those Settings is R2,
+  10kΩ, Axial; the saved file has `"ohms" : 4700`, `"ohms" : 10000`,
+  `"footprint" : "RES-0805"`, `"footprint" : "RES-AXIAL-10.16"`; reopening
+  gives the same reference, part, ohms, footprint and PCB centre for both.
+Commit: c4f383b
 
 ## Validation Plan
 
@@ -247,6 +267,10 @@ Commit: —
   schematical/schematical.xcodeproj -scheme schematical test
   CODE_SIGNING_ALLOWED=NO` → 0 failures, and `ctest --test-dir
   /tmp/p26-build -j8` → 100% passed (est. 6 min).
+  Result (2026-11-07, after Phase 2; `main` had not moved from f5e0087):
+  `Executed 129 tests, with 0 failures`, `** TEST SUCCEEDED **`; `100% tests
+  passed, 0 tests failed out of 24`. Coverage check: `grep -c` → 1 in
+  `BillOfMaterialsTests.swift`, 23 in `PullResistorTests.swift`.
 
 ## Decisions
 
@@ -262,6 +286,16 @@ Commit: —
   by the owner, 2026-11-07. (§6)
 
 ## Corrections
+
+- **Runtime proof run through the harness, not mouse clicks.** This session
+  has no tool to drive the macOS GUI. Following plan-18-B's precedent, the
+  check runs on the app's real `SchematicDocument`, `SchematicFile`,
+  `NewPartOptions` and views (`SchematicSidebarView`, `SchematicCanvasView`,
+  `PCBCanvasView`, `BillOfMaterialsTable`, `PreferencesView`), rendered with
+  `Harness.renderHosted` / `render` and read as images. The Ohms field's
+  Return is stood in for by its commit path (`ResistorValue.parse("4.7")` →
+  `ohms(number:unit: .kilo)` → `setPartOhms`). Kept as
+  `scripts/harness/pull-resistor-ui.swift` so it can be re-run.
 
 ## Summary
 

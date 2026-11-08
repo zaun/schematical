@@ -156,10 +156,10 @@ oscillator's `enablePin` is a pin designator; see below.)
 | Key | Value |
 |---|---|
 | `"name"` | the orderable part number; unique across the whole library (all files) |
-| `"package"` | the package family, shown in the drawer and used by its package filter, e.g. `"DIP"`, `"TSSOP"`, `"VSON"`; may be empty (supplies). Never put a pin count, body size or material in it (no `"CDIP"`, `"DIP-14"`, `"2520 VSON"`): the pin count comes from the pinout and the exact size from the footprint. Ceramic and plastic DIPs are both `"DIP"`, flat packs are `"CFP"`, leadless chip carriers `"LCCC"`, and small and full-size type I TSOPs are both `"TSOP-I"` (type II stays `"TSOP-II"`). |
+| `"package"` | the package family, shown in the drawer and used by its package filter, e.g. `"DIP"`, `"TSSOP"`, `"VSON"`; may be empty (VCC/GND supplies). Never put a pin count, body size or material in it (no `"CDIP"`, `"DIP-14"`, `"2520 VSON"`): the pin count comes from the pinout and the exact size from the footprint. Ceramic and plastic DIPs are both `"DIP"`, flat packs are `"CFP"`, leadless chip carriers `"LCCC"`, and small and full-size type I TSOPs are both `"TSOP-I"` (type II stays `"TSOP-II"`). |
 | `"pinout"` | the name of one of the device's pinouts |
 | `"flags"` | optional, any of `obsolete`, `military`, `automotive`, `enhanced`, `ceramic` |
-| `"footprint"` | the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)). Required on every part except supplies (`VCC`, `GND`, `5V`, …), which reject it |
+| `"footprint"` | the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)). Required on every part except VCC/GND supplies (`VCC`, `GND`, `5V`, …), which reject it. Pull parts (`"pull": true`) are resistors and require it |
 | `"connectorFootprint"` | optional: a second footprint, the `id` of one in `footprints.json`, that the PCB Style option switches to (**Connector Only**). Same rules as `footprint`. Character LCD modules use it (§ `charlcd`) |
 | `"footprintChoices"` | optional: the footprints a placed part may use, each `{"package": …, "footprint": …}`, in picker order. The part's own `footprint` is one of them (the default), with the part's `package`. `GENERIC-LED` uses it (§ `led`; rules in [The `"footprint"` part key](#the-footprint-part-key)) |
 | `"vcc"`, `"inputMax"` | on gate, dff, jkff, sram, eeprom and oscillator parts only: the part's own supply range / input limit, replacing the one it inherits (see [Supply voltage](#supply-voltage-vcc-and-inputmax)) |
@@ -348,7 +348,8 @@ X2SON-5-DPW: each signal pad's inner corner is cut, and the centre land, a
 
 ### `dual` — two columns
 
-DIP, SOIC, SOP, SSOP, TSSOP, SOJ, TSOP, SOT-23, SC-70, SON, chip LEDs.
+DIP, SOIC, SOP, SSOP, TSSOP, SOJ, TSOP, SOT-23, SC-70, SON, chip LEDs,
+chip resistors.
 
 | Key | Value |
 |---|---|
@@ -463,9 +464,13 @@ allowed at the footprint level.
 
 ### The `"footprint"` part key
 
-- Every part names one, except supplies: a non-supply part without
-  `"footprint"` is rejected (`missing "footprint"`), and so is a supply
-  with one (`a supply has no footprint`).
+- Every part names one, except VCC/GND supplies: a part without
+  `"footprint"` is rejected (`missing "footprint"`), and so is a non-pull
+  supply with one (`a supply has no footprint`). A pull part (`supply` with
+  `"pull": true`) is a resistor: it must name a footprint, its own
+  footprint may have **more pads than pins** (pad 1 is its pin, pad 2 the
+  rail end, unconnected copper), and it has no `connectorFootprint` (`a
+  pull part has no connectorFootprint`).
 - Every footprint in the library lives in `footprints.json`. A new part
   reuses one whose land pattern matches its package drawing; otherwise add a
   footprint from the datasheet's package drawing, using the pad rules R1–R6
@@ -489,8 +494,8 @@ allowed at the footprint level.
   (`footprintChoices footprint "X" listed twice`). The part's own
   `footprint` must be a choice (`"footprint" "X" is not in
   footprintChoices`) whose `package` equals the part's (`"package" "X" does
-  not match footprintChoices "Y" ("Z")`). A supply rejects the key (`a
-  supply has no footprint`). The app saves each placed part's choice in the
+  not match footprintChoices "Y" ("Z")`). A non-pull supply rejects the key
+  (`a supply has no footprint`). The app saves each placed part's choice in the
   schematic file (`docs/file-format.md` § Parts).
 - **Mid-values.** Every dimension that a rule takes from a drawing (lead
   width and length, tip-to-tip span, terminal size, ball and pin
@@ -530,6 +535,14 @@ Constant sources. Device key:
 The device has one pinout with one pin. Parts carry no kind keys. Each
 device's single part has the same name as its `id` and `function`.
 
+VCC/GND supplies have no footprint (package `""`). A pull part is a
+resistor on the board: package `Radial`, footprint `RES-RADIAL-2.54`, and
+`footprintChoices` 0402, 0603, 0805, 1206, Axial (`RES-AXIAL-10.16`) and
+Radial. Its footprint may have more pads than its one pin: pad 1 is the
+signal pin, pad 2 the rail end (no pin; routed by hand). Each placed pull
+also has a resistance (`ohms`, `docs/file-format.md` § Parts) that does not
+affect the simulation.
+
 ```json
 {"id": "3V3", "function": "3V3", "description": "Supply, 3.3 V, drives logic 1", "drawer": [],
  "pinouts": {"pin": [{"number": 1, "name": "VCC", "role": "power"}]},
@@ -539,23 +552,23 @@ device's single part has the same name as its `id` and `function`.
 
 The library's supplies (`supply.json`):
 
-| Part | `volts` | Pin |
-|---|---|---|
-| `VCC` | 5 | `VCC` (power) |
-| `5V` | 5 | `VCC` (power) |
-| `3V3` | 3.3 | `VCC` (power) |
-| `2V5` | 2.5 | `VCC` (power) |
-| `1V8` | 1.8 | `VCC` (power) |
-| `1V2` | 1.2 | `VCC` (power) |
-| `12V` | 12 | `VCC` (power) |
-| `GND` | 0 | `GND` (ground) |
-| `PULLUP-5V` | 5, pull | `PU` (output) |
-| `PULLUP-3V3` | 3.3, pull | `PU` (output) |
-| `PULLUP-2V5` | 2.5, pull | `PU` (output) |
-| `PULLUP-1V8` | 1.8, pull | `PU` (output) |
-| `PULLUP-1V2` | 1.2, pull | `PU` (output) |
-| `PULLUP-12V` | 12, pull | `PU` (output) |
-| `PULLDOWN` | 0, pull | `PD` (output) |
+| Part | `volts` | Pin | Footprint |
+|---|---|---|---|
+| `VCC` | 5 | `VCC` (power) | — |
+| `5V` | 5 | `VCC` (power) | — |
+| `3V3` | 3.3 | `VCC` (power) | — |
+| `2V5` | 2.5 | `VCC` (power) | — |
+| `1V8` | 1.8 | `VCC` (power) | — |
+| `1V2` | 1.2 | `VCC` (power) | — |
+| `12V` | 12 | `VCC` (power) | — |
+| `GND` | 0 | `GND` (ground) | — |
+| `PULLUP-5V` | 5, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
+| `PULLUP-3V3` | 3.3, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
+| `PULLUP-2V5` | 2.5, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
+| `PULLUP-1V8` | 1.8, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
+| `PULLUP-1V2` | 1.2, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
+| `PULLUP-12V` | 12, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
+| `PULLDOWN` | 0, pull | `PD` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
 
 A pull part drives its pin **weakly**: 1 for a pull-up, 0 for a pull-down.
 Any strong driver on the net wins over it, so open-drain outputs and I2C

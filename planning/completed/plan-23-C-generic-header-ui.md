@@ -260,6 +260,17 @@ Commit: bc80004
   gone" are checks 10 (the label from the document's wires) and 6 (a
   shrink removes the wire on a dropped pin), and the sidebar images show the
   menu wired to the same values.
+- Landing (2026-11-07): main had moved on by plan-26 (pull resistor ohms
+  and footprints, f5e0087..72ecd56). `git merge main` conflicted in
+  `docs/file-format.md`, `SchematicModel.swift`, `SchematicFile.swift`,
+  `PartOptionsSection.swift` and `PreferencesView.swift`. Each side added a
+  field (`gender` / `ohms`), a setter or a Settings section, so every
+  conflict keeps both. `PlacedChip.resized(to:)` now also passes `ohms`.
+  `node scripts/gen-headers.js` on the merged `footprints.json` → no change.
+  Re-run on the merge: ctest 24/24 (80 `GENERIC-HEADER-` parts.txt lines,
+  160 `PINHDR-` footprints.txt lines); xcodebuild `BUILD SUCCEEDED`;
+  `generic-header` 15 `ok`, `generic-led-file` 7, `generic-led-ui` 10,
+  `pull-resistor-ui` 8, all exit 0 with 0 `FAIL`.
 
 ## Summary
 

@@ -2,9 +2,10 @@ import AppKit
 import SwiftUI
 
 /// The Schematic sidebar's Options for a placed part that has a choice of
-/// color or footprint (the Generic LED): a Color picker and a Footprint
-/// picker. A header (plan-23) also gets Rows, Pins per row and Gender. A
-/// pick takes effect at once on the canvas, the PCB and the file.
+/// color, resistance or footprint (the Generic LED, pull resistors): a Color
+/// picker, an Ohms field and a Footprint picker. A header (plan-23) also
+/// gets Rows, Pins per row and Gender. A change takes effect at once on the
+/// canvas, the PCB and the file.
 struct PartOptionsSection: View {
     /// Looks up a header's new size (`HeaderFamily.name(rows:perRow:)`).
     let catalog: PartCatalogStore
@@ -84,6 +85,11 @@ struct PartOptionsSection: View {
                     set: { document.setPartColor(chip.id, $0) }
                 ))
             }
+            if current.part.isPullResistor {
+                OhmsField(ohms: current.ohms ?? ResistorValue.defaultOhms) { ohms in
+                    document.setPartOhms(chip.id, ohms)
+                }
+            }
             if !current.part.footprintChoices.isEmpty {
                 FootprintChoicePicker(choices: current.part.footprintChoices, selection: Binding(
                     get: { current.footprintID ?? current.part.footprint?.id ?? "" },
@@ -91,6 +97,88 @@ struct PartOptionsSection: View {
                 ))
             }
         }
+    }
+}
+
+/// A pull resistor's resistance: a number field and a unit menu (Ω, kΩ,
+/// MΩ), showing `ohms` in the largest unit with a number of at least 1. The
+/// number commits on Return or when the field loses focus; picking a unit
+/// commits the shown number in that unit. Input that doesn't parse, or gives
+/// a value that isn't `ResistorValue.isValid`, puts the row back. Also used
+/// by Settings ▸ New Pull Resistor.
+struct OhmsField: View {
+    let ohms: Double
+    let commit: (Double) -> Void
+
+    @State private var text = ""
+    /// What the field last showed of the stored value; when `text` differs,
+    /// the user is typing and outside changes don't overwrite it.
+    @State private var shown = ""
+    @State private var unit: ResistorValue.Unit = .kilo
+    @FocusState private var isFocused: Bool
+
+    var body: some View {
+        LabeledContent("Ohms") {
+            HStack(spacing: 6) {
+                TextField("Ohms", text: $text)
+                    .labelsHidden()
+                    .focused($isFocused)
+                    .multilineTextAlignment(.trailing)
+                    .frame(minWidth: 60)
+                    .onSubmit(apply)
+                    .onChange(of: isFocused) { _, focused in
+                        if !focused { apply() }
+                    }
+                Picker("Unit", selection: Binding(get: { unit }, set: pick)) {
+                    ForEach(ResistorValue.Unit.allCases, id: \.self) { unit in
+                        Text(unit.symbol).tag(unit)
+                    }
+                }
+                .pickerStyle(.menu)
+                .labelsHidden()
+                .fixedSize()
+            }
+        }
+        .onChange(of: ohms) { refresh() }
+        .onAppear { show(ohms) }
+    }
+
+    /// Shows the stored value, unless the user is typing a new one.
+    private func refresh() {
+        if !isFocused || text == shown {
+            show(ohms)
+        } else {
+            unit = ResistorValue.split(ohms).unit
+        }
+    }
+
+    private func show(_ value: Double) {
+        let split = ResistorValue.split(value)
+        shown = ResistorValue.numberText(split.number)
+        text = shown
+        unit = split.unit
+    }
+
+    private func apply() {
+        guard text != shown else { return }
+        guard let number = ResistorValue.parse(text),
+              let value = ResistorValue.ohms(number: number, unit: unit) else {
+            show(ohms)
+            return
+        }
+        commit(value)
+        show(value)
+    }
+
+    private func pick(_ newUnit: ResistorValue.Unit) {
+        guard newUnit != unit else { return }
+        let number = ResistorValue.parse(text) ?? ResistorValue.split(ohms).number
+        guard let value = ResistorValue.ohms(number: number, unit: newUnit) else {
+            show(ohms)
+            return
+        }
+        commit(value)
+        show(value)
     }
 }
 
@@ -128,7 +216,8 @@ struct ColorChoicePicker: View {
 
 /// A menu of a part's footprint choices by footprint description, selected
 /// by footprint id. The descriptions are long, so the menu gets the row's
-/// full width under its label. Also used by Settings ▸ New Generic LED.
+/// full width under its label. Also used by Settings ▸ New Generic LED and
+/// New Pull Resistor.
 struct FootprintChoicePicker: View {
     let choices: [CatalogPart.FootprintChoice]
     @Binding var selection: String

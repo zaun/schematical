@@ -4,7 +4,8 @@
 //
 //  The Bill of Materials: every part on one schematic that goes on the
 //  board, one line per orderable part (same part number, package and LED
-//  color), with its quantity and references. Opened from Window > Bill of
+//  color; pull resistors by value and package), with its quantity and
+//  references. Opened from Window > Bill of
 //  Materials; it follows the schematic as it is edited.
 //
 
@@ -21,21 +22,24 @@ nonisolated struct BillOfMaterialsTarget: Codable, Hashable, Sendable {
 nonisolated struct BillOfMaterialsLine: Identifiable, Hashable, Sendable {
     let partNumber: String
     let package: String
+    /// A pull resistor's resistance ("4.7kΩ"); empty for every other part.
+    let value: String
     /// An LED's color; empty for every other part.
     let color: String
     let description: String
     /// In natural order: R2 before R10.
     let references: [String]
 
-    var id: String { "\(partNumber)\u{1F}\(package)\u{1F}\(color)" }
+    var id: String { "\(partNumber)\u{1F}\(package)\u{1F}\(value)\u{1F}\(color)" }
     var quantity: Int { references.count }
     var referenceText: String { references.joined(separator: ", ") }
 }
 
 nonisolated enum BillOfMaterials {
-    /// The lines for `chips`. Parts with no footprint (VCC, GND, pull-ups and
-    /// pull-downs) are not on the board, so they are left out. Lines are in
-    /// the order of their first reference (C before R before U, U2 before U10).
+    /// The lines for `chips`. Parts with no footprint (VCC, GND) are not on
+    /// the board, so they are left out. Pull-ups and pull-downs are one
+    /// `RESISTOR` line per value and package, whatever their rail. Lines are
+    /// in the order of their first reference (C before R before U, U2 before U10).
     static func lines(for chips: [PlacedChip]) -> [BillOfMaterialsLine] {
         var groups: [String: (sample: PlacedChip, references: [String])] = [:]
         for chip in chips where chip.part.footprint != nil {
@@ -47,10 +51,26 @@ nonisolated enum BillOfMaterials {
             .sorted { naturalOrder($0.references[0], $1.references[0]) }
     }
 
+    /// The part number and description of a pull resistor's line.
+    static let resistorPartNumber = "RESISTOR"
+    static let resistorDescription = "Resistor"
+
     private static func line(for chip: PlacedChip, references: [String]) -> BillOfMaterialsLine {
-        BillOfMaterialsLine(
+        let package = chip.footprintChoice?.package ?? chip.part.package
+        if chip.part.isPullResistor {
+            return BillOfMaterialsLine(
+                partNumber: resistorPartNumber,
+                package: package,
+                value: ResistorValue.text(chip.ohms ?? ResistorValue.defaultOhms),
+                color: "",
+                description: resistorDescription,
+                references: references
+            )
+        }
+        return BillOfMaterialsLine(
             partNumber: chip.partNumber,
-            package: chip.footprintChoice?.package ?? chip.part.package,
+            package: package,
+            value: "",
             color: chip.color ?? "",
             description: chip.part.description,
             references: references
@@ -63,10 +83,10 @@ nonisolated enum BillOfMaterials {
 
     /// The lines as CSV (RFC 4180), with a header row.
     static func csv(_ lines: [BillOfMaterialsLine]) -> String {
-        let header = ["Quantity", "References", "Part Number", "Package", "Color", "Description"]
+        let header = ["Quantity", "References", "Part Number", "Package", "Value", "Color", "Description"]
         let rows = lines.map { line in
             [String(line.quantity), line.referenceText, line.partNumber, line.package,
-             line.color, line.description]
+             line.value, line.color, line.description]
         }
         return ([header] + rows)
             .map { $0.map(csvField).joined(separator: ",") }
@@ -128,6 +148,7 @@ struct BillOfMaterialsTable: View {
     var body: some View {
         let lines = BillOfMaterials.lines(for: document.chips)
         let hasColor = lines.contains { !$0.color.isEmpty }
+        let hasValue = lines.contains { !$0.value.isEmpty }
         Group {
             if lines.isEmpty {
                 ContentUnavailableView(
@@ -145,6 +166,10 @@ struct BillOfMaterialsTable: View {
                         .width(min: 90, ideal: 140)
                     TableColumn("Package", value: \.package)
                         .width(min: 60, ideal: 90)
+                    if hasValue {
+                        TableColumn("Value", value: \.value)
+                            .width(min: 40, ideal: 60)
+                    }
                     if hasColor {
                         TableColumn("Color", value: \.color)
                             .width(min: 40, ideal: 60)

@@ -72,7 +72,7 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Left out for other parts.
         var switches: [Bool]? = nil
         /// The footprint's place on the PCB. Left out for parts without a
-        /// footprint (VCC, GND).
+        /// footprint (VCC and GND).
         var pcb: Placement? = nil
         /// EEPROMs only: the file loaded into the chip when the simulation
         /// starts. Left out when there is none and for other parts.
@@ -87,6 +87,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Headers only (plan-23): one of the part's genders. Always written
         /// for a header; missing means the part's default.
         var gender: String? = nil
+        /// Pull resistors only (version 4): the resistance in ohms. Always
+        /// written for them; missing means 1000; ignored on other parts.
+        var ohms: Double? = nil
     }
 
     /// An EEPROM's load file: the path relative to the schematic's folder (or
@@ -299,6 +302,8 @@ nonisolated enum SchematicFileError: LocalizedError {
     case badBus(String)
     /// A part's color, footprint or gender that the part doesn't offer.
     case badPartOption(reference: String, detail: String)
+    /// A pull resistor's resistance that isn't more than 0 and at most 1 GΩ.
+    case badOhms(reference: String, ohms: Double)
 
     var errorDescription: String? {
         switch self {
@@ -330,7 +335,17 @@ nonisolated enum SchematicFileError: LocalizedError {
             "The bus is not valid: \(detail)."
         case let .badPartOption(reference, detail):
             "\(reference): \(detail)"
+        case let .badOhms(reference, ohms):
+            "\(reference) has resistance \(Self.number(ohms)) Ω; it must be more than 0 and at most 1 GΩ."
         }
+    }
+
+    /// `ohms` as written in a file: no ".0" on a whole number.
+    private static func number(_ value: Double) -> String {
+        if value.isFinite, value == value.rounded(), abs(value) < 1e15 {
+            return String(Int64(value))
+        }
+        return String(value)
     }
 }
 
@@ -367,7 +382,8 @@ extension SchematicFile {
                 },
                 color: chip.color,
                 footprint: chip.footprintID,
-                gender: chip.gender
+                gender: chip.gender,
+                ohms: chip.ohms
             )
         }
         junctions = document.junctions.map { Junction(id: $0.id, x: $0.point.x, y: $0.point.y) }
@@ -500,6 +516,10 @@ extension SchematicFile {
                 throw SchematicFileError.badPartOption(
                     reference: part.reference, detail: "\"\(gender)\" is not a gender of \(catalogPart.name)")
             }
+            // A pull resistor's resistance; missing is 1 kΩ, ignored elsewhere.
+            if catalogPart.isPullResistor, let ohms = part.ohms, !ResistorValue.isValid(ohms) {
+                throw SchematicFileError.badOhms(reference: part.reference, ohms: ohms)
+            }
             // A load file counts only on an EEPROM.
             var memoryFile: MemoryFile?
             if catalogPart.kind == PART_EEPROM, let entry = part.memoryFile {
@@ -517,7 +537,8 @@ extension SchematicFile {
                 memoryFile: memoryFile,
                 color: color,
                 footprintID: footprintID,
-                gender: part.gender
+                gender: part.gender,
+                ohms: catalogPart.isPullResistor ? part.ohms : nil
             )
             // A stored placement counts only for a part with a footprint.
             var board: BoardPlacement?

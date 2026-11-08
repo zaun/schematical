@@ -383,10 +383,12 @@ static int check_pads(KindContext *ctx, const Part *part, const PartFootprint *f
 }
 
 /* Resolves the footprint id under `key` ("footprint" or "connectorFootprint")
-   into *out and checks that every pin has a pad of its designator. */
+   into *out and checks that every pin has a pad of its designator. The
+   footprint has one pad per pin, or (extra_pads set: a pull resistor, whose
+   pad 2 is the rail end) at least one per pin. */
 static int load_part_footprint(KindContext *ctx, const PartLibrary *library, const cJSON *part_json,
                                const char *key, const char *pinout_name, const Part *part,
-                               const PartFootprint **out) {
+                               int extra_pads, const PartFootprint **out) {
     const PartFootprint *footprint;
     const char *id;
 
@@ -397,7 +399,7 @@ static int load_part_footprint(KindContext *ctx, const PartLibrary *library, con
     if (footprint == NULL) {
         return kind_error(ctx, "unknown %s \"%s\"", key, id);
     }
-    if (footprint->pins != part->pin_count) {
+    if (extra_pads ? footprint->pins < part->pin_count : footprint->pins != part->pin_count) {
         return kind_error(ctx, "%s \"%s\" has %u pads, pinout \"%s\" has %zu pins", key, id,
                           footprint->pins, pinout_name, part->pin_count);
     }
@@ -485,6 +487,7 @@ static int load_part(KindContext *ctx, PartLibrary *library, FileParts *file,
     PartInternal *internal;
     const char *pinout_name;
     size_t p;
+    int is_pull;
 
     if (kind_check_keys(ctx, part_json, PART_KEYS, ops->part_keys) != 0) {
         return -1;
@@ -518,16 +521,28 @@ static int load_part(KindContext *ctx, PartLibrary *library, FileParts *file,
     }
     part->pins = pinouts[p].pins;
     part->pin_count = pinouts[p].pin_count;
-    /* Every part but a supply names its footprint (checked after the kind's load_part). */
-    if (cJSON_GetObjectItemCaseSensitive(part_json, "footprint") != NULL ||
-        cJSON_GetObjectItemCaseSensitive(part_json, "connectorFootprint") != NULL ||
-        cJSON_GetObjectItemCaseSensitive(part_json, "footprintChoices") != NULL) {
-        if (ops->kind == PART_SUPPLY) {
-            return kind_error(ctx, "a supply has no footprint");
-        }
+    internal->ops = ops;
+    internal->device = device;
+    internal->bound = pinouts[p].bound;
+    part->internal = internal;
+    /* Runs before the footprint keys so part->supply is set (no kind reads
+       the footprint). */
+    if (ops->load_part(ctx, device, pinouts[p].bound, part_json, part) != 0 || kind_failed(ctx)) {
+        return kind_error(ctx, "invalid part");
+    }
+    is_pull = ops->kind == PART_SUPPLY && part->supply != NULL && part->supply->pull;
+    /* Every part but VCC/GND names its footprint; a pull part is a resistor. */
+    if (ops->kind == PART_SUPPLY && !is_pull &&
+        (cJSON_GetObjectItemCaseSensitive(part_json, "footprint") != NULL ||
+         cJSON_GetObjectItemCaseSensitive(part_json, "connectorFootprint") != NULL ||
+         cJSON_GetObjectItemCaseSensitive(part_json, "footprintChoices") != NULL)) {
+        return kind_error(ctx, "a supply has no footprint");
+    }
+    if (is_pull && cJSON_GetObjectItemCaseSensitive(part_json, "connectorFootprint") != NULL) {
+        return kind_error(ctx, "a pull part has no connectorFootprint");
     }
     if (cJSON_GetObjectItemCaseSensitive(part_json, "footprint") != NULL &&
-        load_part_footprint(ctx, library, part_json, "footprint", pinout_name, part,
+        load_part_footprint(ctx, library, part_json, "footprint", pinout_name, part, is_pull,
                             &part->footprint) != 0) {
         return -1;
     }
@@ -541,18 +556,11 @@ static int load_part(KindContext *ctx, PartLibrary *library, FileParts *file,
     }
     /* Optional: the second footprint the PCB Style option switches to. */
     if (cJSON_GetObjectItemCaseSensitive(part_json, "connectorFootprint") != NULL &&
-        load_part_footprint(ctx, library, part_json, "connectorFootprint", pinout_name, part,
+        load_part_footprint(ctx, library, part_json, "connectorFootprint", pinout_name, part, 0,
                             &part->connector_footprint) != 0) {
         return -1;
     }
-    internal->ops = ops;
-    internal->device = device;
-    internal->bound = pinouts[p].bound;
-    part->internal = internal;
-    if (ops->load_part(ctx, device, pinouts[p].bound, part_json, part) != 0 || kind_failed(ctx)) {
-        return kind_error(ctx, "invalid part");
-    }
-    if (ops->kind != PART_SUPPLY && part->footprint == NULL) {
+    if ((ops->kind != PART_SUPPLY || is_pull) && part->footprint == NULL) {
         return kind_error(ctx, "missing \"footprint\"");
     }
     if (name_set_add(&file->names, part->name, part) != 0 || file_add_part(file, part) != 0) {
