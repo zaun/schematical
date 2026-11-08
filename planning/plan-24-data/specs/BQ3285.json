@@ -1,0 +1,707 @@
+{
+ "device": {
+  "id": "BQ3285",
+  "function": "RTC",
+  "description": "Real-time clock with 114 bytes of nonvolatile RAM, alarm, periodic interrupt and square-wave output, multiplexed Intel/Motorola bus (MC146818A/DS1285 compatible)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "bq3285.pdf (SLUS028A) p.1 pin connections, p.2-3 pin descriptions (MOT bus select Table 1, AS address latch), p.4 address map (Figure 1) and update period, p.5 formats (Table 2), p.6 square wave and periodic rates (Table 3), p.7 periodic, alarm, update interrupts, update access, oscillator control, p.8-10 control/status registers (Table 4), p.11 recommended DC operating conditions, p.14 read/write timing (tOD 50 ns, tDHR 25 ns, tBUC 244 us), p.18 interrupt timing; the AS falling edge latches the address (bus.ale)",
+  "pinouts": {
+   "dw24": [
+    {
+     "number": 1,
+     "name": "MOT",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "X1",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "X2",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "AD0",
+     "role": "inout"
+    },
+    {
+     "number": 5,
+     "name": "AD1",
+     "role": "inout"
+    },
+    {
+     "number": 6,
+     "name": "AD2",
+     "role": "inout"
+    },
+    {
+     "number": 7,
+     "name": "AD3",
+     "role": "inout"
+    },
+    {
+     "number": 8,
+     "name": "AD4",
+     "role": "inout"
+    },
+    {
+     "number": 9,
+     "name": "AD5",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "AD6",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "AD7",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "VSS",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "AS",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "R/W",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "VSS",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "DS",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "INT",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "BC",
+     "role": "power"
+    },
+    {
+     "number": 21,
+     "name": "RCL",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 23,
+     "name": "SQW",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "X1",
+   "X2",
+   "BC"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "AD7",
+    "AD6",
+    "AD5",
+    "AD4",
+    "AD3",
+    "AD2",
+    "AD1",
+    "AD0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "DS",
+    "active": 0
+   },
+   "wr": {
+    "pin": "R/W",
+    "active": 0
+   },
+   "address": [],
+   "ale": {
+    "pin": "AS",
+    "edge": "fall",
+    "bits": 8
+   }
+  },
+  "timing": {
+   "tAcc": 50,
+   "tDf": 25
+  },
+  "registers": [
+   {
+    "name": "SECONDS",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SECONDS",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ASEC",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "ASEC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MINUTES",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MINUTES",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "AMIN",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "AMIN",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HOURS",
+    "address": 4,
+    "width": 8,
+    "reset": 18,
+    "fields": [
+     {
+      "name": "PM",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "HOURS",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "AHOUR",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PM",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "HOURS",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAY",
+    "address": 6,
+    "width": 8,
+    "reset": 7,
+    "fields": [
+     {
+      "name": "DAY",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DATE",
+    "address": 7,
+    "width": 8,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "DATE",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MONTH",
+    "address": 8,
+    "width": 8,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "MONTH",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "YEAR",
+    "address": 9,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "YEAR",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "REGA",
+    "address": 10,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 128,
+    "fields": [
+     {
+      "name": "UIP",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "OS",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "RS",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 4: all bits na (not affected) on reset; OS = 000 at first power-up (oscillator off until 010 is written, p.7)"
+   },
+   {
+    "name": "REGB",
+    "address": 11,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "UTI",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "PIE",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "AIE",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "UIE",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SQWE",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DF",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "HF",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DSE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 4: PIE, AIE, UIE, SQWE cleared by RST; UTI, DF, HF, DSE na (power-on value not given: 0)"
+   },
+   {
+    "name": "REGC",
+    "address": 12,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "INTF",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "PF",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "AF",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "UF",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ZERO",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 240,
+    "note": "read-only event flags; reading clears all flags and releases INT"
+   },
+   {
+    "name": "REGD",
+    "address": 13,
+    "width": 8,
+    "reset": 128,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "VRT",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "ZERO",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ],
+    "note": "VRT = 1: valid backup energy source"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write",
+     "in": "xaaaaaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "note": "address 0-13 registers, 14-127 RAM (clock.ram); AD7 of the address is not decoded (128-byte map)"
+    }
+   ],
+   "read": {
+    "0": "[SECONDS]",
+    "1": "[ASEC]",
+    "2": "[MINUTES]",
+    "3": "[AMIN]",
+    "4": "[HOURS]",
+    "5": "[AHOUR]",
+    "6": "[DAY]",
+    "7": "[DATE]",
+    "8": "[MONTH]",
+    "9": "[YEAR]",
+    "10": "[REGA]",
+    "11": "[REGB]",
+    "12": "[REGC]",
+    "13": "[REGD]"
+   }
+  },
+  "clock": {
+   "fields": [
+    {
+     "field": "SECONDS.SECONDS",
+     "unit": "second",
+     "format": {
+      "field": "REGB.DF",
+      "binary": 1
+     }
+    },
+    {
+     "field": "MINUTES.MINUTES",
+     "unit": "minute",
+     "format": {
+      "field": "REGB.DF",
+      "binary": 1
+     }
+    },
+    {
+     "field": "HOURS.HOURS",
+     "unit": "hour",
+     "format": {
+      "field": "REGB.DF",
+      "binary": 1
+     },
+     "h12": "REGB.HF",
+     "h12Level": 0,
+     "pm": "HOURS.PM"
+    },
+    {
+     "field": "DAY.DAY",
+     "unit": "weekday",
+     "first": 1,
+     "format": {
+      "field": "REGB.DF",
+      "binary": 1
+     }
+    },
+    {
+     "field": "DATE.DATE",
+     "unit": "date",
+     "format": {
+      "field": "REGB.DF",
+      "binary": 1
+     }
+    },
+    {
+     "field": "MONTH.MONTH",
+     "unit": "month",
+     "format": {
+      "field": "REGB.DF",
+      "binary": 1
+     }
+    },
+    {
+     "field": "YEAR.YEAR",
+     "unit": "year",
+     "format": {
+      "field": "REGB.DF",
+      "binary": 1
+     },
+     "base": 2000
+    }
+   ],
+   "stop": {
+    "field": "REGA.OS",
+    "running": 2,
+    "powerOn": 0
+   },
+   "update": {
+    "uip": "REGA.UIP",
+    "inhibit": "REGB.UTI"
+   },
+   "alarms": [
+    {
+     "match": [
+      {
+       "field": "ASEC",
+       "unit": "second",
+       "dontCare": "11xxxxxx"
+      },
+      {
+       "field": "AMIN",
+       "unit": "minute",
+       "dontCare": "11xxxxxx"
+      },
+      {
+       "field": "AHOUR",
+       "unit": "hour",
+       "dontCare": "11xxxxxx"
+      }
+     ],
+     "flag": "REGC.AF",
+     "enable": "REGB.AIE",
+     "pin": {
+      "pin": "INT",
+      "active": 0,
+      "openDrain": true
+     }
+    }
+   ],
+   "periodic": {
+    "field": "REGA.RS",
+    "periods": {
+     "1": 3906250,
+     "2": 7812500,
+     "3": 122070.3125,
+     "4": 244140.625,
+     "5": 488281.25,
+     "6": 976562.5,
+     "7": 1953125,
+     "8": 3906250,
+     "9": 7812500,
+     "10": 15625000,
+     "11": 31250000,
+     "12": 62500000,
+     "13": 125000000,
+     "14": 250000000,
+     "15": 500000000
+    },
+    "flag": "REGC.PF",
+    "enable": "REGB.PIE",
+    "pin": "INT"
+   },
+   "ram": {
+    "space": "ram",
+    "bytes": 114,
+    "address": 14
+   }
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw24",
+   "footprint": "SOIC-24W",
+   "package": "SOIC",
+   "pins": 24
+  }
+ },
+ "pdf": "bq3285.pdf",
+ "pages": "p.1 (pinout), p.2-3 (pins, MOT/AS), p.4-7 (address map, formats, interrupts, update, oscillator), p.8-10 (registers), p.11 (ROC), p.14 (bus timing)",
+ "notModeled": [
+  "MOT strap: only Intel timing (MOT = VSS, the internal pull-down default: DS = RD, R/W = WR, AS = ALE) is modeled; Motorola timing (MOT = VCC: DS = E strobe high, R/W direction) would need a pin-selected bus",
+  "HF is a 24-hour bit (HF = 1: 24-hour, 0: 12-hour): the clock field uses h12Level 0; the hours alarm (AHOUR) uses the same format and PM bit 7",
+  "DF selects binary or BCD for all ten time/alarm bytes (format object); data written in the other format is not converted",
+  "alarm don't-care: an alarm byte with its two MSBs = 11 matches every value (dontCare); alarms are compared during the update cycle",
+  "oscillator control OS2-OS0: 010 runs; 11X runs the oscillator with the divider held in reset; other patterns stop it (stop.running = 2); after writing 010 the first update comes 500 ms later",
+  "update-ended interrupt (UF set at the end of each update cycle, UIE enables INT, not while UTI = 1): no schema slot",
+  "INTF summary flag (set while any flag/enable pair is 1) and INT asserted for any enabled flag (alarm, periodic, update-ended): only AF/PF have schema slots; reading REGC clears all flags (clearOnRead) and releases INT",
+  "UTI = 1 also clears UIE and UIP; the datasheet says the internal copy keeps counting while UTI = 1 and the user bytes are transferred on the next update after UTI is cleared",
+  "SQW square-wave output (RS frequency per Table 3, enabled by SQWE, held low when SQWE = 0): no schema slot; SQW is never driven",
+  "daylight saving (DSE): last Sunday in October 1:59:59 -> 1:00:00, first Sunday in April 2:00:00 -> 3:00:00",
+  "RST input: clears PIE, AIE, UIE, SQWE and the REGC flags, floats INT and blocks access; the schema's pins.reset would reset every register (time included), so RST is not modeled",
+  "RCL input (held low 125 ms): sets all 114 RAM bytes to 0xFF",
+  "power-fail write protection (VCC < VPFD 4.17 V, tCSR 20-200 ms after power-up) and backup switchover",
+  "VRT is always 1 (valid battery)",
+  "time register power-on values are not given: the resets encode the schema power-on time (2000-01-01 00:00:00 Saturday) in BCD 12-hour format (REGB = 0)",
+  "leap years: automatic, 100-year calendar (Gregorian for 2000-2099)"
+ ],
+ "variants": "bq3285e.pdf (BQ3285E/L, a separate device with extra registers) is not this device; the 28-pin PLCC is no longer available",
+ "parts": [
+  [
+   "BQ3285S-SB2",
+   "DW",
+   24,
+   "Last Time Buy"
+  ]
+ ]
+}

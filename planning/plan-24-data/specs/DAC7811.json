@@ -1,0 +1,220 @@
+{
+ "device": {
+  "id": "DAC7811",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit multiplying current-output DAC with 50 MHz serial interface, daisy-chain and read-back",
+  "note": "dac7811.pdf (SBAS337E) p.1 power-on zero scale, p.3 pin functions, p.4 recommended operating conditions, p.5 interface timing, p.13 serial interface, input shift register, SYNC interrupt, daisy-chain, p.14 Figure 28 timing and Table 2 control bits",
+  "pinouts": {
+   "dgs10": [
+    {
+     "number": 1,
+     "name": "IOUT1",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "IOUT2",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SDIN",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "RFB",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "IOUT1",
+   "IOUT2",
+   "VREF",
+   "RFB"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "SDIN",
+   "miso": "SDO",
+   "mode": 2
+  },
+  "timing": {
+   "tOut": 35
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register; powers on at zero scale (p.1, p.14)"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DCDIS",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "EDGE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: daisy-chain disabled (C3-C0 = 1001) and rising-edge clock mode (1010); power-on: daisy-chain on, falling edge (p.14)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "No operation",
+     "in": "0000 x{12}"
+    },
+    {
+     "name": "Load and update",
+     "in": "0001 d{12}",
+     "action": "write",
+     "channel": 0,
+     "data": "d"
+    },
+    {
+     "name": "Initiate readback",
+     "in": "0010 x{12}",
+     "next": "0000 [DAC]",
+     "note": "DAC register contents on SDO in the next frame (word layout not given; control nibble output as 0)"
+    },
+    {
+     "name": "Daisy-chain disable",
+     "in": "1001 x{12}",
+     "set": {
+      "CTRL.DCDIS": 1
+     }
+    },
+    {
+     "name": "Clock data on rising edge",
+     "in": "1010 x{12}",
+     "set": {
+      "CTRL.EDGE": 1
+     }
+    },
+    {
+     "name": "Clear DAC output to zero",
+     "in": "1011 x{12}",
+     "action": "clear"
+    },
+    {
+     "name": "Clear DAC output to midscale",
+     "in": "1100 x{12}",
+     "set": {
+      "DAC": 2048
+     }
+    }
+   ],
+   "note": "16-bit word C3-C0 + DB11-DB0, MSB first (Figure 27, Table 2); executed at SYNC rising in daisy-chain mode (power-on default) or at the 16th active edge in stand-alone mode; reserved codes ignored"
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "dgs10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  }
+ },
+ "pdf": "dac7811.pdf",
+ "pages": "p.1 (power-on zero scale), p.3 (pins), p.4 (VDD 2.7-5.5 V), p.5 (timing, tDDS 35 ns), p.13 (serial interface, SYNC interrupt, daisy-chain), p.14 (Figure 28: SCLK idles high, data in on falling edges; Table 2 control bits)",
+ "notModeled": [
+  "analog: multiplying current outputs IOUT1/IOUT2, VREF, feedback resistor RFB",
+  "daisy-chain SDO: in daisy-chain mode SDO shifts out the previous 16-bit input word (to the next device); the model drives SDO only with a readback word (otherwise 0)",
+  "stand-alone vs daisy-chain execution point: modeled for both as the last 16 bits before SYNC rises (align end); stand-alone mode executes at the 16th falling edge and ignores further clocks, and a SYNC rise before 16 edges aborts the frame (both ignored only as far as align end allows)",
+  "rising-edge clock mode (C3-C0 = 1010) is stored in CTRL.EDGE but the bus stays mode 2 (falling-edge input)",
+  "readback word layout on SDO is not given in the datasheet (modeled as 0000 + DB11-DB0)",
+  "power-on reset brownout detection"
+ ],
+ "variants": "dac7811.pdf covers only the DAC7811.",
+ "parts": [
+  [
+   "DAC7811IDGS",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "DAC7811IDGSR",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "DAC7811IDGST",
+   "DGS",
+   10,
+   "Active"
+  ]
+ ]
+}

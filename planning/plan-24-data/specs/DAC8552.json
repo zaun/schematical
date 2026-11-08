@@ -1,0 +1,353 @@
+{
+ "device": {
+  "id": "DAC8552",
+  "function": "DAC",
+  "description": "Dual 16-bit voltage-output DAC (external reference) with 24-bit SPI-compatible write-only interface, software load commands and per-channel power-down",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac8552.pdf (SLAS430A) p.3 power requirements (VDD 2.7-5.5 V), p.4 pin configuration and descriptions, p.5 serial write operation and timing characteristics (SYNC falls with SCLK high, data on SCLK falling edges), p.13-14 serial interface and input shift register (Figure 43), p.14 control matrix (Table 1) and power-down commands (Table 2), p.15 SYNC interrupt, power-on reset (zero scale), power-down modes (Table 3)",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 2,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VREF",
+   "VOUTB",
+   "VOUTA"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "IN_A",
+    "address": 0,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "data buffer A; power-on zero"
+   },
+   {
+    "name": "IN_B",
+    "address": 1,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "data buffer B; power-on zero"
+   },
+   {
+    "name": "DAC_A",
+    "address": 0,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register A; power-on zero scale (p.15)"
+   },
+   {
+    "name": "DAC_B",
+    "address": 1,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register B; power-on zero scale (p.15)"
+   },
+   {
+    "name": "PWR",
+    "width": 4,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PDB",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "PDA",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PD1:PD0 (DB17:DB16) last written to each buffer (Tables 2-3): 00 normal, 01 1 kohm, 10 100 kohm, 11 Hi-Z"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "WR BUFFER A W/DATA",
+     "in": "00 00 x 0 00 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.PDA": 0
+     }
+    },
+    {
+     "name": "WR BUFFER A W/DATA AND LOAD DAC A",
+     "in": "00 01 x 0 00 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.PDA": 0
+     },
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "WR BUFFER A W/DATA AND LOAD DAC B",
+     "in": "00 10 x 0 00 d{16}",
+     "action": "update",
+     "channel": 1,
+     "set": {
+      "IN_A.D": "d",
+      "PWR.PDA": 0
+     },
+     "note": "buffer A takes the data; DAC B loads from its own buffer"
+    },
+    {
+     "name": "WR BUFFER A W/DATA AND LOAD DACS A AND B",
+     "in": "00 11 x 0 00 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.PDA": 0
+     },
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "WR BUFFER B W/DATA",
+     "in": "00 00 x 1 00 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.PDB": 0
+     }
+    },
+    {
+     "name": "WR BUFFER B W/DATA AND LOAD DAC B",
+     "in": "00 10 x 1 00 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.PDB": 0
+     },
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "WR BUFFER B W/DATA AND LOAD DAC A",
+     "in": "00 01 x 1 00 d{16}",
+     "action": "update",
+     "channel": 0,
+     "set": {
+      "IN_B.D": "d",
+      "PWR.PDB": 0
+     },
+     "note": "buffer B takes the data; DAC A loads from its own buffer"
+    },
+    {
+     "name": "WR BUFFER B W/DATA AND LOAD DACS A AND B",
+     "in": "00 11 x 1 00 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.PDB": 0
+     },
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "WR BUFFER A W/POWER-DOWN",
+     "in": "00 00 x 0 pp x{16}",
+     "set": {
+      "PWR.PDA": "p"
+     }
+    },
+    {
+     "name": "WR BUFFER A W/POWER-DOWN AND LOAD DAC A",
+     "in": "00 01 x 0 pp x{16}",
+     "set": {
+      "PWR.PDA": "p"
+     }
+    },
+    {
+     "name": "WR BUFFER A W/POWER-DOWN AND LOAD DAC B",
+     "in": "00 10 x 0 pp x{16}",
+     "set": {
+      "PWR.PDA": "p"
+     },
+     "action": "update",
+     "channel": 1
+    },
+    {
+     "name": "WR BUFFER A W/POWER-DOWN AND LOAD DACS A AND B",
+     "in": "00 11 x 0 pp x{16}",
+     "set": {
+      "PWR.PDA": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "WR BUFFER B W/POWER-DOWN",
+     "in": "00 00 x 1 pp x{16}",
+     "set": {
+      "PWR.PDB": "p"
+     }
+    },
+    {
+     "name": "WR BUFFER B W/POWER-DOWN AND LOAD DAC A",
+     "in": "00 01 x 1 pp x{16}",
+     "set": {
+      "PWR.PDB": "p"
+     },
+     "action": "update",
+     "channel": 0
+    },
+    {
+     "name": "WR BUFFER B W/POWER-DOWN AND LOAD DAC B",
+     "in": "00 10 x 1 pp x{16}",
+     "set": {
+      "PWR.PDB": "p"
+     }
+    },
+    {
+     "name": "WR BUFFER B W/POWER-DOWN AND LOAD DACS A AND B",
+     "in": "00 11 x 1 pp x{16}",
+     "set": {
+      "PWR.PDB": "p"
+     },
+     "action": "update"
+    }
+   ],
+   "note": "24-bit word: DB23-DB22 reserved 0, DB21 LD B, DB20 LD A, DB19 don't care, DB18 buffer select (0 = A, 1 = B), DB17-DB16 PD1 PD0, DB15-DB0 data. Executed on the 24th SCLK falling edge; SYNC high earlier discards the word"
+  },
+  "dac": {
+   "input": [
+    "IN_A",
+    "IN_B"
+   ],
+   "output": [
+    "DAC_A",
+    "DAC_B"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "dac8552.pdf",
+ "pages": "p.3 (VDD 2.7-5.5 V), p.4 (pins), p.5 (timing), p.13-14 (serial interface, input shift register Figure 43, Tables 1-2), p.15 (SYNC interrupt, power-on reset, power-down Table 3)",
+ "notModeled": [
+  "analog outputs and output amplifiers (VOUTA/VOUTB never driven); power-down output loads stored in PWR only",
+  "the power-down condition takes effect when the channel receives a load command; the model stores PD1:PD0 per buffer at once. A power-down word with a load of its own channel does not change the DAC data register; loads of the other channel (and the load-both word) copy the buffers",
+  "no read-back: the interface is write-only",
+  "SCLK limits (30 / 20 MHz) and setup/hold times t1-t9"
+ ],
+ "variants": "dac8552.pdf covers only the DAC8552. DAC8532 is the earlier pin-compatible dual; DAC8554/DAC8555 are the quad versions.",
+ "parts": [
+  [
+   "DAC8552IDGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8552IDGKT",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,2626 @@
+{
+ "device": {
+  "id": "DAC63204",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit quad voltage/current-output smart DAC with NVM, comparator and function generator; auto-detected I2C/PMBus or SPI (SPI modeled)",
+  "note": "dac53204.pdf (SLASEX3A): p.3 (pins, Table 5-1), p.4 (ROC), p.11-12 (SPI timing), p.41-42 (reset, register-map lock), p.43 (power-down), p.44-45 (SPI), p.48-50 (I2C), p.52-69 (register map). Pin 6 SCL/SYNC is listed as \"Output\" in the pin table; it is the I2C clock / SPI chip-select input.",
+  "pinouts": {
+   "rte16": [
+    {
+     "number": 1,
+     "name": "FB3",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "OUT3",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "OUT2",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "FB2",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "GPIO/SDO",
+     "role": "inout"
+    },
+    {
+     "number": 6,
+     "name": "SCL/SYNC",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "A0/SDI",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "SDA/SCLK",
+     "role": "inout"
+    },
+    {
+     "number": 9,
+     "name": "FB1",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "OUT1",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "OUT0",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "FB0",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "VREF",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 4,
+  "vcc": [
+   1.7,
+   5.5
+  ],
+  "analog": [
+   "FB0",
+   "FB1",
+   "FB2",
+   "FB3",
+   "OUT0",
+   "OUT1",
+   "OUT2",
+   "OUT3",
+   "CAP",
+   "VREF"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SCL/SYNC",
+   "sclk": "SDA/SCLK",
+   "mosi": "A0/SDI",
+   "miso": "GPIO/SDO",
+   "mode": 1
+  },
+  "timing": {
+   "tOut": 300
+  },
+  "registers": [
+   {
+    "name": "NOP",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "NOP",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_0_MARGIN_HIGH",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_HIGH",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_0_MARGIN_LOW",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_LOW",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_0_VOUT_CMP_CONFIG",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "VOUT_GAIN",
+      "bits": [
+       12,
+       10
+      ]
+     },
+     {
+      "name": "CMP_OD_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CMP_OUT_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CMP_HIZ_IN_DIS",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CMP_INV_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CMP_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_0_IOUT_MISC_CONFIG",
+    "address": 4,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "IOUT_RANGE",
+      "bits": [
+       12,
+       9
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_0_CMP_MODE_CONFIG",
+    "address": 5,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CMP_MODE",
+      "bits": [
+       11,
+       10
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_0_FUNC_CONFIG",
+    "address": 6,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CLR_SEL",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SYNC_CONFIG",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "BRD_CONFIG",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "PHASE_SEL",
+      "bits": [
+       12,
+       11
+      ]
+     },
+     {
+      "name": "FUNC_CONFIG",
+      "bits": [
+       10,
+       8
+      ]
+     },
+     {
+      "name": "LOG_SLEW_EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CODE_STEP",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "SLEW_RATE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "fields of the linear-slew layout (Table 7-30); with LOG-SLEW-EN = 1 bits 6-1 are RISE-SLEW / FALL-SLEW"
+   },
+   {
+    "name": "DAC_1_MARGIN_HIGH",
+    "address": 7,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_HIGH",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_1_MARGIN_LOW",
+    "address": 8,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_LOW",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_1_VOUT_CMP_CONFIG",
+    "address": 9,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "VOUT_GAIN",
+      "bits": [
+       12,
+       10
+      ]
+     },
+     {
+      "name": "CMP_OD_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CMP_OUT_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CMP_HIZ_IN_DIS",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CMP_INV_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CMP_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_1_IOUT_MISC_CONFIG",
+    "address": 10,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "IOUT_RANGE",
+      "bits": [
+       12,
+       9
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_1_CMP_MODE_CONFIG",
+    "address": 11,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CMP_MODE",
+      "bits": [
+       11,
+       10
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_1_FUNC_CONFIG",
+    "address": 12,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CLR_SEL",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SYNC_CONFIG",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "BRD_CONFIG",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "PHASE_SEL",
+      "bits": [
+       12,
+       11
+      ]
+     },
+     {
+      "name": "FUNC_CONFIG",
+      "bits": [
+       10,
+       8
+      ]
+     },
+     {
+      "name": "LOG_SLEW_EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CODE_STEP",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "SLEW_RATE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "fields of the linear-slew layout (Table 7-30); with LOG-SLEW-EN = 1 bits 6-1 are RISE-SLEW / FALL-SLEW"
+   },
+   {
+    "name": "DAC_2_MARGIN_HIGH",
+    "address": 13,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_HIGH",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_2_MARGIN_LOW",
+    "address": 14,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_LOW",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_2_VOUT_CMP_CONFIG",
+    "address": 15,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "VOUT_GAIN",
+      "bits": [
+       12,
+       10
+      ]
+     },
+     {
+      "name": "CMP_OD_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CMP_OUT_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CMP_HIZ_IN_DIS",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CMP_INV_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CMP_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_2_IOUT_MISC_CONFIG",
+    "address": 16,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "IOUT_RANGE",
+      "bits": [
+       12,
+       9
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_2_CMP_MODE_CONFIG",
+    "address": 17,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CMP_MODE",
+      "bits": [
+       11,
+       10
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_2_FUNC_CONFIG",
+    "address": 18,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CLR_SEL",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SYNC_CONFIG",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "BRD_CONFIG",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "PHASE_SEL",
+      "bits": [
+       12,
+       11
+      ]
+     },
+     {
+      "name": "FUNC_CONFIG",
+      "bits": [
+       10,
+       8
+      ]
+     },
+     {
+      "name": "LOG_SLEW_EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CODE_STEP",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "SLEW_RATE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "fields of the linear-slew layout (Table 7-30); with LOG-SLEW-EN = 1 bits 6-1 are RISE-SLEW / FALL-SLEW"
+   },
+   {
+    "name": "DAC_3_MARGIN_HIGH",
+    "address": 19,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_HIGH",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_3_MARGIN_LOW",
+    "address": 20,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_LOW",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_3_VOUT_CMP_CONFIG",
+    "address": 21,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "VOUT_GAIN",
+      "bits": [
+       12,
+       10
+      ]
+     },
+     {
+      "name": "CMP_OD_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CMP_OUT_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CMP_HIZ_IN_DIS",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CMP_INV_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CMP_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_3_IOUT_MISC_CONFIG",
+    "address": 22,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "IOUT_RANGE",
+      "bits": [
+       12,
+       9
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_3_CMP_MODE_CONFIG",
+    "address": 23,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CMP_MODE",
+      "bits": [
+       11,
+       10
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_3_FUNC_CONFIG",
+    "address": 24,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CLR_SEL",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SYNC_CONFIG",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "BRD_CONFIG",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "PHASE_SEL",
+      "bits": [
+       12,
+       11
+      ]
+     },
+     {
+      "name": "FUNC_CONFIG",
+      "bits": [
+       10,
+       8
+      ]
+     },
+     {
+      "name": "LOG_SLEW_EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CODE_STEP",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "SLEW_RATE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "fields of the linear-slew layout (Table 7-30); with LOG-SLEW-EN = 1 bits 6-1 are RISE-SLEW / FALL-SLEW"
+   },
+   {
+    "name": "DAC_0_DATA",
+    "address": 25,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ],
+    "note": "input (buffer) register of channel 0: 12-bit code MSB left-aligned in bits 15-4"
+   },
+   {
+    "name": "DAC_1_DATA",
+    "address": 26,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ],
+    "note": "input (buffer) register of channel 1: 12-bit code MSB left-aligned in bits 15-4"
+   },
+   {
+    "name": "DAC_2_DATA",
+    "address": 27,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ],
+    "note": "input (buffer) register of channel 2: 12-bit code MSB left-aligned in bits 15-4"
+   },
+   {
+    "name": "DAC_3_DATA",
+    "address": 28,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ],
+    "note": "input (buffer) register of channel 3: 12-bit code MSB left-aligned in bits 15-4"
+   },
+   {
+    "name": "COMMON_CONFIG",
+    "address": 31,
+    "width": 16,
+    "reset": 4095,
+    "fields": [
+     {
+      "name": "WIN_LATCH_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "DEV_LOCK",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "EE_READ_ADDR",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "EN_INT_REF",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "VOUT_PDN_3",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "IOUT_PDN_3",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "VOUT_PDN_2",
+      "bits": [
+       8,
+       7
+      ]
+     },
+     {
+      "name": "IOUT_PDN_2",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "VOUT_PDN_1",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "IOUT_PDN_1",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "VOUT_PDN_0",
+      "bits": [
+       2,
+       1
+      ]
+     },
+     {
+      "name": "IOUT_PDN_0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "COMMON_TRIGGER",
+    "address": 32,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 4095,
+    "fields": [
+     {
+      "name": "DEV_UNLOCK",
+      "bits": [
+       15,
+       12
+      ]
+     },
+     {
+      "name": "RESET",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "LDAC",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CLR",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "FAULT_DUMP",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "PROTECT",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "READ_ONE_TRIG",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "NVM_PROG",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "NVM_RELOAD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "RESET (write-only) and the trigger bits self-reset, so they read 0 (modeled as readOnly); DEV-UNLOCK is stored"
+   },
+   {
+    "name": "COMMON_DAC_TRIG",
+    "address": 33,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 61166,
+    "fields": [
+     {
+      "name": "RESET_CMP_FLAG_0",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "TRIG_MAR_LO_0",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "TRIG_MAR_HI_0",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "START_FUNC_0",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "RESET_CMP_FLAG_1",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "TRIG_MAR_LO_1",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "TRIG_MAR_HI_1",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "START_FUNC_1",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "RESET_CMP_FLAG_2",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "TRIG_MAR_LO_2",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "TRIG_MAR_HI_2",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "START_FUNC_2",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "RESET_CMP_FLAG_3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "TRIG_MAR_LO_3",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "TRIG_MAR_HI_3",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "START_FUNC_3",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "RESET-CMP-FLAG / TRIG-MAR-LO / TRIG-MAR-HI are write-only self-resetting bits (readOnly here); START-FUNC is R/W"
+   },
+   {
+    "name": "GENERAL_STATUS",
+    "address": 34,
+    "width": 16,
+    "reset": 4,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "NVM_CRC_FAIL_INT",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "NVM_CRC_FAIL_USER",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "DAC_3_BUSY",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "DAC_2_BUSY",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "DAC_1_BUSY",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "DAC_0_BUSY",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "DEVICE_ID",
+      "bits": [
+       7,
+       2
+      ]
+     },
+     {
+      "name": "VERSION_ID",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "DEVICE-ID 01h (DAC63204), VERSION-ID 00"
+   },
+   {
+    "name": "CMP_STATUS",
+    "address": 35,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "PROTECT_FLAG",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "WIN_CMP_3",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "WIN_CMP_2",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "WIN_CMP_1",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "WIN_CMP_0",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CMP_FLAG_3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CMP_FLAG_2",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CMP_FLAG_1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CMP_FLAG_0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 256
+   },
+   {
+    "name": "GPIO_CONFIG",
+    "address": 36,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GF_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "GPO_EN",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "GPO_CONFIG",
+      "bits": [
+       12,
+       9
+      ]
+     },
+     {
+      "name": "GPI_CH_SEL",
+      "bits": [
+       8,
+       5
+      ]
+     },
+     {
+      "name": "GPI_CONFIG",
+      "bits": [
+       4,
+       1
+      ]
+     },
+     {
+      "name": "GPI_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DEVICE_MODE_CONFIG",
+    "address": 37,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DIS_MODE_IN",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "PROTECT_CONFIG",
+      "bits": [
+       9,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "INTERFACE_CONFIG",
+    "address": 38,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "TIMEOUT_EN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "EN_PMBUS",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "FSDO_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SDO_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SRAM_CONFIG",
+    "address": 43,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SRAM_ADDR",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SRAM_DATA",
+    "address": 44,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SRAM_DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_0_DATA_8BIT",
+    "address": 64,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA_8BIT",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_1_DATA_8BIT",
+    "address": 65,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA_8BIT",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_2_DATA_8BIT",
+    "address": 66,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA_8BIT",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_3_DATA_8BIT",
+    "address": 67,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA_8BIT",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "BRDCAST_DATA",
+    "address": 80,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "BRDCAST_DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_0_ACTIVE",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "internal DAC (active) register of channel 0, same left-aligned layout as DAC-0-DATA"
+   },
+   {
+    "name": "DAC_1_ACTIVE",
+    "space": "dac",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "note": "internal DAC (active) register of channel 1, same left-aligned layout as DAC-1-DATA"
+   },
+   {
+    "name": "DAC_2_ACTIVE",
+    "space": "dac",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "note": "internal DAC (active) register of channel 2, same left-aligned layout as DAC-2-DATA"
+   },
+   {
+    "name": "DAC_3_ACTIVE",
+    "space": "dac",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "note": "internal DAC (active) register of channel 3, same left-aligned layout as DAC-3-DATA"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0",
+   "commands": [
+    {
+     "name": "SW_RESET",
+     "in": "0 0100000 xxxx 1010 x{8}",
+     "action": "reset",
+     "commit": "end",
+     "note": "COMMON-TRIGGER RESET = 1010: POR reset; not blocked by DEV-LOCK (p.42, p.62)"
+    },
+    {
+     "name": "LDAC_TRIGGER",
+     "in": "0 0100000 uuuu xxxx 1 x{7}",
+     "action": "update",
+     "commit": "end",
+     "set": {
+      "COMMON_TRIGGER.DEV_UNLOCK": "u"
+     },
+     "next": "0 0100000 uuuu 0000 1 0{7}",
+     "note": "COMMON-TRIGGER LDAC = 1: channels with SYNC-CONFIG-X = 1 copy DAC-X-DATA to the output (the others already match)"
+    },
+    {
+     "name": "CLR_TRIGGER",
+     "in": "0 0100000 uuuu xxxx 0 1 x{6}",
+     "action": "clear",
+     "commit": "end",
+     "set": {
+      "COMMON_TRIGGER.DEV_UNLOCK": "u"
+     },
+     "next": "0 0100000 uuuu 0000 0 1 0{6}",
+     "note": "COMMON-TRIGGER CLR = 1: DAC registers and outputs to zero code (CLR-SEL-X = 0)"
+    },
+    {
+     "name": "WRITE_COMMON_TRIGGER",
+     "in": "0 0100000 d{16}",
+     "action": "write",
+     "register": "COMMON_TRIGGER",
+     "data": "d",
+     "commit": "end",
+     "next": "0 0100000 d{16}",
+     "note": "COMMON-TRIGGER stays writable while DEV-LOCK = 1 (unlock code path)"
+    },
+    {
+     "name": "WRITE_DAC_0_DATA",
+     "in": "0 0011001 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.SYNC_CONFIG=0"
+     ],
+     "next": "0 0011001 d{16}",
+     "note": "SYNC-CONFIG-0 = 0: the output updates right after the write (unlocked)"
+    },
+    {
+     "name": "WRITE_DAC_1_DATA",
+     "in": "0 0011010 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_1_FUNC_CONFIG.SYNC_CONFIG=0"
+     ],
+     "next": "0 0011010 d{16}",
+     "note": "SYNC-CONFIG-1 = 0: the output updates right after the write (unlocked)"
+    },
+    {
+     "name": "WRITE_DAC_2_DATA",
+     "in": "0 0011011 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_2_FUNC_CONFIG.SYNC_CONFIG=0"
+     ],
+     "next": "0 0011011 d{16}",
+     "note": "SYNC-CONFIG-2 = 0: the output updates right after the write (unlocked)"
+    },
+    {
+     "name": "WRITE_DAC_3_DATA",
+     "in": "0 0011100 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_3_FUNC_CONFIG.SYNC_CONFIG=0"
+     ],
+     "next": "0 0011100 d{16}",
+     "note": "SYNC-CONFIG-3 = 0: the output updates right after the write (unlocked)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=0"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0]) take the code (unlocked)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       1
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=0"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([1]) take the code (unlocked)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0,
+       1
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=0"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0, 1]) take the code (unlocked)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       2
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=0"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([2]) take the code (unlocked)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0,
+       2
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=0"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0, 2]) take the code (unlocked)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       1,
+       2
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=0"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([1, 2]) take the code (unlocked)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0,
+       1,
+       2
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=0"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0, 1, 2]) take the code (unlocked)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([3]) take the code (unlocked)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0, 3]) take the code (unlocked)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       1,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([1, 3]) take the code (unlocked)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0,
+       1,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0, 1, 3]) take the code (unlocked)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([2, 3]) take the code (unlocked)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0,
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0, 2, 3]) take the code (unlocked)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       1,
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([1, 2, 3]) take the code (unlocked)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0,
+       1,
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_CONFIG.DEV_LOCK=0",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0, 1, 2, 3]) take the code (unlocked)"
+    },
+    {
+     "name": "WRITE",
+     "in": "0 aaaaaaa d{16}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "when": "COMMON_CONFIG.DEV_LOCK=0",
+     "next": "0 aaaaaaa d{16}",
+     "note": "R/W = 0, A[6:0], DI[15:0] (unlocked); SDO echoes the frame in the next access cycle"
+    },
+    {
+     "name": "WRITE_DAC_0_DATA",
+     "in": "0 0011001 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.SYNC_CONFIG=0"
+     ],
+     "next": "0 0011001 d{16}",
+     "note": "SYNC-CONFIG-0 = 0: the output updates right after the write (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_DAC_1_DATA",
+     "in": "0 0011010 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_1_FUNC_CONFIG.SYNC_CONFIG=0"
+     ],
+     "next": "0 0011010 d{16}",
+     "note": "SYNC-CONFIG-1 = 0: the output updates right after the write (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_DAC_2_DATA",
+     "in": "0 0011011 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_2_FUNC_CONFIG.SYNC_CONFIG=0"
+     ],
+     "next": "0 0011011 d{16}",
+     "note": "SYNC-CONFIG-2 = 0: the output updates right after the write (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_DAC_3_DATA",
+     "in": "0 0011100 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_3_FUNC_CONFIG.SYNC_CONFIG=0"
+     ],
+     "next": "0 0011100 d{16}",
+     "note": "SYNC-CONFIG-3 = 0: the output updates right after the write (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=0"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0]) take the code (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       1
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=0"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([1]) take the code (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0,
+       1
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=0"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0, 1]) take the code (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       2
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=0"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([2]) take the code (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0,
+       2
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=0"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0, 2]) take the code (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       1,
+       2
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=0"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([1, 2]) take the code (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0,
+       1,
+       2
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=0"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0, 1, 2]) take the code (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([3]) take the code (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0, 3]) take the code (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       1,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([1, 3]) take the code (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0,
+       1,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0, 1, 3]) take the code (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([2, 3]) take the code (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0,
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0, 2, 3]) take the code (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       1,
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=0",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([1, 2, 3]) take the code (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE_BRDCAST_DATA",
+     "in": "0 1010000 d{16}",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0,
+       1,
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "when": [
+      "COMMON_TRIGGER.DEV_UNLOCK=5",
+      "DAC_0_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_1_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_2_FUNC_CONFIG.BRD_CONFIG=1",
+      "DAC_3_FUNC_CONFIG.BRD_CONFIG=1"
+     ],
+     "next": "0 1010000 d{16}",
+     "note": "broadcast: channels with BRD-CONFIG-X = 1 ([0, 1, 2, 3]) take the code (unlock code 0101 written)"
+    },
+    {
+     "name": "WRITE",
+     "in": "0 aaaaaaa d{16}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "when": "COMMON_TRIGGER.DEV_UNLOCK=5",
+     "next": "0 aaaaaaa d{16}",
+     "note": "R/W = 0, A[6:0], DI[15:0] (unlock code 0101 written); SDO echoes the frame in the next access cycle"
+    },
+    {
+     "name": "READ",
+     "in": "1 aaaaaaa x{16}",
+     "action": "read",
+     "address": "a",
+     "commit": "end",
+     "next": "1 aaaaaaa @",
+     "note": "R/W = 1: the next access cycle shifts out the R/W and address echo and the register (Table 7-13)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC_0_DATA",
+    "DAC_1_DATA",
+    "DAC_2_DATA",
+    "DAC_3_DATA"
+   ],
+   "output": [
+    "DAC_0_ACTIVE",
+    "DAC_1_ACTIVE",
+    "DAC_2_ACTIVE",
+    "DAC_3_ACTIVE"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "RTE": {
+   "pinout": "rte16",
+   "footprint": "WQFN-16-RTE",
+   "package": "WQFN",
+   "pins": 16
+  }
+ },
+ "pdf": "dac53204.pdf",
+ "pages": "p.3 (pins, Table 5-1), p.4 (ROC), p.11-12 (SPI timing), p.41-42 (reset, register-map lock), p.43 (power-down), p.44-45 (SPI), p.48-50 (I2C), p.52-69 (register map)",
+ "notModeled": [
+  "analog side: voltage/current outputs, gain and reference selection, internal reference, comparator, margin and function generation (registers stored only; OUTx/FBx never driven)",
+  "interface auto-detect: only the SPI port is modeled; the I2C/PMBus mode (address 1001xxx by A0: AGND 0x48, VDD 0x49, SDA 0x4A, SCL 0x4B; broadcast 0x47; general-call reset; same command byte = register address + MSDB/LSDB) is not",
+  "GPIO/SDO: always used as SDO (MISO). The datasheet drives SDO only after SDO-EN = 1 (INTERFACE-CONFIG) and samples it per FSDO-EN; the model drives it from power on. GPIO input functions (LDAC, CLR, PD, PROTECT, RESET, deep sleep, margin trigger) and STATUS outputs are not modeled",
+  "daisy chain (frames of n x 24 bits use the last 24 bits in 4-wire mode); the model decodes the first 24 bits",
+  "write echo: the next frame echoes the last accepted frame; a frame the model rejects (locked) shifts out zeros",
+  "register-map lock: writes blocked while DEV-LOCK = 1 unless DEV-UNLOCK = 0101 is stored; COMMON-TRIGGER (unlock, reset, LDAC, CLR) is accepted while locked",
+  "one action per frame: a COMMON-TRIGGER write with several trigger bits set runs only the first of RESET, LDAC, CLR; FAULT-DUMP, PROTECT, READ-ONE-TRIG, NVM-PROG and NVM-RELOAD are ignored",
+  "CLR-SEL-X = 1 (clear to mid-scale) is not modeled: CLR always loads zero code",
+  "broadcast write: channels with BRD-CONFIG-X = 1 get the code and update at once (SYNC-CONFIG ignored); the BRDCAST-DATA register itself keeps its last direct value only when no channel has BRD-CONFIG set",
+  "COMMON-DAC-TRIG margin-high/low triggers (copy MARGIN-HIGH/LOW to the output) and function generation are stored only",
+  "DAC-X-DATA-8BIT registers (0x40-0x43) are stored but do not load the DAC",
+  "NVM (programming, reload, CRC, fault dump), SRAM indirect access (SRAM-DATA is a plain register), PMBus pages and PMBus-only registers, I2C timeout, deep sleep",
+  "DAC busy/wait times (tDACWAIT, tBCASTWAIT 2 us), LDAC/GPIO timing, SPI read clock limits (1.25/2.5 MHz)",
+  "power-down: VOUT-PDN/IOUT-PDN bits stored only (outputs are Hi-Z/powered down at power on per the datasheet)",
+  "DAC-X-DATA and the active registers are 16 bits wide (the 12-bit code left-aligned, as on the bus)"
+ ],
+ "variants": "DAC63204 (12-bit, DEVICE-ID 01h), DAC53204 (10-bit, 02h) and DAC43204 (8-bit, 03h) share dac53204.pdf: same pinout and register map (as DACx3004 without DEEP-SLEEP-EN); own spec files. DAC53204W/DAC63204W (dac53204w.pdf, YBH DSBGA) are the same register map and IDs",
+ "parts": [
+  [
+   "DAC63204RTER",
+   "RTE",
+   16,
+   "Active"
+  ]
+ ]
+}

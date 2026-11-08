@@ -1,0 +1,803 @@
+{
+ "device": {
+  "id": "DAC80004",
+  "function": "DAC",
+  "description": "Quad 16-bit buffered voltage-output DAC with 32-bit SPI, LDAC/CLR pins and read-back",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac60004.pdf (SLASED6D) p.3 pin configuration and functions, p.4 recommended operating conditions, p.8 timing requirements (Figure 1), p.9 daisy-chain timing, p.19 power-on reset values (Table 1), p.20-21 serial interface and read-back, p.22 SPI shift register and commands (Tables 2-4), p.23-25 power-down, clear, LDAC, reset, short-circuit and status registers (Tables 5-8)",
+  "pinouts": {
+   "pw14": [
+    {
+     "number": 1,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "POR",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "SDIN",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "SCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 4,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VOUTA",
+   "VOUTC",
+   "REFIN",
+   "VOUTD",
+   "VOUTB"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "SDIN",
+   "miso": "SDO",
+   "mode": 1
+  },
+  "timing": {
+   "tOut": 18
+  },
+  "registers": [
+   {
+    "name": "IN_A",
+    "address": 0,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer (input register); power-on zero scale with POR = GND"
+   },
+   {
+    "name": "IN_B",
+    "address": 1,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer (input register); power-on zero scale with POR = GND"
+   },
+   {
+    "name": "IN_C",
+    "address": 2,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer (input register); power-on zero scale with POR = GND"
+   },
+   {
+    "name": "IN_D",
+    "address": 3,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer (input register); power-on zero scale with POR = GND"
+   },
+   {
+    "name": "DAC_A",
+    "address": 0,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC latch; power-on zero scale with POR = GND"
+   },
+   {
+    "name": "DAC_B",
+    "address": 1,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC latch; power-on zero scale with POR = GND"
+   },
+   {
+    "name": "DAC_C",
+    "address": 2,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC latch; power-on zero scale with POR = GND"
+   },
+   {
+    "name": "DAC_D",
+    "address": 3,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC latch; power-on zero scale with POR = GND"
+   },
+   {
+    "name": "PWR",
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PDD",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "PDC",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "PDB",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "PDA",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "per-channel power-down bits PD1:PD0 (00 normal, 01 1 kohm, 10 100 kohm, 11 Hi-Z)"
+   },
+   {
+    "name": "CLRMODE",
+    "width": 2,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "CM",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "clear mode: 00 zero, 01 mid, 10 full scale"
+   },
+   {
+    "name": "LDACREG",
+    "width": 4,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "CHD",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CHC",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CHB",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CHA",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "1 = channel ignores the LDAC pin (updates at the 32nd SCLK)"
+   },
+   {
+    "name": "SDOCTL",
+    "width": 1,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DSDO",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "DSDO: 1 enables SDO (read-back / daisy chain); 0 = SDO Hi-Z"
+   },
+   {
+    "name": "SCLIM",
+    "width": 4,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "CHD",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CHC",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CHB",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CHA",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "short-circuit limit: 0 = 40 mA, 1 = 30 mA"
+   },
+   {
+    "name": "STATUS",
+    "width": 1,
+    "reset": 1,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DRDY",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "DRDY (D04) = 1: device ready"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "z{32}",
+   "idle": "z",
+   "outs": [
+    {
+     "when": "SDOCTL.DSDO=1",
+     "out": "0{32}"
+    }
+   ],
+   "commands": [
+    {
+     "name": "WRITE BUFFER n",
+     "in": "xxx0 0000 aaaa d{16} x{4}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "channelMap": {
+      "15": [
+       0,
+       1,
+       2,
+       3
+      ]
+     }
+    },
+    {
+     "name": "UPDATE DAC n",
+     "in": "xxx0 0001 aaaa x{20}",
+     "action": "update",
+     "channel": "a",
+     "channelMap": {
+      "15": [
+       0,
+       1,
+       2,
+       3
+      ]
+     }
+    },
+    {
+     "name": "WRITE BUFFER n, UPDATE ALL",
+     "in": "xxx0 0010 aaaa d{16} x{4}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "channelMap": {
+      "15": [
+       0,
+       1,
+       2,
+       3
+      ]
+     },
+     "then": [
+      "updateall"
+     ],
+     "note": "Table 3: write to buffer n and update all DACs (software LDAC)"
+    },
+    {
+     "name": "WRITE BUFFER n, UPDATE n",
+     "in": "xxx0 0011 aaaa d{16} x{4}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "channelMap": {
+      "15": [
+       0,
+       1,
+       2,
+       3
+      ]
+     },
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "POWER UP/DOWN mask 0000",
+     "in": "xxx0 0100 x{14} pp xxxx 0000"
+    },
+    {
+     "name": "POWER UP/DOWN mask 0001",
+     "in": "xxx0 0100 x{14} pp xxxx 0001",
+     "set": {
+      "PWR.PDA": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN mask 0010",
+     "in": "xxx0 0100 x{14} pp xxxx 0010",
+     "set": {
+      "PWR.PDB": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN mask 0011",
+     "in": "xxx0 0100 x{14} pp xxxx 0011",
+     "set": {
+      "PWR.PDA": "p",
+      "PWR.PDB": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN mask 0100",
+     "in": "xxx0 0100 x{14} pp xxxx 0100",
+     "set": {
+      "PWR.PDC": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN mask 0101",
+     "in": "xxx0 0100 x{14} pp xxxx 0101",
+     "set": {
+      "PWR.PDA": "p",
+      "PWR.PDC": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN mask 0110",
+     "in": "xxx0 0100 x{14} pp xxxx 0110",
+     "set": {
+      "PWR.PDB": "p",
+      "PWR.PDC": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN mask 0111",
+     "in": "xxx0 0100 x{14} pp xxxx 0111",
+     "set": {
+      "PWR.PDA": "p",
+      "PWR.PDB": "p",
+      "PWR.PDC": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN mask 1000",
+     "in": "xxx0 0100 x{14} pp xxxx 1000",
+     "set": {
+      "PWR.PDD": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN mask 1001",
+     "in": "xxx0 0100 x{14} pp xxxx 1001",
+     "set": {
+      "PWR.PDA": "p",
+      "PWR.PDD": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN mask 1010",
+     "in": "xxx0 0100 x{14} pp xxxx 1010",
+     "set": {
+      "PWR.PDB": "p",
+      "PWR.PDD": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN mask 1011",
+     "in": "xxx0 0100 x{14} pp xxxx 1011",
+     "set": {
+      "PWR.PDA": "p",
+      "PWR.PDB": "p",
+      "PWR.PDD": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN mask 1100",
+     "in": "xxx0 0100 x{14} pp xxxx 1100",
+     "set": {
+      "PWR.PDC": "p",
+      "PWR.PDD": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN mask 1101",
+     "in": "xxx0 0100 x{14} pp xxxx 1101",
+     "set": {
+      "PWR.PDA": "p",
+      "PWR.PDC": "p",
+      "PWR.PDD": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN mask 1110",
+     "in": "xxx0 0100 x{14} pp xxxx 1110",
+     "set": {
+      "PWR.PDB": "p",
+      "PWR.PDC": "p",
+      "PWR.PDD": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN mask 1111",
+     "in": "xxx0 0100 x{14} pp xxxx 1111",
+     "set": {
+      "PWR.PDA": "p",
+      "PWR.PDB": "p",
+      "PWR.PDC": "p",
+      "PWR.PDD": "p"
+     }
+    },
+    {
+     "name": "CLEAR MODE",
+     "in": "xxx0 0101 x{22} [CLRMODE]"
+    },
+    {
+     "name": "LDAC REGISTER",
+     "in": "xxx0 0110 x{20} [LDACREG]"
+    },
+    {
+     "name": "SOFTWARE RESET",
+     "in": "xxx0 0111 x{24}",
+     "action": "reset"
+    },
+    {
+     "name": "DISABLE SDO REGISTER",
+     "in": "xxx0 1000 x{23} [SDOCTL]"
+    },
+    {
+     "name": "SHORT CIRCUIT LIMIT",
+     "in": "xxx0 1010 x{20} [SCLIM]"
+    },
+    {
+     "name": "SOFTWARE CLEAR",
+     "in": "xxx0 1011 x{24}",
+     "action": "clear"
+    },
+    {
+     "name": "NOP",
+     "in": "xxxx 1110 x{24}"
+    },
+    {
+     "name": "READ BUFFER A",
+     "in": "xxx1 0000 0000 x{20}",
+     "when": "SDOCTL.DSDO=1",
+     "next": "0{12} [IN_A] 0{4}"
+    },
+    {
+     "name": "READ BUFFER B",
+     "in": "xxx1 0000 0001 x{20}",
+     "when": "SDOCTL.DSDO=1",
+     "next": "0{12} [IN_B] 0{4}"
+    },
+    {
+     "name": "READ BUFFER C",
+     "in": "xxx1 0000 0010 x{20}",
+     "when": "SDOCTL.DSDO=1",
+     "next": "0{12} [IN_C] 0{4}"
+    },
+    {
+     "name": "READ BUFFER D",
+     "in": "xxx1 0000 0011 x{20}",
+     "when": "SDOCTL.DSDO=1",
+     "next": "0{12} [IN_D] 0{4}"
+    },
+    {
+     "name": "READ POWER DOWN",
+     "in": "xxx1 0100 x{24}",
+     "when": "SDOCTL.DSDO=1",
+     "next": "0{24} [PWR]"
+    },
+    {
+     "name": "READ CLEAR MODE",
+     "in": "xxx1 0101 x{24}",
+     "when": "SDOCTL.DSDO=1",
+     "next": "0{30} [CLRMODE]"
+    },
+    {
+     "name": "READ LDAC REGISTER",
+     "in": "xxx1 0110 x{24}",
+     "when": "SDOCTL.DSDO=1",
+     "next": "0{28} [LDACREG]"
+    },
+    {
+     "name": "READ SDO REGISTER",
+     "in": "xxx1 1000 x{24}",
+     "when": "SDOCTL.DSDO=1",
+     "next": "0{31} [SDOCTL]"
+    },
+    {
+     "name": "READ SHORT CIRCUIT LIMIT",
+     "in": "xxx1 1010 x{24}",
+     "when": "SDOCTL.DSDO=1",
+     "next": "0{28} [SCLIM]"
+    },
+    {
+     "name": "READ STATUS",
+     "in": "xxx1 1101 x{24}",
+     "when": "SDOCTL.DSDO=1",
+     "next": "0{27} [STATUS] 0{4}"
+    }
+   ],
+   "note": "32-bit word: D31-D29 don't care, D28 R/W, D27-D24 command, D23-D20 channel (1111 = all), D19-D4 data left aligned; registers update on the 32nd SCLK falling edge, a frame ended early is discarded"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0
+   },
+   "clear": {
+    "pin": "CLR",
+    "active": 0,
+    "edge": "fall"
+   },
+   "resetSelect": [
+    {
+     "pin": "POR",
+     "level": 1,
+     "resets": {
+      "IN_A": 32768,
+      "IN_B": 32768,
+      "IN_C": 32768,
+      "IN_D": 32768,
+      "DAC_A": 32768,
+      "DAC_B": 32768,
+      "DAC_C": 32768,
+      "DAC_D": 32768
+     },
+     "note": "POR = VDD: power-on code mid scale (Table 1)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "IN_A",
+    "IN_B",
+    "IN_C",
+    "IN_D"
+   ],
+   "output": [
+    "DAC_A",
+    "DAC_B",
+    "DAC_C",
+    "DAC_D"
+   ],
+   "clearCode": {
+    "field": "CLRMODE.CM",
+    "values": {
+     "0": 0,
+     "1": 32768,
+     "2": 65535
+    }
+   },
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DMD": {
+   "pinout": "pw14",
+   "footprint": "VSON-14-DMD",
+   "package": "VSON",
+   "pins": 14
+  },
+  "PW": {
+   "pinout": "pw14",
+   "footprint": "TSSOP-14",
+   "package": "TSSOP",
+   "pins": 14
+  }
+ },
+ "pdf": "dac60004.pdf",
+ "pages": "p.3 (pins), p.4 (ROC), p.8-9 (timing, Figures 1-2), p.19 (power-on reset, Table 1), p.20-21 (serial interface, read-back), p.22 (shift register, commands, Tables 2-4), p.23-25 (power-down, clear, LDAC, reset, short-circuit, status)",
+ "notModeled": [
+  "analog outputs, output buffers, reference buffer and short-circuit limiting (SCLIM stored only); power-down bits stored only",
+  "CLR exits clear mode on the 32nd SCLK of the next write; the model loads the clear code once on the CLR falling edge and the next write replaces it. Table 6 gives no clear code for mode 11 (not mapped)",
+  "LDAC register: channels with their bit set ignore the LDAC pin and update on the 32nd SCLK (stored only; every channel follows the LDAC pin)",
+  "daisy-chain mode (DSDO = 1 and more than 32 SCLKs: data ripples out on SDO, latched at SYNC rising) is not modeled; with DSDO = 1 SDO outputs zeros except the read-back word",
+  "read-back word layout: only the data bit positions are documented; the model returns zeros outside the register value (buffer data in D19-D4, clear mode D1-D0, LDAC and short-circuit D3-D0, DSDO D0, DRDY D4). The power-down register read-back layout is not documented: the model returns PDD..PDA (2 bits each) in D7-D0",
+  "command 1001 is listed as reserved in Table 3 although the text mentions a user-defined clear code written with 1001; not modeled",
+  "STATUS.DRDY reads 1 at once (power-up ready time not modeled); t20 2.4 us between successive updates not modeled",
+  "SDO is valid tv 18 ns after the SCLK rising edge (tOut); data are sampled on SCLK falling edges (mode 1)"
+ ],
+ "variants": "dac60004.pdf covers DAC80004 (16-bit), DAC70004 (14-bit, data D19-D6) and DAC60004 (12-bit, D19-D8); same pinout and commands.",
+ "parts": [
+  [
+   "DAC80004IDMDT",
+   "DMD",
+   14,
+   "Active"
+  ],
+  [
+   "DAC80004IPW",
+   "PW",
+   14,
+   "Active"
+  ]
+ ]
+}

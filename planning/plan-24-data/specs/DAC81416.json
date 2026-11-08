@@ -1,0 +1,3017 @@
+{
+ "device": {
+  "id": "DAC81416",
+  "function": "DAC",
+  "description": "16-bit 16-channel high-voltage (up to 40 V / +-20 V) output DAC with 2.5-V reference and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac81416.pdf (SLASEO0C) p.2-3 pinout and pin functions (Table 4-1), p.4 recommended operating conditions, p.9-10 timing, p.22-23 register structure, broadcast, clear, reset, p.26-28 serial interface, streaming, daisy chain, CRC (Tables 6-2 to 6-6), p.29-42 register map (Tables 7-1 to 7-17)",
+  "pinouts": {
+   "rha40": [
+    {
+     "number": 1,
+     "name": "OUT0",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "OUT1",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "OUT2",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "OUT3",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "OUT4",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "OUT5",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "OUT6",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "OUT7",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "VIO",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "TOGGLE0",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "TOGGLE1",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "TOGGLE2",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "ALMOUT",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "TEMPOUT",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "OUT8",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "OUT9",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "OUT10",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "OUT11",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "OUT12",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "OUT13",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "OUT14",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "OUT15",
+     "role": "output"
+    },
+    {
+     "number": 31,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 32,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 33,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 34,
+     "name": "REFCMP",
+     "role": "nc"
+    },
+    {
+     "number": 35,
+     "name": "REFGND",
+     "role": "ground"
+    },
+    {
+     "number": 36,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 37,
+     "name": "VAA",
+     "role": "power"
+    },
+    {
+     "number": 38,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 39,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 40,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 16,
+  "vcc": [
+   1.7,
+   5.5
+  ],
+  "analog": [
+   "OUT0",
+   "OUT1",
+   "OUT2",
+   "OUT3",
+   "OUT4",
+   "OUT5",
+   "OUT6",
+   "OUT7",
+   "OUT8",
+   "OUT9",
+   "OUT10",
+   "OUT11",
+   "OUT12",
+   "OUT13",
+   "OUT14",
+   "OUT15",
+   "TEMPOUT",
+   "VCC",
+   "VSS",
+   "REF",
+   "REFCMP",
+   "VAA",
+   "VDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 20,
+   "tOut": 35
+  },
+  "registers": [
+   {
+    "name": "NOP",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "note": "p.31 Table 7-3: NOP (write 0000h), write-only"
+   },
+   {
+    "name": "DEVICEID",
+    "address": 1,
+    "width": 16,
+    "reset": 2672,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DEVICEID",
+      "bits": [
+       15,
+       2
+      ]
+     },
+     {
+      "name": "VERSIONID",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.31 Table 7-4: DEVICEID 29Ch (DAC81416), VERSIONID 0 (subject to change)"
+   },
+   {
+    "name": "STATUS",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CRC_ALM",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DAC_BUSY",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "TEMP_ALM",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SPICONFIG",
+    "address": 3,
+    "width": 16,
+    "reset": 2724,
+    "readOnly": 61825,
+    "fields": [
+     {
+      "name": "TEMPALM_EN",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "DACBUSY_EN",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "CRCALM_EN",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "SOFTTOGGLE_EN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "DEV_PWDWN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CRC_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "STR_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "SDO_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "FSDO",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ],
+    "note": "p.33 Table 7-6: reset 0AA4h"
+   },
+   {
+    "name": "GENCONFIG",
+    "address": 4,
+    "width": 16,
+    "reset": 32512,
+    "readOnly": 48896,
+    "fields": [
+     {
+      "name": "REF_PWDWN",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "DAC_14_15_DIFF_EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "DAC_12_13_DIFF_EN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "DAC_10_11_DIFF_EN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "DAC_8_9_DIFF_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DAC_6_7_DIFF_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DAC_4_5_DIFF_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DAC_2_3_DIFF_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DAC_0_1_DIFF_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "BRDCONFIG",
+    "address": 5,
+    "width": 16,
+    "reset": 65535,
+    "fields": [
+     {
+      "name": "DAC15_BRDCAST_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "DAC14_BRDCAST_EN",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "DAC13_BRDCAST_EN",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "DAC12_BRDCAST_EN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "DAC11_BRDCAST_EN",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "DAC10_BRDCAST_EN",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "DAC9_BRDCAST_EN",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "DAC8_BRDCAST_EN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DAC7_BRDCAST_EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "DAC6_BRDCAST_EN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "DAC5_BRDCAST_EN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "DAC4_BRDCAST_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DAC3_BRDCAST_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DAC2_BRDCAST_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DAC1_BRDCAST_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DAC0_BRDCAST_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SYNCCONFIG",
+    "address": 6,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC15_SYNC_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "DAC14_SYNC_EN",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "DAC13_SYNC_EN",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "DAC12_SYNC_EN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "DAC11_SYNC_EN",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "DAC10_SYNC_EN",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "DAC9_SYNC_EN",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "DAC8_SYNC_EN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DAC7_SYNC_EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "DAC6_SYNC_EN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "DAC5_SYNC_EN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "DAC4_SYNC_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DAC3_SYNC_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DAC2_SYNC_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DAC1_SYNC_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DAC0_SYNC_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "TOGGCONFIG0",
+    "address": 7,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC15_AB_TOGG_EN",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "DAC14_AB_TOGG_EN",
+      "bits": [
+       13,
+       12
+      ]
+     },
+     {
+      "name": "DAC13_AB_TOGG_EN",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "DAC12_AB_TOGG_EN",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "DAC11_AB_TOGG_EN",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "DAC10_AB_TOGG_EN",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "DAC9_AB_TOGG_EN",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "DAC8_AB_TOGG_EN",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "TOGGCONFIG1",
+    "address": 8,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC7_AB_TOGG_EN",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "DAC6_AB_TOGG_EN",
+      "bits": [
+       13,
+       12
+      ]
+     },
+     {
+      "name": "DAC5_AB_TOGG_EN",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "DAC4_AB_TOGG_EN",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "DAC3_AB_TOGG_EN",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "DAC2_AB_TOGG_EN",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "DAC1_AB_TOGG_EN",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "DAC0_AB_TOGG_EN",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACPWDWN",
+    "address": 9,
+    "width": 16,
+    "reset": 65535,
+    "fields": [
+     {
+      "name": "DAC15_PWDWN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "DAC14_PWDWN",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "DAC13_PWDWN",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "DAC12_PWDWN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "DAC11_PWDWN",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "DAC10_PWDWN",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "DAC9_PWDWN",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "DAC8_PWDWN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DAC7_PWDWN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "DAC6_PWDWN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "DAC5_PWDWN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "DAC4_PWDWN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DAC3_PWDWN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DAC2_PWDWN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DAC1_PWDWN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DAC0_PWDWN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACRANGE0",
+    "address": 10,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC15_RANGE",
+      "bits": [
+       15,
+       12
+      ]
+     },
+     {
+      "name": "DAC14_RANGE",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "DAC13_RANGE",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC12_RANGE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.39 Table 7-13: write-only"
+   },
+   {
+    "name": "DACRANGE1",
+    "address": 11,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC11_RANGE",
+      "bits": [
+       15,
+       12
+      ]
+     },
+     {
+      "name": "DAC10_RANGE",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "DAC9_RANGE",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC8_RANGE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACRANGE2",
+    "address": 12,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC7_RANGE",
+      "bits": [
+       15,
+       12
+      ]
+     },
+     {
+      "name": "DAC6_RANGE",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "DAC5_RANGE",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC4_RANGE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACRANGE3",
+    "address": 13,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC3_RANGE",
+      "bits": [
+       15,
+       12
+      ]
+     },
+     {
+      "name": "DAC2_RANGE",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "DAC1_RANGE",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0_RANGE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "TRIGGER",
+    "address": 14,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65024,
+    "fields": [
+     {
+      "name": "ALM_RESET",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "AB_TOG2",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "AB_TOG1",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "AB_TOG0",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "LDAC",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SOFT_RESET",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.40 Table 7-14: write-only trigger bits (protocol.triggers)"
+   },
+   {
+    "name": "BRDCAST",
+    "address": 15,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "p.41 Table 7-15: BRDCAST-DATA (write-only), MSB aligned {DATA[15:0]}"
+   },
+   {
+    "name": "DAC0",
+    "address": 16,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "p.41 Table 7-16: DAC0 buffer register (write-only), MSB aligned {DATA[15:0]}; reset 0000h"
+   },
+   {
+    "name": "DAC1",
+    "address": 17,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC2",
+    "address": 18,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC3",
+    "address": 19,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC4",
+    "address": 20,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC5",
+    "address": 21,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC6",
+    "address": 22,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC7",
+    "address": 23,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC8",
+    "address": 24,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC9",
+    "address": 25,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC10",
+    "address": 26,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC11",
+    "address": 27,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC12",
+    "address": 28,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC13",
+    "address": 29,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC14",
+    "address": 30,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC15",
+    "address": 31,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFFSET0",
+    "address": 32,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFFSET_14_15",
+      "bits": [
+       15,
+       8
+      ]
+     },
+     {
+      "name": "OFFSET_12_13",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.42 Table 7-17: differential offset, two's complement, MSB aligned"
+   },
+   {
+    "name": "OFFSET1",
+    "address": 33,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFFSET_10_11",
+      "bits": [
+       15,
+       8
+      ]
+     },
+     {
+      "name": "OFFSET_8_9",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFFSET2",
+    "address": 34,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFFSET_6_7",
+      "bits": [
+       15,
+       8
+      ]
+     },
+     {
+      "name": "OFFSET_4_5",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFFSET3",
+    "address": 35,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFFSET_2_3",
+      "bits": [
+       15,
+       8
+      ]
+     },
+     {
+      "name": "OFFSET_0_1",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC0_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC0 active register (drives OUT0)"
+   },
+   {
+    "name": "DAC1_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC1 active register (drives OUT1)"
+   },
+   {
+    "name": "DAC2_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC2 active register (drives OUT2)"
+   },
+   {
+    "name": "DAC3_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC3 active register (drives OUT3)"
+   },
+   {
+    "name": "DAC4_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC4 active register (drives OUT4)"
+   },
+   {
+    "name": "DAC5_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC5 active register (drives OUT5)"
+   },
+   {
+    "name": "DAC6_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC6 active register (drives OUT6)"
+   },
+   {
+    "name": "DAC7_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC7 active register (drives OUT7)"
+   },
+   {
+    "name": "DAC8_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC8 active register (drives OUT8)"
+   },
+   {
+    "name": "DAC9_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC9 active register (drives OUT9)"
+   },
+   {
+    "name": "DAC10_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC10 active register (drives OUT10)"
+   },
+   {
+    "name": "DAC11_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC11 active register (drives OUT11)"
+   },
+   {
+    "name": "DAC12_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC12 active register (drives OUT12)"
+   },
+   {
+    "name": "DAC13_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC13 active register (drives OUT13)"
+   },
+   {
+    "name": "DAC14_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC14 active register (drives OUT14)"
+   },
+   {
+    "name": "DAC15_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC15 active register (drives OUT15)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write DAC0",
+     "in": "0y010000 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC0_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y010000 d{16}",
+     "commit": "end",
+     "note": "p.22: asynchronous mode updates the active register at CS rising; synchronous mode waits for LDAC"
+    },
+    {
+     "name": "Write DAC0 (synchronous)",
+     "in": "0y010000 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC0_SYNC_EN=1"
+     ],
+     "next": "0y010000 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC1",
+     "in": "0y010001 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC1_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y010001 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC1 (synchronous)",
+     "in": "0y010001 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC1_SYNC_EN=1"
+     ],
+     "next": "0y010001 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC2",
+     "in": "0y010010 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC2_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y010010 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC2 (synchronous)",
+     "in": "0y010010 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC2_SYNC_EN=1"
+     ],
+     "next": "0y010010 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC3",
+     "in": "0y010011 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC3_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y010011 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC3 (synchronous)",
+     "in": "0y010011 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC3_SYNC_EN=1"
+     ],
+     "next": "0y010011 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC4",
+     "in": "0y010100 d{16}",
+     "action": "write",
+     "channel": 4,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC4_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y010100 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC4 (synchronous)",
+     "in": "0y010100 d{16}",
+     "action": "write",
+     "channel": 4,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC4_SYNC_EN=1"
+     ],
+     "next": "0y010100 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC5",
+     "in": "0y010101 d{16}",
+     "action": "write",
+     "channel": 5,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC5_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y010101 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC5 (synchronous)",
+     "in": "0y010101 d{16}",
+     "action": "write",
+     "channel": 5,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC5_SYNC_EN=1"
+     ],
+     "next": "0y010101 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC6",
+     "in": "0y010110 d{16}",
+     "action": "write",
+     "channel": 6,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC6_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y010110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC6 (synchronous)",
+     "in": "0y010110 d{16}",
+     "action": "write",
+     "channel": 6,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC6_SYNC_EN=1"
+     ],
+     "next": "0y010110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC7",
+     "in": "0y010111 d{16}",
+     "action": "write",
+     "channel": 7,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC7_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y010111 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC7 (synchronous)",
+     "in": "0y010111 d{16}",
+     "action": "write",
+     "channel": 7,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC7_SYNC_EN=1"
+     ],
+     "next": "0y010111 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC8",
+     "in": "0y011000 d{16}",
+     "action": "write",
+     "channel": 8,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC8_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y011000 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC8 (synchronous)",
+     "in": "0y011000 d{16}",
+     "action": "write",
+     "channel": 8,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC8_SYNC_EN=1"
+     ],
+     "next": "0y011000 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC9",
+     "in": "0y011001 d{16}",
+     "action": "write",
+     "channel": 9,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC9_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y011001 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC9 (synchronous)",
+     "in": "0y011001 d{16}",
+     "action": "write",
+     "channel": 9,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC9_SYNC_EN=1"
+     ],
+     "next": "0y011001 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC10",
+     "in": "0y011010 d{16}",
+     "action": "write",
+     "channel": 10,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC10_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y011010 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC10 (synchronous)",
+     "in": "0y011010 d{16}",
+     "action": "write",
+     "channel": 10,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC10_SYNC_EN=1"
+     ],
+     "next": "0y011010 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC11",
+     "in": "0y011011 d{16}",
+     "action": "write",
+     "channel": 11,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC11_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y011011 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC11 (synchronous)",
+     "in": "0y011011 d{16}",
+     "action": "write",
+     "channel": 11,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC11_SYNC_EN=1"
+     ],
+     "next": "0y011011 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC12",
+     "in": "0y011100 d{16}",
+     "action": "write",
+     "channel": 12,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC12_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y011100 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC12 (synchronous)",
+     "in": "0y011100 d{16}",
+     "action": "write",
+     "channel": 12,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC12_SYNC_EN=1"
+     ],
+     "next": "0y011100 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC13",
+     "in": "0y011101 d{16}",
+     "action": "write",
+     "channel": 13,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC13_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y011101 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC13 (synchronous)",
+     "in": "0y011101 d{16}",
+     "action": "write",
+     "channel": 13,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC13_SYNC_EN=1"
+     ],
+     "next": "0y011101 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC14",
+     "in": "0y011110 d{16}",
+     "action": "write",
+     "channel": 14,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC14_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y011110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC14 (synchronous)",
+     "in": "0y011110 d{16}",
+     "action": "write",
+     "channel": 14,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC14_SYNC_EN=1"
+     ],
+     "next": "0y011110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC15",
+     "in": "0y011111 d{16}",
+     "action": "write",
+     "channel": 15,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC15_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y011111 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC15 (synchronous)",
+     "in": "0y011111 d{16}",
+     "action": "write",
+     "channel": 15,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DAC15_SYNC_EN=1"
+     ],
+     "next": "0y011111 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (all channels, asynchronous)",
+     "in": "0y001111 d{16}",
+     "action": "write",
+     "channel": 16,
+     "channelMap": {
+      "16": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12,
+       13,
+       14,
+       15
+      ]
+     },
+     "data": "d",
+     "set": {
+      "BRDCAST": "d"
+     },
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "BRDCONFIG=65535",
+      "SYNCCONFIG=0",
+      "GENCONFIG.DAC_14_15_DIFF_EN=0",
+      "GENCONFIG.DAC_12_13_DIFF_EN=0",
+      "GENCONFIG.DAC_10_11_DIFF_EN=0",
+      "GENCONFIG.DAC_8_9_DIFF_EN=0",
+      "GENCONFIG.DAC_6_7_DIFF_EN=0",
+      "GENCONFIG.DAC_4_5_DIFF_EN=0",
+      "GENCONFIG.DAC_2_3_DIFF_EN=0",
+      "GENCONFIG.DAC_0_1_DIFF_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y001111 d{16}",
+     "commit": "end",
+     "note": "p.22, p.35: a BRDCAST write loads the buffer registers of the broadcast-enabled channels, which then update per their sync mode; ignored when a pair is differential"
+    },
+    {
+     "name": "BRDCAST (all channels, synchronous)",
+     "in": "0y001111 d{16}",
+     "action": "write",
+     "channel": 16,
+     "channelMap": {
+      "16": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12,
+       13,
+       14,
+       15
+      ]
+     },
+     "data": "d",
+     "set": {
+      "BRDCAST": "d"
+     },
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "BRDCONFIG=65535",
+      "GENCONFIG.DAC_14_15_DIFF_EN=0",
+      "GENCONFIG.DAC_12_13_DIFF_EN=0",
+      "GENCONFIG.DAC_10_11_DIFF_EN=0",
+      "GENCONFIG.DAC_8_9_DIFF_EN=0",
+      "GENCONFIG.DAC_6_7_DIFF_EN=0",
+      "GENCONFIG.DAC_4_5_DIFF_EN=0",
+      "GENCONFIG.DAC_2_3_DIFF_EN=0",
+      "GENCONFIG.DAC_0_1_DIFF_EN=0"
+     ],
+     "next": "0y001111 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write",
+     "in": "0yaaaaaa d{16}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0"
+     ],
+     "next": "0yaaaaaa d{16}",
+     "commit": "end",
+     "note": "p.26 Tables 6-2 and 6-3: R/W = 0, bit 22 don't care, A[5:0], DI[15:0]; the next frame echoes it on SDO"
+    },
+    {
+     "name": "Read",
+     "in": "1yaaaaaa x{16}",
+     "action": "read",
+     "address": "a",
+     "when": [
+      "SPICONFIG.CRC_EN=0"
+     ],
+     "next": "1yaaaaaa @",
+     "commit": "end",
+     "note": "p.26 Tables 6-2 and 6-3: the next access cycle shifts out RW, bit 22, A[5:0] and the register"
+    },
+    {
+     "name": "Write DAC0 (CRC frame)",
+     "in": "0x010000 d{16} x{8}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC0_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00010000 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC0 (synchronous) (CRC frame)",
+     "in": "0x010000 d{16} x{8}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC0_SYNC_EN=1"
+     ],
+     "next": "00010000 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC1 (CRC frame)",
+     "in": "0x010001 d{16} x{8}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC1_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00010001 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC1 (synchronous) (CRC frame)",
+     "in": "0x010001 d{16} x{8}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC1_SYNC_EN=1"
+     ],
+     "next": "00010001 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC2 (CRC frame)",
+     "in": "0x010010 d{16} x{8}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC2_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00010010 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC2 (synchronous) (CRC frame)",
+     "in": "0x010010 d{16} x{8}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC2_SYNC_EN=1"
+     ],
+     "next": "00010010 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC3 (CRC frame)",
+     "in": "0x010011 d{16} x{8}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC3_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00010011 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC3 (synchronous) (CRC frame)",
+     "in": "0x010011 d{16} x{8}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC3_SYNC_EN=1"
+     ],
+     "next": "00010011 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC4 (CRC frame)",
+     "in": "0x010100 d{16} x{8}",
+     "action": "write",
+     "channel": 4,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC4_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00010100 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC4 (synchronous) (CRC frame)",
+     "in": "0x010100 d{16} x{8}",
+     "action": "write",
+     "channel": 4,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC4_SYNC_EN=1"
+     ],
+     "next": "00010100 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC5 (CRC frame)",
+     "in": "0x010101 d{16} x{8}",
+     "action": "write",
+     "channel": 5,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC5_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00010101 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC5 (synchronous) (CRC frame)",
+     "in": "0x010101 d{16} x{8}",
+     "action": "write",
+     "channel": 5,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC5_SYNC_EN=1"
+     ],
+     "next": "00010101 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC6 (CRC frame)",
+     "in": "0x010110 d{16} x{8}",
+     "action": "write",
+     "channel": 6,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC6_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00010110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC6 (synchronous) (CRC frame)",
+     "in": "0x010110 d{16} x{8}",
+     "action": "write",
+     "channel": 6,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC6_SYNC_EN=1"
+     ],
+     "next": "00010110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC7 (CRC frame)",
+     "in": "0x010111 d{16} x{8}",
+     "action": "write",
+     "channel": 7,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC7_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00010111 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC7 (synchronous) (CRC frame)",
+     "in": "0x010111 d{16} x{8}",
+     "action": "write",
+     "channel": 7,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC7_SYNC_EN=1"
+     ],
+     "next": "00010111 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC8 (CRC frame)",
+     "in": "0x011000 d{16} x{8}",
+     "action": "write",
+     "channel": 8,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC8_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00011000 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC8 (synchronous) (CRC frame)",
+     "in": "0x011000 d{16} x{8}",
+     "action": "write",
+     "channel": 8,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC8_SYNC_EN=1"
+     ],
+     "next": "00011000 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC9 (CRC frame)",
+     "in": "0x011001 d{16} x{8}",
+     "action": "write",
+     "channel": 9,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC9_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00011001 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC9 (synchronous) (CRC frame)",
+     "in": "0x011001 d{16} x{8}",
+     "action": "write",
+     "channel": 9,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC9_SYNC_EN=1"
+     ],
+     "next": "00011001 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC10 (CRC frame)",
+     "in": "0x011010 d{16} x{8}",
+     "action": "write",
+     "channel": 10,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC10_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00011010 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC10 (synchronous) (CRC frame)",
+     "in": "0x011010 d{16} x{8}",
+     "action": "write",
+     "channel": 10,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC10_SYNC_EN=1"
+     ],
+     "next": "00011010 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC11 (CRC frame)",
+     "in": "0x011011 d{16} x{8}",
+     "action": "write",
+     "channel": 11,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC11_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00011011 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC11 (synchronous) (CRC frame)",
+     "in": "0x011011 d{16} x{8}",
+     "action": "write",
+     "channel": 11,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC11_SYNC_EN=1"
+     ],
+     "next": "00011011 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC12 (CRC frame)",
+     "in": "0x011100 d{16} x{8}",
+     "action": "write",
+     "channel": 12,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC12_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00011100 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC12 (synchronous) (CRC frame)",
+     "in": "0x011100 d{16} x{8}",
+     "action": "write",
+     "channel": 12,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC12_SYNC_EN=1"
+     ],
+     "next": "00011100 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC13 (CRC frame)",
+     "in": "0x011101 d{16} x{8}",
+     "action": "write",
+     "channel": 13,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC13_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00011101 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC13 (synchronous) (CRC frame)",
+     "in": "0x011101 d{16} x{8}",
+     "action": "write",
+     "channel": 13,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC13_SYNC_EN=1"
+     ],
+     "next": "00011101 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC14 (CRC frame)",
+     "in": "0x011110 d{16} x{8}",
+     "action": "write",
+     "channel": 14,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC14_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00011110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC14 (synchronous) (CRC frame)",
+     "in": "0x011110 d{16} x{8}",
+     "action": "write",
+     "channel": 14,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC14_SYNC_EN=1"
+     ],
+     "next": "00011110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC15 (CRC frame)",
+     "in": "0x011111 d{16} x{8}",
+     "action": "write",
+     "channel": 15,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC15_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00011111 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC15 (synchronous) (CRC frame)",
+     "in": "0x011111 d{16} x{8}",
+     "action": "write",
+     "channel": 15,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DAC15_SYNC_EN=1"
+     ],
+     "next": "00011111 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (all channels, asynchronous) (CRC frame)",
+     "in": "0x001111 d{16} x{8}",
+     "action": "write",
+     "channel": 16,
+     "channelMap": {
+      "16": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12,
+       13,
+       14,
+       15
+      ]
+     },
+     "data": "d",
+     "set": {
+      "BRDCAST": "d"
+     },
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "BRDCONFIG=65535",
+      "SYNCCONFIG=0",
+      "GENCONFIG.DAC_14_15_DIFF_EN=0",
+      "GENCONFIG.DAC_12_13_DIFF_EN=0",
+      "GENCONFIG.DAC_10_11_DIFF_EN=0",
+      "GENCONFIG.DAC_8_9_DIFF_EN=0",
+      "GENCONFIG.DAC_6_7_DIFF_EN=0",
+      "GENCONFIG.DAC_4_5_DIFF_EN=0",
+      "GENCONFIG.DAC_2_3_DIFF_EN=0",
+      "GENCONFIG.DAC_0_1_DIFF_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00001111 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (all channels, synchronous) (CRC frame)",
+     "in": "0x001111 d{16} x{8}",
+     "action": "write",
+     "channel": 16,
+     "channelMap": {
+      "16": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12,
+       13,
+       14,
+       15
+      ]
+     },
+     "data": "d",
+     "set": {
+      "BRDCAST": "d"
+     },
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "BRDCONFIG=65535",
+      "GENCONFIG.DAC_14_15_DIFF_EN=0",
+      "GENCONFIG.DAC_12_13_DIFF_EN=0",
+      "GENCONFIG.DAC_10_11_DIFF_EN=0",
+      "GENCONFIG.DAC_8_9_DIFF_EN=0",
+      "GENCONFIG.DAC_6_7_DIFF_EN=0",
+      "GENCONFIG.DAC_4_5_DIFF_EN=0",
+      "GENCONFIG.DAC_2_3_DIFF_EN=0",
+      "GENCONFIG.DAC_0_1_DIFF_EN=0"
+     ],
+     "next": "00001111 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write (CRC frame)",
+     "in": "0xaaaaaa d{16} x{8}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1"
+     ],
+     "next": "00aaaaaa d{16} 0{8}",
+     "commit": "end",
+     "note": "p.28 Tables 6-4 to 6-6: R/W = 0, CRC-ERROR, A[5:0], DI[15:0], CRC"
+    },
+    {
+     "name": "Read (CRC frame)",
+     "in": "1xaaaaaa x{16} x{8}",
+     "action": "read",
+     "address": "a",
+     "when": [
+      "SPICONFIG.CRC_EN=1"
+     ],
+     "next": "10aaaaaa @ 0{8}",
+     "commit": "end",
+     "note": "p.28 Tables 6-4 to 6-6: the next cycle shifts out R/W, CRC-ERROR (0), A[5:0], the register and the CRC"
+    }
+   ],
+   "triggers": [
+    {
+     "write": "TRIGGER.SOFT_RESET=10",
+     "action": "reset"
+    },
+    {
+     "write": "TRIGGER.LDAC=1",
+     "action": "update"
+    }
+   ],
+   "note": "p.26 Tables 6-2 and 6-3: fewer than 24 (32 with CRC-EN) SCLK falling edges: ignored; more: only the first 24 (32) bits are used; data take effect at CS rising; SOFT-RESET = 1010 resets, the LDAC bit loads the synchronous-mode DACs"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "fall"
+   },
+   "clear": {
+    "pin": "CLR",
+    "active": 0
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "DAC0",
+    "DAC1",
+    "DAC2",
+    "DAC3",
+    "DAC4",
+    "DAC5",
+    "DAC6",
+    "DAC7",
+    "DAC8",
+    "DAC9",
+    "DAC10",
+    "DAC11",
+    "DAC12",
+    "DAC13",
+    "DAC14",
+    "DAC15"
+   ],
+   "output": [
+    "DAC0_ACT",
+    "DAC1_ACT",
+    "DAC2_ACT",
+    "DAC3_ACT",
+    "DAC4_ACT",
+    "DAC5_ACT",
+    "DAC6_ACT",
+    "DAC7_ACT",
+    "DAC8_ACT",
+    "DAC9_ACT",
+    "DAC10_ACT",
+    "DAC11_ACT",
+    "DAC12_ACT",
+    "DAC13_ACT",
+    "DAC14_ACT",
+    "DAC15_ACT"
+   ],
+   "clearCode": {
+    "field": "DACRANGE3.DAC0_RANGE",
+    "values": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "9": 32768,
+     "10": 32768,
+     "12": 32768,
+     "14": 32768
+    }
+   },
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "RHA": {
+   "pinout": "rha40",
+   "footprint": "VQFN-40-RHA",
+   "package": "VQFN",
+   "pins": 40
+  }
+ },
+ "pdf": "dac81416.pdf",
+ "pages": "p.2-3 (pinout), p.4 (ROC), p.9-10 (timing), p.22-23 (register structure, broadcast, clear, reset), p.26-28 (serial interface, CRC), p.29-42 (registers)",
+ "notModeled": [
+  "analog outputs, output ranges (DACRANGEn stored only), reference, TEMPOUT, power-down states (DACPWDWN, DEV-PWDWN, REF-PWDWN stored only) and thermal shutdown",
+  "clear code: zero for unipolar single-ended ranges, midscale for bipolar or differential, per channel; the model takes the code for every channel from DAC0-RANGE (DACRANGE3.DAC0_RANGE), so channels with another range and differential pairs (DIFF-EN) clear to channel 0's code",
+  "ALMOUT open-drain alarm pin and the STATUS alarm bits (CRC, thermal, DAC-busy): never asserted; ALM-RESET stored only",
+  "CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ALM is never set and the CRC byte shifted out is 0",
+  "SDO-EN = 0 (SDO not operational) and FSDO: SDO always drives while CS is low",
+  "write-only registers (NOP, DACRANGEn, TRIGGER, BRDCAST, DACn): the model returns the stored value on read-back",
+  "BRDCAST with only some channels broadcast-enabled (BRDCONFIG not all ones): only the BRDCAST register is stored, no DAC buffer is loaded; with all channels enabled and mixed SYNC-EN bits the buffers load but no channel updates until LDAC",
+  "differential mode (DIFF-EN pairs, OFFSETn stored only; writes to the odd DAC of a pair are not ignored) and toggle mode (TOGGLE0-2 pins, TOGGCONFIGn, SOFTTOGGLE-EN, AB-TOGn: Register B not modeled)",
+  "streaming mode (STR-EN = 1: auto-incrementing DAC data writes in one CS frame): only the first 24-bit frame is decoded",
+  "daisy chain beyond one 24-bit echo; the 1-ms POR delay, 2.4-us update and 4-us broadcast waits"
+ ],
+ "variants": "dac81416.pdf covers DAC81416 (16-bit, DEVICEID 29Ch), DAC71416 (14-bit, 28Ch, no skeleton device) and DAC61416 (12-bit, 24Ch); same pinout and register map, data MSB aligned",
+ "parts": [
+  [
+   "DAC81416RHAT",
+   "RHA",
+   40,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,2396 @@
+{
+ "device": {
+  "id": "DAC5688",
+  "function": "DAC",
+  "description": "16-bit 800 MSPS 2x-8x interpolating dual current-output DAC with NCO, QMC, PLL clock multiplier, dual 16-bit CMOS data inputs and 3/4-wire serial port",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac5688.pdf (SLLS880C) p.2 pinout, p.3 pin functions, p.4 absolute maximum ratings, p.5 power supply ranges, p.7 serial port timing, p.15-25 register map and descriptions (Table 1), p.25-27 serial interface (Tables 2-3, Figures 20-21)",
+  "pinouts": {
+   "rgc64": [
+    {
+     "number": 1,
+     "name": "CLKVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "CLK2",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CLK2C",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "TXENABLE",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DA15",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DA14",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "DA13",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DA12",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DA11",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "DA10",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "DA9",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DA8",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "DA7",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "DA6",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "DA5",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "DA4",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "DA3",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "DA2",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "DA1",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "DA0",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "CLKO_CLK1",
+     "role": "inout"
+    },
+    {
+     "number": 26,
+     "name": "LOCK_CLK1C",
+     "role": "inout"
+    },
+    {
+     "number": 27,
+     "name": "DB0",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "DB1",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "DB2",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "DB3",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "DB4",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "DB5",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "DB6",
+     "role": "input"
+    },
+    {
+     "number": 34,
+     "name": "DB7",
+     "role": "input"
+    },
+    {
+     "number": 35,
+     "name": "DB8",
+     "role": "input"
+    },
+    {
+     "number": 36,
+     "name": "DB9",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "DB10",
+     "role": "input"
+    },
+    {
+     "number": 38,
+     "name": "DB11",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 40,
+     "name": "DB12",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "DB13",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "DB14",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "DB15",
+     "role": "input"
+    },
+    {
+     "number": 44,
+     "name": "VFUSE",
+     "role": "power"
+    },
+    {
+     "number": 45,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 46,
+     "name": "SDIO",
+     "role": "inout"
+    },
+    {
+     "number": 47,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 48,
+     "name": "SDENB",
+     "role": "input"
+    },
+    {
+     "number": 49,
+     "name": "RESETB",
+     "role": "input"
+    },
+    {
+     "number": 50,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 51,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 52,
+     "name": "IOUTA1",
+     "role": "output"
+    },
+    {
+     "number": 53,
+     "name": "IOUTA2",
+     "role": "output"
+    },
+    {
+     "number": 54,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 55,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 56,
+     "name": "EXTIO",
+     "role": "output"
+    },
+    {
+     "number": 57,
+     "name": "BIASJ",
+     "role": "output"
+    },
+    {
+     "number": 58,
+     "name": "EXTLO",
+     "role": "input"
+    },
+    {
+     "number": 59,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 60,
+     "name": "IOUTB2",
+     "role": "output"
+    },
+    {
+     "number": 61,
+     "name": "IOUTB1",
+     "role": "output"
+    },
+    {
+     "number": 62,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 63,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 64,
+     "name": "LPF",
+     "role": "nc"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 2,
+  "vcc": [
+   3.0,
+   3.6
+  ],
+  "analog": [
+   "CLKVDD",
+   "DVDD",
+   "VFUSE",
+   "AVDD",
+   "IOUTA1",
+   "IOUTA2",
+   "EXTIO",
+   "BIASJ",
+   "EXTLO",
+   "IOUTB2",
+   "IOUTB1",
+   "LPF"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SDENB",
+   "sclk": "SCLK",
+   "mosi": "SDIO",
+   "miso": "SDIO",
+   "mode": 0
+  },
+  "timing": {
+   "tOut": 10
+  },
+  "registers": [
+   {
+    "name": "STATUS0",
+    "address": 0,
+    "width": 8,
+    "reset": 1,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "PLL_LOCK",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "DEVICE_ID",
+      "bits": [
+       4,
+       2
+      ]
+     },
+     {
+      "name": "VERSION",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "PLL_lock, device_ID (000) and version read only"
+   },
+   {
+    "name": "CONFIG1",
+    "address": 1,
+    "width": 8,
+    "reset": 11,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "INSEL_MODE",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "SYNCHR_CLKIN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "TWOS",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "INV_INCLK",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "INTERP_VALUE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG2",
+    "address": 2,
+    "width": 8,
+    "reset": 225,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DIFFCLK_ENA",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CLK1_IN_ENA",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CLK1C_IN_ENA",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CLKO_SE_HOLD",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "FIR4_ENA",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "QMC_OFFSET_ENA",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "QMC_CORR_ENA",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "MIXER_ENA",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG3",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DIFFCLK_DLY",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "CLKO_DLY",
+      "bits": [
+       5,
+       4
+      ]
+     }
+    ],
+    "note": "bits 3:0 reserved"
+   },
+   {
+    "name": "CONFIG4",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SER_DAC_DATA_ENA",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "OUTPUT_DELAY",
+      "bits": [
+       6,
+       5
+      ]
+     },
+     {
+      "name": "B_EQUALS_A",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "A_EQUALS_B",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "REVA",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "REVB",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG5",
+    "address": 5,
+    "width": 8,
+    "reset": 34,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SIF4",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "SIF_SYNC_SIG",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CLKDIV_SYNC_ENA",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CLKDIV_SYNC_SEL",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CLKDIV_SHIFT",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "MIXER_GAIN",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG6",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PHASEOFFSET_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG7",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PHASEOFFSET_15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG8",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PHASEADD_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG9",
+    "address": 9,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PHASEADD_15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG10",
+    "address": 10,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PHASEADD_23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG11",
+    "address": 11,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PHASEADD_31_24",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG12",
+    "address": 12,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "QMC_GAINA_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG13",
+    "address": 13,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "QMC_GAINB_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG14",
+    "address": 14,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "QMC_PHASE_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG15",
+    "address": 15,
+    "width": 8,
+    "reset": 36,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "QMC_PHASE_9_8",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "QMC_GAINA_10_8",
+      "bits": [
+       5,
+       3
+      ]
+     },
+     {
+      "name": "QMC_GAINB_10_8",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG16",
+    "address": 16,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "QMC_OFFSETA_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG17",
+    "address": 17,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "QMC_OFFSETB_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG18",
+    "address": 18,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "QMC_OFFSETA_12_8",
+      "bits": [
+       7,
+       3
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG19",
+    "address": 19,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "QMC_OFFSETB_12_8",
+      "bits": [
+       7,
+       3
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG20",
+    "address": 20,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SER_DAC_DATA_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG21",
+    "address": 21,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SER_DAC_DATA_15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG22",
+    "address": 22,
+    "width": 8,
+    "reset": 21,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "NCO_SEL",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "NCO_REG_SEL",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "QMCORR_REG_SEL",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "QMOFFSET_REG_SEL",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG23",
+    "address": 23,
+    "width": 8,
+    "reset": 21,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "FIFO_SEL",
+      "bits": [
+       5,
+       3
+      ]
+     },
+     {
+      "name": "AFLAG_SEL",
+      "bits": [
+       2,
+       2
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG24",
+    "address": 24,
+    "width": 8,
+    "reset": 128,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "FIFO_SYNC_STRT",
+      "bits": [
+       7,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG25",
+    "address": 25,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [],
+    "note": "unused"
+   },
+   {
+    "name": "CONFIG26",
+    "address": 26,
+    "width": 8,
+    "reset": 13,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "IO_1P8_3P3",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "SLEEPB",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "SLEEPA",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ISBIASLPF_A",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ISBIASLPF_B",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PLL_SLEEP",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PLL_ENA",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG27",
+    "address": 27,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "COARSE_DACA",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "COARSE_DACB",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG28",
+    "address": 28,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [],
+    "note": "reserved"
+   },
+   {
+    "name": "CONFIG29",
+    "address": 29,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PLL_M",
+      "bits": [
+       7,
+       3
+      ]
+     },
+     {
+      "name": "PLL_N",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG30",
+    "address": 30,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PLL_LPF_RESET",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "VCO_DIV2",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "PLL_GAIN",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "PLL_RANGE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DATA_A",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI",
+      "bits": [
+       15,
+       8
+      ]
+     },
+     {
+      "name": "LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "the 16-bit ser_dac_data word (CONFIG21:CONFIG20) that is muxed to both DACs when CONFIG4.SER_DAC_DATA_ENA = 1; written together with CONFIG20/21"
+   },
+   {
+    "name": "DATA_B",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI",
+      "bits": [
+       15,
+       8
+      ]
+     },
+     {
+      "name": "LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "copy of the ser_dac_data word for DAC B"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "WRITE 1 byte @0x00",
+     "in": "0 00 00000 [STATUS0]"
+    },
+    {
+     "name": "READ 1 byte @0x00",
+     "in": "1 00 00000",
+     "reply": "[STATUS0]"
+    },
+    {
+     "name": "WRITE 1 byte @0x01",
+     "in": "0 00 00001 [CONFIG1]"
+    },
+    {
+     "name": "READ 1 byte @0x01",
+     "in": "1 00 00001",
+     "reply": "[CONFIG1]"
+    },
+    {
+     "name": "WRITE 1 byte @0x02",
+     "in": "0 00 00010 [CONFIG2]"
+    },
+    {
+     "name": "READ 1 byte @0x02",
+     "in": "1 00 00010",
+     "reply": "[CONFIG2]"
+    },
+    {
+     "name": "WRITE 1 byte @0x03",
+     "in": "0 00 00011 [CONFIG3]"
+    },
+    {
+     "name": "READ 1 byte @0x03",
+     "in": "1 00 00011",
+     "reply": "[CONFIG3]"
+    },
+    {
+     "name": "WRITE 1 byte @0x04",
+     "in": "0 00 00100 [CONFIG4]"
+    },
+    {
+     "name": "READ 1 byte @0x04",
+     "in": "1 00 00100",
+     "reply": "[CONFIG4]"
+    },
+    {
+     "name": "WRITE 1 byte @0x05",
+     "in": "0 00 00101 [CONFIG5]"
+    },
+    {
+     "name": "READ 1 byte @0x05",
+     "in": "1 00 00101",
+     "reply": "[CONFIG5]"
+    },
+    {
+     "name": "WRITE 1 byte @0x06",
+     "in": "0 00 00110 [CONFIG6]"
+    },
+    {
+     "name": "READ 1 byte @0x06",
+     "in": "1 00 00110",
+     "reply": "[CONFIG6]"
+    },
+    {
+     "name": "WRITE 1 byte @0x07",
+     "in": "0 00 00111 [CONFIG7]"
+    },
+    {
+     "name": "READ 1 byte @0x07",
+     "in": "1 00 00111",
+     "reply": "[CONFIG7]"
+    },
+    {
+     "name": "WRITE 1 byte @0x08",
+     "in": "0 00 01000 [CONFIG8]"
+    },
+    {
+     "name": "READ 1 byte @0x08",
+     "in": "1 00 01000",
+     "reply": "[CONFIG8]"
+    },
+    {
+     "name": "WRITE 1 byte @0x09",
+     "in": "0 00 01001 [CONFIG9]"
+    },
+    {
+     "name": "READ 1 byte @0x09",
+     "in": "1 00 01001",
+     "reply": "[CONFIG9]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0A",
+     "in": "0 00 01010 [CONFIG10]"
+    },
+    {
+     "name": "READ 1 byte @0x0A",
+     "in": "1 00 01010",
+     "reply": "[CONFIG10]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0B",
+     "in": "0 00 01011 [CONFIG11]"
+    },
+    {
+     "name": "READ 1 byte @0x0B",
+     "in": "1 00 01011",
+     "reply": "[CONFIG11]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0C",
+     "in": "0 00 01100 [CONFIG12]"
+    },
+    {
+     "name": "READ 1 byte @0x0C",
+     "in": "1 00 01100",
+     "reply": "[CONFIG12]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0D",
+     "in": "0 00 01101 [CONFIG13]"
+    },
+    {
+     "name": "READ 1 byte @0x0D",
+     "in": "1 00 01101",
+     "reply": "[CONFIG13]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0E",
+     "in": "0 00 01110 [CONFIG14]"
+    },
+    {
+     "name": "READ 1 byte @0x0E",
+     "in": "1 00 01110",
+     "reply": "[CONFIG14]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0F",
+     "in": "0 00 01111 [CONFIG15]"
+    },
+    {
+     "name": "READ 1 byte @0x0F",
+     "in": "1 00 01111",
+     "reply": "[CONFIG15]"
+    },
+    {
+     "name": "WRITE 1 byte @0x10",
+     "in": "0 00 10000 [CONFIG16]"
+    },
+    {
+     "name": "READ 1 byte @0x10",
+     "in": "1 00 10000",
+     "reply": "[CONFIG16]"
+    },
+    {
+     "name": "WRITE 1 byte @0x11",
+     "in": "0 00 10001 [CONFIG17]"
+    },
+    {
+     "name": "READ 1 byte @0x11",
+     "in": "1 00 10001",
+     "reply": "[CONFIG17]"
+    },
+    {
+     "name": "WRITE 1 byte @0x12",
+     "in": "0 00 10010 [CONFIG18]"
+    },
+    {
+     "name": "READ 1 byte @0x12",
+     "in": "1 00 10010",
+     "reply": "[CONFIG18]"
+    },
+    {
+     "name": "WRITE 1 byte @0x13",
+     "in": "0 00 10011 [CONFIG19]"
+    },
+    {
+     "name": "READ 1 byte @0x13",
+     "in": "1 00 10011",
+     "reply": "[CONFIG19]"
+    },
+    {
+     "name": "WRITE 1 byte @0x14",
+     "in": "0 00 10100 aaaaaaaa",
+     "set": {
+      "CONFIG20.SER_DAC_DATA_7_0": "a",
+      "DATA_A.LO": "a",
+      "DATA_B.LO": "a"
+     }
+    },
+    {
+     "name": "READ 1 byte @0x14",
+     "in": "1 00 10100",
+     "reply": "[CONFIG20]"
+    },
+    {
+     "name": "WRITE 1 byte @0x15",
+     "in": "0 00 10101 aaaaaaaa",
+     "set": {
+      "CONFIG21.SER_DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a"
+     }
+    },
+    {
+     "name": "READ 1 byte @0x15",
+     "in": "1 00 10101",
+     "reply": "[CONFIG21]"
+    },
+    {
+     "name": "WRITE 1 byte @0x16",
+     "in": "0 00 10110 [CONFIG22]"
+    },
+    {
+     "name": "READ 1 byte @0x16",
+     "in": "1 00 10110",
+     "reply": "[CONFIG22]"
+    },
+    {
+     "name": "WRITE 1 byte @0x17",
+     "in": "0 00 10111 [CONFIG23]"
+    },
+    {
+     "name": "READ 1 byte @0x17",
+     "in": "1 00 10111",
+     "reply": "[CONFIG23]"
+    },
+    {
+     "name": "WRITE 1 byte @0x18",
+     "in": "0 00 11000 [CONFIG24]"
+    },
+    {
+     "name": "READ 1 byte @0x18",
+     "in": "1 00 11000",
+     "reply": "[CONFIG24]"
+    },
+    {
+     "name": "WRITE 1 byte @0x19",
+     "in": "0 00 11001 [CONFIG25]"
+    },
+    {
+     "name": "READ 1 byte @0x19",
+     "in": "1 00 11001",
+     "reply": "[CONFIG25]"
+    },
+    {
+     "name": "WRITE 1 byte @0x1A",
+     "in": "0 00 11010 [CONFIG26]"
+    },
+    {
+     "name": "READ 1 byte @0x1A",
+     "in": "1 00 11010",
+     "reply": "[CONFIG26]"
+    },
+    {
+     "name": "WRITE 1 byte @0x1B",
+     "in": "0 00 11011 [CONFIG27]"
+    },
+    {
+     "name": "READ 1 byte @0x1B",
+     "in": "1 00 11011",
+     "reply": "[CONFIG27]"
+    },
+    {
+     "name": "WRITE 1 byte @0x1C",
+     "in": "0 00 11100 [CONFIG28]"
+    },
+    {
+     "name": "READ 1 byte @0x1C",
+     "in": "1 00 11100",
+     "reply": "[CONFIG28]"
+    },
+    {
+     "name": "WRITE 1 byte @0x1D",
+     "in": "0 00 11101 [CONFIG29]"
+    },
+    {
+     "name": "READ 1 byte @0x1D",
+     "in": "1 00 11101",
+     "reply": "[CONFIG29]"
+    },
+    {
+     "name": "WRITE 1 byte @0x1E",
+     "in": "0 00 11110 [CONFIG30]"
+    },
+    {
+     "name": "READ 1 byte @0x1E",
+     "in": "1 00 11110",
+     "reply": "[CONFIG30]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x01",
+     "in": "0 01 00001 [CONFIG1] [STATUS0]"
+    },
+    {
+     "name": "READ 2 bytes @0x01",
+     "in": "1 01 00001",
+     "reply": "[CONFIG1][STATUS0]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x02",
+     "in": "0 01 00010 [CONFIG2] [CONFIG1]"
+    },
+    {
+     "name": "READ 2 bytes @0x02",
+     "in": "1 01 00010",
+     "reply": "[CONFIG2][CONFIG1]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x03",
+     "in": "0 01 00011 [CONFIG3] [CONFIG2]"
+    },
+    {
+     "name": "READ 2 bytes @0x03",
+     "in": "1 01 00011",
+     "reply": "[CONFIG3][CONFIG2]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x04",
+     "in": "0 01 00100 [CONFIG4] [CONFIG3]"
+    },
+    {
+     "name": "READ 2 bytes @0x04",
+     "in": "1 01 00100",
+     "reply": "[CONFIG4][CONFIG3]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x05",
+     "in": "0 01 00101 [CONFIG5] [CONFIG4]"
+    },
+    {
+     "name": "READ 2 bytes @0x05",
+     "in": "1 01 00101",
+     "reply": "[CONFIG5][CONFIG4]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x06",
+     "in": "0 01 00110 [CONFIG6] [CONFIG5]"
+    },
+    {
+     "name": "READ 2 bytes @0x06",
+     "in": "1 01 00110",
+     "reply": "[CONFIG6][CONFIG5]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x07",
+     "in": "0 01 00111 [CONFIG7] [CONFIG6]"
+    },
+    {
+     "name": "READ 2 bytes @0x07",
+     "in": "1 01 00111",
+     "reply": "[CONFIG7][CONFIG6]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x08",
+     "in": "0 01 01000 [CONFIG8] [CONFIG7]"
+    },
+    {
+     "name": "READ 2 bytes @0x08",
+     "in": "1 01 01000",
+     "reply": "[CONFIG8][CONFIG7]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x09",
+     "in": "0 01 01001 [CONFIG9] [CONFIG8]"
+    },
+    {
+     "name": "READ 2 bytes @0x09",
+     "in": "1 01 01001",
+     "reply": "[CONFIG9][CONFIG8]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0A",
+     "in": "0 01 01010 [CONFIG10] [CONFIG9]"
+    },
+    {
+     "name": "READ 2 bytes @0x0A",
+     "in": "1 01 01010",
+     "reply": "[CONFIG10][CONFIG9]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0B",
+     "in": "0 01 01011 [CONFIG11] [CONFIG10]"
+    },
+    {
+     "name": "READ 2 bytes @0x0B",
+     "in": "1 01 01011",
+     "reply": "[CONFIG11][CONFIG10]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0C",
+     "in": "0 01 01100 [CONFIG12] [CONFIG11]"
+    },
+    {
+     "name": "READ 2 bytes @0x0C",
+     "in": "1 01 01100",
+     "reply": "[CONFIG12][CONFIG11]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0D",
+     "in": "0 01 01101 [CONFIG13] [CONFIG12]"
+    },
+    {
+     "name": "READ 2 bytes @0x0D",
+     "in": "1 01 01101",
+     "reply": "[CONFIG13][CONFIG12]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0E",
+     "in": "0 01 01110 [CONFIG14] [CONFIG13]"
+    },
+    {
+     "name": "READ 2 bytes @0x0E",
+     "in": "1 01 01110",
+     "reply": "[CONFIG14][CONFIG13]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0F",
+     "in": "0 01 01111 [CONFIG15] [CONFIG14]"
+    },
+    {
+     "name": "READ 2 bytes @0x0F",
+     "in": "1 01 01111",
+     "reply": "[CONFIG15][CONFIG14]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x10",
+     "in": "0 01 10000 [CONFIG16] [CONFIG15]"
+    },
+    {
+     "name": "READ 2 bytes @0x10",
+     "in": "1 01 10000",
+     "reply": "[CONFIG16][CONFIG15]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x11",
+     "in": "0 01 10001 [CONFIG17] [CONFIG16]"
+    },
+    {
+     "name": "READ 2 bytes @0x11",
+     "in": "1 01 10001",
+     "reply": "[CONFIG17][CONFIG16]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x12",
+     "in": "0 01 10010 [CONFIG18] [CONFIG17]"
+    },
+    {
+     "name": "READ 2 bytes @0x12",
+     "in": "1 01 10010",
+     "reply": "[CONFIG18][CONFIG17]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x13",
+     "in": "0 01 10011 [CONFIG19] [CONFIG18]"
+    },
+    {
+     "name": "READ 2 bytes @0x13",
+     "in": "1 01 10011",
+     "reply": "[CONFIG19][CONFIG18]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x14",
+     "in": "0 01 10100 aaaaaaaa [CONFIG19]",
+     "set": {
+      "CONFIG20.SER_DAC_DATA_7_0": "a",
+      "DATA_A.LO": "a",
+      "DATA_B.LO": "a"
+     }
+    },
+    {
+     "name": "READ 2 bytes @0x14",
+     "in": "1 01 10100",
+     "reply": "[CONFIG20][CONFIG19]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x15",
+     "in": "0 01 10101 aaaaaaaa bbbbbbbb",
+     "set": {
+      "CONFIG21.SER_DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a",
+      "CONFIG20.SER_DAC_DATA_7_0": "b",
+      "DATA_A.LO": "b",
+      "DATA_B.LO": "b"
+     }
+    },
+    {
+     "name": "READ 2 bytes @0x15",
+     "in": "1 01 10101",
+     "reply": "[CONFIG21][CONFIG20]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x16",
+     "in": "0 01 10110 [CONFIG22] aaaaaaaa",
+     "set": {
+      "CONFIG21.SER_DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a"
+     }
+    },
+    {
+     "name": "READ 2 bytes @0x16",
+     "in": "1 01 10110",
+     "reply": "[CONFIG22][CONFIG21]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x17",
+     "in": "0 01 10111 [CONFIG23] [CONFIG22]"
+    },
+    {
+     "name": "READ 2 bytes @0x17",
+     "in": "1 01 10111",
+     "reply": "[CONFIG23][CONFIG22]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x18",
+     "in": "0 01 11000 [CONFIG24] [CONFIG23]"
+    },
+    {
+     "name": "READ 2 bytes @0x18",
+     "in": "1 01 11000",
+     "reply": "[CONFIG24][CONFIG23]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x19",
+     "in": "0 01 11001 [CONFIG25] [CONFIG24]"
+    },
+    {
+     "name": "READ 2 bytes @0x19",
+     "in": "1 01 11001",
+     "reply": "[CONFIG25][CONFIG24]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x1A",
+     "in": "0 01 11010 [CONFIG26] [CONFIG25]"
+    },
+    {
+     "name": "READ 2 bytes @0x1A",
+     "in": "1 01 11010",
+     "reply": "[CONFIG26][CONFIG25]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x1B",
+     "in": "0 01 11011 [CONFIG27] [CONFIG26]"
+    },
+    {
+     "name": "READ 2 bytes @0x1B",
+     "in": "1 01 11011",
+     "reply": "[CONFIG27][CONFIG26]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x1C",
+     "in": "0 01 11100 [CONFIG28] [CONFIG27]"
+    },
+    {
+     "name": "READ 2 bytes @0x1C",
+     "in": "1 01 11100",
+     "reply": "[CONFIG28][CONFIG27]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x1D",
+     "in": "0 01 11101 [CONFIG29] [CONFIG28]"
+    },
+    {
+     "name": "READ 2 bytes @0x1D",
+     "in": "1 01 11101",
+     "reply": "[CONFIG29][CONFIG28]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x1E",
+     "in": "0 01 11110 [CONFIG30] [CONFIG29]"
+    },
+    {
+     "name": "READ 2 bytes @0x1E",
+     "in": "1 01 11110",
+     "reply": "[CONFIG30][CONFIG29]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x02",
+     "in": "0 10 00010 [CONFIG2] [CONFIG1] [STATUS0]"
+    },
+    {
+     "name": "READ 3 bytes @0x02",
+     "in": "1 10 00010",
+     "reply": "[CONFIG2][CONFIG1][STATUS0]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x03",
+     "in": "0 10 00011 [CONFIG3] [CONFIG2] [CONFIG1]"
+    },
+    {
+     "name": "READ 3 bytes @0x03",
+     "in": "1 10 00011",
+     "reply": "[CONFIG3][CONFIG2][CONFIG1]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x04",
+     "in": "0 10 00100 [CONFIG4] [CONFIG3] [CONFIG2]"
+    },
+    {
+     "name": "READ 3 bytes @0x04",
+     "in": "1 10 00100",
+     "reply": "[CONFIG4][CONFIG3][CONFIG2]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x05",
+     "in": "0 10 00101 [CONFIG5] [CONFIG4] [CONFIG3]"
+    },
+    {
+     "name": "READ 3 bytes @0x05",
+     "in": "1 10 00101",
+     "reply": "[CONFIG5][CONFIG4][CONFIG3]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x06",
+     "in": "0 10 00110 [CONFIG6] [CONFIG5] [CONFIG4]"
+    },
+    {
+     "name": "READ 3 bytes @0x06",
+     "in": "1 10 00110",
+     "reply": "[CONFIG6][CONFIG5][CONFIG4]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x07",
+     "in": "0 10 00111 [CONFIG7] [CONFIG6] [CONFIG5]"
+    },
+    {
+     "name": "READ 3 bytes @0x07",
+     "in": "1 10 00111",
+     "reply": "[CONFIG7][CONFIG6][CONFIG5]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x08",
+     "in": "0 10 01000 [CONFIG8] [CONFIG7] [CONFIG6]"
+    },
+    {
+     "name": "READ 3 bytes @0x08",
+     "in": "1 10 01000",
+     "reply": "[CONFIG8][CONFIG7][CONFIG6]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x09",
+     "in": "0 10 01001 [CONFIG9] [CONFIG8] [CONFIG7]"
+    },
+    {
+     "name": "READ 3 bytes @0x09",
+     "in": "1 10 01001",
+     "reply": "[CONFIG9][CONFIG8][CONFIG7]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0A",
+     "in": "0 10 01010 [CONFIG10] [CONFIG9] [CONFIG8]"
+    },
+    {
+     "name": "READ 3 bytes @0x0A",
+     "in": "1 10 01010",
+     "reply": "[CONFIG10][CONFIG9][CONFIG8]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0B",
+     "in": "0 10 01011 [CONFIG11] [CONFIG10] [CONFIG9]"
+    },
+    {
+     "name": "READ 3 bytes @0x0B",
+     "in": "1 10 01011",
+     "reply": "[CONFIG11][CONFIG10][CONFIG9]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0C",
+     "in": "0 10 01100 [CONFIG12] [CONFIG11] [CONFIG10]"
+    },
+    {
+     "name": "READ 3 bytes @0x0C",
+     "in": "1 10 01100",
+     "reply": "[CONFIG12][CONFIG11][CONFIG10]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0D",
+     "in": "0 10 01101 [CONFIG13] [CONFIG12] [CONFIG11]"
+    },
+    {
+     "name": "READ 3 bytes @0x0D",
+     "in": "1 10 01101",
+     "reply": "[CONFIG13][CONFIG12][CONFIG11]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0E",
+     "in": "0 10 01110 [CONFIG14] [CONFIG13] [CONFIG12]"
+    },
+    {
+     "name": "READ 3 bytes @0x0E",
+     "in": "1 10 01110",
+     "reply": "[CONFIG14][CONFIG13][CONFIG12]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0F",
+     "in": "0 10 01111 [CONFIG15] [CONFIG14] [CONFIG13]"
+    },
+    {
+     "name": "READ 3 bytes @0x0F",
+     "in": "1 10 01111",
+     "reply": "[CONFIG15][CONFIG14][CONFIG13]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x10",
+     "in": "0 10 10000 [CONFIG16] [CONFIG15] [CONFIG14]"
+    },
+    {
+     "name": "READ 3 bytes @0x10",
+     "in": "1 10 10000",
+     "reply": "[CONFIG16][CONFIG15][CONFIG14]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x11",
+     "in": "0 10 10001 [CONFIG17] [CONFIG16] [CONFIG15]"
+    },
+    {
+     "name": "READ 3 bytes @0x11",
+     "in": "1 10 10001",
+     "reply": "[CONFIG17][CONFIG16][CONFIG15]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x12",
+     "in": "0 10 10010 [CONFIG18] [CONFIG17] [CONFIG16]"
+    },
+    {
+     "name": "READ 3 bytes @0x12",
+     "in": "1 10 10010",
+     "reply": "[CONFIG18][CONFIG17][CONFIG16]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x13",
+     "in": "0 10 10011 [CONFIG19] [CONFIG18] [CONFIG17]"
+    },
+    {
+     "name": "READ 3 bytes @0x13",
+     "in": "1 10 10011",
+     "reply": "[CONFIG19][CONFIG18][CONFIG17]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x14",
+     "in": "0 10 10100 aaaaaaaa [CONFIG19] [CONFIG18]",
+     "set": {
+      "CONFIG20.SER_DAC_DATA_7_0": "a",
+      "DATA_A.LO": "a",
+      "DATA_B.LO": "a"
+     }
+    },
+    {
+     "name": "READ 3 bytes @0x14",
+     "in": "1 10 10100",
+     "reply": "[CONFIG20][CONFIG19][CONFIG18]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x15",
+     "in": "0 10 10101 aaaaaaaa bbbbbbbb [CONFIG19]",
+     "set": {
+      "CONFIG21.SER_DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a",
+      "CONFIG20.SER_DAC_DATA_7_0": "b",
+      "DATA_A.LO": "b",
+      "DATA_B.LO": "b"
+     }
+    },
+    {
+     "name": "READ 3 bytes @0x15",
+     "in": "1 10 10101",
+     "reply": "[CONFIG21][CONFIG20][CONFIG19]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x16",
+     "in": "0 10 10110 [CONFIG22] aaaaaaaa bbbbbbbb",
+     "set": {
+      "CONFIG21.SER_DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a",
+      "CONFIG20.SER_DAC_DATA_7_0": "b",
+      "DATA_A.LO": "b",
+      "DATA_B.LO": "b"
+     }
+    },
+    {
+     "name": "READ 3 bytes @0x16",
+     "in": "1 10 10110",
+     "reply": "[CONFIG22][CONFIG21][CONFIG20]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x17",
+     "in": "0 10 10111 [CONFIG23] [CONFIG22] aaaaaaaa",
+     "set": {
+      "CONFIG21.SER_DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a"
+     }
+    },
+    {
+     "name": "READ 3 bytes @0x17",
+     "in": "1 10 10111",
+     "reply": "[CONFIG23][CONFIG22][CONFIG21]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x18",
+     "in": "0 10 11000 [CONFIG24] [CONFIG23] [CONFIG22]"
+    },
+    {
+     "name": "READ 3 bytes @0x18",
+     "in": "1 10 11000",
+     "reply": "[CONFIG24][CONFIG23][CONFIG22]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x19",
+     "in": "0 10 11001 [CONFIG25] [CONFIG24] [CONFIG23]"
+    },
+    {
+     "name": "READ 3 bytes @0x19",
+     "in": "1 10 11001",
+     "reply": "[CONFIG25][CONFIG24][CONFIG23]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x1A",
+     "in": "0 10 11010 [CONFIG26] [CONFIG25] [CONFIG24]"
+    },
+    {
+     "name": "READ 3 bytes @0x1A",
+     "in": "1 10 11010",
+     "reply": "[CONFIG26][CONFIG25][CONFIG24]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x1B",
+     "in": "0 10 11011 [CONFIG27] [CONFIG26] [CONFIG25]"
+    },
+    {
+     "name": "READ 3 bytes @0x1B",
+     "in": "1 10 11011",
+     "reply": "[CONFIG27][CONFIG26][CONFIG25]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x1C",
+     "in": "0 10 11100 [CONFIG28] [CONFIG27] [CONFIG26]"
+    },
+    {
+     "name": "READ 3 bytes @0x1C",
+     "in": "1 10 11100",
+     "reply": "[CONFIG28][CONFIG27][CONFIG26]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x1D",
+     "in": "0 10 11101 [CONFIG29] [CONFIG28] [CONFIG27]"
+    },
+    {
+     "name": "READ 3 bytes @0x1D",
+     "in": "1 10 11101",
+     "reply": "[CONFIG29][CONFIG28][CONFIG27]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x1E",
+     "in": "0 10 11110 [CONFIG30] [CONFIG29] [CONFIG28]"
+    },
+    {
+     "name": "READ 3 bytes @0x1E",
+     "in": "1 10 11110",
+     "reply": "[CONFIG30][CONFIG29][CONFIG28]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x03",
+     "in": "0 11 00011 [CONFIG3] [CONFIG2] [CONFIG1] [STATUS0]"
+    },
+    {
+     "name": "READ 4 bytes @0x03",
+     "in": "1 11 00011",
+     "reply": "[CONFIG3][CONFIG2][CONFIG1][STATUS0]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x04",
+     "in": "0 11 00100 [CONFIG4] [CONFIG3] [CONFIG2] [CONFIG1]"
+    },
+    {
+     "name": "READ 4 bytes @0x04",
+     "in": "1 11 00100",
+     "reply": "[CONFIG4][CONFIG3][CONFIG2][CONFIG1]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x05",
+     "in": "0 11 00101 [CONFIG5] [CONFIG4] [CONFIG3] [CONFIG2]"
+    },
+    {
+     "name": "READ 4 bytes @0x05",
+     "in": "1 11 00101",
+     "reply": "[CONFIG5][CONFIG4][CONFIG3][CONFIG2]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x06",
+     "in": "0 11 00110 [CONFIG6] [CONFIG5] [CONFIG4] [CONFIG3]"
+    },
+    {
+     "name": "READ 4 bytes @0x06",
+     "in": "1 11 00110",
+     "reply": "[CONFIG6][CONFIG5][CONFIG4][CONFIG3]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x07",
+     "in": "0 11 00111 [CONFIG7] [CONFIG6] [CONFIG5] [CONFIG4]"
+    },
+    {
+     "name": "READ 4 bytes @0x07",
+     "in": "1 11 00111",
+     "reply": "[CONFIG7][CONFIG6][CONFIG5][CONFIG4]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x08",
+     "in": "0 11 01000 [CONFIG8] [CONFIG7] [CONFIG6] [CONFIG5]"
+    },
+    {
+     "name": "READ 4 bytes @0x08",
+     "in": "1 11 01000",
+     "reply": "[CONFIG8][CONFIG7][CONFIG6][CONFIG5]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x09",
+     "in": "0 11 01001 [CONFIG9] [CONFIG8] [CONFIG7] [CONFIG6]"
+    },
+    {
+     "name": "READ 4 bytes @0x09",
+     "in": "1 11 01001",
+     "reply": "[CONFIG9][CONFIG8][CONFIG7][CONFIG6]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0A",
+     "in": "0 11 01010 [CONFIG10] [CONFIG9] [CONFIG8] [CONFIG7]"
+    },
+    {
+     "name": "READ 4 bytes @0x0A",
+     "in": "1 11 01010",
+     "reply": "[CONFIG10][CONFIG9][CONFIG8][CONFIG7]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0B",
+     "in": "0 11 01011 [CONFIG11] [CONFIG10] [CONFIG9] [CONFIG8]"
+    },
+    {
+     "name": "READ 4 bytes @0x0B",
+     "in": "1 11 01011",
+     "reply": "[CONFIG11][CONFIG10][CONFIG9][CONFIG8]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0C",
+     "in": "0 11 01100 [CONFIG12] [CONFIG11] [CONFIG10] [CONFIG9]"
+    },
+    {
+     "name": "READ 4 bytes @0x0C",
+     "in": "1 11 01100",
+     "reply": "[CONFIG12][CONFIG11][CONFIG10][CONFIG9]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0D",
+     "in": "0 11 01101 [CONFIG13] [CONFIG12] [CONFIG11] [CONFIG10]"
+    },
+    {
+     "name": "READ 4 bytes @0x0D",
+     "in": "1 11 01101",
+     "reply": "[CONFIG13][CONFIG12][CONFIG11][CONFIG10]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0E",
+     "in": "0 11 01110 [CONFIG14] [CONFIG13] [CONFIG12] [CONFIG11]"
+    },
+    {
+     "name": "READ 4 bytes @0x0E",
+     "in": "1 11 01110",
+     "reply": "[CONFIG14][CONFIG13][CONFIG12][CONFIG11]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0F",
+     "in": "0 11 01111 [CONFIG15] [CONFIG14] [CONFIG13] [CONFIG12]"
+    },
+    {
+     "name": "READ 4 bytes @0x0F",
+     "in": "1 11 01111",
+     "reply": "[CONFIG15][CONFIG14][CONFIG13][CONFIG12]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x10",
+     "in": "0 11 10000 [CONFIG16] [CONFIG15] [CONFIG14] [CONFIG13]"
+    },
+    {
+     "name": "READ 4 bytes @0x10",
+     "in": "1 11 10000",
+     "reply": "[CONFIG16][CONFIG15][CONFIG14][CONFIG13]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x11",
+     "in": "0 11 10001 [CONFIG17] [CONFIG16] [CONFIG15] [CONFIG14]"
+    },
+    {
+     "name": "READ 4 bytes @0x11",
+     "in": "1 11 10001",
+     "reply": "[CONFIG17][CONFIG16][CONFIG15][CONFIG14]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x12",
+     "in": "0 11 10010 [CONFIG18] [CONFIG17] [CONFIG16] [CONFIG15]"
+    },
+    {
+     "name": "READ 4 bytes @0x12",
+     "in": "1 11 10010",
+     "reply": "[CONFIG18][CONFIG17][CONFIG16][CONFIG15]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x13",
+     "in": "0 11 10011 [CONFIG19] [CONFIG18] [CONFIG17] [CONFIG16]"
+    },
+    {
+     "name": "READ 4 bytes @0x13",
+     "in": "1 11 10011",
+     "reply": "[CONFIG19][CONFIG18][CONFIG17][CONFIG16]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x14",
+     "in": "0 11 10100 aaaaaaaa [CONFIG19] [CONFIG18] [CONFIG17]",
+     "set": {
+      "CONFIG20.SER_DAC_DATA_7_0": "a",
+      "DATA_A.LO": "a",
+      "DATA_B.LO": "a"
+     }
+    },
+    {
+     "name": "READ 4 bytes @0x14",
+     "in": "1 11 10100",
+     "reply": "[CONFIG20][CONFIG19][CONFIG18][CONFIG17]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x15",
+     "in": "0 11 10101 aaaaaaaa bbbbbbbb [CONFIG19] [CONFIG18]",
+     "set": {
+      "CONFIG21.SER_DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a",
+      "CONFIG20.SER_DAC_DATA_7_0": "b",
+      "DATA_A.LO": "b",
+      "DATA_B.LO": "b"
+     }
+    },
+    {
+     "name": "READ 4 bytes @0x15",
+     "in": "1 11 10101",
+     "reply": "[CONFIG21][CONFIG20][CONFIG19][CONFIG18]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x16",
+     "in": "0 11 10110 [CONFIG22] aaaaaaaa bbbbbbbb [CONFIG19]",
+     "set": {
+      "CONFIG21.SER_DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a",
+      "CONFIG20.SER_DAC_DATA_7_0": "b",
+      "DATA_A.LO": "b",
+      "DATA_B.LO": "b"
+     }
+    },
+    {
+     "name": "READ 4 bytes @0x16",
+     "in": "1 11 10110",
+     "reply": "[CONFIG22][CONFIG21][CONFIG20][CONFIG19]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x17",
+     "in": "0 11 10111 [CONFIG23] [CONFIG22] aaaaaaaa bbbbbbbb",
+     "set": {
+      "CONFIG21.SER_DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a",
+      "CONFIG20.SER_DAC_DATA_7_0": "b",
+      "DATA_A.LO": "b",
+      "DATA_B.LO": "b"
+     }
+    },
+    {
+     "name": "READ 4 bytes @0x17",
+     "in": "1 11 10111",
+     "reply": "[CONFIG23][CONFIG22][CONFIG21][CONFIG20]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x18",
+     "in": "0 11 11000 [CONFIG24] [CONFIG23] [CONFIG22] aaaaaaaa",
+     "set": {
+      "CONFIG21.SER_DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a"
+     }
+    },
+    {
+     "name": "READ 4 bytes @0x18",
+     "in": "1 11 11000",
+     "reply": "[CONFIG24][CONFIG23][CONFIG22][CONFIG21]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x19",
+     "in": "0 11 11001 [CONFIG25] [CONFIG24] [CONFIG23] [CONFIG22]"
+    },
+    {
+     "name": "READ 4 bytes @0x19",
+     "in": "1 11 11001",
+     "reply": "[CONFIG25][CONFIG24][CONFIG23][CONFIG22]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x1A",
+     "in": "0 11 11010 [CONFIG26] [CONFIG25] [CONFIG24] [CONFIG23]"
+    },
+    {
+     "name": "READ 4 bytes @0x1A",
+     "in": "1 11 11010",
+     "reply": "[CONFIG26][CONFIG25][CONFIG24][CONFIG23]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x1B",
+     "in": "0 11 11011 [CONFIG27] [CONFIG26] [CONFIG25] [CONFIG24]"
+    },
+    {
+     "name": "READ 4 bytes @0x1B",
+     "in": "1 11 11011",
+     "reply": "[CONFIG27][CONFIG26][CONFIG25][CONFIG24]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x1C",
+     "in": "0 11 11100 [CONFIG28] [CONFIG27] [CONFIG26] [CONFIG25]"
+    },
+    {
+     "name": "READ 4 bytes @0x1C",
+     "in": "1 11 11100",
+     "reply": "[CONFIG28][CONFIG27][CONFIG26][CONFIG25]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x1D",
+     "in": "0 11 11101 [CONFIG29] [CONFIG28] [CONFIG27] [CONFIG26]"
+    },
+    {
+     "name": "READ 4 bytes @0x1D",
+     "in": "1 11 11101",
+     "reply": "[CONFIG29][CONFIG28][CONFIG27][CONFIG26]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x1E",
+     "in": "0 11 11110 [CONFIG30] [CONFIG29] [CONFIG28] [CONFIG27]"
+    },
+    {
+     "name": "READ 4 bytes @0x1E",
+     "in": "1 11 11110",
+     "reply": "[CONFIG30][CONFIG29][CONFIG28][CONFIG27]"
+    }
+   ],
+   "note": "instruction byte R/W N1 N0 A4..A0, then N+1 data bytes MSB first; the address counts down per byte (one command per start address and length). Writes of CONFIG20/21 (ser_dac_data) are copied into DATA_A/DATA_B"
+  },
+  "pins": {
+   "reset": {
+    "pin": "RESETB",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "DATA_A",
+    "DATA_B"
+   ],
+   "output": [
+    "DATA_A",
+    "DATA_B"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "RGC": {
+   "pinout": "rgc64",
+   "footprint": "VQFN-64-RGC",
+   "package": "VQFN",
+   "pins": 64
+  }
+ },
+ "pdf": "dac5688.pdf",
+ "pages": "p.2-3 (pinout, pin functions), p.5 (supply ranges), p.7 (td(Data) 10 ns), p.15-25 (register map), p.25-27 (serial interface)",
+ "notModeled": [
+  "DAC data path: DA[15:0]/DB[15:0] (FIFO, clocked by CLK2 / CLKO_CLK1) are not modeled because the clocked data bus cannot run beside the serial port (bus and configBus share one command decoder); DATA_A/DATA_B hold the serial ser_dac_data word (CONFIG21:CONFIG20), which drives both DACs only when CONFIG4.SER_DAC_DATA_ENA = 1",
+  "interpolation, NCO/mixer, QMC gain/phase/offset, FIFO and sync sources, output delay, A=B/B=A, bus reversal, clock modes and delays: stored only; synced registers (CONFIG6-19) take effect only on the selected sync event (not modeled)",
+  "4-pin serial mode (CONFIG5.SIF4 = 1: SDO output, SDIO input only) is not modeled: read data always comes out on SDIO (3-pin mode, the reset default); SDO stays low",
+  "multibyte transfers whose decrementing address would pass below 0x00 are ignored (not specified); address 0x1F is not in the register map (ignored)",
+  "STATUS0 is modeled read-only as a whole (its unused/reserved bits included); the version bits read as the documented default",
+  "io_1p8_3p3 input threshold selection (IOVDD stays 3.3 V); TXENABLE low forcing the data path to 0; SYNC pin",
+  "DVDD, CLKVDD and VFUSE are 1.8 V supplies (1.7-1.9 V) outside the 3.0-3.6 V IOVDD range; they are listed with the analog pins so the voltage check skips them",
+  "PLL clock multiplier (PLL_M/N, LPF, PLL_lock status reads 0) and the LOCK_CLK1C lock output"
+ ],
+ "variants": "DAC5689 is the same register map without the PLL (pin 64 NC, CLK1C instead of LOCK_CLK1C).",
+ "parts": [
+  [
+   "DAC5688IRGCR",
+   "RGC",
+   64,
+   "Active"
+  ],
+  [
+   "DAC5688IRGCT",
+   "RGC",
+   64,
+   "Active"
+  ]
+ ]
+}

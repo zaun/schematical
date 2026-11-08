@@ -1,0 +1,341 @@
+{
+ "device": {
+  "id": "TLV5633",
+  "function": "DAC",
+  "description": "12-bit voltage-output DAC with 8-bit parallel microcontroller interface, programmable internal reference and power down",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "slas190c.pdf (SLAS190C) p.1-2 pinout and terminal functions, p.3 recommended operating conditions, p.6 timing, p.11 parallel interface and pin/bit tables, p.12 data format, address bits and control register (defaults 0)",
+  "pinouts": {
+   "dw20": [
+    {
+     "number": 1,
+     "name": "D2",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "D3",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "D4",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "D5",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "D6",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "D7",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "SPD",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "OUT",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "PWR",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "WE",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "D0",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "D1",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "AVDD",
+   "REF",
+   "OUT"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WE",
+    "active": 0
+   },
+   "address": [
+    "A1",
+    "A0"
+   ]
+  },
+  "registers": [
+   {
+    "name": "IN",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MSW",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "LSW",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "DAC MSW (4-bit) and LSW (8-bit) holding latches; power-on reset clears them (all bits zero)"
+   },
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "12-bit DAC latch, loaded from the holding latches while LDAC is low or RLDAC = 1"
+   },
+   {
+    "name": "CTRL",
+    "address": 3,
+    "width": 5,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "REF",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "RLDAC",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PWR",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SPD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "control register at A1 A0 = 11 (D4-D0)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "LSW (RLDAC transparent)",
+     "in": "00 [IN:7:0]",
+     "when": "CTRL.RLDAC=1",
+     "then": [
+      "update"
+     ],
+     "note": "write into the DAC LSW holding latch (A1 A0 = 00): D7-D0 -> DAC bits 7-0; with RLDAC = 1 the DAC latch is transparent, so the output follows"
+    },
+    {
+     "name": "LSW",
+     "in": "00 [IN:7:0]",
+     "note": "write into the DAC LSW holding latch (A1 A0 = 00): D7-D0 -> DAC bits 7-0"
+    },
+    {
+     "name": "MSW (RLDAC transparent)",
+     "in": "01 xxxx [IN:11:8]",
+     "when": "CTRL.RLDAC=1",
+     "then": [
+      "update"
+     ],
+     "note": "write into the DAC MSW holding latch (A1 A0 = 01): D3-D0 -> DAC bits 11-8, D7-D4 don't care; with RLDAC = 1 the DAC latch is transparent"
+    },
+    {
+     "name": "MSW",
+     "in": "01 xxxx [IN:11:8]",
+     "note": "write into the DAC MSW holding latch (A1 A0 = 01): D3-D0 -> DAC bits 11-8, D7-D4 don't care"
+    },
+    {
+     "name": "Reserved",
+     "in": "10 x{8}",
+     "note": "A1 A0 = 10 is reserved"
+    },
+    {
+     "name": "Control",
+     "in": "11 xxx [CTRL:4:0]",
+     "note": "control register (A1 A0 = 11); writing RLDAC = 1 makes the DAC latch transparent (trigger: update)"
+    }
+   ],
+   "triggers": [
+    {
+     "write": "CTRL.RLDAC=1",
+     "action": "update"
+    }
+   ],
+   "note": "data and address latched on the rising edge of WE while CS is low; address A1 A0 selects LSW / MSW holding latch or control register"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level",
+    "note": "LDAC low: DAC latch transparent (asynchronous, may be held low)"
+   }
+  },
+  "dac": {
+   "input": [
+    "IN"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw20",
+   "footprint": "SOIC-20W",
+   "package": "SOIC",
+   "pins": 20
+  },
+  "PW": {
+   "pinout": "dw20",
+   "footprint": "TSSOP-20",
+   "package": "TSSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "slas190c.pdf",
+ "pages": "p.1-2 pinout and terminal functions, p.3 recommended operating conditions, p.6 timing, p.11 parallel interface and pin/bit tables, p.12 data format, address bits and control register (defaults 0)",
+ "notModeled": [
+  "analog: voltage output (x2 buffer), reference input REF / programmable internal reference (REF1:0 stored only)",
+  "SPD pin and CTRL.SPD bit (settling speed, analog only; stored only)",
+  "PWR pin (power down, active low) and CTRL.PWR bit: analog power-down only, stored only (the interface keeps working in the model)",
+  "RLDAC = 1 transparent latch: modeled as an update on each holding-latch write while RLDAC = 1 and on writing RLDAC = 1",
+  "power-on reset threshold (POR 0.55-2 V) and timing checks (setup/hold) are not modeled"
+ ],
+ "variants": "TLV5613 is the same interface without an internal reference (3 control bits)",
+ "parts": [
+  [
+   "TLV5633CDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLV5633CPW",
+   "PW",
+   20,
+   "Active"
+  ],
+  [
+   "TLV5633IDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLV5633IPW",
+   "PW",
+   20,
+   "Active"
+  ]
+ ]
+}

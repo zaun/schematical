@@ -1,0 +1,269 @@
+{
+ "device": {
+  "id": "DAC7731",
+  "function": "DAC",
+  "description": "16-bit voltage-output DAC with +10 V internal reference, serial interface with daisy-chain SDO, LDAC and reset to min or mid scale",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac7731.pdf (SBAS249B) p.2 absolute maximum, pin configuration and descriptions, p.3 electrical characteristics (VDD 4.75-5.25 V, VIH 0.7 VDD), p.4 timing characteristics and interface timing, p.11 digital interface (Table II data format, Table III truth table), p.12 data transfer, byte and continuous transfer modes (Figures 5-6), p.13 daisy chain and DAC reset (Figure 7)",
+  "pinouts": {
+   "db24": [
+    {
+     "number": 1,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "REFADJ",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "VREF",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "ROFFSET",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "RFB2",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "RFB1",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SJ",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "TEST",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "REFEN",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "VSS",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "VCC",
+   "REFOUT",
+   "REFIN",
+   "REFADJ",
+   "VREF",
+   "ROFFSET",
+   "RFB2",
+   "RFB1",
+   "SJ",
+   "VOUT",
+   "VSS"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 3
+  },
+  "timing": {
+   "tValid": 50,
+   "tFloat": 70
+  },
+  "registers": [
+   {
+    "name": "IN",
+    "space": "input",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "input (shift) register; RST loads min scale 0000h (RSTSEL low) or mid scale 8000h (RSTSEL high)"
+   },
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register, loaded from IN on the LDAC rising edge (Table III)"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "[IN]",
+   "commands": [
+    {
+     "name": "16-bit data word",
+     "in": "d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "reply": "[IN]",
+     "note": "Table II / interface timing: B15-B0 MSB first on SCLK rising; SDO shifts out the previous shift-register word (daisy chain, p.13), so each further 16 clocks with CS low (continuous transfer, Figure 6) shift out the word just written"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 1,
+    "edge": "rise"
+   },
+   "reset": {
+    "pin": "RST",
+    "active": 0
+   },
+   "resetSelect": [
+    {
+     "pin": "RSTSEL",
+     "level": 1,
+     "resets": {
+      "IN": 32768,
+      "DAC": 32768
+     }
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "IN"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DB": {
+   "pinout": "db24",
+   "footprint": "SSOP-24",
+   "package": "SSOP",
+   "pins": 24
+  }
+ },
+ "pdf": "dac7731.pdf",
+ "pages": "p.2 (pinout), p.3 (electrical), p.4 (timing), p.11-13 (digital interface, Tables II-III, transfer modes, daisy chain, reset)",
+ "notModeled": [
+  "analog: output, internal +10 V reference (REFEN), reference buffer, feedback/offset resistors (unipolar or bipolar range)",
+  "power-up register contents are not specified (0 here, or mid scale with RSTSEL high since the model applies the RSTSEL code at power-on too)",
+  "the input register is the serial shift register itself: it changes bit by bit and keeps its contents across CS high periods (byte transfer mode, Figure 5: two 8-clock CS-low bursts make one word); the model writes IN only after 16 bits within one CS-low period",
+  "a CS rise while SCLK is low shifts one extra bit (Table III note)",
+  "TEST pin (reserved, tie to DGND) and REFEN (internal reference enable) have no digital effect in the model"
+ ],
+ "variants": "DAC7731E / EB / EC are linearity grades of the same chip",
+ "parts": [
+  [
+   "DAC7731E",
+   "DB",
+   24,
+   "Active"
+  ],
+  [
+   "DAC7731EB",
+   "DB",
+   24,
+   "Active"
+  ],
+  [
+   "DAC7731EC",
+   "DB",
+   24,
+   "Active"
+  ]
+ ]
+}

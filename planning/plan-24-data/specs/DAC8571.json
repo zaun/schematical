@@ -1,0 +1,353 @@
+{
+ "device": {
+  "id": "DAC8571",
+  "function": "DAC",
+  "description": "16-bit single-channel voltage-output DAC (external reference, VSENSE pin) with I2C interface (standard/fast/high-speed), temporary register, read-back and power-down",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac8571.pdf (SLAS373A) p.2 pin configuration and description, p.3-4 electrical characteristics (VDD 2.7-5.5 V, logic inputs 0.3/0.7 VDD), p.4-5 timing, p.14-15 master write sequence (Table 1), p.16 read sequence (Table 2), p.19 update sequence, address byte (1001 1 A0 0, broadcast 1001 000), control byte, p.20 control byte functionality (Table 5), read-back, p.21-22 examples, power-on reset (zero), p.22-23 power settings (Table 6)",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "V(SENSE)",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VREF",
+   "V(SENSE)",
+   "VOUT"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "A0"
+   ],
+   "table": [
+    76,
+    78,
+    null,
+    null
+   ]
+  },
+  "registers": [
+   {
+    "name": "IN",
+    "address": 0,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "note": "temporary register; power-on zero"
+   },
+   {
+    "name": "DAC",
+    "address": 0,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register; p.22 power-on reset fills it with zeros (0 V)"
+   },
+   {
+    "name": "CTRL",
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "C76",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "LD",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "C3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "BRC",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "C1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PD0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "last control byte C<7:0> (Load1 Load0 = C5 C4, Brcsel = C2, PD0 = C0); sent back third in a read"
+   },
+   {
+    "name": "PWR",
+    "width": 3,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       2,
+       1
+      ]
+     },
+     {
+      "name": "FS",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: power setting M7 M6 (PD: 00 active, 01 1 kohm, 10 100 kohm, 11 Hi-Z) and M5 (FS: 0 low power, default; 1 fast settling), Table 6"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "BROADCAST LOAD FROM TEMPORARY REGISTER",
+     "in": "aa 11 b 0 e f x{16}",
+     "action": "update",
+     "set": {
+      "CTRL.C76": "a",
+      "CTRL.LD": 3,
+      "CTRL.C3": "b",
+      "CTRL.BRC": 0,
+      "CTRL.C1": "e",
+      "CTRL.PD0": "f"
+     },
+     "note": "Table 5 broadcast: C5 C4 = 11, C2 = 0: the DAC loads its temporary register (C7 C6 need not be 0)"
+    },
+    {
+     "name": "BROADCAST LOAD WITH DATA",
+     "in": "aa 11 b 1 e 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "set": {
+      "CTRL.C76": "a",
+      "CTRL.LD": 3,
+      "CTRL.C3": "b",
+      "CTRL.BRC": 1,
+      "CTRL.C1": "e",
+      "CTRL.PD0": 0,
+      "PWR.PD": 0
+     },
+     "note": "Table 5 broadcast: C2 = 1, C0 = 0: MS/LS data to the temporary and DAC registers"
+    },
+    {
+     "name": "BROADCAST POWER SETTING",
+     "in": "aa 11 b 1 e 1 pp s x{13}",
+     "set": {
+      "CTRL.C76": "a",
+      "CTRL.LD": 3,
+      "CTRL.C3": "b",
+      "CTRL.BRC": 1,
+      "CTRL.C1": "e",
+      "CTRL.PD0": 1,
+      "PWR.PD": "p",
+      "PWR.FS": "s"
+     },
+     "note": "Table 5 broadcast: C2 = 1, C0 = 1: power setting M7-M5 (Table 6)"
+    },
+    {
+     "name": "WRITE TEMPORARY REGISTER WITH DATA",
+     "in": "0000 0000 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.C76": 0,
+      "CTRL.LD": 0,
+      "CTRL.C3": 0,
+      "CTRL.BRC": 0,
+      "CTRL.C1": 0,
+      "CTRL.PD0": 0
+     },
+     "note": "Table 5: C = 00h"
+    },
+    {
+     "name": "WRITE TEMPORARY REGISTER WITH POWER-DOWN COMMAND",
+     "in": "0000 0001 pp s x{13}",
+     "set": {
+      "CTRL.C76": 0,
+      "CTRL.LD": 0,
+      "CTRL.C3": 0,
+      "CTRL.BRC": 0,
+      "CTRL.C1": 0,
+      "CTRL.PD0": 1,
+      "PWR.PD": "p",
+      "PWR.FS": "s"
+     },
+     "note": "Table 5: C = 01h, M7-M5 power setting (Table 6)"
+    },
+    {
+     "name": "WRITE TEMPORARY REGISTER AND LOAD DAC WITH DATA",
+     "in": "0001 0000 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "set": {
+      "CTRL.C76": 0,
+      "CTRL.LD": 1,
+      "CTRL.C3": 0,
+      "CTRL.BRC": 0,
+      "CTRL.C1": 0,
+      "CTRL.PD0": 0,
+      "PWR.PD": 0
+     },
+     "note": "Table 5: C = 10h; a DAC update leaves the three power-down modes, the low-power/fast-settling setting stays"
+    },
+    {
+     "name": "POWER DOWN DAC",
+     "in": "0001 0001 pp s x{13}",
+     "set": {
+      "CTRL.C76": 0,
+      "CTRL.LD": 1,
+      "CTRL.C3": 0,
+      "CTRL.BRC": 0,
+      "CTRL.C1": 0,
+      "CTRL.PD0": 1,
+      "PWR.PD": "p",
+      "PWR.FS": "s"
+     },
+     "note": "Table 5: C = 11h, M7-M5 power setting (Table 6: 000 low power, 001 fast settling, 01x 1 kohm, 10x 100 kohm, 11x Hi-Z)"
+    },
+    {
+     "name": "UPDATE DAC WITH TEMPORARY REGISTER",
+     "in": "0010 0000 x{16}",
+     "action": "update",
+     "set": {
+      "CTRL.C76": 0,
+      "CTRL.LD": 2,
+      "CTRL.C3": 0,
+      "CTRL.BRC": 0,
+      "CTRL.C1": 0,
+      "CTRL.PD0": 0,
+      "PWR.PD": 0
+     },
+     "note": "Table 5: C = 20h, MS/LS bytes ignored"
+    }
+   ],
+   "read": "[IN][CTRL]",
+   "note": "write: address byte, control byte C<7:0>, MS byte, LS byte; executed at the acknowledge after the LS byte. Read: MS byte, LS byte, control byte (Table 2)"
+  },
+  "dac": {
+   "input": [
+    "IN"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "dac8571.pdf",
+ "pages": "p.2 (pins), p.3-4 (VDD 2.7-5.5 V, logic levels), p.4-5 (I2C timing), p.14-16 (write/read sequences, Tables 1-2), p.19-20 (address byte, broadcast address, control byte Table 5, read-back), p.21-22 (examples, power-on reset), p.22-23 (power settings Table 6)",
+ "notModeled": [
+  "analog output, output amplifier, low-power/fast-settling and power-down output loads (PWR stored only; VOUT never driven)",
+  "broadcast address 1001 000 (responds regardless of A0): not expressible in the address table; the broadcast control bytes (C5 C4 = 11) are decoded at the part's own address",
+  "repeated MS/LS byte pairs after one control byte (each pair updates with the last control byte): the model decodes one control byte and one MS/LS pair per transaction",
+  "a power setting written to the temporary register (C = 01h) takes effect only at a later update; the model applies it at once",
+  "read-back MS/LS bytes: the datasheet returns the last received I2C MS/LS bytes (discarded data after C = 20h or a broadcast load, power setting bits after a power word); the model returns the temporary register",
+  "control bytes with C7/C6 not 0 (outside broadcast) are acknowledged and ignored; other reserved-bit combinations are dropped",
+  "address pin A0 is latched at power-up (the model reads it live)",
+  "I2C high-speed mode master code and timing limits"
+ ],
+ "variants": "dac8571.pdf covers only the DAC8571. DAC7571 (12-bit) and DAC5571/DAC6571 are the simpler single DACs of the family; DAC8574 is the quad I2C version.",
+ "parts": [
+  [
+   "DAC8571IDGK",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8571IDGKR",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

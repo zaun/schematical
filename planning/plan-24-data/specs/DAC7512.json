@@ -1,0 +1,202 @@
+{
+ "device": {
+  "id": "DAC7512",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit low-power single-channel voltage-output DAC (VDD as reference) with 3-wire SPI-compatible interface",
+  "note": "dac7512.pdf (SBAS156B) p.2 pin configurations (SOT23-6, MSOP-8) and pin description, p.3 power requirements (VDD 2.7-5.5 V), p.4 timing characteristics and serial write operation diagram (SYNC falls with SCLK high, data clocked on SCLK falling edges), p.12 serial interface, input shift register (Figure 3), SYNC interrupt (Figure 4), power-on reset (zero), power-down modes (Table I)",
+  "pinouts": {
+   "dbv6": [
+    {
+     "number": 1,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SYNC",
+     "role": "input"
+    }
+   ],
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VOUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register; power-on reset fills it with zeros (0 V) until a valid write"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PD1/PD0 (DB13/DB12) of the last valid frame, Table I (00 normal operation)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "WRITE",
+     "in": "xx pp dddddddddddd",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.PD": "p"
+     },
+     "note": "DB15-DB14 don't care, DB13-DB12 PD1/PD0, DB11-DB0 data; executed on the 16th SCLK falling edge; SYNC high before it aborts the frame (SYNC interrupt)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  },
+  "DBV": {
+   "pinout": "dbv6",
+   "footprint": "SOT23-6",
+   "package": "SOT-23",
+   "pins": 6
+  }
+ },
+ "pdf": "dac7512.pdf",
+ "pages": "p.2 (pin configurations, pin description), p.3 (VDD 2.7-5.5 V), p.4 (timing characteristics, serial write operation), p.12 (serial interface, input shift register Figure 3, SYNC interrupt Figure 4, power-on reset, power-down Table I)",
+ "notModeled": [
+  "analog output, resistor string and output amplifier (VOUT never driven)",
+  "power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 are stored in CTRL.PD only",
+  "power-up time from power-down (2.5-5 us) and output settling",
+  "SCLK frequency (30 MHz / 20 MHz) and setup/hold limits t1-t8"
+ ],
+ "variants": "DAC7512E (MSOP-8, DGK) and DAC7512N (SOT23-6, DBV): same die and 16-bit frame; pinouts differ (MSOP has two NC pins). DAC7513 (dac7513.pdf) is the external-reference version with VREF and VFB pins.",
+ "parts": [
+  [
+   "DAC7512E/250",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC7512E/2K5",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC7512N/250",
+   "DBV",
+   6,
+   "Active"
+  ],
+  [
+   "DAC7512N/3K",
+   "DBV",
+   6,
+   "Active"
+  ]
+ ]
+}

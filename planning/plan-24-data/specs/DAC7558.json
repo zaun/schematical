@@ -1,0 +1,881 @@
+{
+ "device": {
+  "id": "DAC7558",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit octal-channel ultralow-glitch voltage-output DAC with 50 MHz SPI interface (24-bit word), four reference inputs, IOVDD level shifters, daisy-chain SDO, RSTSEL-selected binary/two's complement coding and asynchronous reset",
+  "note": "dac7558.pdf (SLAS435A) p.4 power requirements (VDD, IOVDD 2.7-5.5 V; IOVDD down to 1.8 V, note 1), p.5 timing characteristics and serial write operation (Figure 1), p.6-7 pin description (RHB) and terminal functions, p.18 serial interface programming (Table 1), p.19 power-on reset, p.20 power down (Tables 2-3, PD pin), asynchronous clear (RST, RSTSEL), input data format, 24-bit word, p.21 SYNC (the SYNC rising edge after the 24th bit updates the DACs with DCEN low), daisy chain",
+  "pinouts": {
+   "rhb32": [
+    {
+     "number": 1,
+     "name": "VFBA",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VFBB",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "VFBC",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "VFBD",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "VREF2",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "SDIN",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "VREF3",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "VFBE",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "VOUTE",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "VOUTF",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "VFBF",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "VFBG",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "VOUTG",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "VOUTH",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "VFBH",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "VREF4",
+     "role": "power"
+    },
+    {
+     "number": 26,
+     "name": "DCEN",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "PD",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 30,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "VREF1",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 8,
+  "vcc": [
+   1.8,
+   5.5
+  ],
+  "analog": [
+   "VDD",
+   "VREF1",
+   "VREF2",
+   "VREF3",
+   "VREF4",
+   "VOUTA",
+   "VOUTB",
+   "VOUTC",
+   "VOUTD",
+   "VOUTE",
+   "VOUTF",
+   "VOUTG",
+   "VOUTH",
+   "VFBA",
+   "VFBB",
+   "VFBC",
+   "VFBD",
+   "VFBE",
+   "VFBF",
+   "VFBG",
+   "VFBH"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "SDIN",
+   "miso": "SDO",
+   "mode": 2
+  },
+  "timing": {
+   "tOut": 10
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "address": 0,
+    "space": "input",
+    "width": 12,
+    "reset": 0,
+    "note": "buffer (input register) A; power-on reset and RST clear it"
+   },
+   {
+    "name": "INB",
+    "address": 1,
+    "space": "input",
+    "width": 12,
+    "reset": 0,
+    "note": "buffer (input register) B; power-on reset and RST clear it"
+   },
+   {
+    "name": "INC",
+    "address": 2,
+    "space": "input",
+    "width": 12,
+    "reset": 0,
+    "note": "buffer (input register) C; power-on reset and RST clear it"
+   },
+   {
+    "name": "IND",
+    "address": 3,
+    "space": "input",
+    "width": 12,
+    "reset": 0,
+    "note": "buffer (input register) D; power-on reset and RST clear it"
+   },
+   {
+    "name": "INE",
+    "address": 4,
+    "space": "input",
+    "width": 12,
+    "reset": 0,
+    "note": "buffer (input register) E; power-on reset and RST clear it"
+   },
+   {
+    "name": "INF",
+    "address": 5,
+    "space": "input",
+    "width": 12,
+    "reset": 0,
+    "note": "buffer (input register) F; power-on reset and RST clear it"
+   },
+   {
+    "name": "ING",
+    "address": 6,
+    "space": "input",
+    "width": 12,
+    "reset": 0,
+    "note": "buffer (input register) G; power-on reset and RST clear it"
+   },
+   {
+    "name": "INH",
+    "address": 7,
+    "space": "input",
+    "width": 12,
+    "reset": 0,
+    "note": "buffer (input register) H; power-on reset and RST clear it"
+   },
+   {
+    "name": "DACA",
+    "address": 0,
+    "space": "dac",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register A; power-on reset and RST clear it (code 0: zero scale with RSTSEL low, mid scale in two's complement with RSTSEL high)"
+   },
+   {
+    "name": "DACB",
+    "address": 1,
+    "space": "dac",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register B; power-on reset and RST clear it (code 0: zero scale with RSTSEL low, mid scale in two's complement with RSTSEL high)"
+   },
+   {
+    "name": "DACC",
+    "address": 2,
+    "space": "dac",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register C; power-on reset and RST clear it (code 0: zero scale with RSTSEL low, mid scale in two's complement with RSTSEL high)"
+   },
+   {
+    "name": "DACD",
+    "address": 3,
+    "space": "dac",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register D; power-on reset and RST clear it (code 0: zero scale with RSTSEL low, mid scale in two's complement with RSTSEL high)"
+   },
+   {
+    "name": "DACE",
+    "address": 4,
+    "space": "dac",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register E; power-on reset and RST clear it (code 0: zero scale with RSTSEL low, mid scale in two's complement with RSTSEL high)"
+   },
+   {
+    "name": "DACF",
+    "address": 5,
+    "space": "dac",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register F; power-on reset and RST clear it (code 0: zero scale with RSTSEL low, mid scale in two's complement with RSTSEL high)"
+   },
+   {
+    "name": "DACG",
+    "address": 6,
+    "space": "dac",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register G; power-on reset and RST clear it (code 0: zero scale with RSTSEL low, mid scale in two's complement with RSTSEL high)"
+   },
+   {
+    "name": "DACH",
+    "address": 7,
+    "space": "dac",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register H; power-on reset and RST clear it (code 0: zero scale with RSTSEL low, mid scale in two's complement with RSTSEL high)"
+   },
+   {
+    "name": "PWR",
+    "width": 24,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "A_PD",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "A_MODE",
+      "bits": [
+       1,
+       0
+      ]
+     },
+     {
+      "name": "B_PD",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "B_MODE",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "C_PD",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "C_MODE",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "D_PD",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "D_MODE",
+      "bits": [
+       10,
+       9
+      ]
+     },
+     {
+      "name": "E_PD",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "E_MODE",
+      "bits": [
+       13,
+       12
+      ]
+     },
+     {
+      "name": "F_PD",
+      "bits": [
+       17,
+       17
+      ]
+     },
+     {
+      "name": "F_MODE",
+      "bits": [
+       16,
+       15
+      ]
+     },
+     {
+      "name": "G_PD",
+      "bits": [
+       20,
+       20
+      ]
+     },
+     {
+      "name": "G_MODE",
+      "bits": [
+       19,
+       18
+      ]
+     },
+     {
+      "name": "H_PD",
+      "bits": [
+       23,
+       23
+      ]
+     },
+     {
+      "name": "H_MODE",
+      "bits": [
+       22,
+       21
+      ]
+     }
+    ],
+    "note": "internal: per-channel power-down flag and DB11-DB10 mode from the last power-down command (Table 2: 00/11 Hi-Z, 01 1 kOhm, 10 100 kOhm)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "z",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "WRITE BUFFER",
+     "in": "00 00 sss 0 dddddddddddd xxxx",
+     "action": "write",
+     "channel": "s",
+     "data": "d",
+     "note": "Table 1 LD1 LD0 = 00: write the selected buffer (input register) A-H",
+     "commit": "end"
+    },
+    {
+     "name": "WRITE AND LOAD",
+     "in": "00 01 sss 0 dddddddddddd xxxx",
+     "action": "write",
+     "channel": "s",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "note": "Table 1 LD = 01: write the buffer and load the selected DAC",
+     "commit": "end"
+    },
+    {
+     "name": "WRITE, LOAD ALL",
+     "in": "00 10 sss 0 dddddddddddd xxxx",
+     "action": "write",
+     "channel": "s",
+     "data": "d",
+     "then": [
+      "updateall"
+     ],
+     "note": "Table 1 LD = 10: write the buffer and load the selected DAC, load all other DACs with their buffer data",
+     "commit": "end"
+    },
+    {
+     "name": "LOAD DACS",
+     "in": "00 11 0 cc 0 xxxxxxxxxxxx xxxx",
+     "action": "update",
+     "channel": "c",
+     "channelMap": {
+      "0": [
+       0,
+       1
+      ],
+      "1": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "2": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5
+      ],
+      "3": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ]
+     },
+     "note": "Table 1 LD = 11, SEL2 = 0: load DACs A-B / A-D / A-F / A-H with current buffer data",
+     "commit": "end"
+    },
+    {
+     "name": "WRITE AND LOAD GROUP",
+     "in": "00 11 1 cc 0 dddddddddddd xxxx",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "channelMap": {
+      "0": [
+       0,
+       1
+      ],
+      "1": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "2": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5
+      ],
+      "3": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ]
+     },
+     "note": "Table 1 LD = 11, SEL2 = 1: write the buffers with new data and load DACs A-B / A-D / A-F / A-H simultaneously",
+     "commit": "end"
+    },
+    {
+     "name": "PWD A",
+     "in": "00 x0 000 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 0, DB16 = 1: power down channel A; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    },
+    {
+     "name": "PWD B",
+     "in": "00 x0 001 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 0, DB16 = 1: power down channel B; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    },
+    {
+     "name": "PWD C",
+     "in": "00 x0 010 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 0, DB16 = 1: power down channel C; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    },
+    {
+     "name": "PWD D",
+     "in": "00 x0 011 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 0, DB16 = 1: power down channel D; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    },
+    {
+     "name": "PWD E",
+     "in": "00 x0 100 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.E_PD": 1,
+      "PWR.E_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 0, DB16 = 1: power down channel E; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    },
+    {
+     "name": "PWD F",
+     "in": "00 x0 101 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.F_PD": 1,
+      "PWR.F_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 0, DB16 = 1: power down channel F; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    },
+    {
+     "name": "PWD G",
+     "in": "00 x0 110 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.G_PD": 1,
+      "PWR.G_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 0, DB16 = 1: power down channel G; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    },
+    {
+     "name": "PWD H",
+     "in": "00 x0 111 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.H_PD": 1,
+      "PWR.H_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 0, DB16 = 1: power down channel H; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    },
+    {
+     "name": "PWD A-B",
+     "in": "00 x1 000 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p",
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 1, DB16 = 1, Table 3 code 000: power down channels A-B; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    },
+    {
+     "name": "PWD A-C",
+     "in": "00 x1 001 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p",
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p",
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 1, DB16 = 1, Table 3 code 001: power down channels A-C; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    },
+    {
+     "name": "PWD A-D",
+     "in": "00 x1 010 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p",
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p",
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p",
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 1, DB16 = 1, Table 3 code 010: power down channels A-D; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    },
+    {
+     "name": "PWD A-E",
+     "in": "00 x1 011 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p",
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p",
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p",
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p",
+      "PWR.E_PD": 1,
+      "PWR.E_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 1, DB16 = 1, Table 3 code 011: power down channels A-E; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    },
+    {
+     "name": "PWD A-F",
+     "in": "00 x1 100 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p",
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p",
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p",
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p",
+      "PWR.E_PD": 1,
+      "PWR.E_MODE": "p",
+      "PWR.F_PD": 1,
+      "PWR.F_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 1, DB16 = 1, Table 3 code 100: power down channels A-F; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    },
+    {
+     "name": "PWD A-G",
+     "in": "00 x1 101 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p",
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p",
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p",
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p",
+      "PWR.E_PD": 1,
+      "PWR.E_MODE": "p",
+      "PWR.F_PD": 1,
+      "PWR.F_MODE": "p",
+      "PWR.G_PD": 1,
+      "PWR.G_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 1, DB16 = 1, Table 3 code 101: power down channels A-G; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    },
+    {
+     "name": "PWD A-H",
+     "in": "00 x1 110 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p",
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p",
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p",
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p",
+      "PWR.E_PD": 1,
+      "PWR.E_MODE": "p",
+      "PWR.F_PD": 1,
+      "PWR.F_MODE": "p",
+      "PWR.G_PD": 1,
+      "PWR.G_MODE": "p",
+      "PWR.H_PD": 1,
+      "PWR.H_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 1, DB16 = 1, Table 3 code 110: power down channels A-H; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    },
+    {
+     "name": "PWD A-H",
+     "in": "00 x1 111 1 xxxx pp xxxxxxxxxx",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p",
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p",
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p",
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p",
+      "PWR.E_PD": 1,
+      "PWR.E_MODE": "p",
+      "PWR.F_PD": 1,
+      "PWR.F_MODE": "p",
+      "PWR.G_PD": 1,
+      "PWR.G_MODE": "p",
+      "PWR.H_PD": 1,
+      "PWR.H_MODE": "p"
+     },
+     "note": "Table 1 DB20 = 1, DB16 = 1, Table 3 code 111: power down channels A-H; DB11-DB10 mode (Table 2)",
+     "commit": "end"
+    }
+   ]
+  },
+  "pins": {
+   "reset": {
+    "pin": "RST",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND",
+    "INE",
+    "INF",
+    "ING",
+    "INH"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD",
+    "DACE",
+    "DACF",
+    "DACG",
+    "DACH"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "RHB": {
+   "pinout": "rhb32",
+   "footprint": "VQFN-32-5X5",
+   "package": "VQFN",
+   "pins": 32
+  }
+ },
+ "pdf": "dac7558.pdf",
+ "pages": "p.4 (supplies), p.5 (timing, Figure 1), p.6-7 (pins), p.18 (Table 1), p.19 (power-on reset), p.20 (power down, Tables 2-3, RST/RSTSEL, data format, 24-bit word), p.21 (SYNC, daisy chain)",
+ "notModeled": [
+  "analog outputs, references and VFB sense inputs (never driven)",
+  "RSTSEL selects straight binary (low) or two's complement (high) coding, so reset/RST code 0 is zero scale or mid scale; registers store the code as written and RSTSEL is a plain input",
+  "PD pin low powers down all channels to Hi-Z and resumes the previous state when high (p.20): outputs are never driven, so it is a plain input",
+  "power-down output loads: stored per channel in PWR only; how a powered-down channel returns to normal operation is not described",
+  "daisy-chain mode (DCEN high): SDO repeating SDIN with a 24-clock delay and latching the last 24 bits at SYNC rising are not modeled; SDO stays Hi-Z (the DCEN-low behavior)",
+  "A1 A0 (DB23-DB22) other than 00: the DAC does not respond (no command matches)",
+  "RST: the DAC updates at the first SYNC rising edge after RST returns high (p.20); modeled as reset held while RST is low",
+  "SCLK limits (50 MHz, 10 MHz with SDO) and setup/hold times"
+ ],
+ "variants": "octal member of the DAC7551/DAC7552/DAC7558 family (daisy-chainable together).",
+ "parts": [
+  [
+   "DAC7558IRHBR",
+   "RHB",
+   32,
+   "Active"
+  ],
+  [
+   "DAC7558IRHBT",
+   "RHB",
+   32,
+   "Active"
+  ]
+ ]
+}

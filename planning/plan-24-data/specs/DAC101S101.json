@@ -1,0 +1,196 @@
+{
+ "device": {
+  "id": "DAC101S101",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "10-bit single-channel voltage-output DAC with SPI-compatible serial interface",
+  "note": "dac101s101.pdf (SNAS321G) p.3 pin configuration and functions, p.5 recommended operating conditions, p.10 serial timing diagram (Figure 2), p.18 power-on reset and power-down modes (Table 1), p.19 serial interface and input shift register (Figure 36), p.20 68HC11 interface (CPOL 0, CPHA 1)",
+  "pinouts": {
+   "sot6": [
+    {
+     "number": 1,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SYNC",
+     "role": "input"
+    }
+   ],
+   "vssop8": [
+    {
+     "number": 1,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 10,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VOUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 1
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 10,
+    "reset": 0
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PD1:PD0 (DB13:DB12), Table 1"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write",
+     "in": "xx pp d{10} x{2}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.PD": "p"
+     },
+     "note": "DB15:DB14 don't care, DB13:DB12 PD1:PD0 (00 normal, 01 1 kOhm, 10 100 kOhm, 11 Hi-Z), then the data"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DDC": {
+   "pinout": "sot6",
+   "footprint": "SOT23-THIN-6",
+   "package": "SOT-23-THIN",
+   "pins": 6
+  },
+  "DGK": {
+   "pinout": "vssop8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "dac101s101.pdf",
+ "pages": "p.3 (pins), p.5 (ROC: VA 2.7-5.5 V), p.10 (timing), p.18 (power-on reset, Table 1), p.19 (serial interface, Figure 36 X X PD1 PD0 D9..D0 X X), p.20 (68HC11 CPOL/CPHA)",
+ "notModeled": [
+  "analog output (VA is both the supply and the reference), power-down output terminations and wake-up time",
+  "the write executes on the 16th SCLK falling edge (commit now); SYNC rising before it resets the shift register and the write is ignored; further SCLKs are ignored",
+  "SCLK and SYNC timing limits; digital inputs limited to VA + 0.1 V (no 5.5-V tolerance)"
+ ],
+ "variants": "DAC101S101-Q1 (SOT only) in the same datasheet; DAC081S101 (8-bit) and DAC121S101 (12-bit) are pin-compatible",
+ "parts": [
+  [
+   "DAC101S101CIMK/NOPB",
+   "DDC",
+   6,
+   "Active"
+  ],
+  [
+   "DAC101S101CIMM/NOPB",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC101S101QCMK/NOPB",
+   "DDC",
+   6,
+   "Active"
+  ]
+ ]
+}

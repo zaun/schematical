@@ -1,0 +1,163 @@
+{
+ "device": {
+  "id": "DAC8811",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit serial-input multiplying current-output DAC (3-wire, 50 MHz)",
+  "note": "dac8811.pdf (SLAS411D) p.1 power-up zero scale, p.4 pin functions, p.5 recommended operating conditions, p.7 timing (Figure 1), p.14 Table 1 control logic, p.15 input shift register and CS interrupt (Figures 24, 25)",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "RFB",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "IOUT",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "RFB",
+   "VREF",
+   "IOUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "CLK",
+   "mosi": "SDI",
+   "mode": 0
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register; powers on at zero (p.1)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Load DAC",
+     "in": "d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "p.15 Figure 24: D15-D0 MSB first on rising CLK; extra leading bits ignored (p.4); loaded into the DAC register (p.14 Table 1: at CS rising)"
+    }
+   ],
+   "note": "16-bit data word only, no control bits; a frame of fewer than 16 bits is invalid (p.15 Figure 25)"
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  },
+  "DRB": {
+   "pinout": "dgk8",
+   "footprint": "SON-8-DRB",
+   "package": "SON",
+   "pins": 8
+  }
+ },
+ "pdf": "dac8811.pdf",
+ "pages": "p.1 (power-up zero scale), p.4 (pinout, DGK and DRB same numbering), p.5 (VDD 2.7-5.5 V), p.7 (timing, Figure 1: data in on CLK rising), p.14 (Table 1: CS rising loads the DAC register), p.15 (16-bit shift register, CS interrupt)",
+ "notModeled": [
+  "analog: multiplying current output(s), reference input(s), feedback resistor(s)",
+  "execution point: p.15 says the word executes at the 16th rising CLK edge, Table 1 (p.14) at CS rising; modeled as the last 16 bits before CS rises (align end)",
+  "power-on reset brownout behavior"
+ ],
+ "variants": "dac8811.pdf covers only the DAC8811 (B and C grades)",
+ "parts": [
+  [
+   "DAC8811IBDGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8811IBDGKT",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8811IBDRBT",
+   "DRB",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8811ICDGKT",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8811ICDRBT",
+   "DRB",
+   8,
+   "Active"
+  ]
+ ]
+}

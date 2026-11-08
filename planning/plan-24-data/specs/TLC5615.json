@@ -1,0 +1,187 @@
+{
+ "device": {
+  "id": "TLC5615",
+  "function": "DAC",
+  "description": "10-bit voltage-output DAC with 3-wire serial interface (SPI/QSPI/Microwire), 12- or 16-bit word",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "tlc5615.pdf (SLAS142E) p.1 pinout, p.2 terminal functions, p.3 recommended operating conditions, p.4 timing requirements, p.5 Figure 1, p.8 power-on reset (DAC register zero), p.9-10 serial interface, data sequences, SPI connection (CPOL = 0, CPHA = 0), daisy chaining",
+  "pinouts": {
+   "d8": [
+    {
+     "number": 1,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "OUT",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 10,
+  "channels": 1,
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "REFIN",
+   "OUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 0
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 10,
+    "reset": 0,
+    "note": "10-bit DAC register; an internal circuit resets it to all zeros on power up (p.8)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Write",
+     "in": "d{10} xx",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "commit": "end",
+     "note": "12-bit sequence (10 data bits MSB first + 2 sub-LSB don't-care bits) or 16 bits with 4 upper dummy bits first (Figures 10-11, p.9); data shift in on SCLK rising, CS rising transfers the shift register to the DAC register: the last 12 bits before CS rises are decoded"
+    }
+   ],
+   "note": "SPI/QSPI connection CPOL = 0, CPHA = 0 (Figure 13, p.10)"
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d8",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  },
+  "DGK": {
+   "pinout": "d8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  },
+  "P": {
+   "pinout": "d8",
+   "footprint": "PDIP-8",
+   "package": "DIP",
+   "pins": 8
+  }
+ },
+ "pdf": "tlc5615.pdf",
+ "pages": "p.1 (pinout), p.2 (terminal functions), p.3 (recommended operating conditions), p.4-5 (timing, Figure 1), p.8 (power-on reset), p.9-10 (serial interface, SPI mode, daisy chain)",
+ "notModeled": [
+  "analog: voltage output (x2 of REFIN), reference input",
+  "DOUT daisy-chain output (16-bit shift register output, changes on SCLK falling, holds its last bit while CS is high): not modeled, the pin is never driven",
+  "update rate / settling time (12.5 us) and timing checks"
+ ],
+ "variants": "single device; C and I temperature grades",
+ "parts": [
+  [
+   "TLC5615CD",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLC5615CDGK",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "TLC5615CDGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "TLC5615CDR",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLC5615CP",
+   "P",
+   8,
+   "Active"
+  ],
+  [
+   "TLC5615IDGK",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "TLC5615IDR",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLC5615IP",
+   "P",
+   8,
+   "Active"
+  ]
+ ]
+}

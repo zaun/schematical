@@ -1,0 +1,147 @@
+{
+ "device": {
+  "id": "DAC8043",
+  "function": "DAC",
+  "description": "12-bit serial-input multiplying current-output DAC (3-wire SRI/CLK/LD)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac8043.pdf (SBAS028, PDS-1197B) p.1 description (shift register, DAC register, LD), p.2 timing characteristics and supply 4.75-5.25 V, p.3 pin configuration, p.4 write cycle timing diagram",
+  "pinouts": {
+   "d8": [
+    {
+     "number": 1,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "RFB",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "IOUT",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "LD",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SRI",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 1,
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "VREF",
+   "RFB",
+   "IOUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "sclk": "CLK",
+   "mosi": "SRI",
+   "mode": 0
+  },
+  "registers": [
+   {
+    "name": "SR",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "p.1: 12-bit serial-in parallel-out input shift register (SRI clocked in on CLK rising, MSB first); power-on value not given (0)"
+   },
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "p.1: 12-bit DAC register, loaded from the shift register while LD is low; power-on value not given (0)"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "commands": [
+    {
+     "name": "Shift 12 bits",
+     "in": "d{12}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "p.4: bit 1 (MSB) .. bit 12 (LSB) on SRI, each sampled at CLK rising"
+    }
+   ],
+   "note": "no chip select: the shift register takes every CLK rising edge; LD low transfers it to the DAC register"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LD",
+    "active": 0,
+    "edge": "level"
+   }
+  },
+  "dac": {
+   "input": [
+    "SR"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d8",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  }
+ },
+ "pdf": "dac8043.pdf",
+ "pages": "p.1 (description), p.2 (timing characteristics, VDD 4.75-5.25 V), p.3 (pin configuration), p.4 (write cycle timing)",
+ "notModeled": [
+  "analog: multiplying current output, VREF input, RFB feedback resistor",
+  "shift register semantics: the DAC register takes the last 12 bits clocked in before LD falls; the model groups CLK bits in 12-bit words from power-on (no CS to resynchronize), so extra clocks misalign the words",
+  "power-on contents of the shift and DAC registers (not given; 0 used)",
+  "DAC8043UC (1/2 LSB grade) is listed on p.2 but is not an orderable part here"
+ ],
+ "variants": "dac8043.pdf covers only the DAC8043 (U and UC grades)",
+ "parts": [
+  [
+   "DAC8043U",
+   "D",
+   8,
+   "Active"
+  ]
+ ]
+}

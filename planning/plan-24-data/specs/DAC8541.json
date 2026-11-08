@@ -1,0 +1,405 @@
+{
+ "device": {
+  "id": "DAC8541",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit voltage-output DAC with 16-bit parallel interface, input-register read-back, LDAC, RST to min or mid scale, pin-selected power-down and data format",
+  "note": "dac8541.pdf (SLAS353) p.3 logic inputs and power requirements (DVDD 1.8-5.5 V), p.4 pin configuration and terminal functions, p.5 timing characteristics and Figure 1, p.6 reset timing (Figure 2), p.14 control signal summary (Table 1), p.15 data format (Table 2), LDAC, RST/RSTSEL and power-on reset, p.16 power-down modes",
+  "pinouts": {
+   "pbs32": [
+    {
+     "number": 1,
+     "name": "DB15",
+     "role": "inout"
+    },
+    {
+     "number": 2,
+     "name": "DB14",
+     "role": "inout"
+    },
+    {
+     "number": 3,
+     "name": "DB13",
+     "role": "inout"
+    },
+    {
+     "number": 4,
+     "name": "DB12",
+     "role": "inout"
+    },
+    {
+     "number": 5,
+     "name": "DB11",
+     "role": "inout"
+    },
+    {
+     "number": 6,
+     "name": "DB10",
+     "role": "inout"
+    },
+    {
+     "number": 7,
+     "name": "DB9",
+     "role": "inout"
+    },
+    {
+     "number": 8,
+     "name": "DB8",
+     "role": "inout"
+    },
+    {
+     "number": 9,
+     "name": "DB7",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "DB6",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "DB5",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "DB4",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "DB3",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "DB2",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "DB1",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "DB0",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 20,
+     "name": "VREFH",
+     "role": "power"
+    },
+    {
+     "number": 21,
+     "name": "VREFL",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "VOUTSense",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "PD0",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "PD1",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "BTC/USB",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "R/W",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   1.8,
+   5.5
+  ],
+  "analog": [
+   "AVDD",
+   "VREFH",
+   "VREFL",
+   "VOUTSense",
+   "VOUT"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB15",
+    "DB14",
+    "DB13",
+    "DB12",
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rw": {
+    "pin": "R/W",
+    "read": 1
+   }
+  },
+  "timing": {
+   "tAcc": 80,
+   "tDf": 20
+  },
+  "registers": [
+   {
+    "name": "IN",
+    "address": 0,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "input register; written and read back over DB15-DB0 (Table 1); power-on value not stated, the DAC register powers up at min-scale (reset 0)"
+   },
+   {
+    "name": "DAC",
+    "address": 0,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC register; power-on min-scale (code 0000h in straight binary, p.15); loaded on the LDAC rising edge"
+   },
+   {
+    "name": "CTRL",
+    "width": 4,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PD1",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "PD0",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "BTC",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "RSTSEL",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: levels of the PD1, PD0, BTC/USB and RSTSEL pins (Tables 1-3)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write input register (CS low, R/W low)",
+     "in": "d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "commit": "end",
+     "note": "Table 1: input data are latched at CS rising (th2 data hold after CS rising, Figure 1)"
+    }
+   ],
+   "read": "[IN]",
+   "note": "Table 1: CS low with R/W high presents the input register on DB15-DB0 (td1 80 ns max, th4 20 ns max)"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 1,
+    "edge": "rise",
+    "note": "asynchronous load, rising edge (Table 1)"
+   },
+   "clear": {
+    "pin": "RST",
+    "active": 1,
+    "edge": "rise",
+    "note": "rising edge resets the DAC register (not the input register) to min-scale (RSTSEL low) or mid-scale (RSTSEL high), p.15"
+   },
+   "levels": [
+    {
+     "pin": "PD1",
+     "field": "CTRL.PD1"
+    },
+    {
+     "pin": "PD0",
+     "field": "CTRL.PD0"
+    },
+    {
+     "pin": "BTC/USB",
+     "field": "CTRL.BTC"
+    },
+    {
+     "pin": "RSTSEL",
+     "field": "CTRL.RSTSEL"
+    }
+   ],
+   "resetSelect": [
+    {
+     "pin": "BTC/USB",
+     "level": 1,
+     "resets": {
+      "IN": 32768,
+      "DAC": 32768
+     },
+     "note": "power-on reset to min scale: code 8000h in twos complement (BTC/USB high)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "IN"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": {
+    "pin": "RSTSEL",
+    "values": {
+     "0": 0,
+     "1": 32768
+    }
+   },
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PBS": {
+   "pinout": "pbs32",
+   "footprint": "TQFP-32-PBS",
+   "package": "TQFP",
+   "pins": 32
+  }
+ },
+ "pdf": "dac8541.pdf",
+ "pages": "p.3 (logic inputs, power requirements), p.4 (pins), p.5 (timing, Figure 1), p.6 (reset timing), p.14 (Table 1), p.15 (Table 2 data format, LDAC, RST/RSTSEL, power-on reset), p.16 (power-down)",
+ "notModeled": [
+  "analog output, VOUTSense feedback, VREFH/VREFL references (never driven)",
+  "RST loads min-scale (RSTSEL low) or mid-scale (RSTSEL high) into the DAC register only; the model's clear also loads the input register. clearCode follows RSTSEL in straight-binary codes (0000h / 8000h); with BTC/USB high the chip loads 8000h (min) / 0000h (mid), which one pin-chosen clear code cannot express",
+  "BTC/USB selects 2's complement or straight binary for written and read-back data; the model stores the code as written (CTRL.BTC informational). Power-on (min scale) follows BTC/USB through pins.resetSelect (8000h in 2's complement); the datasheet names the output only, the model applies it to the input register too",
+  "PD1/PD0 pin power-down (1 kOhm / 100 kOhm / Hi-Z output) is analog: the pin levels are copied into CTRL only",
+  "DAC register is not readable (Table 1 reads the input register)",
+  "timing limits tw1-tw7, tsu1-tsu5, th1-th5, td2 and output settling"
+ ],
+ "variants": "dac8541.pdf covers only the DAC8541 (32-pin TQFP PBS).",
+ "parts": [
+  [
+   "DAC8541Y/250",
+   "PBS",
+   32,
+   "Active"
+  ],
+  [
+   "DAC8541Y/2K",
+   "PBS",
+   32,
+   "Active"
+  ]
+ ]
+}

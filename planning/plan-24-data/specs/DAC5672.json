@@ -1,0 +1,417 @@
+{
+ "device": {
+  "id": "DAC5672",
+  "function": "DAC",
+  "description": "dual 14-bit 275 MSPS current-output DAC with two parallel CMOS input ports (or one interleaved port)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac5672.pdf (SLAS440D) p.3-4 (pinout, pin functions), p.5 (ROC: DVDD 3.0-3.6 V), p.9 (digital inputs, switching characteristics), p.16-20 (digital inputs and timing: dual-bus and interleaved modes)",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "DA13",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "DA12",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "DA11",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "DA10",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "DA9",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DA8",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DA7",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DA6",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DA5",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DA4",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "DA3",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DA2",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DA1",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "DA0",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "WRTA/WRTIQ",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "CLKA/CLKIQ",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "CLKB/RESETIQ",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "WRTB/SELECTIQ",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "DB13",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "DB12",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "DB11",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "DB10",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "DB9",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "DB8",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "DB7",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "DB6",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "DB5",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "DB4",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "DB3",
+     "role": "input"
+    },
+    {
+     "number": 34,
+     "name": "DB2",
+     "role": "input"
+    },
+    {
+     "number": 35,
+     "name": "DB1",
+     "role": "input"
+    },
+    {
+     "number": 36,
+     "name": "DB0",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "SLEEP",
+     "role": "input"
+    },
+    {
+     "number": 38,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 39,
+     "name": "IOUTB1",
+     "role": "output"
+    },
+    {
+     "number": 40,
+     "name": "IOUTB2",
+     "role": "output"
+    },
+    {
+     "number": 41,
+     "name": "BIASJ_B",
+     "role": "output"
+    },
+    {
+     "number": 42,
+     "name": "GSET",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "EXTIO",
+     "role": "output"
+    },
+    {
+     "number": 44,
+     "name": "BIASJ_A",
+     "role": "output"
+    },
+    {
+     "number": 45,
+     "name": "IOUTA2",
+     "role": "output"
+    },
+    {
+     "number": 46,
+     "name": "IOUTA1",
+     "role": "output"
+    },
+    {
+     "number": 47,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 48,
+     "name": "MODE",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 14,
+  "channels": 2,
+  "vcc": [
+   3.0,
+   3.6
+  ],
+  "analog": [
+   "AVDD",
+   "EXTIO",
+   "BIASJ_A",
+   "BIASJ_B",
+   "IOUTA1",
+   "IOUTA2",
+   "IOUTB1",
+   "IOUTB2"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DA13",
+    "DA12",
+    "DA11",
+    "DA10",
+    "DA9",
+    "DA8",
+    "DA7",
+    "DA6",
+    "DA5",
+    "DA4",
+    "DA3",
+    "DA2",
+    "DA1",
+    "DA0"
+   ],
+   "wr": {
+    "pin": "WRTA/WRTIQ",
+    "active": 0
+   }
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 14,
+    "reset": 0,
+    "note": "port A input latch (loaded on WRTA rising); power-on value not given (0)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 14,
+    "reset": 0,
+    "note": "port B input latch (loaded on WRTB rising); power-on value not given (0)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 14,
+    "reset": 0,
+    "note": "DAC A latch (loaded on CLKA rising)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 14,
+    "reset": 0,
+    "note": "DAC B latch (loaded on CLKB rising)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Latch port A",
+     "in": "d{14}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "data port A latched at the WRTA rising edge"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "CLKA/CLKIQ",
+    "active": 1,
+    "edge": "rise"
+   },
+   "powerdown": {
+    "pin": "SLEEP",
+    "active": 1
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB"
+   ],
+   "output": [
+    "DACA",
+    "DACB"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "dac5672.pdf",
+ "pages": "p.3-4 (pinout, pin functions), p.5 (ROC: DVDD 3.0-3.6 V), p.9 (digital inputs, switching characteristics), p.16-20 (digital inputs and timing: dual-bus and interleaved modes)",
+ "notModeled": [
+  "analog current outputs, reference (internal or external on EXTIO), full-scale bias (BIASJ_A/B), gain-setting mode GSET (strap only)",
+  "data port B (DB13-DB0, WRTB, CLKB): a parallel bus has one write strobe and at most 24 data pins, so DAC B is never written (2 x 14 data pins do not fit one bus)",
+  "CLKA copies both input latches to both DAC latches (one LDAC pin); CLKB is not modeled",
+  "interleaved single-bus mode (MODE low: WRTIQ, CLKIQ divided by 2, SELECTIQ, RESETIQ): the model always works as the dual-bus mode (MODE high, the internal-pullup default)",
+  "the 4-clock pipeline latency (tLAT), setup/hold times and the CLK-before-WRT ordering are not checked",
+  "internal pulldowns on DA/DB and SLEEP, pullups on MODE and GSET (Z reads 0; the SLEEP default matches)",
+  "power-on contents of the latches are not given (0 used)"
+ ],
+ "variants": "dac5672.pdf (SLAS440D) is the main source; dac5672a.pdf (DAC5672A, A parts) and dac5672-ep.pdf (-EP parts) have the same PFB pinout and digital interface. DAC5652 (10-bit) and DAC5662 (12-bit) are the family members (own files)",
+ "parts": [
+  [
+   "DAC5672AIPFB",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "DAC5672AIPFBR",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "DAC5672IPFB",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "DAC5672IPFBR",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "DAC5672MPFBEP",
+   "PFB",
+   48,
+   "Active"
+  ]
+ ]
+}

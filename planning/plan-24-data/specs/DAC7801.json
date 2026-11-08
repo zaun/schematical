@@ -1,0 +1,288 @@
+{
+ "device": {
+  "id": "DAC7801",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "Dual 12-bit multiplying current-output DAC with 8-bit (8 + 4) double-buffered parallel interface",
+  "note": "dac7800.pdf (SBAS005B) p.2 electrical (VDD 4.5-5.5 V), p.5 DAC7801 pin configuration, logic truth table and timing",
+  "pinouts": {
+   "soic24": [
+    {
+     "number": 1,
+     "name": "AGND A",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "IOUT A",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "RFB A",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "VREF A",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DB0",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DB1",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DB2",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DB3",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DB4",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "DB5",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "DB6",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "DB7",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "UPD",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 21,
+     "name": "VREF B",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "RFB B",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "IOUT B",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "AGND B",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 2,
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "IOUT A",
+   "RFB A",
+   "VREF A",
+   "VREF B",
+   "RFB B",
+   "IOUT B"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   },
+   "address": [
+    "A1",
+    "A0"
+   ]
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC A input registers: MS (4 bits, A1A0 = 01) and LS (8 bits, A1A0 = 00)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC B input registers: MS (A1A0 = 11) and LS (A1A0 = 10)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC A register (UPD low with WR low)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC B register"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "DAC A LS input register",
+     "in": "00 [INA:7:0]",
+     "note": "DB7-DB0 (truth table)"
+    },
+    {
+     "name": "DAC A MS input register",
+     "in": "01 xxxx [INA:11:8]",
+     "note": "DB3 (MSB)-DB0"
+    },
+    {
+     "name": "DAC B LS input register",
+     "in": "10 [INB:7:0]"
+    },
+    {
+     "name": "DAC B MS input register",
+     "in": "11 xxxx [INB:11:8]"
+    }
+   ],
+   "note": "CS and WR low load the input register A1A0 selects (level transfer); write-only bus"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "UPD",
+    "active": 0,
+    "edge": "level"
+   },
+   "clear": {
+    "pin": "CLR",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB"
+   ],
+   "output": [
+    "DACA",
+    "DACB"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "soic24",
+   "footprint": "SOIC-24W",
+   "package": "SOIC",
+   "pins": 24
+  }
+ },
+ "pdf": "dac7800.pdf",
+ "pages": "p.2 (VDD), p.5 (pins, truth table, timing)",
+ "notModeled": [
+  "analog: multiplying current outputs IOUT A/B, reference inputs VREF A/B, feedback resistors RFB A/B",
+  "power-on register contents are not given (the datasheet suggests CLR for power-on reset); 0 used",
+  "UPD updates both DAC registers only while WR is also low (truth table: UPD = 0, WR = 0; with CS low too the DAC registers are transparent); the model copies whenever UPD is low",
+  "input registers are level-transparent while CS and WR are low; the model loads them at the end of the write",
+  "no read-back (write-only bus): protocol.read is omitted"
+ ],
+ "variants": "DAC7800 (serial), DAC7801 and DAC7802 share dac7800.pdf; own spec files.",
+ "parts": [
+  [
+   "DAC7801KU",
+   "DW",
+   24,
+   "Active"
+  ],
+  [
+   "DAC7801LU",
+   "DW",
+   24,
+   "Active"
+  ]
+ ]
+}

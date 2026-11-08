@@ -1,0 +1,2557 @@
+{
+ "device": {
+  "id": "DAC539E4",
+  "function": "DAC",
+  "description": "10-bit quad threshold smart DAC with comparators, LUT-based GPO mapping, NVM and auto-detected I2C/SPI (SPI modeled)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac539e4w.pdf (SLASF63A) p.3-4 pinout (Figure 4-1, Table 4-1), p.5 absolute maximum and recommended operating conditions (VDD 1.7-5.5 V, VIH 1.62 V), p.10 SPI timing (5.11-5.13), p.11-12 timing diagrams (Figure 5-2, 5-3), p.22-24 programming interface, NVM and reset, p.29-30 SPI access cycle (Table 6-8, 6-9), p.33-34 I2C address (Table 6-12) and read sequence, p.35-45 register map (Table 6-14, 6-15) and register descriptions (6.6.1-6.6.18)",
+  "pinouts": {
+   "ybh16": [
+    {
+     "ball": "A1",
+     "name": "MODE",
+     "role": "power"
+    },
+    {
+     "ball": "A2",
+     "name": "OUT3",
+     "role": "output"
+    },
+    {
+     "ball": "A3",
+     "name": "OUT2",
+     "role": "output"
+    },
+    {
+     "ball": "A4",
+     "name": "GPO3",
+     "role": "output"
+    },
+    {
+     "ball": "B1",
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "ball": "B2",
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "ball": "B3",
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "ball": "B4",
+     "name": "GPO2",
+     "role": "inout"
+    },
+    {
+     "ball": "C1",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "C2",
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "ball": "C3",
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "ball": "C4",
+     "name": "GPO1",
+     "role": "inout"
+    },
+    {
+     "ball": "D1",
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "ball": "D2",
+     "name": "OUT0",
+     "role": "output"
+    },
+    {
+     "ball": "D3",
+     "name": "OUT1",
+     "role": "output"
+    },
+    {
+     "ball": "D4",
+     "name": "GPO0",
+     "role": "inout"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 10,
+  "channels": 4,
+  "vcc": [
+   1.7,
+   5.5
+  ],
+  "analog": [
+   "MODE",
+   "OUT0",
+   "OUT1",
+   "OUT2",
+   "OUT3",
+   "AIN0",
+   "AIN1",
+   "AIN2",
+   "AIN3"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "GPO2",
+   "sclk": "GPO0",
+   "mosi": "GPO1",
+   "miso": "GPO3",
+   "mode": 1
+  },
+  "timing": {
+   "tOut": 300
+  },
+  "registers": [
+   {
+    "name": "NOP",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "Table 6-16"
+   },
+   {
+    "name": "DAC_0_MARGIN_HIGH",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_HIGH",
+      "bits": [
+       15,
+       6
+      ]
+     }
+    ],
+    "note": "10-bit code left-aligned (Table 6-17)"
+   },
+   {
+    "name": "DAC_0_MARGIN_LOW",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_LOW",
+      "bits": [
+       15,
+       6
+      ]
+     }
+    ],
+    "note": "10-bit code left-aligned (Table 6-18)"
+   },
+   {
+    "name": "DAC_0_VOUT_CMP_CONFIG",
+    "address": 3,
+    "width": 16,
+    "reset": 1025,
+    "fields": [
+     {
+      "name": "VOUT_GAIN",
+      "bits": [
+       12,
+       10
+      ]
+     },
+     {
+      "name": "CMP_OD_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CMP_OUT_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CMP_HIZ_IN_DIS",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CMP_INV_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CMP_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-19"
+   },
+   {
+    "name": "DAC_0_CMP_MODE_CONFIG",
+    "address": 5,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CMP_MODE",
+      "bits": [
+       11,
+       10
+      ]
+     }
+    ],
+    "note": "Table 6-20"
+   },
+   {
+    "name": "DAC_1_MARGIN_HIGH",
+    "address": 7,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_HIGH",
+      "bits": [
+       15,
+       6
+      ]
+     }
+    ],
+    "note": "10-bit code left-aligned (Table 6-17)"
+   },
+   {
+    "name": "DAC_1_MARGIN_LOW",
+    "address": 8,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_LOW",
+      "bits": [
+       15,
+       6
+      ]
+     }
+    ],
+    "note": "10-bit code left-aligned (Table 6-18)"
+   },
+   {
+    "name": "DAC_1_VOUT_CMP_CONFIG",
+    "address": 9,
+    "width": 16,
+    "reset": 1025,
+    "fields": [
+     {
+      "name": "VOUT_GAIN",
+      "bits": [
+       12,
+       10
+      ]
+     },
+     {
+      "name": "CMP_OD_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CMP_OUT_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CMP_HIZ_IN_DIS",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CMP_INV_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CMP_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-19"
+   },
+   {
+    "name": "DAC_1_CMP_MODE_CONFIG",
+    "address": 11,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CMP_MODE",
+      "bits": [
+       11,
+       10
+      ]
+     }
+    ],
+    "note": "Table 6-20"
+   },
+   {
+    "name": "DAC_2_MARGIN_HIGH",
+    "address": 13,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_HIGH",
+      "bits": [
+       15,
+       6
+      ]
+     }
+    ],
+    "note": "10-bit code left-aligned (Table 6-17)"
+   },
+   {
+    "name": "DAC_2_MARGIN_LOW",
+    "address": 14,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_LOW",
+      "bits": [
+       15,
+       6
+      ]
+     }
+    ],
+    "note": "10-bit code left-aligned (Table 6-18)"
+   },
+   {
+    "name": "DAC_2_VOUT_CMP_CONFIG",
+    "address": 15,
+    "width": 16,
+    "reset": 1025,
+    "fields": [
+     {
+      "name": "VOUT_GAIN",
+      "bits": [
+       12,
+       10
+      ]
+     },
+     {
+      "name": "CMP_OD_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CMP_OUT_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CMP_HIZ_IN_DIS",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CMP_INV_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CMP_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-19"
+   },
+   {
+    "name": "DAC_2_CMP_MODE_CONFIG",
+    "address": 17,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CMP_MODE",
+      "bits": [
+       11,
+       10
+      ]
+     }
+    ],
+    "note": "Table 6-20"
+   },
+   {
+    "name": "DAC_3_MARGIN_HIGH",
+    "address": 19,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_HIGH",
+      "bits": [
+       15,
+       6
+      ]
+     }
+    ],
+    "note": "10-bit code left-aligned (Table 6-17)"
+   },
+   {
+    "name": "DAC_3_MARGIN_LOW",
+    "address": 20,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_LOW",
+      "bits": [
+       15,
+       6
+      ]
+     }
+    ],
+    "note": "10-bit code left-aligned (Table 6-18)"
+   },
+   {
+    "name": "DAC_3_VOUT_CMP_CONFIG",
+    "address": 21,
+    "width": 16,
+    "reset": 1025,
+    "fields": [
+     {
+      "name": "VOUT_GAIN",
+      "bits": [
+       12,
+       10
+      ]
+     },
+     {
+      "name": "CMP_OD_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CMP_OUT_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CMP_HIZ_IN_DIS",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CMP_INV_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CMP_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-19"
+   },
+   {
+    "name": "DAC_3_CMP_MODE_CONFIG",
+    "address": 23,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CMP_MODE",
+      "bits": [
+       11,
+       10
+      ]
+     }
+    ],
+    "note": "Table 6-20"
+   },
+   {
+    "name": "COMMON_CONFIG",
+    "address": 31,
+    "width": 16,
+    "reset": 4681,
+    "fields": [
+     {
+      "name": "DEV_LOCK",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "EN_INT_REF",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "VOUT_PDN_3",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "VOUT_PDN_2",
+      "bits": [
+       8,
+       7
+      ]
+     },
+     {
+      "name": "VOUT_PDN_1",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "VOUT_PDN_0",
+      "bits": [
+       2,
+       1
+      ]
+     }
+    ],
+    "note": "Table 6-21 (reset 1249h per the section header)"
+   },
+   {
+    "name": "COMMON_TRIGGER",
+    "address": 32,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DEV_UNLOCK",
+      "bits": [
+       15,
+       12
+      ]
+     },
+     {
+      "name": "RESET",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "NVM_PROG",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "NVM_RELOAD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-22: RESET = 1010b triggers a POR reset (self-resetting)"
+   },
+   {
+    "name": "COMMON_DAC_TRIG",
+    "address": 33,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "RST_CMP_FLAG_0",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "RST_CMP_FLAG_1",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "RST_CMP_FLAG_2",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "RST_CMP_FLAG_3",
+      "bits": [
+       3,
+       3
+      ]
+     }
+    ],
+    "note": "Table 6-23: write-only self-resetting trigger bits (reads 0)"
+   },
+   {
+    "name": "GENERAL_STATUS",
+    "address": 34,
+    "width": 16,
+    "reset": 108,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "NVM_CRC_FAIL_INT",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "NVM_CRC_FAIL_USER",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "DAC_3_BUSY",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "DAC_2_BUSY",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "DAC_1_BUSY",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "DAC_0_BUSY",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "NVM_BUSY",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DEVICE_ID",
+      "bits": [
+       7,
+       2
+      ]
+     },
+     {
+      "name": "VERSION_ID",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-24: DEVICE-ID 1Bh, VERSION-ID 0"
+   },
+   {
+    "name": "CMP_STATUS",
+    "address": 35,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CMP_FLAG_3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CMP_FLAG_2",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CMP_FLAG_1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CMP_FLAG_0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-25"
+   },
+   {
+    "name": "DEVICE_MODE_CONFIG",
+    "address": 37,
+    "width": 16,
+    "reset": 32832,
+    "fields": [
+     {
+      "name": "DIS_MODE_IN",
+      "bits": [
+       13,
+       13
+      ]
+     }
+    ],
+    "note": "Table 6-26"
+   },
+   {
+    "name": "INTERFACE_CONFIG",
+    "address": 38,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "TIMEOUT_EN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "FSDO_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SDO_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-27"
+   },
+   {
+    "name": "STATE_MACHINE_CONFIG0",
+    "address": 39,
+    "width": 16,
+    "reset": 3,
+    "fields": [
+     {
+      "name": "SM_ABORT",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SM_START",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SM_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-28; the section header gives reset 0003h, the field table 0 for SM-START/SM-EN (header used)"
+   },
+   {
+    "name": "SRAM_CONFIG",
+    "address": 43,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SRAM_ADDR",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-29: SRAM address, auto-increments after an SRAM write"
+   },
+   {
+    "name": "SRAM_DATA",
+    "address": 44,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SRAM_DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-30: window onto the SRAM word at SRAM_CONFIG.SRAM_ADDR (sram space below)"
+   },
+   {
+    "name": "DAC_0_DATA",
+    "space": "sram",
+    "address": 33,
+    "width": 16,
+    "reset": 32768,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       6
+      ]
+     }
+    ],
+    "note": "threshold DAC code, 10 bits left-aligned (Table 6-31, SRAM 0x21[15:6])"
+   },
+   {
+    "name": "DAC_1_DATA",
+    "space": "sram",
+    "address": 34,
+    "width": 16,
+    "reset": 32768,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       6
+      ]
+     }
+    ],
+    "note": "threshold DAC code, 10 bits left-aligned (Table 6-31, SRAM 0x22[15:6])"
+   },
+   {
+    "name": "DAC_2_DATA",
+    "space": "sram",
+    "address": 35,
+    "width": 16,
+    "reset": 32768,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       6
+      ]
+     }
+    ],
+    "note": "threshold DAC code, 10 bits left-aligned (Table 6-31, SRAM 0x23[15:6])"
+   },
+   {
+    "name": "DAC_3_DATA",
+    "space": "sram",
+    "address": 36,
+    "width": 16,
+    "reset": 32768,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       6
+      ]
+     }
+    ],
+    "note": "threshold DAC code, 10 bits left-aligned (Table 6-31, SRAM 0x24[15:6])"
+   },
+   {
+    "name": "LUT_0_DATA",
+    "space": "sram",
+    "address": 37,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset 0h)"
+   },
+   {
+    "name": "LUT_1_DATA",
+    "space": "sram",
+    "address": 38,
+    "width": 16,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset 1h)"
+   },
+   {
+    "name": "LUT_2_DATA",
+    "space": "sram",
+    "address": 39,
+    "width": 16,
+    "reset": 2,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset 2h)"
+   },
+   {
+    "name": "LUT_3_DATA",
+    "space": "sram",
+    "address": 40,
+    "width": 16,
+    "reset": 3,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset 3h)"
+   },
+   {
+    "name": "LUT_4_DATA",
+    "space": "sram",
+    "address": 41,
+    "width": 16,
+    "reset": 4,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset 4h)"
+   },
+   {
+    "name": "LUT_5_DATA",
+    "space": "sram",
+    "address": 42,
+    "width": 16,
+    "reset": 5,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset 5h)"
+   },
+   {
+    "name": "LUT_6_DATA",
+    "space": "sram",
+    "address": 43,
+    "width": 16,
+    "reset": 6,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset 6h)"
+   },
+   {
+    "name": "LUT_7_DATA",
+    "space": "sram",
+    "address": 44,
+    "width": 16,
+    "reset": 7,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset 7h)"
+   },
+   {
+    "name": "LUT_8_DATA",
+    "space": "sram",
+    "address": 45,
+    "width": 16,
+    "reset": 8,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset 8h)"
+   },
+   {
+    "name": "LUT_9_DATA",
+    "space": "sram",
+    "address": 46,
+    "width": 16,
+    "reset": 9,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset 9h)"
+   },
+   {
+    "name": "LUT_10_DATA",
+    "space": "sram",
+    "address": 47,
+    "width": 16,
+    "reset": 10,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset Ah)"
+   },
+   {
+    "name": "LUT_11_DATA",
+    "space": "sram",
+    "address": 48,
+    "width": 16,
+    "reset": 11,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset Bh)"
+   },
+   {
+    "name": "LUT_12_DATA",
+    "space": "sram",
+    "address": 49,
+    "width": 16,
+    "reset": 12,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset Ch)"
+   },
+   {
+    "name": "LUT_13_DATA",
+    "space": "sram",
+    "address": 50,
+    "width": 16,
+    "reset": 13,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset Dh)"
+   },
+   {
+    "name": "LUT_14_DATA",
+    "space": "sram",
+    "address": 51,
+    "width": 16,
+    "reset": 14,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset Eh)"
+   },
+   {
+    "name": "LUT_15_DATA",
+    "space": "sram",
+    "address": 52,
+    "width": 16,
+    "reset": 15,
+    "fields": [
+     {
+      "name": "LUT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-32 (reset Fh)"
+   },
+   {
+    "name": "LOOP_WAIT",
+    "space": "sram",
+    "address": 53,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "LOOP_REFRESH",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ],
+    "note": "Table 6-33"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "z{24}",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "COMMON-TRIGGER RESET = 1010 (POR reset)",
+     "in": "0 0100000 eeee 1010 ffffffff",
+     "action": "reset",
+     "note": "Table 6-22: RESET field 11-8 = 1010b",
+     "when": "INTERFACE_CONFIG.SDO_EN=0"
+    },
+    {
+     "name": "COMMON-TRIGGER RESET = 1010 (POR reset)",
+     "in": "0 0100000 eeee 1010 ffffffff",
+     "action": "reset",
+     "note": "Table 6-22: RESET field 11-8 = 1010b",
+     "when": "INTERFACE_CONFIG.SDO_EN=1",
+     "next": "0 0100000 eeee 1010 ffffffff"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 21h (DAC_0_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 33,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=33",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 34,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 21h (DAC_0_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 33,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=33",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 34,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 22h (DAC_1_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 34,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=34",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 35,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 22h (DAC_1_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 34,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=34",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 35,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 23h (DAC_2_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 35,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=35",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 36,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 23h (DAC_2_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 35,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=35",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 36,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 24h (DAC_3_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 36,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=36",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 37,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 24h (DAC_3_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 36,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=36",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 37,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 25h (LUT_0_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 37,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=37",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 38,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 25h (LUT_0_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 37,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=37",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 38,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 26h (LUT_1_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 38,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=38",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 39,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 26h (LUT_1_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 38,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=38",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 39,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 27h (LUT_2_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 39,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=39",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 40,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 27h (LUT_2_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 39,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=39",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 40,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 28h (LUT_3_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 40,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=40",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 41,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 28h (LUT_3_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 40,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=40",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 41,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 29h (LUT_4_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 41,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=41",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 42,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 29h (LUT_4_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 41,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=41",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 42,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 2Ah (LUT_5_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 42,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=42",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 43,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 2Ah (LUT_5_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 42,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=42",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 43,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 2Bh (LUT_6_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 43,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=43",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 44,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 2Bh (LUT_6_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 43,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=43",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 44,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 2Ch (LUT_7_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 44,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=44",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 45,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 2Ch (LUT_7_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 44,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=44",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 45,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 2Dh (LUT_8_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 45,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=45",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 46,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 2Dh (LUT_8_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 45,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=45",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 46,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 2Eh (LUT_9_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 46,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=46",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 47,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 2Eh (LUT_9_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 46,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=46",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 47,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 2Fh (LUT_10_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 47,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=47",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 48,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 2Fh (LUT_10_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 47,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=47",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 48,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 30h (LUT_11_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 48,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=48",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 49,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 30h (LUT_11_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 48,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=48",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 49,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 31h (LUT_12_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 49,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=49",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 50,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 31h (LUT_12_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 49,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=49",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 50,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 32h (LUT_13_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 50,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=50",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 51,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 32h (LUT_13_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 50,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=50",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 51,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 33h (LUT_14_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 51,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=51",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 52,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 33h (LUT_14_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 51,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=51",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 52,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 34h (LUT_15_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 52,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=52",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 53,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 34h (LUT_15_DATA)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 52,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=52",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 53,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 35h (LOOP_WAIT)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 53,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=53",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 54,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 35h (LOOP_WAIT)",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 53,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=53",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 54,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "note": "Table 6-29/6-30: the SRAM address auto-increments after a write",
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 21h (DAC_0_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 33,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=33",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 21h (DAC_0_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 33,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=33",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 22h (DAC_1_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 34,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=34",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 22h (DAC_1_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 34,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=34",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 23h (DAC_2_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 35,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=35",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 23h (DAC_2_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 35,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=35",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 24h (DAC_3_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 36,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=36",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 24h (DAC_3_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 36,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=36",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 25h (LUT_0_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 37,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=37",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 25h (LUT_0_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 37,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=37",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 26h (LUT_1_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 38,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=38",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 26h (LUT_1_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 38,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=38",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 27h (LUT_2_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 39,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=39",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 27h (LUT_2_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 39,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=39",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 28h (LUT_3_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 40,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=40",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 28h (LUT_3_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 40,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=40",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 29h (LUT_4_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 41,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=41",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 29h (LUT_4_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 41,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=41",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 2Ah (LUT_5_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 42,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=42",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 2Ah (LUT_5_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 42,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=42",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 2Bh (LUT_6_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 43,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=43",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 2Bh (LUT_6_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 43,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=43",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 2Ch (LUT_7_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 44,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=44",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 2Ch (LUT_7_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 44,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=44",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 2Dh (LUT_8_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 45,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=45",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 2Dh (LUT_8_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 45,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=45",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 2Eh (LUT_9_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 46,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=46",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 2Eh (LUT_9_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 46,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=46",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 2Fh (LUT_10_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 47,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=47",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 2Fh (LUT_10_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 47,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=47",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 30h (LUT_11_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 48,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=48",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 30h (LUT_11_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 48,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=48",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 31h (LUT_12_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 49,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=49",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 31h (LUT_12_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 49,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=49",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 32h (LUT_13_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 50,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=50",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 32h (LUT_13_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 50,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=50",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 33h (LUT_14_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 51,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=51",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 33h (LUT_14_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 51,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=51",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 34h (LUT_15_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 52,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=52",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 34h (LUT_15_DATA)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 52,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=52",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 35h (LOOP_WAIT)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 53,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=53",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 35h (LOOP_WAIT)",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 53,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=53",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "Write",
+     "in": "0 aaaaaaa d{16}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "note": "Table 6-8: R/W = 0, A[6:0], DI[15:0]; with SDO enabled the next frame echoes the command (Figure 6-9)",
+     "when": "INTERFACE_CONFIG.SDO_EN=0"
+    },
+    {
+     "name": "Write",
+     "in": "0 aaaaaaa d{16}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "note": "Table 6-8: R/W = 0, A[6:0], DI[15:0]; with SDO enabled the next frame echoes the command (Figure 6-9)",
+     "when": "INTERFACE_CONFIG.SDO_EN=1",
+     "next": "0 aaaaaaa d{16}"
+    },
+    {
+     "name": "Read",
+     "in": "1 aaaaaaa x{16}",
+     "action": "read",
+     "address": "a",
+     "note": "Table 6-8/6-9: R/W = 1; the data come out in the next frame (needs SDO_EN = 1)",
+     "when": "INTERFACE_CONFIG.SDO_EN=0"
+    },
+    {
+     "name": "Read",
+     "in": "1 aaaaaaa x{16}",
+     "action": "read",
+     "address": "a",
+     "note": "Table 6-8/6-9: R/W = 1; the data come out in the next frame (needs SDO_EN = 1)",
+     "when": "INTERFACE_CONFIG.SDO_EN=1",
+     "next": "1 aaaaaaa @"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC_0_DATA",
+    "DAC_1_DATA",
+    "DAC_2_DATA",
+    "DAC_3_DATA"
+   ],
+   "output": [
+    "DAC_0_DATA",
+    "DAC_1_DATA",
+    "DAC_2_DATA",
+    "DAC_3_DATA"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "YBH": {
+   "pinout": "ybh16",
+   "footprint": "DSBGA-16-YBH",
+   "package": "DSBGA",
+   "pins": 16
+  }
+ },
+ "pdf": "dac539e4w.pdf",
+ "pages": "p.3-4 (pinout), p.5 (abs max, ROC), p.10-12 (SPI timing), p.22-24 (interface, NVM, reset), p.29-30 (SPI frame), p.33-34 (I2C), p.35-45 (register map)",
+ "notModeled": [
+  "the analog side: threshold DACs, comparators (hysteresis, inversion, open-drain OUTx), gain/reference selection, internal reference and VOUT power-down (registers stored only; OUTx never driven, CMP_STATUS stays 0)",
+  "standalone mode (MODE pin high): the LUT state machine mapping comparator states to GPO0-GPO3 and LOOP-WAIT delay; the model is the programming mode (MODE low) register interface only, with GPO0-GPO3 as the interface pins",
+  "I2C programming interface (auto-detected at the first transaction after power-on; A0 strap to 0x48 AGND, 0x49 VDD, 0x4A SDA, 0x4B SCL per Table 6-12; broadcast 1000111): SPI is modeled because it reads back registers (4-wire with SDO_EN = 1)",
+  "SDO (GPO3) is open-drain with an external pullup; the model drives it push-pull",
+  "FSDO = 1 (SDO changes on SCLK falling edges): the model always shifts SDO as in FSDO = 0",
+  "frames longer than 24 bits (3-wire mode uses the first 24 bits) and frames shorter than 24 bits (ignored)",
+  "SRAM access through SRAM_CONFIG/SRAM_DATA is modeled only for the documented SRAM words (21h-35h, one command per word, auto-increment after writes); at any other SRAM_ADDR a write or read of 2Ch reaches the plain SRAM_DATA register",
+  "the DAC-x-DATA codes are 16-bit SRAM words with the 10-bit code left-aligned in [15:6] (the register figures put DAC-x-DATA[9:0] in bits 15-4, Table 7-4 on p.49 in 0x21[15:6]; [15:6] used, also for MARGIN-HIGH/LOW); reset 8000h (mid scale)",
+  "NVM (NVM_PROG/NVM_RELOAD, NVM_BUSY, CRC flags) and the NVM-loaded power-on values (datasheet resets used)",
+  "DEV_LOCK / DEV_UNLOCK register locking; RESERVED bits 'always write 0/1' are stored as written",
+  "COMMON-DAC-TRIG latching-comparator flag resets (write-only trigger bits, read as 0)",
+  "STATE-MACHINE-CONFIG0 reset: header 0003h used (the field table lists 0 for SM-START and SM-EN)",
+  "I2C timeout (TIMEOUT_EN), DAC busy flags and SPI read clock limits (1.25/2.5 MHz)"
+ ],
+ "variants": "DAC539E4W is the only device in dac539e4w.pdf; the orderable part is DAC539E4YBHR (W = WCSP/DSBGA naming); the same smart-DAC register interface as DAC43901/DAC53004 (own files)",
+ "parts": [
+  [
+   "DAC539E4YBHR",
+   "YBH",
+   16,
+   "Active"
+  ]
+ ]
+}

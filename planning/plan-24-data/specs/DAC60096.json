@@ -1,0 +1,10291 @@
+{
+ "device": {
+  "id": "DAC60096",
+  "function": "DAC",
+  "description": "96-channel 12-bit +/-10.5 V unbuffered-output DAC with SPI, LDAC, CLEAR and toggle (TRIGG) inputs",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac60096.pdf (SBAS721A) p.3 ball map, p.4-5 pin functions, p.6 recommended operating conditions, p.10-11 timing requirements (Figures 1-2), p.19 DAC data format (Table 1, twos complement), p.20 DAC register structure, p.22 toggle / DC mode, p.23-24 programming (Table 2, Figures 35-38), p.25-30 register map (Tables 3-11)",
+  "pinouts": {
+   "zeb196": [
+    {
+     "ball": "A1",
+     "name": "DAC13_G1",
+     "role": "output"
+    },
+    {
+     "ball": "A2",
+     "name": "DAC12_G1",
+     "role": "output"
+    },
+    {
+     "ball": "A3",
+     "name": "DAC11_G1",
+     "role": "output"
+    },
+    {
+     "ball": "A4",
+     "name": "DAC10_G1",
+     "role": "output"
+    },
+    {
+     "ball": "A5",
+     "name": "DAC16_G2",
+     "role": "output"
+    },
+    {
+     "ball": "A6",
+     "name": "DAC15_G2",
+     "role": "output"
+    },
+    {
+     "ball": "A7",
+     "name": "DAC14_G2",
+     "role": "output"
+    },
+    {
+     "ball": "A8",
+     "name": "DAC13_G3",
+     "role": "output"
+    },
+    {
+     "ball": "A9",
+     "name": "DAC12_G3",
+     "role": "output"
+    },
+    {
+     "ball": "A10",
+     "name": "DAC11_G3",
+     "role": "output"
+    },
+    {
+     "ball": "A11",
+     "name": "DAC10_G3",
+     "role": "output"
+    },
+    {
+     "ball": "A12",
+     "name": "DAC16_G4",
+     "role": "output"
+    },
+    {
+     "ball": "A13",
+     "name": "DAC15_G4",
+     "role": "output"
+    },
+    {
+     "ball": "A14",
+     "name": "DAC14_G4",
+     "role": "output"
+    },
+    {
+     "ball": "B1",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "B2",
+     "name": "DAC9_G1",
+     "role": "output"
+    },
+    {
+     "ball": "B3",
+     "name": "DAC8_G1",
+     "role": "output"
+    },
+    {
+     "ball": "B4",
+     "name": "DAC7_G1",
+     "role": "output"
+    },
+    {
+     "ball": "B5",
+     "name": "DAC17_G2",
+     "role": "output"
+    },
+    {
+     "ball": "B6",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "B7",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "B8",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "B9",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "B10",
+     "name": "DAC9_G3",
+     "role": "output"
+    },
+    {
+     "ball": "B11",
+     "name": "DAC8_G3",
+     "role": "output"
+    },
+    {
+     "ball": "B12",
+     "name": "DAC18_G4",
+     "role": "output"
+    },
+    {
+     "ball": "B13",
+     "name": "DAC17_G4",
+     "role": "output"
+    },
+    {
+     "ball": "B14",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "C1",
+     "name": "VREFL",
+     "role": "nc"
+    },
+    {
+     "ball": "C2",
+     "name": "DAC6_G1",
+     "role": "output"
+    },
+    {
+     "ball": "C3",
+     "name": "DAC18_G2",
+     "role": "output"
+    },
+    {
+     "ball": "C4",
+     "name": "DAC19_G2",
+     "role": "output"
+    },
+    {
+     "ball": "C5",
+     "name": "DAC20_G2",
+     "role": "output"
+    },
+    {
+     "ball": "C6",
+     "name": "VREFL",
+     "role": "nc"
+    },
+    {
+     "ball": "C7",
+     "name": "VREFL",
+     "role": "nc"
+    },
+    {
+     "ball": "C8",
+     "name": "VREFL",
+     "role": "nc"
+    },
+    {
+     "ball": "C9",
+     "name": "VREFL",
+     "role": "nc"
+    },
+    {
+     "ball": "C10",
+     "name": "DAC7_G3",
+     "role": "output"
+    },
+    {
+     "ball": "C11",
+     "name": "DAC6_G3",
+     "role": "output"
+    },
+    {
+     "ball": "C12",
+     "name": "DAC19_G4",
+     "role": "output"
+    },
+    {
+     "ball": "C13",
+     "name": "DAC20_G4",
+     "role": "output"
+    },
+    {
+     "ball": "C14",
+     "name": "VREFL",
+     "role": "nc"
+    },
+    {
+     "ball": "D1",
+     "name": "VREFH",
+     "role": "nc"
+    },
+    {
+     "ball": "D2",
+     "name": "DAC5_G1",
+     "role": "output"
+    },
+    {
+     "ball": "D3",
+     "name": "DAC3_G1",
+     "role": "output"
+    },
+    {
+     "ball": "D4",
+     "name": "DAC23_G2",
+     "role": "output"
+    },
+    {
+     "ball": "D5",
+     "name": "DAC21_G2",
+     "role": "output"
+    },
+    {
+     "ball": "D6",
+     "name": "VREFH",
+     "role": "nc"
+    },
+    {
+     "ball": "D7",
+     "name": "VREFH",
+     "role": "nc"
+    },
+    {
+     "ball": "D8",
+     "name": "VREFH",
+     "role": "nc"
+    },
+    {
+     "ball": "D9",
+     "name": "VREFH",
+     "role": "nc"
+    },
+    {
+     "ball": "D10",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "D11",
+     "name": "DAC5_G3",
+     "role": "output"
+    },
+    {
+     "ball": "D12",
+     "name": "DAC23_G4",
+     "role": "output"
+    },
+    {
+     "ball": "D13",
+     "name": "DAC21_G4",
+     "role": "output"
+    },
+    {
+     "ball": "D14",
+     "name": "VREFH",
+     "role": "nc"
+    },
+    {
+     "ball": "E1",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "E2",
+     "name": "DAC4_G1",
+     "role": "output"
+    },
+    {
+     "ball": "E3",
+     "name": "DAC2_G1",
+     "role": "output"
+    },
+    {
+     "ball": "E4",
+     "name": "DAC1_G1",
+     "role": "output"
+    },
+    {
+     "ball": "E5",
+     "name": "DAC22_G2",
+     "role": "output"
+    },
+    {
+     "ball": "E6",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "E7",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "E8",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "E9",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "E10",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "E11",
+     "name": "DAC24_G2",
+     "role": "output"
+    },
+    {
+     "ball": "E12",
+     "name": "DAC4_G3",
+     "role": "output"
+    },
+    {
+     "ball": "E13",
+     "name": "DAC22_G4",
+     "role": "output"
+    },
+    {
+     "ball": "E14",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "F1",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "F2",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "F3",
+     "name": "STATS",
+     "role": "output"
+    },
+    {
+     "ball": "F4",
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "ball": "F5",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "F6",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "F7",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "F8",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "F9",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "F10",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "F11",
+     "name": "DNC",
+     "role": "nc"
+    },
+    {
+     "ball": "F12",
+     "name": "DAC3_G3",
+     "role": "output"
+    },
+    {
+     "ball": "F13",
+     "name": "DAC24_G4",
+     "role": "output"
+    },
+    {
+     "ball": "F14",
+     "name": "DNC",
+     "role": "nc"
+    },
+    {
+     "ball": "G1",
+     "name": "REF1",
+     "role": "power"
+    },
+    {
+     "ball": "G2",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "G3",
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "ball": "G4",
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "ball": "G5",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "G6",
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "ball": "G7",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "G8",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "G9",
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "ball": "G10",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "G11",
+     "name": "DNC",
+     "role": "nc"
+    },
+    {
+     "ball": "G12",
+     "name": "DAC1_G3",
+     "role": "output"
+    },
+    {
+     "ball": "G13",
+     "name": "DAC2_G3",
+     "role": "output"
+    },
+    {
+     "ball": "G14",
+     "name": "REF2",
+     "role": "power"
+    },
+    {
+     "ball": "H1",
+     "name": "REFGND1",
+     "role": "ground"
+    },
+    {
+     "ball": "H2",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "H3",
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "ball": "H4",
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "ball": "H5",
+     "name": "CLEAR",
+     "role": "input"
+    },
+    {
+     "ball": "H6",
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "ball": "H7",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "H8",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "H9",
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "ball": "H10",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "H11",
+     "name": "DNC",
+     "role": "nc"
+    },
+    {
+     "ball": "H12",
+     "name": "DAC4_G5",
+     "role": "output"
+    },
+    {
+     "ball": "H13",
+     "name": "DAC3_G5",
+     "role": "output"
+    },
+    {
+     "ball": "H14",
+     "name": "REFGND2",
+     "role": "ground"
+    },
+    {
+     "ball": "J1",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "J2",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "J3",
+     "name": "TRIGG",
+     "role": "input"
+    },
+    {
+     "ball": "J4",
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "ball": "J5",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "J6",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "J7",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "J8",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "J9",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "J10",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "J11",
+     "name": "DNC",
+     "role": "nc"
+    },
+    {
+     "ball": "J12",
+     "name": "DAC24_G6",
+     "role": "output"
+    },
+    {
+     "ball": "J13",
+     "name": "DAC5_G5",
+     "role": "output"
+    },
+    {
+     "ball": "J14",
+     "name": "DNC",
+     "role": "nc"
+    },
+    {
+     "ball": "K1",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "K2",
+     "name": "DAC23_G8",
+     "role": "output"
+    },
+    {
+     "ball": "K3",
+     "name": "DAC26_G8",
+     "role": "output"
+    },
+    {
+     "ball": "K4",
+     "name": "DAC2_G7",
+     "role": "output"
+    },
+    {
+     "ball": "K5",
+     "name": "DAC3_G7",
+     "role": "output"
+    },
+    {
+     "ball": "K6",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "K7",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "K8",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "K9",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "K10",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "K11",
+     "name": "DAC1_G7",
+     "role": "output"
+    },
+    {
+     "ball": "K12",
+     "name": "DAC23_G6",
+     "role": "output"
+    },
+    {
+     "ball": "K13",
+     "name": "DAC6_G5",
+     "role": "output"
+    },
+    {
+     "ball": "K14",
+     "name": "AVCC",
+     "role": "power"
+    },
+    {
+     "ball": "L1",
+     "name": "VREFH",
+     "role": "nc"
+    },
+    {
+     "ball": "L2",
+     "name": "DAC22_G8",
+     "role": "output"
+    },
+    {
+     "ball": "L3",
+     "name": "DAC24_G8",
+     "role": "output"
+    },
+    {
+     "ball": "L4",
+     "name": "DAC25_G8",
+     "role": "output"
+    },
+    {
+     "ball": "L5",
+     "name": "DAC4_G7",
+     "role": "output"
+    },
+    {
+     "ball": "L6",
+     "name": "VREFH",
+     "role": "nc"
+    },
+    {
+     "ball": "L7",
+     "name": "VREFH",
+     "role": "nc"
+    },
+    {
+     "ball": "L8",
+     "name": "VREFH",
+     "role": "nc"
+    },
+    {
+     "ball": "L9",
+     "name": "VREFH",
+     "role": "nc"
+    },
+    {
+     "ball": "L10",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "L11",
+     "name": "DAC22_G6",
+     "role": "output"
+    },
+    {
+     "ball": "L12",
+     "name": "DAC21_G6",
+     "role": "output"
+    },
+    {
+     "ball": "L13",
+     "name": "DAC7_G5",
+     "role": "output"
+    },
+    {
+     "ball": "L14",
+     "name": "VREFH",
+     "role": "nc"
+    },
+    {
+     "ball": "M1",
+     "name": "VREFL",
+     "role": "nc"
+    },
+    {
+     "ball": "M2",
+     "name": "DAC20_G8",
+     "role": "output"
+    },
+    {
+     "ball": "M3",
+     "name": "DAC19_G8",
+     "role": "output"
+    },
+    {
+     "ball": "M4",
+     "name": "DAC21_G8",
+     "role": "output"
+    },
+    {
+     "ball": "M5",
+     "name": "DAC6_G7",
+     "role": "output"
+    },
+    {
+     "ball": "M6",
+     "name": "VREFL",
+     "role": "nc"
+    },
+    {
+     "ball": "M7",
+     "name": "VREFL",
+     "role": "nc"
+    },
+    {
+     "ball": "M8",
+     "name": "VREFL",
+     "role": "nc"
+    },
+    {
+     "ball": "M9",
+     "name": "VREFL",
+     "role": "nc"
+    },
+    {
+     "ball": "M10",
+     "name": "DAC5_G7",
+     "role": "output"
+    },
+    {
+     "ball": "M11",
+     "name": "DAC20_G6",
+     "role": "output"
+    },
+    {
+     "ball": "M12",
+     "name": "DAC9_G5",
+     "role": "output"
+    },
+    {
+     "ball": "M13",
+     "name": "DAC8_G5",
+     "role": "output"
+    },
+    {
+     "ball": "M14",
+     "name": "VREFL",
+     "role": "nc"
+    },
+    {
+     "ball": "N1",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "N2",
+     "name": "DAC18_G8",
+     "role": "output"
+    },
+    {
+     "ball": "N3",
+     "name": "DAC17_G8",
+     "role": "output"
+    },
+    {
+     "ball": "N4",
+     "name": "DAC8_G7",
+     "role": "output"
+    },
+    {
+     "ball": "N5",
+     "name": "DAC9_G7",
+     "role": "output"
+    },
+    {
+     "ball": "N6",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "N7",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "N8",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "N9",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "N10",
+     "name": "DAC7_G7",
+     "role": "output"
+    },
+    {
+     "ball": "N11",
+     "name": "DAC18_G6",
+     "role": "output"
+    },
+    {
+     "ball": "N12",
+     "name": "DAC19_G6",
+     "role": "output"
+    },
+    {
+     "ball": "N13",
+     "name": "DAC10_G5",
+     "role": "output"
+    },
+    {
+     "ball": "N14",
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "ball": "P1",
+     "name": "DAC14_G8",
+     "role": "output"
+    },
+    {
+     "ball": "P2",
+     "name": "DAC15_G8",
+     "role": "output"
+    },
+    {
+     "ball": "P3",
+     "name": "DAC16_G8",
+     "role": "output"
+    },
+    {
+     "ball": "P4",
+     "name": "DAC10_G7",
+     "role": "output"
+    },
+    {
+     "ball": "P5",
+     "name": "DAC11_G7",
+     "role": "output"
+    },
+    {
+     "ball": "P6",
+     "name": "DAC12_G7",
+     "role": "output"
+    },
+    {
+     "ball": "P7",
+     "name": "DAC13_G7",
+     "role": "output"
+    },
+    {
+     "ball": "P8",
+     "name": "DAC14_G6",
+     "role": "output"
+    },
+    {
+     "ball": "P9",
+     "name": "DAC15_G6",
+     "role": "output"
+    },
+    {
+     "ball": "P10",
+     "name": "DAC16_G6",
+     "role": "output"
+    },
+    {
+     "ball": "P11",
+     "name": "DAC17_G6",
+     "role": "output"
+    },
+    {
+     "ball": "P12",
+     "name": "DAC11_G5",
+     "role": "output"
+    },
+    {
+     "ball": "P13",
+     "name": "DAC12_G5",
+     "role": "output"
+    },
+    {
+     "ball": "P14",
+     "name": "DAC13_G5",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 96,
+  "vcc": [
+   3.0,
+   5.5
+  ],
+  "analog": [
+   "DAC1_G1",
+   "DAC2_G1",
+   "DAC3_G1",
+   "DAC4_G1",
+   "DAC5_G1",
+   "DAC6_G1",
+   "DAC7_G1",
+   "DAC8_G1",
+   "DAC9_G1",
+   "DAC10_G1",
+   "DAC11_G1",
+   "DAC12_G1",
+   "DAC13_G1",
+   "DAC14_G2",
+   "DAC15_G2",
+   "DAC16_G2",
+   "DAC17_G2",
+   "DAC18_G2",
+   "DAC19_G2",
+   "DAC20_G2",
+   "DAC21_G2",
+   "DAC22_G2",
+   "DAC23_G2",
+   "DAC24_G2",
+   "DAC1_G3",
+   "DAC2_G3",
+   "DAC3_G3",
+   "DAC4_G3",
+   "DAC5_G3",
+   "DAC6_G3",
+   "DAC7_G3",
+   "DAC8_G3",
+   "DAC9_G3",
+   "DAC10_G3",
+   "DAC11_G3",
+   "DAC12_G3",
+   "DAC13_G3",
+   "DAC14_G4",
+   "DAC15_G4",
+   "DAC16_G4",
+   "DAC17_G4",
+   "DAC18_G4",
+   "DAC19_G4",
+   "DAC20_G4",
+   "DAC21_G4",
+   "DAC22_G4",
+   "DAC23_G4",
+   "DAC24_G4",
+   "DAC3_G5",
+   "DAC4_G5",
+   "DAC5_G5",
+   "DAC6_G5",
+   "DAC7_G5",
+   "DAC8_G5",
+   "DAC9_G5",
+   "DAC10_G5",
+   "DAC11_G5",
+   "DAC12_G5",
+   "DAC13_G5",
+   "DAC14_G6",
+   "DAC15_G6",
+   "DAC16_G6",
+   "DAC17_G6",
+   "DAC18_G6",
+   "DAC19_G6",
+   "DAC20_G6",
+   "DAC21_G6",
+   "DAC22_G6",
+   "DAC23_G6",
+   "DAC24_G6",
+   "DAC1_G7",
+   "DAC2_G7",
+   "DAC3_G7",
+   "DAC4_G7",
+   "DAC5_G7",
+   "DAC6_G7",
+   "DAC7_G7",
+   "DAC8_G7",
+   "DAC9_G7",
+   "DAC10_G7",
+   "DAC11_G7",
+   "DAC12_G7",
+   "DAC13_G7",
+   "DAC14_G8",
+   "DAC15_G8",
+   "DAC16_G8",
+   "DAC17_G8",
+   "DAC18_G8",
+   "DAC19_G8",
+   "DAC20_G8",
+   "DAC21_G8",
+   "DAC22_G8",
+   "DAC23_G8",
+   "DAC24_G8",
+   "DAC25_G8",
+   "DAC26_G8",
+   "AVSS",
+   "AVCC",
+   "VREFL",
+   "VREFH",
+   "REF1",
+   "REF2"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 20,
+   "tOut": 20,
+   "tFloat": 20
+  },
+  "registers": [
+   {
+    "name": "BUFA_1_00",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 0: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_01",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 1: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_02",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 2: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_03",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 3: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_04",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 4: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_05",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 5: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_06",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 6: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_07",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 7: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_08",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 8: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_09",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 9: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_10",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 10: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_11",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 11: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_12",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 12: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_13",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 13: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_14",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 14: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_15",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 15: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_16",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 16: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_17",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 17: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_18",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 18: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_19",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 19: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_20",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 20: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_21",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 21: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_22",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 22: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_1_23",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 DAC pointer 23: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_00",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 0: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_01",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 1: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_02",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 2: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_03",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 3: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_04",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 4: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_05",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 5: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_06",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 6: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_07",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 7: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_08",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 8: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_09",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 9: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_10",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 10: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_11",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 11: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_12",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 12: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_13",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 13: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_14",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 14: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_15",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 15: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_16",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 16: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_17",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 17: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_18",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 18: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_19",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 19: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_20",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 20: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_21",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 21: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_22",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 22: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_2_23",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 DAC pointer 23: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_00",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 0: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_01",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 1: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_02",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 2: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_03",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 3: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_04",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 4: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_05",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 5: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_06",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 6: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_07",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 7: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_08",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 8: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_09",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 9: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_10",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 10: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_11",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 11: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_12",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 12: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_13",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 13: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_14",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 14: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_15",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 15: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_16",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 16: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_17",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 17: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_18",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 18: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_19",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 19: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_20",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 20: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_21",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 21: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_22",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 22: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_3_23",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 DAC pointer 23: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_00",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 0: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_01",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 1: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_02",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 2: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_03",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 3: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_04",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 4: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_05",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 5: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_06",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 6: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_07",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 7: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_08",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 8: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_09",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 9: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_10",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 10: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_11",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 11: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_12",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 12: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_13",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 13: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_14",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 14: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_15",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 15: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_16",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 16: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_17",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 17: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_18",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 18: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_19",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 19: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_20",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 20: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_21",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 21: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_22",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 22: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "BUFA_4_23",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 DAC pointer 23: DAC buffer register A (BUFA bits 15:4)"
+   },
+   {
+    "name": "ACTA_1_00",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_01",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_02",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_03",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_04",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_05",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_06",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_07",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_08",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_09",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_10",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_11",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_12",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_13",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_14",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_15",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_16",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_17",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_18",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_19",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_20",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_21",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_22",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_1_23",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_00",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_01",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_02",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_03",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_04",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_05",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_06",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_07",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_08",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_09",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_10",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_11",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_12",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_13",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_14",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_15",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_16",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_17",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_18",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_19",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_20",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_21",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_22",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_2_23",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_00",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_01",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_02",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_03",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_04",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_05",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_06",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_07",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_08",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_09",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_10",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_11",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_12",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_13",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_14",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_15",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_16",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_17",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_18",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_19",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_20",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_21",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_22",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_3_23",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_00",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_01",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_02",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_03",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_04",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_05",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_06",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_07",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_08",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_09",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_10",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_11",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_12",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_13",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_14",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_15",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_16",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_17",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_18",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_19",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_20",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_21",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_22",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "ACTA_4_23",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "active register A"
+   },
+   {
+    "name": "BUFB_1_00",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_01",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_02",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_03",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_04",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_05",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_06",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_07",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_08",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_09",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_10",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_11",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_12",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_13",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_14",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_15",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_16",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_17",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_18",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_19",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_20",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_21",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_22",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_1_23",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_00",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_01",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_02",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_03",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_04",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_05",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_06",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_07",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_08",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_09",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_10",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_11",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_12",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_13",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_14",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_15",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_16",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_17",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_18",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_19",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_20",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_21",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_22",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_2_23",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_00",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_01",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_02",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_03",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_04",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_05",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_06",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_07",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_08",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_09",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_10",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_11",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_12",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_13",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_14",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_15",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_16",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_17",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_18",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_19",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_20",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_21",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_22",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_3_23",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_00",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_01",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_02",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_03",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_04",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_05",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_06",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_07",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_08",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_09",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_10",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_11",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_12",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_13",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_14",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_15",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_16",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_17",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_18",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_19",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_20",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_21",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_22",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "BUFB_4_23",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "DAC buffer register B (BUFB bits 15:4), toggle mode"
+   },
+   {
+    "name": "CON_1",
+    "width": 16,
+    "reset": 1365,
+    "readOnly": 32768,
+    "fields": [
+     {
+      "name": "LDAC",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SDO2X",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "SDRV",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "PHAINV",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "CLRDAC",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "APB",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 1 CON (address 0x4); LDAC self-clears (reads 0)"
+   },
+   {
+    "name": "CRC_1",
+    "width": 16,
+    "reset": 65535,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CRC",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "CRC (address 0x5), read only; CRC computation not modeled"
+   },
+   {
+    "name": "SWR_1",
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SWR",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "SWR (address 0x7): writing 0xA5A5 resets; reads the hardware version (value not given, 0 used)"
+   },
+   {
+    "name": "PWRM_1",
+    "width": 16,
+    "reset": 51966,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "PWRM",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "PWRM (address 0x8): 0xCAFE after power up, any write sets 0xABBA"
+   },
+   {
+    "name": "SDIV_1",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SDIV",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "SDIV (address 0x9)"
+   },
+   {
+    "name": "CON_2",
+    "width": 16,
+    "reset": 1365,
+    "readOnly": 32768,
+    "fields": [
+     {
+      "name": "LDAC",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SDO2X",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "SDRV",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "PHAINV",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "CLRDAC",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "APB",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 2 CON (address 0x4); LDAC self-clears (reads 0)"
+   },
+   {
+    "name": "CRC_2",
+    "width": 16,
+    "reset": 65535,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CRC",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "CRC (address 0x5), read only; CRC computation not modeled"
+   },
+   {
+    "name": "SWR_2",
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SWR",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "SWR (address 0x7): writing 0xA5A5 resets; reads the hardware version (value not given, 0 used)"
+   },
+   {
+    "name": "PWRM_2",
+    "width": 16,
+    "reset": 51966,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "PWRM",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "PWRM (address 0x8): 0xCAFE after power up, any write sets 0xABBA"
+   },
+   {
+    "name": "SDIV_2",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SDIV",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "SDIV (address 0x9)"
+   },
+   {
+    "name": "CON_3",
+    "width": 16,
+    "reset": 1365,
+    "readOnly": 32768,
+    "fields": [
+     {
+      "name": "LDAC",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SDO2X",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "SDRV",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "PHAINV",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "CLRDAC",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "APB",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 3 CON (address 0x4); LDAC self-clears (reads 0)"
+   },
+   {
+    "name": "CRC_3",
+    "width": 16,
+    "reset": 65535,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CRC",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "CRC (address 0x5), read only; CRC computation not modeled"
+   },
+   {
+    "name": "SWR_3",
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SWR",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "SWR (address 0x7): writing 0xA5A5 resets; reads the hardware version (value not given, 0 used)"
+   },
+   {
+    "name": "PWRM_3",
+    "width": 16,
+    "reset": 51966,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "PWRM",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "PWRM (address 0x8): 0xCAFE after power up, any write sets 0xABBA"
+   },
+   {
+    "name": "SDIV_3",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SDIV",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "SDIV (address 0x9)"
+   },
+   {
+    "name": "CON_4",
+    "width": 16,
+    "reset": 1365,
+    "readOnly": 32768,
+    "fields": [
+     {
+      "name": "LDAC",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SDO2X",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "SDRV",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "PHAINV",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "CLRDAC",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "APB",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "subsystem 4 CON (address 0x4); LDAC self-clears (reads 0)"
+   },
+   {
+    "name": "CRC_4",
+    "width": 16,
+    "reset": 65535,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CRC",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "CRC (address 0x5), read only; CRC computation not modeled"
+   },
+   {
+    "name": "SWR_4",
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SWR",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "SWR (address 0x7): writing 0xA5A5 resets; reads the hardware version (value not given, 0 used)"
+   },
+   {
+    "name": "PWRM_4",
+    "width": 16,
+    "reset": 51966,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "PWRM",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "PWRM (address 0x8): 0xCAFE after power up, any write sets 0xABBA"
+   },
+   {
+    "name": "SDIV_4",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SDIV",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "SDIV (address 0x9)"
+   },
+   {
+    "name": "PTR",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SID",
+      "bits": [
+       13,
+       12
+      ]
+     },
+     {
+      "name": "DPTR",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ],
+    "note": "global pointer register (address 0x6): subsystem and DAC pointer"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "WRITE BUFA s1 p0",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=0"
+     ],
+     "action": "write",
+     "channel": 0,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p0",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=0"
+     ],
+     "reply": "[BUFA_1_00] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p0",
+     "in": "0 0 0001 xx [BUFB_1_00] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=0"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p0",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=0"
+     ],
+     "reply": "[BUFB_1_00] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p1",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=1"
+     ],
+     "action": "write",
+     "channel": 1,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p1",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=1"
+     ],
+     "reply": "[BUFA_1_01] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p1",
+     "in": "0 0 0001 xx [BUFB_1_01] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=1"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p1",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=1"
+     ],
+     "reply": "[BUFB_1_01] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p2",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=2"
+     ],
+     "action": "write",
+     "channel": 2,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p2",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=2"
+     ],
+     "reply": "[BUFA_1_02] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p2",
+     "in": "0 0 0001 xx [BUFB_1_02] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=2"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p2",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=2"
+     ],
+     "reply": "[BUFB_1_02] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p3",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=3"
+     ],
+     "action": "write",
+     "channel": 3,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p3",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=3"
+     ],
+     "reply": "[BUFA_1_03] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p3",
+     "in": "0 0 0001 xx [BUFB_1_03] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=3"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p3",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=3"
+     ],
+     "reply": "[BUFB_1_03] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p4",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=4"
+     ],
+     "action": "write",
+     "channel": 4,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p4",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=4"
+     ],
+     "reply": "[BUFA_1_04] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p4",
+     "in": "0 0 0001 xx [BUFB_1_04] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=4"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p4",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=4"
+     ],
+     "reply": "[BUFB_1_04] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p5",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=5"
+     ],
+     "action": "write",
+     "channel": 5,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p5",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=5"
+     ],
+     "reply": "[BUFA_1_05] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p5",
+     "in": "0 0 0001 xx [BUFB_1_05] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=5"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p5",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=5"
+     ],
+     "reply": "[BUFB_1_05] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p6",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=6"
+     ],
+     "action": "write",
+     "channel": 6,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p6",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=6"
+     ],
+     "reply": "[BUFA_1_06] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p6",
+     "in": "0 0 0001 xx [BUFB_1_06] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=6"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p6",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=6"
+     ],
+     "reply": "[BUFB_1_06] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p7",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=7"
+     ],
+     "action": "write",
+     "channel": 7,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p7",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=7"
+     ],
+     "reply": "[BUFA_1_07] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p7",
+     "in": "0 0 0001 xx [BUFB_1_07] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=7"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p7",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=7"
+     ],
+     "reply": "[BUFB_1_07] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p8",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=8"
+     ],
+     "action": "write",
+     "channel": 8,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p8",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=8"
+     ],
+     "reply": "[BUFA_1_08] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p8",
+     "in": "0 0 0001 xx [BUFB_1_08] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=8"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p8",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=8"
+     ],
+     "reply": "[BUFB_1_08] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p9",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=9"
+     ],
+     "action": "write",
+     "channel": 9,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p9",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=9"
+     ],
+     "reply": "[BUFA_1_09] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p9",
+     "in": "0 0 0001 xx [BUFB_1_09] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=9"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p9",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=9"
+     ],
+     "reply": "[BUFB_1_09] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p10",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=10"
+     ],
+     "action": "write",
+     "channel": 10,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p10",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=10"
+     ],
+     "reply": "[BUFA_1_10] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p10",
+     "in": "0 0 0001 xx [BUFB_1_10] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=10"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p10",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=10"
+     ],
+     "reply": "[BUFB_1_10] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p11",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=11"
+     ],
+     "action": "write",
+     "channel": 11,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p11",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=11"
+     ],
+     "reply": "[BUFA_1_11] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p11",
+     "in": "0 0 0001 xx [BUFB_1_11] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=11"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p11",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=11"
+     ],
+     "reply": "[BUFB_1_11] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p12",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=12"
+     ],
+     "action": "write",
+     "channel": 12,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p12",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=12"
+     ],
+     "reply": "[BUFA_1_12] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p12",
+     "in": "0 0 0001 xx [BUFB_1_12] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=12"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p12",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=12"
+     ],
+     "reply": "[BUFB_1_12] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p13",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=13"
+     ],
+     "action": "write",
+     "channel": 13,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p13",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=13"
+     ],
+     "reply": "[BUFA_1_13] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p13",
+     "in": "0 0 0001 xx [BUFB_1_13] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=13"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p13",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=13"
+     ],
+     "reply": "[BUFB_1_13] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p14",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=14"
+     ],
+     "action": "write",
+     "channel": 14,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p14",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=14"
+     ],
+     "reply": "[BUFA_1_14] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p14",
+     "in": "0 0 0001 xx [BUFB_1_14] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=14"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p14",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=14"
+     ],
+     "reply": "[BUFB_1_14] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p15",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=15"
+     ],
+     "action": "write",
+     "channel": 15,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p15",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=15"
+     ],
+     "reply": "[BUFA_1_15] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p15",
+     "in": "0 0 0001 xx [BUFB_1_15] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=15"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p15",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=15"
+     ],
+     "reply": "[BUFB_1_15] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p16",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=16"
+     ],
+     "action": "write",
+     "channel": 16,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p16",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=16"
+     ],
+     "reply": "[BUFA_1_16] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p16",
+     "in": "0 0 0001 xx [BUFB_1_16] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=16"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p16",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=16"
+     ],
+     "reply": "[BUFB_1_16] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p17",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=17"
+     ],
+     "action": "write",
+     "channel": 17,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p17",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=17"
+     ],
+     "reply": "[BUFA_1_17] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p17",
+     "in": "0 0 0001 xx [BUFB_1_17] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=17"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p17",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=17"
+     ],
+     "reply": "[BUFB_1_17] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p18",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=18"
+     ],
+     "action": "write",
+     "channel": 18,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p18",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=18"
+     ],
+     "reply": "[BUFA_1_18] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p18",
+     "in": "0 0 0001 xx [BUFB_1_18] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=18"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p18",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=18"
+     ],
+     "reply": "[BUFB_1_18] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p19",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=19"
+     ],
+     "action": "write",
+     "channel": 19,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p19",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=19"
+     ],
+     "reply": "[BUFA_1_19] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p19",
+     "in": "0 0 0001 xx [BUFB_1_19] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=19"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p19",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=19"
+     ],
+     "reply": "[BUFB_1_19] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p20",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=20"
+     ],
+     "action": "write",
+     "channel": 20,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p20",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=20"
+     ],
+     "reply": "[BUFA_1_20] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p20",
+     "in": "0 0 0001 xx [BUFB_1_20] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=20"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p20",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=20"
+     ],
+     "reply": "[BUFB_1_20] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p21",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=21"
+     ],
+     "action": "write",
+     "channel": 21,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p21",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=21"
+     ],
+     "reply": "[BUFA_1_21] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p21",
+     "in": "0 0 0001 xx [BUFB_1_21] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=21"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p21",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=21"
+     ],
+     "reply": "[BUFB_1_21] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p22",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=22"
+     ],
+     "action": "write",
+     "channel": 22,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p22",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=22"
+     ],
+     "reply": "[BUFA_1_22] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p22",
+     "in": "0 0 0001 xx [BUFB_1_22] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=22"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p22",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=22"
+     ],
+     "reply": "[BUFB_1_22] 0000"
+    },
+    {
+     "name": "WRITE BUFA s1 p23",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=23"
+     ],
+     "action": "write",
+     "channel": 23,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s1 p23",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=23"
+     ],
+     "reply": "[BUFA_1_23] 0000"
+    },
+    {
+     "name": "WRITE BUFB s1 p23",
+     "in": "0 0 0001 xx [BUFB_1_23] xxxx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=23"
+     ]
+    },
+    {
+     "name": "READ BUFB s1 p23",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=0",
+      "PTR.DPTR=23"
+     ],
+     "reply": "[BUFB_1_23] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p0",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=0"
+     ],
+     "action": "write",
+     "channel": 24,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p0",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=0"
+     ],
+     "reply": "[BUFA_2_00] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p0",
+     "in": "0 0 0001 xx [BUFB_2_00] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=0"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p0",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=0"
+     ],
+     "reply": "[BUFB_2_00] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p1",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=1"
+     ],
+     "action": "write",
+     "channel": 25,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p1",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=1"
+     ],
+     "reply": "[BUFA_2_01] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p1",
+     "in": "0 0 0001 xx [BUFB_2_01] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=1"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p1",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=1"
+     ],
+     "reply": "[BUFB_2_01] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p2",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=2"
+     ],
+     "action": "write",
+     "channel": 26,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p2",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=2"
+     ],
+     "reply": "[BUFA_2_02] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p2",
+     "in": "0 0 0001 xx [BUFB_2_02] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=2"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p2",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=2"
+     ],
+     "reply": "[BUFB_2_02] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p3",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=3"
+     ],
+     "action": "write",
+     "channel": 27,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p3",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=3"
+     ],
+     "reply": "[BUFA_2_03] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p3",
+     "in": "0 0 0001 xx [BUFB_2_03] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=3"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p3",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=3"
+     ],
+     "reply": "[BUFB_2_03] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p4",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=4"
+     ],
+     "action": "write",
+     "channel": 28,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p4",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=4"
+     ],
+     "reply": "[BUFA_2_04] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p4",
+     "in": "0 0 0001 xx [BUFB_2_04] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=4"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p4",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=4"
+     ],
+     "reply": "[BUFB_2_04] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p5",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=5"
+     ],
+     "action": "write",
+     "channel": 29,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p5",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=5"
+     ],
+     "reply": "[BUFA_2_05] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p5",
+     "in": "0 0 0001 xx [BUFB_2_05] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=5"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p5",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=5"
+     ],
+     "reply": "[BUFB_2_05] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p6",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=6"
+     ],
+     "action": "write",
+     "channel": 30,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p6",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=6"
+     ],
+     "reply": "[BUFA_2_06] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p6",
+     "in": "0 0 0001 xx [BUFB_2_06] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=6"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p6",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=6"
+     ],
+     "reply": "[BUFB_2_06] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p7",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=7"
+     ],
+     "action": "write",
+     "channel": 31,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p7",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=7"
+     ],
+     "reply": "[BUFA_2_07] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p7",
+     "in": "0 0 0001 xx [BUFB_2_07] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=7"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p7",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=7"
+     ],
+     "reply": "[BUFB_2_07] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p8",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=8"
+     ],
+     "action": "write",
+     "channel": 32,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p8",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=8"
+     ],
+     "reply": "[BUFA_2_08] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p8",
+     "in": "0 0 0001 xx [BUFB_2_08] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=8"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p8",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=8"
+     ],
+     "reply": "[BUFB_2_08] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p9",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=9"
+     ],
+     "action": "write",
+     "channel": 33,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p9",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=9"
+     ],
+     "reply": "[BUFA_2_09] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p9",
+     "in": "0 0 0001 xx [BUFB_2_09] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=9"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p9",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=9"
+     ],
+     "reply": "[BUFB_2_09] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p10",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=10"
+     ],
+     "action": "write",
+     "channel": 34,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p10",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=10"
+     ],
+     "reply": "[BUFA_2_10] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p10",
+     "in": "0 0 0001 xx [BUFB_2_10] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=10"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p10",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=10"
+     ],
+     "reply": "[BUFB_2_10] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p11",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=11"
+     ],
+     "action": "write",
+     "channel": 35,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p11",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=11"
+     ],
+     "reply": "[BUFA_2_11] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p11",
+     "in": "0 0 0001 xx [BUFB_2_11] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=11"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p11",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=11"
+     ],
+     "reply": "[BUFB_2_11] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p12",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=12"
+     ],
+     "action": "write",
+     "channel": 36,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p12",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=12"
+     ],
+     "reply": "[BUFA_2_12] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p12",
+     "in": "0 0 0001 xx [BUFB_2_12] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=12"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p12",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=12"
+     ],
+     "reply": "[BUFB_2_12] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p13",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=13"
+     ],
+     "action": "write",
+     "channel": 37,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p13",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=13"
+     ],
+     "reply": "[BUFA_2_13] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p13",
+     "in": "0 0 0001 xx [BUFB_2_13] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=13"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p13",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=13"
+     ],
+     "reply": "[BUFB_2_13] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p14",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=14"
+     ],
+     "action": "write",
+     "channel": 38,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p14",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=14"
+     ],
+     "reply": "[BUFA_2_14] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p14",
+     "in": "0 0 0001 xx [BUFB_2_14] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=14"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p14",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=14"
+     ],
+     "reply": "[BUFB_2_14] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p15",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=15"
+     ],
+     "action": "write",
+     "channel": 39,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p15",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=15"
+     ],
+     "reply": "[BUFA_2_15] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p15",
+     "in": "0 0 0001 xx [BUFB_2_15] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=15"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p15",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=15"
+     ],
+     "reply": "[BUFB_2_15] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p16",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=16"
+     ],
+     "action": "write",
+     "channel": 40,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p16",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=16"
+     ],
+     "reply": "[BUFA_2_16] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p16",
+     "in": "0 0 0001 xx [BUFB_2_16] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=16"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p16",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=16"
+     ],
+     "reply": "[BUFB_2_16] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p17",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=17"
+     ],
+     "action": "write",
+     "channel": 41,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p17",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=17"
+     ],
+     "reply": "[BUFA_2_17] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p17",
+     "in": "0 0 0001 xx [BUFB_2_17] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=17"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p17",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=17"
+     ],
+     "reply": "[BUFB_2_17] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p18",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=18"
+     ],
+     "action": "write",
+     "channel": 42,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p18",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=18"
+     ],
+     "reply": "[BUFA_2_18] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p18",
+     "in": "0 0 0001 xx [BUFB_2_18] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=18"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p18",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=18"
+     ],
+     "reply": "[BUFB_2_18] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p19",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=19"
+     ],
+     "action": "write",
+     "channel": 43,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p19",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=19"
+     ],
+     "reply": "[BUFA_2_19] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p19",
+     "in": "0 0 0001 xx [BUFB_2_19] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=19"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p19",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=19"
+     ],
+     "reply": "[BUFB_2_19] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p20",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=20"
+     ],
+     "action": "write",
+     "channel": 44,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p20",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=20"
+     ],
+     "reply": "[BUFA_2_20] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p20",
+     "in": "0 0 0001 xx [BUFB_2_20] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=20"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p20",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=20"
+     ],
+     "reply": "[BUFB_2_20] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p21",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=21"
+     ],
+     "action": "write",
+     "channel": 45,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p21",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=21"
+     ],
+     "reply": "[BUFA_2_21] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p21",
+     "in": "0 0 0001 xx [BUFB_2_21] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=21"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p21",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=21"
+     ],
+     "reply": "[BUFB_2_21] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p22",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=22"
+     ],
+     "action": "write",
+     "channel": 46,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p22",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=22"
+     ],
+     "reply": "[BUFA_2_22] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p22",
+     "in": "0 0 0001 xx [BUFB_2_22] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=22"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p22",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=22"
+     ],
+     "reply": "[BUFB_2_22] 0000"
+    },
+    {
+     "name": "WRITE BUFA s2 p23",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=23"
+     ],
+     "action": "write",
+     "channel": 47,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s2 p23",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=23"
+     ],
+     "reply": "[BUFA_2_23] 0000"
+    },
+    {
+     "name": "WRITE BUFB s2 p23",
+     "in": "0 0 0001 xx [BUFB_2_23] xxxx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=23"
+     ]
+    },
+    {
+     "name": "READ BUFB s2 p23",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=1",
+      "PTR.DPTR=23"
+     ],
+     "reply": "[BUFB_2_23] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p0",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=0"
+     ],
+     "action": "write",
+     "channel": 48,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p0",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=0"
+     ],
+     "reply": "[BUFA_3_00] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p0",
+     "in": "0 0 0001 xx [BUFB_3_00] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=0"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p0",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=0"
+     ],
+     "reply": "[BUFB_3_00] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p1",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=1"
+     ],
+     "action": "write",
+     "channel": 49,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p1",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=1"
+     ],
+     "reply": "[BUFA_3_01] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p1",
+     "in": "0 0 0001 xx [BUFB_3_01] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=1"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p1",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=1"
+     ],
+     "reply": "[BUFB_3_01] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p2",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=2"
+     ],
+     "action": "write",
+     "channel": 50,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p2",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=2"
+     ],
+     "reply": "[BUFA_3_02] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p2",
+     "in": "0 0 0001 xx [BUFB_3_02] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=2"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p2",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=2"
+     ],
+     "reply": "[BUFB_3_02] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p3",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=3"
+     ],
+     "action": "write",
+     "channel": 51,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p3",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=3"
+     ],
+     "reply": "[BUFA_3_03] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p3",
+     "in": "0 0 0001 xx [BUFB_3_03] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=3"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p3",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=3"
+     ],
+     "reply": "[BUFB_3_03] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p4",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=4"
+     ],
+     "action": "write",
+     "channel": 52,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p4",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=4"
+     ],
+     "reply": "[BUFA_3_04] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p4",
+     "in": "0 0 0001 xx [BUFB_3_04] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=4"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p4",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=4"
+     ],
+     "reply": "[BUFB_3_04] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p5",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=5"
+     ],
+     "action": "write",
+     "channel": 53,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p5",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=5"
+     ],
+     "reply": "[BUFA_3_05] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p5",
+     "in": "0 0 0001 xx [BUFB_3_05] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=5"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p5",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=5"
+     ],
+     "reply": "[BUFB_3_05] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p6",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=6"
+     ],
+     "action": "write",
+     "channel": 54,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p6",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=6"
+     ],
+     "reply": "[BUFA_3_06] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p6",
+     "in": "0 0 0001 xx [BUFB_3_06] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=6"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p6",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=6"
+     ],
+     "reply": "[BUFB_3_06] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p7",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=7"
+     ],
+     "action": "write",
+     "channel": 55,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p7",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=7"
+     ],
+     "reply": "[BUFA_3_07] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p7",
+     "in": "0 0 0001 xx [BUFB_3_07] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=7"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p7",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=7"
+     ],
+     "reply": "[BUFB_3_07] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p8",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=8"
+     ],
+     "action": "write",
+     "channel": 56,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p8",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=8"
+     ],
+     "reply": "[BUFA_3_08] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p8",
+     "in": "0 0 0001 xx [BUFB_3_08] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=8"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p8",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=8"
+     ],
+     "reply": "[BUFB_3_08] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p9",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=9"
+     ],
+     "action": "write",
+     "channel": 57,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p9",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=9"
+     ],
+     "reply": "[BUFA_3_09] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p9",
+     "in": "0 0 0001 xx [BUFB_3_09] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=9"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p9",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=9"
+     ],
+     "reply": "[BUFB_3_09] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p10",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=10"
+     ],
+     "action": "write",
+     "channel": 58,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p10",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=10"
+     ],
+     "reply": "[BUFA_3_10] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p10",
+     "in": "0 0 0001 xx [BUFB_3_10] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=10"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p10",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=10"
+     ],
+     "reply": "[BUFB_3_10] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p11",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=11"
+     ],
+     "action": "write",
+     "channel": 59,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p11",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=11"
+     ],
+     "reply": "[BUFA_3_11] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p11",
+     "in": "0 0 0001 xx [BUFB_3_11] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=11"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p11",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=11"
+     ],
+     "reply": "[BUFB_3_11] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p12",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=12"
+     ],
+     "action": "write",
+     "channel": 60,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p12",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=12"
+     ],
+     "reply": "[BUFA_3_12] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p12",
+     "in": "0 0 0001 xx [BUFB_3_12] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=12"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p12",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=12"
+     ],
+     "reply": "[BUFB_3_12] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p13",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=13"
+     ],
+     "action": "write",
+     "channel": 61,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p13",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=13"
+     ],
+     "reply": "[BUFA_3_13] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p13",
+     "in": "0 0 0001 xx [BUFB_3_13] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=13"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p13",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=13"
+     ],
+     "reply": "[BUFB_3_13] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p14",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=14"
+     ],
+     "action": "write",
+     "channel": 62,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p14",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=14"
+     ],
+     "reply": "[BUFA_3_14] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p14",
+     "in": "0 0 0001 xx [BUFB_3_14] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=14"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p14",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=14"
+     ],
+     "reply": "[BUFB_3_14] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p15",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=15"
+     ],
+     "action": "write",
+     "channel": 63,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p15",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=15"
+     ],
+     "reply": "[BUFA_3_15] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p15",
+     "in": "0 0 0001 xx [BUFB_3_15] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=15"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p15",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=15"
+     ],
+     "reply": "[BUFB_3_15] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p16",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=16"
+     ],
+     "action": "write",
+     "channel": 64,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p16",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=16"
+     ],
+     "reply": "[BUFA_3_16] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p16",
+     "in": "0 0 0001 xx [BUFB_3_16] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=16"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p16",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=16"
+     ],
+     "reply": "[BUFB_3_16] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p17",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=17"
+     ],
+     "action": "write",
+     "channel": 65,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p17",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=17"
+     ],
+     "reply": "[BUFA_3_17] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p17",
+     "in": "0 0 0001 xx [BUFB_3_17] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=17"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p17",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=17"
+     ],
+     "reply": "[BUFB_3_17] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p18",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=18"
+     ],
+     "action": "write",
+     "channel": 66,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p18",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=18"
+     ],
+     "reply": "[BUFA_3_18] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p18",
+     "in": "0 0 0001 xx [BUFB_3_18] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=18"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p18",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=18"
+     ],
+     "reply": "[BUFB_3_18] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p19",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=19"
+     ],
+     "action": "write",
+     "channel": 67,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p19",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=19"
+     ],
+     "reply": "[BUFA_3_19] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p19",
+     "in": "0 0 0001 xx [BUFB_3_19] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=19"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p19",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=19"
+     ],
+     "reply": "[BUFB_3_19] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p20",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=20"
+     ],
+     "action": "write",
+     "channel": 68,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p20",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=20"
+     ],
+     "reply": "[BUFA_3_20] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p20",
+     "in": "0 0 0001 xx [BUFB_3_20] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=20"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p20",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=20"
+     ],
+     "reply": "[BUFB_3_20] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p21",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=21"
+     ],
+     "action": "write",
+     "channel": 69,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p21",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=21"
+     ],
+     "reply": "[BUFA_3_21] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p21",
+     "in": "0 0 0001 xx [BUFB_3_21] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=21"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p21",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=21"
+     ],
+     "reply": "[BUFB_3_21] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p22",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=22"
+     ],
+     "action": "write",
+     "channel": 70,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p22",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=22"
+     ],
+     "reply": "[BUFA_3_22] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p22",
+     "in": "0 0 0001 xx [BUFB_3_22] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=22"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p22",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=22"
+     ],
+     "reply": "[BUFB_3_22] 0000"
+    },
+    {
+     "name": "WRITE BUFA s3 p23",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=23"
+     ],
+     "action": "write",
+     "channel": 71,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s3 p23",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=23"
+     ],
+     "reply": "[BUFA_3_23] 0000"
+    },
+    {
+     "name": "WRITE BUFB s3 p23",
+     "in": "0 0 0001 xx [BUFB_3_23] xxxx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=23"
+     ]
+    },
+    {
+     "name": "READ BUFB s3 p23",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=2",
+      "PTR.DPTR=23"
+     ],
+     "reply": "[BUFB_3_23] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p0",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=0"
+     ],
+     "action": "write",
+     "channel": 72,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p0",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=0"
+     ],
+     "reply": "[BUFA_4_00] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p0",
+     "in": "0 0 0001 xx [BUFB_4_00] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=0"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p0",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=0"
+     ],
+     "reply": "[BUFB_4_00] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p1",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=1"
+     ],
+     "action": "write",
+     "channel": 73,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p1",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=1"
+     ],
+     "reply": "[BUFA_4_01] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p1",
+     "in": "0 0 0001 xx [BUFB_4_01] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=1"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p1",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=1"
+     ],
+     "reply": "[BUFB_4_01] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p2",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=2"
+     ],
+     "action": "write",
+     "channel": 74,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p2",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=2"
+     ],
+     "reply": "[BUFA_4_02] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p2",
+     "in": "0 0 0001 xx [BUFB_4_02] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=2"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p2",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=2"
+     ],
+     "reply": "[BUFB_4_02] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p3",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=3"
+     ],
+     "action": "write",
+     "channel": 75,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p3",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=3"
+     ],
+     "reply": "[BUFA_4_03] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p3",
+     "in": "0 0 0001 xx [BUFB_4_03] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=3"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p3",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=3"
+     ],
+     "reply": "[BUFB_4_03] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p4",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=4"
+     ],
+     "action": "write",
+     "channel": 76,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p4",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=4"
+     ],
+     "reply": "[BUFA_4_04] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p4",
+     "in": "0 0 0001 xx [BUFB_4_04] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=4"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p4",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=4"
+     ],
+     "reply": "[BUFB_4_04] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p5",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=5"
+     ],
+     "action": "write",
+     "channel": 77,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p5",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=5"
+     ],
+     "reply": "[BUFA_4_05] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p5",
+     "in": "0 0 0001 xx [BUFB_4_05] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=5"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p5",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=5"
+     ],
+     "reply": "[BUFB_4_05] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p6",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=6"
+     ],
+     "action": "write",
+     "channel": 78,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p6",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=6"
+     ],
+     "reply": "[BUFA_4_06] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p6",
+     "in": "0 0 0001 xx [BUFB_4_06] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=6"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p6",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=6"
+     ],
+     "reply": "[BUFB_4_06] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p7",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=7"
+     ],
+     "action": "write",
+     "channel": 79,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p7",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=7"
+     ],
+     "reply": "[BUFA_4_07] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p7",
+     "in": "0 0 0001 xx [BUFB_4_07] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=7"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p7",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=7"
+     ],
+     "reply": "[BUFB_4_07] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p8",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=8"
+     ],
+     "action": "write",
+     "channel": 80,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p8",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=8"
+     ],
+     "reply": "[BUFA_4_08] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p8",
+     "in": "0 0 0001 xx [BUFB_4_08] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=8"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p8",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=8"
+     ],
+     "reply": "[BUFB_4_08] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p9",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=9"
+     ],
+     "action": "write",
+     "channel": 81,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p9",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=9"
+     ],
+     "reply": "[BUFA_4_09] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p9",
+     "in": "0 0 0001 xx [BUFB_4_09] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=9"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p9",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=9"
+     ],
+     "reply": "[BUFB_4_09] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p10",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=10"
+     ],
+     "action": "write",
+     "channel": 82,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p10",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=10"
+     ],
+     "reply": "[BUFA_4_10] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p10",
+     "in": "0 0 0001 xx [BUFB_4_10] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=10"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p10",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=10"
+     ],
+     "reply": "[BUFB_4_10] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p11",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=11"
+     ],
+     "action": "write",
+     "channel": 83,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p11",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=11"
+     ],
+     "reply": "[BUFA_4_11] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p11",
+     "in": "0 0 0001 xx [BUFB_4_11] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=11"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p11",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=11"
+     ],
+     "reply": "[BUFB_4_11] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p12",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=12"
+     ],
+     "action": "write",
+     "channel": 84,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p12",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=12"
+     ],
+     "reply": "[BUFA_4_12] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p12",
+     "in": "0 0 0001 xx [BUFB_4_12] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=12"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p12",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=12"
+     ],
+     "reply": "[BUFB_4_12] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p13",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=13"
+     ],
+     "action": "write",
+     "channel": 85,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p13",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=13"
+     ],
+     "reply": "[BUFA_4_13] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p13",
+     "in": "0 0 0001 xx [BUFB_4_13] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=13"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p13",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=13"
+     ],
+     "reply": "[BUFB_4_13] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p14",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=14"
+     ],
+     "action": "write",
+     "channel": 86,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p14",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=14"
+     ],
+     "reply": "[BUFA_4_14] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p14",
+     "in": "0 0 0001 xx [BUFB_4_14] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=14"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p14",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=14"
+     ],
+     "reply": "[BUFB_4_14] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p15",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=15"
+     ],
+     "action": "write",
+     "channel": 87,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p15",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=15"
+     ],
+     "reply": "[BUFA_4_15] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p15",
+     "in": "0 0 0001 xx [BUFB_4_15] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=15"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p15",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=15"
+     ],
+     "reply": "[BUFB_4_15] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p16",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=16"
+     ],
+     "action": "write",
+     "channel": 88,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p16",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=16"
+     ],
+     "reply": "[BUFA_4_16] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p16",
+     "in": "0 0 0001 xx [BUFB_4_16] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=16"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p16",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=16"
+     ],
+     "reply": "[BUFB_4_16] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p17",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=17"
+     ],
+     "action": "write",
+     "channel": 89,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p17",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=17"
+     ],
+     "reply": "[BUFA_4_17] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p17",
+     "in": "0 0 0001 xx [BUFB_4_17] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=17"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p17",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=17"
+     ],
+     "reply": "[BUFB_4_17] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p18",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=18"
+     ],
+     "action": "write",
+     "channel": 90,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p18",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=18"
+     ],
+     "reply": "[BUFA_4_18] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p18",
+     "in": "0 0 0001 xx [BUFB_4_18] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=18"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p18",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=18"
+     ],
+     "reply": "[BUFB_4_18] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p19",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=19"
+     ],
+     "action": "write",
+     "channel": 91,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p19",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=19"
+     ],
+     "reply": "[BUFA_4_19] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p19",
+     "in": "0 0 0001 xx [BUFB_4_19] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=19"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p19",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=19"
+     ],
+     "reply": "[BUFB_4_19] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p20",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=20"
+     ],
+     "action": "write",
+     "channel": 92,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p20",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=20"
+     ],
+     "reply": "[BUFA_4_20] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p20",
+     "in": "0 0 0001 xx [BUFB_4_20] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=20"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p20",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=20"
+     ],
+     "reply": "[BUFB_4_20] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p21",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=21"
+     ],
+     "action": "write",
+     "channel": 93,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p21",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=21"
+     ],
+     "reply": "[BUFA_4_21] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p21",
+     "in": "0 0 0001 xx [BUFB_4_21] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=21"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p21",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=21"
+     ],
+     "reply": "[BUFB_4_21] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p22",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=22"
+     ],
+     "action": "write",
+     "channel": 94,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p22",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=22"
+     ],
+     "reply": "[BUFA_4_22] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p22",
+     "in": "0 0 0001 xx [BUFB_4_22] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=22"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p22",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=22"
+     ],
+     "reply": "[BUFB_4_22] 0000"
+    },
+    {
+     "name": "WRITE BUFA s4 p23",
+     "in": "0 0 0000 xx d{12} xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=23"
+     ],
+     "action": "write",
+     "channel": 95,
+     "data": "d"
+    },
+    {
+     "name": "READ BUFA s4 p23",
+     "in": "1 0 0000 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=23"
+     ],
+     "reply": "[BUFA_4_23] 0000"
+    },
+    {
+     "name": "WRITE BUFB s4 p23",
+     "in": "0 0 0001 xx [BUFB_4_23] xxxx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=23"
+     ]
+    },
+    {
+     "name": "READ BUFB s4 p23",
+     "in": "1 0 0001 xx",
+     "when": [
+      "PTR.SID=3",
+      "PTR.DPTR=23"
+     ],
+     "reply": "[BUFB_4_23] 0000"
+    },
+    {
+     "name": "WRITE CON s1 with LDAC",
+     "in": "0 0 0100 xx 1 [CON_1:14:0]",
+     "when": "PTR.SID=0",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "note": "LDAC = 1 issues an LDAC trigger at CS rising (the model updates every DAC, not only this subsystem)"
+    },
+    {
+     "name": "WRITE CON s1",
+     "in": "0 0 0100 xx [CON_1]",
+     "when": "PTR.SID=0"
+    },
+    {
+     "name": "READ CON s1",
+     "in": "1 0 0100 xx",
+     "when": "PTR.SID=0",
+     "reply": "[CON_1]"
+    },
+    {
+     "name": "READ CRC s1",
+     "in": "1 0 0101 xx",
+     "when": "PTR.SID=0",
+     "reply": "[CRC_1]"
+    },
+    {
+     "name": "SOFTWARE RESET s1",
+     "in": "0 0 0111 xx 1010010110100101",
+     "when": "PTR.SID=0",
+     "action": "reset",
+     "commit": "end",
+     "note": "resets the selected subsystem at CS rising; the model resets the whole device"
+    },
+    {
+     "name": "READ SWR s1",
+     "in": "1 0 0111 xx",
+     "when": "PTR.SID=0",
+     "reply": "[SWR_1]"
+    },
+    {
+     "name": "WRITE PWRM s1",
+     "in": "0 0 1000 xx x{16}",
+     "when": "PTR.SID=0",
+     "set": {
+      "PWRM_1.PWRM": 43962
+     }
+    },
+    {
+     "name": "READ PWRM s1",
+     "in": "1 0 1000 xx",
+     "when": "PTR.SID=0",
+     "reply": "[PWRM_1]"
+    },
+    {
+     "name": "WRITE SDIV s1",
+     "in": "0 0 1001 xx [SDIV_1]",
+     "when": "PTR.SID=0"
+    },
+    {
+     "name": "READ SDIV s1",
+     "in": "1 0 1001 xx",
+     "when": "PTR.SID=0",
+     "reply": "[SDIV_1]"
+    },
+    {
+     "name": "WRITE CON s2 with LDAC",
+     "in": "0 0 0100 xx 1 [CON_2:14:0]",
+     "when": "PTR.SID=1",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "note": "LDAC = 1 issues an LDAC trigger at CS rising (the model updates every DAC, not only this subsystem)"
+    },
+    {
+     "name": "WRITE CON s2",
+     "in": "0 0 0100 xx [CON_2]",
+     "when": "PTR.SID=1"
+    },
+    {
+     "name": "READ CON s2",
+     "in": "1 0 0100 xx",
+     "when": "PTR.SID=1",
+     "reply": "[CON_2]"
+    },
+    {
+     "name": "READ CRC s2",
+     "in": "1 0 0101 xx",
+     "when": "PTR.SID=1",
+     "reply": "[CRC_2]"
+    },
+    {
+     "name": "SOFTWARE RESET s2",
+     "in": "0 0 0111 xx 1010010110100101",
+     "when": "PTR.SID=1",
+     "action": "reset",
+     "commit": "end",
+     "note": "resets the selected subsystem at CS rising; the model resets the whole device"
+    },
+    {
+     "name": "READ SWR s2",
+     "in": "1 0 0111 xx",
+     "when": "PTR.SID=1",
+     "reply": "[SWR_2]"
+    },
+    {
+     "name": "WRITE PWRM s2",
+     "in": "0 0 1000 xx x{16}",
+     "when": "PTR.SID=1",
+     "set": {
+      "PWRM_2.PWRM": 43962
+     }
+    },
+    {
+     "name": "READ PWRM s2",
+     "in": "1 0 1000 xx",
+     "when": "PTR.SID=1",
+     "reply": "[PWRM_2]"
+    },
+    {
+     "name": "WRITE SDIV s2",
+     "in": "0 0 1001 xx [SDIV_2]",
+     "when": "PTR.SID=1"
+    },
+    {
+     "name": "READ SDIV s2",
+     "in": "1 0 1001 xx",
+     "when": "PTR.SID=1",
+     "reply": "[SDIV_2]"
+    },
+    {
+     "name": "WRITE CON s3 with LDAC",
+     "in": "0 0 0100 xx 1 [CON_3:14:0]",
+     "when": "PTR.SID=2",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "note": "LDAC = 1 issues an LDAC trigger at CS rising (the model updates every DAC, not only this subsystem)"
+    },
+    {
+     "name": "WRITE CON s3",
+     "in": "0 0 0100 xx [CON_3]",
+     "when": "PTR.SID=2"
+    },
+    {
+     "name": "READ CON s3",
+     "in": "1 0 0100 xx",
+     "when": "PTR.SID=2",
+     "reply": "[CON_3]"
+    },
+    {
+     "name": "READ CRC s3",
+     "in": "1 0 0101 xx",
+     "when": "PTR.SID=2",
+     "reply": "[CRC_3]"
+    },
+    {
+     "name": "SOFTWARE RESET s3",
+     "in": "0 0 0111 xx 1010010110100101",
+     "when": "PTR.SID=2",
+     "action": "reset",
+     "commit": "end",
+     "note": "resets the selected subsystem at CS rising; the model resets the whole device"
+    },
+    {
+     "name": "READ SWR s3",
+     "in": "1 0 0111 xx",
+     "when": "PTR.SID=2",
+     "reply": "[SWR_3]"
+    },
+    {
+     "name": "WRITE PWRM s3",
+     "in": "0 0 1000 xx x{16}",
+     "when": "PTR.SID=2",
+     "set": {
+      "PWRM_3.PWRM": 43962
+     }
+    },
+    {
+     "name": "READ PWRM s3",
+     "in": "1 0 1000 xx",
+     "when": "PTR.SID=2",
+     "reply": "[PWRM_3]"
+    },
+    {
+     "name": "WRITE SDIV s3",
+     "in": "0 0 1001 xx [SDIV_3]",
+     "when": "PTR.SID=2"
+    },
+    {
+     "name": "READ SDIV s3",
+     "in": "1 0 1001 xx",
+     "when": "PTR.SID=2",
+     "reply": "[SDIV_3]"
+    },
+    {
+     "name": "WRITE CON s4 with LDAC",
+     "in": "0 0 0100 xx 1 [CON_4:14:0]",
+     "when": "PTR.SID=3",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "note": "LDAC = 1 issues an LDAC trigger at CS rising (the model updates every DAC, not only this subsystem)"
+    },
+    {
+     "name": "WRITE CON s4",
+     "in": "0 0 0100 xx [CON_4]",
+     "when": "PTR.SID=3"
+    },
+    {
+     "name": "READ CON s4",
+     "in": "1 0 0100 xx",
+     "when": "PTR.SID=3",
+     "reply": "[CON_4]"
+    },
+    {
+     "name": "READ CRC s4",
+     "in": "1 0 0101 xx",
+     "when": "PTR.SID=3",
+     "reply": "[CRC_4]"
+    },
+    {
+     "name": "SOFTWARE RESET s4",
+     "in": "0 0 0111 xx 1010010110100101",
+     "when": "PTR.SID=3",
+     "action": "reset",
+     "commit": "end",
+     "note": "resets the selected subsystem at CS rising; the model resets the whole device"
+    },
+    {
+     "name": "READ SWR s4",
+     "in": "1 0 0111 xx",
+     "when": "PTR.SID=3",
+     "reply": "[SWR_4]"
+    },
+    {
+     "name": "WRITE PWRM s4",
+     "in": "0 0 1000 xx x{16}",
+     "when": "PTR.SID=3",
+     "set": {
+      "PWRM_4.PWRM": 43962
+     }
+    },
+    {
+     "name": "READ PWRM s4",
+     "in": "1 0 1000 xx",
+     "when": "PTR.SID=3",
+     "reply": "[PWRM_4]"
+    },
+    {
+     "name": "WRITE SDIV s4",
+     "in": "0 0 1001 xx [SDIV_4]",
+     "when": "PTR.SID=3"
+    },
+    {
+     "name": "READ SDIV s4",
+     "in": "1 0 1001 xx",
+     "when": "PTR.SID=3",
+     "reply": "[SDIV_4]"
+    },
+    {
+     "name": "WRITE PTR",
+     "in": "0 0 0110 xx [PTR]"
+    },
+    {
+     "name": "READ PTR",
+     "in": "1 0 0110 xx",
+     "reply": "[PTR]"
+    }
+   ],
+   "note": "24-bit frame: R/W, S, A3..A0, 2 reserved bits, D15..D0. Every register except PTR belongs to the subsystem PTR.SID selects; BUFA/BUFB to the DAC PTR.DPTR selects (commands gated with when)"
+  },
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0
+   },
+   "clear": {
+    "pin": "CLEAR",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "BUFA_1_00",
+    "BUFA_1_01",
+    "BUFA_1_02",
+    "BUFA_1_03",
+    "BUFA_1_04",
+    "BUFA_1_05",
+    "BUFA_1_06",
+    "BUFA_1_07",
+    "BUFA_1_08",
+    "BUFA_1_09",
+    "BUFA_1_10",
+    "BUFA_1_11",
+    "BUFA_1_12",
+    "BUFA_1_13",
+    "BUFA_1_14",
+    "BUFA_1_15",
+    "BUFA_1_16",
+    "BUFA_1_17",
+    "BUFA_1_18",
+    "BUFA_1_19",
+    "BUFA_1_20",
+    "BUFA_1_21",
+    "BUFA_1_22",
+    "BUFA_1_23",
+    "BUFA_2_00",
+    "BUFA_2_01",
+    "BUFA_2_02",
+    "BUFA_2_03",
+    "BUFA_2_04",
+    "BUFA_2_05",
+    "BUFA_2_06",
+    "BUFA_2_07",
+    "BUFA_2_08",
+    "BUFA_2_09",
+    "BUFA_2_10",
+    "BUFA_2_11",
+    "BUFA_2_12",
+    "BUFA_2_13",
+    "BUFA_2_14",
+    "BUFA_2_15",
+    "BUFA_2_16",
+    "BUFA_2_17",
+    "BUFA_2_18",
+    "BUFA_2_19",
+    "BUFA_2_20",
+    "BUFA_2_21",
+    "BUFA_2_22",
+    "BUFA_2_23",
+    "BUFA_3_00",
+    "BUFA_3_01",
+    "BUFA_3_02",
+    "BUFA_3_03",
+    "BUFA_3_04",
+    "BUFA_3_05",
+    "BUFA_3_06",
+    "BUFA_3_07",
+    "BUFA_3_08",
+    "BUFA_3_09",
+    "BUFA_3_10",
+    "BUFA_3_11",
+    "BUFA_3_12",
+    "BUFA_3_13",
+    "BUFA_3_14",
+    "BUFA_3_15",
+    "BUFA_3_16",
+    "BUFA_3_17",
+    "BUFA_3_18",
+    "BUFA_3_19",
+    "BUFA_3_20",
+    "BUFA_3_21",
+    "BUFA_3_22",
+    "BUFA_3_23",
+    "BUFA_4_00",
+    "BUFA_4_01",
+    "BUFA_4_02",
+    "BUFA_4_03",
+    "BUFA_4_04",
+    "BUFA_4_05",
+    "BUFA_4_06",
+    "BUFA_4_07",
+    "BUFA_4_08",
+    "BUFA_4_09",
+    "BUFA_4_10",
+    "BUFA_4_11",
+    "BUFA_4_12",
+    "BUFA_4_13",
+    "BUFA_4_14",
+    "BUFA_4_15",
+    "BUFA_4_16",
+    "BUFA_4_17",
+    "BUFA_4_18",
+    "BUFA_4_19",
+    "BUFA_4_20",
+    "BUFA_4_21",
+    "BUFA_4_22",
+    "BUFA_4_23"
+   ],
+   "output": [
+    "ACTA_1_00",
+    "ACTA_1_01",
+    "ACTA_1_02",
+    "ACTA_1_03",
+    "ACTA_1_04",
+    "ACTA_1_05",
+    "ACTA_1_06",
+    "ACTA_1_07",
+    "ACTA_1_08",
+    "ACTA_1_09",
+    "ACTA_1_10",
+    "ACTA_1_11",
+    "ACTA_1_12",
+    "ACTA_1_13",
+    "ACTA_1_14",
+    "ACTA_1_15",
+    "ACTA_1_16",
+    "ACTA_1_17",
+    "ACTA_1_18",
+    "ACTA_1_19",
+    "ACTA_1_20",
+    "ACTA_1_21",
+    "ACTA_1_22",
+    "ACTA_1_23",
+    "ACTA_2_00",
+    "ACTA_2_01",
+    "ACTA_2_02",
+    "ACTA_2_03",
+    "ACTA_2_04",
+    "ACTA_2_05",
+    "ACTA_2_06",
+    "ACTA_2_07",
+    "ACTA_2_08",
+    "ACTA_2_09",
+    "ACTA_2_10",
+    "ACTA_2_11",
+    "ACTA_2_12",
+    "ACTA_2_13",
+    "ACTA_2_14",
+    "ACTA_2_15",
+    "ACTA_2_16",
+    "ACTA_2_17",
+    "ACTA_2_18",
+    "ACTA_2_19",
+    "ACTA_2_20",
+    "ACTA_2_21",
+    "ACTA_2_22",
+    "ACTA_2_23",
+    "ACTA_3_00",
+    "ACTA_3_01",
+    "ACTA_3_02",
+    "ACTA_3_03",
+    "ACTA_3_04",
+    "ACTA_3_05",
+    "ACTA_3_06",
+    "ACTA_3_07",
+    "ACTA_3_08",
+    "ACTA_3_09",
+    "ACTA_3_10",
+    "ACTA_3_11",
+    "ACTA_3_12",
+    "ACTA_3_13",
+    "ACTA_3_14",
+    "ACTA_3_15",
+    "ACTA_3_16",
+    "ACTA_3_17",
+    "ACTA_3_18",
+    "ACTA_3_19",
+    "ACTA_3_20",
+    "ACTA_3_21",
+    "ACTA_3_22",
+    "ACTA_3_23",
+    "ACTA_4_00",
+    "ACTA_4_01",
+    "ACTA_4_02",
+    "ACTA_4_03",
+    "ACTA_4_04",
+    "ACTA_4_05",
+    "ACTA_4_06",
+    "ACTA_4_07",
+    "ACTA_4_08",
+    "ACTA_4_09",
+    "ACTA_4_10",
+    "ACTA_4_11",
+    "ACTA_4_12",
+    "ACTA_4_13",
+    "ACTA_4_14",
+    "ACTA_4_15",
+    "ACTA_4_16",
+    "ACTA_4_17",
+    "ACTA_4_18",
+    "ACTA_4_19",
+    "ACTA_4_20",
+    "ACTA_4_21",
+    "ACTA_4_22",
+    "ACTA_4_23"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "ZEB": {
+   "pinout": "zeb196",
+   "footprint": "NFBGA-196-ZEB",
+   "package": "NFBGA",
+   "pins": 196
+  }
+ },
+ "pdf": "dac60096.pdf",
+ "pages": "p.3 (ball map), p.4-5 (pin functions), p.6 (ROC), p.10-11 (timing), p.19-20 (data format, register structure), p.22 (toggle/DC mode), p.23-24 (serial interface, streaming, CRC), p.25-30 (register map)",
+ "notModeled": [
+  "channel numbering: channel = 24 x (SID) + DPTR, assuming 24 DACs per subsystem (DPTR 0-23); the mapping of DPTR values to the DACn_Gk balls is not given in the datasheet (the ball map shows 22 outputs in subsystem 3 and 26 in subsystem 4). DPTR 24-31 address nothing",
+  "streaming (S = 1): only the first 16-bit data word is written / read; the DPTR auto-increment over further words is not modeled. Reserved bits 17:16 are not checked",
+  "toggle mode: register B (BUFB, kept as a plain register), TRIGG pin, STATS output and SDIV toggle rate are stored only; DC mode with register A is modeled (BUFA -> active A)",
+  "auto-populate B (CON.APB = 01, default: a BUFA write loads BUFB with the negative value) is not modeled",
+  "BUFA/BUFB bits 3:0 (reserved R/W) read back as 0 (registers are 12-bit)",
+  "CLEAR low loads the DACs with code 0 while keeping the active registers, which return when CLEAR goes high; the model loads the DAC registers with 0 (they are not restored). CON.CLRDAC subsystem clear state stored only",
+  "CON LDAC bit updates only its subsystem in the device; the model updates all channels. The CON fields' \"writing 00 or 11 has no effect\" rule is not modeled",
+  "software reset (SWR = 0xA5A5) resets only the selected subsystem; the model resets the whole device including PTR",
+  "CRC-CCITT frame check: CRC reads 0xFFFF always; PWRM read toggling between 0xABBA and 0xBAAB is not modeled (a write sets 0xABBA); SWR reads 0 (hardware version not given)",
+  "SDO output edge (CON.PHAINV, default 01 = falling edge) and drive strength SDO2x: mode 0 timing used; SDO read data follow the 8-bit instruction",
+  "power-on / reset delays (tRESETDLY up to 250 us) not modeled",
+  "AVCC/AVSS +/-12 V supplies, internal +/-10.5 V references (VREFH/VREFL compensation capacitor pins) and unbuffered outputs"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "DAC60096IZEB",
+   "ZEB",
+   196,
+   "Active"
+  ]
+ ]
+}

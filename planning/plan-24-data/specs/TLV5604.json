@@ -1,0 +1,417 @@
+{
+ "device": {
+  "id": "TLV5604",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "quad 10-bit voltage-output DAC with TMS320/SPI serial interface (FS frame sync), LDAC and power down",
+  "note": "tlv5604.pdf (SLAS176B) p.1 (D/PW pinout, description), p.3 (terminal functions), p.4 (recommended operating conditions: AVDD/DVDD 2.7-3.3 V and 4.5-5.5 V, SCLK 20 MHz), p.7 (digital input timing requirements, Figure 1 timing diagram), p.12 (power-on reset, serial interface), p.13 (data format), p.14 (DAC select table)",
+  "pinouts": {
+   "d16": [
+    {
+     "number": 1,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "PD",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "FS",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "REFINCD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "OUTD",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "OUTC",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "OUTB",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "OUTA",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "REFINAB",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "AVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 10,
+  "channels": 4,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "AVDD",
+   "REFINAB",
+   "REFINCD",
+   "OUTA",
+   "OUTB",
+   "OUTC",
+   "OUTD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "FS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC A holding latch (A1 A0 = 00, p.14); power-on reset clears all latches (p.12)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC B holding latch (A1 A0 = 01, p.14); power-on reset clears all latches (p.12)"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC C holding latch (A1 A0 = 10, p.14); power-on reset clears all latches (p.12)"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC D holding latch (A1 A0 = 11, p.14); power-on reset clears all latches (p.12)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC A output latch; updated only while LDAC is low (p.3)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC B output latch; updated only while LDAC is low (p.3)"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC C output latch; updated only while LDAC is low (p.3)"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC D output latch; updated only while LDAC is low (p.3)"
+   },
+   {
+    "name": "CTRLA",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PWR",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SPD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: DAC A control bits D13 PWR (1 = power down) and D12 SPD (1 = fast) of its last write (p.13)"
+   },
+   {
+    "name": "CTRLB",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PWR",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SPD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: DAC B control bits D13 PWR (1 = power down) and D12 SPD (1 = fast) of its last write (p.13)"
+   },
+   {
+    "name": "CTRLC",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PWR",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SPD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: DAC C control bits D13 PWR (1 = power down) and D12 SPD (1 = fast) of its last write (p.13)"
+   },
+   {
+    "name": "CTRLD",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PWR",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SPD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: DAC D control bits D13 PWR (1 = power down) and D12 SPD (1 = fast) of its last write (p.13)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write DAC A",
+     "in": "00 ps d{10} xx",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRLA.PWR": "p",
+      "CTRLA.SPD": "s"
+     },
+     "note": "D15-D14 A1 A0 = DAC A, D13 PWR, D12 SPD, D11-D2 data, D1-D0 don't care (p.13-14)"
+    },
+    {
+     "name": "Write DAC B",
+     "in": "01 ps d{10} xx",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "CTRLB.PWR": "p",
+      "CTRLB.SPD": "s"
+     },
+     "note": "D15-D14 A1 A0 = DAC B, D13 PWR, D12 SPD, D11-D2 data, D1-D0 don't care (p.13-14)"
+    },
+    {
+     "name": "Write DAC C",
+     "in": "10 ps d{10} xx",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "CTRLC.PWR": "p",
+      "CTRLC.SPD": "s"
+     },
+     "note": "D15-D14 A1 A0 = DAC C, D13 PWR, D12 SPD, D11-D2 data, D1-D0 don't care (p.13-14)"
+    },
+    {
+     "name": "Write DAC D",
+     "in": "11 ps d{10} xx",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "CTRLD.PWR": "p",
+      "CTRLD.SPD": "s"
+     },
+     "note": "D15-D14 A1 A0 = DAC D, D13 PWR, D12 SPD, D11-D2 data, D1-D0 don't care (p.13-14)"
+    }
+   ],
+   "note": "FS falling starts the frame; data sampled MSB first on SCLK falling edges (SCLK idles high, Figure 1); after 16 bits the word moves to the DAC latch (p.12)"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level",
+    "note": "DAC outputs updated only while LDAC is low (p.3)"
+   },
+   "powerdown": {
+    "pin": "PD",
+    "active": 0,
+    "note": "powers down all DACs and output stages, active low (p.3)"
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d16",
+   "footprint": "SOIC-16",
+   "package": "SOIC",
+   "pins": 16
+  },
+  "PW": {
+   "pinout": "d16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "tlv5604.pdf",
+ "pages": "p.1 (D/PW pinout, description), p.3 (terminal functions), p.4 (recommended operating conditions: AVDD/DVDD 2.7-3.3 V and 4.5-5.5 V, SCLK 20 MHz), p.7 (digital input timing requirements, Figure 1 timing diagram), p.12 (power-on reset, serial interface), p.13 (data format), p.14 (DAC select table)",
+ "notModeled": [
+  "analog: voltage outputs (x2 buffer), reference inputs REFINAB/REFINCD, settling speed (SPD) and per-DAC power down (PWR) effects",
+  "CS (chip enable, active low) is not modeled: the bus frame is FS (FS falling starts a word, as in the datasheet's 3-wire SPI connection with SS on FS and CS tied low, Figure 16); CS high does not block the model",
+  "a word cut short by FS rising before 16 bits (the datasheet moves the partial shift register to the DAC latch) is discarded",
+  "PD pin: the model also ignores the serial bus while PD is low (the datasheet does not say)",
+  "timing requirements tsu(CS-FS)/tsu(FS-CK)/tsu(C16-FS)/tsu(C16-CS)/twH/twL/tsu(D)/th(D)/twH(FS) (p.7)"
+ ],
+ "variants": "tlv5604.pdf covers only the TLV5604 (C and I temperature grades).",
+ "parts": [
+  [
+   "TLV5604CD",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "TLV5604CDR",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "TLV5604CPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "TLV5604ID",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "TLV5604IPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "TLV5604IPWR",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

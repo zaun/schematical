@@ -54,8 +54,9 @@ Commit: 5287733
 
 ### Phase 2 — Part data
 
-- [ ] DAC and RTC rows of `parts.tsv`, `specs.md` sections. Checks: 2707 rows total; 0 undecided; 0 `add` rows without a footprint id.
-- [ ] `datasheets/skipped-parts.md` § TI DACs, § TI RTCs.
+- [x] DAC and RTC rows of `parts.tsv`, `specs.md` sections (`census/specs_md.py` → ADC 516, DAC 252, RTC 7). Checks: `tail -n +2 parts.tsv | wc -l` → 2787 (Corrections: 1798 + 945 + 44); `census/checks.py DAC` / `RTC` → `undecided 0; add without footprint 0; highspeed/other added 0`; `census/validate.py` → `775 spec files, 0 with problems`; `census/coverage.py DAC dac` → `945 rows, 725 add, 252 devices, 217 PDFs, 217 cited; 0 problems`, `RTC rtc` → `44 rows, 14 add, 7 devices, 7 PDFs, 7 cited; 0 problems`.
+- [x] `datasheets/skipped-parts.md` § TI DACs, § TI RTCs (`census/skipped_md.py DAC RTC` → `DAC 220 skipped rows in 9 reasons`, `RTC 30 skipped rows in 3 reasons`).
+- [x] Spec writing: 26 DAC batches + 1 RTC batch by subagents (as plan-24-A), plus 2 DAC fix-up batches (update-all, strap-selected resets, per-grade resets, clear codes, register-write triggers, per-package I2C straps, active-high LOAD pins, the DAC60508C/DAC80508C/DAC61404 splits) and an RTC pass for the adopted clock forms.
 
 Acceptance: the checks above (minutes).
 Commit: —
@@ -80,6 +81,16 @@ As plan-24-A.
   and overrides for DigiKey's truncated base products of -Q National
   parts (`DAC101S101QCMK/NOPB` → DAC101S101, …): 249 DAC devices, 7 RTC
   devices. 27 more TI packages (`footprint-ids.tsv`, 24 new).
+- **Schema additions for DACs and RTCs** (`schema.md`): `updateall`,
+  LDAC `"edge": "level"`, `partKeys.resets`, `protocol.triggers`, `then` on
+  pointer writes, latch-on-change parallel DACs, `packages.<code>.i2c`,
+  SPI `csActive`, `pins.resetSelect`, edge-triggered `clear`, pin/field
+  `clearCode`; RTC: `h12Level`, `stop.running`, alarm `maskLevel` /
+  `dontCare`, `update.latch` `writeHalts`, periodic arrays, the watchdog
+  form, the multiplexed-bus `ale`, map-valued `protocol.reads`.
+- **Device splits from the datasheets**: DAC60508C / DAC80508C (pin 15 CLR
+  instead of SDO/ALARM), DAC61404 (the 12-bit part DigiKey filed under
+  DAC81404). 252 DAC devices.
 - The "3 RTC rows with no base product" are BQ3285ESS-N, BQ3285ESS-TR1
   (bq3285E, not in its ordering table) and BQ3285LCS (bq3285L, no TI page).
 

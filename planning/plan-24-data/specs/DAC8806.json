@@ -1,0 +1,278 @@
+{
+ "device": {
+  "id": "DAC8806",
+  "function": "DAC",
+  "description": "14-bit parallel-input multiplying current-output DAC with LDAC and reset",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac8806.pdf (SBAS385B) p.3 logic levels and interface timing, p.4 VDD 2.7-5.5 V, pin assignments and terminal functions, p.13 timing diagram (Figure 40) and function of control inputs (Table 1)",
+  "pinouts": {
+   "db28": [
+    {
+     "number": 1,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "RCOM",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "R1",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "ROFS",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "RFB",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "IOUT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "D13",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "D12",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "D11",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "D10",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "D9",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "D8",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "D7",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "D6",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "D5",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "D4",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "D3",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "D2",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 24,
+     "name": "D1",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "D0",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 27,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 28,
+     "name": "RST",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 14,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "REF",
+   "RCOM",
+   "R1",
+   "ROFS",
+   "RFB",
+   "IOUT"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D13",
+    "D12",
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   }
+  },
+  "registers": [
+   {
+    "name": "INPUT",
+    "space": "input",
+    "address": 0,
+    "width": 14,
+    "reset": 0,
+    "note": "DAC input register (p.4, Table 1); power-on value not stated, 0 used"
+   },
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 14,
+    "reset": 0,
+    "note": "DAC register; RST sets it to zero code (Table 1)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Load input register (WR low)",
+     "in": "d{14}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "commit": "end",
+     "note": "p.13 Table 1: WR low loads the input register with all 14 data bits"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 1,
+    "edge": "level"
+   },
+   "reset": {
+    "pin": "RST",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "INPUT"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DB": {
+   "pinout": "db28",
+   "footprint": "SSOP-28",
+   "package": "SSOP",
+   "pins": 28
+  }
+ },
+ "pdf": "dac8806.pdf",
+ "pages": "p.3 (logic levels, interface timing), p.4 (VDD 2.7-5.5 V, pinout, terminal functions), p.13 (Figure 40, Table 1)",
+ "notModeled": [
+  "analog: multiplying current output, reference input, feedback resistor, 4-quadrant resistors R1/RCOM/ROFS",
+  "RST sets only the DAC register to zero code; the input register keeps its contents (Table 1). The model reset clears both",
+  "input register transparency: with WR low the input register follows the data pins; the model loads it once when WR returns high",
+  "LDAC/WR tied together as one pulse: modeled as the input register write at WR rising followed by the level-active LDAC update",
+  "power-on register contents are not stated in the datasheet; 0 used"
+ ],
+ "variants": "dac8806.pdf covers only the DAC8806",
+ "parts": [
+  [
+   "DAC8806IDB",
+   "DB",
+   28,
+   "Active"
+  ],
+  [
+   "DAC8806IDBR",
+   "DB",
+   28,
+   "Active"
+  ]
+ ]
+}

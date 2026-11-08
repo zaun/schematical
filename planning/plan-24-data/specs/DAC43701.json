@@ -1,0 +1,499 @@
+{
+ "device": {
+  "id": "DAC43701",
+  "function": "DAC",
+  "description": "8-bit single-channel voltage-output smart DAC with NVM, GPI control and PMBus-compatible I2C interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac43701.pdf (SLASEY5) p.3 pinout (Table 6-1), p.4 recommended operating conditions, p.7-8 I2C and GPI timing, p.20 GPI configuration (Table 8-1), p.21 DAC update, p.29-33 I2C protocol (update sequence, address byte Table 8-12/8-13, command byte Table 8-14, read sequence), p.34-42 register map (Table 8-16)",
+  "pinouts": {
+   "dsg8": [
+    {
+     "number": 1,
+     "name": "GPI",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 4,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "FB",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "OUT",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 8,
+  "channels": 1,
+  "vcc": [
+   1.71,
+   5.5
+  ],
+  "analog": [
+   "FB",
+   "OUT"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [],
+   "table": [
+    72
+   ]
+  },
+  "registers": [
+   {
+    "name": "STATUS",
+    "address": 208,
+    "width": 16,
+    "reset": 20,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "NVM_CRC_ALARM_USER",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "NVM_CRC_ALARM_INTERNAL",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "NVM_BUSY",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "DAC_UPDATE_BUSY",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "DEVICE_ID",
+      "bits": [
+       5,
+       2
+      ]
+     },
+     {
+      "name": "VERSION_ID",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "reset 000Ch (10-bit) / 0014h (8-bit): DEVICE_ID 5h, VERSION_ID 0"
+   },
+   {
+    "name": "GENERAL_CONFIG",
+    "address": 209,
+    "width": 16,
+    "reset": 496,
+    "fields": [
+     {
+      "name": "FUNC_CONFIG",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "DEVICE_LOCK",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "EN_PMBUS",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "CODE_STEP",
+      "bits": [
+       11,
+       9
+      ]
+     },
+     {
+      "name": "SLEW_RATE",
+      "bits": [
+       8,
+       5
+      ]
+     },
+     {
+      "name": "DAC_PDN",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "REF_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DAC_SPAN",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG2",
+    "address": 210,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SLAVE_ADDRESS",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "GPI_CONFIG",
+      "bits": [
+       13,
+       11
+      ]
+     },
+     {
+      "name": "MED_ALARM_HP",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "MED_ALARM_MP",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "MED_ALARM_LP",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "RESERVED",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "INTERBURST_TIME",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "PULSE_OFF_TIME",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "PULSE_ON_TIME",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "TRIGGER",
+    "address": 211,
+    "width": 16,
+    "reset": 8,
+    "fields": [
+     {
+      "name": "DEVICE_UNLOCK_CODE",
+      "bits": [
+       15,
+       12
+      ]
+     },
+     {
+      "name": "GPI_EN",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "DEVICE_CONFIG_RESET",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "START_FUNC_GEN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "PMBUS_MARGIN_HIGH",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "PMBUS_MARGIN_LOW",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "NVM_RELOAD",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "NVM_PROG",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SW_RESET",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_DATA",
+    "address": 33,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC_DATA",
+      "bits": [
+       11,
+       4
+      ]
+     }
+    ],
+    "note": "MSB left-aligned: 8-bit code in bits 11-4; a write updates OUT at the end of the I2C frame"
+   },
+   {
+    "name": "DAC_MARGIN_HIGH",
+    "address": 37,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_HIGH",
+      "bits": [
+       11,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_MARGIN_LOW",
+    "address": 38,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MARGIN_LOW",
+      "bits": [
+       11,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "PMBUS_OPERATION",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PMBUS_OPERATION_CMD",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "PMBUS_STATUS_BYTE",
+    "address": 120,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CML",
+      "bits": [
+       9,
+       9
+      ]
+     }
+    ]
+   },
+   {
+    "name": "PMBUS_VERSION",
+    "address": 152,
+    "width": 16,
+    "reset": 8704,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "PMBUS_VERSION",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Command byte",
+     "in": "pppppppp",
+     "action": "pointer",
+     "address": "p",
+     "note": "address byte, command byte (register address), MSDB, LSDB; read: command byte, Sr, MSDB, LSDB; a read without a command byte returns the last register written"
+    }
+   ],
+   "read": "pointer",
+   "triggers": [
+    {
+     "write": "TRIGGER.SW_RESET=10",
+     "action": "reset"
+    },
+    {
+     "write": "TRIGGER.DEVICE_CONFIG_RESET=1",
+     "action": "reset"
+    }
+   ],
+   "generalCall": "reset"
+  },
+  "dac": {
+   "input": [
+    "DAC_DATA"
+   ],
+   "output": [
+    "DAC_DATA"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DSG": {
+   "pinout": "dsg8",
+   "footprint": "WSON-8-DSG",
+   "package": "WSON",
+   "pins": 8
+  }
+ },
+ "pdf": "dac43701.pdf",
+ "pages": "p.3 (pinout), p.4 (ROC), p.7-8 (I2C/GPI timing), p.20 (GPI), p.29-33 (I2C, address, command byte, read), p.34-42 (registers)",
+ "notModeled": [
+  "analog output, force-sense FB pin, internal reference / VDD reference, DAC_SPAN gain and power-down output loads (stored only; OUT is never driven)",
+  "I2C address programmed through CONFIG2.SLAVE_ADDRESS (0x48-0x4B, p.32 Table 8-13 and the GPI-assisted procedure): the bus answers at the default 0x48 only; SLAVE_ADDRESS is stored",
+  "broadcast address 1000111 (write-only, responds regardless of the address): not expressible",
+  "GPI pin functions (Table 8-1: edge-triggered power-up/down, margin high/low, function generation start/stop, medical alarms, address-update enable): the pin is only an input",
+  "NVM (NVM_PROG/NVM_RELOAD, NVM_BUSY, CRC alarms): power-on values are the datasheet's factory defaults",
+  "DEVICE_LOCK / DEVICE_UNLOCK_CODE register locking",
+  "waveform generation (triangle, sawtooth, square), slew-rate control, margin high/low, PMBus commands and medical alarm waveforms; self-clearing trigger bits stay as written",
+  "PMBus byte-wide commands (PMBUS_OPERATION, PMBUS_STATUS_BYTE written or read as one data byte when EN_PMBUS = 1) and CML write-one-to-clear: the model always moves 16-bit words",
+  "write-only fields read back as written (the datasheet does not say what reads of W bits return)",
+  "I2C fast-mode-plus timing limits",
+  "software reset (SW_RESET = 1010) reloads the DAC registers from NVM and DEVICE_CONFIG_RESET loads factory values; both are modeled as the reset action (NVM equals the factory defaults in the model)"
+ ],
+ "variants": "DAC53701 (10-bit) and DAC43701 (8-bit) share dac43701.pdf; DAC53701 is the sibling (own spec). The -Q1 parts (dac53701-q1.pdf, SLASEW8A 2023) change CONFIG2: TARGET_ADDRESS/GPI_CONFIG, bits 5-0 FB_IMP (factory trim, device-specific reset) and no medical-alarm fields; MARGIN_HIGH/MARGIN_LOW resets are device-specific (factory trim). The commercial register map is modeled for all parts.",
+ "parts": [
+  [
+   "DAC43701DSGRQ1",
+   "DSG",
+   8,
+   "Active"
+  ],
+  [
+   "DAC43701DSGT",
+   "DSG",
+   8,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,340 @@
+{
+ "device": {
+  "id": "DAC7642",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "dual 16-bit voltage-output DAC with 16-bit parallel interface, input-register read-back, LOADDACS and reset to mid scale",
+  "note": "dac7642.pdf (SBAS233) p.1 (description: DAC7642 resets to 8000H), p.3-4 (specifications: VCC 4.75-5.25 V, VIH 0.7 VCC), p.5 (pin configuration and descriptions), p.16 (digital interface), p.17 (Table I truth table, coding, Figure 14), p.18 (Table II timing)",
+  "pinouts": {
+   "vf32": [
+    {
+     "number": 1,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "DB15",
+     "role": "inout"
+    },
+    {
+     "number": 4,
+     "name": "DB14",
+     "role": "inout"
+    },
+    {
+     "number": 5,
+     "name": "DB13",
+     "role": "inout"
+    },
+    {
+     "number": 6,
+     "name": "DB12",
+     "role": "inout"
+    },
+    {
+     "number": 7,
+     "name": "DB11",
+     "role": "inout"
+    },
+    {
+     "number": 8,
+     "name": "DB10",
+     "role": "inout"
+    },
+    {
+     "number": 9,
+     "name": "DB9",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "DB8",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "DB7",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "DB6",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "DB5",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "DB4",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "DB3",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "DB2",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "DB1",
+     "role": "inout"
+    },
+    {
+     "number": 18,
+     "name": "DB0",
+     "role": "inout"
+    },
+    {
+     "number": 19,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "R/W",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "LOADDACS",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "DACSEL",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "VOUTB Sense",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "VREFH Sense",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "VREFH",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "VREFL",
+     "role": "power"
+    },
+    {
+     "number": 30,
+     "name": "VREFL Sense",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "VOUTA Sense",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "VOUTA",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 2,
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "VSS",
+   "VOUTB",
+   "VOUTB Sense",
+   "VREFH Sense",
+   "VREFH",
+   "VREFL",
+   "VREFL Sense",
+   "VOUTA Sense",
+   "VOUTA"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB15",
+    "DB14",
+    "DB13",
+    "DB12",
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rw": {
+    "pin": "R/W",
+    "read": 1
+   },
+   "address": [
+    "DACSEL"
+   ]
+  },
+  "timing": {
+   "tAcc": 150,
+   "tDf": 100
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 16,
+    "reset": 32768,
+    "note": "DAC A input register (Table I: DACSEL = 0); RST loads 8000H; power-on code not stated (RST code used)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 16,
+    "reset": 32768,
+    "note": "DAC B input register (Table I: DACSEL = 1); RST loads 8000H; power-on code not stated (RST code used)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 32768,
+    "note": "DAC A DAC register; both loaded from the input registers on the LOADDACS rising edge (Table I)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 16,
+    "reset": 32768,
+    "note": "DAC B DAC register; both loaded from the input registers on the LOADDACS rising edge (Table I)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write input (CS low, R/W low)",
+     "in": "a d{16}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "Table I: DACSEL low selects input register A, high B; data valid tDS before / tDH after CS rising (Figure 14)"
+    }
+   ],
+   "read": {
+    "0": "[INA]",
+    "1": "[INB]"
+   },
+   "note": "Table I: CS low with R/W high reads back the input register DACSEL selects on DB15-DB0 (tCSD 150 ns max, tDZ 100 ns max)"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LOADDACS",
+    "active": 1,
+    "edge": "rise",
+    "note": "DAC output registers load, rising-edge triggered (p.5, Table I)"
+   },
+   "reset": {
+    "pin": "RST",
+    "active": 0,
+    "note": "RST is rising-edge triggered (Table I: L or H in normal operation); modeled as a level reset while RST is low (holding RST low blocks writes in the model)"
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB"
+   ],
+   "output": [
+    "DACA",
+    "DACB"
+   ],
+   "clearCode": 32768,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "VF": {
+   "pinout": "vf32",
+   "footprint": "LQFP-32-VF",
+   "package": "LQFP",
+   "pins": 32
+  }
+ },
+ "pdf": "dac7642.pdf",
+ "pages": "p.1 (description: DAC7642 resets to 8000H), p.3-4 (specifications: VCC 4.75-5.25 V, VIH 0.7 VCC), p.5 (pin configuration and descriptions), p.16 (digital interface), p.17 (Table I truth table, coding, Figure 14), p.18 (Table II timing)",
+ "notModeled": [
+  "analog: outputs, force/sense pins, differential reference inputs, single/dual supply operation, settling",
+  "RST is rising-edge triggered and either level is normal operation; modeled as a level reset active low to 8000H, so a design that leaves RST low stays in reset in the model",
+  "power-on state of the registers is not stated in the datasheet (the RST code 8000H is used)",
+  "DAC registers are not readable (Table I reads back the input registers only)",
+  "pin 29 is printed 'VOUTL' in the pin-description table (described as the reference low input) and 'VREFL' in the pin configuration drawing; named VREFL here",
+  "timing limits of Table II"
+ ],
+ "variants": "DAC7643 (same dac7642.pdf, resets to 0000H) is not in this skeleton. DAC7642VFT / VFBT are linearity grades of the same chip.",
+ "parts": [
+  [
+   "DAC7642VFBT",
+   "VF",
+   32,
+   "Active"
+  ],
+  [
+   "DAC7642VFT",
+   "VF",
+   32,
+   "Active"
+  ]
+ ]
+}

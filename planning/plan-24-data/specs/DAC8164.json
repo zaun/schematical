@@ -1,0 +1,1091 @@
+{
+ "device": {
+  "id": "DAC8164",
+  "function": "DAC",
+  "description": "Quad 14-bit voltage-output DAC with 2.5-V internal reference, 24-bit SPI write-only interface, hardware address pins A1/A0 and ENABLE, LDAC",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac8164.pdf (SBAS410B) p.4 power requirements (AVDD 2.7-5.5 V, IOVDD 1.8-5.5 V) and logic levels vs IOVDD, p.5 pin configuration and descriptions, p.6-7 serial write timing, p.28 internal reference commands (Tables 1-3), p.29 serial interface and input shift register (Table 4: D13-D0 in DB15-DB2), p.30 control matrix (Table 5), p.31 SYNC interrupt, power-on reset to zero scale, LDAC and ENABLE pin, p.32 power-down modes (Table 6)",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VREFH/VREFOUT",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "VREFL",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "ENABLE",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "LDAC",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 14,
+  "channels": 4,
+  "vcc": [
+   1.8,
+   5.5
+  ],
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VREFH/VREFOUT",
+   "AVDD",
+   "VREFL",
+   "VOUTC",
+   "VOUTD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 1
+  },
+  "registers": [
+   {
+    "name": "IN_A",
+    "address": 0,
+    "space": "input",
+    "width": 14,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       13,
+       0
+      ]
+     }
+    ],
+    "note": "data buffer DAC A; power-on zero scale"
+   },
+   {
+    "name": "IN_B",
+    "address": 1,
+    "space": "input",
+    "width": 14,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       13,
+       0
+      ]
+     }
+    ],
+    "note": "data buffer DAC B; power-on zero scale"
+   },
+   {
+    "name": "IN_C",
+    "address": 2,
+    "space": "input",
+    "width": 14,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       13,
+       0
+      ]
+     }
+    ],
+    "note": "data buffer DAC C; power-on zero scale"
+   },
+   {
+    "name": "IN_D",
+    "address": 3,
+    "space": "input",
+    "width": 14,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       13,
+       0
+      ]
+     }
+    ],
+    "note": "data buffer DAC D; power-on zero scale"
+   },
+   {
+    "name": "DAC_A",
+    "address": 0,
+    "space": "dac",
+    "width": 14,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       13,
+       0
+      ]
+     }
+    ],
+    "note": "DAC register DAC A; power-on zero scale"
+   },
+   {
+    "name": "DAC_B",
+    "address": 1,
+    "space": "dac",
+    "width": 14,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       13,
+       0
+      ]
+     }
+    ],
+    "note": "DAC register DAC B; power-on zero scale"
+   },
+   {
+    "name": "DAC_C",
+    "address": 2,
+    "space": "dac",
+    "width": 14,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       13,
+       0
+      ]
+     }
+    ],
+    "note": "DAC register DAC C; power-on zero scale"
+   },
+   {
+    "name": "DAC_D",
+    "address": 3,
+    "space": "dac",
+    "width": 14,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       13,
+       0
+      ]
+     }
+    ],
+    "note": "DAC register DAC D; power-on zero scale"
+   },
+   {
+    "name": "PWR",
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PDD",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "PDC",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "PDB",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "PDA",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "per-channel power-down PD1:PD2 (DB15:DB14) of the last power-down command (Table 6): 01 1 kohm, 10 100 kohm, 11 Hi-Z; 00 normal"
+   },
+   {
+    "name": "REFCTL",
+    "width": 2,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "OFF",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ON",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal reference mode (DB13, DB12 of the reference commands): 00 automatic (default), 10 always powered down, 01 always powered up"
+   },
+   {
+    "name": "STRAP",
+    "width": 3,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "A1",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "A0",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: levels of the ENABLE, A1 and A0 pins"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0",
+   "commands": [
+    {
+     "name": "BROADCAST UPDATE ALL FROM BUFFERS",
+     "in": "xx 11 0 0 x x x{16}",
+     "action": "update",
+     "when": "STRAP.EN=0",
+     "note": "LD1 LD0 = 11, DB18 = 0: every device on the bus responds regardless of address"
+    },
+    {
+     "name": "BROADCAST WRITE ALL AND LOAD",
+     "in": "xx 11 0 1 c 0 d{14} xx",
+     "action": "write",
+     "channel": "c",
+     "channelMap": {
+      "0": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "1": [
+       0,
+       1,
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "when": "STRAP.EN=0"
+    },
+    {
+     "name": "BROADCAST POWER-DOWN ALL AND LOAD",
+     "in": "xx 11 0 1 x 1 pp x{14}",
+     "when": "STRAP.EN=0",
+     "set": {
+      "PWR.PDA": "p",
+      "PWR.PDB": "p",
+      "PWR.PDC": "p",
+      "PWR.PDD": "p"
+     }
+    },
+    {
+     "name": "INTERNAL REFERENCE MODE (A1 A0 = 00)",
+     "in": "00 00 0 00 1 00 [REFCTL] x{12}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "note": "Tables 1-3 (p.28): 010000h automatic, 011000h always on, 012000h always off"
+    },
+    {
+     "name": "POWER-DOWN A, STORE OR LOAD A (A1 A0 = 00)",
+     "in": "00 0x 0 00 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDA": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN A, LOAD ALL (A1 A0 = 00)",
+     "in": "00 10 0 00 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDA": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "POWER-DOWN B, STORE OR LOAD B (A1 A0 = 00)",
+     "in": "00 0x 0 01 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDB": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN B, LOAD ALL (A1 A0 = 00)",
+     "in": "00 10 0 01 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDB": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "POWER-DOWN C, STORE OR LOAD C (A1 A0 = 00)",
+     "in": "00 0x 0 10 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDC": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN C, LOAD ALL (A1 A0 = 00)",
+     "in": "00 10 0 10 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDC": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "POWER-DOWN D, STORE OR LOAD D (A1 A0 = 00)",
+     "in": "00 0x 0 11 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDD": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN D, LOAD ALL (A1 A0 = 00)",
+     "in": "00 10 0 11 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDD": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "WRITE BUFFER n (A1 A0 = 00)",
+     "in": "00 00 0 cc 0 d{14} xx",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "WRITE BUFFER n, LOAD DAC n (A1 A0 = 00)",
+     "in": "00 01 0 cc 0 d{14} xx",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "WRITE BUFFER n, LOAD ALL DACS (A1 A0 = 00)",
+     "in": "00 10 0 cc 0 d{14} xx",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "then": [
+      "updateall"
+     ],
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "INTERNAL REFERENCE MODE (A1 A0 = 01)",
+     "in": "01 00 0 00 1 00 [REFCTL] x{12}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "note": "Tables 1-3 (p.28): 010000h automatic, 011000h always on, 012000h always off"
+    },
+    {
+     "name": "POWER-DOWN A, STORE OR LOAD A (A1 A0 = 01)",
+     "in": "01 0x 0 00 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDA": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN A, LOAD ALL (A1 A0 = 01)",
+     "in": "01 10 0 00 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDA": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "POWER-DOWN B, STORE OR LOAD B (A1 A0 = 01)",
+     "in": "01 0x 0 01 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDB": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN B, LOAD ALL (A1 A0 = 01)",
+     "in": "01 10 0 01 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDB": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "POWER-DOWN C, STORE OR LOAD C (A1 A0 = 01)",
+     "in": "01 0x 0 10 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDC": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN C, LOAD ALL (A1 A0 = 01)",
+     "in": "01 10 0 10 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDC": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "POWER-DOWN D, STORE OR LOAD D (A1 A0 = 01)",
+     "in": "01 0x 0 11 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDD": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN D, LOAD ALL (A1 A0 = 01)",
+     "in": "01 10 0 11 1 pp x{14}",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDD": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "WRITE BUFFER n (A1 A0 = 01)",
+     "in": "01 00 0 cc 0 d{14} xx",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "WRITE BUFFER n, LOAD DAC n (A1 A0 = 01)",
+     "in": "01 01 0 cc 0 d{14} xx",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "WRITE BUFFER n, LOAD ALL DACS (A1 A0 = 01)",
+     "in": "01 10 0 cc 0 d{14} xx",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "then": [
+      "updateall"
+     ],
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "INTERNAL REFERENCE MODE (A1 A0 = 10)",
+     "in": "10 00 0 00 1 00 [REFCTL] x{12}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "note": "Tables 1-3 (p.28): 010000h automatic, 011000h always on, 012000h always off"
+    },
+    {
+     "name": "POWER-DOWN A, STORE OR LOAD A (A1 A0 = 10)",
+     "in": "10 0x 0 00 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDA": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN A, LOAD ALL (A1 A0 = 10)",
+     "in": "10 10 0 00 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDA": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "POWER-DOWN B, STORE OR LOAD B (A1 A0 = 10)",
+     "in": "10 0x 0 01 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDB": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN B, LOAD ALL (A1 A0 = 10)",
+     "in": "10 10 0 01 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDB": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "POWER-DOWN C, STORE OR LOAD C (A1 A0 = 10)",
+     "in": "10 0x 0 10 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDC": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN C, LOAD ALL (A1 A0 = 10)",
+     "in": "10 10 0 10 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDC": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "POWER-DOWN D, STORE OR LOAD D (A1 A0 = 10)",
+     "in": "10 0x 0 11 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDD": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN D, LOAD ALL (A1 A0 = 10)",
+     "in": "10 10 0 11 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDD": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "WRITE BUFFER n (A1 A0 = 10)",
+     "in": "10 00 0 cc 0 d{14} xx",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "WRITE BUFFER n, LOAD DAC n (A1 A0 = 10)",
+     "in": "10 01 0 cc 0 d{14} xx",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "WRITE BUFFER n, LOAD ALL DACS (A1 A0 = 10)",
+     "in": "10 10 0 cc 0 d{14} xx",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "then": [
+      "updateall"
+     ],
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "INTERNAL REFERENCE MODE (A1 A0 = 11)",
+     "in": "11 00 0 00 1 00 [REFCTL] x{12}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "note": "Tables 1-3 (p.28): 010000h automatic, 011000h always on, 012000h always off"
+    },
+    {
+     "name": "POWER-DOWN A, STORE OR LOAD A (A1 A0 = 11)",
+     "in": "11 0x 0 00 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDA": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN A, LOAD ALL (A1 A0 = 11)",
+     "in": "11 10 0 00 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDA": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "POWER-DOWN B, STORE OR LOAD B (A1 A0 = 11)",
+     "in": "11 0x 0 01 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDB": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN B, LOAD ALL (A1 A0 = 11)",
+     "in": "11 10 0 01 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDB": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "POWER-DOWN C, STORE OR LOAD C (A1 A0 = 11)",
+     "in": "11 0x 0 10 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDC": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN C, LOAD ALL (A1 A0 = 11)",
+     "in": "11 10 0 10 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDC": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "POWER-DOWN D, STORE OR LOAD D (A1 A0 = 11)",
+     "in": "11 0x 0 11 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDD": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN D, LOAD ALL (A1 A0 = 11)",
+     "in": "11 10 0 11 1 pp x{14}",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "set": {
+      "PWR.PDD": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "WRITE BUFFER n (A1 A0 = 11)",
+     "in": "11 00 0 cc 0 d{14} xx",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "WRITE BUFFER n, LOAD DAC n (A1 A0 = 11)",
+     "in": "11 01 0 cc 0 d{14} xx",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "WRITE BUFFER n, LOAD ALL DACS (A1 A0 = 11)",
+     "in": "11 10 0 cc 0 d{14} xx",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "then": [
+      "updateall"
+     ],
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    }
+   ],
+   "note": "24-bit word: DB23-DB22 address A1 A0 (must match the pins; broadcast LD = 11 ignores them), LD1 LD0 (DB21-DB20) load mode, DB19 = 0, DAC select (DB18-DB17), PD0 (DB16), 14 data bits DB15-DB2, DB1-DB0 don't care. Decoded at the 24th SCLK falling edge; SYNC rising earlier discards the word"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 1,
+    "edge": "rise"
+   },
+   "levels": [
+    {
+     "pin": "A1",
+     "field": "STRAP.A1"
+    },
+    {
+     "pin": "A0",
+     "field": "STRAP.A0"
+    },
+    {
+     "pin": "ENABLE",
+     "field": "STRAP.EN"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "IN_A",
+    "IN_B",
+    "IN_C",
+    "IN_D"
+   ],
+   "output": [
+    "DAC_A",
+    "DAC_B",
+    "DAC_C",
+    "DAC_D"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "dac8164.pdf",
+ "pages": "p.4 (supplies, logic inputs), p.5 (pins), p.6-7 (timing), p.28 (reference commands, Tables 1-3), p.29-30 (serial interface, Tables 4-5), p.31 (SYNC interrupt, power-on reset, LDAC, ENABLE), p.32 (power-down, Table 6)",
+ "notModeled": [
+  "analog outputs, output buffers and the internal 2.5-V reference (REFCTL and PWR stored only)",
+  "power-down is data in the buffer and takes effect when the buffer is loaded; the model stores the PD1:PD2 bits in PWR at once and a later data write does not clear them",
+  "power-down command with PD1:PD2 = 00 (not in the table) stores normal mode; the reference-mode words are decoded only with LD1:LD0 = 00 and DAC select 00 as in the datasheet tables",
+  "ENABLE high: the device ignores the serial port; modeled by gating every command on the ENABLE level (STRAP.EN)",
+  "LDAC is a rising-edge trigger; synchronous updates use the LD1:LD0 load commands (LDAC tied low)",
+  "no read-back: the interface is write-only",
+  "SPI mode: data sampled on SCLK falling edges; modeled as mode 1",
+  "IOVDD 1.8-2.7 V is allowed with degraded timing (p.29); vcc uses the full 1.8-5.5 V range",
+  "address match: DB23/DB22 must equal the A1/A0 pins; modeled with one command set per address gated on the pin levels. The reference-mode words of Tables 1-3 are shown with A1 = A0 = 0; the model accepts them at the device's own address"
+ ],
+ "variants": "dac8164.pdf covers only the DAC8164 (A/B/D grades differ in linearity / reference drift). DAC8165 is the same core with RST/RSTSEL in place of A0/A1; DAC7564 is the 12-bit version.",
+ "parts": [
+  [
+   "DAC8164IAPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "DAC8164IBPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "DAC8164IDPW",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,848 @@
+{
+ "device": {
+  "id": "BQ4802",
+  "function": "RTC",
+  "description": "Parallel real-time clock with century, alarm, periodic interrupt, watchdog, CPU supervisor and external SRAM battery-backup control",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "bq4802ly.pdf (SLUS464C) p.2 recommended operating conditions (bq4802Y 4.5-5.5 V, bq4802LY 2.7-3.6 V), p.3 read cycle timing (tAA/tACS/tOE 150 ns, tCHZ/tOHZ 60 ns at 3.3 V), p.5-6 pin assignments and terminal functions, p.12 operational truth table (Table 1) and register map (Table 2), p.13 bit descriptions (Table 3), read/write mode, reading/setting the clock (UTI), STOP, p.14 power-on reset, watchdog, p.15 watchdog rates (Table 4), interrupts, periodic rates (Table 5), alarm, p.16 alarm frequency (Table 6), power-fail interrupt, battery-low warning",
+  "pinouts": {
+   "so28": [
+    {
+     "number": 1,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "X1",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "X2",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "WDO",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "INT",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "RST",
+     "role": "inout"
+    },
+    {
+     "number": 7,
+     "name": "A3",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "A2",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "DQ0",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "DQ1",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "DQ2",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "VSS",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "DQ3",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "DQ4",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "DQ5",
+     "role": "inout"
+    },
+    {
+     "number": 18,
+     "name": "DQ6",
+     "role": "inout"
+    },
+    {
+     "number": 19,
+     "name": "DQ7",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "VSS",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "OE",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "WDI",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "BC",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "CEOUT",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "CEIN",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "WE",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "X1",
+   "X2",
+   "BC",
+   "VOUT"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DQ7",
+    "DQ6",
+    "DQ5",
+    "DQ4",
+    "DQ3",
+    "DQ2",
+    "DQ1",
+    "DQ0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "OE",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WE",
+    "active": 0
+   },
+   "address": [
+    "A3",
+    "A2",
+    "A1",
+    "A0"
+   ]
+  },
+  "timing": {
+   "tAcc": 150,
+   "tDf": 60
+  },
+  "registers": [
+   {
+    "name": "SECONDS",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "ZERO",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "SECONDS",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEC_ALARM",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "note": "D7 ALM1, D6 ALM0 / 10-second digit, D3-D0 1-second digit"
+   },
+   {
+    "name": "MINUTES",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "ZERO",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "MINUTES",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MIN_ALARM",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "note": "D7 ALM1, D6 ALM0 / 10-minute digit, D3-D0 1-minute digit"
+   },
+   {
+    "name": "HOURS",
+    "address": 4,
+    "width": 8,
+    "reset": 18,
+    "fields": [
+     {
+      "name": "PM",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "ZERO",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "HOURS",
+      "bits": [
+       5,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HOUR_ALARM",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "note": "D7 ALM1 / PM-AM, D6 ALM0, D5-D4 10-hour digit, D3-D0 1-hour digit"
+   },
+   {
+    "name": "DAY",
+    "address": 6,
+    "width": 8,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "ZERO",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "DAY",
+      "bits": [
+       5,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAY_ALARM",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "note": "D7 ALM1, D6 ALM0, D5-D4 10-day digit, D3-D0 1-day digit"
+   },
+   {
+    "name": "WEEKDAY",
+    "address": 8,
+    "width": 8,
+    "reset": 7,
+    "fields": [
+     {
+      "name": "ZERO",
+      "bits": [
+       7,
+       3
+      ]
+     },
+     {
+      "name": "WEEKDAY",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MONTH",
+    "address": 9,
+    "width": 8,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "ZERO",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "MONTH",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "YEAR",
+    "address": 10,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "YEAR",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RATES",
+    "address": 11,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 128,
+    "fields": [
+     {
+      "name": "UNUSED",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "WD",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "RS",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "WD2-WD0 = 000 (1.5 s) at power-up without a valid battery (p.14)"
+   },
+   {
+    "name": "ENABLES",
+    "address": 12,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "UNUSED",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "AIE",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "PIE",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PWRIE",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ABE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FLAGS",
+    "address": 13,
+    "width": 8,
+    "reset": 1,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "UNUSED",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "AF",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "PF",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PWRF",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "BVF",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 14,
+    "note": "reading clears the flags and releases INT; BVF = 1 valid battery"
+   },
+   {
+    "name": "CONTROL",
+    "address": 14,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "UNUSED",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "UTI",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "STOP",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "H24",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DSE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "STOP is active low (1 = run); H24 is the datasheet's 24/12 bit (1 = 24-hour)"
+   },
+   {
+    "name": "CENTURY",
+    "address": 15,
+    "width": 8,
+    "reset": 32,
+    "fields": [
+     {
+      "name": "CENTURY",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write",
+     "in": "aaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d"
+    }
+   ],
+   "read": {
+    "0": "[SECONDS]",
+    "1": "[SEC_ALARM]",
+    "2": "[MINUTES]",
+    "3": "[MIN_ALARM]",
+    "4": "[HOURS]",
+    "5": "[HOUR_ALARM]",
+    "6": "[DAY]",
+    "7": "[DAY_ALARM]",
+    "8": "[WEEKDAY]",
+    "9": "[MONTH]",
+    "10": "[YEAR]",
+    "11": "[RATES]",
+    "12": "[ENABLES]",
+    "13": "[FLAGS]",
+    "14": "[CONTROL]",
+    "15": "[CENTURY]"
+   }
+  },
+  "clock": {
+   "fields": [
+    {
+     "field": "SECONDS.SECONDS",
+     "unit": "second",
+     "format": "bcd"
+    },
+    {
+     "field": "MINUTES.MINUTES",
+     "unit": "minute",
+     "format": "bcd"
+    },
+    {
+     "field": "HOURS.HOURS",
+     "unit": "hour",
+     "format": "bcd",
+     "h12": "CONTROL.H24",
+     "h12Level": 0,
+     "pm": "HOURS.PM"
+    },
+    {
+     "field": "WEEKDAY.WEEKDAY",
+     "unit": "weekday",
+     "first": 1
+    },
+    {
+     "field": "DAY.DAY",
+     "unit": "date",
+     "format": "bcd"
+    },
+    {
+     "field": "MONTH.MONTH",
+     "unit": "month",
+     "format": "bcd"
+    },
+    {
+     "field": "YEAR.YEAR",
+     "unit": "year",
+     "format": "bcd",
+     "base": 2000
+    },
+    {
+     "field": "CENTURY.CENTURY",
+     "unit": "century",
+     "format": "bcd"
+    }
+   ],
+   "update": {
+    "latch": "CONTROL.UTI",
+    "write": "CONTROL.UTI",
+    "writeHalts": false
+   },
+   "alarms": [
+    {
+     "match": [
+      {
+       "field": "SEC_ALARM",
+       "unit": "second",
+       "dontCare": "11xxxxxx"
+      },
+      {
+       "field": "MIN_ALARM",
+       "unit": "minute",
+       "dontCare": "11xxxxxx"
+      },
+      {
+       "field": "HOUR_ALARM",
+       "unit": "hour",
+       "dontCare": "11xxxxxx"
+      },
+      {
+       "field": "DAY_ALARM",
+       "unit": "date",
+       "dontCare": "11xxxxxx"
+      }
+     ],
+     "flag": "FLAGS.AF",
+     "enable": "ENABLES.AIE",
+     "pin": {
+      "pin": "INT",
+      "active": 0,
+      "openDrain": true
+     }
+    }
+   ],
+   "periodic": {
+    "field": "RATES.RS",
+    "periods": {
+     "1": 30517.578125,
+     "2": 61035.15625,
+     "3": 122070.3125,
+     "4": 244140.625,
+     "5": 488281.25,
+     "6": 976562.5,
+     "7": 1953125,
+     "8": 3906250,
+     "9": 7812500,
+     "10": 15625000,
+     "11": 31250000,
+     "12": 62500000,
+     "13": 125000000,
+     "14": 250000000,
+     "15": 500000000
+    },
+    "flag": "FLAGS.PF",
+    "enable": "ENABLES.PIE",
+    "pin": "INT"
+   },
+   "watchdog": {
+    "field": "RATES.WD",
+    "periods": {
+     "0": 1500000000,
+     "1": 23437500,
+     "2": 46875000,
+     "3": 93750000,
+     "4": 187500000,
+     "5": 375000000,
+     "6": 750000000,
+     "7": 3000000000
+    },
+    "kick": {
+     "pin": "WDI",
+     "edge": "both"
+    },
+    "pin": {
+     "pin": "WDO",
+     "active": 0
+    },
+    "resetPin": {
+     "pin": "RST",
+     "active": 0,
+     "openDrain": true,
+     "pulse": {
+      "0": 250000,
+      "1": 3906250,
+      "2": 7812500,
+      "3": 15625000,
+      "4": 31250000,
+      "5": 62500000,
+      "6": 125000000,
+      "7": 500000000
+     }
+    }
+   }
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "so28",
+   "footprint": "SOIC-28W",
+   "package": "SOIC",
+   "pins": 28
+  },
+  "PW": {
+   "pinout": "so28",
+   "footprint": "TSSOP-28",
+   "package": "TSSOP",
+   "pins": 28
+  }
+ },
+ "pdf": "bq4802ly.pdf",
+ "pages": "p.2 (ROC), p.3 (read timing), p.5-6 (pins), p.12-16 (registers, clock access, watchdog, interrupts, alarm)",
+ "notModeled": [
+  "UTI: the user registers freeze while UTI = 1, the internal counters keep running, and values written while UTI = 1 go to the counters when UTI is cleared (p.13); written as update.latch with the same bit and writeHalts false",
+  "24/12 bit (CONTROL.H24) is 1 for 24-hour: h12Level 0; PM/AM is HOURS bit 7 (alarm: HOUR_ALARM bit 7)",
+  "alarm masks: an alarm byte with ALM1-ALM0 (D7-D6) = 11 is don't-care (dontCare); the alarm compares date, hours, minutes and seconds during each update",
+  "watchdog: WDI transitions (or a 100 ns pulse) restart it; time-out per WD2-WD0 (Table 4) drives WDO low until the next WDI transition and RST low for the reset time-out t1, repeating every t3; WDI floating (mid-level, three-level input) disables it - watchdog periods/kick/resetPin; the three-level floating input is not modeled",
+  "power-fail interrupt (PWRF, PWRIE), battery-backup alarm enable (ABE), BVF battery-low check: no power failure is simulated; BVF reads 1",
+  "STOP (CONTROL bit 2, active low) stops the oscillator only in battery-backup mode; with VCC present the clock always runs, so no stop bit is modeled",
+  "daylight saving (DSE)",
+  "RST output: 200 ms power-on reset after VCC passes VPFD and push-button reset (RST pulled low > 1 us); only the watchdog RST pulse is modeled",
+  "CEIN -> CEOUT chip-enable pass-through (12 ns, forced high on power failure) and VOUT supply output for an external SRAM: no schema form; CEOUT is never driven",
+  "INT asserted for an enabled power-fail flag; reading FLAGS clears AF, PF, PWRF (address must be stable 50 ns)",
+  "time register power-on values are not given: the resets encode the schema power-on time 2000-01-01 00:00:00 Saturday (CENTURY 20) in 12-hour BCD (CONTROL = 0)",
+  "leap years: automatic up to 2100 (Table 2 note 3)",
+  "unused bits of registers B-E read 0 and ignore writes (readOnly masks)"
+ ],
+ "variants": "bq4802Y (5 V) and bq4802LY (3.3 V) share bq4802ly.pdf and this device (part vcc via partKeys); the SNAPHAT DSH package has X1, X2, BC, VSS(20) as NC and is not in the skeleton",
+ "partKeys": {
+  "BQ4802LYDW": {
+   "vcc": [
+    2.7,
+    3.6
+   ]
+  },
+  "BQ4802LYDWR": {
+   "vcc": [
+    2.7,
+    3.6
+   ]
+  },
+  "BQ4802LYPW": {
+   "vcc": [
+    2.7,
+    3.6
+   ]
+  },
+  "BQ4802YDW": {
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  },
+  "BQ4802YDWR": {
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  },
+  "BQ4802YPW": {
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  }
+ },
+ "parts": [
+  [
+   "BQ4802LYDW",
+   "DW",
+   28,
+   "Last Time Buy"
+  ],
+  [
+   "BQ4802LYDWR",
+   "DW",
+   28,
+   "Last Time Buy"
+  ],
+  [
+   "BQ4802LYPW",
+   "PW",
+   28,
+   "Last Time Buy"
+  ],
+  [
+   "BQ4802YDW",
+   "DW",
+   28,
+   "Last Time Buy"
+  ],
+  [
+   "BQ4802YDWR",
+   "DW",
+   28,
+   "Last Time Buy"
+  ],
+  [
+   "BQ4802YPW",
+   "PW",
+   28,
+   "Last Time Buy"
+  ]
+ ]
+}

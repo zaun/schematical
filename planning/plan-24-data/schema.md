@@ -35,12 +35,18 @@ A DAC stores what it is written; its analog outputs are never driven.
   analog). Keep it honest: it is the list a reader checks the model against.
 - `packages.<code>.pins`: the package's pin count (from the ordering table;
   the pinout must have that many pins). `packages.<code>.i2cAddress`:
-  optional fixed 7-bit address for a package without the strap pins.
+  optional fixed 7-bit address for a package without the strap pins;
+  `packages.<code>.i2c`: optional `{"address": [...], "table": [...]}`
+  replacing the bus's straps and table for that package (a QFN with two
+  strap pins where the TSSOP has one).
 - `parts`: the orderable parts `[name, code, pins, TI status]` (copied from
   the work skeleton; the generator reads it).
 - `pages`, `variants`: free text.
 - `partKeys`: optional object part name → extra part keys for that part
   (`{"ADS1100A1IDBVR": {"i2cAddress": 73}}`); the generator adds them.
+  Part keys: `i2cAddress`, `resets` (`{"DAC0": 32768}`: register reset
+  values that differ for that part, e.g. mid-scale "M" grades), `vcc`,
+  `inputMax`.
 
 ## 2. Device keys (both kinds)
 
@@ -97,6 +103,8 @@ The serial kind's object (`docs/parts-format.md` § SPI and I2C host ports):
   (write-only configuration ports): omit `"miso"`. One pin as both
   (3-wire SDIO): name it as `mosi` and `miso`; the part drives it only
   while it shifts reply bits.
+- `"csActive": 1` for a frame pin that is active high (TLC5620 LOAD: data
+  shift while it is high, the word latches when it falls); default 0.
 - **2-wire, no CS** (ADS1230/1232-style DRDY/DOUT + SCLK): omit `"cs"`. A
   transaction begins when a conversion completes (the data-ready pin, the
   MISO pin with `ready.onMiso`, goes active) and ends at the next
@@ -133,7 +141,8 @@ The serial kind's object (`docs/parts-format.md` § SPI and I2C host ports):
   pattern for the current address `tAcc` after it begins and float `tDf`
   after it ends. A write is CS and WR active: at its end (WR or CS
   released) the address bits then the data bits go to `protocol.commands`
-  as one transaction (`frame` `"fixed"`).
+  as one transaction (`frame` `"fixed"`). With neither `cs` nor `wr`
+  (unlatched DACs, DAC0800), every change of the data pins is a write.
 - Clocked (free-running pipelined converters and delta-sigma modulators):
 
 ```json
@@ -200,6 +209,7 @@ parallel read's data bus).
 | `"commands"` | array, below |
 | `"read"` | I2C/parallel reads: a pattern, or `"pointer"` (the register at the pointer, MSB first, repeating), or for parallel an object address-value → pattern (`{"0": "[R:11:4]", "1": "[R:3:0]0000"}`; with `byteSelect` the key is `"high"`/`"low"`) |
 | `"outs"` | optional array `[{"when": cond, "out": pattern}]`: the first whose condition holds replaces `out` (frames whose layout a register field picks: optional status/CRC bytes, channel-ID headers, word length); `"reads"` the same for `read` |
+| `"triggers"` | optional array `[{"write": "REG.FIELD=v", "action": "reset"}]`: after any write that leaves the field at v, run the action (`reset`, `start`, `stop`, `update`, `updateall`, `clear`, `powerdown`, `wakeup`) — software-reset, LDAC and clear bits written through a pointer or register write |
 | `"generalCall"` | I2C: `"reset"` when the part resets on the general-call reset (address 0, byte 0x06) |
 | `"align"` | `"start"` (default) or `"end"`: in `fixed` frames, match the commands against the **last** bits before the transaction ends (parts that decode the final 16 bits before CS rises); the command then commits at the end |
 
@@ -258,12 +268,13 @@ Actions:
 | `rreg` | reply (`@` in `reply`, default reply `"@"`) the `count` registers from `address` up |
 | `write` | writes capture `data` into the register at `address` / `register`; DACs: into the input register of `channel` |
 | `read` | sets the read pointer to `address` / `register` (the next read or `"next"` `[@]`) |
-| `pointer` | I2C pointer form: sets the pointer; further bytes of this write go to the register at the pointer (MSB first, its width). With `"increment"` (a capture letter or number): when it is 1, the pointer steps to the next address after each register written or read (auto-increment) |
+| `pointer` | I2C pointer form: sets the pointer; further bytes of this write go to the register at the pointer (MSB first, its width); the command's `then` actions run after each register written that way. With `"increment"` (a capture letter or number): when it is 1, the pointer steps to the next address after each register written or read (auto-increment) |
 | `start` | starts a conversion (on `channel` if given) |
 | `stop` | stops continuous conversions |
 | `reset` | every register to `reset`, conversion stopped, DAC outputs to their reset |
 | `powerdown`, `wakeup` | power-down state: no conversions start; read-back still works |
-| `update` | DAC: copies input → DAC register for `channel` (all channels when no channel) |
+| `update` | DAC: copies input → DAC register for `channel` (all channels when no channel). As a `then` action after a `write` it updates the written channel(s) |
+| `updateall` | DAC: copies input → DAC register for every channel (a "write channel n and update all" command: `then: ["updateall"]`) |
 | `clear` | DAC: input and DAC registers to `dac.clearCode` |
 | `setbits`, `clearbits` | the register at `address` / `register`: OR in / clear the bits of capture `data` (read-modify-write opcodes) |
 
@@ -323,11 +334,21 @@ register loads. A conversion still has to run its `time` before the
 pin's level (0/1; Z or X reads 0) is copied into the field whenever it
 changes (mode/speed/range strap pins; an internal register holds them).
 
+`"resetSelect"`: an array `[{"pin": "RSTSEL", "level": 1, "resets":
+{"DACA": 32768}}]` — at power-on and at every reset, registers take these
+values instead of their `reset` while the pin is at that level (zero- or
+mid-scale strap pins).
+
+`clear` may take `"edge": "rise"` / `"fall"`: one clear on that edge
+instead of holding the registers cleared while active.
+
 `reset` held active: registers at reset, bus ignored. `convst`: the edge
 starts a conversion. `start`: while active conversions run (continuous;
 single mode: the edge starts one). `powerdown` active: no conversions,
-the bus ignored. `ldac`: `edge` → copy input → DAC on that edge; `"level"`
-→ copy while active. `clear` active: DAC registers to `clearCode`. A pin at
+the bus ignored. `ldac`: `"edge": "rise"` / `"fall"` → copy input → DAC on
+that edge; `"edge": "level"` → copy while the pin is at `active` (writes
+made while it is active update at once; LDAC tied active = synchronous
+mode). No other spelling (`"level": true` is an error). `clear` active: DAC registers to `clearCode`. A pin at
 Z reads inactive.
 
 ## 9. `dac`
@@ -339,7 +360,9 @@ Z reads inactive.
 `input` / `output`: register names per channel (equal counts; for a DAC
 with no double buffering both lists name the same registers). `ldac`:
 `"pin"` (§ 8), `"command"` (`update` actions only) or `"sync"` (writes
-also update: `then: ["update"]` implied). `clearCode`: what `clear` loads.
+also update: `then: ["update"]` implied). `clearCode`: what `clear` loads — a
+number, or chosen by a pin or field: `{"pin": "CLRSEL", "values": {"0": 0,
+"1": 32768}}` / `{"field": "CFG.CLRSEL", "values": {...}}`.
 
 ## 10. `clock` (rtc kind, plan-24-F)
 
@@ -370,6 +393,32 @@ set 244 µs before each update; writing `inhibit` 1 halts updates);
 bit is 1; counting continues; the write bit halts counting and loads the
 written registers when cleared). Power-on time 2000-01-01 00:00:00 (a
 Saturday), oscillator per `stop.powerOn`.
+
+Further forms (from the RTC datasheets, plan-24-B):
+
+- `h12Level`: the level of `h12` that means 12-hour mode (default 1; `0`
+  for "1 = 24-hour" bits).
+- `stop.running`: instead of `stopped`, the one field value at which the
+  oscillator runs (BQ3285 OS2–OS0 = 010); any other value halts it.
+- Alarm `match` entries: `mask` + `maskLevel` (the mask field's level that
+  makes the entry always match, default 1); `dontCare`: a bit pattern
+  (`"11xxxxxx"`) that, when the alarm byte matches it, makes the entry
+  always match.
+- `update.latch` with `"writeHalts": false`: the latch bit freezes the
+  user copy; counting continues; values written while it is set load into
+  the counters when it clears (BQ4802 UTI).
+- `periodic` as an array of `{"periodNs", "flag", "enable", "summary"?,
+  "pin"}`: several fixed-rate interrupts at once (DP857x), each setting its
+  flag (and the summary flag) every period while enabled.
+- `watchdog`: `{"field", "periods": {value: ns}, "kick": {"pin", "edge":
+  "rise"|"fall"|"both"}, "pin": {"pin", "active"}, "resetPin": {"pin",
+  "active", "openDrain", "pulse": {value: ns}}}` — a kick edge restarts the
+  timeout; at timeout `pin` asserts (and `resetPin` pulses).
+- Parallel `bus.ale`: `{"pin": "AS", "edge": "fall", "bits": 8}` — a
+  multiplexed address/data bus: that edge latches the low `bits` of the
+  data pins as the address for the following read or write.
+- `protocol.reads` entries may give `"read"` as an address map (an object,
+  like `protocol.read`): pages/blocks selected by a field (DP8570).
 
 ## 11. Rules for transcribing
 

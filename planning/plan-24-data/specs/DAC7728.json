@@ -1,0 +1,881 @@
+{
+ "device": {
+  "id": "DAC7728",
+  "function": "DAC",
+  "description": "Octal 12-bit high-voltage-output DAC with 12-bit parallel interface, offset DACs, gain/zero calibration registers, LDAC and GPIO",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac7728.pdf (SBAS461A) p.10-11 pin descriptions (QFN-56, TQFP-64), p.5-9 electrical characteristics (IOVDD 1.7 V to DVDD, DVDD 2.7-5.5 V), p.12 timing diagrams (Figures 2-5), p.13-15 timing characteristics, p.39 power-on and hardware reset (Tables 8-9), p.40 updating the DAC outputs, p.42 parallel interface and register map (Table 10), p.43-46 configuration, monitor, input data, zero, gain, GPIO and busy flag registers (Tables 11-15)",
+  "pinouts": {
+   "rtq56": [
+    {
+     "number": 1,
+     "name": "D9",
+     "role": "inout"
+    },
+    {
+     "number": 2,
+     "name": "D10",
+     "role": "inout"
+    },
+    {
+     "number": 3,
+     "name": "D11",
+     "role": "inout"
+    },
+    {
+     "number": 4,
+     "name": "VMON",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "VOUT-3",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "REF-A",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "VOUT-2",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "AGND-A",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "VOUT-1",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "OFFSET-A",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "VOUT-0",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "USB/BTC",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "A2",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "A3",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "A4",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 27,
+     "name": "GPIO",
+     "role": "inout"
+    },
+    {
+     "number": 28,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "VOUT-7",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "OFFSET-B",
+     "role": "output"
+    },
+    {
+     "number": 31,
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "number": 32,
+     "name": "VOUT-6",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "AGND-B",
+     "role": "ground"
+    },
+    {
+     "number": 34,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 35,
+     "name": "VOUT-5",
+     "role": "output"
+    },
+    {
+     "number": 36,
+     "name": "REF-B",
+     "role": "power"
+    },
+    {
+     "number": 37,
+     "name": "VOUT-4",
+     "role": "output"
+    },
+    {
+     "number": 38,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 39,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 40,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 41,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 42,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 43,
+     "name": "D0",
+     "role": "inout"
+    },
+    {
+     "number": 44,
+     "name": "D1",
+     "role": "inout"
+    },
+    {
+     "number": 45,
+     "name": "D2",
+     "role": "inout"
+    },
+    {
+     "number": 46,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 47,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 48,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 49,
+     "name": "R/W",
+     "role": "input"
+    },
+    {
+     "number": 50,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 51,
+     "name": "D3",
+     "role": "inout"
+    },
+    {
+     "number": 52,
+     "name": "D4",
+     "role": "inout"
+    },
+    {
+     "number": 53,
+     "name": "D5",
+     "role": "inout"
+    },
+    {
+     "number": 54,
+     "name": "D6",
+     "role": "inout"
+    },
+    {
+     "number": 55,
+     "name": "D7",
+     "role": "inout"
+    },
+    {
+     "number": 56,
+     "name": "D8",
+     "role": "inout"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 8,
+  "vcc": [
+   1.7,
+   5.5
+  ],
+  "analog": [
+   "AVDD",
+   "AVSS",
+   "REF-A",
+   "REF-B",
+   "VOUT-0",
+   "VOUT-1",
+   "VOUT-2",
+   "VOUT-3",
+   "VOUT-4",
+   "VOUT-5",
+   "VOUT-6",
+   "VOUT-7",
+   "OFFSET-A",
+   "OFFSET-B",
+   "VMON"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rw": {
+    "pin": "R/W",
+    "read": 1
+   },
+   "address": [
+    "A4",
+    "A3",
+    "A2",
+    "A1",
+    "A0"
+   ]
+  },
+  "timing": {
+   "tAcc": 50
+  },
+  "registers": [
+   {
+    "name": "CONFIG",
+    "address": 0,
+    "width": 12,
+    "reset": 2048,
+    "readOnly": 39,
+    "fields": [
+     {
+      "name": "AB",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "LD",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "RST",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "PD_A",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "PD_B",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "SCE",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "GBF",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "GAIN_A",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "GAIN_B",
+      "bits": [
+       3,
+       3
+      ]
+     }
+    ],
+    "note": "Table 11, default 800h (A/B = 1); GBF read-only (always 0 with SCE = 0); D2:D0 don't care"
+   },
+   {
+    "name": "MONITOR",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "Table 12 monitor select, default 000h (VMON Hi-Z)"
+   },
+   {
+    "name": "GPIO_REG",
+    "address": 2,
+    "width": 12,
+    "reset": 2048,
+    "readOnly": 2047,
+    "fields": [
+     {
+      "name": "GPIO",
+      "bits": [
+       11,
+       11
+      ]
+     }
+    ],
+    "note": "GPIO register, default 800h (GPIO pin Hi-Z)"
+   },
+   {
+    "name": "OFFSET_A",
+    "address": 3,
+    "width": 12,
+    "reset": 2458,
+    "note": "Offset DAC-A data register, default 99Ah (dual supply, gain 6; factory trimmed), 000h with a single supply"
+   },
+   {
+    "name": "OFFSET_B",
+    "address": 4,
+    "width": 12,
+    "reset": 2458,
+    "note": "Offset DAC-B data register, as OFFSET_A"
+   },
+   {
+    "name": "BUSY_FLAG",
+    "address": 5,
+    "width": 12,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "BF",
+      "bits": [
+       11,
+       4
+      ]
+     }
+    ],
+    "note": "busy flag register BF-7..BF-0 (read-only, default 000h; set only by the correction engine)"
+   },
+   {
+    "name": "DAC_0",
+    "address": 8,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-0 data register (address 08h); reset 000h or 800h per RSTSEL and USB/BTC (Tables 8-9), 0 here"
+   },
+   {
+    "name": "DAC_1",
+    "address": 9,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-1 data register (address 09h); reset 000h or 800h per RSTSEL and USB/BTC (Tables 8-9), 0 here"
+   },
+   {
+    "name": "DAC_2",
+    "address": 10,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-2 data register (address 0Ah); reset 000h or 800h per RSTSEL and USB/BTC (Tables 8-9), 0 here"
+   },
+   {
+    "name": "DAC_3",
+    "address": 11,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-3 data register (address 0Bh); reset 000h or 800h per RSTSEL and USB/BTC (Tables 8-9), 0 here"
+   },
+   {
+    "name": "DAC_4",
+    "address": 12,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-4 data register (address 0Ch); reset 000h or 800h per RSTSEL and USB/BTC (Tables 8-9), 0 here"
+   },
+   {
+    "name": "DAC_5",
+    "address": 13,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-5 data register (address 0Dh); reset 000h or 800h per RSTSEL and USB/BTC (Tables 8-9), 0 here"
+   },
+   {
+    "name": "DAC_6",
+    "address": 14,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-6 data register (address 0Eh); reset 000h or 800h per RSTSEL and USB/BTC (Tables 8-9), 0 here"
+   },
+   {
+    "name": "DAC_7",
+    "address": 15,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-7 data register (address 0Fh); reset 000h or 800h per RSTSEL and USB/BTC (Tables 8-9), 0 here"
+   },
+   {
+    "name": "ZERO_0",
+    "address": 16,
+    "width": 12,
+    "reset": 0,
+    "note": "Zero register-0 (Table 14, twos complement), default 000h"
+   },
+   {
+    "name": "ZERO_1",
+    "address": 17,
+    "width": 12,
+    "reset": 0,
+    "note": "Zero register-1 (Table 14, twos complement), default 000h"
+   },
+   {
+    "name": "ZERO_2",
+    "address": 18,
+    "width": 12,
+    "reset": 0,
+    "note": "Zero register-2 (Table 14, twos complement), default 000h"
+   },
+   {
+    "name": "ZERO_3",
+    "address": 19,
+    "width": 12,
+    "reset": 0,
+    "note": "Zero register-3 (Table 14, twos complement), default 000h"
+   },
+   {
+    "name": "ZERO_4",
+    "address": 20,
+    "width": 12,
+    "reset": 0,
+    "note": "Zero register-4 (Table 14, twos complement), default 000h"
+   },
+   {
+    "name": "ZERO_5",
+    "address": 21,
+    "width": 12,
+    "reset": 0,
+    "note": "Zero register-5 (Table 14, twos complement), default 000h"
+   },
+   {
+    "name": "ZERO_6",
+    "address": 22,
+    "width": 12,
+    "reset": 0,
+    "note": "Zero register-6 (Table 14, twos complement), default 000h"
+   },
+   {
+    "name": "ZERO_7",
+    "address": 23,
+    "width": 12,
+    "reset": 0,
+    "note": "Zero register-7 (Table 14, twos complement), default 000h"
+   },
+   {
+    "name": "GAIN_0",
+    "address": 24,
+    "width": 12,
+    "reset": 2048,
+    "note": "Gain register-0 (Table 15), default 800h"
+   },
+   {
+    "name": "GAIN_1",
+    "address": 25,
+    "width": 12,
+    "reset": 2048,
+    "note": "Gain register-1 (Table 15), default 800h"
+   },
+   {
+    "name": "GAIN_2",
+    "address": 26,
+    "width": 12,
+    "reset": 2048,
+    "note": "Gain register-2 (Table 15), default 800h"
+   },
+   {
+    "name": "GAIN_3",
+    "address": 27,
+    "width": 12,
+    "reset": 2048,
+    "note": "Gain register-3 (Table 15), default 800h"
+   },
+   {
+    "name": "GAIN_4",
+    "address": 28,
+    "width": 12,
+    "reset": 2048,
+    "note": "Gain register-4 (Table 15), default 800h"
+   },
+   {
+    "name": "GAIN_5",
+    "address": 29,
+    "width": 12,
+    "reset": 2048,
+    "note": "Gain register-5 (Table 15), default 800h"
+   },
+   {
+    "name": "GAIN_6",
+    "address": 30,
+    "width": 12,
+    "reset": 2048,
+    "note": "Gain register-6 (Table 15), default 800h"
+   },
+   {
+    "name": "GAIN_7",
+    "address": 31,
+    "width": 12,
+    "reset": 2048,
+    "note": "Gain register-7 (Table 15), default 800h"
+   },
+   {
+    "name": "LATCH_0",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-0 latch (drives VOUT-0); loaded from DAC_0 by LDAC / LD"
+   },
+   {
+    "name": "LATCH_1",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-1 latch (drives VOUT-1); loaded from DAC_1 by LDAC / LD"
+   },
+   {
+    "name": "LATCH_2",
+    "space": "dac",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-2 latch (drives VOUT-2); loaded from DAC_2 by LDAC / LD"
+   },
+   {
+    "name": "LATCH_3",
+    "space": "dac",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-3 latch (drives VOUT-3); loaded from DAC_3 by LDAC / LD"
+   },
+   {
+    "name": "LATCH_4",
+    "space": "dac",
+    "address": 4,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-4 latch (drives VOUT-4); loaded from DAC_4 by LDAC / LD"
+   },
+   {
+    "name": "LATCH_5",
+    "space": "dac",
+    "address": 5,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-5 latch (drives VOUT-5); loaded from DAC_5 by LDAC / LD"
+   },
+   {
+    "name": "LATCH_6",
+    "space": "dac",
+    "address": 6,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-6 latch (drives VOUT-6); loaded from DAC_6 by LDAC / LD"
+   },
+   {
+    "name": "LATCH_7",
+    "space": "dac",
+    "address": 7,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC-7 latch (drives VOUT-7); loaded from DAC_7 by LDAC / LD"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write DAC-n data register",
+     "in": "01aaa d{12}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "Table 10: A4:A0 = 01000-01111; latched at CS rising (Figures 3-4)"
+    },
+    {
+     "name": "Write register",
+     "in": "aaaaa d{12}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "configuration, monitor, GPIO, offset DAC, zero and gain registers (Table 10); busy flag and reserved addresses ignore writes"
+    }
+   ],
+   "read": {
+    "0": "[CONFIG]",
+    "1": "[MONITOR]",
+    "2": "[GPIO_REG]",
+    "3": "[OFFSET_A]",
+    "4": "[OFFSET_B]",
+    "5": "[BUSY_FLAG]",
+    "6": "0{12}",
+    "7": "0{12}",
+    "8": "[DAC_0]",
+    "16": "[ZERO_0]",
+    "24": "[GAIN_0]",
+    "9": "[DAC_1]",
+    "17": "[ZERO_1]",
+    "25": "[GAIN_1]",
+    "10": "[DAC_2]",
+    "18": "[ZERO_2]",
+    "26": "[GAIN_2]",
+    "11": "[DAC_3]",
+    "19": "[ZERO_3]",
+    "27": "[GAIN_3]",
+    "12": "[DAC_4]",
+    "20": "[ZERO_4]",
+    "28": "[GAIN_4]",
+    "13": "[DAC_5]",
+    "21": "[ZERO_5]",
+    "29": "[GAIN_5]",
+    "14": "[DAC_6]",
+    "22": "[ZERO_6]",
+    "30": "[GAIN_6]",
+    "15": "[DAC_7]",
+    "23": "[ZERO_7]",
+    "31": "[GAIN_7]"
+   },
+   "triggers": [
+    {
+     "write": "CONFIG.LD=1",
+     "action": "update"
+    },
+    {
+     "write": "CONFIG.RST=1",
+     "action": "reset"
+    }
+   ],
+   "note": "CS low with R/W high drives the addressed register on D11:D0 (t13 50 ns max at IOVDD 1.8 V); reserved addresses read 000h"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level"
+   },
+   "reset": {
+    "pin": "RST",
+    "active": 0
+   },
+   "resetSelect": [
+    {
+     "pin": "RSTSEL",
+     "level": 1,
+     "resets": {
+      "DAC_0": 2048,
+      "DAC_1": 2048,
+      "DAC_2": 2048,
+      "DAC_3": 2048,
+      "DAC_4": 2048,
+      "DAC_5": 2048,
+      "DAC_6": 2048,
+      "DAC_7": 2048,
+      "LATCH_0": 2048,
+      "LATCH_1": 2048,
+      "LATCH_2": 2048,
+      "LATCH_3": 2048,
+      "LATCH_4": 2048,
+      "LATCH_5": 2048,
+      "LATCH_6": 2048,
+      "LATCH_7": 2048
+     }
+    },
+    {
+     "pin": "USB/BTC",
+     "level": 1,
+     "resets": {
+      "OFFSET_A": 410,
+      "OFFSET_B": 410
+     }
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC_0",
+    "DAC_1",
+    "DAC_2",
+    "DAC_3",
+    "DAC_4",
+    "DAC_5",
+    "DAC_6",
+    "DAC_7"
+   ],
+   "output": [
+    "LATCH_0",
+    "LATCH_1",
+    "LATCH_2",
+    "LATCH_3",
+    "LATCH_4",
+    "LATCH_5",
+    "LATCH_6",
+    "LATCH_7"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "RTQ": {
+   "pinout": "rtq56",
+   "footprint": "QFN-56-RTQ",
+   "package": "QFN",
+   "pins": 56
+  }
+ },
+ "pdf": "dac7728.pdf",
+ "pages": "p.10-11 (pin descriptions), p.5-9 (electrical), p.12-15 (timing), p.39-40 (reset, update modes), p.42-46 (register map, Tables 10-15)",
+ "notModeled": [
+  "analog: outputs, offset DACs, reference buffers, VMON monitor multiplexer, power-down output loads (PD_A/PD_B stored only)",
+  "correction engine (SCE = 1): the Input Data Register, gain and zero correction, BUSY pin, GBF and busy flags are not modeled; written data go to DAC_n directly as with SCE = 0, and reading DAC-n returns DAC_n whatever A/B selects; BUSY is never driven",
+  "power-on / RST reset codes of the DAC data registers and latches (000h or 800h, Tables 8-9) are mid scale when RSTSEL and USB/BTC differ: pins.resetSelect models RSTSEL high = mid scale and USB/BTC high = offset 19Ah (the USB/BTC-low rows are exact); with USB/BTC high the chip's data codes swap (mid scale with RSTSEL low, zero with RSTSEL high) but the model keeps the RSTSEL mapping: a reset code chosen by two pins together cannot be expressed. Offset DAC defaults depend on supply detection and gain (99Ah / AABh / 000h); modeled as 99Ah (USB/BTC low) / 19Ah (USB/BTC high). Changing GAIN-x does not reload the offset code",
+  "update mode latched at power-on (LDAC low = asynchronous, high = synchronous): modeled as LDAC level active low (LDAC tied low updates at CS rising); the chip reloads only latches accessed since the last update",
+  "LD and RST self-clear in the chip; in the model RST clears through the reset and LD stays 1 until written 0",
+  "CLR pin: level-triggered output clamp (VOUT to AGND through 15 kOhm) that does not change any register; not modeled",
+  "GPIO pin: open-drain output set by the GPIO register and read back as the pin level; the register is stored only and the pin is never driven",
+  "USB/BTC data-format pin: data are stored as written",
+  "TQFP-64 (PAG) package: the skeleton lists only the QFN-56 (RTQ) orderable part"
+ ],
+ "variants": "DAC7728 only in this datasheet; DAC7718 is the SPI version (own spec)",
+ "parts": [
+  [
+   "DAC7728SRTQT",
+   "RTQ",
+   56,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,2012 @@
+{
+ "device": {
+  "id": "LMP92066",
+  "function": "DAC",
+  "description": "dual 12-bit temperature-compensated DAC (PA bias controller) with temperature sensor, EEPROM look-up table, I2C interface and FET drive outputs",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "lmp92066.pdf (SNAS634B) p.3-4 (pin functions), p.5 (recommended operating conditions: VIO 1.65-3.3 V, VDD 4.75-5.25 V), p.7 (digital input characteristics), p.8 (I2C timing), p.20 (DAC: offset binary 12-bit input), p.22-24 (memory, block writing, access control Tables 4-5, EEPROM Tables 6-7), p.25-28 (I2C protocol, Figures 31-34, address selection Tables 9-10), p.32-38 (register descriptions), p.39-42 (register map), p.52 (factory default, power up)",
+  "pinouts": {
+   "pwp16": [
+    {
+     "number": 1,
+     "name": "GNDD",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "DRVEN1",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "DRVEN0",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "VIO",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 6,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "VSSB",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "DAC0",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "FETDRV0",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "GNDA",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "FETDRV1",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DAC1",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "VDDB",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "VDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 2,
+  "vcc": [
+   1.65,
+   3.3
+  ],
+  "analog": [
+   "VSSB",
+   "DAC0",
+   "FETDRV0",
+   "FETDRV1",
+   "DAC1",
+   "VDDB",
+   "VDD"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "A0",
+    "A1"
+   ],
+   "table": [
+    63,
+    65,
+    null,
+    null,
+    69,
+    71,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "timing": {
+   "tOut": 900
+  },
+  "registers": [
+   {
+    "name": "TEMPM",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "TEMP",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "temperature sensor output TEMP[11:8] (p.32); the model has no temperature (0)"
+   },
+   {
+    "name": "TEMPL",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "TEMP",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC0M",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DAC",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT/ALU DAC0 input code DAC[11:8] (p.32); internal reset clears the data path (p.52), 0"
+   },
+   {
+    "name": "DAC0L",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DAC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC1M",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DAC",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC1L",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DAC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RES_06",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "note": "reserved, read-only (p.39)"
+   },
+   {
+    "name": "TEMP_STATUS",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "RDYB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "register map POR 8'hFF; it clears to 00h within 100 ms of power up when the sensor output is valid (p.33). The model starts at 00h (sensor ready)"
+   },
+   {
+    "name": "OVRD_CNTL",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "TEMP",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "POR not given in the register map (0 used); L2 write"
+   },
+   {
+    "name": "TEMPM_OVRD",
+    "address": 9,
+    "width": 8,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "TEMP",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "TEMPL_OVRD",
+    "address": 10,
+    "width": 8,
+    "reset": 128,
+    "fields": [
+     {
+      "name": "TEMP",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC0M_OVRD",
+    "address": 11,
+    "width": 8,
+    "reset": 128,
+    "fields": [
+     {
+      "name": "DAC",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "POR 8'h80 as the register map prints it, although bits 7:4 are 'always report as 0' (p.34)"
+   },
+   {
+    "name": "DAC0L_OVRD",
+    "address": 12,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC1M_OVRD",
+    "address": 13,
+    "width": 8,
+    "reset": 128,
+    "fields": [
+     {
+      "name": "DAC",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "POR 8'h80 as printed (see DAC0M_OVRD)"
+   },
+   {
+    "name": "DAC1L_OVRD",
+    "address": 14,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "EEPROM_CNTL",
+    "address": 15,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "UCOR",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "COR",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "RDYB",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "read: BURN/TRANSFER status (0 = completed); write: E4h BURN / 4Eh TRANSFER command (not modeled, the written byte is dropped)"
+   },
+   {
+    "name": "RESET",
+    "address": 16,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CMD",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "write C3h: software reset equivalent to power up (p.35); write-only, read value not given"
+   },
+   {
+    "name": "ACC_CNTL",
+    "address": 17,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "L2",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "L1",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "read: access level status (03h = L2, 01h = L1, 00h = L0); write: the 2-byte password (CDh then EFh = L1, CDh then F0h = L2), decoded by the commands below"
+   },
+   {
+    "name": "RES_12",
+    "address": 18,
+    "width": 8,
+    "reset": 0,
+    "note": "reserved, L1 write (p.39)"
+   },
+   {
+    "name": "RES_13",
+    "address": 19,
+    "width": 8,
+    "reset": 0,
+    "note": "reserved, L1 write (p.39)"
+   },
+   {
+    "name": "RES_14",
+    "address": 20,
+    "width": 8,
+    "reset": 0,
+    "note": "reserved, L1 write (p.39)"
+   },
+   {
+    "name": "RES_15",
+    "address": 21,
+    "width": 8,
+    "reset": 0,
+    "note": "reserved, L1 write (p.39)"
+   },
+   {
+    "name": "BLK_CNTL",
+    "address": 22,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "SIZE",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ],
+    "note": "block access size control (p.35); L1 write"
+   },
+   {
+    "name": "RES_17",
+    "address": 23,
+    "width": 8,
+    "reset": 0,
+    "note": "reserved, L1 write (p.39)"
+   },
+   {
+    "name": "ADR_LK",
+    "address": 24,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "I2C address lock (p.36); bits 7:3 always 0; L1 write"
+   },
+   {
+    "name": "RES_19",
+    "address": 25,
+    "width": 8,
+    "reset": 0,
+    "note": "reserved, L1 write (p.39)"
+   },
+   {
+    "name": "RES_1A",
+    "address": 26,
+    "width": 8,
+    "reset": 0,
+    "note": "reserved, L1 write (p.39)"
+   },
+   {
+    "name": "DRV_STATUS",
+    "address": 30,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "GAN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "output drive supply mode, 1 = GaN rails detected (p.36); the model reports LDMOS (0)"
+   },
+   {
+    "name": "VERSION",
+    "address": 31,
+    "width": 8,
+    "reset": 160,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "VERSION",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "BURN_CT",
+    "address": 64,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "COUNT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "EEPROM burn counter, loaded from EEPROM at power up (value not given, 0)"
+   },
+   {
+    "name": "DEL0",
+    "address": 65,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at -28 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL1",
+    "address": 66,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at -24 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL2",
+    "address": 67,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at -20 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL3",
+    "address": 68,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at -16 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL4",
+    "address": 69,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at -12 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL5",
+    "address": 70,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at -8 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL6",
+    "address": 71,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at -4 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL7",
+    "address": 72,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 0 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL8",
+    "address": 73,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 4 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL9",
+    "address": 74,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 6 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL10",
+    "address": 75,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 12 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL11",
+    "address": 76,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 16 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL12",
+    "address": 77,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 20 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL13",
+    "address": 78,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 28 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL14",
+    "address": 79,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 32 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL15",
+    "address": 80,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 36 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL16",
+    "address": 81,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 40 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL17",
+    "address": 82,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 44 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL18",
+    "address": 83,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 48 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL19",
+    "address": 84,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 52 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL20",
+    "address": 85,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 56 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL21",
+    "address": 86,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 60 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL22",
+    "address": 87,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 64 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL23",
+    "address": 88,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 68 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL24",
+    "address": 89,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 72 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL25",
+    "address": 90,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 76 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL26",
+    "address": 91,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 80 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL27",
+    "address": 92,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 84 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL28",
+    "address": 93,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 88 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL29",
+    "address": 94,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 92 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL30",
+    "address": 95,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 96 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL31",
+    "address": 96,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 100 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL32",
+    "address": 97,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 104 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL33",
+    "address": 98,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 108 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL34",
+    "address": 99,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 112 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL35",
+    "address": 100,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 116 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL36",
+    "address": 101,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 120 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL37",
+    "address": 102,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 124 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DEL38",
+    "address": 103,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAC0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT increment at 128 C (as printed, p.40-41); factory default 0 (p.52)"
+   },
+   {
+    "name": "DAC0_BASEM",
+    "address": 104,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 64,
+    "fields": [
+     {
+      "name": "BYP",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "POL",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "BASE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT control (p.37); bit 6 always reported 0; factory default 0 (p.52)"
+   },
+   {
+    "name": "DAC0_BASEL",
+    "address": 105,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "BASE",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "BASE[7:0]; R/W in the register map (p.41; the section 8.5.15 table prints R)"
+   },
+   {
+    "name": "DAC1_BASEM",
+    "address": 106,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 64,
+    "fields": [
+     {
+      "name": "BYP",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "POL",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "BASE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "LUT control (p.37); bit 6 always reported 0; factory default 0 (p.52)"
+   },
+   {
+    "name": "DAC1_BASEL",
+    "address": 107,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "BASE",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "BASE[7:0]; R/W in the register map (p.41; the section 8.5.15 table prints R)"
+   },
+   {
+    "name": "PAD0",
+    "address": 108,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD1",
+    "address": 109,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD2",
+    "address": 110,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD3",
+    "address": 111,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD4",
+    "address": 112,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD5",
+    "address": 113,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD6",
+    "address": 114,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD7",
+    "address": 115,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD8",
+    "address": 116,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD9",
+    "address": 117,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD10",
+    "address": 118,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD11",
+    "address": 119,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD12",
+    "address": 120,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD13",
+    "address": 121,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD14",
+    "address": 122,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD15",
+    "address": 123,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD16",
+    "address": 124,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD17",
+    "address": 125,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD18",
+    "address": 126,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "PAD19",
+    "address": 127,
+    "width": 8,
+    "reset": 0,
+    "note": "notepad, stored in EEPROM (power-up value not given, 0)"
+   },
+   {
+    "name": "ACCSEQ",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "KEY",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PTR",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PTR = the last pointer byte was ACC_CNTL (11h); KEY = the first password byte CDh was written"
+   },
+   {
+    "name": "CODE0",
+    "width": 12,
+    "reset": 0,
+    "note": "internal: DAC0 input code (LUT/ALU output or the DAC0 override pair); not written by the model"
+   },
+   {
+    "name": "CODE1",
+    "width": 12,
+    "reset": 0,
+    "note": "internal: DAC1 input code (LUT/ALU output or the DAC1 override pair); not written by the model"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "commands": [
+    {
+     "name": "ACC_CNTL password byte 1 (CDh)",
+     "in": "11001101",
+     "when": "ACCSEQ.PTR=1",
+     "set": {
+      "ACCSEQ.KEY": 1,
+      "ACCSEQ.PTR": 0
+     },
+     "note": "p.23 Table 4, p.35: first byte of the password written to ACC_CNTL"
+    },
+    {
+     "name": "ACC_CNTL password byte 2 (F0h): level L2",
+     "in": "11110000",
+     "when": [
+      "ACCSEQ.PTR=1",
+      "ACCSEQ.KEY=1"
+     ],
+     "set": {
+      "ACC_CNTL.L2": 1,
+      "ACC_CNTL.L1": 1,
+      "ACCSEQ.KEY": 0,
+      "ACCSEQ.PTR": 0
+     },
+     "note": "CDh, F0h: access level L2 (L1 nested; reads 03h)"
+    },
+    {
+     "name": "ACC_CNTL password byte 2 (EFh): level L1",
+     "in": "11101111",
+     "when": [
+      "ACCSEQ.PTR=1",
+      "ACCSEQ.KEY=1"
+     ],
+     "set": {
+      "ACC_CNTL.L2": 0,
+      "ACC_CNTL.L1": 1,
+      "ACCSEQ.KEY": 0,
+      "ACCSEQ.PTR": 0
+     },
+     "note": "CDh, EFh: access level L1 (reads 01h)"
+    },
+    {
+     "name": "RegAddr ACC_CNTL (11h)",
+     "in": "00010001",
+     "action": "read",
+     "address": 17,
+     "increment": 1,
+     "set": {
+      "ACCSEQ.PTR": 1
+     },
+     "note": "ACC_CNTL is writable at every level; the following data byte is matched by the password commands; a read returns the level status"
+    },
+    {
+     "name": "RegAddr (level L2: all registers writable)",
+     "in": "aaaaaaaa",
+     "action": "pointer",
+     "address": "a",
+     "increment": 1,
+     "when": "ACC_CNTL.L2=1",
+     "set": {
+      "ACCSEQ.KEY": 0,
+      "ACCSEQ.PTR": 0
+     },
+     "note": "p.26 Figures 31-34: RegAddr byte, then data bytes to consecutive registers (multi-byte access is the default)"
+    },
+    {
+     "name": "RegAddr 12h (level L1 write)",
+     "in": "00010010",
+     "action": "pointer",
+     "address": 18,
+     "increment": 1,
+     "when": "ACC_CNTL.L1=1",
+     "set": {
+      "ACCSEQ.KEY": 0,
+      "ACCSEQ.PTR": 0
+     },
+     "note": "p.23 Table 5: L1 gives write access to BLK_CNTL, ADR_LK (and the L1 reserved registers, p.39)"
+    },
+    {
+     "name": "RegAddr 13h (level L1 write)",
+     "in": "00010011",
+     "action": "pointer",
+     "address": 19,
+     "increment": 1,
+     "when": "ACC_CNTL.L1=1",
+     "set": {
+      "ACCSEQ.KEY": 0,
+      "ACCSEQ.PTR": 0
+     },
+     "note": "p.23 Table 5: L1 gives write access to BLK_CNTL, ADR_LK (and the L1 reserved registers, p.39)"
+    },
+    {
+     "name": "RegAddr 14h (level L1 write)",
+     "in": "00010100",
+     "action": "pointer",
+     "address": 20,
+     "increment": 1,
+     "when": "ACC_CNTL.L1=1",
+     "set": {
+      "ACCSEQ.KEY": 0,
+      "ACCSEQ.PTR": 0
+     },
+     "note": "p.23 Table 5: L1 gives write access to BLK_CNTL, ADR_LK (and the L1 reserved registers, p.39)"
+    },
+    {
+     "name": "RegAddr 15h (level L1 write)",
+     "in": "00010101",
+     "action": "pointer",
+     "address": 21,
+     "increment": 1,
+     "when": "ACC_CNTL.L1=1",
+     "set": {
+      "ACCSEQ.KEY": 0,
+      "ACCSEQ.PTR": 0
+     },
+     "note": "p.23 Table 5: L1 gives write access to BLK_CNTL, ADR_LK (and the L1 reserved registers, p.39)"
+    },
+    {
+     "name": "RegAddr 16h (level L1 write)",
+     "in": "00010110",
+     "action": "pointer",
+     "address": 22,
+     "increment": 1,
+     "when": "ACC_CNTL.L1=1",
+     "set": {
+      "ACCSEQ.KEY": 0,
+      "ACCSEQ.PTR": 0
+     },
+     "note": "p.23 Table 5: L1 gives write access to BLK_CNTL, ADR_LK (and the L1 reserved registers, p.39)"
+    },
+    {
+     "name": "RegAddr 17h (level L1 write)",
+     "in": "00010111",
+     "action": "pointer",
+     "address": 23,
+     "increment": 1,
+     "when": "ACC_CNTL.L1=1",
+     "set": {
+      "ACCSEQ.KEY": 0,
+      "ACCSEQ.PTR": 0
+     },
+     "note": "p.23 Table 5: L1 gives write access to BLK_CNTL, ADR_LK (and the L1 reserved registers, p.39)"
+    },
+    {
+     "name": "RegAddr 18h (level L1 write)",
+     "in": "00011000",
+     "action": "pointer",
+     "address": 24,
+     "increment": 1,
+     "when": "ACC_CNTL.L1=1",
+     "set": {
+      "ACCSEQ.KEY": 0,
+      "ACCSEQ.PTR": 0
+     },
+     "note": "p.23 Table 5: L1 gives write access to BLK_CNTL, ADR_LK (and the L1 reserved registers, p.39)"
+    },
+    {
+     "name": "RegAddr 19h (level L1 write)",
+     "in": "00011001",
+     "action": "pointer",
+     "address": 25,
+     "increment": 1,
+     "when": "ACC_CNTL.L1=1",
+     "set": {
+      "ACCSEQ.KEY": 0,
+      "ACCSEQ.PTR": 0
+     },
+     "note": "p.23 Table 5: L1 gives write access to BLK_CNTL, ADR_LK (and the L1 reserved registers, p.39)"
+    },
+    {
+     "name": "RegAddr 1Ah (level L1 write)",
+     "in": "00011010",
+     "action": "pointer",
+     "address": 26,
+     "increment": 1,
+     "when": "ACC_CNTL.L1=1",
+     "set": {
+      "ACCSEQ.KEY": 0,
+      "ACCSEQ.PTR": 0
+     },
+     "note": "p.23 Table 5: L1 gives write access to BLK_CNTL, ADR_LK (and the L1 reserved registers, p.39)"
+    },
+    {
+     "name": "RegAddr (read access only)",
+     "in": "aaaaaaaa",
+     "action": "read",
+     "address": "a",
+     "increment": 1,
+     "set": {
+      "ACCSEQ.KEY": 0,
+      "ACCSEQ.PTR": 0
+     },
+     "note": "below the needed access level writes are ignored: the byte sets the read pointer and the data bytes are dropped"
+    }
+   ],
+   "read": "pointer",
+   "triggers": [
+    {
+     "write": "RESET.CMD=195",
+     "action": "reset"
+    }
+   ],
+   "note": "stream frame so that the data byte after a pointer byte to ACC_CNTL (11h) is decoded as a password byte; every other pointer byte takes the rest of the write as data for consecutive registers (or drops it below the required access level)"
+  },
+  "dac": {
+   "input": [
+    "CODE0",
+    "CODE1"
+   ],
+   "output": [
+    "CODE0",
+    "CODE1"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "PWP": {
+   "pinout": "pwp16",
+   "footprint": "HTSSOP-16-PWP",
+   "package": "HTSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "lmp92066.pdf",
+ "pages": "p.3-4 (pins), p.5 (ROC), p.7 (logic levels), p.8 (I2C timing: tHD;DAT max 900 ns used as tOut), p.22-24 (memory, access levels, EEPROM), p.25-28 (I2C protocol and address table), p.32-38 (register descriptions), p.39-42 (register map), p.52 (defaults)",
+ "notModeled": [
+  "analog: DAC0/DAC1 buffer outputs, FETDRV0/1 gate drives and the DRVEN0/DRVEN1 changeover switches (DRVENx only routes the analog output), LDMOS/GaN supply modes (DRV_STATUS.GAN reads 0)",
+  "the temperature sensor (TEMPM/TEMPL read 0), the LUT/ALU that computes DACxM/DACxL from the temperature, and the TEMP/DAC override data path: DAC0M-DAC1L read 0 and the DAC codes CODE0/CODE1 (internal) are never written; the override registers are plain read/write storage",
+  "12-bit values in two registers (TEMPx_OVRD, DACxx_OVRD) take effect on the low-byte write and the high byte is queued (p.22): the model stores each byte at once; the TEMPM/TEMPL coherent-read latch is not modeled",
+  "POR values: the register map gives DACxM_OVRD = 8'h80 although bits 7:4 'always report as 0'; transcribed as printed. TEMP_STATUS POR 8'hFF clears within 100 ms of power up; the model starts at 00h",
+  "EEPROM: BURN (E4h) and TRANSFER (4Eh) commands to EEPROM_CNTL, the power-up/reset transfer of LUT and notepad from EEPROM, BURN_CT counting and COR/UCOR status. The LUT, BASE and notepad registers start at 0 (factory default, p.52) and the software reset sets them back to 0 instead of reloading the EEPROM",
+  "access levels: the password must be CDh then EFh/F0h in two consecutive writes to ACC_CNTL; the model accepts the second byte after a CDh written to ACC_CNTL with other accesses in between only if they do not write ACC_CNTL. Write protection below L2 is modeled by dropping data bytes; a block write that starts at a writable L1 register continues into the following registers",
+  "the ACC_CNTL pointer state (internal ACCSEQ.PTR) survives a STOP: if a transaction only sets the pointer to 11h, the next write whose first byte is CDh/EFh/F0h (undocumented addresses) is taken as a password byte",
+  "below the needed access level the data bytes of a write are matched again as pointer bytes (stream frame), so they move the read pointer; they never change a register",
+  "the internal register pointer resets to 00h at every STOP (p.25): the model keeps the last pointer",
+  "BLK_CNTL block-size wrap (pointer returns to the first register after SIZE+1 bytes) and the default wrap from the end of the register space to 00h",
+  "ADR_LK address lock (the straps are always decoded); floating (N.C.) A0/A1 straps select 40h, 42h, 43h, 44h, 46h (p.28 Table 10): a floating strap cannot be expressed; SCL/SDA ties are not documented (null)",
+  "SCL/SDA 25-35 ms bus timeout"
+ ],
+ "variants": "no sibling devices in this datasheet",
+ "parts": [
+  [
+   "LMP92066PWP",
+   "PWP",
+   16,
+   "Active"
+  ],
+  [
+   "LMP92066PWPR",
+   "PWP",
+   16,
+   "Active"
+  ]
+ ]
+}

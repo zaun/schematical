@@ -1,0 +1,282 @@
+{
+ "device": {
+  "id": "DAC8881",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit low-noise buffered voltage-output DAC with SPI interface, read-back, LDAC, reset and power-down pins",
+  "note": "dac8881.pdf (SBAS422B) p.3 pin configuration and functions, p.4 recommended operating conditions, p.6 electrical characteristics (IOVDD), p.7-8 timing characteristics, p.9-11 timing diagrams (Figures 1-3), p.28-29 input data format, hardware reset, power-on reset, reset value, power down, LDAC, p.30 serial interface (stand-alone and daisy-chain modes)",
+  "pinouts": {
+   "rge24": [
+    {
+     "number": 1,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "VREFL-S",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "VREFH-S",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "RFB",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "VREFL-F",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "VREFH-F",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 13,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "GAIN",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "USB/BTC",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "PDN",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "SDOSEL",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "IOVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   1.7,
+   5.5
+  ],
+  "analog": [
+   "AVDD",
+   "VREFL-S",
+   "VREFH-S",
+   "VOUT",
+   "RFB",
+   "VREFL-F",
+   "VREFH-F"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 15,
+   "tOut": 20,
+   "tFloat": 8
+  },
+  "registers": [
+   {
+    "name": "IN",
+    "space": "input",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "input register; power-on/RST 0000h with RSTSEL low (p.29 Table 3)"
+   },
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC latch; power-on/RST 0000h with RSTSEL low"
+   },
+   {
+    "name": "MODE",
+    "width": 1,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SDOSEL",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: level of the SDOSEL pin (1 = stand-alone read-back, 0 = daisy-chain), p.3, p.30"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Load input register",
+     "in": "d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "p.30: 16 or more bits on SCLK rising; the last 16 go to the input register at CS rising; fewer than 16 bits = invalid frame"
+    }
+   ],
+   "outs": [
+    {
+     "when": "MODE.SDOSEL=1",
+     "out": "[IN]"
+    }
+   ],
+   "idle": "0",
+   "note": "p.30 stand-alone mode (SDOSEL high): SDO shifts out the existing input register, then zeros; daisy-chain mode (SDOSEL low): SDO is the shift register output"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level"
+   },
+   "reset": {
+    "pin": "RST",
+    "active": 0
+   },
+   "levels": [
+    {
+     "pin": "SDOSEL",
+     "field": "MODE.SDOSEL"
+    }
+   ],
+   "resetSelect": [
+    {
+     "pin": "RSTSEL",
+     "level": 1,
+     "resets": {
+      "IN": 32768,
+      "DAC": 32768
+     }
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "IN"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "RGE": {
+   "pinout": "rge24",
+   "footprint": "VQFN-24-RGE",
+   "package": "VQFN",
+   "pins": 24
+  }
+ },
+ "pdf": "dac8881.pdf",
+ "pages": "p.3 (pinout, pin functions), p.4 (AVDD 2.7-5.5 V, IOVDD 1.7 V-AVDD), p.6 (logic levels), p.8 (SDO timing t10 15 ns, t11 20 ns, t13 8 ns at DVDD < 3.6 V), p.9-11 (Figures 1-3: SCLK low at CS falling, data in on rising edges), p.28-29 (Tables 1-3, reset, power down, LDAC), p.30 (serial interface)",
+ "notModeled": [
+  "analog: buffered voltage output, Kelvin reference inputs, output gain (GAIN pin), RFB",
+  "USB/BTC selects straight binary or two's complement input coding; the stored code is unaffected (only the analog output mapping changes)",
+  "PDN power-down (output to AGND through 10 kOhm; registers and SPI stay active) has no digital effect and is not modeled",
+  "daisy-chain SDO (SDOSEL low): SDO is the input shift register output, 16 clocks behind SDI; the model drives SDO low in that mode",
+  "stand-alone read-back with more than 16 clocks: the model shifts the input register then zeros, as the datasheet describes; fewer than 16 bits = invalid frame (ignored)"
+ ],
+ "variants": "dac8881.pdf covers only the DAC8881",
+ "parts": [
+  [
+   "DAC8881SRGET",
+   "RGE",
+   24,
+   "Active"
+  ]
+ ]
+}

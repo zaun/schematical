@@ -1,0 +1,561 @@
+{
+ "device": {
+  "id": "DAC7664",
+  "function": "DAC",
+  "description": "Quad 16-bit voltage-output DAC with 16-bit parallel interface, read-back, LDAC and reset to zero or mid scale",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac7664.pdf (SBAS271) p.1 features, p.2-4 electrical characteristics (IOVDD 2.7-5.25 V, VDD/VCC 4.75-5.25 V, logic levels vs IOVDD), p.5 pin assignments, p.6 terminal functions, p.22 digital interface and logic truth table (Table 1), p.23 3 V to 5 V logic interface and input coding (straight binary), p.24-25 timing (Figure 57, Table 2)",
+  "pinouts": {
+   "pm64": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "VOUTA Sense 1",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "VOUTA Sense 2",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "DB15",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "DB14",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "DB13",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 17,
+     "name": "DB12",
+     "role": "inout"
+    },
+    {
+     "number": 18,
+     "name": "DB11",
+     "role": "inout"
+    },
+    {
+     "number": 19,
+     "name": "DB10",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "DB9",
+     "role": "inout"
+    },
+    {
+     "number": 21,
+     "name": "DB8",
+     "role": "inout"
+    },
+    {
+     "number": 22,
+     "name": "DB7",
+     "role": "inout"
+    },
+    {
+     "number": 23,
+     "name": "DB6",
+     "role": "inout"
+    },
+    {
+     "number": 24,
+     "name": "DB5",
+     "role": "inout"
+    },
+    {
+     "number": 25,
+     "name": "DB4",
+     "role": "inout"
+    },
+    {
+     "number": 26,
+     "name": "DB3",
+     "role": "inout"
+    },
+    {
+     "number": 27,
+     "name": "DB2",
+     "role": "inout"
+    },
+    {
+     "number": 28,
+     "name": "DB1",
+     "role": "inout"
+    },
+    {
+     "number": 29,
+     "name": "DB0",
+     "role": "inout"
+    },
+    {
+     "number": 30,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "R/W",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 34,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 35,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 36,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 38,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 40,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 41,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 42,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 43,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 44,
+     "name": "VOUTD Sense 2",
+     "role": "input"
+    },
+    {
+     "number": 45,
+     "name": "VOUTD Sense 1",
+     "role": "input"
+    },
+    {
+     "number": 46,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 47,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 48,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 49,
+     "name": "Offset D Range 1",
+     "role": "input"
+    },
+    {
+     "number": 50,
+     "name": "Offset D Range 2",
+     "role": "input"
+    },
+    {
+     "number": 51,
+     "name": "Offset C Range 2",
+     "role": "input"
+    },
+    {
+     "number": 52,
+     "name": "Offset C Range 1",
+     "role": "input"
+    },
+    {
+     "number": 53,
+     "name": "VOUTC Sense 2",
+     "role": "input"
+    },
+    {
+     "number": 54,
+     "name": "VOUTC Sense 1",
+     "role": "input"
+    },
+    {
+     "number": 55,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 56,
+     "name": "REF GND",
+     "role": "ground"
+    },
+    {
+     "number": 57,
+     "name": "REF GND",
+     "role": "ground"
+    },
+    {
+     "number": 58,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 59,
+     "name": "VOUTB Sense 1",
+     "role": "input"
+    },
+    {
+     "number": 60,
+     "name": "VOUTB Sense 2",
+     "role": "input"
+    },
+    {
+     "number": 61,
+     "name": "Offset B Range 1",
+     "role": "input"
+    },
+    {
+     "number": 62,
+     "name": "Offset B Range 2",
+     "role": "input"
+    },
+    {
+     "number": 63,
+     "name": "Offset A Range 2",
+     "role": "input"
+    },
+    {
+     "number": 64,
+     "name": "Offset A Range 1",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 4,
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "VSS",
+   "VCC",
+   "VOUTA",
+   "VOUTA Sense 1",
+   "VOUTA Sense 2",
+   "VOUTD Sense 2",
+   "VOUTD Sense 1",
+   "VOUTD",
+   "Offset D Range 1",
+   "Offset D Range 2",
+   "Offset C Range 2",
+   "Offset C Range 1",
+   "VOUTC Sense 2",
+   "VOUTC Sense 1",
+   "VOUTC",
+   "VOUTB",
+   "VOUTB Sense 1",
+   "VOUTB Sense 2",
+   "Offset B Range 1",
+   "Offset B Range 2",
+   "Offset A Range 2",
+   "Offset A Range 1"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB15",
+    "DB14",
+    "DB13",
+    "DB12",
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rw": {
+    "pin": "R/W",
+    "read": 1
+   },
+   "address": [
+    "A1",
+    "A0"
+   ]
+  },
+  "timing": {
+   "tAcc": 150,
+   "tDf": 100
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC A input register (Table 1: A1 A0 = 00); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC B input register (Table 1: A1 A0 = 01); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC C input register (Table 1: A1 A0 = 10); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC D input register (Table 1: A1 A0 = 11); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC A DAC register; loaded from INPUT A on the LDAC rising edge"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC B DAC register; loaded from INPUT B on the LDAC rising edge"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC C DAC register; loaded from INPUT C on the LDAC rising edge"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC D DAC register; loaded from INPUT D on the LDAC rising edge"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write input (CS low, R/W low)",
+     "in": "aa d{16}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "Table 1: A1 A0 select input register A-D; the registers are edge-triggered (p.22), data latched at CS rising (Figure 57)"
+    }
+   ],
+   "read": {
+    "0": "[INA]",
+    "1": "[INB]",
+    "2": "[INC]",
+    "3": "[IND]"
+   },
+   "note": "Table 1: CS low with R/W high reads the input register A1 A0 selects onto DB15-DB0 (tCSD 150 ns max, tDZ 100 ns max)"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 1,
+    "edge": "rise"
+   },
+   "clear": {
+    "pin": "RST",
+    "active": 0,
+    "edge": "rise",
+    "note": "rising edge loads zero (RSTSEL low) or mid scale 8000h (RSTSEL high) into the input and DAC registers"
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": {
+    "pin": "RSTSEL",
+    "values": {
+     "0": 0,
+     "1": 32768
+    }
+   },
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PM": {
+   "pinout": "pm64",
+   "footprint": "LQFP-64-10X10",
+   "package": "LQFP",
+   "pins": 64
+  }
+ },
+ "pdf": "dac7664.pdf",
+ "pages": "p.2-4 (electrical, supplies, logic levels), p.5-6 (pinout, terminal functions), p.22 (Table 1 truth table), p.23 (logic interface, coding), p.24-25 (Figure 57, Table 2 timing)",
+ "notModeled": [
+  "analog: outputs, force/sense pins, offset range pins, internal bandgap reference, unipolar/bipolar ranges",
+  "power-on reset: the datasheet lists a power-on reset but gives no power-on code; registers reset to 0",
+  "the datasheet's Table 1 gives the read-back of the input registers only (DAC registers are not readable)"
+ ],
+ "variants": "DAC7664Y / YB / YC are linearity grades of the same chip (one pinout, one interface)",
+ "parts": [
+  [
+   "DAC7664YBT",
+   "PM",
+   64,
+   "Active"
+  ],
+  [
+   "DAC7664YCT",
+   "PM",
+   64,
+   "Active"
+  ],
+  [
+   "DAC7664YT",
+   "PM",
+   64,
+   "Active"
+  ]
+ ]
+}

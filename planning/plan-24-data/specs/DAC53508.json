@@ -1,0 +1,538 @@
+{
+ "device": {
+  "id": "DAC53508",
+  "function": "DAC",
+  "description": "10-bit octal buffered voltage-output DAC with SPI write-only interface, LDAC and CLR",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac43508.pdf (SLASF08A) p.3 pinout (Table 4-1), p.4 recommended operating conditions, p.7 SPI and logic timing (Figure 5-1), p.19 DAC update, LDAC and CLR, p.20 power-on reset and software reset, p.21 SPI (Table 6-1, 24-bit write cycle), p.22-24 register map (Table 7-1)",
+  "pinouts": {
+   "rte16": [
+    {
+     "number": 1,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "SDIN",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "VOUTE",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "VOUTF",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "VOUTG",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "VOUTH",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "VREFIN",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "CLR",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 10,
+  "channels": 8,
+  "vcc": [
+   1.8,
+   5.5
+  ],
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VOUTC",
+   "VOUTD",
+   "VOUTE",
+   "VOUTF",
+   "VOUTG",
+   "VOUTH",
+   "VREFIN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "SDIN",
+   "mode": 1
+  },
+  "registers": [
+   {
+    "name": "DEVICE_CONFIG",
+    "address": 1,
+    "width": 16,
+    "reset": 255,
+    "fields": [
+     {
+      "name": "RESERVED",
+      "bits": [
+       11,
+       9
+      ]
+     },
+     {
+      "name": "PDN_ALL",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "PDNH",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "PDNG",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "PDNF",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "PDNE",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "PDND",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "PDNC",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PDNB",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PDNA",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "write-only; PDNx = 1 powers channel x down (10 kOhm to AGND), all channels start powered down"
+   },
+   {
+    "name": "STATUS_TRIGGER",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SW_RST",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "BRDCAST",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "BRDCAST_DATA",
+      "bits": [
+       11,
+       2
+      ]
+     }
+    ],
+    "note": "MSB-aligned 10-bit code in bits 11-2; a write loads every channel"
+   },
+   {
+    "name": "DACA_DATA",
+    "space": "input",
+    "address": 8,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC buffer register (address 08h), MSB-aligned in bits 11-2 of the data word"
+   },
+   {
+    "name": "DACB_DATA",
+    "space": "input",
+    "address": 9,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC buffer register (address 09h), MSB-aligned in bits 11-2 of the data word"
+   },
+   {
+    "name": "DACC_DATA",
+    "space": "input",
+    "address": 10,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC buffer register (address 0Ah), MSB-aligned in bits 11-2 of the data word"
+   },
+   {
+    "name": "DACD_DATA",
+    "space": "input",
+    "address": 11,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC buffer register (address 0Bh), MSB-aligned in bits 11-2 of the data word"
+   },
+   {
+    "name": "DACE_DATA",
+    "space": "input",
+    "address": 12,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC buffer register (address 0Ch), MSB-aligned in bits 11-2 of the data word"
+   },
+   {
+    "name": "DACF_DATA",
+    "space": "input",
+    "address": 13,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC buffer register (address 0Dh), MSB-aligned in bits 11-2 of the data word"
+   },
+   {
+    "name": "DACG_DATA",
+    "space": "input",
+    "address": 14,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC buffer register (address 0Eh), MSB-aligned in bits 11-2 of the data word"
+   },
+   {
+    "name": "DACH_DATA",
+    "space": "input",
+    "address": 15,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC buffer register (address 0Fh), MSB-aligned in bits 11-2 of the data word"
+   },
+   {
+    "name": "DACA_ACTIVE",
+    "space": "dac",
+    "address": 8,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC active register (drives VOUTA); zero code at power-on"
+   },
+   {
+    "name": "DACB_ACTIVE",
+    "space": "dac",
+    "address": 9,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC active register (drives VOUTB); zero code at power-on"
+   },
+   {
+    "name": "DACC_ACTIVE",
+    "space": "dac",
+    "address": 10,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC active register (drives VOUTC); zero code at power-on"
+   },
+   {
+    "name": "DACD_ACTIVE",
+    "space": "dac",
+    "address": 11,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC active register (drives VOUTD); zero code at power-on"
+   },
+   {
+    "name": "DACE_ACTIVE",
+    "space": "dac",
+    "address": 12,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC active register (drives VOUTE); zero code at power-on"
+   },
+   {
+    "name": "DACF_ACTIVE",
+    "space": "dac",
+    "address": 13,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC active register (drives VOUTF); zero code at power-on"
+   },
+   {
+    "name": "DACG_ACTIVE",
+    "space": "dac",
+    "address": 14,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC active register (drives VOUTG); zero code at power-on"
+   },
+   {
+    "name": "DACH_ACTIVE",
+    "space": "dac",
+    "address": 15,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC active register (drives VOUTH); zero code at power-on"
+   },
+   {
+    "name": "CTRL",
+    "width": 1,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "LDAC",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the LDAC pin level (pins.levels); low before a write = asynchronous (immediate) update"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "STATUS_TRIGGER software reset",
+     "in": "00000010 x{12} 1010",
+     "action": "reset",
+     "note": "SW_RST = 1010b resets the device to default values (p.20, p.23)"
+    },
+    {
+     "name": "STATUS_TRIGGER write",
+     "in": "00000010 d{16}",
+     "action": "write",
+     "register": "STATUS_TRIGGER",
+     "data": "d"
+    },
+    {
+     "name": "DEVICE_CONFIG write",
+     "in": "00000001 d{16}",
+     "action": "write",
+     "register": "DEVICE_CONFIG",
+     "data": "d"
+    },
+    {
+     "name": "BRDCAST write (LDAC low: immediate)",
+     "in": "0000001b xxxx d{10} x{2}",
+     "when": "CTRL.LDAC=0",
+     "action": "write",
+     "channel": "b",
+     "channelMap": {
+      "1": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ]
+     },
+     "data": "d",
+     "set": {
+      "BRDCAST.BRDCAST_DATA": "d"
+     },
+     "then": [
+      "update"
+     ],
+     "note": "address 03h (b = 1; 02h is matched by STATUS_TRIGGER above)"
+    },
+    {
+     "name": "BRDCAST write (LDAC high: wait for LDAC)",
+     "in": "0000001b xxxx d{10} x{2}",
+     "when": "CTRL.LDAC=1",
+     "action": "write",
+     "channel": "b",
+     "channelMap": {
+      "1": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ]
+     },
+     "data": "d",
+     "set": {
+      "BRDCAST.BRDCAST_DATA": "d"
+     }
+    },
+    {
+     "name": "DACn_DATA write (LDAC low: immediate)",
+     "in": "00001ccc xxxx d{10} x{2}",
+     "when": "CTRL.LDAC=0",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "note": "addresses 08h-0Fh = channels A-H; asynchronous mode updates at the 24th clock"
+    },
+    {
+     "name": "DACn_DATA write (LDAC high: wait for LDAC)",
+     "in": "00001ccc xxxx d{10} x{2}",
+     "when": "CTRL.LDAC=1",
+     "action": "write",
+     "channel": "c",
+     "data": "d"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "fall"
+   },
+   "clear": {
+    "pin": "CLR",
+    "active": 0
+   },
+   "levels": [
+    {
+     "pin": "LDAC",
+     "field": "CTRL.LDAC"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DACA_DATA",
+    "DACB_DATA",
+    "DACC_DATA",
+    "DACD_DATA",
+    "DACE_DATA",
+    "DACF_DATA",
+    "DACG_DATA",
+    "DACH_DATA"
+   ],
+   "output": [
+    "DACA_ACTIVE",
+    "DACB_ACTIVE",
+    "DACC_ACTIVE",
+    "DACD_ACTIVE",
+    "DACE_ACTIVE",
+    "DACF_ACTIVE",
+    "DACG_ACTIVE",
+    "DACH_ACTIVE"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "RTE": {
+   "pinout": "rte16",
+   "footprint": "WQFN-16-RTE",
+   "package": "WQFN",
+   "pins": 16
+  }
+ },
+ "pdf": "dac43508.pdf",
+ "pages": "p.3 (pinout), p.4 (ROC), p.7 (SPI/logic timing), p.19-20 (update, LDAC, CLR, reset), p.21 (SPI frame), p.22-24 (registers)",
+ "notModeled": [
+  "analog outputs, external reference and power-down output loads (DEVICE_CONFIG stored only; VOUTx are never driven)",
+  "the interface is write-only (p.21): no register can be read back",
+  "only the first 24 bits of a longer frame are used: the model also uses the first 24 (fixed frame), but it updates at the 24th clock rather than the 24th rising edge",
+  "CLR also zeroes the DAC buffer registers (p.19); the model's clear pin sets the active registers to zero code",
+  "5 ms power-on delay before communication is valid",
+  "SCLK idle level: Figure 5-1 shows data sampled on SCLK falling edges with SCLK low before the first rising edge (mode 1); a mode 2 host also works on the real part"
+ ],
+ "variants": "DAC43508 (8-bit), DAC53508 (10-bit) and DAC63508 (12-bit) share dac43508.pdf; same pinout and registers, the data field is MSB-aligned in bits 11-0 with 4/2/0 don't-care LSBs. Siblings: DAC43508, DAC63508 (own specs).",
+ "parts": [
+  [
+   "DAC53508RTER",
+   "RTE",
+   16,
+   "Active"
+  ]
+ ]
+}

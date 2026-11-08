@@ -1,0 +1,2598 @@
+{
+ "device": {
+  "id": "DAC5687",
+  "function": "DAC",
+  "description": "16-bit 500 MSPS 2x-8x interpolating dual current-output DAC with NCO, QMC, dual 16-bit CMOS data inputs and 3/4-wire serial configuration port",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac5687.pdf (SLWS164E) p.3 pinout, p.4-5 terminal functions, p.8 power supply ranges, p.10 serial port timing, p.24-31 register map and descriptions, p.32-33 serial interface (Tables 6-7, Figures 33-34)",
+  "pinouts": {
+   "pzp100": [
+    {
+     "number": 1,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "IOUTB1",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "IOUTB2",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "EXTIO",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "BIASJ",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "EXTLO",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "IOUTA2",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "IOUTA1",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 24,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "SDENB",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "SDIO",
+     "role": "inout"
+    },
+    {
+     "number": 31,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 33,
+     "name": "TXENABLE",
+     "role": "input"
+    },
+    {
+     "number": 34,
+     "name": "DA15",
+     "role": "input"
+    },
+    {
+     "number": 35,
+     "name": "DA14",
+     "role": "input"
+    },
+    {
+     "number": 36,
+     "name": "DA13",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 38,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 39,
+     "name": "DA12",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "DA11",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "DA10",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "DA9",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "DA8",
+     "role": "input"
+    },
+    {
+     "number": 44,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 45,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 46,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 47,
+     "name": "IOGND",
+     "role": "ground"
+    },
+    {
+     "number": 48,
+     "name": "DA7",
+     "role": "input"
+    },
+    {
+     "number": 49,
+     "name": "DA6",
+     "role": "input"
+    },
+    {
+     "number": 50,
+     "name": "DA5",
+     "role": "input"
+    },
+    {
+     "number": 51,
+     "name": "DA4",
+     "role": "input"
+    },
+    {
+     "number": 52,
+     "name": "DA3",
+     "role": "input"
+    },
+    {
+     "number": 53,
+     "name": "DA2",
+     "role": "input"
+    },
+    {
+     "number": 54,
+     "name": "DA1",
+     "role": "input"
+    },
+    {
+     "number": 55,
+     "name": "DA0",
+     "role": "input"
+    },
+    {
+     "number": 56,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 57,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 58,
+     "name": "CLKGND",
+     "role": "ground"
+    },
+    {
+     "number": 59,
+     "name": "CLK1",
+     "role": "input"
+    },
+    {
+     "number": 60,
+     "name": "CLK1C",
+     "role": "input"
+    },
+    {
+     "number": 61,
+     "name": "CLKVDD",
+     "role": "power"
+    },
+    {
+     "number": 62,
+     "name": "CLK2",
+     "role": "input"
+    },
+    {
+     "number": 63,
+     "name": "CLK2C",
+     "role": "input"
+    },
+    {
+     "number": 64,
+     "name": "CLKGND",
+     "role": "ground"
+    },
+    {
+     "number": 65,
+     "name": "PLLGND",
+     "role": "ground"
+    },
+    {
+     "number": 66,
+     "name": "LPF",
+     "role": "nc"
+    },
+    {
+     "number": 67,
+     "name": "PLLVDD",
+     "role": "power"
+    },
+    {
+     "number": 68,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 69,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 70,
+     "name": "PLLLOCK",
+     "role": "output"
+    },
+    {
+     "number": 71,
+     "name": "DB0",
+     "role": "input"
+    },
+    {
+     "number": 72,
+     "name": "DB1",
+     "role": "input"
+    },
+    {
+     "number": 73,
+     "name": "DB2",
+     "role": "input"
+    },
+    {
+     "number": 74,
+     "name": "DB3",
+     "role": "input"
+    },
+    {
+     "number": 75,
+     "name": "DB4",
+     "role": "input"
+    },
+    {
+     "number": 76,
+     "name": "DB5",
+     "role": "input"
+    },
+    {
+     "number": 77,
+     "name": "DB6",
+     "role": "input"
+    },
+    {
+     "number": 78,
+     "name": "DB7",
+     "role": "input"
+    },
+    {
+     "number": 79,
+     "name": "IOGND",
+     "role": "ground"
+    },
+    {
+     "number": 80,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 81,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 82,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 83,
+     "name": "DB8",
+     "role": "input"
+    },
+    {
+     "number": 84,
+     "name": "DB9",
+     "role": "input"
+    },
+    {
+     "number": 85,
+     "name": "DB10",
+     "role": "input"
+    },
+    {
+     "number": 86,
+     "name": "DB11",
+     "role": "input"
+    },
+    {
+     "number": 87,
+     "name": "DB12",
+     "role": "input"
+    },
+    {
+     "number": 88,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 89,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 90,
+     "name": "DB13",
+     "role": "input"
+    },
+    {
+     "number": 91,
+     "name": "DB14",
+     "role": "input"
+    },
+    {
+     "number": 92,
+     "name": "DB15",
+     "role": "input"
+    },
+    {
+     "number": 93,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 94,
+     "name": "PHSTR",
+     "role": "input"
+    },
+    {
+     "number": 95,
+     "name": "RESETB",
+     "role": "input"
+    },
+    {
+     "number": 96,
+     "name": "SLEEP",
+     "role": "input"
+    },
+    {
+     "number": 97,
+     "name": "TESTMODE",
+     "role": "input"
+    },
+    {
+     "number": 98,
+     "name": "QFLAG",
+     "role": "input"
+    },
+    {
+     "number": 99,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 100,
+     "name": "DVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 2,
+  "vcc": [
+   1.71,
+   3.6
+  ],
+  "analog": [
+   "AVDD",
+   "IOUTB1",
+   "IOUTB2",
+   "EXTIO",
+   "BIASJ",
+   "EXTLO",
+   "IOUTA2",
+   "IOUTA1",
+   "CLKVDD",
+   "LPF",
+   "PLLVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SDENB",
+   "sclk": "SCLK",
+   "mosi": "SDIO",
+   "miso": "SDIO",
+   "mode": 0
+  },
+  "timing": {
+   "tOut": 10
+  },
+  "registers": [
+   {
+    "name": "VERSION",
+    "address": 0,
+    "width": 8,
+    "reset": 3,
+    "readOnly": 7,
+    "fields": [
+     {
+      "name": "SLEEP_DACA",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "SLEEP_DACB",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "HPLA",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "HPLB",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "VERSION",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "version(2:0) hardwired, read only"
+   },
+   {
+    "name": "CONFIG0",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PLL_DIV",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "PLL_FREQ",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "PLL_KV",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "INTERP",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "INV_PLLLOCK",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "FIFO_BYPASS",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG1",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "QFLAG",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "INTERL",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "DUAL_CLK",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "TWOS",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "REV_ABUS",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "REV_BBUS",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "FIR_BYPASS",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "FULL_BYPASS",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG2",
+    "address": 3,
+    "width": 8,
+    "reset": 128,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "NCO",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "NCO_GAIN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "QMC",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CM_MODE",
+      "bits": [
+       4,
+       1
+      ]
+     },
+     {
+      "name": "INVSINC",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG3",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SIF_4PIN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "DAC_SER_DATA",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "HALF_RATE",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "USB",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "COUNTER_MODE",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SYNC_CNTL",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SYNC_PHSTR",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "SYNC_NCO",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "SYNC_CM",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "SYNC_FIFO",
+      "bits": [
+       4,
+       2
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SER_DATA_0",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DAC_DATA_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SER_DATA_1",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DAC_DATA_15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "BYPASS_MASK_CNTL",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "FAST_LATCH",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "BP_INVSINC",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "BP_FIR3",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "BP_QMC",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "BP_FMIX",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "BP_FIR2",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "BP_FIR1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "NCO_ONLY",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "factory use only"
+   },
+   {
+    "name": "NCO_FREQ_0",
+    "address": 9,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "FREQ_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "NCO_FREQ_1",
+    "address": 10,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "FREQ_15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "NCO_FREQ_2",
+    "address": 11,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "FREQ_23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "NCO_FREQ_3",
+    "address": 12,
+    "width": 8,
+    "reset": 64,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "FREQ_31_24",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "NCO_PHASE_0",
+    "address": 13,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PHASE_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "NCO_PHASE_1",
+    "address": 14,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PHASE_15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACA_OFFSET_0",
+    "address": 15,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DACA_OFFSET_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACB_OFFSET_0",
+    "address": 16,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DACB_OFFSET_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACA_OFFSET_1",
+    "address": 17,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DACA_OFFSET_12_8",
+      "bits": [
+       7,
+       3
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACB_OFFSET_1",
+    "address": 18,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DACB_OFFSET_12_8",
+      "bits": [
+       7,
+       3
+      ]
+     }
+    ]
+   },
+   {
+    "name": "QMCA_GAIN_0",
+    "address": 19,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "QMC_GAIN_A_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "QMCB_GAIN_0",
+    "address": 20,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "QMC_GAIN_B_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "QMC_PHASE_0",
+    "address": 21,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "QMC_PHASE_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "QMC_PHASE_GAIN_1",
+    "address": 22,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "QMC_PHASE_9_8",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "QMC_GAIN_A_10_8",
+      "bits": [
+       5,
+       3
+      ]
+     },
+     {
+      "name": "QMC_GAIN_B_10_8",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACA_GAIN_0",
+    "address": 23,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DACA_GAIN_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACB_GAIN_0",
+    "address": 24,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DACB_GAIN_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACA_DACB_GAIN_1",
+    "address": 25,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DACA_GAIN_11_8",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DACB_GAIN_11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_CLK_CNTL",
+    "address": 26,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [],
+    "note": "factory use only"
+   },
+   {
+    "name": "ATEST",
+    "address": 27,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ATEST",
+      "bits": [
+       7,
+       3
+      ]
+     },
+     {
+      "name": "PHSTR_DEL",
+      "bits": [
+       2,
+       1
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_TEST",
+    "address": 28,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PHSTR_CLKDIV_SEL",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "bits 7:1 factory use only"
+   },
+   {
+    "name": "RESERVED_1D",
+    "address": 29,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [],
+    "note": "reserved: writes have no effect, reads 0x00"
+   },
+   {
+    "name": "RESERVED_1E",
+    "address": 30,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [],
+    "note": "reserved: writes have no effect, reads 0x00"
+   },
+   {
+    "name": "RESERVED_1F",
+    "address": 31,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [],
+    "note": "reserved: writes have no effect, reads 0x00"
+   },
+   {
+    "name": "DATA_A",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI",
+      "bits": [
+       15,
+       8
+      ]
+     },
+     {
+      "name": "LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "the 16-bit ser_data value (SER_DATA_1:SER_DATA_0) that replaces both DAC inputs when CONFIG3.DAC_SER_DATA = 1; written together with SER_DATA_0/1"
+   },
+   {
+    "name": "DATA_B",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI",
+      "bits": [
+       15,
+       8
+      ]
+     },
+     {
+      "name": "LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "the 16-bit ser_data value (SER_DATA_1:SER_DATA_0) that replaces both DAC inputs when CONFIG3.DAC_SER_DATA = 1; written together with SER_DATA_0/1"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "WRITE 1 byte @0x00",
+     "in": "0 00 00000 [VERSION]"
+    },
+    {
+     "name": "READ 1 byte @0x00",
+     "in": "1 00 00000",
+     "reply": "[VERSION]"
+    },
+    {
+     "name": "WRITE 1 byte @0x01",
+     "in": "0 00 00001 [CONFIG0]"
+    },
+    {
+     "name": "READ 1 byte @0x01",
+     "in": "1 00 00001",
+     "reply": "[CONFIG0]"
+    },
+    {
+     "name": "WRITE 1 byte @0x02",
+     "in": "0 00 00010 [CONFIG1]"
+    },
+    {
+     "name": "READ 1 byte @0x02",
+     "in": "1 00 00010",
+     "reply": "[CONFIG1]"
+    },
+    {
+     "name": "WRITE 1 byte @0x03",
+     "in": "0 00 00011 [CONFIG2]"
+    },
+    {
+     "name": "READ 1 byte @0x03",
+     "in": "1 00 00011",
+     "reply": "[CONFIG2]"
+    },
+    {
+     "name": "WRITE 1 byte @0x04",
+     "in": "0 00 00100 [CONFIG3]"
+    },
+    {
+     "name": "READ 1 byte @0x04",
+     "in": "1 00 00100",
+     "reply": "[CONFIG3]"
+    },
+    {
+     "name": "WRITE 1 byte @0x05",
+     "in": "0 00 00101 [SYNC_CNTL]"
+    },
+    {
+     "name": "READ 1 byte @0x05",
+     "in": "1 00 00101",
+     "reply": "[SYNC_CNTL]"
+    },
+    {
+     "name": "WRITE 1 byte @0x06",
+     "in": "0 00 00110 aaaaaaaa",
+     "set": {
+      "SER_DATA_0.DAC_DATA_7_0": "a",
+      "DATA_A.LO": "a",
+      "DATA_B.LO": "a"
+     }
+    },
+    {
+     "name": "READ 1 byte @0x06",
+     "in": "1 00 00110",
+     "reply": "[SER_DATA_0]"
+    },
+    {
+     "name": "WRITE 1 byte @0x07",
+     "in": "0 00 00111 aaaaaaaa",
+     "set": {
+      "SER_DATA_1.DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a"
+     }
+    },
+    {
+     "name": "READ 1 byte @0x07",
+     "in": "1 00 00111",
+     "reply": "[SER_DATA_1]"
+    },
+    {
+     "name": "WRITE 1 byte @0x08",
+     "in": "0 00 01000 [BYPASS_MASK_CNTL]"
+    },
+    {
+     "name": "READ 1 byte @0x08",
+     "in": "1 00 01000",
+     "reply": "[BYPASS_MASK_CNTL]"
+    },
+    {
+     "name": "WRITE 1 byte @0x09",
+     "in": "0 00 01001 [NCO_FREQ_0]"
+    },
+    {
+     "name": "READ 1 byte @0x09",
+     "in": "1 00 01001",
+     "reply": "[NCO_FREQ_0]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0A",
+     "in": "0 00 01010 [NCO_FREQ_1]"
+    },
+    {
+     "name": "READ 1 byte @0x0A",
+     "in": "1 00 01010",
+     "reply": "[NCO_FREQ_1]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0B",
+     "in": "0 00 01011 [NCO_FREQ_2]"
+    },
+    {
+     "name": "READ 1 byte @0x0B",
+     "in": "1 00 01011",
+     "reply": "[NCO_FREQ_2]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0C",
+     "in": "0 00 01100 [NCO_FREQ_3]"
+    },
+    {
+     "name": "READ 1 byte @0x0C",
+     "in": "1 00 01100",
+     "reply": "[NCO_FREQ_3]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0D",
+     "in": "0 00 01101 [NCO_PHASE_0]"
+    },
+    {
+     "name": "READ 1 byte @0x0D",
+     "in": "1 00 01101",
+     "reply": "[NCO_PHASE_0]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0E",
+     "in": "0 00 01110 [NCO_PHASE_1]"
+    },
+    {
+     "name": "READ 1 byte @0x0E",
+     "in": "1 00 01110",
+     "reply": "[NCO_PHASE_1]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0F",
+     "in": "0 00 01111 [DACA_OFFSET_0]"
+    },
+    {
+     "name": "READ 1 byte @0x0F",
+     "in": "1 00 01111",
+     "reply": "[DACA_OFFSET_0]"
+    },
+    {
+     "name": "WRITE 1 byte @0x10",
+     "in": "0 00 10000 [DACB_OFFSET_0]"
+    },
+    {
+     "name": "READ 1 byte @0x10",
+     "in": "1 00 10000",
+     "reply": "[DACB_OFFSET_0]"
+    },
+    {
+     "name": "WRITE 1 byte @0x11",
+     "in": "0 00 10001 [DACA_OFFSET_1]"
+    },
+    {
+     "name": "READ 1 byte @0x11",
+     "in": "1 00 10001",
+     "reply": "[DACA_OFFSET_1]"
+    },
+    {
+     "name": "WRITE 1 byte @0x12",
+     "in": "0 00 10010 [DACB_OFFSET_1]"
+    },
+    {
+     "name": "READ 1 byte @0x12",
+     "in": "1 00 10010",
+     "reply": "[DACB_OFFSET_1]"
+    },
+    {
+     "name": "WRITE 1 byte @0x13",
+     "in": "0 00 10011 [QMCA_GAIN_0]"
+    },
+    {
+     "name": "READ 1 byte @0x13",
+     "in": "1 00 10011",
+     "reply": "[QMCA_GAIN_0]"
+    },
+    {
+     "name": "WRITE 1 byte @0x14",
+     "in": "0 00 10100 [QMCB_GAIN_0]"
+    },
+    {
+     "name": "READ 1 byte @0x14",
+     "in": "1 00 10100",
+     "reply": "[QMCB_GAIN_0]"
+    },
+    {
+     "name": "WRITE 1 byte @0x15",
+     "in": "0 00 10101 [QMC_PHASE_0]"
+    },
+    {
+     "name": "READ 1 byte @0x15",
+     "in": "1 00 10101",
+     "reply": "[QMC_PHASE_0]"
+    },
+    {
+     "name": "WRITE 1 byte @0x16",
+     "in": "0 00 10110 [QMC_PHASE_GAIN_1]"
+    },
+    {
+     "name": "READ 1 byte @0x16",
+     "in": "1 00 10110",
+     "reply": "[QMC_PHASE_GAIN_1]"
+    },
+    {
+     "name": "WRITE 1 byte @0x17",
+     "in": "0 00 10111 [DACA_GAIN_0]"
+    },
+    {
+     "name": "READ 1 byte @0x17",
+     "in": "1 00 10111",
+     "reply": "[DACA_GAIN_0]"
+    },
+    {
+     "name": "WRITE 1 byte @0x18",
+     "in": "0 00 11000 [DACB_GAIN_0]"
+    },
+    {
+     "name": "READ 1 byte @0x18",
+     "in": "1 00 11000",
+     "reply": "[DACB_GAIN_0]"
+    },
+    {
+     "name": "WRITE 1 byte @0x19",
+     "in": "0 00 11001 [DACA_DACB_GAIN_1]"
+    },
+    {
+     "name": "READ 1 byte @0x19",
+     "in": "1 00 11001",
+     "reply": "[DACA_DACB_GAIN_1]"
+    },
+    {
+     "name": "WRITE 1 byte @0x1A",
+     "in": "0 00 11010 [DAC_CLK_CNTL]"
+    },
+    {
+     "name": "READ 1 byte @0x1A",
+     "in": "1 00 11010",
+     "reply": "[DAC_CLK_CNTL]"
+    },
+    {
+     "name": "WRITE 1 byte @0x1B",
+     "in": "0 00 11011 [ATEST]"
+    },
+    {
+     "name": "READ 1 byte @0x1B",
+     "in": "1 00 11011",
+     "reply": "[ATEST]"
+    },
+    {
+     "name": "WRITE 1 byte @0x1C",
+     "in": "0 00 11100 [DAC_TEST]"
+    },
+    {
+     "name": "READ 1 byte @0x1C",
+     "in": "1 00 11100",
+     "reply": "[DAC_TEST]"
+    },
+    {
+     "name": "WRITE 1 byte @0x1D",
+     "in": "0 00 11101 [RESERVED_1D]"
+    },
+    {
+     "name": "READ 1 byte @0x1D",
+     "in": "1 00 11101",
+     "reply": "[RESERVED_1D]"
+    },
+    {
+     "name": "WRITE 1 byte @0x1E",
+     "in": "0 00 11110 [RESERVED_1E]"
+    },
+    {
+     "name": "READ 1 byte @0x1E",
+     "in": "1 00 11110",
+     "reply": "[RESERVED_1E]"
+    },
+    {
+     "name": "WRITE 1 byte @0x1F",
+     "in": "0 00 11111 [RESERVED_1F]"
+    },
+    {
+     "name": "READ 1 byte @0x1F",
+     "in": "1 00 11111",
+     "reply": "[RESERVED_1F]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x01",
+     "in": "0 01 00001 [CONFIG0] [VERSION]"
+    },
+    {
+     "name": "READ 2 bytes @0x01",
+     "in": "1 01 00001",
+     "reply": "[CONFIG0][VERSION]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x02",
+     "in": "0 01 00010 [CONFIG1] [CONFIG0]"
+    },
+    {
+     "name": "READ 2 bytes @0x02",
+     "in": "1 01 00010",
+     "reply": "[CONFIG1][CONFIG0]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x03",
+     "in": "0 01 00011 [CONFIG2] [CONFIG1]"
+    },
+    {
+     "name": "READ 2 bytes @0x03",
+     "in": "1 01 00011",
+     "reply": "[CONFIG2][CONFIG1]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x04",
+     "in": "0 01 00100 [CONFIG3] [CONFIG2]"
+    },
+    {
+     "name": "READ 2 bytes @0x04",
+     "in": "1 01 00100",
+     "reply": "[CONFIG3][CONFIG2]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x05",
+     "in": "0 01 00101 [SYNC_CNTL] [CONFIG3]"
+    },
+    {
+     "name": "READ 2 bytes @0x05",
+     "in": "1 01 00101",
+     "reply": "[SYNC_CNTL][CONFIG3]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x06",
+     "in": "0 01 00110 aaaaaaaa [SYNC_CNTL]",
+     "set": {
+      "SER_DATA_0.DAC_DATA_7_0": "a",
+      "DATA_A.LO": "a",
+      "DATA_B.LO": "a"
+     }
+    },
+    {
+     "name": "READ 2 bytes @0x06",
+     "in": "1 01 00110",
+     "reply": "[SER_DATA_0][SYNC_CNTL]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x07",
+     "in": "0 01 00111 aaaaaaaa bbbbbbbb",
+     "set": {
+      "SER_DATA_1.DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a",
+      "SER_DATA_0.DAC_DATA_7_0": "b",
+      "DATA_A.LO": "b",
+      "DATA_B.LO": "b"
+     }
+    },
+    {
+     "name": "READ 2 bytes @0x07",
+     "in": "1 01 00111",
+     "reply": "[SER_DATA_1][SER_DATA_0]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x08",
+     "in": "0 01 01000 [BYPASS_MASK_CNTL] aaaaaaaa",
+     "set": {
+      "SER_DATA_1.DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a"
+     }
+    },
+    {
+     "name": "READ 2 bytes @0x08",
+     "in": "1 01 01000",
+     "reply": "[BYPASS_MASK_CNTL][SER_DATA_1]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x09",
+     "in": "0 01 01001 [NCO_FREQ_0] [BYPASS_MASK_CNTL]"
+    },
+    {
+     "name": "READ 2 bytes @0x09",
+     "in": "1 01 01001",
+     "reply": "[NCO_FREQ_0][BYPASS_MASK_CNTL]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0A",
+     "in": "0 01 01010 [NCO_FREQ_1] [NCO_FREQ_0]"
+    },
+    {
+     "name": "READ 2 bytes @0x0A",
+     "in": "1 01 01010",
+     "reply": "[NCO_FREQ_1][NCO_FREQ_0]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0B",
+     "in": "0 01 01011 [NCO_FREQ_2] [NCO_FREQ_1]"
+    },
+    {
+     "name": "READ 2 bytes @0x0B",
+     "in": "1 01 01011",
+     "reply": "[NCO_FREQ_2][NCO_FREQ_1]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0C",
+     "in": "0 01 01100 [NCO_FREQ_3] [NCO_FREQ_2]"
+    },
+    {
+     "name": "READ 2 bytes @0x0C",
+     "in": "1 01 01100",
+     "reply": "[NCO_FREQ_3][NCO_FREQ_2]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0D",
+     "in": "0 01 01101 [NCO_PHASE_0] [NCO_FREQ_3]"
+    },
+    {
+     "name": "READ 2 bytes @0x0D",
+     "in": "1 01 01101",
+     "reply": "[NCO_PHASE_0][NCO_FREQ_3]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0E",
+     "in": "0 01 01110 [NCO_PHASE_1] [NCO_PHASE_0]"
+    },
+    {
+     "name": "READ 2 bytes @0x0E",
+     "in": "1 01 01110",
+     "reply": "[NCO_PHASE_1][NCO_PHASE_0]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0F",
+     "in": "0 01 01111 [DACA_OFFSET_0] [NCO_PHASE_1]"
+    },
+    {
+     "name": "READ 2 bytes @0x0F",
+     "in": "1 01 01111",
+     "reply": "[DACA_OFFSET_0][NCO_PHASE_1]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x10",
+     "in": "0 01 10000 [DACB_OFFSET_0] [DACA_OFFSET_0]"
+    },
+    {
+     "name": "READ 2 bytes @0x10",
+     "in": "1 01 10000",
+     "reply": "[DACB_OFFSET_0][DACA_OFFSET_0]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x11",
+     "in": "0 01 10001 [DACA_OFFSET_1] [DACB_OFFSET_0]"
+    },
+    {
+     "name": "READ 2 bytes @0x11",
+     "in": "1 01 10001",
+     "reply": "[DACA_OFFSET_1][DACB_OFFSET_0]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x12",
+     "in": "0 01 10010 [DACB_OFFSET_1] [DACA_OFFSET_1]"
+    },
+    {
+     "name": "READ 2 bytes @0x12",
+     "in": "1 01 10010",
+     "reply": "[DACB_OFFSET_1][DACA_OFFSET_1]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x13",
+     "in": "0 01 10011 [QMCA_GAIN_0] [DACB_OFFSET_1]"
+    },
+    {
+     "name": "READ 2 bytes @0x13",
+     "in": "1 01 10011",
+     "reply": "[QMCA_GAIN_0][DACB_OFFSET_1]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x14",
+     "in": "0 01 10100 [QMCB_GAIN_0] [QMCA_GAIN_0]"
+    },
+    {
+     "name": "READ 2 bytes @0x14",
+     "in": "1 01 10100",
+     "reply": "[QMCB_GAIN_0][QMCA_GAIN_0]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x15",
+     "in": "0 01 10101 [QMC_PHASE_0] [QMCB_GAIN_0]"
+    },
+    {
+     "name": "READ 2 bytes @0x15",
+     "in": "1 01 10101",
+     "reply": "[QMC_PHASE_0][QMCB_GAIN_0]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x16",
+     "in": "0 01 10110 [QMC_PHASE_GAIN_1] [QMC_PHASE_0]"
+    },
+    {
+     "name": "READ 2 bytes @0x16",
+     "in": "1 01 10110",
+     "reply": "[QMC_PHASE_GAIN_1][QMC_PHASE_0]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x17",
+     "in": "0 01 10111 [DACA_GAIN_0] [QMC_PHASE_GAIN_1]"
+    },
+    {
+     "name": "READ 2 bytes @0x17",
+     "in": "1 01 10111",
+     "reply": "[DACA_GAIN_0][QMC_PHASE_GAIN_1]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x18",
+     "in": "0 01 11000 [DACB_GAIN_0] [DACA_GAIN_0]"
+    },
+    {
+     "name": "READ 2 bytes @0x18",
+     "in": "1 01 11000",
+     "reply": "[DACB_GAIN_0][DACA_GAIN_0]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x19",
+     "in": "0 01 11001 [DACA_DACB_GAIN_1] [DACB_GAIN_0]"
+    },
+    {
+     "name": "READ 2 bytes @0x19",
+     "in": "1 01 11001",
+     "reply": "[DACA_DACB_GAIN_1][DACB_GAIN_0]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x1A",
+     "in": "0 01 11010 [DAC_CLK_CNTL] [DACA_DACB_GAIN_1]"
+    },
+    {
+     "name": "READ 2 bytes @0x1A",
+     "in": "1 01 11010",
+     "reply": "[DAC_CLK_CNTL][DACA_DACB_GAIN_1]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x1B",
+     "in": "0 01 11011 [ATEST] [DAC_CLK_CNTL]"
+    },
+    {
+     "name": "READ 2 bytes @0x1B",
+     "in": "1 01 11011",
+     "reply": "[ATEST][DAC_CLK_CNTL]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x1C",
+     "in": "0 01 11100 [DAC_TEST] [ATEST]"
+    },
+    {
+     "name": "READ 2 bytes @0x1C",
+     "in": "1 01 11100",
+     "reply": "[DAC_TEST][ATEST]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x1D",
+     "in": "0 01 11101 [RESERVED_1D] [DAC_TEST]"
+    },
+    {
+     "name": "READ 2 bytes @0x1D",
+     "in": "1 01 11101",
+     "reply": "[RESERVED_1D][DAC_TEST]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x1E",
+     "in": "0 01 11110 [RESERVED_1E] [RESERVED_1D]"
+    },
+    {
+     "name": "READ 2 bytes @0x1E",
+     "in": "1 01 11110",
+     "reply": "[RESERVED_1E][RESERVED_1D]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x1F",
+     "in": "0 01 11111 [RESERVED_1F] [RESERVED_1E]"
+    },
+    {
+     "name": "READ 2 bytes @0x1F",
+     "in": "1 01 11111",
+     "reply": "[RESERVED_1F][RESERVED_1E]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x02",
+     "in": "0 10 00010 [CONFIG1] [CONFIG0] [VERSION]"
+    },
+    {
+     "name": "READ 3 bytes @0x02",
+     "in": "1 10 00010",
+     "reply": "[CONFIG1][CONFIG0][VERSION]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x03",
+     "in": "0 10 00011 [CONFIG2] [CONFIG1] [CONFIG0]"
+    },
+    {
+     "name": "READ 3 bytes @0x03",
+     "in": "1 10 00011",
+     "reply": "[CONFIG2][CONFIG1][CONFIG0]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x04",
+     "in": "0 10 00100 [CONFIG3] [CONFIG2] [CONFIG1]"
+    },
+    {
+     "name": "READ 3 bytes @0x04",
+     "in": "1 10 00100",
+     "reply": "[CONFIG3][CONFIG2][CONFIG1]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x05",
+     "in": "0 10 00101 [SYNC_CNTL] [CONFIG3] [CONFIG2]"
+    },
+    {
+     "name": "READ 3 bytes @0x05",
+     "in": "1 10 00101",
+     "reply": "[SYNC_CNTL][CONFIG3][CONFIG2]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x06",
+     "in": "0 10 00110 aaaaaaaa [SYNC_CNTL] [CONFIG3]",
+     "set": {
+      "SER_DATA_0.DAC_DATA_7_0": "a",
+      "DATA_A.LO": "a",
+      "DATA_B.LO": "a"
+     }
+    },
+    {
+     "name": "READ 3 bytes @0x06",
+     "in": "1 10 00110",
+     "reply": "[SER_DATA_0][SYNC_CNTL][CONFIG3]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x07",
+     "in": "0 10 00111 aaaaaaaa bbbbbbbb [SYNC_CNTL]",
+     "set": {
+      "SER_DATA_1.DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a",
+      "SER_DATA_0.DAC_DATA_7_0": "b",
+      "DATA_A.LO": "b",
+      "DATA_B.LO": "b"
+     }
+    },
+    {
+     "name": "READ 3 bytes @0x07",
+     "in": "1 10 00111",
+     "reply": "[SER_DATA_1][SER_DATA_0][SYNC_CNTL]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x08",
+     "in": "0 10 01000 [BYPASS_MASK_CNTL] aaaaaaaa bbbbbbbb",
+     "set": {
+      "SER_DATA_1.DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a",
+      "SER_DATA_0.DAC_DATA_7_0": "b",
+      "DATA_A.LO": "b",
+      "DATA_B.LO": "b"
+     }
+    },
+    {
+     "name": "READ 3 bytes @0x08",
+     "in": "1 10 01000",
+     "reply": "[BYPASS_MASK_CNTL][SER_DATA_1][SER_DATA_0]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x09",
+     "in": "0 10 01001 [NCO_FREQ_0] [BYPASS_MASK_CNTL] aaaaaaaa",
+     "set": {
+      "SER_DATA_1.DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a"
+     }
+    },
+    {
+     "name": "READ 3 bytes @0x09",
+     "in": "1 10 01001",
+     "reply": "[NCO_FREQ_0][BYPASS_MASK_CNTL][SER_DATA_1]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0A",
+     "in": "0 10 01010 [NCO_FREQ_1] [NCO_FREQ_0] [BYPASS_MASK_CNTL]"
+    },
+    {
+     "name": "READ 3 bytes @0x0A",
+     "in": "1 10 01010",
+     "reply": "[NCO_FREQ_1][NCO_FREQ_0][BYPASS_MASK_CNTL]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0B",
+     "in": "0 10 01011 [NCO_FREQ_2] [NCO_FREQ_1] [NCO_FREQ_0]"
+    },
+    {
+     "name": "READ 3 bytes @0x0B",
+     "in": "1 10 01011",
+     "reply": "[NCO_FREQ_2][NCO_FREQ_1][NCO_FREQ_0]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0C",
+     "in": "0 10 01100 [NCO_FREQ_3] [NCO_FREQ_2] [NCO_FREQ_1]"
+    },
+    {
+     "name": "READ 3 bytes @0x0C",
+     "in": "1 10 01100",
+     "reply": "[NCO_FREQ_3][NCO_FREQ_2][NCO_FREQ_1]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0D",
+     "in": "0 10 01101 [NCO_PHASE_0] [NCO_FREQ_3] [NCO_FREQ_2]"
+    },
+    {
+     "name": "READ 3 bytes @0x0D",
+     "in": "1 10 01101",
+     "reply": "[NCO_PHASE_0][NCO_FREQ_3][NCO_FREQ_2]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0E",
+     "in": "0 10 01110 [NCO_PHASE_1] [NCO_PHASE_0] [NCO_FREQ_3]"
+    },
+    {
+     "name": "READ 3 bytes @0x0E",
+     "in": "1 10 01110",
+     "reply": "[NCO_PHASE_1][NCO_PHASE_0][NCO_FREQ_3]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0F",
+     "in": "0 10 01111 [DACA_OFFSET_0] [NCO_PHASE_1] [NCO_PHASE_0]"
+    },
+    {
+     "name": "READ 3 bytes @0x0F",
+     "in": "1 10 01111",
+     "reply": "[DACA_OFFSET_0][NCO_PHASE_1][NCO_PHASE_0]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x10",
+     "in": "0 10 10000 [DACB_OFFSET_0] [DACA_OFFSET_0] [NCO_PHASE_1]"
+    },
+    {
+     "name": "READ 3 bytes @0x10",
+     "in": "1 10 10000",
+     "reply": "[DACB_OFFSET_0][DACA_OFFSET_0][NCO_PHASE_1]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x11",
+     "in": "0 10 10001 [DACA_OFFSET_1] [DACB_OFFSET_0] [DACA_OFFSET_0]"
+    },
+    {
+     "name": "READ 3 bytes @0x11",
+     "in": "1 10 10001",
+     "reply": "[DACA_OFFSET_1][DACB_OFFSET_0][DACA_OFFSET_0]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x12",
+     "in": "0 10 10010 [DACB_OFFSET_1] [DACA_OFFSET_1] [DACB_OFFSET_0]"
+    },
+    {
+     "name": "READ 3 bytes @0x12",
+     "in": "1 10 10010",
+     "reply": "[DACB_OFFSET_1][DACA_OFFSET_1][DACB_OFFSET_0]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x13",
+     "in": "0 10 10011 [QMCA_GAIN_0] [DACB_OFFSET_1] [DACA_OFFSET_1]"
+    },
+    {
+     "name": "READ 3 bytes @0x13",
+     "in": "1 10 10011",
+     "reply": "[QMCA_GAIN_0][DACB_OFFSET_1][DACA_OFFSET_1]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x14",
+     "in": "0 10 10100 [QMCB_GAIN_0] [QMCA_GAIN_0] [DACB_OFFSET_1]"
+    },
+    {
+     "name": "READ 3 bytes @0x14",
+     "in": "1 10 10100",
+     "reply": "[QMCB_GAIN_0][QMCA_GAIN_0][DACB_OFFSET_1]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x15",
+     "in": "0 10 10101 [QMC_PHASE_0] [QMCB_GAIN_0] [QMCA_GAIN_0]"
+    },
+    {
+     "name": "READ 3 bytes @0x15",
+     "in": "1 10 10101",
+     "reply": "[QMC_PHASE_0][QMCB_GAIN_0][QMCA_GAIN_0]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x16",
+     "in": "0 10 10110 [QMC_PHASE_GAIN_1] [QMC_PHASE_0] [QMCB_GAIN_0]"
+    },
+    {
+     "name": "READ 3 bytes @0x16",
+     "in": "1 10 10110",
+     "reply": "[QMC_PHASE_GAIN_1][QMC_PHASE_0][QMCB_GAIN_0]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x17",
+     "in": "0 10 10111 [DACA_GAIN_0] [QMC_PHASE_GAIN_1] [QMC_PHASE_0]"
+    },
+    {
+     "name": "READ 3 bytes @0x17",
+     "in": "1 10 10111",
+     "reply": "[DACA_GAIN_0][QMC_PHASE_GAIN_1][QMC_PHASE_0]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x18",
+     "in": "0 10 11000 [DACB_GAIN_0] [DACA_GAIN_0] [QMC_PHASE_GAIN_1]"
+    },
+    {
+     "name": "READ 3 bytes @0x18",
+     "in": "1 10 11000",
+     "reply": "[DACB_GAIN_0][DACA_GAIN_0][QMC_PHASE_GAIN_1]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x19",
+     "in": "0 10 11001 [DACA_DACB_GAIN_1] [DACB_GAIN_0] [DACA_GAIN_0]"
+    },
+    {
+     "name": "READ 3 bytes @0x19",
+     "in": "1 10 11001",
+     "reply": "[DACA_DACB_GAIN_1][DACB_GAIN_0][DACA_GAIN_0]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x1A",
+     "in": "0 10 11010 [DAC_CLK_CNTL] [DACA_DACB_GAIN_1] [DACB_GAIN_0]"
+    },
+    {
+     "name": "READ 3 bytes @0x1A",
+     "in": "1 10 11010",
+     "reply": "[DAC_CLK_CNTL][DACA_DACB_GAIN_1][DACB_GAIN_0]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x1B",
+     "in": "0 10 11011 [ATEST] [DAC_CLK_CNTL] [DACA_DACB_GAIN_1]"
+    },
+    {
+     "name": "READ 3 bytes @0x1B",
+     "in": "1 10 11011",
+     "reply": "[ATEST][DAC_CLK_CNTL][DACA_DACB_GAIN_1]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x1C",
+     "in": "0 10 11100 [DAC_TEST] [ATEST] [DAC_CLK_CNTL]"
+    },
+    {
+     "name": "READ 3 bytes @0x1C",
+     "in": "1 10 11100",
+     "reply": "[DAC_TEST][ATEST][DAC_CLK_CNTL]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x1D",
+     "in": "0 10 11101 [RESERVED_1D] [DAC_TEST] [ATEST]"
+    },
+    {
+     "name": "READ 3 bytes @0x1D",
+     "in": "1 10 11101",
+     "reply": "[RESERVED_1D][DAC_TEST][ATEST]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x1E",
+     "in": "0 10 11110 [RESERVED_1E] [RESERVED_1D] [DAC_TEST]"
+    },
+    {
+     "name": "READ 3 bytes @0x1E",
+     "in": "1 10 11110",
+     "reply": "[RESERVED_1E][RESERVED_1D][DAC_TEST]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x1F",
+     "in": "0 10 11111 [RESERVED_1F] [RESERVED_1E] [RESERVED_1D]"
+    },
+    {
+     "name": "READ 3 bytes @0x1F",
+     "in": "1 10 11111",
+     "reply": "[RESERVED_1F][RESERVED_1E][RESERVED_1D]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x03",
+     "in": "0 11 00011 [CONFIG2] [CONFIG1] [CONFIG0] [VERSION]"
+    },
+    {
+     "name": "READ 4 bytes @0x03",
+     "in": "1 11 00011",
+     "reply": "[CONFIG2][CONFIG1][CONFIG0][VERSION]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x04",
+     "in": "0 11 00100 [CONFIG3] [CONFIG2] [CONFIG1] [CONFIG0]"
+    },
+    {
+     "name": "READ 4 bytes @0x04",
+     "in": "1 11 00100",
+     "reply": "[CONFIG3][CONFIG2][CONFIG1][CONFIG0]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x05",
+     "in": "0 11 00101 [SYNC_CNTL] [CONFIG3] [CONFIG2] [CONFIG1]"
+    },
+    {
+     "name": "READ 4 bytes @0x05",
+     "in": "1 11 00101",
+     "reply": "[SYNC_CNTL][CONFIG3][CONFIG2][CONFIG1]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x06",
+     "in": "0 11 00110 aaaaaaaa [SYNC_CNTL] [CONFIG3] [CONFIG2]",
+     "set": {
+      "SER_DATA_0.DAC_DATA_7_0": "a",
+      "DATA_A.LO": "a",
+      "DATA_B.LO": "a"
+     }
+    },
+    {
+     "name": "READ 4 bytes @0x06",
+     "in": "1 11 00110",
+     "reply": "[SER_DATA_0][SYNC_CNTL][CONFIG3][CONFIG2]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x07",
+     "in": "0 11 00111 aaaaaaaa bbbbbbbb [SYNC_CNTL] [CONFIG3]",
+     "set": {
+      "SER_DATA_1.DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a",
+      "SER_DATA_0.DAC_DATA_7_0": "b",
+      "DATA_A.LO": "b",
+      "DATA_B.LO": "b"
+     }
+    },
+    {
+     "name": "READ 4 bytes @0x07",
+     "in": "1 11 00111",
+     "reply": "[SER_DATA_1][SER_DATA_0][SYNC_CNTL][CONFIG3]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x08",
+     "in": "0 11 01000 [BYPASS_MASK_CNTL] aaaaaaaa bbbbbbbb [SYNC_CNTL]",
+     "set": {
+      "SER_DATA_1.DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a",
+      "SER_DATA_0.DAC_DATA_7_0": "b",
+      "DATA_A.LO": "b",
+      "DATA_B.LO": "b"
+     }
+    },
+    {
+     "name": "READ 4 bytes @0x08",
+     "in": "1 11 01000",
+     "reply": "[BYPASS_MASK_CNTL][SER_DATA_1][SER_DATA_0][SYNC_CNTL]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x09",
+     "in": "0 11 01001 [NCO_FREQ_0] [BYPASS_MASK_CNTL] aaaaaaaa bbbbbbbb",
+     "set": {
+      "SER_DATA_1.DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a",
+      "SER_DATA_0.DAC_DATA_7_0": "b",
+      "DATA_A.LO": "b",
+      "DATA_B.LO": "b"
+     }
+    },
+    {
+     "name": "READ 4 bytes @0x09",
+     "in": "1 11 01001",
+     "reply": "[NCO_FREQ_0][BYPASS_MASK_CNTL][SER_DATA_1][SER_DATA_0]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0A",
+     "in": "0 11 01010 [NCO_FREQ_1] [NCO_FREQ_0] [BYPASS_MASK_CNTL] aaaaaaaa",
+     "set": {
+      "SER_DATA_1.DAC_DATA_15_8": "a",
+      "DATA_A.HI": "a",
+      "DATA_B.HI": "a"
+     }
+    },
+    {
+     "name": "READ 4 bytes @0x0A",
+     "in": "1 11 01010",
+     "reply": "[NCO_FREQ_1][NCO_FREQ_0][BYPASS_MASK_CNTL][SER_DATA_1]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0B",
+     "in": "0 11 01011 [NCO_FREQ_2] [NCO_FREQ_1] [NCO_FREQ_0] [BYPASS_MASK_CNTL]"
+    },
+    {
+     "name": "READ 4 bytes @0x0B",
+     "in": "1 11 01011",
+     "reply": "[NCO_FREQ_2][NCO_FREQ_1][NCO_FREQ_0][BYPASS_MASK_CNTL]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0C",
+     "in": "0 11 01100 [NCO_FREQ_3] [NCO_FREQ_2] [NCO_FREQ_1] [NCO_FREQ_0]"
+    },
+    {
+     "name": "READ 4 bytes @0x0C",
+     "in": "1 11 01100",
+     "reply": "[NCO_FREQ_3][NCO_FREQ_2][NCO_FREQ_1][NCO_FREQ_0]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0D",
+     "in": "0 11 01101 [NCO_PHASE_0] [NCO_FREQ_3] [NCO_FREQ_2] [NCO_FREQ_1]"
+    },
+    {
+     "name": "READ 4 bytes @0x0D",
+     "in": "1 11 01101",
+     "reply": "[NCO_PHASE_0][NCO_FREQ_3][NCO_FREQ_2][NCO_FREQ_1]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0E",
+     "in": "0 11 01110 [NCO_PHASE_1] [NCO_PHASE_0] [NCO_FREQ_3] [NCO_FREQ_2]"
+    },
+    {
+     "name": "READ 4 bytes @0x0E",
+     "in": "1 11 01110",
+     "reply": "[NCO_PHASE_1][NCO_PHASE_0][NCO_FREQ_3][NCO_FREQ_2]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0F",
+     "in": "0 11 01111 [DACA_OFFSET_0] [NCO_PHASE_1] [NCO_PHASE_0] [NCO_FREQ_3]"
+    },
+    {
+     "name": "READ 4 bytes @0x0F",
+     "in": "1 11 01111",
+     "reply": "[DACA_OFFSET_0][NCO_PHASE_1][NCO_PHASE_0][NCO_FREQ_3]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x10",
+     "in": "0 11 10000 [DACB_OFFSET_0] [DACA_OFFSET_0] [NCO_PHASE_1] [NCO_PHASE_0]"
+    },
+    {
+     "name": "READ 4 bytes @0x10",
+     "in": "1 11 10000",
+     "reply": "[DACB_OFFSET_0][DACA_OFFSET_0][NCO_PHASE_1][NCO_PHASE_0]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x11",
+     "in": "0 11 10001 [DACA_OFFSET_1] [DACB_OFFSET_0] [DACA_OFFSET_0] [NCO_PHASE_1]"
+    },
+    {
+     "name": "READ 4 bytes @0x11",
+     "in": "1 11 10001",
+     "reply": "[DACA_OFFSET_1][DACB_OFFSET_0][DACA_OFFSET_0][NCO_PHASE_1]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x12",
+     "in": "0 11 10010 [DACB_OFFSET_1] [DACA_OFFSET_1] [DACB_OFFSET_0] [DACA_OFFSET_0]"
+    },
+    {
+     "name": "READ 4 bytes @0x12",
+     "in": "1 11 10010",
+     "reply": "[DACB_OFFSET_1][DACA_OFFSET_1][DACB_OFFSET_0][DACA_OFFSET_0]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x13",
+     "in": "0 11 10011 [QMCA_GAIN_0] [DACB_OFFSET_1] [DACA_OFFSET_1] [DACB_OFFSET_0]"
+    },
+    {
+     "name": "READ 4 bytes @0x13",
+     "in": "1 11 10011",
+     "reply": "[QMCA_GAIN_0][DACB_OFFSET_1][DACA_OFFSET_1][DACB_OFFSET_0]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x14",
+     "in": "0 11 10100 [QMCB_GAIN_0] [QMCA_GAIN_0] [DACB_OFFSET_1] [DACA_OFFSET_1]"
+    },
+    {
+     "name": "READ 4 bytes @0x14",
+     "in": "1 11 10100",
+     "reply": "[QMCB_GAIN_0][QMCA_GAIN_0][DACB_OFFSET_1][DACA_OFFSET_1]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x15",
+     "in": "0 11 10101 [QMC_PHASE_0] [QMCB_GAIN_0] [QMCA_GAIN_0] [DACB_OFFSET_1]"
+    },
+    {
+     "name": "READ 4 bytes @0x15",
+     "in": "1 11 10101",
+     "reply": "[QMC_PHASE_0][QMCB_GAIN_0][QMCA_GAIN_0][DACB_OFFSET_1]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x16",
+     "in": "0 11 10110 [QMC_PHASE_GAIN_1] [QMC_PHASE_0] [QMCB_GAIN_0] [QMCA_GAIN_0]"
+    },
+    {
+     "name": "READ 4 bytes @0x16",
+     "in": "1 11 10110",
+     "reply": "[QMC_PHASE_GAIN_1][QMC_PHASE_0][QMCB_GAIN_0][QMCA_GAIN_0]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x17",
+     "in": "0 11 10111 [DACA_GAIN_0] [QMC_PHASE_GAIN_1] [QMC_PHASE_0] [QMCB_GAIN_0]"
+    },
+    {
+     "name": "READ 4 bytes @0x17",
+     "in": "1 11 10111",
+     "reply": "[DACA_GAIN_0][QMC_PHASE_GAIN_1][QMC_PHASE_0][QMCB_GAIN_0]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x18",
+     "in": "0 11 11000 [DACB_GAIN_0] [DACA_GAIN_0] [QMC_PHASE_GAIN_1] [QMC_PHASE_0]"
+    },
+    {
+     "name": "READ 4 bytes @0x18",
+     "in": "1 11 11000",
+     "reply": "[DACB_GAIN_0][DACA_GAIN_0][QMC_PHASE_GAIN_1][QMC_PHASE_0]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x19",
+     "in": "0 11 11001 [DACA_DACB_GAIN_1] [DACB_GAIN_0] [DACA_GAIN_0] [QMC_PHASE_GAIN_1]"
+    },
+    {
+     "name": "READ 4 bytes @0x19",
+     "in": "1 11 11001",
+     "reply": "[DACA_DACB_GAIN_1][DACB_GAIN_0][DACA_GAIN_0][QMC_PHASE_GAIN_1]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x1A",
+     "in": "0 11 11010 [DAC_CLK_CNTL] [DACA_DACB_GAIN_1] [DACB_GAIN_0] [DACA_GAIN_0]"
+    },
+    {
+     "name": "READ 4 bytes @0x1A",
+     "in": "1 11 11010",
+     "reply": "[DAC_CLK_CNTL][DACA_DACB_GAIN_1][DACB_GAIN_0][DACA_GAIN_0]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x1B",
+     "in": "0 11 11011 [ATEST] [DAC_CLK_CNTL] [DACA_DACB_GAIN_1] [DACB_GAIN_0]"
+    },
+    {
+     "name": "READ 4 bytes @0x1B",
+     "in": "1 11 11011",
+     "reply": "[ATEST][DAC_CLK_CNTL][DACA_DACB_GAIN_1][DACB_GAIN_0]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x1C",
+     "in": "0 11 11100 [DAC_TEST] [ATEST] [DAC_CLK_CNTL] [DACA_DACB_GAIN_1]"
+    },
+    {
+     "name": "READ 4 bytes @0x1C",
+     "in": "1 11 11100",
+     "reply": "[DAC_TEST][ATEST][DAC_CLK_CNTL][DACA_DACB_GAIN_1]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x1D",
+     "in": "0 11 11101 [RESERVED_1D] [DAC_TEST] [ATEST] [DAC_CLK_CNTL]"
+    },
+    {
+     "name": "READ 4 bytes @0x1D",
+     "in": "1 11 11101",
+     "reply": "[RESERVED_1D][DAC_TEST][ATEST][DAC_CLK_CNTL]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x1E",
+     "in": "0 11 11110 [RESERVED_1E] [RESERVED_1D] [DAC_TEST] [ATEST]"
+    },
+    {
+     "name": "READ 4 bytes @0x1E",
+     "in": "1 11 11110",
+     "reply": "[RESERVED_1E][RESERVED_1D][DAC_TEST][ATEST]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x1F",
+     "in": "0 11 11111 [RESERVED_1F] [RESERVED_1E] [RESERVED_1D] [DAC_TEST]"
+    },
+    {
+     "name": "READ 4 bytes @0x1F",
+     "in": "1 11 11111",
+     "reply": "[RESERVED_1F][RESERVED_1E][RESERVED_1D][DAC_TEST]"
+    }
+   ],
+   "note": "instruction byte R/W N1 N0 A4..A0, then N+1 data bytes MSB first; the address decrements per byte (one command per start address and length). Writes of SER_DATA_0/1 are copied into DATA_A/DATA_B"
+  },
+  "pins": {
+   "reset": {
+    "pin": "RESETB",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "DATA_A",
+    "DATA_B"
+   ],
+   "output": [
+    "DATA_A",
+    "DATA_B"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "PZP": {
+   "pinout": "pzp100",
+   "footprint": "HTQFP-100-PZP",
+   "package": "HTQFP",
+   "pins": 100
+  }
+ },
+ "pdf": "dac5687.pdf",
+ "pages": "p.3 (pinout), p.4-5 (terminal functions), p.8 (supply ranges), p.10 (serial port timing, td(Data) 10 ns), p.24-31 (register map), p.32-33 (serial interface)",
+ "notModeled": [
+  "DAC data path: DA[15:0]/DB[15:0] (latched by CLK1 / PLLLOCK, FIFO) are not modeled because the clocked data bus cannot run beside the serial port (bus and configBus share one command decoder); the DAC registers DATA_A/DATA_B hold the serial ser_data word (SER_DATA_1:SER_DATA_0), which drives both DACs only when CONFIG3.DAC_SER_DATA = 1",
+  "interpolation, NCO, coarse mixer, QMC gain/phase/offset, inverse sinc, counter mode, half-rate and interleaved input: stored only; offset/QMC registers take effect only after DACA_OFFSET_0 is written (not modeled)",
+  "clock generation (PLL, PLLVDD strap, external / dual-clock modes, FIFO, PLLLOCK output, atest clock outputs), PHSTR / QFLAG / TXENABLE synchronization; TXENABLE low forcing the data path to 0",
+  "4-pin serial mode (CONFIG3.SIF_4PIN = 1: SDO output, SDIO input only) is not modeled: read data always comes out on SDIO (3-pin mode, the reset default); SDO stays low",
+  "multibyte transfers whose decrementing address would pass below 0x00 are ignored (not specified)",
+  "SLEEP pin and sleep_daca/sleep_dacb (analog power-down); TESTMODE must be DGND",
+  "DVDD (1.71-2.15 V core supply) lies inside the IOVDD vcc range 1.71-3.6 V and is treated as a digital supply"
+ ],
+ "variants": "dac5687-ep.pdf (SGLS333, DAC5687-EP, -55 to 125 C, part DAC5687MPZPEP) describes the same chip; the commercial datasheet dac5687.pdf (rev E, newer) is used. DAC5686 is the pin-compatible predecessor.",
+ "parts": [
+  [
+   "DAC5687IPZP",
+   "PZP",
+   100,
+   "Active"
+  ],
+  [
+   "DAC5687IPZPR",
+   "PZP",
+   100,
+   "Active"
+  ],
+  [
+   "DAC5687MPZPEP",
+   "PZP",
+   100,
+   "Active"
+  ]
+ ]
+}

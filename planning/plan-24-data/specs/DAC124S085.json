@@ -1,0 +1,315 @@
+{
+ "device": {
+  "id": "DAC124S085",
+  "function": "DAC",
+  "description": "12-bit quad micro-power voltage-output DAC with rail-to-rail outputs and 3-wire SPI",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac124s085.pdf (SNAS348G) p.3 pin configuration and functions, p.4 recommended operating conditions (VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.7-8 timing requirements and Figure 2 serial timing, p.16 power-on reset, power-down modes (Table 1), serial interface, p.16-17 input shift register (Figure 30)",
+  "pinouts": {
+   "p10": [
+    {
+     "number": 1,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "VREFIN",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 4,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "inputMax": 5.5,
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VOUTC",
+   "VOUTD",
+   "VREFIN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "input (DAC) register written by OP 00; power-on: filled with zeros"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "input (DAC) register written by OP 00; power-on: filled with zeros"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "input (DAC) register written by OP 00; power-on: filled with zeros"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "input (DAC) register written by OP 00; power-on: filled with zeros"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC output latch; power-on: zeros (outputs 0 V until a valid write)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC output latch; power-on: zeros (outputs 0 V until a valid write)"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC output latch; power-on: zeros (outputs 0 V until a valid write)"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC output latch; power-on: zeros (outputs 0 V until a valid write)"
+   },
+   {
+    "name": "CTRL",
+    "width": 3,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PWDN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: power-down state and the A1 A0 termination code of the last power-down frame (Table 1)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write register, no update",
+     "in": "aa00 d{12}",
+     "action": "write",
+     "address": "a",
+     "space": "input",
+     "data": "d",
+     "set": {
+      "CTRL.PWDN": 0
+     },
+     "then": [
+      "wakeup"
+     ],
+     "note": "Figure 30 OP1 OP0 = 00: write to the specified register but do not update outputs"
+    },
+    {
+     "name": "Write register and update outputs",
+     "in": "aa01 d{12}",
+     "action": "write",
+     "data": "d",
+     "set": {
+      "CTRL.PWDN": 0
+     },
+     "then": [
+      "updateall",
+      "wakeup"
+     ],
+     "note": "OP = 01: write to the specified register and update the outputs of all DACs",
+     "channel": "a"
+    },
+    {
+     "name": "Write all registers and update outputs",
+     "in": "aa10 d{12}",
+     "action": "write",
+     "channel": "a",
+     "channelMap": {
+      "0": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "1": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "2": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "3": [
+       0,
+       1,
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "set": {
+      "CTRL.PWDN": 0
+     },
+     "then": [
+      "update",
+      "wakeup"
+     ],
+     "note": "OP = 10: write to all registers and update outputs (address bits ignored)"
+    },
+    {
+     "name": "Power-down outputs",
+     "in": "pp11 x{12}",
+     "action": "powerdown",
+     "set": {
+      "CTRL.PD": "p",
+      "CTRL.PWDN": 1
+     },
+     "note": "OP = 11: all DACs powered down; A1 A0 select the output termination (Table 1: 00/11 Hi-Z, 01 2.5k, 10 100k); DAC registers unaffected"
+    }
+   ],
+   "note": "16-bit frame A1 A0 OP1 OP0 D11-D0, MSB first, executed on the 16th SCLK falling edge; SYNC high before the 16th edge aborts the frame; bits after the 16th edge are ignored"
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "p10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  },
+  "DSC": {
+   "pinout": "p10",
+   "footprint": "WSON-10-DSC",
+   "package": "WSON",
+   "pins": 10
+  }
+ },
+ "pdf": "dac124s085.pdf",
+ "pages": "p.3 (pins), p.4 (ROC), p.7-8 (timing, Figure 2), p.16 (power-on reset, Table 1 power-down, serial interface), p.17 (Figure 30 input shift register)",
+ "notModeled": [
+  "analog outputs, reference, settling, output terminations in power-down (PD code stored only)",
+  "no read-back (write-only interface)",
+  "wake-up: the datasheet only says registers keep their values unless changed by the write that recovers from power-down; the model wakes on any write frame",
+  "SPI mode: the part samples DIN on SCLK falling edges and accepts either clock polarity as long as SYNC does not fall on a falling SCLK edge; mode 2 per Figure 2"
+ ],
+ "variants": "DAC084S085 (8-bit) and DAC104S085 (10-bit) are the pin- and protocol-compatible family members (separate datasheets)",
+ "parts": [
+  [
+   "DAC124S085CIMM/NOPB",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "DAC124S085CISD/NOPB",
+   "DSC",
+   10,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,373 @@
+{
+ "device": {
+  "id": "TLV5621",
+  "function": "DAC",
+  "description": "quadruple 8-bit low-power voltage-output DAC with 3-wire serial interface (CLK, DATA, EN), single/double-buffered modes and power-down",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "slas138b.pdf (SLAS138B) p.1 (pinout), p.2 (terminal functions), p.3 (data interface, single-buffer mode), p.4 (Figures 1-2), p.5 (double-buffered mode, Figure 3), p.6 (Figure 4), p.7 (control register Table 2, shutdown Table 3, serial input decode Table 4), p.8 (power-on reset Table 5), p.10 (recommended operating conditions: VDD 2.7-5.5 V, timing), p.13 (Figures 6-7)",
+  "pinouts": {
+   "d14": [
+    {
+     "number": 1,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "REFA",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "REFB",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "REFC",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "REFD",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "DATA",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "EN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DACD",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "DACC",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "DACB",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "DACA",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "HWACT",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "VDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 8,
+  "channels": 4,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "REFA",
+   "REFB",
+   "REFC",
+   "REFD",
+   "DACA",
+   "DACB",
+   "DACC",
+   "DACD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "EN",
+   "csActive": 1,
+   "sclk": "CLK",
+   "mosi": "DATA",
+   "mode": 1
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "DACA input latch (A1 A0 = 00, Table 4 p.7); power-on value not given (0 used)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "note": "DACB input latch (A1 A0 = 01, Table 4 p.7); power-on value not given (0 used)"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "note": "DACC input latch (A1 A0 = 10, Table 4 p.7); power-on value not given (0 used)"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "note": "DACD input latch (A1 A0 = 11, Table 4 p.7); power-on value not given (0 used)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "DACA output latch"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "note": "DACB output latch"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "note": "DACC output latch"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "note": "DACD output latch"
+   },
+   {
+    "name": "CTRL",
+    "width": 10,
+    "reset": 480,
+    "fields": [
+     {
+      "name": "MODE",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "RNGA",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "RNGB",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "RNGC",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "RNGD",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "SIA",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SIB",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "SIC",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SID",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ACT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "control register, bits in serial order MODE, RNG A-D, SIA-SID, ACT (Table 2 p.7, Figures 1-4); power-on MODE 0, RNG 1, SI 0, ACT 0 (Table 5 p.8)"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "commands": [
+    {
+     "name": "Data word (single-buffer mode)",
+     "in": "1 1 aa d{8}",
+     "when": "CTRL.MODE=1",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "note": "start bit 1, RS = 1, A1 A0, D7-D0 (Figures 2 and 4); MODE = 1: the output updates on the twelfth CLK falling edge (p.3)"
+    },
+    {
+     "name": "Data word (double-buffer mode)",
+     "in": "1 1 aa d{8}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "note": "MODE = 0 (power-on default): the input latch is written; the outputs update on EN falling (p.5)"
+    },
+    {
+     "name": "Control word (single-buffer mode)",
+     "in": "1 0 x [CTRL:8:0]",
+     "when": "CTRL.MODE=1",
+     "then": [
+      "update"
+     ],
+     "note": "start bit 1, RS = 0, MODE, RNG A-D, SIA-SID, ACT; once set MODE cannot be cleared (p.3), so the MODE bit is ignored; outputs update at the end of the word (Figure 1)"
+    },
+    {
+     "name": "Control word setting single-buffer mode",
+     "in": "1 0 1 [CTRL:8:0]",
+     "set": {
+      "CTRL.MODE": 1
+     },
+     "then": [
+      "update"
+     ],
+     "note": "MODE = 1 selects single-buffered mode; the data written so far is latched to the DACs at the end of this word (Figure 2)"
+    },
+    {
+     "name": "Control word (double-buffer mode)",
+     "in": "1 0 0 [CTRL:8:0]",
+     "note": "MODE = 0; the datasheet latches the control word on EN falling (Figure 3, note 14), the model stores it at once"
+    },
+    {
+     "name": "Idle / word synchronization",
+     "in": "0",
+     "note": "leading zeros are skipped until a start bit (twelve zeros regain word synchronization, Figure 1)"
+    }
+   ],
+   "note": "p.3, p.5: DATA is clocked in on CLK falling edges while EN is high (EN is the active-high frame pin; CLK idles low in Figures 1-4 -> mode 1); words are 12 bits: a start bit 1, RS (1 = data, 0 = control) and 10 bits; zeros before a start bit are skipped; any number of words per EN-high window (stream)"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "EN",
+    "active": 0,
+    "edge": "fall",
+    "note": "double-buffered mode: all DAC outputs update on the EN falling edge (p.5)"
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d14",
+   "footprint": "SOIC-14",
+   "package": "SOIC",
+   "pins": 14
+  }
+ },
+ "pdf": "slas138b.pdf",
+ "pages": "p.1-2 (pins), p.3-6 (data interface and Figures 1-4: word layout start bit, RS, A1 A0, D7-D0 / MODE, RNG A-D, SIA-SID, ACT), p.7-8 (control register, shutdown, decode, power-on values), p.10 (ROC and timing)",
+ "notModeled": [
+  "analog: voltage outputs DACA-DACD, reference inputs REFA-REFD, x1/x2 range (RNG bits stored only)",
+  "the word layout (a start bit then RS) is read from the timing figures; the datasheet text has no bit table. RS spans the first two clocks of a data word (drawn high) and is a high bit followed by a low RS bit in a control word",
+  "double-buffered mode latches the control word (RNG, SIx, ACT) on EN falling (note 14 p.12); the model stores it when the word completes. A range change in double-buffered mode changes the output on EN falling (analog only)",
+  "in single-buffer mode EN is tied high; an EN falling edge in that mode still updates all outputs in the model (no effect when the outputs are already current)",
+  "shutdown: ACT, SIA-SID and the HWACT pin (Table 3) only switch the analog outputs off; the bits are stored, HWACT is not modeled",
+  "power-on contents of the input and DAC latches are not given (0 used); all DACs are shut down at power on (ACT = 0, analog only)"
+ ],
+ "variants": "TLV5621I only (industrial temperature range); the TLC5620 (5 V, LOAD/LDAC interface) has a separate datasheet",
+ "parts": [
+  [
+   "TLV5621ED",
+   "D",
+   14,
+   "Active"
+  ],
+  [
+   "TLV5621ID",
+   "D",
+   14,
+   "Active"
+  ],
+  [
+   "TLV5621IDR",
+   "D",
+   14,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,521 @@
+{
+ "device": {
+  "id": "TLV5608",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "octal 10-bit voltage-output DAC with TMS320/SPI serial interface (FS frame sync), LDAC, preset and DOUT daisy-chain output",
+  "note": "tlv5608.pdf (SLAS268G) p.1 (DW/PW pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: AVDD/DVDD 2.7-3.3 V and 4.5-5.5 V, fCLK 30 MHz), p.5 (timing requirements), p.6 (Figure 1 serial interface timing, Figure 2 LDAC), p.11 (power-on reset, serial interface, daisy chain), p.12 (uC/DSP modes, data format, register map), p.13 (two-channel registers, preset, CTRL0, CTRL1)",
+  "pinouts": {
+   "dw20": [
+    {
+     "number": 1,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "FS",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "PRE",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "OUTE",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "OUTF",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "OUTG",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "OUTH",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "OUTA",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "OUTB",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "OUTC",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "OUTD",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "MODE",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "DVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 10,
+  "channels": 8,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "AVDD",
+   "REF",
+   "OUTA",
+   "OUTB",
+   "OUTC",
+   "OUTD",
+   "OUTE",
+   "OUTF",
+   "OUTG",
+   "OUTH"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "FS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 1
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC A holding register (A3-A0 = 0, register map p.12); power-on zero (p.11)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC B holding register (A3-A0 = 1, register map p.12); power-on zero (p.11)"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC C holding register (A3-A0 = 2, register map p.12); power-on zero (p.11)"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC D holding register (A3-A0 = 3, register map p.12); power-on zero (p.11)"
+   },
+   {
+    "name": "INE",
+    "space": "input",
+    "address": 4,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC E holding register (A3-A0 = 4, register map p.12); power-on zero (p.11)"
+   },
+   {
+    "name": "INF",
+    "space": "input",
+    "address": 5,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC F holding register (A3-A0 = 5, register map p.12); power-on zero (p.11)"
+   },
+   {
+    "name": "ING",
+    "space": "input",
+    "address": 6,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC G holding register (A3-A0 = 6, register map p.12); power-on zero (p.11)"
+   },
+   {
+    "name": "INH",
+    "space": "input",
+    "address": 7,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC H holding register (A3-A0 = 7, register map p.12); power-on zero (p.11)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC A latch; loaded from the holding register while LDAC is low (p.11)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC B latch; loaded from the holding register while LDAC is low (p.11)"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC C latch; loaded from the holding register while LDAC is low (p.11)"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC D latch; loaded from the holding register while LDAC is low (p.11)"
+   },
+   {
+    "name": "DACE",
+    "space": "dac",
+    "address": 4,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC E latch; loaded from the holding register while LDAC is low (p.11)"
+   },
+   {
+    "name": "DACF",
+    "space": "dac",
+    "address": 5,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC F latch; loaded from the holding register while LDAC is low (p.11)"
+   },
+   {
+    "name": "DACG",
+    "space": "dac",
+    "address": 6,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC G latch; loaded from the holding register while LDAC is low (p.11)"
+   },
+   {
+    "name": "DACH",
+    "space": "dac",
+    "address": 7,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC H latch; loaded from the holding register while LDAC is low (p.11)"
+   },
+   {
+    "name": "CTRL0",
+    "address": 8,
+    "width": 12,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DO",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "IM",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "A3-A0 = 1000: PD full power down, DO DOUT enable, IM input mode (0 straight, 1 twos complement); other bits reserved (p.13); power-on zero (p.11)"
+   },
+   {
+    "name": "CTRL1",
+    "address": 9,
+    "width": 12,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PGH",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "PEF",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "PCD",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "PAB",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SGH",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "SEF",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SCD",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SAB",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "A3-A0 = 1001: PXY power down DAC pair XY, SXY fast settling of pair XY (p.13); power-on zero (p.11)"
+   },
+   {
+    "name": "PRESET",
+    "address": 10,
+    "width": 10,
+    "reset": 0,
+    "note": "A3-A0 = 1010: preset value for PRE (p.13); cleared by POR (p.11)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write CTRL0",
+     "in": "1000 d{12}",
+     "action": "write",
+     "register": "CTRL0",
+     "data": "d",
+     "note": "register map p.12, bits p.13",
+     "commit": "end"
+    },
+    {
+     "name": "Write CTRL1",
+     "in": "1001 d{12}",
+     "action": "write",
+     "register": "CTRL1",
+     "data": "d",
+     "note": "register map p.12, bits p.13",
+     "commit": "end"
+    },
+    {
+     "name": "Write PRESET",
+     "in": "1010 d{10} x{2}",
+     "action": "write",
+     "register": "PRESET",
+     "data": "d",
+     "note": "register map p.12; preset p.13",
+     "commit": "end"
+    },
+    {
+     "name": "Reserved",
+     "in": "1011 x{12}",
+     "action": "nop",
+     "note": "A3-A0 = 1011 reserved (p.12)",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC",
+     "in": "aaaa d{10} x{2}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "channelMap": {
+      "12": [
+       0,
+       1
+      ],
+      "13": [
+       2,
+       3
+      ],
+      "14": [
+       4,
+       5
+      ],
+      "15": [
+       6,
+       7
+      ]
+     },
+     "note": "A3-A0 0-7 = DAC A-H holding register; 12-15 = two-channel registers DAC A and B ... G and H (register map p.12); TLV5608 decodes D11-D2 (p.13)",
+     "commit": "end"
+    }
+   ],
+   "triggers": [
+    {
+     "write": "CTRL0.PD=1",
+     "action": "powerdown"
+    },
+    {
+     "write": "CTRL0.PD=0",
+     "action": "wakeup"
+    }
+   ],
+   "note": "uC mode (MODE high): FS low frames the 16-bit word, data sampled MSB first on SCLK falling edges (SCLK low at FS falling, Figure 1); FS high before the 16th falling edge cancels the transfer; the holding register is written after FS rises (p.12)"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level",
+    "note": "DAC outputs updated only while LDAC is low; asynchronous (p.2, p.11)"
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND",
+    "INE",
+    "INF",
+    "ING",
+    "INH"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD",
+    "DACE",
+    "DACF",
+    "DACG",
+    "DACH"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw20",
+   "footprint": "SOIC-20W",
+   "package": "SOIC",
+   "pins": 20
+  },
+  "PW": {
+   "pinout": "dw20",
+   "footprint": "TSSOP-20",
+   "package": "TSSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "tlv5608.pdf",
+ "pages": "p.1 (DW/PW pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: AVDD/DVDD 2.7-3.3 V and 4.5-5.5 V, fCLK 30 MHz), p.5 (timing requirements), p.6 (Figure 1 serial interface timing, Figure 2 LDAC), p.11 (power-on reset, serial interface, daisy chain), p.12 (uC/DSP modes, data format, register map), p.13 (two-channel registers, preset, CTRL0, CTRL1)",
+ "notModeled": [
+  "analog: voltage outputs, reference input REF, settling speed (CTRL1 SXY) and pair/full power down effects (CTRL1 PXY, CTRL0 PD), twos-complement input mode (CTRL0.IM: the code is stored as written)",
+  "DSP mode (MODE open or low: 16 bits clocked after a short FS low pulse, extra SCLK falling edge before FS) is not modeled; uC mode (MODE high) is",
+  "two-channel registers (A3-A0 = 1100-1111) write the value to one DAC of the pair and its complement to the other (p.13); the model writes the same value to both",
+  "PRE pin: driving PRE low with LDAC asserted loads the PRESET register value into the DAC outputs (p.13); not modeled (PRE is an unused input)",
+  "DOUT daisy-chain output (DIN delayed 16 SCLK cycles while CTRL0.DO = 1, p.11, p.13) is not modeled: DOUT is never driven",
+  "timing requirements tsu(FS-CK)/tsu(C16-FS)/tsu(FS-C17)/tsu(CK-FS)/twL(LDAC)/twH/twL/tsu(D)/th(D)/twH(FS)/twL(FS) (p.5)"
+ ],
+ "variants": "tlv5608.pdf covers TLV5610 (12-bit), TLV5608 (10-bit, decodes D11-D2) and TLV5629 (8-bit, decodes D11-D4): same pinout and register map; one spec file each.",
+ "parts": [
+  [
+   "TLV5608IDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLV5608IPW",
+   "PW",
+   20,
+   "Active"
+  ]
+ ]
+}

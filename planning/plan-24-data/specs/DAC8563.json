@@ -1,0 +1,558 @@
+{
+ "device": {
+  "id": "DAC8563",
+  "function": "DAC",
+  "description": "Dual 16-bit low-power buffered voltage-output DAC, 2.5-V internal reference, 24-bit SPI write-only interface, LDAC/CLR, power-on reset to mid-scale",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac7562.pdf (SLAS719E) p.4 pin configuration and functions, p.5 recommended operating conditions (AVDD 2.7-5.5 V, digital inputs 0 to AVDD), p.9 timing requirements and serial write operation (Figure 1), p.30-31 power-on reset values (Table 4), p.32 power-down (Tables 5-6), p.33 gain (Table 7) and software reset (Table 8), p.34 internal reference (Table 9) and CLR (Table 10), p.35 LDAC function (Table 11), p.36 serial interface and SYNC interrupt, p.37 commands, addresses and data formats (Tables 12-16), p.38 command matrix (Table 17)",
+  "pinouts": {
+   "dgs10": [
+    {
+     "number": 1,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "VREFIN/VREFOUT",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 2,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VREFIN/VREFOUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 1
+  },
+  "registers": [
+   {
+    "name": "IN_A",
+    "address": 0,
+    "space": "input",
+    "width": 16,
+    "reset": 32768,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "input register (data buffer) DAC-A; power-on mid scale (Table 4)"
+   },
+   {
+    "name": "IN_B",
+    "address": 1,
+    "space": "input",
+    "width": 16,
+    "reset": 32768,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "input register (data buffer) DAC-B; power-on mid scale (Table 4)"
+   },
+   {
+    "name": "DAC_A",
+    "address": 0,
+    "space": "dac",
+    "width": 16,
+    "reset": 32768,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC register DAC-A; power-on mid scale"
+   },
+   {
+    "name": "DAC_B",
+    "address": 1,
+    "space": "dac",
+    "width": 16,
+    "reset": 32768,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC register DAC-B; power-on mid scale"
+   },
+   {
+    "name": "GAIN",
+    "width": 2,
+    "reset": 3,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GB",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "GA",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "gain registers (Table 7): bit = 1 gain 1 (power-on default, external reference), 0 gain 2"
+   },
+   {
+    "name": "PWR",
+    "width": 4,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PDB",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "PDA",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "per-channel power-down mode PD1:PD0 (Table 5): 00 normal, 01 1 kohm, 10 100 kohm, 11 Hi-Z"
+   },
+   {
+    "name": "LDACREG",
+    "width": 2,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LB",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "LA",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "LDAC register (Table 11): 1 = channel ignores the LDAC pin and updates at the 24th SCLK"
+   },
+   {
+    "name": "REF",
+    "width": 1,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal reference enable (Table 9), power-on disabled"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0",
+   "commands": [
+    {
+     "name": "GAIN",
+     "in": "xx 000 010 x{14} [GAIN]",
+     "note": "command 000 with address 010 (Table 13, Table 17)"
+    },
+    {
+     "name": "WRITE INPUT A (LDAC register A = 1)",
+     "in": "xx 000 000 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": "LDACREG.LA=1",
+     "then": [
+      "update"
+     ],
+     "note": "a channel with its LDAC register bit set updates at the 24th SCLK (p.35)"
+    },
+    {
+     "name": "WRITE INPUT A",
+     "in": "xx 000 000 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d"
+    },
+    {
+     "name": "WRITE INPUT B (LDAC register B = 1)",
+     "in": "xx 000 001 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "when": "LDACREG.LB=1",
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "WRITE INPUT B",
+     "in": "xx 000 001 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d"
+    },
+    {
+     "name": "WRITE INPUT A AND B (LDAC register 11)",
+     "in": "xx 000 111 d{16}",
+     "action": "write",
+     "channel": 7,
+     "channelMap": {
+      "7": [
+       0,
+       1
+      ]
+     },
+     "data": "d",
+     "when": [
+      "LDACREG.LA=1",
+      "LDACREG.LB=1"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "WRITE INPUT A AND B",
+     "in": "xx 000 111 d{16}",
+     "action": "write",
+     "channel": 7,
+     "channelMap": {
+      "7": [
+       0,
+       1
+      ]
+     },
+     "data": "d"
+    },
+    {
+     "name": "SOFTWARE LDAC, UPDATE n",
+     "in": "xx 001 00a x{16}",
+     "action": "update",
+     "channel": "a"
+    },
+    {
+     "name": "SOFTWARE LDAC, UPDATE ALL",
+     "in": "xx 001 111 x{16}",
+     "action": "update"
+    },
+    {
+     "name": "WRITE INPUT n, UPDATE ALL",
+     "in": "xx 010 00a d{16}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "WRITE INPUT A AND B, UPDATE ALL",
+     "in": "xx 010 111 d{16}",
+     "action": "write",
+     "channel": 7,
+     "channelMap": {
+      "7": [
+       0,
+       1
+      ]
+     },
+     "data": "d",
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "WRITE INPUT n, UPDATE n",
+     "in": "xx 011 00a d{16}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "WRITE INPUT A AND B, UPDATE ALL (011)",
+     "in": "xx 011 111 d{16}",
+     "action": "write",
+     "channel": 7,
+     "channelMap": {
+      "7": [
+       0,
+       1
+      ]
+     },
+     "data": "d",
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "POWER UP/DOWN DAC-A",
+     "in": "xx 100 xxx x{10} pp xx 01",
+     "set": {
+      "PWR.PDA": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN DAC-B",
+     "in": "xx 100 xxx x{10} pp xx 10",
+     "set": {
+      "PWR.PDB": "p"
+     }
+    },
+    {
+     "name": "POWER UP/DOWN DAC-A AND DAC-B",
+     "in": "xx 100 xxx x{10} pp xx 11",
+     "set": {
+      "PWR.PDA": "p",
+      "PWR.PDB": "p"
+     }
+    },
+    {
+     "name": "POWER-DOWN NO CHANNEL",
+     "in": "xx 100 xxx x{10} xx xx 00"
+    },
+    {
+     "name": "SOFTWARE RESET INPUT AND DAC REGISTERS",
+     "in": "xx 101 xxx x{15} 0",
+     "action": "clear",
+     "note": "DB0 = 0 resets only the input and DAC registers to the power-on code (Table 8); modeled as clear (clearCode = power-on code)"
+    },
+    {
+     "name": "SOFTWARE RESET ALL (POWER-ON RESET)",
+     "in": "xx 101 xxx x{15} 1",
+     "action": "reset"
+    },
+    {
+     "name": "SET LDAC REGISTER",
+     "in": "xx 110 xxx x{14} [LDACREG]"
+    },
+    {
+     "name": "DISABLE INTERNAL REFERENCE",
+     "in": "xx 111 xxx x{15} 0",
+     "set": {
+      "REF.EN": 0,
+      "GAIN.GA": 1,
+      "GAIN.GB": 1
+     },
+     "note": "also resets both gains to 1 (Table 9)"
+    },
+    {
+     "name": "ENABLE INTERNAL REFERENCE",
+     "in": "xx 111 xxx x{15} 1",
+     "set": {
+      "REF.EN": 1,
+      "GAIN.GA": 0,
+      "GAIN.GB": 0
+     },
+     "note": "also resets both gains to 2 (Table 9)"
+    }
+   ],
+   "note": "24-bit word (Table 14-16): DB23-DB22 don't care, C2-C0 command (DB21-DB19), A2-A0 address (DB18-DB16: 000 DAC-A, 001 DAC-B, 010 gain, 111 both), DB15-DB0 data left-aligned (16 bits). Data are sampled on SCLK falling edges; the word is decoded at the 24th falling edge without waiting for SYNC rising; SYNC rising before the 23rd edge discards the word; further clocks are ignored"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level"
+   },
+   "clear": {
+    "pin": "CLR",
+    "active": 0,
+    "edge": "fall"
+   }
+  },
+  "dac": {
+   "input": [
+    "IN_A",
+    "IN_B"
+   ],
+   "output": [
+    "DAC_A",
+    "DAC_B"
+   ],
+   "clearCode": 32768,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "dgs10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  },
+  "DSC": {
+   "pinout": "dgs10",
+   "footprint": "WSON-10-DSC",
+   "package": "WSON",
+   "pins": 10
+  }
+ },
+ "pdf": "dac7562.pdf",
+ "pages": "p.4 (pins), p.5 (recommended operating conditions), p.9 (timing, Figure 1), p.30-31 (power-on reset, Table 4), p.32-35 (power-down, gain, software reset, internal reference, CLR, LDAC; Tables 5-11), p.36-38 (serial interface, commands, address select, data formats, command matrix; Tables 12-17)",
+ "notModeled": [
+  "analog outputs, output buffer, internal 2.5-V reference and gain (GAIN, REF and PWR stored only; the internal reference forced off while both DACs are powered down is not modeled)",
+  "CLR: the device stays in clear mode until the 24th SCLK falling edge of the next write and a CLR edge during a write aborts that write; the model loads the clear code once on the falling edge",
+  "LDAC is a falling-edge trigger in asynchronous mode and must be held low for synchronous mode; modeled as level LDAC (active low), which covers both uses",
+  "LDAC register: per-channel synchronous mode is modeled for single-channel writes (command 000); a write to both channels (address 111) with only one LDAC register bit set updates neither channel",
+  "software reset with DB0 = 0 resets only the input and DAC registers; modeled with the clear action (the clear code equals the power-on code). DB0 = 1 is a full reset",
+  "reserved addresses 011-110 and command 000 with address 010 other than the gain write: words to reserved addresses are ignored by the model",
+  "power-on-reset supply thresholds (AVDD below 0.7 V for 1 ms) and power-up time",
+  "no read-back: the interface is write-only (no SDO)",
+  "SPI mode: data sampled on SCLK falling edges with SCLK shown free-running in Figure 1; modeled as mode 1",
+  "power-on code mid scale (DACxx63) applies to the input and DAC registers; software reset and CLR return to mid scale"
+ ],
+ "variants": "dac7562.pdf (SLAS719E) covers DAC7562/DAC7563 (12-bit), DAC8162/DAC8163 (14-bit), DAC8562/DAC8563 (16-bit); xx62 power on and clear to zero scale, xx63 to mid scale; dac7562-q1.pdf (SLAS950A, automotive SQ...Q1 parts) and dac7563t.pdf (SLASE61A, \"T\" parts with 5-V TTL input thresholds VIL 0.8 V / VIH 2.1 V, same commands and pinout) describe the same digital interface",
+ "parts": [
+  [
+   "DAC8563SDGSR",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "DAC8563SDGST",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "DAC8563SDSCR",
+   "DSC",
+   10,
+   "Active"
+  ],
+  [
+   "DAC8563SDSCT",
+   "DSC",
+   10,
+   "Active"
+  ],
+  [
+   "DAC8563SQDGSRQ1",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "DAC8563TDGSR",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "DAC8563TDGST",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "DAC8563TDSCR",
+   "DSC",
+   10,
+   "Active"
+  ],
+  [
+   "DAC8563TDSCT",
+   "DSC",
+   10,
+   "Active"
+  ]
+ ]
+}

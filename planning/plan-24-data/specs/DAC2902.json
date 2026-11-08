@@ -1,0 +1,404 @@
+{
+ "device": {
+  "id": "DAC2902",
+  "function": "DAC",
+  "description": "dual 12-bit 125 MSPS current-output DAC with two parallel CMOS input ports",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac2902.pdf (SBAS167C) p.3 electrical characteristics (digital inputs, +VD 3.0-5.5 V), p.4 pin configuration and descriptions, p.5 timing diagram and digital inputs/timing, p.14 power-down mode",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "D11_1",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "D10_1",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "D9_1",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "D8_1",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "D7_1",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "D6_1",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "D5_1",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "D4_1",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "D3_1",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "D2_1",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "D1_1",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "D0_1",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "+VD",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "WRT1",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "CLK1",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "CLK2",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "WRT2",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "+VD",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "D11_2",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "D10_2",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "D9_2",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "D8_2",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "D7_2",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "D6_2",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "D5_2",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "D4_2",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "D3_2",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "D2_2",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "D1_2",
+     "role": "input"
+    },
+    {
+     "number": 34,
+     "name": "D0_2",
+     "role": "input"
+    },
+    {
+     "number": 35,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 36,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 37,
+     "name": "PD",
+     "role": "input"
+    },
+    {
+     "number": 38,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 39,
+     "name": "IOUT2",
+     "role": "output"
+    },
+    {
+     "number": 40,
+     "name": "IOUT2",
+     "role": "output"
+    },
+    {
+     "number": 41,
+     "name": "FSA2",
+     "role": "output"
+    },
+    {
+     "number": 42,
+     "name": "GSET",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 44,
+     "name": "FSA1",
+     "role": "output"
+    },
+    {
+     "number": 45,
+     "name": "IOUT1",
+     "role": "output"
+    },
+    {
+     "number": 46,
+     "name": "IOUT1",
+     "role": "output"
+    },
+    {
+     "number": 47,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 48,
+     "name": "NC",
+     "role": "nc"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 2,
+  "vcc": [
+   3.0,
+   5.5
+  ],
+  "analog": [
+   "+VA",
+   "FSA1",
+   "FSA2",
+   "IOUT1",
+   "IOUT2",
+   "REFIN"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D11_1",
+    "D10_1",
+    "D9_1",
+    "D8_1",
+    "D7_1",
+    "D6_1",
+    "D5_1",
+    "D4_1",
+    "D3_1",
+    "D2_1",
+    "D1_1",
+    "D0_1",
+    "D11_2",
+    "D10_2",
+    "D9_2",
+    "D8_2",
+    "D7_2",
+    "D6_2",
+    "D5_2",
+    "D4_2",
+    "D3_2",
+    "D2_2",
+    "D1_2",
+    "D0_2"
+   ],
+   "wr": {
+    "pin": "WRT1",
+    "active": 0
+   }
+  },
+  "registers": [
+   {
+    "name": "IN1",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC1 input latch (loaded on WRT1 rising); power-on value not given (0)"
+   },
+   {
+    "name": "IN2",
+    "space": "input",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC2 input latch (loaded on WRT2 rising); power-on value not given (0)"
+   },
+   {
+    "name": "DAC1",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC1 latch (loaded on CLK1 rising)"
+   },
+   {
+    "name": "DAC2",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC2 latch (loaded on CLK2 rising)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Latch both ports",
+     "in": "[IN1] [IN2]",
+     "note": "both data ports latched at the WRT1 rising edge (exact when WRT1 and WRT2 are tied, the datasheet's test condition)"
+    }
+   ],
+   "note": "double-latch architecture: data enters the input latch on WRT rising, passes to the DAC latch on CLK rising (CLK at or before WRT rising; WRT and CLK may be tied)"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "CLK1",
+    "active": 1,
+    "edge": "rise"
+   },
+   "powerdown": {
+    "pin": "PD",
+    "active": 1
+   }
+  },
+  "dac": {
+   "input": [
+    "IN1",
+    "IN2"
+   ],
+   "output": [
+    "DAC1",
+    "DAC2"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "dac2902.pdf",
+ "pages": "p.3 (supplies, logic levels), p.4 (pins), p.5 (timing diagram, digital inputs and timing), p.14 (power-down)",
+ "notModeled": [
+  "analog current outputs, reference (internal/external on REFIN), full-scale adjust (FSA1/FSA2), gain-setting mode GSET (stored nowhere; strap only)",
+  "independent WRT2 latch: the model latches data port 2 (D11_2-D0_2) at WRT1 rising together with port 1 (exact when WRT1 = WRT2, as in all datasheet measurements); WRT2 and CLK2 are not used",
+  "CLK1 copies both input latches to both DAC latches (one LDAC pin); CLK2 is not modeled",
+  "the input latch passes data to the DAC latch on the falling WRT edge and the DAC updates on the next CLK rising edge; tCW (CLK rising at or before WRT rising) is not checked",
+  "PD pin internal pull-down (Z reads inactive, which matches)",
+  "power-on contents of the latches are not given (0 used)"
+ ],
+ "variants": "DAC2900 (10-bit) and DAC2904 (14-bit) are pin-compatible family members with separate datasheets",
+ "parts": [
+  [
+   "DAC2902Y/1K",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "DAC2902Y/250",
+   "PFB",
+   48,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,1055 @@
+{
+ "device": {
+  "id": "DAC43901",
+  "function": "DAC",
+  "description": "automotive 8-bit smart DAC for PWM logarithmic fade-in fade-out with two PWM outputs, comparator trigger input, NVM and I2C/SPI programming interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac43902-q1.pdf (SLASF07) p.3-4 pinout (Table 5-1), p.5 recommended operating conditions, p.9 SPI timing, p.18-19 programming interface and NVM, p.20 comparator mode (threshold DAC at midscale), p.21-25 fade-in fade-out SRAM settings (Table 7-4, Table 7-6), p.26-30 animation (Table 7-10, Table 7-11), p.30-32 SPI (Table 7-12, 7-13), p.35-36 I2C address, p.37-43 register map (Table 7-18/7-19)",
+  "pinouts": {
+   "rte16": [
+    {
+     "number": 1,
+     "name": "TRIG-IN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "SDO/NC",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "SCL/SYNC/NC",
+     "role": "inout"
+    },
+    {
+     "number": 7,
+     "name": "A0/SDI/PWM1",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "SDA/SCLK/PWM0",
+     "role": "inout"
+    },
+    {
+     "number": 9,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 10,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 11,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 12,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 13,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "VREF/MODE",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 8,
+  "channels": 1,
+  "vcc": [
+   1.7,
+   5.5
+  ],
+  "analog": [
+   "TRIG-IN",
+   "VREF/MODE"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SCL/SYNC/NC",
+   "sclk": "SDA/SCLK/PWM0",
+   "mosi": "A0/SDI/PWM1",
+   "miso": "SDO/NC",
+   "mode": 1
+  },
+  "timing": {
+   "tOut": 300
+  },
+  "registers": [
+   {
+    "name": "NOP",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "NOP",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_1_VOUT_CMP_CONFIG",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "VOUT_GAIN_1",
+      "bits": [
+       12,
+       10
+      ]
+     },
+     {
+      "name": "CMP_1_OD_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CMP_1_OUT_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CMP_1_HIZ_IN_DIS",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CMP_1_INV_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CMP_1_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "DAC43901-Q1 lists no default for this register (Table 7-6); field resets 0"
+   },
+   {
+    "name": "DAC_0_VOUT_CMP_CONFIG",
+    "address": 21,
+    "width": 16,
+    "reset": 1031,
+    "fields": [
+     {
+      "name": "VOUT_GAIN_0",
+      "bits": [
+       12,
+       10
+      ]
+     },
+     {
+      "name": "CMP_0_OD_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CMP_0_OUT_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CMP_0_HIZ_IN_DIS",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CMP_0_INV_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CMP_0_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "reset 0407h per Table 7-6"
+   },
+   {
+    "name": "COMMON_CONFIG",
+    "address": 31,
+    "width": 16,
+    "reset": 5119,
+    "fields": [
+     {
+      "name": "DEV_LOCK",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "EN_INT_REF",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "VOUT_PDN_0",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "VOUT_PDN_1",
+      "bits": [
+       2,
+       1
+      ]
+     }
+    ],
+    "note": "reset 13FFh per Table 7-6 (NVM default)"
+   },
+   {
+    "name": "COMMON_TRIGGER",
+    "address": 32,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DEV_UNLOCK",
+      "bits": [
+       15,
+       12
+      ]
+     },
+     {
+      "name": "RESET",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "NVM_PROG",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "NVM_RELOAD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "COMMON_PWM_TRIG",
+    "address": 33,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "START_FUNCTION_A",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "START_FUNCTION_B",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "START_FUNCTION_C",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "START_FUNCTION_D",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GENERAL_STATUS",
+    "address": 34,
+    "width": 16,
+    "reset": 88,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "NVM_CRC_FAIL_INT",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "NVM_CRC_FAIL_USER",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "NVM_BUSY",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DEVICE_ID",
+      "bits": [
+       7,
+       2
+      ]
+     },
+     {
+      "name": "VERSION_ID",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "DEVICE_ID 16h, VERSION_ID 0"
+   },
+   {
+    "name": "INTERFACE_CONFIG",
+    "address": 38,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "TIMEOUT_EN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "FSDO_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SDO_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "STATE_MACHINE_CONFIG0",
+    "address": 39,
+    "width": 16,
+    "reset": 3,
+    "fields": [
+     {
+      "name": "SM_ABORT",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SM_START",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SM_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SRAM_CONFIG",
+    "address": 43,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SRAM_ADDR",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SRAM_DATA",
+    "address": 44,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SRAM_DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "window onto the SRAM word at SRAM_CONFIG.SRAM_ADDR (the sram space below)"
+   },
+   {
+    "name": "SRAM_PWM_MIN",
+    "space": "sram",
+    "address": 32,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PWM_MIN",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SRAM_PWM_MAX",
+    "space": "sram",
+    "address": 33,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PWM_MAX",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ],
+    "note": "Table 7-4 prints the default 0xF7, which does not fit the 7-bit field; reset 0 used"
+   },
+   {
+    "name": "SRAM_PWM_FREQ",
+    "space": "sram",
+    "address": 34,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PWM_FREQ",
+      "bits": [
+       11,
+       7
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SRAM_FADE_IN_SLEW_RATE",
+    "space": "sram",
+    "address": 35,
+    "width": 16,
+    "reset": 0
+   },
+   {
+    "name": "SRAM_CH0_DELAY",
+    "space": "sram",
+    "address": 36,
+    "width": 16,
+    "reset": 0
+   },
+   {
+    "name": "SRAM_COM_DELAY",
+    "space": "sram",
+    "address": 37,
+    "width": 16,
+    "reset": 0
+   },
+   {
+    "name": "SRAM_FADE_OUT_SLEW_RATE",
+    "space": "sram",
+    "address": 38,
+    "width": 16,
+    "reset": 0
+   },
+   {
+    "name": "THRESH0",
+    "width": 8,
+    "reset": 128,
+    "readOnly": true,
+    "note": "internal threshold-DAC code: fixed at midscale (p.20 comparator mode); no register map address"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "z{24}",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "COMMON_TRIGGER RESET = 1010 (POR reset)",
+     "in": "0 0100000 eeee 1010 ffffffff",
+     "action": "reset",
+     "when": "INTERFACE_CONFIG.SDO_EN=0",
+     "note": "RESET field 11-8 = 1010b triggers a POR reset (Table 7-23)"
+    },
+    {
+     "name": "COMMON_TRIGGER RESET = 1010 (POR reset)",
+     "in": "0 0100000 eeee 1010 ffffffff",
+     "action": "reset",
+     "when": "INTERFACE_CONFIG.SDO_EN=1",
+     "note": "RESET field 11-8 = 1010b triggers a POR reset (Table 7-23)",
+     "next": "0 0100000 eeee 1010 ffffffff"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 20h",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 32,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=32",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 33,
+      "SRAM_DATA.SRAM_DATA": "d"
+     }
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 20h",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 32,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=32",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 33,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 21h",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 33,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=33",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 34,
+      "SRAM_DATA.SRAM_DATA": "d"
+     }
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 21h",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 33,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=33",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 34,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 22h",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 34,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=34",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 35,
+      "SRAM_DATA.SRAM_DATA": "d"
+     }
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 22h",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 34,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=34",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 35,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 23h",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 35,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=35",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 36,
+      "SRAM_DATA.SRAM_DATA": "d"
+     }
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 23h",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 35,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=35",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 36,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 24h",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 36,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=36",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 37,
+      "SRAM_DATA.SRAM_DATA": "d"
+     }
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 24h",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 36,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=36",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 37,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 25h",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 37,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=37",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 38,
+      "SRAM_DATA.SRAM_DATA": "d"
+     }
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 25h",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 37,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=37",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 38,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 26h",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 38,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=38",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 39,
+      "SRAM_DATA.SRAM_DATA": "d"
+     }
+    },
+    {
+     "name": "SRAM-DATA write to SRAM 26h",
+     "in": "0 0101100 d{16}",
+     "action": "write",
+     "address": 38,
+     "space": "sram",
+     "data": "d",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=38",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "set": {
+      "SRAM_CONFIG.SRAM_ADDR": 39,
+      "SRAM_DATA.SRAM_DATA": "d"
+     },
+     "next": "0 0101100 d{16}"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 20h",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 32,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=32",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 20h",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 32,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=32",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 21h",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 33,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=33",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 21h",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 33,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=33",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 22h",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 34,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=34",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 22h",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 34,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=34",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 23h",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 35,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=35",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 23h",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 35,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=35",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 24h",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 36,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=36",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 24h",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 36,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=36",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 25h",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 37,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=37",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 25h",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 37,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=37",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 26h",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 38,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=38",
+      "INTERFACE_CONFIG.SDO_EN=0"
+     ]
+    },
+    {
+     "name": "SRAM-DATA read of SRAM 26h",
+     "in": "1 0101100 x{16}",
+     "action": "read",
+     "address": 38,
+     "space": "sram",
+     "when": [
+      "SRAM_CONFIG.SRAM_ADDR=38",
+      "INTERFACE_CONFIG.SDO_EN=1"
+     ],
+     "next": "1 0101100 @"
+    },
+    {
+     "name": "Write",
+     "in": "0 aaaaaaa d{16}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "when": "INTERFACE_CONFIG.SDO_EN=0",
+     "note": "Table 7-12: R/W = 0, A[6:0], DI[15:0]"
+    },
+    {
+     "name": "Write",
+     "in": "0 aaaaaaa d{16}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "when": "INTERFACE_CONFIG.SDO_EN=1",
+     "note": "Table 7-12: R/W = 0, A[6:0], DI[15:0]; with SDO enabled the next frame echoes the command (Figure 7-11)",
+     "next": "0 aaaaaaa d{16}"
+    },
+    {
+     "name": "Read",
+     "in": "1 aaaaaaa x{16}",
+     "action": "read",
+     "address": "a",
+     "when": "INTERFACE_CONFIG.SDO_EN=0",
+     "note": "Table 7-12/7-13: R/W = 1; the data come out in the next frame (needs SDO_EN = 1)"
+    },
+    {
+     "name": "Read",
+     "in": "1 aaaaaaa x{16}",
+     "action": "read",
+     "address": "a",
+     "when": "INTERFACE_CONFIG.SDO_EN=1",
+     "note": "Table 7-12/7-13: R/W = 1; the data come out in the next frame (needs SDO_EN = 1)",
+     "next": "1 aaaaaaa @"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "THRESH0"
+   ],
+   "output": [
+    "THRESH0"
+   ],
+   "clearCode": 128,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "RTE": {
+   "pinout": "rte16",
+   "footprint": "WQFN-16-RTE",
+   "package": "WQFN",
+   "pins": 16
+  }
+ },
+ "pdf": "dac43902-q1.pdf",
+ "pages": "p.3-4 (pinout), p.5 (ROC), p.9 (SPI timing), p.18-20 (interface, NVM, comparator), p.21-30 (fade/animation SRAM, defaults), p.30-32 (SPI), p.35-36 (I2C), p.37-43 (registers)",
+ "notModeled": [
+  "the part is a PWM generator: fade-in/fade-out and animation state machines, PWM outputs on the interface pins in standalone mode (VREF/MODE high), TRIG-IN comparator and TRIG-OUT are not modeled; the model is the programming mode (VREF/MODE low) register interface only",
+  "threshold DACs are fixed at midscale and have no register (THRESH0 are internal read-only placeholders so the dac block has a register per channel)",
+  "I2C programming interface (auto-detected at the first transaction after power-on; A0 strap to 0x48-0x4B per Table 7-16, broadcast 1000111): SPI is modeled because it reads back registers (4-wire with SDO_EN = 1)",
+  "SDO is open-drain (all digital outputs are open-drain, p.18); the model drives it push-pull",
+  "FSDO = 1 (SDO changes on SCLK falling edges): the model always shifts SDO as in FSDO = 0 (mode 1)",
+  "daisy chain (4-wire mode: only the last 24 bits of a multiple-of-24 frame are used)",
+  "SRAM access through SRAM_CONFIG/SRAM_DATA is modeled only for the documented SRAM words (20h-26h, one command per word, auto-increment after writes); at any other SRAM_ADDR a write or read of 2Ch reaches the plain SRAM_DATA register",
+  "SRAM_DATA (2Ch) as a register in the register space only mirrors the last SRAM write; reads of 2Ch return the SRAM word at SRAM_ADDR",
+  "NVM (NVM_PROG/NVM_RELOAD, NVM_BUSY, CRC flags) and the factory NVM defaults of the SRAM words (reset 0 used; PWM-MAX default 0xF7 does not fit its field)",
+  "DEV_LOCK / DEV_UNLOCK register locking; RESERVED bits 'always write 0/1' are stored as written",
+  "I2C timeout (TIMEOUT_EN) and the tDACWAIT 2 us sequential update wait"
+ ],
+ "variants": "DAC43901-Q1 (two PWM outputs, fade-in fade-out, pins 5/6 SDO/NC and SCL/SYNC/NC, 11-12 NC) and DAC43902-Q1 (four PWM outputs, sequential animation, pins 5/6 SDO/PWM3 and SCL/SYNC/PWM2, TRIG-OUT on 11-12, no fade-out) share dac43902-q1.pdf; DAC43902 is the sibling (own spec). Register defaults differ (Table 7-6 vs Table 7-11) and so does the SRAM layout (Table 7-4 vs Table 7-10).",
+ "parts": [
+  [
+   "DAC43901RTERQ1",
+   "RTE",
+   16,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,344 @@
+{
+ "device": {
+  "id": "DAC7725",
+  "function": "DAC",
+  "description": "Quad 12-bit voltage-output DAC with 12-bit parallel interface, read-back, LDAC and reset to zero scale",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac7725.pdf (SBAS112) p.2-3 electrical characteristics (VDD 4.75-5.25 V, TTL-compatible CMOS logic), p.3 absolute maximum, p.4 pin configurations (SO-28, PLCC-28) and pin descriptions, p.13 digital interface and control logic truth table (Table I), input coding (straight binary), p.14 digital timing (Figure 4, Table II)",
+  "pinouts": {
+   "dw28": [
+    {
+     "number": 1,
+     "name": "VREFH",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DB0",
+     "role": "inout"
+    },
+    {
+     "number": 9,
+     "name": "DB1",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "DB2",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "DB3",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "DB4",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "DB5",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "DB6",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "DB7",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "DB8",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "DB9",
+     "role": "inout"
+    },
+    {
+     "number": 18,
+     "name": "DB10",
+     "role": "inout"
+    },
+    {
+     "number": 19,
+     "name": "DB11",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "R/W",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 26,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "VREFL",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 4,
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "VREFH",
+   "VREFL",
+   "VOUTA",
+   "VOUTB",
+   "VOUTC",
+   "VOUTD",
+   "VSS",
+   "VCC"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rw": {
+    "pin": "R/W",
+    "read": 1
+   },
+   "address": [
+    "A1",
+    "A0"
+   ]
+  },
+  "timing": {
+   "tAcc": 160,
+   "tDf": 100
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "input register A (Table I: A1 A0 = 00); RESET loads 000H (zero scale)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "input register B (Table I: A1 A0 = 01); RESET loads 000H (zero scale)"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "input register C (Table I: A1 A0 = 10); RESET loads 000H (zero scale)"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "input register D (Table I: A1 A0 = 11); RESET loads 000H (zero scale)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register A; RESET loads 000H (zero scale)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register B; RESET loads 000H (zero scale)"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register C; RESET loads 000H (zero scale)"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register D; RESET loads 000H (zero scale)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write input register (CS low, R/W low)",
+     "in": "aa d{12}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "Table I: the input register A1 A0 select is transparent while CS and R/W are low and latches at CS rising"
+    }
+   ],
+   "read": {
+    "0": "[INA]",
+    "1": "[INB]",
+    "2": "[INC]",
+    "3": "[IND]"
+   },
+   "note": "Table I: CS low with R/W high reads back the selected input register on DB11-DB0 (tCSD 160 ns max, tDZ 100 ns max)"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level"
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw28",
+   "footprint": "SOIC-28W",
+   "package": "SOIC",
+   "pins": 28
+  }
+ },
+ "pdf": "dac7725.pdf",
+ "pages": "p.2-3 (electrical, logic levels, abs max), p.4 (pinouts, pin descriptions), p.13 (Table I, coding), p.14 (Figure 4, Table II timing)",
+ "notModeled": [
+  "analog: outputs, VREFH/VREFL references, single (+15 V) or dual (+-15 V) analog supplies",
+  "power-on state is not specified; registers start at the RESET code 000H (zero scale)",
+  "the input register is transparent (follows the data bus) while CS and R/W are low; modeled as latched at CS rising",
+  "PLCC-28 (FN) package: not in the skeleton's orderable parts"
+ ],
+ "variants": "DAC7724 (RESET to 800H) and DAC7725 (RESET to 000H) share dac7725.pdf with the same pinout and interface; DAC7724 has its own spec. N/U and NB/UB are linearity grades",
+ "parts": [
+  [
+   "DAC7725UB",
+   "DW",
+   28,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "device": {
+  "id": "DAC7611",
+  "function": "DAC",
+  "description": "12-bit single-channel voltage-output DAC with internal reference, serial shift-register input, load strobe and asynchronous clear",
+  "drawer": ["Interface"],
+  "note": "dac7611.pdf (SBAS075, Burr-Brown PDS-1402A) p.2 specifications (VDD 4.75-5.25 V, TTL inputs, straight binary), p.3 pin configuration and descriptions (DIP/SOIC-8), p.5 timing diagrams, logic truth table and timing specifications, p.10 operation and interface (double buffered, LD transparent latch, CLR to 000H)",
+  "pinouts": {
+   "d8": [
+    {"number": 1, "name": "VDD", "role": "power"},
+    {"number": 2, "name": "CS", "role": "input"},
+    {"number": 3, "name": "CLK", "role": "input"},
+    {"number": 4, "name": "SDI", "role": "input"},
+    {"number": 5, "name": "LD", "role": "input"},
+    {"number": 6, "name": "CLR", "role": "input"},
+    {"number": 7, "name": "GND", "role": "ground"},
+    {"number": 8, "name": "VOUT", "role": "output"}
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 1,
+  "vcc": [4.75, 5.25],
+  "analog": ["VOUT"],
+  "bus": {"style": "spi", "cs": "CS", "sclk": "CLK", "mosi": "SDI", "mode": 3},
+  "registers": [
+   {"name": "SR", "space": "input", "address": 0, "width": 12, "reset": 0, "note": "serial shift register (p.5 truth table, p.10); power-on value not specified"},
+   {"name": "DAC", "space": "dac", "address": 0, "width": 12, "reset": 0, "note": "DAC register, a transparent latch while LD is low (p.3, p.10); power-on value not specified, CLR sets 000H"}
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {"name": "Shift D11-D0", "in": "d{12}", "action": "write", "channel": 0, "data": "d", "commit": "end", "note": "p.5 timing / p.10: 12 bits MSB first on rising CLK while CS is low; the shift register keeps the last 12 bits"}
+   ]
+  },
+  "pins": {
+   "ldac": {"pin": "LD", "active": 0, "edge": "level"},
+   "clear": {"pin": "CLR", "active": 0}
+  },
+  "dac": {"input": ["SR"], "output": ["DAC"], "clearCode": 0, "ldac": "pin"}
+ },
+ "packages": {
+  "D": {"pinout": "d8", "footprint": "SOIC-8", "package": "SOIC", "pins": 8}
+ },
+ "pdf": "dac7611.pdf",
+ "pages": "p.2 (VDD, logic levels, data coding), p.3 (pins, ordering), p.5 (timing, truth table), p.10 (interface, LD, CLR)",
+ "notModeled": [
+  "analog output and internal 2.435-V reference (output never driven)",
+  "the shift register is updated bit by bit: with LD low the DAC register follows each new bit; the model writes the shift-register value when CS rises (then LD low copies it at once)",
+  "CS and CLK are interchangeable (the shift clock is CS OR CLK); the model shifts only on CLK edges while CS is low",
+  "CLR loads 000H into the DAC register only (the shift register keeps its data and LD low after CLR reloads it); the model clears both registers",
+  "power-on register contents are not specified (modeled as 0); the datasheet recommends CLR at power-up",
+  "TTL logic levels (VIH 2.4 V, VIL 0.8 V)"
+ ],
+ "variants": "DAC7611 has its own datasheet; DIP packages (P suffix) are not in the parts list. DAC7612 is the dual version with 2 address bits and no CLR; DAC8512 is the pin-compatible original",
+ "parts": [
+  ["DAC7611U", "D", 8, "Active"],
+  ["DAC7611U/2K5", "D", 8, "Active"],
+  ["DAC7611UB", "D", 8, "Active"]
+ ]
+}

@@ -1,0 +1,168 @@
+{
+ "device": {
+  "id": "DAC8550",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit voltage-output DAC with 2's complement input, power-on reset to midscale, 24-bit SPI-compatible write-only interface and VFB feedback pin",
+  "note": "dac8550.pdf (SLAS476H) p.4 pin functions, p.5 recommended operating conditions (VDD 2.7-5.5 V), p.7 timing requirements and Figure 1, p.17 2's complement input coding (Equation 1) and power-on reset to midscale, p.18 power-down modes (Table 1) and serial interface, p.19 input shift register (Figure 49) and SYNC interrupt (Figure 50)",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VFB",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VREF",
+   "VFB",
+   "VOUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register; power-on reset sets the output to midscale, which is code 0000h in the 2's complement input coding (p.17)"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PD1/PD0 (DB17-DB16) of the last valid frame: 00 normal, 01 1 kOhm, 10 100 kOhm, 11 Hi-Z"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "WRITE",
+     "in": "x{6} pp d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.PD": "p"
+     },
+     "note": "DB23-DB18 don't care, DB17-DB16 PD1/PD0, DB15-DB0 data MSB first; executed on the 24th SCLK falling edge; SYNC high earlier aborts the frame (SYNC interrupt)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "dac8550.pdf",
+ "pages": "p.4 (pins), p.5 (ROC), p.7 (timing, Figure 1), p.17 (2's complement coding, power-on reset to midscale), p.18 (power-down Table 1, serial interface), p.19 (input shift register Figure 49, SYNC interrupt Figure 50)",
+ "notModeled": [
+  "analog output, resistor string, output amplifier and VFB feedback input (VOUT is never driven)",
+  "power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 stored in CTRL.PD only; the DAC register keeps its contents",
+  "power-down exit time (2.5 us at 5 V, 5 us at 3 V) and output settling",
+  "SCLK frequency (20 MHz below VDD 3.6 V, 30 MHz above) and setup/hold limits t1-t8",
+  "SPI mode: data taken on SCLK falling edges, SCLK high at SYNC fall in the timing figure; modeled as mode 2",
+  "2's complement coding is analog-only: the register stores the code as written; midscale = 0000h"
+ ],
+ "variants": "dac8550.pdf covers only the DAC8550 (A and B grades: DAC8550IDGK*/DAC8550IBDGK*). The DAC8551 is the straight-binary version (own datasheet).",
+ "parts": [
+  [
+   "DAC8550IBDGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8550IBDGKT",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8550IDGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8550IDGKT",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

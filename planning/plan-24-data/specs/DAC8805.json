@@ -1,0 +1,379 @@
+{
+ "device": {
+  "id": "DAC8805",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "Dual 14-bit parallel-input multiplying current-output DAC with LDAC and selectable reset",
+  "note": "dac8805.pdf (SBAS391A) p.1 power-on reset per RSTSEL, p.3 VDD 2.7-5.5 V, p.4 pin assignments, p.5 terminal functions (Table 1), p.6 timing (Figure 1), p.7 address decoder and control inputs (Tables 2-3), p.8 digital interface",
+  "pinouts": {
+   "dbt38": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "ROFSA",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "RFBA",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "R1A",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "RCOMA",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "VREFA",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "IOUTA",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "AGNDA",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "AGNDB",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "IOUTB",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "VREFB",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "RCOMB",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "R1B",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "RFBB",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "ROFSB",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "RS",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "D13",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "D12",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "D11",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "D10",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "D9",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 30,
+     "name": "D8",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "D7",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "D6",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "D5",
+     "role": "input"
+    },
+    {
+     "number": 34,
+     "name": "D4",
+     "role": "input"
+    },
+    {
+     "number": 35,
+     "name": "D3",
+     "role": "input"
+    },
+    {
+     "number": 36,
+     "name": "D2",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "D1",
+     "role": "input"
+    },
+    {
+     "number": 38,
+     "name": "D0",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 14,
+  "channels": 2,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "ROFSA",
+   "RFBA",
+   "R1A",
+   "RCOMA",
+   "VREFA",
+   "IOUTA",
+   "IOUTB",
+   "VREFB",
+   "RCOMB",
+   "R1B",
+   "RFBB",
+   "ROFSB"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D13",
+    "D12",
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   },
+   "address": [
+    "A1",
+    "A0"
+   ]
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 14,
+    "reset": 0,
+    "note": "DAC A input register; power-on / RS zero with RSTSEL = 0 (p.1, p.5)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 14,
+    "reset": 0,
+    "note": "DAC B input register"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 14,
+    "reset": 0,
+    "note": "DAC A register"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 14,
+    "reset": 0,
+    "note": "DAC B register"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Load input register (WR low)",
+     "in": "aa d{14}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "channelMap": {
+      "0": [
+       0
+      ],
+      "1": [],
+      "2": [
+       0,
+       1
+      ],
+      "3": [
+       1
+      ]
+     },
+     "commit": "end",
+     "note": "p.7 Table 2: A1 A0 = 00 DAC A, 01 none, 10 DAC A and B, 11 DAC B; Table 3: WR low loads the input register with all 14 data bits"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 1,
+    "edge": "level"
+   },
+   "reset": {
+    "pin": "RS",
+    "active": 0
+   },
+   "resetSelect": [
+    {
+     "pin": "RSTSEL",
+     "level": 1,
+     "resets": {
+      "INA": 8192,
+      "INB": 8192,
+      "DACA": 8192,
+      "DACB": 8192
+     }
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB"
+   ],
+   "output": [
+    "DACA",
+    "DACB"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DBT": {
+   "pinout": "dbt38",
+   "footprint": "TSSOP-38",
+   "package": "TSSOP",
+   "pins": 38
+  }
+ },
+ "pdf": "dac8805.pdf",
+ "pages": "p.1 (power-on reset per RSTSEL), p.3 (VDD 2.7-5.5 V), p.4 (pinout), p.5 (terminal functions), p.6 (Figure 1, timing), p.7 (Tables 2-3), p.8 (digital interface)",
+ "notModeled": [
+  "analog: multiplying current output(s), reference input(s), feedback resistor(s), 4-quadrant resistors R1/RCOM/ROFS",
+  "input register transparency: with WR low the selected input register(s) follow the data pins; the model loads them once when WR returns high",
+  "LDAC/WR tied together as one pulse: modeled as the input register write at WR rising followed by the level-active LDAC update"
+ ],
+ "variants": "dac8805.pdf covers only the DAC8805 (Q grade); DAC8822 is the 16-bit version (own spec)",
+ "parts": [
+  [
+   "DAC8805QDBT",
+   "DBT",
+   38,
+   "Active"
+  ],
+  [
+   "DAC8805QDBTR",
+   "DBT",
+   38,
+   "Active"
+  ]
+ ]
+}

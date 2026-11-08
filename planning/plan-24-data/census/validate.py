@@ -14,7 +14,7 @@ FP_IDS_TSV = os.path.join(DATA, 'footprint-ids.tsv')
 
 ROLES = {'input', 'output', 'inout', 'power', 'ground', 'nc', 'absent'}
 ACTIONS = {'nop', 'wreg', 'rreg', 'write', 'read', 'pointer', 'start', 'stop', 'reset',
-           'powerdown', 'wakeup', 'update', 'clear', 'setbits', 'clearbits'}
+           'powerdown', 'wakeup', 'update', 'updateall', 'clear', 'setbits', 'clearbits'}
 STARTS = {'cs-fall', 'cs-rise', 'command', 'pin', 'read', 'power-on'}
 UNITS = {'second', 'minute', 'hour', 'weekday', 'date', 'month', 'year', 'century', 'hundredth'}
 NAME_RE = re.compile(r'^[A-Z][A-Z0-9_]*$')
@@ -275,13 +275,19 @@ def check_protocol(dev, ctx):
     p = dev.d.get('protocol')
     if not isinstance(p, dict):
         ctx.err('protocol', 'missing'); return
-    extra = set(p) - {'frame', 'out', 'idle', 'commands', 'read', 'generalCall', 'align', 'outs', 'reads', 'note'}
+    extra = set(p) - {'frame', 'out', 'idle', 'commands', 'read', 'generalCall', 'align', 'outs', 'reads', 'triggers', 'note'}
+    for j, t in enumerate(p.get('triggers', [])):
+        check_field_value(dev, t.get('write', ''), ctx, f'protocol.triggers[{j}]')
+        if t.get('action') not in ACTIONS:
+            ctx.err(f'protocol.triggers[{j}]', f'action {t.get("action")!r}')
     for k in ('outs', 'reads'):
         for j, o in enumerate(p.get(k, [])):
             w = o.get('when', [])
             for e in ([w] if isinstance(w, str) else w):
                 check_field_value(dev, e, ctx, f'protocol.{k}[{j}].when')
-            check_pattern(dev, o.get('out', o.get('read', '')), 'out', ctx, f'protocol.{k}[{j}]')
+            pv = o.get('out', o.get('read', ''))
+            for pk_, pp in (pv.items() if isinstance(pv, dict) else [('', pv)]):
+                check_pattern(dev, pp, 'out', ctx, f'protocol.{k}[{j}]{pk_}')
     if p.get('align', 'start') not in ('start', 'end'):
         ctx.err('protocol.align', 'start/end')
     if extra:
@@ -529,6 +535,12 @@ def check_device(spec, ctx, fps):
         for e in ([en] if isinstance(en, str) else en):
             check_field_value(dev, e, ctx, f'ready[{i}].enable')
     for k, v in d.get('pins', {}).items():
+        if k == 'resetSelect':
+            for j, rs in enumerate(v):
+                need_pin(rs.get('pin', ''), f'pins.resetSelect[{j}]')
+                for rn in rs.get('resets', {}):
+                    ref_width(dev, rn, ctx, f'pins.resetSelect[{j}]')
+            continue
         if k == 'levels':
             for j, lv in enumerate(v):
                 need_pin(lv.get('pin', ''), f'pins.levels[{j}]')
@@ -537,6 +549,13 @@ def check_device(spec, ctx, fps):
         if k not in ('reset', 'convst', 'start', 'powerdown', 'ldac', 'clear'):
             ctx.err('pins', f'unknown control {k!r}')
         need_pin(v.get('pin', ''), f'pins.{k}')
+        extra = set(v) - {'pin', 'active', 'edge', 'note'}
+        if extra:
+            ctx.err(f'pins.{k}', f'unknown keys {sorted(extra)} (level mode is "edge": "level")')
+        if 'edge' in v and v['edge'] not in ('rise', 'fall', 'level'):
+            ctx.err(f'pins.{k}', 'edge rise/fall/level')
+        if v.get('active', 0) not in (0, 1):
+            ctx.err(f'pins.{k}', 'active 0/1')
     check_protocol(dev, ctx)
     if kind == 'rtc':
         check_rtc(dev, ctx)

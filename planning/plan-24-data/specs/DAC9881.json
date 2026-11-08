@@ -1,0 +1,283 @@
+{
+ "device": {
+  "id": "DAC9881",
+  "function": "DAC",
+  "description": "18-bit single-channel voltage-output DAC with 24-bit SPI interface, LDAC, hardware reset to zero or mid scale and SDO read-back / daisy chain",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac9881.pdf (SBAS438C) p.3-4 (pin functions), p.5 (recommended operating conditions: IOVDD 1.7 V to AVDD, AVDD 2.7-5.5 V), p.10-11 (timing requirements), p.12-14 (timing diagrams), p.30-31 (input data format, hardware/power-on reset, Table 3 reset values, power down, double-buffered interface, LDAC), p.32 (serial interface, Table 4 data word, stand-alone and daisy-chain modes)",
+  "pinouts": {
+   "rge24": [
+    {
+     "number": 1,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "VREFL-S",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "VREFH-S",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "RFB",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "VREFL-F",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "VREFH-F",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 13,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "GAIN",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "USB/BTC",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "PDN",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "SDOSEL",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "IOVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 18,
+  "channels": 1,
+  "vcc": [
+   1.7,
+   5.5
+  ],
+  "analog": [
+   "AVDD",
+   "VREFL-S",
+   "VREFH-S",
+   "VOUT",
+   "RFB",
+   "VREFL-F",
+   "VREFH-F"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 15,
+   "tOut": 20,
+   "tFloat": 8
+  },
+  "registers": [
+   {
+    "name": "IN",
+    "space": "input",
+    "address": 0,
+    "width": 18,
+    "reset": 0,
+    "note": "input register D17-D0 (p.32 Table 4); power-on/RST value 00000h with RSTSEL = DGND (p.31 Table 3)"
+   },
+   {
+    "name": "XHI",
+    "width": 6,
+    "reset": 0,
+    "note": "internal: the don't-care bits B23-B18 of the last valid 24-bit word, read back with the input register in stand-alone mode (p.32: the 24-bit input register is shifted out on SDO)"
+   },
+   {
+    "name": "DACL",
+    "space": "dac",
+    "address": 0,
+    "width": 18,
+    "reset": 0,
+    "note": "DAC latch; loaded from the input register while LDAC is low (p.31)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "out": "[XHI][IN]",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "DATA WORD",
+     "in": "[XHI] d{18}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "commit": "end",
+     "note": "SDI clocked in on SCLK rising; the last 24 bits before CS rising are transferred to the input register at CS rising; a frame of fewer than 24 bits is invalid and ignored (p.32)"
+    }
+   ],
+   "note": "stand-alone mode (SDOSEL = IOVDD): SDO shifts out the existing 24-bit input register while the new word shifts in, then zeros (p.32, Figure 2)"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level"
+   },
+   "reset": {
+    "pin": "RST",
+    "active": 0
+   },
+   "resetSelect": [
+    {
+     "pin": "RSTSEL",
+     "level": 1,
+     "resets": {
+      "IN": 131072,
+      "DACL": 131072
+     }
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "IN"
+   ],
+   "output": [
+    "DACL"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "RGE": {
+   "pinout": "rge24",
+   "footprint": "VQFN-24-RGE",
+   "package": "VQFN",
+   "pins": 24
+  }
+ },
+ "pdf": "dac9881.pdf",
+ "pages": "p.3-4 (pins), p.5 (recommended operating conditions), p.10-11 (timing requirements: tValid t10 15 ns, tOut t11 20 ns, tFloat t13 8 ns at the 2.7-V row), p.12-14 (timing diagrams: SDI sampled on SCLK rising, SDO valid at CS falling and changed on SCLK falling = mode 0), p.30-31 (reset, power down, LDAC), p.32 (serial interface, data word, SDO modes)",
+ "notModeled": [
+  "analog output (VOUT, RFB), reference force/sense inputs (VREFH-F/S, VREFL-F/S), output buffer gain strap GAIN (analog only)",
+  "USB/BTC input data format strap (straight binary / twos complement): affects only the analog output; the stored code is the written word. The two's-complement restriction on LDAC during hardware reset is not checked",
+  "daisy-chain mode (SDOSEL = DGND): SDO outputs the shift register delayed by 24 clocks (the previous word, then the new SDI bits). The model shifts out the stored 24-bit word in both modes and zeros after it (stand-alone behavior); the echo of the new bits is not modeled",
+  "PDN hardware power-down: VOUT is pulled to AGND (analog only); registers and SPI stay active (p.31), so it is not mapped to pins.powerdown, which would ignore the bus",
+  "stand-alone read-back of a frame with fewer than 24 SCLKs (the datasheet says the SDO data must be ignored)",
+  "the input shift register is not reset by power-on or RST (p.31); the model starts it empty",
+  "timing degrades for IOVDD 1.7-2.7 V (no figures given); times use the 2.7 <= AVDD < 3.6 V rows"
+ ],
+ "variants": "DAC9881S and DAC9881SB are accuracy grades of the same device (same pinout and interface)",
+ "parts": [
+  [
+   "DAC9881SBRGER",
+   "RGE",
+   24,
+   "Active"
+  ],
+  [
+   "DAC9881SBRGET",
+   "RGE",
+   24,
+   "Active"
+  ],
+  [
+   "DAC9881SRGER",
+   "RGE",
+   24,
+   "Active"
+  ],
+  [
+   "DAC9881SRGET",
+   "RGE",
+   24,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,474 @@
+{
+ "device": {
+  "id": "BQ32000",
+  "function": "RTC",
+  "description": "I2C real-time clock with automatic battery backup switchover, oscillator-fail flag, calibration and trickle charger",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "bq32000.pdf (SLUS900F) p.3 pinout and pin functions, p.4 recommended operating conditions, p.5 I2C timing (tvd(data) 1 us), p.7-8 IRQ function (Table 6-1) and SF keys, p.9 switchover, p.10 trickle charge, p.10-11 I2C (address 1101000, no general call), p.12 register map (Tables 7-1, 7-2), p.12-18 register descriptions, p.20 leap year",
+  "pinouts": {
+   "d8": [
+    {
+     "number": 1,
+     "name": "OSCI",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "OSCO",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VBACK",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 6,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "IRQ",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "vcc": [
+   3.0,
+   3.6
+  ],
+  "analog": [
+   "OSCI",
+   "OSCO",
+   "VBACK"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [],
+   "table": [
+    104
+   ]
+  },
+  "timing": {
+   "tOut": 1000
+  },
+  "registers": [
+   {
+    "name": "SECONDS",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "STOP",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "SECONDS",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MINUTES",
+    "address": 1,
+    "width": 8,
+    "reset": 128,
+    "fields": [
+     {
+      "name": "OF",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "MINUTES",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CENT_HOURS",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CENT_EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CENT",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "HOURS",
+      "bits": [
+       5,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAY",
+    "address": 3,
+    "width": 8,
+    "reset": 7,
+    "fields": [
+     {
+      "name": "RSVD",
+      "bits": [
+       7,
+       3
+      ]
+     },
+     {
+      "name": "DAY",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DATE",
+    "address": 4,
+    "width": 8,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "RSVD",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "DATE",
+      "bits": [
+       5,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MONTH",
+    "address": 5,
+    "width": 8,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "RSVD",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "MONTH",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "YEARS",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "YEARS",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CAL_CFG1",
+    "address": 7,
+    "width": 8,
+    "reset": 128,
+    "fields": [
+     {
+      "name": "OUT",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "FT",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "S",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CAL",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "TCH2",
+    "address": 8,
+    "width": 8,
+    "reset": 144,
+    "fields": [
+     {
+      "name": "RSVD1",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "TCH2",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "RSVD0",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CFG2",
+    "address": 9,
+    "width": 8,
+    "reset": 170,
+    "fields": [
+     {
+      "name": "RSVD1",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "TCFE",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "RSVD0",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "TCHE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SF_KEY1",
+    "address": 32,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "note": "write-only key (0x5E); reads as 0x00"
+   },
+   {
+    "name": "SF_KEY2",
+    "address": 33,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "note": "write-only key (0xC7); reads as 0x00"
+   },
+   {
+    "name": "SFR",
+    "address": 34,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "RSVD",
+      "bits": [
+       7,
+       1
+      ]
+     },
+     {
+      "name": "FTF",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Subaddress",
+     "in": "aaaaaaaa",
+     "action": "pointer",
+     "address": "a",
+     "increment": 1,
+     "note": "the first write byte is the register subaddress; further bytes write consecutive registers, reads continue from it (Figures 6-4/6-5: DataN, DataN+1)"
+    }
+   ],
+   "read": "pointer"
+  },
+  "clock": {
+   "fields": [
+    {
+     "field": "SECONDS.SECONDS",
+     "unit": "second",
+     "format": "bcd"
+    },
+    {
+     "field": "MINUTES.MINUTES",
+     "unit": "minute",
+     "format": "bcd"
+    },
+    {
+     "field": "CENT_HOURS.HOURS",
+     "unit": "hour",
+     "format": "bcd"
+    },
+    {
+     "field": "DAY.DAY",
+     "unit": "weekday",
+     "first": 1
+    },
+    {
+     "field": "DATE.DATE",
+     "unit": "date",
+     "format": "bcd"
+    },
+    {
+     "field": "MONTH.MONTH",
+     "unit": "month",
+     "format": "bcd"
+    },
+    {
+     "field": "YEARS.YEARS",
+     "unit": "year",
+     "format": "bcd",
+     "base": 2000
+    },
+    {
+     "field": "CENT_HOURS.CENT",
+     "unit": "century",
+     "format": "binary"
+    }
+   ],
+   "stop": {
+    "field": "SECONDS.STOP",
+    "stopped": 1,
+    "powerOn": 0
+   },
+   "update": "none"
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d8",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  }
+ },
+ "pdf": "bq32000.pdf",
+ "pages": "p.3 (pinout), p.4 (ROC), p.5 (I2C timing), p.7-8 (IRQ, SF keys), p.10-11 (I2C), p.12-18 (registers), p.20 (leap year)",
+ "notModeled": [
+  "IRQ output (open drain): level of CAL_CFG1.OUT when FT = 0, 512 Hz square wave when FT = 1 and SFR.FTF = 0, 1 Hz when FT = 1 and FTF = 1 (Table 6-1); the schema has no field-driven or square-wave output, so IRQ is never driven",
+  "CENT_EN: the century bit toggles only while CENT_EN = 1; the schema has no enable for a clock field (the model toggles CENT on every 99 -> 00 rollover)",
+  "OF oscillator-fail flag: set at initial power-up (reset 1) and when the oscillator drops four pulses; the model never sets it again (no oscillator failure; STOP = 1 is not documented to set it)",
+  "SF KEY 1/2 unlock sequence (0x5E to 0x20 then 0xC7 to 0x21 before each SFR write): SFR is modeled as freely writable; the key registers read 0x00 and ignore writes",
+  "trickle charger (TCHE = 0x5, TCH2 = 1, TCFE): stored only (analog)",
+  "calibration (CAL, S): stored only, no effect on the count",
+  "time-keeping register bits are undefined (X) at initial power-up; the resets give the schema's power-on time 2000-01-01 00:00:00 Saturday (DAY = 7)",
+  "leap year: every year divisible by 4 (p.20); the same as the Gregorian rule for 2000-2099",
+  "invalid BCD values written count invalid until the digit rolls over",
+  "backup switchover (VCC below VBACK/VREF ~2.8 V): I2C locked out, Cycle column resets on switchover (FT, FTF, trickle-charge bits), the up-to-1 s register update after returning to VCC, 60 us wait after exiting backup",
+  "unimplemented subaddresses 0x0A-0x1F and above 0x22: read value and pointer wrap not documented"
+ ],
+ "variants": "BQ32002 (bq32002.pdf) is the same RTC without the trickle charger: no TCH2 register (0x08), CFG2 bits all reserved; own spec file",
+ "parts": [
+  [
+   "BQ32000D",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "BQ32000DR",
+   "D",
+   8,
+   "Active"
+  ]
+ ]
+}

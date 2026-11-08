@@ -1,0 +1,418 @@
+{
+ "device": {
+  "id": "TLV5614",
+  "function": "DAC",
+  "description": "quadruple 12-bit voltage-output DAC with 4-wire serial interface (CS, FS), LDAC and power down",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "slas188b.pdf (SLAS188B) p.1 pinout, p.3 terminal functions, p.4 recommended operating conditions, p.7 timing requirements and Figure 1, p.12-13 serial interface and data format, p.14 DAC select",
+  "pinouts": {
+   "d16": [
+    {
+     "number": 1,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "PD",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "FS",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "REFINCD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "OUTD",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "OUTC",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "OUTB",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "OUTA",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "REFINAB",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "AVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 4,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "AVDD",
+   "REFINAB",
+   "REFINCD",
+   "OUTA",
+   "OUTB",
+   "OUTC",
+   "OUTD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "FS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC A input latch (A1 A0 = 0); power-on reset all zero (p.12)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC B input latch (A1 A0 = 1); power-on reset all zero (p.12)"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC C input latch (A1 A0 = 2); power-on reset all zero (p.12)"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC D input latch (A1 A0 = 3); power-on reset all zero (p.12)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC A latch, loaded while LDAC is low"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC B latch, loaded while LDAC is low"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC C latch, loaded while LDAC is low"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC D latch, loaded while LDAC is low"
+   },
+   {
+    "name": "CTRLA",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PWR",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SPD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "DAC A individual control bits PWR (1 = power down) and SPD (1 = fast) from the data word"
+   },
+   {
+    "name": "CTRLB",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PWR",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SPD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "DAC B individual control bits PWR (1 = power down) and SPD (1 = fast) from the data word"
+   },
+   {
+    "name": "CTRLC",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PWR",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SPD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "DAC C individual control bits PWR (1 = power down) and SPD (1 = fast) from the data word"
+   },
+   {
+    "name": "CTRLD",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PWR",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SPD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "DAC D individual control bits PWR (1 = power down) and SPD (1 = fast) from the data word"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write DAC A",
+     "in": "00 p s d{12}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRLA.PWR": "p",
+      "CTRLA.SPD": "s"
+     },
+     "note": "D15-D14 = A1 A0, D13 = PWR, D12 = SPD, D11-D0 = new DAC value (p.13-14)"
+    },
+    {
+     "name": "Write DAC B",
+     "in": "01 p s d{12}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "CTRLB.PWR": "p",
+      "CTRLB.SPD": "s"
+     },
+     "note": "D15-D14 = A1 A0, D13 = PWR, D12 = SPD, D11-D0 = new DAC value (p.13-14)"
+    },
+    {
+     "name": "Write DAC C",
+     "in": "10 p s d{12}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "CTRLC.PWR": "p",
+      "CTRLC.SPD": "s"
+     },
+     "note": "D15-D14 = A1 A0, D13 = PWR, D12 = SPD, D11-D0 = new DAC value (p.13-14)"
+    },
+    {
+     "name": "Write DAC D",
+     "in": "11 p s d{12}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "CTRLD.PWR": "p",
+      "CTRLD.SPD": "s"
+     },
+     "note": "D15-D14 = A1 A0, D13 = PWR, D12 = SPD, D11-D0 = new DAC value (p.13-14)"
+    }
+   ],
+   "note": "FS falling starts a 16-bit frame (CS must be low); bits sampled on SCLK falling edges, SCLK idles high (Figure 1, p.7) -> mode 2; after 16 bits (or FS rising) the word is moved to the selected DAC's latch"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level",
+    "note": "LDAC high: no DAC output updates; outputs follow while LDAC is low (p.3)"
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d16",
+   "footprint": "SOIC-16",
+   "package": "SOIC",
+   "pins": 16
+  },
+  "PW": {
+   "pinout": "d16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "slas188b.pdf",
+ "pages": "p.1 (pinout), p.3 (terminal functions), p.4 (recommended operating conditions), p.7 (timing), p.12-14 (serial interface, data format, DAC select)",
+ "notModeled": [
+  "analog: voltage outputs (x2 buffer), reference inputs REFINAB / REFINCD",
+  "CS is not modeled: FS is the frame pin of the model (CS must be held low, as in the p.13 three-wire connection); in four-wire use CS high would ignore FS frames",
+  "FS rising before 16 bits ends a frame early and updates the DAC with a partial word; the model drops short frames",
+  "PD pin (active low, powers down all DACs) and per-DAC PWR / SPD bits: analog only, stored only",
+  "the -EP datasheet (tlv5614-ep.pdf, TLV5614MPWREP) describes the same chip"
+ ],
+ "variants": "TLV5614MPWREP: enhanced-product version (tlv5614-ep.pdf), same pinout and interface",
+ "parts": [
+  [
+   "TLV5614CD",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "TLV5614CPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "TLV5614CPWR",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "TLV5614ID",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "TLV5614IDR",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "TLV5614IPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "TLV5614MPWREP",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

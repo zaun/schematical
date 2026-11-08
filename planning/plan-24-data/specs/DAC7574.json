@@ -1,0 +1,510 @@
+{
+ "device": {
+  "id": "DAC7574",
+  "function": "DAC",
+  "description": "Quad 12-bit voltage-output DAC with I2C interface, read-back and power-down",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac7574.pdf (SLAS375) p.2 pinout and pin descriptions (DGS), p.3-4 electrical characteristics (VDD 2.7-5.5 V; logic levels vs VDD), p.4-5 I2C timing, p.14 address byte (10011 A1 A0), p.15 broadcast address and control byte (Table 1, C7 C6 = 0 0), p.16 Table 2 control byte modes, MSB/LSB bytes, p.17 registers (Table 3), p.18-19 write sequence (Table 4), p.22 read sequence (Table 6), p.23 power-on reset (zero), p.23-24 power-down modes (Table 8)",
+  "pinouts": {
+   "dgs10": [
+    {
+     "number": 1,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "A1",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 4,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VOUTC",
+   "VOUTD"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "A0",
+    "A1"
+   ],
+   "table": [
+    76,
+    77,
+    null,
+    null,
+    78,
+    79,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "registers": [
+   {
+    "name": "TRA",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "temporary register of channel A (Table 3; 12 data bits)"
+   },
+   {
+    "name": "TRB",
+    "space": "input",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "temporary register of channel B (Table 3; 12 data bits)"
+   },
+   {
+    "name": "TRC",
+    "space": "input",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "temporary register of channel C (Table 3; 12 data bits)"
+   },
+   {
+    "name": "TRD",
+    "space": "input",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "temporary register of channel D (Table 3; 12 data bits)"
+   },
+   {
+    "name": "DRA",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register of channel A (Table 3); power-on zero"
+   },
+   {
+    "name": "DRB",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register of channel B (Table 3); power-on zero"
+   },
+   {
+    "name": "DRC",
+    "space": "dac",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register of channel C (Table 3); power-on zero"
+   },
+   {
+    "name": "DRD",
+    "space": "dac",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register of channel D (Table 3); power-on zero"
+   },
+   {
+    "name": "PDN",
+    "width": 12,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "A_PWD",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "A_PD",
+      "bits": [
+       10,
+       9
+      ]
+     },
+     {
+      "name": "B_PWD",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "B_PD",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "C_PWD",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "C_PD",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "D_PWD",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "D_PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: per channel a power-down flag (set by a PD0 = 1 command) and the power-down bits MSB[7:6] (Table 8: 00 Hi-Z, 01 1 kohm, 10 100 kohm, 11 Hi-Z); the datasheet keeps them as TRx/DRx bits 13:12"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Store to TRx (L=00, PD0=0)",
+     "in": "0000xss0 dddddddd ddddxxxx",
+     "action": "write",
+     "channel": "s",
+     "data": "d",
+     "note": "Table 2: write to temporary register"
+    },
+    {
+     "name": "Write TRx and load DACx (L=01, PD0=0)",
+     "in": "0001xss0 dddddddd ddddxxxx",
+     "action": "write",
+     "channel": "s",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "note": "Table 2: update at the ACK after the LS byte"
+    },
+    {
+     "name": "Write TRx and load all DACs (L=10, PD0=0)",
+     "in": "0010xss0 dddddddd ddddxxxx",
+     "action": "write",
+     "channel": "s",
+     "data": "d",
+     "then": [
+      "updateall"
+     ],
+     "note": "Table 2: 4-channel synchronous update"
+    },
+    {
+     "name": "TRA power-down (L=00, PD0=1)",
+     "in": "0000x001 pp000000 xxxxxxxx",
+     "set": {
+      "PDN.A_PWD": 1,
+      "PDN.A_PD": "p"
+     }
+    },
+    {
+     "name": "Power-down DACA (L=01, PD0=1)",
+     "in": "0001x001 pp000000 xxxxxxxx",
+     "set": {
+      "PDN.A_PWD": 1,
+      "PDN.A_PD": "p"
+     }
+    },
+    {
+     "name": "Power-down DACA and load all DACs (L=10, PD0=1)",
+     "in": "0010x001 pp000000 xxxxxxxx",
+     "set": {
+      "PDN.A_PWD": 1,
+      "PDN.A_PD": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "TRB power-down (L=00, PD0=1)",
+     "in": "0000x011 pp000000 xxxxxxxx",
+     "set": {
+      "PDN.B_PWD": 1,
+      "PDN.B_PD": "p"
+     }
+    },
+    {
+     "name": "Power-down DACB (L=01, PD0=1)",
+     "in": "0001x011 pp000000 xxxxxxxx",
+     "set": {
+      "PDN.B_PWD": 1,
+      "PDN.B_PD": "p"
+     }
+    },
+    {
+     "name": "Power-down DACB and load all DACs (L=10, PD0=1)",
+     "in": "0010x011 pp000000 xxxxxxxx",
+     "set": {
+      "PDN.B_PWD": 1,
+      "PDN.B_PD": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "TRC power-down (L=00, PD0=1)",
+     "in": "0000x101 pp000000 xxxxxxxx",
+     "set": {
+      "PDN.C_PWD": 1,
+      "PDN.C_PD": "p"
+     }
+    },
+    {
+     "name": "Power-down DACC (L=01, PD0=1)",
+     "in": "0001x101 pp000000 xxxxxxxx",
+     "set": {
+      "PDN.C_PWD": 1,
+      "PDN.C_PD": "p"
+     }
+    },
+    {
+     "name": "Power-down DACC and load all DACs (L=10, PD0=1)",
+     "in": "0010x101 pp000000 xxxxxxxx",
+     "set": {
+      "PDN.C_PWD": 1,
+      "PDN.C_PD": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "TRD power-down (L=00, PD0=1)",
+     "in": "0000x111 pp000000 xxxxxxxx",
+     "set": {
+      "PDN.D_PWD": 1,
+      "PDN.D_PD": "p"
+     }
+    },
+    {
+     "name": "Power-down DACD (L=01, PD0=1)",
+     "in": "0001x111 pp000000 xxxxxxxx",
+     "set": {
+      "PDN.D_PWD": 1,
+      "PDN.D_PD": "p"
+     }
+    },
+    {
+     "name": "Power-down DACD and load all DACs (L=10, PD0=1)",
+     "in": "0010x111 pp000000 xxxxxxxx",
+     "set": {
+      "PDN.D_PWD": 1,
+      "PDN.D_PD": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "Broadcast: update all DACs from TRx",
+     "in": "xx11x0xx xxxxxxxx xxxxxxxx",
+     "action": "update",
+     "note": "Table 2 broadcast mode, Sel1 = 0"
+    },
+    {
+     "name": "Broadcast: write and update all DACs",
+     "in": "xx11x1x0 dddddddd ddddxxxx",
+     "action": "write",
+     "channel": 4,
+     "channelMap": {
+      "4": [
+       0,
+       1,
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "note": "Table 2 broadcast mode, Sel1 = 1, PD0 = 0"
+    },
+    {
+     "name": "Broadcast: power-down all DACs",
+     "in": "xx11x1x1 pp000000 xxxxxxxx",
+     "set": {
+      "PDN.A_PWD": 1,
+      "PDN.A_PD": "p",
+      "PDN.B_PWD": 1,
+      "PDN.B_PD": "p",
+      "PDN.C_PWD": 1,
+      "PDN.C_PD": "p",
+      "PDN.D_PWD": 1,
+      "PDN.D_PD": "p"
+     },
+     "note": "Table 2 broadcast mode, Sel1 = 1, PD0 = 1"
+    },
+    {
+     "name": "Read-back select channel A (PD0=0)",
+     "in": "00xxx000",
+     "next": "[TRA] 0{4}",
+     "note": "Table 6 data read-back, 2 bytes: D11-D4, D3-D0 x x x x (read as 0)"
+    },
+    {
+     "name": "Read-back select channel A (PD0=1)",
+     "in": "00xxx001",
+     "next": "[PDN.A_PD] 111111 [TRA] 0{4}",
+     "note": "Table 6 data read-back, 3 bytes: PD1 PD2 1 1 1 1 1 1, high byte, low byte"
+    },
+    {
+     "name": "Read-back select channel B (PD0=0)",
+     "in": "00xxx010",
+     "next": "[TRB] 0{4}",
+     "note": "Table 6 data read-back, 2 bytes: D11-D4, D3-D0 x x x x (read as 0)"
+    },
+    {
+     "name": "Read-back select channel B (PD0=1)",
+     "in": "00xxx011",
+     "next": "[PDN.B_PD] 111111 [TRB] 0{4}",
+     "note": "Table 6 data read-back, 3 bytes: PD1 PD2 1 1 1 1 1 1, high byte, low byte"
+    },
+    {
+     "name": "Read-back select channel C (PD0=0)",
+     "in": "00xxx100",
+     "next": "[TRC] 0{4}",
+     "note": "Table 6 data read-back, 2 bytes: D11-D4, D3-D0 x x x x (read as 0)"
+    },
+    {
+     "name": "Read-back select channel C (PD0=1)",
+     "in": "00xxx101",
+     "next": "[PDN.C_PD] 111111 [TRC] 0{4}",
+     "note": "Table 6 data read-back, 3 bytes: PD1 PD2 1 1 1 1 1 1, high byte, low byte"
+    },
+    {
+     "name": "Read-back select channel D (PD0=0)",
+     "in": "00xxx110",
+     "next": "[TRD] 0{4}",
+     "note": "Table 6 data read-back, 2 bytes: D11-D4, D3-D0 x x x x (read as 0)"
+    },
+    {
+     "name": "Read-back select channel D (PD0=1)",
+     "in": "00xxx111",
+     "next": "[PDN.D_PD] 111111 [TRD] 0{4}",
+     "note": "Table 6 data read-back, 3 bytes: PD1 PD2 1 1 1 1 1 1, high byte, low byte"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "TRA",
+    "TRB",
+    "TRC",
+    "TRD"
+   ],
+   "output": [
+    "DRA",
+    "DRB",
+    "DRC",
+    "DRD"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "dgs10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  }
+ },
+ "pdf": "dac7574.pdf",
+ "pages": "p.2 (pinout), p.3-4 (supply, logic levels), p.4-5 (I2C timing), p.14-17 (address, control byte, Table 2, registers), p.18-22 (write/read sequences), p.23-24 (power-on reset, power-down)",
+ "notModeled": [
+  "analog outputs, reference and power-down output loads (power-down bits stored in the internal PDN register only; outputs never driven)",
+  "multi-word transactions: the datasheet lets MSB/LSB byte pairs repeat after one control byte until STOP / repeated START (Table 4) and keeps the control byte; the model decodes only the last control byte + MSB + LSB (or the lone control byte) before the transaction ends (align end)",
+  "power-down bits are kept per channel in PDN and take effect immediately: the TRx-only (L=00) and DACx (L=01) distinction for power-down data is not modeled; normal data writes do not clear them",
+  "broadcast I2C address 1001 0000 (responds regardless of the address pins) is not expressible; the broadcast-mode control bytes (L=11) are decoded at the device's own address",
+  "C7 C6 must be 0 0 (bytes with them set are ignored, except broadcast mode which treats them as don't care)",
+  "read-back returns the temporary register of the selected channel (the datasheet does not say whether TRx or DRx is read)",
+  "address pins latched at power-up (the model reads them live)",
+  "I2C high-speed mode master code and timing"
+ ],
+ "variants": "DAC7574 has its own datasheet; DAC5574 / DAC6574 (8/10-bit) are the same family with narrower data. The datasheet's LDAC paragraph (p.17) is copied from the DAC7573: the DGS package has no LDAC pin",
+ "parts": [
+  [
+   "DAC7574IDGS",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "DAC7574IDGSR",
+   "DGS",
+   10,
+   "Active"
+  ]
+ ]
+}

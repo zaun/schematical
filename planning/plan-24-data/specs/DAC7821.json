@@ -1,0 +1,217 @@
+{
+ "device": {
+  "id": "DAC7821",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit multiplying current-output DAC with 12-bit parallel interface and read-back",
+  "note": "dac7821.pdf (SBAS365B) p.1 power-on zero scale, p.3 electrical (VDD), p.4 timing, p.5 pin configuration and terminal functions, p.16 parallel interface",
+  "pinouts": {
+   "pw20": [
+    {
+     "number": 1,
+     "name": "IOUT1",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "IOUT2",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "DB11",
+     "role": "inout"
+    },
+    {
+     "number": 5,
+     "name": "DB10",
+     "role": "inout"
+    },
+    {
+     "number": 6,
+     "name": "DB9",
+     "role": "inout"
+    },
+    {
+     "number": 7,
+     "name": "DB8",
+     "role": "inout"
+    },
+    {
+     "number": 8,
+     "name": "DB7",
+     "role": "inout"
+    },
+    {
+     "number": 9,
+     "name": "DB6",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "DB5",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "DB4",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "DB3",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "DB2",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "DB1",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "DB0",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "R/W",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 20,
+     "name": "RFB",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 1,
+  "vcc": [
+   2.5,
+   5.5
+  ],
+  "analog": [
+   "IOUT1",
+   "IOUT2",
+   "VREF",
+   "RFB"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rw": {
+    "pin": "R/W",
+    "read": 1
+   }
+  },
+  "timing": {
+   "tAcc": 40,
+   "tDf": 10
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register: input latch transferred at CS rising; power-on zeros (p.1)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write (CS low, R/W low)",
+     "in": "d{12}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "commit": "end",
+     "note": "rising edge of CS latches the data and transfers it to the DAC register (p.16)"
+    }
+   ],
+   "read": "[DAC]",
+   "note": "R/W high and CS low read the DAC register back onto DB11-DB0 (p.16)"
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw20",
+   "footprint": "TSSOP-20",
+   "package": "TSSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "dac7821.pdf",
+ "pages": "p.1 (power-on zero), p.3 (VDD 2.7-5.5 V table; 2.5-5.5 V in the description and timing tables), p.4 (timing t8 data access 40 ns max at 2.5-4.5 V, t9 bus relinquish 10 ns), p.5 (pins), p.16 (parallel interface)",
+ "notModeled": [
+  "analog: multiplying current outputs IOUT1/IOUT2, VREF, feedback resistor RFB",
+  "power-on reset brownout detection",
+  "vcc: the electrical table gives VDD 2.7-5.5 V, the description and timing tables 2.5-5.5 V; the union is used"
+ ],
+ "variants": "dac7821.pdf covers only the DAC7821.",
+ "parts": [
+  [
+   "DAC7821IPW",
+   "PW",
+   20,
+   "Active"
+  ]
+ ]
+}

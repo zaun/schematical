@@ -1,0 +1,517 @@
+{
+ "device": {
+  "id": "DAC80502",
+  "function": "DAC",
+  "description": "16-bit 2-channel voltage-output DAC with 2.5-V reference, SPI or I2C interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac60502.pdf (SBAS793A) p.3 pinout, p.4 recommended operating conditions, p.21-22 register structure and POR, p.23 SPI mode (Table 1), p.24-28 I2C (Tables 3-7), p.29-33 register map",
+  "pinouts": {
+   "drx10": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "SPI2C",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SCLK/SCL",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "SYNC/A0",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "SDIN/SDA",
+     "role": "inout"
+    },
+    {
+     "number": 9,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "VREFIO",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 2,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VREFIO"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCLK/SCL",
+   "sda": "SDIN/SDA",
+   "address": [
+    "SYNC/A0"
+   ],
+   "table": [
+    72,
+    73,
+    75,
+    74
+   ]
+  },
+  "registers": [
+   {
+    "name": "NOOP",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true
+   },
+   {
+    "name": "DEVID",
+    "address": 1,
+    "width": 16,
+    "reset": 533,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "RESOLUTION",
+      "bits": [
+       14,
+       12
+      ]
+     }
+    ],
+    "note": "p.29: bit diagram 0, RESOLUTION, 0010 0001 0101 (the header prints 0214h; the bit diagram and the 11-0 field reset 0215h are used)"
+   },
+   {
+    "name": "SYNC",
+    "address": 2,
+    "width": 16,
+    "reset": 768,
+    "fields": [
+     {
+      "name": "DAC_B_BRDCAST_EN",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "DAC_A_BRDCAST_EN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DAC_B_SYNC_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DAC_A_SYNC_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "REF_PWDWN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DAC_B_PWDWN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DAC_A_PWDWN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GAIN",
+    "address": 4,
+    "width": 16,
+    "reset": 3,
+    "fields": [
+     {
+      "name": "REF_DIV",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "BUFF_B_GAIN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "BUFF_A_GAIN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "TRIGGER",
+    "address": 5,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "LDAC",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SOFT_RESET",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.31: write-only, self-resetting; handled by the TRIGGER commands"
+   },
+   {
+    "name": "BRDCAST",
+    "address": 6,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "p.32: written by the BRDCAST commands; reset 8000h when RSTSEL = 1"
+   },
+   {
+    "name": "STATUS",
+    "address": 7,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 1,
+    "fields": [
+     {
+      "name": "REF_ALARM",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_A",
+    "address": 8,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "p.33: MSB aligned; reset 0000h (RSTSEL = AGND) or 8000h (RSTSEL = VDD)"
+   },
+   {
+    "name": "DAC_B",
+    "address": 9,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_A_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC active register (internal, section 8.3.1.2): loaded from DAC_A at once (asynchronous mode) or by the TRIGGER LDAC bit (synchronous mode)"
+   },
+   {
+    "name": "DAC_B_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC active register (internal, section 8.3.1.2): loaded from DAC_B at once (asynchronous mode) or by the TRIGGER LDAC bit (synchronous mode)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "when": [
+      "SYNC.DAC_A_BRDCAST_EN=1",
+      "SYNC.DAC_B_BRDCAST_EN=1"
+     ],
+     "set": {
+      "BRDCAST": "d",
+      "DAC_A_ACT": "d",
+      "DAC_B_ACT": "d"
+     },
+     "note": "p.32 Table 15: a BRDCAST write loads the active registers of the channels whose DAC-x-BRDCAST-EN bit is set"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "when": [
+      "SYNC.DAC_A_BRDCAST_EN=1",
+      "SYNC.DAC_B_BRDCAST_EN=0"
+     ],
+     "set": {
+      "BRDCAST": "d",
+      "DAC_A_ACT": "d"
+     }
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "when": [
+      "SYNC.DAC_A_BRDCAST_EN=0",
+      "SYNC.DAC_B_BRDCAST_EN=1"
+     ],
+     "set": {
+      "BRDCAST": "d",
+      "DAC_B_ACT": "d"
+     }
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "when": [
+      "SYNC.DAC_A_BRDCAST_EN=0",
+      "SYNC.DAC_B_BRDCAST_EN=0"
+     ],
+     "set": {
+      "BRDCAST": "d"
+     }
+    },
+    {
+     "name": "Command byte (NOOP/DEVID/SYNC/CONFIG)",
+     "in": "000000aa",
+     "action": "pointer",
+     "address": "a",
+     "note": "p.27-28: Table 5 command byte selects the register; MSDB and LSDB follow (Table 6); read: command byte, repeated start, MSDB, LSDB (Table 7); a read without a command byte returns the last register addressed"
+    },
+    {
+     "name": "Command byte (GAIN)",
+     "in": "00000100",
+     "action": "pointer",
+     "address": 4
+    },
+    {
+     "name": "Command byte (TRIGGER)",
+     "in": "00000101",
+     "action": "pointer",
+     "address": 5,
+     "note": "TRIGGER (5h) written through the pointer; SOFT-RESET and LDAC run as protocol.triggers"
+    },
+    {
+     "name": "Command byte (STATUS)",
+     "in": "00000111",
+     "action": "pointer",
+     "address": 7
+    },
+    {
+     "name": "Command byte (DAC-A DATA)",
+     "in": "00001000",
+     "action": "pointer",
+     "address": 8,
+     "when": "SYNC.DAC_A_SYNC_EN=0",
+     "channel": 0,
+     "then": [
+      "update"
+     ],
+     "note": "asynchronous mode (SYNC.DAC_A_SYNC_EN = 0): each register written through the pointer updates the active register at once"
+    },
+    {
+     "name": "Command byte (DAC-A DATA) (synchronous)",
+     "in": "00001000",
+     "action": "pointer",
+     "address": 8,
+     "when": "SYNC.DAC_A_SYNC_EN=1",
+     "note": "synchronous mode: the active register updates on the TRIGGER LDAC bit"
+    },
+    {
+     "name": "Command byte (DAC-B DATA)",
+     "in": "00001001",
+     "action": "pointer",
+     "address": 9,
+     "when": "SYNC.DAC_B_SYNC_EN=0",
+     "channel": 1,
+     "then": [
+      "update"
+     ],
+     "note": "asynchronous mode (SYNC.DAC_B_SYNC_EN = 0): each register written through the pointer updates the active register at once"
+    },
+    {
+     "name": "Command byte (DAC-B DATA) (synchronous)",
+     "in": "00001001",
+     "action": "pointer",
+     "address": 9,
+     "when": "SYNC.DAC_B_SYNC_EN=1",
+     "note": "synchronous mode: the active register updates on the TRIGGER LDAC bit"
+    }
+   ],
+   "read": "pointer",
+   "generalCall": "reset",
+   "triggers": [
+    {
+     "write": "TRIGGER.SOFT_RESET=10",
+     "action": "reset"
+    },
+    {
+     "write": "TRIGGER.LDAC=1",
+     "action": "update"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC_A",
+    "DAC_B"
+   ],
+   "output": [
+    "DAC_A_ACT",
+    "DAC_B_ACT"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  },
+  "pins": {
+   "resetSelect": [
+    {
+     "pin": "RSTSEL",
+     "level": 1,
+     "resets": {
+      "DAC_A": 32768,
+      "DAC_B": 32768,
+      "BRDCAST": 32768,
+      "DAC_A_ACT": 32768,
+      "DAC_B_ACT": 32768
+     }
+    }
+   ]
+  }
+ },
+ "packages": {
+  "DRX": {
+   "pinout": "drx10",
+   "footprint": "WSON-10-DRX",
+   "package": "WSON",
+   "pins": 10
+  }
+ },
+ "pdf": "dac60502.pdf",
+ "pages": "p.3 (pinout), p.4 (ROC), p.21-22 (register structure, POR, soft reset), p.23 (SPI frame), p.24-28 (I2C, address, command and read sequence), p.29-33 (registers)",
+ "notModeled": [
+  "analog outputs, internal reference, REF-DIV, gains, power-down and reference alarm (stored only)",
+  "SPI mode (SPI2C = 0): a write-only 3-wire SYNC/SCLK/SDIN interface with 24-bit frames (R/W + address byte + 16 data bits, latched at SYNC rising, short frames discarded); the model is the I2C mode (SPI2C = 1), which has read-back",
+  "TRIGGER.LDAC and SOFT-RESET self-clear in the chip; the model leaves the written value in TRIGGER (each later TRIGGER write with LDAC = 1 updates again)",
+  "BRDCAST is write-only (Table 15, W): a command byte 06h alone (to read it) is not decoded, because an 8-bit read pointer would preempt the 24-bit BRDCAST write; BRDCAST stays write-only",
+  "command bytes with B23-B20 non-zero are ignored; I2C fast-mode plus; the 250-us POR delay"
+ ],
+ "variants": "dac60502.pdf covers DAC80502 (16-bit), DAC70502 (14-bit) and DAC60502 (12-bit); own spec files, identical except bits and DEVID",
+ "parts": [
+  [
+   "DAC80502DRXT",
+   "DRX",
+   10,
+   "Active"
+  ]
+ ]
+}

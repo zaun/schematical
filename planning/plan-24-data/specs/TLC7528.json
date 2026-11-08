@@ -1,0 +1,315 @@
+{
+ "device": {
+  "id": "TLC7528",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "dual 8-bit multiplying DAC with 8-bit parallel input port and DACA/DACB select (CS, WR)",
+  "note": "tlc7528.pdf (SLAS062E) p.1 (DW/N/PW pinout, description), p.2 (timing diagram), p.3 (recommended operating conditions: VDD 4.75-5.25 V and 14.5-15.5 V, input levels, CS/DAC-select/data/WR timing), p.5 (interface: CS, WR, DACA/DACB), p.6 (mode selection table)",
+  "pinouts": {
+   "dw20": [
+    {
+     "number": 1,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "OUTA",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "RFBA",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "REFA",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "DACA/DACB",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DB7",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DB6",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DB5",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DB4",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "DB3",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DB2",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DB1",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "DB0",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "REFB",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "RFBB",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "OUTB",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 8,
+  "channels": 2,
+  "vcc": [
+   4.75,
+   15.5
+  ],
+  "analog": [
+   "OUTA",
+   "OUTB",
+   "RFBA",
+   "RFBB",
+   "REFA",
+   "REFB"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   },
+   "address": [
+    "DACA/DACB"
+   ]
+  },
+  "registers": [
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC A data latch (DACA/DACB low, mode selection table p.6); power-on code not stated"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC B data latch (DACA/DACB high, mode selection table p.6); power-on code not stated"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write (CS and WR low)",
+     "in": "a d{8}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "DACA/DACB selects the latch; data latched when CS or WR goes high (p.5, p.6)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DACA",
+    "DACB"
+   ],
+   "output": [
+    "DACA",
+    "DACB"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw20",
+   "footprint": "SOIC-20W",
+   "package": "SOIC",
+   "pins": 20
+  },
+  "N": {
+   "pinout": "dw20",
+   "footprint": "PDIP-20",
+   "package": "DIP",
+   "pins": 20
+  },
+  "NS": {
+   "pinout": "dw20",
+   "footprint": "SOP-20",
+   "package": "SOP",
+   "pins": 20
+  },
+  "PW": {
+   "pinout": "dw20",
+   "footprint": "TSSOP-20",
+   "package": "TSSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "tlc7528.pdf",
+ "pages": "p.1 (DW/N/PW pinout, description), p.2 (timing diagram), p.3 (recommended operating conditions: VDD 4.75-5.25 V and 14.5-15.5 V, input levels, CS/DAC-select/data/WR timing), p.5 (interface: CS, WR, DACA/DACB), p.6 (mode selection table)",
+ "notModeled": [
+  "analog: multiplying outputs OUTA/OUTB, references REFA/REFB (+-10 V), feedback resistors RFBA/RFBB, voltage-mode operation",
+  "power-on state of the data latches is not stated in the datasheet (0 used)",
+  "the selected latch is level-transparent while CS and WR are low; the model latches at the end of the write",
+  "input logic levels at VDD = 15 V (VIH 13.5 V) differ from 5 V TTL levels",
+  "timing requirements tsu(CS)/th(CS)/tsu(DAC)/th(DAC)/tsu(D)/th(D)/tw(WR) (p.3)",
+  "the pinout drawing names DW, N and PW; the NS (SOP) package is assumed to use the same 20-pin numbering; FN (PLCC) has no orderable part here"
+ ],
+ "variants": "tlc7528.pdf covers TLC7528C/E/I (temperature grades), same interface.",
+ "parts": [
+  [
+   "TLC7528CDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7528CDWR",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7528CN",
+   "N",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7528CNS",
+   "NS",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7528CPW",
+   "PW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7528CPWR",
+   "PW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7528EDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7528EDWR",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7528EN",
+   "N",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7528IDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7528IN",
+   "N",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7528IPW",
+   "PW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7528IPWR",
+   "PW",
+   20,
+   "Active"
+  ]
+ ]
+}

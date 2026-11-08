@@ -1,0 +1,391 @@
+{
+ "device": {
+  "id": "DAC7616",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "quad 12-bit +3 V voltage-output DAC with 16-bit serial interface, LDAC and reset to zero or mid scale",
+  "note": "dac7616.pdf (SBAS186) p.2 (specifications: VDD 3.0-3.6 V, logic levels, straight binary), p.4 (pin configurations and descriptions), p.10 (theory of operation, Figure 1), p.11 (digital interface, Table I timing, Table II control logic, Figure 2), p.12 (Table III shift register, coding)",
+  "pinouts": {
+   "dw16": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VREFL",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "VREFH",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "RESETSEL",
+     "role": "input"
+    }
+   ],
+   "db20": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VREFL",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "VREFH",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 17,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 18,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "RESETSEL",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 4,
+  "vcc": [
+   3.0,
+   3.6
+  ],
+  "analog": [
+   "VOUTD",
+   "VOUTC",
+   "VREFL",
+   "VREFH",
+   "VOUTB",
+   "VOUTA"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "CLK",
+   "mosi": "SDI",
+   "mode": 3
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "stands for the 16-bit shift register while it holds a word addressed to DAC A (A1 A0 = Table II); the DAC7616 has no input registers; power-on code not stated (reset 0)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "stands for the 16-bit shift register while it holds a word addressed to DAC B (A1 A0 = Table II); the DAC7616 has no input registers; power-on code not stated (reset 0)"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "stands for the 16-bit shift register while it holds a word addressed to DAC C (A1 A0 = Table II); the DAC7616 has no input registers; power-on code not stated (reset 0)"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "stands for the 16-bit shift register while it holds a word addressed to DAC D (A1 A0 = Table II); the DAC7616 has no input registers; power-on code not stated (reset 0)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register A; transparent while LDAC is low and the shift register's A1 A0 select it (Table II)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register B; transparent while LDAC is low and the shift register's A1 A0 select it (Table II)"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register C; transparent while LDAC is low and the shift register's A1 A0 select it (Table II)"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register D; transparent while LDAC is low and the shift register's A1 A0 select it (Table II)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Write",
+     "in": "aa xx d{12}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "16-bit word A1 A0 X X D11-D0, MSB first, clocked on CLK rising while CS is low (Figure 2); the shift register is not latched at CS rising: the DAC register A1 A0 select loads while LDAC is low (Table II). The last 16 bits before CS rises are decoded"
+    }
+   ],
+   "note": "write-only serial port (no SDO); CS and CLK are ORed into the shift-register clock, CS should rise only while CLK is high (p.11-12), hence mode 3"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level",
+    "note": "the DAC register the shift register's A1 A0 select is transparent while LDAC is low (p.4, Table II)"
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 0,
+    "note": "asynchronous, level: all registers to 000H (RESETSEL low) or 800H (RESETSEL high) while RESET is low (Table II)"
+   },
+   "resetSelect": [
+    {
+     "pin": "RESETSEL",
+     "level": 1,
+     "resets": {
+      "INA": 2048,
+      "INB": 2048,
+      "INC": 2048,
+      "IND": 2048,
+      "DACA": 2048,
+      "DACB": 2048,
+      "DACC": 2048,
+      "DACD": 2048
+     }
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DB": {
+   "pinout": "db20",
+   "footprint": "SSOP-20",
+   "package": "SSOP",
+   "pins": 20
+  },
+  "DW": {
+   "pinout": "dw16",
+   "footprint": "SOIC-16W",
+   "package": "SOIC",
+   "pins": 16
+  }
+ },
+ "pdf": "dac7616.pdf",
+ "pages": "p.2 (specifications: VDD 3.0-3.6 V, logic levels, straight binary), p.4 (pin configurations and descriptions), p.10 (theory of operation, Figure 1), p.11 (digital interface, Table I timing, Table II control logic, Figure 2), p.12 (Table III shift register, coding)",
+ "notModeled": [
+  "analog: outputs, reference inputs VREFH/VREFL, settling (10 us)",
+  "power-on state of the registers is not stated in the datasheet (reset 0)",
+  "CS and CLK are interchangeable (ORed); a CS rising edge while CLK is low shifts one extra bit (p.11)",
+  "timing limits tDS/tDH/tCH/tCL/tCSS/tCSH/tLD1/tLD2/tLDDW/tRSSH/tRSTW (Table I)",
+  "single buffering: the real part has one shift register and LDAC loads only the DAC register the shift register's A1 A0 currently select; the model keeps one input register per channel, so two words written while LDAC is high both reach their DAC registers at the next LDAC low (the real part loads only the last one)",
+  "data shifted while LDAC is low 'flows' through A1 A0 and corrupts other DAC registers (Table III note 7)"
+ ],
+ "variants": "DAC7617 (dac7617.pdf) is the double-buffered sibling with a LOADREG pin (pin 14/18) and LDAC loading all DAC registers. DAC7616E/U/EB/UB are linearity grades of the same chip.",
+ "parts": [
+  [
+   "DAC7616EB",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "DAC7616UB",
+   "DW",
+   16,
+   "Active"
+  ],
+  [
+   "DAC7616UB/1K",
+   "DW",
+   16,
+   "Active"
+  ]
+ ]
+}

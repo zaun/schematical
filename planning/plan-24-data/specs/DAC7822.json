@@ -1,0 +1,378 @@
+{
+ "device": {
+  "id": "DAC7822",
+  "function": "DAC",
+  "description": "Dual 12-bit parallel-input multiplying current-output DAC with read-back",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac7822.pdf (SBAS374A) p.1 features/power-on, p.3 electrical (VDD 2.5-5.5 V), p.4 timing, p.5 pinout and terminal functions, p.16 parallel interface",
+  "pinouts": {
+   "rta40": [
+    {
+     "number": 1,
+     "name": "R1A",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "R2A",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "R2_3A",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "R3A",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "VREFA",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DAC A/B",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 10,
+     "name": "DB11",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "DB10",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "DB9",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "DB8",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "DB7",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "DB6",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "DB5",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "DB4",
+     "role": "inout"
+    },
+    {
+     "number": 18,
+     "name": "DB3",
+     "role": "inout"
+    },
+    {
+     "number": 19,
+     "name": "DB2",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "DB1",
+     "role": "inout"
+    },
+    {
+     "number": 21,
+     "name": "DB0",
+     "role": "inout"
+    },
+    {
+     "number": 22,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "R/W",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 26,
+     "name": "VREFB",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "R3B",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "R2_3B",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "R2B",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "R1B",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "RFBB",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "IOUT2B",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "IOUT1B",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 35,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 36,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 37,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 38,
+     "name": "IOUT1A",
+     "role": "output"
+    },
+    {
+     "number": 39,
+     "name": "IOUT2A",
+     "role": "output"
+    },
+    {
+     "number": 40,
+     "name": "RFBA",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 2,
+  "vcc": [
+   2.5,
+   5.5
+  ],
+  "analog": [
+   "R1A",
+   "R2A",
+   "R2_3A",
+   "R3A",
+   "VREFA",
+   "VREFB",
+   "R3B",
+   "R2_3B",
+   "R2B",
+   "R1B",
+   "RFBB",
+   "IOUT2B",
+   "IOUT1B",
+   "IOUT1A",
+   "IOUT2A",
+   "RFBA"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rw": {
+    "pin": "R/W",
+    "read": 1
+   },
+   "address": [
+    "DAC A/B"
+   ]
+  },
+  "timing": {
+   "tAcc": 35,
+   "tDf": 10
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "p.1, p.16: DAC A input register; power-on zero"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC B input register; power-on zero"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC A register (drives IOUT1A); power-on zero scale"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC B register; power-on zero scale"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write (CS low, R/W low)",
+     "in": "a dddddddddddd",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "p.5, p.16: DAC A/B low = DAC A, high = DAC B; data latched into the input register at CS rising"
+    }
+   ],
+   "read": {
+    "0": "[DACA]",
+    "1": "[DACB]"
+   },
+   "note": "p.16: R/W high and CS low reads the DAC register of the channel DAC A/B selects back onto DB11-DB0"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level"
+   },
+   "clear": {
+    "pin": "CLR",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB"
+   ],
+   "output": [
+    "DACA",
+    "DACB"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "RTA": {
+   "pinout": "rta40",
+   "footprint": "WQFN-40-RTA",
+   "package": "WQFN",
+   "pins": 40
+  }
+ },
+ "pdf": "dac7822.pdf",
+ "pages": "p.1 (power-on zero), p.3 (VDD range, logic levels), p.4 (timing t1-t13), p.5 (pinout), p.16 (parallel interface)",
+ "notModeled": [
+  "analog: multiplying current outputs, reference inputs, 4-quadrant resistors R1/R2/R2_3/R3 and RFB",
+  "LDAC: the datasheet describes the DAC updating when LDAC goes low and, with LDAC tied low, at CS rising; modeled as LDAC level-active low (a write while LDAC is low updates at once)",
+  "power-on reset brownout detection"
+ ],
+ "variants": "dac7822.pdf covers only the DAC7822; AD5405 pin-compatible",
+ "parts": [
+  [
+   "DAC7822IRTAR",
+   "RTA",
+   40,
+   "Active"
+  ],
+  [
+   "DAC7822IRTAT",
+   "RTA",
+   40,
+   "Active"
+  ]
+ ]
+}

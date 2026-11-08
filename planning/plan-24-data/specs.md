@@ -10370,3 +10370,4423 @@ Low-voltage 10-bit serial SAR ADC with 8 analog inputs, EOC, programmable conver
   - hardware configuration mode (WR tied low, dummy RD loads defaults) and CLK setup/hold windows: not modeled
   - software power down by CS high (Table 3, p.5), CR0.D2 SWPWDN, auto power down: no bus-visible effect
   - data bus timing at DVDD = 3 V, 50 pF (p.19): tAcc = ten(RDL_DAV) 40 ns, tDf = tdis(RDH_DAV) 10 ns
+
+## DAC (252 devices)
+
+### AFE7070
+
+Dual 14-bit 65 MSPS DAC with NCO, quadrature modulator correction, analog quadrature modulator, LVDS clock output, interleaved CMOS data input and SPI register port. `specs/AFE7070.json`; datasheet `afe7070.pdf` (p.2 (pin configuration), p.3 (pin functions), p.4 (DC characteristics: IOVDD 1.71-3.6 V, DVDD18 1.71-1.89 V), p.6 (parallel data input timing, serial interface timing: tD(DATA) 10 ns), p.16-17 (serial interface, Tables 1-2, Figures 37-38), p.18 (register map), p.19-26 (register descriptions)).
+
+- Bus: parallel 14-bit; config SPI mode 0
+- 14 bits, 2 channel(s), code —; vcc [1.71, 3.6]
+- 35 registers, 3 commands; frame fixed
+- Packages: RGZ (VQFN-48-RGZ)
+- Not modeled:
+  - everything after the DACs (analog): baseband filter, quadrature modulator, LO input, RF output, reference/BG_BYP, coarse DAC full-scale current, LVDS clock output and its divider
+  - digital signal processing: QMC gain/phase/offset correction, NCO / complex mixer (DDS), phase-data mode (data_type), twos/offset-binary input format and DAC complement bits are stored only (DACA/DACB hold the raw input words)
+  - clock modes (Table 3): only the dual input clock mode is modeled (CLK_IO an input, data latched on its rising edge); dual output clock mode (CLK_IO driven), single differential DDR/SDR DACCLK modes, the divide-by-2 and the input FIFO (fifo_ena, offsets, collision alarms) are not
+  - iqswap (CONFIG1 bit 6) is not applied: IQ_FLAG high always goes to DACA
+  - SPI multi-byte transfers (N1 N0 != 00): the datasheet sends the bytes for addresses A, A-1, A-2 ... (counting down); the model writes/reads only the first byte at A
+  - 4-pin SPI mode (CONFIG3 sif_4pin = 1, data out on ALARM_SDO) and the ALARM_SDO alarm output (FIFO alarms, msb_out); ALARM_SDO is never driven
+  - SYNC_SLEEP multi-function pin (sync / TX enable / sleep) and the SLEEP / TXENABLE / SYNC register bits (stored only)
+  - CONFIG2 alarm bits are set by FIFO pointer collisions, which are not modeled (reset value 0x03 from the bit table; the register map says 0xXX)
+  - reserved registers CONFIG23-CONFIG30 power up with device-specific values (0xXX): reset 0
+  - CONFIG31 version/test bits treated as read-only (the datasheet says the test bits are held high/low)
+  - TESTMODE (factory use, connect to GND) and ATEST (factory use, do not connect)
+  - timing: tD(DATA) 10 ns after the SCLK falling edge (the table prints it in the MIN column); SDIO is driven only while it shifts reply bits
+  - DVDD18 (1.71-1.89 V) is a digital core supply outside the IOVDD vcc range
+
+### AFE7071
+
+Dual 14-bit 65 MSPS DAC with quadrature modulator correction, analog quadrature modulator, interleaved CMOS data input and SPI register port. `specs/AFE7071.json`; datasheet `afe7071.pdf` (p.2 (pin configuration), p.3 (pin functions), p.4 (DC characteristics: IOVDD 1.71-3.6 V, DVDD18 1.71-1.89 V), p.13 (parallel data input timing, serial interface timing: tD(DATA) 10 ns), p.14-15 (serial interface, Tables 1-2), p.16 (register map), p.17-24 (register descriptions)).
+
+- Bus: parallel 14-bit; config SPI mode 0
+- 14 bits, 2 channel(s), code —; vcc [1.71, 3.6]
+- 35 registers, 3 commands; frame fixed
+- Packages: RGZ (VQFN-48-RGZ)
+- Not modeled:
+  - everything after the DACs (analog): baseband filter, quadrature modulator, LO input, RF output, reference/BG_BYP, coarse DAC full-scale current
+  - digital signal processing: QMC gain/phase/offset correction, twos/offset-binary input format and DAC complement bits are stored only (DACA/DACB hold the raw input words)
+  - clock modes (Table 3): only the dual input clock mode is modeled (CLK_IO an input, data latched on its rising edge); dual output clock mode (CLK_IO driven), single differential DDR/SDR DACCLK modes, the divide-by-2 and the input FIFO (fifo_ena, offsets, collision alarms) are not
+  - iqswap (CONFIG1 bit 6) is not applied: IQ_FLAG high always goes to DACA
+  - SPI multi-byte transfers (N1 N0 != 00): the datasheet sends the bytes for addresses A, A-1, A-2 ... (counting down); the model writes/reads only the first byte at A
+  - 4-pin SPI mode (CONFIG3 sif_4pin = 1, data out on ALARM_SDO) and the ALARM_SDO alarm output (FIFO alarms, msb_out); ALARM_SDO is never driven
+  - SYNC_SLEEP multi-function pin (sync / TX enable / sleep) and the SLEEP / TXENABLE / SYNC register bits (stored only)
+  - CONFIG2 alarm bits are set by FIFO pointer collisions, which are not modeled (reset value 0x03 from the bit table; the register map says 0xXX)
+  - reserved registers CONFIG23-CONFIG30 power up with device-specific values (0xXX): reset 0
+  - CONFIG31 version/test bits treated as read-only (the datasheet says the test bits are held high/low)
+  - TESTMODE (factory use, connect to GND) and ATEST (factory use, do not connect)
+  - timing: tD(DATA) 10 ns after the SCLK falling edge (the table prints it in the MIN column); SDIO is driven only while it shifts reply bits
+  - DVDD18 (1.71-1.89 V) is a digital core supply outside the IOVDD vcc range
+
+### DAC0800
+
+8-bit 100 ns current-output multiplying DAC with complementary outputs and unlatched TTL/CMOS inputs. `specs/DAC0800.json`; datasheet `dac0800.pdf` (p.1 (features: +-4.5 to +-18 V supplies, TTL/CMOS inputs), p.2 (operating conditions), p.3 (electrical characteristics: logic levels, propagation delay, settling), p.4 (connection diagrams PDIP/SOIC, block diagram)).
+
+- Bus: parallel 8-bit
+- 8 bits, 1 channel(s), code —; vcc [4.5, 18]
+- 1 registers, 1 commands; frame fixed
+- Packages: D (SOIC-16), NFG (PDIP-16-NFG)
+- Not modeled:
+  - the digital inputs are unlatched (no CS/WR/LDAC): the current switches follow B1-B8 directly; modeled as a parallel bus with no control pins whose data word is written (and the output updated) as the inputs change
+  - complementary current outputs IOUT (pin 4) and IOUT-bar (pin 2): both are named IOUT (the overbar cannot be written in a pin name); analog, never driven
+  - reference amplifier (VREF(+), VREF(-)), compensation, multiplying operation, output compliance (all analog)
+  - logic threshold control VLC (pin 1) shifts the input threshold for ECL/CMOS/PMOS logic; the model uses the TTL thresholds (VLC = 0 V)
+  - propagation delay tPLH/tPHL 60 ns max and settling time 100-150 ns
+  - negative supply V- (-15 to -5 V) is in "analog" (the voltage check cannot represent a negative supply)
+  - logic input swing -10 V to +18 V (V- = -15 V): inputs above V+ are not modeled
+
+### DAC0802
+
+8-bit 100 ns current-output multiplying DAC with complementary outputs and unlatched TTL/CMOS inputs (+-0.1 % nonlinearity grade). `specs/DAC0802.json`; datasheet `dac0800.pdf` (p.1 (features: +-4.5 to +-18 V supplies, TTL/CMOS inputs), p.2 (operating conditions), p.3 (electrical characteristics: logic levels, propagation delay, settling), p.4 (connection diagrams PDIP/SOIC, block diagram)).
+
+- Bus: parallel 8-bit
+- 8 bits, 1 channel(s), code —; vcc [4.5, 18]
+- 1 registers, 1 commands; frame fixed
+- Packages: D (SOIC-16)
+- Not modeled:
+  - the digital inputs are unlatched (no CS/WR/LDAC): the current switches follow B1-B8 directly; modeled as a parallel bus with no control pins whose data word is written (and the output updated) as the inputs change
+  - complementary current outputs IOUT (pin 4) and IOUT-bar (pin 2): both are named IOUT (the overbar cannot be written in a pin name); analog, never driven
+  - reference amplifier (VREF(+), VREF(-)), compensation, multiplying operation, output compliance (all analog)
+  - logic threshold control VLC (pin 1) shifts the input threshold for ECL/CMOS/PMOS logic; the model uses the TTL thresholds (VLC = 0 V)
+  - propagation delay tPLH/tPHL 60 ns max and settling time 100-150 ns
+  - negative supply V- (-15 to -5 V) is in "analog" (the voltage check cannot represent a negative supply)
+  - logic input swing -10 V to +18 V (V- = -15 V): inputs above V+ are not modeled
+
+### DAC0808
+
+8-bit 150 ns current-output multiplying DAC with unlatched TTL/CMOS inputs. `specs/DAC0808.json`; datasheet `dac0808.pdf` (p.1 (DIP connection diagram, block diagram), p.2 (SO connection diagram, ordering), p.3 (absolute maximum ratings, electrical characteristics: logic levels, propagation delay, power supply range)).
+
+- Bus: parallel 8-bit
+- 8 bits, 1 channel(s), code —; vcc [4.5, 5.5]
+- 1 registers, 1 commands; frame fixed
+- Packages: D (SOIC-16), NFG (PDIP-16-NFG)
+- Not modeled:
+  - the digital inputs A1-A8 are unlatched (no CS/WR/LDAC): the current switches follow the inputs directly; modeled as a parallel bus with no control pins whose data word is written (and the output updated) as the inputs change
+  - reference amplifier (VREF(+), VREF(-)), compensation, multiplying operation, output current IO and its compliance (all analog)
+  - propagation delay tPLH/tPHL 100 ns max and settling time 150 ns
+  - negative supply VEE (-4.5 to -16.5 V) is in "analog" (the voltage check cannot represent a negative supply)
+  - digital inputs are rated -10 V to +18 V (absolute maximum only); no recommended range above VCC is given, so no inputMax
+  - NC pin 1 (DIP) / 5 (SO): datasheet Note 2 reference on the drawing (no connection)
+
+### DAC081C081
+
+8-bit micropower voltage-output DAC with I2C interface (VA reference). `specs/DAC081C081.json`; datasheet `dac081c081.pdf` (p.4 (pin configuration and functions), p.6 (recommended operating conditions: VA 2.7-5.5 V, digital inputs up to 5.5 V regardless of VA), p.11 (toutz 270 ns max fast mode), p.17 (power-on reset to 0), p.18 (power-down modes), p.19-21 (I2C protocol, Table 3 slave addresses, write Figure 25), p.22 (read Figure 26, DAC register Figure 27)).
+
+- Bus: I2C 0x0D, 0x0E
+- 8 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame stream
+- Packages: DDC (SOT23-THIN-6), NGF (WSON-6-NGF)
+- Not modeled:
+  - VOUT, VREF and the resistor-string output (analog); the power-down output terminations (2.5 kohm / 100 kohm / Hi-Z) are stored in CTRL.PD only
+  - ADR0/ADR1 left floating (or at VA/2) select further addresses (Table 3): a third strap level cannot be expressed, only GND and VA are in the table
+  - broadcast address 1001000 (0x48): every DAC081C081/C085 responds and updates together; only the strap address is modeled
+  - address lock: ADR0/ADR1 are sampled only until the first correctly addressed non-broadcast access, then the address is fixed until power cycling (the model re-reads the straps)
+  - Hs-mode master code (00001xxx) handshake (the bus engine handles I2C timing)
+  - the 'Do Not Use' addresses of Table 3 note 2
+  - wake-up time from power-down (0.5-0.8 us typ)
+  - read-back bits 3-0 below D0: shown as 0 (Figure 27 shows 0 0 0 0)
+
+### DAC081C085
+
+8-bit micropower voltage-output DAC with I2C interface and external reference. `specs/DAC081C085.json`; datasheet `dac081c081.pdf` (p.4 (pin configuration and functions), p.6 (recommended operating conditions: VA 2.7-5.5 V, digital inputs up to 5.5 V regardless of VA), p.11 (toutz 270 ns max fast mode), p.17 (power-on reset to 0), p.18 (power-down modes), p.19-21 (I2C protocol, Table 3 slave addresses, write Figure 25), p.22 (read Figure 26, DAC register Figure 27)).
+
+- Bus: I2C 0x09, 0x0A, 0x4D, 0x4E
+- 8 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame stream
+- Packages: DGK (VSSOP-8-DGK)
+- Not modeled:
+  - VOUT, VREF and the resistor-string output (analog); the power-down output terminations (2.5 kohm / 100 kohm / Hi-Z) are stored in CTRL.PD only
+  - ADR0/ADR1 left floating (or at VA/2) select further addresses (Table 3): a third strap level cannot be expressed, only GND and VA are in the table
+  - broadcast address 1001000 (0x48): every DAC081C081/C085 responds and updates together; only the strap address is modeled
+  - address lock: ADR0/ADR1 are sampled only until the first correctly addressed non-broadcast access, then the address is fixed until power cycling (the model re-reads the straps)
+  - Hs-mode master code (00001xxx) handshake (the bus engine handles I2C timing)
+  - the 'Do Not Use' addresses of Table 3 note 2
+  - wake-up time from power-down (0.5-0.8 us typ)
+  - read-back bits 3-0 below D0: shown as 0 (Figure 27 shows 0 0 0 0)
+  - VREF reference input 1 V to VA (analog)
+
+### DAC081S101
+
+8-bit micropower rail-to-rail voltage-output DAC with SPI-compatible serial interface. `specs/DAC081S101.json`; datasheet `dac081s101.pdf` (p.2 (pin configuration and descriptions), p.3 (operating ratings: VA 2.7-5.5 V, inputs -0.1 V to VA + 0.1 V), p.6 (AC and timing characteristics), p.7 (Figure 2 timing), p.14 (serial interface), p.15 (input shift register Figure 36, power-on reset, Table 2 power-down modes)).
+
+- Bus: SPI mode 1, write-only
+- 8 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DDC (SOT23-THIN-6), DGK (VSSOP-8-DGK)
+- Not modeled:
+  - VOUT and the resistor string (analog; VA is also the reference); the power-down output terminations are stored in CTRL.PD only
+  - wake-up time 6-39 us, settling time 5 us max
+  - the SPI mode: data is taken on SCLK falling edges after SYNC falls (Figure 2 shows SCLK low at SYNC fall, then rising, then the DB15 falling edge): mode 1; a continuously running SCLK that is high at SYNC fall also works on the hardware
+
+### DAC082S085
+
+8-bit dual micropower rail-to-rail voltage-output DAC with SPI-compatible serial interface. `specs/DAC082S085.json`; datasheet `dac082s085.pdf` (p.4 (pin configuration and functions), p.5 (recommended operating conditions: VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.8 (timing requirements, Figure 1 serial timing), p.15 (power-on reset, power-down modes), p.16 (Table 1, serial interface, input shift register Figure 30)).
+
+- Bus: SPI mode 2, write-only
+- 8 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 5 registers, 4 commands; frame fixed
+- Packages: DGS (VSSOP-10), DSC (WSON-10-DSC)
+- Not modeled:
+  - VOUTx, VREFIN and the resistor strings (analog); the power-down output terminations are stored in CTRL.TERM only
+  - wake-up time 6-39 us, settling time 4.5 us max
+  - the first shift-register bit must be 0 (p.16); frames with it set are ignored except the power-down frame, where A1 A0 select the termination (Table 1)
+
+### DAC084S085
+
+8-bit quad micropower rail-to-rail voltage-output DAC with SPI-compatible serial interface. `specs/DAC084S085.json`; datasheet `dac084s085.pdf` (p.3 (pin configuration and functions), p.4 (recommended operating conditions: VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.7 (timing requirements), p.8 (Figure 1 serial timing), p.15 (power-on reset, power-down modes, Table 1), p.16 (serial interface), p.17 (input shift register Figure 30)).
+
+- Bus: SPI mode 2, write-only
+- 8 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 9 registers, 4 commands; frame fixed
+- Packages: DGS (VSSOP-10), DSC (WSON-10-DSC)
+- Not modeled:
+  - VOUTx, VREFIN and the resistor strings (analog); the power-down output terminations are stored in CTRL.TERM only
+  - wake-up time 6-39 us, settling time 4.5 us max
+
+### DAC088S085
+
+8-bit 8-channel voltage-output DAC with SPI-compatible serial interface. `specs/DAC088S085.json`; datasheet `dac088s085.pdf` (p.3-4 (pins), p.5 (ROC: VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.8 (timing, Figure 1), p.16 (power-on reset, Table 1 power-down), p.17-18 (serial interface, daisy chain), p.18-19 (Tables 2-4: modes and commands), p.23 (68HC11 CPOL/CPHA)).
+
+- Bus: SPI mode 1, write-only
+- 8 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 18 registers, 8 commands; frame fixed
+- Packages: PW (TSSOP-16), RGH (WQFN-16-RGH)
+- Not modeled:
+  - analog outputs, references (VREF1 for A-D, VREF2 for E-H), output terminations in power-down, wake-up time
+  - DOUT daisy-chain output (DOUT low for 14 SCLKs, high on the 15th, then DIN delayed by 16 SCLKs while SYNC stays low past 16 bits): not driven. align "end" decodes the last 16 bits before SYNC rises, which is what a device in a daisy chain executes
+  - a frame of 15 bits (SYNC rising after the 15th but before the 16th SCLK fall) is undefined in the datasheet; the model needs 16 bits
+  - power-down: PWR.PD accumulates the channel mask (setbits); the datasheet does not say how a channel leaves power-down other than a later write sequence, which is not modeled (PD bits stay set)
+  - the input register holds the datasheet's per-channel 'control/data register'; the 'DAC output' is the DAC register (the datasheet has one register per channel plus the output latch)
+  - SCLK and SYNC timing limits (tSS, tSH, tSYNC, 40 MHz max)
+
+### DAC101C081
+
+10-bit single-channel voltage-output DAC with I2C interface. `specs/DAC101C081.json`; datasheet `dac101c081.pdf` (p.4 (pins), p.6 (ROC: VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.10 (timing, toutz max 270 ns fast mode), p.15 (power-on reset), p.16 (power-down), p.19 (Table 1 addresses, Figure 24 write), p.20 (Figure 25 read, Figure 26 register X X PD1 PD0 D9..D0 0 0)).
+
+- Bus: I2C 0x0D, 0x0E
+- 10 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame stream
+- Packages: DDC (SOT23-THIN-6), NGF (WSON-6-NGF)
+- Not modeled:
+  - analog output, reference (VA, or VREF on the VSSOP DAC1x1C085), power-down output terminations and wake-up time
+  - address pins are three-level (GND, VA, floating or VA/2): the floating-pin addresses (ADR0 float: 0x0C; ADR1 float row and ADR1/ADR0 float combinations) cannot be expressed; SCL/SDA ties are not documented (null)
+  - broadcast address 1001000 (0x48), to which every DAC1x1C08x responds and updates, is not modeled (one address per part)
+  - the address pins are sampled until the first non-broadcast access and then locked until power cycle
+  - Hs-mode (3.4 MHz) entry; toutz uses the fast-mode maximum (270 ns)
+  - power-on requires VA to drop below 200 mV for a reset
+  - Table 1 lists a second address after each slave address (e.g. '0001101, 1000110'); it is the 'do not use' companion address of the DAC121C08x datasheet and is not modeled
+
+### DAC101S101
+
+10-bit single-channel voltage-output DAC with SPI-compatible serial interface. `specs/DAC101S101.json`; datasheet `dac101s101.pdf` (p.3 (pins), p.5 (ROC: VA 2.7-5.5 V), p.10 (timing), p.18 (power-on reset, Table 1), p.19 (serial interface, Figure 36 X X PD1 PD0 D9..D0 X X), p.20 (68HC11 CPOL/CPHA)).
+
+- Bus: SPI mode 1, write-only
+- 10 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DDC (SOT23-THIN-6), DGK (VSSOP-8-DGK)
+- Not modeled:
+  - analog output (VA is both the supply and the reference), power-down output terminations and wake-up time
+  - the write executes on the 16th SCLK falling edge (commit now); SYNC rising before it resets the shift register and the write is ignored; further SCLKs are ignored
+  - SCLK and SYNC timing limits; digital inputs limited to VA + 0.1 V (no 5.5-V tolerance)
+
+### DAC102S085
+
+10-bit dual-channel voltage-output DAC with SPI-compatible serial interface. `specs/DAC102S085.json`; datasheet `dac102s085.pdf` (p.3 (pins), p.4 (ROC: VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.6-7 (timing), p.14 (power-on reset), p.15 (power-down, serial interface), p.16 (Figure 32 input register: 0 A0 OP1 OP0 D9..D0 X X), p.17 (68HC11 CPOL/CPHA)).
+
+- Bus: SPI mode 1, write-only
+- 10 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 5 registers, 4 commands; frame fixed
+- Packages: DGS (VSSOP-10)
+- Not modeled:
+  - analog outputs, VREFIN, power-down output terminations and wake-up time
+  - leaving power-down: the datasheet only says a write sequence recovers; the model clears PWR.PD on any write command
+  - the command executes on the 16th SCLK falling edge (commit now); SYNC rising earlier aborts it; bits after the 16th are ignored
+  - SCLK and SYNC timing limits; operating temperature -40 to 105 C
+
+### DAC104S085
+
+10-bit quad-channel voltage-output DAC with SPI-compatible serial interface. `specs/DAC104S085.json`; datasheet `dac104s085.pdf` (p.3 (pins), p.4 (ROC: VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.7-8 (timing), p.14 (power-on reset), p.15 (power-down, Table 1), p.16 (serial interface, Figure 28 input register), p.17 (68HC11 CPOL/CPHA)).
+
+- Bus: SPI mode 1, write-only
+- 10 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 9 registers, 4 commands; frame fixed
+- Packages: DGS (VSSOP-10), DSC (WSON-10-DSC)
+- Not modeled:
+  - analog outputs, VREFIN, power-down output terminations and wake-up time
+  - Figure 28 labels the data bits D11..D0 for the whole family; this 10-bit part's code (D/1024) is taken as DB11..DB2 with DB1:DB0 don't care, as the DAC102S085 datasheet (Figure 32) shows for the same 10-bit format
+  - leaving power-down: the datasheet only says a write sequence recovers; the model clears PWR.PD on any write command
+  - the command executes on the 16th SCLK falling edge (commit now); SYNC rising earlier aborts it; bits after the 16th are ignored
+  - SCLK and SYNC timing limits; operating temperature -40 to 125 C
+
+### DAC108S085
+
+10-bit 8-channel voltage-output DAC with SPI-compatible serial interface. `specs/DAC108S085.json`; datasheet `dac108s085.pdf` (p.3 (pins), p.4 (operating ratings: VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.7 (timing), p.15-16 (serial interface, daisy chain), p.17 (WRM/WTM, channel writes D11..D2), p.18 (special commands, power-on reset, power-down)).
+
+- Bus: SPI mode 1, write-only
+- 10 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 18 registers, 8 commands; frame fixed
+- Packages: PW (TSSOP-16), RGH (WQFN-16-RGH)
+- Not modeled:
+  - analog outputs, references (VREF1 for A-D, VREF2 for E-H), output terminations in power-down, wake-up time
+  - DOUT daisy-chain output (DOUT low for 14 SCLKs, high on the 15th, then DIN delayed by 16 SCLKs while SYNC stays low past 16 bits): not driven. align "end" decodes the last 16 bits before SYNC rises, which is what a device in a daisy chain executes
+  - a frame of 15 bits (SYNC rising after the 15th but before the 16th SCLK fall) is undefined in the datasheet; the model needs 16 bits
+  - power-down: PWR.PD accumulates the channel mask (setbits); the datasheet does not say how a channel leaves power-down other than a later write sequence, which is not modeled (PD bits stay set)
+  - the input register holds the datasheet's per-channel 'control/data register'; the 'DAC output' is the DAC register (the datasheet has one register per channel plus the output latch)
+  - SCLK and SYNC timing limits (tSS, tSH, tSYNC, 40 MHz max)
+
+### DAC11001
+
+20-bit 1-LSB INL voltage-output DAC with SPI interface. `specs/DAC11001.json`; datasheet `dac11001a.pdf` (p.3-4 (pins), p.6 (ROC: IOVDD 1.7-5.5 V, DVDD 2.7-5.5 V), p.13-14 (read timing: tSDODLY max 40 ns, tSDOZ max 20 ns), p.15 (Figures 1-2), p.25 (POR), p.26 (FSET, UP_RATE), p.27-28 (32-bit frame, read cycle, daisy chain, CLR, LDAC, software reset), p.29-33 (register map, Tables 3-11)).
+
+- Bus: SPI mode 2
+- 20 bits, 1 channel(s), code —; vcc [1.7, 5.5]
+- 8 registers, 7 commands; frame fixed
+- Packages: PFB (TQFP-48-7X7)
+- Not modeled:
+  - analog: output, references and sense pins, integrated resistors (RFB, ROFS, RCM), deglitcher (FSET, TNH_MASK, DIS_TNH, UP_RATE), reference span VREFVAL, power-down PDN (stored only)
+  - temperature calibration (EN_TMP_CAL, RCLTMP, STATUS.ALM, ALARM pin and ENALMP): never completes in the model; ALARM is not driven; reading STATUS does not release ALARM
+  - CLR and SCLR load the code in DAC-CLEAR-DATA (8 bits, left-justified: code = DATA << 12); the schema's clearCode is a constant, so the model uses its reset value 0; clear mode is left on the next valid write
+  - TRIGGER.SRST/SCLR: whether the bits read back as 1 after the write is not documented (SCLR leaves the written value in place; SRST resets it to 0)
+  - the upper 8 bits of the read-back word are not documented (Figure 47 shows only 'D31..D0'); the model echoes the read command's R/W bit and address
+  - DSDO = 0 (SDO disabled) and FSDO (fast SDO timing) are not modeled: SDO always drives during SYNC low
+  - TNH_MASK writable only when FSET = 0 and DIS_TNH = 0: not enforced
+  - LDACMODE = 1 with DSDO = 1 updates at the 32nd SCLK falling edge rather than SYNC rising; the model commits at SYNC rising (align end), which also gives daisy-chain behavior (the last 32 bits are this device's)
+  - daisy-chain SDO (DIN delayed by 32 SCLKs): not driven
+  - DAC91001 (18-bit, DATA[17:0],0,0) and DAC81001 (16-bit) share the datasheet; this spec is the 20-bit DAC11001A
+
+### DAC121C081
+
+12-bit single-channel voltage-output DAC with I2C interface. `specs/DAC121C081.json`; datasheet `dac121c085.pdf` (p.4 (pins, WSON NGF), p.6 (ROC: VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.10 (toutz max 270 ns fast mode), p.18-19 (address, Table 1), p.19 (power-on reset), p.20 (power-down, Figure 24 write), p.21 (Figure 25 read, Figure 26 register X X PD1 PD0 D11..D0)).
+
+- Bus: I2C 0x0D, 0x0E
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame stream
+- Packages: NGF (WSON-6-NGF)
+- Not modeled:
+  - analog output, reference (VA, or VREF on the VSSOP DAC1x1C085), power-down output terminations and wake-up time
+  - address pins are three-level (GND, VA, floating or VA/2): the floating-pin addresses (ADR0 float: 0x0C; ADR1 float row and ADR1/ADR0 float combinations) cannot be expressed; SCL/SDA ties are not documented (null)
+  - broadcast address 1001000 (0x48), to which every DAC1x1C08x responds and updates, is not modeled (one address per part)
+  - the address pins are sampled until the first non-broadcast access and then locked until power cycle
+  - Hs-mode (3.4 MHz) entry; toutz uses the fast-mode maximum (270 ns)
+  - power-on requires VA to drop below 200 mV for a reset
+
+### DAC121C085
+
+12-bit single-channel voltage-output DAC with I2C interface. `specs/DAC121C085.json`; datasheet `dac121c085.pdf` (p.4 (pins, VSSOP DGK), p.6 (ROC: VA 2.7-5.5 V, VREF 1 V-VA, digital inputs 0-5.5 V regardless of VA), p.10 (toutz max 270 ns fast mode), p.18-19 (address, Table 1), p.19 (power-on reset), p.20 (power-down, Figure 24 write), p.21 (Figure 25 read, Figure 26 register)).
+
+- Bus: I2C 0x09, 0x0A, 0x4D, 0x4E
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame stream
+- Packages: DGK (VSSOP-8-DGK)
+- Not modeled:
+  - analog output, reference (VA, or VREF on the VSSOP DAC1x1C085), power-down output terminations and wake-up time
+  - address pins are three-level (GND, VA, floating or VA/2): the floating-pin addresses (ADR0 float: 0x0C; ADR1 float row and ADR1/ADR0 float combinations) cannot be expressed; SCL/SDA ties are not documented (null)
+  - broadcast address 1001000 (0x48), to which every DAC1x1C08x responds and updates, is not modeled (one address per part)
+  - the address pins are sampled until the first non-broadcast access and then locked until power cycle
+  - Hs-mode (3.4 MHz) entry; toutz uses the fast-mode maximum (270 ns)
+  - power-on requires VA to drop below 200 mV for a reset
+
+### DAC121S101
+
+12-bit single-channel voltage-output DAC with SPI-compatible serial interface. `specs/DAC121S101.json`; datasheet `dac121s101.pdf` (p.3 (pins), p.5 (ROC: VA 2.7-5.5 V), p.8-9 (timing), p.17 (power-on reset, Table 1), p.18 (serial interface, input register X X PD1 PD0 D11..D0), p.20 (68HC11 CPOL/CPHA)).
+
+- Bus: SPI mode 1, write-only
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DDC (SOT23-THIN-6), DGK (VSSOP-8-DGK)
+- Not modeled:
+  - analog output (VA is both the supply and the reference), power-down output terminations and wake-up time
+  - the write executes on the 16th SCLK falling edge (commit now); SYNC rising before it resets the shift register and the write is ignored; further SCLKs are ignored
+  - SCLK and SYNC timing limits; digital inputs limited to VA + 0.1 V (no 5.5-V tolerance)
+
+### DAC1220
+
+20-bit low-power delta-sigma voltage-output DAC with serial interface and self-calibration. `specs/DAC1220.json`; datasheet `dac1220.pdf` (p.3-4 (electrical, digital levels, supply), p.4 (pinout, pin descriptions), p.9-10 (Tables 3/4 serial timing, Figures 8-11), p.11 (CS, timeout, SCLK reset pattern), p.12 (Tables 6/7 command byte, modes), p.13 (startup, calibration), p.14 (DIR, Tables 8/9), p.15 (Table 11 register map, Table 12 CMR), p.16-17 (Table 13, DIR/OCR/FCR)).
+
+- Bus: SPI mode 1
+- 20 bits, 1 channel(s), code —; vcc [4.75, 5.25]
+- 4 registers, 96 commands; frame stream
+- Packages: DBQ (QSOP-16)
+- Not modeled:
+  - analog output, settling, adaptive/fast-settling filter (ADPT/DISF stored only), reference and crystal oscillator
+  - SDIO turnaround timing: the part needs t9/t11 (13 / 8-10 tXIN) between the command byte and the data bytes; the model replies at once; t13 SDIO tri-state 4-6 tXIN after the last bit is used as tFloat (6 x 400 ns at fXIN 2.5 MHz)
+  - SCLK reset pattern (the part has no reset pin; Figure 12 duty-cycle pattern resets the device)
+  - serial-interface timeout (~100 ms at 2.5 MHz cancels an interrupted command)
+  - CMR BD (byte decrement) and MSB (LSB-first bit order) bits: the model always transfers bytes in increasing address order, MSB first
+  - CMR CLR bit (writes 0 to DIR in Normal mode) and CRST bit (resets OCR to 000000h and FCR to 800000h in Normal mode; reads 0 in Normal mode): stored only
+  - MD modes: sleep (output Hi-Z; DIR/OCR/FCR writes stored and take effect on entering Normal mode) and self-calibration (MD = 01b runs 300-500 ms, writes OCR/FCR and returns MD to 00b): MD is stored only, the model leaves MD at 01b
+  - command byte MB = 11b (reserved) and multi-byte accesses running past address 15: not decoded
+  - DIR resolution (RES: 16- or 20-bit) and data format (DF: offset two's complement or straight binary) only change the analog transfer function; the 24-bit DIR is stored as written
+  - dac.input/output name the 24-bit DIR (the DAC data width; the converter resolution is 20 bits)
+
+### DAC1221
+
+16-bit low-power delta-sigma voltage-output DAC with serial interface and self-calibration. `specs/DAC1221.json`; datasheet `dac1221.pdf` (p.2 (specifications), p.3 (pins), p.8 (Tables II-IV instruction register, addressing, CMR), p.9 (CMR bits, BD/MSB, OCR Table V), p.10 (FCR Table VI, DIR Table VII, sleep mode, power-on reset), p.11-12 (serial interface, Figure 3 reset, timing table t3-t14)).
+
+- Bus: SPI mode 1
+- 16 bits, 1 channel(s), code —; vcc [2.7, 3.3]
+- 4 registers, 96 commands; frame stream
+- Packages: DBQ (QSOP-16)
+- Not modeled:
+  - analog output, settling, adaptive/fast-settling filter (ADPT/DISF stored only), reference and crystal oscillator
+  - SDIO turnaround timing: t9/t11 (13 / 8-10 tXIN) between the instruction byte and the data bytes; t13 SDIO tri-state 4-6 tXIN after the last bit is used as tFloat (6 x 400 ns at fXIN 2.5 MHz)
+  - SCLK reset pattern (Figure 3) and the serial-interface timeout
+  - CMR BD (LSB-byte-first) and MSB (LSB-bit-first) bits: the model always transfers bytes in increasing address order, MSB first
+  - CMR CLR bit (clears DIR) and CRST bit (clears OCR/FCR): stored only
+  - MD modes: sleep (output Hi-Z) and self-calibration (MD = 01b; writes OCR/FCR, then returns to normal mode; register writes disabled meanwhile): MD is stored only
+  - reset values of DIR, OCR, FCR are not given in the datasheet (0 used)
+  - reads/writes running into a reserved location: the datasheet says the results are unknown (reserved bytes ignored on write, read as 0)
+  - instruction MB = 11b: not listed in the datasheet, not decoded
+
+### DAC122S085
+
+12-bit dual micro-power voltage-output DAC with rail-to-rail outputs and 3-wire SPI. `specs/DAC122S085.json`; datasheet `dac122s085.pdf` (p.2 (pins), p.3 (operating ratings), p.7-8 (timing, Figure 2), p.14-15 (serial interface, Figure 30, power-on reset), p.15-16 (Table 1 power-down)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 5 registers, 4 commands; frame fixed
+- Packages: DGS (VSSOP-10), DSC (WSON-10-DSC)
+- Not modeled:
+  - analog outputs, reference, settling, output terminations in power-down (PD code stored only)
+  - no read-back (write-only interface)
+  - wake-up: the datasheet only says registers keep their values unless changed by the write that recovers from power-down; the model wakes on any write frame
+  - SPI mode: the part samples DIN on SCLK falling edges and accepts either clock polarity as long as SYNC does not fall on a falling SCLK edge; mode 2 per Figure 2
+  - frames whose first bit is 1 (other than the power-down frame) are ignored: the datasheet requires the first bit to be 0
+
+### DAC124S085
+
+12-bit quad micro-power voltage-output DAC with rail-to-rail outputs and 3-wire SPI. `specs/DAC124S085.json`; datasheet `dac124s085.pdf` (p.3 (pins), p.4 (ROC), p.7-8 (timing, Figure 2), p.16 (power-on reset, Table 1 power-down, serial interface), p.17 (Figure 30 input shift register)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 9 registers, 4 commands; frame fixed
+- Packages: DGS (VSSOP-10), DSC (WSON-10-DSC)
+- Not modeled:
+  - analog outputs, reference, settling, output terminations in power-down (PD code stored only)
+  - no read-back (write-only interface)
+  - wake-up: the datasheet only says registers keep their values unless changed by the write that recovers from power-down; the model wakes on any write frame
+  - SPI mode: the part samples DIN on SCLK falling edges and accepts either clock polarity as long as SYNC does not fall on a falling SCLK edge; mode 2 per Figure 2
+
+### DAC128S085
+
+12-bit octal micro-power voltage-output DAC with rail-to-rail outputs and SPI (daisy-chain capable). `specs/DAC128S085.json`; datasheet `dac128s085.pdf` (p.3-4 (pins), p.5 (ROC), p.9-10 (timing, Figure 1), p.17-18 (serial interface, Figure 28, daisy chain), p.18-20 (Tables 1-3, power-on reset), p.20-21 (Table 4 power-down)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 18 registers, 8 commands; frame fixed
+- Packages: PW (TSSOP-16), RGH (WQFN-16-RGH)
+- Not modeled:
+  - analog outputs, references, settling, power-down output terminations (PD/PDMODE stored only)
+  - DOUT daisy-chain output (DIN delayed by 16 SCLK cycles while SYNC stays low past the 17th edge): not expressible, DOUT is never driven
+  - no read-back (write-only interface)
+  - wake-up from power-down: the datasheet does not name the frame that recovers a channel; PD bits are only set, never cleared (setbits)
+  - SYNC raised between the 15th and 16th falling edges: the model requires all 16 bits
+  - SPI mode: data clocked on SCLK falling edges; mode 2 per Figure 1 (SYNC falls while SCLK is high)
+
+### DAC161S055
+
+16-bit buffered voltage-output DAC with SPI, LDAC, clear and power-up zero/mid-scale select. `specs/DAC161S055.json`; datasheet `dac161s055.pdf` (p.2-3 (pins), p.4 (operating ratings), p.7-8 (timing, Figures 1-2), p.14-15 (serial interface, SPI read, daisy chain), p.16-17 (write-block/through, LDAC, write commands, clear, POR, power down), p.18 (registers), p.19-20 (instruction set)).
+
+- Bus: SPI mode 0
+- 16 bits, 1 channel(s), code —; vcc [1.7, 5.25]
+- 3 registers, 17 commands; frame fixed
+- Packages: RGH (WQFN-16-RGH)
+- Not modeled:
+  - analog output, reference, settling and the power-down output termination (SEL_10K/SEL_HIZ stored only)
+  - CLR command resets the registers (action reset); per the datasheet it returns to the power-up state set by MZB
+  - SDO FIFO: on longer frames (daisy chain) SDO outputs SDI delayed by 24 SCLKs; the model shifts out only the previous 24-bit word, then zeros
+  - SDO contents after power-up (the FIFO) are not given: zeros
+  - tValid/tOut/tFloat use the VDDIO 1.7-1.8 V limits (tZSDO 40 ns, tDO 62 ns, tSDOZ 75 ns)
+  - LDACB/CLRB must not change while CSB is low: not checked
+
+### DAC2900
+
+dual 10-bit 125 MSPS current-output DAC with two parallel CMOS input ports. `specs/DAC2900.json`; datasheet `dac2900.pdf` (p.3 (supplies, logic levels), p.4 (pins), p.5 (timing diagram, digital inputs and timing), p.13 (power-down)).
+
+- Bus: parallel 20-bit
+- 10 bits, 2 channel(s), code —; vcc [3.0, 5.5]
+- 4 registers, 1 commands; frame fixed
+- Packages: PFB (TQFP-48-7X7)
+- Not modeled:
+  - analog current outputs, reference (internal/external on REFIN), full-scale adjust (FSA1/FSA2), gain-setting mode GSET (stored nowhere; strap only)
+  - independent WRT2 latch: the model latches data port 2 (D9_2-D0_2) at WRT1 rising together with port 1 (exact when WRT1 = WRT2, as in all datasheet measurements); WRT2 and CLK2 are not used
+  - CLK1 copies both input latches to both DAC latches (one LDAC pin); CLK2 is not modeled
+  - the input latch passes data to the DAC latch on the falling WRT edge and the DAC updates on the next CLK rising edge; tCW (CLK rising at or before WRT rising) is not checked
+  - PD pin internal pull-down (Z reads inactive, which matches)
+  - power-on contents of the latches are not given (0 used)
+
+### DAC2902
+
+dual 12-bit 125 MSPS current-output DAC with two parallel CMOS input ports. `specs/DAC2902.json`; datasheet `dac2902.pdf` (p.3 (supplies, logic levels), p.4 (pins), p.5 (timing diagram, digital inputs and timing), p.14 (power-down)).
+
+- Bus: parallel 24-bit
+- 12 bits, 2 channel(s), code —; vcc [3.0, 5.5]
+- 4 registers, 1 commands; frame fixed
+- Packages: PFB (TQFP-48-7X7)
+- Not modeled:
+  - analog current outputs, reference (internal/external on REFIN), full-scale adjust (FSA1/FSA2), gain-setting mode GSET (stored nowhere; strap only)
+  - independent WRT2 latch: the model latches data port 2 (D11_2-D0_2) at WRT1 rising together with port 1 (exact when WRT1 = WRT2, as in all datasheet measurements); WRT2 and CLK2 are not used
+  - CLK1 copies both input latches to both DAC latches (one LDAC pin); CLK2 is not modeled
+  - the input latch passes data to the DAC latch on the falling WRT edge and the DAC updates on the next CLK rising edge; tCW (CLK rising at or before WRT rising) is not checked
+  - PD pin internal pull-down (Z reads inactive, which matches)
+  - power-on contents of the latches are not given (0 used)
+
+### DAC2904
+
+dual 14-bit 125 MSPS current-output DAC with two parallel CMOS input ports. `specs/DAC2904.json`; datasheet `dac2904.pdf` (p.5 (supplies, logic levels), p.6 (pins), p.7 (timing, digital inputs), p.17 (power-down)).
+
+- Bus: parallel 14-bit
+- 14 bits, 2 channel(s), code —; vcc [3.0, 5.5]
+- 4 registers, 1 commands; frame fixed
+- Packages: PFB (TQFP-48-7X7)
+- Not modeled:
+  - analog current outputs, reference (internal/external on REFIN), full-scale adjust (FSA1/FSA2), gain-setting mode GSET (stored nowhere; strap only)
+  - data port 2 (D13_2-D0_2, WRT2, CLK2): a parallel bus has one write strobe and at most 24 data pins, so DAC2 is never written (2 x 14 data pins do not fit one bus)
+  - CLK1 copies both input latches to both DAC latches (one LDAC pin); CLK2 is not modeled
+  - the input latch passes data to the DAC latch on the falling WRT edge and the DAC updates on the next CLK rising edge; tCW (CLK rising at or before WRT rising) is not checked
+  - PD pin internal pull-down (Z reads inactive, which matches)
+  - power-on contents of the latches are not given (0 used)
+
+### DAC2932
+
+dual 12-bit 40 MSPS current-output DAC with an interleaved parallel port, plus four 12-bit voltage-output DACs with a serial interface. `specs/DAC2932.json`; datasheet `dac2932.pdf` (p.4 (supplies, logic levels), p.6 (I-DAC timing, Figure 1), p.7 (V-DAC timing, Figure 2, serial data format), p.8-9 (terminal functions), p.15 (Table 1 power-down modes), p.16 (chip select, Figure 28), p.21-22 (serial interface, input shift register, SYNC interrupt, power-on reset)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 6 channel(s), code —; vcc [2.7, 3.3]
+- 6 registers, 1 commands; frame fixed
+- Packages: PFB (TQFP-48-7X7)
+- Not modeled:
+  - I-DAC parallel port (D11-D0, CLK, CS): interleaved double-data-rate input (channel 1 latched on CLK rising, channel 2 on CLK falling, the pair output on the next rising edge; CS gated through the clock interface) cannot be expressed next to the V-DAC serial port, so the I-DAC registers are never written
+  - PD (I-DAC full power-down), STBY (I-DAC standby) and PDV (V-DAC power-down) pins: no effect in the model (the V-DAC serial port is not documented as disabled by PDV)
+  - analog current and voltage outputs, references, full-scale adjust and GSET
+  - no read-back (write-only serial port)
+  - a write with all four address bits 0 is accepted and changes nothing
+  - SPI mode: DIN clocked on SCLK falling edges; mode 2 per Figure 2 (SYNC falls while SCLK is high)
+
+### DAC43204
+
+8-bit quad voltage/current-output smart DAC with NVM, comparator and function generator; auto-detected I2C/PMBus or SPI (SPI modeled). `specs/DAC43204.json`; datasheet `dac53204.pdf` (p.3 (pins, Table 5-1), p.4 (ROC), p.11-12 (SPI timing), p.41-42 (reset, register-map lock), p.43 (power-down), p.44-45 (SPI), p.48-50 (I2C), p.52-69 (register map)).
+
+- Bus: SPI mode 1
+- 8 bits, 4 channel(s), code —; vcc [1.7, 5.5]
+- 48 registers, 45 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog side: voltage/current outputs, gain and reference selection, internal reference, comparator, margin and function generation (registers stored only; OUTx/FBx never driven)
+  - interface auto-detect: only the SPI port is modeled; the I2C/PMBus mode (address 1001xxx by A0: AGND 0x48, VDD 0x49, SDA 0x4A, SCL 0x4B; broadcast 0x47; general-call reset; same command byte = register address + MSDB/LSDB) is not
+  - GPIO/SDO: always used as SDO (MISO). The datasheet drives SDO only after SDO-EN = 1 (INTERFACE-CONFIG) and samples it per FSDO-EN; the model drives it from power on. GPIO input functions (LDAC, CLR, PD, PROTECT, RESET, deep sleep, margin trigger) and STATUS outputs are not modeled
+  - daisy chain (frames of n x 24 bits use the last 24 bits in 4-wire mode); the model decodes the first 24 bits
+  - write echo: the next frame echoes the last accepted frame; a frame the model rejects (locked) shifts out zeros
+  - register-map lock: writes blocked while DEV-LOCK = 1 unless DEV-UNLOCK = 0101 is stored; COMMON-TRIGGER (unlock, reset, LDAC, CLR) is accepted while locked
+  - one action per frame: a COMMON-TRIGGER write with several trigger bits set runs only the first of RESET, LDAC, CLR; FAULT-DUMP, PROTECT, READ-ONE-TRIG, NVM-PROG and NVM-RELOAD are ignored
+  - CLR-SEL-X = 1 (clear to mid-scale) is not modeled: CLR always loads zero code
+  - broadcast write: channels with BRD-CONFIG-X = 1 get the code and update at once (SYNC-CONFIG ignored); the BRDCAST-DATA register itself keeps its last direct value only when no channel has BRD-CONFIG set
+  - COMMON-DAC-TRIG margin-high/low triggers (copy MARGIN-HIGH/LOW to the output) and function generation are stored only
+  - DAC-X-DATA-8BIT registers (0x40-0x43) are stored but do not load the DAC
+  - NVM (programming, reload, CRC, fault dump), SRAM indirect access (SRAM-DATA is a plain register), PMBus pages and PMBus-only registers, I2C timeout, deep sleep
+  - DAC busy/wait times (tDACWAIT, tBCASTWAIT 2 us), LDAC/GPIO timing, SPI read clock limits (1.25/2.5 MHz)
+  - power-down: VOUT-PDN/IOUT-PDN bits stored only (outputs are Hi-Z/powered down at power on per the datasheet)
+  - DAC-X-DATA and the active registers are 16 bits wide (the 8-bit code left-aligned, as on the bus)
+
+### DAC43401
+
+8-bit single-channel voltage-output smart DAC with NVM and PMBus-compatible I2C interface. `specs/DAC43401.json`; datasheet `dac43401-q1.pdf` (p.3 (pinout), p.4 (ROC), p.7-8 (I2C timing), p.27-31 (I2C, address, command byte, read), p.32-38 (registers); dac53401.pdf p.36 (D2h)).
+
+- Bus: I2C 0x48, 0x49, 0x4B, 0x4A
+- 8 bits, 1 channel(s), code —; vcc [1.71, 5.5]
+- 10 registers, 1 commands; frame fixed
+- Packages: DSG (WSON-8-DSG)
+- Not modeled:
+  - analog output, force-sense FB pin, internal reference / VDD reference, DAC_SPAN gain and power-down output loads (stored only; OUT is never driven)
+  - broadcast address 1000111 (write-only, responds regardless of A0): not expressible
+  - A0 is sampled during the first byte of each frame (the model reads it live)
+  - NVM (NVM_PROG/NVM_RELOAD, NVM_BUSY, CRC alarms): power-on values are the datasheet's factory defaults
+  - DEVICE_LOCK / DEVICE_UNLOCK_CODE register locking
+  - waveform generation (triangle, sawtooth, square), slew-rate control, margin high/low, PMBus commands and (commercial parts) medical alarm waveforms; self-clearing trigger bits stay as written
+  - PMBus byte-wide commands (PMBUS_OPERATION, PMBUS_STATUS_BYTE written or read as one data byte when EN_PMBUS = 1) and CML write-one-to-clear: the model always moves 16-bit words
+  - MED_ALARM_CONFIG (D2h) exists only on the commercial parts (dac53401.pdf); the -Q1 datasheet does not list it, the model has it on every part
+  - write-only fields read back as written (the datasheet does not say what reads of W bits return)
+  - I2C fast-mode-plus timing limits
+  - software reset (SW_RESET = 1010) reloads the DAC registers from NVM and DEVICE_CONFIG_RESET loads factory values; both are modeled as the reset action (NVM equals the factory defaults in the model)
+
+### DAC43508
+
+8-bit octal buffered voltage-output DAC with SPI write-only interface, LDAC and CLR. `specs/DAC43508.json`; datasheet `dac43508.pdf` (p.3 (pinout), p.4 (ROC), p.7 (SPI/logic timing), p.19-20 (update, LDAC, CLR, reset), p.21 (SPI frame), p.22-24 (registers)).
+
+- Bus: SPI mode 1, write-only
+- 8 bits, 8 channel(s), code —; vcc [1.8, 5.5]
+- 20 registers, 7 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog outputs, external reference and power-down output loads (DEVICE_CONFIG stored only; VOUTx are never driven)
+  - the interface is write-only (p.21): no register can be read back
+  - only the first 24 bits of a longer frame are used: the model also uses the first 24 (fixed frame), but it updates at the 24th clock rather than the 24th rising edge
+  - CLR also zeroes the DAC buffer registers (p.19); the model's clear pin sets the active registers to zero code
+  - 5 ms power-on delay before communication is valid
+  - SCLK idle level: Figure 5-1 shows data sampled on SCLK falling edges with SCLK low before the first rising edge (mode 1); a mode 2 host also works on the real part
+
+### DAC43608
+
+8-bit octal voltage-output DAC with I2C interface, LDAC and CLR. `specs/DAC43608.json`; datasheet `dac53608.pdf` (p.3 (pins), p.4 (ROC), p.7-8 (I2C, logic timing), p.20-22 (LDAC, CLR, POR, reset, power-down, general call), p.23-25 (I2C protocol), p.26-28 (registers)).
+
+- Bus: I2C 0x48, 0x49, 0x4B, 0x4A
+- 8 bits, 8 channel(s), code —; vcc [1.8, 5.5]
+- 19 registers, 4 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog outputs and reference (VOUTx never driven); power-down bits stored only (outputs start powered down, 10 kOhm to AGND)
+  - broadcast I2C address 1000111 (0x47) for multi-device update/power-down
+  - reading back the last register written by a read with no command byte (the read pointer moves only with a 1-byte command write)
+  - BRDCAST register: a broadcast write loads every channel; the BRDCAST register keeps its reset value
+  - 5 ms communication delay after power-on, LDAC/CLR pulse-width and setup timing
+  - align "end" is used so a 1-byte command (read setup) and a 3-byte write can both be decoded
+  - DAC data registers are 16 bits wide (the code MSB-aligned in bits 11-4, as on the bus)
+
+### DAC43701
+
+8-bit single-channel voltage-output smart DAC with NVM, GPI control and PMBus-compatible I2C interface. `specs/DAC43701.json`; datasheet `dac43701.pdf` (p.3 (pinout), p.4 (ROC), p.7-8 (I2C/GPI timing), p.20 (GPI), p.29-33 (I2C, address, command byte, read), p.34-42 (registers)).
+
+- Bus: I2C 0x48
+- 8 bits, 1 channel(s), code —; vcc [1.71, 5.5]
+- 10 registers, 1 commands; frame fixed
+- Packages: DSG (WSON-8-DSG)
+- Not modeled:
+  - analog output, force-sense FB pin, internal reference / VDD reference, DAC_SPAN gain and power-down output loads (stored only; OUT is never driven)
+  - I2C address programmed through CONFIG2.SLAVE_ADDRESS (0x48-0x4B, p.32 Table 8-13 and the GPI-assisted procedure): the bus answers at the default 0x48 only; SLAVE_ADDRESS is stored
+  - broadcast address 1000111 (write-only, responds regardless of the address): not expressible
+  - GPI pin functions (Table 8-1: edge-triggered power-up/down, margin high/low, function generation start/stop, medical alarms, address-update enable): the pin is only an input
+  - NVM (NVM_PROG/NVM_RELOAD, NVM_BUSY, CRC alarms): power-on values are the datasheet's factory defaults
+  - DEVICE_LOCK / DEVICE_UNLOCK_CODE register locking
+  - waveform generation (triangle, sawtooth, square), slew-rate control, margin high/low, PMBus commands and medical alarm waveforms; self-clearing trigger bits stay as written
+  - PMBus byte-wide commands (PMBUS_OPERATION, PMBUS_STATUS_BYTE written or read as one data byte when EN_PMBUS = 1) and CML write-one-to-clear: the model always moves 16-bit words
+  - write-only fields read back as written (the datasheet does not say what reads of W bits return)
+  - I2C fast-mode-plus timing limits
+  - software reset (SW_RESET = 1010) reloads the DAC registers from NVM and DEVICE_CONFIG_RESET loads factory values; both are modeled as the reset action (NVM equals the factory defaults in the model)
+
+### DAC43901
+
+automotive 8-bit smart DAC for PWM logarithmic fade-in fade-out with two PWM outputs, comparator trigger input, NVM and I2C/SPI programming interface. `specs/DAC43901.json`; datasheet `dac43902-q1.pdf` (p.3-4 (pinout), p.5 (ROC), p.9 (SPI timing), p.18-20 (interface, NVM, comparator), p.21-30 (fade/animation SRAM, defaults), p.30-32 (SPI), p.35-36 (I2C), p.37-43 (registers)).
+
+- Bus: SPI mode 1
+- 8 bits, 1 channel(s), code —; vcc [1.7, 5.5]
+- 19 registers, 34 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - the part is a PWM generator: fade-in/fade-out and animation state machines, PWM outputs on the interface pins in standalone mode (VREF/MODE high), TRIG-IN comparator and TRIG-OUT are not modeled; the model is the programming mode (VREF/MODE low) register interface only
+  - threshold DACs are fixed at midscale and have no register (THRESH0 are internal read-only placeholders so the dac block has a register per channel)
+  - I2C programming interface (auto-detected at the first transaction after power-on; A0 strap to 0x48-0x4B per Table 7-16, broadcast 1000111): SPI is modeled because it reads back registers (4-wire with SDO_EN = 1)
+  - SDO is open-drain (all digital outputs are open-drain, p.18); the model drives it push-pull
+  - FSDO = 1 (SDO changes on SCLK falling edges): the model always shifts SDO as in FSDO = 0 (mode 1)
+  - daisy chain (4-wire mode: only the last 24 bits of a multiple-of-24 frame are used)
+  - SRAM access through SRAM_CONFIG/SRAM_DATA is modeled only for the documented SRAM words (20h-26h, one command per word, auto-increment after writes); at any other SRAM_ADDR a write or read of 2Ch reaches the plain SRAM_DATA register
+  - SRAM_DATA (2Ch) as a register in the register space only mirrors the last SRAM write; reads of 2Ch return the SRAM word at SRAM_ADDR
+  - NVM (NVM_PROG/NVM_RELOAD, NVM_BUSY, CRC flags) and the factory NVM defaults of the SRAM words (reset 0 used; PWM-MAX default 0xF7 does not fit its field)
+  - DEV_LOCK / DEV_UNLOCK register locking; RESERVED bits 'always write 0/1' are stored as written
+  - I2C timeout (TIMEOUT_EN) and the tDACWAIT 2 us sequential update wait
+
+### DAC43902
+
+automotive 8-bit smart DAC for PWM logarithmic fade-in fade-out with four PWM outputs, comparator trigger input, NVM and I2C/SPI programming interface. `specs/DAC43902.json`; datasheet `dac43902-q1.pdf` (p.3-4 (pinout), p.5 (ROC), p.9 (SPI timing), p.18-20 (interface, NVM, comparator), p.21-30 (fade/animation SRAM, defaults), p.30-32 (SPI), p.35-36 (I2C), p.37-43 (registers)).
+
+- Bus: SPI mode 1
+- 8 bits, 2 channel(s), code —; vcc [1.7, 5.5]
+- 19 registers, 30 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - the part is a PWM generator: fade-in/fade-out and animation state machines, PWM outputs on the interface pins in standalone mode (VREF/MODE high), TRIG-IN comparator and TRIG-OUT are not modeled; the model is the programming mode (VREF/MODE low) register interface only
+  - threshold DACs are fixed at midscale and have no register (THRESH0/THRESH1 are internal read-only placeholders so the dac block has a register per channel)
+  - I2C programming interface (auto-detected at the first transaction after power-on; A0 strap to 0x48-0x4B per Table 7-16, broadcast 1000111): SPI is modeled because it reads back registers (4-wire with SDO_EN = 1)
+  - SDO is open-drain (all digital outputs are open-drain, p.18); the model drives it push-pull
+  - FSDO = 1 (SDO changes on SCLK falling edges): the model always shifts SDO as in FSDO = 0 (mode 1)
+  - daisy chain (4-wire mode: only the last 24 bits of a multiple-of-24 frame are used)
+  - SRAM access through SRAM_CONFIG/SRAM_DATA is modeled only for the documented SRAM words (20h-25h, one command per word, auto-increment after writes); at any other SRAM_ADDR a write or read of 2Ch reaches the plain SRAM_DATA register
+  - SRAM_DATA (2Ch) as a register in the register space only mirrors the last SRAM write; reads of 2Ch return the SRAM word at SRAM_ADDR
+  - NVM (NVM_PROG/NVM_RELOAD, NVM_BUSY, CRC flags) and the factory NVM defaults of the SRAM words (reset 0 used; PWM-MAX default 0xF7 does not fit its field)
+  - DEV_LOCK / DEV_UNLOCK register locking; RESERVED bits 'always write 0/1' are stored as written
+  - I2C timeout (TIMEOUT_EN) and the tDACWAIT 2 us sequential update wait
+
+### DAC53001
+
+10-bit single voltage/current-output smart DAC with NVM, comparator and function generator; auto-detected I2C/PMBus or SPI (SPI modeled). `specs/DAC53001.json`; datasheet `dac63001.pdf` (p.3 (pins, Table 5-1), p.4 (ROC), p.11-12 (SPI timing), p.43 (reset, register-map lock), p.45 (power-down, Table 7-11), p.46 (SPI, Tables 7-12/7-13), p.51 (I2C address, Tables 7-15/7-16), p.53 (GPIO maps), p.54-71 (register map, Tables 7-20 to 7-47)).
+
+- Bus: SPI mode 1
+- 10 bits, 1 channel(s), code —; vcc [1.7, 5.5]
+- 27 registers, 11 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog side: voltage/current outputs, gain and reference selection, internal reference, comparator, margin and function generation (registers stored only; OUTx/FBx never driven)
+  - interface auto-detect: only the SPI port is modeled; the I2C/PMBus mode (address 1001xxx by A0: AGND 0x48, VDD 0x49, SDA 0x4A, SCL 0x4B; broadcast 0x47; general-call reset; same command byte = register address + MSDB/LSDB) is not
+  - GPIO/SDO: always used as SDO (MISO). The datasheet drives SDO only after SDO-EN = 1 (INTERFACE-CONFIG) and samples it per FSDO-EN; the model drives it from power on. GPIO input functions (LDAC, CLR, PD, PROTECT, RESET, margin trigger, NVM protect, lock) and STATUS outputs are not modeled
+  - daisy chain (frames of n x 24 bits use the last 24 bits in 4-wire mode); the model decodes the first 24 bits
+  - write echo: the next frame echoes the last accepted frame; a frame the model rejects (locked) shifts out zeros
+  - register-map lock: writes blocked while DEV-LOCK = 1 unless DEV-UNLOCK = 0101 is stored; COMMON-TRIGGER (unlock, reset, LDAC, CLR) is accepted while locked
+  - one action per frame: a COMMON-TRIGGER write with several trigger bits set runs only the first of RESET, LDAC, CLR; FAULT-DUMP, PROTECT, READ-ONE-TRIG, NVM-PROG and NVM-RELOAD are ignored
+  - CLR-SEL-X = 1 (clear to mid-scale) is not modeled: CLR always loads zero code
+  - broadcast write: channels with BRD-CONFIG-X = 1 get the code and update at once (SYNC-CONFIG ignored); the BRDCAST-DATA register itself keeps its last direct value only when no channel has BRD-CONFIG set
+  - COMMON-DAC-TRIG margin-high/low triggers (copy MARGIN-HIGH/LOW to the output) and function generation are stored only
+  - NVM (programming, reload, CRC, fault dump), SRAM indirect access (SRAM-DATA is a plain register), PMBus pages and PMBus-only registers, I2C timeout
+  - GENERAL-STATUS NVM-BUSY (shown in Table 7-20 but not in the field table, Table 7-36) is not modeled
+  - DAC busy/wait times (tDACWAIT, tBCASTWAIT 2 us), GPIO timing, SPI read clock limits (1.25/2.5 MHz)
+  - power-down: VOUT-PDN/IOUT-PDN bits stored only (outputs are Hi-Z/powered down at power on per the datasheet)
+  - DAC-X-DATA and the active registers are 16 bits wide (the 10-bit code left-aligned, as on the bus)
+  - single-channel part: the channel-1 registers (01h-06h, 19h) are stored and read back but drive no output
+  - Table 7-20 shows a DEEP-SLEEP-EN bit at GPIO-CONFIG bit 14; the field table (Table 7-38) gives bit 14 as don't care, so it is not modeled
+
+### DAC53002
+
+10-bit dual voltage/current-output smart DAC with NVM, comparator and function generator; auto-detected I2C/PMBus or SPI (SPI modeled). `specs/DAC53002.json`; datasheet `dac63001.pdf` (p.3 (pins, Table 5-1), p.4 (ROC), p.11-12 (SPI timing), p.43 (reset, register-map lock), p.45 (power-down, Table 7-11), p.46 (SPI, Tables 7-12/7-13), p.51 (I2C address, Tables 7-15/7-16), p.53 (GPIO maps), p.54-71 (register map, Tables 7-20 to 7-47)).
+
+- Bus: SPI mode 1
+- 10 bits, 2 channel(s), code —; vcc [1.7, 5.5]
+- 28 registers, 17 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog side: voltage/current outputs, gain and reference selection, internal reference, comparator, margin and function generation (registers stored only; OUTx/FBx never driven)
+  - interface auto-detect: only the SPI port is modeled; the I2C/PMBus mode (address 1001xxx by A0: AGND 0x48, VDD 0x49, SDA 0x4A, SCL 0x4B; broadcast 0x47; general-call reset; same command byte = register address + MSDB/LSDB) is not
+  - GPIO/SDO: always used as SDO (MISO). The datasheet drives SDO only after SDO-EN = 1 (INTERFACE-CONFIG) and samples it per FSDO-EN; the model drives it from power on. GPIO input functions (LDAC, CLR, PD, PROTECT, RESET, margin trigger, NVM protect, lock) and STATUS outputs are not modeled
+  - daisy chain (frames of n x 24 bits use the last 24 bits in 4-wire mode); the model decodes the first 24 bits
+  - write echo: the next frame echoes the last accepted frame; a frame the model rejects (locked) shifts out zeros
+  - register-map lock: writes blocked while DEV-LOCK = 1 unless DEV-UNLOCK = 0101 is stored; COMMON-TRIGGER (unlock, reset, LDAC, CLR) is accepted while locked
+  - one action per frame: a COMMON-TRIGGER write with several trigger bits set runs only the first of RESET, LDAC, CLR; FAULT-DUMP, PROTECT, READ-ONE-TRIG, NVM-PROG and NVM-RELOAD are ignored
+  - CLR-SEL-X = 1 (clear to mid-scale) is not modeled: CLR always loads zero code
+  - broadcast write: channels with BRD-CONFIG-X = 1 get the code and update at once (SYNC-CONFIG ignored); the BRDCAST-DATA register itself keeps its last direct value only when no channel has BRD-CONFIG set
+  - COMMON-DAC-TRIG margin-high/low triggers (copy MARGIN-HIGH/LOW to the output) and function generation are stored only
+  - NVM (programming, reload, CRC, fault dump), SRAM indirect access (SRAM-DATA is a plain register), PMBus pages and PMBus-only registers, I2C timeout
+  - GENERAL-STATUS NVM-BUSY (shown in Table 7-20 but not in the field table, Table 7-36) is not modeled
+  - DAC busy/wait times (tDACWAIT, tBCASTWAIT 2 us), GPIO timing, SPI read clock limits (1.25/2.5 MHz)
+  - power-down: VOUT-PDN/IOUT-PDN bits stored only (outputs are Hi-Z/powered down at power on per the datasheet)
+  - DAC-X-DATA and the active registers are 16 bits wide (the 10-bit code left-aligned, as on the bus)
+  - Table 7-20 shows a DEEP-SLEEP-EN bit at GPIO-CONFIG bit 14; the field table (Table 7-38) gives bit 14 as don't care, so it is not modeled
+
+### DAC53004
+
+10-bit quad voltage/current-output smart DAC with NVM, comparator and function generator; auto-detected I2C/PMBus or SPI (SPI modeled). `specs/DAC53004.json`; datasheet `dac53004.pdf` (p.3 (pins, Table 5-1), p.4 (ROC), p.11-13 (SPI timing, Figures 6-2/6-3), p.42 (reset, register-map lock), p.44 (power-down), p.45-46 (SPI, Tables 7-12/7-13), p.49-51 (I2C address, read sequence), p.52-53 (GPIO maps), p.53-70 (register map)).
+
+- Bus: SPI mode 1
+- 10 bits, 4 channel(s), code —; vcc [1.7, 5.5]
+- 48 registers, 45 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog side: voltage/current outputs, gain and reference selection, internal reference, comparator, margin and function generation (registers stored only; OUTx/FBx never driven)
+  - interface auto-detect: only the SPI port is modeled; the I2C/PMBus mode (address 1001xxx by A0: AGND 0x48, VDD 0x49, SDA 0x4A, SCL 0x4B; broadcast 0x47; general-call reset; same command byte = register address + MSDB/LSDB) is not
+  - GPIO/SDO: always used as SDO (MISO). The datasheet drives SDO only after SDO-EN = 1 (INTERFACE-CONFIG) and samples it per FSDO-EN; the model drives it from power on. GPIO input functions (LDAC, CLR, PD, PROTECT, RESET, deep sleep, margin trigger) and STATUS outputs are not modeled
+  - daisy chain (frames of n x 24 bits use the last 24 bits in 4-wire mode); the model decodes the first 24 bits
+  - write echo: the next frame echoes the last accepted frame; a frame the model rejects (locked) shifts out zeros
+  - register-map lock: writes blocked while DEV-LOCK = 1 unless DEV-UNLOCK = 0101 is stored; COMMON-TRIGGER (unlock, reset, LDAC, CLR) is accepted while locked
+  - one action per frame: a COMMON-TRIGGER write with several trigger bits set runs only the first of RESET, LDAC, CLR; FAULT-DUMP, PROTECT, READ-ONE-TRIG, NVM-PROG and NVM-RELOAD are ignored
+  - CLR-SEL-X = 1 (clear to mid-scale) is not modeled: CLR always loads zero code
+  - broadcast write: channels with BRD-CONFIG-X = 1 get the code and update at once (SYNC-CONFIG ignored); the BRDCAST-DATA register itself keeps its last direct value only when no channel has BRD-CONFIG set
+  - COMMON-DAC-TRIG margin-high/low triggers (copy MARGIN-HIGH/LOW to the output) and function generation are stored only
+  - DAC-X-DATA-8BIT registers (0x40-0x43) are stored but do not load the DAC
+  - NVM (programming, reload, CRC, fault dump), SRAM indirect access (SRAM-DATA is a plain register), PMBus pages and PMBus-only registers, I2C timeout, deep sleep
+  - DAC busy/wait times (tDACWAIT, tBCASTWAIT 2 us), LDAC/GPIO timing, SPI read clock limits (1.25/2.5 MHz)
+  - power-down: VOUT-PDN/IOUT-PDN bits stored only (outputs are Hi-Z/powered down at power on per the datasheet)
+  - DAC-X-DATA and the active registers are 16 bits wide (the 10-bit code left-aligned, as on the bus)
+
+### DAC5311
+
+8-bit low-power single-channel voltage-output DAC with 3-wire SPI-compatible interface (SC70). `specs/DAC5311.json`; datasheet `dac5311-q1.pdf` (p.3 (pins), p.4 (ROC), p.7 (timing, Figure 7-1), p.23-24 (POR, power-down), p.25 (input shift register, SYNC interrupt); dac5311-q1.pdf p.1-3 (pins, ROC 1.8 V min)).
+
+- Bus: SPI mode 2, write-only
+- 8 bits, 1 channel(s), code —; vcc [1.8, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DCK (SC70-6)
+- Not modeled:
+  - analog output, resistor string and output amplifier (VOUT is never driven)
+  - power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 are stored in CTRL.PD only; the DAC register is kept as the datasheet says
+  - 50 us power-down exit time and output settling time
+  - SCLK frequency and setup/hold limits (t1-t10)
+
+### DAC53202
+
+10-bit dual voltage/current-output smart DAC with NVM, comparator and function generator; auto-detected I2C/PMBus or SPI (SPI modeled). `specs/DAC53202.json`; datasheet `dac63202.pdf` (p.3 (pins, Table 5-1), p.4 (ROC), p.11-12 (SPI timing), p.41 (reset, register-map lock), p.43 (power-down, Table 7-11), p.44 (SPI, Tables 7-12/7-13), p.49 (I2C address, Tables 7-15/7-16), p.51 (GPIO maps), p.52-69 (register map, Tables 7-20 to 7-47)).
+
+- Bus: SPI mode 1
+- 10 bits, 2 channel(s), code —; vcc [1.7, 5.5]
+- 28 registers, 17 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog side: voltage/current outputs, gain and reference selection, internal reference, comparator, margin and function generation (registers stored only; OUTx/FBx never driven)
+  - interface auto-detect: only the SPI port is modeled; the I2C/PMBus mode (address 1001xxx by A0: AGND 0x48, VDD 0x49, SDA 0x4A, SCL 0x4B; broadcast 0x47; general-call reset; same command byte = register address + MSDB/LSDB) is not
+  - GPIO/SDO: always used as SDO (MISO). The datasheet drives SDO only after SDO-EN = 1 (INTERFACE-CONFIG) and samples it per FSDO-EN; the model drives it from power on. GPIO input functions (LDAC, CLR, PD, PROTECT, RESET, margin trigger, NVM protect, lock) and STATUS outputs are not modeled
+  - daisy chain (frames of n x 24 bits use the last 24 bits in 4-wire mode); the model decodes the first 24 bits
+  - write echo: the next frame echoes the last accepted frame; a frame the model rejects (locked) shifts out zeros
+  - register-map lock: writes blocked while DEV-LOCK = 1 unless DEV-UNLOCK = 0101 is stored; COMMON-TRIGGER (unlock, reset, LDAC, CLR) is accepted while locked
+  - one action per frame: a COMMON-TRIGGER write with several trigger bits set runs only the first of RESET, LDAC, CLR; FAULT-DUMP, PROTECT, READ-ONE-TRIG, NVM-PROG and NVM-RELOAD are ignored
+  - CLR-SEL-X = 1 (clear to mid-scale) is not modeled: CLR always loads zero code
+  - broadcast write: channels with BRD-CONFIG-X = 1 get the code and update at once (SYNC-CONFIG ignored); the BRDCAST-DATA register itself keeps its last direct value only when no channel has BRD-CONFIG set
+  - COMMON-DAC-TRIG margin-high/low triggers (copy MARGIN-HIGH/LOW to the output) and function generation are stored only
+  - NVM (programming, reload, CRC, fault dump), SRAM indirect access (SRAM-DATA is a plain register), PMBus pages and PMBus-only registers, I2C timeout
+  - GENERAL-STATUS NVM-BUSY (shown in Table 7-20 but not in the field table, Table 7-36) is not modeled
+  - DAC busy/wait times (tDACWAIT, tBCASTWAIT 2 us), GPIO timing, SPI read clock limits (1.25/2.5 MHz)
+  - power-down: VOUT-PDN/IOUT-PDN bits stored only (outputs are Hi-Z/powered down at power on per the datasheet)
+  - DAC-X-DATA and the active registers are 16 bits wide (the 10-bit code left-aligned, as on the bus)
+
+### DAC53204
+
+10-bit quad voltage/current-output smart DAC with NVM, comparator and function generator; auto-detected I2C/PMBus or SPI (SPI modeled). `specs/DAC53204.json`; datasheet `dac53204.pdf` (p.3 (pins, Table 5-1), p.4 (ROC), p.11-12 (SPI timing), p.41-42 (reset, register-map lock), p.43 (power-down), p.44-45 (SPI), p.48-50 (I2C), p.52-69 (register map); dac53204w.pdf (SLASF71A) p.3 (YBH ball map, Table 4-1), p.4 (ROC), p.46-47 (SPI), p.54-70 (same register map, same DEVICE-ID)).
+
+- Bus: SPI mode 1
+- 10 bits, 4 channel(s), code —; vcc [1.7, 5.5]
+- 48 registers, 45 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE), YBH (DSBGA-16-YBH)
+- Not modeled:
+  - analog side: voltage/current outputs, gain and reference selection, internal reference, comparator, margin and function generation (registers stored only; OUTx/FBx never driven)
+  - interface auto-detect: only the SPI port is modeled; the I2C/PMBus mode (address 1001xxx by A0: AGND 0x48, VDD 0x49, SDA 0x4A, SCL 0x4B; broadcast 0x47; general-call reset; same command byte = register address + MSDB/LSDB) is not
+  - GPIO/SDO: always used as SDO (MISO). The datasheet drives SDO only after SDO-EN = 1 (INTERFACE-CONFIG) and samples it per FSDO-EN; the model drives it from power on. GPIO input functions (LDAC, CLR, PD, PROTECT, RESET, deep sleep, margin trigger) and STATUS outputs are not modeled
+  - daisy chain (frames of n x 24 bits use the last 24 bits in 4-wire mode); the model decodes the first 24 bits
+  - write echo: the next frame echoes the last accepted frame; a frame the model rejects (locked) shifts out zeros
+  - register-map lock: writes blocked while DEV-LOCK = 1 unless DEV-UNLOCK = 0101 is stored; COMMON-TRIGGER (unlock, reset, LDAC, CLR) is accepted while locked
+  - one action per frame: a COMMON-TRIGGER write with several trigger bits set runs only the first of RESET, LDAC, CLR; FAULT-DUMP, PROTECT, READ-ONE-TRIG, NVM-PROG and NVM-RELOAD are ignored
+  - CLR-SEL-X = 1 (clear to mid-scale) is not modeled: CLR always loads zero code
+  - broadcast write: channels with BRD-CONFIG-X = 1 get the code and update at once (SYNC-CONFIG ignored); the BRDCAST-DATA register itself keeps its last direct value only when no channel has BRD-CONFIG set
+  - COMMON-DAC-TRIG margin-high/low triggers (copy MARGIN-HIGH/LOW to the output) and function generation are stored only
+  - DAC-X-DATA-8BIT registers (0x40-0x43) are stored but do not load the DAC
+  - NVM (programming, reload, CRC, fault dump), SRAM indirect access (SRAM-DATA is a plain register), PMBus pages and PMBus-only registers, I2C timeout, deep sleep
+  - DAC busy/wait times (tDACWAIT, tBCASTWAIT 2 us), LDAC/GPIO timing, SPI read clock limits (1.25/2.5 MHz)
+  - power-down: VOUT-PDN/IOUT-PDN bits stored only (outputs are Hi-Z/powered down at power on per the datasheet)
+  - DAC-X-DATA and the active registers are 16 bits wide (the 10-bit code left-aligned, as on the bus)
+
+### DAC53401
+
+10-bit single-channel voltage-output smart DAC with NVM and PMBus-compatible I2C interface. `specs/DAC53401.json`; datasheet `dac43401-q1.pdf` (p.3 (pinout), p.4 (ROC), p.7-8 (I2C timing), p.27-31 (I2C, address, command byte, read), p.32-38 (registers); dac53401.pdf p.36 (D2h)).
+
+- Bus: I2C 0x48, 0x49, 0x4B, 0x4A
+- 10 bits, 1 channel(s), code —; vcc [1.71, 5.5]
+- 10 registers, 1 commands; frame fixed
+- Packages: DSG (WSON-8-DSG)
+- Not modeled:
+  - analog output, force-sense FB pin, internal reference / VDD reference, DAC_SPAN gain and power-down output loads (stored only; OUT is never driven)
+  - broadcast address 1000111 (write-only, responds regardless of A0): not expressible
+  - A0 is sampled during the first byte of each frame (the model reads it live)
+  - NVM (NVM_PROG/NVM_RELOAD, NVM_BUSY, CRC alarms): power-on values are the datasheet's factory defaults
+  - DEVICE_LOCK / DEVICE_UNLOCK_CODE register locking
+  - waveform generation (triangle, sawtooth, square), slew-rate control, margin high/low, PMBus commands and (commercial parts) medical alarm waveforms; self-clearing trigger bits stay as written
+  - PMBus byte-wide commands (PMBUS_OPERATION, PMBUS_STATUS_BYTE written or read as one data byte when EN_PMBUS = 1) and CML write-one-to-clear: the model always moves 16-bit words
+  - MED_ALARM_CONFIG (D2h) exists only on the commercial parts (dac53401.pdf); the -Q1 datasheet does not list it, the model has it on every part
+  - write-only fields read back as written (the datasheet does not say what reads of W bits return)
+  - I2C fast-mode-plus timing limits
+  - software reset (SW_RESET = 1010) reloads the DAC registers from NVM and DEVICE_CONFIG_RESET loads factory values; both are modeled as the reset action (NVM equals the factory defaults in the model)
+
+### DAC53508
+
+10-bit octal buffered voltage-output DAC with SPI write-only interface, LDAC and CLR. `specs/DAC53508.json`; datasheet `dac43508.pdf` (p.3 (pinout), p.4 (ROC), p.7 (SPI/logic timing), p.19-20 (update, LDAC, CLR, reset), p.21 (SPI frame), p.22-24 (registers)).
+
+- Bus: SPI mode 1, write-only
+- 10 bits, 8 channel(s), code —; vcc [1.8, 5.5]
+- 20 registers, 7 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog outputs, external reference and power-down output loads (DEVICE_CONFIG stored only; VOUTx are never driven)
+  - the interface is write-only (p.21): no register can be read back
+  - only the first 24 bits of a longer frame are used: the model also uses the first 24 (fixed frame), but it updates at the 24th clock rather than the 24th rising edge
+  - CLR also zeroes the DAC buffer registers (p.19); the model's clear pin sets the active registers to zero code
+  - 5 ms power-on delay before communication is valid
+  - SCLK idle level: Figure 5-1 shows data sampled on SCLK falling edges with SCLK low before the first rising edge (mode 1); a mode 2 host also works on the real part
+
+### DAC53608
+
+10-bit octal voltage-output DAC with I2C interface, LDAC and CLR. `specs/DAC53608.json`; datasheet `dac53608.pdf` (p.3 (pins), p.4 (ROC), p.7-8 (I2C, logic timing), p.20-22 (LDAC, CLR, POR, reset, power-down, general call), p.23-25 (I2C protocol), p.26-28 (registers)).
+
+- Bus: I2C 0x48, 0x49, 0x4B, 0x4A
+- 10 bits, 8 channel(s), code —; vcc [1.8, 5.5]
+- 19 registers, 4 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog outputs and reference (VOUTx never driven); power-down bits stored only (outputs start powered down, 10 kOhm to AGND)
+  - broadcast I2C address 1000111 (0x47) for multi-device update/power-down
+  - reading back the last register written by a read with no command byte (the read pointer moves only with a 1-byte command write)
+  - BRDCAST register: a broadcast write loads every channel; the BRDCAST register keeps its reset value
+  - 5 ms communication delay after power-on, LDAC/CLR pulse-width and setup timing
+  - align "end" is used so a 1-byte command (read setup) and a 3-byte write can both be decoded
+  - DAC data registers are 16 bits wide (the code MSB-aligned in bits 11-2, as on the bus)
+
+### DAC53701
+
+10-bit single-channel voltage-output smart DAC with NVM, GPI control and PMBus-compatible I2C interface. `specs/DAC53701.json`; datasheet `dac43701.pdf` (p.3 (pinout), p.4 (ROC), p.7-8 (I2C/GPI timing), p.20 (GPI), p.29-33 (I2C, address, command byte, read), p.34-42 (registers)).
+
+- Bus: I2C 0x48
+- 10 bits, 1 channel(s), code —; vcc [1.71, 5.5]
+- 10 registers, 1 commands; frame fixed
+- Packages: DSG (WSON-8-DSG)
+- Not modeled:
+  - analog output, force-sense FB pin, internal reference / VDD reference, DAC_SPAN gain and power-down output loads (stored only; OUT is never driven)
+  - I2C address programmed through CONFIG2.SLAVE_ADDRESS (0x48-0x4B, p.32 Table 8-13 and the GPI-assisted procedure): the bus answers at the default 0x48 only; SLAVE_ADDRESS is stored
+  - broadcast address 1000111 (write-only, responds regardless of the address): not expressible
+  - GPI pin functions (Table 8-1: edge-triggered power-up/down, margin high/low, function generation start/stop, medical alarms, address-update enable): the pin is only an input
+  - NVM (NVM_PROG/NVM_RELOAD, NVM_BUSY, CRC alarms): power-on values are the datasheet's factory defaults
+  - DEVICE_LOCK / DEVICE_UNLOCK_CODE register locking
+  - waveform generation (triangle, sawtooth, square), slew-rate control, margin high/low, PMBus commands and medical alarm waveforms; self-clearing trigger bits stay as written
+  - PMBus byte-wide commands (PMBUS_OPERATION, PMBUS_STATUS_BYTE written or read as one data byte when EN_PMBUS = 1) and CML write-one-to-clear: the model always moves 16-bit words
+  - write-only fields read back as written (the datasheet does not say what reads of W bits return)
+  - I2C fast-mode-plus timing limits
+  - software reset (SW_RESET = 1010) reloads the DAC registers from NVM and DEVICE_CONFIG_RESET loads factory values; both are modeled as the reset action (NVM equals the factory defaults in the model)
+
+### DAC539E4
+
+10-bit quad threshold smart DAC with comparators, LUT-based GPO mapping, NVM and auto-detected I2C/SPI (SPI modeled). `specs/DAC539E4.json`; datasheet `dac539e4w.pdf` (p.3-4 (pinout), p.5 (abs max, ROC), p.10-12 (SPI timing), p.22-24 (interface, NVM, reset), p.29-30 (SPI frame), p.33-34 (I2C), p.35-45 (register map)).
+
+- Bus: SPI mode 1
+- 10 bits, 4 channel(s), code —; vcc [1.7, 5.5]
+- 48 registers, 90 commands; frame fixed
+- Packages: YBH (DSBGA-16-YBH)
+- Not modeled:
+  - the analog side: threshold DACs, comparators (hysteresis, inversion, open-drain OUTx), gain/reference selection, internal reference and VOUT power-down (registers stored only; OUTx never driven, CMP_STATUS stays 0)
+  - standalone mode (MODE pin high): the LUT state machine mapping comparator states to GPO0-GPO3 and LOOP-WAIT delay; the model is the programming mode (MODE low) register interface only, with GPO0-GPO3 as the interface pins
+  - I2C programming interface (auto-detected at the first transaction after power-on; A0 strap to 0x48 AGND, 0x49 VDD, 0x4A SDA, 0x4B SCL per Table 6-12; broadcast 1000111): SPI is modeled because it reads back registers (4-wire with SDO_EN = 1)
+  - SDO (GPO3) is open-drain with an external pullup; the model drives it push-pull
+  - FSDO = 1 (SDO changes on SCLK falling edges): the model always shifts SDO as in FSDO = 0
+  - frames longer than 24 bits (3-wire mode uses the first 24 bits) and frames shorter than 24 bits (ignored)
+  - SRAM access through SRAM_CONFIG/SRAM_DATA is modeled only for the documented SRAM words (21h-35h, one command per word, auto-increment after writes); at any other SRAM_ADDR a write or read of 2Ch reaches the plain SRAM_DATA register
+  - the DAC-x-DATA codes are 16-bit SRAM words with the 10-bit code left-aligned in [15:6] (the register figures put DAC-x-DATA[9:0] in bits 15-4, Table 7-4 on p.49 in 0x21[15:6]; [15:6] used, also for MARGIN-HIGH/LOW); reset 8000h (mid scale)
+  - NVM (NVM_PROG/NVM_RELOAD, NVM_BUSY, CRC flags) and the NVM-loaded power-on values (datasheet resets used)
+  - DEV_LOCK / DEV_UNLOCK register locking; RESERVED bits 'always write 0/1' are stored as written
+  - COMMON-DAC-TRIG latching-comparator flag resets (write-only trigger bits, read as 0)
+  - STATE-MACHINE-CONFIG0 reset: header 0003h used (the field table lists 0 for SM-START and SM-EN)
+  - I2C timeout (TIMEOUT_EN), DAC busy flags and SPI read clock limits (1.25/2.5 MHz)
+
+### DAC5571
+
+8-bit single-channel voltage-output DAC with I2C interface and power-down. `specs/DAC5571.json`; datasheet `dac5571.pdf` (p.1-2 (pinout), p.3 (VDD, logic levels), p.4-5 (I2C timing), p.15-16 (I2C protocol, data bytes), p.17 (power-on reset, power-down modes)).
+
+- Bus: I2C 0x4C, 0x4D
+- 8 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame stream
+- Packages: DBV (SOT23-6)
+- Not modeled:
+  - analog output, settling and power-down output loads (PD bits stored only; the output is never driven)
+  - broadcast address 1001000 (responds regardless of A0): not expressible in the address table
+  - address pin A0 is latched at power-up (the model reads it live)
+  - I2C high-speed mode master code and timing limits
+  - the 0 0 bits of the CTRL/MSB byte: a byte with them nonzero is ignored rather than handled as the datasheet leaves undefined
+
+### DAC5573
+
+8-bit quad voltage-output DAC with I2C interface, LDAC, extended address pins and power-down. `specs/DAC5573.json`; datasheet `dac5573.pdf` (p.2 (pinout), p.3-4 (supplies, logic levels), p.5-6 (I2C timing), p.14-17 (address, control byte, Table 2, LDAC, registers), p.19-23 (write/read sequences), p.23-24 (power-on reset, power-down)).
+
+- Bus: I2C 0x4C, 0x4D, 0x4E, 0x4F
+- 8 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 9 registers, 29 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs, reference and power-down output loads (power-down bits stored in the internal PDN register only; outputs never driven)
+  - multi-word transactions: the datasheet lets MSB/LSB byte pairs repeat after one control byte until STOP / repeated START (Table 4 note 2) and keeps the control byte for later updates; the model decodes only the last control byte + MSB + LSB (or the lone control byte) before the transaction ends (align end)
+  - power-down bits are kept per channel in PDN and take effect immediately: the TRx-only (L=00) and DACx (L=01) distinction for power-down data is not modeled; normal data writes do not clear them
+  - broadcast I2C address 1001 0000 (responds regardless of the address pins) is not expressible; the broadcast-mode control bytes (L=11) are decoded at the device's own address
+  - extended address bits C7 C6 must equal pins A3 A2 for a data update (not compared: the pattern cannot match a captured value against a pin; any A3 A2 is accepted)
+  - read-back returns the temporary register of the selected channel (the datasheet does not say whether TRx or DRx is read)
+  - address pins latched at power-up (the model reads them live)
+  - I2C high-speed mode master code and timing
+
+### DAC5574
+
+8-bit quad voltage-output DAC with I2C interface and power-down. `specs/DAC5574.json`; datasheet `dac5574.pdf` (p.2 (pinout), p.3 (VDD, logic levels), p.4-5 (I2C timing), p.13-16 (address, control byte, Table 2, registers), p.18-22 (write/read sequences), p.22-23 (power-on reset, power-down)).
+
+- Bus: I2C 0x4C, 0x4D, 0x4E, 0x4F
+- 8 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 9 registers, 29 commands; frame fixed
+- Packages: DGS (VSSOP-10)
+- Not modeled:
+  - analog outputs, reference and power-down output loads (power-down bits stored in the internal PDN register only; outputs never driven)
+  - multi-word transactions: the datasheet lets MSB/LSB byte pairs repeat after one control byte until STOP / repeated START (Table 4 note 2) and keeps the control byte for later updates; the model decodes only the last control byte + MSB + LSB (or the lone control byte) before the transaction ends (align end)
+  - power-down bits are kept per channel in PDN and take effect immediately: the TRx-only (L=00) and DACx (L=01) distinction for power-down data is not modeled; normal data writes do not clear them
+  - broadcast I2C address 1001 0000 (responds regardless of the address pins) is not expressible; the broadcast-mode control bytes (L=11) are decoded at the device's own address
+  - C7 C6 must be 0 0 (bytes with them set are ignored, except broadcast mode which treats them as don't care)
+  - read-back returns the temporary register of the selected channel (the datasheet does not say whether TRx or DRx is read)
+  - address pins latched at power-up (the model reads them live)
+  - I2C high-speed mode master code and timing
+
+### DAC5578
+
+8-bit octal voltage-output DAC with I2C interface, LDAC, CLR and power-down. `specs/DAC5578.json`; datasheet `dac5578.pdf` (p.5 (pinouts), p.6 (timing), p.7-8 (AVDD, logic levels), p.30-33 (address, CA byte, data formats, read sequence), p.34-37 (write/read command matrices), p.38-39 (POR, LDAC, power-down, clear code, reset)).
+
+- Bus: I2C 0x48, 0x4A
+- 8 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 19 registers, 59 commands; frame fixed
+- Packages: PW (TSSOP-16), RGE (VQFN-24-RGE)
+- Not modeled:
+  - analog outputs, reference and power-down output loads (PWR stored only; outputs never driven)
+  - I2C address strap float levels (TSSOP ADDR0 float = 0x4C; QFN Table 3 float combinations 0x4C-0x4F) are not expressible; the RGE package uses its own two-pin table (ADDR0, ADDR1 at GND/AVDD: 0x48-0x4B, p.30)
+  - broadcast I2C address 1000 111 (Table 9, write only) is not expressible
+  - multi-word writes (Example 4: MSDB/LSDB pairs repeat after one CA byte) and the retained CA byte: the model decodes only the last CA byte + MSDB + LSDB (or a lone CA byte for a read) before the transaction ends (align end)
+  - LDAC: modeled as level-sensitive active low (tied low = synchronous update at the LSDB acknowledge; a falling edge after loading = asynchronous update); the per-channel LDAC register mask (1 = channel ignores the pin) is stored only
+  - CLR: clear code 11 disables the pin (not modeled: the model's map has no code for 11); clear mode exits at the next write (the model loads the code once on the falling edge)
+  - QFN RSTSEL (power-on zero or mid scale) and TWOC (two's complement data format) pins: reset values are zero scale; data is stored as written
+  - software reset high-speed mode options (Table 17) and I2C high-speed mode
+  - invalid access codes (1000-1110) are ignored (no command matches)
+
+### DAC5652
+
+dual 10-bit 275 MSPS current-output DAC with two parallel CMOS input ports (or one interleaved port). `specs/DAC5652.json`; datasheet `dac5652.pdf` (p.3 (pinout, Table 5-1), p.4 (abs max, ROC: DVDD 3.0-3.6 V), p.8 (digital inputs, switching characteristics), p.12-13 (digital inputs and timing: dual-bus and interleaved modes), p.20 (sleep / device functional modes); dac5652a.pdf (SLAS535F) p.4-5 pin functions incl. the VQFN (RSL) column).
+
+- Bus: parallel 20-bit
+- 10 bits, 2 channel(s), code —; vcc [3.0, 3.6]
+- 4 registers, 1 commands; frame fixed
+- Packages: PFB (TQFP-48-7X7), RSL (VQFN-48-RSL)
+- Not modeled:
+  - analog current outputs, reference (internal or external on EXTIO), full-scale bias (BIASJ_A/B), gain-setting mode GSET (strap only)
+  - independent WRTB latch: the model latches port B (DB) at WRTA rising together with port A (exact when WRTA = WRTB); WRTB/SELECTIQ is not used
+  - CLKA copies both input latches to both DAC latches (one LDAC pin); CLKB is not modeled
+  - interleaved single-bus mode (MODE low: WRTIQ, CLKIQ divided by 2, SELECTIQ, RESETIQ): the model always works as the dual-bus mode (MODE high, the internal-pullup default)
+  - the 4-clock pipeline latency (tLAT), setup/hold times and the CLK-before-WRT ordering are not checked
+  - internal pulldowns on DA/DB and SLEEP, pullups on MODE and GSET (Z reads 0; the SLEEP default matches)
+  - power-on contents of the latches are not given (0 used)
+
+### DAC5662
+
+dual 12-bit 275 MSPS current-output DAC with two parallel CMOS input ports (or one interleaved port). `specs/DAC5662.json`; datasheet `dac5662.pdf` (p.4 (pinout, Table 5-1), p.5 (ROC: DVDD 3.0-3.6 V), p.10 (digital inputs, switching characteristics), p.14-16 (digital inputs and timing: dual-bus and interleaved modes)).
+
+- Bus: parallel 24-bit
+- 12 bits, 2 channel(s), code —; vcc [3.0, 3.6]
+- 4 registers, 1 commands; frame fixed
+- Packages: PFB (TQFP-48-7X7)
+- Not modeled:
+  - analog current outputs, reference (internal or external on EXTIO), full-scale bias (BIASJ_A/B), gain-setting mode GSET (strap only)
+  - independent WRTB latch: the model latches port B (DB) at WRTA rising together with port A (exact when WRTA = WRTB); WRTB/SELECTIQ is not used
+  - CLKA copies both input latches to both DAC latches (one LDAC pin); CLKB is not modeled
+  - interleaved single-bus mode (MODE low: WRTIQ, CLKIQ divided by 2, SELECTIQ, RESETIQ): the model always works as the dual-bus mode (MODE high, the internal-pullup default)
+  - the 4-clock pipeline latency (tLAT), setup/hold times and the CLK-before-WRT ordering are not checked
+  - internal pulldowns on DA/DB and SLEEP, pullups on MODE and GSET (Z reads 0; the SLEEP default matches)
+  - power-on contents of the latches are not given (0 used)
+
+### DAC5672
+
+dual 14-bit 275 MSPS current-output DAC with two parallel CMOS input ports (or one interleaved port). `specs/DAC5672.json`; datasheet `dac5672.pdf` (p.3-4 (pinout, pin functions), p.5 (ROC: DVDD 3.0-3.6 V), p.9 (digital inputs, switching characteristics), p.16-20 (digital inputs and timing: dual-bus and interleaved modes)).
+
+- Bus: parallel 14-bit
+- 14 bits, 2 channel(s), code —; vcc [3.0, 3.6]
+- 4 registers, 1 commands; frame fixed
+- Packages: PFB (TQFP-48-7X7)
+- Not modeled:
+  - analog current outputs, reference (internal or external on EXTIO), full-scale bias (BIASJ_A/B), gain-setting mode GSET (strap only)
+  - data port B (DB13-DB0, WRTB, CLKB): a parallel bus has one write strobe and at most 24 data pins, so DAC B is never written (2 x 14 data pins do not fit one bus)
+  - CLKA copies both input latches to both DAC latches (one LDAC pin); CLKB is not modeled
+  - interleaved single-bus mode (MODE low: WRTIQ, CLKIQ divided by 2, SELECTIQ, RESETIQ): the model always works as the dual-bus mode (MODE high, the internal-pullup default)
+  - the 4-clock pipeline latency (tLAT), setup/hold times and the CLK-before-WRT ordering are not checked
+  - internal pulldowns on DA/DB and SLEEP, pullups on MODE and GSET (Z reads 0; the SLEEP default matches)
+  - power-on contents of the latches are not given (0 used)
+
+### DAC5674
+
+14-bit 400 MSPS 2x/4x interpolating current-output DAC with 14-bit CMOS data input and PLL clock multiplier. `specs/DAC5674.json`; datasheet `dac5674.pdf` (p.2 (abs max), p.3 (supply ranges), p.5 (digital specs, input timing), p.6-7 (pinout, terminal functions), p.19-20 (clock generation, Table 4), p.23-24 (digital inputs, offset binary, clock/data timing)).
+
+- Bus: parallel 14-bit
+- 14 bits, 1 channel(s), code —; vcc [1.65, 3.6]
+- 1 registers, 1 commands; frame fixed
+- Packages: PHP (HTQFP-48-PHP)
+- Not modeled:
+  - analog current outputs IOUT1/IOUT2, internal 1.2 V reference (EXTIO/EXTLO), full-scale current bias (BIASJ)
+  - interpolation filters (X4, HP1, HP2 pins) and the 26/35 clock data-to-output latency; the stored word is the last word latched
+  - clock modes: the model latches D[13:0] on every CLK rising edge (internal PLL mode, CLK = data rate). In external clock mode (PLLVDD = 0 V) CLK runs at the DAC update rate and the data clock is CLK/2 or CLK/4, output on PLLLOCK; PLL, DIV[1:0] prescaler and the PLLLOCK lock/clock output are not modeled
+  - CLK/CLKC are a differential clock input: the model uses CLK alone
+  - SLEEP asynchronous power-down (analog only; not modeled)
+  - power-on value of the input latch is not given in the datasheet (reset 0 is used); data coding is offset binary (16383 = full scale on IOUT1)
+  - DVDD (1.65-1.95 V core supply) is a digital supply inside the IODVDD vcc range; the inputs are referred to IOVDD (VIH 0.7 IOVDD), SLEEP/EXTLO to AVDD
+
+### DAC5686
+
+16-bit 500 MSPS 2x-16x interpolating dual current-output DAC with NCO, dual 16-bit CMOS data inputs and 3/4-wire serial configuration port. `specs/DAC5686.json`; datasheet `dac5686.pdf` (p.4 (pinout), p.5-6 (terminal functions), p.8 (supply ranges), p.10-11 (serial port timing, td(DATA) 10 ns), p.22-24 (serial interface), p.38-42 (register map)).
+
+- Bus: SPI mode 0
+- 16 bits, 2 channel(s), code —; vcc [1.65, 3.6]
+- 18 registers, 116 commands; frame fixed
+- Packages: PZP (HTQFP-100-PZP)
+- Not modeled:
+  - DAC data path: DA[15:0]/DB[15:0] are clocked by CLK1/PLLLOCK into the interpolation filters; the model has no way to run the clocked data bus beside the serial port (bus and configBus share one command decoder), so DATA_A/DATA_B are internal, stay at reset and the data pins are plain inputs
+  - interpolation (x2-x16), NCO/mixer, single-sideband / quadrature modes, inverse sinc, counter mode, gain/offset registers: stored only
+  - clock generation (PLL, PLLVDD strap, dual-clock / external-clock modes, PLLLOCK output), PHSTR sync, QFLAG / TxENABLE interleave and TxENABLE-low midscale
+  - 4-pin serial mode (CONFIG_MSB.SIF4 = 1: SDO is the output, SDIO input only) is not modeled: read data always comes out on SDIO (3-pin mode, the reset default); SDO stays low
+  - multibyte transfers whose decrementing address would pass below 0x00 are ignored (not specified)
+  - chip_ver version bits read 0x5; atest must be 0 (stored)
+  - SLEEP asynchronous power-down and sleepa/sleepb (analog only); TESTMODE must be DGND
+  - CLK1/CLK1C, CLK2/CLK2C differential clock inputs not used by the model
+  - DVDD (1.65-1.95 V core supply) lies inside the IOVDD vcc range 1.65-3.6 V and is treated as a digital supply
+
+### DAC5687
+
+16-bit 500 MSPS 2x-8x interpolating dual current-output DAC with NCO, QMC, dual 16-bit CMOS data inputs and 3/4-wire serial configuration port. `specs/DAC5687.json`; datasheet `dac5687.pdf` (p.3 (pinout), p.4-5 (terminal functions), p.8 (supply ranges), p.10 (serial port timing, td(Data) 10 ns), p.24-31 (register map), p.32-33 (serial interface)).
+
+- Bus: SPI mode 0
+- 16 bits, 2 channel(s), code —; vcc [1.71, 3.6]
+- 34 registers, 244 commands; frame fixed
+- Packages: PZP (HTQFP-100-PZP)
+- Not modeled:
+  - DAC data path: DA[15:0]/DB[15:0] (latched by CLK1 / PLLLOCK, FIFO) are not modeled because the clocked data bus cannot run beside the serial port (bus and configBus share one command decoder); the DAC registers DATA_A/DATA_B hold the serial ser_data word (SER_DATA_1:SER_DATA_0), which drives both DACs only when CONFIG3.DAC_SER_DATA = 1
+  - interpolation, NCO, coarse mixer, QMC gain/phase/offset, inverse sinc, counter mode, half-rate and interleaved input: stored only; offset/QMC registers take effect only after DACA_OFFSET_0 is written (not modeled)
+  - clock generation (PLL, PLLVDD strap, external / dual-clock modes, FIFO, PLLLOCK output, atest clock outputs), PHSTR / QFLAG / TXENABLE synchronization; TXENABLE low forcing the data path to 0
+  - 4-pin serial mode (CONFIG3.SIF_4PIN = 1: SDO output, SDIO input only) is not modeled: read data always comes out on SDIO (3-pin mode, the reset default); SDO stays low
+  - multibyte transfers whose decrementing address would pass below 0x00 are ignored (not specified)
+  - SLEEP pin and sleep_daca/sleep_dacb (analog power-down); TESTMODE must be DGND
+  - DVDD (1.71-2.15 V core supply) lies inside the IOVDD vcc range 1.71-3.6 V and is treated as a digital supply
+
+### DAC5688
+
+16-bit 800 MSPS 2x-8x interpolating dual current-output DAC with NCO, QMC, PLL clock multiplier, dual 16-bit CMOS data inputs and 3/4-wire serial port. `specs/DAC5688.json`; datasheet `dac5688.pdf` (p.2-3 (pinout, pin functions), p.5 (supply ranges), p.7 (td(Data) 10 ns), p.15-25 (register map), p.25-27 (serial interface)).
+
+- Bus: SPI mode 0
+- 16 bits, 2 channel(s), code —; vcc [3.0, 3.6]
+- 33 registers, 236 commands; frame fixed
+- Packages: RGC (VQFN-64-RGC)
+- Not modeled:
+  - DAC data path: DA[15:0]/DB[15:0] (FIFO, clocked by CLK2 / CLKO_CLK1) are not modeled because the clocked data bus cannot run beside the serial port (bus and configBus share one command decoder); DATA_A/DATA_B hold the serial ser_dac_data word (CONFIG21:CONFIG20), which drives both DACs only when CONFIG4.SER_DAC_DATA_ENA = 1
+  - interpolation, NCO/mixer, QMC gain/phase/offset, FIFO and sync sources, output delay, A=B/B=A, bus reversal, clock modes and delays: stored only; synced registers (CONFIG6-19) take effect only on the selected sync event (not modeled)
+  - 4-pin serial mode (CONFIG5.SIF4 = 1: SDO output, SDIO input only) is not modeled: read data always comes out on SDIO (3-pin mode, the reset default); SDO stays low
+  - multibyte transfers whose decrementing address would pass below 0x00 are ignored (not specified); address 0x1F is not in the register map (ignored)
+  - STATUS0 is modeled read-only as a whole (its unused/reserved bits included); the version bits read as the documented default
+  - io_1p8_3p3 input threshold selection (IOVDD stays 3.3 V); TXENABLE low forcing the data path to 0; SYNC pin
+  - DVDD, CLKVDD and VFUSE are 1.8 V supplies (1.7-1.9 V) outside the 3.0-3.6 V IOVDD range; they are listed with the analog pins so the voltage check skips them
+  - PLL clock multiplier (PLL_M/N, LPF, PLL_lock status reads 0) and the LOCK_CLK1C lock output
+
+### DAC5689
+
+16-bit 800 MSPS 2x-8x interpolating dual current-output DAC with NCO, QMC, dual 16-bit CMOS data inputs and 3/4-wire serial port (no PLL). `specs/DAC5689.json`; datasheet `dac5689.pdf` (p.2-4 (pinout, terminal functions), p.5 (supply ranges), p.7 (td(Data) 10 ns), p.15-22 (register map), p.22-23 (serial interface)).
+
+- Bus: SPI mode 0
+- 16 bits, 2 channel(s), code —; vcc [3.0, 3.6]
+- 33 registers, 236 commands; frame fixed
+- Packages: RGC (VQFN-64-RGC)
+- Not modeled:
+  - DAC data path: DA[15:0]/DB[15:0] (FIFO, clocked by CLK2 / CLKO_CLK1) are not modeled because the clocked data bus cannot run beside the serial port (bus and configBus share one command decoder); DATA_A/DATA_B hold the serial ser_dac_data word (CONFIG21:CONFIG20), which drives both DACs only when CONFIG4.SER_DAC_DATA_ENA = 1
+  - interpolation, NCO/mixer, QMC gain/phase/offset, FIFO and sync sources, output delay, A=B/B=A, bus reversal, clock modes and delays: stored only; synced registers (CONFIG6-19) take effect only on the selected sync event (not modeled)
+  - 4-pin serial mode (CONFIG5.SIF4 = 1: SDO output, SDIO input only) is not modeled: read data always comes out on SDIO (3-pin mode, the reset default); SDO stays low
+  - multibyte transfers whose decrementing address would pass below 0x00 are ignored (not specified); address 0x1F is not in the register map (ignored)
+  - STATUS0 is modeled read-only as a whole (its unused/reserved bits included); the version bits read as the documented default
+  - io_1p8_3p3 input threshold selection (IOVDD stays 3.3 V); TXENABLE low forcing the data path to 0; SYNC pin
+  - DVDD, CLKVDD and VFUSE are 1.8 V supplies (1.7-1.9 V) outside the 3.0-3.6 V IOVDD range; they are listed with the analog pins so the voltage check skips them
+
+### DAC60096
+
+96-channel 12-bit +/-10.5 V unbuffered-output DAC with SPI, LDAC, CLEAR and toggle (TRIGG) inputs. `specs/DAC60096.json`; datasheet `dac60096.pdf` (p.3 (ball map), p.4-5 (pin functions), p.6 (ROC), p.10-11 (timing), p.19-20 (data format, register structure), p.22 (toggle/DC mode), p.23-24 (serial interface, streaming, CRC), p.25-30 (register map)).
+
+- Bus: SPI mode 0
+- 12 bits, 96 channel(s), code —; vcc [3.0, 5.5]
+- 309 registers, 426 commands; frame fixed
+- Packages: ZEB (NFBGA-196-ZEB)
+- Not modeled:
+  - channel numbering: channel = 24 x (SID) + DPTR, assuming 24 DACs per subsystem (DPTR 0-23); the mapping of DPTR values to the DACn_Gk balls is not given in the datasheet (the ball map shows 22 outputs in subsystem 3 and 26 in subsystem 4). DPTR 24-31 address nothing
+  - streaming (S = 1): only the first 16-bit data word is written / read; the DPTR auto-increment over further words is not modeled. Reserved bits 17:16 are not checked
+  - toggle mode: register B (BUFB, kept as a plain register), TRIGG pin, STATS output and SDIV toggle rate are stored only; DC mode with register A is modeled (BUFA -> active A)
+  - auto-populate B (CON.APB = 01, default: a BUFA write loads BUFB with the negative value) is not modeled
+  - BUFA/BUFB bits 3:0 (reserved R/W) read back as 0 (registers are 12-bit)
+  - CLEAR low loads the DACs with code 0 while keeping the active registers, which return when CLEAR goes high; the model loads the DAC registers with 0 (they are not restored). CON.CLRDAC subsystem clear state stored only
+  - CON LDAC bit updates only its subsystem in the device; the model updates all channels. The CON fields' "writing 00 or 11 has no effect" rule is not modeled
+  - software reset (SWR = 0xA5A5) resets only the selected subsystem; the model resets the whole device including PTR
+  - CRC-CCITT frame check: CRC reads 0xFFFF always; PWRM read toggling between 0xABBA and 0xBAAB is not modeled (a write sets 0xABBA); SWR reads 0 (hardware version not given)
+  - SDO output edge (CON.PHAINV, default 01 = falling edge) and drive strength SDO2x: mode 0 timing used; SDO read data follow the 8-bit instruction
+  - power-on / reset delays (tRESETDLY up to 250 us) not modeled
+  - AVCC/AVSS +/-12 V supplies, internal +/-10.5 V references (VREFH/VREFL compensation capacitor pins) and unbuffered outputs
+
+### DAC60501
+
+12-bit 1-channel voltage-output DAC with 2.5-V reference, SPI or I2C interface. `specs/DAC60501.json`; datasheet `dac60501.pdf` (p.3 (pinout), p.4 (ROC), p.9-10 (I2C timing), p.21-22 (register structure, POR), p.23 (SPI), p.24-28 (I2C, address and command byte), p.29-32 (registers)).
+
+- Bus: I2C 0x48, 0x49, 0x4B, 0x4A
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 9 registers, 6 commands; frame fixed
+- Packages: DGS (VSSOP-10), DQF (WSON-8-DQF)
+- Not modeled:
+  - analog output, internal reference, REF-DIV, gain, power-down and reference alarm (stored only)
+  - SPI mode (SPI2C = 0): a write-only 3-wire SYNC/SCLK/SDIN interface with 24-bit frames (command byte + 16 data bits, latched at SYNC rising, frames shorter than 24 SCLK falling edges discarded); the model is the I2C mode (SPI2C = 1), which has read-back
+  - TRIGGER.LDAC and SOFT-RESET self-clear in the chip; the model leaves the written value in TRIGGER (each later TRIGGER write with LDAC = 1 updates again)
+  - command bytes with B23-B20 non-zero and the undocumented address 6 are ignored
+  - I2C fast-mode plus and the 250-us POR delay
+
+### DAC60502
+
+12-bit 2-channel voltage-output DAC with 2.5-V reference, SPI or I2C interface. `specs/DAC60502.json`; datasheet `dac60502.pdf` (p.3 (pinout), p.4 (ROC), p.21-22 (register structure, POR, soft reset), p.23 (SPI frame), p.24-28 (I2C, address, command and read sequence), p.29-33 (registers)).
+
+- Bus: I2C 0x48, 0x49, 0x4B, 0x4A
+- 12 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 12 registers, 12 commands; frame fixed
+- Packages: DRX (WSON-10-DRX)
+- Not modeled:
+  - analog outputs, internal reference, REF-DIV, gains, power-down and reference alarm (stored only)
+  - SPI mode (SPI2C = 0): a write-only 3-wire SYNC/SCLK/SDIN interface with 24-bit frames (R/W + address byte + 16 data bits, latched at SYNC rising, short frames discarded); the model is the I2C mode (SPI2C = 1), which has read-back
+  - TRIGGER.LDAC and SOFT-RESET self-clear in the chip; the model leaves the written value in TRIGGER (each later TRIGGER write with LDAC = 1 updates again)
+  - BRDCAST is write-only (Table 15, W): a command byte 06h alone (to read it) is not decoded, because an 8-bit read pointer would preempt the 24-bit BRDCAST write; BRDCAST stays write-only
+  - command bytes with B23-B20 non-zero are ignored; I2C fast-mode plus; the 250-us POR delay
+
+### DAC60504
+
+12-bit 4-channel voltage-output DAC with 2.5-V reference and SPI interface. `specs/DAC60504.json`; datasheet `dac80504.pdf` (p.5 (pinout), p.6 (ROC), p.21-22 (reset code, register structure, broadcast), p.24 (POR), p.25-27 (serial interface, daisy chain, CRC), p.28-29 (timing), p.30-35 (registers)).
+
+- Bus: SPI mode 2
+- 12 bits, 4 channel(s), code —; vcc [1.7, 5.5]
+- 16 registers, 52 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog outputs, internal reference, reference divider, buffer gains, power-down and reference alarm (stored only)
+  - GAIN and REFDIV pins set GAIN register defaults only at power-up/reset; the model copies them into GAIN whenever the pins change
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ERROR is never set and the CRC byte shifted out is 0
+  - SDO/ALARM as an open-drain ALARM pin (ALM-EN, ALM-SEL), DSDO (SDO always Hi-Z) and FSDO (SDO on falling edges): SDO always drives during CS low
+  - TRIGGER is write-only on the device; the model stores the last value written and returns it on read-back
+  - daisy chain beyond one 24-bit echo; DEVICE_ID VERSIONID may change; the 250-us POR delay and 1-us sequential update wait
+
+### DAC60508
+
+12-bit 8-channel voltage-output DAC with 2.5-V reference and SPI interface. `specs/DAC60508.json`; datasheet `dac60508.pdf` (p.5-6 (pinout), p.6 (ROC), p.22 (register structure), p.25-27 (access cycle, daisy chain, CRC), p.28-29 (timing), p.30-35 (registers)).
+
+- Bus: SPI mode 2
+- 12 bits, 8 channel(s), code —; vcc [1.7, 5.5]
+- 24 registers, 44 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE), YZF (DSBGA-16-YZF)
+- Not modeled:
+  - analog outputs, internal reference, REFDIV-EN, gains, power-down and reference alarm (stored only)
+  - DACx0508C parts (CLR on pin 15 / ball D2 instead of SDO/ALARM) are the separate device DAC60508C
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ERROR is never set and the CRC byte shifted out is 0
+  - SDO/ALARM as an open-drain ALARM pin (ALM-EN, ALM-SEL), DSDO (SDO always Hi-Z) and FSDO (SDO on falling edges): SDO always drives during CS low
+  - BRDCAST loads every channel's active register (the DACx-BRDCAST-EN mask is not applied)
+  - daisy chain beyond one 24-bit echo; DEVICE_ID VERSIONID may change; the 250-us POR delay and 1-us sequential update wait
+
+### DAC60508C
+
+12-bit 8-channel voltage-output DAC with 2.5-V reference and write-only SPI interface and CLR pin (C version). `specs/DAC60508C.json`; datasheet `dac60508.pdf` (p.5-6 (pinout), p.6 (ROC), p.22 (register structure), p.25-27 (access cycle, daisy chain, CRC), p.28-29 (timing), p.30-35 (registers), p.5 (CLR pin), p.22 (CLEAR operation)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 8 channel(s), code —; vcc [1.7, 5.5]
+- 24 registers, 42 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE), YZF (DSBGA-16-YZF)
+- Not modeled:
+  - analog outputs, internal reference, REFDIV-EN, gains, power-down and reference alarm (stored only)
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ERROR is never set (no SDO)
+  - BRDCAST loads every channel's active register (the DACx-BRDCAST-EN mask is not applied)
+  - daisy chain beyond one 24-bit echo; DEVICE_ID VERSIONID may change; the 250-us POR delay and 1-us sequential update wait
+  - CLR-0TO3-MSK / CLR-4TO7-MSK: the masks are stored in GAIN but CLR clears every channel (both masks reset to 0 = all channels clear); register writes to the DAC data registers while CLR is low are not blocked (the model holds the registers cleared)
+  - no SDO: the read command and the daisy-chain echo have no output pin; register read-back is impossible on this version
+
+### DAC61401
+
+12-bit 1-channel high-voltage (up to 40 V / +-20 V) output DAC with 2.5-V reference and SPI interface. `specs/DAC61401.json`; datasheet `dac81401.pdf` (p.3 (pinout), p.4 (ROC), p.10-12 (timing), p.24-25 (register structure, update, clear, reset), p.26-28 (serial interface, CRC), p.29-35 (registers)).
+
+- Bus: SPI mode 2
+- 12 bits, 1 channel(s), code —; vcc [1.7, 5.5]
+- 10 registers, 4 commands; frame fixed
+- Packages: PW (TSSOP-20)
+- Not modeled:
+  - analog output, sense pins, output ranges (DACRANGE stored only), reference, power-down states and thermal alarm
+  - FAULT open-drain pin (CRC, thermal and DAC-busy alarms) and the STATUS alarm bits: never asserted
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ALM is never set and the CRC byte shifted out is 0
+  - SDO-EN = 0 (SDO not operational) and FSDO: SDO always drives while SYNC is low
+  - write-only registers (NOP, DACRANGE, TRIGGER, DAC per Table 7-1): the model returns the stored value on read-back
+  - daisy chain beyond one 24-bit echo; the POR delay and 2.4-us update wait; DEV-PWDWN power-down
+
+### DAC61402
+
+12-bit 2-channel high-voltage (up to +-20 V / 40 V) output DAC with 2.5-V reference and SPI interface. `specs/DAC61402.json`; datasheet `dac61402.pdf` (p.3-4 (pinout), p.6 (ROC), p.14-16 (timing), p.29-30 (DAC register structure, broadcast, clear, POR), p.31-33 (serial interface), p.34-40 (registers)).
+
+- Bus: SPI mode 2
+- 12 bits, 2 channel(s), code —; vcc [1.7, 5.5]
+- 15 registers, 28 commands; frame fixed
+- Packages: RHB (VQFN-32-5X5)
+- Not modeled:
+  - analog outputs, sense pins, output ranges (DACRANGE stored only), reference, power-down states and thermal alarm
+  - clear code: zero for unipolar ranges, midscale for bipolar ranges, per channel; the model takes the code for every channel from DACA-RANGE, so a channel whose range differs from channel A's clears to channel A's code
+  - FAULT open-drain pin (CRC, thermal and DAC-busy alarms) and the STATUS alarm bits: never asserted
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ALM is never set and the CRC byte shifted out is 0
+  - SDO-EN = 0 (SDO Hi-Z) and FSDO: SDO always drives while SYNC is low
+  - BRDCAST writes load the buffer registers only; asynchronous channels do not then update their active registers
+  - SOFT-CLR together with SOFT-LDAC in one frame: only the clear is applied; read-back of write-only registers returns the stored value
+  - daisy chain beyond one 24-bit echo; the 1-ms POR delay and 2.4-us update wait; DEV-PWDWN power-down
+
+### DAC61404
+
+12-bit 4-channel high-voltage (up to 40 V / +-20 V) output DAC with 2.5-V reference and SPI interface. `specs/DAC61404.json`; datasheet `dac81404.pdf` (p.3-4 (pinout), p.6 (ROC), p.13-15 (timing), p.29-30 (register structure, broadcast, clear, POR), p.31-33 (serial interface, CRC), p.34-40 (registers)).
+
+- Bus: SPI mode 2
+- 12 bits, 4 channel(s), code —; vcc [1.7, 5.5]
+- 19 registers, 182 commands; frame fixed
+- Packages: RHB (VQFN-32-5X5)
+- Not modeled:
+  - analog outputs, sense pins, output ranges (DACRANGE stored only), reference, power-down states and thermal alarm
+  - clear code: zero for unipolar ranges, midscale for bipolar ranges, per channel; the model takes the code for every channel from DACA-RANGE, so a channel whose range differs from channel A's clears to channel A's code
+  - FAULT open-drain pin (CRC, thermal and DAC-busy alarms) and the STATUS alarm bits: never asserted
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ALM is never set and the CRC byte shifted out is 0
+  - SDO-EN = 0 (SDO not operational) and FSDO: SDO always drives while SYNC is low
+  - write-only registers (NOP, DACRANGE, TRIGGER, BRDCAST, DACn per Table 8-7): the model returns the stored value on read-back
+  - daisy chain beyond one 24-bit echo; the 1-ms POR delay, 2.4-us update and 4-us broadcast waits; DEV-PWDWN power-down
+
+### DAC61408
+
+12-bit 8-channel high-voltage (up to 40 V / +-20 V) output DAC with 2.5-V reference and SPI interface. `specs/DAC61408.json`; datasheet `dac81408.pdf` (p.3-4 (pinout), p.5 (ROC), p.11-12 (timing), p.21 (timing diagrams), p.24-25 (register structure, broadcast, clear, reset), p.28-30 (serial interface, CRC), p.31-45 (registers)).
+
+- Bus: SPI mode 2
+- 12 bits, 8 channel(s), code —; vcc [1.7, 5.5]
+- 32 registers, 40 commands; frame fixed
+- Packages: RHA (VQFN-40-RHA)
+- Not modeled:
+  - analog outputs, output ranges (DACRANGEn stored only), reference, TEMPOUT, power-down states (DACPWDWN, DEV-PWDWN, REF-PWDWN stored only) and thermal shutdown
+  - clear code: zero for unipolar single-ended ranges, midscale for bipolar or differential, per channel; the model takes the code for every channel from DAC0-RANGE (DACRANGE1.DAC0_RANGE), so channels with another range and differential pairs (DIFF-EN) clear to channel 0's code
+  - ALMOUT open-drain alarm pin and the STATUS alarm bits (CRC, thermal, DAC-busy): never asserted; ALM-RESET stored only
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ALM is never set and the CRC byte shifted out is 0
+  - SDO-EN = 0 (SDO not operational) and FSDO: SDO always drives while CS is low
+  - write-only registers (NOP, DACRANGEn, TRIGGER): the model returns the stored value on read-back
+  - BRDCAST with only some channels broadcast-enabled (BRDCONFIG not all ones): only the BRDCAST register is stored, no DAC buffer is loaded; with all channels enabled and mixed SYNC-EN bits the buffers load but no channel updates until LDAC
+  - differential mode (DIFF-EN pairs, OFFSETn stored only; writes to the odd DAC of a pair are not ignored) and toggle mode (TOGGLE0-2 pins, TOGGCONFIGn, SOFTTOGGLE-EN, AB-TOGn: Register B not modeled)
+  - streaming mode (STR-EN = 1: auto-incrementing DAC data writes in one CS frame): only the first 24-bit frame is decoded
+  - daisy chain beyond one 24-bit echo; the 1-ms POR delay, 2.4-us update and 4-us broadcast waits
+  - the 4 low don't-care bits of each MSB-aligned data register are stored as written
+
+### DAC61416
+
+12-bit 16-channel high-voltage (up to 40 V / +-20 V) output DAC with 2.5-V reference and SPI interface. `specs/DAC61416.json`; datasheet `dac81416.pdf` (p.2-3 (pinout), p.4 (ROC), p.9-10 (timing), p.22-23 (register structure, broadcast, clear, reset), p.26-28 (serial interface, CRC), p.29-42 (registers)).
+
+- Bus: SPI mode 2
+- 12 bits, 16 channel(s), code —; vcc [1.7, 5.5]
+- 52 registers, 72 commands; frame fixed
+- Packages: RHA (VQFN-40-RHA)
+- Not modeled:
+  - analog outputs, output ranges (DACRANGEn stored only), reference, TEMPOUT, power-down states (DACPWDWN, DEV-PWDWN, REF-PWDWN stored only) and thermal shutdown
+  - clear code: zero for unipolar single-ended ranges, midscale for bipolar or differential, per channel; the model takes the code for every channel from DAC0-RANGE (DACRANGE3.DAC0_RANGE), so channels with another range and differential pairs (DIFF-EN) clear to channel 0's code
+  - ALMOUT open-drain alarm pin and the STATUS alarm bits (CRC, thermal, DAC-busy): never asserted; ALM-RESET stored only
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ALM is never set and the CRC byte shifted out is 0
+  - SDO-EN = 0 (SDO not operational) and FSDO: SDO always drives while CS is low
+  - write-only registers (NOP, DACRANGEn, TRIGGER, BRDCAST, DACn): the model returns the stored value on read-back
+  - BRDCAST with only some channels broadcast-enabled (BRDCONFIG not all ones): only the BRDCAST register is stored, no DAC buffer is loaded; with all channels enabled and mixed SYNC-EN bits the buffers load but no channel updates until LDAC
+  - differential mode (DIFF-EN pairs, OFFSETn stored only; writes to the odd DAC of a pair are not ignored) and toggle mode (TOGGLE0-2 pins, TOGGCONFIGn, SOFTTOGGLE-EN, AB-TOGn: Register B not modeled)
+  - streaming mode (STR-EN = 1: auto-incrementing DAC data writes in one CS frame): only the first 24-bit frame is decoded
+  - daisy chain beyond one 24-bit echo; the 1-ms POR delay, 2.4-us update and 4-us broadcast waits
+  - the 4 low don't-care bits of each MSB-aligned data register are stored as written
+
+### DAC63001
+
+12-bit single voltage/current-output smart DAC with NVM, comparator and function generator; auto-detected I2C/PMBus or SPI (SPI modeled). `specs/DAC63001.json`; datasheet `dac63001.pdf` (p.3 (pins, Table 5-1), p.4 (ROC), p.11-12 (SPI timing), p.43 (reset, register-map lock), p.45 (power-down, Table 7-11), p.46 (SPI, Tables 7-12/7-13), p.51 (I2C address, Tables 7-15/7-16), p.53 (GPIO maps), p.54-71 (register map, Tables 7-20 to 7-47)).
+
+- Bus: SPI mode 1
+- 12 bits, 1 channel(s), code —; vcc [1.7, 5.5]
+- 27 registers, 11 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog side: voltage/current outputs, gain and reference selection, internal reference, comparator, margin and function generation (registers stored only; OUTx/FBx never driven)
+  - interface auto-detect: only the SPI port is modeled; the I2C/PMBus mode (address 1001xxx by A0: AGND 0x48, VDD 0x49, SDA 0x4A, SCL 0x4B; broadcast 0x47; general-call reset; same command byte = register address + MSDB/LSDB) is not
+  - GPIO/SDO: always used as SDO (MISO). The datasheet drives SDO only after SDO-EN = 1 (INTERFACE-CONFIG) and samples it per FSDO-EN; the model drives it from power on. GPIO input functions (LDAC, CLR, PD, PROTECT, RESET, margin trigger, NVM protect, lock) and STATUS outputs are not modeled
+  - daisy chain (frames of n x 24 bits use the last 24 bits in 4-wire mode); the model decodes the first 24 bits
+  - write echo: the next frame echoes the last accepted frame; a frame the model rejects (locked) shifts out zeros
+  - register-map lock: writes blocked while DEV-LOCK = 1 unless DEV-UNLOCK = 0101 is stored; COMMON-TRIGGER (unlock, reset, LDAC, CLR) is accepted while locked
+  - one action per frame: a COMMON-TRIGGER write with several trigger bits set runs only the first of RESET, LDAC, CLR; FAULT-DUMP, PROTECT, READ-ONE-TRIG, NVM-PROG and NVM-RELOAD are ignored
+  - CLR-SEL-X = 1 (clear to mid-scale) is not modeled: CLR always loads zero code
+  - broadcast write: channels with BRD-CONFIG-X = 1 get the code and update at once (SYNC-CONFIG ignored); the BRDCAST-DATA register itself keeps its last direct value only when no channel has BRD-CONFIG set
+  - COMMON-DAC-TRIG margin-high/low triggers (copy MARGIN-HIGH/LOW to the output) and function generation are stored only
+  - NVM (programming, reload, CRC, fault dump), SRAM indirect access (SRAM-DATA is a plain register), PMBus pages and PMBus-only registers, I2C timeout
+  - GENERAL-STATUS NVM-BUSY (shown in Table 7-20 but not in the field table, Table 7-36) is not modeled
+  - DAC busy/wait times (tDACWAIT, tBCASTWAIT 2 us), GPIO timing, SPI read clock limits (1.25/2.5 MHz)
+  - power-down: VOUT-PDN/IOUT-PDN bits stored only (outputs are Hi-Z/powered down at power on per the datasheet)
+  - DAC-X-DATA and the active registers are 16 bits wide (the 12-bit code left-aligned, as on the bus)
+  - single-channel part: the channel-1 registers (01h-06h, 19h) are stored and read back but drive no output
+  - Table 7-20 shows a DEEP-SLEEP-EN bit at GPIO-CONFIG bit 14; the field table (Table 7-38) gives bit 14 as don't care, so it is not modeled
+
+### DAC63004
+
+12-bit quad voltage/current-output smart DAC with NVM, comparator and function generator; auto-detected I2C/PMBus or SPI (SPI modeled). `specs/DAC63004.json`; datasheet `dac53004.pdf` (p.3 (pins, Table 5-1), p.4 (ROC), p.11-13 (SPI timing, Figures 6-2/6-3), p.42 (reset, register-map lock), p.44 (power-down), p.45-46 (SPI, Tables 7-12/7-13), p.49-51 (I2C address, read sequence), p.52-53 (GPIO maps), p.53-70 (register map)).
+
+- Bus: SPI mode 1
+- 12 bits, 4 channel(s), code —; vcc [1.7, 5.5]
+- 48 registers, 45 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog side: voltage/current outputs, gain and reference selection, internal reference, comparator, margin and function generation (registers stored only; OUTx/FBx never driven)
+  - interface auto-detect: only the SPI port is modeled; the I2C/PMBus mode (address 1001xxx by A0: AGND 0x48, VDD 0x49, SDA 0x4A, SCL 0x4B; broadcast 0x47; general-call reset; same command byte = register address + MSDB/LSDB) is not
+  - GPIO/SDO: always used as SDO (MISO). The datasheet drives SDO only after SDO-EN = 1 (INTERFACE-CONFIG) and samples it per FSDO-EN; the model drives it from power on. GPIO input functions (LDAC, CLR, PD, PROTECT, RESET, deep sleep, margin trigger) and STATUS outputs are not modeled
+  - daisy chain (frames of n x 24 bits use the last 24 bits in 4-wire mode); the model decodes the first 24 bits
+  - write echo: the next frame echoes the last accepted frame; a frame the model rejects (locked) shifts out zeros
+  - register-map lock: writes blocked while DEV-LOCK = 1 unless DEV-UNLOCK = 0101 is stored; COMMON-TRIGGER (unlock, reset, LDAC, CLR) is accepted while locked
+  - one action per frame: a COMMON-TRIGGER write with several trigger bits set runs only the first of RESET, LDAC, CLR; FAULT-DUMP, PROTECT, READ-ONE-TRIG, NVM-PROG and NVM-RELOAD are ignored
+  - CLR-SEL-X = 1 (clear to mid-scale) is not modeled: CLR always loads zero code
+  - broadcast write: channels with BRD-CONFIG-X = 1 get the code and update at once (SYNC-CONFIG ignored); the BRDCAST-DATA register itself keeps its last direct value only when no channel has BRD-CONFIG set
+  - COMMON-DAC-TRIG margin-high/low triggers (copy MARGIN-HIGH/LOW to the output) and function generation are stored only
+  - DAC-X-DATA-8BIT registers (0x40-0x43) are stored but do not load the DAC
+  - NVM (programming, reload, CRC, fault dump), SRAM indirect access (SRAM-DATA is a plain register), PMBus pages and PMBus-only registers, I2C timeout, deep sleep
+  - DAC busy/wait times (tDACWAIT, tBCASTWAIT 2 us), LDAC/GPIO timing, SPI read clock limits (1.25/2.5 MHz)
+  - power-down: VOUT-PDN/IOUT-PDN bits stored only (outputs are Hi-Z/powered down at power on per the datasheet)
+  - DAC-X-DATA and the active registers are 16 bits wide (the 12-bit code left-aligned, as on the bus)
+
+### DAC6311
+
+10-bit low-power single-channel voltage-output DAC with 3-wire SPI-compatible interface (SC70). `specs/DAC6311.json`; datasheet `dac5311.pdf` (p.3 (pins), p.4 (ROC), p.7 (timing, Figure 7-1), p.23-24 (POR, power-down), p.25 (input shift register, SYNC interrupt)).
+
+- Bus: SPI mode 2, write-only
+- 10 bits, 1 channel(s), code —; vcc [2.0, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DCK (SC70-6)
+- Not modeled:
+  - analog output, resistor string and output amplifier (VOUT is never driven)
+  - power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 are stored in CTRL.PD only; the DAC register is kept as the datasheet says
+  - 50 us power-down exit time and output settling time
+  - SCLK frequency and setup/hold limits (t1-t10)
+
+### DAC63202
+
+12-bit dual voltage/current-output smart DAC with NVM, comparator and function generator; auto-detected I2C/PMBus or SPI (SPI modeled). `specs/DAC63202.json`; datasheet `dac63202.pdf` (p.3 (pins, Table 5-1), p.4 (ROC), p.11-12 (SPI timing), p.41 (reset, register-map lock), p.43 (power-down, Table 7-11), p.44 (SPI, Tables 7-12/7-13), p.49 (I2C address, Tables 7-15/7-16), p.51 (GPIO maps), p.52-69 (register map, Tables 7-20 to 7-47); dac63202w.pdf (SLASF73A) p.3 (YBH ball map, Table 4-1), p.4 (ROC), p.45 (SPI, Tables 6-12/6-13), p.53-70 (same register map, DEVICE-ID 06h)).
+
+- Bus: SPI mode 1
+- 12 bits, 2 channel(s), code —; vcc [1.7, 5.5]
+- 28 registers, 17 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE), YBH (DSBGA-16-YBH)
+- Not modeled:
+  - analog side: voltage/current outputs, gain and reference selection, internal reference, comparator, margin and function generation (registers stored only; OUTx/FBx never driven)
+  - interface auto-detect: only the SPI port is modeled; the I2C/PMBus mode (address 1001xxx by A0: AGND 0x48, VDD 0x49, SDA 0x4A, SCL 0x4B; broadcast 0x47; general-call reset; same command byte = register address + MSDB/LSDB) is not
+  - GPIO/SDO: always used as SDO (MISO). The datasheet drives SDO only after SDO-EN = 1 (INTERFACE-CONFIG) and samples it per FSDO-EN; the model drives it from power on. GPIO input functions (LDAC, CLR, PD, PROTECT, RESET, margin trigger, NVM protect, lock) and STATUS outputs are not modeled
+  - daisy chain (frames of n x 24 bits use the last 24 bits in 4-wire mode); the model decodes the first 24 bits
+  - write echo: the next frame echoes the last accepted frame; a frame the model rejects (locked) shifts out zeros
+  - register-map lock: writes blocked while DEV-LOCK = 1 unless DEV-UNLOCK = 0101 is stored; COMMON-TRIGGER (unlock, reset, LDAC, CLR) is accepted while locked
+  - one action per frame: a COMMON-TRIGGER write with several trigger bits set runs only the first of RESET, LDAC, CLR; FAULT-DUMP, PROTECT, READ-ONE-TRIG, NVM-PROG and NVM-RELOAD are ignored
+  - CLR-SEL-X = 1 (clear to mid-scale) is not modeled: CLR always loads zero code
+  - broadcast write: channels with BRD-CONFIG-X = 1 get the code and update at once (SYNC-CONFIG ignored); the BRDCAST-DATA register itself keeps its last direct value only when no channel has BRD-CONFIG set
+  - COMMON-DAC-TRIG margin-high/low triggers (copy MARGIN-HIGH/LOW to the output) and function generation are stored only
+  - NVM (programming, reload, CRC, fault dump), SRAM indirect access (SRAM-DATA is a plain register), PMBus pages and PMBus-only registers, I2C timeout
+  - GENERAL-STATUS NVM-BUSY (shown in Table 7-20 but not in the field table, Table 7-36) is not modeled
+  - DAC busy/wait times (tDACWAIT, tBCASTWAIT 2 us), GPIO timing, SPI read clock limits (1.25/2.5 MHz)
+  - power-down: VOUT-PDN/IOUT-PDN bits stored only (outputs are Hi-Z/powered down at power on per the datasheet)
+  - DAC-X-DATA and the active registers are 16 bits wide (the 12-bit code left-aligned, as on the bus)
+
+### DAC63204
+
+12-bit quad voltage/current-output smart DAC with NVM, comparator and function generator; auto-detected I2C/PMBus or SPI (SPI modeled). `specs/DAC63204.json`; datasheet `dac53204.pdf` (p.3 (pins, Table 5-1), p.4 (ROC), p.11-12 (SPI timing), p.41-42 (reset, register-map lock), p.43 (power-down), p.44-45 (SPI), p.48-50 (I2C), p.52-69 (register map)).
+
+- Bus: SPI mode 1
+- 12 bits, 4 channel(s), code —; vcc [1.7, 5.5]
+- 48 registers, 45 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog side: voltage/current outputs, gain and reference selection, internal reference, comparator, margin and function generation (registers stored only; OUTx/FBx never driven)
+  - interface auto-detect: only the SPI port is modeled; the I2C/PMBus mode (address 1001xxx by A0: AGND 0x48, VDD 0x49, SDA 0x4A, SCL 0x4B; broadcast 0x47; general-call reset; same command byte = register address + MSDB/LSDB) is not
+  - GPIO/SDO: always used as SDO (MISO). The datasheet drives SDO only after SDO-EN = 1 (INTERFACE-CONFIG) and samples it per FSDO-EN; the model drives it from power on. GPIO input functions (LDAC, CLR, PD, PROTECT, RESET, deep sleep, margin trigger) and STATUS outputs are not modeled
+  - daisy chain (frames of n x 24 bits use the last 24 bits in 4-wire mode); the model decodes the first 24 bits
+  - write echo: the next frame echoes the last accepted frame; a frame the model rejects (locked) shifts out zeros
+  - register-map lock: writes blocked while DEV-LOCK = 1 unless DEV-UNLOCK = 0101 is stored; COMMON-TRIGGER (unlock, reset, LDAC, CLR) is accepted while locked
+  - one action per frame: a COMMON-TRIGGER write with several trigger bits set runs only the first of RESET, LDAC, CLR; FAULT-DUMP, PROTECT, READ-ONE-TRIG, NVM-PROG and NVM-RELOAD are ignored
+  - CLR-SEL-X = 1 (clear to mid-scale) is not modeled: CLR always loads zero code
+  - broadcast write: channels with BRD-CONFIG-X = 1 get the code and update at once (SYNC-CONFIG ignored); the BRDCAST-DATA register itself keeps its last direct value only when no channel has BRD-CONFIG set
+  - COMMON-DAC-TRIG margin-high/low triggers (copy MARGIN-HIGH/LOW to the output) and function generation are stored only
+  - DAC-X-DATA-8BIT registers (0x40-0x43) are stored but do not load the DAC
+  - NVM (programming, reload, CRC, fault dump), SRAM indirect access (SRAM-DATA is a plain register), PMBus pages and PMBus-only registers, I2C timeout, deep sleep
+  - DAC busy/wait times (tDACWAIT, tBCASTWAIT 2 us), LDAC/GPIO timing, SPI read clock limits (1.25/2.5 MHz)
+  - power-down: VOUT-PDN/IOUT-PDN bits stored only (outputs are Hi-Z/powered down at power on per the datasheet)
+  - DAC-X-DATA and the active registers are 16 bits wide (the 12-bit code left-aligned, as on the bus)
+
+### DAC63508
+
+12-bit octal buffered voltage-output DAC with SPI write-only interface, LDAC and CLR. `specs/DAC63508.json`; datasheet `dac43508.pdf` (p.3 (pinout), p.4 (ROC), p.7 (SPI/logic timing), p.19-20 (update, LDAC, CLR, reset), p.21 (SPI frame), p.22-24 (registers)).
+
+- Bus: SPI mode 1, write-only
+- 12 bits, 8 channel(s), code —; vcc [1.8, 5.5]
+- 20 registers, 7 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog outputs, external reference and power-down output loads (DEVICE_CONFIG stored only; VOUTx are never driven)
+  - the interface is write-only (p.21): no register can be read back
+  - only the first 24 bits of a longer frame are used: the model also uses the first 24 (fixed frame), but it updates at the 24th clock rather than the 24th rising edge
+  - CLR also zeroes the DAC buffer registers (p.19); the model's clear pin sets the active registers to zero code
+  - 5 ms power-on delay before communication is valid
+  - SCLK idle level: Figure 5-1 shows data sampled on SCLK falling edges with SCLK low before the first rising edge (mode 1); a mode 2 host also works on the real part
+
+### DAC6551
+
+12-bit single-channel voltage-output DAC with 3-wire SPI-compatible interface, automotive (VSSOP-8). `specs/DAC6551.json`; datasheet `dac6551-q1.pdf` (p.4 (pins), p.5 (ROC), p.7 (timing, Figure 1), p.14 (power-on reset), p.15 (power-down, Table 1), p.16 (input shift register, Figure 31, SYNC interrupt)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 1 channel(s), code —; vcc [3.0, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DGK (VSSOP-8-DGK)
+- Not modeled:
+  - analog output, resistor string and output amplifier (VOUT never driven; VFB feedback input)
+  - power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 are stored in CTRL.PD only; the DAC register is kept as the datasheet says
+  - the four trailing bits are shown as 0 in Figure 31; the model accepts any value
+  - SPI mode 2 read from Figure 1 (SCLK high between pulses, data taken on falling edges); a continuous SCLK during SYNC high is fine for the model
+  - power-down exit time (2.5-5 us), output settling time, SCLK limits (25/30 MHz) and setup/hold times
+
+### DAC6571
+
+10-bit single-channel voltage-output DAC with I2C interface and power-down. `specs/DAC6571.json`; datasheet `dac6571.pdf` (p.2 (pinout), p.3 (VDD, logic levels), p.4-5 (I2C timing), p.15-16 (I2C protocol, data bytes), p.17 (power-on reset, power-down modes)).
+
+- Bus: I2C 0x4C, 0x4D
+- 10 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame stream
+- Packages: DBV (SOT23-6)
+- Not modeled:
+  - analog output, settling and power-down output loads (PD bits stored only; the output is never driven)
+  - broadcast address 1001000 (responds regardless of A0): not expressible in the address table
+  - address pin A0 is latched at power-up (the model reads it live)
+  - I2C high-speed mode master code and timing limits
+  - the 0 0 bits of the CTRL/MSB byte: a byte with them nonzero is ignored rather than handled as the datasheet leaves undefined
+  - A0 tied to SCL/SDA is not listed by the datasheet (table null)
+
+### DAC6573
+
+10-bit quad voltage-output DAC with I2C interface, LDAC, extended address pins and power-down. `specs/DAC6573.json`; datasheet `dac6573.pdf` (p.2 (pinout), p.3 (supplies, logic levels), p.4-5 (I2C timing), p.14-17 (address, control byte, Table 2, LDAC, registers), p.19-23 (write/read sequences), p.23-24 (power-on reset, power-down)).
+
+- Bus: I2C 0x4C, 0x4D, 0x4E, 0x4F
+- 10 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 9 registers, 26 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs, reference and power-down output loads (power-down bits stored in the internal PDN register only; outputs never driven)
+  - multi-word transactions: the datasheet lets MSB/LSB byte pairs repeat after one control byte until STOP / repeated START (Table 4 note 2); the model decodes only the last control byte + MSB + LSB (or the lone control byte) before the transaction ends (align end)
+  - power-down bits are kept per channel in PDN and take effect immediately: the TRx-only (L=00) and DACx (L=01) distinction for power-down data is not modeled; normal data writes do not clear them
+  - broadcast I2C address 1001 0000 (responds regardless of the address pins) is not expressible; the broadcast-mode control bytes (L=11) are decoded at the device's own address
+  - extended address bits C7 C6 must equal pins A3 A2 for a data update (not compared: any A3 A2 is accepted)
+  - read-back returns the temporary register of the selected channel (the datasheet does not say whether TRx or DRx is read)
+  - address pins latched at power-up (the model reads them live)
+  - I2C high-speed mode master code and timing
+
+### DAC6574
+
+10-bit quad voltage-output DAC with I2C interface and power-down. `specs/DAC6574.json`; datasheet `dac6574.pdf` (p.2 (pinout), p.3 (VDD, logic levels), p.4-5 (I2C timing), p.13-16 (address, control byte, Table 2, registers), p.18-22 (write/read sequences), p.22-23 (power-on reset, power-down)).
+
+- Bus: I2C 0x4C, 0x4D, 0x4E, 0x4F
+- 10 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 9 registers, 26 commands; frame fixed
+- Packages: DGS (VSSOP-10)
+- Not modeled:
+  - analog outputs, reference and power-down output loads (power-down bits stored in the internal PDN register only; outputs never driven)
+  - multi-word transactions: the datasheet lets MSB/LSB byte pairs repeat after one control byte until STOP / repeated START (Table 4 note 2); the model decodes only the last control byte + MSB + LSB (or the lone control byte) before the transaction ends (align end)
+  - power-down bits are kept per channel in PDN and take effect immediately: the TRx-only (L=00) and DACx (L=01) distinction for power-down data is not modeled; normal data writes do not clear them
+  - broadcast I2C address 1001 0000 (responds regardless of the address pins) is not expressible; the broadcast-mode control bytes (L=11) are decoded at the device's own address
+  - C7 C6 must be 0 0 (bytes with them set are ignored, except broadcast mode which treats them as don't care)
+  - read-back returns the temporary register of the selected channel (the datasheet does not say whether TRx or DRx is read)
+  - address pins latched at power-up (the model reads them live)
+  - I2C high-speed mode master code and timing
+
+### DAC6578
+
+10-bit octal voltage-output DAC with I2C interface, LDAC, CLR and power-down. `specs/DAC6578.json`; datasheet `dac5578.pdf` (p.5 (pinouts), p.6 (timing), p.7-8 (AVDD, logic levels), p.30-33 (address, CA byte, data formats, read sequence), p.34-37 (write/read command matrices), p.38-39 (POR, LDAC, power-down, clear code, reset)).
+
+- Bus: I2C 0x48, 0x4A
+- 10 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 19 registers, 59 commands; frame fixed
+- Packages: PW (TSSOP-16), RGE (VQFN-24-RGE)
+- Not modeled:
+  - analog outputs, reference and power-down output loads (PWR stored only; outputs never driven)
+  - I2C address strap float levels (TSSOP ADDR0 float = 0x4C; QFN Table 3 float combinations 0x4C-0x4F) are not expressible; the RGE package uses its own two-pin table (ADDR0, ADDR1 at GND/AVDD: 0x48-0x4B, p.30)
+  - broadcast I2C address 1000 111 (Table 9, write only) is not expressible
+  - multi-word writes (Example 4: MSDB/LSDB pairs repeat after one CA byte) and the retained CA byte: the model decodes only the last CA byte + MSDB + LSDB (or a lone CA byte for a read) before the transaction ends (align end)
+  - LDAC: modeled as level-sensitive active low (tied low = synchronous update at the LSDB acknowledge; a falling edge after loading = asynchronous update); the per-channel LDAC register mask (1 = channel ignores the pin) is stored only
+  - CLR: clear code 11 disables the pin (not modeled: the model's map has no code for 11); clear mode exits at the next write (the model loads the code once on the falling edge)
+  - QFN RSTSEL (power-on zero or mid scale) and TWOC (two's complement data format) pins: reset values are zero scale; data is stored as written
+  - software reset high-speed mode options (Table 17) and I2C high-speed mode
+  - invalid access codes (1000-1110) are ignored (no command matches)
+
+### DAC70004
+
+Quad 14-bit buffered voltage-output DAC with 32-bit SPI, LDAC/CLR pins and read-back. `specs/DAC70004.json`; datasheet `dac60004.pdf` (p.3 (pins), p.4 (ROC), p.8-9 (timing, Figures 1-2), p.19 (power-on reset, Table 1), p.20-21 (serial interface, read-back), p.22 (shift register, commands, Tables 2-4), p.23-25 (power-down, clear, LDAC, reset, short-circuit, status)).
+
+- Bus: SPI mode 1
+- 14 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 14 registers, 37 commands; frame fixed
+- Packages: DMD (VSON-14-DMD), PW (TSSOP-14)
+- Not modeled:
+  - analog outputs, output buffers, reference buffer and short-circuit limiting (SCLIM stored only); power-down bits stored only
+  - CLR exits clear mode on the 32nd SCLK of the next write; the model loads the clear code once on the CLR falling edge and the next write replaces it. Table 6 gives no clear code for mode 11 (not mapped)
+  - LDAC register: channels with their bit set ignore the LDAC pin and update on the 32nd SCLK (stored only; every channel follows the LDAC pin)
+  - daisy-chain mode (DSDO = 1 and more than 32 SCLKs: data ripples out on SDO, latched at SYNC rising) is not modeled; with DSDO = 1 SDO outputs zeros except the read-back word
+  - read-back word layout: only the data bit positions are documented; the model returns zeros outside the register value (buffer data in D19-D6, clear mode D1-D0, LDAC and short-circuit D3-D0, DSDO D0, DRDY D4). The power-down register read-back layout is not documented: the model returns PDD..PDA (2 bits each) in D7-D0
+  - command 1001 is listed as reserved in Table 3 although the text mentions a user-defined clear code written with 1001; not modeled
+  - STATUS.DRDY reads 1 at once (power-up ready time not modeled); t20 2.4 us between successive updates not modeled
+  - SDO is valid tv 18 ns after the SCLK rising edge (tOut); data are sampled on SCLK falling edges (mode 1)
+
+### DAC70501
+
+14-bit 1-channel voltage-output DAC with 2.5-V reference, SPI or I2C interface. `specs/DAC70501.json`; datasheet `dac60501.pdf` (p.3 (pinout), p.4 (ROC), p.9-10 (I2C timing), p.21-22 (register structure, POR), p.23 (SPI), p.24-28 (I2C, address and command byte), p.29-32 (registers)).
+
+- Bus: I2C 0x48, 0x49, 0x4B, 0x4A
+- 14 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 9 registers, 6 commands; frame fixed
+- Packages: DGS (VSSOP-10), DQF (WSON-8-DQF)
+- Not modeled:
+  - analog output, internal reference, REF-DIV, gain, power-down and reference alarm (stored only)
+  - SPI mode (SPI2C = 0): a write-only 3-wire SYNC/SCLK/SDIN interface with 24-bit frames (command byte + 16 data bits, latched at SYNC rising, frames shorter than 24 SCLK falling edges discarded); the model is the I2C mode (SPI2C = 1), which has read-back
+  - TRIGGER.LDAC and SOFT-RESET self-clear in the chip; the model leaves the written value in TRIGGER (each later TRIGGER write with LDAC = 1 updates again)
+  - command bytes with B23-B20 non-zero and the undocumented address 6 are ignored
+  - I2C fast-mode plus and the 250-us POR delay
+
+### DAC70502
+
+14-bit 2-channel voltage-output DAC with 2.5-V reference, SPI or I2C interface. `specs/DAC70502.json`; datasheet `dac60502.pdf` (p.3 (pinout), p.4 (ROC), p.21-22 (register structure, POR, soft reset), p.23 (SPI frame), p.24-28 (I2C, address, command and read sequence), p.29-33 (registers)).
+
+- Bus: I2C 0x48, 0x49, 0x4B, 0x4A
+- 14 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 12 registers, 12 commands; frame fixed
+- Packages: DRX (WSON-10-DRX)
+- Not modeled:
+  - analog outputs, internal reference, REF-DIV, gains, power-down and reference alarm (stored only)
+  - SPI mode (SPI2C = 0): a write-only 3-wire SYNC/SCLK/SDIN interface with 24-bit frames (R/W + address byte + 16 data bits, latched at SYNC rising, short frames discarded); the model is the I2C mode (SPI2C = 1), which has read-back
+  - TRIGGER.LDAC and SOFT-RESET self-clear in the chip; the model leaves the written value in TRIGGER (each later TRIGGER write with LDAC = 1 updates again)
+  - BRDCAST is write-only (Table 15, W): a command byte 06h alone (to read it) is not decoded, because an 8-bit read pointer would preempt the 24-bit BRDCAST write; BRDCAST stays write-only
+  - command bytes with B23-B20 non-zero are ignored; I2C fast-mode plus; the 250-us POR delay
+
+### DAC70504
+
+14-bit 4-channel voltage-output DAC with 2.5-V reference and SPI interface. `specs/DAC70504.json`; datasheet `dac80504.pdf` (p.5 (pinout), p.6 (ROC), p.21-22 (reset code, register structure, broadcast), p.24 (POR), p.25-27 (serial interface, daisy chain, CRC), p.28-29 (timing), p.30-35 (registers)).
+
+- Bus: SPI mode 2
+- 14 bits, 4 channel(s), code —; vcc [1.7, 5.5]
+- 16 registers, 52 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog outputs, internal reference, reference divider, buffer gains, power-down and reference alarm (stored only)
+  - GAIN and REFDIV pins set GAIN register defaults only at power-up/reset; the model copies them into GAIN whenever the pins change
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ERROR is never set and the CRC byte shifted out is 0
+  - SDO/ALARM as an open-drain ALARM pin (ALM-EN, ALM-SEL), DSDO (SDO always Hi-Z) and FSDO (SDO on falling edges): SDO always drives during CS low
+  - TRIGGER is write-only on the device; the model stores the last value written and returns it on read-back
+  - daisy chain beyond one 24-bit echo; DEVICE_ID VERSIONID may change; the 250-us POR delay and 1-us sequential update wait
+
+### DAC70508
+
+14-bit 8-channel voltage-output DAC with 2.5-V reference and SPI interface. `specs/DAC70508.json`; datasheet `dac60508.pdf` (p.5-6 (pinout), p.6 (ROC), p.22 (register structure), p.25-27 (access cycle, daisy chain, CRC), p.28-29 (timing), p.30-35 (registers)).
+
+- Bus: SPI mode 2
+- 14 bits, 8 channel(s), code —; vcc [1.7, 5.5]
+- 24 registers, 44 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE), YZF (DSBGA-16-YZF)
+- Not modeled:
+  - analog outputs, internal reference, REFDIV-EN, gains, power-down and reference alarm (stored only)
+  - DACx0508C parts (CLR on pin 15 / ball D2 instead of SDO/ALARM): no DAC70508C parts are listed
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ERROR is never set and the CRC byte shifted out is 0
+  - SDO/ALARM as an open-drain ALARM pin (ALM-EN, ALM-SEL), DSDO (SDO always Hi-Z) and FSDO (SDO on falling edges): SDO always drives during CS low
+  - BRDCAST loads every channel's active register (the DACx-BRDCAST-EN mask is not applied)
+  - daisy chain beyond one 24-bit echo; DEVICE_ID VERSIONID may change; the 250-us POR delay and 1-us sequential update wait
+
+### DAC714
+
+16-bit voltage-output DAC (+-10 V, +-5 V or 0 to +10 V, internal +10 V reference) with double-buffered synchronous serial interface, SDO for cascading and asynchronous clear (Burr-Brown). `specs/DAC714.json`; datasheet `dac714.pdf` (p.2 (pins), p.3 (specifications, supplies, input code), p.4 (timing, truth table, timing diagrams), p.6 (interface logic, CLR), p.8 (Table I codes), p.9 (serial interface)).
+
+- Bus: SPI mode 3
+- 16 bits, 1 channel(s), code —; vcc [11.4, 16.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-16W)
+- Not modeled:
+  - analog output, +10 V reference, range resistors RFB2/RBPO, gain/offset adjust (VOUT, VREF OUT never driven)
+  - the D/A latch loads while A1 is low during a CLK pulse (truth table p.4); modeled as LDAC level mode on A1 without the CLK strobe; A0 = A1 = 0 two-wire operation follows only at the end of each 16-bit frame
+  - SDO is the shift register's serial output at all times; modeled only while A0 is low, as the previous input-register contents followed by zeros (the 16-bit delayed SDI copy used for cascading beyond 16 clocks is not modeled)
+  - the input register shifts on every CLK while A0 is low; the model writes it once, from the last 16 bits, when A0 rises
+  - power-on contents of the latches are not stated in the datasheet (reset 0 = 0000H mid-scale assumed); CLR (active low, 200 ns min) sets both latches to 0000H; clearCode 0 is that code (two's complement mid-scale)
+  - digital inputs are TTL (1.4 V threshold, VIH max VCC - 1.4 V) driven from 5 V logic and SDO swings 0.4-2.4/5 V; there is no logic supply pin, so vcc is the +VCC supply range; -VCC (-11.4 to -16.5 V) is in analog
+  - setup/hold times, 10 MHz max clock (tCLK 100 ns)
+
+### DAC71408
+
+14-bit 8-channel high-voltage (up to 40 V / +-20 V) output DAC with 2.5-V reference and SPI interface. `specs/DAC71408.json`; datasheet `dac81408.pdf` (p.3-4 (pinout), p.5 (ROC), p.11-12 (timing), p.21 (timing diagrams), p.24-25 (register structure, broadcast, clear, reset), p.28-30 (serial interface, CRC), p.31-45 (registers)).
+
+- Bus: SPI mode 2
+- 14 bits, 8 channel(s), code —; vcc [1.7, 5.5]
+- 32 registers, 40 commands; frame fixed
+- Packages: RHA (VQFN-40-RHA)
+- Not modeled:
+  - analog outputs, output ranges (DACRANGEn stored only), reference, TEMPOUT, power-down states (DACPWDWN, DEV-PWDWN, REF-PWDWN stored only) and thermal shutdown
+  - clear code: zero for unipolar single-ended ranges, midscale for bipolar or differential, per channel; the model takes the code for every channel from DAC0-RANGE (DACRANGE1.DAC0_RANGE), so channels with another range and differential pairs (DIFF-EN) clear to channel 0's code
+  - ALMOUT open-drain alarm pin and the STATUS alarm bits (CRC, thermal, DAC-busy): never asserted; ALM-RESET stored only
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ALM is never set and the CRC byte shifted out is 0
+  - SDO-EN = 0 (SDO not operational) and FSDO: SDO always drives while CS is low
+  - write-only registers (NOP, DACRANGEn, TRIGGER): the model returns the stored value on read-back
+  - BRDCAST with only some channels broadcast-enabled (BRDCONFIG not all ones): only the BRDCAST register is stored, no DAC buffer is loaded; with all channels enabled and mixed SYNC-EN bits the buffers load but no channel updates until LDAC
+  - differential mode (DIFF-EN pairs, OFFSETn stored only; writes to the odd DAC of a pair are not ignored) and toggle mode (TOGGLE0-2 pins, TOGGCONFIGn, SOFTTOGGLE-EN, AB-TOGn: Register B not modeled)
+  - streaming mode (STR-EN = 1: auto-incrementing DAC data writes in one CS frame): only the first 24-bit frame is decoded
+  - daisy chain beyond one 24-bit echo; the 1-ms POR delay, 2.4-us update and 4-us broadcast waits
+  - the 2 low don't-care bits of each MSB-aligned data register are stored as written
+
+### DAC716
+
+16-bit voltage-output DAC (0 to +10 V, internal +10 V reference) with double-buffered synchronous serial interface, SDO for cascading and asynchronous clear (Burr-Brown). `specs/DAC716.json`; datasheet `dac716.pdf` (p.2 (specifications, supplies), p.3 (pins), p.4 (timing, truth table, timing diagrams), p.6 (interface logic, CLR, input coding), p.9 (serial interface)).
+
+- Bus: SPI mode 3
+- 16 bits, 1 channel(s), code —; vcc [11.4, 16.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: N (PDIP-16), DW (SOIC-16W)
+- Not modeled:
+  - analog output, +10 V reference, gain/offset adjust (VOUT, VREF OUT never driven)
+  - the D/A latch loads while A1 is low during a CLK pulse (truth table p.4); modeled as LDAC level mode on A1 without the CLK strobe; A0 = A1 = 0 two-wire operation follows only at the end of each 16-bit frame
+  - SDO is the shift register's serial output at all times; modeled only while A0 is low, as the previous input-latch contents followed by zeros (the 16-bit delayed SDI copy used for cascading beyond 16 clocks is not modeled)
+  - the input latch shifts on every CLK while A0 is low; the model writes it once, from the last 16 bits, when A0 rises
+  - power-on contents of the latches are not stated in the datasheet (reset 0 assumed); CLR (active low, 200 ns min) sets both latches to 0000
+  - digital inputs are TTL (1.4 V threshold, VIH max VCC - 1.4 V) driven from 5 V logic; vcc is the +VCC supply range; -VCC (-11.4 to -16.5 V) is in analog
+  - setup/hold times, 10 MHz max clock (tCLK 100 ns)
+
+### DAC7311
+
+12-bit low-power single-channel voltage-output DAC with 3-wire SPI-compatible interface (SC70). `specs/DAC7311.json`; datasheet `dac5311.pdf` (p.3 (pins), p.4 (ROC), p.7 (timing, Figure 7-1), p.23-24 (POR, power-down), p.25 (input shift register, SYNC interrupt)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 1 channel(s), code —; vcc [2.0, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DCK (SC70-6)
+- Not modeled:
+  - analog output, resistor string and output amplifier (VOUT is never driven)
+  - power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 are stored in CTRL.PD only; the DAC register is kept as the datasheet says
+  - 50 us power-down exit time and output settling time
+  - SCLK frequency and setup/hold limits (t1-t10)
+
+### DAC7512
+
+12-bit low-power single-channel voltage-output DAC (VDD as reference) with 3-wire SPI-compatible interface. `specs/DAC7512.json`; datasheet `dac7512.pdf` (p.2 (pin configurations, pin description), p.3 (VDD 2.7-5.5 V), p.4 (timing characteristics, serial write operation), p.12 (serial interface, input shift register Figure 3, SYNC interrupt Figure 4, power-on reset, power-down Table I)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DGK (VSSOP-8-DGK), DBV (SOT23-6)
+- Not modeled:
+  - analog output, resistor string and output amplifier (VOUT never driven)
+  - power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 are stored in CTRL.PD only
+  - power-up time from power-down (2.5-5 us) and output settling
+  - SCLK frequency (30 MHz / 20 MHz) and setup/hold limits t1-t8
+
+### DAC7513
+
+12-bit low-power single-channel voltage-output DAC with external reference input, output feedback pin and 3-wire SPI-compatible interface. `specs/DAC7513.json`; datasheet `dac7513.pdf` (p.2 (pin configurations), p.3 (pin descriptions), p.4 (VDD 2.7-5.5 V), p.5 (timing characteristics, serial write operation), p.13 (serial interface, power-on reset, power-down Table I, input shift register Figure 3)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DGK (VSSOP-8-DGK), DCN (SOT23-8-DCN)
+- Not modeled:
+  - analog output, resistor string and output amplifier (VOUT never driven)
+  - power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 are stored in CTRL.PD only
+  - power-up time from power-down (2.5-5 us) and output settling
+  - SCLK frequency (30 MHz / 20 MHz) and setup/hold limits t1-t8
+  - VFB feedback pin (amplifier sense input, analog)
+
+### DAC7551
+
+12-bit single-channel ultralow-glitch voltage-output DAC with 50 MHz SPI interface, IOVDD level shifters, daisy-chain SDO and asynchronous clear. `specs/DAC7551.json`; datasheet `dac7551.pdf` (p.4 (power requirements), p.5 (pins), p.6 (timing, Figure 1), p.12 (clear, IOVDD, power-on reset), p.13 (serial interface, daisy chain, Table 1)).
+
+- Bus: SPI mode 2
+- 12 bits, 1 channel(s), code —; vcc [1.8, 5.5]
+- 3 registers, 1 commands; frame fixed
+- Packages: DRN (USON-12-DRN)
+- Not modeled:
+  - analog output, unbuffered VREFH/VREFL reference, VFB sense input (never driven)
+  - power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 stored in CTRL.PD only; Table 1 marks the data bits don't care in power-down, the model still writes them
+  - SDO repeats SDIN with a 16-clock delay while SYNC is low: modeled as the previously latched 16-bit word (SR) followed by Hi-Z; words longer than 32 bits in one SYNC frame are not repeated
+  - CLR resets all registers and the DAC updates at the first SYNC rising edge after CLR returns high (p.12): modeled as an immediate clear to code 0
+  - SCLK limits (50 MHz, 10 MHz with SDO) and setup/hold times
+
+### DAC7552
+
+12-bit dual-channel ultralow-glitch voltage-output DAC with 50 MHz SPI interface, per-channel references, IOVDD level shifters, daisy-chain SDO and asynchronous clear (power-on zero scale). `specs/DAC7552.json`; datasheet `dac7552.pdf` (p.3 (supplies, logic), p.4 (timing, Figure 1), p.5 (pins), p.13 (Tables 1-2), p.14 (power-on reset), p.15 (clear, IOVDD, serial interface, daisy chain)).
+
+- Bus: SPI mode 2
+- 12 bits, 2 channel(s), code —; vcc [1.8, 5.5]
+- 5 registers, 12 commands; frame fixed
+- Packages: RGT (VQFN-16-RGT)
+- Not modeled:
+  - analog outputs, references and VFB sense inputs (never driven)
+  - power-down output loads: stored per channel in PWR only; how a powered-down channel returns to normal operation is not described
+  - PD pin (pin 7, 'power-down'): function and polarity not described in the datasheet; a plain input
+  - daisy-chain mode (DCEN high): SDO repeating SDIN with a 16-clock delay and latching the last 16 bits at SYNC rising are not modeled; SDO stays Hi-Z (the DCEN-low behavior)
+  - DCEN low: the word executes on the 16th SCLK falling edge (commit now); a SYNC rise before it discards the word
+  - CLR resets all registers and the DAC updates at the first SYNC rising edge after CLR returns high: modeled as an immediate clear to code 0
+  - SCLK limits (50 MHz, 10 MHz with SDO) and setup/hold times
+
+### DAC7553
+
+12-bit dual-channel ultralow-glitch voltage-output DAC, two's complement input (power-on mid scale), 50 MHz SPI interface, IOVDD level shifters, daisy-chain SDO and asynchronous clear. `specs/DAC7553.json`; datasheet `dac7553.pdf` (p.4 (supplies), p.5 (timing), p.6 (pins), p.14 (Tables 1-2), p.15 (power-on reset), p.16 (clear, serial interface, data format)).
+
+- Bus: SPI mode 2
+- 12 bits, 2 channel(s), code —; vcc [1.8, 5.5]
+- 5 registers, 12 commands; frame fixed
+- Packages: RGT (VQFN-16-RGT)
+- Not modeled:
+  - analog outputs, references and VFB sense inputs (never driven)
+  - power-down output loads: stored per channel in PWR only; how a powered-down channel returns to normal operation is not described
+  - PD pin (pin 7, 'power-down'): function and polarity not described in the datasheet; a plain input
+  - daisy-chain mode (DCEN high): SDO repeating SDIN with a 16-clock delay and latching the last 16 bits at SYNC rising are not modeled; SDO stays Hi-Z (the DCEN-low behavior)
+  - input data are two's complement (800H = 0 V, 000H = mid scale); registers store the code as written
+  - CLR resets all registers and the DAC updates at the first SYNC rising edge after CLR returns high: modeled as an immediate clear to code 0
+  - SCLK limits (50 MHz, 10 MHz with SDO) and setup/hold times
+
+### DAC7554
+
+12-bit quad-channel ultralow-glitch voltage-output DAC with 50 MHz 3-wire SPI interface and single reference input (MSOP-10). `specs/DAC7554.json`; datasheet `dac7554.pdf` (p.3 (supplies, logic levels), p.4 (timing, Figure 1), p.5 (pins), p.14 (Table 1), p.15 (Table 2), p.16-17 (power-on reset, serial interface)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 9 registers, 11 commands; frame fixed
+- Packages: DGS (VSSOP-10)
+- Not modeled:
+  - analog outputs and unbuffered REFIN reference (never driven)
+  - power-down output loads: stored per channel in PWR only; how a powered-down channel returns to normal operation is not described
+  - SCLK limits (50 MHz) and setup/hold times; 15 us power-up time
+
+### DAC7558
+
+12-bit octal-channel ultralow-glitch voltage-output DAC with 50 MHz SPI interface (24-bit word), four reference inputs, IOVDD level shifters, daisy-chain SDO, RSTSEL-selected binary/two's complement coding and asynchronous reset. `specs/DAC7558.json`; datasheet `dac7558.pdf` (p.4 (supplies), p.5 (timing, Figure 1), p.6-7 (pins), p.18 (Table 1), p.19 (power-on reset), p.20 (power down, Tables 2-3, RST/RSTSEL, data format, 24-bit word), p.21 (SYNC, daisy chain)).
+
+- Bus: SPI mode 2
+- 12 bits, 8 channel(s), code —; vcc [1.8, 5.5]
+- 17 registers, 21 commands; frame fixed
+- Packages: RHB (VQFN-32-5X5)
+- Not modeled:
+  - analog outputs, references and VFB sense inputs (never driven)
+  - RSTSEL selects straight binary (low) or two's complement (high) coding, so reset/RST code 0 is zero scale or mid scale; registers store the code as written and RSTSEL is a plain input
+  - PD pin low powers down all channels to Hi-Z and resumes the previous state when high (p.20): outputs are never driven, so it is a plain input
+  - power-down output loads: stored per channel in PWR only; how a powered-down channel returns to normal operation is not described
+  - daisy-chain mode (DCEN high): SDO repeating SDIN with a 24-clock delay and latching the last 24 bits at SYNC rising are not modeled; SDO stays Hi-Z (the DCEN-low behavior)
+  - A1 A0 (DB23-DB22) other than 00: the DAC does not respond (no command matches)
+  - RST: the DAC updates at the first SYNC rising edge after RST returns high (p.20); modeled as reset held while RST is low
+  - SCLK limits (50 MHz, 10 MHz with SDO) and setup/hold times
+
+### DAC7562
+
+Dual 12-bit low-power buffered voltage-output DAC, 2.5-V internal reference, 24-bit SPI write-only interface, LDAC/CLR, power-on reset to zero-scale. `specs/DAC7562.json`; datasheet `dac7562.pdf` (p.4 (pins), p.5 (recommended operating conditions), p.9 (timing, Figure 1), p.30-31 (power-on reset, Table 4), p.32-35 (power-down, gain, software reset, internal reference, CLR, LDAC; Tables 5-11), p.36-38 (serial interface, commands, address select, data formats, command matrix; Tables 12-17)).
+
+- Bus: SPI mode 1, write-only
+- 12 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 8 registers, 22 commands; frame fixed
+- Packages: DGS (VSSOP-10), DSC (WSON-10-DSC)
+- Not modeled:
+  - analog outputs, output buffer, internal 2.5-V reference and gain (GAIN, REF and PWR stored only; the internal reference forced off while both DACs are powered down is not modeled)
+  - CLR: the device stays in clear mode until the 24th SCLK falling edge of the next write and a CLR edge during a write aborts that write; the model loads the clear code once on the falling edge
+  - LDAC is a falling-edge trigger in asynchronous mode and must be held low for synchronous mode; modeled as level LDAC (active low), which covers both uses
+  - LDAC register: per-channel synchronous mode is modeled for single-channel writes (command 000); a write to both channels (address 111) with only one LDAC register bit set updates neither channel
+  - software reset with DB0 = 0 resets only the input and DAC registers; modeled with the clear action (the clear code equals the power-on code). DB0 = 1 is a full reset
+  - reserved addresses 011-110 and command 000 with address 010 other than the gain write: words to reserved addresses are ignored by the model
+  - power-on-reset supply thresholds (AVDD below 0.7 V for 1 ms) and power-up time
+  - no read-back: the interface is write-only (no SDO)
+  - SPI mode: data sampled on SCLK falling edges with SCLK shown free-running in Figure 1; modeled as mode 1
+
+### DAC7563
+
+Dual 12-bit low-power buffered voltage-output DAC, 2.5-V internal reference, 24-bit SPI write-only interface, LDAC/CLR, power-on reset to mid-scale. `specs/DAC7563.json`; datasheet `dac7562.pdf` (p.4 (pins), p.5 (recommended operating conditions), p.9 (timing, Figure 1), p.30-31 (power-on reset, Table 4), p.32-35 (power-down, gain, software reset, internal reference, CLR, LDAC; Tables 5-11), p.36-38 (serial interface, commands, address select, data formats, command matrix; Tables 12-17)).
+
+- Bus: SPI mode 1, write-only
+- 12 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 8 registers, 22 commands; frame fixed
+- Packages: DGS (VSSOP-10), DSC (WSON-10-DSC)
+- Not modeled:
+  - analog outputs, output buffer, internal 2.5-V reference and gain (GAIN, REF and PWR stored only; the internal reference forced off while both DACs are powered down is not modeled)
+  - CLR: the device stays in clear mode until the 24th SCLK falling edge of the next write and a CLR edge during a write aborts that write; the model loads the clear code once on the falling edge
+  - LDAC is a falling-edge trigger in asynchronous mode and must be held low for synchronous mode; modeled as level LDAC (active low), which covers both uses
+  - LDAC register: per-channel synchronous mode is modeled for single-channel writes (command 000); a write to both channels (address 111) with only one LDAC register bit set updates neither channel
+  - software reset with DB0 = 0 resets only the input and DAC registers; modeled with the clear action (the clear code equals the power-on code). DB0 = 1 is a full reset
+  - reserved addresses 011-110 and command 000 with address 010 other than the gain write: words to reserved addresses are ignored by the model
+  - power-on-reset supply thresholds (AVDD below 0.7 V for 1 ms) and power-up time
+  - no read-back: the interface is write-only (no SDO)
+  - SPI mode: data sampled on SCLK falling edges with SCLK shown free-running in Figure 1; modeled as mode 1
+  - power-on code mid scale (DACxx63) applies to the input and DAC registers; software reset and CLR return to mid scale
+
+### DAC7564
+
+Quad 12-bit voltage-output DAC with 2.5-V internal reference, 24-bit SPI write-only interface, hardware address pins A1/A0 and ENABLE, LDAC. `specs/DAC7564.json`; datasheet `dac7564.pdf` (p.4 (supplies, logic inputs), p.5 (pins), p.6-7 (timing), p.28 (reference commands, Tables 1-3), p.29-30 (serial interface, Tables 4-5), p.31 (SYNC interrupt, power-on reset, LDAC, ENABLE), p.32 (power-down, Table 6)).
+
+- Bus: SPI mode 1, write-only
+- 12 bits, 4 channel(s), code —; vcc [1.8, 5.5]
+- 11 registers, 51 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs, output buffers and the internal 2.5-V reference (REFCTL and PWR stored only)
+  - power-down is data in the buffer and takes effect when the buffer is loaded; the model stores the PD1:PD2 bits in PWR at once and a later data write does not clear them
+  - power-down command with PD1:PD2 = 00 (not in the table) stores normal mode; the reference-mode words are decoded only with LD1:LD0 = 00 and DAC select 00 as in the datasheet tables
+  - ENABLE high: the device ignores the serial port; modeled by gating every command on the ENABLE level (STRAP.EN)
+  - LDAC is a rising-edge trigger; synchronous updates use the LD1:LD0 load commands (LDAC tied low)
+  - no read-back: the interface is write-only
+  - SPI mode: data sampled on SCLK falling edges; modeled as mode 1
+  - IOVDD 1.8-2.7 V is allowed with degraded timing (p.29); vcc uses the full 1.8-5.5 V range
+  - address match: DB23/DB22 must equal the A1/A0 pins; modeled with one command set per address gated on the pin levels. The reference-mode words of Tables 1-3 are shown with A1 = A0 = 0; the model accepts them at the device's own address
+
+### DAC7565
+
+Quad 12-bit voltage-output DAC with 2.5-V internal reference, 24-bit SPI write-only interface, ENABLE, LDAC, RST with zero/mid-scale select. `specs/DAC7565.json`; datasheet `dac7565.pdf` (p.4 (supplies, logic inputs), p.5 (pins), p.6-7 (timing), p.26 (data format, reference commands, Tables 1-4), p.27-28 (serial interface, RST, Tables 5-6), p.29 (SYNC interrupt, power-on reset, LDAC, ENABLE), p.30 (power-down, Table 7)).
+
+- Bus: SPI mode 1, write-only
+- 12 bits, 4 channel(s), code —; vcc [1.8, 5.5]
+- 11 registers, 15 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs, output buffers and the internal 2.5-V reference (REFCTL and PWR stored only)
+  - power-down is data in the buffer and takes effect when the buffer is loaded; the model stores the PD1:PD2 bits in PWR at once and a later data write does not clear them
+  - power-down command with PD1:PD2 = 00 (not in the table) stores normal mode; the reference-mode words are decoded only with LD1:LD0 = 00 and DAC select 00 as in the datasheet tables
+  - ENABLE high: the device ignores the serial port; modeled by gating every command on the ENABLE level (STRAP.EN)
+  - LDAC is a rising-edge trigger; synchronous updates use the LD1:LD0 load commands (LDAC tied low)
+  - no read-back: the interface is write-only
+  - SPI mode: data sampled on SCLK falling edges; modeled as mode 1
+  - IOVDD 1.8-2.7 V is allowed with degraded timing (p.29); vcc uses the full 1.8-5.5 V range
+  - RSTSEL selects zero-scale reset with straight binary (USB) coding (low) or mid-scale reset with two's complement (BTC) coding (high); in both cases the stored code after reset is 0, so the register reset is 0 and the coding is analog-only
+  - DB23/DB22 must be 0 except in broadcast words
+
+### DAC7568
+
+Octal 12-bit voltage-output DAC with 2.5-V internal reference, 32-bit SPI write, LDAC and CLR. `specs/DAC7568.json`; datasheet `dac7568.pdf` (p.3 (grades), p.4 (pins), p.5-7 (AVDD 2.7-5.5 V, digital inputs to AVDD + 0.3 V), p.7-8 (timing, Figure 1), p.33-38 (serial interface, Tables 1-4), p.39 (SYNC interrupt, power-on reset, clear code, software reset), p.44-47 (reference, LDAC, power-down)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 20 registers, 14 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs, internal 2.5-V reference and power-down output loads (reference and power-down commands stored only in REF / PD; outputs never driven)
+  - power-down command applies its mode only to the channels whose mask bit is 1; the model stores the last command's mode and mask (PD), not a per-channel state
+  - clear code 11 (ignore the CLR pin) has no clear code in the model's map: the pin is not disabled
+  - CLR is falling-edge triggered and the device stays in clear mode until the 32nd SCLK of the next write, and a CLR during a write aborts it; the model loads the clear code once on the falling edge and does not abort the write
+  - LDAC register: channels with their bit set ignore the LDAC pin and update on the 32nd SCLK (stored only; every channel follows the LDAC pin)
+  - invalid channel codes A3 = 1 other than 1111 and reserved control codes 1010-1111 (no command matches: the frame is ignored); DB31 = 1 frames are ignored likewise
+  - SYNC kept low after the 32nd clock: the shift register stays locked until SYNC rises and falls again (fixed frame: same result)
+  - pin inputs at AVDD + 0.3 V max; no SDO / read-back on this device
+
+### DAC7571
+
+12-bit single-channel voltage-output DAC with I2C interface and power-down. `specs/DAC7571.json`; datasheet `dac7571.pdf` (p.2 (pinout), p.3-4 (VDD, logic levels), p.4-5 (I2C timing), p.15-17 (I2C protocol, address byte, data bytes, Table 1), p.17-18 (power-on reset, power-down modes, Table 2)).
+
+- Bus: I2C 0x4C, 0x4D
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame stream
+- Packages: DBV (SOT23-6)
+- Not modeled:
+  - analog output, settling and power-down output loads (PD bits stored only; the output is never driven)
+  - broadcast address 1001 0000 (responds regardless of A0): not expressible in the address table
+  - address pin A0 is latched at power-up (the model reads it live)
+  - I2C high-speed mode master code and timing limits
+  - a Ctrl/MS-byte whose two top bits are not 0 0 is dropped (the datasheet only defines 0 0)
+  - receive-only interface: a read (R/W = 1) is not acknowledged by the part; the model's read behaviour is the engine default
+
+### DAC7573
+
+Quad 12-bit voltage-output DAC with I2C interface, read-back, LDAC, extended address pins and power-down. `specs/DAC7573.json`; datasheet `dac7573.pdf` (p.2 (pinout), p.3-4 (supplies, logic levels), p.4-5 (I2C timing), p.14-17 (address, control byte, Table 2, LDAC, registers), p.18-22 (write/read sequences), p.23-24 (power-on reset, power-down)).
+
+- Bus: I2C 0x4C, 0x4D, 0x4E, 0x4F
+- 12 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 9 registers, 26 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs, reference and power-down output loads (power-down bits stored in the internal PDN register only; outputs never driven)
+  - multi-word transactions: the datasheet lets MSB/LSB byte pairs repeat after one control byte until STOP / repeated START (Table 4) and keeps the control byte; the model decodes only the last control byte + MSB + LSB (or the lone control byte) before the transaction ends (align end)
+  - power-down bits are kept per channel in PDN and take effect immediately: the TRx-only (L=00) and DACx (L=01) distinction for power-down data is not modeled; normal data writes do not clear them
+  - broadcast I2C address 1001 0000 (responds regardless of the address pins) is not expressible; the broadcast-mode control bytes (L=11) are decoded at the device's own address
+  - extended address bits C7 C6 must equal pins A3 A2 for a data update (not compared: the pattern cannot match a captured value against a pin; any A3 A2 is accepted)
+  - read-back returns the temporary register of the selected channel (the datasheet does not say whether TRx or DRx is read)
+  - address pins latched at power-up (the model reads them live)
+  - I2C high-speed mode master code and timing
+
+### DAC7574
+
+Quad 12-bit voltage-output DAC with I2C interface, read-back and power-down. `specs/DAC7574.json`; datasheet `dac7574.pdf` (p.2 (pinout), p.3-4 (supply, logic levels), p.4-5 (I2C timing), p.14-17 (address, control byte, Table 2, registers), p.18-22 (write/read sequences), p.23-24 (power-on reset, power-down)).
+
+- Bus: I2C 0x4C, 0x4D, 0x4E, 0x4F
+- 12 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 9 registers, 26 commands; frame fixed
+- Packages: DGS (VSSOP-10)
+- Not modeled:
+  - analog outputs, reference and power-down output loads (power-down bits stored in the internal PDN register only; outputs never driven)
+  - multi-word transactions: the datasheet lets MSB/LSB byte pairs repeat after one control byte until STOP / repeated START (Table 4) and keeps the control byte; the model decodes only the last control byte + MSB + LSB (or the lone control byte) before the transaction ends (align end)
+  - power-down bits are kept per channel in PDN and take effect immediately: the TRx-only (L=00) and DACx (L=01) distinction for power-down data is not modeled; normal data writes do not clear them
+  - broadcast I2C address 1001 0000 (responds regardless of the address pins) is not expressible; the broadcast-mode control bytes (L=11) are decoded at the device's own address
+  - C7 C6 must be 0 0 (bytes with them set are ignored, except broadcast mode which treats them as don't care)
+  - read-back returns the temporary register of the selected channel (the datasheet does not say whether TRx or DRx is read)
+  - address pins latched at power-up (the model reads them live)
+  - I2C high-speed mode master code and timing
+
+### DAC7578
+
+12-bit octal voltage-output DAC with I2C interface, LDAC, CLR and power-down. `specs/DAC7578.json`; datasheet `dac5578.pdf` (p.5 (pinouts), p.6 (timing), p.7-8 (AVDD, logic levels), p.30-33 (address, CA byte, data formats, read sequence), p.34-37 (write/read command matrices), p.38-39 (POR, LDAC, power-down, clear code, reset)).
+
+- Bus: I2C 0x48, 0x4A
+- 12 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 19 registers, 59 commands; frame fixed
+- Packages: PW (TSSOP-16), RGE (VQFN-24-RGE)
+- Not modeled:
+  - analog outputs, reference and power-down output loads (PWR stored only; outputs never driven)
+  - I2C address strap float levels (TSSOP ADDR0 float = 0x4C; QFN Table 3 float combinations 0x4C-0x4F) are not expressible; the RGE package uses its own two-pin table (ADDR0, ADDR1 at GND/AVDD: 0x48-0x4B, p.30)
+  - broadcast I2C address 1000 111 (Table 9, write only) is not expressible
+  - multi-word writes (Example 4: MSDB/LSDB pairs repeat after one CA byte) and the retained CA byte: the model decodes only the last CA byte + MSDB + LSDB (or a lone CA byte for a read) before the transaction ends (align end)
+  - LDAC: modeled as level-sensitive active low (tied low = synchronous update at the LSDB acknowledge; a falling edge after loading = asynchronous update); the per-channel LDAC register mask (1 = channel ignores the pin) is stored only
+  - CLR: clear code 11 disables the pin (not modeled: the model's map has no code for 11); clear mode exits at the next write (the model loads the code once on the falling edge)
+  - QFN RSTSEL (power-on zero or mid scale) and TWOC (two's complement data format) pins: reset values are zero scale; data is stored as written
+  - software reset high-speed mode options (Table 17) and I2C high-speed mode
+  - invalid access codes (1000-1110) are ignored (no command matches)
+
+### DAC7611
+
+12-bit single-channel voltage-output DAC with internal reference, serial shift-register input, load strobe and asynchronous clear. `specs/DAC7611.json`; datasheet `dac7611.pdf` (p.2 (VDD, logic levels, data coding), p.3 (pins, ordering), p.5 (timing, truth table), p.10 (interface, LD, CLR)).
+
+- Bus: SPI mode 3, write-only
+- 12 bits, 1 channel(s), code —; vcc [4.75, 5.25]
+- 2 registers, 1 commands; frame fixed
+- Packages: D (SOIC-8)
+- Not modeled:
+  - analog output and internal 2.435-V reference (output never driven)
+  - the shift register is updated bit by bit: with LD low the DAC register follows each new bit; the model writes the shift-register value when CS rises (then LD low copies it at once)
+  - CS and CLK are interchangeable (the shift clock is CS OR CLK); the model shifts only on CLK edges while CS is low
+  - CLR loads 000H into the DAC register only (the shift register keeps its data and LD low after CLR reloads it); the model clears both registers
+  - power-on register contents are not specified (modeled as 0); the datasheet recommends CLR at power-up
+  - TTL logic levels (VIH 2.4 V, VIL 0.8 V)
+
+### DAC7612
+
+Dual 12-bit voltage-output DAC with internal reference, 14-bit serial shift-register input and LOADDACS strobe. `specs/DAC7612.json`; datasheet `dac7612.pdf` (p.2 (VDD, logic levels, data coding), p.3 (pins, ordering), p.4 (input logic), p.5 (timing, truth table, data input table), p.10 (interface)).
+
+- Bus: SPI mode 3, write-only
+- 12 bits, 2 channel(s), code —; vcc [4.75, 5.25]
+- 4 registers, 3 commands; frame fixed
+- Packages: D (SOIC-8)
+- Not modeled:
+  - analog outputs and internal 2.435-V reference (outputs never driven)
+  - one shared 14-bit shift register: LOADDACS low loads only the DAC(s) its A1 A0 bits select; the model keeps a per-channel input register and LOADDACS updates both channels from them (a channel whose input register was written but not loaded before another channel's write also updates)
+  - the shift register is updated bit by bit: with LOADDACS low the DAC registers follow each new bit; the model writes when CS rises
+  - CS and CLK are interchangeable (the shift clock is CS OR CLK, p.4); the model shifts only on CLK edges while CS is low
+  - power-on register contents are not specified (modeled as 0)
+
+### DAC7614
+
+Quad 12-bit voltage-output DAC with serial input, LOADDACS strobe and asynchronous reset to zero or mid scale. `specs/DAC7614.json`; datasheet `dac7614.pdf` (p.2 (supplies, logic levels), p.3 (pins, both packages), p.9 (operation), p.10 (timing, Table I, interface), p.11 (Tables II-III, coding)).
+
+- Bus: SPI mode 3, write-only
+- 12 bits, 4 channel(s), code —; vcc [4.75, 5.25]
+- 8 registers, 1 commands; frame fixed
+- Packages: DB (SSOP-20), DW (SOIC-16W)
+- Not modeled:
+  - analog outputs, external references VREFH/VREFL and the VSS (0 V or -5 V) supply (outputs never driven)
+  - single buffered: one shared shift register, and LOADDACS low makes only the DAC register selected by A1 A0 transparent; the model keeps a per-channel input register and LOADDACS updates every channel from them (a channel written but not loaded before another channel's write also updates)
+  - RESET also stops the bus in the model (the datasheet leaves the shift register unchanged)
+  - the shift register is updated bit by bit: with the load strobe low the selected register follows each new bit; the model writes when CS rises
+  - CS and CLK are combined by an OR gate (interchangeable); CS rising while CLK is low shifts one extra bit (Table III note); the model shifts only on CLK edges while CS is low
+  - power-on register contents are not specified (modeled as 0); RESET is recommended at start-up
+  - TTL-compatible CMOS inputs (VIH 2.4 V, VIL 0.8 V)
+
+### DAC7615
+
+Quad 12-bit voltage-output DAC with serial input, double-buffered (LOADREG / LOADDACS) and asynchronous reset to zero or mid scale. `specs/DAC7615.json`; datasheet `dac7615.pdf` (p.1 (block diagram), p.2 (supplies, logic levels), p.3 (pins, both packages), p.9 (operation), p.10 (timing, Table I, interface), p.11 (Tables II-III, double buffering, coding)).
+
+- Bus: SPI mode 3, write-only
+- 12 bits, 4 channel(s), code —; vcc [4.75, 5.25]
+- 8 registers, 1 commands; frame fixed
+- Packages: DB (SSOP-20), DW (SOIC-16W)
+- Not modeled:
+  - analog outputs, external references VREFH/VREFL and the VSS (0 V or -5 V) supply (outputs never driven)
+  - LOADREG (level, low = the input register selected by A1 A0 is transparent to the shift register) is not modeled: the input register is written when CS rises, as if LOADREG were pulsed after each word; data clocked while LOADREG is low (corrupting other input registers as A1 A0 flow through) is not modeled
+  - RESET also stops the bus in the model (the datasheet leaves the shift register unchanged)
+  - the shift register is updated bit by bit: with the load strobe low the selected register follows each new bit; the model writes when CS rises
+  - CS and CLK are combined by an OR gate (interchangeable); CS rising while CLK is low shifts one extra bit (Table III note); the model shifts only on CLK edges while CS is low
+  - power-on register contents are not specified (modeled as 0); RESET is recommended at start-up
+  - TTL-compatible CMOS inputs (VIH 2.4 V, VIL 0.8 V)
+
+### DAC7616
+
+quad 12-bit +3 V voltage-output DAC with 16-bit serial interface, LDAC and reset to zero or mid scale. `specs/DAC7616.json`; datasheet `dac7616.pdf` (p.2 (specifications: VDD 3.0-3.6 V, logic levels, straight binary), p.4 (pin configurations and descriptions), p.10 (theory of operation, Figure 1), p.11 (digital interface, Table I timing, Table II control logic, Figure 2), p.12 (Table III shift register, coding)).
+
+- Bus: SPI mode 3, write-only
+- 12 bits, 4 channel(s), code —; vcc [3.0, 3.6]
+- 8 registers, 1 commands; frame fixed
+- Packages: DB (SSOP-20), DW (SOIC-16W)
+- Not modeled:
+  - analog: outputs, reference inputs VREFH/VREFL, settling (10 us)
+  - power-on state of the registers is not stated in the datasheet (reset 0)
+  - CS and CLK are interchangeable (ORed); a CS rising edge while CLK is low shifts one extra bit (p.11)
+  - timing limits tDS/tDH/tCH/tCL/tCSS/tCSH/tLD1/tLD2/tLDDW/tRSSH/tRSTW (Table I)
+  - single buffering: the real part has one shift register and LDAC loads only the DAC register the shift register's A1 A0 currently select; the model keeps one input register per channel, so two words written while LDAC is high both reach their DAC registers at the next LDAC low (the real part loads only the last one)
+  - data shifted while LDAC is low 'flows' through A1 A0 and corrupts other DAC registers (Table III note 7)
+
+### DAC7617
+
+quad 12-bit +3 V voltage-output DAC with 16-bit serial interface, double-buffered inputs (LOADREG, LDAC) and reset to zero or mid scale. `specs/DAC7617.json`; datasheet `dac7617.pdf` (p.2 (specifications: VDD 3.0-3.6 V, logic levels, straight binary), p.4 (pin configurations and descriptions), p.11 (digital interface, Table I timing, Figure 2), p.12 (Table II control logic, Table III shift register, double buffering, coding)).
+
+- Bus: SPI mode 3, write-only
+- 12 bits, 4 channel(s), code —; vcc [3.0, 3.6]
+- 8 registers, 1 commands; frame fixed
+- Packages: DB (SSOP-20), DW (SOIC-16W)
+- Not modeled:
+  - analog: outputs, reference inputs VREFH/VREFL, settling (10 us)
+  - power-on state of the registers is not stated in the datasheet (reset 0)
+  - CS and CLK are interchangeable (ORed); a CS rising edge while CLK is low shifts one extra bit (p.11)
+  - timing limits tDS/tDH/tCH/tCL/tCSS/tCSH/tLD1/tLD2/tLDDW/tRSSH/tRSTW (Table I)
+  - LOADREG: the input register A1 A0 select is transparent while LOADREG is low (level-triggered load from the shift register); the schema has no load-strobe pin, so the word is written into the input register when CS rises (a frame without a LOADREG pulse still updates the input register in the model)
+
+### DAC7624
+
+quad 12-bit voltage-output DAC with 12-bit parallel interface, input-register read-back, LDAC and reset to mid scale. `specs/DAC7624.json`; datasheet `dac7624.pdf` (p.1 (description: reset to 800H DAC7624 / 000H DAC7625), p.2 (specifications: VDD 4.75-5.25 V, TTL-compatible logic, straight binary), p.4 (pin configurations and descriptions), p.10 (digital interface, Table I control logic), p.11 (Figure 3, Table II timing, input coding)).
+
+- Bus: parallel 12-bit
+- 12 bits, 4 channel(s), code —; vcc [4.75, 5.25]
+- 8 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-28W)
+- Not modeled:
+  - analog: outputs, reference inputs, single (VSS = 0 V) or dual supply operation, settling
+  - power-on state of the registers is not stated in the datasheet (the RESET code is used)
+  - the input registers are level-transparent while CS and R/W are low; the model latches the data at the end of the write
+  - DAC registers are not readable (Table I reads back the input registers only)
+  - timing limits tRCS/tRDS/tWCS/tWS/tAS/tLS/tLH/tDS/tDH/tLWD/tRESET (Table II)
+
+### DAC7625
+
+quad 12-bit voltage-output DAC with 12-bit parallel interface, input-register read-back, LDAC and reset to zero scale. `specs/DAC7625.json`; datasheet `dac7624.pdf` (p.1 (description: reset to 800H DAC7624 / 000H DAC7625), p.2 (specifications: VDD 4.75-5.25 V, TTL-compatible logic, straight binary), p.4 (pin configurations and descriptions), p.10 (digital interface, Table I control logic), p.11 (Figure 3, Table II timing, input coding)).
+
+- Bus: parallel 12-bit
+- 12 bits, 4 channel(s), code —; vcc [4.75, 5.25]
+- 8 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-28W)
+- Not modeled:
+  - analog: outputs, reference inputs, single (VSS = 0 V) or dual supply operation, settling
+  - power-on state of the registers is not stated in the datasheet (the RESET code is used)
+  - the input registers are level-transparent while CS and R/W are low; the model latches the data at the end of the write
+  - DAC registers are not readable (Table I reads back the input registers only)
+  - timing limits tRCS/tRDS/tWCS/tWS/tAS/tLS/tLH/tDS/tDH/tLWD/tRESET (Table II)
+
+### DAC7631
+
+16-bit voltage-output DAC with serial interface, daisy-chain SDO, double-buffered inputs (LOAD, LDAC) and reset to zero or mid scale. `specs/DAC7631.json`; datasheet `dac7631.pdf` (p.2-3 (specifications: VDD logic supply 4.75-5.25 V, VIH 0.7 VDD), p.5 (pin configuration and descriptions), p.13 (digital interface, serial data input, Table I truth table), p.15-16 (LOAD/LDAC operation, Table II shift register, SDO daisy chain, coding), p.17 (Figure 15, Table III timing)).
+
+- Bus: SPI mode 3
+- 16 bits, 1 channel(s), code —; vcc [4.75, 5.25]
+- 3 registers, 1 commands; frame fixed
+- Packages: DB (SSOP-20)
+- Not modeled:
+  - analog: output, force/sense pins, differential reference inputs, current-source configuration, settling
+  - LOAD: the shift register is copied into the input register while LOAD is low (level); the schema has no load-strobe pin, so the word is written into the input register when CS rises (a frame without a LOAD pulse still updates the input register in the model)
+  - RST does not change the serial shift register in the chip (the model's clear leaves SR as well)
+  - power-on state of the registers is not stated in the datasheet (reset 0)
+  - daisy chain: SDO shifts the previous 16-bit word, then the real part passes the incoming bits through; the model shifts the previous word then zeros, so chains of more than one device do not pass data on
+  - CS and CLK are interchangeable (ORed); a CS rising edge while CLK is low shifts one extra bit
+  - timing limits tDS/tDH/tCH/tCL/tCSS/tCSH/tLD1/tLD2/tLDRW/tLDDL/tLDDH/tLDDD/tRSSS/tRSSH/tRSTL/tRSTH (Table III)
+
+### DAC7634
+
+quad 16-bit voltage-output DAC with 24-bit serial interface, quick load, daisy-chain SDO, double-buffered inputs (LOAD, LDAC) and reset to zero or mid scale. `specs/DAC7634.json`; datasheet `dac7634.pdf` (p.3-4 (electrical characteristics: VDD digital 4.75-5.25 V, VIH 0.7 VDD), p.5 (pin descriptions), p.6 (pin configuration), p.22 (digital interface, serial data input, Table 1 truth table), p.23 (Table 2 shift register, serial-data output, coding), p.24 (Figures 61-64), p.25 (Table 3 timing)).
+
+- Bus: SPI mode 3
+- 16 bits, 4 channel(s), code —; vcc [4.75, 5.25]
+- 9 registers, 1 commands; frame fixed
+- Packages: DL (SSOP-48)
+- Not modeled:
+  - analog: outputs, force/sense pins, differential reference inputs, single/dual supply operation, current-source configuration, settling
+  - LOAD: the shift register is copied into the addressed (or, with quick load, every) input register while LOAD is low; the schema has no load-strobe pin, so the word is written when CS rises (a frame without a LOAD pulse still updates the input register in the model)
+  - RST does not change the serial shift register in the chip (the model's clear leaves SR as well)
+  - power-on state of the registers is not stated in the datasheet (reset 0)
+  - daisy chain: SDO shifts the previous 24-bit word, then the real part passes the incoming bits through; the model shifts the previous word then zeros, so chained devices do not receive data
+  - CS and CLK are interchangeable (ORed); with CS tied low the shift register runs on CLK alone (Table 1 note); a CS rising edge while CLK is low shifts one extra bit
+  - timing limits of Table 3 (no SDO propagation delay is given)
+
+### DAC7641
+
+16-bit voltage-output DAC with 16-bit parallel interface, input-register read-back, LDAC and reset to zero or mid scale. `specs/DAC7641.json`; datasheet `dac7641.pdf` (p.2-3 (specifications: VDD 4.75-5.25 V, VIH 0.7 VDD), p.5 (pin configuration and descriptions), p.16 (digital interface, Table I truth table, coding), p.17 (Figure 14, Table II timing)).
+
+- Bus: parallel 16-bit
+- 16 bits, 1 channel(s), code —; vcc [4.75, 5.25]
+- 2 registers, 1 commands; frame fixed
+- Packages: PBS (TQFP-32-PBS)
+- Not modeled:
+  - analog: output, force/sense pins, differential reference inputs, single/dual supply operation, settling
+  - power-on state of the registers is not stated in the datasheet (reset 0)
+  - DAC register is not readable (Table I reads back the input register only)
+  - timing limits tRCS/tRDS/tRDH/tWCS/tWS/tWH/tLS/tLH/tLX/tDS/tDH/tLWD/tSS/tSH/tRSS/tRSH (Table II)
+
+### DAC7642
+
+dual 16-bit voltage-output DAC with 16-bit parallel interface, input-register read-back, LOADDACS and reset to mid scale. `specs/DAC7642.json`; datasheet `dac7642.pdf` (p.1 (description: DAC7642 resets to 8000H), p.3-4 (specifications: VCC 4.75-5.25 V, VIH 0.7 VCC), p.5 (pin configuration and descriptions), p.16 (digital interface), p.17 (Table I truth table, coding, Figure 14), p.18 (Table II timing)).
+
+- Bus: parallel 16-bit
+- 16 bits, 2 channel(s), code —; vcc [4.75, 5.25]
+- 4 registers, 1 commands; frame fixed
+- Packages: VF (LQFP-32-VF)
+- Not modeled:
+  - analog: outputs, force/sense pins, differential reference inputs, single/dual supply operation, settling
+  - RST is rising-edge triggered and either level is normal operation; modeled as a level reset active low to 8000H, so a design that leaves RST low stays in reset in the model
+  - power-on state of the registers is not stated in the datasheet (the RST code 8000H is used)
+  - DAC registers are not readable (Table I reads back the input registers only)
+  - pin 29 is printed 'VOUTL' in the pin-description table (described as the reference low input) and 'VREFL' in the pin configuration drawing; named VREFL here
+  - timing limits of Table II
+
+### DAC7644
+
+quad 16-bit voltage-output DAC with 16-bit parallel interface, input-register read-back, LOADDACS and reset to zero or mid scale. `specs/DAC7644.json`; datasheet `dac7644.pdf` (p.2-3 (specifications: VDD digital 4.75-5.25 V, VIH 0.7 VDD), p.5 (pin configuration and descriptions), p.19 (digital interface, Table I truth table), p.20 (coding, Figure 14, Table II timing)).
+
+- Bus: parallel 16-bit
+- 16 bits, 4 channel(s), code —; vcc [4.75, 5.25]
+- 8 registers, 1 commands; frame fixed
+- Packages: DL (SSOP-48)
+- Not modeled:
+  - analog: outputs, force/sense pins, differential reference inputs, single/dual supply operation, settling
+  - RST loads the DAC registers only (datasheet); the model's clear also loads the input registers
+  - power-on state of the registers is not stated in the datasheet (reset 0)
+  - DAC registers are not readable (Table I reads back the input registers only)
+  - timing limits of Table II
+
+### DAC7654
+
+quad 16-bit voltage-output DAC with internal reference, 24-bit serial interface, quick load, daisy-chain SDO, double-buffered inputs (LOAD, LDAC) and reset to zero or mid scale. `specs/DAC7654.json`; datasheet `dac7654.pdf` (p.1 (features: power-on reset, description), p.3-4 (electrical characteristics: IOVDD 2.7-5.25 V, VDD/VCC 4.75-5.25 V, VIH 0.7 IOVDD), p.5 (pin assignments), p.6 (terminal functions), p.19 (theory of operation: 24-bit word), p.22 (digital interface, Table 1 truth table), p.23 (24-bit word, quick load, Table 2 shift register, Table 3 data word, 3 V to 5 V logic interface), p.24 (serial data output, daisy chain, coding), p.25 (Figure 58), p.26 (Table 4 timing)).
+
+- Bus: SPI mode 3
+- 16 bits, 4 channel(s), code —; vcc [2.7, 5.25]
+- 9 registers, 1 commands; frame fixed
+- Packages: PM (LQFP-64-10X10)
+- Not modeled:
+  - analog: outputs, force/sense pins, offset range pins (unipolar/bipolar), internal references, single/dual supply operation, glitch suppression track-and-hold, settling
+  - LOAD: the shift register is copied into the addressed (or, with quick load, every) input register while LOAD is low; the schema has no load-strobe pin, so the word is written when CS rises (a frame without a LOAD pulse still updates the input register in the model)
+  - RST does not change the serial shift register in the chip (the model's clear leaves SR as well)
+  - power-on reset: the features list a power-on reset but no power-on code is given (reset 0)
+  - daisy chain: SDO shifts the previous 24-bit word, then the real part passes the incoming bits through; the model shifts the previous word then zeros, so chained devices do not receive data
+  - CS and CLK are interchangeable (ORed); a CS rising edge while CLK is low shifts one extra bit
+  - VDD must be 5 V (internal logic) while IOVDD sets the 2.7-5.25 V interface levels; vcc is the IOVDD range
+  - timing limits of Table 4 (no SDO propagation delay is given)
+
+### DAC7664
+
+Quad 16-bit voltage-output DAC with 16-bit parallel interface, read-back, LDAC and reset to zero or mid scale. `specs/DAC7664.json`; datasheet `dac7664.pdf` (p.2-4 (electrical, supplies, logic levels), p.5-6 (pinout, terminal functions), p.22 (Table 1 truth table), p.23 (logic interface, coding), p.24-25 (Figure 57, Table 2 timing)).
+
+- Bus: parallel 16-bit
+- 16 bits, 4 channel(s), code —; vcc [2.7, 5.25]
+- 8 registers, 1 commands; frame fixed
+- Packages: PM (LQFP-64-10X10)
+- Not modeled:
+  - analog: outputs, force/sense pins, offset range pins, internal bandgap reference, unipolar/bipolar ranges
+  - power-on reset: the datasheet lists a power-on reset but gives no power-on code; registers reset to 0
+  - the datasheet's Table 1 gives the read-back of the input registers only (DAC registers are not readable)
+
+### DAC7678
+
+12-bit octal voltage-output DAC with I2C interface, 2.5 V internal reference, LDAC, CLR and power-down. `specs/DAC7678.json`; datasheet `dac7678.pdf` (p.5 (pinouts), p.6 (timing), p.3-4 (AVDD, logic levels), p.24-25 (internal reference), p.28-30 (address, CA byte, data formats, read sequence), p.31-34 (write/read command matrices), p.35-36 (POR, LDAC, power-down, clear code, reset)).
+
+- Bus: I2C 0x48, 0x4A
+- 12 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 21 registers, 63 commands; frame fixed
+- Packages: PW (TSSOP-16), RGE (VQFN-24-RGE)
+- Not modeled:
+  - analog outputs, internal 2.5 V reference and power-down output loads (PWR, REF, REF_FLEX stored only; outputs never driven)
+  - I2C address strap float levels (TSSOP ADDR0 float = 0x4C; QFN Table 9 float combinations 0x4C-0x4F) are not expressible; the RGE package uses its own two-pin table (ADDR0, ADDR1 at GND/AVDD: 0x48-0x4B)
+  - broadcast I2C address 1000 111 (Table 15, write only) is not expressible
+  - multi-word writes (Example 4: MSDB/LSDB pairs repeat after one CA byte) and the retained CA byte: the model decodes only the last CA byte + MSDB + LSDB (or a lone CA byte for a read) before the transaction ends (align end)
+  - LDAC: modeled as level-sensitive active low (tied low = synchronous update at the LSDB acknowledge; a falling edge after loading = asynchronous update); the per-channel LDAC register mask (1 = channel ignores the pin) is stored only
+  - CLR: clear code 11 disables the pin (not modeled: the model's map has no code for 11); clear mode exits at the next write (the model loads the code once on the falling edge)
+  - QFN RSTSEL (power-on zero or mid scale, read at power on) and TWOC (two's complement data format) pins: reset values are zero scale; data is stored as written
+  - software reset high-speed mode options (Table 20) and I2C high-speed mode
+  - invalid access codes (A3 = 1 other than 1111, commands 1010-1111) are ignored (no command matches)
+
+### DAC7714
+
+Quad 12-bit voltage-output DAC with 16-bit serial input, LOADDACS and reset to zero or mid scale. `specs/DAC7714.json`; datasheet `dac7714.pdf` (p.2-4 (electrical, logic levels, abs max), p.5 (pinout), p.12-14 (digital interface, Figure 4, Tables I-III)).
+
+- Bus: SPI mode 3, write-only
+- 12 bits, 4 channel(s), code —; vcc [14.25, 15.75]
+- 8 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-16W)
+- Not modeled:
+  - analog: outputs, VREFH/VREFL reference inputs, single (+15 V) or dual (+-15 V) supply operation
+  - logic thresholds are fixed (VIH 3.325 V, VIL 1.575 V; digital inputs -0.3 to 5.8 V abs max) and there is no logic supply pin: vcc is the VCC +15 V range, so the voltage check cannot flag a digital input above 5.8 V
+  - the DAC7714 has a single serial shift register and no per-channel input registers: LOADDACS low makes the DAC register selected by the shift register's A1 A0 transparent. Modeled as one input register per channel loaded at the 16th bit and LOADDACS level active low copying every channel: writing A then B and then pulsing LOADDACS updates both A and B in the model, only B in the chip; a word shifted in while LOADDACS is low also updates at once
+  - CS and CLK are OR-ed and interchangeable (either can clock the shift register); a CS rise with CLK low shifts one extra bit; the shift register keeps the last 16 bits clocked, the model decodes the first 16 bits after CS falls
+  - power-on state is not specified; registers reset to 0
+
+### DAC7715
+
+Quad 12-bit voltage-output DAC with 16-bit serial input, double-buffered (LOADREG, LOADDACS) and reset to zero or mid scale. `specs/DAC7715.json`; datasheet `dac7715.pdf` (p.2-4 (electrical, logic levels, abs max), p.5 (pinout), p.12-14 (digital interface, Figure 4, Tables I-III)).
+
+- Bus: SPI mode 3, write-only
+- 12 bits, 4 channel(s), code —; vcc [14.25, 15.75]
+- 8 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-16W)
+- Not modeled:
+  - analog: outputs, VREFH/VREFL reference inputs, single (+15 V) or dual (+-15 V) supply operation
+  - logic thresholds are fixed (VIH 3.325 V, VIL 1.575 V; digital inputs -0.3 to 5.8 V abs max) and there is no logic supply pin: vcc is the VCC +15 V range, so the voltage check cannot flag a digital input above 5.8 V
+  - LOADREG (pin 14) transfers the shift register into the input register A1 A0 select (transparent while low); the model writes the input register when the 16th bit is clocked in, as if LOADREG were pulsed after each word
+  - LOADDACS: all DAC registers transparent while low (modeled as LDAC level active low)
+  - CS and CLK are OR-ed and interchangeable (either can clock the shift register); a CS rise with CLK low shifts one extra bit; the shift register keeps the last 16 bits clocked, the model decodes the first 16 bits after CS falls
+  - power-on state is not specified; registers reset to 0
+
+### DAC7718
+
+Octal 12-bit high-voltage-output DAC with SPI, offset DACs, gain/zero calibration registers, LDAC and GPIO. `specs/DAC7718.json`; datasheet `dac7718.pdf` (p.10-12 (pinouts), p.5-9 (electrical), p.13-17 (timing), p.42-46 (reset, update, power-down, serial interface, read-back), p.47-51 (Tables 9-12, register descriptions)).
+
+- Bus: SPI mode 1
+- 12 bits, 8 channel(s), code —; vcc [1.8, 5.5]
+- 38 registers, 6 commands; frame fixed
+- Packages: PAG (TQFP-64-PAG), RGZ (VQFN-48-RGZ)
+- Not modeled:
+  - analog: outputs, offset DACs, reference buffers, VMON monitor multiplexer, AIN-0/1, power-down output loads (PD_A/PD_B stored only)
+  - correction engine (SCE = 1): the Input Data Register, gain and zero correction and the corrected DAC Data Register are not modeled; written data go to DAC_n directly as with SCE = 0, and reading DAC-n returns DAC_n whatever A/B selects
+  - power-on / RST reset codes of the DAC data registers and latches (000h or 800h, Tables 7-8) are mid scale when RSTSEL and USB/BTC differ: pins.resetSelect models RSTSEL high = mid scale and USB/BTC high = offset 19Ah (the USB/BTC-low rows are exact); with USB/BTC high the chip's data codes swap (mid scale with RSTSEL low, zero with RSTSEL high) but the model keeps the RSTSEL mapping: a reset code chosen by two pins together cannot be expressed. Offset DAC defaults depend on supply detection and gain (99Ah / AABh / 000h); modeled as 99Ah (USB/BTC low) / 19Ah (USB/BTC high). Changing GAIN-x does not reload the offset code
+  - update mode latched at power-on (LDAC low = asynchronous, high = synchronous): modeled as LDAC level active low, so LDAC tied low updates at CS rising and an LDAC low pulse updates every latch (the chip reloads only latches accessed since the last update)
+  - LD and RST self-clear in the chip; in the model RST clears through the reset and LD stays 1 until written 0 (a write leaving LD = 1 updates every latch). NOP bit stored only
+  - CLR pin: level-triggered output clamp (VOUT to AGND through switches) that does not change any register; not modeled
+  - GPIO pins: open-drain outputs set by GPIO register writes and read back as pin levels; the register is stored only and the pins are never driven
+  - SDO header bits in read-back frames are not documented; the model sends zeros in DB23:DB16, the register in DB15:DB4 and zeros in DB3:DB0. DSDO (SDO disable) is stored only
+  - daisy-chain (SDO shift-out after 24 bits), SPI sleep mode (SDI routed to SDO), WAKEUP pin and W2 wake-up: not modeled (SLEEP stored only)
+  - frames with fewer than 24 SCLK falling edges are ignored by the chip; the model also ignores them (commit at CS rising); with more, the last 24 bits are used (align end)
+  - USB/BTC data-format pin: data are stored as written
+
+### DAC7724
+
+Quad 12-bit voltage-output DAC with 12-bit parallel interface, read-back, LDAC and reset to mid scale. `specs/DAC7724.json`; datasheet `dac7725.pdf` (p.2-3 (electrical, logic levels, abs max), p.4 (pinouts, pin descriptions), p.13 (Table I, coding), p.14 (Figure 4, Table II timing)).
+
+- Bus: parallel 12-bit
+- 12 bits, 4 channel(s), code —; vcc [4.75, 5.25]
+- 8 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-28W)
+- Not modeled:
+  - analog: outputs, VREFH/VREFL references, single (+15 V) or dual (+-15 V) analog supplies
+  - power-on state is not specified; registers start at the RESET code 800H (mid scale)
+  - the input register is transparent (follows the data bus) while CS and R/W are low; modeled as latched at CS rising
+  - PLCC-28 (FN) package: not in the skeleton's orderable parts
+
+### DAC7725
+
+Quad 12-bit voltage-output DAC with 12-bit parallel interface, read-back, LDAC and reset to zero scale. `specs/DAC7725.json`; datasheet `dac7725.pdf` (p.2-3 (electrical, logic levels, abs max), p.4 (pinouts, pin descriptions), p.13 (Table I, coding), p.14 (Figure 4, Table II timing)).
+
+- Bus: parallel 12-bit
+- 12 bits, 4 channel(s), code —; vcc [4.75, 5.25]
+- 8 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-28W)
+- Not modeled:
+  - analog: outputs, VREFH/VREFL references, single (+15 V) or dual (+-15 V) analog supplies
+  - power-on state is not specified; registers start at the RESET code 000H (zero scale)
+  - the input register is transparent (follows the data bus) while CS and R/W are low; modeled as latched at CS rising
+  - PLCC-28 (FN) package: not in the skeleton's orderable parts
+
+### DAC7728
+
+Octal 12-bit high-voltage-output DAC with 12-bit parallel interface, offset DACs, gain/zero calibration registers, LDAC and GPIO. `specs/DAC7728.json`; datasheet `dac7728.pdf` (p.10-11 (pin descriptions), p.5-9 (electrical), p.12-15 (timing), p.39-40 (reset, update modes), p.42-46 (register map, Tables 10-15)).
+
+- Bus: parallel 12-bit
+- 12 bits, 8 channel(s), code —; vcc [1.7, 5.5]
+- 38 registers, 2 commands; frame fixed
+- Packages: RTQ (QFN-56-RTQ)
+- Not modeled:
+  - analog: outputs, offset DACs, reference buffers, VMON monitor multiplexer, power-down output loads (PD_A/PD_B stored only)
+  - correction engine (SCE = 1): the Input Data Register, gain and zero correction, BUSY pin, GBF and busy flags are not modeled; written data go to DAC_n directly as with SCE = 0, and reading DAC-n returns DAC_n whatever A/B selects; BUSY is never driven
+  - power-on / RST reset codes of the DAC data registers and latches (000h or 800h, Tables 8-9) are mid scale when RSTSEL and USB/BTC differ: pins.resetSelect models RSTSEL high = mid scale and USB/BTC high = offset 19Ah (the USB/BTC-low rows are exact); with USB/BTC high the chip's data codes swap (mid scale with RSTSEL low, zero with RSTSEL high) but the model keeps the RSTSEL mapping: a reset code chosen by two pins together cannot be expressed. Offset DAC defaults depend on supply detection and gain (99Ah / AABh / 000h); modeled as 99Ah (USB/BTC low) / 19Ah (USB/BTC high). Changing GAIN-x does not reload the offset code
+  - update mode latched at power-on (LDAC low = asynchronous, high = synchronous): modeled as LDAC level active low (LDAC tied low updates at CS rising); the chip reloads only latches accessed since the last update
+  - LD and RST self-clear in the chip; in the model RST clears through the reset and LD stays 1 until written 0
+  - CLR pin: level-triggered output clamp (VOUT to AGND through 15 kOhm) that does not change any register; not modeled
+  - GPIO pin: open-drain output set by the GPIO register and read back as the pin level; the register is stored only and the pin is never driven
+  - USB/BTC data-format pin: data are stored as written
+  - TQFP-64 (PAG) package: the skeleton lists only the QFN-56 (RTQ) orderable part
+
+### DAC7731
+
+16-bit voltage-output DAC with +10 V internal reference, serial interface with daisy-chain SDO, LDAC and reset to min or mid scale. `specs/DAC7731.json`; datasheet `dac7731.pdf` (p.2 (pinout), p.3 (electrical), p.4 (timing), p.11-13 (digital interface, Tables II-III, transfer modes, daisy chain, reset)).
+
+- Bus: SPI mode 3
+- 16 bits, 1 channel(s), code —; vcc [4.75, 5.25]
+- 2 registers, 1 commands; frame stream
+- Packages: DB (SSOP-24)
+- Not modeled:
+  - analog: output, internal +10 V reference (REFEN), reference buffer, feedback/offset resistors (unipolar or bipolar range)
+  - power-up register contents are not specified (0 here, or mid scale with RSTSEL high since the model applies the RSTSEL code at power-on too)
+  - the input register is the serial shift register itself: it changes bit by bit and keeps its contents across CS high periods (byte transfer mode, Figure 5: two 8-clock CS-low bursts make one word); the model writes IN only after 16 bits within one CS-low period
+  - a CS rise while SCLK is low shifts one extra bit (Table III note)
+  - TEST pin (reserved, tie to DGND) and REFEN (internal reference enable) have no digital effect in the model
+
+### DAC7734
+
+Quad 16-bit voltage-output DAC with 24-bit serial interface, daisy-chain SDO, LOAD/LDAC double buffering and reset to zero or mid scale. `specs/DAC7734.json`; datasheet `dac7734.pdf` (p.2-3 (electrical), p.5 (pinout), p.21 (Tables I-II, serial word), p.22 (SDO, coding), p.23 (Figure 12, Table III timing)).
+
+- Bus: SPI mode 3
+- 16 bits, 4 channel(s), code —; vcc [4.75, 5.25]
+- 9 registers, 2 commands; frame stream
+- Packages: DL (SSOP-48)
+- Not modeled:
+  - analog: outputs, force/sense pins, differential reference inputs, single or dual analog supplies
+  - LOAD pin (pin 9): the input register selected by A1 A0 (or all with Quick Load) is transparent to the shift register while LOAD is low; there is no LOAD trigger in the schema, so the model loads the input register(s) when the 24th bit is clocked in, as if LOAD were pulsed after each word
+  - the shift register SR is not changed by RST (the model's clear leaves it as well)
+  - CS and CLK are OR-ed and interchangeable; a CS rise with CLK low shifts one extra bit; the shift register keeps its contents across CS high periods (the model decodes complete 24-bit words within one CS-low period)
+  - SDO is the shift register's last stage and changes after each CLK rising edge (tSDO 10-45 ns); the model shifts SR (the previous word) out MSB first
+  - pin 43 is printed 'VOUTL AB' in the pin description table but 'VREFL AB' in the pin drawing and described as the A/B reference low input; named VREFL AB
+
+### DAC7741
+
+16-bit single voltage-output DAC with 16-bit parallel interface, read-back, internal +10 V reference and RST/RSTSEL reset. `specs/DAC7741.json`; datasheet `dac7741.pdf` (p.3 (VDD), p.4-5 (pins), p.6 (timing tCSD 100 ns, tDZ 70 ns), p.14 (Table II truth table, Table III straight/offset binary), p.15 (RST/RSTSEL)).
+
+- Bus: parallel 16-bit
+- 16 bits, 1 channel(s), code —; vcc [4.75, 5.25]
+- 2 registers, 1 commands; frame fixed
+- Packages: PT (LQFP-48-PT)
+- Not modeled:
+  - analog: voltage output stage, gain/offset resistors (RFB1/RFB2/ROFFSET/SJ), internal +10 V reference (REFEN/REFOUT/REFADJ/REFIN/VREF buffer)
+  - REFEN only enables the internal reference (analog); not modeled
+  - power-on contents of the input and DAC registers are not given in the datasheet (0 used)
+  - TEST pin (reserved, tie to DGND) modeled as nc
+  - supply sequencing (VDD before VCC/VSS) and settling time tS
+  - negative analog supply VSS is in "analog" (the voltage check cannot represent it)
+  - LDAC rising while CS is low and R/W low makes the input register transparent and writes the DAC register directly from the bus (Table II); the model copies the input register at LDAC rising and the bus data enters it at CS rising
+
+### DAC7742
+
+16-bit single voltage-output DAC with 16-bit parallel interface, read-back, internal +10 V reference and RST/RSTSEL reset (complementary straight binary coding). `specs/DAC7742.json`; datasheet `dac7742.pdf` (p.3 (VDD), p.4 (pins), p.5 (timing tCSD 100 ns, tDZ 70 ns), p.13 (Table II truth table, Table III complementary coding: FFFFh = zero/min-scale), p.14 (RST/RSTSEL: min-scale FFFFh, mid-scale 7FFFh)).
+
+- Bus: parallel 16-bit
+- 16 bits, 1 channel(s), code —; vcc [4.75, 5.25]
+- 2 registers, 1 commands; frame fixed
+- Packages: PT (LQFP-48-PT)
+- Not modeled:
+  - analog: voltage output stage, gain/offset resistors (RFB1/RFB2/ROFFSET/SJ), internal +10 V reference (REFEN/REFOUT/REFADJ/REFIN/VREF buffer)
+  - REFEN only enables the internal reference (analog); not modeled
+  - power-on contents of the input and DAC registers are not given in the datasheet (0 used)
+  - TEST pin (reserved, tie to DGND) modeled as nc
+  - supply sequencing (VDD before VCC/VSS) and settling time tS
+  - negative analog supply VSS is in "analog" (the voltage check cannot represent it)
+  - complementary coding: min-scale is code FFFFh and mid-scale 7FFFh, so the clear codes are 65535 (RSTSEL low) and 32767 (RSTSEL high)
+
+### DAC7744
+
+Quad 16-bit voltage-output DAC with 16-bit parallel interface, input-register read-back, LOADDACs update and RST/RSTSEL reset. `specs/DAC7744.json`; datasheet `dac7744.pdf` (p.3 (VDD), p.5 (pins), p.21 (Table I truth table, straight binary), p.22 (timing: tCSD 130 ns max, tDZ 70 ns max)).
+
+- Bus: parallel 16-bit
+- 16 bits, 4 channel(s), code —; vcc [4.75, 5.25]
+- 8 registers, 1 commands; frame fixed
+- Packages: DL (SSOP-48)
+- Not modeled:
+  - analog: voltage outputs with sense inputs, differential references VREFH/VREFL with sense pins, current-source use
+  - power-on contents of the registers are not given in the datasheet (0 used)
+  - negative analog supply VSS is in "analog"
+
+### DAC7750
+
+12-bit 4-20 mA current-output DAC with SPI-style serial interface (LATCH), register read-back, CLR, watchdog and CRC frame checking. `specs/DAC7750.json`; datasheet `dac7750.pdf` (p.3-4 (pins, Table 6-1), p.5 (DVDD 2.7-5.5 V), p.9 (timing t19 35 ns, t20 35 ns), p.10 (Figures 7-1/7-2), p.21-22 (CLR, POR), p.23 (watchdog, CRC), p.30-31 (Tables 8-7 to 8-10), p.32-34 (Tables 8-11 to 8-18)).
+
+- Bus: SPI mode 0
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 6 registers, 32 commands; frame fixed
+- Packages: PWP (HTSSOP-24-PWP), RHA (VQFN-40-RHA)
+- Not modeled:
+  - analog: 4-20 mA / 0-20 mA / 0-24 mA current output stage, ranges (CONTROL.RANGE), external/internal current-setting resistor (REXT, ISET-R), BOOST transistor, HART modulation (HART-IN, HARTEN), output filter caps CAP1/CAP2, internal reference
+  - LATCH is not a chip select: data shift in regardless of LATCH (p.30). Modeled as an SPI CS with protocol.align "end" (the last 24/32 bits before LATCH rises are executed); SCLK while LATCH is high is not shifted in the model, and SDO is driven only while LATCH is low
+  - SDO outputs on SCLK falling edges (read data valid on rising): mode 0
+  - CRC-8-ATM frame checking (CRCEN): the 32-bit frame is decoded (commands gated on CONFIG.CRCEN) but the CRC byte is neither checked nor generated (read-back CRC byte output as 0); CRC-FLT is never set
+  - watchdog timer (WDEN/WDPD, 0x95 reset) and WD-FLT: not modeled
+  - ALARM open-drain output (open circuit, compliance, over-temperature, watchdog, CRC) is never asserted; status fault bits stay 0
+  - user calibration (CALEN, GAIN, ZERO): registers stored and read back; the calibrated code is not computed
+  - slew-rate control (SREN, SRCLK, SRSTEP) and SR-ON: not modeled (output change is instant)
+  - CLR: active high clears the output to zero scale (modeled as clear, clearCode 0, which also loads 0 into the DAC data register); the datasheet restores the pre-clear value on a LATCH pulse without data, which the model does not
+  - DVDD can be an output of the internal regulator (DVDD-EN floating); DVDD-EN is modeled as a plain digital input
+  - the reset-register RESET bit self-clears; modeled as a reset command (RESET = 1)
+  - frames with more or fewer than 24 SCLK cycles program incorrect data (p.31); the model takes the last 24 bits
+
+### DAC7760
+
+12-bit single-channel programmable current (4-20 mA, 0-20 mA, 0-24 mA) and voltage (0-5/10 V, +/-5/10 V) output DAC with SPI-style serial interface (LATCH), register read-back, CLR/CLR-SEL, watchdog and CRC frame checking. `specs/DAC7760.json`; datasheet `dac8760.pdf` (p.3-4 (pins, Table 6-1), p.5 (DVDD 2.7-5.5 V, internal regulator disabled), p.12 (timing t19 35 ns, t20 35 ns), p.13 (Figures 7-1/7-2), p.30 (CLR, CLR-SEL Table 8-2), p.31 (POR), p.32-33 (watchdog, CRC), p.40-41 (Tables 8-12 to 8-15), p.42-45 (Tables 8-16 to 8-23)).
+
+- Bus: SPI mode 0
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 6 registers, 32 commands; frame fixed
+- Packages: PWP (HTSSOP-24-PWP)
+- Not modeled:
+  - analog: voltage output (VOUT, +VSENSE/-VSENSE, CMP compensation, OVR overrange) and 4-20/0-20/0-24 mA current output (IOUT, BOOST, ISET-R/REXT), ranges (CONTROL.RANGE, CONFIG.IOUT_RANGE, DUAL_OUTEN), APD, HART modulation (HART-IN, HARTEN), internal reference
+  - LATCH is not a chip select: data shift in regardless of LATCH (p.41). Modeled as an SPI CS with protocol.align "end" (the last 24/32 bits before LATCH rises are executed); SCLK while LATCH is high is not shifted in the model, and SDO is driven only while LATCH is low
+  - SDO outputs on SCLK falling edges (read data valid on rising): mode 0
+  - CRC-8 frame checking (CRCEN): the 32-bit frame is decoded (commands gated on CONFIG.CRCEN) but the CRC byte is neither checked nor generated (read-back CRC byte output as 0); CRC-FLT is never set
+  - watchdog timer (WDEN/WDPD, 0x95 reset) and WD-FLT: not modeled
+  - ALARM open-drain output (open circuit, compliance, over-temperature, watchdog, CRC) is never asserted; status fault bits stay 0
+  - user calibration (CALEN, GAIN, ZERO): registers stored and read back; the calibrated code is not computed
+  - slew-rate control (SREN, SRCLK, SRSTEP) and SR-ON: not modeled (output change is instant)
+  - CLR (active high) clears to the code the CLR-SEL pin picks for the power-on unipolar range (0: 0 V = zero scale, 1: midscale; Table 8-2, p.30). Not modeled: the CLRSEL bit (ORed with the pin), the bipolar-range codes (0 V = midscale, CLR-SEL = 1 negative full scale), CLR-SEL as the power-on / reset / range-change default output, the restore of the pre-clear value on a LATCH pulse without data, and the CLR-active write lockout
+  - DVDD can be an output of the internal 4.6 V regulator (DVDD-EN floating); DVDD-EN is modeled as a plain digital input and vcc is the external-DVDD range
+  - the reset-register RESET bit self-clears; modeled as a reset command (RESET = 1)
+  - frames with more or fewer than 24 SCLK cycles program incorrect data (p.41); the model takes the last 24 bits
+
+### DAC7800
+
+Dual 12-bit multiplying current-output DAC with 24-bit serial interface, update pins and asynchronous clear. `specs/DAC7800.json`; datasheet `dac7800.pdf` (p.2 (VDD), p.3 (pins, truth table: CLK falling edge, CLR async), p.4 (data input sequence, timing)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 2 channel(s), code —; vcc [4.5, 5.5]
+- 4 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-16W), N (PDIP-16)
+- Not modeled:
+  - analog: multiplying current outputs IOUT A/B, reference inputs VREF A/B, feedback resistors RFB A/B
+  - power-on register contents are not given (the datasheet suggests CLR for power-on reset); 0 used
+  - separate update pins: UPD A loads DAC A and UPD B loads DAC B (each low with CS low); the schema has one LDAC pin, so UPD A (level, active low) updates both DACs and UPD B is not modeled
+  - UPD is only effective while CS is low (truth table); the model updates whenever UPD A is low
+  - the shift register keeps shifting past 24 bits (the last 24 bits count); the model takes the first 24 bits of a CS-low period
+  - CLR also clears the shift register (all register contents set to 0)
+
+### DAC7801
+
+Dual 12-bit multiplying current-output DAC with 8-bit (8 + 4) double-buffered parallel interface. `specs/DAC7801.json`; datasheet `dac7800.pdf` (p.2 (VDD), p.5 (pins, truth table, timing)).
+
+- Bus: parallel 8-bit
+- 12 bits, 2 channel(s), code —; vcc [4.5, 5.5]
+- 4 registers, 4 commands; frame fixed
+- Packages: DW (SOIC-24W)
+- Not modeled:
+  - analog: multiplying current outputs IOUT A/B, reference inputs VREF A/B, feedback resistors RFB A/B
+  - power-on register contents are not given (the datasheet suggests CLR for power-on reset); 0 used
+  - UPD updates both DAC registers only while WR is also low (truth table: UPD = 0, WR = 0; with CS low too the DAC registers are transparent); the model copies whenever UPD is low
+  - input registers are level-transparent while CS and WR are low; the model loads them at the end of the write
+  - no read-back (write-only bus): protocol.read is omitted
+
+### DAC7802
+
+Dual 12-bit multiplying current-output DAC with 12-bit single-buffered parallel interface (CS A / CS B). `specs/DAC7802.json`; datasheet `dac7800.pdf` (p.2 (VDD), p.6 (pins, timing, truth table)).
+
+- Bus: parallel 12-bit
+- 12 bits, 2 channel(s), code —; vcc [4.5, 5.5]
+- 2 registers, 4 commands; frame fixed
+- Packages: DW (SOIC-24W)
+- Not modeled:
+  - analog: multiplying current outputs IOUT A/B, reference inputs VREF A/B, feedback resistors RFB A/B
+  - power-on register contents are not given (the datasheet suggests CLR for power-on reset); 0 used
+  - two chip selects: the data load on the CS A / CS B rising edge while WR is low (truth table). Modeled as a WR-strobed write with CS A / CS B as address bits sampled when WR rises; a sequence that holds WR low and strobes CS is not modeled
+  - no clear pin and no read-back on the DAC7802
+
+### DAC7811
+
+12-bit multiplying current-output DAC with 50 MHz serial interface, daisy-chain and read-back. `specs/DAC7811.json`; datasheet `dac7811.pdf` (p.1 (power-on zero scale), p.3 (pins), p.4 (VDD 2.7-5.5 V), p.5 (timing, tDDS 35 ns), p.13 (serial interface, SYNC interrupt, daisy-chain), p.14 (Figure 28: SCLK idles high, data in on falling edges; Table 2 control bits)).
+
+- Bus: SPI mode 2
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 7 commands; frame fixed
+- Packages: DGS (VSSOP-10)
+- Not modeled:
+  - analog: multiplying current outputs IOUT1/IOUT2, VREF, feedback resistor RFB
+  - daisy-chain SDO: in daisy-chain mode SDO shifts out the previous 16-bit input word (to the next device); the model drives SDO only with a readback word (otherwise 0)
+  - stand-alone vs daisy-chain execution point: modeled for both as the last 16 bits before SYNC rises (align end); stand-alone mode executes at the 16th falling edge and ignores further clocks, and a SYNC rise before 16 edges aborts the frame (both ignored only as far as align end allows)
+  - rising-edge clock mode (C3-C0 = 1010) is stored in CTRL.EDGE but the bus stays mode 2 (falling-edge input)
+  - readback word layout on SDO is not given in the datasheet (modeled as 0000 + DB11-DB0)
+  - power-on reset brownout detection
+
+### DAC7821
+
+12-bit multiplying current-output DAC with 12-bit parallel interface and read-back. `specs/DAC7821.json`; datasheet `dac7821.pdf` (p.1 (power-on zero), p.3 (VDD 2.7-5.5 V table; 2.5-5.5 V in the description and timing tables), p.4 (timing t8 data access 40 ns max at 2.5-4.5 V, t9 bus relinquish 10 ns), p.5 (pins), p.16 (parallel interface)).
+
+- Bus: parallel 12-bit
+- 12 bits, 1 channel(s), code —; vcc [2.5, 5.5]
+- 1 registers, 1 commands; frame fixed
+- Packages: PW (TSSOP-20)
+- Not modeled:
+  - analog: multiplying current outputs IOUT1/IOUT2, VREF, feedback resistor RFB
+  - power-on reset brownout detection
+  - vcc: the electrical table gives VDD 2.7-5.5 V, the description and timing tables 2.5-5.5 V; the union is used
+
+### DAC7822
+
+Dual 12-bit parallel-input multiplying current-output DAC with read-back. `specs/DAC7822.json`; datasheet `dac7822.pdf` (p.1 (power-on zero), p.3 (VDD range, logic levels), p.4 (timing t1-t13), p.5 (pinout), p.16 (parallel interface)).
+
+- Bus: parallel 12-bit
+- 12 bits, 2 channel(s), code —; vcc [2.5, 5.5]
+- 4 registers, 1 commands; frame fixed
+- Packages: RTA (WQFN-40-RTA)
+- Not modeled:
+  - analog: multiplying current outputs, reference inputs, 4-quadrant resistors R1/R2/R2_3/R3 and RFB
+  - LDAC: the datasheet describes the DAC updating when LDAC goes low and, with LDAC tied low, at CS rising; modeled as LDAC level-active low (a write while LDAC is low updates at once)
+  - power-on reset brownout detection
+
+### DAC80004
+
+Quad 16-bit buffered voltage-output DAC with 32-bit SPI, LDAC/CLR pins and read-back. `specs/DAC80004.json`; datasheet `dac60004.pdf` (p.3 (pins), p.4 (ROC), p.8-9 (timing, Figures 1-2), p.19 (power-on reset, Table 1), p.20-21 (serial interface, read-back), p.22 (shift register, commands, Tables 2-4), p.23-25 (power-down, clear, LDAC, reset, short-circuit, status)).
+
+- Bus: SPI mode 1
+- 16 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 14 registers, 37 commands; frame fixed
+- Packages: DMD (VSON-14-DMD), PW (TSSOP-14)
+- Not modeled:
+  - analog outputs, output buffers, reference buffer and short-circuit limiting (SCLIM stored only); power-down bits stored only
+  - CLR exits clear mode on the 32nd SCLK of the next write; the model loads the clear code once on the CLR falling edge and the next write replaces it. Table 6 gives no clear code for mode 11 (not mapped)
+  - LDAC register: channels with their bit set ignore the LDAC pin and update on the 32nd SCLK (stored only; every channel follows the LDAC pin)
+  - daisy-chain mode (DSDO = 1 and more than 32 SCLKs: data ripples out on SDO, latched at SYNC rising) is not modeled; with DSDO = 1 SDO outputs zeros except the read-back word
+  - read-back word layout: only the data bit positions are documented; the model returns zeros outside the register value (buffer data in D19-D4, clear mode D1-D0, LDAC and short-circuit D3-D0, DSDO D0, DRDY D4). The power-down register read-back layout is not documented: the model returns PDD..PDA (2 bits each) in D7-D0
+  - command 1001 is listed as reserved in Table 3 although the text mentions a user-defined clear code written with 1001; not modeled
+  - STATUS.DRDY reads 1 at once (power-up ready time not modeled); t20 2.4 us between successive updates not modeled
+  - SDO is valid tv 18 ns after the SCLK rising edge (tOut); data are sampled on SCLK falling edges (mode 1)
+
+### DAC8043
+
+12-bit serial-input multiplying current-output DAC (3-wire SRI/CLK/LD). `specs/DAC8043.json`; datasheet `dac8043.pdf` (p.1 (description), p.2 (timing characteristics, VDD 4.75-5.25 V), p.3 (pin configuration), p.4 (write cycle timing)).
+
+- Bus: SPI mode 0 (2-wire, no CS), write-only
+- 12 bits, 1 channel(s), code —; vcc [4.75, 5.25]
+- 2 registers, 1 commands; frame stream
+- Packages: D (SOIC-8)
+- Not modeled:
+  - analog: multiplying current output, VREF input, RFB feedback resistor
+  - shift register semantics: the DAC register takes the last 12 bits clocked in before LD falls; the model groups CLK bits in 12-bit words from power-on (no CS to resynchronize), so extra clocks misalign the words
+  - power-on contents of the shift and DAC registers (not given; 0 used)
+  - DAC8043UC (1/2 LSB grade) is listed on p.2 but is not an orderable part here
+
+### DAC80501
+
+16-bit 1-channel voltage-output DAC with 2.5-V reference, SPI or I2C interface. `specs/DAC80501.json`; datasheet `dac60501.pdf` (p.3 (pinout), p.4 (ROC), p.9-10 (I2C timing), p.21-22 (register structure, POR), p.23 (SPI), p.24-28 (I2C, address and command byte), p.29-32 (registers)).
+
+- Bus: I2C 0x48, 0x49, 0x4B, 0x4A
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 9 registers, 6 commands; frame fixed
+- Packages: DGS (VSSOP-10), DQF (WSON-8-DQF)
+- Not modeled:
+  - analog output, internal reference, REF-DIV, gain, power-down and reference alarm (stored only)
+  - SPI mode (SPI2C = 0): a write-only 3-wire SYNC/SCLK/SDIN interface with 24-bit frames (command byte + 16 data bits, latched at SYNC rising, frames shorter than 24 SCLK falling edges discarded); the model is the I2C mode (SPI2C = 1), which has read-back
+  - TRIGGER.LDAC and SOFT-RESET self-clear in the chip; the model leaves the written value in TRIGGER (each later TRIGGER write with LDAC = 1 updates again)
+  - command bytes with B23-B20 non-zero and the undocumented address 6 are ignored
+  - I2C fast-mode plus and the 250-us POR delay
+
+### DAC80502
+
+16-bit 2-channel voltage-output DAC with 2.5-V reference, SPI or I2C interface. `specs/DAC80502.json`; datasheet `dac60502.pdf` (p.3 (pinout), p.4 (ROC), p.21-22 (register structure, POR, soft reset), p.23 (SPI frame), p.24-28 (I2C, address, command and read sequence), p.29-33 (registers)).
+
+- Bus: I2C 0x48, 0x49, 0x4B, 0x4A
+- 16 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 12 registers, 12 commands; frame fixed
+- Packages: DRX (WSON-10-DRX)
+- Not modeled:
+  - analog outputs, internal reference, REF-DIV, gains, power-down and reference alarm (stored only)
+  - SPI mode (SPI2C = 0): a write-only 3-wire SYNC/SCLK/SDIN interface with 24-bit frames (R/W + address byte + 16 data bits, latched at SYNC rising, short frames discarded); the model is the I2C mode (SPI2C = 1), which has read-back
+  - TRIGGER.LDAC and SOFT-RESET self-clear in the chip; the model leaves the written value in TRIGGER (each later TRIGGER write with LDAC = 1 updates again)
+  - BRDCAST is write-only (Table 15, W): a command byte 06h alone (to read it) is not decoded, because an 8-bit read pointer would preempt the 24-bit BRDCAST write; BRDCAST stays write-only
+  - command bytes with B23-B20 non-zero are ignored; I2C fast-mode plus; the 250-us POR delay
+
+### DAC80504
+
+16-bit 4-channel voltage-output DAC with 2.5-V reference and SPI interface. `specs/DAC80504.json`; datasheet `dac80504.pdf` (p.5 (pinout), p.6 (ROC), p.21-22 (reset code, register structure, broadcast), p.24 (POR), p.25-27 (serial interface, daisy chain, CRC), p.28-29 (timing), p.30-35 (registers)).
+
+- Bus: SPI mode 2
+- 16 bits, 4 channel(s), code —; vcc [1.7, 5.5]
+- 16 registers, 52 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE)
+- Not modeled:
+  - analog outputs, internal reference, reference divider, buffer gains, power-down and reference alarm (stored only)
+  - GAIN and REFDIV pins set GAIN register defaults only at power-up/reset; the model copies them into GAIN whenever the pins change
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ERROR is never set and the CRC byte shifted out is 0
+  - SDO/ALARM as an open-drain ALARM pin (ALM-EN, ALM-SEL), DSDO (SDO always Hi-Z) and FSDO (SDO on falling edges): SDO always drives during CS low
+  - TRIGGER is write-only on the device; the model stores the last value written and returns it on read-back
+  - daisy chain beyond one 24-bit echo; DEVICE_ID VERSIONID may change; the 250-us POR delay and 1-us sequential update wait
+
+### DAC80508
+
+16-bit 8-channel voltage-output DAC with 2.5-V reference and SPI interface. `specs/DAC80508.json`; datasheet `dac60508.pdf` (p.5-6 (pinout), p.6 (ROC), p.22 (register structure), p.25-27 (access cycle, daisy chain, CRC), p.28-29 (timing), p.30-35 (registers)).
+
+- Bus: SPI mode 2
+- 16 bits, 8 channel(s), code —; vcc [1.7, 5.5]
+- 24 registers, 44 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE), YZF (DSBGA-16-YZF)
+- Not modeled:
+  - analog outputs, internal reference, REFDIV-EN, gains, power-down and reference alarm (stored only)
+  - DACx0508C parts (CLR on pin 15 / ball D2 instead of SDO/ALARM) are the separate device DAC80508C
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ERROR is never set and the CRC byte shifted out is 0
+  - SDO/ALARM as an open-drain ALARM pin (ALM-EN, ALM-SEL), DSDO (SDO always Hi-Z) and FSDO (SDO on falling edges): SDO always drives during CS low
+  - BRDCAST loads every channel's active register (the DACx-BRDCAST-EN mask is not applied)
+  - daisy chain beyond one 24-bit echo; DEVICE_ID VERSIONID may change; the 250-us POR delay and 1-us sequential update wait
+
+### DAC80508C
+
+16-bit 8-channel voltage-output DAC with 2.5-V reference and write-only SPI interface and CLR pin (C version). `specs/DAC80508C.json`; datasheet `dac60508.pdf` (p.5-6 (pinout), p.6 (ROC), p.22 (register structure), p.25-27 (access cycle, daisy chain, CRC), p.28-29 (timing), p.30-35 (registers), p.5 (CLR pin), p.22 (CLEAR operation)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 8 channel(s), code —; vcc [1.7, 5.5]
+- 24 registers, 42 commands; frame fixed
+- Packages: RTE (WQFN-16-RTE), YZF (DSBGA-16-YZF)
+- Not modeled:
+  - analog outputs, internal reference, REFDIV-EN, gains, power-down and reference alarm (stored only)
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ERROR is never set (no SDO)
+  - BRDCAST loads every channel's active register (the DACx-BRDCAST-EN mask is not applied)
+  - daisy chain beyond one 24-bit echo; DEVICE_ID VERSIONID may change; the 250-us POR delay and 1-us sequential update wait
+  - CLR-0TO3-MSK / CLR-4TO7-MSK: the masks are stored in GAIN but CLR clears every channel (both masks reset to 0 = all channels clear); register writes to the DAC data registers while CLR is low are not blocked (the model holds the registers cleared)
+  - no SDO: the read command and the daisy-chain echo have no output pin; register read-back is impossible on this version
+
+### DAC811
+
+12-bit voltage-output DAC with reference and double-buffered 4/8/12-bit microprocessor interface. `specs/DAC811.json`; datasheet `dac811.pdf` (p.2 (digital inputs VIH up to +15 V, VDD 4.5-5.5 V, tWP/tAW/tDW/tDH), p.3 (pin descriptions), p.4 (timing), p.5 (interface logic, Table II), p.7 (several enables at once)).
+
+- Bus: parallel 12-bit
+- 12 bits, 1 channel(s), code —; vcc [4.5, 5.5]
+- 2 registers, 15 commands; frame fixed
+- Packages: JD (CDIP-SB-28-JD), DW (SOIC-28W)
+- Not modeled:
+  - analog: voltage output, reference, gain/offset adjust, output ranges (USB/BOB codes)
+  - level-triggered (transparent) latches: the model loads them once, when WR returns high; enables held low with WR tied low (latches following the data bus) are not modeled
+  - power-on contents of the latches (not given; 0 used)
+
+### DAC813
+
+12-bit voltage-output DAC with reference, double-buffered 8/12-bit microprocessor interface and reset to bipolar zero. `specs/DAC813.json`; datasheet `dac813.pdf` (p.2 (VIH/VIL, supplies), p.3 (pin descriptions), p.4 (timing diagrams), p.7 (interface logic, Table II), p.8 (reset function)).
+
+- Bus: parallel 12-bit
+- 12 bits, 1 channel(s), code —; vcc [11.4, 16.5]
+- 2 registers, 7 commands; frame fixed
+- Packages: DW (SOIC-28W)
+- Not modeled:
+  - analog: voltage output, reference, BPO, output ranges (USB/BOB/BTC codes)
+  - logic supply +VL is tied to +VCC (11.4-16.5 V) but the digital inputs are TTL/5-V CMOS with VIH max 5.5 V: the vcc range is the +VL range
+  - Reset forces only the D/A latch to 800h; the model's clear also loads the input latch with 800h
+  - level-triggered (transparent) latches: the model loads them once, when WR returns high; WR tied low with the enables as strobes is not modeled
+  - power-on contents of the latches (not given; 0 used)
+
+### DAC81401
+
+16-bit 1-channel high-voltage (up to 40 V / +-20 V) output DAC with 2.5-V reference and SPI interface. `specs/DAC81401.json`; datasheet `dac81401.pdf` (p.3 (pinout), p.4 (ROC), p.10-12 (timing), p.24-25 (register structure, update, clear, reset), p.26-28 (serial interface, CRC), p.29-35 (registers)).
+
+- Bus: SPI mode 2
+- 16 bits, 1 channel(s), code —; vcc [1.7, 5.5]
+- 10 registers, 4 commands; frame fixed
+- Packages: PW (TSSOP-20)
+- Not modeled:
+  - analog output, sense pins, output ranges (DACRANGE stored only), reference, power-down states and thermal alarm
+  - FAULT open-drain pin (CRC, thermal and DAC-busy alarms) and the STATUS alarm bits: never asserted
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ALM is never set and the CRC byte shifted out is 0
+  - SDO-EN = 0 (SDO not operational) and FSDO: SDO always drives while SYNC is low
+  - write-only registers (NOP, DACRANGE, TRIGGER, DAC per Table 7-1): the model returns the stored value on read-back
+  - daisy chain beyond one 24-bit echo; the POR delay and 2.4-us update wait; DEV-PWDWN power-down
+
+### DAC81404
+
+16-bit 4-channel high-voltage (up to 40 V / +-20 V) output DAC with 2.5-V reference and SPI interface. `specs/DAC81404.json`; datasheet `dac81404.pdf` (p.3-4 (pinout), p.6 (ROC), p.13-15 (timing), p.29-30 (register structure, broadcast, clear, POR), p.31-33 (serial interface, CRC), p.34-40 (registers)).
+
+- Bus: SPI mode 2
+- 16 bits, 4 channel(s), code —; vcc [1.7, 5.5]
+- 19 registers, 182 commands; frame fixed
+- Packages: RHB (VQFN-32-5X5)
+- Not modeled:
+  - analog outputs, sense pins, output ranges (DACRANGE stored only), reference, power-down states and thermal alarm
+  - clear code: zero for unipolar ranges, midscale for bipolar ranges, per channel; the model takes the code for every channel from DACA-RANGE, so a channel whose range differs from channel A's clears to channel A's code
+  - FAULT open-drain pin (CRC, thermal and DAC-busy alarms) and the STATUS alarm bits: never asserted
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ALM is never set and the CRC byte shifted out is 0
+  - SDO-EN = 0 (SDO not operational) and FSDO: SDO always drives while SYNC is low
+  - write-only registers (NOP, DACRANGE, TRIGGER, BRDCAST, DACn per Table 8-7): the model returns the stored value on read-back
+  - daisy chain beyond one 24-bit echo; the 1-ms POR delay, 2.4-us update and 4-us broadcast waits; DEV-PWDWN power-down
+
+### DAC81408
+
+16-bit 8-channel high-voltage (up to 40 V / +-20 V) output DAC with 2.5-V reference and SPI interface. `specs/DAC81408.json`; datasheet `dac81408.pdf` (p.3-4 (pinout), p.5 (ROC), p.11-12 (timing), p.21 (timing diagrams), p.24-25 (register structure, broadcast, clear, reset), p.28-30 (serial interface, CRC), p.31-45 (registers)).
+
+- Bus: SPI mode 2
+- 16 bits, 8 channel(s), code —; vcc [1.7, 5.5]
+- 32 registers, 40 commands; frame fixed
+- Packages: RHA (VQFN-40-RHA)
+- Not modeled:
+  - analog outputs, output ranges (DACRANGEn stored only), reference, TEMPOUT, power-down states (DACPWDWN, DEV-PWDWN, REF-PWDWN stored only) and thermal shutdown
+  - clear code: zero for unipolar single-ended ranges, midscale for bipolar or differential, per channel; the model takes the code for every channel from DAC0-RANGE (DACRANGE1.DAC0_RANGE), so channels with another range and differential pairs (DIFF-EN) clear to channel 0's code
+  - ALMOUT open-drain alarm pin and the STATUS alarm bits (CRC, thermal, DAC-busy): never asserted; ALM-RESET stored only
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ALM is never set and the CRC byte shifted out is 0
+  - SDO-EN = 0 (SDO not operational) and FSDO: SDO always drives while CS is low
+  - write-only registers (NOP, DACRANGEn, TRIGGER): the model returns the stored value on read-back
+  - BRDCAST with only some channels broadcast-enabled (BRDCONFIG not all ones): only the BRDCAST register is stored, no DAC buffer is loaded; with all channels enabled and mixed SYNC-EN bits the buffers load but no channel updates until LDAC
+  - differential mode (DIFF-EN pairs, OFFSETn stored only; writes to the odd DAC of a pair are not ignored) and toggle mode (TOGGLE0-2 pins, TOGGCONFIGn, SOFTTOGGLE-EN, AB-TOGn: Register B not modeled)
+  - streaming mode (STR-EN = 1: auto-incrementing DAC data writes in one CS frame): only the first 24-bit frame is decoded
+  - daisy chain beyond one 24-bit echo; the 1-ms POR delay, 2.4-us update and 4-us broadcast waits
+
+### DAC81416
+
+16-bit 16-channel high-voltage (up to 40 V / +-20 V) output DAC with 2.5-V reference and SPI interface. `specs/DAC81416.json`; datasheet `dac81416.pdf` (p.2-3 (pinout), p.4 (ROC), p.9-10 (timing), p.22-23 (register structure, broadcast, clear, reset), p.26-28 (serial interface, CRC), p.29-42 (registers)).
+
+- Bus: SPI mode 2
+- 16 bits, 16 channel(s), code —; vcc [1.7, 5.5]
+- 52 registers, 72 commands; frame fixed
+- Packages: RHA (VQFN-40-RHA)
+- Not modeled:
+  - analog outputs, output ranges (DACRANGEn stored only), reference, TEMPOUT, power-down states (DACPWDWN, DEV-PWDWN, REF-PWDWN stored only) and thermal shutdown
+  - clear code: zero for unipolar single-ended ranges, midscale for bipolar or differential, per channel; the model takes the code for every channel from DAC0-RANGE (DACRANGE3.DAC0_RANGE), so channels with another range and differential pairs (DIFF-EN) clear to channel 0's code
+  - ALMOUT open-drain alarm pin and the STATUS alarm bits (CRC, thermal, DAC-busy): never asserted; ALM-RESET stored only
+  - CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ALM is never set and the CRC byte shifted out is 0
+  - SDO-EN = 0 (SDO not operational) and FSDO: SDO always drives while CS is low
+  - write-only registers (NOP, DACRANGEn, TRIGGER, BRDCAST, DACn): the model returns the stored value on read-back
+  - BRDCAST with only some channels broadcast-enabled (BRDCONFIG not all ones): only the BRDCAST register is stored, no DAC buffer is loaded; with all channels enabled and mixed SYNC-EN bits the buffers load but no channel updates until LDAC
+  - differential mode (DIFF-EN pairs, OFFSETn stored only; writes to the odd DAC of a pair are not ignored) and toggle mode (TOGGLE0-2 pins, TOGGCONFIGn, SOFTTOGGLE-EN, AB-TOGn: Register B not modeled)
+  - streaming mode (STR-EN = 1: auto-incrementing DAC data writes in one CS frame): only the first 24-bit frame is decoded
+  - daisy chain beyond one 24-bit echo; the 1-ms POR delay, 2.4-us update and 4-us broadcast waits
+
+### DAC8162
+
+Dual 14-bit low-power buffered voltage-output DAC, 2.5-V internal reference, 24-bit SPI write-only interface, LDAC/CLR, power-on reset to zero-scale. `specs/DAC8162.json`; datasheet `dac7562.pdf` (p.4 (pins), p.5 (recommended operating conditions), p.9 (timing, Figure 1), p.30-31 (power-on reset, Table 4), p.32-35 (power-down, gain, software reset, internal reference, CLR, LDAC; Tables 5-11), p.36-38 (serial interface, commands, address select, data formats, command matrix; Tables 12-17)).
+
+- Bus: SPI mode 1, write-only
+- 14 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 8 registers, 22 commands; frame fixed
+- Packages: DGS (VSSOP-10), DSC (WSON-10-DSC)
+- Not modeled:
+  - analog outputs, output buffer, internal 2.5-V reference and gain (GAIN, REF and PWR stored only; the internal reference forced off while both DACs are powered down is not modeled)
+  - CLR: the device stays in clear mode until the 24th SCLK falling edge of the next write and a CLR edge during a write aborts that write; the model loads the clear code once on the falling edge
+  - LDAC is a falling-edge trigger in asynchronous mode and must be held low for synchronous mode; modeled as level LDAC (active low), which covers both uses
+  - LDAC register: per-channel synchronous mode is modeled for single-channel writes (command 000); a write to both channels (address 111) with only one LDAC register bit set updates neither channel
+  - software reset with DB0 = 0 resets only the input and DAC registers; modeled with the clear action (the clear code equals the power-on code). DB0 = 1 is a full reset
+  - reserved addresses 011-110 and command 000 with address 010 other than the gain write: words to reserved addresses are ignored by the model
+  - power-on-reset supply thresholds (AVDD below 0.7 V for 1 ms) and power-up time
+  - no read-back: the interface is write-only (no SDO)
+  - SPI mode: data sampled on SCLK falling edges with SCLK shown free-running in Figure 1; modeled as mode 1
+
+### DAC8163
+
+Dual 14-bit low-power buffered voltage-output DAC, 2.5-V internal reference, 24-bit SPI write-only interface, LDAC/CLR, power-on reset to mid-scale. `specs/DAC8163.json`; datasheet `dac7562.pdf` (p.4 (pins), p.5 (recommended operating conditions), p.9 (timing, Figure 1), p.30-31 (power-on reset, Table 4), p.32-35 (power-down, gain, software reset, internal reference, CLR, LDAC; Tables 5-11), p.36-38 (serial interface, commands, address select, data formats, command matrix; Tables 12-17)).
+
+- Bus: SPI mode 1, write-only
+- 14 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 8 registers, 22 commands; frame fixed
+- Packages: DGS (VSSOP-10), DSC (WSON-10-DSC)
+- Not modeled:
+  - analog outputs, output buffer, internal 2.5-V reference and gain (GAIN, REF and PWR stored only; the internal reference forced off while both DACs are powered down is not modeled)
+  - CLR: the device stays in clear mode until the 24th SCLK falling edge of the next write and a CLR edge during a write aborts that write; the model loads the clear code once on the falling edge
+  - LDAC is a falling-edge trigger in asynchronous mode and must be held low for synchronous mode; modeled as level LDAC (active low), which covers both uses
+  - LDAC register: per-channel synchronous mode is modeled for single-channel writes (command 000); a write to both channels (address 111) with only one LDAC register bit set updates neither channel
+  - software reset with DB0 = 0 resets only the input and DAC registers; modeled with the clear action (the clear code equals the power-on code). DB0 = 1 is a full reset
+  - reserved addresses 011-110 and command 000 with address 010 other than the gain write: words to reserved addresses are ignored by the model
+  - power-on-reset supply thresholds (AVDD below 0.7 V for 1 ms) and power-up time
+  - no read-back: the interface is write-only (no SDO)
+  - SPI mode: data sampled on SCLK falling edges with SCLK shown free-running in Figure 1; modeled as mode 1
+  - power-on code mid scale (DACxx63) applies to the input and DAC registers; software reset and CLR return to mid scale
+
+### DAC8164
+
+Quad 14-bit voltage-output DAC with 2.5-V internal reference, 24-bit SPI write-only interface, hardware address pins A1/A0 and ENABLE, LDAC. `specs/DAC8164.json`; datasheet `dac8164.pdf` (p.4 (supplies, logic inputs), p.5 (pins), p.6-7 (timing), p.28 (reference commands, Tables 1-3), p.29-30 (serial interface, Tables 4-5), p.31 (SYNC interrupt, power-on reset, LDAC, ENABLE), p.32 (power-down, Table 6)).
+
+- Bus: SPI mode 1, write-only
+- 14 bits, 4 channel(s), code —; vcc [1.8, 5.5]
+- 11 registers, 51 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs, output buffers and the internal 2.5-V reference (REFCTL and PWR stored only)
+  - power-down is data in the buffer and takes effect when the buffer is loaded; the model stores the PD1:PD2 bits in PWR at once and a later data write does not clear them
+  - power-down command with PD1:PD2 = 00 (not in the table) stores normal mode; the reference-mode words are decoded only with LD1:LD0 = 00 and DAC select 00 as in the datasheet tables
+  - ENABLE high: the device ignores the serial port; modeled by gating every command on the ENABLE level (STRAP.EN)
+  - LDAC is a rising-edge trigger; synchronous updates use the LD1:LD0 load commands (LDAC tied low)
+  - no read-back: the interface is write-only
+  - SPI mode: data sampled on SCLK falling edges; modeled as mode 1
+  - IOVDD 1.8-2.7 V is allowed with degraded timing (p.29); vcc uses the full 1.8-5.5 V range
+  - address match: DB23/DB22 must equal the A1/A0 pins; modeled with one command set per address gated on the pin levels. The reference-mode words of Tables 1-3 are shown with A1 = A0 = 0; the model accepts them at the device's own address
+
+### DAC8165
+
+Quad 14-bit voltage-output DAC with 2.5-V internal reference, 24-bit SPI write-only interface, ENABLE, LDAC, RST with zero/mid-scale select. `specs/DAC8165.json`; datasheet `dac8165.pdf` (p.4 (supplies, logic inputs), p.5 (pins), p.6-7 (timing), p.25 (data format, Table 1), p.26 (reference commands, Tables 2-4), p.27-28 (serial interface, RST, Tables 5-6), p.29 (SYNC interrupt, power-on reset, LDAC, ENABLE), p.30 (power-down, Table 7)).
+
+- Bus: SPI mode 1, write-only
+- 14 bits, 4 channel(s), code —; vcc [1.8, 5.5]
+- 11 registers, 15 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs, output buffers and the internal 2.5-V reference (REFCTL and PWR stored only)
+  - power-down is data in the buffer and takes effect when the buffer is loaded; the model stores the PD1:PD2 bits in PWR at once and a later data write does not clear them
+  - power-down command with PD1:PD2 = 00 (not in the table) stores normal mode; the reference-mode words are decoded only with LD1:LD0 = 00 and DAC select 00 as in the datasheet tables
+  - ENABLE high: the device ignores the serial port; modeled by gating every command on the ENABLE level (STRAP.EN)
+  - LDAC is a rising-edge trigger; synchronous updates use the LD1:LD0 load commands (LDAC tied low)
+  - no read-back: the interface is write-only
+  - SPI mode: data sampled on SCLK falling edges; modeled as mode 1
+  - IOVDD 1.8-2.7 V is allowed with degraded timing (p.27); vcc uses the full 1.8-5.5 V range
+  - RSTSEL selects zero-scale reset with straight binary (USB) coding (low) or mid-scale reset with two's complement (BTC) coding (high); in both cases the stored code after reset is 0, so the register reset is 0 and the coding is analog-only
+  - DB23/DB22 must be 0 except in broadcast words
+  - p.27 text says "12 data bits (DB15 to DB4), and four don't care bits"; Table 5 and the control matrix show 14 data bits D13-D0 in DB15-DB2, which the model uses
+
+### DAC8168
+
+Octal 14-bit voltage-output DAC with 2.5-V internal reference, 32-bit SPI write, LDAC and CLR. `specs/DAC8168.json`; datasheet `dac7568.pdf` (p.3 (grades), p.4 (pins), p.5-7 (AVDD 2.7-5.5 V, digital inputs to AVDD + 0.3 V), p.7-8 (timing, Figure 1), p.33-38 (serial interface, Tables 1-4), p.39 (SYNC interrupt, power-on reset, clear code, software reset), p.44-47 (reference, LDAC, power-down)).
+
+- Bus: SPI mode 2, write-only
+- 14 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 20 registers, 14 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs, internal 2.5-V reference and power-down output loads (reference and power-down commands stored only in REF / PD; outputs never driven)
+  - power-down command applies its mode only to the channels whose mask bit is 1; the model stores the last command's mode and mask (PD), not a per-channel state
+  - clear code 11 (ignore the CLR pin) has no clear code in the model's map: the pin is not disabled
+  - CLR is falling-edge triggered and the device stays in clear mode until the 32nd SCLK of the next write, and a CLR during a write aborts it; the model loads the clear code once on the falling edge and does not abort the write
+  - LDAC register: channels with their bit set ignore the LDAC pin and update on the 32nd SCLK (stored only; every channel follows the LDAC pin)
+  - invalid channel codes A3 = 1 other than 1111 and reserved control codes 1010-1111 (no command matches: the frame is ignored); DB31 = 1 frames are ignored likewise
+  - SYNC kept low after the 32nd clock: the shift register stays locked until SYNC rises and falls again (fixed frame: same result)
+  - pin inputs at AVDD + 0.3 V max; no SDO / read-back on this device
+
+### DAC82001
+
+16-bit 1-channel buffered voltage-output DAC with external reference, 24-bit SPI write-only interface and RSTSEL zero/midscale reset. `specs/DAC82001.json`; datasheet `dac82001.pdf` (p.3 (pinout), p.4 (ROC), p.6 (timing), p.12-13 (register structure, POR, resets), p.14 (SPI frame, SYNC interrupt), p.15-16 (registers)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 5 registers, 3 commands; frame fixed
+- Packages: DRX (WSON-10-DRX)
+- Not modeled:
+  - analog output and reference
+  - bit 23 (W) of the frame: the datasheet gives no value for it; the model ignores it
+  - write-only interface (no SDO): registers cannot be read back
+  - LDAC and SOFT-RESET bits self-reset: the model keeps the written value in TRIGGER (a later write of 1 still triggers)
+  - the 250-us POR / RESET delay and the 1-us DAC update wait
+
+### DAC8218
+
+Octal 14-bit high-voltage-output DAC with SPI, offset DACs, gain/zero calibration registers, LDAC and GPIO. `specs/DAC8218.json`; datasheet `dac8218.pdf` (p.11-12 (pinouts), p.3-9 (electrical), p.13-17 (timing), p.42-46 (reset, update, power-down, serial interface, read-back), p.47-52 (Tables 9-15, register descriptions)).
+
+- Bus: SPI mode 1
+- 14 bits, 8 channel(s), code —; vcc [1.8, 5.5]
+- 38 registers, 6 commands; frame fixed
+- Packages: PAG (TQFP-64-PAG)
+- Not modeled:
+  - analog: outputs, offset DACs, reference buffers, VMON monitor multiplexer, AIN-0/1, power-down output loads (PD_A/PD_B stored only)
+  - correction engine (SCE = 1): the Input Data Register, gain and zero correction and the corrected DAC Data Register are not modeled; written data go to DAC_n directly as with SCE = 0, and reading DAC-n returns DAC_n whatever A/B selects
+  - power-on / RST reset codes of the DAC data registers and latches (0000h or 2000h, Tables 7-8) are mid scale when RSTSEL and USB/BTC differ: pins.resetSelect models RSTSEL high = mid scale and USB/BTC high = offset 0666h (the USB/BTC-low rows are exact); with USB/BTC high the chip's data codes swap (mid scale with RSTSEL low, zero with RSTSEL high) but the model keeps the RSTSEL mapping: a reset code chosen by two pins together cannot be expressed. Offset DAC defaults depend on supply detection and gain (2666h / 2AABh / 0000h); modeled as 2666h (USB/BTC low) / 0666h (USB/BTC high). Changing GAIN-x does not reload the offset code
+  - update mode latched at power-on (LDAC low = asynchronous, high = synchronous): modeled as LDAC level active low, so LDAC tied low updates at CS rising and an LDAC low pulse updates every latch (the chip reloads only latches accessed since the last update)
+  - LD and RST self-clear in the chip; in the model RST clears through the reset and LD stays 1 until written 0 (a write leaving LD = 1 updates every latch). NOP bit stored only
+  - CLR pin: level-triggered output clamp (VOUT to AGND through switches) that does not change any register; not modeled
+  - GPIO pins: open-drain outputs set by GPIO register writes and read back as pin levels; the register is stored only and the pins are never driven
+  - SDO header bits in read-back frames are not documented; the model sends zeros in DB23:DB16, the register in DB15:DB2 and zeros in DB1:DB0. DSDO (SDO disable) is stored only
+  - daisy-chain (SDO shift-out after 24 bits), SPI sleep mode (SDI routed to SDO), WAKEUP pin and W2 wake-up: not modeled (SLEEP stored only)
+  - frames with fewer than 24 SCLK falling edges are ignored by the chip; the model also ignores them (commit at CS rising); with more, the last 24 bits are used (align end)
+  - USB/BTC data-format pin: data are stored as written
+  - QFN-48 (RGZ) package in the datasheet: no orderable part in the skeleton, pinout not included
+
+### DAC8228
+
+Octal 14-bit high-voltage-output DAC with 14-bit parallel interface, offset DACs, gain/zero calibration registers, LDAC and GPIO. `specs/DAC8228.json`; datasheet `dac8228.pdf` (p.10-11 (pin descriptions), p.3-9 (electrical), p.12-15 (timing), p.39-41 (reset, update modes, power-down), p.42-46 (register map, Tables 10-15)).
+
+- Bus: parallel 14-bit
+- 14 bits, 8 channel(s), code —; vcc [1.7, 5.5]
+- 38 registers, 2 commands; frame fixed
+- Packages: PAG (TQFP-64-PAG), RTQ (QFN-56-RTQ)
+- Not modeled:
+  - analog: outputs, offset DACs, reference buffers, VMON monitor multiplexer, power-down output loads (PD_A/PD_B stored only)
+  - correction engine (SCE = 1): the Input Data Register, gain and zero correction, BUSY pin, GBF and busy flags are not modeled; written data go to DAC_n directly as with SCE = 0, and reading DAC-n returns DAC_n whatever A/B selects; BUSY is never driven
+  - power-on / RST reset codes of the DAC data registers and latches (0000h or 2000h, Tables 8-9) are mid scale when RSTSEL and USB/BTC differ: pins.resetSelect models RSTSEL high = mid scale and USB/BTC high = offset 0666h (the USB/BTC-low rows are exact); with USB/BTC high the chip's data codes swap (mid scale with RSTSEL low, zero with RSTSEL high) but the model keeps the RSTSEL mapping: a reset code chosen by two pins together cannot be expressed. Offset DAC defaults depend on supply detection and gain (2666h / 2AABh / 0000h); modeled as 2666h (USB/BTC low) / 0666h (USB/BTC high). Changing GAIN-x does not reload the offset code
+  - update mode latched at power-on (LDAC low = asynchronous, high = synchronous): modeled as LDAC level active low (LDAC tied low updates at CS rising); the chip reloads only latches accessed since the last update
+  - LD and RST self-clear in the chip; in the model RST clears through the reset and LD stays 1 until written 0
+  - CLR pin: level-triggered output clamp (VOUT to AGND through 15 kOhm) that does not change any register; not modeled
+  - GPIO pin: open-drain output set by the GPIO register and read back as the pin level; the register is stored only and the pin is never driven
+  - USB/BTC data-format pin: data are stored as written
+
+### DAC8234
+
+Quad 14-bit +/-16 V-output DAC with 24-bit SPI (read-back, daisy-chain SDO), LDAC, RST, per-channel zero/gain trim, GPIO and analog monitor. `specs/DAC8234.json`; datasheet `dac8234.pdf` (p.5 (power supply, logic levels), p.7-8 (pins), p.9-11 (timing), p.20-21 (update, reset, Table 1), p.22 (power-down, GPIO), p.23-24 (serial interface, read-back), p.25-28 (Tables 2-10)).
+
+- Bus: SPI mode 2
+- 14 bits, 4 channel(s), code —; vcc [1.7, 5.5]
+- 18 registers, 29 commands; frame fixed
+- Packages: PFB (TQFP-48-7X7)
+- Not modeled:
+  - analog outputs, RFB feedback pins, references, AIN and the VMON analog monitor multiplexer (MON stored only)
+  - QFN-40 (RHA) pinout in the datasheet is not an orderable skeleton package; only TQFP-48 is modeled
+  - LD and RST bits self-clear after the update/reset; the model runs the update/reset trigger but LD stays 1 in CMD until written 0 (RST is cleared by the reset itself)
+  - LD/LDAC update only the DAC latches accessed since the last update; the model copies every channel (same result)
+  - GPIO-0/GPIO-1 open-drain outputs and reading the pin level through CMD.GPIO0/GPIO1 are not modeled (the bits read back as written)
+  - daisy-chain mode: SDI data rippling out on SDO after 24 bits is not modeled (SDO shifts zeros outside read-back)
+  - read-back word: the datasheet does not define DB23-DB16 of the read-back frame; modeled as zeros, data in DB15-DB0
+  - UNI/BIP-A/B select straight binary or 2's complement per group (analog-only; reset code 0000h in both, Table 1)
+  - Zero/Gain calibration and GAIN bits are stored only; power-down groups (PD_A/PD_B) are stored only
+  - SPI timing limits (50 MHz write, 25 MHz read-back), t1-t13 setup/hold; the first SCLK edge after CS falls must be falling (mode 2)
+
+### DAC8311
+
+14-bit low-power single-channel voltage-output DAC with 16-bit SPI-compatible write-only interface (SC70). `specs/DAC8311.json`; datasheet `dac8311.pdf` (p.3 (pins), p.4 (ROC), p.7-8 (timing, Figures 1-2), p.23 (power-on reset), p.24 (power-down, Table 3), p.25-26 (serial interface, input shift registers, SYNC interrupt)).
+
+- Bus: SPI mode 2, write-only
+- 14 bits, 1 channel(s), code —; vcc [2.0, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DCK (SC70-6)
+- Not modeled:
+  - analog output, resistor string and output amplifier (VOUT is never driven); AVDD/VREF is both supply and reference
+  - power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 stored in CTRL.PD only; the DAC register keeps its contents in power-down as the datasheet says
+  - 50 us power-down exit time and output settling
+  - SCLK frequency (20 MHz below AVDD 3.6 V, 50 MHz above) and setup/hold limits t1-t10
+  - SPI mode: data are taken on SCLK falling edges with SCLK high at SYNC fall (Figures 1-2); modeled as mode 2
+
+### DAC8411
+
+16-bit low-power single-channel voltage-output DAC with 24-bit SPI-compatible write-only interface (SC70). `specs/DAC8411.json`; datasheet `dac8311.pdf` (p.3 (pins), p.4 (ROC), p.7-8 (timing, Figures 1-2), p.23 (power-on reset), p.24 (power-down, Table 3), p.25-26 (serial interface, input shift registers, SYNC interrupt)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 1 channel(s), code —; vcc [2.0, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DCK (SC70-6)
+- Not modeled:
+  - analog output, resistor string and output amplifier (VOUT is never driven); AVDD/VREF is both supply and reference
+  - power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 stored in CTRL.PD only; the DAC register keeps its contents in power-down as the datasheet says
+  - 50 us power-down exit time and output settling
+  - SCLK frequency (20 MHz below AVDD 3.6 V, 50 MHz above) and setup/hold limits t1-t10
+  - SPI mode: data are taken on SCLK falling edges with SCLK high at SYNC fall (Figures 1-2); modeled as mode 2
+  - the frame executes on the 18th falling edge; the last six don't-care bits are ignored (the fixed frame stops after the command)
+
+### DAC8501
+
+16-bit multiplying-optimized voltage-output DAC with 24-bit SPI-compatible write-only interface and VFB feedback pin. `specs/DAC8501.json`; datasheet `dac8501.pdf` (p.2 (pins), p.3 (specifications, VDD 2.7-5.5 V), p.4 (timing), p.12 (serial interface, input shift register Figure 3, SYNC interrupt), p.13 (power-on reset, power-down Table I)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DGK (VSSOP-8-DGK)
+- Not modeled:
+  - analog output, resistor string, output amplifier and VFB feedback input (VOUT is never driven)
+  - power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 stored in CTRL.PD only; the DAC register keeps its contents
+  - power-down exit time (2.5 us at 5 V, 5 us at 3 V) and output settling
+  - SCLK frequency (20 MHz below VDD 3.6 V, 30 MHz above) and setup/hold limits t1-t8
+  - SPI mode: data taken on SCLK falling edges, SCLK high at SYNC fall in the timing figure; modeled as mode 2
+  - multiplying-mode behavior: the resistor string keeps drawing reference current in power-down (analog)
+
+### DAC8531
+
+16-bit low-power voltage-output DAC with 24-bit SPI-compatible write-only interface and VFB feedback pin. `specs/DAC8531.json`; datasheet `dac8531.pdf` (p.3 (specifications, VDD 2.7-5.5 V, pins), p.4 (timing), p.12 (serial interface, input shift register Figure 3, SYNC interrupt, power-on reset), p.13 (power-down Table I)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DGK (VSSOP-8-DGK), DRB (SON-8-DRB)
+- Not modeled:
+  - analog output, resistor string, output amplifier and VFB feedback input (VOUT is never driven)
+  - power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 stored in CTRL.PD only; the DAC register keeps its contents
+  - power-down exit time (2.5 us at 5 V, 5 us at 3 V) and output settling
+  - SCLK frequency (20 MHz below VDD 3.6 V, 30 MHz above) and setup/hold limits t1-t8
+  - SPI mode: data taken on SCLK falling edges, SCLK high at SYNC fall in the timing figure; modeled as mode 2
+  - the SON-8 (DRB) thermal pad is not a pin
+
+### DAC8532
+
+Dual 16-bit voltage-output DAC with 24-bit SPI-compatible write-only interface, per-channel data buffers and software load bits. `specs/DAC8532.json`; datasheet `dac8532.pdf` (p.3 (pins), p.5 (power requirements, logic inputs), p.6 (timing, Figure 1), p.14 (power-on reset, input shift register, SYNC interrupt), p.15 (power-down, Table 1), p.16-17 (control matrix Table 2, power-down commands Table 3, operation examples)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 5 registers, 16 commands; frame fixed
+- Packages: DGK (VSSOP-8-DGK)
+- Not modeled:
+  - analog outputs and the shared VREF reference (never driven)
+  - power-down: the PD1/PD0 command goes into the data buffer and takes effect when that channel is loaded; the model stores it in PWR at once (a later data write to the buffer sets it back to 00), and the buffer's data are kept
+  - power-down exit time (2.5 us at 5 V, 5 us at 3 V) and output settling
+  - SCLK frequency (20 MHz below VDD 3.6 V, 30 MHz above) and setup/hold limits t1-t9
+  - words with DB23/DB22 not 0 are ignored (the datasheet requires 0)
+  - SPI mode: data taken on SCLK falling edges with SCLK high at SYNC fall (Figure 1); modeled as mode 2
+  - no read-back: the interface is write-only
+
+### DAC8534
+
+Quad 16-bit voltage-output DAC with 24-bit SPI-compatible write-only interface, A1/A0 address match, broadcast load, ENABLE and rising-edge LDAC. `specs/DAC8534.json`; datasheet `dac8534.pdf` (p.2-3 (power requirements, logic inputs), p.3 (pins), p.4 (timing), p.11-12 (serial interface, input shift register, Table I, SYNC interrupt, power-on reset), p.13 (control matrix Table II, power-down), p.14 (examples), p.15 (LDAC)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 10 registers, 99 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs and the VREFH/VREFL reference inputs (never driven)
+  - power-down is stored like data in the 18-bit temporary/DAC registers and takes effect when the channel is loaded; the model stores PD0 and PD1 PD2 per channel in PWR at once, and a data write (PD0 = 0) sets the channel's PD flag back to 0
+  - address match: DB23/DB22 must equal the A1/A0 pins; modeled with one command set per address gated on the pin levels (STRAP)
+  - ENABLE high disconnects the serial port: every command is gated on STRAP.EN = 0
+  - no read-back: the interface is write-only
+  - IOVDD may run down to 1.8 V with degraded timing (p.12); vcc uses the specified 2.7-5.5 V
+  - SCLK frequency (20 MHz below 3.6 V, 30 MHz above) and setup/hold limits t1-t9
+  - SPI mode: data taken on SCLK falling edges with SCLK high at SYNC fall; modeled as mode 2
+  - power-down exit time and output settling
+
+### DAC8541
+
+16-bit voltage-output DAC with 16-bit parallel interface, input-register read-back, LDAC, RST to min or mid scale, pin-selected power-down and data format. `specs/DAC8541.json`; datasheet `dac8541.pdf` (p.3 (logic inputs, power requirements), p.4 (pins), p.5 (timing, Figure 1), p.6 (reset timing), p.14 (Table 1), p.15 (Table 2 data format, LDAC, RST/RSTSEL, power-on reset), p.16 (power-down)).
+
+- Bus: parallel 16-bit
+- 16 bits, 1 channel(s), code —; vcc [1.8, 5.5]
+- 3 registers, 1 commands; frame fixed
+- Packages: PBS (TQFP-32-PBS)
+- Not modeled:
+  - analog output, VOUTSense feedback, VREFH/VREFL references (never driven)
+  - RST loads min-scale (RSTSEL low) or mid-scale (RSTSEL high) into the DAC register only; the model's clear also loads the input register. clearCode follows RSTSEL in straight-binary codes (0000h / 8000h); with BTC/USB high the chip loads 8000h (min) / 0000h (mid), which one pin-chosen clear code cannot express
+  - BTC/USB selects 2's complement or straight binary for written and read-back data; the model stores the code as written (CTRL.BTC informational). Power-on (min scale) follows BTC/USB through pins.resetSelect (8000h in 2's complement); the datasheet names the output only, the model applies it to the input register too
+  - PD1/PD0 pin power-down (1 kOhm / 100 kOhm / Hi-Z output) is analog: the pin levels are copied into CTRL only
+  - DAC register is not readable (Table 1 reads the input register)
+  - timing limits tw1-tw7, tsu1-tsu5, th1-th5, td2 and output settling
+
+### DAC8544
+
+Quad 16-bit voltage-output DAC with 16-bit parallel interface, input-register read-back, LDAC, RST to zero scale and power-down pin. `specs/DAC8544.json`; datasheet `dac8544.pdf` (p.3 (logic inputs, power requirements), p.4 (timing), p.5-6 (pins), p.13 (Tables 1-2), p.14 (Tables 3-5, RST, power-on reset)).
+
+- Bus: parallel 16-bit
+- 16 bits, 4 channel(s), code —; vcc [1.8, 5.5]
+- 8 registers, 1 commands; frame fixed
+- Packages: PFB (TQFP-48-7X7)
+- Not modeled:
+  - analog outputs, VFB sense inputs and per-channel VREF+/VREF- references (never driven)
+  - RST (rising edge, p.14) resets only the DAC registers to zero scale; the input registers keep their data, while the schema's clear also loads the input registers
+  - the text says the write latches at CS falling (p.13-14) while the timing (th2) holds data after CS rising; the model latches at the end of the write (CS rising)
+  - PD low: the datasheet only states the outputs go Hi-Z; the model's powerdown pin also ignores the bus while PD is low (Table 1 lists writes and reads with PD high)
+  - DAC registers are not readable (Table 4 reads the input registers)
+  - timing limits tw1-tw7, tsu1-tsu4, th1-th3, td2 and output settling
+
+### DAC8550
+
+16-bit voltage-output DAC with 2's complement input, power-on reset to midscale, 24-bit SPI-compatible write-only interface and VFB feedback pin. `specs/DAC8550.json`; datasheet `dac8550.pdf` (p.4 (pins), p.5 (ROC), p.7 (timing, Figure 1), p.17 (2's complement coding, power-on reset to midscale), p.18 (power-down Table 1, serial interface), p.19 (input shift register Figure 49, SYNC interrupt Figure 50)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DGK (VSSOP-8-DGK)
+- Not modeled:
+  - analog output, resistor string, output amplifier and VFB feedback input (VOUT is never driven)
+  - power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 stored in CTRL.PD only; the DAC register keeps its contents
+  - power-down exit time (2.5 us at 5 V, 5 us at 3 V) and output settling
+  - SCLK frequency (20 MHz below VDD 3.6 V, 30 MHz above) and setup/hold limits t1-t8
+  - SPI mode: data taken on SCLK falling edges, SCLK high at SYNC fall in the timing figure; modeled as mode 2
+  - 2's complement coding is analog-only: the register stores the code as written; midscale = 0000h
+
+### DAC8551
+
+16-bit single-channel voltage-output DAC (external reference, VFB feedback pin) with 24-bit SPI-compatible write-only interface and power-down. `specs/DAC8551.json`; datasheet `dac8551.pdf` (p.3 (pins), p.4 (VDD 2.7-5.5 V, digital inputs), p.7 (timing, Figure 1), p.17 (power-on reset), p.18 (power-down Table 1, serial interface), p.19 (input shift register Figure 49, SYNC interrupt Figure 50)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DGK (VSSOP-8-DGK)
+- Not modeled:
+  - analog output, resistor string and output amplifier (VOUT never driven)
+  - power-down output loads (1 kohm / 100 kohm / Hi-Z): PD1/PD0 stored in CTRL.PD only
+  - power-up time from power-down (2.5-5 us) and output settling
+  - SCLK frequency (30 MHz / 20 MHz) and setup/hold limits t1-t9
+
+### DAC8552
+
+Dual 16-bit voltage-output DAC (external reference) with 24-bit SPI-compatible write-only interface, software load commands and per-channel power-down. `specs/DAC8552.json`; datasheet `dac8552.pdf` (p.3 (VDD 2.7-5.5 V), p.4 (pins), p.5 (timing), p.13-14 (serial interface, input shift register Figure 43, Tables 1-2), p.15 (SYNC interrupt, power-on reset, power-down Table 3)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 5 registers, 16 commands; frame fixed
+- Packages: DGK (VSSOP-8-DGK)
+- Not modeled:
+  - analog outputs and output amplifiers (VOUTA/VOUTB never driven); power-down output loads stored in PWR only
+  - the power-down condition takes effect when the channel receives a load command; the model stores PD1:PD0 per buffer at once. A power-down word with a load of its own channel does not change the DAC data register; loads of the other channel (and the load-both word) copy the buffers
+  - no read-back: the interface is write-only
+  - SCLK limits (30 / 20 MHz) and setup/hold times t1-t9
+
+### DAC8554
+
+Quad 16-bit voltage-output DAC (external VREFH/VREFL reference) with 24-bit SPI write-only interface, address pins A1/A0, ENABLE and LDAC. `specs/DAC8554.json`; datasheet `dac8554.pdf` (p.3 (supplies, logic inputs), p.4 (pins), p.5 (timing), p.15 (input shift register Figure 47), p.16 (Tables 1-2), p.17 (SYNC interrupt, power-on reset), p.20 (power-down), p.21 (LDAC, ENABLE)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 4 channel(s), code —; vcc [1.8, 5.5]
+- 10 registers, 99 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs and output buffers (VOUTx never driven); power-down output loads stored in PWR only
+  - the power-down condition is data in the buffer (TR/DR bits 17-16) and takes effect when the buffer is loaded; the model stores it per channel in PWR at once and clears it on the next data word to that channel. Loads of a power-down word (LD = 01, broadcast) do not change the DAC data register; LD = 10 loads all DAC registers from the buffers
+  - ENABLE high: the device ignores the serial port; modeled by gating every command on the ENABLE level (STRAP.EN)
+  - LDAC is a rising-edge trigger; synchronous updates use the LD1:LD0 load commands (LDAC tied low)
+  - no read-back: the interface is write-only
+  - IOVDD 1.8-2.7 V is allowed with degraded timing; vcc uses the 1.8-5.5 V IOVDD range of the power requirements table
+  - SCLK limits (50 / 25 MHz) and setup/hold times
+  - address match: DB23/DB22 must equal the A1/A0 pins; modeled with one command set per address gated on the pin levels
+
+### DAC8555
+
+Quad 16-bit voltage-output DAC (external VREFH/VREFL reference) with 24-bit SPI write-only interface, ENABLE, LDAC, RST with zero/mid-scale select (RSTSEL). `specs/DAC8555.json`; datasheet `dac8555.pdf` (p.3 (supplies, logic inputs), p.4 (pins), p.5 (timing), p.15 (RST, input shift register Figure 47), p.16 (Tables 1-2), p.17 (SYNC interrupt, power-on reset), p.18 (power-down), p.21 (LDAC, ENABLE)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 4 channel(s), code —; vcc [1.8, 5.5]
+- 10 registers, 27 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs and output buffers (VOUTx never driven); power-down output loads stored in PWR only
+  - the power-down condition is data in the buffer (TR/DR bits 17-16) and takes effect when the buffer is loaded; the model stores it per channel in PWR at once and clears it on the next data word to that channel. Loads of a power-down word (LD = 01, broadcast) do not change the DAC data register; LD = 10 loads all DAC registers from the buffers
+  - ENABLE high: the device ignores the serial port; modeled by gating every command on the ENABLE level (STRAP.EN)
+  - LDAC is a rising-edge trigger; synchronous updates use the LD1:LD0 load commands (LDAC tied low)
+  - no read-back: the interface is write-only
+  - IOVDD 1.8-2.7 V is allowed with degraded timing; vcc uses the 1.8-5.5 V IOVDD range of the power requirements table
+  - SCLK limits (50 / 25 MHz) and setup/hold times
+  - RSTSEL selects zero-scale reset with straight binary coding (low) or mid-scale reset with two's complement coding (high); the stored code after reset is 0 in both cases, so the register reset is 0 and the coding is analog-only
+  - DB23/DB22 must be 0 except in broadcast words
+
+### DAC8560
+
+16-bit single-channel voltage-output DAC with 2.5-V internal reference (enabled by default), 24-bit SPI-compatible write-only interface and power-down. `specs/DAC8560.json`; datasheet `dac8560.pdf` (p.3 (pins), p.4 (VDD 2.7-5.5 V), p.7 (timing, Figure 1), p.21 (reference enable/disable), p.24 (power-down Table 1), p.25 (serial interface, input shift register, SYNC interrupt, power-on reset), p.26 (Tables 2-5)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 3 registers, 4 commands; frame fixed
+- Packages: DGK (VSSOP-8-DGK)
+- Not modeled:
+  - analog output, output amplifier and the 2.5-V internal reference (REF.OFF stored only; VREF never driven)
+  - power-down output loads (1 kohm / 100 kohm / Hi-Z): PD1/PD0 stored in CTRL.PD only
+  - the reference words need 26 SCLK falling edges with SYNC low; modeled as 26-bit patterns (24-bit word + 2 don't-care bits). What a lone sequence-2 word does is not documented; the model ignores it
+  - power-up time from power-down and output settling; SCLK limits t1-t10
+
+### DAC8562
+
+Dual 16-bit low-power buffered voltage-output DAC, 2.5-V internal reference, 24-bit SPI write-only interface, LDAC/CLR, power-on reset to zero-scale. `specs/DAC8562.json`; datasheet `dac7562.pdf` (p.4 (pins), p.5 (recommended operating conditions), p.9 (timing, Figure 1), p.30-31 (power-on reset, Table 4), p.32-35 (power-down, gain, software reset, internal reference, CLR, LDAC; Tables 5-11), p.36-38 (serial interface, commands, address select, data formats, command matrix; Tables 12-17)).
+
+- Bus: SPI mode 1, write-only
+- 16 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 8 registers, 22 commands; frame fixed
+- Packages: DGS (VSSOP-10), DSC (WSON-10-DSC)
+- Not modeled:
+  - analog outputs, output buffer, internal 2.5-V reference and gain (GAIN, REF and PWR stored only; the internal reference forced off while both DACs are powered down is not modeled)
+  - CLR: the device stays in clear mode until the 24th SCLK falling edge of the next write and a CLR edge during a write aborts that write; the model loads the clear code once on the falling edge
+  - LDAC is a falling-edge trigger in asynchronous mode and must be held low for synchronous mode; modeled as level LDAC (active low), which covers both uses
+  - LDAC register: per-channel synchronous mode is modeled for single-channel writes (command 000); a write to both channels (address 111) with only one LDAC register bit set updates neither channel
+  - software reset with DB0 = 0 resets only the input and DAC registers; modeled with the clear action (the clear code equals the power-on code). DB0 = 1 is a full reset
+  - reserved addresses 011-110 and command 000 with address 010 other than the gain write: words to reserved addresses are ignored by the model
+  - power-on-reset supply thresholds (AVDD below 0.7 V for 1 ms) and power-up time
+  - no read-back: the interface is write-only (no SDO)
+  - SPI mode: data sampled on SCLK falling edges with SCLK shown free-running in Figure 1; modeled as mode 1
+
+### DAC8563
+
+Dual 16-bit low-power buffered voltage-output DAC, 2.5-V internal reference, 24-bit SPI write-only interface, LDAC/CLR, power-on reset to mid-scale. `specs/DAC8563.json`; datasheet `dac7562.pdf` (p.4 (pins), p.5 (recommended operating conditions), p.9 (timing, Figure 1), p.30-31 (power-on reset, Table 4), p.32-35 (power-down, gain, software reset, internal reference, CLR, LDAC; Tables 5-11), p.36-38 (serial interface, commands, address select, data formats, command matrix; Tables 12-17)).
+
+- Bus: SPI mode 1, write-only
+- 16 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 8 registers, 22 commands; frame fixed
+- Packages: DGS (VSSOP-10), DSC (WSON-10-DSC)
+- Not modeled:
+  - analog outputs, output buffer, internal 2.5-V reference and gain (GAIN, REF and PWR stored only; the internal reference forced off while both DACs are powered down is not modeled)
+  - CLR: the device stays in clear mode until the 24th SCLK falling edge of the next write and a CLR edge during a write aborts that write; the model loads the clear code once on the falling edge
+  - LDAC is a falling-edge trigger in asynchronous mode and must be held low for synchronous mode; modeled as level LDAC (active low), which covers both uses
+  - LDAC register: per-channel synchronous mode is modeled for single-channel writes (command 000); a write to both channels (address 111) with only one LDAC register bit set updates neither channel
+  - software reset with DB0 = 0 resets only the input and DAC registers; modeled with the clear action (the clear code equals the power-on code). DB0 = 1 is a full reset
+  - reserved addresses 011-110 and command 000 with address 010 other than the gain write: words to reserved addresses are ignored by the model
+  - power-on-reset supply thresholds (AVDD below 0.7 V for 1 ms) and power-up time
+  - no read-back: the interface is write-only (no SDO)
+  - SPI mode: data sampled on SCLK falling edges with SCLK shown free-running in Figure 1; modeled as mode 1
+  - power-on code mid scale (DACxx63) applies to the input and DAC registers; software reset and CLR return to mid scale
+
+### DAC8564
+
+Quad 16-bit voltage-output DAC with 2.5-V internal reference, 24-bit SPI write-only interface, address pins A1/A0, ENABLE and LDAC. `specs/DAC8564.json`; datasheet `dac8564.pdf` (p.4 (supplies, logic inputs), p.5 (pins), p.6-7 (timing), p.28 (reference words, Tables 1-3), p.29-30 (serial interface, Tables 4-5), p.31 (SYNC interrupt, power-on reset, LDAC, ENABLE), p.32 (power-down, Table 6)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 4 channel(s), code —; vcc [1.8, 5.5]
+- 11 registers, 103 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs and output buffers (VOUTx never driven); power-down output loads stored in PWR only
+  - the power-down condition is data in the buffer (TR/DR bits 17-16) and takes effect when the buffer is loaded; the model stores it per channel in PWR at once and clears it on the next data word to that channel. Loads of a power-down word (LD = 01, broadcast) do not change the DAC data register; LD = 10 loads all DAC registers from the buffers
+  - ENABLE high: the device ignores the serial port; modeled by gating every command on the ENABLE level (STRAP.EN)
+  - LDAC is a rising-edge trigger; synchronous updates use the LD1:LD0 load commands (LDAC tied low)
+  - no read-back: the interface is write-only
+  - IOVDD 1.8-2.7 V is allowed with degraded timing; vcc uses the 1.8-5.5 V IOVDD range of the power requirements table
+  - SCLK limits (50 / 25 MHz) and setup/hold times
+  - internal 2.5-V reference (REFCTL stored only; VREFH/VREFOUT never driven); the reference words are decoded with LD1:LD0 = 00, DAC select 00 and DB15:DB14 = 00 as in Tables 1-3
+  - address match: DB23/DB22 must equal the A1/A0 pins; modeled with one command set per address gated on the pin levels
+
+### DAC8565
+
+Quad 16-bit voltage-output DAC with 2.5-V internal reference, 24-bit SPI write-only interface, ENABLE, LDAC, RST with zero/mid-scale select (RSTSEL). `specs/DAC8565.json`; datasheet `dac8565.pdf` (p.4 (supplies, logic inputs), p.5 (pins), p.6-7 (timing), p.25 (data format, Table 1), p.26 (reference words, Tables 2-4), p.27-28 (serial interface, RST, Tables 5-6), p.29 (SYNC interrupt, power-on reset, LDAC, ENABLE), p.30 (power-down, Table 7)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 4 channel(s), code —; vcc [1.8, 5.5]
+- 11 registers, 28 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs and output buffers (VOUTx never driven); power-down output loads stored in PWR only
+  - the power-down condition is data in the buffer (TR/DR bits 17-16) and takes effect when the buffer is loaded; the model stores it per channel in PWR at once and clears it on the next data word to that channel. Loads of a power-down word (LD = 01, broadcast) do not change the DAC data register; LD = 10 loads all DAC registers from the buffers
+  - ENABLE high: the device ignores the serial port; modeled by gating every command on the ENABLE level (STRAP.EN)
+  - LDAC is a rising-edge trigger; synchronous updates use the LD1:LD0 load commands (LDAC tied low)
+  - no read-back: the interface is write-only
+  - IOVDD 1.8-2.7 V is allowed with degraded timing; vcc uses the 1.8-5.5 V IOVDD range of the power requirements table
+  - SCLK limits (50 / 25 MHz) and setup/hold times
+  - internal 2.5-V reference (REFCTL stored only; VREFH/VREFOUT never driven); the reference words are decoded with LD1:LD0 = 00, DAC select 00 and DB15:DB14 = 00 as in Tables 2-4
+  - RSTSEL selects zero-scale reset with straight binary (USB) coding (low) or mid-scale reset with two's complement (BTC) coding (high); the stored code after reset is 0 in both cases (Table 1), so the register reset is 0 and the coding is analog-only
+  - DB23/DB22 must be 0 except in broadcast words
+
+### DAC8568
+
+Octal 16-bit voltage-output DAC with 2.5-V internal reference, 32-bit SPI write, LDAC and CLR. `specs/DAC8568.json`; datasheet `dac7568.pdf` (p.3 (grades), p.4 (pins), p.5-7 (AVDD 2.7-5.5 V, digital inputs to AVDD + 0.3 V), p.7-8 (timing, Figure 1), p.33-38 (serial interface, Tables 1-4), p.39 (SYNC interrupt, power-on reset, clear code, software reset), p.44-47 (reference, LDAC, power-down)).
+
+- Bus: SPI mode 2, write-only
+- 16 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 20 registers, 14 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs, internal 2.5-V reference and power-down output loads (reference and power-down commands stored only in REF / PD; outputs never driven)
+  - power-down command applies its mode only to the channels whose mask bit is 1; the model stores the last command's mode and mask (PD), not a per-channel state
+  - clear code 11 (ignore the CLR pin) has no clear code in the model's map: the pin is not disabled
+  - CLR is falling-edge triggered and the device stays in clear mode until the 32nd SCLK of the next write, and a CLR during a write aborts it; the model loads the clear code once on the falling edge and does not abort the write
+  - LDAC register: channels with their bit set ignore the LDAC pin and update on the 32nd SCLK (stored only; every channel follows the LDAC pin)
+  - invalid channel codes A3 = 1 other than 1111 and reserved control codes 1010-1111 (no command matches: the frame is ignored); DB31 = 1 frames are ignored likewise
+  - SYNC kept low after the 32nd clock: the shift register stays locked until SYNC rises and falls again (fixed frame: same result)
+  - pin inputs at AVDD + 0.3 V max; no SDO / read-back on this device
+
+### DAC8571
+
+16-bit single-channel voltage-output DAC (external reference, VSENSE pin) with I2C interface (standard/fast/high-speed), temporary register, read-back and power-down. `specs/DAC8571.json`; datasheet `dac8571.pdf` (p.2 (pins), p.3-4 (VDD 2.7-5.5 V, logic levels), p.4-5 (I2C timing), p.14-16 (write/read sequences, Tables 1-2), p.19-20 (address byte, broadcast address, control byte Table 5, read-back), p.21-22 (examples, power-on reset), p.22-23 (power settings Table 6)).
+
+- Bus: I2C 0x4C, 0x4E
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 4 registers, 8 commands; frame fixed
+- Packages: DGK (VSSOP-8-DGK)
+- Not modeled:
+  - analog output, output amplifier, low-power/fast-settling and power-down output loads (PWR stored only; VOUT never driven)
+  - broadcast address 1001 000 (responds regardless of A0): not expressible in the address table; the broadcast control bytes (C5 C4 = 11) are decoded at the part's own address
+  - repeated MS/LS byte pairs after one control byte (each pair updates with the last control byte): the model decodes one control byte and one MS/LS pair per transaction
+  - a power setting written to the temporary register (C = 01h) takes effect only at a later update; the model applies it at once
+  - read-back MS/LS bytes: the datasheet returns the last received I2C MS/LS bytes (discarded data after C = 20h or a broadcast load, power setting bits after a power word); the model returns the temporary register
+  - control bytes with C7/C6 not 0 (outside broadcast) are acknowledged and ignored; other reserved-bit combinations are dropped
+  - address pin A0 is latched at power-up (the model reads it live)
+  - I2C high-speed mode master code and timing limits
+
+### DAC8574
+
+Quad 16-bit voltage-output DAC (external VREFH/VREFL reference) with I2C interface (standard/fast/high-speed), extended address pins A3/A2, LDAC, read-back and per-channel power-down. `specs/DAC8574.json`; datasheet `dac8574.pdf` (p.2 (pinout), p.3 (supplies, logic levels), p.17-20 (update sequence, address, broadcast address, control byte Tables 1-2, LDAC, registers Table 3), p.22-25 (write/read sequences Tables 4-6), p.27 (power-on reset, power-down Table 8)).
+
+- Bus: I2C 0x4C, 0x4D, 0x4E, 0x4F
+- 16 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 10 registers, 131 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog outputs, reference and power-down output loads (power-down bits stored in the internal PDN register only; outputs never driven)
+  - multi-word transactions: MSB/LSB byte pairs may repeat after one control byte until STOP / repeated START (Table 4 note 2); the model decodes only the last control byte + MSB + LSB (or the lone control byte) before the transaction ends (align end)
+  - power-down bits are kept per channel in PDN and take effect immediately: the TRx-only (L=00) and DACx (L=01) distinction for power-down data is not modeled; a data word to the channel clears the flag
+  - broadcast I2C address 1001 0000 (responds regardless of the address pins) is not expressible; the broadcast-mode control bytes (L=11) are decoded at the device's own address
+  - read-back returns the temporary register of the selected channel (the datasheet does not say whether TRx or DRx is read)
+  - address pins A1/A0 latched at power-up (the model reads them live)
+  - I2C high-speed mode master code and timing
+
+### DAC8718
+
+Octal 16-bit high-voltage-output DAC (bipolar up to +-16.5 V) with SPI, offset DACs, gain/zero calibration registers, LDAC, analog monitor and GPIO. `specs/DAC8718.json`; datasheet `dac8718.pdf` (p.5-9 (electrical, supplies, logic levels), p.11-12 (pinouts, pin descriptions), p.13-17 (timing diagrams and characteristics), p.42-46 (reset, update modes, power-down, serial interface, read-back), p.47-52 (Tables 9-15, register descriptions)).
+
+- Bus: SPI mode 2
+- 16 bits, 8 channel(s), code —; vcc [1.8, 5.5]
+- 38 registers, 6 commands; frame fixed
+- Packages: PAG (TQFP-64-PAG), RGZ (VQFN-48-RGZ)
+- Not modeled:
+  - analog: outputs, offset DACs, reference buffers, VMON monitor multiplexer, AIN-0/1, power-down output loads (PD_A/PD_B stored only)
+  - correction engine (SCE = 1): the Input Data Register, gain and zero correction and the corrected DAC Data Register are not modeled; written data go to DAC_n directly as with SCE = 0, and reading DAC-n returns DAC_n whatever A/B selects
+  - power-on / RST reset codes of the DAC data registers and latches (0000h or 8000h, Tables 7-8) are mid scale when RSTSEL and USB/BTC differ: pins.resetSelect models RSTSEL high = mid scale and USB/BTC high = offset 199Ah (the USB/BTC-low rows are exact); with USB/BTC high the chip's data codes swap (mid scale with RSTSEL low, zero with RSTSEL high) but the model keeps the RSTSEL mapping: a reset code chosen by two pins together cannot be expressed. Offset DAC defaults depend on supply detection and gain (999Ah / AAABh / 0000h); modeled as 999Ah (USB/BTC low) / 199Ah (USB/BTC high). Changing GAIN-x does not reload the offset code
+  - update mode latched at power-on (LDAC low = asynchronous, high = synchronous): modeled as LDAC level active low, so LDAC tied low updates at CS rising and an LDAC low pulse updates every latch (the chip reloads only latches accessed since the last update)
+  - LD and RST self-clear in the chip; in the model RST clears through the reset and LD stays 1 until written 0 (a write leaving LD = 1 updates every latch). NOP bit stored only
+  - CLR pin: level-triggered output clamp (VOUT to AGND through switches) that does not change any register; not modeled
+  - GPIO pins: open-drain outputs set by GPIO register writes and read back as pin levels; the register is stored only and the pins are never driven
+  - SDO bits DB23:DB16 of read-back frames are not documented; the model sends zeros there and the register in DB15:DB0. DSDO (SDO disable) is stored only
+  - daisy-chain (SDO shift-out after 24 bits), SPI sleep mode (SDI routed to SDO), WAKEUP pin and W2 wake-up: not modeled (SLEEP stored only)
+  - frames with fewer than 24 SCLK falling edges are ignored by the chip; the model also ignores them (commit at CS rising); with more, the last 24 bits are used (align end)
+  - SPI mode: data latched on SCLK falling edges, SDO valid t13 after CS falling and changed on rising edges (Figure 4): modeled as mode 2
+  - USB/BTC data-format pin: data are stored as written
+
+### DAC8728
+
+Octal 16-bit high-voltage-output DAC with 16-bit parallel interface, offset DACs, gain/zero calibration registers, LDAC and GPIO. `specs/DAC8728.json`; datasheet `dac8728.pdf` (p.10-11 (pin descriptions QFN-56 / TQFP-64), p.6/9 (IOVDD 1.7 V to DVDD, DVDD 2.7-5.5 V), p.12 (timing diagrams), p.13-15 (timing; t13 50 ns at IOVDD 1.8 V), p.38 (CLR), p.39 (power-on / hardware reset, Tables 8-9), p.40-41 (DAC output update), p.42 (Table 10 register map), p.43-46 (Tables 11-15, GPIO and busy flag registers)).
+
+- Bus: parallel 16-bit
+- 16 bits, 8 channel(s), code —; vcc [1.7, 5.5]
+- 38 registers, 2 commands; frame fixed
+- Packages: PAG (TQFP-64-PAG), RTQ (QFN-56-RTQ)
+- Not modeled:
+  - analog: outputs, offset DACs, reference buffers, VMON monitor multiplexer, power-down output loads (PD_A/PD_B stored only)
+  - correction engine (SCE = 1): the Input Data Register, gain and zero correction, BUSY pin, GBF and busy flags are not modeled; written data go to DAC_n directly as with SCE = 0, and reading DAC-n returns DAC_n whatever A/B selects; BUSY is never driven
+  - power-on / RST reset codes of the DAC data registers and latches (0000h or 8000h, Tables 8-9) are mid scale when RSTSEL and USB/BTC differ: pins.resetSelect models RSTSEL high = mid scale and USB/BTC high = offset 199Ah (the USB/BTC-low rows are exact); with USB/BTC high the chip's data codes swap (mid scale with RSTSEL low, zero with RSTSEL high) but the model keeps the RSTSEL mapping: a reset code chosen by two pins together cannot be expressed. Offset DAC defaults depend on the supply mode, USB/BTC and gain (999Ah / 199Ah in dual supply, off in single supply; GAIN-x changes reload a factory-trimmed value); modeled as 999Ah (USB/BTC low) / 199Ah (USB/BTC high)
+  - update mode latched at power-on (LDAC low = asynchronous, high = synchronous): modeled as LDAC level active low (LDAC tied low updates at CS rising); the chip reloads only latches accessed since the last update
+  - LD and RST self-clear in the chip; in the model RST clears through the reset and LD stays 1 until written 0
+  - CLR pin: level-triggered output clamp (VOUT to AGND through 15 kOhm) that does not change any register; not modeled
+  - GPIO pin: open-drain output set by the GPIO register and read back as the pin level; the register is stored only and the pin is never driven
+  - USB/BTC data-format pin: data are stored as written
+
+### DAC8734
+
+Quad 16-bit high-voltage (+/-16 V) unipolar/bipolar-output DAC with SPI, register read-back, user gain/zero calibration, LDAC and GPIO. `specs/DAC8734.json`; datasheet `dac8734.pdf` (p.5 (DVDD 2.7-5.5 V, IOVDD 1.7 V to DVDD), p.7-8 (pin descriptions), p.9-11 (timing; t13 20 ns, t11 25 ns at IOVDD 1.8 V), p.20-21 (LDAC, hardware/software/power-on reset, Table 1), p.22 (GPIO), p.23-24 (serial interface, daisy chain, read-back), p.25 (Tables 2-3), p.26-28 (Tables 4-10)).
+
+- Bus: SPI mode 2
+- 16 bits, 4 channel(s), code —; vcc [1.7, 5.5]
+- 18 registers, 10 commands; frame fixed
+- Packages: PFB (TQFP-48-7X7), RHA (VQFN-40-RHA)
+- Not modeled:
+  - analog: outputs, gain-2/4 feedback (RFB1/RFB2, GAIN-x bits stored only), reference buffers, VMON monitor multiplexer and AIN, power-down output loads (PD_A/PD_B stored only), user gain/zero calibration (ZERO/GAIN registers stored and read back only)
+  - UNI/BIP-A/B pins select unipolar (straight binary) or bipolar (twos complement) data per group; data are stored as written and the reset code is 0000h either way (Table 1)
+  - LDAC: the chip reloads only latches accessed since the last update; the model (LDAC level active low, LD trigger) reloads every latch. LD and RST self-clear in the chip; in the model RST clears through the reset and LD stays 1 until written 0
+  - GPIO-0/1: open-drain outputs set by CMD.GPIO_x and read back as the pin level; the bits are stored only and the pins are never driven
+  - read-back header bits DB23:DB16 are not documented ("same format as used to write"); the model sends zeros there and the register in DB15:DB0. DSDO (SDO disable) is stored only: SDO still drives while CS is low
+  - daisy-chain mode (SDI data rippling out on SDO after 24 clocks): not modeled
+  - frames with fewer than 24 SCLK falling edges are ignored (commit at CS rising, align end); with more the last 24 bits are used
+
+### DAC8750
+
+16-bit 4-20 mA current-output DAC with SPI-style serial interface (LATCH), register read-back, CLR, watchdog and CRC frame checking. `specs/DAC8750.json`; datasheet `dac7750.pdf` (p.3-4 (pins, Table 6-1), p.5 (DVDD 2.7-5.5 V), p.9 (timing t19 35 ns, t20 35 ns), p.10 (Figures 7-1/7-2), p.21-22 (CLR, POR), p.23 (watchdog, CRC), p.30-31 (Tables 8-7 to 8-10), p.32-34 (Tables 8-11 to 8-18)).
+
+- Bus: SPI mode 0
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 6 registers, 32 commands; frame fixed
+- Packages: PWP (HTSSOP-24-PWP)
+- Not modeled:
+  - analog: 4-20 mA / 0-20 mA / 0-24 mA current output stage, ranges (CONTROL.RANGE), external/internal current-setting resistor (REXT, ISET-R), BOOST transistor, HART modulation (HART-IN, HARTEN), output filter caps CAP1/CAP2, internal reference
+  - LATCH is not a chip select: data shift in regardless of LATCH (p.30). Modeled as an SPI CS with protocol.align "end" (the last 24/32 bits before LATCH rises are executed); SCLK while LATCH is high is not shifted in the model, and SDO is driven only while LATCH is low
+  - SDO outputs on SCLK falling edges (read data valid on rising): mode 0
+  - CRC-8-ATM frame checking (CRCEN): the 32-bit frame is decoded (commands gated on CONFIG.CRCEN) but the CRC byte is neither checked nor generated (read-back CRC byte output as 0); CRC-FLT is never set
+  - watchdog timer (WDEN/WDPD, 0x95 reset) and WD-FLT: not modeled
+  - ALARM open-drain output (open circuit, compliance, over-temperature, watchdog, CRC) is never asserted; status fault bits stay 0
+  - user calibration (CALEN, GAIN, ZERO): registers stored and read back; the calibrated code is not computed
+  - slew-rate control (SREN, SRCLK, SRSTEP) and SR-ON: not modeled (output change is instant)
+  - CLR: active high clears the output to zero scale (modeled as clear, clearCode 0, which also loads 0 into the DAC data register); the datasheet restores the pre-clear value on a LATCH pulse without data, which the model does not
+  - DVDD can be an output of the internal regulator (DVDD-EN floating); DVDD-EN is modeled as a plain digital input
+  - the reset-register RESET bit self-clears; modeled as a reset command (RESET = 1)
+  - frames with more or fewer than 24 SCLK cycles program incorrect data (p.31); the model takes the last 24 bits
+
+### DAC8760
+
+16-bit single-channel programmable current (4-20 mA, 0-20 mA, 0-24 mA) and voltage (0-5/10 V, +/-5/10 V) output DAC with SPI-style serial interface (LATCH), register read-back, CLR/CLR-SEL, watchdog and CRC frame checking. `specs/DAC8760.json`; datasheet `dac8760.pdf` (p.3-4 (pins, Table 6-1), p.5 (DVDD 2.7-5.5 V, internal regulator disabled), p.12 (timing t19 35 ns, t20 35 ns), p.13 (Figures 7-1/7-2), p.30 (CLR, CLR-SEL Table 8-2), p.31 (POR), p.32-33 (watchdog, CRC), p.40-41 (Tables 8-12 to 8-15), p.42-45 (Tables 8-16 to 8-23)).
+
+- Bus: SPI mode 0
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 6 registers, 32 commands; frame fixed
+- Packages: PWP (HTSSOP-24-PWP)
+- Not modeled:
+  - analog: voltage output (VOUT, +VSENSE/-VSENSE, CMP compensation, OVR overrange) and 4-20/0-20/0-24 mA current output (IOUT, BOOST, ISET-R/REXT), ranges (CONTROL.RANGE, CONFIG.IOUT_RANGE, DUAL_OUTEN), APD, HART modulation (HART-IN, HARTEN), internal reference
+  - LATCH is not a chip select: data shift in regardless of LATCH (p.41). Modeled as an SPI CS with protocol.align "end" (the last 24/32 bits before LATCH rises are executed); SCLK while LATCH is high is not shifted in the model, and SDO is driven only while LATCH is low
+  - SDO outputs on SCLK falling edges (read data valid on rising): mode 0
+  - CRC-8 frame checking (CRCEN): the 32-bit frame is decoded (commands gated on CONFIG.CRCEN) but the CRC byte is neither checked nor generated (read-back CRC byte output as 0); CRC-FLT is never set
+  - watchdog timer (WDEN/WDPD, 0x95 reset) and WD-FLT: not modeled
+  - ALARM open-drain output (open circuit, compliance, over-temperature, watchdog, CRC) is never asserted; status fault bits stay 0
+  - user calibration (CALEN, GAIN, ZERO): registers stored and read back; the calibrated code is not computed
+  - slew-rate control (SREN, SRCLK, SRSTEP) and SR-ON: not modeled (output change is instant)
+  - CLR (active high) clears to the code the CLR-SEL pin picks for the power-on unipolar range (0: 0 V = zero scale, 1: midscale; Table 8-2, p.30). Not modeled: the CLRSEL bit (ORed with the pin), the bipolar-range codes (0 V = midscale, CLR-SEL = 1 negative full scale), CLR-SEL as the power-on / reset / range-change default output, the restore of the pre-clear value on a LATCH pulse without data, and the CLR-active write lockout
+  - DVDD can be an output of the internal 4.6 V regulator (DVDD-EN floating); DVDD-EN is modeled as a plain digital input and vcc is the external-DVDD range
+  - the reset-register RESET bit self-clears; modeled as a reset command (RESET = 1)
+  - frames with more or fewer than 24 SCLK cycles program incorrect data (p.41); the model takes the last 24 bits
+
+### DAC8771
+
+16-bit single-channel voltage (0-5/10/6/12 V, +/-5/10/6/12 V) and current (4-20 mA, 0-20/24 mA, +/-24 mA) output DAC with adaptive buck-boost converter, SPI with read-back, HART input, LDAC/CLR/RESET, watchdog and CRC. `specs/DAC8771.json`; datasheet `dac8771.pdf` (p.3-4 (pins), p.6 (DVDD 2.7-5.5 V), p.13 (timing, t15 14 ns), p.14 (Figure 2 read-back), p.37 (POR), p.40-43 (SPI, daisy chain, write/read, LDAC, RESET, CLR, CRC), p.44 (calibration), p.45 (Table 4), p.46 (Table 5), p.47-58 (Tables 6-23)).
+
+- Bus: SPI mode 2
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 16 registers, 66 commands; frame fixed
+- Packages: RGZ (VQFN-48-RGZ)
+- Not modeled:
+  - analog: voltage/current output stage and ranges (CONFIG_DAC.RANGE, SCLIM, OTEN), buck-boost converter (PVDD, LP, LN, VPOS_IN/VNEG_IN, CONFIG_BB clamps, PNSEL, HSCLMP, PG, CLST), HART (HART_IN, HTEN), internal reference (REF_EN), POC output state
+  - per-channel registers (0x04, 0x05, 0x08-0x0A, 0x0E) are written / read only while SELECT_DAC.CHA = 1 and 0x07 only while SELECT_BB.DCA = 1 (Table 4 note); what a read of an unselected per-channel register returns is not documented (modeled as 0)
+  - read-back header bits DB23:DB16 are not documented; the model sends zeros there and the register in DB15:DB0
+  - CRC-8-ATM frame checking (CREN): the 32-bit frame is decoded (commands gated on SELECT_DAC.CREN) but the CRC byte is neither checked nor generated (read-back CRC byte output as 0); CRE is never set
+  - watchdog timer (WEN, WPD, 0x10 RWD) and the WDT flag: not modeled
+  - ALARM open-drain output, status flags, status mask and alarm action (alarm code ACODE output): never asserted / not applied
+  - user calibration (CLEN, UGAIN, UOFF): stored and read back only; reset value 0x0000 per Table 4 although p.44 calls the gain power-on value 0x8000
+  - slew-rate control (SREN, SRCLK_RATE, SR_STEP): not modeled (output change is instant)
+  - CLR pin and the CLR bit clear only while RESET_CONFIG.CLREN = 1 (p.43, Table 8); the model clears regardless of CLREN (the code follows SELECT_DAC.CLSLA, Table 9); LDAC pulses during CLR are not blocked; range changes do not reload the output
+  - RESET pin and RST bit: the chip keeps the POC bit; the model resets every register. RST and CLR self-clear in the chip; the reset command leaves RST at 0, the CLR bit stays 1 until written 0
+  - LDAC: asynchronous mode (LDAC low before SYNC rising) and synchronous mode (LDAC falling) modeled as LDAC level active low
+  - daisy-chain (SDO ripple after 24 clocks), transparent mode (TRN: SDIN routed to SDO, exit only by RESET pin), DSDO (SDO disable): not modeled; DSDO and TRN stored only
+  - DVDD can be an output of the internal regulator (DVDD_EN floating); DVDD_EN is modeled as a plain digital input
+  - status DIDA-DIDC are described as "fixed at logical 1" but the register reset is 0x1000; modeled as read-only 0
+
+### DAC8801
+
+14-bit serial-input multiplying current-output DAC (3-wire, 50 MHz). `specs/DAC8801.json`; datasheet `dac8801.pdf` (p.1 (power-up zero scale), p.3 (VDD 2.7-5.5 V, interface timing), p.4 (pinout, DGK and DRB same numbering), p.9 (Figure 19: data in on CLK rising; Table 1: CS rising loads the DAC register; data format)).
+
+- Bus: SPI mode 0, write-only
+- 14 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 1 registers, 1 commands; frame fixed
+- Packages: DGK (VSSOP-8-DGK)
+- Not modeled:
+  - analog: multiplying current output, reference input, feedback resistor
+  - power-on reset brownout behavior
+
+### DAC8802
+
+Dual 14-bit serial-input multiplying current-output DAC with LDAC and reset. `specs/DAC8802.json`; datasheet `dac8802.pdf` (p.1 (power-on reset), p.3 (VDD 2.7-5.5 V, interface timing), p.5 (pinout, pin description), p.13 (serial interface, Tables 1-3: 16-bit word, control logic, address decode)).
+
+- Bus: SPI mode 0, write-only
+- 14 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 4 registers, 1 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog: multiplying current output(s), reference input(s), feedback resistor(s)
+  - power-on reset brownout behavior
+
+### DAC8803
+
+Quad 14-bit serial-input multiplying current-output DAC with LDAC, reset and daisy-chain SDO. `specs/DAC8803.json`; datasheet `dac8803.pdf` (p.1 (power-on reset, MSB pin), p.3 (VDD 2.7-5.5 V, logic levels, interface timing tPD 20 ns), p.5 (pinout and description), p.18-19 (serial data interface), p.20 (Tables 1-3)).
+
+- Bus: SPI mode 0
+- 14 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 8 registers, 1 commands; frame fixed
+- Packages: DB (SSOP-28)
+- Not modeled:
+  - analog: multiplying current output(s), reference input(s), feedback resistor(s)
+  - daisy-chain SDO: SDO shifts out the SDI data 17 clocks later (shift register output, p.5); the model drives SDO low
+  - power-on reset brownout behavior
+
+### DAC8805
+
+Dual 14-bit parallel-input multiplying current-output DAC with LDAC and selectable reset. `specs/DAC8805.json`; datasheet `dac8805.pdf` (p.1 (power-on reset per RSTSEL), p.3 (VDD 2.7-5.5 V), p.4 (pinout), p.5 (terminal functions), p.6 (Figure 1, timing), p.7 (Tables 2-3), p.8 (digital interface)).
+
+- Bus: parallel 14-bit
+- 14 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 4 registers, 1 commands; frame fixed
+- Packages: DBT (TSSOP-38)
+- Not modeled:
+  - analog: multiplying current output(s), reference input(s), feedback resistor(s), 4-quadrant resistors R1/RCOM/ROFS
+  - input register transparency: with WR low the selected input register(s) follow the data pins; the model loads them once when WR returns high
+  - LDAC/WR tied together as one pulse: modeled as the input register write at WR rising followed by the level-active LDAC update
+
+### DAC8806
+
+14-bit parallel-input multiplying current-output DAC with LDAC and reset. `specs/DAC8806.json`; datasheet `dac8806.pdf` (p.3 (logic levels, interface timing), p.4 (VDD 2.7-5.5 V, pinout, terminal functions), p.13 (Figure 40, Table 1)).
+
+- Bus: parallel 14-bit
+- 14 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DB (SSOP-28)
+- Not modeled:
+  - analog: multiplying current output, reference input, feedback resistor, 4-quadrant resistors R1/RCOM/ROFS
+  - RST sets only the DAC register to zero code; the input register keeps its contents (Table 1). The model reset clears both
+  - input register transparency: with WR low the input register follows the data pins; the model loads it once when WR returns high
+  - LDAC/WR tied together as one pulse: modeled as the input register write at WR rising followed by the level-active LDAC update
+  - power-on register contents are not stated in the datasheet; 0 used
+
+### DAC8811
+
+16-bit serial-input multiplying current-output DAC (3-wire, 50 MHz). `specs/DAC8811.json`; datasheet `dac8811.pdf` (p.1 (power-up zero scale), p.4 (pinout, DGK and DRB same numbering), p.5 (VDD 2.7-5.5 V), p.7 (timing, Figure 1: data in on CLK rising), p.14 (Table 1: CS rising loads the DAC register), p.15 (16-bit shift register, CS interrupt)).
+
+- Bus: SPI mode 0, write-only
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 1 registers, 1 commands; frame fixed
+- Packages: DGK (VSSOP-8-DGK), DRB (SON-8-DRB)
+- Not modeled:
+  - analog: multiplying current output(s), reference input(s), feedback resistor(s)
+  - execution point: p.15 says the word executes at the 16th rising CLK edge, Table 1 (p.14) at CS rising; modeled as the last 16 bits before CS rises (align end)
+  - power-on reset brownout behavior
+
+### DAC8812
+
+Dual 16-bit serial-input multiplying current-output DAC with LDAC and reset. `specs/DAC8812.json`; datasheet `dac8812.pdf` (p.3 (pinout, pin functions), p.4 (VDD 2.7-5.5 V), p.6 (timing), p.7 (Figure 1), p.15 (power-on reset, 18-bit word), p.16 (Tables 1-3)).
+
+- Bus: SPI mode 0, write-only
+- 16 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 4 registers, 1 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog: multiplying current output(s), reference input(s), feedback resistor(s)
+  - power-on reset brownout behavior
+
+### DAC8814
+
+Quad 16-bit serial-input multiplying current-output DAC with LDAC, reset and daisy-chain SDO. `specs/DAC8814.json`; datasheet `dac8814.pdf` (p.3 (VDD 2.7-5.5 V, logic levels, interface timing tPD 20 ns), p.5 (pinout and description), p.15 (Figure 57), p.18 (serial data interface), p.19 (power-on reset), p.20 (Tables 1-3)).
+
+- Bus: SPI mode 0
+- 16 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 8 registers, 1 commands; frame fixed
+- Packages: DB (SSOP-28)
+- Not modeled:
+  - analog: multiplying current output(s), reference input(s), feedback resistor(s)
+  - daisy-chain SDO: SDO shifts out the SDI data 19 clocks later (shift register output); the model drives SDO low
+  - power-on reset brownout behavior
+
+### DAC8820
+
+16-bit parallel-input multiplying current-output DAC with LDAC and reset. `specs/DAC8820.json`; datasheet `dac8820.pdf` (p.1 (VDD 2.7-5.5 V), p.3 (logic levels, interface timing), p.4 (pinout, terminal functions), p.13 (Figure 40, Table 1)).
+
+- Bus: parallel 16-bit
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DB (SSOP-28)
+- Not modeled:
+  - analog: multiplying current output(s), reference input(s), feedback resistor(s), 4-quadrant resistors R1/RCOM/ROFS
+  - input register transparency: with WR low the input register follows the data pins; the model loads it once when WR returns high
+  - LDAC/WR tied together as one pulse (input loaded on the falling edge, DAC on the rising edge): the model loads the input register at WR rising while LDAC is high, so the DAC register takes it at once
+  - power-on contents of the input and DAC registers are not given (0 used)
+
+### DAC8822
+
+Dual 16-bit parallel-input multiplying current-output DAC with LDAC and selectable reset. `specs/DAC8822.json`; datasheet `dac8822.pdf` (p.1 (power-on reset per RSTSEL), p.3 (VDD 2.7-5.5 V), p.4 (pinout), p.5 (terminal functions), p.6 (Figure 1, timing), p.7 (Tables 2-3), p.16 (digital interface)).
+
+- Bus: parallel 16-bit
+- 16 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 4 registers, 1 commands; frame fixed
+- Packages: DBT (TSSOP-38)
+- Not modeled:
+  - analog: multiplying current output(s), reference input(s), feedback resistor(s), 4-quadrant resistors R1/RCOM/ROFS
+  - input register transparency: with WR low the selected input register(s) follow the data pins; the model loads them once when WR returns high
+  - LDAC/WR tied together as one pulse: modeled as the input register write at WR rising followed by the level-active LDAC update
+
+### DAC8830
+
+16-bit ultra-low-power unbuffered voltage-output DAC with SPI interface. `specs/DAC8830.json`; datasheet `dac8830.pdf` (p.1 (reset to zero code), p.4 (VDD 2.7-5.5 V), p.5 (pinout), p.6 (Figure 1: SCLK low at CS falling, SDI sampled on rising edges), p.7 (timing), p.15-16 (power-on reset, serial interface); dac8830-ep.pdf p.9 (EP part timing)).
+
+- Bus: SPI mode 0, write-only
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: D (SOIC-8)
+- Not modeled:
+  - analog: unbuffered voltage output, reference input
+  - a frame of fewer than 16 bits corrupts the word (bits remain from the previous word); the model ignores frames shorter than 16 bits
+  - the serial shift register is undefined at power-up
+
+### DAC8831
+
+16-bit ultra-low-power unbuffered voltage-output DAC with SPI interface, LDAC and bipolar resistors. `specs/DAC8831.json`; datasheet `dac8830.pdf` (p.1 (reset to zero code), p.4 (VDD 2.7-5.5 V), p.5 (pinouts: SO-14 and QFN-14 same numbering, terminal functions), p.6 (Figure 2: LDAC low updates the DAC latch), p.7 (timing), p.16 (power-on reset, serial interface); dac8830-ep.pdf (DAC8831MCDEP)).
+
+- Bus: SPI mode 0, write-only
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: D (SOIC-14), RGY (VQFN-14-RGY)
+- Not modeled:
+  - analog: unbuffered voltage output, Kelvin reference inputs, bipolar scaling resistors (RFB, INV)
+  - a frame of fewer than 16 bits corrupts the word (bits remain from the previous word); the model ignores frames shorter than 16 bits
+  - the serial shift register is undefined at power-up
+
+### DAC8832
+
+16-bit ultra-low-power unbuffered voltage-output DAC with SPI interface and LDAC, mid-scale reset. `specs/DAC8832.json`; datasheet `dac8832.pdf` (p.1 (reset to mid-code), p.4 (VDD 2.7-5.5 V), p.5 (QFN-14 pinout, terminal functions), p.6 (Figure 1), p.7 (timing), p.16 (power-on reset, serial interface)).
+
+- Bus: SPI mode 0, write-only
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: RGY (VQFN-14-RGY)
+- Not modeled:
+  - analog: unbuffered voltage output, Kelvin reference inputs, bipolar scaling resistors (RFB, INV)
+  - a frame of fewer than 16 bits corrupts the word (bits remain from the previous word); the model ignores frames shorter than 16 bits
+  - the serial shift register is undefined at power-up
+
+### DAC8871
+
+16-bit +/-18 V unbuffered voltage-output DAC with SPI interface, LDAC and selectable reset. `specs/DAC8871.json`; datasheet `dac8871.pdf` (p.1 (description), p.3 (logic levels), p.4 (VDD 2.7-5.5 V, VCC/VSS), p.5 (pinout, terminal functions), p.6 (Figures 1-2: SCLK low at CS falling, data on rising edges), p.7 (timing), p.14-15 (power-on and hardware reset, serial interface)).
+
+- Bus: SPI mode 0, write-only
+- 16 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: PW (TSSOP-16)
+- Not modeled:
+  - analog: unbuffered +/-18 V voltage output, Kelvin reference inputs, VCC/VSS analog supplies
+  - RSTSEL high: the datasheet sets the DAC latch to mid-scale at power-on and RST (p.15); the input register's reset value is not stated (0 here)
+  - a frame of fewer than 16 bits corrupts the word; the model ignores frames shorter than 16 bits
+  - power-supply sequencing (VCC/VSS before VDD before references)
+
+### DAC8881
+
+16-bit low-noise buffered voltage-output DAC with SPI interface, read-back, LDAC, reset and power-down pins. `specs/DAC8881.json`; datasheet `dac8881.pdf` (p.3 (pinout, pin functions), p.4 (AVDD 2.7-5.5 V, IOVDD 1.7 V-AVDD), p.6 (logic levels), p.8 (SDO timing t10 15 ns, t11 20 ns, t13 8 ns at DVDD < 3.6 V), p.9-11 (Figures 1-3: SCLK low at CS falling, data in on rising edges), p.28-29 (Tables 1-3, reset, power down, LDAC), p.30 (serial interface)).
+
+- Bus: SPI mode 0
+- 16 bits, 1 channel(s), code —; vcc [1.7, 5.5]
+- 3 registers, 1 commands; frame fixed
+- Packages: RGE (VQFN-24-RGE)
+- Not modeled:
+  - analog: buffered voltage output, Kelvin reference inputs, output gain (GAIN pin), RFB
+  - USB/BTC selects straight binary or two's complement input coding; the stored code is unaffected (only the analog output mapping changes)
+  - PDN power-down (output to AGND through 10 kOhm; registers and SPI stay active) has no digital effect and is not modeled
+  - daisy-chain SDO (SDOSEL low): SDO is the input shift register output, 16 clocks behind SDI; the model drives SDO low in that mode
+  - stand-alone read-back with more than 16 clocks: the model shifts the input register then zeros, as the datasheet describes; fewer than 16 bits = invalid frame (ignored)
+
+### DAC900
+
+10-bit 165 MSPS current-output DAC with a parallel CMOS data input latched on the clock. `specs/DAC900.json`; datasheet `dac900-q1.pdf` (dac900-q1.pdf p.4 (digital input specs, supply), p.5-6 (pins), p.7 (timing), p.20 (digital inputs, power-down); dac900.pdf p.3-5, p.15).
+
+- Bus: parallel 10-bit
+- 10 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 1 registers, 1 commands; frame fixed
+- Packages: PW (TSSOP-28), DW (SOIC-28W)
+- Not modeled:
+  - analog current outputs IOUT / complementary IOUT, internal +1.24 V reference (REFIN), full-scale adjust (FSA / RSET), BW and BYP bypass nodes
+  - INT/EXT reference-select strap (analog reference circuit only; listed in analog, not modeled)
+  - the output updates on the CLK falling edge after the rising-edge latch; the model stores the word at CLK rising. Setup/hold times and the 1 ns propagation delay are not checked
+  - PD internal pull-down (Z reads inactive, which matches); power-down affects only the analog output
+  - power-on contents of the latch are not given (0 used)
+
+### DAC902
+
+12-bit 165 MSPS current-output DAC with a parallel CMOS data input latched on the clock. `specs/DAC902.json`; datasheet `dac902.pdf` (p.3 (digital input specs, supply), p.4 (pins), p.5 (timing), p.15 (digital inputs, power-down)).
+
+- Bus: parallel 12-bit
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 1 registers, 1 commands; frame fixed
+- Packages: PW (TSSOP-28), DW (SOIC-28W)
+- Not modeled:
+  - analog current outputs IOUT / complementary IOUT, internal +1.24 V reference (REFIN), full-scale adjust (FSA / RSET), BW and BYP bypass nodes
+  - INT/EXT reference-select strap (analog reference circuit only; listed in analog, not modeled)
+  - the output updates on the CLK falling edge after the rising-edge latch; the model stores the word at CLK rising. Setup/hold times and the 1 ns propagation delay are not checked
+  - PD internal pull-down (Z reads inactive, which matches); power-down affects only the analog output
+  - power-on contents of the latch are not given (0 used)
+
+### DAC904
+
+14-bit 165 MSPS current-output DAC with a parallel CMOS data input latched on the clock. `specs/DAC904.json`; datasheet `dac904.pdf` (p.3 (digital input specs, supply), p.4 (pins), p.5 (timing), p.14 (digital inputs, power-down)).
+
+- Bus: parallel 14-bit
+- 14 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 1 registers, 1 commands; frame fixed
+- Packages: PW (TSSOP-28), DW (SOIC-28W)
+- Not modeled:
+  - analog current outputs IOUT / complementary IOUT, internal +1.24 V reference (REFIN), full-scale adjust (FSA / RSET), BW and BYP bypass nodes
+  - INT/EXT reference-select strap (analog reference circuit only; listed in analog, not modeled)
+  - the output updates on the CLK falling edge after the rising-edge latch; the model stores the word at CLK rising. Setup/hold times and the 1 ns propagation delay are not checked
+  - PD internal pull-down (Z reads inactive, which matches); power-down affects only the analog output
+  - power-on contents of the latch are not given (0 used)
+
+### DAC908
+
+8-bit 165 MSPS current-output DAC with a parallel CMOS data input latched on the clock. `specs/DAC908.json`; datasheet `dac908.pdf` (p.3 (digital input specs, supply), p.4 (pins), p.5 (timing), p.14 (digital inputs, power-down)).
+
+- Bus: parallel 8-bit
+- 8 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 1 registers, 1 commands; frame fixed
+- Packages: PW (TSSOP-28), DW (SOIC-28W)
+- Not modeled:
+  - analog current outputs IOUT / complementary IOUT, internal +1.24 V reference (REFIN), full-scale adjust (FSA / RSET), BW and BYP bypass nodes
+  - INT/EXT reference-select strap (analog reference circuit only; listed in analog, not modeled)
+  - the output updates on the CLK falling edge after the rising-edge latch; the model stores the word at CLK rising. Setup/hold times and the 1 ns propagation delay are not checked
+  - PD internal pull-down (Z reads inactive, which matches); power-down affects only the analog output
+  - power-on contents of the latch are not given (0 used)
+
+### DAC9881
+
+18-bit single-channel voltage-output DAC with 24-bit SPI interface, LDAC, hardware reset to zero or mid scale and SDO read-back / daisy chain. `specs/DAC9881.json`; datasheet `dac9881.pdf` (p.3-4 (pins), p.5 (recommended operating conditions), p.10-11 (timing requirements: tValid t10 15 ns, tOut t11 20 ns, tFloat t13 8 ns at the 2.7-V row), p.12-14 (timing diagrams: SDI sampled on SCLK rising, SDO valid at CS falling and changed on SCLK falling = mode 0), p.30-31 (reset, power down, LDAC), p.32 (serial interface, data word, SDO modes)).
+
+- Bus: SPI mode 0
+- 18 bits, 1 channel(s), code —; vcc [1.7, 5.5]
+- 3 registers, 1 commands; frame fixed
+- Packages: RGE (VQFN-24-RGE)
+- Not modeled:
+  - analog output (VOUT, RFB), reference force/sense inputs (VREFH-F/S, VREFL-F/S), output buffer gain strap GAIN (analog only)
+  - USB/BTC input data format strap (straight binary / twos complement): affects only the analog output; the stored code is the written word. The two's-complement restriction on LDAC during hardware reset is not checked
+  - daisy-chain mode (SDOSEL = DGND): SDO outputs the shift register delayed by 24 clocks (the previous word, then the new SDI bits). The model shifts out the stored 24-bit word in both modes and zeros after it (stand-alone behavior); the echo of the new bits is not modeled
+  - PDN hardware power-down: VOUT is pulled to AGND (analog only); registers and SPI stay active (p.31), so it is not mapped to pins.powerdown, which would ignore the bus
+  - stand-alone read-back of a frame with fewer than 24 SCLKs (the datasheet says the SDO data must be ignored)
+  - the input shift register is not reset by power-on or RST (p.31); the model starts it empty
+  - timing degrades for IOVDD 1.7-2.7 V (no figures given); times use the 2.7 <= AVDD < 3.6 V rows
+
+### LMP92066
+
+dual 12-bit temperature-compensated DAC (PA bias controller) with temperature sensor, EEPROM look-up table, I2C interface and FET drive outputs. `specs/LMP92066.json`; datasheet `lmp92066.pdf` (p.3-4 (pins), p.5 (ROC), p.7 (logic levels), p.8 (I2C timing: tHD;DAT max 900 ns used as tOut), p.22-24 (memory, access levels, EEPROM), p.25-28 (I2C protocol and address table), p.32-38 (register descriptions), p.39-42 (register map), p.52 (defaults)).
+
+- Bus: I2C 0x3F, 0x41, 0x45, 0x47
+- 12 bits, 2 channel(s), code —; vcc [1.65, 3.3]
+- 96 registers, 15 commands; frame stream
+- Packages: PWP (HTSSOP-16-PWP)
+- Not modeled:
+  - analog: DAC0/DAC1 buffer outputs, FETDRV0/1 gate drives and the DRVEN0/DRVEN1 changeover switches (DRVENx only routes the analog output), LDMOS/GaN supply modes (DRV_STATUS.GAN reads 0)
+  - the temperature sensor (TEMPM/TEMPL read 0), the LUT/ALU that computes DACxM/DACxL from the temperature, and the TEMP/DAC override data path: DAC0M-DAC1L read 0 and the DAC codes CODE0/CODE1 (internal) are never written; the override registers are plain read/write storage
+  - 12-bit values in two registers (TEMPx_OVRD, DACxx_OVRD) take effect on the low-byte write and the high byte is queued (p.22): the model stores each byte at once; the TEMPM/TEMPL coherent-read latch is not modeled
+  - POR values: the register map gives DACxM_OVRD = 8'h80 although bits 7:4 'always report as 0'; transcribed as printed. TEMP_STATUS POR 8'hFF clears within 100 ms of power up; the model starts at 00h
+  - EEPROM: BURN (E4h) and TRANSFER (4Eh) commands to EEPROM_CNTL, the power-up/reset transfer of LUT and notepad from EEPROM, BURN_CT counting and COR/UCOR status. The LUT, BASE and notepad registers start at 0 (factory default, p.52) and the software reset sets them back to 0 instead of reloading the EEPROM
+  - access levels: the password must be CDh then EFh/F0h in two consecutive writes to ACC_CNTL; the model accepts the second byte after a CDh written to ACC_CNTL with other accesses in between only if they do not write ACC_CNTL. Write protection below L2 is modeled by dropping data bytes; a block write that starts at a writable L1 register continues into the following registers
+  - the ACC_CNTL pointer state (internal ACCSEQ.PTR) survives a STOP: if a transaction only sets the pointer to 11h, the next write whose first byte is CDh/EFh/F0h (undocumented addresses) is taken as a password byte
+  - below the needed access level the data bytes of a write are matched again as pointer bytes (stream frame), so they move the read pointer; they never change a register
+  - the internal register pointer resets to 00h at every STOP (p.25): the model keeps the last pointer
+  - BLK_CNTL block-size wrap (pointer returns to the first register after SIZE+1 bytes) and the default wrap from the end of the register space to 00h
+  - ADR_LK address lock (the straps are always decoded); floating (N.C.) A0/A1 straps select 40h, 42h, 43h, 44h, 46h (p.28 Table 10): a floating strap cannot be expressed; SCL/SDA ties are not documented (null)
+  - SCL/SDA 25-35 ms bus timeout
+
+### THS5641
+
+8-bit 100 MSPS current-output DAC (CommsDAC) with parallel CMOS input, clocked input latch. `specs/THS5641.json`; datasheet `ths5641a.pdf` (p.1 (pinout), p.3 (terminal functions), p.4 (supplies), p.6 (digital timing), p.13-14 (data interface, timing diagram, input modes)).
+
+- Bus: parallel 8-bit
+- 8 bits, 1 channel(s), code —; vcc [3.0, 5.5]
+- 1 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-28W), PW (TSSOP-28)
+- Not modeled:
+  - analog: complementary current outputs IOUT1/IOUT2, internal 1.2 V reference (EXTIO/EXTLO), full-scale bias (BIASJ), COMP1/COMP2 decoupling
+  - MODE pin: straight binary (MODE = 0) or twos complement (MODE = 1) input coding changes only the analog mapping; the stored word is the latched input bits
+  - SLEEP asynchronous power-down (active high, internal pull-down): analog only, not modeled
+  - one clock cycle conversion latency (td(D)); the stored word is the last word latched
+  - power-on contents of the input latch not given (0 used)
+  - internal pull-down on MODE and SLEEP
+
+### THS5651
+
+10-bit 100 MSPS current-output DAC (CommsDAC) with parallel CMOS input, clocked input latch. `specs/THS5651.json`; datasheet `ths5651a.pdf` (p.1 (pinout), p.3 (terminal functions), p.4 (supplies), p.6 (digital timing), p.15-16 (data interface, timing diagram, input modes)).
+
+- Bus: parallel 10-bit
+- 10 bits, 1 channel(s), code —; vcc [3.0, 5.5]
+- 1 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-28W), PW (TSSOP-28)
+- Not modeled:
+  - analog: complementary current outputs IOUT1/IOUT2, internal 1.2 V reference (EXTIO/EXTLO), full-scale bias (BIASJ), COMP1/COMP2 decoupling
+  - MODE pin: straight binary (MODE = 0) or twos complement (MODE = 1) input coding changes only the analog mapping; the stored word is the latched input bits
+  - SLEEP asynchronous power-down (active high, internal pull-down): analog only, not modeled
+  - one clock cycle conversion latency (td(D)); the stored word is the last word latched
+  - power-on contents of the input latch not given (0 used)
+  - internal pull-down on MODE and SLEEP
+  - AVDD 4.5-5.5 V (p.4)
+
+### THS5661
+
+12-bit 100 MSPS current-output DAC (CommsDAC) with parallel CMOS input, clocked input latch. `specs/THS5661.json`; datasheet `ths5661a.pdf` (p.1 (pinout), p.3 (terminal functions), p.4 (supplies), p.6 (digital timing), p.16-17 (data interface, timing diagram, input modes)).
+
+- Bus: parallel 12-bit
+- 12 bits, 1 channel(s), code —; vcc [3.0, 5.5]
+- 1 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-28W), PW (TSSOP-28)
+- Not modeled:
+  - analog: complementary current outputs IOUT1/IOUT2, internal 1.2 V reference (EXTIO/EXTLO), full-scale bias (BIASJ), COMP1/COMP2 decoupling
+  - MODE pin: straight binary (MODE = 0) or twos complement (MODE = 1) input coding changes only the analog mapping; the stored word is the latched input bits
+  - SLEEP asynchronous power-down (active high, internal pull-down): analog only, not modeled
+  - one clock cycle conversion latency (td(D)); the stored word is the last word latched
+  - power-on contents of the input latch not given (0 used)
+  - internal pull-down on MODE and SLEEP
+
+### THS5671
+
+14-bit 100 MSPS current-output DAC (CommsDAC) with parallel CMOS input, clocked input latch. `specs/THS5671.json`; datasheet `ths5671a.pdf` (p.1 (pinout), p.3 (terminal functions), p.4 (supplies), p.6 (digital timing), p.15-16 (data interface, timing diagram, input modes)).
+
+- Bus: parallel 14-bit
+- 14 bits, 1 channel(s), code —; vcc [3.0, 5.5]
+- 1 registers, 1 commands; frame fixed
+- Packages: PW (TSSOP-28)
+- Not modeled:
+  - analog: complementary current outputs IOUT1/IOUT2, internal 1.2 V reference (EXTIO/EXTLO), full-scale bias (BIASJ), COMP1/COMP2 decoupling
+  - MODE pin: straight binary (MODE = 0) or twos complement (MODE = 1) input coding changes only the analog mapping; the stored word is the latched input bits
+  - SLEEP asynchronous power-down (active high, internal pull-down): analog only, not modeled
+  - one clock cycle conversion latency (td(D)); the stored word is the last word latched
+  - power-on contents of the input latch not given (0 used)
+  - internal pull-down on MODE and SLEEP
+  - AVDD 4.5-5.5 V (p.4)
+
+### TLC5615
+
+10-bit voltage-output DAC with 3-wire serial interface (SPI/QSPI/Microwire), 12- or 16-bit word. `specs/TLC5615.json`; datasheet `tlc5615.pdf` (p.1 (pinout), p.2 (terminal functions), p.3 (recommended operating conditions), p.4-5 (timing, Figure 1), p.8 (power-on reset), p.9-10 (serial interface, SPI mode, daisy chain)).
+
+- Bus: SPI mode 0, write-only
+- 10 bits, 1 channel(s), code —; vcc [4.5, 5.5]
+- 1 registers, 1 commands; frame fixed
+- Packages: D (SOIC-8), DGK (VSSOP-8-DGK), P (PDIP-8)
+- Not modeled:
+  - analog: voltage output (x2 of REFIN), reference input
+  - DOUT daisy-chain output (16-bit shift register output, changes on SCLK falling, holds its last bit while CS is high): not modeled, the pin is never driven
+  - update rate / settling time (12.5 us) and timing checks
+
+### TLC5618
+
+dual 12-bit voltage-output DAC with 16-bit serial interface (SPI), double-buffered DAC B, speed and power-down program bits. `specs/TLC5618.json`; datasheet `slas156g.pdf` (p.1 (pinouts), p.3 (terminal functions), p.4 (ROC), p.7 (timing, Figure 1), p.12 (power-on reset), p.14-15 (serial interface, Table 2, Figures 18-21)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 2 channel(s), code —; vcc [4.5, 5.5]
+- 4 registers, 3 commands; frame fixed
+- Packages: FK (LCCC-20), JG (CDIP-8-JG), D (SOIC-8)
+- Not modeled:
+  - analog: voltage outputs OUT A/OUT B, reference input REFIN (x2 output gain)
+  - D14 speed (12.5 us / 2.5 us settling) and D13 power down are stored in the internal CTRL register only; power down affects only the analog outputs
+  - a frame with other than 16 SCLK falling edges: the datasheet requires SCLK high after the 16th falling edge (Figure 1 note A); the model takes the first 16 bits and transfers at CS rising
+  - DAC A has no double buffer: its input and DAC register are the same latch (dac lists LATCHA twice); a D15 = 1 word copies the double buffer to latch B with updateall
+
+### TLC5620
+
+quadruple 8-bit voltage-output DAC with serial interface (DATA, CLK, LOAD), LDAC and per-DAC x1/x2 range bit. `specs/TLC5620.json`; datasheet `tlc5620.pdf` (p.1 (pinout), p.2 (terminal functions), p.3-4 (data interface, Figures 1-4, Table 2 serial input decode), p.6 (recommended operating conditions, timing)).
+
+- Bus: SPI mode 1, write-only
+- 8 bits, 4 channel(s), code —; vcc [4.75, 5.25]
+- 9 registers, 4 commands; frame fixed
+- Packages: D (SOIC-14), N (PDIP-14)
+- Not modeled:
+  - analog: voltage outputs, reference inputs; the RNG bit (x1 / x2 range) is stored only
+  - power-on contents of the latches are not given (0 used)
+
+### TLC5628
+
+octal 8-bit voltage-output DAC with serial interface (DATA, CLK, LOAD), LDAC and per-DAC x1/x2 range bit. `specs/TLC5628.json`; datasheet `tlc5628.pdf` (p.1 (pinout), p.2 (terminal functions), p.3-4 (data interface, Figures 1-4, Table 2 serial input decode), p.6 (recommended operating conditions, timing)).
+
+- Bus: SPI mode 1, write-only
+- 8 bits, 8 channel(s), code —; vcc [4.75, 5.25]
+- 17 registers, 8 commands; frame fixed
+- Packages: DW (SOIC-16W), N (PDIP-16)
+- Not modeled:
+  - analog: voltage outputs, reference inputs; the RNG bit (x1 / x2 range) is stored only
+  - power-on contents of the latches are not given (0 used)
+
+### TLC7225
+
+quad 8-bit voltage-output DAC with individual references, 8-bit parallel input port, double-buffered with common LDAC. `specs/TLC7225.json`; datasheet `tlc7225.pdf` (p.1 (pinout, description), p.3 (terminal functions), p.4 (recommended operating conditions: VDD 11.4-16.5 V, VSS -5.5-0 V, TTL levels; timing requirements, Figure 1), p.9 (interface logic, Table 1 addressing), p.10 (Table 2 truth table, Figure 5)).
+
+- Bus: parallel 8-bit
+- 8 bits, 4 channel(s), code —; vcc [11.4, 16.5]
+- 8 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-24W)
+- Not modeled:
+  - analog: voltage outputs, reference inputs REFA-REFD, single or dual (VSS = -5 V) supply operation, settling
+  - power-on state of the input and DAC registers is not stated in the datasheet (0 used)
+  - the input register is level-transparent while WR is low; the model latches the data at WR rising (end of the write)
+  - no chip select: every WR low pulse writes the addressed input register
+  - timing requirements tsu(AW)/tsu(DW)/th(AW)/th(DW)/tw1/tw2 (p.4)
+  - pin table (p.3) lists 'A0, A1 / 18, 19'; the pinout drawing (p.1), block diagram (p.2) and Figure 5 (p.10) give A0 = 19, A1 = 18, which is used
+
+### TLC7226
+
+quad 8-bit voltage-output DAC with common reference and 8-bit parallel input port, one latch per DAC. `specs/TLC7226.json`; datasheet `tlc7226.pdf` (p.1 (DW/N and FK pinouts, description), p.3 (terminal functions: numbers for DW, N and FK), p.4 (recommended operating conditions: VDD 11.4-16.5 V, TTL levels, write timing), p.8 (interface logic, Table 2 function table), p.9 (Figure 6 input control logic)).
+
+- Bus: parallel 8-bit
+- 8 bits, 4 channel(s), code —; vcc [11.4, 16.5]
+- 4 registers, 1 commands; frame fixed
+- Packages: FK (LCCC-20), DW (SOIC-20W), N (PDIP-20)
+- Not modeled:
+  - analog: voltage outputs, reference input REF, single or dual (VSS) supply operation, unipolar/bipolar output configurations, settling
+  - power-on state of the DAC latches is not stated in the datasheet (0 used)
+  - the selected latch is level-transparent while WR is low (output follows the data bus); the model latches the data at WR rising
+  - no chip select: every WR low pulse writes the addressed latch
+  - write timing tsu(AW)/tsu(DW)/th(AW)/th(DW)/tw (p.4)
+
+### TLC7524
+
+8-bit multiplying current-output DAC with 8-bit parallel input latch (CS, WR). `specs/TLC7524.json`; datasheet `tlc7524.pdf` (p.1 (D/N/PW pinout, description), p.2 (functional block diagram), p.3 (recommended operating conditions: VDD 4.75-5.25 V and 14.5-15.5 V, input levels, CS/WR/data timing; Figure 1 timing), p.6 (principles of operation: CS and WR latch control), p.7 (Tables 1-2 unipolar / bipolar coding)).
+
+- Bus: parallel 8-bit
+- 8 bits, 1 channel(s), code —; vcc [4.75, 15.5]
+- 1 registers, 1 commands; frame fixed
+- Packages: D (SOIC-16), N (PDIP-16), NS (SOP-16), PW (TSSOP-16)
+- Not modeled:
+  - analog: multiplying current outputs OUT1/OUT2, reference REF (+-10 V), feedback resistor RFB, 2-/4-quadrant multiplication
+  - power-on state of the data latch is not stated in the datasheet (0 used)
+  - the latch is level-transparent while CS and WR are low (output follows the data bus); the model latches at the end of the write
+  - input logic levels at VDD = 15 V (VIH 13.5 V) differ from 5 V TTL levels
+  - timing requirements tsu(CS)/th(CS)/tsu(D)/th(D)/tw(WR) (p.3)
+  - the pinout drawing names D, N and PW; the NS (SOP) package is assumed to use the same 16-pin numbering; the FN (PLCC-20) package has no orderable part here
+
+### TLC7528
+
+dual 8-bit multiplying DAC with 8-bit parallel input port and DACA/DACB select (CS, WR). `specs/TLC7528.json`; datasheet `tlc7528.pdf` (p.1 (DW/N/PW pinout, description), p.2 (timing diagram), p.3 (recommended operating conditions: VDD 4.75-5.25 V and 14.5-15.5 V, input levels, CS/DAC-select/data/WR timing), p.5 (interface: CS, WR, DACA/DACB), p.6 (mode selection table)).
+
+- Bus: parallel 8-bit
+- 8 bits, 2 channel(s), code —; vcc [4.75, 15.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-20W), N (PDIP-20), NS (SOP-20), PW (TSSOP-20)
+- Not modeled:
+  - analog: multiplying outputs OUTA/OUTB, references REFA/REFB (+-10 V), feedback resistors RFBA/RFBB, voltage-mode operation
+  - power-on state of the data latches is not stated in the datasheet (0 used)
+  - the selected latch is level-transparent while CS and WR are low; the model latches at the end of the write
+  - input logic levels at VDD = 15 V (VIH 13.5 V) differ from 5 V TTL levels
+  - timing requirements tsu(CS)/th(CS)/tsu(DAC)/th(DAC)/tsu(D)/th(D)/tw(WR) (p.3)
+  - the pinout drawing names DW, N and PW; the NS (SOP) package is assumed to use the same 20-pin numbering; FN (PLCC) has no orderable part here
+
+### TLC7628
+
+dual 8-bit multiplying current-output DAC with separate data latches and a common 8-bit microprocessor input port (10.8-15.75 V supply). `specs/TLC7628.json`; datasheet `slas063b.pdf` (p.1 (pinout, DW or N package), p.3 (recommended operating conditions, timing requirements), p.4 (write timing), p.8-9 (interface, mode selection table)).
+
+- Bus: parallel 8-bit
+- 8 bits, 2 channel(s), code —; vcc [10.8, 15.75]
+- 2 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-20W), N (PDIP-20)
+- Not modeled:
+  - analog: multiplying current outputs OUTA/OUTB, references REFA/REFB (+-10 V), feedback resistors RFBA/RFBB, voltage-mode operation
+  - the selected latch is transparent while CS and WR are low (the output follows DB7-DB0); the model latches at the end of the write
+  - power-on contents of the data latches are not stated (0 used)
+  - the digital inputs are TTL-compatible (VIH 2.4 V, VIL 0.8 V) with VDD 10.8-15.75 V; the vcc range is VDD
+  - timing requirements tsu(CS)/th(CS)/tsu(DAC)/th(DAC)/tsu(D)/th(D)/tw(WR) (p.3) are not checked
+
+### TLV5604
+
+quad 10-bit voltage-output DAC with TMS320/SPI serial interface (FS frame sync), LDAC and power down. `specs/TLV5604.json`; datasheet `tlv5604.pdf` (p.1 (D/PW pinout, description), p.3 (terminal functions), p.4 (recommended operating conditions: AVDD/DVDD 2.7-3.3 V and 4.5-5.5 V, SCLK 20 MHz), p.7 (digital input timing requirements, Figure 1 timing diagram), p.12 (power-on reset, serial interface), p.13 (data format), p.14 (DAC select table)).
+
+- Bus: SPI mode 2, write-only
+- 10 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 12 registers, 4 commands; frame fixed
+- Packages: D (SOIC-16), PW (TSSOP-16)
+- Not modeled:
+  - analog: voltage outputs (x2 buffer), reference inputs REFINAB/REFINCD, settling speed (SPD) and per-DAC power down (PWR) effects
+  - CS (chip enable, active low) is not modeled: the bus frame is FS (FS falling starts a word, as in the datasheet's 3-wire SPI connection with SS on FS and CS tied low, Figure 16); CS high does not block the model
+  - a word cut short by FS rising before 16 bits (the datasheet moves the partial shift register to the DAC latch) is discarded
+  - PD pin: the model also ignores the serial bus while PD is low (the datasheet does not say)
+  - timing requirements tsu(CS-FS)/tsu(FS-CK)/tsu(C16-FS)/tsu(C16-CS)/twH/twL/tsu(D)/th(D)/twH(FS) (p.7)
+
+### TLV5606
+
+10-bit voltage-output DAC with TMS320/SPI serial interface (FS frame sync), programmable settling time and power down. `specs/TLV5606.json`; datasheet `tlv5606.pdf` (p.1 (D/DGK pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V, fCLK 20 MHz), p.5 (digital input timing requirements), p.6 (Figure 1 timing diagram), p.11 (power-on reset, serial interface), p.12 (data format)).
+
+- Bus: SPI mode 2, write-only
+- 10 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: D (SOIC-8), DGK (VSSOP-8-DGK)
+- Not modeled:
+  - analog: voltage output (x2 buffer), reference input REFIN, settling speed (SPD) and power-down (PWR) effects on the output
+  - CS (enable, active low) is not modeled: the bus frame is FS (FS falling starts a word, as in the datasheet's 3-wire connection with SS on FS and CS tied low); CS high does not block the model
+  - a word cut short by FS rising before 16 bits (the datasheet moves the partial shift register to the DAC latch) is discarded
+  - D1-D0 are printed as 0 0 in the data format (p.12); words with other values there are ignored by the model
+  - timing requirements tsu(CS-FS)/tsu(FS-CK)/tsu(C16-FS)/tsu(C16-CS)/twH/twL/tsu(D)/th(D)/twH(FS) (p.5)
+
+### TLV5608
+
+octal 10-bit voltage-output DAC with TMS320/SPI serial interface (FS frame sync), LDAC, preset and DOUT daisy-chain output. `specs/TLV5608.json`; datasheet `tlv5608.pdf` (p.1 (DW/PW pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: AVDD/DVDD 2.7-3.3 V and 4.5-5.5 V, fCLK 30 MHz), p.5 (timing requirements), p.6 (Figure 1 serial interface timing, Figure 2 LDAC), p.11 (power-on reset, serial interface, daisy chain), p.12 (uC/DSP modes, data format, register map), p.13 (two-channel registers, preset, CTRL0, CTRL1)).
+
+- Bus: SPI mode 1, write-only
+- 10 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 19 registers, 5 commands; frame fixed
+- Packages: DW (SOIC-20W), PW (TSSOP-20)
+- Not modeled:
+  - analog: voltage outputs, reference input REF, settling speed (CTRL1 SXY) and pair/full power down effects (CTRL1 PXY, CTRL0 PD), twos-complement input mode (CTRL0.IM: the code is stored as written)
+  - DSP mode (MODE open or low: 16 bits clocked after a short FS low pulse, extra SCLK falling edge before FS) is not modeled; uC mode (MODE high) is
+  - two-channel registers (A3-A0 = 1100-1111) write the value to one DAC of the pair and its complement to the other (p.13); the model writes the same value to both
+  - PRE pin: driving PRE low with LDAC asserted loads the PRESET register value into the DAC outputs (p.13); not modeled (PRE is an unused input)
+  - DOUT daisy-chain output (DIN delayed 16 SCLK cycles while CTRL0.DO = 1, p.11, p.13) is not modeled: DOUT is never driven
+  - timing requirements tsu(FS-CK)/tsu(C16-FS)/tsu(FS-C17)/tsu(CK-FS)/twL(LDAC)/twH/twL/tsu(D)/th(D)/twH(FS)/twL(FS) (p.5)
+
+### TLV5610
+
+octal 12-bit voltage-output DAC with TMS320/SPI serial interface (FS frame sync), LDAC, preset and DOUT daisy-chain output. `specs/TLV5610.json`; datasheet `tlv5608.pdf` (p.1 (DW/PW pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: AVDD/DVDD 2.7-3.3 V and 4.5-5.5 V, fCLK 30 MHz), p.5 (timing requirements), p.6 (Figure 1 serial interface timing, Figure 2 LDAC), p.11 (power-on reset, serial interface, daisy chain), p.12 (uC/DSP modes, data format, register map), p.13 (two-channel registers, preset, CTRL0, CTRL1)).
+
+- Bus: SPI mode 1, write-only
+- 12 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 19 registers, 5 commands; frame fixed
+- Packages: DW (SOIC-20W), PW (TSSOP-20)
+- Not modeled:
+  - analog: voltage outputs, reference input REF, settling speed (CTRL1 SXY) and pair/full power down effects (CTRL1 PXY, CTRL0 PD), twos-complement input mode (CTRL0.IM: the code is stored as written)
+  - DSP mode (MODE open or low: 16 bits clocked after a short FS low pulse, extra SCLK falling edge before FS) is not modeled; uC mode (MODE high) is
+  - two-channel registers (A3-A0 = 1100-1111) write the value to one DAC of the pair and its complement to the other (p.13); the model writes the same value to both
+  - PRE pin: driving PRE low with LDAC asserted loads the PRESET register value into the DAC outputs (p.13); not modeled (PRE is an unused input)
+  - DOUT daisy-chain output (DIN delayed 16 SCLK cycles while CTRL0.DO = 1, p.11, p.13) is not modeled: DOUT is never driven
+  - timing requirements tsu(FS-CK)/tsu(C16-FS)/tsu(FS-C17)/tsu(CK-FS)/twL(LDAC)/twH/twL/tsu(D)/th(D)/twH(FS)/twL(FS) (p.5)
+
+### TLV5613
+
+12-bit voltage-output DAC with 8-bit parallel microcontroller interface and power down. `specs/TLV5613.json`; datasheet `slas174b.pdf` (p.1-2 pinout and terminal functions, p.5 recommended operating conditions, p.6 timing, p.11 general function (power-on reset all zero) and parallel interface, p.12 pin/bit tables, data format, address bits and control register).
+
+- Bus: parallel 8-bit
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 3 registers, 6 commands; frame fixed
+- Packages: DW (SOIC-20W), PW (TSSOP-20)
+- Not modeled:
+  - analog: voltage output (x2 buffer), reference input REF
+  - SPD pin and CTRL.SPD bit (settling speed, analog only; stored only)
+  - PWD pin (power down, active low) and CTRL.PWD bit: analog power-down only, stored only (the interface keeps working in the model)
+  - RLDAC = 1 transparent latch: modeled as an update on each holding-latch write while RLDAC = 1 and on writing RLDAC = 1
+  - power-on reset threshold (POR 0.55-2 V) and timing checks (setup/hold) are not modeled
+  - p.7 Figures 2/3 label the MSW cycle A = 0 and LSW A = 1, contradicting the p.12 address table and the p.15 example code (MSW at 1, LSW at 0); the table is followed
+
+### TLV5614
+
+quadruple 12-bit voltage-output DAC with 4-wire serial interface (CS, FS), LDAC and power down. `specs/TLV5614.json`; datasheet `slas188b.pdf` (p.1 (pinout), p.3 (terminal functions), p.4 (recommended operating conditions), p.7 (timing), p.12-14 (serial interface, data format, DAC select)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 12 registers, 4 commands; frame fixed
+- Packages: D (SOIC-16), PW (TSSOP-16)
+- Not modeled:
+  - analog: voltage outputs (x2 buffer), reference inputs REFINAB / REFINCD
+  - CS is not modeled: FS is the frame pin of the model (CS must be held low, as in the p.13 three-wire connection); in four-wire use CS high would ignore FS frames
+  - FS rising before 16 bits ends a frame early and updates the DAC with a partial word; the model drops short frames
+  - PD pin (active low, powers down all DACs) and per-DAC PWR / SPD bits: analog only, stored only
+  - the -EP datasheet (tlv5614-ep.pdf, TLV5614MPWREP) describes the same chip
+
+### TLV5616
+
+12-bit voltage-output DAC with TMS320/SPI serial interface (FS frame sync), programmable settling time and power down. `specs/TLV5616.json`; datasheet `tlv5616.pdf` (p.1 (D/DGK/P pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V, fCLK 20 MHz), p.5 (digital input timing requirements), p.6 (Figure 1 timing diagram), p.11 (power-on reset, serial interface), p.12 (data format)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: D (SOIC-8), DGK (VSSOP-8-DGK), P (PDIP-8)
+- Not modeled:
+  - analog: voltage output (x2 buffer), reference input REFIN, settling speed (SPD) and power-down (PWR) effects on the output
+  - CS (enable, active low) is not modeled: the bus frame is FS (FS falling starts a word, as in the datasheet's 3-wire connection with SS on FS and CS tied low); CS high does not block the model
+  - a word cut short by FS rising before 16 bits (the datasheet moves the partial shift register to the DAC latch) is discarded
+  - timing requirements tsu(CS-FS)/tsu(FS-CK)/tsu(C16-FS)/tsu(C16-CS)/twH/twL/tsu(D)/th(D)/twH(FS) (p.5)
+
+### TLV5617
+
+dual 10-bit voltage-output DAC with 3-wire SPI/TMS320 serial interface, double-buffered DAC B, programmable settling time and power down. `specs/TLV5617.json`; datasheet `tlv5617a.pdf` ((SLAS234F) p.1 (D pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V, fCLK 20 MHz), p.6 (digital input timing, Figure 1), p.10 (power-on reset to zero, serial interface), p.11 (data format: R1 SPD PWR R0 + 10 data bits + 00, register-select bits), p.12 (power-down example)).
+
+- Bus: SPI mode 2, write-only
+- 10 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 4 registers, 4 commands; frame fixed
+- Packages: D (SOIC-8)
+- Not modeled:
+  - analog: voltage outputs (x2 buffer), reference REF input; SPD (settling) and PWR (power down) affect the analog side only (stored in CTRL)
+  - a frame cut short by CS rising before 16 bits (the datasheet moves the partial shift register to the latches) is discarded
+  - the extra SCLK rising edge after D0 that resets the internal state machine (p.10) is not needed by the model
+  - DAC A has no double buffer: its input and DAC register are the same latch (dac lists LATCHA twice)
+  - digital input timing requirements (Figure 1)
+
+### TLV5618
+
+dual 12-bit voltage-output DAC with 3-wire SPI/TMS320 serial interface, double-buffered DAC B, programmable settling time and power down. `specs/TLV5618.json`; datasheet `tlv5618a.pdf` ((SLAS230H) p.1 (P/D/JG and FK pinouts, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.6 (digital input timing, Figure 1), p.10 (power-on reset to zero, serial interface), p.11 (data format: R1 SPD PWR R0 + 12 data bits, register-select bits), p.12 (power-down example)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 4 registers, 4 commands; frame fixed
+- Packages: JG (CDIP-8-JG), D (SOIC-8), P (PDIP-8)
+- Not modeled:
+  - analog: voltage outputs (x2 buffer), reference REF input; SPD (settling) and PWR (power down) affect the analog side only (stored in CTRL)
+  - a frame cut short by CS rising before 16 bits (the datasheet moves the partial shift register to the latches) is discarded
+  - the extra SCLK rising edge after D0 that resets the internal state machine (p.10) is not needed by the model
+  - DAC A has no double buffer: its input and DAC register are the same latch (dac lists LATCHA twice)
+  - digital input timing requirements (Figure 1)
+  - tlv5618a-ep.pdf (TLV5618AMDREP) is the same chip, enhanced-product grade
+
+### TLV5619
+
+12-bit voltage-output DAC with 12-bit parallel interface (CS, WE), LDAC update and power down, 2.7-5.5 V. `specs/TLV5619.json`; datasheet `slas172f.pdf` (p.1-2 (pins), p.3 (ROC), p.5 (timing), p.11-12 (power-on reset, parallel interface)).
+
+- Bus: parallel 12-bit
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-20W), PW (TSSOP-20)
+- Not modeled:
+  - analog: voltage output OUT (x2 gain buffer), reference input REFIN
+  - PD (active low) disables the output buffer only; the datasheet does not say the interface stops, so it is not mapped to pins.powerdown (which would ignore the bus)
+  - LDAC is asynchronous: held low, the DAC updates with the WE rising edge; driven low after WE, it updates then (modeled as LDAC level-active low)
+  - timing requirements tsu(CS-WE), tsu(D), th(D), tsu(WE-LD), twh(WE), tw(LD) (p.5) are not checked; VIH/VIL differ between the 3-V and 5-V supply ranges
+
+### TLV5620
+
+quadruple 8-bit voltage-output DAC with serial interface (DATA, CLK, LOAD), LDAC and per-DAC x1/x2 range bit. `specs/TLV5620.json`; datasheet `tlv5620.pdf` ((SLAS110B) p.1 (D/N pinout, description), p.2 (terminal functions), p.3 (data interface, Table 2 serial input decode), p.4 (Figures 1-2), p.5 (Figures 3-4), p.7 (recommended operating conditions: VDD 2.7-5.25 V, timing)).
+
+- Bus: SPI mode 1, write-only
+- 8 bits, 4 channel(s), code —; vcc [2.7, 5.25]
+- 9 registers, 4 commands; frame fixed
+- Packages: D (SOIC-14), N (PDIP-14)
+- Not modeled:
+  - analog: voltage outputs, reference inputs; the RNG bit (x1 / x2 range) is stored only
+  - power-on contents of the latches are not given (the datasheet only says a power-on reset gives repeatable start-up conditions; 0 used)
+  - a LOAD pulse after fewer than 11 CLK bits: the model ignores it (the datasheet does not define it)
+  - serial timing requirements (recommended operating conditions table)
+
+### TLV5621
+
+quadruple 8-bit low-power voltage-output DAC with 3-wire serial interface (CLK, DATA, EN), single/double-buffered modes and power-down. `specs/TLV5621.json`; datasheet `slas138b.pdf` (p.1-2 (pins), p.3-6 (data interface and Figures 1-4: word layout start bit, RS, A1 A0, D7-D0 / MODE, RNG A-D, SIA-SID, ACT), p.7-8 (control register, shutdown, decode, power-on values), p.10 (ROC and timing)).
+
+- Bus: SPI mode 1, write-only
+- 8 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 9 registers, 6 commands; frame stream
+- Packages: D (SOIC-14)
+- Not modeled:
+  - analog: voltage outputs DACA-DACD, reference inputs REFA-REFD, x1/x2 range (RNG bits stored only)
+  - the word layout (a start bit then RS) is read from the timing figures; the datasheet text has no bit table. RS spans the first two clocks of a data word (drawn high) and is a high bit followed by a low RS bit in a control word
+  - double-buffered mode latches the control word (RNG, SIx, ACT) on EN falling (note 14 p.12); the model stores it when the word completes. A range change in double-buffered mode changes the output on EN falling (analog only)
+  - in single-buffer mode EN is tied high; an EN falling edge in that mode still updates all outputs in the model (no effect when the outputs are already current)
+  - shutdown: ACT, SIA-SID and the HWACT pin (Table 3) only switch the analog outputs off; the bits are stored, HWACT is not modeled
+  - power-on contents of the input and DAC latches are not given (0 used); all DACs are shut down at power on (ACT = 0, analog only)
+
+### TLV5623
+
+8-bit voltage-output DAC with TMS320/SPI serial interface (FS frame sync), programmable settling time and power down. `specs/TLV5623.json`; datasheet `tlv5623.pdf` ((SLAS231B) p.1 (D/DGK pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V, fCLK 20 MHz), p.5 (digital input timing), p.6 (Figure 1), p.11 (power-on reset to zero, serial interface), p.12 (data format: X SPD PWR X + 8 data bits + 0000)).
+
+- Bus: SPI mode 2, write-only
+- 8 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 1 commands; frame fixed
+- Packages: DGK (VSSOP-8-DGK), D (SOIC-8)
+- Not modeled:
+  - analog: voltage output (x2 buffer), reference REFIN input; SPD (settling) and PWR (power down) affect the analog side only (stored in CTRL)
+  - CS (enable, active low) is not modeled: the bus frame is FS (FS falling starts a word, as in the datasheet's three-wire connection with CS tied low); CS high does not block the model
+  - a word cut short by FS rising before 16 bits (the datasheet moves the partial shift register to the DAC latch) is discarded
+  - digital input timing requirements (Figure 1)
+
+### TLV5624
+
+8-bit voltage-output DAC with internal programmable reference, TMS320/SPI serial interface (FS frame sync), programmable settling time and power down. `specs/TLV5624.json`; datasheet `tlv5624.pdf` ((SLAS235B) p.1 (D/DGK pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.6 (digital input timing, Figure 1), p.10 (power-on reset to zero, serial interface), p.12 (data format, register-select bits, control register REF1/REF0, reference bits), p.13 (example)).
+
+- Bus: SPI mode 2, write-only
+- 8 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 4 commands; frame fixed
+- Packages: D (SOIC-8), DGK (VSSOP-8-DGK)
+- Not modeled:
+  - analog: voltage output (x2 buffer), reference REF and the internal reference selected by REF1/REF0 (stored only); SPD (settling) and PWR (power down) affect the analog side only (stored in CTRL)
+  - CS (enable, active low) is not modeled: the bus frame is FS (FS falling starts a word, as in the datasheet's three-wire connection with CS tied low); CS high does not block the model
+  - a word cut short by FS rising before 16 bits (the datasheet moves the partial shift register to the DAC latch) is discarded
+  - digital input timing requirements (Figure 1)
+
+### TLV5625
+
+dual 8-bit voltage-output DAC with 3-wire SPI/TMS320 serial interface, double-buffered DAC B, programmable settling time and power down. `specs/TLV5625.json`; datasheet `tlv5625.pdf` ((SLAS233D) p.1 (D pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.6 (digital input timing, Figure 1), p.10 (power-on reset to zero, serial interface), p.11 (data format: R1 SPD PWR R0 + 8 data bits + 0000, register-select bits), p.12 (power-down example)).
+
+- Bus: SPI mode 2, write-only
+- 8 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 4 registers, 4 commands; frame fixed
+- Packages: D (SOIC-8)
+- Not modeled:
+  - analog: voltage outputs (x2 buffer), reference REF input; SPD (settling) and PWR (power down) affect the analog side only (stored in CTRL)
+  - a frame cut short by CS rising before 16 bits (the datasheet moves the partial shift register to the latches) is discarded
+  - the extra SCLK rising edge after D0 that resets the internal state machine (p.10) is not needed by the model
+  - DAC A has no double buffer: its input and DAC register are the same latch (dac lists LATCHA twice)
+  - digital input timing requirements (Figure 1)
+
+### TLV5626
+
+dual 8-bit voltage-output DAC with internal programmable reference, 3-wire SPI/TMS320 serial interface, double-buffered DAC B, programmable settling time and power down. `specs/TLV5626.json`; datasheet `tlv5626.pdf` ((SLAS236A) p.1 (D pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.6 (digital input timing, Figure 1), p.10 (power-on reset to zero, serial interface), p.11 (data format, register-select bits, DAC data bits D11-D4), p.12 (control register REF1/REF0, examples)).
+
+- Bus: SPI mode 2, write-only
+- 8 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 4 registers, 4 commands; frame fixed
+- Packages: D (SOIC-8)
+- Not modeled:
+  - analog: voltage outputs (x2 buffer), reference REF and the internal reference selected by REF1/REF0 (stored only); SPD (settling) and PWR (power down) affect the analog side only (stored in CTRL)
+  - a frame cut short by CS rising before 16 bits (the datasheet moves the partial shift register to the latches) is discarded
+  - the extra SCLK rising edge after D0 that resets the internal state machine (p.10) is not needed by the model
+  - DAC A has no double buffer: its input and DAC register are the same latch (dac lists LATCHA twice)
+  - digital input timing requirements (Figure 1)
+  - the terminal table lists OUTA as I; it is the DAC A output (role output)
+
+### TLV5627
+
+quadruple 8-bit voltage-output DAC with TMS320/SPI serial interface (FS frame sync), LDAC, hardware and software power down, programmable settling time. `specs/TLV5627.json`; datasheet `tlv5627.pdf` ((SLAS232A) p.1 (D/PW pinout, description), p.3 (terminal functions), p.4 (recommended operating conditions: AVDD/DVDD 2.7-3.3 V and 4.5-5.5 V, SCLK 20 MHz), p.6 (digital input timing), p.7 (Figure 1), p.12 (power-on reset to zero, serial interface), p.13 (data format A1 A0 PWR SPD + 8 data bits + 0000), p.14 (A1 A0 DAC select)).
+
+- Bus: SPI mode 2, write-only
+- 8 bits, 4 channel(s), code —; vcc [2.7, 5.5]
+- 12 registers, 4 commands; frame fixed
+- Packages: D (SOIC-16), PW (TSSOP-16)
+- Not modeled:
+  - analog: voltage outputs (x2 buffer), reference inputs REFINAB / REFINCD, analog supply AVDD
+  - CS is not modeled: FS is the frame pin of the model (CS must be held low, as in the three-wire connection of Figure 16); in four-wire use CS high would ignore FS frames
+  - FS rising before 16 bits ends a frame early and moves a partial word; the model drops short frames
+  - PD pin (active low, powers down all DACs and output stages, overriding the PWR bits) and the PWR / SPD bits: analog only; PWR / SPD stored per DAC, PD not modeled
+  - digital input timing requirements (p.6)
+
+### TLV5628
+
+octal 8-bit voltage-output DAC with serial interface (DATA, CLK, LOAD), LDAC and per-DAC x1/x2 range bit. `specs/TLV5628.json`; datasheet `tlv5628.pdf` ((SLAS108A) p.1 (DW/N pinout, description), p.2 (terminal functions), p.3 (data interface, Figures 1-2), p.4 (Figures 3-4), p.5 (Table 2 serial input decode), p.7 (recommended operating conditions: VDD 2.7-5.25 V, timing)).
+
+- Bus: SPI mode 1, write-only
+- 8 bits, 8 channel(s), code —; vcc [2.7, 5.25]
+- 17 registers, 8 commands; frame fixed
+- Packages: DW (SOIC-16W), N (PDIP-16)
+- Not modeled:
+  - analog: voltage outputs, reference inputs; the RNG bit (x1 / x2 range) is stored only
+  - power-on contents of the latches are not given (the datasheet only says a power-on reset gives repeatable start-up conditions; 0 used)
+  - a LOAD pulse after fewer than 12 CLK bits: the model ignores it (the datasheet does not define it)
+  - serial timing requirements (recommended operating conditions table)
+
+### TLV5629
+
+octal 8-bit voltage-output DAC with TMS320/SPI serial interface (FS frame sync), LDAC, preset and DOUT daisy-chain output. `specs/TLV5629.json`; datasheet `tlv5608.pdf` (p.1 (DW/PW pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: AVDD/DVDD 2.7-3.3 V and 4.5-5.5 V, fCLK 30 MHz), p.5 (timing requirements), p.6 (Figure 1 serial interface timing, Figure 2 LDAC), p.11 (power-on reset, serial interface, daisy chain), p.12 (uC/DSP modes, data format, register map), p.13 (two-channel registers, preset, CTRL0, CTRL1)).
+
+- Bus: SPI mode 1, write-only
+- 8 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 19 registers, 5 commands; frame fixed
+- Packages: DW (SOIC-20W), PW (TSSOP-20)
+- Not modeled:
+  - analog: voltage outputs, reference input REF, settling speed (CTRL1 SXY) and pair/full power down effects (CTRL1 PXY, CTRL0 PD), twos-complement input mode (CTRL0.IM: the code is stored as written)
+  - DSP mode (MODE open or low: 16 bits clocked after a short FS low pulse, extra SCLK falling edge before FS) is not modeled; uC mode (MODE high) is
+  - two-channel registers (A3-A0 = 1100-1111) write the value to one DAC of the pair and its complement to the other (p.13); the model writes the same value to both
+  - PRE pin: driving PRE low with LDAC asserted loads the PRESET register value into the DAC outputs (p.13); not modeled (PRE is an unused input)
+  - DOUT daisy-chain output (DIN delayed 16 SCLK cycles while CTRL0.DO = 1, p.11, p.13) is not modeled: DOUT is never driven
+  - timing requirements tsu(FS-CK)/tsu(C16-FS)/tsu(FS-C17)/tsu(CK-FS)/twL(LDAC)/twH/twL/tsu(D)/th(D)/twH(FS)/twL(FS) (p.5)
+
+### TLV5630
+
+octal 12-bit voltage-output DAC with internal reference, TMS320/SPI serial interface (FS frame sync), LDAC, preset and DOUT daisy-chain output. `specs/TLV5630.json`; datasheet `tlv5630.pdf` ((SLAS269F) p.1 (DW/PW pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: AVDD/DVDD 2.7-3.3 V and 4.5-5.5 V, fCLK 30 MHz), p.5 (digital input timing), p.9 (Figure 11 serial interface timing, Figure 12 output timing), p.10 (power-on reset, serial interface, daisy chain), p.11 (uC/DSP modes, data format, register map), p.12 (two-channel registers, preset, CTRL0, CTRL1), p.13 (reference)).
+
+- Bus: SPI mode 1, write-only
+- 12 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 19 registers, 5 commands; frame fixed
+- Packages: DW (SOIC-20W), PW (TSSOP-20)
+- Not modeled:
+  - analog: voltage outputs, REF input/output and the internal reference (CTRL0.R stored only), settling speed (CTRL1 SXY) and pair/full power down effects (CTRL1 PXY, CTRL0 PD), twos-complement input mode (CTRL0.IM: the code is stored as written)
+  - DSP mode (MODE open or low: FS only a short low pulse, an extra SCLK falling edge before FS) is not modeled; uC mode (MODE high) is
+  - two-channel registers (A3-A0 = 1100-1111) write the value to one DAC of the pair and its complement to the other (p.12); the model writes the same value to both
+  - PRE pin: driving PRE low with LDAC asserted loads the PRESET register value into the DAC outputs (p.12); not modeled (PRE is an unused input)
+  - DOUT daisy-chain output (DIN delayed 16 SCLK cycles while CTRL0.DO = 1, p.10, p.12) is not modeled: DOUT is never driven
+  - power on: the datasheet sets the DAC outputs to zero only if LDAC is low (p.10); the model resets all latches to zero
+  - digital input timing requirements (p.5)
+
+### TLV5631
+
+octal 10-bit voltage-output DAC with internal reference, TMS320/SPI serial interface (FS frame sync), LDAC, preset and DOUT daisy-chain output. `specs/TLV5631.json`; datasheet `tlv5630.pdf` ((SLAS269F) p.1 (DW/PW pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: AVDD/DVDD 2.7-3.3 V and 4.5-5.5 V, fCLK 30 MHz), p.5 (digital input timing), p.9 (Figure 11 serial interface timing, Figure 12 output timing), p.10 (power-on reset, serial interface, daisy chain), p.11 (uC/DSP modes, data format, register map), p.12 (two-channel registers, preset, CTRL0, CTRL1), p.13 (reference)).
+
+- Bus: SPI mode 1, write-only
+- 10 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 19 registers, 5 commands; frame fixed
+- Packages: DW (SOIC-20W), PW (TSSOP-20)
+- Not modeled:
+  - analog: voltage outputs, REF input/output and the internal reference (CTRL0.R stored only), settling speed (CTRL1 SXY) and pair/full power down effects (CTRL1 PXY, CTRL0 PD), twos-complement input mode (CTRL0.IM: the code is stored as written)
+  - DSP mode (MODE open or low: FS only a short low pulse, an extra SCLK falling edge before FS) is not modeled; uC mode (MODE high) is
+  - two-channel registers (A3-A0 = 1100-1111) write the value to one DAC of the pair and its complement to the other (p.12); the model writes the same value to both
+  - PRE pin: driving PRE low with LDAC asserted loads the PRESET register value into the DAC outputs (p.12); not modeled (PRE is an unused input)
+  - DOUT daisy-chain output (DIN delayed 16 SCLK cycles while CTRL0.DO = 1, p.10, p.12) is not modeled: DOUT is never driven
+  - power on: the datasheet sets the DAC outputs to zero only if LDAC is low (p.10); the model resets all latches to zero
+  - digital input timing requirements (p.5)
+
+### TLV5632
+
+octal 8-bit voltage-output DAC with internal reference, TMS320/SPI serial interface (FS frame sync), LDAC, preset and DOUT daisy-chain output. `specs/TLV5632.json`; datasheet `tlv5630.pdf` ((SLAS269F) p.1 (DW/PW pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: AVDD/DVDD 2.7-3.3 V and 4.5-5.5 V, fCLK 30 MHz), p.5 (digital input timing), p.9 (Figure 11 serial interface timing, Figure 12 output timing), p.10 (power-on reset, serial interface, daisy chain), p.11 (uC/DSP modes, data format, register map), p.12 (two-channel registers, preset, CTRL0, CTRL1), p.13 (reference)).
+
+- Bus: SPI mode 1, write-only
+- 8 bits, 8 channel(s), code —; vcc [2.7, 5.5]
+- 19 registers, 5 commands; frame fixed
+- Packages: DW (SOIC-20W), PW (TSSOP-20)
+- Not modeled:
+  - analog: voltage outputs, REF input/output and the internal reference (CTRL0.R stored only), settling speed (CTRL1 SXY) and pair/full power down effects (CTRL1 PXY, CTRL0 PD), twos-complement input mode (CTRL0.IM: the code is stored as written)
+  - DSP mode (MODE open or low: FS only a short low pulse, an extra SCLK falling edge before FS) is not modeled; uC mode (MODE high) is
+  - two-channel registers (A3-A0 = 1100-1111) write the value to one DAC of the pair and its complement to the other (p.12); the model writes the same value to both
+  - PRE pin: driving PRE low with LDAC asserted loads the PRESET register value into the DAC outputs (p.12); not modeled (PRE is an unused input)
+  - DOUT daisy-chain output (DIN delayed 16 SCLK cycles while CTRL0.DO = 1, p.10, p.12) is not modeled: DOUT is never driven
+  - power on: the datasheet sets the DAC outputs to zero only if LDAC is low (p.10); the model resets all latches to zero
+  - digital input timing requirements (p.5)
+
+### TLV5633
+
+12-bit voltage-output DAC with 8-bit parallel microcontroller interface, programmable internal reference and power down. `specs/TLV5633.json`; datasheet `slas190c.pdf` (p.1-2 pinout and terminal functions, p.3 recommended operating conditions, p.6 timing, p.11 parallel interface and pin/bit tables, p.12 data format, address bits and control register (defaults 0)).
+
+- Bus: parallel 8-bit
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 3 registers, 6 commands; frame fixed
+- Packages: DW (SOIC-20W), PW (TSSOP-20)
+- Not modeled:
+  - analog: voltage output (x2 buffer), reference input REF / programmable internal reference (REF1:0 stored only)
+  - SPD pin and CTRL.SPD bit (settling speed, analog only; stored only)
+  - PWR pin (power down, active low) and CTRL.PWR bit: analog power-down only, stored only (the interface keeps working in the model)
+  - RLDAC = 1 transparent latch: modeled as an update on each holding-latch write while RLDAC = 1 and on writing RLDAC = 1
+  - power-on reset threshold (POR 0.55-2 V) and timing checks (setup/hold) are not modeled
+
+### TLV5636
+
+12-bit voltage-output DAC with internal programmable reference, TMS320/SPI serial interface (FS frame sync), programmable settling time and power down. `specs/TLV5636.json`; datasheet `tlv5636.pdf` ((SLAS223C) p.1 (D/DGK pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.5 (timing requirements), p.6 (Figure 1), p.11 (power-on reset to zero, serial interface), p.12 (data format, register-select bits), p.13 (control register REF1/REF0, reference bits)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 2 registers, 4 commands; frame fixed
+- Packages: D (SOIC-8), DGK (VSSOP-8-DGK)
+- Not modeled:
+  - analog: voltage output (x2 buffer), reference REF and the internal reference selected by REF1/REF0 (stored only); SPD (settling) and PWR (power down) affect the analog side only (stored in CTRL)
+  - CS (enable, active low) is not modeled: the bus frame is FS (FS falling starts a word, as in the datasheet's three-wire connection with CS tied low); CS high does not block the model
+  - a word cut short by FS rising before 16 bits (the datasheet moves the partial shift register to the DAC latch) is discarded
+  - digital input timing requirements (Figure 1)
+
+### TLV5637
+
+dual 10-bit voltage-output DAC with internal programmable reference, 3-wire SPI/TMS320 serial interface, double-buffered DAC B, programmable settling time and power down. `specs/TLV5637.json`; datasheet `tlv5637.pdf` ((SLAS224C) p.1 (D pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.6 (digital input timing, Figure 1), p.10 (power-on reset to zero, serial interface; D11-D2 used), p.11 (data format, register-select bits, control register), p.12 (reference bits)).
+
+- Bus: SPI mode 2, write-only
+- 10 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 4 registers, 4 commands; frame fixed
+- Packages: D (SOIC-8)
+- Not modeled:
+  - analog: voltage outputs (x2 buffer), reference REF and the internal reference selected by REF1/REF0 (stored only); SPD (settling) and PWR (power down) affect the analog side only (stored in CTRL)
+  - a frame cut short by CS rising before 16 bits (the datasheet moves the partial shift register to the latches) is discarded
+  - the extra SCLK rising edge after D0 that resets the internal state machine (p.10) is not needed by the model
+  - DAC A has no double buffer: its input and DAC register are the same latch (dac lists LATCHA twice)
+  - digital input timing requirements (Figure 1)
+  - the terminal table lists OUTA as I; it is the DAC A output (role output)
+
+### TLV5638
+
+dual 12-bit voltage-output DAC with internal programmable reference, 3-wire SPI/TMS320 serial interface, double-buffered DAC B, programmable settling time and power down. `specs/TLV5638.json`; datasheet `tlv5638.pdf` ((SLAS225C) p.1 (D/JG and FK pinouts, description), p.3 (terminal functions), p.4 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.6 (digital input timing, Figure 1), p.10 (power-on reset to zero, serial interface), p.11 (data format, register-select bits, control register REF1/REF0, reference bits)).
+
+- Bus: SPI mode 2, write-only
+- 12 bits, 2 channel(s), code —; vcc [2.7, 5.5]
+- 4 registers, 4 commands; frame fixed
+- Packages: D (SOIC-8)
+- Not modeled:
+  - analog: voltage outputs (x2 buffer), reference REF and the internal reference selected by REF1/REF0 (stored only); SPD (settling) and PWR (power down) affect the analog side only (stored in CTRL)
+  - a frame cut short by CS rising before 16 bits (the datasheet moves the partial shift register to the latches) is discarded
+  - the extra SCLK rising edge after D0 that resets the internal state machine (p.10) is not needed by the model
+  - DAC A has no double buffer: its input and DAC register are the same latch (dac lists LATCHA twice)
+  - digital input timing requirements (Figure 1)
+  - tlv5638-ep.pdf (TLV5638MDREP) is the same chip, enhanced-product grade
+
+### TLV5639
+
+12-bit voltage-output DAC with 12-bit parallel interface (CS, WE, REG, LDAC), internal programmable reference, programmable settling time and power down. `specs/TLV5639.json`; datasheet `tlv5639.pdf` ((SLAS189C) p.1 (DW/PW pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.6 (digital input timing requirements), p.7 (Figure 1 timing diagram), p.11 (power-on reset, parallel interface, data destination by REG), p.12 (control register bits, reference bits)).
+
+- Bus: parallel 12-bit
+- 12 bits, 1 channel(s), code —; vcc [2.7, 5.5]
+- 3 registers, 2 commands; frame fixed
+- Packages: DW (SOIC-20W), PW (TSSOP-20)
+- Not modeled:
+  - analog: voltage output (x2 buffer), REF input/output and the internal reference (CTRL.REF stored only); SPD / PWR affect the analog side only
+  - the device has no read-back: the parallel port is write-only (no RD pin)
+  - digital input timing requirements tsu(CS-WE), tsu(D), tsu(R), th(DR), tsu(WE-LD), twH(WE), tw(LD) (p.6)
+
+## RTC (7 devices)
+
+### BQ32000
+
+I2C real-time clock with automatic battery backup switchover, oscillator-fail flag, calibration and trickle charger. `specs/BQ32000.json`; datasheet `bq32000.pdf` (p.3 (pinout), p.4 (ROC), p.5 (I2C timing), p.7-8 (IRQ, SF keys), p.10-11 (I2C), p.12-18 (registers), p.20 (leap year)).
+
+- Bus: I2C 0x68
+- vcc [3.0, 3.6]
+- 13 registers, 1 commands; frame fixed
+- Packages: D (SOIC-8)
+- Not modeled:
+  - IRQ output (open drain): level of CAL_CFG1.OUT when FT = 0, 512 Hz square wave when FT = 1 and SFR.FTF = 0, 1 Hz when FT = 1 and FTF = 1 (Table 6-1); the schema has no field-driven or square-wave output, so IRQ is never driven
+  - CENT_EN: the century bit toggles only while CENT_EN = 1; the schema has no enable for a clock field (the model toggles CENT on every 99 -> 00 rollover)
+  - OF oscillator-fail flag: set at initial power-up (reset 1) and when the oscillator drops four pulses; the model never sets it again (no oscillator failure; STOP = 1 is not documented to set it)
+  - SF KEY 1/2 unlock sequence (0x5E to 0x20 then 0xC7 to 0x21 before each SFR write): SFR is modeled as freely writable; the key registers read 0x00 and ignore writes
+  - trickle charger (TCHE = 0x5, TCH2 = 1, TCFE): stored only (analog)
+  - calibration (CAL, S): stored only, no effect on the count
+  - time-keeping register bits are undefined (X) at initial power-up; the resets give the schema's power-on time 2000-01-01 00:00:00 Saturday (DAY = 7)
+  - leap year: every year divisible by 4 (p.20); the same as the Gregorian rule for 2000-2099
+  - invalid BCD values written count invalid until the digit rolls over
+  - backup switchover (VCC below VBACK/VREF ~2.8 V): I2C locked out, Cycle column resets on switchover (FT, FTF, trickle-charge bits), the up-to-1 s register update after returning to VCC, 60 us wait after exiting backup
+  - unimplemented subaddresses 0x0A-0x1F and above 0x22: read value and pointer wrap not documented
+
+### BQ32002
+
+I2C real-time clock with automatic battery backup switchover, oscillator-fail flag, calibration. `specs/BQ32002.json`; datasheet `bq32002.pdf` (p.3 (pinout), p.4 (ROC), p.6 (I2C timing), p.7-8 (IRQ, SF keys), p.10-11 (I2C), p.12-18 (registers)).
+
+- Bus: I2C 0x68
+- vcc [3.0, 3.6]
+- 12 registers, 1 commands; frame fixed
+- Packages: D (SOIC-8)
+- Not modeled:
+  - IRQ output (open drain): level of CAL_CFG1.OUT when FT = 0, 512 Hz square wave when FT = 1 and SFR.FTF = 0, 1 Hz when FT = 1 and FTF = 1 (Table 6-1); the schema has no field-driven or square-wave output, so IRQ is never driven
+  - CENT_EN: the century bit toggles only while CENT_EN = 1; the schema has no enable for a clock field (the model toggles CENT on every 99 -> 00 rollover)
+  - OF oscillator-fail flag: set at initial power-up (reset 1) and when the oscillator drops four pulses; the model never sets it again (no oscillator failure; STOP = 1 is not documented to set it)
+  - SF KEY 1/2 unlock sequence (0x5E to 0x20 then 0xC7 to 0x21 before each SFR write): SFR is modeled as freely writable; the key registers read 0x00 and ignore writes
+  - calibration (CAL, S): stored only, no effect on the count
+  - time-keeping register bits are undefined (X) at initial power-up; the resets give the schema's power-on time 2000-01-01 00:00:00 Saturday (DAY = 7)
+  - leap year: every year divisible by 4 (p.20); the same as the Gregorian rule for 2000-2099
+  - invalid BCD values written count invalid until the digit rolls over
+  - backup switchover (VCC below VBACK/VREF ~2.8 V): I2C locked out, Cycle column resets on switchover (FT, FTF, trickle-charge bits), the up-to-1 s register update after returning to VCC, 60 us wait after exiting backup
+  - unimplemented subaddresses 0x0A-0x1F and above 0x22: read value and pointer wrap not documented
+
+### BQ3285
+
+Real-time clock with 114 bytes of nonvolatile RAM, alarm, periodic interrupt and square-wave output, multiplexed Intel/Motorola bus (MC146818A/DS1285 compatible). `specs/BQ3285.json`; datasheet `bq3285.pdf` (p.1 (pinout), p.2-3 (pins, MOT/AS), p.4-7 (address map, formats, interrupts, update, oscillator), p.8-10 (registers), p.11 (ROC), p.14 (bus timing)).
+
+- Bus: parallel 8-bit
+- vcc [4.5, 5.5]
+- 14 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-24W)
+- Not modeled:
+  - MOT strap: only Intel timing (MOT = VSS, the internal pull-down default: DS = RD, R/W = WR, AS = ALE) is modeled; Motorola timing (MOT = VCC: DS = E strobe high, R/W direction) would need a pin-selected bus
+  - HF is a 24-hour bit (HF = 1: 24-hour, 0: 12-hour): the clock field uses h12Level 0; the hours alarm (AHOUR) uses the same format and PM bit 7
+  - DF selects binary or BCD for all ten time/alarm bytes (format object); data written in the other format is not converted
+  - alarm don't-care: an alarm byte with its two MSBs = 11 matches every value (dontCare); alarms are compared during the update cycle
+  - oscillator control OS2-OS0: 010 runs; 11X runs the oscillator with the divider held in reset; other patterns stop it (stop.running = 2); after writing 010 the first update comes 500 ms later
+  - update-ended interrupt (UF set at the end of each update cycle, UIE enables INT, not while UTI = 1): no schema slot
+  - INTF summary flag (set while any flag/enable pair is 1) and INT asserted for any enabled flag (alarm, periodic, update-ended): only AF/PF have schema slots; reading REGC clears all flags (clearOnRead) and releases INT
+  - UTI = 1 also clears UIE and UIP; the datasheet says the internal copy keeps counting while UTI = 1 and the user bytes are transferred on the next update after UTI is cleared
+  - SQW square-wave output (RS frequency per Table 3, enabled by SQWE, held low when SQWE = 0): no schema slot; SQW is never driven
+  - daylight saving (DSE): last Sunday in October 1:59:59 -> 1:00:00, first Sunday in April 2:00:00 -> 3:00:00
+  - RST input: clears PIE, AIE, UIE, SQWE and the REGC flags, floats INT and blocks access; the schema's pins.reset would reset every register (time included), so RST is not modeled
+  - RCL input (held low 125 ms): sets all 114 RAM bytes to 0xFF
+  - power-fail write protection (VCC < VPFD 4.17 V, tCSR 20-200 ms after power-up) and backup switchover
+  - VRT is always 1 (valid battery)
+  - time register power-on values are not given: the resets encode the schema power-on time (2000-01-01 00:00:00 Saturday) in BCD 12-hour format (REGB = 0)
+  - leap years: automatic, 100-year calendar (Gregorian for 2000-2099)
+
+### BQ4802
+
+Parallel real-time clock with century, alarm, periodic interrupt, watchdog, CPU supervisor and external SRAM battery-backup control. `specs/BQ4802.json`; datasheet `bq4802ly.pdf` (p.2 (ROC), p.3 (read timing), p.5-6 (pins), p.12-16 (registers, clock access, watchdog, interrupts, alarm)).
+
+- Bus: parallel 8-bit
+- vcc [2.7, 5.5]
+- 16 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-28W), PW (TSSOP-28)
+- Not modeled:
+  - UTI: the user registers freeze while UTI = 1, the internal counters keep running, and values written while UTI = 1 go to the counters when UTI is cleared (p.13); written as update.latch with the same bit and writeHalts false
+  - 24/12 bit (CONTROL.H24) is 1 for 24-hour: h12Level 0; PM/AM is HOURS bit 7 (alarm: HOUR_ALARM bit 7)
+  - alarm masks: an alarm byte with ALM1-ALM0 (D7-D6) = 11 is don't-care (dontCare); the alarm compares date, hours, minutes and seconds during each update
+  - watchdog: WDI transitions (or a 100 ns pulse) restart it; time-out per WD2-WD0 (Table 4) drives WDO low until the next WDI transition and RST low for the reset time-out t1, repeating every t3; WDI floating (mid-level, three-level input) disables it - watchdog periods/kick/resetPin; the three-level floating input is not modeled
+  - power-fail interrupt (PWRF, PWRIE), battery-backup alarm enable (ABE), BVF battery-low check: no power failure is simulated; BVF reads 1
+  - STOP (CONTROL bit 2, active low) stops the oscillator only in battery-backup mode; with VCC present the clock always runs, so no stop bit is modeled
+  - daylight saving (DSE)
+  - RST output: 200 ms power-on reset after VCC passes VPFD and push-button reset (RST pulled low > 1 us); only the watchdog RST pulse is modeled
+  - CEIN -> CEOUT chip-enable pass-through (12 ns, forced high on power failure) and VOUT supply output for an external SRAM: no schema form; CEOUT is never driven
+  - INT asserted for an enabled power-fail flag; reading FLAGS clears AF, PF, PWRF (address must be stable 50 ns)
+  - time register power-on values are not given: the resets encode the schema power-on time 2000-01-01 00:00:00 Saturday (CENTURY 20) in 12-hour BCD (CONTROL = 0)
+  - leap years: automatic up to 2100 (Table 2 note 3)
+  - unused bits of registers B-E read 0 and ignore writes (readOnly masks)
+
+### BQ4845
+
+Parallel real-time clock with alarm, periodic interrupt, watchdog, CPU supervisor and external SRAM battery-backup control. `specs/BQ4845.json`; datasheet `bq4845.pdf` (p.1 (pinout), p.3 (pins), p.4-9 (registers, clock access, watchdog, interrupts), p.10 (ROC), p.12 (read timing)).
+
+- Bus: parallel 8-bit
+- vcc [4.5, 5.5]
+- 16 registers, 1 commands; frame fixed
+- Packages: DW (SOIC-28W)
+- Not modeled:
+  - UTI: the user registers freeze while UTI = 1, the internal counters keep running, and values written while UTI = 1 go to the counters when UTI is cleared (p.5); written as update.latch with the same bit and writeHalts false
+  - 24/12 bit (CONTROL.H24) is 1 for 24-hour: h12Level 0; PM/AM is HOURS bit 7 (alarm: HOUR_ALARM bit 7)
+  - alarm masks: an alarm byte with ALM1-ALM0 (D7-D6) = 11 is don't-care (dontCare); the alarm compares date, hours, minutes and seconds during each update
+  - watchdog: WDI transitions (or a 100 ns pulse) restart it; time-out per WD2-WD0 (Table 3) drives WDO low until the next WDI transition and RST low for the reset time-out t1, repeating every t3; WDI floating (mid-level, three-level input) disables it - watchdog periods/kick/resetPin; the three-level floating input is not modeled
+  - power-fail interrupt (PWRF, PWRIE), battery-backup alarm enable (ABE), BVF battery-low check: no power failure is simulated; BVF reads 1
+  - STOP (CONTROL bit 2, active low) stops the oscillator only in battery-backup mode; with VCC present the clock always runs, so no stop bit is modeled
+  - daylight saving (DSE)
+  - RST output: 200 ms power-on reset after VCC passes VPFD and push-button reset (RST pulled low > 1 us); only the watchdog RST pulse is modeled
+  - CEIN -> CEOUT chip-enable pass-through (12 ns, forced high on power failure) and VOUT supply output for an external SRAM: no schema form; CEOUT is never driven
+  - INT asserted for an enabled power-fail flag; reading FLAGS clears AF, PF, PWRF (address must be stable 50 ns)
+  - unused bits of registers B-E read 0 and ignore writes (readOnly masks)
+  - time register power-on values are not given: the resets encode the schema power-on time 2000-01-01 00:00:00 Saturday in 12-hour BCD (CONTROL = 0)
+  - 100-year calendar, no century register (address F unused); automatic leap-year adjustment
+  - AIE reset and PWRIE cleared at power-on reset; the alarm during power-on reset updates only the flags register
+  - pin 18 is printed DQ8 in the pin-connections drawing; the pin-names list (DQ0-DQ7) makes it DQ6
+
+### DP8570
+
+Timer clock peripheral: parallel real-time clock (1/100 s to years, day of year) with alarm compare, periodic interrupts, two 16-bit timers, power-fail logic and 44 bytes of RAM. `specs/DP8570.json`; datasheet `dp8570a.pdf` (p.2 (operating conditions), p.3 (AC timing), p.5 (pins), p.6-15 (functional description), p.16-20 (addressing and registers), p.21 (initialization)).
+
+- Bus: parallel 8-bit
+- vcc [4.5, 5.5]
+- 67 registers, 7 commands; frame fixed
+- Packages: FN (PLCC-28)
+- Not modeled:
+  - paged register map: MSR.PS selects page 0 (registers, clock, timers) or page 1 (31 bytes RAM, registers RAM_P1_01..1F in space page1), MSR.RS selects control block 0 or 1 at addresses 1-4; writes and reads are gated on PS/RS (when-gated commands, protocol.reads)
+  - day-of-year (Julian) counter: 12-bit BCD over JULIAN_LO (00-99) and JULIAN_HI (0-3), 1 to 365/366 then 1; needs a proposed unit yearday spanning two registers; the registers are plain storage
+  - leap years come from the 2-bit leap-year counter RTMR.LY (00 = leap year; increments on December 31), not from the year count: needs a proposed leap-counter key
+  - day of week 1-7: the datasheet does not fix which day is 1 (first: 1 = Sunday assumed)
+  - alarm compare: ICR1 D0-D5 enable each compare byte (0 = always equal): maskLevel 0; the alarm flag MSR.AL is set even when ALE = 0
+  - periodic interrupts: six simultaneous rates (1 min, 10 s, 1 s, 100 ms, 10 ms, 1 ms), each with a PFR flag (cleared by reading PFR) and an ICR0 enable, all summarized in MSR.PER (write 1 to clear): periodic array (periodNs, flag, enable, summary)
+  - interrupt routing (IRR route bits to INTR or MFO) and programmable polarity/drive (OMR IH/IP, MH/MP, TH/TP): only INTR active low open drain (the all-zero power-on choice) is described
+  - MSR.INT interrupt-pending bit (1 while INTR or MFO is active) and MSR.PF (follows PFAIL)
+  - time save (latched read): with IRR.TS = 1 the time save RAM (SEC_SAVE..MON_SAVE) follows the clock; writing 0 freezes it; reset automatically on battery switch-over (proposed timeSave key)
+  - oscillator fail flag PFR.OSF: 1 at power-up, cleared by writing RTMR.CSS = 1 with the crystal running; CSS is held 0 until the oscillator runs; written D6 selects battery-backed / single-supply mode
+  - crystal select XT (32.768 kHz, 4.194304 MHz, 4.9152 MHz, 32.000 kHz): the model counts in real time whatever XT says
+  - two 16-bit timers (T0CR/T1CR, data registers 0F-12H): modes 0-3 (single pulse, rate generator, square wave, retriggerable one shot), 8 clock sources (TCK pin, crystal, crystal/4, 10.7 kHz-1 Hz), gate pins G0/G1, timer read latch (RD bit), outputs on T1 and MFO, interrupts MSR.T0/T1 - all stored only
+  - MFO as buffered oscillator or timer 0 output (OMR MO/MT)
+  - power fail: PFAIL debounce 30-63 ms, bus lock-out (480 us delay with IRR.PFD), power-fail interrupt (ICR1.PFE), low-battery flag IRR.LB, standby operation (RTMR TPF/IPF), battery switch-over
+  - test mode (PFR.TM, register 1F)
+  - writing to a counter on the fly; writing CSS = 0 resets the prescaler
+  - all control registers and counters are random at power-up: resets are 0 except PFR.OSF = 1 and the counters, which encode the schema power-on time 2000-01-01 00:00:00 (24-hour, day of year 001, DOW 7)
+  - address 1E is listed only for RS = 1 in Table VII; modeled as page-0 RAM for both blocks
+
+### DP8573
+
+Parallel real-time clock (1/100 s to years) with alarm compare, periodic interrupts, power-fail logic, time save and RAM. `specs/DP8573.json`; datasheet `dp8573a.pdf` (p.2 (operating conditions), p.3 (AC timing), p.4-5 (pins, memory map), p.5-10 (functional description), p.10-13 (addressing and registers), p.13-14 (initialization)).
+
+- Bus: parallel 8-bit
+- vcc [4.5, 5.5]
+- 30 registers, 5 commands; frame fixed
+- Packages: FN (PLCC-28)
+- Not modeled:
+  - register blocks: MSR.RS selects block 0 (PFR, TSCR) or block 1 (RTMR, OMR, ICR0, ICR1) at addresses 1-4; writes and reads are gated on RS (when-gated commands, protocol.reads)
+  - INTR is permanently active low, open drain (p.4); the power-fail interrupt goes to INTR and, with OMR.MO = 0, to MFO (push-pull active high; open drain in standby): MFO is never driven
+  - leap years come from the 2-bit leap-year counter RTMR.LY (00 = leap year; increments on December 31), not from the year count: needs a proposed leap-counter key
+  - day of week 1-7: the datasheet does not fix which day is 1 (first: 1 = Sunday assumed)
+  - alarm compare: ICR1 D0-D5 enable each compare byte (0 = always equal): maskLevel 0; the alarm flag MSR.AL is set even when ALE = 0
+  - periodic interrupts: six simultaneous rates (1 min, 10 s, 1 s, 100 ms, 10 ms, 1 ms), each with a PFR flag (cleared by reading PFR) and an ICR0 enable, all summarized in MSR.PER (write 1 to clear): periodic array (periodNs, flag, enable, summary)
+  - MSR.INT interrupt-pending bit (1 while INTR or MFO is active) and MSR.PF (follows PFAIL)
+  - time save (latched read): with TSCR.TS = 1 the time save RAM (SEC_SAVE..MON_SAVE) follows the clock; writing 0 freezes it; reset automatically on battery switch-over (proposed timeSave key)
+  - oscillator fail flag PFR.OSF: 1 at power-up, cleared by writing RTMR.CSS = 1 with the crystal running; CSS is held 0 until the oscillator runs; written D6 selects battery-backed / single-supply mode
+  - power fail: PFAIL debounce 30-63 us, bus lock-out, power-fail interrupt (ICR1.PFE), standby operation (RTMR.IPF), battery switch-over
+  - test mode (PFR.TM, register 1F); addresses 01-02 (RS = 0) and 0F-12 are N/A (read value not given)
+  - writing to a counter on the fly; writing CSS = 0 resets the prescaler
+  - all control registers and counters are random at power-up: resets are 0 except PFR.OSF = 1 and the counters, which encode the schema power-on time 2000-01-01 00:00:00 (24-hour, DOW 7)
+  - address 1E is listed with RS = 1 in Table III; modeled as RAM in both blocks
