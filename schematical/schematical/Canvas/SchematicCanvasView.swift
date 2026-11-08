@@ -101,7 +101,8 @@ struct SchematicCanvasView: View {
         case idle
     }
 
-    private var zoom: CGFloat { viewport.zoom }
+    /// Actual points per world unit (not the zoom level shown).
+    private var zoom: CGFloat { viewport.scale }
 
     /// Hit tolerances are in screen points, so they are divided by zoom.
     private var lineTolerance: CGFloat { 6 / zoom }

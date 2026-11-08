@@ -2,13 +2,19 @@ import CoreGraphics
 import Observation
 
 /// Maps between screen points (the canvas view) and world points (the schematic
-/// coordinates the document uses): screen = world * zoom + offset.
+/// coordinates the document uses): screen = world * scale + offset.
+/// `zoom` is the level the zoom controls show (100 % = 1); `scale` is the
+/// actual points per world unit, `zoom * baseScale`.
 @MainActor
 @Observable
 final class CanvasViewport {
     static let zoomLevels: [CGFloat] = [0.25, 0.5, 0.75, 1, 1.5, 2, 3]
 
     private(set) var zoom: CGFloat = 1
+    /// Points per world unit at 100 % zoom.
+    let baseScale: CGFloat
+    /// Points per world unit at the current zoom.
+    var scale: CGFloat { zoom * baseScale }
     /// Screen position of the world origin.
     private(set) var offset: CGSize = .zero
     private(set) var size: CGSize = .zero
@@ -18,8 +24,10 @@ final class CanvasViewport {
     }
 
     /// A viewport at `zoom` (clamped to the zoom steps' range), with the
-    /// world origin at the view's top left.
-    init(zoom: CGFloat = 1) {
+    /// world origin at the view's top left. `baseScale` is how large 100 %
+    /// draws.
+    init(zoom: CGFloat = 1, baseScale: CGFloat = 1) {
+        self.baseScale = baseScale
         self.zoom = min(max(zoom, Self.zoomLevels.first!), Self.zoomLevels.last!)
     }
 
@@ -28,14 +36,14 @@ final class CanvasViewport {
     }
 
     func world(_ screen: CGPoint) -> CGPoint {
-        CGPoint(x: (screen.x - offset.width) / zoom, y: (screen.y - offset.height) / zoom)
+        CGPoint(x: (screen.x - offset.width) / scale, y: (screen.y - offset.height) / scale)
     }
 
     /// The part of the world currently on screen.
     var visibleWorldRect: CGRect {
         CGRect(
             origin: world(.zero),
-            size: CGSize(width: size.width / zoom, height: size.height / zoom)
+            size: CGSize(width: size.width / scale, height: size.height / scale)
         )
     }
 
@@ -59,8 +67,8 @@ final class CanvasViewport {
 
         zoom = newZoom
         offset = CGSize(
-            width: centre.x - anchor.x * newZoom,
-            height: centre.y - anchor.y * newZoom
+            width: centre.x - anchor.x * scale,
+            height: centre.y - anchor.y * scale
         )
     }
 

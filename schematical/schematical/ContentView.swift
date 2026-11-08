@@ -26,7 +26,9 @@ struct ContentView: View {
     /// The app-wide catalog, loaded once at launch.
     private let catalog = PartCatalogStore.shared
     @State private var document: SchematicDocument
-    @State private var viewport = CanvasViewport()
+    /// The schematic's pan and zoom. Its 100 % draws at 0.75 points per
+    /// schematic unit (what used to be 75 %).
+    @State private var viewport = CanvasViewport(baseScale: 0.75)
     /// The PCB page's own pan and zoom. It opens at 25 %, so a whole board
     /// fits.
     @State private var boardViewport = CanvasViewport(zoom: 0.25)
