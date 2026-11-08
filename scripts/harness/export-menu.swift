@@ -1,14 +1,14 @@
-// plan-28-D: Schematical > Export in a running SwiftUI app, without a mouse.
+// plan-28-D: File > Export in a running SwiftUI app, without a mouse.
 // Runs the app's real schematic scene (ContentView in a WindowGroup) with
-// the real SchematicFileCommands and SchematicExportCommands, loads
+// the real SchematicFileCommands (which hold the Export submenu), loads
 // be-6502.schematical into the window's document as File > Open does, then
 // chooses each Export item through NSApp.mainMenu, fills in the save panel
 // sheet in code and presses its OK. Also checks the items are disabled with
 // no schematic window, and that an empty schematic shows the alert and no
 // panel. Prints ok/FAIL lines; exits 1 on any FAIL.
 //
-// Works while the screen is locked (the window is ordered front by the app
-// itself; no events go through the window server's input path).
+// Needs an unlocked screen: a locked session never lets the window become
+// key, so the focused-window value is nil and the items stay disabled.
 //
 //   rm -rf /tmp/p28-hm && APP=<Debug schematical.app> scripts/harness/build.sh \
 //     scripts/harness/export-menu.swift /tmp/p28-hm && \
@@ -27,7 +27,6 @@ struct ExportMenuHarnessApp: App {
         }
         .commands {
             SchematicFileCommands()
-            SchematicExportCommands()
         }
     }
 }
@@ -50,14 +49,18 @@ final class ExportMenuDriver: NSObject, NSApplicationDelegate {
         try? await Task.sleep(for: .seconds(seconds))
     }
 
-    /// The application menu's Export submenu.
-    private var exportMenu: NSMenu? {
-        NSApp.mainMenu?.items.first?.submenu?.items.first { $0.title == "Export" }?.submenu
+    private var fileMenu: NSMenu? {
+        NSApp.mainMenu?.items.first { $0.title == "File" }?.submenu
     }
 
-    /// The application menu's titles, in order ("—" for a separator).
-    private var appMenuTitles: [String] {
-        NSApp.mainMenu?.items.first?.submenu?.items.map { $0.isSeparatorItem ? "—" : $0.title } ?? []
+    /// File > Export.
+    private var exportMenu: NSMenu? {
+        fileMenu?.items.first { $0.title == "Export" }?.submenu
+    }
+
+    /// The File menu's titles, in order ("—" for a separator).
+    private var fileMenuTitles: [String] {
+        fileMenu?.items.map { $0.isSeparatorItem ? "—" : $0.title } ?? []
     }
 
     private func exportItems() -> [(title: String, enabled: Bool)] {
@@ -91,10 +94,15 @@ final class ExportMenuDriver: NSObject, NSApplicationDelegate {
         await settle(1.5)
 
         // The menu itself.
-        let titles = appMenuTitles
-        print("application menu: \(titles.joined(separator: " | "))")
-        check(titles.count > 2 && titles[0].hasPrefix("About") && titles[1] == "Export",
-              "Export is the application menu's second item, after About")
+        let titles = fileMenuTitles
+        print("File menu: \(titles.joined(separator: " | "))")
+        if let saveAs = titles.firstIndex(of: "Save As…"), let export = titles.firstIndex(of: "Export") {
+            check(export == saveAs + 2 && titles[saveAs + 1] == "—", "File > Export follows Save As… after a separator")
+        } else {
+            check(false, "File menu has Save As… and Export")
+        }
+        let appMenu = NSApp.mainMenu?.items.first?.submenu?.items.map(\.title) ?? []
+        check(!appMenu.contains("Export"), "the application menu has no Export")
 
         if !NSApp.windows.contains(where: { $0.title == "Untitled" }),
            let file = NSApp.mainMenu?.items.first(where: { $0.title == "File" })?.submenu,

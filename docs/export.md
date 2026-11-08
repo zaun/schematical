@@ -1,7 +1,7 @@
 # Export
 
-**Schematical > Export** (the application menu, after About) writes the focused
-window's schematic to a file. Added in plan-28.
+**File > Export** (after Save As…) writes the focused window's schematic to a
+file. Added in plan-28.
 
 | Item | File | Background | Size |
 |---|---|---|---|
@@ -75,7 +75,7 @@ PNG puts them; the padding keeps a wider font from clipping. A turned label
 | `SchematicScene`, `BoundsPainter` | `schematical/schematical/Canvas/SchematicExportScene.swift` |
 | `SVGPainter` | `schematical/schematical/Canvas/SVGPainter.swift` |
 | `SchematicExport` (`svg`, `png`, `jpg`, padding, pixel scale) | `schematical/schematical/Document/SchematicExport.swift` |
-| `SchematicExportFormat`, `SchematicExportCommands` (the menu) | `schematical/schematical/Document/SchematicExportCommands.swift` |
+| `SchematicExportFormat`, `SchematicExportMenu` (the submenu; `SchematicFileCommands` adds it to File) | `schematical/schematical/Document/SchematicExportCommands.swift` |
 | `export(_:)`, `writeExport(_:to:)` | `schematical/schematical/Document/SchematicFileController.swift` |
 
 Tests: `SchematicPainterTests`, `SchematicSceneTests`, `SVGPainterTests`,

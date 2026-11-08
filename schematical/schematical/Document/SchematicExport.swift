@@ -1,7 +1,7 @@
 import AppKit
 import SwiftUI
 
-/// Schematical > Export: a schematic as SVG (plan-28-C) or PNG / JPG
+/// File > Export: a schematic as SVG (plan-28-C) or PNG / JPG
 /// (plan-28-D), black line art cropped to the ink plus `padding`.
 /// See `docs/export.md`.
 enum SchematicExport {

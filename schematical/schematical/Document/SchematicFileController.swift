@@ -258,6 +258,10 @@ struct SchematicFileCommands: Commands {
             }
             .keyboardShortcut("s", modifiers: [.command, .shift])
             .disabled(file == nil)
+
+            Divider()
+
+            SchematicExportMenu(file: file)
         }
     }
 }

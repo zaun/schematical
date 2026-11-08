@@ -1,7 +1,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-/// The three Schematical > Export items (plan-28-D).
+/// The three File > Export items (plan-28-D).
 enum SchematicExportFormat: CaseIterable, Identifiable {
     case svg, png, jpg
 
@@ -41,21 +41,19 @@ enum SchematicExportFormat: CaseIterable, Identifiable {
     }
 }
 
-/// Schematical > Export, after About: writes the focused window's schematic.
-/// The items stay enabled on an empty schematic; the action says why it
-/// can't export.
-struct SchematicExportCommands: Commands {
-    @FocusedValue(\.schematicFile) private var file
+/// File > Export, after Save As…: writes the focused window's schematic.
+/// `SchematicFileCommands` puts it in the File menu. The items stay enabled
+/// on an empty schematic; the action says why it can't export.
+struct SchematicExportMenu: View {
+    let file: SchematicFileController?
 
-    var body: some Commands {
-        CommandGroup(after: .appInfo) {
-            Menu("Export") {
-                ForEach(SchematicExportFormat.allCases) { format in
-                    Button(format.menuTitle) {
-                        Task { await file?.export(format) }
-                    }
-                    .disabled(file == nil)
+    var body: some View {
+        Menu("Export") {
+            ForEach(SchematicExportFormat.allCases) { format in
+                Button(format.menuTitle) {
+                    Task { await file?.export(format) }
                 }
+                .disabled(file == nil)
             }
         }
     }

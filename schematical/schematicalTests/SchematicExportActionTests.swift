@@ -3,7 +3,7 @@ import UniformTypeIdentifiers
 import XCTest
 @testable import schematical
 
-/// plan-28-D: what Schematical > Export writes, without the save panel.
+/// plan-28-D: what File > Export writes, without the save panel.
 @MainActor
 final class SchematicExportActionTests: XCTestCase {
     /// Kept for the life of the test process, like `TestSupport`'s documents:
