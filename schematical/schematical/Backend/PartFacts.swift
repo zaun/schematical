@@ -128,6 +128,7 @@ nonisolated enum PartFacts {
         case PART_PIO: return "Peripheral I/O"
         case PART_DECODER: return "Decoder"
         case PART_BUFFER: return "Buffer"
+        case PART_MUX: return "Multiplexer"
         default: return ""
         }
     }

@@ -29,6 +29,8 @@ add_library(logic STATIC
     src/models/seq.c
     src/models/latch.c
     src/models/decoder.c
+    src/models/mux.c
+    src/models/mux_stored.c
     src/models/counter.c
     src/models/counter_div.c
     src/models/shift.c
@@ -132,6 +134,7 @@ logic_test(engine_test)
 logic_test(eeprom_test)
 logic_test(latch_test)
 logic_test(decoder_test)
+logic_test(mux_test)
 logic_test(counter_test)
 logic_test(shift_test)
 logic_test(memory_image_test)

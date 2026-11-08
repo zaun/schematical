@@ -44,11 +44,11 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p21 && cmake --build /tmp/logic-p21 -j8 && ctest --test-dir /tmp/logic-p21` → `100% tests passed` | MET; **T0 = 21** (2026-11-07 at 4ae312f) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `footprints.txt` | **P0 = 8022**, **F0 = 237** (2026-11-07 at 7b6b604); re-measure at start |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p21-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | re-run at start |
-| No `mux` kind yet | `ls schematical/schematical/Parts/mux.json backend/src/models/mux*.c 2>/dev/null` → no output | MET (2026-11-07) |
-| DigiKey script works | `node scripts/digikey.js --in-stock --manufacturer 296 --limit 1 SN74HC157N` → a part line | MET (2026-11-07) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p21 && cmake --build /tmp/logic-p21 -j8 && ctest --test-dir /tmp/logic-p21` → `100% tests passed` | MET at start of execution (1b780ae, worktree-P-21): `100% tests passed, 0 tests failed out of 22` — **T0 = 22** (plan-19 added `decoder_test`) |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `footprints.txt` | MET at 1b780ae: **P0 = 8344**, **F0 = 239** |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p21-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET at 1b780ae: `** BUILD SUCCEEDED **` |
+| No `mux` kind yet | `ls schematical/schematical/Parts/mux.json backend/src/models/mux*.c 2>/dev/null` → no output | MET at 1b780ae: no output |
+| DigiKey script works | `node scripts/digikey.js --in-stock --manufacturer 296 --limit 1 SN74HC157N` → a part line | MET at 1b780ae: `SN74HC157N Active 11876 74HC IC MULTIPLEXER 4 X 2:1 16-PDIP` (7 calls left today). NOT MET 2026-11-07 21:13–23:12 UTC (`429 Daily Ratelimit exceeded`, `0 left today`, reset 2026-11-08 00:00 UTC); **MET again 2026-11-08 00:01 UTC** (`SN74HC251N`, `771 left today` after the re-check) |
 
 plan-21 waits for no other plan (owner: plans 19–22 run in any order,
 possibly in parallel). Everything below assumes these rows hold.
@@ -171,21 +171,21 @@ directions and the turnaround.
 
 ### Phase 1 — Datasheets and part data
 
-- [ ] Stock re-check per base name (`node scripts/digikey.js --in-stock --manufacturer 296 --list "<base>"`; about 40 calls); refresh `status`; out-of-stock rows and rows whose status is not Active or Last Time Buy `skip`.
-- [ ] Download the PDFs. Check: `ls datasheets/mux/*.pdf | wc -l` = distinct `pdf` values.
-- [ ] `parts.tsv`, `specs.md`, `README.md`. Check: 634 rows; 0 rows without a decision; 0 `add` rows without a footprint.
-- [ ] `datasheets/skipped-parts.md` § TI multiplexers; `obsolete-not-included.md` for all-obsolete PDFs (PDF deleted).
+- [x] Stock re-check per base name (`node scripts/digikey.js --in-stock --manufacturer 296 --json "<base>"`, 114 base names, plus one exact-name search for each of the 119 candidates DigiKey gives no base name: 233 calls, not about 40 — Corrections); refresh `status`; out-of-stock rows and rows whose status is not Active or Last Time Buy `skip`. Run 2026-11-08 00:01 UTC after the daily quota reset (`/tmp/p21/scripts/stock.sh`): 233 searches, 0 errors, `703` in-stock TI parts parsed, `771 left today`; every one of the 634 candidates found in stock with its census status, so rebuilding `parts.tsv` from the re-check changed 0 rows (346 add; skips 156 Obsolete, 23 Discontinued at DigiKey, 81 not in the ordering table, 28 no TI datasheet; 0 out of stock).
+- [x] Download the PDFs. TI symlinks for 461 names derived from the part numbers (+ SN54/-Q1/-EP/lit-number retries: sdls098, sdas219b, sdas137a), byte-identical sheets kept once. Check: `ls datasheets/mux/*.pdf | wc -l` → 102 = distinct `pdf` values of `parts.tsv` → 102.
+- [x] `parts.tsv`, `specs.md` (20 device sections, read by seven parallel readers and loaded through the real loader: `check_device.py` → `ok` for all 20), `README.md`. Check: `tail -n +2 parts.tsv | wc -l` → 634; rows without a decision (or a skip without a reason) → 0; `add` rows without a footprint → 0; `add` rows → **N21 = 346** (20 devices).
+- [x] `datasheets/skipped-parts.md` § TI multiplexers (288 parts in four reason rows: Obsolete 156, Discontinued at DigiKey 23, not in the ordering table 81, no TI datasheet 28); `obsolete-not-included.md` rows for `mux/sn54als857.pdf` (SN74ALS857: all Obsolete) and `mux/sdas137a.pdf` (SN74AS250A: all Obsolete) — neither PDF is kept in `datasheets/mux/`.
 
-Acceptance: the checks above (minutes).
-Commit: —
+Acceptance: the checks above (minutes). Met: every Phase 1 check output is on its task line.
+Commit: bbaf886
 
 ### Phase 2 — Family and footprints
 
-- [ ] `FCT` (or moot); `library_check` `ok   gate part with family FCT`.
-- [ ] Footprints (or moot); regenerate `footprints.txt`.
+- [x] ~~`FCT`~~ — moot: already present (`grep -c '"FCT"' backend/src/library/kind_util.c` → 1, added by plan-19); `library_check` prints `ok   gate part with family FCT`.
+- [x] ~~Footprints `PDIP-24` and `SM8-DCT`; regenerate `footprints.txt`~~ — moot: SM8 (TI DCT, 8 pins) is the existing `SSOP-8` ("8-pin SSOP (DCT)", from the DCT0008A drawing), used by SN74LVC2G157DCTR; the only 24-pin DIP candidates (SN74AS250ANT, SN74ALS857NT, SN74ALS870NT) are all Obsolete, so no `add` row needs `PDIP-24` (every add row's footprint is an existing id: `add` rows without a footprint → 0). `git diff --stat backend/tests/golden/footprints.txt schematical/schematical/Parts/footprints.json` → empty.
 
-Acceptance: `ctest --test-dir /tmp/logic-p21` → T0 of T0; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (seconds).
-Commit: —
+Acceptance: `ctest --test-dir /tmp/logic-p21` → T0 of T0; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (seconds). Met at bbaf886 (detached checkout /tmp/p21-at): `100% tests passed, 0 tests failed out of 22` (T0 = 22); `git diff --stat 1b780ae bbaf886 -- backend` → empty.
+Commit: bbaf886
 
 ## Validation Plan
 
@@ -203,6 +203,14 @@ Landing tier at the end of E. For A: Phase 2's `ctest` and Phase 1's data checks
   7022ae9).
 
 ## Corrections
+
+- **T0, P0, F0** (2026-11-07, at 1b780ae): T0 = 22, not 21; P0 = 8344, not 8022; F0 = 239, not 237 — plan-19 (decoders) landed between the plan's writing and its execution. Every later "T0 + 1" means 23.
+- **Stock re-check size**: the census has 114 distinct DigiKey base names plus 119 candidates with no base name (`tail -n +2 candidates.tsv | cut -f4 | sort -u` → 114 non-empty; `awk -F'\t' '$4==""'` → 119), so the re-check is about 233 calls, not "about 40". At execution start DigiKey had 7 calls left for the day (prerequisite row output), so the re-check ran after the daily quota reset (Phase 1 first box).
+- **No TI datasheet for 28 candidates** (step 2 of `plan-21-data/README.md`): TI has no product page (`https://www.ti.com/product/<part>` → 404) and no `ti.com/lit` PDF for the '352, '353, '850, '851, LS354, LS355, LS604, 74ACT11151/11251, 74AC/ACT11157, ABT162460 and AHC2G157; DigiKey links only Rochester Electronics or DigiKey-hosted copies. They are `skip` "no TI datasheet", as plan-19's '131/'278. With the Obsolete/Discontinued '250, '857, '870, '16460 and ABTH162460 parts, **no addable part uses plan-21-C's models `universal` ('857) or `bus4` ('16460/'162460)**, nor `select`'s `selectLatch` ('850/'851); see plan-21-B and C Corrections.
+- **Devices added**: 20, not the 34 functions of § Measured populations: `select` 15 devices (74_151, 153, 157, 158, 251, 253, 257, 258, 2G157, 1T157, 1T158, 11257, 4512B, 40257B, 2257 — 327 parts), `stored` 4 (74_298, 399, 354, 356 — 12 parts), `regfile` 1 (74_670 — 7 parts): 346 `add` rows.
+- **CAHCT157QWBQBRQ1** is family `AHC`, not `AHCT` as the plan-19-A §3.3 automotive rule would give: it is listed only in the SN74AHC157-Q1 ordering table (marking AT157Q) with AHC levels (spec reader's finding, checked: `grep CAHCT157 /tmp/p21/txt/*.txt` → `sn74ahc157-q1.txt` only).
+- **SN74298N** is `skip` "not in the datasheet ordering table": its sheet sdls098 lists SN74LS298N only (the builder first said "no TI datasheet" because the scanned sheet has no `74298` text).
+- **Footprints**: neither `PDIP-24` nor `SM8-DCT` is needed (Phase 2); SM8 was already `SSOP-8`.
 
 ## Summary
 

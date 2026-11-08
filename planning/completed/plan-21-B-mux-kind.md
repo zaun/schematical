@@ -20,7 +20,7 @@ plan-21-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-21-A complete | `ls planning/completed/plan-21-A-*.md` → exists | NOT MET (2026-11-07) |
+| plan-21-A complete | `ls planning/completed/plan-21-A-*.md` → exists | MET: `planning/completed/plan-21-A-mux-data.md` (A at bbaf886, archived in B's commit) |
 
 ## 1. Goal
 
@@ -77,12 +77,12 @@ needs 2^n entries or fewer for n select pins`, missing `y`/`w`, bad
 
 ### Phase 1 — Kind and `select`
 
-- [ ] `PART_MUX`; `KINDS[]` entry; `mux.c`, `mux.h`; `CMakeLists.txt` source lines.
-- [ ] `mux_test.c` with §4; test list entry; `library_check` cases.
-- [ ] `docs/parts-format.md` § `mux` (intro, model `select`); `docs/backend.md` kind list.
+- [x] `PART_MUX` (appended after `PART_DECODER`); `KINDS[]` entry `&MUX_KIND`; `mux.c` (kind + `select` + the shared selector-unit helpers), `mux.h`; `CMakeLists.txt` source and test lines; `PART_MUX` in `tests/support/listing.c` (`mux`, `units=`), `listing_check.c` array size, `trace_check.c` `TRACE_LAST_KIND`. Build: `cmake --build /tmp/logic-p21 -j8` → no error or warning.
+- [x] `mux_test.c` with §4 (fixtures generated from the spec JSON: '151, '153, '157, '158, '251, '257, CD4512B, 2G157, and a select-latch shape `shape_sl` in place of the '850 — Corrections); test list entry; `library_check` cases. Check: `/tmp/logic-p21/mux_test` → cases 1–15 `PASS`, `mux_test: all passed`; `library_check` → 17 `select` lines `ok` (valid device + 16 errors, incl. `"data" must have 4 names (2 to the number of select pins)`, `a unit needs "y" or "w"`, `"disabled" must be "low" or "z"`, `"words" is not a key of model "select"`).
+- [x] `docs/parts-format.md` § `mux` (intro, selector units, model `select`); `docs/backend.md` source list (`mux.c + mux.h`, `mux_stored.c`) and test list (`mux_test`).
 
-Acceptance: `ctest --test-dir /tmp/logic-p21` → T0 + 1 of T0 + 1; golden diff empty (seconds).
-Commit: —
+Acceptance: `ctest --test-dir /tmp/logic-p21` → T0 + 1 of T0 + 1; golden diff empty (seconds). Met at 82d8f17 (detached checkout /tmp/p21-at): `100% tests passed, 0 tests failed out of 23` (T0 + 1); `mux_test: all passed`; `git diff --stat bbaf886 82d8f17 -- backend/tests/golden` → empty.
+Commit: 82d8f17
 
 ## Validation Plan
 
@@ -93,6 +93,13 @@ B's gate: Phase 1's `ctest` (about 13 s). Landing tier at the end of E.
 - One kind for all plan-21 models (plan-21-A §3.1).
 
 ## Corrections
+
+- **`data` must have exactly 2^n names** (strengthened from "2^n entries or fewer"): every `select` device has a full code space ('157 2/1, '153 4/2, '151 and CD4512B 8/3, 1T157 2/1), and a shorter list would leave codes that select nothing with no datasheet behavior to give them. Error: `"data" must have <2^n> names (2 to the number of select pins)`.
+- **`"disabled"` defaults to `"low"`** (optional key) and also governs `invert`: a deasserted strobe on an inverting part drives Y high ('158 function table: G high → Y H).
+- **The '850 case** is a fixture shape (`shape_sl`, case 14), not the '850: no '850/'851 part is addable (no TI datasheet; plan-21-A Corrections), so no catalog device uses `selectLatch` on `select`. The key stays (it costs one control, and `stored` uses the same latch rule for the '354/'356 LE̅); the shape tests hold, follow and the X-latch rule.
+- **`mux_drive_unit` takes a shared output enable** (added for C's `oes`; `select` passes 1).
+- **Order**: B's code and tests were written before A's stock re-check finished (the DigiKey quota, plan-21-A Corrections); B reads nothing A produces except the spec JSON its fixtures copy, which was complete. B's commit lands after A's.
+- **B and C land in one commit**: `mux.h`, `mux.c`'s model table and `DEVICE_KEYS`, `CMakeLists.txt`, `mux_test.c` and `library_check.c` carry both letters' work and were written together; splitting them would mean committing an intermediate `mux.c` that was never built or tested. Both letters' `Commit:` lines name that commit.
 
 ## Summary
 
