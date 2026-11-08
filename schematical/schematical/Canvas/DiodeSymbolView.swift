@@ -21,7 +21,7 @@ struct DiodeSymbolView: View {
     }
 
     /// The glow color of a color name; `.secondary` for an unknown one.
-    static func lightColor(named family: String) -> Color {
+    nonisolated static func lightColor(named family: String) -> Color {
         switch family {
         case "Red": return .red
         case "Green": return .green

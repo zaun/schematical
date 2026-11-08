@@ -289,21 +289,21 @@ Creates the gate and captures what "unchanged" means before any drawing code is 
 
 Acceptance: the four baseline PNGs exist, and the second run is `cmp`-identical to the first.
   Check: `for f in symbols lit be-6502 test.schematical; do cmp /tmp/p28-base/$f.png /tmp/p28-base2/$f.png && echo same $f; done` → four `same` lines (est. 10 min: one `xcodebuild` of the app plus one `swiftc` of the harness; nothing smaller exercises the real views).
-Commit: —
+Commit: 474a91a
 
 ### Phase 2 — Painter, Ink, palettes (no callers)
 
 Adds the interface with no caller, so it cannot change a pixel.
 
-- [ ] `Canvas/SchematicPainter.swift` (new): `Ink`, `PaintedText`, `SchematicPainter`,
+- [x] `Canvas/SchematicPainter.swift` (new): `Ink`, `PaintedText`, `SchematicPainter`,
       `ScreenPalette`, `ScreenPainter`, `ExportPalette` exactly as § 3.1–3.3. No
       `project.pbxproj` edit: `schematical/` and `schematicalTests/` are
-      `PBXFileSystemSynchronizedRootGroup`s (`rg -n 'path = (schematical|schematicalTests);' schematical/schematical.xcodeproj/project.pbxproj` → both under that section), so new files in them are built automatically.
-- [ ] `schematicalTests/SchematicPainterTests.swift` (new): `ExportPalette.alpha` for
+      `PBXFileSystemSynchronizedRootGroup`s (`rg -n 'path = (schematical|schematicalTests);' schematical/schematical.xcodeproj/project.pbxproj` → both under that section), so new files in them are built automatically. Also: `DiodeSymbolView.lightColor(named:)` became `nonisolated` (a pure lookup) so the nonisolated `ScreenPalette` can call it.
+- [x] `schematicalTests/SchematicPainterTests.swift` (new): `ExportPalette.alpha` for
       every role against the § 3.1 table (primary 1, secondary 0.6, unlit 0.15,
       switchOn 0.25, paper nil, display nil, color nil, faceEdge 1); `Ink.opacity`
       multiplies (`.primary.opacity(0.5).opacity(0.5).opacity == 0.25`); `ScreenPalette.screen`
-      returns nil only for `faceEdge`.
+      returns nil only for `faceEdge`. → 4 tests passed, `** TEST SUCCEEDED **` (run with `-derivedDataPath /tmp/p28-dd`).
 
 Acceptance: the app builds and the new tests pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/SchematicPainterTests CODE_SIGNING_ALLOWED=NO 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min).
