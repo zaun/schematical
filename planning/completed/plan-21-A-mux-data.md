@@ -176,16 +176,16 @@ directions and the turnaround.
 - [x] `parts.tsv`, `specs.md` (20 device sections, read by seven parallel readers and loaded through the real loader: `check_device.py` → `ok` for all 20), `README.md`. Check: `tail -n +2 parts.tsv | wc -l` → 634; rows without a decision (or a skip without a reason) → 0; `add` rows without a footprint → 0; `add` rows → **N21 = 346** (20 devices).
 - [x] `datasheets/skipped-parts.md` § TI multiplexers (288 parts in four reason rows: Obsolete 156, Discontinued at DigiKey 23, not in the ordering table 81, no TI datasheet 28); `obsolete-not-included.md` rows for `mux/sn54als857.pdf` (SN74ALS857: all Obsolete) and `mux/sdas137a.pdf` (SN74AS250A: all Obsolete) — neither PDF is kept in `datasheets/mux/`.
 
-Acceptance: the checks above (minutes).
-Commit: —
+Acceptance: the checks above (minutes). Met: every Phase 1 check output is on its task line.
+Commit: bbaf886
 
 ### Phase 2 — Family and footprints
 
 - [x] ~~`FCT`~~ — moot: already present (`grep -c '"FCT"' backend/src/library/kind_util.c` → 1, added by plan-19); `library_check` prints `ok   gate part with family FCT`.
 - [x] ~~Footprints `PDIP-24` and `SM8-DCT`; regenerate `footprints.txt`~~ — moot: SM8 (TI DCT, 8 pins) is the existing `SSOP-8` ("8-pin SSOP (DCT)", from the DCT0008A drawing), used by SN74LVC2G157DCTR; the only 24-pin DIP candidates (SN74AS250ANT, SN74ALS857NT, SN74ALS870NT) are all Obsolete, so no `add` row needs `PDIP-24` (every add row's footprint is an existing id: `add` rows without a footprint → 0). `git diff --stat backend/tests/golden/footprints.txt schematical/schematical/Parts/footprints.json` → empty.
 
-Acceptance: `ctest --test-dir /tmp/logic-p21` → T0 of T0; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (seconds).
-Commit: —
+Acceptance: `ctest --test-dir /tmp/logic-p21` → T0 of T0; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (seconds). Met at bbaf886 (detached checkout /tmp/p21-at): `100% tests passed, 0 tests failed out of 22` (T0 = 22); `git diff --stat 1b780ae bbaf886 -- backend` → empty.
+Commit: bbaf886
 
 ## Validation Plan
 

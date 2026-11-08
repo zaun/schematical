@@ -24,6 +24,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_CONNECTOR: return "connector";
         case PART_PIO: return "pio";
         case PART_DECODER: return "decoder";
+        case PART_MUX: return "mux";
     }
     return "?";
 }
@@ -54,6 +55,7 @@ static void print_details(FILE *out, const Part *part) {
         case PART_COUNTER:
         case PART_SHIFT:
         case PART_DECODER:
+        case PART_MUX:
             fprintf(out, "units=%u", part->logic->units);
             break;
         case PART_SRAM:

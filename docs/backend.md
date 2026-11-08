@@ -156,6 +156,9 @@ backend/
                            eeprom.c switch.c led.c display7.c oscillator.c
                            supply.c latch.c, decoder.c (decoders,
                            priority encoders, 7-segment decoders),
+                           mux.c + mux.h (multiplexers: the kind and
+                           model select), mux_stored.c (models stored,
+                           regfile, universal, bus4),
                            charlcd.c (character LCD modules: loader and
                            the HD44780 controller model), charlcd_font.c
                            + charlcd_font.h (character ROM A00),
@@ -269,6 +272,10 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   real ones), plus loader errors and the open-drain answer. Its bench,
   `tests/support/bench.{h,c}`, drives any part's input pins by name and is
   shared by the sequential kinds' tests.
+- `mux_test` — the `mux` kind's models (plan-21-B, C): the function-table
+  rows of each device shape (inline fixture devices copied from the real
+  ones in `planning/plan-21-data/specs.md`), the X rules, storage and the
+  bus turnaround. Its loader errors are in `library_check`.
 - `decoder_test` — the `decoder` kind's three models (plan-19-B): one case
   per function-table row of each device shape (inline fixture devices copied
   from the real ones, plus '131 and CD4056B shapes), X rules and the

@@ -19,7 +19,7 @@ plan-21-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-21-B complete | `ls planning/completed/plan-21-B-*.md` → exists | NOT MET (2026-11-07) |
+| plan-21-B complete | `ls planning/completed/plan-21-B-*.md` → exists | B's work is in the same commit as C's (plan-21-B Corrections: `mux.h`, the model table and the tests are shared); B's `- [x]` boxes and acceptance were met before C's code was added to that tree. B is archived with C in D's commit. |
 
 ## 1. Goal
 
@@ -95,14 +95,16 @@ read-while-not-driving handling (no self-read of a driven value).
 
 ### Phase 1 — `stored` and `regfile`
 
-- [ ] `mux_stored.c`, CMake line, §4 cases for '298, '354, '356, LS604, '670, '870; docs § `mux` model tables.
+- [x] `mux_stored.c` (models `stored`, `regfile`), CMake line, §4 cases for '298 (16–18), '399 (19, added), '354 (20–22), '356 (23), '670 (24–26), two-file register file shape `shape_rf2` (27, in place of the '870); docs § `mux` model tables (`stored`, `regfile`). Check: `/tmp/logic-p21/mux_test` → 27 `PASS`, `mux_test: all passed`.
+- [x] ~~LS604 case~~ — moot: SN74LS604N, the only LS604 candidate, has no TI datasheet (no TI product page, no ti.com/lit PDF; DigiKey links a Rochester copy) → `skip` in `parts.tsv`, so there is no function table to test against and no part to carry it.
+- [x] `library_check` failure cases for every new `stored`/`regfile` validation error (16 lines: valid stored, valid two-file regfile, no storage key, `dataLatch` + `dataClock`, bad edge, 4 `oes`, oe without `active`, unknown clock pin, 3 words, 9 bits, no files, 3 files, `q` count, `wa` count, missing `we`, unknown file key) → all `ok`.
 
 Acceptance: `ctest --test-dir /tmp/logic-p21 -R mux_test` passes (seconds).
 Commit: —
 
 ### Phase 2 — `universal` and `bus4`
 
-- [ ] '857 and '16460 models, §4 cases, docs, `library_check` failure cases for every new validation error.
+- [x] ~~'857 (`universal`) and '16460 (`bus4`) models, §4 cases, docs, `library_check` cases~~ — moot: no candidate of either model is addable (`parts.tsv`: 74_857 3 × `status Obsolete`; 74_16460 `status Obsolete` + `status Discontinued at DigiKey`; 74_162460 2 × `status Obsolete` + SN74ABT162460DL `no TI datasheet`; 74_870 3 × `status Obsolete`). A model no part uses would be untested dead code in the engine; plan-21-A's outcome ("every new device runs its datasheet behavior") has no device for them. Recorded in Corrections and `specs.md`'s header.
 
 Acceptance: `ctest --test-dir /tmp/logic-p21` → T0 + 1 of T0 + 1; golden diff empty (seconds).
 Commit: —
@@ -116,6 +118,14 @@ C's gate: Phase 2's `ctest`. Landing tier at the end of E.
 - The register files are `mux` parts (plan-21-A §3.1 rejected alternatives).
 
 ## Corrections
+
+- **Models `universal` and `bus4` are not built**: every '857, '870, '16460 and '162460 candidate is Obsolete, Discontinued at DigiKey or has no TI datasheet (Phase 2's moot line has the `parts.tsv` counts). Measured by `parts.tsv`, not assumed. If a later census finds an addable part, the model and its tests come with it.
+- **51 storage/register/bus candidates → 19 added**: `stored` 12 parts (74_298 3, 74_399 5, 74_354 3, 74_356 1), `regfile` 7 (74_670). LS354, LS355, LS604 have no TI datasheet; the '870 is Obsolete.
+- **`regfile` has no `"output": "3-state"` key**: the read enable already gives Z; the model takes the common `"output"` (`push-pull` default / `open-drain`) instead. `words` 2–16 and `bits` 1–8, so the '870 shape (two files) is tested with `shape_rf2`.
+- **'354 E̅ polarity**: the CD74HC354 description says E "passes data when E is high", but pin 9 is E̅ and the function table, block and logic diagrams (cd74hc354 p.2–4) show the data latches transparent while E̅ is low; the table wins (`dataLatch` `{"pin": "E", "active": "high"}`, holding while high).
+- **'399 added to §4** (case 19): the LS399 and CY74FCT399T load on the rising edge, the '298 on the falling edge; both edges are tested.
+- **X-clock rule**: a clock that leaves its idle level for X or Z (`0 → X` for a rising clock, `1 → X` for a falling one) makes X the stored bits whose new value differs (case 18), the sequential kinds' rule.
+- **'670 write-to-read latency** (about 25 ns "latch time" on the sheets) is not modelled: a written word reads back after the main path delay only (specs.md § 74_670).
 
 ## Summary
 

@@ -2170,6 +2170,86 @@ Priority: blank (`blank` asserted or RBO low) > lamp test (every segment
 lit) > ripple blanking (RBI low and code 0) > the glyph of the code. The
 SN7447A's BI wins over LT (sn7447a p.3, notes 2 and 4).
 
+### `mux`
+
+Multiplexers / data selectors (plan-21): the plain selectors (74x151,
+'153, '157, '158, '251, '253, '257, '258, the 2G157 and 1T157/1T158 single
+gates, 74AC11257, CD4512B, CD40257B, CY74FCT2257T), the selectors with
+storage ('298, '399, '354, '356) and the '670 register file. It shares
+the sequential kinds' device format (above): `"model"` is one of `select`,
+`stored`, `regfile`; `timing` entries are
+`{rise, fall}` for the model's main path; part keys `family`, `vcc`,
+`inputMax`. Every model re-evaluates all of its outputs on any pin change.
+Signal rules as the sequential kinds: stored bits hold 0 at power-on; Z on
+an input reads X; an output enable deasserted → Z, X → X.
+
+**Selector units** (`select`, `stored`): `"units"` is 1–6 objects:
+
+| Unit key | Value |
+|---|---|
+| `data` | 2–16 pin names; `data[i]` is chosen by select code i. Exactly 2^(select pins) names. |
+| `select` | 1–4 pin names, LSB first. Usually shared by every unit. |
+| `y` | optional pin name: the true output |
+| `w` | optional pin name: the complement output (W = NOT Y). At least one of `y`/`w`. |
+| `strobe` | optional control: deasserted forces the unit's outputs to the `disabled` state |
+| `oe` | optional control: output enable, separate from the strobe ('251 G, CD4512B DISABLE) |
+
+with device keys `"disabled"` (`"low"`, the default: a deasserted strobe
+gives Y low and W high, '151/'153/'157; or `"z"`: both Z, '253/'257),
+`"invert"` (bool, default false: Y shows NOT the chosen data, '158/'258/'352)
+and `"output"` (`"push-pull"`, the default, or `"open-drain"`).
+
+Per unit: OE deasserted → Y and W Z; else strobe deasserted → the
+`disabled` state (with `invert`, Y high); else Y = data[code] (inverted per
+`invert`), W = NOT Y. An X or Z select bit gives X unless every data input
+it chooses between has the same known value; an X strobe or OE gives X.
+
+#### Model `select`
+
+Main path data → Y; `units` = the number of unit objects. Keys: `units`,
+`disabled`, `invert`, `output` (above), plus:
+
+| Key | Value |
+|---|---|
+| `"selectLatch"` | optional control: a transparent latch on every unit's select inputs, holding while asserted |
+
+#### Model `stored`
+
+A selector with storage in front of or behind it. Main path: data → Y
+(data latches), clock → Q (registers); `units` = the number of unit
+objects. Keys of `select` (`units`, `disabled`, `invert`, `output`,
+`selectLatch`) plus at least one storage key:
+
+| Key | Value |
+|---|---|
+| `"dataLatch"` | optional control: a transparent latch on every data input, holding while asserted (CD74HC354 E̅: `{"pin": "E", "active": "high"}`) |
+| `"dataClock"` | optional clock `{"pin", "edge": "rising"|"falling"}`: an edge-triggered register on every data input (CD74HCT356 CP). Not with `dataLatch`. |
+| `"outputClock"` | optional clock: an edge-triggered register on each unit's selected value; Y shows the register ('298 CLK falling, '399 rising) |
+| `"oes"` | optional, 1–3 controls shared by every unit: the outputs are driven only while all are asserted ('354 OE1̅, OE2̅, OE3) |
+
+Data and select latches and the registers are 0 at power-on. A clock that
+moves from its idle level to X or Z makes X the stored bits it could
+change; an X latch control does the same while the input differs from
+the stored bit.
+
+#### Model `regfile`
+
+Register files with independent write and read ports ('670). Main path:
+read address → Q; `units` = the number of files.
+
+| Key | Value |
+|---|---|
+| `"words"` | 2, 4, 8 or 16 |
+| `"bits"` | 1–8 |
+| `"files"` | 1–2 objects: `d` (`bits` pin names), `wa` (log2 `words` pin names, LSB first), `we` (control: while asserted the addressed word follows D, transparently), `ra` (read address, as `wa`), `re` (control: read enable; deasserted → Q Z), `q` (`bits` pin names) |
+| `"output"` | `"push-pull"` (default) / `"open-drain"` |
+
+Q = the word at the read address, read combinationally from the array
+(a write to the word being read shows on Q). Every word is 0 at power-on.
+An X write enable or write address bit makes X the bits it could change;
+an X read address bit gives X unless every word it chooses between has
+the same bit.
+
 ### `counter`
 
 Counters and dividers. A sequential kind (above); `"model"` is one of

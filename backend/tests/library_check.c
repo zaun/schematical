@@ -510,6 +510,160 @@ static void check_decoder_cases(void) {
                 "\"rbo\" pin \"Y13\" must have role inout");
 }
 
+/* plan-21-B: a mux device on the decoder's 26-pin fixture pinout. */
+#define MUX_SEL(UNIT, REST) "'model':'select','units':[" UNIT "]" REST
+#define MUX_U1 "{'data':['A','B'],'select':['G'],'y':'Y0'"
+#define MUX_STO(REST) "'model':'stored','units':[" MUX_U1 ",'w':'Y1'}]" REST
+#define MUX_RF_FILE(D, Q) \
+    "{'d':[" D "],'wa':['A','B'],'we':{'pin':'CLK','active':'low'},'ra':['E','G']," \
+    "'re':{'pin':'LE','active':'low'},'q':[" Q "]}"
+#define MUX_RF(WORDS, BITS, FILES) \
+    "'model':'regfile','words':" WORDS ",'bits':" BITS ",'files':[" FILES "]"
+
+static void check_mux_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library,
+               HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 ",'w':'Y1','strobe':{'pin':'LE','active':'low'}},"
+                                      "{'data':['A','B','C','D'],'select':['E','G'],'w':'Y2',"
+                                      "'oe':{'pin':'CLK','active':'low'}}",
+                                      ",'disabled':'z','invert':true")) TAIL,
+               &error) == 0);
+    part = part_library_find(library, "D1");
+    CHECK(part != NULL && part->kind == PART_MUX && part->logic != NULL &&
+          strcmp(part->logic->family, "HC") == 0 && part->logic->units == 2);
+    printf("ok   valid mux (select, 2 units)%s%s\n", error != NULL ? ": " : "",
+           error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("mux unknown model",
+                HEAD("mux") DEC_DEVICE("'model':'crossbar'") TAIL,
+                "devices[0] (d): unknown model \"crossbar\"");
+    expect_fail("mux key of another kind",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 "}", ",'outputsActive':'low'")) TAIL,
+                "devices[0]: unknown key \"outputsActive\"");
+    expect_fail("mux no units",
+                HEAD("mux") DEC_DEVICE(MUX_SEL("", "")) TAIL,
+                "\"units\" must be an array of 1 to 6 units");
+    expect_fail("mux 7 units",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 "}," MUX_U1 "}," MUX_U1 "}," MUX_U1 "},"
+                                               MUX_U1 "}," MUX_U1 "}," MUX_U1 "}", "")) TAIL,
+                "\"units\" must be an array of 1 to 6 units");
+    expect_fail("mux unknown unit key",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 ",'q':'Y1'}", "")) TAIL,
+                "units[0]: unknown key \"q\"");
+    expect_fail("mux 5 select pins",
+                HEAD("mux") DEC_DEVICE(MUX_SEL("{'data':['A','B'],'select':['A','B','C','D','E'],'y':'Y0'}", "")) TAIL,
+                "units[0]: \"select\" must have 1 to 4 names");
+    expect_fail("mux 1 data pin",
+                HEAD("mux") DEC_DEVICE(MUX_SEL("{'data':['A'],'select':['G'],'y':'Y0'}", "")) TAIL,
+                "units[0]: \"data\" must have 2 to 16 names");
+    expect_fail("mux data not 2^select",
+                HEAD("mux") DEC_DEVICE(MUX_SEL("{'data':['A','B','C'],'select':['E','G'],'y':'Y0'}", "")) TAIL,
+                "units[0]: \"data\" must have 4 names (2 to the number of select pins)");
+    expect_fail("mux no y or w",
+                HEAD("mux") DEC_DEVICE(MUX_SEL("{'data':['A','B'],'select':['G']}", "")) TAIL,
+                "units[0]: a unit needs \"y\" or \"w\"");
+    expect_fail("mux strobe without active",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 ",'strobe':{'pin':'LE'}}", "")) TAIL,
+                "units[0]: strobe: missing \"active\"");
+    expect_fail("mux disabled",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 "}", ",'disabled':'high'")) TAIL,
+                "\"disabled\" must be \"low\" or \"z\", not \"high\"");
+    expect_fail("mux invert not bool",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 "}", ",'invert':'yes'")) TAIL,
+                "\"invert\"");
+    expect_fail("mux output style",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 "}", ",'output':'open-collector'")) TAIL,
+                "\"output\" must be \"push-pull\" or \"open-drain\"");
+    expect_fail("mux unknown data pin",
+                HEAD("mux") DEC_DEVICE(MUX_SEL("{'data':['A','Q'],'select':['G'],'y':'Y0'}", "")) TAIL,
+                "pinouts.p26: units[0]: no pin named \"Q\"");
+    expect_fail("mux selectLatch without active",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 "}", ",'selectLatch':{'pin':'LE'}")) TAIL,
+                "selectLatch: missing \"active\"");
+    expect_fail("mux key of another model",
+                HEAD("mux") DEC_DEVICE(MUX_SEL(MUX_U1 "}", ",'words':4")) TAIL,
+                "\"words\" is not a key of model \"select\"");
+
+    /* plan-21-C: stored and regfile. */
+    CHECK(load(library = part_library_create(),
+               HEAD("mux") DEC_DEVICE(MUX_STO(",'dataClock':{'pin':'CLK','edge':'rising'},"
+                                      "'selectLatch':{'pin':'LE','active':'high'},"
+                                      "'oes':[{'pin':'D','active':'low'},{'pin':'E','active':'high'}]")) TAIL,
+               &error) == 0);
+    part = part_library_find(library, "D1");
+    CHECK(part != NULL && part->kind == PART_MUX && part->logic->units == 1);
+    printf("ok   valid mux (stored)%s%s\n", error != NULL ? ": " : "", error != NULL ? error : "");
+    free(error);
+    error = NULL;
+    part_library_destroy(library);
+    CHECK(load(library = part_library_create(),
+               HEAD("mux") DEC_DEVICE(MUX_RF("4", "2", MUX_RF_FILE("'C','D'", "'Y0','Y1'") ","
+                                             MUX_RF_FILE("'C','D'", "'Y2','Y3'"))) TAIL,
+               &error) == 0);
+    part = part_library_find(library, "D1");
+    CHECK(part != NULL && part->kind == PART_MUX && part->logic->units == 2);
+    printf("ok   valid mux (regfile, 2 files)%s%s\n", error != NULL ? ": " : "",
+           error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("mux stored without storage",
+                HEAD("mux") DEC_DEVICE(MUX_STO("")) TAIL,
+                "model \"stored\" needs \"selectLatch\", \"dataLatch\", \"dataClock\" or \"outputClock\"");
+    expect_fail("mux stored dataLatch and dataClock",
+                HEAD("mux") DEC_DEVICE(MUX_STO(",'dataLatch':{'pin':'LE','active':'high'},"
+                                               "'dataClock':{'pin':'CLK','edge':'rising'}")) TAIL,
+                "a device cannot have both \"dataLatch\" and \"dataClock\"");
+    expect_fail("mux stored bad edge",
+                HEAD("mux") DEC_DEVICE(MUX_STO(",'outputClock':{'pin':'CLK','edge':'up'}")) TAIL,
+                "outputClock");
+    expect_fail("mux stored 4 oes",
+                HEAD("mux") DEC_DEVICE(MUX_STO(",'outputClock':{'pin':'CLK','edge':'rising'},"
+                    "'oes':[{'pin':'C','active':'low'},{'pin':'D','active':'low'},"
+                    "{'pin':'E','active':'low'},{'pin':'LE','active':'low'}]")) TAIL,
+                "\"oes\" must be an array of 1 to 3 controls");
+    expect_fail("mux stored oe without active",
+                HEAD("mux") DEC_DEVICE(MUX_STO(",'outputClock':{'pin':'CLK','edge':'rising'},"
+                    "'oes':[{'pin':'C'}]")) TAIL,
+                "oes[0]: missing \"active\"");
+    expect_fail("mux stored unknown clock pin",
+                HEAD("mux") DEC_DEVICE(MUX_STO(",'dataClock':{'pin':'Q','edge':'rising'}")) TAIL,
+                "no pin named \"Q\"");
+    expect_fail("mux regfile 3 words",
+                HEAD("mux") DEC_DEVICE(MUX_RF("3", "2", MUX_RF_FILE("'C','D'", "'Y0','Y1'"))) TAIL,
+                "\"words\" must be 2, 4, 8 or 16 and \"bits\" 1 to 8");
+    expect_fail("mux regfile 9 bits",
+                HEAD("mux") DEC_DEVICE(MUX_RF("4", "9", MUX_RF_FILE("'C','D'", "'Y0','Y1'"))) TAIL,
+                "\"bits\"");
+    expect_fail("mux regfile no files",
+                HEAD("mux") DEC_DEVICE(MUX_RF("4", "2", "")) TAIL,
+                "\"files\" must be an array of 1 to 2 files");
+    expect_fail("mux regfile 3 files",
+                HEAD("mux") DEC_DEVICE(MUX_RF("4", "2", MUX_RF_FILE("'C','D'", "'Y0','Y1'") ","
+                    MUX_RF_FILE("'C','D'", "'Y2','Y3'") "," MUX_RF_FILE("'C','D'", "'Y4','Y5'"))) TAIL,
+                "\"files\" must be an array of 1 to 2 files");
+    expect_fail("mux regfile q count",
+                HEAD("mux") DEC_DEVICE(MUX_RF("4", "2", MUX_RF_FILE("'C','D'", "'Y0'"))) TAIL,
+                "files[0]: \"q\" must have 2 names");
+    expect_fail("mux regfile address count",
+                HEAD("mux") DEC_DEVICE(MUX_RF("8", "2", MUX_RF_FILE("'C','D'", "'Y0','Y1'"))) TAIL,
+                "files[0]: \"wa\" must have 3 names");
+    expect_fail("mux regfile missing we",
+                HEAD("mux") DEC_DEVICE(MUX_RF("4", "2", "{'d':['C','D'],'wa':['A','B'],"
+                    "'ra':['E','G'],'re':{'pin':'LE','active':'low'},'q':['Y0','Y1']}")) TAIL,
+                "files[0]: missing \"we\"");
+    expect_fail("mux regfile unknown file key",
+                HEAD("mux") DEC_DEVICE(MUX_RF("4", "2", "{'d':['C','D'],'wa':['A','B'],"
+                    "'we':{'pin':'CLK','active':'low'},'ra':['E','G'],'re':{'pin':'LE','active':'low'},"
+                    "'q':['Y0','Y1'],'oe':'Y2'}")) TAIL,
+                "files[0]: unknown key \"oe\"");
+}
+
 static void check_logic_family(void) {
     KindContext ctx;
 
@@ -1958,6 +2112,7 @@ int main(void) {
     check_duplicate_across_calls();
     check_logic_family();
     check_decoder_cases();
+    check_mux_cases();
     check_supply_cases();
     check_voltage_cases();
     if (failures > 0) {
