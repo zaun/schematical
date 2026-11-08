@@ -23,8 +23,8 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-28-C complete | `ls planning/completed/plan-28-C-* \| wc -l` → `1` | NOT MET (2026-11-07: C not started) |
-| `SchematicExport.svg` exists | `rg -c 'static func svg' schematical/schematical/Document/SchematicExport.swift` → `1` | NOT MET (2026-11-07: file absent) |
+| plan-28-C complete | `ls planning/completed/plan-28-C-* \| wc -l` → `1` | MET (2026-11-07 at ea29196: 1) |
+| `SchematicExport.svg` exists | `rg -c 'static func svg' schematical/schematical/Document/SchematicExport.swift` → `1` | MET (2026-11-07 at ea29196: 1) |
 
 Everything below is written against the world where these hold.
 
@@ -159,9 +159,9 @@ empty schematic (needs the Commands body to observe the document).
 
 ### Phase 1 — Raster writers
 
-- [ ] Re-run the Prerequisites commands; record outputs in the table.
-- [ ] `Document/SchematicExport.swift`: `maxPixels`, `pointScale`, `pixelScale(for:)`, `png(_:)`, `jpg(_:)` per § 3.1.
-- [ ] `schematicalTests/SchematicRasterTests.swift` (new), using `TestSupport`:
+- [x] Re-run the Prerequisites commands; record outputs in the table. (1; 1. Populations: `.commands` entries → 2; test files → 21, not 17: A–C added `SchematicPainterTests`, `SchematicSceneTests`, `SVGPainterTests`, `SchematicSVGTests`)
+- [x] `Document/SchematicExport.swift`: `maxPixels`, `pointScale`, `pixelScale(for:)`, `png(_:)`, `jpg(_:)` per § 3.1.
+- [x] `schematicalTests/SchematicRasterTests.swift` (new), using `TestSupport`:
       - `pixelScale`: `(100, 100)` → 4; `(2048, 500)` → 4; `(3000, 500)` → `8192 / 3000`; `(500, 4096)` → 2.
       - A scene of `SN74HC00N` with a wire: the PNG decodes (`NSBitmapImageRep(data:)`) to
         `pixelsWide == Int(ceil(W) * 4)` and `pixelsHigh == Int(ceil(H) * 4)` for `W`, `H` from `SchematicExport.bounds`;
@@ -169,6 +169,7 @@ empty schematic (needs the Commands body to observe the document).
       - The JPG of the same scene: same dimensions; `hasAlpha` false; the corner pixel is white (each channel ≥ 0.98); some pixel is dark (each channel < 0.3).
       - Empty document → `png` and `jpg` are `nil`.
       - A scene wider than 2048 pt (two `SN74HC00N` placed 2500 apart) → `pixelsWide` is 8191 or 8192 and `pixelsWide / pixelsHigh` equals `W / H` to within 0.1%.
+      → 5 tests passed, `** TEST SUCCEEDED **`. The scene's wire joins two pins of the one chip (1Y → 2A).
 
 Acceptance: the raster tests pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/SchematicRasterTests CODE_SIGNING_ALLOWED=NO 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 6 min).
