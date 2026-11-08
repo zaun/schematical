@@ -14,7 +14,7 @@ nonisolated struct ChipPartDragItem: Codable, Hashable, Sendable, Transferable {
 /// Right-hand drawer. Parts are grouped by their drawer path (from the part
 /// files), then by readable function: Memory → SRAM → 32 KB. Switches, LEDs
 /// and 7-segment displays skip the function level. The top bar filters by
-/// category and package. Each category header carries the menus for the kinds
+/// category, package and supply voltage. Each category header carries the menus for the kinds
 /// of part in it: family and gate count for gates and flip-flops, a count of
 /// positions for switches, a color for LEDs and displays; a group of
 /// 7-segment displays has digit count and size menus.
@@ -51,12 +51,9 @@ struct ChipDrawerView: View, Equatable {
         let groups = catalog.groups(matching: activeFilter)
 
         VStack(spacing: 0) {
-            HStack(spacing: 8) {
-                searchField
-                voltageMenu
-            }
-            .padding(.horizontal, 12)
-            .padding(.top, 8)
+            searchField
+                .padding(.horizontal, 12)
+                .padding(.top, 8)
             filterBar
 
             List {
@@ -142,30 +139,6 @@ struct ChipDrawerView: View, Equatable {
         .background(.quaternary.opacity(0.6), in: RoundedRectangle(cornerRadius: 6))
     }
 
-    /// Supply voltage next to the search field: lists only parts that run at
-    /// that rail (see `DrawerFilter.voltageMV`).
-    private var voltageMenu: some View {
-        let choices = catalog.voltageChoices
-        let selected = choices.first { $0.mv == filter.voltageMV }?.name
-        return Menu {
-            Button("All voltages") {
-                filter.voltageMV = nil
-            }
-            Divider()
-            ForEach(choices, id: \.name) { choice in
-                Button(choice.name) {
-                    filter.voltageMV = choice.mv
-                }
-            }
-        } label: {
-            Text(selected ?? "All")
-                .font(.caption)
-        }
-        .menuStyle(.borderlessButton)
-        .fixedSize()
-        .help("Show only parts that run at this supply voltage")
-    }
-
     private var filterBar: some View {
         HStack(spacing: 8) {
             Picker("Category", selection: $filter.category) {
@@ -183,6 +156,17 @@ struct ChipDrawerView: View, Equatable {
                 }
             }
             .labelsHidden()
+
+            // Supply voltage: lists only parts that run at that rail
+            // (see `DrawerFilter.voltageMV`).
+            Picker("Voltage", selection: $filter.voltageMV) {
+                Text("All voltages").tag(UInt32?.none)
+                ForEach(catalog.voltageChoices, id: \.name) { choice in
+                    Text(choice.name).tag(UInt32?.some(choice.mv))
+                }
+            }
+            .labelsHidden()
+            .help("Show only parts that run at this supply voltage")
         }
         .pickerStyle(.menu)
         .padding(.horizontal, 12)
