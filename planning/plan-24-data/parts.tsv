@@ -1797,3 +1797,992 @@ ADC	TLV2553IPWR	TLV2553	TSSOP	PW	20	TSSOP-20		Active	tlv2553.pdf	add
 ADC	TLV2553IPWRQ1	TLV2553	TSSOP	PW	20	TSSOP-20	automotive	Active	tlv2553-q1.pdf	add	
 ADC	TLV2556IPWR	TLV2556	TSSOP	PW	20	TSSOP-20		Active	tlv2556.pdf	add	
 ADC	TLV2556MPWREP	TLV2556	TSSOP	PW	20	TSSOP-20	enhanced	Active	tlv2556-ep.pdf	add	
+DAC	5962-87802012C	TLC7226	LCCC	FK	20	LCCC-20	military,ceramic	Active	tlc7226.pdf	add	
+DAC	5962-9955701QPA	TLV5618	DIP	JG	8	CDIP-8-JG	military,ceramic	Active	tlv5618a.pdf	add	
+DAC	5962-9955702Q2A	TLC5618	LCCC	FK	20	LCCC-20	military,ceramic	Active	slas156g.pdf	add	
+DAC	5962-9955702QPA	TLC5618	DIP	JG	8	CDIP-8-JG	military,ceramic	Active	slas156g.pdf	add	
+DAC	AD7524AN							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	AD7528BN							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	AD7528MJB							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	AFE7070IRGZT	AFE7070	VQFN	RGZ	48	VQFN-48-RGZ		Active	afe7070.pdf	add	
+DAC	AFE7071IRGZT	AFE7071	VQFN	RGZ	48	VQFN-48-RGZ		Active	afe7071.pdf	add	
+DAC	DAC0800LCM							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC0800LCM/NOPB	DAC0800	SOIC	D	16	SOIC-16		Active	dac0800.pdf	add	
+DAC	DAC0800LCMX/NOPB	DAC0800	SOIC	D	16	SOIC-16		Active	dac0800.pdf	add	
+DAC	DAC0800LCN/NOPB	DAC0800	DIP	NFG	16	PDIP-16-NFG		Active	dac0800.pdf	add	
+DAC	DAC0802LCMX							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC0802LCMX/NOPB	DAC0802	SOIC	D	16	SOIC-16		Active	dac0800.pdf	add	
+DAC	DAC0808LCM/NOPB	DAC0808	SOIC	D	16	SOIC-16		Active	dac0808.pdf	add	
+DAC	DAC0808LCMX/NOPB	DAC0808	SOIC	D	16	SOIC-16		Active	dac0808.pdf	add	
+DAC	DAC0808LCN/NOPB	DAC0808	DIP	NFG	16	PDIP-16-NFG		Active	dac0808.pdf	add	
+DAC	DAC081C081CIMK/NOPB	DAC081C081	SOT-23-THIN	DDC	6	SOT23-THIN-6		Active	dac081c081.pdf	add	
+DAC	DAC081C081CISD/NOPB	DAC081C081	WSON	NGF	6	WSON-6-NGF		Active	dac081c081.pdf	add	
+DAC	DAC081C085CIMM/NOPB	DAC081C085	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac081c081.pdf	add	
+DAC	DAC081C085CIMMX/NOPB	DAC081C085	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac081c081.pdf	add	
+DAC	DAC081S101CIMK/NOPB	DAC081S101	SOT-23-THIN	DDC	6	SOT23-THIN-6		Active	dac081s101.pdf	add	
+DAC	DAC081S101CIMKX/NOPB	DAC081S101	SOT-23-THIN	DDC	6	SOT23-THIN-6		Active	dac081s101.pdf	add	
+DAC	DAC081S101CIMM/NOPB	DAC081S101	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac081s101.pdf	add	
+DAC	DAC082S085CIMMX/NOPB	DAC082S085	VSSOP	DGS	10	VSSOP-10		Active	dac082s085.pdf	add	
+DAC	DAC082S085CISD/NOPB	DAC082S085	WSON	DSC	10	WSON-10-DSC		Active	dac082s085.pdf	add	
+DAC	DAC084S085CIMM							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC084S085CIMM/NOPB	DAC084S085	VSSOP	DGS	10	VSSOP-10		Active	dac084s085.pdf	add	
+DAC	DAC084S085CIMMX/NOPB	DAC084S085	VSSOP	DGS	10	VSSOP-10		Active	dac084s085.pdf	add	
+DAC	DAC084S085CISD/NOPB	DAC084S085	WSON	DSC	10	WSON-10-DSC		Active	dac084s085.pdf	add	
+DAC	DAC088S085CIMT/NOPB	DAC088S085	TSSOP	PW	16	TSSOP-16		Active	dac088s085.pdf	add	
+DAC	DAC088S085CIMTX/NOPB	DAC088S085	TSSOP	PW	16	TSSOP-16		Active	dac088s085.pdf	add	
+DAC	DAC088S085CISQ/NOPB	DAC088S085	WQFN	RGH	16	WQFN-16-RGH		Active	dac088s085.pdf	add	
+DAC	DAC101C081CIMK/NOPB	DAC101C081	SOT-23-THIN	DDC	6	SOT23-THIN-6		Active	dac101c081.pdf	add	
+DAC	DAC101C081QISD/NOPB	DAC101C081	WSON	NGF	6	WSON-6-NGF		Active	dac101c081.pdf	add	
+DAC	DAC101C081QISDX/NOPB	DAC101C081	WSON	NGF	6	WSON-6-NGF		Active	dac101c081.pdf	add	
+DAC	DAC101S101CIMK/NOPB	DAC101S101	SOT-23-THIN	DDC	6	SOT23-THIN-6		Active	dac101s101.pdf	add	
+DAC	DAC101S101CIMM/NOPB	DAC101S101	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac101s101.pdf	add	
+DAC	DAC101S101QCMK/NOPB	DAC101S101	SOT-23-THIN	DDC	6	SOT23-THIN-6		Active	dac101s101.pdf	add	
+DAC	DAC102S085CIMM/NOPB	DAC102S085	VSSOP	DGS	10	VSSOP-10		Active	dac102s085.pdf	add	
+DAC	DAC104S085CIMM/NOPB	DAC104S085	VSSOP	DGS	10	VSSOP-10		Active	dac104s085.pdf	add	
+DAC	DAC104S085CISD/NOPB	DAC104S085	WSON	DSC	10	WSON-10-DSC		Active	dac104s085.pdf	add	
+DAC	DAC104S085QIMM/NOPB	DAC104S085	VSSOP	DGS	10	VSSOP-10		Active	dac104s085.pdf	add	
+DAC	DAC104S085QIMMX/NOPB	DAC104S085	VSSOP	DGS	10	VSSOP-10		Active	dac104s085.pdf	add	
+DAC	DAC108S085CIMT							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC108S085CIMT/NOPB	DAC108S085	TSSOP	PW	16	TSSOP-16		Active	dac108s085.pdf	add	
+DAC	DAC108S085CIMTX/NOPB	DAC108S085	TSSOP	PW	16	TSSOP-16		Active	dac108s085.pdf	add	
+DAC	DAC108S085CISQ/NOPB	DAC108S085	WQFN	RGH	16	WQFN-16-RGH		Active	dac108s085.pdf	add	
+DAC	DAC11001APFBT	DAC11001	TQFP	PFB	48	TQFP-48-7X7		Active	dac11001a.pdf	add	
+DAC	DAC1214U							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC121C081CISD/NOPB	DAC121C081	WSON	NGF	6	WSON-6-NGF		Active	dac121c085.pdf	add	
+DAC	DAC121C085CIMM/NOPB	DAC121C085	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac121c085.pdf	add	
+DAC	DAC121C085CIMMX/NOPB	DAC121C085	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac121c085.pdf	add	
+DAC	DAC121S101CIMK							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC121S101CIMK/NOPB	DAC121S101	SOT-23-THIN	DDC	6	SOT23-THIN-6		Active	dac121s101.pdf	add	
+DAC	DAC121S101CIMKX/NOPB	DAC121S101	SOT-23-THIN	DDC	6	SOT23-THIN-6		Active	dac121s101.pdf	add	
+DAC	DAC121S101CIMM/NOPB	DAC121S101	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac121s101.pdf	add	
+DAC	DAC121S101QCMK/NOPB	DAC121S101	SOT-23-THIN	DDC	6	SOT23-THIN-6		Active	dac121s101.pdf	add	
+DAC	DAC1220E	DAC1220	SSOP	DBQ	16	QSOP-16		Active	dac1220.pdf	add	
+DAC	DAC1220E/2K5	DAC1220	SSOP	DBQ	16	QSOP-16		Active	dac1220.pdf	add	
+DAC	DAC1221E	DAC1221	SSOP	DBQ	16	QSOP-16		Active	dac1221.pdf	add	
+DAC	DAC1221E/2K5							Active		skip	not in the ordering table of dac1221.pdf (its package is not documented)
+DAC	DAC122S085CIMM							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC122S085CIMM/NOPB	DAC122S085	VSSOP	DGS	10	VSSOP-10		Active	dac122s085.pdf	add	
+DAC	DAC122S085CISD/NOPB	DAC122S085	WSON	DSC	10	WSON-10-DSC		Active	dac122s085.pdf	add	
+DAC	DAC124S085CIMM/NOPB	DAC124S085	VSSOP	DGS	10	VSSOP-10		Active	dac124s085.pdf	add	
+DAC	DAC124S085CISD/NOPB	DAC124S085	WSON	DSC	10	WSON-10-DSC		Active	dac124s085.pdf	add	
+DAC	DAC128S085CIMT/NOPB	DAC128S085	TSSOP	PW	16	TSSOP-16		Active	dac128s085.pdf	add	
+DAC	DAC128S085CISQ/NOPB	DAC128S085	WQFN	RGH	16	WQFN-16-RGH		Active	dac128s085.pdf	add	
+DAC	DAC12DL3200ACF							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC12DL3200ALJ							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC161S055CISQ/NOPB	DAC161S055	WQFN	RGH	16	WQFN-16-RGH		Active	dac161s055.pdf	add	
+DAC	DAC2900Y/1K	DAC2900	TQFP	PFB	48	TQFP-48-7X7		Active	dac2900.pdf	add	
+DAC	DAC2900Y/250	DAC2900	TQFP	PFB	48	TQFP-48-7X7		Active	dac2900.pdf	add	
+DAC	DAC2900Y/250G4							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	DAC2902Y/1K	DAC2902	TQFP	PFB	48	TQFP-48-7X7		Active	dac2902.pdf	add	
+DAC	DAC2902Y/250	DAC2902	TQFP	PFB	48	TQFP-48-7X7		Active	dac2902.pdf	add	
+DAC	DAC2902Y/250G4							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC2904Y/250	DAC2904	TQFP	PFB	48	TQFP-48-7X7		Active	dac2904.pdf	add	
+DAC	DAC2932PFBT	DAC2932	TQFP	PFB	48	TQFP-48-7X7		Active	dac2932.pdf	add	
+DAC	DAC3151IRGCT							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC3152IRGZR							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC3152IRGZT							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC3154IRGCT							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC3161IRGCT							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC3162IRGZR							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC3162IRGZT							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC3171IRGCT							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC3174IRGC25							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC3174IRGCT							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC3283IRGZT							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC3482IRKD25							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC3482IRKDT							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC3482IZAYR							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC3484IRKD25							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC3484IRKDR							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC3484IRKDT							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC34SH84IZAYR							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC37J82IAAV							Active		skip	out of scope (high-speed outputs: JESD204B)
+DAC	DAC37J84IAAV							Active		skip	out of scope (high-speed outputs: JESD204B)
+DAC	DAC38J82IAAV							Active		skip	out of scope (high-speed outputs: JESD204B)
+DAC	DAC38J82IAAVR							Active		skip	out of scope (high-speed outputs: JESD204B)
+DAC	DAC38J84IAAV							Active		skip	out of scope (high-speed outputs: JESD204B)
+DAC	DAC38RF85IAAV							Active		skip	out of scope (high-speed outputs: JESD204B)
+DAC	DAC38RF86IAAVR							Active		skip	out of scope (high-speed outputs: JESD204B)
+DAC	DAC38RF89IAAV							Active		skip	out of scope (high-speed outputs: JESD204B)
+DAC	DAC38RF93IAAV							Active		skip	out of scope (high-speed outputs: JESD204B)
+DAC	DAC38RF97IAAV							Active		skip	out of scope (high-speed outputs: JESD204B)
+DAC	DAC39J82IAAV							Active		skip	out of scope (high-speed outputs: JESD204B)
+DAC	DAC39J84IAAV							Active		skip	out of scope (high-speed outputs: JESD204B)
+DAC	DAC39J84IAAVR							Active		skip	out of scope (high-speed outputs: JESD204B)
+DAC	DAC39RF10ACK							Active		skip	out of scope (high-speed outputs: JESD204B)
+DAC	DAC39RF20ANH							Active		skip	out of scope (high-speed outputs: JESD204B, JESD204C, SPI)
+DAC	DAC43204RTER	DAC43204	WQFN	RTE	16	WQFN-16-RTE		Active	dac53204.pdf	add	
+DAC	DAC43204RTET	DAC43204	WQFN	RTE	16	WQFN-16-RTE		Active	dac53204.pdf	add	
+DAC	DAC43401DSGR	DAC43401	WSON	DSG	8	WSON-8-DSG		Active	dac53401.pdf	add	
+DAC	DAC43401DSGRQ1	DAC43401	WSON	DSG	8	WSON-8-DSG	automotive	Active	dac43401-q1.pdf	add	
+DAC	DAC43401DSGT	DAC43401	WSON	DSG	8	WSON-8-DSG		Active	dac53401.pdf	add	
+DAC	DAC43401DSGTQ1	DAC43401	WSON	DSG	8	WSON-8-DSG	automotive	Active	dac43401-q1.pdf	add	
+DAC	DAC43508RTER	DAC43508	WQFN	RTE	16	WQFN-16-RTE		Active	dac43508.pdf	add	
+DAC	DAC43608RTER	DAC43608	WQFN	RTE	16	WQFN-16-RTE		Active	dac53608.pdf	add	
+DAC	DAC43608RTET	DAC43608	WQFN	RTE	16	WQFN-16-RTE		Active	dac53608.pdf	add	
+DAC	DAC43701DSGRQ1	DAC43701	WSON	DSG	8	WSON-8-DSG	automotive	Active	dac53701-q1.pdf	add	
+DAC	DAC43701DSGT	DAC43701	WSON	DSG	8	WSON-8-DSG		Active	dac43701.pdf	add	
+DAC	DAC43901RTERQ1	DAC43901	WQFN	RTE	16	WQFN-16-RTE	automotive	Active	dac43902-q1.pdf	add	
+DAC	DAC43902RTERQ1	DAC43902	WQFN	RTE	16	WQFN-16-RTE	automotive	Active	dac43902-q1.pdf	add	
+DAC	DAC53001RTER	DAC53001	WQFN	RTE	16	WQFN-16-RTE		Active	dac63001.pdf	add	
+DAC	DAC53002RTER	DAC53002	WQFN	RTE	16	WQFN-16-RTE		Active	dac63001.pdf	add	
+DAC	DAC53004RTER	DAC53004	WQFN	RTE	16	WQFN-16-RTE		Active	dac53004.pdf	add	
+DAC	DAC53004RTET	DAC53004	WQFN	RTE	16	WQFN-16-RTE		Active	dac53004.pdf	add	
+DAC	DAC530A2YBHR							Active		skip	no TI datasheet (ti.com has no product page; DigiKey links a Rochester Electronics copy)
+DAC	DAC5311IDCKR	DAC5311	SC-70	DCK	6	SC70-6		Active	dac5311.pdf	add	
+DAC	DAC5311IDCKRQ1	DAC5311	SC-70	DCK	6	SC70-6	automotive	Active	dac5311-q1.pdf	add	
+DAC	DAC5311IDCKT	DAC5311	SC-70	DCK	6	SC70-6		Active	dac5311.pdf	add	
+DAC	DAC53202RTER	DAC53202	WQFN	RTE	16	WQFN-16-RTE		Active	dac63202.pdf	add	
+DAC	DAC53204RTER	DAC53204	WQFN	RTE	16	WQFN-16-RTE		Active	dac53204.pdf	add	
+DAC	DAC53204YBHR	DAC53204	DSBGA	YBH	16	DSBGA-16-YBH		Active	dac53204w.pdf	add	
+DAC	DAC532A3YBHR							Active		skip	no TI datasheet (ti.com has no product page; DigiKey links a Rochester Electronics copy)
+DAC	DAC53401DSGR	DAC53401	WSON	DSG	8	WSON-8-DSG		Active	dac53401.pdf	add	
+DAC	DAC53401DSGRQ1	DAC53401	WSON	DSG	8	WSON-8-DSG	automotive	Active	dac43401-q1.pdf	add	
+DAC	DAC53401DSGT	DAC53401	WSON	DSG	8	WSON-8-DSG		Active	dac53401.pdf	add	
+DAC	DAC53401DSGTQ1	DAC53401	WSON	DSG	8	WSON-8-DSG	automotive	Active	dac43401-q1.pdf	add	
+DAC	DAC53508RTER	DAC53508	WQFN	RTE	16	WQFN-16-RTE		Active	dac43508.pdf	add	
+DAC	DAC53608RTER	DAC53608	WQFN	RTE	16	WQFN-16-RTE		Active	dac53608.pdf	add	
+DAC	DAC53608RTET	DAC53608	WQFN	RTE	16	WQFN-16-RTE		Active	dac53608.pdf	add	
+DAC	DAC53701DSGR	DAC53701	WSON	DSG	8	WSON-8-DSG		Active	dac43701.pdf	add	
+DAC	DAC53701DSGRQ1	DAC53701	WSON	DSG	8	WSON-8-DSG	automotive	Active	dac53701-q1.pdf	add	
+DAC	DAC539E4YBHR	DAC539E4	DSBGA	YBH	16	DSBGA-16-YBH		Active	dac539e4w.pdf	add	
+DAC	DAC5571IDBVR	DAC5571	SOT-23	DBV	6	SOT23-6		Active	dac5571.pdf	add	
+DAC	DAC5571IDBVT	DAC5571	SOT-23	DBV	6	SOT23-6		Active	dac5571.pdf	add	
+DAC	DAC5573IPW	DAC5573	TSSOP	PW	16	TSSOP-16		Active	dac5573.pdf	add	
+DAC	DAC5573IPWR	DAC5573	TSSOP	PW	16	TSSOP-16		Active	dac5573.pdf	add	
+DAC	DAC5574IDGS	DAC5574	VSSOP	DGS	10	VSSOP-10		Active	dac5574.pdf	add	
+DAC	DAC5574IDGSR	DAC5574	VSSOP	DGS	10	VSSOP-10		Active	dac5574.pdf	add	
+DAC	DAC5578SPW	DAC5578	TSSOP	PW	16	TSSOP-16		Active	dac5578.pdf	add	
+DAC	DAC5578SPWR	DAC5578	TSSOP	PW	16	TSSOP-16		Active	dac5578.pdf	add	
+DAC	DAC5578SRGER	DAC5578	VQFN	RGE	24	VQFN-24-RGE		Active	dac5578.pdf	add	
+DAC	DAC5578SRGET	DAC5578	VQFN	RGE	24	VQFN-24-RGE		Active	dac5578.pdf	add	
+DAC	DAC5652AIPFB	DAC5652	TQFP	PFB	48	TQFP-48-7X7		Active	dac5652a.pdf	add	
+DAC	DAC5652AIPFBR	DAC5652	TQFP	PFB	48	TQFP-48-7X7		Active	dac5652a.pdf	add	
+DAC	DAC5652AIRSLT	DAC5652	VQFN	RSL	48	VQFN-48-RSL		Active	dac5652a.pdf	add	
+DAC	DAC5652IPFB	DAC5652	TQFP	PFB	48	TQFP-48-7X7		Active	dac5652.pdf	add	
+DAC	DAC5652IPFBG4	DAC5652	TQFP	PFB	48	TQFP-48-7X7		Active	dac5652.pdf	add	
+DAC	DAC5652IPFBR	DAC5652	TQFP	PFB	48	TQFP-48-7X7		Active	dac5652.pdf	add	
+DAC	DAC5652MPFBEP	DAC5652	TQFP	PFB	48	TQFP-48-7X7	enhanced	Active	dac5652-ep.pdf	add	
+DAC	DAC5652MPFBREP	DAC5652	TQFP	PFB	48	TQFP-48-7X7	enhanced	Active	dac5652-ep.pdf	add	
+DAC	DAC5662AIPFB	DAC5662	TQFP	PFB	48	TQFP-48-7X7		Active	dac5662a.pdf	add	
+DAC	DAC5662IPFB	DAC5662	TQFP	PFB	48	TQFP-48-7X7		Active	dac5662.pdf	add	
+DAC	DAC5662MPFBEP	DAC5662	TQFP	PFB	48	TQFP-48-7X7	enhanced	Active	dac5662-ep.pdf	add	
+DAC	DAC5672AIPFB	DAC5672	TQFP	PFB	48	TQFP-48-7X7		Active	dac5672a.pdf	add	
+DAC	DAC5672AIPFBR	DAC5672	TQFP	PFB	48	TQFP-48-7X7		Active	dac5672a.pdf	add	
+DAC	DAC5672IPFB	DAC5672	TQFP	PFB	48	TQFP-48-7X7		Active	dac5672.pdf	add	
+DAC	DAC5672IPFBR	DAC5672	TQFP	PFB	48	TQFP-48-7X7		Active	dac5672.pdf	add	
+DAC	DAC5672MPFBEP	DAC5672	TQFP	PFB	48	TQFP-48-7X7	enhanced	Active	dac5672-ep.pdf	add	
+DAC	DAC5674IPHP	DAC5674	HTQFP	PHP	48	HTQFP-48-PHP		Active	dac5674.pdf	add	
+DAC	DAC5674IPHPG4							Discontinued at DigiKey		skip	status Discontinued at DigiKey (only Active and Last Time Buy are added)
+DAC	DAC5674IPHPR	DAC5674	HTQFP	PHP	48	HTQFP-48-PHP		Active	dac5674.pdf	add	
+DAC	DAC5674IPHPRG4							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	DAC5675AIPHP							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC5675AIPHPR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC5675IPHP							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC5675IPHPR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC5675MPHPEP							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC5681IRGCR							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC5681IRGCT							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC5681ZIRGCT							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC5682ZIRGCR							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC5682ZIRGCT							Active		skip	out of scope (high-speed outputs: LVDS - Parallel)
+DAC	DAC5686IPZP	DAC5686	HTQFP	PZP	100	HTQFP-100-PZP		Active	dac5686.pdf	add	
+DAC	DAC5686IPZPG4							Discontinued at DigiKey		skip	status Discontinued at DigiKey (only Active and Last Time Buy are added)
+DAC	DAC5687IPZP	DAC5687	HTQFP	PZP	100	HTQFP-100-PZP		Active	dac5687.pdf	add	
+DAC	DAC5687IPZPG4							Discontinued at DigiKey		skip	status Discontinued at DigiKey (only Active and Last Time Buy are added)
+DAC	DAC5687IPZPR	DAC5687	HTQFP	PZP	100	HTQFP-100-PZP		Active	dac5687.pdf	add	
+DAC	DAC5687MPZPEP	DAC5687	HTQFP	PZP	100	HTQFP-100-PZP	enhanced	Active	dac5687-ep.pdf	add	
+DAC	DAC5688IRGCR	DAC5688	VQFN	RGC	64	VQFN-64-RGC		Active	dac5688.pdf	add	
+DAC	DAC5688IRGCT	DAC5688	VQFN	RGC	64	VQFN-64-RGC		Active	dac5688.pdf	add	
+DAC	DAC5689IRGCT	DAC5689	VQFN	RGC	64	VQFN-64-RGC		Active	dac5689.pdf	add	
+DAC	DAC60096IZEB	DAC60096	NFBGA	ZEB	196	NFBGA-196-ZEB		Active	dac60096.pdf	add	
+DAC	DAC60501MDGSR	DAC60501	VSSOP	DGS	10	VSSOP-10		Active	dac60501.pdf	add	
+DAC	DAC60501MDGST	DAC60501	VSSOP	DGS	10	VSSOP-10		Active	dac60501.pdf	add	
+DAC	DAC60501MDQFR	DAC60501	WSON	DQF	8	WSON-8-DQF		Active	dac60501.pdf	add	
+DAC	DAC60501MDQFT	DAC60501	WSON	DQF	8	WSON-8-DQF		Active	dac60501.pdf	add	
+DAC	DAC60501ZDGSR	DAC60501	VSSOP	DGS	10	VSSOP-10		Active	dac60501.pdf	add	
+DAC	DAC60501ZDGST	DAC60501	VSSOP	DGS	10	VSSOP-10		Active	dac60501.pdf	add	
+DAC	DAC60501ZDQFT	DAC60501	WSON	DQF	8	WSON-8-DQF		Active	dac60501.pdf	add	
+DAC	DAC60502DRXR	DAC60502	WSON	DRX	10	WSON-10-DRX		Active	dac60502.pdf	add	
+DAC	DAC60502DRXT	DAC60502	WSON	DRX	10	WSON-10-DRX		Active	dac60502.pdf	add	
+DAC	DAC60504BRTET	DAC60504	WQFN	RTE	16	WQFN-16-RTE		Active	dac80504.pdf	add	
+DAC	DAC60508MCRTET	DAC60508	WQFN	RTE	16	WQFN-16-RTE		Active	dac60508.pdf	add	
+DAC	DAC60508MCYZFT	DAC60508	DSBGA	YZF	16	DSBGA-16-YZF		Active	dac60508.pdf	add	
+DAC	DAC60508MRTER	DAC60508	WQFN	RTE	16	WQFN-16-RTE		Active	dac60508.pdf	add	
+DAC	DAC60508MRTET	DAC60508	WQFN	RTE	16	WQFN-16-RTE		Active	dac60508.pdf	add	
+DAC	DAC60508ZCRTER	DAC60508	WQFN	RTE	16	WQFN-16-RTE		Active	dac60508.pdf	add	
+DAC	DAC60508ZCRTET	DAC60508	WQFN	RTE	16	WQFN-16-RTE		Active	dac60508.pdf	add	
+DAC	DAC60508ZCYZFT	DAC60508	DSBGA	YZF	16	DSBGA-16-YZF		Active	dac60508.pdf	add	
+DAC	DAC60508ZRTET	DAC60508	WQFN	RTE	16	WQFN-16-RTE		Active	dac60508.pdf	add	
+DAC	DAC60508ZYZFR	DAC60508	DSBGA	YZF	16	DSBGA-16-YZF		Active	dac60508.pdf	add	
+DAC	DAC60508ZYZFT	DAC60508	DSBGA	YZF	16	DSBGA-16-YZF		Active	dac60508.pdf	add	
+DAC	DAC61401PWR	DAC61401	TSSOP	PW	20	TSSOP-20		Active	dac81401.pdf	add	
+DAC	DAC61402RHBT	DAC61402	VQFN	RHB	32	VQFN-32-5X5		Active	dac61402.pdf	add	
+DAC	DAC61404RHBR	DAC81404	VQFN	RHB	32	VQFN-32-5X5		Active	dac81404.pdf	add	
+DAC	DAC61408RHAT	DAC61408	VQFN	RHA	40	VQFN-40-RHA		Active	dac81408.pdf	add	
+DAC	DAC61416RHAT	DAC61416	VQFN	RHA	40	VQFN-40-RHA		Active	dac81416.pdf	add	
+DAC	DAC63001RTER	DAC63001	WQFN	RTE	16	WQFN-16-RTE		Active	dac63001.pdf	add	
+DAC	DAC63004RTER	DAC63004	WQFN	RTE	16	WQFN-16-RTE		Active	dac53004.pdf	add	
+DAC	DAC6311IDCKR	DAC6311	SC-70	DCK	6	SC70-6		Active	dac5311.pdf	add	
+DAC	DAC6311IDCKT	DAC6311	SC-70	DCK	6	SC70-6		Active	dac5311.pdf	add	
+DAC	DAC63202RTER	DAC63202	WQFN	RTE	16	WQFN-16-RTE		Active	dac63202.pdf	add	
+DAC	DAC63202YBHR	DAC63202	DSBGA	YBH	16	DSBGA-16-YBH		Active	dac63202w.pdf	add	
+DAC	DAC63204RTER	DAC63204	WQFN	RTE	16	WQFN-16-RTE		Active	dac53204.pdf	add	
+DAC	DAC63508RTER	DAC63508	WQFN	RTE	16	WQFN-16-RTE		Active	dac43508.pdf	add	
+DAC	DAC6551AQDGKRQ1	DAC6551	VSSOP	DGK	8	VSSOP-8-DGK	automotive	Active	dac6551-q1.pdf	add	
+DAC	DAC6571IDBVR	DAC6571	SOT-23	DBV	6	SOT23-6		Active	dac6571.pdf	add	
+DAC	DAC6571IDBVT	DAC6571	SOT-23	DBV	6	SOT23-6		Active	dac6571.pdf	add	
+DAC	DAC6573IPW	DAC6573	TSSOP	PW	16	TSSOP-16		Active	dac6573.pdf	add	
+DAC	DAC6573IPWR	DAC6573	TSSOP	PW	16	TSSOP-16		Active	dac6573.pdf	add	
+DAC	DAC6574IDGS	DAC6574	VSSOP	DGS	10	VSSOP-10		Active	dac6574.pdf	add	
+DAC	DAC6574IDGSR	DAC6574	VSSOP	DGS	10	VSSOP-10		Active	dac6574.pdf	add	
+DAC	DAC6578SPW	DAC6578	TSSOP	PW	16	TSSOP-16		Active	dac5578.pdf	add	
+DAC	DAC6578SRGET	DAC6578	VQFN	RGE	24	VQFN-24-RGE		Active	dac5578.pdf	add	
+DAC	DAC667JP							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	DAC70004IDMDT	DAC70004	VSON	DMD	14	VSON-14-DMD		Active	dac60004.pdf	add	
+DAC	DAC70004IPW	DAC70004	TSSOP	PW	14	TSSOP-14		Active	dac60004.pdf	add	
+DAC	DAC702KH							Active		skip	no TI datasheet (ti.com has no product page; DigiKey links a Rochester Electronics copy)
+DAC	DAC70501MDGSR	DAC70501	VSSOP	DGS	10	VSSOP-10		Active	dac60501.pdf	add	
+DAC	DAC70501MDGST	DAC70501	VSSOP	DGS	10	VSSOP-10		Active	dac60501.pdf	add	
+DAC	DAC70501MDQFR	DAC70501	WSON	DQF	8	WSON-8-DQF		Active	dac60501.pdf	add	
+DAC	DAC70501MDQFT	DAC70501	WSON	DQF	8	WSON-8-DQF		Active	dac60501.pdf	add	
+DAC	DAC70501ZDGSR	DAC70501	VSSOP	DGS	10	VSSOP-10		Active	dac60501.pdf	add	
+DAC	DAC70501ZDGST	DAC70501	VSSOP	DGS	10	VSSOP-10		Active	dac60501.pdf	add	
+DAC	DAC70501ZDQFT	DAC70501	WSON	DQF	8	WSON-8-DQF		Active	dac60501.pdf	add	
+DAC	DAC70502DRXT	DAC70502	WSON	DRX	10	WSON-10-DRX		Active	dac60502.pdf	add	
+DAC	DAC70504RTET	DAC70504	WQFN	RTE	16	WQFN-16-RTE		Active	dac80504.pdf	add	
+DAC	DAC70508MRTET	DAC70508	WQFN	RTE	16	WQFN-16-RTE		Active	dac60508.pdf	add	
+DAC	DAC70508MYZFT	DAC70508	DSBGA	YZF	16	DSBGA-16-YZF		Active	dac60508.pdf	add	
+DAC	DAC707KP-3							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	DAC707KP-4							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	DAC707KP-6							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	DAC70BH-CSB-I							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC712P							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC712PB							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC712PK							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC712PL							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC71408RHAT	DAC71408	VQFN	RHA	40	VQFN-40-RHA		Active	dac81408.pdf	add	
+DAC	DAC714HB-1							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	DAC714P							Not For New Designs		skip	status Not For New Designs (only Active and Last Time Buy are added)
+DAC	DAC714U	DAC714	SOIC	DW	16	SOIC-16W		Active	dac714.pdf	add	
+DAC	DAC714U/1K	DAC714	SOIC	DW	16	SOIC-16W		Active	dac714.pdf	add	
+DAC	DAC715PB							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC715PK							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC715PL							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC715U							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC715UK-TI							Active		skip	not in the ordering table of dac715.pdf (its package is not documented)
+DAC	DAC715UL							Active		skip	not in the ordering table of dac715.pdf (its package is not documented)
+DAC	DAC716P							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC716PB							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC716PK	DAC716	DIP	N	16	PDIP-16		Active	dac716.pdf	add	
+DAC	DAC716UK	DAC716	SOIC	DW	16	SOIC-16W		Active	dac716.pdf	add	
+DAC	DAC725JP							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC725KP							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7311IDCKR	DAC7311	SC-70	DCK	6	SC70-6		Active	dac5311.pdf	add	
+DAC	DAC7311IDCKT	DAC7311	SC-70	DCK	6	SC70-6		Active	dac5311.pdf	add	
+DAC	DAC7512E/250	DAC7512	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac7512.pdf	add	
+DAC	DAC7512E/2K5	DAC7512	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac7512.pdf	add	
+DAC	DAC7512N/250	DAC7512	SOT-23	DBV	6	SOT23-6		Active	dac7512.pdf	add	
+DAC	DAC7512N/3K	DAC7512	SOT-23	DBV	6	SOT23-6		Active	dac7512.pdf	add	
+DAC	DAC7513E/250	DAC7513	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac7513.pdf	add	
+DAC	DAC7513E/2K5	DAC7513	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac7513.pdf	add	
+DAC	DAC7513N/250	DAC7513	SOT-23	DCN	8	SOT23-8-DCN		Active	dac7513.pdf	add	
+DAC	DAC7513N/3K	DAC7513	SOT-23	DCN	8	SOT23-8-DCN		Active	dac7513.pdf	add	
+DAC	DAC7541AJP							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7541AJU							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7541AKP							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7541AKU							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7541AKU/1K							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7545GLU							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7545GLUR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7545JP							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7545JU							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7545KU							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7545KU-1							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	DAC7545LU							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7551IDRNR	DAC7551	USON	DRN	12	USON-12-DRN		Active	dac7551.pdf	add	
+DAC	DAC7551IDRNT	DAC7551	USON	DRN	12	USON-12-DRN		Active	dac7551.pdf	add	
+DAC	DAC7552IRGTR	DAC7552	VQFN	RGT	16	VQFN-16-RGT		Active	dac7552.pdf	add	
+DAC	DAC7552IRGTT	DAC7552	VQFN	RGT	16	VQFN-16-RGT		Active	dac7552.pdf	add	
+DAC	DAC7553IRGTT	DAC7553	VQFN	RGT	16	VQFN-16-RGT		Active	dac7553.pdf	add	
+DAC	DAC7554IDGS	DAC7554	VSSOP	DGS	10	VSSOP-10		Active	dac7554.pdf	add	
+DAC	DAC7554IDGSR	DAC7554	VSSOP	DGS	10	VSSOP-10		Active	dac7554.pdf	add	
+DAC	DAC7558IRHBR	DAC7558	VQFN	RHB	32	VQFN-32-5X5		Active	dac7558.pdf	add	
+DAC	DAC7558IRHBT	DAC7558	VQFN	RHB	32	VQFN-32-5X5		Active	dac7558.pdf	add	
+DAC	DAC7562SDGSR	DAC7562	VSSOP	DGS	10	VSSOP-10		Active	dac7562.pdf	add	
+DAC	DAC7562SDGST	DAC7562	VSSOP	DGS	10	VSSOP-10		Active	dac7562.pdf	add	
+DAC	DAC7562SDSCR	DAC7562	WSON	DSC	10	WSON-10-DSC		Active	dac7562.pdf	add	
+DAC	DAC7562SDSCT	DAC7562	WSON	DSC	10	WSON-10-DSC		Active	dac7562.pdf	add	
+DAC	DAC7562TDGST	DAC7562	VSSOP	DGS	10	VSSOP-10		Active	dac7563t.pdf	add	
+DAC	DAC7562TDSCT	DAC7562	WSON	DSC	10	WSON-10-DSC		Active	dac7563t.pdf	add	
+DAC	DAC7563SDGSR	DAC7563	VSSOP	DGS	10	VSSOP-10		Active	dac7562.pdf	add	
+DAC	DAC7563SDGST	DAC7563	VSSOP	DGS	10	VSSOP-10		Active	dac7562.pdf	add	
+DAC	DAC7563SDSCT	DAC7563	WSON	DSC	10	WSON-10-DSC		Active	dac7562.pdf	add	
+DAC	DAC7563SQDGSRQ1	DAC7563	VSSOP	DGS	10	VSSOP-10	automotive	Active	dac7562-q1.pdf	add	
+DAC	DAC7563TDGST	DAC7563	VSSOP	DGS	10	VSSOP-10		Active	dac7563t.pdf	add	
+DAC	DAC7563TDSCR	DAC7563	WSON	DSC	10	WSON-10-DSC		Active	dac7563t.pdf	add	
+DAC	DAC7563TDSCT	DAC7563	WSON	DSC	10	WSON-10-DSC		Active	dac7563t.pdf	add	
+DAC	DAC7564IAPW	DAC7564	TSSOP	PW	16	TSSOP-16		Active	dac7564.pdf	add	
+DAC	DAC7564IAPWR	DAC7564	TSSOP	PW	16	TSSOP-16		Active	dac7564.pdf	add	
+DAC	DAC7564ICPW	DAC7564	TSSOP	PW	16	TSSOP-16		Active	dac7564.pdf	add	
+DAC	DAC7564ICPWR	DAC7564	TSSOP	PW	16	TSSOP-16		Active	dac7564.pdf	add	
+DAC	DAC7565IAPW	DAC7565	TSSOP	PW	16	TSSOP-16		Active	dac7565.pdf	add	
+DAC	DAC7565ICPW	DAC7565	TSSOP	PW	16	TSSOP-16		Active	dac7565.pdf	add	
+DAC	DAC7565ICPWR	DAC7565	TSSOP	PW	16	TSSOP-16		Active	dac7565.pdf	add	
+DAC	DAC7568ICPW	DAC7568	TSSOP	PW	16	TSSOP-16		Active	dac7568.pdf	add	
+DAC	DAC7571IDBVR	DAC7571	SOT-23	DBV	6	SOT23-6		Active	dac7571.pdf	add	
+DAC	DAC7571IDBVT	DAC7571	SOT-23	DBV	6	SOT23-6		Active	dac7571.pdf	add	
+DAC	DAC7573IPW	DAC7573	TSSOP	PW	16	TSSOP-16		Active	dac7573.pdf	add	
+DAC	DAC7573IPWR	DAC7573	TSSOP	PW	16	TSSOP-16		Active	dac7573.pdf	add	
+DAC	DAC7574IDGS	DAC7574	VSSOP	DGS	10	VSSOP-10		Active	dac7574.pdf	add	
+DAC	DAC7574IDGSR	DAC7574	VSSOP	DGS	10	VSSOP-10		Active	dac7574.pdf	add	
+DAC	DAC7578SPW	DAC7578	TSSOP	PW	16	TSSOP-16		Active	dac5578.pdf	add	
+DAC	DAC7578SPWR	DAC7578	TSSOP	PW	16	TSSOP-16		Active	dac5578.pdf	add	
+DAC	DAC7578SRGER	DAC7578	VQFN	RGE	24	VQFN-24-RGE		Active	dac5578.pdf	add	
+DAC	DAC7578SRGET	DAC7578	VQFN	RGE	24	VQFN-24-RGE		Active	dac5578.pdf	add	
+DAC	DAC7611P							Not For New Designs		skip	status Not For New Designs (only Active and Last Time Buy are added)
+DAC	DAC7611PB							Not For New Designs		skip	status Not For New Designs (only Active and Last Time Buy are added)
+DAC	DAC7611U	DAC7611	SOIC	D	8	SOIC-8		Active	dac7611.pdf	add	
+DAC	DAC7611U/2K5	DAC7611	SOIC	D	8	SOIC-8		Active	dac7611.pdf	add	
+DAC	DAC7611UB	DAC7611	SOIC	D	8	SOIC-8		Active	dac7611.pdf	add	
+DAC	DAC7612U	DAC7612	SOIC	D	8	SOIC-8		Active	dac7612.pdf	add	
+DAC	DAC7613E/1K							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7613EB							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7614E	DAC7614	SSOP	DB	20	SSOP-20		Active	dac7614.pdf	add	
+DAC	DAC7614E/1K	DAC7614	SSOP	DB	20	SSOP-20		Active	dac7614.pdf	add	
+DAC	DAC7614EB	DAC7614	SSOP	DB	20	SSOP-20		Active	dac7614.pdf	add	
+DAC	DAC7614P							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7614PB							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7614U	DAC7614	SOIC	DW	16	SOIC-16W		Active	dac7614.pdf	add	
+DAC	DAC7614U/1K	DAC7614	SOIC	DW	16	SOIC-16W		Active	dac7614.pdf	add	
+DAC	DAC7614UB	DAC7614	SOIC	DW	16	SOIC-16W		Active	dac7614.pdf	add	
+DAC	DAC7615E	DAC7615	SSOP	DB	20	SSOP-20		Active	dac7615.pdf	add	
+DAC	DAC7615P							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7615PB							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7615U	DAC7615	SOIC	DW	16	SOIC-16W		Active	dac7615.pdf	add	
+DAC	DAC7615UB	DAC7615	SOIC	DW	16	SOIC-16W		Active	dac7615.pdf	add	
+DAC	DAC7616E							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7616EB	DAC7616	SSOP	DB	20	SSOP-20		Active	dac7616.pdf	add	
+DAC	DAC7616U							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7616UB	DAC7616	SOIC	DW	16	SOIC-16W		Active	dac7616.pdf	add	
+DAC	DAC7616UB/1K	DAC7616	SOIC	DW	16	SOIC-16W		Active	dac7616.pdf	add	
+DAC	DAC7617E							Discontinued at DigiKey		skip	status Discontinued at DigiKey (only Active and Last Time Buy are added)
+DAC	DAC7617E/1K							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7617EB	DAC7617	SSOP	DB	20	SSOP-20		Active	dac7617.pdf	add	
+DAC	DAC7617EB/1K							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7617U-TI							Active		skip	not in the ordering table of dac7617.pdf (its package is not documented)
+DAC	DAC7617U/1K							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7617UB	DAC7617	SOIC	DW	16	SOIC-16W		Active	dac7617.pdf	add	
+DAC	DAC7617UB/1K							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7621EB/1K							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7621EG4							Discontinued at DigiKey		skip	status Discontinued at DigiKey (only Active and Last Time Buy are added)
+DAC	DAC7624P							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7624PB							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7624U/1K	DAC7624	SOIC	DW	28	SOIC-28W		Active	dac7624.pdf	add	
+DAC	DAC7624UB	DAC7624	SOIC	DW	28	SOIC-28W		Active	dac7624.pdf	add	
+DAC	DAC7624UB/1K	DAC7624	SOIC	DW	28	SOIC-28W		Active	dac7624.pdf	add	
+DAC	DAC7625P							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7625PB							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7625U	DAC7625	SOIC	DW	28	SOIC-28W		Active	dac7624.pdf	add	
+DAC	DAC7625UB	DAC7625	SOIC	DW	28	SOIC-28W		Active	dac7624.pdf	add	
+DAC	DAC7631E	DAC7631	SSOP	DB	20	SSOP-20		Active	dac7631.pdf	add	
+DAC	DAC7631E/1K	DAC7631	SSOP	DB	20	SSOP-20		Active	dac7631.pdf	add	
+DAC	DAC7631EB	DAC7631	SSOP	DB	20	SSOP-20		Active	dac7631.pdf	add	
+DAC	DAC7634E	DAC7634	SSOP	DL	48	SSOP-48		Active	dac7634.pdf	add	
+DAC	DAC7634EB	DAC7634	SSOP	DL	48	SSOP-48		Active	dac7634.pdf	add	
+DAC	DAC7634EB/1K							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7641Y							Active		skip	not in the ordering table of dac7641.pdf (its package is not documented)
+DAC	DAC7641Y/2K							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7641YB/250	DAC7641	TQFP	PBS	32	TQFP-32-PBS		Active	dac7641.pdf	add	
+DAC	DAC7641YB/2K							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7642VFBR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7642VFBT	DAC7642	LQFP	VF	32	LQFP-32-VF		Active	dac7642.pdf	add	
+DAC	DAC7642VFT	DAC7642	LQFP	VF	32	LQFP-32-VF		Active	dac7642.pdf	add	
+DAC	DAC7643VFBR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7643VFBT							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7643VFT							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7644E	DAC7644	SSOP	DL	48	SSOP-48		Active	dac7644.pdf	add	
+DAC	DAC7644EB	DAC7644	SSOP	DL	48	SSOP-48		Active	dac7644.pdf	add	
+DAC	DAC7654YBR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7654YBT							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7654YCT	DAC7654	LQFP	PM	64	LQFP-64-10X10		Active	dac7654.pdf	add	
+DAC	DAC7654YR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7654YT							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7664YBT	DAC7664	LQFP	PM	64	LQFP-64-10X10		Active	dac7664.pdf	add	
+DAC	DAC7664YCT	DAC7664	LQFP	PM	64	LQFP-64-10X10		Active	dac7664.pdf	add	
+DAC	DAC7664YR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7664YT	DAC7664	LQFP	PM	64	LQFP-64-10X10		Active	dac7664.pdf	add	
+DAC	DAC7678SPW	DAC7678	TSSOP	PW	16	TSSOP-16		Active	dac7678.pdf	add	
+DAC	DAC7678SPWR	DAC7678	TSSOP	PW	16	TSSOP-16		Active	dac7678.pdf	add	
+DAC	DAC7678SRGET	DAC7678	VQFN	RGE	24	VQFN-24-RGE		Active	dac7678.pdf	add	
+DAC	DAC7714U	DAC7714	SOIC	DW	16	SOIC-16W		Active	dac7714.pdf	add	
+DAC	DAC7714UB	DAC7714	SOIC	DW	16	SOIC-16W		Active	dac7714.pdf	add	
+DAC	DAC7715U	DAC7715	SOIC	DW	16	SOIC-16W		Active	dac7715.pdf	add	
+DAC	DAC7715UB	DAC7715	SOIC	DW	16	SOIC-16W		Active	dac7715.pdf	add	
+DAC	DAC7718SPAG	DAC7718	TQFP	PAG	64	TQFP-64-PAG		Active	dac7718.pdf	add	
+DAC	DAC7718SPAGR	DAC7718	TQFP	PAG	64	TQFP-64-PAG		Active	dac7718.pdf	add	
+DAC	DAC7718SRGZT	DAC7718	VQFN	RGZ	48	VQFN-48-RGZ		Active	dac7718.pdf	add	
+DAC	DAC7724N/750							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7724NB							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7724NB/750							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7724UB	DAC7724	SOIC	DW	28	SOIC-28W		Active	dac7725.pdf	add	
+DAC	DAC7725N							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7725NB							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7725NB/750							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7725UB	DAC7725	SOIC	DW	28	SOIC-28W		Active	dac7725.pdf	add	
+DAC	DAC7728SRTQT	DAC7728	QFN	RTQ	56	QFN-56-RTQ		Active	dac7728.pdf	add	
+DAC	DAC7731E	DAC7731	SSOP	DB	24	SSOP-24		Active	dac7731.pdf	add	
+DAC	DAC7731EB	DAC7731	SSOP	DB	24	SSOP-24		Active	dac7731.pdf	add	
+DAC	DAC7731EC	DAC7731	SSOP	DB	24	SSOP-24		Active	dac7731.pdf	add	
+DAC	DAC7734E	DAC7734	SSOP	DL	48	SSOP-48		Active	dac7734.pdf	add	
+DAC	DAC7734E/1K	DAC7734	SSOP	DL	48	SSOP-48		Active	dac7734.pdf	add	
+DAC	DAC7734EB	DAC7734	SSOP	DL	48	SSOP-48		Active	dac7734.pdf	add	
+DAC	DAC7734EC	DAC7734	SSOP	DL	48	SSOP-48		Active	dac7734.pdf	add	
+DAC	DAC7734EC/1K	DAC7734	SSOP	DL	48	SSOP-48		Active	dac7734.pdf	add	
+DAC	DAC7741Y/250							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7741Y/2K							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7741YB/250	DAC7741	LQFP	PT	48	LQFP-48-PT		Active	dac7741.pdf	add	
+DAC	DAC7741YC/250	DAC7741	LQFP	PT	48	LQFP-48-PT		Active	dac7741.pdf	add	
+DAC	DAC7742Y/250							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7742Y/2K							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7742YB/250	DAC7742	LQFP	PT	48	LQFP-48-PT		Active	dac7742.pdf	add	
+DAC	DAC7744E	DAC7744	SSOP	DL	48	SSOP-48		Active	dac7744.pdf	add	
+DAC	DAC7744EB	DAC7744	SSOP	DL	48	SSOP-48		Active	dac7744.pdf	add	
+DAC	DAC7744EB/1K	DAC7744	SSOP	DL	48	SSOP-48		Active	dac7744.pdf	add	
+DAC	DAC7744EC	DAC7744	SSOP	DL	48	SSOP-48		Active	dac7744.pdf	add	
+DAC	DAC7750IPWP	DAC7750	HTSSOP	PWP	24	HTSSOP-24-PWP		Active	dac7750.pdf	add	
+DAC	DAC7750IPWPR	DAC7750	HTSSOP	PWP	24	HTSSOP-24-PWP		Active	dac7750.pdf	add	
+DAC	DAC7750IRHAR	DAC7750	VQFN	RHA	40	VQFN-40-RHA		Active	dac7750.pdf	add	
+DAC	DAC7750IRHAT	DAC7750	VQFN	RHA	40	VQFN-40-RHA		Active	dac7750.pdf	add	
+DAC	DAC7760IPWP	DAC7760	HTSSOP	PWP	24	HTSSOP-24-PWP		Active	dac8760.pdf	add	
+DAC	DAC7800KU	DAC7800	SOIC	DW	16	SOIC-16W		Active	dac7800.pdf	add	
+DAC	DAC7800LP	DAC7800	DIP	N	16	PDIP-16		Active	dac7800.pdf	add	
+DAC	DAC7800LU	DAC7800	SOIC	DW	16	SOIC-16W		Active	dac7800.pdf	add	
+DAC	DAC7801KP							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7801KU	DAC7801	SOIC	DW	24	SOIC-24W		Active	dac7800.pdf	add	
+DAC	DAC7801LP							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7801LU	DAC7801	SOIC	DW	24	SOIC-24W		Active	dac7800.pdf	add	
+DAC	DAC7801LU/1K							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7802KP							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC7802KU	DAC7802	SOIC	DW	24	SOIC-24W		Active	dac7800.pdf	add	
+DAC	DAC7802LU	DAC7802	SOIC	DW	24	SOIC-24W		Active	dac7800.pdf	add	
+DAC	DAC7811IDGS	DAC7811	VSSOP	DGS	10	VSSOP-10		Active	dac7811.pdf	add	
+DAC	DAC7811IDGSR	DAC7811	VSSOP	DGS	10	VSSOP-10		Active	dac7811.pdf	add	
+DAC	DAC7811IDGST	DAC7811	VSSOP	DGS	10	VSSOP-10		Active	dac7811.pdf	add	
+DAC	DAC7821IPW	DAC7821	TSSOP	PW	20	TSSOP-20		Active	dac7821.pdf	add	
+DAC	DAC7822IRTAR	DAC7822	WQFN	RTA	40	WQFN-40-RTA		Active	dac7822.pdf	add	
+DAC	DAC7822IRTAT	DAC7822	WQFN	RTA	40	WQFN-40-RTA		Active	dac7822.pdf	add	
+DAC	DAC80004IDMDT	DAC80004	VSON	DMD	14	VSON-14-DMD		Active	dac60004.pdf	add	
+DAC	DAC80004IPW	DAC80004	TSSOP	PW	14	TSSOP-14		Active	dac60004.pdf	add	
+DAC	DAC8043U	DAC8043	SOIC	D	8	SOIC-8		Active	dac8043.pdf	add	
+DAC	DAC80501MDGSR	DAC80501	VSSOP	DGS	10	VSSOP-10		Active	dac60501.pdf	add	
+DAC	DAC80501MDGST	DAC80501	VSSOP	DGS	10	VSSOP-10		Active	dac60501.pdf	add	
+DAC	DAC80501MDQFT	DAC80501	WSON	DQF	8	WSON-8-DQF		Active	dac60501.pdf	add	
+DAC	DAC80501ZDGSR	DAC80501	VSSOP	DGS	10	VSSOP-10		Active	dac60501.pdf	add	
+DAC	DAC80501ZDGST	DAC80501	VSSOP	DGS	10	VSSOP-10		Active	dac60501.pdf	add	
+DAC	DAC80501ZDQFR	DAC80501	WSON	DQF	8	WSON-8-DQF		Active	dac60501.pdf	add	
+DAC	DAC80501ZDQFT	DAC80501	WSON	DQF	8	WSON-8-DQF		Active	dac60501.pdf	add	
+DAC	DAC80502DRXT	DAC80502	WSON	DRX	10	WSON-10-DRX		Active	dac60502.pdf	add	
+DAC	DAC80504RTET	DAC80504	WQFN	RTE	16	WQFN-16-RTE		Active	dac80504.pdf	add	
+DAC	DAC80508MCRTET	DAC80508	WQFN	RTE	16	WQFN-16-RTE		Active	dac60508.pdf	add	
+DAC	DAC80508MCYZFT	DAC80508	DSBGA	YZF	16	DSBGA-16-YZF		Active	dac60508.pdf	add	
+DAC	DAC80508MRTET	DAC80508	WQFN	RTE	16	WQFN-16-RTE		Active	dac60508.pdf	add	
+DAC	DAC80508MYZFT	DAC80508	DSBGA	YZF	16	DSBGA-16-YZF		Active	dac60508.pdf	add	
+DAC	DAC80508ZCRTER	DAC80508	WQFN	RTE	16	WQFN-16-RTE		Active	dac60508.pdf	add	
+DAC	DAC80508ZCRTET	DAC80508	WQFN	RTE	16	WQFN-16-RTE		Active	dac60508.pdf	add	
+DAC	DAC80508ZCYZFT	DAC80508	DSBGA	YZF	16	DSBGA-16-YZF		Active	dac60508.pdf	add	
+DAC	DAC80508ZRTET	DAC80508	WQFN	RTE	16	WQFN-16-RTE		Active	dac60508.pdf	add	
+DAC	DAC80508ZYZFT	DAC80508	DSBGA	YZF	16	DSBGA-16-YZF		Active	dac60508.pdf	add	
+DAC	DAC811AH							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC811BH	DAC811	DIP	JD	28	CDIP-SB-28-JD	ceramic	Active	dac811.pdf	add	
+DAC	DAC811KP							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC811KU	DAC811	SOIC	DW	28	SOIC-28W		Active	dac811.pdf	add	
+DAC	DAC811KU-1							Active		skip	not in the ordering table of dac811.pdf (its package is not documented)
+DAC	DAC811KU-1/1K							Active		skip	not in the ordering table of dac811.pdf (its package is not documented)
+DAC	DAC811KUG4							Active		skip	not in the ordering table of dac811.pdf (its package is not documented)
+DAC	DAC813AU	DAC813	SOIC	DW	28	SOIC-28W		Active	dac813.pdf	add	
+DAC	DAC813JP							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC813JU	DAC813	SOIC	DW	28	SOIC-28W		Active	dac813.pdf	add	
+DAC	DAC813KP							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC813KU	DAC813	SOIC	DW	28	SOIC-28W		Active	dac813.pdf	add	
+DAC	DAC81401PWR	DAC81401	TSSOP	PW	20	TSSOP-20		Active	dac81401.pdf	add	
+DAC	DAC81404RHBT	DAC81404	VQFN	RHB	32	VQFN-32-5X5		Active	dac81404.pdf	add	
+DAC	DAC81408RHAT	DAC81408	VQFN	RHA	40	VQFN-40-RHA		Active	dac81408.pdf	add	
+DAC	DAC81416RHAT	DAC81416	VQFN	RHA	40	VQFN-40-RHA		Active	dac81416.pdf	add	
+DAC	DAC8162SDGST	DAC8162	VSSOP	DGS	10	VSSOP-10		Active	dac7562.pdf	add	
+DAC	DAC8162SDSCT	DAC8162	WSON	DSC	10	WSON-10-DSC		Active	dac7562.pdf	add	
+DAC	DAC8162TDGSR	DAC8162	VSSOP	DGS	10	VSSOP-10		Active	dac7563t.pdf	add	
+DAC	DAC8162TDGST	DAC8162	VSSOP	DGS	10	VSSOP-10		Active	dac7563t.pdf	add	
+DAC	DAC8162TDSCR	DAC8162	WSON	DSC	10	WSON-10-DSC		Active	dac7563t.pdf	add	
+DAC	DAC8162TDSCT	DAC8162	WSON	DSC	10	WSON-10-DSC		Active	dac7563t.pdf	add	
+DAC	DAC8163SDGST	DAC8163	VSSOP	DGS	10	VSSOP-10		Active	dac7562.pdf	add	
+DAC	DAC8163SDSCT	DAC8163	WSON	DSC	10	WSON-10-DSC		Active	dac7562.pdf	add	
+DAC	DAC8163SQDGSRQ1	DAC8163	VSSOP	DGS	10	VSSOP-10	automotive	Active	dac7562-q1.pdf	add	
+DAC	DAC8163TDGST	DAC8163	VSSOP	DGS	10	VSSOP-10		Active	dac7563t.pdf	add	
+DAC	DAC8163TDSCR	DAC8163	WSON	DSC	10	WSON-10-DSC		Active	dac7563t.pdf	add	
+DAC	DAC8163TDSCT	DAC8163	WSON	DSC	10	WSON-10-DSC		Active	dac7563t.pdf	add	
+DAC	DAC8164IAPW	DAC8164	TSSOP	PW	16	TSSOP-16		Active	dac8164.pdf	add	
+DAC	DAC8164IAPWR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC8164IBPW	DAC8164	TSSOP	PW	16	TSSOP-16		Active	dac8164.pdf	add	
+DAC	DAC8164ICPW							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC8164ICPWR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC8164IDPW	DAC8164	TSSOP	PW	16	TSSOP-16		Active	dac8164.pdf	add	
+DAC	DAC8164IDPWR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC8165IAPW							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC8165IAPWR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC8165IBPW	DAC8165	TSSOP	PW	16	TSSOP-16		Active	dac8165.pdf	add	
+DAC	DAC8165IBPWR	DAC8165	TSSOP	PW	16	TSSOP-16		Active	dac8165.pdf	add	
+DAC	DAC8165ICPW							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC8165ICPWR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC8165IDPW	DAC8165	TSSOP	PW	16	TSSOP-16		Active	dac8165.pdf	add	
+DAC	DAC8168ICPW	DAC8168	TSSOP	PW	16	TSSOP-16		Active	dac7568.pdf	add	
+DAC	DAC8168ICPWR	DAC8168	TSSOP	PW	16	TSSOP-16		Active	dac7568.pdf	add	
+DAC	DAC82001DRXR	DAC82001	WSON	DRX	10	WSON-10-DRX		Active	dac82001.pdf	add	
+DAC	DAC8218SPAG	DAC8218	TQFP	PAG	64	TQFP-64-PAG		Active	dac8218.pdf	add	
+DAC	DAC8218SPAGR	DAC8218	TQFP	PAG	64	TQFP-64-PAG		Active	dac8218.pdf	add	
+DAC	DAC8228SPAG	DAC8228	TQFP	PAG	64	TQFP-64-PAG		Active	dac8228.pdf	add	
+DAC	DAC8228SRTQT	DAC8228	QFN	RTQ	56	QFN-56-RTQ		Active	dac8228.pdf	add	
+DAC	DAC8234SPFB	DAC8234	TQFP	PFB	48	TQFP-48-7X7		Active	dac8234.pdf	add	
+DAC	DAC8311IDCKR	DAC8311	SC-70	DCK	6	SC70-6		Active	dac8311.pdf	add	
+DAC	DAC8311IDCKT	DAC8311	SC-70	DCK	6	SC70-6		Active	dac8311.pdf	add	
+DAC	DAC8411IDCKR	DAC8411	SC-70	DCK	6	SC70-6		Active	dac8311.pdf	add	
+DAC	DAC8411IDCKT	DAC8411	SC-70	DCK	6	SC70-6		Active	dac8311.pdf	add	
+DAC	DAC8501E/250	DAC8501	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8501.pdf	add	
+DAC	DAC8501E/2K5	DAC8501	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8501.pdf	add	
+DAC	DAC8531E/250	DAC8531	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8531.pdf	add	
+DAC	DAC8531E/2K5	DAC8531	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8531.pdf	add	
+DAC	DAC8531IDRBT	DAC8531	SON	DRB	8	SON-8-DRB		Active	dac8531.pdf	add	
+DAC	DAC8532IDGK	DAC8532	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8532.pdf	add	
+DAC	DAC8532IDGKG4							Discontinued at DigiKey		skip	status Discontinued at DigiKey (only Active and Last Time Buy are added)
+DAC	DAC8532IDGKR	DAC8532	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8532.pdf	add	
+DAC	DAC8534IPW	DAC8534	TSSOP	PW	16	TSSOP-16		Active	dac8534.pdf	add	
+DAC	DAC8541Y/250	DAC8541	TQFP	PBS	32	TQFP-32-PBS		Active	dac8541.pdf	add	
+DAC	DAC8541Y/2K	DAC8541	TQFP	PBS	32	TQFP-32-PBS		Active	dac8541.pdf	add	
+DAC	DAC8544IPFB	DAC8544	TQFP	PFB	48	TQFP-48-7X7		Active	dac8544.pdf	add	
+DAC	DAC8550IBDGKR	DAC8550	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8550.pdf	add	
+DAC	DAC8550IBDGKT	DAC8550	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8550.pdf	add	
+DAC	DAC8550IDGKR	DAC8550	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8550.pdf	add	
+DAC	DAC8550IDGKT	DAC8550	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8550.pdf	add	
+DAC	DAC8551IADGKR	DAC8551	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8551.pdf	add	
+DAC	DAC8551IADGKT	DAC8551	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8551.pdf	add	
+DAC	DAC8551IDGKR	DAC8551	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8551.pdf	add	
+DAC	DAC8551IDGKT	DAC8551	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8551.pdf	add	
+DAC	DAC8552IDGKR	DAC8552	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8552.pdf	add	
+DAC	DAC8552IDGKT	DAC8552	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8552.pdf	add	
+DAC	DAC8554IPW	DAC8554	TSSOP	PW	16	TSSOP-16		Active	dac8554.pdf	add	
+DAC	DAC8555IPW	DAC8555	TSSOP	PW	16	TSSOP-16		Active	dac8555.pdf	add	
+DAC	DAC8560IADGKR	DAC8560	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8560.pdf	add	
+DAC	DAC8560IADGKT	DAC8560	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8560.pdf	add	
+DAC	DAC8560IBDGKT	DAC8560	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8560.pdf	add	
+DAC	DAC8560ICDGKR	DAC8560	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8560.pdf	add	
+DAC	DAC8560ICDGKT	DAC8560	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8560.pdf	add	
+DAC	DAC8560IDDGKR	DAC8560	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8560.pdf	add	
+DAC	DAC8560IDDGKT	DAC8560	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8560.pdf	add	
+DAC	DAC8562SDGSR	DAC8562	VSSOP	DGS	10	VSSOP-10		Active	dac7562.pdf	add	
+DAC	DAC8562SDGST	DAC8562	VSSOP	DGS	10	VSSOP-10		Active	dac7562.pdf	add	
+DAC	DAC8562SDSCR	DAC8562	WSON	DSC	10	WSON-10-DSC		Active	dac7562.pdf	add	
+DAC	DAC8562SDSCT	DAC8562	WSON	DSC	10	WSON-10-DSC		Active	dac7562.pdf	add	
+DAC	DAC8562SQDGSRQ1	DAC8562	VSSOP	DGS	10	VSSOP-10	automotive	Active	dac7562-q1.pdf	add	
+DAC	DAC8562TDGSR	DAC8562	VSSOP	DGS	10	VSSOP-10		Active	dac7563t.pdf	add	
+DAC	DAC8562TDGST	DAC8562	VSSOP	DGS	10	VSSOP-10		Active	dac7563t.pdf	add	
+DAC	DAC8563SDGSR	DAC8563	VSSOP	DGS	10	VSSOP-10		Active	dac7562.pdf	add	
+DAC	DAC8563SDGST	DAC8563	VSSOP	DGS	10	VSSOP-10		Active	dac7562.pdf	add	
+DAC	DAC8563SDSCR	DAC8563	WSON	DSC	10	WSON-10-DSC		Active	dac7562.pdf	add	
+DAC	DAC8563SDSCT	DAC8563	WSON	DSC	10	WSON-10-DSC		Active	dac7562.pdf	add	
+DAC	DAC8563SQDGSRQ1	DAC8563	VSSOP	DGS	10	VSSOP-10	automotive	Active	dac7562-q1.pdf	add	
+DAC	DAC8563TDGSR	DAC8563	VSSOP	DGS	10	VSSOP-10		Active	dac7563t.pdf	add	
+DAC	DAC8563TDGST	DAC8563	VSSOP	DGS	10	VSSOP-10		Active	dac7563t.pdf	add	
+DAC	DAC8563TDSCR	DAC8563	WSON	DSC	10	WSON-10-DSC		Active	dac7563t.pdf	add	
+DAC	DAC8563TDSCT	DAC8563	WSON	DSC	10	WSON-10-DSC		Active	dac7563t.pdf	add	
+DAC	DAC8564IAPW	DAC8564	TSSOP	PW	16	TSSOP-16		Active	dac8564.pdf	add	
+DAC	DAC8564IAPWR	DAC8564	TSSOP	PW	16	TSSOP-16		Active	dac8564.pdf	add	
+DAC	DAC8564IBPW	DAC8564	TSSOP	PW	16	TSSOP-16		Active	dac8564.pdf	add	
+DAC	DAC8564ICPW	DAC8564	TSSOP	PW	16	TSSOP-16		Active	dac8564.pdf	add	
+DAC	DAC8564ICPWR	DAC8564	TSSOP	PW	16	TSSOP-16		Active	dac8564.pdf	add	
+DAC	DAC8564IDPW	DAC8564	TSSOP	PW	16	TSSOP-16		Active	dac8564.pdf	add	
+DAC	DAC8564IDPWR	DAC8564	TSSOP	PW	16	TSSOP-16		Active	dac8564.pdf	add	
+DAC	DAC8565IAPW	DAC8565	TSSOP	PW	16	TSSOP-16		Active	dac8565.pdf	add	
+DAC	DAC8565IAPWR	DAC8565	TSSOP	PW	16	TSSOP-16		Active	dac8565.pdf	add	
+DAC	DAC8565IBPW	DAC8565	TSSOP	PW	16	TSSOP-16		Active	dac8565.pdf	add	
+DAC	DAC8565IBPWR	DAC8565	TSSOP	PW	16	TSSOP-16		Active	dac8565.pdf	add	
+DAC	DAC8565ICPW	DAC8565	TSSOP	PW	16	TSSOP-16		Active	dac8565.pdf	add	
+DAC	DAC8565ICPWR	DAC8565	TSSOP	PW	16	TSSOP-16		Active	dac8565.pdf	add	
+DAC	DAC8565IDPWR	DAC8565	TSSOP	PW	16	TSSOP-16		Active	dac8565.pdf	add	
+DAC	DAC8568IAPW	DAC8568	TSSOP	PW	16	TSSOP-16		Active	dac7568.pdf	add	
+DAC	DAC8568IBPW	DAC8568	TSSOP	PW	16	TSSOP-16		Active	dac7568.pdf	add	
+DAC	DAC8568IBPWR	DAC8568	TSSOP	PW	16	TSSOP-16		Active	dac7568.pdf	add	
+DAC	DAC8568ICPW	DAC8568	TSSOP	PW	16	TSSOP-16		Active	dac7568.pdf	add	
+DAC	DAC8568IDPW	DAC8568	TSSOP	PW	16	TSSOP-16		Active	dac7568.pdf	add	
+DAC	DAC8568IDPWR	DAC8568	TSSOP	PW	16	TSSOP-16		Active	dac7568.pdf	add	
+DAC	DAC8571IDGK	DAC8571	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8571.pdf	add	
+DAC	DAC8571IDGKR	DAC8571	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8571.pdf	add	
+DAC	DAC8574IPW	DAC8574	TSSOP	PW	16	TSSOP-16		Active	dac8574.pdf	add	
+DAC	DAC8580IPW							Not For New Designs		skip	status Not For New Designs (only Active and Last Time Buy are added)
+DAC	DAC8581IPW							Not For New Designs		skip	status Not For New Designs (only Active and Last Time Buy are added)
+DAC	DAC8718SPAG	DAC8718	TQFP	PAG	64	TQFP-64-PAG		Active	dac8718.pdf	add	
+DAC	DAC8718SRGZT	DAC8718	VQFN	RGZ	48	VQFN-48-RGZ		Active	dac8718.pdf	add	
+DAC	DAC8728SPAG	DAC8728	TQFP	PAG	64	TQFP-64-PAG		Active	dac8728.pdf	add	
+DAC	DAC8728SRTQT	DAC8728	QFN	RTQ	56	QFN-56-RTQ		Active	dac8728.pdf	add	
+DAC	DAC8734SPFB	DAC8734	TQFP	PFB	48	TQFP-48-7X7		Active	dac8734.pdf	add	
+DAC	DAC8734SPFBR	DAC8734	TQFP	PFB	48	TQFP-48-7X7		Active	dac8734.pdf	add	
+DAC	DAC8734SRHAT	DAC8734	VQFN	RHA	40	VQFN-40-RHA		Active	dac8734.pdf	add	
+DAC	DAC8750IPWP	DAC8750	HTSSOP	PWP	24	HTSSOP-24-PWP		Active	dac7750.pdf	add	
+DAC	DAC8750IPWPR	DAC8750	HTSSOP	PWP	24	HTSSOP-24-PWP		Active	dac7750.pdf	add	
+DAC	DAC8760IPWPR	DAC8760	HTSSOP	PWP	24	HTSSOP-24-PWP		Active	dac8760.pdf	add	
+DAC	DAC8771RGZT	DAC8771	VQFN	RGZ	48	VQFN-48-RGZ		Active	dac8771.pdf	add	
+DAC	DAC8801IDGKR	DAC8801	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8801.pdf	add	
+DAC	DAC8801IDGKT	DAC8801	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8801.pdf	add	
+DAC	DAC8802IPW	DAC8802	TSSOP	PW	16	TSSOP-16		Active	dac8802.pdf	add	
+DAC	DAC8802IPWR	DAC8802	TSSOP	PW	16	TSSOP-16		Active	dac8802.pdf	add	
+DAC	DAC8803IDBT	DAC8803	SSOP	DB	28	SSOP-28		Active	dac8803.pdf	add	
+DAC	DAC8805QDBT	DAC8805	TSSOP	DBT	38	TSSOP-38		Active	dac8805.pdf	add	
+DAC	DAC8805QDBTR	DAC8805	TSSOP	DBT	38	TSSOP-38		Active	dac8805.pdf	add	
+DAC	DAC8806IDB	DAC8806	SSOP	DB	28	SSOP-28		Active	dac8806.pdf	add	
+DAC	DAC8806IDBR	DAC8806	SSOP	DB	28	SSOP-28		Active	dac8806.pdf	add	
+DAC	DAC8811IBDGKR	DAC8811	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8811.pdf	add	
+DAC	DAC8811IBDGKT	DAC8811	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8811.pdf	add	
+DAC	DAC8811IBDRBT	DAC8811	SON	DRB	8	SON-8-DRB		Active	dac8811.pdf	add	
+DAC	DAC8811ICDGKT	DAC8811	VSSOP	DGK	8	VSSOP-8-DGK		Active	dac8811.pdf	add	
+DAC	DAC8811ICDRBT	DAC8811	SON	DRB	8	SON-8-DRB		Active	dac8811.pdf	add	
+DAC	DAC8812IBPW	DAC8812	TSSOP	PW	16	TSSOP-16		Active	dac8812.pdf	add	
+DAC	DAC8812IBPWR	DAC8812	TSSOP	PW	16	TSSOP-16		Active	dac8812.pdf	add	
+DAC	DAC8812ICPW	DAC8812	TSSOP	PW	16	TSSOP-16		Active	dac8812.pdf	add	
+DAC	DAC8814IBDBR	DAC8814	SSOP	DB	28	SSOP-28		Active	dac8814.pdf	add	
+DAC	DAC8814IBDBT	DAC8814	SSOP	DB	28	SSOP-28		Active	dac8814.pdf	add	
+DAC	DAC8814ICDBT	DAC8814	SSOP	DB	28	SSOP-28		Active	dac8814.pdf	add	
+DAC	DAC8820IBDB	DAC8820	SSOP	DB	28	SSOP-28		Active	dac8820.pdf	add	
+DAC	DAC8820ICDB	DAC8820	SSOP	DB	28	SSOP-28		Active	dac8820.pdf	add	
+DAC	DAC8820ICDBR	DAC8820	SSOP	DB	28	SSOP-28		Active	dac8820.pdf	add	
+DAC	DAC8822QBDBT	DAC8822	TSSOP	DBT	38	TSSOP-38		Active	dac8822.pdf	add	
+DAC	DAC8822QBDBTR	DAC8822	TSSOP	DBT	38	TSSOP-38		Active	dac8822.pdf	add	
+DAC	DAC8822QCDBT	DAC8822	TSSOP	DBT	38	TSSOP-38		Active	dac8822.pdf	add	
+DAC	DAC8822QCDBTR	DAC8822	TSSOP	DBT	38	TSSOP-38		Active	dac8822.pdf	add	
+DAC	DAC8830IBD	DAC8830	SOIC	D	8	SOIC-8		Active	dac8830.pdf	add	
+DAC	DAC8830IBDR	DAC8830	SOIC	D	8	SOIC-8		Active	dac8830.pdf	add	
+DAC	DAC8830ICD	DAC8830	SOIC	D	8	SOIC-8		Active	dac8830.pdf	add	
+DAC	DAC8830ICDR	DAC8830	SOIC	D	8	SOIC-8		Active	dac8830.pdf	add	
+DAC	DAC8830ID	DAC8830	SOIC	D	8	SOIC-8		Active	dac8830.pdf	add	
+DAC	DAC8830IDR	DAC8830	SOIC	D	8	SOIC-8		Active	dac8830.pdf	add	
+DAC	DAC8830MCDEP	DAC8830	SOIC	D	8	SOIC-8	enhanced	Active	dac8830-ep.pdf	add	
+DAC	DAC8831IBD	DAC8831	SOIC	D	14	SOIC-14		Active	dac8830.pdf	add	
+DAC	DAC8831IBRGYT							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC8831ICD	DAC8831	SOIC	D	14	SOIC-14		Active	dac8830.pdf	add	
+DAC	DAC8831ICDR	DAC8831	SOIC	D	14	SOIC-14		Active	dac8830.pdf	add	
+DAC	DAC8831ICRGYR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	DAC8831ICRGYT	DAC8831	VQFN	RGY	14	VQFN-14-RGY		Active	dac8830.pdf	add	
+DAC	DAC8831ID	DAC8831	SOIC	D	14	SOIC-14		Active	dac8830.pdf	add	
+DAC	DAC8831MCDEP	DAC8831	SOIC	D	14	SOIC-14	enhanced	Active	dac8830-ep.pdf	add	
+DAC	DAC8832ICRGYR	DAC8832	VQFN	RGY	14	VQFN-14-RGY		Active	dac8832.pdf	add	
+DAC	DAC8832ICRGYT	DAC8832	VQFN	RGY	14	VQFN-14-RGY		Active	dac8832.pdf	add	
+DAC	DAC8832IRGYR	DAC8832	VQFN	RGY	14	VQFN-14-RGY		Active	dac8832.pdf	add	
+DAC	DAC8871SBPW	DAC8871	TSSOP	PW	16	TSSOP-16		Active	dac8871.pdf	add	
+DAC	DAC8871SPW	DAC8871	TSSOP	PW	16	TSSOP-16		Active	dac8871.pdf	add	
+DAC	DAC8881SRGET	DAC8881	VQFN	RGE	24	VQFN-24-RGE		Active	dac8881.pdf	add	
+DAC	DAC900E	DAC900	TSSOP	PW	28	TSSOP-28		Last Time Buy	dac900.pdf	add	
+DAC	DAC900E/2K5	DAC900	TSSOP	PW	28	TSSOP-28		Active	dac900.pdf	add	
+DAC	DAC900EG4							Active		skip	not in the ordering table of dac900.pdf (its package is not documented)
+DAC	DAC900TPWRQ1	DAC900	TSSOP	PW	28	TSSOP-28	automotive	Active	dac900-q1.pdf	add	
+DAC	DAC900U	DAC900	SOIC	DW	28	SOIC-28W		Last Time Buy	dac900.pdf	add	
+DAC	DAC900U/1K	DAC900	SOIC	DW	28	SOIC-28W		Active	dac900.pdf	add	
+DAC	DAC902E/2K5	DAC902	TSSOP	PW	28	TSSOP-28		Active	dac902.pdf	add	
+DAC	DAC902U	DAC902	SOIC	DW	28	SOIC-28W		Last Time Buy	dac902.pdf	add	
+DAC	DAC902U/1K	DAC902	SOIC	DW	28	SOIC-28W		Active	dac902.pdf	add	
+DAC	DAC904E	DAC904	TSSOP	PW	28	TSSOP-28		Last Time Buy	dac904.pdf	add	
+DAC	DAC904E/2K5	DAC904	TSSOP	PW	28	TSSOP-28		Active	dac904.pdf	add	
+DAC	DAC904U	DAC904	SOIC	DW	28	SOIC-28W		Active	dac904.pdf	add	
+DAC	DAC908E	DAC908	TSSOP	PW	28	TSSOP-28		Last Time Buy	dac908.pdf	add	
+DAC	DAC908E/2K5	DAC908	TSSOP	PW	28	TSSOP-28		Active	dac908.pdf	add	
+DAC	DAC908U	DAC908	SOIC	DW	28	SOIC-28W		Last Time Buy	dac908.pdf	add	
+DAC	DAC908U/1K	DAC908	SOIC	DW	28	SOIC-28W		Active	dac908.pdf	add	
+DAC	DAC9881SBRGER	DAC9881	VQFN	RGE	24	VQFN-24-RGE		Active	dac9881.pdf	add	
+DAC	DAC9881SBRGET	DAC9881	VQFN	RGE	24	VQFN-24-RGE		Active	dac9881.pdf	add	
+DAC	DAC9881SRGER	DAC9881	VQFN	RGE	24	VQFN-24-RGE		Active	dac9881.pdf	add	
+DAC	DAC9881SRGET	DAC9881	VQFN	RGE	24	VQFN-24-RGE		Active	dac9881.pdf	add	
+DAC	LMP92066PWP	LMP92066	HTSSOP	PWP	16	HTSSOP-16-PWP		Active	lmp92066.pdf	add	
+DAC	LMP92066PWPR	LMP92066	HTSSOP	PWP	16	HTSSOP-16-PWP		Active	lmp92066.pdf	add	
+DAC	THS5641AIDW	THS5641	SOIC	DW	28	SOIC-28W		Active	ths5641a.pdf	add	
+DAC	THS5641AIDWR	THS5641	SOIC	DW	28	SOIC-28W		Active	ths5641a.pdf	add	
+DAC	THS5641AIPW	THS5641	TSSOP	PW	28	TSSOP-28		Active	ths5641a.pdf	add	
+DAC	THS5641AIPWR	THS5641	TSSOP	PW	28	TSSOP-28		Active	ths5641a.pdf	add	
+DAC	THS5641IDW							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	THS5641IPW							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	THS5651AIDW	THS5651	SOIC	DW	28	SOIC-28W		Active	ths5651a.pdf	add	
+DAC	THS5651AIDWR	THS5651	SOIC	DW	28	SOIC-28W		Active	ths5651a.pdf	add	
+DAC	THS5651AIPW	THS5651	TSSOP	PW	28	TSSOP-28		Active	ths5651a.pdf	add	
+DAC	THS5651IDW							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	THS5651IPW							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	THS5661AIDW	THS5661	SOIC	DW	28	SOIC-28W		Active	ths5661a.pdf	add	
+DAC	THS5661AIDWR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	THS5661AIPW	THS5661	TSSOP	PW	28	TSSOP-28		Active	ths5661a.pdf	add	
+DAC	THS5661AIPWR	THS5661	TSSOP	PW	28	TSSOP-28		Active	ths5661a.pdf	add	
+DAC	THS5661IDW							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	THS5661IPW							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	THS5671AIPW	THS5671	TSSOP	PW	28	TSSOP-28		Active	ths5671a.pdf	add	
+DAC	THS5671AIPWR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TL5632CFR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLC5615CD	TLC5615	SOIC	D	8	SOIC-8		Active	tlc5615.pdf	add	
+DAC	TLC5615CDGK	TLC5615	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlc5615.pdf	add	
+DAC	TLC5615CDGKR	TLC5615	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlc5615.pdf	add	
+DAC	TLC5615CDR	TLC5615	SOIC	D	8	SOIC-8		Active	tlc5615.pdf	add	
+DAC	TLC5615CP	TLC5615	DIP	P	8	PDIP-8		Active	tlc5615.pdf	add	
+DAC	TLC5615IDGK	TLC5615	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlc5615.pdf	add	
+DAC	TLC5615IDR	TLC5615	SOIC	D	8	SOIC-8		Active	tlc5615.pdf	add	
+DAC	TLC5615IP	TLC5615	DIP	P	8	PDIP-8		Active	tlc5615.pdf	add	
+DAC	TLC5617A1D							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	TLC5617ACD							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLC5617ACDR							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	TLC5617AID							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLC5617AIDR							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	TLC5617CD							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	TLC5617CDR							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	TLC5617ID							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	TLC5618ACP							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLC5618AIP							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLC5618AQD	TLC5618	SOIC	D	8	SOIC-8		Active	slas156g.pdf	add	
+DAC	TLC5618AQDG4							Discontinued at DigiKey		skip	status Discontinued at DigiKey (only Active and Last Time Buy are added)
+DAC	TLC5618AQDR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLC5618CD							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	TLC5618CDR							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	TLC5620CD	TLC5620	SOIC	D	14	SOIC-14		Active	tlc5620.pdf	add	
+DAC	TLC5620CDR	TLC5620	SOIC	D	14	SOIC-14		Active	tlc5620.pdf	add	
+DAC	TLC5620CN	TLC5620	DIP	N	14	PDIP-14		Active	tlc5620.pdf	add	
+DAC	TLC5620ID	TLC5620	SOIC	D	14	SOIC-14		Active	tlc5620.pdf	add	
+DAC	TLC5620IDR	TLC5620	SOIC	D	14	SOIC-14		Active	tlc5620.pdf	add	
+DAC	TLC5620IN	TLC5620	DIP	N	14	PDIP-14		Active	tlc5620.pdf	add	
+DAC	TLC5628CDW	TLC5628	SOIC	DW	16	SOIC-16W		Active	tlc5628.pdf	add	
+DAC	TLC5628CN	TLC5628	DIP	N	16	PDIP-16		Active	tlc5628.pdf	add	
+DAC	TLC5628IDW	TLC5628	SOIC	DW	16	SOIC-16W		Active	tlc5628.pdf	add	
+DAC	TLC5628IN	TLC5628	DIP	N	16	PDIP-16		Active	tlc5628.pdf	add	
+DAC	TLC7225CDW	TLC7225	SOIC	DW	24	SOIC-24W		Active	tlc7225.pdf	add	
+DAC	TLC7225IDW	TLC7225	SOIC	DW	24	SOIC-24W		Active	tlc7225.pdf	add	
+DAC	TLC7225IDWR	TLC7225	SOIC	DW	24	SOIC-24W		Active	tlc7225.pdf	add	
+DAC	TLC7226CDW	TLC7226	SOIC	DW	20	SOIC-20W		Active	tlc7226.pdf	add	
+DAC	TLC7226CDWG4							Discontinued at DigiKey		skip	status Discontinued at DigiKey (only Active and Last Time Buy are added)
+DAC	TLC7226CDWR	TLC7226	SOIC	DW	20	SOIC-20W		Active	tlc7226.pdf	add	
+DAC	TLC7226CN	TLC7226	DIP	N	20	PDIP-20		Active	tlc7226.pdf	add	
+DAC	TLC7226IDW	TLC7226	SOIC	DW	20	SOIC-20W		Active	tlc7226.pdf	add	
+DAC	TLC7226IDWR	TLC7226	SOIC	DW	20	SOIC-20W		Active	tlc7226.pdf	add	
+DAC	TLC7226IN	TLC7226	DIP	N	20	PDIP-20		Active	tlc7226.pdf	add	
+DAC	TLC7524CD	TLC7524	SOIC	D	16	SOIC-16		Active	tlc7524.pdf	add	
+DAC	TLC7524CDR	TLC7524	SOIC	D	16	SOIC-16		Active	tlc7524.pdf	add	
+DAC	TLC7524CFN							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLC7524CFNR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLC7524CN	TLC7524	DIP	N	16	PDIP-16		Active	tlc7524.pdf	add	
+DAC	TLC7524CNE4	TLC7524	DIP	N	16	PDIP-16		Active	tlc7524.pdf	add	
+DAC	TLC7524CNS	TLC7524	SOP	NS	16	SOP-16		Active	tlc7524.pdf	add	
+DAC	TLC7524CNSR	TLC7524	SOP	NS	16	SOP-16		Active	tlc7524.pdf	add	
+DAC	TLC7524CPW	TLC7524	TSSOP	PW	16	TSSOP-16		Active	tlc7524.pdf	add	
+DAC	TLC7524ED	TLC7524	SOIC	D	16	SOIC-16		Active	tlc7524.pdf	add	
+DAC	TLC7524EDR	TLC7524	SOIC	D	16	SOIC-16		Active	tlc7524.pdf	add	
+DAC	TLC7524EN	TLC7524	DIP	N	16	PDIP-16		Active	tlc7524.pdf	add	
+DAC	TLC7524ID	TLC7524	SOIC	D	16	SOIC-16		Active	tlc7524.pdf	add	
+DAC	TLC7524IDR	TLC7524	SOIC	D	16	SOIC-16		Active	tlc7524.pdf	add	
+DAC	TLC7524IFN							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLC7524IN	TLC7524	DIP	N	16	PDIP-16		Active	tlc7524.pdf	add	
+DAC	TLC7524IPW	TLC7524	TSSOP	PW	16	TSSOP-16		Active	tlc7524.pdf	add	
+DAC	TLC7524IPWR	TLC7524	TSSOP	PW	16	TSSOP-16		Active	tlc7524.pdf	add	
+DAC	TLC7528CDW	TLC7528	SOIC	DW	20	SOIC-20W		Active	tlc7528.pdf	add	
+DAC	TLC7528CDWR	TLC7528	SOIC	DW	20	SOIC-20W		Active	tlc7528.pdf	add	
+DAC	TLC7528CFN							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLC7528CFNR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLC7528CN	TLC7528	DIP	N	20	PDIP-20		Active	tlc7528.pdf	add	
+DAC	TLC7528CNS	TLC7528	SOP	NS	20	SOP-20		Active	tlc7528.pdf	add	
+DAC	TLC7528CPW	TLC7528	TSSOP	PW	20	TSSOP-20		Active	tlc7528.pdf	add	
+DAC	TLC7528CPWR	TLC7528	TSSOP	PW	20	TSSOP-20		Active	tlc7528.pdf	add	
+DAC	TLC7528EDW	TLC7528	SOIC	DW	20	SOIC-20W		Active	tlc7528.pdf	add	
+DAC	TLC7528EDWR	TLC7528	SOIC	DW	20	SOIC-20W		Active	tlc7528.pdf	add	
+DAC	TLC7528EN	TLC7528	DIP	N	20	PDIP-20		Active	tlc7528.pdf	add	
+DAC	TLC7528IDW	TLC7528	SOIC	DW	20	SOIC-20W		Active	tlc7528.pdf	add	
+DAC	TLC7528IFN							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLC7528IN	TLC7528	DIP	N	20	PDIP-20		Active	tlc7528.pdf	add	
+DAC	TLC7528IPW	TLC7528	TSSOP	PW	20	TSSOP-20		Active	tlc7528.pdf	add	
+DAC	TLC7528IPWR	TLC7528	TSSOP	PW	20	TSSOP-20		Active	tlc7528.pdf	add	
+DAC	TLC7628CDW	TLC7628	SOIC	DW	20	SOIC-20W		Active	slas063b.pdf	add	
+DAC	TLC7628CN	TLC7628	DIP	N	20	PDIP-20		Active	slas063b.pdf	add	
+DAC	TLV5604CD	TLV5604	SOIC	D	16	SOIC-16		Active	tlv5604.pdf	add	
+DAC	TLV5604CDR	TLV5604	SOIC	D	16	SOIC-16		Active	tlv5604.pdf	add	
+DAC	TLV5604CPW	TLV5604	TSSOP	PW	16	TSSOP-16		Active	tlv5604.pdf	add	
+DAC	TLV5604ID	TLV5604	SOIC	D	16	SOIC-16		Active	tlv5604.pdf	add	
+DAC	TLV5604IPW	TLV5604	TSSOP	PW	16	TSSOP-16		Active	tlv5604.pdf	add	
+DAC	TLV5604IPWR	TLV5604	TSSOP	PW	16	TSSOP-16		Active	tlv5604.pdf	add	
+DAC	TLV5606CD	TLV5606	SOIC	D	8	SOIC-8		Active	tlv5606.pdf	add	
+DAC	TLV5606CDGK	TLV5606	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlv5606.pdf	add	
+DAC	TLV5606CDGKR	TLV5606	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlv5606.pdf	add	
+DAC	TLV5606CDR	TLV5606	SOIC	D	8	SOIC-8		Active	tlv5606.pdf	add	
+DAC	TLV5606ID	TLV5606	SOIC	D	8	SOIC-8		Active	tlv5606.pdf	add	
+DAC	TLV5606IDG4							Discontinued at DigiKey		skip	status Discontinued at DigiKey (only Active and Last Time Buy are added)
+DAC	TLV5606IDGK	TLV5606	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlv5606.pdf	add	
+DAC	TLV5606IDGKR	TLV5606	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlv5606.pdf	add	
+DAC	TLV5608IDW	TLV5608	SOIC	DW	20	SOIC-20W		Active	tlv5608.pdf	add	
+DAC	TLV5608IPW	TLV5608	TSSOP	PW	20	TSSOP-20		Active	tlv5608.pdf	add	
+DAC	TLV5608IPWG4							Discontinued at DigiKey		skip	status Discontinued at DigiKey (only Active and Last Time Buy are added)
+DAC	TLV5608IYER							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLV5610IDW	TLV5610	SOIC	DW	20	SOIC-20W		Active	tlv5608.pdf	add	
+DAC	TLV5610IDWR	TLV5610	SOIC	DW	20	SOIC-20W		Active	tlv5608.pdf	add	
+DAC	TLV5610IPW	TLV5610	TSSOP	PW	20	TSSOP-20		Active	tlv5608.pdf	add	
+DAC	TLV5610IYE							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLV5610IYZT							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLV5613CDW	TLV5613	SOIC	DW	20	SOIC-20W		Active	slas174b.pdf	add	
+DAC	TLV5613CPW	TLV5613	TSSOP	PW	20	TSSOP-20		Active	slas174b.pdf	add	
+DAC	TLV5613CPWR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLV5613IDW	TLV5613	SOIC	DW	20	SOIC-20W		Active	slas174b.pdf	add	
+DAC	TLV5613IDWR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLV5613IPW	TLV5613	TSSOP	PW	20	TSSOP-20		Active	slas174b.pdf	add	
+DAC	TLV5613IPWR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLV5614CD	TLV5614	SOIC	D	16	SOIC-16		Active	slas188b.pdf	add	
+DAC	TLV5614CPW	TLV5614	TSSOP	PW	16	TSSOP-16		Active	slas188b.pdf	add	
+DAC	TLV5614CPWR	TLV5614	TSSOP	PW	16	TSSOP-16		Active	slas188b.pdf	add	
+DAC	TLV5614ID	TLV5614	SOIC	D	16	SOIC-16		Active	slas188b.pdf	add	
+DAC	TLV5614IDR	TLV5614	SOIC	D	16	SOIC-16		Active	slas188b.pdf	add	
+DAC	TLV5614IPW	TLV5614	TSSOP	PW	16	TSSOP-16		Active	slas188b.pdf	add	
+DAC	TLV5614IYE							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLV5614IYER							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLV5614IYZR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLV5614IYZT							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLV5614MPWREP	TLV5614	TSSOP	PW	16	TSSOP-16	enhanced	Active	tlv5614-ep.pdf	add	
+DAC	TLV5616CD	TLV5616	SOIC	D	8	SOIC-8		Active	tlv5616.pdf	add	
+DAC	TLV5616CDGK	TLV5616	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlv5616.pdf	add	
+DAC	TLV5616CDR	TLV5616	SOIC	D	8	SOIC-8		Active	tlv5616.pdf	add	
+DAC	TLV5616CP	TLV5616	DIP	P	8	PDIP-8		Active	tlv5616.pdf	add	
+DAC	TLV5616ID	TLV5616	SOIC	D	8	SOIC-8		Active	tlv5616.pdf	add	
+DAC	TLV5616IDGK	TLV5616	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlv5616.pdf	add	
+DAC	TLV5616IDR	TLV5616	SOIC	D	8	SOIC-8		Active	tlv5616.pdf	add	
+DAC	TLV5616IP	TLV5616	DIP	P	8	PDIP-8		Active	tlv5616.pdf	add	
+DAC	TLV5617ACD	TLV5617	SOIC	D	8	SOIC-8		Active	tlv5617a.pdf	add	
+DAC	TLV5617AID	TLV5617	SOIC	D	8	SOIC-8		Active	tlv5617a.pdf	add	
+DAC	TLV5617AIDR	TLV5617	SOIC	D	8	SOIC-8		Active	tlv5617a.pdf	add	
+DAC	TLV5618ACD	TLV5618	SOIC	D	8	SOIC-8		Active	tlv5618a.pdf	add	
+DAC	TLV5618ACP	TLV5618	DIP	P	8	PDIP-8		Active	tlv5618a.pdf	add	
+DAC	TLV5618AID	TLV5618	SOIC	D	8	SOIC-8		Active	tlv5618a.pdf	add	
+DAC	TLV5618AMDREP	TLV5618	SOIC	D	8	SOIC-8	enhanced	Active	tlv5618a-ep.pdf	add	
+DAC	TLV5618AMJG	TLV5618	DIP	JG	8	CDIP-8-JG	ceramic	Active	tlv5618a.pdf	add	
+DAC	TLV5618AQD	TLV5618	SOIC	D	8	SOIC-8		Active	tlv5618a.pdf	add	
+DAC	TLV5618AQDG4							Discontinued at DigiKey		skip	status Discontinued at DigiKey (only Active and Last Time Buy are added)
+DAC	TLV5618AQDR	TLV5618	SOIC	D	8	SOIC-8		Active	tlv5618a.pdf	add	
+DAC	TLV5618AQDRG4							Discontinued at DigiKey		skip	status Discontinued at DigiKey (only Active and Last Time Buy are added)
+DAC	TLV5619CDW	TLV5619	SOIC	DW	20	SOIC-20W		Active	slas172f.pdf	add	
+DAC	TLV5619CPW	TLV5619	TSSOP	PW	20	TSSOP-20		Active	slas172f.pdf	add	
+DAC	TLV5619CPWR	TLV5619	TSSOP	PW	20	TSSOP-20		Active	slas172f.pdf	add	
+DAC	TLV5619IDW	TLV5619	SOIC	DW	20	SOIC-20W		Active	slas172f.pdf	add	
+DAC	TLV5619IDWR	TLV5619	SOIC	DW	20	SOIC-20W		Active	slas172f.pdf	add	
+DAC	TLV5619IPW	TLV5619	TSSOP	PW	20	TSSOP-20		Active	slas172f.pdf	add	
+DAC	TLV5619QDW							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLV5619QDWG4							Discontinued at DigiKey		skip	status Discontinued at DigiKey (only Active and Last Time Buy are added)
+DAC	TLV5620CD	TLV5620	SOIC	D	14	SOIC-14		Active	tlv5620.pdf	add	
+DAC	TLV5620CDR	TLV5620	SOIC	D	14	SOIC-14		Active	tlv5620.pdf	add	
+DAC	TLV5620CN	TLV5620	DIP	N	14	PDIP-14		Active	tlv5620.pdf	add	
+DAC	TLV5620ID	TLV5620	SOIC	D	14	SOIC-14		Active	tlv5620.pdf	add	
+DAC	TLV5620IDR	TLV5620	SOIC	D	14	SOIC-14		Active	tlv5620.pdf	add	
+DAC	TLV5620IN	TLV5620	DIP	N	14	PDIP-14		Active	tlv5620.pdf	add	
+DAC	TLV5621ED	TLV5621	SOIC	D	14	SOIC-14		Active	slas138b.pdf	add	
+DAC	TLV5621EDR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLV5621EN							Active		skip	out of scope (no SPI, I2C or parallel interface: none listed)
+DAC	TLV5621ID	TLV5621	SOIC	D	14	SOIC-14		Active	slas138b.pdf	add	
+DAC	TLV5621IDR	TLV5621	SOIC	D	14	SOIC-14		Active	slas138b.pdf	add	
+DAC	TLV5623CDGK	TLV5623	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlv5623.pdf	add	
+DAC	TLV5623CDR	TLV5623	SOIC	D	8	SOIC-8		Active	tlv5623.pdf	add	
+DAC	TLV5623ID	TLV5623	SOIC	D	8	SOIC-8		Active	tlv5623.pdf	add	
+DAC	TLV5623IDGK	TLV5623	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlv5623.pdf	add	
+DAC	TLV5623IDR	TLV5623	SOIC	D	8	SOIC-8		Active	tlv5623.pdf	add	
+DAC	TLV5624CD	TLV5624	SOIC	D	8	SOIC-8		Active	tlv5624.pdf	add	
+DAC	TLV5624CDGK	TLV5624	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlv5624.pdf	add	
+DAC	TLV5624CDGKR	TLV5624	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlv5624.pdf	add	
+DAC	TLV5624ID	TLV5624	SOIC	D	8	SOIC-8		Active	tlv5624.pdf	add	
+DAC	TLV5624IDGK	TLV5624	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlv5624.pdf	add	
+DAC	TLV5625CD	TLV5625	SOIC	D	8	SOIC-8		Active	tlv5625.pdf	add	
+DAC	TLV5625CDR	TLV5625	SOIC	D	8	SOIC-8		Active	tlv5625.pdf	add	
+DAC	TLV5625ID	TLV5625	SOIC	D	8	SOIC-8		Active	tlv5625.pdf	add	
+DAC	TLV5626CD	TLV5626	SOIC	D	8	SOIC-8		Active	tlv5626.pdf	add	
+DAC	TLV5626CDR	TLV5626	SOIC	D	8	SOIC-8		Active	tlv5626.pdf	add	
+DAC	TLV5626ID	TLV5626	SOIC	D	8	SOIC-8		Active	tlv5626.pdf	add	
+DAC	TLV5627CD	TLV5627	SOIC	D	16	SOIC-16		Active	tlv5627.pdf	add	
+DAC	TLV5627CDR	TLV5627	SOIC	D	16	SOIC-16		Active	tlv5627.pdf	add	
+DAC	TLV5627CPW	TLV5627	TSSOP	PW	16	TSSOP-16		Active	tlv5627.pdf	add	
+DAC	TLV5627CPWR	TLV5627	TSSOP	PW	16	TSSOP-16		Active	tlv5627.pdf	add	
+DAC	TLV5627ID	TLV5627	SOIC	D	16	SOIC-16		Active	tlv5627.pdf	add	
+DAC	TLV5627IPW	TLV5627	TSSOP	PW	16	TSSOP-16		Active	tlv5627.pdf	add	
+DAC	TLV5628CDW	TLV5628	SOIC	DW	16	SOIC-16W		Active	tlv5628.pdf	add	
+DAC	TLV5628CDWR	TLV5628	SOIC	DW	16	SOIC-16W		Active	tlv5628.pdf	add	
+DAC	TLV5628CN	TLV5628	DIP	N	16	PDIP-16		Active	tlv5628.pdf	add	
+DAC	TLV5628IDW	TLV5628	SOIC	DW	16	SOIC-16W		Active	tlv5628.pdf	add	
+DAC	TLV5628IN	TLV5628	DIP	N	16	PDIP-16		Active	tlv5628.pdf	add	
+DAC	TLV5629IDW	TLV5629	SOIC	DW	20	SOIC-20W		Active	tlv5608.pdf	add	
+DAC	TLV5629IDWR	TLV5629	SOIC	DW	20	SOIC-20W		Active	tlv5608.pdf	add	
+DAC	TLV5629IPW	TLV5629	TSSOP	PW	20	TSSOP-20		Active	tlv5608.pdf	add	
+DAC	TLV5630IDW	TLV5630	SOIC	DW	20	SOIC-20W		Active	tlv5630.pdf	add	
+DAC	TLV5630IPW	TLV5630	TSSOP	PW	20	TSSOP-20		Active	tlv5630.pdf	add	
+DAC	TLV5631IDW	TLV5631	SOIC	DW	20	SOIC-20W		Active	tlv5630.pdf	add	
+DAC	TLV5631IPW	TLV5631	TSSOP	PW	20	TSSOP-20		Active	tlv5630.pdf	add	
+DAC	TLV5632IDW	TLV5632	SOIC	DW	20	SOIC-20W		Active	tlv5630.pdf	add	
+DAC	TLV5632IPW	TLV5632	TSSOP	PW	20	TSSOP-20		Active	tlv5630.pdf	add	
+DAC	TLV5633CDW	TLV5633	SOIC	DW	20	SOIC-20W		Active	slas190c.pdf	add	
+DAC	TLV5633CPW	TLV5633	TSSOP	PW	20	TSSOP-20		Active	slas190c.pdf	add	
+DAC	TLV5633CPWR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	TLV5633IDW	TLV5633	SOIC	DW	20	SOIC-20W		Active	slas190c.pdf	add	
+DAC	TLV5633IPW	TLV5633	TSSOP	PW	20	TSSOP-20		Active	slas190c.pdf	add	
+DAC	TLV5636CD	TLV5636	SOIC	D	8	SOIC-8		Active	tlv5636.pdf	add	
+DAC	TLV5636CDGK	TLV5636	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlv5636.pdf	add	
+DAC	TLV5636CDGKR	TLV5636	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlv5636.pdf	add	
+DAC	TLV5636ID	TLV5636	SOIC	D	8	SOIC-8		Active	tlv5636.pdf	add	
+DAC	TLV5636IDGK	TLV5636	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlv5636.pdf	add	
+DAC	TLV5636IDGKR	TLV5636	VSSOP	DGK	8	VSSOP-8-DGK		Active	tlv5636.pdf	add	
+DAC	TLV5637CD	TLV5637	SOIC	D	8	SOIC-8		Active	tlv5637.pdf	add	
+DAC	TLV5637ID	TLV5637	SOIC	D	8	SOIC-8		Active	tlv5637.pdf	add	
+DAC	TLV5637IDR	TLV5637	SOIC	D	8	SOIC-8		Active	tlv5637.pdf	add	
+DAC	TLV5638CD	TLV5638	SOIC	D	8	SOIC-8		Active	tlv5638.pdf	add	
+DAC	TLV5638ID	TLV5638	SOIC	D	8	SOIC-8		Active	tlv5638.pdf	add	
+DAC	TLV5638IDR	TLV5638	SOIC	D	8	SOIC-8		Active	tlv5638.pdf	add	
+DAC	TLV5638MDREP	TLV5638	SOIC	D	8	SOIC-8	enhanced	Active	tlv5638-ep.pdf	add	
+DAC	TLV5638QD	TLV5638	SOIC	D	8	SOIC-8		Active	tlv5638.pdf	add	
+DAC	TLV5638QDG4							Discontinued at DigiKey		skip	status Discontinued at DigiKey (only Active and Last Time Buy are added)
+DAC	TLV5638QDR	TLV5638	SOIC	D	8	SOIC-8		Active	tlv5638.pdf	add	
+DAC	TLV5638QDRG4							Discontinued at DigiKey		skip	status Discontinued at DigiKey (only Active and Last Time Buy are added)
+DAC	TLV5639CDW	TLV5639	SOIC	DW	20	SOIC-20W		Active	tlv5639.pdf	add	
+DAC	TLV5639IDW	TLV5639	SOIC	DW	20	SOIC-20W		Active	tlv5639.pdf	add	
+DAC	TLV5639IPW	TLV5639	TSSOP	PW	20	TSSOP-20		Active	tlv5639.pdf	add	
+DAC	UCC5950D							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+DAC	V62/06638-02XE	DAC5652	TQFP	PFB	48	TQFP-48-7X7	enhanced	Active	dac5652-ep.pdf	add	
+RTC	BQ32000D	BQ32000	SOIC	D	8	SOIC-8		Active	bq32000.pdf	add	
+RTC	BQ32000DR	BQ32000	SOIC	D	8	SOIC-8		Active	bq32000.pdf	add	
+RTC	BQ32002D	BQ32002	SOIC	D	8	SOIC-8		Active	bq32002.pdf	add	
+RTC	BQ32002DR	BQ32002	SOIC	D	8	SOIC-8		Active	bq32002.pdf	add	
+RTC	BQ3285EP							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ3285ESS							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ3285ESS-N							Active		skip	not in the ordering table of bq3285e.pdf (its package is not documented)
+RTC	BQ3285ESS-TR1							Active		skip	not in the ordering table of bq3285e.pdf (its package is not documented)
+RTC	BQ3285ESSTR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ3285ESTR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ3285LCS							Active		skip	no TI datasheet (ti.com has no product page; DigiKey links a Rochester Electronics copy)
+RTC	BQ3285LDSS							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ3285LDSSTR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ3285LFSS-A1							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ3285LFSS-A1TR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ3285LSS							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ3285P-SB2							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ3285S-SB2	BQ3285	SOIC	DW	24	SOIC-24W		Last Time Buy	bq3285.pdf	add	
+RTC	BQ3285S-SB2TR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ4285EP							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ4285LS							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ4285P-SB2							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ4285S-SB2							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ4802LYDW	BQ4802	SOIC	DW	28	SOIC-28W		Last Time Buy	bq4802ly.pdf	add	
+RTC	BQ4802LYDWR	BQ4802	SOIC	DW	28	SOIC-28W		Last Time Buy	bq4802ly.pdf	add	
+RTC	BQ4802LYPW	BQ4802	TSSOP	PW	28	TSSOP-28		Last Time Buy	bq4802ly.pdf	add	
+RTC	BQ4802YDSH							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ4802YDW	BQ4802	SOIC	DW	28	SOIC-28W		Last Time Buy	bq4802ly.pdf	add	
+RTC	BQ4802YDWR	BQ4802	SOIC	DW	28	SOIC-28W		Last Time Buy	bq4802ly.pdf	add	
+RTC	BQ4802YPW	BQ4802	TSSOP	PW	28	TSSOP-28		Last Time Buy	bq4802ly.pdf	add	
+RTC	BQ4832YMA-85							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ4845P-A4							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ4845S-A4							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ4845S-A4NTR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ4845S-A4TR	BQ4845	SOIC	DW	28	SOIC-28W		Last Time Buy	bq4845.pdf	add	
+RTC	BQ4845YS-A4N							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ4845YS-A4NTR							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ4850YMA-85N							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	BQ4852YMC-85							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	DP8570AV							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	DP8570AV/NOPB	DP8570	PLCC	FN	28	PLCC-28		Active	dp8570a.pdf	add	ordering table of dp8570a.pdf
+RTC	DP8570AVX							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	DP8573AV							Obsolete		skip	status Obsolete (only Active and Last Time Buy are added)
+RTC	DP8573AV/NOPB	DP8573	PLCC	FN	28	PLCC-28		Active	dp8573a.pdf	add	ordering table of dp8573a.pdf

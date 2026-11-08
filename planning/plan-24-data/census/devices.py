@@ -10,6 +10,10 @@ A cluster is the set of datasheets linked by shared devices (worked on together)
 import collections, csv, re, sys
 
 rows = [r for r in csv.DictReader(open(sys.argv[1]), delimiter='\t') if r['match'] in ('own', 'other')]
+# every DigiKey base product of the census (all groups)
+import os
+ALL_BASES = {r['base'] for r in csv.DictReader(open(os.path.join(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__))), 'candidates.tsv')), delimiter='\t') if r['base']}
 bases_by_pdf = collections.defaultdict(set)
 for r in rows:
     if r['base']:
@@ -31,7 +35,12 @@ OVERRIDE = {'ADC121S101QIMF/NOPB': 'ADC121S101', 'ADC121S655CIMM/NOPB': 'ADC121S
             'ADS8588HIPM': 'ADS8588H', 'ADS8588SIPM': 'ADS8588S', 'ADS8588SIPMR': 'ADS8588S',
             'ADS8598HIPM': 'ADS8598H', 'ADS8598SIPM': 'ADS8598S',
             'ADS8684AIDBT': 'ADS8684A', 'ADS8688AIDBT': 'ADS8688A', 'ADS8688AIDBTR': 'ADS8688A',
-            'ADS8688ATDBT': 'ADS8688A'}
+            'ADS8688ATDBT': 'ADS8688A', 'ADS8686SIPZA': 'ADS8686S',
+            'ADS131B23PHPR': 'ADS131B23P',
+            # DigiKey truncates the base product of some -Q (automotive) National parts
+            'DAC101S101QCMK/NOPB': 'DAC101S101', 'DAC104S085QIMM/NOPB': 'DAC104S085',
+            'DAC104S085QIMMX/NOPB': 'DAC104S085', 'DAC121S101QCMK/NOPB': 'DAC121S101',
+            'DAC161S055CISQ/NOPB': 'DAC161S055'}
 
 
 def base_of(r):
@@ -45,6 +54,14 @@ def base_of(r):
         return max(cands, key=len)
     if len(bases_by_pdf[r['pdf']]) == 1:
         return next(iter(bases_by_pdf[r['pdf']]))
+    if r['code'] and r['code'] in n[3:]:
+        b = n[:n.rindex(r['code'])]
+        if len(b) > 2 and (b[-1] == 'I' or (b[-1] in 'CQMAEHB' and b[-2].isdigit())):
+            b = b[:-1]
+        return b
+    g = [b for b in ALL_BASES if n.startswith(b) and len(b) >= 5]
+    if g:
+        return max(g, key=len)
     m = re.match(r'^(5962-\d+|[A-Z]+\d+[A-Z]?\d*[A-Z]?\d*?)(?=[ICQMHAEJ]|$)', n)
     return m.group(1) if m else n
 

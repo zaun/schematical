@@ -21,7 +21,15 @@ key_of = {'5962-0051101NXD': 'ths1401.pdf', 'ADC121S021CIMF-TI': 'adc121s021.pdf
           'ADS114S18IPBSR': 'ads114s18.pdf', 'ADS124S18IPBSR': 'ads124s18.pdf',
           'ADS1286U-TI': 'ads1286.pdf', 'ADS7824U/1K': 'ads7824.pdf',
           'ADS7881IPFBT': 'ads7881.pdf', 'TLC0834CDR': 'tlc0834.pdf',
-          'TLV5580IDWR': 'tlv5580.pdf', 'TLV5580IPWR': 'tlv5580.pdf'}
+          'TLV5580IDWR': 'tlv5580.pdf', 'TLV5580IPWR': 'tlv5580.pdf',
+          '5962-9955701QPA': 'tlv5618a.pdf', '5962-9955702Q2A': 'tlc5618a.pdf',
+          '5962-9955702QPA': 'tlc5618a.pdf', 'DAC1221E/2K5': 'dac1221.pdf',
+          'DAC161S055CISQ/NOPB': 'dac161s055.pdf', 'DAC43701DSGRQ1': 'dac43701-q1.pdf',
+          'DAC53701DSGRQ1': 'dac53701-q1.pdf', 'DAC715UK-TI': 'dac715.pdf',
+          'DAC7617U-TI': 'dac7617.pdf', 'DAC7641Y': 'dac7641.pdf', 'DAC811KU-1': 'dac811.pdf',
+          'DAC811KU-1/1K': 'dac811.pdf', 'BQ3285ESS-N': 'bq3285e.pdf',
+          'BQ3285ESS-TR1': 'bq3285e.pdf', 'DP8570AV/NOPB': 'dp8570a.pdf',
+          'DP8573AV/NOPB': 'dp8573a.pdf'}
 for l in open(keys_f):
     k, parts = l.rstrip('\n').split('\t')
     for p in parts.split():
