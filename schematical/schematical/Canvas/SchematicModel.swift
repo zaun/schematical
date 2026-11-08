@@ -33,6 +33,13 @@ enum SchematicTool: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
+    /// The toolbar's first group: editing and drawing tools.
+    static let drawingTools: [SchematicTool] = [.pointer, .eraser, .line, .bus, .busPort, .flip]
+
+    /// The toolbar's second group, after a gap: the supply tools. VCC and
+    /// Pull-up come last so they sit beside the supply voltage menu they use.
+    static let powerTools: [SchematicTool] = [.ground, .pullDown, .vcc, .pullUp]
+
     var title: String {
         switch self {
         case .pointer: "Pointer"

@@ -229,17 +229,11 @@ struct ContentView: View {
                     .help("Show the schematic or the PCB")
 
                     if page == .schematic {
-                        Picker("Tool", selection: $tool) {
-                            ForEach(SchematicTool.allCases) { tool in
-                                Label(tool.title, systemImage: tool.symbol)
-                                    .help(tool.tooltip)
-                                    .tag(tool)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        .labelStyle(.iconOnly)
-                        .labelsHidden()
-                        .disabled(simulation.isRunning)
+                        // Two pickers on one selection, so the supply tools
+                        // stand apart from the drawing tools.
+                        schematicToolPicker(SchematicTool.drawingTools)
+                        Spacer().frame(width: 12)
+                        schematicToolPicker(SchematicTool.powerTools)
 
                         // The VCC and Pull-up tools' rail. Picking one also picks
                         // VCC, unless Pull-up is the tool.
@@ -418,6 +412,21 @@ struct ContentView: View {
             }
             .background(WindowReader { file.window = $0 })
             .navigationTitle(file.displayName)
+    }
+
+    /// A segmented picker over some of the schematic tools.
+    private func schematicToolPicker(_ tools: [SchematicTool]) -> some View {
+        Picker("Tool", selection: $tool) {
+            ForEach(tools) { tool in
+                Label(tool.title, systemImage: tool.symbol)
+                    .help(tool.tooltip)
+                    .tag(tool)
+            }
+        }
+        .pickerStyle(.segmented)
+        .labelStyle(.iconOnly)
+        .labelsHidden()
+        .disabled(simulation.isRunning)
     }
 
     @ViewBuilder
