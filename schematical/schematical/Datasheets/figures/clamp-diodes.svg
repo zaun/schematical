@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 170" width="420" height="170" font-family="-apple-system, Helvetica, sans-serif" font-size="12" fill="none" stroke="currentColor" stroke-width="1.5">
+  <text x="190" y="16" fill="currentColor" stroke="none">V~CC~</text>
+  <line x1="40" y1="24" x2="380" y2="24"/>
+  <line x1="40" y1="146" x2="380" y2="146"/>
+  <text x="190" y="164" fill="currentColor" stroke="none">GND</text>
+  <text x="2" y="89" fill="currentColor" stroke="none">Input</text>
+  <line x1="40" y1="85" x2="150" y2="85"/>
+  <line x1="90" y1="24" x2="90" y2="55"/><polygon points="80,75 100,75 90,58" fill="currentColor"/><line x1="80" y1="57" x2="100" y2="57"/><line x1="90" y1="75" x2="90" y2="85"/>
+  <line x1="90" y1="85" x2="90" y2="96"/><polygon points="80,116 100,116 90,99" fill="currentColor"/><line x1="80" y1="98" x2="100" y2="98"/><line x1="90" y1="116" x2="90" y2="146"/>
+  <rect x="150" y="65" width="120" height="40"/>
+  <text x="182" y="90" fill="currentColor" stroke="none">Logic</text>
+  <line x1="270" y1="85" x2="380" y2="85"/>
+  <text x="384" y="89" fill="currentColor" stroke="none">Output</text>
+  <line x1="330" y1="24" x2="330" y2="55"/><polygon points="320,75 340,75 330,58" fill="currentColor"/><line x1="320" y1="57" x2="340" y2="57"/><line x1="330" y1="75" x2="330" y2="85"/>
+  <line x1="330" y1="85" x2="330" y2="96"/><polygon points="320,116 340,116 330,99" fill="currentColor"/><line x1="320" y1="98" x2="340" y2="98"/><line x1="330" y1="116" x2="330" y2="146"/>
+</svg>

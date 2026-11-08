@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 170" width="320" height="170" font-family="-apple-system, Helvetica, sans-serif" font-size="12" fill="none" stroke="currentColor" stroke-width="1.5">
+  <text x="10" y="44" fill="currentColor" stroke="none">From output</text>
+  <text x="10" y="58" fill="currentColor" stroke="none">under test</text>
+  <line x1="90" y1="50" x2="200" y2="50"/>
+  <circle cx="200" cy="50" r="3" fill="currentColor"/>
+  <text x="206" y="44" fill="currentColor" stroke="none">Test point</text>
+  <line x1="160" y1="50" x2="160" y2="95"/>
+  <line x1="140" y1="95" x2="180" y2="95"/>
+  <line x1="140" y1="105" x2="180" y2="105"/>
+  <line x1="160" y1="105" x2="160" y2="140"/>
+  <line x1="145" y1="140" x2="175" y2="140"/><line x1="151" y1="146" x2="169" y2="146"/><line x1="157" y1="152" x2="163" y2="152"/>
+  <text x="188" y="104" fill="currentColor" stroke="none">C~L~ = {CL}</text>
+  <text x="188" y="120" fill="currentColor" stroke="none" font-size="10">(includes probe and jig)</text>
+</svg>
