@@ -183,17 +183,18 @@ break; its risk is a symbol drawn with the wrong state, covered by the recorder 
 
 Acceptance: all four A images are `cmp`-identical; no `context.` draw call remains in the three layers.
   Check: `for f in symbols lit be-6502 test.schematical; do cmp /tmp/p28-baseB/$f.png /tmp/p28-new/$f.png && echo same $f; done` → four `same` lines; `awk 'NR>=845' schematical/schematical/Canvas/SchematicCanvasView.swift | rg -c 'context\.(fill|stroke|draw)\(|with: \.color\('` → no output (est. 10 min, same reason as A Phase 3).
-Commit: —
+Commit: e1836c7
 
 ### Phase 2 — SchematicScene and BoundsPainter
 
-- [ ] `Canvas/SchematicExportScene.swift` (new): `SchematicScene` and `BoundsPainter` per § 3.2–3.3.
-- [ ] `schematicalTests/SchematicSceneTests.swift` (new), using `TestSupport.newDocument()` and `TestSupport.place`:
+- [x] `Canvas/SchematicExportScene.swift` (new): `SchematicScene` and `BoundsPainter` per § 3.2–3.3. `SchematicScene` is a plain (main-actor) struct, not `nonisolated`: see Corrections.
+- [x] `schematicalTests/SchematicSceneTests.swift` (new), using `TestSupport.newDocument()` and `TestSupport.place`:
       - `BoundsPainter`: stroke of `Path(CGRect(x: 10, y: 20, width: 30, height: 40))` at width 2 → bounds `(9, 19, 32, 42)`; after `translateBy(x: 5, y: 5)` → `(14, 24, 32, 42)`; a fill with `Ink.paper` adds nothing (bounds nil); centered monospaced 10 pt text "ABCD" at (100, 50) → `(88, 44, 24, 12)`; the same text after `rotate(by: .degrees(-90))` about its point has width 12 and height 24.
       - A scene of one `SN74HC00N`: `isEmpty` false; bounds contain `chip.hitRect` and lie inside `CGRect(x: chip.viewOrigin.x, y: chip.viewOrigin.y, width: chip.layout.size.width + 2 * ChipLayout.labelMargin, height: chip.layout.size.height)`.
       - A new document → `isEmpty` true; `SchematicScene(doc).paint` into a `BoundsPainter` → bounds nil.
       - Export state: a recording painter (test-local type conforming to `SchematicPainter`, results in a class box) paints a scene with one of each of the 12 symbols (names in plan-28-A § 3.4 item 1) and one wire; the recorded inks contain no `.accent`, no `.color`, no `.lamp`, and at least one `.secondary`; with the DIP lever 1 on, a `.switchOn` and `.knobOn` appear, and with it off, neither.
       - Order: the recorder sees a bus stroke before a wire stroke before any chip text.
+      → 7 tests (`testBoundsOfAStroke`, `testPaperAddsNothing`, `testBoundsOfText`, `testOneChipBounds`, `testEmptyScene`, `testExportStateInks`, `testPaintOrder`) passed with the 4 `SchematicPainterTests`: `** TEST SUCCEEDED **`. Final gate image check re-run after Phase 2: four `same` lines.
 
 Acceptance: the new tests pass, and the full set of A and B tests still pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/SchematicSceneTests -only-testing:schematicalTests/SchematicPainterTests CODE_SIGNING_ALLOWED=NO 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 6 min).
@@ -215,6 +216,9 @@ Commit: —
 
 ## Corrections
 
+- § 2 "no chip ink lies outside its frame" is false by half a stroke: the body outline (1.5 wide) is stroked on the frame's top and bottom edges, so 0.75 pt lies outside and the live Canvas clips it. Measured: one `SN74HC00N` at (200, 200) → ink `(117.1, 89.25, 165.8, 231.5)` vs frame `(110, 90, 180, 230)`. The export draws the whole stroke, which is right. The Phase 2 test checks the bounds lie inside the frame outset by 0.75, and (stronger than the original) that the ink's top equals that outset edge.
+- Phase 2: every `SchematicSceneTests` case at first aborted the test host with `malloc: pointer being freed was not allocated`, even cases with no document. Cause: the shared result boxes (`BoundsPainter.Box`, the test's `RecordingPainter.Record`) are classes, which the module's default MainActor isolation makes main-actor isolated, and their isolated deinit hits the runtime bug `TestSupport.keptDocuments` documents. Both are `nonisolated final class` now; the run is clean. C's `SVGPainter.Output` box must be `nonisolated` for the same reason.
+- § 1/§ 3.2 say `nonisolated struct SchematicScene`. It is a plain struct (main-actor by the module default) because the symbol and layer `paint` statics it calls are main-actor; this is how the views' own `Canvas` closures already call them, and D's `ImageRenderer` runs on the main actor. Nothing in C or D needs it off the main actor.
 - Phase 1: the first layer move wrote the screen-only inks as `with: .color(color)` (the `Ink.color` shorthand), which the acceptance regex `with: \.color\(` also matches (3 hits) although no SwiftUI `Color` shading is left. Changed those to `Ink(role: .color(…))`, as § 3.1 writes them, rather than loosen the regex; the gate was re-run on the final code.
 
 ## Summary
