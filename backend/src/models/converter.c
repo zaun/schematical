@@ -1028,9 +1028,9 @@ static LogicValue tok_value(CvState *s, CvSeg *g, const CvTok *t) {
     }
 }
 
-/* The next output bit; *sdio: it belongs to a reply (driven on a shared SDIO pin). */
-LogicValue cv_bit_out(CvState *s, int *sdio) {
-    CvSeg *g = &s->seg;
+/* The next output bit of segment g; *sdio: it belongs to a reply (driven on a
+   shared SDIO pin). idle: what follows the pattern ('0', '1', 'z', 'r'). */
+LogicValue cv_seg_bit(CvState *s, CvSeg *g, int idle, int *sdio) {
     int guard = 0;
 
     *sdio = 0;
@@ -1071,8 +1071,6 @@ LogicValue cv_bit_out(CvState *s, int *sdio) {
         }
         /* the pattern ran out: the idle rule */
         {
-            int idle = s->dev->protocol.idle ? s->dev->protocol.idle : s->idle_default;
-
             if (idle == 'r' && g->pat->count > 0) {
                 g->pos = 0;
                 g->at_index = 0;
@@ -1084,12 +1082,46 @@ LogicValue cv_bit_out(CvState *s, int *sdio) {
             return idle == '1' ? LOGIC_1 : idle == 'z' ? LOGIC_Z : LOGIC_0;
         }
     }
-    {
-        int idle = s->dev->protocol.idle ? s->dev->protocol.idle : s->idle_default;
+    return idle == '1' ? LOGIC_1 : idle == 'z' ? LOGIC_Z : LOGIC_0;
+}
 
-        return idle == '1' ? LOGIC_1 : idle == 'z' || idle == 'r' ? (s->idle_default == '1' ?
-               LOGIC_1 : LOGIC_0) : LOGIC_0;
+LogicValue cv_bit_out(CvState *s, int *sdio) {
+    int idle = s->dev->protocol.idle ? s->dev->protocol.idle : s->idle_default;
+
+    return cv_seg_bit(s, &s->seg, idle, sdio);
+}
+
+void cv_seg_set(CvSeg *seg, const CvPattern *pat) {
+    memset(seg, 0, sizeof *seg);
+    seg->pat = pat;
+    seg->sdio = 1;
+    seg->active = pat != NULL;
+}
+
+/* The read pattern for the current read key: a `reads` alternative, else `read`
+   (a pattern or the address map). NULL for none or a pointer read. */
+const CvPattern *cv_read_pattern(CvState *s) {
+    const CvProtocol *p = &s->dev->protocol;
+    const CvRead *rd = &p->read;
+    size_t i;
+
+    for (i = 0; i < p->read_alt_count; i++) {
+        if (cv_conds_hold(s, &p->reads[i].when)) {
+            rd = &p->reads[i].read;
+            break;
+        }
     }
+    if (rd->kind == CVR_PATTERN) {
+        return &rd->pattern;
+    }
+    if (rd->kind == CVR_MAP) {
+        for (i = 0; i < rd->map_count; i++) {
+            if (rd->map[i].key == s->read_key) {
+                return &rd->map[i].pattern;
+            }
+        }
+    }
+    return NULL;
 }
 
 /* I2C / parallel reads: the read pattern (next, reads alternatives, read, pointer). */

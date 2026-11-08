@@ -134,6 +134,100 @@ static const char *const FOOTPRINTS =
     "'channel':0,'data':'d','set':{'CTRL.PD':'p'}}],'read':'00[CTRL.PD][DAC]0000'}," \
     "'dac':{'input':['DAC'],'output':['DAC'],'clearCode':0,'ldac':'sync'}," PART("I2CDACX", "p", "T6")
 
+
+/* plan-24-E: an ADS7816-style 12-bit parallel ADC: CONVST, BUSY, CS/RD reads. */
+#define D12 PIN(1, "DB11", "output") "," PIN(2, "DB10", "output") "," PIN(3, "DB9", "output") "," \
+    PIN(4, "DB8", "output") "," PIN(5, "DB7", "output") "," PIN(6, "DB6", "output") "," \
+    PIN(7, "DB5", "output") "," PIN(8, "DB4", "output") "," PIN(9, "DB3", "output") "," \
+    PIN(10, "DB2", "output") "," PIN(11, "DB1", "output") "," PIN(12, "DB0", "output")
+#define D12_NAMES "'DB11','DB10','DB9','DB8','DB7','DB6','DB5','DB4','DB3','DB2','DB1','DB0'"
+#define PAR_ADC \
+    "{'id':'PARADC','function':'ADC','description':'d','drawer':['Interface'],'pinouts':{'p':[" D12 "," \
+    PIN(13, "CS", "input") "," PIN(14, "RD", "input") "," PIN(15, "CONVST", "input") "," \
+    PIN(16, "BUSY", "output") "," PIN(17, "VDD", "power") "," PIN(18, "GND", "ground") "," \
+    PIN(19, "AIN", "input") "," PIN(20, "NC", "nc") "]}," \
+    "'type':'adc','bits':12,'channels':1,'codeFormat':'offset','vcc':[4.75,5.25],'analog':['AIN']," \
+    "'bus':{'style':'parallel','data':[" D12_NAMES "],'cs':{'pin':'CS','active':0},'rd':{'pin':'RD','active':0}}," \
+    "'timing':{'tAcc':30,'tDf':20},'protocol':{'frame':'fixed','commands':[],'read':'R{12}'}," \
+    "'conversion':{'time':1000,'start':['pin']},'pins':{'convst':{'pin':'CONVST','edge':'fall'}}," \
+    "'ready':[{'pin':'BUSY','active':1,'asserts':'busy'}]," PART("PARADCX", "p", "T20")
+
+/* An 8-bit-bus 12-bit ADC with HBEN: high byte 0000 + bits 11-8, low byte bits 7-0. */
+#define BYTE_ADC \
+    "{'id':'BYTEADC','function':'ADC','description':'d','drawer':['Interface'],'pinouts':{'p':[" \
+    PIN(1, "D7", "output") "," PIN(2, "D6", "output") "," PIN(3, "D5", "output") "," PIN(4, "D4", "output") "," \
+    PIN(5, "D3", "output") "," PIN(6, "D2", "output") "," PIN(7, "D1", "output") "," PIN(8, "D0", "output") "," \
+    PIN(9, "CS", "input") "," PIN(10, "RD", "input") "," PIN(11, "HBEN", "input") "," \
+    PIN(12, "CONVST", "input") "," PIN(13, "VDD", "power") "," PIN(14, "GND", "ground") "," \
+    PIN(15, "AIN", "input") "," PIN(16, "NC", "nc") "]}," \
+    "'type':'adc','bits':12,'channels':1,'codeFormat':'offset','vcc':[4.75,5.25],'analog':['AIN']," \
+    "'bus':{'style':'parallel','data':['D7','D6','D5','D4','D3','D2','D1','D0'],'cs':{'pin':'CS','active':0}," \
+    "'rd':{'pin':'RD','active':0},'byteSelect':{'pin':'HBEN','high':1}}," \
+    "'protocol':{'frame':'fixed','commands':[],'read':{'high':'0000[R:11:8]','low':'[R:7:0]'}}," \
+    "'conversion':{'time':0,'start':['pin']},'pins':{'convst':{'pin':'CONVST','edge':'fall'}}," \
+    PART("BYTEADCX", "p", "T16")
+
+/* A DAC7625-style double-buffered parallel DAC: R/W, A1 A0, LDAC copies all; reads
+   at A1 = 1 show the DAC registers (a fixture addition, to observe them). */
+#define D12D PIN(1, "D11", "inout") "," PIN(2, "D10", "inout") "," PIN(3, "D9", "inout") "," \
+    PIN(4, "D8", "inout") "," PIN(5, "D7", "inout") "," PIN(6, "D6", "inout") "," \
+    PIN(7, "D5", "inout") "," PIN(8, "D4", "inout") "," PIN(9, "D3", "inout") "," \
+    PIN(10, "D2", "inout") "," PIN(11, "D1", "inout") "," PIN(12, "D0", "inout")
+#define PAR_DAC \
+    "{'id':'PARDAC','function':'DAC','description':'d','drawer':['Interface'],'pinouts':{'p':[" D12D "," \
+    PIN(13, "A1", "input") "," PIN(14, "A0", "input") "," PIN(15, "CS", "input") "," \
+    PIN(16, "R/W", "input") "," PIN(17, "LDAC", "input") "," PIN(18, "VDD", "power") "," \
+    PIN(19, "GND", "ground") "," PIN(20, "VOUTA", "output") "]}," \
+    "'type':'dac','bits':12,'channels':2,'vcc':[4.75,5.25],'analog':['VOUTA']," \
+    "'bus':{'style':'parallel','data':['D11','D10','D9','D8','D7','D6','D5','D4','D3','D2','D1','D0']," \
+    "'address':['A1','A0'],'cs':{'pin':'CS','active':0},'rw':{'pin':'R/W','read':1}}," \
+    "'registers':[{'name':'IN0','space':'input','address':0,'width':12}," \
+    "{'name':'IN1','space':'input','address':1,'width':12}," \
+    "{'name':'DAC0','space':'dac','address':0,'width':12},{'name':'DAC1','space':'dac','address':1,'width':12}]," \
+    "'protocol':{'frame':'fixed','commands':[{'name':'W','in':'0a d{12}','action':'write','channel':'a','data':'d'}]," \
+    "'read':{'0':'[IN0]','1':'[IN1]','2':'[DAC0]','3':'[DAC1]'}}," \
+    "'pins':{'ldac':{'pin':'LDAC','active':0,'edge':'fall'}}," \
+    "'dac':{'input':['IN0','IN1'],'output':['DAC0','DAC1'],'clearCode':0,'ldac':'pin'}," \
+    PART("PARDACX", "p", "T20")
+
+/* A clocked 12-bit pipelined ADC: CLK rising, OE, DRY following the clock. */
+#define CLK_ADC \
+    "{'id':'CLKADC','function':'ADC','description':'d','drawer':['Interface'],'pinouts':{'p':[" D12 "," \
+    PIN(13, "CLK", "input") "," PIN(14, "OE", "input") "," PIN(15, "DRY", "output") "," \
+    PIN(16, "VDD", "power") "," PIN(17, "GND", "ground") "," PIN(18, "AIN", "input") "," \
+    PIN(19, "NC", "nc") "," PIN(20, "NC", "nc") "]}," \
+    "'type':'adc','bits':12,'channels':1,'codeFormat':'offset','vcc':[3,3.6],'analog':['AIN']," \
+    "'bus':{'style':'clocked','clock':{'pin':'CLK','edge':'rise'},'data':[" D12_NAMES "]," \
+    "'oe':{'pin':'OE','active':0},'clockOut':{'pin':'DRY','invert':false}},'timing':{'tOut':5}," \
+    "'protocol':{'frame':'fixed','commands':[],'read':'R{12}'}," PART("CLKADCX", "p", "T20")
+
+/* A delta-sigma modulator: one data pin, the 0 V stream 1010..., CLKOUT = CLK / 2. */
+#define MOD_ADC \
+    "{'id':'MODADC','function':'ADC','description':'d','drawer':['Interface'],'pinouts':{'p':[" \
+    PIN(1, "VDD", "power") "," PIN(2, "CLK", "input") "," PIN(3, "DOUT", "output") "," \
+    PIN(4, "CLKOUT", "output") "," PIN(5, "AINP", "input") "," PIN(6, "GND", "ground") "]}," \
+    "'type':'adc','bits':1,'channels':1,'codeFormat':'straight','vcc':[4.5,5.5],'analog':['AINP']," \
+    "'bus':{'style':'clocked','clock':{'pin':'CLK','edge':'rise'},'data':['DOUT']," \
+    "'clockOut':[{'pin':'CLKOUT','divide':2}]},'protocol':{'frame':'fixed','commands':[],'read':'10'}," \
+    PART("MODADCX", "p", "T6")
+
+/* A clocked 8-bit ADC with a 3-wire SPI configuration port (SDATA shared). */
+#define CFG_ADC \
+    "{'id':'CFGADC','function':'ADC','description':'d','drawer':['Interface'],'pinouts':{'p':[" \
+    PIN(1, "D7", "output") "," PIN(2, "D6", "output") "," PIN(3, "D5", "output") "," PIN(4, "D4", "output") "," \
+    PIN(5, "D3", "output") "," PIN(6, "D2", "output") "," PIN(7, "D1", "output") "," PIN(8, "D0", "output") "," \
+    PIN(9, "CLK", "input") "," PIN(10, "SEN", "input") "," PIN(11, "SCLK", "input") "," \
+    PIN(12, "SDATA", "inout") "," PIN(13, "VDD", "power") "," PIN(14, "GND", "ground") "," \
+    PIN(15, "AIN", "input") "," PIN(16, "NC", "nc") "]}," \
+    "'type':'adc','bits':8,'channels':1,'codeFormat':'twos','vcc':[1.7,1.9],'analog':['AIN']," \
+    "'bus':{'style':'clocked','clock':{'pin':'CLK','edge':'rise'},'data':['D7','D6','D5','D4','D3','D2','D1','D0']}," \
+    "'configBus':{'style':'spi','cs':'SEN','sclk':'SCLK','mosi':'SDATA','miso':'SDATA','mode':0}," \
+    "'registers':[{'name':'R0','address':0,'width':8},{'name':'R1','address':1,'width':8,'reset':3}]," \
+    "'protocol':{'frame':'fixed','out':'z{16}','idle':'z','commands':[" \
+    "{'name':'WRITE','in':'0aaaaaaa d{8}','action':'write','address':'a','data':'d'}," \
+    "{'name':'READ','in':'1aaaaaaa','action':'rreg','address':'a'}],'read':'R{8}'}," \
+    PART("CFGADCX", "p", "T16")
+
 #define FILE_OF(DEVICES) "{'format':'schematical-parts','version':1,'kind':'converter','devices':[" DEVICES "]}"
 
 static int load_fixtures(void) {
@@ -141,7 +235,8 @@ static int load_fixtures(void) {
     char *parts = json(FILE_OF(
         FRAME_ADC("FRAMEADC", "12", "straight", "00 R{12}") ","
         FRAME_ADC("OFFADC", "16", "offset", "R{16}") ","
-        I2C_ADC "," CMD_ADC "," SPI_DAC "," I2C_DAC));
+        I2C_ADC "," CMD_ADC "," SPI_DAC "," I2C_DAC "," PAR_ADC "," BYTE_ADC "," PAR_DAC ","
+        CLK_ADC "," MOD_ADC "," CFG_ADC));
     char *error = NULL;
     int ok;
 
@@ -565,6 +660,234 @@ static void i2c_dac(void) {
     close_bench(b);
 }
 
+
+/* ---- plan-24-E: parallel and clocked buses -------------------------------------------- */
+
+static uint32_t bus_value(Bench *b, const char *const *pins, size_t n, int *z) {
+    uint32_t v = 0;
+    size_t i;
+
+    *z = 1;
+    for (i = 0; i < n; i++) {
+        LogicValue l = get(b, pins[i]);
+
+        if (l != LOGIC_Z) {
+            *z = 0;
+        }
+        v = (v << 1) | (l == LOGIC_1 ? 1u : 0u);
+    }
+    return v;
+}
+
+static const char *const DB12[] = {"DB11", "DB10", "DB9", "DB8", "DB7", "DB6", "DB5", "DB4",
+                                   "DB3", "DB2", "DB1", "DB0"};
+static const char *const D8[] = {"D7", "D6", "D5", "D4", "D3", "D2", "D1", "D0"};
+static const char *const D12P[] = {"D11", "D10", "D9", "D8", "D7", "D6", "D5", "D4", "D3",
+                                   "D2", "D1", "D0"};
+
+static void par_adc(void) {
+    Bench *b = bench("PARADCX", NULL);
+    int z;
+    uint32_t v;
+
+    set(b, "CS", LOGIC_1);
+    set(b, "RD", LOGIC_1);
+    set(b, "CONVST", LOGIC_1);
+    run(b, HALF);
+    bus_value(b, DB12, 12, &z);
+    check(z, "parallel ADC: data Z while not selected");
+    check(get(b, "BUSY") == LOGIC_0, "parallel ADC: BUSY low before a conversion");
+    set(b, "CONVST", LOGIC_0);
+    run(b, 500000);
+    check(get(b, "BUSY") == LOGIC_1, "parallel ADC: CONVST falling starts a conversion (BUSY high)");
+    run(b, 600000);
+    check(get(b, "BUSY") == LOGIC_0, "parallel ADC: BUSY low after the 1 us conversion");
+    set(b, "RD", LOGIC_0);
+    run(b, HALF);
+    bus_value(b, DB12, 12, &z);
+    check(z, "bus contention: RD without CS leaves the data Z");
+    set(b, "CS", LOGIC_0);
+    run(b, HALF);
+    v = bus_value(b, DB12, 12, &z);
+    check(!z && v == 0x800, "parallel ADC: CS and RD read the 0 V code (offset binary 0x800)");
+    set(b, "RD", LOGIC_1);
+    set(b, "CS", LOGIC_1);
+    run(b, HALF);
+    bus_value(b, DB12, 12, &z);
+    check(z, "parallel ADC: data float after the read");
+    close_bench(b);
+
+    b = bench("BYTEADCX", NULL);
+    set(b, "CS", LOGIC_0);
+    set(b, "HBEN", LOGIC_1);
+    set(b, "RD", LOGIC_0);
+    run(b, HALF);
+    v = bus_value(b, D8, 8, &z);
+    check(v == 0x08, "byte ADC: HBEN high reads the high byte (0000 + bits 11-8)");
+    set(b, "RD", LOGIC_1);
+    run(b, HALF);
+    set(b, "HBEN", LOGIC_0);
+    set(b, "RD", LOGIC_0);
+    run(b, HALF);
+    check(bus_value(b, D8, 8, &z) == 0x00, "byte ADC: HBEN low reads the low byte");
+    close_bench(b);
+}
+
+static void par_dac_write(Bench *b, unsigned addr, unsigned value) {
+    size_t i;
+
+    set(b, "A1", (addr >> 1) & 1u ? LOGIC_1 : LOGIC_0);
+    set(b, "A0", addr & 1u ? LOGIC_1 : LOGIC_0);
+    set(b, "R/W", LOGIC_0);
+    for (i = 0; i < 12; i++) {
+        set(b, D12P[i], (value >> (11 - i)) & 1u ? LOGIC_1 : LOGIC_0);
+    }
+    run(b, HALF);
+    set(b, "CS", LOGIC_0);
+    run(b, HALF);
+    set(b, "CS", LOGIC_1);
+    run(b, HALF);
+    for (i = 0; i < 12; i++) {
+        set(b, D12P[i], LOGIC_Z);
+    }
+    set(b, "R/W", LOGIC_1);
+    run(b, HALF);
+}
+
+static unsigned par_dac_read(Bench *b, unsigned addr) {
+    int z;
+    unsigned v;
+
+    set(b, "A1", (addr >> 1) & 1u ? LOGIC_1 : LOGIC_0);
+    set(b, "A0", addr & 1u ? LOGIC_1 : LOGIC_0);
+    set(b, "R/W", LOGIC_1);
+    set(b, "CS", LOGIC_0);
+    run(b, HALF);
+    v = bus_value(b, D12P, 12, &z);
+    set(b, "CS", LOGIC_1);
+    run(b, HALF);
+    return z ? 0xFFFFFFFFu : v;
+}
+
+static void par_dac(void) {
+    Bench *b = bench("PARDACX", NULL);
+
+    set(b, "CS", LOGIC_1);
+    set(b, "R/W", LOGIC_1);
+    set(b, "LDAC", LOGIC_1);
+    run(b, HALF);
+    par_dac_write(b, 0, 0x123);
+    par_dac_write(b, 1, 0x456);
+    check(par_dac_read(b, 0) == 0x123 && par_dac_read(b, 1) == 0x456,
+          "parallel DAC: CS/WR writes the input registers by address; R/W reads them back");
+    check(par_dac_read(b, 2) == 0, "parallel DAC: the DAC registers wait for LDAC");
+    set(b, "LDAC", LOGIC_0);
+    run(b, HALF);
+    set(b, "LDAC", LOGIC_1);
+    run(b, HALF);
+    check(par_dac_read(b, 2) == 0x123 && par_dac_read(b, 3) == 0x456,
+          "parallel DAC: LDAC copies both input registers");
+    close_bench(b);
+}
+
+static void clocked(void) {
+    Bench *b = bench("CLKADCX", NULL);
+    int z;
+    uint32_t v;
+    unsigned ones = 0, i;
+
+    set(b, "OE", LOGIC_0);
+    set(b, "CLK", LOGIC_0);
+    run(b, HALF);
+    bus_value(b, DB12, 12, &z);
+    check(z, "clocked ADC: data Z before the first clock");
+    set(b, "CLK", LOGIC_1);
+    run(b, HALF);
+    v = bus_value(b, DB12, 12, &z);
+    check(!z && v == 0x800, "clocked ADC: a CLK rising edge drives the 0 V code (0x800)");
+    check(get(b, "DRY") == LOGIC_1, "clocked ADC: DRY follows CLK");
+    set(b, "CLK", LOGIC_0);
+    run(b, HALF);
+    check(get(b, "DRY") == LOGIC_0, "clocked ADC: DRY falls with CLK");
+    set(b, "OE", LOGIC_1);
+    run(b, HALF);
+    bus_value(b, DB12, 12, &z);
+    check(z, "clocked ADC: OE inactive floats the data");
+    close_bench(b);
+
+    b = bench("MODADCX", NULL);
+    set(b, "CLK", LOGIC_0);
+    run(b, HALF);
+    for (i = 0; i < 8; i++) {
+        set(b, "CLK", LOGIC_1);
+        run(b, HALF);
+        ones += get(b, "DOUT") == LOGIC_1 ? (i % 2 == 0 ? 1u : 100u) : 0u;
+        set(b, "CLK", LOGIC_0);
+        run(b, HALF);
+    }
+    check(ones == 4, "modulator: the 0 V bit stream alternates 1, 0 (50 % ones)");
+    {
+        LogicValue a, c;
+
+        set(b, "CLK", LOGIC_1);
+        run(b, HALF);
+        a = get(b, "CLKOUT");
+        set(b, "CLK", LOGIC_0);
+        run(b, HALF);
+        set(b, "CLK", LOGIC_1);
+        run(b, HALF);
+        c = get(b, "CLKOUT");
+        check(a != c && a != LOGIC_X && c != LOGIC_X, "modulator: CLKOUT = CLK / 2 toggles each rising edge");
+    }
+    close_bench(b);
+}
+
+/* 3-wire SPI: 8 bits out on SDATA, then (read) the pin released and 8 bits in. */
+static unsigned sdio_frame(Bench *b, unsigned first, unsigned second, int read) {
+    unsigned v = 0;
+    int i;
+
+    set(b, "SCLK", LOGIC_0);
+    set(b, "SEN", LOGIC_0);
+    run(b, HALF);
+    for (i = 15; i >= 0; i--) {
+        unsigned word = (first << 8) | second;
+
+        if (read && i < 8) {
+            set(b, "SDATA", LOGIC_Z);
+        } else {
+            set(b, "SDATA", (word >> i) & 1u ? LOGIC_1 : LOGIC_0);
+        }
+        run(b, HALF);
+        v = (v << 1) | (get(b, "SDATA") == LOGIC_1 ? 1u : 0u);
+        set(b, "SCLK", LOGIC_1);
+        run(b, HALF);
+        set(b, "SCLK", LOGIC_0);
+    }
+    run(b, HALF);
+    set(b, "SEN", LOGIC_1);
+    set(b, "SDATA", LOGIC_Z);
+    run(b, HALF);
+    return v & 0xFFu;
+}
+
+static void config_bus(void) {
+    static const char *const pulls[] = {"SDATA", NULL};
+    Bench *b = bench("CFGADCX", pulls);
+    int z;
+
+    set(b, "SEN", LOGIC_1);
+    set(b, "CLK", LOGIC_0);
+    run(b, HALF);
+    check(sdio_frame(b, 0x81, 0, 1) == 0x03, "config bus: 3-wire SPI reads a register's reset value");
+    sdio_frame(b, 0x01, 0x5A, 0);
+    check(sdio_frame(b, 0x81, 0, 1) == 0x5A, "config bus: a register written over SPI reads back");
+    set(b, "CLK", LOGIC_1);
+    run(b, HALF);
+    check(bus_value(b, D8, 8, &z) == 0 && !z, "config bus: the clocked data bus drives the code");
+    close_bench(b);
+}
+
 int main(void) {
     if (!load_fixtures()) {
         return 1;
@@ -578,6 +901,10 @@ int main(void) {
     cmd_adc();
     spi_dac();
     i2c_dac();
+    par_adc();
+    par_dac();
+    clocked();
+    config_bus();
     part_library_destroy(library);
     if (failures) {
         printf("%d FAILED\n", failures);

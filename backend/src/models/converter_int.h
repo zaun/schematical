@@ -107,8 +107,15 @@ typedef struct CvState {
     SerialI2cEvents i2c_ev;
     int i2c_general;
     /* parallel / clocked (converter_par.c) */
-    LogicValue par_prev[8];
-    uint32_t par_state[8];
+    int par_reading;
+    int par_writing;
+    LogicValue par_wr_level;
+    uint32_t par_latched;           /* ALE address */
+    int par_has_latched;
+    uint32_t par_data_last;         /* unlatched DACs: the data pins last seen */
+    LogicValue par_clock;
+    CvSeg clk_seg;
+    uint32_t clk_count;
     /* rtc (rtc.c) */
     void *rtc;
 } CvState;
@@ -129,6 +136,11 @@ void cv_reg_read(CvState *s, int reg);
 void cv_reset(CvState *s);
 void cv_bit_in(CvState *s, LogicValue v);
 LogicValue cv_bit_out(CvState *s, int *sdio);
+LogicValue cv_seg_bit(CvState *s, CvSeg *g, int idle, int *sdio);
+/* Sets a segment to shift a pattern (caps/@ list optional). */
+void cv_seg_set(CvSeg *seg, const CvPattern *pat);
+/* The read pattern for the current read key (parallel/clocked reads). */
+const CvPattern *cv_read_pattern(CvState *s);
 void cv_xfer_begin(CvState *s, int reading);
 void cv_xfer_end(CvState *s);
 void cv_read_begin(CvState *s);

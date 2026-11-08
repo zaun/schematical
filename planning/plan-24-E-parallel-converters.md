@@ -21,7 +21,7 @@ plan-24-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-24-D complete | `ls planning/completed/plan-24-D-*.md` → exists | NOT MET (2026-11-07) |
+| plan-24-D complete | `ls planning/completed/plan-24-D-*.md` → exists | MET (`planning/completed/plan-24-D-converter-kind.md`, 2026-11-07 at e94a309) |
 
 ## 1. Goal
 
@@ -58,10 +58,10 @@ register selected by `address`; LDAC/`update` as in D.
 
 ### Phase 1 — Parallel bus
 
-- [ ] Parallel front end in `converter_par.c` (+ CMake line); §3 cases; docs; `library_check` cases.
-- [ ] `clocked` bus style (schema.md § 3, plan-24-A Corrections): data pins drive the next `read`-pattern bits on each clock edge while `oe` is active, `clockOut` follows the clock; `configBus` (SPI/I2C configuration port beside a parallel or clocked bus). Cases: a 12-bit clocked ADC drives the 0 V code after a clock edge and Z with OE inactive; a 1-pin modulator alternates 1/0 per clock; registers written over `configBus` read back.
+- [x] Parallel front end in `converter_par.c` (CMake line landed with D): CS/RD/WR or R/W reads and writes, address pins, ALE latch, byte select, tAcc/tDf, latch-on-change DACs; the loader's parallel object and docs § `converter` (bus) landed with D. §3 cases in `converter_test`: ADS7816-style CONVST/BUSY/read 0x800/float, HBEN high/low bytes, DAC7625-style writes by address + R/W read-back + LDAC copies both, RD without CS stays Z — all `ok`; `library_check`: `"data" needs 4-24 pins`.
+- [x] `clocked` bus style (schema.md § 3, plan-24-A Corrections): data pins drive the next `read`-pattern bits on each clock edge while `oe` is active, `clockOut` follows the clock; `configBus` (SPI/I2C configuration port beside a parallel or clocked bus). Cases: a 12-bit clocked ADC drives the 0 V code after a clock edge and Z with OE inactive; a 1-pin modulator alternates 1/0 per clock; registers written over `configBus` read back. — all `ok` (`clocked ADC: a CLK rising edge drives the 0 V code (0x800)`, `OE inactive floats the data`, `DRY follows CLK`, `modulator: ... alternates 1, 0`, `CLKOUT = CLK / 2`, `config bus: a register written over SPI reads back` on 3-wire SDIO); `library_check`: `"clock" needs a pin`.
 
-Acceptance: `ctest --test-dir /tmp/logic-p24` → T0 + 1 of T0 + 1; golden diff empty (seconds).
+Acceptance: `ctest --test-dir /tmp/logic-p24` → T0 + 1 of T0 + 1 (`100% tests passed, 0 tests failed out of 25`); golden diff empty (0 lines) (seconds). All 764 ADC/DAC specs still load (`loaded 1911 parts`).
 Commit: —
 
 ## Validation Plan

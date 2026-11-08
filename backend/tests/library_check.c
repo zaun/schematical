@@ -259,6 +259,21 @@ static void check_converter_cases(void) {
     expect_fail("converter capture not in the pattern",
                 CONV_DEVICE(CONV_REG, "{'name':'W','in':'0100aaaa','action':'wreg','address':'b'}"),
                 "\"address\" 'b' is not a capture of \"in\"");
+    expect_fail("converter parallel bus with too few data pins",
+                HEAD("converter") "{'id':'P','function':'ADC','description':'d','drawer':['Interface'],"
+                "'pinouts':{'p':[{'number':1,'name':'VDD','role':'power'},{'number':2,'name':'D0','role':'output'}]},"
+                "'type':'adc','bits':8,'channels':1,'codeFormat':'straight','vcc':[4.5,5.5],"
+                "'bus':{'style':'parallel','data':['D0']},'protocol':{'frame':'fixed','read':'R{8}'},"
+                "'conversion':{'time':0,'start':['read']},"
+                "'parts':[{'name':'P-1','package':'DIP','pinout':'p','footprint':'T2'}]}" TAIL,
+                "\"data\" needs 4-24 pins");
+    expect_fail("converter clocked bus without a clock",
+                HEAD("converter") "{'id':'K','function':'ADC','description':'d','drawer':['Interface'],"
+                "'pinouts':{'p':[{'number':1,'name':'VDD','role':'power'},{'number':2,'name':'D0','role':'output'}]},"
+                "'type':'adc','bits':1,'channels':1,'codeFormat':'straight','vcc':[4.5,5.5],"
+                "'bus':{'style':'clocked','data':['D0']},'protocol':{'frame':'fixed','read':'10'},"
+                "'parts':[{'name':'K-1','package':'DIP','pinout':'p','footprint':'T2'}]}" TAIL,
+                "\"clock\" needs a pin");
 }
 #undef CONV_DEVICE
 #undef CONV_REG
