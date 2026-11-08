@@ -211,11 +211,11 @@ Commit: 6852513
 
 Acceptance: the submenu shows the three items and each writes a valid file; the PNG is non-opaque, the JPG opaque, both visually the whole schematic.
   Check: the commands above and the screenshot (est. 20 min; nothing headless can see a menu bar or a save panel).
-Commit: —
+Commit: 4d9995d, b562aa2, 4afd2a0
 
 ### Phase 4 — Landing tier (once)
 
-- [ ] `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO 2>&1 | tail -3` → `** TEST SUCCEEDED **`.
+- [x] `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO 2>&1 | tail -3` → `** TEST SUCCEEDED **`. (run at 4afd2a0 with `-derivedDataPath /tmp/p28-dd`: `Executed 162 tests, with 0 failures (0 unexpected)`, `** TEST SUCCEEDED **`)
 - [ ] Move `plan-28-D-export-menu.md` to `planning/completed/` (A, B and C were moved as each landed), with its `Commit:` lines filled.
 
 Acceptance: the full app suite passes. The canvas pixel gates already ran in A and B and D does not touch drawing code, so none is repeated.
