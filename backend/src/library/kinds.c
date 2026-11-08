@@ -25,6 +25,7 @@ extern const PartKindOps DECODER_KIND;
 extern const PartKindOps BUFFER_KIND;
 extern const PartKindOps MUX_KIND;
 extern const PartKindOps HEADER_KIND;
+extern const PartKindOps ARITH_KIND;
 
 /* One line per kind. Adding a kind: docs/backend.md, "Adding a kind". */
 const PartKindOps *const KINDS[] = {
@@ -50,6 +51,7 @@ const PartKindOps *const KINDS[] = {
     &BUFFER_KIND,
     &MUX_KIND,
     &HEADER_KIND,
+    &ARITH_KIND,
     NULL
 };
 

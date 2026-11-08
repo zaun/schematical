@@ -594,6 +594,176 @@ static void check_decoder_cases(void) {
 #define MUX_RF(WORDS, BITS, FILES) \
     "'model':'regfile','words':" WORDS ",'bits':" BITS ",'files':[" FILES "]"
 
+/* plan-22-B: arith devices on the decoder's 26-pin fixture pinout. */
+#define ARI_CMP(REST) \
+    "'model':'compare','a':['A','B'],'b':['C','D'],'outputs':{'gt':{'pin':'Y0','active':'high'}," \
+    "'eq':{'pin':'Y1','active':'low'}}" REST
+#define ARI_CAS ",'cascade':{'gt':'E','eq':'G'}"
+#define ARI_PAR(REST) "'model':'parity','inputs':['A','B','C']" REST
+#define ARI_BUS ",'bus':{'pin':'RBO','xmit':{'pin':'LE','active':'low'},'drives':'even'}"
+
+static void check_arith_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library,
+               HEAD("arith") DEC_DEVICE(ARI_CMP(ARI_CAS ",'cascadeTable':[{'in':'HL','out':'HL'},"
+                                       "{'in':'XH','out':'LL'},{'in':'LL','out':'HH'},"
+                                       "{'when':'gt','in':'XX','out':'HH'}],"
+                                       "'enable':{'pin':'LE','active':'low'},"
+                                       "'latch':{'pin':'CLK','active':'low'},"
+                                       "'signed':{'pin':'RBI','active':'high'},'openDrain':['Y1']")) TAIL,
+               &error) == 0);
+    part = part_library_find(library, "D1");
+    CHECK(part != NULL && part->kind == PART_ARITH && part->logic != NULL &&
+          strcmp(part->logic->family, "HC") == 0 && part->logic->units == 1 &&
+          part_pin_open_drain(part, 9) == 1 && part_pin_open_drain(part, 8) == 0);
+    printf("ok   valid arith (compare)%s%s\n", error != NULL ? ": " : "", error != NULL ? error : "");
+    free(error);
+    error = NULL;
+    part_library_destroy(library);
+    library = part_library_create();
+    CHECK(load(library,
+               HEAD("arith") DEC_DEVICE(ARI_PAR(",'even':'Y0','odd':'Y1'" ARI_BUS
+                                               ",'error':{'pin':'Y2','active':'low'},'errorOn':'even'")) TAIL,
+               &error) == 0);
+    part = part_library_find(library, "D1");
+    CHECK(part != NULL && part->kind == PART_ARITH && part->logic->units == 1);
+    printf("ok   valid arith (parity)%s%s\n", error != NULL ? ": " : "", error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("arith unknown model",
+                HEAD("arith") DEC_DEVICE("'model':'divider'") TAIL,
+                "devices[0] (d): unknown model \"divider\"");
+    expect_fail("arith key of another kind",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(",'units':[]")) TAIL,
+                "devices[0]: unknown key \"units\"");
+    expect_fail("arith key of another model",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(",'errorOn':'even'")) TAIL,
+                "\"errorOn\" is not a key of model \"compare\"");
+    expect_fail("arith compare a and b lengths",
+                HEAD("arith") DEC_DEVICE("'model':'compare','a':['A','B'],'b':['C'],"
+                                         "'outputs':{'eq':{'pin':'Y0','active':'high'}}") TAIL,
+                "\"a\" and \"b\" must have the same number of names");
+    expect_fail("arith compare 13 bits",
+                HEAD("arith") DEC_DEVICE("'model':'compare','a':['A','A','A','A','A','A','A','A','A','A','A','A','A'],"
+                                         "'b':['C'],'outputs':{'eq':{'pin':'Y0','active':'high'}}") TAIL,
+                "\"a\" must have 1 to 12 names");
+    expect_fail("arith compare no outputs",
+                HEAD("arith") DEC_DEVICE("'model':'compare','a':['A'],'b':['C']") TAIL,
+                "missing \"outputs\"");
+    expect_fail("arith compare outputs not object",
+                HEAD("arith") DEC_DEVICE("'model':'compare','a':['A'],'b':['C'],'outputs':['Y0']") TAIL,
+                "outputs: must be an object of \"gt\", \"eq\", \"lt\"");
+    expect_fail("arith compare unknown output",
+                HEAD("arith") DEC_DEVICE("'model':'compare','a':['A'],'b':['C'],"
+                                         "'outputs':{'ne':{'pin':'Y0','active':'high'}}") TAIL,
+                "outputs: unknown key \"ne\"");
+    expect_fail("arith compare empty outputs",
+                HEAD("arith") DEC_DEVICE("'model':'compare','a':['A'],'b':['C'],'outputs':{}") TAIL,
+                "\"outputs\" needs at least one of \"gt\", \"eq\", \"lt\"");
+    expect_fail("arith compare output without active",
+                HEAD("arith") DEC_DEVICE("'model':'compare','a':['A'],'b':['C'],"
+                                         "'outputs':{'eq':{'pin':'Y0'}}") TAIL,
+                "missing \"active\"");
+    expect_fail("arith compare cascade not object",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(",'cascade':['E']")) TAIL,
+                "cascade: must be an object of \"gt\", \"eq\", \"lt\"");
+    expect_fail("arith compare cascade unknown key",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(",'cascade':{'ge':'E'}")) TAIL,
+                "cascade: unknown key \"ge\"");
+    expect_fail("arith compare empty cascade",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(",'cascade':{}")) TAIL,
+                "\"cascade\" needs at least one of \"gt\", \"eq\", \"lt\"");
+    expect_fail("arith compare cascade output without input",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(",'cascade':{'gt':'E'}")) TAIL,
+                "output \"eq\" has no cascade input of its name: give \"cascadeTable\"");
+    expect_fail("arith compare table without cascade",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(",'cascadeTable':[{'in':'','out':'HL'}]")) TAIL,
+                "\"cascadeTable\" needs \"cascade\"");
+    expect_fail("arith compare table not array",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(ARI_CAS ",'cascadeTable':{}")) TAIL,
+                "\"cascadeTable\" must be an array of 1 to 24 rows");
+    expect_fail("arith compare table row key",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(ARI_CAS ",'cascadeTable':[{'in':'XX','out':'HL','if':1}]")) TAIL,
+                "cascadeTable[0]: unknown key \"if\"");
+    expect_fail("arith compare table in length",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(ARI_CAS ",'cascadeTable':[{'in':'XXX','out':'HL'}]")) TAIL,
+                "cascadeTable[0]: \"in\" must have 2 levels");
+    expect_fail("arith compare table out level",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(ARI_CAS ",'cascadeTable':[{'in':'XX','out':'HX'}]")) TAIL,
+                "cascadeTable[0]: \"out\" levels must be H, L");
+    expect_fail("arith compare table in level",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(ARI_CAS ",'cascadeTable':[{'in':'X1','out':'HL'}]")) TAIL,
+                "cascadeTable[0]: \"in\" levels must be H, L or X");
+    expect_fail("arith compare table when",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(ARI_CAS ",'cascadeTable':[{'when':'ne','in':'XX','out':'HL'}]")) TAIL,
+                "cascadeTable[0]: \"when\" must be \"gt\", \"eq\" or \"lt\", not \"ne\"");
+    expect_fail("arith compare table gap",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(ARI_CAS ",'cascadeTable':[{'in':'HX','out':'HL'}]")) TAIL,
+                "\"cascadeTable\" rows for \"eq\" miss a cascade level combination");
+    expect_fail("arith compare table 25 rows",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(ARI_CAS ",'cascadeTable':["
+                    "{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},"
+                    "{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},"
+                    "{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},"
+                    "{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},"
+                    "{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},"
+                    "{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},{'in':'XX','out':'HL'},"
+                    "{'in':'XX','out':'HL'}]")) TAIL,
+                "\"cascadeTable\" must be an array of 1 to 24 rows");
+    expect_fail("arith compare latch without active",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(",'latch':{'pin':'CLK'}")) TAIL,
+                "latch: missing \"active\"");
+    expect_fail("arith compare unknown pin",
+                HEAD("arith") DEC_DEVICE("'model':'compare','a':['Q'],'b':['C'],"
+                                         "'outputs':{'eq':{'pin':'Y0','active':'high'}}") TAIL,
+                "pinouts.p26: no pin named \"Q\"");
+    expect_fail("arith output style",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(",'output':'open-collector'")) TAIL,
+                "\"output\" must be \"push-pull\" or \"open-drain\"");
+    expect_fail("arith openDrain not an output",
+                HEAD("arith") DEC_DEVICE(ARI_CMP(",'openDrain':['Y5']")) TAIL,
+                "\"openDrain\": \"Y5\" is not an output of the model");
+    expect_fail("arith parity no inputs",
+                HEAD("arith") DEC_DEVICE("'model':'parity','even':'Y0'") TAIL,
+                "missing \"inputs\"");
+    expect_fail("arith parity 10 inputs",
+                HEAD("arith") DEC_DEVICE("'model':'parity','inputs':['A','B','C','D','E','G','LE','CLK','RBI','A'],"
+                                         "'even':'Y0'") TAIL,
+                "\"inputs\" must have 1 to 9 names");
+    expect_fail("arith parity no outputs",
+                HEAD("arith") DEC_DEVICE(ARI_PAR("")) TAIL,
+                "a parity device needs \"even\", \"odd\" or \"bus\"");
+    expect_fail("arith parity bus not object",
+                HEAD("arith") DEC_DEVICE(ARI_PAR(",'bus':'RBO'")) TAIL,
+                "bus: must be an object {\"pin\", \"xmit\", \"drives\"}");
+    expect_fail("arith parity bus without xmit",
+                HEAD("arith") DEC_DEVICE(ARI_PAR(",'bus':{'pin':'RBO','drives':'even'}")) TAIL,
+                "bus: missing \"xmit\"");
+    expect_fail("arith parity bus drives",
+                HEAD("arith") DEC_DEVICE(ARI_PAR(",'bus':{'pin':'RBO','xmit':{'pin':'LE','active':'low'},"
+                                                 "'drives':'none'}")) TAIL,
+                "bus: \"drives\" must be \"even\" or \"odd\", not \"none\"");
+    expect_fail("arith parity bus not inout",
+                HEAD("arith") DEC_DEVICE(ARI_PAR(",'bus':{'pin':'Y3','xmit':{'pin':'LE','active':'low'},"
+                                                 "'drives':'even'}")) TAIL,
+                "\"bus\": pin \"Y3\" must have role inout");
+    expect_fail("arith parity error without bus",
+                HEAD("arith") DEC_DEVICE(ARI_PAR(",'even':'Y0','error':{'pin':'Y2','active':'low'},"
+                                                 "'errorOn':'even'")) TAIL,
+                "\"error\" needs \"bus\"");
+    expect_fail("arith parity errorOn",
+                HEAD("arith") DEC_DEVICE(ARI_PAR(ARI_BUS ",'error':{'pin':'Y2','active':'low'},"
+                                                 "'errorOn':'both'")) TAIL,
+                "\"errorOn\" must be \"even\" or \"odd\", not \"both\"");
+    expect_fail("arith parity errorOn without error",
+                HEAD("arith") DEC_DEVICE(ARI_PAR(ARI_BUS ",'errorOn':'even'")) TAIL,
+                "\"errorOn\" needs \"error\"");
+}
+
 static void check_mux_cases(void) {
     PartLibrary *library = part_library_create();
     char *error = NULL;
@@ -2274,6 +2444,7 @@ int main(void) {
     check_logic_family();
     check_decoder_cases();
     check_mux_cases();
+    check_arith_cases();
     check_supply_cases();
     check_voltage_cases();
     if (failures > 0) {
