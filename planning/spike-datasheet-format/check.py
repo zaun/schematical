@@ -19,28 +19,33 @@ REPO = os.path.normpath(os.path.join(HERE, "..", ".."))
 PARTS_DIR = os.path.join(REPO, "schematical", "schematical", "Parts")
 DATASHEETS_DIR = os.path.join(REPO, "datasheets")
 
-CLASSES = ["logic", "memory", "controller", "oscillator", "display", "module", "connector", "switch"]
+CLASSES = ["logic", "memory", "controller", "oscillator", "display", "module", "connector", "switch",
+           "microprocessor", "microcontroller"]
 
 # (title, anchor, requirement per class in CLASSES order: R required, O optional, - not allowed)
 SECTIONS = [
-    ("Description", "description", "RRRRRRRR"),
-    ("Pinout", "pinout", "RRRRRRRR"),
-    ("Pin functions", "pin-functions", "RRRRRROO"),
-    ("Functional description", "functional-description", "ORROOOOO"),
-    ("Function tables", "function-tables", "RROOOO-O"),
-    ("Registers and commands", "registers", "-OR--O--"),
-    ("Absolute maximum ratings", "absolute-maximum-ratings", "RRRRRROO"),
-    ("Recommended operating conditions", "recommended-operating-conditions", "RRROOO--"),
-    ("Thermal information", "thermal-information", "OOOO----"),
-    ("Electrical characteristics", "electrical-characteristics", "RRRRRRRR"),
-    ("Switching characteristics", "switching-characteristics", "RRRO-O-O"),
-    ("Timing diagrams", "timing-diagrams", "ORRO-O--"),
-    ("Typical characteristics", "typical-characteristics", "OOOOOO--"),
-    ("Parameter measurement information", "parameter-measurement", "OOOO----"),
-    ("Application information", "application-information", "OOOOOOOO"),
-    ("Package", "package", "RRRRRRRR"),
-    ("Ordering information", "ordering", "RRRRRRRR"),
-    ("Conversion notes", "conversion-notes", "RRRRRRRR"),
+    ("Description", "description", "RRRRRRRRRR"),
+    ("Pinout", "pinout", "RRRRRRRRRR"),
+    ("Pin functions", "pin-functions", "RRRRRROORR"),
+    ("Functional description", "functional-description", "ORROOOOORR"),
+    ("Programming model", "programming-model", "--------RR"),
+    ("Instruction set", "instruction-set", "--------RR"),
+    ("Memory map", "memory-map", "-OO--O--OR"),
+    ("Peripherals", "peripherals", "--------OR"),
+    ("Function tables", "function-tables", "RROOOO-OOO"),
+    ("Registers and commands", "registers", "-OR--O--OR"),
+    ("Absolute maximum ratings", "absolute-maximum-ratings", "RRRRRROORR"),
+    ("Recommended operating conditions", "recommended-operating-conditions", "RRROOO--RR"),
+    ("Thermal information", "thermal-information", "OOOO----OO"),
+    ("Electrical characteristics", "electrical-characteristics", "RRRRRRRRRR"),
+    ("Switching characteristics", "switching-characteristics", "RRRO-O-ORR"),
+    ("Timing diagrams", "timing-diagrams", "ORRO-O--RO"),
+    ("Typical characteristics", "typical-characteristics", "OOOOOO--OO"),
+    ("Parameter measurement information", "parameter-measurement", "OOOO----OO"),
+    ("Application information", "application-information", "OOOOOOOOOO"),
+    ("Package", "package", "RRRRRRRRRR"),
+    ("Ordering information", "ordering", "RRRRRRRRRR"),
+    ("Conversion notes", "conversion-notes", "RRRRRRRRRR"),
 ]
 SECTION_INDEX = {t: i for i, (t, _, _) in enumerate(SECTIONS)}
 SPEC_SECTIONS = {"Absolute maximum ratings", "Recommended operating conditions", "Thermal information",
@@ -49,11 +54,14 @@ BLOCK_HOME = {"pins": "Pin functions", "pinout": "Pinout", "package": "Package",
 BLOCK_TYPES = {"table", "pins", "pinout", "wavedrom", "curve", "figure", "package", "ordering", "equation"}
 FIGURE_LIBRARY = {"load-cmos-50pf", "waveforms-cmos-tpd-tt", "waveforms-cmos-tsu-th-tw",
                   "load-eeprom-ttl", "clamp-diodes"}
-FRONT_KEYS = {"format", "version", "id", "title", "class", "source", "devices", "parts", "packages", "converted"}
+FRONT_KEYS = {"format", "version", "id", "title", "class", "source", "devices", "parts", "packages", "converted",
+              "pending"}
 SOURCE_KEYS = {"pdf", "vendor", "document", "date", "pages"}
 VALUE_COLS = {"min", "typ", "nom", "max", "value"}
 NAMED_COLS = {"symbol", "parameter", "conditions", "test conditions", "from", "to", "unit"} | VALUE_COLS
 SIZE_WARN = 30 * 1024
+SIZE_LIMIT = {"controller": 60 * 1024, "microprocessor": 140 * 1024, "microcontroller": 140 * 1024}
+MAX_CURVES = {"microprocessor": 12, "microcontroller": 12}
 
 
 class DupKey(ValueError):
@@ -121,10 +129,11 @@ def split_row(line):
 
 DELIM_RE = re.compile(r"^:?-+:?$")
 NOTE_RE = re.compile(r"^\[(\d+)\]\s+\S")
-MARK_RE = re.compile(r"\[(\d+)\]")
-NUM_RE = re.compile(r"^[±+-]?\d+(\.\d+)?$")
+MARK_RE = re.compile(r"(?<![\w\\])\[(\d+)\]")
+NUM_RE = re.compile(r"^[<>≤≥]?\s?[±+-]?\d+(\.\d+)?$")
 RATIO_RE = re.compile(r"^\d+(\.\d+)?[/:]\d+(\.\d+)?$")
 EXPR_RE = re.compile(r"^[A-Za-z0-9~ .+\-×()/]+$")
+RAILS = {"GND", "VCC", "VDD", "VSS", "AVCC", "AREF"}
 
 
 class Report:
@@ -197,7 +206,7 @@ def check_table(rep, start, body, attrs, section):
                 v = cells[cc]
             name = v
             break
-        names.append(name.strip().lower())
+        names.append(MARK_RE.sub("", name).strip().lower())
     # notes and markers
     used = set()
     for ln, cells in rows:
@@ -215,7 +224,10 @@ def check_table(rep, start, body, attrs, section):
         rep.err(start, "marker [%s] has no note" % n)
     for n in sorted(set(defined) - used):
         rep.err(defined[n], "note [%s] has no marker" % n)
-    # spec tables
+    # spec tables: every table in a spec section, and any other table with
+    # a Unit column and a Min/Typ/Nom/Max/Value column (peripheral tables)
+    if section in ("Peripherals", "Functional description") and "unit" in names and any(n in VALUE_COLS for n in names):
+        section = "Electrical characteristics"
     if section in SPEC_SECTIONS:
         if "unit" not in names:
             rep.err(start, "spec table (%s) needs a Unit column" % section)
@@ -237,7 +249,9 @@ def check_table(rep, start, body, attrs, section):
                     continue
                 if NUM_RE.match(v) or RATIO_RE.match(v):
                     continue
-                if EXPR_RE.match(v) and "~" in v:
+                if EXPR_RE.match(v) and ("~" in v or "×" in v):
+                    continue
+                if v in RAILS:
                     continue
                 rep.err(ln, 'value cell "%s" (column %s) is not a number, ratio or symbol expression'
                         % (cells[c], names[c] or c + 1))
@@ -348,7 +362,7 @@ def check_file(path, cat, claims):
     # ---- front matter
     for k in sorted(set(fm) - FRONT_KEYS):
         rep.err(2, 'front matter: unknown key "%s"' % k)
-    for k in sorted(FRONT_KEYS - {"packages"} - set(fm)):
+    for k in sorted(FRONT_KEYS - {"packages", "pending"} - set(fm)):
         rep.err(2, 'front matter: missing "%s"' % k)
     if fm.get("format") != "schematical-datasheet":
         rep.err(2, 'front matter: format must be "schematical-datasheet"')
@@ -377,7 +391,13 @@ def check_file(path, cat, claims):
     if not re.match(r"^\d{4}-\d{2}-\d{2}$", str(fm.get("converted", ""))):
         rep.err(2, "converted must be YYYY-MM-DD")
     devices = fm.get("devices", [])
-    if not devices:
+    pending = "pending" in fm
+    if pending:
+        if not isinstance(fm["pending"], str) or not fm["pending"].strip():
+            rep.err(2, "pending must be a non-empty reason")
+        if devices or fm.get("parts"):
+            rep.err(2, "a pending datasheet has empty devices and parts")
+    elif not devices:
         rep.err(2, "devices must list at least one device")
     for d in devices:
         if d not in cat.devices:
@@ -464,6 +484,37 @@ def check_file(path, cat, claims):
             if r == "-" and title in present:
                 rep.err(0, 'class %s does not allow section "%s"' % (cls, title))
 
+    # ---- anchors and links
+    anchors = {}
+    in_f = False
+    for k, line in enumerate(lines[body_start:], body_start + 1):
+        if line.startswith("```"):
+            in_f = not in_f if line.strip() == "```" or not in_f else in_f
+            if not in_f and line.strip() != "```":
+                in_f = True
+            continue
+        if in_f:
+            continue
+        m = re.match(r"^(#{1,6}) (.+)$", line)
+        if m:
+            title = m.group(2).strip()
+            if m.group(1) == "##" and title in SECTION_INDEX:
+                slug = SECTIONS[SECTION_INDEX[title]][1]
+            else:
+                slug = re.sub(r"[^\w\- ]", "", title.lower()).replace(" ", "-")
+            if slug in anchors:
+                rep.warn(k, 'heading anchor "#%s" repeats line %d' % (slug, anchors[slug]))
+            anchors.setdefault(slug, k)
+    for kind, attrs, start, body, section in blocks:
+        if "id" in attrs:
+            if attrs["id"] in anchors:
+                rep.err(start - 1, 'id "%s" repeats an anchor on line %d' % (attrs["id"], anchors[attrs["id"]]))
+            anchors.setdefault(attrs["id"], start - 1)
+    for k, line in enumerate(lines[body_start:], body_start + 1):
+        for m in re.finditer(r"\]\(#([^)\s]+)\)", line):
+            if m.group(1) not in anchors:
+                rep.err(k, 'link to unknown anchor "#%s"' % m.group(1))
+
     # ---- inline markup (outside wavedrom and curve blocks)
     skip = set()
     for kind, attrs, start, body, section in blocks:
@@ -487,6 +538,8 @@ def check_file(path, cat, claims):
     for kind, attrs, start, body, section in blocks:
         text_ = "\n".join(body)
         home = BLOCK_HOME.get(kind)
+        if pending and kind in ("pinout", "package", "ordering"):
+            rep.err(start - 1, "a pending datasheet uses tables, not %s blocks" % kind)
         if home and section != home:
             rep.err(start - 1, '%s block belongs in "%s", not "%s"' % (kind, home, section))
         if kind == "table":
@@ -509,7 +562,7 @@ def check_file(path, cat, claims):
                     rep.err(k, "pins line must be 'NAME[, NAME]: description'")
                     continue
                 for n in [x.strip() for x in left.split(",")]:
-                    if n not in names_all:
+                    if not pending and n not in names_all:
                         rep.err(k, 'pin "%s" is in no pinout of the listed devices' % n)
                     if n in pins_seen:
                         rep.err(k, 'pin "%s" described twice' % n)
@@ -564,7 +617,7 @@ def check_file(path, cat, claims):
                 rep.err(start, "empty equation")
 
     # ---- coverage
-    if "Pinout" in present and not pinout_blocks:
+    if "Pinout" in present and not pinout_blocks and not pending:
         rep.err(0, "Pinout section has no pinout block")
     required_pins = set()
     for p in claimed:
@@ -577,11 +630,18 @@ def check_file(path, cat, claims):
             rep.err(0, 'pin "%s" has no description' % n)
     for fp in sorted(used_footprints - package_fps):
         rep.err(0, 'footprint "%s" of a claimed part has no package block' % fp)
-    if "Ordering information" in present and not ordering_blocks:
+    if "Ordering information" in present and not ordering_blocks and not pending:
         rep.err(0, "Ordering information has no ordering block")
-    if cls in ("memory", "controller") and not wavedrom_blocks:
+    if cls in ("memory", "controller", "microprocessor") and not wavedrom_blocks:
         rep.err(0, "class %s needs at least one wavedrom block" % cls)
-    if size > SIZE_WARN:
+    curves = sum(1 for b in blocks if b[0] == "curve")
+    if cls in MAX_CURVES and curves > MAX_CURVES[cls]:
+        rep.err(0, "%d curve blocks; class %s keeps at most %d" % (curves, cls, MAX_CURVES[cls]))
+    if cls in SIZE_LIMIT:
+        if size > SIZE_LIMIT[cls]:
+            rep.err(0, "size %.1f KB is over the %d KB limit for class %s"
+                    % (size / 1024, SIZE_LIMIT[cls] // 1024, cls))
+    elif size > SIZE_WARN:
         rep.warn(0, "size %.1f KB is over the 30 KB target" % (size / 1024))
     info = {"size": size, "sections": sec_bytes, "claimed": len(claimed),
             "pinouts": sorted(used_pinouts)}

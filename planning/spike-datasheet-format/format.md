@@ -65,12 +65,13 @@ The file starts with a line `---`, a JSON object, and a line `---`.
 | `version` | always `1` |
 | `id` | the file's base name; the source PDF's base name |
 | `title` | the datasheet title, one line, without the vendor's marketing adjectives |
-| `class` | one of `logic`, `memory`, `controller`, `oscillator`, `display`, `module`, `connector`, `switch`. Picks the required sections (below). |
+| `class` | one of `logic`, `memory`, `controller`, `oscillator`, `display`, `module`, `connector`, `switch`, `microprocessor`, `microcontroller`. Picks the required sections and the size limit (below). `controller` is a peripheral controller (UART, I²C/SPI bridge, PIO); a part that runs its own program is `microprocessor` (external memory) or `microcontroller` (on-chip memory and peripherals). |
 | `source` | the PDF it was converted from: `pdf` (path under `datasheets/`), `vendor`, `document` (literature number, revision letter included), `date` (`YYYY` or `YYYY-MM`), `pages`. `document` and `date` may be `""` when the PDF has none. |
-| `devices` | catalog devices this datasheet describes, each `"<kind>:<device id>"` (`"gate:74_00"`, `"eeprom:AT28C256"`). At least one. |
+| `devices` | catalog devices this datasheet describes, each `"<kind>:<device id>"` (`"gate:74_00"`, `"eeprom:AT28C256"`). At least one, unless `pending`. |
 | `parts` | the catalog parts this datasheet is *the* datasheet for: exact part names from the part files, each in one of `devices`, or globs with `*` matched against the parts of `devices` (`"ECS-2520MV-*"` claims all 49 ECS-2520MV parts, and parts added later). Orderables the PDF lists but the catalog doesn't carry are not listed here (they may appear in the Ordering table as text). A part is claimed by at most one datasheet. May be empty only for a PDF whose catalog parts all live under another datasheet. |
 | `packages` | optional: catalog pinout name → the vendor's package designators that use it (`"p14": "D, DB, N, NS, PW, J, W"`). Labels the pinout drawings and the per-package columns of the pin table. |
 | `converted` | date of conversion, `YYYY-MM-DD` |
+| `pending` | optional: why none of the PDF's parts is in the catalog yet (`"AVR microcontrollers are not in the catalog yet"`). Only with `"devices": []` and `"parts": []`; see [Pending datasheets](#pending-datasheets). |
 
 No other key is allowed, and no key may appear twice.
 
@@ -95,6 +96,25 @@ No other key is allowed, and no key may appear twice.
 - The catalog's `note` fields keep their `"<pdf> p.N"` references; those
   become `"<id>.md § <section>"` once the PDFs are gone (later plan).
 
+### Pending datasheets
+
+A PDF may be converted before its parts are in the catalog (the AVR
+microcontrollers today). Such a file has `"devices": []`, `"parts": []`
+and a `pending` reason, and then:
+
+- `pins` names are not checked against a catalog pinout, and are not
+  required to cover one.
+- The Pinout section holds a `table` instead of `pinout` blocks: pin name,
+  then one column of pin numbers (or balls) per package.
+- The Package section holds `table`s (package, body, pitch, height)
+  instead of `package` blocks; the Ordering section holds a `table`
+  (part, package, temperature range, speed or grade) instead of an
+  `ordering` block.
+
+When the parts are added to the catalog, the tables are replaced by the
+generated blocks, `pending` is removed, and `devices`/`parts` are filled
+in; everything else stays.
+
 ## Body
 
 After the front matter: exactly one `# ` heading (the title, usually the
@@ -102,26 +122,30 @@ same as `title`), then the sections, each a `## ` heading with one of the
 fixed titles below, in this order. Inside a section, `###` and deeper
 headings are free.
 
-| # | `##` title | Anchor | logic | memory | controller | oscillator | display | module | connector | switch |
-|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | Description | `description` | R | R | R | R | R | R | R | R |
-| 2 | Pinout | `pinout` | R | R | R | R | R | R | R | R |
-| 3 | Pin functions | `pin-functions` | R | R | R | R | R | R | O | O |
-| 4 | Functional description | `functional-description` | O | R | R | O | O | O | O | O |
-| 5 | Function tables | `function-tables` | R | R | O | O | O | O | – | O |
-| 6 | Registers and commands | `registers` | – | O | R | – | – | O | – | – |
-| 7 | Absolute maximum ratings | `absolute-maximum-ratings` | R | R | R | R | R | R | O | O |
-| 8 | Recommended operating conditions | `recommended-operating-conditions` | R | R | R | O | O | O | – | – |
-| 9 | Thermal information | `thermal-information` | O | O | O | O | – | – | – | – |
-| 10 | Electrical characteristics | `electrical-characteristics` | R | R | R | R | R | R | R | R |
-| 11 | Switching characteristics | `switching-characteristics` | R | R | R | O | – | O | – | O |
-| 12 | Timing diagrams | `timing-diagrams` | O | R | R | O | – | O | – | – |
-| 13 | Typical characteristics | `typical-characteristics` | O | O | O | O | O | O | – | – |
-| 14 | Parameter measurement information | `parameter-measurement` | O | O | O | O | – | – | – | – |
-| 15 | Application information | `application-information` | O | O | O | O | O | O | O | O |
-| 16 | Package | `package` | R | R | R | R | R | R | R | R |
-| 17 | Ordering information | `ordering` | R | R | R | R | R | R | R | R |
-| 18 | Conversion notes | `conversion-notes` | R | R | R | R | R | R | R | R |
+| # | `##` title | Anchor | logic | memory | controller | oscillator | display | module | connector | switch | µproc. | µctrl. |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | Description | `description` | R | R | R | R | R | R | R | R | R | R |
+| 2 | Pinout | `pinout` | R | R | R | R | R | R | R | R | R | R |
+| 3 | Pin functions | `pin-functions` | R | R | R | R | R | R | O | O | R | R |
+| 4 | Functional description | `functional-description` | O | R | R | O | O | O | O | O | R | R |
+| 5 | Programming model | `programming-model` | – | – | – | – | – | – | – | – | R | R |
+| 6 | Instruction set | `instruction-set` | – | – | – | – | – | – | – | – | R | R |
+| 7 | Memory map | `memory-map` | – | O | O | – | – | O | – | – | O | R |
+| 8 | Peripherals | `peripherals` | – | – | – | – | – | – | – | – | O | R |
+| 9 | Function tables | `function-tables` | R | R | O | O | O | O | – | O | O | O |
+| 10 | Registers and commands | `registers` | – | O | R | – | – | O | – | – | O | R |
+| 11 | Absolute maximum ratings | `absolute-maximum-ratings` | R | R | R | R | R | R | O | O | R | R |
+| 12 | Recommended operating conditions | `recommended-operating-conditions` | R | R | R | O | O | O | – | – | R | R |
+| 13 | Thermal information | `thermal-information` | O | O | O | O | – | – | – | – | O | O |
+| 14 | Electrical characteristics | `electrical-characteristics` | R | R | R | R | R | R | R | R | R | R |
+| 15 | Switching characteristics | `switching-characteristics` | R | R | R | O | – | O | – | O | R | R |
+| 16 | Timing diagrams | `timing-diagrams` | O | R | R | O | – | O | – | – | R | O |
+| 17 | Typical characteristics | `typical-characteristics` | O | O | O | O | O | O | – | – | O | O |
+| 18 | Parameter measurement information | `parameter-measurement` | O | O | O | O | – | – | – | – | O | O |
+| 19 | Application information | `application-information` | O | O | O | O | O | O | O | O | O | O |
+| 20 | Package | `package` | R | R | R | R | R | R | R | R | R | R |
+| 21 | Ordering information | `ordering` | R | R | R | R | R | R | R | R | R | R |
+| 22 | Conversion notes | `conversion-notes` | R | R | R | R | R | R | R | R | R | R |
 
 R = required, O = optional, – = not allowed for that class.
 
@@ -143,13 +167,59 @@ What goes where:
   order.
 - **Registers and commands**: a register map table (address, name, bits
   7…0, access, reset value), then one bit table per register (bits
-  `7:6`, name, access, reset, description with values `00 = …`). When a
+  `7:6`, name, description with values `00 = …`). The bit table has
+  Access and Reset columns only when they differ between the register's
+  bits; otherwise the map row says them once. A register holding one
+  field (a counter, a compare value, a data register) gets one sentence,
+  not a bit table. Identical instances (USART0–3, TCB0–3, UART channels
+  0–3) and registers that differ only in what a write does
+  (DIR/DIRSET/DIRCLR) share one table that names them all. Reserved bits
+  are left out of bit tables; one sentence per file says how to write
+  them. Prose describes behavior and refers to bits by name; it does not
+  restate what a bit table already says (no "bit 3, RXEN, enables the
+  receiver" paragraphs). When a
   register is only reachable under a condition (`LCR = 0xBF`, `DLAB = 1`,
   `EFR[4] = 1`), say so in an `Access` column, never with shading or bold.
   A WaveDrom `reg` diagram may follow a bit table; the table stays the
   source of truth. Command protocols (SPI command bytes, LCD instruction
   words) are tables of byte sequences, plus one WaveDrom frame per
   command when the PDF draws one.
+- **Programming model** (processors): the programmer-visible registers
+  (a WaveDrom `reg` diagram or a table per register: width, reset
+  value, bit meanings), the status/flag register bit by bit, the stack,
+  reset and interrupt behavior, and processor modes (65C816
+  emulation/native, AVR sleep modes belong in Peripherals).
+- **Instruction set**: an addressing-mode table (syntax, operand, how
+  the effective address is formed) and **one instruction summary
+  table**: mnemonic, operation, flags affected, then per addressing mode
+  the opcode, bytes and cycles (or, for a fixed-format ISA like AVR,
+  operands, opcode pattern, words, cycles). A 16 × 16 opcode matrix
+  repeats the summary and is dropped. Cycle-by-cycle bus tables
+  (65xx "what is on the bus in each cycle") stay: they are what a
+  hardware designer needs. Long per-instruction prose (one page per
+  instruction, as in instruction-set manuals) is not a datasheet's job
+  and is dropped; the summary's Operation column carries the meaning.
+- **Memory map**: address ranges (program, data, I/O, reserved), the
+  interrupt/reset vector table, and the I/O register address list when
+  it isn't given in Registers and commands.
+- **Peripherals** (microcontrollers): one `###` subsection per
+  peripheral (clock system, power management and sleep, reset and
+  watchdog, interrupts, I/O ports, each timer, USART, SPI, TWI/I²C, USI,
+  ADC, analog comparator, EEPROM, self-programming, debug, memory
+  programming), in the PDF's order. Each holds its description, its
+  register bit tables (as under Registers and commands) and its own
+  timing and electrical tables. Registers and commands then holds only
+  the register summary (address, name, bits 7…0), so a register is
+  described once, next to the hardware it controls.
+- Fuses, lock bits and signature bytes (microcontrollers) go in Memory
+  map, as bit tables like registers but with the fuse byte's name and
+  default instead of an address and reset value.
+- Current errata go in a last `### Errata` subsection of Functional
+  description.
+- Tables of characteristics that belong to one peripheral (ADC accuracy,
+  TWI timing, oscillator accuracy) stay in that peripheral's subsection;
+  they follow the spec-table rules, and the checker treats them as spec
+  tables.
 - **Conversion notes**: what was dropped beyond the standard drop list,
   what was approximated (digitized curves, redrawn waveforms), and known
   errors in the source (e.g. a unit typo).
@@ -161,6 +231,18 @@ caution boxes, tape-and-reel and tray dimensions, soldering process
 essays, stencil and solder-mask drawings, package marking diagrams, and
 the vendor's own pinout drawings and package outlines (both generated
 from the catalog instead).
+
+Processor classes drop more: the opcode matrix (it repeats the
+instruction summary), code examples (C and assembly snippets; one short
+sequence may stay where a register write needs a timed sequence, such
+as the AVR watchdog or clock-prescaler change), "data sheet / errata /
+device ID" history beyond the current errata, and **typical-
+characteristic curves beyond twelve**. The twelve kept are those that
+size a design: active, idle and power-down supply current against
+frequency or V~CC~, I/O pin output voltage against current (source and
+sink), internal oscillator frequency against V~CC~ and temperature,
+and brown-out/bandgap levels against temperature. The others are named
+in Conversion notes.
 
 ## Inline markup
 
@@ -174,8 +256,12 @@ Plain CommonMark plus GFM, with three additions:
 
 Pin names inside `pins` blocks and WaveDrom names are catalog names
 (`CE#`); the renderer draws a trailing `#` as an overline.
-Cross references are ordinary links to section anchors:
-`[recommended operating conditions](#recommended-operating-conditions)`.
+Cross references are ordinary links to anchors. Every heading has the
+GitHub-style anchor of its text (lowercase, punctuation removed, spaces
+to `-`), `###` subsections included, and every block with an `id` has
+that id: `[recommended operating conditions](#recommended-operating-conditions)`,
+`[USART0](#usart0)`, `[the function table](#function)`. Headings inside
+one file must give distinct anchors.
 
 ## Fenced blocks
 
@@ -205,7 +291,10 @@ A GFM pipe table, with these additions:
   same number of cells; a row's first cell can't be `<`, and the first
   header row and first body row can't hold `^`.
 - **Notes.** After the rows, a blank line, then one note per line,
-  `[n] text`. Cells and the caption reference them as `[n]`. Every marker
+  `[n] text`. Cells, headers and the caption reference them as `[n]`,
+  with a space or the start of the cell before the `[`. `ISR[2]` and
+  `TO[7:1]` (a name directly followed by brackets) are bit references,
+  not markers. Every marker
   needs a note and every note a marker. Notes are printed under their
   table (not at the end of the document).
 - Attributes: `id` (anchor), `caption`, `values` (see spec tables), `parts` (comma-separated part
@@ -229,7 +318,9 @@ A GFM pipe table, with these additions:
   `Unit` column. The unit is the column, never part of a value:
   `±20` with unit `mA`, not `±20 mA`.
 - Min/Typ/Nom/Max/Value cells are a number (ASCII `-` for negative,
-  optional `±`), an expression on a symbol (`V~CC~`, `V~CC~ + 0.5`,
+  optional `±`, optional `<`, `>`, `≤` or `≥` before it for values the
+  source gives only as a bound, such as a typical "< 10"), a rail name
+  (`GND`, `VCC`, `VDD`, `VSS`, `AVCC`, `AREF`), an expression on a symbol (`V~CC~`, `V~CC~ + 0.5`,
   `0.7 × V~DD~`), a ratio (`45/55`, `2:1`), or empty. A dash for "none"
   is written as an empty cell.
 - Column groups (temperature ranges, SN54 vs SN74, speed grades -15/-20,
@@ -375,10 +466,20 @@ centred. (No TeX: the samples needed four formulas in total.)
 
 ## Size
 
-The budget is the `.md` file's UTF-8 byte count plus any sidecar SVGs;
-generated blocks cost nothing. Target 20–30 KB for an IC that isn't a
-processor or microcontroller; `check.py` warns above 30 KB and reports
-the size of every section so the big ones are easy to find.
+The size of a file is its `.md` file's UTF-8 byte count plus any
+sidecar SVGs; generated blocks cost nothing.
+
+| Class | Limit | Checker |
+|---|--:|---|
+| `controller` | 60 KB | error above |
+| `microprocessor`, `microcontroller` | 140 KB | error above |
+| every other class | target 20–30 KB | warning above 30 KB |
+
+`check.py` reports the size of every section so the big ones are easy to
+find. A file over its limit is cut by the drop rules above, never by
+leaving out ratings, characteristics, timing or register meanings; if
+the rules can't bring it under, that is a format problem to raise, not
+a reason to drop facts.
 
 ## Checker
 
