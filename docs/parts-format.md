@@ -282,6 +282,7 @@ is `Part.vcc`; domain 1 the B side. Single-supply parts have
 |---|---|
 | `"id"` | unique, non-empty; by custom the local PDF's name in lower case (`datasheets/<group>/<id>.pdf`), or a TI literature number (`scls148`) |
 | `"url"` | the full `https://` URL of the PDF on the **manufacturer's own site** (no distributor or archive copies), the same document as the local PDF or its current revision. Several parts share one entry |
+| `"md"` | optional: the app's own Markdown datasheet converted from the PDF, as a path under `schematical/schematical/Datasheets/` (`"gate-and/sn74hc08.md"`): relative, ending in `.md`, no `..`. The format and the conversion procedure are in `planning/spike-datasheet-format/` (`format.md`, `converting.md`). With it, the inspector's button reads **Show Datasheet** and renders the file in its own window; without it, **Open Datasheet** downloads the PDF. `listing_check` fails if the file is missing |
 
 TI URLs use the stable `https://www.ti.com/lit/ds/symlink/<name>.pdf` form,
 with the product name (`sn74hc00`) or the literature number without its

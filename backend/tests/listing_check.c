@@ -76,6 +76,24 @@ int main(int argc, char **argv) {
             printf("FAIL: %zu parts have no \"manufacturer\"\n", no_maker);
             return 1;
         }
+        /* Every Markdown datasheet a datasheets.json entry names is in the
+           bundled Datasheets folder, beside Parts. */
+        for (i = 0; i < part_library_datasheet_count(library); i++) {
+            const PartDatasheet *sheet = part_library_datasheet_at(library, i);
+            char path[1024];
+            FILE *file;
+
+            if (sheet->md == NULL) {
+                continue;
+            }
+            snprintf(path, sizeof path, "%s/../Datasheets/%s", PARTS_DIR, sheet->md);
+            file = fopen(path, "rb");
+            if (file == NULL) {
+                printf("FAIL: datasheet %s: \"md\" file %s not found\n", sheet->id, sheet->md);
+                return 1;
+            }
+            fclose(file);
+        }
         if (argc != 2) {
             printf("   %zu parts have a manufacturer but no hosted datasheet\n", no_sheet);
         }

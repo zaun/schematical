@@ -473,6 +473,7 @@ static void check_datasheets(void) {
     CHECK(part_library_datasheet_count(library) == 2);
     CHECK(part_library_find_datasheet(library, "b") != NULL &&
           strcmp(part_library_find_datasheet(library, "b")->url, "https://example.com/b.pdf") == 0);
+    CHECK(part_library_find_datasheet(library, "b")->md == NULL);
     CHECK(load(library, DS_SUPPLY(",'manufacturer':'Acme','datasheet':'b'"), &error) == 0);
     part = part_library_find(library, "5V");
     CHECK(part != NULL && strcmp(part->manufacturer, "Acme") == 0 && part->datasheet != NULL &&
@@ -485,6 +486,16 @@ static void check_datasheets(void) {
     free(error);
     part_library_destroy(library);
     printf("ok   datasheets file and the manufacturer/datasheet part keys\n");
+
+    library = part_library_create();
+    error = NULL;
+    CHECK(load_ds(library, DS_FILE("{'id':'m','url':'https://example.com/m.pdf','md':'gate-and/m.md'}"),
+                  &error) == 0);
+    CHECK(part_library_find_datasheet(library, "m") != NULL &&
+          strcmp(part_library_find_datasheet(library, "m")->md, "gate-and/m.md") == 0);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   datasheet md path\n");
 
     library = part_library_create();
     error = NULL;
@@ -511,6 +522,14 @@ static void check_datasheets(void) {
                    "\"url\" must start with https://");
     expect_ds_fail("datasheets: empty id", DS_FILE("{'id':'','url':'https://e.com/a.pdf'}"),
                    "empty datasheet id");
+    expect_ds_fail("datasheets: md not .md", DS_FILE("{'id':'a','url':'https://e.com/a.pdf','md':'a.txt'}"),
+                   "\"md\" must be a relative path to a .md file");
+    expect_ds_fail("datasheets: md absolute", DS_FILE("{'id':'a','url':'https://e.com/a.pdf','md':'/a.md'}"),
+                   "\"md\" must be a relative path to a .md file");
+    expect_ds_fail("datasheets: md parent", DS_FILE("{'id':'a','url':'https://e.com/a.pdf','md':'../a.md'}"),
+                   "\"md\" must be a relative path to a .md file");
+    expect_ds_fail("datasheets: md empty", DS_FILE("{'id':'a','url':'https://e.com/a.pdf','md':''}"),
+                   "\"md\" must be a relative path to a .md file");
     expect_ds_fail("datasheets: unknown key",
                    DS_FILE("{'id':'a','url':'https://e.com/a.pdf','title':'t'}"), "title");
     expect_source_fail("part: unknown datasheet", DS_SUPPLY(",'manufacturer':'Acme','datasheet':'zz'"),

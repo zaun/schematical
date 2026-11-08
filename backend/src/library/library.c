@@ -894,7 +894,7 @@ int load_footprints(PartLibrary *library, const char *json, const char *source, 
 }
 
 static const char *const DATASHEET_FILE_KEYS[] = {"format", "version", "datasheets", NULL};
-static const char *const DATASHEET_KEYS[] = {"id", "url", NULL};
+static const char *const DATASHEET_KEYS[] = {"id", "url", "md", NULL};
 
 /* Reads every entry of a datasheets file into `items` (arena) and `ids`. */
 static int read_datasheets(KindContext *ctx, const cJSON *root, const PartLibrary *library,
@@ -947,6 +947,21 @@ static int read_datasheets(KindContext *ctx, const cJSON *root, const PartLibrar
         if (strncmp(sheet->url, "https://", 8) != 0 || sheet->url[8] == '\0') {
             return kind_error(ctx, "datasheet \"%s\": \"url\" must start with https://",
                               sheet->id);
+        }
+        sheet->md = NULL;
+        if (cJSON_GetObjectItemCaseSensitive(item, "md") != NULL) {
+            size_t len;
+
+            if (kind_string(ctx, item, "md", &sheet->md) != 0) {
+                return -1;
+            }
+            /* A relative path to a .md file: "<group>/<id>.md". */
+            len = strlen(sheet->md);
+            if (len < 4 || strcmp(sheet->md + len - 3, ".md") != 0 || sheet->md[0] == '/' ||
+                strstr(sheet->md, "..") != NULL) {
+                return kind_error(ctx, "datasheet \"%s\": \"md\" must be a relative path "
+                                  "to a .md file", sheet->id);
+            }
         }
         if (name_set_contains(&library->datasheet_ids, sheet->id) ||
             name_set_contains(ids, sheet->id)) {

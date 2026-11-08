@@ -138,8 +138,10 @@ typedef struct { const char *package; const PartFootprint *footprint; } PartFoot
 
 /* ---- Datasheets (Parts/datasheets.json, docs/parts-format.md) --------- */
 
-/* One datasheet: an id parts name, and the manufacturer's URL of the PDF. */
-typedef struct { const char *id, *url; } PartDatasheet;
+/* One datasheet: an id parts name, the manufacturer's URL of the PDF, and
+   the app's own Markdown datasheet ("md": a path under the bundled
+   Datasheets folder, such as "gate-and/sn74hc08.md"; NULL = none). */
+typedef struct { const char *id, *url, *md; } PartDatasheet;
 
 typedef struct Part {
     PartKind kind;
