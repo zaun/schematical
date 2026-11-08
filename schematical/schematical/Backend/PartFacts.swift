@@ -134,6 +134,7 @@ nonisolated enum PartFacts {
         case PART_BUFFER: return "Buffer"
         case PART_MUX: return "Multiplexer"
         case PART_HEADER: return "Header"
+        case PART_ARITH: return "Arithmetic"
         default: return ""
         }
     }

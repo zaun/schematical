@@ -17,7 +17,7 @@ plan-22-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-22-D complete | `ls planning/completed/plan-22-D-*.md` → exists | NOT MET (2026-11-07) |
+| plan-22-D complete | `ls planning/completed/plan-22-D-*.md` → exists | MET (2026-11-07: `planning/completed/plan-22-D-arith-parts.md`) |
 
 ## 1. Goal
 
@@ -37,10 +37,10 @@ plan-19–22 additions already there.
 
 ### Phase 1 — App
 
-- [ ] §3 edits; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p22-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (about 1 min).
-- [ ] Runtime proof (`run` skill): Logic drawer, family `LS` → `SN74LS85N`, `SN74LS283N` listed; a placed '283 shows "Kind: Arithmetic", "Family: LS".
+- [x] §3 edits; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p22-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (about 1 min). `grep -n PART_ARITH`: `PartCatalog.swift:285` (`isLogic`), `PartFacts.swift:137` (`case PART_ARITH: return "Arithmetic"`), `ChipDrawerView.swift:208` (drawer family/count menus); `** BUILD SUCCEEDED **`.
+- [x] Runtime proof (`run` skill): Logic drawer, family `LS` → `SN74LS85N`, `SN74LS283N` listed; a placed '283 shows "Kind: Arithmetic", "Family: LS". The app's headless harness (plan-20-I precedent), `scripts/harness/arith-app.swift` on the Debug build: `ok   1 Logic drawer, family LS: SN74LS85N and SN74LS283N listed`, `ok   2 arith parts are logic: family LS, 1 unit`, `ok   3 SN74LS283N Details: Kind Arithmetic, Family LS` (rows: Kind Arithmetic, Function Adder, Package DIP, Footprint PDIP-16, Pins 16, Family LS, Units 1, Supply range 4.75–5.25 V), `ok   4 render the sidebar` (`/tmp/p22/p22-sidebar-ls283.png`: the app's sidebar view shows Kind Arithmetic, Family LS).
 
-Acceptance: build, grep, runtime proof.
+Acceptance: build, grep, runtime proof. Met: each on its task line.
 Commit: —
 
 ## Validation Plan — plan-22 landing tier
@@ -61,6 +61,11 @@ Then archive plan-22-A…E to `planning/completed/`.
   which would have needed one, are skipped for lack of a datasheet).
 
 ## Corrections
+
+- **Runtime proof through the app's harness**, not by driving the mouse:
+  `scripts/harness/build.sh` compiles the app's own Swift (drawer filter,
+  `PartFacts`, sidebar view) against the bundled part files, as plan-20-I
+  did for buffers; the checks are the same ones the task names.
 
 ## Summary
 
