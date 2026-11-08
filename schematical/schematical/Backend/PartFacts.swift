@@ -12,7 +12,7 @@ nonisolated enum PartFacts {
             if !value.isEmpty { rows.append((label, value)) }
         }
 
-        add("Kind", kindName(part.kind))
+        add("Kind", kindName(part))
         add("Function", part.function)
         add("Package", chip.footprintChoice?.package ?? part.package)
         if let footprint = chip.footprintChoice?.footprint ?? part.footprint {
@@ -94,6 +94,11 @@ nonisolated enum PartFacts {
             add("Rows", String(rows))
             add("Pins per row", String(perRow))
             add("Gender", chip.gender ?? genders.first ?? "")
+        case let .converter(_, bits, channels):
+            add("Bits", String(bits))
+            add("Channels", String(channels))
+        case .rtc:
+            break
         }
 
         if part.supplyDomains.count == 2 {
@@ -134,8 +139,23 @@ nonisolated enum PartFacts {
         case PART_BUFFER: return "Buffer"
         case PART_MUX: return "Multiplexer"
         case PART_HEADER: return "Header"
+        case PART_CONVERTER: return "Converter"
+        case PART_RTC: return "RTC"
         default: return ""
         }
+    }
+
+    /// A part's kind as shown: a converter by its type ("ADC", "DAC"), other
+    /// kinds as `kindName(_: PartKind)`.
+    static func kindName(_ part: CatalogPart) -> String {
+        if case let .converter(type, _, _) = part.details {
+            switch type {
+            case "adc": return "ADC"
+            case "dac": return "DAC"
+            default: return type.uppercased()
+            }
+        }
+        return kindName(part.kind)
     }
 
     /// A parallel I/O model as shown: "6521 PIA", "6522 VIA"; others raw.

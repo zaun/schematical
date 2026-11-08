@@ -59,6 +59,15 @@ struct schematicalApp: App {
         // Like a memory window: tied to a schematic window's simulation.
         .restorationBehavior(.disabled)
 
+        // One register window per converter or RTC part (plan-24-I).
+        WindowGroup("Registers", id: "registers", for: RegisterWindowTarget.self) { $target in
+            if let target {
+                RegisterWindowView(target: target)
+            }
+        }
+        .defaultSize(width: 440, height: 420)
+        .restorationBehavior(.disabled)
+
         // One terminal per serial part (plan-12-K).
         WindowGroup("Terminal", id: "terminal", for: TerminalWindowTarget.self) { $target in
             if let target {

@@ -50,6 +50,7 @@ struct ContentView: View {
     /// Memory windows opened from this window, closed along with it.
     @State private var memoryWindows: Set<MemoryWindowTarget> = []
     @State private var cpuWindows: Set<CpuWindowTarget> = []
+    @State private var registerWindows: Set<RegisterWindowTarget> = []
     @State private var terminalWindows: Set<TerminalWindowTarget> = []
     @State private var isBillOfMaterialsOpen = false
     /// Simulation speed (circuit time per wall time), an app preference.
@@ -140,6 +141,11 @@ struct ContentView: View {
                     let target = TerminalWindowTarget(sessionID: sessionID, chipID: chipID)
                     terminalWindows.insert(target)
                     openWindow(id: "terminal", value: target)
+                },
+                onOpenRegisters: { chipID in
+                    let target = RegisterWindowTarget(sessionID: sessionID, chipID: chipID)
+                    registerWindows.insert(target)
+                    openWindow(id: "registers", value: target)
                 }
             ) {
                 // Placing a part from the drawer returns to the Pointer tool.
@@ -396,6 +402,10 @@ struct ContentView: View {
                     dismissWindow(id: "cpu", value: target)
                 }
                 cpuWindows = []
+                for target in registerWindows {
+                    dismissWindow(id: "registers", value: target)
+                }
+                registerWindows = []
                 for target in terminalWindows {
                     dismissWindow(id: "terminal", value: target)
                 }

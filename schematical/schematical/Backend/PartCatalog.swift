@@ -220,6 +220,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A generic pin header (plan-23): rows (1 or 2), pins per row, and
         /// the genders a placed one may have (the first is the default).
         case header(rows: Int, perRow: Int, genders: [String])
+        /// An ADC or DAC (plan-24): its type ("adc", "dac"), resolution in
+        /// bits and channels.
+        case converter(type: String, bits: Int, channels: Int)
+        /// A real-time clock (plan-24): no kind-specific facts.
+        case rtc
     }
 
     let name: String
@@ -289,6 +294,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
 
     /// A processor: a part with a processor window.
     var isCpu: Bool { kind == PART_CPU }
+
+    /// A converter or RTC: a part with a register window (plan-24-I).
+    var hasRegisters: Bool { kind == PART_CONVERTER || kind == PART_RTC }
 
     /// A pull-up or pull-down: a resistor on the board, with a resistance
     /// (`PlacedChip.ohms`) and footprint choices.
@@ -398,6 +406,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             return [String(format: "%.1f mm", Double(centerPinUM) / 1000),
                     String(format: "%.1f A", Double(ratedMA) / 1000)] + (contacts > 0 ? ["switched"] : [])
         case let .header(rows, perRow, _): return ["\(rows)×\(perRow)"]
+        case let .converter(_, bits, channels):
+            return ["\(bits)-bit"] + (channels > 1 ? ["\(channels) channels"] : [])
+        case .rtc: return []
         }
     }
 }
@@ -545,6 +556,11 @@ extension CatalogPart {
         } else if let connector = part.connector?.pointee {
             details = .connector(centerPinUM: connector.center_diameter_um, ratedMV: connector.rated_mv,
                                  ratedMA: connector.rated_ma, contacts: Int(connector.contacts))
+        } else if let converter = part.converter?.pointee {
+            details = .converter(type: string(converter.type), bits: Int(converter.bits),
+                                 channels: Int(converter.channels))
+        } else if part.kind == PART_RTC {
+            details = .rtc
         } else {
             details = .supply(level: 0, mv: 0, pull: false)
         }

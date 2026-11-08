@@ -50,6 +50,7 @@ struct SchematicCanvasView: View {
     /// Called with a processor part's id when it is double-clicked, to show its state.
     var onOpenCpu: (UUID) -> Void = { _ in }
     var onOpenTerminal: (UUID) -> Void = { _ in }
+    var onOpenRegisters: (UUID) -> Void = { _ in }
     /// Called after a part dragged from the drawer is placed on the canvas.
     var onPartPlaced: () -> Void = {}
 
@@ -151,6 +152,11 @@ struct SchematicCanvasView: View {
                     // A serial part with a channel opens its terminal.
                     if let chip = document.chip(at: point), chip.part.hasTerminal {
                         onOpenTerminal(chip.id)
+                        return
+                    }
+                    // A converter or RTC opens its register window.
+                    if let chip = document.chip(at: point), chip.part.hasRegisters {
+                        onOpenRegisters(chip.id)
                         return
                     }
                     guard !isRunning else { return }

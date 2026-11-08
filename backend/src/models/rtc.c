@@ -20,6 +20,7 @@
 #include <string.h>
 
 #include "converter_int.h"
+#include "converter_state.h"
 
 enum {
     RT_TICK = 0, RT_UIP = 1, RT_PERIODIC = 2, RT_WATCHDOG = 3, RT_PULSE = 4,
@@ -645,6 +646,25 @@ void rtc_start(CvState *s) {
 void rtc_free(CvState *s) {
     free(s->rtc);
     s->rtc = NULL;
+}
+
+int rtc_snapshot(const CvState *s, RtcTime *out) {
+    const RtcState *r = s->rtc;
+
+    if (r == NULL || s->dev->clock == NULL) {
+        return 0;
+    }
+    out->year = r->t[RU_YEAR];
+    out->month = r->t[RU_MONTH];
+    out->day = r->t[RU_DATE];
+    out->weekday = r->t[RU_WEEKDAY];
+    out->hour = r->t[RU_HOUR];
+    out->minute = r->t[RU_MINUTE];
+    out->second = r->t[RU_SECOND];
+    out->hundredth = r->t[RU_HUNDREDTH];
+    out->hundredths = s->dev->clock->hundredths;
+    out->running = running(s);
+    return 1;
 }
 
 /* ---- The kind ------------------------------------------------------------------------------- */

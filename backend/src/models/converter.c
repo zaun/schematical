@@ -34,6 +34,7 @@
 #include <string.h>
 
 #include "converter_int.h"
+#include "converter_state.h"
 #include "model_pins.h"
 
 /* ---- Small helpers ----------------------------------------------------------------------- */
@@ -1790,9 +1791,30 @@ static void cv_timer(Sim *sim, SimInstance *instance, void *state, uint32_t id) 
     }
 }
 
+/* The register window (plan-24-I): every register's current value. */
+static size_t cv_registers(const void *state, ConverterRegister *out, size_t cap) {
+    const CvState *s = state;
+    size_t i;
+
+    for (i = 0; i < s->dev->reg_count && i < cap && out != NULL; i++) {
+        const CvRegister *r = &s->dev->regs[i];
+
+        out[i].name = r->name;
+        out[i].address = r->address;
+        out[i].space = r->space;
+        out[i].width = r->width;
+        out[i].value = s->regs[i];
+    }
+    return s->dev->reg_count;
+}
+
+static int cv_rtc_time(const void *state, RtcTime *out) {
+    return rtc_snapshot(state, out);
+}
+
 const SimComponentType CONVERTER_COMPONENT = {
     "converter", cv_pin_count, cv_create, cv_destroy, cv_start, cv_pin_changed, cv_timer,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, cv_registers, cv_rtc_time
 };
 
 /* ---- The kind -------------------------------------------------------------------------------- */

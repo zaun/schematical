@@ -88,6 +88,8 @@ typedef struct Sim Sim;
 typedef struct SimInstance SimInstance;
 struct CpuState;
 struct LcdState;
+struct ConverterRegister;
+struct RtcTime;
 typedef struct SimNet SimNet;
 
 typedef struct {
@@ -165,6 +167,11 @@ typedef struct {
        1 when queued; 0 when the channel is not in an asynchronous mode. */
     int (*serial_send)(Sim *sim, SimInstance *instance, void *state, unsigned channel,
                        const uint8_t *bytes, size_t count);
+    /* Register parts (converter, rtc; plan-24-I): the register count, and
+       copies of registers [0, cap) into out (converter_state.h). */
+    size_t (*registers)(const void *state, struct ConverterRegister *out, size_t cap);
+    /* RTCs: fills out with the clock's counters now. 1 when filled. */
+    int (*rtc_time)(const void *state, struct RtcTime *out);
 } SimComponentType;
 
 /* All times are in picoseconds. */

@@ -22,7 +22,7 @@ plan-24-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-24-H complete | `ls planning/completed/plan-24-H-*.md` → exists | NOT MET (2026-11-07) |
+| plan-24-H complete | `ls planning/completed/plan-24-H-*.md` → exists | MET (`planning/completed/plan-24-H-dac-rtc-parts.md`, 2026-11-07 at c6bc840) |
 
 ## 1. Goal
 
@@ -46,11 +46,11 @@ plan-24-A § Prerequisites, plus:
 
 ### Phase 1 — API and window
 
-- [ ] Backend API + `circuit_check` cases for both calls; Swift window and double-click; `kindName`.
-- [ ] `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p24-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (about 1 min).
-- [ ] Runtime proof (`run` skill), as §1.
+- [x] Backend API + `circuit_check` cases for both calls; Swift window and double-click; `kindName`. `converter_state.h` (`ConverterRegister`, `RtcTime`), `circuit_converter_registers`, `circuit_rtc_time` (engine hooks `registers`, `rtc_time` on `CONVERTER_COMPONENT`; `docs/backend.md`); `circuit_check`: `registers: CONVERSION=0000 CONFIG=85A3 LO_THRESH=8000 HI_THRESH=7FFF` after the 6502 run, count with no room, `part 2 has no registers`, `no part 999`, `part 6 is not an RTC`, `the circuit is not running` before start, BQ32000DR `2000-01-01 00:00:00` Saturday → 2 s → `00:01:02`, SECONDS 02 / MINUTES 01 BCD — `0 failure(s)`. Swift: `Registers/RegisterWindow.swift` (`RegisterWindowTarget`, `RegisterSnapshot`, `RegisterInspector`), a `registers` WindowGroup, double-click on `hasRegisters` parts in `SchematicCanvasView` → `ContentView.onOpenRegisters`; `.converter`/`.rtc` details (they had fallen through to `.supply`), sidebar rows Kind/Bits/Channels; `kindName(part)` → `ADC`, `DAC` (harness `facts DAC8562SDGSR: kindName DAC; … Bits: 16; Channels: 2`), `RTC`.
+- [x] `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p24-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (about 1 min). Observed `** BUILD SUCCEEDED **`.
+- [x] Runtime proof (`run` skill), as §1. No project run skill; the plan-06-A harness (the app's Swift sources and backend, a custom `main.swift`, inside a copy of the Debug .app): the app's `SimulationController` runs §G's 6502/W65C22/ADS1115 board plus a BQ32000DR on 3.3 V; the app's `RegisterInspector` shows in an on-screen window, captured with `screencapture -l`: `U1 — ADS1115IDGSR`, CONFIG `85A3`, CONVERSION `0000`; `U2 — BQ32000DR` Time `2000-01-01 00:00:00 Saturday`, SECONDS `00` → 2 s of circuit time later `00:00:02`, SECONDS `02`; `error -` (no stop). PNGs looked at.
 
-Acceptance: build, tests, runtime proof.
+Acceptance: build, tests, runtime proof: `** BUILD SUCCEEDED **`; `100% tests passed, 0 tests failed out of 26`; the windows above.
 Commit: —
 
 ## Validation Plan — plan-24 landing tier
@@ -70,6 +70,24 @@ Then archive plan-24-A…I to `planning/completed/`.
 - A register window, not an analog display (owner: digital side only).
 
 ## Corrections
+
+- **A refused state query stops the app's simulation**: `circuit_error` is
+  sticky and `SimulationEngine.snapshotNow` reports it as the stop reason.
+  The first harness run asked the ADS1115 for its clock and the run showed
+  `error part 7 is not an RTC`. The window passes the part's kind down and
+  asks for the clock only for `PART_RTC` (and registers only for
+  `hasRegisters` parts); after the fix `error -`.
+- **`RtcTime.hundredths`** was added so the window shows hundredths for
+  the parts that count them, not whenever the counter is non-zero.
+- **The runtime proof opens the window the double-click opens**
+  (`RegisterInspector` for the chip) from the harness, rather than driving
+  the mouse on a hand-built schematic; the double-click branch itself is
+  the same `hasRegisters` test the harness prints (`hasRegisters true` for
+  ADS1115IDGSR, DAC8562SDGSR, BQ32000DR). `ImageRenderer` drops the
+  register table's `ScrollView` and a cached `NSHostingView` draws blank,
+  so the PNGs are `screencapture -l` of the on-screen window.
+- The circuit ran at about 0.13× real time with the CPU board, so the
+  RTC's advance is shown over 2 s of circuit time.
 
 ## Summary
 

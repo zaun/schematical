@@ -160,6 +160,8 @@ void rtc_after_write(CvState *s, int reg);
 void rtc_pin(CvState *s, size_t pin);
 void rtc_refresh(CvState *s);
 void rtc_free(CvState *s);
+/* The clock's counters now (plan-24-I); 0 when the part is not an RTC. */
+int rtc_snapshot(const CvState *s, struct RtcTime *out);
 
 /* converter_par.c (plan-24-E) */
 void cv_par_start(CvState *s);

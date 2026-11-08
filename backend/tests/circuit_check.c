@@ -1253,6 +1253,82 @@ static void check_adc_from_cpu(void) {
     expect(values[2] >= 1, "adc board: the program polls while OS = 0");
     expect(values[3] == 0x85, "adc board: OS reads 1 when the conversion is done (CONFIG 85xx)");
     expect(values[4] == 0x00 && values[5] == 0x00, "adc board: CONVERSION reads 0x0000 (0 V)");
+
+    /* plan-24-I: the register window's snapshot of the ADC. */
+    {
+        ConverterRegister regs[8];
+        int n = circuit_converter_registers(b->c, adc, regs, 8);
+
+        expect(n == 4 && strcmp(regs[0].name, "CONVERSION") == 0 && regs[0].address == 0 &&
+                   regs[0].width == 16 && regs[0].value == 0,
+               "registers: 4, CONVERSION at 0, 16 bits, 0x0000");
+        expect(n == 4 && strcmp(regs[1].name, "CONFIG") == 0 && regs[1].address == 1 &&
+                   regs[1].value == 0x85A3,
+               "registers: CONFIG holds the written 0x85A3 (OS = 1: done)");
+        if (n == 4) {
+            printf("  registers: %s=%04X %s=%04X %s=%04X %s=%04X\n", regs[0].name, regs[0].value,
+                   regs[1].name, regs[1].value, regs[2].name, regs[2].value, regs[3].name,
+                   regs[3].value);
+        }
+        expect(n == 4 && strcmp(regs[2].name, "LO_THRESH") == 0 && regs[2].value == 0x8000 &&
+                   regs[3].value == 0x7FFF,
+               "registers: the thresholds keep their reset values");
+        expect(circuit_converter_registers(b->c, adc, NULL, 0) == 4 &&
+                   circuit_converter_registers(b->c, adc, regs, 1) == 4,
+               "registers: the count with no room, or room for one");
+        expect_error(b->c, circuit_converter_registers(b->c, cpu, regs, 8), "part 2 has no registers",
+                     "registers: a CPU has none");
+        expect_error(b->c, circuit_converter_registers(b->c, 999, regs, 8), "no part 999",
+                     "registers: no part 999");
+        expect_error(b->c, circuit_rtc_time(b->c, adc, &(RtcTime){0}), "part 6 is not an RTC",
+                     "rtc time: an ADC is not an RTC");
+    }
+    circuit_destroy(b->c);
+}
+
+/* plan-24-I: an RTC's clock follows simulated time from 2000-01-01
+   00:00:00 (a Saturday); its registers show the counters in BCD. */
+static void check_rtc_time(void) {
+    Board board;
+    Board *b = &board;
+    size_t rtc;
+    RtcTime t;
+    ConverterRegister regs[16];
+    int n;
+
+    memset(b, 0, sizeof *b);
+    b->c = circuit_create(library);
+    circuit_connect(b->c, part(b->c, "3V3"), "1", b->v = net(b->c));
+    circuit_connect(b->c, part(b->c, "GND"), "1", b->g = net(b->c));
+    rtc = board_chip(b, "BQ32000DR");
+    board_wire(b, rtc, "BQ32000DR", "SDA", "SDA");
+    board_wire(b, rtc, "BQ32000DR", "SCL", "SCL");
+    board_wire(b, rtc, "BQ32000DR", "IRQ", "IRQ");
+    circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "SDA"));
+    circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "SCL"));
+    circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "IRQ"));
+    expect_error(b->c, circuit_rtc_time(b->c, rtc, &t), "the circuit is not running",
+                 "rtc time: refused before start");
+    expect(circuit_start(b->c) == 0, "rtc: the circuit starts");
+    expect(circuit_rtc_time(b->c, rtc, &t) == 0 && t.year == 2000 && t.month == 1 && t.day == 1 &&
+               t.weekday == 6 && t.hour == 0 && t.minute == 0 && t.second == 0 && t.running,
+           "rtc time: 2000-01-01 00:00:00, a Saturday, running");
+    circuit_advance(b->c, 2500000000000ull);
+    expect(circuit_rtc_time(b->c, rtc, &t) == 0 && t.second == 2 && t.minute == 0,
+           "rtc time: 2 s later at 2.5 s");
+    circuit_advance(b->c, 60000000000000ull);
+    expect(circuit_rtc_time(b->c, rtc, &t) == 0 && t.second == 2 && t.minute == 1,
+           "rtc time: a minute later 00:01:02");
+    printf("  rtc %04d-%02d-%02d %02d:%02d:%02d weekday %d\n", t.year, t.month, t.day, t.hour,
+           t.minute, t.second, t.weekday);
+    n = circuit_converter_registers(b->c, rtc, regs, 16);
+    expect(n >= 2 && regs[0].address == 0 && (regs[0].value & 0x7F) == 0x02 && regs[1].address == 1 &&
+               (regs[1].value & 0x7F) == 0x01,
+           "rtc registers: SECONDS 02, MINUTES 01 (BCD)");
+    if (n >= 2) {
+        printf("  rtc registers: %d, %s=%02X %s=%02X\n", n, regs[0].name, regs[0].value, regs[1].name,
+               regs[1].value);
+    }
     circuit_destroy(b->c);
 }
 
@@ -1280,6 +1356,7 @@ int main(void) {
     check_voltage_start();
     check_voltage_switch();
     check_adc_from_cpu();
+    check_rtc_time();
     part_library_destroy(library);
     printf("%d failure(s)\n", failures);
     return failures == 0 ? 0 : 1;
