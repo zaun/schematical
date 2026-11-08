@@ -18,11 +18,12 @@ plan-24-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-24-A complete | `ls planning/completed/plan-24-A-*.md` → exists | NOT MET (2026-11-07) |
+| plan-24-A complete | `ls planning/completed/plan-24-A-*.md` → exists | MET (`planning/completed/plan-24-A-converter-data.md`, 2026-11-07 at 868ae12) |
+| plan-24-A § Prerequisites rows | (A's commands) | tests `100% tests passed, 0 tests failed out of 24`; goldens 11126 / 423; serial target 32; no converter/rtc files; DigiKey: `0 left today` (the shared daily quota is spent; the script works) — B needs no new calls (Corrections) |
 
 ## 1. Goal
 
-- `tail -n +2 planning/plan-24-data/parts.tsv | wc -l` → 2707 (1718 + 945 + 44), each `add` or `skip`.
+- `tail -n +2 planning/plan-24-data/parts.tsv | wc -l` → 2787 (1798 + 945 + 44; plan-24-A Corrections), each `add` or `skip`.
 - `ls datasheets/dac/*.pdf datasheets/rtc/*.pdf | wc -l` = distinct DAC/RTC `pdf` values.
 
 ## 2. Design
@@ -45,11 +46,11 @@ plan-24-A § Prerequisites, plus:
 
 ### Phase 1 — Stock and datasheets
 
-- [ ] Stock re-check per DAC/RTC base name (240 base names, about 240 calls); non-Active/LTB and out-of-stock rows `skip`.
-- [ ] Download the PDFs. Check: PDF count = distinct DAC/RTC `pdf` values.
+- [x] Stock re-check: done by plan-24-A's category listings the same day (`stock/list-701-active.tsv` 792, `list-701-ltb.tsv` 6, `list-690-active.tsv` 9, `list-690-ltb.tsv` 8); `census/stockcheck.py` → every in-scope Active/LTB DAC and RTC census row is listed, no new names, no status change (Corrections).
+- [x] Download the PDFs (`census/dl.sh`; 249 DAC + 7 RTC names, 14 + 3 found by hand, `dp8570a`/`dp8573a` for the National RTCs; 218 + 8 documents). Check: `ls datasheets/dac/*.pdf datasheets/rtc/*.pdf | wc -l` → 224 = distinct `pdf` of DAC (217) + RTC (7) `add` rows. No TI product page (`ti.com/product/<P>` → 404): DAC530A2, DAC532A3, DAC702, BQ3285L.
 
 Acceptance: both checks.
-Commit: —
+Commit: 5287733
 
 ### Phase 2 — Part data
 
@@ -68,6 +69,19 @@ B has no code; Phase 2's checks are its gate.
 As plan-24-A.
 
 ## Corrections
+
+- **Stock re-check reused, no new DigiKey calls.** plan-24-A's in-stock
+  Active/LTB listings of categories 701 and 690 (2026-11-07, `stock/`)
+  cover every DAC/RTC row; the shared quota was at 0 when B started.
+- **Ordering tables decide `add`** as in A: DAC 725 rows match (12 in no
+  table, e.g. `DAC715UK-TI`, `DAC811KUG4`), RTC 14 (BQ3285ESS-N/-TR1 and
+  BQ3285LCS are not in `bq3285e.pdf`'s table: skip, as is the whole
+  BQ3285E/L document). `census/devices.py` gained a designator-strip rule
+  and overrides for DigiKey's truncated base products of -Q National
+  parts (`DAC101S101QCMK/NOPB` → DAC101S101, …): 249 DAC devices, 7 RTC
+  devices. 27 more TI packages (`footprint-ids.tsv`, 24 new).
+- The "3 RTC rows with no base product" are BQ3285ESS-N, BQ3285ESS-TR1
+  (bq3285E, not in its ordering table) and BQ3285LCS (bq3285L, no TI page).
 
 ## Summary
 
