@@ -287,12 +287,12 @@ Acceptance: every case in §4.1 returns the listed points, and `route` returns
 the same points as before for the cases in `WireSettleTests`.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/RouteLegTests -only-testing:schematicalTests/WireSettleTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 3 min).
   Observed 2026-11-07: "Executed 17 tests, with 0 failures", `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 9086219
 
 ### Phase 2 — RouteDraft
 
-- [ ] New `Canvas/RouteDraft.swift` per §4.2, including `busCandidates(to:)`.
-- [ ] Tests: new `schematicalTests/RouteDraftTests.swift` covers:
+- [x] New `Canvas/RouteDraft.swift` per §4.2, including `busCandidates(to:)`.
+- [x] Tests: new `schematicalTests/RouteDraftTests.swift` covers:
       - the U from the Outcome;
       - lock → unlock → lock gives the same path;
       - `unlock()` with no locks returns false;
@@ -305,6 +305,7 @@ Commit: —
 
 Acceptance: the cases above pass.
   Check: `xcodebuild … test -only-testing:schematicalTests/RouteDraftTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 3 min).
+  Observed 2026-11-07: "Executed 9 tests, with 0 failures", `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 3 — Document entry points (Line and Bus)
