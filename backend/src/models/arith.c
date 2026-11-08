@@ -767,7 +767,7 @@ static const ArithModel ARITH_PARITY = {
 /* ---- The kind ------------------------------------------------------------- */
 
 static const ArithModel *const MODELS[] = {
-    &ARITH_COMPARE, &ARITH_PARITY
+    &ARITH_COMPARE, &ARITH_PARITY, &ARITH_ADDER, &ARITH_ALU181, &ARITH_WALLACE
 };
 
 #define MODEL_COUNT (sizeof(MODELS) / sizeof(MODELS[0]))
@@ -777,6 +777,9 @@ static const char *const DEVICE_KEYS[] = {
     "model", "timing", "output", "openDrain",
     "a", "b", "outputs", "cascade", "cascadeTable", "enable", "latch", "signed",
     "inputs", "even", "odd", "bus", "error", "errorOn",
+    "sum", "cin", "cout",
+    "s", "m", "cn", "f", "cn4", "p", "g", "aeqb",
+    "adders",
     NULL
 };
 static const char *const PART_KEYS[] = {"family", "vcc", "inputMax", NULL};

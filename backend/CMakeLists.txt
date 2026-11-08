@@ -32,6 +32,7 @@ add_library(logic STATIC
     src/models/mux.c
     src/models/mux_stored.c
     src/models/arith.c
+    src/models/arith_alu.c
     src/models/counter.c
     src/models/counter_div.c
     src/models/shift.c

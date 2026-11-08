@@ -201,7 +201,50 @@ static const char FIXTURE[] =
     "'G','H','I'],'bus':{'pin':'PARITY I/O','xmit':{'pin':'XMIT','active':'low'},'drives':'even"
     "'},'error':{'pin':'PARITY ERROR','active':'low'},'errorOn':'even','timing':{'HC':{'rise':1"
     "0,'fall':10,'vcc':[2,6]}},'parts':[{'name':'FX-74_11286','package':'DIP','pinout':'p14','f"
-    "ootprint':'FX14','family':'HC'}]}]}";
+    "ootprint':'FX14','family':'HC'}]},{'id':'fx-74_283','function':'Adder','description':'4-bi"
+    "t binary full adders with fast carry','drawer':[],'pinouts':{'p16':[{'number':1,'name':'S2"
+    "','role':'output'},{'number':2,'name':'B2','role':'input'},{'number':3,'name':'A2','role':"
+    "'input'},{'number':4,'name':'S1','role':'output'},{'number':5,'name':'A1','role':'input'},"
+    "{'number':6,'name':'B1','role':'input'},{'number':7,'name':'C0','role':'input'},{'number':"
+    "8,'name':'GND','role':'ground'},{'number':9,'name':'C4','role':'output'},{'number':10,'nam"
+    "e':'S4','role':'output'},{'number':11,'name':'B4','role':'input'},{'number':12,'name':'A4'"
+    ",'role':'input'},{'number':13,'name':'S3','role':'output'},{'number':14,'name':'A3','role'"
+    ":'input'},{'number':15,'name':'B3','role':'input'},{'number':16,'name':'VCC','role':'power"
+    "'}]},'model':'adder','a':['A1','A2','A3','A4'],'b':['B1','B2','B3','B4'],'sum':['S1','S2',"
+    "'S3','S4'],'cin':'C0','cout':'C4','timing':{'HC':{'rise':10,'fall':10,'vcc':[2,6]}},'parts"
+    "':[{'name':'FX-74_283','package':'DIP','pinout':'p16','footprint':'FX16','family':'HC'}]},"
+    "{'id':'fx-74_181','function':'ALU','description':'Arithmetic logic units/function generato"
+    "rs','drawer':[],'pinouts':{'p24':[{'number':1,'name':'B0','role':'input'},{'number':2,'nam"
+    "e':'A0','role':'input'},{'number':3,'name':'S3','role':'input'},{'number':4,'name':'S2','r"
+    "ole':'input'},{'number':5,'name':'S1','role':'input'},{'number':6,'name':'S0','role':'inpu"
+    "t'},{'number':7,'name':'Cn','role':'input'},{'number':8,'name':'M','role':'input'},{'numbe"
+    "r':9,'name':'F0','role':'output'},{'number':10,'name':'F1','role':'output'},{'number':11,'"
+    "name':'F2','role':'output'},{'number':12,'name':'GND','role':'ground'},{'number':13,'name'"
+    ":'F3','role':'output'},{'number':14,'name':'A=B','role':'output'},{'number':15,'name':'P',"
+    "'role':'output'},{'number':16,'name':'Cn+4','role':'output'},{'number':17,'name':'G','role"
+    "':'output'},{'number':18,'name':'B3','role':'input'},{'number':19,'name':'A3','role':'inpu"
+    "t'},{'number':20,'name':'B2','role':'input'},{'number':21,'name':'A2','role':'input'},{'nu"
+    "mber':22,'name':'B1','role':'input'},{'number':23,'name':'A1','role':'input'},{'number':24"
+    ",'name':'VCC','role':'power'}]},'model':'alu181','a':['A0','A1','A2','A3'],'b':['B0','B1',"
+    "'B2','B3'],'s':['S0','S1','S2','S3'],'m':'M','cn':'Cn','f':['F0','F1','F2','F3'],'cn4':'Cn"
+    "+4','p':'P','g':'G','aeqb':'A=B','openDrain':['A=B'],'timing':{'HC':{'rise':10,'fall':10,'"
+    "vcc':[2,6]}},'parts':[{'name':'FX-74_181','package':'DIP','pinout':'p24','footprint':'FX24"
+    "','family':'HC'}]},{'id':'fx-74_275','function':'Multiplier','description':'7-bit-slice Wa"
+    "llace trees with 3-state outputs','drawer':[],'pinouts':{'p16':[{'number':1,'name':'S1','r"
+    "ole':'input'},{'number':2,'name':'S2','role':'input'},{'number':3,'name':'S3','role':'inpu"
+    "t'},{'number':4,'name':'S4','role':'input'},{'number':5,'name':'C1','role':'input'},{'numb"
+    "er':6,'name':'C2','role':'input'},{'number':7,'name':'S5','role':'input'},{'number':8,'nam"
+    "e':'GND','role':'ground'},{'number':9,'name':'Y0','role':'output'},{'number':10,'name':'CY"
+    "','role':'output'},{'number':11,'name':'Y1','role':'output'},{'number':12,'name':'Y2','rol"
+    "e':'output'},{'number':13,'name':'G','role':'input'},{'number':14,'name':'S6','role':'inpu"
+    "t'},{'number':15,'name':'S7','role':'input'},{'number':16,'name':'VCC','role':'power'}]},'"
+    "model':'wallace','adders':[{'a':'S5','b':'S4','c':'S3','sum':'s1','carry':'c1'},{'a':'S7',"
+    "'b':'S6','c':'S1','sum':'s2','carry':'c2'},{'a':'s2','b':'s1','c':'S2','sum':'s3','carry':"
+    "'c3'},{'a':'c3','b':'c2','c':'c1','sum':'w1','carry':'w2'},{'a':'C2','b':'C1','c':'s3','su"
+    "m':'w0','carry':'wc'}],'outputs':[{'pin':'Y0','node':'w0'},{'pin':'CY','node':'wc'},{'pin'"
+    ":'Y1','node':'w1'},{'pin':'Y2','node':'w2'}],'enable':{'pin':'G','active':'low'},'timing':"
+    "{'HC':{'rise':10,'fall':10,'vcc':[2,6]}},'parts':[{'name':'FX-74_275','package':'DIP','pin"
+    "out':'p16','footprint':'FX16','family':'HC'}]}]}";
 
 /* Pin counts of the fixture devices: [14, 16, 20, 24] */
 /* FIXTURE END */
@@ -637,6 +680,238 @@ static void check_286(const char *device) {
     bench_destroy(b);
 }
 
+/* ---- adder ------------------------------------------------------------------- */
+
+/* '283: all 512 combinations of A, B, C0 against A + B + C0 (sn74ls283 p.1 table). */
+static void check_283(void) {
+    Bench *b = open_fx("74_283");
+    unsigned a, v, c;
+    int ok = 1;
+
+    for (c = 0; c < 2; c++) {
+        for (a = 0; a < 16; a++) {
+            for (v = 0; v < 16; v++) {
+                unsigned sum = a + v + c;
+
+                set_bus(b, "A%u", 1, 4, a);
+                set_bus(b, "B%u", 1, 4, v);
+                set(b, "C0", bit(c, 0));
+                step(b);
+                if (!(bus_is(b, "S%u", 1, 4, sum & 15u) & is(b, "C4", bit(sum, 4)))) {
+                    printf("  A=%u B=%u C0=%u\n", a, v, c);
+                    ok = 0;
+                }
+            }
+        }
+    }
+    expect(ok, "74_283 all 512 inputs: S1-S4 and C4 are A + B + C0");
+    ok = 1;
+    set_bus(b, "A%u", 1, 4, 0);
+    set_bus(b, "B%u", 1, 4, 0);
+    set(b, "C0", L0);
+    set(b, "A4", LX);   /* A is 0 or 8: S1-S3 known, S4 X, C4 low */
+    step(b);
+    ok &= bus_is(b, "S%u", 1, 3, 0) & is(b, "S4", LX) & is(b, "C4", L0);
+    set(b, "A4", L1);
+    set(b, "B4", L1);
+    set(b, "A1", LZ);   /* 8 + 8 + (0 or 1): C4 high, S2-S4 low, S1 X */
+    step(b);
+    ok &= is(b, "S1", LX) & is(b, "S2", L0) & is(b, "S4", L0) & is(b, "C4", L1);
+    expect(ok, "74_283 X rule: an unknown bit makes X only the outputs it can change");
+    bench_destroy(b);
+}
+
+/* ---- alu181 ------------------------------------------------------------------ */
+
+/*
+ * sn54ls181 p.4 Table 2 (active-high data). Logic (M = H): F per S.
+ * Arithmetic (M = L): F = X PLUS Y PLUS carry, where the table's expression
+ * is read as two operands (X, Y); "MINUS 1" is PLUS 1111.
+ */
+static unsigned ref_181_logic(unsigned s, unsigned a, unsigned b) {
+    unsigned na = ~a & 15u, nb = ~b & 15u;
+
+    switch (s) {
+        case 0: return na;
+        case 1: return ~(a | b) & 15u;
+        case 2: return na & b;
+        case 3: return 0;
+        case 4: return ~(a & b) & 15u;
+        case 5: return nb;
+        case 6: return a ^ b;
+        case 7: return a & nb;
+        case 8: return na | b;
+        case 9: return ~(a ^ b) & 15u;
+        case 10: return b;
+        case 11: return a & b;
+        case 12: return 15;
+        case 13: return a | nb;
+        case 14: return a | b;
+        default: return a;
+    }
+}
+
+static void ref_181_operands(unsigned s, unsigned a, unsigned b, unsigned *x, unsigned *y) {
+    unsigned nb = ~b & 15u;
+
+    switch (s) {
+        case 0: *x = a; *y = 0; break;                 /* A */
+        case 1: *x = a | b; *y = 0; break;             /* A + B */
+        case 2: *x = a | nb; *y = 0; break;            /* A + ~B */
+        case 3: *x = 15; *y = 0; break;                /* MINUS 1 */
+        case 4: *x = a; *y = a & nb; break;            /* A PLUS A~B */
+        case 5: *x = a | b; *y = a & nb; break;        /* (A + B) PLUS A~B */
+        case 6: *x = a; *y = nb; break;                /* A MINUS B MINUS 1 */
+        case 7: *x = a & nb; *y = 15; break;           /* A~B MINUS 1 */
+        case 8: *x = a; *y = a & b; break;             /* A PLUS AB */
+        case 9: *x = a; *y = b; break;                 /* A PLUS B */
+        case 10: *x = a | nb; *y = a & b; break;       /* (A + ~B) PLUS AB */
+        case 11: *x = a & b; *y = 15; break;           /* AB MINUS 1 */
+        case 12: *x = a; *y = a; break;                /* A PLUS A */
+        case 13: *x = a | b; *y = a; break;            /* (A + B) PLUS A */
+        case 14: *x = a | nb; *y = a; break;           /* (A + ~B) PLUS A */
+        default: *x = a; *y = 15; break;               /* A MINUS 1 */
+    }
+}
+
+static const char *const S0123[] = {"S0", "S1", "S2", "S3"};
+
+/*
+ * Every (S, M, Cn) row x 256 (A, B) pairs: F from Table 2; A=B high exactly
+ * when F = 1111; Cn+4 low exactly when X + Y + carry overflows 4 bits;
+ * G low exactly when X + Y overflows without a carry in, and G or P low
+ * exactly when it overflows with one (the carry-lookahead meaning of the
+ * group generate / propagate outputs).
+ */
+static void check_181(void) {
+    Bench *b = open_fx("74_181");
+    unsigned s, m, cn, a, v, i;
+    int ok = 1, rows = 0;
+
+    for (s = 0; s < 16 && ok; s++) {
+        for (i = 0; i < 4; i++) {
+            set(b, S0123[i], bit(s, i));
+        }
+        for (m = 0; m < 2 && ok; m++) {
+            set(b, "M", bit(m, 0));
+            for (cn = 0; cn < 2 && ok; cn++) {
+                set(b, "Cn", bit(cn, 0));
+                rows++;
+                for (a = 0; a < 16 && ok; a++) {
+                    for (v = 0; v < 16 && ok; v++) {
+                        unsigned x, y, carry = !cn, f, total;
+                        int row_ok;
+
+                        ref_181_operands(s, a, v, &x, &y);
+                        total = x + y + carry;
+                        f = m ? ref_181_logic(s, a, v) : (total & 15u);
+                        set_bus(b, "A%u", 0, 4, a);
+                        set_bus(b, "B%u", 0, 4, v);
+                        step(b);
+                        row_ok = bus_is(b, "F%u", 0, 4, f) & is(b, "A=B", f == 15u ? LZ : L0) &
+                                 is(b, "Cn+4", level(!(total >> 4))) &
+                                 is(b, "G", level(!((x + y) >> 4)));
+                        row_ok &= (bench_get(b, "G") == L0 || bench_get(b, "P") == L0) ==
+                                  (int)((x + y + 1) >> 4);
+                        if (!row_ok) {
+                            printf("  S=%u M=%u Cn=%u A=%u B=%u\n", s, m, cn, a, v);
+                            ok = 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    printf("%s: 74_181 %d (S, M, Cn) rows x 256 (A, B): F, A=B, Cn+4, P, G against Table 2\n",
+           ok ? "PASS" : "FAIL", rows);
+    failures += !ok;
+    ok = 1;
+    for (i = 0; i < 4; i++) {
+        set(b, S0123[i], bit(9, i));   /* A PLUS B */
+    }
+    set(b, "M", L0);
+    set(b, "Cn", L1);
+    set_bus(b, "A%u", 0, 4, 1);
+    set_bus(b, "B%u", 0, 4, 2);
+    set(b, "A3", LX);   /* 1 or 9, plus 2: F0-F2 known, F3 X, no carry either way */
+    step(b);
+    ok &= bus_is(b, "F%u", 0, 3, 3) & is(b, "F3", LX) & is(b, "Cn+4", L1);
+    set(b, "M", LZ);
+    step(b);
+    ok &= is(b, "F0", LX);
+    expect(ok, "74_181 X rule: an unknown bit makes X only the outputs it can change");
+    ok = part_pin_open_drain(fx_part("74_181"), pin_index(fx_part("74_181"), "A=B")) == 1 &&
+         part_pin_open_drain(fx_part("74_181"), pin_index(fx_part("74_181"), "F0")) == 0;
+    expect(ok, "74_181 A=B is the one open-drain output");
+    bench_destroy(b);
+}
+
+/* ---- wallace ------------------------------------------------------------------ */
+
+static const char *const W_IN[] = {"S1", "S2", "S3", "S4", "S5", "S6", "S7", "C1", "C2"};
+
+/* One full adder: sum and carry of three bits. */
+static void fa(unsigned a, unsigned b, unsigned c, unsigned *sum, unsigned *carry) {
+    *sum = a ^ b ^ c;
+    *carry = (a & b) | (a & c) | (b & c);
+}
+
+/*
+ * '275 (snx4ls27x p.2 functional block diagram, 'LS275 pin numbers): FA1 =
+ * pins 3, 4, 7; FA2 = 1, 14, 15; FA3 = pin 2, FA1 sum, FA2 sum; FA4 = the
+ * three carries -> 2^n+2 (carry), 2^n+1 (sum); FA5 = FA3 sum, C2^n, C2^n ->
+ * C2^n+1 (carry), 2^n (sum). Bits of v: S1..S7 then C1, C2.
+ */
+static void ref_275(unsigned v, unsigned *y0, unsigned *cy, unsigned *y1, unsigned *y2) {
+    unsigned s1, c1, s2, c2, s3, c3;
+
+    fa((v >> 2) & 1u, (v >> 3) & 1u, (v >> 4) & 1u, &s1, &c1);   /* S3, S4, S5 (pins 3, 4, 7) */
+    fa((v >> 0) & 1u, (v >> 5) & 1u, (v >> 6) & 1u, &s2, &c2);   /* S1, S6, S7 (pins 1, 14, 15) */
+    fa((v >> 1) & 1u, s1, s2, &s3, &c3);                          /* S2 (pin 2) */
+    fa(c1, c2, c3, y1, y2);
+    fa(s3, (v >> 7) & 1u, (v >> 8) & 1u, y0, cy);
+}
+
+static void check_275(void) {
+    Bench *b = open_fx("74_275");
+    unsigned v, i;
+    int ok = 1;
+
+    set(b, "G", L0);
+    for (v = 0; v < 512; v++) {
+        unsigned y0, cy, y1, y2;
+
+        for (i = 0; i < 9; i++) {
+            set(b, W_IN[i], bit(v, i));
+        }
+        step(b);
+        ref_275(v, &y0, &cy, &y1, &y2);
+        if (y0 + 2 * (y1 + cy) + 4 * y2 != ones(v)) {
+            printf("  reference sum wrong for %u\n", v);
+            ok = 0;
+        }
+        ok &= is(b, "Y0", bit(y0, 0)) & is(b, "CY", bit(cy, 0)) & is(b, "Y1", bit(y1, 0)) &
+              is(b, "Y2", bit(y2, 0));
+    }
+    expect(ok, "74_275 all 512 slice/carry inputs: the p.2 adder tree, Y0 + 2(Y1 + CY) + 4 Y2 = count");
+    ok = 1;
+    set(b, "G", L1);
+    step(b);
+    ok &= is(b, "Y0", LZ) & is(b, "CY", LZ) & is(b, "Y1", LZ) & is(b, "Y2", LZ);
+    set(b, "G", L0);
+    for (i = 0; i < 9; i++) {
+        set(b, W_IN[i], L0);
+    }
+    set(b, "C1", LX);   /* only FA5 sees it: Y0 X, CY low (its other two inputs are 0) */
+    step(b);
+    ok &= is(b, "Y0", LX) & is(b, "CY", L0) & is(b, "Y1", L0) & is(b, "Y2", L0);
+    set(b, "G", LZ);
+    step(b);
+    ok &= is(b, "Y1", LX);
+    expect(ok, "74_275 G high -> outputs Z; an X input makes X only what it reaches");
+    bench_destroy(b);
+}
+
 int main(void) {
     char *error;
 
@@ -660,6 +935,9 @@ int main(void) {
     check_280();
     check_286("74_286");
     check_286("74_11286");
+    check_283();
+    check_181();
+    check_275();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

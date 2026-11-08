@@ -2505,6 +2505,49 @@ PARITY I/O).
 At least one of `even`, `odd`, `bus`. Any X or Z input makes the parity
 outputs X; an X `xmit` makes the bus pin and `error` X.
 
+#### Model `adder`
+
+Binary full adders ('283). Main path A/B → Σ.
+
+| Key | Value |
+|---|---|
+| `"a"`, `"b"`, `"sum"` | 1–8 pin names each, LSB first, the same count |
+| `"cin"`, `"cout"` | optional pin names: carry in (absent: 0) and carry out |
+
+Σ = A + B + Cin; `cout` is the carry out of the top bit. All active-high.
+
+#### Model `alu181`
+
+The '181 4-bit ALU / function generator. Main path A/B → F. The pins are
+read as the sheet's active-high data (sn54ls181 Table 2).
+
+| Key | Value |
+|---|---|
+| `"a"`, `"b"` | 4 pin names each, A0–A3, B0–B3 |
+| `"s"` | 4 pin names, S0–S3 |
+| `"m"`, `"cn"` | the mode pin (high: logic) and the carry in C̅n (active low: low = with carry) |
+| `"f"` | 4 pin names, F0–F3 |
+| `"cn4"`, `"p"`, `"g"`, `"aeqb"` | the carry out C̅n+4 (active low), the group propagate P̅ and generate G̅ (active low), and A = B (high when every F is high; open collector on the real part — list it in `openDrain`) |
+
+The model is the '181 circuit: per bit, the operands it adds are
+p = A + B·S0 + B̅·S1 and g = A·B̅·S2 + A·B·S3; arithmetic (M low)
+F = p + g + carry, logic (M high) F = NOT (p XOR g) per bit. C̅n+4, P̅
+and G̅ are computed in both modes.
+
+#### Model `wallace`
+
+Bit-slice Wallace trees ('275): a netlist of full adders. Main path any
+input → any output.
+
+| Key | Value |
+|---|---|
+| `"adders"` | 1–8 full adders `{"a", "b", "c", "sum", "carry"}`, in evaluation order: `a`, `b`, `c` are pin names or the `sum`/`carry` node names of earlier adders; `sum` and `carry` are new node names |
+| `"outputs"` | 1–8 `{"pin", "node"}`: the output pin and the adder node it shows |
+| `"enable"` | optional control: deasserted → every output Z (3-state, the '275 G̅); X → X |
+
+X rule per adder: the sum is X when any input is; the carry is the
+majority, known when two known inputs agree.
+
 ### `counter`
 
 Counters and dividers. A sequential kind (above); `"model"` is one of

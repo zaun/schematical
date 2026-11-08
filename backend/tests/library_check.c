@@ -764,6 +764,86 @@ static void check_arith_cases(void) {
                 "\"errorOn\" needs \"error\"");
 }
 
+/* plan-22-C: models adder, alu181, wallace. */
+#define ARI_ADD(REST) "'model':'adder','a':['A','B'],'b':['C','D'],'sum':['Y0','Y1'],'cin':'E','cout':'Y2'" REST
+#define ARI_ALU(REST) \
+    "'model':'alu181','a':['A','B','C','D'],'b':['E','G','LE','CLK'],'s':['A','B','C','D'],'m':'RBI'," \
+    "'cn':'E','f':['Y0','Y1','Y2','Y3'],'cn4':'Y4','p':'Y5','g':'Y6'" REST
+#define ARI_FA1 "{'a':'A','b':'B','c':'C','sum':'s1','carry':'c1'}"
+#define ARI_WAL(ADDERS, REST) \
+    "'model':'wallace','adders':[" ADDERS "],'outputs':[{'pin':'Y0','node':'s1'},{'pin':'Y1','node':'c1'}]" REST
+
+static void check_arith_alu_cases(void) {
+    static const char *const VALID[][2] = {
+        {"adder", HEAD("arith") DEC_DEVICE(ARI_ADD("")) TAIL},
+        {"alu181", HEAD("arith") DEC_DEVICE(ARI_ALU(",'aeqb':'Y7','openDrain':['Y7']")) TAIL},
+        {"wallace", HEAD("arith") DEC_DEVICE(ARI_WAL(ARI_FA1 ",{'a':'s1','b':'D','c':'E','sum':'s2','carry':'c2'}",
+                                                   ",'enable':{'pin':'G','active':'low'}")) TAIL},
+    };
+    size_t i;
+
+    for (i = 0; i < sizeof VALID / sizeof VALID[0]; i++) {
+        PartLibrary *library = part_library_create();
+        char *error = NULL;
+        const Part *part;
+
+        CHECK(load(library, VALID[i][1], &error) == 0);
+        part = part_library_find(library, "D1");
+        CHECK(part != NULL && part->kind == PART_ARITH && part->logic->units == 1);
+        printf("ok   valid arith (%s)%s%s\n", VALID[i][0], error != NULL ? ": " : "",
+               error != NULL ? error : "");
+        free(error);
+        part_library_destroy(library);
+    }
+    expect_fail("arith adder key of another model",
+                HEAD("arith") DEC_DEVICE(ARI_ADD(",'cascade':{'gt':'E'}")) TAIL,
+                "\"cascade\" is not a key of model \"adder\"");
+    expect_fail("arith adder lengths",
+                HEAD("arith") DEC_DEVICE("'model':'adder','a':['A','B'],'b':['C','D'],'sum':['Y0']") TAIL,
+                "\"a\", \"b\" and \"sum\" must have the same number of names");
+    expect_fail("arith adder 9 bits",
+                HEAD("arith") DEC_DEVICE("'model':'adder','a':['A','A','A','A','A','A','A','A','A'],"
+                                         "'b':['C'],'sum':['Y0']") TAIL,
+                "\"a\" must have 1 to 8 names");
+    expect_fail("arith adder unknown pin",
+                HEAD("arith") DEC_DEVICE("'model':'adder','a':['A'],'b':['C'],'sum':['Y0'],'cout':'Q'") TAIL,
+                "no pin named \"Q\"");
+    expect_fail("arith alu181 s count",
+                HEAD("arith") DEC_DEVICE("'model':'alu181','a':['A','B','C','D'],'b':['E','G','LE','CLK'],"
+                                         "'s':['A','B','C'],'m':'RBI','cn':'E','f':['Y0','Y1','Y2','Y3'],"
+                                         "'cn4':'Y4','p':'Y5','g':'Y6','aeqb':'Y7'") TAIL,
+                "\"s\" must have 4 names");
+    expect_fail("arith alu181 missing aeqb",
+                HEAD("arith") DEC_DEVICE(ARI_ALU("")) TAIL,
+                "missing \"aeqb\"");
+    expect_fail("arith wallace no adders",
+                HEAD("arith") DEC_DEVICE("'model':'wallace','outputs':[{'pin':'Y0','node':'s1'}]") TAIL,
+                "missing \"adders\"");
+    expect_fail("arith wallace 9 adders",
+                HEAD("arith") DEC_DEVICE(ARI_WAL(ARI_FA1 "," ARI_FA1 "," ARI_FA1 "," ARI_FA1 "," ARI_FA1 ","
+                                                 ARI_FA1 "," ARI_FA1 "," ARI_FA1 "," ARI_FA1, "")) TAIL,
+                "\"adders\" must be an array of 1 to 8 full adders");
+    expect_fail("arith wallace adder key",
+                HEAD("arith") DEC_DEVICE(ARI_WAL("{'a':'A','b':'B','c':'C','d':'D','sum':'s1','carry':'c1'}", "")) TAIL,
+                "adders[0]: unknown key \"d\"");
+    expect_fail("arith wallace node reused",
+                HEAD("arith") DEC_DEVICE(ARI_WAL(ARI_FA1 "," ARI_FA1, "")) TAIL,
+                "adders[1]: \"sum\" and \"carry\" must be new node names");
+    expect_fail("arith wallace outputs not array",
+                HEAD("arith") DEC_DEVICE("'model':'wallace','adders':[" ARI_FA1 "],'outputs':{}") TAIL,
+                "\"outputs\" must be an array of 1 to 8 {\"pin\", \"node\"}");
+    expect_fail("arith wallace output node",
+                HEAD("arith") DEC_DEVICE("'model':'wallace','adders':[" ARI_FA1 "],"
+                                         "'outputs':[{'pin':'Y0','node':'q'}]") TAIL,
+                "outputs[0]: \"node\" \"q\" is not an adder's sum or carry");
+    expect_fail("arith wallace input pin",
+                HEAD("arith") DEC_DEVICE(ARI_WAL("{'a':'Q','b':'B','c':'C','sum':'s1','carry':'c1'}", "")) TAIL,
+                "no pin named \"Q\"");
+    expect_fail("arith wallace enable without active",
+                HEAD("arith") DEC_DEVICE(ARI_WAL(ARI_FA1, ",'enable':{'pin':'G'}")) TAIL,
+                "enable: missing \"active\"");
+}
+
 static void check_mux_cases(void) {
     PartLibrary *library = part_library_create();
     char *error = NULL;
@@ -2445,6 +2525,7 @@ int main(void) {
     check_decoder_cases();
     check_mux_cases();
     check_arith_cases();
+    check_arith_alu_cases();
     check_supply_cases();
     check_voltage_cases();
     if (failures > 0) {
