@@ -296,27 +296,33 @@ Acceptance: the kind loads and rejects as specified, and existing data is unchan
   | grep header` shows `ok` for the valid 2-row device and the 3 rejections
   (`"rows" must be 1 or 2`, `"genders" must not be empty`, `a header's pin
   count must be a multiple of its rows`); golden diff empty.
-Commit: —
+Commit: e2bbc58
 
 ### Phase 3 — Data, generator, datasheets and goldens
 
-- [ ] `datasheets/connector-header/`: download the four PDFs of § The WR-PHD
+- [x] `datasheets/connector-header/`: download the four PDFs of § The WR-PHD
       drawings (`curl -fLo datasheets/connector-header/<code>.pdf <url>`).
       Each file is a PDF (`file … → PDF document`).
-- [ ] New `scripts/gen-headers.js` (§ Data). Run it:
+      Done through WebFetch (curl gets Akamai's 403, see Corrections); each
+      named by the order code `pdftotext -l 1` finds in it; `file` → `PDF
+      document, version 1.7` ×4.
+- [x] New `scripts/gen-headers.js` (§ Data). Run it:
       `node scripts/gen-headers.js` writes `Parts/header.json` and the
-      `PINHDR-` lines of `footprints.json`.
-- [ ] Run it a second time: `git diff --stat` shows no change from the
-      second run.
-- [ ] Regenerate: `/tmp/p23-build/listing_check --print > backend/tests/golden/parts.txt`,
+      `PINHDR-` lines of `footprints.json`. → `header.json: 80 parts;
+      footprints.json: 160 PINHDR- footprints`; `grep -c '"name":"GENERIC-HEADER-'
+      header.json` → 80.
+- [x] Run it a second time: `git diff --stat` shows no change from the
+      second run. (`diff --stat` output and both files' md5 identical before and after.)
+- [x] Regenerate: `/tmp/p23-build/listing_check --print > backend/tests/golden/parts.txt`,
       `/tmp/p23-build/trace_check --print > backend/tests/golden/traces.txt`,
       and `/tmp/p23-build/footprint_check --print > backend/tests/golden/footprints.txt`
       (`docs/backend.md:260`).
-- [ ] `backend/tests/circuit_check.c`: a `GENERIC-HEADER-2X20` whose pin 1
+- [x] `backend/tests/circuit_check.c`: a `GENERIC-HEADER-2X20` whose pin 1
       and pin 40 are on nets from a `5V` and a `GND`, and a `GENERIC-LED`
       wired from pin 1 (A) to pin 40 (K). After `circuit_advance`, the LED
       is lit. That shows header pins pass nets through.
-- [ ] `docs/parts-format.md` § `header`: name `GENERIC-HEADER-<R>X<NN>`, the
+      `circuit_check | grep -i header` → 3 `PASS` (added, runs, LED lit).
+- [x] `docs/parts-format.md` § `header`: name `GENERIC-HEADER-<R>X<NN>`, the
       generator, and the two footprint choices.
 
 Acceptance: 80 header parts and 160 footprints load, every footprint is
@@ -329,6 +335,9 @@ used, and the golden diffs only add lines.
   `/tmp/p23-build/listing_check --print | grep '^GENERIC-HEADER-2X08|'` →
   one line with `rows=2 genders=Male,Female`, 16 pins and
   `choices=Straight:PINHDR-2X08-V,Right angle:PINHDR-2X08-RA` (est. 2 min).
+  Result (2026-11-07): ctest 24/24; removed/changed 0; parts +80, traces +80,
+  footprints +160; the 2X08 line has `rows=2 genders=Male,Female`, pins 1–16
+  and `choices=Straight:PINHDR-2X08-V,Right angle:PINHDR-2X08-RA`.
 Commit: —
 
 ## Validation Plan
@@ -372,6 +381,14 @@ Commit: —
 - Phase 2 missed three test lines that `docs/backend.md` § Adding a kind
   requires: `TRACE_LAST_KIND` in `trace_check.c` and the `PART_MUX + 1`
   arrays in `listing_check.c` are sized by the last kind. Added as a task.
+- `curl -fLo` on the four we-online.com datasheet URLs gets `403` (Akamai
+  "Access Denied", with or without a browser user agent). The PDFs were
+  fetched with WebFetch and copied in, each named by the order code its
+  page 1 text carries.
+- `footprints.json` "every other line stays byte-identical": the array's
+  old last line (`SOT23-THIN-8`) gains its `,` since the new lines follow
+  it. `git diff` on the file → 1 line removed (that one, comma only), 161
+  added.
 
 ## Summary
 

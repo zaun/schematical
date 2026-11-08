@@ -728,6 +728,16 @@ model drives nothing). Device keys:
 Parts carry no kind keys. Every pinout's pin count must be at least 1 and a
 multiple of `rows` (`a header's pin count must be a multiple of its rows`).
 
+The library's headers are `Parts/header.json`, written by
+`node scripts/gen-headers.js` (kept; running it twice changes nothing): 80
+parts named `GENERIC-HEADER-<R>X<NN>` (R = 1 or 2 rows, NN = 01 … 40 pins
+per row), in devices `header-1row` and `header-2row`. Pinout `<r>x<nn>`
+lists pins 1 … R·NN in order, named by number. Each part's
+`footprintChoices` are `Straight` (`PINHDR-<R>X<NN>-V`, the default) and
+`Right angle` (`PINHDR-<R>X<NN>-RA`); the script also writes those 160
+`header`-style footprints (every `PINHDR-` line of `footprints.json`) from
+the Würth WR-PHD drawings in `datasheets/connector-header/`.
+
 ### `sram`
 
 Asynchronous SRAMs. Every instance has its own storage (all X at power-on).
