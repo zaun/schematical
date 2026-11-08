@@ -105,7 +105,7 @@ struct SchematicSidebarView: View {
 }
 
 /// The selected text block: its words (several lines; Return starts a new
-/// one), font size, frame, and Delete. The words apply as they are typed;
+/// one), font size and frame. The words apply as they are typed;
 /// emptied, the block keeps its last words.
 private struct NotePanel: View {
     let document: SchematicDocument
@@ -142,14 +142,6 @@ private struct NotePanel: View {
                 get: { note.framed },
                 set: { document.setNoteFramed(note.id, $0) }
             ))
-        }
-
-        Section {
-            // ⌘⌫, not ⌫ alone, so it can't fire while the words are being edited.
-            Button("Delete Text", role: .destructive) {
-                document.deleteNote(note.id)
-            }
-            .keyboardShortcut(.delete, modifiers: .command)
         }
         .onAppear {
             words = note.text
