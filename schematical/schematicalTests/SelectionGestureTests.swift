@@ -147,8 +147,8 @@ final class SelectionGestureTests: XCTestCase {
         press = doc.pressSelection(.text(text), shift: true)
         doc.releaseSelection(press, wasClick: true)
         XCTAssertEqual(doc.boardSelection.items, [.footprint(a.id), .footprint(b.id)])
-        // The Schematic page's selection never changed.
-        XCTAssertTrue(doc.schematicSelection.isEmpty)
+        // The Schematic page follows with the same parts (the text has no part).
+        XCTAssertEqual(doc.schematicSelection.items, [.chip(a.id), .chip(b.id)])
     }
 
     func testShiftDragBoxAddsWhatItTouches() throws {
@@ -185,7 +185,7 @@ final class SelectionGestureTests: XCTestCase {
         XCTAssertEqual(doc.boardSelection.items, [.footprint(a.id)])
         doc.boxSelectBoard(boundsA.union(boundsB), base: [])
         XCTAssertEqual(doc.boardSelection.items, [.footprint(a.id), .footprint(b.id)])
-        XCTAssertTrue(doc.schematicSelection.isEmpty)
+        XCTAssertEqual(doc.schematicSelection.items, [.chip(a.id), .chip(b.id)], "the parts are selected on the schematic too")
     }
 
     func testSegmentTouchesRect() {

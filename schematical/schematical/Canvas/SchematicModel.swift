@@ -965,11 +965,57 @@ final class SchematicDocument {
     private(set) var schematicSelection = ItemSelection<SchematicItem>() {
         didSet {
             if !schematicSelection.isEmpty { clearSelection(except: .items) }
+            mirrorSchematicSelectionToBoard()
         }
     }
-    /// What is selected on the PCB page: footprints and board texts. Kept
-    /// apart from the Schematic page's selection.
-    private(set) var boardSelection = ItemSelection<BoardItem>()
+    /// What is selected on the PCB page: footprints, board texts and traces.
+    /// A part and its footprint are one selection with the Schematic page
+    /// (see `mirrorSchematicSelectionToBoard`); the rest is kept apart.
+    private(set) var boardSelection = ItemSelection<BoardItem>() {
+        didSet { mirrorBoardSelectionToSchematic() }
+    }
+
+    /// Set while one page's selection is being copied to the other, so the
+    /// copy does not copy back.
+    private var isMirroringSelection = false
+
+    /// The parts selected on the Schematic page.
+    private var schematicSelectedParts: Set<UUID> {
+        Set(schematicSelection.items.compactMap { if case let .chip(id) = $0 { id } else { nil } })
+    }
+
+    /// The parts whose footprint is selected on the PCB page.
+    private var boardSelectedParts: Set<UUID> {
+        Set(boardSelection.items.compactMap { if case let .footprint(id) = $0 { id } else { nil } })
+    }
+
+    /// Selecting a part on the Schematic page selects its footprint on the
+    /// PCB page. When the two pages disagree about which parts are selected,
+    /// the PCB selection becomes just those footprints (a part without a
+    /// footprint has none). Texts and traces are left alone while the parts
+    /// agree.
+    private func mirrorSchematicSelectionToBoard() {
+        guard !isMirroringSelection else { return }
+        let parts = schematicSelectedParts
+        let withFootprint = Set(chips.lazy.filter { $0.board != nil }.map(\.id))
+        let footprints = parts.intersection(withFootprint)
+        guard footprints != boardSelectedParts else { return }
+        isMirroringSelection = true
+        defer { isMirroringSelection = false }
+        boardSelection.set(Set(footprints.map(BoardItem.footprint)))
+    }
+
+    /// Selecting a footprint on the PCB page selects its part on the
+    /// Schematic page, as `mirrorSchematicSelectionToBoard`. A text or trace
+    /// has no part, so selecting one leaves no part selected.
+    private func mirrorBoardSelectionToSchematic() {
+        guard !isMirroringSelection else { return }
+        let parts = boardSelectedParts
+        guard parts != schematicSelectedParts else { return }
+        isMirroringSelection = true
+        defer { isMirroringSelection = false }
+        schematicSelection.set(Set(parts.map(SchematicItem.chip)))
+    }
 
     /// The selected bus. Selecting one clears the other Schematic selections.
     var selectedBusID: UUID? {

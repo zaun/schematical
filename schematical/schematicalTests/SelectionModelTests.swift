@@ -110,20 +110,48 @@ final class SelectionModelTests: XCTestCase {
         XCTAssertNil(doc.selectedChipID)
     }
 
-    func testPagesKeepSeparateSelections() throws {
+    func testPartsAreOneSelectionAcrossPages() throws {
         let doc = newDocument()
         let led = try place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
-        let text = doc.addText(at: CGPoint(x: 5, y: 5))
-        doc.select(.chip(led.id))
-        XCTAssertEqual(doc.selectedTextID, text)
-        XCTAssertEqual(doc.selectedChipID, led.id)
-        XCTAssertNil(doc.selectedFootprintID)
-        doc.toggleSelection(.footprint(led.id))
-        XCTAssertEqual(doc.boardSelection.count, 2)
-        XCTAssertNil(doc.selectedTextID)
+        let other = try place(doc, "GENERIC-LED", at: CGPoint(x: 300, y: 100))
         doc.clearAllSelections()
+
+        doc.select(.chip(led.id))
+        XCTAssertEqual(doc.boardSelection.items, [.footprint(led.id)], "a part selects its footprint")
+        doc.toggleSelection(.chip(other.id))
+        XCTAssertEqual(doc.boardSelection.items, [.footprint(led.id), .footprint(other.id)])
+
+        doc.select(.footprint(other.id))
+        XCTAssertEqual(doc.schematicSelection.items, [.chip(other.id)], "a footprint selects its part")
+        doc.toggleSelection(.footprint(led.id))
+        XCTAssertEqual(doc.schematicSelection.items, [.chip(led.id), .chip(other.id)])
+
+        doc.clearBoardSelection()
         XCTAssertTrue(doc.schematicSelection.isEmpty)
+        doc.select(.chip(led.id))
+        doc.clearSchematicSelection()
         XCTAssertTrue(doc.boardSelection.isEmpty)
+    }
+
+    func testNonPartsDoNotCrossPages() throws {
+        let c = try circuit()
+        let doc = c.doc
+        let text = doc.addText(at: CGPoint(x: 5, y: 5))
+        doc.select(.chip(c.left.id))
+        doc.toggleSelection(.wire(try XCTUnwrap(doc.wires.first).id))
+        XCTAssertEqual(doc.boardSelection.items, [.footprint(c.left.id)], "a wire has no footprint")
+
+        doc.select(.text(text))
+        XCTAssertTrue(doc.schematicSelection.isEmpty, "a text has no part")
+        // A wire has no footprint; the PCB's text selection is untouched.
+        doc.select(.wire(try XCTUnwrap(doc.wires.first).id))
+        XCTAssertEqual(doc.boardSelection.items, [.text(text)])
+
+        // A footprint plus a text: the part is selected, the text stays PCB-only.
+        doc.select(.footprint(c.left.id))
+        doc.toggleSelection(.text(text))
+        XCTAssertEqual(doc.schematicSelection.items, [.chip(c.left.id)])
+        XCTAssertEqual(doc.boardSelection.count, 2)
     }
 
     // MARK: Group movement
@@ -243,7 +271,7 @@ final class SelectionModelTests: XCTestCase {
         for wire in doc.wires { doc.toggleSelection(.wire(wire.id)) }
         doc.toggleSelection(.junction(c.junction.id))
         doc.toggleSelection(.chip(c.left.id))
-        doc.select(.footprint(c.below.id))
+        XCTAssertEqual(doc.boardSelection.items, [.footprint(c.below.id), .footprint(c.left.id)])
         // Erasing the lower LED takes its wire; the junction then joins only
         // two wires but stays, since both still end on it.
         let belowPoint = CGPoint(x: chip(doc, c.below.id).bodyRect.midX, y: chip(doc, c.below.id).bodyRect.midY)
@@ -258,7 +286,8 @@ final class SelectionModelTests: XCTestCase {
         }
         XCTAssertFalse(doc.isSelected(.chip(c.below.id)))
         XCTAssertTrue(doc.isSelected(.chip(c.left.id)))
-        XCTAssertTrue(doc.boardSelection.isEmpty, "the erased part's footprint left the PCB selection")
+        XCTAssertEqual(doc.boardSelection.items, [.footprint(c.left.id)],
+                       "the erased part's footprint left the PCB selection")
     }
 
     func testDeleteTextDropsIt() {
