@@ -306,26 +306,28 @@ Commit: 9086219
 Acceptance: the cases above pass.
   Check: `xcodebuild … test -only-testing:schematicalTests/RouteDraftTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 3 min).
   Observed 2026-11-07: "Executed 9 tests, with 0 failures", `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 9232a45
 
 ### Phase 3 — Document entry points (Line and Bus)
 
 Highest risk: `BusJoin.build` and `connect`'s default route.
 
-- [ ] `SchematicModel.swift`: `anchorAxis(_:)` and `connect(_:_:path:)` per
+- [x] `SchematicModel.swift`: `anchorAxis(_:)` and `connect(_:_:path:)` per
       §4.3.
-- [ ] `BusModel.swift`: `BusJoin.join(_:candidates:)`, the `build` corner
+- [x] `BusModel.swift`: `BusJoin.join(_:candidates:)`, the `build` corner
       loop, and the `BusDraft.path` doc, per §4.4. `join(_:from:to:)` calls
       through.
-- [ ] `SchematicModel.swift`: `busDraft(candidates:)` and
+- [x] `SchematicModel.swift`: `busDraft(candidates:)` and
       `addBus(candidates:)` over the new join.
-- [ ] Tests, `BusJoinTests.swift`:
+- [x] Tests, `BusJoinTests.swift`:
       - a 4-point U makes 3 lines and 2 corners;
       - a U that starts on a bus's free end extends that line and still
         makes its corners;
-      - a path that crosses itself is refused with `badJoint`;
+      - ~~a path that crosses itself is refused with `badJoint`~~ (false,
+        see Corrections): a path that crosses itself is a plain crossing,
+        and a path that ends on its own line is refused with `badJoint`;
       - a path of collinear points is simplified to one line.
-- [ ] Tests, new `schematicalTests/ConnectPathTests.swift`:
+- [x] Tests, new `schematicalTests/ConnectPathTests.swift`:
       - pin to pin through a U stores the U's bends;
       - pin to free point with no path is an L leaving the pin along its
         side (an LED pin, horizontal);
@@ -338,6 +340,8 @@ Highest risk: `BusJoin.build` and `connect`'s default route.
 Acceptance: the new tests pass, and every existing test passes unchanged.
 That covers the 7 BusJoinTests and the 9 `connect` callers.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO` → "0 failures" (est. 5 min; the whole app suite, because `connect` and `BusJoin` are used across 5 test files, and listing them all costs as much as running it).
+  Observed 2026-11-07: "Executed 118 tests, with 0 failures", `** TEST SUCCEEDED **`
+  (after the self-crossing correction; the first run failed only that test).
 Commit: —
 
 ## Validation Plan
@@ -371,6 +375,18 @@ Commit: —
   (§4.2).
 
 ## Corrections
+
+- **A self-crossing bus route is allowed, not refused** (§Phase 3 test
+  list said "refused with `badJoint`"). Bus lines only touch at their
+  ends: `Bus.contacts` collects line ends only, and `Bus.firstTouch` only
+  checks ends against other buses (`BusModel.swift:313-324`). So two
+  lines that cross mid-span are not a joint, which is how two separate
+  buses already cross. The first test run showed it:
+  `testARouteThatCrossesItselfIsRefused … failed - a route crossing itself
+  was accepted`. The test now asserts a plain crossing (4 lines, 3
+  corners). The refusal case is a route that ends on its own first line:
+  an unexpected T, refused `badJoint`. The design doesn't depend on this,
+  and no Bus rule changed.
 
 ## Summary
 

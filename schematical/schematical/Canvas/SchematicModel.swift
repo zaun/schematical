@@ -1986,6 +1986,26 @@ final class SchematicDocument {
         }
     }
 
+    /// The axis a wire must leave or enter `anchor` along: sideways for a
+    /// pin on a part's left or right, up/down for one on its top or bottom,
+    /// and across the line for a bus port pin. Nil for a point on a wire.
+    func anchorAxis(_ anchor: LineAnchor) -> RouteAxis? {
+        switch anchor {
+        case let .pin(ref):
+            guard let chip = chips.first(where: { $0.id == ref.chipID }),
+                  let slot = chip.layout.slots.first(where: { $0.pin.index == ref.index }) else { return nil }
+            switch slot.side {
+            case .left, .right: return .horizontal
+            case .top, .bottom: return .vertical
+            }
+        case let .busPin(ref):
+            guard let (bus, port) = port(ref.portID), let line = bus.line(port.line) else { return nil }
+            return line.isHorizontal ? .vertical : .horizontal
+        case .point:
+            return nil
+        }
+    }
+
     /// What a line can start or end on near `point`: a part pin if one is
     /// within `pinRadius`, then a bus port pin, otherwise the grid point
     /// nearest `point` when an existing wire passes through it and it is
@@ -2031,7 +2051,7 @@ final class SchematicDocument {
     /// Refused, with nothing changed, when the wire would put a voltage out of
     /// range on a part (a problem the drawing doesn't already have). Returns
     /// why, which is also `editorMessage`; nil otherwise.
-    func connect(_ start: LineAnchor, _ end: LineAnchor) -> String? {
+    func connect(_ start: LineAnchor, _ end: LineAnchor, path: [CGPoint]? = nil) -> String? {
         guard start != end,
               let a = anchorTip(start), let b = anchorTip(end), a != b else {
             return nil
@@ -2054,7 +2074,11 @@ final class SchematicDocument {
               let fromTip = endTip(from), let toTip = endTip(to) else {
             return nil
         }
-        let route = OrthogonalRoute.route(from: fromTip, to: toTip)
+        // The ends are always the tips; a drawn path gives the bends between.
+        let bends = path.map { Array($0.dropFirst().dropLast()) }
+            ?? Array(OrthogonalRoute.leg(from: fromTip, to: toTip, first: anchorAxis(start),
+                                         last: anchorAxis(end), preferred: .horizontal).dropLast())
+        let route = OrthogonalRoute.simplified([fromTip] + bends + [toTip])
         wires.append(Wire(start: from, end: to, interior: Array(route.dropFirst().dropLast())))
         return nil
     }
@@ -2252,13 +2276,31 @@ final class SchematicDocument {
         BusJoin.join(buses, from: SchematicGrid.snap(start), to: SchematicGrid.snap(end))
     }
 
+    /// What the Bus tool would make of a drawn route: the first of
+    /// `candidates` (grid paths, as `RouteDraft.busCandidates` gives) the
+    /// bus rules accept.
+    func busDraft(candidates: [[CGPoint]]) -> Result<BusDraft, BusJoinRefusal> {
+        BusJoin.join(buses, candidates: candidates)
+    }
+
     /// The Bus tool: draws a line or an L from `start` to `end`, as a new bus
     /// or joined to the bus it starts or ends on (a T, an L, or a longer
     /// line). Selects that bus and returns its id. A refused drag changes
     /// nothing, sets `editorMessage`, and returns nil.
     @discardableResult
     func addBus(from start: CGPoint, to end: CGPoint) -> UUID? {
-        switch busDraft(from: start, to: end) {
+        applyBusDraft(busDraft(from: start, to: end))
+    }
+
+    /// The Bus tool along a drawn route: `addBus(from:to:)` for the first of
+    /// `candidates` the bus rules accept.
+    @discardableResult
+    func addBus(candidates: [[CGPoint]]) -> UUID? {
+        applyBusDraft(busDraft(candidates: candidates))
+    }
+
+    private func applyBusDraft(_ result: Result<BusDraft, BusJoinRefusal>) -> UUID? {
+        switch result {
         case let .failure(refusal):
             if let message = refusal.message { editorMessage = message }
             return nil

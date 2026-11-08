@@ -114,4 +114,66 @@ final class BusJoinTests: XCTestCase {
         guard case let .busPin(ref) = doc.wires[0].start else { return XCTFail("wire left the pin") }
         XCTAssertEqual(ref, BusPinRef(portID: port.id, wireID: firstB0))
     }
+
+    // MARK: plan-25-A: routes with more than one bend
+
+    private func hasLine(_ bus: Bus, _ a: CGPoint, _ b: CGPoint) -> Bool {
+        bus.lines.contains { ($0.a == a && $0.b == b) || ($0.a == b && $0.b == a) }
+    }
+
+    func testAUMakesThreeLinesAndTwoCorners() throws {
+        let doc = TestSupport.newDocument()
+        let id = try XCTUnwrap(doc.addBus(candidates: [[p(100, 100), p(300, 100), p(300, 200), p(100, 200)]]))
+        let bus = try XCTUnwrap(doc.bus(id))
+        XCTAssertEqual(bus.lines.count, 3)
+        XCTAssertTrue(bus.isValid)
+        XCTAssertEqual(bus.joints.count, 2)
+        XCTAssertTrue(bus.joints.allSatisfy { if case .corner = $0 { true } else { false } })
+        XCTAssertEqual(Set(bus.joints.map(\.point)), [p(300, 100), p(300, 200)])
+    }
+
+    func testAUFromAFreeEndExtendsThatLine() throws {
+        let doc = TestSupport.newDocument()
+        let id = try XCTUnwrap(doc.addBus(from: p(0, 100), to: p(100, 100)))
+        XCTAssertEqual(doc.addBus(candidates: [[p(100, 100), p(300, 100), p(300, 200), p(100, 200)]]), id)
+        let bus = try XCTUnwrap(doc.bus(id))
+        XCTAssertEqual(doc.buses.count, 1)
+        XCTAssertEqual(bus.lines.count, 3)
+        XCTAssertTrue(hasLine(bus, p(0, 100), p(300, 100)))
+        XCTAssertTrue(hasLine(bus, p(300, 100), p(300, 200)))
+        XCTAssertTrue(hasLine(bus, p(300, 200), p(100, 200)))
+        XCTAssertEqual(bus.joints.count, 2)
+    }
+
+    /// Lines only meet at their ends, so a crossing is not a joint: the same
+    /// as two buses crossing.
+    func testARouteThatCrossesItselfIsAPlainCrossing() throws {
+        let doc = TestSupport.newDocument()
+        let route = [p(100, 100), p(300, 100), p(300, 200), p(200, 200), p(200, 0)]
+        let id = try XCTUnwrap(doc.addBus(candidates: [route]))
+        let bus = try XCTUnwrap(doc.bus(id))
+        XCTAssertEqual(bus.lines.count, 4)
+        XCTAssertEqual(Set(bus.joints.map(\.point)), [p(300, 100), p(300, 200), p(200, 200)])
+    }
+
+    /// Ending on its own first line would make a T the route was not drawn
+    /// to make: refused, as any unexpected joint is.
+    func testARouteEndingOnItselfIsRefused() {
+        let doc = TestSupport.newDocument()
+        let route = [p(100, 100), p(300, 100), p(300, 200), p(200, 200), p(200, 100)]
+        guard case let .failure(refusal) = doc.busDraft(candidates: [route]) else {
+            return XCTFail("a route ending on itself was accepted")
+        }
+        XCTAssertEqual(refusal, .badJoint)
+        XCTAssertNil(doc.addBus(candidates: [route]))
+        XCTAssertTrue(doc.buses.isEmpty)
+    }
+
+    func testCollinearPointsBecomeOneLine() throws {
+        let doc = TestSupport.newDocument()
+        let id = try XCTUnwrap(doc.addBus(candidates: [[p(100, 100), p(200, 100), p(300, 100)]]))
+        let bus = try XCTUnwrap(doc.bus(id))
+        XCTAssertEqual(bus.lines.count, 1)
+        XCTAssertTrue(hasLine(bus, p(100, 100), p(300, 100)))
+    }
 }
