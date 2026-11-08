@@ -221,8 +221,9 @@ What goes where:
   they follow the spec-table rules, and the checker treats them as spec
   tables.
 - **Conversion notes**: what was dropped beyond the standard drop list,
-  what was approximated (digitized curves, redrawn waveforms), and known
-  errors in the source (e.g. a unit typo).
+  what was approximated (digitized curves, redrawn waveforms), the
+  `Derived:` and `From images:` values, and the `Source issues:` list
+  (see [Source fidelity](#source-fidelity)).
 
 Always dropped (never converted): feature bullet lists, marketing text,
 applications lists, table of contents, revision history, support /
@@ -464,6 +465,53 @@ f~SCL~ = 15 000 000 / (8 × I2CClk)
 One formula per line, plain text with the inline markup above, rendered
 centred. (No TeX: the samples needed four formulas in total.)
 
+## Source fidelity
+
+A converted file states only what its PDF states. `validate.py` checks
+this against the PDF's text layer (see [Validator](#validator)), so the
+rules below are written to keep conversions checkable.
+
+- **Numbers come from the source.** Every number, hex value and
+  identifier in the body appears in the PDF. A value that is not
+  printed as text is listed in Conversion notes, in one of two bullets,
+  with where it came from:
+  - `- Derived: 4.5 and 5.5 V (V~CC~, from "5V ± 10%", p.7).` The value
+    is calculated from source values: a tolerance resolved into limits,
+    a percentage of V~DD~, a worked example's result, an opcode taken
+    from the opcode matrix.
+  - `- From images: 9.7, 12.9 (package drawing, p.3).` The value is read
+    from a drawing, a scanned page or an equation set as an image.
+
+  Units stay as printed: a package drawn in inches keeps inches.
+- **Wording follows the source.** Shorten by deleting words, not by
+  rewording. Keep the source's negations (*not*, *no*, *never*) and
+  obligations (*must*, *shall*, *required*) exactly where it puts them:
+  "spikes that must be suppressed" is a requirement, "spikes suppressed"
+  is a claim.
+- **Tables keep the source's orientation.** Rows stay rows. Joining
+  tables that repeat the same rows (one per device, one per mode) into
+  more columns is allowed.
+- **Waveforms match the source figure.** Every `node` sits on the
+  transition its edge measures; columns are added (two per half clock
+  if needed) rather than putting a node on a level. Bus states follow
+  the controls: a bus driven by the part is high-impedance while its
+  output enable is off.
+- **Source problems are marked, never silently resolved.** When the PDF
+  contradicts itself, is plainly wrong, or gives a value that looks
+  wrong, the file keeps the vendor's text and says so in a note that
+  starts with one of three labels:
+
+  | Label | Meaning | What the file does |
+  |---|---|---|
+  | `Source conflict:` | Two places in the PDF disagree. | Keeps both, as printed, and says where each is. |
+  | `Source error:` | The PDF is wrong, and the PDF itself proves it (another table, the opcode matrix, the bit layout). | Corrects it and names the evidence; with "kept out", leaves the wrong text out. |
+  | `Unconfirmed:` | A value looks wrong, but nothing in the PDF proves it. | Keeps the vendor's value. Doesn't suggest a replacement. |
+
+  Every one is also listed under a `- Source issues:` bullet in
+  Conversion notes. A plausible reading is never written as a fact: if
+  the PDF doesn't settle it, it stays a `Source conflict:` or
+  `Unconfirmed:`.
+
 ## Size
 
 The size of a file is its `.md` file's UTF-8 byte count plus any
@@ -493,3 +541,35 @@ rows); section titles, order and the required set for the class; the
 and value cells); WaveJSON (parses, `signal`/`reg`, data cells vs
 `data`, edge nodes exist, no node named twice); `curve` JSON; `figure` refs and sidecars;
 inline `!{…}` balance; and the size report. Exit status 1 on any error.
+
+## Validator
+
+`check.py` says whether a file follows the format; it can't say whether
+the content is right. `python3 -I planning/spike-datasheet-format/validate.py
+<file.md>…` compares a file with its source PDF, without an agent. It
+reads the PDF's text layer with `pdftotext` (poppler) and OCRs pages
+that have none with `tesseract`; results are cached.
+
+| Check | What it does | Severity |
+|---|---|---|
+| numbers | Every number and hex value is in the PDF, or listed under `Derived:` / `From images:`. | error |
+| rows | A table row's values sit on the same PDF line (or within two lines) as the row's words. A row may join several source tables. | error in spec tables, warning elsewhere |
+| registers | In a register map with Bit 7–Bit 0 and Reset columns, fixed 0/1 bits agree with the reset value (info when a note flags it). | error |
+| waveforms | Edges join defined nodes; nodes sit on transitions; a bus is not driven while its active-low output enable has been high for two columns. | error / warning |
+| terms | Identifiers (names with digits or inner capitals) are in the PDF. | warning |
+| prose | Each sentence, list item, table note and long cell is matched to the closest PDF passage: under 35 % of its words is "not found" (warning), 35–60 % "reworded" (info). Negation or obligation that differs from that passage is a warning. | warning / info |
+| notes | Table notes in the PDF (`[1] …`, `Notes: 1. …`) on converted pages appear in the file. | warning |
+| pages | Converted pages where under 40 % of the numbers reach the file. | warning |
+| visual | Each waveform, curve and figure, with the PDF page it most likely came from, to compare by eye. | info |
+
+Errors are facts that don't match; warnings need a person to look.
+`--quiet` prints one summary line per file, `--info` adds the info
+items, `--json` gives machine-readable output. Exit status 1 on any
+error.
+
+What it can't do: check a waveform's shape or a curve against the
+figure (it lists them for a person), check values that are only in
+images (they must be listed under `From images:`), or judge whether a
+reworded sentence kept its meaning beyond negation and obligation.
+Tables whose cells wrap in the PDF ("VDDx0." / "2") can give false row
+errors.
