@@ -25,6 +25,7 @@ extern const PartKindOps DECODER_KIND;
 extern const PartKindOps BUFFER_KIND;
 extern const PartKindOps MUX_KIND;
 extern const PartKindOps HEADER_KIND;
+extern const PartKindOps ARITH_KIND;
 extern const PartKindOps CONVERTER_KIND;
 extern const PartKindOps RTC_KIND;
 
@@ -52,6 +53,7 @@ const PartKindOps *const KINDS[] = {
     &BUFFER_KIND,
     &MUX_KIND,
     &HEADER_KIND,
+    &ARITH_KIND,
     &CONVERTER_KIND,
     &RTC_KIND,
     NULL

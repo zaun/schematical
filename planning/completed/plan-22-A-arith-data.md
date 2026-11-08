@@ -14,7 +14,7 @@ footprint, carries its supply range and shows in the Logic drawer.
 The owner also chose the SN74ACT8832 (32-bit ALU) and SN74ACT8847
 (floating-point unit), the '381/'382/'881/'882 ALUs, the '183/'385/'80
 adders and the '261/'384 multipliers. No datasheet for any of them can be
-fetched (§2 Verified properties). Under AGENTS.md and the inverter
+fetched from TI (§2 Verified properties; Rochester Electronics copies exist, see Corrections). Under AGENTS.md and the inverter
 precedent (a part with no datasheet has no pinout, timing or package
 drawing), A records them in `datasheets/skipped-parts.md` with that reason.
 A later plan adds them if the owner supplies the PDFs.
@@ -46,11 +46,11 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p22 && cmake --build /tmp/logic-p22 -j8 && ctest --test-dir /tmp/logic-p22` → `100% tests passed` | MET; **T0 = 21** (2026-11-07 at 4ae312f) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `footprints.txt` | **P0 = 8022**, **F0 = 237** (2026-11-07 at 7b6b604); re-measure at start |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p22-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | re-run at start |
-| No `arith` kind yet | `ls schematical/schematical/Parts/arith.json backend/src/models/arith*.c 2>/dev/null` → no output | MET (2026-11-07) |
-| DigiKey script works | `node scripts/digikey.js --in-stock --manufacturer 296 --limit 1 SN74LS283N` → a part line | MET (2026-11-07) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p22 && cmake --build /tmp/logic-p22 -j8 && ctest --test-dir /tmp/logic-p22` → `100% tests passed` | MET; **T0 = 24** (2026-11-07 16:30 HST at 76e4f46: `100% tests passed, 0 tests failed out of 24`) |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `footprints.txt` | **P0 = 11126**, **F0 = 423** (2026-11-07 at 76e4f46) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p22-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-07 at 76e4f46: `** BUILD SUCCEEDED **`) |
+| No `arith` kind yet | `ls schematical/schematical/Parts/arith.json backend/src/models/arith*.c 2>/dev/null` → no output | MET (2026-11-07 at 76e4f46: no output) |
+| DigiKey script works | `node scripts/digikey.js --in-stock --manufacturer 296 --limit 1 SN74LS283N` → a part line | MET (2026-11-07 16:25 HST: `SN74LS283N Active 2285`, 474 calls left today) |
 
 plan-22 waits for no other plan (owner: 19–22 in any order, possibly in
 parallel).
@@ -102,7 +102,10 @@ parallel).
 
 - DigiKey's datasheet links for SN74ACT8832AGB and SN74ACT8847-30GA are
   `rocelec.widen.net` viewer pages: `curl -sfL` saves 24519 bytes, `file` →
-  `HTML document` for both. No PDF.
+  `HTML document` for both. The page's `previews…` link does yield a PDF
+  (Rochester Electronics' copies of TI's scanned data manuals: 192 and 261
+  pages), but TI itself publishes none (no product page, no `lit/ds` PDF) —
+  corrected 2026-11-07, see Corrections.
 - SN54LS275J's DigiKey link
   (`https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/5028/SNx4%28L%29S27x.PDF`)
   is a 10-page scanned TI datasheet (`file` → `PDF document, version 1.5, 10
@@ -169,20 +172,20 @@ exhaustively against a reference written from the datasheet equations.
 
 ### Phase 1 — Datasheets and part data
 
-- [ ] Re-run the §2 availability probe; stock re-check per base name (`node scripts/digikey.js --in-stock --manufacturer 296 --list "<base>"`; about 40 calls); rows whose status is not Active or Last Time Buy `skip`.
-- [ ] Download the available PDFs. Check: `ls … | wc -l` = distinct `pdf` values of `add` rows.
-- [ ] `parts.tsv` (225 rows), `specs.md`, `README.md`. Checks: 0 undecided rows; 0 `add` rows without a footprint; every no-datasheet function's rows `skip`.
-- [ ] `datasheets/skipped-parts.md` § TI comparators and arithmetic: the `skip` rows grouped by reason, the ACT8832/ACT8847 row first with "owner chose them; no datasheet can be fetched (2026-11-07)".
+- [x] Re-run the §2 availability probe; stock re-check per base name (`node scripts/digikey.js --in-stock --manufacturer 296 --list "<base>"`; about 40 calls); rows whose status is not Active or Last Time Buy `skip`. Probe (`/tmp/p22/scripts/probe2.sh`, 2026-11-07 16:30 HST): every §2 "available" name → `200:application/pdf`, every §2 "no datasheet" name → 404 or HTML, plus `https://www.ti.com/product/<base>` → 404 (3542 bytes) for all of them; the TI literature numbers printed on the Rochester copies of the no-datasheet parts (sdls168, sdls169, sdas235, sdas183a, sdas209b, sdas012c, sdas003c, sdas051a, scas022a) → 404 (`/tmp/p22/scripts/litprobe.sh`). Stock re-check (`--json`, `/tmp/p22/scripts/stock.sh`): 113 searches (88 base names + 25 exact names; not about 40 — Corrections), `346 left today`, 499 in-stock TI parts; 222 of 225 candidates found with their census status (0 status changes), SN74ALS677ADW, SN74ALS679DW, SN74ALS679N not found → `skip` "not in stock on 2026-11-07".
+- [x] Download the available PDFs. Check: `ls … | wc -l` = distinct `pdf` values of `add` rows. 72 files fetched (symlinks + TI literature numbers), 29 distinct; the 26 named by `add` rows copied: `ls datasheets/comparator/*.pdf datasheets/arith/*.pdf datasheets/parity/*.pdf | wc -l` → 26; `awk -F'\t' 'NR>1 && $11=="add"{print $10}' planning/plan-22-data/parts.tsv | sort -u | wc -l` → 26.
+- [x] `parts.tsv` (225 rows), `specs.md`, `README.md`. Checks: 0 undecided rows; 0 `add` rows without a footprint; every no-datasheet function's rows `skip`. `tail -n +2 parts.tsv | wc -l` → 225; undecided or reasonless skips → 0; `add` rows without a footprint → 0; **N22 = 107** `add` rows over 16 devices; skips: 41 Obsolete, 3 Discontinued at DigiKey, 33 not in the datasheet ordering table, 38 no TI datasheet (every §2 no-datasheet function), 3 not in stock. `specs.md`: 16 sections (five parallel readers + the '275 from its page images), each device JSON passing `/tmp/p22/scripts/check_device.py` (`ok` ×16).
+- [x] `datasheets/skipped-parts.md` § TI comparators and arithmetic: the `skip` rows grouped by reason, the ACT8832/ACT8847 row first with "owner chose them; no datasheet can be fetched (2026-11-07)". 118 skip rows: the ACT8832/8847 row first, then one row per reason (`/tmp/p22/scripts/skipped.py`). Sheets fetched but kept for no part: `obsolete-not-included.md` row for `parity/sccs025b.pdf` (CY74FCT480T, all Obsolete); `not-included.md` rows for `parity/sn54180.pdf` and `arith/sn54s182.pdf` (only SN54 parts in their tables, none in stock).
 
-Acceptance: the checks above (minutes).
-Commit: —
+Acceptance: the checks above (minutes). Met: every Phase 1 check output is on its task line.
+Commit: 99ba142
 
 ### Phase 2 — Family and footprint
 
-- [ ] `FCT` (or moot) with docs line and `library_check` case; `PDIP-24` (or moot); regenerate `footprints.txt`.
+- [x] ~~`FCT` (or moot) with docs line and `library_check` case; `PDIP-24` (or moot); regenerate `footprints.txt`~~ — moot: `grep -c '"FCT"' backend/src/library/kind_util.c` → 1 (plan-19) and `library_check` prints `ok   gate part with family FCT`; no `add` row needs `PDIP-24` (the only 24-pin DIPs, SN74AS885NT/NT3, are Obsolete or not in the ordering table; `awk … $7=="PDIP-24"` → 0) and every `add` footprint exists (missing → `[]`), so `footprints.json` and `footprints.txt` are unchanged.
 
-Acceptance: `ctest --test-dir /tmp/logic-p22` → T0 of T0; no golden line removed (seconds).
-Commit: —
+Acceptance: `ctest --test-dir /tmp/logic-p22` → T0 of T0; no golden line removed (seconds). Met: `100% tests passed, 0 tests failed out of 24` (T0 = 24); `git diff --stat backend/tests/golden` → empty.
+Commit: 99ba142
 
 ## Validation Plan
 
@@ -201,6 +204,43 @@ Landing tier at the end of E. For A: Phase 2's `ctest` and Phase 1's checks.
 - **Plans 19–22 in any order** (owner, 2026-11-07).
 
 ## Corrections
+
+- **"No datasheet can be fetched" is false as written** (2026-11-07). The
+  Rochester `widen.net` viewer pages DigiKey links lead to real PDFs (the
+  plan-22 authoring session's own `/tmp/p22/roc.sh` saved them: ACT8832 192
+  pages, ACT8847 261 pages, '381/'382 (SDLS168), '384 (SDLS169), '882
+  (SDAS235), '677/'679, '866, AS181 and others are TI sheets with TI
+  literature numbers). What is true is that **TI publishes none of them**:
+  `https://www.ti.com/product/<part>` → 404 and `lit/ds/<number>` → 404 for
+  every one of those literature numbers. The design rests on "no TI
+  datasheet", the rule plan-21 applied to the same kind of Rochester copies
+  (`planning/plan-21-data/README.md` step 2), so the skips stand; the
+  reason in `parts.tsv` is "no TI datasheet" (plan-21's wording) rather
+  than "no datasheet (…viewer page)", and `skipped-parts.md` says the
+  copies exist. The '275 stays the owner's stated exception (a DigiKey-hosted
+  TI scan).
+- **Stock re-check took 113 calls, not about 40** (88 base names + 25
+  candidates with no base name; `--json` rather than `--list` to get
+  status per part).
+- **The '180 and the '182 add no part** (2026-11-07). TI's sheets (sdls071,
+  sdls206) list only SN54 J/W/FK parts, none in stock; the in-stock SN74180N,
+  SNJ54HC180J and SN74S182N are in no TI ordering table. Likewise only
+  SNJ54LS181J of the '181s is in its table. So plan-22-C's `lookahead`
+  model and the `parity` model's '180 EVEN/ODD inputs have no part: they are
+  not built (plan-22-B/C Corrections), as plan-21 left its part-less models.
+- **The '885, '286 and CD4585B need more than plan-22-B §3 wrote**: '286
+  XMIT is active low (transmit while low) and PARITY ERROR flags an even
+  total (sn74as286 p.1 table); the CD4585B gates A>B out with its A>B
+  cascade input also for unequal words (cd4585b p.2 Fig. 4). B's `compare`
+  takes `cascadeTable` rows with an optional `"when"` relation, and
+  `parity` takes `bus.drives` and `errorOn` (plan-22-B Corrections).
+- **The 4063B and 4585B truth tables omit cascade combinations**: the
+  missing equal-word rows are read from each sheet's logic diagram
+  (specs.md § 4063B, § 4585B).
+- **The '275 sheet prints no truth table**: the model is its p.2 block
+  diagram (five full adders), and C's test checks that netlist against the
+  weighted sum for all 512 inputs (plan-22-C Corrections).
+- **N22 = 107** (`add` rows), 16 devices; plan-22-B…E use it.
 
 ## Summary
 

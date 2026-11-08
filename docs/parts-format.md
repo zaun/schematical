@@ -2858,6 +2858,110 @@ An X write enable or write address bit makes X the bits it could change;
 an X read address bit gives X unless every word it chooses between has
 the same bit.
 
+### `arith`
+
+Comparators, adders, ALUs, parity generators/checkers and Wallace trees
+(plan-22): magnitude comparators (74x85, CD4063B, CD4585B, '682, '684,
+'885), identity comparators ('518, '520, '521, '688), parity
+generators/checkers (74x280, '286, 74ACT11286), the '283 adder, the '181
+ALU and the '275 Wallace tree. It shares the sequential kinds' device
+format (above): `"model"` is one of `compare`, `parity`, `adder`,
+`alu181`, `wallace`; `timing` entries are `{rise, fall}` for the model's
+main path; part keys `family`, `vcc`, `inputMax`; `units` is 1. Every
+model re-evaluates all of its outputs on any pin change. Device keys
+shared by every model:
+
+| Key | Value |
+|---|---|
+| `"output"` | `"push-pull"` (default) or `"open-drain"`: every output open-collector ('518) |
+| `"openDrain"` | optional list of output pin names that are open-collector while the others are not ('181 A = B) |
+
+Signal rules as the sequential kinds: Z on an input reads X; open-drain
+outputs drive 0 and release to Z. **X rule:** an unknown input bit makes X
+exactly the outputs whose value depends on it — every completion of the
+unknown bits is evaluated (at most 8 unknown bits; more make every output
+X), and an output is known when all completions agree.
+
+#### Model `compare`
+
+Magnitude and identity comparators. Main path A/B → outputs.
+
+| Key | Value |
+|---|---|
+| `"a"`, `"b"` | 1–12 pin names each, LSB first, the same count ('688: `a` is P0–P7, `b` Q0–Q7) |
+| `"outputs"` | object with any of `"gt"` (A > B), `"eq"` (A = B), `"lt"` (A < B) → a control: the pin and its level while that relation holds; at least one |
+| `"cascade"` | optional object with any of `"gt"`, `"eq"`, `"lt"` → input pin names (cascading inputs from a less significant stage) |
+| `"cascadeTable"` | optional, 1–24 rows `{"when"?, "in", "out"}`: `when` is the relation of the words the row applies to (`"gt"`, `"eq"` default, `"lt"`); `in` one H/L/X per cascade input in gt, eq, lt order (only those present; X: either); `out` one H/L per output in gt, eq, lt order, as pin levels. The first matching row wins; the rows of a relation must cover every combination of cascade levels. Needs `cascade`. |
+| `"enable"` | optional control ('688 G̅): deasserted → every output at its inactive level |
+| `"latch"` | optional control: a transparent latch on the `a` word, holding while asserted ('885 PLE: `{"pin": "PLE", "active": "low"}`); 0 at power-on (the '885's power-up clear) |
+| `"signed"` | optional control: asserted → the words compare as two's complement ('885 L/A: `{"pin": "L/A", "active": "low"}`) |
+
+A relation with `cascadeTable` rows takes its outputs from them (the
+CD4585B gates A>B out with its A>B cascade input). Otherwise A > B asserts
+`gt` only and A < B `lt` only; at A = B each output follows the cascade
+input of its name (the '885; every output then needs one), or, with no
+`cascade`, `eq` is asserted. An X enable makes every output X; an X latch
+control makes X the held bits that differ from the input.
+
+#### Model `parity`
+
+Parity generators/checkers. Main path data → ΣE/ΣO (with a bus: data →
+PARITY I/O).
+
+| Key | Value |
+|---|---|
+| `"inputs"` | 1–9 pin names |
+| `"even"`, `"odd"` | optional output pin names: `even` is high when an even number of `inputs` are high (ΣE), `odd` the complement (ΣO) |
+| `"bus"` | optional `{"pin", "xmit", "drives"}`: `pin` (role `inout`) is the parity I/O port; while the control `xmit` is asserted the part drives it with the `even` (`"drives": "even"`) or `odd` value, deasserted it releases the pin and reads it ('286 XMIT: `{"pin": "XMIT", "active": "low"}`) |
+| `"error"` | optional control naming the error output and its active level; needs `bus` |
+| `"errorOn"` | `"even"` / `"odd"`, with `error`: while `xmit` is deasserted, `error` is asserted when the number of high levels among `inputs` and the bus pin is even (odd); while transmitting it is inactive |
+
+At least one of `even`, `odd`, `bus`. Any X or Z input makes the parity
+outputs X; an X `xmit` makes the bus pin and `error` X.
+
+#### Model `adder`
+
+Binary full adders ('283). Main path A/B → Σ.
+
+| Key | Value |
+|---|---|
+| `"a"`, `"b"`, `"sum"` | 1–8 pin names each, LSB first, the same count |
+| `"cin"`, `"cout"` | optional pin names: carry in (absent: 0) and carry out |
+
+Σ = A + B + Cin; `cout` is the carry out of the top bit. All active-high.
+
+#### Model `alu181`
+
+The '181 4-bit ALU / function generator. Main path A/B → F. The pins are
+read as the sheet's active-high data (sn54ls181 Table 2).
+
+| Key | Value |
+|---|---|
+| `"a"`, `"b"` | 4 pin names each, A0–A3, B0–B3 |
+| `"s"` | 4 pin names, S0–S3 |
+| `"m"`, `"cn"` | the mode pin (high: logic) and the carry in C̅n (active low: low = with carry) |
+| `"f"` | 4 pin names, F0–F3 |
+| `"cn4"`, `"p"`, `"g"`, `"aeqb"` | the carry out C̅n+4 (active low), the group propagate P̅ and generate G̅ (active low), and A = B (high when every F is high; open collector on the real part — list it in `openDrain`) |
+
+The model is the '181 circuit: per bit, the operands it adds are
+p = A + B·S0 + B̅·S1 and g = A·B̅·S2 + A·B·S3; arithmetic (M low)
+F = p + g + carry, logic (M high) F = NOT (p XOR g) per bit. C̅n+4, P̅
+and G̅ are computed in both modes.
+
+#### Model `wallace`
+
+Bit-slice Wallace trees ('275): a netlist of full adders. Main path any
+input → any output.
+
+| Key | Value |
+|---|---|
+| `"adders"` | 1–8 full adders `{"a", "b", "c", "sum", "carry"}`, in evaluation order: `a`, `b`, `c` are pin names or the `sum`/`carry` node names of earlier adders; `sum` and `carry` are new node names |
+| `"outputs"` | 1–8 `{"pin", "node"}`: the output pin and the adder node it shows |
+| `"enable"` | optional control: deasserted → every output Z (3-state, the '275 G̅); X → X |
+
+X rule per adder: the sum is X when any input is; the carry is the
+majority, known when two known inputs agree.
+
 ### `counter`
 
 Counters and dividers. A sequential kind (above); `"model"` is one of

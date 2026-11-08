@@ -14,6 +14,6 @@ for m in 108:ck 141:eswitch 2223:samesky 450:te-alco 39:omron 10:panasonic 4809:
   id="${m%%:*}"
   name="${m##*:}"
   node scripts/digikey.js --category 197 --manufacturer "$id" --in-stock \
-    --status 0 --status 4 --json > "$RAW/$id-$name.jsonl" 2> "$RAW/$id-$name.err"
+    --status 0 --status 4 --limit 5000 --json > "$RAW/$id-$name.jsonl" 2> "$RAW/$id-$name.err"
   echo "$name: $(tail -1 "$RAW/$id-$name.err")"
 done

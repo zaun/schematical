@@ -176,6 +176,10 @@ backend/
                            mux.c + mux.h (multiplexers: the kind and
                            model select), mux_stored.c (models stored,
                            regfile, universal, bus4),
+                           arith.c + arith.h (comparators, parity:
+                           the kind and models compare, parity),
+                           arith_alu.c (models adder, alu181,
+                           wallace),
                            charlcd.c (character LCD modules: loader and
                            the HD44780 controller model), charlcd_font.c
                            + charlcd_font.h (character ROM A00),
@@ -297,6 +301,14 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   rows of each device shape (inline fixture devices copied from the real
   ones in `planning/plan-21-data/specs.md`), the X rules, storage and the
   bus turnaround. Its loader errors are in `library_check`.
+- `arith_test` — the `arith` kind's models (plan-22-B, C): every word
+  pair and cascade level of the 4-bit comparators, the 8-bit comparators'
+  function tables, the '885 latch and L/A, every input pattern of the
+  parity devices and the '286 bus, the '283 and '275 over every input and
+  the '181 over every (S, M, Cn) row and (A, B) pair (inline fixture devices copied from the
+  real ones in `planning/plan-22-data/specs.md`), each against a reference
+  written from the datasheet, plus the X rule. Its loader errors are in
+  `library_check`.
 - `decoder_test` — the `decoder` kind's three models (plan-19-B): one case
   per function-table row of each device shape (inline fixture devices copied
   from the real ones, plus '131 and CD4056B shapes), X rules and the

@@ -20,68 +20,73 @@ struct SevenSegmentSymbolView: View {
     var body: some View {
         let layout = chip.layout
         let margin = ChipLayout.labelMargin
-        let stub = ChipLayout.stubLength
-        let highlighted = isSelected || isHovered
-        let outline: Color = highlighted ? .accentColor : .primary
-        let light = DiodeSymbolView.lightColor(for: chip)
 
         Canvas { context, _ in
-            let box = CGRect(x: margin, y: 0, width: layout.size.width, height: layout.size.height)
-
-            context.fill(Path(box), with: .color(Color(nsColor: .controlBackgroundColor)))
-            if isHovered {
-                context.fill(Path(box), with: .color(Color.accentColor.opacity(0.12)))
-            }
-            context.stroke(Path(box), with: .color(outline), lineWidth: highlighted ? 2 : 1.5)
-
-            var headerRule = Path()
-            headerRule.move(to: CGPoint(x: box.minX, y: ChipLayout.headerHeight))
-            headerRule.addLine(to: CGPoint(x: box.maxX, y: ChipLayout.headerHeight))
-            context.stroke(headerRule, with: .color(outline.opacity(0.5)), lineWidth: 1)
-
-            context.draw(
-                Text(chip.partNumber)
-                    .font(.system(size: 11, weight: .semibold, design: .monospaced)),
-                at: CGPoint(x: box.midX, y: ChipLayout.headerHeight / 2),
-                anchor: .center
-            )
-
-            for slot in layout.slots {
-                let isLeft = slot.side == .left
-                let edgeX = isLeft ? box.minX : box.maxX
-                let tipX = isLeft ? box.minX - stub : box.maxX + stub
-
-                var pinStub = Path()
-                pinStub.move(to: CGPoint(x: tipX, y: slot.centerY))
-                pinStub.addLine(to: CGPoint(x: edgeX, y: slot.centerY))
-                context.stroke(pinStub, with: .color(outline), lineWidth: 1.5)
-
-                context.draw(
-                    Text(slot.pin.designator)
-                        .font(.system(size: 9))
-                        .foregroundStyle(.secondary),
-                    at: CGPoint(x: isLeft ? tipX - 3 : tipX + 3, y: slot.centerY),
-                    anchor: isLeft ? .trailing : .leading
-                )
-                context.draw(
-                    Text(slot.pin.name)
-                        .font(.system(size: 9, weight: .medium, design: .monospaced)),
-                    at: CGPoint(x: isLeft ? edgeX + 4 : edgeX - 4, y: slot.centerY),
-                    anchor: isLeft ? .leading : .trailing
-                )
-            }
-
-            if let display = chip.part.display {
-                Self.drawFace(&context, display: display, box: box, levels: levels, light: light)
-            }
+            var painter = ScreenPainter(context)
+            Self.paint(&painter, chip: chip, isSelected: isSelected, isHovered: isHovered, levels: levels)
         }
         .frame(width: layout.size.width + 2 * margin, height: layout.size.height)
     }
 
+    /// Draws the display, its frame's top-left corner at (0, 0).
+    static func paint<P: SchematicPainter>(_ painter: inout P, chip: PlacedChip, isSelected: Bool, isHovered: Bool,
+                                           levels: [Double]) {
+        let layout = chip.layout
+        let margin = ChipLayout.labelMargin
+        let stub = ChipLayout.stubLength
+        let highlighted = isSelected || isHovered
+        let outline: Ink = highlighted ? .accent : .primary
+        let light = Ink.lamp(DiodeSymbolView.lightName(for: chip))
+        let box = CGRect(x: margin, y: 0, width: layout.size.width, height: layout.size.height)
+
+        painter.fill(Path(box), with: .paper)
+        if isHovered {
+            painter.fill(Path(box), with: Ink.accent.opacity(0.12))
+        }
+        painter.stroke(Path(box), with: outline, lineWidth: highlighted ? 2 : 1.5)
+
+        var headerRule = Path()
+        headerRule.move(to: CGPoint(x: box.minX, y: ChipLayout.headerHeight))
+        headerRule.addLine(to: CGPoint(x: box.maxX, y: ChipLayout.headerHeight))
+        painter.stroke(headerRule, with: outline.opacity(0.5), lineWidth: 1)
+
+        painter.draw(
+            PaintedText(chip.partNumber, size: 11, weight: .semibold, monospaced: true),
+            at: CGPoint(x: box.midX, y: ChipLayout.headerHeight / 2),
+            anchor: .center
+        )
+
+        for slot in layout.slots {
+            let isLeft = slot.side == .left
+            let edgeX = isLeft ? box.minX : box.maxX
+            let tipX = isLeft ? box.minX - stub : box.maxX + stub
+
+            var pinStub = Path()
+            pinStub.move(to: CGPoint(x: tipX, y: slot.centerY))
+            pinStub.addLine(to: CGPoint(x: edgeX, y: slot.centerY))
+            painter.stroke(pinStub, with: outline, lineWidth: 1.5)
+
+            painter.draw(
+                PaintedText(slot.pin.designator, size: 9, ink: .secondary),
+                at: CGPoint(x: isLeft ? tipX - 3 : tipX + 3, y: slot.centerY),
+                anchor: isLeft ? .trailing : .leading
+            )
+            painter.draw(
+                PaintedText(slot.pin.name, size: 9, weight: .medium, monospaced: true),
+                at: CGPoint(x: isLeft ? edgeX + 4 : edgeX - 4, y: slot.centerY),
+                anchor: isLeft ? .leading : .trailing
+            )
+        }
+
+        if let display = chip.part.display {
+            drawFace(&painter, display: display, box: box, levels: levels, light: light)
+        }
+    }
+
     // MARK: Face
 
-    private static func drawFace(_ context: inout GraphicsContext, display: DisplayInfo,
-                                 box: CGRect, levels: [Double], light: Color) {
+    private static func drawFace<P: SchematicPainter>(_ painter: inout P, display: DisplayInfo,
+                                                      box: CGRect, levels: [Double], light: Ink) {
         let digit = ChipLayout.sevenSegmentDigitSize
         let gap = ChipLayout.sevenSegmentDigitGap
         let faceWidth = ChipLayout.sevenSegmentFaceWidth(display)
@@ -93,7 +98,10 @@ struct SevenSegmentSymbolView: View {
             width: faceWidth,
             height: faceHeight
         )
-        context.fill(Path(roundedRect: face, cornerRadius: 3), with: .color(Color(white: 0.12)))
+        let facePath = Path(roundedRect: face, cornerRadius: 3)
+        painter.fill(facePath, with: .displayFace)
+        // Outlines the face where the fill is not drawn (the export).
+        painter.stroke(facePath, with: .faceEdge, lineWidth: 1)
 
         let top = face.minY + 8
 
@@ -112,8 +120,7 @@ struct SevenSegmentSymbolView: View {
         for (index, led) in display.leds.enumerated() {
             // The unlit segment, then the light over it at its brightness.
             let level = index < levels.count ? levels[index] : 0
-            let colors = level > 0 ? [Color.white.opacity(0.1), light.opacity(level)]
-                                   : [Color.white.opacity(0.1)]
+            let inks = level > 0 ? [Ink.unlit, light.opacity(level)] : [Ink.unlit]
 
             if led.digit == 0 {
                 // Colon and raised dot.
@@ -123,21 +130,21 @@ struct SevenSegmentSymbolView: View {
                 case "L2": centre = CGPoint(x: gapCentre(after: display.colonAfter), y: top + digit.height * 0.7)
                 default: centre = CGPoint(x: gapCentre(after: display.dotAfter), y: top + 1)
                 }
-                for color in colors {
-                    context.fill(Path(ellipseIn: dot(at: centre)), with: .color(color))
+                for ink in inks {
+                    painter.fill(Path(ellipseIn: dot(at: centre)), with: ink)
                 }
                 continue
             }
 
             let x = digitX(led.digit)
             if let path = segmentPath(led.segment, x: x, y: top, size: digit) {
-                for color in colors {
-                    context.stroke(path, with: .color(color), style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                for ink in inks {
+                    painter.stroke(path, with: ink, style: StrokeStyle(lineWidth: 3, lineCap: .round))
                 }
             } else if led.segment == "DP" || led.segment == "LDP" {
                 let centreX = led.segment == "DP" ? x + digit.width + 4 : x - 4
-                for color in colors {
-                    context.fill(Path(ellipseIn: dot(at: CGPoint(x: centreX, y: top + digit.height))), with: .color(color))
+                for ink in inks {
+                    painter.fill(Path(ellipseIn: dot(at: CGPoint(x: centreX, y: top + digit.height))), with: ink)
                 }
             }
         }

@@ -19,7 +19,7 @@ plan-22-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-22-A complete | `ls planning/completed/plan-22-A-*.md` → exists | NOT MET (2026-11-07) |
+| plan-22-A complete | `ls planning/completed/plan-22-A-*.md` → exists | MET (2026-11-07: `planning/completed/plan-22-A-arith-data.md`) |
 
 ## 1. Goal
 
@@ -85,11 +85,11 @@ several cascade inputs high are taken from its function table, specs.md
 
 ### Phase 1 — Kind, `compare`, `parity`
 
-- [ ] `PART_ARITH`; `KINDS[]`; `arith.c`, `arith.h`; CMake lines; `arith_test.c` (§4) and its test entry; `library_check` cases.
-- [ ] `docs/parts-format.md` § `arith` (intro, `compare`, `parity`); `docs/backend.md` kind list.
+- [x] `PART_ARITH`; `KINDS[]`; `arith.c`, `arith.h`; CMake lines; `arith_test.c` (§4) and its test entry; `library_check` cases. `PART_ARITH` appended after `PART_HEADER` (no other plan-19–22 value pending); test support: `listing.c` kind name/units/family, `TRACE_LAST_KIND` and `listing_check` arrays → `PART_ARITH`. `/tmp/logic-p22/arith_test` → 17 `PASS` lines, `arith_test: all passed`; `library_check` → 39 `ok` arith lines (2 valid devices + 37 rejections), 0 FAIL.
+- [x] `docs/parts-format.md` § `arith` (intro, `compare`, `parity`); `docs/backend.md` kind list. § `arith` before § `counter`; `backend.md` models list (`arith.c + arith.h`) and test list (`arith_test`).
 
-Acceptance: `ctest --test-dir /tmp/logic-p22` → T0 + 1 of T0 + 1; golden diff empty (seconds).
-Commit: —
+Acceptance: `ctest --test-dir /tmp/logic-p22` → T0 + 1 of T0 + 1; golden diff empty (seconds). Met: `100% tests passed, 0 tests failed out of 25` (T0 + 1 = 25); `git diff --stat backend/tests/golden` → empty.
+Commit: e672958
 
 ## Validation Plan
 
@@ -100,6 +100,28 @@ B's gate: Phase 1's `ctest`. Landing tier at the end of E.
 - One kind for every plan-22 model (plan-22-A §3.1).
 
 ## Corrections
+
+- **Keys the datasheets needed beyond §3** (plan-22-A Corrections):
+  `cascadeTable` rows are `{"when"?, "in", "out"}` with `in`/`out` as pin
+  levels, and the rows of a relation must cover every cascade combination
+  (the loader checks); `when` ("gt"/"eq"/"lt", default "eq") lets the
+  CD4585B gate A>B out with its A>B cascade input. `bus` is `{"pin",
+  "xmit", "drives"}` and `error` comes with `errorOn` ('286: XMIT active
+  low, PARITY I/O = ΣE while transmitting, ERROR low on an even total).
+  Device keys `output` and `openDrain` (per-pin open collector, the '181
+  A = B) are shared by every model.
+- **§3 `"output"` per model, not "'518, '520 … open-collector
+  variants"**: only the '518 is open-collector (sn74als518 p.1); the '520
+  and '521 are totem-pole. The §4 '521 open-drain case is the '518 case
+  (equal → released, unequal → 0, `part_pin_open_drain` → 1).
+- **The '180 case is moot**: no '180 part is added (plan-22-A
+  Corrections), so `parity` has no `evenIn`/`oddIn` keys. The '682 row
+  tests the '684 too, and the 4063B joins the 4-bit cascade tests.
+- **`arith_eval_unknown` takes the input count** (found by `arith_test`:
+  enumerating all 32 bit positions counted unused bits as unknown and made
+  every compare output X).
+- **Units**: `PartLogic.units` is 1 for every arith device (one function
+  per package).
 
 ## Summary
 

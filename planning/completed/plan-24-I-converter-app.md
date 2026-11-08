@@ -99,6 +99,13 @@ Then archive plan-24-A…I to `planning/completed/`.
   so the PNGs are `screencapture -l` of the on-screen window.
 - The circuit ran at about 0.13× real time with the CPU board, so the
   RTC's advance is shown over 2 s of circuit time.
+- **Merging main** (it had moved to 1de91b1 with plan-22's `arith` kind
+  and plan-28): `PartKind`, `KINDS[]`, `listing_kind_name`, `kindName`
+  and the two datasheet lists conflicted; resolved as a union (`PART_ARITH`
+  before `PART_CONVERTER`, `PART_RTC`; the golden checks size by
+  `PART_RTC`). After the merge: `100% tests passed, 0 tests failed out of
+  27` (main's 25 + 2); goldens vs main +85 / +1925 / +1925, 0 removed;
+  `** BUILD SUCCEEDED **`.
 
 ## Summary
 

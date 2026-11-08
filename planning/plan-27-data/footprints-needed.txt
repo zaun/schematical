@@ -1,0 +1,318 @@
+# plan-27 footprint proxy: one line per (maker, DigiKey series, mounting) of the candidate parts that have a datasheet PDF.
+# Columns: parts, maker / series, mounting, DigiKey outline(s), termination style(s).
+# Existing footprints that match: none (the only SW- footprints in footprints.json are the 15 DIP-switch ones).
+# This is an upper bound on the footprints to draw: series that share a land pattern share one footprint (plan-27-B section 4.2).
+   41  APEM / ADTS  |  Surface Mount  |  12.00mm x 12.00mm; 6.20mm x 6.20mm; 6.30mm x 6.20mm  |  Gull Wing; J Lead
+   17  APEM / ADTS  |  Through Hole  |  12.00mm x 12.00mm; 6.20mm x 6.20mm  |  PC Pin
+    6  APEM / ADTS  |  Through Hole, Right Angle  |  7.40mm x 6.55mm  |  PC Pin
+    5  APEM / ADTS3  |  Surface Mount  |  6.00mm x 3.50mm  |  J Lead
+    1  APEM / AMPT  |  Surface Mount  |  3.90mm x 2.90mm  |  Gull Wing
+    1  APEM / APTC  |  Surface Mount, Right Angle  |  5.54mm x 3.50mm  |  Gull Wing
+    2  APEM / ATM  |  Surface Mount  |  5.20mm x 5.20mm  |  Gull Wing
+   23  APEM / MJTP  |  Surface Mount  |  4.20mm x 4.20mm; 6.00mm x 3.50mm; 6.00mm x 6.00mm; 6.20mm x 6.20mm; 6.30mm x 6.20mm  |  Gull Wing; J Lead
+   20  APEM / MJTP  |  Through Hole  |  12.00mm x 12.00mm; 6.00mm x 6.00mm; 6.10mm x 6.10mm; 6.30mm x 6.20mm; 7.20mm x 7.20mm  |  PC Pin
+   11  APEM / MJTP  |  Through Hole, Right Angle  |  6.00mm x 3.50mm; 7.40mm x 7.20mm; 8.00mm x 7.90mm  |  PC Pin
+    1  APEM / Multimec® 3  |  Surface Mount  |  10.10mm x 10.10mm  |  Gull Wing
+    1  APEM / Multimec™ 3A  |  Surface Mount  |  10.00mm x 10.00mm  |  SMD (SMT) Tab
+    2  Alps Alpine / SKHC  |  Through Hole  |  12.00mm x 12.00mm  |  PC Pin
+   24  Alps Alpine / SKHH  |  Through Hole  |  6.00mm x 6.00mm  |  PC Pin
+   11  Alps Alpine / SKHH  |  Through Hole, Right Angle  |  -; 19.85mm x 7.50mm; 6.55mm x 6.20mm; 7.50mm x 6.55mm  |  PC Pin
+    1  Alps Alpine / SKHL  |  Through Hole  |  6.00mm x 3.50mm  |  PC Pin
+    2  Alps Alpine / SKHL  |  Through Hole, Right Angle  |  -  |  PC Pin
+    9  Alps Alpine / SKHU  |  Surface Mount  |  6.20mm x 6.20mm; 6.20mm x 6.30mm; 6.30mm x 6.20mm  |  J Lead
+    1  Alps Alpine / SKPS  |  Surface Mount  |  6.00mm x 5.90mm  |  J Lead
+    1  Alps Alpine / SKQE  |  Through Hole  |  12.00mm x 12.00mm  |  PC Pin
+    4  Alps Alpine / SKQG  |  Surface Mount  |  5.20mm x 5.20mm  |  Gull Wing
+    1  Alps Alpine / SKQJ  |  Through Hole  |  6.60mm x 6.60mm  |  PC Pin
+    4  Alps Alpine / SKQM  |  Surface Mount  |  6.00mm x 3.50mm  |  Gull Wing; J Lead
+    1  Alps Alpine / SKQY  |  Surface Mount  |  6.10mm x 3.70mm  |  J Lead
+    1  Alps Alpine / SKRA  |  Surface Mount  |  6.20mm x 6.20mm  |  J Lead
+    4  Alps Alpine / SKRB  |  Surface Mount  |  4.80mm x 4.80mm  |  SMD (SMT) Tab
+    3  Alps Alpine / SKRK  |  Surface Mount  |  3.90mm x 2.90mm  |  SMD (SMT) Tab
+    1  Alps Alpine / SKRM  |  Surface Mount  |  4.50mm x 4.50mm  |  SMD (SMT) Tab
+    2  Alps Alpine / SKRN  |  Surface Mount  |  6.40mm x 6.00mm  |  J Lead
+    5  Alps Alpine / SKRP  |  Surface Mount  |  4.20mm x 3.20mm; 4.60mm x 3.20mm  |  J Lead
+    2  Alps Alpine / SKRP  |  Surface Mount, Right Angle  |  4.20mm x 3.20mm  |  J Lead
+    3  Alps Alpine / SKRR  |  Surface Mount  |  7.50mm x 7.00mm  |  SMD (SMT) Tab
+    2  Alps Alpine / SKRT  |  Surface Mount, Right Angle  |  4.50mm x 2.56mm; 4.50mm x 3.40mm  |  SMD (SMT) Tab
+    4  Alps Alpine / SKRW  |  Surface Mount  |  3.70mm x 3.70mm  |  J Lead; SMD (SMT) Tab
+    3  Alps Alpine / SKSC  |  Surface Mount  |  3.50mm x 2.90mm; 4.85mm x 3.85mm  |  SMD (SMT) Tab
+    4  Alps Alpine / SKSC  |  Surface Mount, Right Angle  |  2.80mm x 1.90mm; 3.50mm x 2.90mm; 4.85mm x 3.85mm  |  J Lead; SMD (SMT) Tab
+    4  Alps Alpine / SKSG  |  Surface Mount  |  -; 3.00mm x 2.70mm  |  SMD (SMT) Tab
+    1  Alps Alpine / SKSG  |  Surface Mount, Right Angle  |  3.00mm x 2.70mm  |  SMD (SMT) Tab
+    1  Alps Alpine / SKSH  |  Surface Mount  |  2.90mm x 2.90mm  |  J Lead
+    1  Alps Alpine / SKSL  |  Surface Mount, Right Angle  |  4.50mm x 2.20mm  |  Gull Wing
+    2  Alps Alpine / SKSN  |  Edge Mount, Right Angle  |  6.20mm x 2.55mm  |  Gull Wing
+    2  Alps Alpine / SKST  |  Surface Mount  |  8.50mm x 8.50mm  |  J Lead
+    1  Alps Alpine / SKSU  |  Surface Mount, Right Angle  |  5.30mm x 5.40mm  |  J Lead
+    2  Alps Alpine / SKSV  |  Surface Mount  |  3.00mm x 1.90mm  |  J Lead; SMD (SMT) Tab
+    4  Alps Alpine / SKSW  |  Surface Mount  |  3.00mm x 2.00mm; 3.50mm x 2.00mm  |  SMD (SMT) Tab
+    1  Alps Alpine / SKTA  |  Surface Mount  |  2.60mm x 1.60mm  |  SMD (SMT) Tab
+    1  Alps Alpine / SKTD  |  Surface Mount, Right Angle  |  3.90mm x 1.95mm  |  Gull Wing
+    2  Alps Alpine / SKTH  |  Surface Mount  |  3.50mm x 3.20mm  |  SMD (SMT) Tab
+    2  Alps Alpine / SKTH  |  Surface Mount, Right Angle  |  3.50mm x 3.20mm  |  SMD (SMT) Tab
+    1  Alps Alpine / SKTQ  |  Surface Mount  |  5.40mm x 5.30mm  |  J Lead
+   10  Aratas / B3AL  |  Surface Mount  |  ; 6.90mm x 6.00mm  |  SMD (SMT) Tab
+   56  Aratas / B3F  |  Through Hole  |  12.00mm x 12.00mm; 6.00mm x 6.00mm  |  PC Pin
+    8  Aratas / B3F  |  Through Hole, Right Angle  |  7.30mm x 6.25mm  |  PC Pin
+   18  Aratas / B3FS  |  Surface Mount  |  6.00mm x 6.00mm; 6.30mm x 6.00mm  |  Gull Wing; PC Pin
+    4  Aratas / B3FS-4  |  Surface Mount  |  12.00mm x 12.00mm  |  Gull Wing
+    8  Aratas / B3S  |  Surface Mount  |  6.60mm x 6.00mm  |  Gull Wing
+    2  Aratas / B3SE  |  Surface Mount  |  7.00mm x 6.20mm  |  J Lead
+    3  Aratas / B3SL  |  Surface Mount  |  6.00mm x 6.00mm  |  J Lead
+    4  Aratas / B3SN  |  Surface Mount  |  6.50mm x 6.00mm  |  J Lead
+    6  Aratas / B3U  |  Surface Mount  |  3.00mm x 2.50mm  |  SMD (SMT) Tab
+    8  Aratas / B3U  |  Surface Mount, Right Angle  |  3.00mm x 2.50mm; 4.00mm x 2.50mm  |  SMD (SMT) Tab
+   19  Aratas / B3W  |  Through Hole  |  12.00mm x 12.00mm; 6.50mm x 6.00mm; 6.60mm x 6.00mm  |  PC Pin
+    2  Aratas / B3WN  |  Through Hole  |  8.00mm x 8.00mm  |  PC Pin
+    3  C&K / -  |  Surface Mount  |  3.00mm x 2.75mm  |  SMD (SMT) Tab
+    2  C&K / ATS  |  Surface Mount  |  6.00mm x 3.80mm  |  Gull Wing
+    4  C&K / ED  |  Surface Mount  |  -  |  SMD (SMT) Tab
+    1  C&K / ED  |  Through Hole  |  -  |  PC Pin
+    3  C&K / EDM  |  Surface Mount  |  -  |  SMD (SMT) Tab
+    4  C&K / EDM  |  Through Hole  |  -  |  PC Pin
+    2  C&K / EL2  |  Surface Mount  |  6.20mm x 6.20mm  |  J Lead
+   19  C&K / KMR2  |  Surface Mount  |  4.60mm x 2.80mm  |  Gull Wing; SMD (SMT) Tab
+   14  C&K / KMR4  |  Surface Mount  |  4.60mm x 2.80mm  |  Gull Wing
+    6  C&K / KMR6  |  Surface Mount  |  4.20mm x 2.80mm; 4.60mm x 2.80mm  |  Gull Wing
+    5  C&K / KMR7  |  Surface Mount  |  4.20mm x 2.80mm; 4.60mm x 2.80mm  |  Gull Wing
+    8  C&K / KMS  |  Surface Mount, Right Angle  |  4.60mm x 2.80mm  |  Gull Wing
+    4  C&K / KMT  |  Surface Mount  |  3.00mm x 2.60mm  |  Gull Wing
+    8  C&K / KMT0  |  Surface Mount  |  3.00mm x 2.60mm  |  J Lead
+    1  C&K / KSA  |  Through Hole  |  7.40mm x 7.40mm  |  PC Pin
+   66  C&K / KSC  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing; J Lead
+    2  C&K / KSC-OF  |  Surface Mount  |  6.20mm x 6.20mm  |  J Lead
+    8  C&K / KSC-PF  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing; J Lead
+    6  C&K / KSC-ST  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing; J Lead
+    1  C&K / KSC-TE  |  Surface Mount  |  6.30mm x 6.20mm  |  J Lead
+    5  C&K / KSC-XA  |  Surface Mount  |  6.30mm x 6.20mm  |  J Lead
+    2  C&K / KSC10  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing; J Lead
+    3  C&K / KSC11  |  Surface Mount  |  6.20mm x 6.20mm  |  J Lead
+    2  C&K / KSC2  |  Surface Mount  |  6.20mm x 6.20mm  |  J Lead
+    2  C&K / KSC4 TE  |  Surface Mount  |  6.30mm x 6.20mm  |  J Lead
+    3  C&K / KSC4D  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing; J Lead
+    2  C&K / KSC4V2  |  Through Hole, Right Angle  |  7.25mm x 3.43mm  |  SMD (SMT) Tab
+    3  C&K / KSC5  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing; J Lead
+    6  C&K / KSC9  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing; J Lead
+    3  C&K / KSE  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing; J Lead
+    1  C&K / KSJ  |  Through Hole  |  7.04mm x 7.30mm  |  PC Pin
+   17  C&K / KSR  |  Surface Mount  |  6.00mm x 3.80mm  |  Gull Wing
+   10  C&K / KSS  |  Surface Mount, Right Angle  |  7.60mm x 3.70mm  |  Gull Wing
+    5  C&K / KST  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing; J Lead
+   13  C&K / KT  |  Surface Mount  |  6.38mm x 6.22mm  |  Gull Wing; J Lead
+   23  C&K / KT  |  Surface Mount, Right Angle  |  7.57mm x 4.38mm; 7.77mm x 4.38mm; 7.77mm x 4.61mm; 7.77mm x 6.41mm  |  Gull Wing
+    4  C&K / KXT3  |  Surface Mount  |  3.00mm x 2.00mm  |  SMD (SMT) Tab
+    4  C&K / NanoT  |  Surface Mount  |  2.10mm x 1.65mm; 2.20mm x 1.65mm  |  SMD (SMT) Tab
+    2  C&K / NanoT  |  Surface Mount, Right Angle  |  2.20mm x 1.65mm  |  SMD (SMT) Tab
+    2  C&K / PTS125  |  Surface Mount  |  12.00mm x 12.00mm  |  Gull Wing
+   12  C&K / PTS125  |  Through Hole  |  12.00mm x 12.00mm  |  PC Pin
+    2  C&K / PTS525  |  Surface Mount  |  5.25mm x 5.25mm  |  Gull Wing
+    9  C&K / PTS526  |  Surface Mount  |  4.80mm x 4.80mm; 5.20mm x 5.20mm  |  Gull Wing; J Lead
+    4  C&K / PTS530  |  Surface Mount  |  4.50mm x 4.50mm  |  Gull Wing
+    2  C&K / PTS540  |  Surface Mount  |  3.70mm x 3.70mm  |  J Lead
+   20  C&K / PTS636  |  Surface Mount  |  6.00mm x 3.50mm  |  Gull Wing; J Lead; SMD (SMT) Tab
+    6  C&K / PTS636  |  Through Hole  |  6.00mm x 3.50mm  |  PC Pin
+    5  C&K / PTS641  |  Surface Mount  |  6.30mm x 6.30mm  |  Gull Wing
+   20  C&K / PTS645  |  Surface Mount  |  6.00mm x 6.00mm  |  Gull Wing; J Lead
+    2  C&K / PTS645  |  Surface Mount, Right Angle  |  9.50mm x 6.60mm  |  Gull Wing
+   24  C&K / PTS645  |  Through Hole  |  6.00mm x 6.00mm  |  PC Pin
+   17  C&K / PTS645  |  Through Hole, Right Angle  |  7.00mm x 7.00mm; 7.50mm x 7.10mm  |  PC Pin
+   18  C&K / PTS647  |  Surface Mount  |  4.50mm x 4.50mm  |  Gull Wing
+    4  C&K / PTS810  |  Surface Mount  |  4.20mm x 3.20mm  |  J Lead
+    3  C&K / PTS815  |  Surface Mount  |  4.20mm x 3.20mm  |  J Lead
+    5  C&K / PTS820  |  Surface Mount  |  3.90mm x 2.90mm  |  J Lead
+    4  C&K / PTS830  |  Surface Mount  |  3.50mm x 2.60mm  |  Gull Wing
+    8  C&K / PTS840  |  Surface Mount, Right Angle  |  4.70mm x 2.90mm  |  Gull Wing
+    7  C&K / PTS841  |  Surface Mount, Right Angle  |  3.60mm x 3.50mm  |  Gull Wing
+    6  C&K / PTS845  |  Surface Mount, Right Angle  |  4.50mm x 2.55mm  |  Gull Wing
+    4  C&K / PTS847  |  Edge Mount, Right Angle  |  4.80mm x 2.20mm  |  Gull Wing
+    4  C&K / PTS850  |  Surface Mount, Right Angle  |  5.40mm x 5.00mm  |  Gull Wing
+    7  C&K / RK  |  Surface Mount  |  4.20mm x 3.20mm; 4.50mm x 4.50mm  |  Gull Wing; J Lead
+    1  C&K / RKC2  |  Surface Mount  |  3.50mm x 2.70mm  |  J Lead
+    4  C&K / RS, COMAX  |  Surface Mount  |  6.00mm x 3.50mm; 6.00mm x 3.60mm; 6.00mm x 6.00mm  |  Gull Wing; J Lead
+    1  C&K / RS, COMAX  |  Through Hole, Right Angle  |  7.15mm x 6.30mm  |  PC Pin
+    3  C&K / SFS  |  Surface Mount  |  12.00mm x 12.00mm  |  Gull Wing
+    6  C&K / TLS  |  Surface Mount  |  8.40mm x 8.00mm  |  J Lead
+   30  E-Switch / 320  |  Through Hole  |  12.40mm x 12.40mm  |  PC Pin
+    5  E-Switch / GS  |  Through Hole  |  7.20mm x 7.20mm  |  PC Pin
+    1  E-Switch / GS  |  Through Hole, Right Angle  |  8.00mm x 8.54mm  |  PC Pin
+    3  E-Switch / LL3301  |  Surface Mount  |  6.00mm x 6.00mm  |  Gull Wing; J Lead
+    2  E-Switch / TL  |  Surface Mount  |  4.50mm x 4.50mm; 6.30mm x 6.30mm  |  Gull Wing
+    3  E-Switch / TL1014  |  Surface Mount, Right Angle  |  6.40mm x 3.50mm  |  Gull Wing
+    1  E-Switch / TL1015  |  Surface Mount  |  3.90mm x 2.90mm  |  Gull Wing
+    5  E-Switch / TL1016  |  Surface Mount, Right Angle  |  4.70mm x 2.90mm  |  Gull Wing
+    6  E-Switch / TL1017  |  Surface Mount  |  3.00mm x 2.50mm  |  Gull Wing
+    2  E-Switch / TL1018  |  Surface Mount  |  3.50mm x 2.60mm  |  Gull Wing
+    8  E-Switch / TL1030  |  Surface Mount  |  3.50mm x 2.90mm  |  J Lead
+   10  E-Switch / TL1100  |  Through Hole  |  12.00mm x 12.00mm  |  PC Pin
+    2  E-Switch / TL1100  |  Through Hole, Right Angle  |  12.00mm x 9.90mm  |  PC Pin
+   37  E-Switch / TL1105  |  Through Hole  |  6.00mm x 6.00mm  |  PC Pin
+   24  E-Switch / TL1105  |  Through Hole, Right Angle  |  7.10mm x 6.55mm; 7.20mm x 6.50mm  |  PC Pin
+    4  E-Switch / TL1107  |  Through Hole  |  6.00mm x 3.50mm  |  PC Pin
+    1  E-Switch / TL1150  |  Through Hole  |  6.20mm x 6.20mm  |  PC Pin
+    1  E-Switch / TL1220  |  Through Hole  |  7.80mm x 6.00mm  |  PC Pin
+    2  E-Switch / TL1240  |  Through Hole  |  6.00mm x 6.00mm  |  PC Pin
+    1  E-Switch / TL1250  |  Through Hole, Right Angle  |  8.30mm x 10.30mm  |  PC Pin
+    2  E-Switch / TL1265  |  Through Hole  |  7.00mm x 6.80mm  |  PC Pin
+    6  E-Switch / TL3145  |  Surface Mount  |  6.45mm x 6.45mm  |  J Lead
+    6  E-Switch / TL3300  |  Surface Mount  |  12.00mm x 12.00mm  |  Gull Wing
+   40  E-Switch / TL3301  |  Surface Mount  |  6.00mm x 6.00mm  |  Gull Wing; J Lead
+   10  E-Switch / TL3302  |  Surface Mount  |  6.00mm x 3.50mm  |  Gull Wing; J Lead
+    3  E-Switch / TL3303  |  Surface Mount  |  6.20mm x 6.00mm  |  Gull Wing
+    3  E-Switch / TL3304  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing; J Lead
+    7  E-Switch / TL3305  |  Surface Mount  |  4.50mm x 4.50mm  |  Gull Wing
+    1  E-Switch / TL3312  |  Surface Mount  |  3.70mm x 3.70mm  |  SMD (SMT) Tab
+    3  E-Switch / TL3313  |  Surface Mount  |  4.60mm x 4.60mm; 4.80mm x 4.80mm  |  Gull Wing
+    2  E-Switch / TL3315  |  Surface Mount  |  4.50mm x 4.50mm  |  Gull Wing
+    2  E-Switch / TL3330  |  Surface Mount, Right Angle  |  7.80mm x 2.50mm  |  Gull Wing
+    1  E-Switch / TL3336  |  Surface Mount, Right Angle  |  7.10mm x 6.60mm  |  Gull Wing
+    2  E-Switch / TL3340  |  Surface Mount, Right Angle  |  4.00mm x 2.55mm; 4.00mm x 3.30mm  |  Gull Wing
+    3  E-Switch / TL3342  |  Surface Mount  |  4.90mm x 4.90mm  |  Gull Wing
+    8  E-Switch / TL3360  |  Surface Mount, Right Angle  |  7.77mm x 6.40mm  |  Gull Wing
+    2  E-Switch / TL3365  |  Surface Mount  |  4.20mm x 3.20mm  |  J Lead
+    1  E-Switch / TL3701  |  Surface Mount  |  3.00mm x 2.60mm  |  Gull Wing
+    4  E-Switch / TL3780  |  Surface Mount  |  3.00mm x 2.00mm  |  Gull Wing
+    1  E-Switch / TL3901  |  Surface Mount, Right Angle  |  6.00mm x 5.40mm  |  Gull Wing
+    2  E-Switch / TL4100  |  Edge Mount, Right Angle  |  6.20mm x 2.50mm  |  Gull Wing
+    1  E-Switch / TL4105  |  Edge Mount, Right Angle  |  4.80mm x 2.20mm  |  Gull Wing
+    1  E-Switch / TL4110  |  Edge Mount, Right Angle  |  2.80mm x 2.46mm  |  Gull Wing
+    2  E-Switch / TL4115  |  Surface Mount  |  4.50mm x 2.20mm  |  SMD (SMT) Tab
+    2  E-Switch / TL52  |  Through Hole  |  8.00mm x 8.00mm  |  PC Pin
+    2  E-Switch / TL58  |  Through Hole, Right Angle  |  7.40mm x 6.65mm  |  PC Pin
+    9  E-Switch / TL59  |  Through Hole  |  6.20mm x 6.20mm  |  PC Pin
+    2  E-Switch / TL6059  |  Through Hole  |  6.00mm x 6.00mm  |  PC Pin
+    4  E-Switch / TL6100  |  Through Hole  |  7.20mm x 7.20mm  |  PC Pin
+    1  E-Switch / TL6105  |  Through Hole  |  7.20mm x 7.20mm  |  PC Pin
+   10  E-Switch / TL6110  |  Through Hole, Right Angle  |  8.30mm x 5.80mm  |  PC Pin
+    8  E-Switch / TL6120  |  Surface Mount  |  7.40mm x 7.40mm  |  Gull Wing
+    6  E-Switch / TL6150  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing; J Lead
+    1  E-Switch / TL6155  |  Through Hole, Right Angle  |  6.55mm x 6.40mm  |  PC Pin
+    1  E-Switch / TL6190  |  Through Hole, Right Angle  |  12.04mm x 11.50mm  |  PC Pin
+    3  E-Switch / TL6200  |  Surface Mount  |  10.10mm x 10.10mm  |  Gull Wing
+    1  E-Switch / TL6300  |  Through Hole  |  12.00mm x 12.00mm  |  PC Pin
+    1  E-Switch / TL6330  |  Surface Mount  |  4.60mm x 2.80mm  |  SMD (SMT) Tab
+    1  E-Switch / TL6340  |  Surface Mount, Right Angle  |  3.85mm x 1.95mm  |  SMD (SMT) Tab
+    4  E-Switch / TL6400  |  Surface Mount  |  6.00mm x 3.50mm  |  J Lead
+    4  E-Switch / TL6700  |  Surface Mount  |  6.90mm x 6.20mm  |  Gull Wing; J Lead
+    2  E-Switch / TL6800  |  Surface Mount  |  6.30mm x 6.20mm  |  J Lead
+    2  E-Switch / TL9100  |  Surface Mount  |  6.00mm x 6.00mm  |  Gull Wing
+    2  E-Switch / TL9210  |  Surface Mount  |  6.00mm x 6.00mm  |  J Lead
+    1  E-Switch / TL9320  |  Surface Mount  |  8.40mm x 8.40mm  |  Gull Wing
+    1  E-Switch / TS  |  Surface Mount  |  6.00mm x 3.50mm  |  SMD (SMT) Tab
+    1  E-Switch / TSM9W  |  Surface Mount  |  6.30mm x 6.20mm  |  Gull Wing
+    2  NKK Switches / CB  |  Through Hole  |  6.20mm x 6.20mm  |  PC Pin
+    2  NKK Switches / CB3  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing
+    4  NKK Switches / HP02  |  Through Hole  |  6.20mm x 6.20mm  |  PC Pin
+    6  NKK Switches / HP03  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing
+   45  NKK Switches / JB  |  Through Hole  |  10.00mm x 10.00mm  |  PC Pin
+    7  NKK Switches / JB  |  Through Hole, Right Angle  |  10.80mm x 6.54mm  |  PC Pin
+   22  NKK Switches / JF  |  Through Hole  |  17.70mm Dia; 17.70mm x 17.70mm  |  PC Pin
+    1  Panasonic Industry / EVP0A  |  Surface Mount  |  3.00mm x 2.60mm  |  J Lead
+    1  Panasonic Industry / EVP0B  |  Surface Mount  |  6.00mm x 6.00mm  |  J Lead
+    1  Panasonic Industry / EVP3A  |  Surface Mount  |  3.50mm x 2.90mm  |  J Lead
+   15  Panasonic Industry / EVPAA  |  Surface Mount  |  3.50mm x 2.90mm  |  J Lead
+    1  Panasonic Industry / EVPAD  |  Surface Mount  |  10.00mm x 10.00mm  |  J Lead
+    4  Panasonic Industry / EVPAE  |  Edge Mount, Right Angle  |  4.80mm x 2.20mm; 5.55mm x 2.20mm  |  SMD (SMT) Tab
+    5  Panasonic Industry / EVPAF  |  Surface Mount  |  3.00mm x 2.60mm  |  J Lead
+    1  Panasonic Industry / EVPAK  |  Surface Mount, Right Angle  |  3.90mm x 2.05mm  |  SMD (SMT) Tab
+    7  Panasonic Industry / EVPAS  |  Surface Mount  |  6.10mm x 6.00mm  |  J Lead
+    3  Panasonic Industry / EVPAT  |  Edge Mount, Right Angle  |  4.20mm x 1.73mm  |  SMD (SMT) Tab
+    4  Panasonic Industry / EVPAW  |  Surface Mount  |  3.00mm x 2.00mm  |  SMD (SMT) Tab
+    1  Panasonic Industry / EVPAY  |  Surface Mount  |  3.40mm x 2.90mm  |  J Lead
+    4  Panasonic Industry / EVPBB  |  Surface Mount  |  2.60mm x 1.60mm  |  Gull Wing; SMD (SMT) Tab
+    2  Panasonic Industry / EVPBD  |  Surface Mount  |  6.00mm x 6.00mm  |  J Lead
+    2  Panasonic Industry / EVPBF  |  Surface Mount  |  6.00mm x 6.00mm  |  J Lead
+    2  Panasonic Industry / EVPBK  |  Surface Mount  |  4.90mm x 4.00mm  |  J Lead; SMD (SMT) Tab
+    3  Panasonic Industry / EVPBL  |  Surface Mount  |  2.80mm x 1.90mm  |  J Lead; SMD (SMT) Tab
+   28  Panasonic Industry / EVPBT  |  Surface Mount  |  6.50mm x 6.00mm  |  J Lead; SMD (SMT) Tab
+    1  Panasonic Industry / EVPBX  |  Surface Mount  |  6.00mm x 6.00mm  |  J Lead
+    1  Panasonic Industry / EVPCD  |  Surface Mount  |  6.00mm x 6.00mm  |  J Lead
+    1  Panasonic Industry / EVQ3P2  |  Surface Mount  |  4.70mm x 3.50mm  |  J Lead
+    1  Panasonic Industry / EVQ6Q2  |  Surface Mount  |  6.50mm x 6.00mm  |  J Lead
+    3  Panasonic Industry / EVQ7Q2  |  Surface Mount  |  6.50mm x 6.00mm  |  J Lead
+    1  Panasonic Industry / EVQ9P7  |  Surface Mount, Right Angle  |  4.70mm x 2.90mm  |  Gull Wing
+    4  Panasonic Industry / EVQP0  |  Surface Mount  |  6.50mm x 6.00mm  |  J Lead
+    1  Panasonic Industry / EVQP0  |  Through Hole  |  6.20mm x 6.20mm  |  PC Pin
+    5  Panasonic Industry / EVQP1  |  Surface Mount  |  6.10mm x 6.00mm  |  J Lead
+   20  Panasonic Industry / EVQP2  |  Surface Mount  |  4.70mm x 3.50mm  |  J Lead
+    1  Panasonic Industry / EVQP3  |  Surface Mount, Right Angle  |  4.70mm x 2.90mm  |  Gull Wing
+    2  Panasonic Industry / EVQP4  |  Edge Mount, Right Angle  |  6.20mm x 2.55mm  |  SMD (SMT) Tab
+    8  Panasonic Industry / EVQP7  |  Surface Mount, Right Angle  |  4.30mm x 2.90mm; 4.70mm x 2.90mm  |  Gull Wing; J Lead
+    5  Panasonic Industry / EVQP9  |  Surface Mount  |  4.70mm x 3.50mm  |  J Lead
+    2  Panasonic Industry / EVQPE  |  Surface Mount  |  6.00mm x 3.50mm  |  Gull Wing
+    1  Panasonic Industry / EVQPE  |  Through Hole  |  6.00mm x 3.50mm  |  PC Pin
+    1  Panasonic Industry / EVQPL  |  Surface Mount  |  4.90mm x 4.90mm  |  J Lead
+    2  Panasonic Industry / EVQPN  |  Surface Mount  |  6.00mm x 3.50mm  |  J Lead
+    6  Panasonic Industry / EVQPU  |  Surface Mount, Right Angle  |  5.50mm x 3.50mm; 6.40mm x 3.50mm  |  Gull Wing; J Lead
+    3  Panasonic Industry / EVQPV  |  Through Hole  |  6.10mm x 6.00mm  |  PC Pin
+    2  Panasonic Industry / EVQQ1  |  Surface Mount  |  9.90mm x 8.00mm  |  J Lead
+   37  Panasonic Industry / EVQQ2  |  Surface Mount  |  6.50mm x 6.00mm  |  J Lead; SMD (SMT) Tab
+    3  Same Sky / TS01  |  Through Hole  |  6.00mm x 6.00mm  |  PC Pin
+   94  Same Sky / TS02  |  Through Hole  |  6.00mm x 6.00mm  |  PC Pin
+    6  Same Sky / TS03  |  Through Hole  |  6.10mm x 6.10mm  |  PC Pin
+   32  Same Sky / TS04  |  Surface Mount  |  6.00mm x 6.00mm  |  Gull Wing
+    3  Same Sky / TS05  |  Surface Mount  |  6.10mm x 6.10mm  |  Gull Wing
+   34  Same Sky / TS06  |  Surface Mount  |  6.70mm x 6.00mm  |  Gull Wing
+   15  Same Sky / TS07  |  Surface Mount  |  6.10mm x 6.10mm  |  Gull Wing
+    1  Same Sky / TS08  |  Surface Mount  |  6.10mm x 6.10mm  |  Gull Wing
+    4  Same Sky / TS09  |  Surface Mount  |  6.10mm x 3.70mm  |  Gull Wing
+    1  Same Sky / TS10  |  Surface Mount  |  6.00mm x 3.80mm  |  SMD (SMT) Tab
+   35  Same Sky / TS11  |  Through Hole, Right Angle  |  -  |  PC Pin
+    5  Same Sky / TS12  |  Surface Mount  |  7.40mm x 7.40mm  |  J Lead
+    3  Same Sky / TS13  |  Through Hole  |  12.00mm x 12.00mm  |  PC Pin
+   35  Same Sky / TS14  |  Through Hole  |  12.00mm x 12.00mm  |  PC Pin
+   18  Same Sky / TS15  |  Through Hole  |  12.00mm x 12.00mm  |  PC Pin
+    9  Same Sky / TS16  |  Surface Mount  |  12.00mm x 12.00mm  |  Gull Wing
+    2  Same Sky / TS17  |  Surface Mount  |  4.80mm x 4.80mm  |  J Lead
+    8  Same Sky / TS18  |  Surface Mount  |  5.20mm x 5.20mm  |  Gull Wing
+    1  Same Sky / TS20  |  Surface Mount  |  4.20mm x 3.20mm  |  J Lead
+    2  Same Sky / TS21  |  Surface Mount  |  3.40mm x 3.40mm  |  SMD (SMT) Tab
+    2  Same Sky / TS22  |  Edge Mount, Right Angle  |  4.80mm x 2.25mm  |  Gull Wing
+    2  Same Sky / TS23  |  Surface Mount  |  3.50mm x 3.00mm  |  SMD (SMT) Tab
+    4  Same Sky / TS24  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing
+    2  Same Sky / TS30  |  Surface Mount, Right Angle  |  -  |  SMD (SMT) Tab
+    2  Same Sky / TS31  |  Surface Mount, Right Angle  |  4.60mm x 1.80mm  |  SMD (SMT) Tab
+    4  Same Sky / TS32  |  Surface Mount, Right Angle  |  7.00mm x 3.50mm  |  J Lead
+    2  Same Sky / TS33  |  Surface Mount, Right Angle  |  4.60mm x 1.80mm  |  SMD (SMT) Tab
+   11  Same Sky / TS34  |  Surface Mount  |  6.20mm x 6.20mm  |  J Lead
+    2  Same Sky / TS35  |  Surface Mount  |  6.00mm x 6.00mm  |  J Lead
+    4  Same Sky / TS36  |  Surface Mount  |  6.20mm x 6.20mm  |  J Lead
+    1  Same Sky / TS37  |  Surface Mount  |  6.80mm x 6.30mm  |  J Lead
+   18  Same Sky / TS40  |  Surface Mount  |  6.00mm x 6.00mm  |  Gull Wing
+    6  Same Sky / TS41  |  Surface Mount  |  4.50mm x 3.30mm  |  J Lead
+    3  Same Sky / TS42  |  Surface Mount  |  5.20mm x 5.20mm  |  Gull Wing
+    2  Same Sky / TS44  |  Surface Mount  |  6.20mm x 6.20mm  |  J Lead
+    3  Same Sky / TS45  |  Surface Mount  |  8.30mm x 8.30mm  |  SMD (SMT) Tab
+    1  TE Connectivity ALCOSWITCH Switches / -  |  Edge Mount, Right Angle  |  4.50mm x 2.10mm  |  SMD (SMT) Tab
+    9  TE Connectivity ALCOSWITCH Switches / -  |  Surface Mount  |  3.00mm x 2.00mm; 6.20mm x 6.20mm; 7.60mm x 7.30mm  |  Gull Wing; J Lead; SMD (SMT) Tab
+    6  TE Connectivity ALCOSWITCH Switches / -  |  Surface Mount, Right Angle  |  5.40mm x 5.60mm; 5.60mm x 4.00mm; 6.40mm x 6.30mm; 9.70mm x 5.50mm  |  Gull Wing; SMD (SMT) Tab
+    2  TE Connectivity ALCOSWITCH Switches / -  |  Through Hole  |  12.00mm x 12.00mm  |  PC Pin
+   12  TE Connectivity ALCOSWITCH Switches / Extended Life  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing; J Lead
+    2  TE Connectivity ALCOSWITCH Switches / FSM  |  Surface Mount  |  12.00mm x 12.00mm; 6.00mm x 6.00mm  |  Gull Wing; J Lead
+    1  TE Connectivity ALCOSWITCH Switches / FSM  |  Through Hole  |  6.00mm x 3.50mm  |  PC Pin
+    5  TE Connectivity ALCOSWITCH Switches / FSM100 ~ 104  |  Through Hole  |  12.00mm x 12.00mm  |  PC Pin
+    1  TE Connectivity ALCOSWITCH Switches / FSM100 ~ 104  |  Through Hole, Right Angle  |  12.00mm x 12.00mm  |  PC Pin
+    7  TE Connectivity ALCOSWITCH Switches / FSM1LP  |  Surface Mount  |  6.00mm x 6.00mm; 6.20mm x 6.00mm  |  Gull Wing
+    2  TE Connectivity ALCOSWITCH Switches / FSMCD  |  Through Hole  |  6.00mm x 6.00mm  |  PC Pin
+    2  TE Connectivity ALCOSWITCH Switches / FSMCT  |  Surface Mount  |  5.00mm x 5.00mm  |  Gull Wing
+   24  TE Connectivity ALCOSWITCH Switches / FSMJ  |  Through Hole  |  6.00mm x 6.00mm  |  PC Pin
+    2  TE Connectivity ALCOSWITCH Switches / FSMJM  |  Surface Mount  |  6.00mm x 3.50mm  |  J Lead
+    1  TE Connectivity ALCOSWITCH Switches / FSMJMLP  |  Surface Mount  |  6.00mm x 4.00mm  |  J Lead
+    4  TE Connectivity ALCOSWITCH Switches / FSMJRT  |  Through Hole  |  6.00mm x 6.00mm  |  PC Pin
+    3  TE Connectivity ALCOSWITCH Switches / FSMJSM  |  Surface Mount  |  6.00mm x 6.00mm  |  Gull Wing
+   19  TE Connectivity ALCOSWITCH Switches / FSMJSMA  |  Surface Mount  |  6.00mm x 6.00mm  |  Gull Wing
+    6  TE Connectivity ALCOSWITCH Switches / FSMJSML  |  Surface Mount  |  6.00mm x 6.00mm  |  Gull Wing
+    1  TE Connectivity ALCOSWITCH Switches / FSMJSMXL  |  Surface Mount  |  6.00mm x 6.00mm  |  Gull Wing
+    1  TE Connectivity ALCOSWITCH Switches / FSMLPA  |  Surface Mount  |  6.20mm x 6.00mm  |  Gull Wing
+    2  TE Connectivity ALCOSWITCH Switches / FSMMSH  |  Surface Mount, Right Angle  |  4.50mm x 2.55mm  |  SMD (SMT) Tab
+    2  TE Connectivity ALCOSWITCH Switches / FSMRACD  |  Through Hole, Right Angle  |  -  |  PC Pin
+   11  TE Connectivity ALCOSWITCH Switches / FSMRAJ  |  Through Hole, Right Angle  |  7.11mm x 6.60mm  |  PC Pin
+    1  TE Connectivity ALCOSWITCH Switches / FSMRAJS  |  Through Hole, Right Angle  |  6.90mm x 6.80mm  |  PC Pin
+    2  TE Connectivity ALCOSWITCH Switches / FSMSM  |  Surface Mount  |  6.00mm x 3.50mm  |  Gull Wing
+    1  TE Connectivity ALCOSWITCH Switches / FSMSMLPA  |  Surface Mount  |  6.00mm x 4.00mm  |  Gull Wing
+   46  TE Connectivity ALCOSWITCH Switches / LPT  |  Surface Mount  |  2.60mm x 1.60mm; 2.80mm x 1.90mm; 3.00mm x 2.60mm; 3.70mm x 3.70mm; 4.60mm x 4.40mm; 4.80mm x 4.80mm; 5.20mm x 5.20mm  |  Gull Wing; J Lead; SMD (SMT) Tab
+    1  Würth Elektronik / WS-TASU  |  Edge Mount, Right Angle  |  6.20mm x 2.55mm  |  SMD (SMT) Tab
+   10  Würth Elektronik / WS-TASU  |  Surface Mount, Right Angle  |  3.50mm x 2.90mm; 4.45mm x 2.55mm; 5.50mm x 3.50mm  |  J Lead; SMD (SMT) Tab
+   91  Würth Elektronik / WS-TASV  |  Surface Mount  |  12.00mm x 12.00mm; 3.00mm x 2.60mm; 3.50mm x 2.90mm; 3.70mm x 3.70mm; 4.20mm x 3.20mm; 4.50mm x 4.50mm; 4.60mm x 2.80mm; 4.70mm x 3.50mm; 5.00mm x 5.00mm; 6.00mm x 3.50mm; 6.00mm x 3.80mm; 6.00mm x 6.00mm; 6.20mm x 4.10mm; 6.20mm x 6.20mm  |  Gull Wing; J Lead; SMD (SMT) Tab
+   11  Würth Elektronik / WS-TATU  |  Through Hole, Right Angle  |  7.40mm x 6.55mm  |  PC Pin
+   23  Würth Elektronik / WS-TATV  |  Through Hole  |  12.00mm x 12.00mm; 6.20mm x 6.20mm  |  PC Pin

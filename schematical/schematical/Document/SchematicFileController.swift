@@ -120,6 +120,48 @@ final class SchematicFileController {
         }
     }
 
+    /// Asks where to export the schematic as `format`, then writes it there.
+    /// An export is not a save: the window's file and saved state are unchanged.
+    func export(_ format: SchematicExportFormat) async {
+        guard !SchematicScene(document).isEmpty else {
+            let alert = NSAlert()
+            alert.messageText = "Nothing to export"
+            alert.informativeText = "Add a part, wire or bus first."
+            _ = await run(alert)
+            return
+        }
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [format.contentType]
+        panel.canCreateDirectories = true
+        panel.nameFieldStringValue = "\(displayName).\(format.fileExtension)"
+        if let fileURL {
+            panel.directoryURL = fileURL.deletingLastPathComponent()
+        }
+        guard await run(panel) == .OK, let url = panel.url else { return }
+        do {
+            try writeExport(format, to: url)
+        } catch {
+            present(error, title: "Couldn't export “\(displayName)”")
+        }
+    }
+
+    /// Writes the schematic as `format` to `url`. Throws for an empty
+    /// schematic or a failed write.
+    func writeExport(_ format: SchematicExportFormat, to url: URL) throws {
+        guard let data = format.data(for: SchematicScene(document)) else {
+            throw ExportError.nothingToExport
+        }
+        try data.write(to: url, options: .atomic)
+    }
+
+    enum ExportError: LocalizedError {
+        case nothingToExport
+
+        var errorDescription: String? {
+            "The schematic has no parts, wires or buses."
+        }
+    }
+
     // MARK: Helpers
 
     private func write(to url: URL) {
@@ -216,6 +258,10 @@ struct SchematicFileCommands: Commands {
             }
             .keyboardShortcut("s", modifiers: [.command, .shift])
             .disabled(file == nil)
+
+            Divider()
+
+            SchematicExportMenu(file: file)
         }
     }
 }
