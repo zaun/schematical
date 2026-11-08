@@ -76,9 +76,14 @@ final class ExportMenuDriver: NSObject, NSApplicationDelegate {
     }
 
     private func makeKey(_ window: NSWindow) async {
-        NSApp.activate(ignoringOtherApps: true)
-        window.makeKeyAndOrderFront(nil)
-        await settle()
+        NSApp.setActivationPolicy(.regular)
+        for _ in 0..<10 where !window.isKeyWindow {
+            NSRunningApplication.current.activate(options: [.activateAllWindows])
+            NSApp.activate(ignoringOtherApps: true)
+            window.makeKeyAndOrderFront(nil)
+            window.makeMain()
+            await settle()
+        }
     }
 
     private func run() async {

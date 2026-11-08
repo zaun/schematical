@@ -23,8 +23,9 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-28-C complete | `ls planning/completed/plan-28-C-* \| wc -l` → `1` | MET (2026-11-07 at ea29196: 1) |
-| `SchematicExport.svg` exists | `rg -c 'static func svg' schematical/schematical/Document/SchematicExport.swift` → `1` | MET (2026-11-07 at ea29196: 1) |
+| plan-28-C complete | `ls planning/completed/plan-28-C-* \| wc -l` → `1` | MET (2026-11-07 at ea29196: 1; re-run at 4d9995d: 1) |
+| `SchematicExport.svg` exists | `rg -c 'static func svg' schematical/schematical/Document/SchematicExport.swift` → `1` | MET (2026-11-07 at ea29196: 1; re-run at 4d9995d: 1) |
+| The login session is unlocked and the display awake (Phase 3 drives the real app: a window must become key for `@FocusedValue` to enable the menu, and screenshots must not be black) | `ioreg -n Root -d1 -a \| grep -A1 CGSSessionScreenIsLocked` → no output, or `<false/>` | NOT MET (2026-11-07 18:40 at 4d9995d: `<true/>`; `CGDisplayIsAsleep` → 1). Added during Phase 3: no letter covered it, and only the owner can unlock the session. |
 
 Everything below is written against the world where these hold.
 
@@ -242,6 +243,7 @@ Commit: —
 
 - Phase 3 found the session locked (`CGSessionCopyCurrentDictionary` → `CGSSessionScreenIsLocked 1`; `CGDisplayIsAsleep` → 1), so `screencapture` is black and keystrokes go to the lock screen. Accessibility reads and clicks still reach the app: that is how the menu listing above was taken. File > New through Accessibility created windows (`CGWindowListCopyWindowInfo` → two `Untitled` windows, `onscreen false`), but none became key, so `@FocusedValue(\.schematicFile)` stays nil and the Export items stay disabled.
 - Added a test affordance for the running-app check, `scripts/harness/export-menu.swift`: the app's real `ContentView` scene with the real `SchematicFileCommands`/`SchematicExportCommands`, be-6502 loaded into the window's document (from `SchematicSessions`, as File > Open's `apply` does), each Export item chosen with `NSMenu.performActionForItem`, and the save-panel sheet filled and confirmed in code. While locked it confirms the menu (`ok   Export is the application menu's second item, after About`, `ok   three Export items in order`) but also hits the key-window limit (`window "Untitled" key false … app active false`, items disabled). It is the scripted check once the screen is unlocked; the real-mouse run is still the Phase 3 criterion.
+- A second try made the harness set `.regular` activation policy and call `NSRunningApplication.current.activate` and `makeKeyAndOrderFront`/`makeMain` ten times: still `key false main false app active false`. A locked session does not let an app activate, so this cannot be worked around from inside the app. Recorded as a new Prerequisites row (session unlocked), NOT MET; the remaining Phase 3 and Phase 4 boxes resume from there.
 
 ## Summary
 
