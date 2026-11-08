@@ -270,7 +270,7 @@ file round trip.
   read: the 1×4 has four filled pin marks down the left, numbers 1–4, `1×4
   male`; the 2×3 has 1, 3, 5 left and 2, 4, 6 right with open-U sockets and
   `2×3 female`.
-Commit: —
+Commit: 967d4fe
 
 ### Phase 2 — Size swap
 
@@ -298,7 +298,7 @@ Acceptance: a resize keeps everything but the removed pins and their wires,
 and pad 1 never moves.
   Check: the Phase 1 command → 9 `ok` lines, exit 0 (est. 2 min).
   Result (2026-11-07): 9 `ok` lines, exit 0; check 7 prints `(16 pad-1 cases)`.
-Commit: —
+Commit: 967d4fe
 
 ## Validation Plan
 
@@ -315,6 +315,11 @@ Commit: —
   `generic-led-ui.swift` 10 `ok`, each from a fresh out dir;
   `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p23-dd CODE_SIGNING_ALLOWED=NO build`
   → `BUILD SUCCEEDED` (est. 7 min).
+  Result (2026-11-07, at 967d4fe): ctest 24/24; `generic-header.swift` 9 `ok`
+  exit 0 (/tmp/p23-h); `generic-led-file.swift` exit 0, 7 `ok` (/tmp/p23-lf);
+  `generic-led-ui.swift` exit 0, 10 `ok` (/tmp/p23-lu); xcodebuild `** BUILD
+  SUCCEEDED **` (/tmp/p23-dd, with every B change in). See Corrections for
+  the led-ui run.
 
 ## Decisions
 
@@ -340,6 +345,11 @@ Commit: —
 - `HeaderSymbolView`'s frame is `HeaderSymbolView.labelHeight` (16) taller
   than the body, so the size label under it is inside the view. The layout,
   hit rect and pin tips use the body alone (`ChipLayout.header`).
+- The first `generic-led-ui.swift` run compiled while plan-23-C's sidebar
+  edit was half written and failed to build (exit 127, no binary). The
+  re-run passed (10 `ok`, exit 0) with C's uncommitted `PartOptionsSection`
+  and `NewPartOptions` edits in the tree, so it covers both letters' changes
+  to that shared code. C's final gate runs it again.
 - The harness builds with `APP=/tmp/p23-dd/Build/Products/Debug/schematical.app`
   (the app built from this worktree), which `build.sh` copies, rather than
   building the app again into the out dir.
