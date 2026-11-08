@@ -10,6 +10,7 @@
 // may be old.
 import CoreGraphics
 import Foundation
+import SwiftUI
 
 MainActor.assumeIsolated { runGenericHeaderChecks() }
 
@@ -225,6 +226,118 @@ MainActor.assumeIsolated { runGenericHeaderChecks() }
         doc.setHeaderSize(id, to: small)
         return chip(doc, id)?.gender == "Female" ? nil : "resize lost the gender"
     }
+
+    // ---- plan-23-C: the sidebar Options and Settings ----
+
+    // 10. Sidebar of a selected 1×8 with wires on pins 1 and 7; the menu labels.
+    let sidebarDoc = Harness.newDocument()
+    var sidebarID: UUID?
+    check("10 sidebar of a 1x8 → /tmp/p23-sidebar-header.png; pinsPerRowLabel counts removed wire ends") {
+        guard let part = header(1, 8) else { return "no 1X08" }
+        let id = place(part, in: sidebarDoc)
+        sidebarID = id
+        guard let placed = chip(sidebarDoc, id) else { return "not placed" }
+        var junctions: [Junction] = []
+        var wires: [Wire] = []
+        for pin in [1, 7] {
+            guard let slot = placed.layout.slots.first(where: { $0.pin.designator == "\(pin)" }) else { return "no slot" }
+            let tip = placed.tip(of: slot)
+            let junction = Junction(point: CGPoint(x: tip.x - 40, y: tip.y))
+            junctions.append(junction)
+            wires.append(Wire(start: .pin(PinRef(chipID: id, index: slot.pin.index)), end: .junction(junction.id),
+                              interior: []))
+        }
+        sidebarDoc.replaceContents(chips: sidebarDoc.chips, wires: wires, junctions: junctions, buses: [],
+                                   nextReference: sidebarDoc.nextReference, board: sidebarDoc.board,
+                                   texts: [], traces: [])
+        if PartOptionsSection.wiredPins(of: id, in: sidebarDoc).sorted() != [1, 7] {
+            return "wiredPins \(PartOptionsSection.wiredPins(of: id, in: sidebarDoc))"
+        }
+        let labels = [PartOptionsSection.pinsPerRowLabel(7, rows: 1, wiredPins: [1, 7]),
+                      PartOptionsSection.pinsPerRowLabel(6, rows: 1, wiredPins: [1, 7]),
+                      PartOptionsSection.pinsPerRowLabel(3, rows: 2, wiredPins: [1, 7, 8, 8])]
+        if labels != ["7", "6 — removes 1 wire", "3 — removes 3 wires"] { return "labels \(labels)" }
+        if !PartOptionsSection.applies(to: part) { return "Options does not apply" }
+        sidebarDoc.select(.chip(id))
+        let path = "/tmp/p23-sidebar-header.png"
+        try? FileManager.default.removeItem(atPath: path)
+        Harness.renderSidebar(sidebarDoc, to: path, size: CGSize(width: 320, height: 900))
+        return FileManager.default.fileExists(atPath: path) ? nil : "no image"
+    }
+
+    // 11. What the four controls call, then the file and the sidebar again.
+    check("11 2x5, Female, PINHDR-2X05-RA: saved in the file → /tmp/p23-sidebar-header-2x5.png") {
+        guard let id = sidebarID, let part = catalog.part(named: HeaderFamily.name(rows: 2, perRow: 5))
+        else { return "no chip or 2X05" }
+        sidebarDoc.setHeaderSize(id, to: part)
+        sidebarDoc.setPartGender(id, "Female")
+        sidebarDoc.setPartFootprint(id, "PINHDR-2X05-RA")
+        let text = json(try SchematicFile(document: sidebarDoc, fileURL: nil).encoded())
+        for needle in ["\"partNumber\" : \"GENERIC-HEADER-2X05\"", "\"gender\" : \"Female\"",
+                       "\"footprint\" : \"PINHDR-2X05-RA\""] where !text.contains(needle) {
+            return "no \(needle)"
+        }
+        let path = "/tmp/p23-sidebar-header-2x5.png"
+        try? FileManager.default.removeItem(atPath: path)
+        Harness.renderSidebar(sidebarDoc, to: path, size: CGSize(width: 320, height: 900))
+        return FileManager.default.fileExists(atPath: path) ? nil : "no image"
+    }
+
+    // 12–15. Settings and the drop, in a test suite (never the app's defaults).
+    let suite = "p23-test"
+    let defaults = UserDefaults(suiteName: suite)!
+    defaults.removePersistentDomain(forName: suite)
+    /// Places a dropped part the way the canvas drop does.
+    func dropped(_ name: String) -> (part: String, gender: String?, footprint: String?, color: String?)? {
+        guard let dropped = catalog.part(named: name) else { return nil }
+        let part = NewPartOptions.headerPart(for: dropped, catalog: catalog, defaults: defaults)
+        let target = Harness.newDocument()
+        target.placeChip(part: part, symbol: symbol(for: part), centeredAt: CGPoint(x: 100, y: 100),
+                         color: NewPartOptions.color(for: part, defaults: defaults),
+                         footprintID: NewPartOptions.footprintID(for: part, defaults: defaults),
+                         gender: NewPartOptions.gender(for: part, defaults: defaults))
+        let placed = target.chips.last!
+        return (placed.partNumber, placed.gender, placed.footprint?.id, placed.color)
+    }
+
+    check("12 empty Settings: a dropped header is GENERIC-HEADER-1X02, Male, PINHDR-1X02-V") {
+        guard let got = dropped(HeaderFamily.defaultPart) else { return "no part" }
+        return got.part == "GENERIC-HEADER-1X02" && got.gender == "Male" && got.footprint == "PINHDR-1X02-V"
+            ? nil : "dropped \(got)"
+    }
+
+    check("13 Settings 1 / 8 / Female / Right angle → 1X08, Female, -RA; a GENERIC-LED is unchanged") {
+        defaults.set(1, forKey: PreferenceKey.headerRows)
+        defaults.set(8, forKey: PreferenceKey.headerPinsPerRow)
+        defaults.set("Female", forKey: PreferenceKey.headerGender)
+        defaults.set("Right angle", forKey: PreferenceKey.headerFootprintType)
+        guard let got = dropped(HeaderFamily.defaultPart), let led = dropped("GENERIC-LED") else { return "no part" }
+        if got.part != "GENERIC-HEADER-1X08" || got.gender != "Female" || got.footprint != "PINHDR-1X08-RA" {
+            return "header \(got)"
+        }
+        return led.part == "GENERIC-LED" && led.color == "Red" && led.footprint == "LED-RADIAL-5MM" && led.gender == nil
+            ? nil : "LED \(led)"
+    }
+
+    check("14 Settings 99 per row / Neutral / Sideways → 1X02, Male, -V") {
+        defaults.set(99, forKey: PreferenceKey.headerPinsPerRow)
+        defaults.set("Neutral", forKey: PreferenceKey.headerGender)
+        defaults.set("Sideways", forKey: PreferenceKey.headerFootprintType)
+        defaults.set(0, forKey: PreferenceKey.headerRows)
+        guard let got = dropped(HeaderFamily.defaultPart) else { return "no part" }
+        return got.part == "GENERIC-HEADER-1X02" && got.gender == "Male" && got.footprint == "PINHDR-1X02-V"
+            ? nil : "dropped \(got)"
+    }
+
+    check("15 Settings window → /tmp/p23-settings.png") {
+        defaults.removePersistentDomain(forName: suite)
+        let path = "/tmp/p23-settings.png"
+        try? FileManager.default.removeItem(atPath: path)
+        Harness.renderHosted(PreferencesView().defaultAppStorage(defaults),
+                             size: CGSize(width: 420, height: 700), to: path, settle: 0.5)
+        return FileManager.default.fileExists(atPath: path) ? nil : "no image"
+    }
+    defaults.removePersistentDomain(forName: suite)
 
     exit(failures == 0 ? 0 : 1)
 }

@@ -159,15 +159,18 @@ struct SchematicCanvasView: View {
             )
             .dropDestination(for: ChipPartDragItem.self) { items, location in
                 guard !isRunning, let item = items.first,
-                      let part = catalog.part(named: item.partNumber) else {
+                      let dropped = catalog.part(named: item.partNumber) else {
                     return false
                 }
+                // A header takes its Settings size (plan-23-C); others are as dropped.
+                let part = NewPartOptions.headerPart(for: dropped, catalog: catalog)
                 document.placeChip(
                     part: part,
                     symbol: symbol(for: part),
                     centeredAt: viewport.world(location),
                     color: NewPartOptions.color(for: part),
-                    footprintID: NewPartOptions.footprintID(for: part)
+                    footprintID: NewPartOptions.footprintID(for: part),
+                    gender: NewPartOptions.gender(for: part)
                 )
                 onPartPlaced()
                 return true

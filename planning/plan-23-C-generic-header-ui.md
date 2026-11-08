@@ -33,8 +33,8 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-23-B complete | `ls planning/completed/plan-23-B-*` → 1 file | NOT MET (2026-11-07: written today) |
-| The size setter exists | `grep -c 'func setHeaderSize' schematical/schematical/Canvas/SchematicModel.swift` → 1 | NOT MET (2026-11-07) |
+| plan-23-B complete | `ls planning/completed/plan-23-B-*` → 1 file | MET (2026-11-07: `planning/completed/plan-23-B-generic-header-app.md`) |
+| The size setter exists | `grep -c 'func setHeaderSize' schematical/schematical/Canvas/SchematicModel.swift` → 1 | MET (2026-11-07: 1) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue.
@@ -156,10 +156,10 @@ Rejected alternatives:
 
 ### Phase 1 — Sidebar Options for a header
 
-- [ ] `Drawer/PartOptionsSection.swift`: the header controls and the wire
+- [x] `Drawer/PartOptionsSection.swift`: the header controls and the wire
       caption (§ Sidebar); `catalog` property.
-- [ ] `Drawer/SchematicSidebarView.swift`: pass the catalog.
-- [ ] `scripts/harness/generic-header.swift`, add:
+- [x] `Drawer/SchematicSidebarView.swift`: pass the catalog.
+- [x] `scripts/harness/generic-header.swift`, add:
   10. A 1×8 header with wires on pins 1 and 7, selected:
       `Harness.renderSidebar(doc, to: "/tmp/p23-sidebar-header.png", size: 320×900)`.
       `pinsPerRowLabel(7, rows: 1, wiredPins: [1, 7])` → `"7"`,
@@ -178,15 +178,21 @@ Acceptance: the four controls show the header's values, and the menu labels coun
   pitch, vertical".
   Read the 2×5 image: Rows 2, Pins per row 5, Female, the right-angle
   description, and Details Rows 2 / Pins per row 5 / Gender Female (est. 2 min).
+  Result (2026-11-07): harness → 15 `ok` (checks 1–15), exit 0. Images read:
+  `/tmp/p23-sidebar-header.png` shows Rows 1, Pins per row 8, Gender Male,
+  Footprint "1x8 pin header, 2.54 mm pitch, vertical"; the 2×5 image shows
+  Rows 2, Pins per row 5, Female, Footprint "2x5 pin header, 2.54 mm pitch,
+  right…" (cut at the sidebar width), Details Package Right angle, Footprint
+  PINHDR-2X05-RA, Rows 2, Pins per row 5, Gender Female.
 Commit: —
 
 ### Phase 2 — Settings and the drop
 
-- [ ] `Preferences/PreferencesView.swift`: the four keys, the
+- [x] `Preferences/PreferencesView.swift`: the four keys, the
       `NewPartOptions` header functions, the New Generic Header section.
-- [ ] `Canvas/SchematicCanvasView.swift`: the drop uses
+- [x] `Canvas/SchematicCanvasView.swift`: the drop uses
       `NewPartOptions.headerPart` and passes `gender:`.
-- [ ] `generic-header.swift`, add (with a cleared `UserDefaults(suiteName: "p23-test")`):
+- [x] `generic-header.swift`, add (with a cleared `UserDefaults(suiteName: "p23-test")`):
   12. Empty settings: dropping `GENERIC-HEADER-1X02` the way the drop does
       gives `GENERIC-HEADER-1X02`, Male, `PINHDR-1X02-V`.
   13. Settings rows 1, per row 8, Female, `Right angle` → `GENERIC-HEADER-1X08`,
@@ -203,6 +209,10 @@ type, and bad or empty settings fall back to 1×2, Male, vertical.
   `/tmp/p23-settings.png`: New Generic LED as before, then New Generic
   Header with Rows 1, Pins per row 2, Gender Male and Footprint "1x2 pin
   header, 2.54 mm pitch, vertical" (est. 2 min).
+  Result (2026-11-07): 15 `ok`, exit 0. `/tmp/p23-settings.png` read: New
+  Generic LED (Red, 5 mm radial) as before, then New Generic Header with Rows
+  1, Pins per row 2, Gender Male, Footprint "1x2 pin header, 2.54 mm pitch,
+  vertical", footer "Used for headers dropped from now on."
 Commit: —
 
 ## Validation Plan
@@ -222,6 +232,10 @@ Commit: —
   `generic-led-ui.swift` 10 `ok`, each from a fresh out dir;
   `xcodebuild … -derivedDataPath /tmp/p23-dd CODE_SIGNING_ALLOWED=NO build`
   → `BUILD SUCCEEDED` (est. 7 min).
+  Result (2026-11-07, with every C change in the tree): ctest 24/24;
+  `generic-header.swift` 15 `ok` exit 0 (/tmp/p23-h); `generic-led-file.swift`
+  7 `ok` exit 0 (/tmp/p23-lf); `generic-led-ui.swift` 10 `ok` exit 0
+  (/tmp/p23-lu); xcodebuild `** BUILD SUCCEEDED **` (/tmp/p23/xb3.log).
 
 ## Decisions
 
@@ -233,6 +247,19 @@ Commit: —
   menu labels are how this plan shows that before it happens.
 
 ## Corrections
+
+- Phases 1 and 2 landed in one commit, as in plan-23-B: the sidebar and
+  Settings share `PartOptionsSection`/`NewPartOptions`, and the harness ran
+  all 15 checks at once. Each phase's Result line records its own check.
+- The harness needed `import SwiftUI` for `defaultAppStorage` (check 15),
+  under the build's `MemberImportVisibility`.
+- `PartOptionsSection.wiredPins(of:in:)` (added) gives `pinsPerRowLabel`
+  its input from the document's wires; check 10 asserts it → `[1, 7]`.
+- Runtime proof: done headlessly rather than by driving the mouse. The
+  pieces of "wire pins 1 and 7, pick 4 — removes 1 wire, the pin-7 wire is
+  gone" are checks 10 (the label from the document's wires) and 6 (a
+  shrink removes the wire on a dropped pin), and the sidebar images show the
+  menu wired to the same values.
 
 ## Summary
 
