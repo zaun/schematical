@@ -42,7 +42,7 @@ generated from `parts.tsv` by a script under `/tmp/p22/` (not committed).
 - [x] `trace_check --verbose SN74LS283N`: Σ and C4 equal A + B + C0 at every settled step. `/tmp/p22/scripts/trace283.py` (inputs stable ≥ 16 ns, the LS delay being 15 ns) → `settled steps checked 53, mismatches 0`.
 
 Acceptance: `ctest` T0 + 1 of T0 + 1; golden counts as §1 (seconds). Met: `100% tests passed, 0 tests failed out of 25`; goldens +107 each, 0 removed.
-Commit: —
+Commit: 02a6ada
 
 ## Validation Plan
 
