@@ -39,6 +39,7 @@ The gate for the whole feature is in plan-27-A § Prerequisites. This letter add
 | plan-27-I is complete | `ls planning/completed/plan-27-I-*` → one file | NOT MET until I archives (2026-11-07) |
 | Tactile parts are in the library | `grep -c 'Switch/Tactile' backend/tests/golden/parts.txt` → ≥ 1 | NOT MET until E (2026-11-07) |
 | No tactile code in the app yet | `grep -rc 'tactile' schematical/schematical --include='*.swift' \| grep -v ':0' \| wc -l` → 0 | MET (2026-11-07) |
+| plan-28-A complete (symbols draw through `SchematicPainter`) | `ls planning/completed/plan-28-A-* \| wc -l` → 1 and `grep -c 'protocol SchematicPainter' schematical/schematical/Canvas/*.swift` → ≥ 1 in some file | NOT MET (2026-11-07; plan-28 lands A before J, at the owner's request) |
 | The other open plans add no `PartSymbol` case | `grep -c 'PartSymbol' planning/plan-22-E-arith-app.md planning/plan-24-I-converter-app.md` → 0 and 0 | MET (2026-11-07) |
 
 If plan-27-I is not complete, this plan cannot start, full stop.
@@ -151,7 +152,13 @@ existing tests.
   two contacts and a plunger: closed (`pressed != normallyClosed`) draws the
   bar touching both contacts in green, open draws a gap; pressed draws the cap
   pushed down.
-- `SchematicCanvasView` draws it for `.tactileSwitch`.
+  It draws through `SchematicPainter` (colors as `Ink` roles, text as
+  `PaintedText`), the same shape as the plan-28-A migrated
+  `DipSwitchSymbolView`, never into a raw `GraphicsContext`, so exports
+  include it.
+- `SchematicCanvasView` draws it for `.tactileSwitch`, and the export scene's
+  `switch chip.symbol` (`SchematicExportScene.swift`, plan-28-B) gains the
+  `.tactileSwitch` case.
 
 ### 4.3 Netlist and simulation (`Simulation.swift`, `VoltageCheck.swift`)
 
@@ -260,7 +267,10 @@ Commit: —
 
 ## Corrections
 
-<!-- filled in during execution -->
+1. 2026-11-07 — coordination with plan-28 (Export SVG/PNG/JPG), owner's
+   request: plan-28-A moves every symbol drawer onto `SchematicPainter`; J now
+   requires it (Prerequisites row "plan-28-A complete") and § 4.2 draws the
+   new view through the painter and adds its export-scene case.
 
 ## Summary
 

@@ -54,13 +54,13 @@ Every other letter points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p27 && cmake --build /tmp/logic-p27 -j8 && ctest --test-dir /tmp/logic-p27` → `100% tests passed` | re-run at start; **T0 = 24** programs (`grep -c '^logic_test' backend/CMakeLists.txt` → 24, 2026-11-07) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | **P0 = 11126**, **R0 = 11126**, **F0 = 423** (2026-11-07 at 6e40f67); re-measure at start |
-| Switch baseline recorded | `grep -c '"id"' schematical/schematical/Parts/switch.json` → 27 devices; `grep -c '|switch|' backend/tests/golden/parts.txt` → 36 parts | **S0 = 36** parts, 27 devices (2026-11-07) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p27-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | re-run at start |
-| No tactile support yet | `grep -c 'momentary' backend/src/models/switch.c` → 0; `ls planning/plan-27-[B-K]-* 2>/dev/null` → only files of this plan | MET (2026-11-07) |
-| No open plan touches switches | `grep -l -i 'tactile\|momentary\|SW-TACT' planning/plan-22-* planning/plan-24-* \| wc -l` → 0 | MET (2026-11-07) |
-| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; the census needs 229 calls (§2) and DigiKey allows about 1000 a day; the last run left 475 | check "left today" on the first call |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p27 && cmake --build /tmp/logic-p27 -j8 && ctest --test-dir /tmp/logic-p27` → `100% tests passed` | MET 2026-11-07 at ff209fb: `100% tests passed, 0 tests failed out of 25`; **T0 = 25** (`grep -c '^logic_test'` → 25; plan-22 added one since authoring) |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET: **P0 = 11233**, **R0 = 11233**, **F0 = 423** (2026-11-07 at ff209fb; plan-22 added 107 parts) |
+| Switch baseline recorded | `grep -c '"id"' schematical/schematical/Parts/switch.json` → 27 devices; `grep -c '|switch|' backend/tests/golden/parts.txt` → 36 parts | MET: **S0 = 36** parts, 27 devices (re-measured 2026-11-07 at ff209fb) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p27-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-07 at ff209fb) |
+| No tactile support yet | `grep -c 'momentary' backend/src/models/switch.c` → 0; `ls planning/plan-27-[B-K]-* 2>/dev/null` → only files of this plan | MET (re-run 2026-11-07: 0; 10 files, all plan-27) |
+| No open plan touches switches | `grep -l -i 'tactile\|momentary\|SW-TACT' planning/plan-22-* planning/plan-24-* \| wc -l` → 0 | MET (re-run 2026-11-07: 0) |
+| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; the census needs 229 calls (§2) and DigiKey allows about 1000 a day; the last run left 475 | **NOT MET** (2026-11-07): credentials present, but the quota was ~173 at the start (C&K's 71 calls left 102); the run stopped at Same Sky with `0 left today` (C&K 572/573, E-Switch 418/418 complete in `/tmp/p27/raw`; Same Sky 300/405; the seven others 0). Re-run after the daily reset with ≥ 229 calls left |
 
 Everything below is written against the world where these hold.
 
@@ -303,7 +303,14 @@ Commit: —
 
 ## Corrections
 
-<!-- filled in during execution -->
+1. 2026-11-07 — gate measured at ff209fb: T0 = 25 (not 24) and P0 = R0 =
+   11233 (not 11126): plan-22 landed one test program and 107 parts after this
+   plan was written. Later letters' "25 programs" become **26** (T0 + 1) and
+   the P_E / P0 baselines start from 11233.
+2. 2026-11-07 — the DigiKey quota row was NOT MET: the census exhausted the
+   shared daily quota after 175 of 229 calls (`samesky: … 300 of 405 parts,
+   20 API calls, 0 left today`). The plan stops at the gate; resume after the
+   reset with the full `list.sh` run (the partial raw files are not used).
 
 ## Summary
 
