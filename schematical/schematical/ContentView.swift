@@ -232,7 +232,6 @@ struct ContentView: View {
                         // Two pickers on one selection, so the supply tools
                         // stand apart from the drawing tools.
                         schematicToolPicker(SchematicTool.drawingTools)
-                        Spacer().frame(width: 12)
                         schematicToolPicker(SchematicTool.powerTools)
 
                         // The VCC and Pull-up tools' rail. Picking one also picks
