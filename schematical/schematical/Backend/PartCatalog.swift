@@ -242,6 +242,10 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     let manufacturer: String
     /// The manufacturer's PDF of the part's datasheet; nil for Generic parts.
     let datasheetURL: URL?
+    /// The app's own Markdown datasheet for the part: its path under the
+    /// bundled Datasheets folder ("gate-and/sn74hc08.md"); nil when the
+    /// datasheet hasn't been converted.
+    let datasheetMarkdown: String?
     let pins: [ChipPin]
     let details: Details
     /// Nil only for parts with no package (the supplies).
@@ -486,6 +490,7 @@ extension CatalogPart {
         description = string(part.description)
         manufacturer = string(part.manufacturer)
         datasheetURL = part.datasheet.flatMap { URL(string: string($0.pointee.url)) }
+        datasheetMarkdown = part.datasheet.flatMap { $0.pointee.md }.map { String(cString: $0) }
         drawer = (0..<part.drawer_count).map { string(part.drawer?[$0]) }
         flags = Flags(
             obsolete: part.flags & UInt32(PART_OBSOLETE) != 0,

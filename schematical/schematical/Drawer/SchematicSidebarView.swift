@@ -71,7 +71,12 @@ struct SchematicSidebarView: View {
                             LabeledContent(rows[index].label, value: rows[index].value)
                         }
                     }
-                    if let url = chip.part.datasheetURL {
+                    if let path = chip.part.datasheetMarkdown {
+                        Section {
+                            ShowDatasheetButton(target: MarkdownDatasheetTarget(
+                                path: path, partName: chip.part.name))
+                        }
+                    } else if let url = chip.part.datasheetURL {
                         Section {
                             OpenDatasheetButton(target: DatasheetWindowTarget(
                                 url: url, partName: chip.part.name))

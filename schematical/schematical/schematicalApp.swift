@@ -102,6 +102,15 @@ struct schematicalApp: App {
         .defaultSize(width: 820, height: 1000)
         .restorationBehavior(.disabled)
 
+        // One window per Markdown datasheet, opened from Show Datasheet.
+        WindowGroup("Datasheet", id: "datasheet-md", for: MarkdownDatasheetTarget.self) { $target in
+            if let target {
+                MarkdownDatasheetWindowView(target: target)
+            }
+        }
+        .defaultSize(width: 1040, height: 1000)
+        .restorationBehavior(.disabled)
+
         Settings {
             PreferencesView()
         }
