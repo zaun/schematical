@@ -66,14 +66,14 @@ truth table gives it. Test: every row of that truth table.
 - [x] ~~§2.3 `lookahead` ('182) model and its tests~~ — moot: no '182 part is added (plan-22-A Corrections: SN74S182N, the only in-stock '182, is not in the sn54s182/sdls206 ordering table, which lists only SN54S182J, SNJ54S182J, SNJ54S182FK; `awk -F'\t' '$2=="74_182" && $11=="add"' planning/plan-22-data/parts.tsv | wc -l` → 0). A model no part uses is not built (plan-21-C precedent for `universal`/`bus4`). The '181's lookahead outputs are still tested: G̅ low exactly when X + Y overflows without a carry, G̅ or P̅ low exactly when it overflows with one, for all 16384 cases.
 
 Acceptance: `ctest --test-dir /tmp/logic-p22 -R arith_test` passes (seconds). Met: `arith_test: all passed`.
-Commit: —
+Commit: c03ca6f
 
 ### Phase 2 — `wallace`
 
 - [x] '275 model, test, docs; `library_check` failure cases for every new validation error. `wallace` (full-adder netlist + 3-state enable); `PASS: 74_275 all 512 slice/carry inputs: the p.2 adder tree, Y0 + 2(Y1 + CY) + 4 Y2 = count` and the enable/X case; `library_check` `check_arith_alu_cases`: 3 valid devices + 14 rejections (adder, alu181, wallace), 56 arith lines, 0 FAIL; `docs/parts-format.md` § `wallace`.
 
 Acceptance: `ctest --test-dir /tmp/logic-p22` → T0 + 1 of T0 + 1; golden diff empty (seconds). Met: `100% tests passed, 0 tests failed out of 25`; `git diff --stat backend/tests/golden` → empty.
-Commit: —
+Commit: c03ca6f
 
 ## Validation Plan
 
