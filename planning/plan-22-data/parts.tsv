@@ -1,0 +1,226 @@
+name	device	family	package	code	pins	footprint	flags	status	pdf	decision	reason
+74AC11181DW	74_11181	AC						Active		skip	no TI datasheet
+74ACT11286D	74_11286	ACT	SOIC	D	14	SOIC-14		Active	parity/74act11286.pdf	add	
+74ACT11286DR	74_11286	ACT						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+74ACT11286N	74_11286	ACT						Obsolete		skip	status Obsolete
+74AC11521DW	74_11521	AC						Active		skip	no TI datasheet
+SN74180N	74_180	TTL						Active		skip	not in the datasheet ordering table
+SNJ54HC180J	74_180	HC					military	Active		skip	not in the datasheet ordering table
+SN74AS181ADW	74_181	AS						Obsolete		skip	status Obsolete
+SN74AS181ANT	74_181	AS						Obsolete		skip	status Obsolete
+SN74AS181BNT	74_181	AS						Active		skip	not in the datasheet ordering table
+SN74LS181N	74_181	LS						Obsolete		skip	status Obsolete
+SN74S181N	74_181	S						Active		skip	not in the datasheet ordering table
+SNJ54AS181BJT	74_181	AS					military	Active		skip	not in the datasheet ordering table
+SNJ54LS181J	74_181	LS	DIP	J	24	CDIP-24-600	military,ceramic	Active	arith/sn54ls181.pdf	add	
+SNJ54LS181W	74_181	LS					military	Active		skip	not in the datasheet ordering table
+SNJ54S181W	74_181	S					military	Active		skip	not in the datasheet ordering table
+SN74S182N	74_182	S						Active		skip	not in the datasheet ordering table
+SN54H183W	74_183	H					military	Active		skip	no TI datasheet
+SN74H183N	74_183	H						Active		skip	no TI datasheet
+SN74H183N3	74_183	H						Active		skip	no TI datasheet
+SN74LS183D	74_183	LS						Active		skip	no TI datasheet
+SN74S183N	74_183	S						Active		skip	no TI datasheet
+SNJ54H183J	74_183	H					military	Active		skip	no TI datasheet
+SN74LS261D	74_261	LS						Active		skip	no TI datasheet
+SN74AS264N	74_264	AS						Active		skip	no TI datasheet
+SN54LS275J	74_275	LS	DIP	J	16	CDIP-16	military,ceramic	Active	arith/snx4ls27x.pdf	add	
+SN74LS275D	74_275	LS						Active		skip	not in the datasheet ordering table
+SN74LS275N	74_275	LS	DIP	N	16	PDIP-16		Active	arith/snx4ls27x.pdf	add	
+CD74AC280E	74_280	AC	DIP	N	14	PDIP-14		Active	parity/cd74ac280.pdf	add	
+CD74AC280M	74_280	AC	SOIC	D	14	SOIC-14		Obsolete	parity/cd74ac280.pdf	skip	status Obsolete
+CD74AC280M96	74_280	AC	SOIC	D	14	SOIC-14		Active	parity/cd74ac280.pdf	add	
+CD74ACT280E	74_280	ACT	DIP	N	14	PDIP-14		Active	parity/cd74ac280.pdf	add	
+CD74ACT280M	74_280	ACT	SOIC	D	14	SOIC-14		Obsolete	parity/cd74ac280.pdf	skip	status Obsolete
+CD74ACT280M96	74_280	ACT	SOIC	D	14	SOIC-14		Active	parity/cd74ac280.pdf	add	
+CD74HC280E	74_280	HC	DIP	N	14	PDIP-14		Active	parity/cd74hc280.pdf	add	
+CD74HC280M96	74_280	HC	SOIC	D	14	SOIC-14		Active	parity/cd74hc280.pdf	add	
+CD74HC280MT	74_280	HC	SOIC	D	14	SOIC-14		Obsolete	parity/cd74hc280.pdf	skip	status Obsolete
+CD74HCT280E	74_280	HCT	DIP	N	14	PDIP-14		Active	parity/cd74hc280.pdf	add	
+SN54LS280J	74_280	LS	DIP	J	14	CDIP-14	military,ceramic	Active	parity/sn74ls280.pdf	add	
+SN54S280J	74_280	S	DIP	J	14	CDIP-14	military,ceramic	Active	parity/sn74ls280.pdf	add	
+SN74ALS280D	74_280	ALS						Obsolete		skip	status Obsolete
+SN74ALS280DR	74_280	ALS						Obsolete		skip	status Obsolete
+SN74ALS280N	74_280	ALS						Obsolete		skip	status Obsolete
+SN74ALS280N3	74_280	ALS						Active		skip	not in the datasheet ordering table
+SN74AS280D	74_280	AS						Obsolete		skip	status Obsolete
+SN74AS280DR	74_280	AS						Obsolete		skip	status Obsolete
+SN74AS280N	74_280	AS	DIP	N	14	PDIP-14		Active	parity/sn74as280.pdf	add	
+SN74AS280NS	74_280	AS						Active		skip	not in the datasheet ordering table
+SN74AS280NSR	74_280	AS	SOP	NS	14	SOP-14		Active	parity/sn74as280.pdf	add	
+SN74F280BD	74_280	F	SOIC	D	14	SOIC-14		Obsolete	parity/sn74f280b.pdf	skip	status Obsolete
+SN74F280BDR	74_280	F	SOIC	D	14	SOIC-14		Active	parity/sn74f280b.pdf	add	
+SN74F280BN	74_280	F	DIP	N	14	PDIP-14		Active	parity/sn74f280b.pdf	add	
+SN74F280BNSR	74_280	F	SOP	NS	14	SOP-14		Active	parity/sn74f280b.pdf	add	
+SN74LS280D	74_280	LS	SOIC	D	14	SOIC-14		Obsolete	parity/sn74ls280.pdf	skip	status Obsolete
+SN74LS280DR	74_280	LS						Obsolete		skip	status Obsolete
+SN74LS280N	74_280	LS	DIP	N	14	PDIP-14		Active	parity/sn74ls280.pdf	add	
+SN74LS280NS	74_280	LS						Active		skip	not in the datasheet ordering table
+SN74LS280NSR	74_280	LS	SOP	NS	14	SOP-14		Active	parity/sn74ls280.pdf	add	
+SN74S280D	74_280	S						Active		skip	not in the datasheet ordering table
+SN74S280N	74_280	S						Obsolete		skip	status Obsolete
+SN74S280N3	74_280	S						Active		skip	not in the datasheet ordering table
+SN74S280NSR	74_280	S						Obsolete		skip	status Obsolete
+SNJ54F280BJ	74_280	F					military	Active		skip	not in the datasheet ordering table
+SNJ54LS280J	74_280	LS	DIP	J	14	CDIP-14	military,ceramic	Active	parity/sn74ls280.pdf	add	
+SNJ54LS280W	74_280	LS	CFP	W	14	CFP-14	military,ceramic	Active	parity/sn74ls280.pdf	add	
+SNJ54S280W	74_280	S	CFP	W	14	CFP-14	military,ceramic	Active	parity/sn74ls280.pdf	add	
+CD74AC283E	74_283	AC	DIP	N	16	PDIP-16		Active	arith/cd74ac283.pdf	add	
+CD74ACT283E	74_283	ACT	DIP	N	16	PDIP-16		Active	arith/cd74ac283.pdf	add	
+CD74ACT283M	74_283	ACT	SOIC	D	16	SOIC-16		Active	arith/cd74ac283.pdf	add	
+CD74HC283E	74_283	HC	DIP	N	16	PDIP-16		Active	arith/cd74hc283.pdf	add	
+CD74HC283M96	74_283	HC	SOIC	D	16	SOIC-16		Active	arith/cd74hc283.pdf	add	
+CD74HC283MT	74_283	HC						Obsolete		skip	status Obsolete
+CD74HCT283E	74_283	HCT	DIP	N	16	PDIP-16		Active	arith/cd74hc283.pdf	add	
+CD74HCT283M	74_283	HCT	SOIC	D	16	SOIC-16		Obsolete	arith/cd74hc283.pdf	skip	status Obsolete
+CD74HCT283M96	74_283	HCT	SOIC	D	16	SOIC-16		Active	arith/cd74hc283.pdf	add	
+SN54F283J	74_283	F	DIP	J	16	CDIP-16	military,ceramic	Active	arith/sn74f283.pdf	add	
+SN54LS283J	74_283	LS	DIP	J	16	CDIP-16	military,ceramic	Active	arith/sn74ls283.pdf	add	
+SN74283N	74_283	TTL						Active		skip	not in the datasheet ordering table
+SN74F283D	74_283	F	SOIC	D	16	SOIC-16		Active	arith/sn74f283.pdf	add	
+SN74F283DR	74_283	F						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+SN74F283N	74_283	F	DIP	N	16	PDIP-16		Active	arith/sn74f283.pdf	add	
+SN74F283NSR	74_283	F						Obsolete		skip	status Obsolete
+SN74LS283D	74_283	LS	SOIC	D	16	SOIC-16		Active	arith/sn74ls283.pdf	add	
+SN74LS283DR	74_283	LS						Obsolete		skip	status Obsolete
+SN74LS283N	74_283	LS	DIP	N	16	PDIP-16		Active	arith/sn74ls283.pdf	add	
+SN74LS283NS	74_283	LS						Active		skip	not in the datasheet ordering table
+SN74LS283NSR	74_283	LS	SOP	NS	16	SOP-16		Active	arith/sn74ls283.pdf	add	
+SN74S283N	74_283	S	DIP	N	16	PDIP-16		Active	arith/sn74ls283.pdf	add	
+SNJ54F283J	74_283	F	DIP	J	16	CDIP-16	military,ceramic	Active	arith/sn74f283.pdf	add	
+SNJ54S283J	74_283	S	DIP	J	16	CDIP-16	military,ceramic	Active	arith/sn74ls283.pdf	add	
+SN74AS286D	74_286	AS	SOIC	D	14	SOIC-14		Active	parity/sn74as286.pdf	add	
+SN74AS286N	74_286	AS						Obsolete		skip	status Obsolete
+SN74AS286NSR	74_286	AS						Obsolete		skip	status Obsolete
+SN74ALS29806NT	74_29806	ALS						Active		skip	no TI datasheet
+SN54S381J	74_381	S					military	Active		skip	no TI datasheet
+SN74LS381AN	74_381	LS						Active		skip	no TI datasheet
+SN74LS382AN	74_382	LS						Active		skip	no TI datasheet
+SN74LS384N	74_384	LS						Active		skip	no TI datasheet
+SNJ54LS385FK	74_385	LS					military	Active		skip	no TI datasheet
+CD4063BE	4063B	C	DIP	N	16	PDIP-16		Active	comparator/cd4063b.pdf	add	
+CD4063BM	4063B	C	SOIC	D	16	SOIC-16		Obsolete	comparator/cd4063b.pdf	skip	status Obsolete
+CD4063BM96	4063B	C	SOIC	D	16	SOIC-16		Active	comparator/cd4063b.pdf	add	
+CD4063BMT	4063B	C	SOIC	D	16	SOIC-16		Obsolete	comparator/cd4063b.pdf	skip	status Obsolete
+CD4063BNSR	4063B	C	SOP	NS	16	SOP-16		Active	comparator/cd4063b.pdf	add	
+CD4585BE	4585B	C	DIP	N	16	PDIP-16		Active	comparator/cd4585b.pdf	add	
+CD4585BF3A	4585B	C	DIP	J	16	CDIP-16	military,ceramic	Active	comparator/cd4585b.pdf	add	
+CD4585BNSR	4585B	C	SOP	NS	16	SOP-16		Active	comparator/cd4585b.pdf	add	
+CD4585BPW	4585B	C	TSSOP	PW	16	TSSOP-16		Active	comparator/cd4585b.pdf	add	
+CY74FCT480ATPC	74_480	FCT						Obsolete		skip	status Obsolete
+CY74FCT480ATQCT	74_480	FCT						Obsolete		skip	status Obsolete
+CY74FCT480BTPC	74_480	FCT						Obsolete		skip	status Obsolete
+CY74FCT480BTSOC	74_480	FCT						Obsolete		skip	status Obsolete
+SN54F518J	74_518	F					military	Active		skip	not in the datasheet ordering table
+SN74ALS518DW	74_518	ALS	SOIC	DW	20	SOIC-20W		Active	comparator/sn74als518.pdf	add	
+SN74ALS518N	74_518	ALS	DIP	N	20	PDIP-20		Active	comparator/sn74als518.pdf	add	
+SN74ALS518NS	74_518	ALS						Active		skip	not in the datasheet ordering table
+SNJ54F518J	74_518	F					military	Active		skip	not in the datasheet ordering table
+SNJ54F519J	74_519	F					military	Active		skip	no TI datasheet
+SN74ALS520DW	74_520	ALS	SOIC	DW	20	SOIC-20W		Active	comparator/sn74als518.pdf	add	
+SN74ALS520N	74_520	ALS	DIP	N	20	PDIP-20		Active	comparator/sn74als518.pdf	add	
+SN74ALS520NS	74_520	ALS						Active		skip	not in the datasheet ordering table
+SN74ALS520NSR	74_520	ALS	SOP	NS	20	SOP-20		Active	comparator/sn74als518.pdf	add	
+SNJ54F520J	74_520	F					military	Active		skip	not in the datasheet ordering table
+SN54F521J	74_521	F	DIP	J	20	CDIP-20	military,ceramic	Active	comparator/sn74f521.pdf	add	
+SN74ALS521DW	74_521	ALS	SOIC	DW	20	SOIC-20W		Obsolete	comparator/sn74als518.pdf	skip	status Obsolete
+SN74ALS521DWR	74_521	ALS	SOIC	DW	20	SOIC-20W		Active	comparator/sn74als518.pdf	add	
+SN74ALS521N	74_521	ALS	DIP	N	20	PDIP-20		Active	comparator/sn74als518.pdf	add	
+SN74ALS521NSR	74_521	ALS	SOP	NS	20	SOP-20		Active	comparator/sn74als518.pdf	add	
+SN74F521DW	74_521	F	SOIC	DW	20	SOIC-20W		Obsolete	comparator/sn74f521.pdf	skip	status Obsolete
+SN74F521DWR	74_521	F	SOIC	DW	20	SOIC-20W		Active	comparator/sn74f521.pdf	add	
+SN74F521N	74_521	F	DIP	N	20	PDIP-20		Active	comparator/sn74f521.pdf	add	
+SN74F521NS	74_521	F						Active		skip	not in the datasheet ordering table
+SN74F521NSR	74_521	F	SOP	NS	20	SOP-20		Active	comparator/sn74f521.pdf	add	
+SNJ54F521J	74_521	F	DIP	J	20	CDIP-20	military,ceramic	Active	comparator/sn74f521.pdf	add	
+SN74ALS527DW	74_527	ALS						Active		skip	no TI datasheet
+SN74ALS527N	74_527	ALS						Active		skip	no TI datasheet
+SN74ALS528D	74_528	ALS						Active		skip	no TI datasheet
+SN74ALS528N	74_528	ALS						Active		skip	no TI datasheet
+5962-8685701RA	74_688	HCT	DIP	J	20	CDIP-20	military,ceramic	Active	comparator/cd74hc688.pdf	add	
+SN74ALS677ADW	74_677	ALS						Active		skip	not in stock on 2026-11-07
+SN74ALS679DW	74_679	ALS						Obsolete		skip	not in stock on 2026-11-07
+SN74ALS679N	74_679	ALS						Obsolete		skip	not in stock on 2026-11-07
+SN74ALS679NS	74_679	ALS						Active		skip	no TI datasheet
+SN74ALS680N	74_680	ALS						Active		skip	no TI datasheet
+SN74HC682DW	74_682	HC	SOIC	DW	20	SOIC-20W		Obsolete	comparator/sn74hc682.pdf	skip	status Obsolete
+SN74HC682DWR	74_682	HC	SOIC	DW	20	SOIC-20W		Active	comparator/sn74hc682.pdf	add	
+SN74HC682N	74_682	HC	DIP	N	20	PDIP-20		Active	comparator/sn74hc682.pdf	add	
+SN74LS682N	74_682	LS	DIP	N	20	PDIP-20		Active	comparator/sn74ls682.pdf	add	
+SNJ54LS682J	74_682	LS	DIP	J	20	CDIP-20	military,ceramic	Active	comparator/sn74ls682.pdf	add	
+SNJ54LS682W	74_682	LS	CFP	W	20	CFP-20	military,ceramic	Active	comparator/sn74ls682.pdf	add	
+SN54LS684J	74_684	LS	DIP	J	20	CDIP-20	military,ceramic	Active	comparator/sn74ls682.pdf	add	
+SN74HC684DW	74_684	HC	SOIC	DW	20	SOIC-20W		Active	comparator/sn74hc684.pdf	add	
+SN74HC684DWR	74_684	HC						Obsolete		skip	status Obsolete
+SN74HC684N	74_684	HC	DIP	N	20	PDIP-20		Active	comparator/sn74hc684.pdf	add	
+SN74LS684DWR	74_684	LS	SOIC	DW	20	SOIC-20W		Active	comparator/sn74ls682.pdf	add	
+SN74LS684N	74_684	LS	DIP	N	20	PDIP-20		Active	comparator/sn74ls682.pdf	add	
+SN74LS684NS	74_684	LS						Active		skip	not in the datasheet ordering table
+SN74LS685DW	74_685	LS						Active		skip	no TI datasheet
+SN74LS685N	74_685	LS						Active		skip	no TI datasheet
+SNJ54LS685J	74_685	LS					military	Active		skip	no TI datasheet
+SN74LS686NT	74_686	LS						Active		skip	no TI datasheet
+CD54HCT688F	74_688	HCT	DIP	J	20	CDIP-20	military,ceramic	Obsolete	comparator/cd74hc688.pdf	skip	status Obsolete
+CD74HC688E	74_688	HC	DIP	N	20	PDIP-20		Active	comparator/cd74hc688.pdf	add	
+CD74HC688MG4	74_688	HC						Active		skip	not in the datasheet ordering table
+CD74HC688NSR	74_688	HC	SOP	NS	20	SOP-20		Active	comparator/cd74hc688.pdf	add	
+CD74HC688PW	74_688	HC						Active		skip	not in the datasheet ordering table
+CD74HC688PWR	74_688	HC	TSSOP	PW	20	TSSOP-20		Active	comparator/cd74hc688.pdf	add	
+CD74HC688PWT	74_688	HC	TSSOP	PW	20	TSSOP-20		Obsolete	comparator/cd74hc688.pdf	skip	status Obsolete
+CD74HCT688E	74_688	HCT	DIP	N	20	PDIP-20		Active	comparator/cd74hc688.pdf	add	
+CD74HCT688M96	74_688	HCT	SOIC	DW	20	SOIC-20W		Active	comparator/cd74hc688.pdf	add	
+SN54ALS688J	74_688	ALS	DIP	J	20	CDIP-20	military,ceramic	Active	comparator/sn74als688.pdf	add	
+SN74ALS688DW	74_688	ALS	SOIC	DW	20	SOIC-20W		Obsolete	comparator/sn74als688.pdf	skip	status Obsolete
+SN74ALS688DWR	74_688	ALS	SOIC	DW	20	SOIC-20W		Active	comparator/sn74als688.pdf	add	
+SN74ALS688N	74_688	ALS	DIP	N	20	PDIP-20		Active	comparator/sn74als688.pdf	add	
+SN74HC688DBR	74_688	HC						Active		skip	not in the datasheet ordering table
+SN74HC688DWR	74_688	HC	SOIC	DW	20	SOIC-20W		Active	comparator/sn74hc688.pdf	add	
+SN74HC688N	74_688	HC	DIP	N	20	PDIP-20		Active	comparator/sn74hc688.pdf	add	
+SN74HC688PWR	74_688	HC	TSSOP	PW	20	TSSOP-20		Active	comparator/sn74hc688.pdf	add	
+SN74HC688PWT	74_688	HC	TSSOP	PW	20	TSSOP-20		Obsolete	comparator/sn74hc688.pdf	skip	status Obsolete
+SN74LS688DWG4	74_688	LS						Active		skip	not in the datasheet ordering table
+SN74LS688N	74_688	LS	DIP	N	20	PDIP-20		Active	comparator/sn74ls682.pdf	add	
+SNJ54ALS688W	74_688	ALS	CFP	W	20	CFP-20	military,ceramic	Active	comparator/sn74als688.pdf	add	
+SNJ54HC688FK	74_688	HC	LCCC	FK	20	LCCC-20	military,ceramic	Active	comparator/sn74hc688.pdf	add	
+SN54LS689J	74_689	LS					military	Active		skip	no TI datasheet
+SNJ54LS689J	74_689	LS					military	Active		skip	no TI datasheet
+SN5480J	74_80	TTL					military	Active		skip	no TI datasheet
+8415301RA	74_688	LS	DIP	J	20	CDIP-20	military,ceramic	Active	comparator/sn74ls682.pdf	add	
+CD74HC85E	74_85	HC	DIP	N	16	PDIP-16		Active	comparator/cd74hc85.pdf	add	
+CD74HC85M96	74_85	HC	SOIC	D	16	SOIC-16		Active	comparator/cd74hc85.pdf	add	
+CD74HC85MT	74_85	HC	SOIC	D	16	SOIC-16		Obsolete	comparator/cd74hc85.pdf	skip	status Obsolete
+CD74HC85NS	74_85	HC						Active		skip	not in the datasheet ordering table
+CD74HC85NSR	74_85	HC	SOP	NS	16	SOP-16		Active	comparator/cd74hc85.pdf	add	
+CD74HC85PWR	74_85	HC	TSSOP	PW	16	TSSOP-16		Active	comparator/cd74hc85.pdf	add	
+CD74HC85PWT	74_85	HC	TSSOP	PW	16	TSSOP-16		Obsolete	comparator/cd74hc85.pdf	skip	status Obsolete
+CD74HCT85E	74_85	HCT	DIP	N	16	PDIP-16		Active	comparator/cd74hc85.pdf	add	
+CD74HCT85M	74_85	HCT	SOIC	D	16	SOIC-16		Active	comparator/cd74hc85.pdf	add	
+CD74HCT85M96	74_85	HCT						Discontinued at DigiKey		skip	status Discontinued at DigiKey
+CD74HCT85MT	74_85	HCT	SOIC	D	16	SOIC-16		Active	comparator/cd74hc85.pdf	add	
+SN54LS85J	74_85	LS	DIP	J	16	CDIP-16	military,ceramic	Active	comparator/sn74ls85.pdf	add	
+SN74LS85DR	74_85	LS	SOIC	D	16	SOIC-16		Active	comparator/sn74ls85.pdf	add	
+SN74LS85N	74_85	LS	DIP	N	16	PDIP-16		Active	comparator/sn74ls85.pdf	add	
+SN74LS85NS	74_85	LS						Active		skip	not in the datasheet ordering table
+SN74LS85NSR	74_85	LS	SOP	NS	16	SOP-16		Active	comparator/sn74ls85.pdf	add	
+SN74S85D	74_85	S	SOIC	D	16	SOIC-16		Active	comparator/sn74ls85.pdf	add	
+SN74S85N	74_85	S	DIP	N	16	PDIP-16		Active	comparator/sn74ls85.pdf	add	
+8601301EA	74_85	HC	DIP	J	16	CDIP-16	military,ceramic	Active	comparator/cd74hc85.pdf	add	
+SN74AS866ADW	74_866	AS						Active		skip	no TI datasheet
+SN74AS866AFN	74_866	AS						Active		skip	no TI datasheet
+SN74AS866FN	74_866	AS						Active		skip	no TI datasheet
+SN74AS881ANT	74_881	AS						Active		skip	no TI datasheet
+SN74AS882ADWR	74_882	AS						Active		skip	no TI datasheet
+SN74ACT8832AGB	74_8832	ACT						Active		skip	no TI datasheet
+SN74ACT8847-30GA	74_8847	ACT						Active		skip	no TI datasheet
+SN74AS885DW	74_885	AS	SOIC	DW	24	SOIC-24W		Active	comparator/sn74as885.pdf	add	
+SN74AS885DWR	74_885	AS						Obsolete		skip	status Obsolete
+SN74AS885NT	74_885	AS						Obsolete		skip	status Obsolete
+SN74AS885NT3	74_885	AS						Active		skip	not in the datasheet ordering table
+SNJ54AS885JT	74_885	AS	DIP	JT	24	CDIP-24	military,ceramic	Active	comparator/sn74as885.pdf	add	
+JM38510/08201BEA	74_85	S	DIP	J	16	CDIP-16	military,ceramic	Active	comparator/sn74ls85.pdf	add	
+JM38510/31101BEA	74_85	LS	DIP	J	16	CDIP-16	military,ceramic	Active	comparator/sn74ls85.pdf	add	
+JM38510/31101SEA	74_85	LS					military	Active		skip	not in the datasheet ordering table
+JM38510/31101SFA	74_85	LS					military	Active		skip	not in the datasheet ordering table
+JM38510/32901BCA	74_280	LS	DIP	J	14	CDIP-14	military,ceramic	Active	parity/sn74ls280.pdf	add	
+JM38510/34701BSA	74_521	F	CFP	W	20	CFP-20	military,ceramic	Active	comparator/sn74f521.pdf	add	
+SN700526DR	74_SN700526	TTL						Active		skip	no TI datasheet
