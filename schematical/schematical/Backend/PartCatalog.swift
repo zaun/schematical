@@ -665,6 +665,10 @@ struct DrawerFilter: Equatable {
     /// Digits and digit height. Only narrow 7-segment displays.
     var displayDigits: Int?
     var displaySize: String?
+    /// Resolution and channel count, by converter type ("adc", "dac"), so the
+    /// ADC and DAC groups filter separately.
+    var converterBits: [String: Int] = [:]
+    var converterChannels: [String: Int] = [:]
     /// Supply rail in millivolts. Keeps parts whose supply range covers it and
     /// switches rated for at least it; LEDs and displays have no supply and stay.
     var voltageMV: UInt32?
@@ -789,6 +793,33 @@ final class PartCatalogStore {
             .compactMap(\.count))).sorted()
     }
 
+    /// The converter type ("adc", "dac") of a function group's parts, or nil
+    /// when they are not converters.
+    func converterType(of parts: [CatalogPart]) -> String? {
+        guard case let .converter(type, _, _)? = parts.first?.details else { return nil }
+        return type
+    }
+
+    /// Resolutions of one converter type, ascending. With `channels`, only
+    /// those of converters with that many channels, so the two menus never
+    /// pick a pair no part has.
+    func converterBits(type: String, channels: Int?) -> [Int] {
+        Array(Set(converters(type).filter { channels == nil || $0.channels == channels }.map(\.bits))).sorted()
+    }
+
+    /// Channel counts of one converter type, ascending; with `bits`, only
+    /// those of converters with that resolution.
+    func converterChannels(type: String, bits: Int?) -> [Int] {
+        Array(Set(converters(type).filter { bits == nil || $0.bits == bits }.map(\.channels))).sorted()
+    }
+
+    private func converters(_ type: String) -> [(bits: Int, channels: Int)] {
+        entries.compactMap { part in
+            guard case let .converter(partType, bits, channels) = part.details, partType == type else { return nil }
+            return (bits, channels)
+        }
+    }
+
     /// LED and display colors in a category.
     func colors(in category: String) -> [String] {
         sortedNames(entries.filter { $0.drawer.first == category }.flatMap(\.colors))
@@ -843,6 +874,14 @@ final class PartCatalogStore {
             }
             if part.kind == PART_SWITCH, let count = filter.switchPositions, part.count != count {
                 return false
+            }
+            if case let .converter(type, bits, channels) = part.details {
+                if let wanted = filter.converterBits[type], bits != wanted {
+                    return false
+                }
+                if let wanted = filter.converterChannels[type], channels != wanted {
+                    return false
+                }
             }
             if let mv = filter.voltageMV {
                 if let vcc = part.vcc, !(vcc.minMV...vcc.maxMV ~= mv) {

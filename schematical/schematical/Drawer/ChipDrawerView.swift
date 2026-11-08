@@ -17,7 +17,8 @@ nonisolated struct ChipPartDragItem: Codable, Hashable, Sendable, Transferable {
 /// package and supply voltage. Each category header carries the menus for the kinds
 /// of part in it: family and gate count for gates and flip-flops, a count of
 /// positions for switches, a color for LEDs and displays; a group of
-/// 7-segment displays has digit count and size menus.
+/// 7-segment displays has digit count and size menus, and the ADC and DAC
+/// groups have bits and channels menus.
 struct ChipDrawerView: View, Equatable {
     let catalog: PartCatalogStore
 
@@ -247,12 +248,13 @@ struct ChipDrawerView: View, Equatable {
 
     /// Menu of counts. `unit` names one of what is counted, such as "gate"
     /// ("4 gates") or "position" ("8 positions").
-    private func countMenu(counts: [Int], selection: Binding<Int?>, unit: String) -> some View {
+    private func countMenu(counts: [Int], selection: Binding<Int?>, unit: String,
+                           all: String = "All counts") -> some View {
         func label(_ count: Int) -> String {
             count == 1 ? "1 \(unit)" : "\(count) \(unit)s"
         }
         return Menu {
-            Button("All counts") {
+            Button(all) {
                 selection.wrappedValue = nil
             }
             Divider()
@@ -262,7 +264,7 @@ struct ChipDrawerView: View, Equatable {
                 }
             }
         } label: {
-            Text(selection.wrappedValue.map(label) ?? "All counts")
+            Text(selection.wrappedValue.map(label) ?? all)
                 .font(.caption)
         }
         .menuStyle(.borderlessButton)
@@ -281,13 +283,30 @@ struct ChipDrawerView: View, Equatable {
                 partRow(entry)
             }
         } label: {
-            Text(function.function)
-                .font(.body.weight(.medium))
-                .frame(maxWidth: .infinity, alignment: .leading)
+            // Menus in the label keep their own clicks; the rest toggles the group.
+            functionHeader(function)
                 .contentShape(Rectangle())
                 .onTapGesture {
                     toggle(key, defaultOpen: false)
                 }
+        }
+    }
+
+    /// An ADC or DAC group carries Bits and Channels menus.
+    @ViewBuilder
+    private func functionHeader(_ function: PartCatalogStore.FunctionGroup) -> some View {
+        HStack {
+            Text(function.function)
+                .font(.body.weight(.medium))
+            Spacer()
+            if let type = catalog.converterType(of: function.parts) {
+                let bits = $filter.converterBits[type]
+                let channels = $filter.converterChannels[type]
+                countMenu(counts: catalog.converterBits(type: type, channels: channels.wrappedValue),
+                          selection: bits, unit: "bit", all: "All bits")
+                countMenu(counts: catalog.converterChannels(type: type, bits: bits.wrappedValue),
+                          selection: channels, unit: "channel", all: "All channels")
+            }
         }
     }
 
