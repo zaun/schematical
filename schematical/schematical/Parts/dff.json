@@ -7,7 +7,7 @@
       "id": "74_72",
       "function": "D flip-flop",
       "description": "Dual negative-edge-triggered D flip-flop with preset and clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p14": [
           {"number":1,"name":"1CLR","role":"input"},
@@ -47,7 +47,7 @@
       "id": "74_74",
       "function": "D flip-flop",
       "description": "Dual positive-edge-triggered D flip-flop with preset and clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "SN54LS74AJ, SNJ54LS74AJ, SNJ54LS74AW, SNJ54LS74AFK: VCC 4.5-5.5 V (sn74ls74a p.5) | SNJ54LVC74AJ, SNJ54LVC74AW, 5962-9761601QCA, 5962-9761601QDA, 5962-9761601VDA, 5962-9761601Q2A, SNJ54LVC74AFK: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc74a p.4) | SN74S74D, SN74S74N: VCC 4.75-5.25 V (sn74ls74a p.6)",
       "pinouts": {
         "p14": [
@@ -356,7 +356,7 @@
       "id": "74_174",
       "function": "D flip-flop",
       "description": "Hex positive-edge-triggered D flip-flop with common clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p16": [
           {"number":1,"name":"CLR","role":"input"},
@@ -455,7 +455,7 @@
       "id": "74_175",
       "function": "D flip-flop",
       "description": "Quad positive-edge-triggered D flip-flop with common clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p16": [
           {"number":1,"name":"CLR","role":"input"},
@@ -551,7 +551,7 @@
       "id": "74_273",
       "function": "D flip-flop",
       "description": "Octal positive-edge-triggered D flip-flop with common clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p20": [
           {"number":1,"name":"CLR","role":"input"},
@@ -694,7 +694,7 @@
       "id": "74_374",
       "function": "D flip-flop",
       "description": "Octal positive-edge-triggered D flip-flop with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p20": [
           {"number":1,"name":"OE","role":"input"},
@@ -837,7 +837,7 @@
       "id": "74_574",
       "function": "D flip-flop",
       "description": "Octal positive-edge-triggered D flip-flop with 3-state outputs, 574 pinout",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p20": [
           {"number":1,"name":"OE","role":"input"},
@@ -947,7 +947,7 @@
       "id": "4013B",
       "function": "D flip-flop",
       "description": "CMOS dual D-type flip-flop with active-high set and reset",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p14": [
           {"number":1,"name":"1Q","role":"output"},
@@ -999,7 +999,7 @@
       "id": "40175B",
       "function": "D flip-flop",
       "description": "CMOS quad D-type flip-flop with common clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p16": [
           {"number":1,"name":"CLEAR","role":"input"},
@@ -1045,7 +1045,7 @@
       "id": "1G74",
       "function": "D flip-flop",
       "description": "Single positive-edge-triggered D flip-flop with preset and clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "DSBGA balls: sn74aup1g74 p.3.",
       "pinouts": {
         "p8": [
@@ -1110,7 +1110,7 @@
       "id": "1G79",
       "function": "D flip-flop",
       "description": "Single positive-edge-triggered D flip-flop",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "DSBGA balls: sn74lvc1g79 p.3.",
       "pinouts": {
         "p5": [
@@ -1165,7 +1165,7 @@
       "id": "1G175",
       "function": "D flip-flop",
       "description": "Single positive-edge-triggered D flip-flop with clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "DSBGA balls: sn74lvc1g175 p.3.",
       "pinouts": {
         "p6": [
@@ -1213,7 +1213,7 @@
       "id": "1G374",
       "function": "D flip-flop",
       "description": "Single positive-edge-triggered D flip-flop with 3-state output",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "DSBGA balls: sn74lvc1g374 p.1.",
       "pinouts": {
         "p6": [
@@ -1252,7 +1252,7 @@
       "id": "2G79",
       "function": "D flip-flop",
       "description": "Dual positive-edge-triggered D flip-flop, no preset or clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p8": [
           {"number":1,"name":"1CLK","role":"input"},
@@ -1285,7 +1285,7 @@
       "id": "1G79_SON",
       "function": "D flip-flop",
       "description": "Single positive-edge-triggered D flip-flop, 6-pin SON (DRY, DSF)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p6": [
           {"number":1,"name":"D","role":"input"},
@@ -1311,7 +1311,7 @@
       "id": "1G80",
       "function": "D flip-flop",
       "description": "Single positive-edge-triggered D flip-flop, inverted output",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "DSBGA balls: sces221t p.3.",
       "pinouts": {
         "p5": [
@@ -1365,7 +1365,7 @@
       "id": "1G80_SON",
       "function": "D flip-flop",
       "description": "Single positive-edge-triggered D flip-flop, inverted output, 6-pin SON (DRY, DSF)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "6-pin SON (DRY, DSF): NC on pin 5, VCC on pin 6.",
       "pinouts": {
         "p6": [
@@ -1391,7 +1391,7 @@
       "id": "2G80",
       "function": "D flip-flop",
       "description": "Dual positive-edge-triggered D flip-flop, inverted outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p8": [
           {"number":1,"name":"1CLK","role":"input"},
@@ -1422,7 +1422,7 @@
       "id": "2G80_RSE",
       "function": "D flip-flop",
       "description": "Dual positive-edge-triggered D flip-flop, inverted outputs, UQFN (RSE)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p8": [
           {"number":1,"name":"1QBAR","role":"output"},
@@ -1451,7 +1451,7 @@
       "id": "2G74",
       "function": "D flip-flop",
       "description": "Single positive-edge-triggered D flip-flop with preset and clear (2G74)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "DSBGA balls: sn74lvc2g74 p.3.",
       "pinouts": {
         "p8": [
@@ -1503,7 +1503,7 @@
       "id": "TPIC6273",
       "function": "D flip-flop",
       "description": "Power logic octal D-type latch",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "Edge-triggered despite the title: eight positive-edge D flip-flops, direct clear, open-drain DMOS outputs; DRAINn is on (low) when the stored bit is 1, so it is the open-drain QN. tpic6273 p.1, p.4; plan-10-data/latch-b.md § TPIC6273",
       "pinouts": {
         "p20": [
@@ -1558,7 +1558,7 @@
       "id": "TPIC6B273",
       "function": "D flip-flop",
       "description": "Power logic octal D-type latch",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "Edge-triggered despite the title: eight positive-edge D flip-flops, direct clear, open-drain DMOS outputs; DRAINn is on (low) when the stored bit is 1, so it is the open-drain QN. tpic6b273 p.1, p.4; plan-10-data/latch-b.md § TPIC6B273",
       "pinouts": {
         "p20": [

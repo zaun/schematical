@@ -5,9 +5,9 @@
   "devices": [
     {
       "id": "1G125",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Single bus buffer gate, 3-state output",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "p5 from sn74lvc1g125 p.3 Pin Functions (DBV/DCK/DRL/DPW: OE 1, A 2, GND 3, Y 4, VCC 5), sn74aup1g125 p.3, sn74ahc1g125, sn74ahct1g125, sn74auc1g125, sn74lvc1g125b p.3; DTX: sn74ahct1g125-q1 p.3 Figure 4-2 + Table 4-1 (same numbers). p6 (DRY/DSF SON): sn74lvc1g125 p.3, sn74aup1g125 p.3 (N.C. on 5, VCC 6). DSBGA (row-major): YZP 5-ball A1 OE, A2 VCC, B1 A, C1 GND, C2 Y (sn74lvc1g125 p.3, sn74aup1g125 p.3, sn74auc1g125 p.3 Table 5-2); YFP 6-ball adds B2 DNU (sn74aup1g125 p.3). Function: OE L -> Y = A, OE H -> Z. | Only the automotive 1P1G125Q* orderables of sn74lvc1g125-q1 (they belong to the 1G125 device). Pinout: sn74lvc1g125-q1 p.3 Figures 4-1..4-3 + Pin Functions (DBV/DCK 5-pin; DRY 6-pin, NC on 5; OE active low). Timing sn74lvc1g125-q1 p.6.",
       "pinouts": {
         "p5": [
@@ -96,9 +96,9 @@
     },
     {
       "id": "1G126",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Single buffer, 3-state output (active-high enable)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout from sn74lvc1g126-q1 p.3: DBV OE 1, A 2, GND 3, Y 4, VCC 5; DRY OE 1, A 2, GND 3, Y 4, N.C. 5, VCC 6. Function table p.10: OE high = Y follows A, OE low = Z. MERGE with group G15's 1G126 device (same function; parts here are the 1P1G126...Q1 orderables). | Pinouts: sn74lvc1g126 p.3 (DBV/DCK/DRL, DRY/DSF with pin 5 N.C., YZP), sn74aup1g126 p.3 (DPW same numbering as DBV; YFP 6-ball with B2 DNU per the drawing), sn74auc1g126 p.3, sn74ahc1g126 p.3, sn74ahct1g126 p.3, sn74ahct1g126-q1 p.3, sn74lvc1g126-ep p.2. DSBGA balls listed in SOT-23 pin order. OE high = Y drives A.",
       "pinouts": {
         "p5": [
@@ -186,9 +186,9 @@
     },
     {
       "id": "1G240",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Single inverting buffer/driver, 3-state output",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinouts sn74aup1g240 p.3 Pin Functions (DBV/DCK/DPW 1 OE, 2 A, 3 GND, 4 Y, 5 VCC; DRY/DSF NC at 5, VCC 6; YZP A1 OE, B1 A, C1 GND, C2 Y, A2 VCC); sn74lvc1g240 p.3 (DBV/DCK, DRY/DSF; its YZP figure numbers pins 1-5 but draws pin 4 Y top-right / 5 VCC bottom-right, balls taken from sn74aup1g240 and sn74auc1g240 p.1); sn74auc1g240 p.1 (DBV/DCK/YZP). OE active low, inverting.",
       "pinouts": {
         "p5": [
@@ -246,9 +246,9 @@
     },
     {
       "id": "1T125",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Single buffer, 3-state output, active-low enable, with level shifting",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74lv1t125 p.4 (DBV, DCK): OE 1 (active low), A 2, GND 3, Y 4, VCC 5; sn74lv1t125-q1 p.3 same. Single-supply translator: reduced input thresholds, inputs 5.5-V tolerant.",
       "pinouts": {
         "p5": [
@@ -274,9 +274,9 @@
     },
     {
       "id": "1T126",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Single bus buffer, 3-state output, active-high enable, level-shifting input",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout: sn74lv1t126 p.4 Figure 5-1 / Table 5-1 (DBV/DCK, OE active high); sn74lv1t126-q1 p.3 (same). Timing sn74lv1t126 p.7.",
       "pinouts": {
         "p5": [
@@ -302,9 +302,9 @@
     },
     {
       "id": "2G125",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Dual bus buffer gate, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74lvc2g125 p.4 Pin Functions (DCT/DCU, YZP balls A1=1OE B1=1A C1=2Y D1=GND D2=2A C2=1Y B2=2OE A2=VCC); sn74auc2g125 p.1 (DCT/DCU/YZP same); sn74aup2g125 p.1 (DCU/DQE same; YFP/YZP same balls; RSE UQFN top view 1=2OE 2=1Y 3=2A 4=GND 5=2Y 6=1A 7=1OE 8=VCC). Function table OE low = Y=A, OE high = Z (sn74lvc2g125 p.11).",
       "pinouts": {
         "p8": [
@@ -363,9 +363,9 @@
     },
     {
       "id": "2G126",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Dual bus buffer gate, 3-state outputs (active-high enables)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "p8 from sn74lvc2g126 p.3 Figure 5-1 + Pin Functions (DCT/DCU), sn74auc2g126 p.1 (DCT/DCU), sn74aup2g126 p.1 (DCU and DQE X2SON, same numbers). rse8 = SN74AUP2G126 RSE UQFN, different numbering (sn74aup2g126 p.1 and logic diagram p.3: 1 2OE, 2 1Y, 3 2A, 4 GND, 5 2Y, 6 1A, 7 1OE, 8 VCC). DSBGA (row-major) YZP/YFP: A1 1OE, A2 VCC, B1 1A, B2 2OE, C1 2Y, C2 1Y, D1 GND, D2 2A (sn74lvc2g126 p.3 Figure 5-2 + Pin Functions; sn74aup2g126 p.1). Function: OE H -> Y = A, OE L -> Z (sn74aup2g126 p.2).",
       "pinouts": {
         "p8": [
@@ -426,9 +426,9 @@
     },
     {
       "id": "2G240",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Dual inverting buffer/driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinouts: sn74lvc2g240 p.1 (DCT/DCU; YZP bottom view + p.18 outline: A1=1OE, B1=1A, C1=2Y, D1=GND, D2=2A, C2=1Y, B2=2OE, A2=VCC; balls listed in DCT pin order), sn74auc2g240 p.1 (DCT/DCU/YZP), sn74aup2g240 p.1 (DCU/DQE same numbering; RSE: 1 2OE, 2 1Y, 3 2A, 4 GND, 5 2Y, 6 1A, 7 1OE, 8 VCC). Function table sn74auc2g240 p.2: OE low, Y = not A.",
       "pinouts": {
         "p8": [
@@ -485,9 +485,9 @@
     },
     {
       "id": "2G241",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Dual buffer/driver, 3-state outputs (1OE active low, 2OE active high)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "sn74aup2g241 p.1 (DCU/DQE same order; RSE UQFN: 1 2OE, 2 1Y, 3 2A, 4 GND, 5 2Y, 6 1A, 7 1OE, 8 VCC; YFP balls A1-D2 = pins 1-8); sn74auc2g241 p.1 (DCT/DCU, YZP); sn74lvc2g241 p.3 Pin Functions (DCT/DCU, YZP; 1OE active low, 2OE active high). YZP balls are given only as pins 1-8, same positions as YFP.",
       "pinouts": {
         "p8": [
@@ -547,9 +547,9 @@
     },
     {
       "id": "4503B",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Hex non-inverting buffer, 3-state outputs (two disable controls)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Scanned Harris datasheet (no text layer); read from the images. Terminal assignment cd4503b p.1: 1 DIS A, 2 D1, 3 Q1, 4 D2, 5 Q2, 6 D3, 7 Q3, 8 VSS, 9 Q4, 10 D4, 11 Q5, 12 D5, 13 Q6, 14 D6, 15 DIS B, 16 VDD. Functional diagram p.1: DIS A gates buffers 1-4, DIS B buffers 5-6. Truth table p.1: DIS 0 -> Q = D, DIS 1 -> high Z.",
       "pinouts": {
         "p16": [
@@ -589,9 +589,9 @@
     },
     {
       "id": "74_11240",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/line driver, inverting 3-state outputs, center-pin VCC/GND",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout: 74ac11240 p.1 (DB/DW/NT, top view), 74act11240 p.1 (same); PW (74ac11240 packaging table only, TSSOP-24) assumed same pinout. Two 4-bit groups, 1OE/2OE active low, inverting (function table 74ac11240 p.1). Timing 74ac11240 p.4, 74act11240 p.3.",
       "pinouts": {
         "p24": [
@@ -640,9 +640,9 @@
     },
     {
       "id": "74_11244",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/line driver, 3-state outputs, center-pin VCC/GND",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "74ac11244 (= scas171b, SCAS171B) p.1 DB/DW/NT/PW pinout and function table; 74act11244 (SCAS006C) p.1 same pinout. Both OEs active low.",
       "pinouts": {
         "p24": [
@@ -692,9 +692,9 @@
     },
     {
       "id": "74_125",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Quad bus buffer gate, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Standard '125 pinout (1OE 1A 1Y 2OE 2A 2Y GND 3Y 3A 3OE 4Y 4A 4OE VCC), same in every PDF: sn74lvc125a p.3 Table 4-1, sn74hc125 p.4, cd74hc125 p.3, cd74hct125 p.3, sn74ahc125 p.3 (D/DB/DGV/N/NS/J/W/PW and RGY/BQA same numbers), sn74ahct125 p.3, sn74act125 p.3 (PW, BQA), sn74hcs125 p.3 (D/PW/DYY, BQA), sn74abt125/sn74lvth125/sn74lv125a p.1 (incl. RGY), sn74ls125a/sn74f125/sn74bct125a/sn64bct125a/sn74alvc125/sn74auc125/sn74lvt125 p.1. QFN thermal pad is not a pin. Function table: OE low -> Y = A, OE high -> Z (every PDF). sn74ahc125-q1 p.3 Table 4-1 and its BQA figure put 3OE on 8 and 3Y on 10 while its D/PW figure on the same page shows the standard 8 = 3Y, 10 = 3OE; treated as a datasheet error (same die as SN74AHC125, whose BQA is standard).",
       "pinouts": {
         "p14": [
@@ -864,9 +864,9 @@
     },
     {
       "id": "74_126",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Quadruple bus buffer gates, 3-state outputs, active-high enables",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Standard '126 pinout (1OE 1, 1A 2, 1Y 3, 2OE 4, 2A 5, 2Y 6, GND 7, 3Y 8, 3A 9, 3OE 10, 4Y 11, 4A 12, 4OE 13, VCC 14), the same in every PDF and package: sn74hc126 p.3, cd74hc126 p.3 (D, N, J), cd74hct126 p.3, sn54bct126a p.1, sn64bct126a p.1, sn74abt126 p.1 (D/DB/N/NS/PW and RGY), sn74ac126 p.3 (PW, BQA), sn74act126 p.3, sn74ahc126 = sn54ahc126 p.3 (PW, BQA), sn74ahct126 p.3, sn74alvc126 p.1, sn74auc126 p.1 (RGY), sn74f126 p.1, sn74hcs126 p.3 (D, DYY, PW), sn74ls126a = sdls044a p.1 (SN74126 N and SN74LS126A D/N/NS; enables printed 1G..4G there, named 1OE..4OE here), sn74lv126a p.2, sn74lvc126a p.3 (D/DB/DGV/NS/PW, BQA/RGY), sn74lvth126 p.1, and the -Q1 PDFs p.3. RGY/BQA thermal pad is not a pin. Function table (OE H: Y = A; OE L: Z): sn74hc126 p.11, sn74auc126 p.1, sn74abt126 p.2.",
       "pinouts": {
         "p14": [
@@ -1004,9 +1004,9 @@
     },
     {
       "id": "74_162240",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "16-bit inverting buffer/driver, 3-state outputs, 22-ohm series output resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout from sn74lvt162240 p.1 (DGG, DGV, DL) and sn74lvth162240 p.1 (same). Function table p.2 (each 4-bit buffer): OE low = Y is not A, OE high = Z. Four 4-bit units, each with its own active-low nOE.",
       "pinouts": {
         "p48": [
@@ -1081,9 +1081,9 @@
     },
     {
       "id": "74_162241",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "16-bit buffer/driver, 3-state outputs, 22-ohm series output resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74lvth162241 p.1 (DGG/DL top view). Function tables p.2: 1OE, 4OE active low; 2OE, 3OE active high; four 4-bit groups. Series output resistors and bus hold not modeled.",
       "pinouts": {
         "p48": [
@@ -1153,9 +1153,9 @@
     },
     {
       "id": "74_162244",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "16-bit buffer/driver, 3-state outputs with series damping resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74abt162244 p.1 (DGG, DGV, DL); same in sn74alvch162244 p.1, sn74lvc162244a p.1, sn74lvch162244a p.1, sn74lvt162244a p.1, sn74lvth162244 p.1, sn74lvth162244-ep p.1, sn54lvth162244 p.1 (WD), cy74fct162244t p.1 (SSOP/TSSOP). Four 4-bit groups, each with its own active-low nOE. Output series resistors and bus hold not modeled.",
       "pinouts": {
         "p48": [
@@ -1252,9 +1252,9 @@
     },
     {
       "id": "74_162344",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "1-bit to 4-bit address driver (8 x 1:4 fan-out), 3-state outputs, series damping resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "sn74alvch162344 (SCES085I) p.1 DGG/DGV/DL pinout; p.2 function table (OE low: Bn = A; OE high: Z); p.3 logic diagram: OE1 enables 1A->1B1-1B4 and 2A->2B1-2B4, OE2 3A/4A, OE3 5A/6A, OE4 7A/8A. Each A drives four B outputs, so a unit lists each A pin four times in \"a\". 26-ohm output resistors and bus hold are not modeled.",
       "pinouts": {
         "p56": [
@@ -1333,9 +1333,9 @@
     },
     {
       "id": "74_16240",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "16-bit buffer/driver, inverting 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout: standard Widebus 48-pin, identical in 74act16240 p.1, sn74abt16240a p.1 (DGG/DGV/DL), sn74ahc16240 p.1, sn74ahct16240 p.1, sn74alvch16240 p.1, sn74auc16240 p.1 (DGG), sn74lvch16240a p.1, sn74lvcz16240a p.1, sn74lvt16240 p.1, sn74lvth16240 p.1. Four 4-bit groups, 1OE..4OE active low, inverting (function tables p.1-2 of each).",
       "pinouts": {
         "p48": [
@@ -1435,9 +1435,9 @@
     },
     {
       "id": "74_16241",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "16-bit buffer/driver, 3-state outputs, complementary output enables",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74abt16241a p.1 (DGG/DGV/DL, WD), sn74lvth16241 p.1 (DGG/DL, WD). Function tables sn74abt16241a p.2 / sn74lvth16241 p.2: 1OE and 4OE active low, 2OE and 3OE active high.",
       "pinouts": {
         "p48": [
@@ -1513,9 +1513,9 @@
     },
     {
       "id": "74_16244",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "16-bit buffer/line driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Widebus 48-pin pinout, identical in every PDF: 74ac16244 p.1, 74act16244 p.1, sn74abt16244a p.1, sn74abth16244 p.1, sn74ahc16244 p.3, sn74ahct16244 p.3, sn74alb16244 p.1, sn74alvc16244a p.1, sn74alvch16244 p.1, sn74auc16244 p.1, sn74auch16244 p.1, sn74avc16244 p.2, sn74lvc16244a p.3, -ep p.1, -q1 p.1, sn74lvch16244a p.3, sn74lvcz16244a p.1, sn74lvt16244b p.1, sn74lvth16244a p.2, -ep p.1, sn54lvth16244a-sp p.2 (WD), cy74fct16244t p.1 (SSOP/TSSOP). Four 4-bit units, each OE active low, non-inverting.",
       "pinouts": {
         "p48": [
@@ -1645,9 +1645,9 @@
     },
     {
       "id": "74_162541",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "16-bit buffer/driver with 22-ohm series resistors, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "p48 from sn74lvth162541 p.1 (DGG/DL, SN54 WD) and logic symbol p.3. Two 8-bit sections; both OE inputs of a section must be low (function table p.2: OE1 L, OE2 L -> Y = A; either H -> Z). Series output resistors and bus hold not modeled. N74LVTH162541DL left out (typo of SN74LVTH162541DL, not in the packaging table).",
       "pinouts": {
         "p48": [
@@ -1717,9 +1717,9 @@
     },
     {
       "id": "74_162827",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "20-bit buffer/driver, series-damping output resistors, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74abt162827a p.1 (DGG or DL), sn74alvch162827 p.1 (DGG, DGV, DL), cy74fct162827t p.1 (SSOP/TSSOP) - all the same: 1 1OE1, 2-3 1Y1-1Y2, 5-6 1Y3-1Y4, 8-10 1Y5-1Y7, 12-14 1Y8-1Y10, 15-17 2Y1-2Y3, 19-21 2Y4-2Y6, 23-24 2Y7-2Y8, 26-27 2Y9-2Y10, 28 2OE1, 29 2OE2, 30-31 2A10-2A9, 33-34 2A8-2A7, 36-38 2A6-2A4, 40-42 2A3-2A1, 43-45 1A10-1A8, 47-49 1A7-1A5, 51-52 1A4-1A3, 54-55 1A2-1A1, 56 1OE2; GND 4,11,18,25,32,39,46,53; VCC 7,22,35,50. Function table (each 10-bit buffer): OE1 and OE2 both low -> Y = A, either high -> Z (cy74fct162827t p.2; sn74alvch162827 p.1). Outputs have series damping resistors.",
       "pinouts": {
         "p56": [
@@ -1802,9 +1802,9 @@
     },
     {
       "id": "74_162830",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "1-bit to 2-bit address driver (18 inputs, 36 outputs), 3-state outputs, 26-ohm series output resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74alvch162830 p.1 (DBB); sn74alvchs162830 p.1 and sn74alvchs162830a p.1 same. Function table sn74alvch162830 p.2: OE1 L -> 1Yn = A; OE2 L -> 2Yn = A; each H -> that bank Z. Each A input feeds two units (1Y bank, 2Y bank).",
       "pinouts": {
         "p80": [
@@ -1906,9 +1906,9 @@
     },
     {
       "id": "74_16344",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "1-bit to 4-bit address driver (8 x 1:4 fan-out), 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74alvch16344 p.1 (DGG, DL). Each input nA drives four outputs nB1-nB4 (the outputs are named B in the datasheet). Logic diagram p.2: OE1 enables 1B1-2B4, OE2 3B1-4B4, OE3 5B1-6B4, OE4 7B1-8B4 (all active low); function table p.1. Each unit lists its A pin once per output it drives. Bus hold not modeled.",
       "pinouts": {
         "p56": [
@@ -1987,9 +1987,9 @@
     },
     {
       "id": "74_16540",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "16-bit inverting buffer/driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74abt16540a p.1 (DGG/DGV/DL); same in sn74ahc16540 p.1, sn74ahct16540 p.1, sn74lvch16540a p.1. Function table sn74abt16540a p.2 (each 8-bit section): OE1 L and OE2 L -> Y = not A; either H -> Z.",
       "pinouts": {
         "p48": [
@@ -2069,9 +2069,9 @@
     },
     {
       "id": "74_16541",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "16-bit buffer/driver, 3-state outputs (two output enables per byte)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Standard Widebus 48-pin '16541 pinout, identical in 74act16541 p.1, sn74abt16541a p.1, sn74ahc16541 p.1, sn74ahct16541 p.1, sn74lvch16541a p.1, sn74lvth16541 p.1. Function table (each 8-bit section; e.g. 74act16541 p.1): OE1 and OE2 both low = Y follows A, either high = Z.",
       "pinouts": {
         "p48": [
@@ -2159,9 +2159,9 @@
     },
     {
       "id": "74_16825",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "18-bit buffer/driver, 3-state outputs (two 9-bit sections, each with two active-low output enables)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout from sn74abt16825 p.1 (DL/WD) and sn74alvch16825 p.1 (DGG/DL), identical: GND on 4, 11, 14, 15, 18, 25, 32, 39, 42, 43, 46, 53; VCC on 7, 22, 35, 50. Function table (each 9-bit section): nOE1 = nOE2 = L -> Y = A; either high -> Z (sn74abt16825 p.2, sn74alvch16825 p.1). ALVCH bus hold not modeled.",
       "pinouts": {
         "p56": [
@@ -2240,9 +2240,9 @@
     },
     {
       "id": "74_16827",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "20-bit buffer/driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout same in sn74abt16827 p.1 (DL), 74act16827 p.1 (DL; pin 51 misprinted 'A14', it is 1A4), sn74alvch16827 p.1 (DGG/DL), sn74avc16827 p.2 (DGG/DGV), cy74fct16827t p.1 (SSOP/TSSOP; names printed '1A 1'). Two 10-bit sections, each with OE1 and OE2 (NANDed, both active low: outputs drive only when both are low) (sn74abt16827 p.1 function table).",
       "pinouts": {
         "p56": [
@@ -2327,9 +2327,9 @@
     },
     {
       "id": "74_2240",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal inverting buffer/line/MOS driver, 3-state outputs with series damping resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "'240 pinout with 25-ohm (ABT) / 33-ohm (BCT) series output resistors. Pinout sn74abt2240a p.1 (SN74 DB/DW/N/PW, SN54 J/W; same text as sn54abt2240a), sn54bct2240 p.1 (SN54 J/W). Function table sn74abt2240a p.2, sn54bct2240 p.2 (OE low: Y = not A; OE high: Z). Timing sn74abt2240a p.5, sn54bct2240 p.4.",
       "pinouts": {
         "p20": [
@@ -2379,9 +2379,9 @@
     },
     {
       "id": "74_2240_FCT",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "8-bit inverting buffer/line driver, 3-state outputs with 25-ohm series resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "CY74FCT2240T: same pin positions and function as the '2240 but its own pin names (OEA/OEB, DAn/DBn inputs, OAn/OBn outputs, numbered 0-3), so its own device. Pinout cy74fct2240t p.1 (Q = DBQ QSOP, SO = SOIC); function table and logic diagram p.2 (OEA low: OAn = not DAn; OEB low: OBn = not DBn; high: Z). Timing p.5, VCC p.3.",
       "pinouts": {
         "p20": [
@@ -2422,9 +2422,9 @@
     },
     {
       "id": "74_2241",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/line driver, 3-state outputs, 25-ohm series output resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "sn74abt2241 p.1: DB/DW/N/PW (and J) pinout = '241 (1 1OE, 2/4/6/8 1A1-1A4, 18/16/14/12 1Y1-1Y4, 11/13/15/17 2A1-2A4, 9/7/5/3 2Y1-2Y4, 19 2OE). Function tables p.2: 1OE active low, 2OE active high; noninverting. Outputs have equivalent 25-ohm series resistors (not modeled).",
       "pinouts": {
         "p20": [
@@ -2467,9 +2467,9 @@
     },
     {
       "id": "74_2244",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/line driver with series damping resistors, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Standard '244 pinout: sn74abt2244a p.1 (DB/DW/N/PW, SN54 J/W), sn74bct2244 p.1 (DW/N/NS, SN54 J/W), sn74lvc2244a p.3 (DB/DBQ/DGV/DW/NS/PW). Outputs have built-in 25/26/33-ohm series resistors (not modeled). Function table OE L: Y = A, OE H: Z (sn74abt2244a p.2, sn74bct2244 p.2). SN74BCT2244NS is an NS orderable not in the packaging table.",
       "pinouts": {
         "p20": [
@@ -2528,9 +2528,9 @@
     },
     {
       "id": "74_2244_FCT",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/line driver with 25-ohm series resistors, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "CY74FCT2244T prints OEA/OEB, DA0-3/OA0-3, DB0-3/OB0-3 (cy74fct2244t p.1 pinout, Q = DBQ and SO = DW). Logic diagram p.2: OEA enables DAn -> OAn, OEB enables DBn -> OBn; function table p.2 (OE L: O = D, H: Z). Same positions as the '244 (OEA = 1OE, DAn = 1A(n+1), OEB = 2OE, DB0 at pin 17 = 2A4). CY-QC rows (CY74FCT2244ATQC-TI, CTQC, TQC) are tube QSOP orderables not in the packaging table, given the Q (DBQ) pinout. CY74FCT2244TS0C (digit zero) left out as a typo of CY74FCT2244TSOC. 25-ohm series output resistors not modeled.",
       "pinouts": {
         "p20": [
@@ -2575,9 +2575,9 @@
     },
     {
       "id": "74_240",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/line driver, inverting, 3-state outputs (two 4-bit groups, each with an active-low output enable)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Standard '240 20-pin pinout, same numbering in every package (N, DW, DB, NS, PW, DGS, DGV, J, W, FK LCCC, RKS/RGY VQFN with exposed pad not a pin, CY QSOP/SOIC): sn74hc240 p.3 (incl. FK), sn74act240 p.3 (incl. RKS), sn74ls240 p.3 (incl. FK), sn74auc240 p.1 (RGY), sn74lvc240a p.3, sn74ahc240 p.3, sn74lv240a p.4, sn74abt240a p.1, cy74fct240t p.1 (incl. L/LCC). Name variants folded to the TI names: LS/S sheets print 1G/2G for 1OE/2OE (sn74ls240 p.3); CD74AC/ACT and CD74HC/HCT number bits from 0 (1A0-1A3, 2Y0-2Y3: cd74ac240 p.4 Pin Functions, cd74hc240 p.3 pinout drawing); CY FCT prints OEA/OEB, DA0-3/DB0-3, OA0-3/OB0-3 (cy74fct240t p.1, OEA=1OE, DAn=1A(n+1), OAn=1Y(n+1)). Function: OE low -> Y = not A, OE high -> Z (sn74hc240 p.9, cy74fct240t p.2).",
       "pinouts": {
         "p20": [
@@ -2780,9 +2780,9 @@
     },
     {
       "id": "74_241",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/line driver, 3-state outputs (1OE active low, 2OE active high)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Standard 20-pin pinout, identical in every sheet: sn74abt241a p.1 (J/W/DB/DW/N/PW and FK), sn74ac241 p.3 Table 3-1, sn74act241 p.3 (J/W/DB/DW/N/NS/PW and FK), sn74als241c p.1 (ALS and AS, J/DW/N and FK), sn74f241 p.1, sn74hc241 p.3 (J/DW/N/NS/PW and FK), sn74lvc241a p.3 (PW/DGS and RKS, same numbers), sn74lvth241 p.1 (DB/DW/NS/PW and FK). FK (20-pin LCCC) numbers are the same as the DIP, so it shares p20. Function tables: 1OE low enables 1Y=1A, 2OE high enables 2Y=2A (sn74abt241a p.2, sn74lvc241a p.14 Table 7-1/7-2; the lvc241a pin table calls 2OE active low, its function table says high). DBL/PWLE codes are the old DB/PW LE-reel suffixes.",
       "pinouts": {
         "p20": [
@@ -2864,9 +2864,9 @@
     },
     {
       "id": "74_241_CD",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/line driver, 3-state outputs (1OE active low, 2OE active high)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "cd74hc241 (= cd74hct241, SCHS167G) p.3 pinout figure (J/N/DW/PW); cd74act241 (SCHS287C) p.3 Figure 3-2 and p.4 Table 3-1 (DW/N): bits numbered from 0 (1A0-1A3, 1Y0-1Y3, 2A0-2A3, 2Y0-2Y3), same positions as 74_241 (pin 3 = 2Y3 ... pin 18 = 1Y0). 2OE (pin 19) active high on the 241 (cd74hc241 p.1 description; cd74act241 p.9 note).",
       "pinouts": {
         "p20": [
@@ -2911,9 +2911,9 @@
     },
     {
       "id": "74_241_G",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/line driver, 3-state outputs (1G active low, 2G active high)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "sn74ls241 (= sn54ls241 = sn74s241 = sn54s241, one sheet SDLS144D) p.3 Pin Functions: DB/DW/J/N/NS/W and FK use the same numbers; enables printed 1G (active low) and 2G (active high, footnote: 2G for SNx4LS241/SNx4S241). Same positions as 74_241 with OE named G.",
       "pinouts": {
         "p20": [
@@ -2959,9 +2959,9 @@
     },
     {
       "id": "74_244",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/line driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "p20 from sn74hc244 p.3, sn74lvc244a p.3-4 (DB/DGV/DW/N/NS/PW/RGY/DGS/RKS: same numbers 1-20, VQFN thermal pad is not a pin), sn74ls244 p.3 (J/W/DB/DW/N/NS and FK: same numbers), sn74f244 p.1 and sn54abt244 p.1 (FK same numbers), cy74fct244t p.1 (P/Q/SO/D and L LCC same numbers). Pin names normalized to the SN74 names: SN74LS/S244 print 1G/2G for 1OE/2OE (sn74ls244 p.3); CD74HC/HCT/AC/ACT244 number bits from 0 (1A0..1A3 = 1A1..1A4, 1Y0..1Y3 = 1Y1..1Y4, 2A0..2A3 = 2A1..2A4, 2Y0..2Y3 = 2Y1..2Y4, same pins; cd74hc244 p.3, cd74ac244 p.4); CY54/74FCT244T print OEA/OEB, DA0-3/OA0-3, DB0-3/OB0-3 (OEA=1OE, DAn=1A(n+1), OAn=1Y(n+1), OEB=2OE, DB0..DB3 at pins 17,15,13,11 = 2A4..2A1, OB0..OB3 at pins 3,5,7,9 = 2Y4..2Y1; cy74fct244t p.1, p.3). Function table: OE L -> Y = A, OE H -> Z (cd74fct244 p.1, cy74fct244t p.2).",
       "pinouts": {
         "p20": [
@@ -3234,9 +3234,9 @@
     },
     {
       "id": "74_25244",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "25-ohm octal buffer/driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout from sn74bct25244 p.1 (DW/NT) and sn64bct25244 p.1 (DW/NT), identical; distributed GND/VCC pins. Function table p.1: OE L -> Y = A, OE H -> Z; 1OE gates 1A1-1A4, 2OE gates 2A1-2A4 (logic diagram p.2).",
       "pinouts": {
         "p24": [
@@ -3281,9 +3281,9 @@
     },
     {
       "id": "74_2541",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/line driver, 25-ohm series output resistors, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout cy74fct2541t p.1 (Q/QSOP = DBQ and SO = DW, same): 1 OEA, 2-9 D0-D7, 10 GND, 11-18 O7-O0, 19 OEB, 20 VCC. Function table p.2: OEA and OEB both low -> O = D, both high -> Z (the table omits mixed rows; the logic diagram ANDs the two active-low enables like the '541). Speed grades: FCT2541T 8 ns, AT 4.8 ns, CT 4.1 ns max (p.1, p.5); one FCT timing entry uses the slowest (T) grade.",
       "pinouts": {
         "p20": [
@@ -3328,9 +3328,9 @@
     },
     {
       "id": "74_2827",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "10-bit buffer/driver, 3-state outputs with 25-ohm series resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74abt2827 p.1 (DW, NT, JT) and sn74bct2827c p.1 (DW, NT) - identical. Function table sn74abt2827 p.2 (OE1 and OE2 both low = enabled). Output series resistors not modeled.",
       "pinouts": {
         "p24": [
@@ -3375,9 +3375,9 @@
     },
     {
       "id": "74_2827_FCT",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "10-bit buffer, 3-state outputs with 25-ohm series resistors (FCT, D0-D9/Y0-Y9 naming)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Separate device only because cy74fct2827t names the pins D0-D9/Y0-Y9 (74_2827 uses A1-A10/Y1-Y10); same positions. Pinout cy74fct2827t p.1 (Q package = QSOP/DBQ); function table p.2 (OE1 and OE2 both low = enabled). Output series resistors not modeled.",
       "pinouts": {
         "p24": [
@@ -3421,9 +3421,9 @@
     },
     {
       "id": "74_29827",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "10-bit buffer/bus driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74als29827 p.1 (DW/NT), sn74bct29827b p.1 (DW/NT/JT/W). The 3-state control is a 2-input NOR: outputs drive only while OE1 and OE2 are both low (sn74als29827 p.1). Non-inverting.",
       "pinouts": {
         "p24": [
@@ -3468,9 +3468,9 @@
     },
     {
       "id": "74_365",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Hex buffer/line driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74hc365 p.3 (J/D/N/NS/PW; sn54hc365 is the same PDF), sn74hcs365 p.3 (D/DYY/PW), sn74hcs365-q1 p.3 (D/PW, WBQB same numbering + thermal pad). OE1 and OE2 active low, both low = Y=A (sn74hc365 p.1, sn74hcs365 p.3).",
       "pinouts": {
         "p16": [
@@ -3516,9 +3516,9 @@
     },
     {
       "id": "74_365_CD",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Hex buffer/line driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout cd74hc365 / cd74hct365 (same PDF) p.3 Figure 4-1 + Table 4-1 (J/N/D: OE1 and OE2 active low, 1A..6A, 1Y..6Y). Timing p.6.",
       "pinouts": {
         "p16": [
@@ -3556,9 +3556,9 @@
     },
     {
       "id": "74_365_LS",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Hex bus driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "sn74ls365a = sn54ls365a (same scanned PDF, covers '365A-'368A). Pinout p.1 ('LS365A J/W/D/N top view; 'LS365A FK: 1 NC, 2 G1, 3 A1, 4 Y1, 5 A2, 6 NC, 7 Y2, 8 A3, 9 Y3, 10 GND, 11 NC, 12 Y4, 13 A4, 14 Y5, 15 A5, 16 NC, 17 Y6, 18 A6, 19 G2, 20 VCC). G1, G2 active low into an AND (logic diagram p.2). VCC and timing p.6-7 (rendered pages).",
       "pinouts": {
         "p16": [
@@ -3620,9 +3620,9 @@
     },
     {
       "id": "74_366",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Hex inverting buffer/line driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout: cd74hc366 p.3 Table 4-1 (N, D/M SOIC); cd74hc366-q1 p.3 figure (D) same. Function table cd74hc366 p.8 Table 7-1: OE1 and OE2 NORed; both L -> Y = not A; either H -> Z (column header misprinted 'HCT 366').",
       "pinouts": {
         "p16": [
@@ -3659,9 +3659,9 @@
     },
     {
       "id": "74_367",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Hex buffer/line driver, 3-state outputs (4 + 2 enables)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout: sn74hc367 p.3 (J, D, N, NS, PW; same file as sn54hc367), sn74ahc367 p.3 (D, DB, DGV, N, PW), sn74ahct367 p.3, sn74hcs367 p.3 and sn74hcs367-q1 p.3 (D, PW, WBQB with thermal pad, same numbering), sn74lv367a p.3 (D, DGV, NS, PW). 1OE drives 1A1-1A4, 2OE drives 2A1-2A2, both active low (sn74ahc367 p.8 function table). JM38510/65708BEA is SN54HC367J per the sn54hc367 packaging table.",
       "pinouts": {
         "p16": [
@@ -3721,9 +3721,9 @@
     },
     {
       "id": "74_367_CD",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Hex buffer/line driver, 3-state outputs (4 + 2 enables)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout from cd74hc367 p.3 (one data sheet for CD54/74HC367, HCT367, HC368, HCT368; also filed as cd74hc367, cd74hct367): OE1 1, 1A 2, 1Y 3, 2A 4, 2Y 5, 3A 6, 3Y 7, GND 8, 4Y 9, 4A 10, 5Y 11, 5A 12, 6Y 13, 6A 14, OE2 15, VCC 16 (same positions as 74_367, different names; '368 Y pins printed with overbars). OE1 controls 4 gates, OE2 the other 2 (p.8 description).",
       "pinouts": {
         "p16": [
@@ -3763,9 +3763,9 @@
     },
     {
       "id": "74_367_LS",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Hex buffer/line driver, 3-state outputs (4 + 2 enables)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout from sn74ls367a (scanned SN54365A-SN74LS368A data sheet, Dec 1983 rev Mar 1988; identical file as sn54ls367a, sn74ls368a, sn54ls368a) p.1 (J, D, N packages; NS uses the same numbering); enables printed 1G/2G (active low), else same pins as 74_367. Logic diagram p.2: 1G drives 1A1-1A4, 2G drives 2A1-2A2.",
       "pinouts": {
         "p16": [
@@ -3805,9 +3805,9 @@
     },
     {
       "id": "74_368",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Hex inverting buffer/line driver, 3-state outputs (4 + 2 enables)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout: sn74hc368 p.3 (J, D, N, NS, PW; FK not in this group; same file as sn54hc368); outputs printed with overbars (1Y1...). Y = not A when OE low, Z when OE high (sn74hc368 p.9). 1OE drives 1A1-1A4, 2OE drives 2A1-2A2. 5962-8681201EA is SNJ54HC368J per the sn54hc368 packaging table.",
       "pinouts": {
         "p16": [
@@ -3849,9 +3849,9 @@
     },
     {
       "id": "74_368_CD",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Hex inverting buffer/line driver, 3-state outputs (4 + 2 enables)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout from cd74hc367 p.3 (one data sheet for CD54/74HC367, HCT367, HC368, HCT368; also filed as cd74hc368, cd74hct368): OE1 1, 1A 2, 1Y 3, 2A 4, 2Y 5, 3A 6, 3Y 7, GND 8, 4Y 9, 4A 10, 5Y 11, 5A 12, 6Y 13, 6A 14, OE2 15, VCC 16 (same positions as 74_368, different names; '368 Y pins printed with overbars). OE1 controls 4 gates, OE2 the other 2 (p.8 description).",
       "pinouts": {
         "p16": [
@@ -3891,9 +3891,9 @@
     },
     {
       "id": "74_368_LS",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Hex inverting buffer/line driver, 3-state outputs (4 + 2 enables)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout from sn74ls367a (scanned SN54365A-SN74LS368A data sheet, Dec 1983 rev Mar 1988; identical file as sn54ls367a, sn74ls368a, sn54ls368a) p.1 (J, D, N packages; NS uses the same numbering); enables printed 1G/2G (active low), else same pins as 74_368. Logic diagram p.2: 1G drives 1A1-1A4, 2G drives 2A1-2A2, inverting outputs.",
       "pinouts": {
         "p16": [
@@ -3933,9 +3933,9 @@
     },
     {
       "id": "74_4T125",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Quadruple bus buffer, 3-state outputs, active-low enables, with level shifting",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74lv4t125 p.3 (PW, RGY): '125 layout, 1OE 1, 1A 2, 1Y 3, 2OE 4, 2A 5, 2Y 6, GND 7, 3Y 8, 3A 9, 3OE 10, 4Y 11, 4A 12, 4OE 13, VCC 14; sn74lv4t125-ep p.3 (PW) same. Function table p.13 (OE L: Y = A, OE H: Z). RGY thermal pad is not a pin.",
       "pinouts": {
         "p14": [
@@ -3973,9 +3973,9 @@
     },
     {
       "id": "74_540",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal inverting buffer/line driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Flow-through pinout, same in sn74abt540 p.1, sn74ahc540 p.3, sn74ahc540-q1 p.3 (RKS = same numbering + pad, DGS, PW), sn74ahct540 p.3 (= sn54ahct540), sn74ahct540-q1 p.3 (RKS/DGS/PW), sn74als540 p.1, sn74bct540a p.1, sn74hc540 p.3 (FK uses the same numbers), sn74hct540 p.1, sn74lv540a p.3 (RGY same numbering), sn74lvc540a p.3 (RKS same numbering), sn74lvc540a-q1 p.1, sn74lvth540 p.1. OE1, OE2 active low (2-input NOR), Y = not A (sn74abt540 p.1 function table).",
       "pinouts": {
         "p20": [
@@ -4080,9 +4080,9 @@
     },
     {
       "id": "74_5402",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "12-bit line/memory driver, 3-state outputs, 25-ohm series output resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "sn74abt5402a p.1: DW (and JT) pinout 1-6 Y1-Y6, 7 GND, 8-13 Y7-Y12, 14 OE1, 15 OE2, 16-20 D12-D8, 21 VCC, 22-28 D7-D1. Function table p.1: OE1 and OE2 both low = Y follows D; either high = Z (2-input AND of active-low enables); noninverting. Outputs have equivalent 25-ohm series resistors (not modeled).",
       "pinouts": {
         "p28": [
@@ -4130,9 +4130,9 @@
     },
     {
       "id": "74_5403",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "12-bit inverting line/memory driver, 3-state outputs with 25-ohm series resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout from sn74abt5403 p.1 (DW/JT): D1-D12 in, Y1-Y12 out, OE1 14, OE2 15 (both active low, 2-input AND enable). Function table p.1: OE1 = OE2 = L -> Y = not D; either OE high -> Z. 25-ohm series output resistors (not modeled). Datasheet marked PRODUCT PREVIEW (1997) though the DW part is Active (p.6).",
       "pinouts": {
         "p28": [
@@ -4180,9 +4180,9 @@
     },
     {
       "id": "74_540_CD",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal inverting buffer/line driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout cd74ac540 p.3 Figure 3-1 (= cd54act540, cd74act540; OE1, A0..A7, Y0..Y7, OE2; the Table 3-1 on that page belongs to another device and was ignored) and cd74hc540 p.3 (= cd74hct540; pin 1 printed 'OE', text p.1/p.9 calls it OE1). OE1 and OE2 active low, inverting (cd74hc540 p.9).",
       "pinouts": {
         "p20": [
@@ -4232,9 +4232,9 @@
     },
     {
       "id": "74_540_FCT",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "8-bit inverting buffer/line driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout cy74fct540t p.1 (Q = QSOP/DBQ top view: OEA, D0..D7, GND, O7..O0, OEB, VCC). Function table p.2: OEA L OEB L = O = not D; otherwise Z (both active low).",
       "pinouts": {
         "p20": [
@@ -4274,9 +4274,9 @@
     },
     {
       "id": "74_540_LS",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal inverting buffer/line driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "sn74ls540 = sn54ls540 (same scanned PDF). Pinout p.1 (J/W/DW/N top view; FK uses the same numbers: 1 G1, 2 A1, 3 A2 ... 19 G2, 20 VCC). G1, G2 active low (2-input NOR), Y = not A (p.1-2). VCC p.3, timing p.4 (rendered pages).",
       "pinouts": {
         "p20": [
@@ -4322,9 +4322,9 @@
     },
     {
       "id": "74_541",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/line driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout: sn74hc541 p.3 Pin Functions (OE1=1, A1-A8=2-9, GND=10, Y8-Y1=11-18, OE2=19, VCC=20); same positions in sn74ahc541 p.3, sn74ahct541 p.3 (J/W/FK too), sn74lvc541a p.3-4 (RKS/RGY same numbering), sn74ac541 p.3 (DGS, RKS), sn74hcs541 p.3, sn74lv541a p.3 (DB/DGV/DW/NS/PW/DGS, RGY/RKS), sn74abt541b p.1 (J/W/DB/DW/N/PW, FK), sn74lvth541, sn74als541, sn74bct541a, sn74f541, sn74ls541 p.1 (FK same numbering), cd74fct541 p.1. 20-pin FK LCCC uses the same 1-20 numbering (no NC). Names differ only by datasheet style at the same positions: CD74HC/HCT541 and CD54/74AC/ACT541 print OE1, A0-A7, Y0-Y7, OE2 (cd74hc541 p.3 figure, cd74ac541 p.3 figure; the cd74ac541 Pin Functions table p.3 is a copy of a '273 table and is wrong); CY54/74FCT541T prints OEA, D0-D7, OEB, O0-O7 (cy74fct541t p.1); SN54/74LS541 prints G1, G2 (sn74ls541 p.1). Merged under the SN names (A1-A8/Y1-Y8). Function table (sn74hc541, cd74fct541 p.1): OE1 L and OE2 L -> Y = A; either OE high -> Z.",
       "pinouts": {
         "p20": [
@@ -4495,9 +4495,9 @@
     },
     {
       "id": "74_7541",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/driver, open-drain outputs, dual output enables",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout: sn74ac7541 p.3 (DGS/PW, RKS: same numbering, thermal pad not a pin), sn74act7541 p.3, sn74ac7541-q1 p.3, sn74act7541-q1 p.3, sn74ahc7541-q1 p.3, sn74ahct7541-q1 p.3. OE1 and OE2 both low = outputs active (open-drain); either high = high impedance (sn74ac7541 p.1).",
       "pinouts": {
         "p20": [
@@ -4556,9 +4556,9 @@
     },
     {
       "id": "74_756",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal inverting buffer/line driver, open-collector outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74as756 p.1 (DW/N/J; pin 19 is 2OE-bar for 'AS756), sn74bct756 p.1 (DW/N). Inverting: sn74bct756 p.1 function table (OE L, A L -> Y H; OE H -> Y H = off), sn74as756 p.1 logic symbol (output negation). Open-collector outputs, 1OE and 2OE both active low (open-collector version of 'AS240).",
       "pinouts": {
         "p20": [
@@ -4604,9 +4604,9 @@
     },
     {
       "id": "74_757",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/line driver, open-collector outputs (complementary enables)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Open-collector version of the '241. Pinout sn74bct757 p.1 (DW/N), sn64bct757 p.1 (DW), sn74as757 p.1 (DW/N; pin 19 is 2OE active high for SN74AS757, footnote). Function tables sn74bct757 p.1 / sn64bct757 p.1: 1OE low enables 1Y = 1A, 2OE high enables 2Y = 2A; disabled outputs are off (H through pull-up). Timing sn74bct757 p.3, sn64bct757 p.3, sn74as757 p.4.",
       "pinouts": {
         "p20": [
@@ -4652,9 +4652,9 @@
     },
     {
       "id": "74_760",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/driver, open-collector outputs ('244 pinout)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "'244 pinout (1OE 1, 1A1 2, 2Y4 3, 1A2 4, 2Y3 5, 1A3 6, 2Y2 7, 1A4 8, 2Y1 9, GND 10, 2A1 11, 1Y4 12, 2A2 13, 1Y3 14, 2A3 15, 1Y2 16, 2A4 17, 1Y1 18, 2OE 19, VCC 20): sn74as760 (= sn74als760 = sn54as760, SDAS141A) p.1 (J, DW, N; FK same numbering), sn74bct760 p.1 (J, W, DW, N), sn74bct760-ep p.1 (DW). Function table OE L: Y = A; OE H: Y off (high via pull-up) (sn74bct760 p.1). Open-collector version of the '244: modeled as tristate with open-drain output.",
       "pinouts": {
         "p20": [
@@ -4704,9 +4704,9 @@
     },
     {
       "id": "74_827",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "10-bit buffer/driver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout: sn74abt827 p.1 (DB/DW/NT/PW, JT; W in the packaging table, assumed = JT), sn74lvc827a p.3 (DB/DGV/DW/PW), cy74fct827t p.1 (Q/SO; FCT sheet names D0-D9/Y0-Y9, same pins). Function table sn74abt827 p.1: OE1 and OE2 both low = drive.",
       "pinouts": {
         "p24": [
@@ -4767,9 +4767,9 @@
     },
     {
       "id": "74_8T240",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal inverting buffer/driver, 3-state outputs, 5.5 V tolerant inputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "sn74lv8t240 p.3 Figure 4-1/4-2 and Table 4-1 (PW/DGS and RKS, same numbers); sn74lv8t240-q1 p.3 same. Function table p.15 Table 7-1: OE low, Y = not A; OE high = Z (both OEs active low).",
       "pinouts": {
         "p20": [
@@ -4814,9 +4814,9 @@
     },
     {
       "id": "74_8T244",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer with 5.5-V tolerant inputs, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Standard '244 pinout: sn74lv8t244 p.3 Figure 4-1/4-2 + Table 4-1 (PW/DGS and RKS VQFN with the same numbers 1-20, thermal pad not a pin); sn74lv8t244-q1 p.3 identical. 1OE/2OE active low (Table 4-1). Single supply; inputs tolerate 5.5 V at any VCC.",
       "pinouts": {
         "p20": [
@@ -4860,9 +4860,9 @@
     },
     {
       "id": "74_8T540",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal inverting buffer with level-shifting (LVxT) inputs, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Single-supply part (one VCC; translation from low-threshold, 5.5 V-tolerant inputs), so tristate rather than translator. Pinout sn74lv8t540 p.3 Pin Functions (PW, DGS, RKS; RKS thermal pad not a pin); sn74lv8t540-q1 p.3 same. Function table sn74lv8t540 p.16: OE1 and OE2 low -> Y = not A.",
       "pinouts": {
         "p20": [
@@ -4907,9 +4907,9 @@
     },
     {
       "id": "74_8T541",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/driver, 3-state outputs, single-supply level shifter (LVxT reduced-threshold, 5.5 V tolerant inputs)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout from sn74lv8t541 p.3 (PW/DGS and RKS; RKS exposed pad not a pin) and sn74lv8t541-q1 p.3, identical. OE1 and OE2 active low, both low -> Y = A (sn74lv8t541 p.1, p.10). Single supply: up/down translation through input thresholds and 5.5 V tolerant inputs, so no second domain.",
       "pinouts": {
         "p20": [
@@ -4953,9 +4953,9 @@
     },
     {
       "id": "74_8T7541",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer, open-drain outputs, 5.5 V tolerant LVxT inputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74lv8t7541 p.3 Pin Functions (PW, DGS, RKS same numbers; RKS thermal pad not a pin): 1 OE1, 2-9 A1-A8, 10 GND, 11-18 Y8-Y1, 19 OE2, 20 VCC; sn74lv8t7541-q1 p.3 same. Function table sn74lv8t7541 p.14: OE1 L and OE2 L -> Y = A (H = Z, open-drain off), either OE high -> Z. Single supply (outputs referenced to VCC); the level shifting is the reduced-threshold 5.5 V tolerant inputs plus open-drain outputs.",
       "pinouts": {
         "p20": [
@@ -4999,9 +4999,9 @@
     },
     {
       "id": "74_8T9541",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer/line driver, Schmitt-trigger inputs, 3-state outputs, single-supply level translation",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74lv8t9541 p.3 (PW, DGS, RKS same numbering: OE1=1, A1-A8=2-9, GND=10, Y8-Y1=11-18, OE2=19, VCC=20); sn74lv8t9541-q1 p.3 same. Function table p.15 Table 7-1: OE1 L and OE2 L -> Y = A; either H -> Z. Single supply (inputs 5.5 V tolerant at any VCC), so tristate, not translator.",
       "pinouts": {
         "p20": [
@@ -5045,9 +5045,9 @@
     },
     {
       "id": "74_9541",
-      "function": "Buffer",
+      "function": "3-state buffer",
       "description": "Octal buffer with Schmitt-trigger inputs, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74ahc9541-q1 p.3 Pin Functions (PW, DGS, RKS - RKS thermal pad not a pin); same in sn74ahct9541-q1 p.3 and sn74lvc9541a-q1 p.3. OE1, OE2 active low (p.3). Schmitt-trigger inputs not modeled.",
       "pinouts": {
         "p20": [
@@ -5096,7 +5096,7 @@
       "id": "74_11245",
       "function": "Transceiver",
       "description": "Octal bus transceiver, 3-state outputs, center-pin VCC/GND",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "74ac11245 (SCAS010B) p.1 DB/DW/NT/PW pinout and function table; 74act11245 (= scas031c, SCAS031C) p.1 same. OE low: DIR high = A to B, DIR low = B to A; OE high = isolation. SN74ACT11245DBLE was mapped by the census to sn54act11 (SN74ACT11 triple AND, wrong sheet); placed here by its name (DB SSOP-24, LE reel).",
       "pinouts": {
         "p24": [
@@ -5144,7 +5144,7 @@
       "id": "74_1245",
       "function": "Transceiver",
       "description": "Octal bus transceiver, 3-state outputs (low power)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn54als1245a p.1 (J/DW/N and FK; the 20-pin FK numbers match the DIP). Function table p.1: OE low + DIR low = B to A, DIR high = A to B, OE high = isolation.",
       "pinouts": {
         "p20": [
@@ -5185,7 +5185,7 @@
       "id": "74_162245",
       "function": "Transceiver",
       "description": "16-bit bus transceiver, 3-state outputs, series damping resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Standard 48-pin Widebus pinout, same in sn74abt162245 (= sn54abt162245) p.1 (DGG/DL/WD), sn74abth162245 p.1, sn74lvcr162245 p.1, sn74lvt162245a p.1, sn74lvth162245 p.1, sn74lvth162245-ep p.1, sn74alvchr162245 p.1, cy74fct162245t p.1 (SSOP/TSSOP; CY-PA = 48-pin TSSOP). Function table (each 8-bit section): OE low, DIR high = A to B, DIR low = B to A, OE high = isolation. Series output resistors (B port on ABT/ABTH/LVT/LVTH; all outputs on LVCR/ALVCHR/FCT162245T) are not modeled.",
       "pinouts": {
         "p48": [
@@ -5272,7 +5272,7 @@
       "id": "74_16245",
       "function": "Transceiver",
       "description": "16-bit bus transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Standard Widebus 48-pin '16245 pinout, identical in every PDF read: 74ac16245 p.1, 74act16245 p.1, sn74act16245-ep p.1, sn74abt16245a p.1, sn74abt16245a-ep p.1, sn74abth16245 p.1, sn74ahct16245 p.3, sn74alvch16245 p.3, sn74alvch16245-ep p.1, sn74alvchr16245 p.1, sn74auc16245 p.1, sn74avc16245 p.3, sn74lvc16245a p.3, sn74lvch16245a p.3, sn74lvchr16245a p.3, sn74lvcr16245a p.3, sn74lvcz16245a p.1, sn74lvt16245b p.1, sn74lvth16245a p.1, sn74lvth16245a-ep p.1, sn74lvth16245a-q1 p.1, cy74fct16245t p.1 (SSOP/TSSOP; PV = SSOP DL, PA = TSSOP DGG). Function table (each PDF): OE low + DIR low = B to A, OE low + DIR high = A to B, OE high = isolation (e.g. 74ac16245 p.1, cy74fct16245t p.4).",
       "pinouts": {
         "p48": [
@@ -5400,7 +5400,7 @@
       "id": "74_1645",
       "function": "Transceiver",
       "description": "Octal bus transceiver, 3-state outputs (low-power '645)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "sn74als1645a p.1: DW or N pinout = standard '245 (1 DIR, 2-9 A1-A8, 10 GND, 11-18 B8-B1, 19 OE, 20 VCC); function table p.1 (SN74ALS1645A column, noninverting): OE low + DIR high = A to B, DIR low = B to A, OE high = isolation. The PDF also covers the inverting SN74ALS1640A (not in this group).",
       "pinouts": {
         "p20": [
@@ -5441,7 +5441,7 @@
       "id": "74_16623",
       "function": "Transceiver",
       "description": "16-bit bus transceiver, separate A-to-B and B-to-A enables, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74abt16623 p.1 (DGG or DL; WD for SN54): 1 1OEAB, 2-3 1B1-1B2, 5-6 1B3-1B4, 8-9 1B5-1B6, 11-12 1B7-1B8, 13-14 2B1-2B2, 16-17 2B3-2B4, 19-20 2B5-2B6, 22-23 2B7-2B8, 24 2OEAB, 25 2OEBA, 26-27 2A8-2A7, 29-30 2A6-2A5, 32-33 2A4-2A3, 35-36 2A2-2A1, 37-38 1A8-1A7, 40-41 1A6-1A5, 43-44 1A4-1A3, 46-47 1A2-1A1, 48 1OEBA; GND 4,10,15,21,28,34,39,45; VCC 7,18,31,42. Function table p.2 (each 8-bit section): OEBA L/OEAB L B->A; L/H both directions (bus latch, outputs reinforce inputs); H/L isolation; H/H A->B. OEAB active high, OEBA active low.",
       "pinouts": {
         "p48": [
@@ -5512,7 +5512,7 @@
       "id": "74_16640",
       "function": "Transceiver",
       "description": "16-bit inverting bus transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74abt16640 p.1 (DGG/DL). Function table p.1 (each 8-bit section): OE L, DIR L -> B data to A; OE L, DIR H -> A data to B; OE H -> isolation. Inverting (p.1 description).",
       "pinouts": {
         "p48": [
@@ -5585,7 +5585,7 @@
       "id": "74_16861",
       "function": "Transceiver",
       "description": "20-bit bus transceiver, 3-state outputs (two 10-bit sections, OEAB/OEBA)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "74act16861 (SCAS197B) p.1 DL/WD pinout; p.2 function table (each 10-bit section): OEAB low = A to B, OEBA low = B to A, both low = latch A and B (A = B), both high = isolation.",
       "pinouts": {
         "p56": [
@@ -5663,7 +5663,7 @@
       "id": "74_16863",
       "function": "Transceiver",
       "description": "18-bit bus transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout same in sn74abt16863 p.1 (DL), 74act16863 p.1 (DL), sn74alvch16863 p.1 (DGG/DL). Two 9-bit sections. Function table (each 9-bit section; sn74abt16863 p.2, 74act16863 p.1, sn74alvch16863 p.1): OEAB H + OEBA L = B to A, OEAB L + OEBA H = A to B, both H = isolation; both enables are active low; the both-low row is not listed.",
       "pinouts": {
         "p56": [
@@ -5746,7 +5746,7 @@
       "id": "74_2245",
       "function": "Transceiver",
       "description": "Octal bus transceiver with series damping resistors, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Standard '245 pinout: sn74abt2245 p.1 (DB/DW/N/PW, SN54 J/W; 5962-9560601QRA = SNJ54ABT2245J), sn74abtr2245 p.1, sn74bct2245 p.1 (DB/DW/N/NS), sn74lvcr2245a p.3 (DB/DBQ/DGV/DW/NS/PW, and RGY VQFN with the same numbers 1-20, thermal pad not a pin), sn74lvth2245 p.1. Function table OE L + DIR L = B data to A, DIR H = A data to B, OE H = isolation (sn74abt2245 p.1, sn74lvcr2245a p.10). B-port (ABT/ABTR/BCT) or all-port (LVCR) series resistors not modeled. SN74BCT2245NS is an NS orderable not in the packaging table.",
       "pinouts": {
         "p20": [
@@ -5817,7 +5817,7 @@
       "id": "74_2245_FCT",
       "function": "Transceiver",
       "description": "Octal bus transceiver with 25-ohm series resistors, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "CY74FCT2245T prints T/R for the direction pin and bits A0-A7/B0-B7 (cy74fct2245t p.1: 1 T/R, 2-9 A0-A7, 10 GND, 11 B7 ... 18 B0, 19 OE, 20 VCC; P = N, Q = DBQ, SO = DW; PW from the packaging table). Function table p.2: OE L + T/R L = bus B to bus A, T/R H = bus A to bus B, OE H = Z. CY74FCT2245SOCT (CY-SOC) is a DW orderable not in the packaging table. Series resistors not modeled.",
       "pinouts": {
         "p20": [
@@ -5866,7 +5866,7 @@
       "id": "74_243",
       "function": "Transceiver",
       "description": "Quad bus transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74ls243 p.1 (D/N/NS top view; GAB active low, GBA active high). Function table p.1: GAB L GBA L = A to B; H H = B to A; H L = isolation; L H = latch A and B (A = B), the model's both-enabled bus latch. Timing p.4.",
       "pinouts": {
         "p14": [
@@ -5901,7 +5901,7 @@
       "id": "74_243_CD",
       "function": "Transceiver",
       "description": "Quad bus transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout cd74hc243 / cd74hct243 (same PDF) p.3 (J/N/D: 1=OEB active low, 13=OEA active high, NC 2 and 12). Logic diagram p.8: OEB low enables A->B, OEA high enables B->A. Truth table p.8 rows: OEB H OEA H = B to A; OEB L OEA L = A to B; OEB H OEA L = Z Z; OEB L OEA H printed as Z Z (the logic diagram and the classic '243 give both drivers on / bus latch there; see _report.md). Timing p.6.",
       "pinouts": {
         "p14": [
@@ -5940,7 +5940,7 @@
       "id": "74_245",
       "function": "Transceiver",
       "description": "Octal bus transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Standard '245 pinout (1 DIR, 2-9 A1-A8, 10 GND, 11-18 B8-B1, 19 OE, 20 VCC) in every PDF: sn74hc245 p.3 (DB/DGV/DW/N/J/W/PW and FK, same numbers), sn74ahc245 p.3 (RKS VQFN same numbers, thermal pad), sn74ahct245 p.3 (RGY/RKS), sn74abt245b p.1 (RGY, FK), sn74lvc245a p.3 (RGY), sn74auc245 p.1 (RGY), sn74ac245 p.3 (DGS, RKS), sn74hcs245 p.3, sn74lv245a p.3, cy74fct245t p.1, cd74fct245 p.1, sn74ls245 p.3, sn74als245a p.1 (ALS and AS), sn74f245 p.1, sn74bct245 p.1, sn64bct245 p.1, sn74alvc245 p.1, sn74lvt245b p.1. Name aliases (same positions): CY74FCT245T names DIR 'T/R' and numbers the bits A0-A7/B0-B7; CD54/74AC(T)245 (p.3) and CD54/74HC(T)245 (p.3, drawing only) number the bits A0-A7/B0-B7. Function table identical in all PDFs: OE low + DIR low = B to A, OE low + DIR high = A to B, OE high = isolation (sn74hc245 p.9, cd74ac245 p.11, cy74fct245t p.2, sn74lvc245a p.9 Table 1, ...). LS/ALS/AS/F/BCT parts have 3-state push-pull outputs like the rest.",
       "pinouts": {
         "p20": [
@@ -6180,7 +6180,7 @@
       "id": "74_25245",
       "function": "Transceiver",
       "description": "25-ohm octal bus transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "p24 from sn74abth25245 p.1 (DW/NT, SN54 JT), sn74bct25245 p.1 (DW/NT), sn64bct25245 p.1 (DW/NT): identical, distributed GND on 2/5/8/11 and VCC on 16/21. Function table OE L + DIR L = B data to A, DIR H = A data to B, OE H = isolation (sn74abth25245 p.2, sn74bct25245 p.1, sn64bct25245 p.1). SN64BCT25245 is the -40 to 85 C BCT part.",
       "pinouts": {
         "p24": [
@@ -6229,7 +6229,7 @@
       "id": "74_29863",
       "function": "Transceiver",
       "description": "9-bit bus transceiver, 3-state outputs (dual output enables per direction)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Am29863 equivalent. Pinout sn74als29863 p.1 (DW/NT), sn74bct29863b p.1 (DW/NT, SN54 JT/W), same 24-pin layout. Function table sn74als29863 p.1 / sn74bct29863b p.1: OEAB1 and OEAB2 both low with an OEBA high = A to B; OEBA1 and OEBA2 both low with an OEAB high = B to A; all four low = latch A and B; otherwise isolation. Logic diagram p.2 (AND of the two enables). Timing sn74als29863 p.3, sn74bct29863b p.4.",
       "pinouts": {
         "p24": [
@@ -6276,7 +6276,7 @@
       "id": "74_32245",
       "function": "Transceiver",
       "description": "36-bit bus transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74abth32245 p.1 (PZ 100-pin LQFP top view, checked on the rendered page: four 9-bit groups, nDIR and nOE per group, 16 GND, 4 VCC). Function table p.2: OE L DIR L = B data to A bus; OE L DIR H = A data to B bus; OE H = isolation. Bus hold not modeled.",
       "pinouts": {
         "lqfp100": [
@@ -6400,7 +6400,7 @@
       "id": "74_620",
       "function": "Transceiver",
       "description": "Octal bus transceiver, inverting, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout same in sn74abt620 p.1 (DB/DW/N/PW/J), sn74als620a p.1 (DW/N), sn54bct620a p.1 (J/W/DW/N). Function table (sn74abt620 p.2, sn74als620a p.1, sn54bct620a p.1): OEBA L = B to A, OEAB H = A to B, both enabled = bus latch (outputs reinforce inputs), OEBA H + OEAB L = isolation. Inverting (complementary data).",
       "pinouts": {
         "p20": [
@@ -6449,7 +6449,7 @@
       "id": "74_621",
       "function": "Transceiver",
       "description": "Octal bus transceiver, open-collector outputs (OEAB/OEBA)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "sn74als621a (SDAS226A) p.1 DW/N pinout and function table: OEAB high = A to B, OEBA low = B to A, both = bus latch (A = B), OEAB low/OEBA high = isolation; open-collector outputs on both ports (p.1 device table, p.6 IOH/VOH 5.5 V). NS is not in the sheet; the SOP-20 takes the same pinout.",
       "pinouts": {
         "p20": [
@@ -6492,7 +6492,7 @@
       "id": "74_623",
       "function": "Transceiver",
       "description": "Octal bus transceiver, 3-state outputs, separate A-to-B and B-to-A enables",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout: sn74abt623 p.1 (DB/DW/N/PW, JT/W, FK numbered 1-20 same as DIP), sn54bct623 p.1 (J/W, FK), sn74hc623 p.1, sn74hct623 p.1, sn74als623a p.1, sn74ls623 p.1 (scan), cd74fct623 p.1, cd74ac623 p.2 (scan; CD sheet numbers bits A0-A7/B0-B7, same pins). Function table sn74abt623 p.2 / sn74hc623 p.1: OEAB high enables A->B, OEBA low enables B->A, both enabled = bus latch. LS sheet names OEAB/OEBA as GAB/GBA (same pins).",
       "pinouts": {
         "p20": [
@@ -6555,7 +6555,7 @@
       "id": "74_638",
       "function": "Transceiver",
       "description": "Octal bus transceiver, inverting, open-collector A outputs and 3-state B outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "p20 from sn74als638a p.1 (DW or N package; NS orderable uses the same 20-pin numbering). Function table sn74als638a p.1: OE L + DIR L = B data to A bus, OE L + DIR H = A data to B bus, OE H = isolation; SN74ALS638A is the inverting part (logic column 'Inverting', p.1). A-bus outputs are open collector, B-bus outputs 3-state (p.1); the model has one output type, so it is given as push-pull (see _report.md). Timing sn74als638a p.4, VCC p.3.",
       "pinouts": {
         "p20": [
@@ -6597,7 +6597,7 @@
       "id": "74_639",
       "function": "Transceiver",
       "description": "Octal bus transceiver, open-collector A outputs, 3-state B outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout and function table from sn74als639a p.1 (SDAS123A, DW or N; same file as dl2 sdas123a). OE low + DIR high = A to B, DIR low = B to A, OE high = isolation. A-bus outputs are open-collector, B-bus 3-state (p.1); output is given as push-pull (device-wide key) - see _report.md.",
       "pinouts": {
         "p20": [
@@ -6639,7 +6639,7 @@
       "id": "74_640",
       "function": "Transceiver",
       "description": "Octal bus transceiver, inverting, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout: sn74hc640 p.3 (J/DW/N/NS/PW), sn74abt640 p.1 (DB/DW/N/PW, J, FK numbered same as DIP), sn74als640b p.1 (J, DW/N, FK), sn74bct640 p.1 (J/W, DW/N, FK), sn74ls640 p.1 (scan; J, DW/N, FK), cd74hc640 p.3 (CD sheet numbers bits A0-A7/B0-B7, same pins). Function table sn74hc640 p.8: OE low + DIR high = A->B, DIR low = B->A, OE high = isolation; outputs invert. LS sheet names OE as G (same pin). W flatpack: sn54bct640 p.1 draws W with the J pinout; assumed same for SNJ54ALS640BW.",
       "pinouts": {
         "p20": [
@@ -6716,7 +6716,7 @@
       "id": "74_641",
       "function": "Transceiver",
       "description": "Octal bus transceiver, open-collector outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout: sn74als641a p.1 (DW/N; same file covers SN74AS641), sn74ls641 p.1 (scanned; J/DW/N, enable pin printed G-bar, named OE here). Function table sn74als641a p.1 / sn74ls641 p.1: OE low + DIR low = B to A, DIR high = A to B, OE high = isolation. Open-collector outputs on both A and B ports (sn74als641a p.3 VOH 5.5 V, IOH at VOH 5.5 V; sn74ls641 p.7 title 'with open-collector outputs').",
       "pinouts": {
         "p20": [
@@ -6771,7 +6771,7 @@
       "id": "74_642",
       "function": "Transceiver",
       "description": "Octal bus transceiver, inverting, open-collector outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout DIR 1, A1-A8 2-9, GND 10, B8-B1 11-18, OE 19, VCC 20: sn74as641 (= sn74als641a-1 = sdas300, SDAS300) p.1 (DW, N); sn74ls642 (SDLS189, scanned) p.1 (DW, J, N; enable printed G-bar there, named OE here). Function table OE L DIR L: B->A, OE L DIR H: A->B, OE H: isolation (sn74as641 p.1, sn74ls642 p.1). '642 is the inverting open-collector member (sn74as641 p.1 device table, sn74ls642 p.1). Both A and B outputs are open-collector.",
       "pinouts": {
         "p20": [
@@ -6819,7 +6819,7 @@
       "id": "74_645",
       "function": "Transceiver",
       "description": "Octal bus transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout DIR 1, A1-A8 2-9, GND 10, B8-B1 11-18, OE 19, VCC 20: sn74as645 (= sn74als645a = sn54as645, SDAS278) p.1 (J, DW, N; FK same numbering), sn74hc645 (= sn54hc645) p.1 (DW, N, NS, J, W; FK same numbering), sn74hct645 p.1 (DW, N, NS, PW), sn74ls645 (SDLS189, scanned) p.1 (DW, J, N; enable printed G-bar there, named OE here). Function table OE L DIR L: B->A, OE L DIR H: A->B, OE H: isolation (sn74as645 p.1, sn74hct645 p.2).",
       "pinouts": {
         "p20": [
@@ -6879,7 +6879,7 @@
       "id": "74_861",
       "function": "Transceiver",
       "description": "10-bit bus transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74abt861 p.1 (DW/NT), sn74lvc861a p.1 (DB/DGV/DW/NS/PW), same 24-pin layout. Function table sn74abt861 p.2, sn74lvc861a p.2: OEAB low = A to B, OEBA low = B to A, both high = isolation, both low = latch A and B (A = B). Timing sn74abt861 p.5, sn74lvc861a p.4.",
       "pinouts": {
         "p24": [
@@ -6930,7 +6930,7 @@
       "id": "74_863",
       "function": "Transceiver",
       "description": "9-bit bus transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74lvc863a p.1 and sn74abt863 p.1 (same: 1 OEBA1, 2-10 A1-A9, 11 OEBA2, 12 GND, 13 OEAB1, 14 OEAB2, 15-23 B9-B1, 24 VCC). Function table p.2 (both PDFs): OEAB1 and OEAB2 both low = A to B, OEBA1 and OEBA2 both low = B to A, all four low = latch A and B; uses the array-of-controls form of oeab/oeba.",
       "pinouts": {
         "p24": [
@@ -6979,7 +6979,7 @@
       "id": "74_8T245_LV",
       "function": "Transceiver",
       "description": "Octal bus transceiver with level-shifting (LVxT) inputs, single supply, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "SN74LV8T245 is a single-supply part ('245 pinout, one VCC; up/down translation comes from its low-threshold, 5.5 V-tolerant inputs), so it is a transceiver, not a dual-supply translator. Pinout sn74lv8t245 p.3 Table 5-1 (RKS, DGS, PW; RKS thermal pad not a pin); sn74lv8t245-q1 p.3 same. DIR: L = B to A, H = A to B; OE active low (p.3).",
       "pinouts": {
         "p20": [
@@ -7024,7 +7024,7 @@
       "id": "1T34_DUAL",
       "function": "Level shifter",
       "description": "1-bit unidirectional dual-supply voltage-level translator (A to B)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74aup1t34 p.4 (DCK: 1 VCCA, 2 A, 3 GND, 4 B, 5 VCCB; DRY/DSF: 1 VCCA, 2 A, 3 GND, 4 B, 5 NC, 6 VCCB); sn74aup1t34-q1 p.3 (DCK, same). A is the input referenced to VCCA, B the output referenced to VCCB; no enable.",
       "pinouts": {
         "p5": [
@@ -7062,7 +7062,7 @@
       "id": "1T45",
       "function": "Level shifter",
       "description": "Single-bit dual-supply bus transceiver / level shifter, direction control",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout VCCA 1, GND 2, A 3, B 4, DIR 5, VCCB 6, identical in sn74avc1t45 p.4 (DBV, DCK, DRL), sn74avch1t45 p.3, sn74axc1t45 p.3 (DBV, DCK, DRL, DEA, DTQ), sn74axch1t45 p.3 (DBV, DCK, DTQ, DRY), sn74lvc1t45 p.2-3, sn74lxc1t45 p.3 (DCK, DRL, DRY, DTQ), sn74lxch1t45 p.3, and the -Q1/-EP data sheets (DCK, DRY). DSBGA (YZP) balls: sn74avc1t45 p.5 and sn74lvc1t45 p.3 (A1 VCCA, A2 VCCB, B1 GND, B2 DIR, C1 A, C2 B), listed in p6 order. DIR high = A to B, low = B to A (sn74avc1t45 p.15 function table, same in all); no OE. A and DIR referenced to VCCA, B to VCCB.",
       "pinouts": {
         "p6": [
@@ -7144,7 +7144,7 @@
       "id": "29FCT52",
       "function": "Transceiver",
       "description": "8-bit registered transceiver, 3-state outputs (two back-to-back registers with clock enables)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Am2952 equivalent. Pinout cy29fct52t p.1 (Q = DBQ QSOP and SO = DW SOIC, same 24-pin layout); pin description p.1; function tables and logic diagram p.2 (register: CE low + CP rising = load, CE high = hold; OE low = outputs enabled, high = Z). The A register takes A0-A7 and drives B0-B7 (OEA), the B register takes B0-B7 and drives A0-A7 (OEB); no real-time path. Timing p.5, VCC p.3.",
       "pinouts": {
         "p24": [
@@ -7190,7 +7190,7 @@
       "id": "2T245",
       "function": "Level shifter",
       "description": "Dual-bit dual-supply bus transceiver, per-bit direction, common output enable, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74axc2t245 p.2 Table 4-1 (RSW: 1 DIR2, 2 OE, 3 GND, 4 B2, 5 B1, 6 VCCB, 7 VCCA, 8 A1, 9 A2, 10 DIR1; DIR1 controls A1/B1, DIR2 controls A2/B2); sn74avc2t245 p.3 Figure 4-1/Table 4-1 and sn74avc2t245-q1 p.3 same numbers. Function table sn74avc2t245 p.12 / sn74axc2t245 p.20 (each transceiver): OE L, DIRx L -> B to A; OE L, DIRx H -> A to B; OE H -> isolation. DIRx and OE referenced to VCCA.",
       "pinouts": {
         "rsw10": [
@@ -7229,7 +7229,7 @@
       "id": "2T45",
       "function": "Level shifter",
       "description": "Dual-bit dual-supply bus transceiver with configurable voltage translation, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Numbered pinout 1 VCCA, 2 A1, 3 A2, 4 GND, 5 DIR, 6 B2, 7 B1, 8 VCCB, same in every PDF and package: sn74lvc2t45 p.2 (DCT/DCU), sn74lvc2t45-q1 p.4 (DCU), sn74lvc2t45-ep p.1 (DCT/DCU), sn74avc2t45 p.3 (DCT/DCU; DDF not drawn, assumed the same numbering), sn74avc2t45-q1 p.4 (DCU/DTT), sn74avch2t45 p.3, sn74axc2t45 p.2 (DCT/DCU/DTM), sn74axch2t45 p.3 (DCU/DTM), sn74lxc2t45 p.3 (DCT/DCU/DTT/DTM), sn74lxc2t45-q1 p.3 (DCU/DTT). YZP balls (bottom view): A1 VCCA, A2 VCCB, B1 A1, B2 B1, C1 A2, C2 B2, D1 GND, D2 DIR (sn74lvc2t45 p.3, sn74avc2t45 p.3). Function table: DIR L = B to A, H = A to B (sn74lvc2t45 p.15); no OE. DIR referenced to VCCA.",
       "pinouts": {
         "p8": [
@@ -7300,7 +7300,7 @@
       "id": "40109B",
       "function": "Level shifter",
       "description": "Quad low-to-high voltage level shifter, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "p16 from cd40109b (scanned Harris data) p.4 terminal assignment: 1 VCC, 2 ENABLE A, 3 A, 4 E, 5 F, 6 B, 7 ENABLE B, 8 VSS, 9 ENABLE C, 10 C, 11 G, 12 NC, 13 H, 14 D, 15 ENABLE D, 16 VDD; ENABLE A-D shortened to ENA-END. Logic diagram p.1: A (pin 3) -> E (pin 4), enable A on pin 2, both inputs through VCC-side level shifters, output on VDD. Truth table p.1 (cd40109b-q1 p.2): ENABLE 1 -> output = input, ENABLE 0 -> Z. Inputs and enables are in the VCC (low) domain, E-H in the VDD (high) domain. VCC may exceed VDD (then it shifts high to low).",
       "pinouts": {
         "p16": [
@@ -7348,7 +7348,7 @@
       "id": "4010B",
       "function": "Level shifter",
       "description": "CMOS hex non-inverting buffer/converter (high-to-low level)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout cd4010b p.1 terminal assignments (scan) and cd4010b-q1 p.1 (image): VCC pin 1 = output-stage supply, VDD pin 16 = input/logic supply, VSS 8, NC 13; outputs G..L (G = A ... L = F), as 4009UB in gate.json. Recommended VDD 3-18 V, VCC 3 V to VDD, VI VCC to VDD (cd4010b p.2, cd4010b-q1 p.3): converts high-to-low only. Timing from cd4010b-q1 p.5 (main PDF is a scan).",
       "pinouts": {
         "p16": [
@@ -7395,7 +7395,7 @@
       "id": "4504B",
       "function": "Level shifter",
       "description": "Hex voltage-level shifter, TTL-to-CMOS or CMOS-to-CMOS",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout cd4504b p.1 terminal assignment (scanned; VCC=1, VSS=8, SELECT=13, VDD=16), cd4504b-ep p.1 same. Inputs referenced to VCC, outputs to VDD (p.1 Fig. 1: 'shift input signals from the VCC logic level to the VDD logic level'). SELECT picks TTL (H) or CMOS (L) input thresholds; no logic effect, no enable. Y = A, non-inverting.",
       "pinouts": {
         "p16": [
@@ -7442,7 +7442,7 @@
       "id": "74_164245",
       "function": "Level shifter",
       "description": "16-bit dual-supply bus transceiver, 3-state outputs, controls on VCCA",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "sn74alvc164245 p.3 Pin Functions (DGG/DL; VCCB pins 7, 18; VCCA pins 31, 42); sn74alvc164245-ep p.1 same; sn74avca164245 p.1 (DGG/DGV); sn74avcah164245 p.1 same. Function table (each section): OE low, DIR high = A to B, DIR low = B to A, OE high = isolation. Control pins 1DIR, 2DIR, 1OE, 2OE are powered by VCCA (sn74alvc164245 p.1; sn74avca164245 p.1).",
       "pinouts": {
         "p48": [
@@ -7526,7 +7526,7 @@
       "id": "74_164245_B",
       "function": "Level shifter",
       "description": "16-bit dual-supply bus transceiver, 3-state outputs, controls on VCCB",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "sn74avcb164245 p.1 (DGG/DGV) and sn74avcbh164245 p.1 (pin 41 misprinted 1BA5 = 1A5): same pinout and function table as 74_164245, but the control pins 1DIR, 2DIR, 1OE, 2OE are supplied by VCCB (sn74avcb164245 p.1 description), so the domains differ.",
       "pinouts": {
         "p48": [
@@ -7602,7 +7602,7 @@
       "id": "74_16543",
       "function": "Transceiver",
       "description": "16-bit latched (registered) bus transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Standard Widebus 56-pin '16543 pinout, identical in 74act16543 p.1, sn74abt16543 p.1, sn74alvch16543 p.1, sn74lvch16543a p.1, sn74lvt16543 p.1, sn74lvth16543 p.1, sn74lvth16543-ep p.1. Function table (each 8-bit section, A to B shown; B to A uses CEBA/LEBA/OEBA) sn74abt16543 p.2: CEAB high = Z; OEAB high = Z; CEAB low + LEAB high + OEAB low = B holds B0 (latched); CEAB low + LEAB low + OEAB low = B follows A. Description p.1: CEAB must be low both to enter data from A and to output data at B; LEAB low (with CEAB low) = transparent, LEAB rising = store. Model: ce gates both the latch and the output (the destination drives only while CE and OE are both low). Timing A or B -> B or A.",
       "pinouts": {
         "p56": [
@@ -7699,7 +7699,7 @@
       "id": "74_16646",
       "function": "Transceiver",
       "description": "16-bit bus transceiver and register, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "56-pin pinout identical in 74act16646 p.1, sn74abt16646 p.1, sn74alvch16646 p.1, sn74lvc16646a p.1, sn74lvch16646a p.1, sn74lvt16646 p.1, sn74lvth16646 p.1, sn74avc16646 p.2, cy74fct16646t p.2. Function table sn74lvc16646a p.2 (also 74act16646 p.3, sn74abt16646 p.2, sn74avc16646 p.2, cy74fct16646t p.3): two 8-bit units; registers clock on CLKAB/CLKBA rising edge regardless of OE/DIR; OE low enables, DIR high = A to B, low = B to A; SAB/SBA high = stored data, low = real time.",
       "pinouts": {
         "p56": [
@@ -7797,7 +7797,7 @@
       "id": "74_16651",
       "function": "Transceiver",
       "description": "16-bit bus transceiver and register, inverting, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout 74act16651 p.1 (DL, SSOP-56): 1OEAB 1, 1CLKAB 2, 1SAB 3, ... 2SAB 26, 2CLKAB 27, 2OEAB 28, 2OEBA 29, 2CLKBA 30, 2SBA 31, ... 1SBA 54, 1CLKBA 55, 1OEBA 56; VCC 7/22/35/50, GND 4/11/18/25/32/39/46/53. Function table p.2 (per 8-bit half): OEAB H enables B outputs, OEBA L enables A outputs; SAB/SBA L real-time, H stored; data stored on CLKAB/CLKBA rising edge regardless of enables. Inverting data paths (p.1 features). Two independent 8-bit units.",
       "pinouts": {
         "dl56": [
@@ -7875,7 +7875,7 @@
       "id": "74_16652",
       "function": "Transceiver",
       "description": "16-bit bus transceiver and register, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout same in 74ac16652 p.1 (DL), sn74abt16652 p.1 (DL), sn74lvch16652a p.3-4 (DGG/DGV/DL), sn74lvth16652 p.1 (DGG/DL). Two 8-bit sections. Function table (sn74abt16652 p.2; same in 74ac16652 p.2, sn74lvch16652a p.13, sn74lvth16652 p.2): OEAB active high, OEBA active low, SAB/SBA high = stored data, low = real time; data stored on CLKAB/CLKBA rising edge regardless of select/enable.",
       "pinouts": {
         "p56": [
@@ -7963,7 +7963,7 @@
       "id": "74_16952",
       "function": "Transceiver",
       "description": "16-bit registered transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74abt16952 p.1, sn74alvch16952 p.1, sn74lvt16952 p.1, sn74lvth16952 p.1 (DGG/DL/DGV, all the same: nOEAB, nCLKAB, nCLKENAB ... nCLKENBA, nCLKBA, nOEBA). Function table sn74abt16952 p.2: CLKENAB L and CLKAB rising stores A; OEAB L drives B from the register; OEAB H = Z; B-to-A uses CLKENBA, CLKBA, OEBA. Two independent 8-bit units.",
       "pinouts": {
         "p56": [
@@ -8051,7 +8051,7 @@
       "id": "74_16952_CE",
       "function": "Transceiver",
       "description": "16-bit registered transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Same function and pin positions as 74_16952 but the clock enables are named CEAB/CEBA: sn74lvch16952a p.1 (DGG/DGV/DL) and cy74fct16952t p.1 (SSOP/TSSOP). Function table sn74lvch16952a p.2 / cy74fct16952t p.2: CEAB L and CLKAB rising stores A; OEAB L drives B from the register; OEAB H = Z.",
       "pinouts": {
         "p56": [
@@ -8132,7 +8132,7 @@
       "id": "74_16T245",
       "function": "Level shifter",
       "description": "16-bit dual-supply bus transceiver with configurable voltage translation, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout: standard 48-pin, identical in sn74lvc16t245 p.4, sn74lvc16t245-ep p.1, sn74lvch16t245 p.1, sn74lvch16t245-ep p.1, sn74avc16t245 p.4, sn74avc16t245-q1 p.3, sn74avch16t245 p.1. Two 8-bit units; OE low + DIR high = A->B, DIR low = B->A, OE high = isolation (function table sn74lvc16t245 p.14; same in the AVC PDFs). Control pins (1DIR, 2DIR, 1OE, 2OE) are supplied by VCCA (sn74lvc16t245 p.3, sn74avc16t245 p.1).",
       "pinouts": {
         "p48": [
@@ -8221,7 +8221,7 @@
       "id": "74_20T245",
       "function": "Level shifter",
       "description": "20-bit dual-supply bus transceiver / level shifter, 3-state (two 10-bit sections)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout from sn74avc20t245 p.1 (DGG, DGV) and sn74avch20t245 p.1 (same). Function table p.2 (each 10-bit section): OE low + DIR high = A to B, DIR low = B to A, OE high = isolation. Control inputs 1DIR, 2DIR, 1OE, 2OE are supplied by VCCA (p.2). GQL/ZQL BGA not in this group.",
       "pinouts": {
         "p56": [
@@ -8306,7 +8306,7 @@
       "id": "74_24T245",
       "function": "Level shifter",
       "description": "24-bit dual-supply bus transceiver, configurable voltage translation, 3-state outputs (six 4-bit sections)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Ball map sn74avc24t245 p.3 Table 5-1 (NMU 83-ball, G3 unpopulated), same in sn74avch24t245 p.3; function table sn74avc24t245 p.17 (each 4-bit section: OE low + DIR high = A->B, DIR low = B->A, OE high = isolation). DIR and OE referenced to VCCA (p.1, p.3).",
       "pinouts": {
         "nmu83": [
@@ -8420,7 +8420,7 @@
       "id": "74_2543",
       "function": "Transceiver",
       "description": "Octal latched transceiver, 3-state outputs, 25-ohm series output resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout cy74fct2543t p.1 (Q = DBQ QSOP, SO = DW SOIC). Pin description p.2: all of OEAB/OEBA/CEAB/CEBA/LEAB/LEBA active low. Function table p.2 (A->B; B->A uses CEBA/LEBA/OEBA): CEAB H -> storing, B Z; LEAB H -> storing; OEAB H -> B Z; CEAB L, LEAB L, OEAB L -> transparent, B = current A; CEAB L, LEAB H, OEAB L -> B = previous A (latched on LEAB rising).",
       "pinouts": {
         "p24": [
@@ -8468,7 +8468,7 @@
       "id": "74_2652",
       "function": "Transceiver",
       "description": "8-bit registered bus transceiver, 3-state outputs, 25-ohm series output resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout CPAB 1, SAB 2, GAB 3, A1-A8 4-11, GND 12, B8-B1 13-20, GBA 21 (active low), SBA 22, CPBA 23, VCC 24 (cy74fct2652t p.1, Q = QSOP-24 = TI DBQ). Function table cy74fct2652t p.2: GAB H enables B outputs, GBA L enables A outputs; SAB/SBA L = real-time, H = stored; data stored on CPAB/CPBA rising edge regardless of enables. Same function as '652; pins keep the FCT names (CP = clock, G = output enable).",
       "pinouts": {
         "q24": [
@@ -8513,7 +8513,7 @@
       "id": "74_2952",
       "function": "Transceiver",
       "description": "Octal bus transceiver and registers, clock enables, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout: sn74abt2952a p.1 (DB/DW/PW/NT), sn74lvc2952a p.1 (DB/PW), sn74lvth2952 p.1 (DB/DGV/DW/NS/PW): identical 24-pin. Two back-to-back 8-bit registers; A->B: B stores A on CLKAB rising while CLKENAB low, OEAB low drives B with the register (no real-time path); B->A the same with CLKBA/CLKENBA/OEBA (function table sn74abt2952a p.2, sn74lvc2952a p.2, sn74lvth2952 p.2).",
       "pinouts": {
         "p24": [
@@ -8565,7 +8565,7 @@
       "id": "74_3245",
       "function": "Level shifter",
       "description": "Octal dual-supply bus transceiver, 3-state outputs (A 2.3-3.6 V, B 3-5.5 V)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "sn74lvcc3245a (SCAS585R) p.3 Figure 4-1 and Table 4-1 (DB/DBQ/DW/NS/PW, same 24-pin pinout; pin 23 NC); function table p.13 Table 7-1: OE low, DIR high = A to B, DIR low = B to A, OE high = isolation; control inputs referenced to VCCA (p.1, p.5).",
       "pinouts": {
         "p24": [
@@ -8621,7 +8621,7 @@
       "id": "74_32543",
       "function": "Transceiver",
       "description": "36-bit registered bus transceiver (two 18-bit sections, latched), 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "p100 = PZ LQFP-100 from sn74abth32543 p.1 (read from the drawing: 1-25 left side top to bottom, 26-50 bottom left to right, 51-75 right side bottom to top, 76-100 top right to left). Each 18-bit section is a '543: function table p.3 (A to B shown; B to A same with CEBA/LEBA/OEBA): CEAB H -> B Z; OEAB H -> B Z; CEAB L, LEAB H, OEAB L -> B holds B0 (latched); CEAB L, LEAB L, OEAB L -> B = A (transparent). Description p.2: CEAB must be low to enter data from A or to output data to B; LEAB low = transparent, low-to-high stores. 5962-9557801NXD is the SMD of this PZ part (packaging table p.9). Bus hold not modeled.",
       "pinouts": {
         "p100": [
@@ -8743,7 +8743,7 @@
       "id": "74_32T245",
       "function": "Level shifter",
       "description": "32-bit dual-supply bus transceiver / level shifter (four 8-bit sections), 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Ball map sn74avc32t245 p.4-5 Table 6-1 Pin Assignments (GKE/ZKE/ZRL/NMJ share it; NMJ 96-ball nFBGA used), Pin Functions p.5-7. Function table p.18 (each 8-bit section): OE low enables, DIR high = A to B. A ports and nOE referenced to VCCA, B ports to VCCB; nDIR put in the VCCA domain (as in the 8T245).",
       "pinouts": {
         "nfbga96": [
@@ -8867,7 +8867,7 @@
       "id": "74_4245",
       "function": "Level shifter",
       "description": "Octal bus transceiver and 3.3-V to 5-V level shifter, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74lvc4245a p.3 (DB, DW, PW): VCCA 1, DIR 2, A1-A8 3-10, GND 11-13, B8-B1 14-21, OE 22, VCCB 23-24 (figure prints pin 23 'NC,VCCB'; the pin table and sn74lvc4245a-ep p.1 say VCCB). Function table p.11: OE L DIR L B->A, OE L DIR H A->B, OE H isolation. A port and DIR/OE referenced to VCCA (5-V side, p.1), B port to VCCB (3.3-V side).",
       "pinouts": {
         "p24": [
@@ -8921,7 +8921,7 @@
       "id": "74_4245_LVCC",
       "function": "Level shifter",
       "description": "Octal dual-supply bus transceiver, 3-state outputs (B port 2.7-5.5 V)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74lvcc4245a p.3 (DB, DW, NS, PW): VCCA 1, DIR 2, A1-A8 3-10, GND 11-13, B8-B1 14-21, OE 22, NC 23, VCCB 24. Function table: OE L DIR L B->A, OE L DIR H A->B, OE H isolation. DIR/OE powered by VCCA (p.1). Separate device from 74_4245: pin 23 is NC and the VCCB range differs (2.7-5.5 V vs 2.7-3.6 V) while both are family LVC.",
       "pinouts": {
         "p24": [
@@ -8975,7 +8975,7 @@
       "id": "74_4T245",
       "function": "Level shifter",
       "description": "4-bit dual-supply bus transceiver with configurable voltage translation, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "D/DGV/PW/RGY/DYY pinout and RSV pinout from sn74avc4t245 p.4-5 (Figures 4-1..4-5, Table 4-1); same in sn74avch4t245 pin table, sn74axc4t245 (PW/RSV), sn74axc4t245-q1 (PW/RSV), sn74axch4t245 (PW/RSV), sn74avc4t245-q1 (PW/DYY), sn74avch4t245-q1 (PW), sn74avch4t245-ep p.1 (RSV). Two 2-bit sections. Function table (sn74avc4t245 p.16): OE L + DIR L = B to A, OE L + DIR H = A to B, OE H = isolation. DIR and OE referenced to VCCA.",
       "pinouts": {
         "p16": [
@@ -9060,7 +9060,7 @@
       "id": "74_4T774",
       "function": "Level shifter",
       "description": "4-bit dual-supply bus transceiver / level shifter, per-bit direction control, 3-state",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout from sn74avc4t774 p.4-5 Table 4-1 (PW, RGY, BQB, DYY: DIR1 1 ... VCCA 16; RSV UQFN renumbered: A1 1 ... DIR2 16) and sn74axc4t774 p.3 (PW, BQB, RSV, same); -Q1 data sheets PW only, same. RGY/BQB thermal pad is not a pin. Function table sn74avc4t774 p.15 / sn74axc4t774 p.21: OE low + DIRn high = An to Bn, DIRn low = Bn to An, OE high = isolation (OE common to all 4 bits). DIR1-4 and OE referenced to VCCA.",
       "pinouts": {
         "p16": [
@@ -9131,7 +9131,7 @@
       "id": "74_543",
       "function": "Transceiver",
       "description": "Octal registered (latched) transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout from sn74abt543a p.1 (DB, DW, NT, PW, JT, W) and sn74bct543 p.1, sn74f543 p.1, sn74lvc543a p.1, sn74lvt543 p.1, sn74lvth543 p.1 (DB, DGV, DW, NS, PW) - all the same 24-pin assignment; FK 28-pin from sn54bct543 p.1 (NC 1, 8, 15, 22). Function table sn74abt543a p.2 (same in sn74bct543 p.1, sn74f543 p.1, sn74lvc543a p.2, sn74lvt543 p.2, sn74lvth543 p.2): CEAB low enables both the A-to-B latch and the B outputs; LEAB low = transparent; OEAB low (with CEAB low) drives B. B-to-A identical with CEBA/LEBA/OEBA. Timing is A->B transparent propagation.",
       "pinouts": {
         "p24": [
@@ -9229,7 +9229,7 @@
       "id": "74_543_FCT",
       "function": "Transceiver",
       "description": "Octal latched registered transceiver, 3-state outputs (FCT, A0-A7/B0-B7 naming)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Separate device only because cy74fct543t names the data pins A0-A7/B0-B7 (74_543 uses A1-A8/B1-B8); same pin positions. Pinout cy74fct543t p.1 (Q = QSOP/DBQ, SO = SOIC/DW); pin description and function table p.2. Timing is A->B transparent propagation.",
       "pinouts": {
         "p24": [
@@ -9278,7 +9278,7 @@
       "id": "74_646",
       "function": "Transceiver",
       "description": "Octal bus transceiver and registers, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "p24 from sn74abt646a p.1 (DB/DGV/DW/NS/NT/PW and SN54 JT/W; 74ABT646ADBLE/SN74ABT646ADBLE are DB SSOP-24 orderables not in the packaging table), sn74abt646 p.1, sn74als646a p.1 (DW/NT/JT), sn74hc646 p.1, sn74hct646 p.1, sn74lvc646a p.1, sn74lvth646 p.1: all identical. lccc28 (FK) from sn74abt646a p.1, sn74lvth646 p.1 (5962-9674801Q3A), sn74hc646 p.1, sn74als646a p.1: NC on 1, 8, 15, 22. Function table (all 646 PDFs): OE H = isolation (both ports read, registers still clock); OE L + DIR L: SBA L = real-time B to A, SBA H = stored B to A; OE L + DIR H: SAB L = real-time A to B, SAB H = stored A to B; CLKAB/CLKBA rising edge stores the A/B bus whatever OE/DIR are. (sn74abt646a p.4, sn74als646a p.3, sn74hc646 p.2, sn74lvc646a p.2, sn74lvth646 p.2).",
       "pinouts": {
         "p24": [
@@ -9380,7 +9380,7 @@
       "id": "74_646_AC",
       "function": "Transceiver",
       "description": "Octal bus transceiver and registers, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "CD74AC646 (Harris data, scanned): clocks CAB/CBA, output enable OE, bits A0-A7/B0-B7 (cd74ac646 p.1 terminal assignment: 1 CAB, 2 SAB, 3 DIR, 4-11 A0-A7, 12 GND, 13 B7 ... 20 B0, 21 OE, 22 SBA, 23 CBA, 24 VCC); same positions as 74_646. Function table cd74ac646 p.2 (646 column): Function table (all 646 PDFs): OE H = isolation (both ports read, registers still clock); OE L + DIR L: SBA L = real-time B to A, SBA H = stored B to A; OE L + DIR H: SAB L = real-time A to B, SAB H = stored A to B; CAB/CBA rising edge stores the A/B bus whatever OE/DIR are. Timing cd74ac646 p.5, VCC p.2.",
       "pinouts": {
         "p24": [
@@ -9425,7 +9425,7 @@
       "id": "74_646_FCT",
       "function": "Transceiver",
       "description": "Octal registered bus transceiver, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "CY54/74FCT646T print CPAB/CPBA for the clocks and G for the output enable (cy74fct646t p.1-2; same PDF as cy54fct646t); same positions as 74_646 CLKAB/CLKBA/OE. p24 from cy74fct646t p.1 (Q = DBQ, SO = DW, CY54 D). lccc28 = CY54FCT646T L package p.1 (5962-9222301M3A, FK): NC on 1, 8, 15, 22. Function table (all 646 PDFs): G H = isolation (both ports read, registers still clock); G L + DIR L: SBA L = real-time B to A, SBA H = stored B to A; G L + DIR H: SAB L = real-time A to B, SAB H = stored A to B; CPAB/CPBA rising edge stores the A/B bus whatever G/DIR are. (cy74fct646t p.2).",
       "pinouts": {
         "p24": [
@@ -9506,7 +9506,7 @@
       "id": "74_646_LS",
       "function": "Transceiver",
       "description": "Octal bus transceiver and registers, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "SN74LS646 (scanned SDLS190A, same file as sdls190a): clocks CAB/CBA and output enable G (sn74ls646 p.1 pinout, DW/NT and SN54 JT); same positions as 74_646. Function table sn74ls646 p.2 (LS646 column): Function table (all 646 PDFs): G H = isolation (both ports read, registers still clock); G L + DIR L: SBA L = real-time B to A, SBA H = stored B to A; G L + DIR H: SAB L = real-time A to B, SAB H = stored A to B; CAB/CBA rising edge stores the A/B bus whatever G/DIR are. SN74LS646NT3 is an NT orderable not in the packaging table (only SN74LS646DW). Timing p.8, VCC p.7.",
       "pinouts": {
         "p24": [
@@ -9551,7 +9551,7 @@
       "id": "74_651",
       "function": "Transceiver",
       "description": "Octal inverting bus transceiver and register, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74abt651 p.1 (DB, DW, NT, PW; JT). Function table p.2 and bus-management figure p.3: OEAB high enables B outputs, OEBA low enables A outputs; SAB/SBA high = stored data, low = real time; data stored on CLKAB/CLKBA rising edge regardless of enables. Inverting data paths (p.1 features). Timing is CLK->B.",
       "pinouts": {
         "p24": [
@@ -9597,7 +9597,7 @@
       "id": "74_652",
       "function": "Transceiver",
       "description": "Octal bus transceiver and registers, real-time or stored data, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout (24-pin DB/DW/NT/PW/JT): sn74abt652a p.1, sn54als652 / sn74als652a / sn54as652 / sn74as652 (one combined PDF) p.1, sn74bct652 p.1, sn74hct652 p.1, sn74lvc652a p.1, sn74lvth652 p.1 - identical names and numbers. OEAB active high, OEBA active low; SAB/SBA low = real-time, high = stored; registers clock on CLKAB/CLKBA rising regardless of select/enable (function table sn74abt652a p.2, sn74als652a p.2, sn74hct652 p.2, sn74lvth652 p.2). The LS (CAB/GAB names), CD74AC/ACT (CAB, A0-A7 names) and CY74FCT (CPAB/GAB names) versions are separate devices 74_652_LS, 74_652_CD, 74_652_FCT.",
       "pinouts": {
         "p24": [
@@ -9666,7 +9666,7 @@
       "id": "74_652_CD",
       "function": "Transceiver",
       "description": "Octal bus transceiver and registers, real-time or stored data, 3-state outputs (CD74 pin names)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Separate from 74_652 because the Harris/RCA datasheet prints different names (CAB/CBA clocks, A0-A7 / B0-B7). cd74ac652 and cd74act652 are the same scanned PDF (CD54/74AC651/652, CD54/74ACT651/652). Pinout: p.1 Terminal Assignment (24-pin, M = SOIC). OEAB active high, OEBA active low, SAB/SBA low = real-time, high = stored; CAB/CBA rising edge stores (function table p.2, '652 column). Timing p.4 (AC) and p.5 (ACT); ROC p.2.",
       "pinouts": {
         "p24": [
@@ -9711,7 +9711,7 @@
       "id": "74_652_FCT",
       "function": "Transceiver",
       "description": "8-bit registered transceiver, real-time or stored data, 3-state outputs (FCT pin names)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Separate from 74_652 because cy74fct652t prints different control names (CPAB/CPBA clocks, GAB/GBA enables). Pinout: cy74fct652t p.1 (Q = QSOP/DBQ, SO = SOIC/DW). GAB active high, GBA active low, SAB/SBA low = real-time, high = stored; CPAB/CPBA rising edge stores regardless of select/enable (function table p.2). Speed grades T/AT/CT share one FCT entry (base T numbers).",
       "pinouts": {
         "p24": [
@@ -9761,7 +9761,7 @@
       "id": "74_652_LS",
       "function": "Transceiver",
       "description": "Octal bus transceiver and registers, real-time or stored data, 3-state outputs (LS pin names)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Separate from 74_652 only because the LS datasheet prints different control names (CAB/CBA clocks, GAB/GBA enables). Pinout: sn74ls652 p.1 (scanned; JT/DW/NT top view): pin 22 is printed 'SA' in the pinout drawings but SBA in the logic diagram/symbol (p.3-4), named SBA here. GAB active high, GBA active low, SAB/SBA low = real-time, high = stored, CAB/CBA rising edge stores regardless of select/enable (function table p.2, 'LS652 column). Timing p.6, ROC p.5.",
       "pinouts": {
         "p24": [
@@ -9806,7 +9806,7 @@
       "id": "74_653",
       "function": "Transceiver",
       "description": "Octal bus transceiver and register, inverting, open-collector A outputs, 3-state B outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "sn74als653 = sn54als653 (SDAS066G). Pinout p.1 (JT, DW/NT; W not drawn, assumed = JT). Function table p.4 ('ALS653 table); A outputs open-collector, B outputs 3-state (p.1 device table); inverting data paths. Timing p.15, ROC p.12. The model takes one output style per device: A side is really open-collector, B side 3-state (see _report.md).",
       "pinouts": {
         "p24": [
@@ -9851,7 +9851,7 @@
       "id": "74_8T245",
       "function": "Level shifter",
       "description": "8-bit dual-supply bus transceiver / level shifter, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout sn74avc8t245 p.3 Pin Functions (DGV, PW, RHL); sn74avc8t245-q1 p.3 (PW, RHL figures); sn74avch8t245 p.3; sn74lvc8t245 p.3 (DB, DW, NS, PW); sn74lvch8t245 p.3 (DB, DGV, PW, RHL); sn74lxc8t245 p.3 (PW, DGS, RHL numbering; RJW differs, not used); sn74lxc8t245-q1 p.3; sn74lxch8t245 p.3 - all the same 24-pin assignment. DIR high = A to B, OE low enables (sn74lxc8t245 p.22 function table; same in the others). DIR and OE referenced to VCCA. Bus hold (AVCH, LVCH, LXCH) not modeled.",
       "pinouts": {
         "p24": [
@@ -9928,7 +9928,7 @@
       "id": "TXU0101",
       "function": "Level shifter",
       "description": "1-bit fixed-direction dual-supply level translator, Schmitt-trigger input, 3-state output",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout txu0101 p.3 (DBV, DCK, DRY, DTQ all the same): VCCA 1, GND 2, A 3, BY 4, OE 5, VCCB 6; txu0101-q1 p.3 same (DCK, DRY). A -> BY when OE high, OE low = BY Z (p.1, p.3). A referenced to VCCA, BY to VCCB; OE works from either supply (VCC(MIN) logic), put in the VCCA domain. Inputs have weak pull-downs (not modeled).",
       "pinouts": {
         "p6": [
@@ -9964,7 +9964,7 @@
       "id": "TXU0102",
       "function": "Level shifter",
       "description": "Dual-bit fixed-direction voltage-level translator, Schmitt-trigger inputs, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout: txu0102 p.4 Figures 6-1..6-3 + Table 6-1 (DCU, DTT, DTM: same numbering); txu0102-q1 p.3 (DCU, DTT, same). Both bits A->B (A1->B1Y, A2->B2Y); OE high enables, low = all outputs Hi-Z (function table txu0102 p.23). OE may be driven from either VCCA or VCCB logic levels (VCC(MIN) circuitry); placed in the VCCA domain. Inputs and OE have weak internal pull-downs.",
       "pinouts": {
         "p8": [
@@ -10001,7 +10001,7 @@
       "id": "TXU0104",
       "function": "Level shifter",
       "description": "4-bit fixed-direction (A to B) dual-supply level shifter, Schmitt-trigger inputs, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout from txu0104-q1 p.4 (PW; WBQA same numbering). Function table (txu0104-q1 p.24): OE H -> outputs follow inputs, OE L -> Hi-Z. OE may be driven from either supply's levels (datasheet: VCC(MIN) control logic); placed in the VCCA domain. Inputs have static pull-downs (not modeled).",
       "pinouts": {
         "p14": [
@@ -10040,7 +10040,7 @@
       "id": "TXU0202",
       "function": "Level shifter",
       "description": "Dual-bit fixed-direction level shifter (one A to B, one B to A), Schmitt inputs, 3-state",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinout from txu0202 p.4 (DCU, DTT; DTM not in this group) and txu0202-q1 p.3 (same): B2 1, GND 2, VCCA 3, A2Y 4, A1 5, OE 6, VCCB 7, B1Y 8. Channel 1 A1 -> B1Y, channel 2 B2 -> A2Y. OE high = enabled, low = all outputs Hi-Z (p.23 function table). OE may be driven from either VCCA or VCCB levels (p.3); put in the VCCA domain.",
       "pinouts": {
         "p8": [
@@ -10077,7 +10077,7 @@
       "id": "TXU0204",
       "function": "Level shifter",
       "description": "4-bit fixed-direction dual-supply level shifter (2 A-to-B, 2 B-to-A), Schmitt-trigger inputs, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "Pinouts txu0204 p.4 Table 6-1 (PW/BQA 14-pin, NC on 6 and 9; RUT/DTR 12-pin), txu0204-q1 p.4 (PW/WBQA same as PW). OE high (to VCCA or VCCB level, VCC(MIN) logic) enables all outputs, low = high impedance (p.1, p.4). A1/A2 -> B1Y/B2Y, B3/B4 -> A3Y/A4Y. OE placed in the VCCA domain (sheet: either supply). Inputs have weak pulldowns (not modeled).",
       "pinouts": {
         "p14": [
@@ -10135,7 +10135,7 @@
       "id": "TXU0304",
       "function": "Level shifter",
       "description": "4-bit fixed-direction (3 A to B, 1 B to A) dual-supply level shifter, Schmitt-trigger inputs, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "PW pinout and RUT pinout from txu0304 p.4 (Table 6-1: PW/BQA and RUT/DTR columns); txu0304-q1 p.4 PW the same. A1-A3 in (VCCA) -> B1Y-B3Y out (VCCB); B4 in (VCCB) -> A4Y out (VCCA). Function table (txu0304 p.23): OE H -> outputs follow inputs, OE L -> Hi-Z. OE may be driven from either supply's levels; placed in the VCCA domain. Inputs have static pull-downs (not modeled).",
       "pinouts": {
         "p14": [
@@ -10191,7 +10191,7 @@
       "id": "TXV0106",
       "function": "Level shifter",
       "description": "6-bit fixed-direction dual-supply voltage translator, 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Buffers"],
       "note": "txv0106 p.3: BQB WQFN-16 pinout 1 VCCA, 2-7 A1-A6, 8 GND, 9 OE, 10-15 B6-B1, 16 VCCB (+ thermal pad, not a pin); A pins and OE referenced to VCCA, B pins to VCCB. Function table p.17: OE low = A data to B bus, OE high = isolation (both ports Hi-Z). Fixed direction A->B. Integrated 10-ohm damping resistor on outputs (not modeled).",
       "pinouts": {
         "bqb16": [

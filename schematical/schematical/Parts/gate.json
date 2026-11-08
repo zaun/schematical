@@ -7,7 +7,7 @@
       "id": "74_00",
       "function": "NAND",
       "description": "Quad 2-input NAND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "CD54AC00F3A, CD74AC00E, CD74AC00M, CD74AC00M96, CD74AC00M96G4: VCC 1.5-5.5 V (cd74ac00 p.4) | SN74AC00PWRQ1, SN74AC00WBQARQ1: VCC 1.5-6 V (sn74ac00-q1 p.4) | 5962-9753301QCA, 5962-9753301QDA, 5962-9753301VDA, SNJ54LVC00AJ, SNJ54LVC00AW, 5962-9753301Q2A, SNJ54LVC00AFK: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc00a p.4) | SN74LVC00ADRQ1, SN74LVC00AQPWRG4Q1, SN74LVC00AQPWRQ1, SN74LVC00AWBQARQ1: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc00a-q1 p.4) | SN74LVC00AMPWREP, SN74LVC00AQDREP, SN74LVC00AQPWREP, V62/04652-01XE, V62/04652-01YE, V62/04652-02YE: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc00a-ep p.2) | SN54LS00J, SNJ54LS00J, SNJ54LS00W, SNJ54LS00FK: VCC 4.5-5.5 V (sn74ls00 p.4) | SN74S00D, SN74S00N: VCC 4.75-5.25 V (sn74ls00 p.4)",
       "pinouts": {
         "p14": [
@@ -356,7 +356,7 @@
       "id": "74_02",
       "function": "NOR",
       "description": "Quad 2-input NOR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "SN74AC02PWRQ1, SN74AC02WBQARQ1: VCC 1.5-6 V (sn74ac02 p.4) | 5962-9760401QCA, 5962-9760401QDA, SNJ54LVC02AJ, SNJ54LVC02AW, 5962-9760401Q2A, SNJ54LVC02AFK: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc02a p.4) | SN74LVC02AMPWREP, V62/06660-01XE: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc02a-ep p.2) | SN74LVC02AQDRG4Q1, SN74LVC02AQDRQ1, SN74LVC02AQPWRG4Q1, SN74LVC02AQPWRQ1, SN74LVC02AWBQARQ1: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc02a-q1 p.4) | SN54LS02J, SNJ54LS02J, SNJ54LS02W, SNJ54LS02FK: VCC 4.5-5.5 V (sn74ls02 p.4) | SN74S02D, SN74S02N: VCC 4.75-5.25 V (sn74ls02 p.5)",
       "pinouts": {
         "p14": [
@@ -635,7 +635,7 @@
       "id": "74_08",
       "function": "AND",
       "description": "Quad 2-input AND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "CD54AC08F3A, CD74AC08E, CD74AC08M, CD74AC08M96: VCC 1.5-5.5 V (cd74ac08 p.4) | 5962-9753401QCA, 5962-9753401QDA, SNJ54LVC08AJ, SNJ54LVC08AW, 5962-9753401Q2A, SNJ54LVC08AFK: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc08a p.5 (SN54LVC08A table)) | SN74LVC08AMDREP, SN74LVC08AMPWREP, SN74LVC08AQDREP, SN74LVC08AQPWREP, V62/04655-01XE, V62/04655-01YE, V62/04655-02XE, V62/04655-02YE: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc08a-ep p.2) | SN74LVC08AQPWRG4Q1, SN74LVC08AQPWRQ1, SN74LVC08AWBQARQ1: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc08a-q1 p.4) | SN54LS08J, SNJ54LS08J, SNJ54LS08W, SNJ54LS08FK: VCC 4.5-5.5 V (sn74ls08 p.4 (scan, SN54LS08 column)) | SN74S08D, SN74S08N: VCC 4.75-5.25 V (sn74ls08 p.5 (scan, SN74S08 column))",
       "pinouts": {
         "p14": [
@@ -993,7 +993,7 @@
       "id": "74_32",
       "function": "OR",
       "description": "Quad 2-input OR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "CD54AC32F3A, CD74AC32E, CD74AC32EE4, CD74AC32M, CD74AC32M96, CD74AC32M96G4: VCC 1.5-5.5 V (cd74ac32 p.4) | SN74AC32PWRQ1, SN74AC32WBQARQ1: VCC 1.5-6 V (sn74ac32-q1 p.4) | SN74LVC32ABQAR, SN74LVC32AD, SN74LVC32ADBR, SN74LVC32ADBRG4, SN74LVC32ADR, SN74LVC32ADRE4, SN74LVC32ADT, SN74LVC32ANSR, SN74LVC32APW, SN74LVC32APWE4, SN74LVC32APWG4, SN74LVC32APWR, SN74LVC32APWRE4, SN74LVC32APWRG3, SN74LVC32APWRG4, SN74LVC32APWT, SN74LVC32ARGYR, SN74LVC32ARGYRG4: VCC 1.65-3.6 V, inputs to 5.5 V (sn74lvc32a p.5 (SN74LVC32A table)) | SN54LS32J, SNJ54LS32J, SNJ54LS32W, SNJ54LS32FK: VCC 4.5-5.5 V (sn74ls32 p.4 (SN54LS32 column)) | SN54S32J, SNJ54S32J, SNJ54S32W: VCC 4.5-5.5 V (sn74ls32 p.5 (SN54S32 column))",
       "pinouts": {
         "p14": [
@@ -1332,7 +1332,7 @@
       "id": "74_86",
       "function": "XOR",
       "description": "Quad 2-input XOR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "CD74AC86E, CD74AC86M, CD74AC86M96: VCC 1.5-5.5 V (cd74ac86 p.3) | SN74AC86PWRQ1, SN74AC86WBQARQ1: VCC 1.5-6 V (sn74ac86-q1 p.4) | 5962-9761901QDA, SNJ54LVC86AW, 5962-9761901Q2A, SNJ54LVC86AFK: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc86a p.4) | SN74LVC86AMDREP, SN74LVC86AQDREP, SN74LVC86AQPWREP, V62/04670-01XE, V62/04670-01YE, V62/04670-02XE: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc86a-ep p.3) | SN74LVC86AQDRG4Q1, SN74LVC86AQPWRG4Q1, SN74LVC86AQPWRQ1, SN74LVC86AWBQARQ1: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc86a-q1 p.4) | SN54LS86AJ, SNJ54LS86AJ, SNJ54LS86AW, SNJ54LS86AFK: VCC 4.5-5.5 V (sn74ls86a p.4)",
       "pinouts": {
         "p14": [
@@ -1591,7 +1591,7 @@
       "id": "74_266",
       "function": "XNOR",
       "description": "Quad 2-input XNOR gate, open-drain outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "SN54LS266J, SNJ54LS266J, SNJ54LS266W: VCC 4.5-5.5 V (sn74ls226 p.2)",
       "pinouts": {
         "p14": [
@@ -1645,7 +1645,7 @@
       "id": "4001B",
       "function": "NOR",
       "description": "CMOS quad 2-input NOR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "pinouts": {
         "p14": [
           {"number":1,"name":"A","role":"input"},
@@ -1692,7 +1692,7 @@
       "id": "4011B",
       "function": "NAND",
       "description": "CMOS quad 2-input NAND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "pinouts": {
         "p14": [
           {"number":1,"name":"A","role":"input"},
@@ -1738,7 +1738,7 @@
       "id": "4030B",
       "function": "XOR",
       "description": "CMOS quad 2-input XOR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "pinouts": {
         "p14": [
           {"number":1,"name":"A","role":"input"},
@@ -1782,7 +1782,7 @@
       "id": "4070B",
       "function": "XOR",
       "description": "CMOS quad 2-input XOR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "pinouts": {
         "p14": [
           {"number":1,"name":"A","role":"input"},
@@ -1826,7 +1826,7 @@
       "id": "4071B",
       "function": "OR",
       "description": "CMOS quad 2-input OR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "pinouts": {
         "p14": [
           {"number":1,"name":"A","role":"input"},
@@ -1869,7 +1869,7 @@
       "id": "4077B",
       "function": "XNOR",
       "description": "CMOS quad 2-input XNOR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "pinouts": {
         "p14": [
           {"number":1,"name":"A","role":"input"},
@@ -1910,7 +1910,7 @@
       "id": "4081B",
       "function": "AND",
       "description": "CMOS quad 2-input AND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "pinouts": {
         "p14": [
           {"number":1,"name":"A","role":"input"},
@@ -1958,7 +1958,7 @@
       "id": "4093B",
       "function": "NAND",
       "description": "CMOS quad 2-input NAND Schmitt trigger",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "pinouts": {
         "p14": [
           {"number":1,"name":"A","role":"input"},
@@ -2008,7 +2008,7 @@
       "id": "74_10",
       "function": "NAND",
       "description": "Triple 3-input NAND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74hc10 p.3; sn74act10 p.3-4 (J/W/BQA/D/PW/N/DB); sn74lvc10a p.3 (BQA); sn74alvc10 p.1 (DGV); sn74s10 p.1 (SN54LS10/S10 J or W); packages D, DB, DGV, J, N, NS, PW, W, BQA, RGY. | lccc20: Pinout from sn74hc10 p.3 FK column; sn74act10 p.3; sn74as10 p.1; sn74s10 p.1; packages FK. | CD74AC10E, CD74AC10M, CD74AC10M96: VCC 1.5-5.5 V (cd74ac10 p.2) | SN74AC10PWRQ1, SN74AC10WBQARQ1: VCC 1.5-6 V (sn74ac10-q1 p.4) | SN54LS10J, SNJ54LS10J, SNJ54LS10W, SNJ54LS10FK: VCC 4.5-5.5 V (sn74s10 p.4) | SN74S10N: VCC 4.75-5.25 V (sn74s10 p.5)",
       "pinouts": {
         "p14": [
@@ -2224,7 +2224,7 @@
       "id": "74_11",
       "function": "AND",
       "description": "Triple 3-input AND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74hc11 p.3 (D, N, NS, PW, J, W); sn74lv11a p.3 (D, NS, DGV, DB, PW); sn74lvc11a p.3 (BQA, D, PW); sn74as11 p.1; sn74ls11 p.1; packages D, DB, DGV, J, N, NS, PW, W, BQA. | lccc20: Pinout from sn74hc11 p.3 FK column; sn74as11 p.1; sn74ls11 p.1; packages FK. | SN54LS11J, SNJ54LS11J, SNJ54LS11W, SNJ54LS11FK: VCC 4.5-5.5 V (sn74ls11 p.3)",
       "pinouts": {
         "p14": [
@@ -2423,7 +2423,7 @@
       "id": "74_27",
       "function": "NOR",
       "description": "Triple 3-input NOR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74hc27 p.3 (D, DB, N, NS, J, W); sn74lv27a p.3 (D, NS, PW, DGV, DB); sn74hcs27 p.3 (PW); sn74as27 p.1; sn74f27 p.1; sn74ls27 p.1 (J or W, D or N); packages D, DB, DGV, J, N, NS, PW, W. | lccc20: Pinout from sn74hc27 p.3 FK column; sn74as27 p.1; sn74f27 p.1; sn74ls27 p.1; packages FK. | SN74LS27D, SN74LS27DR, SN74LS27N, SN74LS27NSR: VCC 4.75-5.25 V (sn74ls27 p.4)",
       "pinouts": {
         "p14": [
@@ -2559,7 +2559,7 @@
       "id": "74_20",
       "function": "NAND",
       "description": "Dual 4-input NAND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74hc20 p.3 Pin Functions (D,N,NS,PW,J,W); same 14-pin numbering in cd74ac20, cd74act20, sn74as20, sn74f20, sn74s20 (LS/S J,W,D,N), sn74hcs20, cd74hc20, cd74hct20, sn74lv20a (D,DB,DGV,NS,PW); packages D, DB, DGV, J, N, NS, PW, W. | lccc20: Pinout from sn74hc20 p.3 Pin Functions FK column; matches FK drawings in sn74s20 p.1 (SN54LS20/SN54S20), sn74as20 p.1, sn74f20 p.1; packages FK. | SN54LS20J, SNJ54LS20J, SNJ54LS20W, SNJ54LS20FK: VCC 4.5-5.5 V (sn74s20 p.4) | SN54S20J, SNJ54S20J, SNJ54S20W: VCC 4.5-5.5 V (sn74s20 p.5)",
       "pinouts": {
         "p14": [
@@ -2720,7 +2720,7 @@
       "id": "74_21",
       "function": "AND",
       "description": "Dual 4-input AND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74hc21 p.3 Pin Functions (D,N,NS,PW,J); same 14-pin numbering in sn74as21, sn74f21, sn74ls21 (J,W,D,N), sn74hcs21, cd74hc21, cd74hct21, sn74lv21a; packages D, DB, DGV, J, N, NS, PW, W. | lccc20: Pinout from sn74hc21 p.3 Pin Functions FK column; matches FK drawings in sn74ls21 p.1, sn74as21 p.1, sn74f21 p.1; packages FK. | SN74LS21D, SN74LS21DR, SN74LS21N, SN74LS21NE4, SN74LS21NSR: VCC 4.75-5.25 V (sn74ls21 p.3)",
       "pinouts": {
         "p14": [
@@ -2856,7 +2856,7 @@
       "id": "74_30",
       "function": "NAND",
       "description": "Single 8-input NAND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd74hc30 p.3 Pin Functions; same 14-pin numbering in sn74as30 p.1 (J,DW,N,DB), sn74f30 p.1 (J,D,N), sn74ls30 p.1 (LS/S J,W,D,N), sn74hcs30, cd74hct30; packages D, DB, J, N, NS, PW, W. | lccc20: Pinout from sn74ls30 p.1 FK drawing (SN54LS30, SN54S30); identical in sn74as30 p.1 and sn74f30 p.1; packages FK. | SN54LS30J, SNJ54LS30J, SNJ54LS30W, SNJ54LS30FK: VCC 4.5-5.5 V (sn74ls30 p.4)",
       "pinouts": {
         "p14": [
@@ -2981,7 +2981,7 @@
       "id": "74_133",
       "function": "NAND",
       "description": "Single 13-input NAND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74als133 p.1 (J, D, N packages); packages D, J, N, NS, W. | lccc20: Pinout from sn74als133 p.1 FK drawing (SN54ALS133); packages FK.",
       "pinouts": {
         "p16": [
@@ -3045,7 +3045,7 @@
       "id": "74_4002",
       "function": "NOR",
       "description": "Dual 4-input NOR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn54hc4002 p.1 (SN54HC4002 J, SN74HC4002 D or N); cd74hc4002 p.3 (J, N, D, PW) identical; packages D, J, N, PW. | lccc20: Pinout from sn54hc4002 p.1 FK drawing (SN54HC4002); packages FK.",
       "pinouts": {
         "p14": [
@@ -3113,7 +3113,7 @@
       "id": "74_4075",
       "function": "OR",
       "description": "Triple 3-input OR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd74hc4075 p.3 Pin Functions (D,N,NS,PW,J); same in cd74hct4075 and sn74hcs4075 (D, PW); packages D, J, N, NS, PW. | lccc20: Pinout from cd74hc4075 p.3 Pin Functions FK column; packages FK.",
       "pinouts": {
         "p14": [
@@ -3194,7 +3194,7 @@
       "id": "1G00",
       "function": "NAND",
       "description": "Single 2-input NAND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g00 p.3 (DBV/DCK/DRL); sn74ahc1g00 p.3 (DRL); sn74aup1g00 p.4; DTX: sn74ahc1g00-q1 p.3 Figure 4-2 + Table 4-1 (A=1, B=2); packages DBV, DCK, DRL, DTX. DSBGA balls: sn74aup1g00 p.5.",
       "pinouts": {
         "p5": [
@@ -3282,7 +3282,7 @@
       "id": "1G00_DPW",
       "function": "NAND",
       "description": "Single 2-input NAND gate, X2SON (DPW)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g00 p.3 Pin Functions DPW column; sn74aup1g00 p.4 Pin Functions DPW column (B=1, A=2); packages DPW.",
       "pinouts": {
         "p5": [
@@ -3307,7 +3307,7 @@
       "id": "1G00_SON",
       "function": "NAND",
       "description": "Single 2-input NAND gate, 6-pin SON (DRY, DSF)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g00 p.3; sn74aup1g00 p.4; packages DRY, DSF. DSBGA balls: sn74aup1g00 p.5.",
       "pinouts": {
         "p6": [
@@ -3351,7 +3351,7 @@
       "id": "1G02",
       "function": "NOR",
       "description": "Single 2-input NOR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g02 p.3; sn74ahc1g02 p.3; sn74aup1g02 p.3; packages DBV, DCK, DRL. DSBGA balls: sn74lvc1g02 p.3.",
       "pinouts": {
         "p5": [
@@ -3428,7 +3428,7 @@
       "id": "1G02_DPW",
       "function": "NOR",
       "description": "Single 2-input NOR gate, X2SON (DPW)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g02 p.3 Pin Functions DPW column; sn74aup1g02 p.3 (B=1, A=2); packages DPW.",
       "pinouts": {
         "p5": [
@@ -3453,7 +3453,7 @@
       "id": "1G02_SON",
       "function": "NOR",
       "description": "Single 2-input NOR gate, 6-pin SON (DRY, DSF)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g02 p.3; sn74aup1g02 p.3; packages DRY, DSF. DSBGA balls: sn74aup1g02 p.3.",
       "pinouts": {
         "p6": [
@@ -3495,7 +3495,7 @@
       "id": "1G08",
       "function": "AND",
       "description": "Single 2-input AND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g08 p.3; sn74ahct1g08 p.3; sn74aup1g08 p.3-4; DTX: sn74ahc1g08-q1 p.3 Figure 4-2 + Table 4-1 (A=1, B=2); packages DBV, DCK, DRL, DTX. DSBGA balls: sn74aup1g08 p.4.",
       "pinouts": {
         "p5": [
@@ -3598,7 +3598,7 @@
       "id": "1G08_DPW",
       "function": "AND",
       "description": "Single 2-input AND gate, X2SON (DPW)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g08 p.3 Pin Functions DPW column; sn74aup1g08 p.4 Table 4-1 (B=1, A=2); packages DPW.",
       "pinouts": {
         "p5": [
@@ -3623,7 +3623,7 @@
       "id": "1G08_SON",
       "function": "AND",
       "description": "Single 2-input AND gate, 6-pin SON (DRY, DSF)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g08 p.3; sn74aup1g08 p.4; packages DRY, DSF. DSBGA balls: sn74aup1g08 p.4.",
       "pinouts": {
         "p6": [
@@ -3669,7 +3669,7 @@
       "id": "1G32",
       "function": "OR",
       "description": "Single 2-input OR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g32 p.3 Figure 4-1/Table 4-1; sn74aup1g32 p.3; DTX: sn74ahc1g32-q1 p.3 and sn74ahct1g32-q1 p.3 Figure 4-2 + Table 4-1 (A=1, B=2); packages DBV, DCK, DRL, DTX. DSBGA balls: sn74aup1g32 p.3.",
       "pinouts": {
         "p5": [
@@ -3767,7 +3767,7 @@
       "id": "1G32_DPW",
       "function": "OR",
       "description": "Single 2-input OR gate, X2SON (DPW)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74aup1g32 p.3 Figure 5-7 + Pin Functions DPW column (B=1, A=2). CONFLICT: sn74lvc1g32 rev W p.3 Figure 4-2 shows DPW with A=1, B=2; packages DPW.",
       "pinouts": {
         "p5": [
@@ -3792,7 +3792,7 @@
       "id": "1G32_SON",
       "function": "OR",
       "description": "Single 2-input OR gate, 6-pin SON (DRY, DSF)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g32 p.3 Figure 4-4/Table 4-2; sn74aup1g32 p.3; packages DRY, DSF. DSBGA balls: sn74aup1g32 p.3.",
       "pinouts": {
         "p6": [
@@ -3837,7 +3837,7 @@
       "id": "1G86",
       "function": "XOR",
       "description": "Single 2-input XOR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g86 p.3 Pin Functions; sn74ahc1g86 p.3 Table 4-1; packages DBV, DCK, DRL. DSBGA balls: sn74lvc1g86 p.3.",
       "pinouts": {
         "p5": [
@@ -3907,7 +3907,7 @@
       "id": "2G00",
       "function": "NAND",
       "description": "Dual 2-input NAND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74auc2g00 p.1; sn74lvc2g00 p.3; sn74aup2g00 p.1; packages DCT, DCU, DQE. DSBGA balls: sn74aup2g00 p.1.",
       "pinouts": {
         "p8": [
@@ -3963,7 +3963,7 @@
       "id": "2G00_RSE",
       "function": "NAND",
       "description": "Dual 2-input NAND gate, UQFN (RSE)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74aup2g00 p.1; packages RSE.",
       "pinouts": {
         "p8": [
@@ -3990,7 +3990,7 @@
       "id": "2G02",
       "function": "NOR",
       "description": "Dual 2-input NOR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74auc2g02 p.1; sn74lvc2g02 p.3; sn74aup2g02 p.1; packages DCT, DCU, DQE. DSBGA balls: sn74aup2g02 p.1.",
       "pinouts": {
         "p8": [
@@ -4044,7 +4044,7 @@
       "id": "2G02_RSE",
       "function": "NOR",
       "description": "Dual 2-input NOR gate, UQFN (RSE)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74aup2g02 p.1; packages RSE.",
       "pinouts": {
         "p8": [
@@ -4071,7 +4071,7 @@
       "id": "2G08",
       "function": "AND",
       "description": "Dual 2-input AND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74auc2g08 p.1; sn74lvc2g08 p.3; sn74aup2g08 p.3; packages DCT, DCU, DQE. DSBGA balls: sn74aup2g08 p.3.",
       "pinouts": {
         "p8": [
@@ -4133,7 +4133,7 @@
       "id": "2G08_RSE",
       "function": "AND",
       "description": "Dual 2-input AND gate, UQFN (RSE)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74aup2g08 p.3; packages RSE.",
       "pinouts": {
         "p8": [
@@ -4160,7 +4160,7 @@
       "id": "2G32",
       "function": "OR",
       "description": "Dual 2-input OR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74auc2g32 p.1; sn74lvc2g32 p.3; sn74aup2g32 p.1; packages DCT, DCU, DQE. DSBGA balls: sn74aup2g32 p.1.",
       "pinouts": {
         "p8": [
@@ -4217,7 +4217,7 @@
       "id": "2G32_RSE",
       "function": "OR",
       "description": "Dual 2-input OR gate, UQFN (RSE)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74aup2g32 p.1; packages RSE.",
       "pinouts": {
         "p8": [
@@ -4244,7 +4244,7 @@
       "id": "2G86",
       "function": "XOR",
       "description": "Dual 2-input XOR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74auc2g86 p.1; sn74lvc2g86 p.1; packages DCT, DCU. DSBGA balls: sn74lvc2g86 p.1.",
       "pinouts": {
         "p8": [
@@ -4292,7 +4292,7 @@
       "id": "1G10",
       "function": "NAND",
       "description": "Single 3-input NAND gate, 6-pin SON (DRY, DSF)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g10 p.1; packages DBV, DCK, DRY, DSF. DSBGA balls: sn74lvc1g10 p.1.",
       "pinouts": {
         "p6": [
@@ -4328,7 +4328,7 @@
       "id": "1G11",
       "function": "AND",
       "description": "Single 3-input AND gate, 6-pin SON (DRY, DSF)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g11 p.3; packages DBV, DCK, DRY, DSF. DSBGA balls: sn74lvc1g11 p.3.",
       "pinouts": {
         "p6": [
@@ -4371,7 +4371,7 @@
       "id": "1G27",
       "function": "NOR",
       "description": "Single 3-input NOR gate, 6-pin SON (DRY, DSF)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g27 p.1; packages DBV, DCK, DRY, DSF. DSBGA balls: sn74lvc1g27 p.1.",
       "pinouts": {
         "p6": [
@@ -4408,7 +4408,7 @@
       "id": "1G332",
       "function": "OR",
       "description": "Single 3-input OR gate, 6-pin SON (DRY, DSF)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g332 p.1; packages DBV, DCK, DRY, DSF. DSBGA balls: sn74lvc1g332 p.1.",
       "pinouts": {
         "p6": [
@@ -4449,7 +4449,7 @@
       "id": "1G386",
       "function": "XOR",
       "description": "Single 3-input XOR (odd parity) gate, 6-pin SON (DRY, DSF)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g386 p.1; packages DBV, DCK, DRY, DSF. DSBGA balls: sn74lvc1g386 p.1.",
       "pinouts": {
         "p6": [
@@ -4485,7 +4485,7 @@
       "id": "1T00",
       "function": "NAND",
       "description": "Single 2-input NAND gate with level shifting",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lv1t00 p.5 (Figure 5-1, Table 5-1); packages DBV, DCK.",
       "pinouts": {
         "p5": [
@@ -4511,7 +4511,7 @@
       "id": "1T02",
       "function": "NOR",
       "description": "Single 2-input NOR gate with level shifting",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lv1t02 p.5 (Figure 5-1, Table 5-1); packages DBV, DCK.",
       "pinouts": {
         "p5": [
@@ -4537,7 +4537,7 @@
       "id": "1T08",
       "function": "AND",
       "description": "Single 2-input AND gate with level shifting",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lv1t08 p.4 (Figure 5-1, Table 5-1); packages DBV, DCK.",
       "pinouts": {
         "p5": [
@@ -4563,7 +4563,7 @@
       "id": "1T32",
       "function": "OR",
       "description": "Single 2-input OR gate with level shifting",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lv1t32 p.5 (Figure 5-1, Table 5-1); packages DBV, DCK.",
       "pinouts": {
         "p5": [
@@ -4589,7 +4589,7 @@
       "id": "1T86",
       "function": "XOR",
       "description": "Single 2-input XOR gate with level shifting",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lv1t86 p.5 (Figure 5-1, Table 5-1); packages DBV, DCK.",
       "pinouts": {
         "p5": [
@@ -4615,7 +4615,7 @@
       "id": "4002B",
       "function": "NOR",
       "description": "Dual 4-input NOR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd4001b p.1 (CD4002B functional diagram) + Fig.6; packages D, J, N, NS, PW.",
       "pinouts": {
         "p14": [
@@ -4655,7 +4655,7 @@
       "id": "4012B",
       "function": "NAND",
       "description": "Dual 4-input NAND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd4011b p.1 terminal assignments (CD4012B) + functional diagram; packages D, J, N, NS, PW.",
       "pinouts": {
         "p14": [
@@ -4696,7 +4696,7 @@
       "id": "4023B",
       "function": "NAND",
       "description": "Triple 3-input NAND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd4011b p.1 terminal assignments (CD4023B) + functional diagram; packages D, J, N, NS, PW.",
       "pinouts": {
         "p14": [
@@ -4739,7 +4739,7 @@
       "id": "4025B",
       "function": "NOR",
       "description": "Triple 3-input NOR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd4001b p.1 (CD4025B functional diagram) + Fig.7; packages D, J, N, NS, PW.",
       "pinouts": {
         "p14": [
@@ -4782,7 +4782,7 @@
       "id": "4068B",
       "function": "NAND",
       "description": "8-input NAND/AND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd4068b p.1 terminal assignment + functional diagram; packages D, J, N, NS, PW.",
       "pinouts": {
         "p14": [
@@ -4824,7 +4824,7 @@
       "id": "4072B",
       "function": "OR",
       "description": "Dual 4-input OR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd4071b p.4 terminal assignments (CD4072B) + p.1 functional diagram; packages D, J, N, NS, PW.",
       "pinouts": {
         "p14": [
@@ -4866,7 +4866,7 @@
       "id": "4073B",
       "function": "AND",
       "description": "Triple 3-input AND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd4081b p.4 terminal assignments (CD4073B) + Fig.13; packages D, J, N, NS, PW.",
       "pinouts": {
         "p14": [
@@ -4908,7 +4908,7 @@
       "id": "4075B",
       "function": "OR",
       "description": "Triple 3-input OR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd4071b p.4 terminal assignments (CD4075B); packages D, J, N, NS, PW.",
       "pinouts": {
         "p14": [
@@ -4951,7 +4951,7 @@
       "id": "4078B",
       "function": "NOR",
       "description": "8-input NOR/OR gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd4078b p.3 terminal assignment + p.1 functional diagram; packages D, J, N, NS, PW.",
       "pinouts": {
         "p14": [
@@ -4995,7 +4995,7 @@
       "id": "4082B",
       "function": "AND",
       "description": "Dual 4-input AND gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd4081b p.4 terminal assignments (CD4082B) + Fig.9; packages D, J, N, NS, PW.",
       "pinouts": {
         "p14": [
@@ -5038,7 +5038,7 @@
       "id": "74_04",
       "function": "NOT",
       "description": "Hex inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "p14 and lccc20 (FK) from sn74ls04 p.1, sn74as04 p.1, sn74hc04 p.3 (pin table), sn74hct04 p.3, sn74hcs04 p.3 - all identical. w14_5404 is the SN5404 W (CFP) pinout only (sn74ls04 p.1): VCC on pin 4, GND on pin 11; SN54LS04/SN54S04 W use the standard p14.",
       "pinouts": {
         "p14": [
@@ -5281,7 +5281,7 @@
       "id": "74_14",
       "function": "NOT",
       "description": "Hex Schmitt-trigger inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Standard hex-inverter pinout, identical in every 74_14 datasheet of this group (e.g. sn74hc14 p.3, sn74ac14 p.3-4, sn74auc14 p.1). WQFN (BQA) and VQFN (RGY) use the same pin numbers 1-14 plus a thermal pad (GND or floating, sn74ac14 p.4). No FK/LCCC part in this group, so no lccc20.",
       "pinouts": {
         "p14": [
@@ -5461,7 +5461,7 @@
       "id": "74_U04",
       "function": "NOT",
       "description": "Hex unbuffered inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74hcu04 p.1 (D, DB, N, NS, PW, J); same in cd74hcu04 p.1, sn74ahcu04 p.1, sn74lvcu04a p.1, sn74lvu04a p.1, sn74aucu04 p.1 (RGY: same numbering 1-14)",
       "pinouts": {
         "p14": [
@@ -5541,7 +5541,7 @@
       "id": "74_05",
       "function": "NOT",
       "description": "Hex inverter, open-drain outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74hc05 p.3 (D, N, NS, PW, J); same in sn74ls05 p.1, cd74ac05 p.3 / sn74ac05-q1 p.3 / cd74act05 p.3 / sn74act05-q1 p.3 (BQA: same numbering 1-14 plus thermal pad), sn74hcs05 p.3 (DYY same), sn74ahc05 p.1, sn74als05a p.1, sn74lv05a p.1 | JM38510/07004BCA: SN54S05: VCC 4.5-5.5 V (sn74ls05 p.6)",
       "pinouts": {
         "p14": [
@@ -5645,7 +5645,7 @@
       "id": "74_06",
       "function": "NOT",
       "description": "Hex inverter buffer/driver, open-collector/open-drain outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Standard hex pinout; same in sn7406 p.1, sn74ls06 p.3, sn74lv06a p.3, sn74lvc06a p.1 (D/DB/DGV/NS/PW and RGY), sn74lvc06a-q1 p.1, sn74lvc06a-ep p.1, sn74auc06 p.1 (RGY). TTL/LS are open-collector, the CMOS parts open-drain.",
       "pinouts": {
         "p14": [
@@ -5719,7 +5719,7 @@
       "id": "74_16",
       "function": "NOT",
       "description": "Hex inverter buffer/driver, open-collector/open-drain outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Standard hex pinout; same in sn7406 p.1 (SN7416 D/N), sn74ac16-q1 p.3 (PW, BQA), sn74act16 p.3 (PW, BQA). The BQA thermal pad is not a pin (GND or float).",
       "pinouts": {
         "p14": [
@@ -5768,7 +5768,7 @@
       "id": "74_1004",
       "function": "NOT",
       "description": "Hex inverting driver",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Standard hex pinout (sn74als1004 p.1, D/N; sn74as1004a is the same document).",
       "pinouts": {
         "p14": [
@@ -5814,7 +5814,7 @@
       "id": "74_1005",
       "function": "NOT",
       "description": "Hex inverting buffer, open-collector outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Standard hex pinout (sn74als1005 p.1, D/N). Open-collector outputs.",
       "pinouts": {
         "p14": [
@@ -5857,7 +5857,7 @@
       "id": "74_6T06",
       "function": "NOT",
       "description": "Hex inverter with level-shifting inputs, open-drain outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Standard hex pinout (sn74lv6t06 p.3 PW/BQA, sn74lv6t06-q1 p.3, sn74lv6t06-ep p.3). The BQA thermal pad is not a pin.",
       "pinouts": {
         "p14": [
@@ -5901,7 +5901,7 @@
       "id": "74_6T14",
       "function": "NOT",
       "description": "Hex Schmitt-trigger inverter with level-shifting inputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Standard hex pinout (sn74lv6t14-ep p.3, PW).",
       "pinouts": {
         "p14": [
@@ -5940,7 +5940,7 @@
       "id": "74_19",
       "function": "NOT",
       "description": "Hex Schmitt-trigger inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Standard hex pinout (sn74ls19a p.1, D/J/N; scanned datasheet).",
       "pinouts": {
         "p14": [
@@ -5980,7 +5980,7 @@
       "id": "1G04",
       "function": "NOT",
       "description": "Single inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g04 p.3 Pin Functions (DBV/DCK/DRL/DPW, YZP, YZV); sn74aup1g04 p.3 (DPW, YFP); sn74ahc1g04 p.3; sn74auc1g04 p.3; DTX: sn74ahct1g04-q1 p.3 Figure 4-2 + Table 4-1 (NC=1, A=2, GND=3 centre, same as DBV); packages DBV, DCK, DRL, DPW, DTX. DSBGA balls: sn74lvc1g04 p.3 (YZP 5-ball: A1 DNU, B2 unpopulated; YZV/YFP 4-ball).",
       "pinouts": {
         "p5": [
@@ -6056,7 +6056,7 @@
       "id": "1G04_SON",
       "function": "NOT",
       "description": "Single inverter, 6-pin SON (DRY, DSF)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g04 p.3; sn74aup1g04 p.3; sn74auc1g04 p.3 (DRY); packages DRY, DSF.",
       "pinouts": {
         "p6": [
@@ -6092,7 +6092,7 @@
       "id": "1G06",
       "function": "NOT",
       "description": "Single inverter, open-drain output",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g06 p.3 Table 4-1 (DBV/DCK/DRL/DPW, YZP, YZV); sn74aup1g06 p.3 (DPW, YFP bottom view); sn74auc1g06 p.1 (YZP bottom view, balls numbered 1-5: 1=A1 DNU, 2=B1 A, 3=C1 GND, 4=C2 Y, 5=A2 VCC); packages DBV, DCK, DRL, DPW.",
       "pinouts": {
         "p5": [
@@ -6151,7 +6151,7 @@
       "id": "1G06_SON",
       "function": "NOT",
       "description": "Single inverter, open-drain output, 6-pin SON (DRY, DSF)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g06 p.3; sn74aup1g06 p.3; packages DRY, DSF.",
       "pinouts": {
         "p6": [
@@ -6183,7 +6183,7 @@
       "id": "1G14",
       "function": "NOT",
       "description": "Single Schmitt-trigger inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g14 p.4 Table 4-1 (DBV/DCK/DRL/DPW, YZP, YZV); sn74aup1g14 p.3 (DPW, YFP); sn74ahc1g14 p.3; sn74ahct1g14 p.3; sn74auc1g14 p.3; packages DBV, DCK, DRL, DPW.",
       "pinouts": {
         "p5": [
@@ -6257,7 +6257,7 @@
       "id": "1G14_SON",
       "function": "NOT",
       "description": "Single Schmitt-trigger inverter, 6-pin SON (DRY, DSF)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g14 p.4; sn74aup1g14 p.3; sn74lvc1g14-q1 p.3 (DRY); packages DRY, DSF.",
       "pinouts": {
         "p6": [
@@ -6288,7 +6288,7 @@
       "id": "1GU04",
       "function": "NOT",
       "description": "Single unbuffered inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1gu04 p.3 (DBV/DCK/DRL/DPW, YZV) and p.4 (YZP: A1 DNU in figure, NC in table; B2 unpopulated); sn74ahc1gu04 p.3; sn74auc1gu04 p.3; packages DBV, DCK, DRL, DPW.",
       "pinouts": {
         "p5": [
@@ -6344,7 +6344,7 @@
       "id": "1GU04_SON",
       "function": "NOT",
       "description": "Single unbuffered inverter, 6-pin SON (DRY, DSF)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1gu04 p.4; packages DRY, DSF.",
       "pinouts": {
         "p6": [
@@ -6372,7 +6372,7 @@
       "id": "1T04",
       "function": "NOT",
       "description": "Single inverter with level shifting",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lv1t04 p.4 (Table 5-1); sn74aup1t04 p.1 (DCK); packages DBV, DCK.",
       "pinouts": {
         "p5": [
@@ -6402,7 +6402,7 @@
       "id": "1T14",
       "function": "NOT",
       "description": "Single Schmitt-trigger inverter with level shifting",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74aup1t14 p.1 (DCK); packages DCK.",
       "pinouts": {
         "p5": [
@@ -6427,7 +6427,7 @@
       "id": "2G04",
       "function": "NOT",
       "description": "Dual inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc2g04 p.3 (DBV/DCK/DRL/YZP); sn74auc2g04 p.1; sn74aup2g04 p.1 (DCK/DRY/DSF/YFP, same order on all); packages DBV, DCK, DRL, DRY, DSF. DSBGA balls: sn74aup2g04 p.1 (YFP lettered; YZP drawings give only pin numbers, same positions).",
       "pinouts": {
         "p6": [
@@ -6477,7 +6477,7 @@
       "id": "2G06",
       "function": "NOT",
       "description": "Dual inverter, open-drain outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc2g06 p.3 (DBV/DCK/DRY/DSF/YZP); sn74auc2g06 p.1; sn74aup2g06 p.1 (DCK/DRY/DSF/YFP, same order on all); sn74lvc2g06-ep p.1; sn74lvc2g06-q1 p.1. DSBGA balls: sn74aup2g06 p.1.",
       "pinouts": {
         "p6": [
@@ -6527,7 +6527,7 @@
       "id": "2G14",
       "function": "NOT",
       "description": "Dual Schmitt-trigger inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc2g14 p.3 (DBV/DCK/YZP); sn74aup2g14 p.3 Table 4-1 (DCK/DRY/DSF/YFP, same order on all); sn74lvc2g14-q1 p.3. DSBGA balls: sn74aup2g14 p.3.",
       "pinouts": {
         "p6": [
@@ -6571,7 +6571,7 @@
       "id": "2GU04",
       "function": "NOT",
       "description": "Dual unbuffered inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc2gu04 p.1 (DBV/DCK/YZP); sn74auc2gu04 p.1; sn74lvc2gu04-q1 p.3 (DRY/DCK, same order). DSBGA balls: YZP drawings give pin numbers only; ball letters as sn74aup2g04 p.1 (same 6-ball layout).",
       "pinouts": {
         "p6": [
@@ -6613,7 +6613,7 @@
       "id": "3G04",
       "function": "NOT",
       "description": "Triple inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc3g04 p.1 (DCT/DCU/YZP); sn74aup3g04 p.1 (DCU/DQE/YFP, same order); packages DCT, DCU, DQE. DSBGA balls: sn74aup3g04 p.1.",
       "pinouts": {
         "p8": [
@@ -6661,7 +6661,7 @@
       "id": "3G06",
       "function": "NOT",
       "description": "Triple inverter, open-drain outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc3g06 p.1 (DCT/DCU/YZP); sn74aup3g06 p.1 (DCU/DQE/YFP, same order); packages DCT, DCU, DQE. DSBGA balls: sn74aup3g06 p.1.",
       "pinouts": {
         "p8": [
@@ -6709,7 +6709,7 @@
       "id": "3G14",
       "function": "NOT",
       "description": "Triple Schmitt-trigger inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc3g14 p.1 (DCT/DCU/YZP); sn74aup3g14 p.1 (DCU/DQE/YFP, same order); packages DCT, DCU, DQE. DSBGA balls: sn74aup3g14 p.1.",
       "pinouts": {
         "p8": [
@@ -6756,7 +6756,7 @@
       "id": "3G14_RSE",
       "function": "NOT",
       "description": "Triple Schmitt-trigger inverter, UQFN (RSE)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74aup3g14 p.1 (RSE top view, checked on the rendered page); packages RSE.",
       "pinouts": {
         "p8": [
@@ -6786,7 +6786,7 @@
       "id": "3GU04",
       "function": "NOT",
       "description": "Triple unbuffered inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc3gu04 p.1 (DCT/DCU/YZP). DSBGA balls: YZP drawing gives pin numbers only; ball letters as sn74aup3g04 p.1 (same 8-ball layout).",
       "pinouts": {
         "p8": [
@@ -6827,7 +6827,7 @@
       "id": "74_U7204",
       "function": "NOT",
       "description": "Dual unbuffered inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74hcu7204 p.1 (PS/PW); pins 1 and 5 NC.",
       "pinouts": {
         "p8": [
@@ -6856,7 +6856,7 @@
       "id": "4069UB",
       "function": "NOT",
       "description": "CMOS hex inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd4069ub p.3 (D, J, N, NS, PW); outputs named G=A..L=F in the datasheet, given here as G..L (as 4011B uses J..M)",
       "pinouts": {
         "p14": [
@@ -6902,7 +6902,7 @@
       "id": "40106B",
       "function": "NOT",
       "description": "CMOS hex Schmitt-trigger inverter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd40106b p.3 (D, J, N, NS, PW); outputs named G=A..L=F in the datasheet, given here as G..L",
       "pinouts": {
         "p14": [
@@ -6946,7 +6946,7 @@
       "id": "4049UB",
       "function": "NOT",
       "description": "CMOS hex inverting buffer/converter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd4050b p.3 (CD4049UB D, DW, N, NS, PW); outputs G..L (G = not A ... L = not F), NC on 13 and 16",
       "pinouts": {
         "p16": [
@@ -6994,7 +6994,7 @@
       "id": "4009UB",
       "function": "NOT",
       "description": "CMOS hex inverting buffer/converter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd4009ub p.1 terminal assignments (scan); VCC pin 1 = output-stage supply, VDD pin 16 = input/logic supply, NC 13; outputs G..L (G = not A ... L = not F)",
       "pinouts": {
         "p16": [
@@ -7038,7 +7038,7 @@
       "id": "74_11004",
       "function": "NOT",
       "description": "Hex inverter, 20-pin with center power pins",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from 74ac11004 p.1 (DB, DW, N) and 74act11004 p.1 (DB, DW, N, PW); center-pin power: GND 4-7, VCC 15-16, NC 14 and 17",
       "pinouts": {
         "p20": [
@@ -7089,7 +7089,7 @@
       "id": "1G07",
       "function": "Buffer",
       "description": "Single buffer/driver, open-drain output",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinouts sn74lvc1g07 p.3 Pin Functions (DBV/DCK/DRL, DRY/DSF with NC at 1 and 5, DPW, YZP 5-ball with A1 DNU, YZV 4-ball); sn74aup1g07 p.3 (same, plus YFP not used); sn74auc1g07 p.3 (DBV/DCK, YZP A1 DNU); sn74lvc1g07-q1 p.3 (DBV/DCK, DRY); sn74lvc1g07-ep p.1 (DCK). Open-drain output.",
       "pinouts": {
         "p5": [
@@ -7165,7 +7165,7 @@
       "id": "1G16",
       "function": "NOT",
       "description": "Single Schmitt-trigger inverter buffer, open-drain output",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout sn74lvc1g16 p.3 Table 4-1 (DBV, DCK: 1 NC, 2 A, 3 GND, 4 Y, 5 VCC); sn74lvc1g16-q1 p.3 same. Schmitt-trigger input, open-drain output (sn74lvc1g16 p.1).",
       "pinouts": {
         "p5": [
@@ -7194,7 +7194,7 @@
       "id": "1G17",
       "function": "Buffer",
       "description": "Single Schmitt-trigger buffer",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinouts: sn74lvc1g17 p.3 Pin Functions (DBV/DCK/DRL/DPW 5-pin; DRY/DSF 6-pin with NC 1,5; YZP 5-ball A1 DNU, B2 unpopulated; YZV 4-ball); sn74lvc1g17-q1 p.3 (DBV/DCK/DRY, same); sn74lvc1g17-ep p.1 (DBV/DCK, same); sn74aup1g17 p.3 (DBV/DCK/DRL/DPW/DRY/DSF/YFP/YZP; YFP 4-ball A1 A, A2 VCC, B1 GND, B2 Y); sn74aup1g17-ep p.1 (DCK, same); sn74auc1g17 p.3 (DBV/DCK/DRL/YZP). Function Y = A, Schmitt-trigger input (sn74lvc1g17 p.1).",
       "pinouts": {
         "p5": [
@@ -7268,7 +7268,7 @@
       "id": "1G34",
       "function": "Buffer",
       "description": "Single buffer",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g34 p.3 Table 4-1 (DBV/DCK/DRL/DPW 5-pin; DRY/DSF 6-pin with NC 1,5; YZP 5-ball with A1 DNU; YZV/YFP 4-ball); sn74aup1g34 p.3 Pin Functions (same; YZP A1 printed N.C.); sn74lvc1g34-q1 p.3 Table 4-1 (DBV, DCK). Function Y = A.",
       "pinouts": {
         "p5": [
@@ -7336,7 +7336,7 @@
       "id": "1G37",
       "function": "Buffer",
       "description": "Single buffer, Schmitt-trigger input, open-drain output",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout sn74lvc1g37 p.3 Table 4-1 (DBV, DCK: NC=1, A=2, GND=3, Y=4, VCC=5); sn74lvc1g37-q1 p.3 same. Schmitt-trigger input, open-drain output (p.1).",
       "pinouts": {
         "p5": [
@@ -7365,7 +7365,7 @@
       "id": "1T17",
       "function": "Buffer",
       "description": "Single Schmitt-trigger buffer, 1.8/2.5/3.3 V inputs, single-supply up-translator",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout sn74aup1t17 p.3 (DCK). Y = A, output referenced to VCC; inputs accept 1.8/2.5/3.3 V levels (p.1).",
       "pinouts": {
         "p5": [
@@ -7390,7 +7390,7 @@
       "id": "1T34",
       "function": "Buffer",
       "description": "Single buffer, reduced-threshold 5.5-V-tolerant input (single-supply level shifter)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout sn74lv1t34 p.4 (DBV/DCK: 1 NC, 2 A, 3 GND, 4 Y, 5 VCC); sn74lv1t34-q1 p.3 same.",
       "pinouts": {
         "p5": [
@@ -7418,7 +7418,7 @@
       "id": "1T50",
       "function": "Buffer",
       "description": "Single Schmitt-trigger buffer with level shifting",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74aup1t50 p.1 (DCK): 1 NC, 2 A, 3 GND, 4 Y, 5 VCC. Y = A (p.2). Single-supply translator: low-threshold Schmitt inputs, output at VCC.",
       "pinouts": {
         "p5": [
@@ -7443,7 +7443,7 @@
       "id": "2G07",
       "function": "Buffer",
       "description": "Dual buffer, open-drain outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout sn74lvc2g07 p.3 Pin Functions (DBV, DCK, DRY, DSF, YZP); sn74aup2g07 p.3 Table 5-1 (DCK, DSF, DRY numbers; YFP balls A1 1A, A2 1Y, B1 GND, B2 VCC, C1 2A, C2 2Y); sn74auc2g07 p.1 (DBV, DCK, YZP); sn74lvc2g07b-q1 p.3 (DCK); sn74lvc2g07-ep p.1 (DCK). Open-drain outputs (sn74lvc2g07 p.3).",
       "pinouts": {
         "p6": [
@@ -7494,7 +7494,7 @@
       "id": "2G17",
       "function": "Buffer",
       "description": "Dual Schmitt-trigger buffer",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc2g17 p.3 (DBV/DCK/DRY/DSF/YZP); sn74aup2g17 p.1 (DCK/DRY/DSF/YFP, same order); sn74lvc2g17-ep p.1 (DCK). DSBGA balls: sn74aup2g17 p.1 (YFP: A1 1A, B1 GND, C1 2A, C2 2Y, B2 VCC, A2 1Y), listed in p6 order.",
       "pinouts": {
         "p6": [
@@ -7540,7 +7540,7 @@
       "id": "2G34",
       "function": "Buffer",
       "description": "Dual buffer",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout sn74lvc2g34 p.3 Pin Functions (DBV, DCK, DRL, YZP); sn74auc2g34 p.1 (DBV, DCK, DRL, YZP); sn74aup2g34 p.1 (DCK, DRY, DSF; YFP balls A1 1A, A2 1Y, B1 GND, B2 VCC, C1 2A, C2 2Y); sn74lvc2g34-ep p.1 (DCK).",
       "pinouts": {
         "p6": [
@@ -7587,7 +7587,7 @@
       "id": "3G07",
       "function": "Buffer",
       "description": "Triple buffer/driver, open-drain outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinouts: sn74lvc3g07 p.1 (DCT/DCU); sn74lvc3g07-ep p.1 and sn74lvc3g07-q1 p.1 (DCU, same); sn74aup3g07 p.1 (DCU/DQE same order; RSE top view mirrored: 1Y,3A,2Y,GND,2A,3Y,1A,VCC, same as the existing 3G14_RSE; YFP balls A1..D2). Function table Y = A, open-drain (sn74lvc3g07 p.2).",
       "pinouts": {
         "p8": [
@@ -7646,7 +7646,7 @@
       "id": "3G17",
       "function": "Buffer",
       "description": "Triple Schmitt-trigger buffer",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout sn74lvc3g17 p.3 (DCT/DCU, YZP balls 1=A1..4=D1, 5=D2..8=A2) and sn74aup3g17 p.1 (DCU/DQE same order; YFP balls A1..D2 same; RSE UQFN top view: 1=1Y 2=3A 3=2Y 4=GND 5=2A 6=3Y 7=1A 8=VCC, same as existing 3G14_RSE). Schmitt-trigger inputs (hysteresis not modeled).",
       "pinouts": {
         "p8": [
@@ -7702,7 +7702,7 @@
       "id": "3G34",
       "function": "Buffer",
       "description": "Triple buffer gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "sn74aup3g34 p.1 (DCU/DQE same order; RSE UQFN rotated: 1 1Y, 2 3A, 3 2Y, 4 GND, 5 2A, 6 3Y, 7 1A, 8 VCC; YFP balls lettered A1-D2 = pins 1-8); sn74lvc3g34 p.3 (DCT/DCU, YZP balls given as pins 1-8, same positions as YFP). YEP (older NanoStar bump) is not in the lvc3g34 packaging table; it takes the YZP ball map.",
       "pinouts": {
         "p8": [
@@ -7759,7 +7759,7 @@
       "id": "4041UB",
       "function": "Buffer",
       "description": "Quad true/complement buffer",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout and logic from cd4041ub p.1 (scanned; terminal assignment E=A 1, F=/A 2, A 3, G=B 4, H=/B 5, B 6, VSS 7, K=C 8, L=/C 9, C 10, M=D 11, N=/D 12, D 13, VDD 14). Each input drives a buf (true) and a not (complement) output; 4 units.",
       "pinouts": {
         "p14": [
@@ -7803,7 +7803,7 @@
       "id": "4050B",
       "function": "Buffer",
       "description": "Hex non-inverting buffer/converter (high-to-low level shifter, inputs may exceed VCC)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd4050b p.3 Figure 4-2 and p.4 Pin Functions (D, DW, N, NS, PW): inputs A-F, outputs G-L (G = A ... L = F; the table's 'inverting output' wording is copied from CD4049UB), NC on 13 and 16, VCC 1, VSS 8.",
       "pinouts": {
         "p16": [
@@ -7848,7 +7848,7 @@
       "id": "74_07",
       "function": "Buffer",
       "description": "Hex buffer/driver, open-collector/open-drain outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Standard hex pinout, same in every PDF: sn7407 p.3 (D/N/NS), sn74ls07 p.3 (D/DB/N/NS), sn74lv07a p.3, sn74lvc07a p.4 (D/DB/DGV/NS/PW and RGY, one pin table), sn74lvc07a-q1 p.1, sn74lvc07a-ep p.1, sn74ac07 p.3 and sn74ac07-q1 p.3 (PW, BQA/WBQA), sn74act07 p.3 and sn74act07-q1 p.3 (PW, BQA), sn74auc07 p.1 (RGY). Function Y = A. TTL/LS open-collector (30 V outputs), CMOS parts open-drain. BQA/RGY thermal pad is not a pin.",
       "pinouts": {
         "p14": [
@@ -7928,7 +7928,7 @@
       "id": "74_1035",
       "function": "Buffer",
       "description": "Hex noninverting buffer, open-collector outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout sn54als1035 p.1 (J/W/D/N); 5962-8874201CA = SNJ54ALS1035J (sn54als1035 packaging table, marking). Function Y = A, open-collector (p.1).",
       "pinouts": {
         "p14": [
@@ -7968,7 +7968,7 @@
       "id": "74_17",
       "function": "Buffer",
       "description": "Hex Schmitt-trigger buffer",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Standard hex pinout: sn74ac17 p.3 (PW TSSOP, BQA WQFN with thermal pad that is not a pin), sn74ac17-q1 p.3, sn74act17 p.3, sn74act17-q1 p.3, sn74auc17 p.1 (RGY VQFN, same numbering). Function Y = A (sn74auc17 p.1). Push-pull; the TTL SN7417 is open-collector and is device 74_17_OD.",
       "pinouts": {
         "p14": [
@@ -8015,7 +8015,7 @@
       "id": "74_17_OD",
       "function": "Buffer",
       "description": "Hex buffer/driver, open-collector high-voltage (15 V) outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn7417 p.3 (D, N, NS, J, W; same file as sn5417). Open-collector outputs, VO max 15 V for SN5417/SN7417 (sn7417 p.4). Y = A (p.1).",
       "pinouts": {
         "p14": [
@@ -8057,7 +8057,7 @@
       "id": "74_34",
       "function": "Buffer",
       "description": "Hex buffer gate",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout: sn74auc34 p.1 RGY package (top view), standard hex pinout; exposed thermal pad not numbered. Function table Y = A (sn74auc34 p.1). Timing sn74auc34 p.3.",
       "pinouts": {
         "p14": [
@@ -8096,7 +8096,7 @@
       "id": "74_4049",
       "function": "NOT",
       "description": "Hex inverting buffer/converter (inputs to 15 V)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout cd74hc4049 p.1 and p.2 (PDIP/SOIC/SOP/TSSOP, CERDIP): VCC pin 1, GND pin 8, pins 13 and 16 NC. Inputs take up to 15 V for high-to-low level conversion (p.3).",
       "pinouts": {
         "p16": [
@@ -8140,7 +8140,7 @@
       "id": "74_4050",
       "function": "Buffer",
       "description": "Hex non-inverting buffer, high-to-low level converter (inputs to 15 V)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout from cd74hc4050 p.1 (4050 column; PDIP, SOIC, SOP, TSSOP): VCC 1, GND 8, NC 13 and 16. nA to nY non-inverting (p.2 functional diagram).",
       "pinouts": {
         "p16": [
@@ -8184,7 +8184,7 @@
       "id": "74_6T07",
       "function": "Buffer",
       "description": "Hex buffer, open-drain outputs, LVxT translating inputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "Pinout sn74lv6t07 p.3 (PW and BQA same numbering; BQA thermal pad not a pin), sn74lv6t07-q1 p.3, sn74lv6t07-ep p.3; Y = A open-drain (p.9). Timing p.6 (only tPZL/tPLZ given for the open-drain output).",
       "pinouts": {
         "p14": [
@@ -8227,7 +8227,7 @@
       "id": "74_6T17",
       "function": "Buffer",
       "description": "Hex Schmitt-trigger buffer with 5.5-V tolerant inputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Gates"],
       "note": "p14 from sn74lv6t17 p.3 Figure 5-1/5-2 + Table 5-1 (BQA WQFN and PW TSSOP use the same numbers 1-14; BQA thermal pad is not a pin); sn74lv6t17-q1 p.3 and sn74lv6t17-ep p.3 identical. Y = A per channel.",
       "pinouts": {
         "p14": [

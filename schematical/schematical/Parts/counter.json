@@ -7,7 +7,7 @@
       "id": "74_161",
       "function": "Counter",
       "description": "Synchronous 4-bit binary counter, asynchronous clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls161a, sn74als161b, sn74f161a, sn74hc161, cd74hc161, cd74ac161, cd74act161, sn74lv161a; plan-10-data/counter-a.md § 74_161; CD74HC/HCT161 name the pins MR, CP, P0-P3, PE, SPE, TE, Q0-Q3, TC (same pins)",
       "model": "sync",
       "pinouts": {
@@ -158,7 +158,7 @@
       "id": "74_163",
       "function": "Counter",
       "description": "Synchronous 4-bit binary counter, synchronous clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls161a, sn74als161b, sn74f163a, sn74hc163, cd74hc161, cd74ac163, cd74act163, sn74lv163a; plan-10-data/counter-a.md § 74_163; CD74HC/HCT163 name the pins MR, CP, P0-P3, PE, SPE, TE, Q0-Q3, TC (same pins)",
       "model": "sync",
       "pinouts": {
@@ -317,7 +317,7 @@
       "id": "74_169",
       "function": "Counter",
       "description": "Synchronous 4-bit up/down binary counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls169b, sn74als169b; plan-10-data/counter-a.md § 74_169",
       "model": "sync",
       "pinouts": {
@@ -399,7 +399,7 @@
       "id": "74_190",
       "function": "Counter",
       "description": "Synchronous up/down BCD counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd74hc190, p.14; plan-10-data/counter-a.md § 74_190",
       "model": "sync",
       "pinouts": {
@@ -441,7 +441,7 @@
       "id": "74_191",
       "function": "Counter",
       "description": "Synchronous up/down 4-bit binary counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls191, sn74als191a, sn74hc191, cd74hc190, p.15; plan-10-data/counter-a.md § 74_191",
       "model": "sync",
       "pinouts": {
@@ -544,7 +544,7 @@
       "id": "74_192",
       "function": "Counter",
       "description": "Synchronous up/down BCD counter with dual clock and clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls193, cd74hc192, p.6-7; plan-10-data/counter-a.md § 74_192; CD74HC192 names the pins P0-P3, CPU, CPD, PL, MR, Q0-Q3, TCU, TCD (same pins)",
       "model": "sync",
       "pinouts": {
@@ -593,7 +593,7 @@
       "id": "74_193",
       "function": "Counter",
       "description": "Synchronous up/down 4-bit binary counter with dual clock and clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls193, sn74als193a, sn74hc193, cd74hc192, p.7; plan-10-data/counter-a.md § 74_193; CD74HC/HCT193 name the pins P0-P3, CPU, CPD, PL, MR, Q0-Q3, TCU, TCD (same pins)",
       "model": "sync",
       "pinouts": {
@@ -699,7 +699,7 @@
       "id": "74_561",
       "function": "Counter",
       "description": "Synchronous 4-bit counter with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74als561a, p.7; plan-10-data/counter-a.md § 74_561",
       "model": "sync",
       "pinouts": {
@@ -740,7 +740,7 @@
       "id": "74_569",
       "function": "Counter",
       "description": "Synchronous 4-bit up/down binary counter with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74als569a, p.10; plan-10-data/counter-a.md § 74_569",
       "model": "sync",
       "pinouts": {
@@ -787,7 +787,7 @@
       "id": "74_867",
       "function": "Counter",
       "description": "Synchronous 8-bit up/down counter, asynchronous clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74als867a; plan-10-data/counter-a.md § 74_867",
       "model": "sync",
       "pinouts": {
@@ -832,7 +832,7 @@
       "id": "74_869",
       "function": "Counter",
       "description": "Synchronous 8-bit up/down counter, synchronous clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74als867a, p.11; plan-10-data/counter-a.md § 74_869",
       "model": "sync",
       "pinouts": {
@@ -878,7 +878,7 @@
       "id": "74_867_AS",
       "function": "Counter",
       "description": "Synchronous 8-bit up/down counter, asynchronous clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74als867a; plan-10-data/counter-a.md § 74_867; AS parts gate RCO with ENP too (sn74als867a p.2)",
       "model": "sync",
       "pinouts": {
@@ -925,7 +925,7 @@
       "id": "74_869_AS",
       "function": "Counter",
       "description": "Synchronous 8-bit up/down counter, synchronous clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74als867a; plan-10-data/counter-a.md § 74_869; AS parts gate RCO with ENP too (sn74als867a p.2)",
       "model": "sync",
       "pinouts": {
@@ -972,7 +972,7 @@
       "id": "74_590",
       "function": "Counter",
       "description": "8-bit binary counter with 3-state output register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls590, sn74hc590a, p.8; plan-10-data/counter-b.md § 74_590; SN74HC590A names CCK, RCK, G as CCLK, RCLK, OE (same pins)",
       "model": "sync",
       "pinouts": {
@@ -1053,7 +1053,7 @@
       "id": "74_592",
       "function": "Counter",
       "description": "8-bit binary counter with input register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls592, p.8; plan-10-data/counter-b.md § 74_592",
       "model": "sync",
       "pinouts": {
@@ -1097,7 +1097,7 @@
       "id": "74_593",
       "function": "Counter",
       "description": "8-bit binary counter with input register and 3-state I/O",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls593, p.8; plan-10-data/counter-b.md § 74_593",
       "model": "sync",
       "pinouts": {
@@ -1142,7 +1142,7 @@
       "id": "74_697",
       "function": "Counter",
       "description": "Synchronous 4-bit up/down binary counter with output register and multiplexed 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls697; plan-10-data/counter-b.md § 74_697",
       "model": "sync",
       "pinouts": {
@@ -1185,7 +1185,7 @@
       "id": "74_8154",
       "function": "Counter",
       "description": "Dual 16-bit binary counter with 3-state output register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74lv8154, p.6; plan-10-data/counter-b.md § 74_8154",
       "model": "sync",
       "pinouts": {
@@ -1231,7 +1231,7 @@
       "id": "4029B",
       "function": "Counter",
       "description": "Presettable up/down counter, binary or BCD-decade",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4029b; plan-10-data/counter-c.md § 4029B",
       "model": "sync",
       "pinouts": {
@@ -1275,7 +1275,7 @@
       "id": "4510B",
       "function": "Counter",
       "description": "Presettable BCD up/down counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4510b; plan-10-data/counter-c.md § 4510B / 4516B",
       "model": "sync",
       "pinouts": {
@@ -1314,7 +1314,7 @@
       "id": "4516B",
       "function": "Counter",
       "description": "Presettable binary up/down counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4510b; plan-10-data/counter-c.md § 4510B / 4516B",
       "model": "sync",
       "pinouts": {
@@ -1357,7 +1357,7 @@
       "id": "4518B",
       "function": "Counter",
       "description": "Dual BCD up counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4518b; plan-10-data/counter-c.md § 4518B / 4520B",
       "model": "sync",
       "pinouts": {
@@ -1403,7 +1403,7 @@
       "id": "4520B",
       "function": "Counter",
       "description": "Dual binary up counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4518b; plan-10-data/counter-c.md § 4518B / 4520B",
       "model": "sync",
       "pinouts": {
@@ -1450,7 +1450,7 @@
       "id": "74_4518",
       "function": "Counter",
       "description": "Dual BCD up counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd74hc4518, p.5; plan-10-data/counter-c.md § 74_4518 / 74_4520",
       "model": "sync",
       "pinouts": {
@@ -1488,7 +1488,7 @@
       "id": "74_4520",
       "function": "Counter",
       "description": "Dual binary up counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd74hc4518, p.5, p.6; plan-10-data/counter-c.md § 74_4518 / 74_4520",
       "model": "sync",
       "pinouts": {
@@ -1537,7 +1537,7 @@
       "id": "40102B",
       "function": "Counter",
       "description": "Presettable 2-decade BCD down counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd40102b; plan-10-data/counter-c.md § 40102B / 40103B",
       "model": "sync",
       "pinouts": {
@@ -1577,7 +1577,7 @@
       "id": "40103B",
       "function": "Counter",
       "description": "Presettable 8-bit binary down counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd40102b; plan-10-data/counter-c.md § 40102B / 40103B",
       "model": "sync",
       "pinouts": {
@@ -1619,7 +1619,7 @@
       "id": "74_40103",
       "function": "Counter",
       "description": "Presettable 8-bit binary down counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd74hc40103, p.6, p.7; plan-10-data/counter-c.md § 74_40103",
       "model": "sync",
       "pinouts": {
@@ -1667,7 +1667,7 @@
       "id": "40160B",
       "function": "Counter",
       "description": "Synchronous programmable decade counter, asynchronous clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd40160b; plan-10-data/counter-c.md § 40160B / 40161B",
       "model": "sync",
       "pinouts": {
@@ -1704,7 +1704,7 @@
       "id": "40161B",
       "function": "Counter",
       "description": "Synchronous programmable 4-bit binary counter, asynchronous clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd40160b; plan-10-data/counter-c.md § 40160B / 40161B",
       "model": "sync",
       "pinouts": {
@@ -1744,7 +1744,7 @@
       "id": "40192B",
       "function": "Counter",
       "description": "Presettable BCD up/down counter, dual clock",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd40192b; plan-10-data/counter-c.md § 40192B / 40193B",
       "model": "sync",
       "pinouts": {
@@ -1784,7 +1784,7 @@
       "id": "40193B",
       "function": "Counter",
       "description": "Presettable binary up/down counter, dual clock",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd40192b; plan-10-data/counter-c.md § 40192B / 40193B",
       "model": "sync",
       "pinouts": {
@@ -1826,7 +1826,7 @@
       "id": "4522B",
       "function": "Divider",
       "description": "Programmable BCD divide-by-N counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4522b, p.5; plan-10-data/divider.md § 4522B; pin 12, printed \"0\", is named ZERO",
       "model": "sync",
       "pinouts": {
@@ -1866,7 +1866,7 @@
       "id": "74_90",
       "function": "Counter",
       "description": "Decade counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls90; plan-10-data/counter-b.md § 74_90",
       "model": "ripple",
       "pinouts": {
@@ -1911,7 +1911,7 @@
       "id": "74_92",
       "function": "Counter",
       "description": "Divide-by-12 counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls90; plan-10-data/counter-b.md § 74_92",
       "model": "ripple",
       "pinouts": {
@@ -1950,7 +1950,7 @@
       "id": "74_93",
       "function": "Counter",
       "description": "4-bit binary counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls90; plan-10-data/counter-b.md § 74_93",
       "model": "ripple",
       "pinouts": {
@@ -1997,7 +1997,7 @@
       "id": "74_293",
       "function": "Counter",
       "description": "4-bit binary counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls293; plan-10-data/counter-b.md § 74_293",
       "model": "ripple",
       "pinouts": {
@@ -2035,7 +2035,7 @@
       "id": "74_390",
       "function": "Counter",
       "description": "Dual 4-bit decade counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls390, cd74hc390, p.6, p.7; plan-10-data/counter-b.md § 74_390",
       "model": "ripple",
       "pinouts": {
@@ -2124,7 +2124,7 @@
       "id": "74_393",
       "function": "Counter",
       "description": "Dual 4-bit binary counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74ls390, sn74hc393, cd74hc393, sn74lv393a, p.7; plan-10-data/counter-b.md § 74_393; LS sheets name the clocks 1A, 2A; CD sheets use CP/MR/Q0-Q3 (same pins)",
       "model": "ripple",
       "pinouts": {
@@ -2241,7 +2241,7 @@
       "id": "4020B",
       "function": "Counter",
       "description": "14-stage ripple-carry binary counter/divider",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4020b, p.4; plan-10-data/counter-b.md § 4020B",
       "model": "ripple",
       "pinouts": {
@@ -2287,7 +2287,7 @@
       "id": "4024B",
       "function": "Counter",
       "description": "7-stage ripple-carry binary counter/divider",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4020b, p.4; plan-10-data/counter-b.md § 4024B",
       "model": "ripple",
       "pinouts": {
@@ -2334,7 +2334,7 @@
       "id": "4040B",
       "function": "Counter",
       "description": "12-stage ripple-carry binary counter/divider",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4020b, p.4; plan-10-data/counter-b.md § 4040B",
       "model": "ripple",
       "pinouts": {
@@ -2381,7 +2381,7 @@
       "id": "74_4020",
       "function": "Counter",
       "description": "14-stage binary ripple counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn74hc4020, cd74hc4020, p.7; plan-10-data/counter-b.md § 74_4020; SN74HC4020 names the pins CLK, CLR, QA-QN (QA = Q1)",
       "model": "ripple",
       "pinouts": {
@@ -2469,7 +2469,7 @@
       "id": "74_4024",
       "function": "Counter",
       "description": "7-stage binary ripple counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd74hc4024, p.7; plan-10-data/counter-b.md § 74_4024",
       "model": "ripple",
       "pinouts": {
@@ -2517,7 +2517,7 @@
       "id": "74_4040",
       "function": "Counter",
       "description": "12-stage binary ripple counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "scls160e, cd74hc4040, p.7, sn74lv4040a, p.6; plan-10-data/counter-b.md § 74_4040; SN74HC4040 and SN74LV4040A name the pins CLK, CLR, QA-QL (QA = Q1)",
       "model": "ripple",
       "pinouts": {
@@ -2619,7 +2619,7 @@
       "id": "4017B",
       "function": "Divider",
       "description": "Decade counter/divider with 10 decoded outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4017b, p.4; plan-10-data/divider.md § 4017B",
       "model": "johnson",
       "pinouts": {
@@ -2671,7 +2671,7 @@
       "id": "4022B",
       "function": "Divider",
       "description": "Octal counter/divider with 8 decoded outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4017b, p.4; plan-10-data/divider.md § 4022B",
       "model": "johnson",
       "pinouts": {
@@ -2717,7 +2717,7 @@
       "id": "74_4017",
       "function": "Divider",
       "description": "Decade counter/divider with 10 decoded outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd74hc4017; plan-10-data/divider.md § 74_4017",
       "model": "johnson",
       "pinouts": {
@@ -2766,7 +2766,7 @@
       "id": "4018B",
       "function": "Divider",
       "description": "Presettable divide-by-N counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4018b, p.4; plan-10-data/divider.md § 4018B; outputs Q1-Q5 are printed with an overbar: each shows NOT its stage",
       "model": "johnson",
       "pinouts": {
@@ -2816,7 +2816,7 @@
       "id": "4026B",
       "function": "Counter",
       "description": "Decade counter/divider with decoded 7-segment display outputs and display enable",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4026b, p.4; plan-10-data/counter-c.md § 4026B / 4033B",
       "model": "seg7",
       "pinouts": {
@@ -2862,7 +2862,7 @@
       "id": "4033B",
       "function": "Counter",
       "description": "Decade counter/divider with decoded 7-segment display outputs and ripple blanking",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4026b, p.4; plan-10-data/counter-c.md § 4026B / 4033B",
       "model": "seg7",
       "pinouts": {
@@ -2905,7 +2905,7 @@
       "id": "40110B",
       "function": "Counter",
       "description": "Decade up/down counter/latch/display driver",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd40110b, p.6; plan-10-data/counter-c.md § 40110B",
       "model": "seg7",
       "pinouts": {
@@ -2948,7 +2948,7 @@
       "id": "4059A",
       "function": "Divider",
       "description": "Programmable divide-by-N counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4059a; plan-10-data/divider.md § 4059A",
       "model": "divn",
       "pinouts": {
@@ -2996,7 +2996,7 @@
       "id": "74_4059",
       "function": "Divider",
       "description": "Programmable divide-by-N counter",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd74hc4059; plan-10-data/divider.md § 74_4059",
       "model": "divn",
       "pinouts": {
@@ -3043,7 +3043,7 @@
       "id": "4089B",
       "function": "Divider",
       "description": "Binary rate multiplier",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4089b; plan-10-data/divider.md § 4089B",
       "model": "rate",
       "pinouts": {
@@ -3092,7 +3092,7 @@
       "id": "4527B",
       "function": "Divider",
       "description": "BCD rate multiplier",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "cd4527b, p.3; plan-10-data/divider.md § 4527B",
       "model": "rate",
       "pinouts": {
@@ -3141,7 +3141,7 @@
       "id": "74_97",
       "function": "Divider",
       "description": "Synchronous 6-bit binary rate multiplier",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Counters"],
       "note": "sn5497; plan-10-data/divider.md § 74_97",
       "model": "rate",
       "pinouts": {

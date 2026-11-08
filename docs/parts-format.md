@@ -69,7 +69,7 @@ parts that share them.
   "id": "74_00",
   "function": "NAND",
   "description": "Quad 2-input NAND gate",
-  "drawer": ["Logic"],
+  "drawer": ["Logic", "Gates"],
   "note": "optional provenance text",
   "pinouts": { "p14": [ ... ], "lccc20": [ ... ] },
   "...kind keys...": "...",

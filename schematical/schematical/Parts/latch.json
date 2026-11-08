@@ -7,7 +7,7 @@
       "id": "74_373",
       "function": "Latch",
       "description": "Octal transparent D-type latches with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74ls373, sn74als373a, sn74f373, sn74hc373, sn74hct373, sn74hcs373, sn74ac373, sn74act373, sn74ahc373, sn74ahct373, sn74abt373, sn74lv373a, sn74lvc373a, sn74lvth373; plan-10-data/latch-a.md § 74_373; LS sheets name OE/LE as OC/C, CD74AC numbers bits from 0 (same pins)",
       "model": "transparent",
       "pinouts": {
@@ -314,7 +314,7 @@
       "id": "74_573",
       "function": "Latch",
       "description": "Octal transparent D-type latches with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74als573c, sn74f573, sn74bct573, sn74abt573a, sn74hc573a, sn74hct573, sn74hcs573, sn74ac573, sn74act573, sn74ahc573, sn74ahct573, sn74lv573a, sn74lvc573a, sn74lvt573; plan-10-data/latch-a.md § 74_573; LS sheets name OE/LE as OC/C, CD74AC numbers bits from 0 (same pins)",
       "model": "transparent",
       "pinouts": {
@@ -591,7 +591,7 @@
       "id": "74_533",
       "function": "Latch",
       "description": "Octal inverting transparent D-type latches with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "cd74hc533, sn74abt533a, sn74ac533, sn74act533, sn74als533a; plan-10-data/latch-a.md § 74_533; outputs are inverted (printed with an overbar); CD sheets use D0..D7/Q0..Q7",
       "model": "transparent",
       "pinouts": {
@@ -664,7 +664,7 @@
       "id": "74_563",
       "function": "Latch",
       "description": "Octal inverting transparent D-type latches with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74hc563, cd74hc533, sn74ac563, sn74act563; plan-10-data/latch-a.md § 74_563; outputs are inverted (printed with an overbar); CD sheets use D0..D7/Q0..Q7",
       "model": "transparent",
       "pinouts": {
@@ -734,7 +734,7 @@
       "id": "74_580",
       "function": "Latch",
       "description": "Octal inverting transparent D-type latches with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74als580b; plan-10-data/latch-a.md § 74_580; outputs are inverted (printed with an overbar); CD sheets use D0..D7/Q0..Q7",
       "model": "transparent",
       "pinouts": {
@@ -791,7 +791,7 @@
       "id": "74_841",
       "function": "Latch",
       "description": "10-bit bus-interface D-type latches with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74abt841a, sn74als841, sn74lvc841a; plan-10-data/latch-a.md § 74_841",
       "model": "transparent",
       "pinouts": {
@@ -863,7 +863,7 @@
       "id": "74_843",
       "function": "Latch",
       "description": "9-bit bus-interface D-type latches with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74abt843, sn74als843; plan-10-data/latch-a.md § 74_843",
       "model": "transparent",
       "pinouts": {
@@ -928,7 +928,7 @@
       "id": "74_1G373",
       "function": "Latch",
       "description": "Single D-type latch with 3-state output",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74lvc1g373; plan-10-data/latch-a.md § 74_1G373",
       "model": "transparent",
       "pinouts": {
@@ -971,7 +971,7 @@
       "id": "74_16373",
       "function": "Latch",
       "description": "16-bit transparent D-type latches with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74abt16373a, sn74ahc16373, sn74ahct16373, sn74alvch16373, sn74auc16373, sn74avc16373, sn74lvc16373a, sn74lvch16373a, sn74lvth16373; plan-10-data/latch-a.md § 74_16373",
       "model": "transparent",
       "pinouts": {
@@ -1110,7 +1110,7 @@
       "id": "74_162373",
       "function": "Latch",
       "description": "16-bit transparent D-type latches with 3-state outputs, 22-ohm series resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74lvth162373; plan-10-data/latch-a.md § 74_162373",
       "model": "transparent",
       "pinouts": {
@@ -1201,7 +1201,7 @@
       "id": "74_32373",
       "function": "Latch",
       "description": "32-bit transparent D-type latch with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74lvch32373a; plan-10-data/latch-a.md § 74_32373",
       "model": "transparent",
       "pinouts": {
@@ -1351,7 +1351,7 @@
       "id": "74_16841",
       "function": "Latch",
       "description": "20-bit bus-interface D-type latches with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74abt16841, sn74alvch16841; plan-10-data/latch-a.md § 74_16841",
       "model": "transparent",
       "pinouts": {
@@ -1455,7 +1455,7 @@
       "id": "74_162841",
       "function": "Latch",
       "description": "20-bit bus-interface D-type latches with 3-state outputs, 25-ohm series resistors",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74abt162841, sn74alvch162841; plan-10-data/latch-a.md § 74_162841",
       "model": "transparent",
       "pinouts": {
@@ -1558,7 +1558,7 @@
       "id": "74_75",
       "function": "Latch",
       "description": "4-bit bistable latches",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74ls75, cd74hc75; plan-10-data/latch-b.md § 74_75; HC/HCT sheets name the pins 1D0..2D1, 1E, 2E, 1Q0..2Q1 (same positions as the LS names used here)",
       "model": "transparent",
       "pinouts": {
@@ -1624,7 +1624,7 @@
       "id": "74_375",
       "function": "Latch",
       "description": "4-bit bistable latches",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74ls375; plan-10-data/latch-b.md § 74_375",
       "model": "transparent",
       "pinouts": {
@@ -1668,7 +1668,7 @@
       "id": "4042B",
       "function": "Latch",
       "description": "Quad clocked D latch",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "cd4042b; plan-10-data/latch-b.md § 4042B",
       "model": "transparent",
       "pinouts": {
@@ -1719,7 +1719,7 @@
       "id": "4508B",
       "function": "Latch",
       "description": "Dual 4-bit latch with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "cd4508b; plan-10-data/latch-b.md § 4508B",
       "model": "transparent",
       "pinouts": {
@@ -1778,7 +1778,7 @@
       "id": "74_259",
       "function": "Latch",
       "description": "8-bit addressable latches",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74ls259b, sn74hc259, cd74hc259, sn74hcs259; plan-10-data/latch-b.md § 74_259",
       "model": "addressable",
       "pinouts": {
@@ -1878,7 +1878,7 @@
       "id": "4099B",
       "function": "Latch",
       "description": "8-bit addressable latch",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "cd4099b; plan-10-data/latch-b.md § 4099B",
       "model": "addressable",
       "pinouts": {
@@ -1925,7 +1925,7 @@
       "id": "4724B",
       "function": "Latch",
       "description": "8-bit addressable latch",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "cd4724b; plan-10-data/latch-b.md § 4724B",
       "model": "addressable",
       "pinouts": {
@@ -1965,7 +1965,7 @@
       "id": "TPIC6259",
       "function": "Latch",
       "description": "Power logic 8-bit addressable latch",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "tpic6259; plan-10-data/latch-b.md § TPIC6259",
       "model": "addressable",
       "pinouts": {
@@ -2014,7 +2014,7 @@
       "id": "TPIC6A259",
       "function": "Latch",
       "description": "Power logic 8-bit addressable latch",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "tpic6a259; plan-10-data/latch-b.md § TPIC6A259",
       "model": "addressable",
       "pinouts": {
@@ -2088,7 +2088,7 @@
       "id": "TPIC6B259",
       "function": "Latch",
       "description": "Power logic 8-bit addressable latch",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "tpic6b259; plan-10-data/latch-b.md § TPIC6B259",
       "model": "addressable",
       "pinouts": {
@@ -2137,7 +2137,7 @@
       "id": "74_279",
       "function": "Latch",
       "description": "Quadruple S-R latches",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74ls279a; plan-10-data/latch-b.md § 74_279",
       "model": "sr",
       "pinouts": {
@@ -2212,7 +2212,7 @@
       "id": "4043B",
       "function": "Latch",
       "description": "Quad 3-state NOR R/S latch",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "cd4043b; plan-10-data/latch-b.md § 4043B",
       "model": "sr",
       "pinouts": {
@@ -2266,7 +2266,7 @@
       "id": "4044B",
       "function": "Latch",
       "description": "Quad 3-state NAND R/S latch",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "cd4043b; plan-10-data/latch-b.md § 4044B",
       "model": "sr",
       "pinouts": {
@@ -2318,7 +2318,7 @@
       "id": "74_4511",
       "function": "Latch",
       "description": "BCD-to-7-segment latch/decoder/driver",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "cd74hc4511; plan-10-data/latch-b.md § 74_4511",
       "model": "bcd7seg",
       "pinouts": {
@@ -2370,7 +2370,7 @@
       "id": "74_16260",
       "function": "Latch",
       "description": "12-bit to 24-bit multiplexed D-type latch with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "sn74alvch16260; plan-10-data/latch-b.md § 74_16260",
       "model": "bus-mux",
       "pinouts": {

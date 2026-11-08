@@ -7,7 +7,7 @@
       "id": "74_85",
       "function": "Comparator",
       "description": "4-bit magnitude comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "sn74ls85, cd74hc85; plan-22-data/specs.md § 74_85",
       "model": "compare",
       "pinouts": {
@@ -64,7 +64,7 @@
       "id": "4063B",
       "function": "Comparator",
       "description": "CMOS 4-bit magnitude comparator",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "cd4063b; plan-22-data/specs.md § 4063B",
       "model": "compare",
       "pinouts": {
@@ -105,7 +105,7 @@
       "id": "4585B",
       "function": "Comparator",
       "description": "CMOS 4-bit magnitude comparator",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "cd4585b; plan-22-data/specs.md § 4585B",
       "model": "compare",
       "pinouts": {
@@ -147,7 +147,7 @@
       "id": "74_682",
       "function": "Comparator",
       "description": "8-bit magnitude comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "sn74hc682, sn74ls682; plan-22-data/specs.md § 74_682",
       "model": "compare",
       "pinouts": {
@@ -193,7 +193,7 @@
       "id": "74_684",
       "function": "Comparator",
       "description": "8-bit magnitude comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "sn74hc684, sn74ls682; plan-22-data/specs.md § 74_684",
       "model": "compare",
       "pinouts": {
@@ -239,7 +239,7 @@
       "id": "74_688",
       "function": "Comparator",
       "description": "8-bit identity comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "sn74hc688, cd74hc688, sn74als688, sn74ls682; plan-22-data/specs.md § 74_688",
       "model": "compare",
       "pinouts": {
@@ -299,7 +299,7 @@
       "id": "74_518",
       "function": "Comparator",
       "description": "8-bit identity comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "comparator/sn74als518; plan-22-data/specs.md § 74_518",
       "model": "compare",
       "pinouts": {
@@ -343,7 +343,7 @@
       "id": "74_520",
       "function": "Comparator",
       "description": "8-bit identity comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "comparator/sn74als518; plan-22-data/specs.md § 74_520",
       "model": "compare",
       "pinouts": {
@@ -387,7 +387,7 @@
       "id": "74_521",
       "function": "Comparator",
       "description": "8-bit identity comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "comparator/sn74als518, comparator/sn74f521; plan-22-data/specs.md § 74_521",
       "model": "compare",
       "pinouts": {
@@ -438,7 +438,7 @@
       "id": "74_885",
       "function": "Comparator",
       "description": "8-bit magnitude comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "comparator/sn74as885; plan-22-data/specs.md § 74_885",
       "model": "compare",
       "pinouts": {
@@ -487,7 +487,7 @@
       "id": "74_280",
       "function": "Parity",
       "description": "9-bit odd/even parity generators/checkers",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "parity/sn74ls280, parity/sn74as280, parity/sn74f280b, parity/cd74hc280, parity/cd74ac280; plan-22-data/specs.md § 74_280",
       "model": "parity",
       "pinouts": {
@@ -548,7 +548,7 @@
       "id": "74_286",
       "function": "Parity",
       "description": "9-bit parity generators/checkers with bus-driver parity I/O port",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "parity/sn74as286; plan-22-data/specs.md § 74_286",
       "model": "parity",
       "pinouts": {
@@ -584,7 +584,7 @@
       "id": "74_11286",
       "function": "Parity",
       "description": "9-bit parity generator/checker with bus driver parity I/O ports",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "parity/74act11286; plan-22-data/specs.md § 74_11286",
       "model": "parity",
       "pinouts": {
@@ -620,7 +620,7 @@
       "id": "74_283",
       "function": "Adder",
       "description": "4-bit binary full adders with fast carry",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "sn74ls283, sn74f283, cd74hc283, cd74ac283; plan-22-data/specs.md § 74_283",
       "model": "adder",
       "pinouts": {
@@ -681,7 +681,7 @@
       "id": "74_181",
       "function": "ALU",
       "description": "Arithmetic logic units/function generators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "sn54ls181; plan-22-data/specs.md § 74_181",
       "model": "alu181",
       "pinouts": {
@@ -734,7 +734,7 @@
       "id": "74_275",
       "function": "Multiplier",
       "description": "7-bit-slice Wallace trees with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "snx4ls27x (SN54LS275, SN74LS275; scanned TI bulletin DL-S 7612121, revised August 1977); plan-22-data/specs.md § 74_275",
       "model": "wallace",
       "pinouts": {

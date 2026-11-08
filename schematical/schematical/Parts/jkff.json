@@ -7,7 +7,7 @@
       "id": "74_73",
       "function": "JK flip-flop",
       "description": "Dual negative-edge-triggered J-K flip-flop with clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "SN74LS73AD, SN74LS73ADR, SN74LS73AN, SN74LS73ANE4: VCC 4.75-5.25 V (sn74ls73a p.5)",
       "pinouts": {
         "p14": [
@@ -66,7 +66,7 @@
       "id": "74_76",
       "function": "JK flip-flop",
       "description": "Dual J-K flip-flop with preset and clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p16": [
           {"number":1,"name":"1CLK","role":"input"},
@@ -112,7 +112,7 @@
       "id": "74_107",
       "function": "JK flip-flop",
       "description": "Dual J-K flip-flop with clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p14": [
           {"number":1,"name":"1J","role":"input"},
@@ -165,7 +165,7 @@
       "id": "74_109",
       "function": "JK flip-flop",
       "description": "Dual J-KBAR positive-edge-triggered flip-flop with preset and clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "SN54LS109AJ, SNJ54LS109AJ, SNJ54LS109AW: VCC 4.5-5.5 V (sn74ls109a p.5)",
       "pinouts": {
         "p16": [
@@ -300,7 +300,7 @@
       "id": "74_112",
       "function": "JK flip-flop",
       "description": "Dual negative-edge-triggered J-K flip-flop with preset and clear",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "note": "SN54LS112AJ, SNJ54LS112AJ, SNJ54LS112AW, SNJ54LS112AFK: VCC 4.5-5.5 V (sn74ls112a p.4) | SN74S112AN: VCC 4.75-5.25 V (sn74ls112a p.6)",
       "pinouts": {
         "p16": [
@@ -439,7 +439,7 @@
       "id": "4027B",
       "function": "JK flip-flop",
       "description": "CMOS dual J-K flip-flop with active-high set and reset",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p16": [
           {"number":1,"name":"2Q","role":"output"},

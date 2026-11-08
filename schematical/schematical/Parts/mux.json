@@ -7,7 +7,7 @@
       "id": "74_151",
       "function": "Multiplexer",
       "description": "8-line to 1-line data selectors/multiplexers",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74hc151, sn74hc151-q1, cd74hc151, sn74hcs151, sn74hcs151-q1, cd74ac151, sn74ac151-q1, cd74act151, sn74act151-q1, sn74ls151, sn74als151, sn74f151b; plan-21-data/specs.md § 74_151",
       "model": "select",
       "pinouts": {
@@ -109,7 +109,7 @@
       "id": "74_153",
       "function": "Multiplexer",
       "description": "Dual 4-line to 1-line data selectors/multiplexers",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74hc153, sn74hcs153, sn74hcs153-q1, cd74hc153, sn74ls153, sn74als153, sn74f153, cd74ac153, sn74ac153-q1, cd74act153, sn74act153, sn74act153-q1; plan-21-data/specs.md § 74_153",
       "model": "select",
       "pinouts": {
@@ -217,7 +217,7 @@
       "id": "74_157",
       "function": "Multiplexer",
       "description": "Quadruple 2-line to 1-line data selectors/multiplexers",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74hc157, cd74hc157, sn74hct157, sn74hcs157, sn74hcs157-q1, sn74ls157, sn74als157a, sn74f157a, cd74ac157, sn74ac157-q1, cd74act157, sn74act157-q1, sn74ahc157, sn74ahc157-q1, sn74ahct157, sn74lv157a, sn74lvc157a, sn74lvc157a-q1, sn74lvc157a-ep, cy74fct157t; plan-21-data/specs.md § 74_157",
       "model": "select",
       "pinouts": {
@@ -374,7 +374,7 @@
       "id": "74_158",
       "function": "Multiplexer",
       "description": "Quadruple 2-line to 1-line data selectors/multiplexers",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd74ac158, cd74act158, cd74hc157, sn74ls157, sn74ahc158, sn74ahct158, sn74als157a, sn74hc158, sn74lvc158a; plan-21-data/specs.md § 74_158",
       "model": "select",
       "pinouts": {
@@ -443,7 +443,7 @@
       "id": "74_251",
       "function": "Multiplexer",
       "description": "1-of-8 data selectors/multiplexers with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74hc251, cd74hc251, sn74hcs251, sn74hcs251-q1, cd74ac251, sn74ls251, sn74als251, sn74f251b; plan-21-data/specs.md § 74_251",
       "model": "select",
       "pinouts": {
@@ -504,7 +504,7 @@
       "id": "74_253",
       "function": "Multiplexer",
       "description": "Dual 4-line to 1-line data selectors/multiplexers with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74hc253, sn74hc253-ep, sn74hc253-q1, cd74hc253, sn74ls253, sn74als253, sn74f253, cd74ac253; plan-21-data/specs.md § 74_253",
       "model": "select",
       "pinouts": {
@@ -590,7 +590,7 @@
       "id": "74_257",
       "function": "Multiplexer",
       "description": "Quadruple 2-line to 1-line data selectors/multiplexers with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74hc257, cd74hc257, sn74hct257, sn74ls257b, sn74als257a, sn74f257, cd74ac257, sn74ac257-q1, sn74act257-q1, sn74ahc257, sn74ahc257-q1, sn74ahct257, sn74ahct257-q1, sn74lvc257a, sn74lvc257a-q1, sn74lvc257a-ep, cy74fct257t; plan-21-data/specs.md § 74_257",
       "model": "select",
       "pinouts": {
@@ -696,7 +696,7 @@
       "id": "74_258",
       "function": "Multiplexer",
       "description": "Quadruple 2-line to 1-line inverting data selectors/multiplexers with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74ls257b, sn74als257a, sn74f258, sn74hc257, cd74hct258, cd74ac257, sn74lvc258a; plan-21-data/specs.md § 74_258",
       "model": "select",
       "pinouts": {
@@ -755,7 +755,7 @@
       "id": "74_2G157",
       "function": "Multiplexer",
       "description": "Single 2-line to 1-line data selector multiplexer",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74lvc2g157; plan-21-data/specs.md § 74_2G157",
       "model": "select",
       "pinouts": {
@@ -796,7 +796,7 @@
       "id": "74_1T157",
       "function": "Multiplexer",
       "description": "Low power, 1.8/2.5/3.3-V input, 3.3-V CMOS output, single 2-input Schmitt-trigger buffer multiplexer (noninverted)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74aup1t157; plan-21-data/specs.md § 74_1T157",
       "model": "select",
       "pinouts": {
@@ -821,7 +821,7 @@
       "id": "74_1T158",
       "function": "Multiplexer",
       "description": "Low power, 1.8/2.5/3.3-V input, 3.3-V CMOS output, single 2-input Schmitt-trigger buffer multiplexer (inverted)",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74aup1t158; plan-21-data/specs.md § 74_1T158",
       "model": "select",
       "pinouts": {
@@ -847,7 +847,7 @@
       "id": "74_11257",
       "function": "Multiplexer",
       "description": "Quadruple 2-line to 1-line data selector/multiplexer with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "74ac11257, 74act11257; plan-21-data/specs.md § 74_11257",
       "model": "select",
       "pinouts": {
@@ -891,7 +891,7 @@
       "id": "4512B",
       "function": "Multiplexer",
       "description": "CMOS 8-channel data selector",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd4512b p.1, p.3; plan-21-data/specs.md § 4512B",
       "model": "select",
       "pinouts": {
@@ -930,7 +930,7 @@
       "id": "40257B",
       "function": "Multiplexer",
       "description": "Quad 2-line-to-1-line data selector/multiplexer",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd40257b p.1, p.2, p.3; plan-21-data/specs.md § 40257B",
       "model": "select",
       "pinouts": {
@@ -968,7 +968,7 @@
       "id": "74_2257",
       "function": "Multiplexer",
       "description": "Quad 2-input multiplexer with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cy74fct2257t p.1, p.2, p.3, p.5; plan-21-data/specs.md § 74_2257",
       "model": "select",
       "pinouts": {
@@ -1004,7 +1004,7 @@
       "id": "74_298",
       "function": "Multiplexer",
       "description": "Quadruple 2-input multiplexers with storage",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74as298a, sn74ls298; plan-21-data/specs.md § 74_298",
       "model": "stored",
       "pinouts": {
@@ -1043,7 +1043,7 @@
       "id": "74_399",
       "function": "Multiplexer",
       "description": "Quadruple 2-input multiplexers with storage",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74ls399, cy74fct399t; plan-21-data/specs.md § 74_399",
       "model": "stored",
       "pinouts": {
@@ -1084,7 +1084,7 @@
       "id": "74_354",
       "function": "Multiplexer",
       "description": "8-line to 1-line data selector/multiplexer/register with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd74hc354; plan-21-data/specs.md § 74_354",
       "model": "stored",
       "pinouts": {
@@ -1129,7 +1129,7 @@
       "id": "74_356",
       "function": "Multiplexer",
       "description": "8-input multiplexer/register, three-state",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd74hct356; plan-21-data/specs.md § 74_356",
       "model": "stored",
       "pinouts": {
@@ -1171,7 +1171,7 @@
       "id": "74_670",
       "function": "Register file",
       "description": "4-by-4 register files with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd74hc670, sn74ls670; plan-21-data/specs.md § 74_670",
       "model": "regfile",
       "pinouts": {

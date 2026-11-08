@@ -7,7 +7,7 @@
       "id": "74_164",
       "function": "Shift register",
       "description": "8-bit parallel-out serial shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "sn74ls164, sn74hc164, p.10, cd74hc164, p.7, cd74ac164, sn74ahc164, sn74ahct164, sn74hcs164, p.6, sn74lv164a; plan-10-data/shift-a.md § 74_164",
       "model": "shift",
       "pinouts": {
@@ -164,7 +164,7 @@
       "id": "74_264",
       "function": "Shift register",
       "description": "8-bit parallel-out serial shift register with inverted outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "sn74hcs264, p.6; plan-10-data/shift-a.md § 74_264  (SN74HCS264)",
       "model": "shift",
       "pinouts": {
@@ -200,7 +200,7 @@
       "id": "74_165",
       "function": "Shift register",
       "description": "Parallel-load 8-bit shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "sn74ls165a, sn74hc165, p.6, cd74hc165, p.7, sn74ahc165, sn74hcs165, sn74lv165a, sn74lvc165a, p.9; plan-10-data/shift-a.md § 74_165",
       "model": "shift",
       "pinouts": {
@@ -346,7 +346,7 @@
       "id": "74_166",
       "function": "Shift register",
       "description": "Parallel-load 8-bit shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "sn74ls166a, sn74hc166, p.7, cd74hc166, sn74lv166a; plan-10-data/shift-a.md § 74_166",
       "model": "shift",
       "pinouts": {
@@ -462,7 +462,7 @@
       "id": "74_194",
       "function": "Shift register",
       "description": "4-bit bidirectional universal shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "sn74ls194a, cd74hc194, p.6; plan-10-data/shift-a.md § 74_194; CD74HC/HCT194 name the pins MR, DSR, D0-D3, DSL, CP, Q0-Q3 (same pins)",
       "model": "shift",
       "pinouts": {
@@ -549,7 +549,7 @@
       "id": "40194B",
       "function": "Shift register",
       "description": "4-bit bidirectional universal shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd40194b, p.5; plan-10-data/shift-a.md § 40194B",
       "model": "shift",
       "pinouts": {
@@ -586,7 +586,7 @@
       "id": "74_195",
       "function": "Shift register",
       "description": "4-bit parallel-access shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd74hc195; plan-10-data/shift-a.md § 74_195",
       "model": "shift",
       "pinouts": {
@@ -628,7 +628,7 @@
       "id": "74_299",
       "function": "Shift register",
       "description": "8-bit universal shift/storage register with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "sn74ls299, sn74als299, sn74f299, p.5, cd74hc299, p.6, p.7, cd74ac299; plan-10-data/shift-a.md § 74_299; the LS sheet names OE1/OE2 G1/G2; CD sheets use MR, CP, DS0, DS7, I/O0-I/O7, Q0, Q7 (same pins)",
       "model": "shift",
       "pinouts": {
@@ -710,7 +710,7 @@
       "id": "74_323",
       "function": "Shift register",
       "description": "8-bit universal shift/storage register with synchronous reset and 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd74ac299, p.7; plan-10-data/shift-a.md § 74_323",
       "model": "shift",
       "pinouts": {
@@ -751,7 +751,7 @@
       "id": "4014B",
       "function": "Shift register",
       "description": "8-stage static shift register, synchronous parallel input",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd4014b, p.4; plan-10-data/shift-a.md § 4014B",
       "model": "shift",
       "pinouts": {
@@ -794,7 +794,7 @@
       "id": "4021B",
       "function": "Shift register",
       "description": "8-stage static shift register, asynchronous parallel input",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd4014b, p.4; plan-10-data/shift-a.md § 4021B",
       "model": "shift",
       "pinouts": {
@@ -840,7 +840,7 @@
       "id": "4015B",
       "function": "Shift register",
       "description": "Dual 4-stage static shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd4015b, p.4; plan-10-data/shift-a.md § 4015B",
       "model": "shift",
       "pinouts": {
@@ -886,7 +886,7 @@
       "id": "74_4015",
       "function": "Shift register",
       "description": "Dual 4-stage static shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd74hc4015; plan-10-data/shift-a.md § 74_4015  (CD74HC4015)",
       "model": "shift",
       "pinouts": {
@@ -927,7 +927,7 @@
       "id": "4035B",
       "function": "Shift register",
       "description": "4-stage parallel-in/parallel-out shift register with J-K serial inputs and true/complement outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd4035b, p.4; plan-10-data/shift-a.md § 4035B",
       "model": "shift",
       "pinouts": {
@@ -970,7 +970,7 @@
       "id": "4031B",
       "function": "Shift register",
       "description": "64-stage static shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd4031b, p.3; plan-10-data/shift-b.md § 4031B",
       "model": "shift",
       "pinouts": {
@@ -1010,7 +1010,7 @@
       "id": "74_595",
       "function": "Shift register",
       "description": "8-bit shift register with 3-state output registers",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "sn74hc595, p.8, sn74hct595, p.6, sn74ahc595, p.10, sn74ahct595, sn74hcs595, sn74lv595a, sn74lvc595a, p.7, sn74ls595, p.5; plan-10-data/shift-b.md § 74_595; the LS sheet names SRCLK, RCLK, OE as SRCK, RCK, G (same pins)",
       "model": "shift",
       "pinouts": {
@@ -1159,7 +1159,7 @@
       "id": "74_594",
       "function": "Shift register",
       "description": "8-bit shift register with output register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "sn74hc594, p.6, sn74ahc594, p.8, sn74ahct594, sn74lv594a, p.7; plan-10-data/shift-b.md § 74_594",
       "model": "shift",
       "pinouts": {
@@ -1228,7 +1228,7 @@
       "id": "74_596",
       "function": "Shift register",
       "description": "8-bit shift register with open-drain output registers",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "sn74hcs596, p.6; plan-10-data/shift-b.md § 74_596",
       "model": "shift",
       "pinouts": {
@@ -1268,7 +1268,7 @@
       "id": "74_597",
       "function": "Shift register",
       "description": "8-bit shift register with input storage",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "sn74ls597, p.7, cd74hc597, p.6, p.6-7; plan-10-data/shift-b.md § 74_597; CD74HC/HCT597 name the pins D0-D7, Q7, MR, SHCP, STCP, PL, DS (same pins)",
       "model": "shift",
       "pinouts": {
@@ -1350,7 +1350,7 @@
       "id": "74_598",
       "function": "Shift register",
       "description": "8-bit shift register with input latches and 3-state I/O",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "sn74ls598, p.7; plan-10-data/shift-b.md § 74_598",
       "model": "shift",
       "pinouts": {
@@ -1391,7 +1391,7 @@
       "id": "TPIC6595",
       "function": "Shift register",
       "description": "Power logic 8-bit shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "tpic6595; plan-10-data/shift-b.md § TPIC6595; SERIN/SEROUT print as SER IN/SER OUT",
       "model": "shift",
       "pinouts": {
@@ -1436,7 +1436,7 @@
       "id": "TPIC6A595",
       "function": "Shift register",
       "description": "Power logic 8-bit shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "tpic6a595; plan-10-data/shift-b.md § TPIC6A595",
       "model": "shift",
       "pinouts": {
@@ -1506,7 +1506,7 @@
       "id": "TPIC6B595",
       "function": "Shift register",
       "description": "Power logic 8-bit shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "tpic6b595; plan-10-data/shift-b.md § TPIC6B595",
       "model": "shift",
       "pinouts": {
@@ -1551,7 +1551,7 @@
       "id": "TPIC6C595",
       "function": "Shift register",
       "description": "Power logic 8-bit shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "tpic6c595; plan-10-data/shift-b.md § TPIC6C595",
       "model": "shift",
       "pinouts": {
@@ -1596,7 +1596,7 @@
       "id": "TPIC6A596",
       "function": "Shift register",
       "description": "Power logic 8-bit shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "tpic6a596; plan-10-data/shift-b.md § TPIC6A596",
       "model": "shift",
       "pinouts": {
@@ -1665,7 +1665,7 @@
       "id": "TPIC6B596",
       "function": "Shift register",
       "description": "Power logic 8-bit shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "tpic6b596; plan-10-data/shift-b.md § TPIC6B596",
       "model": "shift",
       "pinouts": {
@@ -1710,7 +1710,7 @@
       "id": "TPIC6C596",
       "function": "Shift register",
       "description": "Power logic 8-bit shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "tpic6c596; plan-10-data/shift-b.md § TPIC6C596",
       "model": "shift",
       "pinouts": {
@@ -1755,7 +1755,7 @@
       "id": "4094B",
       "function": "Shift register",
       "description": "8-stage shift-and-store bus register with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd4094b, p.4; plan-10-data/shift-b.md § 4094B; 74_4094 is the HC version with 0-based names",
       "model": "shift",
       "pinouts": {
@@ -1800,7 +1800,7 @@
       "id": "74_4094",
       "function": "Shift register",
       "description": "8-stage shift-and-store bus register with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd74hc4094, p.7; plan-10-data/shift-b.md § 74_4094",
       "model": "shift",
       "pinouts": {
@@ -1854,7 +1854,7 @@
       "id": "74_673",
       "function": "Shift register",
       "description": "16-bit serial-in, serial-out shift register with 16-bit parallel-out storage register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "sn74ls673; plan-10-data/shift-b.md § 74_673",
       "model": "ls673",
       "pinouts": {
@@ -1940,7 +1940,7 @@
       "id": "74_674",
       "function": "Shift register",
       "description": "16-bit parallel-in, serial-out shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "sn74ls673; plan-10-data/shift-b.md § 74_674",
       "model": "ls673",
       "pinouts": {
@@ -2023,7 +2023,7 @@
       "id": "4517B",
       "function": "Shift register",
       "description": "Dual 64-stage static shift register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd4517b, p.4; plan-10-data/shift-b.md § 4517B",
       "model": "tap64",
       "pinouts": {
@@ -2062,7 +2062,7 @@
       "id": "4034B",
       "function": "Shift register",
       "description": "8-stage static bidirectional parallel/serial input/output bus register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd4034b, p.5; plan-10-data/shift-b.md § 4034B",
       "model": "bus-register",
       "pinouts": {
@@ -2113,7 +2113,7 @@
       "id": "40105B",
       "function": "Shift register",
       "description": "FIFO register, 4 bits x 16 words",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd40105b, p.4; plan-10-data/shift-b.md § 40105B",
       "model": "fifo",
       "pinouts": {
@@ -2160,7 +2160,7 @@
       "id": "74_40105",
       "function": "Shift register",
       "description": "4-bit x 16-word FIFO register",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "cd74hc40105, p.8, p.9; plan-10-data/shift-b.md § 74_40105",
       "model": "fifo",
       "pinouts": {
@@ -2211,7 +2211,7 @@
       "id": "74_8153",
       "function": "Shift register",
       "description": "Serial-to-parallel interface",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Registers"],
       "note": "sn74lv8153; plan-10-data/shift-b.md § 74_8153; two supplies: VCC1 (logic) and VCC2 (Y outputs) share one range here",
       "model": "serial-in",
       "pinouts": {

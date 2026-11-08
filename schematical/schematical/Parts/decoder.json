@@ -7,7 +7,7 @@
       "id": "74_138",
       "function": "Decoder",
       "description": "3-line to 8-line decoders/demultiplexers",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74hc138, cd74hc138, cd74hc138-q1, sn74hc138-q1, sn74hct138, sn54hct138, sn74hcs138, sn74hcs138-q1, cd74ac138, sn74ac138-q1, cd74act138, sn74act138-q1, sn74ahc138, sn74ahc138-q1, sn74ahct138, sn74ahct138q-q1, sn74ahct138-ep, sn74als138a, sn74f138, sn74ls138, sn74lv138a, sn74lv138a-q1, sn74lv138at, sn74lvc138a, sn74lvc138a-q1, sn74lvc138a-ep, cy74fct138t; plan-19-data/specs.md § 74_138",
       "model": "binary",
       "pinouts": {
@@ -167,7 +167,7 @@
       "id": "74_238",
       "function": "Decoder",
       "description": "3-line to 8-line decoders/demultiplexers, noninverting outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd74hc138, cd74ac238, cd74act238, sn74ac238-q1, sn74act238, sn74act238-q1, sn74ahc238, sn74ahc238-q1, sn74hcs238, sn74hcs238-q1; plan-19-data/specs.md § 74_238",
       "model": "binary",
       "pinouts": {
@@ -235,7 +235,7 @@
       "id": "74_137",
       "function": "Decoder",
       "description": "3-line to 8-line decoders/demultiplexers with address latches",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sdls132, sn74als137a, cd74hc137, sn74hcs137, sn74hcs137-q1; plan-19-data/specs.md § 74_137",
       "model": "binary",
       "pinouts": {
@@ -285,7 +285,7 @@
       "id": "74_237",
       "function": "Decoder",
       "description": "3-line to 8-line decoders/demultiplexers with address latches, noninverting outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd74hc137, sn74hcs237, sn74hcs237-q1; plan-19-data/specs.md § 74_237",
       "model": "binary",
       "pinouts": {
@@ -332,7 +332,7 @@
       "id": "74_11138",
       "function": "Decoder",
       "description": "3-line to 8-line decoder/demultiplexer",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "74ac11138 p.3, p.6, p.9; plan-19-data/specs.md § 74_11138",
       "model": "binary",
       "pinouts": {
@@ -370,7 +370,7 @@
       "id": "74_2414",
       "function": "Decoder",
       "description": "Memory decoder with on-chip supply voltage monitor",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74bct2414 p.1-6; plan-19-data/specs.md § 74_2414",
       "model": "binary",
       "pinouts": {
@@ -412,7 +412,7 @@
       "id": "74_139",
       "function": "Decoder",
       "description": "Dual 2-line to 4-line decoders/demultiplexers",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74hc139, sn74hc139-q1, cd74hc139, sn74hct139, sn74hcs139, sn74hcs139-q1, sn74ls139a, sn74als139, cd74ac139, sn74ac139-q1, cd74act139, sn74act139, sn74ahc139, sn74ahc139-q1, sn74ahct139, sn74ahct139-q1, sn74lv139a, sn74lvc139a, sn74lvc139a-q1; plan-19-data/specs.md § 74_139",
       "model": "binary",
       "pinouts": {
@@ -531,7 +531,7 @@
       "id": "74_155",
       "function": "Decoder",
       "description": "Dual 2-line to 4-line decoders/demultiplexers",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74ls155a; plan-19-data/specs.md § 74_155",
       "model": "binary",
       "pinouts": {
@@ -570,7 +570,7 @@
       "id": "74_156",
       "function": "Decoder",
       "description": "Dual 2-line to 4-line decoders/demultiplexers with open-collector outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74ls155a, sn74als156; plan-19-data/specs.md § 74_156",
       "model": "binary",
       "pinouts": {
@@ -613,7 +613,7 @@
       "id": "74_11139",
       "function": "Decoder",
       "description": "Dual 2-line to 4-line decoder/demultiplexer",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "74act11139; plan-19-data/specs.md § 74_11139",
       "model": "binary",
       "pinouts": {
@@ -650,7 +650,7 @@
       "id": "74_1G139",
       "function": "Decoder",
       "description": "2-to-4 line decoder",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74lvc1g139; plan-19-data/specs.md § 74_1G139",
       "model": "binary",
       "pinouts": {
@@ -692,7 +692,7 @@
       "id": "74_1G18",
       "function": "Decoder",
       "description": "1-of-2 noninverting demultiplexer with 3-state deselected output",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74lvc1g18; plan-19-data/specs.md § 74_1G18",
       "model": "binary",
       "pinouts": {
@@ -731,7 +731,7 @@
       "id": "74_1G19",
       "function": "Decoder",
       "description": "1-of-2 decoder/demultiplexer",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74lvc1g19, sn74auc1g19; plan-19-data/specs.md § 74_1G19",
       "model": "binary",
       "pinouts": {
@@ -776,7 +776,7 @@
       "id": "74_1G29",
       "function": "Decoder",
       "description": "2-of-3 decoder/demultiplexer",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74lvc1g29; plan-19-data/specs.md § 74_1G29",
       "model": "binary",
       "pinouts": {
@@ -817,7 +817,7 @@
       "id": "4555B",
       "function": "Decoder",
       "description": "Dual binary to 1 of 4 decoder/demultiplexer, outputs high on select",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd4555b; plan-19-data/specs.md § 4555B",
       "model": "binary",
       "pinouts": {
@@ -857,7 +857,7 @@
       "id": "4556B",
       "function": "Decoder",
       "description": "Dual binary to 1 of 4 decoder/demultiplexer, outputs low on select",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd4555b; plan-19-data/specs.md § 4556B",
       "model": "binary",
       "pinouts": {
@@ -894,7 +894,7 @@
       "id": "74_42",
       "function": "Decoder",
       "description": "4-line BCD to 10-line decimal decoder",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74hc42 p.1, p.2, p.5; cd74hc42 p.1, p.2, p.4, p.5; sn74ls42 p.1, p.4, p.6; plan-19-data/specs.md § 74_42",
       "model": "binary",
       "pinouts": {
@@ -938,7 +938,7 @@
       "id": "74_45",
       "function": "Decoder",
       "description": "BCD-to-decimal decoder/driver",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn7445 p.1, p.2; plan-19-data/specs.md § 74_45",
       "model": "binary",
       "pinouts": {
@@ -975,7 +975,7 @@
       "id": "74_145",
       "function": "Decoder",
       "description": "BCD-to-decimal decoder/driver",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74145 p.1, p.2, p.3; plan-19-data/specs.md § 74_145",
       "model": "binary",
       "pinouts": {
@@ -1016,7 +1016,7 @@
       "id": "74_154",
       "function": "Decoder",
       "description": "4- to 16-line decoder/demultiplexer",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd74hc154 p.1, p.2, p.4, p.5; plan-19-data/specs.md § 74_154",
       "model": "binary",
       "pinouts": {
@@ -1062,7 +1062,7 @@
       "id": "4028B",
       "function": "Decoder",
       "description": "BCD-to-decimal decoder",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd4028b p.1, p.2; plan-19-data/specs.md § 4028B",
       "model": "binary",
       "pinouts": {
@@ -1101,7 +1101,7 @@
       "id": "4514B",
       "function": "Decoder",
       "description": "4-bit latch/4-to-16 line decoder, output high on select",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd4514b p.1, p.3, p.4; plan-19-data/specs.md § 4514B",
       "model": "binary",
       "pinouts": {
@@ -1147,7 +1147,7 @@
       "id": "4515B",
       "function": "Decoder",
       "description": "4-bit latch/4-to-16 line decoder, output low on select",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd4514b p.1, p.3, p.4; plan-19-data/specs.md § 4515B",
       "model": "binary",
       "pinouts": {
@@ -1192,7 +1192,7 @@
       "id": "74_4514",
       "function": "Decoder",
       "description": "4- to 16-line decoder/demultiplexer with input latches, output high on select",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd74hc4514 p.1, p.2, p.4; plan-19-data/specs.md § 74_4514",
       "model": "binary",
       "pinouts": {
@@ -1237,7 +1237,7 @@
       "id": "74_4515",
       "function": "Decoder",
       "description": "4- to 16-line decoder/demultiplexer with input latches, output low on select",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd74hc4514 p.1, p.2, p.4; plan-19-data/specs.md § 74_4515",
       "model": "binary",
       "pinouts": {
@@ -1282,7 +1282,7 @@
       "id": "74_147",
       "function": "Encoder",
       "description": "10- to 4-line priority encoder",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd74hc147 p.3, p.8; plan-19-data/specs.md § 74_147",
       "model": "priority",
       "pinouts": {
@@ -1326,7 +1326,7 @@
       "id": "74_148",
       "function": "Encoder",
       "description": "8-line to 3-line priority encoder",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74hc148 p.3, p.9; sn74ls148 p.1, p.3; plan-19-data/specs.md § 74_148",
       "model": "priority",
       "pinouts": {
@@ -1394,7 +1394,7 @@
       "id": "74_348",
       "function": "Encoder",
       "description": "8-line to 3-line priority encoder with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn74ls348 p.1; plan-19-data/specs.md § 74_348",
       "model": "priority",
       "pinouts": {
@@ -1437,7 +1437,7 @@
       "id": "4532B",
       "function": "Encoder",
       "description": "8-bit priority encoder",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd4532b p.1, p.3; plan-19-data/specs.md § 4532B",
       "model": "priority",
       "pinouts": {
@@ -1481,7 +1481,7 @@
       "id": "40147B",
       "function": "Encoder",
       "description": "10-line to 4-line BCD priority encoder",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "cd40147b p.1, p.3; plan-19-data/specs.md § 40147B",
       "model": "priority",
       "pinouts": {
@@ -1522,7 +1522,7 @@
       "id": "74_47",
       "function": "7-segment decoder",
       "description": "BCD-to-seven-segment decoder/driver, open-collector active-low outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn7447a p.1, p.3, p.9; plan-19-data/specs.md § 74_47",
       "model": "seg7",
       "pinouts": {
@@ -1564,7 +1564,7 @@
       "id": "74_49",
       "function": "7-segment decoder",
       "description": "BCD-to-seven-segment decoder/driver, open-collector active-high outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Decoders & muxes"],
       "note": "sn7447a p.1, p.4, p.13; plan-19-data/specs.md § 74_49",
       "model": "seg7",
       "pinouts": {
