@@ -317,7 +317,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                         }
                         role = part->pins[c->pin].role;
                         if ((role == PIN_INOUT || role == PIN_OUTPUT) &&
-                            !part_pin_open_drain(part, c->pin)) {
+                            !part_pin_open_drain(part, c->pin) && !part_pin_analog(part, c->pin)) {
                             size_t g = find(parent, c->net);
                             Level before = driven[g];
 
@@ -332,7 +332,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                 const VoltageConnection *c = &connections[j];
 
                 if (c->part == i && c->net < net_count && c->pin < part->pin_count &&
-                    part->pins[c->pin].role == PIN_POWER) {
+                    part->pins[c->pin].role == PIN_POWER && !part_pin_analog(part, c->pin)) {
                     Level e = effective(supply, driven, pulled, carried, find(parent, c->net));
 
                     if (e.known) {
@@ -351,7 +351,8 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                     continue;
                 }
                 role = part->pins[c->pin].role;
-                if ((role == PIN_INOUT || role == PIN_OUTPUT) && !part_pin_open_drain(part, c->pin)) {
+                if ((role == PIN_INOUT || role == PIN_OUTPUT) && !part_pin_open_drain(part, c->pin) &&
+                    !part_pin_analog(part, c->pin)) {
                     size_t g = find(parent, c->net);
                     Level before = driven[g];
 
@@ -374,7 +375,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             continue;
         }
         part = parts[c->part];
-        if (c->pin >= part->pin_count) {
+        if (c->pin >= part->pin_count || part_pin_analog(part, c->pin)) {
             continue;
         }
         e = effective(supply, driven, pulled, carried, find(parent, c->net));

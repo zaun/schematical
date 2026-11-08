@@ -22,7 +22,7 @@ plan-24-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-24-C complete | `ls planning/completed/plan-24-C-*.md` → exists | NOT MET (2026-11-07) |
+| plan-24-C complete | `ls planning/completed/plan-24-C-*.md` → exists | MET (`planning/completed/plan-24-C-converter-footprints.md`, 2026-11-07 at 9029d31) |
 
 ## 1. Goal
 
@@ -92,9 +92,9 @@ outside its register width, overlapping registers).
 
 ### Phase 1 — Kind, SPI frames, I2C pointer form
 
-- [ ] `PART_CONVERTER`, `PartConverter`; `KINDS[]`; `converter.c/.h`; CMake lines; frame and I2C cases; test entry; docs § `converter`.
+- [x] `PART_CONVERTER`, `PartConverter` (`include/parts.h`); `KINDS[]`; `converter.h`, `converter_int.h`, `converter_load.c` (the whole schema.md), `converter.c` (protocol engine, SPI and I2C front ends, conversions, ready, DAC, control pins), `converter_par.c` (E's hooks); CMake lines; `converter_test` entry with the frame, offset-binary and I2C cases; `listing.c` prints `type= bits= channels=`; docs § `converter` (`docs/parts-format.md`). `ctest -R converter_test` → `converter_test: all passed`; `xcodebuild` → `** BUILD SUCCEEDED **`. Loader shake-down: all 764 ADC/DAC specs as one `converter.json` (`/tmp/p24/gen/gen.py`) → `loaded 1911 parts`.
 
-Acceptance: `ctest -R converter_test` passes (seconds).
+Acceptance: `ctest -R converter_test` passes (seconds): `converter_test: all passed`.
 Commit: —
 
 ### Phase 2 — Commands, conversion timing, DAC registers
@@ -116,6 +116,24 @@ D's gate: Phase 2. Landing tier at the end of I.
   protocols and their X rules).
 
 ## Corrections
+
+- **The SPI front end is the converter's own, not `SerialSpi`.** D's
+  decision to reuse the plan-12 front ends unchanged holds for I2C
+  (`SerialI2c`, unchanged). `SerialSpi` cannot carry the schema's SPI
+  forms: it needs a CS pin (2-wire DRDY/DOUT parts have none), CS is
+  active low only (LOAD/EN frame pins are active high), MISO is a plain
+  output (DOUT/DRDY doubles as the ready pin, SDIO is shared with MOSI),
+  and its output is byte-fetched. `converter.c`'s front end is bit level
+  and follows SerialSpi's signal rules (an unknown bit makes the rest of
+  the transaction X; CS at Z reads inactive).
+- **Times above 1 s**: `kind_ns` stops at 1 s; slow data rates and RTC
+  periods need more, so the loader has its own ns reader (to 1e13 ns).
+- **The voltage check change** (plan-24-A Corrections) lands in Phase 1:
+  `PartKindOps.pin_analog` / `part_pin_analog`; `voltage.c` skips analog
+  pins as drivers, as the supply, and in the checks.
+- The whole engine (commands, conversion timing, ready pins, DAC
+  registers) landed in Phase 1's commit, because the §4 fixtures need it
+  together; Phase 2 adds the `library_check` and `voltage_test` cases.
 
 ## Summary
 

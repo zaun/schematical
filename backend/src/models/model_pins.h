@@ -29,4 +29,9 @@ int switch_contact_pins(const Part *part, unsigned position, size_t *a, size_t *
  */
 int part_pin_open_drain(const Part *part, size_t pin);
 
+/* 1 when pin is an analog pin of a converter or RTC part (plan-24-D): the
+   voltage check ignores it, and a power pin among them is not the part's
+   supply. 0 for every kind without the hook. */
+int part_pin_analog(const Part *part, size_t pin);
+
 #endif

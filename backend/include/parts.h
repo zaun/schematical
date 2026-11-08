@@ -25,7 +25,7 @@ typedef enum {
     PART_GATE, PART_DFF, PART_JKFF, PART_SRAM, PART_SWITCH,
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER,
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
-    PART_BUFFER, PART_MUX, PART_HEADER
+    PART_BUFFER, PART_MUX, PART_HEADER, PART_CONVERTER
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -101,6 +101,9 @@ typedef struct { const char *model; const char *grade; uint64_t max_hz; } PartPi
 /* A generic pin header (plan-23-A): rows is 1 or 2; genders are the
    genders a placed header may have, genders[0] the default (app only). */
 typedef struct { unsigned rows; const char *const *genders; size_t gender_count; } PartHeader;
+/* An ADC or DAC (plan-24-D): type "adc" or "dac"; bits: resolution; channels:
+   ADC inputs / DAC outputs. Only the digital side is simulated. */
+typedef struct { const char *type; unsigned bits, channels; } PartConverter;
 
 /* ---- Footprints (Parts/footprints.json, docs/parts-format.md) ----------- */
 
@@ -161,6 +164,7 @@ typedef struct Part {
     const PartConnector *connector;
     const PartPio *pio;
     const PartHeader *header;
+    const PartConverter *converter;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;
