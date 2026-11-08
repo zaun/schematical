@@ -45,8 +45,8 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-23-A complete | `ls planning/completed/plan-23-A-*` → 1 file | NOT MET (2026-11-07: written today) |
-| The header parts load | `grep -c '"name":"GENERIC-HEADER-' schematical/schematical/Parts/header.json` → 80 | NOT MET (2026-11-07) |
+| plan-23-A complete | `ls planning/completed/plan-23-A-*` → 1 file | MET (2026-11-07: `planning/completed/plan-23-A-generic-header-data.md`) |
+| The header parts load | `grep -c '"name":"GENERIC-HEADER-' schematical/schematical/Parts/header.json` → 80 | MET (2026-11-07: 80) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue.
@@ -225,23 +225,23 @@ Rejected alternatives:
 
 ### Phase 1 — Catalog, drawer row, symbol, gender and file
 
-- [ ] `Backend/PartCatalog.swift`: `.header(rows:perRow:genders:)`,
+- [x] `Backend/PartCatalog.swift`: `.header(rows:perRow:genders:)`,
       `symbol(for:)` `.header`, `detailLabels`, the one-row `entries` filter.
-- [ ] New `Backend/HeaderFamily.swift` (§ Catalog).
-- [ ] `Drawer/ChipDrawerView.swift`: header row title and subtitle.
-- [ ] `Canvas/SchematicModel.swift`: `PartSymbol.header`,
+- [x] New `Backend/HeaderFamily.swift` (§ Catalog).
+- [x] `Drawer/ChipDrawerView.swift`: header row title and subtitle.
+- [x] `Canvas/SchematicModel.swift`: `PartSymbol.header`,
       `ChipLayout.header`, its case in `init(part:symbol:)`;
       `PlacedChip.gender` with normalization and the `gender:` init
       parameter; `placeChip(… gender:)` (default nil).
-- [ ] New `Canvas/HeaderSymbolView.swift`; `SchematicCanvasView` case `.header`.
-- [ ] `Backend/PartFacts.swift:rows(for chip:)`: for a header, `Rows`,
+- [x] New `Canvas/HeaderSymbolView.swift`; `SchematicCanvasView` case `.header`.
+- [x] `Backend/PartFacts.swift:rows(for chip:)`: for a header, `Rows`,
       `Pins per row`, `Gender` (Package and Footprint already follow the
       choice).
-- [ ] `Document/SchematicFile.swift`: `Part.gender`, written and read, and
+- [x] `Document/SchematicFile.swift`: `Part.gender`, written and read, and
       the `badPartOption` gender check.
-- [ ] `docs/file-format.md` § Parts: the `gender` row; the header in the
+- [x] `docs/file-format.md` § Parts: the `gender` row; the header in the
       `partNumber` row's list; the error in § Validation on open.
-- [ ] New `scripts/harness/generic-header.swift` (kept). It prints one
+- [x] New `scripts/harness/generic-header.swift` (kept). It prints one
       `ok`/`FAIL` line per check and exits 1 on any FAIL. First part:
   1. The drawer groups (`groups(matching: DrawerFilter())`) list exactly one
      header-kind part, `GENERIC-HEADER-1X02`;
@@ -266,13 +266,17 @@ file round trip.
   four pins down the left with filled pin marks, numbers 1–4 and `1×4 male`;
   the 2×3 shows pins 1, 3, 5 left and 2, 4, 6 right, socket marks and
   `2×3 female` (est. 2 min).
+  Result (2026-11-07): harness → checks 1–5 `ok`, exit 0. `/tmp/p23-headers.png`
+  read: the 1×4 has four filled pin marks down the left, numbers 1–4, `1×4
+  male`; the 2×3 has 1, 3, 5 left and 2, 4, 6 right with open-U sockets and
+  `2×3 female`.
 Commit: —
 
 ### Phase 2 — Size swap
 
-- [ ] `Canvas/SchematicModel.swift`: `PlacedChip.resized(to:)`;
+- [x] `Canvas/SchematicModel.swift`: `PlacedChip.resized(to:)`;
       `setHeaderSize(_:to:)` and `setPartGender` (§ Document setters).
-- [ ] `generic-header.swift`, add:
+- [x] `generic-header.swift`, add:
   6. A 1×8 header with wires from pins 1, 2 and 8 to three junctions.
      `setHeaderSize(id, to: <GENERIC-HEADER-1X04>)` → part `GENERIC-HEADER-1X04`,
      the wire from pin 8 and its junction are gone, the wires on pins 1 and
@@ -293,6 +297,7 @@ Commit: —
 Acceptance: a resize keeps everything but the removed pins and their wires,
 and pad 1 never moves.
   Check: the Phase 1 command → 9 `ok` lines, exit 0 (est. 2 min).
+  Result (2026-11-07): 9 `ok` lines, exit 0; check 7 prints `(16 pad-1 cases)`.
 Commit: —
 
 ## Validation Plan
@@ -324,6 +329,20 @@ Commit: —
   row is `GENERIC-HEADER-1X02`; Settings is plan-23-C.
 
 ## Corrections
+
+- Phases 1 and 2 landed in one commit: the setters (`resized(to:)`,
+  `setHeaderSize`, `setPartGender`) were written with the model changes
+  they extend, and the harness was run with all 9 checks at once. Each
+  phase's own check was still run and is recorded on its Result line.
+- Added: `PartCatalogStore.listsPartsDirectly` includes `PART_HEADER`, so
+  the drawer shows Connector ▸ Header ▸ GENERIC-HEADER, as for the LED,
+  rather than an extra "Header" function level. Check 1 passes either way.
+- `HeaderSymbolView`'s frame is `HeaderSymbolView.labelHeight` (16) taller
+  than the body, so the size label under it is inside the view. The layout,
+  hit rect and pin tips use the body alone (`ChipLayout.header`).
+- The harness builds with `APP=/tmp/p23-dd/Build/Products/Debug/schematical.app`
+  (the app built from this worktree), which `build.sh` copies, rather than
+  building the app again into the out dir.
 
 ## Summary
 

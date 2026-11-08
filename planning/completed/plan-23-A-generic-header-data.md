@@ -338,7 +338,7 @@ used, and the golden diffs only add lines.
   Result (2026-11-07): ctest 24/24; removed/changed 0; parts +80, traces +80,
   footprints +160; the 2X08 line has `rows=2 genders=Male,Female`, pins 1–16
   and `choices=Straight:PINHDR-2X08-V,Right angle:PINHDR-2X08-RA`.
-Commit: —
+Commit: 40c43f8
 
 ## Validation Plan
 
@@ -352,6 +352,8 @@ Commit: —
   `cmake --build /tmp/p23-build -j8 && ctest --test-dir /tmp/p23-build -j8` → 21/21;
   `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p23-dd CODE_SIGNING_ALLOWED=NO build`
   → `BUILD SUCCEEDED` (the app compiles with `PART_HEADER`) (est. 4 min).
+  Result (2026-11-07, at 40c43f8): ctest 24/24; xcodebuild `** BUILD
+  SUCCEEDED **`, 0 `error:` lines.
 
 ## Decisions
 

@@ -90,6 +90,10 @@ nonisolated enum PartFacts {
             add("Centre pin", String(format: "%.1f mm", Double(centerPinUM) / 1000))
             add("Rating", "\(VoltageCheck.volts(ratedMV)) V, \(String(format: "%.1f", Double(ratedMA) / 1000)) A")
             add("Sleeve contact", contacts > 0 ? "Normally closed when unplugged" : "None")
+        case let .header(rows, perRow, genders):
+            add("Rows", String(rows))
+            add("Pins per row", String(perRow))
+            add("Gender", chip.gender ?? genders.first ?? "")
         }
 
         if part.supplyDomains.count == 2 {

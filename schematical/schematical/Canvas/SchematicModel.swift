@@ -111,6 +111,9 @@ nonisolated enum PartSymbol: Hashable {
     case sevenSegment
     case characterLCD
     case barrelJack
+    /// A generic pin header (plan-23): pins on the left, and with two rows
+    /// the even pins on the right.
+    case header
 
     /// Supplies have their pin on the top or bottom edge, so their view needs
     /// room above and below the body for the pin stub.
@@ -200,6 +203,8 @@ nonisolated struct ChipLayout: Hashable {
             self = ChipLayout(pins: pins)
         case .barrelJack:
             self = Self.barrelJack(pins)
+        case .header:
+            self = Self.header(pins, rows: part.headerSize?.rows ?? 1)
         case .diode:
             self = Self.diode(pins)
         case .vcc:
@@ -344,6 +349,24 @@ nonisolated struct ChipLayout: Hashable {
         if let switched { slots.append(PinSlot(pin: switched, side: .right, centerY: 50)) }
         if let sleeve { slots.append(PinSlot(pin: sleeve, side: .right, centerY: 75)) }
         return ChipLayout(size: CGSize(width: 120, height: switched == nil ? 90 : 95), slots: slots)
+    }
+
+    /// Header body width; its height is one pin row (`pitch`) per column.
+    static let headerBodyWidth: CGFloat = 40
+
+    /// A pin header, pins zigzag as on the part (pin 2 across from pin 1):
+    /// pin p is in column (p - 1) / rows, one 20-tall row each, centred at
+    /// 10 + 20 c. With 1 row every pin is on the left; with 2 rows odd pins
+    /// are on the left and even pins on the right, side by side.
+    static func header(_ pins: [ChipPin], rows: Int) -> ChipLayout {
+        let rows = max(rows, 1)
+        let ordered = pins.sorted { $0.index < $1.index }
+        let columns = max((ordered.count + rows - 1) / rows, 1)
+        let slots = ordered.enumerated().map { position, pin in
+            PinSlot(pin: pin, side: rows == 2 && position % 2 == 1 ? .right : .left,
+                    centerY: pitch / 2 + pitch * CGFloat(position / rows))
+        }
+        return ChipLayout(size: CGSize(width: headerBodyWidth, height: pitch * CGFloat(columns)), slots: slots)
     }
 
     /// The lever of a switch position (1-based), in body coordinates.
@@ -524,6 +547,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// For a part with footprint choices, the id of the chosen footprint (one
     /// of `part.footprintChoices`). Nil for every other part.
     var footprintID: String?
+    /// A header's gender, one of `part.genders`. Nil for every other part.
+    var gender: String?
 
     private let baseLayout: ChipLayout
 
@@ -538,7 +563,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         board: BoardPlacement? = nil,
         memoryFile: MemoryFile? = nil,
         color: String? = nil,
-        footprintID: String? = nil
+        footprintID: String? = nil,
+        gender: String? = nil
     ) {
         self.id = id
         self.reference = reference
@@ -555,6 +581,11 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
             self.color = color.flatMap { part.colors.contains($0) ? $0 : nil } ?? part.colors[0]
         } else {
             self.color = nil
+        }
+        if part.kind == PART_HEADER, !part.genders.isEmpty {
+            self.gender = gender.flatMap { part.genders.contains($0) ? $0 : nil } ?? part.genders[0]
+        } else {
+            self.gender = nil
         }
         if !part.footprintChoices.isEmpty, let base = part.footprint {
             self.footprintID = footprintID.flatMap { id in
@@ -573,6 +604,18 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
 
     /// The orderable part number, as saved in a file.
     var partNumber: String { part.name }
+
+    /// The same chip on another part (a header's new size): id, reference,
+    /// symbol, origin, flip, board placement, gender and memory file are
+    /// kept. The footprint is the new part's choice with the same package as
+    /// the current one (`Straight` stays `Straight`), else its default.
+    func resized(to newPart: CatalogPart) -> PlacedChip {
+        let package = footprintChoice?.package
+        let footprint = newPart.footprintChoices.first { $0.package == package }?.footprint.id
+        return PlacedChip(id: id, reference: reference, part: newPart, symbol: symbol, origin: origin,
+                          isFlipped: isFlipped, switchesOn: switchesOn, board: board,
+                          memoryFile: memoryFile, color: color, footprintID: footprint, gender: gender)
+    }
 
     /// The chosen footprint choice, for a part with footprint choices.
     var footprintChoice: CatalogPart.FootprintChoice? {
@@ -1161,7 +1204,7 @@ final class SchematicDocument {
     /// `color` and `footprintID` are the LED options; nil (or a value the
     /// part doesn't have) is the part's default.
     func placeChip(part: CatalogPart, symbol: PartSymbol, centeredAt point: CGPoint,
-                   color: String? = nil, footprintID: String? = nil) {
+                   color: String? = nil, footprintID: String? = nil, gender: String? = nil) {
         let layout = ChipLayout(part: part, symbol: symbol)
         let origin = SchematicGrid.snap(
             CGPoint(x: point.x - layout.size.width / 2, y: point.y - layout.size.height / 2)
@@ -1179,7 +1222,8 @@ final class SchematicDocument {
             symbol: symbol,
             origin: origin,
             color: color,
-            footprintID: footprintID
+            footprintID: footprintID,
+            gender: gender
         )
         placed.board = placed.footprint.map { BoardLayout.nextSpot(for: $0, among: chips) }
         nextReference = number + 1
@@ -1193,6 +1237,50 @@ final class SchematicDocument {
               chips[index].part.kind == PART_LED,
               chips[index].part.colors.contains(color) else { return }
         chips[index].color = color
+    }
+
+    /// Sets a header's gender. Does nothing for a part that isn't a header,
+    /// or a gender the part doesn't list.
+    func setPartGender(_ id: UUID, _ gender: String) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              chips[index].part.kind == PART_HEADER,
+              chips[index].part.genders.contains(gender) else { return }
+        chips[index].gender = gender
+    }
+
+    /// Changes a header's size by swapping its part for `newPart` (the
+    /// caller looks up `HeaderFamily.name(rows:perRow:)` in its catalog).
+    /// Reference, origin, flip, gender, footprint type and board placement
+    /// are kept, and on the PCB pad 1 keeps its board point. Wires on pins
+    /// the new size doesn't have are removed; the rest are re-fitted. Does
+    /// nothing unless both are headers and `newPart` is another size.
+    func setHeaderSize(_ id: UUID, to newPart: CatalogPart) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              chips[index].part.kind == PART_HEADER, newPart.kind == PART_HEADER,
+              chips[index].part != newPart else { return }
+        let old = chips[index]
+        let pad1 = old.part.firstPinDesignator
+        let anchor = old.board.flatMap { board in
+            old.footprint?.pads.first { $0.designator == pad1 }.map { board.board($0.centre) }
+        }
+        chips[index] = old.resized(to: newPart)
+        let pinCount = newPart.pins.count
+        let before = wires.count
+        wires.removeAll { wire in
+            [wire.start, wire.end].contains { end in
+                if case let .pin(ref) = end { return ref.chipID == id && ref.index >= pinCount }
+                return false
+            }
+        }
+        if wires.count != before { pruneJunctions() }
+        if let anchor, var board = chips[index].board,
+           let pad = chips[index].footprint?.pads.first(where: { $0.designator == pad1 }) {
+            let landed = board.board(pad.centre)
+            board.centre.x += anchor.x - landed.x
+            board.centre.y += anchor.y - landed.y
+            chips[index].board = board
+        }
+        settleWires(attachedTo: id)
     }
 
     /// Picks one of a part's footprint choices. On the PCB the pad of the

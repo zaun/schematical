@@ -243,6 +243,12 @@ struct SchematicCanvasView: View {
                             isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID
                         )
+                    case .header:
+                        HeaderSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID
+                        )
                     case .diode:
                         DiodeSymbolView(
                             chip: chip,

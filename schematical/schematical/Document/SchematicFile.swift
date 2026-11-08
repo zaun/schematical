@@ -84,6 +84,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// footprint's id. Always written for them; missing means the part's
         /// default footprint.
         var footprint: String? = nil
+        /// Headers only (plan-23): one of the part's genders. Always written
+        /// for a header; missing means the part's default.
+        var gender: String? = nil
     }
 
     /// An EEPROM's load file: the path relative to the schematic's folder (or
@@ -294,7 +297,7 @@ nonisolated enum SchematicFileError: LocalizedError {
     case badPCB(String)
     /// A bus whose lines, joints or wires aren't valid; the detail names it.
     case badBus(String)
-    /// A part's color or footprint that the part doesn't offer.
+    /// A part's color, footprint or gender that the part doesn't offer.
     case badPartOption(reference: String, detail: String)
 
     var errorDescription: String? {
@@ -363,7 +366,8 @@ extension SchematicFile {
                                     bookmark: $0.bookmark)
                 },
                 color: chip.color,
-                footprint: chip.footprintID
+                footprint: chip.footprintID,
+                gender: chip.gender
             )
         }
         junctions = document.junctions.map { Junction(id: $0.id, x: $0.point.x, y: $0.point.y) }
@@ -492,6 +496,10 @@ extension SchematicFile {
                 throw SchematicFileError.badPartOption(
                     reference: part.reference, detail: "\"\(footprintID)\" is not a footprint of \(catalogPart.name)")
             }
+            if let gender = part.gender, catalogPart.kind == PART_HEADER, !catalogPart.genders.contains(gender) {
+                throw SchematicFileError.badPartOption(
+                    reference: part.reference, detail: "\"\(gender)\" is not a gender of \(catalogPart.name)")
+            }
             // A load file counts only on an EEPROM.
             var memoryFile: MemoryFile?
             if catalogPart.kind == PART_EEPROM, let entry = part.memoryFile {
@@ -508,7 +516,8 @@ extension SchematicFile {
                 switchesOn: part.switches ?? [],
                 memoryFile: memoryFile,
                 color: color,
-                footprintID: footprintID
+                footprintID: footprintID,
+                gender: part.gender
             )
             // A stored placement counts only for a part with a footprint.
             var board: BoardPlacement?
