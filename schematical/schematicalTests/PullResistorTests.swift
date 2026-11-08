@@ -117,4 +117,33 @@ final class PullResistorTests: XCTestCase {
         XCTAssertThrowsError(try Self.open(pull: ", \"ohms\": 2e9"))
         XCTAssertNoThrow(try Self.open(pull: ", \"ohms\": 1e9"))
     }
+
+    // MARK: plan-26-B: value text
+
+    func testResistorValueText() {
+        XCTAssertEqual(ResistorValue.text(1000), "1kΩ")
+        XCTAssertEqual(ResistorValue.text(4700), "4.7kΩ")
+        XCTAssertEqual(ResistorValue.text(470), "470Ω")
+        XCTAssertEqual(ResistorValue.text(1e6), "1MΩ")
+        XCTAssertEqual(ResistorValue.text(0.5), "0.5Ω")
+        XCTAssertEqual(ResistorValue.text(1e9), "1000MΩ")
+        XCTAssertEqual(ResistorValue.text(1234), "1.234kΩ")
+        let split = ResistorValue.split(1500)
+        XCTAssertEqual(split.number, 1.5, accuracy: 1e-12)
+        XCTAssertEqual(split.unit, .kilo)
+        XCTAssertEqual(ResistorValue.split(0.5).unit, .ohm)
+    }
+
+    func testResistorValueOhmsAndParse() throws {
+        XCTAssertNil(ResistorValue.ohms(number: 2000, unit: .mega))
+        XCTAssertNil(ResistorValue.ohms(number: 0, unit: .kilo))
+        XCTAssertNil(ResistorValue.ohms(number: -1, unit: .ohm))
+        XCTAssertEqual(try XCTUnwrap(ResistorValue.ohms(number: 1.2345, unit: .kilo)), 1235, accuracy: 1e-9)
+        XCTAssertEqual(try XCTUnwrap(ResistorValue.ohms(number: 4.7, unit: .kilo)), 4700, accuracy: 1e-9)
+        XCTAssertEqual(ResistorValue.ohms(number: 1000, unit: .mega), 1e9)
+        XCTAssertEqual(ResistorValue.parse(" 4.7 "), 4.7)
+        XCTAssertNil(ResistorValue.parse("abc"))
+        XCTAssertNil(ResistorValue.parse("inf"))
+        XCTAssertNil(ResistorValue.parse(""))
+    }
 }

@@ -192,9 +192,9 @@ at `point(30, mid)` with `anchor: .leading`, 9 pt monospaced, `.primary`
 
 ### Phase 1 — Formatting and BOM
 
-- [ ] `schematical/schematical/Canvas/ResistorValue.swift`: §4.
-- [ ] `schematical/schematical/BillOfMaterials/BillOfMaterialsWindow.swift`: §8.
-- [ ] Tests: `PullResistorTests.swift` gains `ResistorValue` cases (the §4
+- [x] `schematical/schematical/Canvas/ResistorValue.swift`: §4.
+- [x] `schematical/schematical/BillOfMaterials/BillOfMaterialsWindow.swift`: §8.
+- [x] Tests: `PullResistorTests.swift` gains `ResistorValue` cases (the §4
       examples; `ohms(number: 2000, unit: .mega)` → nil; `ohms(number:
       1.2345, unit: .kilo)` → 1235 (1.2345 rounds to 1.235 × 1000 = 1235; check with
       accuracy 1e-9)). `BillOfMaterialsTests.swift`: new test — `PULLUP-5V`,
@@ -202,10 +202,15 @@ at `point(30, mid)` with `anchor: .leading`, 9 pt monospaced, `.primary`
       `RESISTOR`, `0805`, `4.7kΩ`, quantity 3, references `R1, R2, R3`; a
       fourth at 1000 Ω is a second line. `testCSVQuotesFieldsWithCommas`
       expects the new header and an empty Value field. `testGroupsByPartAndSkipsSupplies`
-      still passes (GND still left out).
+      still passes (GND still left out). (Added `PullResistorTests`
+      `testResistorValueText`, `testResistorValueOhmsAndParse`;
+      `BillOfMaterialsTests.testPullResistorsGroupByValueAndPackage`, which
+      also checks the CSV row `3,"R1, R2, R3",RESISTOR,0805,4.7kΩ,,Resistor`.)
 
 Acceptance: pull resistors are grouped by value and package in the BOM and CSV.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/BillOfMaterialsTests -only-testing:schematicalTests/PullResistorTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 3 min).
+  Result (2026-11-07): `Executed 13 tests, with 0 failures` (BOM 4,
+  PullResistor 9), `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — Sidebar, Settings and symbol

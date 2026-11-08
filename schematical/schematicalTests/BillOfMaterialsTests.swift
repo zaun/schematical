@@ -40,10 +40,38 @@ final class BillOfMaterialsTests: XCTestCase {
     }
 
     func testCSVQuotesFieldsWithCommas() {
-        let line = BillOfMaterialsLine(partNumber: "X", package: "DIP-14", color: "",
+        let line = BillOfMaterialsLine(partNumber: "X", package: "DIP-14", value: "", color: "",
                                        description: "Quad \"NAND\", 2-input", references: ["U1", "U2"])
         XCTAssertEqual(BillOfMaterials.csv([line]),
-                       "Quantity,References,Part Number,Package,Color,Description\r\n"
-                       + "2,\"U1, U2\",X,DIP-14,,\"Quad \"\"NAND\"\", 2-input\"\r\n")
+                       "Quantity,References,Part Number,Package,Value,Color,Description\r\n"
+                       + "2,\"U1, U2\",X,DIP-14,,,\"Quad \"\"NAND\"\", 2-input\"\r\n")
+    }
+
+    /// plan-26-B: pull-ups at any rail and pull-downs with one value and
+    /// package share a RESISTOR line; another value is another line.
+    func testPullResistorsGroupByValueAndPackage() throws {
+        let doc = TestSupport.newDocument()
+        for (index, name) in ["PULLUP-5V", "PULLUP-3V3", "PULLDOWN"].enumerated() {
+            let pull = try TestSupport.place(doc, name, at: CGPoint(x: CGFloat(100 + 200 * index), y: 100))
+            XCTAssertTrue(pull.part.isPullResistor)
+            doc.setPartOhms(pull.id, 4700)
+            doc.setPartFootprint(pull.id, "RES-0805")
+        }
+        let fourth = try TestSupport.place(doc, "PULLUP-5V", at: CGPoint(x: 800, y: 100))
+        doc.setPartFootprint(fourth.id, "RES-0805")
+
+        let lines = BillOfMaterials.lines(for: doc.chips)
+        XCTAssertEqual(lines.count, 2)
+        let first = try XCTUnwrap(lines.first)
+        XCTAssertEqual(first.partNumber, "RESISTOR")
+        XCTAssertEqual(first.package, "0805")
+        XCTAssertEqual(first.value, "4.7kΩ")
+        XCTAssertEqual(first.description, "Resistor")
+        XCTAssertEqual(first.quantity, 3)
+        XCTAssertEqual(first.references, ["R1", "R2", "R3"])
+        XCTAssertEqual(lines[1].value, "1kΩ")
+        XCTAssertEqual(lines[1].references, ["R4"])
+        XCTAssertEqual(BillOfMaterials.csv([first]).split(separator: "\r\n").last,
+                       "3,\"R1, R2, R3\",RESISTOR,0805,4.7kΩ,,Resistor")
     }
 }
