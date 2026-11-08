@@ -57,11 +57,14 @@ struct ChipDrawerView: View, Equatable {
                 .padding(.top, 8)
             filterBar
 
-            // A lazy stack, not a List: SwiftUI's List is an NSOutlineView,
+            // A plain stack, not a List: SwiftUI's List is an NSOutlineView,
             // and opening groups of rows with different heights makes AppKit
-            // log "reentrant operation in its NSTableView delegate".
+            // log "reentrant operation in its NSTableView delegate". Not a
+            // lazy stack either: it guessed the height of rows it had not
+            // built, so after scrolling to the end, clicks on the lower rows
+            // fell outside the scroll view's content and did nothing.
             ScrollView {
-                LazyVStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .leading, spacing: 0) {
                 ForEach(groups) { category in
                     DisclosureGroup(
                         isExpanded: expansion(for: categoryKey(category.category), defaultOpen: true)
@@ -76,12 +79,7 @@ struct ChipDrawerView: View, Equatable {
                                     partRow(entry)
                                 }
                             } label: {
-                                // Menus in the label keep their own clicks; the rest toggles the group.
                                 subcategoryHeader(subcategory.subcategory)
-                                    .contentShape(Rectangle())
-                                    .onTapGesture {
-                                        toggle(key, defaultOpen: false)
-                                    }
                             }
                             // Set on each level: a nested group does not pick
                             // up the style from its parent's content.
@@ -91,12 +89,7 @@ struct ChipDrawerView: View, Equatable {
                             functionGroup(function, path: category.category)
                         }
                     } label: {
-                        // Menus in the header keep their own clicks; the rest toggles the group.
                         categoryHeader(category.category)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                toggle(categoryKey(category.category), defaultOpen: true)
-                            }
                     }
                 }
                 }
@@ -294,12 +287,7 @@ struct ChipDrawerView: View, Equatable {
                 partRow(entry)
             }
         } label: {
-            // Menus in the label keep their own clicks; the rest toggles the group.
             functionHeader(function)
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    toggle(key, defaultOpen: false)
-                }
         }
         .disclosureGroupStyle(DrawerDisclosureStyle())
     }
@@ -369,13 +357,6 @@ struct ChipDrawerView: View, Equatable {
     /// `path` is the category, or "category/subcategory".
     private func functionKey(_ path: String, _ function: String) -> String {
         "function:\(path)/\(function)"
-    }
-
-    /// Opens or closes a group when its label is clicked, like its chevron.
-    private func toggle(_ key: String, defaultOpen: Bool) {
-        withAnimation(.easeInOut(duration: 0.15)) {
-            toggled[drawerOpen: key, defaultOpen: defaultOpen].toggle()
-        }
     }
 
     /// Derived from `$toggled` rather than built from get/set closures:
@@ -454,21 +435,25 @@ private struct DrawerDisclosureStyle: DisclosureGroupStyle {
                     .foregroundStyle(.secondary)
                     .rotationEffect(.degrees(configuration.isExpanded ? 90 : 0))
                     .frame(width: Self.indent - 4)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        withAnimation(.easeInOut(duration: 0.15)) {
-                            configuration.isExpanded.toggle()
-                        }
-                    }
                 configuration.label
                     .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            // A click anywhere on the row, chevron or label, opens or closes
+            // the group; menus in the label keep their own clicks. It goes
+            // through the group's binding: setting the drawer's state
+            // directly left groups built while scrolling unchanged.
+            .contentShape(Rectangle())
+            .onTapGesture {
+                withAnimation(.easeInOut(duration: 0.15)) {
+                    configuration.isExpanded.toggle()
+                }
             }
             .frame(minHeight: 22)
             .padding(.vertical, 4)
             .overlay(alignment: .bottom) { Divider() }
 
             if configuration.isExpanded {
-                LazyVStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .leading, spacing: 0) {
                     configuration.content
                 }
                 .padding(.leading, Self.indent)
