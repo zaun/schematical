@@ -97,7 +97,7 @@ Vdd: Supply
 | 3.0 V | 5.5 | 6.5 | 7.5 | 8.0 | 40 [1] | mA |
 | 3.3 V | 6.0 | 7.0 | 8.0 | 8.5 | 40 [1] | mA |
 
-[1] As printed; ten times the 60 MHz column, possibly 4.0 mA. Not confirmed with ECS.
+[1] Unconfirmed: as printed, 40 mA at every supply voltage, 5 to 10 times the 60 MHz column. Not confirmed with ECS.
 ```
 
 ## Package
@@ -156,3 +156,10 @@ Vdd: Supply
 - The source gives only one stability value (B, ±50 ppm) in its table;
   the other codes come from the part numbering guide.
 - Reflow profile graph (Figure 3) reduced to its parameter table.
+- Derived: 0.1 and 0.9 × V~dd~ (from "VOL: 10% Vdd max. / VOH: 90% Vdd
+  min.").
+- From images: ± 0.1 body tolerances (Figure 1); 3,000 per reel (pocket
+  tape table, p.2; the part numbering guide says "3K/Reel").
+- Source issues:
+  - Unconfirmed: 40 mA at 160 MHz for every supply voltage (see the
+    current consumption note).

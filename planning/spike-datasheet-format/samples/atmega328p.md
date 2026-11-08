@@ -782,7 +782,7 @@ frequency range; CKSEL0 and SUT[1:0] the start-up time.
 | 3.0–8.0 | 12–22 | 110 |
 | 8.0–16.0 | 12–22 | 111 |
 
-[1] If the crystal frequency exceeds the device's specification (depends on V~CC~), program CKDIV8 to divide it by 8; the divided clock must meet the specification.
+[1] If the crystal frequency exceeds the device's specification (depends on V~CC~), the CKDIV8 fuse can be programmed to divide the internal frequency by 8. It must be ensured that the divided clock meets the frequency specification.
 [2] Recommended setting for the frequency range.
 [3] Ceramic resonators only, not crystals.
 ```
@@ -902,7 +902,7 @@ Any clock source can be used.
 
 The low frequency crystal oscillator doubles as the Timer/Counter2
 oscillator on TOSC1/TOSC2, which share the XTAL1/XTAL2 pins. The system
-clock must be at least four times the oscillator frequency, so the timer
+clock needs to be four times the oscillator frequency, so the timer
 oscillator can only be used with the calibrated internal RC oscillator as
 system clock. An external clock can be applied to TOSC1 with EXCLK in
 ASSR (see [Timer/Counter2](#timercounter2)).
@@ -1030,7 +1030,7 @@ takes about 60 µs so the BOD works before code continues. Timed
 sequence:
 
 1. Write BODS = 1 and BODSE = 1.
-2. Within four clock cycles, write BODS = 1 and BODSE = 0.
+2. Within four clock cycles, BODS must be set to one and BODSE to zero.
 3. BODS is active three clock cycles after it is set and clears itself
    three cycles later: execute SLEEP while it is active.
 
@@ -1277,8 +1277,8 @@ Clearing WDE or changing the prescaler needs a timed sequence (with
 interrupts disabled, and the watchdog reset with WDR first, since a
 change to a shorter period can cause a time-out):
 
-1. In one write, set WDCE and WDE to 1 (WDE = 1 regardless of its
-   previous value).
+1. In one write, set WDCE and WDE to 1 (a logic one must be written to
+   WDE regardless of its previous value).
 2. Within the next four clock cycles, write WDE and WDP as desired with
    WDCE = 0, in one operation.
 
@@ -1540,13 +1540,14 @@ toggle one pin).
 | 1 | 1 | X | Output | No | Output high (source) |
 ```
 
-Switching between tri-state ({DDxn, PORTxn} = 0b00) and output high (0b11)
-passes through either pull-up enabled (0b01) or output low (0b10).
+Switching between tri-state ({DDxn, PORTxn} = 0b00) and output high (0b11),
+an intermediate state with either pull-up enabled (0b01) or output low
+(0b10) must occur.
 Pull-up enabled is normally acceptable, since a high-impedance load can't
 tell a strong high driver from a pull-up; if not, set PUD to disable all
 pull-ups. Switching between input with pull-up and output low has the same
-problem: use tri-state (0b00) or output high (0b11) as the intermediate
-step.
+problem: the user must use tri-state (0b00) or output high (0b11) as the
+intermediate step.
 
 #### Reading the pin
 
@@ -2489,8 +2490,8 @@ clocked on the rising clk~I/O~ edge, a latch transparent in the clk~I/O~
 high period), then passed to the edge detector, which gives one clk~Tn~
 pulse per rising (CSn[2:0] = 7) or falling (CSn[2:0] = 6) edge. The
 synchronization and edge detection delay the counter update by 2.5 to
-3.5 system clock cycles after the edge on the pin. Enable or disable the
-clock input only when T1/T0 has been stable for at least one system clock
+3.5 system clock cycles after the edge on the pin. Enabling and disabling
+the clock input must be done when T1/T0 has been stable for at least one system clock
 cycle, or a false clock pulse may be generated. Each half period of the
 external clock must be longer than one system clock cycle: f~ExtClk~ <
 f~clk_I/O~/2 at 50 % duty cycle (Nyquist). Because of oscillator
@@ -2686,7 +2687,7 @@ enabled.
    register (a TCNT2 write doesn't disturb an OCR2x write in progress);
    ASSR shows when a transfer is done.
 4. Before entering Power-save or ADC noise reduction mode after writing
-   TCNT2, OCR2x or TCCR2x, wait until the written register is updated if
+   TCNT2, OCR2x or TCCR2x, the user must wait until the written register is updated if
    Timer/Counter2 is to wake the device; otherwise the MCU sleeps before
    the change takes effect. This matters most for the output compare
    wake-up: output compare is disabled while OCR2x or TCNT2 is written,
@@ -3193,8 +3194,9 @@ receive buffer has no unread data.
 #### Transmitter
 
 TXEN0 = 1 enables the transmitter; it overrides TxD0 (and, in
-synchronous mode, XCK0, used as the transmit clock). Set baud rate,
-mode and frame format first.
+synchronous mode, XCK0, used as the transmit clock). The baud rate,
+mode of operation and frame format must be set up once before doing any
+transmissions.
 
 **5 to 8 data bits.** Writing UDR0 loads the transmit buffer; it moves to
 the shift register when that is idle or right after the last stop bit of
@@ -4423,7 +4425,7 @@ sources of about 10 kΩ or less output impedance, where the sampling time
 is negligible; with higher impedance the sampling time depends on how long
 the source takes to charge C~S/H~, which can vary widely. Use low-impedance
 sources with slowly varying signals. Signal components above the Nyquist
-frequency (f~ADC~/2) must not be present; remove them with a low-pass
+frequency (f~ADC~/2) should not be present; remove them with a low-pass
 filter.
 
 #### Analog noise canceling techniques
@@ -4435,8 +4437,8 @@ filter.
    100 nF to the analog ground plane); decouple AREF to the analog ground
    plane.
 3. Use the ADC noise canceler to reduce noise from the CPU.
-4. ADC[3:0] port pins used as digital outputs must not switch while a
-   conversion is in progress. Using the 2-wire interface (ADC4, ADC5)
+4. If ADC[3:0] port pins are used as digital outputs, it is essential that
+   these do not switch while a conversion is in progress. Using the 2-wire interface (ADC4, ADC5)
    affects only conversions on ADC4 and ADC5.
 
 #### Accuracy definitions
@@ -4538,8 +4540,8 @@ T = ((ADCH << 8) | ADCL − T~OS~) / k
 
 Read-only, reset 0. ADC[9:0] is the conversion result. Once ADCL is
 read, the register is not updated until ADCH is read; with a left
-adjusted result and 8-bit precision, reading ADCH is enough, otherwise
-read ADCL first.
+adjusted result and no more than 8-bit precision, it is sufficient to
+read ADCH; otherwise ADCL must be read first, then ADCH.
 
 ```table id=adc-data caption="ADC data register layout"
 | ADLAR | Register | Bit 7 | Bit 6 | Bit 5 | Bit 4 | Bit 3 | Bit 2 | Bit 1 | Bit 0 |
@@ -5084,24 +5086,28 @@ BS1 = 1.
 
 ```wavedrom id=prog-par-general caption="Parallel programming: general timing (DATA row = DATA, XA0/1, BS1, BS2)"
 {"signal": [
-  {"name": "XTAL1", "wave": "0.10.........", "node": "..AB"},
-  {"name": "DATA", "wave": "x=..x=.....x.", "data": ["valid", "valid"], "node": ".C..DE.....F"},
-  {"name": "PAGEL", "wave": "0.....10.....", "node": "......GH"},
-  {"name": "WR#", "wave": "1........01..", "node": ".........IJ"},
-  {"name": "RDY/BSY#", "wave": "1.........0.1", "node": "..........K.L"}
+  {"name": "XTAL1", "wave": "0.10.......", "node": "..AB"},
+  {"name": "DATA", "wave": "x=..=...=..", "data": ["valid", "valid", "valid"], "node": ".C..D...F"},
+  {"name": "PAGEL", "wave": "0.10.......", "node": "..GH"},
+  {"name": "WR#", "wave": "1....01....", "node": ".....IJ"},
+  {"name": "RDY/BSY#", "wave": "1......0.1.", "node": ".......K.L"}
  ],
- "edge": ["C~>A tDVXH", "A<->B tXHXL", "B~>D tXLDX", "E~>G tBVPH", "G<->H tPHPL", "H~>I tPLWL", "B~>I tXLWL", "E~>I tBVWL", "I<->J tWLWH", "I~>F tWLBX", "I~>K tWLRL", "I~>L tWLRH"],
+ "edge": ["C~>A tDVXH", "A<->B tXHXL", "B~>D tXLDX", "C~>G tBVPH", "G<->H tPHPL", "H~>D tPLBX", "D~>I tBVWL", "H~>I tPLWL", "B~>I tXLWL", "I<->J tWLWH", "J~>F tWLBX", "I~>K tWLRL", "I~>L tWLRH"],
  "config": {"hscale": 3}}
 ```
 
+Source conflict: the figure measures t~WLBX~ from the rising edge of !{WR}
+(drawn so above); the characteristics table calls it "BS2/1 Hold after
+!{WR} Low".
+
 ```wavedrom id=prog-par-load caption="Parallel programming: loading address low, data low, data high, latch, next address"
 {"signal": [
-  {"name": "XTAL1", "wave": "010.10.10..10", "node": ".....A.BC..F"},
-  {"name": "BS1", "wave": "0.....1...0.."},
-  {"name": "PAGEL", "wave": "0........10..", "node": ".........DE"},
-  {"name": "DATA", "wave": "=..=..=...=..", "data": ["ADDR0 low", "DATA low", "DATA high", "ADDR1 low"]},
-  {"name": "XA0", "wave": "0..1......0.."},
-  {"name": "XA1", "wave": "0............"}
+  {"name": "XTAL1", "wave": "0.10.10.10...10", "node": "......A.BC...F"},
+  {"name": "BS1", "wave": "0......1....0.."},
+  {"name": "PAGEL", "wave": "0.........10...", "node": "..........DE"},
+  {"name": "DATA", "wave": "x=..=..=....=..", "data": ["ADDR0 low", "DATA low", "DATA high", "ADDR1 low"]},
+  {"name": "XA0", "wave": "10..1.......0.."},
+  {"name": "XA1", "wave": "0.............."}
  ],
  "edge": ["A~>B tXLXH", "C~>D tXLPH", "E~>F tPLXH"],
  "config": {"hscale": 2}}
@@ -5110,11 +5116,11 @@ BS1 = 1.
 ```wavedrom id=prog-par-read caption="Parallel programming: reading within a page"
 {"signal": [
   {"name": "XTAL1", "wave": "0.10.........10.", "node": "...A"},
-  {"name": "BS1", "wave": "0.......1...0...", "node": "........D"},
-  {"name": "OE#", "wave": "1....0....1.....", "node": ".....B....F"},
-  {"name": "DATA", "wave": "x=..x.=..=.z=..x", "data": ["ADDR0 low", "DATA low", "DATA high", "ADDR1 low"], "node": "......C..E.G"},
-  {"name": "XA0", "wave": "10..1.......0..1"},
-  {"name": "XA1", "wave": "10..1.......0..1"}
+  {"name": "BS1", "wave": "10......1..0....", "node": "........D"},
+  {"name": "OE#", "wave": "1...0.....1.....", "node": "....B.....F"},
+  {"name": "DATA", "wave": "z=...z=..=.z=...", "data": ["ADDR0 low", "DATA low", "DATA high", "ADDR1 low"], "node": "......C..E.G"},
+  {"name": "XA0", "wave": "10...1......0..."},
+  {"name": "XA1", "wave": "10...1......0..."}
  ],
  "edge": ["A~>B tXLOL", "B~>C tOLDV", "D~>E tBVDV", "F~>G tOHDZ"],
  "config": {"hscale": 2}}
@@ -5128,8 +5134,8 @@ Flash and EEPROM can be programmed over the SPI pins while !{RESET} is held low:
 serial data in), MISO (PB4, serial data out), SCK (PB5, serial clock). V~CC~ = 1.8 V to 5.5 V;
 AV~CC~ within V~CC~ ± 0.3 V and always 1.8 V to 5.5 V. The Programming Enable instruction must
 be executed first after !{RESET} goes low. A valid clock must be present according to the
-CKSEL fuses (no XTAL1 clock is needed with the internal oscillator). SCK low and high periods
-must each be longer than 2 CPU clock cycles for f~ck~ < 12 MHz, 3 for f~ck~ ≥ 12 MHz. Input
+CKSEL fuses (no XTAL1 clock is needed with the internal oscillator). Minimum SCK low and high periods:
+longer than 2 CPU clock cycles for f~ck~ < 12 MHz, 3 for f~ck~ ≥ 12 MHz. Input
 data is clocked on the rising edge of SCK, output data on the falling edge.
 
 In serial mode only, EEPROM programming includes an auto-erase cycle, so no chip erase is
@@ -5137,16 +5143,16 @@ needed first. Chip erase turns every flash and EEPROM location into 0xFF.
 
 **Algorithm:**
 
-1. Power-up: apply power with !{RESET} and SCK at 0. If the programmer can't hold SCK low during
-   power-up, give !{RESET} a positive pulse of at least two CPU clock cycles after SCK is 0.
+1. Power-up: apply power with !{RESET} and SCK at 0. If the programmer can't guarantee SCK is held low during
+   power-up, !{RESET} must be given a positive pulse of at least two CPU clock cycles after SCK is 0.
 2. Wait at least 20 ms, then send Programming Enable on MOSI.
 3. Instructions only work in sync: when in sync, the second byte (0x53) echoes back while the
    third byte is sent. Send all four bytes either way; if 0x53 did not echo, pulse !{RESET}
    and send Programming Enable again.
 4. Flash is programmed a page at a time: load each byte with Load Program Memory Page (the
    6 LSBs of the address and the data; low byte before high byte for each address), then store
-   the page with Write Program Memory Page and the 7 MSBs of the address. Without RDY/!{BSY}
-   polling, wait at least t~WD_FLASH~ before the next page; accessing the interface before the
+   the page with Write Program Memory Page and the 7 MSBs of the address. If RDY/!{BSY}
+   polling is not used, the user must wait at least t~WD_FLASH~ before the next page; accessing the interface before the
    write completes can corrupt the programming.
 5. EEPROM, by byte: Write EEPROM Memory with address and data (the location is erased first);
    without polling, wait t~WD_EEPROM~ before the next byte. Or by page: Load EEPROM Memory Page
@@ -5319,7 +5325,7 @@ data-space address. Reserved addresses are omitted.
 [1] For compatibility with future devices, write reserved bits to 0 if accessed. Never write reserved I/O addresses.
 [2] I/O registers 0x00–0x1F are bit-accessible with SBI and CBI, and their bits can be tested with SBIS and SBIC.
 [3] Some status flags are cleared by writing 1 to them. Unlike most other AVRs, CBI and SBI operate only on the specified bit, so they can be used on registers holding such flags (0x00–0x1F only).
-[4] IN and OUT use I/O addresses 0x00–0x3F; LD and ST address them as data space, 0x20 higher. Extended I/O (0x60–0xFF) is reachable only with ST/STS/STD and LD/LDS/LDD.
+[4] IN and OUT must use I/O addresses 0x00–0x3F; LD and ST address them as data space, 0x20 higher. Extended I/O (0x60–0xFF) is reachable only with ST/STS/STD and LD/LDS/LDD.
 [5] Only in ATmega88A/88PA/168A/168PA/328/328P.
 [6] BODS and BODSE only in the picoPower devices ATmega48PA/88PA/168PA/328P.
 ```

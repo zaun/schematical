@@ -128,7 +128,8 @@ T~A~ = 25 °C unless noted.
 | Body depth | 6.4 | mm |
 | Seated height | 7.0 | mm |
 | Lead length below body | 3.9 ± 0.5 | mm |
-| Lead diameter | 0.5 | mm |
+| Lead width, front view | 0.5 | mm |
+| Lead width, side view | 0.3 | mm |
 | Lead pitch | 2.54 | mm |
 | Row spacing | 7.62 | mm |
 | Digit height | 10.0 | mm |
@@ -151,6 +152,8 @@ T~A~ = 25 °C unless noted.
   are not transcribed.
 - Curves digitized from Figures 1–6 (about 2–3 % of full scale; log
   scales on Figure 6).
+- From images: 9.7, 12.9, 6.4, 7.0, 3.9, 0.5, 0.3, 2.54, 7.62, 10.0, 10
+  and 1.2 (package drawing, p.3; the drawing has no text layer).
 - The package drawing is replaced by the generated footprint plus the
   dimension table; the segment-face dimensions (6.0 and 0.85 mm) are
   left out.

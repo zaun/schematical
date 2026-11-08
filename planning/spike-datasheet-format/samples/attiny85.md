@@ -26,9 +26,12 @@
 An 8-bit AVR RISC microcontroller: 32 general purpose registers wired
 straight to the ALU, most of its 120 instructions executing in one
 clock cycle (close to 1 MIPS per MHz), Harvard architecture with a
-one-stage pipeline. ATtiny25/45/85 differ only in memory size: 2/4/8 KB
-of in-system programmable flash (10,000 write/erase cycles), 128/256/512
-bytes of EEPROM (100,000 cycles) and 128/256/512 bytes of SRAM.
+one-stage pipeline. ATtiny25/45/85 have 2/4/8 KB of in-system
+programmable flash (10,000 write/erase cycles), 128/256/512 bytes of
+EEPROM (100,000 cycles) and 128/256/512 bytes of SRAM. Source error:
+the overview on page 5 gives SRAM as 128/256/256 bytes; page 1, page 15
+and the data memory map (SRAM 0x0060–0x025F on the ATtiny85, p.16) give
+128/256/512.
 
 On chip: six I/O lines (Port B, one shared with !{RESET}), an 8-bit
 Timer/Counter0 with two PWM channels, an 8-bit high-speed
@@ -74,7 +77,7 @@ GND: Ground
 PB0, PB1, PB2, PB3, PB4: Port B, 6-bit bidirectional I/O with a pull-up per bit; symmetrical drive with high sink and source capability. Inputs pulled low externally source current while their pull-up is on. Tri-stated while a reset is active, even without a clock. Alternate functions: see I/O ports under Peripherals.
 PB5: Port B bit 5, shared with !{RESET}: a low level longer than the minimum pulse width (see electrical characteristics) resets the part, even with no clock running, unless the reset pin is disabled (RSTDISBL fuse); shorter pulses are not guaranteed to reset. Usable as a weak I/O pin when the reset function is disabled. Also debugWIRE (dW) and ADC0.
 DNC: Do not connect (QFN/MLF)
-EP: Exposed bottom pad (QFN/MLF); solder to ground
+EP: Exposed bottom pad (QFN/MLF); should be soldered to ground
 ```
 
 In ATtiny15 compatibility mode the ATtiny25 exchanges PB3 and PB4
@@ -176,7 +179,7 @@ RETI by two.
 ```table id=sp caption="SPH (I/O 0x3E) and SPL (I/O 0x3D) – stack pointer"
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
-| 15:8 | SP[15:8] (SPH) | R/W | RAMEND | Stack pointer high byte; the register summary implements SP9, SP8 only |
+| 15:8 | SP[15:8] (SPH) | R/W | RAMEND | Stack pointer high byte. Source conflict: section 4.6.1 (p.11) shows SPH as SP15–SP8; the register summary (p.200) shows SP9 and SP8 only, bits 15:10 reserved. |
 | 7:0 | SP[7:0] (SPL) | R/W | RAMEND | Stack pointer low byte |
 ```
 
@@ -214,124 +217,121 @@ increases by two and I is set.
 
 ## Instruction set
 
-Operands: Rd, Rr = registers R0–R31; Rdl = low register of a word pair
-(Rdh:Rdl); K = constant; k = address; q = displacement; b = bit in a
-register or I/O register (0–7); s = SREG bit (0–7); P = I/O address;
-X, Y, Z = pointer registers. ∧ = AND, ∨ = OR, ⊕ = exclusive OR.
+The source summary has no operand legend. ∧ = AND, ∨ = OR,
+⊕ = exclusive OR.
 
 ```table id=isa caption="Instruction set summary"
-| Mnemonic | Operands | Description | Operation | Flags | Words [1] | Clocks |
-|---|---|---|---|---|--:|--:|
-| Arithmetic and logic | < | < | < | < | < | < |
-| ADD | Rd, Rr | Add two registers | Rd ← Rd + Rr | Z, C, N, V, H | 1 | 1 |
-| ADC | Rd, Rr | Add with carry two registers | Rd ← Rd + Rr + C | Z, C, N, V, H | 1 | 1 |
-| ADIW | Rdl, K | Add immediate to word | Rdh:Rdl ← Rdh:Rdl + K | Z, C, N, V, S | 1 | 2 |
-| SUB | Rd, Rr | Subtract two registers | Rd ← Rd − Rr | Z, C, N, V, H | 1 | 1 |
-| SUBI | Rd, K | Subtract constant from register | Rd ← Rd − K | Z, C, N, V, H | 1 | 1 |
-| SBC | Rd, Rr | Subtract with carry two registers | Rd ← Rd − Rr − C | Z, C, N, V, H | 1 | 1 |
-| SBCI | Rd, K | Subtract with carry constant from register | Rd ← Rd − K − C | Z, C, N, V, H | 1 | 1 |
-| SBIW | Rdl, K | Subtract immediate from word | Rdh:Rdl ← Rdh:Rdl − K | Z, C, N, V, S | 1 | 2 |
-| AND | Rd, Rr | Logical AND registers | Rd ← Rd ∧ Rr | Z, N, V | 1 | 1 |
-| ANDI | Rd, K | Logical AND register and constant | Rd ← Rd ∧ K | Z, N, V | 1 | 1 |
-| OR | Rd, Rr | Logical OR registers | Rd ← Rd ∨ Rr | Z, N, V | 1 | 1 |
-| ORI | Rd, K | Logical OR register and constant | Rd ← Rd ∨ K | Z, N, V | 1 | 1 |
-| EOR | Rd, Rr | Exclusive OR registers | Rd ← Rd ⊕ Rr | Z, N, V | 1 | 1 |
-| COM | Rd | One's complement | Rd ← 0xFF − Rd | Z, C, N, V | 1 | 1 |
-| NEG | Rd | Two's complement | Rd ← 0x00 − Rd | Z, C, N, V, H | 1 | 1 |
-| SBR | Rd, K | Set bit(s) in register | Rd ← Rd ∨ K | Z, N, V | 1 | 1 |
-| CBR | Rd, K | Clear bit(s) in register | Rd ← Rd ∧ (0xFF − K) | Z, N, V | 1 | 1 |
-| INC | Rd | Increment | Rd ← Rd + 1 | Z, N, V | 1 | 1 |
-| DEC | Rd | Decrement | Rd ← Rd − 1 | Z, N, V | 1 | 1 |
-| TST | Rd | Test for zero or minus | Rd ← Rd ∧ Rd | Z, N, V | 1 | 1 |
-| CLR | Rd | Clear register | Rd ← Rd ⊕ Rd | Z, N, V | 1 | 1 |
-| SER | Rd | Set register | Rd ← 0xFF | None | 1 | 1 |
-| Branch | < | < | < | < | < | < |
-| RJMP | k | Relative jump | PC ← PC + k + 1 | None | 1 | 2 |
-| IJMP | | Indirect jump to (Z) | PC ← Z | None | 1 | 2 |
-| RCALL | k | Relative subroutine call | PC ← PC + k + 1 | None | 1 | 3 |
-| ICALL | | Indirect call to (Z) | PC ← Z | None | 1 | 3 |
-| RET | | Subroutine return | PC ← STACK | None | 1 | 4 |
-| RETI | | Interrupt return | PC ← STACK | I | 1 | 4 |
-| CPSE | Rd, Rr | Compare, skip if equal | if (Rd = Rr) PC ← PC + 2 or 3 | None | 1 | 1/2/3 |
-| CP | Rd, Rr | Compare | Rd − Rr | Z, N, V, C, H | 1 | 1 |
-| CPC | Rd, Rr | Compare with carry | Rd − Rr − C | Z, N, V, C, H | 1 | 1 |
-| CPI | Rd, K | Compare register with immediate | Rd − K | Z, N, V, C, H | 1 | 1 |
-| SBRC | Rr, b | Skip if bit in register cleared | if (Rr(b) = 0) PC ← PC + 2 or 3 | None | 1 | 1/2/3 |
-| SBRS | Rr, b | Skip if bit in register set | if (Rr(b) = 1) PC ← PC + 2 or 3 | None | 1 | 1/2/3 |
-| SBIC | P, b | Skip if bit in I/O register cleared | if (P(b) = 0) PC ← PC + 2 or 3 | None | 1 | 1/2/3 |
-| SBIS | P, b | Skip if bit in I/O register set | if (P(b) = 1) PC ← PC + 2 or 3 | None | 1 | 1/2/3 |
-| BRBS | s, k | Branch if status flag set | if (SREG(s) = 1) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRBC | s, k | Branch if status flag cleared | if (SREG(s) = 0) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BREQ | k | Branch if equal | if (Z = 1) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRNE | k | Branch if not equal | if (Z = 0) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRCS | k | Branch if carry set | if (C = 1) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRCC | k | Branch if carry cleared | if (C = 0) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRSH | k | Branch if same or higher | if (C = 0) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRLO | k | Branch if lower | if (C = 1) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRMI | k | Branch if minus | if (N = 1) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRPL | k | Branch if plus | if (N = 0) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRGE | k | Branch if greater or equal, signed | if (N ⊕ V = 0) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRLT | k | Branch if less than zero, signed | if (N ⊕ V = 1) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRHS | k | Branch if half carry set | if (H = 1) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRHC | k | Branch if half carry cleared | if (H = 0) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRTS | k | Branch if T set | if (T = 1) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRTC | k | Branch if T cleared | if (T = 0) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRVS | k | Branch if overflow set | if (V = 1) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRVC | k | Branch if overflow cleared | if (V = 0) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRIE | k | Branch if interrupt enabled | if (I = 1) PC ← PC + k + 1 | None | 1 | 1/2 |
-| BRID | k | Branch if interrupt disabled | if (I = 0) PC ← PC + k + 1 | None | 1 | 1/2 |
-| Bit and bit-test | < | < | < | < | < | < |
-| SBI | P, b | Set bit in I/O register | I/O(P, b) ← 1 | None | 1 | 2 |
-| CBI | P, b | Clear bit in I/O register | I/O(P, b) ← 0 | None | 1 | 2 |
-| LSL | Rd | Logical shift left | Rd(n+1) ← Rd(n), Rd(0) ← 0 | Z, C, N, V | 1 | 1 |
-| LSR | Rd | Logical shift right | Rd(n) ← Rd(n+1), Rd(7) ← 0 | Z, C, N, V | 1 | 1 |
-| ROL | Rd | Rotate left through carry | Rd(0) ← C, Rd(n+1) ← Rd(n), C ← Rd(7) | Z, C, N, V | 1 | 1 |
-| ROR | Rd | Rotate right through carry | Rd(7) ← C, Rd(n) ← Rd(n+1), C ← Rd(0) | Z, C, N, V | 1 | 1 |
-| ASR | Rd | Arithmetic shift right | Rd(n) ← Rd(n+1), n = 0…6 | Z, C, N, V | 1 | 1 |
-| SWAP | Rd | Swap nibbles | Rd(3:0) ← Rd(7:4), Rd(7:4) ← Rd(3:0) | None | 1 | 1 |
-| BSET | s | Flag set | SREG(s) ← 1 | SREG(s) | 1 | 1 |
-| BCLR | s | Flag clear | SREG(s) ← 0 | SREG(s) | 1 | 1 |
-| BST | Rr, b | Bit store from register to T | T ← Rr(b) | T | 1 | 1 |
-| BLD | Rd, b | Bit load from T to register | Rd(b) ← T | None | 1 | 1 |
-| SEC, CLC | | Set, clear carry | C ← 1, C ← 0 | C | 1 | 1 |
-| SEN, CLN | | Set, clear negative flag | N ← 1, N ← 0 | N | 1 | 1 |
-| SEZ, CLZ | | Set, clear zero flag | Z ← 1, Z ← 0 | Z | 1 | 1 |
-| SEI, CLI | | Global interrupt enable, disable | I ← 1, I ← 0 | I | 1 | 1 |
-| SES, CLS | | Set, clear signed test flag | S ← 1, S ← 0 | S | 1 | 1 |
-| SEV, CLV | | Set, clear two's complement overflow | V ← 1, V ← 0 | V | 1 | 1 |
-| SET, CLT | | Set, clear T | T ← 1, T ← 0 | T | 1 | 1 |
-| SEH, CLH | | Set, clear half carry flag | H ← 1, H ← 0 | H | 1 | 1 |
-| Data transfer | < | < | < | < | < | < |
-| MOV | Rd, Rr | Move between registers | Rd ← Rr | None | 1 | 1 |
-| MOVW | Rd, Rr | Copy register word | Rd+1:Rd ← Rr+1:Rr | None | 1 | 1 |
-| LDI | Rd, K | Load immediate | Rd ← K | None | 1 | 1 |
-| LD | Rd, X / Y / Z | Load indirect | Rd ← (X), (Y), (Z) | None | 1 | 2 |
-| LD | Rd, X+ / Y+ / Z+ | Load indirect, post-increment | Rd ← (X), X ← X + 1 (same for Y, Z) | None | 1 | 2 |
-| LD | Rd, −X / −Y / −Z | Load indirect, pre-decrement | X ← X − 1, Rd ← (X) (same for Y, Z) | None | 1 | 2 |
-| LDD | Rd, Y+q / Z+q | Load indirect with displacement | Rd ← (Y + q), (Z + q) | None | 1 | 2 |
-| LDS | Rd, k | Load direct from data space | Rd ← (k) | None | 2 | 2 |
-| ST | X / Y / Z, Rr | Store indirect | (X), (Y), (Z) ← Rr | None | 1 | 2 |
-| ST | X+ / Y+ / Z+, Rr | Store indirect, post-increment | (X) ← Rr, X ← X + 1 (same for Y, Z) | None | 1 | 2 |
-| ST | −X / −Y / −Z, Rr | Store indirect, pre-decrement | X ← X − 1, (X) ← Rr (same for Y, Z) | None | 1 | 2 |
-| STD | Y+q / Z+q, Rr | Store indirect with displacement | (Y + q), (Z + q) ← Rr | None | 1 | 2 |
-| STS | k, Rr | Store direct to data space | (k) ← Rr | None | 2 | 2 |
-| LPM | | Load program memory | R0 ← (Z) | None | 1 | 3 |
-| LPM | Rd, Z | Load program memory | Rd ← (Z) | None | 1 | 3 |
-| LPM | Rd, Z+ | Load program memory, post-increment | Rd ← (Z), Z ← Z + 1 | None | 1 | 3 |
-| SPM | | Store program memory | (Z) ← R1:R0 | None | 1 | [2] |
-| IN | Rd, P | In port | Rd ← P | None | 1 | 1 |
-| OUT | P, Rr | Out port | P ← Rr | None | 1 | 1 |
-| PUSH | Rr | Push register on stack | STACK ← Rr | None | 1 | 2 |
-| POP | Rd | Pop register from stack | Rd ← STACK | None | 1 | 2 |
-| MCU control | < | < | < | < | < | < |
-| NOP | | No operation | | None | 1 | 1 |
-| SLEEP | | Sleep | see power management and sleep modes | None | 1 | 1 |
-| WDR | | Watchdog reset | see reset and watchdog | None | 1 | 1 |
-| BREAK | | Break | on-chip debug only | None | 1 | [3] |
+| Mnemonic | Operands | Description | Operation | Flags | Clocks |
+|---|---|---|---|---|--:|
+| Arithmetic and logic | < | < | < | < | < |
+| ADD | Rd, Rr | Add two registers | Rd ← Rd + Rr | Z, C, N, V, H | 1 |
+| ADC | Rd, Rr | Add with carry two registers | Rd ← Rd + Rr + C | Z, C, N, V, H | 1 |
+| ADIW | Rdl, K | Add immediate to word | Rdh:Rdl ← Rdh:Rdl + K | Z, C, N, V, S | 2 |
+| SUB | Rd, Rr | Subtract two registers | Rd ← Rd − Rr | Z, C, N, V, H | 1 |
+| SUBI | Rd, K | Subtract constant from register | Rd ← Rd − K | Z, C, N, V, H | 1 |
+| SBC | Rd, Rr | Subtract with carry two registers | Rd ← Rd − Rr − C | Z, C, N, V, H | 1 |
+| SBCI | Rd, K | Subtract with carry constant from register | Rd ← Rd − K − C | Z, C, N, V, H | 1 |
+| SBIW | Rdl, K | Subtract immediate from word | Rdh:Rdl ← Rdh:Rdl − K | Z, C, N, V, S | 2 |
+| AND | Rd, Rr | Logical AND registers | Rd ← Rd ∧ Rr | Z, N, V | 1 |
+| ANDI | Rd, K | Logical AND register and constant | Rd ← Rd ∧ K | Z, N, V | 1 |
+| OR | Rd, Rr | Logical OR registers | Rd ← Rd ∨ Rr | Z, N, V | 1 |
+| ORI | Rd, K | Logical OR register and constant | Rd ← Rd ∨ K | Z, N, V | 1 |
+| EOR | Rd, Rr | Exclusive OR registers | Rd ← Rd ⊕ Rr | Z, N, V | 1 |
+| COM | Rd | One's complement | Rd ← 0xFF − Rd | Z, C, N, V | 1 |
+| NEG | Rd | Two's complement | Rd ← 0x00 − Rd | Z, C, N, V, H | 1 |
+| SBR | Rd, K | Set bit(s) in register | Rd ← Rd ∨ K | Z, N, V | 1 |
+| CBR | Rd, K | Clear bit(s) in register | Rd ← Rd ∧ (0xFF − K) | Z, N, V | 1 |
+| INC | Rd | Increment | Rd ← Rd + 1 | Z, N, V | 1 |
+| DEC | Rd | Decrement | Rd ← Rd − 1 | Z, N, V | 1 |
+| TST | Rd | Test for zero or minus | Rd ← Rd ∧ Rd | Z, N, V | 1 |
+| CLR | Rd | Clear register | Rd ← Rd ⊕ Rd | Z, N, V | 1 |
+| SER | Rd | Set register | Rd ← 0xFF | None | 1 |
+| Branch | < | < | < | < | < |
+| RJMP | k | Relative jump | PC ← PC + k + 1 | None | 2 |
+| IJMP | | Indirect jump to (Z) | PC ← Z | None | 2 |
+| RCALL | k | Relative subroutine call | PC ← PC + k + 1 | None | 3 |
+| ICALL | | Indirect call to (Z) | PC ← Z | None | 3 |
+| RET | | Subroutine return | PC ← STACK | None | 4 |
+| RETI | | Interrupt return | PC ← STACK | I | 4 |
+| CPSE | Rd, Rr | Compare, skip if equal | if (Rd = Rr) PC ← PC + 2 or 3 | None | 1/2/3 |
+| CP | Rd, Rr | Compare | Rd − Rr | Z, N, V, C, H | 1 |
+| CPC | Rd, Rr | Compare with carry | Rd − Rr − C | Z, N, V, C, H | 1 |
+| CPI | Rd, K | Compare register with immediate | Rd − K | Z, N, V, C, H | 1 |
+| SBRC | Rr, b | Skip if bit in register cleared | if (Rr(b) = 0) PC ← PC + 2 or 3 | None | 1/2/3 |
+| SBRS | Rr, b | Skip if bit in register set | if (Rr(b) = 1) PC ← PC + 2 or 3 | None | 1/2/3 |
+| SBIC | P, b | Skip if bit in I/O register cleared | if (P(b) = 0) PC ← PC + 2 or 3 | None | 1/2/3 |
+| SBIS | P, b | Skip if bit in I/O register set | if (P(b) = 1) PC ← PC + 2 or 3 | None | 1/2/3 |
+| BRBS | s, k | Branch if status flag set | if (SREG(s) = 1) PC ← PC + k + 1 | None | 1/2 |
+| BRBC | s, k | Branch if status flag cleared | if (SREG(s) = 0) PC ← PC + k + 1 | None | 1/2 |
+| BREQ | k | Branch if equal | if (Z = 1) PC ← PC + k + 1 | None | 1/2 |
+| BRNE | k | Branch if not equal | if (Z = 0) PC ← PC + k + 1 | None | 1/2 |
+| BRCS | k | Branch if carry set | if (C = 1) PC ← PC + k + 1 | None | 1/2 |
+| BRCC | k | Branch if carry cleared | if (C = 0) PC ← PC + k + 1 | None | 1/2 |
+| BRSH | k | Branch if same or higher | if (C = 0) PC ← PC + k + 1 | None | 1/2 |
+| BRLO | k | Branch if lower | if (C = 1) PC ← PC + k + 1 | None | 1/2 |
+| BRMI | k | Branch if minus | if (N = 1) PC ← PC + k + 1 | None | 1/2 |
+| BRPL | k | Branch if plus | if (N = 0) PC ← PC + k + 1 | None | 1/2 |
+| BRGE | k | Branch if greater or equal, signed | if (N ⊕ V = 0) PC ← PC + k + 1 | None | 1/2 |
+| BRLT | k | Branch if less than zero, signed | if (N ⊕ V = 1) PC ← PC + k + 1 | None | 1/2 |
+| BRHS | k | Branch if half carry set | if (H = 1) PC ← PC + k + 1 | None | 1/2 |
+| BRHC | k | Branch if half carry cleared | if (H = 0) PC ← PC + k + 1 | None | 1/2 |
+| BRTS | k | Branch if T set | if (T = 1) PC ← PC + k + 1 | None | 1/2 |
+| BRTC | k | Branch if T cleared | if (T = 0) PC ← PC + k + 1 | None | 1/2 |
+| BRVS | k | Branch if overflow set | if (V = 1) PC ← PC + k + 1 | None | 1/2 |
+| BRVC | k | Branch if overflow cleared | if (V = 0) PC ← PC + k + 1 | None | 1/2 |
+| BRIE | k | Branch if interrupt enabled | if (I = 1) PC ← PC + k + 1 | None | 1/2 |
+| BRID | k | Branch if interrupt disabled | if (I = 0) PC ← PC + k + 1 | None | 1/2 |
+| Bit and bit-test | < | < | < | < | < |
+| SBI | P, b | Set bit in I/O register | I/O(P, b) ← 1 | None | 2 |
+| CBI | P, b | Clear bit in I/O register | I/O(P, b) ← 0 | None | 2 |
+| LSL | Rd | Logical shift left | Rd(n+1) ← Rd(n), Rd(0) ← 0 | Z, C, N, V | 1 |
+| LSR | Rd | Logical shift right | Rd(n) ← Rd(n+1), Rd(7) ← 0 | Z, C, N, V | 1 |
+| ROL | Rd | Rotate left through carry | Rd(0) ← C, Rd(n+1) ← Rd(n), C ← Rd(7) | Z, C, N, V | 1 |
+| ROR | Rd | Rotate right through carry | Rd(7) ← C, Rd(n) ← Rd(n+1), C ← Rd(0) | Z, C, N, V | 1 |
+| ASR | Rd | Arithmetic shift right | Rd(n) ← Rd(n+1), n = 0…6 | Z, C, N, V | 1 |
+| SWAP | Rd | Swap nibbles | Rd(3:0) ← Rd(7:4), Rd(7:4) ← Rd(3:0) | None | 1 |
+| BSET | s | Flag set | SREG(s) ← 1 | SREG(s) | 1 |
+| BCLR | s | Flag clear | SREG(s) ← 0 | SREG(s) | 1 |
+| BST | Rr, b | Bit store from register to T | T ← Rr(b) | T | 1 |
+| BLD | Rd, b | Bit load from T to register | Rd(b) ← T | None | 1 |
+| SEC, CLC | | Set, clear carry | C ← 1, C ← 0 | C | 1 |
+| SEN, CLN | | Set, clear negative flag | N ← 1, N ← 0 | N | 1 |
+| SEZ, CLZ | | Set, clear zero flag | Z ← 1, Z ← 0 | Z | 1 |
+| SEI, CLI | | Global interrupt enable, disable | I ← 1, I ← 0 | I | 1 |
+| SES, CLS | | Set, clear signed test flag | S ← 1, S ← 0 | S | 1 |
+| SEV, CLV | | Set, clear two's complement overflow | V ← 1, V ← 0 | V | 1 |
+| SET, CLT | | Set, clear T | T ← 1, T ← 0 | T | 1 |
+| SEH, CLH | | Set, clear half carry flag | H ← 1, H ← 0 | H | 1 |
+| Data transfer | < | < | < | < | < |
+| MOV | Rd, Rr | Move between registers | Rd ← Rr | None | 1 |
+| MOVW | Rd, Rr | Copy register word | Rd+1:Rd ← Rr+1:Rr | None | 1 |
+| LDI | Rd, K | Load immediate | Rd ← K | None | 1 |
+| LD | Rd, X / Y / Z | Load indirect | Rd ← (X), (Y), (Z) | None | 2 |
+| LD | Rd, X+ / Y+ / Z+ | Load indirect, post-increment | Rd ← (X), X ← X + 1 (same for Y, Z) | None | 2 |
+| LD | Rd, −X / −Y / −Z | Load indirect, pre-decrement | X ← X − 1, Rd ← (X) (same for Y, Z) | None | 2 |
+| LDD | Rd, Y+q / Z+q | Load indirect with displacement | Rd ← (Y + q), (Z + q) | None | 2 |
+| LDS | Rd, k | Load direct from SRAM | Rd ← (k) | None | 2 |
+| ST | X / Y / Z, Rr | Store indirect | (X), (Y), (Z) ← Rr | None | 2 |
+| ST | X+ / Y+ / Z+, Rr | Store indirect, post-increment | (X) ← Rr, X ← X + 1 (same for Y, Z) | None | 2 |
+| ST | −X / −Y / −Z, Rr | Store indirect, pre-decrement | X ← X − 1, (X) ← Rr (same for Y, Z) | None | 2 |
+| STD | Y+q / Z+q, Rr | Store indirect with displacement | (Y + q), (Z + q) ← Rr | None | 2 |
+| STS | k, Rr | Store direct to SRAM | (k) ← Rr | None | 2 |
+| LPM | | Load program memory | R0 ← (Z) | None | 3 |
+| LPM | Rd, Z | Load program memory | Rd ← (Z) | None | 3 |
+| LPM | Rd, Z+ | Load program memory, post-increment | Rd ← (Z), Z ← Z + 1 | None | 3 |
+| SPM | | Store program memory | (Z) ← R1:R0 | None | [1] |
+| IN | Rd, P | In port | Rd ← P | None | 1 |
+| OUT | P, Rr | Out port | P ← Rr | None | 1 |
+| PUSH | Rr | Push register on stack | STACK ← Rr | None | 2 |
+| POP | Rd | Pop register from stack | Rd ← STACK | None | 2 |
+| MCU control | < | < | < | < | < |
+| NOP | | No operation | | None | 1 |
+| SLEEP | | Sleep | see power management and sleep modes | None | 1 |
+| WDR | | Watchdog reset | see reset and watchdog | None | 1 |
+| BREAK | | Break | on-chip debug only | None | [2] |
 
-[1] Not in the source table: most AVR instructions are one 16-bit word; LDS and STS are the 32-bit ones.
-[2] Not given; SPM halts the CPU during the flash operation (see self-programming).
-[3] N/A.
+[1] Not given; SPM halts the CPU during the flash operation (see self-programming).
+[2] N/A.
 ```
 
 ## Memory map
@@ -353,7 +353,10 @@ anywhere in it (read with LPM). Programming: see memory programming
 under Peripherals.
 
 **Data memory.** One linear space: 0x0000–0x001F the 32 registers,
-0x0020–0x005F the 64 I/O registers, 0x0060–RAMEND the SRAM. Five
+0x0020–0x005F the 64 I/O registers, 0x0060–RAMEND the SRAM. Source
+error: section 5.2 says the lower 224/352/607 data memory locations
+hold the registers, I/O and SRAM; the data memory map (p.16) ends at
+0x025F on the ATtiny85, which is 608 locations. Five
 addressing modes reach all of it: direct (whole data space), indirect
 with displacement (63 locations above Y or Z), indirect, indirect with
 pre-decrement and indirect with post-increment (X, Y, Z).
@@ -377,13 +380,13 @@ the first and is valid in the second, when the WR or RD strobe occurs.
 ```
 
 **I/O memory.** All I/O registers and peripherals sit in the I/O space
-([register summary](#registers)). IN and OUT use I/O addresses
-0x00–0x3F; LD and ST reach them as data space, at the I/O address plus
-0x20. Registers 0x00–0x1F are bit-accessible with SBI and CBI and
+([register summary](#registers)). With IN and OUT, the I/O addresses
+0x00–0x3F must be used; LD and ST reach them as data space, and 0x20
+must be added to the address. Registers 0x00–0x1F are bit-accessible with SBI and CBI and
 testable with SBIS and SBIC. Some status flags are cleared by writing 1;
 SBI and CBI touch only the named bit, so they are safe on such
-registers. Reserved bits read as zero and should be written zero;
-reserved addresses must never be written. GPIOR0–GPIOR2 (0x11–0x13)
+registers. Reserved bits should be written to zero if accessed;
+reserved I/O memory addresses should never be written. GPIOR0–GPIOR2 (0x11–0x13)
 are general purpose I/O registers for any use.
 
 ```table id=vectors caption="Reset and interrupt vectors, highest priority first"
@@ -432,8 +435,8 @@ sequence below):
 - **Split**: erase (EEPM = 01, address in EEAR) and write (EEPM = 10,
   address in EEAR, data in EEDR) are separate operations, so the slow
   erase can be done ahead (after power-up) and only the short write is
-  needed later (when the supply may be falling). A location written
-  without a prior erase holds undefined data.
+  needed later (when the supply may be falling). If the location was
+  not erased before the write, the stored data must be considered lost.
 
 **Write sequence** (timed; interrupts must not occur during it):
 
@@ -523,8 +526,8 @@ can't be set while the PLL clock is the system clock). clk~PCK~ or a
 clock prescaled from it can clock Timer/Counter1 or, divided by 4
 (16 MHz), the system. The PLL tracks OSCCAL; if the RC oscillator is
 tuned above 8 MHz the PLL output saturates at 85 MHz (worst case) and
-is no longer locked, so don't calibrate above 8 MHz when using the
-PLL. The PLL is on when PLLCSR PLLE = 1 or CKSEL = 0001 or 0011;
+is no longer locked, so it is recommended not to take OSCCAL above
+8 MHz when using the PLL. The PLL is on when PLLCSR PLLE = 1 or CKSEL = 0001 or 0011;
 PLLCSR PLOCK = 1 when locked (PLLCSR is described under
 Timer/Counter1). The RC oscillator and PLL are off in power-down and
 standby.
@@ -562,10 +565,14 @@ by 8, so a 1.0 MHz system clock.
 
 #### External clock
 
-Drive CLKI from the external source (CKSEL = 0000). The frequency must
-not change by more than 2 % from one cycle to the next; keep the part
-in reset during larger changes, or change the frequency with the
-system clock prescaler instead.
+Drive CLKI from the external source (CKSEL = 0000). Source error:
+section 6.2.1 says the CKSEL fuses must be programmed to "00"; Table 6-1
+gives the external clock as CKSEL[3:0] = 0000. Sudden changes in the
+applied frequency must be avoided: a variation of more than 2 % from
+one clock cycle to the next can lead to unpredictable behavior, and the
+MCU must be kept in reset during such changes. The system clock
+prescaler can change the internal clock frequency at run time while
+keeping operation stable.
 
 ```table id=clk-sut-ext caption="Start-up times, external clock, calibrated 8 MHz RC oscillator and 128 kHz oscillator"
 | SUT[1:0] | Start-up time from power-down | Additional delay from reset (V~CC~ = 5.0 V) | Recommended usage |
@@ -645,7 +652,7 @@ values. CKSEL[3:1] picks the frequency range, CKSEL0 with SUT[1:0] the
 start-up time. Crystal oscillators can't be output on CLKO.
 
 ```table id=clk-xtal caption="Crystal oscillator operating modes"
-| CKSEL[3:1] | Frequency range | C1, C2 for crystals |
+| CKSEL[3:1] | Frequency range | C2 for use with crystals |
 |---|---|---|
 | 100 [1] | 0.4–0.9 MHz | — |
 | 101 | 0.9–3.0 MHz | 12–22 pF |
@@ -656,16 +663,16 @@ start-up time. Crystal oscillators can't be output on CLKO.
 ```
 
 ```table id=clk-sut-xtal caption="Start-up times, crystal oscillator / ceramic resonator"
-| CKSEL0 | SUT[1:0] | Start-up time from power-down | Additional delay from reset | Recommended usage |
-|---|---|---|---|---|
-| 0 | 00 | 258 CK [1] | 14 CK + 4 ms | Ceramic resonator, fast rising power |
-| 0 | 01 | 258 CK [1] | 14 CK + 64 ms | Ceramic resonator, slowly rising power |
-| 0 | 10 | 1K (1024) CK [2] | 14 CK | Ceramic resonator, BOD enabled |
-| 0 | 11 | 1K (1024) CK [2] | 14 CK + 4 ms | Ceramic resonator, fast rising power |
-| 1 | 00 | 1K (1024) CK [2] | 14 CK + 64 ms | Ceramic resonator, slowly rising power |
-| 1 | 01 | 16K (16384) CK | 14 CK | Crystal oscillator, BOD enabled |
-| 1 | 10 | 16K (16384) CK | 14 CK + 4 ms | Crystal oscillator, fast rising power |
-| 1 | 11 | 16K (16384) CK | 14 CK + 64 ms | Crystal oscillator, slowly rising power |
+| CKSEL0 | SUT[1:0] | Start-up time from power-down | Additional delay from reset |
+|---|---|---|---|
+| 0 | 00 | 258 CK [1] | 14 CK + 4 ms |
+| 0 | 01 | 258 CK [1] | 14 CK + 64 ms |
+| 0 | 10 | 1K (1024) CK [2] | 14 CK |
+| 0 | 11 | 1K (1024) CK [2] | 14 CK + 4 ms |
+| 1 | 00 | 1K (1024) CK [2] | 14 CK + 64 ms |
+| 1 | 01 | 16K (16384) CK | 14 CK |
+| 1 | 10 | 16K (16384) CK | 14 CK + 4 ms |
+| 1 | 11 | 16K (16384) CK | 14 CK + 64 ms |
 
 [1] Only when not operating close to the maximum frequency and frequency stability at start-up is not important. Not for crystals.
 [2] For ceramic resonators, with frequency stability at start-up. Usable with crystals when not close to the maximum frequency and stability at start-up is not important.
@@ -686,8 +693,11 @@ undivided clock.
 
 With the CKOUT fuse programmed, the system clock (after the prescaler)
 is output on CLKO (PB4) when that pin isn't XTAL2, overriding the pin's
-normal function; not during reset. Usable with the internal RC, WDT
-oscillator, PLL and external clock; not with crystal oscillators.
+normal function. Source conflict: section 6.4 (p.31) says the clock is
+not output during reset; section 10.3.1 (p.61) says it is also output
+during reset. Internal RC oscillator, WDT oscillator, PLL and external
+clock (CLKI) can be selected when the clock is output on CLKO; crystal
+oscillators (XTAL1, XTAL2) can not be used for clock output on CLKO.
 
 #### OSCCAL – Oscillator calibration register (0x31)
 
@@ -701,11 +711,12 @@ oscillator, PLL and external clock; not with crystal oscillators.
 Reset loads the factory calibration value (factory-calibrated
 frequency). Software may write OSCCAL to change the frequency, within
 the range in the switching characteristics; outside it calibration is
-not guaranteed. The oscillator times EEPROM and flash writes: do not
-calibrate above 8.8 MHz when writing them. Change OSCCAL in small
-steps, at most 0x20 per change; more than 2 % change between clock
-cycles may cause unpredictable behavior, so keep the part in reset
-during larger changes.
+not guaranteed. The oscillator times EEPROM and flash writes: if they
+are written, do not calibrate to more than 8.8 MHz, or the write may
+fail. Changes in OSCCAL should not exceed 0x20 for each calibration; a
+variation of more than 2 % from one cycle to the next can lead to
+unpredictable behavior, and the MCU must be kept in reset during such
+changes in the clock frequency.
 
 ```table id=clk-oscrange caption="Internal RC oscillator frequency range (typical, relative to nominal)"
 | OSCCAL value | Lowest frequency | Highest frequency |
@@ -727,9 +738,10 @@ during larger changes.
 [1] 0000 with CKDIV8 unprogrammed, 0011 (divide by 8) with CKDIV8 programmed (shipped). Any value may be written regardless of CKDIV8; software must pick a division that keeps the clock within the maximum frequency for the operating conditions.
 ```
 
-Timed sequence to change CLKPS (interrupts disabled):
+Timed sequence to change CLKPS (interrupts must be disabled so that it
+is not interrupted):
 
-1. Write CLKPR = 0x80 (CLKPCE = 1, all other bits 0).
+1. Write CLKPCE = 1 and all other CLKPR bits 0.
 2. Within four cycles, write the new CLKPS value with CLKPCE = 0.
 
 ```table id=clk-div caption="Clock prescaler select [1]"
@@ -746,7 +758,7 @@ Timed sequence to change CLKPS (interrupts disabled):
 | 1000 | 256 |
 | 1001–1111 | Reserved |
 
-[1] Disabled in ATtiny15 compatibility mode: the system clock is always 1.6 MHz.
+[1] The prescaler is disabled in ATtiny15 compatibility mode: neither writing CLKPR nor programming the CKDIV8 fuse has any effect on the system clock (always 1.6 MHz).
 ```
 
 ### Power management and sleep modes
@@ -790,9 +802,9 @@ it normally keeps monitoring V~CC~ in sleep. Writing MCUCR BODS = 1
 (timed sequence, below) turns it off during power-down, so sleep
 current drops to the fuse-disabled level. The BOD is off right after
 sleep is entered and is re-enabled automatically on wake-up. With the
-BOD disabled, the wake-up time equals the wake-up from reset: set
-SUT[1:0] and CKSEL[3:0] so the bandgap reference has started and the
-BOD works before code runs. Implemented only in ATtiny25 revision E,
+BOD disabled, the wake-up time equals the wake-up from reset: the user
+must set SUT[1:0] and CKSEL[3:0] so the bandgap reference has time to
+start and the BOD works before code runs. Implemented only in ATtiny25 revision E,
 ATtiny45 revision D, ATtiny85 revision C and newer (revision marked on
 the bottom of 8P3 and 8S2 packages, the top of 20M1); in older parts
 BODS and BODSE are unused and read 0.
@@ -800,27 +812,30 @@ BODS and BODSE are unused and read 0.
 **Power reduction register.** PRR stops the clock to single
 peripherals in active and idle mode (other sleep modes stop it
 anyway). The peripheral's state is frozen and its I/O registers can't
-be read or written; resources it holds stay occupied, so disable the
-peripheral first. Clearing the PRR bit restores the state from before
+be read or written; resources it holds stay occupied, hence the
+peripheral should in most cases be disabled before stopping the clock.
+Clearing the PRR bit restores the state from before
 shutdown.
 
 **Minimizing power.** Use the deepest sleep mode possible and disable
 unneeded functions:
 
-- ADC: stays on in every sleep mode if enabled; disable it first. The
-  first conversion after re-enabling is an extended conversion.
+- ADC: stays on in every sleep mode if enabled; it should be disabled
+  before entering any sleep mode. The first conversion after
+  re-enabling is an extended conversion.
 - Analog comparator: disable it before idle if unused and before ADC
   noise reduction; other modes disable it automatically, except that a
   comparator using the internal reference keeps the reference on in any
   mode, so disable it in all sleep modes then.
 - Brown-out detector: when enabled by fuses it runs in all sleep modes
-  and is a significant part of deep-sleep current; turn it off if not
-  needed (or use software BOD disable).
+  and is a significant part of deep-sleep current; it should be turned
+  off if not needed (or use software BOD disable).
 - Internal voltage reference: on whenever the BOD, the comparator
-  (ACBG) or the ADC needs it; off otherwise. After turning it on, allow
-  its start-up time before using the output (see Reset and watchdog).
-- Watchdog: when enabled it runs in all sleep modes; turn it off if not
-  needed.
+  (ACBG) or the ADC needs it; off otherwise. When it is turned on
+  again, the user must allow it to start up before the output is used
+  (see Reset and watchdog).
+- Watchdog: when enabled it runs in all sleep modes; it should be
+  turned off if not needed.
 - Port pins: drive no resistive loads. When clk~I/O~ and clk~ADC~ are
   both stopped, input buffers are disabled except those needed for
   wake-up (see I/O ports). A floating input, or one near V~CC~/2, with
@@ -834,7 +849,7 @@ unneeded functions:
 |---|---|---|---|---|
 | 7 | BODS | R | 0 | BOD sleep: 1 = BOD off during the next power-down sleep. Set by the timed sequence below; active three clock cycles after it is set, cleared automatically after three more; SLEEP must execute while it is active. |
 | 6 | PUD | R/W | 0 | Pull-up disable: 1 disables all I/O pull-ups even when DDxn = 0 and PORTxn = 1 (see I/O ports) |
-| 5 | SE | R/W | 0 | Sleep enable: SLEEP enters sleep only when SE = 1. Set it just before SLEEP and clear it right after wake-up. |
+| 5 | SE | R/W | 0 | Sleep enable: SLEEP enters sleep only when SE = 1. It is recommended to set it just before SLEEP and clear it immediately after waking up. |
 | 4:3 | SM[1:0] | R/W | 00 | Sleep mode: 00 = idle; 01 = ADC noise reduction; 10 = power-down; 11 = reserved |
 | 2 | BODSE | R | 0 | BOD sleep enable: enables writing BODS (timed sequence) |
 | 1:0 | ISC0[1:0] | R/W | 00 | INT0 sense control, see Interrupts |
@@ -891,14 +906,14 @@ Four reset sources:
   V~CC~ rises above V~BOT+~ = V~BOT~ + V~HYST~/2 the part starts after
   t~TOUT~. A drop shorter than t~BOD~ is not detected.
 
-```wavedrom id=rst-por caption="Start-up: RESET tied to VCC, and RESET released later"
+```wavedrom id=rst-por caption="MCU start-up, RESET extended externally (Figure 8-3)"
 {"signal": [
   {"name": "VCC above VPOT", "wave": "01........"},
   {"name": "RESET above VRST", "wave": "0...1.....", "node": "....A"},
-  {"name": "TIME-OUT", "wave": "0...1..0..", "node": "....B..C"},
-  {"name": "INTERNAL RESET", "wave": "1......0..", "node": ".......D"}
+  {"name": "TIME-OUT", "wave": "0......1..", "node": ".......B"},
+  {"name": "INTERNAL RESET", "wave": "01.....0.."}
  ],
- "edge": ["B<->C tTOUT"]}
+ "edge": ["A<->B tTOUT"]}
 ```
 
 With !{RESET} tied to V~CC~ the time-out starts when V~CC~ reaches
@@ -910,8 +925,9 @@ goes inactive.
 **Internal voltage reference.** A bandgap reference serves the BOD and
 can feed the analog comparator or the ADC. It is on only while the BOD
 is enabled by the BODLEVEL fuses, ACSR ACBG = 1, or the ADC is enabled.
-Without the BOD, allow its start-up time after setting ACBG or enabling
-the ADC before using the comparator or ADC output. Avoid all three
+When the BOD is not enabled, after setting ACBG or enabling the ADC,
+the user must always allow the reference to start up before the
+comparator or ADC output is used. Avoid all three
 conditions to have it off in power-down.
 
 **Watchdog timer.** Clocked by a separate 128 kHz on-chip oscillator,
@@ -966,7 +982,7 @@ the next reset then identify its source.
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
 | 7 | WDIF | R/W | 0 | Time-out interrupt flag: set on a time-out in interrupt mode; cleared by executing the interrupt vector or by writing 1. The interrupt runs when WDIE and SREG I are set. |
-| 6 | WDIE | R/W | 0 | Time-out interrupt enable, table wd-modes. With WDE = 1, hardware clears WDIE on a time-out, so the next time-out resets; set WDIE again after each interrupt to avoid the reset. |
+| 6 | WDIE | R/W | 0 | Time-out interrupt enable, table wd-modes. With WDE = 1, hardware clears WDIE on a time-out, so the next time-out resets; to avoid the reset, WDIE must be set after each interrupt. |
 | 5 | WDP3 | R/W | 0 | Prescaler bit 3, table wd-prescale |
 | 4 | WDCE | R/W | 0 | Change enable: must be 1 when WDE is written 0 or WDP is changed; cleared by hardware four clock cycles after it is written |
 | 3 | WDE | R/W | X | Watchdog enable; can be cleared only with WDCE = 1 (timed sequence). Always 1 in safety level 2. In safety level 1, WDE is forced to 1 while MCUSR WDRF = 1. |
@@ -989,7 +1005,7 @@ the next reset then identify its source.
 | 0001 | 4K (4096) | 32 ms |
 | 0010 | 8K (8192) | 64 ms |
 | 0011 | 16K (16384) | 0.125 s |
-| 0100 | 32K (32768) | 0.25 s |
+| 0100 | 32K (32768) [2] | 0.25 s |
 | 0101 | 64K (65536) | 0.5 s |
 | 0110 | 128K (131072) | 1.0 s |
 | 0111 | 256K (262144) | 2.0 s |
@@ -997,7 +1013,8 @@ the next reset then identify its source.
 | 1001 | 1024K (1048576) | 8.0 s |
 | 1010–1111 | Reserved [1] | |
 
-[1] If selected, one of the valid settings below 1010 is used.
+[1] If selected, one of the valid settings below 0b1010 is used.
+[2] Source error: Table 8-3 prints "32K (32764) cycles"; every other row gives nK as n × 1024 (16K (16384), 64K (65536)), and Table 6-10 gives 32K (32768).
 ```
 
 ### Interrupts
@@ -1021,8 +1038,8 @@ the start-up time the MCU still wakes but no interrupt is generated,
 and execution continues after the SLEEP instruction.
 
 **Pin change timing.** A change on PCINT(0) passes the pin latch and a
-synchronizer clocked by clk; PCIF is set three clock cycles after the
-first rising clock edge that samples the change:
+synchronizer clocked by clk; in Figure 9-1, PCIF is set on the third
+rising clock edge after the pin change:
 
 ```wavedrom id=int-pcint caption="Timing of a pin change interrupt"
 {"signal": [
@@ -1119,15 +1136,17 @@ are tri-stated as soon as reset is active, even with no clock running.
 enabled (01) or output low (10). The pull-up state is normally
 acceptable in a high-impedance environment; otherwise set PUD to
 disable all pull-ups. Going from input with pull-up to output low has
-the same problem: use tri-state (00) or output high (11) as the
-intermediate step.
+the same problem: the user must use tri-state (00) or output high (11)
+as the intermediate step. Source error: that sentence of section 10.2.3
+writes output high as {DDxn, PORTxn} = 0b10; the sentence before it and
+Table 10-1 give output high as 0b11 and 0b10 as output low.
 
 **Reading the pin.** PINxn reads the pin whatever DDxn holds, through a
 synchronizer (a latch transparent while the system clock is high,
 followed by the PINxn flip-flop) that avoids metastability but adds
 delay: an external transition reaches PINxn between ½ and 1½ system
 clock periods later (t~pd,min~, t~pd,max~). To read back a value just
-written to PORTx, insert a NOP between the OUT and the IN: the delay
+written to PORTx, a NOP must be inserted between the OUT and the IN: the delay
 through the synchronizer is then one system clock period.
 
 **Digital input and sleep.** In power-down the sleep controller clamps
@@ -1136,13 +1155,14 @@ or mid-supply inputs draw no current. Pins enabled as external
 interrupts, and pins whose alternate functions require it, are not
 clamped. If a high level is present on an asynchronous external
 interrupt pin set for rising edge, falling edge or any change while
-that interrupt is disabled, its flag is set on resuming from this
+that interrupt is not enabled, its flag is set on resuming from this
 sleep mode, because the clamping makes the requested change.
 
-**Unconnected pins.** Give unused pins a defined level to save current
-in reset, active and idle mode. The simplest way is the internal
-pull-up (off during reset); for low reset current use an external pull-up
-or pull-down. Don't tie unused pins directly to V~CC~ or GND: a pin
+**Unconnected pins.** It is recommended to give unused pins a defined
+level to save current in reset, active and idle mode. The simplest way
+is the internal pull-up (off during reset); if low reset current is
+important, an external pull-up or pull-down is recommended. Connecting
+unused pins directly to V~CC~ or GND is not recommended: a pin
 accidentally made an output would then draw excessive current.
 
 **Alternate functions.** Each alternate function overrides the pin's
@@ -1207,7 +1227,9 @@ Details per pin:
   the pin an input with the pull-up off so the digital port doesn't
   disturb the comparator. OC0B, OC1A: Timer/Counter0 compare match B
   and Timer/Counter1 compare match A outputs (and PWM outputs) when
-  DDB1 = 1. DO: USI three-wire data output; overrides PORTB1 and is
+  DDB1 = 1. Source error: the OC1A description in section 10.3.1 says
+  Timer/Counter1 "Compare Match B"; Table 10-3 names OC1A the
+  Timer/Counter1 compare match A output. DO: USI three-wire data output; overrides PORTB1 and is
   driven when DDB1 = 1; PORTB1 still enables the pull-up when the pin
   is an input.
 - **PB0.** MOSI: SPI master output / slave input; as a slave the pin is
@@ -1215,21 +1237,24 @@ Details per pin:
   PORTB0 still controls the pull-up when forced to input. AIN0: make it
   an input with the pull-up off. OC0A: Timer/Counter0 compare match A
   and PWM output when DDB0 = 1. !{OC1A}: inverted Timer/Counter1
-  compare match A and PWM output when DDB0 = 1. SDA: USI two-wire data.
+  compare match A and PWM output when DDB0 = 1 (Source error: the
+  section 10.3.1 description says "Compare Match B"; Table 10-3 names
+  !{OC1A} the complementary compare match A output). SDA: USI two-wire data.
   AREF: external ADC reference; pull-up and output driver are off when
   the pin is used as external reference or for the internal reference's
-  external capacitor. DI: USI three-wire data input; the USI doesn't
-  override the port, so make the pin an input.
+  external capacitor. DI: USI three-wire data input; three-wire mode
+  does not override normal port functions, so the pin must be
+  configured as an input.
 
 ```table id=io-ovr-hi caption="Overriding signals for alternate functions in PB5:PB3 [1]"
 | Signal | PB5 / !{RESET} / ADC0 / PCINT5 | PB4 / ADC2 / XTAL2 / OC1B / PCINT4 | PB3 / ADC3 / XTAL1 / !{OC1B} / PCINT3 |
 |---|---|---|---|
 | PUOE | !{RSTDISBL} • DWEN | 0 | 0 |
 | PUOV | 1 | 0 | 0 |
-| DDOE | RSTDISBL • DWEN | 0 | 0 |
+| DDOE | !{RSTDISBL} • DWEN | 0 | 0 |
 | DDOV | debugWIRE transmit | 0 | 0 |
 | PVOE | 0 | OC1B enable | !{OC1B} enable |
-| PVOV | 0 | OC1B | OC1B |
+| PVOV | 0 | OC1B | OC1B [2] |
 | PTOE | 0 | 0 | 0 |
 | DIEOE | !{RSTDISBL} + (PCINT5 • PCIE + ADC0D) | PCINT4 • PCIE + ADC2D | PCINT3 • PCIE + ADC3D |
 | DIEOV | ADC0D | ADC2D | ADC3D |
@@ -1237,6 +1262,7 @@ Details per pin:
 | AIO | RESET input, ADC0 input | ADC2 input | ADC3 input |
 
 [1] RSTDISBL and DWEN are 1 when the fuse is 0 (programmed).
+[2] Unconfirmed: printed without an overline, while the PVOE cell of the same column reads !{OC1B} enable.
 ```
 
 ```table id=io-ovr-lo caption="Overriding signals for alternate functions in PB2:PB0"
@@ -1306,8 +1332,8 @@ Block diagram: TCNT0 with control logic and clock select feeding two
 
 CS0[2:0] in TCCR0B select the timer clock clk~T0~: none (timer stopped;
 TCNT0 still readable and writable), clk~I/O~ directly, clk~I/O~/8, /64,
-/256 or /1024 from the prescaler, or the T0 pin. The prescaler runs freely
-and is shared with no other clock select, so with a prescaled clock
+/256 or /1024 from the prescaler, or the T0 pin. The prescaler is free
+running, independent of the clock select logic, so with a prescaled clock
 (6 > CS0[2:0] > 1) the first count after enabling comes 1 to N + 1 system
 clocks later (N = 8, 64, 256 or 1024). PSR0 in GTCCR resets the
 prescaler, to synchronise the timer to program execution.
@@ -1316,11 +1342,12 @@ prescaler, to synchronise the timer to program execution.
 synchronizer (registers clocked on the rising clk~I/O~ edge, latch
 transparent while clk~I/O~ is high) and an edge detector that makes one
 clk~T0~ pulse per rising (CS0 = 7) or falling (CS0 = 6) edge. Delay from a
-T0 edge to the counter update: 2.5 to 3.5 system clocks. Enable or disable
-the clock input only while T0 has been stable for at least one system
-clock, or a false count may occur. Each half period of the external clock
-must exceed one system clock (f~ExtClk~ < f~clk_I/O~/2 at 50/50 % duty);
-because of oscillator tolerances, keep f~ExtClk~ below f~clk_I/O~/2.5. An
+T0 edge to the counter update: 2.5 to 3.5 system clocks. Enabling and
+disabling the clock input must be done when T0 has been stable for at
+least one system clock, or a false count may occur. Each half period of
+the external clock must be longer than one system clock (f~ExtClk~ <
+f~clk_I/O~/2 at 50/50 % duty); because of oscillator tolerances, a
+maximum f~ExtClk~ below f~clk_I/O~/2.5 is recommended. An
 external clock can't be prescaled. T0 clocks the counter even when the pin
 is an output, so software can count.
 
@@ -1377,7 +1404,8 @@ OC0x register.
   frequency of phase correct PWM. Non-inverting (COM0x = 2): OC0x cleared
   on match, set at BOTTOM; inverting (COM0x = 3): set on match, cleared at
   BOTTOM. TOV0 is set at TOP. COM0A = 1 with WGM02 = 1 toggles OC0A on
-  each match (50 % duty, at most f~clk_I/O~/2 with OCR0A = 0, double
+  each match (Source error: section 11.7.3 writes "AC0A pin"; the same
+  sentence and Table 11-3 are about OC0A) (50 % duty, at most f~clk_I/O~/2 with OCR0A = 0, double
   buffered unlike CTC); not available for OC0B. OCR0A = BOTTOM gives a
   narrow spike every MAX + 1 timer clocks; OCR0A = MAX a constant high or
   low output.
@@ -1393,12 +1421,12 @@ OC0x register.
   misses the up-counting match.
 
 ```equation
-f~OC0x~ = f~clk_I/O~ / (2 × N × (1 + OCR0x))   (CTC, toggle)
-f~OC0xPWM~ = f~clk_I/O~ / (N × 256)   (fast PWM)
-f~OC0xPCPWM~ = f~clk_I/O~ / (N × 510)   (phase correct PWM)
+f~OCnx~ = f~clk_I/O~ / (2 × N × (1 + OCRnx))   (CTC, toggle)
+f~OCnxPWM~ = f~clk_I/O~ / (N × 256)   (fast PWM)
+f~OCnxPCPWM~ = f~clk_I/O~ / (N × 510)   (phase correct PWM)
 ```
 
-N is the prescale factor (1, 8, 64, 256 or 1024).
+N is the prescale factor (1, 8, 64, 256 or 1024); n = 0 for Timer/Counter0.
 
 #### Timing
 
@@ -1448,7 +1476,7 @@ together, as TCNT0 goes from TOP to BOTTOM.
 
 #### GTCCR – General timer/counter control register (0x2C)
 
-```table id=t0-gtccr caption="GTCCR bits"
+```table id=t0-gtccr caption="GTCCR bits [1]"
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
 | 7 | TSM | R/W | 0 | Timer/counter synchronization mode: 1 keeps the value written to PSR0 (prescaler reset held), so Timer/Counter0 is halted while it is configured. Writing 0 clears PSR0 in hardware and the timer starts. |
@@ -1458,6 +1486,8 @@ together, as TCNT0 goes from TOP to BOTTOM.
 | 2 | FOC1A | W | 0 | Force output compare 1A: as FOC1B, for OC1A (PB1), COM1A, PWM1A |
 | 1 | PSR1 | R/W | 0 | Prescaler reset Timer/Counter1: 1 resets the prescaler (TCNT1 unaffected); cleared by hardware when done. Writing 0 has no effect; reads 0. |
 | 0 | PSR0 | R/W | 0 | Prescaler reset Timer/Counter0: 1 resets the prescaler; cleared by hardware at once unless TSM = 1 |
+
+[1] Source conflict: the access column follows chapters 12 and 13 (p.90, p.101: R/W, R/W, R/W, R/W, W, W, R/W, R/W for bits 7 to 0); chapter 11 (p.77) gives R/W, R, R, R, R, R, R, R/W.
 ```
 
 #### TCCR0A – Timer/Counter0 control register A (0x2A)
@@ -1729,11 +1759,11 @@ function in Normal and PWM mode.
 ```table id=t1-pllcsr caption="PLLCSR bits"
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
-| 7 | LSM | R/W | 0 | Low speed mode: 1 scales PCK down from 64 MHz to 32 MHz. Must be set when V~CC~ is below 2.7 V (Timer/Counter1 is not fast enough at low voltage). Stop Timer/Counter1 while changing LSM. Can't be set while the PLL clock is the system clock. |
+| 7 | LSM | R/W | 0 | Low speed mode: 1 scales PCK down from 64 MHz to 32 MHz. Must be set when V~CC~ is below 2.7 V (Timer/Counter1 is not fast enough at low voltage). It is highly recommended that Timer/Counter1 is stopped whenever LSM is changed. Can't be set while the PLL clock is the system clock. |
 | 6:3 | — | R | 0 | Reserved |
 | 2 | PCKE | R/W | 0 | PCK enable: 1 = asynchronous mode, Timer/Counter1 clocked by PCK; 0 = synchronous mode, clocked by CK. Can be set only when PLLE = 1, and safely only when PLOCK = 1. |
 | 1 | PLLE | R/W | 0/1 | PLL enable: 1 starts the PLL (and the internal RC oscillator as its reference if needed). Always 1 when the PLL is the system clock source. |
-| 0 | PLOCK | R | 0 | PLL lock detector: 1 = PLL locked to the reference. Ignore it during the initial lock-in (overshoot and undershoot); steady state is reached within 100 µs. Check it before enabling PCK. |
+| 0 | PLOCK | R | 0 | PLL lock detector: 1 = PLL locked to the reference. It should be ignored during the initial lock-in (overshoot and undershoot); steady state is reached within 100 µs. After lock-in it is recommended to check it before enabling PCK. |
 ```
 
 ### Timer/Counter1 in ATtiny15 mode
@@ -1761,10 +1791,14 @@ normal mode:
   connected; 10 = OC1A cleared on compare match, set when TCNT1 = 0x00;
   11 = OC1A set on compare match, cleared when TCNT1 = 0x00. With OCR1A
   = 0x00 or OCR1C the output is held as in table t1-pwm-ext (OC1A
-  column). Normal-mode COM1A: 00 = disconnected, 01 = toggle, 10 =
+  column). Source conflict: Table 13-2 (pp.98–99) lists OC1A levels for
+  COM1A = 01 (L at 0x00, H at OCR1C), while Table 13-1 (p.98) says
+  COM1A = 01 leaves OC1A not connected in PWM mode. Normal-mode COM1A: 00 = disconnected, 01 = toggle, 10 =
   clear, 11 = set OC1A.
-- CTC1 = 1 resets TCNT1 in the CPU clock after a compare match (see
-  Conversion notes on which register).
+- CTC1 = 1 resets TCNT1 in the CPU clock after a compare match.
+  Source conflict: the chapter 13 TCCR1 description (p.100) says a
+  compare match with OCR1A; the chapter 13 OCR1C description (p.102)
+  says that with CTC1 set a compare match with OCR1C clears TCNT1.
 
 ```equation
 f = f~TCK1~ / (OCR1C + 1)
@@ -1805,7 +1839,7 @@ in prescaled clock cycles, 0 to 15.
   {"name": "OC1x", "wave": "0..1..0....1", "node": "...B"},
   {"name": "OC1x#", "wave": "1.0....1..0.", "node": ".......D"}
  ],
- "edge": ["A<->B tnon-overlap (rising edge)", "C<->D tnon-overlap (falling edge)"],
+ "edge": ["A<->B tnon-overlap / rising edge", "C<->D tnon-overlap / falling edge"],
  "config": {"hscale": 2}}
 ```
 
@@ -1820,11 +1854,13 @@ in prescaled clock cycles, 0 to 15.
 
 #### DT1A (0x25), DT1B (0x24) – Timer/Counter1 dead time A and B
 
-```table id=dt-dt1x caption="DT1A and DT1B bits (x = A or B)"
+```table id=dt-dt1x caption="DT1A and DT1B bits (x = A or B) [1]"
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
 | 7:4 | DT1xH[3:0] | R/W | 0 | Dead time for the OC1x output (delay of its rising edge), in prescaled T/C1 clocks, 0 to 15 |
 | 3:0 | DT1xL[3:0] | R/W | 0 | Dead time for the !{OC1x} output (delay of its rising edge), in prescaled T/C1 clocks, 0 to 15 |
+
+[1] Source error: the DT1B description (p.107) says the two fields adjust "the rising edge of OC1A and the rising edge of !{OC1A}"; its bit descriptions (DT1BH, DT1BL) name OC1B and !{OC1B}.
 ```
 
 ### USI

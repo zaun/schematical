@@ -545,7 +545,7 @@ word; a few use a 32-bit format (see [programming model](#programming-model)).
 
 [1] Data-memory access cycles assume internal RAM; they are not valid for accesses to the NVM. Add at least one extra cycle when reading Flash and EEPROM.
 [2] Add one extra cycle when accessing the lower 64 bytes of I/O space.
-[3] The PDF writes "DS(k) ← Rd"; the operand is Rr.
+[3] Source error: the instruction set summary gives STS's operation as DS(k) ← Rd; its operands are k, Rr, and ST/STD store Rr.
 ```
 
 ## Memory map
@@ -553,13 +553,15 @@ word; a few use a 32-bit format (see [programming model](#programming-model)).
 ```table id=map caption="Data space (both devices)"
 | Address | Size | Contents |
 |---|---|---|
-| 0x0000–0x003F | 64 B | I/O registers (IN/OUT; 0x00–0x1F bit-accessible with SBI, CBI, SBIS, SBIC) |
-| 0x0040–0x0FFF | 4032 B | Extended I/O registers (LD/LDS/LDD, ST/STS/STD) |
-| 0x1000–0x13FF | 1 KB | NVM I/O registers and data: NVMCTRL 0x1000, SIGROW 0x1100, FUSE 0x1280, USERROW 0x1300 |
+| 0x0000–0x003F | 64 I/O registers | I/O registers (IN/OUT; 0x00–0x1F bit-accessible with SBI, CBI, SBIS, SBIC) |
+| 0x0040–0x0FFF | 960 Ext I/O registers [1] | Extended I/O registers (LD/LDS/LDD, ST/STS/STD) |
+| 0x1000–0x13FF | | NVM I/O registers and data: NVMCTRL 0x1000, SIGROW 0x1100, FUSE 0x1280, USERROW 0x1300 |
 | 0x1400–0x14FF | 256 B | EEPROM |
 | 0x1500–0x27FF | | Reserved |
 | 0x2800–0x3FFF | 6 KB | Internal SRAM |
 | 0x4000–0xFFFF | 48 KB | Flash, mapped for LD/ST |
+
+[1] Unconfirmed: Figure 7-1 labels the block 0x0040 – 0x0FFF "960 Ext I/O Registers"; the PDF does not say how that count relates to the address range.
 ```
 
 Code space: Flash at 0x0000–0xBFFF (byte addresses for LPM; the program
@@ -1081,7 +1083,7 @@ specification must be divided so that the CPU clock stays within it.
 | ^ | ^ | FREQSEL = 0x2 | 18.5 | | 21.5 | MHz |
 | E~TOTAL~ | Total error from target frequency, 16 and 20 MHz | T~A~ = 25 °C, 3.0 V | -1.5 | | 1.5 | % |
 | ^ | ^ | T~A~ = 0 °C to 70 °C, V~DD~ = 1.8 V to 3.6 V | -2.0 | | 2.0 | % |
-| ^ | ^ | Full operating range | -4.0 | | 4.0 | % |
+| ^ | ^ | Full operation range | -4.0 | | 4.0 | % |
 | E~DRIFT~ | Accuracy relative to the factory-stored frequency value, 16 and 20 MHz, factory calibrated at V~DD~ = 3 V [1] | T~A~ = 0 °C to 70 °C, V~DD~ = 1.8 V to 5.5 V | -1.8 | | 1.8 | % |
 | Δf~OSC20M~ | Calibration step size | | | 0.75 | | % |
 | D~OSC20M~ | Duty cycle | | | 50 | | % |
@@ -1096,7 +1098,7 @@ specification must be divided so that the CPU clock stays within it.
 | f~OSCULP32K~ | Factory calibration frequency | | | 32.768 | | kHz |
 | ^ | Factory calibration accuracy | T~A~ = 25 °C, 3.0 V | -3 | | 3 | % |
 | E~TOTAL~ | Total error from target frequency | T~A~ = 0 °C to 70 °C, V~DD~ = 1.8 V to 3.6 V | -10 | | 10 | % |
-| ^ | ^ | Full operating range | -20 | | 20 | % |
+| ^ | ^ | Full operation range | -20 | | 20 | % |
 | D~OSCULP32K~ | Duty cycle | | | 50 | | % |
 | t~startup~ | Start-up time | | | 250 | | µs |
 ```
@@ -1240,7 +1242,7 @@ written 1. !{RESET} (digital input) is the external reset pin.
 | Watchdog | X | X | | | | X |
 | UPDI | X | X | | | | X |
 
-[1] As printed; this device has no TCD (timer/counter type D).
+[1] Unconfirmed: as printed. The table has TCD columns, but this device has no TCD (timer/counter type D) in its peripheral address map.
 ```
 
 **Reset time:** the time the sources are active (!{RESET} low, V~DD~
@@ -1281,7 +1283,7 @@ power-on reset.
 | t~MIN_RST~ | Minimum pulse width on !{RESET} [1] | | | | 2.5 | µs |
 | R~p_RST~ | !{RESET} pull-up resistor | V~Reset~ = 0 V | 20 | 35 | 50 | kΩ |
 
-[1] Design guidance only, not production tested. The source gives this as a maximum.
+[1] Design guidance only, not production tested. Unconfirmed: the source prints this minimum pulse width in the Max column; kept there.
 ```
 
 ### CPUINT: CPU interrupt controller
@@ -1673,7 +1675,7 @@ register.
 | 7:0 | IN[7:0] | R/W | 0x00 | Same as PORTx.IN; writing 1 to bit n toggles OUT[n] |
 | 7:0 | INT[7:0] | R [1] | 0x00 | Same as PORTx.INTFLAGS: set when pin n matches its ISC setting and is a port interrupt source; write 1 to clear |
 
-[1] The PDF gives INTFLAGS access as R, yet says writing 1 clears a flag.
+[1] Source conflict: the PDF gives INTFLAGS access as R, yet says writing 1 clears a flag.
 ```
 
 ### BOD: brown-out detector
@@ -1703,12 +1705,14 @@ interrupt is not executed while the CPU is halted in debug mode.
 
 #### Registers
 
-```table id=bod-ctrla caption="CTRLA (+0x00), reset from FUSE.BODCFG, CCP (SLEEP, SAMPFREQ)"
+```table id=bod-ctrla caption="CTRLA (+0x00), reset from FUSE.BODCFG, CCP (SLEEP, SAMPFREQ) [1]"
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
 | 4 | SAMPFREQ | R | x | Sample frequency in sampled mode: 0 = 1 kHz, 1 = 125 Hz. Loaded from FUSE.BODCFG.SAMPFREQ. |
 | 3:2 | ACTIVE[1:0] | R | x | Mode in active and idle: 0x0 = disabled; 0x1 = enabled; 0x2 = sampled; 0x3 = enabled, with wake-up halted until the BOD is ready. Loaded from FUSE.BODCFG.ACTIVE. |
 | 1:0 | SLEEP[1:0] | R/W | x | Mode in standby and power-down: 0x0 = disabled; 0x1 = enabled; 0x2 = sampled; 0x3 reserved. Loaded from FUSE.BODCFG.SLEEP. |
+
+[1] Source conflict: SAMPFREQ's access is given as R, yet its description says the bit is under Configuration Change Protection.
 ```
 
 ```table id=bod-ctrlb caption="CTRLB (+0x01), reset from FUSE.BODCFG"
@@ -1891,7 +1895,7 @@ normal-mode time-out runs instead.
 | 0xB | 8KCLK | 8.192 s |
 | 0xC–0xF | — | Reserved |
 
-[1] Nominal, at 1 kHz CLK_WDT_OSC. The PERIOD table rounds 0x8–0xB to 1.0 s, 2.0 s, 4.1 s and 8.2 s.
+[1] Nominal, at 1 kHz CLK_WDT_OSC. Values as in the WINDOW table. Source conflict: the PERIOD table gives 0x8–0xB as 1.0 s, 2.0 s, 4.1 s and 8.2 s.
 ```
 
 ```table id=wdt-status caption="STATUS (+0x01), reset 0x00, CCP (LOCK only)"
@@ -2233,7 +2237,7 @@ and the buffer registers are not used. All registers are bytes.
 | +0x28 + 2n | LCMPn (n = 0…2) | Low byte compare value of channel n, compared continuously to LCNT |
 | +0x29 + 2n | HCMPn (n = 0…2) | High byte compare value of channel n, compared continuously to HCNT |
 
-[1] The PDF gives a reset of 0x00 for LPER and HPER, though they occupy PER, which resets to 0xFFFF; mode changes keep register values.
+[1] Source conflict: the PDF gives a reset of 0x00 for LPER and HPER, though they occupy PER, which resets to 0xFFFF; mode changes keep register values.
 ```
 
 ### TCB: 16-bit timer/counter type B
@@ -2291,8 +2295,11 @@ edges.
   both.
 - **8-bit PWM (PWM8).** CCMPL and CCMPH act as two independent 8-bit
   compare registers. The counter counts continuously from BOTTOM to
-  CCMPL (period = CCMPL + 1 cycles); the output is set at BOTTOM and
-  cleared when CNT reaches CCMPH (high time = CCMPH cycles). CCMPH = 0
+  CCMPL; the output is set at BOTTOM and cleared when CNT reaches
+  CCMPH. CCMPH is the number of cycles the output is high; CCMPL + 1 is
+  the period of the output pulse. Source conflict: the same paragraph
+  first says the period (T) is controlled by CCMPH and CCMPL controls
+  the duty cycle. CCMPH = 0
   gives a constant low output, CCMPH > CCMPL a constant high output.
   CAPT is set when CNT reaches CCMPL.
 
@@ -2324,7 +2331,9 @@ the same conditions that set INTFLAGS.CAPT. It uses two event inputs:
 CAPT (edge-detected; with EVCTRL.CAPTEI = 1 it triggers the action of
 the current mode and EDGE; synchronous, or both synchronous and
 asynchronous in single-shot mode) and COUNT (an event used as the
-clock source with a count mode, synchronous). An event must last at
+clock source with a count mode, synchronous). Source conflict: the
+text enables COUNT by setting CTRLA.CLKSEL to EVENT, but CLKSEL lists
+no EVENT value. An event must last at
 least one CLK_PER cycle unless asynchronous single-shot is used. One
 interrupt vector, CAPT, enabled by INTCTRL.CAPT. The TCB stops in
 standby unless CTRLA.RUNSTDBY = 1 (not available with CLKSEL =
@@ -2458,7 +2467,9 @@ the finest resolution is 30.5 µs with time-outs up to 2 s; at 1 s
 resolution the longest time-out is 65536 s (over 18 h). Set-up:
 configure the oscillator in CLKCTRL, write RTC.CLKSEL, write CMP and/or
 PER, enable interrupts in INTCTRL (CMP, OVF), then write PRESCALER and
-RTCEN = 1 in CTRLA. Clearing RTCEN disables it.
+RTCEN = 1 in CTRLA. Clearing RTCEN disables it. Source error: the
+text calls this bit ENABLE (RTC.CTRLA); the register description and
+summary name it RTCEN.
 
 **PIT.** Uses the same prescaler counter: it requests an interrupt
 every n CLK_RTC cycles, n = 4, 8, 16 … 32768 (PITCTRLA.PERIOD), and
@@ -2499,7 +2510,8 @@ The PIT runs in every sleep mode.
 CLK_PER; writes to CTRLA, CNT, PER, CMP and PITCTRLA take effect two
 CLK_RTC cycles later. Busy flags STATUS.CTRLABUSY, CNTBUSY, PERBUSY,
 CMPBUSY and PITSTATUS.CTRLBUSY must be 0 before writing those
-registers. 16-bit CNT, PER and CMP are accessed through the shared
+registers. Source error: the text calls the PIT busy flag SYNCBUSY; the
+PITSTATUS register description and summary name it CTRLBUSY. 16-bit CNT, PER and CMP are accessed through the shared
 TEMP register (see the CPU section).
 
 **Debug.** RTC: with DBGCTRL.DBGRUN = 0 it halts and ignores events
@@ -2836,8 +2848,8 @@ be combined with one-wire mode (LBME).
 
 ```wavedrom id=usart-xdir caption="XDIR drive timing (RS485[0] = 1)"
 {"signal": [
-  {"name": "TxD", "wave": "1.0=========1.", "data": ["0", "1", "2", "3", "4", "5", "6", "7", "Sp1"]},
-  {"name": "XDIR", "wave": "01..........0.", "node": ".AB"}
+  {"name": "TxD", "wave": "1.0=========1.", "data": ["0", "1", "2", "3", "4", "5", "6", "7", "Sp1"], "node": "..B"},
+  {"name": "XDIR", "wave": "01..........0.", "node": ".A"}
  ],
  "edge": ["A<->B guard time"],
  "config": {"hscale": 2}}
@@ -2950,7 +2962,7 @@ when the CPU is halted by the debugger.
 | 1 | BDF | R/W | 0 | Break detected (LINAUTO and GENAUTO; unused in NORMAL and CLK2X): set after a valid break and sync character; fixed threshold of 11 low bits. Cleared when the next data is received or by writing 1 |
 | 0 | WFB | R/W | 0 | Wait for break: writing 1 registers the next low and high transition on RxD as a break of any width; with GENAUTO this sets any baud rate in the BAUD range. Reads 0 |
 
-[1] The PDF gives BDF's threshold as 11 bits here and the break as 12 or more low samples in the auto-baud description.
+[1] Source conflict: the PDF gives BDF's threshold as 11 bits here and the break as 12 or more low samples in the auto-baud description.
 ```
 
 ```table id=usart-ctrla caption="CTRLA (+0x05), reset 0x00"
@@ -3249,7 +3261,7 @@ active until its flag is cleared.
 | 4 | SSIF | R/W | 0 | Slave select trigger: the SPI was a master and !{SS} was pulled low externally, so it is now a slave. Only with SSD = 0. Cleared by writing 1 |
 | 0 | BUFOVF | R/W | 0 | Buffer overflow: receive buffer full (two bytes) and a third byte received in the shift register. Without transmit data, not set before a new transfer starts. Valid until DATA is read. Always write 0 here when writing INTFLAGS |
 
-[1] The PDF says DREIF "is cleared after a Reset to indicate that the transmitter is ready", while its reset value is 0; kept as given.
+[1] Source conflict: the PDF says DREIF "is cleared after a Reset to indicate that the transmitter is ready", while its reset value is 0; kept as given.
 ```
 
 ```table id=spi-data caption="DATA (+0x04), reset 0x00"
@@ -3287,7 +3299,7 @@ active until its flag is cleared.
 | t~SOSH~ | MISO hold after !{SS} low [2] | Slave | | 8.0 | | ns |
 
 [1] Design guidance only, not production tested. t~CLKPER~ is the CLK_PER period.
-[2] As printed; the figure places t~SOSH~ after !{SS} goes high.
+[2] Source conflict: the table says "MISO hold after SS low"; Figure 32-7 places t~SOSH~ after !{SS} goes high.
 ```
 
 Both diagrams show CPOL = 0 (CPOL = 1 inverts SCK); data is sampled on
@@ -3577,7 +3589,7 @@ unless DBGCTRL.DBGRUN = 1.
 ```
 
 ```table id=twi-mcmd caption="Master commands (MCTRLB.MCMD)"
-| MCMD | Name | DIR | Operation |
+| MCMD | Name | DIR [2] | Operation |
 |---|---|---|---|
 | 0x0 | NOACT | X | No action |
 | 0x1 | REPSTART | X | Acknowledge action, then Repeated Start |
@@ -3585,7 +3597,8 @@ unless DBGCTRL.DBGRUN = 1.
 | ^ | ^ | 1 | Acknowledge action (none), then a byte send [1] |
 | 0x3 | STOP | X | Acknowledge action, then a STOP condition |
 
-[1] A sending master normally waits for new data written to MDATA.
+[1] For a master being a sender, it will normally wait for new data written to MDATA. The acknowledge action bits and command bits can be written at the same time.
+[2] Source conflict: DIR as printed in Table 25-4 (0 = byte read, 1 = byte send); MADDR's R/W bit and SSTATUS.DIR use 1 for a read.
 ```
 
 MSTATUS is regarded as read-only in normal use: its flags are cleared
@@ -3747,10 +3760,10 @@ by accessing SDATA or writing a command to SCTRLB.SCMD.
 
 ```wavedrom id=twi-timing caption="TWI timing"
 {"signal": [
-  {"name": "SCL", "wave": "1..0.1.0.1.0.1....", "node": "...A.B.C.....E"},
-  {"name": "SDA", "wave": "10..=...=...0..1.0", "data": ["data", "data"], "node": "JK..N...M......P.Q"}
+  {"name": "SCL", "wave": "01..0.1.0.1.0.1...", "node": ".A..B.C.D.F...E..."},
+  {"name": "SDA", "wave": "1.0..=...=...0.1.0", "data": ["data", "data"], "node": "..J......K.....P.Q"}
  ],
- "edge": ["J<->K tSU;STA", "K<->A tHD;STA", "A<->B tLOW", "B<->C tHIGH", "N<->B tSU;DAT", "C<->M tHD;DAT", "E<->P tSU;STO", "P<->Q tBUF"],
+ "edge": ["A<->J tSU;STA", "J<->B tHD;STA", "B<->C tLOW", "C<->D tHIGH", "D<->K tHD;DAT", "K<->F tSU;DAT", "E<->P tSU;STO", "P<->Q tBUF"],
  "config": {"hscale": 2}}
 ```
 
@@ -4427,7 +4440,7 @@ setting and f~ADC~ must meet the clock, timing and input range tables.
 [1] Design guidance only, not production tested.
 ```
 
-```table id=adc-acc-int caption="Accuracy, internal reference or V~DD~ as reference [1]"
+```table id=adc-acc-int caption="Accuracy, internal reference or V~DD~ as reference [1] [3]"
 | Symbol | Parameter | Reference | Conditions | Min | Typ | Max | Unit |
 |---|---|---|---|--:|--:|--:|---|
 | Res | Resolution | | | | 10 | | bit |
@@ -4441,10 +4454,10 @@ setting and f~ADC~ must meet the clock, timing and input range tables.
 | ^ | ^ | Internal or V~DD~, 1.1 V ≤ V~REF~ | f~ADC~ = 77 ksps | | 0.4 | 1.0 | LSB |
 | ^ | ^ | Internal, 1.1 V ≤ V~REF~ | f~ADC~ = 115 ksps | | 0.5 | 1.6 | LSB |
 | ^ | ^ | V~DD~, 1.8 V ≤ V~REF~ | f~ADC~ = 115 ksps | | 0.9 | 2.0 | LSB |
-| E~ABS~ | Absolute accuracy | Internal, V~REF~ = 1.1 V | T = 0 °C to 105 °C, V~DD~ = 1.8 V to 3.6 V | | [3] | 30 | LSB |
-| ^ | ^ | ^ | V~DD~ = 1.8 V to 3.6 V | | [4] | 40 | LSB |
+| E~ABS~ | Absolute accuracy | Internal, V~REF~ = 1.1 V | T = 0 °C to 105 °C, V~DD~ = 1.8 V to 3.6 V | | < 10 | 30 | LSB |
+| ^ | ^ | ^ | V~DD~ = 1.8 V to 3.6 V | | < 15 | 40 | LSB |
 | ^ | ^ | V~DD~ | | | 2.5 | 5 | LSB |
-| ^ | ^ | Internal | | | [5] | 65 | LSB |
+| ^ | ^ | Internal | | | < 35 | 65 | LSB |
 | E~GAIN~ | Gain error | Internal, V~REF~ = 1.1 V | T = 0 °C to 105 °C, V~DD~ = 1.8 V to 3.6 V | -25 | ±15 | 25 | LSB |
 | ^ | ^ | ^ | V~DD~ = 1.8 V to 3.6 V | -35 | ±20 | 35 | LSB |
 | ^ | ^ | V~DD~ | | -1 | 2 | 4 | LSB |
@@ -4453,10 +4466,8 @@ setting and f~ADC~ must meet the clock, timing and input range tables.
 | ^ | ^ | Internal, 1.1 V ≤ V~REF~ | | -4 | -0.5 | 2 | LSB |
 
 [1] Design guidance only, not production tested.
-[2] DNL ≤ 1 LSB ensures a monotonic transfer function with no missing codes.
-[3] Typical below 10 LSB.
-[4] Typical below 15 LSB.
-[5] Typical below 35 LSB.
+[2] A DNL error of less than or equal to 1 LSB ensures a monotonic transfer function with no missing codes.
+[3] Reference setting and f~ADC~ must fulfill the specification in "Clock and Timing Characteristics" and "Power Supply, Reference, and Input Range" tables.
 ```
 
 External-reference accuracy was characterized with V~REF~ = 1.8 V at
@@ -4564,10 +4575,10 @@ above). After the SYNCH the first instruction may follow.
 |---|---|---|---|
 | T~RES~ | Handshake/BREAK, UPDI ignores the input | 10 µs | 200 µs |
 | T~UPDI~ | UPDI drives the line low until its clock is ready | 10 µs | 200 µs |
-| T~Deb0~ | Debugger drives the line low | 200 ns | 1 µs |
-| T~DebZ~ | Line released until the SYNCH start bit [1] | 200 µs | 14 ms |
+| T~Deb0~ | Debugger drives the line low | 0.2 µs | 1 µs |
+| T~DebZ~ | Line released until the SYNCH start bit [1] | 200 µs | 14000 µs |
 
-[1] The text gives 13.5 ms as the limit after which the UPDI disables itself.
+[1] Source conflict: Table 32-30 gives 14000 µs; the text says the UPDI disables itself when a SYNCH is not sent within 13.5 ms.
 ```
 
 **Disable.** End every session by writing CTRLB.UPDIDIS = 1: this resets
@@ -4760,7 +4771,7 @@ the bus stays accessible in the deepest sleep modes.
 | 3 | CCDETDIS | R | 0 | 1 = collision and contention detection off |
 | 2 | UPDIDIS | R | 0 | Write 1 to disable the UPDI PHY: the clock request drops and the UPDI resets, clearing all PHY settings and KEYs |
 
-[1] Access as printed in the PDF (R), although all three bits are written.
+[1] Source conflict: access as printed in the PDF (R), although the descriptions have all three bits written.
 ```
 
 ```table id=updi-asi-key-status caption="ASI_KEY_STATUS (CS 0x07), reset 0x00"
@@ -4777,12 +4788,12 @@ the bus stays accessible in the deepest sleep modes.
 | 7:0 | RSTREQ[7:0] | R/W | 0x00 | Write 0x59 to hold the system in reset; any other value releases it. Read: bit 0 = 1 while the UPDI holds a system reset; other bits read 0. The UPDI itself is not reset. |
 ```
 
-```table id=updi-asi-ctrla caption="ASI_CTRLA (CS 0x09), reset 0x03 [1]"
+```table id=updi-asi-ctrla caption="ASI_CTRLA (CS 0x09), reset 0x02 [1]"
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
 | 1:0 | UPDICLKSEL[1:0] | R/W | 0x3 | UPDI clock: 0x1 = 16 MHz; 0x2 = 8 MHz; 0x3 = 4 MHz (default after reset and enable); 0x0 reserved. Other than 4 MHz only recommended with the BOD at its highest level. |
 
-[1] The PDF's register header says 0x02; its bit reset values and the text give 0x3 (4 MHz).
+[1] Source conflict: the register header gives reset 0x02; the bit reset values (1, 1) and the text (4 MHz default) give 0x3.
 ```
 
 ```table id=updi-asi-sys-ctrla caption="ASI_SYS_CTRLA (CS 0x0A), reset 0x00"
@@ -4818,9 +4829,9 @@ T~DebZ~ and then sends SYNCH (0x55) for the auto-baud.
 
 ```wavedrom id=updi-enable-table caption="UPDI enable sequence"
 {"signal": [
-  {"name": "UPDI pad", "wave": "1.0..1.....3.", "data": ["SYNCH 0x55"], "node": "..A..B"},
-  {"name": "UPDI.txd", "wave": "z...0.z......", "node": "....C.D"},
-  {"name": "debugger.txd", "wave": "z.0.z.....3..", "data": ["SYNCH"], "node": "..E.F.....G"}
+  {"name": "UPDI pad", "wave": "1.0...1...3.", "data": ["SYNCH 0x55"], "node": "..A...B"},
+  {"name": "UPDI.txd", "wave": "z...0.z.....", "node": "....C.D"},
+  {"name": "debugger.txd", "wave": "z.0.z.....3.", "data": ["SYNCH"], "node": "..E.F.....G"}
  ],
  "edge": ["A<->B TRES", "C<->D TUPDI", "E<->F TDeb0", "F<->G TDebZ"],
  "config": {"hscale": 2}}
@@ -4842,11 +4853,11 @@ T~DebZ~ and then sends SYNCH (0x55) for the auto-baud.
 |---|---|--:|---|
 | UPDI bit rate | V~DD~ = 1.8 V to 5.5 V | 225 | kbps |
 | ^ | V~DD~ = 2.2 V to 5.5 V | 450 | kbps |
-| ^ | V~DD~ = 2.2 V to 5.5 V [2] | 900 | kbps |
-| ^ | V~DD~ = 4.5 V to 5.5 V | 1800 | kbps |
+| ^ | V~DD~ = 2.2 V to 5.5 V [2] | 0.9 | Mbps |
+| ^ | V~DD~ = 4.5 V to 5.5 V | 1.8 | Mbps |
 
 [1] Design guidance only, not production tested.
-[2] As printed: the source gives V~DD~ = 2.2 V to 5.5 V for both 450 kbps and 0.9 Mbps; the second range is probably 2.7 V to 5.5 V.
+[2] Source conflict: Table 32-31 gives two maximum bit rates, 450 kbps and 0.9 Mbps, for the same condition V~DD~ = [2.2, 5.5]V; both kept as printed.
 ```
 
 ## Registers and commands
@@ -5109,7 +5120,7 @@ bits. A register sharing one layout across several offsets is one row with a
 | 0x38 + 2n | CMPnBUF (7:0) [1] | CMPBUF[7:0] | < | < | < | < | < | < | < |
 | 0x39 + 2n | CMPnBUF (15:8) | CMPBUF[15:8] | < | < | < | < | < | < | < |
 
-[1] Printed "CMP0nBUF", "CMP1nBUF", "CMP2nBUF" in the PDF.
+[1] Source error: printed "CMP0nBUF", "CMP1nBUF", "CMP2nBUF" in the register summary; the register descriptions name them CMPnBUF.
 [2] The PDF lists PERBUFH at 0x37 a second time, after the 16-bit PERBUF row; it is the high byte of PERBUF.
 ```
 
@@ -5368,15 +5379,15 @@ P~D~ is the total power dissipation (system plus I/O). R~θJC~ is fixed
 by the device; R~θCA~ depends on the PCB, heat sinking and airflow, and
 good thermal management brings R~θJA~ close to R~θJC~.
 
-```table id=thermal caption="Power dissipation and junction temperature, T~A~ = -40 °C to 125 °C [1]"
-| Symbol | Parameter | VQFN32 | TQFP32 | UQFN48 | TQFP48 | Unit |
-|---|---|--:|--:|--:|--:|---|
-| R~θJA~ | Junction-to-ambient thermal resistance | 41 | 69 | 36 | 68 | °C/W |
-| R~θJC~ | Junction-to-case thermal resistance | 16 | 20 | 14.4 | 17 | °C/W |
-| P~D~ | Power dissipation, typical, active at 5 V, 20 MHz | 50 | 50 | 50 | 50 | mW |
-| T~J~ - T~A~ | Junction temperature rise, typical | 2 | 3.5 | 1.8 | 3.4 | °C |
+```table id=thermal caption="Power dissipation and junction temperature vs. temperature, T~A~ = -40 °C to 125 °C [1]"
+| Symbol | Parameter | VQFN32 | TQFP32 | UQFN48 | Unit |
+|---|---|--:|--:|--:|---|
+| R~θJA~ | Junction-to-ambient thermal resistance | 41 | 69 | 36 | °C/W |
+| R~θJC~ | Junction-to-case thermal resistance | 16 | 20 | 14.4 | °C/W |
+| P~D~ | Power dissipation, typical, active 5 V/20 MHz | 50 | 50 | 50 | mW |
+| T~J~ - T~A~ | Typical | 2 | 3.5 | 1.8 | °C |
 
-[1] The TQFP48 row of the source is shifted one column left (its T~A~ range cell is missing); values placed by column order. No data for SSOP28 or PDIP40.
+[1] Unconfirmed: Table 32-4 prints the TQFP48 row as 68, 17, 50, 3.4 under the columns T~A~ Range, R~θJA~, R~θJC~ and P~D~, with the T~J~ - T~A~ cell empty, so its values do not line up with the column headings; left out of this table rather than placed by guess. The table has no SSOP28 or PDIP40 row.
 ```
 
 ## Electrical characteristics
@@ -5476,33 +5487,32 @@ I~CP~ ≈ V~DD~ × C~load~ × f~sw~
 |---|---|---|--:|--:|--:|---|
 | V~IL~ | Input low voltage | | -0.2 | | 0.3 × V~DD~ | V |
 | V~IH~ | Input high voltage | | 0.7 × V~DD~ | | V~DD~ + 0.2 | V |
-| I~IH~, I~IL~ | Input leakage current [1] | V~DD~ = 5.5 V, pin high | | | | µA |
-| ^ | ^ | V~DD~ = 5.5 V, pin low | | | | µA |
+| I~IH~, I~IL~ | I/O pin input leakage current | V~DD~ = 5.5 V, pin high | | < 0.05 | | µA |
+| ^ | ^ | V~DD~ = 5.5 V, pin low | | < 0.05 | | µA |
 | V~OL~ | Output low voltage | V~DD~ = 1.8 V, I~OL~ = 1.5 mA | | | 0.36 | V |
 | ^ | ^ | V~DD~ = 3.0 V, I~OL~ = 7.5 mA | | | 0.6 | V |
 | ^ | ^ | V~DD~ = 5.0 V, I~OL~ = 15 mA | | | 1 | V |
 | V~OH~ | Output high voltage | V~DD~ = 1.8 V, I~OH~ = 1.5 mA | 1.44 | | | V |
 | ^ | ^ | V~DD~ = 3.0 V, I~OH~ = 7.5 mA | 2.4 | | | V |
 | ^ | ^ | V~DD~ = 5.0 V, I~OH~ = 15 mA | 4 | | | V |
-| I~total~ | Maximum combined sink/source current per pin group [2][3] | T~A~ = 125 °C | | | 100 | mA |
+| I~total~ | Maximum combined sink/source current per pin group [1] [2] | T~A~ = 125 °C | | | 100 | mA |
 | ^ | ^ | T~A~ = 25 °C | | | 200 | mA |
-| t~RISE~ | Rise time, load 20 pF | V~DD~ = 3.0 V | | 2.5 | | ns |
-| ^ | ^ | V~DD~ = 5.0 V | | 1.5 | | ns |
-| ^ | ^ | V~DD~ = 3.0 V, slew-rate limit enabled | | 19 | | ns |
-| ^ | ^ | V~DD~ = 5.0 V, slew-rate limit enabled | | 9 | | ns |
-| t~FALL~ | Fall time, load 20 pF | V~DD~ = 3.0 V | | 2.0 | | ns |
-| ^ | ^ | V~DD~ = 5.0 V | | 1.3 | | ns |
-| ^ | ^ | V~DD~ = 3.0 V, slew-rate limit enabled | | 21 | | ns |
-| ^ | ^ | V~DD~ = 5.0 V, slew-rate limit enabled | | 11 | | ns |
+| t~RISE~ | Rise time | V~DD~ = 3.0 V, load = 20 pF | | 2.5 | | ns |
+| ^ | ^ | V~DD~ = 5.0 V, load = 20 pF | | 1.5 | | ns |
+| ^ | ^ | V~DD~ = 3.0 V, load = 20 pF, slew rate enabled | | 19 | | ns |
+| ^ | ^ | V~DD~ = 5.0 V, load = 20 pF, slew rate enabled | | 9 | | ns |
+| t~FALL~ | Fall time | V~DD~ = 3.0 V, load = 20 pF | | 2.0 | | ns |
+| ^ | ^ | V~DD~ = 5.0 V, load = 20 pF | | 1.3 | | ns |
+| ^ | ^ | V~DD~ = 3.0 V, load = 20 pF, slew rate enabled | | 21 | | ns |
+| ^ | ^ | V~DD~ = 5.0 V, load = 20 pF, slew rate enabled | | 11 | | ns |
 | C~pin~ | I/O pin capacitance | Except TOSC, VREFA and TWI pins | | 3.5 | | pF |
 | ^ | ^ | TOSC pins | | 4 | | pF |
 | ^ | ^ | TWI pins | | 10 | | pF |
 | ^ | ^ | VREFA pin | | 14 | | pF |
 | R~p~ | Pull-up resistor | | 20 | 35 | 50 | kΩ |
 
-[1] Typical less than 0.05 µA (given as "< 0.05" in the Typ column).
-[2] Pin group A: PA[7:0], PF[6:2]; pin group B: PB[7:0], PC[7:0]; pin group C: PD[7:0], PE[3:0], PF[1:0]. On 28- and 32-pin devices groups A and B count as one group. The combined continuous sink/source current of a group must not exceed the limit.
-[3] Design guidance only, not production tested.
+[1] Pin group A (PA[7:0], PF[6:2]), pin group B (PB[7:0], PC[7:0]), pin group C (PD[7:0], PE[3:0], PF[1:0]). For 28-pin and 32-pin devices, pin group A and B should be seen as a single group. The combined continuous sink/source current for each group should not exceed the limits.
+[2] Design guidance only, not production tested.
 ```
 
 ## Switching characteristics
@@ -5684,50 +5694,121 @@ Twelve of the PDF's 73 curves, digitized to about 2 % of full scale; typical, no
 
 ## Package
 
-```table id=pkg caption="Packages (dimensions in mm, PDIP40 in inches)"
-| Package | Drawing | Body | Pitch | Height max | Lead/terminal width | Exposed pad | Max weight |
-|---|---|---|---|---|---|---|---|
-| SSOP28 (SS) | C04-073 | 10.20 × 5.30 (D × E1, nom), 7.80 overall width | 0.65 | 2.00 | 0.22–0.38 | | 229 mg |
-| TQFP32 (PT) | C04-074 | 7.00 × 7.00, 9.00 × 9.00 over leads | 0.80 | 1.20 | 0.30–0.45 | | 100 mg |
-| VQFN32 (RXB) | C04-21395 | 5.00 × 5.00 | 0.50 | 0.90 | 0.18–0.30 | 3.10 × 3.10 (3.00–3.20) | 61 mg |
-| PDIP40 (P) | C04-016B | 1.980–2.095 × 0.485–0.580, 0.590–0.625 shoulder to shoulder | 0.100 | 0.250 | 0.014–0.023 | | 6500 mg |
-| TQFP48 (PT) | C04-300 | 7.00 × 7.00, 9.00 × 9.00 over leads | 0.50 | 1.20 | 0.17–0.27 | | 140 mg |
-| UQFN48 (MV) | C04-153A | 6.00 × 6.00 | 0.40 | 0.55 | 0.15–0.25 | 4.60 × 4.60 (4.45–4.75) | |
+```table id=pkg caption="Packages (Table 35-1 and the drawing pages)"
+| Package | Drawing number (Table 35-1) | Drawing on the drawing page | Style | Package code | Max weight (mg) |
+|---|---|---|---|---|--:|
+| SSOP28 | C04-00073 | C04-073 Rev C | SS | N2X | 229 |
+| TQFP32 | C04-00074 | C04-074 Rev C | PT | T5X | 100 |
+| VQFN32 | C04-21395 | C04-21395-RXB Rev B | RXB | RXB | 61 |
+| PDIP40 | C04-00016 | C04-016B | P | S2X | 6500 |
+| TQFP48 | C04-00300 | C04-300-PT Rev D | PT | Y8X | 140 |
+| UQFN48 | C04-00153 | C04-153A | MV | R7X | TBD |
 ```
 
-```table id=pkg-more caption="Further package dimensions (mm unless noted)"
-| Package | Dimension | Min | Nom | Max |
-|---|---|--:|--:|--:|
-| SSOP28 | Standoff A1 | 0.05 | | |
-| ^ | Molded thickness A2 | 1.65 | 1.75 | 1.85 |
-| ^ | Foot length L | 0.55 | 0.75 | 0.95 |
-| ^ | Lead thickness c | 0.09 | | 0.25 |
-| TQFP32 | Standoff A1 | 0.05 | | 0.15 |
-| ^ | Molded thickness A2 | 0.95 | 1.00 | 1.05 |
-| ^ | Foot length L | 0.45 | 0.60 | 0.75 |
-| VQFN32 | Height A | 0.80 | 0.85 | 0.90 |
-| ^ | Standoff A1 | 0.00 | 0.02 | 0.05 |
-| ^ | Terminal length L | 0.30 | 0.40 | 0.50 |
-| ^ | Terminal to exposed pad K | 0.20 | | |
-| PDIP40 (in) | Base to seating plane A1 | 0.015 | | |
-| ^ | Molded thickness A2 | 0.125 | | 0.195 |
-| ^ | Tip to seating plane L | 0.115 | | 0.200 |
-| ^ | Lead thickness c | 0.008 | | 0.015 |
-| ^ | Upper lead width b1 | 0.030 | | 0.070 |
-| ^ | Overall row spacing eB | | | 0.700 |
-| TQFP48 | Standoff A1 | 0.05 | | 0.15 |
-| ^ | Molded thickness A2 | 0.95 | 1.00 | 1.05 |
-| ^ | Foot length L | 0.45 | 0.60 | 0.75 |
-| ^ | Lead thickness c | 0.09 | | 0.16 |
-| UQFN48 | Height A | 0.45 | 0.50 | 0.55 |
-| ^ | Standoff A1 | 0.00 | 0.02 | 0.05 |
-| ^ | Terminal length L | 0.30 | 0.40 | 0.50 |
-| ^ | Terminal to exposed pad K | 0.20 | | |
+```table id=pkg-dim caption="Package dimensions (millimeters; PDIP40 in inches)"
+| Package | Dimension | Symbol | Min | Nom | Max | Unit |
+|---|---|---|--:|--:|--:|---|
+| SSOP28: 28-lead plastic shrink small outline (SS), 5.30 mm body | < | < | < | < | < | < |
+| SSOP28 | Number of pins | N | | 28 | | |
+| ^ | Pitch [1] | e | | 0.65 | | mm |
+| ^ | Overall height | A | | | 2.00 | mm |
+| ^ | Molded package thickness | A2 | 1.65 | 1.75 | 1.85 | mm |
+| ^ | Standoff | A1 | 0.05 | | | mm |
+| ^ | Overall width | E | 7.40 | 7.80 | 8.20 | mm |
+| ^ | Molded package width [2] | E1 | 5.00 | 5.30 | 5.60 | mm |
+| ^ | Overall length [2] | D | 9.90 | 10.20 | 10.50 | mm |
+| ^ | Foot length | L | 0.55 | 0.75 | 0.95 | mm |
+| ^ | Footprint [3] | L1 | | 1.25 | | mm |
+| ^ | Lead thickness | c | 0.09 | | 0.25 | mm |
+| ^ | Foot angle | | 0 | 4 | 8 | ° |
+| ^ | Lead width | b | 0.22 | | 0.38 | mm |
+| TQFP32: 32-lead plastic thin quad flatpack (PT), 7x7x1.0 mm body, 2.00 mm footprint | < | < | < | < | < | < |
+| TQFP32 | Number of leads | N | | 32 | | |
+| ^ | Lead pitch [1] | e | | 0.80 | | mm |
+| ^ | Overall height | A | | | 1.20 | mm |
+| ^ | Standoff | A1 | 0.05 | | 0.15 | mm |
+| ^ | Molded package thickness | A2 | 0.95 | 1.00 | 1.05 | mm |
+| ^ | Foot length | L | 0.45 | 0.60 | 0.75 | mm |
+| ^ | Footprint [3] | L1 | | 1.00 | | mm |
+| ^ | Foot angle | | 0 | | 7 | ° |
+| ^ | Overall width [1] | E | | 9.00 | | mm |
+| ^ | Overall length [1] | D | | 9.00 | | mm |
+| ^ | Molded package width [1] | E1 | | 7.00 | | mm |
+| ^ | Molded package length [1] | D1 | | 7.00 | | mm |
+| ^ | Lead width | b | 0.30 | 0.37 | 0.45 | mm |
+| ^ | Mold draft angle top | | 11 | | 13 | ° |
+| VQFN32: 32-lead very thin plastic quad flat, no lead (RXB), 5x5x0.9 mm body, 3.1x3.1 mm exposed pad [4] | < | < | < | < | < | < |
+| VQFN32 | Number of terminals | N | | 32 | | |
+| ^ | Pitch [1] | e | | 0.50 | | mm |
+| ^ | Overall height | A | 0.80 | 0.85 | 0.90 | mm |
+| ^ | Standoff | A1 | 0.00 | 0.02 | 0.05 | mm |
+| ^ | Terminal thickness [3] | A3 | | 0.203 | | mm |
+| ^ | Overall length [1] | D | | 5.00 | | mm |
+| ^ | Exposed pad length | D2 | 3.00 | 3.10 | 3.20 | mm |
+| ^ | Overall width [1] | E | | 5.00 | | mm |
+| ^ | Exposed pad width | E2 | 3.00 | 3.10 | 3.20 | mm |
+| ^ | Terminal width | b | 0.18 | 0.25 | 0.30 | mm |
+| ^ | Terminal length | L | 0.30 | 0.40 | 0.50 | mm |
+| ^ | Terminal-to-exposed-pad | K | 0.20 | | | mm |
+| PDIP40: 40-lead plastic dual in-line (P), 600 mil body | < | < | < | < | < | < |
+| PDIP40 | Number of pins | N | | 40 | | |
+| ^ | Pitch [1] | e | | .100 | | in |
+| ^ | Top to seating plane | A | | | .250 | in |
+| ^ | Molded package thickness | A2 | .125 | | .195 | in |
+| ^ | Base to seating plane | A1 | .015 | | | in |
+| ^ | Shoulder to shoulder width | E | .590 | | .625 | in |
+| ^ | Molded package width [5] | E1 | .485 | | .580 | in |
+| ^ | Overall length [5] | D | 1.980 | | 2.095 | in |
+| ^ | Tip to seating plane | L | .115 | | .200 | in |
+| ^ | Lead thickness | c | .008 | | .015 | in |
+| ^ | Upper lead width | b1 | .030 | | .070 | in |
+| ^ | Lower lead width | b | .014 | | .023 | in |
+| ^ | Overall row spacing | eB | | | .700 | in |
+| TQFP48: 48-lead plastic thin quad flatpack (PT), 7x7x1.0 mm body | < | < | < | < | < | < |
+| TQFP48 | Number of terminals | N | | 48 | | |
+| ^ | Pitch [1] | e | | 0.50 | | mm |
+| ^ | Overall height | A | | | 1.20 | mm |
+| ^ | Standoff | A1 | 0.05 | | 0.15 | mm |
+| ^ | Molded package thickness | A2 | 0.95 | 1.00 | 1.05 | mm |
+| ^ | Overall length [1] | D | | 9.00 | | mm |
+| ^ | Molded package length [1] | D1 | | 7.00 | | mm |
+| ^ | Overall width [1] | E | | 9.00 | | mm |
+| ^ | Molded package width [1] | E1 | | 7.00 | | mm |
+| ^ | Terminal width | b | 0.17 | 0.22 | 0.27 | mm |
+| ^ | Terminal thickness | c | 0.09 | | 0.16 | mm |
+| ^ | Terminal length | L | 0.45 | 0.60 | 0.75 | mm |
+| ^ | Footprint [3] | L1 | | 1.00 | | mm |
+| ^ | Lead bend radius | R1 | 0.08 | | | mm |
+| ^ | Lead bend radius | R2 | 0.08 | | 0.20 | mm |
+| ^ | Foot angle | ϴ | 0 | 3.5 | 7 | ° |
+| ^ | Lead angle | ϴ1 | 0 | | | ° |
+| ^ | Mold draft angle | ϴ2 | 11 | 12 | 13 | ° |
+| UQFN48: 48-lead plastic ultra thin quad flat, no lead (MV), 6x6x0.5 mm body [4] | < | < | < | < | < | < |
+| UQFN48 | Number of pins | N | | 48 | | |
+| ^ | Pitch [1] | e | | 0.40 | | mm |
+| ^ | Overall height | A | 0.45 | 0.50 | 0.55 | mm |
+| ^ | Standoff | A1 | 0.00 | 0.02 | 0.05 | mm |
+| ^ | Contact thickness [3] | A3 | | 0.127 | | mm |
+| ^ | Overall width [1] | E | | 6.00 | | mm |
+| ^ | Exposed pad width | E2 | 4.45 | 4.60 | 4.75 | mm |
+| ^ | Overall length [1] | D | | 6.00 | | mm |
+| ^ | Exposed pad length | D2 | 4.45 | 4.60 | 4.75 | mm |
+| ^ | Contact width | b | 0.15 | 0.20 | 0.25 | mm |
+| ^ | Contact length | L | 0.30 | 0.40 | 0.50 | mm |
+| ^ | Contact-to-exposed pad | K | 0.20 | | | mm |
+
+[1] BSC: basic dimension, theoretically exact value shown without tolerances (dimensioning and tolerancing per ASME Y14.5M).
+[2] Dimensions D and E1 do not include mold flash or protrusions. Mold flash or protrusions shall not exceed 0.20mm per side.
+[3] REF: reference dimension, usually without tolerance, for information purposes only.
+[4] Package is saw singulated.
+[5] Dimensions D and E1 do not include mold flash or protrusions. Mold flash or protrusions shall not exceed .010" per side.
 ```
 
-Lead finish: J-STD-609 material code e3. Microchip's recommended land
-patterns (C04-2073, C04-2074, C04-23395, C04-2300) are not copied; a
-catalog footprint will be drawn instead once the parts are added.
+Pin 1 visual index feature may vary, but must be located within the
+hatched area of the drawing. Lead finish: J-STD-609 material code e3.
+Microchip's recommended land patterns (C04-2073, C04-2074, C04-23395,
+C04-2300) are not copied; a catalog footprint will be drawn instead
+once the parts are added.
 
 ## Ordering information
 
