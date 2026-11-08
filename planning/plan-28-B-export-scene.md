@@ -25,8 +25,8 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-28-A complete | `ls planning/completed/plan-28-A-* \| wc -l` → `1` | NOT MET (2026-11-07: A not started) |
-| The painter exists | `rg -c 'protocol SchematicPainter' schematical/schematical/Canvas/SchematicPainter.swift` → `1` | NOT MET (2026-11-07: file absent) |
+| plan-28-A complete | `ls planning/completed/plan-28-A-* \| wc -l` → `1` | MET (2026-11-07 at 5bc1592: 1) |
+| The painter exists | `rg -c 'protocol SchematicPainter' schematical/schematical/Canvas/SchematicPainter.swift` → `1` | MET (2026-11-07 at 5bc1592: 1) |
 
 Everything below is written against the world where these hold.
 
@@ -175,11 +175,11 @@ break; its risk is a symbol drawn with the wrong state, covered by the recorder 
 
 ### Phase 1 — Wire, bus and port layers on the painter
 
-- [ ] Re-run the Prerequisites commands; record outputs in the table.
-- [ ] Baseline: on the tree as it is (A landed, so it renders the same as before plan-28), `scripts/harness/build.sh scripts/harness/painter-gate.swift /tmp/p28-hB && /tmp/p28-hB/H.app/Contents/MacOS/harness /tmp/p28-baseB` → four `wrote …` lines.
-- [ ] `SchematicCanvasView.swift`: `WireLayer`, `BusLayer`, `PortLayer` → static `paint`
+- [x] Re-run the Prerequisites commands; record outputs in the table. (both 1; the layers still had 20 draw-call lines, as measured)
+- [x] Baseline: on the tree as it is (A landed, so it renders the same as before plan-28), `scripts/harness/build.sh scripts/harness/painter-gate.swift /tmp/p28-hB && /tmp/p28-hB/H.app/Contents/MacOS/harness /tmp/p28-baseB` → four `wrote …` lines. (taken with `/tmp/p28-scripts/gate.sh /tmp/p28-base /tmp/p28-baseB`, which builds the harness as A does and also `cmp`s against A's baseline: four `same` lines, so B starts from the pre-plan-28 pixels)
+- [x] `SchematicCanvasView.swift`: `WireLayer`, `BusLayer`, `PortLayer` → static `paint`
       plus Canvas wrappers per § 3.1. `GridBackground`/`PinMarkerLayer` untouched.
-- [ ] Re-run the harness: `scripts/harness/build.sh scripts/harness/painter-gate.swift /tmp/p28-h && /tmp/p28-h/H.app/Contents/MacOS/harness /tmp/p28-new` and `cmp` against `/tmp/p28-baseB`.
+- [x] Re-run the harness: `scripts/harness/build.sh scripts/harness/painter-gate.swift /tmp/p28-h && /tmp/p28-h/H.app/Contents/MacOS/harness /tmp/p28-new` and `cmp` against `/tmp/p28-baseB`. → `same symbols`, `same lit`, `same be-6502`, `same test.schematical`; the `awk … | rg -c` check → no output (exit 1) after the fix in Corrections; gate re-run after that fix: four `same` lines.
 
 Acceptance: all four A images are `cmp`-identical; no `context.` draw call remains in the three layers.
   Check: `for f in symbols lit be-6502 test.schematical; do cmp /tmp/p28-baseB/$f.png /tmp/p28-new/$f.png && echo same $f; done` → four `same` lines; `awk 'NR>=845' schematical/schematical/Canvas/SchematicCanvasView.swift | rg -c 'context\.(fill|stroke|draw)\(|with: \.color\('` → no output (est. 10 min, same reason as A Phase 3).
@@ -215,7 +215,7 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- Phase 1: the first layer move wrote the screen-only inks as `with: .color(color)` (the `Ink.color` shorthand), which the acceptance regex `with: \.color\(` also matches (3 hits) although no SwiftUI `Color` shading is left. Changed those to `Ink(role: .color(…))`, as § 3.1 writes them, rather than loosen the regex; the gate was re-run on the final code.
 
 ## Summary
 
