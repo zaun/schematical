@@ -36,7 +36,7 @@ Same generator as G; RTC devices per plan-24-F §2.
 - [x] `trace_check --verbose BQ32000DR` shows no SDA drive outside acknowledged transfers: `end 3000000 ok`; SDA (pin 5) is driven weak by the stimulus, so a part drive would override it: rebuilding the stimulus's SDA schedule (`/tmp/p24/g/sdacheck.py`), all 39 SDA net changes are the stimulus's values (0 not), the one stimulus edge with no net change is at 3086818 ps (after the run); no START + address byte occurs, so no transfer, and the part never drives SDA.
 
 Acceptance: `ctest` T0 + 2 of T0 + 2; golden counts (seconds): `100% tests passed, 0 tests failed out of 26`; golden counts above.
-Commit: —
+Commit: 00236f4
 
 ## Validation Plan
 
