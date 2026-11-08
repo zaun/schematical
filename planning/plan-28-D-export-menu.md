@@ -25,7 +25,7 @@ References:
 |---|---|---|
 | plan-28-C complete | `ls planning/completed/plan-28-C-* \| wc -l` → `1` | MET (2026-11-07 at ea29196: 1; re-run at 4d9995d: 1) |
 | `SchematicExport.svg` exists | `rg -c 'static func svg' schematical/schematical/Document/SchematicExport.swift` → `1` | MET (2026-11-07 at ea29196: 1; re-run at 4d9995d: 1) |
-| The login session is unlocked and the display awake (Phase 3 drives the real app: a window must become key for `@FocusedValue` to enable the menu, and screenshots must not be black) | `ioreg -n Root -d1 -a \| grep -A1 CGSSessionScreenIsLocked` → no output, or `<false/>` | NOT MET (2026-11-07 18:40 at 4d9995d: `<true/>`; `CGDisplayIsAsleep` → 1). Added during Phase 3: no letter covered it, and only the owner can unlock the session. |
+| The login session is unlocked and the display awake (Phase 3 drives the real app: a window must become key for `@FocusedValue` to enable the menu, and screenshots must not be black) | `ioreg -n Root -d1 -a \| grep -A1 CGSSessionScreenIsLocked` → no output, or `<false/>` | MET (2026-11-07 18:48 at b562aa2: the unlock watcher reported `UNLOCKED Sat Nov  7 18:48:04`; was NOT MET at 18:40, `<true/>`, `CGDisplayIsAsleep` → 1). Added during Phase 3: no letter covered it, and only the owner can unlock the session. |
 
 Everything below is written against the world where these hold.
 
@@ -193,16 +193,17 @@ Commit: 6852513
 
 ### Phase 3 — Running app, docs
 
-- [~] Launch the built app (`xcodebuild … -derivedDataPath /tmp/p28-dd build`, then open
+- [x] Launch the built app (`xcodebuild … -derivedDataPath /tmp/p28-dd build`, then open
       `/tmp/p28-dd/Build/Products/Debug/schematical.app`), open `be-6502.schematical` with ⌘O, and with the real mouse:
       open the Schematical menu → Export; screenshot the open submenu showing the three items (record the screenshot path here);
       choose each item and save into `/tmp/p28-out/` (type the path in the save panel's name field).
       When done, move the pointer to the top-left corner of the screen (0, 0) (AGENTS.md).
-      Partly done (2026-11-07, screen locked: `CGSSessionScreenIsLocked 1`, display asleep, `screencapture` all black). Built (`** BUILD SUCCEEDED **`) and launched; through the Accessibility API the application menu reads `About schematical | Export | — | Settings… | — | Services | …`, and Export holds `SVG Schematic`, `PNG Schematic`, `JPG Schematic`, all `enabled false` with no schematic window focused (as § 1 requires). Remains: with the screen unlocked, open be-6502, take the submenu screenshot, choose each item and save into `/tmp/p28-out/`. While locked, no window becomes key, so the items cannot be enabled (see Corrections).
-- [ ] Check the three files: `xmllint --noout /tmp/p28-out/be-6502.svg`; `file /tmp/p28-out/be-6502.png /tmp/p28-out/be-6502.jpg` → `8-bit/color RGBA` for the PNG and a JPEG with 3 components;
+      Partly done (2026-11-07, screen locked: `CGSSessionScreenIsLocked 1`, display asleep, `screencapture` all black). Built (`** BUILD SUCCEEDED **`) and launched; through the Accessibility API the application menu reads `About schematical | Export | — | Settings… | — | Services | …`, and Export holds `SVG Schematic`, `PNG Schematic`, `JPG Schematic`, all `enabled false` with no schematic window focused (as § 1 requires). Done once unlocked (18:48–18:50): the app launched with an empty window; the real pointer (CGEvent clicks, `/tmp/p28-scripts/mouse`) opened schematical > Export, and the screenshot of the open submenu, all three items enabled, is `/tmp/p28-out/submenu.png`. be-6502 opened with ⌘O (Go to folder, path typed). Each item chosen with the pointer; each save panel suggested `be-6502` in the format's type, the folder set to `/tmp/p28-out` with ⌘⇧G, Save → `be-6502.svg` 160 671 bytes, `be-6502.png` 1 111 022, `be-6502.jpg` 2 052 345. Pointer moved to (0, 0) afterwards; the debug app quit.
+- [x] Check the three files: `xmllint --noout /tmp/p28-out/be-6502.svg`; `file /tmp/p28-out/be-6502.png /tmp/p28-out/be-6502.jpg` → `8-bit/color RGBA` for the PNG and a JPEG with 3 components;
       `magick identify -format '%[opaque]\n' /tmp/p28-out/be-6502.png` → `False`, and for the JPG `True`;
       `magick /tmp/p28-out/be-6502.png -background white -flatten /tmp/p28-out/flat.png`; view `flat.png`, the JPG and `rsvg-convert -z 2 … be-6502.svg` with the Read tool — all three show the same schematic, black on white, with nothing cut off at the edges.
-- [ ] Export from a window with an empty schematic: the alert appears, no panel.
+      → `xmllint ok`; `be-6502.png: PNG image data, 7800 x 5092, 8-bit/color RGBA`; `be-6502.jpg: JPEG image data, baseline, precision 8, 7800x5092, components 3`; `magick identify` → PNG `opaque=False`, JPG `opaque=True`. Viewed `flat.png`, the JPG and the `rsvg-convert -z 2` render (each downsized to 1800 wide): the same be-6502 drawing in all three, black on white, nothing cut off.
+- [x] Export from a window with an empty schematic: the alert appears, no panel. → before opening be-6502, Export > SVG Schematic on the empty window showed the sheet "Nothing to export" / "Add a part, wire or bus first." with one OK button (screenshot `/tmp/p28-shot-empty-alert.png`), no save panel; OK dismissed it.
 - [x] `docs/export.md` (new): the three formats and their pixel rule; the ink table from plan-28-A § 3.1 (screen vs export);
       "a new part symbol draws through `SchematicPainter` with `Ink`/`PaintedText`, never `GraphicsContext`/`Color`, and needs a case in
       `SchematicScene.paint`'s switch (it has no `default`)"; text is live `<text>` in SVG; where the code lives.
