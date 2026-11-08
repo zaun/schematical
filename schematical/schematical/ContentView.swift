@@ -178,10 +178,6 @@ struct ContentView: View {
                 .inspectorColumnWidth(min: 350, ideal: 350, max: 500)
             }
             .toolbar {
-                ToolbarItemGroup(placement: .navigation) {
-                    fileControls
-                }
-
                 // The simulation belongs to the Schematic page: the PCB page has
                 // no Run/Stop (so no ⌘R), speed menu or reached speed.
                 if page == .schematic {
@@ -422,24 +418,6 @@ struct ContentView: View {
             }
             .background(WindowReader { file.window = $0 })
             .navigationTitle(file.displayName)
-    }
-
-    /// Open and Save. Their keyboard shortcuts live on the File menu items.
-    @ViewBuilder
-    private var fileControls: some View {
-        Button {
-            Task { await file.open() }
-        } label: {
-            Label("Open", systemImage: "folder")
-        }
-        .help("Open a schematic (⌘O)")
-
-        Button {
-            Task { await file.save() }
-        } label: {
-            Label("Save", systemImage: "square.and.arrow.down")
-        }
-        .help("Save the schematic (⌘S)")
     }
 
     @ViewBuilder
