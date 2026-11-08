@@ -1,0 +1,170 @@
+{
+ "id": "74_16",
+ "kind": "gate",
+ "model": "not",
+ "function": "NOT",
+ "description": "Hex inverter buffer/driver, open-collector/open-drain outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "DEVICE ALREADY EXISTS in gate.json (74_16, same pinout and TTL timing); only the part SNJ5416J is new - add it there with family TTL and its own vcc 4.5-5.5. Pinout sn5416 p.1 (SN5416 J or W package, same as SN7416 D/N). 15 V open-collector outputs.",
+ "pinouts": {
+  "p14": [
+   {
+    "number": 1,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "4Y",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "4A",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "5Y",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "5A",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "6Y",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "6A",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "J"
+   ],
+   "pinout": "p14"
+  }
+ ],
+ "gates": [
+  {
+   "op": "not",
+   "inputs": [
+    "1A"
+   ],
+   "output": "1Y"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "2A"
+   ],
+   "output": "2Y"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "3A"
+   ],
+   "output": "3Y"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "4A"
+   ],
+   "output": "4Y"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "5A"
+   ],
+   "output": "5Y"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "6A"
+   ],
+   "output": "6Y"
+  }
+ ],
+ "output": "open-drain",
+ "timing": {
+  "TTL": {
+   "rise": 10,
+   "fall": 15,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "Typical at 5 V, 25 C (RL 110 ohm, 15 pF) (sn5416 p.3). VCC 4.75-5.25 V SN74, 4.5-5.5 V SN54 (sn5416 p.3). Open-collector, 15 V output"
+  }
+ },
+ "partVcc": [
+  {
+   "prefix": "SNJ54",
+   "family": "TTL",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  }
+ ],
+ "families": {
+  "TTL": [
+   "sn5416"
+  ]
+ },
+ "pdfs": [
+  "sn5416"
+ ],
+ "parts": [
+  "SNJ5416J"
+ ]
+}

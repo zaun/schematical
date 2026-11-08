@@ -62,6 +62,11 @@ nonisolated struct ItemSelection<Item: Hashable>: Equatable {
         }
     }
 
+    /// A box select: exactly `items` are selected.
+    mutating func set(_ items: Set<Item>) {
+        self.items = items
+    }
+
     mutating func insert(_ item: Item) {
         items.insert(item)
     }

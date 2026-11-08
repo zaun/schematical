@@ -11,14 +11,19 @@ import SwiftUI
 ///   wire to add a bend there. Click a bus to select it; drag a bus line,
 ///   end, corner or T (lines stay straight, joints stay T or L, ports ride
 ///   along); drag a port to slide it along its line. Buses and ports are
-///   selected on their own. Drag empty space to pan; without Shift that also
-///   clears the selection.
+///   selected on their own. Drag empty space to pan, which also clears the
+///   selection; Shift-drag empty space to draw a box that adds every part,
+///   junction and wire it touches to the selection.
 /// - Line: drag from one pin to another to connect them with a right-angled wire.
+///   Press Escape during the drag to cancel it (no wire is placed).
 ///   A grid point on an existing wire can be a start or end too; it becomes a
 ///   junction, so wires branch there. Only connection points are highlighted.
 /// - Bus: drag to draw a bus line or L; start or end on a bus to join it at a
 ///   T or L, or to extend it. A straight drag between two line ends in line
-///   with each other joins them end to end into one line.
+///   with each other joins them end to end into one line. Leaving an L
+///   straight out of one of its lines makes it a T. A drag from one bus to
+///   another joins them into the bus it starts on. Press Escape during the
+///   drag to cancel it (no bus is placed).
 /// - Bus Port: click a bus line (not its ends or a T) to add an empty port
 ///   there; tick wires in its panel to give it pins.
 /// - Eraser: click or drag over a block, wire or bus line to remove it.
@@ -58,6 +63,8 @@ struct SchematicCanvasView: View {
     @State private var hoveredPortID: UUID?
     /// The connection point under the pointer in Line mode, when not drawing.
     @State private var hoverAnchor: LineAnchor?
+    /// Watches for Escape, which cancels a wire or bus being drawn.
+    @State private var escapeMonitor: Any?
 
     private enum Interaction {
         /// Moves every selected part, junction and wire bend from `base`.
@@ -76,6 +83,9 @@ struct SchematicCanvasView: View {
         /// its start at the press.
         case slidePort(port: UUID, base: CGFloat)
         case pan(startOffset: CGSize)
+        /// Shift-drag on empty space: a selection box between two screen
+        /// points, adding to `base`, the selection at the press.
+        case boxSelect(base: Set<SchematicItem>, from: CGPoint, to: CGPoint)
         case idle
     }
 
@@ -112,6 +122,8 @@ struct SchematicCanvasView: View {
                     clearHover()
                 }
             }
+            .onAppear { installEscapeMonitor() }
+            .onDisappear { removeEscapeMonitor() }
             .onChange(of: isRunning) { _, running in
                 // Drop any highlight left from before play mode started (⌘R).
                 if running {
@@ -157,6 +169,11 @@ struct SchematicCanvasView: View {
                 onPartPlaced()
                 return true
             } isTargeted: { isDropTargeted = $0 }
+            .overlay(alignment: .topLeading) {
+                if case let .boxSelect(_, from, to)? = interaction {
+                    SelectionBox(from: from, to: to)
+                }
+            }
             .overlay {
                 if isDropTargeted {
                     Rectangle()
@@ -338,6 +355,33 @@ struct SchematicCanvasView: View {
         document.lineAnchor(at: point, pinRadius: pinRadius, gridRadius: lineTolerance)
     }
 
+    private func installEscapeMonitor() {
+        guard escapeMonitor == nil else { return }
+        escapeMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            guard event.keyCode == 53, cancelDrawing() else { return event }
+            return nil
+        }
+    }
+
+    private func removeEscapeMonitor() {
+        if let escapeMonitor {
+            NSEvent.removeMonitor(escapeMonitor)
+        }
+        escapeMonitor = nil
+    }
+
+    /// Drops a wire or bus being drawn, so the rest of the drag does nothing.
+    /// Returns whether there was one to drop.
+    private func cancelDrawing() -> Bool {
+        switch interaction {
+        case .connecting?, .drawingBus?:
+            interaction = .idle
+            return true
+        default:
+            return false
+        }
+    }
+
     private var canvasGesture: some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged { value in handleChanged(value) }
@@ -369,7 +413,7 @@ struct SchematicCanvasView: View {
         switch tool {
         case .pointer:
             if interaction == nil {
-                beginPointerInteraction(at: start)
+                beginPointerInteraction(at: start, screen: value.startLocation)
             }
             switch interaction {
             case let .moveGroup(base, _)?:
@@ -414,6 +458,14 @@ struct SchematicCanvasView: View {
                     width: startOffset.width + value.translation.width,
                     height: startOffset.height + value.translation.height
                 ))
+
+            case let .boxSelect(base, from, _)?:
+                interaction = .boxSelect(base: base, from: from, to: value.location)
+                let a = viewport.world(from), b = viewport.world(value.location)
+                document.boxSelectSchematic(
+                    CGRect(x: min(a.x, b.x), y: min(a.y, b.y), width: abs(a.x - b.x), height: abs(a.y - b.y)),
+                    base: base
+                )
 
             default:
                 break
@@ -505,8 +557,8 @@ struct SchematicCanvasView: View {
     }
 
     /// Decides what a Pointer press does. Shift is read once, here, at the
-    /// start of the press.
-    private func beginPointerInteraction(at point: CGPoint) {
+    /// start of the press. `screen` is the press in screen points.
+    private func beginPointerInteraction(at point: CGPoint, screen: CGPoint) {
         let shift = NSEvent.modifierFlags.contains(.shift)
         if let hit = document.chip(at: point) {
             selectionPress = document.pressSelection(.chip(hit.id), shift: shift)
@@ -538,8 +590,10 @@ struct SchematicCanvasView: View {
                   let base = document.bus(line.bus) {
             document.selectedBusID = line.bus
             interaction = .dragBusLine(bus: line.bus, base: base, line: line.line, done: .zero)
+        } else if shift {
+            interaction = .boxSelect(base: document.schematicSelection.items, from: screen, to: screen)
         } else {
-            document.pressEmptySchematic(shift: shift)
+            document.pressEmptySchematic(shift: false)
             interaction = .pan(startOffset: viewport.offset)
         }
     }
@@ -592,6 +646,23 @@ struct SchematicCanvasView: View {
               let position = chip.switchPosition(at: point),
               let isOn = document.toggleSwitch(chip.id, position: position) else { return }
         simulation.setSwitch(chip.id, position: position, on: isOn)
+    }
+}
+
+/// The box a Shift-drag on empty canvas draws, between two screen points.
+struct SelectionBox: View {
+    let from: CGPoint
+    let to: CGPoint
+
+    var body: some View {
+        let rect = CGRect(x: min(from.x, to.x), y: min(from.y, to.y),
+                          width: abs(from.x - to.x), height: abs(from.y - to.y))
+        Rectangle()
+            .fill(Color.accentColor.opacity(0.12))
+            .overlay(Rectangle().strokeBorder(Color.accentColor.opacity(0.8), lineWidth: 1))
+            .frame(width: rect.width, height: rect.height)
+            .offset(x: rect.minX, y: rect.minY)
+            .allowsHitTesting(false)
     }
 }
 
@@ -760,7 +831,7 @@ private struct WireLayer: View {
 }
 
 /// The route the Bus tool is drawing. `refused` when releasing would be
-/// refused (a joint that is not a T or an L, or two buses).
+/// refused (a joint that is not a T or an L, or too many wires).
 struct BusPreview {
     let points: [CGPoint]
     let refused: Bool

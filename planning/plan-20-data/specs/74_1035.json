@@ -1,0 +1,160 @@
+{
+ "id": "74_1035",
+ "kind": "gate",
+ "model": "buf",
+ "function": "Buffer",
+ "description": "Hex noninverting buffer, open-collector outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn54als1035 p.1 (J/W/D/N); 5962-8874201CA = SNJ54ALS1035J (sn54als1035 packaging table, marking). Function Y = A, open-collector (p.1).",
+ "pinouts": {
+  "p14": [
+   {
+    "number": 1,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "4Y",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "4A",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "5Y",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "5A",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "6Y",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "6A",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "J"
+   ],
+   "pinout": "p14"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "1A"
+   ],
+   "output": "1Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "2A"
+   ],
+   "output": "2Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "3A"
+   ],
+   "output": "3Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "4A"
+   ],
+   "output": "4Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "5A"
+   ],
+   "output": "5Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "6A"
+   ],
+   "output": "6Y"
+  }
+ ],
+ "output": "open-drain",
+ "timing": {
+  "ALS": {
+   "rise": 35,
+   "fall": 14,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL A->Y, SN54ALS1035, 4.5-5.5 V, 50 pF, RL 680 ohm (sn54als1035 p.3; no typ printed; SN74ALS1035 max 30/12); VCC 4.5-5.5 V SN54/SN74 (p.2). Open-collector, VOH to 5.5 V"
+  }
+ },
+ "families": {
+  "ALS": [
+   "sn54als1035"
+  ]
+ },
+ "pdfs": [
+  "sn54als1035"
+ ],
+ "parts": [
+  "5962-8874201CA"
+ ]
+}

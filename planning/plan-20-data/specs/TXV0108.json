@@ -1,0 +1,237 @@
+{
+ "id": "TXV0108",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "8-bit dual-supply direction-controlled voltage translator, 3-state, 1.14-3.6 V each port",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout from txv0108 p.3 (RGY 24-pin VQFN; thermal pad not a pin): VCCA 1, GND 11-13, VCCB 23 and 24. Function table p.17: OE L, DIR L -> B to A; OE L, DIR H -> A to B; OE H -> both ports Hi-Z. DIR and OE referenced to VCCA (p.3). 10-ohm damping output resistors (not modeled).",
+ "pinouts": {
+  "rgy24": [
+   {
+    "number": 1,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 14,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "number": 24,
+    "name": "VCCB",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "RGY"
+   ],
+   "pinout": "rgy24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "DIR",
+    "OE",
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ]
+  }
+ ],
+ "timing": {
+  "TXV": {
+   "rise": 2.3,
+   "fall": 2.3,
+   "vcc": [
+    1.14,
+    3.6
+   ],
+   "inputMax": 3.6,
+   "vccB": [
+    1.14,
+    3.6
+   ],
+   "inputMaxB": 3.6,
+   "note": "max tpd A->B at VCCA = 3.3 V, VCCB = 3.3 V, 15 pF (txv0108 p.10; device tops out at 3.6 V so this is the row nearest 3.3 <-> 5 V; no typical printed; B->A 2.3 max; VCCA 1.8 V, VCCB 3.3 V row: A->B 3.1, B->A 3.9 max, txv0108 p.8); VCCA, VCCB 1.14-3.6 V, VI 0-3.6 V on every port (txv0108 p.5)"
+  }
+ },
+ "families": {
+  "TXV": [
+   "txv0108"
+  ]
+ },
+ "pdfs": [
+  "txv0108"
+ ],
+ "parts": [
+  "TXV0108RGYR"
+ ]
+}

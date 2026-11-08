@@ -1,0 +1,207 @@
+{
+ "id": "74_29828",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "10-bit inverting buffer/bus driver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sdas095b p.1 (DW, NT; shared with SN74ALS29827); OE1 and OE2 both low enable (2-input NOR, p.1); SN74ALS29828 inverts (p.1 description, logic symbol). The PDF's packaging table lists only SN74ALS29827DW; the 29828 rows come from the census.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "OE1",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "A9",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "A10",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "OE2",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "Y10",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "Y9",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "Y8",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "Y7",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "Y6",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "Y5",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "Y4",
+    "role": "output"
+   },
+   {
+    "number": 21,
+    "name": "Y3",
+    "role": "output"
+   },
+   {
+    "number": 22,
+    "name": "Y2",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "Y1",
+    "role": "output"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DW",
+    "NT"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "A10"
+   ],
+   "y": [
+    "Y1",
+    "Y2",
+    "Y3",
+    "Y4",
+    "Y5",
+    "Y6",
+    "Y7",
+    "Y8",
+    "Y9",
+    "Y10"
+   ],
+   "oe": [
+    {
+     "pin": "OE1",
+     "active": "low"
+    },
+    {
+     "pin": "OE2",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": true,
+ "output": "push-pull",
+ "timing": {
+  "ALS": {
+   "rise": 7,
+   "fall": 7.5,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "max tPLH/tPHL A->Y, SN74ALS29828, 50 pF (sdas095b p.3, no typ printed); VCC 4.75-5.25 V (p.2)"
+  }
+ },
+ "families": {
+  "ALS": [
+   "sdas095b"
+  ]
+ },
+ "pdfs": [
+  "sdas095b"
+ ],
+ "parts": [
+  "SN74ALS29828DW",
+  "SN74ALS29828NT"
+ ]
+}

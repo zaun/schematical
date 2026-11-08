@@ -594,14 +594,14 @@ enum BusEdit {
 enum BusJoinRefusal: Error, Equatable {
     case samePoint
     case badJoint
-    case twoBuses
+    case tooManyWires
 
     /// The toolbar message, or nil for a drag that didn't go anywhere.
     var message: String? {
         switch self {
         case .samePoint: nil
         case .badJoint: "A bus line can only join another at a T or an L."
-        case .twoBuses: "Two buses can't be joined."
+        case .tooManyWires: "Joined, these buses would carry more than \(Bus.wireCountRange.upperBound) wires."
         }
     }
 }
@@ -614,6 +614,11 @@ struct BusDraft {
     let bus: Bus
     /// The route as drawn, P to Q (two or three points), for the preview.
     let path: [CGPoint]
+    /// Index of a second bus the drag joined into `bus`, which goes away.
+    var absorbedIndex: Int? = nil
+    /// The absorbed bus's wire ids that became another id in `bus` (wires
+    /// with the same name, ignoring case). Wires not listed keep their id.
+    var wireMap: [UUID: UUID] = [:]
 }
 
 enum BusJoin {
@@ -624,13 +629,16 @@ enum BusJoin {
         case middle(bus: Int, line: UUID)
         /// A line end with nothing else there.
         case freeEnd(bus: Int, BusLineEnd)
-        /// A corner, a T, a crossing, or anything else.
+        /// An L: two line ends of one bus, with nothing else there.
+        case corner(bus: Int, BusLineEnd, BusLineEnd)
+        /// A T, a crossing, or anything else.
         case other
 
         var busIndex: Int? {
             switch self {
             case let .middle(bus, _): bus
             case let .freeEnd(bus, _): bus
+            case let .corner(bus, _, _): bus
             default: nil
             }
         }
@@ -649,42 +657,129 @@ enum BusJoin {
             }
         }
         if hits.isEmpty { return .nothing }
-        return hits.count == 1 ? hits[0] : .other
+        if hits.count == 1 { return hits[0] }
+        if hits.count == 2, case let .freeEnd(b1, e1) = hits[0], case let .freeEnd(b2, e2) = hits[1],
+           b1 == b2, buses[b1].joint(at: e1) == .makeCorner(e1, e2, at: point) {
+            return .corner(bus: b1, e1, e2)
+        }
+        return .other
     }
 
     /// The bus a drag from `p` to `q` (both on the grid) would make or grow:
     /// one line or an L, joined at a T or an L where it starts or ends on a
-    /// bus, or merged into a line it continues straight out of.
+    /// bus, or merged into a line it continues straight out of (a corner it
+    /// leaves straight out of one of its lines becomes a T). A drag from one
+    /// bus to another joins them into the bus it starts on.
     static func join(_ buses: [Bus], from p: CGPoint, to q: CGPoint) -> Result<BusDraft, BusJoinRefusal> {
         guard p != q else { return .failure(.samePoint) }
         let atP = touch(p, in: buses)
         let atQ = touch(q, in: buses)
         if case .other = atP { return .failure(.badJoint) }
         if case .other = atQ { return .failure(.badJoint) }
-        if let bp = atP.busIndex, let bq = atQ.busIndex, bp != bq { return .failure(.twoBuses) }
+
+        var base: Bus
+        var target = atP.busIndex ?? atQ.busIndex
+        var absorbed: Int?
+        var wireMap: [UUID: UUID] = [:]
+        if let bp = atP.busIndex, let bq = atQ.busIndex, bp != bq {
+            guard let merged = merge(buses[bp], absorbing: buses[bq]) else { return .failure(.tooManyWires) }
+            base = merged.bus
+            wireMap = merged.wireMap
+            target = bp
+            absorbed = bq
+        } else {
+            base = target.map { buses[$0] } ?? Bus(lines: [], wires: Bus.defaultWires(count: Bus.defaultWireCount))
+        }
+        let others = buses.indices.filter { $0 != target && $0 != absorbed }.map { buses[$0] }
 
         let candidates: [[CGPoint]] = p.x == q.x || p.y == q.y
             ? [[p, q]]
             : [[p, CGPoint(x: q.x, y: p.y), q], [p, CGPoint(x: p.x, y: q.y), q]]
         for path in candidates {
-            if let draft = build(buses, path: path, atP: atP, atQ: atQ) {
-                return .success(draft)
+            if let bus = build(base, others: others, path: path, atP: atP, atQ: atQ) {
+                return .success(BusDraft(busIndex: target, bus: bus, path: path, absorbedIndex: absorbed, wireMap: wireMap))
             }
         }
         return .failure(.badJoint)
     }
 
-    private static func build(_ buses: [Bus], path: [CGPoint], atP: Touch, atQ: Touch) -> BusDraft? {
-        let target = atP.busIndex ?? atQ.busIndex
-        let base = target.map { buses[$0] }
-            ?? Bus(lines: [], wires: Bus.defaultWires(count: Bus.defaultWireCount))
+    /// `first` with `second`'s lines and ports added.
+    ///
+    /// When only one of them has ports, the joined bus carries that one's
+    /// wires as they are (`first`'s when neither has). When both do, a wire
+    /// of `second` becomes `first`'s wire of the same name (ignoring case)
+    /// and the rest are added; wires a port uses come first and unused ones
+    /// last, so the bus can be shrunk again. Nil when that is too many wires.
+    static func merge(_ first: Bus, absorbing second: Bus) -> (bus: Bus, wireMap: [UUID: UUID])? {
+        let lines = first.lines + second.lines
+        let ports = first.ports + second.ports
+        if first.ports.isEmpty || second.ports.isEmpty {
+            let wires = first.ports.isEmpty && !second.ports.isEmpty ? second.wires : first.wires
+            return (Bus(id: first.id, lines: lines, wires: wires, ports: ports), [:])
+        }
 
+        var wires = first.wires
+        var wireMap: [UUID: UUID] = [:]
+        for wire in second.wires {
+            if let same = first.wires.first(where: { $0.name.lowercased() == wire.name.lowercased() }) {
+                wireMap[wire.id] = same.id
+            } else {
+                wires.append(wire)
+            }
+        }
+        guard wires.count <= Bus.wireCountRange.upperBound else { return nil }
+        let moved = second.ports.map { port in
+            BusPort(id: port.id, line: port.line, start: port.start, side: port.side,
+                    wireIDs: Set(port.wireIDs.map { wireMap[$0] ?? $0 }))
+        }
+        let allPorts = first.ports + moved
+        let used = allPorts.reduce(into: Set<UUID>()) { $0.formUnion($1.wireIDs) }
+        let ordered = wires.filter { used.contains($0.id) } + wires.filter { !used.contains($0.id) }
+        return (Bus(id: first.id, lines: lines, wires: ordered, ports: allPorts), wireMap)
+    }
+
+    /// A corner touch, for a drag that leaves it along `segment` (from or to
+    /// the corner): the end of the corner's line it goes straight out of, and
+    /// the corner's shape and the T it becomes. Nil when it leaves along neither line.
+    private static func leaving(_ touch: Touch, along segment: BusLine, lines: [BusLine]) -> (Touch, from: BusJoint, to: BusJoint)? {
+        guard case let .corner(bus, e1, e2) = touch else { return nil }
+        for (end, other) in [(e1, e2), (e2, e1)] {
+            guard let line = lines.first(where: { $0.id == end.line }),
+                  line.isHorizontal == segment.isHorizontal else { continue }
+            let point = line.point(end.end)
+            let far = segment.a == point ? segment.b : segment.a
+            guard !line.contains(far) else { continue }
+            return (.freeEnd(bus: bus, end),
+                    from: .makeCorner(e1, e2, at: point).shape,
+                    to: BusJoint.tee(end: other, on: end.line, at: point).shape)
+        }
+        return nil
+    }
+
+    private static func build(_ base: Bus, others: [Bus], path: [CGPoint], atP: Touch, atQ: Touch) -> Bus? {
         let drawn = zip(path, path.dropFirst()).map { BusLine(a: $0, b: $1) }
         var added = drawn
         var lines = base.lines
+        var baseShapes = base.jointShapes
         /// New line ends that were merged into an existing line's end.
         var alias: [BusLineEnd: BusLineEnd] = [:]
         func resolve(_ end: BusLineEnd) -> BusLineEnd { alias[end] ?? end }
+
+        // A corner the drag leaves straight out of one of its lines: that
+        // line grows, and the corner becomes a T on it.
+        var atP = atP, atQ = atQ
+        if case .corner = atP {
+            guard let (touch, from, to) = leaving(atP, along: drawn[0], lines: lines) else { return nil }
+            atP = touch
+            baseShapes.remove(from)
+            baseShapes.insert(to)
+        }
+        if case .corner = atQ, let last = drawn.last {
+            guard let (touch, from, to) = leaving(atQ, along: last, lines: lines) else { return nil }
+            atQ = touch
+            baseShapes.remove(from)
+            baseShapes.insert(to)
+        }
 
         // A new line that continues straight out of a free end extends that line.
         var mergedP = false
@@ -709,7 +804,6 @@ enum BusJoin {
         // End to end: the straight drag ran from a free end of one line to a
         // free end of another line in line with it. The three become one line;
         // the joints and ports of the line that goes away move to it.
-        var baseShapes = base.jointShapes
         var ports = base.ports
         if mergedP, added.isEmpty, case let .freeEnd(_, startEnd) = atP, case let .freeEnd(_, endEnd) = atQ,
            startEnd.line != endEnd.line,
@@ -750,9 +844,8 @@ enum BusJoin {
 
         let result = Bus(id: base.id, lines: lines + added, wires: base.wires, ports: ports)
         guard result.isValid, result.portsFit else { return nil }
-        let others = buses.enumerated().filter { $0.offset != target }.map(\.element)
         guard Bus.firstTouch(others + [result]) == nil else { return nil }
         guard result.jointShapes == baseShapes.union(expected.map(\.shape)) else { return nil }
-        return BusDraft(busIndex: target, bus: result, path: path)
+        return result
     }
 }

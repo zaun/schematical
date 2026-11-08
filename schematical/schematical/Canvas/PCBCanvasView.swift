@@ -17,7 +17,8 @@ import SwiftUI
 /// to select it and drag to move it (snapped to the grid). Shift-click adds an item to the
 /// selection or takes it out (plan-15); Shift-drag, or a drag on an item of a
 /// larger selection, moves every selected item by one snapped step. Press on
-/// empty space to pan; without Shift that also clears the selection. With
+/// empty space to pan, which also clears the selection; Shift-drag empty
+/// space to draw a box that adds every drawn item it touches. With
 /// the Text tool, a press places a text and goes back to Select. With the
 /// Trace tool, a drag draws a 45° trace on `traceLayer` (`TraceDrawing`):
 /// a live preview in the layer's colour while dragging, a green ring where
@@ -58,6 +59,9 @@ struct PCBCanvasView: View {
         /// were at the press.
         case moveGroup(base: BoardGroupBase)
         case pan(startOffset: CGSize)
+        /// Shift-drag on empty board: a selection box from the press to
+        /// `to` (screen points), adding to `base`, the selection at the press.
+        case boxSelect(base: Set<BoardItem>, to: CGPoint)
         /// A trace being drawn from `start` (already anchored) towards the
         /// pointer at `cursor` (board mm).
         case drawTrace(start: CGPoint, cursor: CGPoint)
@@ -95,6 +99,11 @@ struct PCBCanvasView: View {
             draw(in: &context, size: size)
         }
         .background(Self.background)
+        .overlay(alignment: .topLeading) {
+            if case let .boxSelect(_, to)? = interaction {
+                SelectionBox(from: pressLocation, to: to)
+            }
+        }
         .contentShape(Rectangle())
         .clipped()
         .onGeometryChange(for: CGSize.self) { proxy in
@@ -373,6 +382,15 @@ struct PCBCanvasView: View {
                 width: startOffset.width + translation.width,
                 height: startOffset.height + translation.height
             ))
+        case let .boxSelect(base, _):
+            let to = CGPoint(x: pressLocation.x + translation.width, y: pressLocation.y + translation.height)
+            interaction = .boxSelect(base: base, to: to)
+            let a = board(pressLocation), b = board(to)
+            document.boxSelectBoard(
+                CGRect(x: min(a.x, b.x), y: min(a.y, b.y), width: abs(a.x - b.x), height: abs(a.y - b.y)),
+                base: base, visible: shown
+            )
+            return .boxSelect(base: base, to: to)
         case let .drawTrace(start, _):
             let cursor = board(CGPoint(x: pressLocation.x + translation.width, y: pressLocation.y + translation.height))
             interaction = .drawTrace(start: start, cursor: cursor)
@@ -399,7 +417,10 @@ struct PCBCanvasView: View {
                 selectionPress = document.pressSelection(item, shift: shift)
                 return .moveGroup(base: document.boardGroupBase())
             }
-            document.pressEmptyBoard(shift: shift)
+            if shift {
+                return .boxSelect(base: document.boardSelection.items, to: start)
+            }
+            document.pressEmptyBoard(shift: false)
             return .pan(startOffset: viewport.offset)
         }
     }

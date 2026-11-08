@@ -1,0 +1,223 @@
+{
+ "id": "29FCT52",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "8-bit registered transceiver, 3-state outputs (two back-to-back registers with clock enables)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Am2952 equivalent. Pinout cy29fct52t p.1 (Q = DBQ QSOP and SO = DW SOIC, same 24-pin layout); pin description p.1; function tables and logic diagram p.2 (register: CE low + CP rising = load, CE high = hold; OE low = outputs enabled, high = Z). The A register takes A0-A7 and drives B0-B7 (OEA), the B register takes B0-B7 and drives A0-A7 (OEB); no real-time path. Timing p.5, VCC p.3.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 2,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "B0",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "OEB",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "CPA",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "CEA",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "CEB",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "CPB",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "OEA",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "A0",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBQ",
+    "DW"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A0",
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7"
+   ],
+   "b": [
+    "B0",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7"
+   ],
+   "ab": {
+    "store": "register",
+    "clk": {
+     "pin": "CPA",
+     "edge": "rising"
+    },
+    "ce": {
+     "pin": "CEA",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "OEA",
+     "active": "low"
+    }
+   },
+   "ba": {
+    "store": "register",
+    "clk": {
+     "pin": "CPB",
+     "edge": "rising"
+    },
+    "ce": {
+     "pin": "CEB",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "OEB",
+     "active": "low"
+    }
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "FCT": {
+   "rise": 6.3,
+   "fall": 6.3,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "cy29fct52t max tPLH/tPHL CPA,CPB -> A,B, -40 to 85 C (no typ printed) (p.5). VCC 4.75-5.25 V (p.3)"
+  }
+ },
+ "families": {
+  "FCT": [
+   "cy29fct52t"
+  ]
+ },
+ "pdfs": [
+  "cy29fct52t"
+ ],
+ "parts": [
+  "CY29FCT52CTQCT",
+  "CY29FCT52CTSOC"
+ ]
+}

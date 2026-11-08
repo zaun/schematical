@@ -1,0 +1,454 @@
+{
+ "id": "74_543",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "Octal registered (latched) transceiver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout from sn74abt543a p.1 (DB, DW, NT, PW, JT, W) and sn74bct543 p.1, sn74f543 p.1, sn74lvc543a p.1, sn74lvt543 p.1, sn74lvth543 p.1 (DB, DGV, DW, NS, PW) - all the same 24-pin assignment; FK 28-pin from sn54bct543 p.1 (NC 1, 8, 15, 22). Function table sn74abt543a p.2 (same in sn74bct543 p.1, sn74f543 p.1, sn74lvc543a p.2, sn74lvt543 p.2, sn74lvth543 p.2): CEAB low enables both the A-to-B latch and the B outputs; LEAB low = transparent; OEAB low (with CEAB low) drives B. B-to-A identical with CEBA/LEBA/OEBA. Timing is A->B transparent propagation.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "LEBA",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "OEBA",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "CEAB",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "OEAB",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "LEAB",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "CEBA",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "lccc28": [
+   {
+    "number": 1,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 2,
+    "name": "LEBA",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "OEBA",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 9,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "CEAB",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 15,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 16,
+    "name": "OEAB",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "LEAB",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 23,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 25,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 26,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 27,
+    "name": "CEBA",
+    "role": "input"
+   },
+   {
+    "number": 28,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DB",
+    "DBL",
+    "DW",
+    "NS",
+    "PW"
+   ],
+   "pinout": "p24"
+  },
+  {
+   "codes": [
+    "FK"
+   ],
+   "pinout": "lccc28"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "ab": {
+    "store": "latch",
+    "le": {
+     "pin": "LEAB",
+     "active": "low"
+    },
+    "ce": {
+     "pin": "CEAB",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "OEAB",
+     "active": "low"
+    }
+   },
+   "ba": {
+    "store": "latch",
+    "le": {
+     "pin": "LEBA",
+     "active": "low"
+    },
+    "ce": {
+     "pin": "CEBA",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "OEBA",
+     "active": "low"
+    }
+   }
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 4.4,
+   "fall": 4.4,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A->B at 5 V, 50 pF (sn74abt543a p.6; LE->B typ 4.1/4.6); VCC 4.5-5.5 V (p.4)"
+  },
+  "BCT": {
+   "rise": 5.7,
+   "fall": 6.3,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A->B at 5 V, 50 pF (sn74bct543 p.5; LE->B typ 8.2/8.5); VCC 4.5-5.5 V SN54 and SN74 (p.3)"
+  },
+  "F": {
+   "rise": 5.1,
+   "fall": 4.6,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A->B at 5 V, 50 pF (sn74f543 p.5; LE->B typ 8.1); VCC 4.5-5.5 V (p.3)"
+  },
+  "LVC": {
+   "rise": 7,
+   "fall": 7,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "max tpd A->B at 3.3 V, 50 pF (sn74lvc543a p.4, no typ printed); VCC 1.65-3.6 V, VI to 5.5 V (p.3)"
+  },
+  "LVT": {
+   "rise": 2.9,
+   "fall": 3.3,
+   "vcc": [
+    2.7,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "typ tPLH/tPHL A->B at 3.3 V, 50 pF (sn74lvt543 p.6; sn74lvth543 p.6 typ 2.5/2.5); VCC 2.7-3.6 V, VI to 5.5 V (sn74lvt543 p.4, sn74lvth543 p.4)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt543a"
+  ],
+  "BCT": [
+   "sn74bct543",
+   "sn54bct543"
+  ],
+  "F": [
+   "sn74f543"
+  ],
+  "LVC": [
+   "sn74lvc543a"
+  ],
+  "LVT": [
+   "sn74lvt543",
+   "sn74lvth543"
+  ]
+ },
+ "pdfs": [
+  "sn54bct543",
+  "sn74abt543a",
+  "sn74bct543",
+  "sn74f543",
+  "sn74lvc543a",
+  "sn74lvt543",
+  "sn74lvth543"
+ ],
+ "parts": [
+  "SN74ABT543ADBR",
+  "SN74ABT543ADW",
+  "SN74ABT543APW",
+  "SN74ABT543APWR",
+  "SN74BCT543DW",
+  "SN74F543DBR",
+  "SN74F543DWR",
+  "SN74LVC543ADBR",
+  "SN74LVC543ADW",
+  "SN74LVC543ADWR",
+  "SN74LVC543APW",
+  "SN74LVC543APWR",
+  "SN74LVC543APWT",
+  "SN74LVT543DW",
+  "SN74LVTH543DBR",
+  "SN74LVTH543DW",
+  "SN74LVTH543DWR",
+  "SN74LVTH543PW",
+  "SN74LVTH543PWR",
+  "5962-9087001M3A",
+  "SN74ABT543ADB",
+  "SN74ABT543APWLE",
+  "SN74F543DWE4",
+  "SN74F543DBLE",
+  "SN74LVTH543NS"
+ ]
+}

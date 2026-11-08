@@ -1,0 +1,219 @@
+{
+ "id": "74_29827",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "10-bit buffer/bus driver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74als29827 p.1 (DW/NT), sn74bct29827b p.1 (DW/NT/JT/W). The 3-state control is a 2-input NOR: outputs drive only while OE1 and OE2 are both low (sn74als29827 p.1). Non-inverting.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "OE1",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "A9",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "A10",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "OE2",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "Y10",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "Y9",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "Y8",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "Y7",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "Y6",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "Y5",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "Y4",
+    "role": "output"
+   },
+   {
+    "number": 21,
+    "name": "Y3",
+    "role": "output"
+   },
+   {
+    "number": 22,
+    "name": "Y2",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "Y1",
+    "role": "output"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DW"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "A10"
+   ],
+   "y": [
+    "Y1",
+    "Y2",
+    "Y3",
+    "Y4",
+    "Y5",
+    "Y6",
+    "Y7",
+    "Y8",
+    "Y9",
+    "Y10"
+   ],
+   "oe": [
+    {
+     "pin": "OE1",
+     "active": "low"
+    },
+    {
+     "pin": "OE2",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ALS": {
+   "rise": 8,
+   "fall": 8,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "max tPLH/tPHL A->Y at CL 50 pF, no typ printed (sn74als29827 p.3; 15/15 at 300 pF). VCC 4.75-5.25 V (p.2)"
+  },
+  "BCT": {
+   "rise": 3.3,
+   "fall": 5.1,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A->Y at 5 V, 25 C (sn74bct29827b p.3). VCC 4.5-5.5 V (p.2)"
+  }
+ },
+ "families": {
+  "ALS": [
+   "sn74als29827"
+  ],
+  "BCT": [
+   "sn74bct29827b"
+  ]
+ },
+ "pdfs": [
+  "sn74als29827",
+  "sn74bct29827b"
+ ],
+ "parts": [
+  "SN74ALS29827DW",
+  "SN74BCT29827BDW"
+ ]
+}

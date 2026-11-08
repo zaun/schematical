@@ -1,0 +1,350 @@
+{
+ "id": "74_4T774",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "4-bit dual-supply bus transceiver / level shifter, per-bit direction control, 3-state",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout from sn74avc4t774 p.4-5 Table 4-1 (PW, RGY, BQB, DYY: DIR1 1 ... VCCA 16; RSV UQFN renumbered: A1 1 ... DIR2 16) and sn74axc4t774 p.3 (PW, BQB, RSV, same); -Q1 data sheets PW only, same. RGY/BQB thermal pad is not a pin. Function table sn74avc4t774 p.15 / sn74axc4t774 p.21: OE low + DIRn high = An to Bn, DIRn low = Bn to An, OE high = isolation (OE common to all 4 bits). DIR1-4 and OE referenced to VCCA.",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "DIR1",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "DIR2",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "DIR3",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "DIR4",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "number": 16,
+    "name": "VCCA",
+    "role": "power"
+   }
+  ],
+  "rsv16": [
+   {
+    "number": 1,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 2,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "DIR3",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "DIR4",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "number": 14,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 15,
+    "name": "DIR1",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "DIR2",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "RSV"
+   ],
+   "pinout": "rsv16"
+  },
+  {
+   "codes": [
+    "PW",
+    "RGY",
+    "BQB",
+    "DYY"
+   ],
+   "pinout": "p16"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1"
+   ],
+   "b": [
+    "B1"
+   ],
+   "dir": {
+    "pin": "DIR1",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "A2"
+   ],
+   "b": [
+    "B2"
+   ],
+   "dir": {
+    "pin": "DIR2",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "A3"
+   ],
+   "b": [
+    "B3"
+   ],
+   "dir": {
+    "pin": "DIR3",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "A4"
+   ],
+   "b": [
+    "B4"
+   ],
+   "dir": {
+    "pin": "DIR4",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "DIR1",
+    "DIR2",
+    "DIR3",
+    "DIR4",
+    "OE"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "B1",
+    "B2",
+    "B3",
+    "B4"
+   ]
+  }
+ ],
+ "timing": {
+  "AVC": {
+   "rise": 2.9,
+   "fall": 2.9,
+   "vcc": [
+    1.1,
+    3.6
+   ],
+   "vccB": [
+    1.1,
+    3.6
+   ],
+   "note": "Max tPLH/tPHL A->B at VCCA = VCCB = 3.3 V (nearest row to 3.3<->5 V; no typical) (sn74avc4t774 p.11). VCCA/VCCB 1.1-3.6 V (p.6), VI to 3.6 V (p.7). sn74avc4t774-q1 lists 1.08-3.6 V (main PDF used)"
+  },
+  "AXC": {
+   "rise": 5,
+   "fall": 5,
+   "vcc": [
+    0.65,
+    3.6
+   ],
+   "vccB": [
+    0.65,
+    3.6
+   ],
+   "note": "Max tpd A->B at VCCA = VCCB = 3.3 V, -40 to 85 C (nearest row to 3.3<->5 V; no typical) (sn74axc4t774 p.14). VCCA/VCCB 0.65-3.6 V, VI to 3.6 V (p.5)"
+  }
+ },
+ "families": {
+  "AVC": [
+   "sn74avc4t774",
+   "sn74avc4t774-q1"
+  ],
+  "AXC": [
+   "sn74axc4t774",
+   "sn74axc4t774-q1"
+  ]
+ },
+ "parts": [
+  "74AVC4T774QPWRQ1",
+  "74AVC4T774RSVR-NT",
+  "SN74AVC4T774PW",
+  "SN74AVC4T774PWR",
+  "SN74AVC4T774RGYR",
+  "SN74AVC4T774RSVR",
+  "SN74AXC4T774BQBR",
+  "SN74AXC4T774PWR",
+  "SN74AXC4T774QPWRQ1"
+ ],
+ "pdfs": [
+  "sn74avc4t774",
+  "sn74avc4t774-q1",
+  "sn74axc4t774",
+  "sn74axc4t774-q1"
+ ]
+}

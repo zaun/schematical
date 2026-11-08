@@ -1,0 +1,80 @@
+{
+ "id": "1T17",
+ "kind": "gate",
+ "model": "buf",
+ "function": "Buffer",
+ "description": "Single Schmitt-trigger buffer, 1.8/2.5/3.3 V inputs, single-supply up-translator",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74aup1t17 p.3 (DCK). Y = A, output referenced to VCC; inputs accept 1.8/2.5/3.3 V levels (p.1).",
+ "pinouts": {
+  "p5": [
+   {
+    "number": 1,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DCK"
+   ],
+   "pinout": "p5"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "A"
+   ],
+   "output": "Y"
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "AUP": {
+   "rise": 2.7,
+   "fall": 2.7,
+   "vcc": [
+    2.3,
+    3.6
+   ],
+   "note": "typ tpd at VCC 3.3 V, VI 3.3 V, 15 pF (sn74aup1t17 p.6); VCC 2.3-3.6 V, VI 0-3.6 V (p.4)"
+  }
+ },
+ "families": {
+  "AUP": [
+   "sn74aup1t17"
+  ]
+ },
+ "pdfs": [
+  "sn74aup1t17"
+ ],
+ "parts": [
+  "SN74AUP1T17DCKR"
+ ]
+}

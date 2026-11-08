@@ -763,7 +763,31 @@ enum OrthogonalRoute {
             }
         }
 
-        return Array(mergeCoincident(points).dropFirst().dropLast())
+        return Array(removeDoubleBacks(mergeCoincident(points)).dropFirst().dropLast())
+    }
+
+    /// Drops a vertex where the route turns straight back on itself (three
+    /// points on one line, the middle one outside the other two). That is
+    /// what an end moving past a stored vertex leaves behind. The first and
+    /// last points never go.
+    static func removeDoubleBacks(_ points: [CGPoint]) -> [CGPoint] {
+        var result = points
+        var index = 1
+        while index + 1 < result.count {
+            let a = result[index - 1], b = result[index], c = result[index + 1]
+            let sameRow = a.y == b.y && b.y == c.y
+            let sameColumn = a.x == b.x && b.x == c.x
+            let turnsBack = (sameRow && (b.x - a.x) * (c.x - b.x) < 0)
+                || (sameColumn && (b.y - a.y) * (c.y - b.y) < 0)
+            if turnsBack {
+                result.remove(at: index)
+                result = mergeCoincident(result)
+                index = max(index - 1, 1)
+            } else {
+                index += 1
+            }
+        }
+        return result
     }
 
     /// Moves only the bend at `index`. The neighbouring bends stay where they are,
@@ -937,6 +961,57 @@ final class SchematicDocument {
     /// selection, unless Shift is down.
     func pressEmptyBoard(shift: Bool) {
         if !shift { clearBoardSelection() }
+    }
+
+    // MARK: Box select
+
+    /// The parts, junctions and wires a box (schematic coordinates) touches.
+    func schematicItems(in rect: CGRect) -> Set<SchematicItem> {
+        var items = Set<SchematicItem>()
+        for chip in chips where chip.hitRect.intersects(rect) {
+            items.insert(.chip(chip.id))
+        }
+        for junction in junctions where rect.contains(junction.point) {
+            items.insert(.junction(junction.id))
+        }
+        for wire in wires {
+            let path = path(forWire: wire.id)
+            if zip(path, path.dropFirst()).contains(where: { Self.segment($0, $1, touches: rect) }) {
+                items.insert(.wire(wire.id))
+            }
+        }
+        return items
+    }
+
+    /// The drawn footprints, texts and traces a box (board mm) touches.
+    func boardItems(in rect: CGRect, visible: BoardVisibility = BoardVisibility()) -> Set<BoardItem> {
+        var items = Set<BoardItem>()
+        for chip in chips where chip.board != nil && visible.showsFootprint(chip) {
+            if let bounds = chip.boardBounds, bounds.intersects(rect) { items.insert(.footprint(chip.id)) }
+        }
+        for text in texts where visible.showsText(text) && text.boardRect.intersects(rect) {
+            items.insert(.text(text.id))
+        }
+        for trace in traces where board.copperLayers.contains(trace.layer) && visible.showsTrace(on: trace.layer) {
+            let grown = rect.insetBy(dx: -trace.widthMM / 2, dy: -trace.widthMM / 2)
+            if trace.segments.contains(where: { Self.segment($0.0, $0.1, touches: grown) }) {
+                items.insert(.trace(trace.id))
+            }
+        }
+        return items
+    }
+
+    /// A Shift-drag on empty Schematic canvas: the selection is what it was
+    /// at the press (`base`) plus everything the box touches.
+    func boxSelectSchematic(_ rect: CGRect, base: Set<SchematicItem>) {
+        let items = base.union(schematicItems(in: rect))
+        if items != schematicSelection.items { schematicSelection.set(items) }
+    }
+
+    /// A Shift-drag on empty board: as `boxSelectSchematic`, on the PCB page.
+    func boxSelectBoard(_ rect: CGRect, base: Set<BoardItem>, visible: BoardVisibility = BoardVisibility()) {
+        let items = base.union(boardItems(in: rect, visible: visible))
+        if items != boardSelection.items { boardSelection.set(items) }
     }
 
     /// Clears the Schematic page's selection: items, bus and port.
@@ -2141,9 +2216,32 @@ final class SchematicDocument {
             } else {
                 buses.append(draft.bus)
             }
+            if let gone = draft.absorbedIndex {
+                absorb(buses[gone], wireMap: draft.wireMap)
+                buses.remove(at: gone)
+            }
             editorMessage = nil
             selectedBusID = draft.bus.id
             return draft.bus.id
+        }
+    }
+
+    /// After the Bus tool joined `gone` into another bus: wires on `gone`'s port
+    /// pins move to the pin for the wire it became, and are re-fitted (the
+    /// pins may have moved along the port).
+    private func absorb(_ gone: Bus, wireMap: [UUID: UUID]) {
+        let portIDs = Set(gone.ports.map(\.id))
+        func remap(_ end: WireEnd) -> WireEnd {
+            guard case let .busPin(ref) = end, portIDs.contains(ref.portID),
+                  let wireID = wireMap[ref.wireID] else { return end }
+            return .busPin(BusPinRef(portID: ref.portID, wireID: wireID))
+        }
+        for index in wires.indices {
+            wires[index].start = remap(wires[index].start)
+            wires[index].end = remap(wires[index].end)
+        }
+        for portID in portIDs {
+            settleWires(attachedToPort: portID)
         }
     }
 

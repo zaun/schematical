@@ -1,0 +1,257 @@
+{
+ "id": "2G126",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Dual bus buffer gate, 3-state outputs (active-high enables)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "p8 from sn74lvc2g126 p.3 Figure 5-1 + Pin Functions (DCT/DCU), sn74auc2g126 p.1 (DCT/DCU), sn74aup2g126 p.1 (DCU and DQE X2SON, same numbers). rse8 = SN74AUP2G126 RSE UQFN, different numbering (sn74aup2g126 p.1 and logic diagram p.3: 1 2OE, 2 1Y, 3 2A, 4 GND, 5 2Y, 6 1A, 7 1OE, 8 VCC). DSBGA (row-major) YZP/YFP: A1 1OE, A2 VCC, B1 1A, B2 2OE, C1 2Y, C2 1Y, D1 GND, D2 2A (sn74lvc2g126 p.3 Figure 5-2 + Pin Functions; sn74aup2g126 p.1). Function: OE H -> Y = A, OE L -> Z (sn74aup2g126 p.2).",
+ "pinouts": {
+  "p8": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "rse8": [
+   {
+    "number": 1,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "dsbga": [
+   {
+    "ball": "A1",
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "ball": "A2",
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "ball": "B1",
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "ball": "B2",
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "ball": "C1",
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "ball": "C2",
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "ball": "D1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "D2",
+    "name": "2A",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DCT",
+    "DCU",
+    "DQE"
+   ],
+   "pinout": "p8"
+  },
+  {
+   "codes": [
+    "RSE"
+   ],
+   "pinout": "rse8"
+  },
+  {
+   "codes": [
+    "YZP",
+    "YFP"
+   ],
+   "pinout": "dsbga"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A"
+   ],
+   "y": [
+    "1Y"
+   ],
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "high"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A"
+   ],
+   "y": [
+    "2Y"
+   ],
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "high"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "AUC": {
+   "rise": 1.1,
+   "fall": 1.1,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "Typical tpd A->Y at 1.8 V, 25 C, 15 pF (sn74auc2g126 p.4). VCC 0.8-2.7 V, VI to 3.6 V (sn74auc2g126 p.3)"
+  },
+  "AUP": {
+   "rise": 3.7,
+   "fall": 3.7,
+   "vcc": [
+    0.8,
+    3.6
+   ],
+   "note": "Typical tpd A->Y at 3.3 V, 25 C, 15 pF (sn74aup2g126 p.7). VCC 0.8-3.6 V (sn74aup2g126 p.4)"
+  },
+  "LVC": {
+   "rise": 4,
+   "fall": 4,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "Max tpd A->Y at 3.3 V, -40 to 85 C, 50 pF; no typical printed (sn74lvc2g126 p.6). VCC 1.65-5.5 V, VI 0-5.5 V (sn74lvc2g126 p.5; -EP same)"
+  }
+ },
+ "families": {
+  "AUC": [
+   "sn74auc2g126"
+  ],
+  "AUP": [
+   "sn74aup2g126"
+  ],
+  "LVC": [
+   "sn74lvc2g126",
+   "sn74lvc2g126-ep"
+  ]
+ },
+ "pdfs": [
+  "sn74auc2g126",
+  "sn74aup2g126",
+  "sn74lvc2g126",
+  "sn74lvc2g126-ep"
+ ],
+ "parts": [
+  "SN74AUC2G126DCTR",
+  "SN74AUC2G126DCUR",
+  "SN74AUP2G126DCUR",
+  "SN74AUP2G126DQER",
+  "SN74AUP2G126RSER",
+  "SN74AUP2G126YFPR",
+  "SN74AUP2G126YZPR",
+  "SN74LVC2G126DCTR",
+  "SN74LVC2G126DCUR",
+  "SN74LVC2G126DCUT",
+  "SN74LVC2G126YZPR",
+  "CLVC2G126MDCUTEP",
+  "SN74LVC2G126DCTRE4"
+ ]
+}

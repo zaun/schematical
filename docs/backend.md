@@ -93,6 +93,12 @@ Notes:
   - A pull-up part (`PartSupply.pull`) is not a supply here: it gives its
     group a level only when no supply and no powered output sets it
     (E = S, else D, else P, else C), and never clashes.
+  - A dual-supply part (`Part.domain_count` 2, plan-20-F) is powered per
+    domain: each side at the highest voltage on its own power pins, its
+    outputs driving that side's level, and each pin checked against its
+    own side's range and input max (`PartSupplyDomain`, docs/parts-format.md
+    "Two supply domains"). Every other part takes the single-supply path
+    unchanged.
 - Lights (`circuit_part_lights`) are LEDs (one light), 7-segment
   displays (`PartDisplay.leds` order) and character LCD backlights (one
   light, on while the anode reads 1 and the cathode 0; a module without a
@@ -189,6 +195,10 @@ backend/
                            table, the model that forwards to a pio model),
                            bus65.c + bus65.h (the 65xx peripheral bus the
                            pio models share)
+                           buffer.c + buffer.h (the buffer kind: models
+                           tristate, transceiver and translator, supply
+                           domains; the port read-back rule),
+                           buffer_reg.c (model registered)
     circuit.c
     voltage.c              the voltage check (voltage.h)
     memory_image.c         load files (binary, Intel HEX) to memory images
@@ -290,8 +300,10 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   `tests/support/voltage_fixture.h`).
 - `voltage_test` — `voltage_check` and `voltage_describe`, one case per
   rule (supplies, power range, input max, driven and carried voltages,
-  open-drain, closed contacts, switch rating, ordering), on the fixture
-  parts and the real supplies.
+  open-drain, closed contacts, switch rating, ordering, and the two supply
+  domains of a translator: each side powered from its own pin, its pins
+  judged against its own range), on the fixture parts and the real
+  supplies.
 - `memory_image_test` — the load-file parser: format by file name, raw
   binary, every Intel HEX rule and message.
 - `cpu_core_test` — the vendored CPU cores (`third_party/chips/`) against
@@ -358,6 +370,15 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   W65C22S 14 MHz times: the read window (X at the rise, data at + `tcdr`,
   Z at fall + `thr`), write data setup and hold, select/RS setup and hold,
   not selected, PHI2 X, the per-fall `cycle()` hook and PHI2 width checks.
+
+- `buffer_test` — the buffer kind (plan-20). Fixture devices with the
+  real devices' pin names: '244, '240, '541, 1G125/1G126 and an open-drain
+  1G125 (tristate); '245, '640, '641, '623 and a two-unit 16245
+  (transceiver: DIR/OE, the turnaround read-back rule, X on DIR, the '623
+  bus-hold loop); '646, '652, '543, '2952 and a two-unit 16952
+  (registered: real-time and stored transfer, storing the bus the part
+  drives, CE gating a latch and its outputs, clock enables, X on a clock);
+  the loader's errors.
 
 Not a ctest: `sim_bench` (`tests/sim_bench.c`) measures engine speed — a
 D flip-flop ripple counter on an oscillator plus N idle SN74HC00N chips,

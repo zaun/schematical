@@ -1,0 +1,200 @@
+{
+ "id": "74_2244_FCT",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Octal buffer/line driver with 25-ohm series resistors, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "CY74FCT2244T prints OEA/OEB, DA0-3/OA0-3, DB0-3/OB0-3 (cy74fct2244t p.1 pinout, Q = DBQ and SO = DW). Logic diagram p.2: OEA enables DAn -> OAn, OEB enables DBn -> OBn; function table p.2 (OE L: O = D, H: Z). Same positions as the '244 (OEA = 1OE, DAn = 1A(n+1), OEB = 2OE, DB0 at pin 17 = 2A4). CY-QC rows (CY74FCT2244ATQC-TI, CTQC, TQC) are tube QSOP orderables not in the packaging table, given the Q (DBQ) pinout. CY74FCT2244TS0C (digit zero) left out as a typo of CY74FCT2244TSOC. 25-ohm series output resistors not modeled.",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "OEA",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "DA0",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "OB0",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "DA1",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "OB1",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "DA2",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "OB2",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "DA3",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "OB3",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "DB3",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "OA3",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "DB2",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "OA2",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "DB1",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "OA1",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "DB0",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "OA0",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "OEB",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBQ",
+    "DW",
+    "CY-QC",
+    "CY-SOC"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "DA0",
+    "DA1",
+    "DA2",
+    "DA3"
+   ],
+   "y": [
+    "OA0",
+    "OA1",
+    "OA2",
+    "OA3"
+   ],
+   "oe": [
+    {
+     "pin": "OEA",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "DB0",
+    "DB1",
+    "DB2",
+    "DB3"
+   ],
+   "y": [
+    "OB0",
+    "OB1",
+    "OB2",
+    "OB3"
+   ],
+   "oe": [
+    {
+     "pin": "OEB",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "FCT": {
+   "rise": 6.5,
+   "fall": 6.5,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "Max tPLH/tPHL D->O, CY74FCT2244T (slowest grade; AT 4.6, CT 4.1), -40 to 85 C, 50 pF; no typical printed (cy74fct2244t p.5). VCC 4.75-5.25 V (cy74fct2244t p.3)"
+  }
+ },
+ "families": {
+  "FCT": [
+   "cy74fct2244t"
+  ]
+ },
+ "pdfs": [
+  "cy74fct2244t"
+ ],
+ "parts": [
+  "CY74FCT2244ATQCT",
+  "CY74FCT2244ATSOC",
+  "CY74FCT2244CTQCT",
+  "CY74FCT2244CTSOC",
+  "CY74FCT2244TQCT",
+  "CY74FCT2244TSOC",
+  "CY74FCT2244ATQC-TI",
+  "CY74FCT2244CTQC",
+  "CY74FCT2244TQC"
+ ]
+}

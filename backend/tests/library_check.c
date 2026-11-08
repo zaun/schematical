@@ -836,6 +836,34 @@ static void check_gate_cases(void) {
               ctx.error == NULL);
         printf("ok   families L and ALV\n");
     }
+    /* plan-20-B: AXC, LXC, TXU, TXV (FCT: plan-19-A above). */
+    {
+        static const char *const FAMILIES[] = {"AXC", "LXC", "TXU", "TXV"};
+        static const char *const FILES[] = {
+            HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
+                                     "{'AXC':{'rise':5,'fall':5,'vcc':[0.65,3.6]}}", "A", "AXC") TAIL,
+            HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
+                                     "{'LXC':{'rise':5,'fall':5,'vcc':[1.1,5.5]}}", "A", "LXC") TAIL,
+            HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
+                                     "{'TXU':{'rise':5,'fall':5,'vcc':[1.1,5.5]}}", "A", "TXU") TAIL,
+            HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
+                                     "{'TXV':{'rise':5,'fall':5,'vcc':[0.9,3.6]}}", "A", "TXV") TAIL,
+        };
+        size_t f;
+
+        for (f = 0; f < 4; f++) {
+            library = part_library_create();
+            error = NULL;
+            CHECK(load(library, FILES[f], &error) == 0);
+            part = part_library_find(library, "G1");
+            CHECK(part != NULL && part->logic != NULL &&
+                  strcmp(part->logic->family, FAMILIES[f]) == 0);
+            printf("ok   gate part with family %s%s%s\n", FAMILIES[f], error != NULL ? ": " : "",
+                   error != NULL ? error : "");
+            free(error);
+            part_library_destroy(library);
+        }
+    }
 
     expect_fail("gate otherLow on a 3-input device",
                 HEAD("gate") GATE_DEVICE("[{'op':'xor','inputs':['A','B','C'],'output':'Y'}]",
@@ -858,6 +886,10 @@ static void check_gate_cases(void) {
                 HEAD("gate") GATE_DEVICE("[{'op':'not','inputs':['A','B'],'output':'Y'}]",
                                          "{'HC':{'rise':9,'fall':9}}", "A", "HC") TAIL,
                 "gates[0]: a \"not\" gate has exactly 1 input");
+    expect_fail("gate buf with 2 inputs",
+                HEAD("gate") GATE_DEVICE("[{'op':'buf','inputs':['A','B'],'output':'Y'}]",
+                                         "{'HC':{'rise':9,'fall':9}}", "A", "HC") TAIL,
+                "gates[0]: a \"buf\" gate has exactly 1 input");
     expect_fail("gate unknown family",
                 HEAD("gate") GATE_DEVICE("[{'op':'nand','inputs':['A','B','C'],'output':'Y'}]",
                                          "{'HX':{'rise':9,'fall':9}}", "A", "HC") TAIL,

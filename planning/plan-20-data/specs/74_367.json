@@ -1,0 +1,249 @@
+{
+ "id": "74_367",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Hex buffer/line driver, 3-state outputs (4 + 2 enables)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout: sn74hc367 p.3 (J, D, N, NS, PW; same file as sn54hc367), sn74ahc367 p.3 (D, DB, DGV, N, PW), sn74ahct367 p.3, sn74hcs367 p.3 and sn74hcs367-q1 p.3 (D, PW, WBQB with thermal pad, same numbering), sn74lv367a p.3 (D, DGV, NS, PW). 1OE drives 1A1-1A4, 2OE drives 2A1-2A2, both active low (sn74ahc367 p.8 function table). JM38510/65708BEA is SN54HC367J per the sn54hc367 packaging table.",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "1Y1",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "1A2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "1Y2",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1A3",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "1Y3",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "1Y4",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "1A4",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "2Y1",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "2A1",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "2Y2",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "2A2",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "D",
+    "N",
+    "NS",
+    "PW",
+    "DB",
+    "DGV",
+    "J",
+    "BQB"
+   ],
+   "pinout": "p16"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4"
+   ],
+   "y": [
+    "1Y1",
+    "1Y2",
+    "1Y3",
+    "1Y4"
+   ],
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2"
+   ],
+   "y": [
+    "2Y1",
+    "2Y2"
+   ],
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "HC": {
+   "rise": 12,
+   "fall": 12,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "Typical tpd A->Y at 4.5 V, 50 pF, 25 C (sn74hc367 p.5). VCC 2-6 V for SN54HC367 and SN74HC367 (p.4)"
+  },
+  "AHC": {
+   "rise": 6.1,
+   "fall": 6.2,
+   "vcc": [
+    2,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->Y at 5 V, 50 pF (sn74ahc367 p.5). VCC 2-5.5 V, VI to 5.5 V (p.4)"
+  },
+  "AHCT": {
+   "rise": 3.5,
+   "fall": 3.3,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->Y at 5 V, 50 pF (sn74ahct367 p.5). VCC 4.5-5.5 V (p.4)"
+  },
+  "HCS": {
+   "rise": 6,
+   "fall": 6,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "Typical tpd A->Y at 4.5 V, 50 pF (sn74hcs367 p.5). VCC 2-6 V (p.4; sn74hcs367-q1 same)"
+  },
+  "LV": {
+   "rise": 6.2,
+   "fall": 6.2,
+   "vcc": [
+    2,
+    5.5
+   ],
+   "note": "Typical tpd A->Y at 3.3 V, 50 pF (sn74lv367a p.7). VCC 2-5.5 V, VI to 5.5 V (p.5)"
+  }
+ },
+ "families": {
+  "HC": [
+   "sn74hc367",
+   "sn54hc367"
+  ],
+  "AHC": [
+   "sn74ahc367"
+  ],
+  "AHCT": [
+   "sn74ahct367"
+  ],
+  "HCS": [
+   "sn74hcs367",
+   "sn74hcs367-q1"
+  ],
+  "LV": [
+   "sn74lv367a"
+  ]
+ },
+ "parts": [
+  "SN74AHC367DR",
+  "SN74AHC367N",
+  "SN74AHC367PWR",
+  "SN74AHCT367DBR",
+  "SN74AHCT367DGVR",
+  "SN74AHCT367DR",
+  "SN74AHCT367PWR",
+  "SN74HC367DR",
+  "SN74HC367N",
+  "SN74HC367NSR",
+  "SN74HC367PWR",
+  "SN74HCS367DR",
+  "SN74HCS367PWR",
+  "SN74HCS367QDRQ1",
+  "SN74HCS367QPWRQ1",
+  "SN74HCS367QWBQBRQ1",
+  "SN74LV367ADR",
+  "SN74LV367ANSR",
+  "SN74LV367APWR",
+  "JM38510/65708BEA",
+  "SNJ54HC367J",
+  "SN74LV367ADGVR"
+ ],
+ "pdfs": [
+  "sn54hc367",
+  "sn74ahc367",
+  "sn74ahct367",
+  "sn74hc367",
+  "sn74hcs367",
+  "sn74hcs367-q1",
+  "sn74lv367a"
+ ]
+}

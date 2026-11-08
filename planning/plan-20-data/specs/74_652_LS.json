@@ -1,0 +1,223 @@
+{
+ "id": "74_652_LS",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver and registers, real-time or stored data, 3-state outputs (LS pin names)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Separate from 74_652 only because the LS datasheet prints different control names (CAB/CBA clocks, GAB/GBA enables). Pinout: sn74ls652 p.1 (scanned; JT/DW/NT top view): pin 22 is printed 'SA' in the pinout drawings but SBA in the logic diagram/symbol (p.3-4), named SBA here. GAB active high, GBA active low, SAB/SBA low = real-time, high = stored, CAB/CBA rising edge stores regardless of select/enable (function table p.2, 'LS652 column). Timing p.6, ROC p.5.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "CAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "SAB",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GAB",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "GBA",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "SBA",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "CBA",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DW",
+    "NT",
+    "JT"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "ab": {
+    "store": "register",
+    "clk": {
+     "pin": "CAB",
+     "edge": "rising"
+    },
+    "oe": {
+     "pin": "GAB",
+     "active": "high"
+    },
+    "select": {
+     "pin": "SAB",
+     "active": "high"
+    }
+   },
+   "ba": {
+    "store": "register",
+    "clk": {
+     "pin": "CBA",
+     "edge": "rising"
+    },
+    "oe": {
+     "pin": "GBA",
+     "active": "low"
+    },
+    "select": {
+     "pin": "SBA",
+     "active": "high"
+    }
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "LS": {
+   "rise": 15,
+   "fall": 24,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "typ tPLH/tPHL clock->bus at 5 V, 25 C, 45 pF, RL 667 ohm, 'LS652 (sn74ls652 p.6). VCC 4.75-5.25 V (SN74LS652, sn74ls652 p.5)"
+  }
+ },
+ "families": {
+  "LS": [
+   "sn74ls652"
+  ]
+ },
+ "pdfs": [
+  "sn74ls652"
+ ],
+ "parts": [
+  "SN74LS652DW"
+ ]
+}

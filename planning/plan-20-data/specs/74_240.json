@@ -1,0 +1,707 @@
+{
+ "id": "74_240",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Octal buffer/line driver, inverting, 3-state outputs (two 4-bit groups, each with an active-low output enable)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Standard '240 20-pin pinout, same numbering in every package (N, DW, DB, NS, PW, DGS, DGV, J, W, FK LCCC, RKS/RGY VQFN with exposed pad not a pin, CY QSOP/SOIC): sn74hc240 p.3 (incl. FK), sn74act240 p.3 (incl. RKS), sn74ls240 p.3 (incl. FK), sn74auc240 p.1 (RGY), sn74lvc240a p.3, sn74ahc240 p.3, sn74lv240a p.4, sn74abt240a p.1, cy74fct240t p.1 (incl. L/LCC). Name variants folded to the TI names: LS/S sheets print 1G/2G for 1OE/2OE (sn74ls240 p.3); CD74AC/ACT and CD74HC/HCT number bits from 0 (1A0-1A3, 2Y0-2Y3: cd74ac240 p.4 Pin Functions, cd74hc240 p.3 pinout drawing); CY FCT prints OEA/OEB, DA0-3/DB0-3, OA0-3/OB0-3 (cy74fct240t p.1, OEA=1OE, DAn=1A(n+1), OAn=1Y(n+1)). Function: OE low -> Y = not A, OE high -> Z (sn74hc240 p.9, cy74fct240t p.2).",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "2Y4",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "1A2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "2Y3",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1A3",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "2Y2",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "1A4",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "2Y1",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "2A1",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "1Y4",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "2A2",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "1Y3",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "2A3",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "1Y2",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "2A4",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "1Y1",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "PW",
+    "N",
+    "DW",
+    "J",
+    "DBQ",
+    "DB",
+    "NS",
+    "RKS",
+    "DGS",
+    "RGY",
+    "DGV",
+    "FK",
+    "W",
+    "CY-QC",
+    "DBL"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4"
+   ],
+   "y": [
+    "1Y1",
+    "1Y2",
+    "1Y3",
+    "1Y4"
+   ],
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4"
+   ],
+   "y": [
+    "2Y1",
+    "2Y2",
+    "2Y3",
+    "2Y4"
+   ],
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": true,
+ "output": "push-pull",
+ "timing": {
+  "HC": {
+   "rise": 10,
+   "fall": 10,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "typ tpd A->Y at 4.5 V, 50 pF (sn74hc240 p.5); VCC 2-6 V (sn74hc240 p.4; cd74hc240 p.4 same)"
+  },
+  "HCT": {
+   "rise": 13,
+   "fall": 13,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tpd A->Y at 4.5 V, 50 pF (sn74hct240 p.5); VCC 4.5-5.5 V (sn74hct240 p.4; cd74hct240 p.4 same)"
+  },
+  "HCS": {
+   "rise": 7,
+   "fall": 7,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "typ tpd A->Y at 4.5 V, 50 pF (sn74hcs240 p.5); VCC 2-6 V (sn74hcs240 p.4)"
+  },
+  "LS": {
+   "rise": 9,
+   "fall": 12,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "typ tPLH/tPHL at 5 V, 45 pF, 667 ohm (sn74ls240 p.6); VCC 4.75-5.25 V SN74, 4.5-5.5 V SN54 (sn74ls240 p.4)"
+  },
+  "S": {
+   "rise": 4.5,
+   "fall": 4.5,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "typ tPLH/tPHL SNx4S240 at 5 V, 50 pF, 90 ohm (sn74s240 p.6); VCC 4.75-5.25 V SN74, 4.5-5.5 V SN54 (sn74s240 p.4)"
+  },
+  "F": {
+   "rise": 4.7,
+   "fall": 3.1,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL at 5 V, 50 pF (sn74f240 p.4); VCC 4.5-5.5 V (sn74f240 p.3)"
+  },
+  "ALS": {
+   "rise": 9,
+   "fall": 9,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL SN74ALS240A, 4.5-5.5 V, 50 pF, no typical printed (sn74als240a p.5); VCC 4.5-5.5 V (sn74als240a p.4)"
+  },
+  "AS": {
+   "rise": 6.5,
+   "fall": 6.5,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL SN74AS240A, 4.5-5.5 V, 50 pF, no typical printed (sn74as240a p.6); VCC 4.5-5.5 V (sn74as240a p.4)"
+  },
+  "AC": {
+   "rise": 4.5,
+   "fall": 4.5,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "typ tPLH/tPHL at 5 V, 50 pF (sn74ac240 p.6); VCC 2-6 V (sn74ac240 p.4); CD74AC240 1.5-5.5 V (cd74ac240 p.5)"
+  },
+  "ACT": {
+   "rise": 6,
+   "fall": 5.5,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL at 5 V, 50 pF (sn74act240 p.6); VCC 4.5-5.5 V (sn74act240 p.5; cd74act240 p.5 same)"
+  },
+  "AHC": {
+   "rise": 5.1,
+   "fall": 5.1,
+   "vcc": [
+    2,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL at 5 V, 50 pF (sn74ahc240 p.6); VCC 2-5.5 V, VI 0-5.5 V (sn74ahc240 p.4)"
+  },
+  "AHCT": {
+   "rise": 5.9,
+   "fall": 5.9,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL at 5 V, 50 pF (sn74ahct240 p.7); VCC 4.5-5.5 V, VI 0-5.5 V (sn74ahct240 p.5)"
+  },
+  "ABT": {
+   "rise": 2.9,
+   "fall": 3.1,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL SN74ABT240A at 5 V, 50 pF (sn74abt240a p.4); VCC 4.5-5.5 V (sn74abt240a p.3)"
+  },
+  "BCT": {
+   "rise": 3.3,
+   "fall": 1.8,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL at 5 V, 50 pF (sn74bct240 p.4); VCC 4.5-5.5 V (sn74bct240 p.3)"
+  },
+  "LVT": {
+   "rise": 2.2,
+   "fall": 2.6,
+   "vcc": [
+    2.7,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "typ tPLH/tPHL at 3.3 V, 50 pF (sn74lvt240a p.4; sn74lvth240 p.6 same); VCC 2.7-3.6 V, VI to 5.5 V (sn74lvt240a p.3, sn74lvth240 p.4)"
+  },
+  "LV": {
+   "rise": 5.9,
+   "fall": 5.9,
+   "vcc": [
+    2,
+    5.5
+   ],
+   "note": "typ tpd at 3.3 V, 50 pF (sn74lv240a p.8); VCC 2-5.5 V, VI 0-5.5 V (sn74lv240a p.6)"
+  },
+  "LVC": {
+   "rise": 6.5,
+   "fall": 6.5,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "max tpd at 3.3 V, -40 to 85 C, no typical printed (sn74lvc240a p.6); VCC 1.65-3.6 V, VI to 5.5 V (sn74lvc240a p.4)"
+  },
+  "AUC": {
+   "rise": 1.1,
+   "fall": 1.1,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "typ tpd at 1.8 V, 15 pF (sn74auc240 p.4); VCC 0.8-2.7 V, VI to 3.6 V (sn74auc240 p.3)"
+  },
+  "FCT": {
+   "rise": 8,
+   "fall": 8,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "max tPLH/tPHL CY74FCT240T, no typical printed (cy74fct240t p.7; AT grade 4.8, CT grade 4.3); VCC 4.75-5.25 V CY74, 4.5-5.5 V CY54 (cy74fct240t p.4)"
+  }
+ },
+ "partVcc": [
+  {
+   "prefix": "SNJ54LS",
+   "family": "LS",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  },
+  {
+   "prefix": "SNJ54S",
+   "family": "S",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  },
+  {
+   "prefix": "CY54",
+   "family": "FCT",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  },
+  {
+   "prefix": "5962-92213",
+   "family": "FCT",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  },
+  {
+   "prefix": "CD74AC240",
+   "family": "AC",
+   "vcc": [
+    1.5,
+    5.5
+   ]
+  },
+  {
+   "prefix": "SN74LVCZ",
+   "family": "LVC",
+   "vcc": [
+    2.7,
+    3.6
+   ],
+   "inputMax": 5.5
+  }
+ ],
+ "families": {
+  "HC": [
+   "cd74hc240",
+   "sn54hc240",
+   "sn74hc240"
+  ],
+  "HCT": [
+   "cd74hct240",
+   "sn54hct240",
+   "sn74hct240"
+  ],
+  "HCS": [
+   "sn74hcs240",
+   "sn74hcs240-q1"
+  ],
+  "LS": [
+   "sn54ls240",
+   "sn74ls240"
+  ],
+  "S": [
+   "sn54s240",
+   "sn74s240"
+  ],
+  "F": [
+   "sn54f240",
+   "sn74f240"
+  ],
+  "ALS": [
+   "sn54als240a",
+   "sn74als240a"
+  ],
+  "AS": [
+   "sn54as240a",
+   "sn74as240a"
+  ],
+  "AC": [
+   "cd74ac240",
+   "sn74ac240",
+   "sn74ac240-q1"
+  ],
+  "ACT": [
+   "cd74act240",
+   "sn74act240",
+   "sn74act240-q1"
+  ],
+  "AHC": [
+   "sn54ahc240",
+   "sn74ahc240",
+   "sn74ahc240-q1"
+  ],
+  "AHCT": [
+   "sn54ahct240",
+   "sn74ahct240",
+   "sn74ahct240-q1"
+  ],
+  "ABT": [
+   "sn54abt240",
+   "sn74abt240a"
+  ],
+  "BCT": [
+   "sn54bct240",
+   "sn74bct240"
+  ],
+  "LVT": [
+   "sn54lvth240",
+   "sn74lvt240a",
+   "sn74lvth240"
+  ],
+  "LV": [
+   "sn74lv240a"
+  ],
+  "LVC": [
+   "sn74lvc240a",
+   "sn74lvc240a-q1",
+   "sn74lvcz240a"
+  ],
+  "AUC": [
+   "sn74auc240"
+  ],
+  "FCT": [
+   "cy54fct240t",
+   "cy74fct240t"
+  ]
+ },
+ "pdfs": [
+  "cd74ac240",
+  "cd74act240",
+  "cd74hc240",
+  "cd74hct240",
+  "cy54fct240t",
+  "cy74fct240t",
+  "sn54abt240",
+  "sn54ahc240",
+  "sn54ahct240",
+  "sn54als240a",
+  "sn54as240a",
+  "sn54bct240",
+  "sn54f240",
+  "sn54hc240",
+  "sn54hct240",
+  "sn54ls240",
+  "sn54lvth240",
+  "sn54s240",
+  "sn74abt240a",
+  "sn74ac240",
+  "sn74ac240-q1",
+  "sn74act240",
+  "sn74act240-q1",
+  "sn74ahc240",
+  "sn74ahc240-q1",
+  "sn74ahct240",
+  "sn74ahct240-q1",
+  "sn74als240a",
+  "sn74as240a",
+  "sn74auc240",
+  "sn74bct240",
+  "sn74f240",
+  "sn74hc240",
+  "sn74hcs240",
+  "sn74hcs240-q1",
+  "sn74hct240",
+  "sn74ls240",
+  "sn74lv240a",
+  "sn74lvc240a",
+  "sn74lvc240a-q1",
+  "sn74lvcz240a",
+  "sn74lvt240a",
+  "sn74lvth240",
+  "sn74s240"
+ ],
+ "parts": [
+  "CAHCT240IPWRG4Q1",
+  "CD74AC240E",
+  "CD74AC240M96",
+  "CD74ACT240E",
+  "CD74ACT240M96",
+  "CD74HC240E",
+  "CD74HC240M96",
+  "CD74HCT240E",
+  "CY54FCT240ATDMB",
+  "CY74FCT240ATQCT",
+  "CY74FCT240ATSOC",
+  "CY74FCT240ATSOCT",
+  "CY74FCT240TQCT",
+  "CY74FCT240TSOC",
+  "CY74FCT240TSOCT",
+  "SN54HCT240J",
+  "SN74ABT240ADBR",
+  "SN74ABT240ADW",
+  "SN74ABT240ADWR",
+  "SN74ABT240AN",
+  "SN74ABT240ANSR",
+  "SN74ABT240APW",
+  "SN74ABT240APWR",
+  "SN74AC240DBR",
+  "SN74AC240DWR",
+  "SN74AC240N",
+  "SN74AC240NSR",
+  "SN74AC240PWR",
+  "SN74AC240QPWRQ1",
+  "SN74ACT240DWR",
+  "SN74ACT240N",
+  "SN74ACT240NSR",
+  "SN74ACT240PWR",
+  "SN74ACT240QWRKSRQ1",
+  "SN74ACT240RKSR",
+  "SN74AHC240DGSR",
+  "SN74AHC240DWR",
+  "SN74AHC240N",
+  "SN74AHC240NSR",
+  "SN74AHC240PWR",
+  "SN74AHC240QPWRQ1",
+  "SN74AHC240RKSR",
+  "SN74AHCT240DBR",
+  "SN74AHCT240DGSR",
+  "SN74AHCT240DWR",
+  "SN74AHCT240N",
+  "SN74AHCT240NSR",
+  "SN74AHCT240PWR",
+  "SN74AHCT240QPWRQ1",
+  "SN74AHCT240RKSR",
+  "SN74ALS240A-1DW",
+  "SN74ALS240A-1N",
+  "SN74ALS240ADBR",
+  "SN74ALS240ADW",
+  "SN74ALS240ADWR",
+  "SN74ALS240AN",
+  "SN74AS240ADW",
+  "SN74AS240AN",
+  "SN74AS240ANSR",
+  "SN74AUC240RGYR",
+  "SN74BCT240DW",
+  "SN74BCT240N",
+  "SN74F240N",
+  "SN74F240NSR",
+  "SN74HC240DBR",
+  "SN74HC240DGSR",
+  "SN74HC240DWR",
+  "SN74HC240N",
+  "SN74HC240NSR",
+  "SN74HC240PWR",
+  "SN74HCS240DGSR",
+  "SN74HCS240QPWRQ1",
+  "SN74HCS240QWRKSRQ1",
+  "SN74HCS240RKSR",
+  "SN74HCT240DGSR",
+  "SN74HCT240DWR",
+  "SN74HCT240N",
+  "SN74HCT240NSR",
+  "SN74HCT240PWR",
+  "SN74LS240DWR",
+  "SN74LS240N",
+  "SN74LS240NSR",
+  "SN74LV240ADBR",
+  "SN74LV240ADGSR",
+  "SN74LV240ADGVR",
+  "SN74LV240ADWR",
+  "SN74LV240ANSR",
+  "SN74LV240APWR",
+  "SN74LVC240ADBR",
+  "SN74LVC240ADGVR",
+  "SN74LVC240ADW",
+  "SN74LVC240ADWR",
+  "SN74LVC240APW",
+  "SN74LVC240APWR",
+  "SN74LVC240APWRQ1",
+  "SN74LVC240APWT",
+  "SN74LVC240ARKSR",
+  "SN74LVC240AWRKSRQ1",
+  "SN74LVCZ240ADW",
+  "SN74LVCZ240ANSR",
+  "SN74LVCZ240APW",
+  "SN74LVCZ240APWR",
+  "SN74LVT240ADBR",
+  "SN74LVT240ADW",
+  "SN74LVT240ADWR",
+  "SN74LVT240ANSR",
+  "SN74LVT240APW",
+  "SN74LVT240APWR",
+  "SN74LVTH240DBR",
+  "SN74LVTH240DW",
+  "SN74LVTH240DWR",
+  "SN74LVTH240PW",
+  "SN74LVTH240PWR",
+  "SN74S240DW",
+  "SN74S240N",
+  "SNJ54AHC240J",
+  "SNJ54AS240AJ",
+  "SNJ54F240J",
+  "SNJ54HCT240J",
+  "SNJ54LS240FK",
+  "SNJ54LS240J",
+  "SNJ54S240W",
+  "5962-9074201MRA",
+  "5962-9074201MSA",
+  "5962-9221303M2A",
+  "5962-9221303MRA",
+  "5962-9221305MRA",
+  "5962-9318801MRA",
+  "5962-9318801MSA",
+  "5962-9680601QRA",
+  "5962-9758501QRA",
+  "5962-9950801QSA",
+  "84074012A",
+  "85505012A",
+  "CAHCT240QWRKSRQ1",
+  "JM38510/33201B2A",
+  "JM38510/38301B2A",
+  "JM38510/38301BRA",
+  "JM38510/65703B2A",
+  "JM38510/65703BRA",
+  "JM38510/65753BRA",
+  "SNJ54ABT240FK",
+  "SNJ54ABT240J",
+  "SNJ54ABT240W",
+  "SNJ54BCT240J",
+  "CY74FCT240ATQC",
+  "CY74FCT240CTQC",
+  "SN74ABT240ADB",
+  "SN74ABT240ADBLE",
+  "SN74ABT240ANS",
+  "SN74ABT240APWLE",
+  "SN74AC240NS",
+  "SN74ACT240PWLE",
+  "SN74AHC240NS",
+  "SN74ALS240A-1NSR",
+  "SN74AS240ANS",
+  "SN74HC240AN",
+  "SN74HC240ANSR",
+  "SN74HC240APWR",
+  "SN74HCT240ANSR",
+  "SN74LS240DB",
+  "SN74LVC240ANS",
+  "SN74LVT240ADB",
+  "SN74LVTH240DB",
+  "SN74LVTH240NS",
+  "SN74S240N3",
+  "SN74BCT240NS"
+ ]
+}

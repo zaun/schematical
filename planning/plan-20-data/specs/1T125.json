@@ -1,0 +1,93 @@
+{
+ "id": "1T125",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Single buffer, 3-state output, active-low enable, with level shifting",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74lv1t125 p.4 (DBV, DCK): OE 1 (active low), A 2, GND 3, Y 4, VCC 5; sn74lv1t125-q1 p.3 same. Single-supply translator: reduced input thresholds, inputs 5.5-V tolerant.",
+ "pinouts": {
+  "p5": [
+   {
+    "number": 1,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBV",
+    "DCK"
+   ],
+   "pinout": "p5"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A"
+   ],
+   "y": [
+    "Y"
+   ],
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "LV": {
+   "rise": 4.9,
+   "fall": 4.9,
+   "vcc": [
+    1.6,
+    5.5
+   ],
+   "note": "typ tpd at 3.3 V, 30 pF (sn74lv1t125 p.7); VCC 1.6-5.5 V, VI to 5.5 V (p.5); -q1 p.4 same"
+  }
+ },
+ "families": {
+  "LV": [
+   "sn74lv1t125",
+   "sn74lv1t125-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74lv1t125",
+  "sn74lv1t125-q1"
+ ],
+ "parts": [
+  "SN74LV1T125DBVR",
+  "SN74LV1T125QDBVRQ1",
+  "SN74LV1T125QDCKRQ1"
+ ]
+}

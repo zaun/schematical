@@ -1,0 +1,244 @@
+{
+ "id": "74_4245_LVCC",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "Octal dual-supply bus transceiver, 3-state outputs (B port 2.7-5.5 V)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74lvcc4245a p.3 (DB, DW, NS, PW): VCCA 1, DIR 2, A1-A8 3-10, GND 11-13, B8-B1 14-21, OE 22, NC 23, VCCB 24. Function table: OE L DIR L B->A, OE L DIR H A->B, OE H isolation. DIR/OE powered by VCCA (p.1). Separate device from 74_4245: pin 23 is NC and the VCCB range differs (2.7-5.5 V vs 2.7-3.6 V) while both are family LVC.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 14,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 24,
+    "name": "VCCB",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DB",
+    "DW",
+    "PW",
+    "NS"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "DIR",
+    "OE"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ]
+  }
+ ],
+ "timing": {
+  "LVC": {
+   "rise": 7,
+   "fall": 7,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "vccB": [
+    2.7,
+    5.5
+   ],
+   "note": "max tPLH/tPHL A->B at VCCA 5 V +-0.5 V, VCCB 2.7-3.6 V, 50 pF (sn74lvcc4245a p.7; no typical printed); VCCA 4.5-5.5 V, VCCB 2.7-5.5 V, inputs 0..own VCC (p.5)"
+  }
+ },
+ "families": {
+  "LVC": [
+   "sn74lvcc4245a"
+  ]
+ },
+ "pdfs": [
+  "sn74lvcc4245a"
+ ],
+ "parts": [
+  "SN74LVCC4245ADBR",
+  "SN74LVCC4245ADW",
+  "SN74LVCC4245ADWR",
+  "SN74LVCC4245APW",
+  "SN74LVCC4245APWR",
+  "SN74LVCC4245APWT",
+  "SN74LVCC4245ANS"
+ ]
+}

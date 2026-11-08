@@ -1,0 +1,244 @@
+{
+ "id": "1G17",
+ "kind": "gate",
+ "model": "buf",
+ "function": "Buffer",
+ "description": "Single Schmitt-trigger buffer",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinouts: sn74lvc1g17 p.3 Pin Functions (DBV/DCK/DRL/DPW 5-pin; DRY/DSF 6-pin with NC 1,5; YZP 5-ball A1 DNU, B2 unpopulated; YZV 4-ball); sn74lvc1g17-q1 p.3 (DBV/DCK/DRY, same); sn74lvc1g17-ep p.1 (DBV/DCK, same); sn74aup1g17 p.3 (DBV/DCK/DRL/DPW/DRY/DSF/YFP/YZP; YFP 4-ball A1 A, A2 VCC, B1 GND, B2 Y); sn74aup1g17-ep p.1 (DCK, same); sn74auc1g17 p.3 (DBV/DCK/DRL/YZP). Function Y = A, Schmitt-trigger input (sn74lvc1g17 p.1).",
+ "pinouts": {
+  "p5": [
+   {
+    "number": 1,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "p6": [
+   {
+    "number": 1,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 6,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "dsbga": [
+   {
+    "ball": "A1",
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "ball": "A2",
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "ball": "B1",
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "ball": "C1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "C2",
+    "name": "Y",
+    "role": "output"
+   }
+  ],
+  "dsbga4": [
+   {
+    "ball": "A1",
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "ball": "A2",
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "ball": "B1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "B2",
+    "name": "Y",
+    "role": "output"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBV",
+    "DCK",
+    "DRL",
+    "DPW"
+   ],
+   "pinout": "p5"
+  },
+  {
+   "codes": [
+    "DRY",
+    "DSF"
+   ],
+   "pinout": "p6"
+  },
+  {
+   "codes": [
+    "YZP"
+   ],
+   "pinout": "dsbga"
+  },
+  {
+   "codes": [
+    "YFP",
+    "YZV"
+   ],
+   "pinout": "dsbga4"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "A"
+   ],
+   "output": "Y"
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "AUC": {
+   "rise": 1.1,
+   "fall": 1.1,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "typ tpd A->Y at 1.8 V, 15 pF (sn74auc1g17 p.6). VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc1g17 p.4)"
+  },
+  "AUP": {
+   "rise": 4.1,
+   "fall": 4.1,
+   "vcc": [
+    0.8,
+    3.6
+   ],
+   "note": "typ tpd A->Y at 3.3 V, 15 pF, 25 C (sn74aup1g17 p.8). VCC 0.8-3.6 V, VI 0-3.6 V (sn74aup1g17 p.4; sn74aup1g17-ep same)"
+  },
+  "LVC": {
+   "rise": 5.5,
+   "fall": 5.5,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "max tpd A->Y at 3.3 V, 30/50 pF, -40 to 85 C; no typical printed (sn74lvc1g17 p.7). VCC 1.65-5.5 V, VI to 5.5 V (sn74lvc1g17 p.5; -q1 and -ep same)"
+  }
+ },
+ "families": {
+  "AUC": [
+   "sn74auc1g17"
+  ],
+  "AUP": [
+   "sn74aup1g17",
+   "sn74aup1g17-ep"
+  ],
+  "LVC": [
+   "sn74lvc1g17",
+   "sn74lvc1g17-ep",
+   "sn74lvc1g17-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74auc1g17",
+  "sn74aup1g17",
+  "sn74aup1g17-ep",
+  "sn74lvc1g17",
+  "sn74lvc1g17-ep",
+  "sn74lvc1g17-q1"
+ ],
+ "parts": [
+  "SN74AUC1G17DBVR",
+  "SN74AUC1G17DBVRG4",
+  "SN74AUC1G17DCKR",
+  "SN74AUC1G17DRLR",
+  "SN74AUC1G17YZPR",
+  "SN74AUP1G17DBVR",
+  "SN74AUP1G17DBVT",
+  "SN74AUP1G17DCKR",
+  "SN74AUP1G17DCKT",
+  "SN74AUP1G17DPWR",
+  "SN74AUP1G17DRLR",
+  "SN74AUP1G17DRYR",
+  "SN74AUP1G17DSFR",
+  "SN74AUP1G17MDCKREP",
+  "SN74AUP1G17YFPR",
+  "SN74AUP1G17YZPR",
+  "SN74LVC1G17DBVR",
+  "SN74LVC1G17DBVRG4",
+  "SN74LVC1G17DBVT",
+  "SN74LVC1G17DCKR",
+  "SN74LVC1G17DCKRG4",
+  "SN74LVC1G17DCKT",
+  "SN74LVC1G17DSFR",
+  "SN74LVC1G17MDBVREP",
+  "SN74LVC1G17MDCKREP",
+  "SN74LVC1G17QDRYRQ1",
+  "SN74LVC1G17YZPR",
+  "SN74LVC1G17YZVR"
+ ]
+}

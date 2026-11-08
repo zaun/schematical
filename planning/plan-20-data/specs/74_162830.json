@@ -1,0 +1,569 @@
+{
+ "id": "74_162830",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "1-bit to 2-bit address driver (18 inputs, 36 outputs), 3-state outputs, 26-ohm series output resistors",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74alvch162830 p.1 (DBB); sn74alvchs162830 p.1 and sn74alvchs162830a p.1 same. Function table sn74alvch162830 p.2: OE1 L -> 1Yn = A; OE2 L -> 2Yn = A; each H -> that bank Z. Each A input feeds two units (1Y bank, 2Y bank).",
+ "pinouts": {
+  "p80": [
+   {
+    "number": 1,
+    "name": "2Y2",
+    "role": "output"
+   },
+   {
+    "number": 2,
+    "name": "1Y2",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "2Y1",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "1Y1",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 7,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "A2",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 10,
+    "name": "A3",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "A4",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "A5",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "A6",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 16,
+    "name": "A7",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "A8",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 19,
+    "name": "A9",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "OE1",
+    "role": "input"
+   },
+   {
+    "number": 21,
+    "name": "OE2",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "A10",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 24,
+    "name": "A11",
+    "role": "input"
+   },
+   {
+    "number": 25,
+    "name": "A12",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 27,
+    "name": "A13",
+    "role": "input"
+   },
+   {
+    "number": 28,
+    "name": "A14",
+    "role": "input"
+   },
+   {
+    "number": 29,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 30,
+    "name": "A15",
+    "role": "input"
+   },
+   {
+    "number": 31,
+    "name": "A16",
+    "role": "input"
+   },
+   {
+    "number": 32,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 33,
+    "name": "A17",
+    "role": "input"
+   },
+   {
+    "number": 34,
+    "name": "A18",
+    "role": "input"
+   },
+   {
+    "number": 35,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 36,
+    "name": "2Y18",
+    "role": "output"
+   },
+   {
+    "number": 37,
+    "name": "1Y18",
+    "role": "output"
+   },
+   {
+    "number": 38,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 39,
+    "name": "2Y17",
+    "role": "output"
+   },
+   {
+    "number": 40,
+    "name": "1Y17",
+    "role": "output"
+   },
+   {
+    "number": 41,
+    "name": "2Y16",
+    "role": "output"
+   },
+   {
+    "number": 42,
+    "name": "1Y16",
+    "role": "output"
+   },
+   {
+    "number": 43,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 44,
+    "name": "2Y15",
+    "role": "output"
+   },
+   {
+    "number": 45,
+    "name": "1Y15",
+    "role": "output"
+   },
+   {
+    "number": 46,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 47,
+    "name": "2Y14",
+    "role": "output"
+   },
+   {
+    "number": 48,
+    "name": "1Y14",
+    "role": "output"
+   },
+   {
+    "number": 49,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 50,
+    "name": "2Y13",
+    "role": "output"
+   },
+   {
+    "number": 51,
+    "name": "1Y13",
+    "role": "output"
+   },
+   {
+    "number": 52,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 53,
+    "name": "2Y12",
+    "role": "output"
+   },
+   {
+    "number": 54,
+    "name": "1Y12",
+    "role": "output"
+   },
+   {
+    "number": 55,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 56,
+    "name": "2Y11",
+    "role": "output"
+   },
+   {
+    "number": 57,
+    "name": "1Y11",
+    "role": "output"
+   },
+   {
+    "number": 58,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 59,
+    "name": "2Y10",
+    "role": "output"
+   },
+   {
+    "number": 60,
+    "name": "1Y10",
+    "role": "output"
+   },
+   {
+    "number": 61,
+    "name": "2Y9",
+    "role": "output"
+   },
+   {
+    "number": 62,
+    "name": "1Y9",
+    "role": "output"
+   },
+   {
+    "number": 63,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 64,
+    "name": "2Y8",
+    "role": "output"
+   },
+   {
+    "number": 65,
+    "name": "1Y8",
+    "role": "output"
+   },
+   {
+    "number": 66,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 67,
+    "name": "2Y7",
+    "role": "output"
+   },
+   {
+    "number": 68,
+    "name": "1Y7",
+    "role": "output"
+   },
+   {
+    "number": 69,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 70,
+    "name": "2Y6",
+    "role": "output"
+   },
+   {
+    "number": 71,
+    "name": "1Y6",
+    "role": "output"
+   },
+   {
+    "number": 72,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 73,
+    "name": "2Y5",
+    "role": "output"
+   },
+   {
+    "number": 74,
+    "name": "1Y5",
+    "role": "output"
+   },
+   {
+    "number": 75,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 76,
+    "name": "2Y4",
+    "role": "output"
+   },
+   {
+    "number": 77,
+    "name": "1Y4",
+    "role": "output"
+   },
+   {
+    "number": 78,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 79,
+    "name": "2Y3",
+    "role": "output"
+   },
+   {
+    "number": 80,
+    "name": "1Y3",
+    "role": "output"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBB"
+   ],
+   "pinout": "p80"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "A10",
+    "A11",
+    "A12",
+    "A13",
+    "A14",
+    "A15",
+    "A16",
+    "A17",
+    "A18"
+   ],
+   "y": [
+    "1Y1",
+    "1Y2",
+    "1Y3",
+    "1Y4",
+    "1Y5",
+    "1Y6",
+    "1Y7",
+    "1Y8",
+    "1Y9",
+    "1Y10",
+    "1Y11",
+    "1Y12",
+    "1Y13",
+    "1Y14",
+    "1Y15",
+    "1Y16",
+    "1Y17",
+    "1Y18"
+   ],
+   "oe": [
+    {
+     "pin": "OE1",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "A10",
+    "A11",
+    "A12",
+    "A13",
+    "A14",
+    "A15",
+    "A16",
+    "A17",
+    "A18"
+   ],
+   "y": [
+    "2Y1",
+    "2Y2",
+    "2Y3",
+    "2Y4",
+    "2Y5",
+    "2Y6",
+    "2Y7",
+    "2Y8",
+    "2Y9",
+    "2Y10",
+    "2Y11",
+    "2Y12",
+    "2Y13",
+    "2Y14",
+    "2Y15",
+    "2Y16",
+    "2Y17",
+    "2Y18"
+   ],
+   "oe": [
+    {
+     "pin": "OE2",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ALVC": {
+   "rise": 3.5,
+   "fall": 3.5,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "note": "max tpd A->Y at 3.3 V (sn74alvch162830 p.4; typ not printed; ALVCHS same 3.5 max, sn74alvchs162830 p.5, sn74alvchs162830a p.4); VCC 1.65-3.6 V, VI to VCC (sn74alvch162830 p.3). ALVCHS parts 2.3-3.6 V -> partVcc"
+  }
+ },
+ "partVcc": [
+  {
+   "prefix": "SN74ALVCHS162830",
+   "family": "ALVC",
+   "vcc": [
+    2.3,
+    3.6
+   ]
+  },
+  {
+   "prefix": "74ALVCHS162830",
+   "family": "ALVC",
+   "vcc": [
+    2.3,
+    3.6
+   ]
+  }
+ ],
+ "families": {
+  "ALVC": [
+   "sn74alvch162830",
+   "sn74alvchs162830",
+   "sn74alvchs162830a"
+  ]
+ },
+ "pdfs": [
+  "sn74alvch162830",
+  "sn74alvchs162830",
+  "sn74alvchs162830a"
+ ],
+ "parts": [
+  "74ALVCHS162830AGR",
+  "SN74ALVCH162830GR",
+  "SN74ALVCHS162830GR"
+ ]
+}

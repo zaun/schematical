@@ -1,0 +1,214 @@
+{
+ "id": "74_620",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver, inverting, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout same in sn74abt620 p.1 (DB/DW/N/PW/J), sn74als620a p.1 (DW/N), sn54bct620a p.1 (J/W/DW/N). Function table (sn74abt620 p.2, sn74als620a p.1, sn54bct620a p.1): OEBA L = B to A, OEAB H = A to B, both enabled = bus latch (outputs reinforce inputs), OEBA H + OEAB L = isolation. Inverting (complementary data).",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "OEAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "OEBA",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "J",
+    "DW",
+    "N",
+    "NS"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "oeab": {
+    "pin": "OEAB",
+    "active": "high"
+   },
+   "oeba": {
+    "pin": "OEBA",
+    "active": "low"
+   }
+  }
+ ],
+ "invert": true,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 4.1,
+   "fall": 4.3,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Max tPLH/tPHL A->B at 5 V and 25 C (50 pF); SN74ABT620 gives no typical (sn74abt620 p.5). VCC 4.5-5.5 V (sn74abt620 p.3)"
+  },
+  "ALS": {
+   "rise": 10,
+   "fall": 10,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Max tPLH/tPHL A->B at 4.5-5.5 V, 0 to 70 C (50 pF); no typical given (sn74als620a p.5). VCC 4.5-5.5 V (sn74als620a p.4)"
+  },
+  "BCT": {
+   "rise": 3.4,
+   "fall": 1.9,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->B at 5 V and 25 C (50 pF) (sn54bct620a p.4). VCC 4.5-5.5 V, SN54 and SN74 alike (sn54bct620a p.2)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt620"
+  ],
+  "ALS": [
+   "sn74als620a"
+  ],
+  "BCT": [
+   "sn54bct620a"
+  ]
+ },
+ "pdfs": [
+  "sn54bct620a",
+  "sn74abt620",
+  "sn74als620a"
+ ],
+ "parts": [
+  "5962-9075001MRA",
+  "SN74ABT620DW",
+  "SN74ABT620N",
+  "SN74ABT620NSR",
+  "SN74ALS620ADW",
+  "SN74ALS620AN",
+  "SN74ALS620ANS"
+ ]
+}

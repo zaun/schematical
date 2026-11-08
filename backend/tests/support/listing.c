@@ -24,6 +24,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_CONNECTOR: return "connector";
         case PART_PIO: return "pio";
         case PART_DECODER: return "decoder";
+        case PART_BUFFER: return "buffer";
         case PART_MUX: return "mux";
     }
     return "?";
@@ -55,6 +56,7 @@ static void print_details(FILE *out, const Part *part) {
         case PART_COUNTER:
         case PART_SHIFT:
         case PART_DECODER:
+        case PART_BUFFER:
         case PART_MUX:
             fprintf(out, "units=%u", part->logic->units);
             break;
@@ -163,7 +165,7 @@ char *listing_line(const Part *part) {
     int first = 1;
     int logic = part->kind == PART_GATE || part->kind == PART_DFF || part->kind == PART_JKFF ||
                 part->kind == PART_LATCH || part->kind == PART_COUNTER ||
-                part->kind == PART_SHIFT;
+                part->kind == PART_SHIFT || part->kind == PART_BUFFER || part->kind == PART_MUX;
 
     if (out == NULL) {
         return NULL;
@@ -206,6 +208,13 @@ char *listing_line(const Part *part) {
     if (part->vcc != NULL) {
         fprintf(out, "|vcc=%u-%u,in=%u", (unsigned)part->vcc->min_mv, (unsigned)part->vcc->max_mv,
                 (unsigned)part->vcc->input_max_mv);
+    }
+    /* Dual-supply parts (plan-20-F): the B side's range. */
+    if (part->domain_count == 2 && part->domains[1].vcc != NULL) {
+        const PartVoltage *b = part->domains[1].vcc;
+
+        fprintf(out, "|vccb=%u-%u,in=%u", (unsigned)b->min_mv, (unsigned)b->max_mv,
+                (unsigned)b->input_max_mv);
     }
     fclose(out);
     return text;

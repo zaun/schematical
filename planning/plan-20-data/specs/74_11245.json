@@ -1,0 +1,227 @@
+{
+ "id": "74_11245",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver, 3-state outputs, center-pin VCC/GND",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "74ac11245 (SCAS010B) p.1 DB/DW/NT/PW pinout and function table; 74act11245 (= scas031c, SCAS031C) p.1 same. OE low: DIR high = A to B, DIR low = B to A; OE high = isolation. SN74ACT11245DBLE was mapped by the census to sn54act11 (SN74ACT11 triple AND, wrong sheet); placed here by its name (DB SSOP-24, LE reel).",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 2,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 6,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 19,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 20,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "DIR",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DB",
+    "DBL",
+    "DW",
+    "PW",
+    "NT",
+    "N",
+    "NS"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "AC": {
+   "rise": 4.8,
+   "fall": 4.1,
+   "vcc": [
+    3,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A or B -> B or A at 5 V +-0.5 V, 25 C, 50 pF (74ac11245 p.4); VCC 3-5.5 V (p.3)"
+  },
+  "ACT": {
+   "rise": 6.2,
+   "fall": 5.4,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A or B -> B or A at 5 V +-0.5 V, 25 C, 50 pF (74act11245 p.4); VCC 4.5-5.5 V (p.3)"
+  }
+ },
+ "families": {
+  "AC": [
+   "74ac11245"
+  ],
+  "ACT": [
+   "74act11245",
+   "scas031c"
+  ]
+ },
+ "pdfs": [
+  "74ac11245",
+  "74act11245",
+  "scas031c",
+  "sn54act11"
+ ],
+ "parts": [
+  "74AC11245DWR",
+  "74ACT11245NSR",
+  "74ACT11245PWR",
+  "74ACT11245DBLE",
+  "SN74ACT11245DBLE"
+ ]
+}

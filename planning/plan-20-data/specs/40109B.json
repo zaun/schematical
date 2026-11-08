@@ -1,0 +1,223 @@
+{
+ "id": "40109B",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "Quad low-to-high voltage level shifter, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "p16 from cd40109b (scanned Harris data) p.4 terminal assignment: 1 VCC, 2 ENABLE A, 3 A, 4 E, 5 F, 6 B, 7 ENABLE B, 8 VSS, 9 ENABLE C, 10 C, 11 G, 12 NC, 13 H, 14 D, 15 ENABLE D, 16 VDD; ENABLE A-D shortened to ENA-END. Logic diagram p.1: A (pin 3) -> E (pin 4), enable A on pin 2, both inputs through VCC-side level shifters, output on VDD. Truth table p.1 (cd40109b-q1 p.2): ENABLE 1 -> output = input, ENABLE 0 -> Z. Inputs and enables are in the VCC (low) domain, E-H in the VDD (high) domain. VCC may exceed VDD (then it shifts high to low).",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "ENA",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "E",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "F",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "B",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "ENB",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "ENC",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "C",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "G",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 13,
+    "name": "H",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "D",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "END",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "VDD",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "NS",
+    "PW",
+    "J"
+   ],
+   "pinout": "p16"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A"
+   ],
+   "y": [
+    "E"
+   ],
+   "oe": [
+    {
+     "pin": "ENA",
+     "active": "high"
+    }
+   ]
+  },
+  {
+   "a": [
+    "B"
+   ],
+   "y": [
+    "F"
+   ],
+   "oe": [
+    {
+     "pin": "ENB",
+     "active": "high"
+    }
+   ]
+  },
+  {
+   "a": [
+    "C"
+   ],
+   "y": [
+    "G"
+   ],
+   "oe": [
+    {
+     "pin": "ENC",
+     "active": "high"
+    }
+   ]
+  },
+  {
+   "a": [
+    "D"
+   ],
+   "y": [
+    "H"
+   ],
+   "oe": [
+    {
+     "pin": "END",
+     "active": "high"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCC",
+   "pins": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "ENA",
+    "ENB",
+    "ENC",
+    "END"
+   ]
+  },
+  {
+   "power": "VDD",
+   "pins": [
+    "E",
+    "F",
+    "G",
+    "H"
+   ]
+  }
+ ],
+ "timing": {
+  "C": {
+   "rise": 130,
+   "fall": 300,
+   "vcc": [
+    3,
+    18
+   ],
+   "inputMax": 18,
+   "vccB": [
+    3,
+    18
+   ],
+   "note": "Typical tPLH/tPHL data input -> output, L-H mode, VCC 5 V -> VDD 10 V (nearest row to 3.3 <-> 5 V), 25 C, 50 pF (cd40109b p.3). Supply range 3-18 V (cd40109b p.1, recommended operating boundary Fig. 10 p.3; cd40109b-q1 p.3); no separate VCC range is printed, so both domains take 3-18 V. Inputs may exceed VCC and VDD (p.1), IIN tested at 18 V (p.2), hence inputMax 18"
+  }
+ },
+ "families": {
+  "C": [
+   "cd40109b",
+   "cd40109b-q1"
+  ]
+ },
+ "pdfs": [
+  "cd40109b",
+  "cd40109b-q1"
+ ],
+ "parts": [
+  "CD40109BE",
+  "CD40109BNSR",
+  "CD40109BPW",
+  "CD40109BPWR",
+  "CD40109BQNSRQ1"
+ ]
+}

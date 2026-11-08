@@ -1,0 +1,336 @@
+{
+ "id": "74_640",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver, inverting, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout: sn74hc640 p.3 (J/DW/N/NS/PW), sn74abt640 p.1 (DB/DW/N/PW, J, FK numbered same as DIP), sn74als640b p.1 (J, DW/N, FK), sn74bct640 p.1 (J/W, DW/N, FK), sn74ls640 p.1 (scan; J, DW/N, FK), cd74hc640 p.3 (CD sheet numbers bits A0-A7/B0-B7, same pins). Function table sn74hc640 p.8: OE low + DIR high = A->B, DIR low = B->A, OE high = isolation; outputs invert. LS sheet names OE as G (same pin). W flatpack: sn54bct640 p.1 draws W with the J pinout; assumed same for SNJ54ALS640BW.",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "J",
+    "FK",
+    "W",
+    "N",
+    "E",
+    "DW",
+    "DB",
+    "NS",
+    "PW"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": true,
+ "output": "push-pull",
+ "timing": {
+  "HC": {
+   "rise": 10,
+   "fall": 10,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "typ tpd at 4.5 V, 50 pF (sn74hc640 p.5; cd74hc640 p.6 prints typ 7 ns); VCC 2-6 V (sn74hc640 p.4, cd74hc640 p.4)"
+  },
+  "HCT": {
+   "rise": 9,
+   "fall": 9,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tpd at 4.5 V, 50 pF (cd74hct640 p.6); VCC 4.5-5.5 V (p.4)"
+  },
+  "ABT": {
+   "rise": 2.7,
+   "fall": 2.7,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL at 5 V, 25 C, 50 pF (sn74abt640 p.4); VCC 4.5-5.5 V (p.3)"
+  },
+  "ALS": {
+   "rise": 11,
+   "fall": 10,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL SN74ALS640B, 4.5-5.5 V, 50 pF, no typ printed (sn74als640b p.3); VCC 4.5-5.5 V SN54/SN74 (p.2)"
+  },
+  "AS": {
+   "rise": 7,
+   "fall": 6,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL SN74AS640, 4.5-5.5 V, 50 pF, no typ printed (sn74as640 = sn74als640b p.5); VCC 4.5-5.5 V (p.4)"
+  },
+  "BCT": {
+   "rise": 3.6,
+   "fall": 1.9,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL at 5 V, 25 C, 50 pF (sn74bct640 p.4); VCC 4.5-5.5 V (p.3)"
+  },
+  "LS": {
+   "rise": 6,
+   "fall": 8,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "typ tPLH/tPHL A->B at 5 V, 25 C, 45 pF (sn74ls640 p.5, scanned); VCC 4.75-5.25 V SN74LS, 4.5-5.5 V SN54LS (p.4)"
+  }
+ },
+ "partVcc": [
+  {
+   "prefix": "SNJ54LS",
+   "family": "LS",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  },
+  {
+   "prefix": "8416101",
+   "family": "LS",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  }
+ ],
+ "families": {
+  "HC": [
+   "sn74hc640",
+   "sn54hc640",
+   "cd74hc640"
+  ],
+  "HCT": [
+   "cd74hct640"
+  ],
+  "ABT": [
+   "sn74abt640"
+  ],
+  "ALS": [
+   "sn74als640b",
+   "sn54als640b"
+  ],
+  "AS": [
+   "sn74as640"
+  ],
+  "BCT": [
+   "sn74bct640",
+   "sn54bct640"
+  ],
+  "LS": [
+   "sn74ls640",
+   "sn54ls640"
+  ]
+ },
+ "pdfs": [
+  "sn74hc640",
+  "sn54hc640",
+  "cd74hc640",
+  "cd74hct640",
+  "sn74abt640",
+  "sn74als640b",
+  "sn54als640b",
+  "sn74as640",
+  "sn74bct640",
+  "sn54bct640",
+  "sn74ls640",
+  "sn54ls640"
+ ],
+ "parts": [
+  "5962-8780901RA",
+  "5962-8872701RA",
+  "5962-9075201MRA",
+  "CD74HC640E",
+  "CD74HC640M",
+  "CD74HCT640E",
+  "CD74HCT640M",
+  "SN74ABT640DBR",
+  "SN74ABT640DW",
+  "SN74ABT640DWR",
+  "SN74ABT640N",
+  "SN74ABT640PW",
+  "SN74ABT640PWR",
+  "SN74ALS640B-1N",
+  "SN74ALS640BDWR",
+  "SN74ALS640BN",
+  "SN74ALS640BNSR",
+  "SN74AS640N",
+  "SN74BCT640DW",
+  "SN74BCT640N",
+  "SN74HC640DWR",
+  "SN74HC640N",
+  "SN74HC640PWR",
+  "SN74LS640-1N",
+  "SN74LS640-1NSR",
+  "SN74LS640N",
+  "SN74LS640NSR",
+  "8416101RA",
+  "SNJ54BCT640J",
+  "SNJ54LS640FK",
+  "CD74HCT640EE4",
+  "SN74ALS640B-1N3",
+  "SN74AS640NSR",
+  "SN74BCT640NS",
+  "SN74HC640ANSR",
+  "SN74HC640NS",
+  "SN74LS640-1NS",
+  "SN74LS640DB",
+  "SN74LS640DBR",
+  "SN74LS640N3",
+  "SN74AS640NS",
+  "SNJ54ALS640BW"
+ ]
+}

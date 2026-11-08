@@ -1,0 +1,423 @@
+{
+ "id": "74_16863",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "18-bit bus transceiver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout same in sn74abt16863 p.1 (DL), 74act16863 p.1 (DL), sn74alvch16863 p.1 (DGG/DL). Two 9-bit sections. Function table (each 9-bit section; sn74abt16863 p.2, 74act16863 p.1, sn74alvch16863 p.1): OEAB H + OEBA L = B to A, OEAB L + OEBA H = A to B, both H = isolation; both enables are active low; the both-low row is not listed.",
+ "pinouts": {
+  "p56": [
+   {
+    "number": 1,
+    "name": "1OEAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1B1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "1B2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "1B3",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "1B4",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 8,
+    "name": "1B5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "1B6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "1B7",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 12,
+    "name": "1B8",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "1B9",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 15,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 16,
+    "name": "2B1",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "2B2",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 19,
+    "name": "2B3",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "2B4",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "2B5",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 23,
+    "name": "2B6",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "2B7",
+    "role": "inout"
+   },
+   {
+    "number": 25,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 26,
+    "name": "2B8",
+    "role": "inout"
+   },
+   {
+    "number": 27,
+    "name": "2B9",
+    "role": "inout"
+   },
+   {
+    "number": 28,
+    "name": "2OEAB",
+    "role": "input"
+   },
+   {
+    "number": 29,
+    "name": "2OEBA",
+    "role": "input"
+   },
+   {
+    "number": 30,
+    "name": "2A9",
+    "role": "inout"
+   },
+   {
+    "number": 31,
+    "name": "2A8",
+    "role": "inout"
+   },
+   {
+    "number": 32,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 33,
+    "name": "2A7",
+    "role": "inout"
+   },
+   {
+    "number": 34,
+    "name": "2A6",
+    "role": "inout"
+   },
+   {
+    "number": 35,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 36,
+    "name": "2A5",
+    "role": "inout"
+   },
+   {
+    "number": 37,
+    "name": "2A4",
+    "role": "inout"
+   },
+   {
+    "number": 38,
+    "name": "2A3",
+    "role": "inout"
+   },
+   {
+    "number": 39,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 40,
+    "name": "2A2",
+    "role": "inout"
+   },
+   {
+    "number": 41,
+    "name": "2A1",
+    "role": "inout"
+   },
+   {
+    "number": 42,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 43,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 44,
+    "name": "1A9",
+    "role": "inout"
+   },
+   {
+    "number": 45,
+    "name": "1A8",
+    "role": "inout"
+   },
+   {
+    "number": 46,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 47,
+    "name": "1A7",
+    "role": "inout"
+   },
+   {
+    "number": 48,
+    "name": "1A6",
+    "role": "inout"
+   },
+   {
+    "number": 49,
+    "name": "1A5",
+    "role": "inout"
+   },
+   {
+    "number": 50,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 51,
+    "name": "1A4",
+    "role": "inout"
+   },
+   {
+    "number": 52,
+    "name": "1A3",
+    "role": "inout"
+   },
+   {
+    "number": 53,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 54,
+    "name": "1A2",
+    "role": "inout"
+   },
+   {
+    "number": 55,
+    "name": "1A1",
+    "role": "inout"
+   },
+   {
+    "number": 56,
+    "name": "1OEBA",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DL",
+    "DGG"
+   ],
+   "pinout": "p56"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4",
+    "1A5",
+    "1A6",
+    "1A7",
+    "1A8",
+    "1A9"
+   ],
+   "b": [
+    "1B1",
+    "1B2",
+    "1B3",
+    "1B4",
+    "1B5",
+    "1B6",
+    "1B7",
+    "1B8",
+    "1B9"
+   ],
+   "oeab": {
+    "pin": "1OEAB",
+    "active": "low"
+   },
+   "oeba": {
+    "pin": "1OEBA",
+    "active": "low"
+   }
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4",
+    "2A5",
+    "2A6",
+    "2A7",
+    "2A8",
+    "2A9"
+   ],
+   "b": [
+    "2B1",
+    "2B2",
+    "2B3",
+    "2B4",
+    "2B5",
+    "2B6",
+    "2B7",
+    "2B8",
+    "2B9"
+   ],
+   "oeab": {
+    "pin": "2OEAB",
+    "active": "low"
+   },
+   "oeba": {
+    "pin": "2OEBA",
+    "active": "low"
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ACT": {
+   "rise": 7,
+   "fall": 6.4,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->B at 5 V and 25 C (50 pF) (74act16863 p.4). VCC 4.5-5.5 V (74act16863 p.3)"
+  },
+  "ABT": {
+   "rise": 2.2,
+   "fall": 2.2,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->B at 5 V and 25 C (50 pF) (sn74abt16863 p.5). VCC 4.5-5.5 V (sn74abt16863 p.3)"
+  },
+  "ALVC": {
+   "rise": 3.4,
+   "fall": 3.4,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "note": "Max tpd A->B at 3.3 V; no typical given (sn74alvch16863 p.4). VCC 1.65-3.6 V, VI 0-VCC (sn74alvch16863 p.3)"
+  }
+ },
+ "families": {
+  "ACT": [
+   "74act16863"
+  ],
+  "ABT": [
+   "sn74abt16863"
+  ],
+  "ALVC": [
+   "sn74alvch16863"
+  ]
+ },
+ "pdfs": [
+  "74act16863",
+  "sn74abt16863",
+  "sn74alvch16863"
+ ],
+ "parts": [
+  "74ACT16863DL",
+  "SN74ABT16863DL",
+  "SN74ABT16863DLR",
+  "SN74ALVCH16863DGGR"
+ ]
+}

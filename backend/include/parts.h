@@ -25,7 +25,7 @@ typedef enum {
     PART_GATE, PART_DFF, PART_JKFF, PART_SRAM, PART_SWITCH,
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER,
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
-    PART_MUX
+    PART_BUFFER, PART_MUX
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -86,6 +86,15 @@ typedef struct { const char *model; unsigned channels; const char *grade; } Part
 /* A barrel connector. center_diameter_um is the mating plug's centre-pin
    diameter; contacts is the number of normally-closed contacts. */
 typedef struct { uint32_t center_diameter_um, rated_mv, rated_ma; unsigned contacts; } PartConnector;
+/* A supply domain of a dual-supply part (plan-20-F): the pins powered from
+   one supply. power_pins: the supply's pins (one name, possibly several
+   pins, e.g. two VCCB); pins: every other pin of the domain (not ground or
+   NC); vcc: the domain's range and input max. Indices are into Part.pins. */
+typedef struct {
+    const size_t *power_pins; size_t power_pin_count;
+    const PartVoltage *vcc;
+    const size_t *pins; size_t pin_count;
+} PartSupplyDomain;
 /* Parallel I/O peripheral (plan-14): model "pia6521" or "via6522"; grade:
    the part's speed grade; max_hz = floor(1e12 / the grade's tcyc in ps). */
 typedef struct { const char *model; const char *grade; uint64_t max_hz; } PartPio;
@@ -148,6 +157,9 @@ typedef struct Part {
     const PartCharLcd *charlcd;
     const PartConnector *connector;
     const PartPio *pio;
+    /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
+       Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
+    const PartSupplyDomain *domains; size_t domain_count;
     const void *internal;              /* model data; not for the app */
 } Part;
 

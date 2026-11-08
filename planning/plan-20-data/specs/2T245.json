@@ -1,0 +1,179 @@
+{
+ "id": "2T245",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "Dual-bit dual-supply bus transceiver, per-bit direction, common output enable, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74axc2t245 p.2 Table 4-1 (RSW: 1 DIR2, 2 OE, 3 GND, 4 B2, 5 B1, 6 VCCB, 7 VCCA, 8 A1, 9 A2, 10 DIR1; DIR1 controls A1/B1, DIR2 controls A2/B2); sn74avc2t245 p.3 Figure 4-1/Table 4-1 and sn74avc2t245-q1 p.3 same numbers. Function table sn74avc2t245 p.12 / sn74axc2t245 p.20 (each transceiver): OE L, DIRx L -> B to A; OE L, DIRx H -> A to B; OE H -> isolation. DIRx and OE referenced to VCCA.",
+ "pinouts": {
+  "rsw10": [
+   {
+    "number": 1,
+    "name": "DIR2",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "number": 7,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 8,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "DIR1",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "RSW"
+   ],
+   "pinout": "rsw10"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1"
+   ],
+   "b": [
+    "B1"
+   ],
+   "dir": {
+    "pin": "DIR1",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "A2"
+   ],
+   "b": [
+    "B2"
+   ],
+   "dir": {
+    "pin": "DIR2",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "A1",
+    "A2",
+    "DIR1",
+    "DIR2",
+    "OE"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "B1",
+    "B2"
+   ]
+  }
+ ],
+ "timing": {
+  "AVC": {
+   "rise": 2.4,
+   "fall": 2.4,
+   "vcc": [
+    1.2,
+    3.6
+   ],
+   "vccB": [
+    1.2,
+    3.6
+   ],
+   "note": "Max A->B at VCCA = 3.3 V, VCCB = 3.3 V (nearest row to 3.3<->5 V; no 5 V supply; no typical printed), SN74AVC2T245 (sn74avc2t245 p.9). VCCA and VCCB 1.2-3.6 V, VI 0-3.6 V (sn74avc2t245 p.4-5)"
+  },
+  "AXC": {
+   "rise": 4,
+   "fall": 4,
+   "vcc": [
+    0.65,
+    3.6
+   ],
+   "vccB": [
+    0.65,
+    3.6
+   ],
+   "note": "Max tpd A->B at VCCA = 3.3 V, VCCB = 3.3 V, -40 to 85 C (nearest row to 3.3<->5 V; no typical printed), SN74AXC2T245 (sn74axc2t245 p.13). VCCA and VCCB 0.65-3.6 V, VI 0-3.6 V (sn74axc2t245 p.4)"
+  }
+ },
+ "families": {
+  "AVC": [
+   "sn74avc2t245",
+   "sn74avc2t245-q1"
+  ],
+  "AXC": [
+   "sn74axc2t245"
+  ]
+ },
+ "pdfs": [
+  "sn74avc2t245",
+  "sn74avc2t245-q1",
+  "sn74axc2t245"
+ ],
+ "parts": [
+  "SN74AVC2T245RSWR",
+  "SN74AXC2T245RSWR",
+  "CAVC2T245QRSWRQ1"
+ ]
+}

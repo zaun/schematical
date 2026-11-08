@@ -1,0 +1,225 @@
+{
+ "id": "74_2543",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "Octal latched transceiver, 3-state outputs, 25-ohm series output resistors",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout cy74fct2543t p.1 (Q = DBQ QSOP, SO = DW SOIC). Pin description p.2: all of OEAB/OEBA/CEAB/CEBA/LEAB/LEBA active low. Function table p.2 (A->B; B->A uses CEBA/LEBA/OEBA): CEAB H -> storing, B Z; LEAB H -> storing; OEAB H -> B Z; CEAB L, LEAB L, OEAB L -> transparent, B = current A; CEAB L, LEAB H, OEAB L -> B = previous A (latched on LEAB rising).",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "LEBA",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "OEBA",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A0",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "CEAB",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "OEAB",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "LEAB",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "B0",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "CEBA",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBQ",
+    "DW"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A0",
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7"
+   ],
+   "b": [
+    "B0",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7"
+   ],
+   "ab": {
+    "store": "latch",
+    "le": {
+     "pin": "LEAB",
+     "active": "low"
+    },
+    "ce": {
+     "pin": "CEAB",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "OEAB",
+     "active": "low"
+    }
+   },
+   "ba": {
+    "store": "latch",
+    "le": {
+     "pin": "LEBA",
+     "active": "low"
+    },
+    "ce": {
+     "pin": "CEBA",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "OEBA",
+     "active": "low"
+    }
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "FCT": {
+   "rise": 8.5,
+   "fall": 8.5,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "max tPLH/tPHL A->B (latch transparent), CY74FCT2543T grade, 50 pF (cy74fct2543t p.5; no typ printed; AT 6.5, CT 5.5; LE->B 12.5); VCC 4.75-5.25 V (p.3)"
+  }
+ },
+ "families": {
+  "FCT": [
+   "cy74fct2543t"
+  ]
+ },
+ "pdfs": [
+  "cy74fct2543t"
+ ],
+ "parts": [
+  "CY74FCT2543ATQCT",
+  "CY74FCT2543ATSOC",
+  "CY74FCT2543CTQCT",
+  "CY74FCT2543CTSOC"
+ ]
+}

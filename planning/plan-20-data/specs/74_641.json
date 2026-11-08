@@ -1,0 +1,225 @@
+{
+ "id": "74_641",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver, open-collector outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout: sn74als641a p.1 (DW/N; same file covers SN74AS641), sn74ls641 p.1 (scanned; J/DW/N, enable pin printed G-bar, named OE here). Function table sn74als641a p.1 / sn74ls641 p.1: OE low + DIR low = B to A, DIR high = A to B, OE high = isolation. Open-collector outputs on both A and B ports (sn74als641a p.3 VOH 5.5 V, IOH at VOH 5.5 V; sn74ls641 p.7 title 'with open-collector outputs').",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "DW",
+    "NS",
+    "DB"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "open-drain",
+ "timing": {
+  "LS": {
+   "rise": 17,
+   "fall": 16,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "typ tPLH/tPHL A->B at 5 V, 25 C, CL 45 pF, RL 667 ohm (sn74ls641 p.8). VCC 4.75-5.25 V SN74LS641 (p.7)"
+  },
+  "ALS": {
+   "rise": 25,
+   "fall": 18,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL A->B, no typ printed, CL 50 pF, RL 680 ohm (sn74als641a p.4). VCC 4.5-5.5 V (p.3)"
+  },
+  "AS": {
+   "rise": 21,
+   "fall": 7.5,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL A->B, no typ printed, CL 50 pF, RL 680 ohm (sn74as641 p.6). VCC 4.5-5.5 V (p.5)"
+  }
+ },
+ "families": {
+  "LS": [
+   "sn74ls641"
+  ],
+  "ALS": [
+   "sn74als641a"
+  ],
+  "AS": [
+   "sn74as641"
+  ]
+ },
+ "pdfs": [
+  "sn74ls641",
+  "sn74als641a",
+  "sn74as641"
+ ],
+ "parts": [
+  "SN74ALS641A-1DWR",
+  "SN74ALS641A-1N",
+  "SN74ALS641A-1NSR",
+  "SN74ALS641ADWR",
+  "SN74ALS641AN",
+  "SN74AS641DW",
+  "SN74AS641N",
+  "SN74LS641-1DWR",
+  "SN74LS641-1N",
+  "SN74LS641DW",
+  "SN74LS641N",
+  "SN74LS641NSR",
+  "SN74ALS641A-1DB",
+  "SN74ALS641ANS",
+  "SN74LS641-1N3",
+  "SN74LS641NS"
+ ]
+}

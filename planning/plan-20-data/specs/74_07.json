@@ -1,0 +1,290 @@
+{
+ "id": "74_07",
+ "kind": "gate",
+ "model": "buf",
+ "function": "Buffer",
+ "description": "Hex buffer/driver, open-collector/open-drain outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Standard hex pinout, same in every PDF: sn7407 p.3 (D/N/NS), sn74ls07 p.3 (D/DB/N/NS), sn74lv07a p.3, sn74lvc07a p.4 (D/DB/DGV/NS/PW and RGY, one pin table), sn74lvc07a-q1 p.1, sn74lvc07a-ep p.1, sn74ac07 p.3 and sn74ac07-q1 p.3 (PW, BQA/WBQA), sn74act07 p.3 and sn74act07-q1 p.3 (PW, BQA), sn74auc07 p.1 (RGY). Function Y = A. TTL/LS open-collector (30 V outputs), CMOS parts open-drain. BQA/RGY thermal pad is not a pin.",
+ "pinouts": {
+  "p14": [
+   {
+    "number": 1,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "4Y",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "4A",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "5Y",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "5A",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "6Y",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "6A",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "D",
+    "N",
+    "NS",
+    "DB",
+    "DGV",
+    "PW",
+    "RGY",
+    "BQA"
+   ],
+   "pinout": "p14"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "1A"
+   ],
+   "output": "1Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "2A"
+   ],
+   "output": "2Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "3A"
+   ],
+   "output": "3Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "4A"
+   ],
+   "output": "4Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "5A"
+   ],
+   "output": "5Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "6A"
+   ],
+   "output": "6Y"
+  }
+ ],
+ "output": "open-drain",
+ "timing": {
+  "TTL": {
+   "rise": 6,
+   "fall": 20,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "Typical tPLH/tPHL A->Y at 5 V and 25 C (15 pF, RL 110 ohm), SN7407 (sn7407 p.5). VCC 4.75-5.25 V (sn7407 p.4). Open-collector, 30 V output"
+  },
+  "LS": {
+   "rise": 6,
+   "fall": 19,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "Typical tPLH/tPHL A->Y at 5 V and 25 C (15 pF, RL 110 ohm), SN74LS07 (sn74ls07 p.5). VCC 4.75-5.25 V (sn74ls07 p.4). Open-collector, 30 V output"
+  },
+  "LV": {
+   "rise": 8.2,
+   "fall": 6.6,
+   "vcc": [
+    2,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->Y at 3.3 V and 25 C (50 pF load), SN74LV07A (sn74lv07a p.5). VCC 2-5.5 V, VI 0-5.5 V (sn74lv07a p.4)"
+  },
+  "LVC": {
+   "rise": 3.6,
+   "fall": 3.6,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "Max tpd A->Y at 3.3 V, -40 to 85 C; SN74LVC07A gives no typical (sn74lvc07a p.6). VCC 1.65-5.5 V, VI 0-5.5 V (sn74lvc07a p.5)"
+  },
+  "AC": {
+   "rise": 2.6,
+   "fall": 4.7,
+   "vcc": [
+    1.5,
+    6
+   ],
+   "note": "Typical at 5 V and 25 C (50 pF); rise = tPLZ, fall = tPZL A->Y (sn74ac07 p.6). VCC 1.5-6 V, VI 0-VCC (sn74ac07 p.4)"
+  },
+  "ACT": {
+   "rise": 1.9,
+   "fall": 6.1,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical at 5 V and 25 C (50 pF); rise = tPLZ, fall = tPZL A->Y (sn74act07 p.5). VCC 4.5-5.5 V (sn74act07 p.4)"
+  },
+  "AUC": {
+   "rise": 1.4,
+   "fall": 1.4,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "Typical tpd A->Y at 1.8 V (15 pF), SN74AUC07 (sn74auc07 p.3). VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc07 p.2)"
+  }
+ },
+ "families": {
+  "TTL": [
+   "sn7407"
+  ],
+  "LS": [
+   "sn74ls07"
+  ],
+  "LV": [
+   "sn74lv07a"
+  ],
+  "LVC": [
+   "sn74lvc07a",
+   "sn74lvc07a-q1",
+   "sn74lvc07a-ep"
+  ],
+  "AC": [
+   "sn74ac07",
+   "sn74ac07-q1"
+  ],
+  "ACT": [
+   "sn74act07",
+   "sn74act07-q1"
+  ],
+  "AUC": [
+   "sn74auc07"
+  ]
+ },
+ "pdfs": [
+  "sn7407",
+  "sn74ls07",
+  "sn74lv07a",
+  "sn74lvc07a",
+  "sn74lvc07a-q1",
+  "sn74lvc07a-ep",
+  "sn74ac07",
+  "sn74ac07-q1",
+  "sn74act07",
+  "sn74act07-q1",
+  "sn74auc07"
+ ],
+ "parts": [
+  "SN7407DR",
+  "SN7407N",
+  "SN7407NE4",
+  "SN7407NSR",
+  "SN74AC07BQAR",
+  "SN74AC07PWR",
+  "SN74AC07PWRQ1",
+  "SN74AC07WBQARQ1",
+  "SN74ACT07BQAR",
+  "SN74ACT07PWR",
+  "SN74ACT07PWRQ1",
+  "SN74AUC07RGYR",
+  "SN74LS07D",
+  "SN74LS07DBR",
+  "SN74LS07DR",
+  "SN74LS07N",
+  "SN74LS07NSR",
+  "SN74LV07ADBR",
+  "SN74LV07ADGVR",
+  "SN74LV07ADR",
+  "SN74LV07APWR",
+  "SN74LV07APWRG3",
+  "SN74LVC07AD",
+  "SN74LVC07ADBR",
+  "SN74LVC07ADGVR",
+  "SN74LVC07ADRG3",
+  "SN74LVC07ADT",
+  "SN74LVC07AMPWREP",
+  "SN74LVC07ANSR",
+  "SN74LVC07APW",
+  "SN74LVC07APWRG3",
+  "SN74LVC07APWT",
+  "SN74LVC07AQPWRG4Q1",
+  "SN74LVC07AQPWRQ1",
+  "SN74LVC07ARGYR",
+  "SN74LV07ANSR",
+  "SN74LVC07ANS"
+ ]
+}

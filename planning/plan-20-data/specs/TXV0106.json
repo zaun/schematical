@@ -1,0 +1,182 @@
+{
+ "id": "TXV0106",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "6-bit fixed-direction dual-supply voltage translator, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "txv0106 p.3: BQB WQFN-16 pinout 1 VCCA, 2-7 A1-A6, 8 GND, 9 OE, 10-15 B6-B1, 16 VCCB (+ thermal pad, not a pin); A pins and OE referenced to VCCA, B pins to VCCB. Function table p.17: OE low = A data to B bus, OE high = isolation (both ports Hi-Z). Fixed direction A->B. Integrated 10-ohm damping resistor on outputs (not modeled).",
+ "pinouts": {
+  "bqb16": [
+   {
+    "number": 1,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "B6",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "B5",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "B4",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "B3",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "B2",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "B1",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "VCCB",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "BQB"
+   ],
+   "pinout": "bqb16"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6"
+   ],
+   "y": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6"
+   ],
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "OE"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6"
+   ]
+  }
+ ],
+ "timing": {
+  "TXV": {
+   "rise": 2.3,
+   "fall": 2.3,
+   "vcc": [
+    1.14,
+    3.6
+   ],
+   "vccB": [
+    1.14,
+    3.6
+   ],
+   "note": "max tpd A->B at VCCA 3.3 V, VCCB 3.3 V, 15 pF (txv0106 p.10; no typical printed); VCCA and VCCB 1.14-3.6 V, VI 0-3.6 V (p.5)"
+  }
+ },
+ "families": {
+  "TXV": [
+   "txv0106"
+  ]
+ },
+ "pdfs": [
+  "txv0106"
+ ],
+ "parts": [
+  "TXV0106BQBR"
+ ]
+}

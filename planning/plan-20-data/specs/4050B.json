@@ -1,0 +1,179 @@
+{
+ "id": "4050B",
+ "kind": "gate",
+ "model": "buf",
+ "function": "Buffer",
+ "description": "Hex non-inverting buffer/converter (high-to-low level shifter, inputs may exceed VCC)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout from cd4050b p.3 Figure 4-2 and p.4 Pin Functions (D, DW, N, NS, PW): inputs A-F, outputs G-L (G = A ... L = F; the table's 'inverting output' wording is copied from CD4049UB), NC on 13 and 16, VCC 1, VSS 8.",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "G",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "H",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "B",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "I",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "C",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "D",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "J",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "E",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "K",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 14,
+    "name": "F",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "L",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "NC",
+    "role": "nc"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "D",
+    "DW",
+    "N",
+    "NS",
+    "PW"
+   ],
+   "pinout": "p16"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "A"
+   ],
+   "output": "G"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "B"
+   ],
+   "output": "H"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "C"
+   ],
+   "output": "I"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "D"
+   ],
+   "output": "J"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "E"
+   ],
+   "output": "K"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "F"
+   ],
+   "output": "L"
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "C": {
+   "rise": 70,
+   "fall": 55,
+   "vcc": [
+    3,
+    18
+   ],
+   "inputMax": 18,
+   "note": "typ tPLH/tPHL CD4050B at VIN = VCC = 5 V, 50 pF, 25 C (cd4050b p.11); VCC 3-18 V (cd4050b p.6); input high level may exceed VCC (p.1), inputs rated 1 uA at 18 V (p.1) -> inputMax 18"
+  }
+ },
+ "families": {
+  "C": [
+   "cd4050b"
+  ]
+ },
+ "pdfs": [
+  "cd4050b"
+ ],
+ "parts": [
+  "CD4050BDR",
+  "CD4050BDWR",
+  "CD4050BE",
+  "CD4050BNSR",
+  "CD4050BPWR"
+ ]
+}

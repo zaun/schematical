@@ -1,0 +1,279 @@
+{
+ "id": "2T45",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "Dual-bit dual-supply bus transceiver with configurable voltage translation, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Numbered pinout 1 VCCA, 2 A1, 3 A2, 4 GND, 5 DIR, 6 B2, 7 B1, 8 VCCB, same in every PDF and package: sn74lvc2t45 p.2 (DCT/DCU), sn74lvc2t45-q1 p.4 (DCU), sn74lvc2t45-ep p.1 (DCT/DCU), sn74avc2t45 p.3 (DCT/DCU; DDF not drawn, assumed the same numbering), sn74avc2t45-q1 p.4 (DCU/DTT), sn74avch2t45 p.3, sn74axc2t45 p.2 (DCT/DCU/DTM), sn74axch2t45 p.3 (DCU/DTM), sn74lxc2t45 p.3 (DCT/DCU/DTT/DTM), sn74lxc2t45-q1 p.3 (DCU/DTT). YZP balls (bottom view): A1 VCCA, A2 VCCB, B1 A1, B2 B1, C1 A2, C2 B2, D1 GND, D2 DIR (sn74lvc2t45 p.3, sn74avc2t45 p.3). Function table: DIR L = B to A, H = A to B (sn74lvc2t45 p.15); no OE. DIR referenced to VCCA.",
+ "pinouts": {
+  "p8": [
+   {
+    "number": 1,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "VCCB",
+    "role": "power"
+   }
+  ],
+  "yzp": [
+   {
+    "ball": "A1",
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "ball": "A2",
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "ball": "B1",
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "ball": "B2",
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "ball": "C1",
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "ball": "C2",
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "ball": "D1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "D2",
+    "name": "DIR",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DCT",
+    "DCU",
+    "DDF",
+    "DTM",
+    "DTT"
+   ],
+   "pinout": "p8"
+  },
+  {
+   "codes": [
+    "YZP"
+   ],
+   "pinout": "yzp"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2"
+   ],
+   "b": [
+    "B1",
+    "B2"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": []
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "A1",
+    "A2",
+    "DIR"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "B1",
+    "B2"
+   ]
+  }
+ ],
+ "timing": {
+  "LVC": {
+   "rise": 4.4,
+   "fall": 4.0,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "inputMax": 5.5,
+   "vccB": [
+    1.65,
+    5.5
+   ],
+   "inputMaxB": 5.5,
+   "note": "Max tPLH/tPHL A->B at VCCA 3.3 V, VCCB 5 V, -40 to 85 C; no typical given (sn74lvc2t45 p.8). VCCA/VCCB 1.65-5.5 V, VI 0-5.5 V (sn74lvc2t45 p.4-5)"
+  },
+  "AVC": {
+   "rise": 2.4,
+   "fall": 2.4,
+   "vcc": [
+    1.2,
+    3.6
+   ],
+   "inputMax": 3.6,
+   "vccB": [
+    1.2,
+    3.6
+   ],
+   "inputMaxB": 3.6,
+   "note": "Max tPLH/tPHL A->B at VCCA 3.3 V, VCCB 3.3 V (nearest row to 3.3<->5 V; parts top out at 3.6 V), -40 to 85 C (sn74avc2t45 p.9; sn74avch2t45 p.10 identical). VCCA/VCCB 1.2-3.6 V, VI 0-3.6 V (sn74avc2t45 p.5)"
+  },
+  "AXC": {
+   "rise": 4,
+   "fall": 4,
+   "vcc": [
+    0.65,
+    3.6
+   ],
+   "inputMax": 3.6,
+   "vccB": [
+    0.65,
+    3.6
+   ],
+   "inputMaxB": 3.6,
+   "note": "Max tpd A->B at VCCA 3.3 V, VCCB 3.3 V (nearest row to 3.3<->5 V), -40 to 85 C (sn74axc2t45 p.13; sn74axch2t45 same 4 ns). VCCA/VCCB 0.65-3.6 V, VI 0-3.6 V (sn74axc2t45 p.4)"
+  },
+  "LXC": {
+   "rise": 11,
+   "fall": 11,
+   "vcc": [
+    1.1,
+    5.5
+   ],
+   "inputMax": 5.5,
+   "vccB": [
+    1.1,
+    5.5
+   ],
+   "inputMaxB": 5.5,
+   "note": "Max tpd A->B at VCCA 3.3 V, VCCB 5 V, -40 to 85 C (sn74lxc2t45 p.14). VCCA/VCCB 1.1-5.5 V, VI 0-5.5 V (sn74lxc2t45 p.5)"
+  }
+ },
+ "families": {
+  "LVC": [
+   "sn74lvc2t45",
+   "sn74lvc2t45-q1",
+   "sn74lvc2t45-ep"
+  ],
+  "AVC": [
+   "sn74avc2t45",
+   "sn74avc2t45-q1",
+   "sn74avch2t45"
+  ],
+  "AXC": [
+   "sn74axc2t45",
+   "sn74axc2t45-q1",
+   "sn74axch2t45"
+  ],
+  "LXC": [
+   "sn74lxc2t45",
+   "sn74lxc2t45-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74lvc2t45",
+  "sn74lvc2t45-q1",
+  "sn74lvc2t45-ep",
+  "sn74avc2t45",
+  "sn74avc2t45-q1",
+  "sn74avch2t45",
+  "sn74axc2t45",
+  "sn74axc2t45-q1",
+  "sn74axch2t45",
+  "sn74lxc2t45",
+  "sn74lxc2t45-q1"
+ ],
+ "parts": [
+  "SN74AVC2T45DCTR",
+  "SN74AVC2T45DCUR",
+  "SN74AVC2T45DCUT",
+  "SN74AVC2T45DDFR",
+  "SN74AVC2T45YZPR",
+  "SN74AVCH2T45DCUR",
+  "SN74AVCH2T45DCUT",
+  "SN74AXC2T45DCTR",
+  "SN74AXC2T45DTMR",
+  "SN74AXC2T45QDCURQ1",
+  "SN74AXCH2T45DCUR",
+  "SN74AXCH2T45DTMR",
+  "SN74LVC2T45DCTR",
+  "SN74LVC2T45DCTT",
+  "SN74LVC2T45DCUR",
+  "SN74LVC2T45DCURG4",
+  "SN74LVC2T45DCUT",
+  "SN74LVC2T45MDCTTEP",
+  "SN74LVC2T45QDCURQ1",
+  "SN74LXC2T45DCUR",
+  "SN74LXC2T45DTMR",
+  "SN74LXC2T45DTTR",
+  "SN74LXC2T45QDCURQ1",
+  "SN74LXC2T45QDTTRQ1",
+  "CAVC2T45QDTTRQ1",
+  "CAVC2T45TDCURQ1",
+  "SN74AVC2T45DCTT",
+  "SN74AVCH2T45DCTR",
+  "SN74AVCH2T45DCTT",
+  "SN74LVC2T45YZPRB"
+ ]
+}

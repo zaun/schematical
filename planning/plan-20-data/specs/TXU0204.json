@@ -1,0 +1,252 @@
+{
+ "id": "TXU0204",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "4-bit fixed-direction dual-supply level shifter (2 A-to-B, 2 B-to-A), Schmitt-trigger inputs, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinouts txu0204 p.4 Table 6-1 (PW/BQA 14-pin, NC on 6 and 9; RUT/DTR 12-pin), txu0204-q1 p.4 (PW/WBQA same as PW). OE high (to VCCA or VCCB level, VCC(MIN) logic) enables all outputs, low = high impedance (p.1, p.4). A1/A2 -> B1Y/B2Y, B3/B4 -> A3Y/A4Y. OE placed in the VCCA domain (sheet: either supply). Inputs have weak pulldowns (not modeled).",
+ "pinouts": {
+  "p14": [
+   {
+    "number": 1,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A3Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "A4Y",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 10,
+    "name": "B4",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "B3",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "B2Y",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "B1Y",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "VCCB",
+    "role": "power"
+   }
+  ],
+  "p12": [
+   {
+    "number": 1,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A3Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "A4Y",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 7,
+    "name": "B4",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "B3",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "B2Y",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "B1Y",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "number": 12,
+    "name": "OE",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "PW",
+    "BQA"
+   ],
+   "pinout": "p14"
+  },
+  {
+   "codes": [
+    "RUT",
+    "DTR"
+   ],
+   "pinout": "p12"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2"
+   ],
+   "y": [
+    "B1Y",
+    "B2Y"
+   ],
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "high"
+    }
+   ]
+  },
+  {
+   "a": [
+    "B3",
+    "B4"
+   ],
+   "y": [
+    "A3Y",
+    "A4Y"
+   ],
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "high"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "A1",
+    "A2",
+    "A3Y",
+    "A4Y",
+    "OE"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "B1Y",
+    "B2Y",
+    "B3",
+    "B4"
+   ]
+  }
+ ],
+ "timing": {
+  "TXU": {
+   "rise": 8,
+   "fall": 8,
+   "vcc": [
+    1.08,
+    5.5
+   ],
+   "vccB": [
+    1.08,
+    5.5
+   ],
+   "note": "max tpd A->B at VCCA 3.3 V, VCCB 5 V, -40 to 85 C, no typ printed (txu0204 p.14; B->A max 10); VCCA and VCCB 1.08-5.5 V, VI 0-5.5 V (p.6); -Q1 same (txu0204-q1 p.6)"
+  }
+ },
+ "families": {
+  "TXU": [
+   "txu0204",
+   "txu0204-q1"
+  ]
+ },
+ "pdfs": [
+  "txu0204",
+  "txu0204-q1"
+ ],
+ "parts": [
+  "TXU0204DTRR",
+  "TXU0204PWR",
+  "TXU0204QPWRQ1",
+  "TXU0204QWBQARQ1",
+  "TXU0204RUTR"
+ ]
+}

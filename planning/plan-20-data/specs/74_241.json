@@ -1,0 +1,360 @@
+{
+ "id": "74_241",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Octal buffer/line driver, 3-state outputs (1OE active low, 2OE active high)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Standard 20-pin pinout, identical in every sheet: sn74abt241a p.1 (J/W/DB/DW/N/PW and FK), sn74ac241 p.3 Table 3-1, sn74act241 p.3 (J/W/DB/DW/N/NS/PW and FK), sn74als241c p.1 (ALS and AS, J/DW/N and FK), sn74f241 p.1, sn74hc241 p.3 (J/DW/N/NS/PW and FK), sn74lvc241a p.3 (PW/DGS and RKS, same numbers), sn74lvth241 p.1 (DB/DW/NS/PW and FK). FK (20-pin LCCC) numbers are the same as the DIP, so it shares p20. Function tables: 1OE low enables 1Y=1A, 2OE high enables 2Y=2A (sn74abt241a p.2, sn74lvc241a p.14 Table 7-1/7-2; the lvc241a pin table calls 2OE active low, its function table says high). DBL/PWLE codes are the old DB/PW LE-reel suffixes.",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "2Y4",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "1A2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "2Y3",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1A3",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "2Y2",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "1A4",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "2Y1",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "2A1",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "1Y4",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "2A2",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "1Y3",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "2A3",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "1Y2",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "2A4",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "1Y1",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "D",
+    "DW",
+    "NS",
+    "DB",
+    "DBL",
+    "PW",
+    "DGS",
+    "RKS",
+    "J",
+    "W",
+    "FK"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4"
+   ],
+   "y": [
+    "1Y1",
+    "1Y2",
+    "1Y3",
+    "1Y4"
+   ],
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4"
+   ],
+   "y": [
+    "2Y1",
+    "2Y2",
+    "2Y3",
+    "2Y4"
+   ],
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "high"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 2.6,
+   "fall": 2.9,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A->Y at 5 V, 25 C, 50 pF, SN74ABT241A (sn74abt241a p.5); VCC 4.5-5.5 V SN54 and SN74 (p.3)"
+  },
+  "AC": {
+   "rise": 5,
+   "fall": 4.5,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "typ tPLH/tPHL A->Y at 5 V +-0.5 V, 25 C, 50 pF (sn74ac241 p.5 sec 4.6); VCC 2-6 V (p.4)"
+  },
+  "ACT": {
+   "rise": 6,
+   "fall": 5.5,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A->Y at 5 V, 25 C, 50 pF (sn74act241 p.5); VCC 4.5-5.5 V SN54 and SN74 (p.4)"
+  },
+  "ALS": {
+   "rise": 11,
+   "fall": 10,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL A->Y, SN74ALS241C, VCC 4.5-5.5 V, 50 pF, no typical printed (sn74als241c p.4); VCC 4.5-5.5 V SN54 and SN74 (p.3)"
+  },
+  "AS": {
+   "rise": 6.2,
+   "fall": 6.2,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL A->Y, SN74AS241A, VCC 4.5-5.5 V, 50 pF, no typical printed (sn74as241a p.5); VCC 4.5-5.5 V SN54 and SN74 (p.4)"
+  },
+  "F": {
+   "rise": 3.6,
+   "fall": 3.6,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A->Y at 5 V, 25 C (sn74f241 p.4); VCC 4.5-5.5 V SN54 and SN74 (p.3)"
+  },
+  "HC": {
+   "rise": 12,
+   "fall": 12,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "typ tpd A->Y at 4.5 V, 25 C, 50 pF (sn74hc241 p.5); VCC 2-6 V (p.4)"
+  },
+  "LVC": {
+   "rise": 3.9,
+   "fall": 3.9,
+   "vcc": [
+    1.1,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "typ tpd A->Y at 3.3 V, 25 C, 50 pF (sn74lvc241a p.7); VCC 1.1-3.6 V, VI to 5.5 V (p.5)"
+  },
+  "LVT": {
+   "rise": 2.3,
+   "fall": 2.2,
+   "vcc": [
+    2.7,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "typ tPLH/tPHL A->Y at 3.3 V, 50 pF, SN74LVTH241 (sn74lvth241 p.5); VCC 2.7-3.6 V, VI to 5.5 V (p.3)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt241a",
+   "sn54abt241"
+  ],
+  "AC": [
+   "sn74ac241"
+  ],
+  "ACT": [
+   "sn74act241",
+   "sn54act241"
+  ],
+  "ALS": [
+   "sn74als241c"
+  ],
+  "AS": [
+   "sn74as241a",
+   "sn54as241a"
+  ],
+  "F": [
+   "sn74f241"
+  ],
+  "HC": [
+   "sn74hc241"
+  ],
+  "LVC": [
+   "sn74lvc241a"
+  ],
+  "LVT": [
+   "sn74lvth241"
+  ]
+ },
+ "pdfs": [
+  "sn54abt241",
+  "sn54act241",
+  "sn54as241a",
+  "sn74abt241a",
+  "sn74ac241",
+  "sn74act241",
+  "sn74als241c",
+  "sn74as241a",
+  "sn74f241",
+  "sn74hc241",
+  "sn74lvc241a",
+  "sn74lvth241"
+ ],
+ "parts": [
+  "SN74ABT241ADBR",
+  "SN74ABT241ADW",
+  "SN74ABT241ADWR",
+  "SN74ABT241AN",
+  "SN74ABT241APW",
+  "SN74ABT241APWR",
+  "SN74AC241DBR",
+  "SN74AC241DWR",
+  "SN74AC241N",
+  "SN74AC241NSR",
+  "SN74AC241PWR",
+  "SN74ACT241DWR",
+  "SN74ACT241N",
+  "SN74ACT241NSR",
+  "SN74ACT241PWR",
+  "SN74ALS241CDWR",
+  "SN74AS241AN",
+  "SN74F241DW",
+  "SN74F241N",
+  "SN74HC241DWR",
+  "SN74HC241N",
+  "SN74HC241NSR",
+  "SN74HC241PWR",
+  "SN74LVC241APWR",
+  "SN74LVC241ARKSR",
+  "SN74LVTH241DBR",
+  "SN74LVTH241DW",
+  "SN74LVTH241DWR",
+  "SN74LVTH241PW",
+  "SN74LVTH241PWR",
+  "5962-8984701RA",
+  "5962-8984701SA",
+  "5962-9322701QRA",
+  "SNJ54ABT241FK",
+  "SNJ54AS241AJ",
+  "74ALS241C-1DWR",
+  "SN74ABT241ADBLE",
+  "SN74ABT241APWLE",
+  "SN74ACT241DBLE",
+  "SN74ACT241DBR",
+  "SN74ACT241NS",
+  "SN74ACT241PWLE",
+  "SN74ALS241CN",
+  "SN74F241NS",
+  "SN74HC241NS",
+  "SN74ALS241C-1DW",
+  "SN74ALS241C-1DWR",
+  "SN74ALS241C-1N",
+  "SN74LVTH241NS"
+ ]
+}

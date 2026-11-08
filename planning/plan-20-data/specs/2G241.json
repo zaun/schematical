@@ -1,0 +1,253 @@
+{
+ "id": "2G241",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Dual buffer/driver, 3-state outputs (1OE active low, 2OE active high)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "sn74aup2g241 p.1 (DCU/DQE same order; RSE UQFN: 1 2OE, 2 1Y, 3 2A, 4 GND, 5 2Y, 6 1A, 7 1OE, 8 VCC; YFP balls A1-D2 = pins 1-8); sn74auc2g241 p.1 (DCT/DCU, YZP); sn74lvc2g241 p.3 Pin Functions (DCT/DCU, YZP; 1OE active low, 2OE active high). YZP balls are given only as pins 1-8, same positions as YFP.",
+ "pinouts": {
+  "p8": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "rse8": [
+   {
+    "number": 1,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "dsbga8": [
+   {
+    "ball": "A1",
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "ball": "B1",
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "ball": "C1",
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "ball": "D1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "D2",
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "ball": "C2",
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "ball": "B2",
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "ball": "A2",
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DCU",
+    "DCT",
+    "DQE"
+   ],
+   "pinout": "p8"
+  },
+  {
+   "codes": [
+    "RSE"
+   ],
+   "pinout": "rse8"
+  },
+  {
+   "codes": [
+    "YFP",
+    "YZP"
+   ],
+   "pinout": "dsbga8"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A"
+   ],
+   "y": [
+    "1Y"
+   ],
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A"
+   ],
+   "y": [
+    "2Y"
+   ],
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "high"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "AUC": {
+   "rise": 1.2,
+   "fall": 1.2,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "typ tpd at 1.8 V +-0.15 V, 25 C, CL 15 pF (sn74auc2g241 p.5); VCC 0.8-2.7 V, VI to 3.6 V (p.4)"
+  },
+  "AUP": {
+   "rise": 3.7,
+   "fall": 3.7,
+   "vcc": [
+    0.8,
+    3.6
+   ],
+   "note": "typ tpd at 3.3 V +-0.3 V, 25 C, CL 15 pF (sn74aup2g241 p.7); VCC 0.8-3.6 V, VI to 3.6 V (p.4)"
+  },
+  "LVC": {
+   "rise": 4.3,
+   "fall": 4.3,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "max tpd at 3.3 V +-0.3 V, -40 to 85 C, 50 pF, no typical printed (sn74lvc2g241 p.6); VCC 1.65-5.5 V, VI to 5.5 V (p.4)"
+  }
+ },
+ "families": {
+  "AUC": [
+   "sn74auc2g241"
+  ],
+  "AUP": [
+   "sn74aup2g241"
+  ],
+  "LVC": [
+   "sn74lvc2g241"
+  ]
+ },
+ "pdfs": [
+  "sn74auc2g241",
+  "sn74aup2g241",
+  "sn74lvc2g241"
+ ],
+ "parts": [
+  "SN74AUC2G241DCTR",
+  "SN74AUC2G241DCUR",
+  "SN74AUC2G241YZPR",
+  "SN74AUP2G241DCUR",
+  "SN74AUP2G241DQER",
+  "SN74AUP2G241RSER",
+  "SN74AUP2G241YFPR",
+  "SN74LVC2G241DCTR",
+  "SN74LVC2G241DCUR",
+  "SN74LVC2G241DCUT",
+  "SN74LVC2G241YZPR"
+ ]
+}

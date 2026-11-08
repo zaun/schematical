@@ -1,0 +1,183 @@
+{
+ "id": "74_540_FCT",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "8-bit inverting buffer/line driver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout cy74fct540t p.1 (Q = QSOP/DBQ top view: OEA, D0..D7, GND, O7..O0, OEB, VCC). Function table p.2: OEA L OEB L = O = not D; otherwise Z (both active low).",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "OEA",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "D0",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "D1",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "D2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "D3",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "D4",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "D5",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "D6",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "D7",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "O7",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "O6",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "O5",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "O4",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "O3",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "O2",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "O1",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "O0",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "OEB",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBQ",
+    "CY-QC"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "D0",
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7"
+   ],
+   "y": [
+    "O0",
+    "O1",
+    "O2",
+    "O3",
+    "O4",
+    "O5",
+    "O6",
+    "O7"
+   ],
+   "oe": [
+    {
+     "pin": "OEA",
+     "active": "low"
+    },
+    {
+     "pin": "OEB",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": true,
+ "output": "push-pull",
+ "timing": {
+  "FCT": {
+   "rise": 4.1,
+   "fall": 4.1,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "max tPLH/tPHL D->O, CY74FCT540CT (no typical printed) (cy74fct540t p.5); VCC 4.75-5.25 V (CY74, p.2)"
+  }
+ },
+ "families": {
+  "FCT": [
+   "cy74fct540t"
+  ]
+ },
+ "pdfs": [
+  "cy74fct540t"
+ ],
+ "parts": [
+  "CY74FCT540CTQCT",
+  "CY74FCT540CTQC"
+ ]
+}

@@ -12,7 +12,11 @@
  *      a group (open-drain outputs skipped); carried C = an LED's anode
  *      voltage on its cathode's group. Effective E = S, else D, else P,
  *      else C.
- *   4. Checks on every connection whose group has a known E.
+ *   3a. A part with supply domains (dual-supply translators, plan-20-F):
+ *      each domain is powered at the highest known voltage on its own power
+ *      pins, and the domain's outputs drive that level.
+ *   4. Checks on every connection whose group has a known E; a pin of a
+ *      domain part is judged against its own domain's range and input max.
  */
 
 #include "voltage.h"
@@ -64,6 +68,31 @@ static int compare_problems(const void *a, const void *b) {
         return x->pin < y->pin ? -1 : 1;
     }
     return (int)x->kind - (int)y->kind;
+}
+
+/* The domain of a dual-supply part that pin belongs to (as a power pin when
+   *power is set), or -1. */
+static int domain_of(const Part *part, size_t pin, int *power) {
+    size_t k;
+    size_t i;
+
+    for (k = 0; k < part->domain_count; k++) {
+        const PartSupplyDomain *d = &part->domains[k];
+
+        for (i = 0; i < d->power_pin_count; i++) {
+            if (d->power_pins[i] == pin) {
+                *power = 1;
+                return (int)k;
+            }
+        }
+        for (i = 0; i < d->pin_count; i++) {
+            if (d->pins[i] == pin) {
+                *power = 0;
+                return (int)k;
+            }
+        }
+    }
+    return -1;
 }
 
 /* E: the supply level, else the driven one, else the pulled one, else the
@@ -254,6 +283,51 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             if (part->vcc == NULL) {
                 continue;
             }
+            if (part->domain_count > 0) {
+                /* 3a. Each domain from its own power pins. */
+                size_t k;
+
+                for (k = 0; k < part->domain_count; k++) {
+                    Level dp = {0, 0};
+
+                    for (j = 0; j < connection_count; j++) {
+                        const VoltageConnection *c = &connections[j];
+                        int is_power;
+
+                        if (c->part == i && c->net < net_count && c->pin < part->pin_count &&
+                            domain_of(part, c->pin, &is_power) == (int)k && is_power) {
+                            Level e = effective(supply, driven, pulled, carried, find(parent, c->net));
+
+                            if (e.known) {
+                                level_raise(&dp, e.mv);
+                            }
+                        }
+                    }
+                    if (!dp.known || dp.mv == 0) {
+                        continue;
+                    }
+                    for (j = 0; j < connection_count; j++) {
+                        const VoltageConnection *c = &connections[j];
+                        int is_power;
+                        PinRole role;
+
+                        if (c->part != i || c->net >= net_count || c->pin >= part->pin_count ||
+                            domain_of(part, c->pin, &is_power) != (int)k || is_power) {
+                            continue;
+                        }
+                        role = part->pins[c->pin].role;
+                        if ((role == PIN_INOUT || role == PIN_OUTPUT) &&
+                            !part_pin_open_drain(part, c->pin)) {
+                            size_t g = find(parent, c->net);
+                            Level before = driven[g];
+
+                            level_raise(&driven[g], dp.mv);
+                            changed |= before.known != driven[g].known || before.mv != driven[g].mv;
+                        }
+                    }
+                }
+                continue;
+            }
             for (j = 0; j < connection_count; j++) {
                 const VoltageConnection *c = &connections[j];
 
@@ -313,6 +387,30 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
         p.other_part = c->part;
         p.pin = c->pin;
         p.mv = e.mv;
+        if (part->domain_count > 0) {
+            /* A domain part: each pin against its own domain. */
+            int is_power;
+            int k = domain_of(part, c->pin, &is_power);
+            const PartVoltage *v = k >= 0 ? part->domains[k].vcc : NULL;
+
+            if (v == NULL) {
+                continue;
+            }
+            if (is_power && (e.mv < v->min_mv || e.mv > v->max_mv)) {
+                p.kind = VOLTAGE_POWER_RANGE;
+                p.min_mv = v->min_mv;
+                p.max_mv = v->max_mv;
+            } else if (!is_power && (role == PIN_INPUT || role == PIN_INOUT) &&
+                       e.mv > v->input_max_mv) {
+                p.kind = VOLTAGE_INPUT_OVER;
+                p.min_mv = 0;
+                p.max_mv = v->input_max_mv;
+            } else {
+                continue;
+            }
+            found[found_count++] = p;
+            continue;
+        }
         if (part->vcc != NULL && role == PIN_POWER &&
             (e.mv < part->vcc->min_mv || e.mv > part->vcc->max_mv)) {
             p.kind = VOLTAGE_POWER_RANGE;

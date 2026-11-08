@@ -1,0 +1,168 @@
+{
+ "id": "74_6T17",
+ "kind": "gate",
+ "function": "Buffer",
+ "description": "Hex Schmitt-trigger buffer with 5.5-V tolerant inputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "p14 from sn74lv6t17 p.3 Figure 5-1/5-2 + Table 5-1 (BQA WQFN and PW TSSOP use the same numbers 1-14; BQA thermal pad is not a pin); sn74lv6t17-q1 p.3 and sn74lv6t17-ep p.3 identical. Y = A per channel.",
+ "pinouts": {
+  "p14": [
+   {
+    "number": 1,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "4Y",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "4A",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "5Y",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "5A",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "6Y",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "6A",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "BQA",
+    "PW"
+   ],
+   "pinout": "p14"
+  }
+ ],
+ "gates": [
+  {
+   "op": "buf",
+   "inputs": [
+    "1A"
+   ],
+   "output": "1Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "2A"
+   ],
+   "output": "2Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "3A"
+   ],
+   "output": "3Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "4A"
+   ],
+   "output": "4Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "5A"
+   ],
+   "output": "5Y"
+  },
+  {
+   "op": "buf",
+   "inputs": [
+    "6A"
+   ],
+   "output": "6Y"
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "LV": {
+   "rise": 8.5,
+   "fall": 8.5,
+   "vcc": [
+    1.6,
+    5.5
+   ],
+   "note": "Typical tPD A->Y at 3.3 V, 25 C, 50 pF (sn74lv6t17 p.7). VCC 1.6-5.5 V, VI 0-5.5 V (sn74lv6t17 p.5; -Q1 and -EP p.5 same)"
+  }
+ },
+ "families": {
+  "LV": [
+   "sn74lv6t17",
+   "sn74lv6t17-ep",
+   "sn74lv6t17-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74lv6t17",
+  "sn74lv6t17-ep",
+  "sn74lv6t17-q1"
+ ],
+ "parts": [
+  "SN74LV6T17BQAR",
+  "SN74LV6T17PWR",
+  "SN74LV6T17PWREP",
+  "SN74LV6T17QPWRQ1",
+  "SN74LV6T17QWBQARQ1"
+ ]
+}

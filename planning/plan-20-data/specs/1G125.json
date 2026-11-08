@@ -1,0 +1,340 @@
+{
+ "id": "1G125",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Single bus buffer gate, 3-state output",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "p5 from sn74lvc1g125 p.3 Pin Functions (DBV/DCK/DRL/DPW: OE 1, A 2, GND 3, Y 4, VCC 5), sn74aup1g125 p.3, sn74ahc1g125, sn74ahct1g125, sn74auc1g125, sn74lvc1g125b p.3; DTX: sn74ahct1g125-q1 p.3 Figure 4-2 + Table 4-1 (same numbers). p6 (DRY/DSF SON): sn74lvc1g125 p.3, sn74aup1g125 p.3 (N.C. on 5, VCC 6). DSBGA (row-major): YZP 5-ball A1 OE, A2 VCC, B1 A, C1 GND, C2 Y (sn74lvc1g125 p.3, sn74aup1g125 p.3, sn74auc1g125 p.3 Table 5-2); YFP 6-ball adds B2 DNU (sn74aup1g125 p.3). Function: OE L -> Y = A, OE H -> Z. | Only the automotive 1P1G125Q* orderables of sn74lvc1g125-q1 (they belong to the 1G125 device). Pinout: sn74lvc1g125-q1 p.3 Figures 4-1..4-3 + Pin Functions (DBV/DCK 5-pin; DRY 6-pin, NC on 5; OE active low). Timing sn74lvc1g125-q1 p.6.",
+ "pinouts": {
+  "p5": [
+   {
+    "number": 1,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "p6": [
+   {
+    "number": 1,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 6,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "dsbga": [
+   {
+    "ball": "A1",
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "ball": "A2",
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "ball": "B1",
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "ball": "C1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "C2",
+    "name": "Y",
+    "role": "output"
+   }
+  ],
+  "dsbga6": [
+   {
+    "ball": "A1",
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "ball": "A2",
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "ball": "B1",
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "ball": "B2",
+    "name": "DNU",
+    "role": "nc"
+   },
+   {
+    "ball": "C1",
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "ball": "C2",
+    "name": "Y",
+    "role": "output"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBV",
+    "DCK",
+    "DRL",
+    "DPW",
+    "DTX"
+   ],
+   "pinout": "p5"
+  },
+  {
+   "codes": [
+    "DRY",
+    "DSF"
+   ],
+   "pinout": "p6"
+  },
+  {
+   "codes": [
+    "YZP"
+   ],
+   "pinout": "dsbga"
+  },
+  {
+   "codes": [
+    "YFP"
+   ],
+   "pinout": "dsbga6"
+  },
+  {
+   "codes": [
+    "DBV",
+    "DCK"
+   ],
+   "pinout": "p5"
+  },
+  {
+   "codes": [
+    "DRY"
+   ],
+   "pinout": "p6"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A"
+   ],
+   "y": [
+    "Y"
+   ],
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "AHC": {
+   "rise": 5.3,
+   "fall": 5.3,
+   "vcc": [
+    2,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->Y at 5 V, 25 C, 50 pF (sn74ahc1g125 p.6). VCC 2-5.5 V, VI 0-5.5 V (sn74ahc1g125 p.4; -Q1 p.4 same)"
+  },
+  "AHCT": {
+   "rise": 5.3,
+   "fall": 5.3,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->Y at 5 V, 25 C, 50 pF (sn74ahct1g125 p.6). VCC 4.5-5.5 V (sn74ahct1g125 p.4); CAHCT1G125 (-Q1) VCC 3-5.5 V (sn74ahct1g125-q1 p.4) via partVcc"
+  },
+  "AUC": {
+   "rise": 1,
+   "fall": 1,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "Typical tpd A->Y at 1.8 V, 25 C, 15 pF (sn74auc1g125 p.6). VCC 0.8-2.7 V, VI to 3.6 V (sn74auc1g125 p.4; -EP same)"
+  },
+  "AUP": {
+   "rise": 3.2,
+   "fall": 3.2,
+   "vcc": [
+    0.8,
+    3.6
+   ],
+   "note": "Typical tpd A->Y at 3.3 V, 25 C, 15 pF (sn74aup1g125 p.10). VCC 0.8-3.6 V, inputs 0-3.6 V (sn74aup1g125 p.5)"
+  },
+  "LVC": {
+   "rise": 4.5,
+   "fall": 4.5,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "Max tpd A->Y at 3.3 V, -40 to 85 C, 50 pF; no typical printed (sn74lvc1g125 p.6). VCC 1.65-5.5 V, VI 0-5.5 V (sn74lvc1g125 p.5; -EP same); SN74LVC1G125B VCC 1.1-5.5 V (sn74lvc1g125b p.4) via partVcc"
+  }
+ },
+ "partVcc": [
+  {
+   "prefix": "CAHCT1G125",
+   "family": "AHCT",
+   "vcc": [
+    3,
+    5.5
+   ]
+  },
+  {
+   "prefix": "SN74LVC1G125B",
+   "family": "LVC",
+   "vcc": [
+    1.1,
+    5.5
+   ]
+  }
+ ],
+ "families": {
+  "AHC": [
+   "sn74ahc1g125",
+   "sn74ahc1g125-q1"
+  ],
+  "AHCT": [
+   "sn74ahct1g125",
+   "sn74ahct1g125-q1"
+  ],
+  "AUC": [
+   "sn74auc1g125",
+   "sn74auc1g125-ep"
+  ],
+  "AUP": [
+   "sn74aup1g125"
+  ],
+  "LVC": [
+   "sn74lvc1g125",
+   "sn74lvc1g125b",
+   "sn74lvc1g125-ep",
+   "sn74lvc1g125-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74ahc1g125",
+  "sn74ahc1g125-q1",
+  "sn74ahct1g125",
+  "sn74ahct1g125-q1",
+  "sn74auc1g125",
+  "sn74auc1g125-ep",
+  "sn74aup1g125",
+  "sn74lvc1g125",
+  "sn74lvc1g125-ep",
+  "sn74lvc1g125-q1",
+  "sn74lvc1g125b"
+ ],
+ "parts": [
+  "74AHCT1G125DBVTG4",
+  "74LVC1G125DBVTG4",
+  "74LVC1G125DCKRG4",
+  "SN74AHC1G125DBVR",
+  "SN74AHC1G125DCKR",
+  "SN74AHC1G125DRLR",
+  "SN74AHCT1G125DBVR",
+  "SN74AHCT1G125DRLR",
+  "SN74AUC1G125DBVR",
+  "SN74AUC1G125DCKR",
+  "SN74AUC1G125YZPR",
+  "SN74AUP1G125DBVR",
+  "SN74AUP1G125DBVT",
+  "SN74AUP1G125DCKR",
+  "SN74AUP1G125DCKT",
+  "SN74AUP1G125DRLR",
+  "SN74AUP1G125DRYR",
+  "SN74AUP1G125DSFR",
+  "SN74AUP1G125YFPR",
+  "SN74AUP1G125YZPR",
+  "SN74LVC1G125BDCKR",
+  "SN74LVC1G125DBVT",
+  "SN74LVC1G125DCKR",
+  "SN74LVC1G125DPWR",
+  "SN74LVC1G125DRLR",
+  "SN74LVC1G125DRYR",
+  "SN74LVC1G125DSFR",
+  "SN74LVC1G125YZPR",
+  "CAHC1G125QDBVRQ1",
+  "CAHCT1G125QDCKRG4Q",
+  "CAHCT1G125QDCKRQ1",
+  "CAHCT1G125QDBVRQ1",
+  "CAHCT1G125WDTXRQ1",
+  "CAUC1G125MDCKREP",
+  "CLVC1G125IDCKREP",
+  "CLVC1G125MDCKREP",
+  "SN74AHC1G125DCK3",
+  "SN74AHCT1G125DCK3",
+  "SN74LVC1G125DCK3",
+  "SN74LVC1G125YZPRB",
+  "1P1G125QDCKRG4Q1",
+  "1P1G125QDCKRQ1",
+  "1P1G125QDRYRQ1"
+ ]
+}

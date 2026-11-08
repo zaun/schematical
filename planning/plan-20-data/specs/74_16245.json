@@ -1,0 +1,569 @@
+{
+ "id": "74_16245",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "16-bit bus transceiver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Standard Widebus 48-pin '16245 pinout, identical in every PDF read: 74ac16245 p.1, 74act16245 p.1, sn74act16245-ep p.1, sn74abt16245a p.1, sn74abt16245a-ep p.1, sn74abth16245 p.1, sn74ahct16245 p.3, sn74alvch16245 p.3, sn74alvch16245-ep p.1, sn74alvchr16245 p.1, sn74auc16245 p.1, sn74avc16245 p.3, sn74lvc16245a p.3, sn74lvch16245a p.3, sn74lvchr16245a p.3, sn74lvcr16245a p.3, sn74lvcz16245a p.1, sn74lvt16245b p.1, sn74lvth16245a p.1, sn74lvth16245a-ep p.1, sn74lvth16245a-q1 p.1, cy74fct16245t p.1 (SSOP/TSSOP; PV = SSOP DL, PA = TSSOP DGG). Function table (each PDF): OE low + DIR low = B to A, OE low + DIR high = A to B, OE high = isolation (e.g. 74ac16245 p.1, cy74fct16245t p.4).",
+ "pinouts": {
+  "p48": [
+   {
+    "number": 1,
+    "name": "1DIR",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1B1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "1B2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "1B3",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "1B4",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 8,
+    "name": "1B5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "1B6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "1B7",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "1B8",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "2B1",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "2B2",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 16,
+    "name": "2B3",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "2B4",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 19,
+    "name": "2B5",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "2B6",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 22,
+    "name": "2B7",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "2B8",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "2DIR",
+    "role": "input"
+   },
+   {
+    "number": 25,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "2A8",
+    "role": "inout"
+   },
+   {
+    "number": 27,
+    "name": "2A7",
+    "role": "inout"
+   },
+   {
+    "number": 28,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 29,
+    "name": "2A6",
+    "role": "inout"
+   },
+   {
+    "number": 30,
+    "name": "2A5",
+    "role": "inout"
+   },
+   {
+    "number": 31,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 32,
+    "name": "2A4",
+    "role": "inout"
+   },
+   {
+    "number": 33,
+    "name": "2A3",
+    "role": "inout"
+   },
+   {
+    "number": 34,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 35,
+    "name": "2A2",
+    "role": "inout"
+   },
+   {
+    "number": 36,
+    "name": "2A1",
+    "role": "inout"
+   },
+   {
+    "number": 37,
+    "name": "1A8",
+    "role": "inout"
+   },
+   {
+    "number": 38,
+    "name": "1A7",
+    "role": "inout"
+   },
+   {
+    "number": 39,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 40,
+    "name": "1A6",
+    "role": "inout"
+   },
+   {
+    "number": 41,
+    "name": "1A5",
+    "role": "inout"
+   },
+   {
+    "number": 42,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 43,
+    "name": "1A4",
+    "role": "inout"
+   },
+   {
+    "number": 44,
+    "name": "1A3",
+    "role": "inout"
+   },
+   {
+    "number": 45,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 46,
+    "name": "1A2",
+    "role": "inout"
+   },
+   {
+    "number": 47,
+    "name": "1A1",
+    "role": "inout"
+   },
+   {
+    "number": 48,
+    "name": "1OE",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DL",
+    "DGG",
+    "DGV",
+    "CY-PA",
+    "CY-PV"
+   ],
+   "pinout": "p48"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4",
+    "1A5",
+    "1A6",
+    "1A7",
+    "1A8"
+   ],
+   "b": [
+    "1B1",
+    "1B2",
+    "1B3",
+    "1B4",
+    "1B5",
+    "1B6",
+    "1B7",
+    "1B8"
+   ],
+   "dir": {
+    "pin": "1DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4",
+    "2A5",
+    "2A6",
+    "2A7",
+    "2A8"
+   ],
+   "b": [
+    "2B1",
+    "2B2",
+    "2B3",
+    "2B4",
+    "2B5",
+    "2B6",
+    "2B7",
+    "2B8"
+   ],
+   "dir": {
+    "pin": "2DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "AC": {
+   "rise": 4.6,
+   "fall": 5.2,
+   "vcc": [
+    3,
+    5.5
+   ],
+   "note": "74ac16245 typ tPLH/tPHL A or B -> B or A at 5 V +-0.5 V, 25 C, 50 pF (p.4; 3.3 V row 7.6/9). VCC 3-5.5 V (p.3)"
+  },
+  "ACT": {
+   "rise": 6.9,
+   "fall": 6.4,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "74act16245 typ tPLH/tPHL A or B -> B or A at 5 V, 25 C, 50 pF (p.4); sn74act16245-ep same (p.4). VCC 4.5-5.5 V (74act16245 p.3, sn74act16245-ep p.3)"
+  },
+  "ABT": {
+   "rise": 2.2,
+   "fall": 2.3,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "sn74abt16245a typ tPLH/tPHL A or B -> B or A at 5 V, 25 C, 50 pF (p.6); sn74abth16245 p.5 and sn74abt16245a-ep p.5 same typ. VCC 4.5-5.5 V (sn74abt16245a p.4, sn74abth16245 p.3, -ep p.3)"
+  },
+  "AHCT": {
+   "rise": 7,
+   "fall": 5.3,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "sn74ahct16245 typ tPLH/tPHL A or B -> B or A at 5 V, 25 C, 50 pF (p.7; 15 pF 4.5/4.5). VCC 4.5-5.5 V, VI to 5.5 V (p.5)"
+  },
+  "ALVC": {
+   "rise": 3,
+   "fall": 3,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "note": "sn74alvch16245 max tpd A or B -> B or A at 3.3 V +-0.3 V, 50 pF (no typ printed) (p.8); sn74alvch16245-ep 3 (p.4), sn74alvchr16245 4.2 (p.5). VCC 1.65-3.6 V, VI to VCC (sn74alvch16245 p.7; alvchr p.4; -ep p.3)"
+  },
+  "AUC": {
+   "rise": 1.5,
+   "fall": 1.5,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "sn74auc16245 typ tpd A or B -> B or A at 1.8 V +-0.15 V, 25 C, 30 pF (p.4). VCC 0.8-2.7 V, VI to 3.6 V (p.3)"
+  },
+  "AVC": {
+   "rise": 1.9,
+   "fall": 1.9,
+   "vcc": [
+    1.4,
+    3.6
+   ],
+   "note": "sn74avc16245 max tpd A or B -> B or A at 2.5 V +-0.2 V (no typ printed above 1.2 V) (p.6). VCC 1.4-3.6 V, VI to 3.6 V (p.5)"
+  },
+  "LVC": {
+   "rise": 4,
+   "fall": 4,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "sn74lvc16245a max tpd A or B -> B or A at 3.3 V +-0.3 V, 50 pF (no typ printed) (p.9); sn74lvch16245a 4 (p.9), sn74lvcr16245a 4.8 (p.7), sn74lvchr16245a 4.8 (p.9), sn74lvcz16245a 3.7 (p.4). VCC 1.65-3.6 V, VI to 5.5 V (sn74lvc16245a p.7; lvch p.7, lvcr p.6, lvchr p.7); LVCZ is 2.7-3.6 V (partVcc)"
+  },
+  "LVT": {
+   "rise": 2.3,
+   "fall": 2.1,
+   "vcc": [
+    2.7,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "sn74lvt16245b typ tPLH/tPHL A or B -> B or A at 3.3 V +-0.3 V, 25 C, 50 pF (p.7); sn74lvth16245a p.6, -ep p.6, -q1 p.5 same. VCC 2.7-3.6 V, VI to 5.5 V (sn74lvt16245b p.5, sn74lvth16245a p.4, -ep p.4, -q1 p.3)"
+  },
+  "FCT": {
+   "rise": 4.1,
+   "fall": 4.1,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "cy74fct16245t max tPLH/tPHL A to B, B to A, CT speed grade (T 7.0, AT 4.5; E grade not in the PDF), -40 to 85 C (no typ printed) (p.5). VCC 5 V +-10% (Operating Range, p.4)"
+  }
+ },
+ "partVcc": [
+  {
+   "prefix": "SN74LVCZ",
+   "family": "LVC",
+   "vcc": [
+    2.7,
+    3.6
+   ],
+   "inputMax": 5.5
+  }
+ ],
+ "families": {
+  "AC": [
+   "74ac16245"
+  ],
+  "ACT": [
+   "74act16245",
+   "sn74act16245-ep"
+  ],
+  "ABT": [
+   "sn74abt16245a",
+   "sn74abth16245",
+   "sn74abt16245a-ep"
+  ],
+  "AHCT": [
+   "sn74ahct16245"
+  ],
+  "ALVC": [
+   "sn74alvch16245",
+   "sn74alvchr16245",
+   "sn74alvch16245-ep"
+  ],
+  "AUC": [
+   "sn74auc16245"
+  ],
+  "AVC": [
+   "sn74avc16245"
+  ],
+  "LVC": [
+   "sn74lvc16245a",
+   "sn74lvch16245a",
+   "sn74lvchr16245a",
+   "sn74lvcr16245a",
+   "sn74lvcz16245a"
+  ],
+  "LVT": [
+   "sn74lvt16245b",
+   "sn74lvth16245a",
+   "sn74lvth16245a-ep",
+   "sn74lvth16245a-q1"
+  ],
+  "FCT": [
+   "cy74fct16245t"
+  ]
+ },
+ "pdfs": [
+  "74ac16245",
+  "74act16245",
+  "sn74act16245-ep",
+  "sn74abt16245a",
+  "sn74abth16245",
+  "sn74abt16245a-ep",
+  "sn74ahct16245",
+  "sn74alvch16245",
+  "sn74alvchr16245",
+  "sn74alvch16245-ep",
+  "sn74auc16245",
+  "sn74avc16245",
+  "sn74lvc16245a",
+  "sn74lvch16245a",
+  "sn74lvchr16245a",
+  "sn74lvcr16245a",
+  "sn74lvcz16245a",
+  "sn74lvt16245b",
+  "sn74lvth16245a",
+  "sn74lvth16245a-ep",
+  "sn74lvth16245a-q1",
+  "cy74fct16245t"
+ ],
+ "parts": [
+  "74AC16245DLR",
+  "74ACT16245DGGR",
+  "74ACT16245DLR",
+  "SN74ABT16245ADGGR",
+  "SN74ABT16245ADGVR",
+  "SN74ABT16245ADL",
+  "SN74ABT16245ADLR",
+  "SN74ABTH16245DGGR",
+  "SN74ABTH16245DGVR",
+  "SN74ABTH16245DL",
+  "SN74ABTH16245DLR",
+  "SN74ACT16245QDLREP",
+  "SN74AHCT16245DGGR",
+  "SN74AHCT16245DGVR",
+  "SN74AHCT16245DLR",
+  "SN74ALVCH16245DGGR",
+  "SN74ALVCH16245DL",
+  "SN74ALVCH16245DLR",
+  "SN74AUC16245DGGR",
+  "SN74AUC16245DGVR",
+  "SN74AVC16245DGGR",
+  "SN74AVC16245DGVR",
+  "SN74LVC16245ADGVR",
+  "SN74LVCH16245ADGGR",
+  "SN74LVCH16245ADGVR",
+  "SN74LVCH16245ADL",
+  "SN74LVCH16245ADLR",
+  "SN74LVCHR16245AGR",
+  "SN74LVCHR16245ALR",
+  "SN74LVCR16245ADGGR",
+  "SN74LVCR16245ADGVR",
+  "SN74LVCR16245ADLR",
+  "SN74LVCZ16245ADGGR",
+  "SN74LVCZ16245ADGVR",
+  "SN74LVCZ16245ADL",
+  "SN74LVCZ16245ADLR",
+  "SN74LVT16245BDGGR",
+  "SN74LVT16245BDGVR",
+  "SN74LVT16245BDL",
+  "SN74LVT16245BDLR",
+  "SN74LVTH16245ADGGR",
+  "SN74LVTH16245ADGVR",
+  "SN74LVTH16245ADL",
+  "SN74LVTH16245ADLR",
+  "SN74ALVCHR16245GR",
+  "CABT16245AMDLREP",
+  "CALVCH16245IDLREP",
+  "CALVCH16245MDLREP",
+  "CLVTH16245AQDGGREP",
+  "CLVTH16245AQDGGRQ1",
+  "CLVTH16245AQDLREP",
+  "CY74FCT16245CTPAC",
+  "CY74FCT16245ETPVC",
+  "CY74FCT16245TPAC",
+  "SN74ALVCH16245DGG",
+  "SN74AVC16245DGG",
+  "SN74LVCR16245ADGG",
+  "SN74LVCZ16245ADGG"
+ ]
+}

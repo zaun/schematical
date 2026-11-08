@@ -1,0 +1,189 @@
+{
+ "id": "74_8T245_LV",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver with level-shifting (LVxT) inputs, single supply, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "SN74LV8T245 is a single-supply part ('245 pinout, one VCC; up/down translation comes from its low-threshold, 5.5 V-tolerant inputs), so it is a transceiver, not a dual-supply translator. Pinout sn74lv8t245 p.3 Table 5-1 (RKS, DGS, PW; RKS thermal pad not a pin); sn74lv8t245-q1 p.3 same. DIR: L = B to A, H = A to B; OE active low (p.3).",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DGS",
+    "PW",
+    "RKS"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "LV": {
+   "rise": 8.8,
+   "fall": 8.8,
+   "vcc": [
+    1.6,
+    5.5
+   ],
+   "note": "typ tpd A->B at 3.3 V, 50 pF (sn74lv8t245 p.7); VCC 1.6-5.5 V, VI to 5.5 V (p.5)"
+  }
+ },
+ "families": {
+  "LV": [
+   "sn74lv8t245",
+   "sn74lv8t245-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74lv8t245",
+  "sn74lv8t245-q1"
+ ],
+ "parts": [
+  "74LV8T245QWRKSRQ1",
+  "SN74LV8T245DGSR",
+  "SN74LV8T245PWR",
+  "SN74LV8T245QDGSRQ1",
+  "SN74LV8T245RKSR"
+ ]
+}

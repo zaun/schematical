@@ -1,0 +1,228 @@
+{
+ "id": "74_651",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "Octal inverting bus transceiver and register, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74abt651 p.1 (DB, DW, NT, PW; JT). Function table p.2 and bus-management figure p.3: OEAB high enables B outputs, OEBA low enables A outputs; SAB/SBA high = stored data, low = real time; data stored on CLKAB/CLKBA rising edge regardless of enables. Inverting data paths (p.1 features). Timing is CLK->B.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "CLKAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "SAB",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "OEAB",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "OEBA",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "SBA",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "CLKBA",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DW",
+    "DBL",
+    "DB",
+    "PW"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "ab": {
+    "store": "register",
+    "clk": {
+     "pin": "CLKAB",
+     "edge": "rising"
+    },
+    "oe": {
+     "pin": "OEAB",
+     "active": "high"
+    },
+    "select": {
+     "pin": "SAB",
+     "active": "high"
+    },
+    "invert": true
+   },
+   "ba": {
+    "store": "register",
+    "clk": {
+     "pin": "CLKBA",
+     "edge": "rising"
+    },
+    "oe": {
+     "pin": "OEBA",
+     "active": "low"
+    },
+    "select": {
+     "pin": "SBA",
+     "active": "high"
+    },
+    "invert": true
+   }
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 4,
+   "fall": 4,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL CLKAB->B at 5 V, 50 pF (sn74abt651 p.8; A->B typ 4/3.3); VCC 4.5-5.5 V (p.6)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt651"
+  ]
+ },
+ "pdfs": [
+  "sn74abt651"
+ ],
+ "parts": [
+  "SN74ABT651DW",
+  "SN74ABT651DWR",
+  "SN74ABT651DBLE",
+  "SN74ABT651DWQ"
+ ]
+}

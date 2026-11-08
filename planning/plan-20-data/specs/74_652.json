@@ -1,0 +1,329 @@
+{
+ "id": "74_652",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver and registers, real-time or stored data, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout (24-pin DB/DW/NT/PW/JT): sn74abt652a p.1, sn54als652 / sn74als652a / sn54as652 / sn74as652 (one combined PDF) p.1, sn74bct652 p.1, sn74hct652 p.1, sn74lvc652a p.1, sn74lvth652 p.1 - identical names and numbers. OEAB active high, OEBA active low; SAB/SBA low = real-time, high = stored; registers clock on CLKAB/CLKBA rising regardless of select/enable (function table sn74abt652a p.2, sn74als652a p.2, sn74hct652 p.2, sn74lvth652 p.2). The LS (CAB/GAB names), CD74AC/ACT (CAB, A0-A7 names) and CY74FCT (CPAB/GAB names) versions are separate devices 74_652_LS, 74_652_CD, 74_652_FCT.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "CLKAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "SAB",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "OEAB",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "OEBA",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "SBA",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "CLKBA",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DB",
+    "DW",
+    "PW",
+    "NT",
+    "JT"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "ab": {
+    "store": "register",
+    "clk": {
+     "pin": "CLKAB",
+     "edge": "rising"
+    },
+    "oe": {
+     "pin": "OEAB",
+     "active": "high"
+    },
+    "select": {
+     "pin": "SAB",
+     "active": "high"
+    }
+   },
+   "ba": {
+    "store": "register",
+    "clk": {
+     "pin": "CLKBA",
+     "edge": "rising"
+    },
+    "oe": {
+     "pin": "OEBA",
+     "active": "low"
+    },
+    "select": {
+     "pin": "SBA",
+     "active": "high"
+    }
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 4,
+   "fall": 4,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL CLK->B/A at 5 V, 25 C, 50 pF, SN74ABT652A (sn74abt652a p.9). VCC 4.5-5.5 V (sn74abt652a p.6)"
+  },
+  "ALS": {
+   "rise": 30,
+   "fall": 17,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL CLKAB/CLKBA->B/A, VCC 4.5-5.5 V, 50 pF, SN74ALS652A; no typical printed (sn74als652a p.11; SN54ALS652 max 35/20). VCC 4.5-5.5 V for SN54ALS652 and SN74ALS652A (sn74als652a p.7)"
+  },
+  "AS": {
+   "rise": 8.5,
+   "fall": 9,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "max tPLH/tPHL CLKAB/CLKBA->B/A, VCC 4.5-5.5 V, 50 pF, SN74AS652; no typical printed (sn74as652 p.20). VCC 4.5-5.5 V (sn74as652 p.17)"
+  },
+  "BCT": {
+   "rise": 6.9,
+   "fall": 6.8,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL CLKAB->B at 5 V, 25 C (sn74bct652 p.6). VCC 4.5-5.5 V (sn74bct652 p.5)"
+  },
+  "HCT": {
+   "rise": 18,
+   "fall": 18,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tpd CLKAB/CLKBA->B/A at 4.5 V, 25 C, 50 pF (16 ns at 5.5 V) (sn74hct652 p.6). VCC 4.5-5.5 V (sn74hct652 p.5)"
+  },
+  "LVC": {
+   "rise": 8,
+   "fall": 8,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "max tpd CLK->A/B at 3.3 V +-0.3 V, SN74LVC652A; no typical printed (sn74lvc652a p.7). VCC 1.65-3.6 V, inputs to 5.5 V (sn74lvc652a p.5)"
+  },
+  "LVT": {
+   "rise": 3.1,
+   "fall": 3.1,
+   "vcc": [
+    2.7,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "typ tPLH/tPHL CLKAB/CLKBA->B/A at 3.3 V, 25 C, 50 pF, SN74LVTH652 (sn74lvth652 p.7). VCC 2.7-3.6 V, inputs to 5.5 V (sn74lvth652 p.5)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt652a"
+  ],
+  "ALS": [
+   "sn74als652a",
+   "sn54als652"
+  ],
+  "AS": [
+   "sn74as652",
+   "sn54as652"
+  ],
+  "BCT": [
+   "sn74bct652"
+  ],
+  "HCT": [
+   "sn74hct652"
+  ],
+  "LVC": [
+   "sn74lvc652a"
+  ],
+  "LVT": [
+   "sn74lvth652"
+  ]
+ },
+ "pdfs": [
+  "sn74abt652a",
+  "sn54als652",
+  "sn74als652a",
+  "sn54as652",
+  "sn74as652",
+  "sn74bct652",
+  "sn74hct652",
+  "sn74lvc652a",
+  "sn74lvth652"
+ ],
+ "parts": [
+  "5962-8867301LA",
+  "SN54ALS652JT",
+  "SN74ABT652ADBR",
+  "SN74ABT652ADW",
+  "SN74ABT652ADWR",
+  "SN74ALS652A-1DW",
+  "SN74ALS652ADW",
+  "SN74ALS652ADWR",
+  "SN74AS652DW",
+  "SN74BCT652DW",
+  "SN74HCT652DWR",
+  "SN74HCT652DWE4",
+  "SN74LVC652ADW",
+  "SN74LVC652ADWR",
+  "SN74LVC652APW",
+  "SN74LVC652APWR",
+  "SN74LVC652APWT",
+  "SN74LVTH652DW",
+  "SN74LVTH652PW",
+  "SN74LVTH652PWR",
+  "SN74LVTH652DBRE4"
+ ]
+}

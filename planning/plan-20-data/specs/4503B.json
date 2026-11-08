@@ -1,0 +1,172 @@
+{
+ "id": "4503B",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Hex non-inverting buffer, 3-state outputs (two disable controls)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Scanned Harris datasheet (no text layer); read from the images. Terminal assignment cd4503b p.1: 1 DIS A, 2 D1, 3 Q1, 4 D2, 5 Q2, 6 D3, 7 Q3, 8 VSS, 9 Q4, 10 D4, 11 Q5, 12 D5, 13 Q6, 14 D6, 15 DIS B, 16 VDD. Functional diagram p.1: DIS A gates buffers 1-4, DIS B buffers 5-6. Truth table p.1: DIS 0 -> Q = D, DIS 1 -> high Z.",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "DISA",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "D1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "Q1",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "D2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "Q2",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "D3",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "Q3",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "Q4",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "D4",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "Q5",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "D5",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "Q6",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "D6",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "DISB",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "VDD",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "D",
+    "NS",
+    "PW"
+   ],
+   "pinout": "p16"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+   ],
+   "y": [
+    "Q1",
+    "Q2",
+    "Q3",
+    "Q4"
+   ],
+   "oe": [
+    {
+     "pin": "DISA",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "D5",
+    "D6"
+   ],
+   "y": [
+    "Q5",
+    "Q6"
+   ],
+   "oe": [
+    {
+     "pin": "DISB",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "C": {
+   "rise": 75,
+   "fall": 55,
+   "vcc": [
+    3,
+    18
+   ],
+   "note": "Typical tPLH/tPHL at VDD 5 V and 25 C (50 pF) (cd4503b p.3). VDD 3-18 V (cd4503b p.2)"
+  }
+ },
+ "families": {
+  "C": [
+   "cd4503b"
+  ]
+ },
+ "pdfs": [
+  "cd4503b"
+ ],
+ "parts": [
+  "CD4503BE",
+  "CD4503BEE4",
+  "CD4503BM96",
+  "CD4503BNSR",
+  "CD4503BPWR"
+ ]
+}

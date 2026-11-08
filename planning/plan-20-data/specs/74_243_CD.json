@@ -1,0 +1,161 @@
+{
+ "id": "74_243_CD",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "Quad bus transceiver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout cd74hc243 / cd74hct243 (same PDF) p.3 (J/N/D: 1=OEB active low, 13=OEA active high, NC 2 and 12). Logic diagram p.8: OEB low enables A->B, OEA high enables B->A. Truth table p.8 rows: OEB H OEA H = B to A; OEB L OEA L = A to B; OEB H OEA L = Z Z; OEB L OEA H printed as Z Z (the logic diagram and the classic '243 give both drivers on / bus latch there; see _report.md). Timing p.6.",
+ "pinouts": {
+  "p14": [
+   {
+    "number": 1,
+    "name": "OEB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 3,
+    "name": "A0",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "B0",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 13,
+    "name": "OEA",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "D",
+    "F",
+    "J"
+   ],
+   "pinout": "p14"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A0",
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "b": [
+    "B0",
+    "B1",
+    "B2",
+    "B3"
+   ],
+   "oeab": {
+    "pin": "OEB",
+    "active": "low"
+   },
+   "oeba": {
+    "pin": "OEA",
+    "active": "high"
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "HC": {
+   "rise": 7,
+   "fall": 7,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "typ tpd data to outputs at 5 V, 15 pF (footnote 1) (cd74hc243 p.6); VCC 2-6 V (p.4)"
+  },
+  "HCT": {
+   "rise": 9,
+   "fall": 9,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tpd data to outputs at 5 V, 15 pF (footnote 1) (cd74hct243 p.6); VCC 4.5-5.5 V (p.4)"
+  }
+ },
+ "families": {
+  "HC": [
+   "cd74hc243"
+  ],
+  "HCT": [
+   "cd74hct243"
+  ]
+ },
+ "pdfs": [
+  "cd74hc243",
+  "cd74hct243"
+ ],
+ "parts": [
+  "CD74HC243E",
+  "CD74HC243M96",
+  "CD74HCT243E",
+  "CD74HCT243M",
+  "CD54HCT243F3A"
+ ]
+}

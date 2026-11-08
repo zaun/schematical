@@ -1,0 +1,192 @@
+{
+ "id": "74_365",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Hex buffer/line driver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74hc365 p.3 (J/D/N/NS/PW; sn54hc365 is the same PDF), sn74hcs365 p.3 (D/DYY/PW), sn74hcs365-q1 p.3 (D/PW, WBQB same numbering + thermal pad). OE1 and OE2 active low, both low = Y=A (sn74hc365 p.1, sn74hcs365 p.3).",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "OE1",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "Y1",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "A2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "Y2",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "A3",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "Y3",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "Y4",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "A4",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "Y5",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "A5",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "Y6",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "A6",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "OE2",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "D",
+    "N",
+    "NS",
+    "PW",
+    "J",
+    "DYY",
+    "BQB"
+   ],
+   "pinout": "p16"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6"
+   ],
+   "y": [
+    "Y1",
+    "Y2",
+    "Y3",
+    "Y4",
+    "Y5",
+    "Y6"
+   ],
+   "oe": [
+    {
+     "pin": "OE1",
+     "active": "low"
+    },
+    {
+     "pin": "OE2",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "HC": {
+   "rise": 12,
+   "fall": 12,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "typ tpd A->Y at 4.5 V, 50 pF (sn74hc365 p.5); VCC 2-6 V, SN54 and SN74 (p.4)"
+  },
+  "HCS": {
+   "rise": 9,
+   "fall": 9,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "typ tpd A->Y at 4.5 V, 50 pF (sn74hcs365 p.5; -q1 p.5 same); VCC 2-6 V (p.4)"
+  }
+ },
+ "families": {
+  "HC": [
+   "sn74hc365",
+   "sn54hc365"
+  ],
+  "HCS": [
+   "sn74hcs365",
+   "sn74hcs365-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74hc365",
+  "sn54hc365",
+  "sn74hcs365",
+  "sn74hcs365-q1"
+ ],
+ "parts": [
+  "SN74HC365DR",
+  "SN74HC365N",
+  "SN74HC365NSR",
+  "SN74HC365PWR",
+  "SN74HCS365DR",
+  "SN74HCS365PWR",
+  "SN74HCS365QDRQ1",
+  "SN74HCS365QPWRQ1",
+  "SN74HCS365QWBQBRQ1",
+  "8500101EA",
+  "SNJ54HC365J",
+  "SN74HC365NS",
+  "SN74HCS365DYYR"
+ ]
+}

@@ -1,0 +1,350 @@
+{
+ "id": "74_16623",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "16-bit bus transceiver, separate A-to-B and B-to-A enables, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74abt16623 p.1 (DGG or DL; WD for SN54): 1 1OEAB, 2-3 1B1-1B2, 5-6 1B3-1B4, 8-9 1B5-1B6, 11-12 1B7-1B8, 13-14 2B1-2B2, 16-17 2B3-2B4, 19-20 2B5-2B6, 22-23 2B7-2B8, 24 2OEAB, 25 2OEBA, 26-27 2A8-2A7, 29-30 2A6-2A5, 32-33 2A4-2A3, 35-36 2A2-2A1, 37-38 1A8-1A7, 40-41 1A6-1A5, 43-44 1A4-1A3, 46-47 1A2-1A1, 48 1OEBA; GND 4,10,15,21,28,34,39,45; VCC 7,18,31,42. Function table p.2 (each 8-bit section): OEBA L/OEAB L B->A; L/H both directions (bus latch, outputs reinforce inputs); H/L isolation; H/H A->B. OEAB active high, OEBA active low.",
+ "pinouts": {
+  "p48": [
+   {
+    "number": 1,
+    "name": "1OEAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1B1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "1B2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "1B3",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "1B4",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 8,
+    "name": "1B5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "1B6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "1B7",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "1B8",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "2B1",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "2B2",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 16,
+    "name": "2B3",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "2B4",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 19,
+    "name": "2B5",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "2B6",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 22,
+    "name": "2B7",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "2B8",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "2OEAB",
+    "role": "input"
+   },
+   {
+    "number": 25,
+    "name": "2OEBA",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "2A8",
+    "role": "inout"
+   },
+   {
+    "number": 27,
+    "name": "2A7",
+    "role": "inout"
+   },
+   {
+    "number": 28,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 29,
+    "name": "2A6",
+    "role": "inout"
+   },
+   {
+    "number": 30,
+    "name": "2A5",
+    "role": "inout"
+   },
+   {
+    "number": 31,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 32,
+    "name": "2A4",
+    "role": "inout"
+   },
+   {
+    "number": 33,
+    "name": "2A3",
+    "role": "inout"
+   },
+   {
+    "number": 34,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 35,
+    "name": "2A2",
+    "role": "inout"
+   },
+   {
+    "number": 36,
+    "name": "2A1",
+    "role": "inout"
+   },
+   {
+    "number": 37,
+    "name": "1A8",
+    "role": "inout"
+   },
+   {
+    "number": 38,
+    "name": "1A7",
+    "role": "inout"
+   },
+   {
+    "number": 39,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 40,
+    "name": "1A6",
+    "role": "inout"
+   },
+   {
+    "number": 41,
+    "name": "1A5",
+    "role": "inout"
+   },
+   {
+    "number": 42,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 43,
+    "name": "1A4",
+    "role": "inout"
+   },
+   {
+    "number": 44,
+    "name": "1A3",
+    "role": "inout"
+   },
+   {
+    "number": 45,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 46,
+    "name": "1A2",
+    "role": "inout"
+   },
+   {
+    "number": 47,
+    "name": "1A1",
+    "role": "inout"
+   },
+   {
+    "number": 48,
+    "name": "1OEBA",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DL"
+   ],
+   "pinout": "p48"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4",
+    "1A5",
+    "1A6",
+    "1A7",
+    "1A8"
+   ],
+   "b": [
+    "1B1",
+    "1B2",
+    "1B3",
+    "1B4",
+    "1B5",
+    "1B6",
+    "1B7",
+    "1B8"
+   ],
+   "oeab": {
+    "pin": "1OEAB",
+    "active": "high"
+   },
+   "oeba": {
+    "pin": "1OEBA",
+    "active": "low"
+   }
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4",
+    "2A5",
+    "2A6",
+    "2A7",
+    "2A8"
+   ],
+   "b": [
+    "2B1",
+    "2B2",
+    "2B3",
+    "2B4",
+    "2B5",
+    "2B6",
+    "2B7",
+    "2B8"
+   ],
+   "oeab": {
+    "pin": "2OEAB",
+    "active": "high"
+   },
+   "oeba": {
+    "pin": "2OEBA",
+    "active": "low"
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 2,
+   "fall": 2.2,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical A->B or B->A at 5 V, 25 C, 50 pF, SN74ABT16623 (sn74abt16623 p.5). VCC 4.5-5.5 V (sn74abt16623 p.3)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt16623"
+  ]
+ },
+ "pdfs": [
+  "sn74abt16623"
+ ],
+ "parts": [
+  "SN74ABT16623DL",
+  "SN74ABT16623DLR"
+ ]
+}

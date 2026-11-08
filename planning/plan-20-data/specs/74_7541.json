@@ -1,0 +1,242 @@
+{
+ "id": "74_7541",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Octal buffer/driver, open-drain outputs, dual output enables",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout: sn74ac7541 p.3 (DGS/PW, RKS: same numbering, thermal pad not a pin), sn74act7541 p.3, sn74ac7541-q1 p.3, sn74act7541-q1 p.3, sn74ahc7541-q1 p.3, sn74ahct7541-q1 p.3. OE1 and OE2 both low = outputs active (open-drain); either high = high impedance (sn74ac7541 p.1).",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "OE1",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "Y8",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "Y7",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "Y6",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "Y5",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "Y4",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "Y3",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "Y2",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "Y1",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "OE2",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DGS",
+    "PW",
+    "RKS"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "y": [
+    "Y1",
+    "Y2",
+    "Y3",
+    "Y4",
+    "Y5",
+    "Y6",
+    "Y7",
+    "Y8"
+   ],
+   "oe": [
+    {
+     "pin": "OE1",
+     "active": "low"
+    },
+    {
+     "pin": "OE2",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "open-drain",
+ "timing": {
+  "AC": {
+   "rise": 3.8,
+   "fall": 6.5,
+   "vcc": [
+    1.5,
+    6
+   ],
+   "note": "sn74ac7541 p.6 prints only OE->Y: typ tPLZ 3.8 (used as release/rise) and tPZL 6.5 (fall) at 5 V, 50 pF; p.1 max tpd 11 ns at 5 V; VCC 1.5-6 V (p.4)"
+  },
+  "ACT": {
+   "rise": 4.2,
+   "fall": 5,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A->Y at 5 V, 50 pF (sn74act7541 p.5); VCC 4.5-5.5 V (p.4)"
+  },
+  "AHC": {
+   "rise": 10.5,
+   "fall": 42.6,
+   "vcc": [
+    2,
+    5.5
+   ],
+   "note": "max A->Y tPLZ (rise) / tPZL (fall) at 5 V, 25 C, 50 pF, no typ printed (sn74ahc7541-q1 p.6; 15 pF: 7.3/17.5); VCC 2-5.5 V, VI 0-5.5 V (p.4)"
+  },
+  "AHCT": {
+   "rise": 7.9,
+   "fall": 6,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ A->Y tPLZ (rise) / tPZL (fall) at 5 V, 50 pF, -40 to 125 C column (sn74ahct7541-q1 p.5); VCC 4.5-5.5 V, VI 0-5.5 V (p.4)"
+  }
+ },
+ "families": {
+  "AC": [
+   "sn74ac7541",
+   "sn74ac7541-q1"
+  ],
+  "ACT": [
+   "sn74act7541",
+   "sn74act7541-q1"
+  ],
+  "AHC": [
+   "sn74ahc7541-q1"
+  ],
+  "AHCT": [
+   "sn74ahct7541-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74ac7541",
+  "sn74ac7541-q1",
+  "sn74act7541",
+  "sn74act7541-q1",
+  "sn74ahc7541-q1",
+  "sn74ahct7541-q1"
+ ],
+ "parts": [
+  "74ACT7541QWRKSRQ1",
+  "SN74AC7541DGSR",
+  "SN74AC7541QDGSRQ1",
+  "SN74AC7541QPWRQ1",
+  "SN74AC7541QWRKSRQ1",
+  "SN74AC7541RKSR",
+  "SN74ACT7541DGSR",
+  "SN74ACT7541PWR",
+  "SN74ACT7541QDGSRQ1",
+  "SN74ACT7541QPWRQ1",
+  "SN74ACT7541RKSR",
+  "SN74AHC7541QDGSRQ1",
+  "SN74AHC7541QPWRQ1",
+  "SN74AHCT7541QPWRQ1",
+  "CAHC7541QWRKSRQ1",
+  "CAHCT7541QDGSRQ1",
+  "CAHCT7541QWRKSRQ1"
+ ]
+}

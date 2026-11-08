@@ -1,0 +1,315 @@
+{
+ "id": "74_8T245",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "8-bit dual-supply bus transceiver / level shifter, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74avc8t245 p.3 Pin Functions (DGV, PW, RHL); sn74avc8t245-q1 p.3 (PW, RHL figures); sn74avch8t245 p.3; sn74lvc8t245 p.3 (DB, DW, NS, PW); sn74lvch8t245 p.3 (DB, DGV, PW, RHL); sn74lxc8t245 p.3 (PW, DGS, RHL numbering; RJW differs, not used); sn74lxc8t245-q1 p.3; sn74lxch8t245 p.3 - all the same 24-pin assignment. DIR high = A to B, OE low enables (sn74lxc8t245 p.22 function table; same in the others). DIR and OE referenced to VCCA. Bus hold (AVCH, LVCH, LXCH) not modeled.",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "VCCA",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 14,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "VCCB",
+    "role": "power"
+   },
+   {
+    "number": 24,
+    "name": "VCCB",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DB",
+    "DGS",
+    "DGV",
+    "DW",
+    "NS",
+    "PW",
+    "RHL"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VCCA",
+   "pins": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "DIR",
+    "OE"
+   ]
+  },
+  {
+   "power": "VCCB",
+   "pins": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ]
+  }
+ ],
+ "timing": {
+  "AVC": {
+   "rise": 2.5,
+   "fall": 2.5,
+   "vcc": [
+    1.2,
+    3.6
+   ],
+   "vccB": [
+    1.2,
+    3.6
+   ],
+   "note": "max tPLH/tPHL A->B at VCCA 3.3 V, VCCB 3.3 V (nearest row to 3.3<->5 V; device max 3.6 V), -40 to 85 C (sn74avc8t245 p.10, no typ printed); VCCA/VCCB 1.2-3.6 V, VI to 3.6 V (p.5)"
+  },
+  "LVC": {
+   "rise": 4.4,
+   "fall": 4.4,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "vccB": [
+    1.65,
+    5.5
+   ],
+   "note": "max tPLH/tPHL A->B at VCCA 3.3 V, VCCB 5 V (sn74lvc8t245 p.11, no typ printed); VCCA/VCCB 1.65-5.5 V, control VI to 5.5 V (p.7)"
+  },
+  "LXC": {
+   "rise": 6.5,
+   "fall": 6.5,
+   "vcc": [
+    1.08,
+    5.5
+   ],
+   "vccB": [
+    1.08,
+    5.5
+   ],
+   "note": "max tpd A->B at VCCA 3.3 V, VCCB 5 V, -40 to 85 C (sn74lxc8t245 p.13, no typ printed); VCCA/VCCB 1.08-5.5 V, VI to 5.5 V (p.5)"
+  }
+ },
+ "families": {
+  "AVC": [
+   "sn74avc8t245",
+   "sn74avc8t245-q1",
+   "sn74avch8t245"
+  ],
+  "LVC": [
+   "sn74lvc8t245",
+   "sn74lvc8t245-ep",
+   "sn74lvc8t245-q1",
+   "sn74lvch8t245"
+  ],
+  "LXC": [
+   "sn74lxc8t245",
+   "sn74lxc8t245-q1",
+   "sn74lxch8t245"
+  ]
+ },
+ "pdfs": [
+  "sn74avc8t245",
+  "sn74avc8t245-q1",
+  "sn74avch8t245",
+  "sn74lvc8t245",
+  "sn74lvc8t245-ep",
+  "sn74lvc8t245-q1",
+  "sn74lvch8t245",
+  "sn74lxc8t245",
+  "sn74lxc8t245-q1",
+  "sn74lxch8t245"
+ ],
+ "parts": [
+  "CAVC8T245QRHLRQ1",
+  "CLVC8T245MRHLTEP",
+  "CLXC8T245QRHLRQ1",
+  "SN74AVC8T245DGVR",
+  "SN74AVC8T245PW",
+  "SN74AVC8T245PWR",
+  "SN74AVC8T245QPWRQ1",
+  "SN74AVCH8T245DGVR",
+  "SN74AVCH8T245PW",
+  "SN74AVCH8T245PWR",
+  "SN74AVCH8T245RHLR",
+  "SN74LVC8T245DBR",
+  "SN74LVC8T245DWR",
+  "SN74LVC8T245MDWREP",
+  "SN74LVC8T245NSR",
+  "SN74LVC8T245PWR",
+  "SN74LVC8T245QPWRQ1",
+  "SN74LVCH8T245DBR",
+  "SN74LVCH8T245DGVR",
+  "SN74LVCH8T245PW",
+  "SN74LVCH8T245PWR",
+  "SN74LVCH8T245RHLR",
+  "SN74LXC8T245DGSR",
+  "SN74LXC8T245RHLR",
+  "SN74LXCH8T245PWR",
+  "SN74LXCH8T245RHLR",
+  "CLXC8T245QDGSRQ1"
+ ]
+}

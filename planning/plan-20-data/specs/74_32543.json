@@ -1,0 +1,693 @@
+{
+ "id": "74_32543",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "36-bit registered bus transceiver (two 18-bit sections, latched), 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "p100 = PZ LQFP-100 from sn74abth32543 p.1 (read from the drawing: 1-25 left side top to bottom, 26-50 bottom left to right, 51-75 right side bottom to top, 76-100 top right to left). Each 18-bit section is a '543: function table p.3 (A to B shown; B to A same with CEBA/LEBA/OEBA): CEAB H -> B Z; OEAB H -> B Z; CEAB L, LEAB H, OEAB L -> B holds B0 (latched); CEAB L, LEAB L, OEAB L -> B = A (transparent). Description p.2: CEAB must be low to enter data from A or to output data to B; LEAB low = transparent, low-to-high stores. 5962-9557801NXD is the SMD of this PZ part (packaging table p.9). Bus hold not modeled.",
+ "pinouts": {
+  "p100": [
+   {
+    "number": 1,
+    "name": "1A9",
+    "role": "inout"
+   },
+   {
+    "number": 2,
+    "name": "1A10",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "1A11",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "1A12",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "1A13",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "1A14",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "1A15",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "1A16",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "1A17",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "1A18",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 14,
+    "name": "2A1",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "2A2",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "2A3",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "2A4",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 19,
+    "name": "2A5",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "2A6",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "2A7",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "2A8",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 24,
+    "name": "2A9",
+    "role": "inout"
+   },
+   {
+    "number": 25,
+    "name": "2A10",
+    "role": "inout"
+   },
+   {
+    "number": 26,
+    "name": "2A11",
+    "role": "inout"
+   },
+   {
+    "number": 27,
+    "name": "2A12",
+    "role": "inout"
+   },
+   {
+    "number": 28,
+    "name": "2A13",
+    "role": "inout"
+   },
+   {
+    "number": 29,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 30,
+    "name": "2A14",
+    "role": "inout"
+   },
+   {
+    "number": 31,
+    "name": "2A15",
+    "role": "inout"
+   },
+   {
+    "number": 32,
+    "name": "2A16",
+    "role": "inout"
+   },
+   {
+    "number": 33,
+    "name": "2A17",
+    "role": "inout"
+   },
+   {
+    "number": 34,
+    "name": "2A18",
+    "role": "inout"
+   },
+   {
+    "number": 35,
+    "name": "2CEBA",
+    "role": "input"
+   },
+   {
+    "number": 36,
+    "name": "2OEBA",
+    "role": "input"
+   },
+   {
+    "number": 37,
+    "name": "2LEBA",
+    "role": "input"
+   },
+   {
+    "number": 38,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 39,
+    "name": "2LEAB",
+    "role": "input"
+   },
+   {
+    "number": 40,
+    "name": "2OEAB",
+    "role": "input"
+   },
+   {
+    "number": 41,
+    "name": "2CEAB",
+    "role": "input"
+   },
+   {
+    "number": 42,
+    "name": "2B18",
+    "role": "inout"
+   },
+   {
+    "number": 43,
+    "name": "2B17",
+    "role": "inout"
+   },
+   {
+    "number": 44,
+    "name": "2B16",
+    "role": "inout"
+   },
+   {
+    "number": 45,
+    "name": "2B15",
+    "role": "inout"
+   },
+   {
+    "number": 46,
+    "name": "2B14",
+    "role": "inout"
+   },
+   {
+    "number": 47,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 48,
+    "name": "2B13",
+    "role": "inout"
+   },
+   {
+    "number": 49,
+    "name": "2B12",
+    "role": "inout"
+   },
+   {
+    "number": 50,
+    "name": "2B11",
+    "role": "inout"
+   },
+   {
+    "number": 51,
+    "name": "2B10",
+    "role": "inout"
+   },
+   {
+    "number": 52,
+    "name": "2B9",
+    "role": "inout"
+   },
+   {
+    "number": 53,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 54,
+    "name": "2B8",
+    "role": "inout"
+   },
+   {
+    "number": 55,
+    "name": "2B7",
+    "role": "inout"
+   },
+   {
+    "number": 56,
+    "name": "2B6",
+    "role": "inout"
+   },
+   {
+    "number": 57,
+    "name": "2B5",
+    "role": "inout"
+   },
+   {
+    "number": 58,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 59,
+    "name": "2B4",
+    "role": "inout"
+   },
+   {
+    "number": 60,
+    "name": "2B3",
+    "role": "inout"
+   },
+   {
+    "number": 61,
+    "name": "2B2",
+    "role": "inout"
+   },
+   {
+    "number": 62,
+    "name": "2B1",
+    "role": "inout"
+   },
+   {
+    "number": 63,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 64,
+    "name": "1B18",
+    "role": "inout"
+   },
+   {
+    "number": 65,
+    "name": "1B17",
+    "role": "inout"
+   },
+   {
+    "number": 66,
+    "name": "1B16",
+    "role": "inout"
+   },
+   {
+    "number": 67,
+    "name": "1B15",
+    "role": "inout"
+   },
+   {
+    "number": 68,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 69,
+    "name": "1B14",
+    "role": "inout"
+   },
+   {
+    "number": 70,
+    "name": "1B13",
+    "role": "inout"
+   },
+   {
+    "number": 71,
+    "name": "1B12",
+    "role": "inout"
+   },
+   {
+    "number": 72,
+    "name": "1B11",
+    "role": "inout"
+   },
+   {
+    "number": 73,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 74,
+    "name": "1B10",
+    "role": "inout"
+   },
+   {
+    "number": 75,
+    "name": "1B9",
+    "role": "inout"
+   },
+   {
+    "number": 76,
+    "name": "1B8",
+    "role": "inout"
+   },
+   {
+    "number": 77,
+    "name": "1B7",
+    "role": "inout"
+   },
+   {
+    "number": 78,
+    "name": "1B6",
+    "role": "inout"
+   },
+   {
+    "number": 79,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 80,
+    "name": "1B5",
+    "role": "inout"
+   },
+   {
+    "number": 81,
+    "name": "1B4",
+    "role": "inout"
+   },
+   {
+    "number": 82,
+    "name": "1B3",
+    "role": "inout"
+   },
+   {
+    "number": 83,
+    "name": "1B2",
+    "role": "inout"
+   },
+   {
+    "number": 84,
+    "name": "1B1",
+    "role": "inout"
+   },
+   {
+    "number": 85,
+    "name": "1CEAB",
+    "role": "input"
+   },
+   {
+    "number": 86,
+    "name": "1OEAB",
+    "role": "input"
+   },
+   {
+    "number": 87,
+    "name": "1LEAB",
+    "role": "input"
+   },
+   {
+    "number": 88,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 89,
+    "name": "1LEBA",
+    "role": "input"
+   },
+   {
+    "number": 90,
+    "name": "1OEBA",
+    "role": "input"
+   },
+   {
+    "number": 91,
+    "name": "1CEBA",
+    "role": "input"
+   },
+   {
+    "number": 92,
+    "name": "1A1",
+    "role": "inout"
+   },
+   {
+    "number": 93,
+    "name": "1A2",
+    "role": "inout"
+   },
+   {
+    "number": 94,
+    "name": "1A3",
+    "role": "inout"
+   },
+   {
+    "number": 95,
+    "name": "1A4",
+    "role": "inout"
+   },
+   {
+    "number": 96,
+    "name": "1A5",
+    "role": "inout"
+   },
+   {
+    "number": 97,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 98,
+    "name": "1A6",
+    "role": "inout"
+   },
+   {
+    "number": 99,
+    "name": "1A7",
+    "role": "inout"
+   },
+   {
+    "number": 100,
+    "name": "1A8",
+    "role": "inout"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "PZ"
+   ],
+   "pinout": "p100"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4",
+    "1A5",
+    "1A6",
+    "1A7",
+    "1A8",
+    "1A9",
+    "1A10",
+    "1A11",
+    "1A12",
+    "1A13",
+    "1A14",
+    "1A15",
+    "1A16",
+    "1A17",
+    "1A18"
+   ],
+   "b": [
+    "1B1",
+    "1B2",
+    "1B3",
+    "1B4",
+    "1B5",
+    "1B6",
+    "1B7",
+    "1B8",
+    "1B9",
+    "1B10",
+    "1B11",
+    "1B12",
+    "1B13",
+    "1B14",
+    "1B15",
+    "1B16",
+    "1B17",
+    "1B18"
+   ],
+   "ab": {
+    "store": "latch",
+    "le": {
+     "pin": "1LEAB",
+     "active": "low"
+    },
+    "ce": {
+     "pin": "1CEAB",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "1OEAB",
+     "active": "low"
+    }
+   },
+   "ba": {
+    "store": "latch",
+    "le": {
+     "pin": "1LEBA",
+     "active": "low"
+    },
+    "ce": {
+     "pin": "1CEBA",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "1OEBA",
+     "active": "low"
+    }
+   }
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4",
+    "2A5",
+    "2A6",
+    "2A7",
+    "2A8",
+    "2A9",
+    "2A10",
+    "2A11",
+    "2A12",
+    "2A13",
+    "2A14",
+    "2A15",
+    "2A16",
+    "2A17",
+    "2A18"
+   ],
+   "b": [
+    "2B1",
+    "2B2",
+    "2B3",
+    "2B4",
+    "2B5",
+    "2B6",
+    "2B7",
+    "2B8",
+    "2B9",
+    "2B10",
+    "2B11",
+    "2B12",
+    "2B13",
+    "2B14",
+    "2B15",
+    "2B16",
+    "2B17",
+    "2B18"
+   ],
+   "ab": {
+    "store": "latch",
+    "le": {
+     "pin": "2LEAB",
+     "active": "low"
+    },
+    "ce": {
+     "pin": "2CEAB",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "2OEAB",
+     "active": "low"
+    }
+   },
+   "ba": {
+    "store": "latch",
+    "le": {
+     "pin": "2LEBA",
+     "active": "low"
+    },
+    "ce": {
+     "pin": "2CEBA",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "2OEBA",
+     "active": "low"
+    }
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 3.5,
+   "fall": 3.5,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->B (transparent) at 5 V, 25 C, 50 pF, SN74ABTH32543 (sn74abth32543 p.7); LE->B typ 4.6/4.3. VCC 4.5-5.5 V, VI 0-VCC (sn74abth32543 p.5)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abth32543"
+  ]
+ },
+ "pdfs": [
+  "sn74abth32543"
+ ],
+ "parts": [
+  "SN74ABTH32543PZ"
+ ]
+}

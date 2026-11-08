@@ -1,0 +1,213 @@
+{
+ "id": "74_540_LS",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Octal inverting buffer/line driver, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "sn74ls540 = sn54ls540 (same scanned PDF). Pinout p.1 (J/W/DW/N top view; FK uses the same numbers: 1 G1, 2 A1, 3 A2 ... 19 G2, 20 VCC). G1, G2 active low (2-input NOR), Y = not A (p.1-2). VCC p.3, timing p.4 (rendered pages).",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "G1",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "Y8",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "Y7",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "Y6",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "Y5",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "Y4",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "Y3",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "Y2",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "Y1",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "G2",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DB",
+    "DW",
+    "N",
+    "NS",
+    "J",
+    "W",
+    "FK"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "y": [
+    "Y1",
+    "Y2",
+    "Y3",
+    "Y4",
+    "Y5",
+    "Y6",
+    "Y7",
+    "Y8"
+   ],
+   "oe": [
+    {
+     "pin": "G1",
+     "active": "low"
+    },
+    {
+     "pin": "G2",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": true,
+ "output": "push-pull",
+ "timing": {
+  "LS": {
+   "rise": 9,
+   "fall": 9,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "typ tPLH/tPHL 'LS540 at 5 V, 45 pF, RL 667 ohm (sn74ls540 p.4); VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (p.3)"
+  }
+ },
+ "partVcc": [
+  {
+   "prefix": "8415501",
+   "family": "LS",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  },
+  {
+   "prefix": "JM38510/32404",
+   "family": "LS",
+   "vcc": [
+    4.5,
+    5.5
+   ]
+  }
+ ],
+ "families": {
+  "LS": [
+   "sn74ls540",
+   "sn54ls540"
+  ]
+ },
+ "pdfs": [
+  "sn74ls540",
+  "sn54ls540"
+ ],
+ "parts": [
+  "SN74LS540DBR",
+  "SN74LS540DWR",
+  "SN74LS540N",
+  "SN74LS540NSR",
+  "8415501RA",
+  "84155012A",
+  "JM38510/32404BRA"
+ ]
+}

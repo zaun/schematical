@@ -182,16 +182,21 @@ Flags:
 
 - **Times** are nanoseconds (JSON numbers, fractions allowed). The loader
   converts them to the engine's picoseconds with `llround(ns * 1000)`.
-- **Logic families** (`family` on gate, dff and jkff parts) must be one of:
+- **Logic families** (`family` on gate, dff, jkff and the sequential and
+  buffer kinds' parts) must be one of:
   HC, LS, ACT, HCT, F, AC, AHCT, ALS, AS, AHC, S, C, H, HCS, LV, LVC, AUP,
-  AUC, ALVC, TTL, ABT, BCT, LVT, AVC, TPIC, FCT, L, ALV. The last eight:
+  AUC, ALVC, TTL, ABT, BCT, LVT, AVC, TPIC, FCT, L, ALV, AXC, LXC, TXU, TXV. Of these:
   - `ABT`, `BCT`: BiCMOS bus-interface logic (5 V).
   - `LVT`: 3.3 V ABT; LVTH (bus-hold) parts use it too.
   - `AVC`: advanced very-low-voltage CMOS.
   - `TPIC`: TI power-logic parts with DMOS open-drain outputs.
-  - `FCT`: TI (formerly Cypress) CY74FCT fast CMOS with TTL-level inputs.
+  - `FCT`: TI (formerly Cypress, and Harris CD74FCT) fast CMOS bus-interface
+    logic with TTL-level inputs, CY74FCT…T and CD74FCT parts (5 V).
   - `L`: low-power standard TTL (SN54L/SN74L).
   - `ALV`: advanced low-voltage CMOS (SN74ALV, 3.3 V).
+  - `AXC`, `LXC`: dual-supply translating CMOS (AXC 0.65–3.6 V,
+    LXC 1.1–5.5 V per side); AXCH/LXCH bus-hold parts use them too.
+  - `TXU`, `TXV`: TI fixed-direction level translators (TXU0104, TXV0106 …).
 - **`note`** is allowed on a device and on any timing entry; it is ignored.
 - **Voltages** are volts (JSON numbers, fractions allowed). The loader
   converts them to millivolts (`uint32_t`) with `llround(v * 1000)`.
@@ -227,6 +232,24 @@ Every gate, dff, jkff, sram, eeprom, oscillator and charlcd part must resolve to
 `vcc` range (a part with none is rejected: `missing "vcc"`). Supplies,
 LEDs, 7-segment displays and switches never take these keys; their
 `Part.vcc` is NULL.
+
+#### Two supply domains (`domains`, `vccB`, `inputMaxB`)
+
+A dual-supply part (a level translator: SN74LVC1T45, SN74AVC8T245,
+TXU0104, CD4504B) has two supply domains, each powered from its own pin
+and judged against its own range. Today only the `buffer` kind's model
+`translator` takes these keys; the `Part` fields are general.
+
+| Key | Where | Value |
+|---|---|---|
+| `"domains"` | device | exactly 2 objects `{"power": <pin name>, "pins": [<pin names>]}`: the A side first, then the B side. `power` names the domain's supply pins (every pin of that name, e.g. two `VCCB`; each must have role `power`); `pins` lists the domain's other pins. Every pin of every pinout except ground, NC and absent pins belongs to exactly one domain (`"domains": pin "DIR" is in no domain`, `… is in two domains`). Control pins go to the side the datasheet references them to (usually A). |
+| `"vccB"`, `"inputMaxB"` | timing entry, part | the B side's range and input max, with the rules of `vcc`/`inputMax` above. Every timing entry of a device with `domains` needs `vccB`; without `domains` both keys are errors. `vcc`/`inputMax` are the A side's. |
+
+`Part.domains` (`PartSupplyDomain`: power pins, `vcc`, other pins; indices
+into `Part.pins`) has `domain_count` 2: domain 0 is the A side, whose `vcc`
+is `Part.vcc`; domain 1 the B side. Single-supply parts have
+`domain_count` 0. The listing line of a dual-supply part ends in
+`|vccb=<min>-<max>,in=<inputMax>` (millivolts) after its `|vcc=` field.
 
 ## Loading rules
 
@@ -568,7 +591,7 @@ Device keys:
 
 | Key | Value |
 |---|---|
-| `"gates"` | array of gates: `op` (`and`, `nand`, `or`, `nor`, `xor` = odd parity, `xnor` = even parity, `not` = inverter, exactly 1 input), `inputs` (1–13 pin names), `output` (a pin name). Each name must be exactly one pin in every pinout. |
+| `"gates"` | array of gates: `op` (`and`, `nand`, `or`, `nor`, `xor` = odd parity, `xnor` = even parity, `not` = inverter and `buf` = buffer (Y = A; X or Z in gives X), each exactly 1 input), `inputs` (1–13 pin names), `output` (a pin name). Each name must be exactly one pin in every pinout. |
 | `"output"` | optional: `push-pull` (default) or `open-drain` (a 1 releases the pin to Z after the rise delay; an external pull-up takes it high; 74x266, 74x05/06) |
 | `"units"` | optional: gates per package as shown in the drawer (`PartLogic.units`); default the number of `gates`. Differs only where one gate has two outputs (CD4068B: NAND and AND of the same 8 inputs, 1 unit). |
 | `"timing"` | object: logic family → `{rise, fall}` (ns), or `{otherLow: {rise, fall}, otherHigh: {rise, fall}}`; either form also takes `vcc` and `inputMax` at its top level (not inside `otherLow`/`otherHigh`) |
@@ -1694,7 +1717,8 @@ floor(10^12 / `tcyc` in ps). The listing's facts column reads
 `model=<m> grade=<g> max_hz=<n>`.
 
 Pin groups (presentation, § Pinouts and pins): D0–D7 `"data"`, PA0–PA7
-`"port A"`, PB0–PB7 `"port B"`; every other pin the default group.
+`"port A"`, PB0–PB7 `"port B"`, RS0–RS3 `"register select"`, CS1 and CS2B
+`"chip select"` (W65C22 only); every other pin the default group.
 
 **The bus (`bus65`).** Chip selects (active-high `cs_high`, active-low
 `cs_low`), RWB and the register selects are sampled at each PHI2 rise.
@@ -1964,6 +1988,108 @@ Behavior (the HD44780 family as the module datasheets print it;
 - **Backlight.** One light, on while the anode reads 1 and the cathode
   reads 0. The voltage check carries the anode's level to the cathode net,
   as for an LED, and checks VDD against `vcc`.
+
+### `buffer`
+
+Buffers with output enables, bus transceivers, registered and latched
+transceivers, and level translators (plan-20). Each device names a
+**model**: `tristate`, `transceiver`, `registered` or `translator`; the
+model decides the rest of the device keys (`registered`: below). `timing` entries are as in the
+sequential kinds: family → `{rise, fall}` (ns, the model's main path:
+A → Y, A → B, clock → B for `registered`), plus `note`, `vcc`, `inputMax`.
+Part keys: `family`, optional `vcc` and `inputMax`. `PartLogic.units` is
+the number of bits (buffers or transceiver channels) of the part.
+
+Shared keys:
+
+| Key | Value |
+|---|---|
+| `"units"` | 1–8 unit objects (the model's keys below); a unit is one group of bits sharing its enables. At most 40 bits per unit and 64 per part. |
+| `"invert"` | optional, default `false`: every path inverts ('240, '540, '640). A unit's own `"invert"` overrides it. |
+| `"output"` | optional: `push-pull` (default) or `open-drain` ('641, '756, open-collector parts): a 1 releases the pin. Applies to every output and port. |
+
+An **enable** (`oe`, `oeab`, `oeba`) is one control `{"pin", "active"}` or
+an array of 0–4 controls that must all be asserted ('541 OE1·OE2; `[]` =
+always enabled). An enable pin at X or Z makes what it gates X.
+
+**Ports.** A pin a part drives is never read back as an input: after a
+port's drive is released (a direction change), the port reads X until the
+release has taken effect (the rise delay), then the net's value. So a
+transceiver turning around shows X on the new destination for that time
+rather than its own old output.
+
+Signal rules otherwise as in [Sequential kinds](#sequential-kinds-latch-counter-shift):
+a data input at Z reads X; outputs are inertial (fall delay for 0, rise
+for 1 and Z, the longer for X); bus hold is not modeled.
+
+#### Model `tristate`
+
+Y = A (or NOT A) while every enable of the unit is asserted; Z while one is
+deasserted; X while one is unknown and none is deasserted.
+
+| Unit key | Value |
+|---|---|
+| `"a"` | input pin names (a name may repeat: '16344 drives four outputs from one input) |
+| `"y"` | output pin names, as many as `a` |
+| `"oe"` | optional enable; absent = always enabled |
+| `"invert"` | optional, overrides the device's |
+
+#### Model `transceiver`
+
+Two ports per unit, `"a"` and `"b"` (inout pins, as many each), in one of
+two forms:
+
+| Form | Unit keys |
+|---|---|
+| DIR + OE ('245) | `"dir": {"pin": <name>, "ab": "high"\|"low"}` — the DIR level that means A → B; `"oe"`: optional enable (absent: always on, 1T45) |
+| one enable per direction ('243, '620, '623, '638 inverted) | `"oeab"`, `"oeba"`: enables of the A → B and B → A buffers |
+
+The enabled direction's destination drives the source's value (inverted
+with `invert`); a port of a direction that is off is Z and reads. X on DIR
+(with OE not deasserted) makes both ports X. Both directions on (the '623
+latch row, `oeab` and `oeba` asserted together): each port drives the
+value last passed in either direction — the two buffers form a loop that
+holds the bus value present when the second enable arrived (X if both
+came at once).
+
+#### Model `registered`
+
+Transceivers with a latch or a register in each direction ('646/'648,
+'652/'654, '651/'653, '543/'544, '2952/'2953 and their 16-bit versions).
+Main path: clock → B (or LE → B for latches). Unit keys: `"a"`, `"b"` (inout,
+as many each), `"ab"` and `"ba"` (the A → B and B → A directions), optional
+`"invert"`; or additionally `"dir"` and `"oe"` at the unit ('646 form: one
+OE, DIR picks the driven side, as in the '245).
+
+| Key (inside `ab` / `ba`) | Value |
+|---|---|
+| `"store"` | `"latch"` or `"register"` |
+| `"le"` | latch only, required: control; the latch is transparent while asserted ('543 LEAB low) |
+| `"clk"` | register only, required: `{"pin", "edge": "rising"\|"falling"}` |
+| `"ce"` | optional control. A latch: transparent only while `le` and `ce` are asserted, and the destination drives only while `oe` and `ce` are ('543 CEAB). A register: the edge loads only while `ce` is asserted ('2952 CLKENAB). |
+| `"oe"` | enable: the destination drives while it is asserted; required unless the unit has `dir` (then not allowed) |
+| `"select"` | optional control: asserted → the destination shows the stored value; deasserted → the source's real-time value ('646 SAB). Without it the destination always shows the stored value (the '543 latch output, the '2952 register). |
+| `"invert"` | optional: the destination shows the inverse ('648, '651, '653, '654) |
+
+Stored bits are 0 at power-on. A latch or register takes its source
+port's value whether or not the part itself drives that port (the '646
+stores the bus it drives). A clock edge from X or Z, or a move from the
+pre-edge level into X or Z, may have been an edge: bits it would change go
+X. Both directions enabled and both showing real time hold the value last
+passed, as the transceiver model's both-enabled row.
+
+#### Model `translator`
+
+Dual-supply level translators. The logic is the transceiver's (units with
+`"b"`: DIR-controlled, `oe` optional — 1T45 has none; per-bit DIR parts
+such as the 4T774 have one unit per bit) or the tristate's (units with
+`"y"`: fixed direction, TXU/TXV, 8T540-style, CD4504B with no enable). The
+device also has `"domains"` (required) and every timing entry `vccB`
+([Two supply domains](#two-supply-domains-domains-vccb-inputmaxb)); the
+domains change only the voltage check, not the logic. Timing is one pair
+per family, from the datasheet's VCCA 3.3 V ↔ VCCB 5 V row or the nearest
+one. A translator's outputs do not float when one side is unpowered (the
+engine has no supply level per part).
 
 ### Sequential kinds (`latch`, `counter`, `shift`)
 

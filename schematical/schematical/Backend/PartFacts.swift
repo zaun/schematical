@@ -92,7 +92,14 @@ nonisolated enum PartFacts {
             add("Sleeve contact", contacts > 0 ? "Normally closed when unplugged" : "None")
         }
 
-        if let vcc = part.vcc {
+        if part.supplyDomains.count == 2 {
+            // A dual-supply part (plan-20-I): one range per side.
+            for (side, domain) in zip(["A", "B"], part.supplyDomains) {
+                let label = domain.power.isEmpty ? "Supply \(side)" : "Supply \(side) (\(domain.power))"
+                add(label, "\(VoltageCheck.volts(domain.minMV))–\(VoltageCheck.volts(domain.maxMV)) V")
+                add("Input max \(side)", "\(VoltageCheck.volts(domain.inputMaxMV)) V")
+            }
+        } else if let vcc = part.vcc {
             add("Supply range", "\(VoltageCheck.volts(vcc.minMV))–\(VoltageCheck.volts(vcc.maxMV)) V")
             if vcc.inputMaxMV > 0 { add("Input max", "\(VoltageCheck.volts(vcc.inputMaxMV)) V") }
         }
@@ -120,6 +127,7 @@ nonisolated enum PartFacts {
         case PART_CONNECTOR: return "Barrel connector"
         case PART_PIO: return "Peripheral I/O"
         case PART_DECODER: return "Decoder"
+        case PART_BUFFER: return "Buffer"
         case PART_MUX: return "Multiplexer"
         default: return ""
         }

@@ -11,10 +11,13 @@
  *   VFX-SW2      2-position switch rated 5 V
  *   VFX-OD74     open-drain D flip-flop, vcc 2-6 V
  *   VFX-PP74     push-pull D flip-flop, vcc 2-6 V
+ *   VFX-T45      dual-supply translator (buffer, plan-20-F):
+ *                A side {A, DIR} from VCCA 1.65-3.6 V, B side {B} from VCCB 1.65-5.5 V
  *
  * Every gate is SOT23-5: 1 A, 2 B, 3 GND, 4 Y, 5 VCC. The switch is
  * 1 1A, 2 2A, 3 2B, 4 1B (positions 1A-1B and 2A-2B). Each flip-flop is
- * SOT23-5: 1 D, 2 CLK, 3 GND, 4 Q, 5 VCC.
+ * SOT23-5: 1 D, 2 CLK, 3 GND, 4 Q, 5 VCC. The translator is SOT23-6:
+ * 1 VCCA, 2 GND, 3 A, 4 B, 5 DIR, 6 VCCB.
  */
 
 #include <stdio.h>
@@ -64,6 +67,19 @@ static const char VOLTAGE_FIXTURE_DFFS[] =
     VFX_DFF("vfx-pp74", "VFX-PP74", "push-pull")
     "]}";
 
+static const char VOLTAGE_FIXTURE_TRANSLATORS[] =
+    "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"buffer\",\"devices\":["
+    "{\"id\":\"vfx-t45\",\"function\":\"Level shifter\",\"description\":\"fixture\",\"drawer\":[],"
+    "\"pinouts\":{\"p6\":[{\"number\":1,\"name\":\"VCCA\",\"role\":\"power\"},"
+    "{\"number\":2,\"name\":\"GND\",\"role\":\"ground\"},{\"number\":3,\"name\":\"A\",\"role\":\"inout\"},"
+    "{\"number\":4,\"name\":\"B\",\"role\":\"inout\"},{\"number\":5,\"name\":\"DIR\",\"role\":\"input\"},"
+    "{\"number\":6,\"name\":\"VCCB\",\"role\":\"power\"}]},\"model\":\"translator\","
+    "\"units\":[{\"a\":[\"A\"],\"b\":[\"B\"],\"dir\":{\"pin\":\"DIR\",\"ab\":\"high\"}}],"
+    "\"domains\":[{\"power\":\"VCCA\",\"pins\":[\"A\",\"DIR\"]},{\"power\":\"VCCB\",\"pins\":[\"B\"]}],"
+    "\"timing\":{\"LVC\":{\"rise\":4,\"fall\":4,\"vcc\":[1.65,3.6],\"vccB\":[1.65,5.5]}},"
+    "\"parts\":[{\"name\":\"VFX-T45\",\"package\":\"SOT-23\",\"pinout\":\"p6\",\"footprint\":\"SOT23-6\",\"family\":\"LVC\"}]}"
+    "]}";
+
 /* Loads the fixture parts into a library that already has footprints.json.
    0, or -1 after printing the error. */
 static int load_voltage_fixture(PartLibrary *library) {
@@ -71,7 +87,9 @@ static int load_voltage_fixture(PartLibrary *library) {
 
     if (load_parts(library, VOLTAGE_FIXTURE_GATES, "voltage-fixture-gates.json", &error) != 0 ||
         load_parts(library, VOLTAGE_FIXTURE_SWITCHES, "voltage-fixture-switches.json", &error) != 0 ||
-        load_parts(library, VOLTAGE_FIXTURE_DFFS, "voltage-fixture-dffs.json", &error) != 0) {
+        load_parts(library, VOLTAGE_FIXTURE_DFFS, "voltage-fixture-dffs.json", &error) != 0 ||
+        load_parts(library, VOLTAGE_FIXTURE_TRANSLATORS, "voltage-fixture-translators.json",
+                   &error) != 0) {
         fprintf(stderr, "voltage fixture: %s\n", error != NULL ? error : "(no message)");
         free(error);
         return -1;

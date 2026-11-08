@@ -1,0 +1,86 @@
+{
+ "id": "1G16",
+ "kind": "gate",
+ "model": "not",
+ "function": "NOT",
+ "description": "Single Schmitt-trigger inverter buffer, open-drain output",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74lvc1g16 p.3 Table 4-1 (DBV, DCK: 1 NC, 2 A, 3 GND, 4 Y, 5 VCC); sn74lvc1g16-q1 p.3 same. Schmitt-trigger input, open-drain output (sn74lvc1g16 p.1).",
+ "pinouts": {
+  "p5": [
+   {
+    "number": 1,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 2,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 4,
+    "name": "Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBV",
+    "DCK"
+   ],
+   "pinout": "p5"
+  }
+ ],
+ "gates": [
+  {
+   "op": "not",
+   "inputs": [
+    "A"
+   ],
+   "output": "Y"
+  }
+ ],
+ "output": "open-drain",
+ "timing": {
+  "LVC": {
+   "rise": 6.5,
+   "fall": 6.5,
+   "vcc": [
+    1.65,
+    5.5
+   ],
+   "note": "Max tpd at 3.3 V, 50 pF, -40 to 125 C (no typical printed; 15 pF max 4.6), SN74LVC1G16 (sn74lvc1g16 p.6). VCC 1.65-5.5 V, VI 0-5.5 V (sn74lvc1g16 p.4)"
+  }
+ },
+ "families": {
+  "LVC": [
+   "sn74lvc1g16",
+   "sn74lvc1g16-q1"
+  ]
+ },
+ "pdfs": [
+  "sn74lvc1g16",
+  "sn74lvc1g16-q1"
+ ],
+ "parts": [
+  "SN74LVC1G16DBVR",
+  "SN74LVC1G16DBVRQ1",
+  "SN74LVC1G16DCKR",
+  "SN74LVC1G16DCKRQ1"
+ ]
+}

@@ -51,6 +51,7 @@ struct ContentView: View {
     @State private var memoryWindows: Set<MemoryWindowTarget> = []
     @State private var cpuWindows: Set<CpuWindowTarget> = []
     @State private var terminalWindows: Set<TerminalWindowTarget> = []
+    @State private var isBillOfMaterialsOpen = false
     /// Simulation speed (circuit time per wall time), an app preference.
     @AppStorage("simulationSpeed") private var simulationSpeed = 1.0
     /// The supply the VCC tool places (a `SupplyChoice` name), an app preference.
@@ -399,8 +400,16 @@ struct ContentView: View {
                     dismissWindow(id: "terminal", value: target)
                 }
                 terminalWindows = []
+                if isBillOfMaterialsOpen {
+                    dismissWindow(id: "bom", value: BillOfMaterialsTarget(sessionID: sessionID))
+                    isBillOfMaterialsOpen = false
+                }
             }
             .focusedSceneValue(\.schematicFile, file)
+            .focusedSceneValue(\.openBillOfMaterials) {
+                isBillOfMaterialsOpen = true
+                openWindow(id: "bom", value: BillOfMaterialsTarget(sessionID: sessionID))
+            }
             .background(WindowReader { file.window = $0 })
             .navigationTitle(file.displayName)
     }

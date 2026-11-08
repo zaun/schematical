@@ -1,0 +1,180 @@
+{
+ "id": "74_4T125",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Quadruple bus buffer, 3-state outputs, active-low enables, with level shifting",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74lv4t125 p.3 (PW, RGY): '125 layout, 1OE 1, 1A 2, 1Y 3, 2OE 4, 2A 5, 2Y 6, GND 7, 3Y 8, 3A 9, 3OE 10, 4Y 11, 4A 12, 4OE 13, VCC 14; sn74lv4t125-ep p.3 (PW) same. Function table p.13 (OE L: Y = A, OE H: Z). RGY thermal pad is not a pin.",
+ "pinouts": {
+  "p14": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "3OE",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "4Y",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "4A",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "4OE",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "PW",
+    "RGY"
+   ],
+   "pinout": "p14"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A"
+   ],
+   "y": [
+    "1Y"
+   ],
+   "oe": [
+    {
+     "pin": "1OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A"
+   ],
+   "y": [
+    "2Y"
+   ],
+   "oe": [
+    {
+     "pin": "2OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "3A"
+   ],
+   "y": [
+    "3Y"
+   ],
+   "oe": [
+    {
+     "pin": "3OE",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "4A"
+   ],
+   "y": [
+    "4Y"
+   ],
+   "oe": [
+    {
+     "pin": "4OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "LV": {
+   "rise": 5,
+   "fall": 5,
+   "vcc": [
+    1.6,
+    5.5
+   ],
+   "note": "typ tpd at 3.3 V, 30 pF (sn74lv4t125 p.7); VCC 1.6-5.5 V, VI to 5.5 V (p.5); -ep p.4 same"
+  }
+ },
+ "families": {
+  "LV": [
+   "sn74lv4t125",
+   "sn74lv4t125-ep"
+  ]
+ },
+ "pdfs": [
+  "sn74lv4t125",
+  "sn74lv4t125-ep"
+ ],
+ "parts": [
+  "SN74LV4T125PWR",
+  "SN74LV4T125PWREP",
+  "SN74LV4T125RGYR"
+ ]
+}

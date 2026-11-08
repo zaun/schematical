@@ -28,9 +28,9 @@
 static const char *const DEVICE_KEYS[] = {"gates", "output", "timing", "units", NULL};
 static const char *const PART_KEYS[] = {"family", "vcc", "inputMax", NULL};
 
-typedef enum { OP_AND, OP_NAND, OP_OR, OP_NOR, OP_XOR, OP_XNOR, OP_NOT } GateOp;
+typedef enum { OP_AND, OP_NAND, OP_OR, OP_NOR, OP_XOR, OP_XNOR, OP_NOT, OP_BUF } GateOp;
 
-static const char *const OP_NAMES[] = {"and", "nand", "or", "nor", "xor", "xnor", "not"};
+static const char *const OP_NAMES[] = {"and", "nand", "or", "nor", "xor", "xnor", "not", "buf"};
 
 typedef struct {
     SimTime rise;
@@ -153,8 +153,8 @@ static int load_gate(KindContext *ctx, const cJSON *json, GateDef *gate) {
     if (gate->input_count < 1 || gate->input_count > GATE_MAX_INPUTS) {
         return kind_error(ctx, "a gate has 1 to %d inputs", GATE_MAX_INPUTS);
     }
-    if (gate->op == OP_NOT && gate->input_count != 1) {
-        return kind_error(ctx, "a \"not\" gate has exactly 1 input");
+    if ((gate->op == OP_NOT || gate->op == OP_BUF) && gate->input_count != 1) {
+        return kind_error(ctx, "a \"%s\" gate has exactly 1 input", op);
     }
     memcpy(gate->inputs, inputs, gate->input_count * sizeof(*inputs));
     return 0;
@@ -339,6 +339,7 @@ static LogicValue gate_value(const GatePins *gate, const LogicValue *in) {
 
     switch (gate->op) {
         case OP_NOT:
+        case OP_BUF:
         case OP_AND:
         case OP_NAND:
             v = LOGIC_1;

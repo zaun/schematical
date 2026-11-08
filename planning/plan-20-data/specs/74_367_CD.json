@@ -1,0 +1,183 @@
+{
+ "id": "74_367_CD",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "Hex buffer/line driver, 3-state outputs (4 + 2 enables)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout from cd74hc367 p.3 (one data sheet for CD54/74HC367, HCT367, HC368, HCT368; also filed as cd74hc367, cd74hct367): OE1 1, 1A 2, 1Y 3, 2A 4, 2Y 5, 3A 6, 3Y 7, GND 8, 4Y 9, 4A 10, 5Y 11, 5A 12, 6Y 13, 6A 14, OE2 15, VCC 16 (same positions as 74_367, different names; '368 Y pins printed with overbars). OE1 controls 4 gates, OE2 the other 2 (p.8 description).",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "OE1",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "4Y",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "4A",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "5Y",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "5A",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "6Y",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "6A",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "OE2",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "D",
+    "J"
+   ],
+   "pinout": "p16"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A",
+    "2A",
+    "3A",
+    "4A"
+   ],
+   "y": [
+    "1Y",
+    "2Y",
+    "3Y",
+    "4Y"
+   ],
+   "oe": [
+    {
+     "pin": "OE1",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "5A",
+    "6A"
+   ],
+   "y": [
+    "5Y",
+    "6Y"
+   ],
+   "oe": [
+    {
+     "pin": "OE2",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "HC": {
+   "rise": 8,
+   "fall": 8,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "Typical tpd data->outputs at 5 V, 15 pF (cd74hc367 p.6, note 3; at 4.5 V/50 pF only max 21 ns is given). VCC 2-6 V (p.4)"
+  },
+  "HCT": {
+   "rise": 9,
+   "fall": 9,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tpd data->outputs at 5 V, 15 pF (cd74hc367 p.6, note 3; max 25/30 ns at 4.5 V, 50 pF). VCC 4.5-5.5 V (p.4)"
+  }
+ },
+ "families": {
+  "HC": [
+   "cd74hc367"
+  ],
+  "HCT": [
+   "cd74hct367"
+  ]
+ },
+ "parts": [
+  "CD74HC367E",
+  "CD74HC367M96",
+  "CD74HCT367E",
+  "CD74HCT367M96"
+ ],
+ "pdfs": [
+  "cd74hc367",
+  "cd74hct367"
+ ]
+}

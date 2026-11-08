@@ -1,0 +1,227 @@
+{
+ "id": "74_652_FCT",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "8-bit registered transceiver, real-time or stored data, 3-state outputs (FCT pin names)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Separate from 74_652 because cy74fct652t prints different control names (CPAB/CPBA clocks, GAB/GBA enables). Pinout: cy74fct652t p.1 (Q = QSOP/DBQ, SO = SOIC/DW). GAB active high, GBA active low, SAB/SBA low = real-time, high = stored; CPAB/CPBA rising edge stores regardless of select/enable (function table p.2). Speed grades T/AT/CT share one FCT entry (base T numbers).",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "CPAB",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "SAB",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "GAB",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 11,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "GBA",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "SBA",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "CPBA",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DBQ",
+    "DW"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "ab": {
+    "store": "register",
+    "clk": {
+     "pin": "CPAB",
+     "edge": "rising"
+    },
+    "oe": {
+     "pin": "GAB",
+     "active": "high"
+    },
+    "select": {
+     "pin": "SAB",
+     "active": "high"
+    }
+   },
+   "ba": {
+    "store": "register",
+    "clk": {
+     "pin": "CPBA",
+     "edge": "rising"
+    },
+    "oe": {
+     "pin": "GBA",
+     "active": "low"
+    },
+    "select": {
+     "pin": "SBA",
+     "active": "high"
+    }
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "FCT": {
+   "rise": 9,
+   "fall": 9,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "max tPLH/tPHL CPAB/CPBA->B/A, CY74FCT652T grade, -40 to 85 C; no typical printed (AT 6.3, CT 5.7) (cy74fct652t p.7). VCC 4.75-5.25 V (cy74fct652t p.5)"
+  }
+ },
+ "families": {
+  "FCT": [
+   "cy74fct652t"
+  ]
+ },
+ "pdfs": [
+  "cy74fct652t"
+ ],
+ "parts": [
+  "CY74FCT652ATQCT",
+  "CY74FCT652ATSOC",
+  "CY74FCT652ATSOCT",
+  "CY74FCT652CTQCT",
+  "CY74FCT652CTSOCT",
+  "CY74FCT652TQCT"
+ ]
+}

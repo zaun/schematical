@@ -1,0 +1,256 @@
+{
+ "id": "74_2952",
+ "kind": "buffer",
+ "model": "registered",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver and registers, clock enables, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout: sn74abt2952a p.1 (DB/DW/PW/NT), sn74lvc2952a p.1 (DB/PW), sn74lvth2952 p.1 (DB/DGV/DW/NS/PW): identical 24-pin. Two back-to-back 8-bit registers; A->B: B stores A on CLKAB rising while CLKENAB low, OEAB low drives B with the register (no real-time path); B->A the same with CLKBA/CLKENBA/OEBA (function table sn74abt2952a p.2, sn74lvc2952a p.2, sn74lvth2952 p.2).",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 2,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "OEAB",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "CLKAB",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "CLKENAB",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "CLKENBA",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "CLKBA",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "OEBA",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 20,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 21,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 22,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 23,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DB",
+    "DW",
+    "PW"
+   ],
+   "pinout": "p24"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "ab": {
+    "store": "register",
+    "clk": {
+     "pin": "CLKAB",
+     "edge": "rising"
+    },
+    "ce": {
+     "pin": "CLKENAB",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "OEAB",
+     "active": "low"
+    }
+   },
+   "ba": {
+    "store": "register",
+    "clk": {
+     "pin": "CLKBA",
+     "edge": "rising"
+    },
+    "ce": {
+     "pin": "CLKENBA",
+     "active": "low"
+    },
+    "oe": {
+     "pin": "OEBA",
+     "active": "low"
+    }
+   }
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 3.3,
+   "fall": 4,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL CLKAB/CLKBA->B/A at 5 V, 25 C, 50 pF (sn74abt2952a p.6). VCC 4.5-5.5 V (sn74abt2952a p.4)"
+  },
+  "LVC": {
+   "rise": 8.2,
+   "fall": 8.2,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "max tpd CLK->B/A at 3.3 V +-0.3 V, 50 pF; no typical printed (sn74lvc2952a p.5). VCC 1.65-3.6 V, inputs to 5.5 V (sn74lvc2952a p.3)"
+  },
+  "LVT": {
+   "rise": 2.9,
+   "fall": 3.1,
+   "vcc": [
+    2.7,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "typ tPLH/tPHL CLK->B/A at 3.3 V, 25 C, 50 pF, SN74LVTH2952 (sn74lvth2952 p.6). VCC 2.7-3.6 V, inputs to 5.5 V (sn74lvth2952 p.4)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt2952a"
+  ],
+  "LVC": [
+   "sn74lvc2952a"
+  ],
+  "LVT": [
+   "sn74lvth2952"
+  ]
+ },
+ "pdfs": [
+  "sn74abt2952a",
+  "sn74lvc2952a",
+  "sn74lvth2952"
+ ],
+ "parts": [
+  "SN74ABT2952ADWR",
+  "SN74LVC2952ADBR",
+  "SN74LVC2952APWR",
+  "SN74LVTH2952DW",
+  "SN74LVTH2952PW",
+  "SN74LVTH2952PWR"
+ ]
+}

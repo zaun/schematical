@@ -1,0 +1,264 @@
+{
+ "id": "74_2245",
+ "kind": "buffer",
+ "model": "transceiver",
+ "function": "Transceiver",
+ "description": "Octal bus transceiver with series damping resistors, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Standard '245 pinout: sn74abt2245 p.1 (DB/DW/N/PW, SN54 J/W; 5962-9560601QRA = SNJ54ABT2245J), sn74abtr2245 p.1, sn74bct2245 p.1 (DB/DW/N/NS), sn74lvcr2245a p.3 (DB/DBQ/DGV/DW/NS/PW, and RGY VQFN with the same numbers 1-20, thermal pad not a pin), sn74lvth2245 p.1. Function table OE L + DIR L = B data to A, DIR H = A data to B, OE H = isolation (sn74abt2245 p.1, sn74lvcr2245a p.10). B-port (ABT/ABTR/BCT) or all-port (LVCR) series resistors not modeled. SN74BCT2245NS is an NS orderable not in the packaging table.",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "DIR",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "A1",
+    "role": "inout"
+   },
+   {
+    "number": 3,
+    "name": "A2",
+    "role": "inout"
+   },
+   {
+    "number": 4,
+    "name": "A3",
+    "role": "inout"
+   },
+   {
+    "number": 5,
+    "name": "A4",
+    "role": "inout"
+   },
+   {
+    "number": 6,
+    "name": "A5",
+    "role": "inout"
+   },
+   {
+    "number": 7,
+    "name": "A6",
+    "role": "inout"
+   },
+   {
+    "number": 8,
+    "name": "A7",
+    "role": "inout"
+   },
+   {
+    "number": 9,
+    "name": "A8",
+    "role": "inout"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "B8",
+    "role": "inout"
+   },
+   {
+    "number": 12,
+    "name": "B7",
+    "role": "inout"
+   },
+   {
+    "number": 13,
+    "name": "B6",
+    "role": "inout"
+   },
+   {
+    "number": 14,
+    "name": "B5",
+    "role": "inout"
+   },
+   {
+    "number": 15,
+    "name": "B4",
+    "role": "inout"
+   },
+   {
+    "number": 16,
+    "name": "B3",
+    "role": "inout"
+   },
+   {
+    "number": 17,
+    "name": "B2",
+    "role": "inout"
+   },
+   {
+    "number": 18,
+    "name": "B1",
+    "role": "inout"
+   },
+   {
+    "number": 19,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DB",
+    "DBQ",
+    "DGV",
+    "DW",
+    "N",
+    "NS",
+    "PW",
+    "RGY",
+    "J",
+    "W"
+   ],
+   "pinout": "p20"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ],
+   "b": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ],
+   "dir": {
+    "pin": "DIR",
+    "ab": "high"
+   },
+   "oe": [
+    {
+     "pin": "OE",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 2.5,
+   "fall": 3.2,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->B at 5 V, 25 C, 50 pF, SN74ABT2245 (sn74abt2245 p.6; SN74ABTR2245 identical, sn74abtr2245 p.6). VCC 4.5-5.5 V, SN54 and SN74 (sn74abt2245 p.4)"
+  },
+  "BCT": {
+   "rise": 3.3,
+   "fall": 5.1,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical tPLH/tPHL A->B at 5 V, 25 C, 50 pF (sn74bct2245 p.4). VCC 4.5-5.5 V (sn74bct2245 p.3)"
+  },
+  "LVC": {
+   "rise": 6.3,
+   "fall": 6.3,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "Max tpd A/B->B/A at 3.3 V, -40 to 85 C, 50 pF, SN74LVCR2245A; no typical printed (sn74lvcr2245a p.7). VCC 1.65-3.6 V, VI to 5.5 V (sn74lvcr2245a p.6)"
+  },
+  "LVT": {
+   "rise": 2.9,
+   "fall": 2.6,
+   "vcc": [
+    2.7,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "Typical tPLH/tPHL A->B at 3.3 V, 25 C, 50 pF, SN74LVTH2245 (sn74lvth2245 p.5). VCC 2.7-3.6 V, VI to 5.5 V (sn74lvth2245 p.3)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt2245",
+   "sn74abtr2245",
+   "sn54abt2245"
+  ],
+  "BCT": [
+   "sn74bct2245"
+  ],
+  "LVC": [
+   "sn74lvcr2245a"
+  ],
+  "LVT": [
+   "sn74lvth2245"
+  ]
+ },
+ "pdfs": [
+  "sn74abt2245",
+  "sn74abtr2245",
+  "sn74bct2245",
+  "sn74lvcr2245a",
+  "sn74lvth2245",
+  "sn54abt2245"
+ ],
+ "parts": [
+  "SN74ABT2245DBR",
+  "SN74ABT2245DW",
+  "SN74ABT2245DWR",
+  "SN74ABT2245N",
+  "SN74ABT2245PW",
+  "SN74ABT2245PWR",
+  "SN74ABTR2245DW",
+  "SN74ABTR2245DWR",
+  "SN74ABTR2245PWR",
+  "SN74BCT2245DW",
+  "SN74BCT2245NSR",
+  "SN74LVCR2245ADBQR",
+  "SN74LVCR2245ADBR",
+  "SN74LVCR2245ADGVR",
+  "SN74LVCR2245ADW",
+  "SN74LVCR2245ADWR",
+  "SN74LVCR2245ANSR",
+  "SN74LVCR2245APW",
+  "SN74LVCR2245APWR",
+  "SN74LVCR2245APWT",
+  "SN74LVCR2245ARGYR",
+  "SN74LVTH2245DBR",
+  "SN74LVTH2245DGVR",
+  "SN74LVTH2245DW",
+  "SN74LVTH2245DWR",
+  "SN74LVTH2245PW",
+  "SN74LVTH2245PWR",
+  "5962-9560601QRA",
+  "SN74BCT2245DWR",
+  "SN74BCT2245NS"
+ ]
+}

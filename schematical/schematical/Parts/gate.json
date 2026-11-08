@@ -5760,7 +5760,8 @@
         {"name":"SN7416NSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"TTL"},
         {"name":"SN74AC16PWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC","flags":["automotive"]},
         {"name":"SN74ACT16BQAR","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"ACT"},
-        {"name":"SN74ACT16PWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"ACT"}
+        {"name":"SN74ACT16PWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"ACT"},
+        {"name":"SNJ5416J","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -7082,6 +7083,1187 @@
         {"name":"74ACT11004DW","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ACT"},
         {"name":"74ACT11004N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ACT"},
         {"name":"74ACT11004PW","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"ACT"}
+      ]
+    },
+    {
+      "id": "1G07",
+      "function": "Buffer",
+      "description": "Single buffer/driver, open-drain output",
+      "drawer": ["Logic"],
+      "note": "Pinouts sn74lvc1g07 p.3 Pin Functions (DBV/DCK/DRL, DRY/DSF with NC at 1 and 5, DPW, YZP 5-ball with A1 DNU, YZV 4-ball); sn74aup1g07 p.3 (same, plus YFP not used); sn74auc1g07 p.3 (DBV/DCK, YZP A1 DNU); sn74lvc1g07-q1 p.3 (DBV/DCK, DRY); sn74lvc1g07-ep p.1 (DCK). Open-drain output.",
+      "pinouts": {
+        "p5": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"A","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"Y","role":"output"},
+          {"number":5,"name":"VCC","role":"power"}
+        ],
+        "p6": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"A","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"Y","role":"output"},
+          {"number":5,"name":"NC","role":"nc"},
+          {"number":6,"name":"VCC","role":"power"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"DNU","role":"nc"},
+          {"ball":"B1","name":"A","role":"input"},
+          {"ball":"C1","name":"GND","role":"ground"},
+          {"ball":"C2","name":"Y","role":"output"},
+          {"ball":"A2","name":"VCC","role":"power"}
+        ],
+        "dsbga4": [
+          {"ball":"A1","name":"A","role":"input"},
+          {"ball":"B1","name":"GND","role":"ground"},
+          {"ball":"B2","name":"Y","role":"output"},
+          {"ball":"A2","name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["A"],"output":"Y"}
+      ],
+      "output": "open-drain",
+      "timing": {
+        "AUC": {"rise":1.1,"fall":1.1,"vcc":[0.8,2.7],"inputMax":3.6,"note":"sn74auc1g07 typ tpd at 1.8 V, 15 pF (p.5). VCC 0.8-2.7 V, VI 0-3.6 V (p.4)"},
+        "AUP": {"rise":3.7,"fall":3.7,"vcc":[0.8,3.6],"note":"sn74aup1g07 typ tpd at 3.3 V, 15 pF (p.6). VCC 0.8-3.6 V, VI to 3.6 V (p.4)"},
+        "LVC": {"rise":4.2,"fall":4.2,"vcc":[1.65,5.5],"note":"sn74lvc1g07 max tpd at 3.3 V, -40 to 85 C, no typ printed (p.6). VCC 1.65-5.5 V, VI 0-5.5 V (p.5); -q1 p.4 and -ep p.3 same range"}
+      },
+      "parts": [
+        {"name":"SN74AUC1G07DBVR","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"AUC"},
+        {"name":"SN74AUC1G07DBVT","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"AUC"},
+        {"name":"SN74AUC1G07DCKR","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"AUC"},
+        {"name":"SN74AUC1G07DCKT","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"AUC"},
+        {"name":"SN74AUC1G07YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-5-YZP","family":"AUC"},
+        {"name":"SN74AUP1G07DBVR","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"AUP"},
+        {"name":"SN74AUP1G07DBVT","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"AUP"},
+        {"name":"SN74AUP1G07DCKR","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"AUP"},
+        {"name":"SN74AUP1G07DCKT","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"AUP"},
+        {"name":"SN74AUP1G07DRLR","package":"SOT-5X3","pinout":"p5","footprint":"SOT5X3-5","family":"AUP"},
+        {"name":"SN74AUP1G07DRYR","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"AUP"},
+        {"name":"SN74AUP1G07DSF2","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"AUP"},
+        {"name":"SN74AUP1G07DSFR","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"AUP"},
+        {"name":"SN74AUP1G07YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-5-YZP","family":"AUP"},
+        {"name":"SN74LVC1G07DBVR","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LVC"},
+        {"name":"SN74LVC1G07DBVT","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LVC"},
+        {"name":"SN74LVC1G07DCKRG4","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC"},
+        {"name":"SN74LVC1G07DCKT","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC"},
+        {"name":"SN74LVC1G07DPWR","package":"X2SON","pinout":"p5","footprint":"X2SON-5-DPW","family":"LVC"},
+        {"name":"SN74LVC1G07DRY2","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"LVC"},
+        {"name":"SN74LVC1G07DRYR","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"LVC"},
+        {"name":"SN74LVC1G07DSF2","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"LVC"},
+        {"name":"SN74LVC1G07MDCKREP","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC","flags":["enhanced"]},
+        {"name":"SN74LVC1G07QDBVRQ1","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LVC","flags":["automotive"]},
+        {"name":"SN74LVC1G07QDCKRQ1","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC","flags":["automotive"]},
+        {"name":"SN74LVC1G07QDCKTQ1","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC","flags":["automotive"]},
+        {"name":"SN74LVC1G07QDRYRQ1","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"LVC","flags":["automotive"]},
+        {"name":"SN74LVC1G07YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-5-YZP","family":"LVC"}
+      ]
+    },
+    {
+      "id": "1G16",
+      "function": "NOT",
+      "description": "Single Schmitt-trigger inverter buffer, open-drain output",
+      "drawer": ["Logic"],
+      "note": "Pinout sn74lvc1g16 p.3 Table 4-1 (DBV, DCK: 1 NC, 2 A, 3 GND, 4 Y, 5 VCC); sn74lvc1g16-q1 p.3 same. Schmitt-trigger input, open-drain output (sn74lvc1g16 p.1).",
+      "pinouts": {
+        "p5": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"A","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"Y","role":"output"},
+          {"number":5,"name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"not","inputs":["A"],"output":"Y"}
+      ],
+      "output": "open-drain",
+      "timing": {
+        "LVC": {"rise":6.5,"fall":6.5,"vcc":[1.65,5.5],"note":"Max tpd at 3.3 V, 50 pF, -40 to 125 C (no typical printed; 15 pF max 4.6), SN74LVC1G16 (sn74lvc1g16 p.6). VCC 1.65-5.5 V, VI 0-5.5 V (sn74lvc1g16 p.4)"}
+      },
+      "parts": [
+        {"name":"SN74LVC1G16DBVR","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LVC"},
+        {"name":"SN74LVC1G16DBVRQ1","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LVC","flags":["automotive"]},
+        {"name":"SN74LVC1G16DCKR","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC"},
+        {"name":"SN74LVC1G16DCKRQ1","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC","flags":["automotive"]}
+      ]
+    },
+    {
+      "id": "1G17",
+      "function": "Buffer",
+      "description": "Single Schmitt-trigger buffer",
+      "drawer": ["Logic"],
+      "note": "Pinouts: sn74lvc1g17 p.3 Pin Functions (DBV/DCK/DRL/DPW 5-pin; DRY/DSF 6-pin with NC 1,5; YZP 5-ball A1 DNU, B2 unpopulated; YZV 4-ball); sn74lvc1g17-q1 p.3 (DBV/DCK/DRY, same); sn74lvc1g17-ep p.1 (DBV/DCK, same); sn74aup1g17 p.3 (DBV/DCK/DRL/DPW/DRY/DSF/YFP/YZP; YFP 4-ball A1 A, A2 VCC, B1 GND, B2 Y); sn74aup1g17-ep p.1 (DCK, same); sn74auc1g17 p.3 (DBV/DCK/DRL/YZP). Function Y = A, Schmitt-trigger input (sn74lvc1g17 p.1).",
+      "pinouts": {
+        "p5": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"A","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"Y","role":"output"},
+          {"number":5,"name":"VCC","role":"power"}
+        ],
+        "p6": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"A","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"Y","role":"output"},
+          {"number":5,"name":"NC","role":"nc"},
+          {"number":6,"name":"VCC","role":"power"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"NC","role":"nc"},
+          {"ball":"A2","name":"VCC","role":"power"},
+          {"ball":"B1","name":"A","role":"input"},
+          {"ball":"C1","name":"GND","role":"ground"},
+          {"ball":"C2","name":"Y","role":"output"}
+        ],
+        "dsbga4": [
+          {"ball":"A1","name":"A","role":"input"},
+          {"ball":"A2","name":"VCC","role":"power"},
+          {"ball":"B1","name":"GND","role":"ground"},
+          {"ball":"B2","name":"Y","role":"output"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["A"],"output":"Y"}
+      ],
+      "timing": {
+        "AUC": {"rise":1.1,"fall":1.1,"vcc":[0.8,2.7],"inputMax":3.6,"note":"typ tpd A->Y at 1.8 V, 15 pF (sn74auc1g17 p.6). VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc1g17 p.4)"},
+        "AUP": {"rise":4.1,"fall":4.1,"vcc":[0.8,3.6],"note":"typ tpd A->Y at 3.3 V, 15 pF, 25 C (sn74aup1g17 p.8). VCC 0.8-3.6 V, VI 0-3.6 V (sn74aup1g17 p.4; sn74aup1g17-ep same)"},
+        "LVC": {"rise":5.5,"fall":5.5,"vcc":[1.65,5.5],"note":"max tpd A->Y at 3.3 V, 30/50 pF, -40 to 85 C; no typical printed (sn74lvc1g17 p.7). VCC 1.65-5.5 V, VI to 5.5 V (sn74lvc1g17 p.5; -q1 and -ep same)"}
+      },
+      "parts": [
+        {"name":"SN74AUC1G17DBVR","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"AUC"},
+        {"name":"SN74AUC1G17DBVRG4","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"AUC"},
+        {"name":"SN74AUC1G17DCKR","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"AUC"},
+        {"name":"SN74AUC1G17DRLR","package":"SOT-5X3","pinout":"p5","footprint":"SOT5X3-5","family":"AUC"},
+        {"name":"SN74AUC1G17YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-5-YZP","family":"AUC"},
+        {"name":"SN74AUP1G17DBVR","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"AUP"},
+        {"name":"SN74AUP1G17DBVT","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"AUP"},
+        {"name":"SN74AUP1G17DCKR","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"AUP"},
+        {"name":"SN74AUP1G17DCKT","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"AUP"},
+        {"name":"SN74AUP1G17DPWR","package":"X2SON","pinout":"p5","footprint":"X2SON-5-DPW","family":"AUP"},
+        {"name":"SN74AUP1G17DRLR","package":"SOT-5X3","pinout":"p5","footprint":"SOT5X3-5","family":"AUP"},
+        {"name":"SN74AUP1G17DRYR","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"AUP"},
+        {"name":"SN74AUP1G17DSFR","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"AUP"},
+        {"name":"SN74AUP1G17MDCKREP","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"AUP","flags":["enhanced"]},
+        {"name":"SN74AUP1G17YFPR","package":"DSBGA","pinout":"dsbga4","footprint":"DSBGA-4-YFP","family":"AUP"},
+        {"name":"SN74AUP1G17YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-5-YZP","family":"AUP"},
+        {"name":"SN74LVC1G17DBVR","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LVC"},
+        {"name":"SN74LVC1G17DBVRG4","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LVC"},
+        {"name":"SN74LVC1G17DBVT","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LVC"},
+        {"name":"SN74LVC1G17DCKR","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC"},
+        {"name":"SN74LVC1G17DCKRG4","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC"},
+        {"name":"SN74LVC1G17DCKT","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC"},
+        {"name":"SN74LVC1G17DSFR","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"LVC"},
+        {"name":"SN74LVC1G17MDBVREP","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LVC","flags":["enhanced"]},
+        {"name":"SN74LVC1G17MDCKREP","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC","flags":["enhanced"]},
+        {"name":"SN74LVC1G17QDRYRQ1","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"LVC","flags":["automotive"]},
+        {"name":"SN74LVC1G17YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-5-YZP","family":"LVC"}
+      ]
+    },
+    {
+      "id": "1G34",
+      "function": "Buffer",
+      "description": "Single buffer",
+      "drawer": ["Logic"],
+      "note": "Pinout from sn74lvc1g34 p.3 Table 4-1 (DBV/DCK/DRL/DPW 5-pin; DRY/DSF 6-pin with NC 1,5; YZP 5-ball with A1 DNU; YZV/YFP 4-ball); sn74aup1g34 p.3 Pin Functions (same; YZP A1 printed N.C.); sn74lvc1g34-q1 p.3 Table 4-1 (DBV, DCK). Function Y = A.",
+      "pinouts": {
+        "p5": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"A","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"Y","role":"output"},
+          {"number":5,"name":"VCC","role":"power"}
+        ],
+        "p6": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"A","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"Y","role":"output"},
+          {"number":5,"name":"NC","role":"nc"},
+          {"number":6,"name":"VCC","role":"power"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"NC","role":"nc"},
+          {"ball":"B1","name":"A","role":"input"},
+          {"ball":"C1","name":"GND","role":"ground"},
+          {"ball":"C2","name":"Y","role":"output"},
+          {"ball":"A2","name":"VCC","role":"power"}
+        ],
+        "dsbga4": [
+          {"ball":"A1","name":"A","role":"input"},
+          {"ball":"B1","name":"GND","role":"ground"},
+          {"ball":"B2","name":"Y","role":"output"},
+          {"ball":"A2","name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["A"],"output":"Y"}
+      ],
+      "timing": {
+        "AUP": {"rise":2.9,"fall":2.9,"vcc":[0.8,3.6],"note":"sn74aup1g34 typ tpd A->Y at 3.3 V, 15 pF, 25 C (p.6). VCC 0.8-3.6 V, VI to 3.6 V (p.4)"},
+        "LVC": {"rise":4.1,"fall":4.1,"vcc":[1.65,5.5],"note":"sn74lvc1g34 max tpd A->Y at 3.3 V, 50 pF, -40 to 85 C (no typ printed) (p.7). VCC 1.65-5.5 V, VI to 5.5 V (p.5); sn74lvc1g34-q1 same VCC/VI (p.4)"}
+      },
+      "parts": [
+        {"name":"SN74AUP1G34DBVR","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"AUP"},
+        {"name":"SN74AUP1G34DBVT","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"AUP"},
+        {"name":"SN74AUP1G34DCKR","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"AUP"},
+        {"name":"SN74AUP1G34DCKT","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"AUP"},
+        {"name":"SN74AUP1G34DPWR","package":"X2SON","pinout":"p5","footprint":"X2SON-5-DPW","family":"AUP"},
+        {"name":"SN74AUP1G34DRLR","package":"SOT-5X3","pinout":"p5","footprint":"SOT5X3-5","family":"AUP"},
+        {"name":"SN74AUP1G34DRYR","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"AUP"},
+        {"name":"SN74AUP1G34DSFR","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"AUP"},
+        {"name":"SN74AUP1G34YFPR","package":"DSBGA","pinout":"dsbga4","footprint":"DSBGA-4-YFP","family":"AUP"},
+        {"name":"SN74AUP1G34YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-5-YZP","family":"AUP"},
+        {"name":"SN74LVC1G34DBVR","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LVC"},
+        {"name":"SN74LVC1G34DBVRQ1","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LVC","flags":["automotive"]},
+        {"name":"SN74LVC1G34DBVT","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LVC"},
+        {"name":"SN74LVC1G34DCKR","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC"},
+        {"name":"SN74LVC1G34DCKRQ1","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC","flags":["automotive"]},
+        {"name":"SN74LVC1G34DCKT","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC"},
+        {"name":"SN74LVC1G34DPWR","package":"X2SON","pinout":"p5","footprint":"X2SON-5-DPW","family":"LVC"},
+        {"name":"SN74LVC1G34DRLR","package":"SOT-5X3","pinout":"p5","footprint":"SOT5X3-5","family":"LVC"},
+        {"name":"SN74LVC1G34DRYR","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"LVC"},
+        {"name":"SN74LVC1G34DSFR","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"LVC"},
+        {"name":"SN74LVC1G34YFPR","package":"DSBGA","pinout":"dsbga4","footprint":"DSBGA-4-YFP","family":"LVC"},
+        {"name":"SN74LVC1G34YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-5-YZP","family":"LVC"}
+      ]
+    },
+    {
+      "id": "1G37",
+      "function": "Buffer",
+      "description": "Single buffer, Schmitt-trigger input, open-drain output",
+      "drawer": ["Logic"],
+      "note": "Pinout sn74lvc1g37 p.3 Table 4-1 (DBV, DCK: NC=1, A=2, GND=3, Y=4, VCC=5); sn74lvc1g37-q1 p.3 same. Schmitt-trigger input, open-drain output (p.1).",
+      "pinouts": {
+        "p5": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"A","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"Y","role":"output"},
+          {"number":5,"name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["A"],"output":"Y"}
+      ],
+      "output": "open-drain",
+      "timing": {
+        "LVC": {"rise":4,"fall":4,"vcc":[1.65,5.5],"note":"typ tpd A->Y at 3.3 V, 50 pF (sn74lvc1g37 p.6); VCC 1.65-5.5 V, VI to 5.5 V (sn74lvc1g37 p.4; -Q1 p.4 same range, faster typ 1.8 ns)"}
+      },
+      "parts": [
+        {"name":"SN74LVC1G37DBVR","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LVC"},
+        {"name":"SN74LVC1G37DBVRQ1","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LVC","flags":["automotive"]},
+        {"name":"SN74LVC1G37DCKR","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC"},
+        {"name":"SN74LVC1G37DCKRQ1","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LVC","flags":["automotive"]}
+      ]
+    },
+    {
+      "id": "1T17",
+      "function": "Buffer",
+      "description": "Single Schmitt-trigger buffer, 1.8/2.5/3.3 V inputs, single-supply up-translator",
+      "drawer": ["Logic"],
+      "note": "Pinout sn74aup1t17 p.3 (DCK). Y = A, output referenced to VCC; inputs accept 1.8/2.5/3.3 V levels (p.1).",
+      "pinouts": {
+        "p5": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"A","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"Y","role":"output"},
+          {"number":5,"name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["A"],"output":"Y"}
+      ],
+      "timing": {
+        "AUP": {"rise":2.7,"fall":2.7,"vcc":[2.3,3.6],"note":"typ tpd at VCC 3.3 V, VI 3.3 V, 15 pF (sn74aup1t17 p.6); VCC 2.3-3.6 V, VI 0-3.6 V (p.4)"}
+      },
+      "parts": [
+        {"name":"SN74AUP1T17DCKR","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"AUP"}
+      ]
+    },
+    {
+      "id": "1T34",
+      "function": "Buffer",
+      "description": "Single buffer, reduced-threshold 5.5-V-tolerant input (single-supply level shifter)",
+      "drawer": ["Logic"],
+      "note": "Pinout sn74lv1t34 p.4 (DBV/DCK: 1 NC, 2 A, 3 GND, 4 Y, 5 VCC); sn74lv1t34-q1 p.3 same.",
+      "pinouts": {
+        "p5": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"A","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"Y","role":"output"},
+          {"number":5,"name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["A"],"output":"Y"}
+      ],
+      "timing": {
+        "LV": {"rise":4.9,"fall":4.9,"vcc":[1.6,5.5],"note":"sn74lv1t34 typ tpd at 3.3 V, 30 pF, 25 C (p.7). VCC 1.6-5.5 V, VI 0-5.5 V (= VCC max, no inputMax) (p.5); -q1 p.4 same range"}
+      },
+      "parts": [
+        {"name":"SN74LV1T34DBVR","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LV"},
+        {"name":"SN74LV1T34DCKR","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LV"},
+        {"name":"SN74LV1T34QDBVRQ1","package":"SOT-23","pinout":"p5","footprint":"SOT23-5","family":"LV","flags":["automotive"]},
+        {"name":"SN74LV1T34QDCKRQ1","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"LV","flags":["automotive"]}
+      ]
+    },
+    {
+      "id": "1T50",
+      "function": "Buffer",
+      "description": "Single Schmitt-trigger buffer with level shifting",
+      "drawer": ["Logic"],
+      "note": "Pinout from sn74aup1t50 p.1 (DCK): 1 NC, 2 A, 3 GND, 4 Y, 5 VCC. Y = A (p.2). Single-supply translator: low-threshold Schmitt inputs, output at VCC.",
+      "pinouts": {
+        "p5": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"A","role":"input"},
+          {"number":3,"name":"GND","role":"ground"},
+          {"number":4,"name":"Y","role":"output"},
+          {"number":5,"name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["A"],"output":"Y"}
+      ],
+      "timing": {
+        "AUP": {"rise":2.7,"fall":2.7,"vcc":[2.3,3.6],"note":"Typical tpd A->Y at VCC 3.3 V, VI 3.3 V, 15 pF, 25 C (sn74aup1t50 p.7). VCC 2.3-3.6 V, VI 0-3.6 V (sn74aup1t50 p.4)"}
+      },
+      "parts": [
+        {"name":"SN74AUP1T50DCKR","package":"SC-70","pinout":"p5","footprint":"SC70-5","family":"AUP"}
+      ]
+    },
+    {
+      "id": "2G07",
+      "function": "Buffer",
+      "description": "Dual buffer, open-drain outputs",
+      "drawer": ["Logic"],
+      "note": "Pinout sn74lvc2g07 p.3 Pin Functions (DBV, DCK, DRY, DSF, YZP); sn74aup2g07 p.3 Table 5-1 (DCK, DSF, DRY numbers; YFP balls A1 1A, A2 1Y, B1 GND, B2 VCC, C1 2A, C2 2Y); sn74auc2g07 p.1 (DBV, DCK, YZP); sn74lvc2g07b-q1 p.3 (DCK); sn74lvc2g07-ep p.1 (DCK). Open-drain outputs (sn74lvc2g07 p.3).",
+      "pinouts": {
+        "p6": [
+          {"number":1,"name":"1A","role":"input"},
+          {"number":2,"name":"GND","role":"ground"},
+          {"number":3,"name":"2A","role":"input"},
+          {"number":4,"name":"2Y","role":"output"},
+          {"number":5,"name":"VCC","role":"power"},
+          {"number":6,"name":"1Y","role":"output"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"1A","role":"input"},
+          {"ball":"B1","name":"GND","role":"ground"},
+          {"ball":"C1","name":"2A","role":"input"},
+          {"ball":"C2","name":"2Y","role":"output"},
+          {"ball":"B2","name":"VCC","role":"power"},
+          {"ball":"A2","name":"1Y","role":"output"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["1A"],"output":"1Y"},
+        {"op":"buf","inputs":["2A"],"output":"2Y"}
+      ],
+      "output": "open-drain",
+      "timing": {
+        "AUC": {"rise":1.8,"fall":1,"vcc":[0.8,2.7],"inputMax":3.6,"note":"typ tPLH/tPHL A->Y at 1.8 V, 15 pF (sn74auc2g07 p.4); VCC 0.8-2.7 V, VI to 3.6 V (p.3)"},
+        "AUP": {"rise":3.7,"fall":3.7,"vcc":[0.8,3.6],"note":"typ tpd at 3.3 V, 15 pF (sn74aup2g07 p.7); VCC 0.8-3.6 V (p.5)"},
+        "LVC": {"rise":3.7,"fall":3.7,"vcc":[1.65,5.5],"note":"max tpd at 3.3 V, 50 pF, -40 to 85 C (sn74lvc2g07 p.5); VCC 1.65-5.5 V (p.4); SN74LVC2G07B-Q1 VCC 1.1-5.5 V (sn74lvc2g07b-q1 p.4)"}
+      },
+      "parts": [
+        {"name":"SN74AUC2G07DBVR","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"AUC"},
+        {"name":"SN74AUC2G07DBVT","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"AUC"},
+        {"name":"SN74AUC2G07DCKR","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"AUC"},
+        {"name":"SN74AUC2G07YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-6-YZP","family":"AUC"},
+        {"name":"SN74AUP2G07DCKR","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"AUP"},
+        {"name":"SN74AUP2G07DRYR","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"AUP"},
+        {"name":"SN74AUP2G07DSFR","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"AUP"},
+        {"name":"SN74AUP2G07YFPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-6-YFP","family":"AUP"},
+        {"name":"SN74LVC2G07BDCKRQ1","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"LVC","flags":["automotive"],"vcc":[1.1,5.5]},
+        {"name":"SN74LVC2G07DCKR","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"LVC"},
+        {"name":"SN74LVC2G07DCKT","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"LVC"},
+        {"name":"SN74LVC2G07DSF2","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"LVC"},
+        {"name":"SN74LVC2G07DSFR","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"LVC"},
+        {"name":"SN74LVC2G07MDCKTEP","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"LVC","flags":["enhanced"]}
+      ]
+    },
+    {
+      "id": "2G17",
+      "function": "Buffer",
+      "description": "Dual Schmitt-trigger buffer",
+      "drawer": ["Logic"],
+      "note": "Pinout from sn74lvc2g17 p.3 (DBV/DCK/DRY/DSF/YZP); sn74aup2g17 p.1 (DCK/DRY/DSF/YFP, same order); sn74lvc2g17-ep p.1 (DCK). DSBGA balls: sn74aup2g17 p.1 (YFP: A1 1A, B1 GND, C1 2A, C2 2Y, B2 VCC, A2 1Y), listed in p6 order.",
+      "pinouts": {
+        "p6": [
+          {"number":1,"name":"1A","role":"input"},
+          {"number":2,"name":"GND","role":"ground"},
+          {"number":3,"name":"2A","role":"input"},
+          {"number":4,"name":"2Y","role":"output"},
+          {"number":5,"name":"VCC","role":"power"},
+          {"number":6,"name":"1Y","role":"output"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"1A","role":"input"},
+          {"ball":"B1","name":"GND","role":"ground"},
+          {"ball":"C1","name":"2A","role":"input"},
+          {"ball":"C2","name":"2Y","role":"output"},
+          {"ball":"B2","name":"VCC","role":"power"},
+          {"ball":"A2","name":"1Y","role":"output"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["1A"],"output":"1Y"},
+        {"op":"buf","inputs":["2A"],"output":"2Y"}
+      ],
+      "timing": {
+        "AUP": {"rise":4.1,"fall":4.1,"vcc":[0.8,3.6],"note":"sn74aup2g17 typ tpd at 3.3 V, 15 pF (p.6). VCC 0.8-3.6 V, VI to 3.6 V (p.4)"},
+        "LVC": {"rise":5.4,"fall":5.4,"vcc":[1.65,5.5],"note":"sn74lvc2g17 max tpd at 3.3 V, -40 to 85 C (p.6; no typical given). VCC 1.65-5.5 V, VI to 5.5 V (p.4; sn74lvc2g17-ep p.2 same)"}
+      },
+      "parts": [
+        {"name":"SN74AUP2G17DCKR","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"AUP"},
+        {"name":"SN74AUP2G17DRYR","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"AUP"},
+        {"name":"SN74AUP2G17DSFR","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"AUP"},
+        {"name":"SN74AUP2G17YFPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-6-YFP","family":"AUP"},
+        {"name":"SN74LVC2G17DBVR","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"LVC"},
+        {"name":"SN74LVC2G17DBVT","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"LVC"},
+        {"name":"SN74LVC2G17DCKT","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"LVC"},
+        {"name":"SN74LVC2G17DRYR","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"LVC"},
+        {"name":"SN74LVC2G17DSF2","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"LVC"},
+        {"name":"SN74LVC2G17DSFR","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"LVC"},
+        {"name":"SN74LVC2G17MDCKREP","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"LVC","flags":["enhanced"]}
+      ]
+    },
+    {
+      "id": "2G34",
+      "function": "Buffer",
+      "description": "Dual buffer",
+      "drawer": ["Logic"],
+      "note": "Pinout sn74lvc2g34 p.3 Pin Functions (DBV, DCK, DRL, YZP); sn74auc2g34 p.1 (DBV, DCK, DRL, YZP); sn74aup2g34 p.1 (DCK, DRY, DSF; YFP balls A1 1A, A2 1Y, B1 GND, B2 VCC, C1 2A, C2 2Y); sn74lvc2g34-ep p.1 (DCK).",
+      "pinouts": {
+        "p6": [
+          {"number":1,"name":"1A","role":"input"},
+          {"number":2,"name":"GND","role":"ground"},
+          {"number":3,"name":"2A","role":"input"},
+          {"number":4,"name":"2Y","role":"output"},
+          {"number":5,"name":"VCC","role":"power"},
+          {"number":6,"name":"1Y","role":"output"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"1A","role":"input"},
+          {"ball":"B1","name":"GND","role":"ground"},
+          {"ball":"C1","name":"2A","role":"input"},
+          {"ball":"C2","name":"2Y","role":"output"},
+          {"ball":"B2","name":"VCC","role":"power"},
+          {"ball":"A2","name":"1Y","role":"output"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["1A"],"output":"1Y"},
+        {"op":"buf","inputs":["2A"],"output":"2Y"}
+      ],
+      "timing": {
+        "AUC": {"rise":1,"fall":1,"vcc":[0.8,2.7],"inputMax":3.6,"note":"typ tpd A->Y at 1.8 V, 15 pF (sn74auc2g34 p.4); VCC 0.8-2.7 V, VI to 3.6 V (p.3)"},
+        "AUP": {"rise":3.4,"fall":3.4,"vcc":[0.8,3.6],"note":"typ tpd at 3.3 V, 15 pF (sn74aup2g34 p.5); VCC 0.8-3.6 V (p.3)"},
+        "LVC": {"rise":4.1,"fall":4.1,"vcc":[1.65,5.5],"note":"max tpd at 3.3 V, -40 to 85 C (sn74lvc2g34 p.5); VCC 1.65-5.5 V (p.4)"}
+      },
+      "parts": [
+        {"name":"SN74AUC2G34DBVR","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"AUC"},
+        {"name":"SN74AUC2G34DCKR","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"AUC"},
+        {"name":"SN74AUC2G34DRLR","package":"SOT-5X3","pinout":"p6","footprint":"SOT5X3-6","family":"AUC"},
+        {"name":"SN74AUP2G34DCKR","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"AUP"},
+        {"name":"SN74AUP2G34DRYR","package":"SON","pinout":"p6","footprint":"SON-6-DRY","family":"AUP"},
+        {"name":"SN74AUP2G34DSFR","package":"SON","pinout":"p6","footprint":"SON-6-DSF","family":"AUP"},
+        {"name":"SN74AUP2G34YFPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-6-YFP","family":"AUP"},
+        {"name":"SN74LVC2G34DBVR","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"LVC"},
+        {"name":"SN74LVC2G34DBVT","package":"SOT-23","pinout":"p6","footprint":"SOT23-6","family":"LVC"},
+        {"name":"SN74LVC2G34MDCKREP","package":"SC-70","pinout":"p6","footprint":"SC70-6","family":"LVC","flags":["enhanced"]},
+        {"name":"SN74LVC2G34YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-6-YZP","family":"LVC"}
+      ]
+    },
+    {
+      "id": "3G07",
+      "function": "Buffer",
+      "description": "Triple buffer/driver, open-drain outputs",
+      "drawer": ["Logic"],
+      "note": "Pinouts: sn74lvc3g07 p.1 (DCT/DCU); sn74lvc3g07-ep p.1 and sn74lvc3g07-q1 p.1 (DCU, same); sn74aup3g07 p.1 (DCU/DQE same order; RSE top view mirrored: 1Y,3A,2Y,GND,2A,3Y,1A,VCC, same as the existing 3G14_RSE; YFP balls A1..D2). Function table Y = A, open-drain (sn74lvc3g07 p.2).",
+      "pinouts": {
+        "p8": [
+          {"number":1,"name":"1A","role":"input"},
+          {"number":2,"name":"3Y","role":"output"},
+          {"number":3,"name":"2A","role":"input"},
+          {"number":4,"name":"GND","role":"ground"},
+          {"number":5,"name":"2Y","role":"output"},
+          {"number":6,"name":"3A","role":"input"},
+          {"number":7,"name":"1Y","role":"output"},
+          {"number":8,"name":"VCC","role":"power"}
+        ],
+        "rse8": [
+          {"number":1,"name":"1Y","role":"output"},
+          {"number":2,"name":"3A","role":"input"},
+          {"number":3,"name":"2Y","role":"output"},
+          {"number":4,"name":"GND","role":"ground"},
+          {"number":5,"name":"2A","role":"input"},
+          {"number":6,"name":"3Y","role":"output"},
+          {"number":7,"name":"1A","role":"input"},
+          {"number":8,"name":"VCC","role":"power"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"1A","role":"input"},
+          {"ball":"A2","name":"VCC","role":"power"},
+          {"ball":"B1","name":"3Y","role":"output"},
+          {"ball":"B2","name":"1Y","role":"output"},
+          {"ball":"C1","name":"2A","role":"input"},
+          {"ball":"C2","name":"3A","role":"input"},
+          {"ball":"D1","name":"GND","role":"ground"},
+          {"ball":"D2","name":"2Y","role":"output"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["1A"],"output":"1Y"},
+        {"op":"buf","inputs":["2A"],"output":"2Y"},
+        {"op":"buf","inputs":["3A"],"output":"3Y"}
+      ],
+      "output": "open-drain",
+      "timing": {
+        "AUP": {"rise":3.7,"fall":3.7,"vcc":[0.8,3.6],"note":"typ tpd A->Y at 3.3 V, 15 pF, 25 C (sn74aup3g07 p.6). VCC 0.8-3.6 V, VI and VO to 3.6 V (sn74aup3g07 p.4)"},
+        "LVC": {"rise":3.7,"fall":3.7,"vcc":[1.65,5.5],"note":"max tpd A->Y at 3.3 V, -40 to 85 C, no typical printed (sn74lvc3g07 p.3). VCC 1.65-5.5 V, VI and VO to 5.5 V (sn74lvc3g07 p.3; -ep and -q1 same)"}
+      },
+      "parts": [
+        {"name":"SN74AUP3G07DCUR","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"AUP"},
+        {"name":"SN74AUP3G07DQER","package":"X2SON","pinout":"p8","footprint":"X2SON-8","family":"AUP"},
+        {"name":"SN74AUP3G07RSER","package":"UQFN","pinout":"rse8","footprint":"UQFN-8","family":"AUP"},
+        {"name":"SN74AUP3G07YFPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-8-YFP","family":"AUP"},
+        {"name":"SN74LVC3G07DCTR","package":"SSOP","pinout":"p8","footprint":"SSOP-8","family":"LVC"},
+        {"name":"SN74LVC3G07DCUT","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
+        {"name":"SN74LVC3G07MDCUREP","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC","flags":["enhanced"]},
+        {"name":"SN74LVC3G07QDCURQ1","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC","flags":["automotive"]}
+      ]
+    },
+    {
+      "id": "3G17",
+      "function": "Buffer",
+      "description": "Triple Schmitt-trigger buffer",
+      "drawer": ["Logic"],
+      "note": "Pinout sn74lvc3g17 p.3 (DCT/DCU, YZP balls 1=A1..4=D1, 5=D2..8=A2) and sn74aup3g17 p.1 (DCU/DQE same order; YFP balls A1..D2 same; RSE UQFN top view: 1=1Y 2=3A 3=2Y 4=GND 5=2A 6=3Y 7=1A 8=VCC, same as existing 3G14_RSE). Schmitt-trigger inputs (hysteresis not modeled).",
+      "pinouts": {
+        "p8": [
+          {"number":1,"name":"1A","role":"input"},
+          {"number":2,"name":"3Y","role":"output"},
+          {"number":3,"name":"2A","role":"input"},
+          {"number":4,"name":"GND","role":"ground"},
+          {"number":5,"name":"2Y","role":"output"},
+          {"number":6,"name":"3A","role":"input"},
+          {"number":7,"name":"1Y","role":"output"},
+          {"number":8,"name":"VCC","role":"power"}
+        ],
+        "rse8": [
+          {"number":1,"name":"1Y","role":"output"},
+          {"number":2,"name":"3A","role":"input"},
+          {"number":3,"name":"2Y","role":"output"},
+          {"number":4,"name":"GND","role":"ground"},
+          {"number":5,"name":"2A","role":"input"},
+          {"number":6,"name":"3Y","role":"output"},
+          {"number":7,"name":"1A","role":"input"},
+          {"number":8,"name":"VCC","role":"power"}
+        ],
+        "dsbga": [
+          {"ball":"A1","name":"1A","role":"input"},
+          {"ball":"B1","name":"3Y","role":"output"},
+          {"ball":"C1","name":"2A","role":"input"},
+          {"ball":"D1","name":"GND","role":"ground"},
+          {"ball":"D2","name":"2Y","role":"output"},
+          {"ball":"C2","name":"3A","role":"input"},
+          {"ball":"B2","name":"1Y","role":"output"},
+          {"ball":"A2","name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["1A"],"output":"1Y"},
+        {"op":"buf","inputs":["2A"],"output":"2Y"},
+        {"op":"buf","inputs":["3A"],"output":"3Y"}
+      ],
+      "timing": {
+        "AUP": {"rise":4.1,"fall":4.1,"vcc":[0.8,3.6],"note":"typ tpd A->Y at 3.3 V, 15 pF, 25 C (sn74aup3g17 p.6); VCC 0.8-3.6 V, VI to 3.6 V (p.4)"},
+        "LVC": {"rise":5.4,"fall":5.4,"vcc":[1.65,5.5],"note":"max tpd A->Y at 3.3 V, 30/50 pF (no typical printed) (sn74lvc3g17 p.6); VCC 1.65-5.5 V, VI 0-5.5 V (p.4)"}
+      },
+      "parts": [
+        {"name":"SN74AUP3G17DCUR","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"AUP"},
+        {"name":"SN74AUP3G17DQER","package":"X2SON","pinout":"p8","footprint":"X2SON-8","family":"AUP"},
+        {"name":"SN74AUP3G17RSER","package":"UQFN","pinout":"rse8","footprint":"UQFN-8","family":"AUP"},
+        {"name":"SN74AUP3G17YFPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-8-YFP","family":"AUP"},
+        {"name":"SN74LVC3G17DCURG4","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
+        {"name":"SN74LVC3G17YZPR","package":"DSBGA","pinout":"dsbga","footprint":"DSBGA-8-YZP","family":"LVC"}
+      ]
+    },
+    {
+      "id": "3G34",
+      "function": "Buffer",
+      "description": "Triple buffer gate",
+      "drawer": ["Logic"],
+      "note": "sn74aup3g34 p.1 (DCU/DQE same order; RSE UQFN rotated: 1 1Y, 2 3A, 3 2Y, 4 GND, 5 2A, 6 3Y, 7 1A, 8 VCC; YFP balls lettered A1-D2 = pins 1-8); sn74lvc3g34 p.3 (DCT/DCU, YZP balls given as pins 1-8, same positions as YFP). YEP (older NanoStar bump) is not in the lvc3g34 packaging table; it takes the YZP ball map.",
+      "pinouts": {
+        "p8": [
+          {"number":1,"name":"1A","role":"input"},
+          {"number":2,"name":"3Y","role":"output"},
+          {"number":3,"name":"2A","role":"input"},
+          {"number":4,"name":"GND","role":"ground"},
+          {"number":5,"name":"2Y","role":"output"},
+          {"number":6,"name":"3A","role":"input"},
+          {"number":7,"name":"1Y","role":"output"},
+          {"number":8,"name":"VCC","role":"power"}
+        ],
+        "rse8": [
+          {"number":1,"name":"1Y","role":"output"},
+          {"number":2,"name":"3A","role":"input"},
+          {"number":3,"name":"2Y","role":"output"},
+          {"number":4,"name":"GND","role":"ground"},
+          {"number":5,"name":"2A","role":"input"},
+          {"number":6,"name":"3Y","role":"output"},
+          {"number":7,"name":"1A","role":"input"},
+          {"number":8,"name":"VCC","role":"power"}
+        ],
+        "dsbga8": [
+          {"ball":"A1","name":"1A","role":"input"},
+          {"ball":"B1","name":"3Y","role":"output"},
+          {"ball":"C1","name":"2A","role":"input"},
+          {"ball":"D1","name":"GND","role":"ground"},
+          {"ball":"D2","name":"2Y","role":"output"},
+          {"ball":"C2","name":"3A","role":"input"},
+          {"ball":"B2","name":"1Y","role":"output"},
+          {"ball":"A2","name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["1A"],"output":"1Y"},
+        {"op":"buf","inputs":["2A"],"output":"2Y"},
+        {"op":"buf","inputs":["3A"],"output":"3Y"}
+      ],
+      "timing": {
+        "AUP": {"rise":3.4,"fall":3.4,"vcc":[0.8,3.6],"note":"typ tpd at 3.3 V, 25 C, CL 15 pF (sn74aup3g34 p.6); VCC 0.8-3.6 V, VI to 3.6 V (p.4)"},
+        "LVC": {"rise":4.1,"fall":4.1,"vcc":[1.65,5.5],"note":"max tpd at 3.3 V +-0.3 V, -40 to 85 C, 50 pF, no typical printed (sn74lvc3g34 p.5); VCC 1.65-5.5 V, VI to 5.5 V (p.4)"}
+      },
+      "parts": [
+        {"name":"SN74AUP3G34DCUR","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"AUP"},
+        {"name":"SN74AUP3G34DQER","package":"X2SON","pinout":"p8","footprint":"X2SON-8","family":"AUP"},
+        {"name":"SN74AUP3G34RSER","package":"UQFN","pinout":"rse8","footprint":"UQFN-8","family":"AUP"},
+        {"name":"SN74AUP3G34YFPR","package":"DSBGA","pinout":"dsbga8","footprint":"DSBGA-8-YFP","family":"AUP"},
+        {"name":"SN74LVC3G34DCUR","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
+        {"name":"SN74LVC3G34DCUT","package":"VSSOP","pinout":"p8","footprint":"VSSOP-8","family":"LVC"},
+        {"name":"SN74LVC3G34YZPR","package":"DSBGA","pinout":"dsbga8","footprint":"DSBGA-8-YZP","family":"LVC"}
+      ]
+    },
+    {
+      "id": "4041UB",
+      "function": "Buffer",
+      "description": "Quad true/complement buffer",
+      "drawer": ["Logic"],
+      "note": "Pinout and logic from cd4041ub p.1 (scanned; terminal assignment E=A 1, F=/A 2, A 3, G=B 4, H=/B 5, B 6, VSS 7, K=C 8, L=/C 9, C 10, M=D 11, N=/D 12, D 13, VDD 14). Each input drives a buf (true) and a not (complement) output; 4 units.",
+      "pinouts": {
+        "p14": [
+          {"number":1,"name":"E","role":"output"},
+          {"number":2,"name":"F","role":"output"},
+          {"number":3,"name":"A","role":"input"},
+          {"number":4,"name":"G","role":"output"},
+          {"number":5,"name":"H","role":"output"},
+          {"number":6,"name":"B","role":"input"},
+          {"number":7,"name":"VSS","role":"ground"},
+          {"number":8,"name":"K","role":"output"},
+          {"number":9,"name":"L","role":"output"},
+          {"number":10,"name":"C","role":"input"},
+          {"number":11,"name":"M","role":"output"},
+          {"number":12,"name":"N","role":"output"},
+          {"number":13,"name":"D","role":"input"},
+          {"number":14,"name":"VDD","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["A"],"output":"E"},
+        {"op":"not","inputs":["A"],"output":"F"},
+        {"op":"buf","inputs":["B"],"output":"G"},
+        {"op":"not","inputs":["B"],"output":"H"},
+        {"op":"buf","inputs":["C"],"output":"K"},
+        {"op":"not","inputs":["C"],"output":"L"},
+        {"op":"buf","inputs":["D"],"output":"M"},
+        {"op":"not","inputs":["D"],"output":"N"}
+      ],
+      "units": 4,
+      "timing": {
+        "C": {"rise":60,"fall":60,"vcc":[3,18],"note":"Typical tPHL/tPLH at VDD 5 V, 25 C, 50 pF (cd4041ub p.2, dynamic characteristics; true and complement outputs share one row). VDD 3-18 V (cd4041ub p.1)"}
+      },
+      "parts": [
+        {"name":"CD4041UBE","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
+        {"name":"CD4041UBM96","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"C"},
+        {"name":"CD4041UBPWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"C"}
+      ]
+    },
+    {
+      "id": "4050B",
+      "function": "Buffer",
+      "description": "Hex non-inverting buffer/converter (high-to-low level shifter, inputs may exceed VCC)",
+      "drawer": ["Logic"],
+      "note": "Pinout from cd4050b p.3 Figure 4-2 and p.4 Pin Functions (D, DW, N, NS, PW): inputs A-F, outputs G-L (G = A ... L = F; the table's 'inverting output' wording is copied from CD4049UB), NC on 13 and 16, VCC 1, VSS 8.",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"VCC","role":"power"},
+          {"number":2,"name":"G","role":"output"},
+          {"number":3,"name":"A","role":"input"},
+          {"number":4,"name":"H","role":"output"},
+          {"number":5,"name":"B","role":"input"},
+          {"number":6,"name":"I","role":"output"},
+          {"number":7,"name":"C","role":"input"},
+          {"number":8,"name":"VSS","role":"ground"},
+          {"number":9,"name":"D","role":"input"},
+          {"number":10,"name":"J","role":"output"},
+          {"number":11,"name":"E","role":"input"},
+          {"number":12,"name":"K","role":"output"},
+          {"number":13,"name":"NC","role":"nc"},
+          {"number":14,"name":"F","role":"input"},
+          {"number":15,"name":"L","role":"output"},
+          {"number":16,"name":"NC","role":"nc"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["A"],"output":"G"},
+        {"op":"buf","inputs":["B"],"output":"H"},
+        {"op":"buf","inputs":["C"],"output":"I"},
+        {"op":"buf","inputs":["D"],"output":"J"},
+        {"op":"buf","inputs":["E"],"output":"K"},
+        {"op":"buf","inputs":["F"],"output":"L"}
+      ],
+      "timing": {
+        "C": {"rise":70,"fall":55,"vcc":[3,18],"inputMax":18,"note":"typ tPLH/tPHL CD4050B at VIN = VCC = 5 V, 50 pF, 25 C (cd4050b p.11); VCC 3-18 V (cd4050b p.6); input high level may exceed VCC (p.1), inputs rated 1 uA at 18 V (p.1) -> inputMax 18"}
+      },
+      "parts": [
+        {"name":"CD4050BDR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"CD4050BDWR","package":"SOIC","pinout":"p16","footprint":"SOIC-16W","family":"C"},
+        {"name":"CD4050BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4050BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
+        {"name":"CD4050BPWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
+      ]
+    },
+    {
+      "id": "74_07",
+      "function": "Buffer",
+      "description": "Hex buffer/driver, open-collector/open-drain outputs",
+      "drawer": ["Logic"],
+      "note": "Standard hex pinout, same in every PDF: sn7407 p.3 (D/N/NS), sn74ls07 p.3 (D/DB/N/NS), sn74lv07a p.3, sn74lvc07a p.4 (D/DB/DGV/NS/PW and RGY, one pin table), sn74lvc07a-q1 p.1, sn74lvc07a-ep p.1, sn74ac07 p.3 and sn74ac07-q1 p.3 (PW, BQA/WBQA), sn74act07 p.3 and sn74act07-q1 p.3 (PW, BQA), sn74auc07 p.1 (RGY). Function Y = A. TTL/LS open-collector (30 V outputs), CMOS parts open-drain. BQA/RGY thermal pad is not a pin.",
+      "pinouts": {
+        "p14": [
+          {"number":1,"name":"1A","role":"input"},
+          {"number":2,"name":"1Y","role":"output"},
+          {"number":3,"name":"2A","role":"input"},
+          {"number":4,"name":"2Y","role":"output"},
+          {"number":5,"name":"3A","role":"input"},
+          {"number":6,"name":"3Y","role":"output"},
+          {"number":7,"name":"GND","role":"ground"},
+          {"number":8,"name":"4Y","role":"output"},
+          {"number":9,"name":"4A","role":"input"},
+          {"number":10,"name":"5Y","role":"output"},
+          {"number":11,"name":"5A","role":"input"},
+          {"number":12,"name":"6Y","role":"output"},
+          {"number":13,"name":"6A","role":"input"},
+          {"number":14,"name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["1A"],"output":"1Y"},
+        {"op":"buf","inputs":["2A"],"output":"2Y"},
+        {"op":"buf","inputs":["3A"],"output":"3Y"},
+        {"op":"buf","inputs":["4A"],"output":"4Y"},
+        {"op":"buf","inputs":["5A"],"output":"5Y"},
+        {"op":"buf","inputs":["6A"],"output":"6Y"}
+      ],
+      "output": "open-drain",
+      "timing": {
+        "TTL": {"rise":6,"fall":20,"vcc":[4.75,5.25],"note":"Typical tPLH/tPHL A->Y at 5 V and 25 C (15 pF, RL 110 ohm), SN7407 (sn7407 p.5). VCC 4.75-5.25 V (sn7407 p.4). Open-collector, 30 V output"},
+        "LS": {"rise":6,"fall":19,"vcc":[4.75,5.25],"note":"Typical tPLH/tPHL A->Y at 5 V and 25 C (15 pF, RL 110 ohm), SN74LS07 (sn74ls07 p.5). VCC 4.75-5.25 V (sn74ls07 p.4). Open-collector, 30 V output"},
+        "LV": {"rise":8.2,"fall":6.6,"vcc":[2,5.5],"note":"Typical tPLH/tPHL A->Y at 3.3 V and 25 C (50 pF load), SN74LV07A (sn74lv07a p.5). VCC 2-5.5 V, VI 0-5.5 V (sn74lv07a p.4)"},
+        "LVC": {"rise":3.6,"fall":3.6,"vcc":[1.65,5.5],"note":"Max tpd A->Y at 3.3 V, -40 to 85 C; SN74LVC07A gives no typical (sn74lvc07a p.6). VCC 1.65-5.5 V, VI 0-5.5 V (sn74lvc07a p.5)"},
+        "AC": {"rise":2.6,"fall":4.7,"vcc":[1.5,6],"note":"Typical at 5 V and 25 C (50 pF); rise = tPLZ, fall = tPZL A->Y (sn74ac07 p.6). VCC 1.5-6 V, VI 0-VCC (sn74ac07 p.4)"},
+        "ACT": {"rise":1.9,"fall":6.1,"vcc":[4.5,5.5],"note":"Typical at 5 V and 25 C (50 pF); rise = tPLZ, fall = tPZL A->Y (sn74act07 p.5). VCC 4.5-5.5 V (sn74act07 p.4)"},
+        "AUC": {"rise":1.4,"fall":1.4,"vcc":[0.8,2.7],"inputMax":3.6,"note":"Typical tpd A->Y at 1.8 V (15 pF), SN74AUC07 (sn74auc07 p.3). VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc07 p.2)"}
+      },
+      "parts": [
+        {"name":"SN7407DR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"TTL"},
+        {"name":"SN7407N","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"TTL"},
+        {"name":"SN7407NE4","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"TTL"},
+        {"name":"SN7407NSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"TTL"},
+        {"name":"SN74AC07BQAR","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"AC"},
+        {"name":"SN74AC07PWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC"},
+        {"name":"SN74AC07PWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC","flags":["automotive"]},
+        {"name":"SN74AC07WBQARQ1","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"AC","flags":["automotive"]},
+        {"name":"SN74ACT07BQAR","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"ACT"},
+        {"name":"SN74ACT07PWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"ACT"},
+        {"name":"SN74ACT07PWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"ACT","flags":["automotive"]},
+        {"name":"SN74AUC07RGYR","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"AUC"},
+        {"name":"SN74LS07D","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
+        {"name":"SN74LS07DBR","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"LS"},
+        {"name":"SN74LS07DR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
+        {"name":"SN74LS07N","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
+        {"name":"SN74LS07NSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LS"},
+        {"name":"SN74LV07ADBR","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"LV"},
+        {"name":"SN74LV07ADGVR","package":"TVSOP","pinout":"p14","footprint":"TVSOP-14","family":"LV"},
+        {"name":"SN74LV07ADR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LV"},
+        {"name":"SN74LV07APWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV"},
+        {"name":"SN74LV07APWRG3","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV"},
+        {"name":"SN74LVC07AD","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC"},
+        {"name":"SN74LVC07ADBR","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"LVC"},
+        {"name":"SN74LVC07ADGVR","package":"TVSOP","pinout":"p14","footprint":"TVSOP-14","family":"LVC"},
+        {"name":"SN74LVC07ADRG3","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC"},
+        {"name":"SN74LVC07ADT","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC"},
+        {"name":"SN74LVC07AMPWREP","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["enhanced"]},
+        {"name":"SN74LVC07ANSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LVC"},
+        {"name":"SN74LVC07APW","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
+        {"name":"SN74LVC07APWRG3","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
+        {"name":"SN74LVC07APWT","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC"},
+        {"name":"SN74LVC07AQPWRG4Q1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["automotive"]},
+        {"name":"SN74LVC07AQPWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["automotive"]},
+        {"name":"SN74LVC07ARGYR","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"LVC"}
+      ]
+    },
+    {
+      "id": "74_1035",
+      "function": "Buffer",
+      "description": "Hex noninverting buffer, open-collector outputs",
+      "drawer": ["Logic"],
+      "note": "Pinout sn54als1035 p.1 (J/W/D/N); 5962-8874201CA = SNJ54ALS1035J (sn54als1035 packaging table, marking). Function Y = A, open-collector (p.1).",
+      "pinouts": {
+        "p14": [
+          {"number":1,"name":"1A","role":"input"},
+          {"number":2,"name":"1Y","role":"output"},
+          {"number":3,"name":"2A","role":"input"},
+          {"number":4,"name":"2Y","role":"output"},
+          {"number":5,"name":"3A","role":"input"},
+          {"number":6,"name":"3Y","role":"output"},
+          {"number":7,"name":"GND","role":"ground"},
+          {"number":8,"name":"4Y","role":"output"},
+          {"number":9,"name":"4A","role":"input"},
+          {"number":10,"name":"5Y","role":"output"},
+          {"number":11,"name":"5A","role":"input"},
+          {"number":12,"name":"6Y","role":"output"},
+          {"number":13,"name":"6A","role":"input"},
+          {"number":14,"name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["1A"],"output":"1Y"},
+        {"op":"buf","inputs":["2A"],"output":"2Y"},
+        {"op":"buf","inputs":["3A"],"output":"3Y"},
+        {"op":"buf","inputs":["4A"],"output":"4Y"},
+        {"op":"buf","inputs":["5A"],"output":"5Y"},
+        {"op":"buf","inputs":["6A"],"output":"6Y"}
+      ],
+      "output": "open-drain",
+      "timing": {
+        "ALS": {"rise":35,"fall":14,"vcc":[4.5,5.5],"note":"max tPLH/tPHL A->Y, SN54ALS1035, 4.5-5.5 V, 50 pF, RL 680 ohm (sn54als1035 p.3; no typ printed; SN74ALS1035 max 30/12); VCC 4.5-5.5 V SN54/SN74 (p.2). Open-collector, VOH to 5.5 V"}
+      },
+      "parts": [
+        {"name":"5962-8874201CA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"ALS","flags":["military","ceramic"]}
+      ]
+    },
+    {
+      "id": "74_17",
+      "function": "Buffer",
+      "description": "Hex Schmitt-trigger buffer",
+      "drawer": ["Logic"],
+      "note": "Standard hex pinout: sn74ac17 p.3 (PW TSSOP, BQA WQFN with thermal pad that is not a pin), sn74ac17-q1 p.3, sn74act17 p.3, sn74act17-q1 p.3, sn74auc17 p.1 (RGY VQFN, same numbering). Function Y = A (sn74auc17 p.1). Push-pull; the TTL SN7417 is open-collector and is device 74_17_OD.",
+      "pinouts": {
+        "p14": [
+          {"number":1,"name":"1A","role":"input"},
+          {"number":2,"name":"1Y","role":"output"},
+          {"number":3,"name":"2A","role":"input"},
+          {"number":4,"name":"2Y","role":"output"},
+          {"number":5,"name":"3A","role":"input"},
+          {"number":6,"name":"3Y","role":"output"},
+          {"number":7,"name":"GND","role":"ground"},
+          {"number":8,"name":"4Y","role":"output"},
+          {"number":9,"name":"4A","role":"input"},
+          {"number":10,"name":"5Y","role":"output"},
+          {"number":11,"name":"5A","role":"input"},
+          {"number":12,"name":"6Y","role":"output"},
+          {"number":13,"name":"6A","role":"input"},
+          {"number":14,"name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["1A"],"output":"1Y"},
+        {"op":"buf","inputs":["2A"],"output":"2Y"},
+        {"op":"buf","inputs":["3A"],"output":"3Y"},
+        {"op":"buf","inputs":["4A"],"output":"4Y"},
+        {"op":"buf","inputs":["5A"],"output":"5Y"},
+        {"op":"buf","inputs":["6A"],"output":"6Y"}
+      ],
+      "timing": {
+        "AC": {"rise":4.6,"fall":6,"vcc":[1.5,6],"note":"Typical tPLH/tPHL A->Y at 5 V, 50 pF, SN74AC17 (sn74ac17 p.6). VCC 1.5-6 V (sn74ac17 p.4; sn74ac17-q1 same)"},
+        "ACT": {"rise":4.7,"fall":6.9,"vcc":[4.5,5.5],"note":"Typical tPLH/tPHL A->Y at 5 V, 50 pF, SN74ACT17 (sn74act17 p.5). VCC 4.5-5.5 V (sn74act17 p.4; sn74act17-q1 same)"},
+        "AUC": {"rise":1.2,"fall":1.2,"vcc":[0.8,2.7],"inputMax":3.6,"note":"Typical tpd A->Y at 1.8 V, 15 pF, SN74AUC17 (sn74auc17 p.3). VCC 0.8-2.7 V, VI to 3.6 V (sn74auc17 p.2)"}
+      },
+      "parts": [
+        {"name":"SN74AC17BQAR","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"AC"},
+        {"name":"SN74AC17PWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC","flags":["automotive"]},
+        {"name":"SN74AC17WBQARQ1","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"AC","flags":["automotive"]},
+        {"name":"SN74ACT17PWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"ACT"},
+        {"name":"SN74ACT17PWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"ACT","flags":["automotive"]},
+        {"name":"SN74ACT17WBQARQ1","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"ACT","flags":["automotive"]},
+        {"name":"SN74AUC17RGYR","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"AUC"}
+      ]
+    },
+    {
+      "id": "74_17_OD",
+      "function": "Buffer",
+      "description": "Hex buffer/driver, open-collector high-voltage (15 V) outputs",
+      "drawer": ["Logic"],
+      "note": "Pinout from sn7417 p.3 (D, N, NS, J, W; same file as sn5417). Open-collector outputs, VO max 15 V for SN5417/SN7417 (sn7417 p.4). Y = A (p.1).",
+      "pinouts": {
+        "p14": [
+          {"number":1,"name":"1A","role":"input"},
+          {"number":2,"name":"1Y","role":"output"},
+          {"number":3,"name":"2A","role":"input"},
+          {"number":4,"name":"2Y","role":"output"},
+          {"number":5,"name":"3A","role":"input"},
+          {"number":6,"name":"3Y","role":"output"},
+          {"number":7,"name":"GND","role":"ground"},
+          {"number":8,"name":"4Y","role":"output"},
+          {"number":9,"name":"4A","role":"input"},
+          {"number":10,"name":"5Y","role":"output"},
+          {"number":11,"name":"5A","role":"input"},
+          {"number":12,"name":"6Y","role":"output"},
+          {"number":13,"name":"6A","role":"input"},
+          {"number":14,"name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["1A"],"output":"1Y"},
+        {"op":"buf","inputs":["2A"],"output":"2Y"},
+        {"op":"buf","inputs":["3A"],"output":"3Y"},
+        {"op":"buf","inputs":["4A"],"output":"4Y"},
+        {"op":"buf","inputs":["5A"],"output":"5Y"},
+        {"op":"buf","inputs":["6A"],"output":"6Y"}
+      ],
+      "output": "open-drain",
+      "timing": {
+        "TTL": {"rise":6,"fall":20,"vcc":[4.75,5.25],"note":"Typical at 5 V, 25 C, RL 110 ohm, CL 15 pF (sn7417 p.5). VCC 4.75-5.25 V for SN7417, 4.5-5.5 V for SN5417 (sn7417 p.4)"}
+      },
+      "parts": [
+        {"name":"SN7417DR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"TTL"},
+        {"name":"SN7417N","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"TTL"},
+        {"name":"SNJ5417J","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+      ]
+    },
+    {
+      "id": "74_34",
+      "function": "Buffer",
+      "description": "Hex buffer gate",
+      "drawer": ["Logic"],
+      "note": "Pinout: sn74auc34 p.1 RGY package (top view), standard hex pinout; exposed thermal pad not numbered. Function table Y = A (sn74auc34 p.1). Timing sn74auc34 p.3.",
+      "pinouts": {
+        "p14": [
+          {"number":1,"name":"1A","role":"input"},
+          {"number":2,"name":"1Y","role":"output"},
+          {"number":3,"name":"2A","role":"input"},
+          {"number":4,"name":"2Y","role":"output"},
+          {"number":5,"name":"3A","role":"input"},
+          {"number":6,"name":"3Y","role":"output"},
+          {"number":7,"name":"GND","role":"ground"},
+          {"number":8,"name":"4Y","role":"output"},
+          {"number":9,"name":"4A","role":"input"},
+          {"number":10,"name":"5Y","role":"output"},
+          {"number":11,"name":"5A","role":"input"},
+          {"number":12,"name":"6Y","role":"output"},
+          {"number":13,"name":"6A","role":"input"},
+          {"number":14,"name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["1A"],"output":"1Y"},
+        {"op":"buf","inputs":["2A"],"output":"2Y"},
+        {"op":"buf","inputs":["3A"],"output":"3Y"},
+        {"op":"buf","inputs":["4A"],"output":"4Y"},
+        {"op":"buf","inputs":["5A"],"output":"5Y"},
+        {"op":"buf","inputs":["6A"],"output":"6Y"}
+      ],
+      "timing": {
+        "AUC": {"rise":0.9,"fall":0.9,"vcc":[0.8,2.7],"inputMax":3.6,"note":"typ tpd A->Y at 1.8 V, 15 pF (sn74auc34 p.3). VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc34 p.2)"}
+      },
+      "parts": [
+        {"name":"SN74AUC34RGYR","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"AUC"}
+      ]
+    },
+    {
+      "id": "74_4049",
+      "function": "NOT",
+      "description": "Hex inverting buffer/converter (inputs to 15 V)",
+      "drawer": ["Logic"],
+      "note": "Pinout cd74hc4049 p.1 and p.2 (PDIP/SOIC/SOP/TSSOP, CERDIP): VCC pin 1, GND pin 8, pins 13 and 16 NC. Inputs take up to 15 V for high-to-low level conversion (p.3).",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"VCC","role":"power"},
+          {"number":2,"name":"1Y","role":"output"},
+          {"number":3,"name":"1A","role":"input"},
+          {"number":4,"name":"2Y","role":"output"},
+          {"number":5,"name":"2A","role":"input"},
+          {"number":6,"name":"3Y","role":"output"},
+          {"number":7,"name":"3A","role":"input"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"4A","role":"input"},
+          {"number":10,"name":"4Y","role":"output"},
+          {"number":11,"name":"5A","role":"input"},
+          {"number":12,"name":"5Y","role":"output"},
+          {"number":13,"name":"NC","role":"nc"},
+          {"number":14,"name":"6A","role":"input"},
+          {"number":15,"name":"6Y","role":"output"},
+          {"number":16,"name":"NC","role":"nc"}
+        ]
+      },
+      "gates": [
+        {"op":"not","inputs":["1A"],"output":"1Y"},
+        {"op":"not","inputs":["2A"],"output":"2Y"},
+        {"op":"not","inputs":["3A"],"output":"3Y"},
+        {"op":"not","inputs":["4A"],"output":"4Y"},
+        {"op":"not","inputs":["5A"],"output":"5Y"},
+        {"op":"not","inputs":["6A"],"output":"6Y"}
+      ],
+      "timing": {
+        "HC": {"rise":6,"fall":6,"vcc":[2,6],"inputMax":15,"note":"typ tPLH/tPHL at 5 V, 15 pF (cd74hc4049 p.4; max 17 ns at 4.5 V, 50 pF); VCC 2-6 V, DC input 0-15 V (p.3)"}
+      },
+      "parts": [
+        {"name":"CD74HC4049E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC4049M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"CD74HC4049NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
+        {"name":"CD74HC4049PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"}
+      ]
+    },
+    {
+      "id": "74_4050",
+      "function": "Buffer",
+      "description": "Hex non-inverting buffer, high-to-low level converter (inputs to 15 V)",
+      "drawer": ["Logic"],
+      "note": "Pinout from cd74hc4050 p.1 (4050 column; PDIP, SOIC, SOP, TSSOP): VCC 1, GND 8, NC 13 and 16. nA to nY non-inverting (p.2 functional diagram).",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"VCC","role":"power"},
+          {"number":2,"name":"1Y","role":"output"},
+          {"number":3,"name":"1A","role":"input"},
+          {"number":4,"name":"2Y","role":"output"},
+          {"number":5,"name":"2A","role":"input"},
+          {"number":6,"name":"3Y","role":"output"},
+          {"number":7,"name":"3A","role":"input"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"4A","role":"input"},
+          {"number":10,"name":"4Y","role":"output"},
+          {"number":11,"name":"5A","role":"input"},
+          {"number":12,"name":"5Y","role":"output"},
+          {"number":13,"name":"NC","role":"nc"},
+          {"number":14,"name":"6A","role":"input"},
+          {"number":15,"name":"6Y","role":"output"},
+          {"number":16,"name":"NC","role":"nc"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["1A"],"output":"1Y"},
+        {"op":"buf","inputs":["2A"],"output":"2Y"},
+        {"op":"buf","inputs":["3A"],"output":"3Y"},
+        {"op":"buf","inputs":["4A"],"output":"4Y"},
+        {"op":"buf","inputs":["5A"],"output":"5Y"},
+        {"op":"buf","inputs":["6A"],"output":"6Y"}
+      ],
+      "timing": {
+        "HC": {"rise":6,"fall":6,"vcc":[2,6],"inputMax":15,"note":"typ tPLH/tPHL at 5 V, 15 pF (cd74hc4050 p.4; max 17 ns at 4.5 V, 50 pF); VCC 2-6 V, DC input voltage 0-15 V (cd74hc4050 p.3)"}
+      },
+      "parts": [
+        {"name":"CD74HC4050E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC4050M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"CD74HC4050NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
+        {"name":"CD74HC4050PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"}
+      ]
+    },
+    {
+      "id": "74_6T07",
+      "function": "Buffer",
+      "description": "Hex buffer, open-drain outputs, LVxT translating inputs",
+      "drawer": ["Logic"],
+      "note": "Pinout sn74lv6t07 p.3 (PW and BQA same numbering; BQA thermal pad not a pin), sn74lv6t07-q1 p.3, sn74lv6t07-ep p.3; Y = A open-drain (p.9). Timing p.6 (only tPZL/tPLZ given for the open-drain output).",
+      "pinouts": {
+        "p14": [
+          {"number":1,"name":"1A","role":"input"},
+          {"number":2,"name":"1Y","role":"output"},
+          {"number":3,"name":"2A","role":"input"},
+          {"number":4,"name":"2Y","role":"output"},
+          {"number":5,"name":"3A","role":"input"},
+          {"number":6,"name":"3Y","role":"output"},
+          {"number":7,"name":"GND","role":"ground"},
+          {"number":8,"name":"4Y","role":"output"},
+          {"number":9,"name":"4A","role":"input"},
+          {"number":10,"name":"5Y","role":"output"},
+          {"number":11,"name":"5A","role":"input"},
+          {"number":12,"name":"6Y","role":"output"},
+          {"number":13,"name":"6A","role":"input"},
+          {"number":14,"name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["1A"],"output":"1Y"},
+        {"op":"buf","inputs":["2A"],"output":"2Y"},
+        {"op":"buf","inputs":["3A"],"output":"3Y"},
+        {"op":"buf","inputs":["4A"],"output":"4Y"},
+        {"op":"buf","inputs":["5A"],"output":"5Y"},
+        {"op":"buf","inputs":["6A"],"output":"6Y"}
+      ],
+      "output": "open-drain",
+      "timing": {
+        "LV": {"rise":7.7,"fall":7.7,"vcc":[1.65,5.5],"note":"typ tPLZ (rise) / tPZL (fall) A->Y at 3.3 V, 50 pF, 25 C (sn74lv6t07 p.6; -q1 p.6 same); VCC 1.65-5.5 V, VI 0-5.5 V (p.4)"}
+      },
+      "parts": [
+        {"name":"SN74LV6T07PWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV"},
+        {"name":"SN74LV6T07PWREP","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV","flags":["enhanced"],"vcc":[1.6,5.5]},
+        {"name":"SN74LV6T07QPWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV","flags":["automotive"]},
+        {"name":"SN74LV6T07QWBQARQ1","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"LV","flags":["automotive"]}
+      ]
+    },
+    {
+      "id": "74_6T17",
+      "function": "Buffer",
+      "description": "Hex Schmitt-trigger buffer with 5.5-V tolerant inputs",
+      "drawer": ["Logic"],
+      "note": "p14 from sn74lv6t17 p.3 Figure 5-1/5-2 + Table 5-1 (BQA WQFN and PW TSSOP use the same numbers 1-14; BQA thermal pad is not a pin); sn74lv6t17-q1 p.3 and sn74lv6t17-ep p.3 identical. Y = A per channel.",
+      "pinouts": {
+        "p14": [
+          {"number":1,"name":"1A","role":"input"},
+          {"number":2,"name":"1Y","role":"output"},
+          {"number":3,"name":"2A","role":"input"},
+          {"number":4,"name":"2Y","role":"output"},
+          {"number":5,"name":"3A","role":"input"},
+          {"number":6,"name":"3Y","role":"output"},
+          {"number":7,"name":"GND","role":"ground"},
+          {"number":8,"name":"4Y","role":"output"},
+          {"number":9,"name":"4A","role":"input"},
+          {"number":10,"name":"5Y","role":"output"},
+          {"number":11,"name":"5A","role":"input"},
+          {"number":12,"name":"6Y","role":"output"},
+          {"number":13,"name":"6A","role":"input"},
+          {"number":14,"name":"VCC","role":"power"}
+        ]
+      },
+      "gates": [
+        {"op":"buf","inputs":["1A"],"output":"1Y"},
+        {"op":"buf","inputs":["2A"],"output":"2Y"},
+        {"op":"buf","inputs":["3A"],"output":"3Y"},
+        {"op":"buf","inputs":["4A"],"output":"4Y"},
+        {"op":"buf","inputs":["5A"],"output":"5Y"},
+        {"op":"buf","inputs":["6A"],"output":"6Y"}
+      ],
+      "timing": {
+        "LV": {"rise":8.5,"fall":8.5,"vcc":[1.6,5.5],"note":"Typical tPD A->Y at 3.3 V, 25 C, 50 pF (sn74lv6t17 p.7). VCC 1.6-5.5 V, VI 0-5.5 V (sn74lv6t17 p.5; -Q1 and -EP p.5 same)"}
+      },
+      "parts": [
+        {"name":"SN74LV6T17BQAR","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"LV"},
+        {"name":"SN74LV6T17PWR","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV"},
+        {"name":"SN74LV6T17PWREP","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV","flags":["enhanced"]},
+        {"name":"SN74LV6T17QPWRQ1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV","flags":["automotive"]},
+        {"name":"SN74LV6T17QWBQARQ1","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"LV","flags":["automotive"]}
       ]
     }
   ]

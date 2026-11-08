@@ -1,0 +1,440 @@
+{
+ "id": "74_162827",
+ "kind": "buffer",
+ "model": "tristate",
+ "function": "Buffer",
+ "description": "20-bit buffer/driver, series-damping output resistors, 3-state outputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout sn74abt162827a p.1 (DGG or DL), sn74alvch162827 p.1 (DGG, DGV, DL), cy74fct162827t p.1 (SSOP/TSSOP) - all the same: 1 1OE1, 2-3 1Y1-1Y2, 5-6 1Y3-1Y4, 8-10 1Y5-1Y7, 12-14 1Y8-1Y10, 15-17 2Y1-2Y3, 19-21 2Y4-2Y6, 23-24 2Y7-2Y8, 26-27 2Y9-2Y10, 28 2OE1, 29 2OE2, 30-31 2A10-2A9, 33-34 2A8-2A7, 36-38 2A6-2A4, 40-42 2A3-2A1, 43-45 1A10-1A8, 47-49 1A7-1A5, 51-52 1A4-1A3, 54-55 1A2-1A1, 56 1OE2; GND 4,11,18,25,32,39,46,53; VCC 7,22,35,50. Function table (each 10-bit buffer): OE1 and OE2 both low -> Y = A, either high -> Z (cy74fct162827t p.2; sn74alvch162827 p.1). Outputs have series damping resistors.",
+ "pinouts": {
+  "p56": [
+   {
+    "number": 1,
+    "name": "1OE1",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Y1",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "1Y2",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "1Y3",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1Y4",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 8,
+    "name": "1Y5",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "1Y6",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "1Y7",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 12,
+    "name": "1Y8",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "1Y9",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "1Y10",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "2Y1",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "2Y2",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "2Y3",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 19,
+    "name": "2Y4",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "2Y5",
+    "role": "output"
+   },
+   {
+    "number": 21,
+    "name": "2Y6",
+    "role": "output"
+   },
+   {
+    "number": 22,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 23,
+    "name": "2Y7",
+    "role": "output"
+   },
+   {
+    "number": 24,
+    "name": "2Y8",
+    "role": "output"
+   },
+   {
+    "number": 25,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 26,
+    "name": "2Y9",
+    "role": "output"
+   },
+   {
+    "number": 27,
+    "name": "2Y10",
+    "role": "output"
+   },
+   {
+    "number": 28,
+    "name": "2OE1",
+    "role": "input"
+   },
+   {
+    "number": 29,
+    "name": "2OE2",
+    "role": "input"
+   },
+   {
+    "number": 30,
+    "name": "2A10",
+    "role": "input"
+   },
+   {
+    "number": 31,
+    "name": "2A9",
+    "role": "input"
+   },
+   {
+    "number": 32,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 33,
+    "name": "2A8",
+    "role": "input"
+   },
+   {
+    "number": 34,
+    "name": "2A7",
+    "role": "input"
+   },
+   {
+    "number": 35,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 36,
+    "name": "2A6",
+    "role": "input"
+   },
+   {
+    "number": 37,
+    "name": "2A5",
+    "role": "input"
+   },
+   {
+    "number": 38,
+    "name": "2A4",
+    "role": "input"
+   },
+   {
+    "number": 39,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 40,
+    "name": "2A3",
+    "role": "input"
+   },
+   {
+    "number": 41,
+    "name": "2A2",
+    "role": "input"
+   },
+   {
+    "number": 42,
+    "name": "2A1",
+    "role": "input"
+   },
+   {
+    "number": 43,
+    "name": "1A10",
+    "role": "input"
+   },
+   {
+    "number": 44,
+    "name": "1A9",
+    "role": "input"
+   },
+   {
+    "number": 45,
+    "name": "1A8",
+    "role": "input"
+   },
+   {
+    "number": 46,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 47,
+    "name": "1A7",
+    "role": "input"
+   },
+   {
+    "number": 48,
+    "name": "1A6",
+    "role": "input"
+   },
+   {
+    "number": 49,
+    "name": "1A5",
+    "role": "input"
+   },
+   {
+    "number": 50,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 51,
+    "name": "1A4",
+    "role": "input"
+   },
+   {
+    "number": 52,
+    "name": "1A3",
+    "role": "input"
+   },
+   {
+    "number": 53,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 54,
+    "name": "1A2",
+    "role": "input"
+   },
+   {
+    "number": 55,
+    "name": "1A1",
+    "role": "input"
+   },
+   {
+    "number": 56,
+    "name": "1OE2",
+    "role": "input"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "DGG",
+    "DL",
+    "DGV",
+    "CY-PA"
+   ],
+   "pinout": "p56"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "1A1",
+    "1A2",
+    "1A3",
+    "1A4",
+    "1A5",
+    "1A6",
+    "1A7",
+    "1A8",
+    "1A9",
+    "1A10"
+   ],
+   "y": [
+    "1Y1",
+    "1Y2",
+    "1Y3",
+    "1Y4",
+    "1Y5",
+    "1Y6",
+    "1Y7",
+    "1Y8",
+    "1Y9",
+    "1Y10"
+   ],
+   "oe": [
+    {
+     "pin": "1OE1",
+     "active": "low"
+    },
+    {
+     "pin": "1OE2",
+     "active": "low"
+    }
+   ]
+  },
+  {
+   "a": [
+    "2A1",
+    "2A2",
+    "2A3",
+    "2A4",
+    "2A5",
+    "2A6",
+    "2A7",
+    "2A8",
+    "2A9",
+    "2A10"
+   ],
+   "y": [
+    "2Y1",
+    "2Y2",
+    "2Y3",
+    "2Y4",
+    "2Y5",
+    "2Y6",
+    "2Y7",
+    "2Y8",
+    "2Y9",
+    "2Y10"
+   ],
+   "oe": [
+    {
+     "pin": "2OE1",
+     "active": "low"
+    },
+    {
+     "pin": "2OE2",
+     "active": "low"
+    }
+   ]
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "timing": {
+  "ABT": {
+   "rise": 2.1,
+   "fall": 2.8,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Typical A->Y at 5 V, 25 C, 50 pF, SN74ABT162827A (sn74abt162827a p.5). VCC 4.5-5.5 V, VI 0-VCC (sn74abt162827a p.3)"
+  },
+  "ALVC": {
+   "rise": 3.8,
+   "fall": 3.8,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "note": "Max tpd A->Y at 3.3 V (no typical printed), SN74ALVCH162827 (sn74alvch162827 p.5). VCC 1.65-3.6 V, VI 0-VCC (sn74alvch162827 p.3)"
+  },
+  "FCT": {
+   "rise": 4.2,
+   "fall": 4.2,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "Max tPLH/tPHL A->Y, 50 pF, CY74FCT162827CT grade (no typical printed; AT 8, BT 5) (cy74fct162827t p.4). VCC 5 V +/-10% (cy74fct162827t p.2)"
+  }
+ },
+ "families": {
+  "ABT": [
+   "sn74abt162827a"
+  ],
+  "ALVC": [
+   "sn74alvch162827"
+  ],
+  "FCT": [
+   "cy74fct162827t"
+  ]
+ },
+ "pdfs": [
+  "sn74abt162827a",
+  "sn74alvch162827",
+  "cy74fct162827t"
+ ],
+ "parts": [
+  "SN74ABT162827ADGGR",
+  "SN74ABT162827ADL",
+  "SN74ABT162827ADLR",
+  "SN74ALVCH162827DL",
+  "SN74ALVCH162827DLR",
+  "SN74ALVCH162827VR",
+  "SN74ALVCH162827GR",
+  "CY74FCT162827CTPAC",
+  "CY74FCT162827ETPAC",
+  "SN74ALVCH162827DGG",
+  "SN74ALVCH162827DGGR"
+ ]
+}

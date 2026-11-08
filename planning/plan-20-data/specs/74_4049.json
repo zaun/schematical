@@ -1,0 +1,179 @@
+{
+ "id": "74_4049",
+ "kind": "gate",
+ "model": "not",
+ "function": "NOT",
+ "description": "Hex inverting buffer/converter (inputs to 15 V)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout cd74hc4049 p.1 and p.2 (PDIP/SOIC/SOP/TSSOP, CERDIP): VCC pin 1, GND pin 8, pins 13 and 16 NC. Inputs take up to 15 V for high-to-low level conversion (p.3).",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "4A",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "4Y",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "5A",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "5Y",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 14,
+    "name": "6A",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "6Y",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "NC",
+    "role": "nc"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "D",
+    "NS",
+    "PW",
+    "J"
+   ],
+   "pinout": "p16"
+  }
+ ],
+ "gates": [
+  {
+   "op": "not",
+   "inputs": [
+    "1A"
+   ],
+   "output": "1Y"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "2A"
+   ],
+   "output": "2Y"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "3A"
+   ],
+   "output": "3Y"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "4A"
+   ],
+   "output": "4Y"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "5A"
+   ],
+   "output": "5Y"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "6A"
+   ],
+   "output": "6Y"
+  }
+ ],
+ "output": "push-pull",
+ "timing": {
+  "HC": {
+   "rise": 6,
+   "fall": 6,
+   "vcc": [
+    2,
+    6
+   ],
+   "inputMax": 15,
+   "note": "typ tPLH/tPHL at 5 V, 15 pF (cd74hc4049 p.4; max 17 ns at 4.5 V, 50 pF); VCC 2-6 V, DC input 0-15 V (p.3)"
+  }
+ },
+ "families": {
+  "HC": [
+   "cd74hc4049"
+  ]
+ },
+ "pdfs": [
+  "cd74hc4049"
+ ],
+ "parts": [
+  "CD74HC4049E",
+  "CD74HC4049M96",
+  "CD74HC4049NSR",
+  "CD74HC4049PWR",
+  "CD74HC4049NSRG4"
+ ]
+}

@@ -1,0 +1,187 @@
+{
+ "id": "4010B",
+ "kind": "buffer",
+ "model": "translator",
+ "function": "Level shifter",
+ "description": "CMOS hex non-inverting buffer/converter (high-to-low level)",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout cd4010b p.1 terminal assignments (scan) and cd4010b-q1 p.1 (image): VCC pin 1 = output-stage supply, VDD pin 16 = input/logic supply, VSS 8, NC 13; outputs G..L (G = A ... L = F), as 4009UB in gate.json. Recommended VDD 3-18 V, VCC 3 V to VDD, VI VCC to VDD (cd4010b p.2, cd4010b-q1 p.3): converts high-to-low only. Timing from cd4010b-q1 p.5 (main PDF is a scan).",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 2,
+    "name": "G",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "H",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "B",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "I",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "C",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "D",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "J",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "E",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "K",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 14,
+    "name": "F",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "L",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "VDD",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "N",
+    "D",
+    "NS",
+    "PW"
+   ],
+   "pinout": "p16"
+  }
+ ],
+ "units": [
+  {
+   "a": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F"
+   ],
+   "y": [
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L"
+   ],
+   "oe": []
+  }
+ ],
+ "invert": false,
+ "output": "push-pull",
+ "domains": [
+  {
+   "power": "VDD",
+   "pins": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F"
+   ]
+  },
+  {
+   "power": "VCC",
+   "pins": [
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L"
+   ]
+  }
+ ],
+ "timing": {
+  "C": {
+   "rise": 100,
+   "fall": 65,
+   "vcc": [
+    3,
+    18
+   ],
+   "vccB": [
+    3,
+    18
+   ],
+   "note": "typ tPLH/tPHL at VDD = VI = VCC = 5 V, 50 pF, 25 C (cd4010b-q1 p.5; VDD 10 V / VCC 5 V: 50/30); VDD (domain A) 3-18 V, VCC (domain B) 3 V to VDD (cd4010b p.2)"
+  }
+ },
+ "families": {
+  "C": [
+   "cd4010b",
+   "cd4010b-q1"
+  ]
+ },
+ "pdfs": [
+  "cd4010b",
+  "cd4010b-q1"
+ ],
+ "parts": [
+  "CD4010BE",
+  "CD4010BM",
+  "CD4010BM96",
+  "CD4010BNSR",
+  "CD4010BPW",
+  "CD4010BPWR",
+  "CD4010BQDRQ1"
+ ]
+}

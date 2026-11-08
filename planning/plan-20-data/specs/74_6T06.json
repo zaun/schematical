@@ -1,0 +1,160 @@
+{
+ "id": "74_6T06",
+ "kind": "gate",
+ "model": "not",
+ "function": "NOT",
+ "description": "Hex inverter buffer/driver, open-drain outputs, level-shifting inputs",
+ "drawer": [
+  "Logic"
+ ],
+ "note": "Pinout: sn74lv6t06-ep p.3 Figure 4-1 / Table 4-1 (PW 14-pin TSSOP), standard hex pinout. Six independent inverters, open-drain outputs, Y = not A (sn74lv6t06-ep p.1). Lower-threshold LVxT inputs, 5.5 V tolerant.",
+ "pinouts": {
+  "p14": [
+   {
+    "number": 1,
+    "name": "1A",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Y",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "2A",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "2Y",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "3A",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "3Y",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "4Y",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "4A",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "5Y",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "5A",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "6Y",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "6A",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "pinoutFor": [
+  {
+   "codes": [
+    "PW"
+   ],
+   "pinout": "p14"
+  }
+ ],
+ "gates": [
+  {
+   "op": "not",
+   "inputs": [
+    "1A"
+   ],
+   "output": "1Y"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "2A"
+   ],
+   "output": "2Y"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "3A"
+   ],
+   "output": "3Y"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "4A"
+   ],
+   "output": "4Y"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "5A"
+   ],
+   "output": "5Y"
+  },
+  {
+   "op": "not",
+   "inputs": [
+    "6A"
+   ],
+   "output": "6Y"
+  }
+ ],
+ "output": "open-drain",
+ "timing": {
+  "LV": {
+   "rise": 7.8,
+   "fall": 10.2,
+   "vcc": [
+    1.6,
+    5.5
+   ],
+   "note": "typ tPLH/tPHL A->Y at 3.3 V, 50 pF, 25 C (sn74lv6t06-ep p.6). VCC 1.6-5.5 V, VI 0-5.5 V (sn74lv6t06-ep p.4)"
+  }
+ },
+ "families": {
+  "LV": [
+   "sn74lv6t06-ep"
+  ]
+ },
+ "pdfs": [
+  "sn74lv6t06-ep"
+ ],
+ "parts": [
+  "SN74LV6T06PWREP"
+ ]
+}
