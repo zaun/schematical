@@ -173,17 +173,18 @@ empty schematic (needs the Commands body to observe the document).
 
 Acceptance: the raster tests pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/SchematicRasterTests CODE_SIGNING_ALLOWED=NO 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 001b772
 
 ### Phase 2 — Controller action and menu
 
-- [ ] `Document/SchematicExportCommands.swift` (new): `SchematicExportFormat` and `SchematicExportCommands` per § 3.2–3.3.
-- [ ] `Document/SchematicFileController.swift`: `export(_:)` and `writeExport(_:to:)` per § 3.2.
-- [ ] `schematicalApp.swift`: add `SchematicExportCommands()` to `.commands`.
-- [ ] `schematicalTests/SchematicExportActionTests.swift` (new): create a `SchematicFileController(document:catalog:willReplaceDocument:)`
+- [x] `Document/SchematicExportCommands.swift` (new): `SchematicExportFormat` and `SchematicExportCommands` per § 3.2–3.3.
+- [x] `Document/SchematicFileController.swift`: `export(_:)` and `writeExport(_:to:)` per § 3.2. (`writeExport` on an empty schematic throws `ExportError.nothingToExport`; `SchematicExportFormat.data(for:)` picks the writer.)
+- [x] `schematicalApp.swift`: add `SchematicExportCommands()` to `.commands`.
+- [x] `schematicalTests/SchematicExportActionTests.swift` (new): create a `SchematicFileController(document:catalog:willReplaceDocument:)`
       on a `TestSupport` document with one placed part; `writeExport` each format into `FileManager.default.temporaryDirectory`
       and read the file back: the SVG starts with `<?xml` and contains `<svg`; the PNG starts with bytes `89 50 4E 47`; the JPG with `FF D8`;
       `fileURL` is still `nil` and `hasUnsavedChanges` is unchanged by exporting; writing to a path in a nonexistent directory throws.
+      → 4 tests (also: the three menu titles/extensions/types, and an empty schematic throws) passed with the 5 raster tests: `** TEST SUCCEEDED **`, so the app target builds with the menu. Controllers are kept alive for the test process, as `TestSupport` keeps documents.
 
 Acceptance: the tests pass, and the app builds with the menu.
   Check: `xcodebuild … test -only-testing:schematicalTests/SchematicExportActionTests -only-testing:schematicalTests/SchematicRasterTests CODE_SIGNING_ALLOWED=NO 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 8 min).
