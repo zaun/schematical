@@ -47,8 +47,8 @@ int main(int argc, char **argv) {
     size_t compared = 0;
     size_t skipped = 0;
     size_t failures = 0;
-    const char *kinds[PART_HEADER + 1];   /* one per PartKind: the last kind sizes it */
-    size_t kind_counts[PART_HEADER + 1];
+    const char *kinds[PART_RTC + 1];   /* one per PartKind: the last kind sizes it */
+    size_t kind_counts[PART_RTC + 1];
     size_t kind_n = 0;
 
     if (load_parts_dir(library, PARTS_DIR) != 0) {
