@@ -83,6 +83,9 @@ struct ChipDrawerView: View, Equatable {
                                         toggle(key, defaultOpen: false)
                                     }
                             }
+                            // Set on each level: a nested group does not pick
+                            // up the style from its parent's content.
+                            .disclosureGroupStyle(DrawerDisclosureStyle())
                         }
                         ForEach(category.functions) { function in
                             functionGroup(function, path: category.category)
@@ -298,6 +301,7 @@ struct ChipDrawerView: View, Equatable {
                     toggle(key, defaultOpen: false)
                 }
         }
+        .disclosureGroupStyle(DrawerDisclosureStyle())
     }
 
     /// An ADC or DAC group carries Bits and Channels menus.
