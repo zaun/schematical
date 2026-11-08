@@ -184,7 +184,7 @@ Acceptance: the four controls show the header's values, and the menu labels coun
   Rows 2, Pins per row 5, Female, Footprint "2x5 pin header, 2.54 mm pitch,
   right…" (cut at the sidebar width), Details Package Right angle, Footprint
   PINHDR-2X05-RA, Rows 2, Pins per row 5, Gender Female.
-Commit: —
+Commit: bc80004
 
 ### Phase 2 — Settings and the drop
 
@@ -213,7 +213,7 @@ type, and bad or empty settings fall back to 1×2, Male, vertical.
   Generic LED (Red, 5 mm radial) as before, then New Generic Header with Rows
   1, Pins per row 2, Gender Male, Footprint "1x2 pin header, 2.54 mm pitch,
   vertical", footer "Used for headers dropped from now on."
-Commit: —
+Commit: bc80004
 
 ## Validation Plan
 
