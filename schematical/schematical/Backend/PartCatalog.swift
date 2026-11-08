@@ -287,6 +287,13 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// A processor: a part with a processor window.
     var isCpu: Bool { kind == PART_CPU }
 
+    /// A pull-up or pull-down: a resistor on the board, with a resistance
+    /// (`PlacedChip.ohms`) and footprint choices.
+    var isPullResistor: Bool {
+        if case .supply(_, _, pull: true) = details { return true }
+        return false
+    }
+
     /// A serial part with at least one channel: a part with a terminal window.
     var hasTerminal: Bool {
         if case let .serial(_, channels, _) = details { return channels > 0 }

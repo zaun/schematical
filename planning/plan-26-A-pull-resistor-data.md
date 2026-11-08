@@ -297,25 +297,25 @@ golden lines changed.
   `footprints.txt | 6 ++++++`, `parts.txt | 14 +++++++-------` (7 lines
   changed), `traces.txt` not in the diff; `listing_check --print | grep -c
   'RES-RADIAL-2.54'` → 7.
-Commit: —
+Commit: e9e75da
 
 ### Phase 2 — App model and file format
 
-- [ ] `schematical/schematical/Backend/PartCatalog.swift`: `CatalogPart.isPullResistor`.
-- [ ] New `schematical/schematical/Canvas/ResistorValue.swift`: §7 constants
+- [x] `schematical/schematical/Backend/PartCatalog.swift`: `CatalogPart.isPullResistor`.
+- [x] New `schematical/schematical/Canvas/ResistorValue.swift`: §7 constants
       and `isValid`.
-- [ ] `schematical/schematical/Canvas/SchematicModel.swift`: `PlacedChip.ohms`
+- [x] `schematical/schematical/Canvas/SchematicModel.swift`: `PlacedChip.ohms`
       and its `init` normalization; `placeChip(ohms:)` and `R<n>` references;
       `setPartOhms`. Update the `PlacedChip.board` doc comment ("every part
-      but VCC and GND" stays true).
-- [ ] `schematical/schematical/Document/SchematicFile.swift`: `Part.ohms`
+      but VCC and GND" stays true — checked, the comment already says it).
+- [x] `schematical/schematical/Document/SchematicFile.swift`: `Part.ohms`
       written from `chip.ohms`; read and validated in `apply` (`badOhms`);
       passed to `PlacedChip.init`.
-- [ ] `docs/file-format.md`: § Parts `ohms` row; `footprint` row names pull
+- [x] `docs/file-format.md`: § Parts `ohms` row; `footprint` row names pull
       resistors and default `RES-RADIAL-2.54`; `pcb` row "left out for VCC and
       GND"; `reference` row "new pull resistors get `R<n>`"; § Validation on
       open: the `badOhms` case.
-- [ ] Tests: new `schematical/schematicalTests/PullResistorTests.swift`:
+- [x] Tests: new `schematical/schematicalTests/PullResistorTests.swift`:
       placing `PULLUP-5V` gives `R1`, `ohms` 1000, `footprintID`
       `RES-RADIAL-2.54`, non-nil `board`, 2 `boardPads`; a second pull is
       `R2` and a following `SN74HC00D` is `U1`; `setPartOhms` keeps 4700,
@@ -324,13 +324,16 @@ Commit: —
       round trip (the `BoardLayersTests` pattern) keeps reference, ohms,
       footprint and PCB centre; a hand-written version-4 file with a
       `PULLDOWN` and no `ohms`/`footprint`/`pcb` opens as 1000 Ω, Radial,
-      placed; `"ohms": 0` fails with `badOhms`.
+      placed; `"ohms": 0` fails with `badOhms` (also: 2e9 fails, 1e9 opens,
+      the message text). 7 tests.
 
 Acceptance: pulls are real resistors in the model and survive save/open.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/PullResistorTests -only-testing:schematicalTests/BillOfMaterialsTests CODE_SIGNING_ALLOWED=NO`
   → all pass (est. 3 min; `BillOfMaterialsTests` is included because pulls
   now have a footprint and show up there — it still passes in this phase,
   since its tests place no pulls).
+  Result (2026-11-07): `Executed 10 tests, with 0 failures` (`PullResistorTests` 7,
+  `BillOfMaterialsTests` 3), `** TEST SUCCEEDED **`.
 Commit: —
 
 ## Validation Plan

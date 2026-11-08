@@ -524,6 +524,9 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// For a part with footprint choices, the id of the chosen footprint (one
     /// of `part.footprintChoices`). Nil for every other part.
     var footprintID: String?
+    /// A pull resistor's resistance in ohms (`ResistorValue.isValid`). Nil
+    /// for every other part.
+    var ohms: Double?
 
     private let baseLayout: ChipLayout
 
@@ -538,7 +541,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         board: BoardPlacement? = nil,
         memoryFile: MemoryFile? = nil,
         color: String? = nil,
-        footprintID: String? = nil
+        footprintID: String? = nil,
+        ohms: Double? = nil
     ) {
         self.id = id
         self.reference = reference
@@ -562,6 +566,11 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
             } ?? base.id
         } else {
             self.footprintID = nil
+        }
+        if part.isPullResistor {
+            self.ohms = ohms.flatMap { ResistorValue.isValid($0) ? $0 : nil } ?? ResistorValue.defaultOhms
+        } else {
+            self.ohms = nil
         }
         // A switch has one state per position, OFF unless given; others none.
         var positions = 0
@@ -1158,31 +1167,44 @@ final class SchematicDocument {
     /// Places a block with its centre under `point`, snapped to the grid.
     /// The new part is not selected, so the parts library stays open for
     /// the next drop.
-    /// `color` and `footprintID` are the LED options; nil (or a value the
-    /// part doesn't have) is the part's default.
+    /// `color`, `footprintID` and `ohms` are the part's options (LED, parts
+    /// with footprint choices, pull resistors); nil (or a value the part
+    /// doesn't have) is the part's default.
     func placeChip(part: CatalogPart, symbol: PartSymbol, centeredAt point: CGPoint,
-                   color: String? = nil, footprintID: String? = nil) {
+                   color: String? = nil, footprintID: String? = nil, ohms: Double? = nil) {
         let layout = ChipLayout(part: part, symbol: symbol)
         let origin = SchematicGrid.snap(
             CGPoint(x: point.x - layout.size.width / 2, y: point.y - layout.size.height / 2)
         )
-        // The first U<n> from nextReference on that no part uses, since a
-        // part may have been renamed to one.
         let used = Set(chips.map(\.reference))
-        var number = nextReference
-        while used.contains("U\(number)") {
-            number += 1
+        let reference: String
+        if part.isPullResistor {
+            // A pull resistor is the lowest R<n> no part uses.
+            var number = 1
+            while used.contains("R\(number)") {
+                number += 1
+            }
+            reference = "R\(number)"
+        } else {
+            // The first U<n> from nextReference on that no part uses, since a
+            // part may have been renamed to one.
+            var number = nextReference
+            while used.contains("U\(number)") {
+                number += 1
+            }
+            reference = "U\(number)"
+            nextReference = number + 1
         }
         var placed = PlacedChip(
-            reference: "U\(number)",
+            reference: reference,
             part: part,
             symbol: symbol,
             origin: origin,
             color: color,
-            footprintID: footprintID
+            footprintID: footprintID,
+            ohms: ohms
         )
         placed.board = placed.footprint.map { BoardLayout.nextSpot(for: $0, among: chips) }
-        nextReference = number + 1
         chips.append(placed)
     }
 
@@ -1193,6 +1215,15 @@ final class SchematicDocument {
               chips[index].part.kind == PART_LED,
               chips[index].part.colors.contains(color) else { return }
         chips[index].color = color
+    }
+
+    /// Sets a pull resistor's resistance. Does nothing for a part that isn't
+    /// a pull resistor, or a value that isn't `ResistorValue.isValid`.
+    func setPartOhms(_ id: UUID, _ ohms: Double) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              chips[index].part.isPullResistor,
+              ResistorValue.isValid(ohms) else { return }
+        chips[index].ohms = ohms
     }
 
     /// Picks one of a part's footprint choices. On the PCB the pad of the
