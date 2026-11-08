@@ -275,6 +275,43 @@ static void check_converter_cases(void) {
                 "'parts':[{'name':'K-1','package':'DIP','pinout':'p','footprint':'T2'}]}" TAIL,
                 "\"clock\" needs a pin");
 }
+
+/* plan-24-F: the rtc kind. */
+#define RTC_DEVICE(CLOCK) \
+    HEAD("rtc") "{'id':'R','function':'RTC','description':'d','drawer':['Interface']," \
+    "'pinouts':{'p':[{'number':1,'name':'VCC','role':'power'},{'number':2,'name':'SCL','role':'input'}," \
+    "{'number':3,'name':'SDA','role':'inout'},{'number':4,'name':'GND','role':'ground'}]},'vcc':[2,5.5]," \
+    "'bus':{'style':'i2c','scl':'SCL','sda':'SDA','address':[],'table':[104]}," \
+    "'registers':[{'name':'SEC','address':0,'width':8},{'name':'MIN','address':1,'width':8}," \
+    "{'name':'HR','address':2,'width':8}]," \
+    "'protocol':{'frame':'fixed','commands':[{'name':'P','in':'aaaaaaaa','action':'pointer','address':'a'}],'read':'pointer'}," \
+    CLOCK "'parts':[{'name':'R-1','package':'SOIC','pinout':'p','footprint':'T4'}]}" TAIL
+#define RTC_FIELDS "'fields':[{'field':'SEC','unit':'second'},{'field':'MIN','unit':'minute'},{'field':'HR','unit':'hour'}]"
+
+static void check_rtc_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, RTC_DEVICE("'clock':{" RTC_FIELDS "},"), &error) == 0);
+    part = part_library_find(library, "R-1");
+    CHECK(part != NULL && part->kind == PART_RTC && part->vcc != NULL && part->converter == NULL);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid rtc part\n");
+    expect_fail("rtc without a clock", RTC_DEVICE(""), "devices[0] (R): an RTC needs \"clock\"");
+    expect_fail("rtc unknown unit",
+                RTC_DEVICE("'clock':{'fields':[{'field':'SEC','unit':'fortnight'}]},"),
+                "unknown unit \"fortnight\"");
+    expect_fail("rtc without an hour field",
+                RTC_DEVICE("'clock':{'fields':[{'field':'SEC','unit':'second'},{'field':'MIN','unit':'minute'}]},"),
+                "\"fields\" need second, minute and hour");
+    expect_fail("rtc alarm on an unknown register",
+                RTC_DEVICE("'clock':{" RTC_FIELDS ",'alarms':[{'match':[{'field':'ASEC','unit':'second'}]}]},"),
+                "unknown register \"ASEC\"");
+}
+#undef RTC_DEVICE
+#undef RTC_FIELDS
 #undef CONV_DEVICE
 #undef CONV_REG
 
@@ -2337,6 +2374,7 @@ int main(void) {
     check_serial();
     check_pio();
     check_converter_cases();
+    check_rtc_cases();
     check_valid_led();
     check_footprint_choices();
     check_duplicate_across_calls();

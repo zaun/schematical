@@ -21,7 +21,7 @@ plan-24-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-24-E complete | `ls planning/completed/plan-24-E-*.md` → exists | NOT MET (2026-11-07) |
+| plan-24-E complete | `ls planning/completed/plan-24-E-*.md` → exists | MET (`planning/completed/plan-24-E-parallel-converters.md`, 2026-11-07 at 4a9a48b) |
 
 ## 1. Goal
 
@@ -64,16 +64,16 @@ years per the datasheet's year range, alarm matches and interrupts.
 
 ### Phase 1 — Kind and timekeeping
 
-- [ ] `PART_RTC`; `KINDS[]`; `rtc.c` (+ CMake); `rtc_test.c` timekeeping cases; test entry; docs § `rtc`.
+- [x] `PART_RTC`; `KINDS[]` (`RTC_KIND`); `rtc.h`, `rtc.c` (+ CMake), the clock and RAM loader in `converter_load.c`; `rtc_test.c` timekeeping cases (power-on 2000-01-01 Saturday; +2 s; 59 → 00 carries into minutes, hours and the day; 2024-02-28 → 02-29, 2023-02-28 → 03-01; the stop bit halts and resumes); test entry; docs § `rtc` (`docs/parts-format.md`); listing kind `rtc`. `ctest -R rtc_test` → `rtc_test: all passed`.
 
-Acceptance: `ctest -R rtc_test` passes (seconds).
+Acceptance: `ctest -R rtc_test` passes (seconds): `rtc_test: all passed`.
 Commit: —
 
 ### Phase 2 — Alarms, periodic, watchdog, RAM, update mechanisms
 
-- [ ] The rest of §2; remaining §3 cases; `library_check` cases.
+- [x] The rest of §2 (alarms with masks and don't-care bytes, periodic interrupts in both forms, the watchdog with kick edges, battery-backed RAM, UIP/inhibit and latch update mechanisms, 12/24-hour, BCD/binary by a field, the multiplexed-bus ALE latch); remaining §3 cases: BQ3285-shape UIP set 244 µs before the update and clear after, 12-hour 11:59:59 PM → 12 AM and AM → 12 PM, periodic INT after 500 ms and released by reading REGC, alarm on a seconds match with don't-care minutes/hours, RAM 14 and 127; BQ4802-shape UTI freezes reads while counting continues and a write under UTI loads at release; watchdog (a case added: WDI edges, WDO); DP8570-shape RAM and the 1 ms timer interrupt, hundredths — all `ok`; `library_check`: no clock, unknown unit, no hour field, alarm on an unknown register — each `ok`.
 
-Acceptance: `ctest --test-dir /tmp/logic-p24` → T0 + 2 of T0 + 2; golden diff empty (seconds).
+Acceptance: `ctest --test-dir /tmp/logic-p24` → T0 + 2 of T0 + 2 (`100% tests passed, 0 tests failed out of 26`); golden diff empty (0 lines) (seconds). The 7 RTC specs load (`loaded 14 parts`).
 Commit: —
 
 ## Validation Plan
@@ -85,6 +85,22 @@ F's gate: Phase 2. Landing tier at the end of I.
 - Simulated time, start 2000-01-01 00:00:00 (author: deterministic goldens).
 
 ## Corrections
+
+- **Both phases landed in one commit**: the timekeeping, alarm, periodic,
+  watchdog and latch paths share the tick and register-write hooks, so they
+  were written and tested together; both Commit lines name it.
+- **The clock form grew** with the RTC specs (plan-24-B Corrections):
+  `h12Level`, `stop.running`, alarm `maskLevel`/`dontCare`,
+  `update.latch.writeHalts`, the periodic array form, the watchdog object
+  with kick and reset pins, and the parallel bus's `ale` latch (BQ3285).
+- **Engine rules found while testing**: a register counts as read when its
+  bits are shifted out, and clear-on-read bits clear when the read ends
+  (they had been cleared before the bits went out, or not at all for
+  pattern reads); a read address the map lacks reads the register at that
+  address, and an address lookup in the default space falls back to the
+  other spaces (BQ3285 RAM shares the register map).
+- The rtc kind runs on the converter's engine model (`CONVERTER_COMPONENT`)
+  with hooks into `rtc.c`, not a second model.
 
 ## Summary
 

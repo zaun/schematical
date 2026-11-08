@@ -147,7 +147,18 @@ static int reg_at(const CvState *s, int space, uint32_t address) {
             return (int)i;
         }
     }
+    /* a flat map: an address with no register in the default space may be in another
+       space (an RTC's battery-backed RAM) */
+    for (i = 0; space == 0 && i < s->dev->reg_count; i++) {
+        if (s->dev->regs[i].address == (int32_t)address) {
+            return (int)i;
+        }
+    }
     return CV_NONE;
+}
+
+int cv_reg_at(const CvState *s, int space, uint32_t address) {
+    return reg_at(s, space, address);
 }
 
 /* The next register after `reg` in address order within its space (CV_NONE: none). */
@@ -209,6 +220,9 @@ void cv_ready_refresh(CvState *s) {
         cv_drive(s, cv_pin(s, r->pin), cv_ready_level(s, r->pin), 0);
     }
     cv_spi_refresh(s);
+    if (s->dev->rtc) {
+        rtc_refresh(s);
+    }
 }
 
 static void ready_clear(CvState *s, unsigned why) {
@@ -458,6 +472,37 @@ void cv_reg_write(CvState *s, int reg, uint32_t value) {
     }
     s->regs[reg] = nv & m;
     after_write(s, reg, value, cont);
+    if (s->dev->rtc) {
+        rtc_after_write(s, reg);
+    }
+    cv_ready_refresh(s);
+}
+
+static void mark_read(CvState *s, int reg) {
+    if (reg >= 0 && !s->read_mark[reg]) {
+        s->read_mark[reg] = 1;
+        s->read_marked = 1;
+        if (s->dev->regs[reg].result) {
+            cv_result_read(s);
+        }
+    }
+}
+
+void cv_reads_done(CvState *s) {
+    size_t i;
+
+    if (!s->read_marked) {
+        return;
+    }
+    for (i = 0; i < s->dev->reg_count; i++) {
+        if (s->read_mark[i]) {
+            s->read_mark[i] = 0;
+            if (s->dev->regs[i].cor) {
+                s->regs[i] &= ~s->dev->regs[i].cor;
+            }
+        }
+    }
+    s->read_marked = 0;
     cv_ready_refresh(s);
 }
 
@@ -631,9 +676,6 @@ static void run_action(CvState *s, uint8_t action, const CvCommand *cmd, const u
 
             set_out(s, &s->seg, &AT_PATTERN, caps, list, n, cmd->word_bits, 1);
             s->seg_from = 1;
-        }
-        for (i = 0; i < n; i++) {
-            cv_reg_read(s, list[i]);
         }
         break;
     }
@@ -1002,6 +1044,7 @@ void cv_xfer_end(CvState *s) {
     if (!x->xed && x->deferred != NULL) {
         execute(s, x->deferred, x->deferred_caps);
     }
+    cv_reads_done(s);
     x->open = 0;
     x->payload = CV_PAY_NONE;
 }
@@ -1022,6 +1065,7 @@ static LogicValue tok_value(CvState *s, CvSeg *g, const CvTok *t) {
     case CVT_CH:
         return ((uint32_t)s->out_channel >> t->bit) & 1u ? LOGIC_1 : LOGIC_0;
     case CVT_REF:
+        mark_read(s, t->reg);
         return (s->regs[t->reg] >> t->bit) & 1u ? LOGIC_1 : LOGIC_0;
     default:
         return LOGIC_0;
@@ -1051,8 +1095,8 @@ LogicValue cv_seg_bit(CvState *s, CvSeg *g, int idle, int *sdio) {
                     } else {
                         v = LOGIC_0;
                     }
-                    if (s->dev->regs[reg].result && g->at_bit == 0) {
-                        cv_result_read(s);
+                    if (g->at_bit == 0) {
+                        mark_read(s, reg);
                     }
                     if (++g->at_bit == word) {
                         g->at_bit = 0;
@@ -1152,9 +1196,6 @@ void cv_read_begin(CvState *s) {
             } else {
                 list[0] = reg;
                 n = 1;
-            }
-            for (i = 0; i < n; i++) {
-                cv_reg_read(s, list[i]);
             }
         }
         set_out(s, &s->seg, &AT_PATTERN, NULL, list, n, 0, 1);
@@ -1491,8 +1532,9 @@ static void *cv_create(const void *config) {
     s->ready_on = calloc(s->dev->ready_count ? s->dev->ready_count : 1, 1);
     s->ready_gen = calloc(s->dev->ready_count ? s->dev->ready_count : 1, sizeof(*s->ready_gen));
     s->x.alive = calloc(s->dev->protocol.command_count ? s->dev->protocol.command_count : 1, 1);
+    s->read_mark = calloc(s->dev->reg_count ? s->dev->reg_count : 1, 1);
     if (s->regs == NULL || s->drv == NULL || s->ready_on == NULL || s->ready_gen == NULL ||
-        s->x.alive == NULL) {
+        s->x.alive == NULL || s->read_mark == NULL) {
         cv_free_state(s);
         return NULL;
     }
@@ -1543,6 +1585,8 @@ void cv_free_state(CvState *s) {
     free(s->ready_on);
     free(s->ready_gen);
     free(s->alive_store);
+    free(s->read_mark);
+    rtc_free(s);
     free(s);
 }
 
@@ -1599,6 +1643,9 @@ static void cv_start(Sim *sim, SimInstance *instance, void *state) {
         serial_i2c_enable(&s->i2c, sim, instance, s->spi_off);
     }
     cv_par_start(s);
+    if (s->dev->rtc) {
+        rtc_start(s);
+    }
     cv_ready_refresh(s);
 }
 
@@ -1705,6 +1752,9 @@ static void cv_pin_changed(Sim *sim, SimInstance *instance, void *state, size_t 
         s->spi_off = (v == LOGIC_1) != (s->dev->bus.spi_level == 1);
         serial_i2c_enable(&s->i2c, sim, instance, s->spi_off);
     }
+    if (s->dev->rtc) {
+        rtc_pin(s, pin);
+    }
     if (s->in_reset || s->powered_down_bus) {
         return;
     }
@@ -1733,6 +1783,8 @@ static void cv_timer(Sim *sim, SimInstance *instance, void *state, uint32_t id) 
             s->ready_on[i] = 0;
             cv_ready_refresh(s);
         }
+    } else if ((id & CV_TM_KIND) == CV_TM_RTC) {
+        rtc_timer(s, id);
     } else {
         cv_par_timer(s, id);
     }

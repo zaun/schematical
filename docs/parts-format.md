@@ -25,6 +25,7 @@ Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, 
 | `serial.json` | `serial` |
 | `connector.json` | `connector` |
 | `converter.json` | `converter` |
+| `rtc.json` | `rtc` |
 
 Beside them, `footprints.json` holds the land patterns parts name with
 `"footprint"` (see [Footprints](#footprints)). It is loaded first, with
@@ -2282,6 +2283,77 @@ number, or chosen by a pin or field: `{"pin": "CLRSEL", "values": {"0": 0,
 `name`, `package`, `pinout`, `footprint`, `flags` (docs § Parts), optional
 `vcc`/`inputMax` (the part's own), optional `"i2cAddress"` (overrides the
 bus table: the part's fixed 7-bit address).
+
+### `rtc`
+
+Real-time clocks (plan-24-F): `rtc.json`, `"kind": "rtc"`, `"function": "RTC"`.
+An RTC device uses the converter keys for its digital side (§ `converter`:
+`vcc`, `inputMax`, `analog`, `bus`, `configBus`, `timing`, `registers`,
+`protocol`, `ready`, `pins`; no `type`, `bits`, `channels`, `codeFormat`,
+`conversion` or `dac`) and adds `"clock"`, run by `backend/src/models/rtc.c`.
+It counts **simulated** time from 2000-01-01 00:00:00 (a Saturday), so
+traces stay deterministic; there is no battery switchover: RAM and time
+last while the circuit runs and start fresh at load. Leap years are every
+fourth year (the parts cover 2000-2099). Writing a time register loads the
+counter and restarts the second. Part keys as § `converter`. `Part.kind` is
+`PART_RTC`; the parts have no kind-specific facts.
+
+#### `clock`
+
+
+```json
+"clock": {
+  "fields": [{"field": "SEC.SECONDS", "unit": "second", "format": "bcd"},
+             {"field": "HOUR.HOURS", "unit": "hour", "format": "bcd", "h12": "HOUR.H12", "pm": "HOUR.PM"},
+             {"field": "DAY.DAY", "unit": "weekday", "first": 1},
+             {"field": "DATE.DATE", "unit": "date"}, {"field": "MONTH.MONTH", "unit": "month"},
+             {"field": "YEAR.YEAR", "unit": "year", "base": 2000}],
+  "stop": {"field": "SEC.STOP", "stopped": 1, "powerOn": 0},
+  "update": "none",
+  "alarms": [{"match": [{"field": "ASEC.SECONDS", "unit": "second", "mask": "ASEC.MASK"}], "flag": "FLAGS.AF", "enable": "CTRL.AIE", "pin": {"pin": "INT", "active": 0, "openDrain": true}}],
+  "periodic": {"field": "CTRLA.RS", "periods": {"3": 122070, "15": 500000000}, "flag": "FLAGS.PF", "enable": "CTRLB.PIE", "pin": "INT"},
+  "watchdog": {"field": "WD.TIME", "unitNs": 62500000, "flag": "FLAGS.WDF", "pin": "RST"},
+  "ram": {"space": "ram", "bytes": 114, "address": 14}
+}
+```
+
+`unit`: `second`, `minute`, `hour`, `weekday`, `date`, `month`, `year`,
+`century`, `hundredth`; `format` `"bcd"` (default) or `"binary"`, or
+`{"field": "CTRLB.DM", "binary": 1}`; `h12`/`pm` the 12-hour mode bit and PM
+bit (12-hour when `h12` = 1). `stop`: the oscillator stop bit (`stopped` =
+its level that halts counting, `powerOn` its value at power on).
+`update`: `"none"`; `{"uip": "REGA.UIP", "inhibit": "REGB.SET"}` (UIP
+set 244 µs before each update; writing `inhibit` 1 halts updates);
+`{"latch": "CTRL.R", "write": "CTRL.W"}` (reading frozen while the read
+bit is 1; counting continues; the write bit halts counting and loads the
+written registers when cleared). Power-on time 2000-01-01 00:00:00 (a
+Saturday), oscillator per `stop.powerOn`.
+
+Further forms (from the RTC datasheets, plan-24-B):
+
+- `h12Level`: the level of `h12` that means 12-hour mode (default 1; `0`
+  for "1 = 24-hour" bits).
+- `stop.running`: instead of `stopped`, the one field value at which the
+  oscillator runs (BQ3285 OS2–OS0 = 010); any other value halts it.
+- Alarm `match` entries: `mask` + `maskLevel` (the mask field's level that
+  makes the entry always match, default 1); `dontCare`: a bit pattern
+  (`"11xxxxxx"`) that, when the alarm byte matches it, makes the entry
+  always match.
+- `update.latch` with `"writeHalts": false`: the latch bit freezes the
+  user copy; counting continues; values written while it is set load into
+  the counters when it clears (BQ4802 UTI).
+- `periodic` as an array of `{"periodNs", "flag", "enable", "summary"?,
+  "pin"}`: several fixed-rate interrupts at once (DP857x), each setting its
+  flag (and the summary flag) every period while enabled.
+- `watchdog`: `{"field", "periods": {value: ns}, "kick": {"pin", "edge":
+  "rise"|"fall"|"both"}, "pin": {"pin", "active"}, "resetPin": {"pin",
+  "active", "openDrain", "pulse": {value: ns}}}` — a kick edge restarts the
+  timeout; at timeout `pin` asserts (and `resetPin` pulses).
+- Parallel `bus.ale`: `{"pin": "AS", "edge": "fall", "bits": 8}` — a
+  multiplexed address/data bus: that edge latches the low `bits` of the
+  data pins as the address for the following read or write.
+- `protocol.reads` entries may give `"read"` as an address map (an object,
+  like `protocol.read`): pages/blocks selected by a field (DP8570).
 
 ### `7seg`
 

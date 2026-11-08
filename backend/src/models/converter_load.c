@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include "converter.h"
+#include "rtc.h"
 
 typedef struct {
     KindContext *ctx;
@@ -1858,6 +1859,402 @@ static int load_dac(Ld *ld, const cJSON *d, CvDac *out) {
     return 0;
 }
 
+
+/* ---- The rtc kind's clock (schema.md § 10) ------------------------------------------- */
+
+static const char *const UNIT_NAMES[RU_COUNT] = {
+    "hundredth", "second", "minute", "hour", "weekday", "date", "month", "year", "century"
+};
+
+static int unit_of(Ld *ld, const cJSON *o, int *out) {
+    const char *u;
+    int i;
+
+    if (kind_string(ld->ctx, o, "unit", &u) != 0) {
+        return -1;
+    }
+    for (i = 0; i < RU_COUNT; i++) {
+        if (strcmp(UNIT_NAMES[i], u) == 0) {
+            *out = i;
+            return 0;
+        }
+    }
+    return kind_error(ld->ctx, "unknown unit \"%s\"", u);
+}
+
+static int rtc_pin(Ld *ld, const cJSON *v, RtcPin *out) {
+    out->pin = CV_NONE;
+    out->active = 0;
+    out->open_drain = 0;
+    if (v == NULL) {
+        return 0;
+    }
+    if (cJSON_IsString(v)) {
+        out->pin = name_id(ld, v->valuestring);
+        out->open_drain = -1;       /* attributes from another use of the pin */
+        return out->pin == CV_NONE ? -1 : 0;
+    }
+    if (cJSON_IsObject(v)) {
+        static const char *const K[] = {"pin", "active", "openDrain", "pulse", NULL};
+
+        if (check_keys(ld, v, K) != 0 || pin_member(ld, v, "pin", 1, &out->pin) != 0 ||
+            level_member(ld, v, "active", 0, &out->active) != 0) {
+            return -1;
+        }
+        out->open_drain = cJSON_IsTrue(member(v, "openDrain"));
+        return 0;
+    }
+    return kind_error(ld->ctx, "a pin is a name or {pin, active, openDrain}");
+}
+
+static int ns_map(Ld *ld, const cJSON *v, const char *key, const uint32_t **keys,
+                  const uint64_t **ps, size_t *count) {
+    const cJSON *e;
+    size_t n = 0;
+    uint32_t *k;
+    uint64_t *t;
+
+    if (!cJSON_IsObject(v) || v->child == NULL) {
+        return kind_error(ld->ctx, "\"%s\" is a non-empty object value -> ns", key);
+    }
+    *count = (size_t)cJSON_GetArraySize(v);
+    k = kind_alloc(ld->ctx, *count * sizeof(*k));
+    t = kind_alloc(ld->ctx, *count * sizeof(*t));
+    if (k == NULL || t == NULL) {
+        return -1;
+    }
+    cJSON_ArrayForEach(e, v) {
+        k[n] = (uint32_t)strtoul(e->string, NULL, 0);
+        if (cv_ns(ld->ctx, e, key, &t[n]) != 0) {
+            return -1;
+        }
+        n++;
+    }
+    *keys = k;
+    *ps = t;
+    return 0;
+}
+
+static int opt_field(Ld *ld, const cJSON *o, const char *key, int *has, CvField *out) {
+    *has = member(o, key) != NULL;
+    return *has ? field_member(ld, o, key, out) : 0;
+}
+
+static int load_periodic(Ld *ld, const cJSON *e, RtcPeriodic *p) {
+    static const char *const K[] = {"field", "periods", "periodNs", "flag", "enable", "summary",
+                                    "pin", NULL};
+
+    memset(p, 0, sizeof *p);
+    if (check_keys(ld, e, K) != 0 || opt_field(ld, e, "flag", &p->has_flag, &p->flag) != 0 ||
+        opt_field(ld, e, "enable", &p->has_enable, &p->enable) != 0 ||
+        opt_field(ld, e, "summary", &p->has_summary, &p->summary) != 0 ||
+        rtc_pin(ld, member(e, "pin"), &p->pin) != 0) {
+        return -1;
+    }
+    if (member(e, "periodNs") != NULL) {
+        p->fixed = 1;
+        return cv_ns(ld->ctx, member(e, "periodNs"), "\"periodNs\"", &p->period_ps);
+    }
+    return field_member(ld, e, "field", &p->rate) ||
+           ns_map(ld, member(e, "periods"), "periods", &p->keys, &p->ps, &p->count);
+}
+
+static int load_clock(Ld *ld, const cJSON *c, CvDevice *dev) {
+    static const char *const KEYS[] = {"fields", "stop", "update", "alarms", "periodic",
+                                       "watchdog", "ram", NULL};
+    RtcClock *k = kind_alloc(ld->ctx, sizeof(*k));
+    const cJSON *v, *e;
+    size_t n;
+
+    if (k == NULL) {
+        return -1;
+    }
+    if (c == NULL) {
+        return kind_error(ld->ctx, "an RTC needs \"clock\"");
+    }
+    kind_push(ld->ctx, "clock");
+    if (check_keys(ld, c, KEYS) != 0) {
+        return -1;
+    }
+    /* fields */
+    v = member(c, "fields");
+    if (!cJSON_IsArray(v) || v->child == NULL) {
+        return kind_error(ld->ctx, "\"fields\" must be a non-empty array");
+    }
+    {
+        RtcTimeField *tf;
+        int seen[RU_COUNT] = {0};
+
+        k->field_count = (size_t)cJSON_GetArraySize(v);
+        tf = kind_alloc(ld->ctx, k->field_count * sizeof(*tf));
+        if (tf == NULL) {
+            return -1;
+        }
+        n = 0;
+        cJSON_ArrayForEach(e, v) {
+            static const char *const FK[] = {"field", "unit", "format", "h12", "h12Level", "pm",
+                                             "first", "base", NULL};
+            const cJSON *f = member(e, "format");
+            uint32_t first = 0, base = 2000;
+
+            kind_push(ld->ctx, "fields[%zu]", n);
+            if (check_keys(ld, e, FK) != 0 || field_member(ld, e, "field", &tf[n].field) != 0 ||
+                unit_of(ld, e, &tf[n].unit) != 0 ||
+                opt_field(ld, e, "h12", &tf[n].has_h12, &tf[n].h12) != 0 ||
+                opt_field(ld, e, "pm", &tf[n].has_pm, &tf[n].pm) != 0 ||
+                level_member(ld, e, "h12Level", 1, &tf[n].h12_level) != 0 ||
+                u32_member(ld, e, "first", &first) != 0 || u32_member(ld, e, "base", &base) != 0) {
+                return -1;
+            }
+            tf[n].first = (int)first;
+            tf[n].base = (int)base;
+            if (f != NULL) {
+                if (cJSON_IsString(f)) {
+                    if (strcmp(f->valuestring, "binary") == 0) {
+                        tf[n].format.fixed_binary = 1;
+                    } else if (strcmp(f->valuestring, "bcd") != 0) {
+                        return kind_error(ld->ctx, "\"format\" is bcd, binary or {field, binary}");
+                    }
+                } else if (cJSON_IsObject(f)) {
+                    tf[n].format.has_field = 1;
+                    if (field_member(ld, f, "field", &tf[n].format.field) != 0 ||
+                        u32_member(ld, f, "binary", &tf[n].format.binary_value) != 0) {
+                        return -1;
+                    }
+                } else {
+                    return kind_error(ld->ctx, "\"format\" is bcd, binary or {field, binary}");
+                }
+            }
+            seen[tf[n].unit] = 1;
+            k->hundredths |= tf[n].unit == RU_HUNDREDTH;
+            kind_pop(ld->ctx);
+            n++;
+        }
+        if (!seen[RU_SECOND] || !seen[RU_MINUTE] || !seen[RU_HOUR]) {
+            return kind_error(ld->ctx, "\"fields\" need second, minute and hour");
+        }
+        k->fields = tf;
+    }
+    /* stop */
+    if ((v = member(c, "stop")) != NULL) {
+        static const char *const SK[] = {"field", "stopped", "running", "powerOn", NULL};
+
+        kind_push(ld->ctx, "stop");
+        if (check_keys(ld, v, SK) != 0 || field_member(ld, v, "field", &k->stop) != 0) {
+            return -1;
+        }
+        k->has_stop = 1;
+        if (member(v, "running") != NULL) {
+            k->stop_running = 1;
+            if (u32_member(ld, v, "running", &k->stop_value) != 0) {
+                return -1;
+            }
+        } else {
+            k->stop_value = 1;
+            if (u32_member(ld, v, "stopped", &k->stop_value) != 0) {
+                return -1;
+            }
+        }
+        kind_pop(ld->ctx);
+    }
+    /* update */
+    if ((v = member(c, "update")) != NULL && !(cJSON_IsString(v) && strcmp(v->valuestring, "none") == 0)) {
+        static const char *const UK[] = {"uip", "inhibit", "latch", "write", "writeHalts", NULL};
+
+        kind_push(ld->ctx, "update");
+        if (!cJSON_IsObject(v) || check_keys(ld, v, UK) != 0) {
+            return kind_failed(ld->ctx) ? -1 : kind_error(ld->ctx, "\"update\" is none, {uip}, {latch}");
+        }
+        if (member(v, "uip") != NULL) {
+            k->update.kind = RTC_UPDATE_UIP;
+            if (field_member(ld, v, "uip", &k->update.uip) != 0 ||
+                opt_field(ld, v, "inhibit", &k->update.has_inhibit, &k->update.inhibit) != 0) {
+                return -1;
+            }
+        } else if (member(v, "latch") != NULL) {
+            const cJSON *wh = member(v, "writeHalts");
+
+            k->update.kind = RTC_UPDATE_LATCH;
+            if (field_member(ld, v, "latch", &k->update.latch) != 0 ||
+                opt_field(ld, v, "write", &k->update.has_write, &k->update.write) != 0) {
+                return -1;
+            }
+            k->update.write_halts = wh == NULL || cJSON_IsTrue(wh);
+        } else {
+            return kind_error(ld->ctx, "\"update\" needs \"uip\" or \"latch\"");
+        }
+        kind_pop(ld->ctx);
+    }
+    /* alarms */
+    if ((v = member(c, "alarms")) != NULL) {
+        RtcAlarm *al;
+        size_t i = 0;
+
+        if (!cJSON_IsArray(v)) {
+            return kind_error(ld->ctx, "\"alarms\" must be an array");
+        }
+        k->alarm_count = (size_t)cJSON_GetArraySize(v);
+        al = kind_alloc(ld->ctx, (k->alarm_count ? k->alarm_count : 1) * sizeof(*al));
+        if (al == NULL) {
+            return -1;
+        }
+        cJSON_ArrayForEach(e, v) {
+            static const char *const AK[] = {"match", "flag", "enable", "pin", NULL};
+            const cJSON *m = member(e, "match"), *x;
+            RtcMatch *mm;
+            size_t j = 0;
+
+            kind_push(ld->ctx, "alarms[%zu]", i);
+            if (check_keys(ld, e, AK) != 0 || !cJSON_IsArray(m) ||
+                opt_field(ld, e, "flag", &al[i].has_flag, &al[i].flag) != 0 ||
+                opt_field(ld, e, "enable", &al[i].has_enable, &al[i].enable) != 0 ||
+                rtc_pin(ld, member(e, "pin"), &al[i].pin) != 0) {
+                return kind_failed(ld->ctx) ? -1 : kind_error(ld->ctx, "\"match\" must be an array");
+            }
+            al[i].match_count = (size_t)cJSON_GetArraySize(m);
+            mm = kind_alloc(ld->ctx, (al[i].match_count ? al[i].match_count : 1) * sizeof(*mm));
+            if (mm == NULL) {
+                return -1;
+            }
+            cJSON_ArrayForEach(x, m) {
+                static const char *const MK[] = {"field", "unit", "mask", "maskLevel", "dontCare",
+                                                 NULL};
+                const cJSON *dc = member(x, "dontCare");
+
+                if (check_keys(ld, x, MK) != 0 || field_member(ld, x, "field", &mm[j].field) != 0 ||
+                    unit_of(ld, x, &mm[j].unit) != 0 ||
+                    opt_field(ld, x, "mask", &mm[j].has_mask, &mm[j].mask) != 0 ||
+                    level_member(ld, x, "maskLevel", 1, &mm[j].mask_level) != 0) {
+                    return -1;
+                }
+                if (dc != NULL) {
+                    const char *t = cJSON_IsString(dc) ? dc->valuestring : "";
+                    size_t q, len = strlen(t);
+
+                    if (len == 0 || len > 32) {
+                        return kind_error(ld->ctx, "\"dontCare\" is a bit pattern like \"11xxxxxx\"");
+                    }
+                    mm[j].has_dont_care = 1;
+                    for (q = 0; q < len; q++) {
+                        unsigned bit = (unsigned)(len - 1 - q);
+
+                        if (t[q] == '1' || t[q] == '0') {
+                            mm[j].dc_mask |= 1u << bit;
+                            mm[j].dc_value |= (uint32_t)(t[q] == '1') << bit;
+                        } else if (t[q] != 'x') {
+                            return kind_error(ld->ctx, "\"dontCare\" is 0, 1 and x");
+                        }
+                    }
+                }
+                j++;
+            }
+            al[i].match = mm;
+            kind_pop(ld->ctx);
+            i++;
+        }
+        k->alarms = al;
+    }
+    /* periodic */
+    if ((v = member(c, "periodic")) != NULL) {
+        RtcPeriodic *pe;
+        size_t i = 0;
+
+        k->periodic_count = cJSON_IsArray(v) ? (size_t)cJSON_GetArraySize(v) : 1;
+        pe = kind_alloc(ld->ctx, (k->periodic_count ? k->periodic_count : 1) * sizeof(*pe));
+        if (pe == NULL) {
+            return -1;
+        }
+        for (e = cJSON_IsArray(v) ? v->child : v; e != NULL && i < k->periodic_count; e = e->next) {
+            kind_push(ld->ctx, "periodic[%zu]", i);
+            if (load_periodic(ld, e, &pe[i]) != 0) {
+                return -1;
+            }
+            kind_pop(ld->ctx);
+            i++;
+        }
+        k->periodic = pe;
+    }
+    /* watchdog */
+    if ((v = member(c, "watchdog")) != NULL) {
+        static const char *const WK[] = {"field", "periods", "kick", "flag", "pin", "resetPin",
+                                         "unitNs", NULL};
+        RtcWatchdog *w = &k->watchdog;
+        const cJSON *kk = member(v, "kick"), *rp = member(v, "resetPin");
+
+        kind_push(ld->ctx, "watchdog");
+        w->present = 1;
+        if (check_keys(ld, v, WK) != 0 || field_member(ld, v, "field", &w->field) != 0 ||
+            ns_map(ld, member(v, "periods"), "periods", &w->keys, &w->ps, &w->count) != 0 ||
+            opt_field(ld, v, "flag", &w->has_flag, &w->flag) != 0 ||
+            rtc_pin(ld, member(v, "pin"), &w->pin) != 0 || rtc_pin(ld, rp, &w->reset_pin) != 0) {
+            return -1;
+        }
+        if (kk != NULL) {
+            const char *edge = "both";
+
+            w->has_kick = 1;
+            if (pin_member(ld, kk, "pin", 1, &w->kick_pin) != 0 ||
+                (member(kk, "edge") && kind_string(ld->ctx, kk, "edge", &edge))) {
+                return -1;
+            }
+            w->kick_edge = strcmp(edge, "rise") == 0 ? 1 : strcmp(edge, "fall") == 0 ? 0 : 2;
+        }
+        if (rp != NULL && member(rp, "pulse") != NULL &&
+            ns_map(ld, member(rp, "pulse"), "pulse", &w->pulse_keys, &w->pulse_ps,
+                   &w->pulse_count) != 0) {
+            return -1;
+        }
+        kind_pop(ld->ctx);
+    }
+    kind_pop(ld->ctx);
+    dev->clock = k;
+    return 0;
+}
+
+/* clock.ram: `bytes` byte registers from `address` in `space` (appended to the map). */
+static int load_ram(Ld *ld, const cJSON *c) {
+    const cJSON *r = member(c, "ram");
+    uint32_t bytes = 0, address = 0, i;
+    const char *space = "reg";
+    CvRegister *regs;
+    int sp;
+
+    if (r == NULL) {
+        return 0;
+    }
+    if (u32_member(ld, r, "bytes", &bytes) != 0 || u32_member(ld, r, "address", &address) != 0 ||
+        (member(r, "space") && kind_string(ld->ctx, r, "space", &space))) {
+        return -1;
+    }
+    if (bytes == 0 || bytes > 65536) {
+        return kind_error(ld->ctx, "clock.ram: \"bytes\" is 1-65536");
+    }
+    if ((sp = space_index(ld, space)) < 0) {
+        return -1;
+    }
+    regs = kind_alloc(ld->ctx, (ld->reg_count + bytes) * sizeof(*regs));
+    if (regs == NULL) {
+        return -1;
+    }
+    if (ld->reg_count) {
+        memcpy(regs, ld->regs, ld->reg_count * sizeof(*regs));
+    }
+    for (i = 0; i < bytes; i++) {
+        char name[24];
+        CvRegister *g = &regs[ld->reg_count + i];
+
+        snprintf(name, sizeof name, "RAM%u", (unsigned)(address + i));
+        g->name = kind_strdup(ld->ctx, name);
+        g->address = (int32_t)(address + i);
+        g->space = sp;
+        g->width = 8;
+        g->result_channel = CV_NONE;
+    }
+    ld->regs = regs;
+    ld->reg_count += bytes;
+    return 0;
+}
+
 /* ---- The device ------------------------------------------------------------------------ */
 
 CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, int rtc) {
@@ -1900,7 +2297,8 @@ CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, int rtc) {
     dev->channels = (unsigned)channels;
     dev->info.bits = dev->bits;
     dev->info.channels = dev->channels;
-    if (load_registers(&ld, member(json, "registers")) != 0) {
+    if (load_registers(&ld, member(json, "registers")) != 0 ||
+        (rtc && load_ram(&ld, member(json, "clock")) != 0)) {
         return NULL;
     }
     dev->regs = ld.regs;
@@ -1990,6 +2388,8 @@ CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, int rtc) {
             kind_error(ctx, "\"dac.ldac\" \"pin\" needs \"pins.ldac\"");
             return NULL;
         }
+    } else if (load_clock(&ld, member(json, "clock"), dev) != 0) {
+        return NULL;
     }
     if (kind_voltage(ctx, json, NULL, &dev->vcc) != 0) {
         return NULL;

@@ -140,6 +140,14 @@ static void par_read_drive(CvState *s, const CvBus *b, SimTime delay) {
     } else if (s->dev->protocol.read.kind == CVR_POINTER) {
         cv_read_begin(s);
         s->clk_seg = s->seg;
+    } else if (s->dev->protocol.read.kind == CVR_MAP && cv_reg_at(s, 0, s->read_key) != CV_NONE) {
+        /* an address the map does not list: the register at that address (RTC RAM) */
+        static const CvTok AT = {CVT_AT, 0, 0, 0};
+        static const CvPattern AT_PATTERN = {&AT, 1, 0, 1};
+
+        cv_seg_set(&s->clk_seg, &AT_PATTERN);
+        s->clk_seg.at[0] = cv_reg_at(s, 0, s->read_key);
+        s->clk_seg.at_count = 1;
     } else {
         s->clk_seg.active = 0;
     }
@@ -243,6 +251,7 @@ static void par_pin(CvState *s, const CvBus *b, size_t pin) {
     } else if (s->par_reading) {
         s->par_reading = 0;
         release_data(s, b, s->dev->timing.t_df);
+        cv_reads_done(s);
         if (s->dev->conversion.starts & CVS_READ) {
             cv_start_conversion(s, -1);
         }

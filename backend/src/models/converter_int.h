@@ -62,6 +62,8 @@ typedef struct CvState {
     uint32_t *regs;
     LogicValue *drv;
     uint8_t *alive_store;
+    uint8_t *read_mark;         /* per register: its bits went out in this read */
+    int read_marked;
     /* protocol */
     CvXfer x;
     CvSeg seg, last, next;
@@ -147,6 +149,17 @@ void cv_read_begin(CvState *s);
 void cv_spi_refresh(CvState *s);
 void cv_spi_conversion_done(CvState *s);
 void cv_free_state(CvState *s);
+int cv_reg_at(const CvState *s, int space, uint32_t address);
+/* A read ended: clear-on-read bits of the registers it shifted out. */
+void cv_reads_done(CvState *s);
+
+/* rtc.c (plan-24-F) */
+void rtc_start(CvState *s);
+void rtc_timer(CvState *s, uint32_t id);
+void rtc_after_write(CvState *s, int reg);
+void rtc_pin(CvState *s, size_t pin);
+void rtc_refresh(CvState *s);
+void rtc_free(CvState *s);
 
 /* converter_par.c (plan-24-E) */
 void cv_par_start(CvState *s);

@@ -28,6 +28,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_MUX: return "mux";
         case PART_HEADER: return "header";
         case PART_CONVERTER: return "converter";
+        case PART_RTC: return "rtc";
     }
     return "?";
 }
@@ -74,6 +75,9 @@ static void print_details(FILE *out, const Part *part) {
         case PART_CONVERTER:
             fprintf(out, "type=%s bits=%u channels=%u", part->converter->type,
                     part->converter->bits, part->converter->channels);
+            break;
+        case PART_RTC:
+            fputs("clock", out);
             break;
         case PART_SRAM:
             fprintf(out, "words=%u bits=%u access_ps=%llu", (unsigned)part->sram->words,
