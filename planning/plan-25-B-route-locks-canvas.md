@@ -40,8 +40,8 @@ See plan-25-A for the shared gate.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-25-A complete | `ls planning/completed/plan-25-A-*` → 1 file | NOT MET (2026-11-07: written today) |
-| `RouteDraft` exists | `grep -c 'struct RouteDraft' schematical/schematical/Canvas/RouteDraft.swift` → 1 | NOT MET (2026-11-07) |
+| plan-25-A complete | `ls planning/completed/plan-25-A-*` → 1 file | MET (2026-11-07, 8db6988) |
+| `RouteDraft` exists | `grep -c 'struct RouteDraft' schematical/schematical/Canvas/RouteDraft.swift` → 1 | MET (2026-11-07) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 
@@ -177,12 +177,12 @@ other on-screen mention.
 
 ### Phase 1 — Canvas state, preview and release
 
-- [ ] `SchematicCanvasView.swift`: §4.1 state, the §4.2 helpers,
+- [x] `SchematicCanvasView.swift`: §4.1 state, the §4.2 helpers,
       `connectionPreview`/`busPreview` over them, and §4.4 release.
-- [ ] `SchematicCanvasView.swift`: `WireLayer` (line 768) drops `private`,
+- [x] `SchematicCanvasView.swift`: `WireLayer` (line 768) drops `private`,
       as `BusLayer` did, so the harness can render it. It is `private
       struct WireLayer` today (`grep -n 'struct WireLayer'` → `768:private struct WireLayer: View`).
-- [ ] `scripts/harness/route-locks.swift` (new): through the same calls
+- [x] `scripts/harness/route-locks.swift` (new): through the same calls
       the canvas makes (`RouteDraft`, `anchorAxis`, `connect(path:)`,
       `busDraft/addBus(candidates:)`), draw the Outcome's Line U and a
       3-leg bus. Render `WireLayer`/`BusLayer` previews and the placed
@@ -194,6 +194,10 @@ other on-screen mention.
 Acceptance: the harness prints no `FAIL`, and the PNGs show the U wire and
 the 3-leg bus.
   Check: `scripts/harness/build.sh scripts/harness/route-locks.swift && /tmp/schematical-harness/H.app/Contents/MacOS/harness /tmp/p25img` → only `ok:` lines (est. 4 min, mostly the first app build).
+  Observed 2026-11-07, run as `APP=/tmp/p25-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/route-locks.swift /tmp/p25-harness && /tmp/p25-harness/H.app/Contents/MacOS/harness /tmp/p25img`
+  (reusing the worktree's Debug build): 16 `ok:` lines, no `FAIL`, `PASS`.
+  `line-placed.png` shows the U from cathode to cathode, and `bus-placed.png`
+  shows the 3-line bus.
 Commit: —
 
 ### Phase 2 — Keys and tooltips
