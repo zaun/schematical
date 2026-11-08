@@ -1,149 +1,199 @@
 {
+  "board" : {
+    "color" : "green",
+    "height" : 80,
+    "layerStyles" : [
+      {
+        "color" : "#C83737",
+        "layer" : "top",
+        "type" : "component"
+      },
+      {
+        "color" : "#3A6FD8",
+        "layer" : "bottom",
+        "type" : "component"
+      }
+    ],
+    "layers" : 2,
+    "texts" : [
+
+    ],
+    "traces" : [
+
+    ],
+    "units" : "mm",
+    "width" : 100
+  },
+  "buses" : [
+
+  ],
+  "format" : "schematical",
+  "junctions" : [
+    {
+      "id" : "52B8249E-14C0-48F8-8243-D9D7EA41CA06",
+      "x" : 300,
+      "y" : 320
+    }
+  ],
+  "nextReference" : 8,
+  "parts" : [
+    {
+      "flipped" : false,
+      "id" : "46E887D8-0F8A-4ED0-A1C9-F2B144AA7C17",
+      "partNumber" : "OSC-SIT1534-1508",
+      "pcb" : {
+        "origin" : "topLeft",
+        "outline" : "document",
+        "pin1" : "silkscreen",
+        "reference" : "silkscreen",
+        "rotation" : 0,
+        "side" : "top",
+        "x" : -0.21500000000000002,
+        "y" : 0.135
+      },
+      "reference" : "U2",
+      "x" : 150,
+      "y" : 220
+    },
+    {
+      "color" : "Amber",
+      "flipped" : false,
+      "footprint" : "LED-0603",
+      "id" : "6CF6515A-429B-4AEA-9BDD-098AC071B8E0",
+      "partNumber" : "GENERIC-LED",
+      "pcb" : {
+        "origin" : "topLeft",
+        "outline" : "document",
+        "pin1" : "silkscreen",
+        "reference" : "silkscreen",
+        "rotation" : 0,
+        "side" : "top",
+        "x" : 3.49,
+        "y" : -0.135
+      },
+      "reference" : "U3",
+      "x" : 370,
+      "y" : 240
+    },
+    {
+      "flipped" : false,
+      "id" : "2BE5E645-131A-43C7-B195-CD4B645BDC1D",
+      "partNumber" : "GND",
+      "reference" : "U4",
+      "x" : 430,
+      "y" : 350
+    },
+    {
+      "flipped" : false,
+      "id" : "6BEC3C11-6E4C-4B1B-AF0F-E0255BC902C7",
+      "partNumber" : "GND",
+      "reference" : "U6",
+      "x" : 280,
+      "y" : 350
+    },
+    {
+      "flipped" : false,
+      "id" : "B1C509D0-F706-4777-9E4E-D4A38DF064C1",
+      "partNumber" : "3V3",
+      "reference" : "U7",
+      "x" : 80,
+      "y" : 160
+    }
+  ],
+  "version" : 4,
   "wires" : [
     {
+      "bends" : [
+
+      ],
+      "from" : {
+        "part" : "46E887D8-0F8A-4ED0-A1C9-F2B144AA7C17",
+        "pin" : "2"
+      },
+      "id" : "9AC7734A-092C-4BF6-A079-67410E44DE4A",
       "to" : {
         "part" : "6CF6515A-429B-4AEA-9BDD-098AC071B8E0",
-        "pin" : 2
-      },
-      "from" : {
-        "part" : "46E887D8-0F8A-4ED0-A1C9-F2B144AA7C17",
-        "pin" : 2
-      },
-      "bends" : [
-        {
-          "x" : 400,
-          "y" : 260
-        }
-      ],
-      "id" : "9AC7734A-092C-4BF6-A079-67410E44DE4A"
+        "pin" : "2"
+      }
     },
     {
-      "to" : {
-        "part" : "46E887D8-0F8A-4ED0-A1C9-F2B144AA7C17",
-        "pin" : 3
-      },
-      "from" : {
-        "part" : "830C64C9-DA2A-4C7E-B184-334E87CF6F9C",
-        "pin" : 1
-      },
-      "bends" : [
-        {
-          "x" : 100,
-          "y" : 260
-        }
-      ],
-      "id" : "ABA3DE02-5A7F-4358-A61E-000EA837FC83"
-    },
-    {
-      "to" : {
-        "pin" : 1,
-        "part" : "2BE5E645-131A-43C7-B195-CD4B645BDC1D"
-      },
-      "from" : {
-        "pin" : 1,
-        "part" : "6CF6515A-429B-4AEA-9BDD-098AC071B8E0"
-      },
       "bends" : [
         {
           "x" : 450,
           "y" : 260
         }
       ],
-      "id" : "AAAF1DBD-6939-44EB-ACA3-74069FB164CE"
+      "from" : {
+        "part" : "6CF6515A-429B-4AEA-9BDD-098AC071B8E0",
+        "pin" : "1"
+      },
+      "id" : "AAAF1DBD-6939-44EB-ACA3-74069FB164CE",
+      "to" : {
+        "part" : "2BE5E645-131A-43C7-B195-CD4B645BDC1D",
+        "pin" : "1"
+      }
     },
     {
-      "to" : {
-        "junction" : "52B8249E-14C0-48F8-8243-D9D7EA41CA06"
-      },
-      "from" : {
-        "part" : "46E887D8-0F8A-4ED0-A1C9-F2B144AA7C17",
-        "pin" : 1
-      },
       "bends" : [
         {
           "x" : 300,
           "y" : 300
         }
       ],
-      "id" : "56664AED-B232-4BEA-914E-EEFA794CFC7F"
+      "from" : {
+        "part" : "46E887D8-0F8A-4ED0-A1C9-F2B144AA7C17",
+        "pin" : "1"
+      },
+      "id" : "56664AED-B232-4BEA-914E-EEFA794CFC7F",
+      "to" : {
+        "junction" : "52B8249E-14C0-48F8-8243-D9D7EA41CA06"
+      }
     },
     {
-      "to" : {
-        "pin" : 1,
-        "part" : "6BEC3C11-6E4C-4B1B-AF0F-E0255BC902C7"
-      },
-      "from" : {
-        "junction" : "52B8249E-14C0-48F8-8243-D9D7EA41CA06"
-      },
       "bends" : [
 
       ],
-      "id" : "FAAFAB87-1D4C-4517-8106-B23676BB1298"
-    },
-    {
-      "to" : {
+      "from" : {
         "junction" : "52B8249E-14C0-48F8-8243-D9D7EA41CA06"
       },
+      "id" : "FAAFAB87-1D4C-4517-8106-B23676BB1298",
+      "to" : {
+        "part" : "6BEC3C11-6E4C-4B1B-AF0F-E0255BC902C7",
+        "pin" : "1"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 290,
+          "y" : 320
+        }
+      ],
       "from" : {
-        "pin" : 4,
-        "part" : "46E887D8-0F8A-4ED0-A1C9-F2B144AA7C17"
+        "part" : "46E887D8-0F8A-4ED0-A1C9-F2B144AA7C17",
+        "pin" : "4"
       },
       "id" : "03C6610F-30C1-47CC-84F0-FFC8136C79C7",
+      "to" : {
+        "junction" : "52B8249E-14C0-48F8-8243-D9D7EA41CA06"
+      }
+    },
+    {
       "bends" : [
-
-      ]
+        {
+          "x" : 100,
+          "y" : 260
+        }
+      ],
+      "from" : {
+        "part" : "B1C509D0-F706-4777-9E4E-D4A38DF064C1",
+        "pin" : "1"
+      },
+      "id" : "B06FCC12-2653-4A55-968C-487C59FC1750",
+      "to" : {
+        "part" : "46E887D8-0F8A-4ED0-A1C9-F2B144AA7C17",
+        "pin" : "3"
+      }
     }
-  ],
-  "junctions" : [
-    {
-      "y" : 320,
-      "id" : "52B8249E-14C0-48F8-8243-D9D7EA41CA06",
-      "x" : 300
-    }
-  ],
-  "format" : "schematical",
-  "version" : 1,
-  "parts" : [
-    {
-      "reference" : "U2",
-      "partNumber" : "OSC-SIT1534-1508",
-      "flipped" : false,
-      "y" : 220,
-      "id" : "46E887D8-0F8A-4ED0-A1C9-F2B144AA7C17",
-      "x" : 150
-    },
-    {
-      "reference" : "U3",
-      "partNumber" : "LED-AMBER-0603",
-      "flipped" : false,
-      "y" : 240,
-      "id" : "6CF6515A-429B-4AEA-9BDD-098AC071B8E0",
-      "x" : 370
-    },
-    {
-      "reference" : "U4",
-      "partNumber" : "GND",
-      "flipped" : false,
-      "y" : 350,
-      "id" : "2BE5E645-131A-43C7-B195-CD4B645BDC1D",
-      "x" : 430
-    },
-    {
-      "reference" : "U5",
-      "partNumber" : "VCC",
-      "flipped" : false,
-      "y" : 110,
-      "id" : "830C64C9-DA2A-4C7E-B184-334E87CF6F9C",
-      "x" : 80
-    },
-    {
-      "reference" : "U6",
-      "partNumber" : "GND",
-      "flipped" : false,
-      "y" : 350,
-      "id" : "6BEC3C11-6E4C-4B1B-AF0F-E0255BC902C7",
-      "x" : 280
-    }
-  ],
-  "nextReference" : 7
+  ]
 }
