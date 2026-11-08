@@ -26,7 +26,7 @@ import SwiftUI
 ///   drag to cancel it (no bus is placed).
 /// - Bus Port: click a bus line (not its ends or a T) to add an empty port
 ///   there; tick wires in its panel to give it pins.
-/// - Eraser: click or drag over a block, wire or bus line to remove it.
+/// - Eraser: click a block, wire or bus line to remove it. A drag erases nothing.
 /// - Flip: click a part to flip it left and right.
 /// - VCC and GND: click the canvas to place a supply there.
 ///
@@ -90,6 +90,8 @@ struct SchematicCanvasView: View {
         /// Shift-drag on empty space: a selection box between two screen
         /// points, adding to `base`, the selection at the press.
         case boxSelect(base: Set<SchematicItem>, from: CGPoint, to: CGPoint)
+        /// Eraser press; erases on release if it was a click.
+        case erasing
         case idle
     }
 
@@ -580,8 +582,10 @@ struct SchematicCanvasView: View {
             }
 
         case .eraser:
-            document.erase(at: current, tolerance: lineTolerance)
-            interaction = .idle
+            // Erases on release, and only for a click (see handleEnded).
+            if interaction == nil {
+                interaction = .erasing
+            }
 
         case .flip:
             // One flip per press: the part under where the press started.
@@ -701,6 +705,11 @@ struct SchematicCanvasView: View {
                 toggleSwitchLever(at: viewport.world(value.startLocation))
             }
             document.settleSchematicGroup(base)
+        case .erasing?:
+            // A drag erases nothing.
+            if isClick(value) {
+                document.erase(at: viewport.world(value.startLocation), tolerance: lineTolerance)
+            }
         case .pan?:
             // In play mode every press starts a pan; a click flips a lever.
             if isRunning, isClick(value) {
