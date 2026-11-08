@@ -39,9 +39,9 @@ These are a precondition on the whole feature, not a dependency to negotiate.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Main builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p28-dd CODE_SIGNING_ALLOWED=NO build 2>&1 \| tail -1` → `** BUILD SUCCEEDED **` | MET (2026-11-07, main at 05f609d: `** BUILD SUCCEEDED **`) |
-| No other symbol view is half-migrated | `ls schematical/schematical/Canvas/ \| rg -c 'SchematicPainter'` → `0` | MET (2026-11-07: `ls … \| rg -c SchematicPainter` → 0) |
-| The symbol set is the 12 cases measured here | `awk '/enum PartSymbol/,/^}/' schematical/schematical/Canvas/SchematicModel.swift \| rg -c '^    case '` → `12` | MET (2026-11-07: 12) |
+| Main builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p28-dd CODE_SIGNING_ALLOWED=NO build 2>&1 \| tail -1` → `** BUILD SUCCEEDED **` | MET (2026-11-07, worktree-P-28 at c8760a2: `** BUILD SUCCEEDED **`) |
+| No other symbol view is half-migrated | `ls schematical/schematical/Canvas/ \| rg -c 'SchematicPainter'` → `0` | MET (2026-11-07 at c8760a2: no match, i.e. 0) |
+| The symbol set is the 12 cases measured here | `awk '/enum PartSymbol/,/^}/' schematical/schematical/Canvas/SchematicModel.swift \| rg -c '^    case '` → `12` | MET (2026-11-07 at c8760a2: 12) |
 
 The third row is why plan-28-A must land before plan-27-J: plan-27-J adds
 `PartSymbol.tactileSwitch` and its own `TactileSwitchSymbolView`. plan-28 does
@@ -274,18 +274,18 @@ Rejected alternatives:
 
 Creates the gate and captures what "unchanged" means before any drawing code is touched.
 
-- [ ] Run the Prerequisites commands; record each output in the table above.
-- [ ] `scripts/harness/painter-gate.swift` (new): builds the four images of § 3.4
+- [x] Run the Prerequisites commands; record each output in the table above. (build → `** BUILD SUCCEEDED **`; painter files → no match; PartSymbol cases → 12)
+- [x] `scripts/harness/painter-gate.swift` (new): builds the four images of § 3.4
       with only APIs that exist today (`Harness.newDocument`, `Harness.open`,
       `Harness.renderCanvas`, `Harness.render`, `PlacedChip` views by their current
       `init`), writes them to the directory in `CommandLine.arguments[1]`.
 - [ ] Build and run it on the unmodified tree:
       `rm -rf /tmp/p28-h && scripts/harness/build.sh scripts/harness/painter-gate.swift /tmp/p28-h && /tmp/p28-h/H.app/Contents/MacOS/harness /tmp/p28-base`
-      → four `wrote /tmp/p28-base/….png` lines.
-- [ ] Run it a second time into `/tmp/p28-base2` and `cmp` each pair → no output
-      (the render is deterministic, so a later `cmp` difference is a code change).
-- [ ] View `symbols.png` with the Read tool and note in the Corrections section any
-      part that did not render (a missing part name, an empty box).
+      → four `wrote /tmp/p28-base/….png` lines. (ran with `APP=/tmp/p28-dd/Build/Products/Debug/schematical.app` to reuse the prerequisite build; output: `symbols: 15 parts, 2 wires, 1 buses`, `be-6502.schematical: 21 parts, 148 wires, 2 buses`, `test.schematical: 5 parts, 6 wires, 0 buses`, four `wrote` lines)
+- [x] Run it a second time into `/tmp/p28-base2` and `cmp` each pair → no output
+      (the render is deterministic, so a later `cmp` difference is a code change). → `same symbols`, `same lit`, `same be-6502`, `same test.schematical`
+- [x] View `symbols.png` with the Read tool and note in the Corrections section any
+      part that did not render (a missing part name, an empty box). → all 15 parts, both wires (one blue), the bus and its 4-pin port render; see Corrections.
 
 Acceptance: the four baseline PNGs exist, and the second run is `cmp`-identical to the first.
   Check: `for f in symbols lit be-6502 test.schematical; do cmp /tmp/p28-base/$f.png /tmp/p28-base2/$f.png && echo same $f; done` → four `same` lines (est. 10 min: one `xcodebuild` of the app plus one `swiftc` of the harness; nothing smaller exercises the real views).
@@ -354,7 +354,9 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- Phase 1: the first `lit.png` was centered in its frame (a `ZStack` with `.offset` keeps its child size, and `Harness.render`'s `.frame` centers it), so the 0.5-level 7-segment was cut off at the bottom edge. Added `.frame(width: 700, height: 540, alignment: .topLeading)` and retook both baselines before any drawing code changed; both runs `cmp`-identical.
+- Phase 1: `symbols.png` viewed: every one of the 15 placed parts renders (no missing name, no empty box). The DIP's lever 1 is ON (green), the female header shows sockets, the flipped NAND is selected (accent) and one wire is selected; the bus port's four pins B0–B3 are rotated labels.
+- Harness builds use `APP=/tmp/p28-dd/Build/Products/Debug/schematical.app` (the prerequisite build) instead of an `xcodebuild` into the out dir: the harness compiles every app Swift source itself, and the app copy only supplies part files, which plan-28 does not change. Same check, minutes shorter.
 
 ## Summary
 
