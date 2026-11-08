@@ -65,6 +65,7 @@ add_library(logic STATIC
     src/models/serial_com78c80x.c
     src/models/serial_sc18is604.c
     src/models/connector.c
+    src/models/header.c
     src/models/pio.c
     src/models/bus65.c
     src/models/pio_pia6521.c

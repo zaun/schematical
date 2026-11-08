@@ -266,29 +266,36 @@ Acceptance: the style lays out zigzag pads and rejects bad keys. Nothing else ch
   new cases print `ok`; `git diff --stat backend/tests/golden` → empty (est. 1 min).
   Result (2026-11-07): ctest 24/24 (count corrected); 0 `FAIL`, 0 `check failed`;
   6 header `ok`; golden diff empty.
-Commit: —
+Commit: bf3d132
 
 ### Phase 2 — Kind `header`
 
-- [ ] `backend/include/parts.h`: `PART_HEADER` after `PART_PIO`; `PartHeader`;
+- [x] `backend/include/parts.h`: `PART_HEADER` after `PART_MUX` (the last kind; see Corrections); `PartHeader`;
       `const PartHeader *header` on `Part`.
-- [ ] New `backend/src/models/header.c` (§ Kind); `HEADER_KIND` in
+- [x] New `backend/src/models/header.c` (§ Kind); `HEADER_KIND` in
       `kinds.c` (extern + `KINDS[]`); `src/models/header.c` in
       `backend/CMakeLists.txt`.
-- [ ] `backend/tests/support/listing.c`: `case PART_HEADER` → `rows=… genders=…`.
-- [ ] `schematical/schematical/Backend/PartFacts.swift:kindName`:
+- [x] `backend/tests/support/listing.c`: `case PART_HEADER` → `rows=… genders=…`.
+- [x] `backend/tests/trace_check.c` `TRACE_LAST_KIND` and the two per-kind
+      arrays in `backend/tests/listing_check.c` moved to `PART_HEADER`
+      (added: `docs/backend.md` § Adding a kind asks for them).
+- [x] `schematical/schematical/Backend/PartFacts.swift:kindName`:
       `case PART_HEADER: return "Header"` (otherwise the `default` arm
       shows an empty Kind row).
-- [ ] `backend/tests/library_check.c`: a valid 2-row device with parts of 2
+- [x] `backend/tests/library_check.c`: a valid 2-row device with parts of 2
       and 4 pins (`part->header->rows == 2`, 2 genders, `genders[0]` Male);
       `expect_fail`: `rows` 3; empty `genders`; a 3-pin part on a 2-row
       device.
-- [ ] `docs/parts-format.md` § Kinds: a `### header` section (device keys,
+- [x] `docs/parts-format.md` § Kinds: a `### header` section (device keys,
       no part keys, passive, the bind rule).
 
 Acceptance: the kind loads and rejects as specified, and existing data is unchanged.
   Check: the Phase 1 command → 21/21, 0 FAIL, the 4 new cases `ok`;
   `git diff --stat backend/tests/golden` → empty (est. 1 min).
+  Result (2026-11-07): ctest 24/24; 0 `FAIL`, 0 `check failed`; `library_check
+  | grep header` shows `ok` for the valid 2-row device and the 3 rejections
+  (`"rows" must be 1 or 2`, `"genders" must not be empty`, `a header's pin
+  count must be a multiple of its rows`); golden diff empty.
 Commit: —
 
 ### Phase 3 — Data, generator, datasheets and goldens
@@ -360,6 +367,11 @@ Commit: —
 - Golden line counts today: `wc -l backend/tests/golden/*.txt` →
   `parts.txt` 11046, `traces.txt` 11046, `footprints.txt` 257 (not 8022 /
   8022 / 237). The checks are diffs, so they don't depend on these.
+- `PartKind` ends with `PART_MUX`, not `PART_PIO` (`parts.h:25-28`:
+  `…, PART_BUFFER, PART_MUX`). `PART_HEADER` goes after `PART_MUX`.
+- Phase 2 missed three test lines that `docs/backend.md` § Adding a kind
+  requires: `TRACE_LAST_KIND` in `trace_check.c` and the `PART_MUX + 1`
+  arrays in `listing_check.c` are sized by the last kind. Added as a task.
 
 ## Summary
 

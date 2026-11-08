@@ -283,6 +283,60 @@ static void check_valid_led(void) {
     printf("ok   valid LED file with two pinouts\n");
 }
 
+/* ---- plan-23-A: the header kind ------------------------------------------ */
+
+#define HDR_PINS2 "[{'number':1,'name':'1','role':'inout'},{'number':2,'name':'2','role':'inout'}]"
+#define HDR_PINS3 "[{'number':1,'name':'1','role':'inout'},{'number':2,'name':'2','role':'inout'}," \
+    "{'number':3,'name':'3','role':'inout'}]"
+#define HDR_PINS4 "[{'number':1,'name':'1','role':'inout'},{'number':2,'name':'2','role':'inout'}," \
+    "{'number':3,'name':'3','role':'inout'},{'number':4,'name':'4','role':'inout'}]"
+#define HDR_DEVICE(KEYS, PINOUTS, PARTS) \
+    HEAD("header") "{'id':'header-2row','function':'Header','description':'d','drawer':['Connector','Header']," \
+    KEYS ",'pinouts':{" PINOUTS "},'parts':[" PARTS "]}" TAIL
+
+static void check_header_kind(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *two, *four;
+
+    CHECK(load(library,
+               HDR_DEVICE("'rows':2,'genders':['Male','Female']",
+                          "'2x01':" HDR_PINS2 ",'2x02':" HDR_PINS4,
+                          "{'name':'H-2X01','package':'Straight','pinout':'2x01','footprint':'T2'},"
+                          "{'name':'H-2X02','package':'Straight','pinout':'2x02','footprint':'T4'}"),
+               &error) == 0);
+    if (error != NULL) {
+        printf("FAIL valid header: %s\n", error);
+        failures++;
+    }
+    two = part_library_find(library, "H-2X01");
+    four = part_library_find(library, "H-2X02");
+    CHECK(two != NULL && four != NULL);
+    if (two != NULL && four != NULL) {
+        CHECK(two->kind == PART_HEADER && two->pin_count == 2 && four->pin_count == 4);
+        CHECK(two->header != NULL && two->header->rows == 2 && two->header->gender_count == 2 &&
+              strcmp(two->header->genders[0], "Male") == 0 &&
+              strcmp(two->header->genders[1], "Female") == 0);
+        CHECK(four->header == two->header);
+    }
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid 2-row header with parts of 2 and 4 pins\n");
+
+    expect_fail("header rows 3",
+                HDR_DEVICE("'rows':3,'genders':['Male']", "'p':" HDR_PINS3,
+                           "{'name':'H','package':'Straight','pinout':'p','footprint':'T4'}"),
+                "\"rows\" must be 1 or 2");
+    expect_fail("header empty genders",
+                HDR_DEVICE("'rows':1,'genders':[]", "'p':" HDR_PINS2,
+                           "{'name':'H','package':'Straight','pinout':'p','footprint':'T2'}"),
+                "\"genders\" must not be empty");
+    expect_fail("header 3 pins on 2 rows",
+                HDR_DEVICE("'rows':2,'genders':['Male']", "'p':" HDR_PINS3,
+                           "{'name':'H','package':'Straight','pinout':'p','footprint':'T4'}"),
+                "a header's pin count must be a multiple of its rows");
+}
+
 /* ---- plan-18-A: LED "colors" and the "footprintChoices" part key -------- */
 
 #define CHOICE_DEVICE(COLORS, PART_EXTRA) \
@@ -2179,6 +2233,7 @@ int main(void) {
     check_footprint_corners();
     check_footprint_cases();
     check_header_footprints();
+    check_header_kind();
     check_part_footprints();
     check_ball_cases();
     check_display_cases();

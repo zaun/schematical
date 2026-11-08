@@ -715,6 +715,19 @@ A switched jack additionally names `"contacts": [["Sleeve", "Switch"]]`:
 the listed contact is normally closed while unplugged and opens when a plug
 is inserted through `circuit_set_connector_plug`.
 
+### `header`
+
+A generic pin header: passive `inout` terminals, each pin just its net (the
+model drives nothing). Device keys:
+
+| Key | Value |
+|---|---|
+| `"rows"` | 1 or 2 |
+| `"genders"` | the genders a placed header may have, a non-empty array of strings, e.g. `["Male","Female"]`; the first is the default. The app shows and saves the gender; the backend does not act on it |
+
+Parts carry no kind keys. Every pinout's pin count must be at least 1 and a
+multiple of `rows` (`a header's pin count must be a multiple of its rows`).
+
 ### `sram`
 
 Asynchronous SRAMs. Every instance has its own storage (all X at power-on).

@@ -25,7 +25,7 @@ typedef enum {
     PART_GATE, PART_DFF, PART_JKFF, PART_SRAM, PART_SWITCH,
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER,
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
-    PART_BUFFER, PART_MUX
+    PART_BUFFER, PART_MUX, PART_HEADER
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -98,6 +98,9 @@ typedef struct {
 /* Parallel I/O peripheral (plan-14): model "pia6521" or "via6522"; grade:
    the part's speed grade; max_hz = floor(1e12 / the grade's tcyc in ps). */
 typedef struct { const char *model; const char *grade; uint64_t max_hz; } PartPio;
+/* A generic pin header (plan-23-A): rows is 1 or 2; genders are the
+   genders a placed header may have, genders[0] the default (app only). */
+typedef struct { unsigned rows; const char *const *genders; size_t gender_count; } PartHeader;
 
 /* ---- Footprints (Parts/footprints.json, docs/parts-format.md) ----------- */
 
@@ -157,6 +160,7 @@ typedef struct Part {
     const PartCharLcd *charlcd;
     const PartConnector *connector;
     const PartPio *pio;
+    const PartHeader *header;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;
