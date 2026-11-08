@@ -1,0 +1,570 @@
+{
+ "device": {
+  "id": "ADS1285",
+  "function": "ADC",
+  "description": "32-bit 4 kSPS delta-sigma ADC with PGA, 2-channel mux, FIR/IIR filter, GPIO and sample-rate converter for seismic sensors, three power modes, SPI",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1285.pdf (SBAS559B) p.3 pin functions (Table 4-1), p.4-5 recommended operating conditions, p.10 timing and switching characteristics, p.32/34 sinc and FIR data rates (Tables 7-3, 7-4), p.40-42 power modes, power-down, reset, synchronization, sample rate converter, p.44 serial interface and DRDY, p.45 data format (Table 7-10), p.45-48 commands (Table 7-11), p.49-53 register map (Table 7-12)",
+  "pinouts": {
+   "rhb32": [
+    {
+     "number": 1,
+     "name": "AIN1P",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AIN1N",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AIN2P",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AIN2N",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CAPP",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "CAPN",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "CAPBP",
+     "role": "nc"
+    },
+    {
+     "number": 8,
+     "name": "CAPBN",
+     "role": "nc"
+    },
+    {
+     "number": 9,
+     "name": "CAPC",
+     "role": "nc"
+    },
+    {
+     "number": 10,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "AVDD1",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "AVDD2",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "CAPI",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "GPIO0",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "GPIO1",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "CAPD",
+     "role": "nc"
+    },
+    {
+     "number": 18,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 19,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 20,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "PWDN",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "REFN",
+     "role": "power"
+    },
+    {
+     "number": 30,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 31,
+     "name": "CAPR",
+     "role": "nc"
+    },
+    {
+     "number": 32,
+     "name": "AVSS",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 32,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   1.65,
+   3.6
+  ],
+  "analog": [
+   "AIN1P",
+   "AIN1N",
+   "AIN2P",
+   "AIN2N",
+   "CAPP",
+   "CAPN",
+   "CAPBP",
+   "CAPBN",
+   "CAPC",
+   "AVSS",
+   "AVDD1",
+   "AVDD2",
+   "CAPI",
+   "CAPD",
+   "REFN",
+   "REFP",
+   "CAPR"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 50,
+   "tOut": 50,
+   "tFloat": 0
+  },
+  "registers": [
+   {
+    "name": "ID_SYNC",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "REVID",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DEVID",
+      "bits": [
+       3,
+       1
+      ]
+     },
+     {
+      "name": "SYNC",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG0",
+    "address": 1,
+    "width": 8,
+    "reset": 18,
+    "fields": [
+     {
+      "name": "MODE",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "DR",
+      "bits": [
+       5,
+       3
+      ]
+     },
+     {
+      "name": "PHASE",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "FILTR",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG1",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MUX",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "REF",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "GAIN",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HPF0",
+    "address": 3,
+    "width": 8,
+    "reset": 50
+   },
+   {
+    "name": "HPF1",
+    "address": 4,
+    "width": 8,
+    "reset": 3
+   },
+   {
+    "name": "OFFSET0",
+    "address": 5,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OFFSET1",
+    "address": 6,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OFFSET2",
+    "address": 7,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "GAIN0",
+    "address": 8,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "GAIN1",
+    "address": 9,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "GAIN2",
+    "address": 10,
+    "width": 8,
+    "reset": 64
+   },
+   {
+    "name": "GPIO",
+    "address": 11,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "RESERVED",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "GPIO1_DAT",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "GPIO0_DAT",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "GPIO1_DIR",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "GPIO0_DIR",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "RESERVED0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SRC0",
+    "address": 12,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "SRC1",
+    "address": 13,
+    "width": 8,
+    "reset": 128
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{32}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "WAKEUP",
+     "in": "0000000x",
+     "action": "wakeup",
+     "note": "also a NOP; 00h is what DIN carries during read data direct"
+    },
+    {
+     "name": "STANDBY",
+     "in": "0000001x",
+     "action": "powerdown"
+    },
+    {
+     "name": "SYNC",
+     "in": "0000010x",
+     "action": "start"
+    },
+    {
+     "name": "RESET",
+     "in": "0000011x",
+     "action": "reset"
+    },
+    {
+     "name": "RDATA",
+     "in": "00010010",
+     "reply": "R{32}"
+    },
+    {
+     "name": "RREG",
+     "in": "0010aaaa 0000nnnn",
+     "action": "rreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WREG",
+     "in": "0100aaaa 0000nnnn",
+     "action": "wreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "OFSCAL",
+     "in": "01100000",
+     "note": "offset calibration not modeled"
+    },
+    {
+     "name": "GANCAL",
+     "in": "01100001",
+     "note": "gain calibration not modeled"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "CONFIG0.MODE",
+     "CONFIG0.DR"
+    ],
+    "values": {
+     "0,0": 4000000,
+     "1,0": 4000000,
+     "2,0": 8000000,
+     "0,1": 2000000,
+     "1,1": 2000000,
+     "2,1": 4000000,
+     "0,2": 1000000,
+     "1,2": 1000000,
+     "2,2": 2000000,
+     "0,3": 500000,
+     "1,3": 500000,
+     "2,3": 1000000,
+     "0,4": 250000,
+     "1,4": 250000,
+     "2,4": 500000
+    }
+   },
+   "start": [
+    "command",
+    "pin"
+   ],
+   "mode": "continuous",
+   "channel": "CONFIG1.MUX"
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": [
+     "read",
+     "start"
+    ]
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "powerdown": {
+    "pin": "PWDN",
+    "active": 0
+   },
+   "convst": {
+    "pin": "SYNC",
+    "edge": "rise"
+   }
+  }
+ },
+ "packages": {
+  "RHB": {
+   "pinout": "rhb32",
+   "footprint": "VQFN-32-5X5",
+   "package": "VQFN",
+   "pins": 32
+  }
+ },
+ "pdf": "ads1285.pdf",
+ "pages": "p.3 (pins), p.4-5 (ROC), p.10 (timing), p.32-34 (data rates), p.40-44 (modes, interface), p.45-48 (format, commands), p.49-53 (registers)",
+ "notModeled": [
+  "analog: PGA / buffer, input mux, reference selection (CONFIG1.REF), modulator (stored only); the result is the 0 V code",
+  "digital filter stages, filter phase, HPF corner, and the 63-period settling after SYNC / reset / power-down / mode changes",
+  "GPIO0/GPIO1: the GPIO register is stored only; the pins are never driven and GPIOx_DAT does not read the pin level (reset value xb modeled as 0)",
+  "sample rate converter (SRC0/SRC1): stored only, the data rate is the nominal one",
+  "conversion time = 1 / FIR data rate per power mode and DR (Table 7-4, fCLK 8.192 MHz high/mid, 4.096 MHz low power); the sinc-filter rates (FILTR = 01b, Table 7-3: 8-128 kSPS, half in low power) are not expressible together with the power mode (a third field)",
+  "offset and gain calibration commands and the OFFSET/GAIN scaling of the result",
+  "RDATA: the datasheet outputs 00h for the command byte when DRDY is high and restarts the data on byte 2; the model replies with the data right after the command byte",
+  "DRDY returns high on the first SCLK falling edge of any transfer (modeled as clears on read) and pulses high for 8 fCLK when data are not read (clears on start)",
+  "pulse-sync vs continuous-sync (ID_SYNC.SYNC); every SYNC rising edge restarts the conversion in the model",
+  "REVID[3:0] is factory-programmed (reset xxxxb): modeled as 0",
+  "CS-high-to-DOUT-Hi-Z delay is not specified (tFloat 0)",
+  "IOVDD connected to CAPD (1.65-1.95 V) vs 2.7-3.6 V operation; vcc is their union"
+ ],
+ "variants": "own datasheet; the ADS1288 (own spec) is the low-power-only version with the same pinout and register map",
+ "parts": [
+  [
+   "ADS1285IRHBT",
+   "RHB",
+   32,
+   "Active"
+  ]
+ ]
+}

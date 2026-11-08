@@ -1,0 +1,199 @@
+{
+ "device": {
+  "id": "ADS1209",
+  "function": "ADC",
+  "description": "Dual 10 MHz second-order delta-sigma modulator (1-bit bit-stream outputs) with internal reference and oscillator",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1209.pdf (SBAS491) p.4-5 electrical characteristics (BVDD 2.7-3.6 V / 4.5-5.5 V, bit-stream output), p.6 pin descriptions, p.7 timing (Figure 1)",
+  "pinouts": {
+   "pw24": [
+    {
+     "number": 1,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "REFINA",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "CHA+",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CHA-",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CHB-",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "CHB+",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 10,
+     "name": "REFINB",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "CLKSEL",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "CLKIN",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "BVDD",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "BGND",
+     "role": "ground"
+    },
+    {
+     "number": 19,
+     "name": "CLKOUT",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "OUTB",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "OUTA",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "AVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 2,
+  "codeFormat": "offset",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "AVDD",
+   "AGND",
+   "REFINA",
+   "CHA+",
+   "CHA-",
+   "CHB-",
+   "CHB+",
+   "REFINB",
+   "REFOUT"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLKIN",
+    "edge": "rise"
+   },
+   "data": [
+    "OUTA",
+    "OUTB"
+   ]
+  },
+  "timing": {
+   "tOut": 27
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "11110000"
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw24",
+   "footprint": "TSSOP-24",
+   "package": "TSSOP",
+   "pins": 24
+  }
+ },
+ "pdf": "ads1209.pdf",
+ "pages": "p.4-5 (electrical, BVDD), p.6 (pins), p.7 (timing)",
+ "notModeled": [
+  "analog modulators, reference: each modulator outputs the 0 V bit stream (50 % ones), one bit per CLKOUT period = two CLKIN rising edges (read pattern 11110000 over OUTA, OUTB)",
+  "CLKOUT (CLKIN / 2 with CLKSEL = 0, the bit clock the data are referred to) is not driven: clocked clockOut cannot divide the clock",
+  "CLKSEL = 1 internal RC oscillator (10 MHz): no output without CLKIN in the model",
+  "tOut 27 ns = tD2 max (10 ns) + tD3 (t2 + 7 ns) at t2 = 10 ns (p.7); the data change on the CLKIN rising edge that raises CLKOUT"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS1209SPW",
+   "PW",
+   24,
+   "Active"
+  ]
+ ]
+}

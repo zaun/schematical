@@ -1,0 +1,118 @@
+{
+ "device": {
+  "id": "ADS7039",
+  "function": "ADC",
+  "description": "10-bit 2 MSPS SAR ADC with SPI-compatible serial interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7039-q1.pdf (SBAS788A) p.3 pin configuration and functions, p.4 recommended operating conditions, p.6 timing requirements and switching characteristics (Figure 1), p.15 transfer characteristics, p.16 serial interface (Figure 34), p.17-19 offset calibration",
+  "pinouts": {
+   "dcu8": [
+    {
+     "number": 1,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AINM",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   1.65,
+   3.6
+  ],
+  "analog": [
+   "AINM",
+   "AINP",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 10,
+   "tOut": 25,
+   "tFloat": 5
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "00 R{10}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DCU": {
+   "pinout": "dcu8",
+   "footprint": "VSSOP-8",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "ads7039-q1.pdf",
+ "pages": "p.3 (pins), p.4 (ROC), p.6 (timing), p.15 (Table 1 format), p.16 (Figure 34), p.17-19 (calibration)",
+ "notModeled": [
+  "analog input; conversion is clocked by SCLK (the 10.5-SCLK conversion is not timed: the result is the 0 V code at once)",
+  "offset calibration frames (power-up: the first frame outputs zeros, which the 0 V code already is; the 32-SCLK calibration frame during normal operation)",
+  "throughput and SCLK frequency limits",
+  "tOut uses tD_CKDO 25 ns (AVDD 2.35-3.6 V, the whole AVDD range)"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS7039QDCURQ1",
+   "DCU",
+   8,
+   "Active"
+  ]
+ ]
+}

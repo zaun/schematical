@@ -1,0 +1,162 @@
+{
+ "device": {
+  "id": "ADS8317",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit 250 kSPS micropower differential-input SAR ADC with synchronous serial (SPI) interface",
+  "note": "ads8317.pdf (SBAS356D) p.3 recommended operating conditions (VDD 2.7-3.6 V / 4.5-5.5 V), p.4 and p.6 digital input/output (VIH 0.7 x VDD to VDD + 0.3, binary twos complement), p.7 pin configuration and terminal functions, p.8 timing diagrams, p.9 timing characteristics (tEN 50 ns, tDIS 100 ns max), p.20 digital interface, serial interface, data format (Table 1)",
+  "pinouts": {
+   "p8": [
+    {
+     "number": 1,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "+IN",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "-IN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "CS/SHDN",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "DCLOCK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "REF",
+   "+IN",
+   "-IN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS/SHDN",
+   "sclk": "DCLOCK",
+   "miso": "DOUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 0,
+   "tOut": 50,
+   "tFloat": 100
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "z{5} 0 R{16} 0{15}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "p8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  },
+  "DRB": {
+   "pinout": "p8",
+   "footprint": "SON-8-DRB",
+   "package": "SON",
+   "pins": 8
+  }
+ },
+ "pdf": "ads8317.pdf",
+ "pages": "p.3 (ROC), p.4/p.6 (digital I/O, data format), p.7 (pins), p.8 (timing diagrams), p.9 (timing characteristics), p.20 (digital interface, data format, Table 1)",
+ "notModeled": [
+  "analog input and reference; the conversion is clocked by DCLOCK (the 16-clock conversion is not timed: the result is the 0 V code 0000h at once)",
+  "DOUT is Hi-Z for the 4.5-5 sample clocks, enabled after the fifth falling DCLOCK edge with one null bit (modeled as 5 z bits then 0), then B15..B0 MSB first, then B1..B15 repeated LSB first (zeros for the 0 V code)",
+  "after the LSB-first repeat the text says DOUT 3-states while the timing-diagram notes say zeros are shifted out indefinitely; modeled per the figure notes (idle 0)",
+  "shutdown while CS/SHDN is high and auto power-down (no visible bus effect)",
+  "tOut uses tEN 50 ns (DCLOCK falling to DOUT enabled): the datasheet gives no maximum for the next-bit delay (only thDO 5 ns min)",
+  "throughput (250 kSPS) and DCLOCK frequency limits (24 kHz to 6 MHz at 5 V, 4.8 MHz at 2.7 V)"
+ ],
+ "variants": "ADS8317I and ADS8317IB are accuracy grades of the same device (same pinout, interface)",
+ "parts": [
+  [
+   "ADS8317IBDGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8317IBDGKT",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8317IBDRBR",
+   "DRB",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8317IBDRBT",
+   "DRB",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8317IDGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8317IDGKT",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8317IDRBT",
+   "DRB",
+   8,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,357 @@
+{
+ "device": {
+  "id": "TLV1548",
+  "function": "ADC",
+  "description": "Low-voltage 10-bit serial SAR ADC with 8 analog inputs, EOC, programmable conversion rate and power-down",
+  "note": "slas139c.pdf (SLAS139C) p.1 pinouts (D/PW 16-pin, DB/J 20-pin), p.3-4 terminal functions, p.4-5 detailed description and microprocessor serial interface, p.6 Table 2 interface modes, p.7 Table 3 software-programmed operation modes, p.9 CSTART and Table 4, p.10-11 conversion rate (Table 5), power-down, power up and initialization, p.14 recommended operating conditions, p.16-17 operating characteristics (tconv, td(I/O-DATA), tPZH, tPHZ)",
+  "pinouts": {
+   "db20": [
+    {
+     "number": 1,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "A2",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "A3",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "A4",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "A5",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "A6",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "A7",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "CSTART",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "INV CLK",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "FS",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "REF-",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "REF+",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DATA OUT",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DATA IN",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "I/O CLK",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "EOC",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 8,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "A0",
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "REF-",
+   "REF+"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "I/O CLK",
+   "mosi": "DATA IN",
+   "miso": "DATA OUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 1300,
+   "tOut": 50,
+   "tFloat": 150
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 4,
+    "reset": 0,
+    "note": "internal: CH = last selected channel (p.11: the input data register is set to all zeroes at power up); RATE = conversion rate, 1 = fast (9h), 0 = slow (Ah). The power-up rate is not documented (p.11: it must be programmed); reset 0 here",
+    "fields": [
+     {
+      "name": "RATE",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CH",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{10}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "Select analog channel A0-A7",
+     "in": "0ccc x{6}",
+     "action": "wakeup",
+     "then": [
+      "start"
+     ],
+     "set": {
+      "CTRL.CH": "c"
+     },
+     "note": "p.7 Table 3: 0000b-0111b select A0-A7; the 4 bits are clocked in on I/O CLK rising edges 1-4 (INV CLK = VCC), the conversion starts at the 10th rising edge (p.5), so the command completes after 10 bits. Wakes from software power-down (p.11: restored at the next access)"
+    },
+    {
+     "name": "Software power down set",
+     "in": "1000",
+     "action": "powerdown",
+     "note": "p.7 Table 3 8h: no conversion result; p.11: power-up restored during the next access (CS low)"
+    },
+    {
+     "name": "Fast conversion rate (10 us) set",
+     "in": "1001",
+     "action": "wakeup",
+     "set": {
+      "CTRL.RATE": 1
+     },
+     "note": "p.7 Table 3 9h: no conversion; p.10-11 Table 5 (VCC 3.3-5.5 V only)"
+    },
+    {
+     "name": "Slow conversion rate (40 us) set",
+     "in": "1010",
+     "action": "wakeup",
+     "set": {
+      "CTRL.RATE": 0
+     },
+     "note": "p.7 Table 3 Ah: no conversion"
+    },
+    {
+     "name": "Self-test voltage (Vref+ - Vref-)/2 selected",
+     "in": "1011 x{6}",
+     "action": "wakeup",
+     "then": [
+      "start"
+     ],
+     "next": "1 0{9}",
+     "note": "p.7 Table 3 Bh: output result 200h (read in the next cycle)"
+    },
+    {
+     "name": "Self-test voltage Vref- selected",
+     "in": "1100 x{6}",
+     "action": "wakeup",
+     "then": [
+      "start"
+     ],
+     "next": "0{10}",
+     "note": "p.7 Table 3 Ch: output result 000h"
+    },
+    {
+     "name": "Self-test voltage Vref+ selected",
+     "in": "1101 x{6}",
+     "action": "wakeup",
+     "then": [
+      "start"
+     ],
+     "next": "1{10}",
+     "note": "p.7 Table 3 Dh: output result 3FFh"
+    },
+    {
+     "name": "Reserved",
+     "in": "111x",
+     "action": "wakeup",
+     "note": "p.7 Table 3 Eh/Fh: no conversion result"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "field": "CTRL.RATE",
+    "values": {
+     "0": 25000,
+     "1": 10000
+    }
+   },
+   "start": [
+    "command",
+    "pin"
+   ],
+   "channel": "CTRL.CH"
+  },
+  "ready": [
+   {
+    "pin": "EOC",
+    "active": 0,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CSTART",
+    "edge": "rise"
+   }
+  },
+  "drawer": [
+   "Interface"
+  ]
+ },
+ "packages": {
+  "DB": {
+   "pinout": "db20",
+   "footprint": "SSOP-20",
+   "package": "SSOP",
+   "pins": 20
+  },
+  "J": {
+   "pinout": "db20",
+   "footprint": "CDIP-20",
+   "package": "DIP",
+   "pins": 20
+  }
+ },
+ "pdf": "slas139c.pdf",
+ "pages": "p.1 (pinouts), p.3-4 (terminal functions), p.5-6 (serial interface, Table 2), p.7 (Table 3 commands), p.9-11 (CSTART, conversion rate, power-down, initialization), p.14 (ROC), p.16-17 (timing)",
+ "notModeled": [
+  "analog inputs, reference and the analog multiplexer (the result is the 0 V code 000h except the self-test codes)",
+  "the output in each cycle is the PREVIOUS conversion result, MSB at CS fall, the other bits on I/O CLK falling edges, low from the 10th falling edge; the constant 0 V code hides the pipeline (the self-test results use the next frame)",
+  "INV CLK = GND (input data clocked on falling edges while the output still changes on falling edges) and the INV CLK built-in test mode: the model assumes INV CLK = VCC (SPI mode 0)",
+  "DSP mode (FS low at CS fall: FS-framed cycles, data on the other clock edges, 16-clock frames with 6 trailing zeros) is not modeled; FS must be tied high",
+  "extended sampling via CSTART: CSTART rising starts a conversion (pins.convst), but the AsyncFlag (the next CS cycle is read-out only, no conversion) and the CSTART-only-while-CS-high condition are not modeled",
+  "conversion time: fast 10 us max, slow 25 us max (p.16 tconv; Table 3 names the slow rate 40 us, which is the total cycle time); the fast rate is only for VCC 3.3-5.5 V",
+  "power-down: 8h powers down; any following access wakes it (modeled by every other command starting with a wakeup action, so the wake happens when that command completes, not at CS fall); the first conversion after power-down/power-up is invalid",
+  "CS low during a cycle aborts it (td(I/O-CS) 1.1 us); EOC fall delay 240 ns after the 10th clock is not timed",
+  "the output data register is random at power up (the model outputs the 0 V code)",
+  "I/O CLK frequency limits (2.81 MHz at 2.7 V, 10 MHz at 5.5 V) and source-impedance dependence (Table 1)"
+ ],
+ "variants": "TLV1544 (same datasheet): 4-channel version, separate device. TLV1548-Q1 (tlv1548-q1.pdf) and TLV1548-EP (tlv1548-ep.pdf) are the automotive / enhanced-product grades of the TLV1548 (same pinout and interface, VCC 2.7-5.5 V).",
+ "parts": [
+  [
+   "TLV1548CDB",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "TLV1548CDBR",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "TLV1548IDB",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "TLV1548IDBR",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "TLV1548MJB",
+   "J",
+   20,
+   "Active"
+  ],
+  [
+   "TLV1548QDBREP",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "TLV1548QDBRG4Q1",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "TLV1548QDBRQ1",
+   "DB",
+   20,
+   "Active"
+  ]
+ ]
+}

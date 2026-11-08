@@ -1,0 +1,119 @@
+{
+ "device": {
+  "id": "ADCS7478",
+  "function": "ADC",
+  "description": "8-bit 1 MSPS SAR ADC with SPI-compatible serial output (VDD as reference)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "adcs7476.pdf (SNAS192G) p.3 pin functions, p.4 recommended operating conditions, p.9-10 timing requirements, p.10-11 serial timing diagrams (Figures 2-4), p.16 serial interface, p.17 transfer function (straight binary), p.18 modes",
+  "pinouts": {
+   "dbv6": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "VIN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SDATA",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "VIN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDATA",
+   "mode": 3
+  },
+  "timing": {
+   "tValid": 20,
+   "tOut": 40,
+   "tFloat": 25
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0{4} R{8} 0000",
+   "idle": "z",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DBV": {
+   "pinout": "dbv6",
+   "footprint": "SOT23-6",
+   "package": "SOT-23",
+   "pins": 6
+  }
+ },
+ "pdf": "adcs7476.pdf",
+ "pages": "p.3 (pins: VDD1 GND2 VIN3 SCLK4 SDATA5 CS6), p.4 (ROC: VDD 2.7-5.25 V; digital inputs 2.7-5.25 V independent of supply), p.9-10 (t3 20 ns CS fall to SDATA out of TRI-STATE, t4 40 ns at 2.7-3.6 V, t8 25 ns), p.10-11 (Figure 4: four leading zeros, DB7-DB0, four trailing zeros), p.16 (frame: 16 SCLKs, bits out on SCLK falling edges, TRI-STATE after the 16th falling edge or CS rise), p.17 (straight binary)",
+ "notModeled": [
+  "analog input (VDD is the reference); the conversion is clocked by SCLK (the result is the 0 V code at once)",
+  "SPI mode 3 (data out on SCLK falling edges, the receiver reads on the following edge); the datasheet allows SCLK idling either level: with a falling first edge the first leading zero may not be set up in time",
+  "SDATA TRI-STATE after the 16th falling SCLK edge (idle \"z\" after the 16 pattern bits) or at CS rise",
+  "shutdown mode: CS high before the 10th falling SCLK edge powers down until the next CS fall (no visible digital effect; the 1 us power-up / one dummy conversion is not modeled); such a frame aborts the conversion and truncates the word",
+  "tQUIET (50 ns) and SCLK frequency limits (10 kHz-20 MHz); t4 is 20 ns at VDD 4.75-5.25 V (the model uses 40 ns)"
+ ],
+ "variants": "ADCS7476 / ADCS7477 / ADCS7478 share the datasheet: 12 / 10 / 8 data bits in the same 16-SCLK frame (2 / 4 trailing zeros on the 10- / 8-bit parts), same SOT-23-6 pinout; own spec files",
+ "parts": [
+  [
+   "ADCS7478AIMF/NOPB",
+   "DBV",
+   6,
+   "Active"
+  ],
+  [
+   "ADCS7478AIMFE/NOPB",
+   "DBV",
+   6,
+   "Active"
+  ],
+  [
+   "ADCS7478AIMFX/NOPB",
+   "DBV",
+   6,
+   "Active"
+  ]
+ ]
+}

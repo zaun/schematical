@@ -1,0 +1,83 @@
+{
+  "device": {
+    "id": "ADS7806",
+    "function": "ADC",
+    "description": "12-bit 40 kSPS low-power sampling ADC with internal reference, byte-wide parallel and serial outputs",
+    "drawer": ["Interface"],
+    "note": "ads7806.pdf (SBAS021B) p.2-3 specifications (conversion time 20 us, VIH, data format, VDIG 4.75-5.25 V), p.4 pin descriptions, pin configuration and Table I input ranges, p.7 basic operation, p.8 Tables II-IV (control functions, output codes), p.9 reading data and Figures 2-3, p.10 Table V timing",
+    "pinouts": {
+      "dw28": [
+        {"number": 1, "name": "R1IN", "role": "input"},
+        {"number": 2, "name": "AGND1", "role": "ground"},
+        {"number": 3, "name": "R2IN", "role": "input"},
+        {"number": 4, "name": "CAP", "role": "nc"},
+        {"number": 5, "name": "REF", "role": "output"},
+        {"number": 6, "name": "AGND2", "role": "ground"},
+        {"number": 7, "name": "SB/BTC", "role": "input"},
+        {"number": 8, "name": "EXT/INT", "role": "input"},
+        {"number": 9, "name": "D7", "role": "output"},
+        {"number": 10, "name": "D6", "role": "output"},
+        {"number": 11, "name": "D5", "role": "output"},
+        {"number": 12, "name": "D4", "role": "output"},
+        {"number": 13, "name": "D3", "role": "output"},
+        {"number": 14, "name": "DGND", "role": "ground"},
+        {"number": 15, "name": "D2", "role": "output"},
+        {"number": 16, "name": "D1", "role": "output"},
+        {"number": 17, "name": "D0", "role": "output"},
+        {"number": 18, "name": "DATACLK", "role": "inout"},
+        {"number": 19, "name": "SDATA", "role": "output"},
+        {"number": 20, "name": "TAG", "role": "input"},
+        {"number": 21, "name": "BYTE", "role": "input"},
+        {"number": 22, "name": "R/C", "role": "input"},
+        {"number": 23, "name": "CS", "role": "input"},
+        {"number": 24, "name": "BUSY", "role": "output"},
+        {"number": 25, "name": "PWRD", "role": "input"},
+        {"number": 26, "name": "REFD", "role": "input"},
+        {"number": 27, "name": "VANA", "role": "power"},
+        {"number": 28, "name": "VDIG", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 12,
+    "channels": 1,
+    "codeFormat": {"pin": "SB/BTC", "values": {"0": "twos", "1": "offset"}},
+    "vcc": [4.75, 5.25],
+    "analog": ["R1IN", "R2IN", "CAP", "REF", "VANA"],
+    "bus": {"style": "parallel", "data": ["D7", "D6", "D5", "D4", "D3", "D2", "D1", "D0"],
+            "cs": {"pin": "CS", "active": 0}, "rw": {"pin": "R/C", "read": 1},
+            "byteSelect": {"pin": "BYTE", "high": 0}},
+    "timing": {"tAcc": 83, "tDf": 83},
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [
+        {"name": "Convert (CS and R/C low)", "in": "x{8}", "action": "start", "commit": "end",
+         "note": "p.8 Table II: CS falling with R/C low, or R/C falling with CS low, starts conversion n; commands are ignored while BUSY is low"}
+      ],
+      "read": {"high": "[R:11:4]", "low": "[R:3:0] 0000"}
+    },
+    "conversion": {
+      "time": 20000,
+      "start": ["command"]
+    },
+    "ready": [{"pin": "BUSY", "active": 0, "asserts": "busy"}]
+  },
+  "packages": {
+    "DW": {"pinout": "dw28", "footprint": "SOIC-28W", "package": "SOIC", "pins": 28}
+  },
+  "pdf": "ads7806.pdf",
+  "pages": "p.2 (conversion time 20 us, input ranges +/-10 V, 0-5 V, 0-4 V), p.3 (VIH 2.0 V to VD+0.3 V, bus access/relinquish 83 ns, VDIG/VANA 4.75-5.25 V), p.4 (pin descriptions: D7-D0 MSB byte when BYTE low, D3..D0 low on the LSB byte; pin configuration; Table I), p.8 (Table II control functions, Table IV codes: BTC 0 V = 000h, SB 0 V = 800h on +/-10 V), p.9 (parallel output, Figures 2-3), p.10 (Table V: t4 BUSY low 20 us max, t9 83 ns, t12 83 ns)",
+  "notModeled": [
+    "analog inputs, input-range resistor network (R1IN/R2IN wiring), internal reference (REF output, REFD shuts it down), CAP buffer",
+    "codeFormat assumes the +/-10 V range (Figure 1a, the first in Table I): SB/BTC high gives offset binary (0 V = 800h), low two's complement (000h). On the unipolar 0-5 V / 0-4 V ranges the 0 V input is -full scale (SB 000h, BTC 800h), which the model does not give",
+    "serial output (SDATA, DATACLK internal/external clock per EXT/INT, TAG daisy-chain input): SDATA and DATACLK are never driven; only the parallel port is modeled",
+    "the conversion starts when the CS/R/C low period ends (write access end) rather than at its falling edge; the 40 ns - 12 us convert pulse width and the rule that CS or R/C must be high before BUSY rises (else a conversion restarts without acquisition) are not checked",
+    "reading during a conversion returns the previous result (valid up to 12 us after the start); the model keeps the same 0 V code throughout",
+    "PWRD (analog power-down; digital stays active, conversions invalid) is not read",
+    "VDIG must be <= VANA; acquisition time and 40 kHz throughput limits"
+  ],
+  "variants": "ADS7806PB/UB are higher grades of the same part (same spec).",
+  "parts": [
+    ["ADS7806UB", "DW", 28, "Active"]
+  ]
+}

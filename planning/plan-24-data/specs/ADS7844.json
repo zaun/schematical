@@ -1,0 +1,100 @@
+{
+  "device": {
+    "id": "ADS7844",
+    "function": "ADC",
+    "description": "12-bit 200 kSPS 8-channel SAR ADC with start-bit serial interface",
+    "drawer": ["Interface"],
+    "note": "ads7844.pdf (SBAS100A) p.2-3 specifications (VCC 4.75-5.25 V / 2.7-3.6 V, VIH to 5.5 V, straight binary), p.4 pin configuration and descriptions, p.9 Tables I-II channel selection, p.10 digital interface (inputs 5.5 V tolerant), p.11 Tables III-IV control byte, Figures 3-4, p.12 Table V, Tables VI-VII timing, Figures 5-6, p.13 data format",
+    "pinouts": {
+      "p20": [
+        {"number": 1, "name": "CH0", "role": "input"},
+        {"number": 2, "name": "CH1", "role": "input"},
+        {"number": 3, "name": "CH2", "role": "input"},
+        {"number": 4, "name": "CH3", "role": "input"},
+        {"number": 5, "name": "CH4", "role": "input"},
+        {"number": 6, "name": "CH5", "role": "input"},
+        {"number": 7, "name": "CH6", "role": "input"},
+        {"number": 8, "name": "CH7", "role": "input"},
+        {"number": 9, "name": "COM", "role": "input"},
+        {"number": 10, "name": "SHDN", "role": "input"},
+        {"number": 11, "name": "VREF", "role": "power"},
+        {"number": 12, "name": "+VCC", "role": "power"},
+        {"number": 13, "name": "GND", "role": "ground"},
+        {"number": 14, "name": "GND", "role": "ground"},
+        {"number": 15, "name": "DOUT", "role": "output"},
+        {"number": 16, "name": "BUSY", "role": "output"},
+        {"number": 17, "name": "DIN", "role": "input"},
+        {"number": 18, "name": "CS", "role": "input"},
+        {"number": 19, "name": "DCLK", "role": "input"},
+        {"number": 20, "name": "+VCC", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 12,
+    "channels": 8,
+    "codeFormat": "straight",
+    "vcc": [2.7, 5.25],
+    "inputMax": 5.5,
+    "analog": ["CH0", "CH1", "CH2", "CH3", "CH4", "CH5", "CH6", "CH7", "COM", "VREF"],
+    "bus": {"style": "spi", "cs": "CS", "sclk": "DCLK", "mosi": "DIN", "miso": "DOUT", "mode": 0},
+    "timing": {"tValid": 200, "tOut": 200, "tFloat": 200},
+    "registers": [
+      {"name": "CTRL", "width": 8, "reset": 0,
+       "note": "internal: the last control byte (S A2 A1 A0 - SGL/DIF PD1 PD0); no read-back, reset value not documented",
+       "fields": [{"name": "S", "bits": [7, 7]}, {"name": "A", "bits": [6, 4]},
+                  {"name": "SGL_DIF", "bits": [2, 2]}, {"name": "PD", "bits": [1, 0]}]}
+    ],
+    "protocol": {
+      "frame": "stream",
+      "out": "0",
+      "idle": "0",
+      "commands": [
+        {"name": "Control Byte", "in": "1 aaa x s pp", "action": "start", "channel": "a",
+         "channelMap": {"0": [0], "4": [1], "1": [2], "5": [3], "2": [4], "6": [5], "3": [6], "7": [7]},
+         "set": {"CTRL.S": 1, "CTRL.A": "a", "CTRL.SGL_DIF": "s", "CTRL.PD": "p"},
+         "reply": "0 R{12}",
+         "note": "Figure 3: PD0 latched on the 8th DCLK rising edge; DOUT low for one clock (BUSY high), then D11..D0 MSB first, then zeros. Tables I-II: A2-A0 = 000/100/001/101/010/110/011/111 give +IN = CH0..CH7 in both SGL/DIF modes"},
+        {"name": "Idle (no start bit)", "in": "0", "action": "nop",
+         "note": "DIN is ignored until the start bit (the first HIGH bit after CS falls)"}
+      ]
+    },
+    "conversion": {
+      "time": 0,
+      "start": ["command"]
+    },
+    "ready": [
+      {"pin": "BUSY", "active": 1, "asserts": "busy"}
+    ],
+    "pins": {
+      "powerdown": {"pin": "SHDN", "active": 0}
+    }
+  },
+  "packages": {
+    "DBQ": {"pinout": "p20", "footprint": "QSOP-20", "package": "SSOP", "pins": 20},
+    "DB": {"pinout": "p20", "footprint": "SSOP-20", "package": "SSOP", "pins": 20}
+  },
+  "pdf": "ads7844.pdf",
+  "pages": "p.2-3 (specs), p.4 (pins, ordering: E = QSOP-20, N = SSOP-20), p.9 (Tables I-II), p.10 (digital interface), p.11 (Tables III-IV, Figures 3-4), p.12 (Table V, Tables VI-VII, Figures 5-6), p.13 (data format)",
+  "notModeled": [
+    "analog inputs, multiplexer and SGL/DIF selection (stored only)",
+    "control byte bit 3 is unused (12-bit conversions only)",
+    "conversion is clocked by DCLK (12 clocks after the control byte); not timed, the result is ready at once",
+    "BUSY: on the part it is a one-DCLK HIGH pulse (8th falling edge to 9th falling edge) after the control byte, and Hi-Z while CS is high; with the clocked conversion (time 0) the model only drives it LOW",
+    "DOUT and BUSY are Hi-Z while CS is high (the bus model floats DOUT; BUSY is driven)",
+    "power-down selection PD1-PD0 (auto power-down between conversions has no bus effect)",
+    "15-clock overlapped conversions where the next start bit arrives while the previous result is still shifting (Figure 6): the model restarts the reply at the new control byte",
+    "timing values are the 2.7-3.6 V table (Table VI); at 4.75-5.25 V they are 70-100 ns (Table VII)",
+    "pin 19 is DCLK in the pin configuration, Figure 1 and the timing figures; the pin description table calls it CLK"
+  ],
+  "variants": "ADS7844E/EB (QSOP-20, DBQ) and ADS7844N/NB (SSOP-20, DB) share one pinout.",
+  "parts": [
+    ["ADS7844E", "DBQ", 20, "Active"],
+    ["ADS7844E/2K5", "DBQ", 20, "Active"],
+    ["ADS7844EB", "DBQ", 20, "Active"],
+    ["ADS7844EB/2K5", "DBQ", 20, "Active"],
+    ["ADS7844N", "DB", 20, "Active"],
+    ["ADS7844N/1K", "DB", 20, "Active"],
+    ["ADS7844NB", "DB", 20, "Active"],
+    ["ADS7844NB/1K", "DB", 20, "Active"]
+  ]
+}

@@ -1,0 +1,1445 @@
+{
+ "device": {
+  "id": "ADS5401",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit 800 MSPS ADC with DDR LVDS outputs and SPI configuration",
+  "note": "ads5401.pdf (SLAS946B) p.3-5 pin configuration and functions, p.5 recommended operating conditions (IOVDD 1.7-3.45 V), p.10-11 digital characteristics, LVDS timing (tPD 3.92 ns max CLKIN falling to DACLK rising, Figure 1), serial write timing, reset timing, p.23-24 programming (serial write/readout, Figures 46-47), p.25-33 register map (Table 4) and descriptions",
+  "pinouts": {
+   "zay196": [
+    {
+     "ball": "A1",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "A2",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "A3",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "A4",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "A5",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "A6",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "A7",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "A8",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "A9",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "A10",
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "ball": "A11",
+     "name": "SDIO",
+     "role": "inout"
+    },
+    {
+     "ball": "A12",
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "ball": "A13",
+     "name": "SDENB",
+     "role": "input"
+    },
+    {
+     "ball": "A14",
+     "name": "VREF",
+     "role": "output"
+    },
+    {
+     "ball": "B1",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "B2",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "B3",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "B4",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "B5",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "B6",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "B7",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "B8",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "B9",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "B10",
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "ball": "B11",
+     "name": "ENABLE",
+     "role": "input"
+    },
+    {
+     "ball": "B12",
+     "name": "SRESET",
+     "role": "input"
+    },
+    {
+     "ball": "B13",
+     "name": "TESTMODE",
+     "role": "nc"
+    },
+    {
+     "ball": "B14",
+     "name": "VCM",
+     "role": "output"
+    },
+    {
+     "ball": "C1",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "C2",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "C3",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "C4",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "C5",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "C6",
+     "name": "DVDDLVDS",
+     "role": "power"
+    },
+    {
+     "ball": "C7",
+     "name": "DVDDLVDS",
+     "role": "power"
+    },
+    {
+     "ball": "C8",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "C9",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "C10",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "C11",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "C12",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "C13",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "C14",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "D1",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "D2",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "D3",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "D4",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "D5",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "D6",
+     "name": "DVDDLVDS",
+     "role": "power"
+    },
+    {
+     "ball": "D7",
+     "name": "DVDDLVDS",
+     "role": "power"
+    },
+    {
+     "ball": "D8",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "D9",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "D10",
+     "name": "AVDD18",
+     "role": "power"
+    },
+    {
+     "ball": "D11",
+     "name": "AVDD18",
+     "role": "power"
+    },
+    {
+     "ball": "D12",
+     "name": "AVDD33",
+     "role": "power"
+    },
+    {
+     "ball": "D13",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "D14",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "E1",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "E2",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "E3",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "E4",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "E5",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "E6",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "E7",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "E8",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "E9",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "E10",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "E11",
+     "name": "AVDD18",
+     "role": "power"
+    },
+    {
+     "ball": "E12",
+     "name": "AVDD33",
+     "role": "power"
+    },
+    {
+     "ball": "E13",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "E14",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "F1",
+     "name": "SYNCOUTN",
+     "role": "output"
+    },
+    {
+     "ball": "F2",
+     "name": "SYNCOUTP",
+     "role": "output"
+    },
+    {
+     "ball": "F3",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "F4",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "F5",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "F6",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "F7",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "F8",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "F9",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "F10",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "F11",
+     "name": "AVDD18",
+     "role": "power"
+    },
+    {
+     "ball": "F12",
+     "name": "AVDD33",
+     "role": "power"
+    },
+    {
+     "ball": "F13",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "F14",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "G1",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "G2",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "G3",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "G4",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "G5",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "G6",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "G7",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "G8",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "G9",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "G10",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "G11",
+     "name": "AVDD18",
+     "role": "power"
+    },
+    {
+     "ball": "G12",
+     "name": "AVDD33",
+     "role": "power"
+    },
+    {
+     "ball": "G13",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "G14",
+     "name": "AVDDC",
+     "role": "power"
+    },
+    {
+     "ball": "H1",
+     "name": "DACLKN",
+     "role": "output"
+    },
+    {
+     "ball": "H2",
+     "name": "DACLKP",
+     "role": "output"
+    },
+    {
+     "ball": "H3",
+     "name": "DA0N",
+     "role": "output"
+    },
+    {
+     "ball": "H4",
+     "name": "DA0P",
+     "role": "output"
+    },
+    {
+     "ball": "H5",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "H6",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "H7",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "H8",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "H9",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "H10",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "H11",
+     "name": "AVDD18",
+     "role": "power"
+    },
+    {
+     "ball": "H12",
+     "name": "AVDD33",
+     "role": "power"
+    },
+    {
+     "ball": "H13",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "H14",
+     "name": "AVDDC",
+     "role": "power"
+    },
+    {
+     "ball": "J1",
+     "name": "DA1N",
+     "role": "output"
+    },
+    {
+     "ball": "J2",
+     "name": "DA1P",
+     "role": "output"
+    },
+    {
+     "ball": "J3",
+     "name": "DA2N",
+     "role": "output"
+    },
+    {
+     "ball": "J4",
+     "name": "DA2P",
+     "role": "output"
+    },
+    {
+     "ball": "J5",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "J6",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "J7",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "J8",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "J9",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "J10",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "J11",
+     "name": "AVDD18",
+     "role": "power"
+    },
+    {
+     "ball": "J12",
+     "name": "AVDD33",
+     "role": "power"
+    },
+    {
+     "ball": "J13",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "J14",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "K1",
+     "name": "DA3N",
+     "role": "output"
+    },
+    {
+     "ball": "K2",
+     "name": "DA3P",
+     "role": "output"
+    },
+    {
+     "ball": "K3",
+     "name": "DA4N",
+     "role": "output"
+    },
+    {
+     "ball": "K4",
+     "name": "DA4P",
+     "role": "output"
+    },
+    {
+     "ball": "K5",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "K6",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "K7",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "K8",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "K9",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "K10",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "K11",
+     "name": "AVDD18",
+     "role": "power"
+    },
+    {
+     "ball": "K12",
+     "name": "AVDD33",
+     "role": "power"
+    },
+    {
+     "ball": "K13",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "K14",
+     "name": "INA_P",
+     "role": "input"
+    },
+    {
+     "ball": "L1",
+     "name": "DA5N",
+     "role": "output"
+    },
+    {
+     "ball": "L2",
+     "name": "DA5P",
+     "role": "output"
+    },
+    {
+     "ball": "L3",
+     "name": "DA6N",
+     "role": "output"
+    },
+    {
+     "ball": "L4",
+     "name": "DA6P",
+     "role": "output"
+    },
+    {
+     "ball": "L5",
+     "name": "OVRAN",
+     "role": "output"
+    },
+    {
+     "ball": "L6",
+     "name": "DVDDLVDS",
+     "role": "power"
+    },
+    {
+     "ball": "L7",
+     "name": "DVDDLVDS",
+     "role": "power"
+    },
+    {
+     "ball": "L8",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "L9",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "L10",
+     "name": "AVDD18",
+     "role": "power"
+    },
+    {
+     "ball": "L11",
+     "name": "AVDD18",
+     "role": "power"
+    },
+    {
+     "ball": "L12",
+     "name": "AVDD33",
+     "role": "power"
+    },
+    {
+     "ball": "L13",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "L14",
+     "name": "INA_N",
+     "role": "input"
+    },
+    {
+     "ball": "M1",
+     "name": "DA7N",
+     "role": "output"
+    },
+    {
+     "ball": "M2",
+     "name": "DA7P",
+     "role": "output"
+    },
+    {
+     "ball": "M3",
+     "name": "DA8N",
+     "role": "output"
+    },
+    {
+     "ball": "M4",
+     "name": "DA8P",
+     "role": "output"
+    },
+    {
+     "ball": "M5",
+     "name": "OVRAP",
+     "role": "output"
+    },
+    {
+     "ball": "M6",
+     "name": "DVDDLVDS",
+     "role": "power"
+    },
+    {
+     "ball": "M7",
+     "name": "DVDDLVDS",
+     "role": "power"
+    },
+    {
+     "ball": "M8",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "M9",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "M10",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "M11",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "M12",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "M13",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "M14",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "N1",
+     "name": "DA9N",
+     "role": "output"
+    },
+    {
+     "ball": "N2",
+     "name": "DA10N",
+     "role": "output"
+    },
+    {
+     "ball": "N3",
+     "name": "DA11N",
+     "role": "output"
+    },
+    {
+     "ball": "N4",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "N5",
+     "name": "SYNCOUTN",
+     "role": "output"
+    },
+    {
+     "ball": "N6",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "N7",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "N8",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "N9",
+     "name": "SYNCN",
+     "role": "input"
+    },
+    {
+     "ball": "N10",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "N11",
+     "name": "AVDD18",
+     "role": "power"
+    },
+    {
+     "ball": "N12",
+     "name": "AVDD33",
+     "role": "power"
+    },
+    {
+     "ball": "N13",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "N14",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "P1",
+     "name": "DA9P",
+     "role": "output"
+    },
+    {
+     "ball": "P2",
+     "name": "DA10P",
+     "role": "output"
+    },
+    {
+     "ball": "P3",
+     "name": "DA11P",
+     "role": "output"
+    },
+    {
+     "ball": "P4",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "P5",
+     "name": "SYNCOUTP",
+     "role": "output"
+    },
+    {
+     "ball": "P6",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "P7",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "P8",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "P9",
+     "name": "SYNCP",
+     "role": "input"
+    },
+    {
+     "ball": "P10",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "P11",
+     "name": "AVDD18",
+     "role": "power"
+    },
+    {
+     "ball": "P12",
+     "name": "AVDD33",
+     "role": "power"
+    },
+    {
+     "ball": "P13",
+     "name": "CLKINN",
+     "role": "input"
+    },
+    {
+     "ball": "P14",
+     "name": "CLKINP",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": {
+   "field": "CONFIG1.FORMAT",
+   "values": {
+    "0": "twos",
+    "1": "offset"
+   }
+  },
+  "vcc": [
+   1.7,
+   3.45
+  ],
+  "analog": [
+   "VREF",
+   "VCM",
+   "INA_P",
+   "INA_N",
+   "AVDDC",
+   "AVDD33",
+   "AVDD18"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLKINP",
+    "edge": "fall"
+   },
+   "data": [
+    "DA11P",
+    "DA10P",
+    "DA9P",
+    "DA8P",
+    "DA7P",
+    "DA6P",
+    "DA5P",
+    "DA4P",
+    "DA3P",
+    "DA2P",
+    "DA1P",
+    "DA0P"
+   ],
+   "clockOut": [
+    {
+     "pin": "DACLKP",
+     "divide": 2
+    },
+    {
+     "pin": "DACLKN",
+     "divide": 2,
+     "invert": true
+    }
+   ]
+  },
+  "configBus": {
+   "style": "spi",
+   "cs": "SDENB",
+   "sclk": "SCLK",
+   "mosi": "SDIO",
+   "miso": "SDIO",
+   "mode": 0
+  },
+  "timing": {
+   "tOut": 3.92
+  },
+  "registers": [
+   {
+    "name": "CONFIG0",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SPI_4WIRE",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "DEC_EN",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "CHA_HP",
+      "bits": [
+       12,
+       12
+      ]
+     }
+    ],
+    "note": "D15 3/4-wire SPI, D14 decimation filter enable, D12 ChA high/low pass"
+   },
+   {
+    "name": "CONFIG1",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "CHA_CORR_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "FORMAT",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "SYNCOUT_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "HP_MODE1",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ],
+    "note": "D3 data format: 0 two's complement, 1 offset binary"
+   },
+   {
+    "name": "CONFIG2",
+    "address": 2,
+    "width": 16,
+    "reset": 1920,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "OVR_THRESH",
+      "bits": [
+       10,
+       7
+      ]
+     }
+    ],
+    "note": "default 0x780 (over-range threshold 1111)"
+   },
+   {
+    "name": "R03",
+    "address": 3,
+    "width": 16,
+    "reset": 19224,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "START_AUTO_CORR_A",
+      "bits": [
+       14,
+       14
+      ]
+     }
+    ],
+    "note": "default: D14, D11, D9, D8, D4, D3 = 1 (D11/9/8/4/3 must be 1)"
+   },
+   {
+    "name": "R0E",
+    "address": 14,
+    "width": 16,
+    "reset": 43688,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SYNC_SEL",
+      "bits": [
+       15,
+       2
+      ]
+     }
+    ],
+    "note": "sync select default 1010 1010 1010 10, D1-D0 0"
+   },
+   {
+    "name": "R0F",
+    "address": 15,
+    "width": 16,
+    "reset": 40960,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SYNC_SEL",
+      "bits": [
+       15,
+       12
+      ]
+     },
+     {
+      "name": "VREF_SEL",
+      "bits": [
+       6,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "R2B",
+    "address": 43,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "TEMP",
+      "bits": [
+       8,
+       0
+      ]
+     }
+    ],
+    "note": "temperature sensor, read only; its value is not given (0 in the model)"
+   },
+   {
+    "name": "R2C",
+    "address": 44,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "RESET",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "writing 1101 0010 1111 0000 performs a software reset (self-clears to 0): the SOFT RESET command"
+   },
+   {
+    "name": "R37",
+    "address": 55,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SLEEP",
+      "bits": [
+       15,
+       10
+      ]
+     }
+    ],
+    "note": "sleep mode used when ENABLE is low"
+   },
+   {
+    "name": "R38",
+    "address": 56,
+    "width": 16,
+    "reset": 65535,
+    "readOnly": 15,
+    "fields": [
+     {
+      "name": "HP_MODE2",
+      "bits": [
+       15,
+       7
+      ]
+     },
+     {
+      "name": "BIAS_EN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "SYNC_EN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "LP_MODE1",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ONES",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "D3-D0 read back 1"
+   },
+   {
+    "name": "R3A",
+    "address": 58,
+    "width": 16,
+    "reset": 2075,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LVDS_CUR",
+      "bits": [
+       15,
+       13
+      ]
+     },
+     {
+      "name": "LVDS_SW",
+      "bits": [
+       12,
+       11
+      ]
+     },
+     {
+      "name": "LVDS_TERM",
+      "bits": [
+       10,
+       9
+      ]
+     },
+     {
+      "name": "DACLK_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "LP_MODE2",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "OVRA_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "LP_MODE3",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "R66",
+    "address": 102,
+    "width": 16,
+    "reset": 65535,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "BUSA_EN",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "LVDS output bus A pin enables (D11-D0 = DA11-DA0, D13 SYNCOUT)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "SOFT RESET",
+     "in": "0 0101100 1101001011110000",
+     "action": "reset",
+     "note": "write of 0xD2F0 to register 0x2C"
+    },
+    {
+     "name": "WRITE",
+     "in": "0 aaaaaaa dddddddddddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "note": "R/W = 0, A6-A0, D15-D0, latched on SCLK rising edges"
+    },
+    {
+     "name": "READ",
+     "in": "1 aaaaaaa",
+     "action": "rreg",
+     "address": "a",
+     "reply": "@",
+     "note": "R/W = 1: D15-D0 of the register follow on SDIO (3-wire) / SDO (4-wire)"
+    }
+   ],
+   "read": "R{12}"
+  },
+  "pins": {
+   "reset": {
+    "pin": "SRESET",
+    "active": 0
+   },
+   "powerdown": {
+    "pin": "ENABLE",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "ZAY": {
+   "pinout": "zay196",
+   "footprint": "NFBGA-196-ZAY",
+   "package": "NFBGA",
+   "pins": 196
+  }
+ },
+ "pdf": "ads5401.pdf",
+ "pages": "p.3-5 (pins, ROC), p.10-11 (digital, timing), p.23-24 (serial interface), p.25-33 (registers)",
+ "notModeled": [
+  "analog inputs, references, auto-correction loops, decimation filter (CONFIG0.DEC_EN: data at half rate, high/low pass) and the temperature sensor: the result is always the 0 V code (0x000 two's complement, 0x800 offset binary) and TEMP reads 0",
+  "LVDS: the outputs are differential pairs; the model drives only the P legs (DAxP) as logic levels, the N legs and OVRA/SYNCOUT pairs are never driven; LVDS current, termination, per-pin output enables (0x66) and DACLK/OVRA enables are stored only",
+  "the differential clock CLKINP/CLKINN is modeled as CLKINP alone (each falling edge one sample); DACLK modeled as CLKINP / 2 (DDR: one sample per DACLK edge), DACLKN inverted; data and DACLK change tOut = tPD 3.92 ns after the edge (the datasheet centres DACLK in the data window)",
+  "pipeline latency (38/50/74 clocks) and over-range latency are not modeled (the code is constant); over-range threshold stored only",
+  "SPI 4-wire mode (CONFIG0.SPI_4WIRE: read data on SDO) is stored only; the model always reads back on SDIO (3-wire, the default); SDO is never driven",
+  "R/W = 1 disables further register writes until a write cycle clears it (not modeled); SDIO output timing is not specified (tOut shared with the data bus)",
+  "ENABLE low enters the sleep mode selected by register 0x37 (shutdown/standby/deep/light, wake-up 2 us-2.5 ms): modeled as powerdown, which also ignores the SPI bus",
+  "SYNCP/SYNCN synchronization input, SYNCOUT outputs and sync-select registers (0x0E/0x0F) are not modeled; TESTMODE is a factory pin (nc)",
+  "vcc is IOVDD (1.7-3.45 V) for SRESET/SDENB/SCLK/SDIO/SDO/ENABLE; DVDD and DVDDLVDS (1.7-1.9 V) are digital supplies in the same check"
+ ],
+ "variants": "ADS5401 (single channel) and ADS5402 (dual, adds DB[11:0], DBCLK, OVRB and registers 0x1A/0x67) have separate datasheets and the same ZAY ball map for the A channel; ADS5403 (ads5403.pdf) is a further member, not in this batch",
+ "parts": [
+  [
+   "ADS5401IZAY",
+   "ZAY",
+   196,
+   "Active"
+  ]
+ ]
+}

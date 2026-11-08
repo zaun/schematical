@@ -1,0 +1,666 @@
+{
+ "device": {
+  "id": "ADS8555",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit 6-channel simultaneous-sampling bipolar-input SAR ADC with parallel and serial interfaces",
+  "note": "ads8555.pdf (SBAS531D) p.3 pin configuration (PM LQFP-64), p.4-6 pin functions, p.10 power-supply requirements (BVDD 2.7-5.5 V), p.11 serial interface timing, p.12 Figure 1 serial timing, p.24 configuration settings (Table 2) and serial interface, p.25 Table 3 output data format, software mode, p.26 serial combined read/write access, p.29-30 control register (Figure 35, Table 5)",
+  "pinouts": {
+   "pm64": [
+    {
+     "number": 1,
+     "name": "DB14/REFBUFEN",
+     "role": "inout"
+    },
+    {
+     "number": 2,
+     "name": "DB13/SDI",
+     "role": "inout"
+    },
+    {
+     "number": 3,
+     "name": "DB12",
+     "role": "inout"
+    },
+    {
+     "number": 4,
+     "name": "DB11",
+     "role": "inout"
+    },
+    {
+     "number": 5,
+     "name": "DB10/SDO_C",
+     "role": "inout"
+    },
+    {
+     "number": 6,
+     "name": "DB9/SDO_B",
+     "role": "inout"
+    },
+    {
+     "number": 7,
+     "name": "DB8/SDO_A",
+     "role": "inout"
+    },
+    {
+     "number": 8,
+     "name": "BGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "BVDD",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "DB7/HBEN/DCEN",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "DB6/SCLK",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "DB5/DCIN_A",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "DB4/DCIN_B",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "DB3/DCIN_C",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "DB2/SEL_C",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "DB1/SEL_B",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "DB0/SEL_A",
+     "role": "inout"
+    },
+    {
+     "number": 18,
+     "name": "BUSY/INT",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "CS/FS",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "CONVST_C",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "CONVST_B",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "CONVST_A",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "STBY",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "RANGE/XCLK",
+     "role": "inout"
+    },
+    {
+     "number": 28,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "WORD/BYTE",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "HVSS",
+     "role": "power"
+    },
+    {
+     "number": 31,
+     "name": "HVDD",
+     "role": "power"
+    },
+    {
+     "number": 32,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 33,
+     "name": "CH_A0",
+     "role": "input"
+    },
+    {
+     "number": 34,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 35,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 36,
+     "name": "CH_A1",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 38,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 39,
+     "name": "CH_B0",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 41,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 42,
+     "name": "CH_B1",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 44,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 45,
+     "name": "CH_C0",
+     "role": "input"
+    },
+    {
+     "number": 46,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 47,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 48,
+     "name": "CH_C1",
+     "role": "input"
+    },
+    {
+     "number": 49,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 50,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 51,
+     "name": "REFIO",
+     "role": "power"
+    },
+    {
+     "number": 52,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 53,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 54,
+     "name": "REFC_A",
+     "role": "nc"
+    },
+    {
+     "number": 55,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 56,
+     "name": "REFC_B",
+     "role": "nc"
+    },
+    {
+     "number": 57,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 58,
+     "name": "REFC_C",
+     "role": "nc"
+    },
+    {
+     "number": 59,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 60,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 61,
+     "name": "PAR/SER",
+     "role": "input"
+    },
+    {
+     "number": 62,
+     "name": "HW/SW",
+     "role": "input"
+    },
+    {
+     "number": 63,
+     "name": "REFEN/WR",
+     "role": "input"
+    },
+    {
+     "number": 64,
+     "name": "DB15",
+     "role": "inout"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 6,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "HVSS",
+   "HVDD",
+   "AVDD",
+   "CH_A0",
+   "CH_A1",
+   "CH_B0",
+   "CH_B1",
+   "CH_C0",
+   "CH_C1",
+   "REFIO",
+   "REFC_A",
+   "REFC_B",
+   "REFC_C"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS/FS",
+   "sclk": "DB6/SCLK",
+   "mosi": "DB13/SDI",
+   "miso": "DB8/SDO_A",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 12,
+   "tOut": 15,
+   "tFloat": 10
+  },
+  "registers": [
+   {
+    "name": "CR",
+    "address": 0,
+    "width": 32,
+    "reset": 1023,
+    "readOnly": 528384,
+    "note": "p.29-30 Table 5: control register, default 0x000003FF; C19 and C12 'always 0' (read-only)",
+    "fields": [
+     {
+      "name": "CH_C",
+      "bits": [
+       31,
+       31
+      ]
+     },
+     {
+      "name": "CH_B",
+      "bits": [
+       30,
+       30
+      ]
+     },
+     {
+      "name": "CH_A",
+      "bits": [
+       29,
+       29
+      ]
+     },
+     {
+      "name": "RANGE_C",
+      "bits": [
+       28,
+       28
+      ]
+     },
+     {
+      "name": "RANGE_B",
+      "bits": [
+       27,
+       27
+      ]
+     },
+     {
+      "name": "RANGE_A",
+      "bits": [
+       26,
+       26
+      ]
+     },
+     {
+      "name": "REFEN",
+      "bits": [
+       25,
+       25
+      ]
+     },
+     {
+      "name": "REFBUF",
+      "bits": [
+       24,
+       24
+      ]
+     },
+     {
+      "name": "SEQ",
+      "bits": [
+       23,
+       23
+      ]
+     },
+     {
+      "name": "A_NAP",
+      "bits": [
+       22,
+       22
+      ]
+     },
+     {
+      "name": "BUSY_INT",
+      "bits": [
+       21,
+       21
+      ]
+     },
+     {
+      "name": "BUSY_POL",
+      "bits": [
+       20,
+       20
+      ]
+     },
+     {
+      "name": "VREF",
+      "bits": [
+       18,
+       18
+      ]
+     },
+     {
+      "name": "READ_EN",
+      "bits": [
+       17,
+       17
+      ]
+     },
+     {
+      "name": "C23_0_EN",
+      "bits": [
+       16,
+       16
+      ]
+     },
+     {
+      "name": "PD_C",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "PD_B",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "PD_A",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "CLKSEL",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "CLKOUT_EN",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "REFDAC",
+      "bits": [
+       9,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MODE",
+    "width": 1,
+    "reset": 0,
+    "note": "internal: follows the HW/SW pin (1 = software mode; CR can only be changed in software mode, p.29)",
+    "fields": [
+     {
+      "name": "HWSW",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "[R] [R] [R] [R] [R] [R]",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "CR full update + read-out (C17 = 1, C16 = 1)",
+     "in": "[CR:31:18] 1 1 [CR:15:0]",
+     "when": "MODE.HWSW=1",
+     "next": "[CR]",
+     "note": "p.26, p.29-30: SDI carries C[31:0] in each software-mode access; C16 (C23:0_EN) = 1 updates the whole register at the 32nd SCLK falling edge; C17 READ_EN outputs CR on SDO_x with the next access"
+    },
+    {
+     "name": "CR full update (C16 = 1)",
+     "in": "[CR:31:18] 0 1 [CR:15:0]",
+     "when": "MODE.HWSW=1",
+     "note": "p.26, p.30 Table 5 C16"
+    },
+    {
+     "name": "CR upper-byte update (C16 = 0)",
+     "in": "[CR:31:24] x{7} 0 x{16}",
+     "when": "MODE.HWSW=1",
+     "note": "p.26, p.29: with C16 = 0 only C[31:24] are updated (continuous update, Figure 35)"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 1260,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY/INT",
+    "active": 1,
+    "asserts": "busy",
+    "enable": [
+     "CR.BUSY_INT=0",
+     "CR.BUSY_POL=0"
+    ]
+   },
+   {
+    "pin": "BUSY/INT",
+    "active": 0,
+    "asserts": "busy",
+    "enable": [
+     "CR.BUSY_INT=0",
+     "CR.BUSY_POL=1"
+    ]
+   },
+   {
+    "pin": "BUSY/INT",
+    "active": 1,
+    "asserts": "done",
+    "clears": "cs-fall",
+    "enable": [
+     "CR.BUSY_INT=1",
+     "CR.BUSY_POL=0"
+    ]
+   },
+   {
+    "pin": "BUSY/INT",
+    "active": 0,
+    "asserts": "done",
+    "clears": "cs-fall",
+    "enable": [
+     "CR.BUSY_INT=1",
+     "CR.BUSY_POL=1"
+    ]
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONVST_A",
+    "edge": "rise"
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 1
+   },
+   "powerdown": {
+    "pin": "STBY",
+    "active": 0
+   },
+   "levels": [
+    {
+     "pin": "HW/SW",
+     "field": "MODE.HWSW"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "PM": {
+   "pinout": "pm64",
+   "footprint": "LQFP-64-10X10",
+   "package": "LQFP",
+   "pins": 64
+  }
+ },
+ "pdf": "ads8555.pdf",
+ "pages": "p.3 (pin configuration), p.4-6 (pin functions), p.10 (BVDD 2.7-5.5 V), p.11 (serial timing: tCONV 1.26 us max, tD2 FS low to SDO active 12 ns, tD3 SCLK rising to new data 15 ns, tD4 FS high to 3-state 10 ns, SDI latched on SCLK falling), p.12 (Figure 1), p.24 (Table 2, serial interface: data change on SCLK rising, read on falling, SDO_A order A0 A1 B0 B1 C0 C1), p.25 (Table 3 twos complement), p.26 (serial: control register contents required with each read access, C16 = 1 for a full update), p.29-30 (control register map, default 0x000003FF)",
+ "notModeled": [
+  "analog side: +/-4 VREF / +/-2 VREF bipolar inputs (RANGE pin or RANGE_x bits), HVDD/HVSS, internal reference, REFDAC (C[9:0]), reference buffers and decoupling pins; every channel gives the 0 V code (twos, 0000h)",
+  "only the serial interface (PAR/SER high) is modeled, with all six results on SDO_A (SEL_A = 1, SEL_B = SEL_C = 0: 96 SCLKs). SDO_B/SDO_C splits, daisy-chain inputs (DCEN/DCIN_x) are not modeled; DB9/DB10 are never driven. The parallel interface (word or byte mode with HBEN, CR written by two 16-bit or four 8-bit WR accesses) is not modeled",
+  "each frame restarts the output at CH_A0; reading the results over several shorter frames is not modeled (all results are 0 anyway)",
+  "CR read-out: READ_EN is not stored (reads back 0) and C16 (C23:0_EN) is not stored; with READ_EN the next frame outputs the 32-bit CR instead of the results",
+  "software mode: CH_A/CH_B/CH_C (C31-C29, default 0) enable channel pairs for the next conversion and SEQ (C23) selects sequential starts with CONVST_B/C; not modeled - CONVST_A converts all six channels in both modes",
+  "hardware mode: CONVST_B / CONVST_C start their channel pairs separately; only CONVST_A is read (tie them together)",
+  "conversion clock: internal clock tCONV max used; external XCLK (CLKSEL), CLKOUT_EN, auto-NAP (A_NAP, wake-up time), per-pair power-down PD_x are not modeled",
+  "STBY powers the device down (modeled as powerdown); RESET resets CR (modeled); BUSY/INT polarity and INT mode from CR C21/C20 (INT clears at the first read access, modeled as FS falling)"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS8555SPMR",
+   "PM",
+   64,
+   "Active"
+  ]
+ ]
+}

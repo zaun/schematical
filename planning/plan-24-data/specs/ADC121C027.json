@@ -1,0 +1,315 @@
+{
+ "device": {
+  "id": "ADC121C027",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit 189 kSPS I2C SAR ADC with address pin",
+  "note": "adc121c021.pdf (SNAS415F) p.3 pin descriptions and package pinouts table, p.5 operating ratings, p.8 conversion time, p.16 converter operation / straight binary, p.18-22 registers, p.23-25 serial interface and slave addresses (Table 1)",
+  "pinouts": {
+   "ddc6": [
+    {
+     "number": 1,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "VIN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "ADR0",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SDA",
+     "role": "inout"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "inputMax": 5.5,
+  "analog": [
+   "VIN"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "ADR0"
+   ],
+   "table": [
+    81,
+    82,
+    null,
+    null
+   ]
+  },
+  "registers": [
+   {
+    "name": "CONVERSION",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": true,
+    "fields": [
+     {
+      "name": "ALERT_FLAG",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "RESULT",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ALERT_STATUS",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "writeOneClears": 3,
+    "fields": [
+     {
+      "name": "OVER_RANGE",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "UNDER_RANGE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 2,
+    "fields": [
+     {
+      "name": "CYCLE_TIME",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "ALERT_HOLD",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ALERT_FLAG_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ALERT_PIN_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "POLARITY",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "VLOW",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 61440,
+    "fields": [
+     {
+      "name": "VLOW_LIMIT",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "VHIGH",
+    "address": 4,
+    "width": 16,
+    "reset": 4095,
+    "readOnly": 61440,
+    "fields": [
+     {
+      "name": "VHIGH_LIMIT",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "VHYST",
+    "address": 5,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 61440,
+    "fields": [
+     {
+      "name": "HYSTERESIS",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "VMIN",
+    "address": 6,
+    "width": 16,
+    "reset": 4095,
+    "readOnly": 61440,
+    "fields": [
+     {
+      "name": "LOWEST",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "VMAX",
+    "address": 7,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 61440,
+    "fields": [
+     {
+      "name": "HIGHEST",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Address Pointer",
+     "in": "00000aaa",
+     "action": "pointer",
+     "address": "a"
+    }
+   ],
+   "read": "pointer"
+  },
+  "conversion": {
+   "time": {
+    "field": "CONFIG.CYCLE_TIME",
+    "values": {
+     "0": 1000,
+     "1": 37037,
+     "2": 74074,
+     "3": 149254,
+     "4": 294118,
+     "5": 588235,
+     "6": 1111111,
+     "7": 2500000
+    }
+   },
+   "start": [
+    "read"
+   ],
+   "mode": {
+    "field": "CONFIG.CYCLE_TIME",
+    "single": 0
+   }
+  }
+ },
+ "packages": {
+  "DDC": {
+   "pinout": "ddc6",
+   "footprint": "SOT23-THIN-6",
+   "package": "SOT-23-THIN",
+   "pins": 6
+  }
+ },
+ "pdf": "adc121c021.pdf",
+ "pages": "p.3 (pin descriptions; package pinouts table: ADC121C027 SOT VA1 GND2 VIN3 ADR0 4 SCL5 SDA6), p.5 (operating ratings), p.8 (conversion time), p.16 (straight binary), p.18-22 (registers), p.25 (Table 1 slave addresses)",
+ "notModeled": [
+  "ADR0 floating (or VA/2) selects 0x50 (1010000): no floating state in the tie table; GND = 0x51 and VA = 0x52 are modeled (Table 1), SCL/SDA ties are not listed (null)",
+  "CONFIG.ALERT_PIN_EN and CONFIG.POLARITY do not apply (no ALERT pin); stored only",
+  "analog input (the result is always the 0 V code 0x000)",
+  "alert function: VHIGH/VLOW/VHYST comparison, ALERT_STATUS flag setting and self-clearing, the CONVERSION.ALERT_FLAG bit (never set: no comparison); ALERT_STATUS W1C is modeled",
+  "VMIN/VMAX tracking in automatic mode (stored only)",
+  "normal mode: the conversion starts at the ACK of a read address byte (1 us typ, no max given); the model starts the next conversion after each read of the result",
+  "automatic mode interval uses 1 / the typical fconvert of the Cycle Time table (no max given)",
+  "I2C Hs-mode master code entry, quiet interface mode, automatic power-down between conversions",
+  "power-on reset brown-out behaviour (VA must fall below 200 mV to reset)"
+ ],
+ "variants": "ADC121C021 shares the datasheet (ALERT pin instead of ADR0 on SOT-6, VSSOP with ADR0/ADR1): own spec",
+ "parts": [
+  [
+   "ADC121C027CIMK/NOPB",
+   "DDC",
+   6,
+   "Active"
+  ],
+  [
+   "ADC121C027CIMKX/NOPB",
+   "DDC",
+   6,
+   "Active"
+  ]
+ ]
+}

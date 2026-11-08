@@ -1,0 +1,436 @@
+{
+ "device": {
+  "id": "TLV1562",
+  "function": "ADC",
+  "description": "10-bit 2 MSPS reconfigurable ADC (4/8/10-bit), 4 single-ended / 2 differential inputs, dual S/H, parallel interface, power down",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "tlv1562.pdf (SLAS162) p.1 pinout, p.4 terminal functions, p.5 control registers CR0/CR1 and input/output data formats (Figure 1), p.6 Table 1 channel select and register read-back, p.7 programming examples, p.12 Table 2 conversion trigger edges and times, p.13-18 conversion modes, p.18-19 SYSCLK source, output data format, power down, p.25 recommended operating conditions, p.27 timing requirements (tconv), p.29 internal OSC, tdis/ten(DATAOUT), INT timing",
+  "pinouts": {
+   "dw28": [
+    {
+     "number": 1,
+     "name": "CSTART",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "D0",
+     "role": "inout"
+    },
+    {
+     "number": 3,
+     "name": "D1",
+     "role": "inout"
+    },
+    {
+     "number": 4,
+     "name": "D2",
+     "role": "inout"
+    },
+    {
+     "number": 5,
+     "name": "D3",
+     "role": "inout"
+    },
+    {
+     "number": 6,
+     "name": "D4",
+     "role": "inout"
+    },
+    {
+     "number": 7,
+     "name": "BDVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "BDGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "D5",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "D6",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "D7",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "D8",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "D9",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "INT",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "CS/OE",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "CLKIN",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 19,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "VREFM",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "VREFP",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 24,
+     "name": "BM/CH4",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "BP/CH3",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "AM/CH2",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "AP/CH1",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "RD",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 4,
+  "codeFormat": {
+   "field": "CR1.FMT",
+   "values": {
+    "0": "twos",
+    "1": "straight"
+   }
+  },
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "AVDD",
+   "VREFM",
+   "VREFP",
+   "BM/CH4",
+   "BP/CH3",
+   "AM/CH2",
+   "AP/CH1"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS/OE",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tAcc": 41,
+   "tDf": 10
+  },
+  "registers": [
+   {
+    "name": "CR0",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "p.5 Figure 1: written with index D(9,8) = 00; reset value not given (0 here)",
+    "fields": [
+     {
+      "name": "OMS",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "CLKSEL",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "IT",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "MS",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "CHSEL",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CR1",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 136,
+    "note": "p.5 Figure 1: written with index D(9,8) = 01; D7 and D3 are 0; reset value not given (0 here)",
+    "fields": [
+     {
+      "name": "TRIG",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "BS",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "FMT",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "APD",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SWPD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write CR0",
+     "in": "00 [CR0]",
+     "note": "p.5: D(9,8) = 00 index, D(7..0) = CR0 (OMS, clock select, input type, conversion mode, channel select)"
+    },
+    {
+     "name": "Write CR1, software power down",
+     "in": "01 [CR1:7:1] 1",
+     "action": "powerdown",
+     "set": {
+      "CR1.SWPD": 1
+     },
+     "next": "00 [CR0]",
+     "note": "p.5, p.6, p.19: CR1.0 = 1 enters software power down; the next two RD rising edges read CR0 then CR1 (index in D(9,8), content in D(7..0))"
+    },
+    {
+     "name": "Write CR1",
+     "in": "01 [CR1:7:1] 0",
+     "action": "wakeup",
+     "set": {
+      "CR1.SWPD": 0
+     },
+     "note": "p.5, p.19: CR1.0 = 0 wakes the device (conversions can start 1 us later)"
+    }
+   ],
+   "read": "R{10}",
+   "reads": [
+    {
+     "when": "CR1.SWPD=1",
+     "read": "01 [CR1]"
+    },
+    {
+     "when": "CR1.BS=1",
+     "read": "R{4} 000000"
+    },
+    {
+     "when": "CR1.BS=2",
+     "read": "R{8} 00"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "CR1.BS",
+     "CR0.MS"
+    ],
+    "values": {
+     "0,0": 800.0,
+     "0,1": 1600.0,
+     "0,2": 800.0,
+     "0,3": 1600.0,
+     "1,0": 400.0,
+     "1,1": 800.0,
+     "1,2": 400.0,
+     "1,3": 800.0,
+     "2,0": 666.7,
+     "2,1": 1333.3,
+     "2,2": 666.7,
+     "2,3": 1333.3,
+     "3,0": 800.0,
+     "3,1": 1600.0,
+     "3,2": 800.0,
+     "3,3": 1600.0
+    }
+   },
+   "start": [
+    "read",
+    "pin"
+   ],
+   "channel": "CR0.CHSEL"
+  },
+  "ready": [
+   {
+    "pin": "INT",
+    "active": 0,
+    "asserts": "done",
+    "clears": [
+     "read",
+     "start"
+    ],
+    "openDrain": true
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CSTART",
+    "edge": "rise"
+   }
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw28",
+   "footprint": "SOIC-28W",
+   "package": "SOIC",
+   "pins": 28
+  },
+  "PW": {
+   "pinout": "dw28",
+   "footprint": "TSSOP-28",
+   "package": "TSSOP",
+   "pins": 28
+  }
+ },
+ "pdf": "tlv1562.pdf",
+ "pages": "p.1 (pinout, DW/PW), p.4 (terminal functions), p.5 (CR0/CR1, Figure 1 data formats), p.6 (Table 1, register read-back in power down), p.7 (examples), p.12 (Table 2 triggers, conversion times), p.13-18 (conversion modes), p.18-19 (SYSCLK, output format, power down), p.25 (ROC: AVDD/DVDD/BDVDD 2.7-5.5 V), p.27 (tconv1/tconv2), p.29 (internal OSC 7.5 MHz min, tdis 10 ns, ten 41 ns at BDVDD 2.7 V / 50 pF)",
+ "notModeled": [
+  "analog inputs, references, single-ended / differential input type (CR0.IT, stored only) and the dual S/H: every conversion returns the 0 V code; in differential mode with binary output (CR1.2 = 1) the 0 V code is mid-scale 512 (bipolar offset), the model returns 0 (codeFormat follows CR1.FMT only)",
+  "conversion modes (CR0.MS): mono/dual interrupt-driven and mono/dual continuous are stored only and select the conversion time; every RD read and every CSTART rising edge starts one single conversion. RD-vs-CSTART trigger selection (CR1.6) is not enforced; continuous-mode pipelining (1 to 3 RD delays, two-deep FIFO in dual continuous mode, p.13, p.18) and the second result of dual modes are not modeled",
+  "conversion start edges: the datasheet starts on RD falling (data of the previous conversion released) or CSTART rising (sampling from CSTART falling); the model starts at the end of the RD read",
+  "conversion time uses the internal SYSCLK at its 7.5 MHz minimum (p.29) for every setting; external CLKIN (1-15 MHz, CR0.5 = 1) is not modeled",
+  "INT: goes low at the end of conversion and is released by RD or CS rising (p.4); the model releases it on the next read or start (CS rising alone does not release it)",
+  "software power down register read-back (p.6): CR0 then CR1 on the next two RD rising edges; modeled as CR0 on the first read after the power-down write, then CR1 on every further read until CR1.0 is cleared",
+  "auto power down (CR1.1) wake-up delays (700 ns / 1 us), the 1 us resume time after software power down, and the 200 ns entry delay after CS rises",
+  "mid-scale error calibration modes (CR0.OMS = 01 / 10) and the calibration register: stored only",
+  "12-bit test resolution (CR1.BS = 11): read as 10 bits",
+  "the TLV1562 data bus D(0-9) and CS/OE output-enable in CSTART interrupt modes (data enabled by CS alone): the model drives data only during CS and RD active"
+ ],
+ "variants": "Single device on this datasheet (C and I grades).",
+ "parts": [
+  [
+   "TLV1562IDW",
+   "DW",
+   28,
+   "Active"
+  ],
+  [
+   "TLV1562IPW",
+   "PW",
+   28,
+   "Active"
+  ]
+ ]
+}

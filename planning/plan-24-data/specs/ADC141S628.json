@@ -1,0 +1,136 @@
+{
+  "device": {
+    "id": "ADC141S628",
+    "function": "ADC",
+    "description": "14-bit 50-200 kSPS pseudo-differential SAR ADC with SPI-compatible serial output (automotive)",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "adc141s628-q1.pdf (SNOI146C) p.4 (pin configuration and functions), p.5 (recommended operating conditions: VA, VIO 4.5-5.5 V), p.7 (output coding straight binary), p.8 (timing: tEN 51, tDA 40, tDIS 20 ns max), p.17 (serial interface, data output)",
+    "pinouts": {
+      "dgs10": [
+        {
+          "number": 1,
+          "name": "VREF",
+          "role": "power"
+        },
+        {
+          "number": 2,
+          "name": "+IN",
+          "role": "input"
+        },
+        {
+          "number": 3,
+          "name": "-IN",
+          "role": "input"
+        },
+        {
+          "number": 4,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 5,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 6,
+          "name": "CS",
+          "role": "input"
+        },
+        {
+          "number": 7,
+          "name": "DOUT",
+          "role": "output"
+        },
+        {
+          "number": 8,
+          "name": "SCLK",
+          "role": "input"
+        },
+        {
+          "number": 9,
+          "name": "VIO",
+          "role": "power"
+        },
+        {
+          "number": 10,
+          "name": "VA",
+          "role": "power"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 14,
+    "channels": 1,
+    "codeFormat": "straight",
+    "vcc": [
+      4.5,
+      5.5
+    ],
+    "analog": [
+      "VREF",
+      "+IN",
+      "-IN",
+      "VA"
+    ],
+    "bus": {
+      "style": "spi",
+      "cs": "CS",
+      "sclk": "SCLK",
+      "miso": "DOUT",
+      "mode": 3
+    },
+    "timing": {
+      "tValid": 51,
+      "tOut": 40,
+      "tFloat": 20
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "out": "00 R{14}",
+      "idle": "0",
+      "commands": []
+    },
+    "conversion": {
+      "time": 0,
+      "start": [
+        "cs-fall"
+      ]
+    }
+  },
+  "packages": {
+    "DGS": {
+      "pinout": "dgs10",
+      "footprint": "VSSOP-10",
+      "package": "VSSOP",
+      "pins": 10
+    }
+  },
+  "pdf": "adc141s628-q1.pdf",
+  "pages": "p.4 (pin configuration and functions), p.5 (recommended operating conditions: VA, VIO 4.5-5.5 V), p.7 (output coding straight binary), p.8 (timing: tEN 51, tDA 40, tDIS 20 ns max), p.17 (serial interface, data output)",
+  "notModeled": [
+    "analog input and reference (pseudo-differential input (-IN at GND), straight binary output (0 V reads 0x0000))",
+    "conversion is clocked by SCLK (15 SCLK conversion, then acquisition after the 16th falling edge): the result is the 0 V code at once",
+    "DOUT after the LSB: the datasheet shows DB0 held until CS rises; modeled as 0 (the LSB of the 0 V code is 0)",
+    "SCLK frequency limits (minimum 0.9 MHz from capacitor leakage), throughput and CS-setup window; a frame aborted by CS rising before the 16th falling edge",
+    "data is output on SCLK falling edges with SCLK idling high or low (CS falling with SCLK low counts as the first falling edge); modeled as SPI mode 3"
+  ],
+  "variants": "ADC141S628-Q1 (automotive); same pinout and frame as ADC141S626 but straight binary and a 4.5-5.5 V supply range",
+  "parts": [
+    [
+      "ADC141S628QIMM/NOPB",
+      "DGS",
+      10,
+      "Active"
+    ],
+    [
+      "ADC141S628QIMMX/NOPB",
+      "DGS",
+      10,
+      "Active"
+    ]
+  ]
+}

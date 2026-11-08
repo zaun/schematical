@@ -1,0 +1,151 @@
+{
+ "device": {
+  "id": "TLV1549",
+  "function": "ADC",
+  "description": "3.3-V 10-bit serial-output SAR ADC with on-chip system clock (TLC1549 pin compatible)",
+  "note": "slas071c.pdf (SLAS071C) p.1 pinout (D/P), p.3 terminal functions and detailed description, p.4-5 Table 1 modes 1-6, p.7 recommended operating conditions, p.9 operating characteristics (tconv, td(I/O-DATA), tPZH, tPHZ)",
+  "pinouts": {
+   "so8": [
+    {
+     "number": 1,
+     "name": "REF+",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "ANALOG IN",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "REF-",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DATA OUT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "I/O CLOCK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   3.0,
+   3.6
+  ],
+  "analog": [
+   "REF+",
+   "ANALOG IN",
+   "REF-"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "I/O CLOCK",
+   "miso": "DATA OUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 1300,
+   "tOut": 240,
+   "tFloat": 180
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{10}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 21000,
+   "start": [
+    "cs-rise"
+   ]
+  },
+  "drawer": [
+   "Interface"
+  ]
+ },
+ "packages": {
+  "D": {
+   "pinout": "so8",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  },
+  "P": {
+   "pinout": "so8",
+   "footprint": "PDIP-8",
+   "package": "DIP",
+   "pins": 8
+  }
+ },
+ "pdf": "slas071c.pdf",
+ "pages": "p.1 (pinout), p.3 (terminal functions, detailed description), p.4-5 (modes), p.7 (ROC), p.9 (timing)",
+ "notModeled": [
+  "analog input and REF+/REF- span (the result is always the 0 V code 000h)",
+  "p.3: DATA OUT drives the MSB of the PREVIOUS conversion at CS fall, the next bits on the following 9 I/O CLOCK falling edges, low from the 10th falling edge; the pipelined result is invisible with the constant 0 V code",
+  "the conversion starts at the 10th I/O CLOCK falling edge and takes up to 21 us (internal clock); the model starts it at CS rise (mode 1/3/5), without a data-input pin there is no clock counter",
+  "modes 2, 4 and 6 (CS held low continuously, MSB appearing within 21 us of the 10th clock or at the 16th clock) are not modeled: every transfer must begin with a CS falling edge",
+  "CS transitions are recognized only after 1.425 us (setup plus two internal clock edges); CS low within 9 us of the 10th clock aborts the conversion",
+  "the 11th clock must rise within 9.5 us of the 10th falling edge in 11-16 clock transfers (sync loss otherwise)",
+  "I/O CLOCK up to 2.1 MHz, 190 ns min high/low"
+ ],
+ "variants": "TLV1549C/I/M share the datasheet; the M-grade FK/JG packages are not in the skeleton.",
+ "parts": [
+  [
+   "TLV1549CD",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLV1549CDR",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLV1549CP",
+   "P",
+   8,
+   "Active"
+  ],
+  [
+   "TLV1549ID",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLV1549IP",
+   "P",
+   8,
+   "Active"
+  ]
+ ]
+}

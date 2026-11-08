@@ -1,0 +1,367 @@
+{
+ "device": {
+  "id": "ADS8412",
+  "function": "ADC",
+  "description": "16-bit 2 MSPS unipolar differential input SAR ADC with internal reference and 16-/8-bit parallel interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8412.pdf (SLAS384A) p.3-4 specifications (conversion time 400 ns max, logic levels, data format, +VBD 2.7-5.25 V), p.5-6 timing characteristics (+VBD = 5 V and 3 V), p.7 pin assignments, p.8 terminal functions, p.20 timing and control, p.21-22 Table 1 output codes (two's complement), Table 2 data readout, RESET",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "+IN",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "-IN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "DB15",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DB14",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "DB13",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "DB12",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "DB11",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "DB10",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "DB9",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "DB8",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "+VBD",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "BDGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "DB7",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "DB6",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "DB5",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "DB4",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "DB3",
+     "role": "output"
+    },
+    {
+     "number": 31,
+     "name": "DB2",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "DB1",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "DB0",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "+VBD",
+     "role": "power"
+    },
+    {
+     "number": 35,
+     "name": "BDGND",
+     "role": "ground"
+    },
+    {
+     "number": 36,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 37,
+     "name": "+VBD",
+     "role": "power"
+    },
+    {
+     "number": 38,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "BYTE",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 44,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 45,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 46,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 47,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 48,
+     "name": "REFM",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "REFIN",
+   "REFOUT",
+   "+VA",
+   "+IN",
+   "-IN"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB15",
+    "DB14",
+    "DB13",
+    "DB12",
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "byteSelect": {
+    "pin": "BYTE",
+    "high": 1
+   }
+  },
+  "timing": {
+   "tAcc": 30,
+   "tDf": 30
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": {
+    "low": "R{16}",
+    "high": "[R:7:0] 1{8}"
+   }
+  },
+  "conversion": {
+   "time": 400,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 1,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONVST",
+    "edge": "fall"
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "ads8412.pdf",
+ "pages": "p.3-4 (specifications), p.5-6 (timing), p.7-8 (pins), p.20-22 (digital interface, output codes, reset)",
+ "notModeled": [
+  "analog input (differential input -Vref to +Vref), internal 4.096-V reference and reference buffer: the result is always the 0 V code 0000h",
+  "the conversion starts at the CONVST falling edge only while CS is low (p.20); the model starts it at every CONVST falling edge regardless of CS",
+  "conversion abort / self-clearing reset: a CONVST falling edge with CS low, or a CS falling edge, while a conversion is in progress (within tsu(AB)) resets the converter like the RESET pin (p.21)",
+  "RESET clears the output latches to zeros; the first sampling period starts 20 ns after RESET rises; minimum RESET low time 25 ns",
+  "sampling start (BUSY falling with CS low, or CS falling with BUSY low), acquisition time and quiet zone around CONVST falling (50 ns before, 40 ns after); reading during a conversion returns the previous result on the part (the model always returns the 0 V code)",
+  "tAcc / tDf use ten / tdis 30 ns max at +VBD = 3 V (20 ns at +VBD = 5 V); BYTE-to-data-valid td3 30 ns; BUSY delays tpd1 / tpd2",
+  "byte mode: with BYTE high DB15-DB8 carry D7-D0 and DB7-DB0 are all ones (Table 2)"
+ ],
+ "variants": "single-device datasheet; ADS8412I / ADS8412IB grades differ in accuracy only. The unipolar single-ended ADS8411 (straight binary) shares the pinout and interface.",
+ "parts": [
+  [
+   "ADS8412IBPFBT",
+   "PFB",
+   48,
+   "Active"
+  ]
+ ]
+}

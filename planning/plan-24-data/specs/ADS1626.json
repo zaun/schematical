@@ -1,0 +1,448 @@
+{
+ "device": {
+  "id": "ADS1626",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "18-bit 1.25 MSPS delta-sigma ADC with parallel output interface and adjustable output FIFO",
+  "note": "ads1625.pdf (SBAS280E) p.5 digital characteristics and supplies (IOVDD 2.7-5.25 V, DVDD 2.7-3.3 V), p.7 pin assignments and terminal functions, p.8 data retrieval timing (Figures 1-2: DRDY period 32 CLK, low 16 t1; t7/t8 15 ns), p.20 data format (Table 2, two's complement) and CS/RD truth table (Table 3), p.21 reset, p.24 FIFO (Table 5)",
+  "pinouts": {
+   "pap64": [
+    {
+     "number": 1,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AINN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "RBIAS",
+     "role": "nc"
+    },
+    {
+     "number": 9,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "REFEN",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 17,
+     "name": "PD",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "OTR",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "DOUT[0]",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "DOUT[1]",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "DOUT[2]",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "DOUT[3]",
+     "role": "output"
+    },
+    {
+     "number": 31,
+     "name": "DOUT[4]",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "DOUT[5]",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "DOUT[6]",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "DOUT[7]",
+     "role": "output"
+    },
+    {
+     "number": 35,
+     "name": "DOUT[8]",
+     "role": "output"
+    },
+    {
+     "number": 36,
+     "name": "DOUT[9]",
+     "role": "output"
+    },
+    {
+     "number": 37,
+     "name": "DOUT[10]",
+     "role": "output"
+    },
+    {
+     "number": 38,
+     "name": "DOUT[11]",
+     "role": "output"
+    },
+    {
+     "number": 39,
+     "name": "DOUT[12]",
+     "role": "output"
+    },
+    {
+     "number": 40,
+     "name": "DOUT[13]",
+     "role": "output"
+    },
+    {
+     "number": 41,
+     "name": "DOUT[14]",
+     "role": "output"
+    },
+    {
+     "number": 42,
+     "name": "DOUT[15]",
+     "role": "output"
+    },
+    {
+     "number": 43,
+     "name": "DOUT[16]",
+     "role": "output"
+    },
+    {
+     "number": 44,
+     "name": "DOUT[17]",
+     "role": "output"
+    },
+    {
+     "number": 45,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 46,
+     "name": "FIFO_LEV[0]",
+     "role": "input"
+    },
+    {
+     "number": 47,
+     "name": "FIFO_LEV[1]",
+     "role": "input"
+    },
+    {
+     "number": 48,
+     "name": "FIFO_LEV[2]",
+     "role": "input"
+    },
+    {
+     "number": 49,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 50,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 51,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 52,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 53,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 54,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 55,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 56,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 57,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 58,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 59,
+     "name": "VCAP",
+     "role": "nc"
+    },
+    {
+     "number": 60,
+     "name": "VREFN",
+     "role": "power"
+    },
+    {
+     "number": 61,
+     "name": "VREFN",
+     "role": "power"
+    },
+    {
+     "number": 62,
+     "name": "VMID",
+     "role": "output"
+    },
+    {
+     "number": 63,
+     "name": "VREFP",
+     "role": "power"
+    },
+    {
+     "number": 64,
+     "name": "VREFP",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 18,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "AVDD",
+   "AINN",
+   "AINP",
+   "RBIAS",
+   "VCAP",
+   "VREFN",
+   "VMID",
+   "VREFP"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DOUT[17]",
+    "DOUT[16]",
+    "DOUT[15]",
+    "DOUT[14]",
+    "DOUT[13]",
+    "DOUT[12]",
+    "DOUT[11]",
+    "DOUT[10]",
+    "DOUT[9]",
+    "DOUT[8]",
+    "DOUT[7]",
+    "DOUT[6]",
+    "DOUT[5]",
+    "DOUT[4]",
+    "DOUT[3]",
+    "DOUT[2]",
+    "DOUT[1]",
+    "DOUT[0]"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tAcc": 15,
+   "tDf": 15
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "R{18}"
+  },
+  "conversion": {
+   "time": 800,
+   "start": [
+    "power-on"
+   ],
+   "mode": "continuous",
+   "note": "one output word every 32 CLK periods (1.25 MSPS at the nominal 40 MHz CLK)"
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": 400
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "powerdown": {
+    "pin": "PD",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "PAP": {
+   "pinout": "pap64",
+   "footprint": "HTQFP-64-PAP",
+   "package": "HTQFP",
+   "pins": 64
+  }
+ },
+ "pdf": "ads1625.pdf",
+ "pages": "p.5 (supplies, digital levels), p.7 (pins), p.8 (timing), p.20 (data format, CS/RD truth table), p.21 (reset), p.24 (FIFO)",
+ "notModeled": [
+  "analog input, modulator, digital filter settling (46 DRDY cycles after reset) and references (REFEN internal-reference enable is stored nowhere); the result is always the 0 V code 00000h",
+  "conversion pacing: the model runs a free 800 ns (32 x 25 ns, fCLK = 40 MHz nominal) conversion cycle; the real DRDY period is 32 CLK periods of whatever clock is on CLK (1-50 MHz), which the model does not follow",
+  "DRDY is modeled as a 400 ns low pulse after each conversion (the datasheet: low for 16 CLK periods, t4)",
+  "OTR out-of-range output is never driven (a 0 V input is never out of range: OTR would be low)",
+  "RESET: DOUT forced low and DRDY high while RESET is low; the model holds registers at reset and ignores the bus instead",
+  "PD power-down supply behaviour and wake-up settling",
+  "ADS1626 FIFO (FIFO_LEV[2:0] = 001..111: DRDY period 32 x level CLKs, RD toggles read successive words, DRDY pulses high) is not modeled; the model behaves as with the FIFO disabled (FIFO_LEV = 000), the FIFO_LEV pins are inputs with no effect"
+ ],
+ "variants": "ADS1625 and ADS1626 share ads1625.pdf; the ADS1626 adds the output FIFO (FIFO_LEV[2:0] pins 46-48, no connect on the ADS1625); own spec files",
+ "parts": [
+  [
+   "ADS1626IPAPT",
+   "PAP",
+   64,
+   "Active"
+  ]
+ ]
+}

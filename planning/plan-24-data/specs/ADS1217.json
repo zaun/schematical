@@ -1,0 +1,1777 @@
+{
+ "device": {
+  "id": "ADS1217",
+  "function": "ADC",
+  "description": "24-bit 8-channel delta-sigma ADC with PGA, current DACs, 8-bit digital I/O, register RAM and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1217.pdf (SBAS260C) p.5 logic levels, p.6 pin descriptions, p.7 timing, p.16-18 registers (Table II), p.19-23 commands (Table III)",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AIN4",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AIN5",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AIN6",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "AIN7",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "AINCOM",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "VRCAP",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "IDAC1",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "IDAC2",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "RDAC",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 19,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "BUFEN",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "XIN",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "XOUT",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "PDWN",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "POL",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "DSYNC",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 31,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 32,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 34,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 35,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 36,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 37,
+     "name": "D0",
+     "role": "inout"
+    },
+    {
+     "number": 38,
+     "name": "D1",
+     "role": "inout"
+    },
+    {
+     "number": 39,
+     "name": "D2",
+     "role": "inout"
+    },
+    {
+     "number": 40,
+     "name": "D3",
+     "role": "inout"
+    },
+    {
+     "number": 41,
+     "name": "D4",
+     "role": "inout"
+    },
+    {
+     "number": 42,
+     "name": "D5",
+     "role": "inout"
+    },
+    {
+     "number": 43,
+     "name": "D6",
+     "role": "inout"
+    },
+    {
+     "number": 44,
+     "name": "D7",
+     "role": "inout"
+    },
+    {
+     "number": 45,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 46,
+     "name": "VREFOUT",
+     "role": "output"
+    },
+    {
+     "number": 47,
+     "name": "VREF+",
+     "role": "power"
+    },
+    {
+     "number": 48,
+     "name": "VREF-",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 8,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "AVDD",
+   "AGND",
+   "AIN0",
+   "AIN1",
+   "AIN2",
+   "AIN3",
+   "AIN4",
+   "AIN5",
+   "AIN6",
+   "AIN7",
+   "AINCOM",
+   "VRCAP",
+   "IDAC1",
+   "IDAC2",
+   "RDAC",
+   "XIN",
+   "XOUT",
+   "VREFOUT",
+   "VREF+",
+   "VREF-"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 1
+  },
+  "timing": {
+   "tOut": 50
+  },
+  "registers": [
+   {
+    "name": "SETUP",
+    "address": 0,
+    "width": 8,
+    "reset": 14,
+    "readOnly": 224,
+    "note": "reset iii01110b: the factory ID bits read 0 here",
+    "fields": [
+     {
+      "name": "ID",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "SPEED",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "REF_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "REF_HI",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "BUF_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "BIT_ORDER",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MUX",
+    "address": 1,
+    "width": 8,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "PSEL",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "NSEL",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ACR",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "BOCS",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "IDAC2R",
+      "bits": [
+       6,
+       5
+      ]
+     },
+     {
+      "name": "IDAC1R",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "PGA",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "IDAC1",
+    "address": 3,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "IDAC2",
+    "address": 4,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "ODAC",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SIGN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "OSET",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DIO",
+    "address": 6,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "DIR",
+    "address": 7,
+    "width": 8,
+    "reset": 255
+   },
+   {
+    "name": "DEC0",
+    "address": 8,
+    "width": 8,
+    "reset": 128
+   },
+   {
+    "name": "M_DEC1",
+    "address": 9,
+    "width": 8,
+    "reset": 7,
+    "readOnly": 128,
+    "fields": [
+     {
+      "name": "DRDY",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "U_B",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "SMODE",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "DEC_HI",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OCR0",
+    "address": 10,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OCR1",
+    "address": 11,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OCR2",
+    "address": 12,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FSR0",
+    "address": 13,
+    "width": 8,
+    "reset": 36
+   },
+   {
+    "name": "FSR1",
+    "address": 14,
+    "width": 8,
+    "reset": 144
+   },
+   {
+    "name": "FSR2",
+    "address": 15,
+    "width": 8,
+    "reset": 103
+   },
+   {
+    "name": "RAM_00",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_01",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_02",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_03",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_04",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_05",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_06",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_07",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_08",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_09",
+    "address": 9,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_0A",
+    "address": 10,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_0B",
+    "address": 11,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_0C",
+    "address": 12,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_0D",
+    "address": 13,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_0E",
+    "address": 14,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_0F",
+    "address": 15,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_10",
+    "address": 16,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_11",
+    "address": 17,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_12",
+    "address": 18,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_13",
+    "address": 19,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_14",
+    "address": 20,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_15",
+    "address": 21,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_16",
+    "address": 22,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_17",
+    "address": 23,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_18",
+    "address": 24,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_19",
+    "address": 25,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_1A",
+    "address": 26,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_1B",
+    "address": 27,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_1C",
+    "address": 28,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_1D",
+    "address": 29,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_1E",
+    "address": 30,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_1F",
+    "address": 31,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_20",
+    "address": 32,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_21",
+    "address": 33,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_22",
+    "address": 34,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_23",
+    "address": 35,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_24",
+    "address": 36,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_25",
+    "address": 37,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_26",
+    "address": 38,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_27",
+    "address": 39,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_28",
+    "address": 40,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_29",
+    "address": 41,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_2A",
+    "address": 42,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_2B",
+    "address": 43,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_2C",
+    "address": 44,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_2D",
+    "address": 45,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_2E",
+    "address": 46,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_2F",
+    "address": 47,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_30",
+    "address": 48,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_31",
+    "address": 49,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_32",
+    "address": 50,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_33",
+    "address": 51,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_34",
+    "address": 52,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_35",
+    "address": 53,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_36",
+    "address": 54,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_37",
+    "address": 55,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_38",
+    "address": 56,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_39",
+    "address": 57,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_3A",
+    "address": 58,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_3B",
+    "address": 59,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_3C",
+    "address": 60,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_3D",
+    "address": 61,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_3E",
+    "address": 62,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_3F",
+    "address": 63,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_40",
+    "address": 64,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_41",
+    "address": 65,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_42",
+    "address": 66,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_43",
+    "address": 67,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_44",
+    "address": 68,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_45",
+    "address": 69,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_46",
+    "address": 70,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_47",
+    "address": 71,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_48",
+    "address": 72,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_49",
+    "address": 73,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_4A",
+    "address": 74,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_4B",
+    "address": 75,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_4C",
+    "address": 76,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_4D",
+    "address": 77,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_4E",
+    "address": 78,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_4F",
+    "address": 79,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_50",
+    "address": 80,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_51",
+    "address": 81,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_52",
+    "address": 82,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_53",
+    "address": 83,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_54",
+    "address": 84,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_55",
+    "address": 85,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_56",
+    "address": 86,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_57",
+    "address": 87,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_58",
+    "address": 88,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_59",
+    "address": 89,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_5A",
+    "address": 90,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_5B",
+    "address": 91,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_5C",
+    "address": 92,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_5D",
+    "address": 93,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_5E",
+    "address": 94,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_5F",
+    "address": 95,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_60",
+    "address": 96,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_61",
+    "address": 97,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_62",
+    "address": 98,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_63",
+    "address": 99,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_64",
+    "address": 100,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_65",
+    "address": 101,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_66",
+    "address": 102,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_67",
+    "address": 103,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_68",
+    "address": 104,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_69",
+    "address": 105,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_6A",
+    "address": 106,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_6B",
+    "address": 107,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_6C",
+    "address": 108,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_6D",
+    "address": 109,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_6E",
+    "address": 110,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_6F",
+    "address": 111,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_70",
+    "address": 112,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_71",
+    "address": 113,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_72",
+    "address": 114,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_73",
+    "address": 115,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_74",
+    "address": 116,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_75",
+    "address": 117,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_76",
+    "address": 118,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_77",
+    "address": 119,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_78",
+    "address": 120,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_79",
+    "address": 121,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_7A",
+    "address": 122,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_7B",
+    "address": 123,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_7C",
+    "address": 124,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_7D",
+    "address": 125,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_7E",
+    "address": 126,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   },
+   {
+    "name": "RAM_7F",
+    "address": 127,
+    "width": 8,
+    "reset": 0,
+    "space": "ram"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "RDATA",
+     "in": "00000001",
+     "reply": "R{24}"
+    },
+    {
+     "name": "RDATAC",
+     "in": "00000011",
+     "reply": "R{24}",
+     "note": "continuous read mode itself not modeled"
+    },
+    {
+     "name": "STOPC",
+     "in": "00001111",
+     "action": "nop"
+    },
+    {
+     "name": "RREG",
+     "in": "0001rrrr xxxxnnnn",
+     "action": "rreg",
+     "address": "r",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "RRAM bank 0",
+     "in": "00100000 xnnnnnnn",
+     "action": "rreg",
+     "space": "ram",
+     "address": 0,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "RRAM bank 1",
+     "in": "00100001 xnnnnnnn",
+     "action": "rreg",
+     "space": "ram",
+     "address": 16,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "RRAM bank 2",
+     "in": "00100010 xnnnnnnn",
+     "action": "rreg",
+     "space": "ram",
+     "address": 32,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "RRAM bank 3",
+     "in": "00100011 xnnnnnnn",
+     "action": "rreg",
+     "space": "ram",
+     "address": 48,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "RRAM bank 4",
+     "in": "00100100 xnnnnnnn",
+     "action": "rreg",
+     "space": "ram",
+     "address": 64,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "RRAM bank 5",
+     "in": "00100101 xnnnnnnn",
+     "action": "rreg",
+     "space": "ram",
+     "address": 80,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "RRAM bank 6",
+     "in": "00100110 xnnnnnnn",
+     "action": "rreg",
+     "space": "ram",
+     "address": 96,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "RRAM bank 7",
+     "in": "00100111 xnnnnnnn",
+     "action": "rreg",
+     "space": "ram",
+     "address": 112,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "CREG",
+     "in": "01000xxx",
+     "action": "nop"
+    },
+    {
+     "name": "CREGA",
+     "in": "01001000",
+     "action": "nop"
+    },
+    {
+     "name": "WREG",
+     "in": "0101rrrr xxxxnnnn",
+     "action": "wreg",
+     "address": "r",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WRAM bank 0",
+     "in": "01100000 xnnnnnnn",
+     "action": "wreg",
+     "space": "ram",
+     "address": 0,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WRAM bank 1",
+     "in": "01100001 xnnnnnnn",
+     "action": "wreg",
+     "space": "ram",
+     "address": 16,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WRAM bank 2",
+     "in": "01100010 xnnnnnnn",
+     "action": "wreg",
+     "space": "ram",
+     "address": 32,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WRAM bank 3",
+     "in": "01100011 xnnnnnnn",
+     "action": "wreg",
+     "space": "ram",
+     "address": 48,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WRAM bank 4",
+     "in": "01100100 xnnnnnnn",
+     "action": "wreg",
+     "space": "ram",
+     "address": 64,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WRAM bank 5",
+     "in": "01100101 xnnnnnnn",
+     "action": "wreg",
+     "space": "ram",
+     "address": 80,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WRAM bank 6",
+     "in": "01100110 xnnnnnnn",
+     "action": "wreg",
+     "space": "ram",
+     "address": 96,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WRAM bank 7",
+     "in": "01100111 xnnnnnnn",
+     "action": "wreg",
+     "space": "ram",
+     "address": 112,
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "CRAM",
+     "in": "11000xxx",
+     "action": "nop"
+    },
+    {
+     "name": "CSRAMX",
+     "in": "11010xxx",
+     "action": "nop"
+    },
+    {
+     "name": "CSARAMX",
+     "in": "11011000",
+     "action": "nop"
+    },
+    {
+     "name": "CSREG",
+     "in": "11011111",
+     "action": "nop"
+    },
+    {
+     "name": "CSRAM",
+     "in": "11100xxx",
+     "action": "nop"
+    },
+    {
+     "name": "CSARAM",
+     "in": "11101000",
+     "action": "nop"
+    },
+    {
+     "name": "SELFCAL",
+     "in": "11110000",
+     "action": "nop"
+    },
+    {
+     "name": "SELFOCAL",
+     "in": "11110001",
+     "action": "nop"
+    },
+    {
+     "name": "SELFGCAL",
+     "in": "11110010",
+     "action": "nop"
+    },
+    {
+     "name": "SYSOCAL",
+     "in": "11110011",
+     "action": "nop"
+    },
+    {
+     "name": "SYSGCAL",
+     "in": "11110100",
+     "action": "nop"
+    },
+    {
+     "name": "WAKEUP",
+     "in": "11111011",
+     "action": "wakeup"
+    },
+    {
+     "name": "DSYNC",
+     "in": "11111100",
+     "action": "start"
+    },
+    {
+     "name": "SLEEP",
+     "in": "11111101",
+     "action": "powerdown"
+    },
+    {
+     "name": "RESET",
+     "in": "11111110",
+     "action": "reset"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "field": "SETUP.SPEED",
+    "values": {
+     "0": 100000000,
+     "1": 200000000
+    }
+   },
+   "start": [
+    "power-on",
+    "command",
+    "pin"
+   ],
+   "mode": "continuous",
+   "done": {
+    "M_DEC1.DRDY": 0
+   },
+   "onRead": {
+    "M_DEC1.DRDY": 1
+   },
+   "channel": "MUX.PSEL"
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read"
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "powerdown": {
+    "pin": "PDWN",
+    "active": 0
+   },
+   "convst": {
+    "pin": "DSYNC",
+    "edge": "rise"
+   }
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "ads1217.pdf",
+ "pages": "p.5 (logic), p.6 (pins), p.7 (timing), p.16-18 (registers), p.19-23 (commands)",
+ "notModeled": [
+  "analog inputs, PGA, buffer, current DACs, offset DAC, burnout sources, internal reference (stored only); offset/full-scale calibration registers are stored but not applied",
+  "POL pin (SCLK polarity): modeled with POL = 0 (SPI mode 1, DIN latched on the falling edge, DOUT changed on the rising edge); POL = 1 is mode 3",
+  "BIT_ORDER = 1 (LSB-first output) and U/B = 1 (unipolar; the 0 V code is 0 in both formats)",
+  "conversion time = 1 / data rate at the default decimation ratio 1920 (DEC = 780h) and fOSC = 2.4576 MHz: 10 Hz (SPEED = 0, fMOD = fOSC/128) or 5 Hz (SPEED = 1); other DEC values and clock frequencies do not change it; SMODE filter settling is not modeled",
+  "RDATAC replies with one result; the continuous-read mode (data output at every DRDY without a command, commands ignored until STOPC) is not modeled",
+  "RAM bank copies (CREG, CREGA, CRAM), checksums (CSRAMX, CSARAMX, CSREG, CSRAM, CSARAM) and calibration commands (SELFCAL, SELFOCAL, SELFGCAL, SYSOCAL, SYSGCAL) are accepted and ignored; RAM access past 7Fh does not wrap to 00h",
+  "digital I/O D0-D7 are not driven and DIO reads return the written value, not the pin levels",
+  "SCLK reset pattern, the t6 / t11 command delays, the DOR update hold-off",
+  "DSYNC pin and command restart the conversion; the WAKEUP needed after the DSYNC command (ADS1216) is not enforced",
+  "XIN / XOUT crystal oscillator: the clock pins are not used"
+ ],
+ "variants": "ADS1216 / ADS1218 share the register map and pinout (ADS1218 pin 18 WREN): own spec files",
+ "parts": [
+  [
+   "ADS1217IPFBR",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "ADS1217IPFBT",
+   "PFB",
+   48,
+   "Active"
+  ]
+ ]
+}

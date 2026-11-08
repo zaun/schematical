@@ -1,0 +1,371 @@
+{
+ "device": {
+  "id": "ADS8422",
+  "function": "ADC",
+  "description": "16-bit 4 MSPS fully differential input SAR ADC with internal reference and 16-/8-bit parallel interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8422.pdf (SLAS512B) p.5 specifications (logic levels, twos complement, +VBD 2.7-5.25 V), p.6 timing characteristics (t(CONV) 180 ns, td4 17 ns, td6 12 ns), p.7 pin assignments and terminal functions, p.8 terminal functions (continued), p.19-20 digital interface, Table 1 output codes, Table 2 data read out, RESET, p.21 Table 3 RESET/PD1/PD2",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "COMMOUT",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "+IN",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "-IN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "CAP1",
+     "role": "nc"
+    },
+    {
+     "number": 10,
+     "name": "+VAREG",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "CAP2",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "DB15",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DB14",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "DB13",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "DB12",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "DB11",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "DB10",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "DB9",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "DB8",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "+VBD",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "BDGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "DB7",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "DB6",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "DB5",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "DB4",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "DB3",
+     "role": "output"
+    },
+    {
+     "number": 31,
+     "name": "DB2",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "DB1",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "DB0",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "+VBD",
+     "role": "power"
+    },
+    {
+     "number": 35,
+     "name": "BDGND",
+     "role": "ground"
+    },
+    {
+     "number": 36,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 37,
+     "name": "PD2",
+     "role": "input"
+    },
+    {
+     "number": 38,
+     "name": "RESET/PD1",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "BYTE",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 44,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 45,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 46,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 47,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 48,
+     "name": "REFM",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "REFIN",
+   "REFOUT",
+   "COMMOUT",
+   "+VA",
+   "+VAREG",
+   "+IN",
+   "-IN",
+   "CAP1",
+   "CAP2"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB15",
+    "DB14",
+    "DB13",
+    "DB12",
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "byteSelect": {
+    "pin": "BYTE",
+    "high": 1
+   }
+  },
+  "timing": {
+   "tAcc": 17,
+   "tDf": 12
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": {
+    "low": "R{16}",
+    "high": "[R:7:0] 1{8}"
+   }
+  },
+  "conversion": {
+   "time": 180,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 1,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONVST",
+    "edge": "fall"
+   },
+   "reset": {
+    "pin": "RESET/PD1",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "ads8422.pdf",
+ "pages": "p.5 (specifications), p.6 (timing), p.7-8 (pins), p.19-21 (digital interface, output codes, reset/power-down)",
+ "notModeled": [
+  "analog input (fully differential, +/-Vref), internal 4.096-V reference, COMMOUT (REFIN/2) and the internal 3-V regulator (CAP1/CAP2): the result is always the 0 V code 0000h (twos complement)",
+  "pin 43: the pin drawing (p.7) labels it +VA but the terminal table lists +VA as pins 4 and 46 only; modeled as +VA",
+  "RESET/PD1: a low pulse shorter than 0.5 us resets the ADC (conversion aborted); held low longer than 1.5 us it also powers the ADC down (5 us resume; data bus three-stated td9 1.5 us after PD1 low); the model treats it as reset only",
+  "PD2 (power-down of the REFOUT/COMMOUT buffers; PD1 = 1, PD2 = 0 reserved) is not read",
+  "CONVST high at the end of conversion starts sampling at once, else at CONVST rising; CONVST high time >= 100 ns, period >= 250 ns; quiet zones (30 ns before, 10 ns after CONVST falling)",
+  "data appears on the bus after a conversion when CS = RD = 0 (td2 225 ns after CONVST low); reading during a conversion returns the previous result on the part (the model always returns the 0 V code)",
+  "byte mode: with BYTE high DB15-DB8 carry D7-D0 and DB7-DB0 are all ones (Table 2); BYTE-to-data td5 20 ns"
+ ],
+ "variants": "single-device datasheet.",
+ "parts": [
+  [
+   "ADS8422IBPFBT",
+   "PFB",
+   48,
+   "Active"
+  ]
+ ]
+}

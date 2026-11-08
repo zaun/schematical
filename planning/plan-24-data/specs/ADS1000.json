@@ -1,0 +1,199 @@
+{
+ "device": {
+  "id": "ADS1000",
+  "function": "ADC",
+  "description": "12-bit 128 SPS delta-sigma ADC with PGA and I2C interface (VDD as reference)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1000-q1.pdf (SBAS480C) p.3 pin functions, p.4 recommended operating conditions, p.5 electrical characteristics (data rate 104-184 SPS, VIH up to 6 V), p.8 operating modes, p.9 reset, p.10 I2C addresses and general call, p.10-11 registers, p.12 reading and writing; ads1000.pdf (SBAS357A) for the industrial parts",
+  "pinouts": {
+   "dbv6": [
+    {
+     "number": 1,
+     "name": "VIN+",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 5,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "VIN-",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "inputMax": 6.0,
+  "analog": [
+   "VIN+",
+   "VIN-"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [],
+   "table": [
+    72
+   ]
+  },
+  "registers": [
+   {
+    "name": "OUTPUT",
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": true,
+    "note": "no address: read bytes 1-2; 12-bit code right-justified, D15-D12 sign extension"
+   },
+   {
+    "name": "CONFIG",
+    "width": 8,
+    "reset": 128,
+    "readOnly": 236,
+    "fields": [
+     {
+      "name": "ST_BSY",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "SC",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "PGA",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "Table 7-1: reset 80h; bits 6-5 and 3-2 reserved, read 0; ST/BSY write 1 starts a single conversion, reads 1 while busy"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write configuration",
+     "in": "dddddddd",
+     "action": "write",
+     "register": "CONFIG",
+     "data": "d",
+     "note": "p.12: one byte after the address byte goes to the configuration register"
+    }
+   ],
+   "read": "[OUTPUT][CONFIG]",
+   "idle": "1",
+   "generalCall": "reset"
+  },
+  "conversion": {
+   "time": 9615385,
+   "start": [
+    "write:CONFIG.ST_BSY=1"
+   ],
+   "mode": {
+    "field": "CONFIG.SC",
+    "continuous": 0
+   },
+   "busy": {
+    "CONFIG.ST_BSY": 1
+   },
+   "done": {
+    "CONFIG.ST_BSY": 0
+   }
+  }
+ },
+ "packages": {
+  "DBV": {
+   "pinout": "dbv6",
+   "footprint": "SOT23-6",
+   "package": "SOT-23",
+   "pins": 6
+  }
+ },
+ "pdf": "ads1000-q1.pdf",
+ "pages": "p.3 (pins: VIN+1 GND2 SCL3 SDA4 VDD5 VIN-6), p.4 (ROC: VDD 2.7-5.5 V), p.5 (data rate 104/128/184 SPS min/typ/max; VIH 0.7 VDD to 6 V), p.8 (continuous / single conversion), p.9 (power-on reset), p.10 (address 1001000b (A0 parts) or 1001001b (A1 parts); general call reset 06h), p.11 (output register, configuration register 80h), p.12 (read: output register then configuration register, then FFh; write: one byte to the configuration register)",
+ "notModeled": [
+  "analog input and PGA (PGA is stored only); the result is the 0 V code",
+  "ST/BSY always reads 1 in continuous mode: the model clears it at each completion and sets it again as the next conversion starts at once",
+  "conversion time uses the minimum data rate 104 SPS (9.6 ms); typical 128 SPS",
+  "ST/BSY writes during a running conversion or in continuous mode have no effect per the datasheet (the engine may restart the conversion)",
+  "switching from continuous to single mode completes the current conversion first",
+  "general call 04h (latch address) and HS-mode master code; I2C timing limits",
+  "power-down after a single conversion (no visible digital effect)"
+ ],
+ "variants": "ads1000.pdf (SBAS357A) is the industrial datasheet with the same pinout and registers; ads1000-q1.pdf also lists ADS1000A1QDBVRQ1 (not in the skeleton). Pin- and software-compatible with the 16-bit ADS1100",
+ "partKeys": {
+  "ADS1000A1IDBVR": {
+   "i2cAddress": 73
+  },
+  "ADS1000A1IDBVT": {
+   "i2cAddress": 73
+  }
+ },
+ "parts": [
+  [
+   "ADS1000A0IDBVR",
+   "DBV",
+   6,
+   "Active"
+  ],
+  [
+   "ADS1000A0IDBVT",
+   "DBV",
+   6,
+   "Active"
+  ],
+  [
+   "ADS1000A0QDBVRQ1",
+   "DBV",
+   6,
+   "Active"
+  ],
+  [
+   "ADS1000A1IDBVR",
+   "DBV",
+   6,
+   "Active"
+  ],
+  [
+   "ADS1000A1IDBVT",
+   "DBV",
+   6,
+   "Active"
+  ]
+ ]
+}

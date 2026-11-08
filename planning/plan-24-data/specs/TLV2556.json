@@ -1,0 +1,437 @@
+{
+ "device": {
+  "id": "TLV2556",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit 200-kSPS 11-channel low-power serial ADC with internal reference, programmable output length/order, unipolar or bipolar output and INT/EOC",
+  "note": "tlv2556.pdf (SLAS355B) p.3 pin configuration and functions, p.4 recommended operating conditions, p.5 tconvert, p.8-9 timing requirements, p.23 data I/O, sampling and conversion cycle, INT behavior, p.24 power up and default mode, p.25 Table 2 command set and CFGR1/CFGR2, p.25-26 data length, LSB first, bipolar, p.27 INT/EOC output and CS, p.28 power down; same content in tlv2556-ep.pdf (TLV2556-EP)",
+  "pinouts": {
+   "pw20": [
+    {
+     "number": 1,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN4",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AIN5",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AIN6",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AIN7",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AIN8",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "AIN9",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "AIN10",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "REF-",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "REF+",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DATA OUT",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DATA IN",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "I/O CLOCK",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "INT/EOC",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 11,
+  "codeFormat": {
+   "field": "CTRL.BIP",
+   "values": {
+    "0": "straight",
+    "1": "offset"
+   }
+  },
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "AIN0",
+   "AIN1",
+   "AIN2",
+   "AIN3",
+   "AIN4",
+   "AIN5",
+   "AIN6",
+   "AIN7",
+   "AIN8",
+   "AIN9",
+   "AIN10",
+   "REF+",
+   "REF-"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "I/O CLOCK",
+   "mosi": "DATA IN",
+   "miso": "DATA OUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 30,
+   "tOut": 33,
+   "tFloat": 10
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 8,
+    "reset": 0,
+    "note": "internal: CMR (D7-D4) and CFGR1 (D3-D0) of the input data register (Table 2, p.25); set to all zeroes at power up (p.24)",
+    "fields": [
+     {
+      "name": "ADD",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "L",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "LSBF",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "BIP",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CFGR2",
+    "width": 4,
+    "reset": 0,
+    "note": "internal: configuration register 2 (Table 2, p.25), written by command 1111b; p.24 says both configuration registers are all zeroes at power up (D3-D2 = 00 is the internal 4.096-V reference although Table 2 marks 11 as the default)",
+    "fields": [
+     {
+      "name": "REF",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "INT",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DEF",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{12} 0{4}",
+   "idle": "0",
+   "outs": [
+    {
+     "when": [
+      "CTRL.LSBF=1",
+      "CTRL.L=1"
+     ],
+     "out": "[R:4:4] [R:5:5] [R:6:6] [R:7:7] [R:8:8] [R:9:9] [R:10:10] [R:11:11]"
+    },
+    {
+     "when": [
+      "CTRL.LSBF=1",
+      "CTRL.L=3"
+     ],
+     "out": "0{4} [R:0:0] [R:1:1] [R:2:2] [R:3:3] [R:4:4] [R:5:5] [R:6:6] [R:7:7] [R:8:8] [R:9:9] [R:10:10] [R:11:11]"
+    },
+    {
+     "when": "CTRL.LSBF=1",
+     "out": "[R:0:0] [R:1:1] [R:2:2] [R:3:3] [R:4:4] [R:5:5] [R:6:6] [R:7:7] [R:8:8] [R:9:9] [R:10:10] [R:11:11]"
+    }
+   ],
+   "commands": [
+    {
+     "name": "ACCESS CFGR2, default mode (1111b, D0 = 1)",
+     "in": "1111 xxx1",
+     "action": "start",
+     "channel": 0,
+     "set": {
+      "CFGR2.REF": 3,
+      "CFGR2.INT": 0,
+      "CFGR2.DEF": 1,
+      "CTRL.ADD": 0,
+      "CTRL.L": 0,
+      "CTRL.LSBF": 0,
+      "CTRL.BIP": 0
+     },
+     "note": "p.24 default mode / Table 2 (p.25): CFGR2 D0 = 1 sets CFGR1 D3-D0 and CFGR2 D3-D1 to their defaults (external reference, pin 19 EOC, 12-bit MSB-first unipolar) and selects AIN0; DATA IN held high (FFh) keeps converting AIN0"
+    },
+    {
+     "name": "ACCESS CFGR2",
+     "in": "1111 rri0",
+     "set": {
+      "CFGR2.REF": "r",
+      "CFGR2.INT": "i",
+      "CFGR2.DEF": 0
+     },
+     "note": "Table 2 (p.25): command 1111b writes CFGR2 from SDI D3-D0 (D3-D2 reference select, D1 pin 19 EOC/INT, D0 default mode)"
+    },
+    {
+     "name": "Software power down (address 1110), 8-bit I/O cycle",
+     "in": "1110 01 f b",
+     "set": {
+      "CTRL.ADD": 14,
+      "CTRL.L": 1,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "Table 2 (p.25) / p.28: command 1110b selects software power down; no conversion is performed, the I/O cycle must still be completed"
+    },
+    {
+     "name": "Software power down (address 1110), 12-bit I/O cycle",
+     "in": "1110 00 f b x{4}",
+     "set": {
+      "CTRL.ADD": 14,
+      "CTRL.L": 0,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "Table 2 (p.25) / p.28: command 1110b selects software power down; no conversion is performed, the I/O cycle must still be completed"
+    },
+    {
+     "name": "Software power down (address 1110), 12-bit I/O cycle",
+     "in": "1110 10 f b x{4}",
+     "set": {
+      "CTRL.ADD": 14,
+      "CTRL.L": 2,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "Table 2 (p.25) / p.28: command 1110b selects software power down; no conversion is performed, the I/O cycle must still be completed"
+    },
+    {
+     "name": "Software power down (address 1110), 16-bit I/O cycle",
+     "in": "1110 11 f b x{8}",
+     "set": {
+      "CTRL.ADD": 14,
+      "CTRL.L": 3,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "Table 2 (p.25) / p.28: command 1110b selects software power down; no conversion is performed, the I/O cycle must still be completed"
+    },
+    {
+     "name": "Select channel / test voltage, 8-bit I/O cycle",
+     "in": "aaaa 01 f b",
+     "action": "start",
+     "channel": "a",
+     "set": {
+      "CTRL.ADD": "a",
+      "CTRL.L": 1,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "Table 2 (p.25): D7-D4 command (0000b-1010b AIN0-AIN10, 1011b-1101b self-test), CFGR1 D3-D2 output length (01 = 8, x0 = 12, 11 = 16), D1 LSB first, D0 bipolar 2s complement; the conversion starts after the last (8th/12th/16th) I/O CLOCK falling edge (p.23-25)"
+    },
+    {
+     "name": "Select channel / test voltage, 12-bit I/O cycle",
+     "in": "aaaa 00 f b x{4}",
+     "action": "start",
+     "channel": "a",
+     "set": {
+      "CTRL.ADD": "a",
+      "CTRL.L": 0,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "Table 2 (p.25): D7-D4 command (0000b-1010b AIN0-AIN10, 1011b-1101b self-test), CFGR1 D3-D2 output length (01 = 8, x0 = 12, 11 = 16), D1 LSB first, D0 bipolar 2s complement; the conversion starts after the last (8th/12th/16th) I/O CLOCK falling edge (p.23-25)"
+    },
+    {
+     "name": "Select channel / test voltage, 12-bit I/O cycle",
+     "in": "aaaa 10 f b x{4}",
+     "action": "start",
+     "channel": "a",
+     "set": {
+      "CTRL.ADD": "a",
+      "CTRL.L": 2,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "Table 2 (p.25): D7-D4 command (0000b-1010b AIN0-AIN10, 1011b-1101b self-test), CFGR1 D3-D2 output length (01 = 8, x0 = 12, 11 = 16), D1 LSB first, D0 bipolar 2s complement; the conversion starts after the last (8th/12th/16th) I/O CLOCK falling edge (p.23-25)"
+    },
+    {
+     "name": "Select channel / test voltage, 16-bit I/O cycle",
+     "in": "aaaa 11 f b x{8}",
+     "action": "start",
+     "channel": "a",
+     "set": {
+      "CTRL.ADD": "a",
+      "CTRL.L": 3,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "Table 2 (p.25): D7-D4 command (0000b-1010b AIN0-AIN10, 1011b-1101b self-test), CFGR1 D3-D2 output length (01 = 8, x0 = 12, 11 = 16), D1 LSB first, D0 bipolar 2s complement; the conversion starts after the last (8th/12th/16th) I/O CLOCK falling edge (p.23-25)"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 5540,
+   "start": [
+    "command"
+   ],
+   "channel": "CTRL.ADD"
+  },
+  "ready": [
+   {
+    "pin": "INT/EOC",
+    "active": 0,
+    "asserts": "busy",
+    "enable": "CFGR2.INT=0",
+    "note": "CFGR2 D1 = 0: EOC, low from the last I/O CLOCK falling edge until the conversion is complete (p.27)"
+   },
+   {
+    "pin": "INT/EOC",
+    "active": 0,
+    "asserts": "done",
+    "clears": [
+     "cs-fall",
+     "read"
+    ],
+    "enable": "CFGR2.INT=1",
+    "note": "CFGR2 D1 = 1: INT, falls when the conversion is complete, cleared by the next CS falling edge or I/O CLOCK rising edge (p.23, p.27)"
+   }
+  ]
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw20",
+   "footprint": "TSSOP-20",
+   "package": "TSSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "tlv2556.pdf",
+ "pages": "p.3 (pins), p.4 (ROC), p.5 (tconvert 5.54 us at 2.7-3.6 V), p.9 (timing at VCC = 2.7 V: td1 30 ns, td2 10 ns, td3 33 ns), p.23 (I/O cycle, conversion, INT), p.24 (power up, default mode), p.25 (Table 2), p.25-26 (data length, LSB first, bipolar), p.27 (INT/EOC, CS), p.28 (power down)",
+ "notModeled": [
+  "analog inputs, internal 2.048/4.096-V reference (CFGR2 D3-D2) and multiplexer: every conversion returns the 0 V code (unipolar 000h; bipolar (CFGR1 D0 = 1) 800h, the code of VREF- = 0 V: modeled as codeFormat offset)",
+  "self-test commands 1011b/1100b/1101b: modeled as conversions returning the 0 V code",
+  "software power down (1110b; 1 ms resume with the internal reference) and auto power down: modeled as an I/O cycle that starts no conversion",
+  "ACCESS CFGR2 (1111b): modeled as an 8-bit write of CFGR2 that starts no conversion (the datasheet does not say whether this cycle converts); with D0 = 1 (default mode) it loads the defaults and converts AIN0, the conversion starting at the 8th I/O CLOCK (the following 4 clocks of the 12-bit cycle are not waited for); leaving default mode (the host must program CFGR1 on the next cycle) is not enforced",
+  "data length: CFGR1 D3-D2 applies to the current I/O cycle; MSB-first output is the same for every length, LSB-first ordering uses the length and LSBF of the previous cycle",
+  "result pipelining (output is the previous conversion, first result after power up random): the result is constant",
+  "CS held low continuously (first bit at EOC rising / INT falling, INT cleared by the next I/O CLOCK rising edge td9): only CS-framed transfers are modeled; INT clearing is modeled at CS falling or when the result is read",
+  "conversion start: after the last I/O CLOCK falling edge (td4 75 ns to EOC); modeled at the last rising edge (command completion)",
+  "CS abort of a conversion (td5 1.5 us), CS debounce",
+  "timing at VCC = 2.7 V, VREF+ = 2.5 V (p.9): tValid = td1 30 ns, tOut = td3 33 ns, tFloat = td2 10 ns"
+ ],
+ "variants": "tlv2556.pdf covers TLV2556I (IPWR); tlv2556-ep.pdf covers TLV2556-EP (MPWREP) with the same pinout and interface.",
+ "parts": [
+  [
+   "TLV2556IPWR",
+   "PW",
+   20,
+   "Active"
+  ],
+  [
+   "TLV2556MPWREP",
+   "PW",
+   20,
+   "Active"
+  ]
+ ]
+}

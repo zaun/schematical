@@ -1,0 +1,93 @@
+{
+  "device": {
+    "id": "ADS7852",
+    "function": "ADC",
+    "description": "12-bit 500 kSPS 8-channel SAR ADC with internal reference and 12-bit parallel interface",
+    "drawer": ["Interface"],
+    "note": "ads7852.pdf (SBAS111C) p.2 channel selection table, p.3 electrical characteristics (VSS 4.75-5.25 V, logic levels, straight binary, 13.5 clock conversion), p.4 pin configuration and descriptions, p.10 basic operation / starting a conversion / channel addressing, p.11 Figure 2 write/read timing and Table I output codes, p.12 power-down (Table II)",
+    "pinouts": {
+      "pbs32": [
+        {"number": 1, "name": "AIN0", "role": "input"},
+        {"number": 2, "name": "AIN1", "role": "input"},
+        {"number": 3, "name": "AIN2", "role": "input"},
+        {"number": 4, "name": "AIN3", "role": "input"},
+        {"number": 5, "name": "AIN4", "role": "input"},
+        {"number": 6, "name": "AIN5", "role": "input"},
+        {"number": 7, "name": "AIN6", "role": "input"},
+        {"number": 8, "name": "AIN7", "role": "input"},
+        {"number": 9, "name": "AGND", "role": "ground"},
+        {"number": 10, "name": "VREF", "role": "power"},
+        {"number": 11, "name": "DGND", "role": "ground"},
+        {"number": 12, "name": "A2", "role": "input"},
+        {"number": 13, "name": "A1", "role": "input"},
+        {"number": 14, "name": "A0", "role": "input"},
+        {"number": 15, "name": "DB11", "role": "output"},
+        {"number": 16, "name": "DB10", "role": "output"},
+        {"number": 17, "name": "DB9", "role": "output"},
+        {"number": 18, "name": "DB8", "role": "output"},
+        {"number": 19, "name": "DB7", "role": "output"},
+        {"number": 20, "name": "DB6", "role": "output"},
+        {"number": 21, "name": "DB5", "role": "output"},
+        {"number": 22, "name": "DB4", "role": "output"},
+        {"number": 23, "name": "DB3", "role": "output"},
+        {"number": 24, "name": "DB2", "role": "output"},
+        {"number": 25, "name": "DB1", "role": "output"},
+        {"number": 26, "name": "DB0", "role": "output"},
+        {"number": 27, "name": "WR", "role": "input"},
+        {"number": 28, "name": "BUSY", "role": "output"},
+        {"number": 29, "name": "CLK", "role": "input"},
+        {"number": 30, "name": "RD", "role": "input"},
+        {"number": 31, "name": "CS", "role": "input"},
+        {"number": 32, "name": "VSS", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 12,
+    "channels": 8,
+    "codeFormat": "straight",
+    "vcc": [4.75, 5.25],
+    "analog": ["AIN0", "AIN1", "AIN2", "AIN3", "AIN4", "AIN5", "AIN6", "AIN7", "VREF"],
+    "bus": {
+      "style": "parallel",
+      "data": ["DB11", "DB10", "DB9", "DB8", "DB7", "DB6", "DB5", "DB4", "DB3", "DB2", "DB1", "DB0"],
+      "cs": {"pin": "CS", "active": 0},
+      "rd": {"pin": "RD", "active": 0},
+      "wr": {"pin": "WR", "active": 0},
+      "address": ["A2", "A1", "A0"]
+    },
+    "timing": {"tAcc": 30, "tDf": 20},
+    "registers": [
+      {"name": "CTRL", "width": 3, "reset": 0, "note": "internal: the channel address A2 A1 A0 latched on the WR rising edge with CS low (p.10); reset value not documented",
+       "fields": [{"name": "A", "bits": [2, 0]}]}
+    ],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [
+        {"name": "Start Conversion (CS + WR)", "in": "aaa x{12}", "action": "start", "channel": "a", "set": {"CTRL.A": "a"}, "commit": "end",
+         "note": "p.2 channel selection: A2 A1 A0 = 000..111 select AIN0..AIN7; the data pins are outputs and carry nothing in"}
+      ],
+      "read": "R{12}"
+    },
+    "conversion": {"time": 1750, "start": ["command"], "channel": "CTRL.A"},
+    "ready": [{"pin": "BUSY", "active": 0, "asserts": "busy"}]
+  },
+  "packages": {
+    "PBS": {"pinout": "pbs32", "footprint": "TQFP-32-PBS", "package": "TQFP", "pins": 32}
+  },
+  "pdf": "ads7852.pdf",
+  "pages": "p.2 (channel selection), p.3 (electrical characteristics), p.4 (pins), p.10 (operation, channel addressing), p.11 (Figure 2 timing: tCONV 1.75 us, t9 bus access 30 ns, t10 relinquish; Table I codes), p.12 (Table II power-down)",
+  "notModeled": [
+    "analog inputs, multiplexer and the internal 2.5 V reference / VREF input (the result is always the 0 V code 000h)",
+    "the conversion is clocked by the external CLK (13.5 clocks after the first CLK rising edge following WR low); the model starts it when the write ends and uses the 1.75 us maximum tCONV at fCLK = 8 MHz",
+    "BUSY goes low 20 ns after WR falling (model: at the end of the write)",
+    "Nap and Sleep power-down entered on the RD rising edge with A1/A0 (Table II) and wake-up",
+    "outputs are tri-stated when CS and WR start a conversion; reading during a conversion is not defined by the datasheet (the model returns the 0 V code)",
+    "bus float: Figure 2 lists t10 bus relinquish 5 ns (min column) while the text says data stays valid 20 ns after CS/RD rise; tDf = 20 ns"
+  ],
+  "variants": "ADS7852Y and ADS7852YB (higher linearity grade) share the spec.",
+  "parts": [
+    ["ADS7852Y/250", "PBS", 32, "Last Time Buy"],
+    ["ADS7852Y/2K", "PBS", 32, "Last Time Buy"],
+    ["ADS7852YB/250", "PBS", 32, "Last Time Buy"]
+  ]
+}

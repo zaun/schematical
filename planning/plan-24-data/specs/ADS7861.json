@@ -1,0 +1,451 @@
+{
+ "device": {
+  "id": "ADS7861",
+  "function": "ADC",
+  "description": "12-bit 500 kSPS dual simultaneous-sampling 2+2 channel differential SAR ADC with dual serial outputs",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7861.pdf (SBAS110D) p.2 truth table (M0/M1/A0), p.3 electrical characteristics (+V 4.75-5.25 V, logic levels, twos complement), p.4 pin configurations and descriptions (SSOP/QFN), p.9 Table I output codes, p.10-11 timing and control (Mode I), Figure 8, timing specifications, Table II serial data output format, p.12 modes II-IV and reading data, p.13 Figure 9 Mode I timing",
+  "pinouts": {
+   "dbq24": [
+    {
+     "number": 1,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "CH B1+",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CH B1-",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "CH B0+",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CH B0-",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CH A1+",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CH A1-",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "CH A0+",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "CH A0-",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "M1",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "M0",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "CLOCK",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "SERIAL DATA B",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "SERIAL DATA A",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "+VD",
+     "role": "power"
+    }
+   ],
+   "rhb32": [
+    {
+     "number": 1,
+     "name": "CH B1+",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "CH B1-",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CH B0+",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "CH B0-",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CH A1+",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CH A1-",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CH A0+",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "CH A0-",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "M1",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "M0",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "CLOCK",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "SERIAL DATA B",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "SERIAL DATA A",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 27,
+     "name": "+VD",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 29,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 30,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 31,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 32,
+     "name": "NC",
+     "role": "nc"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 4,
+  "codeFormat": "twos",
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "CH B1+",
+   "CH B1-",
+   "CH B0+",
+   "CH B0-",
+   "CH A1+",
+   "CH A1-",
+   "CH A0+",
+   "CH A0-",
+   "REFIN",
+   "REFOUT",
+   "+VA"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "RD",
+   "sclk": "CLOCK",
+   "miso": "SERIAL DATA A",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 25,
+   "tOut": 30
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 3,
+    "reset": 0,
+    "note": "internal: levels of the A0, M0, M1 pins (p.2 truth table, p.4); no register in the part",
+    "fields": [
+     {
+      "name": "M1",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "M0",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "A0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "[CTRL.A0] 0 R{12} 00",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 1750,
+   "start": [
+    "pin"
+   ],
+   "channel": "CTRL.A0"
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 1,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONVST",
+    "edge": "rise"
+   },
+   "levels": [
+    {
+     "pin": "A0",
+     "field": "CTRL.A0"
+    },
+    {
+     "pin": "M0",
+     "field": "CTRL.M0"
+    },
+    {
+     "pin": "M1",
+     "field": "CTRL.M1"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "DBQ": {
+   "pinout": "dbq24",
+   "footprint": "QSOP-24",
+   "package": "SSOP",
+   "pins": 24
+  },
+  "RHB": {
+   "pinout": "rhb32",
+   "footprint": "VQFN-32-5X5",
+   "package": "QFN",
+   "pins": 32
+  }
+ },
+ "pdf": "ads7861.pdf",
+ "pages": "p.2 (truth table), p.3 (specs), p.4 (pins), p.9 (Table I), p.10-11 (timing and control, Figure 8, timing specifications t8/t9, Table II), p.12 (modes II-IV, reading data), p.13 (Figure 9)",
+ "notModeled": [
+  "analog inputs, multiplexer and internal 2.5 V reference (REFOUT never driven): every conversion returns the 0 V differential code 000h",
+  "SERIAL DATA B (converter B, Mode I/III) is never driven; SERIAL DATA A shifts Mode I's 16-cell word (channel flag = A0 level, A/B flag 0, D11..D0, 0, 0). Mode II/IV (M1 = 1: A then B on SERIAL DATA A, 32 clocks, the second CONVST ignored) and Mode III/IV automatic channel sequencing (M0 = 1) are not modeled; M0/M1 are stored only",
+  "the serial frame is delimited by RD (the model's chip select: the frame starts when the active-high RD sync pulse returns low, data shift on CLOCK rising edges and are valid on falling edges); the CS pin's tri-state gating of the serial outputs is not modeled, so keep CS low",
+  "the channel flag is the A0 level at the frame start, not the address latched on CLOCK cycle 1/2 for the next conversion",
+  "the conversion is clocked by the external CLOCK (16 cycles after the CONVST-to-CLOCK synchronisation of Figure 8); the model uses tCONV 1.75 us at tCKP = 125 ns; BUSY returning low after the third LSB is approximated by the end of tCONV",
+  "pin names: the minus sign of CH xx- is written '-'"
+ ],
+ "variants": "ADS7861E/EB (SSOP-24) and ADS7861IB (QFN-32) are grades of the same chip; one spec.",
+ "parts": [
+  [
+   "ADS7861E",
+   "DBQ",
+   24,
+   "Active"
+  ],
+  [
+   "ADS7861E/2K5",
+   "DBQ",
+   24,
+   "Active"
+  ],
+  [
+   "ADS7861EB",
+   "DBQ",
+   24,
+   "Active"
+  ],
+  [
+   "ADS7861IBRHBT",
+   "RHB",
+   32,
+   "Active"
+  ]
+ ]
+}

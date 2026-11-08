@@ -1,0 +1,161 @@
+{
+ "device": {
+  "id": "ADS8319",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit 500 kSPS unipolar micropower SAR ADC with SPI-compatible serial interface and daisy-chain",
+  "note": "ads8319.pdf (SLAS600C) p.3 pin configuration and functions, p.4 recommended operating conditions (+VBD 2.375-5.5 V), p.6 logic levels, p.7 timing requirements (tcnv 1400 ns max), p.19 Table 1 output codes (straight binary), p.20 3-wire CS mode without busy indicator (Figure 50)",
+  "pinouts": {
+   "p10": [
+    {
+     "number": 1,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "+IN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "-IN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "+VBD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.375,
+   5.5
+  ],
+  "analog": [
+   "REFIN",
+   "+VA",
+   "+IN",
+   "-IN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CONVST",
+   "sclk": "SCLK",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 22,
+   "tOut": 24,
+   "tFloat": 15
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{16}",
+   "idle": "z",
+   "commands": []
+  },
+  "conversion": {
+   "time": 1400,
+   "start": [
+    "cs-rise"
+   ]
+  }
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "p10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  },
+  "DRC": {
+   "pinout": "p10",
+   "footprint": "VSON-10-DRC",
+   "package": "VSON",
+   "pins": 10
+  }
+ },
+ "pdf": "ads8319.pdf",
+ "pages": "p.3 (pins), p.4 (ROC), p.6 (logic levels), p.7 (timing), p.19 (Table 1 output codes), p.20 (3-wire CS mode, Figure 50)",
+ "notModeled": [
+  "analog input and reference (unipolar 0 to VREF, straight binary: the 0 V code is 0000h)",
+  "mode selection by the SDI level at the CONVST rising edge: only 3-wire CS mode without busy indicator (SDI tied high, CONVST as CS) is modeled; SDI is not read",
+  "4-wire CS mode (SDI as CS), busy-indicator bit (CONVST or SDI low at the end of conversion) and daisy-chain mode (SDI as chain input)",
+  "SDO driven while CONVST is low during a conversion (modeled: the frame shows the last result); the datasheet requires CONVST high again before the minimum conversion time",
+  "auto power-down after each conversion (no visible bus effect); acquisition time and throughput limits",
+  "timing values are the +VBD < 3.1 V (ADS8318) / < 4.5 V (ADS8319) table (ten 22 ns, t3 24 ns, tdis 15 ns); at higher +VBD they are 15/16/12 ns"
+ ],
+ "variants": "ADS8319I and ADS8319IB are accuracy grades of the same device; ADS8318 is the bipolar sibling (own datasheet)",
+ "parts": [
+  [
+   "ADS8319IBDGST",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "ADS8319IBDRCR",
+   "DRC",
+   10,
+   "Active"
+  ],
+  [
+   "ADS8319IDGSR",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "ADS8319IDGST",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "ADS8319IDRCT",
+   "DRC",
+   10,
+   "Active"
+  ]
+ ]
+}

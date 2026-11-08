@@ -1,0 +1,380 @@
+{
+ "device": {
+  "id": "TLC1518",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "10-bit 400 kSPS 8-channel serial SAR ADC with internal reference, 8-level FIFO and auto power down",
+  "note": "tlc1514.pdf (SLAS252) p.1 pinouts, p.3-4 terminal functions, p.5 output data format, p.6 Table 1 command set, p.7 Table 2 CFR, p.8-9 conversion modes, p.10-17 timing diagrams (Figures 2-14), p.18-19 conversion speed and power down, p.19-20 recommended operating conditions and timing, p.21 self-test codes and tconv, p.25 Figure 19",
+  "pinouts": {
+   "dw20": [
+    {
+     "number": 1,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "EOC/(INT)",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "A2",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "A3",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "A4",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "A5",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "A6",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "A7",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "CSTART",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "PWDN",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "FS",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "REFM",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 20,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 8,
+  "codeFormat": {
+   "field": "CFR.FMT",
+   "values": {
+    "0": "straight",
+    "1": "offset"
+   }
+  },
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "A0",
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "REFM",
+   "REFP"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 25,
+   "tOut": 25,
+   "tFloat": 25
+  },
+  "registers": [
+   {
+    "name": "CFR",
+    "width": 12,
+    "reset": 0,
+    "note": "p.7 Table 2: configuration register (D15-D12 of the write word are the command); power-on value not documented",
+    "fields": [
+     {
+      "name": "REFSEL",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "FMT",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "SAMPLE",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "CLKDIV",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "INSEL",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "MODE",
+      "bits": [
+       6,
+       5
+      ]
+     },
+     {
+      "name": "SWEEP",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "EOC_INT",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "FIFO_TL",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{10} 0{6}",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "Select analog input channel 0-7",
+     "in": "0ccc",
+     "action": "start",
+     "channel": "c",
+     "commit": "end",
+     "note": "p.6 Table 1: 0000b-0111b select channel 0-7 (TLC1518); sampling starts after the 4th SCLK, the conversion after the 16th (short sampling) or 28th SCLK (p.8); committed at CS rise here"
+    },
+    {
+     "name": "SW power down",
+     "in": "1000",
+     "action": "nop",
+     "note": "p.6 Table 1 / p.19: 8000h powers down analog + reference; modeled as no-op (the wake-up event is not documented)"
+    },
+    {
+     "name": "Read CFR",
+     "in": "1001",
+     "action": "nop",
+     "reply": "[CFR]",
+     "note": "p.6 Table 1, p.10 Figures 2-3: SDO outputs CFR D11-D0 after the 4th SCLK (the first four SDO bits are don't care)"
+    },
+    {
+     "name": "Write CFR",
+     "in": "1010 dddddddddddd",
+     "action": "write",
+     "register": "CFR",
+     "data": "d",
+     "note": "p.6 Table 1, p.12 Figures 5-6: A000h plus 12-bit data"
+    },
+    {
+     "name": "Select test, voltage = (REFP+REFM)/2",
+     "in": "1011",
+     "action": "start",
+     "commit": "end",
+     "note": "p.6 Table 1 (self-test output 200h, p.21)"
+    },
+    {
+     "name": "Select test, voltage = REFM",
+     "in": "1100",
+     "action": "start",
+     "commit": "end",
+     "note": "p.6 Table 1 (self-test output 000h, p.21)"
+    },
+    {
+     "name": "Select test, voltage = REFP",
+     "in": "1101",
+     "action": "start",
+     "commit": "end",
+     "note": "p.6 Table 1 (self-test output 3FFh, p.21)"
+    },
+    {
+     "name": "FIFO read",
+     "in": "1110",
+     "action": "nop",
+     "note": "p.6 Table 1, p.11 Figure 4: FIFO contents on SDO D15-D6 (already shifted from CS fall), D5-D0 don't care"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 3500,
+   "start": [
+    "command",
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "EOC/(INT)",
+    "active": 0,
+    "asserts": "done",
+    "clears": "cs-fall",
+    "enable": "CFR.EOC_INT=0"
+   },
+   {
+    "pin": "EOC/(INT)",
+    "active": 0,
+    "asserts": "done",
+    "clears": "cs-fall",
+    "enable": [
+     "CFR.EOC_INT=1",
+     "CFR.MODE!=0"
+    ]
+   },
+   {
+    "pin": "EOC/(INT)",
+    "active": 0,
+    "asserts": "busy",
+    "enable": [
+     "CFR.EOC_INT=1",
+     "CFR.MODE=0"
+    ]
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CSTART",
+    "edge": "rise"
+   },
+   "powerdown": {
+    "pin": "PWDN",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw20",
+   "footprint": "SOIC-20W",
+   "package": "SOIC",
+   "pins": 20
+  },
+  "PW": {
+   "pinout": "dw20",
+   "footprint": "TSSOP-20",
+   "package": "TSSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "tlc1514.pdf",
+ "pages": "p.1 (pinouts), p.3-4 (terminal functions), p.5 (output format), p.6 (Table 1 commands), p.7 (Table 2 CFR), p.8-9 (modes), p.10-13 (Figures 2-8), p.19-20 (ROC, timing), p.21 (self-test, tconv)",
+ "notModeled": [
+  "analog inputs, pseudo-differential input (CFR D7), internal/external reference (CFR D11) and REFP/REFM span (stored only; the result is the 0 V code)",
+  "self-test commands B000h/C000h/D000h start a conversion but output the 0 V code instead of 200h/000h/3FFh (p.21)",
+  "CFR power-on value: not documented; the datasheet requires a write CFR with 000h (A000h) at power up to select the host mode (p.6). Reset 0 here",
+  "FS (DSP frame sync) is not modeled: FS tied high (SPI mode, FS = 1 at CS fall); with FS active SDI is sampled on SCLK falling edges and SDO changes on rising edges (p.6)",
+  "repeat, sweep and repeat-sweep modes (CFR D6-D5 = 01/10/11), the sweep sequences (D4-D3), the 8-level FIFO and its trigger levels (D1-D0): only one conversion per trigger, no FIFO; INT asserts after every conversion",
+  "SW power down (8000h), auto power down and the PWDN pin wake-up by CS/CSTART; PWDN low is modeled as a powerdown pin (bus ignored)",
+  "short/long sampling (CFR D9) and conversion clock SCLK or SCLK/2 (CFR D8): the conversion is clocked by SCLK (14 x DIV / fSCLK); the model uses td(SCLK-INTL) 3.5 us max (p.20) as the conversion time for every setting",
+  "the conversion starts after the 16th (or 28th) SCLK; the model starts it at CS rise after a select command",
+  "INT also puts SDO in 3-state while CS is low; SDO is 3-stated after the 16th bit (idle z); read CFR is valid only in mode 00 (p.7)",
+  "codeFormat: CFR D10 = 0 unipolar straight binary (0 V = 000h); D10 = 1 two's complement where REFM (0 V) reads 200h (p.5), which is written as \"offset\" (the 0 V code 1 << 9)",
+  "the first conversion after power up or power down is not valid (p.19); SCLK up to 20 MHz, sampling and transition-time limits",
+  "pin name EOC/(INT) as printed (p.3)"
+ ],
+ "variants": "TLC1514 (4 channels, 16 pins) shares the datasheet; DW and PW packages share one pin numbering (p.1)",
+ "parts": [
+  [
+   "TLC1518IDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC1518IPW",
+   "PW",
+   20,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,258 @@
+{
+ "device": {
+  "id": "TLC0820",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "8-bit 2.5 us modified-flash microprocessor-compatible ADC with track-and-hold and 3-state outputs",
+  "note": "tlc0820a.pdf (SLAS064A) p.1 (2-1) pinout, p.3 (2-3) terminal functions, p.4 (2-4) recommended operating conditions, p.5 (2-5) operating characteristics (ta(R2), tdis, td(int)), p.7-8 (2-7, 2-8) Figures 1-4",
+  "pinouts": {
+   "dw20": [
+    {
+     "number": 1,
+     "name": "ANLG IN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "D0",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "D1",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "D2",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "D3",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "WR/RDY",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "MODE",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "INT",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "REF-",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "REF+",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "D4",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "D5",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "D6",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "D7",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "OFLW",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 20,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   4.5,
+   8
+  ],
+  "analog": [
+   "ANLG IN",
+   "REF-",
+   "REF+"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR/RDY",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tAcc": 150,
+   "tDf": 95
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Start conversion (write-read mode: CS and WR low)",
+     "in": "x{8}",
+     "action": "start",
+     "commit": "end",
+     "note": "p.3: in the write-read mode (MODE high) the conversion starts on the WR falling edge; td(int) runs from WR rising (p.5)"
+    }
+   ],
+   "read": "R{8}"
+  },
+  "conversion": {
+   "time": 1300,
+   "start": [
+    "command"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "INT",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read"
+   }
+  ]
+ },
+ "packages": {
+  "DB": {
+   "pinout": "dw20",
+   "footprint": "SSOP-20",
+   "package": "SSOP",
+   "pins": 20
+  },
+  "N": {
+   "pinout": "dw20",
+   "footprint": "PDIP-20",
+   "package": "DIP",
+   "pins": 20
+  },
+  "DW": {
+   "pinout": "dw20",
+   "footprint": "SOIC-20W",
+   "package": "SOIC",
+   "pins": 20
+  }
+ },
+ "pdf": "tlc0820a.pdf",
+ "pages": "p.1 (2-1, pinout), p.3 (2-3, terminal functions), p.4 (2-4, ROC), p.5 (2-5, operating characteristics), p.7-8 (2-7/2-8, Figures 1-4)",
+ "notModeled": [
+  "analog input, REF+/REF- span (the result is always the 0 V code 0x00)",
+  "only the write-read mode (MODE high) is modeled: WR/RDY is the WR input, CS+WR starts the conversion and INT goes low td(int) (1300 ns max) after WR rises. The MODE pin is not read",
+  "read mode (MODE low, the power-on default: MODE has an internal 50 uA pull-down): RD low starts the conversion and the data appear at its end (tconv(R) 2.5 us max) in the same read; WR/RDY is then RDY, an open-drain output low after CS falls until the result is latched",
+  "write-read mode reading before td(int) (RD low earlier latches the result after RD falls, INT low at td(RIL) 290 ns max; ta(R1) 320 ns)",
+  "INT is reset by the rising edge of either RD or CS (p.3); the model clears it when the read ends",
+  "OFLW overflow output (normally high, low when the input exceeds REF+) is not driven",
+  "conversion starts at the WR falling edge in the datasheet; the model starts it when WR/CS are released and times td(int) from there (which is how the datasheet times INT)",
+  "tw(W) 0.5-50 us write pulse, td(NC) 500 ns between conversions, td(WR) 0.4 us",
+  "tAcc uses ta(R2) 150 ns (CL = 100 pF, td(WR) > td(int)); tDf uses tdis 95 ns",
+  "pin names: REF - / REF + written REF- / REF+; D0 (LSB) / D7 (MSB) written D0 / D7; the FN (PLCC) package is obsolete and not in the skeleton"
+ ],
+ "variants": "TLC0820AC (0-70 C) and TLC0820AI (-40-85 C) share the datasheet; direct replacement for the ADC0820 (p.1)",
+ "parts": [
+  [
+   "TLC0820ACDB",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "TLC0820ACDBR",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "TLC0820ACN",
+   "N",
+   20,
+   "Active"
+  ],
+  [
+   "TLC0820AIDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC0820AIDWR",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC0820AIN",
+   "N",
+   20,
+   "Active"
+  ]
+ ]
+}

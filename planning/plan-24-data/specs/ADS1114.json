@@ -1,0 +1,344 @@
+{
+ "device": {
+  "id": "ADS1114",
+  "function": "ADC",
+  "description": "16-bit 860 SPS 1-channel delta-sigma ADC with PGA, comparator and I2C interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1113.pdf (SBAS444E) p.3 pinout (Table 4-1), p.4 recommended operating conditions, p.17-18 conversion ready and modes, p.19-22 I2C (Table 7-2 address, general call), p.23 data format, p.24-27 registers; ads1113-q1.pdf (Table 5-1, same pinout) for the -Q1 parts and the NKS package",
+  "pinouts": {
+   "p10": [
+    {
+     "number": 1,
+     "name": "ADDR",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "ALERT/RDY",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "SCL",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   2.0,
+   5.5
+  ],
+  "inputMax": 5.5,
+  "analog": [
+   "AIN0",
+   "AIN1"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "ADDR"
+   ],
+   "table": [
+    72,
+    73,
+    75,
+    74
+   ]
+  },
+  "registers": [
+   {
+    "name": "CONVERSION",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": true
+   },
+   {
+    "name": "CONFIG",
+    "address": 1,
+    "width": 16,
+    "reset": 34179,
+    "readOnly": 32768,
+    "fields": [
+     {
+      "name": "OS",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "RESERVED",
+      "bits": [
+       14,
+       12
+      ]
+     },
+     {
+      "name": "PGA",
+      "bits": [
+       11,
+       9
+      ]
+     },
+     {
+      "name": "MODE",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DR",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "COMP_MODE",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "COMP_POL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "COMP_LAT",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "COMP_QUE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "LO_THRESH",
+    "address": 2,
+    "width": 16,
+    "reset": 32768,
+    "fields": [
+     {
+      "name": "MSB",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "LOW",
+      "bits": [
+       14,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HI_THRESH",
+    "address": 3,
+    "width": 16,
+    "reset": 32767,
+    "fields": [
+     {
+      "name": "MSB",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "LOW",
+      "bits": [
+       14,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Address Pointer",
+     "in": "xxxxxxaa",
+     "action": "pointer",
+     "address": "a"
+    }
+   ],
+   "read": "pointer",
+   "generalCall": "reset"
+  },
+  "conversion": {
+   "time": {
+    "field": "CONFIG.DR",
+    "values": {
+     "0": 125000000,
+     "1": 62500000,
+     "2": 31250000,
+     "3": 15625000,
+     "4": 7812500,
+     "5": 4000000,
+     "6": 2105263,
+     "7": 1162791
+    }
+   },
+   "start": [
+    "write:CONFIG.OS=1"
+   ],
+   "mode": {
+    "field": "CONFIG.MODE",
+    "continuous": 0
+   },
+   "busy": {
+    "CONFIG.OS": 0
+   },
+   "done": {
+    "CONFIG.OS": 1
+   }
+  },
+  "ready": [
+   {
+    "pin": "ALERT/RDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "start",
+    "openDrain": true,
+    "enable": [
+     "CONFIG.MODE=1",
+     "HI_THRESH.MSB=1",
+     "LO_THRESH.MSB=0",
+     "CONFIG.COMP_QUE!=3"
+    ]
+   },
+   {
+    "pin": "ALERT/RDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": 8000,
+    "openDrain": true,
+    "enable": [
+     "CONFIG.MODE=0",
+     "HI_THRESH.MSB=1",
+     "LO_THRESH.MSB=0",
+     "CONFIG.COMP_QUE!=3"
+    ]
+   }
+  ]
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "p10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  },
+  "RUG": {
+   "pinout": "p10",
+   "footprint": "X2QFN-10-RUG",
+   "package": "X2QFN",
+   "pins": 10
+  }
+ },
+ "pdf": "ads1113.pdf",
+ "pages": "p.3 (pinout), p.4 (ROC), p.15-18 (modes, conversion ready), p.19-22 (I2C), p.23 (data format), p.24-27 (registers)",
+ "notModeled": [
+  "analog input, PGA and multiplexer (stored only)",
+  "comparator: traditional/window modes, COMP_POL polarity, COMP_LAT latching, COMP_QUE assert count, SMBus alert response (ALERT/RDY works only as the conversion-ready pin, active low; COMP_POL is stored only)",
+  "OS=1 writes in continuous mode restart the conversion (the datasheet: no effect)",
+  "data rate variation of +-10% (conversion time = 1 / nominal data rate) and the ~25 us single-shot power-up",
+  "power-down supply current",
+  "I2C high-speed mode entry code and timing limits"
+ ],
+ "variants": "ADS1113, ADS1114 and ADS1115 share ads1113.pdf / ads1113-q1.pdf: ADS1113 has no PGA, comparator, ALERT/RDY or threshold registers (pins 2, 6, 7 NC); ADS1114 has PGA and comparator but no MUX (pins 6, 7 NC); own spec files",
+ "parts": [
+  [
+   "ADS1114BQDGSRQ1",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "ADS1114IDGSR",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "ADS1114IDGST",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "ADS1114IRUGR",
+   "RUG",
+   10,
+   "Active"
+  ],
+  [
+   "ADS1114IRUGT",
+   "RUG",
+   10,
+   "Active"
+  ]
+ ]
+}

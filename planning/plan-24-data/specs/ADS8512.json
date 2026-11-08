@@ -1,0 +1,176 @@
+{
+ "device": {
+  "id": "ADS8512",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit 40 kSPS low-power sampling ADC with internal reference and serial interface",
+  "note": "ads8512.pdf (SLAS485) p.3-4 specifications (conversion time 20 us, VIH, binary two's complement, VS 4.75-5.25 V, bus access/relinquish 83 ns), p.5 pin configuration and terminal functions, p.12 Table 2 conversion and data timing, p.13 Table 3 output codes, p.14-15 internal/external DATACLK (12-bit format, MSB first)",
+  "pinouts": {
+   "so16": [
+    {
+     "number": 1,
+     "name": "R1IN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "R2IN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "R3IN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "BUF",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "REF",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "DATACLK",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "DATA",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "EXT/INT",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CONV",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "PWRD",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "VS",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "R1IN",
+   "R2IN",
+   "R3IN",
+   "BUF",
+   "CAP",
+   "REF"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "DATACLK",
+   "miso": "DATA",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 83,
+   "tOut": 20,
+   "tFloat": 83
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{12}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 20000,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 0,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONV",
+    "edge": "fall"
+   }
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "so16",
+   "footprint": "SOIC-16W",
+   "package": "SOIC",
+   "pins": 16
+  }
+ },
+ "pdf": "ads8512.pdf",
+ "pages": "p.3-4 (conversion time 20 us max, VIH 2.0 V to VS+0.3 V, binary two's complement, VS 4.75-5.25 V, bus access 83 ns, relinquish 83 ns), p.5 (pin configuration and terminal functions), p.12 (Table 2: t9 conversion 12 us typ / 15 us max, t20 DATA valid 20 ns max), p.13 (Table 3: 0 V = 000h), p.14-15 (12-bit, MSB first; external DATACLK: transmission begins on the first rising edge, data valid on the falling edge)",
+ "notModeled": [
+  "analog inputs, input-range resistor network (R1IN/R2IN/R3IN/BUF wiring, Table 1), internal 2.5 V reference (REF), reference buffer output BUF and CAP compensation node; codeFormat is binary two's complement on every range (0 V reads 0000h on the bipolar ranges; on the unipolar ranges 0 V is -full scale, which the model does not give)",
+  "only the external data clock mode (EXT/INT high) is modeled: SPI mode 1 framed by CS falling; the first DATACLK rising edge starts the transmission with the MSB, each bit valid on the falling edge (Figures 40-41). The internal-clock mode (EXT/INT low: the part drives DATACLK during conversion n+1 with the result of conversion n, Figure 39) is not modeled; DATACLK is never driven",
+  "a CONV falling edge starts a conversion regardless of CS and is ignored while one runs; the shift register is updated just before BUSY rises and the result is lost if DATACLK is high with CS low then (t25, Figure 37/38) - not modeled",
+  "CS high 3-states BUSY as well as DATA (and DATACLK); the model drives BUSY regardless of CS",
+  "tValid/tFloat use the bus access / relinquish times (83 ns max, specifications table); t26/t27 give only 15 ns minimums. Conversion time uses the specifications table's 20 us maximum (Table 2 t9 gives 15 us max).",
+  "PWRD (power-down, conversions invalid while low power) is not read; CONV pulse/quiet-time rules (t2-t5), throughput limits"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS8512IBDW",
+   "DW",
+   16,
+   "Active"
+  ]
+ ]
+}

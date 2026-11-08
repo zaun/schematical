@@ -1,0 +1,225 @@
+{
+ "device": {
+  "id": "TLC5510",
+  "function": "ADC",
+  "description": "8-bit 20 MSPS semiflash ADC with parallel 3-state outputs and internal reference resistors",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "tlc5510.pdf (SLAS095L) p.1 pinout (PW/NS), p.3 terminal functions and recommended operating conditions, p.5 operating characteristics (td(D), ten, tdis) and Figure 1 I/O timing, p.6 functional description (output on CLK rising, 2.5-clock latency, Figure 2), p.8 Table 1 output code",
+  "pinouts": {
+   "pw24": [
+    {
+     "number": 1,
+     "name": "OE",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "D1",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "D2",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "D3",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "D4",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "D5",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "D6",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "D7",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "D8",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "VDDD",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "VDDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "VDDA",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "VDDA",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "REFTS",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "REFT",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "VDDA",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "ANALOG IN",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "REFBS",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "REFB",
+     "role": "power"
+    },
+    {
+     "number": 24,
+     "name": "DGND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "VDDA",
+   "REFTS",
+   "REFT",
+   "ANALOG IN",
+   "REFBS",
+   "REFB"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLK",
+    "edge": "rise"
+   },
+   "data": [
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1"
+   ],
+   "oe": {
+    "pin": "OE",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tOut": 30
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "R{8}"
+  }
+ },
+ "packages": {
+  "NS": {
+   "pinout": "pw24",
+   "footprint": "SOP-24",
+   "package": "SOP",
+   "pins": 24
+  },
+  "PW": {
+   "pinout": "pw24",
+   "footprint": "TSSOP-24",
+   "package": "TSSOP",
+   "pins": 24
+  }
+ },
+ "pdf": "tlc5510.pdf",
+ "pages": "p.1 (pinout, options), p.3 (terminal functions, ROC: VDDD 4.75-5.25 V, VIH 4 V, VIL 1 V, clock pulse 25 ns min), p.5 (td(D) 30 ns max, ten 5 ns, tdis 7 ns, Figure 1), p.6 (functional description, Figure 2), p.8 (Table 1 output code)",
+ "notModeled": [
+  "analog input, reference ladder and the internal reference resistors (REFT/REFTS/REFB/REFBS); the result is always the 0 V code 0x00 (an input at or below Vref(B) reads 00000000, p.8 Table 1)",
+  "pipeline latency of 2.5 clocks (sampled on CLK falling, output on the rising edge of the 4th clock, p.6); the code is constant",
+  "OE enable / disable times ten 5 ns and tdis 7 ns (typical, p.5) are not timed; OE high puts D1-D8 in high impedance",
+  "conversion rate limit 20 MSPS and clock pulse widths 25 ns min (p.3, p.5)",
+  "TLC5510A (4 V full scale, external reference across the center divider): same pinout and digital side; its NS parts are listed under this device"
+ ],
+ "variants": "TLC5510A shares the datasheet: 4-V full-scale input with an externally applied reference (REFBS to ground, REFTS to VDDA); digital interface identical. TLC5510 is interchangeable with the Sony CXD1175 (p.1).",
+ "parts": [
+  [
+   "TLC5510AINS",
+   "NS",
+   24,
+   "Active"
+  ],
+  [
+   "TLC5510IPW",
+   "PW",
+   24,
+   "Active"
+  ],
+  [
+   "TLC5510IPWR",
+   "PW",
+   24,
+   "Active"
+  ]
+ ]
+}

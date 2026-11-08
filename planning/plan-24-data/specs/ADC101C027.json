@@ -1,0 +1,324 @@
+{
+ "device": {
+  "id": "ADC101C027",
+  "function": "ADC",
+  "description": "10-bit 188.9 kSPS I2C SAR ADC with pin-selectable address",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "adc101c021.pdf (SNAS446D) p.2 connection diagrams, p.4 pin descriptions and Table 2 package pinouts, p.5 operating ratings (VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.8 conversion time 1 us typ, p.16 straight binary, p.17-23 registers, p.23-25 I2C sequences, p.25 Table 3 slave addresses",
+  "pinouts": {
+   "ddc6": [
+    {
+     "number": 1,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "VIN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "ADR0",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SDA",
+     "role": "inout"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "inputMax": 5.5,
+  "analog": [
+   "VIN"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "ADR0"
+   ],
+   "table": [
+    81,
+    82,
+    null,
+    null
+   ]
+  },
+  "registers": [
+   {
+    "name": "CONVERSION",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": "RESULT",
+    "fields": [
+     {
+      "name": "ALERT_FLAG",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "RESULT",
+      "bits": [
+       11,
+       2
+      ]
+     }
+    ],
+    "note": "p.18: alert flag D15, 10-bit result D11:D2, reserved bits read 0"
+   },
+   {
+    "name": "ALERT_STATUS",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "writeOneClears": 3,
+    "fields": [
+     {
+      "name": "OVER_RANGE",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "UNDER_RANGE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.19: flags cleared by writing 1"
+   },
+   {
+    "name": "CONFIG",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 2,
+    "fields": [
+     {
+      "name": "CYCLE_TIME",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "ALERT_HOLD",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ALERT_FLAG_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ALERT_PIN_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "POLARITY",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.20"
+   },
+   {
+    "name": "VLOW",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 61443,
+    "fields": [
+     {
+      "name": "VLOW_LIMIT",
+      "bits": [
+       11,
+       2
+      ]
+     }
+    ],
+    "note": "p.21"
+   },
+   {
+    "name": "VHIGH",
+    "address": 4,
+    "width": 16,
+    "reset": 4095,
+    "readOnly": 61443,
+    "fields": [
+     {
+      "name": "VHIGH_LIMIT",
+      "bits": [
+       11,
+       2
+      ]
+     }
+    ],
+    "note": "p.21: default 0FFFh"
+   },
+   {
+    "name": "VHYST",
+    "address": 5,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 61443,
+    "fields": [
+     {
+      "name": "HYSTERESIS",
+      "bits": [
+       11,
+       2
+      ]
+     }
+    ],
+    "note": "p.22"
+   },
+   {
+    "name": "VMIN",
+    "address": 6,
+    "width": 16,
+    "reset": 4095,
+    "readOnly": 61443,
+    "fields": [
+     {
+      "name": "LOWEST",
+      "bits": [
+       11,
+       2
+      ]
+     }
+    ],
+    "note": "p.22: default 0FFFh"
+   },
+   {
+    "name": "VMAX",
+    "address": 7,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 61443,
+    "fields": [
+     {
+      "name": "HIGHEST",
+      "bits": [
+       11,
+       2
+      ]
+     }
+    ],
+    "note": "p.23"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Address Pointer",
+     "in": "00000aaa",
+     "action": "pointer",
+     "address": "a",
+     "note": "p.17: pointer bits 7:3 must be 0"
+    }
+   ],
+   "read": "pointer"
+  },
+  "conversion": {
+   "time": {
+    "field": "CONFIG.CYCLE_TIME",
+    "values": {
+     "0": 1000,
+     "1": 37037,
+     "2": 74074,
+     "3": 149254,
+     "4": 294118,
+     "5": 588235,
+     "6": 1111111,
+     "7": 2500000
+    }
+   },
+   "start": [
+    "read"
+   ],
+   "mode": {
+    "field": "CONFIG.CYCLE_TIME",
+    "single": 0
+   }
+  }
+ },
+ "packages": {
+  "DDC": {
+   "pinout": "ddc6",
+   "footprint": "SOT23-THIN-6",
+   "package": "SOT-23-THIN",
+   "pins": 6
+  }
+ },
+ "pdf": "adc101c021.pdf",
+ "pages": "p.2 connection diagrams, p.4 pin descriptions and Table 2 package pinouts, p.5 operating ratings (VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.8 conversion time 1 us typ, p.16 straight binary, p.17-23 registers, p.23-25 I2C sequences, p.25 Table 3 slave addresses",
+ "notModeled": [
+  "ADR0 floating (or at VA/2) selects 0x50 (1010000): the tie table has no floating state; GND = 0x51 and VA = 0x52 are modeled (Table 3), SCL/SDA ties are not listed",
+  "CONFIG.ALERT_PIN_EN and CONFIG.POLARITY do not apply (no ALERT pin); stored only",
+  "analog input (the result is always the 0 V code 0x000)",
+  "conversion starts at the ACK of the address byte of a read (about 400 ns acquisition + 1 us typ conversion); the model starts the next conversion after each read of the result (1 us, the typical value: no maximum is given)",
+  "automatic conversion mode (CONFIG.CYCLE_TIME != 0) is modeled as continuous conversions, each lasting the cycle interval 1 / typical fconvert of the p.20 table (27 ... 0.4 ksps)",
+  "alert function: VHIGH/VLOW/VHYST comparison, setting of the ALERT_STATUS flags and of CONVERSION.ALERT_FLAG, VMIN/VMAX tracking in automatic mode (registers are stored only)",
+  "reserved bits of the 16-bit limit registers read 0, but VHIGH/VMIN reset to 0FFFh per the datasheet (bits 1:0 set); they are marked read-only so the reset value reads back as 0FFFh",
+  "I2C Hs-mode master code entry (00001xxx), quiet interface mode, automatic power-down between conversions",
+  "power-on reset brown-out behaviour (registers lost below 2.4 V)"
+ ],
+ "variants": "ADC101C021 shares the datasheet (ALERT pin instead of ADR0): own spec file. ADC081C027/ADC121C027 are the 8/12-bit parts",
+ "parts": [
+  [
+   "ADC101C027CIMK/NOPB",
+   "DDC",
+   6,
+   "Active"
+  ],
+  [
+   "ADC101C027CIMKX/NOPB",
+   "DDC",
+   6,
+   "Active"
+  ]
+ ]
+}

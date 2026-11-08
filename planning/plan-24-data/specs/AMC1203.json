@@ -1,0 +1,230 @@
+{
+ "device": {
+  "id": "AMC1203",
+  "function": "ADC",
+  "description": "Isolated second-order delta-sigma modulator (+-280 mV input) with 10 MHz internal clock, CLKOUT and DOUT bit-stream outputs",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "amc1203.pdf (SBAS427E) p.3-4 pin configurations and functions (SOP-8 DUB / PSA, SOIC-16 DW), p.5 recommended operating conditions (AVDD, DVDD 4.5-5.5 V, +-280 mV linear range), p.10 switching characteristics (internal clock 8-12 MHz, DOUT -2..2 ns after the CLKOUT falling edge; setup/hold to the CLKOUT rising edge) and Figure 5-1, p.17 digital output (0 V = 50 % ones; 16-bit resolution with a sinc3 OSR 256 filter)",
+  "pinouts": {
+   "sop8": [
+    {
+     "number": 1,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "INP",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "INN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "CLKOUT",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "DVDD",
+     "role": "power"
+    }
+   ],
+   "soic16": [
+    {
+     "number": 1,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "INP",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "INN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 8,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 11,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 13,
+     "name": "CLKOUT",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "DGND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "offset",
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "AVDD",
+   "INP",
+   "INN"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLKOUT",
+    "edge": "fall"
+   },
+   "data": [
+    "DOUT"
+   ]
+  },
+  "timing": {
+   "tOut": 2
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "10"
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "soic16",
+   "footprint": "SOIC-16W",
+   "package": "SOIC",
+   "pins": 16
+  },
+  "DUB": {
+   "pinout": "sop8",
+   "footprint": "SOP-8-DUB",
+   "package": "SOP",
+   "pins": 8
+  },
+  "PSA": {
+   "pinout": "sop8",
+   "footprint": "SOP-8-PSA",
+   "package": "SOP",
+   "pins": 8
+  }
+ },
+ "pdf": "amc1203.pdf",
+ "pages": "p.3-4 (pinouts), p.5 (ROC), p.9 (logic levels), p.10 (switching characteristics, Figure 5-1), p.17 (digital output, Figure 6-3), p.17-18 (functional modes)",
+ "notModeled": [
+  "INTERNAL CLOCK: the device generates its own 10 MHz (8-12 MHz) modulator clock and drives it on CLKOUT; DOUT changes after each CLKOUT falling edge. The schema's clocked bus needs an input clock, so the model names CLKOUT (an output that nothing drives) as the bus clock: as written DOUT only advances if CLKOUT is driven externally. The engine needs an internal-oscillator form (period 100 ns, driven on CLKOUT) to run this part",
+  "analog modulator, galvanic isolation, AVDD (high side) and the input range: DOUT is the 0 V bit stream (50 % ones, read pattern \"10\"); clipping beyond +-320 mV and the missing-AVDD constant-stream state (p.18) are not modeled",
+  "off state (outputs low without supply)",
+  "tOut = tD max 2 ns (DOUT after the CLKOUT falling edge); CLKOUT period / duty-cycle limits"
+ ],
+ "variants": "AMC1203 and AMC1203B (lower offset / gain error) share the datasheet and pinouts; the skeleton parts are all AMC1203B (DW) or AMC1203 (DUB, PSA)",
+ "parts": [
+  [
+   "AMC1203BDW",
+   "DW",
+   16,
+   "Active"
+  ],
+  [
+   "AMC1203BDWR",
+   "DW",
+   16,
+   "Active"
+  ],
+  [
+   "AMC1203DUB",
+   "DUB",
+   8,
+   "Active"
+  ],
+  [
+   "AMC1203PSA",
+   "PSA",
+   8,
+   "Active"
+  ],
+  [
+   "AMC1203PSAR",
+   "PSA",
+   8,
+   "Active"
+  ]
+ ]
+}

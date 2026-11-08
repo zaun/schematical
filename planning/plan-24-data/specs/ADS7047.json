@@ -1,0 +1,120 @@
+{
+ "device": {
+  "id": "ADS7047",
+  "function": "ADC",
+  "description": "12-bit 3 MSPS differential-input SAR ADC with SPI-compatible serial interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7047.pdf (SBAS819) p.3 pin configuration and functions, p.4 recommended operating conditions, p.7 timing requirements and switching characteristics (Figures 1-2), p.19 transfer characteristics (Table 2), p.21 CNV state / serial interface (Figure 37), p.22-23 offset calibration (OFFCAL state)",
+  "pinouts": {
+   "rug8": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AINM",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   1.65,
+   3.6
+  ],
+  "analog": [
+   "AINM",
+   "AINP",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDO",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 6.5,
+   "tOut": 10,
+   "tFloat": 5.5
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0 R{12}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "RUG": {
+   "pinout": "rug8",
+   "footprint": "X2QFN-8-RUG",
+   "package": "X2QFN",
+   "pins": 8
+  }
+ },
+ "pdf": "ads7047.pdf",
+ "pages": "p.3 (pins), p.4 (ROC), p.7 (timing, Figures 1-2), p.19 (transfer characteristics), p.21 (Figure 37 serial interface), p.22-23 (offset calibration)",
+ "notModeled": [
+  "analog input (differential input (two's complement, 0 V = 000h)); conversion is clocked by SCLK (15 SCLK falling edges, not timed: the result is the 0 V code at once)",
+  "pipelined output: each frame shifts out the previous conversion (the first frame after power-up is all zeros, which the 0 V code already is); with a constant code this is not observable",
+  "fewer than 15 SCLK falling edges in a frame gives an invalid result in the next frame",
+  "offset calibration (OFFCAL state: 24 SCLKs in the first frame after power-up, 64 SCLKs in a frame during normal operation; SDO outputs 0s)",
+  "throughput, acquisition time and SCLK frequency limits",
+  "tFloat: the datasheet gives only a 5.5 ns minimum for tdz_CSDO"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS7047IRUGR",
+   "RUG",
+   8,
+   "Active"
+  ]
+ ]
+}

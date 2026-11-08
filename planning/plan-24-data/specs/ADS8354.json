@@ -1,0 +1,345 @@
+{
+ "device": {
+  "id": "ADS8354",
+  "function": "ADC",
+  "description": "16-bit 700 kSPS dual simultaneous-sampling SAR ADC, fully-differential inputs, SPI with programmable REFDACs",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7254.pdf (SBAS556B, ADS8354/ADS7854/ADS7254) p.4 pin functions, p.10 DVDD range, p.11-12 serial timing, p.32 transfer function, p.33-35 register write and CFR/REFDAC, p.36 read-back, p.38 32-CLK dual-SDO frame and tCONV, p.43-45 low-power modes",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "AINP_A",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AINM_A",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "REFIO_A",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "REFGND_A",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "REFGND_B",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "REFIO_B",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "AINM_B",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AINP_B",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "SDO_A",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "SDO_B",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "AVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   1.65,
+   5.5
+  ],
+  "analog": [
+   "AINP_A",
+   "AINM_A",
+   "AINP_B",
+   "AINM_B",
+   "REFIO_A",
+   "REFIO_B",
+   "REFGND_A",
+   "REFGND_B",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO_A",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 12,
+   "tOut": 20,
+   "tFloat": 12
+  },
+  "registers": [
+   {
+    "name": "CFR",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "RD_CLK_MODE",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "RD_DATA_LINES",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "INPUT_RANGE",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "B8_7",
+      "bits": [
+       8,
+       7
+      ]
+     },
+     {
+      "name": "REF_SEL",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "STANDBY",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "B4",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "B3_0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.34 CFR bits B11..B0 (written with command 1000b, read back with 0011b); all bits 0 at power-up"
+   },
+   {
+    "name": "REFDAC_A",
+    "width": 12,
+    "reset": 4088,
+    "readOnly": 7,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       3
+      ]
+     },
+     {
+      "name": "B2_0",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.35 REFDAC_A bits B11..B0: D[8:0] in B11:B3, B2:B0 = 0; reset 1FFh per the REFDAC Settings table \"(default)\" (the field table lists 0h)"
+   },
+   {
+    "name": "REFDAC_B",
+    "width": 12,
+    "reset": 4088,
+    "readOnly": 7,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       11,
+       3
+      ]
+     },
+     {
+      "name": "B2_0",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.35 REFDAC_B, as REFDAC_A"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0{16} R{16}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "Enter SPD (SDI high for 48 SCLK)",
+     "in": "1{48}",
+     "action": "powerdown",
+     "commit": "end",
+     "note": "p.43-45 software power-down on the CS rising edge after a frame with SDI high for at least 48 SCLKs"
+    },
+    {
+     "name": "Exit SPD (SDI low for 48 SCLK)",
+     "in": "0{48}",
+     "action": "wakeup",
+     "commit": "end",
+     "note": "p.43-45 SDI low for at least 48 SCLKs; power-up starts on CS rising"
+    },
+    {
+     "name": "CFR write",
+     "in": "1000 dddddddddddd",
+     "action": "write",
+     "register": "CFR",
+     "data": "d",
+     "commit": "end",
+     "note": "p.33 Table: B[15:12] = 1000b; takes effect on the CS rising edge of a valid frame"
+    },
+    {
+     "name": "REFDAC_A write",
+     "in": "1001 dddddddddddd",
+     "action": "write",
+     "register": "REFDAC_A",
+     "data": "d",
+     "commit": "end"
+    },
+    {
+     "name": "REFDAC_B write",
+     "in": "1010 dddddddddddd",
+     "action": "write",
+     "register": "REFDAC_B",
+     "data": "d",
+     "commit": "end"
+    },
+    {
+     "name": "CFR read",
+     "in": "0011 x{12}",
+     "action": "nop",
+     "next": "0011 [CFR]",
+     "commit": "end",
+     "note": "p.36: control word in frame F+1, SDO_A shifts R15..R0 = 0011b + CFR B11..B0 in frame F+2, then 0s"
+    },
+    {
+     "name": "REFDAC_A read",
+     "in": "0001 x{12}",
+     "action": "nop",
+     "next": "0001 [REFDAC_A]",
+     "commit": "end"
+    },
+    {
+     "name": "REFDAC_B read",
+     "in": "0010 x{12}",
+     "action": "nop",
+     "next": "0010 [REFDAC_B]",
+     "commit": "end"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 640,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "ads7254.pdf",
+ "pages": "p.4 (pin functions), p.10 (DVDD 1.65-5.5 V), p.11-12 (serial timing, Figure 1), p.32 (transfer function), p.33 (Table: B[15:12] operations), p.34 (CFR), p.35 (REFDAC), p.36 (register read-back), p.37-42 (conversion data read, 32-CLK dual-SDO Data Launch Edge table, tCONV p.38), p.43-45 (STANDBY, SPD), p.46 (frame abort)",
+ "notModeled": [
+  "analog inputs, internal references and REFDACs: every conversion returns the 0 V code (twos complement 0)",
+  "channel B: both ADCs sample simultaneously but only SDO_A (ADC_A result) is modeled; SDO_B (ADC_B result in dual-SDO mode, 3-state in single-SDO mode, 0s during register read-back) is never driven",
+  "interface modes from CFR RD_CLK_MODE / RD_DATA_LINES: only the default 32-CLK dual-SDO frame (16 zeros, the result MSB first, zero fill) is modeled; the 32-CLK single-SDO frame (ADC_A then ADC_B on SDO_A, 48 SCLKs) and the 16-CLK modes (2 zeros then the result, conversion clocked by SCLK) are stored only (the ADS8354 supports 32-CLK modes only)",
+  "minimum SCLK count N per frame (16/32/48) for a valid write and the 48-SCLK read-back frames: writes and reads commit at CS rising once their 16 bits are in (fewer bits discard them)",
+  "register read-back output timing: the 16-bit word is shifted from CS falling in the frame after the read command (the figure shows R15 before the first SCLK falling edge); the result frame of that transaction is replaced",
+  "STANDBY mode (CFR STANDBY = 1: SDO outputs all 1s while CS is low, power-up time tPU_STDBY): the bit is stored only, conversions continue",
+  "SPD mode: SDO_A/SDO_B 3-state regardless of CS and the tPU_SPD power-up time; the model only stops conversions",
+  "frame abort / short-cycling (CS high before N SCLKs starts a new sample) and the acquisition-time / throughput limits",
+  "CFR bits that must be 0 are stored as written",
+  "RD_CLK_MODE is ignored by the ADS8354 (32-CLK only); it is still stored"
+ ],
+ "variants": "ADS7254/ADS7854/ADS8354 share ads7254.pdf (same pinout, registers and protocol; 12/14/16 bits, tCONV 450/450/640 ns; the 16-bit part supports 32-CLK modes only); own spec each. The ADSxx53 (ads7253.pdf) are the single-ended/pseudo-differential versions.",
+ "parts": [
+  [
+   "ADS8354IPWR",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

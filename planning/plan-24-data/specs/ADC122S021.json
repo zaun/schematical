@@ -1,0 +1,147 @@
+{
+ "device": {
+  "id": "ADC122S021",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit 2-channel 50-200 kSPS SAR ADC with SPI-compatible serial interface",
+  "note": "adc122s021.pdf (SNAS280D) p.1 connection diagram, p.2 pin descriptions, p.3 operating ratings, p.5-6 output coding and timing specifications, p.7 Figure 3 serial timing, p.16-17 serial interface and control register (Tables 2-4), p.18 transfer function",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "IN2",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "IN1",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "SCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 2,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "IN1",
+   "IN2"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 3
+  },
+  "timing": {
+   "tValid": 30,
+   "tOut": 30,
+   "tFloat": 20
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 3,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "ADD",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "Control Register bits 5:3 (ADD2-ADD0); internal, no address"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "0{4} R{12}",
+   "idle": "repeat",
+   "commands": [
+    {
+     "name": "Control Register",
+     "in": "xxaaaxxx x{8}",
+     "set": {
+      "CTRL.ADD": "a"
+     },
+     "note": "DIN on the first 8 rising SCLK edges of each 16-SCLK conversion; selects the input for the next conversion"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ],
+   "channel": "CTRL.ADD"
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "adc122s021.pdf",
+ "pages": "p.1 (pinout: CS1 VA2 GND3 IN2 4 IN1 5 DIN6 DOUT7 SCLK8), p.2 (pin descriptions), p.3 (operating ratings: VA 2.7-5.25 V, digital inputs -0.3 V to VA), p.5 (straight binary; tEN 30 ns, tACC 30 ns), p.6 (tDIS 20 ns), p.7 (Figure 3: SCLK idles high, DOUT Z3-Z0 then DB11-DB0, DIN DONTC DONTC ADD2 ADD1 ADD0 DONTC x3), p.16-17 (frame of 16-SCLK multiples, control register Tables 2-4)",
+ "notModeled": [
+  "analog inputs (the result is the 0 V code 0x000 on both channels)",
+  "pipelined channel select: ADD2-ADD0 written during a conversion select the input of the NEXT conversion; the model stores them at once (the code is the same on every channel); first conversion after power-up is IN1 (reset 0)",
+  "ADD2 is don't care (codes 4/5 = IN1/IN2) and ADD1 = 1 gives an indeterminate output: CTRL.ADD values 2-7 are stored as written",
+  "conversion clocked by SCLK; several 16-SCLK conversions in one CS frame are modeled by the stream frame and the repeating output (idle \"repeat\")",
+  "SPI mode 3 chosen (SCLK may also be low at CS fall: the CS fall then counts as the first falling edge)",
+  "power-down while CS is high and between continuous conversions (no visible digital effect)",
+  "SCLK frequency limits, tCSU/tCLH"
+ ],
+ "variants": "ADC122S021 / ADC122S051 / ADC122S101 are pin and function compatible at 50-200 / 200-500 / 500-1000 kSPS; ADC082S/ADC102S are the 8/10-bit parts",
+ "parts": [
+  [
+   "ADC122S021CIMM/NOPB",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

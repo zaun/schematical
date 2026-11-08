@@ -1,0 +1,293 @@
+{
+ "device": {
+  "id": "ADS8323",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit 500 kSPS micropower bipolar-input SAR ADC with 16/8-bit parallel interface and internal 2.5 V reference",
+  "note": "ads8323.pdf (SBAS224C) p.3-5 electrical characteristics, p.6 pin configuration and assignments, p.7 timing diagram and timing characteristics, p.15 conversion start, reading data, BYTE, ideal output codes",
+  "pinouts": {
+   "pbs32": [
+    {
+     "number": 1,
+     "name": "DB15",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "DB14",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "DB13",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "DB12",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "DB11",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "DB10",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "DB9",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "DB8",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "DB7",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "DB6",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "DB5",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "DB4",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "DB3",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DB2",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "DB1",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "DB0",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "+DVDD",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "CLOCK",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "BYTE",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "-IN",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "+IN",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "+AVDD",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 30,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 31,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 32,
+     "name": "REFOUT",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "-IN",
+   "+IN",
+   "+AVDD",
+   "REFIN",
+   "REFOUT"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB15",
+    "DB14",
+    "DB13",
+    "DB12",
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "byteSelect": {
+    "pin": "BYTE",
+    "high": 1
+   }
+  },
+  "timing": {
+   "tAcc": 40
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": {
+    "low": "R{16}",
+    "high": "1{8} [R:15:8]"
+   }
+  },
+  "conversion": {
+   "time": 1600,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 1,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONVST",
+    "edge": "fall"
+   }
+  }
+ },
+ "packages": {
+  "PBS": {
+   "pinout": "pbs32",
+   "footprint": "TQFP-32-PBS",
+   "package": "TQFP",
+   "pins": 32
+  }
+ },
+ "pdf": "ads8323.pdf",
+ "pages": "p.2 (recommended operating conditions: DVDD 4.75-5.25 V), p.3-5 (electrical characteristics: conversion time 1.6 us max, bipolar -VREF to +VREF, binary two's complement), p.6 (pin assignments), p.7 (timing: tCONV 1.6 us, CONVST low to BUSY high 25 ns, RD low to data valid 40 ns, BYTE note), p.15 (reading data, BYTE, Table 1 codes)",
+ "notModeled": [
+  "analog input (bipolar -VREF to +VREF, binary two's complement; 0 V reads 0000h) and the internal 2.5 V reference",
+  "the conversion runs 16 rising edges of the external CLOCK pin (10 MHz max) after the CONVST falling edge; the model times it as 1.6 us (the maximum tCONV at 10 MHz) and ignores CLOCK",
+  "CS must be low when CONVST falls for a conversion to start; the model starts on every CONVST falling edge; further CONVST pulses during a conversion are ignored by the part",
+  "BYTE high: the timing diagram shows FFh on DB15-DB8 and bits 15-8 on DB7-DB0 (modeled); the 125 ns no-read window before CONVST is not modeled",
+  "tDf: the datasheet gives only a 5 ns minimum data hold after RD high, no float time",
+  "acquisition time, CLOCK high/low limits"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS8323Y/250",
+   "PBS",
+   32,
+   "Last Time Buy"
+  ],
+  [
+   "ADS8323Y/2K",
+   "PBS",
+   32,
+   "Last Time Buy"
+  ],
+  [
+   "ADS8323YB/250",
+   "PBS",
+   32,
+   "Last Time Buy"
+  ]
+ ]
+}

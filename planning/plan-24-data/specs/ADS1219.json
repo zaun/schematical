@@ -1,0 +1,340 @@
+{
+ "device": {
+  "id": "ADS1219",
+  "function": "ADC",
+  "description": "24-bit 1 kSPS 4-channel delta-sigma ADC with internal reference and I2C interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1219.pdf (SBAS924A) p.3 pin functions, p.4 recommended operating conditions, p.7-9 I2C timing and DRDY, p.19 conversion times (Table 4), p.20-21 reset and conversion modes, p.22-23 I2C address (Table 5), DRDY, general call, p.24 data format, p.25-26 commands (Table 7), p.27-29 registers",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "REFN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "SCL",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 4,
+  "codeFormat": "twos",
+  "vcc": [
+   2.3,
+   5.5
+  ],
+  "inputMax": 5.5,
+  "analog": [
+   "AIN0",
+   "AIN1",
+   "AIN2",
+   "AIN3",
+   "AGND",
+   "AVDD",
+   "REFN",
+   "REFP"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "A0",
+    "A1"
+   ],
+   "table": [
+    64,
+    65,
+    67,
+    66,
+    68,
+    69,
+    71,
+    70,
+    76,
+    77,
+    79,
+    78,
+    72,
+    73,
+    75,
+    74
+   ]
+  },
+  "registers": [
+   {
+    "name": "CONFIG",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MUX",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "GAIN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DR",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "CM",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "VREF",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "STATUS",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DRDY",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "ID",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DATA",
+    "width": 24,
+    "reset": 0,
+    "readOnly": true,
+    "result": true,
+    "note": "output shift register read after RDATA"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "commands": [
+    {
+     "name": "RESET",
+     "in": "0000011x",
+     "action": "reset"
+    },
+    {
+     "name": "START/SYNC",
+     "in": "0000100x",
+     "action": "wakeup",
+     "then": [
+      "start"
+     ]
+    },
+    {
+     "name": "POWERDOWN",
+     "in": "0000001x",
+     "action": "powerdown"
+    },
+    {
+     "name": "RDATA",
+     "in": "0001xxxx",
+     "action": "read",
+     "register": "DATA"
+    },
+    {
+     "name": "RREG",
+     "in": "00100axx",
+     "action": "read",
+     "address": "a"
+    },
+    {
+     "name": "WREG",
+     "in": "010000xx dddddddd",
+     "action": "write",
+     "address": 0,
+     "data": "d"
+    }
+   ],
+   "read": "pointer",
+   "generalCall": "reset"
+  },
+  "conversion": {
+   "time": {
+    "field": "CONFIG.DR",
+    "values": {
+     "0": 50012695,
+     "1": 11286133,
+     "2": 3067383,
+     "3": 1036133
+    }
+   },
+   "start": [
+    "command"
+   ],
+   "mode": {
+    "field": "CONFIG.CM",
+    "continuous": 1
+   },
+   "done": {
+    "STATUS.DRDY": 1
+   },
+   "channel": "CONFIG.MUX"
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "openDrain": true
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "ads1219.pdf",
+ "pages": "p.3 (pins), p.4 (ROC), p.7-9 (I2C timing, DRDY), p.19 (Table 4 conversion times), p.20-21 (reset, modes), p.22-23 (I2C address, DRDY, general call), p.24 (data format), p.25-26 (commands), p.27-29 (registers)",
+ "notModeled": [
+  "analog input, gain, reference selection (stored only)",
+  "STATUS.DRDY is set at each completion but is not cleared when the conversion data are read (the schema has no 'clear another register's bit on result read'); it clears only on reset",
+  "conversion times are the single-shot values (Table 4); the continuous-mode period and the 28.5 tCLK first-conversion delay are not modeled",
+  "entering continuous mode by writing CM=1 does not need START/SYNC in the model (the datasheet requires START/SYNC after every CM change); a WREG during a conversion does not restart it (the datasheet restarts it)",
+  "POWERDOWN during a conversion: the datasheet completes the conversion first",
+  "DRDY releases high for tw(DRH) = 2 tMOD before the next result when the previous one was not read; DRDY rises tp(RDDR) = 2 tMOD after the RDATA command is latched (modeled: when the result is read)",
+  "RDATA/RREG read-back: the following I2C read returns the selected register MSB first and repeats it if more bytes are read (the datasheet does not say what follows the last byte)",
+  "I2C timeout (14000 tMOD) interface reset; I2C bus speed limits; RESET pin timing (tw(RSL), td(RSSTA))",
+  "STATUS.ID[6:0] (R-xxh, values subject to change): modeled as 0"
+ ],
+ "variants": "The datasheet also shows an RTE (WQFN-16) pinout; the skeleton has no RTE orderable parts.",
+ "parts": [
+  [
+   "ADS1219IPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1219IPWR",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1219IPWT",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

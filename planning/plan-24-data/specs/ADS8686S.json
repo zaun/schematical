@@ -1,0 +1,798 @@
+{
+  "device": {
+    "id": "ADS8686S",
+    "function": "ADC",
+    "description": "16-bit 1 MSPS dual simultaneous-sampling 16-channel SAR ADC with bipolar inputs, parallel / byte / serial interface",
+    "drawer": ["Interface"],
+    "note": "ads8686s.pdf (SBAS905C) p.3-6 pin functions (Table 5-1), p.8 recommended operating conditions, p.15-17 timing and switching characteristics, p.21 serial timing (Figure 6-5), p.37 transfer function (twos complement), p.38-43 pin descriptions, p.45 reset, p.57-62 programming (serial interface p.60-62, Tables 7-11/7-12), p.63-101 registers (Table 7-13)",
+    "pinouts": {
+      "pza80": [
+        {"number": 1, "name": "AIN_4BGND", "role": "input"},
+        {"number": 2, "name": "AIN_4B", "role": "input"},
+        {"number": 3, "name": "AIN_5BGND", "role": "input"},
+        {"number": 4, "name": "AIN_5B", "role": "input"},
+        {"number": 5, "name": "AGND", "role": "ground"},
+        {"number": 6, "name": "AVDD", "role": "power"},
+        {"number": 7, "name": "AIN_6B", "role": "input"},
+        {"number": 8, "name": "AIN_6BGND", "role": "input"},
+        {"number": 9, "name": "AIN_7B", "role": "input"},
+        {"number": 10, "name": "AIN_7BGND", "role": "input"},
+        {"number": 11, "name": "AIN_7AGND", "role": "input"},
+        {"number": 12, "name": "AIN_7A", "role": "input"},
+        {"number": 13, "name": "AIN_6AGND", "role": "input"},
+        {"number": 14, "name": "AIN_6A", "role": "input"},
+        {"number": 15, "name": "AVDD", "role": "power"},
+        {"number": 16, "name": "AGND", "role": "ground"},
+        {"number": 17, "name": "AIN_5A", "role": "input"},
+        {"number": 18, "name": "AIN_5AGND", "role": "input"},
+        {"number": 19, "name": "AIN_4A", "role": "input"},
+        {"number": 20, "name": "AIN_4AGND", "role": "input"},
+        {"number": 21, "name": "AIN_3AGND", "role": "input"},
+        {"number": 22, "name": "AIN_3A", "role": "input"},
+        {"number": 23, "name": "AIN_2AGND", "role": "input"},
+        {"number": 24, "name": "AIN_2A", "role": "input"},
+        {"number": 25, "name": "AIN_1AGND", "role": "input"},
+        {"number": 26, "name": "AIN_1A", "role": "input"},
+        {"number": 27, "name": "AIN_0AGND", "role": "input"},
+        {"number": 28, "name": "AIN_0A", "role": "input"},
+        {"number": 29, "name": "AGND", "role": "ground"},
+        {"number": 30, "name": "AVDD", "role": "power"},
+        {"number": 31, "name": "REFCAP", "role": "nc"},
+        {"number": 32, "name": "REFGND", "role": "ground"},
+        {"number": 33, "name": "REFIO", "role": "power"},
+        {"number": 34, "name": "REFIO_GND", "role": "ground"},
+        {"number": 35, "name": "REFSEL", "role": "input"},
+        {"number": 36, "name": "RESET", "role": "input"},
+        {"number": 37, "name": "SEQEN", "role": "input"},
+        {"number": 38, "name": "HW_RNGSEL1", "role": "input"},
+        {"number": 39, "name": "HW_RNGSEL0", "role": "input"},
+        {"number": 40, "name": "SER/BYTE/PAR", "role": "input"},
+        {"number": 41, "name": "DB0", "role": "inout"},
+        {"number": 42, "name": "DB1", "role": "inout"},
+        {"number": 43, "name": "DB2", "role": "inout"},
+        {"number": 44, "name": "DB3", "role": "inout"},
+        {"number": 45, "name": "DB4/SER1W", "role": "inout"},
+        {"number": 46, "name": "DB5/CRCEN", "role": "inout"},
+        {"number": 47, "name": "DB6", "role": "inout"},
+        {"number": 48, "name": "DB7", "role": "inout"},
+        {"number": 49, "name": "DVDD", "role": "power"},
+        {"number": 50, "name": "DGND", "role": "ground"},
+        {"number": 51, "name": "REGGNDD", "role": "ground"},
+        {"number": 52, "name": "REGCAPD", "role": "nc"},
+        {"number": 53, "name": "DB8", "role": "inout"},
+        {"number": 54, "name": "DB9/BYTESEL", "role": "inout"},
+        {"number": 55, "name": "DB10/SDI", "role": "inout"},
+        {"number": 56, "name": "DB11/SDOB", "role": "inout"},
+        {"number": 57, "name": "DB12/SDOA", "role": "inout"},
+        {"number": 58, "name": "DB13/OS0", "role": "inout"},
+        {"number": 59, "name": "DB14/OS1", "role": "inout"},
+        {"number": 60, "name": "DB15/OS2", "role": "inout"},
+        {"number": 61, "name": "WR/BURST", "role": "input"},
+        {"number": 62, "name": "SCLK/RD", "role": "input"},
+        {"number": 63, "name": "CS", "role": "input"},
+        {"number": 64, "name": "CHSEL0", "role": "input"},
+        {"number": 65, "name": "CHSEL1", "role": "input"},
+        {"number": 66, "name": "CHSEL2", "role": "input"},
+        {"number": 67, "name": "BUSY", "role": "output"},
+        {"number": 68, "name": "CONVST", "role": "input"},
+        {"number": 69, "name": "REGGND", "role": "ground"},
+        {"number": 70, "name": "REGCAP", "role": "nc"},
+        {"number": 71, "name": "AVDD", "role": "power"},
+        {"number": 72, "name": "AGND", "role": "ground"},
+        {"number": 73, "name": "AIN_0B", "role": "input"},
+        {"number": 74, "name": "AIN_0BGND", "role": "input"},
+        {"number": 75, "name": "AIN_1B", "role": "input"},
+        {"number": 76, "name": "AIN_1BGND", "role": "input"},
+        {"number": 77, "name": "AIN_2B", "role": "input"},
+        {"number": 78, "name": "AIN_2BGND", "role": "input"},
+        {"number": 79, "name": "AIN_3B", "role": "input"},
+        {"number": 80, "name": "AIN_3BGND", "role": "input"}
+      ]
+    },
+    "type": "adc",
+    "bits": 16,
+    "channels": 16,
+    "codeFormat": "twos",
+    "vcc": [1.71, 5.25],
+    "analog": [
+      "AIN_0A",
+      "AIN_0AGND",
+      "AIN_0B",
+      "AIN_0BGND",
+      "AIN_1A",
+      "AIN_1AGND",
+      "AIN_1B",
+      "AIN_1BGND",
+      "AIN_2A",
+      "AIN_2AGND",
+      "AIN_2B",
+      "AIN_2BGND",
+      "AIN_3A",
+      "AIN_3AGND",
+      "AIN_3B",
+      "AIN_3BGND",
+      "AIN_4A",
+      "AIN_4AGND",
+      "AIN_4B",
+      "AIN_4BGND",
+      "AIN_5A",
+      "AIN_5AGND",
+      "AIN_5B",
+      "AIN_5BGND",
+      "AIN_6A",
+      "AIN_6AGND",
+      "AIN_6B",
+      "AIN_6BGND",
+      "AIN_7A",
+      "AIN_7AGND",
+      "AIN_7B",
+      "AIN_7BGND",
+      "AVDD",
+      "REFCAP",
+      "REFIO",
+      "REGCAP",
+      "REGCAPD"
+    ],
+    "bus": {"style": "spi", "cs": "CS", "sclk": "SCLK/RD", "mosi": "DB10/SDI", "miso": "DB12/SDOA", "mode": 2},
+    "timing": {"tValid": 9, "tOut": 10, "tFloat": 10},
+    "registers": [
+      {
+        "name": "CONFIGURATION",
+        "address": 2,
+        "width": 16,
+        "reset": 1024,
+        "readOnly": 65408,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SDEF", "bits": [7, 7]},
+          {"name": "BURSTEN", "bits": [6, 6]},
+          {"name": "SEQEN", "bits": [5, 5]},
+          {"name": "OSR", "bits": [4, 2]},
+          {"name": "STATUSEN", "bits": [1, 1]},
+          {"name": "CRCEN", "bits": [0, 0]}
+        ]
+      },
+      {
+        "name": "CHANNEL_SEL",
+        "address": 3,
+        "width": 16,
+        "reset": 1536,
+        "readOnly": 65280,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "RANGE_A1",
+        "address": 4,
+        "width": 16,
+        "reset": 2303,
+        "readOnly": 65280,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "AIN_3A", "bits": [7, 6]},
+          {"name": "AIN_2A", "bits": [5, 4]},
+          {"name": "AIN_1A", "bits": [3, 2]},
+          {"name": "AIN_0A", "bits": [1, 0]}
+        ]
+      },
+      {
+        "name": "RANGE_A2",
+        "address": 5,
+        "width": 16,
+        "reset": 2815,
+        "readOnly": 65280,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "AIN_7A", "bits": [7, 6]},
+          {"name": "AIN_6A", "bits": [5, 4]},
+          {"name": "AIN_5A", "bits": [3, 2]},
+          {"name": "AIN_4A", "bits": [1, 0]}
+        ]
+      },
+      {
+        "name": "RANGE_B1",
+        "address": 6,
+        "width": 16,
+        "reset": 3327,
+        "readOnly": 65280,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "AIN_3B", "bits": [7, 6]},
+          {"name": "AIN_2B", "bits": [5, 4]},
+          {"name": "AIN_1B", "bits": [3, 2]},
+          {"name": "AIN_0B", "bits": [1, 0]}
+        ]
+      },
+      {
+        "name": "RANGE_B2",
+        "address": 7,
+        "width": 16,
+        "reset": 3839,
+        "readOnly": 65280,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "AIN_7B", "bits": [7, 6]},
+          {"name": "AIN_6B", "bits": [5, 4]},
+          {"name": "AIN_5B", "bits": [3, 2]},
+          {"name": "AIN_4B", "bits": [1, 0]}
+        ]
+      },
+      {
+        "name": "STATUS",
+        "address": 8,
+        "width": 16,
+        "reset": 0,
+        "readOnly": true,
+        "fields": [
+          {"name": "CHSEL_A_ID", "bits": [15, 12]},
+          {"name": "CHSEL_B_ID", "bits": [11, 8]},
+          {"name": "CRC", "bits": [7, 0]}
+        ]
+      },
+      {
+        "name": "OVER_RANGE_SETTING_A",
+        "address": 10,
+        "width": 16,
+        "reset": 5120,
+        "readOnly": 65280,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "AIN_7A_OVER_RANGE", "bits": [7, 7]},
+          {"name": "AIN_6A_OVER_RANGE", "bits": [6, 6]},
+          {"name": "AIN_5A_OVER_RANGE", "bits": [5, 5]},
+          {"name": "AIN_4A_OVER_RANGE", "bits": [4, 4]},
+          {"name": "AIN_3A_OVER_RANGE", "bits": [3, 3]},
+          {"name": "AIN_2A_OVER_RANGE", "bits": [2, 2]},
+          {"name": "AIN_1A_OVER_RANGE", "bits": [1, 1]},
+          {"name": "AIN_0A_OVER_RANGE", "bits": [0, 0]}
+        ]
+      },
+      {
+        "name": "OVER_RANGE_SETTING_B",
+        "address": 11,
+        "width": 16,
+        "reset": 5632,
+        "readOnly": 65280,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "AIN_7B_OVER_RANGE", "bits": [7, 7]},
+          {"name": "AIN_6B_OVER_RANGE", "bits": [6, 6]},
+          {"name": "AIN_5B_OVER_RANGE", "bits": [5, 5]},
+          {"name": "AIN_4B_OVER_RANGE", "bits": [4, 4]},
+          {"name": "AIN_3B_OVER_RANGE", "bits": [3, 3]},
+          {"name": "AIN_2B_OVER_RANGE", "bits": [2, 2]},
+          {"name": "AIN_1B_OVER_RANGE", "bits": [1, 1]},
+          {"name": "AIN_0B_OVER_RANGE", "bits": [0, 0]}
+        ]
+      },
+      {
+        "name": "LPF_CONFIG",
+        "address": 13,
+        "width": 16,
+        "reset": 6656,
+        "readOnly": 65532,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "LPF_CONFIG", "bits": [1, 0]}
+        ]
+      },
+      {
+        "name": "DEVICE_ID",
+        "address": 16,
+        "width": 16,
+        "reset": 8194,
+        "readOnly": true,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "DEVICE_ID", "bits": [1, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_0",
+        "address": 32,
+        "width": 16,
+        "reset": 16384,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_1",
+        "address": 33,
+        "width": 16,
+        "reset": 16913,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_2",
+        "address": 34,
+        "width": 16,
+        "reset": 17442,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_3",
+        "address": 35,
+        "width": 16,
+        "reset": 17971,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_4",
+        "address": 36,
+        "width": 16,
+        "reset": 18500,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_5",
+        "address": 37,
+        "width": 16,
+        "reset": 19029,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_6",
+        "address": 38,
+        "width": 16,
+        "reset": 19558,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_7",
+        "address": 39,
+        "width": 16,
+        "reset": 20343,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_8",
+        "address": 40,
+        "width": 16,
+        "reset": 20480,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_9",
+        "address": 41,
+        "width": 16,
+        "reset": 20992,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_10",
+        "address": 42,
+        "width": 16,
+        "reset": 21504,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_11",
+        "address": 43,
+        "width": 16,
+        "reset": 22016,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_12",
+        "address": 44,
+        "width": 16,
+        "reset": 22528,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_13",
+        "address": 45,
+        "width": 16,
+        "reset": 23040,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_14",
+        "address": 46,
+        "width": 16,
+        "reset": 23552,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_15",
+        "address": 47,
+        "width": 16,
+        "reset": 24064,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_16",
+        "address": 48,
+        "width": 16,
+        "reset": 24576,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_17",
+        "address": 49,
+        "width": 16,
+        "reset": 25088,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_18",
+        "address": 50,
+        "width": 16,
+        "reset": 25600,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_19",
+        "address": 51,
+        "width": 16,
+        "reset": 26112,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_20",
+        "address": 52,
+        "width": 16,
+        "reset": 26624,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_21",
+        "address": 53,
+        "width": 16,
+        "reset": 27136,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_22",
+        "address": 54,
+        "width": 16,
+        "reset": 27648,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_23",
+        "address": 55,
+        "width": 16,
+        "reset": 28160,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_24",
+        "address": 56,
+        "width": 16,
+        "reset": 28672,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_25",
+        "address": 57,
+        "width": 16,
+        "reset": 29184,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_26",
+        "address": 58,
+        "width": 16,
+        "reset": 29696,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_27",
+        "address": 59,
+        "width": 16,
+        "reset": 30208,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_28",
+        "address": 60,
+        "width": 16,
+        "reset": 30720,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_29",
+        "address": 61,
+        "width": 16,
+        "reset": 31232,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_30",
+        "address": 62,
+        "width": 16,
+        "reset": 31744,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      },
+      {
+        "name": "SEQ_STACK_31",
+        "address": 63,
+        "width": 16,
+        "reset": 32256,
+        "readOnly": 65024,
+        "fields": [
+          {"name": "W_R", "bits": [15, 15]},
+          {"name": "REGADDR", "bits": [14, 9]},
+          {"name": "SSREN", "bits": [8, 8]},
+          {"name": "CHSEL_B", "bits": [7, 4]},
+          {"name": "CHSEL_A", "bits": [3, 0]}
+        ]
+      }
+    ],
+    "protocol": {
+      "frame": "fixed",
+      "out": "[R] [R]",
+      "idle": "0",
+      "commands": [
+        {
+          "name": "NOP",
+          "in": "0 000000 x{9}",
+          "action": "nop",
+          "note": "read of unmapped address 0x0: frames whose SDI is held low (conversion reads) keep the conversion output"
+        },
+        {"name": "WRITE", "in": "1 aaaaaa ddddddddd", "action": "write", "address": "a", "data": "d", "commit": "end"},
+        {"name": "READ", "in": "0 aaaaaa x{9}", "action": "read", "address": "a", "commit": "end", "next": "@"}
+      ]
+    },
+    "conversion": {
+      "time": {
+        "field": "CONFIGURATION.OSR",
+        "values": {"0": 520, "1": 1400, "2": 3200, "3": 6700, "4": 13700, "5": 27900, "6": 55900, "7": 112000}
+      },
+      "start": ["pin"],
+      "channel": "CHANNEL_SEL.CHSEL_A"
+    },
+    "ready": [{"pin": "BUSY", "active": 1, "asserts": "busy"}],
+    "pins": {"reset": {"pin": "RESET", "active": 0}, "convst": {"pin": "CONVST", "edge": "rise"}}
+  },
+  "packages": {
+    "PZA": {"pinout": "pza80", "footprint": "LQFP-80-PZA", "package": "LQFP", "pins": 80}
+  },
+  "pdf": "ads8686s.pdf",
+  "pages": "p.3-6 (pins), p.8 (ROC), p.15-17 (timing, tCONV per OSR), p.21 (Figure 6-5 serial timing), p.37 (transfer function), p.38-43 (pin descriptions), p.45 (reset), p.60-62 (serial interface, Tables 7-11/7-12), p.63-101 (registers)",
+  "notModeled": [
+    "only the software serial interface mode is modeled (SER/BYTE/PAR = 1, DB9/BYTESEL = 0, HW_RNGSEL[1:0] = 00 at full reset, serial 1-wire: A then B result on SDOA); the strap pins are not read",
+    "parallel interface (DB15-DB0 with CS/RD/WR) and parallel byte interface (DB7-DB0): not modeled; DB pins are never driven except DB12/SDOA",
+    "hardware mode (HW_RNGSEL != 00: CHSEL pins, hardware sequencer SEQEN, BURST, OS2-OS0 pins, CRCEN pin)",
+    "serial 2-wire mode (B result on DB11/SDOB, DB4/SER1W strap): SDOB is never driven",
+    "SPI mode: the datasheet text says mode 00 but Figure 6-5 shows SCLK idle high, MSB at CS fall, SDI sampled on SCLK falling and SDO changing on SCLK rising: modeled as mode 2",
+    "analog inputs, PGA ranges (RANGE_xx, OVER_RANGE_SETTING_x), LPF_CONFIG, reference selection (REFSEL), diagnostic channels AVDD/ALDO and fixed codes 0x5555/0xAAAA (stored only; the 0 V code is 0000h in twos complement)",
+    "software sequencer and burst mode (SEQ_STACK_n, SEQEN, BURSTEN, SSREN), oversampling filter output (OSR only sets the conversion time), STATUS/CRC words appended to the result (STATUSEN/CRCEN), STATUS register contents",
+    "registers are 16 bits with the command header W/R (bit 15) and REGADDR (bits 14-9) as datasheet reset values; a write stores data bits 8-0, the header bits are kept read-only",
+    "the datasheet defines no NOP word; a read of the unmapped address 0x0 is decoded as NOP so that conversion-read frames with SDI low keep shifting results",
+    "partial reset (RESET low 40-500 ns) vs full reset (>= 1.2 us), 15 ms start-up after full reset, shutdown mode, SDEF self-test flag",
+    "SCLK period limits by DVDD (50/25/20 ns) and tACQ"
+  ],
+  "variants": "ADS8686S only.",
+  "parts": [["ADS8686SIPZA", "PZA", 80, "Active"]]
+}

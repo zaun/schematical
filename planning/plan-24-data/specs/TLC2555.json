@@ -1,0 +1,122 @@
+{
+ "device": {
+  "id": "TLC2555",
+  "function": "ADC",
+  "description": "12-bit 175/360 kSPS pseudo-differential serial SAR ADC with autopower-down",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "slas276d.pdf (SLAS276D, TLC2551/TLC2552/TLC2555) p.1 pinouts, p.3 terminal functions, p.4 output data format (12 result bits + 4 don't-care, straight binary), p.4-5 control and timing, p.6 timing diagrams (Figures 2-5), p.7 SCLK and conversion speed, p.9 recommended operating conditions and timing, p.12-13 critical timing (Figures 6-9)",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AIN(+)",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN(-)",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "SDO",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "VREF",
+   "AIN(+)",
+   "AIN(-)"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDO",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 40,
+   "tOut": 11,
+   "tFloat": 30
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{12} 0000",
+   "idle": "z",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "slas276d.pdf",
+ "pages": "p.1 (pinouts), p.3 (terminal functions), p.4 (data format, control), p.5 (MUX reset, conversion), p.6 (Figures 2-5), p.7 (SCLK and conversion speed), p.9 (recommended operating conditions, timing), p.12-13 (critical timing)",
+ "notModeled": [
+  "analog inputs and VREF; the conversion is clocked by SCLK (28 SCLKs after the 16th SCLK falling edge); the result shown in a frame is the previous cycle's conversion, which the constant 0 V code makes identical",
+  "SPI mode: SDO changes on SCLK rising edges and is read on falling edges, the MSB appearing at CS falling (p.4, Figure 7); the datasheet recommends CPOL = 0, CPHA = 1 for an SPI host, modeled as mode 2 (sample on the falling edge, first bit at CS fall)",
+  "D3-D0 are don't-care bits (p.4); modeled as zeros",
+  "SDO goes to Hi-Z 30 ns after the 17th SCLK rising edge (td(SCLK17H-SDOZ), p.9); modeled as idle Hi-Z after the 16-bit frame; tFloat uses the same 30 ns (no CS-rise-to-Z time is given)",
+  "a CS rise before the conversion completes aborts it and invalidates the next output (cycle time sample + convert + 1 SCLK, p.5, p.7); the required SCLK while CS is high (p.7)",
+  "autopower-down after each conversion and wake-up on CS falling (p.7): no bus-visible effect",
+  "SCLK frequency limits and throughput (Table 1, p.8)",
+  "pseudo-differential input AIN(-) ripple limit (p.4)"
+ ],
+ "variants": "TLC2551: single input, SCLK on pin 5, FS on pin 7; TLC2552: dual-channel autosweep; same frame",
+ "parts": [
+  [
+   "TLC2555IDGK",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

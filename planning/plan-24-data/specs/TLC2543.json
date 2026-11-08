@@ -1,0 +1,404 @@
+{
+ "device": {
+  "id": "TLC2543",
+  "function": "ADC",
+  "description": "12-bit serial-control ADC with 11 analog inputs, programmable output length/order, unipolar or bipolar output and EOC",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "tlc2543-ep.pdf (SGLS125A) p.1 pinout, p.3 terminal functions, p.4 recommended operating conditions, p.6 operating characteristics, p.12-17 principles of operation (Table 2 input register p.14, data length p.15, LSBF/BIP/EOC p.16, power down p.17); same content in tlc2543.pdf (SLAS079F) and tlc2543-q1.pdf",
+  "pinouts": {
+   "dw20": [
+    {
+     "number": 1,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN4",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AIN5",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AIN6",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AIN7",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AIN8",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "AIN9",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "AIN10",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "REF-",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "REF+",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DATA OUT",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DATA INPUT",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "I/O CLOCK",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "EOC",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 11,
+  "codeFormat": {
+   "field": "CTRL.BIP",
+   "values": {
+    "0": "straight",
+    "1": "offset"
+   }
+  },
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "AIN0",
+   "AIN1",
+   "AIN2",
+   "AIN3",
+   "AIN4",
+   "AIN5",
+   "AIN6",
+   "AIN7",
+   "AIN8",
+   "AIN9",
+   "AIN10",
+   "REF+",
+   "REF-"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "I/O CLOCK",
+   "mosi": "DATA INPUT",
+   "miso": "DATA OUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 1300,
+   "tOut": 150,
+   "tFloat": 150
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 8,
+    "reset": 0,
+    "note": "internal: the 8-bit input data register (Table 2, p.14); set to all zeroes at power up (p.13)",
+    "fields": [
+     {
+      "name": "ADD",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "L",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "LSBF",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "BIP",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{12} 0{4}",
+   "idle": "0",
+   "outs": [
+    {
+     "when": [
+      "CTRL.LSBF=1",
+      "CTRL.L=1"
+     ],
+     "out": "[R:4:4] [R:5:5] [R:6:6] [R:7:7] [R:8:8] [R:9:9] [R:10:10] [R:11:11]"
+    },
+    {
+     "when": [
+      "CTRL.LSBF=1",
+      "CTRL.L=3"
+     ],
+     "out": "0{4} [R:0:0] [R:1:1] [R:2:2] [R:3:3] [R:4:4] [R:5:5] [R:6:6] [R:7:7] [R:8:8] [R:9:9] [R:10:10] [R:11:11]"
+    },
+    {
+     "when": "CTRL.LSBF=1",
+     "out": "[R:0:0] [R:1:1] [R:2:2] [R:3:3] [R:4:4] [R:5:5] [R:6:6] [R:7:7] [R:8:8] [R:9:9] [R:10:10] [R:11:11]"
+    }
+   ],
+   "commands": [
+    {
+     "name": "Software power down (address 1110), 8-bit I/O cycle",
+     "in": "1110 01 f b",
+     "set": {
+      "CTRL.ADD": 14,
+      "CTRL.L": 1,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "p.17: address 1110 selects power down; no conversion is performed, the I/O cycle must still be completed"
+    },
+    {
+     "name": "Software power down (address 1110), 12-bit I/O cycle",
+     "in": "1110 00 f b x{4}",
+     "set": {
+      "CTRL.ADD": 14,
+      "CTRL.L": 0,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "p.17: address 1110 selects power down; no conversion is performed, the I/O cycle must still be completed"
+    },
+    {
+     "name": "Software power down (address 1110), 12-bit I/O cycle",
+     "in": "1110 10 f b x{4}",
+     "set": {
+      "CTRL.ADD": 14,
+      "CTRL.L": 2,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "p.17: address 1110 selects power down; no conversion is performed, the I/O cycle must still be completed"
+    },
+    {
+     "name": "Software power down (address 1110), 16-bit I/O cycle",
+     "in": "1110 11 f b x{8}",
+     "set": {
+      "CTRL.ADD": 14,
+      "CTRL.L": 3,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "p.17: address 1110 selects power down; no conversion is performed, the I/O cycle must still be completed"
+    },
+    {
+     "name": "Select channel / test voltage, 8-bit I/O cycle",
+     "in": "aaaa 01 f b",
+     "action": "start",
+     "channel": "a",
+     "set": {
+      "CTRL.ADD": "a",
+      "CTRL.L": 1,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "Table 2 (p.14): D7-D4 address, D3-D2 L1 L0 (01 = 8, x0 = 12, 11 = 16 clocks), D1 LSBF, D0 BIP; the conversion starts after the last (8th/12th/16th) I/O CLOCK falling edge (p.15)"
+    },
+    {
+     "name": "Select channel / test voltage, 12-bit I/O cycle",
+     "in": "aaaa 00 f b x{4}",
+     "action": "start",
+     "channel": "a",
+     "set": {
+      "CTRL.ADD": "a",
+      "CTRL.L": 0,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "Table 2 (p.14): D7-D4 address, D3-D2 L1 L0 (01 = 8, x0 = 12, 11 = 16 clocks), D1 LSBF, D0 BIP; the conversion starts after the last (8th/12th/16th) I/O CLOCK falling edge (p.15)"
+    },
+    {
+     "name": "Select channel / test voltage, 12-bit I/O cycle",
+     "in": "aaaa 10 f b x{4}",
+     "action": "start",
+     "channel": "a",
+     "set": {
+      "CTRL.ADD": "a",
+      "CTRL.L": 2,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "Table 2 (p.14): D7-D4 address, D3-D2 L1 L0 (01 = 8, x0 = 12, 11 = 16 clocks), D1 LSBF, D0 BIP; the conversion starts after the last (8th/12th/16th) I/O CLOCK falling edge (p.15)"
+    },
+    {
+     "name": "Select channel / test voltage, 16-bit I/O cycle",
+     "in": "aaaa 11 f b x{8}",
+     "action": "start",
+     "channel": "a",
+     "set": {
+      "CTRL.ADD": "a",
+      "CTRL.L": 3,
+      "CTRL.LSBF": "f",
+      "CTRL.BIP": "b"
+     },
+     "note": "Table 2 (p.14): D7-D4 address, D3-D2 L1 L0 (01 = 8, x0 = 12, 11 = 16 clocks), D1 LSBF, D0 BIP; the conversion starts after the last (8th/12th/16th) I/O CLOCK falling edge (p.15)"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 10000,
+   "start": [
+    "command"
+   ],
+   "channel": "CTRL.ADD"
+  },
+  "ready": [
+   {
+    "pin": "EOC",
+    "active": 0,
+    "asserts": "busy"
+   }
+  ]
+ },
+ "packages": {
+  "DB": {
+   "pinout": "dw20",
+   "footprint": "SSOP-20",
+   "package": "SSOP",
+   "pins": 20
+  },
+  "DW": {
+   "pinout": "dw20",
+   "footprint": "SOIC-20W",
+   "package": "SOIC",
+   "pins": 20
+  },
+  "J": {
+   "pinout": "dw20",
+   "footprint": "CDIP-20",
+   "package": "DIP",
+   "pins": 20
+  }
+ },
+ "pdf": "tlc2543-ep.pdf",
+ "pages": "p.1 (pinout), p.3 (terminal functions), p.4 (ROC), p.6 (t(conv) 10 us, td(I/O-DATA) 150 ns, tPZH 1.3 us, tPHZ 150 ns, td(I/O-EOC) 2.2 us), p.12-13 (I/O cycle, power up, Table 1), p.14 (Table 2), p.15-17 (data length, LSBF, BIP, EOC, pad bits, CS, power down), p.17-18 (Tables 3-5)",
+ "notModeled": [
+  "analog inputs, references and multiplexer: every conversion returns the 0 V code (unipolar 000h; bipolar (BIP=1) 800h, the code of Vref- = 0 V, which the datasheet calls signed binary relative to (Vref+ + Vref-)/2: modeled as codeFormat offset)",
+  "self-test addresses 1011/1100/1101 output 800h/000h/FFFh (Table 3); modeled as conversions returning the 0 V code; address 1111 (undocumented) is treated as a conversion",
+  "software power down (address 1110) and the power-down state after power on: modeled as an I/O cycle that starts no conversion (current draw not modeled)",
+  "data length: the datasheet applies D3-D2 to the current I/O cycle; MSB-first output is the same for every length (12 result bits then zeros), LSB-first ordering uses the length and LSBF of the previous cycle (a length change in LSB-first mode corrupts one result per p.15)",
+  "result pipelining (output is the previous conversion, first result after power up random): the result is constant",
+  "CS held low continuously (the next I/O cycle begins at EOC rising): only CS-framed transfers are modeled",
+  "conversion start: the datasheet starts it after the last I/O CLOCK falling edge with EOC falling td(I/O-EOC) 2.2 us later; modeled at the last rising edge (command completion)",
+  "CS debounce / setup time (tsu(CS) 1.425 us), CS abort of a conversion",
+  "tValid = tPZH 1.3 us; tOut = td(I/O-DATA) 150 ns; tFloat = tPHZ 150 ns"
+ ],
+ "variants": "tlc2543.pdf (TLC2543C/I/M), tlc2543-ep.pdf (TLC2543-EP: MDBREP, QDWREP) and tlc2543-q1.pdf (TLC2543-Q1: IDBRQ1) describe the same chip with the same 20-pin numbering for DB, DW and J.",
+ "parts": [
+  [
+   "TLC2543IDBRG4Q1",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "TLC2543IDBRQ1",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "TLC2543IDWR",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC2543MDBREP",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "TLC2543MJB",
+   "J",
+   20,
+   "Active"
+  ],
+  [
+   "TLC2543QDWREP",
+   "DW",
+   20,
+   "Active"
+  ]
+ ]
+}

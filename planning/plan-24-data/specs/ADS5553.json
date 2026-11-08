@@ -1,0 +1,509 @@
+{
+ "device": {
+  "id": "ADS5553",
+  "function": "ADC",
+  "description": "Dual 14-bit 65 MSPS pipeline ADC with parallel CMOS outputs",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads5553.pdf (SLWS158) p.2 recommended operating conditions, p.6 timing (tSTART, Figure 1), p.7-8 pin configuration and assignments, p.19 Table 2 power-down mode selection, p.21 output information (two's complement)",
+  "pinouts": {
+   "pfp80": [
+    {
+     "number": 1,
+     "name": "CMA",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "CLKPA",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "CLKMA",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "REFMA",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "REFPA",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "IREF",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "REFMB",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "REFPB",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "CLKPB",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "CLKMB",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "CMB",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "INMB",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "INPB",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "D0B",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "D1B",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "D2B",
+     "role": "output"
+    },
+    {
+     "number": 31,
+     "name": "D3B",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "D4B",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "DRGND",
+     "role": "ground"
+    },
+    {
+     "number": 34,
+     "name": "DRVDD",
+     "role": "power"
+    },
+    {
+     "number": 35,
+     "name": "D5B",
+     "role": "output"
+    },
+    {
+     "number": 36,
+     "name": "D6B",
+     "role": "output"
+    },
+    {
+     "number": 37,
+     "name": "D7B",
+     "role": "output"
+    },
+    {
+     "number": 38,
+     "name": "D8B",
+     "role": "output"
+    },
+    {
+     "number": 39,
+     "name": "D9B",
+     "role": "output"
+    },
+    {
+     "number": 40,
+     "name": "D10B",
+     "role": "output"
+    },
+    {
+     "number": 41,
+     "name": "DRGND",
+     "role": "ground"
+    },
+    {
+     "number": 42,
+     "name": "DRVDD",
+     "role": "power"
+    },
+    {
+     "number": 43,
+     "name": "D11B",
+     "role": "output"
+    },
+    {
+     "number": 44,
+     "name": "D12B",
+     "role": "output"
+    },
+    {
+     "number": 45,
+     "name": "D13B",
+     "role": "output"
+    },
+    {
+     "number": 46,
+     "name": "OVRB",
+     "role": "output"
+    },
+    {
+     "number": 47,
+     "name": "CLKOUTB",
+     "role": "output"
+    },
+    {
+     "number": 48,
+     "name": "OEB",
+     "role": "input"
+    },
+    {
+     "number": 49,
+     "name": "DRVDD",
+     "role": "power"
+    },
+    {
+     "number": 50,
+     "name": "PDN",
+     "role": "input"
+    },
+    {
+     "number": 51,
+     "name": "REFSEL",
+     "role": "input"
+    },
+    {
+     "number": 52,
+     "name": "OEA",
+     "role": "input"
+    },
+    {
+     "number": 53,
+     "name": "CLKOUTA",
+     "role": "output"
+    },
+    {
+     "number": 54,
+     "name": "D0A",
+     "role": "output"
+    },
+    {
+     "number": 55,
+     "name": "D1A",
+     "role": "output"
+    },
+    {
+     "number": 56,
+     "name": "D2A",
+     "role": "output"
+    },
+    {
+     "number": 57,
+     "name": "DRVDD",
+     "role": "power"
+    },
+    {
+     "number": 58,
+     "name": "DRGND",
+     "role": "ground"
+    },
+    {
+     "number": 59,
+     "name": "D3A",
+     "role": "output"
+    },
+    {
+     "number": 60,
+     "name": "D4A",
+     "role": "output"
+    },
+    {
+     "number": 61,
+     "name": "D5A",
+     "role": "output"
+    },
+    {
+     "number": 62,
+     "name": "D6A",
+     "role": "output"
+    },
+    {
+     "number": 63,
+     "name": "D7A",
+     "role": "output"
+    },
+    {
+     "number": 64,
+     "name": "D8A",
+     "role": "output"
+    },
+    {
+     "number": 65,
+     "name": "DRVDD",
+     "role": "power"
+    },
+    {
+     "number": 66,
+     "name": "DRGND",
+     "role": "ground"
+    },
+    {
+     "number": 67,
+     "name": "D9A",
+     "role": "output"
+    },
+    {
+     "number": 68,
+     "name": "D10A",
+     "role": "output"
+    },
+    {
+     "number": 69,
+     "name": "D11A",
+     "role": "output"
+    },
+    {
+     "number": 70,
+     "name": "D12A",
+     "role": "output"
+    },
+    {
+     "number": 71,
+     "name": "D13A",
+     "role": "output"
+    },
+    {
+     "number": 72,
+     "name": "OVRA",
+     "role": "output"
+    },
+    {
+     "number": 73,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 74,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 75,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 76,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 77,
+     "name": "INMA",
+     "role": "input"
+    },
+    {
+     "number": 78,
+     "name": "INPA",
+     "role": "input"
+    },
+    {
+     "number": 79,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 80,
+     "name": "AVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 14,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   3.0,
+   3.6
+  ],
+  "analog": [
+   "AVDD",
+   "INPA",
+   "INMA",
+   "INPB",
+   "INMB",
+   "REFPA",
+   "REFMA",
+   "REFPB",
+   "REFMB",
+   "IREF",
+   "CMA",
+   "CMB",
+   "CLKMA",
+   "CLKMB"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLKPA",
+    "edge": "rise"
+   },
+   "data": [
+    "OVRA",
+    "D13A",
+    "D12A",
+    "D11A",
+    "D10A",
+    "D9A",
+    "D8A",
+    "D7A",
+    "D6A",
+    "D5A",
+    "D4A",
+    "D3A",
+    "D2A",
+    "D1A",
+    "D0A"
+   ],
+   "oe": {
+    "pin": "OEA",
+    "active": 1
+   },
+   "clockOut": {
+    "pin": "CLKOUTA",
+    "invert": false
+   }
+  },
+  "timing": {
+   "tOut": 4.5
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "0 R{14}"
+  }
+ },
+ "packages": {
+  "PFP": {
+   "pinout": "pfp80",
+   "footprint": "HTQFP-80-PFP",
+   "package": "HTQFP",
+   "pins": 80
+  }
+ },
+ "pdf": "ads5553.pdf",
+ "pages": "p.2 (ROC: AVDD/DRVDD 3.0-3.6 V), p.6 (timing: tSTART 4.5 ns max, latency 16.5 clocks), p.7-8 (pins), p.19 (Table 2 PDN/OEA/OEB), p.21 (output information: two's complement, OVR, CLKOUT, OE)",
+ "notModeled": [
+  "channel B is not modeled: the clocked bus carries one clock and at most 24 data pins, so only channel A (CLKPA, OVRA + D13A..D0A, OEA, CLKOUTA) is driven; D13B..D0B, OVRB and CLKOUTB are never driven, OEB/CLKPB/CLKMB are ignored",
+  "analog input, internal/external reference (REFSEL), IREF and CM biasing; the result is always the 0 V code 0 (two's complement)",
+  "pipeline latency 16.5 clock cycles not modeled (the code is constant); data valid tSTART (4.5 ns max at 65 MSPS) after the input clock; CLKOUTA shares tOut",
+  "OVRA (over-range) is driven as the top data bit, always 0 at 0 V",
+  "CLKPA/CLKMA are a differential (or single-ended) sampling clock: the model clocks on CLKPA alone",
+  "PDN (Table 2): PDN high powers down the ADC channels whose OE is low; with OEA high channel A stays on, and with OEA low its outputs are already high-impedance, so PDN has no visible effect on the modeled channel and is not modeled; power-down by a clock below 10 MSPS not modeled",
+  "OE to stable output timing (1000 clock cycles) not modeled",
+  "vcc is the DRVDD range; the pin table lists DRVDD as 4 pins but gives 5 numbers (34, 42, 49, 57, 65); all five are DRVDD here"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS5553IPFP",
+   "PFP",
+   80,
+   "Active"
+  ]
+ ]
+}

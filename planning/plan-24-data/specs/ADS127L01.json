@@ -1,0 +1,566 @@
+{
+ "device": {
+  "id": "ADS127L01",
+  "function": "ADC",
+  "description": "24-bit 512 kSPS wideband delta-sigma ADC with SPI / frame-sync interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads127l01.pdf (SBAS607B) p.4-5 pin configuration and functions, p.7 recommended operating conditions, p.11 SPI timing and switching characteristics, p.25 data rates (Tables 1, 2), p.31 low-latency settling (Table 3), p.40 OSR selection (Table 12), p.41-44 START, RESET/PWDN, p.47-49 SPI interface, DRDY, commands (Table 19), p.51 data format and status word (Table 20, Figure 94), p.53-57 registers (Table 21)",
+  "pinouts": {
+   "pbs32": [
+    {
+     "number": 1,
+     "name": "LVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "CAP1",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "AINN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "REXT",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "INTLDO",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "REFN",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "CAP2",
+     "role": "nc"
+    },
+    {
+     "number": 12,
+     "name": "FILTER1",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "FILTER0",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "FSMODE",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "OSR1",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "OSR0",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "START",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "DAISYIN",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "DRDY/FSYNC",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "CAP3",
+     "role": "nc"
+    },
+    {
+     "number": 26,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 27,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "RESET/PWDN",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "HR",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "FORMAT",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 32,
+     "name": "AVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   1.7,
+   3.6
+  ],
+  "analog": [
+   "LVDD",
+   "CAP1",
+   "AINN",
+   "AINP",
+   "AGND",
+   "AVDD",
+   "REXT",
+   "INTLDO",
+   "REFP",
+   "REFN",
+   "CAP2",
+   "CAP3"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 18,
+   "tOut": 21,
+   "tFloat": 20
+  },
+  "registers": [
+   {
+    "name": "ID",
+    "address": 0,
+    "width": 8,
+    "reset": 3,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "REV_ID",
+      "bits": [
+       7,
+       3
+      ]
+     },
+     {
+      "name": "DEV_ID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "reset x3h: DEV_ID 011 = ADS127L01; REV_ID undefined, modeled 0"
+   },
+   {
+    "name": "CONFIG",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "FSC",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "OFC",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "TOUT_DEL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "SPI_TOUT",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CS_ENB",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CRCB",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFC0",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFC_B",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFC1",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFC_B",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFC2",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFC_B",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FSC0",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "FSC_B",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FSC1",
+    "address": 6,
+    "width": 8,
+    "reset": 128,
+    "fields": [
+     {
+      "name": "FSC_B",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MODE",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "HR",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "OSR1",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "OSR0",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "FILTER1",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "FILTER0",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "FORMAT",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "FSMODE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "read-only readback of the HR, OSR[1:0], FILTER[1:0], FORMAT and FSMODE pins (Table 29); the datasheet fields OSR[1:0] and FILTER[1:0] are split into one-bit fields so pins.levels can follow each pin"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "R{24} 0{8}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "RESET",
+     "in": "0000011x",
+     "action": "reset"
+    },
+    {
+     "name": "START",
+     "in": "0000100x",
+     "action": "start"
+    },
+    {
+     "name": "STOP",
+     "in": "0000101x",
+     "action": "stop"
+    },
+    {
+     "name": "RDATA",
+     "in": "00010010",
+     "reply": "R{24} 0{8}"
+    },
+    {
+     "name": "RREG",
+     "in": "0010aaaa 0000nnnn",
+     "action": "rreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WREG",
+     "in": "0100aaaa 0000nnnn",
+     "action": "wreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "MODE.OSR1",
+     "MODE.OSR0"
+    ],
+    "values": {
+     "0,0": 1953.125,
+     "0,1": 3906.25,
+     "1,0": 7812.5,
+     "1,1": 15625
+    }
+   },
+   "start": [
+    "pin",
+    "command"
+   ],
+   "mode": {
+    "field": "MODE.FORMAT",
+    "continuous": 0,
+    "startOnEnter": false
+   }
+  },
+  "ready": [
+   {
+    "pin": "DRDY/FSYNC",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read"
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET/PWDN",
+    "active": 0
+   },
+   "start": {
+    "pin": "START",
+    "active": 1
+   },
+   "levels": [
+    {
+     "pin": "HR",
+     "field": "MODE.HR"
+    },
+    {
+     "pin": "OSR1",
+     "field": "MODE.OSR1"
+    },
+    {
+     "pin": "OSR0",
+     "field": "MODE.OSR0"
+    },
+    {
+     "pin": "FILTER1",
+     "field": "MODE.FILTER1"
+    },
+    {
+     "pin": "FILTER0",
+     "field": "MODE.FILTER0"
+    },
+    {
+     "pin": "FORMAT",
+     "field": "MODE.FORMAT"
+    },
+    {
+     "pin": "FSMODE",
+     "field": "MODE.FSMODE"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "PBS": {
+   "pinout": "pbs32",
+   "footprint": "TQFP-32-PBS",
+   "package": "TQFP",
+   "pins": 32
+  }
+ },
+ "pdf": "ads127l01.pdf",
+ "pages": "p.4-5 (pins), p.7 (ROC), p.11 (SPI timing), p.25 (Tables 1, 2), p.31 (Table 3), p.40-44 (Tables 11-17, START, RESET/PWDN), p.47-49 (DRDY, commands Table 19), p.51 (data format, status word), p.53-57 (registers)",
+ "notModeled": [
+  "analog input, reference, LDO (INTLDO, LVDD), REXT power scaling (LP vs VLP); INTLDO is listed in analog because it is strapped to AVDD",
+  "conversion time keyed only on OSR[1:0] for the HR mode wideband filters at fCLK = 16.384 MHz (Table 1: 512, 256, 128, 64 kSPS): the low-latency filter (FILTER = 10: OSR 32/128/512/2048, Table 2) and the LP/VLP clock rates (8.192 / 4.096 MHz) are not reflected, because the time can be chosen by two fields only; filter settling after START/reset (84 tDATA wideband, Table 3 low-latency) not modeled; the CLK pin is not used",
+  "only the SPI interface (FORMAT = 0) is modeled; frame-sync master/slave modes (FSMODE, DRDY/FSYNC and SCLK as outputs) are not",
+  "status word fixed at its power-on setting after the 24 data bits: CRC-4 of the 0 V data (0000), INP 0, 000 = 00h; with CRCB = 1 the CRC-8 of zero data is also 00h; CONFIG.CS_ENB = 1 (status word off) is not reflected (the extra 8 bits read 0 either way)",
+  "conversions stop and restart: a START command is needed with the START pin low; START pin rising edge or START command restarts (filter reset); a change on a mode pin after power-up resets the device (not modeled)",
+  "RESET/PWDN: low < 2^15 - 1 tCLK resets, longer powers down (modeled as reset held); reset/power-down exit timing",
+  "DRDY returns high on the first SCLK falling edge (modeled: cleared by reading the data) and pulses high 2 tCLK before the next data when not read; keep-out time tKO",
+  "daisy-chain via DAISYIN (DOUT after the data shows DAISYIN data); SPI timeout (CONFIG.SPI_TOUT, TOUT_DEL)",
+  "offset/gain calibration math (OFC, FSC registers stored only)",
+  "ID REV_ID bits (undefined) modeled 0"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS127L01IPBS",
+   "PBS",
+   32,
+   "Active"
+  ]
+ ]
+}

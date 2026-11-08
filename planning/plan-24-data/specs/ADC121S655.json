@@ -1,0 +1,119 @@
+{
+ "device": {
+  "id": "ADC121S655",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit 200-500 kSPS fully differential SAR ADC with SPI-compatible serial output",
+  "note": "adc121s655.pdf (SNAS402A) p.1 connection diagram, p.2 pin descriptions, p.3 operating ratings, p.4 output coding, p.5 timing specifications, p.6 timing diagrams, p.20 serial interface and data output",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "+IN",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "-IN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "VA",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "VREF",
+   "+IN",
+   "-IN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "DOUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 20,
+   "tOut": 22,
+   "tFloat": 20
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0{4} R{12}",
+   "idle": "repeat",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "adc121s655.pdf",
+ "pages": "p.1 (pinout: VREF1 +IN2 -IN3 GND4 CS5 DOUT6 SCLK7 VA8), p.2 (pin descriptions: 4 null bits + 12 data bits MSB first, output on falling edges, valid on rising edges), p.3 (operating ratings: VA 4.5-5.5 V, digital inputs 0 to VA, SCLK 3.2-8 MHz), p.4 (binary 2's complement), p.5 (tEN 20 ns, tDA 22 ns, tDIS 20 ns), p.6 (Figure 1 single, Figure 2 continuous conversion), p.20 (falling edges 1-4 leading zeros, 5-16 result; a new conversion every 16 SCLKs while CS stays low)",
+ "notModeled": [
+  "differential analog input (the result is the 0 V code 0x000)",
+  "conversion clocked by SCLK; continuous conversions while CS stays low are modeled by repeating the 16-bit frame (idle \"repeat\"); each repeated result is the same 0 V code",
+  "SPI mode 0 chosen (CS may also fall with SCLK high: the first SCLK fall then starts acquisition)",
+  "power-down while CS is high (no visible digital effect), CS high before the 16th falling edge aborts the conversion",
+  "SCLK frequency limits"
+ ],
+ "variants": "Table 1 pin-compatible family by speed (ADC121S625 50-200 kSPS, other datasheet); NRND part",
+ "parts": [
+  [
+   "ADC121S655CIMM/NOPB",
+   "DGK",
+   8,
+   "Nrnd"
+  ]
+ ]
+}

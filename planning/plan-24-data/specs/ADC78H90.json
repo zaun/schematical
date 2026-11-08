@@ -1,0 +1,200 @@
+{
+ "device": {
+  "id": "ADC78H90",
+  "function": "ADC",
+  "description": "12-bit 500 kSPS 8-channel SAR ADC with SPI-compatible serial interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "adc78h90.pdf (SNAS227D) p.1-2 connection diagram and pin descriptions, p.3 operating ratings, p.4 digital characteristics (output coding straight binary), p.5 timing specifications, p.6 serial timing diagram (Figure 4), p.12-13 serial interface and control register (Tables 1-3), p.14 transfer function",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AIN4",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AIN5",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AIN6",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "AIN7",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "AIN8",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "SCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 8,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "AVDD",
+   "AIN1",
+   "AIN2",
+   "AIN3",
+   "AIN4",
+   "AIN5",
+   "AIN6",
+   "AIN7",
+   "AIN8"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 3
+  },
+  "timing": {
+   "tValid": 30,
+   "tOut": 30,
+   "tFloat": 20
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 8,
+    "reset": 0,
+    "note": "internal: the Control Register loaded from DIN on the first 8 rising SCLK edges of each 16-clock conversion (DONTC DONTC ADD2 ADD1 ADD0 DONTC DONTC DONTC, Table 1 p.12); no read-back; power-up value all zeros (AIN1)",
+    "fields": [
+     {
+      "name": "ADD",
+      "bits": [
+       5,
+       3
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "0{4} R{12}",
+   "idle": "repeat",
+   "commands": [
+    {
+     "name": "Control Register",
+     "in": "xx aaa xxx x{8}",
+     "action": "nop",
+     "set": {
+      "CTRL.ADD": "a"
+     },
+     "note": "each 16-SCLK conversion clocks the control byte in on DIN (bits 5-3 = ADD2-ADD0 select the input of the next conversion), the last 8 DIN bits are ignored; DOUT gives 4 leading zeros then DB11-DB0 (p.12, Figure 4)"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ],
+   "channel": "CTRL.ADD"
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "adc78h90.pdf",
+ "pages": "p.1-2 (pins), p.3 (operating ratings: AVDD 2.7-5.25 V, DVDD 2.7 V-AVDD), p.4 (straight binary), p.5 (t2 30 ns, t3 30 ns, t8 20 ns max; tCONV 13 SCLK), p.6 (Figure 4), p.12-13 (Tables 1-3: ADD2-ADD0 select AIN1-AIN8), p.14 (transfer function)",
+ "notModeled": [
+  "analog inputs and multiplexer; the conversion is clocked by SCLK (13 SCLK cycles), not timed: the result is the 0 V code 0x000 at once",
+  "the channel written in a frame applies to the next conversion (one-sample delay); with every result the 0 V code this has no visible effect (ADD is stored only)",
+  "continuous conversion frames (N x 16 SCLKs per CS low) are approximated by repeating the 16-bit output pattern and re-matching the control word every 16 bits",
+  "SPI mode 3 chosen (DOUT changes on SCLK falling edges, DIN and DOUT sampled on rising edges); the datasheet allows SCLK high or low at CS fall (with SCLK low, CS fall acts as the first falling edge; the first leading zero may then not be set up in time)",
+  "power-down while CS is high (no digital effect); t1a/t1b setup, SCLK 50 kHz-8 MHz and duty-cycle limits",
+  "AVDD is also the reference; DVDD 2.7 V to AVDD and digital inputs 0 V to AVDD (vcc 2.7-5.25 V)"
+ ],
+ "variants": "ADC78H89 is the 7-channel version (pin 2 NC, ADD = 111 selects GND), separate datasheet and spec",
+ "parts": [
+  [
+   "ADC78H90CIMT/NOPB",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADC78H90CIMTX/NOPB",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

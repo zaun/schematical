@@ -1,0 +1,114 @@
+{
+ "device": {
+  "id": "ADS7884",
+  "function": "ADC",
+  "description": "10-bit 3 MSPS micro-power SAR ADC with SPI-compatible serial output",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7885.pdf (SLAS567) p.3 ADS7884 specifications (full-scale 0 to VDD, VDD 2.7-5.5 V), p.6-7 timing requirements (td1 15 ns, td2 20 ns, td4 15 ns max at 3 V), p.7 device information and terminal functions, p.7-8 ADS7884 normal operation (Figure 1: 2 leading zeros, 10 data bits, 4 lagging zeros), p.8-9 power-down mode (Figures 3-4)",
+  "pinouts": {
+   "sot6": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "VIN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VIN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 15,
+   "tOut": 20,
+   "tFloat": 15
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0{2} R{10} 0{4}",
+   "idle": "z",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DBV": {
+   "pinout": "sot6",
+   "footprint": "SOT23-6",
+   "package": "SOT-23",
+   "pins": 6
+  }
+ },
+ "pdf": "ads7885.pdf",
+ "pages": "p.3 (specs), p.6-7 (timing), p.7 (pinout, terminal functions), p.7-8 (normal operation, Figure 1), p.8-9 (power-down, Figures 3-4)",
+ "notModeled": [
+  "analog input (0 V to VDD; VDD is also the reference); the conversion is clocked by SCLK (not timed: the result is the 0 V code at once)",
+  "frame: the first zero is clocked out by the CS falling edge and each SCLK falling edge shifts the next bit (read on the rising edge): SPI mode 0 shape; SDO goes 3-state after the 16th SCLK falling edge (idle \"z\") or at CS rising",
+  "power-down: CS high after the 2nd and before the 10th SCLK falling edge powers the device down; a dummy frame of at least 10 SCLK falling edges wakes it (power-up time 0.8 us); frames during wake-up return invalid data",
+  "CS high before the end of the conversion aborts it (SDO 3-state; no valid data in the next frame)",
+  "digital inputs may go up to 5.5 V regardless of VDD (p.7); not expressed (vcc max is 5.5 V)",
+  "quiet time tq, acquisition time and SCLK frequency limits; delays at VDD = 3 V (the maximum) are used"
+ ],
+ "variants": "ads7885.pdf covers ADS7884 (10-bit) and ADS7885 (8-bit): same pinout and timing, frame 2 leading zeros + data + lagging zeros to 16 bits; ADS7883 is the 12-bit version",
+ "parts": [
+  [
+   "ADS7884SDBVR",
+   "DBV",
+   6,
+   "Active"
+  ],
+  [
+   "ADS7884SDBVT",
+   "DBV",
+   6,
+   "Active"
+  ]
+ ]
+}

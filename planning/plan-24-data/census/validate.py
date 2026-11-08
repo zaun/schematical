@@ -14,7 +14,7 @@ FP_IDS_TSV = os.path.join(DATA, 'footprint-ids.tsv')
 
 ROLES = {'input', 'output', 'inout', 'power', 'ground', 'nc', 'absent'}
 ACTIONS = {'nop', 'wreg', 'rreg', 'write', 'read', 'pointer', 'start', 'stop', 'reset',
-           'powerdown', 'wakeup', 'update', 'clear'}
+           'powerdown', 'wakeup', 'update', 'clear', 'setbits', 'clearbits'}
 STARTS = {'cs-fall', 'cs-rise', 'command', 'pin', 'read', 'power-on'}
 UNITS = {'second', 'minute', 'hour', 'weekday', 'date', 'month', 'year', 'century', 'hundredth'}
 NAME_RE = re.compile(r'^[A-Z][A-Z0-9_]*$')
@@ -47,7 +47,15 @@ def tokenize(pat, ctx, where):
     """-> list of tokens: ('bit', '0'|'1'|'x'|'z'), ('cap', letter), ('R',),
     ('ref', name, hi, lo), ('@',)."""
     out = []
-    s = pat.replace(' ', '').replace('_', '')
+    s, depth = '', 0
+    for ch in pat:
+        if ch == '[':
+            depth += 1
+        elif ch == ']':
+            depth -= 1
+        if ch == ' ' or (ch == '_' and depth == 0):
+            continue
+        s += ch
     i = 0
     while i < len(s):
         c = s[i]
@@ -142,9 +150,12 @@ def check_pattern(dev, pat, kind, ctx, where):
                     ctx.err(where, f'[{t[1]}:{t[2]}:{t[3]}] outside width {w}')
                 w = t[2] - t[3] + 1
             n += w
-    rcount = sum(1 for t in toks if t[0] == 'R')
-    if rcount > dev.d.get('bits', 0) and dev.d.get('type') == 'adc':
-        ctx.err(where, f'{rcount} R bits > bits {dev.d.get("bits")}')
+    run = best = 0
+    for t in toks:
+        run = run + 1 if t[0] == 'R' else 0
+        best = max(best, run)
+    if best > dev.d.get('bits', 0) and dev.d.get('type') == 'adc':
+        ctx.err(where, f'a run of {best} R bits > bits {dev.d.get("bits")} (use [R][R] for two results)')
     return n, caps
 
 
@@ -164,9 +175,17 @@ def check_converter(dev, ctx):
         ctx.err('bits', 'must be 1-32')
     if not isinstance(d.get('channels'), int) or d['channels'] < 1:
         ctx.err('channels', 'must be >= 1')
-    if t == 'adc' and d.get('codeFormat') not in ('straight', 'twos', 'offset'):
+    cf = d.get('codeFormat')
+    if isinstance(cf, dict):
+        if not cf.get('values') or any(v not in ('straight', 'twos', 'offset') for v in cf['values'].values()):
+            ctx.err('codeFormat', 'values must be straight/twos/offset')
+        if 'field' in cf:
+            ref_width(dev, cf['field'], ctx, 'codeFormat')
+        elif 'pin' not in cf:
+            ctx.err('codeFormat', 'needs pin or field')
+    elif t == 'adc' and cf not in ('straight', 'twos', 'offset'):
         ctx.err('codeFormat', 'ADC needs straight/twos/offset')
-    if t == 'adc' and 'conversion' not in d:
+    if t == 'adc' and 'conversion' not in d and d.get('bus', {}).get('style') != 'clocked':
         ctx.err('conversion', 'ADC needs "conversion"')
     if t == 'dac' and 'dac' not in d:
         ctx.err('dac', 'DAC needs "dac"')
@@ -186,7 +205,8 @@ def check_converter(dev, ctx):
     if conv is not None:
         tm = conv.get('time')
         if isinstance(tm, dict):
-            ref_width(dev, tm.get('field', ''), ctx, 'conversion.time')
+            for f in (tm['fields'] if 'fields' in tm else [tm.get('field', '')]):
+                ref_width(dev, f, ctx, 'conversion.time')
             if not tm.get('values'):
                 ctx.err('conversion.time', 'needs values')
         elif not isinstance(tm, (int, float)) or tm < 0:
@@ -196,7 +216,9 @@ def check_converter(dev, ctx):
             ctx.err('conversion.start', 'non-empty array')
         else:
             for s in st:
-                if s.startswith('write:'):
+                if s.startswith('write:') and '=' not in s:
+                    ref_width(dev, s[6:], ctx, 'conversion.start')
+                elif s.startswith('write:'):
                     check_field_value(dev, s[6:], ctx, 'conversion.start')
                 elif s not in STARTS:
                     ctx.err('conversion.start', f'unknown trigger {s!r}')
@@ -205,16 +227,18 @@ def check_converter(dev, ctx):
         mode = conv.get('mode', 'single')
         if isinstance(mode, dict):
             ref_width(dev, mode.get('field', ''), ctx, 'conversion.mode')
-            if 'continuous' not in mode:
-                ctx.err('conversion.mode', 'needs "continuous"')
+            if ('continuous' in mode) == ('single' in mode):
+                ctx.err('conversion.mode', 'needs "continuous" or "single"')
+            if set(mode) - {'field', 'continuous', 'single', 'startOnEnter'}:
+                ctx.err('conversion.mode', 'unknown keys')
         elif mode not in ('single', 'continuous'):
             ctx.err('conversion.mode', 'single/continuous/{field}')
-        for k in ('busy', 'done'):
+        for k in ('busy', 'done', 'onRead'):
             for f in conv.get(k, {}):
                 ref_width(dev, f, ctx, f'conversion.{k}')
         if 'channel' in conv:
             ref_width(dev, conv['channel'], ctx, 'conversion.channel')
-        extra = set(conv) - {'time', 'start', 'mode', 'busy', 'done', 'channel', 'note'}
+        extra = set(conv) - {'time', 'start', 'mode', 'busy', 'done', 'onRead', 'channel', 'note'}
         if extra:
             ctx.err('conversion', f'unknown keys {sorted(extra)}')
 
@@ -251,7 +275,15 @@ def check_protocol(dev, ctx):
     p = dev.d.get('protocol')
     if not isinstance(p, dict):
         ctx.err('protocol', 'missing'); return
-    extra = set(p) - {'frame', 'out', 'idle', 'commands', 'read', 'generalCall', 'note'}
+    extra = set(p) - {'frame', 'out', 'idle', 'commands', 'read', 'generalCall', 'align', 'outs', 'reads', 'note'}
+    for k in ('outs', 'reads'):
+        for j, o in enumerate(p.get(k, [])):
+            w = o.get('when', [])
+            for e in ([w] if isinstance(w, str) else w):
+                check_field_value(dev, e, ctx, f'protocol.{k}[{j}].when')
+            check_pattern(dev, o.get('out', o.get('read', '')), 'out', ctx, f'protocol.{k}[{j}]')
+    if p.get('align', 'start') not in ('start', 'end'):
+        ctx.err('protocol.align', 'start/end')
     if extra:
         ctx.err('protocol', f'unknown keys {sorted(extra)}')
     if p.get('frame') not in ('fixed', 'stream'):
@@ -273,10 +305,15 @@ def check_protocol(dev, ctx):
         w = f'commands[{i}] ({c.get("name")})'
         extra = set(c) - {'name', 'in', 'action', 'address', 'space', 'register', 'count',
                           'countOffset', 'data', 'channel', 'channelMap', 'set', 'reply',
-                          'next', 'commit', 'then', 'note'}
+                          'next', 'commit', 'then', 'wordBits', 'when', 'increment', 'note'}
+        wh = c.get('when', [])
+        for e in ([wh] if isinstance(wh, str) else wh):
+            check_field_value(dev, e, ctx, w + '.when')
         if extra:
             ctx.err(w, f'unknown keys {sorted(extra)}')
         n, caps = check_pattern(dev, c.get('in', ''), 'in', ctx, w + '.in')
+        if isinstance(c.get('increment'), str) and c['increment'] not in caps:
+            ctx.err(w, f'increment {c["increment"]!r} is not a capture of "in"')
         if n == 0:
             ctx.err(w, 'empty "in"')
         a = c.get('action', 'nop')
@@ -313,7 +350,11 @@ def check_protocol(dev, ctx):
 def check_bus(b, bk, need_pin, ctx):
     st = b.get('style')
     if st == 'spi':
-        for k in ('cs', 'sclk', 'miso'):
+        if 'cs' in b:
+            need_pin(b['cs'], bk + '.cs')
+        if 'miso' in b:
+            need_pin(b['miso'], bk + '.miso')
+        for k in ('sclk',):
             if k not in b:
                 ctx.err(bk + '', f'spi needs {k!r}')
             else:
@@ -325,7 +366,7 @@ def check_bus(b, bk, need_pin, ctx):
     elif st == 'i2c':
         need_pin(b.get('scl', ''), bk + '.scl'); need_pin(b.get('sda', ''), bk + '.sda')
         for a in b.get('address', []):
-            need_pin(a, bk + '.address')
+            need_pin(a, bk + '.address', strap=True)
         if len(b.get('table', [])) != 4 ** len(b.get('address', [])):
             ctx.err(bk + '.table', f'needs {4 ** len(b.get("address", []))} entries')
     elif st == 'i2c-spi':
@@ -350,9 +391,13 @@ def check_bus(b, bk, need_pin, ctx):
             ctx.err(bk + '.data', '1-24 pins')
         for p_ in data:
             need_pin(p_, bk + '.data')
-        for k in ('oe', 'clockOut'):
-            if k in b:
-                need_pin(b[k].get('pin', ''), bk + '.' + k)
+        if 'oe' in b:
+            need_pin(b['oe'].get('pin', ''), bk + '.oe')
+        co = b.get('clockOut', [])
+        for c in (co if isinstance(co, list) else [co]):
+            need_pin(c.get('pin', ''), bk + '.clockOut')
+        if b.get('clock', {}).get('edge', 'rise') not in ('rise', 'fall', 'both'):
+            ctx.err(bk + '.clock', 'edge rise/fall/both')
     else:
         ctx.err(bk + '.style', f'{st!r}')
 
@@ -416,9 +461,13 @@ def check_device(spec, ctx, fps):
         all_names = s if all_names is None else all_names & s
     all_names = all_names or set()
 
-    def need_pin(name, where):
-        if name not in all_names:
-            ctx.err(where, f'pin {name!r} is not in every pinout')
+    fixed = {v.get('pinout') for v in spec.get('packages', {}).values() if 'i2cAddress' in v}
+
+    def need_pin(name, where, strap=False):
+        for pn, names in names_by_pinout.items():
+            if name not in names and not (strap and pn in fixed):
+                ctx.err(where, f'pin {name!r} is not in pinout {pn!r}')
+                return
 
     # registers
     for i, r in enumerate(d.get('registers', [])):
@@ -450,7 +499,9 @@ def check_device(spec, ctx, fps):
                 ctx.err(w, f'bad or duplicate field name {f.get("name")!r}')
             seen.add(f.get('name'))
         extra = set(r) - {'name', 'address', 'space', 'width', 'reset', 'readOnly', 'fields',
-                          'result', 'channel', 'clearOnRead', 'note'}
+                          'result', 'resultBits', 'channel', 'clearOnRead', 'writeOneClears', 'note'}
+        if isinstance(r.get('result'), str) and r['result'] not in seen:
+            ctx.err(w, f'result field {r["result"]!r} is not a field')
         if extra:
             ctx.err(w, f'unknown keys {sorted(extra)}')
     addrs = {}
@@ -470,10 +521,19 @@ def check_device(spec, ctx, fps):
         need_pin(r.get('pin', ''), f'ready[{i}]')
         if r.get('asserts') not in ('busy', 'done'):
             ctx.err(f'ready[{i}]', 'asserts busy/done')
+        cl = r.get('clears', 'start')
+        for c in (cl if isinstance(cl, list) else [cl]):
+            if not (isinstance(c, (int, float)) or c in ('read', 'start', 'cs-fall')):
+                ctx.err(f'ready[{i}]', f'clears {c!r}')
         en = r.get('enable', [])
         for e in ([en] if isinstance(en, str) else en):
             check_field_value(dev, e, ctx, f'ready[{i}].enable')
     for k, v in d.get('pins', {}).items():
+        if k == 'levels':
+            for j, lv in enumerate(v):
+                need_pin(lv.get('pin', ''), f'pins.levels[{j}]')
+                ref_width(dev, lv.get('field', ''), ctx, f'pins.levels[{j}]')
+            continue
         if k not in ('reset', 'convst', 'start', 'powerdown', 'ldac', 'clear'):
             ctx.err('pins', f'unknown control {k!r}')
         need_pin(v.get('pin', ''), f'pins.{k}')
@@ -492,7 +552,7 @@ def check_device(spec, ctx, fps):
                 ctx.err(f'packages.{code}', f'unknown pinout {v.get("pinout")!r}')
             if fps and v.get('footprint') not in fps:
                 ctx.err(f'packages.{code}', f'footprint {v.get("footprint")!r} not in footprints.json or footprint-ids.tsv')
-            if not v.get('package') or re.search(r'^\d|-\d+$', v.get('package', '')):
+            if not v.get('package') or (re.search(r'^\d|-\d+$', v.get('package', '')) and v['package'] not in ('SOT-23', 'SC-70')):
                 ctx.err(f'packages.{code}', f'package family {v.get("package")!r} (no pin counts)')
             pins = d.get('pinouts', {}).get(v.get('pinout'), [])
             if 'pins' in v and pins and len(pins) != v['pins']:

@@ -1,0 +1,383 @@
+{
+ "device": {
+  "id": "ADS7864",
+  "function": "ADC",
+  "description": "12-bit 500 kSPS 6-channel (3 pairs) simultaneous-sampling differential SAR ADC with 16-bit parallel interface, cycle and FIFO read modes",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7864.pdf (SBAS141A) p.4 electrical characteristics (+VA/+VD 4.75-5.25 V, logic levels, twos complement, 1.75 us conversion), p.5 pin configuration, p.6 pin descriptions, p.14 clock / reset / busy, start of a conversion, p.15 Table 1 timing, p.16 reading data (Figures 27-28), p.17 output code (Table 2 channel truth table), BYTE, p.18 getting data (Table 3 address/mode)",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "DB15",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "DB14",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "DB13",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "DB12",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "DB11",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "DB10",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "DB9",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "DB8",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "DB7",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "DB6",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "DB5",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DB4",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "DB3",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "DB2",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DB1",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "DB0",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "+VD",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "CLOCK",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "HOLDC",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "HOLDB",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "HOLDA",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "BYTE",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "A2",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 35,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 36,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 37,
+     "name": "CH A1+",
+     "role": "input"
+    },
+    {
+     "number": 38,
+     "name": "CH A1-",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "CH B1+",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "CH B1-",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "CH C1+",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "CH C1-",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "CH C0-",
+     "role": "input"
+    },
+    {
+     "number": 44,
+     "name": "CH C0+",
+     "role": "input"
+    },
+    {
+     "number": 45,
+     "name": "CH B0-",
+     "role": "input"
+    },
+    {
+     "number": 46,
+     "name": "CH B0+",
+     "role": "input"
+    },
+    {
+     "number": 47,
+     "name": "CH A0-",
+     "role": "input"
+    },
+    {
+     "number": 48,
+     "name": "CH A0+",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 6,
+  "codeFormat": "twos",
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "CH A1+",
+   "CH A1-",
+   "CH B1+",
+   "CH B1-",
+   "CH C1+",
+   "CH C1-",
+   "CH C0-",
+   "CH C0+",
+   "CH B0-",
+   "CH B0+",
+   "CH A0-",
+   "CH A0+",
+   "REFIN",
+   "REFOUT",
+   "+VA"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB15",
+    "DB14",
+    "DB13",
+    "DB12",
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "address": [
+    "A2",
+    "A1",
+    "A0"
+   ]
+  },
+  "timing": {
+   "tAcc": 30
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": {
+    "0": "1 000 R{12}",
+    "1": "1 001 R{12}",
+    "2": "1 010 R{12}",
+    "3": "1 011 R{12}",
+    "4": "1 100 R{12}",
+    "5": "1 101 R{12}",
+    "6": "1 000 R{12}",
+    "7": "1 000 R{12}"
+   }
+  },
+  "conversion": {
+   "time": 1750,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 0,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "HOLDA",
+    "edge": "fall"
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "ads7864.pdf",
+ "pages": "p.4 (specs), p.5-6 (pins), p.14 (CLOCK, RESET, BUSY, start of conversion), p.15 (Table 1), p.16 (reading data, t13 30 ns), p.17 (Table 2, BYTE), p.18 (Table 3, cycle / FIFO modes)",
+ "notModeled": [
+  "analog inputs and internal 2.5 V reference (REFOUT never driven): every conversion returns the 0 V differential code 000h",
+  "only HOLDA starts a conversion (the schema has one convst pin); HOLDB and HOLDC, the A-B-C conversion queue and the ignoring of further HOLD pulses until the conversion is done are not modeled",
+  "the six output registers: a read at address A2 A1 A0 = 000..101 returns DB15 = 1 (data valid), DB14..DB12 = that channel's Table 2 code and the 0 V result; the data-valid flag is always 1 (after reset/power-up the cleared registers would read DB15 = 0)",
+  "cycle mode (110: A0, A1, B0, B1, C0, C1 on successive reads) and FIFO mode (111: three registers per channel, oldest first) always return channel A0's word",
+  "BYTE = 1 (8-bit bus: low byte on DB7..DB0 at the first RD, high byte at the second) is not modeled",
+  "the conversion is clocked by the external CLOCK (12.5 clocks to the output latch, 16 clocks per conversion); the model uses the 1.75 us conversion time at fCLK = 8 MHz; bus float delay is not specified (tDf 0)",
+  "pin names: the minus sign of CH xx- is written '-'"
+ ],
+ "variants": "ADS7864Y (only orderable grade in the skeleton); ADS7864YB is a higher-linearity grade of the same chip.",
+ "parts": [
+  [
+   "ADS7864Y/250",
+   "PFB",
+   48,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,54 @@
+{
+  "device": {
+    "id": "ADS8860",
+    "function": "ADC",
+    "description": "16-bit 1 MSPS single-ended SAR ADC with SPI-compatible serial interface and daisy-chain",
+    "drawer": ["Interface"],
+    "note": "ads8860.pdf (SBAS569B) p.4 pin functions, p.7 power-supply requirements, p.8 timing requirements (3-wire), p.9 Figure 1, p.21 transfer function (straight binary), p.21-23 3-wire CS mode",
+    "pinouts": {
+      "p10": [
+        {"number": 1, "name": "REF", "role": "power"},
+        {"number": 2, "name": "AVDD", "role": "power"},
+        {"number": 3, "name": "AINP", "role": "input"},
+        {"number": 4, "name": "AINN", "role": "input"},
+        {"number": 5, "name": "GND", "role": "ground"},
+        {"number": 6, "name": "CONVST", "role": "input"},
+        {"number": 7, "name": "DOUT", "role": "output"},
+        {"number": 8, "name": "SCLK", "role": "input"},
+        {"number": 9, "name": "DIN", "role": "input"},
+        {"number": 10, "name": "DVDD", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 16,
+    "channels": 1,
+    "codeFormat": "straight",
+    "vcc": [1.65, 3.6],
+    "analog": ["AINN", "AINP", "AVDD", "REF"],
+    "bus": {"style": "spi", "cs": "CONVST", "sclk": "SCLK", "miso": "DOUT", "mode": 0},
+    "timing": {"tValid": 12.3, "tOut": 13.4, "tFloat": 13.2},
+    "registers": [],
+    "protocol": {"frame": "fixed", "out": "R{16}", "idle": "z", "commands": []},
+    "conversion": {"time": 710, "start": ["cs-rise"]}
+  },
+  "packages": {
+    "DGS": {"pinout": "p10", "footprint": "VSSOP-10", "package": "VSSOP", "pins": 10},
+    "DRC": {"pinout": "p10", "footprint": "VSON-10-DRC", "package": "VSON", "pins": 10}
+  },
+  "pdf": "ads8860.pdf",
+  "pages": "p.4 (pins), p.7 (supply ranges), p.8-9 (3-wire timing, Figure 1), p.21 (transfer function), p.21-23 (CS modes), p.27 (daisy-chain)",
+  "notModeled": [
+    "analog input and reference (the 0 V code is 0000h)",
+    "mode selection by the DIN level at the CONVST rising edge: only 3-wire CS mode without a busy indicator (DIN high, CONVST as CS) is modeled; DIN is not read",
+    "4-wire CS mode (DIN as CS), busy indicator bit (CONVST or DIN held low at the end of conversion), daisy-chain mode (DIN as chain input)",
+    "DOUT driven while CONVST is low during a conversion (modeled: the frame shows the last result)",
+    "conversion time varies 500-710 ns (modeled: tconv-max 710 ns); acquisition time and power-down between conversions",
+    "DVDD 1.65-2.7 V allows SCLK < 40 MHz only; 66.6 MHz SCLK needs DVDD >= 2.7 V"
+  ],
+  "variants": "ADS8860 only (the 16-bit 1 MSPS single-ended member of the ADS886x family; siblings have their own datasheets).",
+  "parts": [
+    ["ADS8860IDGS", "DGS", 10, "Active"],
+    ["ADS8860IDRCR", "DRC", 10, "Active"],
+    ["ADS8860IDRCT", "DRC", 10, "Active"]
+  ]
+}

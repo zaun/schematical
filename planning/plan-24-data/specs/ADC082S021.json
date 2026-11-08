@@ -1,0 +1,166 @@
+{
+ "device": {
+  "id": "ADC082S021",
+  "function": "ADC",
+  "description": "8-bit 2-channel 50-200 kSPS SAR ADC with SPI-compatible serial interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "adc082s021.pdf (SNAS282D) p.1 connection diagram, p.2 pin descriptions, p.3 operating ratings, p.5 output coding and AC characteristics, p.6 timing specifications, p.7 Figures 2 and 4, p.17-18 using the ADC082S021, Tables 2-4",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "IN2",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "IN1",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "SCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 2,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "IN1",
+   "IN2"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 3
+  },
+  "timing": {
+   "tValid": 30,
+   "tOut": 30,
+   "tFloat": 20
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 8,
+    "reset": 0,
+    "note": "internal control register loaded from DIN on the first 8 rising SCLK edges of each conversion; no read-back. Reset 0 = IN1 (the first conversion after power up is of IN1)",
+    "fields": [
+     {
+      "name": "ADD2",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "ADD1",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ADD0",
+      "bits": [
+       3,
+       3
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "0{4} R{8} 0{4}",
+   "idle": "repeat",
+   "commands": [
+    {
+     "name": "Control register (DIN, 8 rising edges) + 8 don't-care clocks",
+     "in": "xx b c a xxx x{8}",
+     "action": "nop",
+     "set": {
+      "CTRL.ADD2": "b",
+      "CTRL.ADD1": "c",
+      "CTRL.ADD0": "a"
+     },
+     "note": "Tables 2-4: bits 7-6 and 2-0 DONTC, ADD2-ADD0 in bits 5-3; ADD2 x, ADD1 must be 0, ADD0 = 0 IN1 / 1 IN2; selects the channel of the next conversion"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ],
+   "channel": "CTRL.ADD0"
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "adc082s021.pdf",
+ "pages": "p.1 connection diagram, p.2 pin descriptions; p.3 operating ratings (VA 2.7-5.25 V, digital inputs -0.3 V to VA); p.5 output coding and AC characteristics (straight binary, tCONV 13 SCLK, throughput 16 SCLK); p.6 timing specifications (tEN 30, tACC 30, tDIS 20 ns max); p.7 Figures 2 and 4 (frame: Z3-Z0 zeros, DB7-DB0, 4 zeros; DIN DONTC DONTC ADD2 ADD1 ADD0 DONTC DONTC DONTC); p.17-18 using the ADC082S021, Tables 2-4 (control register, channel selection, multiple conversions per frame)",
+ "notModeled": [
+  "analog inputs and multiplexer (every conversion returns the 0 V code 0x00); the channel field is stored only",
+  "ADD1 = 1 is not allowed (DOUT indeterminate); the model outputs the 0 V code anyway",
+  "the conversion is clocked by SCLK (3 track + 13 conversion clocks); not timed, the result is the 0 V code at once",
+  "the control word selects the channel of the NEXT conversion (pipelined); with a constant 0 V code this has no visible effect",
+  "SPI mode 3 chosen: Figure 4 shows SCLK idling high, DOUT changing on falling edges, DIN sampled on rising edges; the datasheet allows SCLK high or low at CS fall (tCSU/tCLH), and with SCLK low at CS fall the internal SCLK sees CS fall as the first falling edge",
+  "several conversions per frame (each frame an integer multiple of 16 SCLKs): modeled by the 16-bit stream command and idle \"repeat\"; the track/hold re-entry timing is not modeled",
+  "power-down while CS is high and between continuous conversions (no digital effect)",
+  "SCLK frequency limits (0.8-3.2 MHz specified; 50 kHz-16 MHz functional), tCSU/tCLH, tACQ and throughput",
+  "tEN/tACC 30 ns are the maxima; typical values are lower at 5 V"
+ ],
+ "variants": "ADC082S021 / ADC082S051 / ADC082S101 are the same pinout and frame at different sample-rate ranges (separate datasheets; ADC082S051 is not in the skeleton); ADC102S/ADC122S are the 10/12-bit parts",
+ "parts": [
+  [
+   "ADC082S021CIMM/NOPB",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,433 @@
+{
+ "device": {
+  "id": "ADS9120",
+  "function": "ADC",
+  "description": "16-bit 2.5 MSPS fully differential SAR ADC with enhanced-SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads9120.pdf (SBAS710B) p.3 pin functions, p.4 recommended operating conditions, p.6 power-supply requirements (DVDD 1.65-1.95 V), p.7 timing (conversion cycle, reset, SPI interface), p.20 transfer function (twos complement), p.22 RST state, p.24-25 commands and output data word, p.27 data transfer frame, p.44-47 register map, p.58 PD mode unlock",
+  "pinouts": {
+   "rge24": [
+    {
+     "number": 1,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "AINM",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 13,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "SDO-3",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "SDO-2",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "SDO-1",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "SDO-0",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "RVS",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   1.65,
+   1.95
+  ],
+  "analog": [
+   "REFM",
+   "REFP",
+   "AINP",
+   "AINM",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO-0",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 4.5,
+   "tOut": 6.5,
+   "tFloat": 10
+  },
+  "registers": [
+   {
+    "name": "PD_CNTL",
+    "address": 16,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "NAP_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PDWN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.45 Table 6-9: writes must be preceded by writing 69h to address 011h"
+   },
+   {
+    "name": "SDI_CNTL",
+    "address": 20,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "SDI_MODE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.45-46 Table 6-10"
+   },
+   {
+    "name": "SDO_CNTL",
+    "address": 24,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 32,
+    "fields": [
+     {
+      "name": "SSYNC_CLK_SEL",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "DATA_RATE",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SDO_WIDTH",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "SDO_MODE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.46 Table 6-11"
+   },
+   {
+    "name": "DATA_CNTL",
+    "address": 28,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "FPAR_LOC",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "PAR_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DATA_PATN",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.47 Table 6-12"
+   },
+   {
+    "name": "PD_KEY",
+    "width": 1,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "UNLOCK",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal (model state): set by the 69h-to-011h unlock write, p.45 / p.58"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "out": "R{16} 0{4}",
+   "idle": "0",
+   "outs": [
+    {
+     "when": "DATA_CNTL.DATA_PATN=4",
+     "out": "0{16} 0{4}"
+    },
+    {
+     "when": "DATA_CNTL.DATA_PATN=5",
+     "out": "1{16} 0{4}"
+    },
+    {
+     "when": "DATA_CNTL.DATA_PATN=6",
+     "out": "0101 0101 0101 0101 0{4}"
+    },
+    {
+     "when": "DATA_CNTL.DATA_PATN=7",
+     "out": "0011 0011 0011 0011 0{4}"
+    }
+   ],
+   "commands": [
+    {
+     "name": "NOP",
+     "in": "0{20}",
+     "action": "nop",
+     "note": "p.24 Table 6-2"
+    },
+    {
+     "name": "WR_REG (unlock PD_CNTL)",
+     "in": "1010 00010001 01101001",
+     "action": "nop",
+     "set": {
+      "PD_KEY.UNLOCK": 1
+     },
+     "note": "p.45, p.58: write 69h to address 011h to unlock PD_CNTL"
+    },
+    {
+     "name": "WR_REG (PD_CNTL, PDWN = 1)",
+     "in": "1010 00010000 [PD_CNTL:7:1] 1",
+     "when": "PD_KEY.UNLOCK=1",
+     "action": "powerdown",
+     "set": {
+      "PD_CNTL.PDWN": 1
+     },
+     "note": "p.58: PD mode entered at the CS rising edge"
+    },
+    {
+     "name": "WR_REG (PD_CNTL, PDWN = 0)",
+     "in": "1010 00010000 [PD_CNTL:7:1] 0",
+     "when": "PD_KEY.UNLOCK=1",
+     "action": "wakeup",
+     "set": {
+      "PD_CNTL.PDWN": 0
+     },
+     "note": "p.58: exit PD mode"
+    },
+    {
+     "name": "WR_REG (PD_CNTL, locked)",
+     "in": "1010 00010000 x{8}",
+     "action": "nop",
+     "note": "p.45: PD_CNTL writes without the unlock write are ignored"
+    },
+    {
+     "name": "RD_REG",
+     "in": "1001 aaaaaaaa 0000 0000",
+     "action": "read",
+     "address": "a",
+     "next": "@ 0{12}",
+     "note": "p.24 Table 6-2; p.24: D[19:12] of the next frame are the register, D[11:0] zeros"
+    },
+    {
+     "name": "WR_REG",
+     "in": "1010 aaaaaaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "note": "p.24 Table 6-2"
+    },
+    {
+     "name": "NOP",
+     "in": "1{20}",
+     "action": "nop",
+     "note": "p.24 Table 6-2"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 290,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "RVS",
+    "active": 0,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RST",
+    "active": 0
+   },
+   "convst": {
+    "pin": "CONVST",
+    "edge": "rise"
+   }
+  }
+ },
+ "packages": {
+  "RGE": {
+   "pinout": "rge24",
+   "footprint": "VQFN-24-RGE",
+   "package": "VQFN",
+   "pins": 24
+  }
+ },
+ "pdf": "ads9120.pdf",
+ "pages": "p.3 (pins), p.4 (ROC, nominal 1.8 V only), p.6 (supply ranges AVDD/DVDD 1.65-1.95 V), p.7 (timing), p.20 (transfer function), p.22 (RST), p.24-25 (commands, output data word, parity), p.27 (frame), p.34-35 (SPI protocols), p.44-47 (registers), p.58 (PD mode)",
+ "notModeled": [
+  "analog input and reference; the result is always the 0 V differential code 0000h (twos complement)",
+  "20-bit command word decoded from the last 20 SDI bits before CS rises (align end); frames shorter than 20 SCLKs are NOPs (p.27)",
+  "SPI protocol selection: SDI_MODE (SPI-01/10/11), SDO_MODE source-synchronous output with RVS as strobe, SDO_WIDTH dual/quad SDO, DATA_RATE (DDR), SSYNC_CLK_SEL: stored only; the bus stays SPI-00-S on SDO-0 (SDO-1..3 never driven)",
+  "parity bits FLPAR/FTPAR (PAR_EN, FPAR_LOC): stored only; the parity positions output 0, correct for the 0 V code and all four fixed patterns but not for register read-back",
+  "PD_CNTL key: the 69h-to-011h unlock is modeled as a latched state (once unlocked, later PD_CNTL writes are accepted); the datasheet does not say whether the key is consumed by one write. A read of address 011h returns 0",
+  "NAP mode (NAP_EN) stored only; power-up time tPWRUP 250 us, NAP wake-up 300 ns, RST-to-RVS delay td_rst 1250 us",
+  "RVS while CS is low and the td_CSRDY_r delay after CS rise: not modeled; RVS is low while converting",
+  "conversion time varies 270-290 ns (modeled: 290 ns max); cycle time, acquisition and quiet-zone timing, SCLK frequency limit 75 MHz",
+  "reserved command codes: treated as NOP (unmatched)"
+ ],
+ "variants": "ads9120.pdf covers the ADS9120 only (the ADS9110 is the pin-compatible 18-bit 2 MSPS variant with its own datasheet).",
+ "parts": [
+  [
+   "ADS9120IRGET",
+   "RGE",
+   24,
+   "Active"
+  ]
+ ]
+}

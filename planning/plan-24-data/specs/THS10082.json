@@ -1,0 +1,500 @@
+{
+ "device": {
+  "id": "THS10082",
+  "function": "ADC",
+  "description": "10-bit 8 MSPS 2-input simultaneous-sampling pipelined ADC with 16-word FIFO and parallel uP interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ths10082.pdf (SLAS254B) p.1 pinout, p.2 recommended operating conditions, p.4 single conversion timing (DATA_AV 6.5 x tc + 15 ns, tc max 133 ns), p.5 terminal functions, p.16 conversion modes, p.18 data format (Tables 3-6), p.21 control register map and addressing (Tables 7-8), p.22 initialization, p.23-24 CR0 (Tables 9-11), p.25 CR1 (Table 12), p.26-27 FIFO trigger level and DATA_AV type (Tables 13-14), p.28-31 read/write timing",
+  "pinouts": {
+   "da32": [
+    {
+     "number": 1,
+     "name": "D0",
+     "role": "inout"
+    },
+    {
+     "number": 2,
+     "name": "D1",
+     "role": "inout"
+    },
+    {
+     "number": 3,
+     "name": "D2",
+     "role": "inout"
+    },
+    {
+     "number": 4,
+     "name": "D3",
+     "role": "inout"
+    },
+    {
+     "number": 5,
+     "name": "D4",
+     "role": "inout"
+    },
+    {
+     "number": 6,
+     "name": "D5",
+     "role": "inout"
+    },
+    {
+     "number": 7,
+     "name": "BVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "BGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "D6",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "D7",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "D8",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "D9",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "RA0",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "RA1",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "CONV_CLK",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DATA_AV",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "CS1",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "CS0",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 24,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 25,
+     "name": "REFM",
+     "role": "power"
+    },
+    {
+     "number": 26,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "AINM",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "OV_FL",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 2,
+  "codeFormat": {
+   "field": "CR1.BIN_2S",
+   "values": {
+    "0": "twos",
+    "1": "offset"
+   }
+  },
+  "vcc": [
+   3,
+   5.25
+  ],
+  "analog": [
+   "AVDD",
+   "REFM",
+   "REFP",
+   "REFOUT",
+   "REFIN",
+   "AINM",
+   "AINP"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "address": [
+    "RA1",
+    "RA0"
+   ],
+   "cs": {
+    "pin": "CS0",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tAcc": 10,
+   "tDf": 5
+  },
+  "registers": [
+   {
+    "name": "CR0",
+    "width": 10,
+    "reset": 32,
+    "fields": [
+     {
+      "name": "TEST",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "SCAN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "DIFF",
+      "bits": [
+       6,
+       5
+      ]
+     },
+     {
+      "name": "CHSEL",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "PD",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "MODE",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "VREF",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "control register 0 (RA1 RA0 = 00); reset values: DIFF0 = 1, all else 0 (differential AINP-AINM)"
+   },
+   {
+    "name": "CR1",
+    "width": 10,
+    "reset": 48,
+    "fields": [
+     {
+      "name": "RESERVED",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "OFFSET",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "BIN_2S",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "RW",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "DATA_P",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "DATA_T",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "TRIG",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "FRST",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "RESET",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "control register 1 (RA1 RA0 = 01); reset values: bits 5 and 4 = 1 (DATA_P, DATA_T), all else 0"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "CR1 write with RESET = 1",
+     "in": "01 x{9} 1",
+     "action": "reset",
+     "note": "writing 1 to CR1 bit 0 resets CR0/CR1 to their reset values (and the FIFO pointers)"
+    },
+    {
+     "name": "CR1 write",
+     "in": "01 [CR1]",
+     "action": "nop"
+    },
+    {
+     "name": "CR0 write with PD = 1 (power down)",
+     "in": "00 [CR0:9:3] 1 [CR0:1:0]",
+     "action": "powerdown",
+     "set": {
+      "CR0.PD": 1
+     }
+    },
+    {
+     "name": "CR0 write",
+     "in": "00 [CR0]",
+     "action": "wakeup"
+    }
+   ],
+   "read": "R{10}"
+  },
+  "conversion": {
+   "start": [
+    "pin"
+   ],
+   "channel": "CR0.CHSEL",
+   "time": {
+    "field": "CR0.MODE",
+    "values": {
+     "0": 0,
+     "1": 879.5
+    }
+   }
+  },
+  "ready": [
+   {
+    "pin": "DATA_AV",
+    "active": 1,
+    "asserts": "done",
+    "clears": 62.5,
+    "enable": [
+     "CR1.DATA_P=1",
+     "CR1.DATA_T=1",
+     "CR0.TEST=0"
+    ]
+   },
+   {
+    "pin": "DATA_AV",
+    "active": 1,
+    "asserts": "done",
+    "clears": "read",
+    "enable": [
+     "CR1.DATA_P=1",
+     "CR1.DATA_T=0",
+     "CR0.TEST=0"
+    ]
+   },
+   {
+    "pin": "DATA_AV",
+    "active": 0,
+    "asserts": "done",
+    "clears": 62.5,
+    "enable": [
+     "CR1.DATA_P=0",
+     "CR1.DATA_T=1",
+     "CR0.TEST=0"
+    ]
+   },
+   {
+    "pin": "DATA_AV",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "enable": [
+     "CR1.DATA_P=0",
+     "CR1.DATA_T=0",
+     "CR0.TEST=0"
+    ]
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONV_CLK",
+    "edge": "fall"
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "DA": {
+   "pinout": "da32",
+   "footprint": "TSSOP-32-DA",
+   "package": "TSSOP",
+   "pins": 32
+  }
+ },
+ "pdf": "ths10082.pdf",
+ "pages": "p.1 (pinout), p.2 (ROC), p.4 (single conversion timing), p.5 (terminal functions), p.16 (conversion modes), p.18 (data format), p.21-27 (control registers, FIFO, DATA_AV), p.28-31 (timing)",
+ "notModeled": [
+  "analog inputs, references (internal/external VREF select), REFOUT: the result is always the 0 V code; codeFormat follows CR1 BIN/2s for the power-on differential configuration (0 V differential = 000h twos complement / mid-scale binary); in single-ended configurations 0 V lies below the VREFM-VREFP input range",
+  "CS1 (active-high chip select): the model selects on CS0 alone; CS1 must be held high",
+  "R/W mode (CR1 bit 6 = 1: WR becomes R/W, RD disabled): stored only; the bus always uses separate RD and WR (the power-on/reset setting); the datasheet notes RD/WR start conditions are unknown and the first access must be a write",
+  "addresses RA1 RA0 = 10 and 11 (reserved) are ignored",
+  "the channel sequence (CHSEL/DIFF/SCAN autoscan of up to 2 inputs) is stored only; every read returns the 0 V code",
+  "test mode (CR0 TEST1/TEST0: VREFP, mid-scale, VREFM test voltages) is stored only; reads still return the 0 V code",
+  "offset cancellation (CR1 OFFSET) is stored only",
+  "pipeline latency (5 CONV_CLK cycles) and the CONV_CLK-to-read setup times are not modeled (the code is constant)",
+  "tDf uses the 5 ns maximum data hold time after the first CS invalid (th)",
+  "16-word FIFO: no FIFO is modeled; each read returns the 0 V code; FIFO reset (FRST), overflow and the trigger level TRIG (DATA_AV after 1/4/8/14... values, Table 13) are stored only: DATA_AV asserts after every conversion (trigger level 1)",
+  "conversion time: single conversion mode (CR0 MODE = 1) uses the one-input DATA_AV delay 879.5 ns (6.5 x tc + 15 ns, tc max); more inputs take one tc more each; continuous mode (MODE = 0) starts a conversion on every CONV_CLK falling edge with time 0",
+  "DATA_AV pulse mode: pulse width modeled as 62.5 ns (half a CONV_CLK period at the maximum CONV_CLK frequency); level mode clears on the first read (the datasheet: the first of the TL reads)",
+  "CR0 and CR1 are write only (no read-back exists)",
+  "OV_FL output (FIFO overflow, active high) is not driven (no FIFO overflow is modeled)",
+  "RESET pin polarity: active low per the pinout overbar (p.1); the terminal table gives no level",
+  "power down (CR0 PD) blocks conversions; reads and writes still work, as the datasheet states",
+  "vcc is the union of DVDD and BVDD ranges (BVDD 3-5.25 V for the output buffers)"
+ ],
+ "variants": "THS1009 is the FIFO-less continuous-clock relative.",
+ "parts": [
+  [
+   "THS10082IDA",
+   "DA",
+   32,
+   "Active"
+  ]
+ ]
+}

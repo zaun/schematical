@@ -1,0 +1,246 @@
+{
+ "device": {
+  "id": "ADS1013",
+  "function": "ADC",
+  "description": "12-bit 3.3 kSPS delta-sigma ADC with internal reference and I2C interface (single differential input)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1013.pdf (SBAS473F) p.3 pin functions, p.4 recommended operating conditions, p.6 I2C timing, p.11 data rate, p.12-13 comparator and conversion-ready pin, p.14 reset and operating modes, p.16 address table and general call, p.16-17 register access, p.19 data format, p.20-23 register map; ads1013-q1.pdf (SBAS511E) p.3 for the -Q1 parts and the NKS package",
+  "pinouts": {
+   "p10": [
+    {
+     "number": 1,
+     "name": "ADDR",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "SCL",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   2.0,
+   5.5
+  ],
+  "inputMax": 5.5,
+  "analog": [
+   "AIN0",
+   "AIN1"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "ADDR"
+   ],
+   "table": [
+    72,
+    73,
+    75,
+    74
+   ]
+  },
+  "registers": [
+   {
+    "name": "CONVERSION",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": "D",
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       4
+      ]
+     },
+     {
+      "name": "RESERVED",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "12-bit two's-complement result left-justified; bits 3:0 read 0"
+   },
+   {
+    "name": "CONFIG",
+    "address": 1,
+    "width": 16,
+    "reset": 34179,
+    "readOnly": 32768,
+    "fields": [
+     {
+      "name": "OS",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "MODE",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DR",
+      "bits": [
+       7,
+       5
+      ]
+     }
+    ],
+    "note": "reset 8583h; OS write 1 starts a single conversion, reads 0 while converting, 1 when idle"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Address Pointer",
+     "in": "xxxxxxaa",
+     "action": "pointer",
+     "address": "a",
+     "note": "P[1:0]; bits 7:2 always write 000000b"
+    }
+   ],
+   "read": "pointer",
+   "generalCall": "reset"
+  },
+  "conversion": {
+   "time": {
+    "field": "CONFIG.DR",
+    "values": {
+     "0": 7812500,
+     "1": 4000000,
+     "2": 2040816,
+     "3": 1086957,
+     "4": 625000,
+     "5": 416667,
+     "6": 303030,
+     "7": 303030
+    }
+   },
+   "start": [
+    "write:CONFIG.OS=1"
+   ],
+   "mode": {
+    "field": "CONFIG.MODE",
+    "continuous": 0
+   },
+   "busy": {
+    "CONFIG.OS": 0
+   },
+   "done": {
+    "CONFIG.OS": 1
+   }
+  }
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "p10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  },
+  "RUG": {
+   "pinout": "p10",
+   "footprint": "X2QFN-10-RUG",
+   "package": "X2QFN",
+   "pins": 10
+  }
+ },
+ "pdf": "ads1013-q1.pdf",
+ "pages": "p.3 (pins, RUG/DGS same numbering), p.4 (ROC: VDD 2-5.5 V, digital inputs GND-5.5 V), p.11 (data rates 128-3300 SPS, conversion time 1/DR), p.13 (conversion-ready: Hi_thresh MSB 1, Lo_thresh MSB 0, COMP_QUE != 11b, 8 us pulse in continuous mode), p.14 (power-up in power-down/single-shot, general call reset 06h), p.16 (ADDR GND/VDD/SDA/SCL -> 48h/49h/4Ah/4Bh), p.16-17 (pointer write then read), p.19 (two's complement, left-justified), p.20-23 (registers); ads1013-q1.pdf p.3 (NKS pinout = DGS numbering)",
+ "notModeled": [
+  "analog inputs, PGA and internal reference (PGA is stored only); the result is the 0 V code",
+  "OS=1 writes during a running conversion or in continuous mode: the datasheet says no effect (the engine may restart)",
+  "continuous mode: a configuration write lets the running conversion finish with the old settings",
+  "~25 us power-up before a single-shot conversion (folded into the conversion time: not added)",
+  "conversion time 1 / nominal data rate; the internal oscillator drift is not modeled",
+  "a floating ADDR pin (not specified); the SDA strap needs SDA held low 100 ns after SCL falls",
+  "HS-mode master code and I2C timing limits",
+  "Config bits 14:9 and 4:0 are reserved R/W (stored, reset 000010b / 00011b); Lo_thresh / Hi_thresh are not available on the ADS1013 (p.20): pointer values 10b/11b select no register in the model",
+  "the ADS1013 always uses AINP = AIN0, AINN = AIN1 and FSR +-2.048 V"
+ ],
+ "variants": "ADS1013 / ADS1014 / ADS1015 share ads1013.pdf (ADS1014: PGA + comparator + ALERT/RDY; ADS1015: also MUX and AIN2/AIN3); own spec files. ADS1014QNKSRQ1 and ADS1015QNKSRQ1 in this skeleton belong to ADS1014 / ADS1015 (ads1013-q1.pdf p.3: pins 2, 6, 7 differ)",
+ "parts": [
+  [
+   "ADS1013BQDGSRQ1",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "ADS1013IDGSR",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "ADS1013IDGST",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "ADS1013IRUGT",
+   "RUG",
+   10,
+   "Active"
+  ]
+ ]
+}

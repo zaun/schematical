@@ -1,0 +1,513 @@
+{
+ "device": {
+  "id": "ADS8364",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit 250 kSPS 6-channel (3 pairs) simultaneous-sampling differential SAR ADC with 16-bit parallel interface, cycle and FIFO read modes",
+  "note": "ads8364.pdf (SBAS219C) p.2 recommended operating conditions, p.4 digital levels, supplies (BVDD 2.7-3.6 V / 4.5-5.5 V), binary twos complement, p.5 pin configuration and descriptions, p.6 timing characteristics, p.12-13 clock, RESET, EOC, FD, start of a conversion, Table II address control, reading data, p.14 BYTE, ADD, software control, p.15-16 Tables III-V output formats and data register bits",
+  "pinouts": {
+   "pag64": [
+    {
+     "number": 1,
+     "name": "CH A1-",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "CH A1+",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "SGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "CH B0+",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CH B0-",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "SGND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "CH B1-",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CH B1+",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "SGND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "CH C0+",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "CH C0-",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "CH C1-",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "CH C1+",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 21,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "BYTE",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "BVDD",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "BGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "FD",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "EOC",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "BGND",
+     "role": "ground"
+    },
+    {
+     "number": 33,
+     "name": "DB15",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "DB14",
+     "role": "output"
+    },
+    {
+     "number": 35,
+     "name": "DB13",
+     "role": "output"
+    },
+    {
+     "number": 36,
+     "name": "DB12",
+     "role": "output"
+    },
+    {
+     "number": 37,
+     "name": "DB11",
+     "role": "output"
+    },
+    {
+     "number": 38,
+     "name": "DB10",
+     "role": "output"
+    },
+    {
+     "number": 39,
+     "name": "DB9",
+     "role": "output"
+    },
+    {
+     "number": 40,
+     "name": "DB8",
+     "role": "output"
+    },
+    {
+     "number": 41,
+     "name": "DB7",
+     "role": "inout"
+    },
+    {
+     "number": 42,
+     "name": "DB6",
+     "role": "inout"
+    },
+    {
+     "number": 43,
+     "name": "DB5",
+     "role": "inout"
+    },
+    {
+     "number": 44,
+     "name": "DB4",
+     "role": "inout"
+    },
+    {
+     "number": 45,
+     "name": "DB3",
+     "role": "inout"
+    },
+    {
+     "number": 46,
+     "name": "DB2",
+     "role": "inout"
+    },
+    {
+     "number": 47,
+     "name": "DB1",
+     "role": "inout"
+    },
+    {
+     "number": 48,
+     "name": "DB0",
+     "role": "inout"
+    },
+    {
+     "number": 49,
+     "name": "BGND",
+     "role": "ground"
+    },
+    {
+     "number": 50,
+     "name": "BVDD",
+     "role": "power"
+    },
+    {
+     "number": 51,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 52,
+     "name": "ADD",
+     "role": "input"
+    },
+    {
+     "number": 53,
+     "name": "A2",
+     "role": "input"
+    },
+    {
+     "number": 54,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 55,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 56,
+     "name": "HOLDA",
+     "role": "input"
+    },
+    {
+     "number": 57,
+     "name": "HOLDB",
+     "role": "input"
+    },
+    {
+     "number": 58,
+     "name": "HOLDC",
+     "role": "input"
+    },
+    {
+     "number": 59,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 60,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 61,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 62,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 63,
+     "name": "CH A0+",
+     "role": "input"
+    },
+    {
+     "number": 64,
+     "name": "CH A0-",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 6,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "CH A1-",
+   "CH A1+",
+   "CH B0+",
+   "CH B0-",
+   "CH B1-",
+   "CH B1+",
+   "CH C0+",
+   "CH C0-",
+   "CH C1-",
+   "CH C1+",
+   "CH A0+",
+   "CH A0-",
+   "REFOUT",
+   "REFIN",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB15",
+    "DB14",
+    "DB13",
+    "DB12",
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   },
+   "address": [
+    "A2",
+    "A1",
+    "A0"
+   ]
+  },
+  "timing": {
+   "tAcc": 60
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 4,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ADD",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "A",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the configuration word (DB7 = 1: DB3 ADD, DB2-DB0 A2-A1-A0, Table V p.16); cleared by reset"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Configuration word (DB7 = 1)",
+     "in": "xxx x{8} 1xxx daaa",
+     "set": {
+      "CTRL.ADD": "d",
+      "CTRL.A": "a"
+     },
+     "note": "p.14, Table V: ADD and A2-A0 written through the data bus, OR-ed with the hardware pins"
+    },
+    {
+     "name": "Control word (DB7 = 0)",
+     "in": "xxx x{8} 0xxx xxxx",
+     "note": "Table V: DB3 RESET, DB2 HOLDA, DB1 HOLDB, DB0 HOLDC; the bit polarity is not given in this datasheet, so no action is modeled"
+    }
+   ],
+   "read": {
+    "0": "R{16}",
+    "1": "R{16}",
+    "2": "R{16}",
+    "3": "R{16}",
+    "4": "R{16}",
+    "5": "R{16}",
+    "6": "R{16}",
+    "7": "R{16}"
+   }
+  },
+  "conversion": {
+   "time": 3200,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "EOC",
+    "active": 0,
+    "asserts": "done",
+    "clears": 100
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "HOLDA",
+    "edge": "fall"
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "PAG": {
+   "pinout": "pag64",
+   "footprint": "TQFP-64-PAG",
+   "package": "TQFP",
+   "pins": 64
+  }
+ },
+ "pdf": "ads8364.pdf",
+ "pages": "p.2 (ROC), p.4 (digital specs, supplies, twos complement), p.5 (pinout, pin descriptions), p.6 (timing: tCONV 3.2 us, tD6 60 ns at BVDD 3 V), p.12 (CLK, RESET), p.13 (EOC, FD, Table II, start of conversion, reading data), p.14 (BYTE, ADD, software control), p.15-16 (Tables III-V)",
+ "notModeled": [
+  "analog inputs and the internal 2.5 V reference (REFOUT never driven): every conversion returns the 0 V differential code 0000h",
+  "only HOLDA starts a conversion (the schema has one convst pin); HOLDB and HOLDC, simultaneous holds and the ignoring of further HOLD pulses until the conversion is done are not modeled",
+  "the six output registers, cycle mode (A2 A1 A0 = 110) and FIFO mode (111) with their read sequencing, the ADD = 1 address/data-valid word (1000 0000 0000 dv a2 a1 a0 before the data), the empty-FIFO zero word and the FD (first data) output: every address returns the 0 V result",
+  "BYTE = 1 (8-bit reads: low byte then high byte on successive RD pulses) is not modeled (stateful per-read sequencing)",
+  "software control (Table V): the configuration word is stored in an internal register but its ADD/A2-A0 bits do not change reads (the bus address pins select); the control word (RESET, HOLDA, HOLDB, HOLDC) has no action because this datasheet does not state the bit polarity; data-bus bits DB15-DB8 are don't-care in a write",
+  "the conversion runs on the external CLK (16.5 clocks to the output latch, 20 clocks per conversion, fCLK max 5 MHz); the model uses the 3.2 us maximum conversion time; EOC is a half-clock low pulse (100 ns at 5 MHz); latch delays while a read is in progress are not modeled",
+  "bus float delay is not specified (tDf 0); DVDD (4.75-5.25 V) is the internal logic supply, the vcc range is BVDD's"
+ ],
+ "variants": "ADS8364Y (only grade); the ADS8365 is a later, separate datasheet with NAP, power-down and a selectable output format",
+ "parts": [
+  [
+   "ADS8364Y/250",
+   "PAG",
+   64,
+   "Active"
+  ],
+  [
+   "ADS8364Y/2K",
+   "PAG",
+   64,
+   "Active"
+  ]
+ ]
+}

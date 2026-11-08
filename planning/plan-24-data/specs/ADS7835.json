@@ -1,0 +1,59 @@
+{
+  "device": {
+    "id": "ADS7835",
+    "function": "ADC",
+    "description": "12-bit 500 kSPS bipolar-input SAR ADC with internal 2.5 V reference and synchronous serial interface",
+    "drawer": ["Interface"],
+    "note": "ads7835.pdf (SBAS102) p.2 specifications (VCC 4.75-5.25 V, VIH, binary two's complement), p.3 pin configuration and assignments, p.8 Table I timing, digital interface, p.9 Figure 3 basic conversion timing, p.10 Figure 4 power-down timing, Figure 5 LSB-first timing, p.12 data format",
+    "pinouts": {
+      "dgk8": [
+        {"number": 1, "name": "VREF", "role": "output"},
+        {"number": 2, "name": "AIN", "role": "input"},
+        {"number": 3, "name": "GND", "role": "ground"},
+        {"number": 4, "name": "GND", "role": "ground"},
+        {"number": 5, "name": "CONV", "role": "input"},
+        {"number": 6, "name": "DATA", "role": "output"},
+        {"number": 7, "name": "CLK", "role": "input"},
+        {"number": 8, "name": "+VCC", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 12,
+    "channels": 1,
+    "codeFormat": "twos",
+    "vcc": [4.75, 5.25],
+    "analog": ["VREF", "AIN"],
+    "bus": {"style": "spi", "cs": "CONV", "sclk": "CLK", "miso": "DATA", "mode": 0},
+    "timing": {"tValid": 0, "tOut": 50, "tFloat": 100},
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "out": "z R{12}",
+      "idle": "z",
+      "commands": []
+    },
+    "conversion": {
+      "time": 0,
+      "start": ["cs-fall"]
+    }
+  },
+  "packages": {
+    "DGK": {"pinout": "dgk8", "footprint": "VSSOP-8-DGK", "package": "VSSOP", "pins": 8}
+  },
+  "pdf": "ads7835.pdf",
+  "pages": "p.2 (specs), p.3 (pins), p.8 (Table I timing), p.9 (Figure 3), p.10 (Figures 4-5), p.12 (data format)",
+  "notModeled": [
+    "analog input (+/-VREF bipolar range) and internal reference (VREF is the reference output, overdrivable by an external reference)",
+    "CONV is a convert-start input, not a chip select: the model treats it as an active-low frame (CONV held low through the transfer, Figure 4). In the Figure 3 use CONV pulses low and returns high while D11..D0 are still clocked out; the model then floats DATA at CONV rise",
+    "conversion is clocked by CLK (D11 driven after the first CLK falling edge, D0 valid at the 13th rising edge, DATA Hi-Z after the 13th falling edge); not timed: the result is the 0 V code at once",
+    "LSB-first read-out (CONV pulled high before the 12th clock and low during the 13th) and short-cycling",
+    "power-down when CONV is still low at the 13th clock, exited on CONV rising (no bus effect)",
+    "CONV-to-CLK setup/hold and clock period limits"
+  ],
+  "variants": "ADS7834 is the unipolar (0 to VREF, straight binary, +IN/-IN) version: own spec file.",
+  "parts": [
+    ["ADS7835E/250", "DGK", 8, "Active"],
+    ["ADS7835E/2K5", "DGK", 8, "Active"],
+    ["ADS7835EB/250", "DGK", 8, "Active"]
+  ]
+}

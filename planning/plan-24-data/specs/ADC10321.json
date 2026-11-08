@@ -1,0 +1,256 @@
+{
+ "device": {
+  "id": "ADC10321",
+  "function": "ADC",
+  "description": "10-bit 20 MSPS pipelined ADC with parallel TRI-STATE outputs and power down",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "adc10321.pdf (SNAS028F) p.2 connection diagram (32-pin TQFP), p.3-4 pin descriptions, p.5 operating ratings (VA, VD 4.5-5.5 V; VD I/O 2.7-5.5 V; PD, CLK, OE -0.3 to 5.5 V), p.7 digital input/output characteristics, p.7 AC characteristics (tOD 25 ns max from CLK fall, pipeline delay 2.0 clocks, fCLK 1-20 MHz), p.8 tEN/tDIS (typ), p.14 functional description (conversion every clock, OE, PD)",
+  "pinouts": {
+   "ney32": [
+    {
+     "number": 1,
+     "name": "VREF- S",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VREF- F",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "VD",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "PD",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "VD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "VD I/O",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "DGND I/O",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "D0",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "D1",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "D2",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "D3",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "D4",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "D5",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "DGND I/O",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "VD I/O",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "D6",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "D7",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "D8",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "D9",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "OE",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 30,
+     "name": "VIN",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "VREF+ F",
+     "role": "power"
+    },
+    {
+     "number": 32,
+     "name": "VREF+ S",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VREF- S",
+   "VREF- F",
+   "VA",
+   "VIN",
+   "VREF+ F",
+   "VREF+ S"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLK",
+    "edge": "fall"
+   },
+   "data": [
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "oe": {
+    "pin": "OE",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tOut": 25
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "R{10}"
+  },
+  "pins": {
+   "powerdown": {
+    "pin": "PD",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "NEY": {
+   "pinout": "ney32",
+   "footprint": "LQFP-32-NEY",
+   "package": "LQFP",
+   "pins": 32
+  }
+ },
+ "pdf": "adc10321.pdf",
+ "pages": "p.2 connection diagram (32-pin TQFP), p.3-4 pin descriptions, p.5 operating ratings (VA, VD 4.5-5.5 V; VD I/O 2.7-5.5 V; PD, CLK, OE -0.3 to 5.5 V), p.7 digital input/output characteristics, p.7 AC characteristics (tOD 25 ns max from CLK fall, pipeline delay 2.0 clocks, fCLK 1-20 MHz), p.8 tEN/tDIS (typ), p.14 functional description (conversion every clock, OE, PD)",
+ "notModeled": [
+  "analog input and reference ladder (the result is always the 0 V code 0x000; 0 V is below the VREF- range, so it reads code 0)",
+  "pipeline latency of 2.0 clock cycles (the code is constant); VIN sampled on CLK falling, data valid tOD after CLK falling",
+  "PD high also puts D0-D9 in TRI-STATE (the model's powerdown pin only blocks conversions; OE alone gates the outputs); 700 ns wake-up",
+  "OE enable/disable times tEN 25 ns / tDIS 18-25 ns (typical only) are not modeled",
+  "clock frequency limits (1-20 MHz) and loss of accuracy when the clock stops",
+  "CLK, OE and PD are referenced to VD (4.5-5.5 V, TTL thresholds VIH 2.0 V / VIL 1.0 V), the outputs to VD I/O (2.7-5.5 V); vcc is the union 2.7-5.5 V"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADC10321CIVT/NOPB",
+   "NEY",
+   32,
+   "Active"
+  ]
+ ]
+}

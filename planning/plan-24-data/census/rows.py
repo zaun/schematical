@@ -42,7 +42,7 @@ def variants(n):
 rows = list(csv.DictReader(open(CAND), delimiter='\t'))
 w = csv.writer(sys.stdout, delimiter='\t', lineterminator='\n')
 w.writerow(['group', 'name', 'base', 'status', 'interface', 'pkg_digikey', 'pdf', 'poa_status',
-            'pkgtype', 'code', 'pins', 'match'])
+            'pkgtype', 'code', 'pins', 'match', 'dk_interface'])
 for r in rows:
     if r['group'] != grp:
         continue
@@ -72,4 +72,4 @@ for r in rows:
     else:
         st = pt = code = pins = ''
     w.writerow([grp, n, r['base'], r['status'], r['interface'], r['supplier_pkg'], pdf, st, pt,
-                code, pins, m])
+                code, pins, m, r['digikey_interface'] or '-'])

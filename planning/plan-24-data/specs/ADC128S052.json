@@ -1,0 +1,206 @@
+{
+ "device": {
+  "id": "ADC128S052",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit 200-500 kSPS 8-channel SAR ADC with SPI-compatible serial interface",
+  "note": "adc128s052.pdf (SNAS333E) p.3 pin configuration and functions, p.5 recommended operating conditions, p.8 timing specifications and Figure 1, p.16 transfer function (straight binary), p.17 serial interface, p.18 register maps (Tables 1-3)",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "IN0",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "IN1",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "IN2",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "IN3",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "IN4",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "IN5",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "IN6",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "IN7",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "VD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "SCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 8,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "VA",
+   "IN0",
+   "IN1",
+   "IN2",
+   "IN3",
+   "IN4",
+   "IN5",
+   "IN6",
+   "IN7"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 3
+  },
+  "timing": {
+   "tValid": 30,
+   "tOut": 27,
+   "tFloat": 20
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 8,
+    "reset": 0,
+    "note": "internal: the control register loaded from DIN on the first 8 rising SCLK edges of each 16-clock conversion (DONTC DONTC ADD2 ADD1 ADD0 DONTC DONTC DONTC); no read-back; reset 0 = the default first input",
+    "fields": [
+     {
+      "name": "ADD",
+      "bits": [
+       5,
+       3
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "0{4} R{12}",
+   "idle": "repeat",
+   "commands": [
+    {
+     "name": "Control Register",
+     "in": "xx aaa xxx x{8}",
+     "action": "nop",
+     "set": {
+      "CTRL.ADD": "a"
+     },
+     "note": "each 16-SCLK conversion clocks the control byte in on DIN (bits 5-3 = ADD2-ADD0 select the input of the next conversion), the other 8 DIN bits are ignored; DOUT gives 4 leading zeros then DB11-DB0"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ],
+   "channel": "CTRL.ADD"
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "adc128s052.pdf",
+ "pages": "p.3 (pins), p.5 (ROC: VA 2.7-5.25 V, VD 2.7 V-VA, digital inputs 0-VA), p.8 (tEN 30 ns, tDACC 27 ns, tDIS 20 ns max; Figure 1), p.16 (straight binary), p.17 (serial interface), p.18 (Tables 1-3: ADD2-ADD0 select IN0-IN7)",
+ "notModeled": [
+  "analog inputs and multiplexer; the conversion is clocked by SCLK (13 SCLK cycles), not timed: the result is the 0 V code 0x000 at once",
+  "the channel written in a frame applies to the next conversion; with every result the 0 V code this has no visible effect (ADD is stored only)",
+  "continuous conversion frames (N x 16 SCLKs per CS low) are approximated by repeating the 16-bit output pattern and re-matching the control word every 16 bits; the frame length rule (an integer multiple of 16 SCLKs) is not checked",
+  "SPI mode 3 chosen (DOUT changes on SCLK falling edges, DIN and DOUT sampled on rising edges); the datasheet allows SCLK high or low at CS fall (a CS fall with SCLK low acts as the first falling edge)",
+  "power-down while CS is high and between conversions (no digital effect); tCSU/tCLH setup and SCLK frequency limits",
+  "VA is also the reference; digital input voltage is specified 0 V to VA (VD 2.7 V to VA)"
+ ],
+ "variants": "ADC128S052-Q1 (ADC128S052QCMT, same datasheet): automotive grade, -40 to 125 C, same pinout and protocol. ADC128S022 / ADC128S052 / ADC128S102 are pin-compatible 8-channel parts for 50-200 / 200-500 / 500-1000 kSPS",
+ "parts": [
+  [
+   "ADC128S052CIMT/NOPB",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADC128S052CIMTX/NOPB",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADC128S052QCMT/NOPB",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

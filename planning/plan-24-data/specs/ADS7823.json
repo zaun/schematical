@@ -1,0 +1,62 @@
+{
+  "device": {
+    "id": "ADS7823",
+    "function": "ADC",
+    "description": "12-bit 50 kSPS micropower SAR ADC with I2C interface and 4-word result buffer",
+    "drawer": ["Interface"],
+    "note": "ads7823.pdf (SBAS180B) p.2-3 specifications at 3 V (conversion time 8 us, VIH, straight binary, hardware address 10010, VDD 2.7-3.6 V), p.4 specifications at 5 V (VDD 4.75-5.25 V), pin configuration and descriptions, p.10 address byte, command byte, initiating conversion, Figure 3, p.11 reading data, F/S and HS modes, p.12 terminating a conversion",
+    "pinouts": {
+      "dgk8": [
+        {"number": 1, "name": "VREF", "role": "power"},
+        {"number": 2, "name": "AIN", "role": "input"},
+        {"number": 3, "name": "A0", "role": "input"},
+        {"number": 4, "name": "GND", "role": "ground"},
+        {"number": 5, "name": "A1", "role": "input"},
+        {"number": 6, "name": "SDA", "role": "inout"},
+        {"number": 7, "name": "SCL", "role": "input"},
+        {"number": 8, "name": "+VDD", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 12,
+    "channels": 1,
+    "codeFormat": "straight",
+    "vcc": [2.7, 5.25],
+    "analog": ["VREF", "AIN"],
+    "bus": {"style": "i2c", "scl": "SCL", "sda": "SDA", "address": ["A0", "A1"],
+            "table": [72, 73, null, null, 74, 75, null, null, null, null, null, null, null, null, null, null]},
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [
+        {"name": "Command Byte", "in": "000 xxxxx", "action": "start",
+         "note": "p.10: three zeros then five don't-care bits; a byte with any of the top three bits set is ignored (no match)"}
+      ],
+      "read": "0{4} R{12}"
+    },
+    "conversion": {
+      "time": 8000,
+      "start": ["command"]
+    }
+  },
+  "packages": {
+    "DGK": {"pinout": "dgk8", "footprint": "VSSOP-8-DGK", "package": "VSSOP", "pins": 8}
+  },
+  "pdf": "ads7823.pdf",
+  "pages": "p.2 (conversion time 8 us), p.3 (VIH 0.7 VDD to VDD+0.5 V, straight binary, address 10010, VDD 2.7-3.6 V), p.4 (VDD 4.75-5.25 V; MSOP pin configuration and descriptions), p.10 (address byte 1001 0 A1 A0 R/W, command byte 000XXXXX, Figure 3), p.11 (two-byte data word 0000 D11-D8 / D7-D0, four-word FILO in F/S mode, HS mode), p.12 (terminating a conversion)",
+  "notModeled": [
+    "analog input and reference (result is the 0 V code 000h)",
+    "the 4-level FILO of F/S mode: up to four words read after one command byte are all the same 0 V code (read repeats); more than four reads return undefined data",
+    "HS mode (master code, clock stretching until the conversion completes) and I2C timing limits",
+    "a second consecutive valid command byte is NACKed and powers the converter down; a STOP terminates the conversion; power-down/wake-up states have no other bus effect",
+    "reads before any command byte: the datasheet says data can only be read after a conversion was initiated; the model returns the 0 V code",
+    "vcc covers the two specified supply ranges (2.7-3.6 V and 4.75-5.25 V) as one range; the 3.6-4.75 V gap is not specified by the datasheet",
+    "A1/A0 are sampled at power-up only (the model reads them live)"
+  ],
+  "variants": "ADS7823EB is the higher-grade ADS7823 (same spec).",
+  "parts": [
+    ["ADS7823E/250", "DGK", 8, "Active"],
+    ["ADS7823E/2K5", "DGK", 8, "Active"],
+    ["ADS7823EB/250", "DGK", 8, "Active"]
+  ]
+}

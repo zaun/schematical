@@ -1,0 +1,452 @@
+{
+ "device": {
+  "id": "ADS8361",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit 500 kSPS dual simultaneous-sampling 4-channel differential SAR ADC with dual serial outputs",
+  "note": "ads8361.pdf (SBAS230E) p.2 recommended operating conditions, p.4 digital levels and supplies (BVDD 2.7-3.6 V / 4.5-5.5 V, binary twos complement), p.5 truth table, p.6 pin configuration and descriptions (SSOP, QFN), p.7 timing characteristics, p.12-13 timing and control, Table II mode selection, Table III serial data output format, p.14 modes II-IV, reading data",
+  "pinouts": {
+   "dbq24": [
+    {
+     "number": 1,
+     "name": "BGND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "CH B1+",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CH B1-",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "CH B0+",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CH B0-",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CH A1+",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CH A1-",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "CH A0+",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "CH A0-",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "M1",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "M0",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "CLOCK",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "SERIAL DATA B",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "SERIAL DATA A",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "BVDD",
+     "role": "power"
+    }
+   ],
+   "rhb32": [
+    {
+     "number": 1,
+     "name": "CH B1+",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "CH B1-",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CH B0+",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "CH B0-",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CH A1+",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CH A1-",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CH A0+",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "CH A0-",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "M1",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "M0",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "CLOCK",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "SERIAL DATA B",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "SERIAL DATA A",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 27,
+     "name": "BVDD",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "BGND",
+     "role": "ground"
+    },
+    {
+     "number": 29,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 30,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 31,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 32,
+     "name": "NC",
+     "role": "nc"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 4,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "CH B1+",
+   "CH B1-",
+   "CH B0+",
+   "CH B0-",
+   "CH A1+",
+   "CH A1-",
+   "CH A0+",
+   "CH A0-",
+   "REFIN",
+   "REFOUT",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "RD",
+   "sclk": "CLOCK",
+   "miso": "SERIAL DATA A",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 30,
+   "tOut": 30
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 3,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "M0",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "M1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "A0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the M0, M1 and A0 strap/address pins (p.5 truth table, p.13 Table II)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0 0 R{16} 00",
+   "idle": "0",
+   "commands": [],
+   "outs": [
+    {
+     "when": "CTRL.M1=1",
+     "out": "0 0 R{16} 00 0 1 R{16} 00"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 1600,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 1,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONVST",
+    "edge": "rise"
+   },
+   "levels": [
+    {
+     "pin": "M0",
+     "field": "CTRL.M0"
+    },
+    {
+     "pin": "M1",
+     "field": "CTRL.M1"
+    },
+    {
+     "pin": "A0",
+     "field": "CTRL.A0"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "DBQ": {
+   "pinout": "dbq24",
+   "footprint": "QSOP-24",
+   "package": "SSOP",
+   "pins": 24
+  },
+  "RHB": {
+   "pinout": "rhb32",
+   "footprint": "VQFN-32-5X5",
+   "package": "VQFN",
+   "pins": 32
+  }
+ },
+ "pdf": "ads8361.pdf",
+ "pages": "p.2 (ROC), p.3-4 (specs: tCONV 1.6 us at 10 MHz, BVDD ranges, twos complement), p.5 (truth table), p.6 (pinouts, pin descriptions), p.7 (timing: t9 30 ns), p.12-13 (Figure 8 codes, Table II, Table III), p.14 (modes II-IV, reading data)",
+ "notModeled": [
+  "analog inputs and the internal 2.5 V reference (REFOUT never driven): every conversion returns the 0 V differential code 0000h",
+  "the serial frame is synchronized by the RD pulse; the model uses RD as an active-low chip select, so a frame starts when the RD high pulse ends (the datasheet: data valid on the CLOCK falling edges after RD's rising edge, first bit after the third rising CLOCK edge) and ends at the next RD pulse; CS (output enable / tri-state of both serial outputs, and enable of CONVST and RD) is not modeled, keep it low",
+  "CLOCK is a continuous conversion clock (20 clocks per conversion, fCLK 0.1-10 MHz); the conversion is timed at 1.6 us (fCLK = 10 MHz) instead of being counted in clocks; BUSY falls after the third LSB is transmitted, which the model approximates by the conversion time",
+  "SERIAL DATA B (converter B in modes I and III) is never driven; SERIAL DATA A always shows converter A's 20-bit word (CH0/1 flag, CHA/B flag, D15-D0, two zeros), and with M1 = 1 (modes II/IV) both words, A then B (CHA/B flag 0 then 1), 40 clocks",
+  "four-channel mode (M0 = 1): the alternating channel sequence and the CH0/1 flag (0/1) are not modeled (the flag is always 0); A0 latching on the first CLOCK falling edge selects channel 0/1 but does not change the 0 V result; the second CONVST ignored when M1 = 1",
+  "pipeline: the serial output carries the previous conversion's result on the part; the 0 V code is constant",
+  "tFloat: no tri-state delay is specified; tF/tR output edge times (25/30 ns) are not modeled"
+ ],
+ "variants": "ADS8361 only; the ADS8363/ADS7263/ADS7223 (ads7223.pdf) are the register-programmable successors with the same RD/CONVST/CLOCK interface",
+ "parts": [
+  [
+   "ADS8361IDBQ",
+   "DBQ",
+   24,
+   "Active"
+  ],
+  [
+   "ADS8361IDBQR",
+   "DBQ",
+   24,
+   "Active"
+  ],
+  [
+   "ADS8361IRHBT",
+   "RHB",
+   32,
+   "Active"
+  ]
+ ]
+}

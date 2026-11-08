@@ -1,0 +1,158 @@
+{
+ "device": {
+  "id": "ADC0831",
+  "function": "ADC",
+  "description": "8-bit serial-output SAR ADC with one differential input (32 us conversion)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "adc0832-n.pdf (SNAS531B) p.2 connection diagrams (Figures 1-7), p.3 operating ratings, p.5 digital and DC characteristics, p.6 AC characteristics (fCLK, tC, tSET-UP, tHOLD, tpd, t1H/t0H), p.9-11 timing diagrams (Figures 15-21), p.13-14 MUX addressing (Tables 1-7), p.15-16 the digital interface",
+  "pinouts": {
+   "npa14": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "VIN(+)",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "VIN(-)",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 10,
+     "name": "DO",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 12,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   4.5,
+   6.3
+  ],
+  "analog": [
+   "VIN(+)",
+   "VIN(-)",
+   "VREF"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "CLK",
+   "miso": "DO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 0,
+   "tOut": 1500,
+   "tFloat": 250
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "z 0 R{8}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "NPA": {
+   "pinout": "npa14",
+   "footprint": "SOIC-14-NPA",
+   "package": "SOIC",
+   "pins": 14
+  }
+ },
+ "pdf": "adc0832-n.pdf",
+ "pages": "p.2 (Figure 6 NPA pinout), p.3 (operating ratings: VCC 4.5-6.3 V), p.5 (TTL input levels, TRI-STATE output), p.6 (AC: fCLK 10-400 kHz, tC 8 clocks, tpd 1500 ns, t1H/t0H 250 ns), p.9 (Figures 15-18), p.13 (Table 1: one differential input, no addressing), p.15-16 (digital interface)",
+ "notModeled": [
+  "analog input, VREF span (the result is always the 0 V code 0x00)",
+  "the conversion starts on the first CLK rising edge after CS falls (Figure 17); DO leaves TRI-STATE with a leading zero at the first falling edge, then D7..D0 on the following falling edges; the model shifts z, 0, D7..D0 (the first bit z is the TRI-STATE before the first falling edge)",
+  "after the LSB the datasheet does not show the DO level for the ADC0831 (LSB-first output is not available on it); the model drives 0 until CS rises",
+  "the conversion is clocked by CLK (8 clock periods after the MUX settling clock); not timed, the result is the 0 V code at once",
+  "fCLK 10-400 kHz, 40-60 % duty cycle, tSET-UP 250 ns / tHOLD 90 ns; tpd is 1500 ns max MSB-first and 600 ns LSB-first (the model uses 1500 ns for every bit)",
+  "all internal registers are cleared while CS is high; a new conversion needs a CS high-to-low transition",
+  "V+ shunt regulator (zener) input and the V+ / VCC diode",
+  "codeFormat: straight binary for a single-ended or positive differential input; a negative differential input reads 0x00"
+ ],
+ "variants": "ADC0831/0832/0834/0838 share the datasheet: 1, 2, 4 and 8 channels; ADC0832 (not in the skeleton) has the 2-bit MUX word and VREF tied to VCC internally. The PDIP (P/N) and PLCC (FN) packages are obsolete / not in the skeleton.",
+ "parts": [
+  [
+   "ADC0831CCWM/NOPB",
+   "NPA",
+   14,
+   "Active"
+  ],
+  [
+   "ADC0831CCWMX/NOPB",
+   "NPA",
+   14,
+   "Active"
+  ]
+ ]
+}

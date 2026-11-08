@@ -1,0 +1,2667 @@
+{
+ "device": {
+  "id": "ADS8168",
+  "function": "ADC",
+  "description": "16-bit 1 MSPS 8-channel SAR ADC with multiplexer breakout, channel sequencer, digital window comparator, internal reference and enhanced SPI",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8166.pdf (SBAS817D) p.3-4 pin functions (Figure 4-1, Table 4-1), p.6 recommended operating conditions (DVDD 1.65-5.5 V), p.9-10 timing requirements and switching characteristics (tCONV, tden_CSDO 15 ns, td_CKDO 19 ns, tdz_CSDO 15 ns), p.26 transfer function (straight binary), p.27-34 channel selection modes, p.35-42 enhanced SPI (SPI-00 at power-up, Table 6-8 commands), p.43-67 register maps",
+  "pinouts": {
+   "rhb32": [
+    {
+     "number": 1,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "DECAP",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "REFIO",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "REFby2",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "AIN-COM",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "AIN4",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "AIN5",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "AIN6",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "AIN7",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "ADC-INP",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "MUXOUT-P",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "MUXOUT-M",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "ADC-INM",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "ALERT",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "SDO-0",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "SDO-1/SEQSTS",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "READY",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 31,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 32,
+     "name": "AVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 8,
+  "codeFormat": "straight",
+  "vcc": [
+   1.65,
+   5.5
+  ],
+  "analog": [
+   "DECAP",
+   "REFIO",
+   "REFM",
+   "REFP",
+   "REFby2",
+   "AIN-COM",
+   "AIN0",
+   "AIN1",
+   "AIN2",
+   "AIN3",
+   "AIN4",
+   "AIN5",
+   "AIN6",
+   "AIN7",
+   "ADC-INP",
+   "MUXOUT-P",
+   "MUXOUT-M",
+   "ADC-INM",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO-0",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 15,
+   "tOut": 19,
+   "tFloat": 15
+  },
+  "registers": [
+   {
+    "name": "REG_ACCESS",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REG_ACCESS_BITS",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.43 Table 7-3: write AAh to enable writes to 00h-11h"
+   },
+   {
+    "name": "PD_CNTL",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 225,
+    "fields": [
+     {
+      "name": "PD_REFBY2",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "PD_REF",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "PD_REFBUF",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PD_ADC",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ],
+    "note": "p.43 Table 7-4"
+   },
+   {
+    "name": "SDI_CNTL",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "SDI_MODE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.44 Table 7-5"
+   },
+   {
+    "name": "SDO_CNTL1",
+    "address": 12,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 136,
+    "fields": [
+     {
+      "name": "OUTDATA_UC_MODE",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "DATA_RIGHT_ALIGNED",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "BYTE_INTERLEAVE",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SDO_WIDTH",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SDO_MODE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.45 Table 7-6"
+   },
+   {
+    "name": "SDO_CNTL2",
+    "address": 13,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "DATA_RATE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.46 Table 7-7"
+   },
+   {
+    "name": "SDO_CNTL3",
+    "address": 14,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "note": "p.46 Table 7-8: reserved"
+   },
+   {
+    "name": "SDO_CNTL4",
+    "address": 15,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "SEQSTS_CFG",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.46 Table 7-9"
+   },
+   {
+    "name": "DATA_CNTL",
+    "address": 16,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 206,
+    "fields": [
+     {
+      "name": "DATA_OUT_FORMAT",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "DATA_VAL",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.47 Table 7-10"
+   },
+   {
+    "name": "PARITY_CNTL",
+    "address": 17,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 251,
+    "fields": [
+     {
+      "name": "PARITY_EN",
+      "bits": [
+       2,
+       2
+      ]
+     }
+    ],
+    "note": "p.47 Table 7-11"
+   },
+   {
+    "name": "OFST_CAL",
+    "address": 24,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "REF_SEL",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.48 Table 7-13"
+   },
+   {
+    "name": "REF_MRG1",
+    "address": 25,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 224,
+    "fields": [
+     {
+      "name": "REF_OFST",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ],
+    "note": "p.49 Table 7-14"
+   },
+   {
+    "name": "REF_MRG2",
+    "address": 26,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "EN_MARG",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.49 Table 7-16"
+   },
+   {
+    "name": "REFBY2_MRG",
+    "address": 27,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 142,
+    "fields": [
+     {
+      "name": "REFBY2_OFST",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "EN_REFBY2_MARG",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.50 Table 7-17"
+   },
+   {
+    "name": "DEVICE_CFG",
+    "address": 28,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "ALERT_STATUS",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ERROR_STATUS",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SEQ_MODE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.53 Table 7-23"
+   },
+   {
+    "name": "CHANNEL_ID",
+    "address": 29,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHANNEL_ID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.54 Table 7-25"
+   },
+   {
+    "name": "SEQ_START",
+    "address": 30,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "SEQ_START",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.55 Table 7-27 (write-only bit)"
+   },
+   {
+    "name": "SEQ_ABORT",
+    "address": 31,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "SEQ_ABORT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.55 Table 7-28 (write-only bit)"
+   },
+   {
+    "name": "AIN_CFG",
+    "address": 36,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "CH1_CH0_CFG",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "CH3_CH2_CFG",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "CH5_CH4_CFG",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "CH7_CH6_CFG",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.51 Table 7-20 (Figure 7-14 lists the pairs in the opposite order; the field table is used)"
+   },
+   {
+    "name": "COM_CFG",
+    "address": 39,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "COM_CFG",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.52 Table 7-21"
+   },
+   {
+    "name": "ON_THE_FLY_CFG",
+    "address": 42,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "EN_ON_THE_FLY",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.55 Table 7-29"
+   },
+   {
+    "name": "ALERT_CFG",
+    "address": 46,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_EN_AIN7",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "ALERT_EN_AIN6",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "ALERT_EN_AIN5",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "ALERT_EN_AIN4",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ALERT_EN_AIN3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ALERT_EN_AIN2",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "ALERT_EN_AIN1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ALERT_EN_AIN0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.62 Table 7-39"
+   },
+   {
+    "name": "HI_TRIG_AIN0_LSB",
+    "address": 76,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN0[7:0]"
+   },
+   {
+    "name": "HI_TRIG_AIN0_MSB",
+    "address": 77,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN0[15:8]"
+   },
+   {
+    "name": "HYSTERESIS_AIN0",
+    "address": 79,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 3,
+    "fields": [
+     {
+      "name": "HYSTERESIS",
+      "bits": [
+       7,
+       2
+      ]
+     }
+    ],
+    "note": "p.64 Table 7-44"
+   },
+   {
+    "name": "HI_TRIG_AIN1_LSB",
+    "address": 72,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN1[7:0]"
+   },
+   {
+    "name": "HI_TRIG_AIN1_MSB",
+    "address": 73,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN1[15:8]"
+   },
+   {
+    "name": "HYSTERESIS_AIN1",
+    "address": 75,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 3,
+    "fields": [
+     {
+      "name": "HYSTERESIS",
+      "bits": [
+       7,
+       2
+      ]
+     }
+    ],
+    "note": "p.64 Table 7-44"
+   },
+   {
+    "name": "HI_TRIG_AIN2_LSB",
+    "address": 68,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN2[7:0]"
+   },
+   {
+    "name": "HI_TRIG_AIN2_MSB",
+    "address": 69,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN2[15:8]"
+   },
+   {
+    "name": "HYSTERESIS_AIN2",
+    "address": 71,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 3,
+    "fields": [
+     {
+      "name": "HYSTERESIS",
+      "bits": [
+       7,
+       2
+      ]
+     }
+    ],
+    "note": "p.64 Table 7-44"
+   },
+   {
+    "name": "HI_TRIG_AIN3_LSB",
+    "address": 64,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN3[7:0]"
+   },
+   {
+    "name": "HI_TRIG_AIN3_MSB",
+    "address": 65,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN3[15:8]"
+   },
+   {
+    "name": "HYSTERESIS_AIN3",
+    "address": 67,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 3,
+    "fields": [
+     {
+      "name": "HYSTERESIS",
+      "bits": [
+       7,
+       2
+      ]
+     }
+    ],
+    "note": "p.64 Table 7-44"
+   },
+   {
+    "name": "HI_TRIG_AIN4_LSB",
+    "address": 60,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN4[7:0]"
+   },
+   {
+    "name": "HI_TRIG_AIN4_MSB",
+    "address": 61,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN4[15:8]"
+   },
+   {
+    "name": "HYSTERESIS_AIN4",
+    "address": 63,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 3,
+    "fields": [
+     {
+      "name": "HYSTERESIS",
+      "bits": [
+       7,
+       2
+      ]
+     }
+    ],
+    "note": "p.64 Table 7-44"
+   },
+   {
+    "name": "HI_TRIG_AIN5_LSB",
+    "address": 56,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN5[7:0]"
+   },
+   {
+    "name": "HI_TRIG_AIN5_MSB",
+    "address": 57,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN5[15:8]"
+   },
+   {
+    "name": "HYSTERESIS_AIN5",
+    "address": 59,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 3,
+    "fields": [
+     {
+      "name": "HYSTERESIS",
+      "bits": [
+       7,
+       2
+      ]
+     }
+    ],
+    "note": "p.64 Table 7-44"
+   },
+   {
+    "name": "HI_TRIG_AIN6_LSB",
+    "address": 52,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN6[7:0]"
+   },
+   {
+    "name": "HI_TRIG_AIN6_MSB",
+    "address": 53,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN6[15:8]"
+   },
+   {
+    "name": "HYSTERESIS_AIN6",
+    "address": 55,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 3,
+    "fields": [
+     {
+      "name": "HYSTERESIS",
+      "bits": [
+       7,
+       2
+      ]
+     }
+    ],
+    "note": "p.64 Table 7-44"
+   },
+   {
+    "name": "HI_TRIG_AIN7_LSB",
+    "address": 48,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN7[7:0]"
+   },
+   {
+    "name": "HI_TRIG_AIN7_MSB",
+    "address": 49,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62-63 Table 7-40: HI_TRIG_AIN7[15:8]"
+   },
+   {
+    "name": "HYSTERESIS_AIN7",
+    "address": 51,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 3,
+    "fields": [
+     {
+      "name": "HYSTERESIS",
+      "bits": [
+       7,
+       2
+      ]
+     }
+    ],
+    "note": "p.64 Table 7-44"
+   },
+   {
+    "name": "LO_TRIG_AIN0_LSB",
+    "address": 112,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.63 Table 7-42: LO_TRIG_AIN0[7:0]"
+   },
+   {
+    "name": "LO_TRIG_AIN0_MSB",
+    "address": 113,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.60 Table 7-38 / p.63 Table 7-42: LO_TRIG_AIN0[15:8]"
+   },
+   {
+    "name": "LO_TRIG_AIN1_LSB",
+    "address": 108,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.63 Table 7-42: LO_TRIG_AIN1[7:0]"
+   },
+   {
+    "name": "LO_TRIG_AIN1_MSB",
+    "address": 109,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.60 Table 7-38 / p.63 Table 7-42: LO_TRIG_AIN1[15:8]"
+   },
+   {
+    "name": "LO_TRIG_AIN2_LSB",
+    "address": 104,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.63 Table 7-42: LO_TRIG_AIN2[7:0]"
+   },
+   {
+    "name": "LO_TRIG_AIN2_MSB",
+    "address": 105,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.60 Table 7-38 / p.63 Table 7-42: LO_TRIG_AIN2[15:8]"
+   },
+   {
+    "name": "LO_TRIG_AIN3_LSB",
+    "address": 100,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.63 Table 7-42: LO_TRIG_AIN3[7:0]"
+   },
+   {
+    "name": "LO_TRIG_AIN3_MSB",
+    "address": 101,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.60 Table 7-38 / p.63 Table 7-42: LO_TRIG_AIN3[15:8]"
+   },
+   {
+    "name": "LO_TRIG_AIN4_LSB",
+    "address": 96,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.63 Table 7-42: LO_TRIG_AIN4[7:0]"
+   },
+   {
+    "name": "LO_TRIG_AIN4_MSB",
+    "address": 97,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.60 Table 7-38 / p.63 Table 7-42: LO_TRIG_AIN4[15:8]"
+   },
+   {
+    "name": "LO_TRIG_AIN5_LSB",
+    "address": 92,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.63 Table 7-42: LO_TRIG_AIN5[7:0]"
+   },
+   {
+    "name": "LO_TRIG_AIN5_MSB",
+    "address": 93,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.60 Table 7-38 / p.63 Table 7-42: LO_TRIG_AIN5[15:8]"
+   },
+   {
+    "name": "LO_TRIG_AIN6_LSB",
+    "address": 88,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.63 Table 7-42: LO_TRIG_AIN6[7:0]"
+   },
+   {
+    "name": "LO_TRIG_AIN6_MSB",
+    "address": 89,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.60 Table 7-38 / p.63 Table 7-42: LO_TRIG_AIN6[15:8]"
+   },
+   {
+    "name": "LO_TRIG_AIN7_LSB",
+    "address": 84,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.63 Table 7-42: LO_TRIG_AIN7[7:0]"
+   },
+   {
+    "name": "LO_TRIG_AIN7_MSB",
+    "address": 85,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LO_TRIG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.60 Table 7-38 / p.63 Table 7-42: LO_TRIG_AIN7[15:8] (Table 7-42 prints 051h; Table 7-38 gives 55h, used)"
+   },
+   {
+    "name": "ALERT_LO_STATUS",
+    "address": 120,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_LO_AIN7",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "ALERT_LO_AIN6",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "ALERT_LO_AIN5",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "ALERT_LO_AIN4",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ALERT_LO_AIN3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ALERT_LO_AIN2",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "ALERT_LO_AIN1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ALERT_LO_AIN0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "writeOneClears": 255,
+    "note": "p.64 Table 7-45 (W1C)"
+   },
+   {
+    "name": "ALERT_HI_STATUS",
+    "address": 121,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_HI_AIN7",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "ALERT_HI_AIN6",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "ALERT_HI_AIN5",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "ALERT_HI_AIN4",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ALERT_HI_AIN3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ALERT_HI_AIN2",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "ALERT_HI_AIN1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ALERT_HI_AIN0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "writeOneClears": 255,
+    "note": "p.65 Table 7-46 (W1C)"
+   },
+   {
+    "name": "ALERT_STATUS",
+    "address": 122,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "ALERT_AIN7",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "ALERT_AIN6",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "ALERT_AIN5",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "ALERT_AIN4",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ALERT_AIN3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ALERT_AIN2",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "ALERT_AIN1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ALERT_AIN0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.65 Table 7-47"
+   },
+   {
+    "name": "CURR_ALERT_LO_STATUS",
+    "address": 124,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "ALERT_LO_AIN7",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "ALERT_LO_AIN6",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "ALERT_LO_AIN5",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "ALERT_LO_AIN4",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ALERT_LO_AIN3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ALERT_LO_AIN2",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "ALERT_LO_AIN1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ALERT_LO_AIN0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.66 Table 7-48"
+   },
+   {
+    "name": "CURR_ALERT_HI_STATUS",
+    "address": 125,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "ALERT_HI_AIN7",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "ALERT_HI_AIN6",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "ALERT_HI_AIN5",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "ALERT_HI_AIN4",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ALERT_HI_AIN3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ALERT_HI_AIN2",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "ALERT_HI_AIN1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ALERT_HI_AIN0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.66 Table 7-49"
+   },
+   {
+    "name": "CURR_ALERT_STATUS",
+    "address": 126,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "ALERT_AIN7",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "ALERT_AIN6",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "ALERT_AIN5",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "ALERT_AIN4",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ALERT_AIN3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ALERT_AIN2",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "ALERT_AIN1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ALERT_AIN0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.67 Table 7-50"
+   },
+   {
+    "name": "AUTO_SEQ_CFG1",
+    "address": 128,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "EN_AIN7",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "EN_AIN6",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "EN_AIN5",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "EN_AIN4",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "EN_AIN3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "EN_AIN2",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "EN_AIN1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "EN_AIN0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.56 Table 7-30 (reset 00h per Figure 7-21; the text says all channels enabled by default)"
+   },
+   {
+    "name": "AUTO_SEQ_CFG2",
+    "address": 130,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "AUTO_REPEAT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.56 Table 7-31"
+   },
+   {
+    "name": "CCS_START_INDEX",
+    "address": 136,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "SEQ_START_INDEX",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.58 Table 7-33"
+   },
+   {
+    "name": "CCS_END_INDEX",
+    "address": 137,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "SEQ_END_INDEX",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.58 Table 7-34"
+   },
+   {
+    "name": "CCS_SEQ_LOOP",
+    "address": 138,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "SEQ_LOOP",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.58 Table 7-35"
+   },
+   {
+    "name": "CCS_CHID_INDEX_0",
+    "address": 140,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_0",
+    "address": 141,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   },
+   {
+    "name": "CCS_CHID_INDEX_1",
+    "address": 142,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_1",
+    "address": 143,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   },
+   {
+    "name": "CCS_CHID_INDEX_2",
+    "address": 144,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_2",
+    "address": 145,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   },
+   {
+    "name": "CCS_CHID_INDEX_3",
+    "address": 146,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_3",
+    "address": 147,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   },
+   {
+    "name": "CCS_CHID_INDEX_4",
+    "address": 148,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_4",
+    "address": 149,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   },
+   {
+    "name": "CCS_CHID_INDEX_5",
+    "address": 150,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_5",
+    "address": 151,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   },
+   {
+    "name": "CCS_CHID_INDEX_6",
+    "address": 152,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_6",
+    "address": 153,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   },
+   {
+    "name": "CCS_CHID_INDEX_7",
+    "address": 154,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_7",
+    "address": 155,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   },
+   {
+    "name": "CCS_CHID_INDEX_8",
+    "address": 156,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_8",
+    "address": 157,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   },
+   {
+    "name": "CCS_CHID_INDEX_9",
+    "address": 158,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_9",
+    "address": 159,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   },
+   {
+    "name": "CCS_CHID_INDEX_10",
+    "address": 160,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_10",
+    "address": 161,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   },
+   {
+    "name": "CCS_CHID_INDEX_11",
+    "address": 162,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_11",
+    "address": 163,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   },
+   {
+    "name": "CCS_CHID_INDEX_12",
+    "address": 164,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_12",
+    "address": 165,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   },
+   {
+    "name": "CCS_CHID_INDEX_13",
+    "address": 166,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_13",
+    "address": 167,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   },
+   {
+    "name": "CCS_CHID_INDEX_14",
+    "address": 168,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_14",
+    "address": 169,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   },
+   {
+    "name": "CCS_CHID_INDEX_15",
+    "address": 170,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CHID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-36"
+   },
+   {
+    "name": "REPEAT_INDEX_15",
+    "address": 171,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REPEAT",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59 Table 7-37 (reset FFh)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{16} 0{8}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "NOP",
+     "in": "00000 0{11} 0{8}",
+     "action": "nop",
+     "note": "p.41 Table 6-8"
+    },
+    {
+     "name": "WR_REG to REG_ACCESS (00h)",
+     "in": "00001 0{11} dddddddd",
+     "action": "write",
+     "data": "d",
+     "commit": "end",
+     "note": "p.43 Table 7-3: REG_ACCESS itself is always writable (writing AAh unlocks 00h-11h)",
+     "address": 0
+    },
+    {
+     "name": "WR_REG to 01h-0Fh while locked (ignored)",
+     "in": "00001 000000 0xxxx x{8}",
+     "when": "REG_ACCESS.REG_ACCESS_BITS!=170",
+     "action": "nop",
+     "commit": "end",
+     "note": "p.43 Table 7-2/7-3: writes to the configuration registers 00h-11h are disabled unless REG_ACCESS = AAh"
+    },
+    {
+     "name": "WR_REG to 10h-11h while locked (ignored)",
+     "in": "00001 000000 1000x x{8}",
+     "when": "REG_ACCESS.REG_ACCESS_BITS!=170",
+     "action": "nop",
+     "commit": "end",
+     "note": "p.43 Table 7-2/7-3: writes to the configuration registers 00h-11h are disabled unless REG_ACCESS = AAh"
+    },
+    {
+     "name": "WR_REG",
+     "in": "00001 aaaaaaaaaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "p.41-42 Table 6-8, Figure 6-26: decoded on the CS rising edge"
+    },
+    {
+     "name": "RD_REG",
+     "in": "00010 aaaaaaaaaaa x{8}",
+     "action": "read",
+     "address": "a",
+     "commit": "end",
+     "next": "@ 0{16}",
+     "note": "p.41 Figure 6-25: the register byte is the first 8 SDO bits of the next frame"
+    },
+    {
+     "name": "SET_BITS to REG_ACCESS (00h)",
+     "in": "00011 0{11} dddddddd",
+     "action": "setbits",
+     "data": "d",
+     "commit": "end",
+     "note": "p.43 Table 7-3: REG_ACCESS itself is always writable (writing AAh unlocks 00h-11h)",
+     "address": 0
+    },
+    {
+     "name": "SET_BITS to 01h-0Fh while locked (ignored)",
+     "in": "00011 000000 0xxxx x{8}",
+     "when": "REG_ACCESS.REG_ACCESS_BITS!=170",
+     "action": "nop",
+     "commit": "end",
+     "note": "p.43 Table 7-2/7-3: writes to the configuration registers 00h-11h are disabled unless REG_ACCESS = AAh"
+    },
+    {
+     "name": "SET_BITS to 10h-11h while locked (ignored)",
+     "in": "00011 000000 1000x x{8}",
+     "when": "REG_ACCESS.REG_ACCESS_BITS!=170",
+     "action": "nop",
+     "commit": "end",
+     "note": "p.43 Table 7-2/7-3: writes to the configuration registers 00h-11h are disabled unless REG_ACCESS = AAh"
+    },
+    {
+     "name": "SET_BITS",
+     "in": "00011 aaaaaaaaaaa dddddddd",
+     "action": "setbits",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "p.41 Table 6-8"
+    },
+    {
+     "name": "CLR_BITS to REG_ACCESS (00h)",
+     "in": "00100 0{11} dddddddd",
+     "action": "clearbits",
+     "data": "d",
+     "commit": "end",
+     "note": "p.43 Table 7-3: REG_ACCESS itself is always writable (writing AAh unlocks 00h-11h)",
+     "address": 0
+    },
+    {
+     "name": "CLR_BITS to 01h-0Fh while locked (ignored)",
+     "in": "00100 000000 0xxxx x{8}",
+     "when": "REG_ACCESS.REG_ACCESS_BITS!=170",
+     "action": "nop",
+     "commit": "end",
+     "note": "p.43 Table 7-2/7-3: writes to the configuration registers 00h-11h are disabled unless REG_ACCESS = AAh"
+    },
+    {
+     "name": "CLR_BITS to 10h-11h while locked (ignored)",
+     "in": "00100 000000 1000x x{8}",
+     "when": "REG_ACCESS.REG_ACCESS_BITS!=170",
+     "action": "nop",
+     "commit": "end",
+     "note": "p.43 Table 7-2/7-3: writes to the configuration registers 00h-11h are disabled unless REG_ACCESS = AAh"
+    },
+    {
+     "name": "CLR_BITS",
+     "in": "00100 aaaaaaaaaaa dddddddd",
+     "action": "clearbits",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "p.41 Table 6-8"
+    },
+    {
+     "name": "On-the-fly channel",
+     "in": "1 0ccc x{11}",
+     "action": "nop",
+     "set": {
+      "CHANNEL_ID.CHANNEL_ID": "c"
+     },
+     "commit": "end",
+     "note": "p.29 Table 6-3: in on-the-fly mode (SEQ_MODE = 01b) SDI bits [15:11] = 1 + channel ID select the channel for the next conversion; in other modes the 1xxxx codes match no command (no operation)",
+     "when": "DEVICE_CFG.SEQ_MODE=1"
+    },
+    {
+     "name": "On-the-fly invalid channel",
+     "in": "1 1xxx x{11}",
+     "action": "nop",
+     "set": {
+      "CHANNEL_ID.CHANNEL_ID": 0,
+      "DEVICE_CFG.ERROR_STATUS": 1
+     },
+     "commit": "end",
+     "note": "p.29 Table 6-3: 1 1000 to 1 1111 set the error bit and select AIN0",
+     "when": "DEVICE_CFG.SEQ_MODE=1"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 660,
+   "start": [
+    "cs-rise"
+   ],
+   "channel": "CHANNEL_ID.CHANNEL_ID"
+  },
+  "ready": [
+   {
+    "pin": "READY",
+    "active": 0,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RST",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "RHB": {
+   "pinout": "rhb32",
+   "footprint": "VQFN-32-5X5",
+   "package": "VQFN",
+   "pins": 32
+  }
+ },
+ "pdf": "ads8166.pdf",
+ "pages": "p.3-4 (pins), p.6 (ROC), p.9-10 (timing, tCONV), p.26 (Table 6-2 transfer), p.27-34 (channel selection modes), p.35-42 (SPI protocols, Table 6-8 commands, Figures 6-25/6-26), p.43-67 (registers)",
+ "notModeled": [
+  "analog inputs, multiplexer, reference, REFby2 buffer, margining and offset calibration (stored only); the result is always the 0 V code 0000h",
+  "SPI protocol selection (SDI_MODE: SPI-01/10/11), dual SDO (SDO_WIDTH), clock re-timer / source-synchronous output with READY as strobe, DDR, byte interleave and the MCU-friendly 16/32-bit framing (stored only; the bus stays SPI-00 on SDO-0)",
+  "output data word options: DATA_OUT_FORMAT (4-bit channel ID, device status, channel configuration), parity bit (PARITY_EN) and the A5A5h debug pattern (DATA_VAL); the output is always the 16-bit result followed by zeros",
+  "channel latency: a channel written in frame N is converted from frame N+1 (the conversion starts at the CS rise of frame N; the model's commit-at-end write may or may not precede that start)",
+  "auto sequence and custom channel sequencing modes (SEQ_MODE 10b/11b, SEQ_START/SEQ_ABORT, AUTO_SEQ_CFG, CCS registers) and the SEQSTS output: stored only, conversions stay on CHANNEL_ID",
+  "digital window comparator, hysteresis, ALERT pin and the alert status bits (ALERT is never driven; status bits stay 0 unless written)",
+  "PD_CNTL power-down of the ADC, reference and buffers, power-up times, RST-to-READY delay of 4 ms",
+  "READY: low while converting when CS is high (modeled); while CS is low READY stays low in the SPI protocols (not modeled)",
+  "minimum CS high time (200 ns around register access) and SCLK frequency limits"
+ ],
+ "variants": "ADS8166 (250 kSPS, tCONV 2500 ns), ADS8167 (500 kSPS, 1200 ns) and ADS8168 (1 MSPS, 660 ns) share ads8166.pdf, pinout and register map; own spec files differing only in conversion time",
+ "parts": [
+  [
+   "ADS8168IRHBT",
+   "RHB",
+   32,
+   "Active"
+  ]
+ ]
+}

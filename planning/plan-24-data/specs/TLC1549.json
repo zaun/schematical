@@ -1,0 +1,149 @@
+{
+ "device": {
+  "id": "TLC1549",
+  "function": "ADC",
+  "description": "10-bit single-channel serial-output ADC (3-wire CS, I/O CLOCK, DATA OUT)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "tlc1549.pdf (SLAS059C) p.1 pinout (D/JG/P), p.3 terminal functions and serial modes, p.4 Table 1, p.7 recommended operating conditions, p.9 operating characteristics (tconv, timing)",
+  "pinouts": {
+   "d8": [
+    {
+     "number": 1,
+     "name": "REF+",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "ANALOG IN",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "REF-",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DATA OUT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "I/O CLOCK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "REF+",
+   "ANALOG IN",
+   "REF-"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "I/O CLOCK",
+   "miso": "DATA OUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 1300,
+   "tOut": 240,
+   "tFloat": 180
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{10} 0{6}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 21000,
+   "start": [
+    "cs-rise"
+   ]
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d8",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  },
+  "P": {
+   "pinout": "d8",
+   "footprint": "PDIP-8",
+   "package": "DIP",
+   "pins": 8
+  }
+ },
+ "pdf": "tlc1549.pdf",
+ "pages": "p.1 (pinout), p.3 (terminal functions, detailed description), p.4-5 (Table 1, modes), p.6 (CS starts all modes), p.7 (ROC), p.9 (tconv 21 us, td(I/O-DATA) 240 ns, tPZH 1.3 us, tPHZ 180 ns), p.10-13 (timing figures)",
+ "notModeled": [
+  "analog input and references: every conversion returns the 0 V code",
+  "conversion start: the datasheet starts it on the 10th I/O CLOCK falling edge; modeled at CS rise (the part has no EOC pin, so only the order matters); the previous result is shifted out (constant code)",
+  "modes 2, 4 and 6 (CS held low continuously; MSB within 21 us of the 10th clock or after the 16th clock): only CS-framed transfers are modeled",
+  "CS setup/debounce (two internal clock edges), CS abort, slow-mode timing (11th clock within 21 us)",
+  "tValid = tPZH 1.3 us; tOut = td(I/O-DATA) 240 ns; tFloat = tPHZ 180 ns"
+ ],
+ "variants": "FK (LCCC-20) package (M grade) has a different numbering; not in the parts list.",
+ "parts": [
+  [
+   "TLC1549CD",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLC1549CDR",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLC1549CP",
+   "P",
+   8,
+   "Active"
+  ],
+  [
+   "TLC1549ID",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLC1549IDR",
+   "D",
+   8,
+   "Active"
+  ]
+ ]
+}

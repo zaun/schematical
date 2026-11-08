@@ -33,6 +33,14 @@ A DAC stores what it is written; its analog outputs are never driven.
   `VSSOP`, `TSSOP`, `VQFN`, `WQFN`, `DSBGA`, …; never a pin count).
 - `notModeled`: datasheet features outside the schema (also everything
   analog). Keep it honest: it is the list a reader checks the model against.
+- `packages.<code>.pins`: the package's pin count (from the ordering table;
+  the pinout must have that many pins). `packages.<code>.i2cAddress`:
+  optional fixed 7-bit address for a package without the strap pins.
+- `parts`: the orderable parts `[name, code, pins, TI status]` (copied from
+  the work skeleton; the generator reads it).
+- `pages`, `variants`: free text.
+- `partKeys`: optional object part name → extra part keys for that part
+  (`{"ADS1100A1IDBVR": {"i2cAddress": 73}}`); the generator adds them.
 
 ## 2. Device keys (both kinds)
 
@@ -61,7 +69,7 @@ footprint's unnumbered centre pad). Crystal pins (X1/X2 on RTCs): `X1`
 | `"type"` | converter: `"adc"` or `"dac"` |
 | `"bits"` | resolution, 1–32 |
 | `"channels"` | ADC input channels / DAC outputs, ≥ 1 |
-| `"codeFormat"` | ADC: `"straight"` (unipolar straight binary), `"twos"` (two's complement), `"offset"` (bipolar offset binary). DAC: omitted |
+| `"codeFormat"` | ADC: `"straight"` (unipolar straight binary), `"twos"` (two's complement), `"offset"` (bipolar offset binary); or chosen by a pin or field: `{"pin": "DF", "values": {"0": "offset", "1": "twos"}}` / `{"field": "CFG.FMT", "values": {...}}` (a level not listed, or a multi-level analog strap, uses the first value). DAC: omitted |
 | `"vcc"`, `"inputMax"` | the **digital** supply range in volts (DVDD/IOVDD where separate, else VDD) and the highest digital input voltage (recommended operating conditions); parts may override |
 | `"analog"` | names of every analog pin (above); may be `[]` |
 | `"bus"` | § 3 |
@@ -85,15 +93,28 @@ The serial kind's object (`docs/parts-format.md` § SPI and I2C host ports):
 {"style": "i2c-spi", ...}
 ```
 
-- SPI without MOSI (read-only ADCs): omit `"mosi"`. Without CS (rare): not
-  allowed; record it in `notModeled` and use the frame-sync pin as `cs`
-  only when the datasheet's timing is CS-like (active low frame).
+- SPI without MOSI (read-only ADCs): omit `"mosi"`. Without MISO
+  (write-only configuration ports): omit `"miso"`. One pin as both
+  (3-wire SDIO): name it as `mosi` and `miso`; the part drives it only
+  while it shifts reply bits.
+- **2-wire, no CS** (ADS1230/1232-style DRDY/DOUT + SCLK): omit `"cs"`. A
+  transaction begins when a conversion completes (the data-ready pin, the
+  MISO pin with `ready.onMiso`, goes active) and ends at the next
+  conversion's completion; SCLK edges in between shift `protocol.out` (for
+  example `"R{24}"`, with `"idle": "1"` for parts that force the pin high
+  after the data). `mode` gives the clock phase as usual.
 - MISO pin shared with a ready function (ADS1220 `DOUT/DRDY`): name the
   pin in `bus.miso` and again in `ready` (§ 7) with `"onMiso": true`.
-- I2C `"table"` index: Σ tie(Aₖ)·4ᵏ, tie 0 = GND, 1 = VDD, 2 = SCL, 3 = SDA.
-  With no strap pins, `"address": []` and `"table": [<the 7-bit address>]`.
+- I2C `"table"` index: Σ tie(Aₖ)·4ᵏ over the `address` pins in array
+  order (the first is k = 0), tie digit 0 = GND, 1 = VDD, 2 = SCL, 3 = SDA.
+  Datasheet tables usually list GND, VDD, SDA, SCL — remap. `null` for a
+  combination the datasheet does not give (a floating strap cannot be
+  expressed: `notModeled`). With no strap pins, `"address": []` and
+  `"table": [<the 7-bit address>]`.
   Parts with a fixed address that differs per orderable part (ADS1110A0…A7)
-  are separate devices or carry the part key `"i2cAddress"` (§ 11).
+  carry the part key `"i2cAddress"` (§ 11). A package without the strap pins
+  (ADC081C021 SOT-6: fixed 0x54) sets `"i2cAddress"` in its `packages` entry
+  (§ 1); its pinout may then lack the strap pins.
 - Parallel (plan-24-E):
 
 ```json
@@ -124,13 +145,19 @@ The serial kind's object (`docs/parts-format.md` § SPI and I2C host ports):
   the next `data`-width bits of `protocol.read` (the pattern repeats: a
   12-bit ADC uses `"R{12}"`; a modulator's 0 V bit stream is `"10"` on one
   pin, 50 % ones) `tOut` after the edge, while `oe` is active (no `oe`:
-  always); else Z. `clockOut`: an output that follows the clock (inverted
-  when `invert`), `tOut` later. Pipeline latency is not modeled (the code
-  is constant).
+  always); else Z. `"edge": "both"` for double-data-rate outputs (each edge
+  takes the next word). `clockOut`: an output that follows the clock
+  (inverted when `invert`), `tOut` later; an array of such objects for
+  complementary or several clock outputs (`{"pin": "CLKOUT", "divide": 2}`
+  divides the clock). Pipeline latency is not modeled (the code is
+  constant).
 - `"configBus"` (device key, optional): a second, SPI or I2C bus object
   (same forms as `bus`) for parts with a parallel or clocked data bus and a
   serial configuration port (ADS5xxx parallel + SPI). Its bits run through
   the same `protocol.commands` and `out`.
+- Parts with several strap-selected interfaces (parallel / serial / I2C):
+  model one — SPI if register read-back works there, else I2C, else
+  parallel — and list the others in `notModeled`.
 
 ## 4. `registers`
 
@@ -148,10 +175,14 @@ The serial kind's object (`docs/parts-format.md` § SPI and I2C host ports):
 | `"reset"` | power-on / reset value, default 0 |
 | `"readOnly"` | mask of bits writes do not change (`true` = all) |
 | `"fields"` | `{name, bits: [hi, lo]}`, inside the width, not overlapping; names unique in the register |
-| `"result"` | `true`: a conversion's completion loads it with the result code (§ 6); `"channel": n` limits that to conversions of channel n |
+| `"result"` | `true`: a conversion's completion loads it with the result code (§ 6), right-aligned; or a field name (`"D"`): the code goes into that field (left-justified results), other bits unchanged; `"channel": n` limits that to conversions of channel n |
+| `"resultBits"` | with `result`: `[hi, lo]` — only bits hi..lo of the code go in (a 24-bit result in three byte registers DOR2/DOR1/DOR0: `[23, 16]`, `[15, 8]`, `[7, 0]`) |
 | `"clearOnRead"` | optional mask: bits cleared after the register is read |
+| `"writeOneClears"` | optional mask: writing 1 to these bits clears them, writing 0 leaves them (W1C status flags) |
 
 A field is referred to as `"REG.FIELD"`, a whole register as `"REG"`.
+Register and field names may contain `_` (`RST_PWRCTL`); inside `[...]`
+the `_` is part of the name.
 
 ## 5. `protocol`
 
@@ -163,16 +194,19 @@ parallel read's data bus).
 
 | Key | Value |
 |---|---|
-| `"frame"` | `"fixed"`: matching starts at each transaction start (CS fall, I2C START, a parallel write) and stops after one command; `"stream"`: after a command (and its payload) the next bits are matched again, until the transaction ends |
+| `"frame"` | `"fixed"`: matching starts at each transaction start (CS fall, I2C START, a parallel write) and stops after one command; `"stream"`: after a command (and its payload) the next bits are matched again, until the transaction ends. In `stream`, a byte (8 bits from the command boundary) that no command can still match is dropped and matching restarts after it; in `fixed`, the rest of the transaction is ignored |
 | `"out"` | pattern shifted out from each SPI transaction start (default `"0"`, i.e. zeros) |
 | `"idle"` | what is shifted after the queue empties: `"0"`, `"1"`, `"z"`, `"repeat"` (the last pattern again), default `"0"` (SPI), `"repeat"` (I2C reads) |
 | `"commands"` | array, below |
 | `"read"` | I2C/parallel reads: a pattern, or `"pointer"` (the register at the pointer, MSB first, repeating), or for parallel an object address-value → pattern (`{"0": "[R:11:4]", "1": "[R:3:0]0000"}`; with `byteSelect` the key is `"high"`/`"low"`) |
+| `"outs"` | optional array `[{"when": cond, "out": pattern}]`: the first whose condition holds replaces `out` (frames whose layout a register field picks: optional status/CRC bytes, channel-ID headers, word length); `"reads"` the same for `read` |
 | `"generalCall"` | I2C: `"reset"` when the part resets on the general-call reset (address 0, byte 0x06) |
+| `"align"` | `"start"` (default) or `"end"`: in `fixed` frames, match the commands against the **last** bits before the transaction ends (parts that decode the final 16 bits before CS rises); the command then commits at the end |
 
 ### Patterns
 
-A pattern is a string of tokens, MSB first; spaces and `_` are ignored.
+A pattern is a string of tokens, MSB first; spaces and `_` outside `[...]`
+are ignored.
 
 | Token | In (matched against bits in) | Out (shifted) |
 |---|---|---|
@@ -180,7 +214,7 @@ A pattern is a string of tokens, MSB first; spaces and `_` are ignored.
 | `x` | any bit | — (not allowed) |
 | `z` | — | MISO/SDA released for one bit |
 | `a`–`w`, `y` (lowercase) | captured into that letter (letters concatenate MSB first) | the command's capture of that letter |
-| `R` | — | one bit of the result code, from its MSB: `n` R's give the top `n` bits |
+| `R` | — | one bit of the result code, from its MSB: a run of `n` R's gives the top `n` bits (a run is at most `bits` long; for two results back to back write `[R][R]`) |
 | `[NAME]` | the bits go into register/field NAME (applied when the command completes, `readOnly` masked) | NAME's value, its width MSB first |
 | `[NAME:hi:lo]` | bits hi..lo of NAME | bits hi..lo of NAME |
 | `@` | — | `rreg`: the registers read, each its width, MSB first |
@@ -206,11 +240,13 @@ channel of the conversion being output (§ 6).
 | `"count"`, `"countOffset"` | registers to move: a capture letter or number, plus the offset (`n` + 1 registers: `countOffset` 1). Default 1 |
 | `"data"` | capture letter: the value for `write` |
 | `"channel"` | capture letter or number: the channel (ADC: `start`; DAC: `write`/`update`) |
-| `"channelMap"` | object captured-value → array of channel indices (`{"7": [0, 1]}` = broadcast); values not in it map to themselves |
+| `"channelMap"` | object captured-value → array of channel indices (`{"7": [0, 1]}` = broadcast; ADC `start`: the channel the code selects, `{"1": [2]}`); values not in it map to themselves |
 | `"set"` | object field → capture letter or number, applied when the command completes |
 | `"reply"` | pattern shifted out right after the command's `in` bits (replaces the rest of the queue) |
-| `"next"` | pattern shifted out from the start of the **next** transaction instead of `out` (pipelined read-back) |
+| `"next"` | pattern shifted out from the start of the **next** transaction instead of `out` — the next SPI transaction, or the next I2C/parallel read instead of `read` (pipelined / one-shot read-back) |
 | `"commit"` | `"now"` (default: when the pattern completes) or `"end"` (when the transaction ends: CS rise / STOP; a transaction that ends early discards the command) |
+| `"when"` | optional condition `"REG.FIELD=v"` / `"!=v"` or an array (all must hold): the command matches only then. With `set` on an internal state register this writes multi-frame sequences (frame 1 `set {"SEQ.STATE": 1}`; frame 2 `when "SEQ.STATE=1"` writes the data and sets the state back), unlock keys (`REG_ACCESS=170`) and mode-dependent decoding (a pin copied into a field with `pins.levels`) |
+| `"wordBits"` | `wreg`/`rreg`/`@`: each register occupies this many bus bits (≥ its width), the register in the top bits and zeros below (16-bit registers in 24-bit words) |
 | `"then"` | array of further actions run after this one (`["update"]`, `["start"]`) |
 
 Actions:
@@ -222,13 +258,14 @@ Actions:
 | `rreg` | reply (`@` in `reply`, default reply `"@"`) the `count` registers from `address` up |
 | `write` | writes capture `data` into the register at `address` / `register`; DACs: into the input register of `channel` |
 | `read` | sets the read pointer to `address` / `register` (the next read or `"next"` `[@]`) |
-| `pointer` | I2C pointer form: sets the pointer; further bytes of this write go to the register at the pointer (MSB first, its width) |
+| `pointer` | I2C pointer form: sets the pointer; further bytes of this write go to the register at the pointer (MSB first, its width). With `"increment"` (a capture letter or number): when it is 1, the pointer steps to the next address after each register written or read (auto-increment) |
 | `start` | starts a conversion (on `channel` if given) |
 | `stop` | stops continuous conversions |
 | `reset` | every register to `reset`, conversion stopped, DAC outputs to their reset |
 | `powerdown`, `wakeup` | power-down state: no conversions start; read-back still works |
 | `update` | DAC: copies input → DAC register for `channel` (all channels when no channel) |
 | `clear` | DAC: input and DAC registers to `dac.clearCode` |
+| `setbits`, `clearbits` | the register at `address` / `register`: OR in / clear the bits of capture `data` (read-modify-write opcodes) |
 
 ## 6. `conversion` (ADC)
 
@@ -245,11 +282,12 @@ Actions:
 
 | Key | Value |
 |---|---|
-| `"time"` | ns, or `{"field", "values": {field value → ns}}` (a missing value uses the largest) |
-| `"start"` | array of triggers: `"cs-fall"`, `"cs-rise"`, `"command"` (only `start` actions), `"pin"` (§ 8 `convst`/`start`), `"write:REG.FIELD=v"` (a write whose value has v in that field — the value written, before `readOnly` masking, so a read-only status bit can double as a start bit), `"read"` (each completed read of the result starts the next), `"power-on"` |
-| `"mode"` | `"single"` (default) or `"continuous"` or `{"field", "continuous": v}` (continuous while the field = v); continuous restarts at each completion, and entering continuous mode (a write that sets the field to v, or power-on/reset with it at v, or `"continuous"` from power-on) starts the first conversion |
+| `"time"` | ns, or `{"field", "values": {field value → ns}}`, or `{"fields": [f1, f2], "values": {"v1,v2" → ns}}` (a missing value uses the largest). Use the datasheet's maximum conversion time or 1 / data rate |
+| `"start"` | array of triggers: `"write:REG"` (any write to register REG, e.g. a restart-on-write or one-shot register), `"cs-fall"`, `"cs-rise"`, `"command"` (only `start` actions), `"pin"` (§ 8 `convst`/`start`), `"write:REG.FIELD=v"` (a write whose value has v in that field — the value written, before `readOnly` masking, so a read-only status bit can double as a start bit), `"read"` (each completed read of the result starts the next), `"power-on"` |
+| `"mode"` | `"single"` (default) or `"continuous"` or `{"field", "continuous": v}` (continuous while the field = v) or `{"field", "single": v}` (continuous while it is not v); continuous restarts at each completion, and entering continuous mode (a write that sets the field, or power-on/reset with it set, or `"continuous"` from power-on) starts the first conversion — unless `"startOnEnter": false` (in the object), when only a `start` trigger begins them |
 | `"busy"` | field values set while a conversion runs |
 | `"done"` | field values set when it completes (with the `result` registers loaded) |
+| `"onRead"` | field values set when the result is read (a `result` register read, or an output pattern's `R`/`[R]` bits shifted out), e.g. `{"STATUS.DRDY": 0}` |
 | `"channel"` | the field holding the channel for `[CH]` (optional) |
 
 **Result.** The code of 0 V: `straight` 0; `twos` 0; `offset`
@@ -268,9 +306,9 @@ register loads. A conversion still has to run its `time` before the
 | `"pin"` | output pin |
 | `"active"` | 0 or 1 |
 | `"asserts"` | `"busy"` (active while converting) or `"done"` (from completion) |
-| `"clears"` | `"done"` only: `"read"` (the result is read), `"start"` (the next conversion starts, default), `"cs-fall"`, or ns (a pulse) |
+| `"clears"` | `"done"` only: `"read"` (the result is read), `"start"` (the next conversion starts, default), `"cs-fall"`, or ns (a pulse), or an array of these (the first that happens) |
 | `"openDrain"` | `true` for an open-drain pin (drives active 0 or Z) |
-| `"onMiso"` | `true`: the pin is `bus.miso`; it shows ready while CS is high and data while CS is low |
+| `"onMiso"` | `true`: the pin is `bus.miso`. While CS is low and no bits are shifting it drives the ready state (ADS1220 `DOUT/DRDY`: low = data ready); while bits shift it is data; while CS is high it floats. With no `cs` (2-wire parts) it shows ready between transfers |
 | `"enable"` | optional condition `"REG.FIELD=v"` / `"REG.FIELD!=v"`, or an array of them (all must hold): the pin works only then (else inactive) |
 
 ## 8. `pins` (control inputs)
@@ -280,6 +318,10 @@ register loads. A conversion still has to run its `time` before the
          "start": {"pin": "START", "active": 1}, "powerdown": {"pin": "PWDN", "active": 0},
          "ldac": {"pin": "LDAC", "active": 0, "edge": "fall"}, "clear": {"pin": "CLR", "active": 0}}
 ```
+
+`"levels"`: an array `[{"pin": "SPEED", "field": "CTRL.SPEED"}]` — the
+pin's level (0/1; Z or X reads 0) is copied into the field whenever it
+changes (mode/speed/range strap pins; an internal register holds them).
 
 `reset` held active: registers at reset, bus ignored. `convst`: the edge
 starts a conversion. `start`: while active conversions run (continuous;
@@ -329,7 +371,26 @@ bit is 1; counting continues; the write bit halts counting and loads the
 written registers when cleared). Power-on time 2000-01-01 00:00:00 (a
 Saturday), oscillator per `stop.powerOn`.
 
-## 11. Part keys
+## 11. Rules for transcribing
+
+- **Pin names** ASCII only: `-` for en dashes and minus signs, `u` for µ;
+  drop annotations (`DB0 (LSB)` → `DB0`, `VCC (or VREF)` → `VCC`); keep
+  slashes and the datasheet's case; where the pin table and drawings differ,
+  use the pin table.
+- **Times**: maximum values (worst case) for delays and conversion times,
+  at the lowest supply the digital `vcc` range allows; fractions are fine.
+- **codeFormat**: the code of 0 V in the power-on input range: `offset`
+  when that range is bipolar and 0 V reads mid-scale even if the datasheet
+  calls the format "straight binary".
+- **vcc** with several specified ranges: from the lowest min to the highest
+  max of the digital supply.
+- Clocked buses (`clocked`) and 2-wire parts need no `conversion` (the clock
+  or the data rate paces them; give `conversion.time` = 1 / data rate for
+  2-wire parts so the engine can time DRDY).
+- Two different chips in one skeleton device (an "A" revision with more
+  registers): model the one the newest datasheet describes and report it.
+
+## 12. Part keys
 
 `name`, `package`, `pinout`, `footprint`, `flags` (docs § Parts), optional
 `vcc`/`inputMax` (the part's own), optional `"i2cAddress"` (overrides the

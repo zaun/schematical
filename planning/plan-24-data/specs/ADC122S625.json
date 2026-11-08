@@ -1,0 +1,131 @@
+{
+ "device": {
+  "id": "ADC122S625",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "Dual 12-bit 50-200 kSPS simultaneous-sampling differential SAR ADC with SPI-compatible serial output",
+  "note": "adc122s625.pdf (SNAS451A) p.1 connection diagram, p.2 pin descriptions, p.3 operating ratings, p.5 timing specifications, p.6 Figures 1-2 (single and continuous conversion), p.16-17 serial interface, p.17-18 data output and Table 2 (two's complement)",
+  "pinouts": {
+   "dgs10": [
+    {
+     "number": 1,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "CHA+",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CHA-",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "CHB-",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CHB+",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "VREF",
+   "CHA+",
+   "CHA-",
+   "CHB-",
+   "CHB+"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "DOUT",
+   "mode": 3
+  },
+  "timing": {
+   "tValid": 20,
+   "tOut": 26,
+   "tFloat": 20
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0{4} R{12} 0{4} R{12}",
+   "idle": "repeat",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "dgs10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  }
+ },
+ "pdf": "adc122s625.pdf",
+ "pages": "p.1 (connection diagram), p.2 (pins), p.3 (operating ratings: VA 4.5-5.5 V, digital inputs 0 V to VA), p.5 (tEN 20 ns, tDA 26 ns, tDIS 20 ns max), p.6 (Figures 1-2: 4 zeros + ChA DB11-DB0, 4 zeros + ChB DB11-DB0), p.16-17 (serial interface), p.17-18 (two's complement, Table 2)",
+ "notModeled": [
+  "differential analog inputs, simultaneous sampling of both channels and the external reference; the conversion is clocked by SCLK (12 SCLK cycles), not timed: both results are the 0 V code 0x000 at once",
+  "continuous conversion (N x 32 SCLKs per CS low, Figure 2) is approximated by repeating the 32-bit output pattern (idle \"repeat\")",
+  "SPI mode 3 chosen (DOUT changes on SCLK falling edges, valid on rising edges); the datasheet allows CS to fall with SCLK high or low (with SCLK low the CS fall counts as the first falling edge)",
+  "CS raised before the 16th falling edge aborts the conversion (DOUT to high impedance at CS rise is modeled); power-down while CS is high (no digital effect)",
+  "SCLK frequency limits (1.6-6.4 MHz) and tCSSU setup"
+ ],
+ "variants": "ADC122S655 (200-500 kSPS, SNAS445A) is the same pinout, frame and timing at a higher clock range (own spec); ADC122S706 (500 kSPS-1 MSPS) adds a VD supply and dual outputs in TSSOP-14",
+ "parts": [
+  [
+   "ADC122S625CIMM/NOPB",
+   "DGS",
+   10,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,246 @@
+{
+ "device": {
+  "id": "ADS9226",
+  "function": "ADC",
+  "description": "16-bit 2.048 MSPS dual simultaneous-sampling SAR ADC with integrated reference buffers and dual-SDO-per-channel serial interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads9226.pdf (SBAS842) p.3-4 pin configuration and functions, p.5 recommended operating conditions (DVDD 1.65-5.5 V), p.8 timing requirements and switching characteristics (tCONV 422 ns, tDEN_CSDO 14 ns, tDZ_CSDO 13 ns, tD_CKDO 16 ns), p.10 Figure 6-3 (SCLK high at CS fall, capture on falling edges, launch on rising edges), p.18 Table 7-1 (two's complement, mid code 0000h), p.20-21 7.4 (conversion starts on the CS rising edge; output word left-justified and split over SDO-1x (D15, D13 .. D1) and SDO-0x (D14, D12 .. D0), first bits launched at CS fall, zeros after the word)",
+  "pinouts": {
+   "rhb32": [
+    {
+     "number": 1,
+     "name": "AINP_A",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AINM_A",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "AINM_B",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AINP_B",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "REFM_B",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "REFP_B",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 18,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 19,
+     "name": "SDO-1B",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "SDO-0B",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 22,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 23,
+     "name": "SDO-1A",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "SDO-0A",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 26,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 30,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 31,
+     "name": "REFP_A",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "REFM_A",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   1.65,
+   5.5
+  ],
+  "analog": [
+   "AINP_A",
+   "AINM_A",
+   "AINP_B",
+   "AINM_B",
+   "REFIN",
+   "REFP_A",
+   "REFM_A",
+   "REFP_B",
+   "REFM_B",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDO-1A",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 14,
+   "tOut": 16,
+   "tFloat": 13
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "[R:15:15][R:13:13][R:11:11][R:9:9][R:7:7][R:5:5][R:3:3][R:1:1]",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 422,
+   "start": [
+    "cs-rise"
+   ]
+  }
+ },
+ "packages": {
+  "RHB": {
+   "pinout": "rhb32",
+   "footprint": "VQFN-32-5X5",
+   "package": "VQFN",
+   "pins": 32
+  }
+ },
+ "pdf": "ads9226.pdf",
+ "pages": "p.3-4 (pinout and pin functions), p.5 (ROC), p.8 (timing requirements, switching characteristics), p.9-10 (Figures 6-1 to 6-3), p.18 (Table 7-1 transfer characteristics), p.20-21 (7.4 functional modes, output data word, data transfer frame)",
+ "notModeled": [
+  "FOUR DATA LANES: each ADC drives its 16-bit word on two SDO pins (SDO-1x: D15, D13 .. D1; SDO-0x: D14, D12 .. D0), A on SDO-1A / SDO-0A and B on SDO-1B / SDO-0B, all at once; the schema has one miso, so only SDO-1A is modeled (the odd bits of the channel-A result) and SDO-0A, SDO-1B, SDO-0B are never driven",
+  "analog inputs, reference buffers (REFIN, REFP_x / REFM_x): the result is always the 0 V code 0000h (two's complement)",
+  "latency-0 / latency-1 data capture (Figures 6-1, 6-2): the frame always shows the most recent completed conversion",
+  "cycle time 488 ns, acquisition time and SCLK limits (32.768 MHz); DVDD 2.35 V minimum for SCLK > 20 MHz",
+  "the two CS pins (13, 14) must be connected together externally; the model treats both as CS"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS9226IRHBT",
+   "RHB",
+   32,
+   "Active"
+  ]
+ ]
+}

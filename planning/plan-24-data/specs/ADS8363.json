@@ -1,0 +1,850 @@
+{
+ "device": {
+  "id": "ADS8363",
+  "function": "ADC",
+  "description": "16-bit 1 MSPS dual simultaneous-sampling SAR ADC, 2x2 fully- or 4x2 pseudo-differential inputs, serial interface with RD/CONVST and internal reference DACs",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7223.pdf (SBAS523D, ADS8363/ADS7263/ADS7223) p.4-5 pin functions, p.6 recommended operating conditions, p.11-12 switching characteristics and Figure 1 half-clock timing, p.22-23 operating modes (Table 5 M0/M1), p.25 reset, p.26 output format (Table 7, twos complement), p.27-33 modes I-IV, p.33 reference DAC access, p.34-41 register map",
+  "pinouts": {
+   "rhb32": [
+    {
+     "number": 1,
+     "name": "CHB1P/CHB3",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "CHB1N/CHB2",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CHB0P/CHB1",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "CHB0N/CHB0",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CHA1P/CHA3",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CHA1N/CHA2",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CHA0P/CHA1",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "CHA0N/CHA0",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "REFIO1",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "REFIO2",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "RGND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "M1",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "M0",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "CLOCK",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "SDOB",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "SDOA",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 27,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 29,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 30,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 31,
+     "name": "CMA",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "CMB",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 4,
+  "codeFormat": "twos",
+  "vcc": [
+   2.3,
+   5.5
+  ],
+  "analog": [
+   "CHB1P/CHB3",
+   "CHB1N/CHB2",
+   "CHB0P/CHB1",
+   "CHB0N/CHB0",
+   "CHA1P/CHA3",
+   "CHA1N/CHA2",
+   "CHA0P/CHA1",
+   "CHA0N/CHA0",
+   "REFIO1",
+   "REFIO2",
+   "AVDD",
+   "CMA",
+   "CMB"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "RD",
+   "sclk": "CLOCK",
+   "mosi": "SDI",
+   "miso": "SDOA",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 16,
+   "tOut": 14,
+   "tFloat": 6
+  },
+  "registers": [
+   {
+    "name": "CONFIG",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "C1",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "C0",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "R",
+      "bits": [
+       13,
+       12
+      ]
+     },
+     {
+      "name": "PD",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "FE",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "SR",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "FC",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "PDE",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CID",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CE",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "A",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.35-36 Figure 39 (default 0000h); written through SDI with every RD frame, no address"
+   },
+   {
+    "name": "REFDAC1",
+    "width": 16,
+    "reset": 2047,
+    "readOnly": 63488,
+    "fields": [
+     {
+      "name": "RPD",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "D",
+      "bits": [
+       9,
+       0
+      ]
+     }
+    ],
+    "note": "p.37 Figure 41 (default 07FFh)"
+   },
+   {
+    "name": "REFDAC2",
+    "width": 16,
+    "reset": 2047,
+    "readOnly": 63488,
+    "fields": [
+     {
+      "name": "RPD",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "D",
+      "bits": [
+       9,
+       0
+      ]
+     }
+    ],
+    "note": "p.37 Figure 42 (default 07FFh)"
+   },
+   {
+    "name": "SEQFIFO",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 12,
+    "fields": [
+     {
+      "name": "S",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "SL",
+      "bits": [
+       13,
+       12
+      ]
+     },
+     {
+      "name": "C1",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "C2",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "C3",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "C4",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "SP",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "FD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.38-39 Figure 43 (default 0000h; SP read-only)"
+   },
+   {
+    "name": "REFCM",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "CMB",
+      "bits": [
+       15,
+       12
+      ]
+     },
+     {
+      "name": "CMA",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "RB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "RA",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.41 Figure 46 (default 0000h)"
+   },
+   {
+    "name": "XFER",
+    "width": 4,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "internal state (not a datasheet register): TGT = the register a CONFIG write-select (A[3:0] = x010 REFDAC1, x101 REFDAC2, 1001 SEQFIFO, 1100 REFCM) makes the next RD frame's SDI word write (1-4, 0 none); RDB = 1 during the read-back frame after a read select, whose SDI data are ignored (p.33, p.34 Table 8, Figure 38)",
+    "fields": [
+     {
+      "name": "RDB",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "TGT",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "[CH] 0 R{16} 00 [CH] 1 R{16} 00",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "REFDAC1 data word (frame after the write select)",
+     "in": "[REFDAC1]",
+     "when": "XFER.TGT=1",
+     "action": "nop",
+     "set": {
+      "XFER.TGT": 0
+     },
+     "note": "p.34 Table 8, Figure 38; p.33: the first five bits are ignored, then RPD and the 10-bit DAC value"
+    },
+    {
+     "name": "REFDAC2 data word (frame after the write select)",
+     "in": "[REFDAC2]",
+     "when": "XFER.TGT=2",
+     "action": "nop",
+     "set": {
+      "XFER.TGT": 0
+     },
+     "note": "p.34 Table 8, Figure 38; p.33: the first five bits are ignored, then RPD and the 10-bit DAC value"
+    },
+    {
+     "name": "SEQFIFO data word (frame after the write select)",
+     "in": "[SEQFIFO]",
+     "when": "XFER.TGT=3",
+     "action": "nop",
+     "set": {
+      "XFER.TGT": 0
+     },
+     "note": "p.34 Table 8, Figure 38"
+    },
+    {
+     "name": "REFCM data word (frame after the write select)",
+     "in": "[REFCM]",
+     "when": "XFER.TGT=4",
+     "action": "nop",
+     "set": {
+      "XFER.TGT": 0
+     },
+     "note": "p.34 Table 8, Figure 38"
+    },
+    {
+     "name": "Register read-back frame (SDI ignored)",
+     "in": "x{16}",
+     "when": "XFER.RDB=1",
+     "action": "nop",
+     "set": {
+      "XFER.RDB": 0
+     },
+     "note": "p.33, p.34 Figure 38: SDI is ignored while a register read access is ongoing"
+    },
+    {
+     "name": "Software reset (A = 0100)",
+     "in": "a b 01 pp f s k e i n 0100",
+     "action": "reset",
+     "note": "p.25: an RD pulse with a control word holding A[3:0] = 0100 resets the device and all registers"
+    },
+    {
+     "name": "Read CONFIG (A = 0001)",
+     "in": "a b 01 pp f s k e i n 0001",
+     "action": "nop",
+     "set": {
+      "CONFIG.C1": "a",
+      "CONFIG.C0": "b",
+      "CONFIG.R": 1,
+      "CONFIG.PD": "p",
+      "CONFIG.FE": "f",
+      "CONFIG.SR": "s",
+      "CONFIG.FC": "k",
+      "CONFIG.PDE": "e",
+      "CONFIG.CID": "i",
+      "CONFIG.CE": "n",
+      "CONFIG.A": 1,
+      "XFER.RDB": 1
+     },
+     "next": "[CONFIG:15:15] 0 [CONFIG] 00",
+     "note": "p.33-34: A[3:0] selects a read; the next RD frame shows the register on SDOA (channel indicator, '0', 16-bit content, '00')"
+    },
+    {
+     "name": "Read REFDAC1 (A = 0011)",
+     "in": "a b 01 pp f s k e i n 0011",
+     "action": "nop",
+     "set": {
+      "CONFIG.C1": "a",
+      "CONFIG.C0": "b",
+      "CONFIG.R": 1,
+      "CONFIG.PD": "p",
+      "CONFIG.FE": "f",
+      "CONFIG.SR": "s",
+      "CONFIG.FC": "k",
+      "CONFIG.PDE": "e",
+      "CONFIG.CID": "i",
+      "CONFIG.CE": "n",
+      "CONFIG.A": 3,
+      "XFER.RDB": 1
+     },
+     "next": "[CONFIG:15:15] 0 [REFDAC1] 00",
+     "note": "p.33-34: A[3:0] selects a read; the next RD frame shows the register on SDOA (channel indicator, '0', 16-bit content, '00')"
+    },
+    {
+     "name": "Read REFDAC2 (A = 0110)",
+     "in": "a b 01 pp f s k e i n 0110",
+     "action": "nop",
+     "set": {
+      "CONFIG.C1": "a",
+      "CONFIG.C0": "b",
+      "CONFIG.R": 1,
+      "CONFIG.PD": "p",
+      "CONFIG.FE": "f",
+      "CONFIG.SR": "s",
+      "CONFIG.FC": "k",
+      "CONFIG.PDE": "e",
+      "CONFIG.CID": "i",
+      "CONFIG.CE": "n",
+      "CONFIG.A": 6,
+      "XFER.RDB": 1
+     },
+     "next": "[CONFIG:15:15] 0 [REFDAC2] 00",
+     "note": "p.33-34: A[3:0] selects a read; the next RD frame shows the register on SDOA (channel indicator, '0', 16-bit content, '00')"
+    },
+    {
+     "name": "Read SEQFIFO (A = 1011)",
+     "in": "a b 01 pp f s k e i n 1011",
+     "action": "nop",
+     "set": {
+      "CONFIG.C1": "a",
+      "CONFIG.C0": "b",
+      "CONFIG.R": 1,
+      "CONFIG.PD": "p",
+      "CONFIG.FE": "f",
+      "CONFIG.SR": "s",
+      "CONFIG.FC": "k",
+      "CONFIG.PDE": "e",
+      "CONFIG.CID": "i",
+      "CONFIG.CE": "n",
+      "CONFIG.A": 11,
+      "XFER.RDB": 1
+     },
+     "next": "[CONFIG:15:15] 0 [SEQFIFO] 00",
+     "note": "p.33-34: A[3:0] selects a read; the next RD frame shows the register on SDOA (channel indicator, '0', 16-bit content, '00')"
+    },
+    {
+     "name": "Read REFCM (A = 1110)",
+     "in": "a b 01 pp f s k e i n 1110",
+     "action": "nop",
+     "set": {
+      "CONFIG.C1": "a",
+      "CONFIG.C0": "b",
+      "CONFIG.R": 1,
+      "CONFIG.PD": "p",
+      "CONFIG.FE": "f",
+      "CONFIG.SR": "s",
+      "CONFIG.FC": "k",
+      "CONFIG.PDE": "e",
+      "CONFIG.CID": "i",
+      "CONFIG.CE": "n",
+      "CONFIG.A": 14,
+      "XFER.RDB": 1
+     },
+     "next": "[CONFIG:15:15] 0 [REFCM] 00",
+     "note": "p.33-34: A[3:0] selects a read; the next RD frame shows the register on SDOA (channel indicator, '0', 16-bit content, '00')"
+    },
+    {
+     "name": "Write REFDAC1 next (A = 0010)",
+     "in": "a b 01 pp f s k e i n 0010",
+     "action": "nop",
+     "set": {
+      "CONFIG.C1": "a",
+      "CONFIG.C0": "b",
+      "CONFIG.R": 1,
+      "CONFIG.PD": "p",
+      "CONFIG.FE": "f",
+      "CONFIG.SR": "s",
+      "CONFIG.FC": "k",
+      "CONFIG.PDE": "e",
+      "CONFIG.CID": "i",
+      "CONFIG.CE": "n",
+      "CONFIG.A": 2,
+      "XFER.TGT": 1
+     },
+     "note": "p.34 Table 8, Figure 38: the SDI word of the next RD frame is written into REFDAC1"
+    },
+    {
+     "name": "Write REFDAC1 next (A = 1010)",
+     "in": "a b 01 pp f s k e i n 1010",
+     "action": "nop",
+     "set": {
+      "CONFIG.C1": "a",
+      "CONFIG.C0": "b",
+      "CONFIG.R": 1,
+      "CONFIG.PD": "p",
+      "CONFIG.FE": "f",
+      "CONFIG.SR": "s",
+      "CONFIG.FC": "k",
+      "CONFIG.PDE": "e",
+      "CONFIG.CID": "i",
+      "CONFIG.CE": "n",
+      "CONFIG.A": 10,
+      "XFER.TGT": 1
+     },
+     "note": "p.34 Table 8, Figure 38: the SDI word of the next RD frame is written into REFDAC1"
+    },
+    {
+     "name": "Write REFDAC2 next (A = 0101)",
+     "in": "a b 01 pp f s k e i n 0101",
+     "action": "nop",
+     "set": {
+      "CONFIG.C1": "a",
+      "CONFIG.C0": "b",
+      "CONFIG.R": 1,
+      "CONFIG.PD": "p",
+      "CONFIG.FE": "f",
+      "CONFIG.SR": "s",
+      "CONFIG.FC": "k",
+      "CONFIG.PDE": "e",
+      "CONFIG.CID": "i",
+      "CONFIG.CE": "n",
+      "CONFIG.A": 5,
+      "XFER.TGT": 2
+     },
+     "note": "p.34 Table 8, Figure 38: the SDI word of the next RD frame is written into REFDAC2"
+    },
+    {
+     "name": "Write REFDAC2 next (A = 1101)",
+     "in": "a b 01 pp f s k e i n 1101",
+     "action": "nop",
+     "set": {
+      "CONFIG.C1": "a",
+      "CONFIG.C0": "b",
+      "CONFIG.R": 1,
+      "CONFIG.PD": "p",
+      "CONFIG.FE": "f",
+      "CONFIG.SR": "s",
+      "CONFIG.FC": "k",
+      "CONFIG.PDE": "e",
+      "CONFIG.CID": "i",
+      "CONFIG.CE": "n",
+      "CONFIG.A": 13,
+      "XFER.TGT": 2
+     },
+     "note": "p.34 Table 8, Figure 38: the SDI word of the next RD frame is written into REFDAC2"
+    },
+    {
+     "name": "Write SEQFIFO next (A = 1001)",
+     "in": "a b 01 pp f s k e i n 1001",
+     "action": "nop",
+     "set": {
+      "CONFIG.C1": "a",
+      "CONFIG.C0": "b",
+      "CONFIG.R": 1,
+      "CONFIG.PD": "p",
+      "CONFIG.FE": "f",
+      "CONFIG.SR": "s",
+      "CONFIG.FC": "k",
+      "CONFIG.PDE": "e",
+      "CONFIG.CID": "i",
+      "CONFIG.CE": "n",
+      "CONFIG.A": 9,
+      "XFER.TGT": 3
+     },
+     "note": "p.34 Table 8, Figure 38: the SDI word of the next RD frame is written into SEQFIFO"
+    },
+    {
+     "name": "Write REFCM next (A = 1100)",
+     "in": "a b 01 pp f s k e i n 1100",
+     "action": "nop",
+     "set": {
+      "CONFIG.C1": "a",
+      "CONFIG.C0": "b",
+      "CONFIG.R": 1,
+      "CONFIG.PD": "p",
+      "CONFIG.FE": "f",
+      "CONFIG.SR": "s",
+      "CONFIG.FC": "k",
+      "CONFIG.PDE": "e",
+      "CONFIG.CID": "i",
+      "CONFIG.CE": "n",
+      "CONFIG.A": 12,
+      "XFER.TGT": 4
+     },
+     "note": "p.34 Table 8, Figure 38: the SDI word of the next RD frame is written into REFCM"
+    },
+    {
+     "name": "CONFIG update (R = 01)",
+     "in": "a b 01 pp f s k e i n gggg",
+     "action": "nop",
+     "set": {
+      "CONFIG.C1": "a",
+      "CONFIG.C0": "b",
+      "CONFIG.R": 1,
+      "CONFIG.PD": "p",
+      "CONFIG.FE": "f",
+      "CONFIG.SR": "s",
+      "CONFIG.FC": "k",
+      "CONFIG.PDE": "e",
+      "CONFIG.CID": "i",
+      "CONFIG.CE": "n",
+      "CONFIG.A": "g"
+     },
+     "note": "p.35-36: R[1:0] = 01 updates the entire CONFIG register (A = x000/x111: CONFIG only)"
+    },
+    {
+     "name": "Channel update (R = 00)",
+     "in": "a b 00 x{12}",
+     "action": "nop",
+     "set": {
+      "CONFIG.C1": "a",
+      "CONFIG.C0": "b"
+     },
+     "note": "p.35: R[1:0] = 00 or 11 with M0 = 0 updates C[1:0] only (ADS8361-compatible); M0 = 1 is not checked"
+    },
+    {
+     "name": "Channel update (R = 11)",
+     "in": "a b 11 x{12}",
+     "action": "nop",
+     "set": {
+      "CONFIG.C1": "a",
+      "CONFIG.C0": "b"
+     }
+    }
+   ]
+  },
+  "conversion": {
+   "time": 875,
+   "start": [
+    "pin"
+   ],
+   "channel": "CONFIG.C1"
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 1,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONVST",
+    "edge": "rise"
+   }
+  }
+ },
+ "packages": {
+  "RHB": {
+   "pinout": "rhb32",
+   "footprint": "VQFN-32-5X5",
+   "package": "VQFN",
+   "pins": 32
+  }
+ },
+ "pdf": "ads7223.pdf",
+ "pages": "p.4 (device comparison, pinout), p.4-5 (pin functions: DVDD 2.3-5.5 V), p.6 (abs max: digital inputs to DVDD + 0.3 V; ROC nominal only), p.11 (tCONV 17.5 tCLK half-clock, fCLK 0.5-20 MHz, tD3 14 ns, tD5 16 ns, tD6 6 ns at 2.3-3.6 V), p.12 (Figure 1), p.22-23 (Tables 4-5, half/full clock), p.24-25 (power-down, reset), p.26 (Table 7 twos complement), p.27-33 (modes I-IV, output bit order), p.33 (Figure 37 REFDAC access), p.34 (Table 8, Figure 38), p.35-36 (CONFIG), p.37 (REFDAC1/2), p.38-40 (SEQFIFO), p.41 (REFCM)",
+ "notModeled": [
+  "analog inputs, the 2x2 fully-differential / 4x2 pseudo-differential multiplexer (PDE), CMA/CMB and the reference DACs on REFIO1/REFIO2: every conversion returns the 0 V (differential) code 0000h; REFIO1/REFIO2 are never driven",
+  "the serial frame is delimited by RD (the model's chip select: a frame starts at RD falling, where the first SDOA bit appears, and SDI is sampled on CLOCK falling edges); the CS pin's gating of SDOx/SDI/RD (Hi-Z while CS is high) is not modeled, so keep CS low; SDOA floats during the one-clock RD high pulse in the model",
+  "SDOB (converter B in modes I and III) is never driven; SDOA always shifts converter A's frame then converter B's frame (40 clocks: channel indicator, ADC indicator 0/1, result, trailing zeros), which is the mode II / IV SDOA-only order (M1 = 1) and whose first 20 bits are the mode I / III SDOA frame (M1 = 0); mode II's leading '0' instead of the channel indicator is not modeled",
+  "CID = 1 (no channel/ADC indicator bits), the 2-bit counter (CE), special read modes (SR), FIFO (FE, SEQFIFO.FD) and the pseudo-differential sequencer (SEQFIFO) do not change the output; M0/M1 strap pins are not read (automatic channel selection and the M0 = 1 'no action' of R = 00/11 are not modeled)",
+  "pipeline: SDOA shows the result of the previous conversion in hardware (data n-1); the model's result is the constant 0 V code, so the pipeline is not visible; the channel indicator is CONFIG.C1 at conversion start, without the one-conversion channel-latch delay (channel latched at the 2nd CLOCK falling edge)",
+  "conversion time is 17.5 CLOCK periods at the 20 MHz half-clock maximum (875 ns); the real conversion runs on the external CLOCK (17.5 tCLK half-clock, 35 tCLK full-clock mode, FC), and CONVST pulses ignored in mode II / during a running conversion are not modeled",
+  "power-down, sleep and auto-sleep modes (PD) and their wake-up times"
+ ],
+ "variants": "ADS7263 (14-bit) and ADS7223 (12-bit) share ads7223.pdf with the same pinout, registers and protocol; the lower-resolution parts put their result MSB-aligned with 2 or 4 trailing zeros; own spec files",
+ "parts": [
+  [
+   "ADS8363SRHBR",
+   "RHB",
+   32,
+   "Active"
+  ],
+  [
+   "ADS8363SRHBT",
+   "RHB",
+   32,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,312 @@
+{
+ "device": {
+  "id": "ADS7862",
+  "function": "ADC",
+  "description": "12-bit 500 kSPS dual simultaneous-sampling 2+2 channel differential SAR ADC with 12-bit parallel interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7862.pdf (SBAS101B) p.2 pin configuration and descriptions, p.3 electrical characteristics (+V 4.75-5.25 V, logic levels, twos complement), p.10 timing and control (Figure 8), p.11 timing specifications and Table I output codes, Figure 9, p.12 Figures 10-11, p.13 sections A-C (CONVST, A0, RD read pointer)",
+  "pinouts": {
+   "pbs32": [
+    {
+     "number": 1,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "DB11",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "DB10",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "DB9",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "DB8",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "DB7",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "DB6",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "DB5",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "DB4",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "DB3",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DB2",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "DB1",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "DB0",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "CLOCK",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 24,
+     "name": "+VD",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "CH B1+",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "CH B1-",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "CH B0+",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "CH B0-",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "CH A1-",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "CH A1+",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "CH A0-",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "CH A0+",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 4,
+  "codeFormat": "twos",
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "CH B1+",
+   "CH B1-",
+   "CH B0+",
+   "CH B0-",
+   "CH A1-",
+   "CH A1+",
+   "CH A0-",
+   "CH A0+",
+   "REFIN",
+   "REFOUT",
+   "+VA"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tAcc": 25,
+   "tDf": 20
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 1,
+    "reset": 0,
+    "note": "internal: the A0 pin level (channel pair 0/1, p.2); no register in the part",
+    "fields": [
+     {
+      "name": "A0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "R{12}"
+  },
+  "conversion": {
+   "time": 1750,
+   "start": [
+    "pin"
+   ],
+   "channel": "CTRL.A0"
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 1,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONVST",
+    "edge": "fall"
+   },
+   "levels": [
+    {
+     "pin": "A0",
+     "field": "CTRL.A0"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "PBS": {
+   "pinout": "pbs32",
+   "footprint": "TQFP-32-PBS",
+   "package": "TQFP",
+   "pins": 32
+  }
+ },
+ "pdf": "ads7862.pdf",
+ "pages": "p.2 (pins), p.3 (specs), p.10 (Figure 8), p.11 (timing specifications: tCONV 1.75 us, t5 25 ns, t6 20 ns; Table I), p.12 (Figures 10-11), p.13 (sections A-C)",
+ "notModeled": [
+  "analog inputs, multiplexer and internal 2.5 V reference (REFOUT never driven): every conversion returns the 0 V differential code 000h",
+  "the four output registers (A0, B0, A1, B1) and the RD read pointer: the first RD falling edge after CONVST outputs converter A, the second converter B, with A0 choosing input 0 or 1; the model outputs the same 0 V code on every read, so the A/B/0/1 order is not visible",
+  "RD toggles advance the read pointer even with CS high (channel swap); not modeled",
+  "the conversion is clocked by the external CLOCK (16 cycles from the first CLOCK rising edge after CONVST falls, Figure 10); the model uses tCONV 1.75 us at tCKP = 125 ns, starting at CONVST falling",
+  "the channel pair is latched from A0 at the conversion start (the 250 ns address setup is not checked)",
+  "pin names: the minus sign of CH xx- is written '-'"
+ ],
+ "variants": "ADS7862Y and ADS7862YB (higher grade) share the spec.",
+ "parts": [
+  [
+   "ADS7862Y/250",
+   "PBS",
+   32,
+   "Active"
+  ],
+  [
+   "ADS7862Y/2K",
+   "PBS",
+   32,
+   "Active"
+  ],
+  [
+   "ADS7862YB/250",
+   "PBS",
+   32,
+   "Active"
+  ]
+ ]
+}

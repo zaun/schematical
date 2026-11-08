@@ -1,0 +1,798 @@
+{
+ "device": {
+  "id": "ADS1235",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "24-bit 7.2 kSPS 6-input delta-sigma ADC with PGA (1/64/128), ac-bridge excitation, GPIOs and SPI interface",
+  "note": "ads1235.pdf (SBAS824) p.3-4 pin configuration and functions, p.5 recommended operating conditions (DVDD 2.7-5.25 V), p.8 timing requirements, p.9 switching characteristics (tp(CSDO) 50 ns, tp(SCDO1) 40 ns, tp(CSDOZ) 50 ns), p.32-33 conversion control and latency (Table 6), p.35 power-down and reset, p.39 serial interface (SPI mode 1), p.40 DRDY, p.41 conversion data format, CRC, p.42-47 commands (Table 14-26), p.48-58 register map (Table 27); ads1235-q1.pdf for the -Q1 part",
+  "pinouts": {
+   "vqfn32": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "CAPP",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "CAPN",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "PWDN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "START",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DOUT/DRDY",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "BYPASS",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "CLKIN",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 20,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 21,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 22,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 23,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 24,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 25,
+     "name": "AIN5",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "AIN4",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "REFN0",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "REFP0",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 6,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "CAPP",
+   "CAPN",
+   "AVDD",
+   "AVSS",
+   "BYPASS",
+   "AIN5",
+   "AIN4",
+   "AIN3",
+   "AIN2",
+   "AIN1",
+   "AIN0",
+   "REFN0",
+   "REFP0"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT/DRDY",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 50,
+   "tOut": 40,
+   "tFloat": 50
+  },
+  "registers": [
+   {
+    "name": "ID",
+    "address": 0,
+    "width": 8,
+    "reset": 192,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DEV_ID",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "REV_ID",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "reset Cxh: REV_ID not given (0 here)"
+   },
+   {
+    "name": "STATUS",
+    "address": 1,
+    "width": 8,
+    "reset": 1,
+    "readOnly": 190,
+    "fields": [
+     {
+      "name": "LOCK",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CRCERR",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "PGAL_ALM",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "PGAH_ALM",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "REFL_ALM",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DRDY",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CLOCK",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "RESET",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "CLOCK reset x (clock source detected): 0 here"
+   },
+   {
+    "name": "MODE0",
+    "address": 2,
+    "width": 8,
+    "reset": 36,
+    "fields": [
+     {
+      "name": "DR",
+      "bits": [
+       6,
+       3
+      ]
+     },
+     {
+      "name": "FILTER",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MODE1",
+    "address": 3,
+    "width": 8,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "CHOP",
+      "bits": [
+       6,
+       5
+      ]
+     },
+     {
+      "name": "CONVRT",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DELAY",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MODE2",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GPIO_CON",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "GPIO_DIR",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MODE3",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PWDN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "STATENB",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CRCENB",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "SPITIM",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "GPIO_DAT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "REF",
+    "address": 6,
+    "width": 8,
+    "reset": 5,
+    "fields": [
+     {
+      "name": "RMUXP",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "RMUXN",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFCAL0",
+    "address": 7,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OFCAL1",
+    "address": 8,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OFCAL2",
+    "address": 9,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FSCAL0",
+    "address": 10,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FSCAL1",
+    "address": 11,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FSCAL2",
+    "address": 12,
+    "width": 8,
+    "reset": 64
+   },
+   {
+    "name": "RESERVED_0D",
+    "address": 13,
+    "width": 8,
+    "reset": 255
+   },
+   {
+    "name": "RESERVED_0E",
+    "address": 14,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "RESERVED_0F",
+    "address": 15,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "PGA",
+    "address": 16,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "BYPASS",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "GAIN",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "INPMUX",
+    "address": 17,
+    "width": 8,
+    "reset": 255,
+    "fields": [
+     {
+      "name": "MUXP",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "MUXN",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "1{8}",
+   "idle": "1",
+   "commands": [
+    {
+     "name": "NOP",
+     "in": "00000000",
+     "note": "echo byte 1 (00h) not output: a NOP reply would cut off the data of a preceding RDATA/RREG whose padding bytes are 00h"
+    },
+    {
+     "name": "RESET",
+     "in": "00000110",
+     "reply": "00000110",
+     "action": "reset"
+    },
+    {
+     "name": "START",
+     "in": "00001000",
+     "reply": "00001000",
+     "action": "start"
+    },
+    {
+     "name": "STOP",
+     "in": "00001010",
+     "reply": "00001010",
+     "action": "stop"
+    },
+    {
+     "name": "RDATA",
+     "in": "00010010",
+     "reply": "00010010 R{24}"
+    },
+    {
+     "name": "SYOCAL",
+     "in": "00010110",
+     "reply": "00010110",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "GANCAL",
+     "in": "00010111",
+     "reply": "00010111",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "SFOCAL",
+     "in": "00011001",
+     "reply": "00011001",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "RREG",
+     "in": "001aaaaa",
+     "action": "rreg",
+     "address": "a",
+     "reply": "001aaaaa @"
+    },
+    {
+     "name": "WREG",
+     "in": "010aaaaa",
+     "action": "wreg",
+     "address": "a",
+     "reply": "010aaaaa"
+    },
+    {
+     "name": "LOCK",
+     "in": "11110010",
+     "reply": "11110010",
+     "set": {
+      "STATUS.LOCK": 1
+     }
+    },
+    {
+     "name": "UNLOCK",
+     "in": "11110101",
+     "reply": "11110101",
+     "set": {
+      "STATUS.LOCK": 0
+     }
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "MODE0.FILTER",
+     "MODE0.DR"
+    ],
+    "values": {
+     "0,0": 400400000,
+     "0,1": 200400000,
+     "0,2": 100400000,
+     "0,3": 60430000,
+     "0,4": 50430000,
+     "0,5": 20430000,
+     "0,6": 17090000,
+     "0,7": 10430000,
+     "0,8": 2925000,
+     "0,9": 1258000,
+     "0,10": 841000,
+     "0,11": 633000,
+     "0,12": 564000,
+     "1,0": 800400000,
+     "1,1": 400400000,
+     "1,2": 200400000,
+     "1,3": 120400000,
+     "1,4": 100400000,
+     "1,5": 40430000,
+     "1,6": 33760000,
+     "1,7": 20430000,
+     "1,8": 5425000,
+     "1,9": 2091000,
+     "1,10": 1258000,
+     "1,11": 841000,
+     "1,12": 702000,
+     "2,0": 1200000000,
+     "2,1": 600400000,
+     "2,2": 300400000,
+     "2,3": 180400000,
+     "2,4": 150400000,
+     "2,5": 60430000,
+     "2,6": 50430000,
+     "2,7": 30430000,
+     "2,8": 7925000,
+     "2,9": 2925000,
+     "2,10": 1675000,
+     "2,11": 1050000,
+     "2,12": 841000,
+     "3,0": 1600000000,
+     "3,1": 800400000,
+     "3,2": 400400000,
+     "3,3": 240400000,
+     "3,4": 200400000,
+     "3,5": 80430000,
+     "3,6": 67090000,
+     "3,7": 40430000,
+     "3,8": 10430000,
+     "3,9": 3758000,
+     "3,10": 2091000,
+     "3,11": 1258000,
+     "3,12": 980000,
+     "4,0": 402200000,
+     "4,1": 202200000,
+     "4,2": 102200000,
+     "4,4": 52230000
+    }
+   },
+   "start": [
+    "command",
+    "pin"
+   ],
+   "mode": {
+    "field": "MODE1.CONVRT",
+    "continuous": 0,
+    "startOnEnter": false
+   },
+   "done": {
+    "STATUS.DRDY": 1
+   },
+   "onRead": {
+    "STATUS.DRDY": 0
+   },
+   "channel": "INPMUX.MUXP"
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "enable": "MODE1.CONVRT=0"
+   },
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "start",
+    "enable": "MODE1.CONVRT=1"
+   },
+   {
+    "pin": "DOUT/DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "enable": "MODE1.CONVRT=0",
+    "onMiso": true
+   },
+   {
+    "pin": "DOUT/DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "start",
+    "enable": "MODE1.CONVRT=1",
+    "onMiso": true
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "start": {
+    "pin": "START",
+    "active": 1
+   },
+   "powerdown": {
+    "pin": "PWDN",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "RHB": {
+   "pinout": "vqfn32",
+   "footprint": "VQFN-32-5X5",
+   "package": "VQFN",
+   "pins": 32
+  },
+  "RHM": {
+   "pinout": "vqfn32",
+   "footprint": "VQFN-32-RHM",
+   "package": "VQFN",
+   "pins": 32
+  }
+ },
+ "pdf": "ads1235.pdf",
+ "pages": "p.3-4 (pins), p.5 (ROC), p.8-9 (timing), p.32-33 (conversion control, Table 6 latency), p.35 (power-down, reset), p.39-41 (SPI, DRDY, data format, CRC), p.42-47 (commands), p.48-58 (registers)",
+ "notModeled": [
+  "analog inputs, PGA, PGA bypass, reference mux, temperature sensor, PGA/reference alarms (STATUS alarm bits stay 0)",
+  "conversion time is the Table 6 conversion latency (start-conversion delay 50 us, chop off) for every conversion; continuous conversions after the first run at 1 / fDATA, chop and ac-excitation modes double the latency, and DELAY[3:0] other than 0001 adds to it: not modeled",
+  "commands are decoded after their first byte (the datasheet executes them at the 16th SCLK, and CS rising before byte 2 aborts them); the second byte (arbitrary, or the WREG data) follows",
+  "DOUT/DRDY outputs FFh during byte 1 and the echo of byte 1 during byte 2 (except for NOP, see its note); idle after a reply is 1",
+  "CRC mode (MODE3.CRCENB: CRC-2 input check, echo byte 2, Out CRC bytes, CRCERR) is not modeled",
+  "optional STATUS byte before the conversion data (MODE3.STATENB = 1) is not output",
+  "software power-down (MODE3.PWDN) is stored only; the PWDN pin works",
+  "conversion restart on a write to MODE0, MODE1, REF, PGA or INPMUX (Table 27 Restart column)",
+  "LOCK sets STATUS.LOCK but register writes are not blocked",
+  "DRDY pulses high 16 fCLK before the next completion in continuous mode when data was not read (tw(DRH)); old/new data race within 16 fCLK of completion",
+  "serial interface auto-reset (MODE3.SPITIM, 65536 fCLK timeout)",
+  "calibration commands SYOCAL, GANCAL, SFOCAL (OFCAL/FSCAL updates) do nothing",
+  "GPIOs on AIN0-AIN3 (MODE2/MODE3 GPIO fields stored only) and ac-bridge excitation outputs ACX1/ACX2",
+  "external clock on CLKIN (data rates scale with fCLK; the model uses the 7.3728 MHz nominal values)",
+  "RREG of an address outside 00h-11h returns 00h"
+ ],
+ "variants": "ADS1235-Q1 (ads1235-q1.pdf, RHM package, automotive) has the same pinout, registers and commands; its part is in this file",
+ "parts": [
+  [
+   "ADS1235IRHBT",
+   "RHB",
+   32,
+   "Active"
+  ],
+  [
+   "ADS1235QWRHMRQ1",
+   "RHM",
+   32,
+   "Active"
+  ]
+ ]
+}

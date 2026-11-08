@@ -1,0 +1,262 @@
+{
+ "device": {
+  "id": "ADS7804",
+  "function": "ADC",
+  "description": "12-bit 100 kHz sampling ADC, +/-10 V input, 12-bit or byte-wide parallel bus with R/C, BYTE and BUSY",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7804.pdf (SBAS019A) p.2-3 specifications (VDIG 4.75-5.25 V, binary twos complement), p.4 Table I pin assignments, p.5 Table II control line functions, starting a conversion, p.6 reading data, Table III codes, Table IV conversion timing, Figure 2 bit locations vs BYTE, p.7 Figures 3-5",
+  "pinouts": {
+   "dw28": [
+    {
+     "number": 1,
+     "name": "VIN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AGND1",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "AGND2",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "D11",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "D10",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "D9",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "D8",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "D7",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "D6",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "D5",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "D4",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "D3",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "D2",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "D1",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "D0",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "DZ",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "DZ",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "DZ",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "DZ",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "BYTE",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "R/C",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "VANA",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "VDIG",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "VIN",
+   "REF",
+   "CAP",
+   "VANA"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rw": {
+    "pin": "R/C",
+    "read": 1
+   },
+   "byteSelect": {
+    "pin": "BYTE",
+    "high": 1
+   }
+  },
+  "timing": {
+   "tAcc": 83,
+   "tDf": 83
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": {
+    "low": "R{12}",
+    "high": "[R:3:0] 0000 [R:11:8]"
+   }
+  },
+  "conversion": {
+   "time": 8000,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 0,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "R/C",
+    "edge": "fall"
+   }
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw28",
+   "footprint": "SOIC-28W",
+   "package": "SOIC",
+   "pins": 28
+  }
+ },
+ "pdf": "ads7804.pdf",
+ "pages": "p.2-3 (specifications: VDIG 4.75-5.25 V, VIH to VD + 0.3 V, binary twos complement, bus access / relinquish 83 ns), p.4 (pin configuration, Table I), p.5 (Table II, starting a conversion: CS and R/C low 40 ns), p.6 (reading data: outputs active with R/C high and CS low; Table III codes; Table IV: t4 BUSY low 8 us max, t7 conversion 8 us max, t9 83 ns, t14 83 ns; Figure 2 bit locations for BYTE low/high), p.7 (Figures 3-5)",
+ "notModeled": [
+  "analog input (+/-10 V), internal/external reference and CAP: the result is always the 0 V code 000h (twos complement)",
+  "pins 19-22 (all named DZ): LOW with BYTE low, bits 7..4 (pin 19 = bit 7 ... pin 22 = bit 4) with BYTE high; four pins with the same name cannot be bus data pins, so they are never driven and the BYTE-high read models only pins 6-18 (pins 6-9 = bits 3..0, pins 10-13 LOW, pins 15-18 = bits 11..8)",
+  "conversion start: the datasheet starts a conversion when CS and R/C are both low (internally ORed, whichever falls last, BUSY high); the model starts one on every R/C falling edge and ignores a start by CS falling while R/C is low; holding both low past the end of conversion (which starts another) is not modeled",
+  "reading the previous result during a conversion (valid up to 16 us after the start) and data invalid from then until BUSY rises: the model always outputs the constant 0 V code while R/C is high and CS is low",
+  "BUSY delays t3 (65 ns), t5, t10 and the 2 us acquisition time; convert pulse width 40 ns-6 us"
+ ],
+ "variants": "single-device datasheet (ADS7804 U / UB grades differ in accuracy only); pin-compatible with the 16-bit ADS7805.",
+ "parts": [
+  [
+   "ADS7804U",
+   "DW",
+   28,
+   "Active"
+  ],
+  [
+   "ADS7804UB",
+   "DW",
+   28,
+   "Active"
+  ]
+ ]
+}

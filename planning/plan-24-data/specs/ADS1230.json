@@ -1,0 +1,222 @@
+{
+ "device": {
+  "id": "ADS1230",
+  "function": "ADC",
+  "description": "20-bit bridge-sensor delta-sigma ADC with PGA (64/128), 10/80 SPS and 2-wire serial interface (DRDY/DOUT, SCLK)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1230.pdf (SBAS366B) p.3-4 electrical characteristics (data rate, logic levels, AVDD/DVDD 2.7-5.3 V), p.5 pin configuration and descriptions, p.13 data format (20 bits, Figure 24), data rate (Table 3), p.14-15 DRDY/DOUT, data retrieval timing (tPD = 50 ns, tCONV 12.5/100 ms), p.16-17 offset calibration, standby",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "CLKIN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "GAIN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AINN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "REFN",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "SPEED",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "PDWN",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DRDY/DOUT",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 20,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.3
+  ],
+  "analog": [
+   "CAP",
+   "AINP",
+   "AINN",
+   "REFN",
+   "REFP",
+   "AGND",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "sclk": "SCLK",
+   "miso": "DRDY/DOUT",
+   "mode": 1
+  },
+  "timing": {
+   "tOut": 50
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GAIN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SPEED",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the SPEED / GAIN pin levels (pins.levels); SPEED 0 = 10 SPS, 1 = 80 SPS (p.5); no serial registers"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{20}1{4}",
+   "idle": "1",
+   "commands": []
+  },
+  "conversion": {
+   "time": {
+    "field": "CTRL.SPEED",
+    "values": {
+     "0": 100000000,
+     "1": 12500000
+    }
+   },
+   "start": [
+    "power-on"
+   ],
+   "mode": "continuous"
+  },
+  "ready": [
+   {
+    "pin": "DRDY/DOUT",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "onMiso": true
+   }
+  ],
+  "pins": {
+   "powerdown": {
+    "pin": "PDWN",
+    "active": 0
+   },
+   "levels": [
+    {
+     "pin": "SPEED",
+     "field": "CTRL.SPEED"
+    },
+    {
+     "pin": "GAIN",
+     "field": "CTRL.GAIN"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "ads1230.pdf",
+ "pages": "p.3-4 (EC), p.5 (pins), p.13 (data format, data rate), p.14-15 (DRDY/DOUT, retrieval timing), p.16-17 (calibration, standby)",
+ "notModeled": [
+  "analog input, PGA gain (GAIN level stored only), reference",
+  "conversion time tCONV = 12.5 ms (SPEED = 1) / 100 ms (SPEED = 0) at fCLK = 4.9152 MHz (p.15); an external CLKIN (fCLK / 61,440 or / 491,520) scales it (CLKIN is not used)",
+  "SCLKs 21-24 output four 1s after the 20 data bits (Figure 24), modeled; after only 20 SCLKs DRDY/DOUT stays at the last bit until the update (modeled as idle 1)",
+  "offset calibration started by 26 SCLKs and standby mode (SCLK held high after DRDY/DOUT falls) and its wake-up",
+  "data-update window (no readback) and data overwritten if not read before the next update",
+  "PDWN low also resets the ADC (modeled as power-down only; there are no serial registers)"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS1230IPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1230IPWR",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

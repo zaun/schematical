@@ -1,0 +1,136 @@
+{
+ "device": {
+  "id": "ADS1286",
+  "function": "ADC",
+  "description": "12-bit 20 kHz micropower sampling ADC with 3-wire serial interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1286.pdf (SBAS031) p.2 specifications and timing characteristics, p.2 pin configuration and assignments, p.8 operating sequence (Figure 1), p.9 serial interface and shutdown",
+  "pinouts": {
+   "so8": [
+    {
+     "number": 1,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "+In",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "-In",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "CS/SHDN",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "DCLOCK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "+VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   4.5,
+   5.25
+  ],
+  "analog": [
+   "VREF",
+   "+In",
+   "-In"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS/SHDN",
+   "sclk": "DCLOCK",
+   "miso": "DOUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 0,
+   "tOut": 150,
+   "tFloat": 50
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "z z 0 R{12}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "so8",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  }
+ },
+ "pdf": "ads1286.pdf",
+ "pages": "p.2 (specifications, timing, pins), p.8 (Figure 1 operating sequence), p.9 (serial interface)",
+ "notModeled": [
+  "analog input; the conversion is clocked by DCLOCK (12 clocks, not timed: the result is the 0 V code at once)",
+  "DOUT is Hi-Z for the first two DCLOCK edges (sample time 1.5-2.0 clocks), then the null bit, then B11..B0; after B0 the part outputs the result LSB-first and/or zeros (Figure 1 notes 1 and 2; all zeros for the 0 V code, so idle 0 covers it)",
+  "automatic power-down after each conversion and shutdown while CS/SHDN is high (no visible bus effect)",
+  "throughput (20 kHz max) and DCLOCK frequency limits"
+ ],
+ "variants": "ADS1286 grades U (0-70 C), UA/UB/UC (-40 to 85 C, accuracy grades), UL; same chip",
+ "parts": [
+  [
+   "ADS1286UA",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "ADS1286UB",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "ADS1286UC",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "ADS1286UL/2K5",
+   "D",
+   8,
+   "Active"
+  ]
+ ]
+}

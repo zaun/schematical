@@ -1,0 +1,262 @@
+{
+ "device": {
+  "id": "ADS1224",
+  "function": "ADC",
+  "description": "24-bit 4-channel delta-sigma ADC with 2-wire serial interface (DRDY/DOUT, SCLK), 120 SPS at 2 MHz CLK",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1224.pdf (SBAS286C) p.3-4 electrical characteristics (DVDD 2.7-5.5 V, data rate 120 SPS at fCLK = 2 MHz), p.5 pin assignments and terminal functions, p.13 data format and data retrieval, p.14 data retrieval timing (t4 = 50 ns, t7 = 8.32 ms), p.15 self-calibration, standby",
+  "pinouts": {
+   "pw": [
+    {
+     "number": 1,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "DRDY/DOUT",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "MUX0",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "MUX1",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "TEMPEN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "BUFEN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AINP4",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "AINN4",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "AINP3",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "AINN3",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "AINP2",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "AINN2",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "AINP1",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "AINN1",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "VREFN",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "VREFP",
+     "role": "power"
+    },
+    {
+     "number": 20,
+     "name": "AVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 4,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "AINP4",
+   "AINN4",
+   "AINP3",
+   "AINN3",
+   "AINP2",
+   "AINN2",
+   "AINP1",
+   "AINN1",
+   "VREFN",
+   "VREFP",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "sclk": "SCLK",
+   "miso": "DRDY/DOUT",
+   "mode": 1
+  },
+  "timing": {
+   "tOut": 50
+  },
+  "registers": [
+   {
+    "name": "MUX",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MUX1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "MUX0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: MUX1/MUX0 pin levels (Table 1, p.8); 0-3 = AINP1/AINN1 .. AINP4/AINN4"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "BUFEN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "TEMPEN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the TEMPEN / BUFEN pin levels (pins.levels); no serial registers"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{24}",
+   "idle": "1",
+   "commands": []
+  },
+  "conversion": {
+   "time": 8320000,
+   "start": [
+    "power-on"
+   ],
+   "mode": "continuous",
+   "channel": "MUX"
+  },
+  "ready": [
+   {
+    "pin": "DRDY/DOUT",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "onMiso": true
+   }
+  ],
+  "pins": {
+   "levels": [
+    {
+     "pin": "MUX1",
+     "field": "MUX.MUX1"
+    },
+    {
+     "pin": "MUX0",
+     "field": "MUX.MUX0"
+    },
+    {
+     "pin": "TEMPEN",
+     "field": "CTRL.TEMPEN"
+    },
+    {
+     "pin": "BUFEN",
+     "field": "CTRL.BUFEN"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw",
+   "footprint": "TSSOP-20",
+   "package": "TSSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "ads1224.pdf",
+ "pages": "p.3-4 (EC), p.5 (pins), p.13-14 (data format, retrieval timing), p.15 (calibration, standby)",
+ "notModeled": [
+  "analog inputs, buffer (BUFEN level stored only), temperature sensor (TEMPEN level stored only), reference",
+  "conversion time t7 = 8.32 ms (1 / data rate) at fCLK = 2 MHz; the data rate scales with CLK (120 SPS x fCLK / 2 MHz; the CLK pin is not used)",
+  "settling after a MUX0, MUX1, BUFEN or TEMPEN change: DRDY/DOUT held high for t1; the model just continues converting",
+  "DRDY/DOUT stays at the last data bit until the next update unless an extra SCLK forces it high; modeled as idle 1 after the data bits",
+  "self-calibration started by 26 SCLKs (the 25th forces DRDY/DOUT high, the 26th falling edge starts calibration)",
+  "standby mode (SCLK held high after DRDY/DOUT falls) and its wake-up",
+  "data-update window (no readback) and data overwritten if not read before the next update"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS1224IPWT",
+   "PW",
+   20,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,279 @@
+{
+ "device": {
+  "id": "ADS8505",
+  "function": "ADC",
+  "description": "16-bit 250 kSPS sampling ADC, +/-10 V input, 16-bit or byte-wide parallel bus with R/C, BYTE and BUSY",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8505.pdf (SLAS180B) p.3 electrical characteristics (logic levels, binary twos complement, bus access/relinquish 83 ns, VDIG 4.75-5.25 V), p.4 DB/DW pinout, p.5 terminal functions, p.9 starting a conversion, Table 1 control line functions, p.10 reading data, Table 2 output codes, p.11 Table 3 conversion timing, Figure 22 bit locations vs BYTE",
+  "pinouts": {
+   "dw28": [
+    {
+     "number": 1,
+     "name": "VIN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AGND1",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "AGND2",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "D15",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "D14",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "D13",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "D12",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "D11",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "D10",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "D9",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "D8",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "D7",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "D6",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "D5",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "D4",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "D3",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "D2",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "D1",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "D0",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "BYTE",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "R/C",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "VANA",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "VDIG",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "VIN",
+   "REF",
+   "CAP",
+   "VANA"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D15",
+    "D14",
+    "D13",
+    "D12",
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rw": {
+    "pin": "R/C",
+    "read": 1
+   },
+   "byteSelect": {
+    "pin": "BYTE",
+    "high": 1
+   }
+  },
+  "timing": {
+   "tAcc": 83,
+   "tDf": 83
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": {
+    "low": "R{16}",
+    "high": "[R:7:0] [R:15:8]"
+   }
+  },
+  "conversion": {
+   "time": 2200,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 0,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "R/C",
+    "edge": "fall"
+   }
+  }
+ },
+ "packages": {
+  "DB": {
+   "pinout": "dw28",
+   "footprint": "SSOP-28",
+   "package": "SSOP",
+   "pins": 28
+  },
+  "DW": {
+   "pinout": "dw28",
+   "footprint": "SOIC-28W",
+   "package": "SOIC",
+   "pins": 28
+  }
+ },
+ "pdf": "ads8505.pdf",
+ "pages": "p.3 (specifications), p.4-5 (pins), p.9-11 (operation, Tables 1-3, Figure 22)",
+ "notModeled": [
+  "analog input (+/-10 V), internal/external reference and CAP: the result is always the 0 V code 0000h (twos complement)",
+  "byte mode (Figure 22): BYTE high puts bits 7..0 on pins 6-13 and bits 15..8 on pins 15-22 (pin 15 = bit 15 ... pin 22 = bit 8), i.e. the two bytes swapped; the model's high-BYTE pattern follows the figure",
+  "conversion start: CS and R/C are internally ORed and level triggered (both low >= 40 ns starts conversion n, whichever falls last); the model starts one on every R/C falling edge and ignores a start by CS falling while R/C is low",
+  "a new convert command while BUSY is low aborts the conversion in progress and resets the ADC (Table 1, Figure 26)",
+  "reading the previous result during a conversion (valid up to t2 after the start) and invalid data from then until BUSY rises: the model always outputs the 0 V code while R/C is high and CS is low",
+  "BUSY delays tpd 25 ns / td1, acquisition time 1.8 us, convert pulse width 40-1750 ns, VDIG <= VANA"
+ ],
+ "variants": "single-device datasheet; pin-compatible with ADS7805 (100 kSPS) and the 12-bit ADS8504. DB (SSOP) and DW (SOIC) share the pin numbering.",
+ "parts": [
+  [
+   "ADS8505IBDB",
+   "DB",
+   28,
+   "Active"
+  ],
+  [
+   "ADS8505IBDW",
+   "DW",
+   28,
+   "Active"
+  ],
+  [
+   "ADS8505IBDWR",
+   "DW",
+   28,
+   "Active"
+  ]
+ ]
+}

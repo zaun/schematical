@@ -1,0 +1,682 @@
+{
+ "device": {
+  "id": "ADS7067",
+  "function": "ADC",
+  "description": "16-bit 800 kSPS 8-channel SAR ADC with SPI interface, internal reference and GPIOs",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7067.pdf (SBASA78B) p.3-4 pin functions (Table 4-2 YBH), p.5 recommended operating conditions, p.8 timing requirements and switching characteristics, p.9 timing diagrams, p.16 transfer function, p.20-21 output data format (Table 6-4), p.21-24 SPI protocols, opcodes and register read/write, p.25-27 functional modes, p.28-35 registers",
+  "pinouts": {
+   "ybh16": [
+    {
+     "ball": "A1",
+     "name": "AIN5/GPIO5",
+     "role": "input"
+    },
+    {
+     "ball": "A2",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "A3",
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "ball": "A4",
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "ball": "B1",
+     "name": "AIN4/GPIO4",
+     "role": "input"
+    },
+    {
+     "ball": "B2",
+     "name": "AIN6/GPIO6",
+     "role": "input"
+    },
+    {
+     "ball": "B3",
+     "name": "AIN7/GPIO7",
+     "role": "input"
+    },
+    {
+     "ball": "B4",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "C1",
+     "name": "AIN3/GPIO3",
+     "role": "input"
+    },
+    {
+     "ball": "C2",
+     "name": "AIN1/GPIO1",
+     "role": "input"
+    },
+    {
+     "ball": "C3",
+     "name": "AIN0/GPIO0",
+     "role": "input"
+    },
+    {
+     "ball": "C4",
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "ball": "D1",
+     "name": "AIN2/GPIO2",
+     "role": "input"
+    },
+    {
+     "ball": "D2",
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "ball": "D3",
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "ball": "D4",
+     "name": "SCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 8,
+  "codeFormat": "straight",
+  "vcc": [
+   1.65,
+   5.5
+  ],
+  "analog": [
+   "AIN5/GPIO5",
+   "AIN4/GPIO4",
+   "AIN6/GPIO6",
+   "AIN7/GPIO7",
+   "AIN3/GPIO3",
+   "AIN1/GPIO1",
+   "AIN0/GPIO0",
+   "AIN2/GPIO2",
+   "AVDD",
+   "REF"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 22,
+   "tOut": 16,
+   "tFloat": 50
+  },
+  "registers": [
+   {
+    "name": "SYSTEM_STATUS",
+    "address": 0,
+    "width": 8,
+    "reset": 129,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "RSVD",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "SEQ_STATUS",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "RESERVED",
+      "bits": [
+       5,
+       3
+      ]
+     },
+     {
+      "name": "CRCERR_FUSE",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CRCERR_IN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "BOR",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "writeOneClears": 3
+   },
+   {
+    "name": "GENERAL_CFG",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 48,
+    "fields": [
+     {
+      "name": "REF_EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CRC_EN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "RESERVED",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "RANGE",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CH_RST",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CAL",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "RST",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DATA_CFG",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 76,
+    "fields": [
+     {
+      "name": "FIX_PAT",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "RESERVED",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "APPEND_STATUS",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "RESERVED2",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "CPOL_CPHA",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OSR_CFG",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "RESERVED",
+      "bits": [
+       7,
+       3
+      ]
+     },
+     {
+      "name": "OSR",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OPMODE_CFG",
+    "address": 4,
+    "width": 8,
+    "reset": 1,
+    "readOnly": 224,
+    "fields": [
+     {
+      "name": "RESERVED",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "OSC_SEL",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CLK_DIV",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "PIN_CFG",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PIN_CFG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIO_CFG",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPIO_CFG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPO_DRIVE_CFG",
+    "address": 9,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPO_DRIVE_CFG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPO_OUTPUT_VALUE",
+    "address": 11,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPO_OUTPUT_VALUE",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPI_VALUE",
+    "address": 13,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "GPI_VALUE",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQUENCE_CFG",
+    "address": 16,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 236,
+    "fields": [
+     {
+      "name": "RESERVED",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "SEQ_START",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "RESERVED2",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "SEQ_MODE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CHANNEL_SEL",
+    "address": 17,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "RESERVED",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "MANUAL_CHID",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "AUTO_SEQ_CH_SEL",
+    "address": 18,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "AUTO_SEQ_CH_SEL",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DIAGNOSTICS_KEY",
+    "address": 191,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DIAG_KEY",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DIAGNOSTICS_EN",
+    "address": 192,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 238,
+    "fields": [
+     {
+      "name": "RESERVED",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "VTEST_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "RESERVED2",
+      "bits": [
+       3,
+       1
+      ]
+     },
+     {
+      "name": "BITWALK_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "BIT_SAMPLE_LSB",
+    "address": 193,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "BIT_SAMPLE_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "BIT_SAMPLE_MSB",
+    "address": 194,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "BIT_SAMPLE_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{16} 0{8}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "WR_REG (GENERAL_CFG.RST = 1)",
+     "in": "00001000 00000001 xxxxxxx1",
+     "action": "reset",
+     "commit": "end",
+     "note": "p.29-30: RST resets all registers (BOR set)"
+    },
+    {
+     "name": "Set bit (GENERAL_CFG.RST)",
+     "in": "00011000 00000001 xxxxxxx1",
+     "action": "reset",
+     "commit": "end"
+    },
+    {
+     "name": "NOP",
+     "in": "00000000 x{16}",
+     "action": "nop"
+    },
+    {
+     "name": "RD_REG",
+     "in": "00010000 aaaaaaaa xxxxxxxx",
+     "action": "read",
+     "address": "a",
+     "commit": "end",
+     "next": "@ 0{16}",
+     "note": "p.24 Figure 6-10: decoded at CS rising; the first 8 SDO bits of the next frame are the register"
+    },
+    {
+     "name": "WR_REG",
+     "in": "00001000 aaaaaaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "p.23 Figure 6-9: decoded at CS rising"
+    },
+    {
+     "name": "Set bit",
+     "in": "00011000 aaaaaaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "p.23: sets the 1 bits without affecting the others; modeled as a plain write"
+    },
+    {
+     "name": "Clear bit",
+     "in": "00100000 aaaaaaaa xxxxxxxx",
+     "action": "nop",
+     "note": "p.23: clears the 1 bits; not modeled (read-modify-write)"
+    },
+    {
+     "name": "On-the-fly channel select",
+     "in": "1 cccc",
+     "action": "nop",
+     "set": {
+      "CHANNEL_SEL.MANUAL_CHID": "c"
+     },
+     "note": "p.26-27 Table 6-8: in on-the-fly mode (SEQ_MODE = 10b) the first five SDI bits 1cccc select the channel converted at this CS rising edge; the model applies them in every mode"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 950,
+   "start": [
+    "cs-rise"
+   ],
+   "channel": "CHANNEL_SEL.MANUAL_CHID"
+  }
+ },
+ "packages": {
+  "YBH": {
+   "pinout": "ybh16",
+   "footprint": "DSBGA-16-YBH",
+   "package": "DSBGA",
+   "pins": 16
+  }
+ },
+ "pdf": "ads7067.pdf",
+ "pages": "p.3 (RTE pins), p.4 (YBH balls, Table 4-2), p.5 (ROC: DVDD 1.65-5.5 V, AVDD 3-5.5 V; abs max digital inputs 5.5 V), p.8 (tCONV 950 ns, tDEN_CSDO 22 ns, tDZ_CSDO 50 ns, tD_CKDO 16 ns), p.9 (Figures 5-1, 5-2), p.16 (straight binary, Table 6-1), p.20-21 (Figure 6-4, Table 6-4 frames), p.21-22 (Table 6-5 SPI-00 at power-up), p.22 (daisy chain), p.23-24 (Table 6-6 opcodes, Figures 6-9, 6-10), p.25-27 (Table 6-7 modes, Figure 6-13, Table 6-8 on-the-fly), p.28-35 (Table 6-9 registers)",
+ "notModeled": [
+  "analog inputs, internal 2.5 V reference (REF_EN) and the 2 x VREF range (RANGE): every conversion returns the 0 V code 0000h",
+  "the SPI mode is fixed at SPI-00 (the power-up protocol); CPOL_CPHA writes are stored only",
+  "only the 24-bit frame {result[15:0], 8'b0} is output: the 20-bit averaged result (OSR_CFG), appended channel ID / status flags (APPEND_STATUS), FIX_PAT, CRC (CRC_EN, 32-bit frames, CRCERR_IN) and the diagnostic bit-walk / fixed-voltage test modes do not change it",
+  "daisy-chain pass-through of SDI to SDO with a 24-SCLK delay",
+  "set bit (18h) is a plain write and clear bit (20h) is ignored (no read-modify-write); RST reads back as written (datasheet: write-only); DIAGNOSTICS_KEY = 96h unlock for C0h-C2h is not checked",
+  "manual-mode channel latency: a MANUAL_CHID write at CS rising selects the channel of the conversion started at that edge (the datasheet samples it one cycle later); the on-the-fly 1cccc channel select is accepted in every SEQ_MODE",
+  "auto-sequence channel stepping (AUTO_SEQ_CH_SEL, SEQ_START, SEQ_STATUS) and averaging-mode internal conversion starts (OSC_SEL, CLK_DIV, Table 6-3)",
+  "GPIOs: PIN_CFG / GPIO_CFG / GPO_OUTPUT_VALUE stored only; AINx/GPIOx pins never driven, GPI_VALUE reads 0",
+  "offset calibration (CAL stays as written), BOR on brown-out, 5 ms power-up / reset times, throughput and SCLK limits"
+ ],
+ "variants": "the datasheet also covers the RTE (16-pin WQFN) package, which has no orderable part in the skeleton",
+ "parts": [
+  [
+   "ADS7067IYBHT",
+   "YBH",
+   16,
+   "Active"
+  ]
+ ]
+}

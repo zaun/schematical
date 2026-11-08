@@ -1,0 +1,134 @@
+{
+ "device": {
+  "id": "TLV2545",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "type": "adc",
+  "bits": 12,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "timing": {
+   "tValid": 70,
+   "tOut": 21,
+   "tFloat": 60
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{12} 0000",
+   "idle": "z",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  },
+  "description": "12-bit 140/200 kSPS pseudo-differential-input serial SAR ADC with autopower-down",
+  "note": "tlv2541.pdf (SLAS245E, TLV2541/TLV2542/TLV2545) p.1 pinouts, p.3 terminal functions, p.4 output data format (12 result bits + 4 don't-care, unipolar straight binary) and start of cycle (CPOL = 0, CPHA = 1), p.5 conversion (3.5 us after the 16th SCLK falling edge, result output in the next cycle), p.7 SCLK and conversion speed, p.9 recommended operating conditions and timing",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AIN(+)",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN(-)",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "SDO",
+     "role": "output"
+    }
+   ]
+  },
+  "channels": 1,
+  "analog": [
+   "VREF",
+   "AIN(+)",
+   "AIN(-)"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDO",
+   "mode": 1
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  },
+  "D": {
+   "pinout": "dgk8",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  }
+ },
+ "pdf": "tlv2541.pdf",
+ "pages": "p.1 (pinouts), p.3 (terminal functions), p.4 (output data format, start of cycle), p.5 (MUX reset, sampling, conversion), p.5-6 (Figures 2-5), p.7 (SCLK and conversion speed), p.9 (recommended operating conditions and timing)",
+ "notModeled": [
+  "analog inputs and VREF: every conversion returns the 0 V code (000h); the result shown in a frame is the previous cycle's conversion, which the constant code makes identical",
+  "conversion: started after the 16th SCLK falling edge, 3.5 us max on the internal oscillator (p.9); not timed (no bus-visible flag or pin); a CS rise before it completes aborts it and invalidates the next output (p.5, p.7)",
+  "D3-D0 are don't-care bits (p.4); modeled as zeros",
+  "SDO goes to Hi-Z after the 17th SCLK rising edge (td(SCLK17H-SDOZ) 60 ns at 2.7 V, p.9): modeled as idle Hi-Z after the 16-bit frame; tFloat uses the same 60 ns (no CS-rise-to-Z time is given)",
+  "the required SCLK falling edge while CS is high (p.4, p.7), sampling time (12 SCLKs from the 5th SCLK) and SCLK limits (Table 1)",
+  "autopower-down after each conversion and wake-up on CS falling (p.7): no bus-visible effect",
+  "timing at VDD = REF = 2.7 V (p.9): tValid = td(CSL-SDOV) 70 ns, tOut = td(SCLKH-SDOV) 21 ns",
+  "pseudo-differential input (AIN(-) ripple up to +/-0.2 V, p.4)"
+ ],
+ "variants": "TLV2541 (single input, SCLK pin 5, FS pin 7), TLV2542 (dual input with autosweep, SCLK pin 7) and TLV2545 (pseudo-differential AIN(+)/AIN(-), SCLK pin 7) share tlv2541.pdf and the same 16-bit SDO frame.",
+ "parts": [
+  [
+   "TLV2545CDGK",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "TLV2545ID",
+   "D",
+   8,
+   "Active"
+  ]
+ ]
+}

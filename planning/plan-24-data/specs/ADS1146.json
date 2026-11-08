@@ -1,0 +1,536 @@
+{
+ "device": {
+  "id": "ADS1146",
+  "function": "ADC",
+  "description": "16-bit 2 kSPS 1-channel delta-sigma ADC with PGA and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1148.pdf (SBAS453G) p.6 pin functions, p.8 recommended operating conditions, p.11 timing and switching, p.28-31 conversion control and conversion times (Tables 9, 10), p.33-36 digital interface, p.36 data format, p.37-41 commands (Table 15), p.42-47 ADS1146 registers (Table 16), p.47-61 ADS1147/ADS1148 registers (Table 25)",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "REFN",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AINN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "START",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DOUT/DRDY",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "SCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "AINN",
+   "AINP",
+   "AVDD",
+   "AVSS",
+   "REFN",
+   "REFP"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT/DRDY",
+   "mode": 1
+  },
+  "timing": {
+   "tOut": 50,
+   "tFloat": 10
+  },
+  "registers": [
+   {
+    "name": "BCS",
+    "address": 0,
+    "width": 8,
+    "reset": 1,
+    "readOnly": 63,
+    "fields": [
+     {
+      "name": "BCS",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "RESERVED",
+      "bits": [
+       5,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "VBIAS",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "RESERVED",
+      "bits": [
+       7,
+       2
+      ]
+     },
+     {
+      "name": "VBIAS",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MUX1",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CLKSTAT",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "RESERVED",
+      "bits": [
+       6,
+       3
+      ]
+     },
+     {
+      "name": "MUXCAL",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "reset x0h: CLKSTAT reads the clock source (0 = internal oscillator, modeled)"
+   },
+   {
+    "name": "SYS0",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 128,
+    "fields": [
+     {
+      "name": "RESERVED",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "PGA",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "DR",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFC0",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFC1",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFC2",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FSC0",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "FSC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FSC1",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "FSC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FSC2",
+    "address": 9,
+    "width": 8,
+    "reset": 64,
+    "fields": [
+     {
+      "name": "FSC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ID",
+    "address": 10,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 247,
+    "fields": [
+     {
+      "name": "ID",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DRDY_MODE",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "RESERVED",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "reset x0h: ID[3:0] factory revision, not given (modeled 0)"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "R{16}",
+   "idle": "1",
+   "commands": [
+    {
+     "name": "WAKEUP",
+     "in": "0000000x",
+     "action": "wakeup",
+     "then": [
+      "start"
+     ]
+    },
+    {
+     "name": "SLEEP",
+     "in": "0000001x",
+     "action": "powerdown"
+    },
+    {
+     "name": "SYNC",
+     "in": "0000010x 0000010x",
+     "action": "start"
+    },
+    {
+     "name": "RESET",
+     "in": "0000011x",
+     "action": "reset",
+     "then": [
+      "start"
+     ],
+     "note": "functionally the RESET pin: registers to default and a new conversion (START high)"
+    },
+    {
+     "name": "NOP",
+     "in": "11111111",
+     "action": "nop"
+    },
+    {
+     "name": "RDATA",
+     "in": "0001001x",
+     "reply": "R{16}"
+    },
+    {
+     "name": "RDATAC",
+     "in": "0001010x",
+     "action": "nop",
+     "note": "read data continuous (default): modeled always on"
+    },
+    {
+     "name": "SDATAC",
+     "in": "0001011x",
+     "action": "nop",
+     "note": "stop read data continuous: not modeled"
+    },
+    {
+     "name": "RREG",
+     "in": "0010aaaa 0000nnnn",
+     "action": "rreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WREG",
+     "in": "0100aaaa 0000nnnn",
+     "action": "wreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "SYSOCAL",
+     "in": "01100000",
+     "action": "nop",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "SYSGCAL",
+     "in": "01100001",
+     "action": "nop",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "SELFOCAL",
+     "in": "01100010",
+     "action": "nop",
+     "note": "calibration not modeled"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "field": "SYS0.DR",
+    "values": {
+     "0": 200260010,
+     "1": 100635010,
+     "2": 50822510,
+     "3": 25172363,
+     "4": 12719238,
+     "5": 6492676,
+     "6": 3250488,
+     "7": 1695801,
+     "8": 1141113,
+     "9": 578613,
+     "10": 578613,
+     "11": 578613,
+     "12": 578613,
+     "13": 578613,
+     "14": 578613,
+     "15": 578613
+    }
+   },
+   "start": [
+    "pin",
+    "command"
+   ],
+   "mode": "continuous"
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read"
+   },
+   {
+    "pin": "DOUT/DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "onMiso": true,
+    "enable": "ID.DRDY_MODE=1"
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "start": {
+    "pin": "START",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "ads1148.pdf",
+ "pages": "p.6 (pins), p.8 (ROC), p.11 (timing), p.28-31 (conversion control, Tables 9-10), p.33-36 (interface, DRDY, DOUT/DRDY), p.36 (data format), p.37-41 (commands), p.42-47 (ADS1146 registers), p.47-61 (ADS1147/48 registers)",
+ "notModeled": [
+  "analog input, PGA, burn-out sources, bias voltage, system monitors (MUXCAL), internal reference, reference select (stored only)",
+  "offset/gain calibration commands (SYSOCAL, SYSGCAL, SELFOCAL) and the OFC/FSC correction of the result (registers stored only)",
+  "conversion time is the first conversion after reset / START high / WAKEUP (Table 10); SYNC/MUX0-write and subsequent conversions are slightly shorter; internal 4.096 MHz oscillator (external CLK scales it; the CLK pin is not used)",
+  "writes to the first four registers (00h-03h) restart the conversion like SYNC (datasheet); not modeled",
+  "SLEEP completes the ongoing conversion before power-down; with START low or in power-down only RDATA, RDATAC, SDATAC, WAKEUP and NOP work (all commands work in the model)",
+  "START pin pulse single conversions (device powers down after each conversion when START is low): modeled as conversions only while START is high",
+  "SDATAC mode (results not loaded onto DOUT automatically) and RDATAC taking effect at the next DRDY; any command during an RREG reply is ignored (datasheet)",
+  "DRDY is forced high by the first SCLK falling edge after it falls, even with CS high (modeled: cleared on result read); tPWH high pulse when the data are not read",
+  "DOUT/DRDY after the 16 data bits: forced high by the next SCLK rising edge when DRDY MODE = 1 (modeled idle 1 in both modes)",
+  "RREG count wrapping past the last register; the restricted command F1h; SPI timeout after 64 conversion cycles",
+  "RESET command / pin recovery time (0.6 ms) and the 2^16-clock power-on reset",
+  "tDOPD is 50 ns at DVDD <= 3.6 V (180 ns above)"
+ ],
+ "variants": "ADS1146 (1 differential input, PW16), ADS1147 (4 inputs, PW20), ADS1148 (8 inputs, PW28/RHB32) share ads1148.pdf: one spec each",
+ "parts": [
+  [
+   "ADS1146IPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1146IPWR",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

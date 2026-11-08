@@ -1,0 +1,373 @@
+{
+ "device": {
+  "id": "ADS8343",
+  "function": "ADC",
+  "description": "16-bit 100 kSPS 4-channel bipolar-input SAR ADC with start-bit serial interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8343.pdf (SBAS183C) p.2 pin configuration and descriptions, p.3-4 electrical characteristics (+VCC 4.75-5.25 V / 2.7-3.6 V, VIH to 5.5 V, binary twos complement), p.12 digital interface (inputs 5.5 V tolerant), Tables I-IV control byte and channel selection, p.13 Table V clock modes, p.14 internal clock mode, Tables VI-VII timing, data format (Table VIII)",
+  "pinouts": {
+   "dbq16": [
+    {
+     "number": 1,
+     "name": "+VCC",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "CH0",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CH1",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "CH2",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CH3",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "COM",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "SHDN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "+VCC",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 4,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "inputMax": 5.5,
+  "analog": [
+   "CH0",
+   "CH1",
+   "CH2",
+   "CH3",
+   "COM",
+   "VREF"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "DCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 200,
+   "tOut": 200,
+   "tFloat": 200
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 8,
+    "reset": 0,
+    "note": "internal: the last control byte (S A2 A1 A0 - SGL/DIF PD1 PD0); no read-back, reset value not documented",
+    "fields": [
+     {
+      "name": "S",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "A",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "SGL_DIF",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CLKMODE",
+    "width": 1,
+    "reset": 0,
+    "note": "internal: the clock mode the part keeps (Table V): 1 = internal clock (PD1-PD0 = 10), 0 = external clock (PD1-PD0 = 11); PD1-PD0 = 00 keeps the previous mode. The datasheet leaves the power-on mode undefined (the user must set it); the model starts in external clock mode",
+    "fields": [
+     {
+      "name": "INT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "0",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "Control Byte (internal clock mode)",
+     "in": "1 aaa x s 10",
+     "action": "start",
+     "channel": "a",
+     "channelMap": {
+      "1": [
+       0
+      ],
+      "5": [
+       1
+      ],
+      "2": [
+       2
+      ],
+      "6": [
+       3
+      ]
+     },
+     "set": {
+      "CTRL.S": 1,
+      "CTRL.A": "a",
+      "CTRL.SGL_DIF": "s",
+      "CTRL.PD": 2,
+      "CLKMODE.INT": 1
+     },
+     "reply": "0 R{16}",
+     "note": "Tables III-V, Figures 3-6: S A2 A1 A0 - SGL/DIF PD1 PD0 (bit 3 unused); after the byte DOUT is low for one clock, then D15..D0 MSB first, then zeros. A2-A0 = 001/101/010/110 give +IN = CH0/CH1/CH2/CH3 in both SGL/DIF modes. PD1-PD0 = 10 selects internal clock mode"
+    },
+    {
+     "name": "Control Byte (external clock mode)",
+     "in": "1 aaa x s 11",
+     "action": "start",
+     "channel": "a",
+     "channelMap": {
+      "1": [
+       0
+      ],
+      "5": [
+       1
+      ],
+      "2": [
+       2
+      ],
+      "6": [
+       3
+      ]
+     },
+     "set": {
+      "CTRL.S": 1,
+      "CTRL.A": "a",
+      "CTRL.SGL_DIF": "s",
+      "CTRL.PD": 3,
+      "CLKMODE.INT": 0
+     },
+     "reply": "0 R{16}",
+     "note": "PD1-PD0 = 11: no power-down, external clock mode"
+    },
+    {
+     "name": "Control Byte (reserved PD1-PD0 = 01)",
+     "in": "1 aaa x s 01",
+     "action": "start",
+     "channel": "a",
+     "channelMap": {
+      "1": [
+       0
+      ],
+      "5": [
+       1
+      ],
+      "2": [
+       2
+      ],
+      "6": [
+       3
+      ]
+     },
+     "set": {
+      "CTRL.S": 1,
+      "CTRL.A": "a",
+      "CTRL.SGL_DIF": "s",
+      "CTRL.PD": 1,
+      "CLKMODE.INT": 0
+     },
+     "reply": "0 R{16}",
+     "note": "PD1-PD0 = 01 is reserved (Table V); treated as external clock mode"
+    },
+    {
+     "name": "Control Byte (power-down between conversions)",
+     "in": "1 aaa x s 00",
+     "action": "start",
+     "channel": "a",
+     "channelMap": {
+      "1": [
+       0
+      ],
+      "5": [
+       1
+      ],
+      "2": [
+       2
+      ],
+      "6": [
+       3
+      ]
+     },
+     "set": {
+      "CTRL.S": 1,
+      "CTRL.A": "a",
+      "CTRL.SGL_DIF": "s",
+      "CTRL.PD": 0
+     },
+     "reply": "0 R{16}",
+     "note": "PD1-PD0 = 00: power-down between conversions, the clock mode stays as it was"
+    },
+    {
+     "name": "Idle (no start bit)",
+     "in": "0",
+     "action": "nop",
+     "note": "DIN is ignored until the start bit (the first HIGH bit after CS falls)"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "field": "CLKMODE.INT",
+    "values": {
+     "0": 0,
+     "1": 8000
+    }
+   },
+   "start": [
+    "command"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 1,
+    "asserts": "busy",
+    "enable": "CLKMODE.INT=0"
+   },
+   {
+    "pin": "BUSY",
+    "active": 0,
+    "asserts": "busy",
+    "enable": "CLKMODE.INT=1"
+   }
+  ],
+  "pins": {
+   "powerdown": {
+    "pin": "SHDN",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "DBQ": {
+   "pinout": "dbq16",
+   "footprint": "QSOP-16",
+   "package": "SSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "ads8343.pdf",
+ "pages": "p.2 (pins), p.3-4 (specs), p.12 (digital interface, Tables I-IV), p.13 (Table V), p.14 (clock modes, Tables VI-VII, Figures, Table VIII data format)",
+ "notModeled": [
+  "analog inputs, multiplexer and SGL/DIF selection (stored only); every conversion returns the 0 V code 0000h (bipolar, binary twos complement; COM is typically tied to VREF); A2-A0 codes 000/011/100/111 are not listed in Tables I-II",
+  "external clock mode: the conversion is clocked by DCLK (16 clocks after the control byte); not timed, the result is ready at once; BUSY is a one-DCLK HIGH pulse after the control byte on the part, the model only drives it LOW",
+  "internal clock mode: BUSY low for up to 8 us (modeled as an 8 us conversion); the part shifts the MSB on the first DCLK falling edge after BUSY rises, the model shifts the reply right after the control byte (the 0 V code is all zeros either way); reading after CS was high during the conversion is not modeled separately",
+  "a clock-mode change needs one extra conversion cycle on the part; the model switches with the control byte that selects it",
+  "DOUT and BUSY are Hi-Z while CS is high (the bus model floats DOUT; BUSY is driven), except BUSY in internal clock mode",
+  "power-down selection PD1-PD0 = 00 (auto power-down between conversions has no bus effect)",
+  "overlapped 24-clock conversions where the next start bit arrives while the previous result is still shifting (Figure 3): the model restarts the reply at the new control byte",
+  "timing values are the 2.7-3.6 V table (Table VI, 200 ns); at 4.75-5.25 V they are 70-100 ns (Table VII)"
+ ],
+ "variants": "ADS8341 (ads8341.pdf) is the unipolar straight-binary version with the same pinout and interface; ADS8345 is the 8-channel bipolar version.",
+ "parts": [
+  [
+   "ADS8343E",
+   "DBQ",
+   16,
+   "Last Time Buy"
+  ],
+  [
+   "ADS8343E/2K5",
+   "DBQ",
+   16,
+   "Last Time Buy"
+  ]
+ ]
+}

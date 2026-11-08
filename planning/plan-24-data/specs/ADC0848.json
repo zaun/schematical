@@ -1,0 +1,299 @@
+{
+ "device": {
+  "id": "ADC0848",
+  "function": "ADC",
+  "description": "8-bit 40 us microprocessor-compatible SAR ADC with 8-channel multiplexer, MUX address on the data bus",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "adc0848.pdf (SNAS523D) p.2 connection diagram (Figure 1 PLCC), p.3 operating conditions and digital DC characteristics, p.4 AC characteristics (tC, tACC, t1H/t0H, tWI/tRI), p.7 timing diagrams, p.9 functional description, p.11 Table 2 ADC0848 MUX addressing",
+  "pinouts": {
+   "fn28": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "CH1",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CH2",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CH3",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CH4",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 9,
+     "name": "CH5",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "CH6",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "CH7",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CH8",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "DB7",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "DB6",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "DB5",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "DB4/MA4",
+     "role": "inout"
+    },
+    {
+     "number": 21,
+     "name": "DB3/MA3",
+     "role": "inout"
+    },
+    {
+     "number": 22,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 23,
+     "name": "DB2/MA2",
+     "role": "inout"
+    },
+    {
+     "number": 24,
+     "name": "DB1/MA1",
+     "role": "inout"
+    },
+    {
+     "number": 25,
+     "name": "DB0/MA0",
+     "role": "inout"
+    },
+    {
+     "number": 26,
+     "name": "INTR",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 8,
+  "codeFormat": "straight",
+  "vcc": [
+   4.5,
+   6.0
+  ],
+  "analog": [
+   "CH1",
+   "CH2",
+   "CH3",
+   "CH4",
+   "CH5",
+   "CH6",
+   "CH7",
+   "CH8",
+   "VREF"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4/MA4",
+    "DB3/MA3",
+    "DB2/MA2",
+    "DB1/MA1",
+    "DB0/MA0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tAcc": 225,
+   "tDf": 200
+  },
+  "registers": [
+   {
+    "name": "MUX",
+    "width": 5,
+    "reset": 0,
+    "note": "internal MUX address latch MA4-MA0 (loaded on the WR rising edge with RD high); no read-back; power-on value not documented",
+    "fields": [
+     {
+      "name": "MA4",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "MA3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "SEL",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Load MUX address and start conversion (CS and WR low, RD high; latched on WR rising)",
+     "in": "xxx b d ccc",
+     "action": "start",
+     "channel": "c",
+     "commit": "end",
+     "set": {
+      "MUX.MA4": "b",
+      "MUX.MA3": "d",
+      "MUX.SEL": "c"
+     },
+     "note": "Table 2: MA3 = 0 differential pairs CH1/2, CH3/4, CH5/6, CH7/8; MA4 MA3 = 0 1 single-ended to AGND; 1 1 pseudo-differential to CH8. In every mode the + input is CH(MA2..MA0 + 1), so the channel index is MA2..MA0"
+    }
+   ],
+   "read": "R{8}"
+  },
+  "conversion": {
+   "time": 60000,
+   "start": [
+    "command"
+   ],
+   "channel": "MUX.SEL"
+  },
+  "ready": [
+   {
+    "pin": "INTR",
+    "active": 0,
+    "asserts": "done",
+    "clears": [
+     "read",
+     "start"
+    ]
+   }
+  ]
+ },
+ "packages": {
+  "FN": {
+   "pinout": "fn28",
+   "footprint": "PLCC-28",
+   "package": "PLCC",
+   "pins": 28
+  }
+ },
+ "pdf": "adc0848.pdf",
+ "pages": "p.2 (Figure 1 PLCC pinout), p.3 (operating conditions: VCC 4.5-6.0 V; VIN(1) 2.0 V, VIN(0) 0.8 V), p.4 (tC 40 us tested / 60 us design limit, tACC 225 ns, t1H/t0H 200 ns, tWI/tRI 400 ns, tW(WR) 150 ns), p.7 (Figure 11), p.9 (functional description: WR rising with RD high latches MA0-MA4 and starts; INTR low at completion; CS and RD low reset INTR and output the result), p.11 (Table 2)",
+ "notModeled": [
+  "analog inputs, multiplexer modes and VREF span (stored only; the result is always the 0 V code 0x00)",
+  "the conversion time is set by the internal clock (30 us typ, 40 us tested, 60 us design limit); the model uses 60 us",
+  "RD held low during the whole WR low period keeps the previous MUX configuration (Table 2 last row) and outputs the previous result; the model always latches the data-bus bits as the MUX address",
+  "INTR is reset by the WR falling edge (tWI 400 ns); the model clears it at the start (WR rising) or on a read (tRI 400 ns not modeled); a read must come 600 ns after INTR asserts",
+  "MUX address codes MA4..MA0 = 1 1 1 1 1 (pseudo-differential CH8 against itself) are not listed in Table 2",
+  "logic control inputs tolerate up to 15 V (absolute maximum only; no operating range is given above VCC)",
+  "the ADC0848 is obsolete (every orderable part in the addendum)"
+ ],
+ "variants": "ADC0844 shares the datasheet (4 channels, 20-pin PDIP, MUX address MA0-MA3; not in the skeleton). The 28-pin PDIP has a different numbering and no orderable part.",
+ "parts": [
+  [
+   "ADC0848CCVX/NOPB",
+   "FN",
+   28,
+   "Obsolete"
+  ]
+ ]
+}

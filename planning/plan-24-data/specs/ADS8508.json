@@ -1,0 +1,204 @@
+{
+ "device": {
+  "id": "ADS8508",
+  "function": "ADC",
+  "description": "12-bit 250 kSPS sampling ADC with internal reference and serial output",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8508.pdf (SLAS433) p.4 electrical characteristics (data format, internal/external data clock, VDIG 4.75-5.25 V), p.5 timing requirements (tconv 2.2 us, td8 20 ns) and DW pinout, p.6 terminal functions, p.16 basic operation, reading data, internal/external DATACLK, p.17 Table 2 DATACLK pulses, TAG, p.19 Table 3 input ranges, Table 4 control truth table, p.20 Table 5 output codes",
+  "pinouts": {
+   "dw20": [
+    {
+     "number": 1,
+     "name": "R1IN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AGND1",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "R2IN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "R3IN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "REF",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "AGND2",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "SB/BTC",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "EXT/INT",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "SYNC",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "DATACLK",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "DATA",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "TAG",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "R/C",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "PWRD",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "VANA",
+     "role": "power"
+    },
+    {
+     "number": 20,
+     "name": "VDIG",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": {
+   "pin": "SB/BTC",
+   "values": {
+    "0": "twos",
+    "1": "offset"
+   }
+  },
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "R1IN",
+   "R2IN",
+   "R3IN",
+   "CAP",
+   "REF",
+   "VANA"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "DATACLK",
+   "miso": "DATA",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 0,
+   "tOut": 20,
+   "tFloat": 0
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{12}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 2200,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 0,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "R/C",
+    "edge": "fall"
+   }
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw20",
+   "footprint": "SOIC-20W",
+   "package": "SOIC",
+   "pins": 20
+  }
+ },
+ "pdf": "ads8508.pdf",
+ "pages": "p.4 (specifications), p.5-6 (timing, pins), p.16-17 (operation, data clock modes), p.19-20 (Tables 3-5)",
+ "notModeled": [
+  "analog inputs, input-range resistor network (R1IN/R2IN/R3IN wiring, six ranges, Table 3), internal reference (REF output) and CAP buffer",
+  "codeFormat assumes the bipolar ranges (+/-10 V first in Table 3): SB/BTC high gives straight binary (0 V = 800h, mid-scale), low two's complement (000h). On the unipolar ranges 0 V is -full scale, which the model does not give. The terminal table marks SB/BTC as an output (O); it is the format-select input (Table 4)",
+  "only the discontinuous external data clock mode without SYNC (EXT/INT high, p.17) is modeled, as SPI mode 1 framed by CS falling with R/C high: the first DATACLK rising edge shifts out the MSB, read on the falling edge (12 clocks). The SYNC variant (a SYNC pulse after the first rising edge, data one clock later) and the internal-clock mode (EXT/INT low: the part drives 12 DATACLK pulses after each convert command, data from conversion n-1) are not modeled; DATACLK and SYNC are never driven",
+  "a read started by R/C rising with CS held low is not framed (only CS falling starts a transfer); CS falling with R/C low also starts a conversion in the datasheet (CS and R/C are ORed) - the model starts conversions on R/C falling only",
+  "TAG daisy-chain: after the LSB DATA shows the TAG level sensed at the start of the read (the model outputs zeros, as with TAG tied low); DATA is not three-stated on the part, the model floats it while CS is high",
+  "the datasheet's electrical table says 'Data format (Serial 16-bits)' and Table 4 '16 clock pulses', but the text (p.16-17) and Table 2 give 12 data bits; the model shifts 12",
+  "reading during a conversion gives the previous result (td11: the external clock must stop 1 us before BUSY falls); the first conversion after power-up is invalid",
+  "PWRD (analog circuitry disabled, previous result kept) is not read; convert pulse width, VDIG <= VANA, throughput limits"
+ ],
+ "variants": "single-device datasheet; pin-compatible with ADS7808 (100 kSPS) and the 16-bit ADS8509/ADS7809.",
+ "parts": [
+  [
+   "ADS8508IBDW",
+   "DW",
+   20,
+   "Active"
+  ]
+ ]
+}

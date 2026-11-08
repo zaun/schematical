@@ -1,0 +1,436 @@
+{
+ "device": {
+  "id": "ADS5204",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "Dual 10-bit 40 MSPS pipelined ADC with PGAs, parallel CMOS outputs and serial control interface",
+  "note": "ads5204-q1.pdf (SGLS271A) p.3 recommended operating conditions (VIH 2.4 V, VIL 0.8 V), p.6 pin configuration and terminal functions, p.7 timing (td(o) 14 ns, OE tdis/ten 8 ns max; serial interface timing; timing options MODE/SELB), p.8-9 timing diagrams (Figures 1-4), p.10 serial data write (Figure 5) and register configuration (Table 1), output data format (TWOS)",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "DRVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "D9B",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "D8B",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "D7B",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "D6B",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "D5B",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "D4B",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "D3B",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "D2B",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "D1B",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "D0B",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "DRVSS",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "DRVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "D9A",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "D8A",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "D7A",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "D6A",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "D5A",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "D4A",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "D3A",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "D2A",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "D1A",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "D0A",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "DRVSS",
+     "role": "ground"
+    },
+    {
+     "number": 25,
+     "name": "COUT",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "COUT",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 29,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "REFB",
+     "role": "power"
+    },
+    {
+     "number": 31,
+     "name": "REFT",
+     "role": "power"
+    },
+    {
+     "number": 32,
+     "name": "CML",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "PDWN_REF",
+     "role": "input"
+    },
+    {
+     "number": 34,
+     "name": "B+",
+     "role": "input"
+    },
+    {
+     "number": 35,
+     "name": "B-",
+     "role": "input"
+    },
+    {
+     "number": 36,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 37,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 38,
+     "name": "A+",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "A-",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 41,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 42,
+     "name": "STBY",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "DVSS",
+     "role": "ground"
+    },
+    {
+     "number": 44,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 45,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 46,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 47,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 48,
+     "name": "OE",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 2,
+  "codeFormat": {
+   "field": "CTRL.TWOS",
+   "values": {
+    "0": "offset",
+    "1": "twos"
+   }
+  },
+  "vcc": [
+   3.0,
+   3.6
+  ],
+  "analog": [
+   "AVDD",
+   "A+",
+   "A-",
+   "B+",
+   "B-",
+   "REFT",
+   "REFB",
+   "CML"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLK",
+    "edge": "rise"
+   },
+   "data": [
+    "D9A",
+    "D8A",
+    "D7A",
+    "D6A",
+    "D5A",
+    "D4A",
+    "D3A",
+    "D2A",
+    "D1A",
+    "D0A",
+    "D9B",
+    "D8B",
+    "D7B",
+    "D6B",
+    "D5B",
+    "D4B",
+    "D3B",
+    "D2B",
+    "D1B",
+    "D0B"
+   ],
+   "oe": {
+    "pin": "OE",
+    "active": 0
+   },
+   "clockOut": {
+    "pin": "COUT",
+    "divide": 2
+   }
+  },
+  "configBus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDI",
+   "mode": 2
+  },
+  "timing": {
+   "tOut": 14,
+   "tFloat": 8
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ZERO",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "RESERVED",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "TWOS",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "MODE",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "SELB",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "PGAB",
+      "bits": [
+       9,
+       5
+      ]
+     },
+     {
+      "name": "PGAA",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ],
+    "note": "the single 16-bit user register (Table 1, p.10), write-only, power-up value all 0; bits 15-14 always write 0"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "z",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "Serial Data Write",
+     "in": "[CTRL]",
+     "note": "16 bits D15..D0 MSB first, latched on SCLK falling edges; the register updates after the 16th falling edge; CS rising before 16 edges is an incomplete write (no update)"
+    }
+   ],
+   "read": "[R][R]"
+  },
+  "pins": {
+   "powerdown": {
+    "pin": "STBY",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "ads5204-q1.pdf",
+ "pages": "p.3 (ROC), p.6 (pins), p.7 (timing, timing options), p.8-9 (timing diagrams), p.10 (serial write, register, output format)",
+ "notModeled": [
+  "analog inputs, PGAs (PGAA/PGAB gain codes are stored only), references and PDWN_REF (internal reference power-down, an input with no effect): the result is always the 0 V code (0x200 unsigned binary, 0x000 two's complement)",
+  "output modes MODE/SELB (Timing Options, p.7): only the default MODE = 0, SELB = 0 (80 MHz CLK, dual-bus output, COUT = CLK / 2) is modeled; single-bus output (A and B data multiplexed on DA, DB 3-stated) is not",
+  "conversions: each CLK rising edge is a conversion in the model (the device converts on alternate edges of an 80 MHz clock); pipeline latency (8/9 clocks) is not modeled",
+  "COUT (pin 26) and the inverted latch clock COUT-bar (pin 25) share the name COUT in the pin table (no overbar in ASCII); the model drives both as CLK / 2, the inversion of pin 25 is not expressed",
+  "OE also 3-states COUT in the device; the model's oe gates only the data pins",
+  "STBY is modeled as powerdown (no conversions); the 3-state data outputs and COUT during power-down are not modeled",
+  "vcc: the recommended operating table lists DVDD/DRVDD 0 (sic) to 3.6 V, 3.3 V nominal; characterization covers 3.0-3.6 V, used as the range",
+  "serial interface: write-only (no read-back): the schema needs an SPI miso, so configBus names the data input as miso with protocol out/idle \"z\" (never driven); the PGA resynchronization to the internal 40 MHz clock"
+ ],
+ "variants": "ADS5204-Q1 automotive datasheet (the skeleton's only part ADS5204IPFBRG4Q1, obsolete)",
+ "parts": [
+  [
+   "ADS5204IPFBRG4Q1",
+   "PFB",
+   48,
+   "Obsolete"
+  ]
+ ]
+}

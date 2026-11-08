@@ -1,0 +1,160 @@
+{
+  "device": {
+    "id": "ADS7817",
+    "function": "ADC",
+    "description": "12-bit 200 kHz differential-input micropower sampling SAR ADC with synchronous serial interface",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "ads7817.pdf (SBAS066A) p.2 pin configuration and descriptions, p.3 specifications (VCC 4.75-5.25 V, VIH, binary two's complement), p.9 digital interface and Table I timing, p.10 Figure 4 timing and data format (Table II)",
+    "pinouts": {
+      "dgk8": [
+        {
+          "number": 1,
+          "name": "VREF",
+          "role": "power"
+        },
+        {
+          "number": 2,
+          "name": "+In",
+          "role": "input"
+        },
+        {
+          "number": 3,
+          "name": "-In",
+          "role": "input"
+        },
+        {
+          "number": 4,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 5,
+          "name": "CS/SHDN",
+          "role": "input"
+        },
+        {
+          "number": 6,
+          "name": "DOUT",
+          "role": "output"
+        },
+        {
+          "number": 7,
+          "name": "DCLOCK",
+          "role": "input"
+        },
+        {
+          "number": 8,
+          "name": "+VCC",
+          "role": "power"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 12,
+    "channels": 1,
+    "codeFormat": "twos",
+    "vcc": [
+      4.75,
+      5.25
+    ],
+    "analog": [
+      "VREF",
+      "+In",
+      "-In"
+    ],
+    "bus": {
+      "style": "spi",
+      "cs": "CS/SHDN",
+      "sclk": "DCLOCK",
+      "miso": "DOUT",
+      "mode": 0
+    },
+    "timing": {
+      "tValid": 0,
+      "tOut": 150,
+      "tFloat": 50
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "out": "z z 0 R{12}",
+      "idle": "0",
+      "commands": []
+    },
+    "conversion": {
+      "time": 0,
+      "start": [
+        "cs-fall"
+      ]
+    }
+  },
+  "packages": {
+    "DGK": {
+      "pinout": "dgk8",
+      "footprint": "VSSOP-8-DGK",
+      "package": "VSSOP",
+      "pins": 8
+    },
+    "D": {
+      "pinout": "dgk8",
+      "footprint": "SOIC-8",
+      "package": "SOIC",
+      "pins": 8
+    }
+  },
+  "pdf": "ads7817.pdf",
+  "pages": "p.2 (pin configuration PDIP-8/SOIC-8/MSOP-8, one pinout; pin descriptions), p.3 (VCC 4.75-5.25 V, VIH 3 V to VCC+0.3 V, binary two's complement), p.9 (Table I: tdDO 150 ns max, tdis 50 ns max, ten 100 ns max), p.10 (Figure 4, data format: 0 V differential = 000h)",
+  "notModeled": [
+    "analog differential input (+In - -In, span 2 x VREF); the conversion is clocked by DCLOCK (12 clocks, not timed: the result is the 0 V code 000h at once)",
+    "DOUT is Hi-Z for the first two DCLOCK edges (sample time 1.5-2.0 clocks), then the null bit, then B11..B0; after B0 the part repeats the result LSB-first and then tri-states (text) or outputs zeros (Figure 1 note) - for the 0 V code all those bits are zeros, so idle 0 covers it",
+    "auto power-down after the conversion and shutdown while CS/SHDN is high (no visible bus effect)",
+    "throughput (200 kHz) and DCLOCK frequency limits"
+  ],
+  "variants": "ADS7817B/C (EB, EC, UC) are higher linearity grades of the same part (same spec). ADS7816 is the single-ended straight-binary sibling with its own datasheet.",
+  "parts": [
+    [
+      "ADS7817E/250",
+      "DGK",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7817E/2K5",
+      "DGK",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7817EB/250",
+      "DGK",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7817EC/250",
+      "DGK",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7817EC/2K5",
+      "DGK",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7817UC",
+      "D",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7817UC/2K5",
+      "D",
+      8,
+      "Active"
+    ]
+  ]
+}

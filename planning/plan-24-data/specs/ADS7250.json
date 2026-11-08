@@ -1,0 +1,166 @@
+{
+ "device": {
+  "id": "ADS7250",
+  "function": "ADC",
+  "description": "12-bit 750 kSPS dual simultaneous-sampling SAR ADC, pseudo-differential inputs, SPI-compatible serial interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8350.pdf (SBAS580D, ADS8350/ADS7850/ADS7250) p.3 pin configuration and functions, p.4 recommended operating conditions, p.5 electrical characteristics (DVDD 1.65-5.5 V), p.9 timing requirements, switching characteristics and Figure 1, p.23 Table 1 transfer characteristics, p.24 serial interface (Figure 52, Table 2 data launch edge), p.25 short-cycling / frame abort",
+  "pinouts": {
+   "rte16": [
+    {
+     "number": 1,
+     "name": "REFIN-A",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "REFGND-A",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "REFGND-B",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "REFIN-B",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "AINM-B",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AINP-B",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "SDO-A",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "SDO-B",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "AINP-A",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "AINM-A",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   1.65,
+   5.5
+  ],
+  "analog": [
+   "REFIN-A",
+   "REFGND-A",
+   "REFGND-B",
+   "REFIN-B",
+   "AINM-B",
+   "AINP-B",
+   "AVDD",
+   "AINP-A",
+   "AINM-A"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDO-A",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 12,
+   "tOut": 20,
+   "tFloat": 10
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0{15} R{12}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 590,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "RTE": {
+   "pinout": "rte16",
+   "footprint": "WQFN-16-RTE",
+   "package": "WQFN",
+   "pins": 16
+  }
+ },
+ "pdf": "ads8350.pdf",
+ "pages": "p.3 (pin configuration and functions), p.4 (ROC: AVDD 5 V nom, DVDD 3.3 V nom), p.5 (electrical characteristics: DVDD 1.65-5.5 V, VIH/VIL), p.9 (timing requirements, switching characteristics: tCONV 590 ns, tDV_CSDO 12 ns, tDZ_CSDO 10 ns, tD_CKDO 20 ns; Figure 1), p.23 (Table 1 transfer characteristics, twos complement), p.24 (serial interface, Figure 52, Table 2), p.25 (frame abort)",
+ "notModeled": [
+  "analog inputs and references: every conversion returns the 0 V (AINP_x - AINM_x = 0) code, twos complement 0",
+  "channel B: both ADCs sample simultaneously but only SDO-A (ADC_A result) is modeled; SDO-B (ADC_B result, same frame) is never driven",
+  "the conversion runs during SCLK 1-14 after CS falls (tCONV 590 ns max); the result is the constant 0 V code, so it is not tied to the SCLK count",
+  "frame abort / short-cycling: CS high before the 15th SCLK falling edge aborts the conversion; CS high later aborts the transfer (tPH_CS_SHRT); the minimum 27 SCLK falling edges per frame are not checked",
+  "throughput, acquisition time and SCLK frequency limits (24 MHz max)",
+  "the timing diagram's SCLK idles high; data launch on SCLK falling edges (Table 2), the host reads on the following falling edge (mode 2)"
+ ],
+ "variants": "ADS8350 (16-bit), ADS7850 (14-bit) and ADS7250 (12-bit) share ads8350.pdf: same pinout and frame (15 zeros, then the result MSB first, zero fill); own spec each. ADS8355 (ads8355.pdf) is the later register-programmable 1 MSPS version.",
+ "parts": [
+  [
+   "ADS7250IRTET",
+   "RTE",
+   16,
+   "Active"
+  ]
+ ]
+}

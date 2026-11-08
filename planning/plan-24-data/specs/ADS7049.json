@@ -1,0 +1,119 @@
+{
+ "device": {
+  "id": "ADS7049",
+  "function": "ADC",
+  "description": "Automotive 12-bit 2 MSPS SAR ADC with SPI-compatible serial interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7049-q1.pdf (SBAS763) p.3 pin configuration and functions, p.4 recommended operating conditions, p.6 timing (Figure 1), p.15 transfer characteristics (Table 1), p.16 serial interface, p.17-19 offset calibration",
+  "pinouts": {
+   "dcu8": [
+    {
+     "number": 1,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AINM",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   1.65,
+   3.6
+  ],
+  "analog": [
+   "AINM",
+   "AINP",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 10,
+   "tOut": 25,
+   "tFloat": 5
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "00 R{12}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DCU": {
+   "pinout": "dcu8",
+   "footprint": "VSSOP-8",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "ads7049-q1.pdf",
+ "pages": "p.3 (pins), p.4 (ROC), p.6 (timing, Figure 1), p.15 (transfer characteristics), p.16 (serial interface), p.17-19 (offset calibration)",
+ "notModeled": [
+  "analog input (single-ended input); conversion is clocked by SCLK (the 12.5-SCLK conversion is not timed: the result is the 0 V code at once)",
+  "offset calibration (power-up: the first frame after power-up outputs zeros while the OCR is calibrated with at least 16 SCLKs, which the 0 V code already is; the 32-SCLK calibration frame during normal operation)",
+  "throughput, acquisition time and SCLK frequency limits",
+  "tFloat: the datasheet gives only a 5 ns minimum for tDZ_CSDO",
+  "tOut uses tD_CKDO 25 ns (AVDD 2.35-3.6 V, the whole AVDD range)"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS7049QDCURQ1",
+   "DCU",
+   8,
+   "Active"
+  ]
+ ]
+}

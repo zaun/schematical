@@ -1,0 +1,57 @@
+{
+  "device": {
+    "id": "ADS7818",
+    "function": "ADC",
+    "description": "12-bit 500 kSPS SAR ADC with internal 2.5 V reference and synchronous serial interface",
+    "drawer": ["Interface"],
+    "note": "ads7818.pdf (SBAS078) p.2 specifications (conversion time, VIH, straight binary, VCC 4.75-5.25 V), p.3 pin configuration and assignments, p.8 digital interface, Figure 2 and Table I timing, p.9 Figure 3 basic conversion timing, p.10 Figure 4 power-down and Figure 5 LSB-first timing, p.11 short-cycle and data format",
+    "pinouts": {
+      "dgk8": [
+        {"number": 1, "name": "VREF", "role": "output"},
+        {"number": 2, "name": "+In", "role": "input"},
+        {"number": 3, "name": "-In", "role": "input"},
+        {"number": 4, "name": "GND", "role": "ground"},
+        {"number": 5, "name": "CONV", "role": "input"},
+        {"number": 6, "name": "DATA", "role": "output"},
+        {"number": 7, "name": "CLK", "role": "input"},
+        {"number": 8, "name": "+VCC", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 12,
+    "channels": 1,
+    "codeFormat": "straight",
+    "vcc": [4.75, 5.25],
+    "analog": ["VREF", "+In", "-In"],
+    "bus": {"style": "spi", "cs": "CONV", "sclk": "CLK", "miso": "DATA", "mode": 0},
+    "timing": {"tValid": 0, "tOut": 50, "tFloat": 100},
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "out": "z R{12}",
+      "idle": "z",
+      "commands": []
+    },
+    "conversion": {
+      "time": 0,
+      "start": ["cs-fall"]
+    }
+  },
+  "packages": {
+    "DGK": {"pinout": "dgk8", "footprint": "VSSOP-8-DGK", "package": "VSSOP", "pins": 8}
+  },
+  "pdf": "ads7818.pdf",
+  "pages": "p.2 (conversion time 1.625 us, VIH 3.0 V to VCC+0.3 V, straight binary, VCC 4.75-5.25 V), p.3 (pins: Mini-DIP-8 and MSOP-8 share one pinout), p.8 (Table I: tCKDS 50 ns max, tCKDD/tCVDD 100 ns max, tCKDE 50 ns max), p.9 (Figure 3), p.10 (Figures 4-5), p.11 (short-cycle, data format)",
+  "notModeled": [
+    "analog input and internal 2.5 V reference (VREF is the reference output, overdrivable by an external 2.0-2.55 V reference)",
+    "CONV is a convert-start input, not a chip select: the model treats it as an active-low frame (the SPI-interfacing use, CONV held low through the transfer). In the DSP use of Figure 3 CONV pulses low and returns high while D11..D0 are still clocked out; the model then floats DATA at CONV rise",
+    "conversion is clocked by CLK (DATA enabled after the first CLK falling edge, D11..D0 on the following falling edges, valid on the rising edges; DATA Hi-Z after the 13th falling edge); not timed: the result is the 0 V code at once",
+    "LSB-first read-out (Figure 5) and short-cycling (CONV high then low during the conversion)",
+    "power-down when CONV is still low at the 13th clock, exited on CONV rising (no bus effect)",
+    "CONV-to-CLK setup/hold and clock period limits (125 ns - 5 us)"
+  ],
+  "variants": "ADS7818EB is the higher-grade ADS7818 (same spec). ADS7834 is the near-identical sibling with its own datasheet.",
+  "parts": [
+    ["ADS7818E/250", "DGK", 8, "Active"]
+  ]
+}

@@ -1,0 +1,341 @@
+{
+ "device": {
+  "id": "ADS1601",
+  "function": "ADC",
+  "description": "16-bit 1.25 MSPS delta-sigma ADC with a high-speed serial output (SCLK, DOUT, FSO with complementary outputs)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1601.pdf (SBAS322D) p.5 power-supply requirements and digital levels, p.7 pin assignments and terminal functions, p.8 timing (Figure 1 initialization, Figure 2 data retrieval), p.18 data format (Table 2, two's complement) and OTR, p.19 data retrieval, SYNC",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AINN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "RBIAS",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "REFEN",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "RPULLUP",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 17,
+     "name": "PD",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "OTR",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 24,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 25,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 26,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 27,
+     "name": "SCLKBAR",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "SCLK",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "DOUTBAR",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 31,
+     "name": "FSOBAR",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "FSO",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 34,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 35,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 36,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 37,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 38,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 39,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 40,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 42,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 43,
+     "name": "VCAP",
+     "role": "nc"
+    },
+    {
+     "number": 44,
+     "name": "VREFN",
+     "role": "power"
+    },
+    {
+     "number": 45,
+     "name": "VREFN",
+     "role": "power"
+    },
+    {
+     "number": 46,
+     "name": "VMID",
+     "role": "output"
+    },
+    {
+     "number": 47,
+     "name": "VREFP",
+     "role": "power"
+    },
+    {
+     "number": 48,
+     "name": "VREFP",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "AGND",
+   "AVDD",
+   "AINN",
+   "AINP",
+   "RBIAS",
+   "VCAP",
+   "VREFN",
+   "VMID",
+   "VREFP"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLK",
+    "edge": "rise"
+   },
+   "data": [
+    "FSO",
+    "FSOBAR",
+    "DOUT",
+    "DOUTBAR",
+    "OTR"
+   ],
+   "clockOut": [
+    {
+     "pin": "SCLK",
+     "invert": false
+    },
+    {
+     "pin": "SCLKBAR",
+     "invert": true
+    }
+   ]
+  },
+  "timing": {
+   "tOut": 20
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "01[R:15:15]10 01[R:14:14]10 01[R:13:13]10 01[R:12:12]10 01[R:11:11]10 01[R:10:10]10 01[R:9:9]10 01[R:8:8]10 01[R:7:7]10 01[R:6:6]10 01[R:5:5]10 01[R:4:4]10 01[R:3:3]10 01[R:2:2]10 01[R:1:1]10 10[R:0:0]10"
+  },
+  "pins": {
+   "powerdown": {
+    "pin": "PD",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "ads1601.pdf",
+ "pages": "p.5 (supplies, digital levels), p.7 (pins), p.8 (timing), p.18 (format), p.19 (data retrieval, SYNC)",
+ "notModeled": [
+  "analog input, internal / external reference (REFEN), RBIAS",
+  "the serial port is a master: one 16-bit word per 16 CLK periods (1.25 MSPS at fCLK = 20 MHz); each CLK rising edge shifts the next bit, SCLK/SCLKBAR follow CLK; the per-edge 5-bit pattern drives FSO, FSOBAR, DOUT, DOUTBAR, OTR",
+  "DOUTBAR is written as the constant complement of the 0 V code (all ones): a pattern cannot invert R",
+  "FSO is high for one CLK period during the LSB of the previous word (Figure 2); the word phase after power-up is arbitrary: SYNC (initialization, multi-device synchronization, FSO held low for tSTL = 833 CLK periods while the filter settles) is not modeled",
+  "OTR stays low (in-range 0 V input)",
+  "timing: tOut 20 ns = tCS (CLK rise to SCLK rise, 15 ns max) + tDS (SCLK rise to DOUT valid, 5 ns max); SCLK itself follows 15 ns after CLK; tCPW >= 25 ns",
+  "RPULLUP (pull-up to DVDD) and the PD / REFEN internal pull resistors"
+ ],
+ "variants": "ADS1601 (1.25 MSPS, fCLK <= 20 MHz) and ADS1602 (2.5 MSPS, fCLK <= 40 MHz) have the same pinout and serial interface, own data sheets",
+ "parts": [
+  [
+   "ADS1601IPFBT",
+   "PFB",
+   48,
+   "Active"
+  ]
+ ]
+}

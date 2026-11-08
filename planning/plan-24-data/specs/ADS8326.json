@@ -1,0 +1,156 @@
+{
+ "device": {
+  "id": "ADS8326",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit 250 kHz 2.7-5.5 V micropower unipolar sampling ADC with 3-wire serial interface",
+  "note": "ads8326.pdf (SBAS343C) p.2 recommended operating conditions, p.3-6 electrical characteristics (straight binary), p.7 pin configurations and assignments, p.8-9 timing information (Table 1), p.23 digital interface, serial interface, data format",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "+IN",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "-IN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "CS/SHDN",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "DCLOCK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "REF",
+   "+IN",
+   "-IN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS/SHDN",
+   "sclk": "DCLOCK",
+   "miso": "DOUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 0,
+   "tOut": 0,
+   "tFloat": 100
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "z{5} 0 R{16} 0{15}",
+   "idle": "z",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  },
+  "DRB": {
+   "pinout": "dgk8",
+   "footprint": "SON-8-DRB",
+   "package": "SON",
+   "pins": 8
+  }
+ },
+ "pdf": "ads8326.pdf",
+ "pages": "p.2 (recommended operating conditions: VDD 2.7-3.6 V or 4.5-5.5 V), p.4 tCONV 2.667-666.7 us, p.7 (pins, DGK and DRB same numbering), p.8-9 (timing diagram, Table 1: tDIS 100 ns max), p.23 (signal levels, serial interface, data format: straight binary)",
+ "notModeled": [
+  "analog input (unipolar +IN - -IN, 0 to VREF; 0 V reads 0000h); the conversion is clocked by DCLOCK (16 clocks, not timed: the result is the 0 V code at once)",
+  "DOUT is Hi-Z for the 4.5-5.0 clock sample period, then the null bit and B15..B0; after B0 the result repeats LSB first (zeros for the 0 V code) and DOUT tri-states after B15 has been repeated (text); the timing-diagram note says zeros follow indefinitely",
+  "tOut: Table 1 gives no DCLOCK-falling-to-next-DOUT-valid maximum (only tHDO 5 ns min, tEN 50 ns max), so tOut is 0",
+  "auto power-down after the conversion and shutdown while CS/SHDN is high (no visible bus effect)",
+  "throughput (250 kHz) and DCLOCK frequency limits (0.024-6 MHz)",
+  "DRB thermal pad (substrate; not a pin)"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS8326IBDGKT",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8326IBDRBR",
+   "DRB",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8326IBDRBT",
+   "DRB",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8326IDGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8326IDGKT",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8326IDRBT",
+   "DRB",
+   8,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,70 @@
+{
+  "device": {
+    "id": "ADC08832",
+    "function": "ADC",
+    "description": "8-bit 2-channel SAR ADC with MICROWIRE serial interface and MUX addressing",
+    "drawer": ["Interface"],
+    "note": "adc08832.pdf (SNAS015C) p.2 connection diagram (Figure 2) and operating ratings, p.3-4 electrical and timing characteristics, p.9-10 timing diagrams (Figure 21), p.12 Table 2 MUX addressing, p.13 digital interface",
+    "pinouts": {
+      "d8": [
+        {"number": 1, "name": "CS", "role": "input"},
+        {"number": 2, "name": "CH0", "role": "input"},
+        {"number": 3, "name": "CH1", "role": "input"},
+        {"number": 4, "name": "GND", "role": "ground"},
+        {"number": 5, "name": "DI", "role": "input"},
+        {"number": 6, "name": "DO", "role": "output"},
+        {"number": 7, "name": "CLK", "role": "input"},
+        {"number": 8, "name": "VCC", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 8,
+    "channels": 2,
+    "codeFormat": "straight",
+    "vcc": [4.5, 6.0],
+    "analog": ["CH0", "CH1"],
+    "bus": {"style": "spi", "cs": "CS", "sclk": "CLK", "mosi": "DI", "miso": "DO", "mode": 0},
+    "timing": {"tValid": 0, "tOut": 250, "tFloat": 180},
+    "registers": [
+      {"name": "CTRL", "width": 2, "reset": 0,
+       "note": "internal: the MUX address (SGL/DIF, ODD/SIGN) shifted in after the start bit; no read-back, reset not documented",
+       "fields": [{"name": "SGL_DIF", "bits": [1, 1]}, {"name": "ODD_SIGN", "bits": [0, 0]}]}
+    ],
+    "protocol": {
+      "frame": "stream",
+      "out": "z{32}",
+      "idle": "0",
+      "commands": [
+        {"name": "Idle (no start bit)", "in": "0", "action": "nop",
+         "note": "p.13 step 2: the start bit is the first logic 1 on DI; leading zeros are ignored"},
+        {"name": "Start + MUX address", "in": "1 s o", "action": "start", "channel": "o",
+         "set": {"CTRL.SGL_DIF": "s", "CTRL.ODD_SIGN": "o"},
+         "reply": "0 R{8} [R:1:1][R:2:2][R:3:3][R:4:4][R:5:5][R:6:6][R:7:7]",
+         "note": "Table 2: SGL/DIF 1 = single-ended, ODD/SIGN selects CH0 (0) or CH1 (1) as the + input; Figure 21: a leading 0 for the MUX settling clock, D7..D0 MSB first, then D1..D7 LSB first (D0 shared), then DO low until CS rises"}
+      ]
+    },
+    "conversion": {
+      "time": 0,
+      "start": ["command"],
+      "channel": "CTRL.ODD_SIGN"
+    }
+  },
+  "packages": {
+    "D": {"pinout": "d8", "footprint": "SOIC-8", "package": "SOIC", "pins": 8},
+    "DGK": {"pinout": "d8", "footprint": "VSSOP-8-DGK", "package": "VSSOP", "pins": 8}
+  },
+  "pdf": "adc08832.pdf",
+  "pages": "p.2 (Figure 2 pinout, operating ratings VCC 4.5-6.0 V), p.3 (logic levels, VREF tied to VCC), p.4 (tSET-UP, tpd 250 ns, TRI-STATE 180 ns), p.10 (Figure 21), p.12 (Table 2), p.13 (digital interface steps 1-8)",
+  "notModeled": [
+    "analog inputs and the single-ended / differential / polarity selection (stored only; the result is always the 0 V code 0x00); VREF is internally tied to VCC",
+    "conversion is clocked by CLK (8 clocks after the MUX address); not timed, the result is ready at once",
+    "DO is TRI-STATE until the MUX address is in (modeled as released bits until the start command); DI and DO may be tied together (single-wire use)",
+    "DI is ignored after the MUX address until CS rises; the model keeps matching start bits in the same CS-low transaction",
+    "clock frequency limits (10 kHz-2 MHz) and duty cycle; low-power mode while CS is high"
+  ],
+  "variants": "ADC08831 (same datasheet): one fixed differential input, VREF pin instead of DI, MSB-first data only",
+  "parts": [
+    ["ADC08832IM/NOPB", "D", 8, "Active"],
+    ["ADC08832IMM/NOPB", "DGK", 8, "Active"]
+  ]
+}

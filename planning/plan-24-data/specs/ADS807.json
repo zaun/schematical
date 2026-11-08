@@ -1,0 +1,235 @@
+{
+ "device": {
+  "id": "ADS807",
+  "function": "ADC",
+  "description": "12-bit 53 MSPS pipelined ADC with internal/external reference, out-of-range output and tri-state CMOS parallel outputs (3 V / 5 V output driver supply)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads807.pdf (SBAS072A) p.2 pin configuration and descriptions, p.3-4 specifications (digital inputs VIH 2.4 V, straight offset binary, VDRV 3 V / 5 V outputs, 3-state enable 40 ns / disable 10 ns max, +VS 4.75-5.25 V), timing diagram (t2 new data delay 12 ns max for VDRV 2.7 V to 5 V, 6-clock latency), application section (OTR, VDRV, Tables II/III coding)",
+  "pinouts": {
+   "ssop28": [
+    {
+     "number": 1,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "Bit 1",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "Bit 2",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "Bit 3",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "Bit 4",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "Bit 5",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "Bit 6",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "Bit 7",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "Bit 8",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "Bit 9",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "Bit 10",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "Bit 11",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "Bit 12",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "FSSEL",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "OTR",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "INT/EXT",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "OE",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "REFB",
+     "role": "nc"
+    },
+    {
+     "number": 22,
+     "name": "REFT",
+     "role": "nc"
+    },
+    {
+     "number": 23,
+     "name": "CM",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "IN",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "IN",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 27,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "VDRV",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": "offset",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "IN",
+   "REFB",
+   "REFT",
+   "CM",
+   "+VS"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLK",
+    "edge": "rise"
+   },
+   "data": [
+    "OTR",
+    "Bit 1",
+    "Bit 2",
+    "Bit 3",
+    "Bit 4",
+    "Bit 5",
+    "Bit 6",
+    "Bit 7",
+    "Bit 8",
+    "Bit 9",
+    "Bit 10",
+    "Bit 11",
+    "Bit 12"
+   ],
+   "oe": {
+    "pin": "OE",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tOut": 12,
+   "tFloat": 10
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "0R{12}"
+  }
+ },
+ "packages": {
+  "DB": {
+   "pinout": "ssop28",
+   "footprint": "SSOP-28",
+   "package": "SSOP",
+   "pins": 28
+  }
+ },
+ "pdf": "ads807.pdf",
+ "pages": "p.2 (pinout, pin descriptions), p.3-4 (specs: digital I/O, coding, supplies), timing diagram (t2 12 ns, VDRV 2.7-5 V), application section (OTR, VDRV, coding tables)",
+ "notModeled": [
+  "analog input and reference; the result is always the 0 V differential (mid-scale) code 800h, straight offset binary",
+  "FSSEL (2 Vpp / 3 Vpp full scale) and INT/EXT (reference select, internal 50 kOhm pull-up) are stored nowhere: they only change the analog range",
+  "OTR is driven as the first bit of each 13-bit data word (always 0: the 0 V input is in range)",
+  "pipeline latency of 6 clock cycles (the code is constant)",
+  "clock period / duty-cycle limits (18.87 ns to 100 us)",
+  "two supplies: +VS 4.75-5.25 V (analog core and CLK/OE inputs, VIH 2.4 V) and VDRV (output drivers, 2.7-5 V); vcc is the union 2.7-5.25 V and +VS is listed under analog so VDRV is the digital supply",
+  "3-state enable time (40 ns max) differs from the disable time (10 ns); tFloat uses the disable time",
+  "pin 24 is the complementary input (IN with an overbar in the datasheet); both inputs are named IN"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS807E/1K",
+   "DB",
+   28,
+   "Active"
+  ]
+ ]
+}

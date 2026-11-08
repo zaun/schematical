@@ -1,0 +1,192 @@
+{
+  "device": {
+    "id": "ADC088S052",
+    "function": "ADC",
+    "description": "8-bit 8-channel 200-500 kSPS SAR ADC with SPI-compatible serial interface",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "adc088s052.pdf (SNAS340F) p.1 connection diagram, p.2 pin descriptions, p.3 operating ratings, p.4-5 electrical characteristics (straight binary, tCONVERT 13 SCLK), p.5-6 timing specifications and serial timing diagram, p.14-15 serial interface and Tables 1-3 control register, p.16 transfer function",
+    "pinouts": {
+      "pw16": [
+        {
+          "number": 1,
+          "name": "CS",
+          "role": "input"
+        },
+        {
+          "number": 2,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 3,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 4,
+          "name": "IN0",
+          "role": "input"
+        },
+        {
+          "number": 5,
+          "name": "IN1",
+          "role": "input"
+        },
+        {
+          "number": 6,
+          "name": "IN2",
+          "role": "input"
+        },
+        {
+          "number": 7,
+          "name": "IN3",
+          "role": "input"
+        },
+        {
+          "number": 8,
+          "name": "IN4",
+          "role": "input"
+        },
+        {
+          "number": 9,
+          "name": "IN5",
+          "role": "input"
+        },
+        {
+          "number": 10,
+          "name": "IN6",
+          "role": "input"
+        },
+        {
+          "number": 11,
+          "name": "IN7",
+          "role": "input"
+        },
+        {
+          "number": 12,
+          "name": "DGND",
+          "role": "ground"
+        },
+        {
+          "number": 13,
+          "name": "VD",
+          "role": "power"
+        },
+        {
+          "number": 14,
+          "name": "DIN",
+          "role": "input"
+        },
+        {
+          "number": 15,
+          "name": "DOUT",
+          "role": "output"
+        },
+        {
+          "number": 16,
+          "name": "SCLK",
+          "role": "input"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 8,
+    "channels": 8,
+    "codeFormat": "straight",
+    "vcc": [
+      2.7,
+      5.25
+    ],
+    "analog": [
+      "VA",
+      "IN0",
+      "IN1",
+      "IN2",
+      "IN3",
+      "IN4",
+      "IN5",
+      "IN6",
+      "IN7"
+    ],
+    "bus": {
+      "style": "spi",
+      "cs": "CS",
+      "sclk": "SCLK",
+      "mosi": "DIN",
+      "miso": "DOUT",
+      "mode": 3
+    },
+    "timing": {
+      "tValid": 30,
+      "tOut": 27,
+      "tFloat": 20
+    },
+    "registers": [
+      {
+        "name": "CTRL",
+        "width": 8,
+        "reset": 0,
+        "note": "internal control register (Table 1: DONTC DONTC ADD2 ADD1 ADD0 DONTC DONTC DONTC), write-only; first conversion after power-up is IN0 (Table 3 default), p.15",
+        "fields": [
+          {
+            "name": "ADD",
+            "bits": [
+              5,
+              3
+            ]
+          }
+        ]
+      }
+    ],
+    "protocol": {
+      "frame": "fixed",
+      "out": "0{4} R{8} 0{4}",
+      "idle": "repeat",
+      "commands": [
+        {
+          "name": "Control Register",
+          "in": "xxaaaxxx x{8}",
+          "set": {
+            "CTRL.ADD": "a"
+          },
+          "note": "DIN on the first 8 SCLK rising edges after CS falls: ADD2-ADD0 select the input of the NEXT conversion (Table 3: code = INn)"
+        }
+      ]
+    },
+    "conversion": {
+      "time": 0,
+      "start": [
+        "cs-fall"
+      ],
+      "channel": "CTRL.ADD"
+    }
+  },
+  "packages": {
+    "PW": {
+      "pinout": "pw16",
+      "footprint": "TSSOP-16",
+      "package": "TSSOP",
+      "pins": 16
+    }
+  },
+  "pdf": "adc088s052.pdf",
+  "pages": "p.1 connection diagram, p.2 pin descriptions; p.3 (VA 2.7-5.25 V, VD 2.7 V to VA, digital inputs 0 V to VA); p.4-5 (straight binary, tCONVERT 13 SCLK, throughput 16 SCLK); p.5-6 (tEN 30, tDACC 27, tDIS 20 ns max; 4 leading zeros, DB7-DB0, 4 trailing zeros, DOUT on SCLK falling, DIN on SCLK rising); p.14-15 (frame, Tables 1-3)",
+  "notModeled": [
+    "analog inputs and multiplexer (the result is always the 0 V code 0x00); VA is also the reference",
+    "conversion is clocked by SCLK (13 SCLK hold/convert); not timed, the result is ready at once",
+    "continuous conversion: each further 16 SCLKs in one CS-low frame output another conversion (modeled by repeating the frame pattern); the control word of those later frames is not captured (frame fixed: one command per CS)",
+    "SPI mode 3 (CS falls with SCLK high, Figure 1); CS falling with SCLK low is treated by the part as the first falling edge, which a mode-0 host also sees correctly",
+    "SCLK frequency limits (3.2-8 MHz specified); shutdown when CS is high (no visible digital effect)"
+  ],
+  "variants": "ADC088S022 and ADC088S102 (separate datasheets): same pinout, control register and frame at other conversion rates",
+  "parts": [
+    [
+      "ADC088S052CIMT/NOPB",
+      "PW",
+      16,
+      "Active"
+    ]
+  ]
+}

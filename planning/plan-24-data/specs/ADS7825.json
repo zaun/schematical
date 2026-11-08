@@ -1,0 +1,264 @@
+{
+  "device": {
+    "id": "ADS7825",
+    "function": "ADC",
+    "description": "16-bit 40 kSPS 4-channel sampling ADC with internal reference, byte-wide parallel and serial outputs",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "ads7825.pdf (SBAS045) p.2 specifications (conversion time, VIH, binary two's complement), p.3 VS 4.75-5.25 V, p.4 pin assignments and pin configuration, p.8 Tables Ia/Ib (read control), p.9 Figures 2-3 parallel timing, p.12 parallel output and Table II timing, p.13 Table III conversion control, p.14 multiplexer Tables IVa/IVb",
+    "pinouts": {
+      "dw28": [
+        {
+          "number": 1,
+          "name": "AGND1",
+          "role": "ground"
+        },
+        {
+          "number": 2,
+          "name": "AIN0",
+          "role": "input"
+        },
+        {
+          "number": 3,
+          "name": "AIN1",
+          "role": "input"
+        },
+        {
+          "number": 4,
+          "name": "AIN2",
+          "role": "input"
+        },
+        {
+          "number": 5,
+          "name": "AIN3",
+          "role": "input"
+        },
+        {
+          "number": 6,
+          "name": "CAP",
+          "role": "nc"
+        },
+        {
+          "number": 7,
+          "name": "REF",
+          "role": "output"
+        },
+        {
+          "number": 8,
+          "name": "AGND2",
+          "role": "ground"
+        },
+        {
+          "number": 9,
+          "name": "D7",
+          "role": "output"
+        },
+        {
+          "number": 10,
+          "name": "D6",
+          "role": "output"
+        },
+        {
+          "number": 11,
+          "name": "D5",
+          "role": "output"
+        },
+        {
+          "number": 12,
+          "name": "D4",
+          "role": "inout"
+        },
+        {
+          "number": 13,
+          "name": "D3",
+          "role": "output"
+        },
+        {
+          "number": 14,
+          "name": "DGND",
+          "role": "ground"
+        },
+        {
+          "number": 15,
+          "name": "D2",
+          "role": "inout"
+        },
+        {
+          "number": 16,
+          "name": "D1",
+          "role": "output"
+        },
+        {
+          "number": 17,
+          "name": "D0",
+          "role": "inout"
+        },
+        {
+          "number": 18,
+          "name": "A1",
+          "role": "inout"
+        },
+        {
+          "number": 19,
+          "name": "A0",
+          "role": "inout"
+        },
+        {
+          "number": 20,
+          "name": "PAR/SER",
+          "role": "input"
+        },
+        {
+          "number": 21,
+          "name": "BYTE",
+          "role": "input"
+        },
+        {
+          "number": 22,
+          "name": "R/C",
+          "role": "input"
+        },
+        {
+          "number": 23,
+          "name": "CS",
+          "role": "input"
+        },
+        {
+          "number": 24,
+          "name": "BUSY",
+          "role": "output"
+        },
+        {
+          "number": 25,
+          "name": "CONTC",
+          "role": "input"
+        },
+        {
+          "number": 26,
+          "name": "PWRD",
+          "role": "input"
+        },
+        {
+          "number": 27,
+          "name": "VS2",
+          "role": "power"
+        },
+        {
+          "number": 28,
+          "name": "VS1",
+          "role": "power"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 16,
+    "channels": 4,
+    "codeFormat": "twos",
+    "vcc": [
+      4.75,
+      5.25
+    ],
+    "analog": [
+      "AIN0",
+      "AIN1",
+      "AIN2",
+      "AIN3",
+      "CAP",
+      "REF"
+    ],
+    "bus": {
+      "style": "parallel",
+      "data": [
+        "D7",
+        "D6",
+        "D5",
+        "D4",
+        "D3",
+        "D2",
+        "D1",
+        "D0"
+      ],
+      "cs": {
+        "pin": "CS",
+        "active": 0
+      },
+      "rw": {
+        "pin": "R/C",
+        "read": 1
+      },
+      "byteSelect": {
+        "pin": "BYTE",
+        "high": 0
+      }
+    },
+    "timing": {
+      "tAcc": 83,
+      "tDf": 83
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [
+        {
+          "name": "Convert (CS and R/C low)",
+          "in": "x{8}",
+          "action": "start",
+          "commit": "end",
+          "note": "p.13 Table III (CONTC low): R/C falling with CS low, or CS falling with R/C low, starts a conversion; convert commands are ignored while BUSY is low"
+        }
+      ],
+      "read": {
+        "high": "[R:15:8]",
+        "low": "[R:7:0]"
+      }
+    },
+    "conversion": {
+      "time": 21000,
+      "start": [
+        "command"
+      ]
+    },
+    "ready": [
+      {
+        "pin": "BUSY",
+        "active": 0,
+        "asserts": "busy"
+      }
+    ]
+  },
+  "packages": {
+    "DW": {
+      "pinout": "dw28",
+      "footprint": "SOIC-28W",
+      "package": "SOIC",
+      "pins": 28
+    }
+  },
+  "pdf": "ads7825.pdf",
+  "pages": "p.2 (conversion time 20 us, VIH 2.4 V to VS+0.3 V, binary two's complement), p.3 (VS1 = VS2 4.75-5.25 V), p.4 (pin assignments: BYTE low = D15..D8, high = D7..D0; pin configuration), p.8 (Table Ia), p.9 (Figures 2-3), p.12 (Table II: t4/t7 21 us max, t9 83 ns, t12 83 ns), p.13 (Table III), p.14 (Tables IVa/IVb)",
+  "notModeled": [
+    "analog inputs (+/-10 V), 4-channel multiplexer, internal reference (REF) and CAP buffer; every channel gives the same 0 V code",
+    "channel selection: A1/A0 (inputs with CONTC low) are latched when conversion n starts and select the channel of conversion n+1 (Table IVb); not read, the result does not depend on it",
+    "continuous conversion mode (CONTC high: conversions cycle through AIN0-AIN3 while CS, R/C and PWRD are low, A1/A0 become outputs of the next channel, Table IVa / Figure 7): CONTC is not read and A1/A0 are never driven",
+    "serial output (PAR/SER low: D4 = EXT/INT, D3 = SYNC, D2 = DATACLK, D1 = SDATA, D0 = TAG): only the parallel port (PAR/SER high) is modeled; the serial functions of D4-D0 are not",
+    "the conversion starts when the CS/R/C low period ends (write access end) rather than at its falling edge; the 40 ns - 12 us convert pulse and the rule that CS or R/C must be high before BUSY rises are not checked",
+    "reading during a conversion returns the previous result (valid up to 12 us after the start); power-up contents of the output register are indeterminate (model: the 0 V code)",
+    "PWRD (powers the analog section down, resets the multiplexer address to channel 0) is not read"
+  ],
+  "variants": "ADS7825U/UB grades share the datasheet (same spec). ADS7824 is the 12-bit sibling with its own datasheet.",
+  "parts": [
+    [
+      "ADS7825UB",
+      "DW",
+      28,
+      "Active"
+    ],
+    [
+      "ADS7825UB/1K",
+      "DW",
+      28,
+      "Active"
+    ]
+  ]
+}

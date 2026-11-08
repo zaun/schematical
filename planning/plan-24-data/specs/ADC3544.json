@@ -1,0 +1,1953 @@
+{
+  "device": {
+    "id": "ADC3544",
+    "function": "ADC",
+    "description": "14-bit 125 MSPS low-noise low-power ADC with parallel SDR/DDR or serial CMOS outputs and SPI configuration",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "adc3544.pdf (SBASA45) p.3-4 pin configuration and functions, p.5 recommended operating conditions, p.10-11 timing (SDR CMOS tPD, SPI t(OD)/t(ODZ)), p.37 output data format, p.45-47 programming (SPI write/read), p.48-61 register map",
+    "pinouts": {
+      "rsb40": [
+        {
+          "number": 1,
+          "name": "PDN/SYNC",
+          "role": "input"
+        },
+        {
+          "number": 2,
+          "name": "VREF",
+          "role": "power"
+        },
+        {
+          "number": 3,
+          "name": "REFGND",
+          "role": "ground"
+        },
+        {
+          "number": 4,
+          "name": "REFBUF",
+          "role": "power"
+        },
+        {
+          "number": 5,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 6,
+          "name": "CLKP",
+          "role": "input"
+        },
+        {
+          "number": 7,
+          "name": "CLKM",
+          "role": "input"
+        },
+        {
+          "number": 8,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 9,
+          "name": "VCM",
+          "role": "output"
+        },
+        {
+          "number": 10,
+          "name": "RESET",
+          "role": "input"
+        },
+        {
+          "number": 11,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 12,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 13,
+          "name": "AINP",
+          "role": "input"
+        },
+        {
+          "number": 14,
+          "name": "AINM",
+          "role": "input"
+        },
+        {
+          "number": 15,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 16,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 17,
+          "name": "SEN",
+          "role": "input"
+        },
+        {
+          "number": 18,
+          "name": "NC",
+          "role": "nc"
+        },
+        {
+          "number": 19,
+          "name": "FCLK",
+          "role": "output"
+        },
+        {
+          "number": 20,
+          "name": "D15",
+          "role": "output"
+        },
+        {
+          "number": 21,
+          "name": "D14",
+          "role": "output"
+        },
+        {
+          "number": 22,
+          "name": "D13",
+          "role": "output"
+        },
+        {
+          "number": 23,
+          "name": "D12",
+          "role": "output"
+        },
+        {
+          "number": 24,
+          "name": "D11",
+          "role": "output"
+        },
+        {
+          "number": 25,
+          "name": "IOGND",
+          "role": "ground"
+        },
+        {
+          "number": 26,
+          "name": "DCLK",
+          "role": "output"
+        },
+        {
+          "number": 27,
+          "name": "D10",
+          "role": "output"
+        },
+        {
+          "number": 28,
+          "name": "D9",
+          "role": "output"
+        },
+        {
+          "number": 29,
+          "name": "D8",
+          "role": "output"
+        },
+        {
+          "number": 30,
+          "name": "D7",
+          "role": "output"
+        },
+        {
+          "number": 31,
+          "name": "IOVDD",
+          "role": "power"
+        },
+        {
+          "number": 32,
+          "name": "D6",
+          "role": "output"
+        },
+        {
+          "number": 33,
+          "name": "D5",
+          "role": "output"
+        },
+        {
+          "number": 34,
+          "name": "D4",
+          "role": "output"
+        },
+        {
+          "number": 35,
+          "name": "D3",
+          "role": "inout"
+        },
+        {
+          "number": 36,
+          "name": "D2",
+          "role": "output"
+        },
+        {
+          "number": 37,
+          "name": "D1",
+          "role": "output"
+        },
+        {
+          "number": 38,
+          "name": "D0",
+          "role": "output"
+        },
+        {
+          "number": 39,
+          "name": "SDIO",
+          "role": "inout"
+        },
+        {
+          "number": 40,
+          "name": "SCLK",
+          "role": "input"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 14,
+    "channels": 1,
+    "codeFormat": "twos",
+    "vcc": [
+      1.75,
+      1.85
+    ],
+    "analog": [
+      "VREF",
+      "REFBUF",
+      "AVDD",
+      "CLKM",
+      "VCM",
+      "AINP",
+      "AINM"
+    ],
+    "bus": {
+      "style": "clocked",
+      "clock": {
+        "pin": "CLKP",
+        "edge": "fall"
+      },
+      "data": [
+        "D15",
+        "D14",
+        "D13",
+        "D12",
+        "D11",
+        "D10",
+        "D9",
+        "D8",
+        "D7",
+        "D6",
+        "D5",
+        "D4",
+        "D3",
+        "D2"
+      ],
+      "clockOut": {
+        "pin": "DCLK",
+        "invert": true
+      }
+    },
+    "configBus": {
+      "style": "spi",
+      "cs": "SEN",
+      "sclk": "SCLK",
+      "mosi": "SDIO",
+      "miso": "SDIO",
+      "mode": 0
+    },
+    "timing": {
+      "tOut": 10.8,
+      "tFloat": 14
+    },
+    "registers": [
+      {
+        "name": "R00",
+        "address": 0,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "RESET",
+            "bits": [
+              0,
+              0
+            ]
+          }
+        ],
+        "note": "RESET self-clears; writing 1 resets every register (the RESET command)"
+      },
+      {
+        "name": "R07",
+        "address": 7,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "OP_IF_MAPPER",
+            "bits": [
+              7,
+              5
+            ]
+          },
+          {
+            "name": "OP_IF_EN",
+            "bits": [
+              3,
+              3
+            ]
+          },
+          {
+            "name": "OP_IF_SEL",
+            "bits": [
+              2,
+              0
+            ]
+          }
+        ],
+        "note": "reads 000 until written (the default interface is loaded from e-fuses)"
+      },
+      {
+        "name": "R08",
+        "address": 8,
+        "width": 8,
+        "reset": 2,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "PDN_CLKBUF",
+            "bits": [
+              5,
+              5
+            ]
+          },
+          {
+            "name": "PDN_REFAMP",
+            "bits": [
+              4,
+              4
+            ]
+          },
+          {
+            "name": "PDN_A",
+            "bits": [
+              2,
+              2
+            ]
+          },
+          {
+            "name": "ONE",
+            "bits": [
+              1,
+              1
+            ]
+          },
+          {
+            "name": "PDN_GLOBAL",
+            "bits": [
+              0,
+              0
+            ]
+          }
+        ],
+        "note": "bit 1 reset 1, must write 1"
+      },
+      {
+        "name": "R0A",
+        "address": 10,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "CMOS_OB_DIS_7_0",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R0B",
+        "address": 11,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "CMOS_OB_DIS_15_8",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R0C",
+        "address": 12,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "CMOS_OB_DIS_23_16",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R0D",
+        "address": 13,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MASK_CLKBUF",
+            "bits": [
+              3,
+              3
+            ]
+          },
+          {
+            "name": "MASK_REFAMP",
+            "bits": [
+              2,
+              2
+            ]
+          },
+          {
+            "name": "MASK_BG_DIS",
+            "bits": [
+              1,
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R0E",
+        "address": 14,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "SYNC_PIN_EN",
+            "bits": [
+              7,
+              7
+            ]
+          },
+          {
+            "name": "SPI_SYNC",
+            "bits": [
+              6,
+              6
+            ]
+          },
+          {
+            "name": "SPI_SYNC_EN",
+            "bits": [
+              5,
+              5
+            ]
+          },
+          {
+            "name": "REF_CTL",
+            "bits": [
+              3,
+              3
+            ]
+          },
+          {
+            "name": "REF_SEL",
+            "bits": [
+              2,
+              1
+            ]
+          },
+          {
+            "name": "SE_CLK_EN",
+            "bits": [
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R11",
+        "address": 17,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "SE_A",
+            "bits": [
+              5,
+              5
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R13",
+        "address": 19,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "E_FUSE_LD",
+            "bits": [
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R14",
+        "address": 20,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "CUSTOM_PAT_7_0",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R15",
+        "address": 21,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "CUSTOM_PAT_15_8",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R16",
+        "address": 22,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "TEST_PAT_A",
+            "bits": [
+              4,
+              2
+            ]
+          },
+          {
+            "name": "CUSTOM_PAT_17_16",
+            "bits": [
+              1,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R18",
+        "address": 24,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "DCLKIN_EN",
+            "bits": [
+              4,
+              4
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R19",
+        "address": 25,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "FCLK_SRC",
+            "bits": [
+              7,
+              7
+            ]
+          },
+          {
+            "name": "FCLK_DIV",
+            "bits": [
+              4,
+              4
+            ]
+          },
+          {
+            "name": "FCLK_EN",
+            "bits": [
+              1,
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R1B",
+        "address": 27,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAPPER_EN",
+            "bits": [
+              7,
+              7
+            ]
+          },
+          {
+            "name": "EN_20B",
+            "bits": [
+              6,
+              6
+            ]
+          },
+          {
+            "name": "BIT_MAPPER_RES",
+            "bits": [
+              5,
+              3
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R1E",
+        "address": 30,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "CMOS_DCLK_DEL",
+            "bits": [
+              5,
+              4
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R1F",
+        "address": 31,
+        "width": 8,
+        "reset": 16,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "LOW_DR_EN",
+            "bits": [
+              7,
+              7
+            ]
+          },
+          {
+            "name": "DCLKIN_EN",
+            "bits": [
+              6,
+              6
+            ]
+          },
+          {
+            "name": "DCLK_OB_EN",
+            "bits": [
+              4,
+              4
+            ]
+          },
+          {
+            "name": "X2_DCLK",
+            "bits": [
+              3,
+              3
+            ]
+          }
+        ],
+        "note": "DCLK OB EN reset 1 per the field table (the register figure prints R/W-0)"
+      },
+      {
+        "name": "R20",
+        "address": 32,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "FCLK_PAT_7_0",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ],
+        "note": "FCLK PAT [19:0] reset 0xFFC00"
+      },
+      {
+        "name": "R21",
+        "address": 33,
+        "width": 8,
+        "reset": 252,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "FCLK_PAT_15_8",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R22",
+        "address": 34,
+        "width": 8,
+        "reset": 15,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "FCLK_PAT_19_16",
+            "bits": [
+              3,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R24",
+        "address": 36,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "DIG_BYP",
+            "bits": [
+              2,
+              2
+            ]
+          },
+          {
+            "name": "DDC_EN",
+            "bits": [
+              1,
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R25",
+        "address": 37,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "DECIMATION",
+            "bits": [
+              6,
+              4
+            ]
+          },
+          {
+            "name": "REAL_OUT",
+            "bits": [
+              3,
+              3
+            ]
+          },
+          {
+            "name": "MIX_PHASE",
+            "bits": [
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R26",
+        "address": 38,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MIX_GAIN_A",
+            "bits": [
+              7,
+              6
+            ]
+          },
+          {
+            "name": "MIX_RES_A",
+            "bits": [
+              5,
+              5
+            ]
+          },
+          {
+            "name": "FS4_MIX_A",
+            "bits": [
+              4,
+              4
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R27",
+        "address": 39,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "OP_ORDER_A",
+            "bits": [
+              4,
+              4
+            ]
+          },
+          {
+            "name": "Q_DEL_A",
+            "bits": [
+              3,
+              3
+            ]
+          },
+          {
+            "name": "FS4_MIX_PH_A",
+            "bits": [
+              2,
+              2
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R2A",
+        "address": 42,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "NCO_A_7_0",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R2B",
+        "address": 43,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "NCO_A_15_8",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R2C",
+        "address": 44,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "NCO_A_23_16",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R2D",
+        "address": 45,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "NCO_A_31_24",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R39",
+        "address": 57,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R3A",
+        "address": 58,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R3B",
+        "address": 59,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R3C",
+        "address": 60,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R3D",
+        "address": 61,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R3E",
+        "address": 62,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R3F",
+        "address": 63,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R40",
+        "address": 64,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R41",
+        "address": 65,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R42",
+        "address": 66,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R43",
+        "address": 67,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R44",
+        "address": 68,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R45",
+        "address": 69,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R46",
+        "address": 70,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R47",
+        "address": 71,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R48",
+        "address": 72,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R49",
+        "address": 73,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R4A",
+        "address": 74,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R4B",
+        "address": 75,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R4C",
+        "address": 76,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R4D",
+        "address": 77,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R4E",
+        "address": 78,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R4F",
+        "address": 79,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R50",
+        "address": 80,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R51",
+        "address": 81,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R52",
+        "address": 82,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R53",
+        "address": 83,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R54",
+        "address": 84,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R55",
+        "address": 85,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R56",
+        "address": 86,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R57",
+        "address": 87,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R58",
+        "address": 88,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R59",
+        "address": 89,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R5A",
+        "address": 90,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R5B",
+        "address": 91,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R5C",
+        "address": 92,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R5D",
+        "address": 93,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R5E",
+        "address": 94,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R5F",
+        "address": 95,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R60",
+        "address": 96,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R61",
+        "address": 97,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R62",
+        "address": 98,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R63",
+        "address": 99,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R64",
+        "address": 100,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R65",
+        "address": 101,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R66",
+        "address": 102,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R67",
+        "address": 103,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R68",
+        "address": 104,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R69",
+        "address": 105,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R6A",
+        "address": 106,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R6B",
+        "address": 107,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R6C",
+        "address": 108,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R6D",
+        "address": 109,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R6E",
+        "address": 110,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R6F",
+        "address": 111,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R70",
+        "address": 112,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R71",
+        "address": 113,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R72",
+        "address": 114,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "MAP",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "R8F",
+        "address": 143,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "fields": [
+          {
+            "name": "FORMAT_A",
+            "bits": [
+              1,
+              1
+            ]
+          }
+        ]
+      }
+    ],
+    "protocol": {
+      "frame": "stream",
+      "idle": "0",
+      "commands": [
+        {
+          "name": "RESET",
+          "in": "0 000 0000 0000 0000 xxxxxxx1",
+          "action": "reset",
+          "note": "write of 0x00 with RESET = 1 (register 0x00)"
+        },
+        {
+          "name": "WRITE",
+          "in": "0 000 aaaaaaaaaaaa dddddddd",
+          "action": "write",
+          "address": "a",
+          "data": "d"
+        },
+        {
+          "name": "READ",
+          "in": "1 000 aaaaaaaaaaaa",
+          "action": "rreg",
+          "address": "a",
+          "reply": "@",
+          "note": "the register's D7..D0 follow on SDIO during the next 8 SCLKs"
+        }
+      ],
+      "read": "R{14}"
+    },
+    "pins": {
+      "reset": {
+        "pin": "RESET",
+        "active": 1
+      },
+      "powerdown": {
+        "pin": "PDN/SYNC",
+        "active": 1
+      }
+    }
+  },
+  "packages": {
+    "RSB": {
+      "pinout": "rsb40",
+      "footprint": "WQFN-40-RSB",
+      "package": "WQFN",
+      "pins": 40
+    }
+  },
+  "pdf": "adc3544.pdf",
+  "pages": "p.3-4 (pins; pin 18 NC, pin 19 FCLK), p.5 (ROC: AVDD, IOVDD 1.75-1.85 V), p.10 (SDR CMOS tPD 3-7 ns), p.11 (SPI SCLK 20 MHz, t(OD) 10.8 ns, t(ODZ) 14 ns max), p.37 (two's complement default), p.45 (default config Table 8-12: SDR CMOS, 2s complement), p.46-47 (24-bit SPI words), p.48-61 (register map)",
+  "notModeled": [
+    "analog input, references, auto-zero and clock biasing (the result is always the 0 V code 0x0000, two's complement)",
+    "pipeline latency (1 clock cycle) is not modeled (the code is constant); data change tPD (7 ns max) after the sampling clock falling edge, DCLK follows the inverted clock",
+    "CLKP/CLKM are a differential (or single-ended, 0.9 V centred) sampling clock: the model clocks on CLKP alone",
+    "only the default output interface is modeled; the output interface/resolution registers (0x07, 0x1B, 0x39.., bit mapper, e-fuse load 0x13), DDR/serial CMOS 2-wire/1-wire modes, FCLK, DCLKIN and the CMOS output buffer power-down bits (0x0A-0x0C, 0x1F) do not change the outputs",
+    "decimation filter, NCO, mixer (0x24-0x2D), test patterns (0x14-0x16) and offset-binary output (FORMAT, needs DIG BYP) do not change the output code",
+    "PDN GLOBAL / PDN channel register bits and the PDN/SYNC pin used as SYNC (SYNC PIN EN) are stored only; the PDN/SYNC pin is modeled as power-down (blocks conversions, but the model also ignores the SPI bus while it is high)",
+    "REFBUF pin voltage strapping of the reference / clock / interface (an analog level)",
+    "R/W = 1 disables further register writes until the next write cycle (read-back mode); A[14:12] must be 0",
+    "SPI is 3-wire: SDIO carries both directions (bus mosi and miso are the same pin); words beyond a multiple of 24 bits are ignored",
+    "digital inputs RESET, PDN/SYNC, SCLK, SEN, SDIO are referred to AVDD (VIH 1.4-1.5 V); vcc is the IOVDD range (identical 1.75-1.85 V)",
+    "output bit mapper range: the register map summary says 0x31..0x60, the register description 0x39..0x60, the mapping tables use addresses up to 0x72; modeled as 0x39..0x72",
+    "timing: tOut is the SPI SDIO output delay t(OD) 10.8 ns max (the clocked data bus uses the same tOut; its real delay is tPD 3-7 ns after the clock falling edge)"
+  ],
+  "variants": "single-device datasheet; same register map as ADC354x without MASK REFSYS A, DLL PDN and AZ EN",
+  "parts": [
+    [
+      "ADC3544IRSBT",
+      "RSB",
+      40,
+      "Active"
+    ]
+  ]
+}

@@ -1,0 +1,268 @@
+{
+ "device": {
+  "id": "ADS8515",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit 250 kSPS sampling CMOS ADC with internal reference and 16-bit/byte parallel interface",
+  "note": "ads8515.pdf (SLAS460D) p.4-5 specifications (VIH 0.65 VDIG, binary two's complement, VDIG 1.65-5.25 V, bus access/relinquish 83 ns), p.4 pin configuration, p.8 pin descriptions, p.9-10 basic operation, starting a conversion, Table 1 control lines, reading data, Table 2 output codes, p.11 Table 3 conversion timing and Figure 20 BYTE bit locations",
+  "pinouts": {
+   "db28": [
+    {
+     "number": 1,
+     "name": "VIN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AGND1",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "REF",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "AGND2",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "D15",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "D14",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "D13",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "D12",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "D11",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "D10",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "D9",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "D8",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "D7",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "D6",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "D5",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "D4",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "D3",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "D2",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "D1",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "D0",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "BYTE",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "R/C",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "VANA",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "VDIG",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   1.65,
+   5.25
+  ],
+  "analog": [
+   "VIN",
+   "REF",
+   "CAP",
+   "VANA"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D15",
+    "D14",
+    "D13",
+    "D12",
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rw": {
+    "pin": "R/C",
+    "read": 1
+   },
+   "byteSelect": {
+    "pin": "BYTE",
+    "high": 0
+   }
+  },
+  "timing": {
+   "tAcc": 30,
+   "tDf": 83
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Convert (CS and R/C low)",
+     "in": "x{16}",
+     "action": "start",
+     "commit": "end",
+     "note": "p.10 Table 1: CS falling with R/C low, or R/C falling with CS low, initiates conversion n (CS and R/C are ORed and level triggered)"
+    }
+   ],
+   "read": {
+    "high": "R{16}",
+    "low": "[R:7:0] [R:15:8]"
+   }
+  },
+  "conversion": {
+   "time": 2000,
+   "start": [
+    "command"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 0,
+    "asserts": "busy"
+   }
+  ]
+ },
+ "packages": {
+  "DB": {
+   "pinout": "db28",
+   "footprint": "SSOP-28",
+   "package": "SSOP",
+   "pins": 28
+  }
+ },
+ "pdf": "ads8515.pdf",
+ "pages": "p.4-5 (VIH 0.65xVDIG, binary two's complement, VDIG 1.65-5.25 V, bus access / relinquish 83 ns), p.4 (pin configuration), p.8 (pin descriptions: BYTE low = 8 MSBs, high = 8 LSBs; D15-D0 Hi-Z when CS high or R/C low), p.10 (Table 1 control lines; reading data: output active when R/C high and CS low; Table 2: 0 V = 0000h), p.11 (Table 3: tconv 2 us max, ten 30 ns max, tdis 83 ns max; Figure 20: BYTE high swaps the bytes, pins 6-13 = bits 7-0, pins 15-22 = bits 15-8)",
+ "notModeled": [
+  "analog input (+/-10 V), internal 2.5 V reference (REF) and CAP buffer",
+  "the conversion starts when the CS/R/C low period ends (write access end) rather than at its falling edge; the 40 ns convert pulse width and the rule that CS or R/C must be high when BUSY rises (else a conversion restarts without acquisition) are not checked",
+  "reading during a conversion returns the previous result (valid up to tv after the start); the model keeps the same 0 V code throughout",
+  "tAcc uses ten (bus enable 30 ns max, Table 3); ta (data valid after R/C low, 1.2 us) is the conversion data latency and not modeled; BYTE switching delay td4 (30 ns)",
+  "acquisition time, throughput, VIL/VIH thresholds"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS8515IBDB",
+   "DB",
+   28,
+   "Active"
+  ],
+  [
+   "ADS8515IDB",
+   "DB",
+   28,
+   "Active"
+  ]
+ ]
+}

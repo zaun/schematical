@@ -1,0 +1,310 @@
+{
+ "device": {
+  "id": "ADS1232",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "24-bit 2-channel bridge-sensor delta-sigma ADC with PGA (1/2/64/128), 10/80 SPS, pin-controlled, 2-wire serial interface (DRDY/DOUT, SCLK), temperature sensor",
+  "note": "ads1232.pdf (SBAS350H) p.3-4 pin configuration and functions (Table 4-1), p.6 recommended operating conditions (DVDD 2.7-5.3 V), p.7 electrical characteristics (data rate 9.75-10.3 / 78-82.4 SPS, VIH/VIL), p.15-16 input channel selection (Tables 7-1, 7-2), p.21 settling, p.22 data rate (Table 7-6), data format (Table 7-7), DRDY/DOUT, SCLK, p.23 data retrieval (Figure 7-9, Table 7-8: t4 = 50 ns), p.24-25 offset calibration, standby, p.26 power-down",
+  "pinouts": {
+   "pw24": [
+    {
+     "number": 1,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "CLKIN/XTAL1",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "XTAL2",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "TEMP",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 10,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 11,
+     "name": "AINP1",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "AINN1",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "AINN2",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "AINP2",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "REFN",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "GAIN0",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "GAIN1",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "SPEED",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "PDWN",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "DRDY/DOUT",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.3
+  ],
+  "analog": [
+   "CLKIN/XTAL1",
+   "XTAL2",
+   "CAP",
+   "AINP1",
+   "AINN1",
+   "AINP2",
+   "AINN2",
+   "REFN",
+   "REFP",
+   "AGND",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "sclk": "SCLK",
+   "miso": "DRDY/DOUT",
+   "mode": 1
+  },
+  "timing": {
+   "tOut": 50
+  },
+  "registers": [
+   {
+    "name": "MUX",
+    "width": 1,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "A0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: A0 pin level (Table 7-1, p.15); 0 = AINP1/AINN1, 1 = AINP2/AINN2"
+   },
+   {
+    "name": "CTRL",
+    "width": 4,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SPEED",
+      "bits": [
+       0,
+       0
+      ]
+     },
+     {
+      "name": "GAIN0",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "GAIN1",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "TEMP",
+      "bits": [
+       3,
+       3
+      ]
+     }
+    ],
+    "note": "internal: the SPEED / GAIN pin levels (pins.levels); no serial registers"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{24}",
+   "idle": "1",
+   "commands": []
+  },
+  "conversion": {
+   "time": {
+    "field": "CTRL.SPEED",
+    "values": {
+     "0": 102564103,
+     "1": 12820513
+    }
+   },
+   "start": [
+    "power-on"
+   ],
+   "mode": "continuous",
+   "channel": "MUX"
+  },
+  "ready": [
+   {
+    "pin": "DRDY/DOUT",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "onMiso": true
+   }
+  ],
+  "pins": {
+   "powerdown": {
+    "pin": "PDWN",
+    "active": 0
+   },
+   "levels": [
+    {
+     "pin": "A0",
+     "field": "MUX.A0"
+    },
+    {
+     "pin": "TEMP",
+     "field": "CTRL.TEMP"
+    },
+    {
+     "pin": "SPEED",
+     "field": "CTRL.SPEED"
+    },
+    {
+     "pin": "GAIN0",
+     "field": "CTRL.GAIN0"
+    },
+    {
+     "pin": "GAIN1",
+     "field": "CTRL.GAIN1"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw24",
+   "footprint": "TSSOP-24",
+   "package": "TSSOP",
+   "pins": 24
+  }
+ },
+ "pdf": "ads1232.pdf",
+ "pages": "p.3-4 (pins), p.6 (ROC), p.7 (EC), p.15-16 (mux), p.21 (settling), p.22 (data rate, format, DRDY/DOUT), p.23 (retrieval timing), p.24-26 (calibration, standby, power-down)",
+ "notModeled": [
+  "analog inputs, PGA gain (GAIN0/GAIN1 levels are stored only), reference",
+  "conversion time is 1 / the minimum internal-oscillator data rate (9.75 / 78 SPS, p.7); an external clock or crystal on CLKIN/XTAL1 (fCLK / 491,520 or / 61,440) is not modeled",
+  "settling after an A0/A1 or TEMP change: DRDY/DOUT held high for t1 = 51 / 401 ms (p.21); the model just continues converting",
+  "DRDY/DOUT stays at the last data bit until the next update unless a 25th SCLK forces it high (Figure 7-10); modeled as idle 1 after the 24 bits",
+  "offset calibration started by 26 SCLKs (t8 = 101.3 / 801 ms) and standby mode (SCLK held high after DRDY/DOUT falls, t10, wake-up t11) and standby with calibration",
+  "data-update window t6 (39 us, no readback) and data overwritten if not read within t7",
+  "PDWN also resets the ADC and must be toggled at power-up (modeled as power-down only; there are no serial registers)",
+  "temperature sensor (TEMP pin level is stored only)"
+ ],
+ "variants": "ADS1232 (24-pin, 2 channels, TEMP pin) and ADS1234 (28-pin, 4 channels, A1 pin) share ads1232.pdf: own spec files",
+ "parts": [
+  [
+   "ADS1232IPW",
+   "PW",
+   24,
+   "Active"
+  ],
+  [
+   "ADS1232IPWR",
+   "PW",
+   24,
+   "Active"
+  ]
+ ]
+}

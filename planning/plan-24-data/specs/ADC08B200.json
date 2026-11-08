@@ -1,0 +1,338 @@
+{
+  "device": {
+    "id": "ADC08B200",
+    "function": "ADC",
+    "description": "8-bit 200 MSPS ADC with 1 KB capture buffer, PLL clock multiplier and parallel CMOS outputs",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "adc08b200.pdf (SNAS388F) p.2 pin configuration (Figure 1), p.3-4 pin descriptions, p.5 operating ratings, p.9-10 converter timing characteristics (tODR/tODF, pipeline delay 6 clocks), p.14 Figure 7 buffer bypassed timing, p.21-22 functional description (straight binary, PD/PDADC, buffer, RESET), p.28-30 buffer pins, DRDY, Table 1 MULT, Table 2 BSIZE",
+    "pinouts": {
+      "pfb48": [
+        {
+          "number": 1,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 2,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 3,
+          "name": "VRT",
+          "role": "power"
+        },
+        {
+          "number": 4,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 5,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 6,
+          "name": "VIN",
+          "role": "input"
+        },
+        {
+          "number": 7,
+          "name": "SIG GND",
+          "role": "ground"
+        },
+        {
+          "number": 8,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 9,
+          "name": "VRM",
+          "role": "nc"
+        },
+        {
+          "number": 10,
+          "name": "VRB",
+          "role": "power"
+        },
+        {
+          "number": 11,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 12,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 13,
+          "name": "PD",
+          "role": "input"
+        },
+        {
+          "number": 14,
+          "name": "OEDGE/TEN",
+          "role": "input"
+        },
+        {
+          "number": 15,
+          "name": "EF",
+          "role": "output"
+        },
+        {
+          "number": 16,
+          "name": "FF",
+          "role": "output"
+        },
+        {
+          "number": 17,
+          "name": "WEN",
+          "role": "input"
+        },
+        {
+          "number": 18,
+          "name": "WENSYNC",
+          "role": "output"
+        },
+        {
+          "number": 19,
+          "name": "RCLK",
+          "role": "input"
+        },
+        {
+          "number": 20,
+          "name": "REN",
+          "role": "input"
+        },
+        {
+          "number": 21,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 22,
+          "name": "RESET",
+          "role": "input"
+        },
+        {
+          "number": 23,
+          "name": "BSIZE1",
+          "role": "input"
+        },
+        {
+          "number": 24,
+          "name": "BSIZE0",
+          "role": "input"
+        },
+        {
+          "number": 25,
+          "name": "ASW",
+          "role": "input"
+        },
+        {
+          "number": 26,
+          "name": "D7",
+          "role": "output"
+        },
+        {
+          "number": 27,
+          "name": "D6",
+          "role": "output"
+        },
+        {
+          "number": 28,
+          "name": "D5",
+          "role": "output"
+        },
+        {
+          "number": 29,
+          "name": "D4",
+          "role": "output"
+        },
+        {
+          "number": 30,
+          "name": "DR GND",
+          "role": "ground"
+        },
+        {
+          "number": 31,
+          "name": "DRDY",
+          "role": "output"
+        },
+        {
+          "number": 32,
+          "name": "VDR",
+          "role": "power"
+        },
+        {
+          "number": 33,
+          "name": "D3",
+          "role": "output"
+        },
+        {
+          "number": 34,
+          "name": "D2",
+          "role": "output"
+        },
+        {
+          "number": 35,
+          "name": "D1",
+          "role": "output"
+        },
+        {
+          "number": 36,
+          "name": "D0",
+          "role": "output"
+        },
+        {
+          "number": 37,
+          "name": "OE",
+          "role": "input"
+        },
+        {
+          "number": 38,
+          "name": "MULT0",
+          "role": "input"
+        },
+        {
+          "number": 39,
+          "name": "MULT1",
+          "role": "input"
+        },
+        {
+          "number": 40,
+          "name": "VD",
+          "role": "power"
+        },
+        {
+          "number": 41,
+          "name": "PDADC",
+          "role": "input"
+        },
+        {
+          "number": 42,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 43,
+          "name": "VP",
+          "role": "power"
+        },
+        {
+          "number": 44,
+          "name": "VP",
+          "role": "power"
+        },
+        {
+          "number": 45,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 46,
+          "name": "CLK",
+          "role": "input"
+        },
+        {
+          "number": 47,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 48,
+          "name": "VP",
+          "role": "power"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 8,
+    "channels": 1,
+    "codeFormat": "straight",
+    "vcc": [
+      2.7,
+      3.6
+    ],
+    "analog": [
+      "VA",
+      "VRT",
+      "VIN",
+      "VRM",
+      "VRB",
+      "VP"
+    ],
+    "bus": {
+      "style": "clocked",
+      "clock": {
+        "pin": "CLK",
+        "edge": "rise"
+      },
+      "data": [
+        "D7",
+        "D6",
+        "D5",
+        "D4",
+        "D3",
+        "D2",
+        "D1",
+        "D0"
+      ],
+      "oe": {
+        "pin": "OE",
+        "active": 1
+      },
+      "clockOut": {
+        "pin": "DRDY",
+        "invert": false
+      }
+    },
+    "timing": {
+      "tOut": 13.1
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [],
+      "read": "R{8}"
+    },
+    "pins": {
+      "powerdown": {
+        "pin": "PD",
+        "active": 1
+      }
+    }
+  },
+  "packages": {
+    "PFB": {
+      "pinout": "pfb48",
+      "footprint": "TQFP-48-7X7",
+      "package": "TQFP",
+      "pins": 48
+    }
+  },
+  "pdf": "adc08b200.pdf",
+  "pages": "p.2 (Figure 1 pinout), p.3-4 (pin descriptions; MULT(1:0) pins 38/39 named MUL0/MUL1 in the drawing), p.5 (operating ratings: VA 3.0-3.6 V, VDR 2.7 V to VA+0.3 V, VD/VP up to VA+0.3 V), p.10 (tODR 13.1 ns max, pipeline 6 clocks), p.14 (Figure 7 bypass timing), p.21 (straight binary, PD, PDADC, buffer flags), p.28-30 (buffer pins, DRDY, Tables 1-2)",
+  "notModeled": [
+    "analog input and reference ladder (the result is always the 0 V code 0x00)",
+    "the 256/512/1024-byte capture buffer (BSIZE1/BSIZE0 not 00): WEN/REN/RCLK/ASW writing and reading, EF/FF flags, WENSYNC and RESET of the buffer pointers; the model is the buffer-bypassed mode (BSIZE1 = BSIZE0 = 0), where those inputs are ignored and EF/FF are held low (the model leaves EF, FF and WENSYNC undriven)",
+    "PLL clock multiplier (MULT1/MULT0 x2/x4/x8): the model makes one conversion per CLK rising edge (PLL bypassed)",
+    "pipeline latency of 6 clock cycles (the code is constant); DRDY edge selection by OEDGE/TEN (data change on DRDY rise when high, fall when low) and Test Mode (OEDGE/TEN at VA/2)",
+    "PDADC (ADC-only power-down with the buffer still readable); PD high holds the outputs at the last byte (the model's powerdown only blocks conversions); 2-20 us wake-up",
+    "vcc is VDR 2.7 V up to 3.6 V (the VA maximum); VD 'connect to +3.3 V' (max VA + 0.3 V); clock frequency limits"
+  ],
+  "variants": "ADC08B200Q (automotive grade, same datasheet) is not in the skeleton",
+  "parts": [
+    [
+      "ADC08B200CIVS/NOPB",
+      "PFB",
+      48,
+      "Active"
+    ]
+  ]
+}

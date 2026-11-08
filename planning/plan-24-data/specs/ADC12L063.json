@@ -1,0 +1,259 @@
+{
+  "device": {
+    "id": "ADC12L063",
+    "function": "ADC",
+    "description": "12-bit 62 MSPS pipelined ADC with parallel TRI-STATE outputs and power-down",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "adc12l063.pdf (SNAS144E) p.2 connection diagram, p.3-5 pin descriptions, p.5-6 operating ratings, p.6 logic characteristics, p.9 AC characteristics (tOD, tDIS)",
+    "pinouts": {
+      "ney32": [
+        {
+          "number": 1,
+          "name": "VREF",
+          "role": "power"
+        },
+        {
+          "number": 2,
+          "name": "VIN+",
+          "role": "input"
+        },
+        {
+          "number": 3,
+          "name": "VIN-",
+          "role": "input"
+        },
+        {
+          "number": 4,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 5,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 6,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 7,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 8,
+          "name": "PD",
+          "role": "input"
+        },
+        {
+          "number": 9,
+          "name": "DGND",
+          "role": "ground"
+        },
+        {
+          "number": 10,
+          "name": "CLK",
+          "role": "input"
+        },
+        {
+          "number": 11,
+          "name": "OE",
+          "role": "input"
+        },
+        {
+          "number": 12,
+          "name": "DGND",
+          "role": "ground"
+        },
+        {
+          "number": 13,
+          "name": "VD",
+          "role": "power"
+        },
+        {
+          "number": 14,
+          "name": "D0",
+          "role": "output"
+        },
+        {
+          "number": 15,
+          "name": "D1",
+          "role": "output"
+        },
+        {
+          "number": 16,
+          "name": "D2",
+          "role": "output"
+        },
+        {
+          "number": 17,
+          "name": "D3",
+          "role": "output"
+        },
+        {
+          "number": 18,
+          "name": "D4",
+          "role": "output"
+        },
+        {
+          "number": 19,
+          "name": "D5",
+          "role": "output"
+        },
+        {
+          "number": 20,
+          "name": "DR GND",
+          "role": "ground"
+        },
+        {
+          "number": 21,
+          "name": "VDR",
+          "role": "power"
+        },
+        {
+          "number": 22,
+          "name": "D6",
+          "role": "output"
+        },
+        {
+          "number": 23,
+          "name": "D7",
+          "role": "output"
+        },
+        {
+          "number": 24,
+          "name": "D8",
+          "role": "output"
+        },
+        {
+          "number": 25,
+          "name": "D9",
+          "role": "output"
+        },
+        {
+          "number": 26,
+          "name": "D10",
+          "role": "output"
+        },
+        {
+          "number": 27,
+          "name": "D11",
+          "role": "output"
+        },
+        {
+          "number": 28,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 29,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 30,
+          "name": "VRN",
+          "role": "nc"
+        },
+        {
+          "number": 31,
+          "name": "VRP",
+          "role": "nc"
+        },
+        {
+          "number": 32,
+          "name": "VRM",
+          "role": "nc"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 12,
+    "channels": 1,
+    "codeFormat": "offset",
+    "vcc": [
+      2.5,
+      3.6
+    ],
+    "analog": [
+      "VREF",
+      "VIN+",
+      "VIN-",
+      "VA",
+      "VRN",
+      "VRP",
+      "VRM"
+    ],
+    "bus": {
+      "style": "clocked",
+      "clock": {
+        "pin": "CLK",
+        "edge": "rise"
+      },
+      "data": [
+        "D11",
+        "D10",
+        "D9",
+        "D8",
+        "D7",
+        "D6",
+        "D5",
+        "D4",
+        "D3",
+        "D2",
+        "D1",
+        "D0"
+      ],
+      "oe": {
+        "pin": "OE",
+        "active": 0
+      }
+    },
+    "timing": {
+      "tOut": 13,
+      "tFloat": 10
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [],
+      "read": "R{12}"
+    },
+    "pins": {
+      "powerdown": {
+        "pin": "PD",
+        "active": 1
+      }
+    }
+  },
+  "packages": {
+    "NEY": {
+      "pinout": "ney32",
+      "footprint": "LQFP-32-NEY",
+      "package": "LQFP",
+      "pins": 32
+    }
+  },
+  "pdf": "adc12l063.pdf",
+  "pages": "p.2 (connection diagram), p.3-5 (pin descriptions), p.5-6 (operating ratings: VA/VD 3.0-3.6 V, VDR 2.5 V to VD), p.6 (CLK/PD/OE VIH 2.0 V / VIL 0.8 V), p.9 (tOD 13 ns max at VDR 3.3 V, 12 ns typ at 2.5 V; tDIS 10 ns typ; latency 6 clocks; 1-62 MHz)",
+  "notModeled": [
+    "analog input and reference (the result is always the 0 V code: offset binary, 0 V differential reads 0x800)",
+    "pipeline latency of 6 clock cycles (the code is constant)",
+    "clock frequency limits, duty cycle and power-down exit cycle; tFloat is the typical tDIS (no maximum given)",
+    "vcc is the VDR range (2.5 V to VD 3.6 V); CLK/PD/OE are referenced to VD (3.0-3.6 V)",
+    "tOut is the 13 ns maximum given at VDR = 3.3 V (only a 12 ns typical is given at VDR = 2.5 V)"
+  ],
+  "variants": "",
+  "parts": [
+    [
+      "ADC12L063CIVY/NOPB",
+      "NEY",
+      32,
+      "Active"
+    ]
+  ]
+}

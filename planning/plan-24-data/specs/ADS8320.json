@@ -1,0 +1,150 @@
+{
+ "device": {
+  "id": "ADS8320",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit 100 kSPS micropower differential-input SAR ADC with synchronous serial (SPI/SSI) interface",
+  "note": "ads8320.pdf (SBAS108E) p.3 pin configuration and functions, p.4 recommended operating conditions (VCC 2.7-3.3 V / 4.75-5.25 V), p.5-7 digital input/output (straight binary), p.13 signal levels (inputs to 5.5 V regardless of VCC), p.14 serial interface and Table 1 timing (tdDO 50 ns, tdis 100 ns max), p.15 data format, p.24 Figure 29 timing diagram; ads8320-ht.pdf (SBAS521B) HKJ pin configuration (same numbering)",
+  "pinouts": {
+   "p8": [
+    {
+     "number": 1,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "+In",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "-In",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "CS/SHDN",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "DCLOCK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "+VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "inputMax": 5.5,
+  "analog": [
+   "VREF",
+   "+In",
+   "-In"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS/SHDN",
+   "sclk": "DCLOCK",
+   "miso": "DOUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 0,
+   "tOut": 50,
+   "tFloat": 100
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "z{5} 0 R{16} 0{15}",
+   "idle": "z",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "p8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  },
+  "HKJ": {
+   "pinout": "p8",
+   "footprint": "CFP-8-HKJ",
+   "package": "CFP",
+   "pins": 8
+  }
+ },
+ "pdf": "ads8320.pdf",
+ "pages": "ads8320.pdf: p.3 (pins), p.4 (ROC), p.5-7 (digital I/O, data format), p.13 (signal levels), p.14 (serial interface, Table 1 timing), p.15 (data format), p.24 (Figure 29); ads8320-ht.pdf: HKJ pin configuration and pin assignments",
+ "notModeled": [
+  "analog input and reference; the conversion is clocked by DCLOCK (the 16-clock conversion is not timed: the result is the 0 V code 0000h at once)",
+  "DOUT is Hi-Z for the 4.5-5 sample clocks, enabled after the fifth falling DCLOCK edge with one null bit (modeled as 5 z bits then 0), then B15..B0 MSB first, then B1..B15 repeated LSB first (zeros for the 0 V code), then Hi-Z; the pin table's 'second clock pulse enables the output' contradicts the serial-interface text and Figure 29, which are followed",
+  "shutdown while CS/SHDN is high and power-down between conversions (no visible bus effect)",
+  "VCC 2.0-2.7 V operation (electrical-characteristics note) is outside the recommended range used for vcc",
+  "throughput (100 kSPS) and DCLOCK frequency limits"
+ ],
+ "variants": "ADS8320E / ADS8320EB are accuracy grades (VSSOP DGK); ADS8320SHKJ is the high-temperature ADS8320-HT (ads8320-ht.pdf, CFP HKJ, same pin numbering and interface)",
+ "parts": [
+  [
+   "ADS8320E/250",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8320E/2K5",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8320EB/250",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8320EB/2K5",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8320SHKJ",
+   "HKJ",
+   8,
+   "Last Time Buy"
+  ]
+ ]
+}

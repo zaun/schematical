@@ -1,0 +1,538 @@
+{
+ "device": {
+  "id": "DDC232",
+  "function": "ADC",
+  "description": "32-channel 20-bit current-input (charge-integrating) delta-sigma ADC with serial output and configuration register",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ddc232.pdf (SBAS331D) p.3-4 specifications (DVDD 2.7-3.6 V, AVDD 4.75-5.25 V, DCLK / CLK_CFG 20 MHz), p.5 BGA pin configuration and descriptions, p.11-12 configuration register write / read-back (DIN_CFG latched on the CLK_CFG falling edge, 12 bits MSB first, read-back = 12-bit configuration + 4-bit revision ID + test pattern, Table 5, Figure 8, Table 6), p.13 Table 7 configuration register (Range 350 pC, Format = 1, Clk_4x = 0, Test = 0 defaults; Version 0 = DDC232C, 1 = DDC232CK), p.14 RESET, p.16 Table 9 (tCMDR cont mode data ready = 1382 +-2 CLK periods), p.20 Table 12 code table (0 % FS = 0000 0001 0000 0000 0000), data retrieval, Figure 17 / Table 13 (no chip select, Input 32 first, DCLK falling edge to valid DOUT 25 ns)",
+  "pinouts": {
+   "zxg64": [
+    {
+     "ball": "A1",
+     "name": "IN28",
+     "role": "input"
+    },
+    {
+     "ball": "A2",
+     "name": "IN12",
+     "role": "input"
+    },
+    {
+     "ball": "A3",
+     "name": "IN32",
+     "role": "input"
+    },
+    {
+     "ball": "A4",
+     "name": "IN16",
+     "role": "input"
+    },
+    {
+     "ball": "A5",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "A6",
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "ball": "A7",
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "ball": "A8",
+     "name": "CONV",
+     "role": "input"
+    },
+    {
+     "ball": "B1",
+     "name": "IN27",
+     "role": "input"
+    },
+    {
+     "ball": "B2",
+     "name": "IN11",
+     "role": "input"
+    },
+    {
+     "ball": "B3",
+     "name": "IN31",
+     "role": "input"
+    },
+    {
+     "ball": "B4",
+     "name": "IN15",
+     "role": "input"
+    },
+    {
+     "ball": "B5",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "B6",
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "ball": "B7",
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "ball": "B8",
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "ball": "C1",
+     "name": "IN26",
+     "role": "input"
+    },
+    {
+     "ball": "C2",
+     "name": "IN10",
+     "role": "input"
+    },
+    {
+     "ball": "C3",
+     "name": "IN30",
+     "role": "input"
+    },
+    {
+     "ball": "C4",
+     "name": "IN14",
+     "role": "input"
+    },
+    {
+     "ball": "C5",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "C6",
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "ball": "C7",
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "ball": "C8",
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "ball": "D1",
+     "name": "IN25",
+     "role": "input"
+    },
+    {
+     "ball": "D2",
+     "name": "IN9",
+     "role": "input"
+    },
+    {
+     "ball": "D3",
+     "name": "IN29",
+     "role": "input"
+    },
+    {
+     "ball": "D4",
+     "name": "IN13",
+     "role": "input"
+    },
+    {
+     "ball": "D5",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "D6",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "D7",
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "ball": "D8",
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "ball": "E1",
+     "name": "IN24",
+     "role": "input"
+    },
+    {
+     "ball": "E2",
+     "name": "IN8",
+     "role": "input"
+    },
+    {
+     "ball": "E3",
+     "name": "IN20",
+     "role": "input"
+    },
+    {
+     "ball": "E4",
+     "name": "IN4",
+     "role": "input"
+    },
+    {
+     "ball": "E5",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "E6",
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "ball": "E7",
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "ball": "E8",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "F1",
+     "name": "IN23",
+     "role": "input"
+    },
+    {
+     "ball": "F2",
+     "name": "IN7",
+     "role": "input"
+    },
+    {
+     "ball": "F3",
+     "name": "IN19",
+     "role": "input"
+    },
+    {
+     "ball": "F4",
+     "name": "IN3",
+     "role": "input"
+    },
+    {
+     "ball": "F5",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "F6",
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "ball": "F7",
+     "name": "CLK_CFG",
+     "role": "input"
+    },
+    {
+     "ball": "F8",
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "ball": "G1",
+     "name": "IN22",
+     "role": "input"
+    },
+    {
+     "ball": "G2",
+     "name": "IN6",
+     "role": "input"
+    },
+    {
+     "ball": "G3",
+     "name": "IN18",
+     "role": "input"
+    },
+    {
+     "ball": "G4",
+     "name": "IN2",
+     "role": "input"
+    },
+    {
+     "ball": "G5",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "G6",
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "ball": "G7",
+     "name": "DIN_CFG",
+     "role": "input"
+    },
+    {
+     "ball": "G8",
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "ball": "H1",
+     "name": "IN21",
+     "role": "input"
+    },
+    {
+     "ball": "H2",
+     "name": "IN5",
+     "role": "input"
+    },
+    {
+     "ball": "H3",
+     "name": "IN17",
+     "role": "input"
+    },
+    {
+     "ball": "H4",
+     "name": "IN1",
+     "role": "input"
+    },
+    {
+     "ball": "H5",
+     "name": "QGND",
+     "role": "ground"
+    },
+    {
+     "ball": "H6",
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "ball": "H7",
+     "name": "DVALID",
+     "role": "output"
+    },
+    {
+     "ball": "H8",
+     "name": "DCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 20,
+  "channels": 32,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   3.6
+  ],
+  "analog": [
+   "IN1",
+   "IN2",
+   "IN3",
+   "IN4",
+   "IN5",
+   "IN6",
+   "IN7",
+   "IN8",
+   "IN9",
+   "IN10",
+   "IN11",
+   "IN12",
+   "IN13",
+   "IN14",
+   "IN15",
+   "IN16",
+   "IN17",
+   "IN18",
+   "IN19",
+   "IN20",
+   "IN21",
+   "IN22",
+   "IN23",
+   "IN24",
+   "IN25",
+   "IN26",
+   "IN27",
+   "IN28",
+   "IN29",
+   "IN30",
+   "IN31",
+   "IN32",
+   "AVDD",
+   "VREF"
+  ],
+  "bus": {
+   "style": "spi",
+   "sclk": "DCLK",
+   "miso": "DOUT",
+   "mode": 0
+  },
+  "configBus": {
+   "style": "spi",
+   "sclk": "CLK_CFG",
+   "mosi": "DIN_CFG",
+   "mode": 1
+  },
+  "timing": {
+   "tOut": 25
+  },
+  "registers": [
+   {
+    "name": "CFG",
+    "width": 12,
+    "reset": 3840,
+    "readOnly": 62,
+    "fields": [
+     {
+      "name": "RANGE",
+      "bits": [
+       11,
+       9
+      ]
+     },
+     {
+      "name": "FORMAT",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "VERSION",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CLK_4X",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "TEST",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.13 Table 7, written only as a whole 12-bit word on DIN_CFG; bits 5-1 must be 0 (read-only 0 in the model); reset = Range 111 (350 pC), Format 1, Clk_4x 0, Test 0 (defaults); the Version default is not given (0 used)"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000",
+   "outs": [
+    {
+     "when": "CFG.FORMAT=0",
+     "out": "0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000"
+    }
+   ],
+   "idle": "0",
+   "commands": [
+    {
+     "name": "Write configuration (Format = 1)",
+     "in": "[CFG:11:9] 1 [CFG:7:6] xxxxx [CFG:0:0]",
+     "action": "nop",
+     "set": {
+      "CFG.FORMAT": 1
+     },
+     "next": "[CFG] 0000 0{232} 001100001111000001100110000000010010010010000000111101101001000001010101 [CFG] 0000 0{232} 001100001111000001100110000000010010010010000000111101101001000001010101",
+     "note": "p.11-12: 12 bits on DIN_CFG, MSB first; the optional read-back that follows on DOUT is 12-bit configuration, 4-bit revision ID (value not given: 0000) and the 304-bit test pattern (last 72 bits 30F066012480F69055h), sent twice (640 bits, Table 5)"
+    },
+    {
+     "name": "Write configuration (Format = 0)",
+     "in": "[CFG:11:9] 0 [CFG:7:6] xxxxx [CFG:0:0]",
+     "action": "nop",
+     "set": {
+      "CFG.FORMAT": 0
+     },
+     "next": "[CFG] 0000 0{184} 00110000111100000110011000000001001001001000000011110110 [CFG] 0000 0{184} 00110000111100000110011000000001001001001000000011110110",
+     "note": "p.11-12, Table 5: read-back 2 x (12 + 4 + 240) = 512 bits, test pattern last 56 bits 30F066012480F6h"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "field": "CFG.VERSION",
+    "values": {
+     "0": 276800,
+     "1": 138400
+    }
+   },
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "DVALID",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONV",
+    "edge": "rise"
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "ZXG": {
+   "pinout": "zxg64",
+   "footprint": "NFBGA-64-ZXG",
+   "package": "NFBGA",
+   "pins": 64
+  }
+ },
+ "pdf": "ddc232.pdf",
+ "pages": "p.3-4 (specifications), p.5 (BGA pinout), p.11-12 (configuration register write / read-back, Table 5, Figure 8, Table 6), p.13 (Table 7 configuration register), p.14 (digital interface, RESET), p.16-17 (Tables 9, 10: data-ready timing), p.20 (Table 12 code table, data retrieval, Figure 17, Table 13), p.21 (daisy chain)",
+ "notModeled": [
+  "charge-integrating analog front end (32 dual integrators, VREF, Range full-scale selection, Test mode): the output is always the 0 % FS code (Table 12: 0000 0001 0000 0000 0000 with Format = 1, 0000 0001 0000 0000 with Format = 0), written literally in the frame for all 32 inputs",
+  "CONV: in the device every CONV transition (both edges) ends an integration and DVALID goes low tCMDR = 1382 +-2 CLK periods later; the model starts a conversion only on the CONV rising edge (convst edge \"rise\"), so it reports data every other transition",
+  "conversion time = tCMDR at the nominal clock with Clk_4x = 0: 276.8 us (DDC232C, CLK 5 MHz, Version = 0), 138.4 us (DDC232CK, CLK 10 MHz, Version = 1); the CLK pin and the Clk_4x divider are not used by the model; non-continuous mode and power-up states",
+  "configuration port: two-wire (CLK_CFG, DIN_CFG) with no chip select, framed by a RESET strobe with CONV low; modeled as a configBus SPI port without cs or miso in a stream frame (each 12 bits is one configuration write); partial writes, the tWTRST / tWTWR 2 ms waits and the CONV-low requirement are not checked",
+  "configuration read-back is shifted on DOUT on DCLK rising edges right after the write (modeled as the next DOUT transaction via \"next\"; the 2-wire DOUT port starts a transaction only when a conversion completes, so the read-back appears with the next DVALID); the 4-bit revision ID value is not given in the datasheet (0000 used)",
+  "CLK_CFG mode: the datasheet gives only \"latched on the falling edge of CLK_CFG\" (mode 1 assumed)",
+  "DVALID goes high tPDDCDV after the first DCLK falling edge; the model clears it when the result is read",
+  "daisy-chain (Figures 18, 19): after the device's own words DOUT shifts the DIN bits; the model shifts zeros"
+ ],
+ "variants": "DDC232C (Version bit 0, 3.125 kSPS) and DDC232CK (Version bit 1, 6.2 kSPS) share the datasheet; DDC112 / DDC114 / DDC118 are separate datasheets with the same retrieval scheme",
+ "parts": [
+  [
+   "DDC232CKZXGT",
+   "ZXG",
+   64,
+   "Active"
+  ],
+  [
+   "DDC232CZXGT",
+   "ZXG",
+   64,
+   "Active"
+  ]
+ ]
+}

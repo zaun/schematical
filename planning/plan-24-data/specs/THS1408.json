@@ -1,0 +1,477 @@
+{
+ "device": {
+  "id": "THS1408",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "14-bit 8 MSPS pipeline ADC with internal reference, PGA and 3.3-V parallel uP/DSP interface",
+  "note": "ths1408-ep.pdf (SGLS129B) p.3 terminal functions, p.4-6 recommended operating conditions and clock timing, p.7 sample timing, p.8 read/write timing, p.15-16 registers; ths1408.pdf (SLAS248D) p.3 pinout, p.15-16 registers (Tables 1-5)",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "IN-",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VBG",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "CML",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "REF+",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "REF-",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "OV",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "D13",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "D12",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "D11",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "D10",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "D9",
+     "role": "inout"
+    },
+    {
+     "number": 18,
+     "name": "D8",
+     "role": "inout"
+    },
+    {
+     "number": 19,
+     "name": "D7",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 21,
+     "name": "D6",
+     "role": "inout"
+    },
+    {
+     "number": 22,
+     "name": "D5",
+     "role": "inout"
+    },
+    {
+     "number": 23,
+     "name": "D4",
+     "role": "inout"
+    },
+    {
+     "number": 24,
+     "name": "D3",
+     "role": "inout"
+    },
+    {
+     "number": 25,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "D2",
+     "role": "inout"
+    },
+    {
+     "number": 28,
+     "name": "D1",
+     "role": "inout"
+    },
+    {
+     "number": 29,
+     "name": "D0",
+     "role": "inout"
+    },
+    {
+     "number": 30,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 31,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 32,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 34,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 35,
+     "name": "OE",
+     "role": "input"
+    },
+    {
+     "number": 36,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 38,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 39,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 40,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 43,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 44,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 45,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 46,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 47,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 48,
+     "name": "IN+",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 14,
+  "channels": 1,
+  "codeFormat": {
+   "field": "CTRL.FOR",
+   "values": {
+    "0": "offset",
+    "1": "twos"
+   }
+  },
+  "vcc": [
+   3,
+   3.6
+  ],
+  "analog": [
+   "IN+",
+   "IN-",
+   "AVDD",
+   "VBG",
+   "CML",
+   "REF+",
+   "REF-"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D13",
+    "D12",
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "OE",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   },
+   "address": [
+    "A1",
+    "A0"
+   ]
+  },
+  "timing": {
+   "tAcc": 15,
+   "tDf": 10
+  },
+  "registers": [
+   {
+    "name": "PGA",
+    "address": 1,
+    "width": 14,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "G",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "Table 2: PGA gain register, address 1, read/write; gain = G2-0 x 1 dB; D13-D3 don't care"
+   },
+   {
+    "name": "OFFSET",
+    "address": 2,
+    "width": 14,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFS",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "Table 3: offset register, address 2, read/write; -128..127 LSB added to the results; D13-D8 don't care"
+   },
+   {
+    "name": "CTRL",
+    "address": 3,
+    "width": 14,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PWD",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "REF",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "FOR",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "TM",
+      "bits": [
+       10,
+       8
+      ]
+     },
+     {
+      "name": "OFF",
+      "bits": [
+       7,
+       7
+      ]
+     }
+    ],
+    "note": "Tables 4-5: control register, address 3, read/write, default 0; D6-D0 reserved (write 0)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write PGA gain register",
+     "in": "01 [PGA]",
+     "action": "nop",
+     "note": "A1 A0 = 01, data on D13-D0 (Figure 3)"
+    },
+    {
+     "name": "Write offset register",
+     "in": "10 [OFFSET]",
+     "action": "nop",
+     "note": "A1 A0 = 10"
+    },
+    {
+     "name": "Write control register",
+     "in": "11 [CTRL]",
+     "action": "nop",
+     "note": "A1 A0 = 11"
+    }
+   ],
+   "read": {
+    "0": "R{14}",
+    "1": "[PGA]",
+    "2": "[OFFSET]",
+    "3": "[CTRL]"
+   }
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "pin"
+   ]
+  },
+  "pins": {
+   "convst": {
+    "pin": "CLK",
+    "edge": "rise"
+   }
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  },
+  "PHP": {
+   "pinout": "pfb48",
+   "footprint": "HTQFP-48-PHP",
+   "package": "HTQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "ths1408-ep.pdf",
+ "pages": "ths1408-ep.pdf: p.3 (terminal functions), p.4-6 (ROC, clock timing), p.7 (sample timing), p.8 (read/write timing), p.15-16 (registers); ths1408.pdf: p.3 (pinout), p.9 (write timing)",
+ "notModeled": [
+  "analog input, PGA gain, internal/external reference (CTRL REF), offset correction (OFFSET register, CTRL OFF) and test modes (CTRL TM2-0) are stored only; the result is the 0 V code",
+  "CTRL PWD (power down) is stored only; conversions continue in the model",
+  "every CLK rising edge samples (Figure 1); pipeline latency 9.5 cycles and the 25 ns output delay are not modeled (time 0); fCLK 0.1-8 MHz",
+  "OV out-of-range output is not driven",
+  "writing address 0 (conversion result register, read only) is ignored",
+  "tDf uses tdis 10 ns (typical; no maximum given); tAcc uses ten 15 ns max",
+  "codeFormat: CTRL FOR = 0 straight binary (0 V differential = 8192, written \"offset\"), 1 two's complement (0 V = 0) (Table 1)",
+  "pin names IN- / REF- written with ASCII minus; A[1:0] and D[13:0] split per the pinout drawing (A1 = 40, A0 = 41)"
+ ],
+ "variants": "THS1401 (1 MSPS), THS1403 (3 MSPS) and THS1408 (8 MSPS) share ths1408.pdf and differ only in fCLK max; PFB (TQFP) and PHP (HTQFP PowerPAD) share one pin numbering; THS1408MPHPEP is the enhanced-product (-55-125 C) part of ths1408-ep.pdf",
+ "parts": [
+  [
+   "THS1408IPFB",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "THS1408MPHPEP",
+   "PHP",
+   48,
+   "Active"
+  ]
+ ]
+}

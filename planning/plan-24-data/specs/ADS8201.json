@@ -1,0 +1,704 @@
+{
+ "device": {
+  "id": "ADS8201",
+  "function": "ADC",
+  "description": "12-bit 100 kSPS 8-channel data acquisition system with PGA, 8-word FIFO and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8201.pdf (SLAS534B) p.3 electrical characteristics (VD 2.2-5.5 V, straight binary), p.4 pin configuration and descriptions, p.5-6 timing (Figures 1-3, Table 1: tD 20 ns, tOSC 250 ns, tACQ 8.5 tOSC, tCONV 13.5 tOSC), p.13-17 operating modes, conversion start, BUSY/INT, p.17 reading results (Table 6), p.17-18 TAG, averaging, FIFO, interrupts, reset, p.19-20 register access (Figures 28-30, Table 7), p.21-24 register maps",
+  "pinouts": {
+   "rge24": [
+    {
+     "number": 1,
+     "name": "IN4",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "IN5",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "IN6",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "IN7",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "BUSY/INT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "VD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "REFGND",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "ADCIN",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "PGAOUT",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "PGAREF",
+     "role": "power"
+    },
+    {
+     "number": 21,
+     "name": "IN0",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "IN1",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "IN2",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "IN3",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 8,
+  "codeFormat": "straight",
+  "vcc": [
+   2.2,
+   5.5
+  ],
+  "analog": [
+   "IN0",
+   "IN1",
+   "IN2",
+   "IN3",
+   "IN4",
+   "IN5",
+   "IN6",
+   "IN7",
+   "VA",
+   "REF",
+   "REFGND",
+   "ADCIN",
+   "PGAOUT",
+   "PGAREF"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 20,
+   "tOut": 20,
+   "tFloat": 20
+  },
+  "registers": [
+   {
+    "name": "CCR01",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "CH1_GAIN",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "CH0_POL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CH01_DIFF",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CH0_GAIN",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.21 Channel 0/1 CCR (address 00h), D[7:6] not used"
+   },
+   {
+    "name": "CCR23",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "CH3_GAIN",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "CH2_POL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CH23_DIFF",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CH2_GAIN",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.21 Channel 2/3 CCR (address 01h), D[7:6] not used"
+   },
+   {
+    "name": "CCR45",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "CH5_GAIN",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "CH4_POL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CH45_DIFF",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CH4_GAIN",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.21 Channel 4/5 CCR (address 02h), D[7:6] not used"
+   },
+   {
+    "name": "CCR67",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "CH7_GAIN",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "CH6_POL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CH67_DIFF",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CH6_GAIN",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.21 Channel 6/7 CCR (address 03h), D[7:6] not used"
+   },
+   {
+    "name": "CHSEL",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "CH",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.22 Channel Select Register (04h), default channel 0"
+   },
+   {
+    "name": "ADC_SCR",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "AVG",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "INT_EDGE",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "LEVEL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "BUSY_SEL",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "FIFO_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "RD_CONVST",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.22 ADC SCR (05h), all defaults 0"
+   },
+   {
+    "name": "INT_SCR",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 112,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "FIFO_NE",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "FIFO_FULL",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SCAN_RDY",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ADC_RDY",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.23 Interrupt SCR (06h): writing D[3:0] enables the interrupts, reading returns whether they were generated (model: stores the enables)"
+   },
+   {
+    "name": "STATUS_SCR",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "FIFO_LEVEL",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "FIFO_NE",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "FIFO_FULL",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SCAN_RDY",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ADC_RDY",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.23 Status SCR (07h), read-only status; reset value not given (0 used)"
+   },
+   {
+    "name": "TRIG_SCR",
+    "address": 8,
+    "width": 8,
+    "reset": 2,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "TRIG",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.23 ADC Trigger SCR (08h), default 010b (Mode 2)"
+   },
+   {
+    "name": "RESET_SCR",
+    "address": 9,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "RESET",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.23 Reset SCR (09h): reads 00h, writing AAh resets"
+   },
+   {
+    "name": "DELAY_SCR",
+    "address": 10,
+    "width": 8,
+    "reset": 2,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "DELAY",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.24 Conversion Delay SCR (0Ah), default 4.5 us (010b) per p.13 Converter Operation"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{12} 00 00 [CH:2:0] 0",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "Register Read",
+     "in": "01 aaaa xx",
+     "action": "rreg",
+     "address": "a",
+     "count": 1,
+     "reply": "@",
+     "note": "p.19 Figure 28: address in bits 13-10, the register byte on SDO in bits 7-0 of the same 16-bit frame"
+    },
+    {
+     "name": "Software Reset",
+     "in": "10 1001 xx 10101010",
+     "action": "reset",
+     "note": "p.18 Reset Operation, p.23 Reset SCR: write AAh to 09h"
+    },
+    {
+     "name": "Register Write",
+     "in": "10 aaaa xx dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "note": "p.19 Figure 29"
+    },
+    {
+     "name": "ADC Read",
+     "in": "00 x{14}",
+     "action": "nop",
+     "note": "p.20 Figure 30: SDI 00 + don't cares; SDO carries the result (protocol.out)"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 5500,
+   "start": [
+    "pin"
+   ],
+   "mode": {
+    "field": "TRIG_SCR.TRIG",
+    "continuous": 6,
+    "startOnEnter": false
+   },
+   "busy": {
+    "STATUS_SCR.ADC_RDY": 0
+   },
+   "done": {
+    "STATUS_SCR.ADC_RDY": 1
+   },
+   "channel": "CHSEL.CH"
+  },
+  "ready": [
+   {
+    "pin": "BUSY/INT",
+    "active": 0,
+    "asserts": "busy",
+    "enable": [
+     "ADC_SCR.BUSY_SEL=1",
+     "ADC_SCR.LEVEL=0"
+    ]
+   },
+   {
+    "pin": "BUSY/INT",
+    "active": 1,
+    "asserts": "busy",
+    "enable": [
+     "ADC_SCR.BUSY_SEL=1",
+     "ADC_SCR.LEVEL=1"
+    ]
+   },
+   {
+    "pin": "BUSY/INT",
+    "active": 0,
+    "asserts": "done",
+    "clears": "cs-fall",
+    "enable": [
+     "ADC_SCR.BUSY_SEL=0",
+     "INT_SCR.ADC_RDY=1",
+     "ADC_SCR.FIFO_EN=0",
+     "ADC_SCR.INT_EDGE=0",
+     "ADC_SCR.LEVEL=0"
+    ]
+   },
+   {
+    "pin": "BUSY/INT",
+    "active": 1,
+    "asserts": "done",
+    "clears": "cs-fall",
+    "enable": [
+     "ADC_SCR.BUSY_SEL=0",
+     "INT_SCR.ADC_RDY=1",
+     "ADC_SCR.FIFO_EN=0",
+     "ADC_SCR.INT_EDGE=0",
+     "ADC_SCR.LEVEL=1"
+    ]
+   },
+   {
+    "pin": "BUSY/INT",
+    "active": 0,
+    "asserts": "done",
+    "clears": 250,
+    "enable": [
+     "ADC_SCR.BUSY_SEL=0",
+     "INT_SCR.ADC_RDY=1",
+     "ADC_SCR.FIFO_EN=0",
+     "ADC_SCR.INT_EDGE=1",
+     "ADC_SCR.LEVEL=0"
+    ]
+   },
+   {
+    "pin": "BUSY/INT",
+    "active": 1,
+    "asserts": "done",
+    "clears": 250,
+    "enable": [
+     "ADC_SCR.BUSY_SEL=0",
+     "INT_SCR.ADC_RDY=1",
+     "ADC_SCR.FIFO_EN=0",
+     "ADC_SCR.INT_EDGE=1",
+     "ADC_SCR.LEVEL=1"
+    ]
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RST",
+    "active": 0
+   },
+   "convst": {
+    "pin": "CONVST",
+    "edge": "fall"
+   }
+  }
+ },
+ "packages": {
+  "RGE": {
+   "pinout": "rge24",
+   "footprint": "VQFN-24-RGE",
+   "package": "VQFN",
+   "pins": 24
+  }
+ },
+ "pdf": "ads8201.pdf",
+ "pages": "p.3 (electrical: VD, data format), p.4 (pins), p.5-6 (timing, Table 1), p.13-17 (modes, CONVST, BUSY/INT, power-down, reading results), p.17-18 (TAG, averaging, FIFO, interrupts, reset), p.19-20 (Figures 28-30, Table 7), p.21-24 (CCR/SCR maps)",
+ "notModeled": [
+  "analog inputs, PGA gains, single-ended/differential pairing (stored only); the result is always the 0 V code 000h",
+  "conversion time: CONVST to data = 8.5 tOSC acquisition + 13.5 tOSC conversion = 22 x 250 ns = 5500 ns (internal 4 MHz oscillator, up to 20 % variance not modeled); BUSY really goes low up to 8.5 tOSC after CONVST",
+  "ADC trigger modes: idle (000b), manual trigger with delay mux (Mode 3), auto trigger with manual channel (Mode 4) and auto single-scan (Mode 5) are stored only; Mode 6 (auto multi-scan) is modeled as continuous on the selected channel without auto channel increment, first conversion by CONVST",
+  "SPI-issued convert start (ADC SCR D0 = 1: each ADC read starts the next conversion)",
+  "8-word FIFO, FIFO interrupts, scan-data-ready interrupt, FIFO level/status bits; the Interrupt SCR read-back of generated interrupts (the model reads back the enables)",
+  "averaging modes (fast/accurate, 4/8/16 results; averaging bits D3:D2 of the read frame stay 0) and the programmable conversion delay",
+  "TAG SE/Diff bit polarity is not given; it is output as 0",
+  "SDO outputs all 1s in the frame right after a reset",
+  "power-down (Interrupt SCR D7) and the rule that most registers may only be written in ADC idle mode",
+  "register read: SDO shows the ADC result bits (not X X X 00000) in the first 8 bits of the frame",
+  "SPI mode is not stated; mode 0 from Figure 3 (first bit at CS fall)"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS8201IRGET",
+   "RGE",
+   24,
+   "Active"
+  ]
+ ]
+}
