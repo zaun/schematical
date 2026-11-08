@@ -178,14 +178,14 @@ exhaustively against a reference written from the datasheet equations.
 - [x] `datasheets/skipped-parts.md` § TI comparators and arithmetic: the `skip` rows grouped by reason, the ACT8832/ACT8847 row first with "owner chose them; no datasheet can be fetched (2026-11-07)". 118 skip rows: the ACT8832/8847 row first, then one row per reason (`/tmp/p22/scripts/skipped.py`). Sheets fetched but kept for no part: `obsolete-not-included.md` row for `parity/sccs025b.pdf` (CY74FCT480T, all Obsolete); `not-included.md` rows for `parity/sn54180.pdf` and `arith/sn54s182.pdf` (only SN54 parts in their tables, none in stock).
 
 Acceptance: the checks above (minutes). Met: every Phase 1 check output is on its task line.
-Commit: —
+Commit: 99ba142
 
 ### Phase 2 — Family and footprint
 
 - [x] ~~`FCT` (or moot) with docs line and `library_check` case; `PDIP-24` (or moot); regenerate `footprints.txt`~~ — moot: `grep -c '"FCT"' backend/src/library/kind_util.c` → 1 (plan-19) and `library_check` prints `ok   gate part with family FCT`; no `add` row needs `PDIP-24` (the only 24-pin DIPs, SN74AS885NT/NT3, are Obsolete or not in the ordering table; `awk … $7=="PDIP-24"` → 0) and every `add` footprint exists (missing → `[]`), so `footprints.json` and `footprints.txt` are unchanged.
 
 Acceptance: `ctest --test-dir /tmp/logic-p22` → T0 of T0; no golden line removed (seconds). Met: `100% tests passed, 0 tests failed out of 24` (T0 = 24); `git diff --stat backend/tests/golden` → empty.
-Commit: —
+Commit: 99ba142
 
 ## Validation Plan
 
