@@ -51,7 +51,7 @@ struct ChipBlockView: View {
         let bodyCentre = CGPoint(x: box.midX, y: (ChipLayout.headerHeight + box.maxY) / 2)
         if chip.symbol == .oscillator {
             let radius = min(14, (box.maxY - ChipLayout.headerHeight) / 2 - 4)
-            drawSineGlyph(&painter, centre: bodyCentre, radius: radius, ink: outline)
+            drawSquareWaveGlyph(&painter, centre: bodyCentre, radius: radius, ink: outline)
         } else if chip.symbol == .barrelJack {
             let radius = min(14, (box.maxY - ChipLayout.headerHeight) / 2 - 4)
             drawBarrelGlyph(&painter, centre: bodyCentre, radius: radius, ink: outline)
@@ -89,27 +89,24 @@ struct ChipBlockView: View {
         }
     }
 
-    /// One cycle of a sine wave inside a circle: the oscillator's symbol.
-    private static func drawSineGlyph<P: SchematicPainter>(_ painter: inout P, centre: CGPoint, radius: CGFloat, ink: Ink) {
+    /// One cycle of a square wave inside a circle: the oscillator's symbol.
+    private static func drawSquareWaveGlyph<P: SchematicPainter>(_ painter: inout P, centre: CGPoint, radius: CGFloat, ink: Ink) {
         let circle = CGRect(x: centre.x - radius, y: centre.y - radius, width: radius * 2, height: radius * 2)
         painter.stroke(Path(ellipseIn: circle), with: ink.opacity(0.6), lineWidth: 1)
 
-        let amplitude = radius * 0.45
-        let halfWidth = radius * 0.8
-        let steps = 40
+        let amplitude = radius * 0.4
+        let halfWidth = radius * 0.7
+        let left = centre.x - halfWidth
+        let right = centre.x + halfWidth
+        let high = centre.y - amplitude
+        let low = centre.y + amplitude
         var wave = Path()
-        for step in 0...steps {
-            let t = CGFloat(step) / CGFloat(steps)
-            let point = CGPoint(
-                x: centre.x - halfWidth + 2 * halfWidth * t,
-                y: centre.y - amplitude * sin(2 * .pi * t)
-            )
-            if step == 0 {
-                wave.move(to: point)
-            } else {
-                wave.addLine(to: point)
-            }
-        }
+        wave.move(to: CGPoint(x: left, y: low))
+        wave.addLine(to: CGPoint(x: left, y: high))
+        wave.addLine(to: CGPoint(x: centre.x, y: high))
+        wave.addLine(to: CGPoint(x: centre.x, y: low))
+        wave.addLine(to: CGPoint(x: right, y: low))
+        wave.addLine(to: CGPoint(x: right, y: high))
         painter.stroke(wave, with: ink, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
     }
 

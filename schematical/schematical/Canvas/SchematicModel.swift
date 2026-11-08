@@ -94,7 +94,7 @@ enum SupplyChoice {
 // MARK: - Block geometry
 
 /// How a placed part is drawn. Logic chips are boxes; oscillators are boxes with
-/// a sine wave in a circle in place of the function name; LEDs use the diode
+/// a square wave in a circle in place of the function name; LEDs use the diode
 /// symbol; VCC and GND use their own supply symbols, and pull-ups and
 /// pull-downs a resistor to a rail or to ground; DIP switches are boxes
 /// with one lever per position; 7-segment displays are boxes that show their
