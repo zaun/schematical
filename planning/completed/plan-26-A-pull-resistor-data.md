@@ -334,7 +334,7 @@ Acceptance: pulls are real resistors in the model and survive save/open.
   since its tests place no pulls).
   Result (2026-11-07): `Executed 10 tests, with 0 failures` (`PullResistorTests` 7,
   `BillOfMaterialsTests` 3), `** TEST SUCCEEDED **`.
-Commit: —
+Commit: b5a9315
 
 ## Validation Plan
 
@@ -348,6 +348,8 @@ Commit: —
 - Final gate (once, after Phase 2): `ctest --test-dir /tmp/p26-build -j8` →
   100% passed, and `xcodebuild -project schematical/schematical.xcodeproj
   -scheme schematical test CODE_SIGNING_ALLOWED=NO` → 0 failures (est. 6 min).
+  Result (2026-11-07, after Phase 2): `100% tests passed, 0 tests failed out
+  of 24`; `Executed 125 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 
 ## Decisions
 

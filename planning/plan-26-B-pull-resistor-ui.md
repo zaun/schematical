@@ -19,7 +19,7 @@ a pull-down at 4.7 kΩ / 0805 are one BOM line: `3`, `R1, R2, R3`,
 
 References:
 
-- `planning/plan-26-A-pull-resistor-data.md` (the model this builds on)
+- `planning/completed/plan-26-A-pull-resistor-data.md` (the model this builds on)
 - `planning/completed/plan-18-B-generic-led-ui.md` (precedent: LED Color and Footprint pickers, Settings default)
 - `schematical/schematical/Drawer/PartOptionsSection.swift`
 - `schematical/schematical/Canvas/LengthField.swift` (precedent: number field that commits on Return / focus loss)
@@ -34,7 +34,7 @@ sub-plan adds one:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-26-A is complete | `ls planning/completed/plan-26-A-*` → one file, and `grep -c 'var ohms' schematical/schematical/Canvas/SchematicModel.swift` → 1 | NOT MET (2026-11-07: plan-26-A just written) |
+| plan-26-A is complete | `ls planning/completed/plan-26-A-*` → one file, and `grep -c 'var ohms' schematical/schematical/Canvas/SchematicModel.swift` → 1 | MET (2026-11-07, re-run by follow-plan: `planning/completed/plan-26-A-pull-resistor-data.md`, `grep -c` → 1) |
 
 If plan-26-A is not complete, this plan cannot start, full stop.
 
