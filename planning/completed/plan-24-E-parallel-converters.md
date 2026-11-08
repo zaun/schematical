@@ -62,7 +62,7 @@ register selected by `address`; LDAC/`update` as in D.
 - [x] `clocked` bus style (schema.md § 3, plan-24-A Corrections): data pins drive the next `read`-pattern bits on each clock edge while `oe` is active, `clockOut` follows the clock; `configBus` (SPI/I2C configuration port beside a parallel or clocked bus). Cases: a 12-bit clocked ADC drives the 0 V code after a clock edge and Z with OE inactive; a 1-pin modulator alternates 1/0 per clock; registers written over `configBus` read back. — all `ok` (`clocked ADC: a CLK rising edge drives the 0 V code (0x800)`, `OE inactive floats the data`, `DRY follows CLK`, `modulator: ... alternates 1, 0`, `CLKOUT = CLK / 2`, `config bus: a register written over SPI reads back` on 3-wire SDIO); `library_check`: `"clock" needs a pin`.
 
 Acceptance: `ctest --test-dir /tmp/logic-p24` → T0 + 1 of T0 + 1 (`100% tests passed, 0 tests failed out of 25`); golden diff empty (0 lines) (seconds). All 764 ADC/DAC specs still load (`loaded 1911 parts`).
-Commit: —
+Commit: 79b9b27
 
 ## Validation Plan
 
