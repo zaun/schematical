@@ -1,10 +1,10 @@
 import SwiftUI
 
-/// A snapshot of a schematic as an export draws it: every bus, port, wire,
-/// junction and part, with nothing selected or hovered, no tool preview and
-/// no play-mode state. It paints itself through any `SchematicPainter`, in
-/// the live canvas's order (buses, ports, wires, parts), minus the grid and
-/// pin markers (plan-28-B § 3.2).
+/// A snapshot of a schematic as an export draws it: every text block, bus,
+/// port, wire, junction and part, with nothing selected or hovered, no tool
+/// preview and no play-mode state. It paints itself through any
+/// `SchematicPainter`, in the live canvas's order (text blocks, buses,
+/// ports, wires, parts), minus the grid and pin markers (plan-28-B § 3.2).
 struct SchematicScene {
     var chips: [PlacedChip]
     var buses: [Bus]
@@ -12,17 +12,20 @@ struct SchematicScene {
     var routes: [RoutedWire]
     /// Every junction, none selected.
     var junctions: [JunctionDot]
+    var notes: [SchematicNote]
 
     init(_ document: SchematicDocument) {
         chips = document.chips
         buses = document.buses
         routes = document.wires.map { RoutedWire(id: $0.id, points: document.path(forWire: $0.id)) }
         junctions = document.junctions.map { JunctionDot(point: $0.point) }
+        notes = document.notes
     }
 
-    var isEmpty: Bool { chips.isEmpty && buses.isEmpty && routes.isEmpty }
+    var isEmpty: Bool { chips.isEmpty && buses.isEmpty && routes.isEmpty && notes.isEmpty }
 
     func paint<P: SchematicPainter>(into painter: inout P) {
+        NoteLayer.paint(&painter, notes: notes, selectedNoteIDs: [], hoveredNoteID: nil)
         BusLayer.paint(&painter, buses: buses, selectedBusID: nil, hoveredBusID: nil, preview: nil)
         PortLayer.paint(&painter, buses: buses, selectedPortID: nil, hoveredPortID: nil)
         WireLayer.paint(&painter, routes: routes, junctions: junctions, selectedWireIDs: [],

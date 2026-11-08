@@ -282,6 +282,7 @@ final class SelectionModelTests: XCTestCase {
             case let .chip(id): XCTAssertTrue(doc.chips.contains { $0.id == id })
             case let .wire(id): XCTAssertTrue(wireIDs.contains(id))
             case let .junction(id): XCTAssertTrue(doc.junctions.contains { $0.id == id })
+            case let .note(id): XCTAssertTrue(doc.notes.contains { $0.id == id })
             }
         }
         XCTAssertFalse(doc.isSelected(.chip(c.below.id)))

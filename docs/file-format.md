@@ -47,7 +47,8 @@ to the grid on open.
   "junctions": [ ... ],
   "wires": [ ... ],
   "buses": [ ... ],
-  "board": { ... }
+  "board": { ... },
+  "notes": [ ... ]
 }
 ```
 
@@ -61,6 +62,7 @@ to the grid on open.
 | `wires`         | array   | Wires between pins and junctions.                                    |
 | `buses`         | array   | Buses ([Buses](#buses)). Always written from version 3 on, empty when there are none; version 1 and 2 files have none. |
 | `board`         | object  | Optional. The PCB's settings and texts ([Board](#board)). Written by every build that has it; a file without it opens with the defaults. |
+| `notes`         | array   | Text blocks on the schematic, in drawing order ([Notes](#notes)). Always written, `[]` when there are none; missing means none. Older builds ignore it. |
 
 On open, `nextReference` is raised if needed so that it is higher than every
 existing `U<n>` reference (references with other prefixes, such as `R3`, do
@@ -277,6 +279,24 @@ side of the line (ports on opposite sides may share a place), and has no T
 inside it (it may end at one). The body is 40 deep on the pin
 side, and each pin's tip is 50 out from the line.
 
+## Notes
+
+Text blocks the schematic's Text tool places: comments and labels. They
+are drawn under everything else and never simulated.
+
+```json
+"notes": [ { "id": "...", "text": "Clock divider\nfeeds U3", "x": 40, "y": 60,
+             "size": 12, "framed": true } ]
+```
+
+| Field      | Type    | Meaning                                                              |
+|------------|---------|----------------------------------------------------------------------|
+| `id`       | UUID    | Unique within the file, across every other ID.                       |
+| `text`     | string  | The words; may hold line breaks (`\n`). Never empty.                 |
+| `x`, `y`   | number  | Canvas units: the block's top-left. Snapped to the grid on open.     |
+| `size`     | integer | Font size in points, 6 to 72. Default 12.                            |
+| `framed`   | boolean | Whether the block has a frame around it. Default `true`.             |
+
 ## Validation on open
 
 Opening fails, and the canvas is left unchanged, if:
@@ -284,7 +304,8 @@ Opening fails, and the canvas is left unchanged, if:
 - `format` is missing or not `"schematical"`, or `version` is newer than the app supports;
 - the JSON doesn't match this structure;
 - an ID is used more than once across parts, junctions, wires, buses, bus
-  lines, bus wires, ports, board texts and traces;
+  lines, bus wires, ports, board texts, traces and notes;
+- a note's `text` is empty, or its `size` is not 6 to 72;
 - a `partNumber` is not in the catalog (the error lists every missing one);
 - an LED's `color` is not one of its colors (`U3: "Purple" is not a color of
   GENERIC-LED`), or a `footprint` is not one of the part's footprint choices
@@ -453,7 +474,11 @@ A red LED between a 5 V supply and GND:
       { "id": "77777777-7777-7777-7777-777777777777", "layer": "bottom", "width": 10,
         "points": [ { "x": 2.54, "y": 10.16 }, { "x": 7.62, "y": 10.16 }, { "x": 10.16, "y": 12.7 } ] }
     ]
-  }
+  },
+  "notes": [
+    { "id": "88888888-8888-8888-8888-888888888888", "text": "Power LED\n5 V rail", "x": 100, "y": 220,
+      "size": 12, "framed": true }
+  ]
 }
 ```
 

@@ -8,6 +8,8 @@ nonisolated enum SchematicItem: Hashable, Sendable {
     case chip(UUID)
     case wire(UUID)
     case junction(UUID)
+    /// A text block (`SchematicNote`).
+    case note(UUID)
 }
 
 /// One thing that can be selected on the PCB page: a part's footprint (by
@@ -136,8 +138,10 @@ nonisolated struct SchematicGroupBase: Equatable {
     /// Affected wires whose route was all right angles at the press; the
     /// release keeps them that way.
     var orthogonalWires: Set<UUID> = []
+    /// Selected text blocks' top-lefts.
+    var notes: [UUID: CGPoint] = [:]
 
-    var isEmpty: Bool { chips.isEmpty && junctions.isEmpty && wires.isEmpty }
+    var isEmpty: Bool { chips.isEmpty && junctions.isEmpty && wires.isEmpty && notes.isEmpty }
 }
 
 /// Where every selected PCB item was when a group drag started (board mm).

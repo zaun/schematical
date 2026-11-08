@@ -29,6 +29,10 @@ import SwiftUI
 /// - Eraser: click a block, wire or bus line to remove it. A drag erases nothing.
 /// - Flip: click a part to flip it left and right.
 /// - VCC and GND: click the canvas to place a supply there.
+/// - Text: click to add a text block there (or on a block, to select it);
+///   its words are edited in the sidebar. Then back to the Pointer tool.
+///   With the Pointer, a text block drags like a part, and a double-click
+///   edits its words.
 ///
 /// Clicking a DIP switch lever flips that position, with the Pointer tool or
 /// in play mode. A press that drags moves the part (or pans) instead.
@@ -51,7 +55,8 @@ struct SchematicCanvasView: View {
     var onOpenCpu: (UUID) -> Void = { _ in }
     var onOpenTerminal: (UUID) -> Void = { _ in }
     var onOpenRegisters: (UUID) -> Void = { _ in }
-    /// Called after a part dragged from the drawer is placed on the canvas.
+    /// Called after a part dragged from the drawer is placed on the canvas,
+    /// and after the Text tool adds or picks a text block.
     var onPartPlaced: () -> Void = {}
 
     @State private var interaction: Interaction?
@@ -62,6 +67,7 @@ struct SchematicCanvasView: View {
     @State private var hoveredWireID: UUID?
     @State private var hoveredBusID: UUID?
     @State private var hoveredPortID: UUID?
+    @State private var hoveredNoteID: UUID?
     /// The connection point under the pointer in Line mode, when not drawing.
     @State private var hoverAnchor: LineAnchor?
     /// Watches for Space, Esc and `/` while a wire or bus is being drawn.
@@ -162,6 +168,14 @@ struct SchematicCanvasView: View {
                         return
                     }
                     guard !isRunning else { return }
+                    // A text block under nothing else edits its words.
+                    if document.chip(at: point) == nil,
+                       document.segmentHit(at: point, tolerance: lineTolerance) == nil,
+                       let note = document.note(at: point) {
+                        document.select(.note(note.id))
+                        document.editingNoteID = note.id
+                        return
+                    }
                     document.insertNode(at: point, tolerance: lineTolerance)
                 }
             )
@@ -205,6 +219,14 @@ struct SchematicCanvasView: View {
         ZStack(alignment: .topLeading) {
             GridBackground(rect: gridRect, step: gridStep)
                 .equatable()
+
+            // Under everything else: wires and parts stay visible over a block.
+            NoteLayer(
+                notes: document.notes,
+                selectedNoteIDs: selectedNoteIDs,
+                hoveredNoteID: hoveredNoteID,
+                area: gridRect
+            )
 
             // Under the wires, so wires crossing a bus stay visible.
             BusLayer(
@@ -313,6 +335,14 @@ struct SchematicCanvasView: View {
     private var selectedWireIDs: Set<UUID> {
         Set(document.schematicSelection.items.compactMap { item in
             if case let .wire(id) = item { return id }
+            return nil
+        })
+    }
+
+    /// The text blocks in the Schematic selection.
+    private var selectedNoteIDs: Set<UUID> {
+        Set(document.schematicSelection.items.compactMap { item in
+            if case let .note(id) = item { return id }
             return nil
         })
     }
@@ -594,6 +624,20 @@ struct SchematicCanvasView: View {
             }
             interaction = .idle
 
+        case .text:
+            // One block per press, its top-left where the press started. A
+            // press on a block selects that one instead.
+            if interaction == nil {
+                if let hit = document.note(at: start) {
+                    document.select(.note(hit.id))
+                    document.editingNoteID = hit.id
+                } else {
+                    document.addNote(at: start)
+                }
+                onPartPlaced()
+            }
+            interaction = .idle
+
         case .vcc, .ground, .pullUp, .pullDown:
             // One supply per press, centred under where the press started.
             if interaction == nil,
@@ -619,6 +663,7 @@ struct SchematicCanvasView: View {
         hoveredWireID = nil
         hoveredBusID = nil
         hoveredPortID = nil
+        hoveredNoteID = nil
         hoverAnchor = nil
     }
 
@@ -637,8 +682,10 @@ struct SchematicCanvasView: View {
             hoveredPortID = port
         } else if let wire = document.segmentHit(at: point, tolerance: lineTolerance)?.wire {
             hoveredWireID = wire
+        } else if let bus = document.busHit(at: point, tolerance: busTolerance)?.bus {
+            hoveredBusID = bus
         } else {
-            hoveredBusID = document.busHit(at: point, tolerance: busTolerance)?.bus
+            hoveredNoteID = document.note(at: point)?.id
         }
     }
 
@@ -676,6 +723,9 @@ struct SchematicCanvasView: View {
                   let base = document.bus(line.bus) {
             document.selectedBusID = line.bus
             interaction = .dragBusLine(bus: line.bus, base: base, line: line.line, done: .zero)
+        } else if let note = document.note(at: point) {
+            selectionPress = document.pressSelection(.note(note.id), shift: shift)
+            interaction = .moveGroup(base: document.schematicGroupBase(), lever: nil)
         } else if shift {
             interaction = .boxSelect(base: document.schematicSelection.items, from: screen, to: screen)
         } else {
@@ -844,6 +894,52 @@ private struct PinMarkerLayer: View {
             }
         }
         .worldCanvas(area)
+    }
+}
+
+/// Draws text blocks: each line of the words from the top-left, inside an
+/// optional frame. A selected block's frame (or, unframed, its outline) is
+/// accent; the hovered one gets a soft accent underlay. Not private, so the
+/// export can draw it too.
+struct NoteLayer: View {
+    let notes: [SchematicNote]
+    var selectedNoteIDs: Set<UUID> = []
+    var hoveredNoteID: UUID?
+    /// The visible world area; drawing outside it is not shown.
+    let area: CGRect
+
+    var body: some View {
+        Canvas { context, _ in
+            var shifted = context
+            shifted.shiftToWorld(area)
+            var painter = ScreenPainter(shifted)
+            Self.paint(&painter, notes: notes, selectedNoteIDs: selectedNoteIDs, hoveredNoteID: hoveredNoteID)
+        }
+        .worldCanvas(area)
+    }
+
+    /// Draws the blocks in world coordinates.
+    static func paint<P: SchematicPainter>(_ painter: inout P, notes: [SchematicNote],
+                                           selectedNoteIDs: Set<UUID>, hoveredNoteID: UUID?) {
+        for note in notes {
+            let rect = note.rect
+            let frame = Path(rect)
+            let isSelected = selectedNoteIDs.contains(note.id)
+            if note.id == hoveredNoteID, !isSelected {
+                painter.stroke(frame, with: Ink.accent.opacity(0.35), lineWidth: 5)
+            }
+            if note.framed {
+                painter.fill(frame, with: .paper)
+                painter.stroke(frame, with: isSelected ? .accent : .secondary, lineWidth: isSelected ? 2 : 1)
+            } else if isSelected {
+                painter.stroke(frame, with: .accent,
+                               style: StrokeStyle(lineWidth: 1.5, dash: [4, 3]))
+            }
+            for (index, line) in note.lines.enumerated() where !line.isEmpty {
+                painter.draw(PaintedText(line, size: CGFloat(note.size)), at: note.lineOrigin(index),
+                             anchor: .topLeading)
+            }
+        }
     }
 }
 

@@ -2,8 +2,9 @@ import SwiftUI
 
 /// The Schematic page's inspector. It follows the selection: the parts
 /// library with nothing selected, the part's header, reference fields and
-/// details with only a part selected, the bus or port panel with a bus or
-/// port selected, and a read-only `Selection (N)` list for several items or
+/// details with only a part selected, the text panel with only a text block
+/// selected, the bus or port panel with a bus or port selected, and a
+/// read-only `Selection (N)` list for several items or
 /// a lone wire or junction (plan-15). The library stays in the view tree under
 /// the part panel, so its search, filters, open groups and scroll position
 /// are as they were when the selection clears. The PCB page keeps it in the
@@ -18,6 +19,7 @@ struct SchematicSidebarView: View {
     enum Content: Equatable {
         case library
         case chip(UUID)
+        case note(UUID)
         case port(UUID)
         case bus(UUID)
         case selection
@@ -30,6 +32,9 @@ struct SchematicSidebarView: View {
         if let id = document.selectedChipID, document.chips.contains(where: { $0.id == id }) {
             return .chip(id)
         }
+        if let id = document.selectedNoteID, document.notes.contains(where: { $0.id == id }) {
+            return .note(id)
+        }
         if let id = document.selectedPortID, document.port(id) != nil { return .port(id) }
         if let id = document.selectedBusID, document.bus(id) != nil { return .bus(id) }
         if !document.schematicSelection.isEmpty { return .selection }
@@ -39,6 +44,7 @@ struct SchematicSidebarView: View {
     var body: some View {
         let content = isActive ? Self.content(for: document) : .library
         let chip: PlacedChip? = if case let .chip(id) = content { document.chips.first { $0.id == id } } else { nil }
+        let note: SchematicNote? = if case let .note(id) = content { document.notes.first { $0.id == id } } else { nil }
         let portID: UUID? = if case let .port(id) = content { id } else { nil }
         let busID: UUID? = if case let .bus(id) = content { id } else { nil }
         let showsLibrary = isActive && content == .library
@@ -69,6 +75,13 @@ struct SchematicSidebarView: View {
                 .formStyle(.grouped)
                 // Fresh field state for each part.
                 .id(chip.id)
+            } else if let note {
+                Form {
+                    NotePanel(document: document, note: note)
+                }
+                .formStyle(.grouped)
+                // Fresh field state for each block.
+                .id(note.id)
             } else if let portID {
                 BusPortPanel(document: document, portID: portID)
                     // Fresh field state for each port.
@@ -88,5 +101,72 @@ struct SchematicSidebarView: View {
                 .formStyle(.grouped)
             }
         }
+    }
+}
+
+/// The selected text block: its words (several lines; Return starts a new
+/// one), font size, frame, and Delete. The words apply as they are typed;
+/// emptied, the block keeps its last words.
+private struct NotePanel: View {
+    let document: SchematicDocument
+    let note: SchematicNote
+
+    @State private var words = ""
+    @FocusState private var isEditing: Bool
+
+    var body: some View {
+        Section {
+            Text("Text")
+                .font(.title2.bold())
+            TextEditor(text: $words)
+                .font(.body)
+                .frame(minHeight: 80, maxHeight: 240)
+                .focused($isEditing)
+                .accessibilityLabel("Text")
+                .onChange(of: words) { _, value in
+                    document.setNoteText(note.id, value)
+                }
+        }
+
+        Section {
+            LabeledContent("Font Size") {
+                Stepper(value: Binding(
+                    get: { note.size },
+                    set: { document.setNoteSize(note.id, $0) }
+                ), in: SchematicNote.sizeRange) {
+                    Text("\(note.size) pt")
+                        .monospacedDigit()
+                }
+            }
+            Toggle("Frame", isOn: Binding(
+                get: { note.framed },
+                set: { document.setNoteFramed(note.id, $0) }
+            ))
+        }
+
+        Section {
+            // ⌘⌫, not ⌫ alone, so it can't fire while the words are being edited.
+            Button("Delete Text", role: .destructive) {
+                document.deleteNote(note.id)
+            }
+            .keyboardShortcut(.delete, modifiers: .command)
+        }
+        .onAppear {
+            words = note.text
+            startEditingIfAsked()
+        }
+        .onChange(of: document.editingNoteID) { _, _ in startEditingIfAsked() }
+        .onChange(of: isEditing) { _, editing in
+            // Left empty: show the words the block kept.
+            if !editing, words.isEmpty { words = note.text }
+        }
+    }
+
+    /// A block just placed or double-clicked: focus its words.
+    private func startEditingIfAsked() {
+        guard document.editingNoteID == note.id else { return }
+        document.editingNoteID = nil
+        // After this pass, so the editor is on screen to take focus.
+        DispatchQueue.main.async { isEditing = true }
     }
 }
