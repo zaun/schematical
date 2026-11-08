@@ -279,7 +279,7 @@ Creates the gate and captures what "unchanged" means before any drawing code is 
       with only APIs that exist today (`Harness.newDocument`, `Harness.open`,
       `Harness.renderCanvas`, `Harness.render`, `PlacedChip` views by their current
       `init`), writes them to the directory in `CommandLine.arguments[1]`.
-- [ ] Build and run it on the unmodified tree:
+- [x] Build and run it on the unmodified tree:
       `rm -rf /tmp/p28-h && scripts/harness/build.sh scripts/harness/painter-gate.swift /tmp/p28-h && /tmp/p28-h/H.app/Contents/MacOS/harness /tmp/p28-base`
       → four `wrote /tmp/p28-base/….png` lines. (ran with `APP=/tmp/p28-dd/Build/Products/Debug/schematical.app` to reuse the prerequisite build; output: `symbols: 15 parts, 2 wires, 1 buses`, `be-6502.schematical: 21 parts, 148 wires, 2 buses`, `test.schematical: 5 parts, 6 wires, 0 buses`, four `wrote` lines)
 - [x] Run it a second time into `/tmp/p28-base2` and `cmp` each pair → no output
@@ -335,7 +335,7 @@ Mechanical, view by view; the pixel gate decides.
 Acceptance: all four PNGs are `cmp`-identical to the Phase 1 baseline, and
 `rg -c 'GraphicsContext|with: \.color\(' ChipBlockView.swift DiodeSymbolView.swift SupplySymbolView.swift DipSwitchSymbolView.swift SevenSegmentSymbolView.swift CharacterLCDSymbolView.swift BarrelJackSymbolView.swift HeaderSymbolView.swift` (run in `schematical/schematical/Canvas`) finds nothing.
   Check: `scripts/harness/build.sh scripts/harness/painter-gate.swift /tmp/p28-h && /tmp/p28-h/H.app/Contents/MacOS/harness /tmp/p28-new && for f in symbols lit be-6502 test.schematical; do cmp /tmp/p28-base/$f.png /tmp/p28-new/$f.png && echo same $f; done` → four `same` lines (est. 10 min; a rendered-pixel comparison is the only check that sees a changed color or width).
-Commit: —
+Commit: 13da587
 
 ## Validation Plan
 
@@ -353,6 +353,8 @@ Commit: —
 - Pixel identity of rendered PNGs is the gate for the refactor (a provably-neutral change); there is no "premise" a diff can falsify — a diff is a bug to root-cause — author, 2026-11-07.
 
 ## Corrections
+
+- Phase 1's "Build and run it on the unmodified tree" box was left unticked in 474a91a although its output was recorded on the line; ticked in the archive commit.
 
 - Phase 1: the first `lit.png` was centered in its frame (a `ZStack` with `.offset` keeps its child size, and `Harness.render`'s `.frame` centers it), so the 0.5-level 7-segment was cut off at the bottom edge. Added `.frame(width: 700, height: 540, alignment: .topLeading)` and retook both baselines before any drawing code changed; both runs `cmp`-identical.
 - Phase 1: `symbols.png` viewed: every one of the 15 placed parts renders (no missing name, no empty box). The DIP's lever 1 is ON (green), the female header shows sockets, the flipped NAND is selected (accent) and one wire is selected; the bus port's four pins B0–B3 are rotated labels.

@@ -179,7 +179,7 @@ Acceptance: both SVGs pass `xmllint --noout`; in the diff image the differing pi
 stroke, symbol outline or bus is missing, displaced or the wrong weight; the recorded image sizes of `-svg.png` and `-app.png`
 are equal to within 1 px.
   Check: the three commands above per schematic, plus `xcodebuild … test -only-testing:schematicalTests/SchematicSVGTests -only-testing:schematicalTests/SVGPainterTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 15 min: one harness build, 2 renders, one test run; the image diff is the only check that sees a displaced stroke).
-Commit: —
+Commit: 1c9fcc0
 
 ## Validation Plan
 

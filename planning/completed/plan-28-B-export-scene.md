@@ -198,7 +198,7 @@ Commit: e1836c7
 
 Acceptance: the new tests pass, and the full set of A and B tests still pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/SchematicSceneTests -only-testing:schematicalTests/SchematicPainterTests CODE_SIGNING_ALLOWED=NO 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: f2b7634
 
 ## Validation Plan
 
