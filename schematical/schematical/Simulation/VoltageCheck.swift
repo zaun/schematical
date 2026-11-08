@@ -147,7 +147,7 @@ enum VoltageCheck {
     }
 
     /// Volts with up to two decimals and no trailing zeros: 5, 3.3, 2.97.
-    static func volts(_ mv: UInt32) -> String {
+    nonisolated static func volts(_ mv: UInt32) -> String {
         var text = String(format: "%.2f", Double(mv) / 1000)
         while text.hasSuffix("0") { text.removeLast() }
         if text.hasSuffix(".") { text.removeLast() }

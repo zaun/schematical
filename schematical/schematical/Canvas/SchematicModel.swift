@@ -4,7 +4,7 @@ import Observation
 
 // MARK: - Grid
 
-enum SchematicGrid {
+nonisolated enum SchematicGrid {
     /// Every placed block corner, pin tip and wire bend snaps to this spacing.
     static let spacing: CGFloat = 10
 
@@ -759,7 +759,7 @@ struct Wire: Identifiable, Hashable {
 // MARK: - Orthogonal routing
 
 /// The direction of a straight run: along a row or along a column.
-enum RouteAxis: Hashable {
+nonisolated enum RouteAxis: Hashable {
     case horizontal
     case vertical
 
@@ -768,7 +768,7 @@ enum RouteAxis: Hashable {
 
 /// Right-angle routing helpers. Paths are arrays of grid points where
 /// consecutive points share an x or a y.
-enum OrthogonalRoute {
+nonisolated enum OrthogonalRoute {
     /// Pin to pin with both pins facing sideways: out horizontally, a
     /// vertical run at the midpoint, then horizontally into the target.
     static func route(from a: CGPoint, to b: CGPoint) -> [CGPoint] {
