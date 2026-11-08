@@ -233,7 +233,7 @@ Drive the real mouse (AGENTS.md: put the pointer at (0, 0) after).
   - **Space in the bus wire-name field:** typed a space ("B0 x").
 
   Pointer left at (0, 0), and the test app quit.
-Commit: —
+Commit: b324457
 
 ## Validation Plan
 
@@ -246,6 +246,9 @@ Commit: —
 - Final gate (once, after Phase 2): `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO`
   → "0 failures". `git log --format= --name-only --grep='^plan-25' | grep '^backend/'`
   → no output (est. 6 min).
+  Observed 2026-11-07: "Executed 118 tests, with 0 failures" and no backend
+  files. After merging main (plan-21, 7 commits) into worktree-P-25 the
+  suite ran again: "Executed 118 tests, with 0 failures", `** TEST SUCCEEDED **`.
 
 ## Decisions
 
