@@ -67,14 +67,14 @@ years per the datasheet's year range, alarm matches and interrupts.
 - [x] `PART_RTC`; `KINDS[]` (`RTC_KIND`); `rtc.h`, `rtc.c` (+ CMake), the clock and RAM loader in `converter_load.c`; `rtc_test.c` timekeeping cases (power-on 2000-01-01 Saturday; +2 s; 59 → 00 carries into minutes, hours and the day; 2024-02-28 → 02-29, 2023-02-28 → 03-01; the stop bit halts and resumes); test entry; docs § `rtc` (`docs/parts-format.md`); listing kind `rtc`. `ctest -R rtc_test` → `rtc_test: all passed`.
 
 Acceptance: `ctest -R rtc_test` passes (seconds): `rtc_test: all passed`.
-Commit: —
+Commit: 95223ab
 
 ### Phase 2 — Alarms, periodic, watchdog, RAM, update mechanisms
 
 - [x] The rest of §2 (alarms with masks and don't-care bytes, periodic interrupts in both forms, the watchdog with kick edges, battery-backed RAM, UIP/inhibit and latch update mechanisms, 12/24-hour, BCD/binary by a field, the multiplexed-bus ALE latch); remaining §3 cases: BQ3285-shape UIP set 244 µs before the update and clear after, 12-hour 11:59:59 PM → 12 AM and AM → 12 PM, periodic INT after 500 ms and released by reading REGC, alarm on a seconds match with don't-care minutes/hours, RAM 14 and 127; BQ4802-shape UTI freezes reads while counting continues and a write under UTI loads at release; watchdog (a case added: WDI edges, WDO); DP8570-shape RAM and the 1 ms timer interrupt, hundredths — all `ok`; `library_check`: no clock, unknown unit, no hour field, alarm on an unknown register — each `ok`.
 
 Acceptance: `ctest --test-dir /tmp/logic-p24` → T0 + 2 of T0 + 2 (`100% tests passed, 0 tests failed out of 26`); golden diff empty (0 lines) (seconds). The 7 RTC specs load (`loaded 14 parts`).
-Commit: —
+Commit: 95223ab
 
 ## Validation Plan
 
