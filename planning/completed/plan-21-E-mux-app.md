@@ -42,18 +42,18 @@ plans 19–22 edited these lines first, add beside theirs.
 - [x] §3 edits (beside plan-19's `PART_DECODER` in all three); `xcodebuild … -derivedDataPath /tmp/p21-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **`. `grep -n PART_MUX` → `PartCatalog.swift:278` (`isLogic`), `PartFacts.swift:123` (`case PART_MUX: return "Multiplexer"`), `ChipDrawerView.swift:206` (drawer condition).
 - [x] Runtime proof on the /tmp/p21-dd build (a second app instance, driven with AppleScript and plan-19's CGEvent drag helper): the drawer search `HC157` shows Logic (with the "All families" / "All counts" menus) → Multiplexer → CD74HC157E, CD74HC157M96, SN74AHC157…, SN74HC157DBR/DR/N/NSR/PWR, each "(4)" with e.g. "DIP · HC · 2–6 V"; `HC670` shows Logic → Register file → CD74HC670E ("DIP · HC · 2–6 V", (1)) and CD74HC670M96. SN74HC157N dragged onto the canvas draws a "Multiplexer" block with pins A/B, 1A…4B, G, 1Y…4Y; selected, the sidebar shows Kind Multiplexer, Function Multiplexer, Package DIP, Footprint PDIP-16, Pins 16, Family HC, Units 4, Supply range 2–6 V. Test instance quit, mouse returned to (0, 0).
 
-Acceptance: build, grep, runtime proof.
-Commit: —
+Acceptance: build, grep, runtime proof. Met (all three, task lines above).
+Commit: ef4b995
 
 ## Validation Plan — plan-21 landing tier
 
-| Gate | Command | Expected |
-|---|---|---|
-| Backend tests | `cmake -S backend -B /tmp/logic-p21 && cmake --build /tmp/logic-p21 -j8 && ctest --test-dir /tmp/logic-p21` | `100% tests passed`, T0 + 1 (about 13 s) |
-| Goldens vs plan-21 start | `git diff <plan-21-A first commit>^ -- backend/tests/golden \| grep -c '^-[^-]'` | 0 |
-| Part count | `grep -c '\|mux\|' backend/tests/golden/parts.txt` | N21 |
-| Datasheets | `ls datasheets/mux/*.pdf \| wc -l` | A's count |
-| App | `xcodebuild` above | `** BUILD SUCCEEDED **` |
+| Gate | Command | Expected | Result |
+|---|---|---|---|
+| Backend tests | `cmake -S backend -B /tmp/logic-p21 && cmake --build /tmp/logic-p21 -j8 && ctest --test-dir /tmp/logic-p21` | `100% tests passed`, T0 + 1 (about 13 s) | **Met** on the merged tree (35b56bf, main 64bfac9 merged in): `100% tests passed, 0 tests failed out of 24` — main now has 23 (plan-20 added `buffer_test`), + `mux_test` |
+| Goldens vs plan-21 start | `git diff <plan-21-A first commit>^ -- backend/tests/golden \| grep -c '^-[^-]'` | 0 | **Met**: `git diff bbaf886^ -- backend/tests/golden \| grep -c '^-[^-]'` → 0 before the merge; after it, `git diff main -- backend/tests/golden` → `2 files changed, 692 insertions(+)`, removed 0 |
+| Part count | `grep -c '\|mux\|' backend/tests/golden/parts.txt` | N21 | **Met**: 346 |
+| Datasheets | `ls datasheets/mux/*.pdf \| wc -l` | A's count | **Met**: 102 |
+| App | `xcodebuild` above | `** BUILD SUCCEEDED **` | **Met** on 35b56bf: `** BUILD SUCCEEDED **` |
 
 Then archive plan-21-A…E to `planning/completed/`.
 
@@ -63,6 +63,7 @@ Then archive plan-21-A…E to `planning/completed/`.
 
 ## Corrections
 
+- **Merge with main** (64bfac9: plan-20 buffers, plan-25 and others) conflicted in the kind lists (`parts.h`, `kinds.c`, `listing.c`, `listing_check.c`, `trace_check.c`), the three Swift switches, `skipped-parts.md` and the goldens; resolved by keeping both kinds (`PART_BUFFER, PART_MUX`; both skipped-parts sections). Plan-20 made the listing line print the family of logic kinds; `PART_MUX` was added to that list, so mux lines now carry their family (`SN74HC157N|mux|…|Multiplexer|HC|`), which is what plan-21-D's spot check asked for. Goldens regenerated on the merged tree: +346 lines each against main, 0 removed. T0 on main is 23, so the landing tier expects 24.
 - **Runtime proof by search, not the family menu**: the drawer was narrowed with its search field (`HC157`, `HC670`) rather than the family menu; the parts listed carry their family (`HC`, `AHC`) in each row and the Logic header shows the family menu, so the check is the same.
 - **CD74HC670E is under its own leaf "Register file"** (the device's `function`), beside "Multiplexer" in Logic.
 
