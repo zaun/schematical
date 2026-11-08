@@ -307,30 +307,30 @@ Adds the interface with no caller, so it cannot change a pixel.
 
 Acceptance: the app builds and the new tests pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/SchematicPainterTests CODE_SIGNING_ALLOWED=NO 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min).
-Commit: —
+Commit: b570080
 
 ### Phase 3 — Migrate the eight symbol views
 
 Mechanical, view by view; the pixel gate decides.
 
-- [ ] `ChipBlockView.swift`: `paint` static; `outline: Ink`; `nameColor` returns `Ink`
+- [x] `ChipBlockView.swift`: `paint` static; `outline: Ink`; `nameColor` returns `Ink`
       (`.power` / `.ground` / `.primary`); `drawSineGlyph`/`drawBarrelGlyph` take
-      `inout P`. Covers block and oscillator symbols.
-- [ ] `HeaderSymbolView.swift`, `SupplySymbolView.swift`, `BarrelJackSymbolView.swift`,
+      `inout P`. Covers block and oscillator symbols. (Gate after this view alone: four `same` lines.)
+- [x] `HeaderSymbolView.swift`, `SupplySymbolView.swift`, `BarrelJackSymbolView.swift`,
       `DiodeSymbolView.swift` (keep `lightColor(for:)`/`lightColor(named:)` returning
-      `Color`; the drawer uses `Ink.lamp(name)` with the chip's color name).
-- [ ] `DipSwitchSymbolView.swift` (track `isOn ? .switchOn : .paper`, knob
+      `Color`; the drawer uses `Ink.lamp(name)` with the chip's color name, from a new `DiodeSymbolView.lightName(for:)` that `lightColor(for:)` now also uses).
+- [x] `DipSwitchSymbolView.swift` (track `isOn ? .switchOn : .paper`, knob
       `isOn ? .knobOn : outline`), `SevenSegmentSymbolView.swift` (`displayFace` fill
       plus a `faceEdge` stroke of the same rounded rect, width 1; segments `Ink.unlit`
       and `Ink.lamp(name).opacity(level)`), `CharacterLCDSymbolView.swift`
       (`RGB.color` becomes `RGB.ink` → `Ink.display(r,g,b)`; `displayFace`-style fill of the
       face is `.display` too; add the `faceEdge` stroke).
-- [ ] Each view: replace every `Text(…).font(…).foregroundStyle(…)` with `PaintedText`
-      of the same size, weight, monospaced flag and ink.
-- [ ] Re-run the harness into `/tmp/p28-new` and `cmp` against `/tmp/p28-base`.
+- [x] Each view: replace every `Text(…).font(…).foregroundStyle(…)` with `PaintedText`
+      of the same size, weight, monospaced flag and ink. (`rg -c '[^d]Text\(' <eight files>` → no match, i.e. no SwiftUI `Text` left.)
+- [x] Re-run the harness into `/tmp/p28-new` and `cmp` against `/tmp/p28-base`.
       A difference is a bug to root-cause: diff the two PNGs with
       `compare -metric AE a.png b.png /tmp/diff.png`, find the symbol in
-      `/tmp/diff.png`, and fix that view.
+      `/tmp/diff.png`, and fix that view. → `same symbols`, `same lit`, `same be-6502`, `same test.schematical` on the first full run; no difference to root-cause. The `rg -c 'GraphicsContext|with: \.color\('` over the eight files → no match (exit 1). Final gate: `SchematicPainterTests` → 4 passed, `** TEST SUCCEEDED **`.
 
 Acceptance: all four PNGs are `cmp`-identical to the Phase 1 baseline, and
 `rg -c 'GraphicsContext|with: \.color\(' ChipBlockView.swift DiodeSymbolView.swift SupplySymbolView.swift DipSwitchSymbolView.swift SevenSegmentSymbolView.swift CharacterLCDSymbolView.swift BarrelJackSymbolView.swift HeaderSymbolView.swift` (run in `schematical/schematical/Canvas`) finds nothing.
