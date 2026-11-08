@@ -53,12 +53,12 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p24 && cmake --build /tmp/logic-p24 -j8 && ctest --test-dir /tmp/logic-p24` → `100% tests passed` | MET; **T0 = 21** (2026-11-07 at 4ae312f) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `footprints.txt` | **P0 = 8022**, **F0 = 237** (2026-11-07 at 7b6b604); re-measure at start |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p24-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | re-run at start |
-| SPI/I2C target front ends exist | `grep -c 'SerialSpi\|SerialI2c' backend/src/models/serial_target.h` → ≥ 2 | MET (2026-11-07) |
-| No `converter`/`rtc` kind yet | `ls schematical/schematical/Parts/{converter,rtc}.json 2>/dev/null` → no output | MET (2026-11-07) |
-| DigiKey script works | `node scripts/digikey.js --in-stock --manufacturer 296 --limit 1 ADS1115IDGSR` → a part line | MET (2026-11-07) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p24 && cmake --build /tmp/logic-p24 -j8 && ctest --test-dir /tmp/logic-p24` → `100% tests passed` | MET; **T0 = 24** (`100% tests passed, 0 tests failed out of 24`, 2026-11-07 at 6e40f67) |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `footprints.txt` | MET; **P0 = 11126**, **F0 = 423** (2026-11-07 at 6e40f67) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p24-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-07 at 6e40f67) |
+| SPI/I2C target front ends exist | `grep -c 'SerialSpi\|SerialI2c' backend/src/models/serial_target.h` → ≥ 2 | MET (32, 2026-11-07 at 6e40f67) |
+| No `converter`/`rtc` kind yet | `ls schematical/schematical/Parts/{converter,rtc}.json 2>/dev/null` → no output | MET (no output, 2026-11-07 at 6e40f67) |
+| DigiKey script works | `node scripts/digikey.js --in-stock --manufacturer 296 --limit 1 ADS1115IDGSR` → a part line | MET (`ADS1115IDGSR Active 31952`, 2026-11-07; needs the shell outside the sandbox and the `DIGIKEY_*` exports of `~/.zshrc`) |
 
 plan-24 waits for no other plan (plans 19–22 run in any order, owner
 2026-11-07; plan-24 touches none of their kinds).
@@ -69,7 +69,7 @@ plan-24 waits for no other plan (plans 19–22 run in any order, owner
 
 ## 1. Goal
 
-- `awk -F'\t' 'NR>1 && $1=="ADC"' planning/plan-24-data/parts.tsv | wc -l` → 1718 (every ADC candidate), each `add` or `skip` with a reason.
+- `awk -F'\t' 'NR>1 && $1=="ADC"' planning/plan-24-data/parts.tsv | wc -l` → 1798 (every ADC candidate: 1718 + 80 the stock re-check found, Corrections), each `add` or `skip` with a reason.
 - `ls datasheets/adc/*.pdf | wc -l` = distinct `pdf` values of ADC `add` rows.
 - No code change in A.
 
@@ -179,8 +179,8 @@ table names the format; `specs.md` records it per device).
 
 ### Phase 1 — ADC stock and datasheets
 
-- [ ] Stock re-check per ADC base name (`node scripts/digikey.js --in-stock --manufacturer 296 --list "<base>"`; 460 base names, about 460 calls — split over two days of the ~1000/day quota); refresh `status`; rows not Active/LTB or out of stock `skip`.
-- [ ] Download the PDFs. Check: `ls datasheets/adc/*.pdf | wc -l` = distinct ADC `pdf` values.
+- [x] Stock re-check (Corrections: category listings instead of 460 per-base calls): `census/catlist.sh` → `list-700-active.tsv` 1323 of 1412 (`Number of Bits=12, series=-: 389 parts and no way to split it`), `list-700-ltb.tsv` 43, `list-701-*` 792 + 6, `list-690-*` 9 + 8 (`stock/`); every in-scope Active/LTB census row is in a listing (`an2.py`: 0 missing); 1 status refresh (`ADC0848CCVX/NOPB` Obsolete → Active); `census/kw.sh 700 ADS8 THS TLC TLV …` recovered 80 of the 89 truncated 12-bit parts, appended to `candidates.tsv` by `census/addrows.py` (`added 80`; 2787 rows).
+- [x] Download the PDFs (`census/dl.sh`, 496 files, 440 distinct documents by MD5, `census/canon.py` names each by the key most rows cite). Check: `ls datasheets/adc/*.pdf | wc -l` → 440 = distinct `pdf` of ADC `add` rows (440). 7 bases have no TI datasheet (`ti.com/product/<P>` → 404: THS1041, TLV5535-Q1, ADC10664, ADC76, ADC700, ADS1210, ADS1212 — the last two are in `ads1211.pdf` / `ads1213.pdf`).
 
 Acceptance: both checks (the call quota sets the pace).
 Commit: —
@@ -209,6 +209,49 @@ Landing tier at the end of I. A has no code; its gate is Phase 2's checks.
 - **Plan number 24** (owner, 2026-11-07; plan-23 is the pin-header plan).
 
 ## Corrections
+
+- **Stock re-check by category listing, not per base name** (2026-11-07). The
+  plan's 460 per-base calls (+240 for B) exceed the shared quota (473 left at
+  the start, other sessions drawing on it). `--category 700/701/690
+  --manufacturer 296 --in-stock --status 0` and `--status "Last Time Buy"`
+  list DigiKey's whole in-stock Active/LTB set in 71 calls and check the same
+  thing (stock > 0, status) for every row at once, including rows the census
+  missed. Its one gap is DigiKey's 300-result cap on the unsplittable
+  "12-bit, series -" bucket (389 Active ADCs): prefix keyword searches inside
+  the category (`ADS8`, `THS`, `TLC`, `TLV`, …) recovered 80 of the 89 parts
+  not listed; **9 remain unidentified** (DigiKey shows no names past 300; no
+  prefix tried — ADS7, ADC1, ADS1, ADS5, ADS6, ADS4, ADC3, ADS2, ADC0, AMC,
+  5962, ADC7, LM, SM7, MSP — found them). An `ADCS` keyword matched the whole
+  category (43 calls).
+- **Census grows 1718 → 1798 ADC rows** (`added 80`), all Active, in scope
+  (SPI/parallel), bases ADS8634/61/64/65/68, THS1206/07/082/09/40, TLC1225,
+  TLC2543/51/52/54/55/58/74/78, TLV2541–2556. In scope after the status and
+  interface filters: 1225 rows in 486 base products (was 1151 / 460).
+- **Datasheet names** come from DigiKey's `lit/gpn`/`symlink` link (doubly
+  URL-encoded for some -Q1 parts), not from the base name: -Q1, -EP and
+  National-era parts have their own documents (`ads1113-q1.pdf`,
+  `adc0832-n.pdf`). Several names are one document (`ads1113/1114/1115.pdf`
+  are byte-identical): 496 downloads, 440 documents.
+- **The ordering table decides `add`** (§3.4 "in the datasheet's ordering
+  table"): `census/poa.py` parses each datasheet's Package Option Addendum
+  (part, TI status, package type, designator, pins); `census/rows.py` matches
+  every in-scope row (1197 in their own datasheet, 6 in a sibling's), 22 rows
+  are in none (skip). The TI designator + pin count gives the footprint
+  (`footprint-ids.tsv`); 86 ADC packages, 57 of them new.
+- **Device schema made exact** (`planning/plan-24-data/schema.md`): plan-24-D
+  §3 was a sketch, too loose to transcribe 700 datasheets against. The exact
+  form adds a bit-pattern language for frames and commands, `stream`/`fixed`
+  framing, `reply`/`next` read-back, the `clocked` bus style (free-running
+  pipelined ADCs and delta-sigma modulators, which most "parallel" census
+  rows are), `configBus` (parallel + SPI parts) and the `analog` pin list.
+  **The voltage check needs a change**: it judges every `power` pin against
+  the part's `vcc`, so analog supplies (AVDD at 5 V on a 3.3 V DVDD part)
+  would be flagged; §3.4 assumed they are ignored. plan-24-D gets the task.
+  `census/validate.py` checks spec files against the schema.
+- **`specs.md` becomes `specs/<DEVICE>.json` + a generated `specs.md` index**:
+  one JSON file per device holds the D §3 form; `specs.md` lists every device
+  with its datasheet, bus, counts and not-modeled list (generated by
+  `census/specs_md.py`).
 
 ## Summary
 

@@ -59,6 +59,7 @@ register selected by `address`; LDAC/`update` as in D.
 ### Phase 1 — Parallel bus
 
 - [ ] Parallel front end in `converter_par.c` (+ CMake line); §3 cases; docs; `library_check` cases.
+- [ ] `clocked` bus style (schema.md § 3, plan-24-A Corrections): data pins drive the next `read`-pattern bits on each clock edge while `oe` is active, `clockOut` follows the clock; `configBus` (SPI/I2C configuration port beside a parallel or clocked bus). Cases: a 12-bit clocked ADC drives the 0 V code after a clock edge and Z with OE inactive; a 1-pin modulator alternates 1/0 per clock; registers written over `configBus` read back.
 
 Acceptance: `ctest --test-dir /tmp/logic-p24` → T0 + 1 of T0 + 1; golden diff empty (seconds).
 Commit: —
@@ -73,6 +74,11 @@ E's gate: Phase 1. Landing tier at the end of I.
   front end differs.
 
 ## Corrections
+
+- Most census "parallel" ADCs are free-running pipelined converters (data
+  out every CLK, no RD/CS) or have an SPI configuration port; schema.md adds
+  the `clocked` style and `configBus` for them, and E implements both (task
+  added, plan-24-A Corrections).
 
 ## Summary
 

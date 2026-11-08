@@ -46,7 +46,7 @@ ADC	parallel	ADC0848BCV	ADC084	Obsolete	1260	28-PLCC (11.51x11.51)	Parallel	8		/
 ADC	parallel	ADC0848CCN	ADC084	Obsolete	408	24-DIP	Parallel	8		//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/2135/ADC0844%2C_ADC0848.pdf	IC ADC 8BIT 24-DIP
 ADC	parallel	ADC0848CCN/NOPB	ADC084	Obsolete	17709	24-DIP	Parallel	8		//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/2135/ADC0844%2C_ADC0848.pdf	IC ADC 8BIT 24-DIP
 ADC	parallel	ADC0848CCV	ADC084	Obsolete	206	28-PLCC (11.51x11.51)	Parallel	8		//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/2135/ADC0844%2C_ADC0848.pdf	IC ADC 8BIT 28-PLCC
-ADC	parallel	ADC0848CCVX/NOPB	ADC0848	Obsolete	12	28-PLCC (11.51x11.51)	Parallel	8		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fadc0848	IC ADC 8BIT 28-PLCC
+ADC	parallel	ADC0848CCVX/NOPB	ADC0848	Active	12	28-PLCC (11.51x11.51)	Parallel	8		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fadc0848	IC ADC 8BIT 28-PLCC
 ADC	spi	ADC084S021CIMM/NOPB	ADC084S021	Active	4562	10-VSSOP	SPI, DSP	8		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fadc084s021	IC ADC 8BIT 10-VSSOP
 ADC	spi	ADC084S051CIMM/NOPB	ADC084S051	Active	2511	10-VSSOP	SPI, DSP	8		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fadc084s051	IC ADC 8BIT 10-VSSOP
 ADC	spi	ADC084S101CIMM/NOPB	ADC084S101	Active	901	10-VSSOP	SPI, DSP	8		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fadc084s101	IC ADC 8BIT 10-VSSOP
@@ -2706,3 +2706,83 @@ RTC	parallel	DP8570AV/NOPB	DP8570	Active	35	28-PLCC (11.51x11.51)	Parallel		Time
 RTC	parallel	DP8570AVX	DP8570	Obsolete	1420	28-PLCC (11.51x11.51)	Parallel		Timer Clock Peripheral (TCP)	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/2362/DP8570AN.pdf	IC RTC TIMER PERIPH PAR 28PLCC
 RTC	parallel	DP8573AV	DP8573	Obsolete	4635	28-PLCC (11.51x11.51)	Parallel		Clock/Calendar	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/2148/DP8573A.pdf	IC RTC CLK/CALENDAR PAR 28PLCC
 RTC	parallel	DP8573AV/NOPB	DP8573	Active	37	28-PLCC (11.51x11.51)	Parallel		Clock/Calendar	https://rocelec.widen.net/view/pdf/oxzgwl7v9u/NATLS13769-1.pdf?t.download=true&u=5oefqw	IC RTC CLK/CALENDAR PAR 28PLCC
+ADC	spi	ADS8634SRGER	ADS8634	Active	14929	24-VQFN (4x4)	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fads8634	IC ADC 12BIT 24-VQFN
+ADC	spi	ADS8634SRGET	ADS8634	Active	197	24-VQFN (4x4)	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fads8634	IC ADC 12BIT 24-VQFN
+ADC	spi	ADS8661IPW	ADS8661	Active	50	16-TSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fads8661	IC ADC 12BIT 16-TSSOP
+ADC	spi	ADS8661IPWR	ADS8661	Active	2356	16-TSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fads8661	IC ADC 12BIT 16-TSSOP
+ADC	spi	ADS8664IDBT	ADS8664	Active	216	38-TSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fads8664	IC ADC 12BIT 38-TSSOP
+ADC	spi	ADS8665IPW	ADS8665	Active	294	16-TSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fads8665	IC ADC 12BIT 16-TSSOP
+ADC	spi	ADS8665IPWR	ADS8665	Active	405	16-TSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fads8665	IC ADC 12BIT 16-TSSOP
+ADC	spi	ADS8668IDBT	ADS8668	Active	171	38-TSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fads8664	IC ADC 12BIT 38-TSSOP
+ADC	spi	ADS8668IDBTR	ADS8668	Active	2997	38-TSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fads8664	IC ADC 12BIT 38-TSSOP
+ADC	parallel	THS1206CDA	THS1206	Active	6971	32-TSSOP	Parallel	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fths1206	IC ADC 12BIT 32-TSSOP
+ADC	parallel	THS1206CDAR	THS1206	Active	1358	32-TSSOP	Parallel	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fths1206	IC ADC 12BIT 32-TSSOP
+ADC	parallel	THS1206IDA	THS1206	Active	226	32-TSSOP	Parallel	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fths1206	IC ADC 12BIT 32-TSSOP
+ADC	parallel	THS1206IDAR	THS1206	Active	310	32-TSSOP	Parallel	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fths1206	IC ADC 12BIT 32-TSSOP
+ADC	parallel	THS1206MDAREP	THS1206	Active	2551	32-TSSOP	Parallel	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fths1206-ep	IC ADC 12BIT 32-TSSOP
+ADC	parallel	THS1206QDA	THS1206	Active	3239	32-TSSOP	Parallel	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fths1206	IC ADC 12BIT 32-TSSOP
+ADC	parallel	THS1207CDA	THS1207	Active	19144	32-TSSOP	Parallel	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fths1207	IC ADC 12BIT 32-TSSOP
+ADC	parallel	THS1207CDAR		Active	14000	32-TSSOP	Parallel	12		https://www.ti.com/lit/ds/symlink/ths1207.pdf	IC ADC 12BIT 32-TSSOP
+ADC	parallel	THS1207IDA	THS1207	Active	4270	32-TSSOP	Parallel	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fths1207	IC ADC 12BIT 32-TSSOP
+ADC	parallel	THS12082CDAR	THS12082	Active	3684	32-TSSOP	Parallel	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fths12082	IC ADC 12BIT 32-TSSOP
+ADC	parallel	THS12082IDA	THS12082	Active	1102	32-TSSOP	Parallel	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fths12082	IC ADC 12BIT 32-TSSOP
+ADC	parallel	THS12082IDAR	THS12082	Active	7307	32-TSSOP	Parallel	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fths12082	IC ADC 12BIT 32-TSSOP
+ADC	parallel	THS1209IDA	THS1209	Active	12964	32-TSSOP	Parallel	12		https://www.ti.com/lit/ds/slas288b/slas288b.pdf	IC ADC 12BIT 32-TSSOP
+ADC	other:	THS1240CPHP	THS1240	Active	2917			12		https://rocelec.widen.net/view/pdf/yo4kso24ig/TXIIS22257-1.pdf?t.download=true&u=5oefqw	IC ADC 12BIT 48-HTQFP
+ADC	other:	TLC1225IFNR		Active	4348			12		https://rocelec.widen.net/view/pdf/krfdxpn214/TXIIS03336-1.pdf?t.download=true&u=5oefqw	IC ADC 12BIT 28-PLCC
+ADC	other:	TLC1225IN		Active	1914			12		https://rocelec.widen.net/view/pdf/wxp06chg4q/TXIIS144573-1.pdf?t.download=true&u=5oefqw	IC ADC 12BIT 28-PDIP
+ADC	other:	TLC1225MJB		Active	51			12		https://rocelec.widen.net/view/pdf/ilk6gtdlfr/TXIIS141081-1.pdf?t.download=true&u=5oefqw	IC ADC 12BIT 28-CDIP
+ADC	other:	TLC2543IDBRG4HE		Active	64278			12		http://www.ti.com/lit/gpn/tlc2543	IC ADC 12BIT 20-SSOP
+ADC	spi	TLC2543IDBRG4Q1	TLC2543	Active	37507	20-SSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlc2543-q1	IC ADC 12BIT 20-SSOP
+ADC	spi	TLC2543IDBRQ1	TLC2543	Active	18616	20-SSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlc2543-q1	IC ADC 12BIT 20-SSOP
+ADC	spi	TLC2543IDWR	TLC2543	Active	5	20-SOIC	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlc2543	IC ADC 12BIT 20-SOIC
+ADC	spi	TLC2543MDBREP	TLC2543	Active	208	20-SSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlc2543-ep	IC ADC 12BIT 20-SSOP
+ADC	spi	TLC2543MJB		Active	28	20-CDIP	Serial	12		https://www.ti.com/lit/ds/symlink/tlc2543.pdf	IC ADC 12BIT 20-CDIP
+ADC	spi	TLC2543QDWREP	TLC2543	Active	1023	20-SOIC	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlc2543-ep	IC ADC 12BIT 20-SOIC
+ADC	spi	TLC2551CDGK	TLC2551	Active	25871	8-VSSOP	SPI	12		https://www.ti.com/lit/ds/slas276d/slas276d.pdf	IC ADC 12BIT 8-VSSOP
+ADC	spi	TLC2551CDGKR	TLC2551	Active	42188	8-VSSOP	SPI	12		https://www.ti.com/lit/ds/slas276d/slas276d.pdf	IC ADC 12BIT 8-VSSOP
+ADC	spi	TLC2551ID	TLC2551	Active	29290	8-SOIC	SPI	12		https://www.ti.com/lit/ds/slas276d/slas276d.pdf	IC ADC 12BIT 8-SOIC
+ADC	spi	TLC2551IDGK	TLC2551	Active	11696	8-VSSOP	SPI	12		https://www.ti.com/lit/ds/slas276d/slas276d.pdf	IC ADC 12BIT 8-VSSOP
+ADC	spi	TLC2551IDR	TLC2551	Active	21805	8-SOIC	SPI	12		https://www.ti.com/lit/ds/slas276d/slas276d.pdf	IC ADC 12BIT 8-SOIC
+ADC	spi	TLC2552CDGK	TLC2552	Active	82770	8-VSSOP	SPI	12		https://www.ti.com/lit/ds/slas276d/slas276d.pdf	IC ADC 12BIT 8-VSSOP
+ADC	spi	TLC2552ID	TLC2552	Active	13796	8-SOIC	SPI	12		https://www.ti.com/lit/ds/slas276d/slas276d.pdf	IC ADC 12BIT 8-SOIC
+ADC	spi	TLC2552IDGK	TLC2552	Active	12656	8-VSSOP	SPI	12		https://www.ti.com/lit/ds/slas276d/slas276d.pdf	IC ADC 12BIT 8-VSSOP
+ADC	other:	TLC2554CPW		Active	3818			12		https://rocelec.widen.net/view/pdf/s5vfd6m5r1/TXIIS119169-1.pdf?t.download=true&u=5oefqw	IC ADC 12BIT 16-TSSOP
+ADC	spi	TLC2554ID	TLC2554	Active	9924	16-SOIC	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlc2554	IC ADC 12BIT 16-SOIC
+ADC	spi	TLC2554IPW	TLC2554	Active	7013	16-TSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlc2554	IC ADC 12BIT 16-TSSOP
+ADC	spi	TLC2555IDGK	TLC2555	Active	16731	8-VSSOP	SPI	12		https://www.ti.com/lit/ds/slas276d/slas276d.pdf	IC ADC 12BIT 8-VSSOP
+ADC	spi	TLC2558IDW	TLC2558	Active	11143	20-SOIC	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlc2554	IC ADC 12BIT 20-SOIC
+ADC	spi	TLC2574IDW	TLC2574	Active	5629	20-SOIC	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlc3574	IC ADC 12BIT 20-SOIC
+ADC	other:	TLC2574IN		Active	704			12		https://www.ti.com/lit/ds/symlink/tlc2578.pdf	IC ADC 12BIT 20-PDIP
+ADC	spi	TLC2578IDW	TLC2578	Active	11816	24-SOIC	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlc3574	IC ADC 12BIT 24-SOIC
+ADC	spi	TLC2578IPW	TLC2578	Active	1081	24-TSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlc3574	IC ADC 12BIT 24-TSSOP
+ADC	spi	TLV2541CDGK	TLV2541	Active	14757	8-VSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2541	IC ADC 12BIT 8-VSSOP
+ADC	spi	TLV2541CDGKR	TLV2541	Active	33671	8-VSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2541	IC ADC 12BIT 8-VSSOP
+ADC	spi	TLV2541IDGK	TLV2541	Active	10397	8-VSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2541	IC ADC 12BIT 8-VSSOP
+ADC	spi	TLV2541IDGKR	TLV2541	Active	16555	8-VSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2541	IC ADC 12BIT 8-VSSOP
+ADC	spi	TLV2542CDGK	TLV2542	Active	49963	8-VSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2541	IC ADC 12BIT 8-VSSOP
+ADC	spi	TLV2542ID	TLV2542	Active	4997	8-SOIC	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2541	IC ADC 12BIT 8-SOIC
+ADC	spi	TLV2542IDGK	TLV2542	Active	19214	8-VSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2541	IC ADC 12BIT 8-VSSOP
+ADC	spi	TLV2542IDGKR	TLV2542	Active	97515	8-VSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2541	IC ADC 12BIT 8-VSSOP
+ADC	spi	TLV2543CDB	TLV2543	Active	10697	20-SSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2543	IC ADC 12BIT 20-SSOP
+ADC	spi	TLV2543CDBR	TLV2543	Active	4942	20-SSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2543	IC ADC 12BIT 20-SSOP
+ADC	spi	TLV2543IDW	TLV2543	Active	17959	20-SOIC	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2543	IC ADC 12BIT 20-SOIC
+ADC	spi	TLV2544CPWR	TLV2544	Active	16773	16-TSSOP	SPI, DSP	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2544	IC ADC 12BIT 16-TSSOP
+ADC	spi	TLV2544ID	TLV2544	Active	18	16-SOIC	SPI, DSP	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2544	IC ADC 12BIT 16-SOIC
+ADC	spi	TLV2544IPW	TLV2544	Active	1200	16-TSSOP	SPI, DSP	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2544	IC ADC 12BIT 16-TSSOP
+ADC	spi	TLV2544QD	TLV2544	Active	6279	16-SOIC	SPI, DSP	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2548q	IC ADC 12BIT 16-SOIC
+ADC	spi	TLV2544QDR	TLV2544	Active	605	16-SOIC	SPI, DSP	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2548q	IC ADC 12BIT 16-SOIC
+ADC	spi	TLV2545CDGK	TLV2545	Active	66588	8-VSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2541	IC ADC 12BIT 8-VSSOP
+ADC	spi	TLV2545ID	TLV2545	Active	16275	8-SOIC	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2541	IC ADC 12BIT 8-SOIC
+ADC	spi	TLV2548CDW	TLV2548	Active	18	20-SOIC	SPI, DSP	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2544	IC ADC 12BIT 20-SOIC
+ADC	spi	TLV2548CPW	TLV2548	Active	40	20-TSSOP	SPI, DSP	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2544	IC ADC 12BIT 20-TSSOP
+ADC	spi	TLV2548IDW	TLV2548	Active	1	20-SOIC	SPI, DSP	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2544	IC ADC 12BIT 20-SOIC
+ADC	spi	TLV2548MFKB		Active	197	20-LCCC (8.89x8.89)	4-Wire Serial, SPI	12		https://www.ti.com/lit/ds/sgls119f/sgls119f.pdf	IC ADC 12BIT 20-LCCC
+ADC	spi	TLV2548MPWREP	TLV2548	Active	1469	20-TSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2548-ep	IC ADC 12BIT 20-TSSOP
+ADC	spi	TLV2548QDW	TLV2548	Active	7828	20-SOIC	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2548q	IC ADC 12BIT 20-SOIC
+ADC	spi	TLV2548QDWR	TLV2548	Active	803	20-SOIC	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2548q	IC ADC 12BIT 20-SOIC
+ADC	spi	TLV2553IDWR	TLV2553	Active	1964	20-SOIC	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2553	IC ADC 12BIT 20-SOIC
+ADC	spi	TLV2553IPWR	TLV2553	Active	1990	20-TSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2553	IC ADC 12BIT 20-TSSOP
+ADC	spi	TLV2553IPWRQ1	TLV2553	Active	1185	20-TSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2553-q1	IC ADC 12BIT 20-TSSOP
+ADC	spi	TLV2556IPWR	TLV2556	Active	3145	20-TSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2556	IC ADC 12BIT 20-TSSOP
+ADC	spi	TLV2556MPWREP	TLV2556	Active	962	20-TSSOP	SPI	12		https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv2556-ep	IC ADC 12BIT 20-TSSOP

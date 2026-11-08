@@ -47,6 +47,11 @@ appended).
 
 ## 3. Device schema
 
+**The exact schema is `planning/plan-24-data/schema.md`** (plan-24-A
+Corrections); the table below is the original sketch. The engine implements
+schema.md, including the bit-pattern language, `stream`/`fixed` framing,
+`reply`/`next`, `configBus` and the `analog` pin list.
+
 | Key | Value |
 |---|---|
 | `"bus"` | the serial kind's `bus` object: `{"spi": {cs, sclk, mosi, miso, mode}}`, `{"i2c": {scl, sda, address, straps}}`, or `{"parallel": …}` (E) |
@@ -95,6 +100,7 @@ Commit: —
 ### Phase 2 — Commands, conversion timing, DAC registers
 
 - [ ] Command engine, `conversion`, `ready`, `dac`; the remaining §4 cases; `library_check` cases.
+- [ ] Voltage check skips a converter's/RTC's `analog` pins (a `PartKindOps` hook beside `pin_open_drain`; `power` pins in `analog` do not count as the part's supply): a `voltage_test` case with AVDD at 5 V on a 3.3 V-`vcc` part reports nothing, DVDD at 5 V is reported.
 
 Acceptance: `ctest --test-dir /tmp/logic-p24` → T0 + 1 of T0 + 1; golden diff empty (seconds).
 Commit: —
