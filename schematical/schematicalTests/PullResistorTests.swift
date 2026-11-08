@@ -146,4 +146,30 @@ final class PullResistorTests: XCTestCase {
         XCTAssertNil(ResistorValue.parse("inf"))
         XCTAssertNil(ResistorValue.parse(""))
     }
+
+    // MARK: plan-26-B: Settings ▸ New Pull Resistor
+
+    func testNewPartOptions() throws {
+        let suite = "PullResistorTests.\(UUID().uuidString)"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let pull = try TestSupport.part("PULLUP-5V")
+        let chip = try TestSupport.part("SN74HC00D")
+
+        XCTAssertNil(NewPartOptions.ohms(for: pull, defaults: defaults))
+        XCTAssertNil(NewPartOptions.footprintID(for: pull, defaults: defaults))
+
+        defaults.set(2200.0, forKey: PreferenceKey.pullResistorOhms)
+        defaults.set("RES-1206", forKey: PreferenceKey.pullResistorFootprint)
+        XCTAssertEqual(NewPartOptions.ohms(for: pull, defaults: defaults), 2200)
+        XCTAssertEqual(NewPartOptions.footprintID(for: pull, defaults: defaults), "RES-1206")
+        XCTAssertNil(NewPartOptions.ohms(for: chip, defaults: defaults))
+        XCTAssertNil(NewPartOptions.footprintID(for: chip, defaults: defaults))
+        // The LED keys don't leak onto a pull resistor, nor the pull keys onto the LED.
+        let led = try TestSupport.part("GENERIC-LED")
+        XCTAssertNil(NewPartOptions.footprintID(for: led, defaults: defaults))
+
+        defaults.set(-5.0, forKey: PreferenceKey.pullResistorOhms)
+        XCTAssertNil(NewPartOptions.ohms(for: pull, defaults: defaults))
+    }
 }

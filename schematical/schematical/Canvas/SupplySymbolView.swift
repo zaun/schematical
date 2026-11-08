@@ -12,6 +12,9 @@ import SwiftUI
 /// - A pull-down is GND with a resistor in its stem: the pin on the top edge,
 ///   the resistor, then the ground bars.
 ///
+/// A pull-up or pull-down also shows its resistance (`1kΩ`) to the right of
+/// the resistor, in the label margin.
+///
 /// Flipping mirrors the symbol top to bottom, which moves the pin to the other edge.
 ///
 /// The view is `ChipLayout.stubLength` taller than the body at the top and the
@@ -106,6 +109,19 @@ struct SupplySymbolView: View {
                         .font(.system(size: 10, weight: .semibold, design: .monospaced)),
                     at: point(20, symbol == .pullUp ? 5 : (isGround ? 18 : 8)),
                     anchor: .center
+                )
+            }
+            // The resistance, right of the zig-zag (which ends at x = 26),
+            // halfway along it. 9 pt keeps the longest value ("1.234kΩ")
+            // inside the margin.
+            if symbol == .pullUp || symbol == .pullDown {
+                let mid: CGFloat = symbol == .pullUp ? 47 : 30
+                context.draw(
+                    Text(ResistorValue.text(chip.ohms ?? ResistorValue.defaultOhms))
+                        .font(.system(size: 9, design: .monospaced))
+                        .foregroundStyle(.primary),
+                    at: point(30, mid),
+                    anchor: .leading
                 )
             }
         }
