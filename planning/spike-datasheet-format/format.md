@@ -370,6 +370,11 @@ drawing adds the segment identification and the internal circuit (which
 anode and cathode pins drive which segment), from the kind's segment
 keys, so neither is transcribed.
 
+A pinout name can repeat across the listed devices with a different pin
+order (`p5` in both 1G08 and 1G08_DPW, where A and B swap). The block
+then draws every pinout of that name, each captioned with its packages
+and footprints, and the `pins` table gets a column for each.
+
 ### `wavedrom`
 
 Strict-JSON WaveJSON: an object with `signal` (timing diagram) or `reg`
@@ -423,9 +428,10 @@ mechanical drawings of connectors and displays. Two forms:
   few load circuits and measurement waveforms (TI's 50 pF CMOS load,
   15 pF/50 pF bus-interface load, open-drain load, the 50 %/10 %/90 %
   waveforms), so each is drawn once for the whole library. The library
-  starts with the refs the samples use: `load-cmos-50pf`,
-  `waveforms-cmos-tpd-tt`, `waveforms-cmos-tsu-th-tw`,
-  `load-eeprom-ttl`, `clamp-diodes`.
+  holds the SVGs in `schematical/schematical/Datasheets/figures/`
+  (`load-cmos-50pf`, `load-rl-cl`, `load-ttl`, `waveforms-tpd`,
+  `waveforms-cmos-tpd-tt`, `clamp-diodes`; see converting.md for their
+  parameters). A parameter is drawn where the SVG has `{KEY}`.
 - `src=`: a sidecar SVG in `<id>.figures/`, for a figure only this part
   has. Sidecars are counted in the file's size.
 

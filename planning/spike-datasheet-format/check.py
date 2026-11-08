@@ -52,8 +52,12 @@ SPEC_SECTIONS = {"Absolute maximum ratings", "Recommended operating conditions",
                  "Electrical characteristics", "Switching characteristics"}
 BLOCK_HOME = {"pins": "Pin functions", "pinout": "Pinout", "package": "Package", "ordering": "Ordering information"}
 BLOCK_TYPES = {"table", "pins", "pinout", "wavedrom", "curve", "figure", "package", "ordering", "equation"}
+FIGURES_DIR = os.path.join(REPO, "schematical", "schematical", "Datasheets", "figures")
+# The shared figures: the app's figure folder, plus the refs the spike samples use.
 FIGURE_LIBRARY = {"load-cmos-50pf", "waveforms-cmos-tpd-tt", "waveforms-cmos-tsu-th-tw",
-                  "load-eeprom-ttl", "clamp-diodes"}
+                  "load-eeprom-ttl", "clamp-diodes"} | {
+    os.path.splitext(f)[0] for f in (os.listdir(FIGURES_DIR) if os.path.isdir(FIGURES_DIR) else [])
+    if f.endswith(".svg")}
 FRONT_KEYS = {"format", "version", "id", "title", "class", "source", "devices", "parts", "packages", "converted",
               "pending"}
 SOURCE_KEYS = {"pdf", "vendor", "document", "date", "pages"}
@@ -97,6 +101,8 @@ class Catalog:
             if name == "footprints.json":
                 self.footprints = {fp["id"] for fp in data["footprints"]}
                 continue
+            if "kind" not in data:
+                continue          # datasheets.json and other non-part files
             kind = data["kind"]
             for dev in data["devices"]:
                 key = "%s:%s" % (kind, dev["id"])
