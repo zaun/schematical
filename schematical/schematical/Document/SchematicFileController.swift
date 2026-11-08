@@ -168,8 +168,16 @@ final class SchematicFileController {
         claimedOpen = pending
         if let group = pending.tabbedWith, group !== window {
             window.tabbingMode = .preferred
-            group.addTabbedWindow(window, ordered: .above)
-            window.makeKeyAndOrderFront(nil)
+            // This runs from `viewDidMoveToWindow`, inside SwiftUI's layout
+            // pass. Joining a tab group lays the window out again, which
+            // AppKit reports as layout recursion, so join just after it.
+            DispatchQueue.main.async { [weak window, weak group] in
+                guard let window, let group else { return }
+                if window.tabGroup !== group.tabGroup {
+                    group.addTabbedWindow(window, ordered: .above)
+                }
+                window.makeKeyAndOrderFront(nil)
+            }
         }
     }
 
