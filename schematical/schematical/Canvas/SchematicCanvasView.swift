@@ -118,6 +118,10 @@ struct SchematicCanvasView: View {
             .overlay(alignment: .topLeading) {
                 worldLayer
             }
+            // Render the scaled world at screen resolution. Without this each
+            // symbol is drawn at full size and then shrunk, and below about
+            // half size thin lines fall between pixels and vanish.
+            .drawingGroup()
             .background(Color(nsColor: .textBackgroundColor))
             .contentShape(Rectangle())
             .clipped()
