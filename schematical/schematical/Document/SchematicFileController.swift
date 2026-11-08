@@ -31,8 +31,6 @@ final class SchematicFileController {
     private struct PendingOpen {
         let url: URL
         let file: SchematicFile
-        /// The window whose tab group the new window joins.
-        weak var tabbedWith: NSWindow?
     }
 
     @ObservationIgnored
@@ -154,29 +152,45 @@ final class SchematicFileController {
             guard await confirmDiscardingChanges() else { return }
             load(file, from: url)
         } else {
-            Self.pendingOpens.append(PendingOpen(url: url, file: file, tabbedWith: window))
+            Self.pendingOpens.append(PendingOpen(url: url, file: file))
+            if let window { Self.tabNextWindow(into: window) }
             openNewWindow?()
         }
     }
 
-    /// A new window takes the next file another window read for it, and
-    /// joins that window's tabs right away, before it is first shown, so it
-    /// never appears as a window of its own.
+    /// A new window takes the next file another window read for it. Its tab
+    /// is set up by `tabNextWindow(into:)`, before this runs.
     private func claimPendingOpen() {
-        guard let window, isBlank, !Self.pendingOpens.isEmpty else { return }
-        let pending = Self.pendingOpens.removeFirst()
-        claimedOpen = pending
-        if let group = pending.tabbedWith, group !== window {
-            window.tabbingMode = .preferred
-            // This runs from `viewDidMoveToWindow`, inside SwiftUI's layout
-            // pass. Joining a tab group lays the window out again, which
-            // AppKit reports as layout recursion, so join just after it.
-            DispatchQueue.main.async { [weak window, weak group] in
-                guard let window, let group else { return }
+        guard isBlank, !Self.pendingOpens.isEmpty else { return }
+        claimedOpen = Self.pendingOpens.removeFirst()
+    }
+
+    /// Makes the next schematic window that opens a tab of `group`, the way
+    /// document apps open a file: straight into a tab, never as a window of
+    /// its own first. It is caught as it becomes key, which is before its
+    /// first layout and drawing. Later, from the window's own view, is
+    /// too late: that runs inside SwiftUI's layout pass, where joining a tab
+    /// group lays the window out again (AppKit's layout recursion warning),
+    /// and anything after that shows a separate window for a frame.
+    private static func tabNextWindow(into group: NSWindow) {
+        final class Observer { var token: NSObjectProtocol? }
+        let observer = Observer()
+        observer.token = NotificationCenter.default.addObserver(
+            forName: NSWindow.didBecomeKeyNotification, object: nil, queue: nil
+        ) { [weak group] note in
+            MainActor.assumeIsolated {
+                guard let group else {
+                    observer.token.map(NotificationCenter.default.removeObserver)
+                    return
+                }
+                guard let window = note.object as? NSWindow, window !== group,
+                      window.tabbingIdentifier == group.tabbingIdentifier else { return }
+                observer.token.map(NotificationCenter.default.removeObserver)
+                observer.token = nil
+                window.tabbingMode = .preferred
                 if window.tabGroup !== group.tabGroup {
                     group.addTabbedWindow(window, ordered: .above)
                 }
-                window.makeKeyAndOrderFront(nil)
             }
         }
     }
