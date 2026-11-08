@@ -17,7 +17,7 @@ final class SchematicFileController {
     weak var window: NSWindow? {
         didSet {
             closeGuard.attach(to: window)
-            joinPendingTabGroup()
+            if oldValue == nil { claimPendingOpen() }
         }
     }
 
@@ -38,9 +38,9 @@ final class SchematicFileController {
     @ObservationIgnored
     private static var pendingOpens: [PendingOpen] = []
 
-    /// The window this one joins as a tab once it has a window.
+    /// The file this new window claimed, loaded once the catalog is.
     @ObservationIgnored
-    private weak var pendingTabGroup: NSWindow?
+    private var claimedOpen: PendingOpen?
 
     /// Every open window's controller, so quitting can check them all.
     @ObservationIgnored
@@ -159,13 +159,25 @@ final class SchematicFileController {
         }
     }
 
-    /// Loads a file another window read for this new one, if there is one,
-    /// and joins that window's tab group. Call once the catalog is loaded.
-    func takePendingOpen() {
-        guard isBlank, !Self.pendingOpens.isEmpty else { return }
+    /// A new window takes the next file another window read for it, and
+    /// joins that window's tabs right away, before it is first shown, so it
+    /// never appears as a window of its own.
+    private func claimPendingOpen() {
+        guard let window, isBlank, !Self.pendingOpens.isEmpty else { return }
         let pending = Self.pendingOpens.removeFirst()
-        pendingTabGroup = pending.tabbedWith
-        joinPendingTabGroup()
+        claimedOpen = pending
+        if let group = pending.tabbedWith, group !== window {
+            window.tabbingMode = .preferred
+            group.addTabbedWindow(window, ordered: .above)
+            window.makeKeyAndOrderFront(nil)
+        }
+    }
+
+    /// Loads the file this window claimed, if any. Call once the catalog is
+    /// loaded.
+    func loadClaimedOpen() {
+        guard let pending = claimedOpen else { return }
+        claimedOpen = nil
         load(pending.file, from: pending.url)
     }
 
@@ -179,13 +191,6 @@ final class SchematicFileController {
         } catch {
             present(error, title: "Couldn't open “\(url.lastPathComponent)”")
         }
-    }
-
-    private func joinPendingTabGroup() {
-        guard let window, let group = pendingTabGroup, group !== window else { return }
-        pendingTabGroup = nil
-        group.addTabbedWindow(window, ordered: .above)
-        window.makeKeyAndOrderFront(nil)
     }
 
     /// Asks where to export the schematic as `format`, then writes it there.

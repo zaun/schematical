@@ -380,7 +380,7 @@ struct ContentView: View {
             .task {
                 catalog.load()
                 // A file opened from another window lands here, in a new tab.
-                file.takePendingOpen()
+                file.loadClaimedOpen()
             }
             .onAppear {
                 file.openNewWindow = { openWindow(id: "schematic") }
