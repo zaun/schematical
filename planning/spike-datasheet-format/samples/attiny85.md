@@ -858,7 +858,7 @@ unneeded functions:
 Timed sequence to set BODS:
 
 1. Write BODS = 1 and BODSE = 1 in one write.
-2. Within four clock cycles, write BODS = 1 and BODSE = 0.
+2. Within four clock cycles, BODS must be set to 1 and BODSE to 0.
 3. Execute SLEEP within the three cycles BODS is active.
 
 #### PRR – Power reduction register (0x20)
@@ -1791,7 +1791,7 @@ normal mode:
   connected; 10 = OC1A cleared on compare match, set when TCNT1 = 0x00;
   11 = OC1A set on compare match, cleared when TCNT1 = 0x00. With OCR1A
   = 0x00 or OCR1C the output is held as in table t1-pwm-ext (OC1A
-  column). Source conflict: Table 13-2 (pp.98–99) lists OC1A levels for
+  column). Source conflict: Table 13-2 (p.98 and p.99) lists OC1A levels for
   COM1A = 01 (L at 0x00, H at OCR1C), while Table 13-1 (p.98) says
   COM1A = 01 leaves OC1A not connected in PWM mode. Normal-mode COM1A: 00 = disconnected, 01 = toggle, 10 =
   clear, 11 = set OC1A.
@@ -1913,10 +1913,10 @@ must be handled before the next transfer starts.
 
 ```wavedrom id=usi-3wire caption="Three-wire mode timing (USICS0 = 0 and USICS0 = 1)"
 {"signal": [
-  {"name": "USCK (mode 0)", "wave": "0.1010101010101010.", "node": "..CD..............E"},
+  {"name": "USCK (mode 0)", "wave": "0.1010101010101010.", "node": "..CD.............E."},
   {"name": "USCK (mode 1)", "wave": "1.0101010101010101."},
-  {"name": "DO", "wave": "x=.=.=.=.=.=.=.=.x.", "data": ["MSB", "6", "5", "4", "3", "2", "1", "LSB"], "node": ".A"},
-  {"name": "DI", "wave": "x=.=.=.=.=.=.=.=.x.", "data": ["MSB", "6", "5", "4", "3", "2", "1", "LSB"], "node": ".B"}
+  {"name": "DO", "wave": "x=.=.=.=.=.=.=.=.x.", "data": ["MSB", "6", "5", "4", "3", "2", "1", "LSB"], "node": ".B"},
+  {"name": "DI", "wave": "x=.=.=.=.=.=.=.=.x.", "data": ["MSB", "6", "5", "4", "3", "2", "1", "LSB"], "node": ".A"}
  ],
  "edge": ["A~>C setup ≥ ½ USCK cycle", "B~>C"],
  "config": {"hscale": 2}}
@@ -1953,13 +1953,15 @@ releases SCL; the slave samples on rising SCL edges. (D) After 8 bits
 (address and R/W) the slave counter overflows and SCL is held low; a
 slave that is not addressed releases SCL and waits for the next START.
 An addressed slave drives SDA low for the acknowledge, then holds SCL
-low again: set the counter to 14 before releasing SCL at (D). The R/W
+low again (the USI counter register must be set to 14 before releasing
+SCL at (D)). The R/W
 bit decides who drives SDA next (1 = master read: the slave drives). (E)
 The slave may hold SCL after the acknowledge. Bytes follow in the same
 direction until the master sends a STOP (F) or a new START. A slave that
 can take no more data does not acknowledge the last byte; a master
-ending a read must signal the end in the acknowledge bit after the last
-byte.
+doing a read must terminate it by forcing the acknowledge bit low after
+the last byte transmitted. Unconfirmed: "low" as printed, although the
+sentence before it ends a transfer by not acknowledging.
 
 ```wavedrom id=usi-2wire caption="Two-wire mode, typical transfer (S = START, P = STOP)"
 {"signal": [
@@ -2074,13 +2076,13 @@ ACME is bit 6 of ADCSRB, described under ADC below.
 ```table id=ac-acsr caption="ACSR bits"
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
-| 7 | ACD | R/W | 0 | Analog comparator disable: 1 switches the comparator's power off (saves power in Active and Idle), at any time. Clear ACIE before changing ACD, or an interrupt can occur. |
+| 7 | ACD | R/W | 0 | Analog comparator disable: 1 switches the comparator's power off (saves power in Active and Idle), at any time. The comparator interrupt must be disabled (ACIE cleared) when ACD is changed, or an interrupt can occur. |
 | 6 | ACBG | R/W | 0 | Bandgap select: 1 = fixed bandgap reference replaces AIN0 on the positive input; 0 = AIN0. The reference needs time to settle; an unsettled first conversion may be wrong (see Internal voltage reference, under Power management). |
 | 5 | ACO | R | N/A | Comparator output, synchronized (1–2 clock cycles of delay). |
 | 4 | ACI | R/W | 0 | Interrupt flag: set when an output event matches ACIS[1:0]. Interrupts if ACIE = 1 and I = 1. Cleared by hardware when the vector runs, or by writing 1. |
 | 3 | ACIE | R/W | 0 | Interrupt enable (with I = 1). |
 | 2 | — | R | 0 | Reserved, reads 0 |
-| 1:0 | ACIS[1:0] | R/W | 0 | Interrupt mode: 00 = output toggle; 01 = reserved; 10 = falling output edge; 11 = rising output edge. Clear ACIE before changing them, or an interrupt can occur. |
+| 1:0 | ACIS[1:0] | R/W | 0 | Interrupt mode: 00 = output toggle; 01 = reserved; 10 = falling output edge; 11 = rising output edge. When they are changed, the comparator interrupt must be disabled by clearing ACIE, or an interrupt can occur. |
 ```
 
 DIDR0 bits AIN1D and AIN0D disable the digital inputs of the comparator
@@ -2108,7 +2110,8 @@ off before power-saving sleep modes.
 Selecting ADC0 or ADC2 as both inputs of the gain stage (ADC0–ADC0,
 ADC2–ADC2) measures the remaining offset of the gain stage and
 converter; subtracting it from later conversions with the same gain
-brings the offset error below 1 LSB.
+reduces the offset error to below 1 LSW. Unconfirmed: the unit is
+printed "LSW", which the PDF does not define.
 
 #### Result registers
 
@@ -2164,18 +2167,18 @@ next conversion starts as soon as one completes, with ADSC staying 1.
 
 ```wavedrom id=adc-single caption="Single conversion"
 {"signal": [
-  {"name": "ADC clock", "wave": "lpppppppppppppppp", "node": ".A.B..........C"},
-  {"name": "ADSC", "wave": "01............0.."},
-  {"name": "ADIF", "wave": "0.............1.."},
-  {"name": "ADCH", "wave": "x.............=..", "data": ["sign and MSB of result"]},
-  {"name": "ADCL", "wave": "x.............=..", "data": ["LSB of result"]}
+  {"name": "ADC clock", "wave": "hlhlhlhlhlhlhlhlhlhlhlhlhlhlhlhlhl", "node": "..A..B......................C....."},
+  {"name": "ADSC", "wave": "01..........................01...."},
+  {"name": "ADIF", "wave": "0...........................1....."},
+  {"name": "ADCH", "wave": "x...........................=.....", "data": ["sign and MSB of result"]},
+  {"name": "ADCL", "wave": "x...........................=.....", "data": ["LSB of result"]}
  ],
- "edge": ["A~>B sample & hold", "A<->C 13 cycles, conversion complete"],
- "config": {"hscale": 2}}
+ "edge": ["A~>B sample & hold", "A<->C 13 cycles, conversion complete"]}
 ```
 
-MUX and REFS are updated (see below) in the cycle before a conversion
-starts and again in the last cycle of a conversion. The first
+The figure marks the MUX and REFS update at the start of cycle 1 and
+again at the start of the next conversion (see Changing channel or
+reference). The first
 conversion looks the same with 25 cycles and the sample-and-hold at
 13.5; an auto-triggered one starts at the trigger's rising edge with the
 prescaler reset, and in Free Running mode cycle 1 of the next
@@ -2202,9 +2205,10 @@ conversion; a change one cycle after ADSC, or after the first
 conversion, affects the conversion after next (the next has already
 started on the old channel).
 
-Inputs above V~REF~ read close to 0x3FF. Discard the first result after
-changing the reference. After switching to an internal reference, allow
-1 ms settling (ADC enabled) before conversions are reliable.
+Inputs above V~REF~ read close to 0x3FF. The first result after
+changing the reference may be inaccurate; discarding it is advised.
+After switching to an internal reference the ADC requires a settling
+time of 1 ms (ADC enabled) before measurements are stable.
 
 #### Noise canceler
 
@@ -2214,12 +2218,12 @@ and the conversion-complete interrupt enabled, enter the sleep mode; the
 conversion starts once the CPU halts. The ADC interrupt then wakes the
 CPU; if another interrupt wakes it first, that one runs and the ADC
 interrupt follows when the conversion completes, the CPU staying active
-until the next SLEEP. Other sleep modes don't switch the ADC off: clear
-ADEN first. Noise Reduction mode is recommended when accuracy matters,
+until the next SLEEP. Other sleep modes don't switch the ADC off; the
+user is advised to write ADEN = 0 before entering them. Noise Reduction mode is recommended when accuracy matters,
 especially above 1 MHz system clock and for the temperature sensor.
 Also: keep analog paths short and over the analog ground plane, away
-from fast digital tracks; don't switch port outputs during a conversion;
-bypass V~CC~ close to the pins.
+from fast digital tracks; a port pin used as a digital output mustn't
+switch while a conversion is in progress; bypass V~CC~ close to the pins.
 
 #### Analog input circuitry
 
@@ -2227,9 +2231,11 @@ Each ADCn pin has its pin capacitance and leakage (I~IH~, I~IL~)
 whether selected or not. When selected, the source drives the
 sample-and-hold capacitor C~S/H~ = 14 pF through a series resistance of
 1 kΩ to 100 kΩ (to V~CC~/2). Sources of about 10 kΩ or less give a
-negligible sampling time; higher impedances need longer, so use them only
-for slowly varying signals. Filter out components above f~ADC~/2
-(Nyquist) before the input.
+negligible sampling time; with higher impedances the sampling time
+depends on how long the source needs to charge the S/H capacitor. The
+user is recommended to only use low impedance sources with slowly
+varying signals. Signal components above f~ADC~/2 (Nyquist) should not
+be present; remove them with a low-pass filter before the input.
 
 #### Accuracy definitions
 
@@ -2252,8 +2258,9 @@ Bipolar differential: ADC = (V~POS~ − V~NEG~) × 512 / V~REF~ × GAIN
 ```
 
 Single ended: 0x000 = GND, 0x3FF = V~REF~ − 1 LSB. Unipolar differential
-(default): V~POS~ must exceed V~NEG~, otherwise the result saturates
-to 0; result 0x000 (0) to 0x3FF (+1023). Bipolar differential (BIN = 1):
+(default): V~POS~ must exceed V~NEG~, otherwise the voltage difference
+is saturated to zero (Source conflict: the BIN bit description, p.137,
+says the result is saturated to the voltage reference); result 0x000 (0) to 0x3FF (+1023). Bipolar differential (BIN = 1):
 either input may be higher; the result is two's complement, 0x200
 (−512) through 0x000 to 0x1FF (+511), 9 bits plus sign. GAIN is 1 or 20.
 A signal that is not bipolar loses a bit of range in bipolar mode; for
@@ -2307,10 +2314,10 @@ reference is not recommended (it degrades accuracy).
 | X | 0 | 1 | External reference on AREF (PB0); internal reference off |
 | 0 | 1 | 0 | Internal 1.1 V |
 | 0 | 1 | 1 | Reserved |
-| 1 | 1 | 0 | Internal 2.56 V, no bypass capacitor; AREF (PB0) disconnected [1] |
-| 1 | 1 | 1 | Internal 2.56 V with a bypass capacitor on AREF (PB0) [1] |
+| 1 | 1 | 0 | Internal 2.56 V without external bypass capacitor; AREF (PB0) disconnected [1] |
+| 1 | 1 | 1 | Internal 2.56 V with external bypass capacitor at AREF (PB0) pin [1] |
 
-[1] Needs V~CC~ ≥ 3 V.
+[1] The device requires a supply voltage of 3 V to generate the 2.56 V reference.
 ```
 
 ```table id=adc-mux caption="Input channel and gain, MUX[3:0]"
@@ -2346,7 +2353,7 @@ reference is not recommended (it degrades accuracy).
 | 7 | ADEN | R/W | 0 | ADC enable. Writing 0 turns the ADC off and ends a conversion in progress. |
 | 6 | ADSC | R/W | 0 | Start conversion: write 1 for each single conversion, or for the first in Free Running mode. The first conversion after enabling (or with ADSC written together with ADEN) takes 25 ADC clock cycles instead of 13. Reads 1 during a conversion; writing 0 has no effect. |
 | 5 | ADATE | R/W | 0 | Auto trigger enable: a rising edge of the source chosen by ADTS[2:0] starts a conversion |
-| 4 | ADIF | R/W | 0 | Interrupt flag: set when a conversion completes and the data registers are updated. Interrupts if ADIE = 1 and I = 1. Cleared by hardware when the vector runs, or by writing 1. A read-modify-write of ADCSRA (also SBI/CBI) can clear a pending flag. |
+| 4 | ADIF | R/W | 0 | Interrupt flag: set when a conversion completes and the data registers are updated. Interrupts if ADIE = 1 and I = 1. Cleared by hardware when the vector runs, or by writing 1. A read-modify-write of ADCSRA (also SBI/CBI) can disable a pending interrupt. |
 | 3 | ADIE | R/W | 0 | Conversion complete interrupt enable (with I = 1) |
 | 2:0 | ADPS[2:0] | R/W | 0 | Prescaler, system clock ÷ 000 = 2; 001 = 2; 010 = 4; 011 = 8; 100 = 16; 101 = 32; 110 = 64; 111 = 128 |
 ```
@@ -2369,7 +2376,7 @@ Read-only, reset 0x00.
 ```table id=adc-adcsrb caption="ADCSRB bits"
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
-| 7 | BIN | R/W | 0 | Bipolar input mode. 0 = unipolar (default): one-sided conversions, the positive input must be higher or the result saturates, 10-bit resolution. 1 = bipolar: two-sided, two's complement result, 9 bits plus sign. |
+| 7 | BIN | R/W | 0 | Bipolar input mode. 0 = unipolar (default): one-sided conversions, the positive input must be higher, otherwise the result is saturated to the voltage reference (Source conflict: section 17.11.2, p.132, says the difference is saturated to zero), 10-bit resolution. 1 = bipolar: two-sided, two's complement result, 9 bits plus sign. |
 | 6 | ACME | R/W | 0 | Analog comparator multiplexer enable: with ADEN = 0, the ADC multiplexer selects the comparator's negative input (see Analog comparator); 0 = AIN1 |
 | 5 | IPR | R/W | 0 | Input polarity reversal: swaps the differential pair, so a known polarity can be converted at full 10-bit unipolar resolution (find the polarity first with a bipolar conversion) |
 | 4:3 | — | R | 0 | Reserved, read 0 |
@@ -2423,7 +2430,7 @@ Read-only, reset 0x00.
 | Symbol | Parameter | Conditions | Unipolar mode | < | < | Bipolar mode | < | < | Unit |
 | ^ | ^ | ^ | Min | Typ | Max | Min | Typ | Max | ^ |
 |---|---|---|--:|--:|--:|--:|--:|--:|---|
-| | Resolution | Gain = 1x | | | 10 | | | 10 | bits |
+| | Resolution [4] | Gain = 1x | | | 10 | | | 10 | bits |
 | ^ | ^ | Gain = 20x | | | 10 | | | 10 | bits |
 | | Absolute accuracy (INL, DNL, quantization, gain and offset errors) | Gain = 1x [1] | | 10.0 | | | 8.0 | | LSB |
 | ^ | ^ | Gain = 20x [1] | | 20.0 | | | 8.0 | | LSB |
@@ -2448,6 +2455,7 @@ Read-only, reset 0x00.
 [1] V~REF~ = 4 V, V~CC~ = 5 V, ADC clock = 50 kHz to 200 kHz.
 [2] Minimum given as GND in the source.
 [3] Values are guidelines only.
+[4] Source conflict: Table 21-10 (p.169) gives 10 bits in bipolar mode; the BIN bit description (p.137) gives 9 bits + 1 sign bit in bipolar mode.
 ```
 
 ### debugWIRE
@@ -2463,7 +2471,8 @@ bidirectional I/O with pull-up enabled, connected to the debugger
 together with V~CC~ (1.8 V to 5.5 V) and GND. The system clock stays
 the one selected by the CKSEL fuses. Design rules:
 
-- A pull-up on dW/!{RESET} is optional; if fitted, 10 kΩ to 20 kΩ.
+- The pull-up on dW/!{RESET} must be in the range 10 kΩ to 20 kΩ;
+  however, the pull-up is optional.
 - !{RESET} tied directly to V~CC~ does not work.
 - Capacitors on !{RESET} must be disconnected while debugging.
 - All external reset sources must be disconnected; an external reset
@@ -2481,7 +2490,8 @@ from the debugger. The interface is asynchronous and synchronizes to the
 system clock: changing the clock in software (CLKPS bits) may break
 communication, and clocks below 100 kHz may cause problems. A programmed
 DWEN fuse keeps parts of the clock system running in every sleep mode,
-raising sleep current; unprogram DWEN when debugWIRE is not used. With
+raising sleep current; the DWEN fuse should be disabled when debugWIRE
+is not used. With
 DWEN programmed the flash can be read through debugWIRE even when the lock
 bits are set.
 
@@ -2515,9 +2525,9 @@ SPMCSR value, and execute SPM within four clock cycles.
 ```table id=spm-ops caption="SPM operations"
 | Operation | SPMCSR value | Z-pointer | R1:R0 | Notes |
 |---|---|---|---|---|
-| Page erase | 0b00000011 | Page address in PCPAGE; other bits ignored | Ignored | CPU halted during the erase |
-| Load buffer word | 0b00000001 | Word in PCWORD; Z0 ignored | Instruction word | Each buffer address may be written once only until the buffer is erased |
-| Page write | 0b00000101 | Page address in PCPAGE; other bits must be 0 | Ignored | CPU halted during the write |
+| Page erase | 00000011 | Page address must be written to PCPAGE; other bits ignored | Ignored | CPU halted during the erase |
+| Load buffer word | 00000001 | Word in PCWORD; Z0 ignored | Instruction word | Each buffer address may be written once only until the buffer is erased |
+| Page write | 00000101 | Page address must be written to PCPAGE; other bits must be 0 | Ignored | CPU halted during the write |
 ```
 
 The temporary buffer is erased automatically after a page write, by
@@ -2534,7 +2544,10 @@ addresses the flash by byte, so it also uses Z0.
 
 **Reading lock bits, fuses and the signature from software.** Load Z, set
 RFLB and SELFPRGEN in SPMCSR (RSIG and SPMEN for the signature imprint
-table), and issue LPM within three clock cycles; the destination register
+table), and issue LPM within three clock cycles (Source conflict:
+section 19.6 names SELFPRGEN as an SPMCSR bit; the SPMCSR layout, p.145,
+has no SELFPRGEN bit, SELFPRGEN being the extended fuse, and the RFLB
+description says RFLB and SPMEN); the destination register
 receives the data. RFLB and SELFPRGEN clear when the read completes, or
 if no LPM follows within three CPU cycles or no SPM within four; then LPM
 works normally. Programmed bits read as 0, unprogrammed as 1.
@@ -2543,7 +2556,7 @@ works normally. Programmed bits read as 0, unprogrammed as 1.
 | Z | SPMCSR bits | Data returned |
 |---|---|---|
 | 0x0000 | RFLB, SELFPRGEN | Fuse low byte, FLB7…FLB0 |
-| 0x0001 | RFLB, SELFPRGEN | Lock bits: bit 1 = LB2, bit 0 = LB1, bits 7:2 undefined |
+| 0x0001 | RFLB, SELFPRGEN | Lock bits: bit 1 = LB2, bit 0 = LB1, bits 7:2 shown as – |
 | 0x0002 | RFLB, SELFPRGEN | Fuse extended byte, FEB7…FEB0 |
 | 0x0003 | RFLB, SELFPRGEN | Fuse high byte, FHB7…FHB0 |
 | table index | RSIG, SPMEN | Device signature imprint table entry (table mp-dsit) |
@@ -2581,9 +2594,9 @@ low V~CC~, which protects SPMCSR from unintended writes.
 ### Memory programming
 
 The flash, EEPROM, fuses and lock bits are programmed by serial
-downloading (SPI-like, !{RESET} low, low voltage) or by high-voltage
-serial programming (12 V on !{RESET}); debugWIRE and self-programming are
-described above. "Programmed" means 0, "unprogrammed" 1.
+downloading (SPI bus, !{RESET} pulled to GND) or by high-voltage serial
+programming (11.5 V to 12.5 V on !{RESET}); debugWIRE and
+self-programming are described above. "Programmed" means 0, "unprogrammed" 1.
 
 #### Lock bits
 
@@ -2703,9 +2716,9 @@ Flash and EEPROM are programmed over SCK, MOSI and MISO while !{RESET}
 is held low. A valid clock for the CKSEL setting must be present (none
 needs connecting when the internal oscillator is selected). Input data is
 clocked on the rising edge of SCK, output data on the falling edge, MSB
-first, in four-byte instructions. SCK low and high periods must each be
-longer than 2 CPU clock cycles for f~ck~ < 12 MHz, 3 cycles for f~ck~ ≥ 12
-MHz. EEPROM writes in this mode include an automatic erase, so no chip
+first, in four-byte instructions. Minimum SCK low and high periods:
+> 2 CPU clock cycles for f~ck~ < 12 MHz, 3 CPU clock cycles for f~ck~
+≥ 12 MHz. EEPROM writes in this mode include an automatic erase, so no chip
 erase is needed first; chip erase sets every flash and EEPROM location to
 0xFF.
 
@@ -2727,17 +2740,23 @@ Programming sequence:
    is sent. Send all four bytes regardless; if 0x53 did not echo, pulse
    !{RESET} high and send Programming Enable again.
 4. Flash is programmed a page at a time: load each byte with Load Program
-   Memory Page (word address within the page plus data, low byte before
-   high byte for each address), then write the page with Write Program
-   Memory Page and the page address. Without RDY/!{BSY} polling, wait at
-   least t~WD_FLASH~ before the next page; accessing the interface before
-   the write completes can corrupt it.
+   Memory Page (word address within the page plus data; the data low
+   byte must be loaded before the high byte for each address), then write
+   the page with Write Program Memory Page and the page address. If
+   RDY/!{BSY} polling is not used, the user must wait at least
+   t~WD_FLASH~ before the next page; accessing the interface before the
+   write completes can result in incorrect programming. Source error: the
+   step gives the word address as "the 5 LSB" and the page address as
+   "the 6 MSB"; Table 20-8 gives PCWORD as PC[3:0] on the ATtiny25 and
+   PCPAGE as PC[11:5] (7 bits) on the ATtiny85.
 5. EEPROM, by byte: Write EEPROM Memory with address and data (the
    location is erased first automatically); without polling wait
    t~WD_EEPROM~ before the next byte. By page: load bytes with Load
-   EEPROM Memory Page (2 address LSBs), then Write EEPROM Memory Page;
-   only loaded locations change; without polling wait t~WD_EEPROM~ before
-   the next page. In a chip-erased part, 0xFF bytes need not be written.
+   EEPROM Memory Page (2 address LSBs), then Write EEPROM Memory Page
+   with the page address; only loaded locations change; without polling
+   the user must wait t~WD_EEPROM~ before the next page. Source error:
+   step 5B gives the page address as "the 6 MSB"; Table 20-9 gives it as
+   EEA[6:2], EEA[7:2] or EEA[8:2] (5, 6 or 7 bits). In a chip-erased part, 0xFF bytes need not be written.
 6. Verify any location with the read instructions (data on MISO).
 7. Set !{RESET} high to start normal operation.
 8. Power off if needed: !{RESET} to 1, then V~CC~ off.
@@ -2761,13 +2780,13 @@ Programming sequence:
 | Load Extended Address byte [3] | 0x4D | 0x00 | extended address | 0x00 |
 | Load Program Memory Page, high byte | 0x48 | address MSB | address LSB | high data byte in |
 | Load Program Memory Page, low byte | 0x40 | address MSB | address LSB | low data byte in |
-| Load EEPROM Memory Page (page access) | 0xC1 | 0x00 | 0000 00aa | data byte in |
+| Load EEPROM Memory Page (page access) | 0xC1 | 0x00 | 0000 000aa [5] | data byte in |
 | Read instructions | < | < | < | < |
 | Read Program Memory, high byte | 0x28 | address MSB | address LSB | high data byte out |
 | Read Program Memory, low byte | 0x20 | address MSB | address LSB | low data byte out |
 | Read EEPROM Memory | 0xA0 | 0x00 | 00aa aaaa | data byte out |
 | Read Lock bits | 0x58 | 0x00 | 0x00 | data byte out |
-| Read Signature Byte | 0x30 | 0x00 | 0000 00aa | data byte out |
+| Read Signature Byte | 0x30 | 0x00 | 0000 000aa [5] | data byte out |
 | Read Fuse bits | 0x50 | 0x00 | 0x00 | data byte out |
 | Read Fuse High bits | 0x58 | 0x08 | 0x00 | data byte out |
 | Read Extended Fuse bits | 0x50 | 0x08 | 0x00 | data byte out |
@@ -2785,6 +2804,7 @@ Programming sequence:
 [2] While the LSB of the data byte out is 1, a programming operation is pending; wait until it is 0 before the next instruction.
 [3] Not all instructions apply to all parts.
 [4] For the page writes, load the page buffer first (low data byte before high data byte for each address), then write the page; byte 2 and byte 3 give the page number, the buffer offset comes from the load instructions.
+[5] Unconfirmed: printed with nine bit positions ("0000 000aa").
 ```
 
 ```table id=mp-spi-char caption="Serial programming characteristics" conditions="T~A~ = -40 °C to 85 °C, V~CC~ = 1.8 V to 5.5 V, unless noted"
@@ -2863,7 +2883,9 @@ The loaded command and address are retained during programming: load a
 command once for many locations, skip writing 0xFF after a chip erase
 (flash, and EEPROM unless EESAVE is programmed), and load the address
 high byte only for a new 256-word flash or 256-byte EEPROM window (also
-for signature reads).
+for signature reads). Source conflict: section 20.7.2 says a 256 word
+window in flash; Table 20-16 says to repeat the address high byte for a
+new 256 byte flash page (Load Flash High Address, Read Flash).
 
 Procedures (instruction frames in table mp-hv-instr):
 
@@ -2894,11 +2916,11 @@ Procedures (instruction frames in table mp-hv-instr):
 | ^ | SII | 0_0000_1100_00 | 0_0010_1100_00 | 0_0011_1100_00 | 0_0111_1101_00 | ^ |
 | ^ | SDI (instr. 5) | 0_0000_0000_00 | | | | ^ |
 | ^ | SII (instr. 5) | 0_0111_1100_00 | | | | ^ |
-| Load Flash High Address and Program Page | SDI | 0_0000_000a_00 | 0_0000_0000_00 | 0_0000_0000_00 | | Wait after instr. 3 until SDO goes high. Repeat instr. 2–3 for each loaded page until the flash or all data is programmed; repeat instr. 1 for a new 256-word page [2] |
+| Load Flash High Address and Program Page | SDI | 0_0000_000a_00 | 0_0000_0000_00 | 0_0000_0000_00 | | Wait after instr. 3 until SDO goes high. Repeat instr. 2–3 for each loaded page until the flash or all data is programmed; repeat instr. 1 for a new 256 byte page [2] |
 | ^ | SII | 0_0001_1100_00 | 0_0110_0100_00 | 0_0110_1100_00 | | ^ |
 | Load "Read Flash" command | SDI | 0_0000_0010_00 | | | | Enter flash read mode |
 | ^ | SII | 0_0100_1100_00 | | | | ^ |
-| Read Flash Low and High Bytes | SDI | 0_bbbb_bbbb_00 | 0_0000_000a_00 | 0_0000_0000_00 | 0_0000_0000_00 | Repeat instr. 1 and 3–6 for each new address; repeat instr. 2 for a new 256-word page |
+| Read Flash Low and High Bytes | SDI | 0_bbbb_bbbb_00 | 0_0000_000a_00 | 0_0000_0000_00 | 0_0000_0000_00 | Repeat instr. 1 and 3–6 for each new address; repeat instr. 2 for a new 256 byte page |
 | ^ | SII | 0_0000_1100_00 | 0_0001_1100_00 | 0_0110_1000_00 | 0_0110_1100_00 | ^ |
 | ^ | SDO | x_xxxx_xxxx_xx | x_xxxx_xxxx_xx | x_xxxx_xxxx_xx | q_qqqq_qqqx_xx | ^ |
 | ^ | SDI (instr. 5/6) | 0_0000_0000_00 | 0_0000_0000_00 | | | ^ |
@@ -2983,8 +3005,9 @@ I/O address (for IN, OUT, SBI, CBI) and data-space address (for LD, ST,
 LDS, STS; I/O address + 0x20). Each register's bits are described under
 its peripheral; SREG, SPH and SPL under [programming model](#programming-model).
 Addresses not listed (0x00–0x02, 0x09–0x0C, 0x19–0x1B, 0x36, 0x3C) are
-reserved and must never be written; reserved bits (–) read as zero and
-are written zero. 0x00–0x1F are bit-accessible (SBI, CBI, SBIS, SBIC).
+reserved; reserved I/O memory addresses should never be written, and
+reserved bits (–) should be written to zero if accessed. 0x00–0x1F are
+bit-accessible (SBI, CBI, SBIS, SBIC).
 
 ```table id=regsum caption="Register summary"
 | I/O | Data | Name | Bit 7 | Bit 6 | Bit 5 | Bit 4 | Bit 3 | Bit 2 | Bit 1 | Bit 0 |
@@ -3067,13 +3090,13 @@ are written zero. 0x00–0x1F are bit-accessible (SBI, CBI, SBIS, SBIC).
 | V~CC~ | Supply voltage | ATtiny25V/45V/85V | 1.8 | 5.5 | V |
 | ^ | ^ | ATtiny25/45/85 | 2.7 | 5.5 | V |
 | T~A~ | Operating temperature | | -40 | 85 | °C |
-| f~max~ | Maximum clock frequency (safe operating area) [2] | ATtiny25V/45V/85V, V~CC~ = 1.8 V | | 4 | MHz |
+| f~max~ | Maximum clock frequency (speed grade) [2] | ATtiny25V/45V/85V, V~CC~ = 1.8 V to 5.5 V | | 4 | MHz |
 | ^ | ^ | ATtiny25V/45V/85V, V~CC~ = 2.7 V to 5.5 V | | 10 | MHz |
-| ^ | ^ | ATtiny25/45/85, V~CC~ = 2.7 V | | 10 | MHz |
+| ^ | ^ | ATtiny25/45/85, V~CC~ = 2.7 V to 5.5 V | | 10 | MHz |
 | ^ | ^ | ATtiny25/45/85, V~CC~ = 4.5 V to 5.5 V | | 20 | MHz |
 
-[1] The source gives no operating-conditions table; the temperature range is the one the DC characteristics are specified over, the supply and frequency limits are from the maximum-frequency figures (21-1, 21-2).
-[2] The limit rises linearly with V~CC~ between 1.8 V and 2.7 V (4 to 10 MHz) and between 2.7 V and 4.5 V (10 to 20 MHz).
+[1] The source gives no operating-conditions table. Supply ranges and speed grades are from the feature list (p.1); the temperature range is the one the DC characteristics are specified over (Table 21-1).
+[2] Figures 21-1 and 21-2 (p.163) draw the safe operating area as a straight line between 4 MHz at 1.8 V and 10 MHz at 2.7 V, and between 10 MHz at 2.7 V and 20 MHz at 4.5 V.
 ```
 
 ## Electrical characteristics
@@ -3114,8 +3137,8 @@ are written zero. 0x00–0x1F are bit-accessible (SBI, CBI, SBIS, SBIC).
 [1] Typical values at 25 °C.
 [2] The lowest value at which the pin is guaranteed to be read as high.
 [3] The highest value at which the pin is guaranteed to be read as low.
-[4] A pin can sink more than the test current in steady state, but the sum of all I~OL~ must not exceed 60 mA; above the test current V~OL~ may exceed the limit, and sinking more than the test current is not guaranteed.
-[5] A pin can source more than the test current in steady state, but the sum of all I~OH~ must not exceed 60 mA; above the test current V~OH~ may exceed the limit, and sourcing more than the test current is not guaranteed.
+[4] A pin can sink more than the test current in steady state, but the sum of all I~OL~, for all ports, should not exceed 60 mA; above the test current V~OL~ may exceed the limit, and sinking more than the test current is not guaranteed.
+[5] A pin can source more than the test current in steady state, but the sum of all I~OH~, for all ports, should not exceed 60 mA; above the test current V~OH~ may exceed the limit, and sourcing more than the test current is not guaranteed.
 [6] !{RESET} must tolerate high voltage in programming modes and so has a weak driver compared with the other I/O pins (source figures 22-23 to 22-26).
 [7] External clock, with the power-saving methods of the power management section; PRR = 0xFF and no I/O drive.
 [8] Brown-out detection disabled.
@@ -3138,8 +3161,10 @@ are written zero. 0x00–0x1F are bit-accessible (SBI, CBI, SBIS, SBIC).
 
 Two power-on reset circuits exist. The standard one is in ATtiny25
 revision D and older, ATtiny45 revision F and older and ATtiny85
-revision B; the enhanced one in ATtiny25 revision E and newer, ATtiny45
-revision G and newer and ATtiny85 revision C and newer. The revision is
+revision B and newer; the enhanced one in ATtiny25 revision E and newer,
+ATtiny45 revision G and newer and ATtiny85 revision C and newer. Source
+conflict: as printed, both lists include ATtiny85 revision C and newer
+(section 21.5.1, p.165, and section 21.5.2, p.166). The revision is
 marked on the package (8P3 and 8S2: bottom; 20M1: top).
 
 ```table id=por caption="Power-on reset characteristics [1]" conditions="T~A~ = -40 °C to 85 °C"
@@ -3151,7 +3176,7 @@ marked on the package (8P3 and 8S2: bottom; 20M1: top).
 | SR~ON~ | Power-on slope rate | 0.01 | | 4.5 | 0.01 | | | V/ms |
 
 [1] Values are guidelines only.
-[2] Power-on reset does not work unless the supply voltage has been below V~POA~ (falling).
+[2] Standard POR (Table 21-5): the power-on reset will not work unless the supply voltage has been below V~POA~. Enhanced POR (Table 21-6): it will not work unless the supply voltage has been below V~POT~ (falling). Source conflict: the two notes name different thresholds; V~POT~ is not in either table.
 ```
 
 ```table id=bod caption="Brown-out detection: BODLEVEL fuse coding [1]" conditions="T~A~ = -40 °C to 85 °C"
@@ -3205,9 +3230,9 @@ factory calibration; its frequency depends on temperature and voltage
 
 ```wavedrom id=ext-clock-wave caption="External clock drive waveform"
 {"signal": [
-  {"name": "XTAL1", "wave": "0.1..0..1..0", "node": "..A..B..C"}
+  {"name": "XTAL1", "wave": "0.1..0..1..0.", "node": "..A..B..C..D"}
  ],
- "edge": ["A<->B tCHCX", "B<->C tCLCX", "A<->C tCLCL"],
+ "edge": ["A<->B tCHCX", "B<->C tCLCX", "B<->D tCLCL"],
  "config": {"hscale": 2}}
 ```
 
@@ -3231,9 +3256,10 @@ about C~L~ × V~CC~ × f (f = average switching frequency of the pin).
 | PRADC | 15 µA | 85 µA | 340 µA | +5 % | +25 % |
 ```
 
-The percentages scale the active or idle current read from the curves
-to other V~CC~ and frequencies. Example: idle at 2 V, 1 MHz is about
-0.18 mA; with USI, Timer/Counter0 and ADC enabled:
+The typical current for other V~CC~ and frequency settings than those
+listed can be calculated from the percentages. Example (section 22.3.1):
+idle at 2.0 V, 1 MHz is about 0.18 mA (Figure 22-9); with USI,
+Timer/Counter0 and ADC enabled:
 
 ```equation
 I~CC~ = 0.18 mA × (1 + 0.1 + 0.25 + 0.1) ≈ 0.261 mA
@@ -3401,7 +3427,7 @@ I~CC~ = 0.18 mA × (1 + 0.1 + 0.25 + 0.1) ≈ 0.261 mA
 | ^ | Body width (E1) [7] | 5.18 | | 5.40 | mm |
 | ^ | Overall width (E) | 7.70 | | 8.26 | mm |
 | ^ | Foot length (L) | 0.51 | | 0.85 | mm |
-| ^ | Pitch (e) | | 1.27 | | mm |
+| ^ | Pitch (e) [8] | | 1.27 | | mm |
 | ^ | Lead angle (θ) | 0 | | 8 | ° |
 | S8S1 | Height (A) | 1.35 | | 1.75 | mm |
 | ^ | Standoff (A1) | 0.1 | | 0.25 | mm |
@@ -3434,11 +3460,12 @@ I~CC~ = 0.18 mA × (1 + 0.1 + 0.25 + 0.1) ≈ 0.261 mA
 
 [1] Measured with the package seated in JEDEC seating plane gauge GS-3.
 [2] Pointed or rounded lead tips are preferred, to ease insertion.
-[3] Maximum excludes dambar protrusions of up to 0.010" (0.25 mm).
-[4] Excludes mold flash or protrusions of up to 0.010".
+[3] b2 and b3 maximum dimensions do not include dambar protrusions; dambar protrusions shall not exceed 0.010 (0.25 mm).
+[4] Does not include mold flash or protrusions; mold flash or protrusions shall not exceed 0.010 inch.
 [5] Measured with the leads constrained perpendicular to the datum.
 [6] Plated terminal; plating 0.007–0.021 mm thick.
-[7] Excludes die mismatch and resin burrs.
+[7] Mismatch of the upper and lower dies and resin burrs aren't included.
+[8] Determines the true geometric position.
 ```
 
 ## Ordering information
@@ -3475,7 +3502,7 @@ I~CC~ = 0.18 mA × (1 + 0.1 + 0.25 + 0.1) ≈ 0.261 mA
 | ATtiny85-20SU, ATtiny85-20SH | 8S2 | -40 °C to 85 °C | 20 MHz, 2.7–5.5 V |
 | ATtiny85-20MU | 20M1 | -40 °C to 85 °C | 20 MHz, 2.7–5.5 V |
 
-[1] Every code except the PDIP (-PU) ones also exists with an R suffix for tape and reel (ATtiny85-20SUR). All packages are Pb-free, halide-free and RoHS compliant; the 85 °C parts can also be supplied as wafers. Speed is the maximum; see the speed vs V~CC~ limits in [recommended operating conditions](#recommended-operating-conditions).
+[1] Every code except the PDIP (-PU) ones also exists with an R suffix for tape and reel (ATtiny85-20SUR). All packages are Pb-free, halide-free and RoHS compliant; the 85 °C parts can also be supplied as wafers. For speed vs supply voltage, see [recommended operating conditions](#recommended-operating-conditions).
 [2] Characteristics in the source's appendices A (105 °C) and B (125 °C), which this PDF does not contain.
 ```
 
@@ -3502,34 +3529,56 @@ I~CC~ = 0.18 mA × (1 + 0.1 + 0.25 + 0.1) ≈ 0.261 mA
 
 - Pages 1–16 (pinout, overview, CPU core, memories), 20 (I/O memory), 48–49 (vector table), 200–215 (register summary, instruction set summary, ordering, package dimensions, errata) converted for the Description through Memory map, Registers and commands, Package and Ordering sections. Dropped: feature list (p.1), "About" page (resources, code-example conventions, QTouch library; p.6), the CPU pipelining figures 4-4 and 4-5 (one sentence each), block diagrams 2-1 and 4-1 (one sentence), the interrupt-vector and CLI/SEI code examples (behavior kept as text), package outline drawings (dimensions kept as tables), revision history (pp.216–221), TOC, blank and back pages.
 - Errata: the format has no errata section; current errata became the last subsection of Functional description, one table row per erratum with the affected device revisions merged.
-- Instruction set: the source summary has no opcode patterns, operand ranges or word counts; the Words column is added from the AVR instruction set (LDS and STS are 32-bit) and flagged in its note. Rows for the X/Y/Z variants of LD/ST and for paired SEx/CLx flag instructions were merged, one row per operation; no operation, flag or cycle count was dropped. Arrows, ⊕ and ∧ lost in text extraction were restored from the page image.
+- Instruction set: the source summary has no opcode patterns, operand legend, operand ranges or word counts, and none are added. Rows for the X/Y/Z variants of LD/ST and for paired SEx/CLx flag instructions were merged, one row per operation; no operation, flag or cycle count was dropped. Arrows, ⊕ and ∧ lost in text extraction were restored from the page image.
 - Ordering: the R (tape and reel) variants are folded into a note rather than listed; the part-number key is assembled from the source's code-indicator notes. The 105 °C and 125 °C ATtiny25 grades point to appendices A and B, which this PDF does not include.
-- Source errors: page 5 gives SRAM as 128/256/256 bytes (pages 1 and 15 say 128/256/512; the ATtiny85 data space ends at 0x025F). Page 15 says the data memory has 224/352/607 locations; 0x025F + 1 = 608. The register summary implements SP9:SP8 in SPH while section 4.6.1 draws SP15:SP8. The errata refer to "table 14-4" for COM1x bits.
 - Peripherals EEPROM … I/O ports: pages 16–19, 21–47, 49–64 converted (EEPROM, clock system, power management, reset and watchdog, interrupts, I/O ports); the vector table (48–49) is under Memory map, page 20 (I/O memory) under Memory map.
 - Dropped there: EEPROM, watchdog-off and port set-up code examples (the EEPROM write, CLKPR, BODS and watchdog timed sequences kept as numbered steps); block diagrams of the clock distribution, PCK clocking, reset logic, watchdog, general digital I/O and alternate-function pin logic (each described in a sentence); the external clock and crystal connection drawings (described in text); the pin synchronization waveforms (Figures 10-3, 10-4, given as the ½–1½ clock delay in text).
-- The five reset waveforms (Figures 8-2 to 8-6) became one WaveDrom diagram plus text; the analog V~CC~ ramps are not drawn. The pin change interrupt timing (Figure 9-1) redrawn in WaveDrom at half-clock resolution.
+- The reset waveforms (Figures 8-2 to 8-6) became one WaveDrom diagram of Figure 8-3 plus text; the analog V~CC~ ramps are not drawn. The pin change interrupt timing (Figure 9-1) redrawn in WaveDrom at half-clock resolution.
 - Merged: the three start-up tables with identical rows (external clock, calibrated RC at 8 MHz, 128 kHz) into one; MCUCR, repeated in chapters 7, 9 and 10, described once under Power management.
-- Source errors: Table 6-1's external clock row says the CKSEL fuses must be programmed to "00" (CKSEL[3:0] = 0000); Table 8-3 gives 32K as 32764 cycles (32768); Section 6.4 says CLKO is not output during reset, Section 10.3.1 says it is (kept the clock chapter's statement); the PB1 OC1A and PB0 !{OC1A} descriptions say "Compare Match B" (they are compare match A); the EEARL heading's "Rear/Write" typo; Table 10-4's PB3 column header carries a stray overline across "PB3/A", and Table 10-5's over "MOSI" (dropped). Section 10.2.3 calls output high {DDxn, PORTxn} = 0b10 in one sentence (it is 0b11).
 - Pages 65–107 converted (Timer/Counter0, Timer/Counter1, Timer/Counter1 in ATtiny15 mode, dead time generator). Dropped: feature lists, block diagrams (Figures 11-1, 11-3 to 11-6, 12-2, 12-3, 13-1 to 13-3, 14-1, 14-2; each a sentence or a table), the T0 sampling schematic (11-2, described in text), the counter-value sawtooth plots of CTC, fast PWM and phase correct PWM (11-7 to 11-9, described in text), the zero-overlap output pair (12-4) and the OCR latching glitch plots (12-5, 13-4).
 - Figures 11-10 to 11-13 redrawn as WaveDrom; Figure 14-3 redrawn with arbitrary dead times. The synchronization delays of Figure 12-2 became a table.
 - Registers that the PDF describes two or three times (GTCCR, TIMSK, TIFR, PLLCSR in chapters 11, 12 and 13) are described once, under Timer/Counter0 (GTCCR, TIMSK, TIFR) and Timer/Counter1 (PLLCSR); chapter 13 is reduced to what differs from normal mode. TCNT0/OCR0x, TCNT1/OCR1x and DT1A/DT1B, whose bit tables would be one field each or identical, are described in prose or one shared table.
 - Chapter 13 repeats Table 12-3 (PWM frequencies for 64 MHz PCK) as Table 13-3, unchanged; it does not fit ATtiny15 mode (25.6 MHz PCK, different CS1 codes) and is not repeated.
-- Source inconsistencies: GTCCR access is R/W, R, R, R, R, R, R, R/W in chapter 11 but R/W, R/W, R/W, R/W, W, W, R/W, R/W in chapters 12 and 13 (the latter kept). In ATtiny15 mode, TCCR1's CTC1 is said to clear TCNT1 after a match with OCR1A, while OCR1C's description says a match with OCR1C clears it (OCR1C replaces ATtiny15's OCR1B, the clear value there); the file states the behavior without naming the register. Table 13-2 lists output levels for COM1A = 01, which Table 13-1 says leaves OC1A unconnected. DT1B's description says "rising edge of OC1A" (means OC1B). Chapter 14 refers to "Figure 46" and "table 46" (means Figures 14-2 and Table 14-1). TIMSK bit descriptions name the vectors $003 (OCIE1A), $009 (OCIE1B) and $004 (TOIE1), see the vector table. Fast PWM text says "AC0A pin" (means OC0A).
-- Overbars restored from page renders (Tables 12-1, 12-2; !{OC1A} on PB0, !{OC1B} on PB3; DT1xL acts on !{OC1x}).
+- Overbars restored from page renders (Tables 10-4, 10-5, 12-1, 12-2; !{OC1A} on PB0, !{OC1B} on PB3; DT1xL acts on !{OC1x}).
 - Pages 108–138 converted (USI, analog comparator, ADC), plus the ADC characteristics of pages 167–169 (placed under Peripherals › ADC).
 - USI: the SPI master, fast-master and slave assembly examples (15.3.2, 15.3.3) dropped as code examples; their register sequences are kept in one sentence each. Block diagrams (15-1, 16-1, 17-1), the simplified three-/two-wire connection figures (15-2, 15-4), the start-detector logic diagram (15-6), the auto-trigger logic (17-2), the ADC prescaler (17-3), the analog input circuit (17-8) and the accuracy-definition plots (17-9 to 17-12) are described in text.
-- Figures 15-3 and 15-5 redrawn as WaveDrom; the A–E/A–F step marks of the source are kept in the prose (15-5 has no nodes). ADC timing figures 17-4 to 17-7 became the conversion-time table plus one WaveDrom of a single conversion; the first, auto-triggered and free-running variants are described in a sentence (they differ only in cycle counts given in the table).
+- Figures 15-3 and 15-5 redrawn as WaveDrom; the A–E/A–F step marks of the source are kept in the prose (15-5 has no nodes). ADC timing figures 17-4 to 17-7 became the conversion-time table plus one WaveDrom of a single conversion (Figure 17-5, half-clock columns); the first, auto-triggered and free-running variants are described in a sentence.
 - The two differential ADC tables (21-9 unipolar, 21-10 bipolar) merged into one table with column groups. "GND" as minimum input voltage written 0 (noted in the tables).
-- ADMUX: the source's REFS note says "ADCSR" for ADCSRA. Section 17.3 says the offset trick reduces offset error "below 1 LSW" (read: LSB). Table 21-10 gives bipolar resolution as 10 bits while 17.11.3 and BIN say 9 bits plus sign; both kept as written. The source lists differential pairs as "PB3, PB4 or PB2, PB5" in 17.2 but MUX allows only the pairs in table adc-mux.
 - Pages 139–160 converted (debugWIRE, self-programming, memory programming) with the serial and high-voltage serial programming characteristics of pages 170–171, placed in the Memory programming subsection.
 - Dropped: debugWIRE feature list; debugWIRE, serial programming and high-voltage setup figures (18-1, 20-1, 20-3: connections stated in text); the flash page-addressing figures (19-1, 20-4: given by the page-size table); the serial instruction example figure (20-2) and the serial and high-voltage waveform figures (21-4, 20-5: frame format stated in text); the signature-read assembly example; the application-note URL note.
 - The self-programming SPM sequences (four-cycle timed SPMCSR writes) became one table instead of code; the software fuse/lock/signature read procedures became one table.
 - High-voltage instruction table: SDO frames that are all don't-care (x_xxxx_xxxx_xx) are omitted and stated in a note; second frames (instr. 5/6) are separate rows marked "(instr. 5/6)".
-- Source errors kept out: Table 20-7 heads its last column "Signature Byte 0" (it is byte 2); PGERS says the CPU halts "during the entire Page Write" (Page Erase meant); Table 20-3 heads the extended fuse byte "Fuse High Byte"; Table 20-9 calls the EEPROM byte-in-page field "PCWORD"; serial programming steps 4–5 give fixed address widths ("5 LSB", "6 MSB") that do not fit every part (stated generically); step 5B refers to Table 20-9 for t~WD_EEPROM~ (Table 20-11); 20.7.4 and 20.7.5 cite Table 20-12 and Table 21-11 for page sizes (Tables 20-8 and 20-9).
 - Pages 161–166 converted (chapter 21 except ADC and programming characteristics, which sit with their peripherals) and pages 172–199 (chapter 22, typical characteristics).
-- The source has no recommended-operating-conditions table; one was built from the DC characteristics' temperature range and the maximum-frequency figures 21-1 and 21-2 (safe operating area drawn as a table with a linear-interpolation note). The figures are not labelled per device; 21-1 (1.8 V, 4–10 MHz) was taken as ATtiny25V/45V/85V and 21-2 (2.7 V, 10–20 MHz) as ATtiny25/45/85.
+- The source has no recommended-operating-conditions table; one was built from the feature list's operating voltages and speed grades (p.1) and the DC characteristics' temperature range.
 - External clock drive waveform (figure 21-3) redrawn in WaveDrom without the rise/fall slopes (t~CLCH~, t~CHCL~ stay in the table).
 - Standard and enhanced power-on reset tables merged into one table with column groups; the device-revision lists became a paragraph.
 - Typical characteristics: 12 of 52 curves kept, chosen by the format's rule and digitized from 90 dpi renders (about 2 % of full scale): figures 22-2, 22-7, 22-11, 22-12, 22-19, 22-20, 22-21, 22-22, 22-40, 22-41, 22-34, 22-37. Dropped (40): 22-1, 22-3 to 22-6, 22-8 to 22-10 (active and idle current at low frequency and vs V~CC~ for the 8 MHz, 1 MHz and 128 kHz RC oscillator), 22-13 to 22-18 (I/O and reset pull-up current), 22-23 to 22-26 (reset pin as I/O output voltage), 22-27 to 22-32 (input thresholds and hysteresis, I/O and reset), 22-33 and 22-35 (BOD threshold at 4.3 V and 1.8 V), 22-36 (bandgap vs V~CC~), 22-38, 22-39 (watchdog oscillator), 22-42 (8 MHz RC vs OSCCAL), 22-43 to 22-45 (1.6 MHz RC), 22-46 to 22-49 (BOD, ADC, comparator and programming current), 22-50 to 22-52 (reset supply current, minimum reset pulse width).
 - Tables 22-1 and 22-2 (I/O module current, absolute and percentage) merged into one table.
-- Source errors: the standard power-on reset applies to "ATtiny85, revision B, and newer", which contradicts the enhanced one (revision C and newer); read as revision B only. The enhanced POR note names V~POT~ where V~POA~ is meant. Table 21-3's last row repeats the symbol t~CLCL~ for the period change; written Δt~CLCL~. Input leakage typical "< 0.05 µA" became a note.
+- Derived: 608 (0x025F + 1, end of the data memory map, p.16); 127, 255, 511 (EEPROM address range "0...(128/256/512-1)", p.20); data-space addresses 0x5F, 0x5E, 0x5D, 0x5B, 0x5A, 0x59, 0x58, 0x57, 0x55, 0x54, 0x53, 0x52, 0x51, 0x50, 0x4F, 0x4E, 0x4D, 0x4C, 0x4B, 0x4A, 0x49, 0x48, 0x47, 0x46, 0x45, 0x44, 0x43, 0x42, 0x41, 0x40, 0x3F, 0x3E, 0x3D, 0x3C, 0x38, 0x37, 0x36, 0x35, 0x34, 0x33, 0x32, 0x31, 0x30, 0x2F, 0x2E, 0x2D, 0x28, 0x27, 0x26, 0x25, 0x24, 0x23 in table regsum (I/O address + 0x20, "0x20 must be added", p.20); 0.261 (printed with decimal commas, "0 ,261mA", p.178).
+- From images: 4 (b3 "4 PLCS", 8P3 drawing, p.207); the Δ of Δt~CLCL~ (Table 21-3, p.164; lost in the text layer); the f~TCK1~ numerator of the f~PWM~ equation (p.87); every point of the `curve` blocks (figures 22-2 to 22-41, pp.172–197).
+- Source issues:
+  - Source error, corrected: page 5 gives SRAM as 128/256/256 bytes (pages 1 and 15 and the data memory map say 128/256/512).
+  - Source error, corrected: section 5.2 says the data memory has 224/352/607 locations; the map ends at 0x025F (608).
+  - Source error, corrected: section 6.2.1 says the CKSEL fuses must be programmed to "00" for the external clock; Table 6-1 gives 0000.
+  - Source error, corrected: Table 8-3 gives 32K as 32764 cycles; the other rows and Table 6-10 give nK as n × 1024.
+  - Source error, corrected: section 10.2.3 calls output high {DDxn, PORTxn} = 0b10 in one sentence; Table 10-1 gives 0b11.
+  - Source error, corrected: the OC1A (PB1) and !{OC1A} (PB0) descriptions in section 10.3.1 say Timer/Counter1 "Compare Match B"; Table 10-3 says compare match A.
+  - Source error, corrected: section 11.7.3 writes "AC0A pin" for OC0A.
+  - Source error, corrected: the DT1B description names the rising edges of OC1A and !{OC1A}; its bit descriptions name OC1B.
+  - Source error, corrected: serial programming steps 4 and 5B give fixed address widths ("5 LSB", "6 MSB") that Tables 20-8 and 20-9 contradict for some parts; the steps are stated without widths.
+  - Source error, kept out: the EEARL heading's "Rear/Write"; Table 10-4's stray overline over "PB3/A" and Table 10-5's over "MOSI"; chapter 14's "Figure 46" and "table 46" (Figure 14-2, Table 14-1); the REFS description's "ADCSR" (ADCSRA); the errata's "table 14-4"; Table 20-7's last column headed "Signature Byte 0" (byte 2); PGERS saying the CPU halts "during the entire Page Write"; Table 20-3's first column headed "Fuse High Byte"; Table 20-9's EEPROM fields named PCWORD and PCPAGE; step 5B citing Table 20-9 for t~WD_EEPROM~ (Table 20-11); sections 20.7.4 and 20.7.5 citing Table 20-12 and Table 21-11 for page sizes (Tables 20-8 and 20-9).
+  - Source conflict, kept with notes: SPH is SP15–SP8 in section 4.6.1, SP9–SP8 in the register summary.
+  - Source conflict, kept with notes: CLKO is not output during reset (section 6.4) or is (section 10.3.1).
+  - Source conflict, kept with notes: GTCCR access types differ between chapter 11 and chapters 12 and 13.
+  - Source conflict, kept with notes: Table 13-2 gives OC1A levels for COM1A = 01, which Table 13-1 leaves not connected.
+  - Source conflict, kept with notes: in ATtiny15 mode, CTC1 clears TCNT1 after a match with OCR1A (TCCR1) or OCR1C (OCR1C description).
+  - Source conflict, kept with notes: in unipolar mode a negative difference saturates to zero (17.11.2) or to the voltage reference (BIN).
+  - Source conflict, kept with notes: bipolar resolution is 10 bits (Table 21-10) or 9 bits + sign (BIN, 17.11.3).
+  - Source conflict, kept with notes: section 19.6 sets RFLB and SELFPRGEN in SPMCSR, which has no SELFPRGEN bit (RFLB description: RFLB and SPMEN).
+  - Source conflict, kept with notes: high-voltage programming reloads the flash address high byte per 256 word window (20.7.2) or per 256 byte page (Table 20-16).
+  - Source conflict, kept with notes: the standard POR applies to "ATtiny85, revision B, and newer", overlapping the enhanced POR (revision C and newer).
+  - Source conflict, kept with notes: the POR notes require the supply to have been below V~POA~ (Table 21-5) or V~POT~ (Table 21-6).
+  - Unconfirmed, as printed: offset error reduced "below 1 LSW" (17.3).
+  - Unconfirmed, as printed: a master ending a read forces the acknowledge bit "low" (15.3.4).
+  - Unconfirmed, as printed: Table 10-4 gives PB3's PVOV as OC1B without an overline.
+  - Unconfirmed, as printed: Table 20-12's "0000 000aa" byte 3 for Load EEPROM Memory Page and Read Signature Byte.

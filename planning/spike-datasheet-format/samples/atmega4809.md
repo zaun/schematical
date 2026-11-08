@@ -224,10 +224,13 @@ Conventions used in the register descriptions:
   busy flags must be checked.
 - A peripheral's software reset resets all its registers except its
   debug control register.
-- In C, registers are named `<instance>.<register>` (`USART2.CTRLA`,
-  `PORTB.DIR`; `TCA0.SINGLE.CTRL` / `TCA0.SPLIT.CTRLA` for the two TCA
-  modes); a value with a name in the register tables is written
-  `<PERIPH>_<FIELD>_<NAME>_gc` (`USART_RXMODE_CLK2X_gc`).
+- In C, registers are named `<peripheral_instance_name>.<register_name>`
+  (`CPU.SREG`, `USART2.CTRLA`, `PORTB.DIR`); a predefined value is
+  written `<peripheral_name>_<bit_field_name>_<bit_field_value>_gc`
+  (`USART_RXMODE_CLK2X_gc`), the value from the Name column of the
+  register tables. Peripherals with different register sets in
+  different modes add a mode name (`TCA0.SINGLE.CTRL =
+  TCA_SINGLE_WGMODE_FRQ_gc`).
 
 ## Programming model
 
@@ -544,7 +547,7 @@ word; a few use a 32-bit format (see [programming model](#programming-model)).
 | WDR | | Watchdog reset (see WDT) | | None | 1 |
 
 [1] Data-memory access cycles assume internal RAM; they are not valid for accesses to the NVM. Add at least one extra cycle when reading Flash and EEPROM.
-[2] Add one extra cycle when accessing the lower 64 bytes of I/O space.
+[2] One extra cycle must be added when accessing the lower 64 bytes of I/O space.
 [3] Source error: the instruction set summary gives STS's operation as DS(k) ← Rd; its operands are k, Rr, and ST/STD store Rr.
 ```
 
@@ -649,7 +652,7 @@ All I/O and peripherals are in the I/O space. 0x00–0x3F is reached in
 one cycle with IN and OUT; 0x00–0x1F also with SBI, CBI, SBIS and SBIC,
 which act on the named bit only, so they can be used on registers with
 write-1-to-clear flags. Reserved bits should be written 0; reserved
-addresses must never be written. Four general-purpose I/O registers
+addresses should never be written. Four general-purpose I/O registers
 GPIOR0–GPIOR3 at 0x001C–0x001F (reset 0x00, all bits R/W) hold global
 variables and flags with bit access.
 
@@ -1184,7 +1187,7 @@ sleep.
 [1] Only when the peripheral's RUNSTBY bit is set.
 [2] The CCL can select between several clock sources.
 [3] PIT only.
-[4] When the CCL needs no internal clock source.
+[4] CCL can wake up the device if no internal clock source is required.
 ```
 
 **Wake-up time** is six CLK_PER cycles plus the main clock source's
@@ -1842,11 +1845,11 @@ WINDOW also enables window mode. CTRLA's reset value comes from
 FUSE.WDTCFG, so the WDT can be on from boot; if PERIOD is non-zero
 after the boot code, LOCK is set automatically.
 
-**Normal mode** (WINDOW = 0x0): one time-out period T~O,WDT~ of 8 ms to
+**Normal mode** (WINDOW = 0x0): one time-out period T~OWDT~ of 8 ms to
 8 s (11 settings). Each WDR starts a new period; no WDR before it ends
 causes a system reset.
 
-**Window mode** (WINDOW ≠ 0x0): a closed period T~O,WDTW~ (WINDOW, 8 ms
+**Window mode** (WINDOW ≠ 0x0): a closed period T~OWDTW~ (WINDOW, 8 ms
 to 8 s) during which a WDR causes a system reset, followed by an open
 period (PERIOD, 8 ms to 8 s) during which the WDR must come; the total
 time-out is the sum of both. After window mode is enabled, or after
@@ -2211,20 +2214,24 @@ and the buffer registers are not used. All registers are bytes.
 | 1:0 | CMDEN[1:0] | R/W | 0 | Command enable, which timers CMD applies to: 0x0 = NONE; 0x3 = BOTH: low and high byte timer; 0x1, 0x2 reserved |
 ```
 
-```table id=tca-s-intctrl caption="INTCTRL (+0x0A), reset 0x00, split mode"
+```table id=tca-s-intctrl caption="INTCTRL (+0x0A), reset 0x00, split mode [1]"
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
 | 6:4 | LCMP2, LCMP1, LCMP0 | R/W | 0 | 1 = low byte compare channel n interrupt enabled |
 | 1 | HUNF | R/W | 0 | 1 = high byte underflow interrupt enabled |
 | 0 | LUNF | R/W | 0 | 1 = low byte underflow interrupt enabled |
+
+[1] Source error: the bit headings call LCMP2 "Low byte Compare Channel 0 Interrupt Enable"; the bit's name and the LCMPn text make it channel 2.
 ```
 
-```table id=tca-s-intflags caption="INTFLAGS (+0x0B), reset 0x00, split mode"
+```table id=tca-s-intflags caption="INTFLAGS (+0x0B), reset 0x00, split mode [1]"
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
 | 6:4 | LCMP2, LCMP1, LCMP0 | R/W | 0 | Low byte compare channel n flag: set on an LCNT = LCMPn match. Write 1 to clear. |
 | 1 | HUNF | R/W | 0 | High byte underflow flag: set when the high byte timer reaches BOTTOM. Write 1 to clear. |
 | 0 | LUNF | R/W | 0 | Low byte underflow flag: set when the low byte timer reaches BOTTOM. Write 1 to clear. |
+
+[1] Source error: the bit headings call LCMP2 and LCMP1 "Low byte Compare Channel 0 Interrupt Flag"; the bit names and the LCMPn text make them channels 2 and 1.
 ```
 
 ```table id=tca-s-counters caption="Split-mode counter, period and compare registers, each 8 bits R/W, reset 0x00"
@@ -2333,7 +2340,7 @@ the current mode and EDGE; synchronous, or both synchronous and
 asynchronous in single-shot mode) and COUNT (an event used as the
 clock source with a count mode, synchronous). Source conflict: the
 text enables COUNT by setting CTRLA.CLKSEL to EVENT, but CLKSEL lists
-no EVENT value. An event must last at
+no EVENT value. An event needs to last at
 least one CLK_PER cycle unless asynchronous single-shot is used. One
 interrupt vector, CAPT, enabled by INTCTRL.CAPT. The TCB stops in
 standby unless CTRLA.RUNSTDBY = 1 (not available with CLKSEL =
@@ -2717,8 +2724,9 @@ in normal operation, read RXDATAH/RXDATAL until RXCIF clears.
 
 #### Synchronous operation
 
-The XCK pin direction selects slave (input) or master (output); set
-PORTx.DIRn accordingly. RxD is sampled on the XCK edge opposite the
+The XCK pin direction selects slave (input) or master (output); the
+port pin direction must be set to output for master mode or to input
+for slave mode (PORTx.DIRn). RxD is sampled on the XCK edge opposite the
 one TxD changes on: with the XCK pin's INVEN = 0 (PORTx.PINnCTRL) a
 rising edge starts each data bit and RxD is sampled on the falling edge;
 with INVEN = 1 the falling edge starts the bit and RxD is sampled on the
@@ -2951,7 +2959,7 @@ when the CPU is halted by the debugger.
 | 0 | DATA\[8\] | W | 0 | Ninth data bit (CHSIZE = 9BIT). Write before TXDATAL, except with 9BITL (write TXDATAL first). Unused in master SPI mode |
 ```
 
-```table id=usart-status caption="STATUS (+0x04), reset 0x00 [1]"
+```table id=usart-status caption="STATUS (+0x04), reset 0x00 [1] [2]"
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
 | 7 | RXCIF | R | 0 | Receive complete, as in RXDATAH. An interrupt routine must read RXDATA to clear it, or the interrupt repeats |
@@ -2963,6 +2971,7 @@ when the CPU is halted by the debugger.
 | 0 | WFB | R/W | 0 | Wait for break: writing 1 registers the next low and high transition on RxD as a break of any width; with GENAUTO this sets any baud rate in the BAUD range. Reads 0 |
 
 [1] Source conflict: the PDF gives BDF's threshold as 11 bits here and the break as 12 or more low samples in the auto-baud description.
+[2] Source conflict: the register header gives reset 0x00; DREIF's bit reset is 1 and its text says it is set after a Reset.
 ```
 
 ```table id=usart-ctrla caption="CTRLA (+0x05), reset 0x00"
@@ -2984,7 +2993,7 @@ when the CPU is halted by the debugger.
 | 6 | TXEN | R/W | 0 | Transmitter enable; overrides the TXD pin. Disabling takes effect when no data is pending; the pin is then made an input by hardware |
 | 4 | SFDEN | R/W | 0 | Start-of-frame detection enable: an idle-to-start transition on RxD wakes the system from idle or standby sleep |
 | 3 | ODME | R/W | 0 | Open-drain mode for TXD (enable the pin's pull-up so the line doesn't float) |
-| 2:1 | RXMODE[1:0] | R/W | 0 | Receiver mode: 0x0 = NORMAL; 0x1 = CLK2X: double speed (divisor 16 → 8, asynchronous only); 0x2 = GENAUTO: generic auto-baud; 0x3 = LINAUTO: LIN constrained auto-baud. Auto-baud modes only in asynchronous slave mode; must be 0x0 in synchronous mode and with IRCOM |
+| 2:1 | RXMODE[1:0] | R/W | 0 | Receiver mode: 0x0 = NORMAL; 0x1 = CLK2X: double speed (divisor 16 → 8, asynchronous only); 0x2 = GENAUTO: generic auto-baud; 0x3 = LINAUTO: LIN constrained auto-baud. Auto-baud modes only in asynchronous slave mode. For synchronous operation RXMODE should always be written 0x0; it must be 0x0 with IRCOM |
 | 0 | MPCM | R/W | 0 | Multiprocessor communication mode: receiver ignores frames without address information |
 ```
 
@@ -3163,11 +3172,11 @@ sent.
 
 ```wavedrom id=spi-buffer caption="Slave buffer mode, BUFWR = 0: the first byte sent is a dummy; 0x45, written while DREIF is low, is lost"
 {"signal": [
-  {"name": "SS#", "wave": "1.0.........."},
-  {"name": "Write DATA", "wave": "0101..01.010."},
-  {"name": "Write value", "wave": "x=x=..x=.x=x.", "data": ["0x43", "0x44", "0x45", "0x46"]},
-  {"name": "DREIF", "wave": "1.0..10...10."},
-  {"name": "Data sent", "wave": "x..=..=..=..=", "data": ["dummy", "0x43", "0x44", "0x46"]}
+  {"name": "SS#", "wave": "1.0.............1"},
+  {"name": "Write DATA", "wave": "010...10.1010...."},
+  {"name": "Write value", "wave": "x=x...=x.=x=x....", "data": ["0x43", "0x44", "0x45", "0x46"]},
+  {"name": "DREIF", "wave": "1.0..1.0..1.01..."},
+  {"name": "Data sent", "wave": "x..=.x.=..=..=..x", "data": ["dummy", "0x43", "0x44", "0x46"]}
  ],
  "config": {"hscale": 2}}
 ```
@@ -3321,9 +3330,9 @@ the leading edge.
   {"name": "SS#", "wave": "10........1.", "node": ".A........B"},
   {"name": "SCK", "wave": "0..1.0.1.0..", "node": "...C.D.E.F"},
   {"name": "MOSI", "wave": "x.=..x..=x..", "data": ["MSb", "LSb"], "node": "..G..H"},
-  {"name": "MISO", "wave": "z.=...=....z", "data": ["MSb", "LSb"], "node": "..I........K"}
+  {"name": "MISO", "wave": "z.=...=....z", "data": ["MSb", "LSb"], "node": "..I...L....K"}
  ],
- "edge": ["A<->I tSOSS", "I<->C tSOS", "A<->C tSSS", "G<->C tSIS", "C<->D tSSCKW", "C<->E tSSCK", "C<->H tSIH", "F<->B tSSH", "B<->K tSOSH"],
+ "edge": ["A<->I tSOSS", "D<->L tSOS", "A<->C tSSS", "G<->C tSIS", "C<->D tSSCKW", "C<->E tSSCK", "C<->H tSIH", "F<->B tSSH", "B<->K tSOSH"],
  "config": {"hscale": 2}}
 ```
 
@@ -3622,16 +3631,20 @@ by writing MADDR, writing MDATA, or writing a command to MCTRLB.MCMD.
 | 7:0 | BAUD[7:0] | R/W | 0x00 | Sets SCL high and low time (see clock generation); write while MCTRLA.ENABLE = 0 |
 ```
 
-```table id=twi-maddr caption="MADDR (+0x07), reset 0x00"
+```table id=twi-maddr caption="MADDR (+0x07), reset 0x00 [1]"
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
 | 7:0 | ADDR[7:0] | R/W | 0x00 | Writing starts a START and address sequence; bit 0 is the R/W bit. Bus state UNKNOWN: WIF and BUSERR set, operation ends. Bus BUSY: waits for IDLE. Bus IDLE: issues S, copies ADDR into the shift register (MDATA), sends it and receives the ACK; then holds SCL low (CLKHOLD = 1) unless arbitration was lost, and sets WIF. Bus already OWNER: issues Sr instead (no wait for idle; after a read, the acknowledge action is sent before the Sr). For R/W = 1 the master receives one data byte before setting RIF. Writing clears all master flags (BUSERR, ARBLOST, RIF, WIF). Reading has no bus effect. |
+
+[1] Source error: the text puts CLKHOLD in a "Master Setup register (TWIn.MSETUP)"; this TWI has no MSETUP, and CLKHOLD is in MSTATUS.
 ```
 
-```table id=twi-mdata caption="MDATA (+0x08), reset 0x00"
+```table id=twi-mdata caption="MDATA (+0x08), reset 0x00 [1]"
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
 | 7:0 | DATA[7:0] | R/W | 0x00 | Direct access to the master's shift register (bus data out and in). Not accessible during a byte transfer (writes blocked); valid only while the master holds SCL (CLKHOLD = 1); software that tracks the protocol state through interrupts or flags need not check CLKHOLD. **Write**: sends the byte (regardless of ACKACT) and receives the ACK, then sets WIF even on bus error or arbitration loss; in multi-master systems check ARBLOST, then abort or rewrite. All bits are clocked even after losing arbitration (only 1s are sent for the rest of the byte). Clears RIF and WIF; ARBLOST and BUSERR unchanged. **Read**: sends the ACKACT acknowledge, releases the clock for one byte, then sets RIF on success, or WIF instead if arbitration was lost sending NACK or a bus error occurred (RIF and WIF are never both set). Reading with ACKACT = ACK or NACK clears RIF and WIF; ARBLOST and BUSERR unchanged. |
+
+[1] Source error: the text places ACKACT "in TWIn.MSTATUS"; the register summary and MCTRLB description put it in MCTRLB.
 ```
 
 ```table id=twi-sctrla caption="SCTRLA (+0x09), reset 0x00"
@@ -3668,7 +3681,7 @@ by writing MADDR, writing MDATA, or writing a command to MCTRLB.MCMD.
 SSTATUS is regarded as read-only in normal use: its flags are cleared
 by accessing SDATA or writing a command to SCTRLB.SCMD.
 
-```table id=twi-sstatus caption="SSTATUS (+0x0B), reset 0x00"
+```table id=twi-sstatus caption="SSTATUS (+0x0B), reset 0x00 [1]"
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
 | 7 | DIF | R/W | 0 | Data interrupt flag: set when a slave byte transmit or receive completes without bus error; also set at the end of a transaction that failed by collision (see COLL). Write 1 to clear; also cleared by writing SDATA, reading SDATA, or writing a valid command to SCTRLB. Drives the slave data interrupt (DIEN). |
@@ -3679,6 +3692,8 @@ by accessing SDATA or writing a command to SCTRLB.SCMD.
 | 2 | BUSERR | R/W | 0 | Bus error: protocol-violating S, Sr or P (S directly followed by P, for example). Write 1 to clear. Assume the packet is corrupt and restart by waiting for a new S. Detected by the master circuitry: needs MCTRLA.ENABLE = 1 and the system clock at least 4 × f~SCL~. |
 | 1 | DIR | R | 0 | R/W bit of the last address packet received: 1 = master read in progress, 0 = master write |
 | 0 | AP | R | 0 | What set APIF: 0 = STOP: a STOP condition, 1 = ADR: address detection |
+
+[1] Source error: the APIF text refers to "the AIEN control bit in TWIn.CTRLA"; the bit is APIEN in SCTRLA.
 ```
 
 ```table id=twi-saddr caption="SADDR (+0x0C), reset 0x00"
@@ -3755,7 +3770,7 @@ by accessing SDATA or writing a command to SCTRLB.SCMD.
 | ^ | ^ | f~SCL~ ≤ 1 MHz | 0.5 | | | µs |
 
 [1] Design guidance only, not production tested.
-[2] R~P~ minimum is given for f~SCL~ ≤ 100 kHz only; the maximum uses C~B~ in farads to give ohms.
+[2] R~P~ minimum is given for f~SCL~ ≤ 100 kHz only.
 ```
 
 ```wavedrom id=twi-timing caption="TWI timing"
@@ -3946,7 +3961,7 @@ sequencer output drives the pair's even LUTn-OUT (block diagram).
 | ^ | | 1 | 0 | Set |
 | ^ | | 1 | 1 | Forbidden |
 
-[1] The latches have no reset input: columns are G, D for DLATCH and S, R for RS.
+[1] The latch tables (27-6, 27-7) have no R column: columns are G, D for DLATCH and S, R for RS.
 ```
 
 #### Clocks, sleep and interrupts
@@ -4038,13 +4053,17 @@ every peripheral using it and for the status), sent to the OUT pin
 the AC is enabled; the AC has no event inputs) and used for the COMP
 interrupt. Hysteresis: none, small, medium or large (HYSMODE). Low-power
 mode (LPMODE) cuts the comparator current at the cost of a longer
-response time.
+response time. Source error: the AC text names "the Mode bits (MODE)
+in ACn.CTRLA", "the MUX Control A register (AC.MUXCTRLA)" and says
+"The DAC has the following internal inputs"; the register descriptions
+name LPMODE in CTRLA and the MUXCTRL register, and the inputs are the
+AC's.
 
 Setup: configure the input pins in PORT, select MUXPOS and MUXNEG,
 optionally set OUTEN, then set ENABLE. The output may be invalid during
 start-up: at most 2.5 µs for the AC itself; an internal reference
-normally takes longer. Configure OUT as an output in PORTx.DIR, or the
-pin is tri-stated while the AC is disabled.
+normally takes longer. To avoid the pin being tri-stated when the AC is
+disabled, the OUT pin must be configured as output in PORTx.DIR.
 
 Interrupt: STATUS.CMP is set when the output toggles as INTMODE
 selects (both, negative or positive edge); INTCTRL.CMP enables the COMP
@@ -4105,7 +4124,7 @@ the clock is stopped. In Power-down the AC and its pin output are off.
 | C~IN~ | Input pin capacitance | PD1 to PD6 | | 3.5 | | | 3.5 | | pF |
 | ^ | ^ | PD7 | | 14 | | | 14 | | pF |
 | V~OFF~ | Input offset voltage | 0.7 V < V~IN~ < V~DD~ - 0.7 V | -20 | ±5 | 20 | -30 | ±10 | 30 | mV |
-| ^ | ^ | V~IN~ = -0.2 V (LP enabled: 0 V) to V~DD~ | -40 | ±20 | 40 | -50 | ±30 | 50 | mV |
+| ^ | ^ | V~IN~ = -0.2 V (low-power mode enabled: 0 V) to V~DD~ | -40 | ±20 | 40 | -50 | ±30 | 50 | mV |
 | I~L~ | Input leakage current | | | 5 | | | 5 | | nA |
 | T~START~ | Start-up time | | | 1.3 | | | 1.3 | | µs |
 | V~HYS~ | Hysteresis | HYSMODE = 0x0 | 0 | 0 | 10 | 0 | 0 | 10 | mV |
@@ -4157,8 +4176,9 @@ STCONV; each conversion then starts as soon as the previous one ends,
 each setting RESRDY.
 
 **Clock.** CLK_ADC = CLK_PER / 2 … 256 (PRESC), from any CLK_PER above
-100 kHz. For 10-bit resolution CLK_ADC must be 50 kHz to 1.5 MHz; at
-lower resolution it may be higher, for a higher sample rate. The
+100 kHz. The ADC requires an input clock frequency between 50 kHz and
+1.5 MHz for maximum resolution; below 10 bits it can be higher than
+1.5 MHz to get a higher sample rate. The
 prescaler runs from ENABLE = 1, is reset while ENABLE = 0, and is held
 reset while no conversion is in progress, so a conversion (from STCONV
 or an event) starts at the next rising CLK_ADC edge, a fixed delay in
@@ -4210,7 +4230,9 @@ electrical characteristics).
 **Reference.** Inputs above the reference convert to 0x3FF. With the
 external VREFA, set ADC0REFSEL in VREF.CTRLA to the internal level
 closest to but above the applied voltage; for an external reference
-above 4.3 V use ADC0REFSEL = 0x3. The internal reference comes from the
+above 4.3 V use ADC0REFSEL = 0x3. Source error: the text writes
+"ADCnREFSEL[0:2] in the corresponding VREF.CTRLn register"; this device
+has one field, ADC0REFSEL[2:0] in VREF.CTRLA. The internal reference comes from the
 bandgap through an amplifier in VREF.
 
 **Input circuit.** A source on an AIN pin always sees the pin
@@ -4227,9 +4249,11 @@ RES = 1023 × V~IN~ / V~REF~
 ```
 
 Inputs above the reference give 0x3FF, below 0 V 0x000; accumulated
-results never exceed 0xFFC0 (64 × 0x3FF). The ADC output and the
-accumulator are straight binary from 0x0000 (zero) to full scale (the
-PDF calls this "1's complement"). With RESSEL = 1 each conversion is
+results never exceed 0xFFC0 (64 × 0x3FF). The data format in ADC and
+digital accumulation is 1's complement, where 0x0000 represents the
+zero and 0xFFFF represents the largest number (full scale).
+Unconfirmed: as printed; "1's complement" does not match the mapping
+given in the same sentence. With RESSEL = 1 each conversion is
 truncated to its 8 MSbs before accumulation or storage.
 
 **Temperature sensor.** Select the internal reference at 1.1 V in VREF
@@ -4253,7 +4277,9 @@ an accumulation, so the flag is raised once per conversion.
 
 **Events.** Input: start conversion (STARTEI). Output: a result-ready
 event, a one-clock pulse whenever a new result is in RES; it is always
-generated while the ADC is enabled (see EVSYS.USERn for the user input).
+generated while the ADC is enabled (see EVSYS.USERn for the user input). Source error: the text
+refers to EVSYS.ASYNCUSERn; this event system's user registers are
+USERn.
 
 **Interrupts.** RESRDY (result ready: a result is in RES) and WCOMP
 (window comparator, as WINCM selects); flags in INTFLAGS, enables in
@@ -5913,27 +5939,54 @@ once the parts are added.
   and vs. V~REF~ with internal and external reference (33-44…33-63);
   AC hysteresis and offset vs. V~CM~ (33-64…33-67); OSC20M calibration
   step size and frequency vs. calibration value (33-68, 33-69).
-- Source errors and inconsistencies (the correct reading is used, or
-  the source's is kept with a table note): Table 12-1 (logic affected by
-  each reset) has columns for a TCD this device lacks; VPORT.INTFLAGS
-  is marked read-only though writing 1 clears a flag; BOD.CTRLA
-  SAMPFREQ is marked R yet CCP-protected; the WDT PERIOD list rounds
-  0x8–0xB differently from the WINDOW list; TCA split-mode LPER/HPER
-  show reset 0x00 though they share storage with PER (reset 0xFFFF),
-  and split-mode INTCTRL/INTFLAGS label LCMP1/LCMP2 "compare channel
-  0"; TCB 8-bit PWM says both "period set by CCMPH" and "CCMPL + 1 is
-  the period" (the figure, period from CCMPL, is followed); TCB names
-  an EVENT clock that CTRLA.CLKSEL lacks; RTC calls its enable ENABLE
-  and RTCEN, and the PIT busy bit SYNCBUSY and CTRLBUSY; USART BDF
-  says 11 bits where the break is 12 samples; TWI MCTRLB MCMD gives DIR
-  0 = read, 1 = write (kept as printed), MADDR text mentions "MSETUP",
-  MDATA puts ACKACT in MSTATUS (it is in MCTRLB), SSTATUS text says
-  AIEN and CTRLA for APIEN and SCTRLA; AC text says MODE and MUXCTRLA
-  (LPMODE, MUXCTRL) and "DAC" for the AC; ADC calls straight binary
-  "1's complement", names EVSYS.ASYNCUSERn (USERn here) and
-  ADC0REFSEL "[0:2]"; UPDI T~DebZ~ is 14 ms in the table and 13.5 ms in
-  the text, CTRLB is marked R though written, ASI_CTRLA reset 0x02
-  contradicts its bits (0x03); in chapter 32 the TQFP48 thermal row is
-  shifted one column, the UPDI bit-rate table repeats V~DD~ = 2.2–5.5 V,
-  t~MIN_RST~ is printed as a maximum, and t~SOSH~ is described as after
-  !{SS} low where the figure shows high; the instruction summary prints STS as DS(k) ← Rd (Rr).
+- Derived: 0x14FF and 0x27FF (end of EEPROM and of the reserved block,
+  one below the next start address 0x1500 / 0x2800 in Figure 7-1, p.37);
+  0xBFFF (end of the 48 KB Flash in code space from 0x0000, Figure 7-1
+  and Table 7-1, p.37–38).
+- From images: the UQFN48 dimensions 6.00, 0.40, 0.45–0.55, 0.00–0.05,
+  0.127, 4.45–4.60–4.75, 0.15–0.25, 0.30–0.50, 0.20 and its notes
+  (drawing C04-153A sheet 2, p.541, a scanned page); the typical
+  characteristics curve points (digitized from the chapter 33 figures);
+  the OSC20M baud compensation equation (BAUD~actual~, BAUD~ideal~,
+  SigRowError, p.87) and the free-running sample-rate equation (p.401),
+  whose text layer is unreadable glyphs.
+- Source issues:
+  - Unconfirmed, as printed: Figure 7-1's "960 Ext I/O Registers" count
+    for 0x0040–0x0FFF (memory map note).
+  - Source error, corrected: STS operation printed DS(k) ← Rd (Rr).
+  - Unconfirmed, as printed: Table 12-1 has TCD columns; this device
+    has no TCD.
+  - Unconfirmed, as printed: t~MIN_RST~ in the Max column.
+  - Source conflict, kept with notes: VPORT.INTFLAGS access R vs
+    write-1-to-clear; BOD.CTRLA SAMPFREQ access R vs CCP; WDT PERIOD
+    table (1.0/2.0/4.1/8.2 s) vs WINDOW table (1.024/2.048/4.096/8.192 s);
+    TCA split-mode LPER/HPER reset 0x00 vs PER 0xFFFF.
+  - Source error, corrected: TCA split-mode INTCTRL/INTFLAGS headings
+    call LCMP2 (and LCMP1 in INTFLAGS) "compare channel 0"; register
+    summary prints CMP0nBUF/CMP1nBUF/CMP2nBUF for CMPnBUF.
+  - Source conflict, kept with notes: TCB 8-bit PWM period said to be
+    controlled by CCMPH and to be CCMPL + 1; TCB COUNT enabled by
+    CLKSEL = EVENT, which CLKSEL lacks.
+  - Source error, corrected: RTC text calls RTCEN "ENABLE" and the PIT
+    busy flag "SYNCBUSY" (CTRLBUSY).
+  - Source conflict, kept with notes: USART BDF threshold 11 bits vs
+    break of 12 or more samples; SPI buffer-mode DREIF "cleared after a
+    Reset to indicate that the transmitter is ready" vs reset value 0;
+    TWI MCMD DIR (0 = read, 1 = send) vs MADDR R/W and SSTATUS.DIR
+    (1 = read).
+  - Source error, corrected: TWI text names TWIn.MSETUP (CLKHOLD is in
+    MSTATUS), ACKACT in MSTATUS (it is in MCTRLB), AIEN in CTRLA (APIEN
+    in SCTRLA); AC text names MODE and AC.MUXCTRLA (LPMODE, MUXCTRL) and
+    calls the AC "the DAC"; ADC text names ADCnREFSEL[0:2] in VREF.CTRLn
+    (ADC0REFSEL[2:0] in VREF.CTRLA) and EVSYS.ASYNCUSERn (USERn).
+  - Unconfirmed, as printed: ADC data format called "1's complement"
+    with 0x0000 = zero, 0xFFFF = full scale.
+  - Source conflict, kept with notes: UPDI T~DebZ~ max 14000 µs (Table
+    32-30) vs 13.5 ms in the text; UPDI CTRLB access R though written;
+    ASI_CTRLA reset 0x02 in the header vs bit resets 1, 1 (0x3).
+  - Unconfirmed, left out with a note: Table 32-4's TQFP48 row (values
+    do not line up with the column headings).
+  - Source conflict, kept with a note: Table 32-31 gives 450 kbps and
+    0.9 Mbps for the same V~DD~ = [2.2, 5.5]V.
+  - Source conflict, kept with a note: Table 32-19 describes t~SOSH~ as
+    MISO hold after !{SS} low; Figure 32-7 shows it after !{SS} high.

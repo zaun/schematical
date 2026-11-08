@@ -421,7 +421,7 @@ incremented by two, I set.
 | WDR | | Watchdog reset (see the watchdog timer) | None | 1 | 1 |
 | BREAK | | Break; for on-chip debug only | None | 1 | [3] |
 
-[1] Available only in ATmega168PA and ATmega328P, per the source's note; see Conversion notes.
+[1] Source conflict: the instruction set summary (p.627) says these instructions are only available in ATmega168PA and ATmega328P; the ATmega168A/168PA and ATmega328/328P interrupt vector examples (p.72 and p.75) use jmp.
 [2] Not given; depends on the SPM operation (see self-programming).
 [3] N/A.
 ```
@@ -438,7 +438,10 @@ endurance at least 10,000 write/erase cycles. Constant tables may sit
 anywhere in program memory (LPM). Except in ATmega48A/PA the flash is
 split into an application section and a boot loader section at the top,
 each with its own lock bits; the boot section size is set by the BOOTSZ
-fuses (see self-programming and memory programming).
+fuses (see self-programming and memory programming). Source conflict:
+section 8.2 says the flash is divided into a boot loader section and an
+application section "in ATmega88PA and ATmega168PA"; the boot loader
+chapter (27) and its tables cover ATmega88A/88PA/168A/168PA/328/328P.
 
 ```table id=flash-map caption="Program memory (word addresses)"
 | Device | Flash | Organization | PC width | Address range | Sections |
@@ -679,12 +682,14 @@ Data to write to, or data read from, the EEPROM address in EEAR. Reset 0.
 ```
 
 ```table id=ee-mode caption="EEPROM programming modes"
-| EEPM1 | EEPM0 | Typ programming time | Operation |
+| EEPM1 | EEPM0 | Programming time | Operation |
 |:-:|:-:|---|---|
-| 0 | 0 | 3.4 ms | Erase and write in one (atomic) operation |
+| 0 | 0 | 3.4 ms [1] | Erase and write in one (atomic) operation |
 | 0 | 1 | 1.8 ms | Erase only |
 | 1 | 0 | 1.8 ms | Write only |
 | 1 | 1 | – | Reserved |
+
+[1] Source conflict: table 8-2 gives 3.3 ms (26,368 calibrated RC oscillator cycles) for an EEPROM write.
 ```
 
 Write procedure (steps 3 and 4 in either order):
@@ -837,6 +842,10 @@ C~e~ + C~i~ = 2 × C~L~ − C~S~
 
 Crystals with C~L~ above 6 pF need external capacitors.
 
+Source conflict: the text says the low frequency crystal oscillator is
+selected by setting CKSEL to "0110" or "0111"; table 9-10 (below) and
+the clocking options table give 0100 and 0101.
+
 ```table id=clk-lfxo-sut caption="Low frequency crystal oscillator: additional delay from reset"
 | SUT[1:0] | Additional delay from reset (V~CC~ = 5.0 V) | Recommended usage |
 |:-:|---|---|
@@ -879,7 +888,8 @@ times the watchdog and the reset time-out.
 #### 128 kHz internal oscillator
 
 A very low power, low accuracy 128 kHz clock (nominal at 3 V, 25 °C),
-selected with CKSEL = 0011. Start-up times in the table above.
+selected with CKSEL = 0011 (table 9-13). Start-up times in the table above.
+Source conflict: the text says to program the CKSEL fuses to "11".
 
 #### External clock
 
@@ -974,7 +984,7 @@ write may fail.
 {"signal": [
   {"name": "XTAL1", "wave": "0.1..0..1..0", "node": "..A..B..C..D"}
  ],
- "edge": ["A<->B tCHCX", "B<->C tCLCX", "A<->C tCLCL"],
+ "edge": ["A<->B tCHCX", "B<->C tCLCX", "B<->D tCLCL"],
  "config": {"hscale": 2}}
 ```
 
@@ -1110,10 +1120,11 @@ Use the deepest sleep mode possible and disable unneeded functions:
 ```table id=pm-smcr caption="SMCR bits"
 | Bit | Name | Access | Reset | Description |
 |---|---|---|---|---|
-| 3:1 | SM[2:0] | R/W | 000 | Sleep mode: 000 = idle, 001 = ADC noise reduction, 010 = power-down, 011 = power-save, 100 and 101 = reserved, 110 = standby [1], 111 = extended standby [1] |
+| 3:1 | SM[2:0] | R/W | 000 | Sleep mode: 000 = idle, 001 = ADC noise reduction, 010 = power-down, 011 = power-save, 100 and 101 = reserved, 110 = standby [1], 111 = extended standby [1][2] |
 | 0 | SE | R/W | 0 | Sleep enable: must be 1 for SLEEP to enter the mode. Set it just before SLEEP and clear it right after waking. |
 
 [1] Only recommended with external crystals or resonators.
+[2] Source conflict: table 10-2 names SM = 111 "External Standby"; section 10.8 calls the mode Extended Standby. The SM[2:0] description (and section 2) speaks of "five" sleep modes; table 10-2 lists six.
 ```
 
 #### MCUCR – MCU control register (BODS, BODSE), 0x35 (0x55)
@@ -1192,41 +1203,40 @@ Reset sources:
 {"signal": [
   {"name": "VCC", "wave": "0.1.......", "node": "..A"},
   {"name": "RESET", "wave": "0.1.......", "node": "..B"},
-  {"name": "TIME-OUT", "wave": "0.1....0..", "node": "..C....D"},
-  {"name": "internal reset", "wave": "1......0.."}
+  {"name": "TIME-OUT", "wave": "0......1..", "node": ".......C"},
+  {"name": "internal reset", "wave": "0.1....0.."}
  ],
- "edge": ["C<->D tTOUT"],
+ "edge": ["B<->C tTOUT"],
  "config": {"hscale": 2}}
 ```
 
 ```wavedrom id=rst-ext caption="External reset during operation"
 {"signal": [
   {"name": "RESET", "wave": "1.0..1.......", "node": ".....A"},
-  {"name": "TIME-OUT", "wave": "0....1....0..", "node": ".....B....C"},
+  {"name": "TIME-OUT", "wave": "0.........1..", "node": "..........C"},
   {"name": "internal reset", "wave": "0.1.......0.."}
  ],
- "edge": ["B<->C tTOUT"],
+ "edge": ["A<->C tTOUT"],
  "config": {"hscale": 2}}
 ```
 
 ```wavedrom id=rst-bod caption="Brown-out reset during operation (VCC falls below VBOT-, rises above VBOT+)"
 {"signal": [
   {"name": "VCC ≥ VBOT", "wave": "1.0..1.......", "node": "..A..B"},
-  {"name": "TIME-OUT", "wave": "0....1....0..", "node": ".....C....D"},
+  {"name": "TIME-OUT", "wave": "0.........1..", "node": "..........D"},
   {"name": "internal reset", "wave": "0.1.......0.."}
  ],
- "edge": ["C<->D tTOUT"],
+ "edge": ["B<->D tTOUT"],
  "config": {"hscale": 2}}
 ```
 
 ```wavedrom id=rst-wdt caption="Watchdog system reset during operation"
 {"signal": [
-  {"name": "CK", "wave": "p............"},
-  {"name": "WDT time-out", "wave": "0.10........."},
-  {"name": "TIME-OUT", "wave": "0..1.....0...", "node": "...A.....B"},
+  {"name": "WDT time-out", "wave": "0.10.........", "node": "..AB"},
+  {"name": "RESET TIME-OUT", "wave": "0........1...", "node": ".........C"},
   {"name": "internal reset", "wave": "0.1......0..."}
  ],
- "edge": ["A<->B tTOUT"],
+ "edge": ["A<->B 1 CK cycle", "B<->C tTOUT"],
  "config": {"hscale": 2}}
 ```
 
@@ -1560,9 +1570,9 @@ transition reaches PINxn ½ to 1½ system clock periods after it occurs
 
 ```wavedrom id=io-sync caption="Synchronization when reading an externally applied pin value"
 {"signal": [
-  {"name": "SYSTEM CLK", "wave": "lhlhlhlhl"},
+  {"name": "SYSTEM CLK", "wave": "lhlhlhlhl", "node": "..A"},
   {"name": "INSTRUCTIONS", "wave": "x=.=.=.=.", "data": ["xxx", "xxx", "in r17, PINx", ""]},
-  {"name": "SYNC LATCH", "wave": "0..x1....", "node": "..A.B"},
+  {"name": "SYNC LATCH", "wave": "0..x1....", "node": "....B"},
   {"name": "PINxn", "wave": "0....1...", "node": ".....C"},
   {"name": "r17", "wave": "=......=.", "data": ["0x00", "0xFF"]}
  ],
@@ -1570,7 +1580,7 @@ transition reaches PINxn ½ to 1½ system clock periods after it occurs
  "config": {"hscale": 2}}
 ```
 
-To read back a value the software just wrote to PORTx, put a NOP between
+To read back a value the software just wrote to PORTx, a NOP must be inserted between
 the OUT and the IN: OUT sets the sync latch at the rising clock edge, so
 the delay t~pd~ through the synchronizer is one system clock period.
 
@@ -1591,9 +1601,9 @@ modes, since the clamping produces the requested change.
 Give unused pins a defined level: floating inputs raise the current in the
 modes where digital inputs are enabled (reset, active, idle). The simplest
 way is the internal pull-up, which is off during reset; if low current
-during reset matters, use an external pull-up or pull-down. Don't connect
-unused pins directly to V~CC~ or GND: an accidental output configuration
-would draw excessive current.
+during reset matters, use an external pull-up or pull-down. Connecting
+unused pins directly to V~CC~ or GND is not recommended: an accidental
+output configuration would draw excessive current.
 
 #### Alternate port functions
 
@@ -1632,11 +1642,11 @@ function:
 | PC5 | ADC5 (ADC input channel 5), SCL (2-wire serial bus clock line), PCINT13 | SCL: with TWEN = 1 in TWCR the pin leaves the port and becomes the TWI clock I/O, with a spike filter suppressing input spikes shorter than 50 ns and an open-drain driver with slew-rate limitation. ADC5 uses digital power. |
 | PC4 | ADC4 (ADC input channel 4), SDA (2-wire serial bus data input/output line), PCINT12 | SDA: with TWEN = 1 the pin leaves the port and becomes the TWI data I/O, with the same spike filter and slew-limited open-drain driver. ADC4 uses digital power. |
 | PC3–PC0 | ADC3–ADC0 (ADC input channels 3–0), PCINT11–PCINT8 | ADC3–ADC0 use analog power. |
-| PD7 | AIN1 (analog comparator negative input), PCINT23 | AIN1: configure as input with the pull-up off so the digital port doesn't interfere with the comparator. |
+| PD7 | AIN1 (analog comparator negative input), PCINT23 | Source error, kept out: the PD7 heading reads "AIN1/OC2B/PCINT23"; table 14-9 and the PD7 text list no OC2B (OC2B is on PD3). AIN1: configure as input with the pull-up off so the digital port doesn't interfere with the comparator. |
 | PD6 | AIN0 (analog comparator positive input), OC0A (Timer/Counter0 output compare match A output), PCINT22 | AIN0: input with the pull-up off. OC0A: compare match and PWM output; needs DDD6 = 1. |
 | PD5 | T1 (Timer/Counter1 external counter input), OC0B (Timer/Counter0 output compare match B output), PCINT21 | OC0B: compare match and PWM output; needs DDD5 = 1. |
 | PD4 | XCK (USART external clock input/output), T0 (Timer/Counter0 external counter input), PCINT20 | |
-| PD3 | INT1 (external interrupt 1 input), OC2B (Timer/Counter2 output compare match B output), PCINT19 | OC2B: compare match and PWM output; needs DDD3 = 1. |
+| PD3 | INT1 (external interrupt 1 input), OC2B (Timer/Counter2 output compare match B output), PCINT19 | OC2B: compare match and PWM output; needs DDD3 = 1. Source error: the PD3 text calls OC2B an output of Timer/Counter0; table 14-9 names it the Timer/Counter2 output. |
 | PD2 | INT0 (external interrupt 0 input), PCINT18 | |
 | PD1 | TXD (USART output pin), PCINT17 | With the USART transmitter enabled the pin is an output whatever DDD1 holds. |
 | PD0 | RXD (USART input pin), PCINT16 | With the USART receiver enabled the pin is an input whatever DDD0 holds; PORTD0 still controls the pull-up. |
@@ -1685,17 +1695,18 @@ SPI SLAVE INPUT.
 | Signal | PD7/AIN1/PCINT23 | PD6/AIN0/OC0A/PCINT22 | PD5/T1/OC0B/PCINT21 | PD4/XCK/T0/PCINT20 | PD3/OC2B/INT1/PCINT19 | PD2/INT0/PCINT18 | PD1/TXD/PCINT17 | PD0/RXD/PCINT16 |
 |---|---|---|---|---|---|---|---|---|
 | PUOE | 0 | 0 | 0 | 0 | 0 | 0 | TXEN | RXEN |
-| PUOV | 0 | 0 | 0 | 0 | 0 | 0 | 0 | PORTD0 • !{PUD} |
+| PUOV [2] | 0 | 0 | 0 | 0 | 0 | 0 | 0 | PORTD0 • !{PUD} |
 | DDOE | 0 | 0 | 0 | 0 | 0 | 0 | TXEN | RXEN |
 | DDOV | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 | PVOE | 0 | OC0A ENABLE | OC0B ENABLE | UMSEL | OC2B ENABLE | 0 | TXEN | 0 |
 | PVOV | 0 | OC0A | OC0B | XCK OUTPUT | OC2B | 0 | TXD | 0 |
-| DIEOE | PCINT23 • PCIE2 | PCINT22 • PCIE2 | PCINT21 • PCIE2 | PCINT20 • PCIE2 | INT1 ENABLE + PCINT19 • PCIE2 | INT0 ENABLE + PCINT18 • PCIE1 [1] | PCINT17 • PCIE2 | PCINT16 • PCIE2 |
+| DIEOE | PCINT23 • PCIE2 | PCINT22 • PCIE2 | PCINT21 • PCIE2 | PCINT20 • PCIE2 | INT1 ENABLE + PCINT19 • PCIE2 | INT0 ENABLE + PCINT18 • PCIE2 [1] | PCINT17 • PCIE2 | PCINT16 • PCIE2 |
 | DIEOV | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 | DI | PCINT23 INPUT | PCINT22 INPUT | PCINT21 INPUT, T1 INPUT | PCINT20 INPUT, XCK INPUT, T0 INPUT | PCINT19 INPUT, INT1 INPUT | PCINT18 INPUT, INT0 INPUT | PCINT17 INPUT | PCINT16 INPUT, RXD |
 | AIO | AIN1 INPUT | AIN0 INPUT | – | – | – | – | – | – |
 
-[1] As printed; PCINT18 belongs to pin change interrupt 2 (PCIE2).
+[1] Source error: the source prints PCINT18 • PCIE1; PCINT18 belongs to pin change interrupt 2, enabled by PCIE2 (PCICR, PCMSK2), as on every other port D pin.
+[2] Source error: tables 14-10 and 14-11 label this row PUO; the overriding signal definitions (table 14-2) and the port B and C tables name it PUOV.
 ```
 
 #### MCUCR – MCU Control Register (PUD), 0x35 (0x55)
@@ -2297,7 +2308,7 @@ clk~I/O~ cycles where clk~T1~ is enabled.
 ```wavedrom id=t1-ocf caption="Setting of OCF1x, no prescaling"
 {"signal": [
   {"name": "clkI/O", "wave": "p...."},
-  {"name": "clkT1", "wave": "p...."},
+  {"name": "clkT1 (clkI/O/1)", "wave": "1...."},
   {"name": "TCNT1", "wave": "=====", "data": ["OCR1x-1", "OCR1x", "OCR1x+1", "OCR1x+2", ""]},
   {"name": "OCR1x", "wave": "=....", "data": ["OCR1x value"]},
   {"name": "OCF1x", "wave": "0.1.."}
@@ -2389,7 +2400,7 @@ the output driver. The function of COM1x depends on WGM1[3:0]:
 ```table id=t1-tccr1b caption="TCCR1B bits"
 | Bit | Name | Description |
 |---|---|---|
-| 7 | ICNC1 | Input capture noise canceler: 1 = ICP1 filtered, four successive equal samples needed to change the output; the capture is delayed by four oscillator cycles |
+| 7 | ICNC1 | Input capture noise canceler: 1 = ICP1 filtered, four successive equal samples needed to change the output; the capture is delayed by four oscillator cycles (Source conflict: the input capture unit text says four system clock cycles) |
 | 6 | ICES1 | Input capture edge select: 0 = falling edge, 1 = rising edge triggers a capture (TCNT1 copied into ICR1, ICF1 set). When ICR1 is TOP, ICP1 is disconnected and input capture is disabled. |
 | 4:3 | WGM1[3:2] | Waveform generation mode: see the mode table |
 | 2:0 | CS1[2:0] | Clock select: see the table below |
@@ -2622,7 +2633,10 @@ f~OC2xPWM~ = f~clk_I/O~ / (N × 256)
 ```
 
 **Phase correct PWM mode** (WGM2 = 1 or 5): dual slope, BOTTOM to TOP
-and back; TOP is 0xFF (mode 1) or OCR2A (mode 5);
+and back; TOP is 0xFF (mode 1) or OCR2A (mode 5) (Source error: the
+source's text says TOP is 0xFF "when WGM2:0 = 3" and OCR2A "when
+MGM2:0 = 7", the fast PWM values; its first sentence and the mode table
+give modes 1 and 5);
 TCNT2 equals TOP for one timer clock cycle.
 Non-inverting (COM2x = 2): OC2x cleared on the match while counting up,
 set on the match while counting down; inverting (COM2x = 3) the opposite.
@@ -2653,21 +2667,21 @@ enabled.
 ```wavedrom id=t2-tov caption="TOV2 at MAX, no prescaling"
 {"signal": [
   {"name": "clkI/O", "wave": "p...."},
-  {"name": "clkT2", "wave": "p...."},
+  {"name": "clkT2 (clkI/O/1)", "wave": "1...."},
   {"name": "TCNT2", "wave": "====.", "data": ["MAX-1", "MAX", "BOTTOM", "BOTTOM+1"]},
   {"name": "TOV2", "wave": "0.1.."}
  ],
  "config": {"hscale": 2}}
 ```
 
-```wavedrom id=t2-ctc caption="OCF2A and TCNT2 clear in CTC mode"
+```wavedrom id=t2-ctc caption="OCF2A and TCNT2 clear in CTC mode, prescaler f~clk_I/O~/8"
 {"signal": [
-  {"name": "clkT2", "wave": "p...."},
-  {"name": "TCNT2", "wave": "====.", "data": ["TOP-1", "TOP", "BOTTOM", "BOTTOM+1"]},
-  {"name": "OCR2A", "wave": "=....", "data": ["TOP"]},
-  {"name": "OCF2A", "wave": "0.1.."}
- ],
- "config": {"hscale": 2}}
+  {"name": "clkI/O", "wave": "p..............................."},
+  {"name": "clkT2 (clkI/O/8)", "wave": "10......10......10......10......"},
+  {"name": "TCNT2 (CTC)", "wave": "x=.......=.......=.......=......", "data": ["TOP - 1", "TOP", "BOTTOM", "BOTTOM + 1"]},
+  {"name": "OCR2A", "wave": "=...............................", "data": ["TOP"]},
+  {"name": "OCF2A", "wave": "0................1.............."}
+ ]}
 ```
 
 #### Asynchronous operation
@@ -2748,24 +2762,27 @@ If either bit of COM2A (COM2B) is set, OC2A (OC2B) overrides the normal
 port function of its pin; the pin's DDR bit must still be set to enable
 the output driver. The function depends on WGM2[2:0].
 
-```table id=t2-com-nonpwm caption="Compare output mode, non-PWM (Normal, CTC); same for COM2A and COM2B"
+```table id=t2-com-nonpwm caption="Compare output mode, non-PWM (Normal, CTC); same for COM2A and COM2B [1]"
 | COM2x1 | COM2x0 | Description |
 |:-:|:-:|---|
 | 0 | 0 | Normal port operation, OC2x disconnected |
 | 0 | 1 | Toggle OC2x on compare match |
 | 1 | 0 | Clear OC2x on compare match |
 | 1 | 1 | Set OC2x on compare match |
+
+[1] Source error: the COM2A table (18-2) prints "OC0A disconnected"; its other rows and the COM2B table name OC2A/OC2B.
 ```
 
 ```table id=t2-com-fpwm caption="Compare output mode, fast PWM [1]"
 | COM2x1 | COM2x0 | OC2A | OC2B |
 |:-:|:-:|---|---|
 | 0 | 0 | Normal port operation, OC2A disconnected | Normal port operation, OC2B disconnected |
-| 0 | 1 | WGM22 = 0: normal port operation, OC2A disconnected. WGM22 = 1: toggle OC2A on compare match. | Reserved |
+| 0 | 1 | WGM22 = 0: normal port operation, OC2A disconnected [2]. WGM22 = 1: toggle OC2A on compare match. | Reserved |
 | 1 | 0 | Clear OC2A on compare match, set OC2A at BOTTOM (non-inverting) | Clear OC2B on compare match, set OC2B at BOTTOM (non-inverting) |
 | 1 | 1 | Set OC2A on compare match, clear OC2A at BOTTOM (inverting) | Set OC2B on compare match, clear OC2B at BOTTOM (inverting) |
 
 [1] Special case: when OCR2x equals TOP and COM2x1 is set, the compare match is ignored, but the set or clear is done at BOTTOM.
+[2] Source error: table 18-3 prints "OC0A Disconnected" here; the row's second case and table 18-4 name OC2A.
 ```
 
 ```table id=t2-com-pcpwm caption="Compare output mode, phase correct PWM [1]"
@@ -2809,6 +2826,8 @@ FOC2A/FOC2B act only in non-PWM modes; write them 0 when writing TCCR2B
 in a PWM mode (compatibility). Writing 1 forces an immediate compare match
 on the waveform generator; OC2x changes per COM2x[1:0]. They are strobes,
 always read 0, and generate no interrupt nor clear the timer in CTC mode.
+Source error, kept out: the FOC2B description says "in CTC mode using
+OCR2B as TOP"; CTC mode uses OCR2A as TOP (mode table).
 
 ```table id=t2-cs caption="Clock select"
 | CS22 | CS21 | CS20 | Clock |
@@ -2851,7 +2870,7 @@ or by writing 1 to it.
 |---|---|---|
 | 2 | OCF2B | Output compare flag B: set on a compare match between TCNT2 and OCR2B |
 | 1 | OCF2A | Output compare flag A: set on a compare match between TCNT2 and OCR2A |
-| 0 | TOV2 | Overflow flag: set on an overflow; in PWM mode, set when the counter changes direction at 0x00 |
+| 0 | TOV2 | Overflow flag: set on an overflow; in PWM mode, set when the counter changes direction at 0x00. The interrupt runs with TOIE2 and the I bit set (Source error: the source names the enable "TOIE2A"; TIMSK2 bit 0 is TOIE2). |
 ```
 
 #### ASSR – Asynchronous Status Register, (0xB6)
@@ -2959,10 +2978,10 @@ LSB, bit 1 … bit 6, MSB with DORD = 1.
 
 ```wavedrom id=spi-cpha0 caption="SPI transfer format, CPHA = 0 (modes 0 and 2), DORD = 0"
 {"signal": [
-  {"name": "SS#", "wave": "10.......1"},
-  {"name": "SCK (CPOL = 0)", "wave": "0.hlhl|hl."},
-  {"name": "SCK (CPOL = 1)", "wave": "1.lhlh|lh."},
-  {"name": "MOSI/MISO", "wave": "x=.=.=|=.x", "data": ["MSB", "bit 6", "…", "LSB"]}
+  {"name": "SS#", "wave": "10.........1"},
+  {"name": "SCK (CPOL = 0)", "wave": "0.hlhlh|lhl."},
+  {"name": "SCK (CPOL = 1)", "wave": "1.lhlhl|hlh."},
+  {"name": "MOSI/MISO", "wave": "x=.=.=.|=.x.", "data": ["MSB", "bit 6", "…", "LSB"]}
  ],
  "config": {"hscale": 2}}
 ```
@@ -3053,23 +3072,23 @@ diagrams use the numbers. t~ck~ = CPU clock period, t~sck~ = SCK period.
 
 ```wavedrom id=spi-tim-master caption="SPI timing, master mode (numbers refer to the SPI timing table)"
 {"signal": [
-  {"name": "SS#", "wave": "10.......", "node": ".A"},
-  {"name": "SCK (CPOL = 0)", "wave": "0.1.0|1.0", "node": "..B...C.D"},
-  {"name": "MISO", "wave": "x.=x.|=x.", "data": ["MSB", "LSB"], "node": "..EF"},
-  {"name": "MOSI", "wave": "x=...|.=.", "data": ["MSB", "LSB"], "node": ".......G"}
+  {"name": "SS#", "wave": "1..............."},
+  {"name": "SCK (CPOL = 0)", "wave": "0..1.0.1|0.1.0..", "node": "...B.C...K.M.N"},
+  {"name": "MISO", "wave": "x.=.x...|.=.x...", "data": ["MSB", "LSB"], "node": "..E.F"},
+  {"name": "MOSI", "wave": "x=....=.|.=...1.", "data": ["MSB", "…", "LSB"], "node": ".A....H...L...P"}
  ],
- "edge": ["A~>B 6", "E-F 4,5", "C<->D 2", "C~>G 8"],
+ "edge": ["A<->B 6", "E<->B 4", "B<->F 5", "C<->H 7", "K<->N 1", "K<->M 2", "M<->N 2", "N<->P 8"],
  "config": {"hscale": 2}}
 ```
 
 ```wavedrom id=spi-tim-slave caption="SPI timing, slave mode (numbers refer to the SPI timing table)"
 {"signal": [
-  {"name": "SS#", "wave": "10.......1", "node": ".A.......J"},
-  {"name": "SCK (CPOL = 0)", "wave": "0.1.0|1.0.", "node": "..B...C.D"},
-  {"name": "MOSI", "wave": "x.=x.|=x..", "data": ["MSB", "LSB"], "node": "..EF"},
-  {"name": "MISO", "wave": "z=...|.=z.", "data": ["MSB", "X"], "node": ".H......K"}
+  {"name": "SS#", "wave": "10..............1.", "node": ".A..............J"},
+  {"name": "SCK (CPOL = 0)", "wave": "0...1.0.1|0.1.0...", "node": "....B.C...K.M.N"},
+  {"name": "MOSI", "wave": "x..=.x...|.=.x....", "data": ["MSB", "LSB"], "node": "...E.F"},
+  {"name": "MISO", "wave": "z.=....=.|.=...=.z", "data": ["MSB", "…", "LSB", "X"], "node": "..H....Q.........S"}
  ],
- "edge": ["A~>H 9", "A~>B 18", "E-F 13,14", "C<->D 11", "D~>J 16", "J~>K 17"],
+ "edge": ["A<->H 9", "E<->B 13", "B<->F 14", "C<->Q 15", "K<->N 10", "K<->M 11", "M<->N 11", "N<->J 16", "J<->S 17"],
  "config": {"hscale": 2}}
 ```
 
@@ -3316,17 +3335,19 @@ speed).
 | 5 | Normal (U2X0 = 0) | 93.20 | 106.67 | +6.67/-6.8 | ±3.0 |
 | 6 | ^ | 94.12 | 105.79 | +5.79/-5.88 | ±2.5 |
 | 7 | ^ | 94.81 | 105.11 | +5.11/-5.19 | ±2.0 |
-| 8 | ^ | 95.36 | 104.58 | +4.58/-4.54 | ±2.0 |
+| 8 | ^ | 95.36 | 104.58 | +4.58/-4.54 [3] | ±2.0 |
 | 9 | ^ | 95.81 | 104.14 | +4.14/-4.19 | ±1.5 |
 | 10 | ^ | 96.17 | 103.78 | +3.78/-3.83 | ±1.5 |
 | 5 | Double speed (U2X0 = 1) | 94.12 | 105.66 | +5.66/-5.88 | ±2.5 |
 | 6 | ^ | 94.92 | 104.92 | +4.92/-5.08 | ±2.0 |
-| 7 | ^ | 95.52 | 104.35 | +4.35/-4.48 | ±1.5 |
+| 7 | ^ | 95.52 | 104.35 [2] | +4.35/-4.48 | ±1.5 |
 | 8 | ^ | 96.00 | 103.90 | +3.90/-4.00 | ±1.5 |
 | 9 | ^ | 96.39 | 103.53 | +3.53/-3.61 | ±1.5 |
 | 10 | ^ | 96.70 | 103.23 | +3.23/-3.30 | ±1.0 |
 
 [1] The recommended receiver error assumes receiver and transmitter share the maximum total error equally.
+[2] Source error: printed "104,35" (decimal comma); every other value uses a point, and the row's total error is +4.35.
+[3] Unconfirmed: as printed; R~slow~ = 95.36 % in the same row.
 ```
 
 Normal speed tolerates more baud rate error. The receiver's error has
@@ -3590,10 +3611,10 @@ then signals that both have been shifted out.
 3. Write UCSR0C: UMSEL0 = 11 plus UDORD0, UCPHA0, UCPOL0 (one write).
 4. Enable the transmitter (and the receiver if needed) in UCSR0B.
 5. Write the wanted UBRR0 value, after enabling the transmitter but
-   before the first transfer; UBRR0 = 0 at enable makes XCK0 start at
-   once.
+   before the first transfer. To ensure immediate initialization of the
+   XCK0 output, UBRR0 must be zero when the transmitter is enabled.
 
-Only the transmitter can work alone. For interrupt-driven operation,
+Only the transmitter can operate independently. For interrupt-driven operation,
 clear the global interrupt flag during initialization. Before
 re-initializing (baud rate, data mode, frame format), make sure no
 transfer is in progress (TXC0, RXC0 as in USART mode).
@@ -3640,7 +3661,7 @@ UDR0 and UBRR0H/L work as in USART mode.
 | 6 | TXC0 | R/W | 0 | Transmit complete, as in USART mode |
 | 5 | UDRE0 | R | 0 | Data register empty, as in USART mode (set after reset) |
 
-[1] Reset values as printed in the source (bits 2:1 = 1, UDRE0 = 0); they contradict the USART-mode register and the text ("UDRE0 is set after a reset").
+[1] Source conflict: reset values as printed in the MSPIM bit picture (bits 2:1 = 1, UDRE0 = 0); the USART-mode UCSR0A picture gives UDRE0 = 1 and bits 2:1 = 0, and the text says UDRE0 is set after a reset.
 ```
 
 #### UCSR0B in MSPIM mode, (0xC1)
@@ -3654,7 +3675,7 @@ UDR0 and UBRR0H/L work as in USART mode.
 | 4 | RXEN0 | Receiver enable; overrides RxD0; disabling flushes the receive buffer. RXEN0 = 1 with TXEN0 = 0 is meaningless (the transmitter drives the clock) |
 | 3 | TXEN0 | Transmitter enable; overrides TxD0; disabling waits for pending transfers |
 
-[1] Reset values of bits 2:0 as printed in the source.
+[1] Source conflict: the MSPIM bit picture gives bits 2:1 an initial value of 1; the USART-mode UCSR0B picture gives 0 for every bit.
 ```
 
 #### UCSR0C in MSPIM mode, (0xC2)
@@ -3988,7 +4009,9 @@ addressed: 0x68 (own address), 0x78 (general call).
 ##### Slave transmitter mode
 
 Initialize TWAR and TWCR as for SR mode. Own address with direction bit 1
-(read) enters ST mode; also entered when arbitration is lost as master
+(read) enters ST mode (Source error, kept out: the source then says "after
+its own slave address and the write bit have been received", copied from
+SR mode); also entered when arbitration is lost as master
 (0xB0). Clearing TWEA during a transfer makes the TWI send the last byte;
 it then enters 0xC0 (master sent NACK) or 0xC8 (master sent ACK, asking
 for more), switches to not addressed slave mode and ignores the master,
@@ -4168,10 +4191,10 @@ under the conditions given.
 
 ```wavedrom id=twi-timing caption="Two-wire serial bus timing"
 {"signal": [
-  {"name": "SCL", "wave": "1..0.1.0..1.0.1....", "node": "...A.B.C..D...E"},
-  {"name": "SDA", "wave": "1.0.....=....0..1.0", "data": ["data"], "node": "..F.....G.......H.I"}
+  {"name": "SCL", "wave": "01.0.1.0..1.0.1....", "node": ".S.A.B.C..D...E"},
+  {"name": "SDA", "wave": "1.0.1...=....0..1.0", "data": ["data"], "node": "..F.....G.......H.I"}
  ],
- "edge": ["F~>A tHD;STA", "A<->B tLOW", "B<->C tHIGH", "C~>G tHD;DAT", "G~>D tSU;DAT", "E~>H tSU;STO", "H<->I tBUF"],
+ "edge": ["S~>F tSU;STA", "F~>A tHD;STA", "A<->B tLOW", "B<->C tHIGH", "C~>G tHD;DAT", "G~>D tSU;DAT", "E~>H tSU;STO", "H<->I tBUF"],
  "config": {"hscale": 2}}
 ```
 
@@ -4236,7 +4259,9 @@ negative input; 0 applies AIN1. Bits 2:0 (ADTS) are described under
 
 A 10-bit successive approximation ADC with a sample-and-hold, fed by an
 8-channel single-ended multiplexer (ADC0–ADC5 on all packages, ADC6 and
-ADC7 on TQFP and VQFN only), plus the temperature sensor, the 1.1 V
+ADC7 on TQFP and VQFN only; Source error, kept out: the overview says the
+inputs are "constructed from the pins of Port A", but ADC0–ADC5 are port C
+pins and the device has no port A), plus the temperature sensor, the 1.1 V
 bandgap and GND. Inputs refer to GND; input range 0 V to V~CC~. 0.5 LSB
 integral non-linearity, ±2 LSB absolute accuracy, 13–260 µs conversion
 time, up to 76.9 kSPS (15 kSPS at full resolution), free running or single
@@ -4317,12 +4342,12 @@ starts right after one completes, while ADSC stays 1.
 
 ```wavedrom id=adc-first caption="First conversion (single conversion mode)"
 {"signal": [
-  {"name": "ADC clock", "wave": "p.|......|....|..."},
-  {"name": "ADEN", "wave": "01|..............."},
-  {"name": "ADSC", "wave": "01|...........0..."},
-  {"name": "ADIF", "wave": "0.|...........1..."},
-  {"name": "ADCH, ADCL", "wave": "x.|...........=...", "data": ["result"]},
-  {"name": "event", "wave": "x.=.|.=..|.....=x.", "data": ["MUX, REFS update", "sample & hold (13.5)", "complete (25), MUX, REFS update"]}
+  {"name": "ADC clock", "wave": "p...|...|..."},
+  {"name": "ADEN", "wave": "01.........."},
+  {"name": "ADSC", "wave": "01........0."},
+  {"name": "ADIF", "wave": "0.........1."},
+  {"name": "ADCH, ADCL", "wave": "x.........=.", "data": ["result"]},
+  {"name": "event", "wave": "x.=....=..==", "data": ["MUX, REFS update", "sample & hold (13.5)", "complete (25)", "MUX, REFS update"]}
  ],
  "config": {"hscale": 2}}
 ```
@@ -4340,12 +4365,12 @@ starts right after one completes, while ADSC stays 1.
 
 ```wavedrom id=adc-auto caption="Auto triggered conversion"
 {"signal": [
-  {"name": "ADC clock", "wave": "p............."},
-  {"name": "Trigger source", "wave": "01.0.........."},
-  {"name": "ADATE", "wave": "1............."},
-  {"name": "ADIF", "wave": "0..........1.."},
-  {"name": "ADCH, ADCL", "wave": "x..........=..", "data": ["result"]},
-  {"name": "event", "wave": "x==.=......=x.", "data": ["prescaler reset", "MUX, REFS update", "sample & hold (2)", "complete (13.5), prescaler reset"]}
+  {"name": "ADC clock", "wave": "x.p.........x..p"},
+  {"name": "Trigger source", "wave": "01..........x01."},
+  {"name": "ADATE", "wave": "1..............."},
+  {"name": "ADIF", "wave": "0...........1..."},
+  {"name": "ADCH, ADCL", "wave": "x...........=...", "data": ["result"]},
+  {"name": "event", "wave": "x==.=.......=.=.", "data": ["prescaler reset", "MUX, REFS update", "sample & hold (2)", "complete (13.5)", "prescaler reset"]}
  ],
  "config": {"hscale": 2}}
 ```
@@ -4688,10 +4713,10 @@ normally. Programmed bits read 0, unprogrammed bits 1.
 |---|---|---|
 | 0x0000 | Fuse low byte | FLB7…FLB0 |
 | 0x0001 | Lock bits | –, –, –, –, –, –, LB2, LB1 |
-| 0x0002 | Extended fuse byte | EFB7…EFB0 [1] |
+| 0x0002 | Extended fuse byte | FHB7…FHB0 [1] |
 | 0x0003 | Fuse high byte | FHB7…FHB0 |
 
-[1] The source labels these bits FHB7…FHB0.
+[1] Source conflict: as printed, the fuse high byte's bit names; the text calls this byte the Extended Fuse byte (EFB).
 ```
 
 **Preventing flash corruption.** At too low V~CC~ a flash write may fail, and the CPU may execute
@@ -5205,7 +5230,7 @@ needed first. Chip erase turns every flash and EEPROM location into 0xFF.
 [1] Not all instructions apply to all parts. a = address bit.
 [2] Bits are programmed 0, unprogrammed 1; keep unused fuse and lock bits unprogrammed (1) for future compatibility.
 [3] Fuse and lock bits, calibration and signature bytes and page sizes: see the sections above.
-[4] Byte 3 of Load EEPROM memory page and Read signature byte is printed "0000 000aa" in the source (nine digits).
+[4] Source error: byte 3 of Load EEPROM memory page and Read signature byte is printed "0000 000aa" (nine bits); the signature has three bytes (0x00–0x02) and an EEPROM page four bytes, two address bits each.
 [5] If the LSB of the data out is 1, a programming operation is still pending; wait until it is 0 before the next instruction.
 [6] Program memory instructions use a word address, which may be random within the page.
 [7] Within a page, load the low data byte before the high data byte. The low address bits are the page offset into the page buffer; the write instruction's address MSB/LSB give the page number.
@@ -5370,7 +5395,7 @@ operating area.
 
 ## Electrical characteristics
 
-```table id=dc caption="Common DC characteristics" conditions="T~A~ = -40 °C to 105 °C (-40 °C to 85 °C for devices so rated), V~CC~ = 1.8 V to 5.5 V, unless noted"
+```table id=dc caption="Common DC characteristics (table 30-1)" conditions="T~A~ = -40 °C to 105 °C, V~CC~ = 1.8 V to 5.5 V, unless noted"
 | Symbol | Parameter | Conditions | Min | Typ | Max | Unit |
 |---|---|---|--:|--:|--:|---|
 | V~IL~ | Input low voltage, except XTAL1 and !{RESET} [1] | V~CC~ = 1.8 V to 2.4 V | -0.5 | | 0.2 × V~CC~ | V |
@@ -5398,20 +5423,18 @@ operating area.
 | I~IH~ | Input leakage current, I/O pin, pin high (absolute value) | V~CC~ = 5.5 V | | | 1 | µA |
 | R~RST~ | !{RESET} pull-up resistor | | 30 | | 60 | kΩ |
 | R~PU~ | I/O pin pull-up resistor | | 20 | | 50 | kΩ |
-| V~ACIO~ | Analog comparator input offset voltage | V~CC~ = 5 V, V~in~ = V~CC~/2 [6] | | | 40 | mV |
-| ^ | ^ | V~CC~ < 3.6 V, V~in~ < 0.5 V [7] | | | 60 [5] | mV |
-| ^ | ^ | V~CC~ > 3.6 V, V~in~ < 0.5 V [7] | | | 500 [5] | mV |
+| V~ACIO~ | Analog comparator input offset voltage | V~CC~ = 5 V, V~in~ = V~CC~/2 | | <10 | 40 | mV |
+| ^ | ^ | V~CC~ < 3.6 V, V~in~ < 0.5 V | | <15 | 60 [5] | mV |
+| ^ | ^ | V~CC~ > 3.6 V, V~in~ < 0.5 V | | <15 | 500 [5] | mV |
 | I~ACLK~ | Analog comparator input leakage current | V~CC~ = 5 V, V~in~ = V~CC~/2 | -50 | | 50 | nA |
 | t~ACID~ | Analog comparator propagation delay | V~CC~ = 2.7 V | | 750 | | ns |
 | ^ | ^ | V~CC~ = 4.0 V | | 500 | | ns |
 
-[1] Max is the highest voltage at which the pin is guaranteed to read low.
-[2] Min is the lowest voltage at which the pin is guaranteed to read high.
-[3] Each port can source more than the test conditions (20 mA at V~CC~ = 5 V, 10 mA at 3 V) in steady state, but: the sum of all I~OH~ for C0–C5, D0–D4, ADC7 and !{RESET} must not exceed 150 mA; the sum for B0–B5, D5–D7, ADC6, XTAL1 and XTAL2 must not exceed 150 mA. Above the test condition V~OH~ may exceed the specification; pins are not guaranteed to source more than the test current.
-[4] Each port can sink more than the test conditions (20 mA at V~CC~ = 5 V, 10 mA at 3 V) in steady state, but: the sum of all I~OL~ for C0–C5, ADC7 and ADC6 must not exceed 100 mA; for B0–B5, D5–D7, XTAL1 and XTAL2 100 mA; for D0–D4 and !{RESET} 100 mA. Above the test condition V~OL~ may exceed the specification; pins are not guaranteed to sink more than the test current.
-[5] Based on characterization; not tested in production.
-[6] Typically below 10 mV.
-[7] Typically below 15 mV.
+[1] Max is the highest value where the pin is ensured to be read as low.
+[2] Min is the lowest value where the pin is ensured to be read as high.
+[3] Although each I/O port can source more than the test conditions (20 mA at V~CC~ = 5 V, 10 mA at 3 V) in steady state, the following must be observed: the sum of all I~OH~ for ports C0–C5, D0–D4, ADC7 and !{RESET} should not exceed 150 mA; the sum for ports B0–B5, D5–D7, ADC6, XTAL1 and XTAL2 should not exceed 150 mA. If I~OH~ exceeds the test condition, V~OH~ may exceed the related specification. Pins are not ensured to source current greater than the listed test condition.
+[4] Although each I/O port can sink more than the test conditions (20 mA at V~CC~ = 5 V, 10 mA at 3 V) in steady state, the following must be observed: the sum of all I~OL~ for ports C0–C5, ADC7 and ADC6 should not exceed 100 mA; for ports B0–B5, D5–D7, XTAL1 and XTAL2 it should not exceed 100 mA; for ports D0–D4 and !{RESET} it should not exceed 100 mA. If I~OL~ exceeds the test condition, V~OL~ may exceed the related specification. Pins are not ensured to sink current greater than the listed test condition.
+[5] Based on characterization. The max limit is not tested in production and can therefore not be assured.
 ```
 
 ```table id=dc-icc85 caption="Supply current, T~A~ = -40 °C to 85 °C, V~CC~ = 1.8 V to 5.5 V [1][2][3]"
@@ -5658,17 +5681,21 @@ with Timer/Counter1, the ADC and SPI on:
 I~CC total~ ≈ 0.045 mA × (1 + 0.145 + 0.221 + 0.157) ≈ 0.069 mA
 ```
 
+Source conflict: the example reads the idle current from the figure as
+about 0.055 mA, then calculates with 0.045 mA (as printed above).
+
 ## Package
 
 ```table id=pkg caption="Packages (Microchip drawings) [1]"
 | Package | Type | Drawing | Pins | Body | Pitch | Overall height (A) |
 |---|---|---|--:|---|---|---|
 | 32A | 32-lead plastic thin quad flatpack (TQFP), gull wing | C04-074B | 32 | 7.00 × 7.00 mm (9.00 × 9.00 mm over leads) | 0.80 mm | 1.20 mm max |
-| 28M1 | 28-pad very thin plastic quad flat no-lead (VQFN), 2.40 mm exposed pad, saw singulated | C04-21388 rev A | 28 | 4.00 × 4.00 mm | 0.45 mm | 0.80 / 0.90 / 1.00 mm |
+| 28M1 | 28-lead very thin plastic quad flat no-lead (VQFN), 2.40 mm exposed pad [2], saw singulated | C04-21388 rev A | 28 | 4.00 × 4.00 mm | 0.45 mm | 0.80 / 0.90 / 1.00 mm |
 | 32M1-A | 32-pad thin plastic quad flat no-lead (VQFN), 3.10 mm exposed pad, punch singulated | C04-21400 rev A | 32 | 5.00 × 5.00 mm | 0.50 mm | 0.80 / 0.85 / 1.00 mm |
 | 28P3 | 28-lead skinny plastic dual in-line (SPDIP), 0.300 in | C04-070B | 28 | 1.365 × 0.285 in nominal | 0.100 in | 0.200 in max |
 
-[1] Height as min / nom / max. Dimensioning and tolerancing per ASME Y14.5M.
+[1] Height as min / nom / max. Dimensioning and tolerancing per ASME Y14.5M; BSC: basic dimension, theoretically exact value shown without tolerances; REF: reference dimension, usually without tolerance, for information purposes only. Pin 1 visual index feature may vary, but must be located within the hatched area.
+[2] Source conflict: the 28M1 outline drawing (p.638–639) says 2.40 mm exposed pad (D2, E2 = 2.35 / 2.40 / 2.45 mm); the title of its land pattern drawing (p.640) says 2.45 mm.
 ```
 
 ```table id=pkg-32a caption="32A (TQFP) dimensions [1]"
@@ -5697,7 +5724,9 @@ I~CC total~ ≈ 0.045 mA × (1 + 0.145 + 0.221 + 0.157) ≈ 0.069 mA
 | Exposed pad length and width (D2, E2) | 2.35 | 2.40 | 2.45 | 2.95 | 3.10 | 3.25 | mm |
 | Terminal width (b) | 0.17 | 0.22 | 0.27 | 0.18 | 0.23 | 0.30 | mm |
 | Terminal length (L) | 0.35 | 0.40 | 0.45 | 0.30 | 0.40 | 0.50 | mm |
-| Terminal to exposed pad (K) | | 0.20 | | 0.20 | | | mm |
+| Terminal to exposed pad (K) [1] | | 0.20 | | 0.20 | | | mm |
+
+[1] 28M1: 0.20 mm reference dimension; 32M1-A: 0.20 mm min.
 ```
 
 ```table id=pkg-land caption="Recommended land patterns [1]"
@@ -5712,10 +5741,11 @@ I~CC total~ ≈ 0.045 mA × (1 + 0.145 + 0.221 + 0.157) ≈ 0.069 mA
 | Distance between pads (G, G2), min | 0.25 | 0.20 | 0.20 | mm |
 | Thermal via diameter (V), nom | | 0.33 | 0.33 | mm |
 | Thermal via pitch (EV), nom | | 1.20 | 0.20 [3] | mm |
+| Drawing | C04-2074B | C04-23388 rev A | C04-23400 rev A | |
 
 [1] Thermal vias, if used, should be filled or tented to avoid solder loss during reflow.
-[2] The source labels the 32A pad rows "(X28)" for a 32-lead package.
-[3] As printed; the 28M1 pattern gives 1.20 mm.
+[2] Source error, kept out: the 32A land pattern labels X1 and Y1 "(X28)"; the package has 32 leads (N = 32, p.636).
+[3] Unconfirmed: as printed (smaller than the 0.33 mm via diameter).
 ```
 
 ```table id=pkg-28p3 caption="28P3 (SPDIP) dimensions [1]"
@@ -5730,7 +5760,7 @@ I~CC total~ ≈ 0.045 mA × (1 + 0.145 + 0.221 + 0.157) ≈ 0.069 mA
 | Lead thickness (c) | 0.008 | 0.010 | 0.015 | in |
 | Upper lead width (b1) | 0.040 | 0.050 | 0.070 | in |
 | Lower lead width (b) | 0.014 | 0.018 | 0.022 | in |
-| Overall row spacing (eB) | | | 0.430 | in |
+| Overall row spacing (eB), significant characteristic | | | 0.430 | in |
 
 [1] D and E1 exclude mold flash or protrusions, at most 0.010 in per side.
 ```
@@ -5754,7 +5784,7 @@ The devices can also be supplied in wafer form.
 | ATmega328 [1] | ATmega328-AU, -MMH [2], -MU, -PU | |
 | ATmega328P | ATmega328P-AU, -MMH [2], -MU, -PU | ATmega328P-AN, -MN, -PN |
 
-[1] Not offered for -40 °C to 105 °C; use the PA (or 328P) device.
+[1] Not offered for -40 °C to 105 °C; use the PA (or 328P) device. Source error, kept out: the source's note for ATmega88A, ATmega168A and ATmega328 says "as the ATmega48A (-40C to 105C) is not presently offered", copied from the ATmega48A page.
 [2] NiPdAu lead finish.
 ```
 
@@ -5779,5 +5809,39 @@ The devices can also be supplied in wafer form.
 - Register summary: 138 reserved-address rows and the page column dropped; Access and Reset added per register (from the bit pictures), "per bit" where the bits differ. Reserved bits left out of the bit tables.
 - MCUCR, GTCCR, ADCSRB and SPMCSR are described in two or three subsections (each by the bits that belong there); the "one register, described once" rule can't hold for registers whose bits belong to several peripherals.
 - The 85 °C electrical chapter (29.2) of this revision has only supply-current tables; the common DC characteristics come from the 105 °C chapter (table 30-1) and are used for all devices.
-- Source errors and inconsistencies (kept as printed unless noted): JMP/CALL noted as only in ATmega168PA/328P (they are in all 16K/32K parts); 8.2 says the boot section exists only in 88PA/168PA; "five" sleep modes in 2 and 10.11 vs six listed; SM = 111 called "External Standby"; EEPROM write time 3.4 ms (table 8-1) vs 3.3 ms (8-2); low-frequency crystal text gives CKSEL 0110/0111 (tables: 0100/0101, used); 128 kHz text CKSEL "11" (0011); the prescaler text points to the wrong table; PD2 DIEOE "PCIE1" (should be PCIE2); PD3 text calls OC2B a Timer/Counter0 output; PD7 heading lists OC2B; port D tables print "PUO"; tables 18-2/18-3 say OC0A for OC2A; "MGM2:0" and wrong mode numbers in the Timer/Counter2 PWM text (converted as modes 1 and 5); FOC2B mentions OCR2B as TOP; TIFR2 text names "TOIE2A"; ICNC1 "four oscillator cycles" vs "four system clock cycles"; table 20-3 "104,35"; MSPIM UCSR0A/B reset values contradict the USART ones; the ADC overview says "Port A" (Port C plus ADC6/7); slave transmitter entered with the "write bit" (read bit); "Salve Address"; DWDR has no address in the source (summary lists 0x31 as reserved); ATmega48 extended fuse read labelled FHB; serial instruction "0000 000aa" (nine digits); ordering note 6 copy-pasted from ATmega48A; 28M1 exposed pad 2.45 mm (land pattern) vs 2.40 mm (outline); the 328P idle example reads 0.055 mA and computes with 0.045 mA; table 31-1 labelled ATmega48PA in the 48A section.
+- Derived: 11111 and 1111111 (TWSR TWS[7:3] and TWAR TWA[6:0] reset values, joined from the bit pictures, p.240–241); X0010001 (SPMCSR value for re-enabling the RWW section: RWWSRE and SPMEN, from the bit layout and the "10001" combination, p.288); 104.35 (printed "104,35", p.194; see Source issues).
+- From images: 32A outline, drawing C04-074B (p.636; text layer unreadable): 0.80, 1.20, 0.05, 0.15, 0.95, 1.00, 1.05, 0.45, 0.60, 0.75, 0, 3.5, 7, 9.00, 7.00, 0.09, 0.20, 0.30, 0.37, 11, 12, 13, 0.25; 32A land pattern, C04-2074B (p.637): 2074, 0.80, 8.50, 0.55, 1.60, 0.25.
+  28M1, drawing C04-21388 rev A and land pattern C04-23388 rev A (p.638–640, no text layer): 21388, 23388, 28, 0.45, 0.80, 0.90, 1.00, 0.00, 0.02, 0.05, 0.20, 4.00, 2.35, 2.40, 2.45, 0.17, 0.22, 0.27, 0.35, 0.40, 2.45, 0.25, 0.38, 0.33, 1.20.
+  28P3, drawing C04-070B (p.644; text layer unreadable): 070, 0.100, 0.200, 0.120, 0.135, 0.150, 0.015, 0.290, 0.310, 0.335, 0.240, 0.285, 0.295, 1.345, 1.365, 1.400, 0.110, 0.130, 0.008, 0.010, 0.040, 0.050, 0.070, 0.014, 0.018, 0.022, 0.430 in.
+- Source issues:
+  - Source conflict, kept with notes: JMP/CALL only in ATmega168PA/328P (p.627) vs the ATmega168A and ATmega328 vector examples using jmp (p.72, 75).
+  - Source conflict, kept with notes: section 8.2 gives the boot loader section to ATmega88PA and ATmega168PA only; chapter 27 covers all 88/168/328 devices.
+  - Source conflict, kept with notes: table 10-2 names SM = 111 "External Standby" (section 10.8: Extended Standby); "five" sleep modes in sections 2 and 10.11 vs six in table 10-2.
+  - Source conflict, kept with notes: EEPROM atomic write 3.4 ms (table 8-1) vs 3.3 ms (table 8-2).
+  - Source conflict, kept with notes: low frequency crystal oscillator selected with CKSEL "0110" or "0111" (text, p.42) vs 0100/0101 (tables 9-1 and 9-10).
+  - Source conflict, kept with notes: 128 kHz oscillator selected with CKSEL "11" (text, p.43) vs 0011 (table 9-13).
+  - Source conflict, kept with notes: input capture noise canceler delay of four oscillator cycles (TCCR1B) vs four system clock cycles (input capture unit).
+  - Source conflict, kept with notes: MSPIM UCSR0A and UCSR0B reset values (p.212) vs the USART-mode pictures and text.
+  - Source conflict, kept with notes: ATmega48A/48PA extended fuse byte read by LPM labelled FHB7…FHB0 (p.266) while the text calls it the Extended Fuse byte.
+  - Source conflict, kept with notes: parallel programming figure measures t~WLBX~ from the rising edge of !{WR}; the table calls it hold after !{WR} low.
+  - Source conflict, kept with notes: 28M1 exposed pad 2.40 mm (outline, p.638–639) vs 2.45 mm (land pattern title, p.640).
+  - Source conflict, kept with notes: ATmega328P idle supply current example reads about 0.055 mA from the figure and calculates with 0.045 mA (p.507).
+  - Source error, corrected: PD2 DIEOE "PCINT18 • PCIE1" (table 14-11) to PCIE2.
+  - Source error, corrected: row "PUO" in tables 14-10 and 14-11 to PUOV (table 14-2).
+  - Source error, corrected: "OC0A disconnected" in tables 18-2 and 18-3 to OC2A.
+  - Source error, corrected: Timer/Counter2 phase correct PWM text gives TOP for "WGM2:0 = 3" and "MGM2:0 = 7"; modes 1 and 5 (the section's first sentence and the mode table).
+  - Source error, corrected: PD3 text calls OC2B a Timer/Counter0 output (table 14-9: Timer/Counter2).
+  - Source error, corrected: TIFR2 TOV2 text names the enable "TOIE2A" (TIMSK2: TOIE2).
+  - Source error, corrected: table 20-3 "104,35" to 104.35.
+  - Source error, corrected: serial programming byte 3 "0000 000aa" (table 28-19) to 0000 00aa.
+  - Source error, kept out: PD7 heading "AIN1/OC2B/PCINT23" (table 14-9 has no OC2B on PD7).
+  - Source error, kept out: FOC2B "CTC mode using OCR2B as TOP" (CTC uses OCR2A).
+  - Source error, kept out: slave transmitter mode entered "after its own slave address and the write bit" (the same paragraph: direction bit 1, read).
+  - Source error, kept out: ADC inputs "constructed from the pins of Port A" (they are port C and ADC6/ADC7).
+  - Source error, kept out: 32A land pattern "(X28)" for a 32-lead package.
+  - Source error, kept out: ordering note 6 of ATmega88A, ATmega168A and ATmega328 names the ATmega48A.
+  - Source error, kept out (no note, text not carried): "MGM2:0" also in the fast PWM text; "Salve Address" in the TWAMR text; section 9.11 points to table 29-11 (reset and brown-out characteristics) for the clock prescaler division factors, which are in table 9-17; table 31-1 in the ATmega48A section is titled ATmega48PA (curves and module tables of that device dropped).
+  - Unconfirmed, as printed: table 20-2, D = 8, maximum total error "-4.54" with R~slow~ = 95.36 %.
+  - Unconfirmed, as printed: 32M1-A land pattern thermal via pitch 0.20 mm, smaller than the 0.33 mm via diameter.
+- Not a source issue but noted: DWDR has no address in the source (the register summary lists 0x31 as reserved).
 - Format bends: a pending Pinout table has only number columns, so port alternate functions are in the pins block; SPI timing uses a "No." column instead of Symbol; bold "< 0.5 % error" baud settings carried as a note; Errata subsection only points to the separate errata document DS80000855 (this PDF lists none); package land patterns kept as a table since no catalog footprint exists yet.

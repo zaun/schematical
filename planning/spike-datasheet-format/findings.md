@@ -252,6 +252,40 @@ Ways to cut it:
 Human review: spot-check about 10 % per batch against the PDF, plus
 every scan and controller. Roughly 60–100 hours.
 
+## Content validation
+
+A review of the first samples found facts that passed check.py but were
+wrong: an instruction's flags, a note on the wrong bus cycle, a polling
+waveform with its output enable inverted, a source contradiction
+written as fact, and a guessed "correction" of a vendor value.
+[validate.py](validate.py) now compares a file with its PDF's text
+layer without an agent. It checks numbers, table rows, identifiers,
+wording, table notes, register reset values and waveform structure, and
+lists figures for a visual check ([format.md § Validator](format.md#validator)).
+The format gained rules that keep conversions checkable
+([§ Source fidelity](format.md#source-fidelity)): values not printed
+as text are listed, wording keeps the source's negations and
+obligations, and source problems are labelled `Source conflict:`,
+`Source error:` or `Unconfirmed:`, never resolved silently.
+
+Every sample was then corrected against its PDF; [issues.md](issues.md)
+lists what was found. Before the pass, validate.py reported 31 errors in
+the eight smaller samples and 41 in the three microcontroller files.
+Most were derived or image-only values, now listed; about a dozen in the
+small samples were conversion errors. The microcontroller passes found
+far more than validate.py's errors: mostly reworded obligations,
+waveforms measuring the wrong points, and contradictions resolved by
+guessing. After the pass, one error remains in all eleven files, a known
+false positive.
+
+validate.py is a filter, not a proof. Of the six problems in the
+review, it catches three (the reset contradiction as an error; the
+changed obligation, the dropped note and the misdrawn polling waveform
+as warnings) and misses the instruction flags, the note on the wrong
+bus cycle, the XON/XOFF contradiction and the guessed replacement value.
+Those need a reader with the PDF open, guided by the validator's
+warnings and its list of figures.
+
 ## Recommendation
 
 Write a **plan with write-plan** ("datasheet viewer and conversion"),
@@ -262,6 +296,8 @@ phased so each phase lands on its own:
    - Move check.py to `scripts/`.
    - Run it in the backend test suite over `Datasheets/`, including the
      cross-file "claimed twice" check.
+   - Move validate.py to `scripts/` too. It needs poppler, so it runs
+     at conversion time rather than in the backend tests.
    - Settle the home folder (`schematical/schematical/Datasheets/<category>/`).
 2. **Renderer.**
    - Show the Markdown in a WKWebView with markdown-it (sub/sup on,
@@ -277,10 +313,11 @@ phased so each phase lands on its own:
    and varied), then `gate-nand` (88 TI files) to measure real
    per-file time before scaling.
 5. **Batch conversion by category**, one commit per batch:
-   - each batch is checker-clean;
-   - Conversion notes record dropped content and source errors;
-   - a review agent compares every table against the PDF page images
-     (open problem 12).
+   - each batch is checker-clean and has no validate.py errors;
+   - Conversion notes record dropped content, `Derived:` and
+     `From images:` values, and the source issues;
+   - a person or review agent compares every waveform and figure that
+     `validate.py --info` lists with its PDF page.
 6. **Scans and controllers last**, with the extra review.
 7. **Retiring the PDFs:**
    - Separate and decided by the user.

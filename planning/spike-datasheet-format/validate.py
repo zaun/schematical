@@ -220,6 +220,10 @@ class Source:
             for text in lay.split("\n"):
                 text = self.fix(text)
                 toks = tokens(norm(text))
+                # "1 0 0 1" bit codes as one token, and hex written $4D, 4Dh or bare
+                toks += [b.replace(" ", "") for b in re.findall(r"(?<![\w.])[01](?: [01])+(?![\w.])", text)]
+                toks += [canon_hex(h.lower()) for h in re.findall(r"(?:\$|\b)([0-9A-Fa-f]{1,4})[hH]?\b", text)
+                         if re.search(r"[A-Fa-f]", h) or text.find("$" + h) >= 0]
                 lid = len(self.lines)
                 self.lines.append((pi + 1, text, toks))
                 for t in set(toks):
@@ -300,16 +304,45 @@ class Source:
                                  key=lambda k: sum(weight.get(t, 0) for t in toks & self.sents[k][2])))
         return best
 
-    def best_row(self, toks):
+    def absorb(self, words, missing):
+        """Take a row's missing values from every place in the PDF that holds
+        the row's text (a row may join one table per device or mode)."""
+        known = sorted({t for t in words if t in self.line_post}, key=lambda t: len(self.line_post[t]))
+        if not known:
+            return missing
+        left = collections.Counter(missing)
+        used = set()
+        for lid in self.line_post[known[0]]:
+            page = self.lines[lid][0]
+            near = [k for k in range(lid - 5, lid + 6) if 0 <= k < len(self.lines) and self.lines[k][0] == page]
+            wset = set().union(*(self.lines[k][2] for k in near))
+            if sum(t in wset for t in words) / len(words) < ROW_TEXT_MIN:
+                continue
+            for k in range(lid - 2, lid + 3):
+                if k in used or not (0 <= k < len(self.lines)) or self.lines[k][0] != page:
+                    continue
+                hit = False
+                for t in self.lines[k][2]:
+                    if left[t] > 0:
+                        left[t] -= 1
+                        hit = True
+                if hit:
+                    used.add(k)
+        return list(left.elements())
+
+    def best_row(self, toks, exclude=()):
         """Closest window of five layout lines: (text share, value share, missing values, line id)."""
         words = [t for t in toks if not is_num(t)]
         vals = [t for t in toks if is_num(t)]
         known = sorted({t for t in toks if t in self.line_post}, key=lambda t: len(self.line_post[t]))
         cand = set()
-        for t in known[:3]:
-            cand.update(self.line_post[t][:800])
+        rare_vals = [t for t in known if is_num(t)][:2]      # the values' own lines too
+        for t in known[:3] + rare_vals:
+            cand.update(self.line_post[t])
         best = (0.0, 0.0, vals, None, -1.0)
         for lid in cand:
+            if lid in exclude:
+                continue
             page = self.lines[lid][0]
             win, wset = collections.Counter(), set()
             for k in range(lid - 5, lid + 6):
@@ -403,17 +436,22 @@ class Doc:
             if section.lower() == "conversion notes":
                 if re.match(r"^\s*[-*]\s+(Derived|From images)\b", line) or (self.in_derived and line.startswith("  ")):
                     self.in_derived = True
-                    self.derived.update(t for t in tokens(norm(md_plain(line))) if is_num(t))
+                    vals = re.sub(r"\b(p|pp|page|pages|figure|figures|fig|table|tables|section|chapter)\.?\s*[\d.–-]+(?:\s*(?:and|,)\s*[\d.–-]+)*",
+                                  " ", md_plain(line), flags=re.I)
+                    self.derived.update(t for t in tokens(norm(vals)) if is_num(t))
                 else:
                     self.in_derived = False
-                m = re.search(r"[Pp]ages? (\d+)\s*[–-]\s*(\d+) converted", line)
+                m = re.search(r"\b[Pp]ages? ([\d\s,–-]+(?:(?:and|plus)\s+[\d\s,–-]+)*)\s*converted", re.sub(r"\([^)]*\)", "", line))
                 if m:
-                    self.converted_pages = (int(m.group(1)), int(m.group(2)))
+                    pages = self.converted_pages or set()
+                    for a, b in re.findall(r"(\d+)(?:\s*[–-]\s*(\d+))?", m.group(1)):
+                        pages.update(range(int(a), int(b or a) + 1))
+                    self.converted_pages = pages
             i += 1
         flush()
 
     def add_text(self, line, text):
-        plain = re.sub(r"(?<![\d.])\d{1,3}(?: \d{3})+(?:\.\d+)?(?![\d.])", lambda m: m.group(0).replace(" ", ""), md_plain(text))
+        plain = re.sub(r"(?<![\w.])\d{1,3}(?: \d{3})+(?:\.\d+)?(?![\d.])", lambda m: m.group(0).replace(" ", ""), md_plain(text))
         self.terms.append((line, plain))
         for s in re.split(r"(?<=[.!?;])\s+(?=[A-Z(!])", plain):
             if s.strip():
@@ -533,10 +571,16 @@ def check_rows(doc, src, rep):
             # mode): look for the rest of its values in other places that
             # also hold the row's text.
             words = [x for x in toks if not is_num(x)]
-            for _ in range(10):
+            if missing:
+                missing = src.absorb(words, missing)
+            used = set(range(lid - 2, lid + 3)) if lid is not None else set()
+            for _ in range(16):
                 if not missing:
                     break
-                w2, v2, missing2, lid2 = src.best_row(words + missing)
+                w2, v2, missing2, lid2 = src.best_row(words + missing, used)
+                if lid2 is None:
+                    break
+                used.update(range(lid2 - 2, lid2 + 3))
                 missing2 = [m for m in missing2 if src.has(m)]
                 if w2 < ROW_TEXT_MIN or len(missing2) >= len(missing):
                     break
@@ -593,15 +637,21 @@ def source_notes(src, pages):
     """Table notes in the PDF: '[n] text' lines and numbered lines after 'Notes:'."""
     notes, cur, in_notes, gap = [], None, False, 0
     for lid, (page, text, _) in enumerate(src.lines):
-        if pages and not (pages[0] <= page <= pages[1]):
+        if pages and page not in pages:
             continue
         s = text.strip()
-        m = re.match(r"^\[(\d+)\]\s+(\S.{8,})", s) or (in_notes and re.match(r"^(\d+)\.\s+(\S.{8,})", s))
-        if re.match(r"^notes?:?$", s, re.I):
+        m = (re.match(r"^\[(\d+)\]\s+(\S.{8,})", s)                                # [1] text
+             or re.match(r"^notes?\s*(\d+)\s*:\s*(\S.{8,})", s, re.I)                 # Note 2: text
+             or re.match(r"^notes?\s*:?\s+(\d+)[.)]\s+(\S.{8,})", s, re.I)            # Note: 1. text
+             or re.match(r"^notes?\s*:\s+()([^\d\s].{8,})", s, re.I)                    # Note: text
+             or (in_notes and re.match(r"^(\d+)[.)]\s+(\S.{8,})", s)))                   # 1. text after Notes:
+        if m or re.match(r"^notes?\s*:?$", s, re.I):
             in_notes, gap = True, 0
+        if not m and re.match(r"^notes?\s*:?$", s, re.I):
             continue
+        indent = len(text) - len(text.lstrip())
         if m:
-            cur = [page, m.group(2)]
+            cur = [page, m.group(2), indent]
             notes.append(cur)
             gap = 0
         elif not s:
@@ -609,9 +659,11 @@ def source_notes(src, pages):
             gap += 1
             if gap > 1:
                 in_notes = False
-        elif cur and text.startswith("  ") and len(s) < 160:
-            cur[1] += " " + s
-    return notes
+        elif cur and indent > cur[2] and len(s) < 160:
+            cur[1] += " " + s          # continuation, indented under its marker
+        else:
+            cur = None
+    return [(p, t) for p, t, _ in notes]
 
 
 def check_notes(doc, src, rep):
@@ -619,6 +671,8 @@ def check_notes(doc, src, rep):
     idf = src.idf
     total = ok = 0
     for page, text in source_notes(src, doc.converted_pages):
+        if re.match(r"^\s*(see|refer to)\b", text, re.I) and len(text) < 120:
+            continue          # a cross-reference, not a fact
         toks = set(content(tokens(norm(text))))
         if len(toks) < 3:
             continue
@@ -637,9 +691,10 @@ def check_pages(doc, src, rep):
     mine = set()
     for _, plain in doc.terms:
         mine.update(t for t in tokens(norm(plain)) if is_num(t))
-    lo, hi = doc.converted_pages or (1, len(src.pages))
     low = []
-    for p in range(lo, min(hi, len(src.pages)) + 1):
+    for p in sorted(doc.converted_pages or range(1, len(src.pages) + 1)):
+        if p > len(src.pages):
+            continue
         nums = {n for n in src.page_nums[p - 1] if not (n.isdigit() and int(n) < 10)}
         if len(nums) >= 10:
             share = len(nums & mine) / len(nums)
@@ -747,14 +802,30 @@ def check_waveform(rep, line, attrs, body, src):
     oe = [s for s in sigs if active_low(s["name"], "oe") or active_low(s["name"], "g")]
     we = [s for s in sigs if active_low(s["name"], "we") or active_low(s["name"], "w")]
     buses = [s for s in sigs if "z" in s["wave"] and s not in oe]
+    def labels(sig):
+        """Data label shown in each column."""
+        out, k, cur = [], 0, ""
+        data = sig.get("data", [])
+        data = data.split() if isinstance(data, str) else data
+        for c in sig["wave"]:
+            if c in DATA:
+                cur = str(data[k]) if k < len(data) else ""
+                k += 1
+            elif c not in ".|":
+                cur = ""
+            out.append(cur)
+        return out
+    host = re.compile(r"addr|cmd|command|\bin\b|input|write", re.I)
     for o in oe:
         ost, _ = columns(o["wave"])
         wst = [columns(w["wave"])[0] for w in we]
         for b in buses:
             bst, _ = columns(b["wave"])
+            blab = labels(b)
             for t in range(1, min(len(ost), len(bst))):
                 writing = any(w[k] == "0" for w in wst for k in (t, t - 1, t - 2) if 0 <= k < len(w))
-                if ost[t] == "1" and ost[t - 1] == "1" and bst[t] not in ("z", "x", None) and not writing:
+                if (ost[t] == "1" and ost[t - 1] == "1" and bst[t] not in ("z", "x", None) and not writing
+                        and not host.search(blab[t])):
                     rep.add("error", "waveforms", line, "%s is driven at column %d while %s has been high since column %d"
                             % (b["name"], t, o["name"], t - 1))
                     break
@@ -820,7 +891,8 @@ def main(argv):
             out.append({"file": path, "stats": rep.stats,
                         "items": [dict(zip(("severity", "check", "line", "message"), i)) for i in rep.items]})
             continue
-        stats = ", ".join("%s %d/%d" % (k, a, b) for k, (a, b) in rep.stats.items())
+        stats = ", ".join("%s %d" % (k, a) if k == "source issues flagged" else "%s %d/%d" % (k, a, b)
+                          for k, (a, b) in rep.stats.items())
         print("%s: %d errors, %d warnings; %s" % (path, rep.count("error"), rep.count("warning"), stats))
         if args.quiet:
             continue
