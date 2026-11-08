@@ -23,9 +23,9 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-28-B complete | `ls planning/completed/plan-28-B-* \| wc -l` → `1` | NOT MET (2026-11-07: B not started) |
-| The scene and bounds painter exist | `rg -c 'struct SchematicScene\|final class .*BoundsPainter\|struct BoundsPainter' schematical/schematical/Canvas/SchematicExportScene.swift` → `2` | NOT MET (2026-11-07: file absent) |
-| `xmllint` and `rsvg-convert` are installed (used by this plan's checks) | `which xmllint rsvg-convert` → two paths | MET (2026-11-07: `/usr/bin/xmllint`, `/Users/justinzaun/local/brew/bin/rsvg-convert`; `rsvg-convert --version` → 2.61.3) |
+| plan-28-B complete | `ls planning/completed/plan-28-B-* \| wc -l` → `1` | MET (2026-11-07 at 3e7096d: 1) |
+| The scene and bounds painter exist | `rg -c 'struct SchematicScene\|final class .*BoundsPainter\|struct BoundsPainter' schematical/schematical/Canvas/SchematicExportScene.swift` → `2` | MET (2026-11-07 at 3e7096d: 2) |
+| `xmllint` and `rsvg-convert` are installed (used by this plan's checks) | `which xmllint rsvg-convert` → two paths | MET (2026-11-07 at 3e7096d: `/usr/bin/xmllint`, `/Users/justinzaun/local/brew/bin/rsvg-convert`; `rsvg-convert --version` → 2.61.3) |
 
 Everything below is written against the world where these hold.
 
@@ -131,11 +131,11 @@ Rejected: outlines via Core Text (owner chose text); a `<style>` block with clas
 
 ### Phase 1 — SVGPainter
 
-- [ ] Re-run the Prerequisites commands; record outputs in the table.
-- [ ] `Canvas/SVGPainter.swift` (new): `SVGPainter` per § 3.1, with `static func d(for path: Path) -> String`,
+- [x] Re-run the Prerequisites commands; record outputs in the table. (1; 2; both paths; also `which magick compare` → both in `/Users/justinzaun/local/brew/bin`, used by Phase 2)
+- [x] `Canvas/SVGPainter.swift` (new): `SVGPainter` per § 3.1, with `static func d(for path: Path) -> String`,
       `static func number(_ value: CGFloat) -> String`, `static func escaped(_ text: String) -> String`, and an
       `Output` box holding the element strings.
-- [ ] `schematicalTests/SVGPainterTests.swift` (new), asserting exact strings:
+- [x] `schematicalTests/SVGPainterTests.swift` (new), asserting exact strings:
       - `d`: a path `move(10,20) line(40,20) quadCurve(to:(60,40), control:(60,20)) curve(to:(10,60), c1:(40,60), c2:(10,40)) close` → `M10 20 L40 20 Q60 20 60 40 C40 60 10 40 10 60 Z`
       - `number`: 1.5 → `1.5`; 2.0 → `2`; 0.333333 → `0.33`; -0.001 → `0`; 100 → `100`.
       - stroke: `StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round, dash: [4, 3])` with `Ink.primary` → the element contains `stroke="#000"` `stroke-width="1.5"` `stroke-linecap="round"` `stroke-linejoin="round"` `stroke-dasharray="4 3"` and no `stroke-opacity`; `StrokeStyle(lineWidth: 1)` → contains `stroke-miterlimit="10"` (SwiftUI's default 10 ≠ SVG's 4) and none of `stroke-linecap`, `stroke-linejoin`, `stroke-dasharray`, `stroke-dashoffset`.
@@ -143,6 +143,7 @@ Rejected: outlines via Core Text (owner chose text); a `<style>` block with clas
       - text: `.leading`/`.center`/`.trailing` → `start`/`middle`/`end`; `A&B<` → `A&amp;B&lt;`; weight `.semibold` → `font-weight="600"`; `monospaced: true` → family starts `Menlo`; `Ink.secondary` text → `fill-opacity="0.6"`.
       - transform: after `translateBy(x: 5, y: 5)`, `M0 0 L1 0` is written `M5 5 L6 5`; text drawn after `rotate(by: .degrees(-90))` carries a `transform` starting `matrix(0 -1 1 0 ` followed by the accumulated translation.
       - a copy of the painter that draws writes into the same output (copy-then-draw adds to the original's output).
+      Also covered: `square` cap, `bevel` join, `stroke-dashoffset`, an `unlit` fill's `fill-opacity="0.15"`, a `.color` text writes nothing, `"'>` escapes. → 7 tests passed, `** TEST SUCCEEDED **`.
 
 Acceptance: `SVGPainterTests` pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/SVGPainterTests CODE_SIGNING_ALLOWED=NO 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 6 min).
@@ -195,7 +196,8 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- § 3.1 says a `<text>` carries `transform` whenever the painter's transform is not the identity. Every export starts by translating by the padded bounds' corner, so that would put a `matrix(1 0 0 1 tx ty)` on every label. A translation-only transform is folded into `x`/`y` instead (as paths fold every transform into `d`); `transform="matrix(…)"` is written only when the painter is turned (the rotated port labels). `testTransforms` checks both: a rotated label → `transform="matrix(0 -1 1 0 5 7)" … x="0" y="0"`; `testText` checks an unturned label has no `transform`.
+- `SVGPainter.Output` is a `nonisolated final class`, for the deinit abort recorded in plan-28-B's Corrections.
 
 ## Summary
 
