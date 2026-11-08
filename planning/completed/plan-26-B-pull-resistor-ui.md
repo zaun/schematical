@@ -246,7 +246,7 @@ footprint, and the symbol shows it.
   10kΩ, Axial; the saved file has `"ohms" : 4700`, `"ohms" : 10000`,
   `"footprint" : "RES-0805"`, `"footprint" : "RES-AXIAL-10.16"`; reopening
   gives the same reference, part, ohms, footprint and PCB centre for both.
-Commit: —
+Commit: c4f383b
 
 ## Validation Plan
 
@@ -267,6 +267,10 @@ Commit: —
   schematical/schematical.xcodeproj -scheme schematical test
   CODE_SIGNING_ALLOWED=NO` → 0 failures, and `ctest --test-dir
   /tmp/p26-build -j8` → 100% passed (est. 6 min).
+  Result (2026-11-07, after Phase 2; `main` had not moved from f5e0087):
+  `Executed 129 tests, with 0 failures`, `** TEST SUCCEEDED **`; `100% tests
+  passed, 0 tests failed out of 24`. Coverage check: `grep -c` → 1 in
+  `BillOfMaterialsTests.swift`, 23 in `PullResistorTests.swift`.
 
 ## Decisions
 
