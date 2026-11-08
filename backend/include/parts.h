@@ -136,6 +136,11 @@ typedef struct {
 /* One entry of a part's "footprintChoices": a package name and its footprint. */
 typedef struct { const char *package; const PartFootprint *footprint; } PartFootprintChoice;
 
+/* ---- Datasheets (Parts/datasheets.json, docs/parts-format.md) --------- */
+
+/* One datasheet: an id parts name, and the manufacturer's URL of the PDF. */
+typedef struct { const char *id, *url; } PartDatasheet;
+
 typedef struct Part {
     PartKind kind;
     const char *name, *package, *function, *description;
@@ -155,6 +160,8 @@ typedef struct Part {
     const PartEeprom *eeprom;
     const PartCpu *cpu;
     const PartSerial *serial;
+    const char *manufacturer;          /* NULL = not given; "Generic" = no one maker */
+    const PartDatasheet *datasheet;    /* NULL = none (always for "Generic") */
     const PartFootprint *footprint;    /* NULL = none (supplies) */
     const PartFootprint *connector_footprint;  /* NULL = none; the PCB Style option's "Connector Only" */
     /* The footprints a placed part may use instead, in file order; one of
@@ -185,6 +192,17 @@ int load_parts(PartLibrary *library, const char *json, const char *source, char 
  * ids are unique across calls.
  */
 int load_footprints(PartLibrary *library, const char *json, const char *source, char **error);
+
+/*
+ * Parses a datasheets file (format "schematical-datasheets"). Same contract
+ * as load_parts. Load it before any part file that names its datasheet;
+ * ids are unique across calls.
+ */
+int load_datasheets(PartLibrary *library, const char *json, const char *source, char **error);
+
+size_t part_library_datasheet_count(const PartLibrary *library);
+const PartDatasheet *part_library_datasheet_at(const PartLibrary *library, size_t index);
+const PartDatasheet *part_library_find_datasheet(const PartLibrary *library, const char *id);
 
 size_t part_library_footprint_count(const PartLibrary *library);
 const PartFootprint *part_library_footprint_at(const PartLibrary *library, size_t index);

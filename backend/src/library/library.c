@@ -120,6 +120,9 @@ struct PartLibrary {
     const PartFootprint **footprints;
     size_t footprint_count;
     NameSet footprint_ids;
+    const PartDatasheet **datasheets;
+    size_t datasheet_count;
+    NameSet datasheet_ids;
     ArenaChunk *arenas;
 };
 
@@ -143,6 +146,8 @@ void part_library_destroy(PartLibrary *library) {
     free(library->parts);
     free(library->footprints);
     name_set_free(&library->footprint_ids);
+    free(library->datasheets);
+    name_set_free(&library->datasheet_ids);
     name_set_free(&library->names);
     name_set_free(&library->devices);
     free_chunks(library->arenas);
@@ -179,6 +184,24 @@ const PartFootprint *part_library_find_footprint(const PartLibrary *library, con
     return name_set_get(&library->footprint_ids, id);
 }
 
+size_t part_library_datasheet_count(const PartLibrary *library) {
+    return library != NULL ? library->datasheet_count : 0;
+}
+
+const PartDatasheet *part_library_datasheet_at(const PartLibrary *library, size_t index) {
+    if (library == NULL || index >= library->datasheet_count) {
+        return NULL;
+    }
+    return library->datasheets[index];
+}
+
+const PartDatasheet *part_library_find_datasheet(const PartLibrary *library, const char *id) {
+    if (library == NULL || id == NULL) {
+        return NULL;
+    }
+    return name_set_get(&library->datasheet_ids, id);
+}
+
 /* ---- Loading -------------------------------------------------------------- */
 
 static const char *const FILE_KEYS[] = {"format", "version", "kind", "devices", NULL};
@@ -187,7 +210,7 @@ static const char *const DEVICE_KEYS[] = {
 };
 static const char *const PART_KEYS[] = {
     "name", "package", "pinout", "flags", "footprint", "connectorFootprint",
-    "footprintChoices", NULL
+    "footprintChoices", "manufacturer", "datasheet", NULL
 };
 static const char *const PIN_KEYS[] = {"number", "ball", "name", "role", "group", NULL};
 
@@ -480,6 +503,41 @@ static int load_footprint_choices(KindContext *ctx, const PartLibrary *library,
     return 0;
 }
 
+/* The optional "manufacturer" and "datasheet" keys: a datasheet needs a
+   manufacturer, and a "Generic" part has none. */
+static int load_part_source(KindContext *ctx, const PartLibrary *library,
+                            const cJSON *part_json, Part *part) {
+    const char *id;
+
+    part->manufacturer = NULL;
+    part->datasheet = NULL;
+    if (cJSON_GetObjectItemCaseSensitive(part_json, "manufacturer") != NULL) {
+        if (kind_string(ctx, part_json, "manufacturer", &part->manufacturer) != 0) {
+            return -1;
+        }
+        if (part->manufacturer[0] == '\0') {
+            return kind_error(ctx, "empty \"manufacturer\"");
+        }
+    }
+    if (cJSON_GetObjectItemCaseSensitive(part_json, "datasheet") == NULL) {
+        return 0;
+    }
+    if (part->manufacturer == NULL) {
+        return kind_error(ctx, "\"datasheet\" needs a \"manufacturer\"");
+    }
+    if (strcmp(part->manufacturer, "Generic") == 0) {
+        return kind_error(ctx, "a Generic part has no datasheet");
+    }
+    if (kind_string(ctx, part_json, "datasheet", &id) != 0) {
+        return -1;
+    }
+    part->datasheet = part_library_find_datasheet(library, id);
+    if (part->datasheet == NULL) {
+        return kind_error(ctx, "unknown datasheet \"%s\"", id);
+    }
+    return 0;
+}
+
 static int load_part(KindContext *ctx, PartLibrary *library, FileParts *file,
                      const PartKindOps *ops, const cJSON *part_json, const void *device,
                      const Part *common, const Pinout *pinouts, size_t pinout_count) {
@@ -506,6 +564,9 @@ static int load_part(KindContext *ctx, PartLibrary *library, FileParts *file,
     }
     if (part->name[0] == '\0') {
         return kind_error(ctx, "empty part name");
+    }
+    if (load_part_source(ctx, library, part_json, part) != 0) {
+        return -1;
     }
     if (name_set_contains(&library->names, part->name) ||
         name_set_contains(&file->names, part->name)) {
@@ -827,6 +888,135 @@ int load_footprints(PartLibrary *library, const char *json, const char *source, 
 
     cJSON_Delete(root);
     free(file.items);
+    free_chunks(ctx.arena);
+    report(&ctx, result, error);
+    return result;
+}
+
+static const char *const DATASHEET_FILE_KEYS[] = {"format", "version", "datasheets", NULL};
+static const char *const DATASHEET_KEYS[] = {"id", "url", NULL};
+
+/* Reads every entry of a datasheets file into `items` (arena) and `ids`. */
+static int read_datasheets(KindContext *ctx, const cJSON *root, const PartLibrary *library,
+                           const PartDatasheet ***items, size_t *count, NameSet *ids) {
+    const char *format;
+    uint64_t version;
+    const cJSON *list;
+    const cJSON *item;
+    size_t n = 0;
+
+    if (kind_check_keys(ctx, root, DATASHEET_FILE_KEYS, NULL) != 0 ||
+        kind_string(ctx, root, "format", &format) != 0) {
+        return -1;
+    }
+    if (strcmp(format, "schematical-datasheets") != 0) {
+        return kind_error(ctx, "\"format\" must be \"schematical-datasheets\", not \"%s\"",
+                          format);
+    }
+    if (kind_uint(ctx, root, "version", UINT32_MAX, &version) != 0) {
+        return -1;
+    }
+    if (version != 1) {
+        return kind_error(ctx, "unsupported version %llu (expected 1)",
+                          (unsigned long long)version);
+    }
+    list = kind_member(ctx, root, "datasheets", 1);
+    if (list == NULL) {
+        return -1;
+    }
+    if (!cJSON_IsArray(list)) {
+        return kind_error(ctx, "\"datasheets\" must be an array");
+    }
+    *items = kind_alloc(ctx, ((size_t)cJSON_GetArraySize(list) + 1) * sizeof(**items));
+    if (*items == NULL) {
+        return -1;
+    }
+    for (item = list->child; item != NULL; item = item->next) {
+        PartDatasheet *sheet;
+
+        kind_push(ctx, "datasheets[%zu]", n);
+        sheet = kind_alloc(ctx, sizeof(*sheet));
+        if (sheet == NULL || kind_check_keys(ctx, item, DATASHEET_KEYS, NULL) != 0 ||
+            kind_string(ctx, item, "id", &sheet->id) != 0 ||
+            kind_string(ctx, item, "url", &sheet->url) != 0) {
+            return -1;
+        }
+        if (sheet->id[0] == '\0') {
+            return kind_error(ctx, "empty datasheet id");
+        }
+        if (strncmp(sheet->url, "https://", 8) != 0 || sheet->url[8] == '\0') {
+            return kind_error(ctx, "datasheet \"%s\": \"url\" must start with https://",
+                              sheet->id);
+        }
+        if (name_set_contains(&library->datasheet_ids, sheet->id) ||
+            name_set_contains(ids, sheet->id)) {
+            return kind_error(ctx, "duplicate datasheet id \"%s\"", sheet->id);
+        }
+        if (name_set_add(ids, sheet->id, sheet) != 0) {
+            return kind_error(ctx, "out of memory");
+        }
+        (*items)[n++] = sheet;
+        kind_pop(ctx);
+    }
+    *count = n;
+    return 0;
+}
+
+int load_datasheets(PartLibrary *library, const char *json, const char *source, char **error) {
+    KindContext ctx;
+    const PartDatasheet **items = NULL;
+    size_t count = 0;
+    NameSet ids = {0};
+    cJSON *root;
+    int result = -1;
+
+    if (error != NULL) {
+        *error = NULL;
+    }
+    if (library == NULL || json == NULL) {
+        if (error != NULL) {
+            *error = copy_message("load_datasheets: no library or text");
+        }
+        return -1;
+    }
+    memset(&ctx, 0, sizeof ctx);
+    ctx.source = source != NULL ? source : "datasheets";
+
+    root = cJSON_ParseWithLength(json, strlen(json));
+    if (root == NULL) {
+        const char *where = cJSON_GetErrorPtr();
+
+        kind_error(&ctx, "invalid JSON at byte %ld", where != NULL ? (long)(where - json) : -1L);
+    } else if (read_datasheets(&ctx, root, library, &items, &count, &ids) == 0 &&
+               !kind_failed(&ctx)) {
+        size_t needed = library->datasheet_count + count;
+        const PartDatasheet **all = malloc((needed > 0 ? needed : 1) * sizeof(*all));
+        NameSet merged = {0};
+
+        if (all == NULL || name_set_merge(&merged, &library->datasheet_ids) != 0 ||
+            name_set_merge(&merged, &ids) != 0) {
+            free(all);
+            name_set_free(&merged);
+            kind_error(&ctx, "out of memory");
+        } else {
+            if (library->datasheet_count > 0) {
+                memcpy(all, library->datasheets, library->datasheet_count * sizeof(*all));
+            }
+            if (count > 0) {
+                memcpy(all + library->datasheet_count, items, count * sizeof(*all));
+            }
+            free(library->datasheets);
+            name_set_free(&library->datasheet_ids);
+            library->datasheets = all;
+            library->datasheet_count = needed;
+            library->datasheet_ids = merged;
+            adopt_arena(library, &ctx);
+            result = 0;
+        }
+    }
+
+    cJSON_Delete(root);
+    name_set_free(&ids);
     free_chunks(ctx.arena);
     report(&ctx, result, error);
     return result;

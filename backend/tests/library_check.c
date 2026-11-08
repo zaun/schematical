@@ -408,6 +408,122 @@ static void check_valid_led(void) {
     printf("ok   valid LED file with two pinouts\n");
 }
 
+/* ---- Manufacturer and datasheet part keys ---------------------------------- */
+
+#define DS_FILE(ENTRIES) "{'format':'schematical-datasheets','version':1,'datasheets':[" ENTRIES "]}"
+#define DS_SUPPLY(KEYS) \
+    HEAD("supply") "{'id':'5V','function':'5V','description':'d','drawer':[]," \
+    "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'volts':5," \
+    "'parts':[{'name':'5V'" KEYS ",'package':'','pinout':'pin'}]}" TAIL
+
+static int load_ds(PartLibrary *library, const char *text, char **error) {
+    char *source = json(text);
+    int result = load_datasheets(library, source, "datasheets.json", error);
+
+    free(source);
+    return result;
+}
+
+static void expect_ds_fail(const char *name, const char *text, const char *expect) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    int result = load_ds(library, text, &error);
+
+    if (result != -1 || error == NULL || strstr(error, expect) == NULL ||
+        part_library_datasheet_count(library) != 0) {
+        printf("FAIL %s: result %d, error \"%s\" (wanted \"%s\")\n", name, result,
+               error != NULL ? error : "(none)", expect);
+        failures++;
+    } else {
+        printf("ok   %s: %s\n", name, error);
+    }
+    free(error);
+    part_library_destroy(library);
+}
+
+/* A part file that should fail against a library holding datasheet "a". */
+static void expect_source_fail(const char *name, const char *parts, const char *expect) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    int result;
+
+    CHECK(load_ds(library, DS_FILE("{'id':'a','url':'https://example.com/a.pdf'}"), &error) == 0);
+    free(error);
+    error = NULL;
+    result = load(library, parts, &error);
+    if (result != -1 || error == NULL || strstr(error, expect) == NULL ||
+        part_library_count(library) != 0) {
+        printf("FAIL %s: result %d, error \"%s\" (wanted \"%s\")\n", name, result,
+               error != NULL ? error : "(none)", expect);
+        failures++;
+    } else {
+        printf("ok   %s: %s\n", name, error);
+    }
+    free(error);
+    part_library_destroy(library);
+}
+
+static void check_datasheets(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load_ds(library, DS_FILE("{'id':'a','url':'https://example.com/a.pdf'},"
+                                   "{'id':'b','url':'https://example.com/b.pdf'}"), &error) == 0);
+    CHECK(part_library_datasheet_count(library) == 2);
+    CHECK(part_library_find_datasheet(library, "b") != NULL &&
+          strcmp(part_library_find_datasheet(library, "b")->url, "https://example.com/b.pdf") == 0);
+    CHECK(load(library, DS_SUPPLY(",'manufacturer':'Acme','datasheet':'b'"), &error) == 0);
+    part = part_library_find(library, "5V");
+    CHECK(part != NULL && strcmp(part->manufacturer, "Acme") == 0 && part->datasheet != NULL &&
+          strcmp(part->datasheet->id, "b") == 0);
+    /* Ids stay unique across calls. */
+    free(error);
+    error = NULL;
+    CHECK(load_ds(library, DS_FILE("{'id':'a','url':'https://example.com/c.pdf'}"), &error) == -1 &&
+          error != NULL && strstr(error, "duplicate datasheet id \"a\"") != NULL);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   datasheets file and the manufacturer/datasheet part keys\n");
+
+    library = part_library_create();
+    error = NULL;
+    CHECK(load(library, DS_SUPPLY(",'manufacturer':'Generic'"), &error) == 0);
+    part = part_library_find(library, "5V");
+    CHECK(part != NULL && strcmp(part->manufacturer, "Generic") == 0 && part->datasheet == NULL);
+    free(error);
+    part_library_destroy(library);
+    library = part_library_create();
+    error = NULL;
+    CHECK(load(library, DS_SUPPLY(""), &error) == 0);
+    part = part_library_find(library, "5V");
+    CHECK(part != NULL && part->manufacturer == NULL && part->datasheet == NULL);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   Generic and keyless parts\n");
+
+    expect_ds_fail("datasheets: wrong format", "{'format':'x','version':1,'datasheets':[]}",
+                   "\"format\" must be \"schematical-datasheets\"");
+    expect_ds_fail("datasheets: duplicate id",
+                   DS_FILE("{'id':'a','url':'https://e.com/a'},{'id':'a','url':'https://e.com/b'}"),
+                   "duplicate datasheet id \"a\"");
+    expect_ds_fail("datasheets: http url", DS_FILE("{'id':'a','url':'http://e.com/a.pdf'}"),
+                   "\"url\" must start with https://");
+    expect_ds_fail("datasheets: empty id", DS_FILE("{'id':'','url':'https://e.com/a.pdf'}"),
+                   "empty datasheet id");
+    expect_ds_fail("datasheets: unknown key",
+                   DS_FILE("{'id':'a','url':'https://e.com/a.pdf','title':'t'}"), "title");
+    expect_source_fail("part: unknown datasheet", DS_SUPPLY(",'manufacturer':'Acme','datasheet':'zz'"),
+                       "unknown datasheet \"zz\"");
+    expect_source_fail("part: datasheet without manufacturer", DS_SUPPLY(",'datasheet':'a'"),
+                       "\"datasheet\" needs a \"manufacturer\"");
+    expect_source_fail("part: Generic with datasheet",
+                       DS_SUPPLY(",'manufacturer':'Generic','datasheet':'a'"),
+                       "a Generic part has no datasheet");
+    expect_source_fail("part: empty manufacturer", DS_SUPPLY(",'manufacturer':''"),
+                       "empty \"manufacturer\"");
+}
+
 /* ---- plan-23-A: the header kind ------------------------------------------ */
 
 #define HDR_PINS2 "[{'number':1,'name':'1','role':'inout'},{'number':2,'name':'2','role':'inout'}]"
@@ -2603,6 +2719,7 @@ static void check_voltage_cases(void) {
 }
 
 int main(void) {
+    check_datasheets();
     check_footprint_styles();
     check_explicit_repeated_pins();
     check_footprint_corners();

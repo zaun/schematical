@@ -212,6 +212,12 @@ char *listing_line(const Part *part) {
         fprintf(out, "%s%s:%s:%s:%s", i > 0 ? "," : "", pin->designator, pin->name,
                 role_name(pin->role), pin->group);
     }
+    if (part->manufacturer != NULL) {
+        fprintf(out, "|mfr=%s", part->manufacturer);
+    }
+    if (part->datasheet != NULL) {
+        fprintf(out, "|datasheet=%s", part->datasheet->id);
+    }
     if (part->footprint != NULL) {
         fprintf(out, "|footprint=%s", part->footprint->id);
     }
