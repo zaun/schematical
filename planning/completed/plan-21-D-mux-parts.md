@@ -48,8 +48,8 @@ script under `/tmp/p21/` (not committed; plan-10 precedent).
 - [x] Spot checks: `SN74HC157N` (`|mux|`, family `HC` in `mux.json`, `units=4`, `footprint=PDIP-16`, `vcc=2000-6000`); `SN74LS151N` (`units=1`, pins `5:Y:output`, `6:W:output`, LS timing 20/16 ns, VCC 4.75–5.25 V); `SN74AS257N` (device `74_257` `disabled` `z`: 3-state, `PDIP-16`); `CD74HC670E` (`|Register file|`); military `CD54HC157F` (`military,ceramic`); automotive `CAHCT157QWBQBRQ1` (`automotive`). ~~`SN74ABT16460DL`~~ — moot: no '16460 part is added (plan-21-C Corrections).
 - [x] `trace_check --verbose SN74HC157N`: checked by `/tmp/p21/scripts/trace157.py` (each Y against A/B, G and its data inputs, 13 ns HC delay, inertial): `Y edges checked 118 mismatches 0`.
 
-Acceptance: `ctest` T0 + 1 of T0 + 1; golden counts as §1 (seconds).
-Commit: —
+Acceptance: `ctest` T0 + 1 of T0 + 1; golden counts as §1 (seconds). Met at 07af7a0 (detached checkout /tmp/p21-at): `100% tests passed, 0 tests failed out of 23`; `git diff --stat 82d8f17 07af7a0 -- backend/tests/golden` → `2 files changed, 692 insertions(+)` (346 each), lines removed 0.
+Commit: 07af7a0
 
 ## Validation Plan
 

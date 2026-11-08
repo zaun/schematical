@@ -120,6 +120,7 @@ nonisolated enum PartFacts {
         case PART_CONNECTOR: return "Barrel connector"
         case PART_PIO: return "Peripheral I/O"
         case PART_DECODER: return "Decoder"
+        case PART_MUX: return "Multiplexer"
         default: return ""
         }
     }
