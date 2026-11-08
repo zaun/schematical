@@ -103,7 +103,7 @@ Commit: 51f0a4c
 - [x] Voltage check skips a converter's/RTC's `analog` pins (`voltage_test`: `PASS: converter: 5 V on AVDD and AIN (analog) with DVDD at 3.3 V is fine`, `PASS: converter: 5 V on DVDD (the digital supply) is POWER_RANGE`) (a `PartKindOps` hook beside `pin_open_drain`; `power` pins in `analog` do not count as the part's supply): a `voltage_test` case with AVDD at 5 V on a 3.3 V-`vcc` part reports nothing, DVDD at 5 V is reported.
 
 Acceptance: `ctest --test-dir /tmp/logic-p24` → T0 + 1 of T0 + 1 (`100% tests passed, 0 tests failed out of 25`); golden diff empty (0 lines) (seconds).
-Commit: —
+Commit: 486196d
 
 ## Validation Plan
 
