@@ -556,6 +556,27 @@ static void check_real_translator(void) {
     expect(none(&n), "SN74LVC1T45DBVR at 1.8 V / 5 V between a 1.8 V LVC1G04 and a 5 V HC04: no problem");
 }
 
+/* plan-24-D: analog pins are skipped; the digital supply is still checked. */
+static void check_analog(void) {
+    Netlist n = {0};
+    size_t a;
+
+    a = add(&n, "VFX-ADC");
+    wire(&n, a, "1", supply(&n, "3V3"));
+    wire(&n, a, "2", supply(&n, "5V"));
+    wire(&n, a, "3", supply(&n, "GND"));
+    wire(&n, a, "4", supply(&n, "5V"));
+    expect(none(&n), "converter: 5 V on AVDD and AIN (analog) with DVDD at 3.3 V is fine");
+
+    memset(&n, 0, sizeof n);
+    a = add(&n, "VFX-ADC");
+    wire(&n, a, "1", supply(&n, "5V"));
+    wire(&n, a, "2", supply(&n, "5V"));
+    wire(&n, a, "3", supply(&n, "GND"));
+    expect(only(&n, VOLTAGE_POWER_RANGE) && n.problems[0].pin == 0 && n.problems[0].mv == 5000,
+           "converter: 5 V on DVDD (the digital supply) is POWER_RANGE");
+}
+
 int main(void) {
     library = part_library_create();
     if (library == NULL || load_parts_dir(library, PARTS_DIR) != 0 ||
@@ -573,6 +594,7 @@ int main(void) {
     check_order();
     check_domains();
     check_real_translator();
+    check_analog();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

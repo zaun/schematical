@@ -95,14 +95,14 @@ outside its register width, overlapping registers).
 - [x] `PART_CONVERTER`, `PartConverter` (`include/parts.h`); `KINDS[]`; `converter.h`, `converter_int.h`, `converter_load.c` (the whole schema.md), `converter.c` (protocol engine, SPI and I2C front ends, conversions, ready, DAC, control pins), `converter_par.c` (E's hooks); CMake lines; `converter_test` entry with the frame, offset-binary and I2C cases; `listing.c` prints `type= bits= channels=`; docs § `converter` (`docs/parts-format.md`). `ctest -R converter_test` → `converter_test: all passed`; `xcodebuild` → `** BUILD SUCCEEDED **`. Loader shake-down: all 764 ADC/DAC specs as one `converter.json` (`/tmp/p24/gen/gen.py`) → `loaded 1911 parts`.
 
 Acceptance: `ctest -R converter_test` passes (seconds): `converter_test: all passed`.
-Commit: —
+Commit: 51f0a4c
 
 ### Phase 2 — Commands, conversion timing, DAC registers
 
-- [ ] Command engine, `conversion`, `ready`, `dac`; the remaining §4 cases; `library_check` cases.
-- [ ] Voltage check skips a converter's/RTC's `analog` pins (a `PartKindOps` hook beside `pin_open_drain`; `power` pins in `analog` do not count as the part's supply): a `voltage_test` case with AVDD at 5 V on a 3.3 V-`vcc` part reports nothing, DVDD at 5 V is reported.
+- [x] Command engine, `conversion`, `ready`, `dac` (in 51f0a4c, Corrections); the remaining §4 cases (ADS1256-shape WREG/RREG of 3 registers, WAKEUP start, DRDY after 50 µs, RDATA 24 zero bits, RESET; DAC8562-shape input/LDAC/write-and-update/software update/CLR; DAC5571-shape write and read back; abort: CS rising mid-frame and a 20-bit frame both change nothing) — `converter_test: all passed`; `library_check` cases: unknown action, field outside its register, overlapping fields, registers sharing an address, unknown field in a pattern, a capture not in the pattern — each `ok` with the loader's message.
+- [x] Voltage check skips a converter's/RTC's `analog` pins (`voltage_test`: `PASS: converter: 5 V on AVDD and AIN (analog) with DVDD at 3.3 V is fine`, `PASS: converter: 5 V on DVDD (the digital supply) is POWER_RANGE`) (a `PartKindOps` hook beside `pin_open_drain`; `power` pins in `analog` do not count as the part's supply): a `voltage_test` case with AVDD at 5 V on a 3.3 V-`vcc` part reports nothing, DVDD at 5 V is reported.
 
-Acceptance: `ctest --test-dir /tmp/logic-p24` → T0 + 1 of T0 + 1; golden diff empty (seconds).
+Acceptance: `ctest --test-dir /tmp/logic-p24` → T0 + 1 of T0 + 1 (`100% tests passed, 0 tests failed out of 25`); golden diff empty (0 lines) (seconds).
 Commit: —
 
 ## Validation Plan

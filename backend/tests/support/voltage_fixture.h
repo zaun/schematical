@@ -80,6 +80,21 @@ static const char VOLTAGE_FIXTURE_TRANSLATORS[] =
     "\"parts\":[{\"name\":\"VFX-T45\",\"package\":\"SOT-23\",\"pinout\":\"p6\",\"footprint\":\"SOT23-6\",\"family\":\"LVC\"}]}"
     "]}";
 
+/* plan-24-D: a converter whose AVDD and AIN are analog pins (the voltage check
+   skips them); DVDD is its digital supply. */
+static const char VOLTAGE_FIXTURE_CONVERTERS[] =
+    "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"converter\",\"devices\":["
+    "{\"id\":\"vfx-adc\",\"function\":\"ADC\",\"description\":\"fixture\",\"drawer\":[],"
+    "\"pinouts\":{\"p6\":[{\"number\":1,\"name\":\"DVDD\",\"role\":\"power\"},"
+    "{\"number\":2,\"name\":\"AVDD\",\"role\":\"power\"},{\"number\":3,\"name\":\"GND\",\"role\":\"ground\"},"
+    "{\"number\":4,\"name\":\"AIN\",\"role\":\"input\"},{\"number\":5,\"name\":\"SCLK\",\"role\":\"input\"},"
+    "{\"number\":6,\"name\":\"SDO\",\"role\":\"output\"}]},"
+    "\"type\":\"adc\",\"bits\":12,\"channels\":1,\"codeFormat\":\"straight\",\"vcc\":[2.7,3.6],"
+    "\"analog\":[\"AVDD\",\"AIN\"],\"bus\":{\"style\":\"spi\",\"sclk\":\"SCLK\",\"miso\":\"SDO\"},"
+    "\"protocol\":{\"frame\":\"fixed\",\"out\":\"R{12}\"},\"conversion\":{\"time\":1000,\"start\":[\"power-on\"]},"
+    "\"parts\":[{\"name\":\"VFX-ADC\",\"package\":\"SOT-23\",\"pinout\":\"p6\",\"footprint\":\"SOT23-6\"}]}"
+    "]}";
+
 /* Loads the fixture parts into a library that already has footprints.json.
    0, or -1 after printing the error. */
 static int load_voltage_fixture(PartLibrary *library) {
@@ -89,6 +104,8 @@ static int load_voltage_fixture(PartLibrary *library) {
         load_parts(library, VOLTAGE_FIXTURE_SWITCHES, "voltage-fixture-switches.json", &error) != 0 ||
         load_parts(library, VOLTAGE_FIXTURE_DFFS, "voltage-fixture-dffs.json", &error) != 0 ||
         load_parts(library, VOLTAGE_FIXTURE_TRANSLATORS, "voltage-fixture-translators.json",
+                   &error) != 0 ||
+        load_parts(library, VOLTAGE_FIXTURE_CONVERTERS, "voltage-fixture-converters.json",
                    &error) != 0) {
         fprintf(stderr, "voltage fixture: %s\n", error != NULL ? error : "(no message)");
         free(error);

@@ -210,6 +210,59 @@ static void check_serial(void) {
                 "devices[0] (U): \"fifo\" must be 0, 16, 32, 64, 128 or \"750\"");
 }
 
+/* plan-24-D: the converter kind's schema errors. */
+#define CONV_DEVICE(REGS, COMMANDS) \
+    HEAD("converter") "{'id':'C','function':'ADC','description':'d','drawer':['Interface']," \
+    "'pinouts':{'p':[{'number':1,'name':'VDD','role':'power'},{'number':2,'name':'SCLK','role':'input'}," \
+    "{'number':3,'name':'SDO','role':'output'},{'number':4,'name':'CS','role':'input'}," \
+    "{'number':5,'name':'DIN','role':'input'},{'number':6,'name':'GND','role':'ground'}]}," \
+    "'type':'adc','bits':12,'channels':1,'codeFormat':'straight','vcc':[2.7,3.6],'analog':[]," \
+    "'bus':{'style':'spi','cs':'CS','sclk':'SCLK','mosi':'DIN','miso':'SDO','mode':0}," \
+    "'registers':[" REGS "],'protocol':{'frame':'stream','commands':[" COMMANDS "]}," \
+    "'conversion':{'time':0,'start':['cs-fall']}," \
+    "'parts':[{'name':'C-1','package':'SOT-23','pinout':'p','footprint':'T6'}]}" TAIL
+#define CONV_REG "{'name':'CFG','address':1,'width':8,'fields':[{'name':'A','bits':[3,0]}]}"
+
+static void check_converter_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, CONV_DEVICE(CONV_REG,
+                                    "{'name':'W','in':'0100aaaa','action':'wreg','address':'a'}"),
+               &error) == 0);
+    part = part_library_find(library, "C-1");
+    CHECK(part != NULL && part->kind == PART_CONVERTER && part->converter != NULL &&
+          strcmp(part->converter->type, "adc") == 0 && part->converter->bits == 12 &&
+          part->vcc != NULL && part->vcc->max_mv == 3600);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid converter part\n");
+
+    expect_fail("converter unknown action",
+                CONV_DEVICE(CONV_REG, "{'name':'W','in':'0100aaaa','action':'fly','address':'a'}"),
+                "commands[0]: unknown action \"fly\"");
+    expect_fail("converter field outside its register",
+                CONV_DEVICE("{'name':'CFG','address':1,'width':8,'fields':[{'name':'A','bits':[9,4]}]}",
+                            ""),
+                "field \"A\" is outside the register's 8 bits");
+    expect_fail("converter overlapping fields",
+                CONV_DEVICE("{'name':'CFG','address':1,'width':8,'fields':[{'name':'A','bits':[3,0]},"
+                            "{'name':'B','bits':[4,2]}]}", ""),
+                "field \"B\" overlaps another field");
+    expect_fail("converter registers sharing an address",
+                CONV_DEVICE(CONV_REG ",{'name':'CFG2','address':1,'width':8}", ""),
+                "registers \"CFG\" and \"CFG2\" share address 1");
+    expect_fail("converter unknown field in a pattern",
+                CONV_DEVICE(CONV_REG, "{'name':'W','in':'0100 [CFG.Q]','action':'nop'}"),
+                "register \"CFG\" has no field \"Q\"");
+    expect_fail("converter capture not in the pattern",
+                CONV_DEVICE(CONV_REG, "{'name':'W','in':'0100aaaa','action':'wreg','address':'b'}"),
+                "\"address\" 'b' is not a capture of \"in\"");
+}
+#undef CONV_DEVICE
+#undef CONV_REG
+
 /* plan-14-A: the pio kind checks "model" against its model table. */
 #define PIO_DEVICE(KEYS) \
     HEAD("pio") "{'id':'U','function':'PIA','description':'d','drawer':['Interface']," \
@@ -2268,6 +2321,7 @@ int main(void) {
     check_valid_pull();
     check_serial();
     check_pio();
+    check_converter_cases();
     check_valid_led();
     check_footprint_choices();
     check_duplicate_across_calls();
