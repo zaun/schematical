@@ -1032,11 +1032,37 @@
       ]
     },
     {
+      "id": "tact_no_2t_12v_plunger-for-cap",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 12 V, Plunger for Cap actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: eswitch/TL1100.pdf, eswitch/TL1105.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Plunger for Cap",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 12,
+      "parts": [
+        {"name":"TL1100CF160Q","manufacturer":"E-Switch","datasheet":"tl1100","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1100-THT-RA"},
+        {"name":"TL1105JAF100Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105JAF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105JAF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105JF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"}
+      ]
+    },
+    {
       "id": "tact_no_2t_12v_rectangular-button",
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 12 V, Rectangular Button actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 12VDC, 0.05A @ 12VDC; the switching rating); datasheets: ck/RS-032G05_-SM_RT.pdf, ck/RS-282G05A-SM_RT.pdf, ck/RS285G05A2URT_Dwg.pdf, ck/c-amp-k-tactile-pts636-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts847-series-datasheet.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 12VDC, 0.05A @ 12VDC; the switching rating); datasheets: ck/RS-032G05_-SM_RT.pdf, ck/RS-282G05A-SM_RT.pdf, ck/RS285G05A2URT_Dwg.pdf, ck/c-amp-k-tactile-pts636-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts847-series-datasheet.pdf, eswitch/06-TS35M943160TR.pdf, eswitch/TL1107.pdf, eswitch/TL3302-5c1553.pdf, eswitch/TL3302-b1d73c.pdf, eswitch/TL3330.pdf, eswitch/TL4100.pdf, eswitch/TL4105.pdf, eswitch/TL6340.pdf, eswitch/TL6400.pdf, omron/en-b3u.pdf",
       "pinouts": {
         "p2_1_2": [
           {"number":1,"name":"A","role":"inout"},
@@ -1050,6 +1076,13 @@
       "momentary": true,
       "ratedVolts": 12,
       "parts": [
+        {"name":"B3U-3000P","manufacturer":"Aratas","datasheet":"en-b3u","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3U"},
+        {"name":"B3U-3000P-B","manufacturer":"Aratas","datasheet":"en-b3u","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3U"},
+        {"name":"B3U-3000PM","manufacturer":"Aratas","datasheet":"en-b3u","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3U"},
+        {"name":"B3U-3000PM-B","manufacturer":"Aratas","datasheet":"en-b3u","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3U"},
+        {"name":"B3U-3100P","manufacturer":"Aratas","datasheet":"en-b3u","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3U"},
+        {"name":"B3U-3100P-B","manufacturer":"Aratas","datasheet":"en-b3u","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3U"},
+        {"name":"B3U-3100PM-B","manufacturer":"Aratas","datasheet":"en-b3u","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3U"},
         {"name":"GSPTS004102","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-J"},
         {"name":"PTS636SK25FSMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-F25"},
         {"name":"PTS636SK25JSMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-J25"},
@@ -1082,7 +1115,57 @@
         {"name":"PTS847MM350SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts847-series-datasheet","package":"Edge mount","pinout":"p2_1_2","footprint":"SW-TACT-PTS847"},
         {"name":"RS-032G05A3-SM RT","manufacturer":"Littelfuse","datasheet":"rs-032g05_-sm_rt","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-RS-COMAX-032"},
         {"name":"RS-282G05A3-SM RT","manufacturer":"Littelfuse","datasheet":"rs-282g05a-sm_rt","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-RS-COMAX-282"},
-        {"name":"RS285G05A2URT","manufacturer":"Littelfuse","datasheet":"rs285g05a2urt_dwg","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-J25"}
+        {"name":"RS285G05A2URT","manufacturer":"Littelfuse","datasheet":"rs285g05a2urt_dwg","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-J25"},
+        {"name":"TL1107AF130WQ","manufacturer":"E-Switch","datasheet":"tl1107","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL1107-W"},
+        {"name":"TL1107AF180WQ","manufacturer":"E-Switch","datasheet":"tl1107","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL1107-W"},
+        {"name":"TL1107AF260WQ","manufacturer":"E-Switch","datasheet":"tl1107","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL1107-W"},
+        {"name":"TL1107BF130WQ","manufacturer":"E-Switch","datasheet":"tl1107","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL1107-W"},
+        {"name":"TL3302AF130QG","manufacturer":"E-Switch","datasheet":"tl3302-b1d73c","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL3302-G"},
+        {"name":"TL3302AF130QJ","manufacturer":"E-Switch","datasheet":"tl3302-b1d73c","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL3302-J"},
+        {"name":"TL3302AF180QG","manufacturer":"E-Switch","datasheet":"tl3302-b1d73c","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL3302-G"},
+        {"name":"TL3302AF180QJ","manufacturer":"E-Switch","datasheet":"tl3302-b1d73c","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL3302-J"},
+        {"name":"TL3302AF260QG","manufacturer":"E-Switch","datasheet":"tl3302-b1d73c","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL3302-G"},
+        {"name":"TL3302AF260QJ","manufacturer":"E-Switch","datasheet":"tl3302-b1d73c","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL3302-J"},
+        {"name":"TL3302BF130QG","manufacturer":"E-Switch","datasheet":"tl3302-b1d73c","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL3302-G"},
+        {"name":"TL3302BF180QG/TR","manufacturer":"E-Switch","datasheet":"tl3302-5c1553","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL3302-G"},
+        {"name":"TL3302BF180QJ","manufacturer":"E-Switch","datasheet":"tl3302-b1d73c","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL3302-J"},
+        {"name":"TL3302BF260QJ","manufacturer":"E-Switch","datasheet":"tl3302-b1d73c","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL3302-J"},
+        {"name":"TL3330AF130QG","manufacturer":"E-Switch","datasheet":"tl3330","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL3330"},
+        {"name":"TL3330AF260QG","manufacturer":"E-Switch","datasheet":"tl3330","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL3330"},
+        {"name":"TL4100AF120QG","manufacturer":"E-Switch","datasheet":"tl4100","package":"Edge mount","pinout":"p2_1_2","footprint":"SW-TACT-TL4100-G"},
+        {"name":"TL4100AF240QG","manufacturer":"E-Switch","datasheet":"tl4100","package":"Edge mount","pinout":"p2_1_2","footprint":"SW-TACT-TL4100-G"},
+        {"name":"TL4105AF160QG","manufacturer":"E-Switch","datasheet":"tl4105","package":"Edge mount","pinout":"p2_1_2","footprint":"SW-TACT-TL4105"},
+        {"name":"TL6340AF160Q","manufacturer":"E-Switch","datasheet":"tl6340","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL6340"},
+        {"name":"TL6400AF160QJ","manufacturer":"E-Switch","datasheet":"tl6400","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL6400"},
+        {"name":"TL6400AF260QJ","manufacturer":"E-Switch","datasheet":"tl6400","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL6400"},
+        {"name":"TL6400BF160QJ","manufacturer":"E-Switch","datasheet":"tl6400","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL6400"},
+        {"name":"TL6400BF260QJ","manufacturer":"E-Switch","datasheet":"tl6400","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL6400"},
+        {"name":"TS35M9-4.3-160-TR","manufacturer":"E-Switch","datasheet":"06-ts35m943160tr","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TS"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_12v_round-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 12 V, Round Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: eswitch/TL1100.pdf, eswitch/TL9210.pdf, omron/en-b3u.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Round Button",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 12,
+      "parts": [
+        {"name":"B3U-1000PM-B","manufacturer":"Aratas","datasheet":"en-b3u","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3U"},
+        {"name":"TL1100CF160Q.08RED","manufacturer":"E-Switch","datasheet":"tl1100","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1100-THT-RA"},
+        {"name":"TL9210AF180Q","manufacturer":"E-Switch","datasheet":"tl9210","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL9210"},
+        {"name":"TL9210AF260Q","manufacturer":"E-Switch","datasheet":"tl9210","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL9210"}
       ]
     },
     {
@@ -1090,7 +1173,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 12 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: ck/PTS845.pdf, ck/RS022R_Dwg.pdf, ck/ck-pts645vl832lfs.pdf, ck/littelfuse-c-k-tactile-pts645v-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts820-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts845-series-datasheet.pdf, ck/pts645.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: ck/PTS845.pdf, ck/RS022R_Dwg.pdf, ck/ck-pts645vl832lfs.pdf, ck/littelfuse-c-k-tactile-pts645v-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts820-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts845-series-datasheet.pdf, ck/pts645.pdf, eswitch/TL1015.pdf, eswitch/TL1017.pdf, eswitch/TL1105.pdf, eswitch/TL3336.pdf, eswitch/TL3340.pdf, eswitch/TL3360.pdf, eswitch/TL3780.pdf, eswitch/TL4115AF160Q.pdf, eswitch/TL4115AF220Q.pdf, eswitch/TL52.pdf, eswitch/TL58.pdf, eswitch/TL59.pdf, eswitch/TL6059.pdf, eswitch/TL6110.pdf, omron/A112-E1.pdf, omron/en-b3u.pdf, omron/en-b3wn.pdf",
       "pinouts": {
         "p2_1_2": [
           {"number":1,"name":"A","role":"inout"},
@@ -1104,6 +1187,14 @@
       "momentary": true,
       "ratedVolts": 12,
       "parts": [
+        {"name":"B3U-1000P","manufacturer":"Aratas","datasheet":"en-b3u","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-B3U"},
+        {"name":"B3U-1000P-B","manufacturer":"Aratas","datasheet":"en-b3u","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-B3U"},
+        {"name":"B3U-1000PM","manufacturer":"Aratas","datasheet":"en-b3u","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-B3U"},
+        {"name":"B3U-1100P","manufacturer":"Aratas","datasheet":"en-b3u","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-B3U"},
+        {"name":"B3U-1100P-B","manufacturer":"Aratas","datasheet":"en-b3u","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-B3U"},
+        {"name":"B3U-1100PM","manufacturer":"Aratas","datasheet":"en-b3u","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-B3U"},
+        {"name":"B3WN-6002(S)","manufacturer":"Aratas","datasheet":"en-b3wn","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3WN"},
+        {"name":"B3WN-6005","manufacturer":"Aratas","datasheet":"a112-e1","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3WN"},
         {"name":"PTS645VH31-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts645v-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
         {"name":"PTS645VH39-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts645v-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
         {"name":"PTS645VH58-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
@@ -1134,7 +1225,70 @@
         {"name":"PTS845VM20SMTR4 LFS","manufacturer":"Littelfuse","datasheet":"pts845","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS845"},
         {"name":"PTS845VM20SMTR41M LFS","manufacturer":"Littelfuse","datasheet":"pts845","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS845"},
         {"name":"PTS845VN20PSMTR4 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts845-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS845"},
-        {"name":"RS022R05B0","manufacturer":"Littelfuse","datasheet":"rs022r_dwg","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-RS-COMAX-022"}
+        {"name":"RS022R05B0","manufacturer":"Littelfuse","datasheet":"rs022r_dwg","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-RS-COMAX-022"},
+        {"name":"TL1015AF160QG","manufacturer":"E-Switch","datasheet":"tl1015","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS820"},
+        {"name":"TL1017AAAF160QG","manufacturer":"E-Switch","datasheet":"tl1017","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL1017"},
+        {"name":"TL1017AAAF260QG","manufacturer":"E-Switch","datasheet":"tl1017","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL1017"},
+        {"name":"TL1017AABF160QG","manufacturer":"E-Switch","datasheet":"tl1017","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL1017"},
+        {"name":"TL1017AABF260QG","manufacturer":"E-Switch","datasheet":"tl1017","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL1017"},
+        {"name":"TL1017ABAF160QG","manufacturer":"E-Switch","datasheet":"tl1017","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL1017"},
+        {"name":"TL1017ABBF260QG","manufacturer":"E-Switch","datasheet":"tl1017","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL1017"},
+        {"name":"TL1105MF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105NF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105NF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105QF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105RF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105RF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105SF100Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105SF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105SF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105VF100Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105VF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105VF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105WF100Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105WF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105WF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105XF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105XF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL3336AF160Q","manufacturer":"E-Switch","datasheet":"tl3336","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL3336"},
+        {"name":"TL3340AF160QG","manufacturer":"E-Switch","datasheet":"tl3340","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL3340"},
+        {"name":"TL3360AF185KR","manufacturer":"E-Switch","datasheet":"tl3360","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL3360"},
+        {"name":"TL3360AF185Q","manufacturer":"E-Switch","datasheet":"tl3360","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL3360"},
+        {"name":"TL3360AF260Q","manufacturer":"E-Switch","datasheet":"tl3360","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL3360"},
+        {"name":"TL3360BF185Q","manufacturer":"E-Switch","datasheet":"tl3360","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL3360"},
+        {"name":"TL3360CF185Q","manufacturer":"E-Switch","datasheet":"tl3360","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL3360"},
+        {"name":"TL3360CF260Q","manufacturer":"E-Switch","datasheet":"tl3360","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL3360"},
+        {"name":"TL3360DF185Q","manufacturer":"E-Switch","datasheet":"tl3360","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL3360"},
+        {"name":"TL3360DF260Q","manufacturer":"E-Switch","datasheet":"tl3360","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL3360"},
+        {"name":"TL3780AF100QG","manufacturer":"E-Switch","datasheet":"tl3780","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-KXT3"},
+        {"name":"TL3780AF160QG","manufacturer":"E-Switch","datasheet":"tl3780","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-KXT3"},
+        {"name":"TL3780AF240QG","manufacturer":"E-Switch","datasheet":"tl3780","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-KXT3"},
+        {"name":"TL3780AF330QG","manufacturer":"E-Switch","datasheet":"tl3780","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-KXT3"},
+        {"name":"TL4115AF160Q","manufacturer":"E-Switch","datasheet":"tl4115af160q","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL4115"},
+        {"name":"TL4115AF220Q","manufacturer":"E-Switch","datasheet":"tl4115af220q","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL4115"},
+        {"name":"TL52AF160Q","manufacturer":"E-Switch","datasheet":"tl52","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL52"},
+        {"name":"TL52AF260Q","manufacturer":"E-Switch","datasheet":"tl52","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL52"},
+        {"name":"TL58VF100Q","manufacturer":"E-Switch","datasheet":"tl58","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL58"},
+        {"name":"TL58XF160Q","manufacturer":"E-Switch","datasheet":"tl58","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL58"},
+        {"name":"TL59AF100Q","manufacturer":"E-Switch","datasheet":"tl59","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL59"},
+        {"name":"TL59AF160Q","manufacturer":"E-Switch","datasheet":"tl59","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL59"},
+        {"name":"TL59BF100Q","manufacturer":"E-Switch","datasheet":"tl59","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL59"},
+        {"name":"TL59BF160Q","manufacturer":"E-Switch","datasheet":"tl59","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL59"},
+        {"name":"TL59FF160Q","manufacturer":"E-Switch","datasheet":"tl59","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL59"},
+        {"name":"TL59FF260Q","manufacturer":"E-Switch","datasheet":"tl59","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL59"},
+        {"name":"TL59NF160Q","manufacturer":"E-Switch","datasheet":"tl59","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL59"},
+        {"name":"TL6059AF100Q","manufacturer":"E-Switch","datasheet":"tl6059","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL6059"},
+        {"name":"TL6059BF200Q","manufacturer":"E-Switch","datasheet":"tl6059","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL6059"},
+        {"name":"TL6110AF130QP","manufacturer":"E-Switch","datasheet":"tl6110","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL6110"},
+        {"name":"TL6110AF160QP","manufacturer":"E-Switch","datasheet":"tl6110","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL6110"},
+        {"name":"TL6110AF300QP","manufacturer":"E-Switch","datasheet":"tl6110","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL6110"},
+        {"name":"TL6110BF130QP","manufacturer":"E-Switch","datasheet":"tl6110","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL6110"},
+        {"name":"TL6110BF300QP","manufacturer":"E-Switch","datasheet":"tl6110","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL6110"},
+        {"name":"TL6110BF500QP","manufacturer":"E-Switch","datasheet":"tl6110","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL6110"},
+        {"name":"TL6110CF160QP","manufacturer":"E-Switch","datasheet":"tl6110","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL6110"},
+        {"name":"TL6110CF500QP","manufacturer":"E-Switch","datasheet":"tl6110","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL6110"},
+        {"name":"TL6110DF160QP","manufacturer":"E-Switch","datasheet":"tl6110","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL6110"},
+        {"name":"TL6110DF300QP","manufacturer":"E-Switch","datasheet":"tl6110","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL6110"}
       ]
     },
     {
@@ -1142,7 +1296,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 15 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kxt3-series-datasheet.pdf, ck/littelfuse-c-k-tactile-nanot-series-datasheet.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kxt3-series-datasheet.pdf, ck/littelfuse-c-k-tactile-nanot-series-datasheet.pdf, eswitch/TL4110.pdf",
       "pinouts": {
         "p2_1_2": [
           {"number":1,"name":"A","role":"inout"},
@@ -1166,7 +1320,38 @@
         {"name":"NANOT 160 BP","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-nanot-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-NANOT-PIP"},
         {"name":"NANOT 240 AS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-nanot-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-NANOT-SMD"},
         {"name":"NANOT 240 BP","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-nanot-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-NANOT-PIP"},
-        {"name":"NANOT160BP","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-nanot-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-NANOT-PIP"}
+        {"name":"NANOT160BP","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-nanot-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-NANOT-PIP"},
+        {"name":"TL4110AF160Q","manufacturer":"E-Switch","datasheet":"tl4110","package":"Edge mount","pinout":"p2_1_2","footprint":"SW-TACT-TL4110"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_16v_square-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 16 V, Square Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 16VDC; the switching rating); datasheets: omron/B3AL-Data-Sheet--1-.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Square Button",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 16,
+      "parts": [
+        {"name":"B3AL-1000P","manufacturer":"Aratas","datasheet":"b3al-data-sheet--1-","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-B3AL"},
+        {"name":"B3AL-1001P","manufacturer":"Aratas","datasheet":"b3al-data-sheet--1-","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-B3AL"},
+        {"name":"B3AL-1002P","manufacturer":"Aratas","datasheet":"b3al-data-sheet--1-","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-B3AL"},
+        {"name":"B3AL-1002P-MS","manufacturer":"Aratas","datasheet":"b3al-data-sheet--1-","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-B3AL"},
+        {"name":"B3AL-1003P","manufacturer":"Aratas","datasheet":"b3al-data-sheet--1-","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-B3AL"},
+        {"name":"B3AL-1003P-MS","manufacturer":"Aratas","datasheet":"b3al-data-sheet--1-","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-B3AL"},
+        {"name":"B3AL-1004P","manufacturer":"Aratas","datasheet":"b3al-data-sheet--1-","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-B3AL"},
+        {"name":"B3AL-1005P","manufacturer":"Aratas","datasheet":"b3al-data-sheet--1-","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-B3AL"},
+        {"name":"B3AL-1006P","manufacturer":"Aratas","datasheet":"b3al-data-sheet--1-","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-B3AL"}
       ]
     },
     {
@@ -1174,7 +1359,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 16 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 16VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-tls-series-datasheet.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 16VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-tls-series-datasheet.pdf, eswitch/TL9320.pdf",
       "pinouts": {
         "p2_1_2": [
           {"number":1,"name":"A","role":"inout"},
@@ -1188,12 +1373,95 @@
       "momentary": true,
       "ratedVolts": 16,
       "parts": [
+        {"name":"TL9320AF400QG","manufacturer":"E-Switch","datasheet":"tl9320","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL9320"},
         {"name":"TLS A 040J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-tls-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TLS"},
         {"name":"TLS A 070 T3J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-tls-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TLS"},
         {"name":"TLS A 100 T3J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-tls-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TLS"},
         {"name":"TLSA040T3JLFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-tls-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TLS"},
         {"name":"TLSA070JLFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-tls-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TLS"},
         {"name":"TLSA070T3JLFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-tls-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TLS"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_24v_plunger-for-cap",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 24 V, Plunger for Cap actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 24VDC; the switching rating); datasheets: omron/en-b3f.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Plunger for Cap",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 24,
+      "parts": [
+        {"name":"B3F-3152","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-RA"},
+        {"name":"B3F-3155","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-RA"},
+        {"name":"B3F-6050","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"},
+        {"name":"B3F-6052","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"},
+        {"name":"B3F-6150","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_24v_standard",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 24 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 24VDC; the switching rating); datasheets: omron/en-b3f.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 24,
+      "parts": [
+        {"name":"B3F-3100","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-RA"},
+        {"name":"B3F-3102","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-RA"},
+        {"name":"B3F-3105","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-RA"},
+        {"name":"B3F-3120","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-RA"},
+        {"name":"B3F-3122","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-RA"},
+        {"name":"B3F-3125","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-RA"},
+        {"name":"B3F-6000","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"},
+        {"name":"B3F-6002","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"},
+        {"name":"B3F-6020","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"},
+        {"name":"B3F-6022","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"},
+        {"name":"B3F-6100","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"},
+        {"name":"B3F-6102","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"},
+        {"name":"B3F-6120","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_30v_standard",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 30 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 30VDC; the switching rating); datasheets: eswitch/TL1150.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 30,
+      "parts": [
+        {"name":"TL1150AF070Q","manufacturer":"E-Switch","datasheet":"tl1150","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-TL1150"}
       ]
     },
     {
@@ -1249,7 +1517,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 32 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.01A @ 32VDC, 0.05A @ 32VDC, 1VA @ 32VAC/DC; the switching rating); datasheets: ck/ck-ksr2m3glfg-44487341.pdf, ck/littelfuse-c-k-tactile-ksr-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kt-series-datasheet.pdf, ck/littelfuse-ck-tactile-ksc-v2-series-datasheet.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.01A @ 32VDC, 0.05A @ 32VDC, 1VA @ 32VAC/DC; the switching rating); datasheets: ck/ck-ksr2m3glfg-44487341.pdf, ck/littelfuse-c-k-tactile-ksr-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kt-series-datasheet.pdf, ck/littelfuse-ck-tactile-ksc-v2-series-datasheet.pdf, eswitch/TL6155.pdf",
       "pinouts": {
         "p2_1_2": [
           {"number":1,"name":"A","role":"inout"},
@@ -1297,7 +1565,31 @@
         {"name":"KT11P4SA1M35LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
         {"name":"KT11P4SA2M34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
         {"name":"KT11P4SA2M35LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"TL6155AF350Q","manufacturer":"E-Switch","datasheet":"tl6155","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL6155"},
         {"name":"Y35A21410FPLFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_50v_plunger-for-cap",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 50 V, Plunger for Cap actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.025A @ 50VDC; the switching rating); datasheets: eswitch/320.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Plunger for Cap",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 50,
+      "parts": [
+        {"name":"320.02E11BLK","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.03E11BLK","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"}
       ]
     },
     {
@@ -1305,7 +1597,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 50 V, Rectangular Button actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.01A @ 50VDC, 0.05A @ 50VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kss-series-datasheet.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.01A @ 50VDC, 0.025A @ 50VDC, 0.05A @ 50VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kss-series-datasheet.pdf, eswitch/320.04E11GRYVERT.pdf, eswitch/320.pdf",
       "pinouts": {
         "p2_1_2": [
           {"number":1,"name":"A","role":"inout"},
@@ -1319,6 +1611,9 @@
       "momentary": true,
       "ratedVolts": 50,
       "parts": [
+        {"name":"320.04E11BLKVERT","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.04E11GRYVERT","manufacturer":"E-Switch","datasheet":"320.04e11gryvert","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.21E11BLK","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
         {"name":"KSS221G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"},
         {"name":"KSS223G LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"},
         {"name":"KSS231G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"},
@@ -1329,6 +1624,98 @@
         {"name":"KSS331G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"},
         {"name":"KSS341G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"},
         {"name":"KSS343G LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_50v_round-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 50 V, Round Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.025A @ 50VDC, 0.05A @ 50VDC; the switching rating); datasheets: eswitch/320.pdf, eswitch/TL1105.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Round Button",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 50,
+      "parts": [
+        {"name":"320.02E11.08BLK","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.02E11.08BLU","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.02E11.08GRN","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.02E11.08GRY","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.02E11.08RED","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.02E11.08YEL","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.02E11.09BLK","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.02E11.09BLU","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.02E11.09YEL","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.03E11.08GRY","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"TL1105JAF160R1RBLK","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_50v_square-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 50 V, Square Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.025A @ 50VDC; the switching rating); datasheets: eswitch/320.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Square Button",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 50,
+      "parts": [
+        {"name":"320.01E11BLK","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.01E11GRN","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.01E11GRY","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.01E11RED","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.01E11WHT","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.01E11YEL","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.02E11.094BLK","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320.02E11.094GRY","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320E11BLK","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320E11BLU","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320E11GRN","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320E11GRY","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320E11RED","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320E11WHT","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"},
+        {"name":"320E11YEL","manufacturer":"E-Switch","datasheet":"320","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-320"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_50v_standard",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 50 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 50VDC; the switching rating); datasheets: eswitch/GS-Series.pdf, eswitch/TL1105.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 50,
+      "parts": [
+        {"name":"GSR6.34F130QP","manufacturer":"E-Switch","datasheet":"gs-series","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-GS-THT-RA"},
+        {"name":"TL1105SF160R","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"},
+        {"name":"TL1105VF160R","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL1105-THT-RA"}
       ]
     },
     {
@@ -1371,7 +1758,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Oval Button actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts815-series-datasheet.pdf, ck/littelfuse-c-k-tactile-rk-series-datasheet.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts815-series-datasheet.pdf, ck/littelfuse-c-k-tactile-rk-series-datasheet.pdf, eswitch/TL3365.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -1396,7 +1783,9 @@
         {"name":"PTS815SJM250SMTRLFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts815-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS815"},
         {"name":"RKB2SJG250SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS815"},
         {"name":"RKB2SJK250SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS815"},
-        {"name":"RKB2SJM250SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS815"}
+        {"name":"RKB2SJM250SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS815"},
+        {"name":"TL3365AF180QG","manufacturer":"E-Switch","datasheet":"tl3365","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3365"},
+        {"name":"TL3365AF250QG","manufacturer":"E-Switch","datasheet":"tl3365","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3365"}
       ]
     },
     {
@@ -1404,7 +1793,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Plunger for Cap actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts125-series-datasheet.pdf, ck/pts645.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts125-series-datasheet.pdf, ck/pts645.pdf, eswitch/TL1100.pdf, eswitch/TL1105.pdf, eswitch/TL1240.pdf, eswitch/TL1250.pdf, eswitch/TL3300.pdf, eswitch/TL3301.pdf, eswitch/TL6300.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -1429,7 +1818,25 @@
         {"name":"PTS125SJL73P25M LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
         {"name":"PTS125SJM73-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
         {"name":"PTS645SJM73-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
-        {"name":"PTS645SJM73JSMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD-J"}
+        {"name":"PTS645SJM73JSMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD-J"},
+        {"name":"TL1100AF160Q","manufacturer":"E-Switch","datasheet":"tl1100","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1100-THT"},
+        {"name":"TL1100AF260Q","manufacturer":"E-Switch","datasheet":"tl1100","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1100-THT"},
+        {"name":"TL1100F160Q","manufacturer":"E-Switch","datasheet":"tl1100","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1100-THT"},
+        {"name":"TL1100F260Q","manufacturer":"E-Switch","datasheet":"tl1100","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1100-THT"},
+        {"name":"TL1105SPF100Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105SPF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105SPF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105TF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1240NQ","manufacturer":"E-Switch","datasheet":"tl1240","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1250F280ARN","manufacturer":"E-Switch","datasheet":"tl1250","package":"THT right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1250"},
+        {"name":"TL3300AF160Q","manufacturer":"E-Switch","datasheet":"tl3300","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3300"},
+        {"name":"TL3300AF260Q","manufacturer":"E-Switch","datasheet":"tl3300","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3300"},
+        {"name":"TL3301SPF160QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301SPF160QJ","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"TL3301SPF260QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301TF160QGTR","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301TF160QJTUBE","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"TL6300AF260QP","manufacturer":"E-Switch","datasheet":"tl6300","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6300"}
       ]
     },
     {
@@ -1437,7 +1844,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Rectangular Button actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 12VDC, 0.05A @ 12VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts840-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts841-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts850-series-datasheet.pdf, ck/littelfuse-c-k-tactile-rkc2-series-datasheet.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 12VDC, 0.05A @ 12VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts840-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts841-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts850-series-datasheet.pdf, ck/littelfuse-c-k-tactile-rkc2-series-datasheet.pdf, eswitch/TL1014.pdf, eswitch/TL1016.pdf, eswitch/TL1030.pdf, eswitch/TL3901.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -1482,7 +1889,114 @@
         {"name":"PTS850VM18SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts850-series-datasheet","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-PTS850"},
         {"name":"PTS850VR18PSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts850-series-datasheet","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-PTS850"},
         {"name":"PTS850VR18SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts850-series-datasheet","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-PTS850"},
-        {"name":"RKC2SJF170SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rkc2-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RKC2"}
+        {"name":"RKC2SJF170SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rkc2-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RKC2"},
+        {"name":"TL1014AF160QG","manufacturer":"E-Switch","datasheet":"tl1014","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-TL1014"},
+        {"name":"TL1014BF160QG","manufacturer":"E-Switch","datasheet":"tl1014","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-TL1014"},
+        {"name":"TL1014BF220QG","manufacturer":"E-Switch","datasheet":"tl1014","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-TL1014"},
+        {"name":"TL1016AAF160QG","manufacturer":"E-Switch","datasheet":"tl1016","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS840"},
+        {"name":"TL1016AAF220QG","manufacturer":"E-Switch","datasheet":"tl1016","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS840"},
+        {"name":"TL1016ABF160QG","manufacturer":"E-Switch","datasheet":"tl1016","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS840"},
+        {"name":"TL1016BAF220QG","manufacturer":"E-Switch","datasheet":"tl1016","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS840"},
+        {"name":"TL1016BBF160QG","manufacturer":"E-Switch","datasheet":"tl1016","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS840"},
+        {"name":"TL1030AF160AQJ","manufacturer":"E-Switch","datasheet":"tl1030","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-TL1030"},
+        {"name":"TL1030AF160BQJ","manufacturer":"E-Switch","datasheet":"tl1030","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1030-G"},
+        {"name":"TL1030AF200AQJ","manufacturer":"E-Switch","datasheet":"tl1030","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-TL1030"},
+        {"name":"TL1030AF200BQJ","manufacturer":"E-Switch","datasheet":"tl1030","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1030-G"},
+        {"name":"TL1030AF350AQJ","manufacturer":"E-Switch","datasheet":"tl1030","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-TL1030"},
+        {"name":"TL1030AF350BQJ","manufacturer":"E-Switch","datasheet":"tl1030","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1030-G"},
+        {"name":"TL1030AF500AQJ","manufacturer":"E-Switch","datasheet":"tl1030","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-TL1030"},
+        {"name":"TL1030AF500BQJ","manufacturer":"E-Switch","datasheet":"tl1030","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1030-G"},
+        {"name":"TL3901AGQF180","manufacturer":"E-Switch","datasheet":"tl3901","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-TL3901"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_12v_round-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Round Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: eswitch/TL1105.pdf, eswitch/TL1265.pdf, eswitch/TL9100.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Round Button",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 12,
+      "parts": [
+        {"name":"TL1105SPF160Q1RWHT","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1265AQRGRY","manufacturer":"E-Switch","datasheet":"tl1265","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1265"},
+        {"name":"TL1265AQSBLK","manufacturer":"E-Switch","datasheet":"tl1265","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1265"},
+        {"name":"TL9100AF200Q","manufacturer":"E-Switch","datasheet":"tl9100","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL9100"},
+        {"name":"TL9100AF350Q","manufacturer":"E-Switch","datasheet":"tl9100","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL9100"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_12v_snap-dome",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Snap Dome actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: eswitch/TL3312.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Snap Dome",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 12,
+      "parts": [
+        {"name":"TL3312NF160Q","manufacturer":"E-Switch","datasheet":"tl3312","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS540-SMD"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_12v_square-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Square Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: eswitch/TL1100.pdf, eswitch/TL1220.pdf, eswitch/TL1240.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Square Button",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 12,
+      "parts": [
+        {"name":"TL1100F160Q6JBLK","manufacturer":"E-Switch","datasheet":"tl1100","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1100-THT"},
+        {"name":"TL1220S2BBGNN","manufacturer":"E-Switch","datasheet":"tl1220","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1220"},
+        {"name":"TL1240NQ1JBLK","manufacturer":"E-Switch","datasheet":"tl1240","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"}
       ]
     },
     {
@@ -1490,7 +2004,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts125-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts526-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts641-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts647-series-datasheet.pdf, ck/pts645.pdf, ck/pts830.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts125-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts526-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts641-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts647-series-datasheet.pdf, ck/pts645.pdf, ck/pts830.pdf, eswitch/LL3301.pdf, eswitch/TL1018.pdf, eswitch/TL1100.pdf, eswitch/TL1105.pdf, eswitch/TL3145.pdf, eswitch/TL3300.pdf, eswitch/TL3301.pdf, eswitch/TL3303.pdf, eswitch/TL3305.pdf, eswitch/TL3313.pdf, eswitch/TL3342.pdf, eswitch/TL3701AF100QG.pdf, eswitch/TL6100.pdf, eswitch/TL6120.pdf, eswitch/TL6150.pdf, eswitch/TL6170.pdf, eswitch/TL6700.pdf, eswitch/TL6800.pdf, omron/en-b3se.pdf, omron/en-b3sl.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -1510,6 +2024,13 @@
       "momentary": true,
       "ratedVolts": 12,
       "parts": [
+        {"name":"B3SE-1002P","manufacturer":"Aratas","datasheet":"en-b3se","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3SE"},
+        {"name":"B3SL-1002P","manufacturer":"Aratas","datasheet":"en-b3sl","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3SL"},
+        {"name":"B3SL-1005P","manufacturer":"Aratas","datasheet":"en-b3sl","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3SL"},
+        {"name":"B3SL-1022P","manufacturer":"Aratas","datasheet":"en-b3sl","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3SL"},
+        {"name":"LL3301BF065QJ","manufacturer":"E-Switch","datasheet":"ll3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"LL3301DF065QJ","manufacturer":"E-Switch","datasheet":"ll3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"LL3301NF065QG","manufacturer":"E-Switch","datasheet":"ll3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
         {"name":"PTS125SK12-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
         {"name":"PTS125SK43-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
         {"name":"PTS125SK43P21M LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
@@ -1597,7 +2118,129 @@
         {"name":"PTS830GG140GSMTRLFS","manufacturer":"Littelfuse","datasheet":"pts830","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS830-G"},
         {"name":"PTS830GG140SMTR LFS","manufacturer":"Littelfuse","datasheet":"pts830","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS830"},
         {"name":"PTS830GM140GSMTR LFS","manufacturer":"Littelfuse","datasheet":"pts830","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS830-G"},
-        {"name":"PTS830GM140SMTR LFS","manufacturer":"Littelfuse","datasheet":"pts830","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS830"}
+        {"name":"PTS830GM140SMTR LFS","manufacturer":"Littelfuse","datasheet":"pts830","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS830"},
+        {"name":"TL1018AAAF160QG","manufacturer":"E-Switch","datasheet":"tl1018","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS830-G"},
+        {"name":"TL1018AABF160QG","manufacturer":"E-Switch","datasheet":"tl1018","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS830-G"},
+        {"name":"TL1100DF160Q","manufacturer":"E-Switch","datasheet":"tl1100","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1100-THT"},
+        {"name":"TL1100DF260Q","manufacturer":"E-Switch","datasheet":"tl1100","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1100-THT"},
+        {"name":"TL1100EF160Q","manufacturer":"E-Switch","datasheet":"tl1100","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1100-THT"},
+        {"name":"TL1100EF260Q","manufacturer":"E-Switch","datasheet":"tl1100","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1100-THT"},
+        {"name":"TL1100FF160Q","manufacturer":"E-Switch","datasheet":"tl1100","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1100-THT"},
+        {"name":"TL1105AF100Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105AF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105AF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105BF100Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105BF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105BF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105CF100Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105CF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105DF100Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105DF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105DF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105EF100Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105EF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105F100Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105F160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105F250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105FF100Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105FF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105FF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105GF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105GF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105HF100Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105HF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105KF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105KF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105LF100Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105LF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105LF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105PF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105PF250Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL1105YF160Q","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL3145AF180QJ","manufacturer":"E-Switch","datasheet":"tl3145","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3145"},
+        {"name":"TL3145AF260QJ","manufacturer":"E-Switch","datasheet":"tl3145","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3145"},
+        {"name":"TL3145AF350QJ","manufacturer":"E-Switch","datasheet":"tl3145","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3145"},
+        {"name":"TL3145BF180QJ","manufacturer":"E-Switch","datasheet":"tl3145","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3145"},
+        {"name":"TL3145BF260QJ","manufacturer":"E-Switch","datasheet":"tl3145","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3145"},
+        {"name":"TL3145BF350QJ","manufacturer":"E-Switch","datasheet":"tl3145","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3145"},
+        {"name":"TL3300CF160Q","manufacturer":"E-Switch","datasheet":"tl3300","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3300"},
+        {"name":"TL3300CF260Q","manufacturer":"E-Switch","datasheet":"tl3300","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3300"},
+        {"name":"TL3300DF160Q","manufacturer":"E-Switch","datasheet":"tl3300","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3300"},
+        {"name":"TL3300DF260Q","manufacturer":"E-Switch","datasheet":"tl3300","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3300"},
+        {"name":"TL3301AF100QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301AF160QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301AF160QJ","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"TL3301AF260QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301AF260QJ","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"TL3301BF160QGTUBE","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301BF160QJ","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"TL3301BF260QGTUBE","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301BF260QJTUBE","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"TL3301CF160QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301CF160QJ","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"TL3301CF260QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301CF260QJ","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"TL3301DF160QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301DF160QJ","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"TL3301DF260QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301DF260RG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301EF100QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301EF100QJ","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"TL3301EF160QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301EF160QJ","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"TL3301EF260QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301FF160QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301FF160QJ","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"TL3301FF260QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301NF100QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301NF160QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301NF160QJ","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"TL3301NF260QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301NF260QJ","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"TL3301PF160QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3301PF160QJ","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
+        {"name":"TL3301PF260QG","manufacturer":"E-Switch","datasheet":"tl3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"TL3303AF100QG","manufacturer":"E-Switch","datasheet":"tl3303","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3303"},
+        {"name":"TL3303F160QG","manufacturer":"E-Switch","datasheet":"tl3303","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3303"},
+        {"name":"TL3303F260QG","manufacturer":"E-Switch","datasheet":"tl3303","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3303"},
+        {"name":"TL3305AF160QG","manufacturer":"E-Switch","datasheet":"tl3305","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3305"},
+        {"name":"TL3305AF260QG","manufacturer":"E-Switch","datasheet":"tl3305","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3305"},
+        {"name":"TL3305BF100QG","manufacturer":"E-Switch","datasheet":"tl3305","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3305"},
+        {"name":"TL3305BF160QG","manufacturer":"E-Switch","datasheet":"tl3305","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3305"},
+        {"name":"TL3305BF260QG","manufacturer":"E-Switch","datasheet":"tl3305","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3305"},
+        {"name":"TL3305CF100QG","manufacturer":"E-Switch","datasheet":"tl3305","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3305"},
+        {"name":"TL3305CF160QG","manufacturer":"E-Switch","datasheet":"tl3305","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3305"},
+        {"name":"TL3305CF260QG","manufacturer":"E-Switch","datasheet":"tl3305","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3305"},
+        {"name":"TL3313AF100QG","manufacturer":"E-Switch","datasheet":"tl3313","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3313"},
+        {"name":"TL3313AF160QG","manufacturer":"E-Switch","datasheet":"tl3313","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3313"},
+        {"name":"TL3313AF250QG","manufacturer":"E-Switch","datasheet":"tl3313","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3313"},
+        {"name":"TL3342F160QG/TR","manufacturer":"E-Switch","datasheet":"tl3342","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3342"},
+        {"name":"TL3342F260QG","manufacturer":"E-Switch","datasheet":"tl3342","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3342"},
+        {"name":"TL3701AF100QG","manufacturer":"E-Switch","datasheet":"tl3701af100qg","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3701"},
+        {"name":"TL6100AF160QP","manufacturer":"E-Switch","datasheet":"tl6100","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6100"},
+        {"name":"TL6100AF300QP","manufacturer":"E-Switch","datasheet":"tl6100","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6100"},
+        {"name":"TL6100CF130QP","manufacturer":"E-Switch","datasheet":"tl6100","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6100"},
+        {"name":"TL6100CF300QP","manufacturer":"E-Switch","datasheet":"tl6100","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6100"},
+        {"name":"TL6120AF160QG","manufacturer":"E-Switch","datasheet":"tl6120","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6120"},
+        {"name":"TL6120AF300QG","manufacturer":"E-Switch","datasheet":"tl6120","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6120"},
+        {"name":"TL6120BF130QG","manufacturer":"E-Switch","datasheet":"tl6120","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6120"},
+        {"name":"TL6120CF160QG","manufacturer":"E-Switch","datasheet":"tl6120","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6120"},
+        {"name":"TL6120CF300QG","manufacturer":"E-Switch","datasheet":"tl6120","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6120"},
+        {"name":"TL6120DF160QG","manufacturer":"E-Switch","datasheet":"tl6120","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6120"},
+        {"name":"TL6120DF300QG","manufacturer":"E-Switch","datasheet":"tl6120","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6120"},
+        {"name":"TL6120DF500QG","manufacturer":"E-Switch","datasheet":"tl6120","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6120"},
+        {"name":"TL6150AF160QG","manufacturer":"E-Switch","datasheet":"tl6150","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-G"},
+        {"name":"TL6150AF160QJ","manufacturer":"E-Switch","datasheet":"tl6150","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6150-J"},
+        {"name":"TL6150AF200QG","manufacturer":"E-Switch","datasheet":"tl6150","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-G"},
+        {"name":"TL6150AF350QG","manufacturer":"E-Switch","datasheet":"tl6150","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-G"},
+        {"name":"TL6150BF160QG","manufacturer":"E-Switch","datasheet":"tl6150","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-G"},
+        {"name":"TL6150BF200QG","manufacturer":"E-Switch","datasheet":"tl6150","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-G"},
+        {"name":"TL6170AF250QG","manufacturer":"E-Switch","datasheet":"tl6170","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6170"},
+        {"name":"TL6700AF160QG","manufacturer":"E-Switch","datasheet":"tl6700","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6700-G"},
+        {"name":"TL6700AF160QJ","manufacturer":"E-Switch","datasheet":"tl6700","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6700-J"},
+        {"name":"TL6700AF260QG","manufacturer":"E-Switch","datasheet":"tl6700","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6700-G"},
+        {"name":"TL6800AF160QJ","manufacturer":"E-Switch","datasheet":"tl6800","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6800"},
+        {"name":"TL6800AF260QJ","manufacturer":"E-Switch","datasheet":"tl6800","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6800"}
       ]
     },
     {
@@ -1630,6 +2273,35 @@
         {"name":"RKA2SGK055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RK"},
         {"name":"RKA2SGM055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RK"},
         {"name":"RKA2SGS055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RK"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_15v_snap-dome",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 15 V, Snap Dome actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 15VDC; the switching rating); datasheets: eswitch/TL3315.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Snap Dome",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 15,
+      "parts": [
+        {"name":"TL3315NF100Q","manufacturer":"E-Switch","datasheet":"tl3315","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3315"},
+        {"name":"TL3315NF250Q","manufacturer":"E-Switch","datasheet":"tl3315","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3315"}
       ]
     },
     {
@@ -1721,12 +2393,135 @@
       ]
     },
     {
+      "id": "tact_no_4t_24v_plunger-for-cap",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 24 V, Plunger for Cap actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 24VDC; the switching rating); datasheets: omron/A070-E1.pdf, omron/B3W.pdf, omron/en-b3f.pdf, omron/en-b3fs.pdf, omron/en-b3fs_4.pdf, omron/en-b3w.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Plunger for Cap",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 24,
+      "parts": [
+        {"name":"B3F-1050","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1052-G","manufacturer":"Aratas","datasheet":"a070-e1","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1056","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1150","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1152","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1155","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-4050","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3F-4055","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3F-4150","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3F-4155","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3F-5050","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3F-5051","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3F-5150","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3F-5151","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3FS-1050","manufacturer":"Aratas","datasheet":"en-b3fs","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS"},
+        {"name":"B3FS-1050P","manufacturer":"Aratas","datasheet":"en-b3fs","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS"},
+        {"name":"B3FS-1052","manufacturer":"Aratas","datasheet":"en-b3fs","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS"},
+        {"name":"B3FS-1052P","manufacturer":"Aratas","datasheet":"en-b3fs","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS"},
+        {"name":"B3FS-4052P","manufacturer":"Aratas","datasheet":"en-b3fs_4","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS-4"},
+        {"name":"B3FS-4055P","manufacturer":"Aratas","datasheet":"en-b3fs_4","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS-4"},
+        {"name":"B3W-1050","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3W"},
+        {"name":"B3W-1052","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3W"},
+        {"name":"B3W-1150","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3W"},
+        {"name":"B3W-4050","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3W-4050S","manufacturer":"Aratas","datasheet":"b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3W-4055","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3W-4055S","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3W-4150","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3W-4155","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_24v_round-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 24 V, Round Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 24VDC; the switching rating); datasheets: eswitch/TL6200.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Round Button",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 24,
+      "parts": [
+        {"name":"TL6200ABF300QG","manufacturer":"E-Switch","datasheet":"tl6200","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6200"},
+        {"name":"TL6200BBF300QG","manufacturer":"E-Switch","datasheet":"tl6200","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6200"},
+        {"name":"TL6200CBF300QG","manufacturer":"E-Switch","datasheet":"tl6200","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6200"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_24v_square-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 24 V, Square Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 24VDC; the switching rating); datasheets: omron/B3FS-1092P.pdf, omron/B3FS-4092P-B.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Square Button",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 24,
+      "parts": [
+        {"name":"B3FS-1092P","manufacturer":"Aratas","datasheet":"b3fs-1092p","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS-KT"},
+        {"name":"B3FS-1092P-A","manufacturer":"Aratas","datasheet":"b3fs-1092p","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS-KT"},
+        {"name":"B3FS-1095P","manufacturer":"Aratas","datasheet":"b3fs-1092p","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS-KT"},
+        {"name":"B3FS-4092P-B","manufacturer":"Aratas","datasheet":"b3fs-4092p-b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS-4"}
+      ]
+    },
+    {
       "id": "tact_no_4t_24v_standard",
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 24 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.001A @ 24VDC, 0.003A @ 24VDC, 0.042A @ 24VDC; the switching rating); datasheets: ck/KSC-XA_Datasheet.pdf, ck/littelfuse-c-k-tactile-ksc4-te-series-datasheet.pdf, ck/littelfuse-ck-tactile-ksc2-te-series-datasheet.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.001A @ 24VDC, 0.003A @ 24VDC, 0.042A @ 24VDC, 0.05A @ 24VDC; the switching rating); datasheets: ck/KSC-XA_Datasheet.pdf, ck/littelfuse-c-k-tactile-ksc4-te-series-datasheet.pdf, ck/littelfuse-ck-tactile-ksc2-te-series-datasheet.pdf, omron/B3F.pdf, omron/B3S-Datasheet.pdf, omron/en-b3f.pdf, omron/en-b3fs.pdf, omron/en-b3fs_4.pdf, omron/en-b3sn.pdf, omron/en-b3w.pdf",
       "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ],
         "p4_1_4_2_3": [
           {"number":1,"name":"A1","role":"inout"},
           {"number":2,"name":"B1","role":"inout"},
@@ -1745,6 +2540,70 @@
       "momentary": true,
       "ratedVolts": 24,
       "parts": [
+        {"name":"B3F-1000","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1000S","manufacturer":"Aratas","datasheet":"b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1002","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1002-G","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1002S","manufacturer":"Aratas","datasheet":"b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1005","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1006","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1020","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1022","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1022-G","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1025","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1026","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1060","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1062","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1070","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1072","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1075","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1100","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1102-G","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1105","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1120","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1122","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1122-G","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-1125","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
+        {"name":"B3F-4000","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3F-4005","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3F-4105","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3F-5000","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3F-5001","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3F-5101","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3FS-1000","manufacturer":"Aratas","datasheet":"en-b3fs","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS"},
+        {"name":"B3FS-1000P","manufacturer":"Aratas","datasheet":"en-b3fs","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS"},
+        {"name":"B3FS-1002","manufacturer":"Aratas","datasheet":"en-b3fs","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS"},
+        {"name":"B3FS-1002P","manufacturer":"Aratas","datasheet":"en-b3fs","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS"},
+        {"name":"B3FS-1005P","manufacturer":"Aratas","datasheet":"en-b3fs","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS"},
+        {"name":"B3FS-1010","manufacturer":"Aratas","datasheet":"en-b3fs","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS"},
+        {"name":"B3FS-1010P","manufacturer":"Aratas","datasheet":"en-b3fs","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS"},
+        {"name":"B3FS-1012","manufacturer":"Aratas","datasheet":"en-b3fs","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS"},
+        {"name":"B3FS-1012P","manufacturer":"Aratas","datasheet":"en-b3fs","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS"},
+        {"name":"B3FS-1015","manufacturer":"Aratas","datasheet":"en-b3fs","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS"},
+        {"name":"B3FS-1015P","manufacturer":"Aratas","datasheet":"en-b3fs","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS"},
+        {"name":"B3FS-4005P","manufacturer":"Aratas","datasheet":"en-b3fs_4","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3FS-4"},
+        {"name":"B3S-1000","manufacturer":"Aratas","datasheet":"b3s-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3S"},
+        {"name":"B3S-1000P","manufacturer":"Aratas","datasheet":"b3s-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3S"},
+        {"name":"B3S-1002","manufacturer":"Aratas","datasheet":"b3s-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3S"},
+        {"name":"B3S-1002P","manufacturer":"Aratas","datasheet":"b3s-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3S"},
+        {"name":"B3S-1100","manufacturer":"Aratas","datasheet":"b3s-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3S"},
+        {"name":"B3S-1100P","manufacturer":"Aratas","datasheet":"b3s-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3S"},
+        {"name":"B3S-1102","manufacturer":"Aratas","datasheet":"b3s-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3S"},
+        {"name":"B3S-1102P","manufacturer":"Aratas","datasheet":"b3s-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3S"},
+        {"name":"B3SN-3012","manufacturer":"Aratas","datasheet":"en-b3sn","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3SN"},
+        {"name":"B3SN-3012P","manufacturer":"Aratas","datasheet":"en-b3sn","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3SN"},
+        {"name":"B3SN-3112","manufacturer":"Aratas","datasheet":"en-b3sn","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3SN"},
+        {"name":"B3SN-3112P","manufacturer":"Aratas","datasheet":"en-b3sn","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3SN"},
+        {"name":"B3W-1000","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3W"},
+        {"name":"B3W-1000S","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3W"},
+        {"name":"B3W-1002","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3W"},
+        {"name":"B3W-1020","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3W"},
+        {"name":"B3W-1022","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3W"},
+        {"name":"B3W-1100","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3W"},
+        {"name":"B3W-1102","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3W"},
+        {"name":"B3W-4000","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3W-4005","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"B3W-4105","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
         {"name":"KSC XA 35 J LFS","manufacturer":"Littelfuse","datasheet":"ksc-xa_datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
         {"name":"KSC XA 40 J LFS","manufacturer":"Littelfuse","datasheet":"ksc-xa_datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
         {"name":"KSC XA 55 J LFS","manufacturer":"Littelfuse","datasheet":"ksc-xa_datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
@@ -1822,8 +2681,14 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 32 V, Rectangular Button actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 32VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kmr6-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kmr7-series-datasheet.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 32VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kmr6-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kmr7-series-datasheet.pdf, eswitch/TL6330.pdf",
       "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ],
         "p4_1_4_2_3": [
           {"number":1,"name":"A1","role":"inout"},
           {"number":2,"name":"B1","role":"inout"},
@@ -1843,6 +2708,7 @@
       "ratedVolts": 32,
       "parts": [
         {"name":"KMR733NG ULC LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr7-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"TL6330AF200Q","manufacturer":"E-Switch","datasheet":"tl6330","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6330"},
         {"name":"Y78B62324FP","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr6-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"}
       ]
     },
@@ -2113,6 +2979,49 @@
         {"name":"KMS231GP LFS","manufacturer":"Littelfuse","datasheet":"kms","package":"SMD right angle","pinout":"p4_2_3_1_4","footprint":"SW-TACT-KMS"},
         {"name":"KMS233GP LFG","manufacturer":"Littelfuse","datasheet":"kms","package":"SMD right angle","pinout":"p4_2_3_1_4","footprint":"SW-TACT-KMS"},
         {"name":"KMS233GPLFG","manufacturer":"Littelfuse","datasheet":"kms","package":"SMD right angle","pinout":"p4_2_3_1_4","footprint":"SW-TACT-KMS"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_50v_standard",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 50 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 50VDC; the switching rating); datasheets: eswitch/GS-Series.pdf, eswitch/TL1105.pdf, eswitch/TL3304.pdf, eswitch/TL6105.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ],
+        "p4_1_3_2_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"B1","role":"inout"},
+          {"number":3,"name":"A2","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 50,
+      "parts": [
+        {"name":"GS10.00F130QP","manufacturer":"E-Switch","datasheet":"gs-series","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-GS-THT"},
+        {"name":"GS10.00F300QP","manufacturer":"E-Switch","datasheet":"gs-series","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-GS-THT"},
+        {"name":"GS4.70F130QP","manufacturer":"E-Switch","datasheet":"gs-series","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-GS-THT"},
+        {"name":"GS4.70F300QP","manufacturer":"E-Switch","datasheet":"gs-series","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-GS-THT"},
+        {"name":"GS6.90F300QP","manufacturer":"E-Switch","datasheet":"gs-series","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-GS-THT"},
+        {"name":"TL1105DF160R","manufacturer":"E-Switch","datasheet":"tl1105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL1105-THT"},
+        {"name":"TL3304AF160QG","manufacturer":"E-Switch","datasheet":"tl3304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-G"},
+        {"name":"TL3304AF160QJ","manufacturer":"E-Switch","datasheet":"tl3304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-J"},
+        {"name":"TL3304AF260QJ","manufacturer":"E-Switch","datasheet":"tl3304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-J"},
+        {"name":"TL6105DF160QP","manufacturer":"E-Switch","datasheet":"tl6105","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6100"}
       ]
     }
   ]
