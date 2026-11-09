@@ -89,7 +89,7 @@ Acceptance: `Parts/switch.json` and `footprints.json` load; the generator is
 idempotent for these makers.
   Check: `python3 -I planning/plan-27-data/gen-parts.py --maker 'Panasonic' --maker 'Alps' --dry-run` → `no changes` and `/tmp/logic-p27/library_check` passes (est. 4 min; the loader is the smallest check that reads the new JSON).
   Result 2026-11-08: `--dry-run` → `no changes`; `library_check: all passed`.
-Commit: (this commit)
+Commit: a827597
 
 ### Phase 2 — Goldens and tests
 
@@ -102,7 +102,7 @@ Commit: (this commit)
 Acceptance: goldens grew by exactly the new parts and footprints.
   Check: `echo $(( $(wc -l < backend/tests/golden/parts.txt) - P_G ))` equals N_panasonic + N_alps; `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check'` → `100% tests passed, 0 tests failed out of 4` (est. 8 min: full rebuild and the golden sweeps).
   Result 2026-11-08: `grep -c 'mfr=Panasonic\|mfr=Alps Alpine' …parts.txt` → 268 = 185 + 83 (the `add` rows); ctest `100% tests passed, 0 tests failed out of 28` (includes the four and `tactile_test`).
-Commit: (this commit)
+Commit: a827597
 
 ## Validation Plan
 

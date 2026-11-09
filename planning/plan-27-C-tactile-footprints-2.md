@@ -110,7 +110,7 @@ skipping ids that exist in `footprints-B.json` (moot with `grep -c
 Acceptance: no Panasonic or Alps row is `pending`; checks pass.
   Check: `python3 -I planning/plan-27-data/census/specs-check.py --maker Panasonic && python3 -I planning/plan-27-data/census/specs-check.py --maker Alps && planning/plan-27-data/census/fp-load.sh planning/plan-27-data/footprints-B.json planning/plan-27-data/footprints-C.json` → `specs ok` twice, only extra/unused failures for the new ids (est. 4 min).
   Result 2026-11-08: `specs ok (185 add rows)`, `specs ok (83 add rows)`; `27 new footprints: load ok` (the others already in the library).
-Commit: (this commit)
+Commit: a827597
 
 ### Phase 2 — Same Sky (36 lines, 379 rows)
 
