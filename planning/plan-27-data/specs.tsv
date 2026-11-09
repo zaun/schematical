@@ -377,8 +377,33 @@ TE Connectivity ALCOSWITCH Switches	STS	Surface Mount	.*
 TE Connectivity ALCOSWITCH Switches	STS	Through Hole	.*				
 TE Connectivity ALCOSWITCH Switches	STS	Through Hole, Right Angle	.*				
 TE Connectivity ALCOSWITCH Switches	UMS	Surface Mount	.*				
-Würth Elektronik	WS-TASU	Edge Mount, Right Angle	.*				
-Würth Elektronik	WS-TASU	Surface Mount, Right Angle	.*				
-Würth Elektronik	WS-TASV	Surface Mount	.*				
-Würth Elektronik	WS-TATU	Through Hole, Right Angle	.*				
-Würth Elektronik	WS-TATV	Through Hole	.*				
+Würth Elektronik	WS-TASU	Edge Mount, Right Angle	434381035816	2	A=1;B=2	SW-TACT-WS-TASU-434381	434381035816.pdf p.1 schematic (1-2)
+Würth Elektronik	WS-TASU	Surface Mount, Right Angle	434331013822	4	A=1,2;B=3,4	SW-TACT-WS-TASU-434331-H13	434331013822.pdf p.1 schematic (1-2, 3-4 joined)
+Würth Elektronik	WS-TASU	Surface Mount, Right Angle	436333033816	2	A=1;B=2	SW-TACT-SKRT	436333033816.pdf p.1 schematic (1 and 3 common, 2 switched; modelled 2 pins)
+Würth Elektronik	WS-TASU	Surface Mount, Right Angle	43[46]3[35]1045\d{3}	4	A=1,3;B=2,4	SW-TACT-TL1014	434331045822.pdf p.1 schematic (3-1, 4-2 joined)
+Würth Elektronik	WS-TASU	Surface Mount, Right Angle	43[46]3[35]3045\d{3}	4	A=1,3;B=2,4	SW-TACT-WS-TASU-434333	434333045822.pdf p.1 schematic (3-1, 4-2 joined)
+Würth Elektronik	WS-TASV	Surface Mount	430133050816	2	A=1;B=2	SW-TACT-TS35	430133050816.pdf p.1 schematic (1-2)
+Würth Elektronik	WS-TASV	Surface Mount	430151005826|430181005816	4	A=1,2;B=3,4	SW-TACT-WS-TASV-430151	430151005826.pdf p.1 schematic (1-2, 3-4 joined)
+Würth Elektronik	WS-TASV	Surface Mount	430173003816	4	A=1,3;B=2,4	SW-TACT-SKRW	430173003816.pdf p.1 schematic (1-3, 2-4 joined)
+Würth Elektronik	WS-TASV	Surface Mount	430181038816	4	A=1,2;B=3,4	SW-TACT-WS-TASV-430181	430181038816.pdf p.1 schematic (1-2, 3-4 joined)
+Würth Elektronik	WS-TASV	Surface Mount	4301[58]2\d{6}	4	A=1,3;B=2,4	SW-TACT-WS-TASV-430152	430152043826.pdf p.1 schematic (1-3, 2-4 joined)
+Würth Elektronik	WS-TASV	Surface Mount	4301[67]2\d{6}	4	A=1,2;B=3,4	SW-TACT-WS-TASV-430162	430162043826.pdf p.1 schematic (1-2, 3-4 joined)
+Würth Elektronik	WS-TASV	Surface Mount	4304[578]1\d{6}	4	A=1,2;B=3,4	SW-TACT-WS-TASV-430451	430451025836.pdf p.1 schematic (1-2, 3-4 joined)
+Würth Elektronik	WS-TASV	Surface Mount	4304[578]3\d{6}	4	A=1,2;B=3,4	SW-TACT-WS-TASV-430453	430453025836.pdf p.1 schematic (1-2, 3-4 joined)
+Würth Elektronik	WS-TASV	Surface Mount	4307[578]3\d{6}	4	A=1,2;B=3,4	SW-TACT-TL6150-J	430753034832.pdf p.1 schematic (1-2, 3-4 joined)
+Würth Elektronik	WS-TASV	Surface Mount	4311[58]1\d{6}	4	A=1,3;B=2,4	SW-TACT-WS-TASV-431151	431151008826.pdf p.1 schematic (1-3, 2-4 joined; GND separate)
+Würth Elektronik	WS-TASV	Surface Mount	4311[58]3\d{6}	4	A=1,3;B=2,4	SW-TACT-WS-TASV-431153	431153008826.pdf p.1 schematic (1-3, 2-4 joined; GND separate)
+Würth Elektronik	WS-TASV	Surface Mount	4314[78]1\d{6}	4	A=1,2;B=3,4	SW-TACT-WS-TASV-431471	431471031826.pdf p.1 schematic (4-3, 2-1 joined; GND separate)
+Würth Elektronik	WS-TASV	Surface Mount	434111025826|434121025816	2	A=1;B=2	SW-TACT-TS10	434111025826.pdf p.1 schematic (1-2)
+Würth Elektronik	WS-TASV	Surface Mount	434113025826|434123025816	2	A=1;B=2	SW-TACT-WS-TASV-434113-H25	434113025826.pdf p.1 schematic (1-2)
+Würth Elektronik	WS-TASV	Surface Mount	434123025826|434133025816	4	A=1,2;B=3,4	SW-TACT-PTS810	434123025826.pdf p.1 schematic (1-2, 3-4 joined)
+Würth Elektronik	WS-TASV	Surface Mount	434133025826|434163025816	4	A=1,3;B=2,4	SW-TACT-WS-TASV-434133	434133025826.pdf p.1 schematic (1-3, 2-4 joined)
+Würth Elektronik	WS-TASV	Surface Mount	434153017835	4	A=1,3;B=2,4	SW-TACT-TL1030	434153017835.pdf p.1 schematic (1-3, 2-4 joined)
+Würth Elektronik	WS-TASV	Surface Mount	4341[12]10(43|50)8\d{2}	2	A=1;B=2	SW-TACT-WS-TASV-434111-H43	434111043826.pdf p.1 schematic (1-2)
+Würth Elektronik	WS-TASV	Surface Mount	4341[12]30(43|50)8\d{2}	2	A=1;B=2	SW-TACT-TL6400	434113043826.pdf p.1 schematic (1-2)
+Würth Elektronik	WS-TASV	Surface Mount	434771025826|434781025816	2	A=1;B=2	SW-TACT-WS-TASV-434771	434771025826.pdf p.1 schematic (1-2)
+Würth Elektronik	WS-TASV	Surface Mount	4351[57]1014\d{3}	4	A=1,2;B=3,4	SW-TACT-PTS830-G	435151014824.pdf p.1 schematic (1-2, 3-4 joined; 5-6 ground)
+Würth Elektronik	WS-TASV	Surface Mount	4354[345]1019\d{3}	4	A=1,4;B=2,3	SW-TACT-KMR2	435431019840.pdf p.1 schematic (4-1, 3-2 joined)
+Würth Elektronik	WS-TATU	Through Hole, Right Angle	431256\d{6}	2	A=1;B=2	SW-TACT-ADTSA	431256031716.pdf p.1 schematic (2-3 switch; 1-4 frame ground, not modelled)
+Würth Elektronik	WS-TATV	Through Hole	4301[58]6\d{6}	4	A=1,3;B=2,4	SW-TACT-WS-TATV-430156	430156043726.pdf p.1 schematic (1-3, 2-4 joined)
+Würth Elektronik	WS-TATV	Through Hole	4304[567]6\d{6}	4	A=1,2;B=3,4	SW-TACT-ADTS-THT-12	430456043736.pdf p.1 schematic (1-2, 3-4 joined)

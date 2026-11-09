@@ -127,7 +127,7 @@ def main(letter, slugs):
         fps = json.load(open(os.path.join(work, "footprints.json")))["footprints"]
         for fp in fps:
             existing = next((o for o in mine + others if o["id"] == fp["id"]), None)
-            if existing is not None and existing in mine and existing == fp:
+            if existing is not None and {k: v for k, v in existing.items() if k != "note"} == {k: v for k, v in fp.items() if k != "note"}:
                 continue
             twin = next((o for o in mine + others if o["id"] != fp["id"] and same(o, fp)), None)
             if twin is not None:

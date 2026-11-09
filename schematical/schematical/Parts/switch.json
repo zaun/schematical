@@ -1086,7 +1086,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 12 V, Rectangular Button actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 12VDC, 0.05A @ 12VDC; the switching rating); datasheets: apem/MJTP1117.pdf, apem/adts3.pdf, ck/RS-032G05_-SM_RT.pdf, ck/RS-282G05A-SM_RT.pdf, ck/RS285G05A2URT_Dwg.pdf, ck/c-amp-k-tactile-pts636-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts847-series-datasheet.pdf, eswitch/06-TS35M943160TR.pdf, eswitch/TL1107.pdf, eswitch/TL3302-5c1553.pdf, eswitch/TL3302-b1d73c.pdf, eswitch/TL3330.pdf, eswitch/TL4100.pdf, eswitch/TL4105.pdf, eswitch/TL6340.pdf, eswitch/TL6400.pdf, omron/en-b3u.pdf, samesky/ts09.pdf, samesky/ts30.pdf, samesky/ts31.pdf, samesky/ts32.pdf, samesky/ts33.pdf, samesky/ts35.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 12VDC, 0.05A @ 12VDC; the switching rating); datasheets: apem/MJTP1117.pdf, apem/adts3.pdf, ck/RS-032G05_-SM_RT.pdf, ck/RS-282G05A-SM_RT.pdf, ck/RS285G05A2URT_Dwg.pdf, ck/c-amp-k-tactile-pts636-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts847-series-datasheet.pdf, eswitch/06-TS35M943160TR.pdf, eswitch/TL1107.pdf, eswitch/TL3302-5c1553.pdf, eswitch/TL3302-b1d73c.pdf, eswitch/TL3330.pdf, eswitch/TL4100.pdf, eswitch/TL4105.pdf, eswitch/TL6340.pdf, eswitch/TL6400.pdf, omron/en-b3u.pdf, samesky/ts09.pdf, samesky/ts30.pdf, samesky/ts31.pdf, samesky/ts32.pdf, samesky/ts33.pdf, samesky/ts35.pdf, wurth/434111043826.pdf, wurth/434111050826.pdf, wurth/434113043826.pdf, wurth/434113050826.pdf, wurth/434121043816.pdf, wurth/434121043836.pdf, wurth/434121050816.pdf, wurth/434121050836.pdf, wurth/434123043816.pdf, wurth/434123043836.pdf, wurth/434123050816.pdf, wurth/434123050836.pdf",
       "pinouts": {
         "p2_1_2": [
           {"number":1,"name":"A","role":"inout"},
@@ -1100,6 +1100,18 @@
       "momentary": true,
       "ratedVolts": 12,
       "parts": [
+        {"name":"434111043826","manufacturer":"Würth Elektronik","datasheet":"434111043826","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-WS-TASV-434111-H43"},
+        {"name":"434111050826","manufacturer":"Würth Elektronik","datasheet":"434111050826","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-WS-TASV-434111-H43"},
+        {"name":"434113043826","manufacturer":"Würth Elektronik","datasheet":"434113043826","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL6400"},
+        {"name":"434113050826","manufacturer":"Würth Elektronik","datasheet":"434113050826","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL6400"},
+        {"name":"434121043816","manufacturer":"Würth Elektronik","datasheet":"434121043816","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-WS-TASV-434111-H43"},
+        {"name":"434121043836","manufacturer":"Würth Elektronik","datasheet":"434121043836","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-WS-TASV-434111-H43"},
+        {"name":"434121050816","manufacturer":"Würth Elektronik","datasheet":"434121050816","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-WS-TASV-434111-H43"},
+        {"name":"434121050836","manufacturer":"Würth Elektronik","datasheet":"434121050836","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-WS-TASV-434111-H43"},
+        {"name":"434123043816","manufacturer":"Würth Elektronik","datasheet":"434123043816","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL6400"},
+        {"name":"434123043836","manufacturer":"Würth Elektronik","datasheet":"434123043836","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL6400"},
+        {"name":"434123050816","manufacturer":"Würth Elektronik","datasheet":"434123050816","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL6400"},
+        {"name":"434123050836","manufacturer":"Würth Elektronik","datasheet":"434123050836","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL6400"},
         {"name":"ADTSM31NV","manufacturer":"APEM","datasheet":"adts3","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ADTS3-SMD"},
         {"name":"ADTSM31NVTR","manufacturer":"APEM","datasheet":"adts3","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ADTS3-SMD"},
         {"name":"ADTSM31SVTR","manufacturer":"APEM","datasheet":"adts3","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ADTS3-SMD"},
@@ -1219,7 +1231,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 12 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: alps/PdfFile_191666.pdf, alps/product_spec_skhhlma010_en_0953940899.pdf, alps/product_spec_skhhlna010_en_3f6253977e.pdf, alps/product_spec_skhhlpa010_en_3e72111715.pdf, alps/product_spec_skhhlqa010_en_6371ab50be.pdf, alps/product_spec_skhhlra010_en_6e5f9638e5.pdf, alps/product_spec_skhhlua010_en_47c48beb9c.pdf, alps/product_spec_skhhlva010_en_98c6db8290.pdf, alps/product_spec_skhhlwa010_en_0824991e53.pdf, alps/product_spec_skrtlae010_en_1db35b7ed3.pdf, alps/product_spec_skswcee010_en_fd10e51df1.pdf, alps/product_spec_skswcfe010_en_7b9f00e581.pdf, alps/skhh.pdf, alps/sksw.pdf, apem/MJTP1117.pdf, apem/adts6-adtsm-ktsc6.pdf, ck/PTS845.pdf, ck/RS022R_Dwg.pdf, ck/ck-pts645vl832lfs.pdf, ck/littelfuse-c-k-tactile-pts645v-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts820-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts845-series-datasheet.pdf, ck/pts645.pdf, eswitch/TL1015.pdf, eswitch/TL1017.pdf, eswitch/TL1105.pdf, eswitch/TL3336.pdf, eswitch/TL3340.pdf, eswitch/TL3360.pdf, eswitch/TL3780.pdf, eswitch/TL4115AF160Q.pdf, eswitch/TL4115AF220Q.pdf, eswitch/TL52.pdf, eswitch/TL58.pdf, eswitch/TL59.pdf, eswitch/TL6059.pdf, eswitch/TL6110.pdf, omron/A112-E1.pdf, omron/en-b3u.pdf, omron/en-b3wn.pdf, samesky/ts11.pdf, samesky/ts41.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: alps/PdfFile_191666.pdf, alps/product_spec_skhhlma010_en_0953940899.pdf, alps/product_spec_skhhlna010_en_3f6253977e.pdf, alps/product_spec_skhhlpa010_en_3e72111715.pdf, alps/product_spec_skhhlqa010_en_6371ab50be.pdf, alps/product_spec_skhhlra010_en_6e5f9638e5.pdf, alps/product_spec_skhhlua010_en_47c48beb9c.pdf, alps/product_spec_skhhlva010_en_98c6db8290.pdf, alps/product_spec_skhhlwa010_en_0824991e53.pdf, alps/product_spec_skrtlae010_en_1db35b7ed3.pdf, alps/product_spec_skswcee010_en_fd10e51df1.pdf, alps/product_spec_skswcfe010_en_7b9f00e581.pdf, alps/skhh.pdf, alps/sksw.pdf, apem/MJTP1117.pdf, apem/adts6-adtsm-ktsc6.pdf, ck/PTS845.pdf, ck/RS022R_Dwg.pdf, ck/ck-pts645vl832lfs.pdf, ck/littelfuse-c-k-tactile-pts645v-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts820-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts845-series-datasheet.pdf, ck/pts645.pdf, eswitch/TL1015.pdf, eswitch/TL1017.pdf, eswitch/TL1105.pdf, eswitch/TL3336.pdf, eswitch/TL3340.pdf, eswitch/TL3360.pdf, eswitch/TL3780.pdf, eswitch/TL4115AF160Q.pdf, eswitch/TL4115AF220Q.pdf, eswitch/TL52.pdf, eswitch/TL58.pdf, eswitch/TL59.pdf, eswitch/TL6059.pdf, eswitch/TL6110.pdf, omron/A112-E1.pdf, omron/en-b3u.pdf, omron/en-b3wn.pdf, samesky/ts11.pdf, samesky/ts41.pdf, wurth/431256031716.pdf, wurth/431256031726.pdf, wurth/431256031736.pdf, wurth/431256038716.pdf, wurth/431256038726.pdf, wurth/431256058716.pdf, wurth/431256058726.pdf, wurth/431256058736.pdf, wurth/431256083716.pdf, wurth/431256083726.pdf, wurth/431256083736.pdf, wurth/434111025826.pdf, wurth/434113025826.pdf, wurth/434121025816.pdf, wurth/434123025816.pdf, wurth/434771025826.pdf, wurth/434781025816.pdf, wurth/436333033816.pdf",
       "pinouts": {
         "p2_1_2": [
           {"number":1,"name":"A","role":"inout"},
@@ -1233,6 +1245,24 @@
       "momentary": true,
       "ratedVolts": 12,
       "parts": [
+        {"name":"431256031716","manufacturer":"Würth Elektronik","datasheet":"431256031716","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
+        {"name":"431256031726","manufacturer":"Würth Elektronik","datasheet":"431256031726","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
+        {"name":"431256031736","manufacturer":"Würth Elektronik","datasheet":"431256031736","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
+        {"name":"431256038716","manufacturer":"Würth Elektronik","datasheet":"431256038716","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
+        {"name":"431256038726","manufacturer":"Würth Elektronik","datasheet":"431256038726","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
+        {"name":"431256058716","manufacturer":"Würth Elektronik","datasheet":"431256058716","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
+        {"name":"431256058726","manufacturer":"Würth Elektronik","datasheet":"431256058726","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
+        {"name":"431256058736","manufacturer":"Würth Elektronik","datasheet":"431256058736","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
+        {"name":"431256083716","manufacturer":"Würth Elektronik","datasheet":"431256083716","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
+        {"name":"431256083726","manufacturer":"Würth Elektronik","datasheet":"431256083726","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
+        {"name":"431256083736","manufacturer":"Würth Elektronik","datasheet":"431256083736","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
+        {"name":"434111025826","manufacturer":"Würth Elektronik","datasheet":"434111025826","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TS10"},
+        {"name":"434113025826","manufacturer":"Würth Elektronik","datasheet":"434113025826","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-WS-TASV-434113-H25"},
+        {"name":"434121025816","manufacturer":"Würth Elektronik","datasheet":"434121025816","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TS10"},
+        {"name":"434123025816","manufacturer":"Würth Elektronik","datasheet":"434123025816","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-WS-TASV-434113-H25"},
+        {"name":"434771025826","manufacturer":"Würth Elektronik","datasheet":"434771025826","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-WS-TASV-434771"},
+        {"name":"434781025816","manufacturer":"Würth Elektronik","datasheet":"434781025816","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-WS-TASV-434771"},
+        {"name":"436333033816","manufacturer":"Würth Elektronik","datasheet":"436333033816","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-SKRT"},
         {"name":"ADTSA62NV","manufacturer":"APEM","datasheet":"adts6-adtsm-ktsc6","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
         {"name":"ADTSA62RV","manufacturer":"APEM","datasheet":"adts6-adtsm-ktsc6","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
         {"name":"ADTSA63RV","manufacturer":"APEM","datasheet":"adts6-adtsm-ktsc6","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
@@ -1408,7 +1438,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 15 V, Rectangular Button actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: samesky/ts22.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: samesky/ts22.pdf, wurth/434381035816.pdf",
       "pinouts": {
         "p2_1_2": [
           {"number":1,"name":"A","role":"inout"},
@@ -1422,6 +1452,7 @@
       "momentary": true,
       "ratedVolts": 15,
       "parts": [
+        {"name":"434381035816","manufacturer":"Würth Elektronik","datasheet":"434381035816","package":"Edge mount","pinout":"p2_1_2","footprint":"SW-TACT-WS-TASU-434381"},
         {"name":"TS22-45-035-BK-160-SMT-TR","manufacturer":"Same Sky","datasheet":"ts22","package":"Edge mount","pinout":"p2_1_2","footprint":"SW-TACT-TS22"},
         {"name":"TS22-45-035-BK-260-SMT-TR","manufacturer":"Same Sky","datasheet":"ts22","package":"Edge mount","pinout":"p2_1_2","footprint":"SW-TACT-TS22"}
       ]
@@ -1494,7 +1525,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 16 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 16VDC; the switching rating); datasheets: alps/skps.pdf, ck/littelfuse-c-k-tactile-tls-series-datasheet.pdf, eswitch/TL9320.pdf, samesky/ts37-6368-41-r-400-smt-tr.pdf, samesky/ts45.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 16VDC; the switching rating); datasheets: alps/skps.pdf, ck/littelfuse-c-k-tactile-tls-series-datasheet.pdf, eswitch/TL9320.pdf, samesky/ts37-6368-41-r-400-smt-tr.pdf, samesky/ts45.pdf, wurth/430133050816.pdf",
       "pinouts": {
         "p2_1_2": [
           {"number":1,"name":"A","role":"inout"},
@@ -1508,6 +1539,7 @@
       "momentary": true,
       "ratedVolts": 16,
       "parts": [
+        {"name":"430133050816","manufacturer":"Würth Elektronik","datasheet":"430133050816","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TS35"},
         {"name":"SKPSADE010","manufacturer":"Alps Alpine","datasheet":"skps","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TS35"},
         {"name":"TL9320AF400QG","manufacturer":"E-Switch","datasheet":"tl9320","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL9320"},
         {"name":"TLS A 040J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-tls-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TLS"},
@@ -1975,7 +2007,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Plunger for Cap actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: alps/product_spec_skhhcwa010_en_5eff2146cd.pdf, alps/product_spec_skhhdaa010_en_db00a6fed0.pdf, apem/MJTP1117.pdf, apem/adts6-adtsm-ktsc6.pdf, ck/littelfuse-c-k-tactile-pts125-series-datasheet.pdf, ck/pts645.pdf, eswitch/TL1100.pdf, eswitch/TL1105.pdf, eswitch/TL1240.pdf, eswitch/TL1250.pdf, eswitch/TL3300.pdf, eswitch/TL3301.pdf, eswitch/TL6300.pdf, samesky/ts01.pdf, samesky/ts13.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: alps/product_spec_skhhcwa010_en_5eff2146cd.pdf, alps/product_spec_skhhdaa010_en_db00a6fed0.pdf, apem/MJTP1117.pdf, apem/adts6-adtsm-ktsc6.pdf, ck/littelfuse-c-k-tactile-pts125-series-datasheet.pdf, ck/pts645.pdf, eswitch/TL1100.pdf, eswitch/TL1105.pdf, eswitch/TL1240.pdf, eswitch/TL1250.pdf, eswitch/TL3300.pdf, eswitch/TL3301.pdf, eswitch/TL6300.pdf, samesky/ts01.pdf, samesky/ts13.pdf, wurth/430172073816.pdf, wurth/430456073736.pdf, wurth/430466073726.pdf, wurth/430476073716.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -1995,6 +2027,10 @@
       "momentary": true,
       "ratedVolts": 12,
       "parts": [
+        {"name":"430172073816","manufacturer":"Würth Elektronik","datasheet":"430172073816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430162"},
+        {"name":"430456073736","manufacturer":"Würth Elektronik","datasheet":"430456073736","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-ADTS-THT-12"},
+        {"name":"430466073726","manufacturer":"Würth Elektronik","datasheet":"430466073726","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-ADTS-THT-12"},
+        {"name":"430476073716","manufacturer":"Würth Elektronik","datasheet":"430476073716","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-ADTS-THT-12"},
         {"name":"ADTS24RV","manufacturer":"APEM","datasheet":"adts6-adtsm-ktsc6","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-ADTS-THT-12"},
         {"name":"ADTS644NV","manufacturer":"APEM","datasheet":"adts6-adtsm-ktsc6","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-ADTS-THT-64"},
         {"name":"ADTS648NV","manufacturer":"APEM","datasheet":"adts6-adtsm-ktsc6","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-ADTS-THT-64"},
@@ -2047,7 +2083,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Rectangular Button actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 12VDC, 0.05A @ 12VDC; the switching rating); datasheets: alps/product_spec_sksclce010_en_5422358d87.pdf, alps/product_spec_sksclde010_en_cfa0e381ea.pdf, alps/product_spec_skscpbe010_en_2ad7b9fc58.pdf, alps/sksc.pdf, apem/aptclgtv.pdf, ck/littelfuse-c-k-tactile-pts840-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts841-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts850-series-datasheet.pdf, ck/littelfuse-c-k-tactile-rkc2-series-datasheet.pdf, eswitch/TL1014.pdf, eswitch/TL1016.pdf, eswitch/TL1030.pdf, eswitch/TL3901.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 12VDC, 0.05A @ 12VDC; the switching rating); datasheets: alps/product_spec_sksclce010_en_5422358d87.pdf, alps/product_spec_sksclde010_en_cfa0e381ea.pdf, alps/product_spec_skscpbe010_en_2ad7b9fc58.pdf, alps/sksc.pdf, apem/aptclgtv.pdf, ck/littelfuse-c-k-tactile-pts840-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts841-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts850-series-datasheet.pdf, ck/littelfuse-c-k-tactile-rkc2-series-datasheet.pdf, eswitch/TL1014.pdf, eswitch/TL1016.pdf, eswitch/TL1030.pdf, eswitch/TL3901.pdf, wurth/434153017835.pdf, wurth/434331013822.pdf, wurth/434331045822.pdf, wurth/434333045822.pdf, wurth/434351045816.pdf, wurth/434353045816.pdf, wurth/436331045822.pdf, wurth/436333045822.pdf, wurth/436351045816.pdf, wurth/436353045816.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -2073,6 +2109,16 @@
       "momentary": true,
       "ratedVolts": 12,
       "parts": [
+        {"name":"434153017835","manufacturer":"Würth Elektronik","datasheet":"434153017835","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-TL1030"},
+        {"name":"434331013822","manufacturer":"Würth Elektronik","datasheet":"434331013822","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASU-434331-H13"},
+        {"name":"434331045822","manufacturer":"Würth Elektronik","datasheet":"434331045822","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-TL1014"},
+        {"name":"434333045822","manufacturer":"Würth Elektronik","datasheet":"434333045822","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASU-434333"},
+        {"name":"434351045816","manufacturer":"Würth Elektronik","datasheet":"434351045816","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-TL1014"},
+        {"name":"434353045816","manufacturer":"Würth Elektronik","datasheet":"434353045816","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASU-434333"},
+        {"name":"436331045822","manufacturer":"Würth Elektronik","datasheet":"436331045822","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-TL1014"},
+        {"name":"436333045822","manufacturer":"Würth Elektronik","datasheet":"436333045822","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASU-434333"},
+        {"name":"436351045816","manufacturer":"Würth Elektronik","datasheet":"436351045816","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-TL1014"},
+        {"name":"436353045816","manufacturer":"Würth Elektronik","datasheet":"436353045816","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASU-434333"},
         {"name":"APTCLGTVTR","manufacturer":"APEM","datasheet":"aptclgtv","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-APTC"},
         {"name":"PTS840ESDGMPSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts840-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS840"},
         {"name":"PTS840ESDPMSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts840-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS840-P"},
@@ -2230,7 +2276,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: alps/PdfFile_260198.pdf, alps/SKQGAB_KQG_719_EN_cc4e10226e.pdf, alps/SKQGAF_KQG_706_EN_18ba0d0cc8.pdf, alps/product_catalog_ta_02_skqg_en_d003713f01.pdf, alps/product_spec_skhhaja010_en_2553513b28.pdf, alps/product_spec_skhhaka010_en_cee96ceb02.pdf, alps/product_spec_skhhama010_en_161541eef7.pdf, alps/product_spec_skhhana010_en_bb842bfe45.pdf, alps/product_spec_skhhapa010_en_9a49ab3203.pdf, alps/product_spec_skhhaqa010_en_11be3d6ceb.pdf, alps/product_spec_skhhbsa010_en_f3020c5262.pdf, alps/product_spec_skhhbva010_en_c446c12032.pdf, alps/product_spec_skhhbya010_en_339382ede0.pdf, alps/product_spec_skhhcra010_en_79506b0c1a.pdf, alps/product_spec_skhhdha010_en_68d03c03d2.pdf, alps/product_spec_skhhdja010_en_677de2c057.pdf, alps/product_spec_skhhdta010_en_a2b59d627b.pdf, alps/product_spec_skhhdua010_en_3e31d1d73f.pdf, alps/product_spec_skhhpna010_en_ccdd707b27.pdf, alps/product_spec_skhuake010_en_c0dfd790d7.pdf, alps/product_spec_sksgaae010_en_b8a85c32e9.pdf, alps/product_spec_sksgace010_en_780d67a4ba.pdf, alps/product_spec_sksgpae010_en_94ef1bc1c4.pdf, alps/product_spec_sksgpce010_en_e46935b670.pdf, alps/skhh.pdf, alps/skta1.pdf, apem/MJTP1117.pdf, apem/PCB-MJTP-PHAP33-series-12mm-TH.pdf, apem/adts6-adtsm-ktsc6.pdf, ck/littelfuse-c-k-tactile-pts125-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts526-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts641-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts647-series-datasheet.pdf, ck/pts645.pdf, ck/pts830.pdf, eswitch/LL3301.pdf, eswitch/TL1018.pdf, eswitch/TL1100.pdf, eswitch/TL1105.pdf, eswitch/TL3145.pdf, eswitch/TL3300.pdf, eswitch/TL3301.pdf, eswitch/TL3303.pdf, eswitch/TL3305.pdf, eswitch/TL3313.pdf, eswitch/TL3342.pdf, eswitch/TL3701AF100QG.pdf, eswitch/TL6100.pdf, eswitch/TL6120.pdf, eswitch/TL6150.pdf, eswitch/TL6170.pdf, eswitch/TL6700.pdf, eswitch/TL6800.pdf, omron/en-b3se.pdf, omron/en-b3sl.pdf, samesky/ts02.pdf, samesky/ts03.pdf, samesky/ts04.pdf, samesky/ts05.pdf, samesky/ts06-291a5e.pdf, samesky/ts07.pdf, samesky/ts08.pdf, samesky/ts14.pdf, samesky/ts15.pdf, samesky/ts18.pdf, samesky/ts21.pdf, samesky/ts24.pdf, samesky/ts34.pdf, samesky/ts36.pdf, samesky/ts40.pdf, samesky/ts44.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: alps/PdfFile_260198.pdf, alps/SKQGAB_KQG_719_EN_cc4e10226e.pdf, alps/SKQGAF_KQG_706_EN_18ba0d0cc8.pdf, alps/product_catalog_ta_02_skqg_en_d003713f01.pdf, alps/product_spec_skhhaja010_en_2553513b28.pdf, alps/product_spec_skhhaka010_en_cee96ceb02.pdf, alps/product_spec_skhhama010_en_161541eef7.pdf, alps/product_spec_skhhana010_en_bb842bfe45.pdf, alps/product_spec_skhhapa010_en_9a49ab3203.pdf, alps/product_spec_skhhaqa010_en_11be3d6ceb.pdf, alps/product_spec_skhhbsa010_en_f3020c5262.pdf, alps/product_spec_skhhbva010_en_c446c12032.pdf, alps/product_spec_skhhbya010_en_339382ede0.pdf, alps/product_spec_skhhcra010_en_79506b0c1a.pdf, alps/product_spec_skhhdha010_en_68d03c03d2.pdf, alps/product_spec_skhhdja010_en_677de2c057.pdf, alps/product_spec_skhhdta010_en_a2b59d627b.pdf, alps/product_spec_skhhdua010_en_3e31d1d73f.pdf, alps/product_spec_skhhpna010_en_ccdd707b27.pdf, alps/product_spec_skhuake010_en_c0dfd790d7.pdf, alps/product_spec_sksgaae010_en_b8a85c32e9.pdf, alps/product_spec_sksgace010_en_780d67a4ba.pdf, alps/product_spec_sksgpae010_en_94ef1bc1c4.pdf, alps/product_spec_sksgpce010_en_e46935b670.pdf, alps/skhh.pdf, alps/skta1.pdf, apem/MJTP1117.pdf, apem/PCB-MJTP-PHAP33-series-12mm-TH.pdf, apem/adts6-adtsm-ktsc6.pdf, ck/littelfuse-c-k-tactile-pts125-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts526-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts641-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts647-series-datasheet.pdf, ck/pts645.pdf, ck/pts830.pdf, eswitch/LL3301.pdf, eswitch/TL1018.pdf, eswitch/TL1100.pdf, eswitch/TL1105.pdf, eswitch/TL3145.pdf, eswitch/TL3300.pdf, eswitch/TL3301.pdf, eswitch/TL3303.pdf, eswitch/TL3305.pdf, eswitch/TL3313.pdf, eswitch/TL3342.pdf, eswitch/TL3701AF100QG.pdf, eswitch/TL6100.pdf, eswitch/TL6120.pdf, eswitch/TL6150.pdf, eswitch/TL6170.pdf, eswitch/TL6700.pdf, eswitch/TL6800.pdf, omron/en-b3se.pdf, omron/en-b3sl.pdf, samesky/ts02.pdf, samesky/ts03.pdf, samesky/ts04.pdf, samesky/ts05.pdf, samesky/ts06-291a5e.pdf, samesky/ts07.pdf, samesky/ts08.pdf, samesky/ts14.pdf, samesky/ts15.pdf, samesky/ts18.pdf, samesky/ts21.pdf, samesky/ts24.pdf, samesky/ts34.pdf, samesky/ts36.pdf, samesky/ts40.pdf, samesky/ts44.pdf, wurth/430152043826.pdf, wurth/430152043836.pdf, wurth/430152050826.pdf, wurth/430152050836.pdf, wurth/430152070826.pdf, wurth/430152070836.pdf, wurth/430152080826.pdf, wurth/430152080836.pdf, wurth/430152095826.pdf, wurth/430152095836.pdf, wurth/430152130826.pdf, wurth/430152130836.pdf, wurth/430156043726.pdf, wurth/430156043736.pdf, wurth/430156050726.pdf, wurth/430156050736.pdf, wurth/430156070726.pdf, wurth/430156070736.pdf, wurth/430156095726.pdf, wurth/430156095736.pdf, wurth/430156130726.pdf, wurth/430156130736.pdf, wurth/430162043826.pdf, wurth/430162085826.pdf, wurth/430172043816.pdf, wurth/430172085816.pdf, wurth/430181038816.pdf, wurth/430182043816.pdf, wurth/430182050816.pdf, wurth/430182070816.pdf, wurth/430182080816.pdf, wurth/430182095816.pdf, wurth/430182130816.pdf, wurth/430186043716.pdf, wurth/430186050716.pdf, wurth/430186070716.pdf, wurth/430186095716.pdf, wurth/430186130716.pdf, wurth/430451025836.pdf, wurth/430451031836.pdf, wurth/430451035836.pdf, wurth/430453025836.pdf, wurth/430453031836.pdf, wurth/430453035836.pdf, wurth/430456043736.pdf, wurth/430456085736.pdf, wurth/430466043726.pdf, wurth/430466085726.pdf, wurth/430471025826.pdf, wurth/430471031826.pdf, wurth/430471035826.pdf, wurth/430473025826.pdf, wurth/430473031826.pdf, wurth/430473035826.pdf, wurth/430476085716.pdf, wurth/430481025816.pdf, wurth/430481031816.pdf, wurth/430481035816.pdf, wurth/430483025816.pdf, wurth/430483031816.pdf, wurth/430483035816.pdf, wurth/430753034832.pdf, wurth/430773034825.pdf, wurth/430773051825.pdf, wurth/430783034816.pdf, wurth/430783051816.pdf, wurth/431471031826.pdf, wurth/431471031836.pdf, wurth/431481031816.pdf, wurth/435151014824.pdf, wurth/435151014845.pdf, wurth/435171014816.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -2256,6 +2302,78 @@
       "momentary": true,
       "ratedVolts": 12,
       "parts": [
+        {"name":"430152043826","manufacturer":"Würth Elektronik","datasheet":"430152043826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430152043836","manufacturer":"Würth Elektronik","datasheet":"430152043836","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430152050826","manufacturer":"Würth Elektronik","datasheet":"430152050826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430152050836","manufacturer":"Würth Elektronik","datasheet":"430152050836","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430152070826","manufacturer":"Würth Elektronik","datasheet":"430152070826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430152070836","manufacturer":"Würth Elektronik","datasheet":"430152070836","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430152080826","manufacturer":"Würth Elektronik","datasheet":"430152080826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430152080836","manufacturer":"Würth Elektronik","datasheet":"430152080836","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430152095826","manufacturer":"Würth Elektronik","datasheet":"430152095826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430152095836","manufacturer":"Würth Elektronik","datasheet":"430152095836","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430152130826","manufacturer":"Würth Elektronik","datasheet":"430152130826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430152130836","manufacturer":"Würth Elektronik","datasheet":"430152130836","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430156043726","manufacturer":"Würth Elektronik","datasheet":"430156043726","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TATV-430156"},
+        {"name":"430156043736","manufacturer":"Würth Elektronik","datasheet":"430156043736","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TATV-430156"},
+        {"name":"430156050726","manufacturer":"Würth Elektronik","datasheet":"430156050726","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TATV-430156"},
+        {"name":"430156050736","manufacturer":"Würth Elektronik","datasheet":"430156050736","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TATV-430156"},
+        {"name":"430156070726","manufacturer":"Würth Elektronik","datasheet":"430156070726","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TATV-430156"},
+        {"name":"430156070736","manufacturer":"Würth Elektronik","datasheet":"430156070736","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TATV-430156"},
+        {"name":"430156095726","manufacturer":"Würth Elektronik","datasheet":"430156095726","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TATV-430156"},
+        {"name":"430156095736","manufacturer":"Würth Elektronik","datasheet":"430156095736","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TATV-430156"},
+        {"name":"430156130726","manufacturer":"Würth Elektronik","datasheet":"430156130726","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TATV-430156"},
+        {"name":"430156130736","manufacturer":"Würth Elektronik","datasheet":"430156130736","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TATV-430156"},
+        {"name":"430162043826","manufacturer":"Würth Elektronik","datasheet":"430162043826","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430162"},
+        {"name":"430162085826","manufacturer":"Würth Elektronik","datasheet":"430162085826","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430162"},
+        {"name":"430172043816","manufacturer":"Würth Elektronik","datasheet":"430172043816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430162"},
+        {"name":"430172085816","manufacturer":"Würth Elektronik","datasheet":"430172085816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430162"},
+        {"name":"430181038816","manufacturer":"Würth Elektronik","datasheet":"430181038816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430181"},
+        {"name":"430182043816","manufacturer":"Würth Elektronik","datasheet":"430182043816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430182050816","manufacturer":"Würth Elektronik","datasheet":"430182050816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430182070816","manufacturer":"Würth Elektronik","datasheet":"430182070816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430182080816","manufacturer":"Würth Elektronik","datasheet":"430182080816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430182095816","manufacturer":"Würth Elektronik","datasheet":"430182095816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430182130816","manufacturer":"Würth Elektronik","datasheet":"430182130816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
+        {"name":"430186043716","manufacturer":"Würth Elektronik","datasheet":"430186043716","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TATV-430156"},
+        {"name":"430186050716","manufacturer":"Würth Elektronik","datasheet":"430186050716","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TATV-430156"},
+        {"name":"430186070716","manufacturer":"Würth Elektronik","datasheet":"430186070716","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TATV-430156"},
+        {"name":"430186095716","manufacturer":"Würth Elektronik","datasheet":"430186095716","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TATV-430156"},
+        {"name":"430186130716","manufacturer":"Würth Elektronik","datasheet":"430186130716","package":"THT","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TATV-430156"},
+        {"name":"430451025836","manufacturer":"Würth Elektronik","datasheet":"430451025836","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430451"},
+        {"name":"430451031836","manufacturer":"Würth Elektronik","datasheet":"430451031836","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430451"},
+        {"name":"430451035836","manufacturer":"Würth Elektronik","datasheet":"430451035836","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430451"},
+        {"name":"430453025836","manufacturer":"Würth Elektronik","datasheet":"430453025836","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430453"},
+        {"name":"430453031836","manufacturer":"Würth Elektronik","datasheet":"430453031836","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430453"},
+        {"name":"430453035836","manufacturer":"Würth Elektronik","datasheet":"430453035836","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430453"},
+        {"name":"430456043736","manufacturer":"Würth Elektronik","datasheet":"430456043736","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-ADTS-THT-12"},
+        {"name":"430456085736","manufacturer":"Würth Elektronik","datasheet":"430456085736","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-ADTS-THT-12"},
+        {"name":"430466043726","manufacturer":"Würth Elektronik","datasheet":"430466043726","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-ADTS-THT-12"},
+        {"name":"430466085726","manufacturer":"Würth Elektronik","datasheet":"430466085726","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-ADTS-THT-12"},
+        {"name":"430471025826","manufacturer":"Würth Elektronik","datasheet":"430471025826","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430451"},
+        {"name":"430471031826","manufacturer":"Würth Elektronik","datasheet":"430471031826","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430451"},
+        {"name":"430471035826","manufacturer":"Würth Elektronik","datasheet":"430471035826","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430451"},
+        {"name":"430473025826","manufacturer":"Würth Elektronik","datasheet":"430473025826","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430453"},
+        {"name":"430473031826","manufacturer":"Würth Elektronik","datasheet":"430473031826","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430453"},
+        {"name":"430473035826","manufacturer":"Würth Elektronik","datasheet":"430473035826","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430453"},
+        {"name":"430476085716","manufacturer":"Würth Elektronik","datasheet":"430476085716","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-ADTS-THT-12"},
+        {"name":"430481025816","manufacturer":"Würth Elektronik","datasheet":"430481025816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430451"},
+        {"name":"430481031816","manufacturer":"Würth Elektronik","datasheet":"430481031816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430451"},
+        {"name":"430481035816","manufacturer":"Würth Elektronik","datasheet":"430481035816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430451"},
+        {"name":"430483025816","manufacturer":"Würth Elektronik","datasheet":"430483025816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430453"},
+        {"name":"430483031816","manufacturer":"Würth Elektronik","datasheet":"430483031816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430453"},
+        {"name":"430483035816","manufacturer":"Würth Elektronik","datasheet":"430483035816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430453"},
+        {"name":"430753034832","manufacturer":"Würth Elektronik","datasheet":"430753034832","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6150-J"},
+        {"name":"430773034825","manufacturer":"Würth Elektronik","datasheet":"430773034825","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6150-J"},
+        {"name":"430773051825","manufacturer":"Würth Elektronik","datasheet":"430773051825","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6150-J"},
+        {"name":"430783034816","manufacturer":"Würth Elektronik","datasheet":"430783034816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6150-J"},
+        {"name":"430783051816","manufacturer":"Würth Elektronik","datasheet":"430783051816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6150-J"},
+        {"name":"431471031826","manufacturer":"Würth Elektronik","datasheet":"431471031826","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-431471"},
+        {"name":"431471031836","manufacturer":"Würth Elektronik","datasheet":"431471031836","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-431471"},
+        {"name":"431481031816","manufacturer":"Würth Elektronik","datasheet":"431481031816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-431471"},
+        {"name":"435151014824","manufacturer":"Würth Elektronik","datasheet":"435151014824","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS830-G"},
+        {"name":"435151014845","manufacturer":"Würth Elektronik","datasheet":"435151014845","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS830-G"},
+        {"name":"435171014816","manufacturer":"Würth Elektronik","datasheet":"435171014816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS830-G"},
         {"name":"ADTS21NV","manufacturer":"APEM","datasheet":"adts6-adtsm-ktsc6","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-ADTS-THT-12"},
         {"name":"ADTS21RV","manufacturer":"APEM","datasheet":"adts6-adtsm-ktsc6","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-ADTS-THT-12"},
         {"name":"ADTS25NV","manufacturer":"APEM","datasheet":"adts6-adtsm-ktsc6","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-ADTS-THT-12"},
@@ -2845,12 +2963,18 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Without actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: samesky/ts42.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: samesky/ts42.pdf, wurth/430151005826.pdf, wurth/430173003816.pdf, wurth/430181005816.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
           {"number":2,"name":"A2","role":"inout"},
           {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ],
+        "p4_1_3_2_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"B1","role":"inout"},
+          {"number":3,"name":"A2","role":"inout"},
           {"number":4,"name":"B2","role":"inout"}
         ]
       },
@@ -2865,6 +2989,9 @@
       "momentary": true,
       "ratedVolts": 12,
       "parts": [
+        {"name":"430151005826","manufacturer":"Würth Elektronik","datasheet":"430151005826","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430151"},
+        {"name":"430173003816","manufacturer":"Würth Elektronik","datasheet":"430173003816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-SKRW"},
+        {"name":"430181005816","manufacturer":"Würth Elektronik","datasheet":"430181005816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430151"},
         {"name":"TS42-5252-09-Y-160-SMT-TR","manufacturer":"Same Sky","datasheet":"ts42","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TS42"},
         {"name":"TS42-5252-09-Y-260-SMT-TR","manufacturer":"Same Sky","datasheet":"ts42","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TS42"},
         {"name":"TS42-5252-09-Y-350-SMT-TR","manufacturer":"Same Sky","datasheet":"ts42","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TS42"}
@@ -2936,12 +3063,18 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 15 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts525-series-datasheet.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts525-series-datasheet.pdf, wurth/431151015826.pdf, wurth/431153015826.pdf, wurth/431181015816.pdf, wurth/431183015816.pdf, wurth/434133025826.pdf, wurth/434163025816.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
           {"number":2,"name":"A2","role":"inout"},
           {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ],
+        "p4_1_3_2_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"B1","role":"inout"},
+          {"number":3,"name":"A2","role":"inout"},
           {"number":4,"name":"B2","role":"inout"}
         ]
       },
@@ -2956,7 +3089,44 @@
       "momentary": true,
       "ratedVolts": 15,
       "parts": [
+        {"name":"431151015826","manufacturer":"Würth Elektronik","datasheet":"431151015826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431151"},
+        {"name":"431153015826","manufacturer":"Würth Elektronik","datasheet":"431153015826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431153"},
+        {"name":"431181015816","manufacturer":"Würth Elektronik","datasheet":"431181015816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431151"},
+        {"name":"431183015816","manufacturer":"Würth Elektronik","datasheet":"431183015816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431153"},
+        {"name":"434133025826","manufacturer":"Würth Elektronik","datasheet":"434133025826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-434133"},
+        {"name":"434163025816","manufacturer":"Würth Elektronik","datasheet":"434163025816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-434133"},
         {"name":"PTS525SM15SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts525-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS525-SMD"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_15v_without",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 15 V, Without actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: wurth/431151008826.pdf, wurth/431153008826.pdf, wurth/431181008816.pdf, wurth/431183008816.pdf",
+      "pinouts": {
+        "p4_1_3_2_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"B1","role":"inout"},
+          {"number":3,"name":"A2","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Without",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 15,
+      "parts": [
+        {"name":"431151008826","manufacturer":"Würth Elektronik","datasheet":"431151008826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431151"},
+        {"name":"431153008826","manufacturer":"Würth Elektronik","datasheet":"431153008826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431153"},
+        {"name":"431181008816","manufacturer":"Würth Elektronik","datasheet":"431181008816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431151"},
+        {"name":"431183008816","manufacturer":"Würth Elektronik","datasheet":"431183008816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431153"}
       ]
     },
     {
@@ -2964,7 +3134,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 16 V, Oval Button actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 16VDC, 25mA @ 16VDC; the switching rating); datasheets: alps/product_catalog_ta_02_skrp_en.pdf, alps/product_spec_skthahe010_en_e4350f3b4b.pdf, alps/product_spec_skthbae010_en_f1b9e32850.pdf, ck/littelfuse-c-k-tactile-pts810-series-datasheet.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 16VDC, 25mA @ 16VDC; the switching rating); datasheets: alps/product_catalog_ta_02_skrp_en.pdf, alps/product_spec_skthahe010_en_e4350f3b4b.pdf, alps/product_spec_skthbae010_en_f1b9e32850.pdf, ck/littelfuse-c-k-tactile-pts810-series-datasheet.pdf, wurth/434123025826.pdf, wurth/434133025816.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -2984,6 +3154,8 @@
       "momentary": true,
       "ratedVolts": 16,
       "parts": [
+        {"name":"434123025826","manufacturer":"Würth Elektronik","datasheet":"434123025826","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS810"},
+        {"name":"434133025816","manufacturer":"Würth Elektronik","datasheet":"434133025816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS810"},
         {"name":"PTS810SJG250SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts810-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS810"},
         {"name":"PTS810SJK250SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts810-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS810"},
         {"name":"PTS810SJM250SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts810-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS810"},
@@ -3389,7 +3561,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 32 V, Rectangular Button actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 32VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kmr6-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kmr7-series-datasheet.pdf, eswitch/TL6330.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 32VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kmr6-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kmr7-series-datasheet.pdf, eswitch/TL6330.pdf, wurth/435431019840.pdf, wurth/435441019830.pdf, wurth/435451019820.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -3415,6 +3587,9 @@
       "momentary": true,
       "ratedVolts": 32,
       "parts": [
+        {"name":"435431019840","manufacturer":"Würth Elektronik","datasheet":"435431019840","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"435441019830","manufacturer":"Würth Elektronik","datasheet":"435441019830","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"435451019820","manufacturer":"Würth Elektronik","datasheet":"435451019820","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
         {"name":"KMR733NG ULC LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr7-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
         {"name":"TL6330AF200Q","manufacturer":"E-Switch","datasheet":"tl6330","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6330"},
         {"name":"Y78B62324FP","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr6-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"}
