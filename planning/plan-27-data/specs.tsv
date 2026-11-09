@@ -13,42 +13,44 @@ APEM Inc.	MJTP	Through Hole, Right Angle	.*
 APEM Inc.	Multimec® 3	Surface Mount	.*				
 APEM Inc.	Multimec™ 3A	Surface Mount	.*				
 Alps Alpine	SKHC	Through Hole	.*				
-Alps Alpine	SKHH	Through Hole	.*				
-Alps Alpine	SKHH	Through Hole, Right Angle	.*				
+Alps Alpine	SKHH	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-PTS645-THT	skhh.pdf p.4 Circuit Diagram, top push / joint stem / with ground terminal (1-2 and 3-4 joined; ground terminal 5 not a switch terminal)
+Alps Alpine	SKHH	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-SKHH-THT-RA	skhh.pdf p.4 Circuit Diagram, side push (1-2)
 Alps Alpine	SKHL	Through Hole	.*				
 Alps Alpine	SKHL	Through Hole, Right Angle	.*				
-Alps Alpine	SKHU	Surface Mount	.*				
-Alps Alpine	SKPS	Surface Mount	.*				
+Alps Alpine	SKHU	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL6800	PdfFile_260198.pdf p.2 Circuit Diagram (1-2 and 3-4 joined; ground terminal 5 of SKHUP*/SKHUQ* not a switch terminal)
+Alps Alpine	SKPS	Surface Mount	.*	2	A=1;B=2	SW-TACT-TS35	skps.pdf p.1 Circuit Diagram
 Alps Alpine	SKQE	Through Hole	.*				
-Alps Alpine	SKQG	Surface Mount	.*				
+Alps Alpine	SKQG	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-SKQG	product_catalog_ta_02_skqg_en_d003713f01.pdf p.1 Drawing No.1 Circuit Diagram (1-2 and 3-4 joined)
 Alps Alpine	SKQJ	Through Hole	.*				
 Alps Alpine	SKQM	Surface Mount	.*				
 Alps Alpine	SKQY	Surface Mount	.*				
-Alps Alpine	SKRA	Surface Mount	.*				
+Alps Alpine	SKRA	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL6150-J	skra.pdf p.1 Circuit Diagram (1-2 and 3-4 joined)
 Alps Alpine	SKRB	Surface Mount	.*				
 Alps Alpine	SKRK	Surface Mount	.*				
 Alps Alpine	SKRM	Surface Mount	.*				
 Alps Alpine	SKRN	Surface Mount	.*				
-Alps Alpine	SKRP	Surface Mount	.*				
-Alps Alpine	SKRP	Surface Mount, Right Angle	.*				
+Alps Alpine	SKRP	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-PTS810	product_catalog_ta_02_skrp_en.pdf p.2 Drawing No.1 Circuit Diagram (1-2 and 3-4 joined)
+Alps Alpine	SKRP	Surface Mount, Right Angle	.*	4	A=1,2;B=3,4	SW-TACT-PTS810	product_catalog_ta_02_skrp_en.pdf p.2 Drawing No.1 Circuit Diagram (1-2 and 3-4 joined); the catalog lists SKRPAKE010/SKRPAME010 as top push, Drawing No.1, like the rest
 Alps Alpine	SKRR	Surface Mount	.*				
-Alps Alpine	SKRT	Surface Mount, Right Angle	.*				
-Alps Alpine	SKRW	Surface Mount	.*				
-Alps Alpine	SKSC	Surface Mount	.*				
-Alps Alpine	SKSC	Surface Mount, Right Angle	.*				
-Alps Alpine	SKSG	Surface Mount	.*				
-Alps Alpine	SKSG	Surface Mount, Right Angle	.*				
+Alps Alpine	SKRT	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-SKRT	PdfFile_191666.pdf p.1 Circuit Diagram: 3 terminals, 1 and 3 joined against 2; drawn as 2 pins, footprint pin 1 = datasheet terminals 1 and 3 (both outer lands), pin 2 = terminal 2
+Alps Alpine	SKRW	Surface Mount	.*	4	A=1,3;B=2,4	SW-TACT-SKRW	product_catalog_ta_02_skrw_en_e2e67a2472.pdf p.1 Drawing No.1 Circuit Diagram (1-3 and 2-4 joined)
+Alps Alpine	SKSC	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-SKSC	sksc.pdf p.2 Circuit Diagram (3-4 and 1-2 joined); every SKSC is side push
+Alps Alpine	SKSC	Surface Mount, Right Angle	.*	4	A=1,2;B=3,4	SW-TACT-SKSC	sksc.pdf p.2 Circuit Diagram (3-4 and 1-2 joined)
+Alps Alpine	SKSG	Surface Mount	.*	4	A=1,3;B=2,4	SW-TACT-SKSG	sksg.pdf p.2 Circuit Diagram (1-3 and 2-4 joined; ground terminals 5, 6 of SKSGP* not switch terminals)
+Alps Alpine	SKSG	Surface Mount, Right Angle	.*	4	A=1,3;B=2,4	SW-TACT-SKSG	sksg.pdf p.2 Circuit Diagram (1-3 and 2-4 joined); SKSGPCE010 is top push with ground terminal in the catalog
 Alps Alpine	SKSH	Surface Mount	.*				
 Alps Alpine	SKSL	Surface Mount, Right Angle	.*				
 Alps Alpine	SKSN	Edge Mount, Right Angle	.*				
 Alps Alpine	SKST	Surface Mount	.*				
 Alps Alpine	SKSU	Surface Mount, Right Angle	.*				
 Alps Alpine	SKSV	Surface Mount	.*				
-Alps Alpine	SKSW	Surface Mount	.*				
-Alps Alpine	SKTA	Surface Mount	.*				
+Alps Alpine	SKSW	Surface Mount	.*	2	A=1;B=2	SW-TACT-KXT3	sksw.pdf p.2 Circuit Diagram
+Alps Alpine	SKTA	Surface Mount	.*	4	A=1,3;B=2,4	SW-TACT-SKTA	skta1.pdf p.1 Circuit Diagram (1-3 and 2-4 joined)
 Alps Alpine	SKTD	Surface Mount, Right Angle	.*				
-Alps Alpine	SKTH	Surface Mount	.*				
-Alps Alpine	SKTH	Surface Mount, Right Angle	.*				
+Alps Alpine	SKTH	Surface Mount	SKTH(ACE|AHE|BAE)010	4	A=1,2;B=3,4	SW-TACT-SKTH	skth.pdf p.2 Circuit Diagram (3-4 and 1-2 joined); land drawings 1 and 2
+Alps Alpine	SKTH	Surface Mount	SKTHAEE010	4	A=1,2;B=3,4	SW-TACT-SKTH-AE	skth.pdf p.2 Circuit Diagram (3-4 and 1-2 joined); land drawing 3
+Alps Alpine	SKTH	Surface Mount, Right Angle	SKTH(ACE|AHE|BAE)010	4	A=1,2;B=3,4	SW-TACT-SKTH	skth.pdf p.2 Circuit Diagram (3-4 and 1-2 joined); land drawings 1 and 2; the catalog lists SKTHAHE010/SKTHBAE010 as top push
+Alps Alpine	SKTH	Surface Mount, Right Angle	SKTHAEE010	4	A=1,2;B=3,4	SW-TACT-SKTH-AE	skth.pdf p.2 Circuit Diagram (3-4 and 1-2 joined); land drawing 3
 Alps Alpine	SKTQ	Surface Mount	.*				
 Aratas (Formerly Omron Components)	*		.*				
 Aratas (Formerly Omron Components)	B3AL	Surface Mount	.*	2	A=1;B=2	SW-TACT-B3AL	B3AL Data Sheet (1).pdf p.2 Terminal Arrangement/Internal Connections (Top View): switch between 1 and 2
@@ -250,10 +252,10 @@ E-Switch	TL9210	Surface Mount	.*	2	A=1;B=2	SW-TACT-TL9210	TL9210.pdf p.2 SPST Sc
 E-Switch	TL9320	Surface Mount	.*	2	A=1;B=2	SW-TACT-TL9320	TL9320.pdf p.2 Schematic (1, 2)
 E-Switch	TS	Surface Mount	.*	2	A=1;B=2	SW-TACT-TS	06-TS35M943160TR.pdf p.1 CIRCUIT: SPST (1, 2)
 E-Switch	TSM9W	Surface Mount	.*				
-NKK Switches	CB	Through Hole	.*				
-NKK Switches	CB3	Surface Mount	.*				
-NKK Switches	HP02	Through Hole	.*				
-NKK Switches	HP03	Surface Mount	.*				
+NKK Switches	CB	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-CB	CB.pdf p.3 Switch Throw & Schematic (1-2 and 3-4 joined)
+NKK Switches	CB3	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-CB3	CB3.pdf p.3 Switch Throw & Schematic (1-2 and 3-4 joined)
+NKK Switches	HP02	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-HP02	HP02.pdf p.3 Switch Throw & Schematic (1-2 and 3-4 joined)
+NKK Switches	HP03	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-HP03	HP03.pdf p.3 Switch Throw & Schematic (1-2 and 3-4 joined)
 NKK Switches	JB	Through Hole	.*				
 NKK Switches	JB	Through Hole, Right Angle	.*				
 NKK Switches	JF	Through Hole	.*				

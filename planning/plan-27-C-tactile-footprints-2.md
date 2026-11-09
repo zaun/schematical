@@ -121,7 +121,7 @@ Acceptance: no Same Sky row is `pending`; checks pass; the NC row
 `TS10-63-26-BE-250-SMT-TR` is `add` or `skip` with a reason.
   Check: the Phase 1 command with `--maker 'Same Sky'` (est. 3 min).
   Result 2026-11-08: `specs ok (374 add rows)`; `fp-load.sh footprints-B.json footprints-C.json` → `24 new footprints: load ok`; TS10-63-26-BE-250-SMT-TR (SPST-NC) is `add` (ts10.pdf p.1 "normally closed", p.2 schematic). Same Sky rows: 374 add, 7 skip, 24 out.
-Commit: —
+Commit: c8f7656
 
 ### Phase 3 — TE (28 lines, 176 rows)
 
