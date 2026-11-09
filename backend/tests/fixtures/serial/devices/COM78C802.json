@@ -16,7 +16,9 @@
    {
     "number": 2,
     "name": "RXD1",
-    "role": "input"
+    "role": "input",
+    "group": "serial 1",
+    "side": "out"
    },
    {
     "number": 3,
@@ -101,7 +103,8 @@
    {
     "number": 19,
     "name": "TXD0",
-    "role": "output"
+    "role": "output",
+    "group": "serial 0"
    },
    {
     "number": 20,
@@ -116,7 +119,9 @@
    {
     "number": 22,
     "name": "RXD0",
-    "role": "input"
+    "role": "input",
+    "group": "serial 0",
+    "side": "out"
    },
    {
     "number": 23,
@@ -201,7 +206,8 @@
    {
     "number": 39,
     "name": "TXD1",
-    "role": "output"
+    "role": "output",
+    "group": "serial 1"
    },
    {
     "number": 40,

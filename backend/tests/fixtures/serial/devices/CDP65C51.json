@@ -59,7 +59,8 @@
    {
     "number": 10,
     "name": "TXD",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 11,
@@ -69,7 +70,9 @@
    {
     "number": 12,
     "name": "RXD",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 13,

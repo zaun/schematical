@@ -129,12 +129,15 @@
      {
       "number": 23,
       "name": "TX",
-      "role": "output"
+      "role": "output",
+      "group": "serial"
      },
      {
       "number": 24,
       "name": "RX",
-      "role": "input"
+      "role": "input",
+      "group": "serial",
+      "side": "out"
      }
     ]
    },
@@ -302,7 +305,9 @@
      {
       "number": 1,
       "name": "RXA",
-      "role": "input"
+      "role": "input",
+      "group": "serial A",
+      "side": "out"
      },
      {
       "number": 2,
@@ -410,12 +415,15 @@
      {
       "number": 22,
       "name": "TXB",
-      "role": "output"
+      "role": "output",
+      "group": "serial B"
      },
      {
       "number": 23,
       "name": "RXB",
-      "role": "input"
+      "role": "input",
+      "group": "serial B",
+      "side": "out"
      },
      {
       "number": 24,
@@ -460,7 +468,8 @@
      {
       "number": 32,
       "name": "TXA",
-      "role": "output"
+      "role": "output",
+      "group": "serial A"
      }
     ]
    },
@@ -693,12 +702,15 @@
      {
       "number": 12,
       "name": "TX",
-      "role": "output"
+      "role": "output",
+      "group": "serial"
      },
      {
       "number": 13,
       "name": "RX",
-      "role": "input"
+      "role": "input",
+      "group": "serial",
+      "side": "out"
      },
      {
       "number": 14,
@@ -968,12 +980,15 @@
      {
       "number": 23,
       "name": "TX",
-      "role": "output"
+      "role": "output",
+      "group": "serial"
      },
      {
       "number": 24,
       "name": "RX",
-      "role": "input"
+      "role": "input",
+      "group": "serial",
+      "side": "out"
      }
     ]
    },
@@ -1158,7 +1173,9 @@
      {
       "number": 1,
       "name": "RXA",
-      "role": "input"
+      "role": "input",
+      "group": "serial A",
+      "side": "out"
      },
      {
       "number": 2,
@@ -1266,12 +1283,15 @@
      {
       "number": 22,
       "name": "TXB",
-      "role": "output"
+      "role": "output",
+      "group": "serial B"
      },
      {
       "number": 23,
       "name": "RXB",
-      "role": "input"
+      "role": "input",
+      "group": "serial B",
+      "side": "out"
      },
      {
       "number": 24,
@@ -1316,7 +1336,8 @@
      {
       "number": 32,
       "name": "TXA",
-      "role": "output"
+      "role": "output",
+      "group": "serial A"
      }
     ],
     "tssop28": [
@@ -1333,12 +1354,15 @@
      {
       "number": 3,
       "name": "TXA",
-      "role": "output"
+      "role": "output",
+      "group": "serial A"
      },
      {
       "number": 4,
       "name": "RXA",
-      "role": "input"
+      "role": "input",
+      "group": "serial A",
+      "side": "out"
      },
      {
       "number": 5,
@@ -1436,12 +1460,15 @@
      {
       "number": 23,
       "name": "TXB",
-      "role": "output"
+      "role": "output",
+      "group": "serial B"
      },
      {
       "number": 24,
       "name": "RXB",
-      "role": "input"
+      "role": "input",
+      "group": "serial B",
+      "side": "out"
      },
      {
       "number": 25,
@@ -1834,12 +1861,15 @@
      {
       "number": 5,
       "name": "RX",
-      "role": "input"
+      "role": "input",
+      "group": "serial",
+      "side": "out"
      },
      {
       "number": 6,
       "name": "TX",
-      "role": "output"
+      "role": "output",
+      "group": "serial"
      },
      {
       "number": 7,
@@ -1978,12 +2008,15 @@
      {
       "number": 8,
       "name": "RX",
-      "role": "input"
+      "role": "input",
+      "group": "serial",
+      "side": "out"
      },
      {
       "number": 9,
       "name": "TX",
-      "role": "output"
+      "role": "output",
+      "group": "serial"
      },
      {
       "number": 10,
@@ -2090,12 +2123,15 @@
      {
       "number": 5,
       "name": "RX",
-      "role": "input"
+      "role": "input",
+      "group": "serial",
+      "side": "out"
      },
      {
       "number": 6,
       "name": "TX",
-      "role": "output"
+      "role": "output",
+      "group": "serial"
      },
      {
       "number": 7,
@@ -2403,12 +2439,15 @@
      {
       "number": 13,
       "name": "TX",
-      "role": "output"
+      "role": "output",
+      "group": "serial"
      },
      {
       "number": 14,
       "name": "RX",
-      "role": "input"
+      "role": "input",
+      "group": "serial",
+      "side": "out"
      },
      {
       "number": 15,
@@ -2605,12 +2644,15 @@
      {
       "number": 28,
       "name": "TX",
-      "role": "output"
+      "role": "output",
+      "group": "serial"
      },
      {
       "number": 29,
       "name": "RX",
-      "role": "input"
+      "role": "input",
+      "group": "serial",
+      "side": "out"
      },
      {
       "number": 30,

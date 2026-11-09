@@ -106,7 +106,9 @@
    {
     "number": 20,
     "name": "RSI",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 21,
@@ -131,7 +133,8 @@
    {
     "number": 25,
     "name": "TSO",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 26,

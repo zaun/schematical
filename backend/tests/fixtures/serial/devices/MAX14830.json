@@ -91,12 +91,15 @@
    {
     "number": 17,
     "name": "RX0",
-    "role": "input"
+    "role": "input",
+    "group": "serial 0",
+    "side": "out"
    },
    {
     "number": 18,
     "name": "TX0",
-    "role": "output"
+    "role": "output",
+    "group": "serial 0"
    },
    {
     "number": 19,
@@ -131,12 +134,15 @@
    {
     "number": 25,
     "name": "RX1",
-    "role": "input"
+    "role": "input",
+    "group": "serial 1",
+    "side": "out"
    },
    {
     "number": 26,
     "name": "TX1",
-    "role": "output"
+    "role": "output",
+    "group": "serial 1"
    },
    {
     "number": 27,
@@ -171,12 +177,15 @@
    {
     "number": 33,
     "name": "RX2",
-    "role": "input"
+    "role": "input",
+    "group": "serial 2",
+    "side": "out"
    },
    {
     "number": 34,
     "name": "TX2",
-    "role": "output"
+    "role": "output",
+    "group": "serial 2"
    },
    {
     "number": 35,
@@ -211,12 +220,15 @@
    {
     "number": 41,
     "name": "RX3",
-    "role": "input"
+    "role": "input",
+    "group": "serial 3",
+    "side": "out"
    },
    {
     "number": 42,
     "name": "TX3",
-    "role": "output"
+    "role": "output",
+    "group": "serial 3"
    },
    {
     "number": 43,

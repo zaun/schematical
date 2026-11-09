@@ -73,12 +73,15 @@
    {
     "number": 13,
     "name": "TX",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 14,
     "name": "RX",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 15,
@@ -275,12 +278,15 @@
    {
     "number": 28,
     "name": "TX",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 29,
     "name": "RX",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 30,

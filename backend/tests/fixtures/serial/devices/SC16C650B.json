@@ -31,12 +31,15 @@
    {
     "number": 5,
     "name": "RX",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 6,
     "name": "TX",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 7,
