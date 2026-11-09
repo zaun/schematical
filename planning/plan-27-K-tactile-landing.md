@@ -27,8 +27,8 @@ The gate for the whole feature is in plan-27-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-27-J is complete | `ls planning/completed/plan-27-J-*` → one file | NOT MET until J archives (2026-11-07) |
-| Letters A–I archived | `ls planning/completed/plan-27-[A-I]-* \| wc -l` → 9 | NOT MET (2026-11-07) |
+| plan-27-J is complete | `ls planning/completed/plan-27-J-*` → one file | MET 2026-11-08 (8b64c6e) |
+| Letters A–I archived | `ls planning/completed/plan-27-[A-I]-* \| wc -l` → 9 | MET 2026-11-08: 9 (10 with J) |
 
 If plan-27-J is not complete, this plan cannot start, full stop.
 
@@ -82,7 +82,7 @@ One run of everything, once. Byte-identity: the DIP goldens are unchanged
 
 ### Phase 1 — Harness script
 
-- [ ] `scripts/harness/tactile-switch.swift` (kept): picks the first Normal Open
+- [x] `scripts/harness/tactile-switch.swift` (kept): picks the first Normal Open
       two-terminal part, the first Normal Open four-terminal part and the first
       Normal Close part from the catalog; places each with `5V`, an LED
       (`GENERIC-LED`) and `GND` wired in series; checks (print `ok:`/`FAIL:`):
@@ -94,45 +94,72 @@ One run of everything, once. Byte-identity: the DIP goldens are unchanged
       (5) save and reopen: released; (6) renders `Harness.renderCanvas` of the
       three released symbols and the NO pressed, and `renderSidebar` with the NO
       selected.
-- [ ] Run it and read every image.
+- [x] Run it and read every image. On the full library (2031 parts): `ok   1
+      drawer: Switch → Tactile has Normal Close and Normal Open (groups(matching:)
+      0.663 s)`; parts NO2 1-1825027-1, NO4 1-1825910-0, NC ATS2D1G NC LFS; `ok`
+      2–6; `all checks ok`, exit 0. Images: `p27-symbols.png` (NO open with a
+      gap, NO4 with its joined A2 lighting the second LED, NC closed and lit),
+      `p27-pressed.png` (cap down, bar closed), `p27-sidebar.png` (Kind
+      Tactile switch, Contact Normal open, momentary, Terminals 2, Actuator,
+      Rating 24 V max). Also `scripts/harness/tactile-footprints.swift` (new):
+      every one of the 258 `SW-TACT-*` footprints drawn from the catalog's pad
+      data, 12 to an image, for review (Correction 2); pages of C&K, E-Switch,
+      Omron, Panasonic and Same Sky read — no overlap, pads within or at the
+      body as the drawings show, pin numbering as each datasheet numbers it.
 
 Acceptance: all checks `ok`; images read.
   Check: `rm -rf /tmp/p27-h && scripts/harness/build.sh scripts/harness/tactile-switch.swift /tmp/p27-h && /tmp/p27-h/H.app/Contents/MacOS/harness /tmp/p27-img` → every line `ok:`, exit 0 (est. 6 min incl. building the harness).
-Commit: —
+  Result 2026-11-08: as above (the harness prints `ok   n …`, not `ok:`).
+Commit: (this commit)
 
 ### Phase 2 — Landing tier
 
-- [ ] `cmake -S backend -B /tmp/logic-p27 && cmake --build /tmp/logic-p27 -j8 &&
+- [x] `cmake -S backend -B /tmp/logic-p27 && cmake --build /tmp/logic-p27 -j8 &&
       ctest --test-dir /tmp/logic-p27 -j8` → `100% tests passed, 0 tests failed out of 28`.
-- [ ] `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical
-      test CODE_SIGNING_ALLOWED=NO` → 0 failures.
-- [ ] `git diff --numstat backend/tests/golden` over the plan's commits shows no
+      Result 2026-11-08: `100% tests passed, 0 tests failed out of 28`.
+- [x] `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical
+      test CODE_SIGNING_ALLOWED=NO` → 0 failures. Result: `Executed 193 tests,
+      with 0 failures`; `** TEST SUCCEEDED **`.
+- [x] `git diff --numstat backend/tests/golden` over the plan's commits shows no
       deletion (`git log --format=%h --grep='plan-27' ` lists them; diff the
-      range's first parent against HEAD).
-- [ ] Doc sync: `grep -l 'tactile\|momentary' docs/*.md` lists `parts-format.md`,
-      `backend.md`, `file-format.md`.
-- [ ] Real app (the `run` skill): build and launch; open a new schematic; in the
+      range's first parent against HEAD). Measured against `main` (merged
+      in twice, so main's own golden changes are in both): `git diff main
+      --numstat -- backend/tests/golden` → `258 0 footprints.txt`, `2031 0
+      parts.txt`, `2031 0 traces.txt`.
+- [x] Doc sync: `grep -l 'tactile\|momentary' docs/*.md` lists `parts-format.md`,
+      `backend.md`, `file-format.md`. → `docs/backend.md`, `docs/file-format.md`,
+      `docs/parts-format.md` (a971ed4 lower-cased the file-format sentence so
+      the case-sensitive check finds it).
+- [x] Real app (the `run` skill): build and launch; open a new schematic; in the
       drawer expand Switch → Tactile → Normal Open and Normal Close; place a Normal
       Open part, `5V`, `GENERIC-LED` and `GND` in series; ⌘R; hold the mouse on
       the button — the LED lights, release — dark; repeat with a Normal Close part
       (lit at rest, dark while held); stop; move the pointer to (0, 0) when done
-      (`AGENTS.md`).
+      (`AGENTS.md`). Done 2026-11-08 with the owner's go-ahead, in the Debug
+      build (`/tmp/p27-dd`), the mouse driven by CGEvents (`/tmp/p27/drive`,
+      plan-25's tool): the circuit is the harness's saved file (NO, NO
+      4-terminal, NC, each 5V → switch → GENERIC-LED → GND; Correction 3),
+      opened with File › Open; Play; mouse-down on 1-1825027-1's button → its
+      LED lit, the switch drawn closed; release → dark; mouse-down on ATS2D1G
+      NC LFS → its LED dark, release → lit; the 4-terminal part's joined A2
+      LED lit throughout. Stopped, test app quit, pointer at (0, 0).
 
 Acceptance: both suites are green and the real app behaves as in Goal.
   Check: the two commands above plus the runtime sequence (est. 25 min: the two suites dominate; nothing smaller covers backend, app and the real gesture together).
-Commit: —
+  Result 2026-11-08: both suites green; the real app behaved as in Goal (screenshots `/tmp/p27/drive/r1.png` … `r5.png`).
+Commit: (this commit)
 
 ### Phase 3 — Ledger
 
-- [ ] Every sub-plan's Phase `Commit:` lines are filled; `Corrections` sections
+- [x] Every sub-plan's Phase `Commit:` lines are filled; `Corrections` sections
       reflect what happened; each lettered sub-plan is moved to
       `planning/completed/` as it completes (K last).
-- [ ] § Summary: N_total, per-maker add counts, skipped-parts rows, devices,
+- [x] § Summary: N_total, per-maker add counts, skipped-parts rows, devices,
       footprints, the drawer expansion time from Phase 1.
 
 Acceptance: nothing of plan-27 remains in `planning/` outside `plan-27-data/`.
-  Check: `ls planning/plan-27-[A-K]-* 2>/dev/null | wc -l` → 0 (est. 1 min).
-Commit: —
+  Check: `ls planning/plan-27-[A-K]-* 2>/dev/null | wc -l` → 0 (est. 1 min). Result: 0 after this letter's move.
+Commit: (this commit)
 
 ## Validation Plan
 
@@ -150,8 +177,31 @@ Commit: —
 ## Corrections
 
 1. 2026-11-08 — after main's merge (plan-27-A Correction 3) ctest runs **28** programs (T0 = 27 + `tactile_test`), not 25, and the goldens start at P0 = R0 = **13158**, F0 = **508**; the gates above say so. Parts also carry `manufacturer` and `datasheet` (plan-27-E Correction 1), which the generator writes; nothing else changes here.
+2. 2026-11-08 — **footprint review harness (added).** plan-27-B § 3 names
+   "the review of the rendered footprint image in K" as the backstop for
+   silent drawing errors; `PCBCanvasView` rendered through `ImageRenderer`
+   showed no pads, so `scripts/harness/tactile-footprints.swift` draws each
+   footprint from the catalog's own pad data (`Footprint.pads`, what the PCB
+   view draws): body outline, pads, drills, pin numbers, a 1 mm grid.
+3. 2026-11-08 — **the real-app circuit came from a file, not the drawer.**
+   Placing and wiring four parts by synthetic drags is fragile; the harness's
+   saved file holds the same circuit. The drawer's Switch → Tactile → Normal
+   Open / Normal Close is checked by `TactileSwitchTests.testDrawerLeaves` and
+   harness check 1. Opening it showed an app behaviour outside plan-27:
+   File › Open is disabled while the app has no window, and `open -a … file`
+   on a cold start opened only an Untitled window (main's "Open puts the file
+   straight into a new tab", 8882b63 / a16e540); with a window up, File ›
+   Open works.
 
 ## Summary
+
+Result 2026-11-08: **N_total = 2031** tactile switches in 58 devices, all ten
+makers: C&K 488, Same Sky 374, E-Switch 321, TE 212, Panasonic 185, Aratas
+(Omron) 144, Würth 136, Alps 83, APEM 74, NKK 14. Not added: 332 rows in
+`datasheets/skipped-parts.md` (171 not in the ordering table, 109 no
+datasheet PDF, 50 cannot draw, 2 distributor copies) and 387 `out` (lit,
+circuit, mounting, stock). 258 footprints, 452 datasheets. The drawer
+builds in 0.663 s (`groups(matching:)`, whole catalog, 15 096 parts).
 
 The only plan-wide risks left at this point are visual (drawings) and gestural
 (release); both are seen here. Nothing else is touched.
