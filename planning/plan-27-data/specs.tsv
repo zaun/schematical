@@ -349,38 +349,65 @@ Same Sky (Formerly CUI Devices)	TS42	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TS42
 Same Sky (Formerly CUI Devices)	TS44	Surface Mount	TS44-6262-51-.*	4	A=1,2;B=3,4	SW-TACT-TL6150-J	ts44.pdf p.3 schematic (1-2 joined, 3-4 joined); 5.1 mm models only (3.4 mm drawing p.2, no rows)
 Same Sky (Formerly CUI Devices)	TS45	Surface Mount	.*	2	A=1;B=2	SW-TACT-TS45	ts45.pdf p.2/p.3 schematic (switch 1-2)
 TE Connectivity ALCOSWITCH Switches	*		.*				
+TE Connectivity ALCOSWITCH Switches	*	Through Hole	.*	2	A=1;B=2	SW-TACT-FSMJRT	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.16 circuit diagram (FSM14JRT, check row)
 TE Connectivity ALCOSWITCH Switches	-	Edge Mount, Right Angle	.*				
-TE Connectivity ALCOSWITCH Switches	-	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	-	Surface Mount, Right Angle	.*				
-TE Connectivity ALCOSWITCH Switches	-	Through Hole	.*				
-TE Connectivity ALCOSWITCH Switches	Extended Life	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	FSM	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	FSM	Through Hole	.*				
-TE Connectivity ALCOSWITCH Switches	FSM100 ~ 104	Through Hole	.*				
-TE Connectivity ALCOSWITCH Switches	FSM100 ~ 104	Through Hole, Right Angle	.*				
-TE Connectivity ALCOSWITCH Switches	FSM1LP	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	FSMCD	Through Hole	.*				
-TE Connectivity ALCOSWITCH Switches	FSMCT	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	FSMJ	Through Hole	.*				
-TE Connectivity ALCOSWITCH Switches	FSMJM	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	FSMJMLP	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	FSMJRT	Through Hole	.*				
-TE Connectivity ALCOSWITCH Switches	FSMJSM	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	FSMJSMA	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	FSMJSML	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	FSMJSMXL	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	FSMLPA	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	FSMMSH	Surface Mount, Right Angle	.*				
-TE Connectivity ALCOSWITCH Switches	FSMRACD	Through Hole, Right Angle	.*				
-TE Connectivity ALCOSWITCH Switches	FSMRAJ	Through Hole, Right Angle	.*				
-TE Connectivity ALCOSWITCH Switches	FSMRAJS	Through Hole, Right Angle	.*				
-TE Connectivity ALCOSWITCH Switches	FSMSM	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	FSMSMLPA	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	LPT	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	STS	Surface Mount	.*				
-TE Connectivity ALCOSWITCH Switches	STS	Through Hole	.*				
-TE Connectivity ALCOSWITCH Switches	STS	Through Hole, Right Angle	.*				
-TE Connectivity ALCOSWITCH Switches	UMS	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	-	Surface Mount	(FSM[124]JSSM.*|1571294-.*)	4	A=1,2;B=3,4	SW-TACT-FSMJS	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.30 circuit diagram (FSMJS; ground 5 not a switch terminal)
+TE Connectivity ALCOSWITCH Switches	-	Surface Mount	1571634-.*	4	A=1,2;B=3,4	SW-TACT-TL3304-G	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.25 circuit diagram (FSMJX)
+TE Connectivity ALCOSWITCH Switches	-	Surface Mount	1825107-1	4	A=1,2;B=3,4	SW-TACT-TL3304-J	1825107 p.1 circuit diagram
+TE Connectivity ALCOSWITCH Switches	-	Surface Mount	2425753-.*	2	A=1;B=2	SW-TACT-KXT3	ALCOSWITCH_Sealed_Tactile_Switches p.4 circuit diagram (2425753 UMS)
+TE Connectivity ALCOSWITCH Switches	-	Surface Mount	FSM\dJS6.*	4	A=1,2;B=3,4	SW-TACT-FSMJS6	ALCOSWITCH_Sealed_Tactile_Switches p.4 circuit diagram 4-3 / 2-1 (1977265 FSMJS6)
+TE Connectivity ALCOSWITCH Switches	-	Surface Mount, Right Angle	1571262-.*	4	A=1,3;B=2,4	SW-TACT-FSMMST	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.46 schematic A-C / B-D (FSMMST)
+TE Connectivity ALCOSWITCH Switches	-	Surface Mount, Right Angle	1571300-.*	2	A=1;B=2	SW-TACT-FSMRAJSA	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.35 circuit diagram (FSMRAJSA); ENG_CD_1571300_K1 p.1
+TE Connectivity ALCOSWITCH Switches	-	Surface Mount, Right Angle	1571407-.*	2	A=1;B=2	SW-TACT-FSMRAJS-SMD	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.33 circuit diagram (FSMRAJS SMT)
+TE Connectivity ALCOSWITCH Switches	-	Through Hole	1571220-1	4	A=1,2;B=3,4	SW-TACT-FSM10S-THT	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.39 circuit diagram (FSM100S)
+TE Connectivity ALCOSWITCH Switches	Extended Life	Surface Mount	(FSM[12]JELJ.*|1571625-.*)	4	A=1,2;B=3,4	SW-TACT-FSMJEL-J	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.24 circuit diagram (J)
+TE Connectivity ALCOSWITCH Switches	Extended Life	Surface Mount	FSM[12]JELGE?.*	4	A=1,2;B=3,4	SW-TACT-FSMJEL-G	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.23-24 circuit diagram (G, GE; ground 5 not a switch terminal)
+TE Connectivity ALCOSWITCH Switches	FSM	Surface Mount	1571218-.*	4	A=1,2;B=3,4	SW-TACT-FSM10S-SMD	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.39 circuit diagram (FSM100SM)
+TE Connectivity ALCOSWITCH Switches	FSM	Surface Mount	FSM14JSM.*	4	A=1,2;B=3,4	SW-TACT-FSMJSM	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.20 circuit diagram (FSMJSM)
+TE Connectivity ALCOSWITCH Switches	FSM	Surface Mount	FSM\dJS6.*	4	A=1,2;B=3,4	SW-TACT-FSMJS6	ALCOSWITCH_Sealed_Tactile_Switches p.4 circuit diagram 4-3 / 2-1 (1977265 FSMJS6)
+TE Connectivity ALCOSWITCH Switches	FSM	Through Hole	1825966-1	2	A=1;B=2	SW-TACT-PTS636-THT	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.5 circuit diagram (FSM1L, 2 terminals)
+TE Connectivity ALCOSWITCH Switches	FSM100 ~ 104	Through Hole	FSM10[0-3]A?	4	A=1,2;B=3,4	SW-TACT-FSM10-THT	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.36-37 circuit diagrams (FSM100-103)
+TE Connectivity ALCOSWITCH Switches	FSM100 ~ 104	Through Hole, Right Angle	FSM104	2	A=1;B=2	SW-TACT-FSM104	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.37 circuit diagram (FSM104, 2 terminals)
+TE Connectivity ALCOSWITCH Switches	FSM1LP	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-FSMLP	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.22 circuit diagram (ground 5 not a switch terminal); 1-1437565-8 p.1
+TE Connectivity ALCOSWITCH Switches	FSMCD	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-FSMJ	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.14 circuit diagram (FSMCD vertical)
+TE Connectivity ALCOSWITCH Switches	FSMCT	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-FSMCT	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.26 circuit diagram
+TE Connectivity ALCOSWITCH Switches	FSMJ	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-FSMJ	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.11 circuit diagram (ground 5 not a switch terminal); 1977120 p.1
+TE Connectivity ALCOSWITCH Switches	FSMJM	Surface Mount	.*	2	A=1;B=2	SW-TACT-TL3302-J	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.5 circuit diagram (JM, 2 terminals)
+TE Connectivity ALCOSWITCH Switches	FSMJMLP	Surface Mount	.*	2	A=1;B=2	SW-TACT-FSMJMLP	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.9 circuit diagram (2 terminals)
+TE Connectivity ALCOSWITCH Switches	FSMJRT	Through Hole	.*	2	A=1;B=2	SW-TACT-FSMJRT	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.16 circuit diagram (2 terminals)
+TE Connectivity ALCOSWITCH Switches	FSMJSM	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-FSMJSM	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.20 circuit diagram
+TE Connectivity ALCOSWITCH Switches	FSMJSMA	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-FSMJSM	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.20 circuit diagram
+TE Connectivity ALCOSWITCH Switches	FSMJSML	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-FSMJSM	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.20 circuit diagram
+TE Connectivity ALCOSWITCH Switches	FSMJSMXL	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-FSMJSM	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.20 circuit diagram
+TE Connectivity ALCOSWITCH Switches	FSMLPA	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-FSMLP	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.22 circuit diagram (code 4)
+TE Connectivity ALCOSWITCH Switches	FSMMSH	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-FSMMSH	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.42 circuit diagram (terminals 1 and 3 common = pin 1, terminal 2 = pin 2)
+TE Connectivity ALCOSWITCH Switches	FSMRACD	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-FSMRACD	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.14 circuit diagram (RA, 2 terminals)
+TE Connectivity ALCOSWITCH Switches	FSMRAJ	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-FSMRAJ	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.18 circuit diagram (2 terminals)
+TE Connectivity ALCOSWITCH Switches	FSMRAJS	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-FSMRAJ	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.33 circuit diagram (THT, 2 terminals)
+TE Connectivity ALCOSWITCH Switches	FSMSM	Surface Mount	.*	2	A=1;B=2	SW-TACT-FSMSM	1437566-3 p.1 circuit diagram
+TE Connectivity ALCOSWITCH Switches	FSMSMLPA	Surface Mount	.*	2	A=1;B=2	SW-TACT-FSMJMLP	8-1773450-9_SECTION_C_TACTILE_SWITCHES p.9 circuit diagram (2 terminals)
+TE Connectivity ALCOSWITCH Switches	LPT	Surface Mount	MCSLPT4644B[1-4]PHTR	4	A=1,2;B=3,4	SW-TACT-MCSLPT4644-PH	2337232-1 p.2 circuit T1-T2 / T3-T4
+TE Connectivity ALCOSWITCH Switches	LPT	Surface Mount	MCSLPT4644B[1-4]TR	4	A=1,2;B=3,4	SW-TACT-MCSLPT4644	2337232-1 p.2 circuit T1-T2 / T3-T4
+TE Connectivity ALCOSWITCH Switches	LPT	Surface Mount	MCSLPT4848A.*	4	A=1,3;B=2,4	SW-TACT-MCSLPT4848A	2337232-1 p.8 circuit T1-T3 / T2-T4
+TE Connectivity ALCOSWITCH Switches	LPT	Surface Mount	MCSLPT4848C.*	4	A=1,3;B=2,4	SW-TACT-MCSLPT4848C	2337232-1 p.8 circuit T1-T3 / T2-T4
+TE Connectivity ALCOSWITCH Switches	LPT	Surface Mount	MSLPT5252[ABC]G.*	4	A=1,2;B=3,4	SW-TACT-MSLPT5252-G	2337236-1 p.2 circuit T1-T2 / T3-T4 (T5, T6 ground)
+TE Connectivity ALCOSWITCH Switches	LPT	Surface Mount	MSLPT5252[ABC]L.*	4	A=1,2;B=3,4	SW-TACT-MSLPT5252-L	2337236-1 p.2 circuit T1-T2 / T3-T4 (T5, T6 ground)
+TE Connectivity ALCOSWITCH Switches	LPT	Surface Mount	USLPT2616.*	4	A=1,3;B=2,4	SW-TACT-SKTA	2337224-1 p.2 circuit 1-3 / 2-4
+TE Connectivity ALCOSWITCH Switches	LPT	Surface Mount	USLPT2819.*	4	A=1,2;B=3,4	SW-TACT-USLPT2819	2337225-1 p.2 circuit 1-2 / 3-4
+TE Connectivity ALCOSWITCH Switches	LPT	Surface Mount	USLPT3020.*	2	A=1;B=2	SW-TACT-KXT3	2337230-1 p.2 circuit 1-2
+TE Connectivity ALCOSWITCH Switches	LPT	Surface Mount	USLPT3026.*	4	A=1,2;B=3,4	SW-TACT-USLPT3026	2337227-1 p.2 circuit 1-2 / 3-4
+TE Connectivity ALCOSWITCH Switches	LPT	Surface Mount	USLPT3737.*	4	A=1,2;B=3,4	SW-TACT-SKRW	2337229-1 p.2 circuit 1-2 / 3-4
+TE Connectivity ALCOSWITCH Switches	STS	Surface Mount	(2506467-.*|STS(26|34)A.*JT.*)	4	A=1,2;B=3,4	SW-TACT-TL3304-J	ALCOSWITCH_Sealed_Tactile_Switches p.4 circuit diagram (2506467)
+TE Connectivity ALCOSWITCH Switches	STS	Surface Mount	STS(25|31|50)A.*SM.*	4	A=1,2;B=3,4	SW-TACT-STS-G45	ALCOSWITCH_Sealed_Tactile_Switches p.4 circuit diagram (2506469)
+TE Connectivity ALCOSWITCH Switches	STS	Surface Mount	STS(35|52)B.*	4	A=1,2;B=3,4	SW-TACT-TL3145	ALCOSWITCH_Sealed_Tactile_Switches p.5 circuit diagram (2506471)
+TE Connectivity ALCOSWITCH Switches	STS	Surface Mount	STS26A.*SM.*	4	A=1,2;B=3,4	SW-TACT-TL3304-G	ALCOSWITCH_Sealed_Tactile_Switches p.4 circuit diagram (2506465)
+TE Connectivity ALCOSWITCH Switches	STS	Surface Mount	STS31A.*JT.*	4	A=1,2;B=3,4	SW-TACT-TL6800	ALCOSWITCH_Sealed_Tactile_Switches p.5 circuit diagram (2506472)
+TE Connectivity ALCOSWITCH Switches	STS	Surface Mount	STS7[27]A.*SM.*	4	A=1,2;B=3,4	SW-TACT-TL6170	ALCOSWITCH_Sealed_Tactile_Switches p.4 circuit diagram (2506470)
+TE Connectivity ALCOSWITCH Switches	STS	Through Hole	STS(43|70)A.*TH.*	2	A=1;B=2	SW-TACT-STS-THT	ALCOSWITCH_Sealed_Tactile_Switches p.5 circuit diagram (2506473)
+TE Connectivity ALCOSWITCH Switches	STS	Through Hole	STS1[23]D.*	2	A=1;B=2	SW-TACT-STS-THT-D	ALCOSWITCH_Sealed_Tactile_Switches p.5 circuit diagram (2506474)
+TE Connectivity ALCOSWITCH Switches	STS	Through Hole	STS80JS6.*	4	A=1,2;B=3,4	SW-TACT-B3F-THT	ALCOSWITCH_Sealed_Tactile_Switches p.5 circuit diagram 4-3 / 2-1 (2506475)
+TE Connectivity ALCOSWITCH Switches	STS	Through Hole, Right Angle	STSC.*	2	A=1;B=2	SW-TACT-STSC	ALCOSWITCH_Sealed_Tactile_Switches p.5 circuit diagram (2506476)
+TE Connectivity ALCOSWITCH Switches	UMS	Surface Mount	.*	2	A=1;B=2	SW-TACT-KXT3	ALCOSWITCH_Sealed_Tactile_Switches p.4 circuit diagram (2425753 UMS)
 Würth Elektronik	WS-TASU	Edge Mount, Right Angle	434381035816	2	A=1;B=2	SW-TACT-WS-TASU-434381	434381035816.pdf p.1 schematic (1-2)
 Würth Elektronik	WS-TASU	Surface Mount, Right Angle	434331013822	4	A=1,2;B=3,4	SW-TACT-WS-TASU-434331-H13	434331013822.pdf p.1 schematic (1-2, 3-4 joined)
 Würth Elektronik	WS-TASU	Surface Mount, Right Angle	436333033816	2	A=1;B=2	SW-TACT-SKRT	436333033816.pdf p.1 schematic (1 and 3 common, 2 switched; modelled 2 pins)

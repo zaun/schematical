@@ -1,6 +1,6 @@
 mpn	reason
-TS12-74-50-BK-250-SMT-TR	ts12.pdf p.2-4: 5-way navigation switch (common + F1-F5, 6 terminals; 4 directions + centre push), not a single SPST contact; 2/4-terminal spec cannot express it (circuit out of scope)
-TS12-74-60-BK-250-SMT-TR	ts12.pdf p.2-4: 5-way navigation switch (common + F1-F5, 6 terminals; 4 directions + centre push), not a single SPST contact; 2/4-terminal spec cannot express it (circuit out of scope)
-TS12-74-60-BK-360-SMT-TR	ts12.pdf p.2-4: 5-way navigation switch (common + F1-F5, 6 terminals; 4 directions + centre push), not a single SPST contact; 2/4-terminal spec cannot express it (circuit out of scope)
-TS12-74-70-BK-250-SMT-TR	ts12.pdf p.2-4: 5-way navigation switch (common + F1-F5, 6 terminals; 4 directions + centre push), not a single SPST contact; 2/4-terminal spec cannot express it (circuit out of scope)
-TS12-74-70-BK-360-SMT-TR	ts12.pdf p.2-4: 5-way navigation switch (common + F1-F5, 6 terminals; 4 directions + centre push), not a single SPST contact; 2/4-terminal spec cannot express it (circuit out of scope)
+TS12-74-50-BK-250-SMT-TR	cannot draw a footprint: ts12.pdf p.2-4: 5-way navigation switch (common + F1-F5, 6 terminals; 4 directions + centre push), not a single SPST contact; 2/4-terminal spec cannot express it (circuit out of scope)
+TS12-74-60-BK-250-SMT-TR	cannot draw a footprint: ts12.pdf p.2-4: 5-way navigation switch (common + F1-F5, 6 terminals; 4 directions + centre push), not a single SPST contact; 2/4-terminal spec cannot express it (circuit out of scope)
+TS12-74-60-BK-360-SMT-TR	cannot draw a footprint: ts12.pdf p.2-4: 5-way navigation switch (common + F1-F5, 6 terminals; 4 directions + centre push), not a single SPST contact; 2/4-terminal spec cannot express it (circuit out of scope)
+TS12-74-70-BK-250-SMT-TR	cannot draw a footprint: ts12.pdf p.2-4: 5-way navigation switch (common + F1-F5, 6 terminals; 4 directions + centre push), not a single SPST contact; 2/4-terminal spec cannot express it (circuit out of scope)
+TS12-74-70-BK-360-SMT-TR	cannot draw a footprint: ts12.pdf p.2-4: 5-way navigation switch (common + F1-F5, 6 terminals; 4 directions + centre push), not a single SPST contact; 2/4-terminal spec cannot express it (circuit out of scope)

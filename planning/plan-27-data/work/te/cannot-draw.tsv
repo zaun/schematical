@@ -1,0 +1,3 @@
+mpn	reason
+2425578-1	cannot draw a footprint: the only datasheet (alcoswitch-tactile-switches 2212, 2-page brochure) lists the part (edge mount, right angle, 160gf) without any drawing, dimensions, land pattern or terminal numbering
+2425754-1	cannot draw a footprint: the only datasheet (alcoswitch-tactile-switches 2212, 2-page brochure) lists the part (12x12 ultra-long-life, THT) without any drawing, dimensions, land pattern or terminal numbering

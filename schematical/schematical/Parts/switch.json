@@ -1260,7 +1260,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 12 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: alps/PdfFile_191666.pdf, alps/product_spec_skhhlma010_en_0953940899.pdf, alps/product_spec_skhhlna010_en_3f6253977e.pdf, alps/product_spec_skhhlpa010_en_3e72111715.pdf, alps/product_spec_skhhlqa010_en_6371ab50be.pdf, alps/product_spec_skhhlra010_en_6e5f9638e5.pdf, alps/product_spec_skhhlua010_en_47c48beb9c.pdf, alps/product_spec_skhhlva010_en_98c6db8290.pdf, alps/product_spec_skhhlwa010_en_0824991e53.pdf, alps/product_spec_skrtlae010_en_1db35b7ed3.pdf, alps/product_spec_skswcee010_en_fd10e51df1.pdf, alps/product_spec_skswcfe010_en_7b9f00e581.pdf, alps/skhh.pdf, alps/sksw.pdf, apem/MJTP1117.pdf, apem/adts6-adtsm-ktsc6.pdf, ck/PTS845.pdf, ck/RS022R_Dwg.pdf, ck/ck-pts645vl832lfs.pdf, ck/littelfuse-c-k-tactile-pts645v-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts820-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts845-series-datasheet.pdf, ck/pts645.pdf, eswitch/TL1015.pdf, eswitch/TL1017.pdf, eswitch/TL1105.pdf, eswitch/TL3336.pdf, eswitch/TL3340.pdf, eswitch/TL3360.pdf, eswitch/TL3780.pdf, eswitch/TL4115AF160Q.pdf, eswitch/TL4115AF220Q.pdf, eswitch/TL52.pdf, eswitch/TL58.pdf, eswitch/TL59.pdf, eswitch/TL6059.pdf, eswitch/TL6110.pdf, omron/A112-E1.pdf, omron/en-b3u.pdf, omron/en-b3wn.pdf, panasonic/EVQ-PV_Rev2003.pdf, panasonic/Tactile-Switches-Catalog.pdf, panasonic/sw_lt_eng_6035.pdf, panasonic/sw_lt_eng_6_long_2r.pdf, panasonic/sw_lt_eng_6s_mid_2t.pdf, samesky/ts11.pdf, samesky/ts41.pdf, wurth/431256031716.pdf, wurth/431256031726.pdf, wurth/431256031736.pdf, wurth/431256038716.pdf, wurth/431256038726.pdf, wurth/431256058716.pdf, wurth/431256058726.pdf, wurth/431256058736.pdf, wurth/431256083716.pdf, wurth/431256083726.pdf, wurth/431256083736.pdf, wurth/434111025826.pdf, wurth/434113025826.pdf, wurth/434121025816.pdf, wurth/434123025816.pdf, wurth/434771025826.pdf, wurth/434781025816.pdf, wurth/436333033816.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: alps/PdfFile_191666.pdf, alps/product_spec_skhhlma010_en_0953940899.pdf, alps/product_spec_skhhlna010_en_3f6253977e.pdf, alps/product_spec_skhhlpa010_en_3e72111715.pdf, alps/product_spec_skhhlqa010_en_6371ab50be.pdf, alps/product_spec_skhhlra010_en_6e5f9638e5.pdf, alps/product_spec_skhhlua010_en_47c48beb9c.pdf, alps/product_spec_skhhlva010_en_98c6db8290.pdf, alps/product_spec_skhhlwa010_en_0824991e53.pdf, alps/product_spec_skrtlae010_en_1db35b7ed3.pdf, alps/product_spec_skswcee010_en_fd10e51df1.pdf, alps/product_spec_skswcfe010_en_7b9f00e581.pdf, alps/skhh.pdf, alps/sksw.pdf, apem/MJTP1117.pdf, apem/adts6-adtsm-ktsc6.pdf, ck/PTS845.pdf, ck/RS022R_Dwg.pdf, ck/ck-pts645vl832lfs.pdf, ck/littelfuse-c-k-tactile-pts645v-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts820-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts845-series-datasheet.pdf, ck/pts645.pdf, eswitch/TL1015.pdf, eswitch/TL1017.pdf, eswitch/TL1105.pdf, eswitch/TL3336.pdf, eswitch/TL3340.pdf, eswitch/TL3360.pdf, eswitch/TL3780.pdf, eswitch/TL4115AF160Q.pdf, eswitch/TL4115AF220Q.pdf, eswitch/TL52.pdf, eswitch/TL58.pdf, eswitch/TL59.pdf, eswitch/TL6059.pdf, eswitch/TL6110.pdf, omron/A112-E1.pdf, omron/en-b3u.pdf, omron/en-b3wn.pdf, panasonic/EVQ-PV_Rev2003.pdf, panasonic/Tactile-Switches-Catalog.pdf, panasonic/sw_lt_eng_6035.pdf, panasonic/sw_lt_eng_6_long_2r.pdf, panasonic/sw_lt_eng_6s_mid_2t.pdf, samesky/ts11.pdf, samesky/ts41.pdf, te/DDEController-9e7b5b.pdf, te/FSM-Series.pdf, wurth/431256031716.pdf, wurth/431256031726.pdf, wurth/431256031736.pdf, wurth/431256038716.pdf, wurth/431256038726.pdf, wurth/431256058716.pdf, wurth/431256058726.pdf, wurth/431256058736.pdf, wurth/431256083716.pdf, wurth/431256083726.pdf, wurth/431256083736.pdf, wurth/434111025826.pdf, wurth/434113025826.pdf, wurth/434121025816.pdf, wurth/434123025816.pdf, wurth/434771025826.pdf, wurth/434781025816.pdf, wurth/436333033816.pdf",
       "pinouts": {
         "p2_1_2": [
           {"number":1,"name":"A","role":"inout"},
@@ -1274,6 +1274,7 @@
       "momentary": true,
       "ratedVolts": 12,
       "parts": [
+        {"name":"1977067-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMMSH"},
         {"name":"431256031716","manufacturer":"Würth Elektronik","datasheet":"431256031716","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
         {"name":"431256031726","manufacturer":"Würth Elektronik","datasheet":"431256031726","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
         {"name":"431256031736","manufacturer":"Würth Elektronik","datasheet":"431256031736","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-ADTSA"},
@@ -1312,6 +1313,7 @@
         {"name":"EVQ-PV205K","manufacturer":"Panasonic","datasheet":"evq-pv_rev2003","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-EVQPV"},
         {"name":"EVQ-PVF05K","manufacturer":"Panasonic","datasheet":"sw_lt_eng_6_long_2r","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-EVQPV"},
         {"name":"EVQ-PVW05K","manufacturer":"Panasonic","datasheet":"sw_lt_eng_6_long_2r","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-EVQPV"},
+        {"name":"FSM2JART","manufacturer":"TE Connectivity","datasheet":"fsm-series","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-FSMJRT"},
         {"name":"MJTP1129","manufacturer":"APEM","datasheet":"mjtp1117","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-MJTP1129"},
         {"name":"MJTP1129A","manufacturer":"APEM","datasheet":"mjtp1117","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-MJTP1129"},
         {"name":"MJTP1236","manufacturer":"APEM","datasheet":"mjtp1117","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-MJTP1236"},
@@ -1503,11 +1505,34 @@
       ]
     },
     {
+      "id": "tact_no_2t_15v_round-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 15 V, Round Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: te/DDEController-3b4db1.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Round Button",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 15,
+      "parts": [
+        {"name":"2425753-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-3b4db1","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-KXT3"},
+        {"name":"2425753-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-3b4db1","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-KXT3"}
+      ]
+    },
+    {
       "id": "tact_no_2t_15v_standard",
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 15 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kxt3-series-datasheet.pdf, ck/littelfuse-c-k-tactile-nanot-series-datasheet.pdf, eswitch/TL4110.pdf, panasonic/sw_lt_eng_3020s.pdf, panasonic/sw_lt_eng_3417s_side_eg.pdf, panasonic/sw_lt_eng_6s_mid_2t.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kxt3-series-datasheet.pdf, ck/littelfuse-c-k-tactile-nanot-series-datasheet.pdf, eswitch/TL4110.pdf, panasonic/sw_lt_eng_3020s.pdf, panasonic/sw_lt_eng_3417s_side_eg.pdf, panasonic/sw_lt_eng_6s_mid_2t.pdf, te/DDEController-57563d.pdf",
       "pinouts": {
         "p2_1_2": [
           {"number":1,"name":"A","role":"inout"},
@@ -1540,7 +1565,10 @@
         {"name":"NANOT 240 AS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-nanot-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-NANOT-SMD"},
         {"name":"NANOT 240 BP","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-nanot-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-NANOT-PIP"},
         {"name":"NANOT160BP","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-nanot-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-NANOT-PIP"},
-        {"name":"TL4110AF160Q","manufacturer":"E-Switch","datasheet":"tl4110","package":"Edge mount","pinout":"p2_1_2","footprint":"SW-TACT-TL4110"}
+        {"name":"TL4110AF160Q","manufacturer":"E-Switch","datasheet":"tl4110","package":"Edge mount","pinout":"p2_1_2","footprint":"SW-TACT-TL4110"},
+        {"name":"USLPT3020DT2TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-57563d","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-KXT3"},
+        {"name":"USLPT3020DT3TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-57563d","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-KXT3"},
+        {"name":"USLPT3020DT6TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-57563d","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-KXT3"}
       ]
     },
     {
@@ -1612,7 +1640,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 24 V, Plunger for Cap actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 24VDC; the switching rating); datasheets: omron/en-b3f.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 24VDC; the switching rating); datasheets: omron/en-b3f.pdf, te/DDEController-9e7b5b.pdf, te/FSMCD-A---FSMRACD-A.pdf",
       "pinouts": {
         "p2_1_2": [
           {"number":1,"name":"A","role":"inout"},
@@ -1626,11 +1654,37 @@
       "momentary": true,
       "ratedVolts": 24,
       "parts": [
+        {"name":"1825968-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRACD"},
         {"name":"B3F-3152","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-RA"},
         {"name":"B3F-3155","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-RA"},
         {"name":"B3F-6050","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"},
         {"name":"B3F-6052","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"},
-        {"name":"B3F-6150","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"}
+        {"name":"B3F-6150","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"},
+        {"name":"FSMRACD","manufacturer":"TE Connectivity","datasheet":"fsmcd-a---fsmracd-a","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRACD"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_24v_rectangular-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 24 V, Rectangular Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 24VDC; the switching rating); datasheets: te/DDEController-9e7b5b.pdf, te/DDEController-bd6400.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Rectangular Button",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 24,
+      "parts": [
+        {"name":"147873-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL3302-J"},
+        {"name":"1825966-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-THT"},
+        {"name":"FSM2JMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TL3302-J"}
       ]
     },
     {
@@ -1638,7 +1692,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 24 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 24VDC; the switching rating); datasheets: omron/en-b3f.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 24VDC; the switching rating); datasheets: omron/en-b3f.pdf, te/DDEController-2975c4.pdf, te/DDEController-3ae939.pdf, te/DDEController-9e7b5b.pdf, te/DDEController-b083f5.pdf, te/DDEController-bd6400.pdf, te/DDEController-edeebd.pdf, te/DDEController-eea2c7.pdf",
       "pinouts": {
         "p2_1_2": [
           {"number":1,"name":"A","role":"inout"},
@@ -1652,6 +1706,22 @@
       "momentary": true,
       "ratedVolts": 24,
       "parts": [
+        {"name":"1-1825027-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRAJ"},
+        {"name":"1-1825027-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRAJ"},
+        {"name":"1-1825027-4","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRAJ"},
+        {"name":"1-1825027-7","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRAJ"},
+        {"name":"1571010-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-FSMJRT"},
+        {"name":"1571300-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRAJSA"},
+        {"name":"1571300-3","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b083f5","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRAJSA"},
+        {"name":"1571407-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRAJS-SMD"},
+        {"name":"1571610-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRAJ"},
+        {"name":"1825027-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRAJ"},
+        {"name":"1825027-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRAJ"},
+        {"name":"1825027-5","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRAJ"},
+        {"name":"1825027-6","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRAJ"},
+        {"name":"1825027-8","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRAJ"},
+        {"name":"2-1825027-0","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRAJ"},
+        {"name":"2-1825027-4","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSMRAJ"},
         {"name":"B3F-3100","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-RA"},
         {"name":"B3F-3102","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-RA"},
         {"name":"B3F-3105","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-RA"},
@@ -1664,7 +1734,13 @@
         {"name":"B3F-6022","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"},
         {"name":"B3F-6100","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"},
         {"name":"B3F-6102","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"},
-        {"name":"B3F-6120","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"}
+        {"name":"B3F-6120","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-B3F-THT-R"},
+        {"name":"FSM104","manufacturer":"TE Connectivity","datasheet":"ddecontroller-eea2c7","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-FSM104"},
+        {"name":"FSM2JRT","manufacturer":"TE Connectivity","datasheet":"ddecontroller-3ae939","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-FSMJRT"},
+        {"name":"FSM4JRT","manufacturer":"TE Connectivity","datasheet":"ddecontroller-3ae939","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-FSMJRT"},
+        {"name":"FSM8JRT","manufacturer":"TE Connectivity","datasheet":"ddecontroller-2975c4","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-FSMJRT"},
+        {"name":"FSMSM","manufacturer":"TE Connectivity","datasheet":"ddecontroller-edeebd","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-FSMSM"},
+        {"name":"FSMSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-edeebd","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-FSMSM"}
       ]
     },
     {
@@ -1742,7 +1818,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 32 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.01A @ 32VDC, 0.05A @ 32VDC, 1VA @ 32VAC/DC; the switching rating); datasheets: ck/ck-ksr2m3glfg-44487341.pdf, ck/littelfuse-c-k-tactile-ksr-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kt-series-datasheet.pdf, ck/littelfuse-ck-tactile-ksc-v2-series-datasheet.pdf, eswitch/TL6155.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.01A @ 32VDC, 0.05A @ 32VDC, 1VA @ 32VAC/DC; the switching rating); datasheets: ck/ck-ksr2m3glfg-44487341.pdf, ck/littelfuse-c-k-tactile-ksr-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kt-series-datasheet.pdf, ck/littelfuse-ck-tactile-ksc-v2-series-datasheet.pdf, eswitch/TL6155.pdf, te/DDEController-9e7b5b.pdf, te/DDEController-bd6400.pdf",
       "pinouts": {
         "p2_1_2": [
           {"number":1,"name":"A","role":"inout"},
@@ -1756,6 +1832,8 @@
       "momentary": true,
       "ratedVolts": 32,
       "parts": [
+        {"name":"FSMJMLPTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-FSMJMLP"},
+        {"name":"FSMSMLPAATR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-FSMJMLP"},
         {"name":"KSC421 V2 70SH LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc-v2-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSC4V2"},
         {"name":"KSC441 V2 70SH SP DELTA LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc-v2-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSC4V2"},
         {"name":"KSR211G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
@@ -1792,6 +1870,35 @@
         {"name":"KT11P4SA2M35LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
         {"name":"TL6155AF350Q","manufacturer":"E-Switch","datasheet":"tl6155","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-TL6155"},
         {"name":"Y35A21410FPLFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_48v_standard",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 48 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 48VDC; the switching rating); datasheets: te/DDEController-b57304.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 48,
+      "parts": [
+        {"name":"STS12D26BTHR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-STS-THT-D"},
+        {"name":"STS13D26BTHR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-STS-THT-D"},
+        {"name":"STS43A10ETHR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-STS-THT"},
+        {"name":"STS43A16CTHR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-STS-THT"},
+        {"name":"STS70A20BTHR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-STS-THT"},
+        {"name":"STSC18BRTTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-STSC"},
+        {"name":"UMSASMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-KXT3"},
+        {"name":"UMSDSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-KXT3"}
       ]
     },
     {
@@ -1948,12 +2055,18 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Flush actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: apem/MJTP1117.pdf, ck/littelfuse-c-k-tactile-pts526-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts530-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts540-series-datasheet.pdf, samesky/ts17.pdf, samesky/ts23.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: apem/MJTP1117.pdf, ck/littelfuse-c-k-tactile-pts526-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts530-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts540-series-datasheet.pdf, samesky/ts17.pdf, samesky/ts23.pdf, te/DDEController-04a069.pdf, te/DDEController-7cf72a.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
           {"number":2,"name":"A2","role":"inout"},
           {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ],
+        "p4_1_3_2_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"B1","role":"inout"},
+          {"number":3,"name":"A2","role":"inout"},
           {"number":4,"name":"B2","role":"inout"}
         ]
       },
@@ -1968,7 +2081,26 @@
       "momentary": true,
       "ratedVolts": 12,
       "parts": [
+        {"name":"MCSLPT4644B1TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MCSLPT4644"},
+        {"name":"MCSLPT4644B2TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MCSLPT4644"},
+        {"name":"MCSLPT4644B3TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MCSLPT4644"},
+        {"name":"MCSLPT4644B4TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MCSLPT4644"},
+        {"name":"MCSLPT4848A1DTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-MCSLPT4848A"},
+        {"name":"MCSLPT4848A2DTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-MCSLPT4848A"},
+        {"name":"MCSLPT4848A3DTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-MCSLPT4848A"},
+        {"name":"MCSLPT4848A4DTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-MCSLPT4848A"},
+        {"name":"MCSLPT4848A5DTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-MCSLPT4848A"},
+        {"name":"MCSLPT4848C1DTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-MCSLPT4848C"},
+        {"name":"MCSLPT4848C2DTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-MCSLPT4848C"},
+        {"name":"MCSLPT4848C3DTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-MCSLPT4848C"},
+        {"name":"MCSLPT4848C4DTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-MCSLPT4848C"},
+        {"name":"MCSLPT4848C5DTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-MCSLPT4848C"},
         {"name":"MJTP1212","manufacturer":"APEM","datasheet":"mjtp1117","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-ADTS-THT-12"},
+        {"name":"MSLPT5252AG3TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-G"},
+        {"name":"MSLPT5252AG4TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-G"},
+        {"name":"MSLPT5252AL2TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-L"},
+        {"name":"MSLPT5252AL3TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-L"},
+        {"name":"MSLPT5252AL4TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-L"},
         {"name":"PTS526SK08SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts526-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS526-SMD-H08"},
         {"name":"PTS526SM08SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts526-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS526-SMD-H08"},
         {"name":"PTS530GH055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts530-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS530-SMD"},
@@ -2136,7 +2268,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Rectangular Button actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 12VDC, 0.05A @ 12VDC; the switching rating); datasheets: alps/product_spec_sksclce010_en_5422358d87.pdf, alps/product_spec_sksclde010_en_cfa0e381ea.pdf, alps/product_spec_skscpbe010_en_2ad7b9fc58.pdf, alps/sksc.pdf, apem/aptclgtv.pdf, ck/littelfuse-c-k-tactile-pts840-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts841-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts850-series-datasheet.pdf, ck/littelfuse-c-k-tactile-rkc2-series-datasheet.pdf, eswitch/TL1014.pdf, eswitch/TL1016.pdf, eswitch/TL1030.pdf, eswitch/TL3901.pdf, panasonic/245500.pdf, panasonic/sw_lt_eng_smalls_side.pdf, wurth/434153017835.pdf, wurth/434331013822.pdf, wurth/434331045822.pdf, wurth/434333045822.pdf, wurth/434351045816.pdf, wurth/434353045816.pdf, wurth/436331045822.pdf, wurth/436333045822.pdf, wurth/436351045816.pdf, wurth/436353045816.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 12VDC, 0.05A @ 12VDC; the switching rating); datasheets: alps/product_spec_sksclce010_en_5422358d87.pdf, alps/product_spec_sksclde010_en_cfa0e381ea.pdf, alps/product_spec_skscpbe010_en_2ad7b9fc58.pdf, alps/sksc.pdf, apem/aptclgtv.pdf, ck/littelfuse-c-k-tactile-pts840-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts841-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts850-series-datasheet.pdf, ck/littelfuse-c-k-tactile-rkc2-series-datasheet.pdf, eswitch/TL1014.pdf, eswitch/TL1016.pdf, eswitch/TL1030.pdf, eswitch/TL3901.pdf, panasonic/245500.pdf, panasonic/sw_lt_eng_smalls_side.pdf, te/DDEController-9e7b5b.pdf, te/DDEController-bd6400.pdf, wurth/434153017835.pdf, wurth/434331013822.pdf, wurth/434331045822.pdf, wurth/434333045822.pdf, wurth/434351045816.pdf, wurth/434353045816.pdf, wurth/436331045822.pdf, wurth/436333045822.pdf, wurth/436351045816.pdf, wurth/436353045816.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -2168,6 +2300,9 @@
       "momentary": true,
       "ratedVolts": 12,
       "parts": [
+        {"name":"1571262-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-FSMMST"},
+        {"name":"1571262-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-FSMMST"},
+        {"name":"1571262-4","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-FSMMST"},
         {"name":"434153017835","manufacturer":"Würth Elektronik","datasheet":"434153017835","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-TL1030"},
         {"name":"434331013822","manufacturer":"Würth Elektronik","datasheet":"434331013822","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASU-434331-H13"},
         {"name":"434331045822","manufacturer":"Würth Elektronik","datasheet":"434331045822","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-TL1014"},
@@ -2352,7 +2487,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: alps/PdfFile_260198.pdf, alps/SKQGAB_KQG_719_EN_cc4e10226e.pdf, alps/SKQGAF_KQG_706_EN_18ba0d0cc8.pdf, alps/product_catalog_ta_02_skqg_en_d003713f01.pdf, alps/product_spec_skhhaja010_en_2553513b28.pdf, alps/product_spec_skhhaka010_en_cee96ceb02.pdf, alps/product_spec_skhhama010_en_161541eef7.pdf, alps/product_spec_skhhana010_en_bb842bfe45.pdf, alps/product_spec_skhhapa010_en_9a49ab3203.pdf, alps/product_spec_skhhaqa010_en_11be3d6ceb.pdf, alps/product_spec_skhhbsa010_en_f3020c5262.pdf, alps/product_spec_skhhbva010_en_c446c12032.pdf, alps/product_spec_skhhbya010_en_339382ede0.pdf, alps/product_spec_skhhcra010_en_79506b0c1a.pdf, alps/product_spec_skhhdha010_en_68d03c03d2.pdf, alps/product_spec_skhhdja010_en_677de2c057.pdf, alps/product_spec_skhhdta010_en_a2b59d627b.pdf, alps/product_spec_skhhdua010_en_3e31d1d73f.pdf, alps/product_spec_skhhpna010_en_ccdd707b27.pdf, alps/product_spec_skhuake010_en_c0dfd790d7.pdf, alps/product_spec_sksgaae010_en_b8a85c32e9.pdf, alps/product_spec_sksgace010_en_780d67a4ba.pdf, alps/product_spec_sksgpae010_en_94ef1bc1c4.pdf, alps/product_spec_sksgpce010_en_e46935b670.pdf, alps/skhh.pdf, alps/skta1.pdf, apem/MJTP1117.pdf, apem/PCB-MJTP-PHAP33-series-12mm-TH.pdf, apem/adts6-adtsm-ktsc6.pdf, ck/littelfuse-c-k-tactile-pts125-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts526-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts641-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts647-series-datasheet.pdf, ck/pts645.pdf, ck/pts830.pdf, eswitch/LL3301.pdf, eswitch/TL1018.pdf, eswitch/TL1100.pdf, eswitch/TL1105.pdf, eswitch/TL3145.pdf, eswitch/TL3300.pdf, eswitch/TL3301.pdf, eswitch/TL3303.pdf, eswitch/TL3305.pdf, eswitch/TL3313.pdf, eswitch/TL3342.pdf, eswitch/TL3701AF100QG.pdf, eswitch/TL6100.pdf, eswitch/TL6120.pdf, eswitch/TL6150.pdf, eswitch/TL6170.pdf, eswitch/TL6700.pdf, eswitch/TL6800.pdf, omron/en-b3se.pdf, omron/en-b3sl.pdf, panasonic/245489.pdf, panasonic/sw_lt_eng_6s_long.pdf, samesky/ts02.pdf, samesky/ts03.pdf, samesky/ts04.pdf, samesky/ts05.pdf, samesky/ts06-291a5e.pdf, samesky/ts07.pdf, samesky/ts08.pdf, samesky/ts14.pdf, samesky/ts15.pdf, samesky/ts18.pdf, samesky/ts21.pdf, samesky/ts24.pdf, samesky/ts34.pdf, samesky/ts36.pdf, samesky/ts40.pdf, samesky/ts44.pdf, wurth/430152043826.pdf, wurth/430152043836.pdf, wurth/430152050826.pdf, wurth/430152050836.pdf, wurth/430152070826.pdf, wurth/430152070836.pdf, wurth/430152080826.pdf, wurth/430152080836.pdf, wurth/430152095826.pdf, wurth/430152095836.pdf, wurth/430152130826.pdf, wurth/430152130836.pdf, wurth/430156043726.pdf, wurth/430156043736.pdf, wurth/430156050726.pdf, wurth/430156050736.pdf, wurth/430156070726.pdf, wurth/430156070736.pdf, wurth/430156095726.pdf, wurth/430156095736.pdf, wurth/430156130726.pdf, wurth/430156130736.pdf, wurth/430162043826.pdf, wurth/430162085826.pdf, wurth/430172043816.pdf, wurth/430172085816.pdf, wurth/430181038816.pdf, wurth/430182043816.pdf, wurth/430182050816.pdf, wurth/430182070816.pdf, wurth/430182080816.pdf, wurth/430182095816.pdf, wurth/430182130816.pdf, wurth/430186043716.pdf, wurth/430186050716.pdf, wurth/430186070716.pdf, wurth/430186095716.pdf, wurth/430186130716.pdf, wurth/430451025836.pdf, wurth/430451031836.pdf, wurth/430451035836.pdf, wurth/430453025836.pdf, wurth/430453031836.pdf, wurth/430453035836.pdf, wurth/430456043736.pdf, wurth/430456085736.pdf, wurth/430466043726.pdf, wurth/430466085726.pdf, wurth/430471025826.pdf, wurth/430471031826.pdf, wurth/430471035826.pdf, wurth/430473025826.pdf, wurth/430473031826.pdf, wurth/430473035826.pdf, wurth/430476085716.pdf, wurth/430481025816.pdf, wurth/430481031816.pdf, wurth/430481035816.pdf, wurth/430483025816.pdf, wurth/430483031816.pdf, wurth/430483035816.pdf, wurth/430753034832.pdf, wurth/430773034825.pdf, wurth/430773051825.pdf, wurth/430783034816.pdf, wurth/430783051816.pdf, wurth/431471031826.pdf, wurth/431471031836.pdf, wurth/431481031816.pdf, wurth/435151014824.pdf, wurth/435151014845.pdf, wurth/435171014816.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: alps/PdfFile_260198.pdf, alps/SKQGAB_KQG_719_EN_cc4e10226e.pdf, alps/SKQGAF_KQG_706_EN_18ba0d0cc8.pdf, alps/product_catalog_ta_02_skqg_en_d003713f01.pdf, alps/product_spec_skhhaja010_en_2553513b28.pdf, alps/product_spec_skhhaka010_en_cee96ceb02.pdf, alps/product_spec_skhhama010_en_161541eef7.pdf, alps/product_spec_skhhana010_en_bb842bfe45.pdf, alps/product_spec_skhhapa010_en_9a49ab3203.pdf, alps/product_spec_skhhaqa010_en_11be3d6ceb.pdf, alps/product_spec_skhhbsa010_en_f3020c5262.pdf, alps/product_spec_skhhbva010_en_c446c12032.pdf, alps/product_spec_skhhbya010_en_339382ede0.pdf, alps/product_spec_skhhcra010_en_79506b0c1a.pdf, alps/product_spec_skhhdha010_en_68d03c03d2.pdf, alps/product_spec_skhhdja010_en_677de2c057.pdf, alps/product_spec_skhhdta010_en_a2b59d627b.pdf, alps/product_spec_skhhdua010_en_3e31d1d73f.pdf, alps/product_spec_skhhpna010_en_ccdd707b27.pdf, alps/product_spec_skhuake010_en_c0dfd790d7.pdf, alps/product_spec_sksgaae010_en_b8a85c32e9.pdf, alps/product_spec_sksgace010_en_780d67a4ba.pdf, alps/product_spec_sksgpae010_en_94ef1bc1c4.pdf, alps/product_spec_sksgpce010_en_e46935b670.pdf, alps/skhh.pdf, alps/skta1.pdf, apem/MJTP1117.pdf, apem/PCB-MJTP-PHAP33-series-12mm-TH.pdf, apem/adts6-adtsm-ktsc6.pdf, ck/littelfuse-c-k-tactile-pts125-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts526-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts641-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts647-series-datasheet.pdf, ck/pts645.pdf, ck/pts830.pdf, eswitch/LL3301.pdf, eswitch/TL1018.pdf, eswitch/TL1100.pdf, eswitch/TL1105.pdf, eswitch/TL3145.pdf, eswitch/TL3300.pdf, eswitch/TL3301.pdf, eswitch/TL3303.pdf, eswitch/TL3305.pdf, eswitch/TL3313.pdf, eswitch/TL3342.pdf, eswitch/TL3701AF100QG.pdf, eswitch/TL6100.pdf, eswitch/TL6120.pdf, eswitch/TL6150.pdf, eswitch/TL6170.pdf, eswitch/TL6700.pdf, eswitch/TL6800.pdf, omron/en-b3se.pdf, omron/en-b3sl.pdf, panasonic/245489.pdf, panasonic/sw_lt_eng_6s_long.pdf, samesky/ts02.pdf, samesky/ts03.pdf, samesky/ts04.pdf, samesky/ts05.pdf, samesky/ts06-291a5e.pdf, samesky/ts07.pdf, samesky/ts08.pdf, samesky/ts14.pdf, samesky/ts15.pdf, samesky/ts18.pdf, samesky/ts21.pdf, samesky/ts24.pdf, samesky/ts34.pdf, samesky/ts36.pdf, samesky/ts40.pdf, samesky/ts44.pdf, te/DDEController-04a069.pdf, te/DDEController-7cf72a.pdf, te/DDEController-82a145.pdf, te/DDEController-9e7b5b.pdf, wurth/430152043826.pdf, wurth/430152043836.pdf, wurth/430152050826.pdf, wurth/430152050836.pdf, wurth/430152070826.pdf, wurth/430152070836.pdf, wurth/430152080826.pdf, wurth/430152080836.pdf, wurth/430152095826.pdf, wurth/430152095836.pdf, wurth/430152130826.pdf, wurth/430152130836.pdf, wurth/430156043726.pdf, wurth/430156043736.pdf, wurth/430156050726.pdf, wurth/430156050736.pdf, wurth/430156070726.pdf, wurth/430156070736.pdf, wurth/430156095726.pdf, wurth/430156095736.pdf, wurth/430156130726.pdf, wurth/430156130736.pdf, wurth/430162043826.pdf, wurth/430162085826.pdf, wurth/430172043816.pdf, wurth/430172085816.pdf, wurth/430181038816.pdf, wurth/430182043816.pdf, wurth/430182050816.pdf, wurth/430182070816.pdf, wurth/430182080816.pdf, wurth/430182095816.pdf, wurth/430182130816.pdf, wurth/430186043716.pdf, wurth/430186050716.pdf, wurth/430186070716.pdf, wurth/430186095716.pdf, wurth/430186130716.pdf, wurth/430451025836.pdf, wurth/430451031836.pdf, wurth/430451035836.pdf, wurth/430453025836.pdf, wurth/430453031836.pdf, wurth/430453035836.pdf, wurth/430456043736.pdf, wurth/430456085736.pdf, wurth/430466043726.pdf, wurth/430466085726.pdf, wurth/430471025826.pdf, wurth/430471031826.pdf, wurth/430471035826.pdf, wurth/430473025826.pdf, wurth/430473031826.pdf, wurth/430473035826.pdf, wurth/430476085716.pdf, wurth/430481025816.pdf, wurth/430481031816.pdf, wurth/430481035816.pdf, wurth/430483025816.pdf, wurth/430483031816.pdf, wurth/430483035816.pdf, wurth/430753034832.pdf, wurth/430773034825.pdf, wurth/430773051825.pdf, wurth/430783034816.pdf, wurth/430783051816.pdf, wurth/431471031826.pdf, wurth/431471031836.pdf, wurth/431481031816.pdf, wurth/435151014824.pdf, wurth/435151014845.pdf, wurth/435171014816.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -2378,6 +2513,8 @@
       "momentary": true,
       "ratedVolts": 12,
       "parts": [
+        {"name":"1571625-3","manufacturer":"TE Connectivity","datasheet":"ddecontroller-82a145","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJEL-J"},
+        {"name":"1571625-6","manufacturer":"TE Connectivity","datasheet":"ddecontroller-82a145","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJEL-J"},
         {"name":"430152043826","manufacturer":"Würth Elektronik","datasheet":"430152043826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
         {"name":"430152043836","manufacturer":"Würth Elektronik","datasheet":"430152043836","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
         {"name":"430152050826","manufacturer":"Würth Elektronik","datasheet":"430152050826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-430152"},
@@ -2492,9 +2629,19 @@
         {"name":"EVQ-P1K05M","manufacturer":"Panasonic","datasheet":"sw_lt_eng_6s_long","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-EVQP1"},
         {"name":"EVQ-Q1D06M","manufacturer":"Panasonic","datasheet":"245489","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-EVQQ1"},
         {"name":"EVQ-Q1E06K","manufacturer":"Panasonic","datasheet":"245489","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-EVQQ1"},
+        {"name":"FSM1JELGETR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJEL-G"},
+        {"name":"FSM1JELGTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJEL-G"},
+        {"name":"FSM2JELGELTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJEL-G"},
+        {"name":"FSM2JELGEXLTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJEL-G"},
+        {"name":"FSM2JELGLTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJEL-G"},
+        {"name":"FSM2JELGXLTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJEL-G"},
         {"name":"LL3301BF065QJ","manufacturer":"E-Switch","datasheet":"ll3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
         {"name":"LL3301DF065QJ","manufacturer":"E-Switch","datasheet":"ll3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-J"},
         {"name":"LL3301NF065QG","manufacturer":"E-Switch","datasheet":"ll3301","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3301-G"},
+        {"name":"MCSLPT4644B1PHTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MCSLPT4644-PH"},
+        {"name":"MCSLPT4644B2PHTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MCSLPT4644-PH"},
+        {"name":"MCSLPT4644B3PHTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MCSLPT4644-PH"},
+        {"name":"MCSLPT4644B4PHTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7cf72a","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MCSLPT4644-PH"},
         {"name":"MJTP1119","manufacturer":"APEM","datasheet":"mjtp1117","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MJTP1119"},
         {"name":"MJTP1119A","manufacturer":"APEM","datasheet":"mjtp1117","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MJTP1119"},
         {"name":"MJTP1230","manufacturer":"APEM","datasheet":"mjtp1117","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
@@ -2505,6 +2652,21 @@
         {"name":"MJTP1230G","manufacturer":"APEM","datasheet":"mjtp1117","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
         {"name":"MJTPSHW","manufacturer":"APEM","datasheet":"mjtp1117","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MJTPSHW"},
         {"name":"MJTPSHWB","manufacturer":"APEM","datasheet":"mjtp1117","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MJTPSHW"},
+        {"name":"MSLPT5252BG1MTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-G"},
+        {"name":"MSLPT5252BG2MTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-G"},
+        {"name":"MSLPT5252BG3MTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-G"},
+        {"name":"MSLPT5252BG4MTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-G"},
+        {"name":"MSLPT5252BL1MTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-L"},
+        {"name":"MSLPT5252BL2MTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-L"},
+        {"name":"MSLPT5252BL3MTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-L"},
+        {"name":"MSLPT5252BL4MTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-L"},
+        {"name":"MSLPT5252CG1BTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-G"},
+        {"name":"MSLPT5252CG2WTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-G"},
+        {"name":"MSLPT5252CG4WTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-G"},
+        {"name":"MSLPT5252CL1BTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-L"},
+        {"name":"MSLPT5252CL2WTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-L"},
+        {"name":"MSLPT5252CL3BTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-L"},
+        {"name":"MSLPT5252CL4WTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-04a069","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MSLPT5252-L"},
         {"name":"PTS125SK12-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
         {"name":"PTS125SK43-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
         {"name":"PTS125SK43P21M LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
@@ -3084,7 +3246,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 15 V, Flush actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts525-series-datasheet.pdf, ck/littelfuse-c-k-tactile-rk-series-datasheet.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts525-series-datasheet.pdf, ck/littelfuse-c-k-tactile-rk-series-datasheet.pdf, te/DDEController-2f17de.pdf, te/DDEController-63cf5b.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -3108,7 +3270,11 @@
         {"name":"RKA2SGG055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RK"},
         {"name":"RKA2SGK055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RK"},
         {"name":"RKA2SGM055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RK"},
-        {"name":"RKA2SGS055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RK"}
+        {"name":"RKA2SGS055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RK"},
+        {"name":"USLPT3026BL1TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-2f17de","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-USLPT3026"},
+        {"name":"USLPT3026BL2TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-2f17de","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-USLPT3026"},
+        {"name":"USLPT3737AL2TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-63cf5b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-SKRW"},
+        {"name":"USLPT3737AL5TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-63cf5b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-SKRW"}
       ]
     },
     {
@@ -3242,7 +3408,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 15 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts525-series-datasheet.pdf, panasonic/EVP-AFGB65.pdf, panasonic/EVP-BB_Series_DS.pdf, panasonic/EVP-BF_Series_DS.pdf, panasonic/EVP-BK_Type_DS.pdf, panasonic/sw_lt_eng_2616s.pdf, panasonic/sw_lt_eng_2819s.pdf, panasonic/sw_lt_eng_3026s.pdf, panasonic/sw_lt_eng_3429s.pdf, panasonic/sw_lt_eng_4735s.pdf, panasonic/sw_lt_eng_49s.pdf, panasonic/sw_lt_eng_6s_mid.pdf, panasonic/sw_lt_eng_6s_th.pdf, wurth/431151015826.pdf, wurth/431153015826.pdf, wurth/431181015816.pdf, wurth/431183015816.pdf, wurth/434133025826.pdf, wurth/434163025816.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts525-series-datasheet.pdf, panasonic/EVP-AFGB65.pdf, panasonic/EVP-BB_Series_DS.pdf, panasonic/EVP-BF_Series_DS.pdf, panasonic/EVP-BK_Type_DS.pdf, panasonic/sw_lt_eng_2616s.pdf, panasonic/sw_lt_eng_2819s.pdf, panasonic/sw_lt_eng_3026s.pdf, panasonic/sw_lt_eng_3429s.pdf, panasonic/sw_lt_eng_4735s.pdf, panasonic/sw_lt_eng_49s.pdf, panasonic/sw_lt_eng_6s_mid.pdf, panasonic/sw_lt_eng_6s_th.pdf, te/DDEController-2f17de.pdf, te/DDEController-305a91.pdf, te/DDEController-5f3db9.pdf, te/DDEController-bd6400.pdf, te/DDEController-cc3c05.pdf, wurth/431151015826.pdf, wurth/431153015826.pdf, wurth/431181015816.pdf, wurth/431183015816.pdf, wurth/434133025826.pdf, wurth/434163025816.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -3280,6 +3446,7 @@
         {"name":"431183015816","manufacturer":"Würth Elektronik","datasheet":"431183015816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431153"},
         {"name":"434133025826","manufacturer":"Würth Elektronik","datasheet":"434133025826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-434133"},
         {"name":"434163025816","manufacturer":"Würth Elektronik","datasheet":"434163025816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-434133"},
+        {"name":"8-1437565-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-305a91","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMCT"},
         {"name":"EVP-0AFB65","manufacturer":"Panasonic","datasheet":"sw_lt_eng_3026s","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EVP0A"},
         {"name":"EVP-AF5B70","manufacturer":"Panasonic","datasheet":"sw_lt_eng_3026s","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EVP0A"},
         {"name":"EVP-AF7B70","manufacturer":"Panasonic","datasheet":"sw_lt_eng_3026s","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EVP0A"},
@@ -3373,7 +3540,13 @@
         {"name":"EVQ-Q2Y01W","manufacturer":"Panasonic","datasheet":"sw_lt_eng_6s_th","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EVPBT-J"},
         {"name":"EVQ-Q2Y02W","manufacturer":"Panasonic","datasheet":"sw_lt_eng_6s_th","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EVPBT-J"},
         {"name":"EVQ-Q2Y03W","manufacturer":"Panasonic","datasheet":"sw_lt_eng_6s_th","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EVPBT-J"},
-        {"name":"PTS525SM15SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts525-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS525-SMD"}
+        {"name":"FSMCTTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMCT"},
+        {"name":"PTS525SM15SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts525-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS525-SMD"},
+        {"name":"USLPT2616CT2TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-cc3c05","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-SKTA"},
+        {"name":"USLPT2819DT2TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-5f3db9","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-USLPT2819"},
+        {"name":"USLPT2819DT4TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-5f3db9","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-USLPT2819"},
+        {"name":"USLPT3026EL1TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-2f17de","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-USLPT3026"},
+        {"name":"USLPT3026EL2TR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-2f17de","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-USLPT3026"}
       ]
     },
     {
@@ -3512,7 +3685,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 24 V, Plunger for Cap actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 24VDC; the switching rating); datasheets: apem/as-3ash9-44158219.pdf, apem/as-3ash9r-45211430.pdf, omron/A070-E1.pdf, omron/B3W.pdf, omron/en-b3f.pdf, omron/en-b3fs.pdf, omron/en-b3fs_4.pdf, omron/en-b3w.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 24VDC; the switching rating); datasheets: apem/as-3ash9-44158219.pdf, apem/as-3ash9r-45211430.pdf, omron/A070-E1.pdf, omron/B3W.pdf, omron/en-b3f.pdf, omron/en-b3fs.pdf, omron/en-b3fs_4.pdf, omron/en-b3w.pdf, te/DDEController-3d1d38.pdf, te/DDEController-9e7b5b.pdf, te/DDEController-bd6400.pdf, te/DDEController-ff1349.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -3532,6 +3705,8 @@
       "momentary": true,
       "ratedVolts": 24,
       "parts": [
+        {"name":"1825967-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1825967-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
         {"name":"3ASH9","manufacturer":"APEM","datasheet":"as-3ash9-44158219","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MULTIMEC-3A-SMD"},
         {"name":"3ASH9R","manufacturer":"APEM","datasheet":"as-3ash9r-45211430","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-MULTIMEC-3A-SMD"},
         {"name":"B3F-1050","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
@@ -3562,7 +3737,10 @@
         {"name":"B3W-4055","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
         {"name":"B3W-4055S","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
         {"name":"B3W-4150","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
-        {"name":"B3W-4155","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"}
+        {"name":"B3W-4155","manufacturer":"Aratas","datasheet":"en-b3w","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT-12"},
+        {"name":"FSM102","manufacturer":"TE Connectivity","datasheet":"ddecontroller-ff1349","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSM10-THT"},
+        {"name":"FSM103","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSM10-THT"},
+        {"name":"FSM103A","manufacturer":"TE Connectivity","datasheet":"ddecontroller-3d1d38","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSM10-THT"}
       ]
     },
     {
@@ -3631,7 +3809,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 24 V, Standard actuator",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.001A @ 24VDC, 0.003A @ 24VDC, 0.042A @ 24VDC, 0.05A @ 24VDC; the switching rating); datasheets: ck/KSC-XA_Datasheet.pdf, ck/littelfuse-c-k-tactile-ksc4-te-series-datasheet.pdf, ck/littelfuse-ck-tactile-ksc2-te-series-datasheet.pdf, nkk/CB.pdf, nkk/CB3.pdf, omron/B3F.pdf, omron/B3S-Datasheet.pdf, omron/en-b3f.pdf, omron/en-b3fs.pdf, omron/en-b3fs_4.pdf, omron/en-b3sn.pdf, omron/en-b3w.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.001A @ 24VDC, 0.003A @ 24VDC, 0.042A @ 24VDC, 0.05A @ 24VDC; the switching rating); datasheets: ck/KSC-XA_Datasheet.pdf, ck/littelfuse-c-k-tactile-ksc4-te-series-datasheet.pdf, ck/littelfuse-ck-tactile-ksc2-te-series-datasheet.pdf, nkk/CB.pdf, nkk/CB3.pdf, omron/B3F.pdf, omron/B3S-Datasheet.pdf, omron/en-b3f.pdf, omron/en-b3fs.pdf, omron/en-b3fs_4.pdf, omron/en-b3sn.pdf, omron/en-b3w.pdf, te/DDEController-08f840.pdf, te/DDEController-17f43b.pdf, te/DDEController-2535d3.pdf, te/DDEController-492cb0.pdf, te/DDEController-554296.pdf, te/DDEController-7044de.pdf, te/DDEController-82a145.pdf, te/DDEController-8f0530.pdf, te/DDEController-9e7b5b.pdf, te/DDEController-a0f877.pdf, te/DDEController-b57304.pdf, te/DDEController-bd6400.pdf, te/DDEController-da8091.pdf, te/DDEController-e821a8.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -3657,6 +3835,46 @@
       "momentary": true,
       "ratedVolts": 24,
       "parts": [
+        {"name":"1-1825910-0","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1-1825910-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1-1825910-4","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1-1825910-5","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1-1825910-8","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1-1825955-4","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1-1977120-0","manufacturer":"TE Connectivity","datasheet":"ddecontroller-da8091","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1571218-3","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSM10S-SMD"},
+        {"name":"1571220-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSM10S-THT"},
+        {"name":"1571294-3","manufacturer":"TE Connectivity","datasheet":"ddecontroller-a0f877","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJS"},
+        {"name":"1571527-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-554296","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"1571563-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-554296","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"1571563-4","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"1571625-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJEL-J"},
+        {"name":"1571625-4","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJEL-J"},
+        {"name":"1571625-8","manufacturer":"TE Connectivity","datasheet":"ddecontroller-82a145","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJEL-J"},
+        {"name":"1571634-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-G"},
+        {"name":"1571634-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-G"},
+        {"name":"1825107-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-e821a8","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-J"},
+        {"name":"1825910-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1825910-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1825910-3","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1825910-6","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1825910-7","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1825955-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1825955-6","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1977120-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-da8091","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1977120-6","manufacturer":"TE Connectivity","datasheet":"ddecontroller-da8091","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"1977223-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"1977223-6","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"1977263-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-8f0530","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMLP"},
+        {"name":"2-1825910-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"2-1825910-6","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"2-1825910-7","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"2-1825955-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"2-1825955-6","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"2-1977223-9","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"3-1825910-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"3-1825910-2","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
+        {"name":"3-1825910-5","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJ"},
         {"name":"B3F-1000","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
         {"name":"B3F-1000S","manufacturer":"Aratas","datasheet":"b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
         {"name":"B3F-1002","manufacturer":"Aratas","datasheet":"en-b3f","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"},
@@ -3725,6 +3943,40 @@
         {"name":"CB15FP-S","manufacturer":"NKK Switches","datasheet":"cb","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-CB"},
         {"name":"CB315FP","manufacturer":"NKK Switches","datasheet":"cb3","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-CB3"},
         {"name":"CB315FP-R","manufacturer":"NKK Switches","datasheet":"cb3","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-CB3"},
+        {"name":"FSM100","manufacturer":"TE Connectivity","datasheet":"ddecontroller-7044de","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSM10-THT"},
+        {"name":"FSM101","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSM10-THT"},
+        {"name":"FSM14JSMAS","manufacturer":"TE Connectivity","datasheet":"ddecontroller-492cb0","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM14JSMASTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM1JSSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJS"},
+        {"name":"FSM1LP","manufacturer":"TE Connectivity","datasheet":"ddecontroller-08f840","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMLP"},
+        {"name":"FSM1LPA","manufacturer":"TE Connectivity","datasheet":"ddecontroller-08f840","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMLP"},
+        {"name":"FSM1LPAS","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMLP"},
+        {"name":"FSM1LPASTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMLP"},
+        {"name":"FSM1LPATR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-08f840","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMLP"},
+        {"name":"FSM1LPTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-08f840","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMLP"},
+        {"name":"FSM2JELJXLTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJEL-J"},
+        {"name":"FSM2JS6SMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJS6"},
+        {"name":"FSM2JSMA","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM2JSMAA","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM2JSMAATR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM2JSMASTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-9e7b5b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM2JSMATR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM2JSML","manufacturer":"TE Connectivity","datasheet":"ddecontroller-17f43b","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM2JSMLTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM2JSSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-a0f877","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJS"},
+        {"name":"FSM4JSMA","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM4JSMASTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM4JSMATR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM4JSSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-a0f877","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJS"},
+        {"name":"FSM4LPASTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-2535d3","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMLP"},
+        {"name":"FSM6JSMA","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM6JSMAASTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM6JSMATR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM6JSMLSTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM8JSMA","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM8JSMAASTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM8JSMASTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
+        {"name":"FSM8JSMLSTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-bd6400","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJSM"},
         {"name":"KSC XA 35 J LFS","manufacturer":"Littelfuse","datasheet":"ksc-xa_datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
         {"name":"KSC XA 40 J LFS","manufacturer":"Littelfuse","datasheet":"ksc-xa_datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
         {"name":"KSC XA 55 J LFS","manufacturer":"Littelfuse","datasheet":"ksc-xa_datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
@@ -4106,6 +4358,62 @@
         {"name":"KSC141J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
         {"name":"KSC151G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
         {"name":"KSC151J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_48v_standard",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 48 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 48VDC; the switching rating); datasheets: te/DDEController-b57304.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 48,
+      "parts": [
+        {"name":"2506467-1","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-J"},
+        {"name":"FSM2JS6ASMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJS6"},
+        {"name":"FSM3JS6ASMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJS6"},
+        {"name":"FSM4JS6SMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJS6"},
+        {"name":"FSM5JS6SMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJS6"},
+        {"name":"FSM6JS6BSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJS6"},
+        {"name":"FSM6JS6SMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-FSMJS6"},
+        {"name":"STS25A18BSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-STS-G45"},
+        {"name":"STS26A16WSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-G"},
+        {"name":"STS26A26RJTTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-J"},
+        {"name":"STS26A26RSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-G"},
+        {"name":"STS26A50YSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-G"},
+        {"name":"STS31A16HJTTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6800"},
+        {"name":"STS31A18GSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-STS-G45"},
+        {"name":"STS31A26RJTTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6800"},
+        {"name":"STS31A28CSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-STS-G45"},
+        {"name":"STS34A26RJTTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-J"},
+        {"name":"STS34A50YJTTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3304-J"},
+        {"name":"STS35B26RJTTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3145"},
+        {"name":"STS35B35OJTTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3145"},
+        {"name":"STS50A18GSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-STS-G45"},
+        {"name":"STS52B18WJTTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3145"},
+        {"name":"STS52B26RJTTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3145"},
+        {"name":"STS52B35OJTTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL3145"},
+        {"name":"STS72A18RSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6170"},
+        {"name":"STS72A25BSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6170"},
+        {"name":"STS77A18RSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6170"},
+        {"name":"STS77A25BSMTR","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TL6170"},
+        {"name":"STS80JS6BTH","manufacturer":"TE Connectivity","datasheet":"ddecontroller-b57304","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-B3F-THT"}
       ]
     },
     {

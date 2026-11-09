@@ -133,12 +133,21 @@ Commit: c8f7656
 
 ### Phase 3 — TE (28 lines, 176 rows)
 
-- [ ] Tasks (a)–(c) for `te/`; for series with per-part drawings use the
-      first part number of each (series, mounting).
+- [x] Tasks (a)–(c) for `te/`; for series with per-part drawings use the
+      first part number of each (series, mounting). TE reader (`work/te/`;
+      DigiKey's `-` / `*` series split by drawing): `merge-work.py C te` →
+      `scheme-check.py --maker 'TE Conn'`: `77 add, 6 skip, 0 still pending`;
+      45 footprints, 33 new (12 identical to earlier ones, e.g. `FSM-THT ->
+      PTS636-THT`, `STS-G -> TL6170`); 2 `skip` from `cannot-draw.tsv` (only a
+      brochure without drawings); the check row 1571010-1 kept (SPST-NO,
+      Through Hole). About 48 rows link only to TE's core program catalog
+      (1308111-1: part tables, no drawings or keys); their land patterns come
+      from TE's Section C catalog (8-1773450-9) of the same series (Correction 3).
 
 Acceptance: no TE row is `pending`; checks pass.
   Check: the Phase 1 command with `--maker 'TE Conn'` (est. 3 min).
-Commit: —
+  Result 2026-11-08: `specs ok (212 add rows)`; `fp-load.sh footprints-B.json footprints-C.json` → `33 new footprints: load ok`; TE rows 212 add, 9 skip, 47 out.
+Commit: (this commit)
 
 ### Phase 4 — APEM (12 lines), NKK (7), Würth (5)
 
@@ -153,12 +162,13 @@ Commit: —
       drawings (Correction 2). `fp-load.sh footprints-B.json
       footprints-C.json` → `49 new footprints: load ok` before Würth; Würth's
       footprints load in the library (078a530, `footprint_check` in ctest).
-- [ ] § Summary: add / skip counts per maker, the count of footprints in
+- [x] § Summary: add / skip counts per maker, the count of footprints in
       `footprints-C.json`, and the total across B and C.
 
 Acceptance: no row of the seven makers is `pending`/`candidate`/`check`.
   Check: `awk -F'\t' 'NR>1 && ($18=="pending" || $18=="candidate" || $18=="check")' planning/plan-27-data/candidates.tsv | wc -l` → 0 (est. 1 min).
-Commit: —
+  Result 2026-11-08: `0`; `uncovered.py` → `0 uncovered rows`; `specs-check.py` over all ten makers → every `add` row matched (2031).
+Commit: 6acc950, (this commit)
 
 ## Validation Plan
 
@@ -167,6 +177,7 @@ Commit: —
 - Runtime proof: none (data only).
 - Doc sync: `datasheets/skipped-parts.md` gains the rows decided here.
 - Final gate (once, after Phase 4): `ctest --test-dir /tmp/logic-p27` → `100% tests passed` (est. 5 min; library unchanged).
+  Result 2026-11-08: `100% tests passed, 0 tests failed out of 28` (the library holds the generated parts; plan-27-E Correction 2).
 
 ## Decisions
 
@@ -184,8 +195,39 @@ Commit: —
    viewed one drawing per cluster, and wrote one spec row per land pattern
    with exact article numbers where needed. The rule stays for makers whose
    series share one drawing.
+3. 2026-11-08 — **a row's drawing may come from the maker's sister
+   document.** Plan-27-A rule 3 takes the row's DigiKey datasheet as the
+   source; for ~48 TE rows that document is TE's core program catalog, which
+   lists the part (rule 4 holds) but has no drawing, and for some Alps rows
+   it is a per-part specification with none (those were skipped, as no
+   sister document is linked). The TE reader drew those land patterns from
+   TE's Section C catalog (8-1773450-9), which DigiKey links for other parts
+   of the same series and which is in `datasheets/switch/tactile/te/`. The
+   part's `datasheet` stays its own DigiKey document.
 
 ## Summary
+
+Result 2026-11-08 (all ten makers; B's three repeated for the total):
+
+| Maker | add | skip | out |
+|---|---|---|---|
+| APEM | 74 | 68 | 5 |
+| Alps Alpine | 83 | 68 | 1 |
+| Aratas (Omron) | 144 | 16 | 91 |
+| C&K | 488 | 24 | 60 |
+| E-Switch | 321 | 24 | 73 |
+| NKK Switches | 14 | 74 | 79 |
+| Panasonic | 185 | 41 | 1 |
+| Same Sky | 374 | 7 | 24 |
+| TE Connectivity | 212 | 9 | 47 |
+| Würth Elektronik | 136 | 1 | 6 |
+| **Total** | **2031** | **332** | **387** |
+
+Skips: 171 not in the datasheet's ordering table, 109 no datasheet PDF, 50
+cannot draw a footprint, 2 distributor copies. `footprints-C.json`: 126
+objects (C's land patterns not already in B; drawings identical
+to an earlier one share it, see each merge above); `footprints-B.json`: 132. Footprints in the
+library from plan-27: 258 (`grep -c '"id":"SW-TACT-'`).
 
 Risk: Same Sky's and APEM's `pending` rows ride on hand-written regular
 expressions. `scheme-check.py` prints each accepted and rejected part number so

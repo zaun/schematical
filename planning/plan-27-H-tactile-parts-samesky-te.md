@@ -26,8 +26,8 @@ The gate for the whole feature is in plan-27-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-27-G is complete | `ls planning/completed/plan-27-G-*` → one file | NOT MET until G archives (2026-11-07) |
-| Golden size at start | `wc -l < backend/tests/golden/parts.txt` → **P_H** | record at start (13158 after main's merge + the earlier letters' parts) |
+| plan-27-G is complete | `ls planning/completed/plan-27-G-*` → one file | MET 2026-11-08 (a245596) |
+| Golden size at start | `wc -l < backend/tests/golden/parts.txt` → **P_H** | counted by maker instead (Correction 2): `grep -c 'mfr=Same Sky\|mfr=TE Connectivity'` minus the 42 earlier lines (36 TE DIP switches, 6 Same Sky barrel jacks) |
 
 If plan-27-G is not complete, this plan cannot start, full stop.
 
@@ -81,26 +81,28 @@ Same Sky + TE ALCOSWITCH.
 
 ### Phase 1 — Generate the parts and move the footprints
 
-- [ ] `python3 -I planning/plan-27-data/gen-parts.py --maker 'Same Sky' --maker 'TE Conn'`.
-- [ ] `python3 -I planning/plan-27-data/append-footprints.py 'Same Sky' 'TE Conn'`.
-- [ ] Load check: `cmake --build /tmp/logic-p27 -j8 --target library_check`
+- [x] `python3 -I planning/plan-27-data/gen-parts.py --maker 'Same Sky' --maker 'TE Conn'`. Same Sky in the first G/H/I run (cbb9595); this run → `58 tactile devices, 2031 tactile parts written; 32 datasheets.json entries added`.
+- [x] `python3 -I planning/plan-27-data/append-footprints.py 'Same Sky' 'TE Conn'` → `33 footprints appended`.
+- [x] Load check: `cmake --build /tmp/logic-p27 -j8 --target library_check` (→ `library_check: all passed`)
       then `/tmp/logic-p27/library_check`.
 
 Acceptance: `Parts/switch.json` and `footprints.json` load; the generator is
 idempotent for these makers.
   Check: `python3 -I planning/plan-27-data/gen-parts.py --maker 'Same Sky' --maker 'TE Conn' --dry-run` → `no changes` and `/tmp/logic-p27/library_check` passes (est. 4 min; the loader is the smallest check that reads the new JSON).
-Commit: —
+  Result 2026-11-08: `--dry-run` → `no changes`; `library_check: all passed`.
+Commit: cbb9595, (this commit)
 
 ### Phase 2 — Goldens and tests
 
-- [ ] Goldens: plan-27-E § 4.3 (`listing_check --print`, `trace_check --print`,
+- [x] Goldens: plan-27-E § 4.3 (`listing_check --print`, `trace_check --print`,
       `footprint_check --print`); review `git diff --numstat
       backend/tests/golden` (zero deletions).
-- [ ] Tests: `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check|tactile_test'`.
+- [x] Tests: `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check|tactile_test'` (in the full run: `100% tests passed, 0 tests failed out of 28`). Goldens this run: `33 0`, `212 0`, `212 0` (zero deletions; Same Sky's 374 came with cbb9595).
 
 Acceptance: goldens grew by exactly the new parts and footprints.
   Check: `echo $(( $(wc -l < backend/tests/golden/parts.txt) - P_H ))` equals N_same + N_te; `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check'` → `100% tests passed, 0 tests failed out of 4` (est. 8 min: full rebuild and the golden sweeps).
-Commit: —
+  Result 2026-11-08: `grep -c 'mfr=Same Sky\|mfr=TE Connectivity'` → 628 = 374 + 212 + 42 earlier lines; `grep -c 'Switch/Tactile'` → 2031 = every `add` row of the ten makers.
+Commit: cbb9595, (this commit)
 
 ## Validation Plan
 
@@ -108,7 +110,7 @@ Commit: —
 - Coverage check: `grep -c 'Switch/Tactile' backend/tests/golden/parts.txt` = the running total of `add` rows landed so far.
 - Runtime proof: none beyond the goldens (the app proof is K).
 - Doc sync: none (format and generator docs landed in D and E).
-- Final gate (once, after the last phase): `ctest --test-dir /tmp/logic-p27 -j8` → `100% tests passed, 0 tests failed out of 28` (est. 6 min).
+- Final gate (once, after the last phase): `ctest --test-dir /tmp/logic-p27 -j8` → `100% tests passed, 0 tests failed out of 28` (est. 6 min). Result 2026-11-08: as above.
 
 ## Decisions
 
