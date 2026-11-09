@@ -241,7 +241,7 @@ def sheet_ids(p, urls):
             raise Refuse(f"datasheet {u} is not placed (datasheets.tsv)")
     entry = {}
     for path in {places[u] for u in urls}:
-        group = sorted(by_path[path])
+        group = sorted(u for u in by_path[path] if u in urls)  # the kept parts' URLs only: stable when unused lines are pruned
         url = full_url(next((maker[g] for g in group if g in maker), group[0]))
         entry[path] = (os.path.basename(path)[:-4].lower(), path.split("/")[-2], url)
     ids = {}

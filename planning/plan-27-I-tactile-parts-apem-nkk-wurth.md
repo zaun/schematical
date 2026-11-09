@@ -107,25 +107,34 @@ Commit: cbb9595, 078a530
 
 ### Phase 3 — Prune unused datasheets and close the ledger
 
-- [ ] `python3 -I planning/plan-27-data/census/place.py --prune
+- [x] `python3 -I planning/plan-27-data/census/place.py --prune
       planning/plan-27-data/candidates.tsv`: delete every PDF under
       `datasheets/switch/tactile/` that no `add` row's `datasheet_url` needs,
       and drop its line from `datasheets.tsv`. A PDF whose every part ended
       `skip` or `out` is listed in `datasheets/obsolete-not-included.md` only if
       the reason is `datasheet status`; for every other reason its rows are
-      already in `datasheets/skipped-parts.md`.
+      already in `datasheets/skipped-parts.md`. → `58 PDFs deleted, 452 kept`
+      (343 MB); no PDF's parts ended `out` for `datasheet status` (`dead` = 0
+      everywhere), so `obsolete-not-included.md` gets nothing. Pruning
+      changed which URL named some shared files, which renamed their
+      `datasheets.json` ids (`gen-parts.py --dry-run` showed it); the
+      generator now picks the URL among the kept parts' URLs only, and the
+      plan's `datasheets.json` entries were rebuilt from main's file: `452
+      datasheets.json entries added`, a second run `no changes`, goldens
+      unchanged (Correction 4).
 - [x] `datasheets/skipped-parts.md`: add the rows B and C decided `skip`
       (reason `not in the datasheet's ordering table`), grouped by series.
       `decide.py --skipped` now writes one row per (maker, series, reason)
       (it was per maker and reason) and runs after every merge; the reason
       names the datasheet and page of the key. Re-run after TE's merge:
       see below.
-- [ ] § Summary: the totals — `add` rows per maker and overall, `skip` and `out`
+- [x] § Summary: the totals — `add` rows per maker and overall, `skip` and `out`
       by reason, devices (`grep -c '"id": "tact_"'`), footprints added.
 
 Acceptance: every PDF in the tree is used by an `add` row; every `skip` row is in `skipped-parts.md`.
   Check: `python3 -I planning/plan-27-data/census/place.py --verify planning/plan-27-data/candidates.tsv` → `0 missing, 0 unused` and `python3 -I planning/plan-27-data/census/decide.py --verify-skipped` → `0 skip rows missing from skipped-parts.md` (est. 2 min).
-Commit: —
+  Result 2026-11-08: `613 URLs, 452 PDFs, 0 missing, 0 unused`; `0 skip rows missing from skipped-parts.md`.
+Commit: (this commit)
 
 ## Validation Plan
 
@@ -133,7 +142,7 @@ Commit: —
 - Coverage check: `grep -c 'Switch/Tactile' backend/tests/golden/parts.txt` = the running total of `add` rows landed so far.
 - Runtime proof: none beyond the goldens (the app proof is K).
 - Doc sync: none (format and generator docs landed in D and E).
-- Final gate (once, after the last phase): `ctest --test-dir /tmp/logic-p27 -j8` → `100% tests passed, 0 tests failed out of 28` (est. 6 min).
+- Final gate (once, after the last phase): `ctest --test-dir /tmp/logic-p27 -j8` → `100% tests passed, 0 tests failed out of 28` (est. 6 min). Result 2026-11-08: `100% tests passed, 0 tests failed out of 28`; goldens against main: `+258` footprints, `+2031` parts, `+2031` traces, zero deletions.
 
 ## Decisions
 
@@ -154,8 +163,23 @@ Commit: —
    merged rows of APEM, NKK and Würth; the prerequisite on H archiving is
    ordering, not data. Because the runs interleaved with G and H, the golden
    growth is counted per maker (`mfr=`) instead of from a P_I baseline.
+4. 2026-11-08 — **datasheet ids must not depend on unused URLs.** A placed
+   file named by several URLs took its `datasheets.json` URL from the first
+   of all of them; pruning removed URLs only skipped rows used, the first URL
+   changed, and the generator renamed six ids (`en-b3w` → `omron-en-b3w`, …)
+   to avoid a clash with its own earlier entry. Fixed in `gen-parts.py`
+   (the kept parts' URLs only) and the entries rebuilt once.
 
 ## Summary
+
+Result 2026-11-08 — plan-27's parts: **2031 tactile switches** in 58
+devices (`grep -c '"id": "tact_'`), every one an `add` row:
+C&K 488, E-Switch 321, Same Sky 374, TE 212, Panasonic 185, Aratas (Omron)
+144, Würth 136, Alps 83, APEM 74, NKK 14. Not added: 332 `skip` (171 not in
+the datasheet's ordering table, 109 no datasheet PDF, 50 cannot draw a
+footprint, 2 distributor copies) and 387 `out` (353 lit, 28 circuit, 5
+mounting, 1 stock). 258 footprints added (`SW-TACT-*`); 452 datasheets
+(343 MB) and 452 `datasheets.json` entries.
 
 Risk: pinout and footprint correctness of the APEM + NKK + Würth series, set in
 plan-27-C; this
