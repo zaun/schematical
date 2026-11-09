@@ -124,5 +124,21 @@ size_t circuit_serial_sent(const Circuit *circuit, size_t part, unsigned channel
                            uint16_t *frames, size_t cap);
 int circuit_serial_send(Circuit *circuit, size_t part, unsigned channel, const uint8_t *bytes,
                         size_t count);
+/*
+ * circuit_serial_configure: the host-set port of a USB-to-UART bridge's
+ * channel (PartSerial.host "usb"), as the PC would set it: baud (50 to
+ * 12 000 000), data bits (5 to 8), parity (0 none, 1 odd, 2 even, 3 mark,
+ * 4 space), stop halves (2 = 1 stop, 3 = 1.5, 4 = 2) and RTS/CTS flow
+ * control. The default is 9600 8N1, no flow control. Any time after
+ * circuit_add_part, before or during the run; a change during the run
+ * drops a frame in progress. For a bridge, circuit_serial_send's bytes go
+ * out the TXD pin and circuit_serial_sent's frames are those received on
+ * RXD. 0, or -1 with circuit_error: "part N is not a serial part", "channel
+ * C of part N does not exist", "part N's port is set by the part itself"
+ * (any other serial part), "the port settings are out of range".
+ */
+int circuit_serial_configure(Circuit *circuit, size_t part, unsigned channel, uint32_t baud,
+                             unsigned data_bits, unsigned parity, unsigned stop_halves,
+                             int rts_cts);
 
 #endif

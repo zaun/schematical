@@ -745,6 +745,43 @@ static size_t net_driver(const Circuit *circuit, size_t part, size_t net) {
     return best;
 }
 
+int circuit_serial_configure(Circuit *circuit, size_t part, unsigned channel, uint32_t baud,
+                             unsigned data_bits, unsigned parity, unsigned stop_halves,
+                             int rts_cts) {
+    const SimComponentType *type;
+    SerialPortSettings port;
+    void *state;
+    int taken;
+
+    if (check_part(circuit, part) != 0) {
+        return -1;
+    }
+    type = serial_type(circuit, part);
+    if (type == NULL) {
+        return fail(circuit, "part %zu is not a serial part", part);
+    }
+    state = sim_instance_state(circuit->instances[part]);
+    if (channel >= type->serial_channels(state)) {
+        return fail(circuit, "channel %u of part %zu does not exist", channel, part);
+    }
+    if (circuit->parts[part]->serial == NULL || circuit->parts[part]->serial->host == NULL ||
+        strcmp(circuit->parts[part]->serial->host, "usb") != 0) {
+        return fail(circuit, "part %zu's port is set by the part itself", part);
+    }
+    port.baud = baud;
+    port.data_bits = data_bits;
+    port.parity = parity;
+    port.stop_halves = stop_halves;
+    port.rts_cts = rts_cts;
+    taken = circuit->started
+                ? serial_configure(circuit->sim, circuit->instances[part], state, channel, &port)
+                : serial_configure(NULL, NULL, state, channel, &port);
+    if (taken != 1) {
+        return fail(circuit, "the port settings are out of range");
+    }
+    return 0;
+}
+
 int circuit_serial_send(Circuit *circuit, size_t part, unsigned channel, const uint8_t *bytes,
                         size_t count) {
     const SimComponentType *type;

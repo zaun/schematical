@@ -96,7 +96,8 @@ typedef struct {
 /* model: the serial model ("ns16550", "i8251", ...); channels: serial
    channels on the chip; grade: the part's speed/supply grade; host: the
    host-side interface, from the device's "bus" style: "spi", "i2c",
-   "i2c-spi" (either, picked by a pin), or "parallel" (any other bus). */
+   "i2c-spi" (either, picked by a pin), "usb" (a USB-to-UART bridge), or
+   "parallel" (any other bus). */
 typedef struct { const char *model; unsigned channels; const char *grade; const char *host; } PartSerial;
 /* A barrel connector. center_diameter_um is the mating plug's centre-pin
    diameter; contacts is the number of normally-closed contacts. */

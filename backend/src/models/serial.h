@@ -28,9 +28,30 @@ typedef struct {
 
 typedef struct SerialModel SerialModel;
 
+/* A port's settings, as a PC host sets them (usbuart: the USB side). parity
+   is a SerialParity; stop_halves 2 = 1 stop, 3 = 1.5, 4 = 2. */
+typedef struct {
+    uint32_t baud;
+    unsigned data_bits;
+    unsigned parity;
+    unsigned stop_halves;
+    int rts_cts;
+} SerialPortSettings;
+
+/* A second supply domain (usbuart "usbSupply"): pins powered from USB, with
+   their own range. Every other pin is the first domain, at the part's vcc. */
+typedef struct {
+    const char *const *power;
+    size_t power_count;
+    const char *const *pins;
+    size_t pin_count;
+    const PartVoltage *vcc;
+} SerialUsbSupply;
+
 typedef struct {
     const SerialModel *model;
     const void *data;         /* the model's device data */
+    const SerialUsbSupply *usb_supply;   /* NULL = one supply */
     unsigned channels;
     const char **grade_names;
     SerialGrade *grades;
@@ -70,6 +91,16 @@ struct SerialModel {
     SerialLine *(*line)(void *state, unsigned channel);
     /* 1 when the channel is in an asynchronous mode now (the terminal can type into it). */
     int (*async)(const void *state, unsigned channel);
+
+    /* Optional: the terminal queued bytes on the channel (models that do not
+       poll the queue on a clock). */
+    void (*queued)(Sim *sim, SimInstance *instance, void *state, unsigned channel);
+    /* Optional: the host sets the channel's port (circuit_serial_configure);
+       sim and instance are NULL before start. 1 when taken, 0 when out of range. */
+    int (*configure)(Sim *sim, SimInstance *instance, void *state, unsigned channel,
+                     const SerialPortSettings *port);
+    /* Optional: the host-side interface (PartSerial.host) when no "bus" style names it. */
+    const char *host;
 };
 
 typedef struct {
@@ -90,6 +121,14 @@ extern const SerialModel HS82C52_MODEL;
 extern const SerialModel COM78C80X_MODEL;
 /* plan-12-I: the SC18IS604 SPI-to-I2C bridge. */
 extern const SerialModel SC18IS604_MODEL;
+/* The USB-to-UART bridges. */
+extern const SerialModel USBUART_MODEL;
+
+/* Sets a channel's port (the model's configure). 1 when taken; 0 when the
+   model has no host-set port or the settings are out of range; -1 when the
+   channel does not exist. */
+int serial_configure(Sim *sim, SimInstance *instance, void *state, unsigned channel,
+                     const SerialPortSettings *port);
 
 /* The pin a channel's terminal input drives (its RX pin), or SIZE_MAX. For
    circuit_serial_send's driven-net check. */

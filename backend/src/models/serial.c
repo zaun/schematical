@@ -28,6 +28,8 @@ static const SerialModel *const MODELS[] = {
     &COM78C80X_MODEL,
     /* plan-12-I: the SPI-to-I2C bridge */
     &SC18IS604_MODEL,
+    /* the USB-to-UART bridges */
+    &USBUART_MODEL,
 };
 #define MODEL_COUNT (sizeof MODELS / sizeof MODELS[0])
 
@@ -67,6 +69,8 @@ static const char *const DEVICE_KEYS[] = {
     "lines",
     /* plan-12-I: the bridges (ns16550) and sc18is604 */
     "fastIrda", "dlPowerUp", "straps", "sleepPin", "i2c",
+    /* usbuart ("channels", "reset" above) */
+    "suspend", "suspendLow", "usbSupply",
     NULL
 };
 enum { FIRST_MODEL_KEY = 2 };
@@ -173,20 +177,57 @@ static int load_grade(KindContext *ctx, const SerialModel *model, const cJSON *j
     return kind_voltage(ctx, json, NULL, &grade->vcc);
 }
 
-/* The host-side interface named by the device's "bus" style (PartSerial.host).
-   A bus with no style, or none at all, is a parallel data bus. */
-static const char *serial_host(const cJSON *json) {
+/* The host-side interface named by the device's "bus" style (PartSerial.host),
+   else the model's own (usbuart: "usb"). A bus with no style, or none at all,
+   is a parallel data bus. */
+static const char *serial_host(const SerialModel *model, const cJSON *json) {
     static const char *const SERIAL_HOSTS[] = {"spi", "i2c", "i2c-spi"};
     const cJSON *bus = cJSON_GetObjectItemCaseSensitive(json, "bus");
     const cJSON *style = cJSON_IsObject(bus) ? cJSON_GetObjectItemCaseSensitive(bus, "style") : NULL;
     size_t i;
 
+    if (model->host != NULL) {
+        return model->host;
+    }
     for (i = 0; cJSON_IsString(style) && i < sizeof(SERIAL_HOSTS) / sizeof(SERIAL_HOSTS[0]); i++) {
         if (strcmp(style->valuestring, SERIAL_HOSTS[i]) == 0) {
             return SERIAL_HOSTS[i];
         }
     }
     return "parallel";
+}
+
+/* "usbSupply": {"power": [names], "pins": [names], "vcc": [min, max]}. */
+static int load_usb_supply(KindContext *ctx, const cJSON *json, SerialDevice *device) {
+    static const char *const KEYS[] = {"power", "pins", "vcc", "inputMax", NULL};
+    const cJSON *item = cJSON_GetObjectItemCaseSensitive(json, "usbSupply");
+    SerialUsbSupply *u;
+
+    if (item == NULL) {
+        return 0;
+    }
+    u = kind_alloc(ctx, sizeof(*u));
+    if (u == NULL) {
+        return -1;
+    }
+    kind_push(ctx, "usbSupply");
+    if (kind_check_keys(ctx, item, KEYS, NULL) != 0 ||
+        kind_names(ctx, item, "power", &u->power, &u->power_count) != 0) {
+        return -1;
+    }
+    if (u->power_count == 0) {
+        return kind_error(ctx, "\"power\" needs at least one pin name");
+    }
+    if (cJSON_GetObjectItemCaseSensitive(item, "pins") != NULL &&
+        kind_names(ctx, item, "pins", &u->pins, &u->pin_count) != 0) {
+        return -1;
+    }
+    if (kind_part_voltage(ctx, item, NULL, &u->vcc) != 0) {
+        return -1;
+    }
+    kind_pop(ctx);
+    device->usb_supply = u;
+    return 0;
 }
 
 static void *serial_load_device(KindContext *ctx, const cJSON *json) {
@@ -219,7 +260,7 @@ static void *serial_load_device(KindContext *ctx, const cJSON *json) {
     }
     device->channels = 1;
     device->data = device->model->load_device(ctx, json, &device->channels);
-    if (device->data == NULL) {
+    if (device->data == NULL || load_usb_supply(ctx, json, device) != 0) {
         return NULL;
     }
 
@@ -256,7 +297,7 @@ static void *serial_load_device(KindContext *ctx, const cJSON *json) {
         grade->info.model = device->model->name;
         grade->info.channels = device->channels;
         grade->info.grade = device->grade_names[n];
-        grade->info.host = serial_host(json);
+        grade->info.host = serial_host(device->model, json);
         n++;
     }
     return device;
@@ -265,7 +306,61 @@ static void *serial_load_device(KindContext *ctx, const cJSON *json) {
 typedef struct {
     const SerialDevice *device;
     const void *pins;
+    /* With usbSupply: [0] the I/O domain, [1] the USB domain. */
+    size_t *power[2], *other[2];
+    size_t power_count[2], other_count[2];
 } SerialBound;
+
+/* Splits a pinout into the usbSupply domain and the rest. */
+static int bind_usb_supply(KindContext *ctx, const SerialUsbSupply *u, const PartPin *pins,
+                           size_t pin_count, SerialBound *b) {
+    unsigned char *usb = kind_alloc(ctx, pin_count ? pin_count : 1);
+    size_t i, k, n;
+
+    for (k = 0; k < 2; k++) {
+        b->power[k] = kind_alloc(ctx, (pin_count ? pin_count : 1) * sizeof(size_t));
+        b->other[k] = kind_alloc(ctx, (pin_count ? pin_count : 1) * sizeof(size_t));
+        if (b->power[k] == NULL || b->other[k] == NULL) {
+            return -1;
+        }
+    }
+    if (usb == NULL) {
+        return -1;
+    }
+    for (k = 0; k < u->power_count + u->pin_count; k++) {
+        int is_power = k < u->power_count;
+        const char *name = is_power ? u->power[k] : u->pins[k - u->power_count];
+        size_t found[16];
+
+        n = kind_pins(ctx, pins, pin_count, name, found, 16);
+        if (n == 0) {
+            return -1;
+        }
+        for (i = 0; i < n; i++) {
+            if (is_power && pins[found[i]].role != PIN_POWER) {
+                return kind_error(ctx, "\"usbSupply\": \"%s\" is not a power pin", name);
+            }
+            usb[found[i]] = 1;
+        }
+    }
+    for (i = 0; i < pin_count; i++) {
+        PinRole role = pins[i].role;
+
+        k = usb[i];
+        if (role == PIN_GROUND || role == PIN_NC || role == PIN_ABSENT) {
+            continue;
+        }
+        if (role == PIN_POWER) {
+            b->power[k][b->power_count[k]++] = i;
+        } else {
+            b->other[k][b->other_count[k]++] = i;
+        }
+    }
+    if (b->power_count[0] == 0) {
+        return kind_error(ctx, "\"usbSupply\": no power pin is left for the I/O supply");
+    }
+    return 0;
+}
 
 static void *serial_bind_pinout(KindContext *ctx, const void *raw, const PartPin *pins,
                                 size_t pin_count) {
@@ -277,18 +372,23 @@ static void *serial_bind_pinout(KindContext *ctx, const void *raw, const PartPin
     }
     bound->device = device;
     bound->pins = device->model->bind(ctx, device->data, pins, pin_count);
-    return bound->pins != NULL ? bound : NULL;
+    if (bound->pins == NULL ||
+        (device->usb_supply != NULL &&
+         bind_usb_supply(ctx, device->usb_supply, pins, pin_count, bound) != 0)) {
+        return NULL;
+    }
+    return bound;
 }
 
 static int serial_load_part(KindContext *ctx, const void *raw, const void *bound, const cJSON *json,
                             Part *out) {
     const SerialDevice *device = raw;
+    const SerialBound *b = bound;
     SerialPartData *data;
     const cJSON *item;
     const char *grade;
     size_t i;
 
-    (void)bound;
     /* A part key of another model. */
     cJSON_ArrayForEach(item, json) {
         int other = 0;
@@ -324,7 +424,27 @@ static int serial_load_part(KindContext *ctx, const void *raw, const void *bound
     }
     out->serial = &data->grade->info;
     kind_set_part_data(out, data);
-    return kind_part_voltage(ctx, json, data->grade->vcc, &out->vcc);
+    if (kind_part_voltage(ctx, json, data->grade->vcc, &out->vcc) != 0) {
+        return -1;
+    }
+    if (device->usb_supply != NULL) {
+        PartSupplyDomain *domains = kind_alloc(ctx, 2 * sizeof(*domains));
+
+        if (domains == NULL) {
+            return -1;
+        }
+        for (i = 0; i < 2; i++) {
+            domains[i].power_pins = b->power[i];
+            domains[i].power_pin_count = b->power_count[i];
+            domains[i].pins = b->other[i];
+            domains[i].pin_count = b->other_count[i];
+        }
+        domains[0].vcc = out->vcc;
+        domains[1].vcc = device->usb_supply->vcc;
+        out->domains = domains;
+        out->domain_count = 2;
+    }
+    return 0;
 }
 
 static int serial_pin_open_drain(const Part *part, size_t pin) {
@@ -402,12 +522,26 @@ static int serial_send(Sim *sim, SimInstance *instance, void *state, unsigned ch
                        const uint8_t *bytes, size_t count) {
     const SerialModel *model = model_of(state);
 
-    (void)sim;
-    (void)instance;
     if (channel >= model->channels(state) || !model->async(state, channel)) {
         return 0;
     }
-    return serial_line_queue(model->line(state, channel), bytes, count) == 0;
+    if (serial_line_queue(model->line(state, channel), bytes, count) != 0) {
+        return 0;
+    }
+    if (model->queued != NULL) {
+        model->queued(sim, instance, state, channel);
+    }
+    return 1;
+}
+
+int serial_configure(Sim *sim, SimInstance *instance, void *state, unsigned channel,
+                     const SerialPortSettings *port) {
+    const SerialModel *model = model_of(state);
+
+    if (channel >= model->channels(state)) {
+        return -1;
+    }
+    return model->configure != NULL && model->configure(sim, instance, state, channel, port);
 }
 
 size_t serial_rx_pin(const void *state, unsigned channel) {
