@@ -1,6 +1,6 @@
 # plan-29-A: Diodes — census, datasheet downloads, first decisions
 
-Last updated: 2026-11-08
+Last updated: 2026-11-09
 Overall Effort: huge (> 3d) — plan-29 is A → B → C → D → E → F → G → H → I → J → K → L → M → N
 Effort: large (3h–1d)
 Depends on: nothing (§ Prerequisites)
@@ -59,12 +59,12 @@ Every other letter points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p29 && cmake --build /tmp/logic-p29 -j8 && ctest --test-dir /tmp/logic-p29` → `100% tests passed` | MET 2026-11-08 at 0f87917 (build dir /tmp/logic-p29w for the worktree): `100% tests passed, 0 tests failed out of 28`; **T0 = 28** (`grep -c '^logic_test' backend/CMakeLists.txt` → 28) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET: **P0 = 15189**, **R0 = 15189**, **F0 = 766** (2026-11-08 at 0f87917) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p29-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-08 at 0f87917, derived data /tmp/p29w-dd: `** BUILD SUCCEEDED **`) |
-| No diode support yet | `grep -c 'PART_DIODE' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/diode.json` → no such file; `ls datasheets/diode` → no such directory | MET (2026-11-08 at 0f87917: 0, no file, no directory) |
-| No other open plan adds diodes | `grep -l -i '"diode"\|PART_DIODE\|datasheets/diode' planning/plan-*.md \| grep -v plan-29 \| wc -l` → 0 | MET (2026-11-08 at 0f87917: 0) |
-| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; Phase 1 needs about 1250 calls over two days (§ 2); a day allows about 1000, shared with other sessions | **NOT MET** (2026-11-08, re-run at /follow-plan: the command printed `160 left today`; credentials present). Planning census left 163. Start Phase 1 on a day whose first call reports ≥ 600 left (`scripts/digikey.js --category 295 --manufacturer 1801 --in-stock --pages 1 --json` prints `… N left today`) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p29 && cmake --build /tmp/logic-p29 -j8 && ctest --test-dir /tmp/logic-p29` → `100% tests passed` | MET 2026-11-09 at fd18906 (main merged in; build dir /tmp/logic-p29w): `100% tests passed, 0 tests failed out of 28`; **T0 = 28** (`grep -c '^logic_test' backend/CMakeLists.txt` → 28) |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET: **P0 = 15189**, **R0 = 15189**, **F0 = 766** (2026-11-09 at fd18906, unchanged) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p29-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-09 at fd18906, derived data /tmp/p29w-dd: `** BUILD SUCCEEDED **`) |
+| No diode support yet | `grep -c 'PART_DIODE' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/diode.json` → no such file; `ls datasheets/diode` → no such directory | MET (2026-11-09 at fd18906: 0, no file, no directory) |
+| No other open plan adds diodes | `grep -l -i '"diode"\|PART_DIODE\|datasheets/diode' planning/plan-*.md \| grep -v plan-29 \| wc -l` → 0 | MET (2026-11-09 at fd18906: 0) |
+| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; Phase 1 needs about 1250 calls over two days (§ 2); a day allows about 1000, shared with other sessions | **NOT MET** (2026-11-09, re-run at /follow-plan: the command printed `159 left today`; 2026-11-08 it printed 160, so the counter had not reset; credentials present). Planning census left 163. Start Phase 1 on a day whose first call reports ≥ 600 left (`scripts/digikey.js --category 295 --manufacturer 1801 --in-stock --pages 1 --json` prints `… N left today`) |
 
 Everything below is written against the world where these hold.
 
