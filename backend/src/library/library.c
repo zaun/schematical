@@ -212,7 +212,7 @@ static const char *const PART_KEYS[] = {
     "name", "package", "pinout", "flags", "footprint", "connectorFootprint",
     "footprintChoices", "manufacturer", "datasheet", NULL
 };
-static const char *const PIN_KEYS[] = {"number", "ball", "name", "role", "group", NULL};
+static const char *const PIN_KEYS[] = {"number", "ball", "name", "role", "group", "side", NULL};
 
 static const char *const ROLE_NAMES[] = {
     "input", "output", "inout", "power", "ground", "nc", "absent"
@@ -344,6 +344,24 @@ static int load_pinout(KindContext *ctx, const cJSON *json, Pinout *out) {
             }
         } else {
             pin->group = "default";
+        }
+        pin->side = PIN_SIDE_AUTO;
+        if (cJSON_GetObjectItemCaseSensitive(pin_json, "side") != NULL) {
+            const char *side;
+
+            if (kind_string(ctx, pin_json, "side", &side) != 0) {
+                return -1;
+            }
+            if (strcmp(side, "in") == 0) {
+                pin->side = PIN_SIDE_IN;
+            } else if (strcmp(side, "out") == 0) {
+                pin->side = PIN_SIDE_OUT;
+            } else {
+                return kind_error(ctx, "unknown side \"%s\" (in or out)", side);
+            }
+            if (pin->role != PIN_INPUT && pin->role != PIN_OUTPUT && pin->role != PIN_INOUT) {
+                return kind_error(ctx, "\"side\" is for input, output and inout pins");
+            }
         }
         kind_pop(ctx);
         n++;

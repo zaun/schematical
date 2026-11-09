@@ -443,11 +443,16 @@ nonisolated struct ChipLayout: Hashable {
         func pins(_ roles: ChipPinRole...) -> [ChipPin] {
             allPins.filter { roles.contains($0.role) }.sorted(by: Self.byName)
         }
+        // Signal pins: left or right by role, unless the part file picks a side.
+        func signals(_ side: ChipPinSide, roles: ChipPinRole...) -> [ChipPin] {
+            allPins.filter { $0.side == side || ($0.side == .auto && roles.contains($0.role)) }
+                .sorted(by: Self.byName)
+        }
 
         let power = pins(.power)
-        let inputs = pins(.input)
+        let inputs = signals(.input, roles: .input)
         let unused = pins(.noConnect)
-        let outputs = pins(.output, .inOut)
+        let outputs = signals(.output, roles: .output, .inOut)
         let ground = pins(.ground)
 
         let left = Self.stack(Self.grouped(power) + Self.grouped(inputs) + Self.grouped(unused))
