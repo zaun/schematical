@@ -90,7 +90,7 @@ Acceptance: `Parts/switch.json` and `footprints.json` load; the generator is
 idempotent for these makers.
   Check: `python3 -I planning/plan-27-data/gen-parts.py --maker 'Same Sky' --maker 'TE Conn' --dry-run` → `no changes` and `/tmp/logic-p27/library_check` passes (est. 4 min; the loader is the smallest check that reads the new JSON).
   Result 2026-11-08: `--dry-run` → `no changes`; `library_check: all passed`.
-Commit: cbb9595, (this commit)
+Commit: cbb9595, 5f53828
 
 ### Phase 2 — Goldens and tests
 
@@ -102,7 +102,7 @@ Commit: cbb9595, (this commit)
 Acceptance: goldens grew by exactly the new parts and footprints.
   Check: `echo $(( $(wc -l < backend/tests/golden/parts.txt) - P_H ))` equals N_same + N_te; `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check'` → `100% tests passed, 0 tests failed out of 4` (est. 8 min: full rebuild and the golden sweeps).
   Result 2026-11-08: `grep -c 'mfr=Same Sky\|mfr=TE Connectivity'` → 628 = 374 + 212 + 42 earlier lines; `grep -c 'Switch/Tactile'` → 2031 = every `add` row of the ten makers.
-Commit: cbb9595, (this commit)
+Commit: cbb9595, 5f53828
 
 ## Validation Plan
 

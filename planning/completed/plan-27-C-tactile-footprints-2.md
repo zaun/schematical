@@ -147,7 +147,7 @@ Commit: c8f7656
 Acceptance: no TE row is `pending`; checks pass.
   Check: the Phase 1 command with `--maker 'TE Conn'` (est. 3 min).
   Result 2026-11-08: `specs ok (212 add rows)`; `fp-load.sh footprints-B.json footprints-C.json` → `33 new footprints: load ok`; TE rows 212 add, 9 skip, 47 out.
-Commit: (this commit)
+Commit: 5f53828
 
 ### Phase 4 — APEM (12 lines), NKK (7), Würth (5)
 
@@ -168,7 +168,7 @@ Commit: (this commit)
 Acceptance: no row of the seven makers is `pending`/`candidate`/`check`.
   Check: `awk -F'\t' 'NR>1 && ($18=="pending" || $18=="candidate" || $18=="check")' planning/plan-27-data/candidates.tsv | wc -l` → 0 (est. 1 min).
   Result 2026-11-08: `0`; `uncovered.py` → `0 uncovered rows`; `specs-check.py` over all ten makers → every `add` row matched (2031).
-Commit: 6acc950, (this commit)
+Commit: 6acc950, 5f53828
 
 ## Validation Plan
 
