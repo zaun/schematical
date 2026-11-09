@@ -1,7 +1,8 @@
 # Omron (Aratas) — plan-27 B reader notes
 
 Rows: `/tmp/p27/pre-cand.tsv` (pre-census copy), maker `Aratas (Formerly
-Omron Components)`, decision `add`/`pending`: 148 rows (145 add, 3 pending).
+Omron Components)`, decision `add`/`pending`. Top-up rebuild (stricter `hit`,
+truncated PDFs re-fetched): 142 add + 11 pending.
 PDFs from `/tmp/p27/pre-paths.tsv`. Drawings read as images at 300–600 dpi.
 
 General: every Omron datasheet numbers terminals by a "Bottom View" key and
@@ -43,7 +44,7 @@ is printed, so pad = 1.7 × drill.
 
 ## B3SE (SMD) — en-b3se.pdf p.2
 - pads 2.75 × 1.0 (3/8.5, 3/5), span 5.75, pitch 4; body 6.2 × 7 → `SW-TACT-B3SE`.
-- Odd: row **B3SE-1002** (no `P`) is `add` only because "B3SE-1002" is a substring of the printed B3SE-1002P; the datasheet lists only the embossed-tape `P` models. Same for **B3AL-1004** (legend `B3AL-100@@-@`, packaging symbol P; only B3AL-1004P is printed). The main session may want to re-decide these two.
+- B3SE-1002 (no `P`, now `pending`): scheme `B3SE-1002P(-R100)?` from the List of Model (p.1) → **skip**. Same for **B3AL-1004**: the legend `B3AL-100@@-@` (p.1) has only packaging symbol P → scheme `B3AL-100[0-6]P(-MS)?` → **skip**. B3W-1000S (now `pending`) → **add** via B3W.pdf p.1 (stick models).
 
 ## B3SL (SMD) — en-b3sl.pdf p.2
 - Same pads as B3SE, body 6.2 × 6.5 (0.5 shorter) → own id `SW-TACT-B3SL`.
@@ -57,20 +58,19 @@ is printed, so pad = 1.7 × drill.
 ## B3AL (SMD) — B3AL Data Sheet (1).pdf p.2
 - pads 2 × 2, span 6, on the centre line; body 6 × 6.9 → `SW-TACT-B3AL`; 2 terminals.
 
-## check rows
-The five Aratas `check;` rows (B3FS6003H, B3W 1000G, B3WZ0038M, B3WZ0084C,
-B3WZ0137H) are all `skip` (no datasheet PDF), so none is mine:
-`checks.tsv` is header-only.
+## check rows (DigiKey series `*`; PDFs whole after the top-up)
+- B3FS6003H — om-b3fs6003h.pdf (old B3FS SMD catalog, p.1): SPST-NO, 50 mA 24 VDC, non-illuminated, surface mount → `keep` (Surface Mount, Standard, 0.05A @ 24VDC). The number is not in its ordering table (B3FS-10[015][02] and P versions) → scheme row for series `*` → **skip**.
+- B3W 1000G — om-b3w1000g.pdf (same text as en-b3w.pdf): SPST-NO, 1–50 mA 3–24 VDC, through hole → `keep` (Through Hole, Standard, 0.05A @ 24VDC). "B3W 1000G" is not in the List of Models → scheme row for `*` → **skip**.
+- B3WZ0038M, B3WZ0084C, B3WZ0137H — the linked PDF (same file for all three) is the B3W-9 *Illuminated* Tactile Switches datasheet (LED models); the Z numbers are not printed → `out`, reason `lit`.
 
 ## Cannot draw
-None.
+None (`cannot-draw.tsv` is header only).
 
-## Load check note
-`footprint_check` prints at most 10 "extra footprint" lines, so a 15-object
-file fails `fp-merge.py --expect` ("new but not reported"). Loaded in two
-halves (8 + 7 objects): both `load ok`.
+## Load check
+`fp-load.sh` on the whole file: `15 new footprints: load ok`.
 
 ## Counts
-- Kept rows: 146 (145 add + 1 regex add).
-- scheme-check: 1 add (B3W-4055S), 2 skip (B3F-1170, B3F-1172), 0 pending.
+- Kept rows: 144 (142 add + 2 regex add).
+- scheme-check: 2 add (B3W-1000S, B3W-4055S), 9 skip (B3F-1170, B3F-1172, B3AL-1004, B3SE-1002, B3FS6003H, B3W 1000G, and the three B3WZ rows, which checks.tsv sets out), 0 pending.
+- checks.tsv: 2 keep (both then skipped by the scheme), 3 out (lit).
 - Footprints: 15. Specs rows: 17.

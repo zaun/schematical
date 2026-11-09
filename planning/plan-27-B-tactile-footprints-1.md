@@ -31,9 +31,9 @@ The gate for the whole feature is in plan-27-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-27-A is complete | `ls planning/completed/plan-27-A-*` → one file | NOT MET until A archives (2026-11-07) |
-| No `pending` or `candidate` row of A | `awk -F'\t' 'NR>1 && ($18=="candidate" \|\| $18=="check")' planning/plan-27-data/candidates.tsv \| wc -l` → 0 | NOT MET until A |
-| Datasheets in the tree | `ls datasheets/switch/tactile/ck/*.pdf \| wc -l` ≥ 1 | NOT MET until A |
+| plan-27-A is complete | `ls planning/completed/plan-27-A-*` → one file | MET 2026-11-08 (59aa52b) |
+| No `pending` or `candidate` row of A | `awk -F'\t' 'NR>1 && ($18=="candidate" \|\| $18=="check")' planning/plan-27-data/candidates.tsv \| wc -l` → 0 | MET 2026-11-08: 0 |
+| Datasheets in the tree | `ls datasheets/switch/tactile/ck/*.pdf \| wc -l` ≥ 1 | MET 2026-11-08 |
 
 If plan-27-A is not complete, this plan cannot start, full stop.
 
@@ -196,21 +196,29 @@ in the golden)` and `unused footprint` for exactly the new ids, no load error.
 Acceptance: the three tools run and reject a bad input.
   Check: `python3 -I planning/plan-27-data/census/specs-check.py --maker 'C&K'` → exits non-zero listing the unfinished `C&K` rows (est. 1 min).
   Result 2026-11-08 (before A's decisions): `… Y78B62324FP: still candidate`, `512 problems in 0 add rows`, exit 1.
-Commit: —
+Commit: 9e04003
 
 ### Phase 2 — C&K (68 proxy lines, 487 rows)
 
-- [ ] For each (series) in `footprints-needed.txt` lines starting `C&K`: open
+- [x] For each (series) in `footprints-needed.txt` lines starting `C&K`: open
       its PDF(s) in `datasheets/switch/tactile/ck/`; if the series has
-      `pending` rows add its `schemes.tsv` row (§ 4.3).
-- [ ] Run `scheme-check.py --maker 'C&K'`; record the add/skip counts in
-      § Summary.
-- [ ] For each (series, mounting) with an `add` row: draw the land pattern into
+      `pending` rows add its `schemes.tsv` row (§ 4.3). Done by the C&K reader
+      (`work/ck/`, two passes; Correction 2): 30 scheme rows.
+- [x] Run `scheme-check.py --maker 'C&K'`; record the add/skip counts in
+      § Summary. After `merge-work.py B ck`: `44 add, 9 skip, 0 still pending`.
+- [x] For each (series, mounting) with an `add` row: draw the land pattern into
       `footprints-B.json` (§ 4.1, § 4.2) and add its `specs.tsv` row(s).
-- [ ] `planning/plan-27-data/census/fp-load.sh planning/plan-27-data/footprints-B.json`.
+      55 footprints, 101 spec rows. Seven C&K parts are `skip` from
+      `work/ck/cannot-draw.tsv`: PTS831 ×3 (the product drawing the PDF refers
+      to is not in it), SFS12 ×2 and G01743323 (no terminal numbers or circuit
+      diagram), PTS645VK582LFS (DigiKey's datasheet for it is the PTS525 one).
+      Three-terminal parts with two common terminals (PTS845, PTS847) are
+      2-pin footprints whose pin 1 has two pads (Correction 3).
+- [x] `planning/plan-27-data/census/fp-load.sh planning/plan-27-data/footprints-B.json` → `55 new footprints: load ok`.
 
 Acceptance: no C&K row is `pending`; `specs-check.py` passes; the objects load.
   Check: `python3 -I planning/plan-27-data/census/specs-check.py --maker 'C&K' && planning/plan-27-data/census/fp-load.sh planning/plan-27-data/footprints-B.json` → `specs ok`, then only extra/unused failures for the new ids (est. 3 min).
+  Result 2026-11-08: `specs ok (488 add rows)`; `55 new footprints: load ok`; C&K rows: 488 add, 24 skip, 60 out, 0 pending.
 Commit: —
 
 ### Phase 3 — E-Switch (67 proxy lines, 330 rows)
@@ -270,6 +278,20 @@ Commit: —
    patterns across makers (§ 4.2). The checkers gained `--tsv`, `--schemes`,
    `--specs`, `--footprints` for that. Phase 1 (the checkers) does not read
    A's results and ran while A's census waited on the network.
+3. 2026-11-08 — **§ 4.1 rule 2 / § 4.3 had no shape for three-terminal
+   switches** (two terminals common, one the other side: C&K PTS845 /
+   PTS847, E-Switch TL3340, Alps SKRT). They are modelled as two-terminal
+   switches (`terminals` 2, `A=1;B=2`) whose footprint is `explicit` with two
+   pads for pin 1 (`docs/parts-format.md` § `explicit`: a pin may have several
+   pads), so both common terminals are soldered and joined.
+4. 2026-11-08 — readers may find a part they cannot draw (no land pattern or
+   no terminal numbering in its only datasheet) or a part whose DigiKey
+   datasheet is the wrong document; they list it in
+   `work/<slug>/cannot-draw.tsv` and `merge-work.py` makes it `skip` with that
+   reason (it lands in `skipped-parts.md`).
+5. 2026-11-08 — `fp-load.sh` relied on `footprint_check`'s failure lines,
+   which stop after 10, so any batch over 10 new footprints "failed"; it now
+   takes the new footprints from `footprint_check --print` minus the golden.
 
 ## Summary
 

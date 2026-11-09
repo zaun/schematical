@@ -1,0 +1,31 @@
+maker	series	regex	source
+C&K	PTS125	PTS125S(J[MK]73|[MK](43|73|85|12))P?(-2|SMTR2) LFS	littelfuse-c-k-tactile-pts125-series-datasheet p.5
+C&K	PTS125	PTS125S(J[LMKR]73|[LMKR](43|73|85|12))P?(SMTR)?G?21M LFS	littelfuse-c-k-tactile-pts125-series-datasheet p.5
+C&K	PTS125	PTS125S(JL73|L(43|73|85|12))P?(SMTR)?G?25M LFS	littelfuse-c-k-tactile-pts125-series-datasheet p.5
+C&K	PTS540	PTS540J[MK]035SMTR LFS	littelfuse-c-k-tactile-pts540-series-datasheet p.2
+C&K	PTS636	PTS636S[LMKP]G?(43|50|25)[JF]? ?(SMTR)? ?LFS	littelfuse-c-k-tactile-pts636-series-datasheet p.7
+C&K	PTS641	PTS641[ST][MKP](25|31|34)SMTR2 LFS	littelfuse-c-k-tactile-pts641-series-datasheet p.2
+C&K	PTS645	PTS645V[NLMHKP](31|39|58|83)-2 LFS	littelfuse-c-k-tactile-pts645v-series-datasheet p.4
+C&K	PTS645	PTS645VS?[NMKP](13|19)P?SMTR92 LFS	littelfuse-c-k-tactile-pts645v-series-datasheet p.4
+C&K	PTS841	PTS841 ?(ESD ?)?G ?[MK] ?P? ?SMTR ?LFS	littelfuse-c-k-tactile-pts841-series-datasheet p.3
+C&K	PTS847	PTS847 ?MM ?(160|350) ?L? ?S? ?SMTR2 ?LFS	littelfuse-c-k-tactile-pts847-series-datasheet p.6
+C&K	EDM	EDM(450|650)A[GU](AC0LFS|SC0LF[SG])	littelfuse-c-k-tactile-ed-edm-series-datasheet p.3 (key EDM-force-contact-terminals-LFx, AC only LFS; written in the table's orderable form EDM<force>A<G silver|U gold><AC|SC>0LF<S|G>)
+C&K	KMS	KMS2[23][13]GP? ?LF[SG]	littelfuse-c-k-tactile-kms-series-datasheet p.3 (KMS-2-force 2/3-contact 1/3-G-peg none/P-LFS/LFG; the space before LF is DigiKey formatting)
+C&K	KSA	KSA[01][MV][23459][13]1 ?LF[SG]	ksa_ksl.pdf p.5
+C&K	KSJ	KSJ0[MV][249][13]1 ?(60|80)SH ?LF[SG]	ksj.pdf p.3
+C&K	KSR	KSR2[1235][13]G( T16)?( NC)? ?LF[SG]	littelfuse-c-k-tactile-ksr-series-datasheet p.3
+C&K	KSR	KSR2[1235][24]G ?LF[SG]	littelfuse-c-k-tactile-ksr-series-datasheet p.6
+C&K	KT	KT11(B[012]|P[234]|S[12])(SM|JM|SAM|SA[123]M)3[45] ?LF[SG]	littelfuse-c-k-tactile-kt-series-datasheet p.5
+C&K	KSC4D	KSC4D[123][GJ] ?50 ?SH( ?ULC ?LFG| ?LF[SG])	littelfuse-c-k-ksc-d-series-datasheet p.2
+C&K	KSC4D	KSC4D[123][GJ] ?50 ?SH ?LF[SG]	KSC4D_Series.pdf p.1
+C&K	RS, COMAX	RS-014R05[AB][H0-5]-SMA ?RT	RS-014R05__-SMA%20_RT.pdf p.1
+C&K	RS, COMAX	RS-032G05[AB][134]-SM ?RT	RS-032G05_-SM_RT.pdf p.1
+C&K	RS, COMAX	RS-282G05A[13]-SM ?RT	RS-282G05A-SM_RT.pdf p.1
+C&K	RS, COMAX	RS-?285G05A2-?U ?RT	RS285G05A2URT_Dwg.pdf p.1
+C&K	RS, COMAX	RS-?022R05[A-H][AH013]	RS022R_Dwg.pdf p.1
+C&K	KSC	KSC2[0245][1-4][JG]( ?SP DELTA)? ?LF[SG]	littelfuse-c-k-tactile-ksc2-series-datasheet p.3 (KSC2-force 0/2/4/5-contact 1-4-J/G-none/SP DELTA-LFS/LFG)
+C&K	KSC	KSC4[0-6][1-4][JG]R? ?(50 ?SH|70 ?SH|SPD|ST[12]|70 SH SP DELTA) ?LF[SG]	littelfuse-c-k-tactile-ksc4-series-datasheet p.2 (KSC4-force-contact-J/G-R-50SH/70SH/SPD/ST1/ST2-LFx); p.3 table also lists KSC441J 70 SH SP DELTA LFS (Y31C31441FPLFS)
+C&K	*	KSC2[0245][1-4][JG]( ?SP DELTA)? ?LF[SG]	ck-ksc221jcblfs-55418322.pdf p.3 (KSC2 key; no CB option)
+C&K	*	KSC4[24]1J ?70 ?SH ?LFS ?OF	ck-ksc441grtol2lfs.pdf p.1 (KSC OF key: KSC4-2/4-1-J-70SH-LFS-OF)
+C&K	*	PTS645[STV]J?[LMHK](43|50|70|73|95|13|31|39|58|61|83) ?-?(2|SMTR92) ?LFS	ck-pts645vl832lfs.pdf p.1 (PTS645-S/T/V-J-L/M/H/K-height-2/SMTR92-LFS; DigiKey drops the dash)
+C&K	*	KSR2([1235][13]G|2[13]G ?NC) ?LF[SG]	ck-ksr223gnclfg.pdf p.3 (KSR-2-force 1/2/3/5-contact 1/3-G-none/NC (KSR22xG only)-LFS/LFG)

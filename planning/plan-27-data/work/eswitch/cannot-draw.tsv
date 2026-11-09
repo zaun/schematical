@@ -1,2 +1,2 @@
 mpn	reason
-TSM9W-5.2-260-TR	TSW_DS.pdf has a land pattern but no terminal numbers or circuit diagram
+TSM9W-5.2-260-TR	cannot draw a footprint: TSW_DS.pdf has a land pattern but no terminal numbers or circuit diagram

@@ -16,3 +16,6 @@ Alps Alpine	SKTH	Surface Mount	SKTHAEE010	4	A=1,2;B=3,4	SW-TACT-SKTH-AE	skth.pdf
 Alps Alpine	SKTH	Surface Mount	SKTH(ACE|AHE|BAE)010	4	A=1,2;B=3,4	SW-TACT-SKTH	skth.pdf p.2 Circuit Diagram (3-4 and 1-2 joined); land drawings 1 and 2
 Alps Alpine	SKTH	Surface Mount, Right Angle	SKTHAEE010	4	A=1,2;B=3,4	SW-TACT-SKTH-AE	skth.pdf p.2 Circuit Diagram (3-4 and 1-2 joined); land drawing 3
 Alps Alpine	SKTH	Surface Mount, Right Angle	SKTH(ACE|AHE|BAE)010	4	A=1,2;B=3,4	SW-TACT-SKTH	skth.pdf p.2 Circuit Diagram (3-4 and 1-2 joined); land drawings 1 and 2; the catalog lists SKTHAHE010/SKTHBAE010 as top push
+Alps Alpine	SKHH	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-SKHH-THT	skhh.pdf p.4 Circuit Diagram, top push / joint stem / with ground terminal (1-2 and 3-4 joined; ground terminal 5 not a switch terminal)
+Alps Alpine	SKHH	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-SKHH-THT-RA	skhh.pdf p.4 Circuit Diagram, side push (1-2)
+Alps Alpine	SKRT	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-SKRT	PdfFile_191666.pdf p.1 Circuit Diagram: 3 terminals, 1 and 3 joined against 2; drawn as 2 pins, footprint pin 1 = datasheet terminals 1 and 3 (both outer lands), pin 2 = terminal 2

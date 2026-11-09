@@ -40,6 +40,9 @@ No `check;` rows, so `checks.tsv` is header only.
 | SKSW | sksw.pdf p.1 / p.2 | SW-TACT-SKSW (2 lands) | A=1;B=2 |
 | SKTA | skta1.pdf p.1 / p.1 | SW-TACT-SKTA | A=1,3;B=2,4 |
 | SKTH | skth.pdf p.1 / p.1-2 | SW-TACT-SKTH (drawings 1, 2), SW-TACT-SKTH-AE (drawing 3, SKTHAEE010) | A=1,2;B=3,4 |
+| SKHH (Through Hole) | skhh.pdf p.1-2 / p.3 | SW-TACT-SKHH-THT | A=1,2;B=3,4 |
+| SKHH (Through Hole, Right Angle) | skhh.pdf p.2 / p.4 | SW-TACT-SKHH-THT-RA (explicit, 2 holes) | A=1;B=2 |
+| SKRT | PdfFile_191666.pdf p.1 / p.1 | SW-TACT-SKRT (explicit, pin 1 on two lands) | A=1;B=2 |
 
 Pad sizes and centres are derived from the outside / inside land dimensions
 (each footprint's `note` gives the arithmetic) and cross-checked against the
@@ -76,12 +79,29 @@ Per series:
   drawings 1 and 2 (5 / 2.9 / 2.2), hence two footprints. DigiKey lists
   SKTHAHE010 / SKTHBAE010 as right angle; the catalog lists them as top push.
 
+- **SKHH** (top-up, skhh.pdf became whole): the series catalog lists every
+  SKHH number we have (the 25 spec-only ones too), so all 35 SKHH rows are
+  drawn from it. Drawings 1 (top push), 2 (joint stem) and 3 (with ground
+  terminal) have the same 4 holes, dia 1 at 6.5 x 4.5 (no land printed: pad
+  1.7 = 1.7 x drill); drawing 3's ground terminal hole is left out. DigiKey's
+  "Through Hole, Right Angle" rows are exactly the side push types (SKHHL*,
+  SKHHN*, drawing 4): 2 terminals in dia 1 holes 4.5 apart, 2 dia 1.3 frame
+  holes left out; the terminals sit 2.55 behind the body front (side view), so
+  the explicit pads are at y = -0.55 from the 6.2 x 4 body centre.
+- **SKRT** (top-up, as C&K PTS845 / E-Switch TL3340): 3 terminals, the
+  Circuit Diagram joins 1 and 3 against 2. Drawn `explicit`, `pins` 2: pin 1
+  has two pads (both outer terminal lands, datasheet terminals 1 and 3), pin 2
+  the centre land; spec `terminals` 2, `A=1;B=2`. Fixing lands, no-copper area
+  and guide-boss holes left out. Body is the 4.5 x 2.56 housing (the 0.84 stem
+  at the bottom edge); the guide-boss line is 1.21 behind the housing front,
+  the terminal lands run 1.8 from it towards the rear.
+
 ## Cannot draw
 
-Per-part product specifications only, no drawing (see above):
+`cannot-draw.tsv` (36 rows) is the list. Per-part product specifications
+only, no drawing (see above):
 
 - SKHC: SKHCBEA010, SKHCBFA010
-- SKHH: SKHHAJA010, SKHHAKA010, SKHHAMA010, SKHHANA010, SKHHAPA010, SKHHAQA010, SKHHBSA010, SKHHBVA010, SKHHBYA010, SKHHCRA010, SKHHCWA010, SKHHDAA010, SKHHDHA010, SKHHDJA010, SKHHDTA010, SKHHDUA010, SKHHLMA010, SKHHLNA010, SKHHLPA010, SKHHLQA010, SKHHLRA010, SKHHLUA010, SKHHLVA010, SKHHLWA010, SKHHPNA010
 - SKHL: SKHLADA010, SKHLLBA010, SKHLLFA010
 - SKQE: SKQEABA010
 - SKQJ: SKQJAAA010
@@ -91,37 +111,29 @@ Per-part product specifications only, no drawing (see above):
 - SKRK: SKRKAEE020, SKRKAGE020, SKRKAHE020
 - SKRM: SKRMABE010
 - SKRN: SKRNPAE010, SKRNPBE010
-- SKRR: SKRRAAE010, SKRRABE010
+- SKRR: SKRRAAE010, SKRRABE010, SKRRACE010
 - SKSH: SKSHAAE010
 - SKSL: SKSLLAE010
 - SKSN: SKSNLAE010, SKSNLHE010
 - SKST: SKSTAAE010, SKSTACE010
 - SKSU: SKSUAAE010 (was `add`: verbatim, but its spec has no drawing either)
-- SKSV: SKSVCAE010
+- SKSV: SKSVCAE010, SKSVCCE010
+- SKTD: SKTDLDE010
 - SKTQ: SKTQAAE010
 
-Three-terminal switch, not expressible as 2 or 4 terminals with equal sides:
-
-- SKRT: SKRTLAE010, SKRTLBE010 — PdfFile_191666.pdf p.1: side push, terminals
-  1, 2, 3 in a row; the Circuit Diagram joins 1 and 3 (one side) against 2.
-  The land drawing is clear (3 terminal lands 0.75 / 0.6 / 0.75 wide, 1.8
-  high, 3.2 outside; plus two 1.2-high fixing lands and 2 dia 0.9 boss holes),
-  so it could be drawn as an `explicit` 2-pin footprint with pin 1 on both
-  outer lands if the main session wants that; not done here because the
-  brief asks for datasheet numbering 1…N with N = 2 or 4.
-
-## Checks
-
-- fp-load.sh: footprint_check prints at most 10 "extra" lines, so with all
-  12 new ids in one run the merge script reports "new but not reported
-  ['SW-TACT-SKTH', 'SW-TACT-SKTH-AE']" (FAILED) although nothing failed to
-  load (520 footprints compared, 24 = 12 extra + 12 unused). Run in two
-  halves of 6, each ends `6 new footprints: load ok`.
+(SKRRACE010, SKSVCCE010, SKTDLDE010 came with the top-up; their
+product_spec PDFs also say "Refer to the assembly drawings" and carry no
+drawing.)
 
 ## Counts
 
-- Rows: 105 (30 add, 75 pending).
-- scheme-check: 74 add, 1 skip (SKSGPJE010), 0 still pending.
-- Cannot draw: 60 (58 product-spec-only incl. SKSUAAE010, 2 SKRT).
-- Kept (drawn): 44.
-- Footprints: 12. Specs rows: 17. Checks rows: 0.
+First pass (105 rows: 30 add, 75 pending): scheme-check 74 add, 1 skip.
+
+After the top-up (rebuilt pre-cand.tsv, full-width numbers now verbatim):
+
+- Rows: 120 (119 add, 1 pending).
+- scheme-check: 0 add, 1 skip (SKSGPJE010), 0 still pending.
+- Cannot draw: 36 (cannot-draw.tsv; all product-spec-only).
+- Kept (drawn): 83.
+- Footprints: 15 (fp-load: `15 new footprints: load ok`). Specs rows: 20.
+  Checks rows: 0.

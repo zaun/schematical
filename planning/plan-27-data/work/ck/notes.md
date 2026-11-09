@@ -426,11 +426,20 @@ The main session skips these (they were `add`, verbatim):
 - PTS831GG140GSMTR LFS, PTS831GG140SMTR LFS, PTS831GM140SMTR LFS (series `-`): PTS831GX140SMTR_LFS_ProdSpec_RevB.pdf and PTS831GX140GSMTR_LFS_ProdSpec_RevA.pdf are product specifications that refer to drawings G01000444 / G01016434, not included: no dimensions, no land pattern, no terminal numbers.
 - SFS12RSSMTR LFS, SFS12WSSMTR LFS, G01743323 (SFS): littelfuse-ck-tactile-sfs-series-datasheet p.1 prints a 4-pad land pattern but no terminal numbering and no circuit diagram, so which terminals are joined cannot be read.
 
+## Top-up (rebuilt pre-cand.tsv: whole PDFs, stricter `hit`)
+
+- KMR4 (14, littelfuse-c-k-tactile-kmr4-series-datasheet): layout p.2 is KMR2's (5 / 3.2 / 2.6 / 0.6 / 1), numbering p.1 4 TL, 1 TR, 2 BR, 3 BL, diagram p.2 4-1, 3-2 -> SW-TACT-KMR2, A=1,4;B=2,3. G ground pin 5 not drawn.
+- KSC9 (6, littelfuse-c-k-tactile-ksc9-series-datasheet p.1) and KSC2 SP DELTA (2, littelfuse-c-k-tactile-ksc2-series-datasheet p.1): the usual KSC J / G termination figures (3 max / 8.6 min, 5.8 max / 12 min, pitch 4, pad 1) -> SW-TACT-EL2 / SW-TACT-KSC-G, A=1,4;B=2,3.
+- Series KSC now has pending rows: schemes from the KSC2 key (p.3) and the KSC4 key (p.2). KSC261JLFS skips (force 6 not in the KSC2 key). KSC441J 70 SH SP DELTA LFS adds: the KSC4 key has one actuator/tactile field (50SH/70SH/SPD/ST1/ST2), but the p.3 table prints this number (wrapped over two lines, Y31C31441FPLFS), so the regex lists `70 SH SP DELTA` as a table-listed alternative.
+- Check rows (12, all keep; checks.tsv): KSC1131JLFS, KSC1151JLFS (KSC11), KSC701JLFS (KSC7), KSC241J SP DELTA LFS (series `-`, KSC2) -> SW-TACT-EL2; KSR2M3GLFG (KSR2D/M detect switch, ck-ksr2m3glfg-44487341.pdf p.2: pads 1.4 high, inner 6, outer 8, body 6 x 3.8 = SW-TACT-ATS); KSR223GNCLFG (SPST-NC, SW-TACT-ATS); PTS645SM43SMTR92LFS (pts645.pdf, p.3 identical to the Littelfuse PTS645 datasheet) -> SW-TACT-PTS645-SMD; PTS645VK582LFS, PTS645VL832LFS -> SW-TACT-PTS645-THT-RA (ck-pts645vl832lfs.pdf p.2 V VERTICAL layout: 2x dia 1 at 4.5, same as the PTS645V datasheet).
+- Series `*` pending rows got schemes: KSC2 key (KSC221JCBLFS skips: no CB option), KSC OF key (ck-ksc441grtol2lfs.pdf; KSC441GRTOL2LFS skips: not in it), old C&K PTS645 key (ck-pts645vl832lfs.pdf p.1: PTS645VL832LFS and PTS645VK582LFS add), KSR key (ck-ksr223gnclfg.pdf p.3: KSR223GNCLFG adds).
+- DOUBT: PTS645VK582LFS's DigiKey link is a PTS525 datasheet that does not cover it; it is accepted because the PTS645 key (the series it belongs to) produces it (V, K, 58, 2, LFS). The main session may prefer to skip it.
+
 ## Counts
 
-- C&K rows read: 456 (409 verbatim add, 47 pending).
-- scheme-check: 41 add, 6 skip, 0 still pending (skips: KMS231G LFS SERIES 2, KSA0M411LFTR, KSJ0M41180SHLFTR, KSR551G LFS, PTS645VJK61-2 LFS, RS-014R05B1-SMA10 RT).
-- checks.tsv: 5 rows, all keep, 0 out.
-- Cannot draw: 6.
-- Kept rows (add, with a spec row): 444.
-- Footprints: 55. Specs rows: 89. Schemes rows: 24.
+- C&K add/pending rows read (rebuilt copy): 504 (450 verbatim add, 54 pending; 17 `check`).
+- scheme-check: 45 add, 9 skip, 0 still pending (skips: KMS231G LFS SERIES 2, KSA0M411LFTR, KSC221JCBLFS, KSC261JLFS, KSC441GRTOL2LFS, KSJ0M41180SHLFTR, KSR551G LFS, PTS645VJK61-2 LFS, RS-014R05B1-SMA10 RT).
+- checks.tsv: 17 rows, all keep, 0 out.
+- Cannot draw: 6 (cannot-draw.tsv).
+- Kept rows (add, with a spec row): 489.
+- Footprints: 55. Specs rows: 101. Schemes rows: 30.
