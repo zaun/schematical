@@ -162,7 +162,7 @@ async function fetchRetry(url, options) {
       return { response, text: await response.text() };
     } catch (error) {
       if (attempt >= 4) throw error;
-      process.stderr.write(`digikey: ${error.message || error}; retry ${attempt} of 3\n`);
+      process.stderr.write(`digikey: ${error.message || error}${error.cause ? ` (${error.cause.code || error.cause.message})` : ""}; retry ${attempt} of 3\n`);
       await new Promise((resolve) => setTimeout(resolve, 2000 * attempt));
     }
   }
