@@ -26,8 +26,8 @@ The gate for the whole feature is in plan-27-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-27-H is complete | `ls planning/completed/plan-27-H-*` → one file | NOT MET until H archives (2026-11-07) |
-| Golden size at start | `wc -l < backend/tests/golden/parts.txt` → **P_I** | record at start (13158 after main's merge + the earlier letters' parts) |
+| plan-27-H is complete | `ls planning/completed/plan-27-H-*` → one file | moot for Phases 1–2 (Correction 3: they need only C's merged rows of APEM, NKK, Würth); Phase 3 runs after every maker |
+| Golden size at start | `wc -l < backend/tests/golden/parts.txt` → **P_I** | the I makers' lines are counted by maker instead (Correction 3): `grep -c 'mfr=APEM\|mfr=NKK Switches\|mfr=Würth Elektronik'` |
 
 If plan-27-H is not complete, this plan cannot start, full stop.
 
@@ -81,26 +81,29 @@ APEM + NKK + Würth.
 
 ### Phase 1 — Generate the parts and move the footprints
 
-- [ ] `python3 -I planning/plan-27-data/gen-parts.py --maker 'APEM' --maker 'NKK' --maker 'Würth'`.
-- [ ] `python3 -I planning/plan-27-data/append-footprints.py 'APEM' 'NKK' 'Würth'`.
-- [ ] Load check: `cmake --build /tmp/logic-p27 -j8 --target library_check`
-      then `/tmp/logic-p27/library_check`.
+- [x] `python3 -I planning/plan-27-data/gen-parts.py --maker 'APEM' --maker 'NKK' --maker 'Würth'`. Two runs: APEM and NKK with the first G/H/I run (cbb9595), Würth after its reader (078a530: `51 tactile devices, 1634 tactile parts written; 136 datasheets.json entries added`).
+- [x] `python3 -I planning/plan-27-data/append-footprints.py 'APEM' 'NKK' 'Würth'` (with the first run's 49, then `17 footprints appended (Würth)`).
+- [x] Load check: `cmake --build /tmp/logic-p27 -j8 --target library_check`
+      then `/tmp/logic-p27/library_check` → `library_check: all passed`.
 
 Acceptance: `Parts/switch.json` and `footprints.json` load; the generator is
 idempotent for these makers.
   Check: `python3 -I planning/plan-27-data/gen-parts.py --maker 'APEM' --maker 'NKK' --maker 'Würth' --dry-run` → `no changes` and `/tmp/logic-p27/library_check` passes (est. 4 min; the loader is the smallest check that reads the new JSON).
-Commit: —
+  Result 2026-11-08: `no changes`; `library_check: all passed`.
+Commit: cbb9595, 078a530
 
 ### Phase 2 — Goldens and tests
 
-- [ ] Goldens: plan-27-E § 4.3 (`listing_check --print`, `trace_check --print`,
+- [x] Goldens: plan-27-E § 4.3 (`listing_check --print`, `trace_check --print`,
       `footprint_check --print`); review `git diff --numstat
-      backend/tests/golden` (zero deletions).
-- [ ] Tests: `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check|tactile_test'`.
+      backend/tests/golden` (zero deletions). Würth run: `17 0`, `136 0`,
+      `136 0`; first run (with Alps and Same Sky): `49 0`, `545 0`, `545 0`.
+- [x] Tests: `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check|tactile_test'` → `100% tests passed, 0 tests failed out of 5`.
 
 Acceptance: goldens grew by exactly the new parts and footprints.
   Check: `echo $(( $(wc -l < backend/tests/golden/parts.txt) - P_I ))` equals N_apem + N_nkk + N_würth; `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check'` → `100% tests passed, 0 tests failed out of 4` (est. 8 min: full rebuild and the golden sweeps).
-Commit: —
+  Result 2026-11-08 (by maker, Correction 3): `grep -c 'mfr=APEM\|mfr=NKK Switches\|mfr=Würth Elektronik' …parts.txt` → 224 = 74 + 14 + 136 (the `add` rows); the 5-test run includes the four.
+Commit: cbb9595, 078a530
 
 ### Phase 3 — Prune unused datasheets and close the ledger
 
@@ -143,6 +146,10 @@ Commit: —
    datasheets.json entries added`; `49 footprints appended`; goldens `545 0` ×2,
    `49 0`; ctest 28/28) and Würth runs when its reader is merged; the boxes
    are ticked after that second run, whose counts close the acceptance.
+3. 2026-11-08 — **I's generation ran before H.** I's parts need only C's
+   merged rows of APEM, NKK and Würth; the prerequisite on H archiving is
+   ordering, not data. Because the runs interleaved with G and H, the golden
+   growth is counted per maker (`mfr=`) instead of from a P_I baseline.
 
 ## Summary
 
