@@ -187,7 +187,8 @@ static void check_serial(void) {
     if (part != NULL) {
         CHECK(part->kind == PART_SERIAL && part->serial != NULL &&
               strcmp(part->serial->model, "ns16550") == 0 && part->serial->channels == 1 &&
-              strcmp(part->serial->grade, "X") == 0 && part->vcc != NULL &&
+              strcmp(part->serial->grade, "X") == 0 &&
+              strcmp(part->serial->host, "parallel") == 0 && part->vcc != NULL &&
               part->vcc->min_mv == 4500 && part->logic == NULL);
     }
     free(error);

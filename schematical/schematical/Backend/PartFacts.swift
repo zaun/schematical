@@ -84,8 +84,9 @@ nonisolated enum PartFacts {
             add("Character ROM", info.rom == "A00" ? "A00 (Japanese)" : info.rom)
             add("Panel", info.panel == .blueNegative ? "STN blue, negative" : "STN yellow-green, positive")
             add("Backlight", info.backlightColor ?? "None")
-        case let .serial(model, channels, grade):
+        case let .serial(model, channels, grade, host):
             add("Model", model)
+            add("Host bus", serialHost(host))
             add("Channels", String(channels))
             add("Speed grade", grade)
         case let .pio(model, grade, maxHz):
@@ -173,6 +174,18 @@ nonisolated enum PartFacts {
         case "pia6521": return "6521 PIA"
         case "via6522": return "6522 VIA"
         default: return model
+        }
+    }
+
+    /// A serial part's host-side interface as shown: "Parallel", "SPI",
+    /// "I²C", "I²C/SPI"; others raw.
+    static func serialHost(_ host: String) -> String {
+        switch host {
+        case "parallel": return "Parallel"
+        case "spi": return "SPI"
+        case "i2c": return "I²C"
+        case "i2c-spi": return "I²C/SPI"
+        default: return host
         }
     }
 

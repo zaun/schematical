@@ -1246,7 +1246,10 @@ helpers (`serial_bus.c`).
 
 Part keys: `"grade"` (a key of `"grades"`), optional `"vcc"`, `"inputMax"`
 (the part's own range when its row differs from its grade's). `PartSerial`
-holds the model, the channel count and the grade.
+holds the model, the channel count, the grade and the host-side interface
+(`host`: `"spi"`, `"i2c"` or `"i2c-spi"` from the `"bus"` style, otherwise
+`"parallel"`), which the parts drawer shows on each serial part's second
+line ("Parallel", "SPI", "I²C", "I²C/SPI").
 
 **Signal rules (every model).** Power-on is the reset state, then the reset
 pin applies at start; registers the reset does not touch power on X. An

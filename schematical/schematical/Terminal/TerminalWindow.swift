@@ -130,7 +130,7 @@ struct TerminalInspector: View {
 
     /// The part's channels, from its facts (the same while stopped).
     private var channels: Int {
-        if case let .serial(_, count, _)? = chip?.part.details { return count }
+        if case let .serial(_, count, _, _)? = chip?.part.details { return count }
         return 0
     }
 

@@ -242,7 +242,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case characterLCD(CharacterLCDInfo)
         /// A serial controller (plan-12): its model, its serial channels
         /// (0 for the SPI-to-I2C bridge) and its grade.
-        case serial(model: String, channels: Int, grade: String)
+        /// `host`: the host-side interface ("parallel", "spi", "i2c", "i2c-spi").
+        case serial(model: String, channels: Int, grade: String, host: String)
         case connector(centerPinUM: UInt32, ratedMV: UInt32, ratedMA: UInt32, contacts: Int)
         /// A parallel I/O peripheral on the 65xx bus (plan-14): its model
         /// ("pia6521", "via6522"), speed grade and highest clock.
@@ -374,7 +375,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
 
     /// A serial part with at least one channel: a part with a terminal window.
     var hasTerminal: Bool {
-        if case let .serial(_, channels, _) = details { return channels > 0 }
+        if case let .serial(_, channels, _, _) = details { return channels > 0 }
         return false
     }
 
@@ -469,7 +470,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .cpu(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
         case let .characterLCD(info):
             return [info.panel.title] + (info.backlightColor.map { ["\($0) backlight"] } ?? [])
-        case let .serial(_, channels, _): return channels > 1 ? ["\(channels) channels"] : []
+        case let .serial(_, channels, _, host):
+            return [PartFacts.serialHost(host)] + (channels > 1 ? ["\(channels) channels"] : [])
         case let .pio(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
         case let .connector(centerPinUM, _, ratedMA, contacts):
             return [String(format: "%.1f mm", Double(centerPinUM) / 1000),
@@ -631,7 +633,7 @@ extension CatalogPart {
             ))
         } else if let serial = part.serial?.pointee {
             details = .serial(model: string(serial.model), channels: Int(serial.channels),
-                              grade: string(serial.grade))
+                              grade: string(serial.grade), host: string(serial.host))
         } else if let pio = part.pio?.pointee {
             details = .pio(model: string(pio.model), grade: string(pio.grade), maxHz: pio.max_hz)
         } else if let header = part.header?.pointee {

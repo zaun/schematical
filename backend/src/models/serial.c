@@ -173,6 +173,22 @@ static int load_grade(KindContext *ctx, const SerialModel *model, const cJSON *j
     return kind_voltage(ctx, json, NULL, &grade->vcc);
 }
 
+/* The host-side interface named by the device's "bus" style (PartSerial.host).
+   A bus with no style, or none at all, is a parallel data bus. */
+static const char *serial_host(const cJSON *json) {
+    static const char *const SERIAL_HOSTS[] = {"spi", "i2c", "i2c-spi"};
+    const cJSON *bus = cJSON_GetObjectItemCaseSensitive(json, "bus");
+    const cJSON *style = cJSON_IsObject(bus) ? cJSON_GetObjectItemCaseSensitive(bus, "style") : NULL;
+    size_t i;
+
+    for (i = 0; cJSON_IsString(style) && i < sizeof(SERIAL_HOSTS) / sizeof(SERIAL_HOSTS[0]); i++) {
+        if (strcmp(style->valuestring, SERIAL_HOSTS[i]) == 0) {
+            return SERIAL_HOSTS[i];
+        }
+    }
+    return "parallel";
+}
+
 static void *serial_load_device(KindContext *ctx, const cJSON *json) {
     SerialDevice *device = kind_alloc(ctx, sizeof(*device));
     const cJSON *grades;
@@ -240,6 +256,7 @@ static void *serial_load_device(KindContext *ctx, const cJSON *json) {
         grade->info.model = device->model->name;
         grade->info.channels = device->channels;
         grade->info.grade = device->grade_names[n];
+        grade->info.host = serial_host(json);
         n++;
     }
     return device;
