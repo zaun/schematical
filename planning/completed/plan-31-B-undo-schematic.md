@@ -196,30 +196,38 @@ each change of `words`; `.onChange(of: isEditing)` sees focus leave.
       `isPlaying = true` then `toggleSwitch` → no step.
       Added: `erase` of a wire is Schematic only; `confirmPendingRemoval`
       not on the PCB list; `SimulationController.start`/`stop` set and clear
-      `isPlaying`. 47 tests. Check run (with `UndoHistoryTests`) →
+      `isPlaying`. 45 tests. Check run (with `UndoHistoryTests`) →
       `Executed 100 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 
 Acceptance: every row and case passes; the existing canvas tests still pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/LooseEndTests -only-testing:schematicalTests/TactileSwitchTests -only-testing:schematicalTests/PlaySwitchResetTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min).
-Commit: —
+Commit: 7518dc6
 
 ### Phase 2 — One step per Schematic drag
 
-- [ ] `Canvas/SchematicCanvasView.swift`: `beginGesture(.schematic)` on the
+- [x] `Canvas/SchematicCanvasView.swift`: `beginGesture(.schematic)` on the
       first non-play frame of `handleChanged`; `endGesture()` at the end of
       `handleEnded` (§3).
-- [ ] `Drawer/SchematicSidebarView.swift`: `endCoalescing()` when the note
+- [x] `Drawer/SchematicSidebarView.swift`: `endCoalescing()` when the note
       editor loses focus.
-- [ ] Tests (`SchematicUndoTests`): a gesture of 20 `moveSchematicGroup`
+- [x] Added: `NotePanel` follows `note.text` when it changes from outside
+      the editor (undo/redo). Its `words` were set only `onAppear`, so after
+      an undo the editor showed the old words and the next keystroke saved
+      them back over the undo.
+- [x] Tests (`SchematicUndoTests`): a gesture of 20 `moveSchematicGroup`
       frames plus `settleSchematicGroup` is one "Move" step; a gesture whose
       only change is `toggleSwitch` (the lever click path: zero-delta
       `moveSchematicGroup` then `toggleSwitch`) is "Flip Switch"; a gesture
       that changes nothing records nothing; `beginGesture` twice without
       `endGesture` records the first gesture's change as its own step.
+      Added: `undo` closes an open gesture first. Check run →
+      `Executed 50 tests, with 0 failures`, `** TEST SUCCEEDED **`. Final
+      gate (full app target) → `Executed 289 tests, with 0 failures`,
+      `** TEST SUCCEEDED **`.
 
 Acceptance: the gesture cases pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/SchematicUndoTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min).
-Commit: —
+Commit: recorded in plan-31-C's first commit (B is archived in this one)
 
 ## Validation Plan
 

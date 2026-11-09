@@ -162,6 +162,12 @@ private struct NotePanel: View {
         .onChange(of: isEditing) { _, editing in
             // Left empty: show the words the block kept.
             if !editing, words.isEmpty { words = note.text }
+            // One editing session is one undo step (plan-31-B).
+            if !editing { document.endCoalescing() }
+        }
+        // Undo and redo change the words from outside the editor.
+        .onChange(of: note.text) { _, text in
+            if !words.isEmpty, words != text { words = text }
         }
     }
 

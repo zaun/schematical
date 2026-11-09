@@ -410,6 +410,85 @@ final class SchematicUndoTests: XCTestCase {
         XCTAssertNotNil(doc.chips.first { $0.id == left.id })
     }
 
+    // MARK: Gestures (Phase 2)
+
+    func testTwentyFrameDragIsOneMove() throws {
+        let c = try wiredPair()
+        c.doc.select(.chip(c.right.id))
+        let before = c.doc.state
+        c.doc.beginGesture(.schematic)
+        let base = c.doc.schematicGroupBase()
+        for frame in 1...20 {
+            c.doc.moveSchematicGroup(base, by: CGSize(width: CGFloat(frame) * 5, height: CGFloat(frame) * 3))
+        }
+        c.doc.settleSchematicGroup(base)
+        c.doc.endGesture()
+        XCTAssertEqual(c.doc.undoName(on: .schematic), "Move")
+        XCTAssertTrue(c.doc.undo(on: .schematic))
+        XCTAssertEqual(c.doc.state, before)
+        XCTAssertEqual(c.doc.undoName(on: .schematic), "Add Wire")
+    }
+
+    /// The lever click path: a zero-delta move, then the flip.
+    func testLeverClickGestureIsFlipSwitch() throws {
+        let doc = TestSupport.newDocument()
+        let dip = try TestSupport.place(doc, try TestSupport.firstDip().name, at: p(200, 200))
+        doc.select(.chip(dip.id))
+        let before = doc.state
+        doc.beginGesture(.schematic)
+        let base = doc.schematicGroupBase()
+        doc.moveSchematicGroup(base, by: .zero)
+        XCTAssertEqual(doc.toggleSwitch(dip.id, position: 1), true)
+        doc.settleSchematicGroup(base)
+        doc.endGesture()
+        XCTAssertEqual(doc.undoName(on: .schematic), "Flip Switch")
+        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.state, before)
+    }
+
+    func testGestureThatChangesNothingRecordsNothing() throws {
+        let doc = TestSupport.newDocument()
+        let part = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        doc.select(.chip(part.id))
+        doc.beginGesture(.schematic)
+        let base = doc.schematicGroupBase()
+        doc.moveSchematicGroup(base, by: CGSize(width: 2, height: 1))   // under half a grid step
+        doc.settleSchematicGroup(base)
+        doc.endGesture()
+        XCTAssertEqual(doc.undoName(on: .schematic), "Add Part")
+        XCTAssertNil(doc.redoName(on: .schematic))
+    }
+
+    /// A gesture SwiftUI never ended is closed by the next one, as its own step.
+    func testUnendedGestureIsClosedByTheNext() throws {
+        let doc = TestSupport.newDocument()
+        let part = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        doc.select(.chip(part.id))
+        doc.beginGesture(.schematic)
+        doc.moveSchematicGroup(doc.schematicGroupBase(), by: CGSize(width: 40, height: 0))
+        let moved = doc.state
+        doc.beginGesture(.schematic)
+        doc.flipChip(part.id)
+        doc.endGesture()
+        XCTAssertFalse(doc.isGestureOpen)
+        XCTAssertEqual(doc.undoName(on: .schematic), "Flip")
+        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.state, moved)
+        XCTAssertEqual(doc.undoName(on: .schematic), "Move")
+    }
+
+    /// Undo closes an open gesture first, so it is never blocked.
+    func testUndoClosesAnOpenGesture() throws {
+        let doc = TestSupport.newDocument()
+        let part = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        let before = doc.state
+        doc.beginGesture(.schematic)
+        doc.flipChip(part.id)
+        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertFalse(doc.isGestureOpen)
+        XCTAssertEqual(doc.state, before)
+    }
+
     // MARK: Coalescing and play mode
 
     func testNoteTypingCoalescesUntilEditingEnds() throws {
