@@ -14,6 +14,9 @@
 - [X] Add a text tool to the schematic view, to add text/comments in a
       block. It should support multiple lines.
 - [ ] Add full undo/redo that works with all actions on the schematic.
+      Note (plan-30): a drop that auto-connects loose wire ends to pins must
+      undo as one step with the move, and undoing a block delete must put
+      its wires back on its pins.
 - [ ] Add full undo/redo that works with all actions on the PCB.
 - [X] Opening a file should open a new tab. It should only replace the
       default blank document if that document is empty.
