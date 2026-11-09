@@ -139,17 +139,20 @@
    {
     "number": 26,
     "name": "A2",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 27,
     "name": "A1",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 28,
     "name": "A0",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 29,
@@ -339,17 +342,20 @@
    {
     "number": 17,
     "name": "A2",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 18,
     "name": "A1",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 19,
     "name": "A0",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 20,

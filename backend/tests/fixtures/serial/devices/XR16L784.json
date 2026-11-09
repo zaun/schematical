@@ -6,12 +6,12 @@
   "note": "xr16l784.pdf p.1-51; plan-12-data/specs/exar-d.md \u00a7 XR16L784",
   "pinouts": {
     "lqfp64-784": [
-      {"number": 1, "name": "A2", "role": "input"},
-      {"number": 2, "name": "A3", "role": "input"},
-      {"number": 3, "name": "A4", "role": "input"},
-      {"number": 4, "name": "A5", "role": "input"},
-      {"number": 5, "name": "A6", "role": "input"},
-      {"number": 6, "name": "A7", "role": "input"},
+      {"number": 1, "name": "A2", "role": "input", "group": "address"},
+      {"number": 2, "name": "A3", "role": "input", "group": "address"},
+      {"number": 3, "name": "A4", "role": "input", "group": "address"},
+      {"number": 4, "name": "A5", "role": "input", "group": "address"},
+      {"number": 5, "name": "A6", "role": "input", "group": "address"},
+      {"number": 6, "name": "A7", "role": "input", "group": "address"},
       {"number": 7, "name": "IOR", "role": "input"},
       {"number": 8, "name": "IOW", "role": "input"},
       {"number": 9, "name": "VCC", "role": "power"},
@@ -68,8 +68,8 @@
       {"number": 60, "name": "RX0", "role": "input"},
       {"number": 61, "name": "INT", "role": "output"},
       {"number": 62, "name": "CS", "role": "input"},
-      {"number": 63, "name": "A0", "role": "input"},
-      {"number": 64, "name": "A1", "role": "input"}
+      {"number": 63, "name": "A0", "role": "input", "group": "address"},
+      {"number": 64, "name": "A1", "role": "input", "group": "address"}
     ]
   },
   "grades": {

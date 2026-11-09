@@ -1927,12 +1927,14 @@
      {
       "number": 23,
       "name": "A0/CS",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 24,
       "name": "A1/SI",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      }
     ],
     "tssop24": [
@@ -1944,12 +1946,14 @@
      {
       "number": 2,
       "name": "A0/CS",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 3,
       "name": "A1/SI",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 4,
@@ -2064,12 +2068,14 @@
      {
       "number": 1,
       "name": "A0/CS",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 2,
       "name": "A1/SI",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 3,
@@ -2355,12 +2361,14 @@
      {
       "number": 5,
       "name": "A1/SI",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 6,
       "name": "A0/CS",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 7,
@@ -2490,12 +2498,14 @@
      {
       "number": 7,
       "name": "A1/SI",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 8,
       "name": "A0/CS",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 9,

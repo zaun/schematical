@@ -74,12 +74,14 @@
    {
     "number": 13,
     "name": "RS0",
-    "role": "input"
+    "role": "input",
+    "group": "register select"
    },
    {
     "number": 14,
     "name": "RS1",
-    "role": "input"
+    "role": "input",
+    "group": "register select"
    },
    {
     "number": 15,

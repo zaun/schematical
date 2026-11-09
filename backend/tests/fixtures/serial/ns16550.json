@@ -159,17 +159,20 @@
      {
       "number": 29,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 30,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 31,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 32,
@@ -404,17 +407,20 @@
      {
       "number": 12,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 13,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 14,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 15,
@@ -722,7 +728,8 @@
      {
       "number": 4,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 5,
@@ -750,12 +757,14 @@
      {
       "number": 9,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 10,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 11,
@@ -1151,7 +1160,8 @@
      {
       "number": 4,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 5,
@@ -1179,12 +1189,14 @@
      {
       "number": 9,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 10,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 11,
@@ -1426,7 +1438,8 @@
      {
       "number": 10,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 11,
@@ -1449,12 +1462,14 @@
      {
       "number": 14,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 15,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 16,
@@ -1946,17 +1961,20 @@
      {
       "number": 29,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 30,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 31,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 32,
@@ -2222,17 +2240,20 @@
      {
       "number": 16,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 17,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 18,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 19,
@@ -2600,17 +2621,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -2800,17 +2824,20 @@
      {
       "number": 17,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 18,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 19,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 20,
@@ -3175,12 +3202,14 @@
      {
       "number": 27,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -3190,7 +3219,8 @@
      {
       "number": 30,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 31,
@@ -3513,12 +3543,14 @@
      {
       "number": 27,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -3528,7 +3560,8 @@
      {
       "number": 30,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 31,
@@ -3861,17 +3894,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -4245,17 +4281,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -4626,17 +4665,20 @@
      {
       "number": 29,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 30,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 31,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 32,
@@ -4836,17 +4878,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -5196,17 +5241,20 @@
      {
       "number": 22,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 23,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 24,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 25,
@@ -5706,17 +5754,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -5911,17 +5962,20 @@
      {
       "number": 18,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 19,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 20,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 21,
@@ -6207,7 +6261,8 @@
      {
       "number": 10,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 11,
@@ -6230,12 +6285,14 @@
      {
       "number": 14,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 15,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 16,
@@ -6652,17 +6709,20 @@
      {
       "number": 29,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 30,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 31,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 32,
@@ -7000,17 +7060,20 @@
      {
       "number": 33,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 34,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 35,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 36,
@@ -7458,17 +7521,20 @@
      {
       "number": 33,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 34,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 35,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 36,
@@ -7913,17 +7979,20 @@
      {
       "number": 29,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 30,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 31,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 32,
@@ -8123,17 +8192,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -8328,17 +8400,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -8717,17 +8792,20 @@
      {
       "number": 29,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 30,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 31,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 32,
@@ -8927,17 +9005,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -9317,17 +9398,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -9517,17 +9601,20 @@
      {
       "number": 17,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 18,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 19,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 20,
@@ -9689,7 +9776,8 @@
      {
       "ball": "D5",
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "ball": "E1",
@@ -9712,12 +9800,14 @@
      {
       "ball": "E4",
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "ball": "E5",
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      }
     ]
    },
@@ -10058,17 +10148,20 @@
      {
       "number": 33,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 34,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 35,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 36,
@@ -10545,17 +10638,20 @@
      {
       "number": 33,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 34,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 35,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 36,
@@ -10967,17 +11063,20 @@
      {
       "number": 49,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 50,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 51,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 52,
@@ -11436,17 +11535,20 @@
      {
       "number": 32,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 33,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 34,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 35,
@@ -11851,17 +11953,20 @@
      {
       "number": 46,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 47,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 48,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 49,
@@ -12357,17 +12462,20 @@
      {
       "number": 32,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 33,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 34,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 35,
@@ -12772,17 +12880,20 @@
      {
       "number": 46,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 47,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 48,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 49,
@@ -13208,12 +13319,14 @@
      {
       "number": 17,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 18,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 19,
@@ -13223,7 +13336,8 @@
      {
       "number": 20,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 21,
@@ -13701,17 +13815,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -14072,17 +14189,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -14267,17 +14387,20 @@
      {
       "number": 16,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 17,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 18,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 19,
@@ -14701,17 +14824,20 @@
      {
       "number": 32,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 33,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 34,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 35,
@@ -15160,17 +15286,20 @@
      {
       "number": 22,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 23,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 24,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 25,
@@ -15687,17 +15816,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -16031,17 +16163,20 @@
      {
       "number": 22,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 23,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 24,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 25,
@@ -16431,17 +16566,20 @@
      {
       "number": 37,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 38,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 39,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 40,
@@ -17223,17 +17361,20 @@
      {
       "number": 37,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 38,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 39,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 40,
@@ -17948,17 +18089,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -18293,7 +18437,8 @@
      {
       "number": 10,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 11,
@@ -18316,12 +18461,14 @@
      {
       "number": 14,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 15,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 16,
@@ -18488,7 +18635,8 @@
      {
       "number": 4,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 5,
@@ -18516,12 +18664,14 @@
      {
       "number": 9,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 10,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 11,
@@ -18992,17 +19142,20 @@
      {
       "number": 17,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 18,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 19,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 20,
@@ -19202,17 +19355,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -19492,32 +19648,38 @@
      {
       "number": 1,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 2,
       "name": "A3",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 3,
       "name": "A4",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 4,
       "name": "A5",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 5,
       "name": "A6",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 6,
       "name": "A7",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 7,
@@ -19805,12 +19967,14 @@
      {
       "number": 63,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 64,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      }
     ]
    },
@@ -20119,17 +20283,20 @@
      {
       "number": 18,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 19,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 20,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 21,
@@ -20324,17 +20491,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -20729,17 +20899,20 @@
      {
       "number": 18,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 19,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 20,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 21,
@@ -20934,17 +21107,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -21353,17 +21529,20 @@
      {
       "number": 18,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 19,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 20,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 21,
@@ -21558,17 +21737,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -21963,17 +22145,20 @@
      {
       "number": 18,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 19,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 20,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 21,
@@ -22168,17 +22353,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -22627,17 +22815,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -22872,17 +23063,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -23243,17 +23437,20 @@
      {
       "number": 18,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 19,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 20,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 21,
@@ -23600,17 +23797,20 @@
      {
       "number": 18,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 19,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 20,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 21,
@@ -23805,17 +24005,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -24180,7 +24383,8 @@
      {
       "number": 10,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 11,
@@ -24203,12 +24407,14 @@
      {
       "number": 14,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 15,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 16,
@@ -24649,17 +24855,20 @@
      {
       "number": 18,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 19,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 20,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 21,
@@ -24854,17 +25063,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -25260,17 +25472,20 @@
      {
       "number": 18,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 19,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 20,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 21,
@@ -25465,17 +25680,20 @@
      {
       "number": 26,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 29,
@@ -25842,7 +26060,8 @@
      {
       "number": 10,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 11,
@@ -25865,12 +26084,14 @@
      {
       "number": 14,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 15,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 16,
@@ -26032,7 +26253,8 @@
      {
       "number": 3,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 4,
@@ -26050,12 +26272,14 @@
      {
       "number": 6,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 7,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 8,
@@ -26550,17 +26774,20 @@
      {
       "number": 32,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 33,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 34,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 35,
@@ -26810,17 +27037,20 @@
      {
       "number": 15,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 16,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 17,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 18,
@@ -27090,17 +27320,20 @@
      {
       "number": 22,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 23,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 24,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 25,
@@ -27613,17 +27846,20 @@
      {
       "number": 22,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 23,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 24,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 25,
@@ -27988,17 +28224,20 @@
      {
       "number": 32,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 33,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 34,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 35,
@@ -28248,17 +28487,20 @@
      {
       "number": 15,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 16,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 17,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 18,
@@ -28788,17 +29030,20 @@
      {
       "number": 22,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 23,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 24,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 25,
@@ -29078,17 +29323,20 @@
      {
       "number": 15,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 16,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 17,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 18,
@@ -29600,42 +29848,50 @@
      {
       "number": 20,
       "name": "A7",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 21,
       "name": "A6",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 22,
       "name": "A5",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 23,
       "name": "A4",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 24,
       "name": "A3",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 25,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 26,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 27,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 28,
