@@ -1542,16 +1542,18 @@ static void check_switch_cases(void) {
                 "contacts[1]: a contact joins two different pins, not \"2A\" twice");
 }
 
-#define SRAM_DEVICE(GRADE) \
+/* DQ_EXTRA, VCC_EXTRA: more keys on DQ0 (pin 2) and VCC (pin 6), such as "side". */
+#define SRAM_PINS_DEVICE(GRADE, DQ_EXTRA, VCC_EXTRA) \
     HEAD("sram") "{'id':'m','function':'1 KB','description':'d','drawer':['Memory','SRAM']," \
     "'pinouts':{'p6':[{'number':1,'name':'A0','role':'input','group':'address'}," \
-    "{'number':2,'name':'DQ0','role':'inout'},{'number':3,'name':'CE#','role':'input'}," \
+    "{'number':2,'name':'DQ0','role':'inout'" DQ_EXTRA "},{'number':3,'name':'CE#','role':'input'}," \
     "{'number':4,'name':'OE#','role':'input'},{'number':5,'name':'WE#','role':'input'}," \
-    "{'number':6,'name':'VCC','role':'power'}]}," \
+    "{'number':6,'name':'VCC','role':'power'" VCC_EXTRA "}]}," \
     "'address':['A0'],'data':['DQ0'],'chipEnable':['CE#'],'chipEnableHigh':[]," \
     "'outputEnable':'OE#','writeEnable':'WE#','byteEnable':[]," \
     "'grades':{'55':{'trc':55,'taa':55,'twpOeLow':45,'note':'n','vcc':[2.7,5.5]}}," \
     "'parts':[{'name':'M1','package':'DIP','pinout':'p6','footprint':'T6','grade':'" GRADE "'}]}" TAIL
+#define SRAM_DEVICE(GRADE) SRAM_PINS_DEVICE(GRADE, "", "")
 
 static void check_sram_cases(void) {
     PartLibrary *library = part_library_create();
@@ -1568,6 +1570,25 @@ static void check_sram_cases(void) {
 
     expect_fail("sram grade missing from grades", SRAM_DEVICE("70"),
                 "parts[0] (M1): grade \"70\" is not in \"grades\"");
+}
+
+/* A pin's optional "side": in or out, on input, output and inout pins only. */
+static void check_pin_side_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, SRAM_PINS_DEVICE("55", ",'side':'in'", ""), &error) == 0);
+    part = part_library_find(library, "M1");
+    CHECK(part != NULL && part->pins[1].side == PIN_SIDE_IN && part->pins[0].side == PIN_SIDE_AUTO);
+    printf("ok   pin side%s%s\n", error != NULL ? ": " : "", error != NULL ? error : "");
+    free(error);
+    part_library_destroy(library);
+
+    expect_fail("unknown pin side", SRAM_PINS_DEVICE("55", ",'side':'left'", ""),
+                "pin 2: unknown side \"left\" (in or out)");
+    expect_fail("side on a power pin", SRAM_PINS_DEVICE("55", "", ",'side':'out'"),
+                "pin 6: \"side\" is for input, output and inout pins");
 }
 
 /* A 32K x 8 EEPROM (15 address bits, 26 pins) with the given keys. */
@@ -2802,6 +2823,7 @@ int main(void) {
     check_ball_cases();
     check_display_cases();
     check_sram_cases();
+    check_pin_side_cases();
     check_eeprom_cases();
     check_cpu_cases();
     check_z80_cases();

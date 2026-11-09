@@ -107,6 +107,7 @@ pin of a pinout uses the same style.
 ```json
 {"number": 1, "name": "1A", "role": "input"}
 {"number": 9, "name": "A0", "role": "input", "group": "address"}
+{"number": 2, "name": "A1", "role": "inout", "group": "gate-1", "side": "in"}
 {"ball": "C3", "name": "NC", "role": "nc"}
 ```
 
@@ -117,6 +118,7 @@ pin of a pinout uses the same style.
 | `"name"` | datasheet pin name |
 | `"role"` | `input`, `output`, `inout`, `power`, `ground`, `nc` (no connect) or `absent` (a numbered position with no lead; never drawn, nothing can be wired to it) |
 | `"group"` | optional, default `"default"`; pins in one group are drawn together (e.g. `"address"`) |
+| `"side"` | optional, input, output and inout pins only: `"in"` draws the pin on the block's left, `"out"` on its right, whatever its role (e.g. a transceiver's A port `"in"`, B port `"out"`). Without it inputs go left, outputs and inouts right |
 
 A pin has `"number"` or `"ball"`, never both. Ball pinouts:
 

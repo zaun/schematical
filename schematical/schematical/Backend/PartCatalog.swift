@@ -31,6 +31,13 @@ nonisolated enum ChipPinRole: Hashable, Sendable {
     case absent
 }
 
+/// Which side of the block a pin is drawn on. `.auto`: inputs on the left,
+/// outputs and inouts on the right. `.input`/`.output`: left/right whatever the
+/// role, such as a transceiver's A port (left) and B port (right).
+nonisolated enum ChipPinSide: Hashable, Sendable {
+    case auto, input, output
+}
+
 nonisolated struct ChipPin: Hashable, Sendable, Identifiable {
     /// The group a pin is in unless the part file names another.
     static let defaultGroup = "default"
@@ -44,6 +51,8 @@ nonisolated struct ChipPin: Hashable, Sendable, Identifiable {
     /// Pins in one group are drawn together on the block, such as an SRAM's
     /// address pins. Most pins are in the default group.
     let group: String
+    /// The block side the part file puts the pin on; `.auto` follows its role.
+    var side: ChipPinSide = .auto
 
     var id: Int { index }
 
@@ -460,6 +469,14 @@ nonisolated private func pinRole(_ role: PinRole) -> ChipPinRole {
     }
 }
 
+nonisolated private func pinSide(_ side: PinSide) -> ChipPinSide {
+    switch side {
+    case PIN_SIDE_IN: return .input
+    case PIN_SIDE_OUT: return .output
+    default: return .auto
+    }
+}
+
 nonisolated private func indices(_ pointer: UnsafePointer<Int>?, _ count: Int) -> [Int] {
     guard let pointer else { return [] }
     return (0..<count).map { pointer[$0] }
@@ -521,7 +538,8 @@ extension CatalogPart {
         pins = (0..<part.pin_count).compactMap { index in
             guard let pin = part.pins?[index] else { return nil }
             return ChipPin(index: index, designator: string(pin.designator), name: string(pin.name),
-                           role: pinRole(pin.role), group: string(pin.group))
+                           role: pinRole(pin.role), group: string(pin.group),
+                           side: pinSide(pin.side))
         }
 
         if let logic = part.logic?.pointee {

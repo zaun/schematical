@@ -212,8 +212,9 @@ char *listing_line(const Part *part) {
     for (i = 0; i < part->pin_count; i++) {
         const PartPin *pin = &part->pins[i];
 
-        fprintf(out, "%s%s:%s:%s:%s", i > 0 ? "," : "", pin->designator, pin->name,
-                role_name(pin->role), pin->group);
+        fprintf(out, "%s%s:%s:%s:%s%s", i > 0 ? "," : "", pin->designator, pin->name,
+                role_name(pin->role), pin->group,
+                pin->side == PIN_SIDE_IN ? ":in" : pin->side == PIN_SIDE_OUT ? ":out" : "");
     }
     if (part->manufacturer != NULL) {
         fprintf(out, "|mfr=%s", part->manufacturer);

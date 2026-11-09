@@ -470,15 +470,19 @@ nonisolated struct ChipLayout: Hashable {
     }
 
     init(pins allPins: [ChipPin]) {
-        func byIndex(_ a: ChipPin, _ b: ChipPin) -> Bool { a.index < b.index }
         func pins(_ roles: ChipPinRole...) -> [ChipPin] {
-            allPins.filter { roles.contains($0.role) }.sorted(by: byIndex)
+            allPins.filter { roles.contains($0.role) }.sorted(by: Self.byName)
+        }
+        // Signal pins: left or right by role, unless the part file picks a side.
+        func signals(_ side: ChipPinSide, roles: ChipPinRole...) -> [ChipPin] {
+            allPins.filter { $0.side == side || ($0.side == .auto && roles.contains($0.role)) }
+                .sorted(by: Self.byName)
         }
 
         let power = pins(.power)
-        let inputs = pins(.input)
+        let inputs = signals(.input, roles: .input)
         let unused = pins(.noConnect)
-        let outputs = pins(.output, .inOut)
+        let outputs = signals(.output, roles: .output, .inOut)
         let ground = pins(.ground)
 
         let left = Self.stack(Self.grouped(power) + Self.grouped(inputs) + Self.grouped(unused))
@@ -514,11 +518,20 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
-    /// Splits pins (already in pinout order) by pin group: the default
-    /// group first, in pinout order, then each named group in the order its
-    /// first pin appears. A named group is a bus such as A0..A18, so its pins
-    /// are in name order (A2 before A10). With only default pins this is the
-    /// input unchanged, so blocks without groups lay out as before.
+    /// Pin name order, numbers compared as numbers (A2 before A10); pins
+    /// with the same name (GND, NC) in pinout order.
+    private static func byName(_ a: ChipPin, _ b: ChipPin) -> Bool {
+        switch a.name.localizedStandardCompare(b.name) {
+        case .orderedAscending: return true
+        case .orderedDescending: return false
+        case .orderedSame: return a.index < b.index
+        }
+    }
+
+    /// Splits pins (already in name order) by pin group: the default group
+    /// first, then each named group (a bus such as A0..A18, or one gate's
+    /// inputs) in the order of its first pin by name. Pins keep name order
+    /// within each group. With only default pins this is the input unchanged.
     private static func grouped(_ pins: [ChipPin]) -> [[ChipPin]] {
         var groups: [[ChipPin]] = [pins.filter(\.isInDefaultGroup)]
         var names: [String] = []
@@ -526,10 +539,7 @@ nonisolated struct ChipLayout: Hashable {
             names.append(pin.group)
         }
         for name in names {
-            groups.append(
-                pins.filter { $0.group == name }
-                    .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
-            )
+            groups.append(pins.filter { $0.group == name })
         }
         return groups
     }

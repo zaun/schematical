@@ -37,10 +37,14 @@ enum { PART_OBSOLETE = 1u << 0, PART_MILITARY = 1u << 1,
        PART_AUTOMOTIVE = 1u << 2, PART_ENHANCED = 1u << 3,
        PART_CERAMIC = 1u << 4 };
 
+/* The block side a pin is drawn on: PIN_SIDE_AUTO follows its role (inputs
+ * left; outputs and inouts right); "side" in the part file picks one. */
+typedef enum { PIN_SIDE_AUTO, PIN_SIDE_IN, PIN_SIDE_OUT } PinSide;
+
 /* A pin's position in Part.pins is its engine pin index. */
 typedef struct {
     const char *designator;  /* the package's label: "14" (numbered) or "A1" (ball) */
-    const char *name; PinRole role; const char *group;
+    const char *name; PinRole role; const char *group; PinSide side;
 } PartPin;
 
 /* Exactly one of these is set on a Part, matching its kind. */
