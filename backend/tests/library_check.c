@@ -2794,19 +2794,27 @@ static void check_tactile_cases(void) {
     expect_fail("joined names a pin used by two pins",
                 VTACT_DUP(",'momentary':true,'joined':[['A1','A']]"),
                 "joined[0]: pin name \"A\" is used by 2 pins; one is needed");
+    expect_fail("bodySize not a pair", VTACT(",'momentary':true,'bodySize':[6]"),
+                "\"bodySize\" must be [length, width] in mm, each above 0 and at most 100");
+    expect_fail("bodySize zero", VTACT(",'momentary':true,'bodySize':[6,0]"),
+                "\"bodySize\" must be [length, width] in mm, each above 0 and at most 100");
+    expect_fail("bodySize width first", VTACT(",'momentary':true,'bodySize':[3,6]"),
+                "\"bodySize\" gives the length (the larger side) first");
 
     library = expect_load("tactile switch keys",
-                          VTACT(",'momentary':true,'normallyClosed':true,'joined':[['A1','A2'],['B1','B2']]"));
+                          VTACT(",'momentary':true,'normallyClosed':true,'joined':[['A1','A2'],['B1','B2']],"
+                                "'bodySize':[6.2,3.5]"));
     part = part_library_find(library, "T1");
     CHECK(part != NULL && part->dip_switch->positions == 1 && part->dip_switch->momentary == 1 &&
-          part->dip_switch->normally_closed == 1 && part->dip_switch->joined == 2);
-    printf("ok   tactile switch momentary, normallyClosed, joined\n");
+          part->dip_switch->normally_closed == 1 && part->dip_switch->joined == 2 &&
+          part->dip_switch->body_um[0] == 6200 && part->dip_switch->body_um[1] == 3500);
+    printf("ok   tactile switch momentary, normallyClosed, joined, bodySize\n");
     part_library_destroy(library);
 
     library = expect_load("dip switch without the keys", VSWITCH(",'ratedVolts':24"));
     part = part_library_find(library, "S1");
     CHECK(part != NULL && part->dip_switch->momentary == 0 && part->dip_switch->normally_closed == 0 &&
-          part->dip_switch->joined == 0);
+          part->dip_switch->joined == 0 && part->dip_switch->body_um[0] == 0);
     printf("ok   dip switch has no tactile keys\n");
     part_library_destroy(library);
 }
