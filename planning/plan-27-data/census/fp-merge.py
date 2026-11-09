@@ -21,9 +21,11 @@ def objects(paths):
 def merge(target, paths):
     text = open(target).read()
     have = set(re.findall(r'"id":"([^"]+)"', text))
-    new = objects(paths)
+    # Objects already moved into the library (plan-27-E and later) are
+    # skipped; the rest must be new and distinct.
+    new = [o for o in objects(paths) if o["id"] not in have]
     ids = [o["id"] for o in new]
-    dup = sorted({i for i in ids if ids.count(i) > 1} | (set(ids) & have))
+    dup = sorted({i for i in ids if ids.count(i) > 1})
     if dup:
         print("duplicate ids:", ", ".join(dup))
         return 1
@@ -62,8 +64,8 @@ def expect(out_path, all_path, golden_path, paths):
     and their pads come from `footprint_check --print` (every footprint) minus
     the golden; the normal run's output may hold only extra/unused lines for
     new ids, its summary and the mismatch count."""
-    ids = {o["id"] for o in objects(paths)}
     golden = {l.split("|")[0] for l in open(golden_path).read().splitlines() if l}
+    ids = {o["id"] for o in objects(paths)} - golden
     printed = {}
     for line in open(all_path).read().splitlines():
         if line:

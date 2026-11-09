@@ -175,72 +175,80 @@ C&K	RS, COMAX	Surface Mount	RS-?285G05.*	2	A=1;B=2	SW-TACT-PTS636-SMD-J25	SCHEMA
 C&K	RS, COMAX	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-RS-COMAX-022	SCHEMATIC 1P-1T, RS022R_Dwg.pdf p.1
 C&K	SFS	Surface Mount	.*				
 C&K	TLS	Surface Mount	.*	2	A=1;B=2	SW-TACT-TLS	littelfuse-c-k-tactile-tls-series-datasheet p.1 circuit diagram (double-break bridge between the two unnumbered terminals)
-E-Switch	320	Through Hole	.*				
-E-Switch	GS	Through Hole	.*				
-E-Switch	GS	Through Hole, Right Angle	.*				
-E-Switch	LL3301	Surface Mount	.*				
-E-Switch	TL	Surface Mount	.*				
-E-Switch	TL1014	Surface Mount, Right Angle	.*				
-E-Switch	TL1015	Surface Mount	.*				
-E-Switch	TL1016	Surface Mount, Right Angle	.*				
-E-Switch	TL1017	Surface Mount	.*				
-E-Switch	TL1018	Surface Mount	.*				
-E-Switch	TL1030	Surface Mount	.*				
-E-Switch	TL1100	Through Hole	.*				
-E-Switch	TL1100	Through Hole, Right Angle	.*				
-E-Switch	TL1105	Through Hole	.*				
-E-Switch	TL1105	Through Hole, Right Angle	.*				
-E-Switch	TL1107	Through Hole	.*				
-E-Switch	TL1150	Through Hole	.*				
-E-Switch	TL1220	Through Hole	.*				
-E-Switch	TL1240	Through Hole	.*				
-E-Switch	TL1250	Through Hole, Right Angle	.*				
-E-Switch	TL1265	Through Hole	.*				
-E-Switch	TL3145	Surface Mount	.*				
-E-Switch	TL3300	Surface Mount	.*				
-E-Switch	TL3301	Surface Mount	.*				
-E-Switch	TL3302	Surface Mount	.*				
-E-Switch	TL3303	Surface Mount	.*				
-E-Switch	TL3304	Surface Mount	.*				
-E-Switch	TL3305	Surface Mount	.*				
-E-Switch	TL3312	Surface Mount	.*				
-E-Switch	TL3313	Surface Mount	.*				
-E-Switch	TL3315	Surface Mount	.*				
-E-Switch	TL3330	Surface Mount, Right Angle	.*				
-E-Switch	TL3336	Surface Mount, Right Angle	.*				
-E-Switch	TL3340	Surface Mount, Right Angle	.*				
-E-Switch	TL3342	Surface Mount	.*				
-E-Switch	TL3360	Surface Mount, Right Angle	.*				
-E-Switch	TL3365	Surface Mount	.*				
-E-Switch	TL3701	Surface Mount	.*				
-E-Switch	TL3780	Surface Mount	.*				
-E-Switch	TL3901	Surface Mount, Right Angle	.*				
-E-Switch	TL4100	Edge Mount, Right Angle	.*				
-E-Switch	TL4105	Edge Mount, Right Angle	.*				
-E-Switch	TL4110	Edge Mount, Right Angle	.*				
-E-Switch	TL4115	Surface Mount	.*				
-E-Switch	TL52	Through Hole	.*				
-E-Switch	TL58	Through Hole, Right Angle	.*				
-E-Switch	TL59	Through Hole	.*				
-E-Switch	TL6059	Through Hole	.*				
-E-Switch	TL6100	Through Hole	.*				
-E-Switch	TL6105	Through Hole	.*				
-E-Switch	TL6110	Through Hole, Right Angle	.*				
-E-Switch	TL6120	Surface Mount	.*				
-E-Switch	TL6150	Surface Mount	.*				
-E-Switch	TL6155	Through Hole, Right Angle	.*				
+E-Switch	320	Through Hole	.*	2	A=1;B=2	SW-TACT-320	320.04E11GRYVERT.pdf p.1 CIRCUIT: SPST (datasheet terminals 1 and 3; 3 is pin 2 here)
+E-Switch	GS	Through Hole	.*	4	A=1,3;B=2,4	SW-TACT-GS-THT	GS%20Series.pdf p.1 GS Schematic (1-3 joined, 2-4 joined)
+E-Switch	GS	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-GS-THT-RA	GS%20Series.pdf p.2 GSR Schematic (terminal 1 on the 1-3 side, terminal 2 on the 2-4 side; GSR has terminals 1 and 2 only)
+E-Switch	LL3301	Surface Mount	LL3301.*G(TR|TUBE)?	4	A=1,2;B=3,4	SW-TACT-TL3301-G	LL3301.pdf p.2 Schematic (1-2 joined, 3-4 joined); layout identical to TL3301
+E-Switch	LL3301	Surface Mount	LL3301.*J(TR|TUBE)?	4	A=1,2;B=3,4	SW-TACT-TL3301-J	LL3301.pdf p.3 Schematic (1-2 joined, 3-4 joined); layout identical to TL3301
+E-Switch	TL	Surface Mount	TL3305.*	4	A=1,2;B=3,4	SW-TACT-TL3305	TL3305.pdf p.2 Schematic (3-4 joined, 1-2 joined)
+E-Switch	TL	Surface Mount	TL6170.*	4	A=1,2;B=3,4	SW-TACT-TL6170	TL6170.pdf p.2 Schematic (1-2 joined, 3-4 joined)
+E-Switch	TL1014	Surface Mount, Right Angle	.*	4	A=1,3;B=2,4	SW-TACT-TL1014	TL1014.pdf p.2 Schematic (1-3 joined, 2-4 joined), same for A and B
+E-Switch	TL1015	Surface Mount	.*	2	A=1;B=2	SW-TACT-PTS820	TL1015.pdf p.2 Schematic (1, 2; G ground terminals separate)
+E-Switch	TL1016	Surface Mount, Right Angle	.*	4	A=1,2;B=3,4	SW-TACT-PTS840	TL1016.pdf p.2 Schematic (3-4 joined, 1-2 joined); p.3-p.5 same (p.4/p.5 add ground 5)
+E-Switch	TL1017	Surface Mount	.*	2	A=1;B=2	SW-TACT-TL1017	TL1017.pdf p.2 Schematic (1, 2); same p.3-p.5
+E-Switch	TL1018	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-PTS830-G	TL1018.pdf p.2 Schematic (1-2 joined, 3-4 joined); p.3 same for the ground-terminal option (5-6 ground, not drawn)
+E-Switch	TL1030	Surface Mount	TL1030.*AQJ	4	A=1,3;B=2,4	SW-TACT-TL1030	TL1030.pdf p.2 Schematic, without ground terminal (1-3 joined, 2-4 joined)
+E-Switch	TL1030	Surface Mount	TL1030.*BQJ	4	A=1,2;B=3,4	SW-TACT-TL1030-G	TL1030.pdf p.3 Schematic, with ground terminal (1-2 joined, 3-4 joined; 5 ground)
+E-Switch	TL1100	Through Hole	TL1100[ADEF]?F.*	4	A=1,2;B=3,4	SW-TACT-TL1100-THT	TL1100.pdf p.1 SCHEMATIC (3-4 joined, 1-2 joined); same p.2, p.3
+E-Switch	TL1100	Through Hole, Right Angle	TL1100C.*	2	A=1;B=2	SW-TACT-TL1100-THT-RA	TL1100.pdf p.2 TL 1100 C SCHEMATIC (2, 1)
+E-Switch	TL1105	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-TL1105-THT	TL1105.pdf p.2 SCHEMATIC (3-4 joined, 1-2 joined)
+E-Switch	TL1105	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-TL1105-THT-RA	TL1105.pdf p.3 SCHEMATIC (1, 2), right angle and J/JA
+E-Switch	TL1107	Through Hole	TL1107.*WQ	2	A=1;B=2	SW-TACT-TL1107-W	TL1107.pdf p.2 W TERMINATION SCHEMATIC (1, 2)
+E-Switch	TL1150	Through Hole	.*	2	A=1;B=2	SW-TACT-TL1150	TL1150.pdf p.1 SCHEMATIC (1, 2)
+E-Switch	TL1220	Through Hole	TL1220S2.*	4	A=1,2;B=3,4	SW-TACT-TL1220	TL1220.pdf p.8 Non-Ill. Schematic (1-2 joined, 3-4 joined)
+E-Switch	TL1240	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-TL1105-THT	TL1240.pdf p.2 SPST Schematic (3-4 joined, 1-2 joined; LED +/- not switch terminals)
+E-Switch	TL1250	Through Hole, Right Angle	.*	4	A=1,2;B=3,4	SW-TACT-TL1250	TL1250.pdf p.1 SCHEMATIC (1-2 joined, 3-4 joined; LED 5/6 not switch terminals)
+E-Switch	TL1265	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-TL1265	TL1265.pdf p.2 Schematic (4-3 joined, 2-1 joined; LED 5/6 not switch terminals)
+E-Switch	TL3145	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL3145	TL3145.pdf p.2 Schematic (1-2 joined, 3-4 joined)
+E-Switch	TL3300	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL3300	TL3300.pdf p.2 Schematic (3-4 joined, 1-2 joined; the PCB layout puts 1, 2 across the top row)
+E-Switch	TL3301	Surface Mount	TL3301.*G(TR|TUBE)?	4	A=1,2;B=3,4	SW-TACT-TL3301-G	TL3301.pdf p.2 Schematic (1-2 joined, 3-4 joined); same p.4, p.5
+E-Switch	TL3301	Surface Mount	TL3301.*J(TR|TUBE)?	4	A=1,2;B=3,4	SW-TACT-TL3301-J	TL3301.pdf p.3 Schematic (1-2 joined, 3-4 joined)
+E-Switch	TL3302	Surface Mount	TL3302.*G(/TR)?	2	A=1;B=2	SW-TACT-TL3302-G	TL3302.pdf p.2 gull wing SCHEMATIC (1, 2)
+E-Switch	TL3302	Surface Mount	TL3302.*J(/TR)?	2	A=1;B=2	SW-TACT-TL3302-J	TL3302.pdf p.2 J-lead SCHEMATIC (1, 2)
+E-Switch	TL3303	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL3303	TL3303.pdf p.1 TL 3303 SCHEMATIC (4-3 joined, 2-1 joined)
+E-Switch	TL3304	Surface Mount	TL3304.*G	4	A=1,2;B=3,4	SW-TACT-TL3304-G	TL3304.pdf p.2 Schematic (1-2 joined, 3-4 joined)
+E-Switch	TL3304	Surface Mount	TL3304.*J	4	A=1,2;B=3,4	SW-TACT-TL3304-J	TL3304.pdf p.3 Schematic (1-2 joined, 3-4 joined)
+E-Switch	TL3305	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL3305	TL3305.pdf p.2 Schematic (3-4 joined, 1-2 joined)
+E-Switch	TL3312	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-PTS540-SMD	TL3312.pdf p.2 Schematic (1-2 joined, 3-4 joined)
+E-Switch	TL3313	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL3313	TL3313.pdf p.1 SCHEMATIC (3-4 joined, 1-2 joined)
+E-Switch	TL3315	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL3315	TL3315.pdf p.1 SCHEMATIC (1-2 joined, 3-4 joined)
+E-Switch	TL3330	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-TL3330	TL3330.pdf p.1 SCHEMATIC (1, 2)
+E-Switch	TL3336	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-TL3336	TL3336.pdf p.2 Schematic (1, 2)
+E-Switch	TL3340	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-TL3340	TL3340.pdf p.1 SCHEMATIC (terminals 1 and 3 common, 2 the other side; footprint pin 1 has pads at terminals 1 and 3)
+E-Switch	TL3342	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL3342	TL3342.pdf p.1 SCHEMATIC (3-4 joined, 1-2 joined)
+E-Switch	TL3360	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-TL3360	TL3360.pdf p.2 Schematic (1, 2); same p.3, p.4
+E-Switch	TL3365	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL3365	TL3365.pdf p.2 Schematic (3-4 joined, 1-2 joined)
+E-Switch	TL3701	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL3701	TL3701AF100QG.pdf p.1 CIRCUIT: SPST (3-4 joined, 1-2 joined)
+E-Switch	TL3780	Surface Mount	.*	2	A=1;B=2	SW-TACT-KXT3	TL3780.pdf p.2 Schematic (1, 2)
+E-Switch	TL3901	Surface Mount, Right Angle	.*	4	A=1,3;B=2,4	SW-TACT-TL3901	TL3901.pdf p.2 Schematic (1-3 joined, 2-4 joined)
+E-Switch	TL4100	Edge Mount, Right Angle	TL4100.*G	2	A=1;B=2	SW-TACT-TL4100-G	TL4100.pdf p.2 Schematic (1, 2)
+E-Switch	TL4105	Edge Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-TL4105	TL4105.pdf p.2 Schematic (terminals 1 and 3 common, 2 the other side; footprint pin 1 has pads at terminals 1 and 3)
+E-Switch	TL4110	Edge Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-TL4110	TL4110.pdf p.2 Schematic (1, 2)
+E-Switch	TL4115	Surface Mount	.*	2	A=1;B=2	SW-TACT-TL4115	TL4115AF160Q.pdf p.1 CIRCUIT: SPST (1, 2); same TL4115AF220Q.pdf
+E-Switch	TL52	Through Hole	.*	2	A=1;B=2	SW-TACT-TL52	TL52.pdf p.1 SCHEMATIC (1, 2)
+E-Switch	TL58	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-TL58	TL59.pdf p.2 TL 58 Schematic (1, 2)
+E-Switch	TL59	Through Hole	.*	2	A=1;B=2	SW-TACT-TL59	TL59.pdf p.2 TL 59 CIRCUIT: SPST (2 terminals, not numbered)
+E-Switch	TL6059	Through Hole	.*	2	A=1;B=2	SW-TACT-TL6059	TL6059.pdf p.2/p.3 Schematic (2 terminals, not numbered)
+E-Switch	TL6100	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-TL6100	TL6100.pdf p.2 Schematic (3-4 joined, 1-2 joined)
+E-Switch	TL6105	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-TL6100	TL6105.pdf p.2 Schematic (3-4 joined, 1-2 joined; 5 earth ground, not a switch terminal)
+E-Switch	TL6110	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-TL6110	TL6110.pdf p.2 Schematic (1, 2)
+E-Switch	TL6120	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL6120	TL6120.pdf p.2 Schematic (3-4 joined, 1-2 joined)
+E-Switch	TL6150	Surface Mount	TL6150.*G	4	A=1,2;B=3,4	SW-TACT-TL3304-G	TL6150.pdf p.2 Schematic (1-2 joined, 3-4 joined)
+E-Switch	TL6150	Surface Mount	TL6150.*J	4	A=1,2;B=3,4	SW-TACT-TL6150-J	TL6150.pdf p.3 Schematic (1-2 joined, 3-4 joined)
+E-Switch	TL6155	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-TL6155	TL6155.pdf p.2 Schematic (1, 2)
 E-Switch	TL6190	Through Hole, Right Angle	.*				
-E-Switch	TL6200	Surface Mount	.*				
-E-Switch	TL6300	Through Hole	.*				
-E-Switch	TL6330	Surface Mount	.*				
-E-Switch	TL6340	Surface Mount, Right Angle	.*				
-E-Switch	TL6400	Surface Mount	.*				
-E-Switch	TL6700	Surface Mount	.*				
-E-Switch	TL6800	Surface Mount	.*				
-E-Switch	TL9100	Surface Mount	.*				
-E-Switch	TL9210	Surface Mount	.*				
-E-Switch	TL9320	Surface Mount	.*				
-E-Switch	TS	Surface Mount	.*				
+E-Switch	TL6200	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL6200	TL6200.pdf p.3 SMT Schematic (3-4 joined, 1-2 joined)
+E-Switch	TL6300	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-TL6300	TL6300.pdf p.2 Schematic (3-4 joined, 1-2 joined); same p.3
+E-Switch	TL6330	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL6330	TL6330.pdf p.2 Schematic (3-4 joined, 1-2 joined)
+E-Switch	TL6340	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-TL6340	TL6340.pdf p.2 Schematic (1, 2)
+E-Switch	TL6400	Surface Mount	.*	2	A=1;B=2	SW-TACT-TL6400	TL6400.pdf p.2 Schematic (1, 2)
+E-Switch	TL6700	Surface Mount	TL6700.*G	4	A=1,2;B=3,4	SW-TACT-TL6700-G	TL6700.pdf p.1 SCHEMATIC (3-4 joined, 1-2 joined)
+E-Switch	TL6700	Surface Mount	TL6700.*J	4	A=1,2;B=3,4	SW-TACT-TL6700-J	TL6700.pdf p.1 SCHEMATIC (3-4 joined, 1-2 joined)
+E-Switch	TL6800	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL6800	TL6800.pdf p.2 Schematic (1-2 joined, 3-4 joined)
+E-Switch	TL9100	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL9100	TL9100.pdf p.2 Schematic (3-4 joined, 1-2 joined)
+E-Switch	TL9210	Surface Mount	.*	2	A=1;B=2	SW-TACT-TL9210	TL9210.pdf p.2 SPST Schematic (1, 2)
+E-Switch	TL9320	Surface Mount	.*	2	A=1;B=2	SW-TACT-TL9320	TL9320.pdf p.2 Schematic (1, 2)
+E-Switch	TS	Surface Mount	.*	2	A=1;B=2	SW-TACT-TS	06-TS35M943160TR.pdf p.1 CIRCUIT: SPST (1, 2)
 E-Switch	TSM9W	Surface Mount	.*				
 NKK Switches	CB	Through Hole	.*				
 NKK Switches	CB3	Surface Mount	.*				

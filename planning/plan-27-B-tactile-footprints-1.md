@@ -223,13 +223,23 @@ Commit: d398dad
 
 ### Phase 3 — E-Switch (67 proxy lines, 330 rows)
 
-- [ ] Same tasks as Phase 2 for `eswitch/` (key per series from the
-      series datasheet's option list: the code's fields).
-- [ ] `footprints-B.json` gains the E-Switch objects; ids shared with C&K's
-      are reused, not redrawn (§ 4.2).
+- [x] Same tasks as Phase 2 for `eswitch/` (key per series from the
+      series datasheet's option list: the code's fields). E-Switch reader
+      (`work/eswitch/`, two passes); `merge-work.py B eswitch` →
+      `scheme-check.py --maker E-Switch`: `313 add, 8 skip, 0 still pending`;
+      `specs ok (321 add rows)`; one `skip` from `cannot-draw.tsv`
+      (TSM9W-5.2-260-TR: no terminal numbering).
+- [x] `footprints-B.json` gains the E-Switch objects; ids shared with C&K's
+      are reused, not redrawn (§ 4.2). 67 drawn, 5 found identical to C&K's
+      and replaced in the spec rows (`SW-TACT-TL1015 -> SW-TACT-PTS820`,
+      `TL1016 -> PTS840`, `TL1018 -> PTS830-G`, `TL3312 -> PTS540-SMD`, …);
+      `footprints-B.json` 132 objects (55 already in `Parts/footprints.json`
+      since plan-27-E); `fp-load.sh footprints-B.json` → `77 new footprints:
+      load ok` (Correction 6).
 
 Acceptance: no E-Switch row is `pending`; `specs-check.py --maker E-Switch` passes; objects load.
   Check: the Phase 2 command with `--maker E-Switch` (est. 3 min).
+  Result 2026-11-08: `specs ok (321 add rows)`; `77 new footprints: load ok`; E-Switch rows 321 add, 24 skip, 73 out, 0 pending.
 Commit: —
 
 ### Phase 4 — Omron / Aratas (13 proxy lines, 148 rows)
@@ -242,10 +252,11 @@ Commit: —
       (`footprints-B.json` 70 in all) → `fp-load.sh footprints-B.json`:
       `70 new footprints: load ok`. Omron's 4-terminal parts are `A=1,2;B=3,4`
       read from the bottom-view terminal figure and drawn top view.
-- [ ] Write § Summary: add / skip counts per maker, number of footprints.
+- [x] Write § Summary: add / skip counts per maker, number of footprints.
 
 Acceptance: no Omron row is `pending`; `specs-check.py` passes for all three makers; objects load.
   Check: `python3 -I planning/plan-27-data/census/specs-check.py --maker 'Aratas' && awk -F'\t' '$1 ~ /^(C&K|E-Switch|Aratas)/ && ($18=="pending" || $18=="candidate")' planning/plan-27-data/candidates.tsv | wc -l` → `specs ok`, `0` (est. 3 min).
+  Result 2026-11-08: `specs ok (144 add rows)`, `0`; all three makers: `specs ok (953 add rows)` (809 + 144).
 Commit: —
 
 ## Validation Plan
@@ -255,6 +266,7 @@ Commit: —
 - Runtime proof: none (data only); the footprints are drawn in the PCB view in K.
 - Doc sync: none (format unchanged).
 - Final gate (once, after Phase 4): `ctest --test-dir /tmp/logic-p27` → `100% tests passed` (est. 5 min; nothing was added to the library, so the count is T0).
+  Result 2026-11-08: `100% tests passed, 0 tests failed out of 28` (with E's C&K parts in the library; plan-27-E Correction 2).
 
 ## Decisions
 
@@ -299,8 +311,24 @@ Commit: —
 5. 2026-11-08 — `fp-load.sh` relied on `footprint_check`'s failure lines,
    which stop after 10, so any batch over 10 new footprints "failed"; it now
    takes the new footprints from `footprint_check --print` minus the golden.
+6. 2026-11-08 — after plan-27-E moved C&K's footprints into
+   `Parts/footprints.json`, `fp-load.sh footprints-B.json` would add them twice
+   (`duplicate ids`); it now skips objects the library already holds and
+   checks only the rest.
 
 ## Summary
+
+Result 2026-11-08:
+
+| Maker | add | regex skip | other skip | out | footprints |
+|---|---|---|---|---|---|
+| C&K | 488 | 9 | 15 (no PDF / cannot draw / wrong datasheet) | 60 | 55 |
+| E-Switch | 321 | 8 | 16 | 73 | 67 drawn, 62 new (5 shared with C&K) |
+| Omron (Aratas) | 144 | 6 | 10 | 91 | 15 |
+
+`footprints-B.json`: 132 objects. Spec rows of the three makers in
+`specs.tsv`; schemes 108 rows so far (with C's later). Every footprint loads;
+every `add` row has exactly one spec row.
 
 The risk is silent drawing errors and the one-pattern-per-series shortcut; the
 loader and the K images catch the first, not the second. Untouched:

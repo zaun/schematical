@@ -1,0 +1,5 @@
+mpn	decision	reason	circuit	mounting	actuator	rating
+5GSH9358222	out	lit				
+DTSA62NV	keep	adts6-adtsm-ktsc6.pdf p.1 (1 pole 1 throw, 50 mA 12 VDC); right-angle ADTSA6 per APEM drawing B7606; not in the key (no DTSA prefix) -> skip	SPST-NO	Through Hole, Right Angle	Standard	0.05A @ 12VDC
+ADTS21N	keep	as-adts21n-10576027.pdf p.1 DTS(M)-2: off-momentary on, 50 mA 12 VDC, through board; not in the key (prefix DTS) -> skip	SPST-NO	Through Hole	Standard	0.05A @ 12VDC
+ADTSM25KSVB	keep	its PDF (AS-ADTSM25KSVB.pdf) is the ADTSA6 drawing; adts6-adtsm-ktsc6.pdf p.1-2: ADTSM2 = 12 x 12 surface mount, 1 pole 1 throw, 50 mA 12 VDC; KS and K are not 12 x 12 codes -> skip	SPST-NO	Surface Mount	Standard	0.05A @ 12VDC
