@@ -68,17 +68,23 @@ final class TactileSwitchTests: XCTestCase {
         }
     }
 
-    /// Switch → Tactile lists exactly the leaves Normal Close and Normal Open;
-    /// Switch → DIP still lists its parts directly.
+    /// Switch → Tactile groups its parts by body size ("6 × 6 mm"), smallest
+    /// first; Switch → DIP still lists its parts directly.
     func testDrawerLeaves() throws {
         let groups = TestSupport.catalog.groups(matching: DrawerFilter())
         let switchGroup = try XCTUnwrap(groups.first { $0.category == "Switch" })
         let tactile = try XCTUnwrap(switchGroup.subcategories.first { $0.subcategory == "Tactile" })
-        XCTAssertEqual(tactile.functions.map(\.function), ["Normal Close", "Normal Open"])
         XCTAssertTrue(tactile.parts.isEmpty)
+        XCTAssertGreaterThan(tactile.functions.count, 10)
+        XCTAssertTrue(tactile.functions.contains { $0.function == "6 × 6 mm" })
+        XCTAssertTrue(tactile.functions.contains { $0.function == "12 × 12 mm" })
+        let lengths = tactile.functions.map { Int($0.function.prefix { $0.isNumber }) ?? 0 }
+        XCTAssertEqual(lengths, lengths.sorted(), "sizes smallest first")
         for function in tactile.functions {
+            XCTAssertNotNil(function.function.range(of: #"^\d+ × \d+ mm$"#, options: .regularExpression),
+                            function.function)
             for part in function.parts {
-                XCTAssertEqual(part.isNormallyClosed, function.function == "Normal Close", part.name)
+                XCTAssertEqual(part.drawerLeaf, function.function, part.name)
             }
         }
         let dip = try XCTUnwrap(switchGroup.subcategories.first { $0.subcategory == "DIP" })
@@ -96,6 +102,7 @@ final class TactileSwitchTests: XCTestCase {
         XCTAssertEqual(rows["Terminals"], "2")
         XCTAssertNotNil(rows["Actuator"])
         XCTAssertNotNil(rows["Rating"])
+        XCTAssertNotNil(rows["Body"])
         XCTAssertNil(rows["Positions"])
     }
 
