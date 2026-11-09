@@ -884,6 +884,8 @@
     {"id": "cy74fct646t", "url": "https://www.ti.com/lit/ds/symlink/cy74fct646t.pdf"},
     {"id": "cy74fct652t", "url": "https://www.ti.com/lit/ds/symlink/cy74fct652t.pdf"},
     {"id": "cy74fct827t", "url": "https://www.ti.com/lit/ds/symlink/cy74fct827t.pdf"},
+    {"id": "cy7c64225", "url": "https://www.infineon.com/assets/row/public/documents/30/49/infineon-cy7c64225-usb-to-uart-bridge-controller-datasheet-datasheet-en.pdf"},
+    {"id": "cy7c65213", "url": "https://www.infineon.com/assets/row/public/documents/30/49/infineon-cy7c65213-usb-uart-lp-bridge-controller-datasheet-en.pdf"},
     {"id": "d4608jf", "url": "https://optoelectronics.liteon.com/upload/download/DS30-2001-317/D4608JF.pdf"},
     {"id": "dac0800", "url": "https://www.ti.com/lit/ds/symlink/dac0800.pdf"},
     {"id": "dac0808", "url": "https://www.ti.com/lit/ds/symlink/dac0808.pdf"},
@@ -1265,6 +1267,7 @@
     {"id": "max3108", "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX3108.pdf"},
     {"id": "max3109", "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX3109.pdf"},
     {"id": "max3140", "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX3140.pdf"},
+    {"id": "mcp2200", "url": "https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP2200-USB-2.0-to-UART-Protocol-Converter-with-GPIO-DS20002228E.pdf"},
     {"id": "mjtp1117", "url": "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/7171/MJTP1117.pdf"},
     {"id": "nhd-0216bz-fl-ybw", "url": "https://newhavendisplay.com/content/specs/NHD-0216BZ-FL-YBW.pdf"},
     {"id": "nhd-0216k1z-fl-ybw", "url": "https://newhavendisplay.com/content/specs/NHD-0216K1Z-FL-YBW.pdf"},
@@ -3074,6 +3077,13 @@
     {"id": "xr16v654", "url": "https://www.maxlinear.com/ds/16v654_v101_050407.pdf"},
     {"id": "xr16v798", "url": "https://www.maxlinear.com/ds/xr16v798_101_070108.pdf"},
     {"id": "xr20m1170", "url": "https://www.maxlinear.com/ds/xr20m1170.pdf"},
-    {"id": "xr20m1280", "url": "https://www.maxlinear.com/ds/xr20m1280.pdf"}
+    {"id": "xr20m1280", "url": "https://www.maxlinear.com/ds/xr20m1280.pdf"},
+    {"id": "xr21b1411", "url": "https://www.maxlinear.com/ds/xr21b1411.pdf"},
+    {"id": "xr21b1420", "url": "https://www.maxlinear.com/ds/xr21b1420.pdf"},
+    {"id": "xr21b1422", "url": "https://www.maxlinear.com/ds/xr21b1422.pdf"},
+    {"id": "xr21b1424", "url": "https://www.maxlinear.com/ds/xr21b1424.pdf"},
+    {"id": "xr21v1410", "url": "https://www.maxlinear.com/ds/xr21v1410.pdf"},
+    {"id": "xr21v1412", "url": "https://www.maxlinear.com/ds/xr21v1412.pdf"},
+    {"id": "xr21v1414", "url": "https://www.maxlinear.com/Document/index?id=1416&productId=9548"}
   ]
 }
