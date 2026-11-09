@@ -66,6 +66,8 @@ def why(index, url):
     code = entry[1]
     if code == "timeout":
         return f"timeout, {host}"
+    if code == "truncated":
+        return f"download cut off every time, {host}"
     if code in ("000", "none", ""):
         return f"no answer, {host}"
     if code.startswith("2") or code.startswith("3"):

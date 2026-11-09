@@ -1,0 +1,326 @@
+maker	series	mounting	mpn_regex	terminals	pins	footprint	note
+APEM Inc.	*		.*				
+APEM Inc.	-		.*				
+APEM Inc.	ADTS	Surface Mount	.*				
+APEM Inc.	ADTS	Through Hole	.*				
+APEM Inc.	ADTS	Through Hole, Right Angle	.*				
+APEM Inc.	ADTS3	Surface Mount	.*				
+APEM Inc.	AMPT	Surface Mount	.*				
+APEM Inc.	APTC	Surface Mount, Right Angle	.*				
+APEM Inc.	MJTP	Surface Mount	.*				
+APEM Inc.	MJTP	Through Hole	.*				
+APEM Inc.	MJTP	Through Hole, Right Angle	.*				
+APEM Inc.	Multimec® 3	Surface Mount	.*				
+APEM Inc.	Multimec™ 3A	Surface Mount	.*				
+Alps Alpine	SKHC	Through Hole	.*				
+Alps Alpine	SKHH	Through Hole	.*				
+Alps Alpine	SKHH	Through Hole, Right Angle	.*				
+Alps Alpine	SKHL	Through Hole	.*				
+Alps Alpine	SKHL	Through Hole, Right Angle	.*				
+Alps Alpine	SKHU	Surface Mount	.*				
+Alps Alpine	SKPS	Surface Mount	.*				
+Alps Alpine	SKQE	Through Hole	.*				
+Alps Alpine	SKQG	Surface Mount	.*				
+Alps Alpine	SKQJ	Through Hole	.*				
+Alps Alpine	SKQM	Surface Mount	.*				
+Alps Alpine	SKQY	Surface Mount	.*				
+Alps Alpine	SKRA	Surface Mount	.*				
+Alps Alpine	SKRB	Surface Mount	.*				
+Alps Alpine	SKRK	Surface Mount	.*				
+Alps Alpine	SKRM	Surface Mount	.*				
+Alps Alpine	SKRN	Surface Mount	.*				
+Alps Alpine	SKRP	Surface Mount	.*				
+Alps Alpine	SKRP	Surface Mount, Right Angle	.*				
+Alps Alpine	SKRR	Surface Mount	.*				
+Alps Alpine	SKRT	Surface Mount, Right Angle	.*				
+Alps Alpine	SKRW	Surface Mount	.*				
+Alps Alpine	SKSC	Surface Mount	.*				
+Alps Alpine	SKSC	Surface Mount, Right Angle	.*				
+Alps Alpine	SKSG	Surface Mount	.*				
+Alps Alpine	SKSG	Surface Mount, Right Angle	.*				
+Alps Alpine	SKSH	Surface Mount	.*				
+Alps Alpine	SKSL	Surface Mount, Right Angle	.*				
+Alps Alpine	SKSN	Edge Mount, Right Angle	.*				
+Alps Alpine	SKST	Surface Mount	.*				
+Alps Alpine	SKSU	Surface Mount, Right Angle	.*				
+Alps Alpine	SKSV	Surface Mount	.*				
+Alps Alpine	SKSW	Surface Mount	.*				
+Alps Alpine	SKTA	Surface Mount	.*				
+Alps Alpine	SKTD	Surface Mount, Right Angle	.*				
+Alps Alpine	SKTH	Surface Mount	.*				
+Alps Alpine	SKTH	Surface Mount, Right Angle	.*				
+Alps Alpine	SKTQ	Surface Mount	.*				
+Aratas (Formerly Omron Components)	*		.*				
+Aratas (Formerly Omron Components)	B3AL	Surface Mount	.*				
+Aratas (Formerly Omron Components)	B3F	Through Hole	.*				
+Aratas (Formerly Omron Components)	B3F	Through Hole, Right Angle	.*				
+Aratas (Formerly Omron Components)	B3FS	Surface Mount	.*				
+Aratas (Formerly Omron Components)	B3FS-4	Surface Mount	.*				
+Aratas (Formerly Omron Components)	B3S	Surface Mount	.*				
+Aratas (Formerly Omron Components)	B3SE	Surface Mount	.*				
+Aratas (Formerly Omron Components)	B3SL	Surface Mount	.*				
+Aratas (Formerly Omron Components)	B3SN	Surface Mount	.*				
+Aratas (Formerly Omron Components)	B3U	Surface Mount	.*				
+Aratas (Formerly Omron Components)	B3U	Surface Mount, Right Angle	.*				
+Aratas (Formerly Omron Components)	B3W	Through Hole	.*				
+Aratas (Formerly Omron Components)	B3WN	Through Hole	.*				
+C&K	*		.*				
+C&K	-		.*				
+C&K	-	Surface Mount	.*				
+C&K	ATS	Surface Mount	.*				
+C&K	ED	Surface Mount	.*				
+C&K	ED	Through Hole	.*				
+C&K	EDM	Surface Mount	.*				
+C&K	EDM	Through Hole	.*				
+C&K	EL2	Surface Mount	.*				
+C&K	KMR2	Surface Mount	.*				
+C&K	KMR4	Surface Mount	.*				
+C&K	KMR6	Surface Mount	.*				
+C&K	KMR7	Surface Mount	.*				
+C&K	KMS	Surface Mount, Right Angle	.*				
+C&K	KMT	Surface Mount	.*				
+C&K	KMT0	Surface Mount	.*				
+C&K	KSA	Through Hole	.*				
+C&K	KSC	-	.*				
+C&K	KSC	Surface Mount	.*				
+C&K	KSC-OF	Surface Mount	.*				
+C&K	KSC-PF	Surface Mount	.*				
+C&K	KSC-ST	Surface Mount	.*				
+C&K	KSC-TE	Surface Mount	.*				
+C&K	KSC-XA	Surface Mount	.*				
+C&K	KSC10	Surface Mount	.*				
+C&K	KSC11	Surface Mount	.*				
+C&K	KSC2	Surface Mount	.*				
+C&K	KSC4 TE	Surface Mount	.*				
+C&K	KSC4D	Surface Mount	.*				
+C&K	KSC4V2	Through Hole, Right Angle	.*				
+C&K	KSC5	Surface Mount	.*				
+C&K	KSC9	Surface Mount	.*				
+C&K	KSE	Surface Mount	.*				
+C&K	KSJ	Through Hole	.*				
+C&K	KSR	Surface Mount	.*				
+C&K	KSS	Surface Mount, Right Angle	.*				
+C&K	KST	Surface Mount	.*				
+C&K	KT	Surface Mount	.*				
+C&K	KT	Surface Mount, Right Angle	.*				
+C&K	KXT3	Surface Mount	.*				
+C&K	NanoT	Surface Mount	.*				
+C&K	NanoT	Surface Mount, Right Angle	.*				
+C&K	PTS125	Surface Mount	.*				
+C&K	PTS125	Through Hole	.*				
+C&K	PTS525	Surface Mount	.*				
+C&K	PTS526	Surface Mount	.*				
+C&K	PTS530	Surface Mount	.*				
+C&K	PTS540	Surface Mount	.*				
+C&K	PTS636	Surface Mount	.*				
+C&K	PTS636	Through Hole	.*				
+C&K	PTS641	Surface Mount	.*				
+C&K	PTS645	Surface Mount	.*				
+C&K	PTS645	Surface Mount, Right Angle	.*				
+C&K	PTS645	Through Hole	.*				
+C&K	PTS645	Through Hole, Right Angle	.*				
+C&K	PTS647	Surface Mount	.*				
+C&K	PTS810	Surface Mount	.*				
+C&K	PTS815	Surface Mount	.*				
+C&K	PTS820	Surface Mount	.*				
+C&K	PTS830	Surface Mount	.*				
+C&K	PTS840	Surface Mount, Right Angle	.*				
+C&K	PTS841	Surface Mount, Right Angle	.*				
+C&K	PTS845	Surface Mount, Right Angle	.*				
+C&K	PTS847	Edge Mount, Right Angle	.*				
+C&K	PTS850	Surface Mount, Right Angle	.*				
+C&K	RK	Surface Mount	.*				
+C&K	RKC2	Surface Mount	.*				
+C&K	RS, COMAX	Surface Mount	.*				
+C&K	RS, COMAX	Through Hole, Right Angle	.*				
+C&K	SFS	Surface Mount	.*				
+C&K	TLS	Surface Mount	.*				
+E-Switch	320	Through Hole	.*				
+E-Switch	GS	Through Hole	.*				
+E-Switch	GS	Through Hole, Right Angle	.*				
+E-Switch	LL3301	Surface Mount	.*				
+E-Switch	TL	Surface Mount	.*				
+E-Switch	TL1014	Surface Mount, Right Angle	.*				
+E-Switch	TL1015	Surface Mount	.*				
+E-Switch	TL1016	Surface Mount, Right Angle	.*				
+E-Switch	TL1017	Surface Mount	.*				
+E-Switch	TL1018	Surface Mount	.*				
+E-Switch	TL1030	Surface Mount	.*				
+E-Switch	TL1100	Through Hole	.*				
+E-Switch	TL1100	Through Hole, Right Angle	.*				
+E-Switch	TL1105	Through Hole	.*				
+E-Switch	TL1105	Through Hole, Right Angle	.*				
+E-Switch	TL1107	Through Hole	.*				
+E-Switch	TL1150	Through Hole	.*				
+E-Switch	TL1220	Through Hole	.*				
+E-Switch	TL1240	Through Hole	.*				
+E-Switch	TL1250	Through Hole, Right Angle	.*				
+E-Switch	TL1265	Through Hole	.*				
+E-Switch	TL3145	Surface Mount	.*				
+E-Switch	TL3300	Surface Mount	.*				
+E-Switch	TL3301	Surface Mount	.*				
+E-Switch	TL3302	Surface Mount	.*				
+E-Switch	TL3303	Surface Mount	.*				
+E-Switch	TL3304	Surface Mount	.*				
+E-Switch	TL3305	Surface Mount	.*				
+E-Switch	TL3312	Surface Mount	.*				
+E-Switch	TL3313	Surface Mount	.*				
+E-Switch	TL3315	Surface Mount	.*				
+E-Switch	TL3330	Surface Mount, Right Angle	.*				
+E-Switch	TL3336	Surface Mount, Right Angle	.*				
+E-Switch	TL3340	Surface Mount, Right Angle	.*				
+E-Switch	TL3342	Surface Mount	.*				
+E-Switch	TL3360	Surface Mount, Right Angle	.*				
+E-Switch	TL3365	Surface Mount	.*				
+E-Switch	TL3701	Surface Mount	.*				
+E-Switch	TL3780	Surface Mount	.*				
+E-Switch	TL3901	Surface Mount, Right Angle	.*				
+E-Switch	TL4100	Edge Mount, Right Angle	.*				
+E-Switch	TL4105	Edge Mount, Right Angle	.*				
+E-Switch	TL4110	Edge Mount, Right Angle	.*				
+E-Switch	TL4115	Surface Mount	.*				
+E-Switch	TL52	Through Hole	.*				
+E-Switch	TL58	Through Hole, Right Angle	.*				
+E-Switch	TL59	Through Hole	.*				
+E-Switch	TL6059	Through Hole	.*				
+E-Switch	TL6100	Through Hole	.*				
+E-Switch	TL6105	Through Hole	.*				
+E-Switch	TL6110	Through Hole, Right Angle	.*				
+E-Switch	TL6120	Surface Mount	.*				
+E-Switch	TL6150	Surface Mount	.*				
+E-Switch	TL6155	Through Hole, Right Angle	.*				
+E-Switch	TL6190	Through Hole, Right Angle	.*				
+E-Switch	TL6200	Surface Mount	.*				
+E-Switch	TL6300	Through Hole	.*				
+E-Switch	TL6330	Surface Mount	.*				
+E-Switch	TL6340	Surface Mount, Right Angle	.*				
+E-Switch	TL6400	Surface Mount	.*				
+E-Switch	TL6700	Surface Mount	.*				
+E-Switch	TL6800	Surface Mount	.*				
+E-Switch	TL9100	Surface Mount	.*				
+E-Switch	TL9210	Surface Mount	.*				
+E-Switch	TL9320	Surface Mount	.*				
+E-Switch	TS	Surface Mount	.*				
+E-Switch	TSM9W	Surface Mount	.*				
+NKK Switches	CB	Through Hole	.*				
+NKK Switches	CB3	Surface Mount	.*				
+NKK Switches	HP02	Through Hole	.*				
+NKK Switches	HP03	Surface Mount	.*				
+NKK Switches	JB	Through Hole	.*				
+NKK Switches	JB	Through Hole, Right Angle	.*				
+NKK Switches	JF	Through Hole	.*				
+Panasonic Industry	EVP0A	Surface Mount	.*				
+Panasonic Industry	EVP0B	Surface Mount	.*				
+Panasonic Industry	EVP3A	Surface Mount	.*				
+Panasonic Industry	EVPAA	Surface Mount	.*				
+Panasonic Industry	EVPAD	Surface Mount	.*				
+Panasonic Industry	EVPAE	Edge Mount, Right Angle	.*				
+Panasonic Industry	EVPAF	Surface Mount	.*				
+Panasonic Industry	EVPAK	Surface Mount, Right Angle	.*				
+Panasonic Industry	EVPAS	Surface Mount	.*				
+Panasonic Industry	EVPAT	Edge Mount, Right Angle	.*				
+Panasonic Industry	EVPAW	Surface Mount	.*				
+Panasonic Industry	EVPAY	Surface Mount	.*				
+Panasonic Industry	EVPBB	Surface Mount	.*				
+Panasonic Industry	EVPBD	Surface Mount	.*				
+Panasonic Industry	EVPBF	Surface Mount	.*				
+Panasonic Industry	EVPBK	Surface Mount	.*				
+Panasonic Industry	EVPBL	Surface Mount	.*				
+Panasonic Industry	EVPBT	Surface Mount	.*				
+Panasonic Industry	EVPBX	Surface Mount	.*				
+Panasonic Industry	EVPCD	Surface Mount	.*				
+Panasonic Industry	EVQ3P2	Surface Mount	.*				
+Panasonic Industry	EVQ6Q2	Surface Mount	.*				
+Panasonic Industry	EVQ7Q2	Surface Mount	.*				
+Panasonic Industry	EVQ9P7	Surface Mount, Right Angle	.*				
+Panasonic Industry	EVQP0	Surface Mount	.*				
+Panasonic Industry	EVQP0	Through Hole	.*				
+Panasonic Industry	EVQP1	Surface Mount	.*				
+Panasonic Industry	EVQP2	Surface Mount	.*				
+Panasonic Industry	EVQP3	Surface Mount, Right Angle	.*				
+Panasonic Industry	EVQP4	Edge Mount, Right Angle	.*				
+Panasonic Industry	EVQP7	Surface Mount, Right Angle	.*				
+Panasonic Industry	EVQP9	Surface Mount	.*				
+Panasonic Industry	EVQPE	Surface Mount	.*				
+Panasonic Industry	EVQPE	Through Hole	.*				
+Panasonic Industry	EVQPL	Surface Mount	.*				
+Panasonic Industry	EVQPN	Surface Mount	.*				
+Panasonic Industry	EVQPU	Surface Mount, Right Angle	.*				
+Panasonic Industry	EVQPV	Through Hole	.*				
+Panasonic Industry	EVQQ1	Surface Mount	.*				
+Panasonic Industry	EVQQ2	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	*		.*				
+Same Sky (Formerly CUI Devices)	TS01	Through Hole	.*				
+Same Sky (Formerly CUI Devices)	TS02	Through Hole	.*				
+Same Sky (Formerly CUI Devices)	TS03	Through Hole	.*				
+Same Sky (Formerly CUI Devices)	TS04	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS05	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS06	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS07	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS08	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS09	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS10	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS11	Through Hole, Right Angle	.*				
+Same Sky (Formerly CUI Devices)	TS12	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS13	Through Hole	.*				
+Same Sky (Formerly CUI Devices)	TS14	Through Hole	.*				
+Same Sky (Formerly CUI Devices)	TS15	Through Hole	.*				
+Same Sky (Formerly CUI Devices)	TS16	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS17	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS18	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS20	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS21	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS22	Edge Mount, Right Angle	.*				
+Same Sky (Formerly CUI Devices)	TS23	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS24	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS30	Surface Mount, Right Angle	.*				
+Same Sky (Formerly CUI Devices)	TS31	Surface Mount, Right Angle	.*				
+Same Sky (Formerly CUI Devices)	TS32	Surface Mount, Right Angle	.*				
+Same Sky (Formerly CUI Devices)	TS33	Surface Mount, Right Angle	.*				
+Same Sky (Formerly CUI Devices)	TS34	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS35	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS36	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS37	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS40	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS41	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS42	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS44	Surface Mount	.*				
+Same Sky (Formerly CUI Devices)	TS45	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	*		.*				
+TE Connectivity ALCOSWITCH Switches	-	Edge Mount, Right Angle	.*				
+TE Connectivity ALCOSWITCH Switches	-	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	-	Surface Mount, Right Angle	.*				
+TE Connectivity ALCOSWITCH Switches	-	Through Hole	.*				
+TE Connectivity ALCOSWITCH Switches	Extended Life	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	FSM	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	FSM	Through Hole	.*				
+TE Connectivity ALCOSWITCH Switches	FSM100 ~ 104	Through Hole	.*				
+TE Connectivity ALCOSWITCH Switches	FSM100 ~ 104	Through Hole, Right Angle	.*				
+TE Connectivity ALCOSWITCH Switches	FSM1LP	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	FSMCD	Through Hole	.*				
+TE Connectivity ALCOSWITCH Switches	FSMCT	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	FSMJ	Through Hole	.*				
+TE Connectivity ALCOSWITCH Switches	FSMJM	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	FSMJMLP	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	FSMJRT	Through Hole	.*				
+TE Connectivity ALCOSWITCH Switches	FSMJSM	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	FSMJSMA	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	FSMJSML	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	FSMJSMXL	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	FSMLPA	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	FSMMSH	Surface Mount, Right Angle	.*				
+TE Connectivity ALCOSWITCH Switches	FSMRACD	Through Hole, Right Angle	.*				
+TE Connectivity ALCOSWITCH Switches	FSMRAJ	Through Hole, Right Angle	.*				
+TE Connectivity ALCOSWITCH Switches	FSMRAJS	Through Hole, Right Angle	.*				
+TE Connectivity ALCOSWITCH Switches	FSMSM	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	FSMSMLPA	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	LPT	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	STS	Surface Mount	.*				
+TE Connectivity ALCOSWITCH Switches	STS	Through Hole	.*				
+TE Connectivity ALCOSWITCH Switches	STS	Through Hole, Right Angle	.*				
+TE Connectivity ALCOSWITCH Switches	UMS	Surface Mount	.*				
+Würth Elektronik	WS-TASU	Edge Mount, Right Angle	.*				
+Würth Elektronik	WS-TASU	Surface Mount, Right Angle	.*				
+Würth Elektronik	WS-TASV	Surface Mount	.*				
+Würth Elektronik	WS-TATU	Through Hole, Right Angle	.*				
+Würth Elektronik	WS-TATV	Through Hole	.*				

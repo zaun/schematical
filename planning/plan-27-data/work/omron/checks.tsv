@@ -1,1 +1,6 @@
 mpn	decision	reason	circuit	mounting	actuator	rating
+B3FS6003H	keep		SPST-NO	Surface Mount	Standard	0.05A @ 24VDC
+B3W 1000G	keep		SPST-NO	Through Hole	Standard	0.05A @ 24VDC
+B3WZ0038M	out	lit				
+B3WZ0084C	out	lit				
+B3WZ0137H	out	lit				

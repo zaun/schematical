@@ -3,6 +3,8 @@
 usage: python3 -I merge-work.py <letter B|C> <slug>...
 
 For each work/<slug>/ (BRIEF.md):
+  cannot-draw.tsv-> candidates.tsv: those add / pending rows become `skip`
+                    ("cannot draw a footprint: <reason>")
   checks.tsv     -> candidates.tsv: a `check;` row becomes `out` (reason
                     `check; circuit|lit|mounting`) or keeps its decision with
                     circuit, mounting, actuator, rating filled
@@ -107,6 +109,13 @@ def main(letter, slugs):
                 else:
                     for k in ("circuit", "mounting", "actuator", "rating"):
                         r[k] = c[k]
+        # parts the reader could not draw: skip, with the reader's reason
+        cannot, _ = read(os.path.join(work, "cannot-draw.tsv"))
+        for c in cannot:
+            for r in by_mpn.get(c["mpn"], []):
+                if r["decision"] in ("add", "pending"):
+                    r["decision"] = "skip"
+                    r["reason"] = f"cannot draw a footprint: {c['reason']}"
         # schemes
         rows, _ = read(os.path.join(work, "schemes.tsv"))
         have = {(s["maker"], s["series"], s["regex"]) for s in schemes}

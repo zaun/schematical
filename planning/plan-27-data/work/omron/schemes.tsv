@@ -4,3 +4,7 @@ Aratas (Formerly Omron Components)	B3F	B3F-(1002|1022|1052|1062|1072|1102|1122|3
 Aratas (Formerly Omron Components)	B3F	B3F-(1[01][025][025]|4[01][05][05]|5[01][05][01])S	B3F.pdf p.1-2 (Ordering Information: stick-packaged models, suffix S)
 Aratas (Formerly Omron Components)	B3W	B3W-(10(0[02]|2[02]|5[02])|11(0[02]|5[02])|4[01](0[05]|5[05]))	en-b3w.pdf p.1 (List of Models, bags)
 Aratas (Formerly Omron Components)	B3W	B3W-(1[01][05][02]|4[01][05][05])S?	B3W.pdf p.1 (Ordering Information: bags, and sticks with suffix S)
+Aratas (Formerly Omron Components)	B3AL	B3AL-100[0-6]P(-MS)?	B3AL%20Data%20Sheet%20%281%29.pdf p.1 (Model Number Legend B3AL-100@@-@: force 0-6, packaging P (embossed tape, the only symbol), special spec MS)
+Aratas (Formerly Omron Components)	B3SE	B3SE-1002P(-R100)?	en-b3se.pdf p.1 (List of Model: B3SE-1002P, B3SE-1002P-R100 only)
+Aratas (Formerly Omron Components)	*	B3FS-10[015][02]P?	om-b3fs6003h.pdf p.1 (Ordering Information: B3FS-1000/1002/1010/1012/1050/1052 and their P versions; the DigiKey row B3FS6003H is not printed)
+Aratas (Formerly Omron Components)	*	B3W-(10(0[02]|2[02]|5[02])|11(0[02]|5[02])|4[01](0[05]|5[05]))	om-b3w1000g.pdf p.1 (= en-b3w.pdf; List of Models; the DigiKey row B3W 1000G is not printed)

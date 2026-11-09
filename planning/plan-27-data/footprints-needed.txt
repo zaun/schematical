@@ -284,11 +284,11 @@
     2  Same Sky / TS44  |  Surface Mount  |  6.20mm x 6.20mm  |  J Lead
     3  Same Sky / TS45  |  Surface Mount  |  8.30mm x 8.30mm  |  SMD (SMT) Tab
     1  TE Connectivity ALCOSWITCH Switches / -  |  Edge Mount, Right Angle  |  4.50mm x 2.10mm  |  SMD (SMT) Tab
-    9  TE Connectivity ALCOSWITCH Switches / -  |  Surface Mount  |  3.00mm x 2.00mm; 6.20mm x 6.20mm; 7.60mm x 7.30mm  |  Gull Wing; J Lead; SMD (SMT) Tab
+   10  TE Connectivity ALCOSWITCH Switches / -  |  Surface Mount  |  3.00mm x 2.00mm; 6.00mm x 6.00mm; 6.20mm x 6.20mm; 7.60mm x 7.30mm  |  Gull Wing; J Lead; SMD (SMT) Tab
     6  TE Connectivity ALCOSWITCH Switches / -  |  Surface Mount, Right Angle  |  5.40mm x 5.60mm; 5.60mm x 4.00mm; 6.40mm x 6.30mm; 9.70mm x 5.50mm  |  Gull Wing; SMD (SMT) Tab
     2  TE Connectivity ALCOSWITCH Switches / -  |  Through Hole  |  12.00mm x 12.00mm  |  PC Pin
    12  TE Connectivity ALCOSWITCH Switches / Extended Life  |  Surface Mount  |  6.20mm x 6.20mm  |  Gull Wing; J Lead
-    2  TE Connectivity ALCOSWITCH Switches / FSM  |  Surface Mount  |  12.00mm x 12.00mm; 6.00mm x 6.00mm  |  Gull Wing; J Lead
+    8  TE Connectivity ALCOSWITCH Switches / FSM  |  Surface Mount  |  12.00mm x 12.00mm; 6.00mm x 6.00mm  |  Gull Wing; J Lead
     1  TE Connectivity ALCOSWITCH Switches / FSM  |  Through Hole  |  6.00mm x 3.50mm  |  PC Pin
     5  TE Connectivity ALCOSWITCH Switches / FSM100 ~ 104  |  Through Hole  |  12.00mm x 12.00mm  |  PC Pin
     1  TE Connectivity ALCOSWITCH Switches / FSM100 ~ 104  |  Through Hole, Right Angle  |  12.00mm x 12.00mm  |  PC Pin
@@ -310,7 +310,11 @@
     1  TE Connectivity ALCOSWITCH Switches / FSMRAJS  |  Through Hole, Right Angle  |  6.90mm x 6.80mm  |  PC Pin
     2  TE Connectivity ALCOSWITCH Switches / FSMSM  |  Surface Mount  |  6.00mm x 3.50mm  |  Gull Wing
     1  TE Connectivity ALCOSWITCH Switches / FSMSMLPA  |  Surface Mount  |  6.00mm x 4.00mm  |  Gull Wing
-   46  TE Connectivity ALCOSWITCH Switches / LPT  |  Surface Mount  |  2.60mm x 1.60mm; 2.80mm x 1.90mm; 3.00mm x 2.60mm; 3.70mm x 3.70mm; 4.60mm x 4.40mm; 4.80mm x 4.80mm; 5.20mm x 5.20mm  |  Gull Wing; J Lead; SMD (SMT) Tab
+   50  TE Connectivity ALCOSWITCH Switches / LPT  |  Surface Mount  |  2.60mm x 1.60mm; 2.80mm x 1.90mm; 3.00mm x 2.00mm; 3.00mm x 2.60mm; 3.70mm x 3.70mm; 4.60mm x 4.40mm; 4.80mm x 4.80mm; 5.20mm x 5.20mm  |  Gull Wing; J Lead; SMD (SMT) Tab
+   23  TE Connectivity ALCOSWITCH Switches / STS  |  Surface Mount  |  6.20mm x 6.20mm; 6.45mm x 6.45mm  |  Gull Wing; J Lead
+    6  TE Connectivity ALCOSWITCH Switches / STS  |  Through Hole  |  6.00mm x 6.00mm; 8.00mm x 8.00mm  |  PC Pin
+    1  TE Connectivity ALCOSWITCH Switches / STS  |  Through Hole, Right Angle  |  4.50mm x 3.65mm  |  PC Pin
+    2  TE Connectivity ALCOSWITCH Switches / UMS  |  Surface Mount  |  3.00mm x 2.00mm  |  SMD (SMT) Tab
     1  Würth Elektronik / WS-TASU  |  Edge Mount, Right Angle  |  6.20mm x 2.55mm  |  SMD (SMT) Tab
    10  Würth Elektronik / WS-TASU  |  Surface Mount, Right Angle  |  3.50mm x 2.90mm; 4.45mm x 2.55mm; 5.50mm x 3.50mm  |  J Lead; SMD (SMT) Tab
    91  Würth Elektronik / WS-TASV  |  Surface Mount  |  12.00mm x 12.00mm; 3.00mm x 2.60mm; 3.50mm x 2.90mm; 3.70mm x 3.70mm; 4.20mm x 3.20mm; 4.50mm x 4.50mm; 4.60mm x 2.80mm; 4.70mm x 3.50mm; 5.00mm x 5.00mm; 6.00mm x 3.50mm; 6.00mm x 3.80mm; 6.00mm x 6.00mm; 6.20mm x 4.10mm; 6.20mm x 6.20mm  |  Gull Wing; J Lead; SMD (SMT) Tab

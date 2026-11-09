@@ -88,3 +88,15 @@ C&K	RS, COMAX	Surface Mount	RS-?285G05.*	2	A=1;B=2	SW-TACT-PTS636-SMD-J25	SCHEMA
 C&K	RS, COMAX	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-RS-COMAX-022	SCHEMATIC 1P-1T, RS022R_Dwg.pdf p.1
 C&K	*	Surface Mount	KSC421G70SHLFS	4	A=1,4;B=2,3	SW-TACT-KSC-G	check row; G Terminations, ksc4.pdf p.1
 C&K	*	Surface Mount	KSC441JST2LFS	4	A=1,4;B=2,3	SW-TACT-EL2	check row; J Terminations, ksc4.pdf p.1
+C&K	KMR4	Surface Mount	.*	4	A=1,4;B=2,3	SW-TACT-KMR2	littelfuse-c-k-tactile-kmr4-series-datasheet p.2 electrical diagram (4-1, 3-2; G ground pin 5 not drawn)
+C&K	KSC2	Surface Mount	KSC[^GJ]*J.*	4	A=1,4;B=2,3	SW-TACT-EL2	circuit: J Terminations, littelfuse-c-k-tactile-ksc2-series-datasheet p.1
+C&K	KSC2	Surface Mount	KSC[^GJ]*G.*	4	A=1,4;B=2,3	SW-TACT-KSC-G	circuit: G Terminations, littelfuse-c-k-tactile-ksc2-series-datasheet p.1
+C&K	KSC9	Surface Mount	KSC[^GJ]*J.*	4	A=1,4;B=2,3	SW-TACT-EL2	circuit: J Terminations, littelfuse-c-k-tactile-ksc9-series-datasheet p.1
+C&K	KSC9	Surface Mount	KSC[^GJ]*G.*	4	A=1,4;B=2,3	SW-TACT-KSC-G	circuit: G Terminations, littelfuse-c-k-tactile-ksc9-series-datasheet p.1
+C&K	-	Surface Mount	KSC241J SP DELTA LFS	4	A=1,4;B=2,3	SW-TACT-EL2	check row; J Terminations, littelfuse-c-k-tactile-ksc2-series-datasheet p.1
+C&K	*	Surface Mount	KSC1131JLFS|KSC1151JLFS	4	A=1,4;B=2,3	SW-TACT-EL2	check rows; J Terminations, ck-ksc1131jlfs-56626421.pdf p.1 (= KSC11 datasheet)
+C&K	*	Surface Mount	KSC701JLFS	4	A=1,4;B=2,3	SW-TACT-EL2	check row; J Terminations, ck-ksc701jlfs-49746848.pdf p.1 (= KSC7 datasheet)
+C&K	*	Surface Mount	KSR223GNCLFG	2	A=1;B=2	SW-TACT-ATS	check row; KSR NC, 2 terminals, ck-ksr223gnclfg.pdf p.1 (= KSR datasheet)
+C&K	*	Surface Mount	KSR2M3GLFG	2	A=1;B=2	SW-TACT-ATS	check row; 2 terminals, switch symbol on the Recommended PCB layout, ck-ksr2m3glfg-44487341.pdf p.2
+C&K	*	Surface Mount	PTS645SM43SMTR92LFS	4	A=1,2;B=3,4	SW-TACT-PTS645-SMD	check row; pts645.pdf p.3 schematic (p.3 identical to littelfuse-c-k-tactile-pts645-series-datasheet p.3)
+C&K	*	Through Hole, Right Angle	PTS645VK582LFS|PTS645VL832LFS	2	A=1;B=2	SW-TACT-PTS645-THT-RA	check rows; ck-pts645vl832lfs.pdf p.2 V VERTICAL schematic and PCB layout (2x dia 1 at 4.5, 2.55 before the dia 1.3 legs at 7: same as the PTS645V datasheet)

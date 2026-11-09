@@ -220,55 +220,81 @@ anything else.
       383; per maker 572 … 147). The (maker, part) set and every first-pass
       decision are identical to the planning file (`diff` of `cut -f1,2,18` →
       no lines); 19 rows differ only in other columns (stock).
-- [ ] `python3 -I census/fetch.py /tmp/p27/cand.tsv /tmp/p27/pdf` then
+- [x] `python3 -I census/fetch.py /tmp/p27/cand.tsv /tmp/p27/pdf` then
       `python3 -I census/textscan.py /tmp/p27/cand.tsv /tmp/p27/pdf
       planning/plan-27-data/candidates.tsv` (≈ 15 min: te.com is serial).
-- [ ] `python3 -I planning/plan-27-data/census/footprint-lines.py
+      Four fetch runs over the bad network (Correction 7): `739 urls; 685 are
+      PDFs`, then 150 truncated files deleted and fetched again (te.com's last
+      file still retrying when the scan ran; one TE URL short). textscan
+      (`/tmp/p27/scripts/finishA.sh`): candidate `2337`, with a PDF `2229`
+      (§ 2: 2186), verbatim `1197` (§ 2: 1112; bounded and NFKC, Correction
+      6), dead `0`, check rows with a PDF `29` / verbatim `11`, distinct URLs
+      `662` (§ 2: 619).
+- [x] `python3 -I planning/plan-27-data/census/footprint-lines.py
       planning/plan-27-data/candidates.tsv > /tmp/p27/fp.txt`, then diff the
       data lines of `/tmp/p27/fp.txt` against `footprints-needed.txt`.
+      `318` proxy lines (planning `314`); the diff is TE only: `- / Surface
+      Mount` 9 → 10, `FSM / Surface Mount` 2 → 8, `LPT / Surface Mount` 46 →
+      50, and new `STS` (Surface Mount 23, Through Hole 6, Through Hole Right
+      Angle 1) and `UMS / Surface Mount` 2 (te.com files that were not
+      fetched at planning time). `footprints-needed.txt` is replaced by the
+      new file.
 
 Acceptance: `candidates.tsv` is current and its counts are in § Corrections or
 equal to § 2.
   Check: `awk -F'\t' '$18=="candidate"' planning/plan-27-data/candidates.tsv | wc -l` → the § 2 number or the corrected one (est. 20 min incl. 229 DigiKey calls and the downloads; nothing smaller re-measures stock).
-Commit: —
+  Result 2026-11-08 (before Phase 3 rewrote the column): `2337` = § 2.
+Commit: 76ab90b (census, scan rule), 7fc81fe (fetch fix); the data in the Phase 2–5 commit
 
 ### Phase 2 — Place the datasheets
 
-- [ ] Write `planning/plan-27-data/census/place.py` per § 4.
-- [ ] Run it for every row with `pdf` = 1; the PDFs land under
+- [x] Write `planning/plan-27-data/census/place.py` per § 4 (one file per
+      distinct content: two URL spellings of one document share a file,
+      Correction 8).
+- [x] Run it for every row with `pdf` = 1; the PDFs land under
       `datasheets/switch/tactile/<maker>/` and `datasheets.tsv` is written.
-- [ ] `git add` only those files.
+      `511 PDFs placed for 685 URLs`; after Phase 3, re-run: `510 PDFs placed
+      for 684 URLs` (370 MB).
+- [x] `git add` only those files (`datasheets/switch/tactile/`).
 
 Acceptance: every row with `pdf` = 1 has its PDF in the tree.
   Check: `python3 -I planning/plan-27-data/census/place.py --verify planning/plan-27-data/candidates.tsv` → `0 missing` and `ls datasheets/switch/tactile/*/*.pdf | wc -l` equals `awk -F'\t' '$20==1 {print $17}' planning/plan-27-data/candidates.tsv | sort -u | wc -l` (619 at planning time) (est. 2 min).
+  Corrected (Correction 8): the file count equals the distinct SHA-256 of `datasheets.tsv`, not the distinct URLs. Result: `684 URLs, 510 PDFs, 0 missing, 0 unused`; `ls … | wc -l` → `510`; distinct SHA-256 → `510` (after deleting the one file only skip rows used).
 Commit: —
 
 ### Phase 3 — First decisions
 
-- [ ] Write `planning/plan-27-data/census/decide.py` applying § 3 rules 1–5 to
+- [x] Write `planning/plan-27-data/census/decide.py` applying § 3 rules 1–5 to
       `candidates.tsv`: `pdf` = 1 and `hit` = 1 and `dead` = 0 → `add`;
       `pdf` = 1 and `hit` = 0 → `pending`; `pdf` = 0 → `skip` with the
       reason from `/tmp/p27/pdf/index.tsv` (`no URL`, `product page`,
       `HTTP 403`, `HTTP 404`, `timeout`, `S3 AccessDenied`); `dead` = 1 →
       `out`. `check` rows follow the same mapping (circuit and lit are
-      checked in B/C).
-- [ ] Run it; record the counts of each `decision` in § Summary.
-- [ ] `datasheets/skipped-parts.md`: add the section "Tactile switches
+      checked in B/C). Rule 3 also: a PDF from a distributor that is not
+      DigiKey or Waldom → `skip` (`distributor copy`, Correction 4).
+- [x] Run it; record the counts of each `decision` in § Summary.
+      `1208 add`, `1048 pending`, `111 skip`, `383 out`.
+- [x] `datasheets/skipped-parts.md`: add the section "Tactile switches
       (plan-27)" with one table row per skip reason: the part numbers, the
       series, "would have gone into `switch` / Switch → Tactile", the reason
-      (format of the existing sections).
-- [ ] Delete from the tree any PDF no `add` or `pending` row uses
+      (format of the existing sections). Written by `decide.py --skipped`
+      (one row per maker and reason; B/C regenerate it): `111 skip rows written`.
+- [x] Delete from the tree any PDF no `add` or `pending` row uses
       (`decide.py` prints them); list in `obsolete-not-included.md` a PDF
       whose every part is `out` for `datasheet status` (expected: none).
+      `place.py --verify` listed one: `unused datasheets/switch/tactile/apem/ATMG534VTR.pdf`
+      (only ATM533VTR / ATM534VTR used it, both `skip`, distributor copy); deleted.
+      `dead` = 0 on every row, so `obsolete-not-included.md` gets nothing.
 
 Acceptance: no row is `candidate` or `check`; every `skip` is in
 `skipped-parts.md`.
   Check: `awk -F'\t' 'NR>1 && ($18=="candidate" || $18=="check")' planning/plan-27-data/candidates.tsv | wc -l` → 0, and `python3 -I planning/plan-27-data/census/decide.py --verify-skipped` → `0 skip rows missing from skipped-parts.md` (est. 1 min).
+  Result: `0`; `0 skip rows missing from skipped-parts.md`.
 Commit: —
 
 ### Phase 5 — Maker-hosted datasheet URLs (added, Correction 4)
 
-- [ ] For every distinct `datasheet_url` of the `add` and `pending` rows whose
+- [x] For every distinct `datasheet_url` of the `add` and `pending` rows whose
       host is not the maker's own site (`mm.digikey.com`, `waldomemea.com`;
       `census/maker-urls.py --list` prints them), look for the same document
       on the maker's own site and record it in
@@ -279,25 +305,30 @@ Commit: —
       `ckswitches.com` (C&K), `e-switch.com` and its S3 buckets,
       `omron.com` (Aratas), `panasonic` hosts, `alpsalpine.com`,
       `sameskydevices.com`, `te.com`, `apem.com`, `nkkswitches.com`,
-      `we-online.com`.
-- [ ] `python3 -I planning/plan-27-data/census/maker-urls.py --verify` →
-      every non-maker URL has a row.
+      `we-online.com`. Two lookup readers (`/tmp/p27/maker-urls-1.tsv`,
+      `-2.tsv`), every found URL downloaded and compared with the DigiKey
+      copy; three doubtful finds cleared by the main session (SKHH: unread
+      DigiKey copy; EVP-BB: catalog no longer lists the B000 parts; APEM
+      5GSH: a viewer page, not a PDF). Successor series datasheets count as
+      the current revision.
+- [x] `python3 -I planning/plan-27-data/census/maker-urls.py --verify` →
+      every non-maker URL has a row. `86 non-maker URLs, 59 with a maker URL, 0 missing`.
 
 Acceptance: every non-maker-hosted datasheet of a kept row has a decided URL.
-  Check: `python3 -I planning/plan-27-data/census/maker-urls.py --verify` → `0 missing` (est. 1 min).
+  Check: `python3 -I planning/plan-27-data/census/maker-urls.py --verify` → `0 missing` (est. 1 min). Result: `0 missing`.
 Commit: —
 
 ### Phase 4 — `specs.tsv` skeleton
 
-- [ ] Write `planning/plan-27-data/specs.tsv`: header `maker series mounting
+- [x] Write `planning/plan-27-data/specs.tsv`: header `maker series mounting
       mpn_regex terminals pins footprint note`, then one row per distinct
       (maker, series, mounting) of the `add` and `pending` rows, `mpn_regex`
       `.*`, the last four columns empty (B and C fill `terminals`, `pins`,
-      `footprint`; formats in plan-27-B § 4.3).
-- [ ] `planning/plan-27-data/README.md`: the file map of this folder.
+      `footprint`; formats in plan-27-B § 4.3). `census/specs-skeleton.py` → `325 rows`.
+- [x] `planning/plan-27-data/README.md`: the file map of this folder.
 
 Acceptance: `specs.tsv` has one row per (maker, series, mounting) group.
-  Check: `awk -F'\t' '$18=="add" || $18=="pending" {print $1"|"$5"|"$8}' planning/plan-27-data/candidates.tsv | sort -u | wc -l` equals `awk 'END{print NR-1}' planning/plan-27-data/specs.tsv` (est. 1 min).
+  Check: `awk -F'\t' '$18=="add" || $18=="pending" {print $1"|"$5"|"$8}' planning/plan-27-data/candidates.tsv | sort -u | wc -l` equals `awk 'END{print NR-1}' planning/plan-27-data/specs.tsv` (est. 1 min). Result: `325` = `325`.
 Commit: —
 
 ## Validation Plan
@@ -308,6 +339,7 @@ Commit: —
 - Runtime proof: not applicable; no part is loaded.
 - Doc sync: `datasheets/skipped-parts.md`, `datasheets/obsolete-not-included.md`.
 - Final gate (once, after Phase 4): `cmake --build /tmp/logic-p27 -j8 && ctest --test-dir /tmp/logic-p27` → `100% tests passed` (est. 5 min; proves the data-only letter changed nothing).
+  Result 2026-11-08: `100% tests passed, 0 tests failed out of 28`.
 
 ## Decisions
 
@@ -381,6 +413,11 @@ Commit: —
    now keeps or accepts a file only when `pdfinfo` opens it, allows 180 s per
    transfer and tries each method twice. The broken files were deleted and
    fetched again.
+8. 2026-11-08 — **Phase 2's count check compared files with URLs.** Several
+   URLs serve one document (`littelfuse-c-k-tactile-pts636-series-datasheet`
+   and `c-amp-k-tactile-pts636-series-datasheet`, same `assetguid`), and
+   `place.py` stores each distinct content once, so the file count equals the
+   distinct SHA-256 of `datasheets.tsv` (510), not the distinct URLs (684).
 5. 2026-11-08 — the census hit a degraded network: DigiKey connects timed out
    (`UND_ERR_CONNECT_TIMEOUT`) while the 600 MB of PDF downloads ran, and
    searches took 76 s each (`curl`, `/products/v4/search/keyword`, 5
@@ -389,6 +426,13 @@ Commit: —
    maker at a time (`/tmp/p27/scripts/one.sh`, the same call as `list.sh`).
 
 ## Summary
+
+Result 2026-11-08: the census equals § 2 (2750 parts; 2337 candidate, 30
+check, 383 out). After Phase 3: **1208 add, 1048 pending, 111 skip, 383
+out**; 510 PDFs (370 MB) in `datasheets/switch/tactile/`; 86 DigiKey/Waldom
+datasheet URLs, 59 with a maker URL; 325 (maker, series, mounting) groups in
+`specs.tsv`. The skips: no PDF (product pages, dead links, a download cut
+off every time) and the two distributor copies.
 
 The risk in A is volume, not design: 2337 candidate rows, 619 PDFs, 167
 series whose part numbers come from an ordering-code key rather than a list.

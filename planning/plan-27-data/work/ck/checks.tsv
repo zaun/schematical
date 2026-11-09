@@ -4,3 +4,15 @@ KMR241GULCLFS	keep	kmr2.pdf p.1 (KMR241G ULC LFS: SPST-NO, SMT gull wing, silver
 NANOT160BP	keep		SPST-NO	Surface Mount, Right Angle	Standard	0.02A @ 15VDC
 KSC421G70SHLFS	keep	ksc4.pdf p.1: KSC421G 70 SH LFS, 1 make contact SPST N.O., gullwing SMT, silver 50 mA 32 VDC	SPST-NO	Surface Mount	Standard	0.05A @ 32VDC
 KSC441JST2LFS	keep	ksc4.pdf p.1: KSC441J ST2 LFS (KSC4 acoustic version), 1 make contact SPST N.O., J-bend SMT, silver 50 mA 32 VDC	SPST-NO	Surface Mount	Standard	0.05A @ 32VDC
+KSC1131JLFS	keep	ck-ksc1131jlfs-56626421.pdf p.1-2: KSC1131J LFS, SPST N.O., J bend SMT, silver 50 mA 32 VDC	SPST-NO	Surface Mount	Standard	0.05A @ 32VDC
+KSC1151JLFS	keep	ck-ksc1151jlfs-56626422.pdf p.1-2: KSC1151J LFS, SPST N.O., J bend SMT, silver 50 mA 32 VDC	SPST-NO	Surface Mount	Standard	0.05A @ 32VDC
+KSC221JCBLFS	keep	ck-ksc221jcblfs-55418322.pdf p.1: KSC2, SPST N.O., SMT, silver 50 mA 32 VDC (number not in the key: skip by scheme)	SPST-NO	Surface Mount	Standard	0.05A @ 32VDC
+KSC241J SP DELTA LFS	keep	littelfuse-c-k-tactile-ksc2-series-datasheet p.1/p.3: KSC241J SP DELTA LFS, SPST N.O., J bend SMT, silver 50 mA 32 VDC	SPST-NO	Surface Mount	Standard	0.05A @ 32VDC
+KSC261JLFS	keep	littelfuse-c-k-tactile-ksc2-series-datasheet p.1: KSC2, SPST N.O., SMT, silver 50 mA 32 VDC (force 6 not in the key: skip by scheme)	SPST-NO	Surface Mount	Standard	0.05A @ 32VDC
+KSC441GRTOL2LFS	keep	ck-ksc441grtol2lfs.pdf p.1: KSC OF, tact switch SMT J (number not in the key: skip by scheme)	SPST-NO	Surface Mount	Standard	0.05A @ 32VDC
+KSC701JLFS	keep	ck-ksc701jlfs-49746848.pdf p.1/p.3: KSC701J LFS, SPST N.O., J bend SMT, silver 50 mA 32 VDC	SPST-NO	Surface Mount	Standard	0.05A @ 32VDC
+KSR223GNCLFG	keep	ck-ksr223gnclfg.pdf p.1-3: KSR223G NC LFG, normally closed, gull wing SMT, gold 10 mA 32 VDC	SPST-NC	Surface Mount	Standard	0.01A @ 32VDC
+KSR2M3GLFG	keep	ck-ksr2m3glfg-44487341.pdf p.1: KSR2M3G LFG detect switch, N.O., gull wing SMT, gold 10 mA 32 VDC	SPST-NO	Surface Mount	Standard	0.01A @ 32VDC
+PTS645SM43SMTR92LFS	keep	pts645.pdf p.1/p.3: PTS645SM43SMTR92 LFS, SPST N.O., SMT gull wing, 50 mA 12 VDC	SPST-NO	Surface Mount	Standard	0.05A @ 12VDC
+PTS645VK582LFS	keep	ck-pts645vl832lfs.pdf p.1-2 (PTS645 V vertical, through hole, 50 mA 12 VDC); its DigiKey link is the PTS525 datasheet (.pdf), which does not cover it	SPST-NO	Through Hole, Right Angle	Standard	0.05A @ 12VDC
+PTS645VL832LFS	keep	ck-pts645vl832lfs.pdf p.1-2: PTS645 V vertical, through hole, 50 mA 12 VDC	SPST-NO	Through Hole, Right Angle	Standard	0.05A @ 12VDC

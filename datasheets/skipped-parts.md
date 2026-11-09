@@ -252,3 +252,29 @@ In-stock TI parts of DigiKey category 690 (`node scripts/digikey.js --in-stock`,
 | BQ3285ESS-N, BQ3285ESS-TR1 | — | `rtc` / Interface → RTC | Not in its datasheet's ordering table (its package is not documented) |
 | BQ3285LCS | — | `rtc` / Interface → RTC | No TI datasheet (ti.com has no product page; DigiKey links a Rochester Electronics copy) |
 
+## Tactile switches (plan-27)
+
+In-stock Active / Last Time Buy tactile switches of the ten makers of plan-27
+(`planning/plan-27-data/candidates.tsv`, DigiKey category Tactile Switches) left
+out. This section is written by `planning/plan-27-data/census/decide.py --skipped`.
+
+| Part(s) | Series | Would have gone into | Why skipped |
+|---|---|---|---|
+| 3FTH946 | APEM Inc. * | `switch` / Switch → Tactile | check; no datasheet PDF (product page, not a PDF, www.apem.com) |
+| ATM533VTR, ATM534VTR | APEM Inc. ATM | `switch` / Switch → Tactile | distributor copy (www.ariat-tech.tw), not the maker's, DigiKey's or Waldom's |
+| MTP1149 | APEM Inc. MTP | `switch` / Switch → Tactile | no datasheet PDF (HTTP 404, www.apem.com) |
+| ADTS31NV, ADTS32NV, MJTP1138BTR, MJTP1138BTUBE, MJTP1193, MJTP1232, MJTP1234A, MJTP1250 | APEM Inc. ADTS3, MJTP | `switch` / Switch → Tactile | no datasheet PDF (no URL) |
+| SKHMQKE010, SKHMQLE010, SKHMQME010, SKRAAKE010, SKRAALE010, SKRAAME010, SKRAAQE010, SKSVCBE010 | Alps Alpine SKHM, SKRA, SKSV | `switch` / Switch → Tactile | no datasheet PDF (HTTP 403, tech.alpsalpine.com) |
+| SKRABCE010, SKRABGE010, SKSGAFE010, SKSGPGE010 | Alps Alpine SKRA, SKSG | `switch` / Switch → Tactile | no datasheet PDF (no URL) |
+| SKHWALA010, SKHWAPA010, SKPMAME010, SKPMANE010, SKPMAPE010, SKPMBHE010, SKPRAAE010, SKPSAAE010, SKPSACE010, SKPSAEE010, SKQBARA010, SKQBASA010, SKSTADE010, SKSUBBE010, SKSUBCE010, SKTQABE010, SKTQADE010, SKTRAEE010, SKTTABE010 | Alps Alpine SKHW, SKPM, SKPR, SKPS, SKQB, SKST, SKSU, SKTQ, SKTR, SKTT | `switch` / Switch → Tactile | no datasheet PDF (product page, not a PDF, tech.alpsalpine.com) |
+| B3F 1000G, B3F 1006F, B3F 1050C, B3F 1125R, B3F 3102M, B3F 5001G, B3SN3004R, B3W 1100C, B3WZ0034G, B3WZ4023C | Aratas B3F, B3S, B3W | `switch` / Switch → Tactile | no datasheet PDF (S3 AccessDenied, omronfs.omron.com) |
+| KSC SLT 221J LFS, KSC SLT 223G LFG, KSC SLT 223J LFG, KSC SLT 241G LFS, KSC SLT 243G LFG, KSC2TE31J LFS, KSC2TE41J LFS, Y33R411N5FP | C&K KSC-SLT, KSC-TE, KSJ | `switch` / Switch → Tactile | no datasheet PDF (no URL) |
+| TLE1105AF160Q, TLE1105BF160Q, TLE1105BF250Q, TLE1105DF160Q, TLE1105F160Q, TLE1105SPF160R | E-Switch TL1105 | `switch` / Switch → Tactile | no datasheet PDF (HTTP 404, configured-product-images.s3.amazonaws.com) |
+| LL1105AF065Q, TL1105F160QWITHSTRAIGHT, TL1105WF160QZBRACKET, TL1105XF160QBLKSTEM | E-Switch LL1105, TL1105 | `switch` / Switch → Tactile | no datasheet PDF (no URL) |
+| TL1105CF160Q, TL1105RF160Q94VO, TL1140AF070Q, TL3300AF160QSSDOME | E-Switch TL1105, TL1140, TL3300 | `switch` / Switch → Tactile | no datasheet PDF (no answer, spec_sheets.e-switch.com) |
+| TL1105EF250Q7.3RED | E-Switch TL1105 | `switch` / Switch → Tactile | no datasheet PDF (product page, not a PDF, www.e-switch.com) |
+| EVQ-6Q202W, EVQ-6Q203W, EVQ-P9102M, EVQ-P9102W | Panasonic Industry EVQ6Q2, EVQP9 | `switch` / Switch → Tactile | no datasheet PDF (no answer, industrial.panasonic.com) |
+| EVP-BL0ADF000, EVP-BL2A1F000, EVP-BL9A2F000 | Panasonic Industry EVPBL | `switch` / Switch → Tactile | no datasheet PDF (product page, not a PDF, na.industrial.panasonic.com) |
+| EVP-AF5B65, EVP-AF7B65, EVP-AFFB65, EVP-AVAA1A, EVP-AYG0BA, EVP-BB4A9B000, EVQ-3PLA15, EVQ-5PLA08, EVQ-5PN04K, EVQ-5PN05K, EVQ-9P105M, EVQ-P44B3M, EVQ-P46B3M, EVQ-P4HB3B, EVQ-P4KB3Q, EVQ-P4MB3K, EVQ-PE504K, EVQ-PE505K, EVQ-PE604T, EVQ-PLFA08, EVQ-PLKA08, EVQ-PLWA15, EVQ-PT5A15, EVQ-PT9A15, EVQ-PVA05K, EVQ-PVG05K | Panasonic Industry EVPAF, EVPAV, EVPAY, EVPBB, EVQ3PL, EVQ5PL, EVQ5PN, EVQ9P, EVQP4, EVQPE, EVQPL, EVQPT, EVQPV | `switch` / Switch → Tactile | no datasheet PDF (product page, not a PDF, www3.panasonic.biz) |
+| FSMH | TE Connectivity ALCOSWITCH Switches FSM | `switch` / Switch → Tactile | no datasheet PDF (HTTP 403, www.te.com) |
+| 430162073826 | Würth Elektronik WS-TASV | `switch` / Switch → Tactile | no datasheet PDF (HTTP 404, www.we-online.com) |
