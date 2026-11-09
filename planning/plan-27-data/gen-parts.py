@@ -47,6 +47,9 @@ MAKERS = [("C&K", "Littelfuse"), ("E-Switch", "E-Switch"), ("Aratas", "Aratas"),
           ("TE ", "TE Connectivity"), ("APEM", "APEM"), ("NKK", "NKK Switches"),
           ("Würth", "Würth Elektronik"), ("Test Maker", "Test Maker")]
 
+# DigiKey actuator names shown under another name.
+ACTUATORS = {"Without": "No actuator"}
+
 PACKAGES = {
     "Surface Mount": "SMD",
     "Through Hole": "THT",
@@ -194,6 +197,7 @@ def build(p, makers):
         act = r["actuator"].strip()
         if not act or act == "-":
             raise Refuse(f"{mpn}: no actuator")
+        act = ACTUATORS.get(act, act)
         size = body_size(r["outline"], fps[spec["footprint"]], mpn)
         did = f"tact_{'nc' if nc else 'no'}_{t}t_{num(v)}v_{slug(act)}_{size[0]}x{size[1]}"
         dev = devices.setdefault(did, {"nc": nc, "t": t, "v": v, "act": act, "size": size, "pinouts": {},
@@ -302,7 +306,7 @@ def render(devices):
             "    {",
             f'      "id": {q(did)},',
             f'      "function": {q("Normal Close" if d["nc"] else "Normal Open")},',
-            f'      "description": {q(f"Tactile switch, SPST normally {kind}, {d["t"]} terminals, {num(d["v"])} V, {d["act"]} actuator, {d["size"][0]} × {d["size"][1]} mm")},',
+            f'      "description": {q(f"Tactile switch, SPST normally {kind}, {d["t"]} terminals, {num(d["v"])} V, {d["act"] if d["act"].endswith(" actuator") else d["act"] + " actuator"}, {d["size"][0]} × {d["size"][1]} mm")},',
             '      "drawer": ["Switch","Tactile"],',
             f'      "note": {q("Rating from DigiKey " + chr(34) + "Contact Rating @ Voltage" + chr(34) + " (" + ", ".join(sorted(d["ratings"])) + "; the switching rating); datasheets: " + ", ".join(sorted(d["sheets"])))},',
             '      "pinouts": {',

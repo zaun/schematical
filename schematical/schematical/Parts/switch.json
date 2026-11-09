@@ -3399,6 +3399,68 @@
       ]
     },
     {
+      "id": "tact_no_4t_12v_no-actuator_4x4",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, No actuator, 4 × 4 mm",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: wurth/430173003816.pdf",
+      "pinouts": {
+        "p4_1_3_2_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"B1","role":"inout"},
+          {"number":3,"name":"A2","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "No actuator",
+      "bodySize": [4,4],
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 12,
+      "parts": [
+        {"name":"430173003816","manufacturer":"Würth Elektronik","datasheet":"430173003816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-SKRW"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_12v_no-actuator_5x5",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, No actuator, 5 × 5 mm",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: samesky/ts42.pdf, wurth/430151005826.pdf, wurth/430181005816.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "No actuator",
+      "bodySize": [5,5],
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 12,
+      "parts": [
+        {"name":"430151005826","manufacturer":"Würth Elektronik","datasheet":"430151005826","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430151"},
+        {"name":"430181005816","manufacturer":"Würth Elektronik","datasheet":"430181005816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430151"},
+        {"name":"TS42-5252-09-Y-160-SMT-TR","manufacturer":"Same Sky","datasheet":"ts42","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TS42"},
+        {"name":"TS42-5252-09-Y-260-SMT-TR","manufacturer":"Same Sky","datasheet":"ts42","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TS42"},
+        {"name":"TS42-5252-09-Y-350-SMT-TR","manufacturer":"Same Sky","datasheet":"ts42","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TS42"}
+      ]
+    },
+    {
       "id": "tact_no_4t_12v_open-center_12x12",
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Open Center actuator, 12 × 12 mm",
@@ -5100,68 +5162,6 @@
       ]
     },
     {
-      "id": "tact_no_4t_12v_without_4x4",
-      "function": "Normal Open",
-      "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Without actuator, 4 × 4 mm",
-      "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: wurth/430173003816.pdf",
-      "pinouts": {
-        "p4_1_3_2_4": [
-          {"number":1,"name":"A1","role":"inout"},
-          {"number":2,"name":"B1","role":"inout"},
-          {"number":3,"name":"A2","role":"inout"},
-          {"number":4,"name":"B2","role":"inout"}
-        ]
-      },
-      "actuator": "Without",
-      "bodySize": [4,4],
-      "contacts": [
-        ["A1","B1"]
-      ],
-      "joined": [
-        ["A1","A2"],
-        ["B1","B2"]
-      ],
-      "momentary": true,
-      "ratedVolts": 12,
-      "parts": [
-        {"name":"430173003816","manufacturer":"Würth Elektronik","datasheet":"430173003816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-SKRW"}
-      ]
-    },
-    {
-      "id": "tact_no_4t_12v_without_5x5",
-      "function": "Normal Open",
-      "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Without actuator, 5 × 5 mm",
-      "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: samesky/ts42.pdf, wurth/430151005826.pdf, wurth/430181005816.pdf",
-      "pinouts": {
-        "p4_1_2_3_4": [
-          {"number":1,"name":"A1","role":"inout"},
-          {"number":2,"name":"A2","role":"inout"},
-          {"number":3,"name":"B1","role":"inout"},
-          {"number":4,"name":"B2","role":"inout"}
-        ]
-      },
-      "actuator": "Without",
-      "bodySize": [5,5],
-      "contacts": [
-        ["A1","B1"]
-      ],
-      "joined": [
-        ["A1","A2"],
-        ["B1","B2"]
-      ],
-      "momentary": true,
-      "ratedVolts": 12,
-      "parts": [
-        {"name":"430151005826","manufacturer":"Würth Elektronik","datasheet":"430151005826","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430151"},
-        {"name":"430181005816","manufacturer":"Würth Elektronik","datasheet":"430181005816","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-WS-TASV-430151"},
-        {"name":"TS42-5252-09-Y-160-SMT-TR","manufacturer":"Same Sky","datasheet":"ts42","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TS42"},
-        {"name":"TS42-5252-09-Y-260-SMT-TR","manufacturer":"Same Sky","datasheet":"ts42","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TS42"},
-        {"name":"TS42-5252-09-Y-350-SMT-TR","manufacturer":"Same Sky","datasheet":"ts42","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-TS42"}
-      ]
-    },
-    {
       "id": "tact_no_4t_15v_flush_3x3",
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 15 V, Flush actuator, 3 × 3 mm",
@@ -5252,6 +5252,38 @@
         {"name":"RKA2SGK055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RK"},
         {"name":"RKA2SGM055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RK"},
         {"name":"RKA2SGS055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RK"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_15v_no-actuator_5x5",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 15 V, No actuator, 5 × 5 mm",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: wurth/431151008826.pdf, wurth/431153008826.pdf, wurth/431181008816.pdf, wurth/431183008816.pdf",
+      "pinouts": {
+        "p4_1_3_2_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"B1","role":"inout"},
+          {"number":3,"name":"A2","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "No actuator",
+      "bodySize": [5,5],
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 15,
+      "parts": [
+        {"name":"431151008826","manufacturer":"Würth Elektronik","datasheet":"431151008826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431151"},
+        {"name":"431153008826","manufacturer":"Würth Elektronik","datasheet":"431153008826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431153"},
+        {"name":"431181008816","manufacturer":"Würth Elektronik","datasheet":"431181008816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431151"},
+        {"name":"431183008816","manufacturer":"Würth Elektronik","datasheet":"431183008816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431153"}
       ]
     },
     {
@@ -5708,38 +5740,6 @@
         {"name":"EVQ-Q2Y01W","manufacturer":"Panasonic","datasheet":"sw_lt_eng_6s_th","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EVPBT-J"},
         {"name":"EVQ-Q2Y02W","manufacturer":"Panasonic","datasheet":"sw_lt_eng_6s_th","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EVPBT-J"},
         {"name":"EVQ-Q2Y03W","manufacturer":"Panasonic","datasheet":"sw_lt_eng_6s_th","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EVPBT-J"}
-      ]
-    },
-    {
-      "id": "tact_no_4t_15v_without_5x5",
-      "function": "Normal Open",
-      "description": "Tactile switch, SPST normally open, 4 terminals, 15 V, Without actuator, 5 × 5 mm",
-      "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: wurth/431151008826.pdf, wurth/431153008826.pdf, wurth/431181008816.pdf, wurth/431183008816.pdf",
-      "pinouts": {
-        "p4_1_3_2_4": [
-          {"number":1,"name":"A1","role":"inout"},
-          {"number":2,"name":"B1","role":"inout"},
-          {"number":3,"name":"A2","role":"inout"},
-          {"number":4,"name":"B2","role":"inout"}
-        ]
-      },
-      "actuator": "Without",
-      "bodySize": [5,5],
-      "contacts": [
-        ["A1","B1"]
-      ],
-      "joined": [
-        ["A1","A2"],
-        ["B1","B2"]
-      ],
-      "momentary": true,
-      "ratedVolts": 15,
-      "parts": [
-        {"name":"431151008826","manufacturer":"Würth Elektronik","datasheet":"431151008826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431151"},
-        {"name":"431153008826","manufacturer":"Würth Elektronik","datasheet":"431153008826","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431153"},
-        {"name":"431181008816","manufacturer":"Würth Elektronik","datasheet":"431181008816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431151"},
-        {"name":"431183008816","manufacturer":"Würth Elektronik","datasheet":"431183008816","package":"SMD","pinout":"p4_1_3_2_4","footprint":"SW-TACT-WS-TASV-431153"}
       ]
     },
     {
@@ -6449,6 +6449,40 @@
       ]
     },
     {
+      "id": "tact_no_4t_32v_no-actuator_6x6",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 32 V, No actuator, 6 × 6 mm",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 32VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-ksc1-series-datasheet.pdf",
+      "pinouts": {
+        "p4_1_4_2_3": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"B1","role":"inout"},
+          {"number":3,"name":"B2","role":"inout"},
+          {"number":4,"name":"A2","role":"inout"}
+        ]
+      },
+      "actuator": "No actuator",
+      "bodySize": [6,6],
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 32,
+      "parts": [
+        {"name":"KSC121G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC121J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC141G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC141J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC151G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC151J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"}
+      ]
+    },
+    {
       "id": "tact_no_4t_32v_plunger-for-cap_6x6",
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 32 V, Plunger for Cap actuator, 6 × 6 mm",
@@ -6835,40 +6869,6 @@
         {"name":"KT11P3SM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-G"},
         {"name":"KT11P4JM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-J"},
         {"name":"KT11P4SM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-G"}
-      ]
-    },
-    {
-      "id": "tact_no_4t_32v_without_6x6",
-      "function": "Normal Open",
-      "description": "Tactile switch, SPST normally open, 4 terminals, 32 V, Without actuator, 6 × 6 mm",
-      "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 32VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-ksc1-series-datasheet.pdf",
-      "pinouts": {
-        "p4_1_4_2_3": [
-          {"number":1,"name":"A1","role":"inout"},
-          {"number":2,"name":"B1","role":"inout"},
-          {"number":3,"name":"B2","role":"inout"},
-          {"number":4,"name":"A2","role":"inout"}
-        ]
-      },
-      "actuator": "Without",
-      "bodySize": [6,6],
-      "contacts": [
-        ["A1","B1"]
-      ],
-      "joined": [
-        ["A1","A2"],
-        ["B1","B2"]
-      ],
-      "momentary": true,
-      "ratedVolts": 32,
-      "parts": [
-        {"name":"KSC121G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
-        {"name":"KSC121J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
-        {"name":"KSC141G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
-        {"name":"KSC141J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
-        {"name":"KSC151G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
-        {"name":"KSC151J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"}
       ]
     },
     {
