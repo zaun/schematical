@@ -51,7 +51,7 @@ Everything below is written against the world where these hold.
 
 ## 1. Goal
 
-- `ctest` passes T0 + 1 programs (T0 = 27 at planning time, plan-29-A
+- `ctest` passes T0 + 1 programs (T0 = 28 at 0f87917, 27 at planning time, plan-29-A
   § Prerequisites); the new one is `diode_test`.
 - `trace_check` and `listing_check` pass with the goldens unchanged:
   `git diff --stat backend/tests/golden` → empty after H (no shipped part is

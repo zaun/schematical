@@ -14,7 +14,7 @@ Zener / Bridge**. In play mode a diode passes logic one way: a 1 from anode
 to cathode, a 0 from cathode to anode, so diode-OR and diode-AND gates work.
 
 The single behavioral outcome of plan-29: loading the part files gives the
-baseline 13158 parts plus one `diode` part per `add` row of
+baseline 15189 parts plus one `diode` part per `add` row of
 `planning/plan-29-data/candidates.tsv`; the app lists them under the six
 drawer leaves; in play mode two inverters driving a diode-OR into a
 pull-down light an LED while either output is 1; `ctest` passes T0 + 1
@@ -59,12 +59,12 @@ Every other letter points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p29 && cmake --build /tmp/logic-p29 -j8 && ctest --test-dir /tmp/logic-p29` → `100% tests passed` | MET 2026-11-08 at 8cce726: `100% tests passed, 0 tests failed out of 27`; **T0 = 27** (`grep -c '^logic_test' backend/CMakeLists.txt` → 27) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET: **P0 = 13158**, **R0 = 13158**, **F0 = 508** (2026-11-08 at 8cce726) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p29-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-08 at 8cce726) |
-| No diode support yet | `grep -c 'PART_DIODE' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/diode.json` → no such file; `ls datasheets/diode` → no such directory | MET (2026-11-08) |
-| No other open plan adds diodes | `grep -l -i '"diode"\|PART_DIODE\|datasheets/diode' planning/plan-*.md \| grep -v plan-29 \| wc -l` → 0 | MET (2026-11-08) |
-| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; Phase 1 needs about 1250 calls over two days (§ 2); a day allows about 1000, shared with other sessions | **NOT MET** (2026-11-08): credentials present; 163 calls left today after the planning census. Start Phase 1 on a day whose first call reports ≥ 600 left (`scripts/digikey.js --category 295 --manufacturer 1801 --in-stock --pages 1 --json` prints `… N left today`) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p29 && cmake --build /tmp/logic-p29 -j8 && ctest --test-dir /tmp/logic-p29` → `100% tests passed` | MET 2026-11-08 at 0f87917 (build dir /tmp/logic-p29w for the worktree): `100% tests passed, 0 tests failed out of 28`; **T0 = 28** (`grep -c '^logic_test' backend/CMakeLists.txt` → 28) |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET: **P0 = 15189**, **R0 = 15189**, **F0 = 766** (2026-11-08 at 0f87917) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p29-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-08 at 0f87917, derived data /tmp/p29w-dd: `** BUILD SUCCEEDED **`) |
+| No diode support yet | `grep -c 'PART_DIODE' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/diode.json` → no such file; `ls datasheets/diode` → no such directory | MET (2026-11-08 at 0f87917: 0, no file, no directory) |
+| No other open plan adds diodes | `grep -l -i '"diode"\|PART_DIODE\|datasheets/diode' planning/plan-*.md \| grep -v plan-29 \| wc -l` → 0 | MET (2026-11-08 at 0f87917: 0) |
+| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; Phase 1 needs about 1250 calls over two days (§ 2); a day allows about 1000, shared with other sessions | **NOT MET** (2026-11-08, re-run at /follow-plan: the command printed `160 left today`; credentials present). Planning census left 163. Start Phase 1 on a day whose first call reports ≥ 600 left (`scripts/digikey.js --category 295 --manufacturer 1801 --in-stock --pages 1 --json` prints `… N left today`) |
 
 Everything below is written against the world where these hold.
 
@@ -366,6 +366,12 @@ Commit: —
   committing).
 
 ## Corrections
+
+- **Baseline moved before the plan started** — the Prerequisites were measured at
+  8cce726 (T0 = 27, P0 = R0 = 13158, F0 = 508); main took plan-27's merge
+  (d12a1bb) before plan-29 was committed. Re-measured at 0f87917: T0 = 28,
+  P0 = R0 = 15189, F0 = 766. Every letter's "T0 + 1" and golden-growth checks
+  use these values.
 
 ## Summary
 
