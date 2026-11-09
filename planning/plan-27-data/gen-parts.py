@@ -10,12 +10,13 @@ candidates.tsv for the named makers plus every maker whose parts the region
 already holds, so a run for the next maker keeps the earlier ones, and a second
 run with the same arguments changes nothing.
 
-Device = (circuit, terminals, volts, actuator):
-  id          tact_<no|nc>_<T>t_<V>v_<actuator slug>
+Device = (circuit, terminals, volts, actuator, body size):
+  id          tact_<no|nc>_<T>t_<V>v_<actuator slug>_<L>x<W>
   function    Normal Open / Normal Close; drawer ["Switch","Tactile"]
   pinouts     one per distinct specs.tsv `pins` string, p<T>_<A..>_<B..>
   contacts    [["A","B"]] or [["A1","B1"]]; joined [["A1","A2"],["B1","B2"]] (T = 4)
   momentary true, normallyClosed true (NC), ratedVolts V (DigiKey rating)
+  bodySize    [L, W]: the nominal body in whole mm, larger side first (body_size)
 Part = {"name", "manufacturer", "datasheet", "package" (from mounting), "pinout",
 "footprint" (specs.tsv)}.  Every datasheet the parts name gets an entry in
 Parts/datasheets.json (id = the placed PDF's name, lower case, no .pdf; url =
@@ -30,6 +31,7 @@ import csv
 import difflib
 import glob
 import json
+import math
 import os
 import re
 import shutil
@@ -79,12 +81,28 @@ def read_tsv(path):
         return list(csv.DictReader(f, delimiter="\t"))
 
 
-def footprint_ids(p):
-    ids = set()
+def footprint_bodies(p):
+    """footprint id -> its "body" ({"width", "height"}, or None)."""
+    bodies = {}
     for f in sorted(glob.glob(os.path.join(p["data"], "footprints-*.json"))) + [p["footprints"]]:
         if os.path.exists(f):
-            ids.update(o["id"] for o in json.load(open(f))["footprints"])
-    return ids
+            bodies.update((o["id"], o.get("body")) for o in json.load(open(f))["footprints"])
+    return bodies
+
+
+def body_size(outline, body, mpn):
+    """The nominal body [L, W] in whole mm, larger side first: DigiKey's
+    "Size / Dimension" (`6.20mm x 6.20mm`), else the footprint's body (when
+    DigiKey gives `-` or nothing). Each side rounds to the nearest mm (half
+    up), at least 1: 6.2 x 6.2 -> [6, 6], 6.5 x 6.0 -> [7, 6]."""
+    m = re.fullmatch(r"\s*([\d.]+)\s*mm\s*x\s*([\d.]+)\s*mm\s*", outline or "")
+    if m:
+        sides = [float(m.group(1)), float(m.group(2))]
+    elif body:
+        sides = [float(body["width"]), float(body["height"])]
+    else:
+        raise Refuse(f"{mpn}: no DigiKey outline and its footprint has no body")
+    return sorted((max(1, int(math.floor(v + 0.5 + 1e-9))) for v in sides), reverse=True)
 
 
 def volts_of(rating, mpn):
@@ -148,7 +166,7 @@ def build(p, makers):
         for d in read_tsv(p["places"]):
             places[d["url"]] = d["path"]
     taken = existing_names(p, region)
-    fps = footprint_ids(p)
+    fps = footprint_bodies(p)
     devices = {}
     seen = set()
     sheets, existing_sheets = sheet_ids(p, {r["datasheet_url"] for r in chosen})
@@ -176,8 +194,9 @@ def build(p, makers):
         act = r["actuator"].strip()
         if not act or act == "-":
             raise Refuse(f"{mpn}: no actuator")
-        did = f"tact_{'nc' if nc else 'no'}_{t}t_{num(v)}v_{slug(act)}"
-        dev = devices.setdefault(did, {"nc": nc, "t": t, "v": v, "act": act, "pinouts": {},
+        size = body_size(r["outline"], fps[spec["footprint"]], mpn)
+        did = f"tact_{'nc' if nc else 'no'}_{t}t_{num(v)}v_{slug(act)}_{size[0]}x{size[1]}"
+        dev = devices.setdefault(did, {"nc": nc, "t": t, "v": v, "act": act, "size": size, "pinouts": {},
                                        "ratings": set(), "sheets": set(), "parts": []})
         ma = re.fullmatch(r"A=([\d,]+);B=([\d,]+)", spec["pins"])
         a, b = ma.group(1).split(","), ma.group(2).split(",")
@@ -283,7 +302,7 @@ def render(devices):
             "    {",
             f'      "id": {q(did)},',
             f'      "function": {q("Normal Close" if d["nc"] else "Normal Open")},',
-            f'      "description": {q(f"Tactile switch, SPST normally {kind}, {d["t"]} terminals, {num(d["v"])} V, {d["act"]} actuator")},',
+            f'      "description": {q(f"Tactile switch, SPST normally {kind}, {d["t"]} terminals, {num(d["v"])} V, {d["act"]} actuator, {d["size"][0]} × {d["size"][1]} mm")},',
             '      "drawer": ["Switch","Tactile"],',
             f'      "note": {q("Rating from DigiKey " + chr(34) + "Contact Rating @ Voltage" + chr(34) + " (" + ", ".join(sorted(d["ratings"])) + "; the switching rating); datasheets: " + ", ".join(sorted(d["sheets"])))},',
             '      "pinouts": {',
@@ -298,6 +317,7 @@ def render(devices):
             lines.append("        ]" + ("," if i < len(pins) - 1 else ""))
         lines.append("      },")
         lines.append(f'      "actuator": {q(d["act"])},')
+        lines.append(f'      "bodySize": [{d["size"][0]},{d["size"][1]}],')
         lines.append('      "contacts": [')
         lines.append('        ["A","B"]' if d["t"] == 2 else '        ["A1","B1"]')
         lines.append("      ],")
@@ -401,7 +421,7 @@ def selftest():
     else:
         print("FAIL: second run changed a file" if once != twice else "FAIL: first run wrote nothing")
         ok = False
-    if once[:prefix_len] == original[:prefix_len] and '"id": "tact_nc_4t_12v_plunger-for-cap"' in once:
+    if once[:prefix_len] == original[:prefix_len] and '"id": "tact_nc_4t_12v_plunger-for-cap_1x1"' in once:
         print("prefix ok")
     else:
         print("FAIL: text before the region changed")

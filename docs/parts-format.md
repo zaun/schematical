@@ -790,6 +790,7 @@ closed).
 | `"momentary"` | optional, default `false`: the contact springs back (a tactile switch); the app presses it while the mouse is held. `PartSwitch.momentary` |
 | `"normallyClosed"` | optional, default `false`, needs `"momentary": true`: the contact is closed at rest and opens while pressed. The circuit starts it closed. `PartSwitch.normally_closed` |
 | `"joined"` | optional, a non-empty array of `[pin name, pin name]`: pins connected inside the part (a four-terminal tactile switch's two pins per side). Always closed; numbered after the positions, not addressable by `circuit_set_switch`. `PartSwitch.joined` is their count |
+| `"bodySize"` | optional, `[length, width]`: the nominal body size in mm, the larger side first, each above 0 and at most 100. The drawer lists a tactile switch under its size (Switch → Tactile → 6 × 6 mm) and the sidebar shows it as Body. `PartSwitch.body_um` |
 
 ```json
 "actuator": "Standard",
@@ -797,7 +798,8 @@ closed).
 "joined": [["A1", "A2"], ["B1", "B2"]],
 "momentary": true,
 "normallyClosed": true,
-"ratedVolts": 12
+"ratedVolts": 12,
+"bodySize": [6, 6]
 ```
 
 `PartSwitch.positions` is the number of contacts (not counting joined
@@ -806,8 +808,10 @@ pairs). Parts carry no kind keys.
 The library's tactile switches are written by
 `planning/plan-27-data/gen-parts.py` (plan-27-E), which owns `switch.json`
 from its first `tact_` device to the end: one device per (contact,
-terminals, rated volts, actuator), id `tact_<no|nc>_<T>t_<V>v_<actuator>`,
-function `Normal Open` / `Normal Close`, drawer `["Switch","Tactile"]`, pins
+terminals, rated volts, actuator, body size), id
+`tact_<no|nc>_<T>t_<V>v_<actuator>_<L>x<W>`, function `Normal Open` /
+`Normal Close`, `bodySize` DigiKey's "Size / Dimension" (the footprint's
+body when DigiKey gives none) rounded to whole mm (half up), drawer `["Switch","Tactile"]`, pins
 `A`, `B` (two terminals) or `A1`, `A2`, `B1`, `B2` with `joined`
 `[["A1","A2"],["B1","B2"]]` (four), packages `SMD`, `THT`, `THT right
 angle`, `SMD right angle`, `Edge mount`. Its inputs are
