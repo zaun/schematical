@@ -93,6 +93,9 @@ struct SchematicCanvasView: View {
         /// its start at the press.
         case slidePort(port: UUID, base: CGFloat)
         case pan(startOffset: CGSize)
+        /// Play mode: the mouse is held on a tactile switch's button
+        /// (plan-27-J); releasing it releases the button.
+        case holdButton(chip: UUID)
         /// Shift-drag on empty space: a selection box between two screen
         /// points, adding to `base`, the selection at the press.
         case boxSelect(base: Set<SchematicItem>, from: CGPoint, to: CGPoint)
@@ -145,6 +148,10 @@ struct SchematicCanvasView: View {
                 // Drop any highlight left from before play mode started (⌘R).
                 if running {
                     clearHover()
+                } else {
+                    // Leaving play mode lets go of every held button.
+                    document.releaseAllButtons()
+                    if case .holdButton? = interaction { interaction = nil }
                 }
             }
             .simultaneousGesture(
@@ -302,6 +309,12 @@ struct SchematicCanvasView: View {
                         )
                     case .dipSwitch:
                         DipSwitchSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID
+                        )
+                    case .tactileSwitch:
+                        TactileSwitchSymbolView(
                             chip: chip,
                             isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID
@@ -512,8 +525,16 @@ struct SchematicCanvasView: View {
             height: value.translation.height / zoom
         )
 
-        // Play mode: a drag anywhere pans, and nothing else can start.
+        // Play mode: a press on a tactile switch's button holds it down
+        // until the mouse comes up; a drag anywhere else pans, and nothing
+        // else can start.
         if isRunning {
+            if interaction == nil, let chip = document.chip(at: start), chip.buttonHit(at: start) {
+                interaction = .holdButton(chip: chip.id)
+                pressButton(chip.id, pressed: true)
+                return
+            }
+            if case .holdButton? = interaction { return }
             if interaction == nil {
                 interaction = .pan(startOffset: viewport.offset)
             }
@@ -765,6 +786,8 @@ struct SchematicCanvasView: View {
             if isClick(value) {
                 document.erase(at: viewport.world(value.startLocation), tolerance: lineTolerance)
             }
+        case let .holdButton(chip)?:
+            pressButton(chip, pressed: false)
         case .pan?:
             // In play mode every press starts a pan; a click flips a lever.
             if isRunning, isClick(value) {
@@ -783,6 +806,16 @@ struct SchematicCanvasView: View {
     /// A press that ended about where it started, in screen points.
     private func isClick(_ value: DragGesture.Value) -> Bool {
         hypot(value.translation.width, value.translation.height) < 3
+    }
+
+    /// Presses or releases a tactile switch's button in the document and the
+    /// running simulation (ON = contact closed: pressed on a Normal Open part,
+    /// released on a Normal Close one). A press the document refuses changes
+    /// nothing.
+    private func pressButton(_ id: UUID, pressed: Bool) {
+        guard let isPressed = document.setButton(id, pressed: pressed),
+              let chip = document.chips.first(where: { $0.id == id }) else { return }
+        simulation.setSwitch(id, position: 1, on: isPressed != chip.part.isNormallyClosed)
     }
 
     /// Flips the switch position whose lever is under `point`, in the

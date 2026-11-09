@@ -386,7 +386,7 @@ extension SchematicFile {
                 x: chip.origin.x,
                 y: chip.origin.y,
                 flipped: chip.isFlipped,
-                switches: chip.switchesOn.isEmpty ? nil : chip.switchesOn,
+                switches: chip.switchesOn.isEmpty || chip.part.isTactileSwitch ? nil : chip.switchesOn,
                 pcb: chip.board.map {
                     Placement(x: $0.centre.x, y: $0.centre.y, rotation: $0.rotation,
                               origin: $0.origin.rawValue, outline: $0.outline.rawValue,

@@ -199,6 +199,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case eeprom(words: Int, bits: Int, accessNs: Int, grade: String, pageBytes: Int, writeCycleUs: Int)
         /// `ratedMV`: the contacts' switching voltage rating.
         case dipSwitch(positions: Int, actuator: String, ratedMV: UInt32)
+        /// A tactile (momentary) switch, plan-27: one contact, closed while
+        /// pressed (normally open) or while released (normally closed);
+        /// `joined`: pin pairs connected inside the part (2 on a
+        /// four-terminal switch, 0 on a two-terminal one).
+        case tactileSwitch(actuator: String, ratedMV: UInt32, normallyClosed: Bool, joined: Int)
         /// An LED: the colors a placed one may have; the first is the default.
         case led(colors: [String])
         case display(DisplayInfo)
@@ -281,13 +286,26 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         switch details {
         case let .display(info) where info.vfMaxMV > 0:
             return "VF \(VoltageCheck.volts(info.vfMinMV))–\(VoltageCheck.volts(info.vfMaxMV)) V"
-        case let .dipSwitch(_, _, ratedMV) where ratedMV > 0:
+        case let .dipSwitch(_, _, ratedMV) where ratedMV > 0,
+             let .tactileSwitch(_, ratedMV, _, _) where ratedMV > 0:
             return "\(VoltageCheck.volts(ratedMV)) V max"
         case let .connector(_, ratedMV, _, _) where ratedMV > 0:
             return "\(VoltageCheck.volts(ratedMV)) V max"
         default:
             return nil
         }
+    }
+
+    /// A tactile (momentary push-button) switch, plan-27.
+    var isTactileSwitch: Bool {
+        if case .tactileSwitch = details { return true }
+        return false
+    }
+
+    /// A tactile switch's contact is closed at rest (Normal Close).
+    var isNormallyClosed: Bool {
+        if case let .tactileSwitch(_, _, normallyClosed, _) = details { return normallyClosed }
+        return false
     }
 
     /// Gate, flip-flop, latch, counter, shift register, decoder, buffer,
@@ -403,6 +421,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .sram(_, _, accessNs, _): return ["\(accessNs) ns"]
         case let .eeprom(_, _, accessNs, _, _, _): return ["\(accessNs) ns"]
         case let .dipSwitch(_, actuator, _): return [actuator]
+        case let .tactileSwitch(actuator, _, _, _): return [actuator]
         case let .led(colors): return colors.count == 1 ? colors : ["\(colors.count) colors"]
         case let .display(info): return [info.color, info.size, info.commonAnode ? "CA" : "CC"]
         case let .oscillator(family, _, _, _, _): return [family]
@@ -515,6 +534,9 @@ extension CatalogPart {
                               accessNs: Int(eeprom.access_ps / 1000), grade: string(eeprom.grade),
                               pageBytes: Int(eeprom.page_bytes),
                               writeCycleUs: Int(eeprom.write_cycle_ps / 1_000_000))
+        } else if let dip = part.dip_switch?.pointee, dip.momentary != 0 {
+            details = .tactileSwitch(actuator: string(dip.actuator), ratedMV: dip.rated_mv,
+                                     normallyClosed: dip.normally_closed != 0, joined: Int(dip.joined))
         } else if let dip = part.dip_switch?.pointee {
             details = .dipSwitch(positions: Int(dip.positions), actuator: string(dip.actuator),
                                  ratedMV: dip.rated_mv)
@@ -712,7 +734,7 @@ struct PartVisibility: Equatable {
 /// How a part is drawn on the canvas.
 func symbol(for part: CatalogPart) -> PartSymbol {
     switch part.kind {
-    case PART_SWITCH: return .dipSwitch
+    case PART_SWITCH: return part.isTactileSwitch ? .tactileSwitch : .dipSwitch
     case PART_LED: return .diode
     case PART_7SEG: return .sevenSegment
     case PART_CHARLCD: return .characterLCD
@@ -816,7 +838,7 @@ final class PartCatalogStore {
 
     /// Positions per switch in a category, ascending.
     func switchPositionCounts(in category: String) -> [Int] {
-        Array(Set(entries.filter { $0.drawer.first == category && $0.kind == PART_SWITCH }
+        Array(Set(entries.filter { $0.drawer.first == category && $0.kind == PART_SWITCH && !$0.isTactileSwitch }
             .compactMap(\.count))).sorted()
     }
 
@@ -899,7 +921,7 @@ final class PartCatalogStore {
                     return false
                 }
             }
-            if part.kind == PART_SWITCH, let count = filter.switchPositions, part.count != count {
+            if part.kind == PART_SWITCH, !part.isTactileSwitch, let count = filter.switchPositions, part.count != count {
                 return false
             }
             if case let .converter(type, bits, channels) = part.details {
@@ -915,6 +937,9 @@ final class PartCatalogStore {
                     return false
                 }
                 if case let .dipSwitch(_, _, ratedMV) = part.details, ratedMV > 0, ratedMV < mv {
+                    return false
+                }
+                if case let .tactileSwitch(_, ratedMV, _, _) = part.details, ratedMV > 0, ratedMV < mv {
                     return false
                 }
             }
@@ -956,11 +981,12 @@ final class PartCatalogStore {
             }
     }
 
-    /// Switches, LEDs, 7-segment displays, character LCDs and the generic
-    /// header are listed with no function level.
+    /// DIP switches, LEDs, 7-segment displays, character LCDs and the generic
+    /// header are listed with no function level. Tactile switches keep theirs
+    /// (Normal Open, Normal Close; plan-27-J).
     private static func listsPartsDirectly(_ parts: [CatalogPart]) -> Bool {
         parts.allSatisfy {
-            $0.kind == PART_SWITCH || $0.kind == PART_LED || $0.kind == PART_7SEG || $0.kind == PART_CHARLCD
+            ($0.kind == PART_SWITCH && !$0.isTactileSwitch) || $0.kind == PART_LED || $0.kind == PART_7SEG || $0.kind == PART_CHARLCD
                 || $0.kind == PART_HEADER
         }
     }

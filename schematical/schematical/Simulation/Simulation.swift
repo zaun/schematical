@@ -21,8 +21,15 @@ struct SchematicNetlist {
     let netCount: Int
     /// Each connected pin, once: part index, pin designator ("1", "A1"), net index.
     let connections: [(part: Int, pin: String, net: Int)]
-    /// Switch positions (1-based) that start ON, per part index.
+    /// Closed switch contacts (1-based positions), per part index: DIP
+    /// positions that are ON; a tactile switch's contact while closed and its
+    /// joined pairs always (plan-27-J). The voltage check reads them all.
     let switchesOn: [(part: Int, position: Int)]
+    /// Positions `circuit_set_switch` can address, per part index (a DIP
+    /// switch's position count, 1 for a tactile switch, 0 otherwise). A
+    /// tactile switch's joined pairs are numbered after them and are the
+    /// backend's own, never sent.
+    var positionCounts: [Int] = []
     /// Chip for each part index.
     let chipIDs: [UUID]
     /// Net index for each wire.
@@ -118,19 +125,47 @@ enum NetlistBuilder {
                   chips[part].part.pins.indices.contains(ref.index) else { continue }
             connections.append((part: part, pin: chips[part].part.pins[ref.index].designator, net: net))
         }
-        // Switch positions that start ON. The rest start OFF.
-        var switchesOn: [(part: Int, position: Int)] = []
+        // A tactile switch with joined pins: each pin no wire reaches gets a
+        // net of its own, so the chain A1 - B1 - B2 holds in the simulation
+        // and the voltage check alike (the backend does the same in
+        // circuit_start for circuits built without the app).
+        var netCount = netIndexByRoot.count
+        let wired = Set(connections.map { "\($0.part)/\($0.pin)" })
         for (index, chip) in chips.enumerated() {
+            guard case let .tactileSwitch(_, _, _, joined) = chip.part.details, joined > 0 else { continue }
+            for pin in chip.part.pins where !pin.isHidden && !wired.contains("\(index)/\(pin.designator)") {
+                connections.append((part: index, pin: pin.designator, net: netCount))
+                netCount += 1
+            }
+        }
+
+        // Closed contacts. DIP positions that are ON (the rest start OFF);
+        // a tactile switch's contact when closed, and its joined pairs.
+        var switchesOn: [(part: Int, position: Int)] = []
+        var positionCounts: [Int] = []
+        for (index, chip) in chips.enumerated() {
+            if case let .tactileSwitch(_, _, _, joined) = chip.part.details {
+                if chip.tactileContactClosed {
+                    switchesOn.append((part: index, position: 1))
+                }
+                for pair in 0..<joined {
+                    switchesOn.append((part: index, position: 2 + pair))
+                }
+                positionCounts.append(1)
+                continue
+            }
             for (position, isOn) in chip.switchesOn.enumerated() where isOn {
                 switchesOn.append((part: index, position: position + 1))
             }
+            positionCounts.append(chip.switchesOn.count)
         }
 
         return SchematicNetlist(
             partNames: chips.map(\.partNumber),
-            netCount: netIndexByRoot.count,
+            netCount: netCount,
             connections: connections,
             switchesOn: switchesOn,
+            positionCounts: positionCounts,
             chipIDs: chips.map(\.id),
             netOfWire: netOfWire,
             lcdParts: chips.indices.filter { chips[$0].part.kind == PART_CHARLCD }
@@ -298,7 +333,11 @@ final class SimulationController {
                 return false
             }
         }
-        for item in netlist.switchesOn {
+        // Only addressable positions: a tactile switch's joined pairs are the
+        // backend's (always closed). A tactile switch starts released (the
+        // run starts with every button up), so its contact is already in the
+        // backend's default state; sending a closed one again is harmless.
+        for item in netlist.switchesOn where item.position <= netlist.positionCounts[item.part] {
             if circuit_set_switch(circuit, item.part, UInt32(item.position), 1) != 0 { return false }
         }
         for load in loads {

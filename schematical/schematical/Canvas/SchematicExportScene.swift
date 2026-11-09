@@ -47,6 +47,8 @@ struct SchematicScene {
                 SupplySymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .dipSwitch:
                 DipSwitchSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
+            case .tactileSwitch:
+                TactileSwitchSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .sevenSegment:
                 SevenSegmentSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, levels: [])
             case .characterLCD:

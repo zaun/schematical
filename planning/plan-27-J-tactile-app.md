@@ -271,6 +271,25 @@ Commit: —
    request: plan-28-A moves every symbol drawer onto `SchematicPainter`; J now
    requires it (Prerequisites row "plan-28-A complete") and § 4.2 draws the
    new view through the painter and adds its export-scene case.
+2. 2026-11-08 — **J does not need I, only E** (the first tactile parts in
+   the library: the tests pick the first NO 2-terminal, NO 4-terminal and NC
+   part). Its code was written while A's census waited on the network; its
+   tests run once E lands. plan-28 (A–D) is archived on main (merged into
+   this branch at 55140df), so the plan-28-A row is MET.
+3. 2026-11-08 — **missing task: the drawer's function level.**
+   `PartCatalogStore.listsPartsDirectly` lists every `PART_SWITCH`
+   subcategory with no function level (`PartCatalog.swift`, "Switches … are
+   listed with no function level"), which would hide the Normal Open /
+   Normal Close leaves. Tactile switches now keep their function level; the
+   DIP position-count menu and filter skip them.
+4. 2026-11-08 — **missing task: unwired joined pins in the app.** The app's
+   voltage check builds its own connections (`VoltageCheck.sortedIssues` from
+   `NetlistBuilder`), so the backend's `wire_joined_pins` (plan-27-D
+   Correction 4) does not reach it. `NetlistBuilder` gives each unwired pin of
+   a tactile switch with joined pairs a net of its own, so the simulation and
+   the voltage check see the same A1–B1–B2 chain.
+5. 2026-11-08 — `PartFacts.kindName(_ part:)` already existed (plan-24 added
+   it for converters); the tactile case was added to it.
 
 ## Summary
 

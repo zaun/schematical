@@ -119,6 +119,9 @@ nonisolated enum PartSymbol: Hashable {
     case pullUp
     case pullDown
     case dipSwitch
+    /// A tactile (push-button) switch, plan-27: side A's pins on the left,
+    /// side B's on the right, a button in the middle.
+    case tactileSwitch
     case sevenSegment
     case characterLCD
     case barrelJack
@@ -228,6 +231,8 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.supply(pins, side: .top, size: Self.pullSize)
         case .dipSwitch:
             self = Self.dipSwitch(pins)
+        case .tactileSwitch:
+            self = Self.tactileSwitch(pins)
         case .sevenSegment:
             self = Self.sevenSegment(pins, display: part.display)
         case .characterLCD:
@@ -347,6 +352,31 @@ nonisolated struct ChipLayout: Hashable {
             size: CGSize(width: switchBodyWidth, height: headerHeight + pitch * CGFloat(max(positions, 1))),
             slots: slots
         )
+    }
+
+    /// Tactile switch: pins named A… (side A) on the left, B… on the right,
+    /// in pin order, one row per pair; a two-terminal switch has one row.
+    private static func tactileSwitch(_ pins: [ChipPin]) -> ChipLayout {
+        let left = pins.filter { $0.name.hasPrefix("A") }
+        let right = pins.filter { !$0.name.hasPrefix("A") }
+        let rows = max(left.count, right.count, 1)
+        var slots: [PinSlot] = []
+        for (row, pin) in left.enumerated() {
+            slots.append(PinSlot(pin: pin, side: .left, centerY: centerY(forRow: row)))
+        }
+        for (row, pin) in right.enumerated() {
+            slots.append(PinSlot(pin: pin, side: .right, centerY: centerY(forRow: row)))
+        }
+        return ChipLayout(
+            size: CGSize(width: switchBodyWidth, height: headerHeight + pitch * CGFloat(rows)),
+            slots: slots
+        )
+    }
+
+    /// A tactile switch's button: the middle third of the body, below the header.
+    static func tactileButtonRect(bodySize: CGSize) -> CGRect {
+        CGRect(x: bodySize.width / 3, y: headerHeight,
+               width: bodySize.width / 3, height: bodySize.height - headerHeight)
     }
 
     /// Barrel jack terminals all leave on the right. The drawing follows the
@@ -615,11 +645,17 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
             self.ohms = nil
         }
         // A switch has one state per position, OFF unless given; others none.
+        // A tactile switch has one, "pressed", and always starts released
+        // (the file never stores it; plan-27-J).
         var positions = 0
         if case let .dipSwitch(count, _, _) = part.details {
             positions = count
         }
-        self.switchesOn = (0..<positions).map { $0 < switchesOn.count && switchesOn[$0] }
+        if part.isTactileSwitch {
+            self.switchesOn = [false]
+        } else {
+            self.switchesOn = (0..<positions).map { $0 < switchesOn.count && switchesOn[$0] }
+        }
     }
 
     /// The orderable part number, as saved in a file.
@@ -642,6 +678,29 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     var footprintChoice: CatalogPart.FootprintChoice? {
         guard let footprintID else { return nil }
         return part.footprintChoices.first { $0.footprint.id == footprintID }
+    }
+
+    /// A tactile switch is held down (`switchesOn[0]`); false for others.
+    var isPressed: Bool {
+        part.isTactileSwitch && switchesOn.first == true
+    }
+
+    /// A tactile switch's contact is closed: pressed on a Normal Open part,
+    /// released on a Normal Close one.
+    var tactileContactClosed: Bool {
+        isPressed != part.isNormallyClosed
+    }
+
+    /// A tactile switch's button, in canvas coordinates.
+    var buttonRect: CGRect? {
+        guard symbol == .tactileSwitch else { return nil }
+        return ChipLayout.tactileButtonRect(bodySize: layout.size).offsetBy(dx: origin.x, dy: origin.y)
+    }
+
+    /// Whether `point` is on a tactile switch's button (with the DIP lever's
+    /// 4 x 3 pt slop).
+    func buttonHit(at point: CGPoint) -> Bool {
+        buttonRect?.insetBy(dx: -4, dy: -3).contains(point) ?? false
     }
 
     /// The switch position (1-based) whose lever is under `point`, if any.
@@ -2142,6 +2201,35 @@ final class SchematicDocument {
     /// or when turning it ON would put a voltage out of range on a part (the
     /// switch stays OFF and `editorMessage` says why).
     @discardableResult
+    /// Presses or releases a tactile switch (plan-27-J). Nil for any other
+    /// chip, or when a press would close a contact the voltage check refuses
+    /// (`editorMessage` says why); otherwise the new pressed state. Releasing
+    /// never checks. Not undoable and does not mark the document changed:
+    /// the pressed state is never saved.
+    func setButton(_ id: UUID, pressed: Bool) -> Bool? {
+        guard let index = chips.firstIndex(where: { $0.id == id }), chips[index].part.isTactileSwitch,
+              !chips[index].switchesOn.isEmpty else { return nil }
+        if pressed, !chips[index].part.isNormallyClosed, !chips[index].isPressed, let library {
+            var candidate = chips
+            candidate[index].switchesOn[0] = true
+            if let issue = VoltageCheck.firstNew(before: chips, wires, after: candidate, wires,
+                                                 buses: buses, library: library) {
+                editorMessage = VoltageCheck.message(issue, chips: chips, edit: .turnOn)
+                return nil
+            }
+        }
+        if pressed { editorMessage = nil }
+        chips[index].switchesOn[0] = pressed
+        return pressed
+    }
+
+    /// Releases every pressed tactile switch (play mode ended).
+    func releaseAllButtons() {
+        for index in chips.indices where chips[index].isPressed {
+            chips[index].switchesOn[0] = false
+        }
+    }
+
     func toggleSwitch(_ id: UUID, position: Int) -> Bool? {
         guard let index = chips.firstIndex(where: { $0.id == id }),
               chips[index].switchesOn.indices.contains(position - 1) else { return nil }

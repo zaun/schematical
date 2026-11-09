@@ -42,6 +42,11 @@ nonisolated enum PartFacts {
             add("Positions", String(positions))
             add("Actuator", actuator)
             if ratedMV > 0 { add("Rating", "\(VoltageCheck.volts(ratedMV)) V max") }
+        case let .tactileSwitch(actuator, ratedMV, normallyClosed, _):
+            add("Contact", normallyClosed ? "Normal close, momentary" : "Normal open, momentary")
+            add("Terminals", String(part.pins.filter { !$0.isHidden }.count))
+            add("Actuator", actuator)
+            if ratedMV > 0 { add("Rating", "\(VoltageCheck.volts(ratedMV)) V max") }
         case let .led(colors):
             add("Color", chip.color ?? colors.first ?? "")
         case let .display(info):
@@ -146,9 +151,11 @@ nonisolated enum PartFacts {
         }
     }
 
-    /// A part's kind as shown: a converter by its type ("ADC", "DAC"), other
+    /// A part's kind as shown: a tactile switch as "Tactile switch", a
+    /// converter by its type ("ADC", "DAC"), other
     /// kinds as `kindName(_: PartKind)`.
     static func kindName(_ part: CatalogPart) -> String {
+        if part.isTactileSwitch { return "Tactile switch" }
         if case let .converter(type, _, _) = part.details {
             switch type {
             case "adc": return "ADC"
