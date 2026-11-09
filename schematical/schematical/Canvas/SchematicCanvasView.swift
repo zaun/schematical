@@ -263,11 +263,14 @@ struct SchematicCanvasView: View {
                     RoutedWire(
                         id: wire.id,
                         points: document.path(forWire: wire.id),
-                        style: simulation.wireStyle(wire.id)
+                        style: WireLayer.style(simulated: simulation.wireStyle(wire.id),
+                                               loose: document.hasLooseEnd(wire))
                     )
                 },
-                junctions: document.junctions.map { junction in
-                    JunctionDot(point: junction.point, isSelected: document.isSelected(.junction(junction.id)))
+                junctions: document.junctions.compactMap { junction in
+                    let isSelected = document.isSelected(.junction(junction.id))
+                    guard isSelected || document.showsDot(junction) else { return nil }
+                    return JunctionDot(point: junction.point, isSelected: isSelected, isLoose: junction.isLoose)
                 },
                 selectedWireIDs: selectedWireIDs,
                 hoveredWireID: hoveredWireID,
@@ -889,7 +892,8 @@ struct ConnectionPreview {
 struct RoutedWire: Identifiable {
     let id: UUID
     let points: [CGPoint]
-    /// Play mode: the net's value, toggling, floating or shorted.
+    /// Play mode: the net's value, toggling, floating or shorted. Edit
+    /// mode: `.loose` for a wire with a loose end (plan-30).
     var style: WireStyle = .normal
 }
 
@@ -988,12 +992,16 @@ struct NoteLayer: View {
 struct JunctionDot {
     let point: CGPoint
     var isSelected = false
+    /// A loose end where wires branch: gray on screen. Exports leave it false.
+    var isLoose = false
 }
 
 /// Draws wires as orthogonal polylines, plus the route being drawn from a pin.
 /// The hovered wire gets a soft accent underlay; selected wires are drawn in
-/// the accent colour. Junctions get a solid dot, larger and accent when
-/// selected. Not private, so the harness can render it on its own.
+/// the accent colour. A wire with a loose end is gray (plan-30), unless play
+/// mode gives it another style. Junctions get a solid dot, larger and accent
+/// when selected; a loose junction's dot is gray. Not private, so the harness
+/// can render it on its own.
 struct WireLayer: View {
     let routes: [RoutedWire]
     let junctions: [JunctionDot]
@@ -1015,6 +1023,12 @@ struct WireLayer: View {
     }
 
     /// Draws the wires in world coordinates. `preview` is the route being drawn.
+    /// A route's style: gray `.loose` for a wire with a loose end, unless
+    /// the simulation styles it some other way than `.normal`.
+    static func style(simulated: WireStyle, loose: Bool) -> WireStyle {
+        simulated == .normal && loose ? .loose : simulated
+    }
+
     static func paint<P: SchematicPainter>(_ painter: inout P, routes: [RoutedWire], junctions: [JunctionDot],
                                            selectedWireIDs: Set<UUID>, hoveredWireID: UUID?, preview: [CGPoint]?) {
         let solid = StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round)
@@ -1041,6 +1055,8 @@ struct WireLayer: View {
             case .toggling:
                 painter.stroke(path, with: .secondary, style: solid)
                 painter.stroke(path, with: Ink(role: .color(.green)), style: dashedStyle)
+            case .loose:
+                painter.stroke(path, with: .secondary, style: solid)
             }
         }
 
@@ -1048,7 +1064,8 @@ struct WireLayer: View {
             let r: CGFloat = junction.isSelected ? 4 : 2.5
             let point = junction.point
             let rect = CGRect(x: point.x - r, y: point.y - r, width: 2 * r, height: 2 * r)
-            painter.fill(Path(ellipseIn: rect), with: junction.isSelected ? .accent : .primary)
+            painter.fill(Path(ellipseIn: rect),
+                         with: junction.isSelected ? .accent : junction.isLoose ? .secondary : .primary)
         }
 
         if let preview {

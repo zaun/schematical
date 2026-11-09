@@ -18,6 +18,9 @@ file. Added in plan-28.
   not change. An empty schematic shows "Nothing to export" and no save panel.
 - Exports never include the selection, hover, tool previews, the grid, pin
   markers, play-mode state (wire values, lit LEDs, LCD dots) or the PCB.
+- Wires with a loose end are gray on screen and black in an export, like every
+  wire. A loose end gets a dot only where 3 or more wires meet, on screen and
+  in an export.
 
 ## Black line art
 

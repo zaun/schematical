@@ -1,4 +1,5 @@
 import CoreGraphics
+import SwiftUI
 import Foundation
 import XCTest
 @testable import schematical
@@ -347,5 +348,48 @@ final class LooseEndTests: XCTestCase {
         XCTAssertEqual(try wire(doc, id).end, .junction(looseID))
         XCTAssertEqual(doc.junctions.first { $0.id == looseID }?.isLoose, true)
         XCTAssertTrue(doc.editorMessage?.hasPrefix("Can't connect") == true, doc.editorMessage ?? "no message")
+    }
+
+    // MARK: plan-30-C — gray loose wires
+
+    func testLooseStyleOnlyReplacesNormal() {
+        XCTAssertEqual(WireLayer.style(simulated: .normal, loose: true), .loose)
+        XCTAssertEqual(WireLayer.style(simulated: .normal, loose: false), .normal)
+        for simulated: WireStyle in [.shorted, .floating, .toggling, .value(.green)] {
+            XCTAssertEqual(WireLayer.style(simulated: simulated, loose: true), simulated)
+        }
+
+        var painter = RecordingPainter()
+        let route = RoutedWire(id: UUID(), points: [p(0, 0), p(100, 0)], style: .loose)
+        WireLayer.paint(&painter, routes: [route], junctions: [], selectedWireIDs: [],
+                        hoveredWireID: nil, preview: nil)
+        XCTAssertEqual(painter.record.calls.count, 1)
+        let call = painter.record.calls.first
+        XCTAssertEqual(call?.kind, .stroke)
+        XCTAssertEqual(call?.ink, Ink.secondary)
+        XCTAssertEqual(call?.lineWidth, 1.5)
+    }
+
+    func testLooseDotOnlyAtBranches() {
+        let doc = TestSupport.newDocument()
+        let loose = (1...3).map { _ in Junction(point: p(100, 100), isLoose: true) }
+        let plain = Junction(point: p(300, 300))
+        let far = (0..<6).map { Junction(point: p(500 + 20 * CGFloat($0), 500)) }
+        // loose[0]: 1 wire end, loose[1]: 2, loose[2]: 3; plain: 1.
+        var wires: [Wire] = []
+        for (k, junction) in loose.enumerated() {
+            for n in 0...k {
+                wires.append(Wire(start: .junction(junction.id), end: .junction(far[n].id), interior: []))
+            }
+        }
+        wires.append(Wire(start: .junction(plain.id), end: .junction(far[5].id), interior: []))
+        doc.replaceContents(chips: [], wires: wires, junctions: loose + [plain] + far, buses: [],
+                            nextReference: 1, board: BoardSettings(), texts: [], traces: [])
+        XCTAssertFalse(doc.showsDot(loose[0]))
+        XCTAssertFalse(doc.showsDot(loose[1]))
+        XCTAssertTrue(doc.showsDot(loose[2]))
+        XCTAssertTrue(doc.showsDot(plain))
+        XCTAssertTrue(doc.hasLooseEnd(wires[0]))
+        XCTAssertFalse(doc.hasLooseEnd(wires.last!))
     }
 }

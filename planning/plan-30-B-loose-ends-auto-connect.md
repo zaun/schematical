@@ -188,7 +188,7 @@ Rejected alternatives:
 
 Acceptance: drops connect loose ends to the dropped pins and nothing else, and a voltage conflict refuses.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/LooseEndTests -only-testing:schematicalTests/SelectionGestureTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 4 min).
-Commit: —
+Commit: ce6357b
 
 ## Validation Plan
 

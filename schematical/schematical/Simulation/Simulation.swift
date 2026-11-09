@@ -196,6 +196,9 @@ enum WireStyle: Equatable {
     /// No driver.
     case floating
     case value(Color)
+    /// Edit mode: a wire with a loose end (plan-30). Gray on screen; the
+    /// export scene never uses it, so exports stay black.
+    case loose
 }
 
 /// Owns one running simulation. Play mode starts it, Stop frees it.

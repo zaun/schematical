@@ -28,7 +28,7 @@ plan-30-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-30-B complete | `grep -c "^Commit: —" planning/plan-30-B-loose-ends-auto-connect.md` → `0` (or the file is in `planning/completed/`) | NOT MET (2026-11-08: plan just written) |
+| plan-30-B complete | `grep -c "^Commit: —" planning/plan-30-B-loose-ends-auto-connect.md` → `0` (or the file is in `planning/completed/`) | MET (2026-11-08: `grep -c "^Commit: —"` → `0`; B landed in ce6357b) |
 
 ## 1. Goal
 
@@ -107,16 +107,16 @@ Keeping the export scene `.normal` needs no palette change.
 
 ### Phase 1 — Gray loose wires
 
-- [ ] `Simulation/Simulation.swift`: `WireStyle.loose`.
-- [ ] `Canvas/SchematicModel.swift`: `hasLooseEnd`, `showsDot` (§ 3).
-- [ ] `Canvas/SchematicCanvasView.swift`: route style and dots (:259–271),
+- [x] `Simulation/Simulation.swift`: `WireStyle.loose`.
+- [x] `Canvas/SchematicModel.swift`: `hasLooseEnd`, `showsDot` (§ 3).
+- [x] `Canvas/SchematicCanvasView.swift`: route style and dots (:259–271),
       `JunctionDot.isLoose`, and the `.loose` case and dot ink in `paint`.
       Update the `WireLayer` doc comment (:989) to say loose wires are gray.
-- [ ] `Canvas/SchematicExportScene.swift:21`: filter dots by `showsDot`.
-- [ ] `docs/export.md`: one line under what the export draws: "Wires with a
+- [x] `Canvas/SchematicExportScene.swift:21`: filter dots by `showsDot`.
+- [x] `docs/export.md`: one line under what the export draws: "Wires with a
       loose end are gray on screen and black in an export, like every
       wire."
-- [ ] Tests:
+- [x] Tests:
   - `schematicalTests/LooseEndTests.swift` `testLooseStyleOnlyReplacesNormal`:
     `WireLayer.style(simulated:loose:)` gives `.loose` for
     (`.normal`, true), and the simulated style otherwise (`.shorted`,
@@ -132,6 +132,10 @@ Keeping the export scene `.normal` needs no palette change.
   - `schematicalTests/LooseEndTests.swift` `testLooseDotOnlyAtBranches`:
     `showsDot` is false for 1- and 2-wire loose junctions, true for 3, and
     true for any plain junction.
+
+- [x] Observed: the Check → `LooseEndTests` `Executed 18 tests, with 0
+      failures`, `SchematicSVGTests` `Executed 6 tests, with 0 failures`,
+      `** TEST SUCCEEDED **`.
 
 Acceptance: loose wires paint gray on screen, export black, and loose ends show no dot unless they branch.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/SchematicSVGTests -only-testing:schematicalTests/LooseEndTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 4 min).
@@ -174,6 +178,13 @@ Commit: —
   connection.
 
 ## Corrections
+
+- `docs/export.md` also says a loose end gets a dot only where 3 or more
+  wires meet, since § 1 makes that true of exports too.
+- `RoutedWire.style`'s doc comment ("Play mode: …") now also names
+  `.loose`; it was the one other comment the new case made wrong.
+- `LooseEndTests.swift` imports SwiftUI for `.value(.green)` (§ Phase 1
+  test list); the first build failed without it.
 
 ## Summary
 

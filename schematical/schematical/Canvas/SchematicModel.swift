@@ -2592,6 +2592,24 @@ final class SchematicDocument {
         adoptLooseEnds(ports: Set(bus(busID)?.ports.map(\.id) ?? []))
     }
 
+    /// Whether either end of the wire is on a loose junction (plan-30).
+    func hasLooseEnd(_ wire: Wire) -> Bool {
+        [wire.start, wire.end].contains { end in
+            guard case let .junction(id) = end else { return false }
+            return junctions.contains { $0.id == id && $0.isLoose }
+        }
+    }
+
+    /// Whether a junction gets a dot: always for a plain junction; for a
+    /// loose one only where 3 or more wire ends meet, since a dot reads as a
+    /// connection.
+    func showsDot(_ junction: Junction) -> Bool {
+        guard junction.isLoose else { return true }
+        let end = WireEnd.junction(junction.id)
+        let count = wires.reduce(0) { $0 + ($1.start == end ? 1 : 0) + ($1.end == end ? 1 : 0) }
+        return count >= 3
+    }
+
     /// Connects loose ends to pins after a drop (plan-30). A loose junction
     /// joins a pin when its point is that pin's tip and either the junction
     /// or the pin's part or port is in the dropped set; every wire end on the
