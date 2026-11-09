@@ -384,18 +384,20 @@ Types and functions with no caller; safe alone.
 
 Acceptance: every listed case passes.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/UndoHistoryTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min).
-Commit: —
+Commit: d628254
 
 ### Phase 2 — Document API
 
 The recording API on `SchematicDocument`, still with no app caller.
 
-- [ ] `schematical/schematical/Canvas/SchematicModel.swift`: the `// MARK:
+- [x] `schematical/schematical/Canvas/SchematicModel.swift`: the `// MARK:
       Undo` section of §4.2 (`state`, `setState`, `recordEdit`,
       `beginGesture`, `endGesture`, `endCoalescing`, `undo(on:)`,
       `redo(on:)`, `undoName(on:)`, `redoName(on:)`, `isPlaying`,
-      `isGestureOpen`); `replaceContents` clears the history.
-- [ ] Tests (same file, `UndoHistoryTests`), on real documents through
+      `isGestureOpen`); `replaceContents` clears the history. `recordEdit`
+      is `rethrows` (Corrections 4); `setState` also clears a selected bus
+      or port that is gone.
+- [x] Tests (same file, `UndoHistoryTests`), on real documents through
       `TestSupport.newDocument()` / `TestSupport.place`:
       `recordEdit(.schematic, "Flip") { doc.flipChip(id) }` then `undo` →
       `doc.state` equals the state before, `redo` → equals after;
@@ -408,10 +410,14 @@ The recording API on `SchematicDocument`, still with no app caller.
       `SchematicFile(document:)` after undo equals the one before the edit
       (the `hasUnsavedChanges` comparison); a step undone after its selected
       part is gone leaves no selected id that does not exist.
+      Added: a step whose items are gone is skipped and the next one undone.
+      Check run → `Executed 25 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+      Final gate (full app target) → `Executed 239 tests, with 0 failures`,
+      `** TEST SUCCEEDED **`.
 
 Acceptance: the document cases pass, and the Phase 1 cases still pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/UndoHistoryTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min).
-Commit: —
+Commit: this commit (the archive of A; hash recorded in plan-31-B's first commit)
 
 ## Validation Plan
 
@@ -457,6 +463,9 @@ Commit: —
    is not a `.part` change (`testDeletingAnEarlierChipDoesNotChangeLaterOnes`);
    items of every kind differ by value only, and an item replaced in place
    keeps today's position.
+4. `recordEdit` is `rethrows` (body `() throws -> T`), so tests can wrap
+   `try TestSupport.place`. The depth and the name are restored in a
+   `defer`, so a throwing body still closes its recording.
 
 ## Summary
 

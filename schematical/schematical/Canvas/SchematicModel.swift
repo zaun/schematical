@@ -1352,6 +1352,171 @@ final class SchematicDocument {
         editingNoteID = nil
         clearAllSelections()
         editorMessage = nil
+        history.clear()
+        recordingDepth = 0
+        recordingStart = nil
+        recordingName = nil
+        recordingCoalescing = nil
+        isGestureOpen = false
+    }
+
+    // MARK: Undo
+
+    /// Each page's undo and redo lists (plan-31). Observed, so the Edit
+    /// menu's titles follow it.
+    private var history = UndoHistory()
+    /// How many `recordEdit` calls (and an open gesture) are running. Only
+    /// the outermost records.
+    private var recordingDepth = 0
+    private var recordingStart: DocumentState?
+    private var recordingPage: EditorPage = .schematic
+    /// The name of the first inner edit that changed something.
+    private var recordingName: String?
+    private var recordingCoalescing: String?
+    /// The outermost call's coalescing key, which wins when it gave one.
+    private var outerCoalescing: String?
+    /// True while the simulation runs: edits are not recorded and undo/redo
+    /// do nothing. Set by `SimulationController`.
+    var isPlaying = false
+    /// A mouse drag is being recorded as one step.
+    private(set) var isGestureOpen = false
+
+    /// The saved part of the document, as a value.
+    var state: DocumentState {
+        DocumentState(chips: chips, wires: wires, junctions: junctions, buses: buses, notes: notes,
+                      nextReference: nextReference, board: board, texts: texts, traces: traces)
+    }
+
+    /// Writes a state back (undo, redo), then drops selections and editor
+    /// state that point at items no longer there.
+    private func setState(_ s: DocumentState) {
+        if chips != s.chips { chips = s.chips }
+        if wires != s.wires { wires = s.wires }
+        if junctions != s.junctions { junctions = s.junctions }
+        if buses != s.buses { buses = s.buses }
+        if notes != s.notes { notes = s.notes }
+        if nextReference != s.nextReference { nextReference = s.nextReference }
+        if board != s.board { board = s.board }
+        if texts != s.texts { texts = s.texts }
+        if traces != s.traces { traces = s.traces }
+        pruneSelection()
+        if let id = editingNoteID, !notes.contains(where: { $0.id == id }) { editingNoteID = nil }
+        if let id = selectedBusID, bus(id) == nil { selectedBusID = nil }
+        if let id = selectedPortID, portLocation(id) == nil { selectedPortID = nil }
+    }
+
+    /// Runs `body` as one undo step named `name` on `page` (and on every page
+    /// that shows what it changed). Nested calls are part of the outermost
+    /// one, which is named by the first call that changed something. An edit
+    /// that changes nothing records nothing. Pushes with the same
+    /// `coalescing` key merge until `endCoalescing()`.
+    @discardableResult
+    func recordEdit<T>(_ page: EditorPage, _ name: String, coalescing: String? = nil,
+                       _ body: () throws -> T) rethrows -> T {
+        guard !isPlaying else { return try body() }
+        if recordingDepth == 0 { startRecording(page, coalescing: coalescing) }
+        recordingDepth += 1
+        let before = state
+        defer {
+            if recordingName == nil, state != before {
+                recordingName = name
+                recordingCoalescing = coalescing
+            }
+            recordingDepth -= 1
+            if recordingDepth == 0 { finishRecording() }
+        }
+        return try body()
+    }
+
+    private func startRecording(_ page: EditorPage, coalescing: String?) {
+        recordingStart = state
+        recordingPage = page
+        recordingName = nil
+        recordingCoalescing = nil
+        outerCoalescing = coalescing
+    }
+
+    private func finishRecording() {
+        defer {
+            recordingStart = nil
+            recordingName = nil
+            recordingCoalescing = nil
+            outerCoalescing = nil
+        }
+        guard let start = recordingStart else { return }
+        let changes = UndoDiff.changes(from: start, to: state)
+        guard !changes.isEmpty else { return }
+        let pages = changes.keys.reduce(into: Set([recordingPage])) { $0.formUnion($1.pages) }
+        history.push(UndoStep(name: recordingName ?? "Edit", coalescing: outerCoalescing ?? recordingCoalescing,
+                              changes: changes, pages: pages))
+    }
+
+    /// Starts recording a whole mouse drag on `page` as one step. A gesture
+    /// still open (one SwiftUI ended without `onEnded`) is closed first.
+    func beginGesture(_ page: EditorPage) {
+        guard !isPlaying else { return }
+        if isGestureOpen { endGesture() }
+        isGestureOpen = true
+        if recordingDepth == 0 { startRecording(page, coalescing: nil) }
+        recordingDepth += 1
+    }
+
+    /// Ends the drag `beginGesture` started and records what it changed.
+    func endGesture() {
+        guard isGestureOpen else { return }
+        isGestureOpen = false
+        recordingDepth -= 1
+        if recordingDepth == 0 { finishRecording() }
+    }
+
+    /// The next edit starts a new step even with the same coalescing key
+    /// (a note editor lost focus).
+    func endCoalescing() {
+        history.endCoalescing()
+    }
+
+    /// Undoes the last step on `page`. A step that changes nothing any more
+    /// (its items are gone) is dropped and the next one undone. False when
+    /// there is nothing to undo, or while playing.
+    @discardableResult
+    func undo(on page: EditorPage) -> Bool {
+        if isGestureOpen { endGesture() }
+        guard !isPlaying else { return false }
+        while let step = history.popUndo(on: page) {
+            var s = state
+            if UndoDiff.apply(step.changes, backwards: true, to: &s) {
+                setState(s)
+                history.pushRedo(step)
+                return true
+            }
+        }
+        return false
+    }
+
+    /// Redoes the last undone step on `page`, as `undo(on:)`.
+    @discardableResult
+    func redo(on page: EditorPage) -> Bool {
+        if isGestureOpen { endGesture() }
+        guard !isPlaying else { return false }
+        while let step = history.popRedo(on: page) {
+            var s = state
+            if UndoDiff.apply(step.changes, backwards: false, to: &s) {
+                setState(s)
+                history.pushUndo(step)
+                return true
+            }
+        }
+        return false
+    }
+
+    /// The name of the step `undo(on:)` would undo ("Move"), or nil.
+    func undoName(on page: EditorPage) -> String? {
+        history.undoTop(on: page)?.name
+    }
+
+    /// The name of the step `redo(on:)` would redo, or nil.
+    func redoName(on page: EditorPage) -> String? {
+        history.redoTop(on: page)?.name
     }
 
     // MARK: Chips

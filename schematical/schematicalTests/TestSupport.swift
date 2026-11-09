@@ -45,6 +45,17 @@ enum TestSupport {
         return try XCTUnwrap(doc.chips.last)
     }
 
+    /// The first DIP switch (by name) with at least two positions.
+    static func firstDip() throws -> CatalogPart {
+        let parts = catalog.groups(matching: DrawerFilter()).flatMap { category in
+            category.functions.flatMap(\.parts) + category.subcategories.flatMap { sub in
+                sub.parts + sub.functions.flatMap(\.parts)
+            }
+        }
+        return try XCTUnwrap(parts.filter { $0.kind == PART_SWITCH && !$0.isTactileSwitch && ($0.count ?? 0) >= 2 }
+            .sorted { $0.name < $1.name }.first, "no DIP switch with two positions")
+    }
+
     static func pin(_ chip: PlacedChip, _ name: String) throws -> PinRef {
         let slot = try XCTUnwrap(chip.layout.slots.first { $0.pin.name == name }, "\(chip.partNumber) has no pin \(name)")
         return PinRef(chipID: chip.id, index: slot.pin.index)

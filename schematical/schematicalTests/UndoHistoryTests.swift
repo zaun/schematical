@@ -274,4 +274,135 @@ final class UndoHistoryTests: XCTestCase {
             XCTAssertNil(history.redoTop(on: page))
         }
     }
+
+    // MARK: Phase 2 — the document API
+
+    private func file(_ doc: SchematicDocument) -> SchematicFile {
+        SchematicFile(document: doc, fileURL: nil)
+    }
+
+    func testRecordedFlipUndoesAndRedoes() throws {
+        let doc = TestSupport.newDocument()
+        let chip = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        doc.replaceContents(chips: doc.chips, wires: [], junctions: [], buses: [], nextReference: 2,
+                            board: doc.board, texts: [], traces: [])
+        let before = doc.state, beforeFile = file(doc)
+        doc.recordEdit(.schematic, "Flip") { doc.flipChip(chip.id) }
+        let after = doc.state
+        XCTAssertNotEqual(before, after)
+        XCTAssertEqual(doc.undoName(on: .schematic), "Flip")
+        XCTAssertNil(doc.undoName(on: .pcb))
+        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.state, before)
+        XCTAssertEqual(file(doc), beforeFile)
+        XCTAssertNil(doc.undoName(on: .schematic))
+        XCTAssertEqual(doc.redoName(on: .schematic), "Flip")
+        XCTAssertTrue(doc.redo(on: .schematic))
+        XCTAssertEqual(doc.state, after)
+        XCTAssertFalse(doc.redo(on: .schematic))
+    }
+
+    /// A gesture is one step, named by the first inner edit that changed
+    /// something: a zero-delta move changes nothing, the switch flip does.
+    func testGestureIsOneStepNamedByTheFirstChange() throws {
+        let doc = TestSupport.newDocument()
+        let dip = try TestSupport.firstDip()
+        let chip = try TestSupport.place(doc, dip.name, at: p(200, 200))
+        doc.replaceContents(chips: doc.chips, wires: [], junctions: [], buses: [], nextReference: 2,
+                            board: doc.board, texts: [], traces: [])
+        doc.select(.chip(chip.id))
+        let before = doc.state
+        doc.beginGesture(.schematic)
+        let base = doc.schematicGroupBase()
+        doc.recordEdit(.schematic, "Move") { doc.moveSchematicGroup(base, by: .zero) }
+        doc.recordEdit(.schematic, "Flip Switch") { _ = doc.toggleSwitch(chip.id, position: 1) }
+        doc.recordEdit(.schematic, "Move") { doc.moveSchematicGroup(base, by: CGSize(width: 40, height: 0)) }
+        XCTAssertNil(doc.undoName(on: .schematic), "nothing is pushed while the gesture is open")
+        doc.endGesture()
+        XCTAssertEqual(doc.undoName(on: .schematic), "Flip Switch")
+        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.state, before)
+        XCTAssertNil(doc.undoName(on: .schematic))
+    }
+
+    func testEditThatChangesNothingRecordsNothing() throws {
+        let doc = TestSupport.newDocument()
+        let chip = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        doc.replaceContents(chips: doc.chips, wires: [], junctions: [], buses: [], nextReference: 2,
+                            board: doc.board, texts: [], traces: [])
+        doc.recordEdit(.schematic, "Change Color") { doc.setPartColor(chip.id, "red") }
+        doc.beginGesture(.schematic)
+        doc.endGesture()
+        XCTAssertNil(doc.undoName(on: .schematic))
+        XCTAssertFalse(doc.undo(on: .schematic))
+    }
+
+    func testPlayingRecordsNothingAndUndoIsOff() throws {
+        let doc = TestSupport.newDocument()
+        let chip = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        doc.recordEdit(.schematic, "Flip") { doc.flipChip(chip.id) }
+        doc.isPlaying = true
+        doc.recordEdit(.schematic, "Rename") { _ = doc.renameChip(chip.id, prefix: "U", number: 9) }
+        let playing = doc.state
+        XCTAssertFalse(doc.undo(on: .schematic))
+        XCTAssertFalse(doc.redo(on: .schematic))
+        XCTAssertEqual(doc.state, playing)
+        doc.isPlaying = false
+        // Only the flip is on the list.
+        XCTAssertEqual(doc.undoName(on: .schematic), "Flip")
+        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertFalse(doc.undo(on: .schematic))
+    }
+
+    func testReplaceContentsEmptiesBothLists() throws {
+        let doc = TestSupport.newDocument()
+        try doc.recordEdit(.schematic, "Add Part") { try TestSupport.place(doc, "SN74HC00N", at: p(200, 200)) }
+        XCTAssertEqual(doc.undoName(on: .schematic), "Add Part")
+        XCTAssertEqual(doc.undoName(on: .pcb), "Add Part", "adding a part is on both lists")
+        doc.replaceContents(chips: [], wires: [], junctions: [], buses: [], nextReference: 1,
+                            board: BoardSettings(), texts: [], traces: [])
+        for page in EditorPage.allCases {
+            XCTAssertNil(doc.undoName(on: page))
+            XCTAssertNil(doc.redoName(on: page))
+        }
+    }
+
+    /// Undo back to the saved file clears "unsaved": the file compares equal.
+    func testUndoRestoresTheSavedFile() throws {
+        let doc = TestSupport.newDocument()
+        let chip = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        let saved = file(doc)
+        doc.recordEdit(.schematic, "Rename") { _ = doc.renameChip(chip.id, prefix: "U", number: 42) }
+        XCTAssertNotEqual(file(doc), saved)
+        doc.undo(on: .pcb)
+        XCTAssertEqual(file(doc), saved)
+    }
+
+    func testUndoPrunesASelectionOfAPartThatIsGone() throws {
+        let doc = TestSupport.newDocument()
+        let chip = try doc.recordEdit(.schematic, "Add Part") { try TestSupport.place(doc, "SN74HC00N", at: p(200, 200)) }
+        doc.select(.chip(chip.id))
+        XCTAssertTrue(doc.isSelected(.chip(chip.id)))
+        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.chips.isEmpty)
+        XCTAssertFalse(doc.isSelected(.chip(chip.id)))
+        XCTAssertFalse(doc.isSelected(.footprint(chip.id)))
+        XCTAssertNil(doc.selectedChipID)
+    }
+
+    /// A step whose items are gone is skipped, and the one under it undone.
+    func testUndoSkipsAStepThatChangesNothing() throws {
+        let doc = TestSupport.newDocument()
+        let chip = try doc.recordEdit(.schematic, "Add Part") { try TestSupport.place(doc, "SN74HC00N", at: p(200, 200)) }
+        doc.recordEdit(.pcb, "Rotate") { doc.rotateFootprint(chip.id) }
+        doc.recordEdit(.pcb, "Change Board Size") { doc.setBoardSize(width: 120, height: 90) }
+        // Undo the board size, then the add from the Schematic: the PCB's
+        // rotate now has no part.
+        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.undoName(on: .schematic), "Add Part")
+        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.undoName(on: .pcb), "Rotate")
+        XCTAssertFalse(doc.undo(on: .pcb))
+        XCTAssertNil(doc.undoName(on: .pcb))
+    }
 }
