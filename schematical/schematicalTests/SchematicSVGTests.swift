@@ -72,6 +72,22 @@ final class SchematicSVGTests: XCTestCase {
         XCTAssertTrue(text.hasPrefix("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\""))
     }
 
+    /// plan-30-C: a wire with a loose end is gray on screen but exports
+    /// black, like every wire.
+    func testLooseWireExportsBlack() throws {
+        let doc = TestSupport.newDocument()
+        let first = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 200, y: 200))
+        let second = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 500, y: 200))
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(first, "1Y")), .pin(try TestSupport.pin(second, "1A"))))
+        doc.erase(at: CGPoint(x: second.bodyRect.midX, y: second.bodyRect.midY))
+        XCTAssertEqual(doc.wires.count, 1)
+        XCTAssertTrue(doc.hasLooseEnd(doc.wires[0]))
+        let text = try svgText(doc)
+        _ = parse(text)
+        XCTAssertEqual(paintValues(text), ["none", "#000"])
+        XCTAssertFalse(text.contains("stroke-opacity=\"0.6\""))
+    }
+
     private func everySymbol(leverOn: Bool) throws -> SchematicDocument {
         let doc = TestSupport.newDocument()
         for (index, name) in everySymbolPart.enumerated() {

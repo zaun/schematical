@@ -9,8 +9,11 @@
  * app), "normallyClosed" (the circuit records the positions closed when the
  * part is added) and "joined" pin pairs, which are contacts numbered after
  * the positions that are always closed and that set_switch cannot address.
+ * "bodySize" (optional) is the nominal body [length, width] in mm, data for
+ * the app's drawer.
  */
 
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -18,7 +21,7 @@
 #include "model_pins.h"
 
 static const char *const DEVICE_KEYS[] = {"actuator", "contacts", "ratedVolts", "momentary",
-                                           "normallyClosed", "joined", NULL};
+                                           "normallyClosed", "joined", "bodySize", NULL};
 
 typedef struct {
     PartSwitch info;
@@ -60,6 +63,30 @@ static int read_pair(KindContext *ctx, const cJSON *item, const char *what, cons
     *a_out = kind_strdup(ctx, a->valuestring);
     *b_out = kind_strdup(ctx, b->valuestring);
     return *a_out != NULL && *b_out != NULL ? 0 : -1;
+}
+
+/* Reads the optional "bodySize": [length, width], each above 0 and at most
+   100 mm, length >= width. */
+static int read_body_size(KindContext *ctx, const cJSON *json, uint32_t out[2]) {
+    const cJSON *size = cJSON_GetObjectItemCaseSensitive(json, "bodySize");
+    const cJSON *length = cJSON_GetArrayItem(size, 0);
+    const cJSON *width = cJSON_GetArrayItem(size, 1);
+
+    out[0] = out[1] = 0;
+    if (size == NULL) {
+        return 0;
+    }
+    if (!cJSON_IsArray(size) || cJSON_GetArraySize(size) != 2 || !cJSON_IsNumber(length) ||
+        !cJSON_IsNumber(width) || length->valuedouble <= 0 || width->valuedouble <= 0 ||
+        length->valuedouble > 100 || width->valuedouble > 100) {
+        return kind_error(ctx, "\"bodySize\" must be [length, width] in mm, each above 0 and at most 100");
+    }
+    if (length->valuedouble < width->valuedouble) {
+        return kind_error(ctx, "\"bodySize\" gives the length (the larger side) first");
+    }
+    out[0] = (uint32_t)llround(length->valuedouble * 1000);
+    out[1] = (uint32_t)llround(width->valuedouble * 1000);
+    return 0;
 }
 
 static void *switch_load_device(KindContext *ctx, const cJSON *json) {
@@ -113,7 +140,8 @@ static void *switch_load_device(KindContext *ctx, const cJSON *json) {
     }
     device->info.joined = (unsigned)joined_count;
     if (optional_bool(ctx, json, "momentary", &device->info.momentary) != 0 ||
-        optional_bool(ctx, json, "normallyClosed", &device->info.normally_closed) != 0) {
+        optional_bool(ctx, json, "normallyClosed", &device->info.normally_closed) != 0 ||
+        read_body_size(ctx, json, device->info.body_um) != 0) {
         return NULL;
     }
     if (device->info.normally_closed && !device->info.momentary) {

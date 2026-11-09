@@ -183,7 +183,12 @@ never connect, except through a through-hole pad.
 ```
 
 A junction is a fixed point where wires meet. At least one wire should end at
-each junction. The app removes unused junctions when wires are erased.
+each junction. A junction stays while any wire ends on it; the app removes it
+once none does.
+
+| Field   | Type    | Meaning                                                         |
+|---------|---------|-----------------------------------------------------------------|
+| `loose` | boolean | Optional. `true`: the spot where a deleted pin was; wires on it have a loose end. Written only when true. |
 
 ## Wires
 

@@ -183,6 +183,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var id: UUID
         var x: Double
         var y: Double
+        /// True for a loose end (the spot where a deleted pin was); left out
+        /// otherwise.
+        var loose: Bool? = nil
     }
 
     /// How a wire end names its pin: by designator (version 2, `"A1"`), or by
@@ -404,7 +407,9 @@ extension SchematicFile {
                 ohms: chip.ohms
             )
         }
-        junctions = document.junctions.map { Junction(id: $0.id, x: $0.point.x, y: $0.point.y) }
+        junctions = document.junctions.map {
+            Junction(id: $0.id, x: $0.point.x, y: $0.point.y, loose: $0.isLoose ? true : nil)
+        }
         wires = document.wires.map { wire in
             Wire(
                 id: wire.id,
@@ -603,7 +608,8 @@ extension SchematicFile {
         var placedJunctions: [SchematicModelJunction] = []
         for junction in junctions {
             try claim(junction.id)
-            placedJunctions.append(SchematicModelJunction(id: junction.id, point: CGPoint(x: junction.x, y: junction.y)))
+            placedJunctions.append(SchematicModelJunction(id: junction.id, point: CGPoint(x: junction.x, y: junction.y),
+                                                         isLoose: junction.loose ?? false))
         }
         let junctionIDs = Set(placedJunctions.map(\.id))
         let chipsByID = Dictionary(uniqueKeysWithValues: chips.map { ($0.id, $0) })

@@ -53,10 +53,13 @@ typedef struct { uint32_t words; unsigned bits; uint64_t access_ps; const char *
 /* rated_mv: the contacts' switching voltage rating. momentary: the button
    springs back (data for the app). normally_closed: positions start closed.
    joined: pairs of pins always connected inside the part (contacts numbered
-   positions + 1 … positions + joined, not addressable). */
+   positions + 1 … positions + joined, not addressable). body_um: the
+   nominal body, length then width (length >= width), in micrometres; both
+   0 when the part file gives no "bodySize". */
 typedef struct {
     unsigned positions; const char *actuator; uint32_t rated_mv;
     unsigned momentary; unsigned normally_closed; unsigned joined;
+    uint32_t body_um[2];
 } PartSwitch;
 /* colors: the LED's colors, in file order; colors[0] is the default. */
 typedef struct { const char *const *colors; size_t color_count; } PartLed;

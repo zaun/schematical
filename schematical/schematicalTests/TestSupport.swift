@@ -25,6 +25,14 @@ enum TestSupport {
         return doc
     }
 
+    /// A document with the catalog's part library, so edits run the voltage
+    /// check. Kept like `newDocument()`.
+    static func newDocument(library: PartLibraryHandle?) -> SchematicDocument {
+        let doc = SchematicDocument(library: library)
+        keptDocuments.append(doc)
+        return doc
+    }
+
     static func part(_ name: String) throws -> CatalogPart {
         try XCTUnwrap(catalog.part(named: name), "no part \(name)")
     }

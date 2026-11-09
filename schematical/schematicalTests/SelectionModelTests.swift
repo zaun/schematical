@@ -272,8 +272,8 @@ final class SelectionModelTests: XCTestCase {
         doc.toggleSelection(.junction(c.junction.id))
         doc.toggleSelection(.chip(c.left.id))
         XCTAssertEqual(doc.boardSelection.items, [.footprint(c.below.id), .footprint(c.left.id)])
-        // Erasing the lower LED takes its wire; the junction then joins only
-        // two wires but stays, since both still end on it.
+        // Erasing the lower LED leaves its wire with a loose end; the
+        // junction stays, since its wires still end on it.
         let belowPoint = CGPoint(x: chip(doc, c.below.id).bodyRect.midX, y: chip(doc, c.below.id).bodyRect.midY)
         doc.erase(at: belowPoint)
         let wireIDs = Set(doc.wires.map(\.id))

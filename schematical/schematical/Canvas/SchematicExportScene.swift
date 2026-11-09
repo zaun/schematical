@@ -10,7 +10,7 @@ struct SchematicScene {
     var buses: [Bus]
     /// Every wire, styled `.normal`.
     var routes: [RoutedWire]
-    /// Every junction, none selected.
+    /// Every junction that shows a dot (`showsDot`), none selected.
     var junctions: [JunctionDot]
     var notes: [SchematicNote]
 
@@ -18,7 +18,8 @@ struct SchematicScene {
         chips = document.chips
         buses = document.buses
         routes = document.wires.map { RoutedWire(id: $0.id, points: document.path(forWire: $0.id)) }
-        junctions = document.junctions.map { JunctionDot(point: $0.point) }
+        // A loose end gets a dot only where it branches, and it exports black.
+        junctions = document.junctions.filter(document.showsDot).map { JunctionDot(point: $0.point) }
         notes = document.notes
     }
 

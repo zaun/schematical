@@ -12,12 +12,14 @@ nonisolated struct ChipPartDragItem: Codable, Hashable, Sendable, Transferable {
 }
 
 /// Right-hand drawer. Parts are grouped by their drawer path (from the part
-/// files), then by readable function: Memory → SRAM → 32 KB. Switches, LEDs
-/// and 7-segment displays skip the function level. The top bar filters by
+/// files), then by readable function: Memory → SRAM → 32 KB. Tactile switches
+/// are grouped by body size instead (Switch → Tactile → 6 × 6 mm); DIP
+/// switches, LEDs and 7-segment displays skip the function level. The top bar filters by
 /// package and supply voltage. Each category header carries the menus for the kinds
 /// of part in it: family and gate count for gates and flip-flops, a count of
 /// positions for switches, a color for LEDs and displays; a group of
-/// 7-segment displays has digit count and size menus, and the ADC and DAC
+/// 7-segment displays has digit count and size menus, the tactile switch
+/// group an actuator menu, and the ADC and DAC
 /// groups have bits and channels menus.
 struct ChipDrawerView: View, Equatable {
     let catalog: PartCatalogStore
@@ -204,9 +206,12 @@ struct ChipDrawerView: View, Equatable {
             Text(subcategory)
                 .font(.body.weight(.semibold))
             Spacer()
-            if catalog.kinds(inSubcategory: subcategory).contains(PART_7SEG.rawValue) {
+            let kinds = catalog.kinds(inSubcategory: subcategory)
+            if kinds.contains(PART_7SEG.rawValue) {
                 countMenu(counts: catalog.displayDigitCounts, selection: $filter.displayDigits, unit: "digit")
                 textMenu(catalog.displaySizes, selection: $filter.displaySize, all: "All sizes")
+            } else if catalog.isTactile(subcategory: subcategory) {
+                textMenu(catalog.tactileActuators, selection: $filter.tactileActuator, all: "All actuators")
             }
         }
     }

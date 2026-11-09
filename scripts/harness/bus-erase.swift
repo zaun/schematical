@@ -16,6 +16,23 @@ MainActor.assumeIsolated { runEraseChecks() }
         if !ok { failures += 1 }
     }
     func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: x, y: y) }
+    /// The wire with an end on one of the port's pins.
+    func wireOn(_ doc: SchematicDocument, port: UUID) -> UUID? {
+        doc.wires.first { wire in
+            [wire.start, wire.end].contains { end in
+                if case let .busPin(ref) = end { return ref.portID == port }
+                return false
+            }
+        }?.id
+    }
+    /// Whether the wire has an end on a loose junction (plan-30).
+    func endsLoose(_ doc: SchematicDocument, _ id: UUID?) -> Bool {
+        guard let wire = doc.wires.first(where: { $0.id == id }) else { return false }
+        return [wire.start, wire.end].contains { end in
+            if case let .junction(j) = end { return doc.junctions.first { $0.id == j }?.isLoose == true }
+            return false
+        }
+    }
     let size = CGSize(width: 720, height: 360)
     let origin = p(-20, 40)
 
@@ -30,43 +47,49 @@ MainActor.assumeIsolated { runEraseChecks() }
         expect(doc.pendingRemoval == nil && doc.port(port3) == nil, "removed at once")
         expect(doc.bus(proof.busID)!.ports.count == portsBefore - 1, "one port fewer")
 
-        print("== wired port: asks; Cancel keeps; Delete removes it and its wire")
+        print("== wired port: asks; Cancel keeps; Delete removes it, its wire stays loose")
         let wiresBefore = doc.wires.count
+        let port1Wire = wireOn(doc, port: proof.port1)
         doc.erase(at: p(260, 115))
         print("  dialog: \(doc.pendingRemoval?.message ?? "none")")
-        expect(doc.pendingRemoval?.message == "Delete this port and the 1 wire connected to it?", "asks")
+        expect(doc.pendingRemoval?.message == "Delete this port? The 1 wire on its pins stay, with loose ends.", "asks")
         doc.erase(at: p(380, 300))
         expect(doc.bus(proof.busID)!.lines.count == 2, "erasing is paused while it asks")
         doc.cancelPendingRemoval()
         expect(doc.port(proof.port1) != nil && doc.wires.count == wiresBefore, "Cancel keeps everything")
         doc.erase(at: p(260, 115))
         doc.confirmPendingRemoval()
-        expect(doc.port(proof.port1) == nil && doc.wires.count == wiresBefore - 1, "Delete removes the port and its wire")
+        expect(doc.port(proof.port1) == nil && doc.wires.count == wiresBefore, "Delete removes the port, wire count unchanged")
+        expect(endsLoose(doc, port1Wire), "the port's wire ends on a loose junction")
         Harness.renderCanvas(doc, to: "\(images)/b3-1-port-deleted.png", size: size, origin: origin)
 
-        print("== bus line with a port: asks, then removes line, port and wire")
+        print("== bus line with a port: asks, then removes line and port; the wire stays loose")
         proof = try BusProof.build()
         doc = proof.document
         let count = doc.wires.count
+        let port2Wire = wireOn(doc, port: proof.port2)
         doc.erase(at: p(380, 300))
         print("  dialog: \(doc.pendingRemoval?.message ?? "none")")
-        expect(doc.pendingRemoval?.message == "Delete this bus line, its 1 port and the 1 wire connected to them?", "asks")
+        expect(doc.pendingRemoval?.message == "Delete this bus line and its 1 port? The 1 wire on their pins stay, with loose ends.", "asks")
         doc.confirmPendingRemoval()
         let bus = doc.bus(proof.busID)
         expect(bus?.lines.map(\.id) == [proof.horizontalLine], "the horizontal line stays alone")
         expect(doc.port(proof.port2) == nil && doc.port(proof.port1) != nil, "port 2 gone, port 1 stays")
-        expect(doc.wires.count == count - 1, "port 2's wire gone")
+        expect(doc.wires.count == count, "wire count unchanged")
+        expect(endsLoose(doc, port2Wire), "port 2's wire ends on a loose junction")
         Harness.renderCanvas(doc, to: "\(images)/b3-2-line-deleted.png", size: size, origin: origin)
 
-        print("== untick a wired pin: asks, then removes the pin and its wire")
+        print("== untick a wired pin: asks, then removes the pin; its wire stays loose")
         let b0 = doc.bus(proof.busID)!.wires[0].id
         let before = doc.wires.count
+        let pinWire = wireOn(doc, port: proof.port1)
         expect(doc.requestPortWires(proof.port1, []) == nil, "no refusal")
         print("  dialog: \(doc.pendingRemoval?.message ?? "none")")
-        expect(doc.pendingRemoval?.message == "Remove 1 pin and the 1 wire connected to them?", "asks")
+        expect(doc.pendingRemoval?.message == "Remove 1 pin? The 1 wire on them stay, with loose ends.", "asks")
         expect(doc.port(proof.port1)!.port.wireIDs == [b0], "nothing changed yet")
         doc.confirmPendingRemoval()
-        expect(doc.port(proof.port1)!.port.wireIDs.isEmpty && doc.wires.count == before - 1, "pin and wire gone")
+        expect(doc.port(proof.port1)!.port.wireIDs.isEmpty && doc.wires.count == before, "pin gone, wire count unchanged")
+        expect(endsLoose(doc, pinWire), "the pin's wire ends on a loose junction")
         let b1 = doc.bus(proof.busID)!.wires[1].id
         expect(doc.requestPortWires(proof.port1, [b1]) == nil && doc.pendingRemoval == nil, "ticking never asks")
         expect(doc.requestPortWires(proof.port1, []) == nil && doc.pendingRemoval == nil

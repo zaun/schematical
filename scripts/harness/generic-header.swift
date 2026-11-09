@@ -125,8 +125,8 @@ MainActor.assumeIsolated { runGenericHeaderChecks() }
         return FileManager.default.fileExists(atPath: "/tmp/p23-headers.png") ? nil : "no image"
     }
 
-    // 6. Shrinking removes the wires on pins that go away and re-fits the rest.
-    check("6 1X08 → 1X04: the pin-8 wire and its junction go; pins 1, 2 stay wired at their tips") {
+    // 6. Shrinking keeps the wires on pins that go away, with loose ends (plan-30), and re-fits the rest.
+    check("6 1X08 → 1X04: the pin-8 wire stays with a loose end; pins 1, 2 stay wired at their tips") {
         guard let big = header(1, 8), let small = header(1, 4) else { return "no parts" }
         let doc = Harness.newDocument()
         let id = place(big, in: doc)
@@ -135,11 +135,13 @@ MainActor.assumeIsolated { runGenericHeaderChecks() }
         var junctions: [Junction] = []
         var wires: [Wire] = []
         var wireByPin: [Int: UUID] = [:]
+        var pin8Tip = CGPoint.zero
         for pin in [1, 2, 8] {
             guard let slot = placed.layout.slots.first(where: { $0.pin.designator == "\(pin)" }) else {
                 return "no slot \(pin)"
             }
             let tip = placed.tip(of: slot)
+            if pin == 8 { pin8Tip = tip }
             let junction = Junction(point: CGPoint(x: tip.x - 40, y: tip.y))
             junctions.append(junction)
             let wire = Wire(start: .pin(PinRef(chipID: id, index: slot.pin.index)), end: .junction(junction.id),
@@ -153,9 +155,13 @@ MainActor.assumeIsolated { runGenericHeaderChecks() }
         guard let after = chip(doc, id) else { return "chip gone" }
         if after.partNumber != "GENERIC-HEADER-1X04" { return "part \(after.partNumber)" }
         if after.reference != reference || after.origin != origin { return "reference/origin changed" }
-        if doc.wires.contains(where: { $0.id == wireByPin[8] }) { return "pin-8 wire kept" }
-        if doc.junctions.contains(where: { $0.id == junctions[2].id }) { return "pin-8 junction kept" }
-        if doc.wires.count != 2 || doc.junctions.count != 2 { return "\(doc.wires.count) wires, \(doc.junctions.count) junctions" }
+        // plan-30: the pin-8 wire stays, with a loose end at the old pin-8 tip.
+        guard let pin8Wire = doc.wires.first(where: { $0.id == wireByPin[8] }) else { return "pin-8 wire gone" }
+        guard case let .junction(looseID) = pin8Wire.start,
+              let loose = doc.junctions.first(where: { $0.id == looseID }), loose.isLoose,
+              loose.point == pin8Tip else { return "pin-8 wire has no loose end at the old tip" }
+        if !doc.junctions.contains(where: { $0.id == junctions[2].id }) { return "pin-8 far junction gone" }
+        if doc.wires.count != 3 || doc.junctions.count != 4 { return "\(doc.wires.count) wires, \(doc.junctions.count) junctions" }
         for pin in [1, 2] {
             guard let wire = wireByPin[pin], let slot = after.layout.slots.first(where: { $0.pin.designator == "\(pin)" })
             else { return "pin \(pin) missing" }

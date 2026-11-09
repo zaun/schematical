@@ -132,7 +132,7 @@ enum NetlistBuilder {
         var netCount = netIndexByRoot.count
         let wired = Set(connections.map { "\($0.part)/\($0.pin)" })
         for (index, chip) in chips.enumerated() {
-            guard case let .tactileSwitch(_, _, _, joined) = chip.part.details, joined > 0 else { continue }
+            guard case let .tactileSwitch(_, _, _, joined, _) = chip.part.details, joined > 0 else { continue }
             for pin in chip.part.pins where !pin.isHidden && !wired.contains("\(index)/\(pin.designator)") {
                 connections.append((part: index, pin: pin.designator, net: netCount))
                 netCount += 1
@@ -144,7 +144,7 @@ enum NetlistBuilder {
         var switchesOn: [(part: Int, position: Int)] = []
         var positionCounts: [Int] = []
         for (index, chip) in chips.enumerated() {
-            if case let .tactileSwitch(_, _, _, joined) = chip.part.details {
+            if case let .tactileSwitch(_, _, _, joined, _) = chip.part.details {
                 if chip.tactileContactClosed {
                     switchesOn.append((part: index, position: 1))
                 }
@@ -196,6 +196,9 @@ enum WireStyle: Equatable {
     /// No driver.
     case floating
     case value(Color)
+    /// Edit mode: a wire with a loose end (plan-30). Gray on screen; the
+    /// export scene never uses it, so exports stay black.
+    case loose
 }
 
 /// Owns one running simulation. Play mode starts it, Stop frees it.
