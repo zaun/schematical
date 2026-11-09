@@ -89,7 +89,7 @@ Acceptance: `Parts/switch.json` and `footprints.json` load; the generator is
 idempotent for these makers.
   Check: `python3 -I planning/plan-27-data/gen-parts.py --maker 'E-Switch' --maker 'Aratas' --dry-run` → `no changes` and `/tmp/logic-p27/library_check` passes (est. 4 min; the loader is the smallest check that reads the new JSON).
   Result 2026-11-08: `no changes`; `library_check: all passed`.
-Commit: (this commit)
+Commit: 6880fdf
 
 ### Phase 2 — Goldens and tests
 
@@ -102,7 +102,7 @@ Commit: (this commit)
 Acceptance: goldens grew by exactly the new parts and footprints.
   Check: `echo $(( $(wc -l < backend/tests/golden/parts.txt) - P_F ))` equals N_e-switch + N_aratas; `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check'` → `100% tests passed, 0 tests failed out of 4` (est. 8 min: full rebuild and the golden sweeps).
   Result 2026-11-08: 14111 − 13646 = 465 = 321 (E-Switch) + 144 (Aratas); the 5-test run includes the four.
-Commit: (this commit)
+Commit: 6880fdf
 
 ## Validation Plan
 
