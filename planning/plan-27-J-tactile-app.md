@@ -36,10 +36,10 @@ The gate for the whole feature is in plan-27-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-27-I is complete | `ls planning/completed/plan-27-I-*` → one file | NOT MET until I archives (2026-11-07) |
-| Tactile parts are in the library | `grep -c 'Switch/Tactile' backend/tests/golden/parts.txt` → ≥ 1 | NOT MET until E (2026-11-07) |
-| No tactile code in the app yet | `grep -rc 'tactile' schematical/schematical --include='*.swift' \| grep -v ':0' \| wc -l` → 0 | MET (2026-11-07) |
-| plan-28-A complete (symbols draw through `SchematicPainter`) | `ls planning/completed/plan-28-A-* \| wc -l` → 1 and `grep -c 'protocol SchematicPainter' schematical/schematical/Canvas/*.swift` → ≥ 1 in some file | NOT MET (2026-11-07; plan-28 lands A before J, at the owner's request) |
+| plan-27-I is complete | `ls planning/completed/plan-27-I-*` → one file | moot for J (Correction 2: J needs E's parts, not I); E archived 2026-11-08 (1f61382) |
+| Tactile parts are in the library | `grep -c 'Switch/Tactile' backend/tests/golden/parts.txt` → ≥ 1 | MET 2026-11-08: 488 |
+| No tactile code in the app yet | `grep -rc 'tactile' schematical/schematical --include='*.swift' \| grep -v ':0' \| wc -l` → 0 | MET at the start (2026-11-08, before 96d9115) |
+| plan-28-A complete (symbols draw through `SchematicPainter`) | `ls planning/completed/plan-28-A-* \| wc -l` → 1 and `grep -c 'protocol SchematicPainter' schematical/schematical/Canvas/*.swift` → ≥ 1 in some file | MET 2026-11-08: `planning/completed/plan-28-A-export-painter.md`; `protocol SchematicPainter` in `Canvas/SchematicPainter.swift:74` |
 | The other open plans add no `PartSymbol` case | `grep -c 'PartSymbol' planning/plan-22-E-arith-app.md planning/plan-24-I-converter-app.md` → 0 and 0 | MET (2026-11-07) |
 
 If plan-27-I is not complete, this plan cannot start, full stop.
@@ -206,8 +206,9 @@ save it (they start released)".
 
 ### Phase 1 — Catalog, drawer, facts
 
-- [ ] `PartCatalog.swift`, `PartFacts.swift`: § 4.1.
-- [ ] Tests: `schematicalTests/TactileSwitchTests.swift` (new): from
+- [x] `PartCatalog.swift`, `PartFacts.swift`: § 4.1, plus the drawer's
+      function level for tactile switches (Correction 3).
+- [x] Tests: `schematicalTests/TactileSwitchTests.swift` (new): from
       `TestSupport.catalog`, every part whose details are `.tactileSwitch`
       has symbol `.tactileSwitch`, `count == nil`, `kindName` "Tactile switch";
       `groups(matching: DrawerFilter())` has a "Switch" category whose
@@ -216,14 +217,15 @@ save it (they start released)".
 
 Acceptance: the drawer data is right.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/TactileSwitchTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 4 min).
-Commit: —
+  Result 2026-11-08 (with E's 488 C&K parts): `Executed 10 tests, with 0 failures` — testCatalogFacts, testDrawerLeaves, testSidebarRows, testNormalOpenTwoTerminal, testNormalOpenFourTerminal, testNormalClose, testFileNeverSavesPressed, testDipSwitchUnchanged, testButtonHit, testPressAndRelease; `** TEST SUCCEEDED **`.
+Commit: 96d9115 (code and tests)
 
 ### Phase 2 — Model, symbol, file, netlist
 
-- [ ] `SchematicModel.swift`, `Canvas/TactileSwitchSymbolView.swift`,
+- [x] `SchematicModel.swift`, `Canvas/TactileSwitchSymbolView.swift`,
       `SchematicCanvasView.swift` (draw case): § 4.2.
-- [ ] `Simulation.swift`: § 4.3. `SchematicFile.swift`, `docs/file-format.md`: § 4.5.
-- [ ] Tests (`TactileSwitchTests`): (1) place the first NO 2-terminal part:
+- [x] `Simulation.swift`: § 4.3, plus private nets for a tactile switch's unwired pins (Correction 4). `SchematicFile.swift`, `docs/file-format.md`: § 4.5.
+- [x] Tests (`TactileSwitchTests`): (1) place the first NO 2-terminal part:
       `switchesOn == [false]`; `NetlistBuilder.build` → `switchesOn` empty;
       `setButton(pressed: true)` → `[true]` and the netlist has position 1;
       (2) first NO 4-terminal part: netlist always has positions 2 and 3, and
@@ -233,20 +235,21 @@ Commit: —
       (5) a DIP switch's `switchesOn` and netlist are unchanged.
 
 Acceptance: the model and netlist behave as § 4.3 says.
-  Check: the Phase 1 command → all pass (est. 4 min).
-Commit: —
+  Check: the Phase 1 command → all pass (est. 4 min). Result: as Phase 1 (the five cases are testNormalOpenTwoTerminal, testNormalOpenFourTerminal, testNormalClose, testFileNeverSavesPressed, testDipSwitchUnchanged).
+Commit: 96d9115
 
 ### Phase 3 — Press interaction
 
-- [ ] `SchematicModel.swift` `setButton`, `releaseAllButtons`;
+- [x] `SchematicModel.swift` `setButton`, `releaseAllButtons`;
       `SchematicCanvasView.swift` `.holdButton`, `.onChange(of: isRunning)`: § 4.4.
-- [ ] Tests (`TactileSwitchTests`): `setButton` on a DIP chip → nil; on a
+- [x] Tests (`TactileSwitchTests`): `setButton` on a DIP chip → nil; on a
       tactile chip pressed true then false → `[true]` then `[false]`;
       `releaseAllButtons` after two presses → both `[false]`.
 
 Acceptance: a press is always matched by a release; DIP lever click unchanged.
   Check: the Phase 1 command plus `-only-testing:schematicalTests/SelectionGestureTests` → all pass (est. 5 min; the gesture file shares `Interaction`).
-Commit: —
+  Result 2026-11-08: `Executed 19 tests, with 0 failures`; `** TEST SUCCEEDED **`.
+Commit: 96d9115
 
 ## Validation Plan
 
@@ -255,6 +258,7 @@ Commit: —
 - Runtime proof: plan-27-K (the harness script and the `run` skill).
 - Doc sync: `docs/file-format.md` § `switches`; `docs/parts-format.md` needs nothing here.
 - Final gate (once, after Phase 3): `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO` → 0 failures (est. 8 min).
+  Result 2026-11-08: `Executed 191 tests, with 0 failures`; `** TEST SUCCEEDED **`. Coverage: `grep -c 'tactile' …TactileSwitchTests.swift` → 16.
 
 ## Decisions
 
