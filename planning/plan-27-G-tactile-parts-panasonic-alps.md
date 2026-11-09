@@ -26,8 +26,8 @@ The gate for the whole feature is in plan-27-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-27-F is complete | `ls planning/completed/plan-27-F-*` → one file | NOT MET until F archives (2026-11-07) |
-| Golden size at start | `wc -l < backend/tests/golden/parts.txt` → **P_G** | record at start (13158 after main's merge + the earlier letters' parts) |
+| plan-27-F is complete | `ls planning/completed/plan-27-F-*` → one file | MET 2026-11-08; C's Panasonic and Alps rows merged (C Phase 1) |
+| Golden size at start | `wc -l < backend/tests/golden/parts.txt` → **P_G** | counted by maker instead (Correction 2): `grep -c 'mfr=Panasonic\|mfr=Alps Alpine'` |
 
 If plan-27-F is not complete, this plan cannot start, full stop.
 
@@ -80,26 +80,29 @@ Panasonic + Alps Alpine.
 
 ### Phase 1 — Generate the parts and move the footprints
 
-- [ ] `python3 -I planning/plan-27-data/gen-parts.py --maker 'Panasonic' --maker 'Alps'`.
-- [ ] `python3 -I planning/plan-27-data/append-footprints.py 'Panasonic' 'Alps'`.
-- [ ] Load check: `cmake --build /tmp/logic-p27 -j8 --target library_check`
+- [x] `python3 -I planning/plan-27-data/gen-parts.py --maker 'Panasonic' --maker 'Alps'`. Alps in the first G/H/I run (cbb9595); this run → `54 tactile devices, 1819 tactile parts written; 31 datasheets.json entries added`.
+- [x] `python3 -I planning/plan-27-data/append-footprints.py 'Panasonic' 'Alps'` → `27 footprints appended`.
+- [x] Load check: `cmake --build /tmp/logic-p27 -j8 --target library_check` (→ `library_check: all passed`)
       then `/tmp/logic-p27/library_check`.
 
 Acceptance: `Parts/switch.json` and `footprints.json` load; the generator is
 idempotent for these makers.
   Check: `python3 -I planning/plan-27-data/gen-parts.py --maker 'Panasonic' --maker 'Alps' --dry-run` → `no changes` and `/tmp/logic-p27/library_check` passes (est. 4 min; the loader is the smallest check that reads the new JSON).
-Commit: —
+  Result 2026-11-08: `--dry-run` → `no changes`; `library_check: all passed`.
+Commit: (this commit)
 
 ### Phase 2 — Goldens and tests
 
-- [ ] Goldens: plan-27-E § 4.3 (`listing_check --print`, `trace_check --print`,
+- [x] Goldens: plan-27-E § 4.3 (`listing_check --print`, `trace_check --print`,
       `footprint_check --print`); review `git diff --numstat
-      backend/tests/golden` (zero deletions).
-- [ ] Tests: `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check|tactile_test'`.
+      backend/tests/golden` (zero deletions). → `27 0 footprints.txt`, `185 0
+      parts.txt`, `185 0 traces.txt` (Alps' 83 came with cbb9595).
+- [x] Tests: `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check|tactile_test'`.
 
 Acceptance: goldens grew by exactly the new parts and footprints.
   Check: `echo $(( $(wc -l < backend/tests/golden/parts.txt) - P_G ))` equals N_panasonic + N_alps; `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check'` → `100% tests passed, 0 tests failed out of 4` (est. 8 min: full rebuild and the golden sweeps).
-Commit: —
+  Result 2026-11-08: `grep -c 'mfr=Panasonic\|mfr=Alps Alpine' …parts.txt` → 268 = 185 + 83 (the `add` rows); ctest `100% tests passed, 0 tests failed out of 28` (includes the four and `tactile_test`).
+Commit: (this commit)
 
 ## Validation Plan
 
@@ -107,7 +110,7 @@ Commit: —
 - Coverage check: `grep -c 'Switch/Tactile' backend/tests/golden/parts.txt` = the running total of `add` rows landed so far.
 - Runtime proof: none beyond the goldens (the app proof is K).
 - Doc sync: none (format and generator docs landed in D and E).
-- Final gate (once, after the last phase): `ctest --test-dir /tmp/logic-p27 -j8` → `100% tests passed, 0 tests failed out of 28` (est. 6 min).
+- Final gate (once, after the last phase): `ctest --test-dir /tmp/logic-p27 -j8` → `100% tests passed, 0 tests failed out of 28` (est. 6 min). Result 2026-11-08: as above.
 
 ## Decisions
 

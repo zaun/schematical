@@ -98,11 +98,19 @@ skipping ids that exist in `footprints-B.json` (moot with `grep -c
 
 ### Phase 1 — Panasonic (40 lines, 193 rows) and Alps (38 lines, 120 rows)
 
-- [ ] Tasks (a)–(c) for `panasonic/` and `alps/`.
+- [x] Tasks (a)–(c) for `panasonic/` and `alps/`. Panasonic reader
+      (`work/panasonic/`): `merge-work.py C panasonic` → `scheme-check.py
+      --maker Panasonic`: `2 add, 8 skip, 0 still pending`; 29 footprints, 27
+      new (`EVPAS -> TS35`, `EVPAW -> KXT3`). Alps reader (two passes):
+      `0 add, 1 skip` on the real file (its pending rows went `add` once the
+      text was NFKC-normalised, plan-27-A Correction 6); 36 `skip` from
+      `cannot-draw.tsv` (product specifications with no drawing); SKRT as a
+      2-pin footprint with pin 1 on two pads.
 
 Acceptance: no Panasonic or Alps row is `pending`; checks pass.
   Check: `python3 -I planning/plan-27-data/census/specs-check.py --maker Panasonic && python3 -I planning/plan-27-data/census/specs-check.py --maker Alps && planning/plan-27-data/census/fp-load.sh planning/plan-27-data/footprints-B.json planning/plan-27-data/footprints-C.json` → `specs ok` twice, only extra/unused failures for the new ids (est. 4 min).
-Commit: —
+  Result 2026-11-08: `specs ok (185 add rows)`, `specs ok (83 add rows)`; `27 new footprints: load ok` (the others already in the library).
+Commit: (this commit)
 
 ### Phase 2 — Same Sky (36 lines, 379 rows)
 
