@@ -244,7 +244,7 @@ Acceptance: `candidates.tsv` is current and its counts are in § Corrections or
 equal to § 2.
   Check: `awk -F'\t' '$18=="candidate"' planning/plan-27-data/candidates.tsv | wc -l` → the § 2 number or the corrected one (est. 20 min incl. 229 DigiKey calls and the downloads; nothing smaller re-measures stock).
   Result 2026-11-08 (before Phase 3 rewrote the column): `2337` = § 2.
-Commit: 76ab90b (census, scan rule), 7fc81fe (fetch fix); the data in the Phase 2–5 commit
+Commit: 76ab90b (census, scan rule), 7fc81fe (fetch fix); data in f3b9506
 
 ### Phase 2 — Place the datasheets
 
@@ -260,7 +260,7 @@ Commit: 76ab90b (census, scan rule), 7fc81fe (fetch fix); the data in the Phase 
 Acceptance: every row with `pdf` = 1 has its PDF in the tree.
   Check: `python3 -I planning/plan-27-data/census/place.py --verify planning/plan-27-data/candidates.tsv` → `0 missing` and `ls datasheets/switch/tactile/*/*.pdf | wc -l` equals `awk -F'\t' '$20==1 {print $17}' planning/plan-27-data/candidates.tsv | sort -u | wc -l` (619 at planning time) (est. 2 min).
   Corrected (Correction 8): the file count equals the distinct SHA-256 of `datasheets.tsv`, not the distinct URLs. Result: `684 URLs, 510 PDFs, 0 missing, 0 unused`; `ls … | wc -l` → `510`; distinct SHA-256 → `510` (after deleting the one file only skip rows used).
-Commit: —
+Commit: f3b9506
 
 ### Phase 3 — First decisions
 
@@ -290,7 +290,7 @@ Acceptance: no row is `candidate` or `check`; every `skip` is in
 `skipped-parts.md`.
   Check: `awk -F'\t' 'NR>1 && ($18=="candidate" || $18=="check")' planning/plan-27-data/candidates.tsv | wc -l` → 0, and `python3 -I planning/plan-27-data/census/decide.py --verify-skipped` → `0 skip rows missing from skipped-parts.md` (est. 1 min).
   Result: `0`; `0 skip rows missing from skipped-parts.md`.
-Commit: —
+Commit: f3b9506
 
 ### Phase 5 — Maker-hosted datasheet URLs (added, Correction 4)
 
@@ -316,7 +316,7 @@ Commit: —
 
 Acceptance: every non-maker-hosted datasheet of a kept row has a decided URL.
   Check: `python3 -I planning/plan-27-data/census/maker-urls.py --verify` → `0 missing` (est. 1 min). Result: `0 missing`.
-Commit: —
+Commit: f3b9506
 
 ### Phase 4 — `specs.tsv` skeleton
 
@@ -329,7 +329,7 @@ Commit: —
 
 Acceptance: `specs.tsv` has one row per (maker, series, mounting) group.
   Check: `awk -F'\t' '$18=="add" || $18=="pending" {print $1"|"$5"|"$8}' planning/plan-27-data/candidates.tsv | sort -u | wc -l` equals `awk 'END{print NR-1}' planning/plan-27-data/specs.tsv` (est. 1 min). Result: `325` = `325`.
-Commit: —
+Commit: f3b9506
 
 ## Validation Plan
 

@@ -176,7 +176,7 @@ drawer, function names, package values).
 
 - [x] `planning/plan-27-data/gen-parts.py` (§ 4.1) and
       `append-footprints.py` (§ 4.2).
-- [ ] `gen-parts.py --selftest`: builds a two-row `candidates.tsv` (one NO
+- [x] `gen-parts.py --selftest`: builds a two-row `candidates.tsv` (one NO
       2-terminal, one NC 4-terminal) and a copy of `switch.json` in a temp
       directory, runs the generator twice and prints `idempotent ok` (second run
       byte-identical) and `prefix ok` (the text before the first `tact_`
@@ -186,7 +186,7 @@ drawer, function names, package values).
 
 Acceptance: the generator is idempotent and leaves the DIP text alone.
   Check: `python3 -I planning/plan-27-data/gen-parts.py --selftest` → `idempotent ok` and `prefix ok` (est. 1 min). Result 2026-11-08: both, plus `datasheets ok`.
-Commit: (this commit)
+Commit: 42e0815
 
 ### Phase 2 — C&K parts, footprints, goldens
 
@@ -207,7 +207,7 @@ lines each in `parts.txt` and `traces.txt` and by F_ck lines in `footprints.txt`
 no existing golden line changed.
   Check: `echo $(( $(wc -l < backend/tests/golden/parts.txt) - P_E ))` equals N_ck; `git diff --numstat backend/tests/golden` shows `<added> 0 …` (zero deletions) for each file; `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check'` → `100% tests passed, 0 tests failed out of 4` (est. 8 min: full rebuild and the four golden sweeps; nothing smaller proves the loader and the goldens agree).
   Result 2026-11-08: 13646 − 13158 = 488 = N_ck (C&K `add` rows); zero deletions; the 6-test run above includes the four.
-Commit: (this commit)
+Commit: 42e0815
 
 ## Validation Plan
 

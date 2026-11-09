@@ -2,7 +2,7 @@
 
 Last updated: 2026-11-07
 Effort: medium (1h–2h)
-Depends on: plan-27-C
+Depends on: plan-27-A (gate only; Correction 1 — was plan-27-C)
 
 A tactile switch needs three things the DIP-switch model lacks: it **springs
 back** (the app presses and releases it), it can be **normally closed**
@@ -188,7 +188,7 @@ rated_mv; unsigned momentary; unsigned normally_closed; unsigned joined;`
 Acceptance: the loader accepts the three keys and rejects each malformed case;
 DIP switches parse as before.
   Check: `cmake --build /tmp/logic-p27 -j8 --target library_check && /tmp/logic-p27/library_check` → `FAIL`-free output, last line as before plus the new `ok` lines; then `/tmp/logic-p27/listing_check` → passes (est. 4 min; a full build of one target is the smallest check that links the loader).
-Commit: —
+Commit: 87e4474
 
 ### Phase 2 — Circuit start-up and `tactile_test`
 
@@ -221,7 +221,7 @@ Commit: —
 Acceptance: the five cases pass and the DIP goldens are unchanged.
   Check: `cmake --build /tmp/logic-p27 -j8 && ctest --test-dir /tmp/logic-p27 -R 'tactile_test|switch_test|connector_test|library_check|listing_check|trace_check'` → `100% tests passed, 0 tests failed out of 6` (est. 6 min: a full build; `listing_check` and `trace_check` need it).
   Result 2026-11-08: `100% tests passed, 0 tests failed out of 6`; `git diff --stat backend/tests/golden` → empty.
-Commit: —
+Commit: 87e4474
 
 ## Validation Plan
 
