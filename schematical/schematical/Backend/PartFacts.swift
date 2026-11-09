@@ -178,13 +178,14 @@ nonisolated enum PartFacts {
     }
 
     /// A serial part's host-side interface as shown: "Parallel", "SPI",
-    /// "I²C", "I²C/SPI"; others raw.
+    /// "I²C", "I²C/SPI", "USB"; others raw.
     static func serialHost(_ host: String) -> String {
         switch host {
         case "parallel": return "Parallel"
         case "spi": return "SPI"
         case "i2c": return "I²C"
         case "i2c-spi": return "I²C/SPI"
+        case "usb": return "USB"
         default: return host
         }
     }

@@ -294,7 +294,7 @@ final class SimulationController {
             errorMessage = "The simulation could not start."
             return
         }
-        if !Self.build(opened, from: built, loads: loads) {
+        if !Self.build(opened, from: built, loads: loads, ports: serialPorts) {
             errorMessage = circuit_error(opened).map { String(cString: $0) }
                 ?? "The simulation could not start."
             // Refused for voltage: the problem's net is drawn like a short
@@ -333,7 +333,8 @@ final class SimulationController {
     /// Adds the parts, nets and connections, sets the switches, loads the
     /// memories, and starts.
     private static func build(_ circuit: OpaquePointer, from netlist: SchematicNetlist,
-                              loads: [(part: Int, values: [UInt32])]) -> Bool {
+                              loads: [(part: Int, values: [UInt32])],
+                              ports: [UUID: [Int: SerialPort]] = [:]) -> Bool {
         for name in netlist.partNames {
             var index = 0
             if circuit_add_part(circuit, name, &index) != 0 { return false }
@@ -359,6 +360,13 @@ final class SimulationController {
                 circuit_memory_load(circuit, load.part, 0, $0.baseAddress, $0.count)
             }
             if result != 0 { return false }
+        }
+        // USB bridges: the ports the terminal set (a part no longer a bridge is skipped).
+        for (chipID, channels) in ports {
+            guard let part = netlist.chipIDs.firstIndex(of: chipID) else { continue }
+            for (channel, port) in channels where channel < circuit_serial_channels(circuit, part) {
+                _ = port.apply(to: circuit, part: part, channel: channel)
+            }
         }
         return circuit_start(circuit) == 0
     }
@@ -495,6 +503,23 @@ final class SimulationController {
     func serialSent(of chipID: UUID, channel: Int, from: Int, count: Int) -> [UInt16] {
         guard let engine, let part = netlist?.chipIDs.firstIndex(of: chipID) else { return [] }
         return engine.serialSent(part: part, channel: channel, from: from, count: count)
+    }
+
+    /// USB-to-UART bridges: each channel's port, as the PC set it in the
+    /// terminal (chip → channel → port). Kept for the session, across runs.
+    private(set) var serialPorts: [UUID: [Int: SerialPort]] = [:]
+
+    /// A bridge channel's port (the default until the terminal sets one).
+    func serialPort(of chipID: UUID, channel: Int) -> SerialPort {
+        serialPorts[chipID]?[channel] ?? SerialPort()
+    }
+
+    /// Sets a bridge channel's port, now when running and at every later
+    /// start: nil when taken, else the reason.
+    func setSerialPort(_ port: SerialPort, of chipID: UUID, channel: Int) -> String? {
+        serialPorts[chipID, default: [:]][channel] = port
+        guard let engine, let part = netlist?.chipIDs.firstIndex(of: chipID) else { return nil }
+        return engine.serialConfigure(part: part, channel: channel, port: port)
     }
 
     /// Types bytes into a channel: nil when queued, else the reason it was refused.
