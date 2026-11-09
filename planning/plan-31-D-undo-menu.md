@@ -27,7 +27,7 @@ See plan-31-A § Prerequisites. Also:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-31-C is complete | `ls planning/plan-31-C-*` → no match (archived) | NOT MET (C not started) |
+| plan-31-C is complete | `ls planning/plan-31-C-*` → no match (archived) | MET (2026-11-09: `ls planning/plan-31-C-*` → no match; archived at 8f427dc) |
 
 ## 1. Goal
 
@@ -133,16 +133,18 @@ page list is empty); a toolbar button (owner said menu only).
 
 ### Phase 1 — Menu commands
 
-- [ ] `Document/UndoCommands.swift` per §3.
-- [ ] `ContentView.swift`: the `schematicUndo` focused scene value.
-- [ ] `schematicalApp.swift`: `UndoCommands()` in `.commands`.
-- [ ] Tests: `schematical/schematicalTests/UndoCommandsTests.swift`:
+- [x] `Document/UndoCommands.swift` per §3.
+- [x] `ContentView.swift`: the `schematicUndo` focused scene value.
+- [x] `schematicalApp.swift`: `UndoCommands()` in `.commands`.
+- [x] Tests: `schematical/schematicalTests/UndoCommandsTests.swift`:
       `route(textIsEditing: true, target: x)` → `.responderChain`;
       `route(false, nil)` → `.responderChain`; `route(false, target on .pcb)`
       → `.page(.pcb)`; `undoTitle` is "Undo" for an empty page, "Undo Flip"
       after a recorded `flipChip`, "Undo" while `isPlaying`, and follows the
       target's page (a Schematic step does not title the PCB target unless
       it is a two-page step); `redoTitle` after an undo is "Redo Flip".
+      6 tests. Check run → `Executed 6 tests, with 0 failures`,
+      `** TEST SUCCEEDED **`.
 
 Acceptance: the routing and title cases pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/UndoCommandsTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min).

@@ -44,6 +44,7 @@ struct schematicalApp: App {
         .commands {
             SchematicFileCommands()
             BillOfMaterialsCommands()
+            UndoCommands()
         }
 
         // One window per memory part, opened by double-clicking it.

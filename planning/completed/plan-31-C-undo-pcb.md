@@ -175,7 +175,7 @@ nil`.
 
 Acceptance: every row and case passes; existing PCB tests still pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/PCBUndoTests -only-testing:schematicalTests/TraceJoinTests -only-testing:schematicalTests/TraceToolTests -only-testing:schematicalTests/BoardLayersTests -only-testing:schematicalTests/BoardSideTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min).
-Commit: this commit (C is archived in it; hash recorded in plan-31-D's first commit)
+Commit: 8f427dc
 
 ## Validation Plan
 

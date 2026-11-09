@@ -411,6 +411,8 @@ struct ContentView: View {
                 }
             }
             .focusedSceneValue(\.schematicFile, file)
+            // Edit › Undo / Redo act on the page shown (plan-31-D).
+            .focusedSceneValue(\.schematicUndo, UndoTarget(document: document, page: page))
             .focusedSceneValue(\.openBillOfMaterials) {
                 isBillOfMaterialsOpen = true
                 openWindow(id: "bom", value: BillOfMaterialsTarget(sessionID: sessionID))
