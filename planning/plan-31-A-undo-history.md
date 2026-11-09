@@ -40,8 +40,8 @@ Stated once here for all of plan-31; B, C and D point here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Stopping the simulation puts switches back where they were at the start (flips made in play mode are not edits, so they never need undoing) | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/PlaySwitchResetTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` | MET (2026-11-09, commit 0bc135e) |
-| The app test target passes before any plan-31 change | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` | MET (2026-11-09 at 0bc135e: 214 tests, 0 failures) |
+| Stopping the simulation puts switches back where they were at the start (flips made in play mode are not edits, so they never need undoing) | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/PlaySwitchResetTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` | MET (re-run 2026-11-09 at 0113188 in the P-31 worktree: passed inside the full run below, `PlaySwitchResetTests` 2 cases passed) |
+| The app test target passes before any plan-31 change | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` | MET (re-run 2026-11-09 at 0113188: `Executed 214 tests, with 0 failures`, `** TEST SUCCEEDED **`) |
 
 Everything below is written for the world where these hold.
 
@@ -357,14 +357,15 @@ empty).
 
 Types and functions with no caller; safe alone.
 
-- [ ] `schematical/schematical/Canvas/UndoHistory.swift`: `DocumentState`,
+- [x] `schematical/schematical/Canvas/UndoHistory.swift`: `DocumentState`,
       `UndoKey` (with `pages`), `UndoValue`, `UndoStep`, `UndoDiff.changes`,
       `UndoDiff.apply`, `UndoHistory` (push with coalescing and two-page
       steps, cap 500, pop/push for undo and redo, `endCoalescing`, `clear`),
       per §4.1. The test target picks the file up by itself (the project uses
       synchronized folders: `grep -c PBXFileSystemSynchronizedRootGroup
-      schematical/schematical.xcodeproj/project.pbxproj` → 5).
-- [ ] Tests: `schematical/schematicalTests/UndoHistoryTests.swift`, pure
+      schematical/schematical.xcodeproj/project.pbxproj` → 5). Done; see
+      Corrections 1–2 (`UndoChange` struct, `nonisolated` `UndoStep`).
+- [x] Tests: `schematical/schematicalTests/UndoHistoryTests.swift`, pure
       cases on hand-built `DocumentState`s:
       diff of a moved chip is `.part` only; of a moved footprint is
       `.footprint` only; of a renamed chip is `.reference` only; of an added
@@ -376,6 +377,10 @@ Types and functions with no caller; safe alone.
       Schematic redo but not PCB redo, except a shared step, which leaves
       both; coalescing merges two pushes with one key and stops after
       `endCoalescing()` or another key; the 501st push drops the oldest.
+      Added: deleting an earlier chip changes no later chip; `.part` apply
+      keeps today's board and reference; coalescing back to the start drops
+      the step; `clear`. Check run → `Executed 17 tests, with 0 failures`,
+      `** TEST SUCCEEDED **`.
 
 Acceptance: every listed case passes.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/UndoHistoryTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min).
@@ -437,6 +442,21 @@ Commit: —
   cleared by opening a file; own stacks, not `UndoManager` (§3).
 
 ## Corrections
+
+1. §4.1 writes a change as a tuple `(before: UndoValue?, after: UndoValue?)`.
+   It is a struct `UndoChange { before, after }` (Equatable, so tests and the
+   coalescing merge can compare it); `UndoChanges` is the dictionary alias.
+   Same content.
+2. `UndoStep` is `nonisolated final class`. As a main-actor class (the
+   target's default isolation) its free aborted the test host:
+   `malloc: *** error for object …: pointer being freed was not allocated`
+   in every `UndoHistoryTests` case (`/tmp/p31-a1.log`, first run) — the
+   isolated-deinit bug `TestSupport.keptDocuments` documents. Nonisolated, 17
+   of 17 pass.
+3. A chip whose array index moved only because an earlier chip was deleted
+   is not a `.part` change (`testDeletingAnEarlierChipDoesNotChangeLaterOnes`);
+   items of every kind differ by value only, and an item replaced in place
+   keeps today's position.
 
 ## Summary
 
