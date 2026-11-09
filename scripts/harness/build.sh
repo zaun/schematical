@@ -40,7 +40,7 @@ for f in $(find "$B/src" -name '*.c'); do
 done
 
 S=$R/schematical/schematical
-swiftc -swift-version 5 -default-isolation MainActor \
+swiftc -swift-version 5 -default-isolation MainActor -enable-bare-slash-regex \
   -enable-upcoming-feature MemberImportVisibility \
   -enable-upcoming-feature NonisolatedNonsendingByDefault \
   -enable-upcoming-feature InferIsolatedConformances \
