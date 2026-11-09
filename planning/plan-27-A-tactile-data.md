@@ -255,6 +255,27 @@ Acceptance: no row is `candidate` or `check`; every `skip` is in
   Check: `awk -F'\t' 'NR>1 && ($18=="candidate" || $18=="check")' planning/plan-27-data/candidates.tsv | wc -l` → 0, and `python3 -I planning/plan-27-data/census/decide.py --verify-skipped` → `0 skip rows missing from skipped-parts.md` (est. 1 min).
 Commit: —
 
+### Phase 5 — Maker-hosted datasheet URLs (added, Correction 4)
+
+- [ ] For every distinct `datasheet_url` of the `add` and `pending` rows whose
+      host is not the maker's own site (`mm.digikey.com`, `waldomemea.com`;
+      `census/maker-urls.py --list` prints them), look for the same document
+      on the maker's own site and record it in
+      `planning/plan-27-data/maker-urls.tsv` (`dk_url maker_url how`):
+      `maker_url` the maker's URL that serves a PDF of the same document (or
+      its current revision), or empty when none is found (then the part keeps
+      the DigiKey URL: owner, 2026-11-08). Maker hosts: `littelfuse.com` /
+      `ckswitches.com` (C&K), `e-switch.com` and its S3 buckets,
+      `omron.com` (Aratas), `panasonic` hosts, `alpsalpine.com`,
+      `sameskydevices.com`, `te.com`, `apem.com`, `nkkswitches.com`,
+      `we-online.com`.
+- [ ] `python3 -I planning/plan-27-data/census/maker-urls.py --verify` →
+      every non-maker URL has a row.
+
+Acceptance: every non-maker-hosted datasheet of a kept row has a decided URL.
+  Check: `python3 -I planning/plan-27-data/census/maker-urls.py --verify` → `0 missing` (est. 1 min).
+Commit: —
+
 ### Phase 4 — `specs.tsv` skeleton
 
 - [ ] Write `planning/plan-27-data/specs.tsv`: header `maker series mounting
@@ -300,6 +321,11 @@ Commit: —
 - **Download method** — author: `census/fetch.py` (§ 2 Verified properties).
 - **PDFs are committed** for the `add` and `pending` rows (600 MB at most),
   like every other `datasheets/` family.
+- **Datasheet URL of a part** — owner, 2026-11-08 (asked when main's
+  "manufacturer's own site" rule for `datasheets.json` met rule 3's DigiKey
+  and Waldom copies): use the maker's URL of the same document when it can
+  be found; when it cannot, keep the DigiKey URL. Rejected: skipping those
+  parts; adding them with no `"datasheet"`.
 
 ## Corrections
 
@@ -311,6 +337,25 @@ Commit: —
    shared daily quota after 175 of 229 calls (`samesky: … 300 of 405 parts,
    20 API calls, 0 left today`). The plan stops at the gate; resume after the
    reset with the full `list.sh` run (the partial raw files are not used).
+3. 2026-11-08 — **main moved** (87 commits, merged as 55140df): T0 = 27
+   (`converter_test`, `rtc_test` from plan-24), so plan-27's ctest total is
+   **28**; goldens P0 = R0 = **13158**, F0 = **508** (`wc -l`, after the
+   merge). Main also made `"manufacturer"` required on every shipped part and
+   `"datasheet"` (an id in `Parts/datasheets.json`, URL on the maker's own
+   site) expected (`docs/parts-format.md` § Parts, § Datasheets;
+   `listing_check`). plan-27-E § 4.1 now writes both.
+4. 2026-11-08 — **new Phase 5** (maker-hosted URLs) for the owner's decision
+   above. Rows by host in the planning-time file (`/tmp/p27/scripts/hosts.py`):
+   `mm.digikey.com` APEM 118, Panasonic 71, Alps 36, Aratas 24, C&K 17,
+   E-Switch 9, TE 2; `waldomemea.com` C&K 9, APEM 5, Aratas 5;
+   `ariat-tech.tw` APEM 2 (a distributor, not DigiKey or Waldom: rule 3
+   makes those two `skip`, reason `distributor copy`).
+5. 2026-11-08 — the census hit a degraded network: DigiKey connects timed out
+   (`UND_ERR_CONNECT_TIMEOUT`) while the 600 MB of PDF downloads ran, and
+   searches took 76 s each (`curl`, `/products/v4/search/keyword`, 5
+   results). `scripts/digikey.js` now cuts a request after 180 s and retries
+   it 3 times (b1aa8e7, 51801bb); the census runs after the downloads, one
+   maker at a time (`/tmp/p27/scripts/one.sh`, the same call as `list.sh`).
 
 ## Summary
 

@@ -33,7 +33,7 @@ The gate for the whole feature is in plan-27-A § Prerequisites. This letter add
 | Must be true | Command | Status |
 |---|---|---|
 | plan-27-D is complete | `ls planning/completed/plan-27-D-*` → one file; `grep -c 'momentary' backend/src/models/switch.c` ≥ 1 | NOT MET until D archives (2026-11-07) |
-| Golden sizes at start | `wc -l < backend/tests/golden/parts.txt` → **P_E** (11126 at planning time) | record at start |
+| Golden sizes at start | `wc -l < backend/tests/golden/parts.txt` → **P_E** (11126 at planning time; 13158 after main's merge, plan-27-A Correction 3) | record at start |
 
 If plan-27-D is not complete, this plan cannot start, full stop.
 
@@ -108,7 +108,26 @@ part-name order:
 | `momentary` | `true` |
 | `normallyClosed` | `true` for `nc` devices only |
 | `ratedVolts` | `<V>` |
-| part | `{"name": MPN, "package": P, "pinout": <name>, "footprint": <specs footprint>}`; `P` from the row's `mounting`: `Surface Mount` → `SMD`, `Through Hole` → `THT`, `Through Hole, Right Angle` → `THT right angle`, `Surface Mount, Right Angle` → `SMD right angle`, `Edge Mount, Right Angle` → `Edge mount`; no `flags` |
+| part | `{"name": MPN, "manufacturer": M, "datasheet": D, "package": P, "pinout": <name>, "footprint": <specs footprint>}` (Correction 1); `M` from the maker table below; `D` the id of the row's datasheet in `Parts/datasheets.json`; `P` from the row's `mounting`: `Surface Mount` → `SMD`, `Through Hole` → `THT`, `Through Hole, Right Angle` → `THT right angle`, `Surface Mount, Right Angle` → `SMD right angle`, `Edge Mount, Right Angle` → `Edge mount`; no `flags` |
+
+Manufacturer (`docs/parts-format.md` § Parts: the buyer when a maker was
+bought and the numbers stayed): C&K → `Littelfuse` (C&K is Littelfuse's;
+its datasheets are on `littelfuse.com`; the library's Zilog parts already
+read `Littelfuse`), E-Switch → `E-Switch`, Aratas (Formerly Omron
+Components) → `Aratas`, Panasonic Industry → `Panasonic`, Alps Alpine →
+`Alps Alpine`, Same Sky (Formerly CUI Devices) → `Same Sky` (the library's
+barrel jacks), TE Connectivity ALCOSWITCH Switches → `TE Connectivity` (the
+DIP switches), APEM Inc. → `APEM`, NKK Switches → `NKK Switches`, Würth
+Elektronik → `Würth Elektronik`.
+
+Datasheets (`Parts/datasheets.json`): one entry per distinct datasheet of
+the generated parts, `id` = the placed PDF's file name in lower case without
+`.pdf` (the file's custom), `url` = `census/maker-urls.py --url
+<datasheet_url>` (the maker's URL when plan-27-A Phase 5 found one, else
+the DigiKey URL: owner, 2026-11-08). An id already in `datasheets.json`
+with the same URL is reused; with another URL the generator refuses. The
+generator adds its entries in id order and never touches the others; a
+second run adds nothing.
 
 The generator owns the text of `switch.json` from the first device whose `id`
 starts `tact_` (or from the end of the array when there is none) to the end
@@ -187,7 +206,7 @@ Commit: —
 - Coverage check: `grep -c '"id": "tact_' schematical/schematical/Parts/switch.json` equals D_ck and `grep -c 'Switch/Tactile' backend/tests/golden/parts.txt` equals N_ck.
 - Runtime proof: none beyond the goldens (the app proof is K).
 - Doc sync: `docs/parts-format.md` § `switch`.
-- Final gate (once, after Phase 2): `ctest --test-dir /tmp/logic-p27 -j8` → `100% tests passed, 0 tests failed out of 25` (est. 6 min).
+- Final gate (once, after Phase 2): `ctest --test-dir /tmp/logic-p27 -j8` → `100% tests passed, 0 tests failed out of 28` (est. 6 min; 28 after main's merge, plan-27-A Correction 3).
 
 ## Decisions
 
@@ -207,7 +226,10 @@ Commit: —
 
 ## Corrections
 
-<!-- filled in during execution -->
+1. 2026-11-08 — main made `"manufacturer"` required and `"datasheet"`
+   expected on every shipped part (plan-27-A Correction 3). § 4.1 now writes
+   both and the `datasheets.json` entries; the maker table and the URL rule
+   (owner, plan-27-A § Decisions) are in § 4.1.
 
 ## Summary
 
