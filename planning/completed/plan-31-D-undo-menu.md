@@ -148,11 +148,11 @@ page list is empty); a toolbar button (owner said menu only).
 
 Acceptance: the routing and title cases pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/UndoCommandsTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min).
-Commit: —
+Commit: 03c4ef5
 
 ### Phase 2 — In the app, and the to-do list
 
-- [ ] Drive the built app (the `run` skill; AGENTS.md: pointer back to
+- [x] Drive the built app (the `run` skill; AGENTS.md: pointer back to
       (0, 0) when done), with screenshots of the Edit menu:
       1. Schematic: drag a part from the drawer, move it, flip it → Edit
          shows "Undo Flip"; ⌘Z three times → canvas empty; ⇧⌘Z → part back.
@@ -164,15 +164,31 @@ Commit: —
       4. Select a board text, type in its text field, ⌘Z while the field is
          focused → the typing is undone, not a page step.
       5. ⌘R to run, ⌘Z → beep, nothing changes; stop.
-- [ ] `planning/todo.md`: tick both undo items ("Add full undo/redo … on the
-      schematic", "… on the PCB"), with "(plan-31)".
+      Done 2026-11-09 with the Debug build from the worktree (`open -a
+      /tmp/p31dd/Build/Products/Debug/schematical.app`, ⌘N for a window,
+      `/tmp/p25drive/drive` for mouse and keys, screenshots in
+      `/tmp/p31shots/`): 1. Edit showed "Undo Flip"; three ⌘Z left the
+      canvas empty; ⇧⌘Z put the part back (s6, s7, s8). 2. Erase of U2 with
+      a wire to its 1A, ⌘Z → U2 back, wire on 1A, no loose end (s10, s11).
+      3. PCB: dragged U2's footprint → "Undo Move"; on Schematic, Edit showed
+      "Undo Add Wire"; back on PCB ⌘Z put the footprint back (s13, s14,
+      s15). 4. Board text field: typed "ABC" ("TextABC"), ⌘Z with the field
+      focused → "Text", the board text stayed (s17, s18). 5. ⌘R ran, ⌘Z
+      changed nothing and Edit read plain "Undo"; after stopping, "Undo Add
+      Wire" again (s19, s20, s21). The beep itself is not visible in a
+      screenshot; `undo(on:)` returning false while playing is covered by
+      `UndoHistoryTests`. Pointer moved to (0, 0); the app instance closed.
+      Final gate (full app target) → `Executed 329 tests, with 0 failures`,
+      `** TEST SUCCEEDED **`.
+- [x] `planning/todo.md`: tick both undo items ("Add full undo/redo … on the
+      schematic", "… on the PCB"), with "(plan-31)". Done.
 
 Acceptance: all five drive steps behave as listed (screenshots recorded in
 this plan's Corrections only if something differed).
   Check: the five drive steps above → as listed (est. 10 min; a person-level
   check of menu wiring that unit tests cannot see — first responder and
   focused scene values only exist in a running app).
-Commit: —
+Commit: this commit (D is archived in it; hash in the merge report)
 
 ## Validation Plan
 
@@ -192,6 +208,12 @@ See plan-31-A § Decisions. Author's calls here: the items are never disabled
 (§3); ⌘Z with nothing to undo beeps.
 
 ## Corrections
+
+1. Drive step 3 expected the Schematic page to show "the Schematic list's
+   step"; it did ("Undo Add Wire"). Its Redo read plain "Redo": the PCB
+   move cleared the shared "Delete" redo step from both pages, as plan-31-A
+   §4.1 specifies for a shared step. As designed; noted so the next reader
+   does not take it for a bug.
 
 ## Summary
 
