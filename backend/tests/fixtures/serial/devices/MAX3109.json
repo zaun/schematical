@@ -91,22 +91,28 @@
    {
     "number": 17,
     "name": "TX1",
-    "role": "output"
+    "role": "output",
+    "group": "serial 1"
    },
    {
     "number": 18,
     "name": "TX0",
-    "role": "output"
+    "role": "output",
+    "group": "serial 0"
    },
    {
     "number": 19,
     "name": "RX0",
-    "role": "input"
+    "role": "input",
+    "group": "serial 0",
+    "side": "out"
    },
    {
     "number": 20,
     "name": "RX1",
-    "role": "input"
+    "role": "input",
+    "group": "serial 1",
+    "side": "out"
    },
    {
     "number": 21,
@@ -136,12 +142,15 @@
    {
     "number": 26,
     "name": "XIN",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 27,
     "name": "XOUT",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 28,

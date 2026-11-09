@@ -21,7 +21,9 @@
    {
     "number": 3,
     "name": "RXD",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 4,
@@ -101,7 +103,8 @@
    {
     "number": 19,
     "name": "TXD",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 20,

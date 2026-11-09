@@ -1578,22 +1578,26 @@
      {
       "number": 7,
       "name": "A3",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 8,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 9,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 10,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 11,
@@ -2390,22 +2394,26 @@
      {
       "number": 7,
       "name": "A3",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 8,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 9,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 10,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 11,
@@ -3116,27 +3124,32 @@
      {
       "number": 4,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 5,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 6,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 7,
       "name": "A3",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 8,
       "name": "A4",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 9,
@@ -4678,27 +4691,32 @@
      {
       "number": 4,
       "name": "A0",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 5,
       "name": "A1",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 6,
       "name": "A2",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 7,
       "name": "A3",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 8,
       "name": "A4",
-      "role": "input"
+      "role": "input",
+      "group": "address"
      },
      {
       "number": 9,

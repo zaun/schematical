@@ -36,12 +36,15 @@
    {
     "number": 6,
     "name": "XTLI",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 7,
     "name": "XTLO",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 8,
@@ -56,7 +59,8 @@
    {
     "number": 10,
     "name": "TXD",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 11,
@@ -66,17 +70,21 @@
    {
     "number": 12,
     "name": "RXD",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 13,
     "name": "RS0",
-    "role": "input"
+    "role": "input",
+    "group": "register select"
    },
    {
     "number": 14,
     "name": "RS1",
-    "role": "input"
+    "role": "input",
+    "group": "register select"
    },
    {
     "number": 15,

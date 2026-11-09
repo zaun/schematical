@@ -106,7 +106,9 @@
    {
     "number": 20,
     "name": "SI",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 21,
@@ -131,7 +133,8 @@
    {
     "number": 25,
     "name": "SO",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 26,
@@ -308,7 +311,9 @@
    {
     "number": 20,
     "name": "SI",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 21,
@@ -333,7 +338,8 @@
    {
     "number": 25,
     "name": "SO",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 26,

@@ -175,6 +175,47 @@ def group_of(dev_id, model, function):
     return 'I'
 
 
+def _flat(v):
+    """A value written on one line: scalars, or a list or object of scalars
+    (and lists of scalars)."""
+    def scalar_or_list(x):
+        return not isinstance(x, (dict, list)) or (
+            isinstance(x, list) and all(not isinstance(y, (dict, list)) for y in x))
+    if isinstance(v, dict):
+        return all(scalar_or_list(x) for x in v.values())
+    if isinstance(v, list):
+        return all(not isinstance(x, (dict, list)) for x in v)
+    return True
+
+
+def _compact(v):
+    return json.dumps(v, separators=(',', ':'), ensure_ascii=False)
+
+
+def _layout(v, depth):
+    pad = '  ' * depth
+    if not isinstance(v, (dict, list)):
+        return json.dumps(v, ensure_ascii=False)
+    if not v:
+        return '[]' if isinstance(v, list) else '{}'
+    if isinstance(v, list):
+        if _flat(v):
+            return '[' + ', '.join(json.dumps(x, ensure_ascii=False) for x in v) + ']'
+        items = [_compact(x) if _flat(x) else _layout(x, depth + 1) for x in v]
+        return '[\n' + ',\n'.join(pad + '  ' + s for s in items) + '\n' + pad + ']'
+    items = []
+    for k, x in v.items():
+        text = _compact(x) if isinstance(x, dict) and _flat(x) and depth >= 3 else _layout(x, depth + 1)
+        items.append(pad + '  ' + json.dumps(k, ensure_ascii=False) + ': ' + text)
+    return '{\n' + ',\n'.join(items) + '\n' + pad + '}'
+
+
+def part_file_text(doc):
+    """A part file laid out as the other Parts/*.json: a key per line down to
+    each device's keys; pins, parts, grades and other small objects on one line."""
+    return _layout(doc, 0) + '\n'
+
+
 def ship(groups):
     """Writes schematical/schematical/Parts/serial.json: every device of the
     given groups (and the groups already shipped) with its real parts."""
@@ -206,9 +247,8 @@ def ship(groups):
         devices.append(device)
 
     with open(out_path, 'w') as f:
-        json.dump({'format': 'schematical-parts', 'version': 1, 'kind': 'serial',
-                   'devices': devices}, f, indent=1)
-        f.write('\n')
+        f.write(part_file_text({'format': 'schematical-parts', 'version': 1, 'kind': 'serial',
+                                'devices': devices}))
     print('serial.json:', len(devices), 'devices,', sum(len(d['parts']) for d in devices), 'parts')
 
 

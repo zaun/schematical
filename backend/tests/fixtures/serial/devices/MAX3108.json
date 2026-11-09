@@ -86,12 +86,15 @@
    {
     "ball": "D1",
     "name": "XIN",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "ball": "D2",
     "name": "XOUT",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "ball": "D3",
@@ -126,12 +129,15 @@
    {
     "ball": "E4",
     "name": "TX",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "ball": "E5",
     "name": "RX",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    }
   ]
  },

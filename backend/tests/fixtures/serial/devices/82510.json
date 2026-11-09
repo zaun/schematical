@@ -36,7 +36,8 @@
    {
     "number": 6,
     "name": "TXD",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 7,
@@ -46,12 +47,15 @@
    {
     "number": 8,
     "name": "OUT2/X2",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 9,
     "name": "CLK/X1",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 10,
@@ -71,7 +75,9 @@
    {
     "number": 13,
     "name": "RXD",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 14,
@@ -116,17 +122,20 @@
    {
     "number": 22,
     "name": "A0",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 23,
     "name": "A1",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 24,
     "name": "A2",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 25,

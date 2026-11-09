@@ -106,7 +106,9 @@
    {
     "number": 20,
     "name": "SDI",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 21,
@@ -131,7 +133,8 @@
    {
     "number": 25,
     "name": "SDO",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 26,

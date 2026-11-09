@@ -66,12 +66,14 @@
    {
     "number": 12,
     "name": "A0",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 13,
     "name": "A1",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 14,
@@ -91,17 +93,21 @@
    {
     "number": 17,
     "name": "IX",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 18,
     "name": "OX",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 19,
     "name": "SDO",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 20,
@@ -176,7 +182,9 @@
    {
     "number": 34,
     "name": "SDI",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 35,

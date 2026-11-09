@@ -11,12 +11,15 @@
    {
     "number": 1,
     "name": "X2",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 2,
     "name": "X1",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 3,
@@ -31,12 +34,15 @@
    {
     "number": 5,
     "name": "RX",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 6,
     "name": "TX",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 7,

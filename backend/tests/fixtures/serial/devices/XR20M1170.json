@@ -31,12 +31,15 @@
    {
     "number": 5,
     "name": "RX",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 6,
     "name": "TX",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 7,
@@ -46,12 +49,15 @@
    {
     "number": 8,
     "name": "XTAL1",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 9,
     "name": "XTAL2",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 10,
@@ -121,12 +127,14 @@
    {
     "number": 23,
     "name": "A0/CS",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 24,
     "name": "A1/SI",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    }
   ],
   "tssop24": [
@@ -138,12 +146,14 @@
    {
     "number": 2,
     "name": "A0/CS",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 3,
     "name": "A1/SI",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 4,
@@ -168,12 +178,15 @@
    {
     "number": 8,
     "name": "RX",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 9,
     "name": "TX",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 10,
@@ -183,12 +196,15 @@
    {
     "number": 11,
     "name": "XTAL1",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 12,
     "name": "XTAL2",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 13,
@@ -255,12 +271,14 @@
    {
     "number": 1,
     "name": "A0/CS",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 2,
     "name": "A1/SI",
-    "role": "input"
+    "role": "input",
+    "group": "address"
    },
    {
     "number": 3,
@@ -275,22 +293,28 @@
    {
     "number": 5,
     "name": "RX",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 6,
     "name": "TX",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 7,
     "name": "XTAL1",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 8,
     "name": "XTAL2",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 9,

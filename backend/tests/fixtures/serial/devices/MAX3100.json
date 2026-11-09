@@ -46,12 +46,15 @@
    {
     "number": 8,
     "name": "X2",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 9,
     "name": "X1",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 10,
@@ -66,12 +69,15 @@
    {
     "number": 12,
     "name": "RX",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 13,
     "name": "TX",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 14,
@@ -123,12 +129,15 @@
    {
     "number": 9,
     "name": "X2",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 10,
     "name": "X1",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 11,
@@ -148,12 +157,15 @@
    {
     "number": 14,
     "name": "RX",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 15,
     "name": "TX",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 16,
@@ -210,12 +222,15 @@
    {
     "number": 10,
     "name": "X2",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 11,
     "name": "X1",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 12,
@@ -245,7 +260,9 @@
    {
     "number": 17,
     "name": "RX",
-    "role": "input"
+    "role": "input",
+    "group": "serial",
+    "side": "out"
    },
    {
     "number": 18,
@@ -265,7 +282,8 @@
    {
     "number": 21,
     "name": "TX",
-    "role": "output"
+    "role": "output",
+    "group": "serial"
    },
    {
     "number": 22,
