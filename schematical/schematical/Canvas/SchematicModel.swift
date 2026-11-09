@@ -2237,6 +2237,25 @@ final class SchematicDocument {
         return pressed
     }
 
+    /// Every switch's positions (DIP and tactile), by part, for
+    /// `restoreSwitches` to put back.
+    var switchPositions: [UUID: [Bool]] {
+        Dictionary(uniqueKeysWithValues: chips.lazy.filter { !$0.switchesOn.isEmpty }.map { ($0.id, $0.switchesOn) })
+    }
+
+    /// Puts switches back to `saved` (from `switchPositions`), for example
+    /// when play mode ends: flips made while the simulation ran are input to
+    /// that run, not edits. Parts not in `saved`, or whose position count
+    /// changed, are left alone.
+    func restoreSwitches(_ saved: [UUID: [Bool]]) {
+        for index in chips.indices {
+            guard let positions = saved[chips[index].id],
+                  positions.count == chips[index].switchesOn.count,
+                  positions != chips[index].switchesOn else { continue }
+            chips[index].switchesOn = positions
+        }
+    }
+
     /// Releases every pressed tactile switch (play mode ended).
     func releaseAllButtons() {
         for index in chips.indices where chips[index].isPressed {

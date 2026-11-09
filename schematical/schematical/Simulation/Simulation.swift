@@ -271,7 +271,16 @@ final class SimulationController {
             }
         }
         start(netlist: netlist, loads: loads)
+        if isRunning {
+            playDocument = document
+            playSwitches = document.switchPositions
+        }
     }
+
+    /// The document of the run started by `start(document:)`, and its switch
+    /// positions at the start. Stop puts them back.
+    private weak var playDocument: SchematicDocument?
+    private var playSwitches: [UUID: [Bool]] = [:]
 
     /// Builds the circuit and starts it on the simulation thread. `loads`
     /// are memory contents written before the circuit starts, by part index.
@@ -352,7 +361,12 @@ final class SimulationController {
         return circuit_start(circuit) == 0
     }
 
+    /// Leaves play mode. Switches flipped during the run go back to where
+    /// they were when it started.
     func stop() {
+        playDocument?.restoreSwitches(playSwitches)
+        playDocument = nil
+        playSwitches = [:]
         engine?.stopAndWait()
         engine = nil
         netlist = nil
