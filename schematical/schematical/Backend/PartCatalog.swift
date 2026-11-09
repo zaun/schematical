@@ -333,6 +333,13 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         return false
     }
 
+    /// A tactile switch's actuator ("Standard", "Round Button"); nil for
+    /// other parts.
+    var tactileActuator: String? {
+        if case let .tactileSwitch(actuator, _, _, _, _) = details { return actuator }
+        return nil
+    }
+
     /// The drawer group a part is listed under, below its drawer path: a
     /// tactile switch's body size ("6 × 6 mm"), else its function.
     var drawerLeaf: String {
@@ -749,6 +756,8 @@ struct DrawerFilter: Equatable {
     /// Digits and digit height. Only narrow 7-segment displays.
     var displayDigits: Int?
     var displaySize: String?
+    /// Actuator ("Standard", "Round Button", ...). Only narrows tactile switches.
+    var tactileActuator: String?
     /// Resolution and channel count, by converter type ("adc", "dac"), so the
     /// ADC and DAC groups filter separately.
     var converterBits: [String: Int] = [:]
@@ -928,6 +937,16 @@ final class PartCatalogStore {
         sortedNames(entries.compactMap(\.display).map(\.size))
     }
 
+    /// Whether a second-level drawer group lists tactile switches.
+    func isTactile(subcategory: String) -> Bool {
+        entries.contains { $0.isTactileSwitch && $0.drawer.count > 1 && $0.drawer[1] == subcategory }
+    }
+
+    /// The tactile switches' actuators ("Round Button", "Standard", ...).
+    var tactileActuators: [String] {
+        sortedNames(entries.compactMap(\.tactileActuator))
+    }
+
     /// The VCC tool's rails (`SupplyChoice`) that at least one listed part
     /// runs at, in menu order, with their voltage in millivolts.
     var voltageChoices: [(name: String, mv: UInt32)] {
@@ -998,6 +1017,9 @@ final class PartCatalogStore {
                 if let size = filter.displaySize, display.size != size {
                     return false
                 }
+            }
+            if let wanted = filter.tactileActuator, let actuator = part.tactileActuator, actuator != wanted {
+                return false
             }
             let fields = [part.name, part.function, part.drawerLeaf, part.description] + part.drawer
             return needle.isEmpty || fields.contains { $0.localizedStandardContains(needle) }

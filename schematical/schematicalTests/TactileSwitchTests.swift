@@ -92,6 +92,26 @@ final class TactileSwitchTests: XCTestCase {
         XCTAssertFalse(dip.parts.isEmpty)
     }
 
+    /// The Tactile actuator menu: its choices, and picking one keeps only
+    /// tactile switches with that actuator (DIP switches stay).
+    func testActuatorFilter() throws {
+        let catalog = TestSupport.catalog
+        XCTAssertTrue(catalog.isTactile(subcategory: "Tactile"))
+        XCTAssertFalse(catalog.isTactile(subcategory: "DIP"))
+        XCTAssertTrue(catalog.tactileActuators.contains("Standard"))
+        XCTAssertTrue(catalog.tactileActuators.contains("Round Button"))
+        var filter = DrawerFilter()
+        filter.tactileActuator = "Round Button"
+        let switchGroup = try XCTUnwrap(catalog.groups(matching: filter).first { $0.category == "Switch" })
+        let tactile = try XCTUnwrap(switchGroup.subcategories.first { $0.subcategory == "Tactile" })
+        let parts = tactile.functions.flatMap(\.parts)
+        XCTAssertFalse(parts.isEmpty)
+        XCTAssertTrue(parts.allSatisfy { $0.tactileActuator == "Round Button" })
+        XCTAssertLessThan(parts.count, tactileParts.count)
+        let dip = try XCTUnwrap(switchGroup.subcategories.first { $0.subcategory == "DIP" })
+        XCTAssertFalse(dip.parts.isEmpty)
+    }
+
     /// The sidebar's Details rows for a tactile part.
     func testSidebarRows() throws {
         let doc = TestSupport.newDocument()
