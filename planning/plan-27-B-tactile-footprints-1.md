@@ -240,7 +240,7 @@ Commit: d398dad
 Acceptance: no E-Switch row is `pending`; `specs-check.py --maker E-Switch` passes; objects load.
   Check: the Phase 2 command with `--maker E-Switch` (est. 3 min).
   Result 2026-11-08: `specs ok (321 add rows)`; `77 new footprints: load ok`; E-Switch rows 321 add, 24 skip, 73 out, 0 pending.
-Commit: —
+Commit: 72ce575
 
 ### Phase 4 — Omron / Aratas (13 proxy lines, 148 rows)
 
@@ -257,7 +257,7 @@ Commit: —
 Acceptance: no Omron row is `pending`; `specs-check.py` passes for all three makers; objects load.
   Check: `python3 -I planning/plan-27-data/census/specs-check.py --maker 'Aratas' && awk -F'\t' '$1 ~ /^(C&K|E-Switch|Aratas)/ && ($18=="pending" || $18=="candidate")' planning/plan-27-data/candidates.tsv | wc -l` → `specs ok`, `0` (est. 3 min).
   Result 2026-11-08: `specs ok (144 add rows)`, `0`; all three makers: `specs ok (953 add rows)` (809 + 144).
-Commit: —
+Commit: 9d6d3c9, 72ce575
 
 ## Validation Plan
 
