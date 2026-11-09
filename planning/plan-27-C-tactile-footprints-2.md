@@ -134,7 +134,17 @@ Commit: —
 
 ### Phase 4 — APEM (12 lines), NKK (7), Würth (5)
 
-- [ ] Tasks (a)–(c) for `apem/`, `nkk/`, `wurth/`.
+- [x] Tasks (a)–(c) for `apem/`, `nkk/`, `wurth/`. Alps/NKK reader and the
+      Würth/APEM reader (two folders each); `merge-work.py C apem`, `C alps
+      nkk`, `C wurth` → APEM `56 add, 56 skip, 0 still pending`, `specs ok (74
+      add rows)`, 1 `out` (5GSH9358222, lit); NKK `8 add, 75 skip` (with
+      Alps), `specs ok (14 add rows)` (JB/JF: only the illuminated sheets are
+      linked, so the key gives no non-lit number); Würth 136 verbatim `add`,
+      `specs ok (136 add rows)` — one land pattern per series does not hold
+      for Würth (WS-TASV alone has 22), so its 30 spec rows follow the
+      drawings (Correction 2). `fp-load.sh footprints-B.json
+      footprints-C.json` → `49 new footprints: load ok` before Würth; Würth's
+      footprints load in the library (078a530, `footprint_check` in ctest).
 - [ ] § Summary: add / skip counts per maker, the count of footprints in
       `footprints-C.json`, and the total across B and C.
 
@@ -159,6 +169,13 @@ Commit: —
 ## Corrections
 
 <!-- filled in during execution -->
+2. 2026-11-08 — **"one land pattern per series" (plan-27-B Decisions) is
+   false for Würth.** Its article numbers within one series cover several
+   sizes and terminal types (WS-TASV: 22 land patterns). The Würth reader
+   grouped the 136 PDFs by their page-1 land-pattern numbers (38 clusters),
+   viewed one drawing per cluster, and wrote one spec row per land pattern
+   with exact article numbers where needed. The rule stays for makers whose
+   series share one drawing.
 
 ## Summary
 
