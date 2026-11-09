@@ -88,12 +88,13 @@ def footprint_ids(p):
 
 
 def volts_of(rating, mpn):
-    m = re.search(r"([\d.]+)\s*(m?)A\s*@\s*([\d.]+)\s*V", rating or "")
+    """The volts of DigiKey's "Contact Rating @ Voltage": `0.05A @ 12VDC`,
+    `25mA @ 16VDC`, `1VA @ 32VAC/DC` -> 12, 16, 32."""
+    m = re.search(r"([\d.]+)\s*(mA|A|VA)\s*@\s*([\d.]+)\s*V", rating or "")
     if not m:
-        raise Refuse(f"{mpn}: rating {rating!r} has no <amps>A @ <volts>V")
+        raise Refuse(f"{mpn}: rating {rating!r} has no <amps>A|<va>VA @ <volts>V")
     v = float(m.group(3))
-    amps = float(m.group(1)) / (1000 if m.group(2) else 1)
-    return (int(v) if v == int(v) else v), amps
+    return (int(v) if v == int(v) else v), m.group(0)
 
 
 def num(v):
@@ -191,7 +192,7 @@ def build(p, makers):
                 for i, n in enumerate(b):
                     names[int(n)] = f"B{i + 1}"
             dev["pinouts"][pname] = [(n, names[n]) for n in sorted(names)]
-        dev["ratings"].add(f"{amps:g}A @ {num(v)}VDC")
+        dev["ratings"].add(r["rating"].strip())
         sheet = places.get(r["datasheet_url"])
         if sheet:
             dev["sheets"].add(os.path.relpath(sheet, os.path.join("datasheets", "switch", "tactile")))
@@ -208,6 +209,16 @@ def manufacturer(maker):
         if maker.startswith(prefix):
             return name
     raise Refuse(f"no manufacturer name for maker {maker!r}")
+
+
+def full_url(url):
+    """A datasheets.json URL: `https://`, as the loader requires (DigiKey gives
+    `//mm.digikey.com/…` and some `http://`), spaces escaped."""
+    if url.startswith("//"):
+        url = "https:" + url
+    elif url.startswith("http://"):
+        url = "https://" + url[len("http://"):]
+    return url.replace(" ", "%20")
 
 
 def sheet_ids(p, urls):
@@ -231,7 +242,7 @@ def sheet_ids(p, urls):
     entry = {}
     for path in {places[u] for u in urls}:
         group = sorted(by_path[path])
-        url = next((maker[g] for g in group if g in maker), group[0])
+        url = full_url(next((maker[g] for g in group if g in maker), group[0]))
         entry[path] = (os.path.basename(path)[:-4].lower(), path.split("/")[-2], url)
     ids = {}
     for path, (name, folder, url) in entry.items():
@@ -274,7 +285,7 @@ def render(devices):
             f'      "function": {q("Normal Close" if d["nc"] else "Normal Open")},',
             f'      "description": {q(f"Tactile switch, SPST normally {kind}, {d["t"]} terminals, {num(d["v"])} V, {d["act"]} actuator")},',
             '      "drawer": ["Switch","Tactile"],',
-            f'      "note": {q("Rating from DigiKey " + chr(34) + "Contact Rating @ Voltage" + chr(34) + " (" + ", ".join(sorted(d["ratings"])) + ", DC switching); datasheets: " + ", ".join(sorted(d["sheets"])))},',
+            f'      "note": {q("Rating from DigiKey " + chr(34) + "Contact Rating @ Voltage" + chr(34) + " (" + ", ".join(sorted(d["ratings"])) + "; the switching rating); datasheets: " + ", ".join(sorted(d["sheets"])))},',
             '      "pinouts": {',
         ]
         pins = sorted(d["pinouts"])

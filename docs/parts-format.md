@@ -801,6 +801,18 @@ closed).
 `PartSwitch.positions` is the number of contacts (not counting joined
 pairs). Parts carry no kind keys.
 
+The library's tactile switches are written by
+`planning/plan-27-data/gen-parts.py` (plan-27-E), which owns `switch.json`
+from its first `tact_` device to the end: one device per (contact,
+terminals, rated volts, actuator), id `tact_<no|nc>_<T>t_<V>v_<actuator>`,
+function `Normal Open` / `Normal Close`, drawer `["Switch","Tactile"]`, pins
+`A`, `B` (two terminals) or `A1`, `A2`, `B1`, `B2` with `joined`
+`[["A1","A2"],["B1","B2"]]` (four), packages `SMD`, `THT`, `THT right
+angle`, `SMD right angle`, `Edge mount`. Its inputs are
+`planning/plan-27-data/candidates.tsv` and `specs.tsv`; it also adds their
+`datasheets.json` entries. Edit those inputs and re-run it rather than
+editing the generated devices.
+
 ### `connector`
 
 Barrel power connectors are passive `inout` terminals. `centerPin` is the

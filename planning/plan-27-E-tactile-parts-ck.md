@@ -32,8 +32,8 @@ The gate for the whole feature is in plan-27-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-27-D is complete | `ls planning/completed/plan-27-D-*` → one file; `grep -c 'momentary' backend/src/models/switch.c` ≥ 1 | NOT MET until D archives (2026-11-07) |
-| Golden sizes at start | `wc -l < backend/tests/golden/parts.txt` → **P_E** (11126 at planning time; 13158 after main's merge, plan-27-A Correction 3) | record at start |
+| plan-27-D is complete | `ls planning/completed/plan-27-D-*` → one file; `grep -c 'momentary' backend/src/models/switch.c` ≥ 1 | MET 2026-11-08 (c9dd9cd; 4 lines) |
+| Golden sizes at start | `wc -l < backend/tests/golden/parts.txt` → **P_E** (11126 at planning time; 13158 after main's merge, plan-27-A Correction 3) | **P_E = 13158**, R = 13158, F = 508 (2026-11-08) |
 
 If plan-27-D is not complete, this plan cannot start, full stop.
 
@@ -174,31 +174,40 @@ drawer, function names, package values).
 
 ### Phase 1 — The generator
 
-- [ ] `planning/plan-27-data/gen-parts.py` (§ 4.1) and
+- [x] `planning/plan-27-data/gen-parts.py` (§ 4.1) and
       `append-footprints.py` (§ 4.2).
 - [ ] `gen-parts.py --selftest`: builds a two-row `candidates.tsv` (one NO
       2-terminal, one NC 4-terminal) and a copy of `switch.json` in a temp
       directory, runs the generator twice and prints `idempotent ok` (second run
       byte-identical) and `prefix ok` (the text before the first `tact_`
-      device byte-identical to the input).
+      device byte-identical to the input). Also `datasheets ok` (the
+      `datasheets.json` entry, in id order, and the part's `manufacturer` /
+      `datasheet`). Result: `idempotent ok`, `prefix ok`, `datasheets ok`.
 
 Acceptance: the generator is idempotent and leaves the DIP text alone.
-  Check: `python3 -I planning/plan-27-data/gen-parts.py --selftest` → `idempotent ok` and `prefix ok` (est. 1 min).
-Commit: —
+  Check: `python3 -I planning/plan-27-data/gen-parts.py --selftest` → `idempotent ok` and `prefix ok` (est. 1 min). Result 2026-11-08: both, plus `datasheets ok`.
+Commit: (this commit)
 
 ### Phase 2 — C&K parts, footprints, goldens
 
-- [ ] `python3 -I planning/plan-27-data/gen-parts.py --maker 'C&K'` (writes
+- [x] `python3 -I planning/plan-27-data/gen-parts.py --maker 'C&K'` (writes
       `Parts/switch.json`), then `append-footprints.py 'C&K'`.
-- [ ] Docs: § 4.4.
-- [ ] Goldens: § 4.3.
-- [ ] Tests: `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check|switch_test|tactile_test'` after the rebuild.
+      `26 tactile devices, 488 tactile parts written; 67 datasheets.json
+      entries added`; a second run `no changes`; `55 footprints appended
+      (C&K)`; `--list-footprints` → 55.
+- [x] Docs: § 4.4 (`docs/parts-format.md` § `switch`, the generator paragraph).
+- [x] Goldens: § 4.3. `git diff --numstat backend/tests/golden` → `55 0
+      footprints.txt`, `488 0 parts.txt`, `488 0 traces.txt`. First lines:
+      `ATS2D1G NC LFS|switch|SMD|Switch/Tactile|Normal Close|||positions=1
+      actuator=Standard rated=32000 momentary nc|1:A:inout:default,2:B:inout:default|mfr=Littelfuse|datasheet=littelfuse-ck-ats-series-datasheet|footprint=SW-TACT-ATS`.
+- [x] Tests: `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check|switch_test|tactile_test'` after the rebuild → `100% tests passed, 0 tests failed out of 6`.
 
 Acceptance: the library loads with N_ck new parts; goldens grew by exactly N_ck
 lines each in `parts.txt` and `traces.txt` and by F_ck lines in `footprints.txt`;
 no existing golden line changed.
   Check: `echo $(( $(wc -l < backend/tests/golden/parts.txt) - P_E ))` equals N_ck; `git diff --numstat backend/tests/golden` shows `<added> 0 …` (zero deletions) for each file; `ctest --test-dir /tmp/logic-p27 -R 'library_check|listing_check|trace_check|footprint_check'` → `100% tests passed, 0 tests failed out of 4` (est. 8 min: full rebuild and the four golden sweeps; nothing smaller proves the loader and the goldens agree).
-Commit: —
+  Result 2026-11-08: 13646 − 13158 = 488 = N_ck (C&K `add` rows); zero deletions; the 6-test run above includes the four.
+Commit: (this commit)
 
 ## Validation Plan
 
@@ -206,7 +215,7 @@ Commit: —
 - Coverage check: `grep -c '"id": "tact_' schematical/schematical/Parts/switch.json` equals D_ck and `grep -c 'Switch/Tactile' backend/tests/golden/parts.txt` equals N_ck.
 - Runtime proof: none beyond the goldens (the app proof is K).
 - Doc sync: `docs/parts-format.md` § `switch`.
-- Final gate (once, after Phase 2): `ctest --test-dir /tmp/logic-p27 -j8` → `100% tests passed, 0 tests failed out of 28` (est. 6 min; 28 after main's merge, plan-27-A Correction 3).
+- Final gate (once, after Phase 2): `ctest --test-dir /tmp/logic-p27 -j8` → `100% tests passed, 0 tests failed out of 28` (est. 6 min; 28 after main's merge, plan-27-A Correction 3). Result 2026-11-08: `100% tests passed, 0 tests failed out of 28`; `grep -c 'Switch/Tactile' …parts.txt` → 488; `grep -c '"id": "tact_'` → 26.
 
 ## Decisions
 
@@ -230,6 +239,20 @@ Commit: —
    expected on every shipped part (plan-27-A Correction 3). § 4.1 now writes
    both and the `datasheets.json` entries; the maker table and the URL rule
    (owner, plan-27-A § Decisions) are in § 4.1.
+2. 2026-11-08 — **E needs B and D, not C.** E's parts use only C&K's
+   footprints (B); `merge-work.py` compares C's land patterns with
+   `Parts/footprints.json` too, so moving C&K's footprints there first does
+   not stop C sharing them. E ran while C's readers worked.
+3. 2026-11-08 — **ratings in VA.** 42 `add` rows give DigiKey's rating as
+   `1VA @ 32VAC/DC`, `3VA @ 28VDC`, `0.4VA @ 28VAC/DC`, and 4 as `25mA @ 16VDC`
+   (`awk … $13 | sort | uniq -c`), which § 4.1's `<amps>A @ <V>VDC` did not
+   read (`refused: KT11B0JM34LFS: rating '1VA @ 32VAC/DC'`). The generator
+   takes the volts after `@` for every form; the device note quotes DigiKey's
+   text.
+4. 2026-11-08 — **`datasheets.json` wants `https://`.** DigiKey gives
+   `//mm.digikey.com/…` (protocol-relative); the loader refused it
+   (`datasheets[1077]: … "url" must start with https://`). The generator
+   writes `https:` + the URL (and `https://` for `http://`).
 
 ## Summary
 

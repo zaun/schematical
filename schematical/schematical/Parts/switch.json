@@ -971,6 +971,1149 @@
       "parts": [
         {"name":"TE-ADF1004","manufacturer":"TE Connectivity","datasheet":"eng-ds-8-1773450-9-section-a-dip-switches","package":"DIP","pinout":"p20","footprint":"SW-DIP-20"}
       ]
+    },
+    {
+      "id": "tact_nc_2t_32v_standard",
+      "function": "Normal Close",
+      "description": "Tactile switch, SPST normally closed, 2 terminals, 32 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.01A @ 32VDC, 0.05A @ 32VDC; the switching rating); datasheets: ck/ck-ksr223gnclfg.pdf, ck/littelfuse-c-k-tactile-ksr-series-datasheet.pdf, ck/littelfuse-ck-ats-series-datasheet.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "normallyClosed": true,
+      "ratedVolts": 32,
+      "parts": [
+        {"name":"ATS2D1G NC LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-ats-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"ATS2D3G NC LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-ats-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR223G NC LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR223GNCLFG","manufacturer":"Littelfuse","datasheet":"ck-ksr223gnclfg","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_100v_snap-dome",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 100 V, Snap Dome actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 100VAC/DC, 0.1A @ 100VAC/DC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-ed-edm-series-datasheet.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Snap Dome",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 100,
+      "parts": [
+        {"name":"EDGSC0 LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ed-edm-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ED-SMD"},
+        {"name":"EDGSC1 LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ed-edm-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ED-SMD"},
+        {"name":"EDM450AGAC0LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ed-edm-series-datasheet","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-ED-THT"},
+        {"name":"EDM450AUAC0LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ed-edm-series-datasheet","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-ED-THT"},
+        {"name":"EDM450AUSC0LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ed-edm-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ED-SMD"},
+        {"name":"EDM650AGAC0LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ed-edm-series-datasheet","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-ED-THT"},
+        {"name":"EDM650AGSC0LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ed-edm-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ED-SMD"},
+        {"name":"EDM650AUAC0LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ed-edm-series-datasheet","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-ED-THT"},
+        {"name":"EDM650AUSC0LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ed-edm-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ED-SMD"},
+        {"name":"EDSAC1 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ed-edm-series-datasheet","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-ED-THT"},
+        {"name":"EDSSC0 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ed-edm-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ED-SMD"},
+        {"name":"EDSSC1 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ed-edm-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ED-SMD"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_12v_rectangular-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 12 V, Rectangular Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 12VDC, 0.05A @ 12VDC; the switching rating); datasheets: ck/RS-032G05_-SM_RT.pdf, ck/RS-282G05A-SM_RT.pdf, ck/RS285G05A2URT_Dwg.pdf, ck/c-amp-k-tactile-pts636-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts847-series-datasheet.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Rectangular Button",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 12,
+      "parts": [
+        {"name":"GSPTS004102","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-J"},
+        {"name":"PTS636SK25FSMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-F25"},
+        {"name":"PTS636SK25JSMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-J25"},
+        {"name":"PTS636SK25SMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-G25"},
+        {"name":"PTS636SK43 LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-THT"},
+        {"name":"PTS636SK43SMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-G"},
+        {"name":"PTS636SK50 LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-THT"},
+        {"name":"PTS636SK50SMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-G"},
+        {"name":"PTS636SKG25JSMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-J25"},
+        {"name":"PTS636SKG25SMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-G25G"},
+        {"name":"PTS636SL43 LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-THT"},
+        {"name":"PTS636SL43 SMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-G"},
+        {"name":"PTS636SL50 LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-THT"},
+        {"name":"PTS636SL50SMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-G"},
+        {"name":"PTS636SM25FSMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-F25"},
+        {"name":"PTS636SM25JSMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-J25"},
+        {"name":"PTS636SM25SMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-G25"},
+        {"name":"PTS636SM43 LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-THT"},
+        {"name":"PTS636SM43JSMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-J"},
+        {"name":"PTS636SM43SMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-G"},
+        {"name":"PTS636SM50JSMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-J"},
+        {"name":"PTS636SM50SMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-G"},
+        {"name":"PTS636SMG25JSMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-J25"},
+        {"name":"PTS636SMG25SMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-G25G"},
+        {"name":"PTS636SP43 LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"THT","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-THT"},
+        {"name":"PTS636SP43SMTR LFS","manufacturer":"Littelfuse","datasheet":"c-amp-k-tactile-pts636-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-G"},
+        {"name":"PTS847MM160LSMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts847-series-datasheet","package":"Edge mount","pinout":"p2_1_2","footprint":"SW-TACT-PTS847"},
+        {"name":"PTS847MM160SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts847-series-datasheet","package":"Edge mount","pinout":"p2_1_2","footprint":"SW-TACT-PTS847"},
+        {"name":"PTS847MM350LSMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts847-series-datasheet","package":"Edge mount","pinout":"p2_1_2","footprint":"SW-TACT-PTS847"},
+        {"name":"PTS847MM350SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts847-series-datasheet","package":"Edge mount","pinout":"p2_1_2","footprint":"SW-TACT-PTS847"},
+        {"name":"RS-032G05A3-SM RT","manufacturer":"Littelfuse","datasheet":"rs-032g05_-sm_rt","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-RS-COMAX-032"},
+        {"name":"RS-282G05A3-SM RT","manufacturer":"Littelfuse","datasheet":"rs-282g05a-sm_rt","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-RS-COMAX-282"},
+        {"name":"RS285G05A2URT","manufacturer":"Littelfuse","datasheet":"rs285g05a2urt_dwg","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS636-SMD-J25"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_12v_standard",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 12 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: ck/PTS845.pdf, ck/RS022R_Dwg.pdf, ck/ck-pts645vl832lfs.pdf, ck/littelfuse-c-k-tactile-pts645v-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts820-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts845-series-datasheet.pdf, ck/pts645.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 12,
+      "parts": [
+        {"name":"PTS645VH31-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts645v-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VH39-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts645v-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VH58-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VH83-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts645v-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VK31-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts645v-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VK39-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts645v-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VK58-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts645v-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VK83-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts645v-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VL31-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts645v-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VL39-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VL58-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts645v-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VL83-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts645v-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VL832LFS","manufacturer":"Littelfuse","datasheet":"ck-pts645vl832lfs","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VM13SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts645v-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-SMD-RA"},
+        {"name":"PTS645VM31-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts645v-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VM39-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VM58-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VM83-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-THT-RA"},
+        {"name":"PTS645VN13SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts645v-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS645-SMD-RA"},
+        {"name":"PTS820 J20KP SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts820-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS820"},
+        {"name":"PTS820J15KPSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts820-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS820"},
+        {"name":"PTS820J15MSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts820-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS820"},
+        {"name":"PTS820J20MSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts820-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS820"},
+        {"name":"PTS820J25MSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts820-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-PTS820"},
+        {"name":"PTS845VK20PSMTR4 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts845-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS845"},
+        {"name":"PTS845VM20PSMTR4 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts845-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS845"},
+        {"name":"PTS845VM20PSMTR41M LFS","manufacturer":"Littelfuse","datasheet":"pts845","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS845"},
+        {"name":"PTS845VM20SMTR4 LFS","manufacturer":"Littelfuse","datasheet":"pts845","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS845"},
+        {"name":"PTS845VM20SMTR41M LFS","manufacturer":"Littelfuse","datasheet":"pts845","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS845"},
+        {"name":"PTS845VN20PSMTR4 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts845-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-PTS845"},
+        {"name":"RS022R05B0","manufacturer":"Littelfuse","datasheet":"rs022r_dwg","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-RS-COMAX-022"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_15v_standard",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 15 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kxt3-series-datasheet.pdf, ck/littelfuse-c-k-tactile-nanot-series-datasheet.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 15,
+      "parts": [
+        {"name":"KXT 311 LHS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kxt3-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-KXT3"},
+        {"name":"KXT 321 LHS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kxt3-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-KXT3"},
+        {"name":"KXT 331 LHS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kxt3-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-KXT3"},
+        {"name":"KXT 341 LHS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kxt3-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-KXT3"},
+        {"name":"NANOT 100 AS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-nanot-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-NANOT-SMD"},
+        {"name":"NANOT 100 BP","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-nanot-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-NANOT-PIP"},
+        {"name":"NANOT 160 AS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-nanot-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-NANOT-SMD"},
+        {"name":"NANOT 160 BP","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-nanot-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-NANOT-PIP"},
+        {"name":"NANOT 240 AS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-nanot-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-NANOT-SMD"},
+        {"name":"NANOT 240 BP","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-nanot-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-NANOT-PIP"},
+        {"name":"NANOT160BP","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-nanot-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-NANOT-PIP"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_16v_standard",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 16 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 16VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-tls-series-datasheet.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 16,
+      "parts": [
+        {"name":"TLS A 040J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-tls-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TLS"},
+        {"name":"TLS A 070 T3J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-tls-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TLS"},
+        {"name":"TLS A 100 T3J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-tls-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TLS"},
+        {"name":"TLSA040T3JLFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-tls-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TLS"},
+        {"name":"TLSA070JLFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-tls-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TLS"},
+        {"name":"TLSA070T3JLFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-tls-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-TLS"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_32v_flush",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 32 V, Flush actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (1VA @ 32VAC/DC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kt-series-datasheet.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Flush",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 32,
+      "parts": [
+        {"name":"KT11B0SAM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_32v_plunger-for-cap",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 32 V, Plunger for Cap actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (1VA @ 32VAC/DC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kt-series-datasheet.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Plunger for Cap",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 32,
+      "parts": [
+        {"name":"KT11S1SA2M34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11S1SA2M35LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11S1SA3M34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11S2SA2M34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11S2SA2M35LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_32v_standard",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 32 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.01A @ 32VDC, 0.05A @ 32VDC, 1VA @ 32VAC/DC; the switching rating); datasheets: ck/ck-ksr2m3glfg-44487341.pdf, ck/littelfuse-c-k-tactile-ksr-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kt-series-datasheet.pdf, ck/littelfuse-ck-tactile-ksc-v2-series-datasheet.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 32,
+      "parts": [
+        {"name":"KSC421 V2 70SH LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc-v2-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSC4V2"},
+        {"name":"KSC441 V2 70SH SP DELTA LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc-v2-series-datasheet","package":"THT right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSC4V2"},
+        {"name":"KSR211G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR213G LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR221G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR222G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR223G LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR224G LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR231G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR232G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR233G LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR234G LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR251G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR252G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR253G LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR254G LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KSR2M3GLFG","manufacturer":"Littelfuse","datasheet":"ck-ksr2m3glfg-44487341","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"},
+        {"name":"KT11B1SAM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11B1SAM35LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11B2SAM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11B2SAM35LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11P2SA1M34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11P2SA1M35LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11P2SA2M34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11P2SA2M35LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11P2SA3M34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11P2SA3M35LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11P3SA1M34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11P3SA2M35LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11P3SA3M35LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11P4SA1M34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11P4SA1M35LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11P4SA2M34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"KT11P4SA2M35LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KT-SMD-RA"},
+        {"name":"Y35A21410FPLFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksr-series-datasheet","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-ATS"}
+      ]
+    },
+    {
+      "id": "tact_no_2t_50v_rectangular-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 50 V, Rectangular Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.01A @ 50VDC, 0.05A @ 50VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kss-series-datasheet.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Rectangular Button",
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 50,
+      "parts": [
+        {"name":"KSS221G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"},
+        {"name":"KSS223G LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"},
+        {"name":"KSS231G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"},
+        {"name":"KSS241G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"},
+        {"name":"KSS243G LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"},
+        {"name":"KSS321G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"},
+        {"name":"KSS323G LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"},
+        {"name":"KSS331G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"},
+        {"name":"KSS341G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"},
+        {"name":"KSS343G LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kss-series-datasheet","package":"SMD right angle","pinout":"p2_1_2","footprint":"SW-TACT-KSS"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_12v_flush",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Flush actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts526-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts530-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts540-series-datasheet.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Flush",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 12,
+      "parts": [
+        {"name":"PTS526SK08SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts526-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS526-SMD-H08"},
+        {"name":"PTS526SM08SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts526-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS526-SMD-H08"},
+        {"name":"PTS530GH055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts530-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS530-SMD"},
+        {"name":"PTS530GM055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts530-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS530-SMD"},
+        {"name":"PTS530GN055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts530-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS530-SMD"},
+        {"name":"PTS530GS065SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts530-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS530-SMD"},
+        {"name":"PTS540JK035SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts540-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS540-SMD"},
+        {"name":"PTS540JM035SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts540-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS540-SMD"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_12v_oval-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Oval Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts815-series-datasheet.pdf, ck/littelfuse-c-k-tactile-rk-series-datasheet.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Oval Button",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 12,
+      "parts": [
+        {"name":"PTS815SJG250SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts815-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS815"},
+        {"name":"PTS815SJK250SMTRLFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts815-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS815"},
+        {"name":"PTS815SJM250SMTRLFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts815-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS815"},
+        {"name":"RKB2SJG250SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS815"},
+        {"name":"RKB2SJK250SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS815"},
+        {"name":"RKB2SJM250SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS815"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_12v_plunger-for-cap",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Plunger for Cap actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts125-series-datasheet.pdf, ck/pts645.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Plunger for Cap",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 12,
+      "parts": [
+        {"name":"PTS125SJK73-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
+        {"name":"PTS125SJK73P21M LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
+        {"name":"PTS125SJL73P25M LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
+        {"name":"PTS125SJM73-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
+        {"name":"PTS645SJM73-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SJM73JSMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD-J"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_12v_rectangular-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Rectangular Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 12VDC, 0.05A @ 12VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts840-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts841-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts850-series-datasheet.pdf, ck/littelfuse-c-k-tactile-rkc2-series-datasheet.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ],
+        "p4_1_3_2_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"B1","role":"inout"},
+          {"number":3,"name":"A2","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Rectangular Button",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 12,
+      "parts": [
+        {"name":"PTS840ESDGMPSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts840-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS840"},
+        {"name":"PTS840ESDPMSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts840-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS840-P"},
+        {"name":"PTS840GKPSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts840-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS840"},
+        {"name":"PTS840GKSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts840-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS840"},
+        {"name":"PTS840GMPSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts840-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS840"},
+        {"name":"PTS840GMSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts840-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS840"},
+        {"name":"PTS840PKSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts840-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS840-P"},
+        {"name":"PTS840PMSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts840-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS840-P"},
+        {"name":"PTS841 ESD GK SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts841-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS841"},
+        {"name":"PTS841 ESD GKP SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts841-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS841"},
+        {"name":"PTS841 ESD GM SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts841-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS841"},
+        {"name":"PTS841 GMP SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts841-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS841"},
+        {"name":"PTS841ESDGMPSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts841-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS841"},
+        {"name":"PTS841GKPSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts841-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS841"},
+        {"name":"PTS841GKSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts841-series-datasheet","package":"SMD right angle","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS841"},
+        {"name":"PTS850VM18PSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts850-series-datasheet","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-PTS850"},
+        {"name":"PTS850VM18SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts850-series-datasheet","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-PTS850"},
+        {"name":"PTS850VR18PSMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts850-series-datasheet","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-PTS850"},
+        {"name":"PTS850VR18SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts850-series-datasheet","package":"SMD right angle","pinout":"p4_1_3_2_4","footprint":"SW-TACT-PTS850"},
+        {"name":"RKC2SJF170SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rkc2-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RKC2"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_12v_standard",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts125-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts526-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts641-series-datasheet.pdf, ck/littelfuse-c-k-tactile-pts647-series-datasheet.pdf, ck/pts645.pdf, ck/pts830.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 12,
+      "parts": [
+        {"name":"PTS125SK12-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
+        {"name":"PTS125SK43-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
+        {"name":"PTS125SK43P21M LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
+        {"name":"PTS125SK85-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
+        {"name":"PTS125SL43P25M LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
+        {"name":"PTS125SM12-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
+        {"name":"PTS125SM43-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
+        {"name":"PTS125SM43SMTR21M LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-SMD"},
+        {"name":"PTS125SM73SMTR21M LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-SMD"},
+        {"name":"PTS125SM85-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts125-series-datasheet","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS125-THT"},
+        {"name":"PTS526SK15SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts526-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS526-SMD"},
+        {"name":"PTS526SKG15JSMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts526-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS526-SMD-J"},
+        {"name":"PTS526SKG15SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts526-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS526-SMD"},
+        {"name":"PTS526SM15SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts526-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS526-SMD"},
+        {"name":"PTS526SM20SMTR21 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts526-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS526-SMD"},
+        {"name":"PTS526SMG15JSMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts526-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS526-SMD-J"},
+        {"name":"PTS526SMG15SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts526-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS526-SMD"},
+        {"name":"PTS641SK31SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts641-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS641-SMD"},
+        {"name":"PTS641SM31SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts641-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS641-SMD"},
+        {"name":"PTS641SP25SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts641-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS641-SMD"},
+        {"name":"PTS641SP31SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts641-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS641-SMD"},
+        {"name":"PTS641SP34SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts641-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS641-SMD"},
+        {"name":"PTS645SH43-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SH43SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD"},
+        {"name":"PTS645SH50SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD"},
+        {"name":"PTS645SH70-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SH95-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SK13SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD"},
+        {"name":"PTS645SK43-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SK43JSMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD-J"},
+        {"name":"PTS645SK43SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD"},
+        {"name":"PTS645SK50-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SK50JSMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD-J"},
+        {"name":"PTS645SK50SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD"},
+        {"name":"PTS645SK70-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SK70SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD"},
+        {"name":"PTS645SK73JSMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD-J"},
+        {"name":"PTS645SK95-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SK95SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD"},
+        {"name":"PTS645SL43-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SL43SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD"},
+        {"name":"PTS645SL50-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SL50SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD"},
+        {"name":"PTS645SL70-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SL70SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD"},
+        {"name":"PTS645SL95-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SM13SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD"},
+        {"name":"PTS645SM43-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SM43JSMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD-J"},
+        {"name":"PTS645SM43SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD"},
+        {"name":"PTS645SM43SMTR92LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD"},
+        {"name":"PTS645SM50-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SM50SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD"},
+        {"name":"PTS645SM70-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SM73JSMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD-J"},
+        {"name":"PTS645SM95-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645SM95SMTR92 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-SMD"},
+        {"name":"PTS645TH43-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645TK43-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645TK95-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645TL43-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645TL50-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645TL95-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645TM43-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS645TM70-2 LFS","manufacturer":"Littelfuse","datasheet":"pts645","package":"THT","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS645-THT"},
+        {"name":"PTS647SK38SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SK38SMTR2N LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SK50SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SK50SMTR2N LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SK70SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SK70SMTR2N LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SM38SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SM38SMTR2N LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SM50SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SM50SMTR2N LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SM70SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SM70SMTR2N LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SN38SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SN38SMTR2N LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SN50SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SN50SMTR2N LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SN70SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS647SN70SMTR2N LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts647-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS647-SMD"},
+        {"name":"PTS830GG140GSMTR LFS","manufacturer":"Littelfuse","datasheet":"pts830","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS830-G"},
+        {"name":"PTS830GG140GSMTRLFS","manufacturer":"Littelfuse","datasheet":"pts830","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS830-G"},
+        {"name":"PTS830GG140SMTR LFS","manufacturer":"Littelfuse","datasheet":"pts830","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS830"},
+        {"name":"PTS830GM140GSMTR LFS","manufacturer":"Littelfuse","datasheet":"pts830","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS830-G"},
+        {"name":"PTS830GM140SMTR LFS","manufacturer":"Littelfuse","datasheet":"pts830","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS830"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_15v_flush",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 15 V, Flush actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts525-series-datasheet.pdf, ck/littelfuse-c-k-tactile-rk-series-datasheet.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Flush",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 15,
+      "parts": [
+        {"name":"PTS525SK08SMTR-2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts525-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS525-SMD"},
+        {"name":"RKA2SGG055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RK"},
+        {"name":"RKA2SGK055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RK"},
+        {"name":"RKA2SGM055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RK"},
+        {"name":"RKA2SGS055SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-rk-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-RK"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_15v_standard",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 15 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.02A @ 15VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts525-series-datasheet.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 15,
+      "parts": [
+        {"name":"PTS525SM15SMTR2 LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts525-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS525-SMD"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_16v_oval-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 16 V, Oval Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 16VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts810-series-datasheet.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Oval Button",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 16,
+      "parts": [
+        {"name":"PTS810SJG250SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts810-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS810"},
+        {"name":"PTS810SJK250SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts810-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS810"},
+        {"name":"PTS810SJM250SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts810-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS810"},
+        {"name":"PTS810SJS250SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts810-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS810"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_18v_standard",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 18 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.15A @ 18VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-el2-series-datasheet.pdf",
+      "pinouts": {
+        "p4_1_4_2_3": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"B1","role":"inout"},
+          {"number":3,"name":"B2","role":"inout"},
+          {"number":4,"name":"A2","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 18,
+      "parts": [
+        {"name":"EL2 35 20J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-el2-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"EL2 35 35J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-el2-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_24v_standard",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 24 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.001A @ 24VDC, 0.003A @ 24VDC, 0.042A @ 24VDC; the switching rating); datasheets: ck/KSC-XA_Datasheet.pdf, ck/littelfuse-c-k-tactile-ksc4-te-series-datasheet.pdf, ck/littelfuse-ck-tactile-ksc2-te-series-datasheet.pdf",
+      "pinouts": {
+        "p4_1_4_2_3": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"B1","role":"inout"},
+          {"number":3,"name":"B2","role":"inout"},
+          {"number":4,"name":"A2","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 24,
+      "parts": [
+        {"name":"KSC XA 35 J LFS","manufacturer":"Littelfuse","datasheet":"ksc-xa_datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC XA 40 J LFS","manufacturer":"Littelfuse","datasheet":"ksc-xa_datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC XA 55 J LFS","manufacturer":"Littelfuse","datasheet":"ksc-xa_datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC XA 68 J LFS","manufacturer":"Littelfuse","datasheet":"ksc-xa_datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC XA 96 J LFS","manufacturer":"Littelfuse","datasheet":"ksc-xa_datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC2TE01J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc2-te-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC4TE01 J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc4-te-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC4TE41J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc4-te-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_32v_flush",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 32 V, Flush actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (1VA @ 32VAC/DC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kt-series-datasheet.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Flush",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 32,
+      "parts": [
+        {"name":"KT11B0JM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-J"},
+        {"name":"KT11B0SM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-G"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_32v_plunger-for-cap",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 32 V, Plunger for Cap actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 32VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-ksc9-series-datasheet.pdf",
+      "pinouts": {
+        "p4_1_4_2_3": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"B1","role":"inout"},
+          {"number":3,"name":"B2","role":"inout"},
+          {"number":4,"name":"A2","role":"inout"}
+        ]
+      },
+      "actuator": "Plunger for Cap",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 32,
+      "parts": [
+        {"name":"KSC921G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc9-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC921J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc9-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC931G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc9-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC931J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc9-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC941G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc9-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC941J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc9-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_32v_rectangular-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 32 V, Rectangular Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 32VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-kmr6-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kmr7-series-datasheet.pdf",
+      "pinouts": {
+        "p4_1_4_2_3": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"B1","role":"inout"},
+          {"number":3,"name":"B2","role":"inout"},
+          {"number":4,"name":"A2","role":"inout"}
+        ]
+      },
+      "actuator": "Rectangular Button",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 32,
+      "parts": [
+        {"name":"KMR733NG ULC LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr7-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"Y78B62324FP","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr6-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_32v_standard",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 32 V, Standard actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.01A @ 32VDC, 0.01mA @ 32VDC, 0.05A @ 32VDC, 1VA @ 32VAC/DC; the switching rating); datasheets: ck/KSC4D_Series.pdf, ck/ck-ksc1131jlfs-56626421.pdf, ck/kmr2.pdf, ck/kmt2.pdf, ck/ksc2.pdf, ck/ksc4.pdf, ck/ksc7.pdf, ck/littelfuse-c-k-ksc-d-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kmr4-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kmr6-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kmr7-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kmt0-series-datasheet.pdf, ck/littelfuse-c-k-tactile-ksc11-series-datasheet.pdf, ck/littelfuse-c-k-tactile-ksc3-series-datasheet.pdf, ck/littelfuse-c-k-tactile-ksc5-series-datasheet.pdf, ck/littelfuse-c-k-tactile-ksc8-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kse-series-datasheet.pdf, ck/littelfuse-c-k-tactile-kt-series-datasheet.pdf, ck/littelfuse-ck-tactile-ksc-of-series-datasheet.pdf, ck/littelfuse-ck-tactile-ksc-pf-series-datasheet.pdf, ck/littelfuse-ck-tactile-ksc10-series-datasheet.pdf, ck/littelfuse-ck-tactile-ksc6-series-datasheet.pdf, ck/littelfuse-ck-tactile-kst-series-datasheet.pdf",
+      "pinouts": {
+        "p4_1_2_3_4": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"A2","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ],
+        "p4_1_4_2_3": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"B1","role":"inout"},
+          {"number":3,"name":"B2","role":"inout"},
+          {"number":4,"name":"A2","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 32,
+      "parts": [
+        {"name":"KMR211G LFS","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR211NG LFS","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR213G LFG","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR221G LFS","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR221NG LFS","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR223G LFG","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR223NG ULC LFG","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR231G LFS","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR231G ULC LFS","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR231NG LFS","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR231NG ULC LFS","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR232G ULC LFS","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR232NG ULC LFS","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR233G LFG","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR241G LFS","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR241G ULC LFS","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR241GULCLFS","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR241NG LFS","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR241NG ULC LFS","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR243G LFG","manufacturer":"Littelfuse","datasheet":"kmr2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR421G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr4-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR421G ULC LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr4-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR421NG ULC LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr4-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR423NG ULC LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr4-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR431G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr4-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR431G ULC LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr4-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR431NG LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr4-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR432G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr4-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR432NG ULC LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr4-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR441G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr4-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR441NG ULC LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr4-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR442G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr4-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR442G ULC LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr4-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR442NG LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr4-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR621NG LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr6-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR623NG LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr6-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR631NG ULC LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr6-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR633NG LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr6-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR641NG ULC LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr6-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR721NG LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr7-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR731NG LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr7-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR741NG ULC LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr7-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMR742NG LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmr7-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KMR2"},
+        {"name":"KMT 033 NGJ LHG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmt0-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KMT"},
+        {"name":"KMT011 NGJ LHS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmt0-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KMT"},
+        {"name":"KMT012 NGJ LHS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmt0-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KMT"},
+        {"name":"KMT021 NGJ LHS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmt0-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KMT"},
+        {"name":"KMT022 NGJ LHS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmt0-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KMT"},
+        {"name":"KMT031 NGJ LHS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmt0-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KMT"},
+        {"name":"KMT071 NGJ LHS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmt0-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KMT"},
+        {"name":"KMT072 NGJ LHS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kmt0-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KMT"},
+        {"name":"KMT211GHFLFS","manufacturer":"Littelfuse","datasheet":"kmt2","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KMT"},
+        {"name":"KMT211NG HF LFS","manufacturer":"Littelfuse","datasheet":"kmt2","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KMT"},
+        {"name":"KMT221G HF LFS","manufacturer":"Littelfuse","datasheet":"kmt2","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KMT"},
+        {"name":"KMT221NG HF LFS","manufacturer":"Littelfuse","datasheet":"kmt2","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KMT"},
+        {"name":"KSC1001G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc10-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC1001J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc10-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC1101J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc11-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC1131J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc11-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC1131JLFS","manufacturer":"Littelfuse","datasheet":"ck-ksc1131jlfs-56626421","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC1151J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc11-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC1151JLFS","manufacturer":"Littelfuse","datasheet":"ck-ksc1131jlfs-56626421","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC201G LFS","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC201J LFS","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC221G LFS","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC221GLFS","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC221J LFS","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC222G LFS","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC222J LFS","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC223G LFG","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC223J LFG","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC241G LFS","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC241J LFS","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC241J SP DELTA LFS","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC243G LFG","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC243GLFG","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC243J LFG","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC251J SP DELTA LFS","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC253J SP DELTA LFG","manufacturer":"Littelfuse","datasheet":"ksc2","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC321G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc3-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC321J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc3-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC323G LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc3-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC323J LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc3-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC341G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc3-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC341J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc3-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC343G LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc3-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC343J LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc3-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC351G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc3-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC351J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc3-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC353J LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc3-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC401G 50 SH LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC401J 50 SH LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC403G 50 SH LFG","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC403J 50 SH LFG","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC411G 70SH LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC411J 70 SH LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC413G 70 SH LFG","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC421G 70SH LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC421G70SHLFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC421J 70SH LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC421J 70SH LFS OF","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc-of-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC421J 70SH LFS PF","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc-pf-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC422G 70 SH LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC422G 70SH LFS PF","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc-pf-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC422J 70SH LFS PF","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc-pf-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC423G 70 SH LFG","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC441G 70SH LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC441G ST1 LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC441G ST2 LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC441J 70 SH SP DELTA LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC441J 70SH LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC441J 70SH LFS OF","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc-of-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC441J 70SH LFS PF","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc-pf-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC441J ST1 LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC441J ST2 LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC441JST2LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC442G 70 SH LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC442J 70 SH LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC442J 70SH LFS PF","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc-pf-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC443G 70 SH LFG","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC443J 70SH LFG","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC461G 70SH LFS PF","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc-pf-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC461J 70SH LFS PF","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc-pf-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC461J ST1 LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC461J ST2 LFS","manufacturer":"Littelfuse","datasheet":"ksc4","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC471G 70SH LFS PF","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc-pf-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC4D1G 50SH LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-ksc-d-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC4D1J 50SH LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-ksc-d-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC4D2J 50SH LFS","manufacturer":"Littelfuse","datasheet":"ksc4d_series","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC521G ROHS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc5-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC541G ROHS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc5-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC541J ROHS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc5-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC621G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc6-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC621J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc6-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC623J LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc6-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC641G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc6-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC641J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-ksc6-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC701G LFS","manufacturer":"Littelfuse","datasheet":"ksc7","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC701J LFS","manufacturer":"Littelfuse","datasheet":"ksc7","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC701JLFS","manufacturer":"Littelfuse","datasheet":"ksc7","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC721G LFS","manufacturer":"Littelfuse","datasheet":"ksc7","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC721J LFS","manufacturer":"Littelfuse","datasheet":"ksc7","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC741G LFS","manufacturer":"Littelfuse","datasheet":"ksc7","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC741J LFS","manufacturer":"Littelfuse","datasheet":"ksc7","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC741JLFS","manufacturer":"Littelfuse","datasheet":"ksc7","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC821GOLLFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc8-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC821J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc8-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC831JOLLFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc8-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC841G OL LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc8-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC841J OL LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc8-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSEK43GLFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kse-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSEK43J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kse-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSEM31G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kse-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KST221G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-kst-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KST221J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-kst-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KST241G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-kst-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KST241J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-kst-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KST243J LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-ck-tactile-kst-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KT11B1JM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-J"},
+        {"name":"KT11B1JM35LFG","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-J"},
+        {"name":"KT11B1SM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-G"},
+        {"name":"KT11B2JM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-J"},
+        {"name":"KT11B2SM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-G"},
+        {"name":"KT11P2JM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-J"},
+        {"name":"KT11P2SM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-G"},
+        {"name":"KT11P3JM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-J"},
+        {"name":"KT11P3SM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-G"},
+        {"name":"KT11P4JM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-J"},
+        {"name":"KT11P4SM34LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-kt-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-KT-SMD-G"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_32v_without",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 32 V, Without actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 32VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-ksc1-series-datasheet.pdf",
+      "pinouts": {
+        "p4_1_4_2_3": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"B1","role":"inout"},
+          {"number":3,"name":"B2","role":"inout"},
+          {"number":4,"name":"A2","role":"inout"}
+        ]
+      },
+      "actuator": "Without",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 32,
+      "parts": [
+        {"name":"KSC121G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC121J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC141G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC141J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"},
+        {"name":"KSC151G LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-KSC-G"},
+        {"name":"KSC151J LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-ksc1-series-datasheet","package":"SMD","pinout":"p4_1_4_2_3","footprint":"SW-TACT-EL2"}
+      ]
+    },
+    {
+      "id": "tact_no_4t_50v_rectangular-button",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 4 terminals, 50 V, Rectangular Button actuator",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.01A @ 50VDC, 0.05A @ 50VDC; the switching rating); datasheets: ck/kms.pdf",
+      "pinouts": {
+        "p4_2_3_1_4": [
+          {"number":1,"name":"B1","role":"inout"},
+          {"number":2,"name":"A1","role":"inout"},
+          {"number":3,"name":"A2","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Rectangular Button",
+      "contacts": [
+        ["A1","B1"]
+      ],
+      "joined": [
+        ["A1","A2"],
+        ["B1","B2"]
+      ],
+      "momentary": true,
+      "ratedVolts": 50,
+      "parts": [
+        {"name":"KMS221G LFS","manufacturer":"Littelfuse","datasheet":"kms","package":"SMD right angle","pinout":"p4_2_3_1_4","footprint":"SW-TACT-KMS"},
+        {"name":"KMS221GP LFS","manufacturer":"Littelfuse","datasheet":"kms","package":"SMD right angle","pinout":"p4_2_3_1_4","footprint":"SW-TACT-KMS"},
+        {"name":"KMS223G LFG","manufacturer":"Littelfuse","datasheet":"kms","package":"SMD right angle","pinout":"p4_2_3_1_4","footprint":"SW-TACT-KMS"},
+        {"name":"KMS223GP LFG","manufacturer":"Littelfuse","datasheet":"kms","package":"SMD right angle","pinout":"p4_2_3_1_4","footprint":"SW-TACT-KMS"},
+        {"name":"KMS231GP LFS","manufacturer":"Littelfuse","datasheet":"kms","package":"SMD right angle","pinout":"p4_2_3_1_4","footprint":"SW-TACT-KMS"},
+        {"name":"KMS233GP LFG","manufacturer":"Littelfuse","datasheet":"kms","package":"SMD right angle","pinout":"p4_2_3_1_4","footprint":"SW-TACT-KMS"},
+        {"name":"KMS233GPLFG","manufacturer":"Littelfuse","datasheet":"kms","package":"SMD right angle","pinout":"p4_2_3_1_4","footprint":"SW-TACT-KMS"}
+      ]
     }
   ]
 }
