@@ -212,3 +212,15 @@ NKK Switches	HP02	HP0215AFKP[24](-S)?	HP02.pdf p.3 (packaging S optional: the pa
 NKK Switches	HP03	HP0315AFKP[24](-[SR])?	HP03.pdf p.3 (packaging optional: the page's own caption prints HP0315AFKP4 without it)
 NKK Switches	JB	JB15(L|HL|HB)P(C-(B|C|E|F|BB|BC|BE|BF|BH|JB|JC)|E-(B|C|E|F|BB|BC|BE|BF|BH|JB|JE)|F-(B|C|E|F|BB|BC|BE|BF|BH|JB|JF))	JBilluminated.pdf p.3 (illuminated key only)
 NKK Switches	JF	JF15(RP[123][CDFGH][CEF]|AP1(CC|EE|FF))	JFilluminated-1.pdf p.3 (illuminated key only)
+APEM Inc.	ADTS	ADTS(6(1|2|3|44|48|5|6)[KNRSY]V|6[12][KNRSY]VB|M6(1|2|3|44|48|5|6)[KNRSY]V(TR)?|M6[12][KNRSY]VB|M?2[145][NRS]VB?|M2[145][NRS]VTR)	adts6-adtsm-ktsc6.pdf p.2 HOW TO ORDER: ADTS + [M] + size 6 (H 1,2,3,44,48,5,6) / 2 (H 1,4,5; K,Y unavailable) + stem K/N/R/S/Y + V + [B tube, not for 63/644/648/65/66]; the N/K (black 160gf) code has no printed spelling and is left out; TR (DigiKey tape-and-reel suffix of the M parts) is not in the key: optional group
+APEM Inc.	ADTS	ADTSA6[12356][KNRSY]V	AS-ADTSM25KSVB.pdf p.1 (APEM drawing B7606) PART NUMBER DESCRIPTION: ADTSA 6 + DIM L 1/2/3/5/6 + stem K/N/R/S/Y + V
+APEM Inc.	ADTS3	ADTS(M|ML)?3[12][NRSY]V(B|TR)?	adts3.pdf p.2 HOW TO ORDER: ADTS + [M|ML] + 3 + H 1/2 + stem N/R/S/Y + V + [B tube | T/R tape & reel (written TR) | blank bag]
+APEM Inc.	AMPT	MJTP1212[AC]?	PCB-MJTP-PHAP33 series-12mm-TH.pdf p.2 (the PDF DigiKey links prints only the MJTP1212 family; no AMPT number or key)
+APEM Inc.	APTC	APTCLGTV(TR)?	aptclgtv.pdf p.1 title block APTCLGTV; TR (DigiKey tape-and-reel suffix) is not on the drawing: optional group
+APEM Inc.	MJTP	MJTP(1105T?|1109A?|1117|1119A?|1129[AB]?|1193|11933|11936|1230[ABCDG]?|1234|1236[AF]?|1243|1250|2205B?|SHWB?)	MJTP1117.pdf p.2-7 (MJTP/PHAP33 6 mm through-hole: no part-number key, the printed numbers are listed; the 1236 table's 'MJTP1230G / PHAP3305G' row is printed as MJTP1230G, so MJTP1236G is not added)
+APEM Inc.	MJTP	MJTP1212[AC]?	PCB-MJTP-PHAP33 series-12mm-TH.pdf p.2 (MJTP/PHAP33 12 mm through-hole: MJTP1212, MJTP1212A, MJTP1212C printed; no key)
+APEM Inc.	Multimec® 3	3A(T(L6|H9)|S(L6|H9)R?)|3AT(L6|H9)(00|20|40|80)	as-3ash9-44158219.pdf p.1 How to order: 3A + T/S + L6/H9 (+ LED 00/20/40/80 with T); R = tape/reel of the S version (as-3ash9r-45211430.pdf p.1 standard versions 3ASH9R)
+APEM Inc.	*	ADTS(6(1|2|3|44|48|5|6)[KNRSY]V|6[12][KNRSY]VB|M6(1|2|3|44|48|5|6)[KNRSY]V(TR)?|M6[12][KNRSY]VB|M?2[145][NRS]VB?|M2[145][NRS]VTR)	adts6-adtsm-ktsc6.pdf p.2 HOW TO ORDER (DTSA62NV's PDF; its key has no DTSA prefix)
+APEM Inc.	*	5G(TH9|SH9)(20|35|65)(02|22|29|42|61|82|2242|8222|8242)?(Q|RAS|NCNO)?R?G?	AS-5GSH9358222.pdf p.3 BUILD YOUR PART NUMBER (Multimec 5G: TH9/SH9 + force 20/35/65 + [LED] + options)
+APEM Inc.	-	DTSM?2[145][NRS](TR)?	as-adts21n-10576027.pdf p.1 DTS(M)-2 key: DTS + [M] + 2 + actuator 1/4/5 + force N/R/S + [T/R]
+APEM Inc.	-	ADTSA6[12356][KNRSY]V	AS-ADTSM25KSVB.pdf p.1 (APEM drawing B7606) PART NUMBER DESCRIPTION: ADTSA 6 + DIM L 1/2/3/5/6 + stem K/N/R/S/Y + V (ADTSM25KSVB's PDF)

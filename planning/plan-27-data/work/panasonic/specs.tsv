@@ -1,0 +1,43 @@
+maker	series	mounting	mpn_regex	terminals	pins	footprint	note
+Panasonic Industry	EVP0A	Surface Mount	.*	4	A=1,4;B=2,3	SW-TACT-EVP0A	sw_lt_eng_3026s.pdf p.4 circuit diagram: A-A' (top row) joined, B-B' (bottom row) joined, switch between them
+Panasonic Industry	EVP0B	Surface Mount	.*	2	A=1;B=2	SW-TACT-EVP0B	245483 p.3 circuit diagram: switch between A (left) and B (right)
+Panasonic Industry	EVP3A	Surface Mount	.*	4	A=1,4;B=2,3	SW-TACT-EVP3A	sw_lt_eng_3529s.pdf p.4 circuit diagram: (1)-(1)' joined, (2)-(2)' joined; pins 1=(1), 2=(2), 3=(2)', 4=(1)'
+Panasonic Industry	EVPAA	Surface Mount	.*	4	A=1,4;B=2,3	SW-TACT-EVP3A	sw_lt_eng_3529s.pdf p.3-4 circuit diagram: (1)-(1)' joined, (2)-(2)' joined; pins 1=(1), 2=(2), 3=(2)', 4=(1)'
+Panasonic Industry	EVPAD	Surface Mount	.*	2	A=1;B=2	SW-TACT-EVPAD	Tactile Switches.pdf p.3 circuit diagram: A1-A4 one side, B1-B2 the other; pin 1 = A1-A4 (four pads), pin 2 = B1, B2 (two pads)
+Panasonic Industry	EVPAE	Edge Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-EVPAE	sw_lt_eng_4522s_side_eg.pdf p.3-4 circuit diagram: (1) and (1)' joined, switch to (2); pin 1 = (1) and (1)' (two pads), pin 2 = (2)
+Panasonic Industry	EVPAF	Surface Mount	EVP-?AF[KF75]B(65|70)	4	A=1,4;B=2,3	SW-TACT-EVP0A	sw_lt_eng_3026s.pdf p.3-4 circuit diagram: A-A' joined, B-B' joined
+Panasonic Industry	EVPAF	Surface Mount	EVP-?AFGB65	4	A=1,4;B=2,3	SW-TACT-EVPAF-G	EVP-AFGB65.pdf p.3 circuit diagram: A-A' joined, B-B' joined
+Panasonic Industry	EVPAK	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-EVPAK	sw_lt_eng_3819s_side.pdf p.3 circuit diagram: switch between A and A'
+Panasonic Industry	EVPAS	Surface Mount	.*	2	A=1;B=2	SW-TACT-EVPAS	245487 p.4-5 circuit diagram: switch between A and B
+Panasonic Industry	EVPAT	Edge Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-EVPAT	245495 p.4 circuit diagram: switch between (2) and (1)
+Panasonic Industry	EVPAW	Surface Mount	.*	2	A=1;B=2	SW-TACT-EVPAW	245460 p.3 circuit diagram: switch between A and A'
+Panasonic Industry	EVPAY	Surface Mount	.*	4	A=1,4;B=2,3	SW-TACT-EVPAY	sw_lt_eng_3429s.pdf p.3 circuit diagram: A-A' joined, B-B' joined
+Panasonic Industry	EVPBB	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-EVPBB	sw_lt_eng_2616s.pdf p.3 (EVP-BB_Series_DS.pdf p.2) circuit diagram: A-A' (left column) joined, B-B' (right column) joined
+Panasonic Industry	EVPBD	Surface Mount	.*	2	A=1;B=2	SW-TACT-EVP0B	245483 p.3 circuit diagram: switch between A and B
+Panasonic Industry	EVPBF	Surface Mount	.*	4	A=1,4;B=2,3	SW-TACT-EVPBF	EVP-BF_Series_DS.pdf p.2 circuit diagram: B'-B (top row) joined, A'-A (bottom row) joined
+Panasonic Industry	EVPBK	Surface Mount	.*	4	A=1,4;B=2,3	SW-TACT-EVPBK	245468 p.3-4 (EVP-BK_Type_DS.pdf p.2) circuit diagram: A-A' joined, B-B' joined
+Panasonic Industry	EVPBL	Surface Mount	.*	4	A=1,4;B=2,3	SW-TACT-EVPBL	245458 p.3 circuit diagram: A-A' joined, B-B' joined
+Panasonic Industry	EVPBT	Surface Mount	EVP-?BT[1-7][CJ]4A000	4	A=1,4;B=2,3	SW-TACT-EVPBT-J	sw_lt_eng_6s_th.pdf p.6 circuit diagram: B-B' joined, A-A' joined (J-bent C/J models)
+Panasonic Industry	EVPBT	Surface Mount	EVP-?BT[1-7][AG]4A000	4	A=1,4;B=2,3	SW-TACT-EVPBT-S	sw_lt_eng_6s_th.pdf p.7 circuit diagram: B-B' joined, A-A' joined (straight-terminal A/G models)
+Panasonic Industry	EVPBX	Surface Mount	.*	2	A=1;B=2	SW-TACT-EVP0B	sw_lt_eng_6s_mid_2t.pdf p.4 circuit diagram: switch between A and B
+Panasonic Industry	EVPCD	Surface Mount	.*	2	A=1;B=2	SW-TACT-EVP0B	245483 p.5 circuit diagram: switch between A and B
+Panasonic Industry	EVQ6Q2	Surface Mount	.*	4	A=1,4;B=2,3	SW-TACT-EVPBT-J	sw_lt_eng_6s_th.pdf p.4 circuit diagram: B-B' joined, A-A' joined
+Panasonic Industry	EVQ7Q2	Surface Mount	.*	4	A=1,4;B=2,3	SW-TACT-EVPBT-J	sw_lt_eng_6s_th.pdf p.5 circuit diagram: B-B' joined, A-A' joined
+Panasonic Industry	EVQ9P7	Surface Mount, Right Angle	.*	4	A=1,4;B=2,3	SW-TACT-EVQ9P7	245500 p.5 circuit diagram: (1)-(1)' joined, (2)-(2)' joined; pins 1=(1), 2=(2), 3=(2)', 4=(1)'
+Panasonic Industry	EVQP0	Surface Mount	EVQ-?P0(N02B|Q02Q|P02B|S02Q)	4	A=1,4;B=2,3	SW-TACT-EVPBT-J	sw_lt_eng_6s_th.pdf p.3-4 circuit diagram: B-B' joined, A-A' joined
+Panasonic Industry	EVQP0	Surface Mount	EVQ-?P0405M	4	A=1,2;B=3,4	SW-TACT-EVQP1	sw_lt_eng_6s_long.pdf p.3 circuit diagram: A'-A joined, B'-B joined (columns)
+Panasonic Industry	EVQP1	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-EVQP1	sw_lt_eng_6s_long.pdf p.3 circuit diagram: A'-A joined, B'-B joined (columns)
+Panasonic Industry	EVQP2	Surface Mount	.*	4	A=1,3;B=2,4	SW-TACT-EVQP2	sw_lt_eng_4735s.pdf p.3-6 circuit diagram: (1)-(3) joined, (2)-(4) joined, switch between them
+Panasonic Industry	EVQP3	Surface Mount, Right Angle	.*	4	A=1,4;B=2,3	SW-TACT-EVQ9P7	245500 p.5 circuit diagram: (1)-(1)' joined, (2)-(2)' joined; pins 1=(1), 2=(2), 3=(2)', 4=(1)'
+Panasonic Industry	EVQP4	Edge Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-EVQP4	sw_lt_eng_6225s_side_eg.pdf p.4 circuit diagram: switch between (1) and (2); (3), (4) are fixing tabs
+Panasonic Industry	EVQP7	Surface Mount, Right Angle	.*	4	A=1,4;B=2,3	SW-TACT-EVQP7	245500 p.3-5 circuit diagram: (1)-(1)' joined, (2)-(2)' joined; pins 1=(1), 2=(2), 3=(2)', 4=(1)'
+Panasonic Industry	EVQP9	Surface Mount	.*	4	A=1,3;B=2,4	SW-TACT-EVQP2	sw_lt_eng_4735s.pdf p.5-6 (EVQ-P9_Series_DS.pdf p.4-5) circuit diagram: (1)-(3) joined, (2)-(4) joined
+Panasonic Industry	EVQPE	Surface Mount	.*	2	A=1;B=2	SW-TACT-EVQPE-SMD	Tactile Switches Catalog.pdf p.2-3 circuit diagram: switch between A and B
+Panasonic Industry	EVQPE	Through Hole	.*	2	A=1;B=2	SW-TACT-EVQPE-THT	sw_lt_eng_6035.pdf p.2-3 circuit diagram: switch between A and B
+Panasonic Industry	EVQPL	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-EVQPL	sw_lt_eng_49s.pdf p.3 circuit diagram: A-A' (left) joined, B-B' (right) joined
+Panasonic Industry	EVQPN	Surface Mount	.*	2	A=1;B=2	SW-TACT-EVQPE-SMD	EVQ_series.pdf p.2-3 circuit diagram: switch between A and B
+Panasonic Industry	EVQPU	Surface Mount, Right Angle	EVQ-?PU[BDKM]02K	4	A=1,3;B=2,4	SW-TACT-EVQPU-J	sw_lt_eng_smalls_side.pdf p.4 circuit diagram: (3)-(1) joined, (4)-(2) joined
+Panasonic Industry	EVQPU	Surface Mount, Right Angle	EVQ-?PU[ACJL]02K	4	A=1,3;B=2,4	SW-TACT-EVQPU-S	sw_lt_eng_smalls_side.pdf p.3 circuit diagram: (3)-(1) joined, (4)-(2) joined
+Panasonic Industry	EVQPV	Through Hole	.*	2	A=1;B=2	SW-TACT-EVQPV	sw_lt_eng_6_long_2r.pdf p.3 circuit diagram: switch between A and B
+Panasonic Industry	EVQQ1	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-EVQQ1	245489 p.3 circuit diagram: A-B (left column) joined, C-D (right column) joined
+Panasonic Industry	EVQQ2	Surface Mount	.*	4	A=1,4;B=2,3	SW-TACT-EVPBT-J	sw_lt_eng_6s_th.pdf p.4-5 circuit diagram: B-B' joined, A-A' joined

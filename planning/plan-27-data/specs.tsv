@@ -1,17 +1,25 @@
 maker	series	mounting	mpn_regex	terminals	pins	footprint	note
 APEM Inc.	*		.*				
 APEM Inc.	-		.*				
-APEM Inc.	ADTS	Surface Mount	.*				
-APEM Inc.	ADTS	Through Hole	.*				
-APEM Inc.	ADTS	Through Hole, Right Angle	.*				
-APEM Inc.	ADTS3	Surface Mount	.*				
+APEM Inc.	ADTS	Surface Mount	ADTSM2.*	4	A=1,2;B=3,4	SW-TACT-TL3300	adts6-adtsm-ktsc6.pdf p.2 CIRCUIT: T1-T2 joined, T3-T4 joined, switch between
+APEM Inc.	ADTS	Surface Mount	ADTSM6.*	4	A=1,2;B=3,4	SW-TACT-ADTS-SMD	adts6-adtsm-ktsc6.pdf p.2 CIRCUIT: T1-T2 joined, T3-T4 joined, switch between
+APEM Inc.	ADTS	Through Hole	ADTS2.*	4	A=1,2;B=3,4	SW-TACT-ADTS-THT-12	adts6-adtsm-ktsc6.pdf p.2 CIRCUIT: T1-T2 joined, T3-T4 joined, switch between
+APEM Inc.	ADTS	Through Hole	ADTS6(1|2|3|5|6).*	4	A=1,2;B=3,4	SW-TACT-PTS645-THT	adts6-adtsm-ktsc6.pdf p.2 CIRCUIT: T1-T2 joined, T3-T4 joined, switch between
+APEM Inc.	ADTS	Through Hole	ADTS64[48].*	4	A=1,2;B=3,4	SW-TACT-ADTS-THT-64	adts6-adtsm-ktsc6.pdf p.2 CIRCUIT: T1-T2 joined, T3-T4 joined, switch between
+APEM Inc.	ADTS	Through Hole, Right Angle	ADTSA6.*	2	A=1;B=2	SW-TACT-ADTSA	AS-ADTSM25KSVB.pdf p.1 SCHEMATIC: switch between 1 and 2; 3, 4 to ground (not switch terminals)
+APEM Inc.	ADTS3	Surface Mount	.*	2	A=1;B=2	SW-TACT-ADTS3-SMD	adts3.pdf p.2 CIRCUIT: T1 - switch - T2
 APEM Inc.	AMPT	Surface Mount	.*				
-APEM Inc.	APTC	Surface Mount, Right Angle	.*				
+APEM Inc.	APTC	Surface Mount, Right Angle	.*	4	A=1,3;B=2,4	SW-TACT-APTC	aptclgtv.pdf p.1 SCHEMATIC: 1-3 joined, 2-4 joined, switch between; 5 = ground (not drawn)
 APEM Inc.	MJTP	Surface Mount	.*				
-APEM Inc.	MJTP	Through Hole	.*				
-APEM Inc.	MJTP	Through Hole, Right Angle	.*				
-APEM Inc.	Multimec® 3	Surface Mount	.*				
-APEM Inc.	Multimec™ 3A	Surface Mount	.*				
+APEM Inc.	MJTP	Through Hole	MJTP1119A?	4	A=1,2;B=3,4	SW-TACT-MJTP1119	MJTP1117.pdf p.7 SCHEMATICS (4-terminal figure, no numbers): top pair joined, bottom pair joined, switch between; numbered as the ADTS circuit
+APEM Inc.	MJTP	Through Hole	MJTP1212.*	4	A=1,2;B=3,4	SW-TACT-ADTS-THT-12	PCB-MJTP-PHAP33 series-12mm-TH.pdf p.2 SCHEMATIC: 1-2 joined, 3-4 joined, switch between
+APEM Inc.	MJTP	Through Hole	MJTP123[04].*	4	A=1,2;B=3,4	SW-TACT-PTS645-THT	MJTP1117.pdf p.7 SCHEMATICS (4-terminal figure, no numbers): top pair joined, bottom pair joined, switch between; numbered as the ADTS circuit
+APEM Inc.	MJTP	Through Hole	MJTPSHWB?	4	A=1,2;B=3,4	SW-TACT-MJTPSHW	MJTP1117.pdf p.7 SCHEMATICS (4-terminal figure, no numbers): top pair joined, bottom pair joined, switch between; numbered as the ADTS circuit
+APEM Inc.	MJTP	Through Hole, Right Angle	MJTP1105T|MJTP1236.*	2	A=1;B=2	SW-TACT-MJTP1236	MJTP1117.pdf p.7 SCHEMATICS (2-terminal figure): switch between the two terminals; frame/ground legs not switch terminals
+APEM Inc.	MJTP	Through Hole, Right Angle	MJTP1117	2	A=1;B=2	SW-TACT-MJTP1117	MJTP1117.pdf p.7 SCHEMATICS (2-terminal figure): switch between the two terminals; frame/ground legs not switch terminals
+APEM Inc.	MJTP	Through Hole, Right Angle	MJTP1129A?	2	A=1;B=2	SW-TACT-MJTP1129	MJTP1117.pdf p.7 SCHEMATICS (2-terminal figure): switch between the two terminals; frame/ground legs not switch terminals
+APEM Inc.	Multimec® 3	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-MULTIMEC-3A-SMD	as-3ash9r-45211430.pdf p.3 Circuit diagram: 1-2 joined, 3-4 joined, switch between (as-3ash9-44158219.pdf has none)
+APEM Inc.	Multimec™ 3A	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-MULTIMEC-3A-SMD	as-3ash9r-45211430.pdf p.3 Circuit diagram: 1-2 joined, 3-4 joined, switch between
 Alps Alpine	SKHC	Through Hole	.*				
 Alps Alpine	SKHH	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-PTS645-THT	skhh.pdf p.4 Circuit Diagram, top push / joint stem / with ground terminal (1-2 and 3-4 joined; ground terminal 5 not a switch terminal)
 Alps Alpine	SKHH	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-SKHH-THT-RA	skhh.pdf p.4 Circuit Diagram, side push (1-2)
